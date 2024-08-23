@@ -1,193 +1,320 @@
-Return-Path: <linux-media+bounces-16629-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16630-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8468195C538
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 08:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3071895C595
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 08:37:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3AA34281EEE
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 06:13:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC4F6283F17
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 06:37:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E67A57CA6;
-	Fri, 23 Aug 2024 06:13:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39E217FBA2;
+	Fri, 23 Aug 2024 06:37:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HaF0J47J"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="uzWMNuN5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2045.outbound.protection.outlook.com [40.107.100.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AA060275;
-	Fri, 23 Aug 2024 06:13:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724393618; cv=none; b=c0daGQLrDfJwFNUj5W074L4yefl+qvxYUB1cuYZpQq0TYtPNW2RxKEg75zJXarNNrfvmvLaNEBB0fnbwUpNi/NWHFzBFpWMjsd138MxP+PucYP1WTGpfm5G3p9FkPceBTF3TVVRDzPFt/1PLNVyuKJ/i5HPA5tlub098SAGYL3I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724393618; c=relaxed/simple;
-	bh=OauzdjmkbOQWPCLsFNZYoGG+GUmWKfyl6f9sqcIXs1o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LusARxOmo4J7VfKz7vMcFBD1QZTRP5106AWwEfRRtvA1+viq0ZCh/W58kKWYNUM+TI96w2f8kqgYse8zJzB++k/LIeLZtsUrrN7HsOcBgvob+N7nRZD2kvOeeifc7o5+3pSe01XFpWeqPG4jODQe0OiLAg6GVSh6M9IdFgBmJ7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HaF0J47J; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB31FC32786;
-	Fri, 23 Aug 2024 06:13:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724393618;
-	bh=OauzdjmkbOQWPCLsFNZYoGG+GUmWKfyl6f9sqcIXs1o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HaF0J47J6xS9YTkrzO/0yNW9pUQJLD8dkTlyF2NvftWeAYpE3IXqZLeOtjh8CKudM
-	 4BRuE5iygqJvjn4VPKvuKfMn0+I8URerX637fIEGLjzNPIshakA65zxUoClVlJanHR
-	 RgkDJT96tKPGVra6gUQMUOLdcTfdnxL87Sedrx8TBwFYkhPAT761ZiOtpwyWQEOW3m
-	 EDr1tRG3268kQvnqaNPoJ/5MmHiya02fOl99y8iyao+4WCO3NnNPdtnR6t/aXjhIlJ
-	 o2WcWwiXBZSbIIR9BDIdCbdrfueDhbEKt2UN38MwxjEpv0cFL/TipoeGfHkH91MY1H
-	 QAM6tP64aoZsg==
-Message-ID: <a17f963e-0e6d-4132-817f-2e663268ee2d@kernel.org>
-Date: Fri, 23 Aug 2024 08:13:28 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CD04D8BA
+	for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 06:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724395061; cv=fail; b=NHKbvG3aGjk8/iIOmwoylzWgCvrvmX1zdNj0quwno4cuDXvUZVacMh0cz2Clp2EUDiT2U58pgRi573jPvDE2v+aZTdP/TqUI6Mq2ih/y5XuFUEhV9xajWOW9i/x7c5k8JtBB8CSINUh5PFXRmwyd7eLXuDUH9ZHKscVA1UQ3Vmc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724395061; c=relaxed/simple;
+	bh=ZKnTEei14HS5qv/CzvvhNCZFL/m9AE+sbTKrQoXEBLI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=hSUJJW0JygxOl6EfNIKVU9Y/azO1QG85QYRvr9crFtPy8OLvJHcmlCneloFmvHaqjEt/8mgLuRf10RZc/ZxxkA9dJ1NpK6UzZnPZen0g69VgsjuW7e2gisWLsewuclvY0uaKAz7TQxasJ55UbRMXV/4jn+ilVXML6hcRLVDUuw8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=uzWMNuN5; arc=fail smtp.client-ip=40.107.100.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZXnksddkOHhlPhAw6W+3GtxZMDwv1BO0odsoRqd2ic79uXrNqOAPglZy4u9bXLTcEYqu+xgNMh1WA+HViFTUfiHwgVn5gQJYyNu2WjgaBDpyICxEq/6F7Bco8LiqANB5nvDuVv++142DCpqt8CpAKZio+P3FxBZNL7YZmC5npIgYI0e4zzMy0hH35iRHE2/pJFFdQz7i4DGt7MczuICKSneJa/aeiMlBqR6JgVdUKcfVpXsPwnKOn8Yn1NG6XCaldDDyAevPxKTNrPtnTtJOmeE3lj8BttbSqDbSEWij2itk44nJDijEVNyqCaeUv6TOh+v+nV8gacNSkpmc9Cd2Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wervN8UJv/bgoorqo6KgVws2qrm3OiNHAJ/NtmK7Gkg=;
+ b=yCwdc9VkbMNfrdT/nTGTEQ/rSBgQ79rKcvqAEReoQscXkSV2usoxbOs7p7c58b7+6kCTh+2qpcgmPdRBw2ZipjCLhxUYbi6guEgMC/kvnjt125tUaFxUdbjOiaLzVbeCyicBQOzPmp8VtcJZbFe/JPY3bZIb5Yi8beEeqEDD4f0jLVq+XOwFZ01qLlStrbRbEoNOSyhmcTrgcx/giEz26fDvm/8B6peuDHlTLCfS8FHxKlgPZjUvF7n/MmNpN8868OtK1mV3ndHo+OT5W0NaCnKUpuXuyv2sf9Arl6ah1tPdDPQ+fOwyXcKYeULKxRw6Szm+xSy1FBBXWc4hdIymCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wervN8UJv/bgoorqo6KgVws2qrm3OiNHAJ/NtmK7Gkg=;
+ b=uzWMNuN50HVRlAj4saTSxQvyY53guJOHPZVM9Wo/VsEFJ1HkmRUXsPZh4noGb+d2YMspItbvXy7u1/OLtxZEr4H+Maj2uMIiOQVE4kfSt7xnFzYXJcC3NBaECCSMNo6lHtbGrIgf2eXm4aHdzTDBRkTOOLNuLOmhbxhyYvGMZi0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA1PR12MB8191.namprd12.prod.outlook.com (2603:10b6:208:3f3::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Fri, 23 Aug
+ 2024 06:37:37 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7875.019; Fri, 23 Aug 2024
+ 06:37:36 +0000
+Message-ID: <f7fcb678-afb2-428e-abad-af9892823e60@amd.com>
+Date: Fri, 23 Aug 2024 08:37:30 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dma-buf: Split out dma fence array create into
+ alloc and arm functions
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: thomas.hellstrom@linux.intel.com, sumit.semwal@linaro.org, daniel@ffwll.ch
+References: <20240823045443.2132118-1-matthew.brost@intel.com>
+ <20240823045443.2132118-2-matthew.brost@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240823045443.2132118-2-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0270.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b5::16) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: arm: aspeed: Add aspeed,video binding
-To: Jammy Huang <jammy_huang@aspeedtech.com>
-Cc: "robh@kernel.org" <robh@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>, "joel@jms.id.au"
- <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
- "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
- "pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20240819080859.1304671-1-jammy_huang@aspeedtech.com>
- <20240819080859.1304671-2-jammy_huang@aspeedtech.com>
- <nnjcjt2kuplsy5bbxujuubkn2xdtpifjeiqt5qfvktdmaorzuz@x444p5ezcoch>
- <TYZPR06MB6568AB9E260263DBB1ED474DF1882@TYZPR06MB6568.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <TYZPR06MB6568AB9E260263DBB1ED474DF1882@TYZPR06MB6568.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB8191:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5ae69936-90c0-49eb-e395-08dcc33e13b3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZVJqQkFKTFBXWk81VzdSTGRtRDJtZ0E4bGF2MTBoT3pDdmM5dDRKOC9qRUti?=
+ =?utf-8?B?OHA3SU5CbTdWL2E1Y29XcEQ4ZXhTemVBdXMxMGhUSDNnKzNKa0pTMForMllD?=
+ =?utf-8?B?Q1FKT0ltWDM2eUJVQmhxQU9FNHFUSXFPTjFyQ3RJejZMYnFGNXpqRWtiNStv?=
+ =?utf-8?B?RVJab3Q4MGtFcDdiYlRGSDQvMmlxU0pXc0FIcnNqdGNqdTFqbkpBTzdiZXJl?=
+ =?utf-8?B?UTN3L1ZrR09TTlU4OUIzeklSckNIS2JNeWV1ZVNzNktTWG9DNFBLV0dBSGNv?=
+ =?utf-8?B?K0wwa1lYWE5GNktNMWlBMHkwelBRbWkzd2xZTUZwdDVZdlpQRXF0Zlp6K2Z6?=
+ =?utf-8?B?OUY0YW1rYWo0TGFabDBQbjMrMGFNdkFtanJXVE9vS1hmak9INFF0aGtUODBq?=
+ =?utf-8?B?TmRPUUpGUXhBazBnaTZWQjJEcWcrb1dJdGdrWUg5T3F2a1d5L1hhSmplQ0pI?=
+ =?utf-8?B?RmJ0V2lVTnFzQXVYUWk2T1czMHRFWUVhWFNiOHVOa3FDRGJWNmluL253K3dS?=
+ =?utf-8?B?bENnOEtGcFcwVVNjaGZFSFE1VUU1VE5iemtPdjIwOGN5eFdLODZMVTEyNlFM?=
+ =?utf-8?B?RllIb1YrdVZOamdCdHFjRUhWL2huZFVVL0xBeHRzalRPL2hySm41UW0zTEFQ?=
+ =?utf-8?B?cS9rZFBRUEZMdUtxY0lmWFowVm4xcWhBbFhyM2x4TTY2TXdlUHZwQzdDazNT?=
+ =?utf-8?B?VSttTzdoZDdNTTN3S3pVMUFyRUovVUYyWm1WNXJqd0hXbXVjWWNaYTJRcjht?=
+ =?utf-8?B?cEV5aVRnUUFibUZxd3V6RStucTVIa3RsMERjS2RIc0RiWm5sdmZVZXRFVWpt?=
+ =?utf-8?B?N3RLZzY3VGZaVVh3QitxT2pXdHNWUXpUT2Z6U1Vxb1hTd0RFaVh1RjJyZFI2?=
+ =?utf-8?B?b1NhaHB4d2tlUm9JRHVoOEV6NnNMMWU5WmdnMlZadXJhQnYyTVIzUFdHRm55?=
+ =?utf-8?B?Q2prdHA3Nld5SDBQdkt5YjlkbGhDRFArOURYQ1NIa01YdGVIMk11OHRXMGZZ?=
+ =?utf-8?B?NnhBTkZUQkl3L0lhQWV6djNzR2U3R1VhdGlSamlUM2VFUm5Eak9TaEhBYjlZ?=
+ =?utf-8?B?MTE3SU1NeHk3QlhKK0dVb3hRcWtVNVZuMTAydndYL0NvL0piazcvS3RTbHVS?=
+ =?utf-8?B?OVR1UHlDb0hSd05zcHZBUm8rRUtuRFlrTUVkdjNqYm9zSWNUTkFsenBqa3Bv?=
+ =?utf-8?B?Y3pFVHJpOUR2REx1UGI4bEVYWHJ0YW9Tb0orMnZ6ajFaV1FjKy9CRkpSNGx0?=
+ =?utf-8?B?UnhBeEtPUllIM2IxL0xkSStFUTQ0MW5VNndPQVlVclJOclVjN3RJa3o5OTVK?=
+ =?utf-8?B?L1d3QzZJQ2FkQ2NhRlQ5WEloTVhkNXNBeSs1Mk56bUNYNzJRdlJLSDE4S0hR?=
+ =?utf-8?B?UVViTERhbkdCVGh5cmZ3ejB3ZmhneCtYTzVHL3FORklzNncrUWtQd3dzaDds?=
+ =?utf-8?B?NEtHTnRwSGI0djFFdWpRczJuMDJFYkJPRXBiVG5ua2tBczdHN2RkOU1hQzJF?=
+ =?utf-8?B?dmkzY1VOa2hHbEcxQVVzUFdMUWJTTlNZOG9WTlE0SGFuN0JTM2lnWmlkMnBn?=
+ =?utf-8?B?bnBPcXc4V1lKY1pwTGoydXBxYmRrSFZxdERTUmx6VFNoTG1uQWl3ZWo4eWhn?=
+ =?utf-8?B?ZWZob05NbHZlYWJUbXVMMjgzankxeU5RR3ZvOEd1OEpvTWVvSmp4Ui85QWtU?=
+ =?utf-8?B?OWwwcjY0UWF5R0EvSTFsaGxDOUQ4T1pCZnZZcU5CSkh2NXFSYlh5dHByRTU5?=
+ =?utf-8?B?VHhnNm1icXcwazltQ2lOZkJMOVRhY3lVY1ZWOFdQb1lyZ3ZnQlFWS3JkWGRN?=
+ =?utf-8?B?SFB2b2pWTHJBRVltak1QUT09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?U2FYOW1mOE15bEx3TmlDN25iRjMrb0lFTHEwSXlCanIzdXZFejdUQktaZjYw?=
+ =?utf-8?B?WGdXN3hoMXI4L1NFcExacVRxaVdYaUU4Zk9xYkpnMXdyMFhsSE1QdE1uMi9F?=
+ =?utf-8?B?WFNjS01vYTk4ZnVwV1lVWlZsMDM1R1dDck51OWdtbEFRQUdKVUxncUg1eld2?=
+ =?utf-8?B?RW1SUkFwdFFnK2NpZ3pxdVVrbUxzRFJtQ0hEOUw0OEpoTW81ZFE0cVdTM3Ry?=
+ =?utf-8?B?NnU3UDMvblZXbHhJOWc3bUpDR2RaMVE4UkxabEVzN1dpNC96Q0FUdEJhUFkv?=
+ =?utf-8?B?MzN6OVphTXhoc1NUbDBiTDl4dHJheDFTak9tM2NBcUYvRHJrNHhGTG4wajRr?=
+ =?utf-8?B?dHVOcEFzT01ReUFFdUJ4dElRV1F1dG1ST3JrS1hzYW5iVE1GRDFGNHZRLzdO?=
+ =?utf-8?B?cTlLOGk0L2lWREFSeEE4My9rdUpLLzRWMzBsMDhPS25lNkQwM1JJYWFtTlE0?=
+ =?utf-8?B?M0xhUHdUZmVlTS9IVUs5TWRpR1VkV1pLVVZuWnNkNjNTRzk3d0prMXQ4M2du?=
+ =?utf-8?B?aWJkWkhSajNVU2Jva3lGZmV3dUh0M2lKNDd5REJLbkJ5T2FaTnJYclRsdUNh?=
+ =?utf-8?B?WjVqWGNWT1lxbm4remlaUlI2T1ZoZXlnRTdpa01pTzlVTkM3TUZ2Uzd5dC9N?=
+ =?utf-8?B?a1M5VTFoRnBTeUtUZGZIZTI2bnh2ZWlSeUpJM3hBM0Nwd21mNy83bEMrUlRY?=
+ =?utf-8?B?UDFSTXRTTWRYcFF2TGxuMERZaXpIdlJIakVhZW1jQmtYTUN4TXFxOEFHWVVy?=
+ =?utf-8?B?OXFwbzhrNUxvbWVCMFI2YlNkM1NjR3FjRmw2bXJucXFFUXRreXd6d3NheFhU?=
+ =?utf-8?B?REpQcTJBZ0tQTG1DZTdIRnJTbzJPR1RXKzVQa1ZyamhHV25jTEdGdmx6TnhR?=
+ =?utf-8?B?dXRYKzNvY3hQbjhZTlRycDg1aHB6NnVobG01S2ZVWTVPbFY2VVNhR2ZxcmZL?=
+ =?utf-8?B?U0sxZWhGZ2VSRVZNQytXdC85L0FUZjlUUldjaWFFYzhiWFdRS0hvcjAxdFdj?=
+ =?utf-8?B?NlFJOFVKaDlPSFE2czhqbThnN1k4akxrWU9kVVU0eWY0d1l1UzFsc1U5SklK?=
+ =?utf-8?B?M29lWXNZMnhvcVFCK0RaNnJlRDBJR29rWEtwdllnQ3NqYlE1cDhUR0hWYkdq?=
+ =?utf-8?B?MlZkaDVINkY0RXNPVDFPZldWamRXVUgxU3lneVh2TE1HWEppMnJXNFR5K2Zq?=
+ =?utf-8?B?ZUJFcWZLRGpseGowTzJQZzdodlh1cTlIZVd6MklLN3BNSm1ZVlA3cDdsVStG?=
+ =?utf-8?B?enNMa3hTWEVFRnVoZ0k5YkpPV3ZwV2V3N0NVNmJXRUYza0R6VFpqcFhtWlBX?=
+ =?utf-8?B?OE9mZW5VaXZzMzJKOWJTbjVPMHJCR0xFbjRqNHkrclF4NmF6V2Y2SzJXRkxL?=
+ =?utf-8?B?Y0FxYit4UU4vVUlwNUx3UFNsNkpQMk1xczV2bEgwYWZJajlRUWc1dE42MlVL?=
+ =?utf-8?B?N01lUDE0Z01kRVlzUmRxdm4vTGlIbC9RamNnYmpSdkh1UGY3aVRwTVlJSFcz?=
+ =?utf-8?B?bjFJcW4wbG9lWDlOWEx5NnJ4a0dhbGs0U2s1bjlmenlpNmk4ZjhlQmd6NXZ0?=
+ =?utf-8?B?RXgzRm52bVNKWkFGVjE4UHU2aU85NjZsQWprNHhDd04wZkNVT1pZRmN3L3dH?=
+ =?utf-8?B?YmtaWVJpU1RwKzVwVTUwU0xBSnlHQStlQnN0eFJFRzNxMVFjcld4SkVvcVZQ?=
+ =?utf-8?B?OHRVb00zY2xnYlBnbXM3bkh6L3dJdUxnRFc1YjVYR05jbis3TEpKclRFNTlx?=
+ =?utf-8?B?SDRRZVFwaGQwRW5RQlJ4UUxEbVBFU2ZwQ3dlT2hCY21NQXdjWjlDY1F0bllF?=
+ =?utf-8?B?bVpaZlp6WGwwVnJ5QTVwOFZabWs0UUlFK0N0UUhJYnRkN0NVdEZRbTRFMkZQ?=
+ =?utf-8?B?Qkg4UTUyK2NnTi9HWDJydzFpQm4rWlUxVy9PUzZTbEcrcVlOYnVqOUlwQU5s?=
+ =?utf-8?B?OFRUWFNQODBhUWxzZXJ0Y2d6em5MemlIR3RlTWxTUDFmUmNueFZMVUtQMUZO?=
+ =?utf-8?B?NjJVaHFSYmUreEFZUlZEUHo2N01waGNtSzg1ZitVUys5NFdGU1ptM0VnbjQ4?=
+ =?utf-8?B?alM2ekVLbWlOelBxNVZUTFJxbGUvZlFaajU0VTRBY1Vtb1JqQ3NFbTczMHp0?=
+ =?utf-8?Q?7GA4=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ae69936-90c0-49eb-e395-08dcc33e13b3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 06:37:36.8324
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T5rWq3Xs0y7Pzfii+IIcxYO0K8FJkKIqK5QCmYdyJH9R0leecmmYxcTXPbwZUHNF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8191
 
-On 23/08/2024 03:11, Jammy Huang wrote:
+Am 23.08.24 um 06:54 schrieb Matthew Brost:
+> Useful to preallocate dma fence array and then arm in path of reclaim or
+> a dma fence.
 
-> 
->>
->>> @@ -0,0 +1,81 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/arm/aspeed/aspeed,video.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: ASPEED Video Engine
->>
->> ASPEED or Aspeed?
-> I prefer ASPEED.
+Exactly that was rejected before because it allows to create circle 
+dependencies.
 
-What is the name of the company? How is it called in all bindings? Is it
-an acronym?
+You would need a really really good argument why that is necessary.
 
-> 
->>
->>> +
->>> +maintainers:
->>> +  - Eddie James <eajames@linux.ibm.com>
->>> +  - Jammy Huang <jammy_huang@aspeedtech.com>
->>> +
->>> +descriptio
+Regards,
+Christian.
 
-
-...
-
-> 
->>
->>> +           compatible = "aspeed,ast2600-video-engine";
->>
->> Fix indentation, this is supposed 4 spaces.
-> OK
-> ************* Email Confidentiality Notice ********************
-> 免責聲明:
-> 本信件(或其附件)可能包含機密資訊，並受法律保護。如 台端非指定之收件者，請以電子郵件通知本電子郵件之發送者, 並請立即刪除本電子郵件及其附件和銷毀所有複印件。謝謝您的合作!
-> 
-> DISCLAIMER:
-> This message (and any attachments) may contain legally privileged and/or other confidential information. If you have received it in error, please notify the sender by reply e-mail and immediately delete the e-mail and any attachments without copying or disclosing the contents. Thank you.
-
-
-Every damn time from Aspeed. People, fix it finally. If you keep sending
-confidential data, I will be rejecting/NAKing and deleting your messages
-as requested.
-
-<form letter>
-Maybe I am the intended recipient of your message, maybe not. I don't
-want to have any legal questions regarding upstream, public
-collaboration, thus probably I should just remove your messages.
-
-Please talk with your IT that such disclaimers in open-source are not
-desired (and maybe even harmful).
-If you do not understand why, please also see:
-https://www.youtube.com/live/fMeH7wqOwXA?si=GY7igfbda6vnjXlJ&t=835
-
-If you need to go around company SMTP server, then consider using b4
-web-relay: https://b4.docs.kernel.org/en/latest/contributor/send.html
-
-Please be informed that by responding to this email you agree that all
-communications from you and/or your company is made public. In other
-words, all messages originating from you and/or your company will be
-made public.
-<form letter>
-
-Best regards,
-Krzysztof
+>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/dma-buf/dma-fence-array.c | 81 ++++++++++++++++++++++---------
+>   include/linux/dma-fence-array.h   |  7 +++
+>   2 files changed, 66 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+> index c74ac197d5fe..b03e0a87a5cd 100644
+> --- a/drivers/dma-buf/dma-fence-array.c
+> +++ b/drivers/dma-buf/dma-fence-array.c
+> @@ -144,36 +144,38 @@ const struct dma_fence_ops dma_fence_array_ops = {
+>   EXPORT_SYMBOL(dma_fence_array_ops);
+>   
+>   /**
+> - * dma_fence_array_create - Create a custom fence array
+> + * dma_fence_array_alloc - Allocate a custom fence array
+> + * @num_fences:		[in]	number of fences to add in the array
+> + *
+> + * Return dma fence array on success, NULL on failure
+> + */
+> +struct dma_fence_array *dma_fence_array_alloc(int num_fences)
+> +{
+> +	struct dma_fence_array *array;
+> +
+> +	return kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
+> +}
+> +EXPORT_SYMBOL(dma_fence_array_alloc);
+> +
+> +/**
+> + * dma_fence_array_arm - Arm a custom fence array
+> + * @array:		[in]	dma fence array to arm
+>    * @num_fences:		[in]	number of fences to add in the array
+>    * @fences:		[in]	array containing the fences
+>    * @context:		[in]	fence context to use
+>    * @seqno:		[in]	sequence number to use
+>    * @signal_on_any:	[in]	signal on any fence in the array
+>    *
+> - * Allocate a dma_fence_array object and initialize the base fence with
+> - * dma_fence_init().
+> - * In case of error it returns NULL.
+> - *
+> - * The caller should allocate the fences array with num_fences size
+> - * and fill it with the fences it wants to add to the object. Ownership of this
+> - * array is taken and dma_fence_put() is used on each fence on release.
+> - *
+> - * If @signal_on_any is true the fence array signals if any fence in the array
+> - * signals, otherwise it signals when all fences in the array signal.
+> + * Implementation of @dma_fence_array_create without allocation. Useful to arm a
+> + * preallocated dma fence fence in the path of reclaim or dma fence signaling.
+>    */
+> -struct dma_fence_array *dma_fence_array_create(int num_fences,
+> -					       struct dma_fence **fences,
+> -					       u64 context, unsigned seqno,
+> -					       bool signal_on_any)
+> +void dma_fence_array_arm(struct dma_fence_array *array,
+> +			 int num_fences,
+> +			 struct dma_fence **fences,
+> +			 u64 context, unsigned seqno,
+> +			 bool signal_on_any)
+>   {
+> -	struct dma_fence_array *array;
+> -
+> -	WARN_ON(!num_fences || !fences);
+> -
+> -	array = kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
+> -	if (!array)
+> -		return NULL;
+> +	WARN_ON(!array || !num_fences || !fences);
+>   
+>   	array->num_fences = num_fences;
+>   
+> @@ -200,6 +202,41 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
+>   	 */
+>   	while (num_fences--)
+>   		WARN_ON(dma_fence_is_container(fences[num_fences]));
+> +}
+> +EXPORT_SYMBOL(dma_fence_array_arm);
+> +
+> +/**
+> + * dma_fence_array_create - Create a custom fence array
+> + * @num_fences:		[in]	number of fences to add in the array
+> + * @fences:		[in]	array containing the fences
+> + * @context:		[in]	fence context to use
+> + * @seqno:		[in]	sequence number to use
+> + * @signal_on_any:	[in]	signal on any fence in the array
+> + *
+> + * Allocate a dma_fence_array object and initialize the base fence with
+> + * dma_fence_init().
+> + * In case of error it returns NULL.
+> + *
+> + * The caller should allocate the fences array with num_fences size
+> + * and fill it with the fences it wants to add to the object. Ownership of this
+> + * array is taken and dma_fence_put() is used on each fence on release.
+> + *
+> + * If @signal_on_any is true the fence array signals if any fence in the array
+> + * signals, otherwise it signals when all fences in the array signal.
+> + */
+> +struct dma_fence_array *dma_fence_array_create(int num_fences,
+> +					       struct dma_fence **fences,
+> +					       u64 context, unsigned seqno,
+> +					       bool signal_on_any)
+> +{
+> +	struct dma_fence_array *array;
+> +
+> +	array = dma_fence_array_alloc(num_fences);
+> +	if (!array)
+> +		return NULL;
+> +
+> +	dma_fence_array_arm(array, num_fences, fences,
+> +			    context, seqno, signal_on_any);
+>   
+>   	return array;
+>   }
+> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+> index 29c5650c1038..3466ffc4b803 100644
+> --- a/include/linux/dma-fence-array.h
+> +++ b/include/linux/dma-fence-array.h
+> @@ -79,6 +79,13 @@ to_dma_fence_array(struct dma_fence *fence)
+>   	for (index = 0, fence = dma_fence_array_first(head); fence;	\
+>   	     ++(index), fence = dma_fence_array_next(head, index))
+>   
+> +struct dma_fence_array *dma_fence_array_alloc(int num_fences);
+> +void dma_fence_array_arm(struct dma_fence_array *array,
+> +			 int num_fences,
+> +			 struct dma_fence **fences,
+> +			 u64 context, unsigned seqno,
+> +			 bool signal_on_any);
+> +
+>   struct dma_fence_array *dma_fence_array_create(int num_fences,
+>   					       struct dma_fence **fences,
+>   					       u64 context, unsigned seqno,
 
 
