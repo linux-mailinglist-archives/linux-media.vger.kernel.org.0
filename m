@@ -1,206 +1,265 @@
-Return-Path: <linux-media+bounces-16663-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16664-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5165295CFDB
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 16:31:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5B095CFE6
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 16:32:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6EA51F244DB
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 14:31:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12787287988
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 14:32:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1475118BC07;
-	Fri, 23 Aug 2024 14:15:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F978188925;
+	Fri, 23 Aug 2024 14:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="gAPC+rd2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBStq5YX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF6913ACC;
-	Fri, 23 Aug 2024 14:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724422516; cv=pass; b=peNPtlG4JWIE6dMIjtuw1Rj5CDU5DchNk59TIHQlnK7BOwSAUUTzE9U7kjbGEpSQYNQtl2ZMSU/cOf7LFnrdhR/Et2INOsJRvtYnlexC/MtVqwFP0oOWnS2WrP/QPCwrq9CQqg8rkLUj2fGhY3LjYAJHIQvo1IPF4FO8lZKfMFw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724422516; c=relaxed/simple;
-	bh=PBAsyZb6wrNt9PCHfHdj7miV+Khf5l0iL92tXn3Geeg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QKqT6Xgm/cGo72OaWPfjjERh4cW7nBUyB98F+PTmK9n430aHXGt4g1u0iOX7rHhX8tE7N83A0eVhXO1ROiUBFUT/zE+NSPlQZZ/5WLw1LvrpHykDsdY4OZA8K2HW1iUQikMgRxlIm2b8+uaZoe6Umlgm9/kMVELtLDk5F5WAShc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=gAPC+rd2; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Delivered-To: nfraprado@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724422501; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=JjceiZWJtI1fUL/OB+7hTt7iC8BUQNhc3tvezrUvZZ3oaUgItn9OBy7AaAVd+AGJKT70OoDiV7v9duLGsx0lJv8pg5UbbDh38Uh6wShDEqgv62HHrHSKQdlmPG8zRnoLmousu0EOwoNj271pMHwF/zjmj4FtIa+BzzL9mWKT8NY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1724422501; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=YLkCm+92u6sWHnBCcW3QFsk7uF4UMVlkDcI9nxI0grU=; 
-	b=eombKDlK304bsE3d8P+splbUGc2VGtVHlDx3EruzstDrlNRm2u5kSC6vmi4s0iuynwzbPc7X51i1Blk20wnD7KazKMzI9nL7gv7V798/056ZKa0pptTOjfE9UOfnlnKizqMBh6m0iszRMYzqC3kLgWFAC2oRFoR6aWf+ThS8phw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724422501;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=YLkCm+92u6sWHnBCcW3QFsk7uF4UMVlkDcI9nxI0grU=;
-	b=gAPC+rd2nZXJL/rx/VP2x5RKOgJcdggFEJH0Pl18qgfPE6McP+f5AzEjZN+1V8U/
-	h45r+M+V0sSg4AbA+S+si5DKxTxNCa/XusJKo4yXMbchJGBwfUB6G5lEV135ASCOnwD
-	P9VNNtX5GO63Ssql8BGCibswpbwqEZku2MC+0QrQ=
-Received: by mx.zohomail.com with SMTPS id 1724422500162588.6716232629527;
-	Fri, 23 Aug 2024 07:15:00 -0700 (PDT)
-Date: Fri, 23 Aug 2024 16:14:54 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Nathan Hebert <nhebert@chromium.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v4 5/7] media: mediatek: vcodec: store source vb2 buffer
-Message-ID: <20240823141454.vvtbkkj5qm4pmpfr@basti-XPS-13-9310>
-References: <20240807082444.21280-1-yunfei.dong@mediatek.com>
- <20240807082444.21280-6-yunfei.dong@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1227188900;
+	Fri, 23 Aug 2024 14:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724422754; cv=none; b=DBvew/pwVsMHTlGiHRTA5r+yt2W4tSh6ISYE986ynr5klcxwhZTeNdrc9oGlzA447oRzGGzNXkQ7iAdidJq2q+VG/C26jauj5estuOfzwdNdMcqeFv5DHGSge1/AV7XREAu+cdVB/MffXEe3x0R1o9DoiPdkUYrl1knyblUu0Nc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724422754; c=relaxed/simple;
+	bh=RpEEFLQ159mtzxH/6H1MaLPuidhuvO36wTtzFCeFT2g=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=O6VCaLhRGc3QTO+jspWd6j0dfKboMbxr0UHapJ4LPXb1EJbwt0rd5qUocAAqFRzg14fbd9YnbTDsGTpGOre9/oBojuxDkR+KrlV8zkghNxMZn3+Be73Fu8ZCvdVX370gi1RQOUi2ZLJ7Dam+4Jcfov3KP6pKvp4VI08sgLF2V4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBStq5YX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E523C32786;
+	Fri, 23 Aug 2024 14:19:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724422754;
+	bh=RpEEFLQ159mtzxH/6H1MaLPuidhuvO36wTtzFCeFT2g=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=nBStq5YXGZS3IcSjX33591s0+YfJaUGLCBUzCzSQicdSqADMwcQvGt3tFDnkxAtol
+	 bdGbH+eCaphHgOcZdVB9bfSa/RVclary3XVypkUaZpsXrLwD5X/Mp7bruP+kpsn/Ep
+	 BFujFlNZqa6OEPeW274OkkrXyToZJq5nwvgwHAPntmBOwzlJkGpwgERbg7YE56BGVr
+	 uNkiP8hgPgTPBmaNqSWBtCi+hHwUcbAKbe6TLGB2Ug2ADZpwAasiqpBdo+K6v30awd
+	 qzw6BYcYwCzlkNwQJgDMCAPzdG5XE+IKI91foJRUZX4biaGVtXLv2ovDRk35TRiz1G
+	 Wz4ewk+2qH0sQ==
+Message-ID: <ae89be50-9cc0-43a0-8829-dd38a05a377f@kernel.org>
+Date: Fri, 23 Aug 2024 17:19:05 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240807082444.21280-6-yunfei.dong@mediatek.com>
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
+ Ethernet driver
+From: Roger Quadros <rogerq@kernel.org>
+To: Julien Panis <jpanis@baylibre.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Naveen Mamindlapalli <naveenm@marvell.com>,
+ Jacob Keller <jacob.e.keller@intel.com>
+Cc: danishanwar@ti.com, yuehaibing@huawei.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, "Govindarajan, Sriramakrishnan" <srk@ti.com>
+References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
+ <d2e00269-23b8-4a92-84df-959b3c3ae6f1@kernel.org>
+Content-Language: en-US
+In-Reply-To: <d2e00269-23b8-4a92-84df-959b3c3ae6f1@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hey Yunfei,
-
-On 07.08.2024 16:24, Yunfei Dong wrote:
->Store the current vb2 buffer when lat need to decode again.
->Then lat work can get the same vb2 buffer directly next time.
-
-I would reword this with:
-
-Store the current source buffer in the specific data for the IC. When
-the LAT needs to retry a decode it can pick that buffer directly.
-
----
-
-Additionally, this is not a good commit description as you just say what
-you do, but you don't say WHY this needs to happen, why is it necessary?
-What does it improve, is this a preparation patch for another, a fix for
-something or an improvement of performance?
 
 
-more below...
+On 23/08/2024 15:12, Roger Quadros wrote:
+> Hello Julien,
+> 
+> On 12/04/2024 18:38, Julien Panis wrote:
+>> This patch adds XDP support to TI AM65 CPSW Ethernet driver.
+>>
+>> The following features are implemented: NETDEV_XDP_ACT_BASIC,
+>> NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
+>>
+>> Zero-copy and non-linear XDP buffer supports are NOT implemented.
+>>
+>> Besides, the page pool memory model is used to get better performance.
+>>
+>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> 
+> I've been trying to test this since I don't want my RX multi queue series [1]
+> to break AF_XDP feature. However, with 6.10 I don't see AF_XDP working at all
+> and even breaking basic networking on am65-cpsw.
+> 
+> The in kernel XDP tests have been dropped so I've been using xdp-tools [2]
+> 
+> My test is to try XDP_DROP with xdp-bench using skb mode first and then
+> native XDP mode.
+> 
+> Below is the test log. You can see that skb mode works fine. The moment I try
+> native XDP mode the interface seems to go down and up and then just locks up.
+> 
+> I can no longer ping to the remote host.
+> 
+> ----test log starts-----
+> 
+> root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
+> PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
+> 64 bytes from 192.168.1.36: icmp_seq=1 ttl=64 time=0.801 ms
+> 64 bytes from 192.168.1.36: icmp_seq=2 ttl=64 time=0.967 ms
+> 64 bytes from 192.168.1.36: icmp_seq=3 ttl=64 time=0.876 ms
+> ^C
+> --- 192.168.1.36 ping statistics ---
+> 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+> rtt min/avg/max/mdev = 0.801/0.881/0.967/0.067 ms
+> 
+> 
+> root@am64xx-evm:~/xdp-tools/xdp-bench# ./xdp-bench drop -m skb eth0
+> Dropping packets on eth0 (ifindex 2; driver am65-cpsw-nuss)
+> Summary                     81127 rx/s                  0 err/s        
+> Summary                     81088 rx/s                  0 err/s        
+> Summary                     81089 rx/s                  0 err/s        
+> Summary                     53065 rx/s                  0 err/s        
+> ^C
+>   Packets received    : 296369    
+>   Average packets/s   : 74092     
+>   Rx dropped          : 296369    
+> 
+> root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
+> PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
+> 64 bytes from 192.168.1.36: icmp_seq=1 ttl=64 time=1.02 ms
+> 64 bytes from 192.168.1.36: icmp_seq=2 ttl=64 time=0.756 ms
+> 64 bytes from 192.168.1.36: icmp_seq=3 ttl=64 time=0.963 ms
+> ^C
+> --- 192.168.1.36 ping statistics ---
+> 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+> rtt min/avg/max/mdev = 0.756/0.914/1.024/0.114 ms
+> 
+> 
+> root@am64xx-evm:~/xdp-tools/xdp-bench# ./xdp-bench drop -m native eth0
+> [  889.096851] am65-cpsw-nuss 8000000.ethernet eth0: Link is Down
+> [  889.110889] am65-cpsw-nuss 8000000.ethernet eth0: PHY [8000f00.mdio:00] driver [TI DP83867] (irq=POLL)
+> [  889.120377] am65-cpsw-nuss 8000000.ethernet eth0: configuring for phy/rgmii-rxid link mode
+> Dropping packets on eth0 (ifindex 2; driver am65-cpsw-nuss)
+> Summary                         0 rx/s                  0 err/s        
+> Summary                         0 rx/s                  0 err/s        
+> [  893.218318] am65-cpsw-nuss 8000000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+> Summary                       250 rx/s                  0 err/s        
+> Summary                         0 rx/s                  0 err/s        
+> Summary                         0 rx/s                  0 err/s        
+> Summary                         0 rx/s                  0 err/s        
+> ^C
+> [  901.898170] am65-cpsw-nuss 8000000.ethernet eth0: Link is Down
+> [  901.910292] am65-cpsw-nuss 8000000.ethernet eth0: PHY [8000f00.mdio:00] driver [TI DP83867] (irq=POLL)
+> [  901.919661] am65-cpsw-nuss 8000000.ethernet eth0: configuring for phy/rgmii-rxid link mode
+>   Packets received    : 250       
+>   Average packets/s   : 42        
+>   Rx dropped          : 250       
+> root@am64xx-evm:~/xdp-tools/xdp-bench# [  906.018296] am65-cpsw-nuss 8000000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+> 
+> root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
+> PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
+> From 192.168.1.100 icmp_seq=1 Destination Host Unreachable
+> From 192.168.1.100 icmp_seq=2 Destination Host Unreachable
+> From 192.168.1.100 icmp_seq=3 Destination Host Unreachable
+> ^C
+> 
+> --- 192.168.1.36 ping statistics ---
+> 5 packets transmitted, 0 received, +3 errors, 100% packet loss, time 4079ms
+> pipe 4
+> 
+> 
+> ---test log ends---
+> 
+> I will try to test with commit 8acacc40f733 ("net: ethernet: ti: am65-cpsw: Add minimal XDP support")
+> to see if it works there. If it does then I can do a bisect.
 
->
->Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->---
-> .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h      |  2 ++
-> .../vcodec/decoder/mtk_vcodec_dec_stateless.c         | 11 ++++++++---
-> 2 files changed, 10 insertions(+), 3 deletions(-)
->
->diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
->index 1fabe8c5b7a4..0817be73f8e0 100644
->--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
->+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
->@@ -155,6 +155,7 @@ struct mtk_vcodec_dec_pdata {
->  * @last_decoded_picinfo: pic information get from latest decode
->  * @empty_flush_buf: a fake size-0 capture buffer that indicates flush. Used
->  *		     for stateful decoder.
->+ * @last_vb2_v4l2_src: the backup of current source buffer.
+XDP_DROP doesn't work here either. I think I have found the issue.
+I will comment about it on patch 3.
 
-I think last is confusing in this context especially as there is for
-example in the m2m_ctx:
-  * @last_src_buf: indicate the last source buffer for draining
-  * @next_buf_last: next capture queud buffer will be tagged as last
-or:
-  * v4l2_m2m_last_buf() - return last buffer from the list of ready buffers
+> 
+> If you have better ideas please let me know. Thanks!
+> 
+> [1] https://lore.kernel.org/all/20240703-am65-cpsw-multi-rx-v3-0-f11cd860fd72@kernel.org/
+> [2] https://github.com/xdp-project/xdp-tools
+> 
+>> ---
+>> Changes in v9:
+>> - In k3_cppi_desc_pool_destroy(), free memory allocated for pool.
+>> - In k3_cppi_desc_pool_create_name() function, remove unnecessary
+>> error messages on mem alloc failures.
+>> - In k3_cppi_desc_pool_create_name() function, move desc_infos alloc
+>> forward to leverage pool_name freeing in gen_pool_destroy().
+>> - In k3_cppi_desc_pool_create_name() function, remove unnecessary
+>> 'ret = -ENOMEM' since ret is already initialized with -ENOMEM value.
+>> - For rx, do not build the skb upfront any more, Instead, give the page
+>> to the HW then build the skb once HW sends a completion.
+>> - Link to v8: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v8-0-f3421b58da09@baylibre.com
+>>
+>> Changes in v8:
+>> - Fix some warnings reported by patchwork.
+>> - Link to v7: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v7-0-c3857c82dadb@baylibre.com
+>>
+>> Changes in v7:
+>> - Move xdp_do_flush() function call in am65_cpsw_nuss_rx_poll().
+>> - Link to v6: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v6-0-212eeff5bd5f@baylibre.com
+>>
+>> Changes in v6:
+>> - In k3_cppi_*() functions, use const qualifier when the content of
+>> pool is not modified.
+>> - Add allow_direct bool parameter to am65_cpsw_alloc_skb() function
+>> for direct use by page_pool_put_full_page().
+>> - Link to v5: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v5-0-bc1739170bc6@baylibre.com
+>>
+>> Changes in v5:
+>> - In k3_cppi_desc_pool_destroy(), free memory allocated for desc_infos.
+>> - Link to v4: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v4-0-2e45e5dec048@baylibre.com
+>>
+>> Changes in v4:
+>> - Add skb_mark_for_recycle() in am65_cpsw_nuss_rx_packets() function.
+>> - Specify napi page pool parameter in am65_cpsw_create_xdp_rxqs() function.
+>> - Add benchmark numbers (with VS without page pool) in the commit description.
+>> - Add xdp_do_flush() in am65_cpsw_run_xdp() function for XDP_REDIRECT case.
+>> - Link to v3: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v3-0-5d944a9d84a0@baylibre.com
+>>
+>> Changes in v3:
+>> - Fix a potential issue with TX buffer type, which is now set for each buffer.
+>> - Link to v2: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com
+>>
+>> Changes in v2:
+>> - Use page pool memory model instead of MEM_TYPE_PAGE_ORDER0.
+>> - In am65_cpsw_alloc_skb(), release reference on the page pool page
+>> in case of error returned by build_skb().
+>> - [nit] Cleanup am65_cpsw_nuss_common_open/stop() functions.
+>> - [nit] Arrange local variables in reverse xmas tree order.
+>> - Link to v1: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v1-1-9f0b6cbda310@baylibre.com
+>>
+>> ---
+>> Julien Panis (3):
+>>       net: ethernet: ti: Add accessors for struct k3_cppi_desc_pool members
+>>       net: ethernet: ti: Add desc_infos member to struct k3_cppi_desc_pool
+>>       net: ethernet: ti: am65-cpsw: Add minimal XDP support
+>>
+>>  drivers/net/ethernet/ti/am65-cpsw-nuss.c    | 659 ++++++++++++++++++++++++----
+>>  drivers/net/ethernet/ti/am65-cpsw-nuss.h    |  13 +
+>>  drivers/net/ethernet/ti/k3-cppi-desc-pool.c |  46 +-
+>>  drivers/net/ethernet/ti/k3-cppi-desc-pool.h |   6 +
+>>  4 files changed, 623 insertions(+), 101 deletions(-)
+>> ---
+>> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+>> change-id: 20240223-am65-cpsw-xdp-basic-4db828508b48
+>>
+>> Best regards,
+> 
 
-I think a better name would be:
-
-  * @cur_src_buf: current source buffer with the bitstream data for the latest decode
-
->  * @is_flushing: set to true if flushing is in progress.
->  *
->  * @current_codec: current set input codec, in V4L2 pixel format
->@@ -201,6 +202,7 @@ struct mtk_vcodec_dec_ctx {
-> 	struct work_struct decode_work;
-> 	struct vdec_pic_info last_decoded_picinfo;
-> 	struct v4l2_m2m_buffer empty_flush_buf;
->+	struct vb2_v4l2_buffer *last_vb2_v4l2_src;
-
-Likewise here:
-
-struct vb2_v4l2_buffer *cur_src_buf;
-
-> 	bool is_flushing;
->
-> 	u32 current_codec;
->diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->index 2a7e4fe24ed3..8aa379872ddc 100644
->--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->@@ -320,7 +320,7 @@ static void mtk_vdec_worker(struct work_struct *work)
-> 	struct mtk_vcodec_dec_ctx *ctx =
-> 		container_of(work, struct mtk_vcodec_dec_ctx, decode_work);
-> 	struct mtk_vcodec_dec_dev *dev = ctx->dev;
->-	struct vb2_v4l2_buffer *vb2_v4l2_src;
->+	struct vb2_v4l2_buffer *vb2_v4l2_src = ctx->last_vb2_v4l2_src;
-
-And here:
-
-struct vb2_v4l2_buffer *vb2_v4l2_src = ctx->cur_src_buf;
-
-> 	struct vb2_buffer *vb2_src;
-> 	struct mtk_vcodec_mem *bs_src;
-> 	struct mtk_video_dec_buf *dec_buf_src;
->@@ -329,7 +329,7 @@ static void mtk_vdec_worker(struct work_struct *work)
-> 	bool res_chg = false;
-> 	int ret;
->
->-	vb2_v4l2_src = v4l2_m2m_next_src_buf(ctx->m2m_ctx);
->+	vb2_v4l2_src = vb2_v4l2_src ? vb2_v4l2_src : v4l2_m2m_next_src_buf(ctx->m2m_ctx);
-
-Please add a comment above this line that explains why this search can
-be made, explaining why this buffer is still valid in this call and when
-we pick the next source buffer.
-
-Regards,
-Sebastian Fricke
-
-> 	if (!vb2_v4l2_src) {
-> 		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
-> 		mtk_v4l2_vdec_dbg(1, ctx, "[%d] no available source buffer", ctx->id);
->@@ -383,8 +383,13 @@ static void mtk_vdec_worker(struct work_struct *work)
-> 			v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-> 		v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
-> 	} else {
->-		if (ret != -EAGAIN)
->+		if (ret != -EAGAIN) {
-> 			v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
->+			ctx->last_vb2_v4l2_src = NULL;
->+		} else {
->+			ctx->last_vb2_v4l2_src = vb2_v4l2_src;
->+		}
->+
-> 		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
-> 	}
-> }
->-- 
->2.46.0
->
->
+-- 
+cheers,
+-roger
 
