@@ -1,352 +1,207 @@
-Return-Path: <linux-media+bounces-16672-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16673-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977A395D211
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 17:53:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C5695D21F
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 17:55:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 76819B2D403
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 15:47:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA2BB1C213C4
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 15:55:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D6CE188920;
-	Fri, 23 Aug 2024 15:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E36F18A6A9;
+	Fri, 23 Aug 2024 15:55:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N0igvLUv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="otrlm9mn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406141EA84
-	for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 15:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724428047; cv=fail; b=swStLmqlGO6fzbZxFhD+EMX6OcTQmrIfA0gjBK1uCwEGP8sSuuq3Apxhw6kYauP0mFUdKFovbf3aLDWIXs0mXgcnz7GbIyl2T0nI/D2WKUpv1m44DBfyyHqX5UTsk50piK5Xy/z9iKQHyKHnsA1rE9d/w8E/H7HsDj1ENGS9eKI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724428047; c=relaxed/simple;
-	bh=4KIRSv8I4CU+Q+MOIcjlRiGF9W6kpHM/3lCJQghLqSE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=LM4hmPPRO1D7peOx+pQCc4Usbw7pL75X2zJ0tJCWncMDfClNEsFzxDg3vnqOmk/oWkfLWphJlyKpvwfbcJZSzZqC58hhvBY4SvyNvpDQuWmzSjyXpfLkKrtGPt6FlnpJyiMhit+xyAIRvZFmvgIvQbTHmRNp8ZoxXUtT9QSVnBY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N0igvLUv; arc=fail smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724428045; x=1755964045;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=4KIRSv8I4CU+Q+MOIcjlRiGF9W6kpHM/3lCJQghLqSE=;
-  b=N0igvLUvZaqIPQBxJxggYrf5DJwZ4VfJ1GiIWR+qFqbPaXYrgcNGEmSg
-   lO4aukpmusbVYrZK2+kPFzmalXRMMYqZlphb1SZOsi5hY6GDXrzFuv8ZG
-   x9lD7dBNiTS79X4WvjR9461EssgkLXXCeIudemjbHnFD4SYHkAGz07IqR
-   ssxBBjfHlKzX3WONddVZuS1CSOR0MiMlNZymq0qlvVMYfrzy3d4L30yp+
-   mOVrCguTeQyj64iiqfGyYJMHBqFKS/2PjSC138Kvmabm2s0vFO3vy3+6N
-   gc3JoRUuxVLAPQfksdEGCmQf+4vwhuyuxBn2WEz54dOl3ZyYaH8BdGhkl
-   g==;
-X-CSE-ConnectionGUID: 9aoiYPnyTaKzvxd41mn7JA==
-X-CSE-MsgGUID: AmCp4WJTRV6X06wx6gMCKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="40364255"
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="40364255"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 08:47:24 -0700
-X-CSE-ConnectionGUID: KS5nTaKNQ1aukBbVd3I4JQ==
-X-CSE-MsgGUID: 7sktqFyLSBaqrEhLH+X36g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="92558384"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Aug 2024 08:47:25 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 23 Aug 2024 08:47:24 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Fri, 23 Aug 2024 08:47:24 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.170)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 23 Aug 2024 08:47:24 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ab+4NSFDITzzxmhqO3f7Df+fGGJpQHqSDQE3ssU4VafbZINWeQiXFTFLReaUcD2zyhCnLiRyMYJZLqYK6lCBcWgfOPxstRomF9m92eja8rYkg9lvl9x9Fhzv6wnpGrM6dP0zbl4da38OFvsckVHcbdXa8LOyf8Vfxy14w3a/5PbdE14ISwu9bxePbPKIHZA9AFbaDc8UvofaV7Xc1BPUIHv4TqzyXgZ1DNbVdSBLLowFVCeZDbjTnqAJbYMDviGfZGPPTSuu6NmlPFympHfJ98F/yQua7Uh35vTok8aB+yLwRpKqj1THMfVmpJOe0NS/pWaHq6Xb6ZoqfpYwiAE49w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PIVCVPJPqe9S7lUXFH3fOr4JPAJvRhsWF29ommzDVq4=;
- b=YOLOPNetsFJy6Kmr+Ga+hF+zDaYA6UPcwca/gObGDUZSy/BGdCT+vZUuVGmsUCPDMxWST3S+Nu8VUd3ypJcJcF0BTyn99JP0BrBg0w/iLtc/UdXeDjBqknh69rs5D4ATff7Ri/VJrcjYpQ+6/MCNfUtJuchxwXwiK24cmhEgVzSHgpimRJOHwUcjQiLcE7OR6gDQG9LFts9mhlYJVmkJEfOQ644OkdzSXoeeai5R3G+hrFhfaj+CM3avFIFTtbh74ZNZaBzhfjG61j3yiHZ+nm/EI6YxbzPRcfjYD8fS6hNtG146oIZPmKrPROYPvfO2tscs4OliTeqwaetdF6p6jQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by IA0PR11MB8353.namprd11.prod.outlook.com (2603:10b6:208:489::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
- 2024 15:47:18 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.7875.018; Fri, 23 Aug 2024
- 15:47:18 +0000
-Date: Fri, 23 Aug 2024 15:46:05 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-CC: <intel-xe@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <thomas.hellstrom@linux.intel.com>,
-	<sumit.semwal@linaro.org>, <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 1/2] dma-buf: Split out dma fence array create into
- alloc and arm functions
-Message-ID: <ZsiuvXACGYdm+Ons@DUT025-TGLU.fm.intel.com>
-References: <20240823045443.2132118-1-matthew.brost@intel.com>
- <20240823045443.2132118-2-matthew.brost@intel.com>
- <f7fcb678-afb2-428e-abad-af9892823e60@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f7fcb678-afb2-428e-abad-af9892823e60@amd.com>
-X-ClientProxiedBy: SJ0PR03CA0299.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::34) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE6E1898F2;
+	Fri, 23 Aug 2024 15:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724428510; cv=none; b=TC0GdfUaoYVE1TjTokXUo0PlZZ0y0XIJ/WxjyOl/G/WtwtiARZAsZyeiKGL/SFt4l87dLNqKvpy1pkcknnxtwF5Wp4nnDJ82LT+SZOB/zT/KzQ2A/2ureTkAi+CjKYUQZTh7A0irsOfTR8uQjr8lMOP7+aCasKXBro9+7csWQf0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724428510; c=relaxed/simple;
+	bh=u0ik47u7Dtim42h8yF0qKIeCNCyWiDTs+zC8/Lh67SQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VDZ4U1GsdHGfUnsEeaD2jn++C5RLDFmcMSMiJ3QNcdSJ6TS4Xe+hA2ddOs/S9niZnorG9VxyvchdoCtu6pKwdjBln/MR5auwSns79g/VdPmFEacocoYH7xQES/bzADH+SNbgGWt6VWZEzyE0hR9sM7jh1ZTpTwMBH0TpBKUAAWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=otrlm9mn; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FD86497;
+	Fri, 23 Aug 2024 17:54:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724428442;
+	bh=u0ik47u7Dtim42h8yF0qKIeCNCyWiDTs+zC8/Lh67SQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=otrlm9mnPJVverVAGVrlmaZ2J7DOVNYJZi0N9EZkVk6XtDUZRxxs3oKtBFovVHg0C
+	 YR/jLYVtc/pZGlvgfmaSisLti3A5JnNljOHTzu45olNsVs8hxBJsXkgMfn53UOJCTH
+	 +M0Wd22C3HakMAe+GoVpQmH+iHWSe7t5yGwV2jxg=
+Date: Fri, 23 Aug 2024 18:55:03 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Biju Das <biju.das.au@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH 1/2] media: mt9p031: Extend match support for OF tables
+Message-ID: <20240823155503.GR26098@pendragon.ideasonboard.com>
+References: <20230910160126.70122-1-biju.das.jz@bp.renesas.com>
+ <20230910160126.70122-2-biju.das.jz@bp.renesas.com>
+ <tlaikk73c5gc6y3bk6evuwtlizletaws7tuc5nk36hz2adkydp@duv2tjpqnios>
+ <OS0PR01MB59226056EAA42B93D123CFB586F2A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <spi52a754wa4ghwvfa6hkoqiz5rws27jlrdfnintx7dfm5ccqv@cngal3bh6eje>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA0PR11MB8353:EE_
-X-MS-Office365-Filtering-Correlation-Id: d7201599-540c-402b-a38c-08dcc38ade50
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?RU05Xkc+oInuVsgMAO2tqjn6Tc5qR5frTn/3R6d74TWcqPVgs20U2fWUUJ?=
- =?iso-8859-1?Q?CAab1suCFgVPBSQQm3CfUdM4wBYSJBIKnvHp9YsYrpafGZz8Si7AWuauL7?=
- =?iso-8859-1?Q?3zCoSUL0qYC5txQoN+Y5VQkiC00WaBQT67rmzy2ZetcWKfxO/gKLs8sA14?=
- =?iso-8859-1?Q?J3UDvnWn4pnSyyF8dHnVTJOP8jhoQBCcBXuy+ZRk1r/GSUdkSuGzm8FZ7r?=
- =?iso-8859-1?Q?FLCZEM4jmA3qTIoOVXLuAt2oqP+iHXyPFDx8uknlOGpkajL/n60h6dvywR?=
- =?iso-8859-1?Q?RTs1/QmBUqt/eF16bOzuWiDLVlHvhJJ6sl7CHEMn+1Yutr4Y8ZTB4Y+z/H?=
- =?iso-8859-1?Q?RQ2pbl5h5tSDXbk+GaE+0COElqIaLyzUPtaqyCsGytwrP5LLlw3Zqnql5T?=
- =?iso-8859-1?Q?6zpuZjSVNIjAV4t+T+LZpHk4MqT7cjQNeitA9uVQfPb3WC5B1MgeLTuDuf?=
- =?iso-8859-1?Q?uvV8ZJZmqYadEcwMKEQOqCyGebxO7iTGin/Bpg51FlLdsELwIdBtGTgEzX?=
- =?iso-8859-1?Q?QxDjpIHmUk7exsVrHgVshVldYGahT6yGWap+1t7JLK5id3pr8cEia4cmPY?=
- =?iso-8859-1?Q?mbRA99Ga7ePvuyA7z5RKuvOkjE21tAJcrs9E0w7z4kRfrYG9La690WfFgY?=
- =?iso-8859-1?Q?nawp9mh+oURPhDE3+Q2PN5LFK5iCdTn+xzJbSXwD3W+9ty1/2tG56AmYfZ?=
- =?iso-8859-1?Q?T2bU8sLSD+O64WsPSwu1tKmrqfDO7wHSu+jnWIkraAt+ZuHtxQYbAegASg?=
- =?iso-8859-1?Q?lxzLzOgQqn4ZpX0fmcufgDRurYPg86C4fN89t4MP1w/5G+SDoc7+LSec95?=
- =?iso-8859-1?Q?yf4crGIAsvUprxOEhmfmHh6Tun7gVyd7GwEyM564Bk/QaBVxoPSB4aZ2s9?=
- =?iso-8859-1?Q?7TjgVaj6oXdJw39Y2+xvjdhsQ7JRUUDg864/YyqSkZmdr6wk1UfQ0z+igf?=
- =?iso-8859-1?Q?hRnwaKi3uQQmMQ+bPfvXnVJBAkafw4FCjJRj5YkFgHVY9Yc8wElIY4t1+T?=
- =?iso-8859-1?Q?7NAJWSM/wWM/k3cbs+Cm9fpoNNI+W1BA1xr7SLCAmqIqobre1lFfkVp0QM?=
- =?iso-8859-1?Q?7THHVgzqZRv2P9Xkudxc0CyRtJh4wtH9iH/uZ+hz1fBMjkszD+JbxtcghY?=
- =?iso-8859-1?Q?jDjy180Jewa+j9ZAXPUbPgW0GGLrfCl1ZdzmCd8l3NVE08e1ifPU4pADNN?=
- =?iso-8859-1?Q?mWSZTld5FOSw+1JCBSTssTeRikwDolAxdUWGP9Z2+V2NQy5xHI2E+cOLR9?=
- =?iso-8859-1?Q?0SUwbaDesXzVowahj8OUvyaTv8/1A/PKwY4Z7CVgR+Rmwa7l1N9IHivb3v?=
- =?iso-8859-1?Q?jJgSsjLgDP0Tz3A+C/5DHYw/vyUiPKfZ6euD6K+SI/rV5WHQQ61DjuXxrj?=
- =?iso-8859-1?Q?82p/e7rzDwQVcKD87JurCZxJwMNtwqBA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?21ZvHdMmNMvw7v/vbFNgV57VoIvL522y6vFS35w5phTl6o6nUULUxlYQav?=
- =?iso-8859-1?Q?WRhDNLnAVqfzeCpN7zbRqDs5wVouptU64AKE4+t2Y7dNtgbOH2U36LN18C?=
- =?iso-8859-1?Q?2cldTGOiREKIDCSK/MgyFqktTgexhDEGA3J/SImvoDOdk+E6YzZpfX1c/y?=
- =?iso-8859-1?Q?dHR4SgrNa3XtoJomo3yJHUS2s63t0lLPrnUXaAdTKtw6fLRsLx8CDXLMN2?=
- =?iso-8859-1?Q?i3YkiD0G1sZDEUhSRu1Q8K2ca8zdRwfwxZ4qT7aGjDmtSi2YoBAZkOvkeM?=
- =?iso-8859-1?Q?5ldf+KnBaMFSl1zN416s0BTUSJ/s1Icr1sjWBZUfGV2xsfy1y3F0xBrPAN?=
- =?iso-8859-1?Q?ThjO5FkS/SahLFXKpm2whTy/6PeNlRlF7AJrrVOGuN4Ijj2iNtzkK3UqF4?=
- =?iso-8859-1?Q?ZBCd5chWPPKxA2fiwOHwH5OQD7A0rP+0oTlBrIOX0BARUQ6TWpEN8vuIi3?=
- =?iso-8859-1?Q?qt7QTeiCwyjxuKlUESQ2aJGkKWgbcQaO8jjlSt4lR6/2rec60f0TnlgcW+?=
- =?iso-8859-1?Q?jLA/8/nnxDDH1/hqjt4ZznI0jWjAJloSwMZNcQ5LlqsBbk8HJ1PH3nniJJ?=
- =?iso-8859-1?Q?upiEF6NJc443fBT61vLYFlaiTErFTpV2R0MEhU6hhHOGhQoHO4OszTafUf?=
- =?iso-8859-1?Q?k7TH83eqZ2JRenUq5uj573LS7z9dXnnSDkifuV0BBbvwl4B29AvC0v8WQS?=
- =?iso-8859-1?Q?yeO8MBuRZ+4diFomf7CQDKumj6F9ktxZTK/+svBZ1/GSSpwOF2AjEGgCM2?=
- =?iso-8859-1?Q?XSoX052GiR+2cUQMj4IE8nFDNUrvMZ6GbgCrXa1uEd/fmSuicRSI3Q3rgv?=
- =?iso-8859-1?Q?RyPHmRiYYp/nH8SK3Ahnfn4DpM//eWFIShU6i4d8eUBAu4G//djUx3X7J7?=
- =?iso-8859-1?Q?0lpHBrhItrcKi6SgtHwAfCZs3e7ndE/DHdxRsNKqAWS9Lg7FpVU6z0im8f?=
- =?iso-8859-1?Q?7JAskqSTNbEdpE101y+A6uoR7QUPxHqoy+9EYnTxMV9OzX/Fbxy7hnJ249?=
- =?iso-8859-1?Q?cEcPGXhAI1Zqj5KIArjxujfRA5zCzXYBjM4pPuxLtLsAUsyMk2rwJ6duQV?=
- =?iso-8859-1?Q?fRhvG8xbe2658dFXEv/yqgSXI08MAntWzZViAUyOuNtPIZyCS0is8iYMwR?=
- =?iso-8859-1?Q?AaN/Mx9QxcyrGuRDRxC1KAofluJ7Y3qVpYrpmLtw90S34fm/X1b2lCo5iS?=
- =?iso-8859-1?Q?x9WQIQbc2Dds73E7EBR2Y8Obq2SzRQQ3obErwwOobQ+tOl9iK0wflA3ZZf?=
- =?iso-8859-1?Q?3nzkxXEzim/0gS9UT3iqdcJ3eTbxU3lhy8y55dqKipoApuvybqolStkYO6?=
- =?iso-8859-1?Q?4a9+xFjteTzxjAC1yGSCo6bRdvv2s1JGfXVUO2KSuuhSEDaUyHO70ibL/n?=
- =?iso-8859-1?Q?TIM4+UuIDY+aEsgU9ahW+wcGfbLWfAUDbp3TJfkJJQMtJAHHzKmSKMJEzq?=
- =?iso-8859-1?Q?6Y3DlMHzgiwH9Ma12paaewPArjfZ/k3OlevJMMubrGftk+FvBMuop+iNP2?=
- =?iso-8859-1?Q?wnzdRFlIVhyPrsKDMM2/xZt6/LCapSSHHKoLFuenw1Vgg+RgacIYz01br4?=
- =?iso-8859-1?Q?j/mzi45fH+sueopuaf8dxASHQu0XQCld76PsJCDIav4OYIJg1LKoXM6EXO?=
- =?iso-8859-1?Q?TwZwkExUmLRacOvZKxI9/xc4Ge439JajldE0oNjMCN5G06yRbWSq0eRQ?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7201599-540c-402b-a38c-08dcc38ade50
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 15:47:18.3603
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YBCSgsgKcVYrcB/R0m7lTf4mvYo+uU6qhIHMa/4f7k+3LMt7GX4/AHG20e9khhDoGYOyxpFu7MwmyWvMQPlC3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8353
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <spi52a754wa4ghwvfa6hkoqiz5rws27jlrdfnintx7dfm5ccqv@cngal3bh6eje>
 
-On Fri, Aug 23, 2024 at 08:37:30AM +0200, Christian König wrote:
-> Am 23.08.24 um 06:54 schrieb Matthew Brost:
-> > Useful to preallocate dma fence array and then arm in path of reclaim or
-> > a dma fence.
+Hello,
+
+On Mon, Sep 11, 2023 at 11:25:03AM +0200, Jacopo Mondi wrote:
+> On Mon, Sep 11, 2023 at 09:14:35AM +0000, Biju Das wrote:
+> > > Subject: Re: [PATCH 1/2] media: mt9p031: Extend match support for OF tables
+> > >
+> > > Hi Biju
+> > >
+> > > On Sun, Sep 10, 2023 at 05:01:25PM +0100, Biju Das wrote:
+> > > > The driver has an OF match table, still, it uses an ID lookup table
+> > > > for retrieving match data. Currently, the driver is working on the
+> > > > assumption that an I2C device registered via OF will always match a
+> > > > legacy I2C device ID. The correct approach is to have an OF device ID
+> > > > table using i2c_get_match_data() if the devices are registered via OF/ID.
+> > > >
+> > > > Unify the OF/ID table by using MEDIA_BUS_FMT as match data for both
+> > > > these tables and replace the ID lookup table for the match data by
+> > > > i2c_get_match_data() and simplifly probe() and mt9p031_init_cfg()
+> > > >
+> > > > Drop mt9p031_init_cfg as there is no user.
+> > > >
+> > > > While at it, remove the trailing comma in the terminator entry for the
+> > > > OF table making code robust against (theoretical) misrebases or other
+> > > > similar things where the new entry goes _after_ the termination
+> > > > without the compiler noticing.
+> > > >
+> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > ---
+> > > >  drivers/media/i2c/mt9p031.c | 33 +++++++++++----------------------
+> > > >  1 file changed, 11 insertions(+), 22 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+> > > > index 348f1e1098fb..540cb519915c 100644
+> > > > --- a/drivers/media/i2c/mt9p031.c
+> > > > +++ b/drivers/media/i2c/mt9p031.c
+> > > > @@ -112,11 +112,6 @@
+> > > >  #define MT9P031_TEST_PATTERN_RED			0xa2
+> > > >  #define MT9P031_TEST_PATTERN_BLUE			0xa3
+> > > >
+> > > > -enum mt9p031_model {
+> > > > -	MT9P031_MODEL_COLOR,
+> > > > -	MT9P031_MODEL_MONOCHROME,
+> > > > -};
+> > > > -
+> > > >  struct mt9p031 {
+> > > >  	struct v4l2_subdev subdev;
+> > > >  	struct media_pad pad;
+> > > > @@ -129,7 +124,7 @@ struct mt9p031 {
+> > > >  	struct clk *clk;
+> > > >  	struct regulator_bulk_data regulators[3];
+> > > >
+> > > > -	enum mt9p031_model model;
+> > > > +	u32 code;
+> > > >  	struct aptina_pll pll;
+> > > >  	unsigned int clk_div;
+> > > >  	bool use_pll;
+> > > > @@ -714,12 +709,7 @@ static int mt9p031_init_cfg(struct v4l2_subdev *subdev,
+> > > >  	crop->height = MT9P031_WINDOW_HEIGHT_DEF;
+> > > >
+> > > >  	format = __mt9p031_get_pad_format(mt9p031, sd_state, 0, which);
+> > > > -
+> > > > -	if (mt9p031->model == MT9P031_MODEL_MONOCHROME)
+> > > > -		format->code = MEDIA_BUS_FMT_Y12_1X12;
+> > > > -	else
+> > > > -		format->code = MEDIA_BUS_FMT_SGRBG12_1X12;
+> > > > -
+> > > > +	format->code = mt9p031->code;
+> > > >  	format->width = MT9P031_WINDOW_WIDTH_DEF;
+> > > >  	format->height = MT9P031_WINDOW_HEIGHT_DEF;
+> > > >  	format->field = V4L2_FIELD_NONE;
+> > > > @@ -1104,7 +1094,6 @@ mt9p031_get_pdata(struct i2c_client *client)
+> > > >
+> > > >  static int mt9p031_probe(struct i2c_client *client)  {
+> > > > -	const struct i2c_device_id *did = i2c_client_get_device_id(client);
+> > > >  	struct mt9p031_platform_data *pdata = mt9p031_get_pdata(client);
+> > > >  	struct i2c_adapter *adapter = client->adapter;
+> > > >  	struct mt9p031 *mt9p031;
+> > > > @@ -1129,7 +1118,7 @@ static int mt9p031_probe(struct i2c_client *client)
+> > > >  	mt9p031->pdata = pdata;
+> > > >  	mt9p031->output_control	= MT9P031_OUTPUT_CONTROL_DEF;
+> > > >  	mt9p031->mode2 = MT9P031_READ_MODE_2_ROW_BLC;
+> > > > -	mt9p031->model = did->driver_data;
+> > > > +	mt9p031->code = (uintptr_t)i2c_get_match_data(client);
+> > > >
+> > > >  	mt9p031->regulators[0].supply = "vdd";
+> > > >  	mt9p031->regulators[1].supply = "vdd_io";
+> > > > @@ -1226,19 +1215,19 @@ static void mt9p031_remove(struct i2c_client *client)
+> > > >  }
+> > > >
+> > > >  static const struct i2c_device_id mt9p031_id[] = {
+> > > > -	{ "mt9p006", MT9P031_MODEL_COLOR },
+> > > > -	{ "mt9p031", MT9P031_MODEL_COLOR },
+> > > > -	{ "mt9p031m", MT9P031_MODEL_MONOCHROME },
+> > > > -	{ }
+> > > > +	{ "mt9p006", MEDIA_BUS_FMT_SGRBG12_1X12 },
+> > > > +	{ "mt9p031", MEDIA_BUS_FMT_SGRBG12_1X12 },
+> > > > +	{ "mt9p031m", MEDIA_BUS_FMT_Y12_1X12 },
+> > > > +	{ /* sentinel */ }
+> > > >  };
+> > > >  MODULE_DEVICE_TABLE(i2c, mt9p031_id);
+> > > >
+> > > >  #if IS_ENABLED(CONFIG_OF)
+> > > >  static const struct of_device_id mt9p031_of_match[] = {
+> > > > -	{ .compatible = "aptina,mt9p006", },
+> > > > -	{ .compatible = "aptina,mt9p031", },
+> > > > -	{ .compatible = "aptina,mt9p031m", },
+> > > > -	{ /* sentinel */ },
+> > > > +	{ .compatible = "aptina,mt9p006", .data = (void *)MEDIA_BUS_FMT_SGRBG12_1X12 },
+> > > > +	{ .compatible = "aptina,mt9p031", .data = (void *)MEDIA_BUS_FMT_SGRBG12_1X12 },
+> > > > +	{ .compatible = "aptina,mt9p031m", .data = (void *)MEDIA_BUS_FMT_Y12_1X12 },
+> > > > +	{ /* sentinel */ }
+> > >
+> > > I know it might sound not necessary, but isn't it better to wrap the
+> > > format in some sort of per-model structure. It would avoid a few type
+> > > casts too. Up to you though
+> >
+> > The problem with structure is, it will have one
+> > variable entry. I got some feedback related to similar
+> > patches not to add a single variable to structure
+> > and use the value directly instead.
 > 
-> Exactly that was rejected before because it allows to create circle
-> dependencies.
-> 
+> Ok then, a matter of preferences I think. Up to you, really.
 
-Can you explain or do you have link to that discussion? Trying to think
-how this would be problematic and failing to see how it is. 
+My preference actually goes for a structure too.
 
-> You would need a really really good argument why that is necessary.
->
+Given how long it took me to review this, I'll send a v2 of the series
+myself.
 
-It seems quite useful when you have a code path in which you know N fences
-will be generated, prealloc a dma fence array, then populate at
-later time ensuring no failures points (malloc), and then finally
-install dma fence array in timeline sync obj (chain fences not allowed).
+> > > >  };
+> > > >  MODULE_DEVICE_TABLE(of, mt9p031_of_match);
+> > > >  #endif
 
-It fits nicely for VM bind operations in which a device has multple
-TLBs and the TLB invalidation completion is a fence. I suspect Intel
-can't be the only device out their with multiple TLBs, does VM bind, and
-use timeline sync obj.
+-- 
+Regards,
 
-Matt
-
-> Regards,
-> Christian.
-> 
-> > 
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Christian König <christian.koenig@amd.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/dma-buf/dma-fence-array.c | 81 ++++++++++++++++++++++---------
-> >   include/linux/dma-fence-array.h   |  7 +++
-> >   2 files changed, 66 insertions(+), 22 deletions(-)
-> > 
-> > diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-> > index c74ac197d5fe..b03e0a87a5cd 100644
-> > --- a/drivers/dma-buf/dma-fence-array.c
-> > +++ b/drivers/dma-buf/dma-fence-array.c
-> > @@ -144,36 +144,38 @@ const struct dma_fence_ops dma_fence_array_ops = {
-> >   EXPORT_SYMBOL(dma_fence_array_ops);
-> >   /**
-> > - * dma_fence_array_create - Create a custom fence array
-> > + * dma_fence_array_alloc - Allocate a custom fence array
-> > + * @num_fences:		[in]	number of fences to add in the array
-> > + *
-> > + * Return dma fence array on success, NULL on failure
-> > + */
-> > +struct dma_fence_array *dma_fence_array_alloc(int num_fences)
-> > +{
-> > +	struct dma_fence_array *array;
-> > +
-> > +	return kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_array_alloc);
-> > +
-> > +/**
-> > + * dma_fence_array_arm - Arm a custom fence array
-> > + * @array:		[in]	dma fence array to arm
-> >    * @num_fences:		[in]	number of fences to add in the array
-> >    * @fences:		[in]	array containing the fences
-> >    * @context:		[in]	fence context to use
-> >    * @seqno:		[in]	sequence number to use
-> >    * @signal_on_any:	[in]	signal on any fence in the array
-> >    *
-> > - * Allocate a dma_fence_array object and initialize the base fence with
-> > - * dma_fence_init().
-> > - * In case of error it returns NULL.
-> > - *
-> > - * The caller should allocate the fences array with num_fences size
-> > - * and fill it with the fences it wants to add to the object. Ownership of this
-> > - * array is taken and dma_fence_put() is used on each fence on release.
-> > - *
-> > - * If @signal_on_any is true the fence array signals if any fence in the array
-> > - * signals, otherwise it signals when all fences in the array signal.
-> > + * Implementation of @dma_fence_array_create without allocation. Useful to arm a
-> > + * preallocated dma fence fence in the path of reclaim or dma fence signaling.
-> >    */
-> > -struct dma_fence_array *dma_fence_array_create(int num_fences,
-> > -					       struct dma_fence **fences,
-> > -					       u64 context, unsigned seqno,
-> > -					       bool signal_on_any)
-> > +void dma_fence_array_arm(struct dma_fence_array *array,
-> > +			 int num_fences,
-> > +			 struct dma_fence **fences,
-> > +			 u64 context, unsigned seqno,
-> > +			 bool signal_on_any)
-> >   {
-> > -	struct dma_fence_array *array;
-> > -
-> > -	WARN_ON(!num_fences || !fences);
-> > -
-> > -	array = kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
-> > -	if (!array)
-> > -		return NULL;
-> > +	WARN_ON(!array || !num_fences || !fences);
-> >   	array->num_fences = num_fences;
-> > @@ -200,6 +202,41 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
-> >   	 */
-> >   	while (num_fences--)
-> >   		WARN_ON(dma_fence_is_container(fences[num_fences]));
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_array_arm);
-> > +
-> > +/**
-> > + * dma_fence_array_create - Create a custom fence array
-> > + * @num_fences:		[in]	number of fences to add in the array
-> > + * @fences:		[in]	array containing the fences
-> > + * @context:		[in]	fence context to use
-> > + * @seqno:		[in]	sequence number to use
-> > + * @signal_on_any:	[in]	signal on any fence in the array
-> > + *
-> > + * Allocate a dma_fence_array object and initialize the base fence with
-> > + * dma_fence_init().
-> > + * In case of error it returns NULL.
-> > + *
-> > + * The caller should allocate the fences array with num_fences size
-> > + * and fill it with the fences it wants to add to the object. Ownership of this
-> > + * array is taken and dma_fence_put() is used on each fence on release.
-> > + *
-> > + * If @signal_on_any is true the fence array signals if any fence in the array
-> > + * signals, otherwise it signals when all fences in the array signal.
-> > + */
-> > +struct dma_fence_array *dma_fence_array_create(int num_fences,
-> > +					       struct dma_fence **fences,
-> > +					       u64 context, unsigned seqno,
-> > +					       bool signal_on_any)
-> > +{
-> > +	struct dma_fence_array *array;
-> > +
-> > +	array = dma_fence_array_alloc(num_fences);
-> > +	if (!array)
-> > +		return NULL;
-> > +
-> > +	dma_fence_array_arm(array, num_fences, fences,
-> > +			    context, seqno, signal_on_any);
-> >   	return array;
-> >   }
-> > diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
-> > index 29c5650c1038..3466ffc4b803 100644
-> > --- a/include/linux/dma-fence-array.h
-> > +++ b/include/linux/dma-fence-array.h
-> > @@ -79,6 +79,13 @@ to_dma_fence_array(struct dma_fence *fence)
-> >   	for (index = 0, fence = dma_fence_array_first(head); fence;	\
-> >   	     ++(index), fence = dma_fence_array_next(head, index))
-> > +struct dma_fence_array *dma_fence_array_alloc(int num_fences);
-> > +void dma_fence_array_arm(struct dma_fence_array *array,
-> > +			 int num_fences,
-> > +			 struct dma_fence **fences,
-> > +			 u64 context, unsigned seqno,
-> > +			 bool signal_on_any);
-> > +
-> >   struct dma_fence_array *dma_fence_array_create(int num_fences,
-> >   					       struct dma_fence **fences,
-> >   					       u64 context, unsigned seqno,
-> 
+Laurent Pinchart
 
