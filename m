@@ -1,74 +1,36 @@
-Return-Path: <linux-media+bounces-16633-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16634-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA3095C6CA
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 09:42:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A98095C77A
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 10:09:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 206E21C2369D
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 07:42:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8FEDB24F7D
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 08:08:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA45F13D246;
-	Fri, 23 Aug 2024 07:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CIVybSze"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C2D7143744;
+	Fri, 23 Aug 2024 08:08:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF26B136E2E;
-	Fri, 23 Aug 2024 07:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D5513D881;
+	Fri, 23 Aug 2024 08:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724398935; cv=none; b=aIy1nfqn50SMQAiUKsoC95ajkMakWnZXkibU99IylEOiVqgdhw9LWlPr1HDUU3xhuN1E0Yhv8vDcBmsyKIkPloZv11YaIx/y09jmifXq6RndKDJHSYg0tcCyRBz3vGW/dHFBplujSmZbp07ODIPMo+UQ61bKKizZCmEpj2gF2L8=
+	t=1724400484; cv=none; b=uSb5PB9mtVP7fmnJKOkbyRLUMgZvoteCy4gfdrxx9YW4Q9EByBiVRObg7fs7hoMD/TUeF03FZTHlgEZ82jJ7dZFvlv5eRzPPVw5ODzf22Yrgu9LmCJHzmyuHksplSTpvd5Csc21zv11940M3HDoS4h7sFkkHTWV3xy8poDwmgUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724398935; c=relaxed/simple;
-	bh=M7afrbCTOjJsx5/pZ/k1jDI9Mt/cA+YQE9ScwQankdI=;
+	s=arc-20240116; t=1724400484; c=relaxed/simple;
+	bh=3zMP5S1k6sYRn4ns9Y0FYSgU61KWYAHwqHMqDqCzSAg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XQ328mQcGXKZpT3o9TrySZiG1UWoWQznGfDKYjrVrAgIbMtz2v5ZNTd92YweZBEsqyw3KBz/qCuGOxGE48nn8EQisZORhTU3eGPxYUA5e7CJE+IP5iRUSORvvMjmoZVHC7y1Ia5ey6IQYt27mzSW3C6KaFAqcBLQw2bEHIbeKKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CIVybSze; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37196229343so980965f8f.0;
-        Fri, 23 Aug 2024 00:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724398932; x=1725003732; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MSL59BbQ6Xk5NHEIiJ2YE2YoOu8orcdF2pGp210GrzM=;
-        b=CIVybSzeABHU0NtpHsXR3c5NmqP9xWGfKmxfMA+bphZxl7hGMWm+L7Vew5N3YgQZ2J
-         kYo6LliDIsG0mOyzAnkDu8SzVB8x1BuZZbmffSBL+9VIRbexl+jW+hrFnFoARUO3khZS
-         m/gtQ+sEeYEfPJNMSg4NHGJr5GyFnmd3+jflzAxNpEnzLPOzkhUXJacTyF2ZuIuiM+ZP
-         46V0tpPjhBwFNY7JFpvaw3LDn0qWVndgZG5gi9n18dGWKMwezpEfqXICaKmNsuLGZEZN
-         zTA+UtqLXzj0j5zgC19gBjmPPkn9YOQ/e5xKTAKVlm75AG/gOHklZh7fnGHeE0HxnVuJ
-         hgJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724398932; x=1725003732;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MSL59BbQ6Xk5NHEIiJ2YE2YoOu8orcdF2pGp210GrzM=;
-        b=gim36CM+cYOkvVUONvjFMOD50CAHCo9kCxCtz+nM3d+xeyBTns0Pq7vRiYrwL7b9ff
-         NwQ1hZPMCqVldnD2iwpq0dsw6TmD8AJQE7UvuxcaDKArZGgHyXFEjmo8kvV3Tu8Dc9q+
-         6bHNc9oVYCZ/e1L7matzTXcdYkkzoA7loE0dDuZuJB4sUtc++A5rNKr9f+bG1QzVGTNt
-         ATIFB+4X0UiVwEchBEhMZAInt8ohwpZ13dXyuSEQO42pulYpJBsAITsC0u6s1BXvHuuJ
-         OiTkXYap0V3QjXOJ7RmyGWXIkTjQ+QnevoHD+PGaqd21J3lgUQ6nEhqspwV4ltl+e2xG
-         9P1w==
-X-Forwarded-Encrypted: i=1; AJvYcCU8AGzr1qdq1kdjc94MDYJH6T2yJ1ZaxV1odIUoK6rJyWE9Xt63RSvNjtv2vb0QvQJQhiPcRfZtcZUECoY=@vger.kernel.org, AJvYcCU9GUjdpw9vtNxU4Zzy8wMDjv8PjB5CWhMjL56YdrkfEnOS6jm/tkXij/f5dhwTfqx9Ak/hiDmuZcOPlpQl@vger.kernel.org, AJvYcCW0CcusvBmKU+9TwbVMD+/Qo6mDIjnjwqSzr1rbof+E3c0EVlqqULekTFdN7jg+V7z28+uKOjy3gnA=@vger.kernel.org, AJvYcCXS40mhXqSaeO6SPYAJnHiW8atvF4270xBY52kykVV7pOwogYaLsBOyI7m5kiHQPjiWnN/miJtev49/uxtv@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTDUlFp3g7VvEPl0V3B4yVOGajJ4BA7CGzAoML+BwAP/iU/4pv
-	kEfb5wjckm25N/z0yy3SdIichONMYEydRKMuavAZRDi3olIpCVMV
-X-Google-Smtp-Source: AGHT+IF6cfTkCHL1aIPaVHxBmCjOhItdmwlQH2yJuElaKoubs+GcMSkGpFZ+LVUfgUF1aGi7WQThbA==
-X-Received: by 2002:adf:f510:0:b0:368:4bc0:9211 with SMTP id ffacd0b85a97d-37311865088mr754647f8f.17.1724398931675;
-        Fri, 23 Aug 2024 00:42:11 -0700 (PDT)
-Received: from [192.168.1.19] (79-100-234-73.ip.btc-net.bg. [79.100.234.73])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3730821ab1bsm3478097f8f.99.2024.08.23.00.42.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Aug 2024 00:42:11 -0700 (PDT)
-Message-ID: <557d576b-627f-4cc8-9f4b-59dc8d86a9ae@gmail.com>
-Date: Fri, 23 Aug 2024 10:42:10 +0300
+	 In-Reply-To:Content-Type; b=hL3hyxX94AHZOAyNW0Z5js2zc2kAPCN+WW5N8wHdnU83yzQ1tZllclFth8fYmwgORwGxUA1ITzO4dXRcIZHM0Mj3/mtJ5ZZLzvgjy+5T1V092OlUd7SujbOeY/QWjbBBxmgcTXRrUdXVgMhvyYU/7nb5tHbKYHDHHC/qLmeWDTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA0ADC32786;
+	Fri, 23 Aug 2024 08:08:01 +0000 (UTC)
+Message-ID: <8476356b-9452-40d6-8eba-a2155135cd7c@xs4all.nl>
+Date: Fri, 23 Aug 2024 10:08:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,96 +38,256 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] media: venus: Use dev_pm_domain_attach|detach_list()
- for OPP PM domain
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Vikash Garodia <quic_vgarodia@quicinc.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20240723144610.564273-1-ulf.hansson@linaro.org>
- <20240723144610.564273-3-ulf.hansson@linaro.org>
- <0af670ae-8c8f-4e78-b1e0-e9ccb4fba2c9@gmail.com>
- <CAPDyKFr5xjE867rHRZxtKPr0iKh9B6_Ckyu=B4Jzn-ExDpQjVQ@mail.gmail.com>
- <bfb90d04-6885-4623-a846-f04b4fe4bff4@gmail.com>
- <CAPDyKFp5R=T1BgCHZhR=mr+z7VnF3x=DeAvjPZ3bE1Q5TWYzVQ@mail.gmail.com>
-Content-Language: en-US, bg-BG
-From: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-In-Reply-To: <CAPDyKFp5R=T1BgCHZhR=mr+z7VnF3x=DeAvjPZ3bE1Q5TWYzVQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v21 2/9] videobuf2: Add min_reqbufs_allocation field to
+ vb2_queue structure
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomasz Figa <tfiga@chromium.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ m.szyprowski@samsung.com, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de, nicolas@ndufresne.ca, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ kernel@collabora.com
+References: <20240314153226.197445-1-benjamin.gaignard@collabora.com>
+ <20240314153226.197445-3-benjamin.gaignard@collabora.com>
+ <20240821232819.GA18600@pendragon.ideasonboard.com>
+ <CAAFQd5AQTZa2epfkJnfn_6kpnaNRMzjZ=FjYjf1DM+ZxE0YkZQ@mail.gmail.com>
+ <7bbb62e8-8df8-4167-bb00-a0deedf3eedd@xs4all.nl>
+ <20240822122033.GA11152@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240822122033.GA11152@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Ulf,
-
-On 23.08.24 г. 0:40 ч., Ulf Hansson wrote:
-> On Thu, 22 Aug 2024 at 20:05, Stanimir Varbanov
-> <stanimir.k.varbanov@gmail.com> wrote:
+On 22/08/2024 14:20, Laurent Pinchart wrote:
+> Hello,
+> 
+> On Thu, Aug 22, 2024 at 08:11:17AM +0200, Hans Verkuil wrote:
+>> On 22/08/2024 03:29, Tomasz Figa wrote:
+>>> On Thu, Aug 22, 2024 at 8:28 AM Laurent Pinchart wrote:
+>>>> On Thu, Mar 14, 2024 at 04:32:19PM +0100, Benjamin Gaignard wrote:
+>>>>> Add 'min_reqbufs_allocation' field in the vb2_queue structure so drivers
+>>>>> can specify the minimum number of buffers to allocate when calling
+>>>>> VIDIOC_REQBUFS.
+>>>>> When initializing the queue, v4l2 core makes sure that the following
+>>>>> constraints are respected:
+>>>>> - the minimum number of buffers to allocate must be at least 2 because
+>>>>> one buffer is used by the hardware while the other is being processed
+>>>>> by userspace.
+>>>>
+>>>> This breaks userspace for the Renesas vsp1 driver :-( Unit tests fail,
+>>>> as some of them rely on operation with a single buffer.
+>>>>
+>>>> The vsp1 is a memory-to-memory processing engine, so operating with a
+>>>> single buffer is fine in some use cases. I would argue that for live
+>>>> capture devices there are valid use cases to operate with a single
+>>>> buffer too. Changing this by default will break use cases.
+>>>>
+>>>> How can we relax this check ? Should I simply submit a patch that lowers
+>>>> the minimum to one buffer ?
+>>>>
+>>>
+>>> Uhm, I didn't notice this when reading this series. (Actually if I
+>>> recall correctly, originally it didn't have this restriction.)
+>>>
+>>> Indeed, I don't see what's wrong with just having 1 buffer. If
+>>> performance is not a concern, it's okay to just serialize the
+>>> operation on 1 buffer.
+>>>
+>>> If you would be so nice to send it, I think a patch that changes
+>>> min_reqbufs_allocation to max(max(1, min_reqbufs_allocation),
+>>> min_queued_buffers)) would be good.
+>>>
+>>> That said, Benjamin, Hans, are we missing something by any chance? :)
 >>
->> Hi Ulf,
+>> See my proposal below:
 >>
->> On 21.08.24 г. 11:56 ч., Ulf Hansson wrote:
->>> On Tue, 20 Aug 2024 at 22:48, Stanimir Varbanov
->>> <stanimir.k.varbanov@gmail.com> wrote:
->>>>
->>>> Hi Ulf,
->>>>
->>>> Thank you for the patch!
->>>>
->>>> On 23.07.24 г. 17:46 ч., Ulf Hansson wrote:
->>>>> Rather than hooking up the PM domains through devm_pm_opp_attach_genpd()
->>>>> and manage the device-link, let's avoid the boilerplate-code by converting
->>>>> into dev_pm_domain_attach|detach_list.
+>>>>> -if the driver needs 'min_queued_buffers' in the queue before calling
+>>>>> start_streaming(), then the minimum requirement is 'min_queued_buffers + 1'
+>>>>> to keep at least one buffer available for userspace.
 >>>>>
->>>>> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+>>>>> Simplify __vb2_init_fileio() by using 'min_reqbufs_allocation' directly
+>>>>> to avoid duplicating the minimum number of buffers to allocate computation.
+>>>>>
+>>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 >>>>> ---
->>>>>     drivers/media/platform/qcom/venus/core.c      |  8 ++---
->>>>>     drivers/media/platform/qcom/venus/core.h      |  6 +---
->>>>>     .../media/platform/qcom/venus/pm_helpers.c    | 31 ++++++-------------
->>>>>     3 files changed, 14 insertions(+), 31 deletions(-)
+>>>>>  .../media/common/videobuf2/videobuf2-core.c   | 38 +++++++++++--------
+>>>>>  include/media/videobuf2-core.h                | 15 +++++++-
+>>>>>  2 files changed, 37 insertions(+), 16 deletions(-)
 >>>>>
->>>>
->>>> Acked-by: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
->>>
->>> Thanks!
->>>
->>>>
->>>> I'll pick it through linux-media.
->>>
->>> Please don't.
->>>
->>> I should have stated that this depends on another series [1] - and
->>> they need either to go together or we need to defer $subject patch
->>> until the next release cycle.
+>>>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+>>>>> index d8b3c04cb3b5..58c495b253ce 100644
+>>>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>>>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>>>>> @@ -866,7 +866,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>>>>       /*
+>>>>>        * Make sure the requested values and current defaults are sane.
+>>>>>        */
+>>>>> -     num_buffers = max_t(unsigned int, *count, q->min_queued_buffers);
+>>>>> +     num_buffers = max_t(unsigned int, *count, q->min_reqbufs_allocation);
+>>>>>       num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
+>>>>>       memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+>>>>>       /*
+>>>>> @@ -918,7 +918,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>>>>        * There is no point in continuing if we can't allocate the minimum
+>>>>>        * number of buffers needed by this vb2_queue.
+>>>>>        */
+>>>>> -     if (allocated_buffers < q->min_queued_buffers)
+>>>>> +     if (allocated_buffers < q->min_reqbufs_allocation)
+>>>>>               ret = -ENOMEM;
+>>>>>
+>>>>>       /*
+>>>>> @@ -2524,6 +2524,25 @@ int vb2_core_queue_init(struct vb2_queue *q)
+>>>>>       if (WARN_ON(q->supports_requests && q->min_queued_buffers))
+>>>>>               return -EINVAL;
+>>>>>
+>>>>> +     /*
+>>>>> +      * The minimum requirement is 2: one buffer is used
+>>>>> +      * by the hardware while the other is being processed by userspace.
+>>>>> +      */
+>>>>> +     if (q->min_reqbufs_allocation < 2)
 >>
->> Sure, then I guess we will deffer venus patch until the preparation
->> series is merged to avoid conflicts. Thank you!
+>> This should be:
+>>
+>> 	if (!q->min_reqbufs_allocation)
+>>
+>>>>> +             q->min_reqbufs_allocation = 2;
+>>
+>> and vsp1 should set q->min_reqbufs_allocation to 1.
 > 
-> Assuming the preparation series gets accepted, maybe we can give it a
-> try via my pmdomain tree? Or do expect to land a lot of code that
-> could conflict?
+> That would work to fix the issue with vsp1, but I don't think it's
+> enough. See below.
+> 
+>>>>> +
+>>>>> +     /*
+>>>>> +      * If the driver needs 'min_queued_buffers' in the queue before
+>>>>> +      * calling start_streaming() then the minimum requirement is
+>>>>> +      * 'min_queued_buffers + 1' to keep at least one buffer available
+>>>>> +      * for userspace.
+>>>>> +      */
+>>>>> +     if (q->min_reqbufs_allocation < q->min_queued_buffers + 1)
+>>>>> +             q->min_reqbufs_allocation = q->min_queued_buffers + 1;
+>>
+>> The reasoning behind all this is that VIDIOC_REBUFS is expected to allocate
+>> a sane (i.e. workable and efficient) number of buffers.
+>>
+>> So if the DMA engine requires at least X buffers queued, then the minimum
+>> reqbufs allocation is at least q->min_queued_buffers + 1, otherwise you
+>> would never be able to get a buffer back.
+>>
+>> That's also why q->min_reqbufs_allocation was set to a minimum of 2: one
+>> buffer in flight, one buffer processed by userspace. That made the queue_setup
+>> call simpler for quite a few drivers that manually set the buffer count to 2.
+>> For most drivers, allocating 2 buffers makes perfect sense.
+> 
+> For devices that can absolutely not work with less than two buffers,
+> setting the minimum to 2 is fine. That is however not the majority use
+> case, and that's why setting the default in the vb2 core, overriding all
+> the drivers that haven't been patched, doesn't sound like a good idea to
+> me.
+> 
+> Generally speaking, 2 is in many cases too low. In the common use case
+> of capture and display, you will need a minimum of 3 buffers. Use cases
+> are the responsibility of userspace, we shouldn't try to be too smart
+> here.
+> 
+> I actually want to lower the number of buffers and require camera
+> drivers to support operating with a single buffer as a general rule.
+> Drivers that hold on the last buffer until a new one is provided are
+> very painful to use, they're causing issues with libcamera.
 
-Please take it via pmdomain tree. Thank you!
+I thought about it some more, and I agree with you. So just post a patch
+to drop that 'if (q->min_reqbufs_allocation < 2)' bit.
+
+Regards,
+
+	Hans
 
 > 
-> I also realized that I already have a different series [1] queued in
-> my pmdomain tree from Dikshita Agarwal (reviewed by Bryan), that moves
-> an existing call for dev_pm_domain_attach() to the new
-> devm_pm_domain_attach() helper. So far I haven't received any reports
-> about conflicts from linux-next, so it looks good I think.
+>> But if a driver sets q->min_reqbufs_allocation explicitly to 1, then that
+>> should be honored, and my proposed change above will do that.
+>>
+>> Laurent, if you agree with this, just post patches for this.
+>>
+>>>>> +
+>>>>> +     if (WARN_ON(q->min_reqbufs_allocation > q->max_num_buffers))
+>>>>> +             return -EINVAL;
+>>>>> +
+>>>>>       INIT_LIST_HEAD(&q->queued_list);
+>>>>>       INIT_LIST_HEAD(&q->done_list);
+>>>>>       spin_lock_init(&q->done_lock);
+>>>>> @@ -2717,7 +2736,6 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>>>>>       struct vb2_fileio_data *fileio;
+>>>>>       struct vb2_buffer *vb;
+>>>>>       int i, ret;
+>>>>> -     unsigned int count = 0;
+>>>>>
+>>>>>       /*
+>>>>>        * Sanity check
+>>>>> @@ -2738,18 +2756,8 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>>>>>       if (q->streaming || vb2_get_num_buffers(q) > 0)
+>>>>>               return -EBUSY;
+>>>>>
+>>>>> -     /*
+>>>>> -      * Start with q->min_queued_buffers + 1, driver can increase it in
+>>>>> -      * queue_setup()
+>>>>> -      *
+>>>>> -      * 'min_queued_buffers' buffers need to be queued up before you
+>>>>> -      * can start streaming, plus 1 for userspace (or in this case,
+>>>>> -      * kernelspace) processing.
+>>>>> -      */
+>>>>> -     count = max(2, q->min_queued_buffers + 1);
+>>>>> -
+>>>>>       dprintk(q, 3, "setting up file io: mode %s, count %d, read_once %d, write_immediately %d\n",
+>>>>> -             (read) ? "read" : "write", count, q->fileio_read_once,
+>>>>> +             (read) ? "read" : "write", q->min_reqbufs_allocation, q->fileio_read_once,
+>>>>>               q->fileio_write_immediately);
+>>>>>
+>>>>>       fileio = kzalloc(sizeof(*fileio), GFP_KERNEL);
+>>>>> @@ -2763,7 +2771,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>>>>>        * Request buffers and use MMAP type to force driver
+>>>>>        * to allocate buffers by itself.
+>>>>>        */
+>>>>> -     fileio->count = count;
+>>>>> +     fileio->count = q->min_reqbufs_allocation;
+>>>>>       fileio->memory = VB2_MEMORY_MMAP;
+>>>>>       fileio->type = q->type;
+>>>>>       q->fileio = fileio;
+>>>>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+>>>>> index 667bf9ee1101..4a8b9135cec8 100644
+>>>>> --- a/include/media/videobuf2-core.h
+>>>>> +++ b/include/media/videobuf2-core.h
+>>>>> @@ -549,9 +549,21 @@ struct vb2_buf_ops {
+>>>>>   *           @start_streaming can be called. Used when a DMA engine
+>>>>>   *           cannot be started unless at least this number of buffers
+>>>>>   *           have been queued into the driver.
+>>>>> - *           VIDIOC_REQBUFS will ensure at least @min_queued_buffers
+>>>>> + *           VIDIOC_REQBUFS will ensure at least @min_queued_buffers + 1
+>>>>>   *           buffers will be allocated. Note that VIDIOC_CREATE_BUFS will not
+>>>>>   *           modify the requested buffer count.
+>>>>> + * @min_reqbufs_allocation: the minimum number of buffers to be allocated when
+>>>>> + *           calling VIDIOC_REQBUFS. Note that VIDIOC_CREATE_BUFS will *not*
+>>>>> + *           modify the requested buffer count and does not use this field.
+>>>>> + *           Drivers can set this if there has to be a certain number of
+>>>>> + *           buffers available for the hardware to work effectively.
+>>>>> + *           This allows calling VIDIOC_REQBUFS with a buffer count of 1 and
+>>>>> + *           it will be automatically adjusted to a workable buffer count.
+>>>>> + *           If set, then @min_reqbufs_allocation must be larger than
+>>>>> + *           @min_queued_buffers + 1.
+>>>>> + *           If this field is > 3, then it is highly recommended that the
+>>>>> + *           driver implements the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+>>>>> + *           control.
+>>>>>   * @alloc_devs:      &struct device memory type/allocator-specific per-plane device
+>>>>>   */
+>>>>>  /*
+>>>>> @@ -622,6 +634,7 @@ struct vb2_queue {
+>>>>>       u32                             timestamp_flags;
+>>>>>       gfp_t                           gfp_flags;
+>>>>>       u32                             min_queued_buffers;
+>>>>> +     u32                             min_reqbufs_allocation;
+>>>>>
+>>>>>       struct device                   *alloc_devs[VB2_MAX_PLANES];
+>>>>>
 > 
-> Kind regards
-> Uffe
-> 
-> [1]
-> https://lore.kernel.org/all/CAPDyKFqsHL3uatmLZaRzZ_GfkZw-+fURQNSEgvmrf-ini+WHng@mail.gmail.com/
 
--- 
-regards,
-Stan
 
