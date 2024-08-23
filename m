@@ -1,232 +1,256 @@
-Return-Path: <linux-media+bounces-16649-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16650-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4897E95CA79
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 12:28:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A8C95CC2B
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 14:12:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51F811C2124A
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 10:28:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EFDD281531
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 12:12:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE32F16DEDF;
-	Fri, 23 Aug 2024 10:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68C1C185933;
+	Fri, 23 Aug 2024 12:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HoHmUX7t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j62U1aGt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8918C186E5D
-	for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 10:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29D461FFC;
+	Fri, 23 Aug 2024 12:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724408867; cv=none; b=ix3dt8u1YyzbcqjxXlBWjiuRCG6wIytTbivQ8HnBYAONFNcWOYwg8L4HrN1kDySNWUWc3V+DRigTXzl4pSigKJwDrwgP1HP946Y7yjAgryFJWrgV+LnnGh0sf3OHj80zhRN+CNnWQFyfPj7qN8XJKo9DMTdAM6qt/rfokpQ0RI4=
+	t=1724415163; cv=none; b=jnix2EoBBTM1MC4HyNavxixjdF7Rg4B6wLD7EwLHKaqjpv9R4x7BsKH1faayZdS0uddF3kbANkrBr3J22ZqM9JPRECl7vegfAJFAicm0y/dA2wYIRgu1H4jy+uj2uTarf2bYAQ1FYuaO/++GPeb1mlgQEEm93GPWeEdkGfLxKN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724408867; c=relaxed/simple;
-	bh=TLxSz++/7M97PUkNT2/Br7+oya34SVBySx4WaXTnWXs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NVBU7WXqIb7CfyRv8JrzzjNMhvjk8basZVFzsCI2Q4JnfeqF5cwy/ldnB/WH66e4FSBj5lwJ3ZUHO6w2Jv4M1FZ2yuYQfhk152i6s0d5Nwyo09sdHqHxaFkMwwg7ubX9tb9kWPxEPXSyTuRKO7QW80jLRsEbgMbkzGBgdeqGf6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HoHmUX7t; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53346424061so380187e87.2
-        for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 03:27:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724408863; x=1725013663; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fs0wiahdfO6Fz40mXpiMOeMkXjf8sxyUVit18FlZ5o4=;
-        b=HoHmUX7toacGoEM/L9HFVRoWbImDEXbORG6baKGi3nWrwhpLvwUGwaF+uM97aZZDyq
-         N3fh+oKjDiZ0j+a0BWogIs7chpBFEMBIIkS0Q9d4r86aJxu+TSsXdu0MoF8nMJI8jRjs
-         +34YYi11DkzEf/x9lJNBGm//aJvTL1i3tq7fmrPMR3SuYGc7rPpknplt5PD9yBxq75tr
-         fClKaWP3NJHRpbsPGL4nvID0ZNaOpAwhLLwgIUZ7r18gU+lkr1KjE/5NLxOldR0M0Cpf
-         iNDZZS1Hiym+C7Y0Y5KfzAeS+XVM09sLzKsUrwiGbnK9+Tfu0GXqLgnGIiSj+4qBHo82
-         SBFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724408863; x=1725013663;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fs0wiahdfO6Fz40mXpiMOeMkXjf8sxyUVit18FlZ5o4=;
-        b=WNdtNVE2hOAaKIcv2LqbJe+9K6g7CHJyH5z/Ytlskp0BVoDlhPKHvxBdsYNgdox7vg
-         zJFtQxRj3D12YeqL4UQq1fkilYROZWO5D2Y2YyJBlq/By5m6w2Ai1e3CUE3SYmbpf0Wk
-         4m9PEZezA/+UNuvM8QRH8hc3k4LZm/NLFVim4w9CkPyUq/p1pqTso0bt/MV07m8zpsNa
-         /rJuRyr4kISoqkMUcg0nTpyIyKk70l7Bimee4Mk0wveZdETsPAP6meBidPvbH6JoyKQh
-         V0y/FGKmS9X/AVsD1ZWpPgDv/jrlrpa+3+xiA0NpU07awicTqPMZXiTcC+fsyPvjGwVI
-         USQA==
-X-Forwarded-Encrypted: i=1; AJvYcCXxzTcEOVH9rLGqrkk0Tt3gSuxVh7fb+3Zuko3IHOtr86aM5fEkj4bVni3DnxrEbu7NV4flhiCsuKW7Ig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGW5P9TLwru3Qcuf7/bUM2kDl5q8c5krnUAkxp8Y2OG+OqlpJD
-	O9K9k0XCyv5qpSx/Lo103DaAXMCMVlmzjFuTxZoJo1pfTFqn3V14LlclgXcfoKw=
-X-Google-Smtp-Source: AGHT+IG1Ng+0IppKUCkwNvF7DM6tkj2HyfqHpfD5QWzj68seAvf1svSYrqh79zw+tkk3509heTNnlQ==
-X-Received: by 2002:a05:6512:b8d:b0:52e:ccf4:c222 with SMTP id 2adb3069b0e04-534387c4d10mr806570e87.9.1724408863470;
-        Fri, 23 Aug 2024 03:27:43 -0700 (PDT)
-Received: from localhost.localdomain (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5334ea5d220sm504669e87.183.2024.08.23.03.27.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 03:27:43 -0700 (PDT)
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH v3 6/6] media: i2c: og01a1b: Add management of optional sensor supply lines
-Date: Fri, 23 Aug 2024 13:27:31 +0300
-Message-ID: <20240823102731.2240857-7-vladimir.zapolskiy@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240823102731.2240857-1-vladimir.zapolskiy@linaro.org>
-References: <20240823102731.2240857-1-vladimir.zapolskiy@linaro.org>
+	s=arc-20240116; t=1724415163; c=relaxed/simple;
+	bh=A5QVX7km38nRwv6KqoYsXrhmUmTxpCA+0suYvYmI4cY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z4TvVQSXxiVzH48nsxb+5xOZVxYWBS2fgWXZuWHnKZP5QDkmhAWuNRFdoshUnWHOBP2L64YgYin+Hg31Pgxe0J0yrBWSI1mO+uBw/MsPboW3x+IsD/0t65HNvmAdA3iGuW8M4deAzhLlVrQWxkdcazEVkkko7ePIU/nMs2K/f5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j62U1aGt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD327C32786;
+	Fri, 23 Aug 2024 12:12:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724415163;
+	bh=A5QVX7km38nRwv6KqoYsXrhmUmTxpCA+0suYvYmI4cY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=j62U1aGtWvoiRdZ8n071nAOv0BzDl4T62UArEtn4carL7SuuO93e0IVoUgBJJT8CI
+	 nr2559FNsK200UqCICK2pQkKiONDn5DsMvXi9zHWLUwHK5ctwEeLy8UrXbD5ltJETC
+	 d6Ea67j9zn3Bdul+CK3JE/eYAhXEvyapR8rJibIRwyLAdhEQl0qLhs1V1TKhXIDELt
+	 Ro1UBBXWfRCJXjrXErPEGMm8OWaDt38taRIwpDjpXLvMfaYkDziu9td2kya9Kl7i0A
+	 e4WfojTfoF8+V3Go2Ep/67WkA8rmUywZlrT302TT6rmrmugQXkhANqfFb06kfnsxVL
+	 9qPsp8/R0l++w==
+Message-ID: <d2e00269-23b8-4a92-84df-959b3c3ae6f1@kernel.org>
+Date: Fri, 23 Aug 2024 15:12:35 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
+ Ethernet driver
+To: Julien Panis <jpanis@baylibre.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Naveen Mamindlapalli <naveenm@marvell.com>,
+ Jacob Keller <jacob.e.keller@intel.com>
+Cc: danishanwar@ti.com, yuehaibing@huawei.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, "Govindarajan, Sriramakrishnan" <srk@ti.com>
+References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
+Content-Language: en-US
+From: Roger Quadros <rogerq@kernel.org>
+In-Reply-To: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Omnivision OG01A1B camera sensor is supplied by three power rails,
-if supplies are present as device properties, include them into
-the sensor power up sequence.
+Hello Julien,
 
-Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
----
- drivers/media/i2c/og01a1b.c | 86 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 85 insertions(+), 1 deletion(-)
+On 12/04/2024 18:38, Julien Panis wrote:
+> This patch adds XDP support to TI AM65 CPSW Ethernet driver.
+> 
+> The following features are implemented: NETDEV_XDP_ACT_BASIC,
+> NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
+> 
+> Zero-copy and non-linear XDP buffer supports are NOT implemented.
+> 
+> Besides, the page pool memory model is used to get better performance.
+> 
+> Signed-off-by: Julien Panis <jpanis@baylibre.com>
 
-diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-index 90a68201f43f..0150fdd2f424 100644
---- a/drivers/media/i2c/og01a1b.c
-+++ b/drivers/media/i2c/og01a1b.c
-@@ -9,6 +9,7 @@
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-@@ -422,6 +423,9 @@ static const struct og01a1b_mode supported_modes[] = {
- struct og01a1b {
- 	struct clk *xvclk;
- 	struct gpio_desc *reset_gpio;
-+	struct regulator *avdd;
-+	struct regulator *dovdd;
-+	struct regulator *dvdd;
- 
- 	struct v4l2_subdev sd;
- 	struct media_pad pad;
-@@ -982,11 +986,46 @@ static int og01a1b_power_on(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct og01a1b *og01a1b = to_og01a1b(sd);
-+	int ret;
-+
-+	if (og01a1b->avdd) {
-+		ret = regulator_enable(og01a1b->avdd);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (og01a1b->dovdd) {
-+		ret = regulator_enable(og01a1b->dovdd);
-+		if (ret)
-+			goto avdd_disable;
-+	}
-+
-+	if (og01a1b->dvdd) {
-+		ret = regulator_enable(og01a1b->dvdd);
-+		if (ret)
-+			goto dovdd_disable;
-+	}
- 
- 	gpiod_set_value_cansleep(og01a1b->reset_gpio, 0);
- 	usleep_range(USEC_PER_MSEC, 2 * USEC_PER_MSEC);
- 
--	return clk_prepare_enable(og01a1b->xvclk);
-+	ret = clk_prepare_enable(og01a1b->xvclk);
-+	if (ret)
-+		goto dvdd_disable;
-+
-+	return 0;
-+
-+dvdd_disable:
-+	if (og01a1b->dvdd)
-+		regulator_disable(og01a1b->dvdd);
-+dovdd_disable:
-+	if (og01a1b->dovdd)
-+		regulator_disable(og01a1b->dovdd);
-+avdd_disable:
-+	if (og01a1b->avdd)
-+		regulator_disable(og01a1b->avdd);
-+
-+	return ret;
- }
- 
- static int og01a1b_power_off(struct device *dev)
-@@ -998,6 +1037,15 @@ static int og01a1b_power_off(struct device *dev)
- 
- 	gpiod_set_value_cansleep(og01a1b->reset_gpio, 1);
- 
-+	if (og01a1b->dvdd)
-+		regulator_disable(og01a1b->dvdd);
-+
-+	if (og01a1b->dovdd)
-+		regulator_disable(og01a1b->dovdd);
-+
-+	if (og01a1b->avdd)
-+		regulator_disable(og01a1b->avdd);
-+
- 	return 0;
- }
- 
-@@ -1045,6 +1093,42 @@ static int og01a1b_probe(struct i2c_client *client)
- 		return PTR_ERR(og01a1b->reset_gpio);
- 	}
- 
-+	og01a1b->avdd = devm_regulator_get_optional(&client->dev, "avdd");
-+	if (IS_ERR(og01a1b->avdd)) {
-+		ret = PTR_ERR(og01a1b->avdd);
-+		if (ret != -ENODEV) {
-+			dev_err_probe(&client->dev, ret,
-+				      "Failed to get 'avdd' regulator\n");
-+			return ret;
-+		}
-+
-+		og01a1b->avdd = NULL;
-+	}
-+
-+	og01a1b->dovdd = devm_regulator_get_optional(&client->dev, "dovdd");
-+	if (IS_ERR(og01a1b->dovdd)) {
-+		ret = PTR_ERR(og01a1b->dovdd);
-+		if (ret != -ENODEV) {
-+			dev_err_probe(&client->dev, ret,
-+				      "Failed to get 'dovdd' regulator\n");
-+			return ret;
-+		}
-+
-+		og01a1b->dovdd = NULL;
-+	}
-+
-+	og01a1b->dvdd = devm_regulator_get_optional(&client->dev, "dvdd");
-+	if (IS_ERR(og01a1b->dvdd)) {
-+		ret = PTR_ERR(og01a1b->dvdd);
-+		if (ret != -ENODEV) {
-+			dev_err_probe(&client->dev, ret,
-+				      "Failed to get 'dvdd' regulator\n");
-+			return ret;
-+		}
-+
-+		og01a1b->dvdd = NULL;
-+	}
-+
- 	/* The sensor must be powered on to read the CHIP_ID register */
- 	ret = og01a1b_power_on(&client->dev);
- 	if (ret)
+I've been trying to test this since I don't want my RX multi queue series [1]
+to break AF_XDP feature. However, with 6.10 I don't see AF_XDP working at all
+and even breaking basic networking on am65-cpsw.
+
+The in kernel XDP tests have been dropped so I've been using xdp-tools [2]
+
+My test is to try XDP_DROP with xdp-bench using skb mode first and then
+native XDP mode.
+
+Below is the test log. You can see that skb mode works fine. The moment I try
+native XDP mode the interface seems to go down and up and then just locks up.
+
+I can no longer ping to the remote host.
+
+----test log starts-----
+
+root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
+PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
+64 bytes from 192.168.1.36: icmp_seq=1 ttl=64 time=0.801 ms
+64 bytes from 192.168.1.36: icmp_seq=2 ttl=64 time=0.967 ms
+64 bytes from 192.168.1.36: icmp_seq=3 ttl=64 time=0.876 ms
+^C
+--- 192.168.1.36 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 0.801/0.881/0.967/0.067 ms
+
+
+root@am64xx-evm:~/xdp-tools/xdp-bench# ./xdp-bench drop -m skb eth0
+Dropping packets on eth0 (ifindex 2; driver am65-cpsw-nuss)
+Summary                     81127 rx/s                  0 err/s        
+Summary                     81088 rx/s                  0 err/s        
+Summary                     81089 rx/s                  0 err/s        
+Summary                     53065 rx/s                  0 err/s        
+^C
+  Packets received    : 296369    
+  Average packets/s   : 74092     
+  Rx dropped          : 296369    
+
+root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
+PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
+64 bytes from 192.168.1.36: icmp_seq=1 ttl=64 time=1.02 ms
+64 bytes from 192.168.1.36: icmp_seq=2 ttl=64 time=0.756 ms
+64 bytes from 192.168.1.36: icmp_seq=3 ttl=64 time=0.963 ms
+^C
+--- 192.168.1.36 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 0.756/0.914/1.024/0.114 ms
+
+
+root@am64xx-evm:~/xdp-tools/xdp-bench# ./xdp-bench drop -m native eth0
+[  889.096851] am65-cpsw-nuss 8000000.ethernet eth0: Link is Down
+[  889.110889] am65-cpsw-nuss 8000000.ethernet eth0: PHY [8000f00.mdio:00] driver [TI DP83867] (irq=POLL)
+[  889.120377] am65-cpsw-nuss 8000000.ethernet eth0: configuring for phy/rgmii-rxid link mode
+Dropping packets on eth0 (ifindex 2; driver am65-cpsw-nuss)
+Summary                         0 rx/s                  0 err/s        
+Summary                         0 rx/s                  0 err/s        
+[  893.218318] am65-cpsw-nuss 8000000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+Summary                       250 rx/s                  0 err/s        
+Summary                         0 rx/s                  0 err/s        
+Summary                         0 rx/s                  0 err/s        
+Summary                         0 rx/s                  0 err/s        
+^C
+[  901.898170] am65-cpsw-nuss 8000000.ethernet eth0: Link is Down
+[  901.910292] am65-cpsw-nuss 8000000.ethernet eth0: PHY [8000f00.mdio:00] driver [TI DP83867] (irq=POLL)
+[  901.919661] am65-cpsw-nuss 8000000.ethernet eth0: configuring for phy/rgmii-rxid link mode
+  Packets received    : 250       
+  Average packets/s   : 42        
+  Rx dropped          : 250       
+root@am64xx-evm:~/xdp-tools/xdp-bench# [  906.018296] am65-cpsw-nuss 8000000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+
+root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
+PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
+From 192.168.1.100 icmp_seq=1 Destination Host Unreachable
+From 192.168.1.100 icmp_seq=2 Destination Host Unreachable
+From 192.168.1.100 icmp_seq=3 Destination Host Unreachable
+^C
+
+--- 192.168.1.36 ping statistics ---
+5 packets transmitted, 0 received, +3 errors, 100% packet loss, time 4079ms
+pipe 4
+
+
+---test log ends---
+
+I will try to test with commit 8acacc40f733 ("net: ethernet: ti: am65-cpsw: Add minimal XDP support")
+to see if it works there. If it does then I can do a bisect.
+
+If you have better ideas please let me know. Thanks!
+
+[1] https://lore.kernel.org/all/20240703-am65-cpsw-multi-rx-v3-0-f11cd860fd72@kernel.org/
+[2] https://github.com/xdp-project/xdp-tools
+
+> ---
+> Changes in v9:
+> - In k3_cppi_desc_pool_destroy(), free memory allocated for pool.
+> - In k3_cppi_desc_pool_create_name() function, remove unnecessary
+> error messages on mem alloc failures.
+> - In k3_cppi_desc_pool_create_name() function, move desc_infos alloc
+> forward to leverage pool_name freeing in gen_pool_destroy().
+> - In k3_cppi_desc_pool_create_name() function, remove unnecessary
+> 'ret = -ENOMEM' since ret is already initialized with -ENOMEM value.
+> - For rx, do not build the skb upfront any more, Instead, give the page
+> to the HW then build the skb once HW sends a completion.
+> - Link to v8: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v8-0-f3421b58da09@baylibre.com
+> 
+> Changes in v8:
+> - Fix some warnings reported by patchwork.
+> - Link to v7: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v7-0-c3857c82dadb@baylibre.com
+> 
+> Changes in v7:
+> - Move xdp_do_flush() function call in am65_cpsw_nuss_rx_poll().
+> - Link to v6: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v6-0-212eeff5bd5f@baylibre.com
+> 
+> Changes in v6:
+> - In k3_cppi_*() functions, use const qualifier when the content of
+> pool is not modified.
+> - Add allow_direct bool parameter to am65_cpsw_alloc_skb() function
+> for direct use by page_pool_put_full_page().
+> - Link to v5: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v5-0-bc1739170bc6@baylibre.com
+> 
+> Changes in v5:
+> - In k3_cppi_desc_pool_destroy(), free memory allocated for desc_infos.
+> - Link to v4: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v4-0-2e45e5dec048@baylibre.com
+> 
+> Changes in v4:
+> - Add skb_mark_for_recycle() in am65_cpsw_nuss_rx_packets() function.
+> - Specify napi page pool parameter in am65_cpsw_create_xdp_rxqs() function.
+> - Add benchmark numbers (with VS without page pool) in the commit description.
+> - Add xdp_do_flush() in am65_cpsw_run_xdp() function for XDP_REDIRECT case.
+> - Link to v3: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v3-0-5d944a9d84a0@baylibre.com
+> 
+> Changes in v3:
+> - Fix a potential issue with TX buffer type, which is now set for each buffer.
+> - Link to v2: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com
+> 
+> Changes in v2:
+> - Use page pool memory model instead of MEM_TYPE_PAGE_ORDER0.
+> - In am65_cpsw_alloc_skb(), release reference on the page pool page
+> in case of error returned by build_skb().
+> - [nit] Cleanup am65_cpsw_nuss_common_open/stop() functions.
+> - [nit] Arrange local variables in reverse xmas tree order.
+> - Link to v1: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v1-1-9f0b6cbda310@baylibre.com
+> 
+> ---
+> Julien Panis (3):
+>       net: ethernet: ti: Add accessors for struct k3_cppi_desc_pool members
+>       net: ethernet: ti: Add desc_infos member to struct k3_cppi_desc_pool
+>       net: ethernet: ti: am65-cpsw: Add minimal XDP support
+> 
+>  drivers/net/ethernet/ti/am65-cpsw-nuss.c    | 659 ++++++++++++++++++++++++----
+>  drivers/net/ethernet/ti/am65-cpsw-nuss.h    |  13 +
+>  drivers/net/ethernet/ti/k3-cppi-desc-pool.c |  46 +-
+>  drivers/net/ethernet/ti/k3-cppi-desc-pool.h |   6 +
+>  4 files changed, 623 insertions(+), 101 deletions(-)
+> ---
+> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+> change-id: 20240223-am65-cpsw-xdp-basic-4db828508b48
+> 
+> Best regards,
+
 -- 
-2.45.2
-
+cheers,
+-roger
 
