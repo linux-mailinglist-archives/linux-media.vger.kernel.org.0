@@ -1,173 +1,114 @@
-Return-Path: <linux-media+bounces-16705-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16706-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E0295DEF8
-	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2024 18:28:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD46A95DF27
+	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2024 19:05:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A2A61F21F56
-	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2024 16:28:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 82F251F21C56
+	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2024 17:05:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA4C9153BD9;
-	Sat, 24 Aug 2024 16:28:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1295E47A6A;
+	Sat, 24 Aug 2024 17:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="CUiFKkci"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZbgGzLCU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601FA29A1
-	for <linux-media@vger.kernel.org>; Sat, 24 Aug 2024 16:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724516896; cv=pass; b=N5m+AcfNuwjapwYxqxM64S4TqrY3szo+hs4y/W5GOLNHpy6CB2DVaePbuynrPNHU7PMZuXk/pWAXibz7Hhc84v0t15nlLybm1SxfVrUK2Sd/qo18OimYliKsKLy/xZ9kx4OB3Pp9uZBEmBqkAjwTnaKeQNjH5Dc8sIpjPSHaHx4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724516896; c=relaxed/simple;
-	bh=+GVkCriykzb3CsXh807E/7VlIN3zNPUHA40aO0KkyI0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rdbghwcgS3b0esG8Ekj0Xhult5+ECwwGp8j49flCf2eY9gsAbXc+N4dfFmTX9VG1GdzhUyYAG4sXuWg0Wh1NRg+yng84r81m1BRtJMsNd6fpmdJooTZ+v/uV9wenqsTMNGM7S0NFNv5txDqz8KjDaKkcYky0d++eQN9cg6vHayA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=CUiFKkci; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Wrj6K0fNrz49Px6;
-	Sat, 24 Aug 2024 19:28:08 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1724516889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QaU5cOO39+RJRObfIS1hBUghsjPHGWCpMnbwRbKIVdg=;
-	b=CUiFKkciMZ6a8zhMCumtoA/XGMwYR113nFbpfU10RI3+5Tz7dKsPpfwW9acUaNBXHnYpmJ
-	4CE3D7TusU6C/Hy5lU1kuuJoSISAVIF8j2DI7+FZsXzA/Mzkd3ae29B2d4G6OKtzkH9T3l
-	sZ8CZGnTSR9hbajqmvM5iyXaNOGt/MHenzBqOTnYRhVHvZZhRs9FSPSCoS7NtsLCeH4Dnt
-	goqVa88tOK9mTHqAfGv7rOO1WRAJmoXd9dosgTHNo4Un1KavQ96j4qLyIAJJRuoCHgi4jC
-	xC4Mg6Fo98tb4AAFctLVfF0Syn+5LjoRT300HL80liTzmBG5ALcQT4RaWasWfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1724516889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QaU5cOO39+RJRObfIS1hBUghsjPHGWCpMnbwRbKIVdg=;
-	b=rbel2QKl/TWtZNeXHIYK7vWwbBHdve4ST99kM9SxNRDTcBl9h8mo4yU2zDOhAB+6iYnSfr
-	XxnDgohGCwdk3kROTrF7C/GAXddpgWi3hbGCJF+Sl3zlKvRF/BgBSGw8Bs0OWk+bvSscXD
-	CYjVAZqq8ux0ISu2Uwb0hISmPyMnZmuTmOduMc48EdlOFK38o5SiyON/9oNN0Mk4ckYLP0
-	Y16PL57/RK3S8gJzNzUOKRXxDxa0PHOoCg0ZJyQvOkzneQbhaFT2yEo9PL/1HaoN/iDM4l
-	KjVAgXG4DTLjAjSdXX4+6J7YhhJD+52pHqUdKXRkdGCj7DApkLu+QzrV224fjA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724516889; a=rsa-sha256;
-	cv=none;
-	b=OxTbKMl5gKkYVLV6B+JRcZ2LNedw0mRuNIzkN+wcOilGw9BzFxMLlSccFkbnsEehL1neki
-	Av8Eg8MFhnezqWbDIUlU6HWolLI8gyzY36neS5m2in78WYKZ3deznN5CFP32KDGe3l3Cyv
-	AJikXgpKa5CGuFDTY6IZiIwXXSb3y0bNJ+V42ePLWuminLdjEDc9gZIuPl8136EKLxrS8O
-	tfbM6VXtp5nvIOfv/j1s/WNECgjAb2WnY+dEl8c+9DISLghWd1JtfbdU7nPJmourOPbElA
-	AAzS7vJroC/TnPZAICBLp3DgLppeYHfRr38vbIvFfEK7BHCPKrsdDLM6m45tfA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7F8B0634C93;
-	Sat, 24 Aug 2024 19:28:08 +0300 (EEST)
-Date: Sat, 24 Aug 2024 16:28:08 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH] media: v4l2-mc: Mark v4l2_pipeline_link_notify() as
- deprecated
-Message-ID: <ZsoKGBL1uzJ47_hj@valkosipuli.retiisi.eu>
-References: <20240822214125.3161-1-laurent.pinchart+renesas@ideasonboard.com>
- <Zsg3WojLqfNprMIp@valkosipuli.retiisi.eu>
- <20240823135728.GL26098@pendragon.ideasonboard.com>
- <ZsnuBtFIiEb316cf@valkosipuli.retiisi.eu>
- <20240824155009.GU26098@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4F13B2BB
+	for <linux-media@vger.kernel.org>; Sat, 24 Aug 2024 17:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724519130; cv=none; b=D/BbrNK1AmZ3cTVJ3s2peOKlbPV97t+H4ttHmpNzw1PQjAe9CU9bS2FBclI0y0KRbsZptM8PW98xDdUq5mQlcNLzK95DnUZtXD+ncnMrfQlayo1tXOYYKGeOyHl8QSt2pP3mQ/XmgIGHxfvIs67Rq+Sd+sACBoLrzqmvrntj8bk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724519130; c=relaxed/simple;
+	bh=YZb3KQcDwKbRfBpA1jL8YOTnhsu2wLksJptIPtsdgs8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cQbd1dTegle2kA66coIpOErmeo4qN87F04+rFRLrNfwGmuLDXbi7wmmh6wJ1IAVBIGkpw/NOAkTm+gNFKwjgt5CTUKZ6A9p8jTs7xwI3Sy06cRULQRbXVBVNc8XMjf8fFmi5jEJ3U82hxpry9rUCX5xknyu2aquutan48vsHiCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZbgGzLCU; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5bed72ff443so3607433a12.1
+        for <linux-media@vger.kernel.org>; Sat, 24 Aug 2024 10:05:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724519127; x=1725123927; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y1wqIXwilhWQe12ivt8ypdTnldhiR6eZgAaKOzl3oFk=;
+        b=ZbgGzLCU8NeN1kyPzEfZytA/xl6HaCYC6XtXQdS89SSfavtANmLmWN9q/H8Q1s+xyj
+         ZNOTBZZknjRbAjkX3XROvIuzLxxUaXaCZ1tpBQldyjM4vA1Dm1+k2xvwkiiG3h1V9VTQ
+         8puTMyY1YDu7Lpw5HE7PZHdLesG55ApEmHWTCb8HSAfEOtv0MpQ3Q5TMgJ0+KA0lAXrL
+         k2FfYM+S1pa5cVeZyZZ4T9YKLXpLE49thy/d9eMQdDts7KGJE2h/g2rna75gVzut8v5M
+         7ylGX4TUhp7xt9BP4by0Zn7hfo4e2gontjVu143Ex/JR/XgReUBT4tdVVsrPITnZr0ek
+         dS8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724519127; x=1725123927;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y1wqIXwilhWQe12ivt8ypdTnldhiR6eZgAaKOzl3oFk=;
+        b=L+3y1HZVsrUHnO3N/eoqmG96uZltRsM33LlcRUJVb0oILmR6g1aQHl4L+4IiDMWnuT
+         4pJCLaFg8ORDnsTPsPYQ/YN+xn02oi9zz3Fj3bpGpM+53QLVboYtJ2AQ9iaPoa4DeRbh
+         Sm7qdDnNkvzYEXtYH7z5RCNAS/Uas9fBkHwF34Z6jibkumZ6mtBU4Lz8GavGXaXCr9HA
+         PdbJEe7RHA8c2Um+tg6H5k71AZwd6fYpbPV5R1+2g5ax5VABCCGzKVop6FURvpat16z6
+         dnLhYB9pRZ61erzEbKkXskMpa6r9C1/FmzqLIb+MN2Mwf0HRUHEnIYSFeht9iKTU6Wph
+         OkJA==
+X-Forwarded-Encrypted: i=1; AJvYcCUK9t/0mIXYCHY9Ed2rYNXKtAcrk7i4Czk1OJn+djO8iUNFA/3bh9U5jjLWmttG1/Se6hKo41grWdVG9w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLXTwTteribuHRnIHaFSduRVKFIvD0IFxf2lJRMvkeQuBbIi5I
+	jQBjU9sSKkDA+PDJxKQlsGypNizQ3wWjU2BZvb+rretsP3D+J7dUEKBPe6jODUs=
+X-Google-Smtp-Source: AGHT+IHt3Su7ap3ryr5NK4u0osd07i4VrChxnechoJXjiVeQ4wUl6du3KIaeBLPXMzicWs8zA0kISA==
+X-Received: by 2002:a17:907:d15:b0:a77:cb8b:7a2d with SMTP id a640c23a62f3a-a86a54d1920mr377553966b.49.1724519126872;
+        Sat, 24 Aug 2024 10:05:26 -0700 (PDT)
+Received: from [192.168.0.25] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f43661dsm423115966b.100.2024.08.24.10.05.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 24 Aug 2024 10:05:26 -0700 (PDT)
+Message-ID: <26b7fd84-34cc-485e-83eb-21daf99020ee@linaro.org>
+Date: Sat, 24 Aug 2024 18:05:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240824155009.GU26098@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 00/13] media: qcom: camss: Add sm8550 support
+To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@quicinc.com
+References: <20240709160656.31146-1-quic_depengs@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240709160656.31146-1-quic_depengs@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
 
-On Sat, Aug 24, 2024 at 06:50:09PM +0300, Laurent Pinchart wrote:
-> On Sat, Aug 24, 2024 at 02:28:22PM +0000, Sakari Ailus wrote:
-> > On Fri, Aug 23, 2024 at 04:57:28PM +0300, Laurent Pinchart wrote:
-> > > On Fri, Aug 23, 2024 at 07:16:42AM +0000, Sakari Ailus wrote:
-> > > > On Fri, Aug 23, 2024 at 12:41:25AM +0300, Laurent Pinchart wrote:
-> > > > > Commit b97213a41140 ("media: v4l2-mc: Make v4l2_pipeline_pm_{get,put}
-> > > > > deprecated") marked the v4l2_pipeline_pm_get() and
-> > > > > v4l2_pipeline_pm_put() functions as deprecated, but forgot to address
-> > > > > the related v4l2_pipeline_link_notify() function similarly. Fix it.
-> > > > > 
-> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > 
-> > > > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > 
-> > > > How about adding a warning for the use of these functions? Possibly on
-> > > > debug level if pr_warn_once() is considered too drastic?
-> > > 
-> > > I think we need to do a bit of homework first, as there's a large number
-> > > of drivers using these, directly or indirectly. We should at least
-> > > convert the sensor drivers still using .s_power() to runtime PM, to make
-> > > it possible to convert the other drivers.
-> > 
-> > With that, we could just drop the implementation of the pipeline PM stuff
-> > and replace it with a warning.
-> > 
-> > I think a pr_debug_once() would still be appropriate, at least. People
-> > generally won't read the documentation unless something is broken.
-> 
-> Generally I agree, but my concern here is that someone hitting the
-> warning would need to first convert all the remaining sensor drivers to
-> runtime PM before they could safely address the issue on the host driver
-> side. That's quite a bit of yak shaving.
+>    media: qcom: camss: Add CSID Gen3 support for SM8550
+>    media: qcom: camss: Add support for VFE hardware version Titan 780
 
-That's a fair point.
+Before your post your next version of this series, please make the patch 
+submission titles consistent.
 
-How about then adding such a warning to sub-device drivers implementing
-s_power? That'd be much easier to fix for anyone encountering it.
+e.g.
 
-That being said, there could be drivers that need s_power, due to missing
-other APIs, for TV tuners on PCI cards for instance.
+Add CSID 780 support
+Add VFE 780 support
 
-Cc Hans.
+Mixing SoC versions "sm8550" and/or including "Titan" - what's that a 
+reader might ask - should be avoided.
 
-> 
-> > > > > ---
-> > > > >  include/media/v4l2-mc.h | 3 +++
-> > > > >  1 file changed, 3 insertions(+)
-> > > > > 
-> > > > > diff --git a/include/media/v4l2-mc.h b/include/media/v4l2-mc.h
-> > > > > index ed0a44b6eada..1837c9fd78cf 100644
-> > > > > --- a/include/media/v4l2-mc.h
-> > > > > +++ b/include/media/v4l2-mc.h
-> > > > > @@ -178,6 +178,9 @@ void v4l2_pipeline_pm_put(struct media_entity *entity);
-> > > > >   * @flags: New link flags that will be applied
-> > > > >   * @notification: The link's state change notification type (MEDIA_DEV_NOTIFY_*)
-> > > > >   *
-> > > > > + * THIS FUNCTION IS DEPRECATED. DO NOT USE IN NEW DRIVERS. USE RUNTIME PM
-> > > > > + * ON SUB-DEVICE DRIVERS INSTEAD.
-> > > > > + *
-> > > > >   * React to link management on powered pipelines by updating the use count of
-> > > > >   * all entities in the source and sink sides of the link. Entities are powered
-> > > > >   * on or off accordingly. The use of this function should be paired
-> > > > > 
-> > > > > base-commit: a043ea54bbb975ca9239c69fd17f430488d33522
-> 
+No harm in including "Titan" but if you do, include it in both patches 
+and explain that Titan is the codename of the camera block in your SoC.
 
--- 
-Kind regards,
+---
+bod
 
-Sakari Ailus
 
