@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-16699-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16700-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4864695DE57
-	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2024 16:28:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5564E95DEA5
+	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2024 16:57:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1F10FB21BF6
-	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2024 14:28:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75C1F1C20DF4
+	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2024 14:57:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F28D51714CD;
-	Sat, 24 Aug 2024 14:28:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0009417B43F;
+	Sat, 24 Aug 2024 14:56:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="PWrdHwLS"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="cFm5JVq9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E09156F42
-	for <linux-media@vger.kernel.org>; Sat, 24 Aug 2024 14:28:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B843B176AC7;
+	Sat, 24 Aug 2024 14:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724509715; cv=pass; b=IlhNvxB/9DttnJAw821EIyKTvHHcVXWMXm20KIzKonEwaxyUE07ymIehGefoYOyDwZuOIj5FrNCLiePETkhNs6NbbKN0HeyUigGz4/or9/b0t27i/eLvu1NaVU0rEOgmDxo/xMc07VnAE8ZRoo9BL8+x+MtmyM7qNfWo1Ttw8Tg=
+	t=1724511411; cv=pass; b=S9o44IYecPmCQ1QMvBRV98hDl6ZyS3QdWiyKmLFse3WidSXpV5mnVfCRffcEzlC8fHQc8PuX9YnTn3ZyamyAyEyrRaGcjZ0NbA66k4UsOIg6qZq/2YzxIXTwnV0Eqj/WPb/ROrAHZ8gyF8Fy8WZ2pTDIiVilC8LPbh/R1A22IWU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724509715; c=relaxed/simple;
-	bh=vjQPS/UXhJGa5ohcDyauUw1BqhScHrQPTTaKXRVljnc=;
+	s=arc-20240116; t=1724511411; c=relaxed/simple;
+	bh=5OBtD4pxcRFI3gUXPWBQeI+DWM341tkcp5hCOgqx2gc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Eoz7p+cQ6+fJzLvBd2HzA4cJB6UA2DtjyLAZX2R4t9xzd/oHjjYHpvqL6ix9tPO1FfMI/U3FRV9MtE2Hny9IZXD2Cla6Qb6NZcedJ3NriJ/Es48jq0Eq5mjK8LwvuMHQiI1bKnQfjDBEKLhqWd5i56mRfPPtyEQsCV1WyOwLoYE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=PWrdHwLS; arc=pass smtp.client-ip=185.185.170.37
+	 Content-Type:Content-Disposition:In-Reply-To; b=Of55Si5G9lxUYQoHxHbZq/zrXKWRBiOJK6aEpjeffZVCLlJK4Tfvov4xg3dEtN6/E2jvrbasByeejOQTLv85Bc0JWH0cInxcsXxFMr1JCGLmWk8VGr/+6piM4dFN4I76vw16cE7bqvYVIOe8jzDeWKEFcXEepzn8mdYhWqecWQQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=cFm5JVq9; arc=pass smtp.client-ip=185.185.170.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
@@ -36,56 +36,71 @@ Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.c
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4WrfS70jtvz49Q3M
-	for <linux-media@vger.kernel.org>; Sat, 24 Aug 2024 17:28:23 +0300 (EEST)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Wrg4q3N4Wz49Px6;
+	Sat, 24 Aug 2024 17:56:43 +0300 (EEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1724509703;
+	t=1724511405;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Azq7Q1iR7FwxN280k6lsqMROHbF62XfNByShKgh0kxw=;
-	b=PWrdHwLSDRuABKow8GjH7tkLH1Pdwe9ZCr+SlbmFDcJ4NxXoShd0BZEfAttlHWzqCkdXYz
-	8s6WEE+puw/hNqiXsyixxLbQryPcBei1GZNyMJ5MMr2GkEf4Nu+utIj0JOP0l9xE4VnWdJ
-	4Wgy4upz2WcCGLv4CQUZhThhuaxjHuOhHy26EA1sySA1hOQy81Z3WHyOoa5gThV1wTc7Z3
-	Y0375uEg13oN/XQX2m4ZY9J8SBYv3j3YAuKWfuVjl8QQCPIPWfZvFQmEu2zQV8ydvmnqyi
-	1rAgCOgRKI6vKtEHj2AT+5WrEtfwG6xmdH9KqksmMBabXAGPBp3JJStGlOVHlA==
+	bh=aQWIIYVMAeV+tatKf1SJ1SHCmsqByqjTMrj5Nf+q8tg=;
+	b=cFm5JVq9BU3KlZTtVW0khmzt6gmpzdGYZSdblJLQR+6n7ZvMUdNeo6S2CKZx+LFwreQV7h
+	YIp6rvMddTH7uEn4W+ZewViRMFOBjKnUxDSbuGOM6FHxe0h7e1kwmDBBrucHSk+5SUn/nG
+	Ab+kr0I1hD2ONrOmHwxcSwlWIU6OmjtMJTyrCnYVawdwsLKH4jL8h4E85pLLi4Z6msuV5+
+	j96exCxJr/Gg1/L35N5KCGqeBrXoQi6ZKuK6n70MERTH3aDkmlqLekxweiINXgq4QYweEG
+	3FnBHqmLRrr4OPE5sQCYVdKBuxl8JP3kH2mAitRUxpdq1i3WQLc35JGmWqGAQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1724509703;
+	s=lahtoruutu; t=1724511405;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Azq7Q1iR7FwxN280k6lsqMROHbF62XfNByShKgh0kxw=;
-	b=Nxb7pzZpFTORUyDwxRpTenRCRNt8+KuEx1wI+Zt2bREvEdDvPeqhJ1gqwxYCtk9S1EhO+r
-	0plAQRaqfj/gNsBBhYZkGX3qi5kWybJPM7wXuCAIhLDP7TLdjgMuOHDt1CIqbwO1XnECNX
-	cZlofysXQo5PYLp3PKGBGI9+4ksx4lVwPE6uTG5Y0xOaDoDN++Vw6Iy6pLa0LyMXOvuDYf
-	efpy1VOZe0GMLz8SIT6N3Jya1U2cV+zNRU1EbnVCwoM9+OSOi9eydbtonvLQOLYsSC+jMD
-	Ksq2HszC+k4Zz2+21uoc3ZLV2iV9cjlU6wsaDY78YHwVBREltJWWZA/efMjWmQ==
+	bh=aQWIIYVMAeV+tatKf1SJ1SHCmsqByqjTMrj5Nf+q8tg=;
+	b=UGJQIyVphF9iU8zRKOL3v1Bw01YgcKzBbNspOSUsIKpDrteAPiXon/z2Cm5HHwcg8siYR1
+	zdDAIjbfWdBIa9V1XiWTEIbcLufK7zJ4esS8pjywpf6Po4ia5aVtDM9cbFgHz2S7V/P7t8
+	rGeOFrvpBGAa3cZX37So88HbN1UHnzmycMWzOOG1iCXVooN/NdxEm8EtkY6h+LuJVmzFzy
+	L4AaodwWPngU3JjDPwnjTE9T5R1XxFVn9zCeuaD0P6RFmLMw9QgqTNU26kNKhnG3gVAs7V
+	nsWmvJ/UW7SHsB/5uBZbOPdxVR3nkZCxF4mw6V/U2aM5gVsJ15BLsLKDahioSw==
 ARC-Authentication-Results: i=1;
 	ORIGINATING;
 	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724509703; a=rsa-sha256;
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724511405; a=rsa-sha256;
 	cv=none;
-	b=iHLAGYKeQ0tQqeReCs0NLSvssPoqB5G37u+uC1xN+RQa/CttkwqUhUQzmRKCb5PEqj0mCp
-	mXeEmm9EKrP2r5Jht+fczfNuKIIb9lcKFF6EdISEGqHnlnWFDe+FEhvbmHHKEMFODIH4vC
-	KDA/0ipM8fmhZEgBmttNGBDq91Fa3rh6/Wo6c21nJMgdyASChHBoTuKWIIY9yoqCvUd2AU
-	duH1ymcVYQHKoq9tK7mubnQ3mvgfbAqKeS1jAe69GGu2aIUmwc6Xts9ymH+5KwPTwEhFdA
-	TjjaYrEtWSo1pPIeXIKQ7ZJWRJY7AM3XHRqrDOSDx5Y1C/G0/rnUodmRGsS8Tg==
+	b=hOit8nkEpuVt70jDLC02XYO5oyOJKCGoSKrEKBzFh7fSAfysftDRyakSvmnwzcbTns2pT3
+	+mfZ4ke1W/SWuYaZYOV1NhEaX3u4ydwV0OfIkEd987w6a3z38N8mLR31ULwoepimnsr8dz
+	HO/rF79JPvB9INPzJjNZfiXqPBoqte5jfRNdNE64rqr3byGq0XRHVE3I0tIJek45+Zb7Lh
+	VucGMRvs7/1Kx43oAKzswx9ZKAGdXmr46UXjmBv+pGN0RmyJz/Sy9RgQ4nMEz1Eg+J/+df
+	SPb2NC0AzjB6FCYw/X1UqnByhaGXDt2XyGqnA7LgHxTlEcBIqxWhMonoF79wpQ==
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 93E84634C93;
-	Sat, 24 Aug 2024 17:28:22 +0300 (EEST)
-Date: Sat, 24 Aug 2024 14:28:22 +0000
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 138F0634C93;
+	Sat, 24 Aug 2024 17:56:43 +0300 (EEST)
+Date: Sat, 24 Aug 2024 14:56:42 +0000
 From: Sakari Ailus <sakari.ailus@iki.fi>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-mc: Mark v4l2_pipeline_link_notify() as
- deprecated
-Message-ID: <ZsnuBtFIiEb316cf@valkosipuli.retiisi.eu>
-References: <20240822214125.3161-1-laurent.pinchart+renesas@ideasonboard.com>
- <Zsg3WojLqfNprMIp@valkosipuli.retiisi.eu>
- <20240823135728.GL26098@pendragon.ideasonboard.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] of: property: add of_graph_get_next_port()
+Message-ID: <Zsn0qi8f28zdlzGp@valkosipuli.retiisi.eu>
+References: <875xsa8gws.wl-kuninori.morimoto.gx@renesas.com>
+ <874j7u8gw2.wl-kuninori.morimoto.gx@renesas.com>
+ <20240811170316.GL2270@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -94,57 +109,319 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240823135728.GL26098@pendragon.ideasonboard.com>
+In-Reply-To: <20240811170316.GL2270@pendragon.ideasonboard.com>
 
-Hi Laurent,
+Hi Laurent, Morimoto-san,
 
-On Fri, Aug 23, 2024 at 04:57:28PM +0300, Laurent Pinchart wrote:
-> On Fri, Aug 23, 2024 at 07:16:42AM +0000, Sakari Ailus wrote:
-> > On Fri, Aug 23, 2024 at 12:41:25AM +0300, Laurent Pinchart wrote:
-> > > Commit b97213a41140 ("media: v4l2-mc: Make v4l2_pipeline_pm_{get,put}
-> > > deprecated") marked the v4l2_pipeline_pm_get() and
-> > > v4l2_pipeline_pm_put() functions as deprecated, but forgot to address
-> > > the related v4l2_pipeline_link_notify() function similarly. Fix it.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > 
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > 
-> > How about adding a warning for the use of these functions? Possibly on
-> > debug level if pr_warn_once() is considered too drastic?
+On Sun, Aug 11, 2024 at 08:03:16PM +0300, Laurent Pinchart wrote:
+> Hi Morimoto-san,
 > 
-> I think we need to do a bit of homework first, as there's a large number
-> of drivers using these, directly or indirectly. We should at least
-> convert the sensor drivers still using .s_power() to runtime PM, to make
-> it possible to convert the other drivers.
+> (CC'ing Sakari)
+> 
+> Thank you for the patch.
+> 
+> On Fri, Aug 09, 2024 at 04:22:22AM +0000, Kuninori Morimoto wrote:
+> > We have endpoint base functions
+> > 	- of_graph_get_next_device_endpoint()
+> > 	- of_graph_get_device_endpoint_count()
+> > 	- for_each_of_graph_device_endpoint()
+> > 
+> > Here, for_each_of_graph_device_endpoint() loop finds each endpoints
+> > 
+> > 	ports {
+> > 		port@0 {
+> > (1)			endpoint {...};
+> > 		};
+> > 		port@1 {
+> > (2)			endpoint {...};
+> > 		};
+> > 		...
+> > 	};
+> > 
+> > In above case, it finds endpoint as (1) -> (2) -> ...
+> > 
+> > Basically, user/driver knows which port is used for what, but not in
+> > all cases. For example on flexible/generic driver case, how many ports
+> > are used is not fixed.
+> > 
+> > For example Sound Generic Card driver which is used from many venders
+> > can't know how many ports are used. Because the driver is very
+> > flexible/generic, it is impossible to know how many ports are used,
+> > it depends on each vender SoC and/or its used board.
+> > 
+> > And more, the port can have multi endpoints. For example Generic Sound
+> > Card case, it supports many type of connection between CPU / Codec, and
+> > some of them uses multi endpoint in one port.
+> > Then, Generic Sound Card want to handle each connection via "port"
+> > instead of "endpoint".
+> > But, it is very difficult to handle each "port" via
+> > for_each_of_graph_device_endpoint(). Getting "port" by using
+> > of_get_parent() from "endpoint" doesn't work. see below.
+> > 
+> > 	ports {
+> > 		port@0 {
+> > (1)			endpoint@0 {...};
+> > (2)			endpoint@1 {...};
+> > 		};
+> > 		port@1 {
+> > (3)			endpoint {...};
+> > 		};
+> > 		...
+> > 	};
+> > 
+> > In the same time, same reason, we want to handle "ports" same as "port".
+> > 
+> > 	node {
+> > =>		ports@0 {
+> > 			port@0 {
+> > 				endpoint@0 {...};
+> > 				endpoint@1 {...};
+> > 				...
+> > 			};
+> > 			port@1 {
+> > 				endpoint@0 {...};
+> > 				endpoint@1 {...};
+> > 				...
+> > 			};
+> > 			...
+> > 		};
+> > =>		ports@1 {
+> > 			...
+> > 		};
+> > 	};
+> > 
+> > Add "ports" / "port" base functions.
+> > For above case, we can use
+> > 
+> > 	for_each_of_graph_ports(node, ports) {
+> > 		for_each_of_graph_port(ports, port) {
+> > 			...
+> > 		}
+> > 	}
+> > 
+> > This loop works in case of "node" doesn't have "ports" also.
+> > 
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > ---
+> >  drivers/of/property.c    | 88 ++++++++++++++++++++++++++++++++++++++++
+> >  include/linux/of_graph.h | 46 +++++++++++++++++++++
+> >  2 files changed, 134 insertions(+)
+> > 
+> > diff --git a/drivers/of/property.c b/drivers/of/property.c
+> > index 164d77cb9445..e4d5dfe70104 100644
+> > --- a/drivers/of/property.c
+> > +++ b/drivers/of/property.c
+> > @@ -625,6 +625,76 @@ struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
+> >  }
+> >  EXPORT_SYMBOL(of_graph_get_port_by_id);
+> >  
+> > +/**
+> > + * of_graph_get_next_ports() - get next ports node.
+> > + * @parent: pointer to the parent device node
+> > + * @prev: previous ports node, or NULL to get first
+> > + *
+> > + * If "parent" node doesn't have "ports" node, it returns "parent" node itself as "ports" node.
+> > + *
+> > + * Return: A 'ports' node pointer with refcount incremented. Refcount
+> > + * of the passed @prev node is decremented.
+> > + */
+> > +struct device_node *of_graph_get_next_ports(struct device_node *parent,
+> > +					    struct device_node *prev)
+> > +{
+> > +	if (!parent)
+> > +		return NULL;
+> > +
+> > +	if (!prev) {
+> > +		prev = of_get_child_by_name(parent, "ports");
+> > +
+> > +		/* use parent as its ports of this device if it not exist */
+> > +		if (!prev)
+> > +			prev = of_node_get(parent);
+> > +
+> > +		return prev;
+> > +	}
+> > +
+> > +	do {
+> > +		prev = of_get_next_child(parent, prev);
+> > +		if (!prev)
+> > +			break;
+> > +	} while (!of_node_name_eq(prev, "ports"));
+> > +
+> > +	return prev;
+> > +}
+> > +EXPORT_SYMBOL(of_graph_get_next_ports);
+> 
+> Having multiple "ports" nodes in a device node is not something I've
+> ever seen before. There may be use cases, but how widespread are they ?
+> I would prefer handling this in driver code instead of creating a helper
+> function if the use case is rare.
 
-With that, we could just drop the implementation of the pipeline PM stuff
-and replace it with a warning.
-
-I think a pr_debug_once() would still be appropriate, at least. People
-generally won't read the documentation unless something is broken.
+I wonder if this is allowed by the graph schema. Probably not.
 
 > 
-> > > ---
-> > >  include/media/v4l2-mc.h | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/include/media/v4l2-mc.h b/include/media/v4l2-mc.h
-> > > index ed0a44b6eada..1837c9fd78cf 100644
-> > > --- a/include/media/v4l2-mc.h
-> > > +++ b/include/media/v4l2-mc.h
-> > > @@ -178,6 +178,9 @@ void v4l2_pipeline_pm_put(struct media_entity *entity);
-> > >   * @flags: New link flags that will be applied
-> > >   * @notification: The link's state change notification type (MEDIA_DEV_NOTIFY_*)
-> > >   *
-> > > + * THIS FUNCTION IS DEPRECATED. DO NOT USE IN NEW DRIVERS. USE RUNTIME PM
-> > > + * ON SUB-DEVICE DRIVERS INSTEAD.
-> > > + *
-> > >   * React to link management on powered pipelines by updating the use count of
-> > >   * all entities in the source and sink sides of the link. Entities are powered
-> > >   * on or off accordingly. The use of this function should be paired
-> > > 
-> > > base-commit: a043ea54bbb975ca9239c69fd17f430488d33522
+> > +
+> > +/**
+> > + * of_graph_get_next_port() - get next port node.
+> > + * @parent: pointer to the parent device node, or parent ports node
+> > + * @prev: previous port node, or NULL to get first
+> > + *
+> > + * Parent device node can be used as @parent whether device node has ports node or not.
+> > + * It will work same as ports@0 node.
+> > + *
+> > + * Return: A 'port' node pointer with refcount incremented. Refcount
+> > + * of the passed @prev node is decremented.
+> > + */
+> > +struct device_node *of_graph_get_next_port(struct device_node *parent,
+> > +					   struct device_node *prev)
+> > +{
+> > +	if (!parent)
+> > +		return NULL;
+> > +
+> > +	if (!prev) {
+> > +		struct device_node *ports __free(device_node) =
+> > +			of_graph_get_next_ports(parent, NULL);
+> 
+> This also makes me quite uncomfortable. Iterating over all ports of a
+> device node that contains multiple "ports" children seems an ill-defined
+> use case.
+> 
+> > +
+> > +		return of_get_child_by_name(ports, "port");
+> > +	}
+> > +
+> > +	do {
+> > +		prev = of_get_next_child(parent, prev);
+> > +		if (!prev)
+> > +			break;
+> > +	} while (!of_node_name_eq(prev, "port"));
+> > +
+> > +	return prev;
+> > +}
+> > +EXPORT_SYMBOL(of_graph_get_next_port);
+> > +
+> >  /**
+> >   * of_graph_get_next_endpoint() - get next endpoint node
+> >   * @parent: pointer to the parent device node
+> > @@ -823,6 +893,24 @@ unsigned int of_graph_get_endpoint_count(const struct device_node *np)
+> >  }
+> >  EXPORT_SYMBOL(of_graph_get_endpoint_count);
+> >  
+> > +/**
+> > + * of_graph_get_port_count() - get the number of port in a device node
+> > + * @np: pointer to the parent device node
+> > + *
+> > + * Return: count of port of this device node
+> > + */
+> > +unsigned int of_graph_get_port_count(struct device_node *np)
+> > +{
+> > +	struct device_node *port = NULL;
+> > +	int num = 0;
+> 
+> As the counter can never be negative, you can make this an unsigned int.
+> 
+> > +
+> > +	for_each_of_graph_port(np, port)
+> > +		num++;
+> > +
+> > +	return num;
+> > +}
+> > +EXPORT_SYMBOL(of_graph_get_port_count);
+> > +
+> >  /**
+> >   * of_graph_get_remote_node() - get remote parent device_node for given port/endpoint
+> >   * @node: pointer to parent device_node containing graph port/endpoint
+> > diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
+> > index a4bea62bfa29..a6b91577700a 100644
+> > --- a/include/linux/of_graph.h
+> > +++ b/include/linux/of_graph.h
+> > @@ -37,14 +37,41 @@ struct of_endpoint {
+> >  	for (child = of_graph_get_next_endpoint(parent, NULL); child != NULL; \
+> >  	     child = of_graph_get_next_endpoint(parent, child))
+> >  
+> > +/**
+> > + * for_each_of_graph_ports - iterate over every ports in a device node
+> > + * @parent: parent device node containing ports
+> > + * @child: loop variable pointing to the current ports node
+> > + *
+> > + * When breaking out of the loop, of_node_put(child) has to be called manually.
+> > + */
+> > +#define for_each_of_graph_ports(parent, child)				\
+> > +	for (child = of_graph_get_next_ports(parent, NULL); child != NULL; \
+> > +	     child = of_graph_get_next_ports(parent, child))
+> > +
+> > +/**
+> > + * for_each_of_graph_port - iterate over every port in a device or ports node
+> > + * @parent: parent device or ports node containing port
+> > + * @child: loop variable pointing to the current port node
+> > + *
+> > + * When breaking out of the loop, of_node_put(child) has to be called manually.
+> > + */
+> > +#define for_each_of_graph_port(parent, child)			\
+> > +	for (child = of_graph_get_next_port(parent, NULL); child != NULL; \
+> > +	     child = of_graph_get_next_port(parent, child))
+> 
+> I think I've proposed something similar a looooong time ago, and was
+> told that iterating over ports is not something that drivers should do.
+> The situation may have changed since though.
+> 
+> Sakari, any opinion on this ?
+
+It'd be good to understand first what would be the use case for it. There
+is already a function to obtain endpoints within a given port, including an
+fwnode equivalent.
+
+> 
+> > +
+> >  #ifdef CONFIG_OF
+> >  bool of_graph_is_present(const struct device_node *node);
+> >  int of_graph_parse_endpoint(const struct device_node *node,
+> >  				struct of_endpoint *endpoint);
+> >  unsigned int of_graph_get_endpoint_count(const struct device_node *np);
+> > +unsigned int of_graph_get_port_count(struct device_node *np);
+> >  struct device_node *of_graph_get_port_by_id(struct device_node *node, u32 id);
+> >  struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
+> >  					struct device_node *previous);
+> > +struct device_node *of_graph_get_next_ports(struct device_node *parent,
+> > +					    struct device_node *ports);
+> > +struct device_node *of_graph_get_next_port(struct device_node *parent,
+> > +					   struct device_node *port);
+> >  struct device_node *of_graph_get_endpoint_by_regs(
+> >  		const struct device_node *parent, int port_reg, int reg);
+> >  struct device_node *of_graph_get_remote_endpoint(
+> > @@ -73,6 +100,11 @@ static inline unsigned int of_graph_get_endpoint_count(const struct device_node
+> >  	return 0;
+> >  }
+> >  
+> > +static inline unsigned int of_graph_get_port_count(struct device_node *np)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> >  static inline struct device_node *of_graph_get_port_by_id(
+> >  					struct device_node *node, u32 id)
+> >  {
+> > @@ -86,6 +118,20 @@ static inline struct device_node *of_graph_get_next_endpoint(
+> >  	return NULL;
+> >  }
+> >  
+> > +static inline struct device_node *of_graph_get_next_ports(
+> > +					struct device_node *parent,
+> > +					struct device_node *previous)
+> > +{
+> > +	return NULL;
+> > +}
+> > +
+> > +static inline struct device_node *of_graph_get_next_port(
+> > +					struct device_node *parent,
+> > +					struct device_node *previous)
+> > +{
+> > +	return NULL;
+> > +}
+> > +
+> >  static inline struct device_node *of_graph_get_endpoint_by_regs(
+> >  		const struct device_node *parent, int port_reg, int reg)
+> >  {
+> 
 
 -- 
 Kind regards,
