@@ -1,232 +1,172 @@
-Return-Path: <linux-media+bounces-16731-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16732-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A841F95E238
-	for <lists+linux-media@lfdr.de>; Sun, 25 Aug 2024 08:19:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1616895E23A
+	for <lists+linux-media@lfdr.de>; Sun, 25 Aug 2024 08:30:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8FD31C20BBD
-	for <lists+linux-media@lfdr.de>; Sun, 25 Aug 2024 06:19:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83B871F21C16
+	for <lists+linux-media@lfdr.de>; Sun, 25 Aug 2024 06:30:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E530383A5;
-	Sun, 25 Aug 2024 06:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="sdwzNi8I"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C6C5383A5;
+	Sun, 25 Aug 2024 06:29:59 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219DD17C61;
-	Sun, 25 Aug 2024 06:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724566761; cv=pass; b=GaRZP+8MRh/PlchSoRTuum2mNjRm6ljno8zXGT6pVPzOAMVE2jYo5aAr7tgZrVG68439BUSLwaC8DebTSqoovp9uH6uiCeiQkkC3kuVWwDNqLhHwwZiRYZReyP2+JMKLxuf1BrnGnKqVMLjODj2b17LT6m2CrRi0w6bzFIpH5LI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724566761; c=relaxed/simple;
-	bh=iHF4FQ86ITCy8wcTdOII1RY9ETgAFYf+mRbl/N/7QLQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I5nLj/TGZN6IUS8KgC6ujqHMzME/j5QREe0V/t2I+FnaHE89VM15MM7m6BopHsApGWw/PgO0ZHJ9YIWrpCkVOaqgaPQUKvrtIW8X5/7YZZlXeLoeOhGS/mEdvI0l2akJ0UMWrBYbS3OooMadTx7SIYXB0yu+i32AMJ5XfAy45JE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=sdwzNi8I; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4Ws3YF3WmfzyVP;
-	Sun, 25 Aug 2024 09:19:13 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1724566754;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6KpQVPK4GvKy5X2JbyrOj1dq9pFhRPnjhsJAhaSY/Ck=;
-	b=sdwzNi8IyQEpvJeL2VWiAYe3duP6aWto1ZzMnebSATi+shpz0JzvFLzAYVud1j18tb2XVc
-	6NJFyen5eUMddcAc903m7mc0EkgPVkmUnCKJk+VKMhxUDsSW+96ORKK+lPeRd0kZElqfz3
-	SyMqA+DFNA13FkfswpdZkQGalljqE8g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1724566754;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6KpQVPK4GvKy5X2JbyrOj1dq9pFhRPnjhsJAhaSY/Ck=;
-	b=rAAJoUrblFeVqkS30IEjdw8XvAZ8qILDQy5wvC7LsaVLY6Y4CazwXMffjjtJ65N5SOrnww
-	OqYu5RDbHkMfoR+QnKKCEwouUXljWmhbOk6VHNfsJpzQuUeQdaKtHvV1HujuYnBKTM7RID
-	FACLzgMS+sWczGb/kMMCCxVQVk5ogHw=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1724566754; a=rsa-sha256; cv=none;
-	b=PHgZ3A5NcbPL1MrGLUylljWLGPkpX+mO0c/iOF6UED39E8A5XdM5ZzF8RH8dTX5v6w8D0P
-	qK3qE/lSOfLB28pOpGgaWEk4SG0EWvzAIn8x31pK5ZgwFQxCBU34UN/3SPZ4OmUoD+qx2x
-	n7JgZMAp6q37ZkKkNvX2FD1jf4h+i7g=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9C77E634C94;
-	Sun, 25 Aug 2024 09:19:11 +0300 (EEST)
-Date: Sun, 25 Aug 2024 06:19:11 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH 4/4] media: Documentation: mc: Replace deprecated graph
- walk API
-Message-ID: <ZsrM3-m7xbr5fpkH@valkosipuli.retiisi.eu>
-References: <20240822212445.2037-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240822212445.2037-5-laurent.pinchart+renesas@ideasonboard.com>
- <ZspabTUscKHf4AGV@valkosipuli.retiisi.eu>
- <20240824221813.GA24650@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172EE4A05
+	for <linux-media@vger.kernel.org>; Sun, 25 Aug 2024 06:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724567399; cv=none; b=M6PbfVA3/EUBmqIIN6K+b/lVn25/fBKMiS7GlQ/Xf5vJ3085HblONSiUVr5L37n3TV8zw9fgH/b8lSfm5GEqBilRggEZfUemRO0fSQWJU1V5iCm/9tJlKg6RFl0TlWzk7P7Yp6bOHc0EKMqAYZNu6GvFyuWVht5kF51+I85nLvc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724567399; c=relaxed/simple;
+	bh=yLnVozuKG1BHRUy+lCPVzsVmaFnwHGT9jlZcYcAU/mU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=eJKmdr8PQmfVDiv2i/5AunjBOJBjV5SCQZr2oLk2jAkJ/bfaqed/dnRGZGo9XPk29vNk29ZoooEjI4A7DdKEkEXkUhZNkJhth6ZV7nbRXN9/M2pgSsKpz1bp97/Nh6W0ujZhGBsvnJXq6vQITmWL/Ogru7g6oW9Qlixzdvbh5fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18BD3C32782;
+	Sun, 25 Aug 2024 06:29:57 +0000 (UTC)
+Message-ID: <a300dda0-71db-473e-a566-0e25969c75cf@xs4all.nl>
+Date: Sun, 25 Aug 2024 08:29:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240824221813.GA24650@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL FOR v6.12] Venus updates
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ linux-media@vger.kernel.org
+References: <20240823090438.130446-1-stanimir.k.varbanov@gmail.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240823090438.130446-1-stanimir.k.varbanov@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
+Hi Stan,
 
-On Sun, Aug 25, 2024 at 01:18:13AM +0300, Laurent Pinchart wrote:
-> On Sat, Aug 24, 2024 at 10:10:53PM +0000, Sakari Ailus wrote:
-> > On Fri, Aug 23, 2024 at 12:24:43AM +0300, Laurent Pinchart wrote:
-> > > The graph walk API has been deprecated in commit eac564de0915 ("media:
-> > > mc: entity: Add entity iterator for media_pipeline") in favour of
-> > > pipelien iterators, but the MC documentation hasn't been updated
-> > > accordingly. It still documents the deprecated API as the only option.
-> > > Fix it by dropping the deprecated function, and documenting the new API.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > >  Documentation/driver-api/media/mc-core.rst | 67 +++++++++++++---------
-> > >  1 file changed, 41 insertions(+), 26 deletions(-)
-> > > 
-> > > diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
-> > > index 2456950ce8ff..1d010bd7ec49 100644
-> > > --- a/Documentation/driver-api/media/mc-core.rst
-> > > +++ b/Documentation/driver-api/media/mc-core.rst
-> > > @@ -144,7 +144,8 @@ valid values are described at :c:func:`media_create_pad_link()` and
-> > >  Graph traversal
-> > 
-> > Perhaps this could be changed as well? The text below still mentions
-> > traversing graphs but no longer documents the API. Shouldn't we cease to
-> > mention it as well?
+On 23/08/2024 11:04, Stanimir Varbanov wrote:
+> Hi Hans, Mauro,
 > 
-> We can rename it. Do you have a proposal for a better name ? The section
-> documents the API that iterates over all entities/pads/links in the
-> graph, as well as some functions that perform some form of graph
-> traversal such as media_pad_remote_pad_first().
+> The pull request includes:
+>  - cocci warning/errors (Ricardo Ribalda).
 
-I missed earlier the pipeline traversal is its own section. Still, the
-graph traversal itself is gone as a public API in the documentation. How
-about e.g.:
+Any reason why the first patch of this cocci series is missing in the PR?
 
-- Accessing graph objects
-- Working with graph objects
+https://patchwork.linuxtv.org/project/linux-media/patch/20240814-cocci-flexarray-v7-1-8a1cc09ae6c4@chromium.org/
 
-> 
-> > Apart from this,
-> > 
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > 
-> > >  ^^^^^^^^^^^^^^^
-> > >  
-> > > -The media framework provides APIs to iterate over entities in a graph.
-> > > +The media framework provides APIs to traverse media graphs, locating connected
-> > > +entities and links.
-> > >  
-> > >  To iterate over all entities belonging to a media device, drivers can use
-> > >  the media_device_for_each_entity macro, defined in
-> > > @@ -159,31 +160,6 @@ the media_device_for_each_entity macro, defined in
-> > >      ...
-> > >      }
-> > >  
-> > > -Drivers might also need to iterate over all entities in a graph that can be
-> > > -reached only through enabled links starting at a given entity. The media
-> > > -framework provides a depth-first graph traversal API for that purpose.
-> > > -
-> > > -.. note::
-> > > -
-> > > -   Graphs with cycles (whether directed or undirected) are **NOT**
-> > > -   supported by the graph traversal API. To prevent infinite loops, the graph
-> > > -   traversal code limits the maximum depth to ``MEDIA_ENTITY_ENUM_MAX_DEPTH``,
-> > > -   currently defined as 16.
-> > > -
-> > > -Drivers initiate a graph traversal by calling
-> > > -:c:func:`media_graph_walk_start()`
-> > > -
-> > > -The graph structure, provided by the caller, is initialized to start graph
-> > > -traversal at the given entity.
-> > > -
-> > > -Drivers can then retrieve the next entity by calling
-> > > -:c:func:`media_graph_walk_next()`
-> > > -
-> > > -When the graph traversal is complete the function will return ``NULL``.
-> > > -
-> > > -Graph traversal can be interrupted at any moment. No cleanup function call
-> > > -is required and the graph structure can be freed normally.
-> > > -
-> > >  Helper functions can be used to find a link between two given pads, or a pad
-> > >  connected to another pad through an enabled link
-> > >  (:c:func:`media_entity_find_link()`, :c:func:`media_pad_remote_pad_first()`,
-> > > @@ -276,6 +252,45 @@ Subsystems should facilitate link validation by providing subsystem specific
-> > >  helper functions to provide easy access for commonly needed information, and
-> > >  in the end provide a way to use driver-specific callbacks.
-> > >  
-> > > +Pipeline traversal
-> > > +^^^^^^^^^^^^^^^^^^
-> > > +
-> > > +Once a pipeline has been constructed with :c:func:`media_pipeline_start()`,
-> > > +drivers can iterate over entities or pads in the pipeline with the
-> > > +:c:macro:´media_pipeline_for_each_entity` and
-> > > +:c:macro:´media_pipeline_for_each_pad` macros. Iterating over pads is
-> > > +straightforward:
-> > > +
-> > > +.. code-block:: c
-> > > +
-> > > +   media_pipeline_pad_iter iter;
-> > > +   struct media_pad *pad;
-> > > +
-> > > +   media_pipeline_for_each_pad(pipe, &iter, pad) {
-> > > +       /* 'pad' will point to each pad in turn */
-> > > +       ...
-> > > +   }
-> > > +
-> > > +To iterate over entities, the iterator needs to be initialized and cleaned up
-> > > +as an additional steps:
-> > > +
-> > > +.. code-block:: c
-> > > +
-> > > +   media_pipeline_entity_iter iter;
-> > > +   struct media_entity *entity;
-> > > +   int ret;
-> > > +
-> > > +   ret = media_pipeline_entity_iter_init(pipe, &iter);
-> > > +   if (ret)
-> > > +       ...;
-> > > +
-> > > +   media_pipeline_for_each_entity(pipe, &iter, entity) {
-> > > +       /* 'entity' will point to each entity in turn */
-> > > +       ...
-> > > +   }
-> > > +
-> > > +   media_pipeline_entity_iter_cleanup(&iter);
-> > > +
-> > >  Media Controller Device Allocator API
-> > >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > >  
+If it is just a mistake, then I can add it.
 
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+>  - Constify structs (Christophe JAILLET).
+>  - A fix for use-after-free when removing venus core module.
+>  - Use iommu_paging_domain_alloc() when loading firmware through IOMMU.
+>  - Change min iommu items in dt-binding for SC7280.
+> 
+> Please, pull.
+> 
+> regards,
+> ~Stan
+> 
+> The following changes since commit 31aaa7d95e09892c81df0d7c49ae85640fa4e202:
+> 
+>   media: cec: cec-adap.c: improve CEC_MSG_FL_REPLY_VENDOR_ID check (2024-08-08 15:24:03 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/svarbanov/media_tree.git tags/tag-venus-for-v6.12
+> 
+> for you to fetch changes up to 5c6fd86dd3b3d6f37b0d07175ce24945134856fd:
+> 
+>   media: dt-bindings: qcom,sc7280-venus: Allow one IOMMU entry (2024-08-23 10:46:31 +0300)
+> 
+> ----------------------------------------------------------------
+> Venus updates for v6.12
+> 
+> ----------------------------------------------------------------
+> Christophe JAILLET (1):
+>       media: venus: Constify struct dec_bufsize_ops and enc_bufsize_ops
+> 
+> Lu Baolu (1):
+>       media: venus: firmware: Use iommu_paging_domain_alloc()
+> 
+> Luca Weiss (1):
+>       media: dt-bindings: qcom,sc7280-venus: Allow one IOMMU entry
+> 
+> Ricardo Ribalda (9):
+>       media: venus: Refactor struct hfi_uncompressed_plane_info
+>       media: venus: Refactor struct hfi_session_get_property_pkt
+>       media: venus: Refactor struct hfi_uncompressed_format_supported
+>       media: venus: Refactor hfi_session_empty_buffer_uncompressed_plane0_pkt
+>       media: venus: Refactor hfi_session_empty_buffer_compressed_pkt
+>       media: venus: Refactor hfi_sys_get_property_pkt
+>       media: venus: Refactor hfi_session_fill_buffer_pkt
+>       media: venus: Refactor hfi_buffer_alloc_mode_supported
+>       media: venus: Convert one-element-arrays to flex-arrays
+> 
+> Zheng Wang (1):
+>       media: venus: fix use after free bug in venus_remove due to race condition
+> 
+>  .../devicetree/bindings/media/qcom,sc7280-venus.yaml |  1 +
+>  drivers/media/platform/qcom/venus/core.c             |  1 +
+>  drivers/media/platform/qcom/venus/firmware.c         |  6 +++---
+>  drivers/media/platform/qcom/venus/hfi_cmds.c         |  8 ++++----
+>  drivers/media/platform/qcom/venus/hfi_cmds.h         | 16 ++++++++--------
+>  drivers/media/platform/qcom/venus/hfi_helper.h       | 20 ++++++++++----------
+>  drivers/media/platform/qcom/venus/hfi_parser.c       |  2 +-
+>  drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c | 20 ++++++++++----------
+>  8 files changed, 38 insertions(+), 36 deletions(-)
+> 
+
 
