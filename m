@@ -1,209 +1,236 @@
-Return-Path: <linux-media+bounces-16737-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16738-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF3495E55B
-	for <lists+linux-media@lfdr.de>; Sun, 25 Aug 2024 22:49:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2AE95E58B
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 00:25:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E9851C20D00
-	for <lists+linux-media@lfdr.de>; Sun, 25 Aug 2024 20:49:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D0091F21A84
+	for <lists+linux-media@lfdr.de>; Sun, 25 Aug 2024 22:25:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4D4116F0D2;
-	Sun, 25 Aug 2024 20:49:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E7C554BD8;
+	Sun, 25 Aug 2024 22:25:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="Zb8TNArZ";
-	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="lPzWUZdX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b0jVXr7+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.25])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2786F1DA4E;
-	Sun, 25 Aug 2024 20:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724618975; cv=pass; b=pKt8VsyLXRIq5B9W6a5GYFfB4QECI4/hnRqvi4YbHL00SUOJibj/wDIYFwRMZpmW5mSTbd9ypYz+8ApFVyn1RGXUNOGAsVOQZJJ5Avua9FNlpQEuBtHTqNSr1WgbQwM3rbMlffffkKcgexcB3boRIgOT3dRf+gJwWrS22EXPkT4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724618975; c=relaxed/simple;
-	bh=BqIiSLAfEFk7KTtGk1nxU/OlLj0XMVWCngU7rnYrCRQ=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=eeQAGEibuQmVNF0yXMY2fzRWnEFuAS1X+UoqUFErEGHDm8udsYOqMxS+HQz0swnVct9JBbuBhkwlLYnOqJm1DCe+MK5J+sU9iwXaZM7QoqcYHoUUWlIrZC6JUe2dxsIJzCJp0dMDOlt06hNEWkq+X4ob6xfhKBRwQSX4+Eu7DMA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goldelico.com; spf=pass smtp.mailfrom=goldelico.com; dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=Zb8TNArZ; dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=lPzWUZdX; arc=pass smtp.client-ip=85.215.255.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goldelico.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724617887; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=QGActSi6qACLSVr3C1rdOZSH01YQx3mwBM4hUwV7HugBCYgcHvxkICYaIWEhrqUotW
-    LHcSMWTM9bxKLHwJ62Oh6i7qGHsqHce1Sp2NB64jw8i8DNPl3izsEybzb6tcXGY6sued
-    eYSwO0KvHaNJ/4UAtrO1+efxti9GqFZ+I/27r1f14oUEWihvjBf2msSY13OIHegz4pkA
-    7NpjsAkhZe2d63Dgt1/mI+92L32OXrBV7+U03FbLj6hikZesLKgcX5KYcYC2svhfSgai
-    DUsYhXRPLKZ8bY0qRTo4q4CZ3PvlcixQ0GkdQwQ92akMVuIWyO1l8kBwB1oOOG766ibN
-    ZzZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1724617887;
-    s=strato-dkim-0002; d=strato.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=Z9BLSZuwrvSDL7iQx7DGiuZzslsd2OQ+ced4zl2PIn0=;
-    b=Jzsr6DiBCDhpdBafEKTNrZYVTScP3e/fj41JQys2hTehsacR6n1sTATgu5oodeGJwt
-    m50nl2EDCiWtb2n8971nF+JIR7FWRyMJlVNzaf59gi5LYvbzh8h5CuyTyG9Cv0CWM8Z/
-    yE6JE3x5gNSyjaQD0x4ECoCg/SwWgUwxX/U2VAMpMk5A5ihYsM2XZ5LB4O8FAH0CQoIO
-    M6dRn8dAA/A6iWc3ZfZpPiyxU2jssN2DfiYrzMPq5wQTYUSeDDTuLGY1xAxgzN0rh7/m
-    VMvqK9h2DfTnCI3njanWtCKWch5ivHKEdZpvUi6evdGl10YLAsTD5y9gJDUz04GMpi0o
-    gWaw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1724617887;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=Z9BLSZuwrvSDL7iQx7DGiuZzslsd2OQ+ced4zl2PIn0=;
-    b=Zb8TNArZt7QVpi7YMCoey7torw6UEmMOgSCcwFR6wBgxa7BMbaQR4mq3UfRwprC1VG
-    krGAnidyLaD/9IJkUdgo1XC/Y0jBYtgSXnJAZVS75zRz4CpJmsMxpoWQEsII6s4/B7sg
-    zY3VE5gStby4U8O/wpRHFQUIpuusDhrcdMytQ0E++3bgoyqLce7kbAtw8DzHgMrfCDyU
-    gPeNhTbK1fZtPn6xosdn7UYZdlfKnie8Qwq2HDIyaQZNeusKsiU5Drt5KRPb382XxwOK
-    MWF0Sj17iEJHHnBK+xmdzDOj+cHiBthHAR1ZrMOwuZyooXB/xeRx+AA33PJX4DeW6b/B
-    rx+w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1724617887;
-    s=strato-dkim-0003; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=Z9BLSZuwrvSDL7iQx7DGiuZzslsd2OQ+ced4zl2PIn0=;
-    b=lPzWUZdXXdBLcLUMt4DRmk4VAskRCZDnyHsapP8B5gW/vlxlZQejCYNp7Po8yBPLaP
-    4QsSCb5LbfhYEgF/IICA==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lFzL1yfz4Z"
-Received: from smtpclient.apple
-    by smtp.strato.de (RZmta 51.2.3 DYNA|AUTH)
-    with ESMTPSA id Q984c207PKVQkZz
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Sun, 25 Aug 2024 22:31:26 +0200 (CEST)
-Content-Type: text/plain;
-	charset=us-ascii
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC11A59
+	for <linux-media@vger.kernel.org>; Sun, 25 Aug 2024 22:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724624703; cv=none; b=HMP1dTNDJroxz20XjdJAr40RUrclNYt9hPB52ErVkiBIM5fMZcu1akOatCauVG88Zrvp/SnYwJPCcQ+0OaZgprbNna9cQdPaOy/ujYAdhpNm7Z5dQHnDb2OPoDpl0BMuGuGCfOjRJimnKUbnjjRZkqzpePzoTXkYulgfTGvjTFI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724624703; c=relaxed/simple;
+	bh=8xg4hRhiRfqfbtCCOB5KLt4wgW2BfWmBI2N4ZG0kaoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VMbuGBDwSAsK7QkMzzIE496xtssXCPmaVFUZhyxVW4IPYL2eNvXTCiuZukTishgt0WJEhAuIJwLFNl5q7UGfX8pZM4H+8HT501RMfYq/3mA3kl532p82Z8CQXsvijFLYqhhT7kz6jcHkugI0cvKbpO3lDxQDrnFRWSiH7PRZ3Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b0jVXr7+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1623F3D5;
+	Mon, 26 Aug 2024 00:23:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724624633;
+	bh=8xg4hRhiRfqfbtCCOB5KLt4wgW2BfWmBI2N4ZG0kaoE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b0jVXr7+FaGkyrjK8yogBQymwZR+v+7sgxLBXbC7HUVFUlKUKm86d1YUd8Yvj6bqD
+	 NYYxF/bvq/BhJMjY1wBI2zH5/SKgsZ26teByWgrf+Uusk9JEuG7g5E0uR9y+yeK2uh
+	 /8FA+ePUiXqqL6ro6pjAueIF9ACW3HWa1jc8uBh8=
+Date: Mon, 26 Aug 2024 01:24:55 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Martin Hecht <martin.hecht@avnet.eu>,
+	Tommaso Merciai <tomm.merciai@gmail.com>, jerry.w.hu@intel.com,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
+	Steve Cho <stevecho@chromium.org>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Hidenori Kobayashi <hidenorik@chromium.org>,
+	Jai Luthra <j-luthra@ti.com>,
+	Suresh Vankadara <svankada@qti.qualcomm.com>
+Subject: Re: [ANN] Media Summit September 16th: Draft Agenda (v3)
+Message-ID: <20240825222455.GA24390@pendragon.ideasonboard.com>
+References: <1bea3c06-4f9d-4bea-a036-9166fc75808e@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
-Subject: Re: [PATCHv2 0/6] drm/omap: hdmi: improve hdmi4 CEC, add CEC for
- hdmi5
-From: H. Nikolaus Schaller <hns@goldelico.com>
-In-Reply-To: <20210302162403.983585-1-hverkuil-cisco@xs4all.nl>
-Date: Sun, 25 Aug 2024 22:31:15 +0200
-Cc: linux-media@vger.kernel.org,
- Sekhar Nori <nsekhar@ti.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>,
- devicetree <devicetree@vger.kernel.org>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Andreas Kemnade <andreas@kemnade.info>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <43F64377-8394-448F-A6F0-4DA11DB9AEF5@goldelico.com>
-References: <20210302162403.983585-1-hverkuil-cisco@xs4all.nl>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Tony Lindgren <tony@atomide.com>
-X-Mailer: Apple Mail (2.3776.700.51)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1bea3c06-4f9d-4bea-a036-9166fc75808e@xs4all.nl>
 
-Hi,
-CEC features are useful to e.g. control HDMI monitor standby.
+Hello,
 
-But I wonder what happened to this series?=20
+On Tue, Aug 13, 2024 at 10:17:59AM +0200, Hans Verkuil wrote:
+> (Apologies for posting a v3 right after v2, I forgot to add Suresh to the attendee list, that's corrected in v3)
+> 
+> Hi all,
+> 
+> Here is my third stab at an agenda for the media summit. As always, it
+> is subject to change and all times are guesstimates!
+> 
+> The media summit will be held on Monday September 16th. Avnet Silica has very
+> kindly offered to host this summit at their Vienna office, which is about 35
+> minutes by public transport from the Open Source Summit Europe venue
+> (https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
+> 
+> Avnet Silica Office Location:
+> 
+> Schönbrunner Str. 297/307, 1120 Vienna, Austria
+> 
+> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
+> 
+> Refreshments are available during the day.
+> 
+> The meeting room is sponsored by Avnet Silica. Much appreciated!
+> 
+> Regarding the face mask policy: we will follow the same guidance that the
+> Linux Foundation gives for the EOSS conference:
+> 
+> https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/#onsite-health-and-safety
+> 
+> 
+> In-Person Attendees:
+> 
+> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+> Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
+> Mauro Carvalho Chehab <mchehab@kernel.org> (Media Kernel Maintainer)
+> Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+> Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+> Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
+> Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+> Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+> Ricardo Ribalda <ribalda@chromium.org> (Google)
+> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+> Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
+> Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+> Alain Volmat <alain.volmat@foss.st.com> (ST Electronics) (TBC)
+> Sean Young <sean@mess.org>
+> Jerry W Hu <jerry.w.hu@intel.com> (Intel)
+> 
+> Remote Attendees (using MS Teams):
+> 
+> Steve Cho <stevecho@chromium.org> (Google)
+> Nas Chung <nas.chung@chipsnmedia.com> (Chips & Media)
+> Tomasz Figa <tfiga@chromium.org> (Google)
+> Hidenori Kobayashi <hidenorik@chromium.org> (Google)
+> Jai Luthra <j-luthra@ti.com> (TI)
+> 
+> Note: information on how to connect remotely will come later.
+> 
+> If any information above is incorrect, or if I missed someone, then please let me know.
+> 
+> We are currently 16 confirmed in-person participants and one TBC. The maximum is 18 people,
+> so we're almost full. If you want to join in-person, then contact me and I'll put you on a
+> waitlist. The attendee list should be finalized by the end of August.
+> 
+> Draft agenda:
+> 
+> 8:45-9:15: get settled :-)
+> 
+> 9:15-9:25: Hans: Quick introduction
+> 
+> 9:25-10:00: Steve Cho:
+> 
+> - V4L2 testing on Chromium using virtual video decode driver (VISL)
+> - V4L2 video decoding testing with KernelCI
+> 
+> 10:00-11:00: Ricardo: multi-committer model using gitlab
+> 
+> 11:00-11:15: break
+> 
+> 11:15-12:15: Jacopo: Multi-context support in V4L2
+> 
+> 12:15-13:30: Lunch
+> 
+> 13:30-14:00: Tomasz: Current state of videobuf2, its limitations and the paths forward.
+> 
+> 14:00-14:45: Laurent: subdevs, state, and usage of the media controller device to submit requests.
+> 
+> 14:45-15:00: break
+> 
+> 15:00-15:30: Sean: new tooling for infrared:
+> 
+> - What it is and what it can do (love to hear any feedback of course)
+> - Where it should be hosted? (I hope gitlab fdo, who do I ask)
+> - What needs to be in place for a release?
+> - This tool replaces ir-ctl and ir-keytable. How we phase them out?
+> 
+> 15:30-16:00: Daniel: Rust in the media subsystem
+> 
+> 16:00-16:15: break
+> 
+> 16:15-16:30: Hans: UVC maintenance
+> 
+> 16:30-18:00: TBD
 
-I could find some reviewed-by: and acked-by: in [1] but it wasn't merged =
-upstream
-for unidentifiable reasons.
+Here's a candidate topic for this time slot:
 
-We apparently had merged this series some years ago into our LetuxOS =
-distro kernel
-and now we found it to be broken (NULL dereference) at least for =
-omap5uevm
-(and likely Pyra Handheld) after rebasing to v6.11-rc (it was already =
-broken
-since v6.9-rc1). Fixes were not difficult, but it would be better if it =
-were
-part of upstream.
+Should media drivers depend on CONFIG_PM?
 
-BR and thanks,
-Nikolaus
+Supporting both CONFIG_PM and !CONFIG_PM in drivers requires cumbersome
+constructs, most likely leading to bugs because !CONFIG_PM is hardly
+ever tested. The issue can be at least partly attributed to deficiencies
+in the runtime PM and driver core APIs that should make this task easier
+for drivers, but that will not realistically change any time soon.
 
-[1] =
-https://lore.kernel.org/r/all/20210302162403.983585-4-hverkuil-cisco@xs4al=
-l.nl/T/
+In !CONFIG_PM kernels, drivers using runtime PM power up the device at
+probe time, and keep it powered until remove time. The increased power
+consumption really makes !CONFIG_PM a niche use case, if a use case at
+all.
 
-> Am 02.03.2021 um 17:23 schrieb Hans Verkuil =
-<hverkuil-cisco@xs4all.nl>:
->=20
-> This series improves the drm_bridge support for CEC by introducing two
-> new bridge ops in the first patch, and using those in the second =
-patch.
->=20
-> This makes it possible to call cec_s_conn_info() and set
-> CEC_CAP_CONNECTOR_INFO for the CEC adapter, so userspace can associate
-> the CEC adapter with the corresponding DRM connector.
->=20
-> The third patch simplifies CEC physical address handling by using the
-> cec_s_phys_addr_from_edid helper function that didn't exist when this
-> code was originally written.
->=20
-> The fourth patch adds the cec clock to ti,omap5-dss.txt.
->=20
-> The fifth patch the missing cec clock to the dra7 and omap5 device =
-tree,
-> and the last patch adds CEC support to the OMAP5 driver.
->=20
-> Tested with a Pandaboard and a Beagle X15 board.
->=20
-> Regards,
->=20
-> Hans
->=20
-> Changes since v1:
->=20
-> - as per suggestion from Laurent, changed cec_init/exit to
->  connector_attach/_detach which are just called for all
->  bridges. The DRM_BRIDGE_OP_CEC was dropped.
->=20
-> - added patch to add the cec clock to ti,omap5-dss.txt
->=20
-> - swapped the order of the last two patches
->=20
-> - incorporated Tomi's suggestions for the hdmi5 CEC support.
->=20
-> Hans Verkuil (6):
->  drm: drm_bridge: add connector_attach/detach bridge ops
->  drm/omapdrm/dss/hdmi4: switch to the connector bridge ops
->  drm/omapdrm/dss/hdmi4: simplify CEC Phys Addr handling
->  dt-bindings: display: ti: ti,omap5-dss.txt: add cec clock
->  dra7.dtsi/omap5.dtsi: add cec clock
->  drm/omapdrm/dss/hdmi5: add CEC support
->=20
-> .../bindings/display/ti/ti,omap5-dss.txt      |   4 +-
-> arch/arm/boot/dts/dra7.dtsi                   |   5 +-
-> arch/arm/boot/dts/omap5.dtsi                  |   5 +-
-> drivers/gpu/drm/drm_bridge_connector.c        |   9 +
-> drivers/gpu/drm/omapdrm/Kconfig               |   8 +
-> drivers/gpu/drm/omapdrm/Makefile              |   1 +
-> drivers/gpu/drm/omapdrm/dss/hdmi.h            |   1 +
-> drivers/gpu/drm/omapdrm/dss/hdmi4.c           |  40 ++--
-> drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c       |  13 +-
-> drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h       |  12 +-
-> drivers/gpu/drm/omapdrm/dss/hdmi5.c           |  63 +++++-
-> drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c       | 209 ++++++++++++++++++
-> drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h       |  42 ++++
-> drivers/gpu/drm/omapdrm/dss/hdmi5_core.c      |  35 ++-
-> drivers/gpu/drm/omapdrm/dss/hdmi5_core.h      |  33 ++-
-> include/drm/drm_bridge.h                      |  27 +++
-> 16 files changed, 453 insertions(+), 54 deletions(-)
-> create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c
-> create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h
->=20
-> --=20
-> 2.30.1
->=20
+For those reasons, I would like to propose depending on CONFIG_PM for
+media drivers. In an ideal world this could be done for the whole
+subsystem. However, some architectures don't support CONFIG_PM, namely
 
+- alpha
+- csky
+- hexagon
+- m68k
+- microblaze
+- nios2
+- openrisc
+- parisc
+- s390
+- sparc (32-bit version only, sparc64 supports CONFIG_PM)
+
+I assume we would get complains of the media subsystem became unusable
+on those architectures. The decision could be made per driver, or per
+category of drivers. I'm in particular interested in avoiding the churn
+of supporting !CONFIG_PM in camera sensor drivers, and in platform
+drivers that are used only on platforms that support CONFIG_PM.
+
+I'm aware that asking this question may open the door to a more annoying
+one. If we decide that we need to keep supporting those platforms in
+camera sensor drivers, and that keeping the camera sensor powered up
+unconditionally is not good enough, then we will have to reconsider the
+move to runtime PM for sensor drivers that we started years ago (and
+haven't completed yet).
+
+> Please reply with corrections, questions, etc. to this email. I'll update the agenda
+> over time. Again, these times are very preliminary.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
