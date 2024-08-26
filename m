@@ -1,301 +1,177 @@
-Return-Path: <linux-media+bounces-16774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16777-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F12D95EDD0
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 11:57:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB0095EF3C
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 12:59:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA5E2284EE7
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 09:57:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E02AE1C21C04
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 10:59:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA2D61465A5;
-	Mon, 26 Aug 2024 09:57:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5764514F10E;
+	Mon, 26 Aug 2024 10:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="jumwgkCQ"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="chMtjZL6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEB9146593
-	for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 09:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896B4152160
+	for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 10:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724666231; cv=none; b=mTjvraAR0DDkLeDpqrEBHINQaOYUmZlk0sTbGehbebej9tdhhXM3RPNVbgtBWg4rnGghiK61uIvBvVcw+Lq5BqJQwp6bJlRB+dBCdQvB30iN1DGTLK4dT8N/XvRhN04zf5+bHrfPnjaKmsJzvbi2a9wo8MglBVXfvjrHneodB68=
+	t=1724669933; cv=none; b=MeJ3sfT9he5nk6JkU7slIp8QDD+dZBSddem7lU1Cln9AACG+E2FEujhxHxKyiiyHoqxfUPa2sVndeTTZTxWmrE2PI/7gCyHNqPnCfTTpsSmKosgT8Vb6jB/EsKicloBkmCdL6FiLSeaMWkyfVHUShfWOYbDBDe6ZQYuQA6ov5ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724666231; c=relaxed/simple;
-	bh=OYpxpgb622Sk8y2cctzid0f3cfRYMXOKgD4JabmPp3A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WYhZZz5cJg+kFTpM68J2PyRfZpAaLY5wR//gES98IrQwuyHu24cyn09Qn+YMNP4L3poNO1NltPiyH2QzibcbgQSPhVM4rS2Vp9pLqqfPsbbI2B3Uf84ZPJybNTexqEzYGS9gHI+NBl6FouviRrQln7X08i5y5Uu/U563UP4TqyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=jumwgkCQ; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5343eeb4973so3052484e87.2
-        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 02:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1724666226; x=1725271026; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uIL5oAzFHfOobIzGR8jVXAbOsDn/MOFmDN7pgL7te3Y=;
-        b=jumwgkCQcNVcKcO0QYMbhmv3GE/ESGDOfQiSRGZYv9dZtt5fSJjk/urMV9vF1U0RWa
-         YTxcrTqfVDFrkQjgi8oCmb4QR050LCuSZKm/cZOA6SD5QZvnh33O47BdLWFxQOoz/m66
-         +p+ro0Q4GT6Y9bNKbSQS2dwX17NlXzVBLmnPHuq0SIU1HHfS322TChAsFVpTiNWEm22a
-         98jTG7mC2khXznvYakosNsL086eIBaHLK0p/UbDoy4IXvdKsHB1cRr1wv7RnaYh+fFRY
-         qg43F0kyu+JqCUA52Lg4Znw46ktQPu9zb0oyuqaqE+MI2qqol95PYqhAU/8PlXvoeCHi
-         IHEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724666226; x=1725271026;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uIL5oAzFHfOobIzGR8jVXAbOsDn/MOFmDN7pgL7te3Y=;
-        b=LykS+y0SELpsfJZJbdqeflQMiw8b4o8ADlSU/kqQXNdlzJBo+RNK4g3ukR+rTiQD87
-         D7+ba2EIaMxKsdwjb5m8wPK1z2sDZEKhmLZ9V0iGHG5rrT+/EYX4dFmCSh/kCGUNrDym
-         VxyGIE25wVTgfqVlXRWj/S9Me5twJeqybI46l3q2a/Jy7+YlBAHqTDzrc7Kv3a8xm3ei
-         ifS8A61d5rLeUnP3+kmNf/DfjqCLwbF2Fnbl1n3azoOnk1F/c5geOANVuiBUlnu4eRK9
-         e5DQSIg050X3nu78f+wPo7o+6Dl6rKOMHaquMz+01KQFwOEXNUUTchJ1OCEr+VCr52x7
-         GPew==
-X-Forwarded-Encrypted: i=1; AJvYcCX2Vu10xXJXn9dhyXJr0V24D6JSEoaKl1b1G0KDbhz+TXPmMgQmpkD+uCGRDacNK0qKybpyGw2MPGc6oQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyP2QBw+W49quUKItlEOeuYYQVqojpdxREP1HYPa5OPzKwSKEkf
-	2dAFV/5TY9tzkiTQ9Z4T6ZrIlbAVmHSujugFWhwsryNTDtAnrNfAFgs1ha18FEU=
-X-Google-Smtp-Source: AGHT+IGZZXV5lkafZrCu5LL2F7FhiqQExbkToThDKXq32WRAq+FEAjQfan6PItK1pXZ3kLnblRQ9Bg==
-X-Received: by 2002:a05:6512:318c:b0:533:4656:d4d6 with SMTP id 2adb3069b0e04-5343883d608mr7894535e87.5.1724666225889;
-        Mon, 26 Aug 2024 02:57:05 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f436cb9sm640180966b.121.2024.08.26.02.57.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Aug 2024 02:57:05 -0700 (PDT)
-Message-ID: <4937e7d4-bb05-452d-ace9-429b4cd43005@tuxon.dev>
-Date: Mon, 26 Aug 2024 12:57:03 +0300
+	s=arc-20240116; t=1724669933; c=relaxed/simple;
+	bh=c6SqeUiqOnv3ZhX9ztPolYCdFLhdyIMj6VIF7xDnzRE=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=OdjFaegr7u9WfNvt0Wxyh/d6307PlwS2tHbuDH2C5gOhiayARhVi/26F3vzcb3c2eCVHFl5bPgi8r/YVmFEhmsbh/VOuo1G1zFpPed7kwpnyDUCtJjHi7nwFOe0uPDKAiFZ6baS7ONOIy4Rkapx4DbKRQ+U3jFxaKxi5zlOsbwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=chMtjZL6; arc=none smtp.client-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240826105843epoutp048c8d28ca1462448e4128f585f034fc99~vQihg7j0S0071600716epoutp04d
+	for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 10:58:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240826105843epoutp048c8d28ca1462448e4128f585f034fc99~vQihg7j0S0071600716epoutp04d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1724669923;
+	bh=c6SqeUiqOnv3ZhX9ztPolYCdFLhdyIMj6VIF7xDnzRE=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=chMtjZL6+a/ivctxZRkUq4042mDSTG/t06Eu8CzvGVrVtM14jrtYRsrLcUVOqrGTF
+	 2TDHdRnAHTYNczkM8nX3bBEjQAhBZox34vybtTWp3PcGHYpu7ts7ubODcIroFZTPUL
+	 YYDDOHDA+ELJmLHBjFDhLGgSSHCxEUE6pGW05guI=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20240826105842epcas5p1ff15332249695555ca0e535f0f2aa5c5~vQigLuW_k0512605126epcas5p1D;
+	Mon, 26 Aug 2024 10:58:42 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4WsnjD0lKXz4x9Pt; Mon, 26 Aug
+	2024 10:58:40 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	FD.5D.19863.FDF5CC66; Mon, 26 Aug 2024 19:58:39 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240826090912epcas5p1101667af78ff996f11ac88abafb009f8~vPC56ya7k2792427924epcas5p1p;
+	Mon, 26 Aug 2024 09:09:12 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240826090912epsmtrp1d45f2ef5d9f5e514d3c00cd40dd71a5e~vPC550YAS1657116571epsmtrp1k;
+	Mon, 26 Aug 2024 09:09:12 +0000 (GMT)
+X-AuditID: b6c32a50-c73ff70000004d97-7f-66cc5fdfb4ff
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	5B.24.08964.8364CC66; Mon, 26 Aug 2024 18:09:12 +0900 (KST)
+Received: from FDSFTE308 (unknown [107.122.81.79]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20240826090909epsmtip22b423bfe569ea458ca1f1062b1e5915b~vPC3XO3961523215232epsmtip2A;
+	Mon, 26 Aug 2024 09:09:09 +0000 (GMT)
+From: "Aakarsh Jain" <aakarsh.jain@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Cc: <m.szyprowski@samsung.com>, <andrzej.hajda@intel.com>,
+	<mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+	<krzysztof.kozlowski+dt@linaro.org>, <linux-samsung-soc@vger.kernel.org>,
+	<gost.dev@samsung.com>, <aswani.reddy@samsung.com>,
+	<pankaj.dubey@samsung.com>
+In-Reply-To: <8c7127c5-e8f8-4ba2-b39a-0c9ada871977@linaro.org>
+Subject: RE: [PATCH v4] dt-bindings: media: s5p-mfc: Remove s5p-mfc.txt
+ binding
+Date: Mon, 26 Aug 2024 14:39:08 +0530
+Message-ID: <0cca01daf797$9e636f50$db2a4df0$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] media: platform: rzg2l-cru: rzg2l-video: Move
- request_irq() to probe()
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "biju.das.au" <biju.das.au@gmail.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20240824182120.320751-1-biju.das.jz@bp.renesas.com>
- <6f16a3f7-99bb-47c4-9034-c1f0ccd59546@tuxon.dev>
- <TY3PR01MB11346F3C71013AD71C1556BA1868B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <20240826094311.GA27596@pendragon.ideasonboard.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20240826094311.GA27596@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQE0FXDwiVRvvrO6AZU3uaZQQZSEWALLDn/8AsWn1bSzWn1F4A==
+Content-Language: en-in
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKJsWRmVeSWpSXmKPExsWy7bCmhu79+DNpBn1fbSzuL/7MYnFo81Z2
+	i5sHdjJZXJx5l8Wi78VDZou9r4Fimx5fY7W4vGsOm0XPhq2sFjPO72OyWHvkLrvFsk1/mCwW
+	bf3C7sDrsXjPSyaPTas62TzuXNvD5rF5Sb1H35ZVjB6fN8l5nPr6mT2APSrbJiM1MSW1SCE1
+	Lzk/JTMv3VbJOzjeOd7UzMBQ19DSwlxJIS8xN9VWycUnQNctMwfoWiWFssScUqBQQGJxsZK+
+	nU1RfmlJqkJGfnGJrVJqQUpOgUmBXnFibnFpXrpeXmqJlaGBgZEpUGFCdkbfr6OsBV08FTu+
+	7mNpYHzG1cXIySEhYCJx68YJ1i5GLg4hgT2MEtdO3maCcD4xSlw8NYEdpEpI4BujxP0tOjAd
+	U/ceg+rYyyhxprMBynnOKNHQcJIZpIpNQF/i/qkesISIwHJGiTWXLzKDOMwCvUwSb7cfYgKp
+	4hSwk7hz6gtYh7BAoMT8FzfB9rEIqEo8u32bFcTmFbCUuH5nKzuELShxcuYTFhCbWUBbYtnC
+	18wQNylI/Hy6DKxeRMBJYt35NWwQNeISR3/2gC2WELjAIfH833dWiAYXiTUfdkI1C0u8Or6F
+	HcKWknjZ3wZlJ0s8XvQSqiZHYv2eKSwQtr3EgStzgGwOoAWaEut36UOEZSWmnlrHBLGXT6L3
+	9xMmiDivxI55MLaaxJw7P6BOkJE4vHop4wRGpVlIXpuF5LVZSF6YhbBtASPLKkap1ILi3PTU
+	ZNMCQ9281HJ4nCfn525iBKdnrYAdjKs3/NU7xMjEwXiIUYKDWUmEV+7yyTQh3pTEyqrUovz4
+	otKc1OJDjKbAAJ/ILCWanA/MEHkl8YYmlgYmZmZmJpbGZoZK4ryvW+emCAmkJ5akZqemFqQW
+	wfQxcXBKNTA5My/+U+py676k2vUlJxke7tviXfXdcf6tU2eFnas8c867tz37+OJoXbVwSlLa
+	pwlq6jlLjP75/he1njDz+ZmVW07wJJ8y/jz9VMLKoumSLqHngz0PB9lyb+h48iZ5mv+vf6f7
+	P67ffewW71qjl4Xhv3te3bcyz/gYPGmnIIPQiydMZ/qvz+XolTSpl/dO387fbHFqSdv31RfK
+	pefu7PCsy753zims2X6u85kji+e5bhU955V0yPlab1P7vsvtC/g4PWvidAM8tkyxfND7Mfz9
+	y0KeW8t7Zb7krFaK4ytc4r2r+dbPw/v/TCr7sNbr1DPf4iShfPXA1J5L6VsTmmrP1577uMr/
+	RYpJqvL0Pa9XK7EUZyQaajEXFScCAOc7PJhYBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRmVeSWpSXmKPExsWy7bCSvK6F25k0g/WvJCzuL/7MYnFo81Z2
+	i5sHdjJZXJx5l8Wi78VDZou9r4Fimx5fY7W4vGsOm0XPhq2sFjPO72OyWHvkLrvFsk1/mCwW
+	bf3C7sDrsXjPSyaPTas62TzuXNvD5rF5Sb1H35ZVjB6fN8l5nPr6mT2APYrLJiU1J7MstUjf
+	LoErY8HO+UwFb7gqvixYy9rAOJOzi5GTQ0LARGLq3mOsXYxcHEICuxkl9vyYywSRkJH433aM
+	HcIWllj57zk7RNFTRolHkxrAitgE9CXun+oB6xYRWMkocaHtJJjDLDCVSeJn+w5miJaDjBJX
+	9j0Em8UpYCdx59QXZhBbWMBf4ufNflYQm0VAVeLZ7dtgNq+ApcT1O1vZIWxBiZMzn7CA2MwC
+	2hJPbz6Fs5ctfM0McZ+CxM+ny8B6RQScJNadX8MGUSMucfRnD/MERuFZSEbNQjJqFpJRs5C0
+	LGBkWcUomVpQnJueW2xYYJiXWq5XnJhbXJqXrpecn7uJERyjWpo7GLev+qB3iJGJg/EQowQH
+	s5IIr9zlk2lCvCmJlVWpRfnxRaU5qcWHGKU5WJTEecVf9KYICaQnlqRmp6YWpBbBZJk4OKUa
+	mA78uffqdp9Ia+iGC7szHMw26DPmsb9qOXP/7NOiD/wnjHIOz/216U3m7Mkbd29mPRx/0C6J
+	a7vit/iHs0tZ98RMv528O8lt0s5TUwuN6y7wmAefehQobRFxcv+jlTYXmJMeX+kxvlTQ/PON
+	66eL5243XA+uutkjeNv7kt6s7jVGL1fpn9g3ba/Ujxqh9W2qDw4d+p9b8cflmuJRruk5lta8
+	Byxvll/PqN33YUvjV3HeNp++z5xHXvZsz9Oc5rtS/opayROLdeG5UXkm1be2Jb1aJW5wqabc
+	yD7HWbdalM3xxbo6Xe7thtyH13S0NL0415lx9ZqVQ5WmfGWl4v3PWwzvPfi+OkkxyalM4ej5
+	oh9KLMUZiYZazEXFiQCjuGMSQAMAAA==
+X-CMS-MailID: 20240826090912epcas5p1101667af78ff996f11ac88abafb009f8
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240808135645epcas5p37c6bf0c6ad8efbe43e8451874900c111
+References: <CGME20240808135645epcas5p37c6bf0c6ad8efbe43e8451874900c111@epcas5p3.samsung.com>
+	<20240808134432.50073-1-aakarsh.jain@samsung.com>
+	<8c7127c5-e8f8-4ba2-b39a-0c9ada871977@linaro.org>
 
 
 
-On 26.08.2024 12:43, Laurent Pinchart wrote:
-> On Mon, Aug 26, 2024 at 08:08:33AM +0000, Biju Das wrote:
->> On Monday, August 26, 2024 8:27 AM, claudiu beznea wrote:
->>> On 24.08.2024 21:21, Biju Das wrote:
->>>> Move request_irq() to probe(), in order to avoid requesting IRQ during
->>>> device start which happens frequently. As this function is in probe(),
->>>> it is better to replace it with its devm variant for managing the
->>>> resource efficiently.
->>>>
->>>> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>>> ---
->>>> v2->v3:
->>>>  * Dropped wrapper function rzg2l_cru_process_irq() and made
->>>>    rzg2l_cru_irq() global.
->>>>  * Added Rb tag from Laurent.
->>>> v1->v2:
->>>>  * Updated commit header and description.
->>>>  * Moved rzg2l_cru_irq from rzg2l-video.c->rzg2l-core.c and introduced
->>>>    rzg2l_cru_process_irq() in video.c to process irq.
->>>>  * Dropped image_conv_irq from struct rzg2l_cru_dev
->>>>  * Replaced request_irq with its devm variant.
->>>> ---
->>>>  .../media/platform/renesas/rzg2l-cru/rzg2l-core.c | 13 +++++++++----
->>>> .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h  |  6 ++----
->>>>  .../platform/renesas/rzg2l-cru/rzg2l-video.c      | 15 ++-------------
->>>>  3 files changed, 13 insertions(+), 21 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
->>>> b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
->>>> index 280efd2a8185..2a2907beb722 100644
->>>> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
->>>> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
->>>> @@ -242,7 +242,7 @@ static int rzg2l_cru_media_init(struct rzg2l_cru_dev *cru)
->>>>  static int rzg2l_cru_probe(struct platform_device *pdev)
->>>>  {
->>>>  	struct rzg2l_cru_dev *cru;
->>>> -	int ret;
->>>> +	int irq, ret;
->>>>
->>>>  	cru = devm_kzalloc(&pdev->dev, sizeof(*cru), GFP_KERNEL);
->>>>  	if (!cru)
->>>> @@ -270,9 +270,14 @@ static int rzg2l_cru_probe(struct platform_device *pdev)
->>>>  	cru->dev = &pdev->dev;
->>>>  	cru->info = of_device_get_match_data(&pdev->dev);
->>>>
->>>> -	cru->image_conv_irq = platform_get_irq(pdev, 0);
->>>> -	if (cru->image_conv_irq < 0)
->>>> -		return cru->image_conv_irq;
->>>> +	irq = platform_get_irq(pdev, 0);
->>>> +	if (irq < 0)
->>>> +		return irq;
->>>> +
->>>> +	ret = devm_request_irq(&pdev->dev, irq, rzg2l_cru_irq, IRQF_SHARED,
->>>> +			       KBUILD_MODNAME, cru);
->>>
->>> Because this is requested w/ IRQF_SHARED the free_irq() ->
->>> __free_irq() [1] will call the IRQ handler to simulate an IRQ SHARE
->>> scenario where other device generate an interrupt.
-> 
-> Good point, I had missed that.
-> 
->> Currently CSI driver is not registered any interrupts and CRU is the single user.
-> 
-> Regardless, the fact that the IRQ is requested with IRQF_SHARED means
-> that the IRQ handler needs to be prepared to be called at any time from
-> the point of registration to the point the IRQ is freed. This is tested
-> by CONFIG_DEBUG_SHIRQ=y, which you should enable for testing.
-> 
-> If you don't need to share the interrupt with any other device, you can
-> drop the IRQF_SHARED. Otherwise, you will need to fix the issue
-> properly. You can probably wrap the interrupt handling with
-> pm_runtime_get_if_in_use() and pm_runtime_put() (hoping those functions
-> can be called from interrupt context).
-
-As of my current investigation on this, pm_runtime_suspended() check is
-enough in interrupt handler (but... see below how this works).
-
-> 
-> On a side note, I also I wonder if this issue precludesusage of
-> devm_request_irq() for shared interrupts, requiring calling free_irq()
-> manually at remove time to control the sequence of cleanup operations.
-
-for pm_runtime_suspended() to work in interrupt handler (and to cover the
-CONFIG_DEBUG_SHIRQ=y) one need to:
-
-1/ either devm_pm_runtime_enable() in probe before devm_request_irq()
-2/ or use pm_runtime_enable() + request_irq() in probe and
-   pm_runtime_disable() + free_irq() in remove
-
-Because pm_runtime_suspended() checks also for !dev->power.disable_depth.
-
-Thank you,
-Claudiu Benea
-
-
-> 
->>>> +	if (ret)
->>>> +		return dev_err_probe(&pdev->dev, ret, "failed to request irq\n");
->>>>
->>>>  	platform_set_drvdata(pdev, cru);
->>>>
->>>> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
->>>> b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
->>>> index a5a99b004322..174760239548 100644
->>>> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
->>>> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
->>>> @@ -8,6 +8,7 @@
->>>>  #ifndef __RZG2L_CRU__
->>>>  #define __RZG2L_CRU__
->>>>
->>>> +#include <linux/irqreturn.h>
->>>>  #include <linux/reset.h>
->>>>
->>>>  #include <media/v4l2-async.h>
->>>> @@ -68,8 +69,6 @@ struct rzg2l_cru_ip {
->>>>   *
->>>>   * @vclk:		CRU Main clock
->>>>   *
->>>> - * @image_conv_irq:	Holds image conversion interrupt number
->>>> - *
->>>>   * @vdev:		V4L2 video device associated with CRU
->>>>   * @v4l2_dev:		V4L2 device
->>>>   * @num_buf:		Holds the current number of buffers enabled
->>>> @@ -105,8 +104,6 @@ struct rzg2l_cru_dev {
->>>>
->>>>  	struct clk *vclk;
->>>>
->>>> -	int image_conv_irq;
->>>> -
->>>>  	struct video_device vdev;
->>>>  	struct v4l2_device v4l2_dev;
->>>>  	u8 num_buf;
->>>> @@ -141,6 +138,7 @@ void rzg2l_cru_dma_unregister(struct rzg2l_cru_dev *cru);
->>>>
->>>>  int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru);
->>>>  void rzg2l_cru_video_unregister(struct rzg2l_cru_dev *cru);
->>>> +irqreturn_t rzg2l_cru_irq(int irq, void *data);
->>>>
->>>>  const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format);
->>>>
->>>> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
->>>> b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
->>>> index b16b8af6e8f8..e80bfb9fc1af 100644
->>>> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
->>>> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
->>>> @@ -527,7 +527,7 @@ static void rzg2l_cru_stop_streaming(struct rzg2l_cru_dev *cru)
->>>>  	rzg2l_cru_set_stream(cru, 0);
->>>>  }
->>>>
->>>> -static irqreturn_t rzg2l_cru_irq(int irq, void *data)
->>>> +irqreturn_t rzg2l_cru_irq(int irq, void *data)
->>>>  {
->>>>  	struct rzg2l_cru_dev *cru = data;
->>>>  	unsigned int handled = 0;
->>>> @@ -637,13 +637,6 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
->>>>  		goto assert_aresetn;
->>>>  	}
->>>>
->>>> -	ret = request_irq(cru->image_conv_irq, rzg2l_cru_irq,
->>>> -			  IRQF_SHARED, KBUILD_MODNAME, cru);
->>>> -	if (ret) {
->>>> -		dev_err(cru->dev, "failed to request irq\n");
->>>> -		goto assert_presetn;
->>>> -	}
->>>> -
->>>>  	/* Allocate scratch buffer. */
->>>>  	cru->scratch = dma_alloc_coherent(cru->dev, cru->format.sizeimage,
->>>>  					  &cru->scratch_phys, GFP_KERNEL); @@ -651,7 +644,7 @@ static
->>>> int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
->>>>  		return_unused_buffers(cru, VB2_BUF_STATE_QUEUED);
->>>>  		dev_err(cru->dev, "Failed to allocate scratch buffer\n");
->>>>  		ret = -ENOMEM;
->>>> -		goto free_image_conv_irq;
->>>> +		goto assert_presetn;
->>>>  	}
->>>>
->>>>  	cru->sequence = 0;
->>>> @@ -670,9 +663,6 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
->>>>  	if (ret)
->>>>  		dma_free_coherent(cru->dev, cru->format.sizeimage, cru->scratch,
->>>>  				  cru->scratch_phys);
->>>> -free_image_conv_irq:
->>>> -	free_irq(cru->image_conv_irq, cru);
->>>> -
->>>>  assert_presetn:
->>>>  	reset_control_assert(cru->presetn);
->>>>
->>>> @@ -698,7 +688,6 @@ static void rzg2l_cru_stop_streaming_vq(struct vb2_queue *vq)
->>>>  	dma_free_coherent(cru->dev, cru->format.sizeimage,
->>>>  			  cru->scratch, cru->scratch_phys);
->>>>
->>>> -	free_irq(cru->image_conv_irq, cru);
->>>>  	return_unused_buffers(cru, VB2_BUF_STATE_ERROR);
->>>>
->>>>  	reset_control_assert(cru->presetn);
-> 
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzysztof.kozlowski=40linaro.org>
+> Sent: 08 August 2024 20:52
+> To: Aakarsh Jain <aakarsh.jain=40samsung.com>; linux-arm-
+> kernel=40lists.infradead.org; linux-media=40vger.kernel.org; linux-
+> kernel=40vger.kernel.org
+> Cc: m.szyprowski=40samsung.com; andrzej.hajda=40intel.com;
+> mchehab=40kernel.org; hverkuil-cisco=40xs4all.nl;
+> krzysztof.kozlowski+dt=40linaro.org; linux-samsung-soc=40vger.kernel.org;
+> gost.dev=40samsung.com; aswani.reddy=40samsung.com;
+> pankaj.dubey=40samsung.com
+> Subject: Re: =5BPATCH v4=5D dt-bindings: media: s5p-mfc: Remove s5p-mfc.t=
+xt
+> binding
+>=20
+Hi Krzysztof,
+> On 08/08/2024 15:44, Aakarsh Jain wrote:
+> > s5p-mfc bindings to json-schema is already merged with this commit
+> > 538af6e5856b (=22dt-bindings: media: s5p-mfc:
+> > convert bindings to json-schema=22). Remove s5p-mfc.txt file.
+> >
+> > Fixes: 538af6e5856b (=22dt-bindings: media: s5p-mfc: convert bindings t=
+o
+> > json-schema=22)
+> > Signed-off-by: Aakarsh Jain <aakarsh.jain=40samsung.com>
+>=20
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski=40linaro.org>
+>=20
+Thanks for your review.
+I don=E2=80=99t=20see=20this=20patch=20in=20linux-next.=20Please=20let=20me=
+=20know=20if=20any=20other=20changes=20required.=0D=0AYou=20will=20pick=20u=
+p=20this=20patch=20via=20your=20tree=20or=20this=20will=20go=20via=20Rob's=
+=20or=20Media=20tree?=0D=0ABetter=20you=20only=20pick.=0D=0A=0D=0A>=20Best=
+=20regards,=0D=0A>=20Krzysztof=0D=0A=0D=0A=0D=0A
 
