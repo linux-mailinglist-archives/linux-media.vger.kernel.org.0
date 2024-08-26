@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-16823-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16824-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C567195F41E
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 16:44:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50EB895F41F
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 16:44:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 719B11F2278E
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 14:44:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A109B21AC7
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 14:44:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CB2D18D64D;
-	Mon, 26 Aug 2024 14:44:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18870192599;
+	Mon, 26 Aug 2024 14:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HMm0dnMN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sK0lMCSe"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D15E18FC7C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C5518BBBF
 	for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 14:44:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724683446; cv=none; b=Ege0EGUW6p2JGAd3Pgek9JJqdAlfTR9v+mGjdsgf6WXQoHbE4aTdyfuRaszy6EH/J/ziME8VwELt5qXL6vGEcoP3Z0LWm4SMpPbffu6lqLQGz8g+Zt0rnf1/XG2ltvPyP8Wio97yuYOdo/vY/+Yn2DMrYsrPpfC6QhBmNRFrXZo=
+	t=1724683447; cv=none; b=pjRDoDsuTAG2YGK9OAg7D4H5s8reblX3GwPKKSsTbaNKX5HfnmrSW89x3co1NUXW38gnRCO1VvE3JGan2ev31rEnz7wexAmTjuu+8w6idbwzQ6xgTWNL/KyjnCnnkFL2yCHMpalA0EIITXqgXOgpKrZPJeFKtMh+3GHsogfILSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724683446; c=relaxed/simple;
-	bh=Wdxv9SQ6HPlRDOYbzWq3gMXeob61suNvNjG4TSNiDsE=;
+	s=arc-20240116; t=1724683447; c=relaxed/simple;
+	bh=rNfj1r2BmYuLAhonK75fj6llVhCusCLkj0fbb4C4avA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T6Sr+VOLG98QDAEvNTqirr64cjtP5w81HlAPagv30PGBp5ISWBLAxN+daDZmjmmlvD01nXFsJeLSAn4hlwzL5KMpYu3/2oV9dOxflToky4DzwBhmFsKs5t2K+id4aXSWN2XkyzHk/PIJ8x4mxw117zcCZT1GkZlQWvaXWkp3VNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HMm0dnMN; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=u86xfEr+qMHGH9iWYQjpsj84IunmOvEeuOl1fW2J96Nb+1rEMTLcQibKT5s3dK5uZMmH3Is4//uZY1pYz57ceaann9FrQI/+2P/TSPplZ2U5YIM8MmT5wWQ+sKFCE+TmHQ5pLGk6HuPedjzrbgfjDf89nNxDzvkcVwVM4cziWHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sK0lMCSe; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (mob-5-90-142-90.net.vodafone.it [5.90.142.90])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14C4C8D4;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 088319FF;
 	Mon, 26 Aug 2024 16:42:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724683375;
-	bh=Wdxv9SQ6HPlRDOYbzWq3gMXeob61suNvNjG4TSNiDsE=;
+	s=mail; t=1724683376;
+	bh=rNfj1r2BmYuLAhonK75fj6llVhCusCLkj0fbb4C4avA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HMm0dnMNtrLjj1L5fDUlgM8rio7icyuHAzsnGFtxvCqpGkYLO9GYqzAkMDWuDme3S
-	 8cGECiCsdSrWePZAXXGOnS8lBbdqou8+4Suh08BOA5DjGUWwbbTx2zaE4+41TBY7UG
-	 KE3XR8rF3nNY3QgWcGz4EiXrpML1MKSlK4YRc68k=
+	b=sK0lMCSeXuuLSTnIUCt2bcrgCtN0wDLR6ZWZuwNG519pmUWjtS42yRR2zq8M9tlHf
+	 iT9FgAn7V4jXbJskh/VAEuPBOuSBKVI/ZEb+KXGZIUemCdL5HhU7ZeXyWWirluSG9/
+	 7mh5bqgKH5auRQBDpB4arQ2A5CUqP93BUPCA36zM=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Naushir Patuck <naush@raspberrypi.com>,
 	Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>,
@@ -49,9 +49,9 @@ To: Naushir Patuck <naush@raspberrypi.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	linux-media@vger.kernel.org
-Subject: [PATCH 2/4] media: pisp_be: Remove config validation from schedule()
-Date: Mon, 26 Aug 2024 16:43:35 +0200
-Message-ID: <20240826144338.463683-3-jacopo.mondi@ideasonboard.com>
+Subject: [PATCH 3/4] media: pisp-be: Split jobs creation and scheduling
+Date: Mon, 26 Aug 2024 16:43:36 +0200
+Message-ID: <20240826144338.463683-4-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240826144338.463683-1-jacopo.mondi@ideasonboard.com>
 References: <20240826144338.463683-1-jacopo.mondi@ideasonboard.com>
@@ -63,70 +63,297 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The config parameters buffer is already validated in
-pisp_be_validate_config() at .buf_prepare() time.
+Currently the 'pispbe_schedule()' function does two things:
 
-However some of the same validations are also performed at
-pispbe_schedule() time. In particular the function checks that:
+1) Tries to assemble a job by inspecting all the video node queues
+   to make sure all the required buffers are available
+2) Submit the job to the hardware
 
-1) config.num_tiles is valid
-2) At least one of the BAYER or RGB input is enabled
+The pispbe_schedule() function is called at:
 
-The input validation is already performed in pisp_be_validate_config()
-and there is no need to repeat that at pispbe_schedule() time.
+- video device start_streaming() time
+- video device qbuf() time
+- irq handler
 
-The num_tiles validation can be moved to pisp_be_validate_config() as
-well. As num_tiles is a u32 it can'be be < 0, so change the sanity
-check accordingly.
+As assembling a job requires inspecting all queues, it is a rather
+time consuming operation which is better not run in IRQ context.
+
+To avoid the executing the time consuming job creation in interrupt
+context split the job creation and job scheduling in two distinct
+operations. When a well-formed job is created, append it to the
+newly introduced 'pispbe->job_queue' where it will be dequeued from
+by the scheduling routine.
+
+At start_streaming() and qbuf() time immediately try to schedule a job
+if one has been created as the irq handler routing is only called when
+a job has completed, and we can't solely rely on it for scheduling new
+jobs.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- .../platform/raspberrypi/pisp_be/pisp_be.c    | 25 ++++++-------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+ .../platform/raspberrypi/pisp_be/pisp_be.c    | 137 +++++++++++-------
+ 1 file changed, 83 insertions(+), 54 deletions(-)
 
 diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-index 8ba1b9f43ba1..73a5c88e25d0 100644
+index 73a5c88e25d0..f42541bb4827 100644
 --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
 +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-@@ -588,24 +588,6 @@ static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
- 	pispbe->hw_busy = true;
- 	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+@@ -190,6 +190,8 @@ struct pispbe_hw_enables {
  
--	if (job.config->num_tiles <= 0 ||
--	    job.config->num_tiles > PISP_BACK_END_NUM_TILES ||
--	    !((job.hw_enables.bayer_enables | job.hw_enables.rgb_enables) &
--	      PISP_BE_BAYER_ENABLE_INPUT)) {
--		/*
--		 * Bad job. We can't let it proceed as it could lock up
--		 * the hardware, or worse!
--		 *
--		 * For now, just force num_tiles to 0, which causes the
--		 * H/W to do something bizarre but survivable. It
--		 * increments (started,done) counters by more than 1,
--		 * but we seem to survive...
--		 */
--		dev_dbg(pispbe->dev, "Bad job: invalid number of tiles: %u\n",
--			job.config->num_tiles);
--		job.config->num_tiles = 0;
--	}
--
- 	pispbe_queue_job(pispbe, &job);
+ /* Records a job configuration and memory addresses. */
+ struct pispbe_job_descriptor {
++	struct list_head queue;
++	struct pispbe_buffer *buffers[PISPBE_NUM_NODES];
+ 	dma_addr_t hw_dma_addrs[N_HW_ADDRESSES];
+ 	struct pisp_be_tiles_config *config;
+ 	struct pispbe_hw_enables hw_enables;
+@@ -215,8 +217,10 @@ struct pispbe_dev {
+ 	unsigned int sequence;
+ 	u32 streaming_map;
+ 	struct pispbe_job queued_job, running_job;
+-	spinlock_t hw_lock; /* protects "hw_busy" flag and streaming_map */
++	/* protects "hw_busy" flag, streaming_map and job_queue*/
++	spinlock_t hw_lock;
+ 	bool hw_busy; /* non-zero if a job is queued or is being started */
++	struct list_head job_queue;
+ 	int irq;
+ 	u32 hw_version;
+ 	u8 done, started;
+@@ -440,41 +444,50 @@ static void pispbe_xlate_addrs(struct pispbe_dev *pispbe,
+  * For Output0, Output1, Tdn and Stitch, a buffer only needs to be
+  * available if the blocks are enabled in the config.
+  *
+- * Needs to be called with hw_lock held.
++ * If all the buffers required to form a job are available, append the
++ * job descriptor to the job queue to be later queued to the HW.
+  *
+  * Returns 0 if a job has been successfully prepared, < 0 otherwise.
+  */
+-static int pispbe_prepare_job(struct pispbe_dev *pispbe,
+-			      struct pispbe_job_descriptor *job)
++static int pispbe_prepare_job(struct pispbe_dev *pispbe)
+ {
+ 	struct pispbe_buffer *buf[PISPBE_NUM_NODES] = {};
++	struct pispbe_job_descriptor *job;
++	unsigned int streaming_map;
+ 	unsigned int config_index;
+ 	struct pispbe_node *node;
+-	unsigned long flags;
  
- 	return;
-@@ -703,6 +685,13 @@ static int pisp_be_validate_config(struct pispbe_dev *pispbe,
- 		return -EIO;
- 	}
+-	lockdep_assert_held(&pispbe->hw_lock);
++	scoped_guard(spinlock_irqsave, &pispbe->hw_lock) {
++		static const u32 mask = BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE);
  
-+	if (config->num_tiles == 0 ||
-+	    config->num_tiles > PISP_BACK_END_NUM_TILES) {
-+		dev_dbg(dev, "%s: Invalid number of tiles: %d\n", __func__,
-+			config->num_tiles);
-+		return -EIO;
+-	memset(job, 0, sizeof(struct pispbe_job_descriptor));
++		if ((pispbe->streaming_map & mask) != mask)
++			return -ENODEV;
+ 
+-	if (((BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE)) &
+-		pispbe->streaming_map) !=
+-			(BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE)))
+-		return -ENODEV;
++		/*
++		 * Take a copy of streaming_map: nodes activated after this
++		 * point are ignored when preparing this job.
++		 */
++		streaming_map = pispbe->streaming_map;
 +	}
 +
- 	/* Ensure output config strides and buffer sizes match the V4L2 formats. */
- 	fmt = &pispbe->node[TDN_OUTPUT_NODE].format;
- 	if (bayer_enables & PISP_BE_BAYER_ENABLE_TDN_OUTPUT) {
++	job = kzalloc(sizeof(*job), GFP_KERNEL);
++	if (!job)
++		return -ENOMEM;
+ 
+ 	node = &pispbe->node[CONFIG_NODE];
+-	spin_lock_irqsave(&node->ready_lock, flags);
+-	buf[CONFIG_NODE] = list_first_entry_or_null(&node->ready_queue,
+-						    struct pispbe_buffer,
+-						    ready_list);
+-	if (buf[CONFIG_NODE]) {
++
++	scoped_guard(spinlock_irqsave, &node->ready_lock) {
++		buf[CONFIG_NODE] = list_first_entry_or_null(&node->ready_queue,
++							    struct pispbe_buffer,
++							    ready_list);
++		if (!buf[CONFIG_NODE]) {
++			kfree(job);
++			return -ENODEV;
++		}
++
+ 		list_del(&buf[CONFIG_NODE]->ready_list);
+-		pispbe->queued_job.buf[CONFIG_NODE] = buf[CONFIG_NODE];
++		job->buffers[CONFIG_NODE] = buf[CONFIG_NODE];
+ 	}
+-	spin_unlock_irqrestore(&node->ready_lock, flags);
+-
+-	/* Exit early if no config buffer has been queued. */
+-	if (!buf[CONFIG_NODE])
+-		return -ENODEV;
+ 
+ 	config_index = buf[CONFIG_NODE]->vb.vb2_buf.index;
+ 	job->config = &pispbe->config[config_index];
+@@ -495,7 +508,7 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
+ 			continue;
+ 
+ 		buf[i] = NULL;
+-		if (!(pispbe->streaming_map & BIT(i)))
++		if (!(streaming_map & BIT(i)))
+ 			continue;
+ 
+ 		if ((!(rgb_en & PISP_BE_RGB_ENABLE_OUTPUT0) &&
+@@ -522,25 +535,27 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
+ 		node = &pispbe->node[i];
+ 
+ 		/* Pull a buffer from each V4L2 queue to form the queued job */
+-		spin_lock_irqsave(&node->ready_lock, flags);
++		spin_lock(&node->ready_lock);
+ 		buf[i] = list_first_entry_or_null(&node->ready_queue,
+ 						  struct pispbe_buffer,
+ 						  ready_list);
+ 		if (buf[i]) {
+ 			list_del(&buf[i]->ready_list);
+-			pispbe->queued_job.buf[i] = buf[i];
++			job->buffers[i] = buf[i];
+ 		}
+-		spin_unlock_irqrestore(&node->ready_lock, flags);
++		spin_unlock(&node->ready_lock);
+ 
+ 		if (!buf[i] && !ignore_buffers)
+ 			goto err_return_buffers;
+ 	}
+ 
+-	pispbe->queued_job.valid = true;
+-
+ 	/* Convert buffers to DMA addresses for the hardware */
+ 	pispbe_xlate_addrs(pispbe, job, buf);
+ 
++	spin_lock(&pispbe->hw_lock);
++	list_add_tail(&job->queue, &pispbe->job_queue);
++	spin_unlock(&pispbe->hw_lock);
++
+ 	return 0;
+ 
+ err_return_buffers:
+@@ -551,33 +566,41 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
+ 			continue;
+ 
+ 		/* Return the buffer to the ready_list queue */
+-		spin_lock_irqsave(&n->ready_lock, flags);
++		spin_lock(&n->ready_lock);
+ 		list_add(&buf[i]->ready_list, &n->ready_queue);
+-		spin_unlock_irqrestore(&n->ready_lock, flags);
++		spin_unlock(&n->ready_lock);
+ 	}
+ 
+-	memset(&pispbe->queued_job, 0, sizeof(pispbe->queued_job));
++	kfree(job);
+ 
+ 	return -ENODEV;
+ }
+ 
+ static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
+ {
+-	struct pispbe_job_descriptor job;
+-	unsigned long flags;
+-	int ret;
++	struct pispbe_job_descriptor *job;
+ 
+-	spin_lock_irqsave(&pispbe->hw_lock, flags);
++	scoped_guard(spinlock_irqsave, &pispbe->hw_lock) {
++		if (clear_hw_busy)
++			pispbe->hw_busy = false;
+ 
+-	if (clear_hw_busy)
+-		pispbe->hw_busy = false;
++		if (pispbe->hw_busy)
++			return;
+ 
+-	if (pispbe->hw_busy)
+-		goto unlock_and_return;
++		job = list_first_entry_or_null(&pispbe->job_queue,
++					       struct pispbe_job_descriptor,
++					       queue);
++		if (!job)
++			return;
+ 
+-	ret = pispbe_prepare_job(pispbe, &job);
+-	if (ret)
+-		goto unlock_and_return;
++		list_del(&job->queue);
++
++		for (unsigned int i = 0; i < PISPBE_NUM_NODES; i++)
++			pispbe->queued_job.buf[i] = job->buffers[i];
++		 pispbe->queued_job.valid = true;
++
++		pispbe->hw_busy = true;
++	}
+ 
+ 	/*
+ 	 * We can kick the job off without the hw_lock, as this can
+@@ -585,16 +608,8 @@ static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
+ 	 * only when the following job has been queued and an interrupt
+ 	 * is rised.
+ 	 */
+-	pispbe->hw_busy = true;
+-	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+-
+-	pispbe_queue_job(pispbe, &job);
+-
+-	return;
+-
+-unlock_and_return:
+-	/* No job has been queued, just release the lock and return. */
+-	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
++	pispbe_queue_job(pispbe, job);
++	kfree(job);
+ }
+ 
+ static void pispbe_isr_jobdone(struct pispbe_dev *pispbe,
+@@ -857,7 +872,8 @@ static void pispbe_node_buffer_queue(struct vb2_buffer *buf)
+ 	 * Every time we add a buffer, check if there's now some work for the hw
+ 	 * to do.
+ 	 */
+-	pispbe_schedule(pispbe, false);
++	if (!pispbe_prepare_job(pispbe))
++		pispbe_schedule(pispbe, false);
+ }
+ 
+ static int pispbe_node_start_streaming(struct vb2_queue *q, unsigned int count)
+@@ -883,7 +899,8 @@ static int pispbe_node_start_streaming(struct vb2_queue *q, unsigned int count)
+ 		node->pispbe->streaming_map);
+ 
+ 	/* Maybe we're ready to run. */
+-	pispbe_schedule(pispbe, false);
++	if (!pispbe_prepare_job(pispbe))
++		pispbe_schedule(pispbe, false);
+ 
+ 	return 0;
+ 
+@@ -935,6 +952,16 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
+ 
+ 	spin_lock_irqsave(&pispbe->hw_lock, flags);
+ 	pispbe->streaming_map &= ~BIT(node->id);
++
++	/* Release all jobs once all nodes have stopped streaming. */
++	if (pispbe->streaming_map == 0) {
++		struct pispbe_job_descriptor *job, *temp;
++
++		list_for_each_entry_safe(job, temp, &pispbe->job_queue, queue) {
++			list_del(&job->queue);
++			kfree(job);
++		}
++	}
+ 	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+ 
+ 	pm_runtime_mark_last_busy(pispbe->dev);
+@@ -1677,6 +1704,8 @@ static int pispbe_probe(struct platform_device *pdev)
+ 	if (!pispbe)
+ 		return -ENOMEM;
+ 
++	INIT_LIST_HEAD(&pispbe->job_queue);
++
+ 	dev_set_drvdata(&pdev->dev, pispbe);
+ 	pispbe->dev = &pdev->dev;
+ 	platform_set_drvdata(pdev, pispbe);
 -- 
 2.45.2
 
