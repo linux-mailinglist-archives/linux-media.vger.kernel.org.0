@@ -1,39 +1,39 @@
-Return-Path: <linux-media+bounces-16817-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16818-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C4A95F319
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 15:38:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 644F595F322
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 15:38:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C2D1284310
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 13:38:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CE05BB22972
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 13:38:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96EAA1862B9;
-	Mon, 26 Aug 2024 13:36:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 854AE186E47;
+	Mon, 26 Aug 2024 13:38:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E3653362;
-	Mon, 26 Aug 2024 13:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EEF139D;
+	Mon, 26 Aug 2024 13:38:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724679388; cv=none; b=u2DzXBzgiCGupnFLn5B46l8d/yXzD/5z8Qzr+FfB29Sgwg48B4zF26kRF2db1wFj8BL8VVATwqtbKmpQoxp4x71dWKnjVkv8TfZUtegLTLhX5TSZYkF6WOnjyjzkQQjcTB7NOGRSk8M6kiyyEVeu+O/R+nqHyu3ywlqhlNnWe7c=
+	t=1724679486; cv=none; b=NslnPrf7fwg4w4FemTF6nkMeH7ZPPvU5VsHbL4a2WDAl3yDVYov5pzqjJrCHV2+R1pAwMSUMzWKoauZbiKq/LOLUyypHO0Xd8vRwVS4hfjO9nKfkU8KP67smFAFwXbaCHKUegtkZ0ev1nxDJOSPosqQY1bCIATNiHS1T63w4NeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724679388; c=relaxed/simple;
-	bh=68ubJ+DqKp/vXZOcEZYL4Abo7dJuVyqYhAfSgn/26bQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XItVVs9A6gSszQ0uhfXuEyF6UKAbfnXkUgfuk9CxWQYj4SqAYIDgk4m6H5SOL97O6f07r2xfMM6LWNCjopy0wGuxhqhCXnDLMpqSa9G85wGZjfwygFuPKJ2iyNLjZ67wvoQx+37UXMP+2SLGy4AQtmSYd2UT1CK1zmiABZk9ZhU=
+	s=arc-20240116; t=1724679486; c=relaxed/simple;
+	bh=hf/Kd7cutvj/ZCcJt7L77DhfF60YOryJrjPHF3r/77I=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=T6VD6gp6m+Zu4wdQyIHPJKrCgfpEV+gbaNp2FarQhw2SI95pLUnR/cXMEu2Vjm7Fc/4iynn4+V40x1oJtOVn59F0Nsce3gjiC001Qo7HSwDiOr0RKS9CuCgj8RlHhptNVdWPe0VB0I5DwoiiDw9q9n+hLWt7ERca5VbiGf0ZYQM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
 Received: from [192.168.4.14] (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id 0C1542A91D;
-	Mon, 26 Aug 2024 15:36:24 +0200 (CEST)
-Message-ID: <15346558-07e3-4c25-a65f-843e5d39dc45@gpxsee.org>
-Date: Mon, 26 Aug 2024 15:36:23 +0200
+	by mx.gpxsee.org (Postfix) with ESMTPSA id C581A2A91E;
+	Mon, 26 Aug 2024 15:38:02 +0200 (CEST)
+Message-ID: <3ce870c8-fb14-4010-b8e2-effbde2b09a7@gpxsee.org>
+Date: Mon, 26 Aug 2024 15:38:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -43,40 +43,46 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1] drivers:mgb4:Fix the NULL vs IS_ERR() bug for
  debugfs_create_dir()
+From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
 To: Yang Ruibin <11162571@vivo.com>,
  Martin Tuma <martin.tuma@digiteqautomotive.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Cc: opensource.kernel@vivo.com
-References: <20240821072944.9275-1-11162571@vivo.com>
+References: <20240821071100.7839-1-11162571@vivo.com>
+ <ca03a058-c374-44e2-8f44-ccaec8898337@gpxsee.org>
 Content-Language: en-US
-From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <20240821072944.9275-1-11162571@vivo.com>
+In-Reply-To: <ca03a058-c374-44e2-8f44-ccaec8898337@gpxsee.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 21. 08. 24 9:29 dop., Yang Ruibin wrote:
-> The debugfs_create_dir() function returns error pointers.
-> It never returns NULL. So use IS_ERR() to check it.
+On 21. 08. 24 10:56 dop., Martin Tůma wrote:
+> On 21. 08. 24 9:10 dop., Yang Ruibin wrote:
+>> The debugfs_create_dir() function returns error pointers.
+>> It never returns NULL. So use IS_ERR() to check it.
+>>
+>> Signed-off-by: Yang Ruibin <11162571@vivo.com>
+>> ---
+>>   drivers/media/pci/mgb4/mgb4_vout.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/pci/mgb4/mgb4_vout.c 
+>> b/drivers/media/pci/mgb4/mgb4_vout.c
+>> index 998edcbd9723..348c8e01fcbe 100644
+>> --- a/drivers/media/pci/mgb4/mgb4_vout.c
+>> +++ b/drivers/media/pci/mgb4/mgb4_vout.c
+>> @@ -683,7 +683,7 @@ static void debugfs_init(struct mgb4_vout_dev 
+>> *voutdev)
+>>       voutdev->debugfs = debugfs_create_dir(voutdev->vdev.name,
+>>                             voutdev->mgbdev->debugfs);
+>> -    if (!voutdev->debugfs)
+>> +    if (IS_ERR(voutdev->debugfs))
+>>           return;
+>>       voutdev->regs[0].name = "CONFIG";
 > 
-> Signed-off-by: Yang Ruibin <11162571@vivo.com>
-> ---
->   drivers/media/pci/mgb4/mgb4_vin.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Reviewed-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
 > 
-> diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
-> index e9332abb3172..808eb51b270c 100644
-> --- a/drivers/media/pci/mgb4/mgb4_vin.c
-> +++ b/drivers/media/pci/mgb4/mgb4_vin.c
-> @@ -860,7 +860,7 @@ static void debugfs_init(struct mgb4_vin_dev *vindev)
->   
->   	vindev->debugfs = debugfs_create_dir(vindev->vdev.name,
->   					     vindev->mgbdev->debugfs);
-> -	if (!vindev->debugfs)
-> +	if (IS_ERR(vindev->debugfs))
->   		return;
->   
->   	vindev->regs[0].name = "CONFIG";
+> 
 
 Superseded by
  
