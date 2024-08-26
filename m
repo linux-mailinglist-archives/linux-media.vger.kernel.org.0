@@ -1,237 +1,338 @@
-Return-Path: <linux-media+bounces-16784-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16785-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D5C95EFA3
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 13:23:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8AD95EFE1
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 13:37:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EBE3EB20C87
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 11:23:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95E36281778
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 11:37:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02BFE1537D9;
-	Mon, 26 Aug 2024 11:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E007E1547C0;
+	Mon, 26 Aug 2024 11:36:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aVRC90px"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BAXJr0Nn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A971514F6;
-	Mon, 26 Aug 2024 11:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8151547D8
+	for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 11:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724671393; cv=none; b=l9g+ntKsLCgnRtdHM3ktrsi4z0gYxRfb93Z14LEi4T7jl3wr1sxTgRhDbDfZWl+iJ6aBLJ014LZ/XW/oQSJLS866B9J7h9LUg/Hoy6+D2gZW/9oyMd0qUteRetC8yyWNclsXTpoIuYsDb9Gs0tpz96Q1xRMQd7aIwZjgO4a+6bw=
+	t=1724672210; cv=none; b=T5JVB5el5hctf2RQgmJJ55vrd2REeGddTd8XKKwQ12ZYaG+fULo9Wt36WTvdnt6mhaTNrEpjheOrWMGq5qASPmJxBE/PG3Fj9DtxFFrBj+yHZOu8/QVN1DZjy8RiNKSDBhgJcblnG865DIdlcbMO9nAnPeB4xtDgKB52MBi/BrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724671393; c=relaxed/simple;
-	bh=Kj7h9bpv+0UPcS9aPXU+xmE4aPfo72AZJcGDaoxuxbs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l1JwoCgj6l63Or0wVZPNSkurbmO2+6P5GcuLdi3GMhikTGjNtXfvbFvjpu1s2WjDQ701+Li0qVOCeIT2/S56nwaTxvgGc20CVhwQK65cQXFYvPuv5srKMrpRFLs9P69q3/Xoz8XuLAsDr8X4832t+08j30WMHGjmceVrF7mDWQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aVRC90px; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 717F36CA;
-	Mon, 26 Aug 2024 13:22:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724671324;
-	bh=Kj7h9bpv+0UPcS9aPXU+xmE4aPfo72AZJcGDaoxuxbs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aVRC90pxzn2zJjFh3+9tBJmfKh6LX0938p4z4VDNEP0GDCTyNB4ekxd65kBDO4WPM
-	 lHzSNxm0Rk3V8b6HVyZl0WkmElsqam/VzI0BkTU6Y4RkEVYnXWUAJW+QGbwyLKLkC0
-	 kn6zIuJDrbgU+Yn2TtH+Bb+sAG/90RTCXIhAsNoo=
-Message-ID: <5b1c9f47-3253-48b3-9a43-bd1a4a514caa@ideasonboard.com>
-Date: Mon, 26 Aug 2024 14:23:06 +0300
+	s=arc-20240116; t=1724672210; c=relaxed/simple;
+	bh=viPyuROUTeekllWPMisGYV8X++jFkeZ4J5mNBK4kLyU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iCQrOSAJLu5cyN07LOFJcn3/7DDd9/rxV0voNtyGZkIkeuMMO0TOeEC72w57LD30XIUwadRtJMFw+WjMkw3dqiDQKw7HucHiq4sGF/J0bHGzpbsf5HOPqdEJkGa1SjrqLtgLAThi1Lk/PFKBvxDcqrrQVaugtGilaaw6XvK5LmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BAXJr0Nn; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e13e11b23faso4166473276.3
+        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 04:36:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724672206; x=1725277006; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3WuBkNkQq7ncBHhLfidrPpVIWONY2++qBbCcAKeFG0A=;
+        b=BAXJr0NnQt/nTG1VcshDZQi0Hq6UYXabOEZlYaIz4BmgmNdfocXBrVtcY8EzK8IxJ3
+         rjSaTGd+9sbOcIwJIDR/sijgLDcyXL59mThzEyVP/LFtlOkehYA7+FxNoHPAIcJSmsea
+         d1yrHnIBWvC3oU6QDaq8rc+cJFqpoZEKPCPSx79yX2cZsKR9ojsyXAuJhz149ekf8o7H
+         UL6xsDPwOCXT36HSWGowg16VT/TIsFBeub28Aw5I4eailpHYFyBDMtW1qsYeuQWv5iaj
+         5NqKXDRqU6vZU6ChIyG7r1POllhtJ6VtYqPSRMY7cJtwU4WI97e9pvh8HwWKAaDQ9wX4
+         ufNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724672206; x=1725277006;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3WuBkNkQq7ncBHhLfidrPpVIWONY2++qBbCcAKeFG0A=;
+        b=bxIvIjo4ZaFzUZa9uNRBDUNpTGhcu15UKcHCJkXz4d9LdvJmuggf/gsNM1PFqKUlj7
+         loOKyWEY6wRe8xuGSXGUQE++z4XQ/uLNWnUgc4dAWfakHJYAQlBMuaDow9L5B4iPYsOP
+         ec5AAtGygWzdeLuTsHmb8QHu4/hnRyvZ+aiV669RmlS8cX52mpIJEKi/j7a0iQExSp3n
+         8cSAplp8k2kb0nBmcT5UHZ7mXdljBUffI5m4e/TLg8GimAfOaEztutD48cKXWGj2BUcT
+         +LalimH17YkRIkEs5Rxna2pXg4aVgiaAKl8Pr2KacNU7acXpTdGt6NfmODhM5ec4bAj7
+         A8Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCUeh0msAcQF9keeHfRqyEaqvTgJv0dRninCRYDgTQvlnMx6F7dqmwBMqHlt4eJbw0OjcaseXk6pXmaTDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsfuguMwGHmpoGh9NRe8bBHdLGSCx8Ev0spsBK++kRrZQ/6w6H
+	RsH4yqScuN2HsBOJ3mieiog+QGNy1KGtUFsjSKgbA4JeAU9Acq1KWHmw2NUOKPeK/HAeUo9tj2v
+	sgGUTLQX87wz22akgllXzI77ntLZRLDmpZRavtw==
+X-Google-Smtp-Source: AGHT+IFTmCOXbkWFVjFKxNQjfliOW8Z+x4s+zXNlqgxkRfvBAgPO0UAeheCBnSP89lF7epHbxvk3ur82nxWQLLc8Og4=
+X-Received: by 2002:a05:6902:1a46:b0:e0b:4045:ada0 with SMTP id
+ 3f1490d57ef6-e17a83d45d4mr9340283276.23.1724672206061; Mon, 26 Aug 2024
+ 04:36:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/7] media: v4l2-subdev: Support hybrid links in
- v4l2_subdev_link_validate()
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-media@vger.kernel.org
-Cc: Chen-Yu Tsai <wens@csie.org>, Eugen Hristev
- <eugen.hristev@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Maxime Ripard <mripard@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
- linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240822154531.25912-6-laurent.pinchart+renesas@ideasonboard.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240822154531.25912-6-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240824034925.1163244-1-hch@lst.de> <20240824034925.1163244-5-hch@lst.de>
+In-Reply-To: <20240824034925.1163244-5-hch@lst.de>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 26 Aug 2024 13:36:09 +0200
+Message-ID: <CAPDyKFrnP5uZ8H3CL5P7bwjRnPwNPDF-U7amm1fwGeob63GYmw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] dma-mapping: don't return errors from dma_set_max_seg_size
+To: Christoph Hellwig <hch@lst.de>
+Cc: iommu@lists.linux.dev, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-hyperv@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
-
-On 22/08/2024 18:45, Laurent Pinchart wrote:
-> The v4l2_subdev_link_validate() helper function is meant to be used as a
-> drop-in implementation of a V4L2 subdev entity .link_validate() handler.
-> It supports subdev-to-subdev links only, and complains if one end of the
-> link is not a subdev. This forces drivers that have video output devices
-> connected to subdevs to implement a custom .link_validate() handler,
-> calling v4l2_subdev_link_validate() for the subdev-to-subdev links, and
-> performing manual link validation for the video-to-subdev links.
-> 
-> Video devices embed a media entity, and therefore also have a
-> .link_validate() operation. For video capture devices, the operation
-> should be manually implemented by drivers for validate the
-> subdev-to-video links. For video output devices, on the other hand, that
-> operation is never called, as link validation is performed in the
-> context of the sink entity.
-> 
-> As a result, we end up forcing drivers to implement a custom
-> .link_validate() handler for subdevs connected to video output devices,
-> when the video devices provide an operation that could be used for that
-> purpose.
-> 
-> To improve that situation, make v4l2_subdev_link_validate() delegate
-> link validation to the source's .link_validate() operation when the link
-> source is a video device and the link sink is a subdev. This allows
-> broader usage of v4l2_subdev_link_validate(), and simplifies drivers by
-> making video device link validation easy to implement in the video
-> device .link_validate(), regardless of whether the video device is an
-> output device or a capture device.
-
-Maybe mention this patch in the previous patch's desc to answer the 
-question I sent =)
-
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Sat, 24 Aug 2024 at 05:51, Christoph Hellwig <hch@lst.de> wrote:
+>
+> A NULL dev->dma_parms indicates either a bus that is not DMA capable or
+> grave bug in the implementation of the bus code.
+>
+> There isn't much the driver can do in terms of error handling for either
+> case, so just warn and continue as DMA operations will fail anyway.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 > ---
->   drivers/media/v4l2-core/v4l2-subdev.c | 40 +++++++++++++++++++++++----
->   include/media/v4l2-subdev.h           |  6 ++++
->   2 files changed, 41 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index d3196042d5c5..32ffebae4d17 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1450,13 +1450,43 @@ int v4l2_subdev_link_validate(struct media_link *link)
->   	if (WARN_ON_ONCE(!is_media_entity_v4l2_subdev(link->sink->entity)))
->   		return -EINVAL;
->   
-> -	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
-> -		pr_warn_once("source of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
-> -			     link->source->entity->name, link->source->index,
-> -			     link->sink->entity->name, link->sink->index);
-> -		return 0;
-> +	/*
-> +	 * If the source is a video device, delegate link validation to it. This
-> +	 * allows usage of this helper for subdev connected to a video output
-> +	 * device, provided that the driver implement the video output device's
-> +	 * .link_validate() operation.
-> +	 */
-> +	if (is_media_entity_v4l2_video_device(link->source->entity)) {
-> +		struct media_entity *source = link->source->entity;
-> +
-> +		if (!source->ops || !source->ops->link_validate) {
-> +			/*
-> +			 * Many existing drivers do not implement the required
-> +			 * .link_validate() operation for their video devices.
-> +			 * Print a warning to get the drivers fixed, and return
-> +			 * 0 to avoid breaking userspace. This should
-> +			 * eventually be turned into a WARN_ON() when all
-> +			 * drivers will have been fixed.
-> +			 */
-> +			pr_warn_once("video device '%s' does not implement .link_validate(), driver bug!\n",
-> +				     source->name);
-> +			return 0;
-> +		}
-> +
-> +		/* Avoid infinite loops. */
+>  drivers/accel/qaic/qaic_drv.c                         |  4 +---
+>  drivers/dma/idma64.c                                  |  4 +---
+>  drivers/dma/pl330.c                                   |  5 +----
+>  drivers/dma/qcom/bam_dma.c                            |  6 +-----
+>  drivers/dma/sh/rcar-dmac.c                            |  4 +---
+>  drivers/dma/ste_dma40.c                               |  6 +-----
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c                |  6 +-----
+>  drivers/media/common/videobuf2/videobuf2-dma-contig.c |  3 +--
+>  drivers/media/pci/intel/ipu6/ipu6.c                   |  4 +---
+>  drivers/mmc/host/mmci_stm32_sdmmc.c                   |  3 ++-
+>  drivers/net/ethernet/microsoft/mana/gdma_main.c       |  6 +-----
+>  drivers/scsi/lpfc/lpfc_init.c                         |  7 +------
+>  include/linux/dma-mapping.h                           | 10 ++++------
+>  13 files changed, 17 insertions(+), 51 deletions(-)
 
-Maybe this could elaborate a bit, and say that non-subdev drivers should 
-not use v4l2_subdev_link_validate, but some do (?) or might use it by 
-mistake, and this catches the driver bug.
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # For MMC
 
-> +		if (WARN_ON(source->ops->link_validate == v4l2_subdev_link_validate))
-> +			return -EINVAL;
+Kind regards
+Uffe
 
-This might still be risky. The driver could implement its own validate, 
-which does some checks and then calls v4l2_subdev_link_validate(). But 
-I'm sure that'll get get noticed =).
-
-  Tomi
-
-> +
-> +		return source->ops->link_validate(link);
->   	}
->   
-> +	/*
-> +	 * If the source is still not a subdev, usage of this helper is a clear
-> +	 * driver bug.
-> +	 */
-> +	if (WARN_ON(!is_media_entity_v4l2_subdev(link->source->entity)))
-> +		return -EINVAL;
-> +
->   	sink_sd = media_entity_to_v4l2_subdev(link->sink->entity);
->   	source_sd = media_entity_to_v4l2_subdev(link->source->entity);
->   
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index bd235d325ff9..8daa0929865c 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1250,6 +1250,12 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
->    * calls v4l2_subdev_link_validate_default() to ensure that
->    * width, height and the media bus pixel code are equal on both
->    * source and sink of the link.
-> + *
-> + * The function can be used as a drop-in &media_entity_ops.link_validate
-> + * implementation for v4l2_subdev instances. It supports all links between
-> + * subdevs, as well as links between subdevs and video devices, provided that
-> + * the video devices also implement their &media_entity_ops.link_validate
-> + * operation.
->    */
->   int v4l2_subdev_link_validate(struct media_link *link);
->   
-
+>
+> diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
+> index 580b29ed190217..bf10156c334e71 100644
+> --- a/drivers/accel/qaic/qaic_drv.c
+> +++ b/drivers/accel/qaic/qaic_drv.c
+> @@ -447,9 +447,7 @@ static int init_pci(struct qaic_device *qdev, struct pci_dev *pdev)
+>         ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+>         if (ret)
+>                 return ret;
+> -       ret = dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+> -       if (ret)
+> -               return ret;
+> +       dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+>
+>         qdev->bar_0 = devm_ioremap_resource(&pdev->dev, &pdev->resource[0]);
+>         if (IS_ERR(qdev->bar_0))
+> diff --git a/drivers/dma/idma64.c b/drivers/dma/idma64.c
+> index e3505e56784b1a..1398814d8fbb63 100644
+> --- a/drivers/dma/idma64.c
+> +++ b/drivers/dma/idma64.c
+> @@ -598,9 +598,7 @@ static int idma64_probe(struct idma64_chip *chip)
+>
+>         idma64->dma.dev = chip->sysdev;
+>
+> -       ret = dma_set_max_seg_size(idma64->dma.dev, IDMA64C_CTLH_BLOCK_TS_MASK);
+> -       if (ret)
+> -               return ret;
+> +       dma_set_max_seg_size(idma64->dma.dev, IDMA64C_CTLH_BLOCK_TS_MASK);
+>
+>         ret = dma_async_device_register(&idma64->dma);
+>         if (ret)
+> diff --git a/drivers/dma/pl330.c b/drivers/dma/pl330.c
+> index 60c4de8dac1d2a..82a9fe88ad54c9 100644
+> --- a/drivers/dma/pl330.c
+> +++ b/drivers/dma/pl330.c
+> @@ -3163,10 +3163,7 @@ pl330_probe(struct amba_device *adev, const struct amba_id *id)
+>          * This is the limit for transfers with a buswidth of 1, larger
+>          * buswidths will have larger limits.
+>          */
+> -       ret = dma_set_max_seg_size(&adev->dev, 1900800);
+> -       if (ret)
+> -               dev_err(&adev->dev, "unable to set the seg size\n");
+> -
+> +       dma_set_max_seg_size(&adev->dev, 1900800);
+>
+>         init_pl330_debugfs(pl330);
+>         dev_info(&adev->dev,
+> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> index 5e7d332731e0c1..368ffaa4003789 100644
+> --- a/drivers/dma/qcom/bam_dma.c
+> +++ b/drivers/dma/qcom/bam_dma.c
+> @@ -1325,11 +1325,7 @@ static int bam_dma_probe(struct platform_device *pdev)
+>
+>         /* set max dma segment size */
+>         bdev->common.dev = bdev->dev;
+> -       ret = dma_set_max_seg_size(bdev->common.dev, BAM_FIFO_SIZE);
+> -       if (ret) {
+> -               dev_err(bdev->dev, "cannot set maximum segment size\n");
+> -               goto err_bam_channel_exit;
+> -       }
+> +       dma_set_max_seg_size(bdev->common.dev, BAM_FIFO_SIZE);
+>
+>         platform_set_drvdata(pdev, bdev);
+>
+> diff --git a/drivers/dma/sh/rcar-dmac.c b/drivers/dma/sh/rcar-dmac.c
+> index 40482cb73d798a..1094a2f821649c 100644
+> --- a/drivers/dma/sh/rcar-dmac.c
+> +++ b/drivers/dma/sh/rcar-dmac.c
+> @@ -1868,9 +1868,7 @@ static int rcar_dmac_probe(struct platform_device *pdev)
+>
+>         dmac->dev = &pdev->dev;
+>         platform_set_drvdata(pdev, dmac);
+> -       ret = dma_set_max_seg_size(dmac->dev, RCAR_DMATCR_MASK);
+> -       if (ret)
+> -               return ret;
+> +       dma_set_max_seg_size(dmac->dev, RCAR_DMATCR_MASK);
+>
+>         ret = dma_set_mask_and_coherent(dmac->dev, DMA_BIT_MASK(40));
+>         if (ret)
+> diff --git a/drivers/dma/ste_dma40.c b/drivers/dma/ste_dma40.c
+> index 2c489299148eee..d52e1685aed53f 100644
+> --- a/drivers/dma/ste_dma40.c
+> +++ b/drivers/dma/ste_dma40.c
+> @@ -3632,11 +3632,7 @@ static int __init d40_probe(struct platform_device *pdev)
+>         if (ret)
+>                 goto destroy_cache;
+>
+> -       ret = dma_set_max_seg_size(base->dev, STEDMA40_MAX_SEG_SIZE);
+> -       if (ret) {
+> -               d40_err(dev, "Failed to set dma max seg size\n");
+> -               goto destroy_cache;
+> -       }
+> +       dma_set_max_seg_size(base->dev, STEDMA40_MAX_SEG_SIZE);
+>
+>         d40_hw_init(base);
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index 77b50c56c124ce..3e807195a0d03a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -559,11 +559,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+>          * Configure the DMA segment size to make sure we get contiguous IOVA
+>          * when importing PRIME buffers.
+>          */
+> -       ret = dma_set_max_seg_size(dma_dev, UINT_MAX);
+> -       if (ret) {
+> -               dev_err(dma_dev, "Failed to set DMA segment size\n");
+> -               goto err_component_unbind;
+> -       }
+> +       dma_set_max_seg_size(dma_dev, UINT_MAX);
+>
+>         ret = drm_vblank_init(drm, MAX_CRTC);
+>         if (ret < 0)
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 3d4fd4ef53107c..bb0b7fa67b539a 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -854,8 +854,7 @@ int vb2_dma_contig_set_max_seg_size(struct device *dev, unsigned int size)
+>                 return -ENODEV;
+>         }
+>         if (dma_get_max_seg_size(dev) < size)
+> -               return dma_set_max_seg_size(dev, size);
+> -
+> +               dma_set_max_seg_size(dev, size);
+>         return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_dma_contig_set_max_seg_size);
+> diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
+> index bbd646378ab3ed..83e70c692d957f 100644
+> --- a/drivers/media/pci/intel/ipu6/ipu6.c
+> +++ b/drivers/media/pci/intel/ipu6/ipu6.c
+> @@ -576,9 +576,7 @@ static int ipu6_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>         if (ret)
+>                 return dev_err_probe(dev, ret, "Failed to set DMA mask\n");
+>
+> -       ret = dma_set_max_seg_size(dev, UINT_MAX);
+> -       if (ret)
+> -               return dev_err_probe(dev, ret, "Failed to set max_seg_size\n");
+> +       dma_set_max_seg_size(dev, UINT_MAX);
+>
+>         ret = ipu6_pci_config_setup(pdev, isp->hw_ver);
+>         if (ret)
+> diff --git a/drivers/mmc/host/mmci_stm32_sdmmc.c b/drivers/mmc/host/mmci_stm32_sdmmc.c
+> index f5da7f9baa52d4..9dc51859c2e51e 100644
+> --- a/drivers/mmc/host/mmci_stm32_sdmmc.c
+> +++ b/drivers/mmc/host/mmci_stm32_sdmmc.c
+> @@ -213,7 +213,8 @@ static int sdmmc_idma_setup(struct mmci_host *host)
+>                 host->mmc->max_seg_size = host->mmc->max_req_size;
+>         }
+>
+> -       return dma_set_max_seg_size(dev, host->mmc->max_seg_size);
+> +       dma_set_max_seg_size(dev, host->mmc->max_seg_size);
+> +       return 0;
+>  }
+>
+>  static int sdmmc_idma_start(struct mmci_host *host, unsigned int *datactrl)
+> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> index ddb8f68d80a206..ca4ed58f1206dd 100644
+> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> @@ -1496,11 +1496,7 @@ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>         if (err)
+>                 goto release_region;
+>
+> -       err = dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+> -       if (err) {
+> -               dev_err(&pdev->dev, "Failed to set dma device segment size\n");
+> -               goto release_region;
+> -       }
+> +       dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+>
+>         err = -ENOMEM;
+>         gc = vzalloc(sizeof(*gc));
+> diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+> index e1dfa96c2a553a..50620918becd59 100644
+> --- a/drivers/scsi/lpfc/lpfc_init.c
+> +++ b/drivers/scsi/lpfc/lpfc_init.c
+> @@ -13861,12 +13861,7 @@ lpfc_get_sli4_parameters(struct lpfc_hba *phba, LPFC_MBOXQ_t *mboxq)
+>         if (sli4_params->sge_supp_len > LPFC_MAX_SGE_SIZE)
+>                 sli4_params->sge_supp_len = LPFC_MAX_SGE_SIZE;
+>
+> -       rc = dma_set_max_seg_size(&phba->pcidev->dev, sli4_params->sge_supp_len);
+> -       if (unlikely(rc)) {
+> -               lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
+> -                               "6400 Can't set dma maximum segment size\n");
+> -               return rc;
+> -       }
+> +       dma_set_max_seg_size(&phba->pcidev->dev, sli4_params->sge_supp_len);
+>
+>         /*
+>          * Check whether the adapter supports an embedded copy of the
+> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> index 6bd1333dbacb9b..1524da363734af 100644
+> --- a/include/linux/dma-mapping.h
+> +++ b/include/linux/dma-mapping.h
+> @@ -524,13 +524,11 @@ static inline unsigned int dma_get_max_seg_size(struct device *dev)
+>         return SZ_64K;
+>  }
+>
+> -static inline int dma_set_max_seg_size(struct device *dev, unsigned int size)
+> +static inline void dma_set_max_seg_size(struct device *dev, unsigned int size)
+>  {
+> -       if (dev->dma_parms) {
+> -               dev->dma_parms->max_segment_size = size;
+> -               return 0;
+> -       }
+> -       return -EIO;
+> +       if (WARN_ON_ONCE(!dev->dma_parms))
+> +               return;
+> +       dev->dma_parms->max_segment_size = size;
+>  }
+>
+>  static inline unsigned long dma_get_seg_boundary(struct device *dev)
+> --
+> 2.43.0
+>
+>
 
