@@ -1,260 +1,213 @@
-Return-Path: <linux-media+bounces-16743-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16744-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2CB95E696
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 04:04:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F3D95E6C7
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 04:43:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9198A28126A
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 02:04:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9B466B20E9E
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 02:43:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F9A65228;
-	Mon, 26 Aug 2024 02:03:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CCF9DDCD;
+	Mon, 26 Aug 2024 02:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mm6tYYLf"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="CgnP5OKR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010047.outbound.protection.outlook.com [52.101.228.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1561E567
-	for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 02:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724637834; cv=none; b=WaQSX76MRIGHscU8s2bmBM+jCB+OpDdJNg9VopllSFZ3rxns55sp+UaT1clqS8KJK+O8Udac9KC9rnfdv0ICaOfmpZcx+9u0Sf+prRW0RcOO14HYd4kLcX1b2khDShYZOm5BN6jYye4q+0YCdoXN8gb27dUeUbVR403vcItCBpM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724637834; c=relaxed/simple;
-	bh=TVOjn4ntfIYjbywFmOfAAZboS7m5EF3Y8gCzFHBsoBE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b0tOk9G9Y1efM5lOp9goXIaLsNW14l7AP51zPPJWPiqiYIdcNVmWKLU0kp5oDhm7mfOqyWX4/Ue1fOHdN3xcUEVidauvcGLcACGmEvDYO7+1II38o8ZMFfG+2NltYBMNfN3bDHfzVgegy758s5Cb1iOKplvyEZbXtpkHIMYvA7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mm6tYYLf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B873C4FDE4;
-	Mon, 26 Aug 2024 02:03:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724637833;
-	bh=TVOjn4ntfIYjbywFmOfAAZboS7m5EF3Y8gCzFHBsoBE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Mm6tYYLfSBY8UdShirO54Zuv74WBsMQd0BxS0wHoKbq/4LWJz6LjCRi7kdFAvAtMk
-	 tbhi9JpWi4C2SFAQdAMAcMUm2b21fsRS3tV88Pc7/wDKUFUrEKahKrW2+P8c+jX0CE
-	 UHkueRWi3tKRRLEFbMF7qhHoJHx8JJlJ4iNpWUyWqejEWd277NanJv0mC214TxSOa1
-	 jS5+LuGng2HcWDuw6YOsv41LvzdfRA2wgUB544QpSo3KkGu3UEOOgoDgP4FBkzy+3W
-	 0h0RkjVfz342i100NSxv9LE9yqxGhOPQ64AWKuDy6QBD070/THrHFlTCBxBu8+H+kp
-	 jRDc9+uzaeMpA==
-Date: Mon, 26 Aug 2024 04:03:14 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Sebastian Fricke <sebastian.fricke@collabora.com>,
- Martin Hecht <martin.hecht@avnet.eu>, Tommaso Merciai
- <tomm.merciai@gmail.com>, jerry.w.hu@intel.com, Jacopo Mondi
- <jacopo.mondi@ideasonboard.com>, Benjamin Mugnier
- <benjamin.mugnier@foss.st.com>, Ricardo Ribalda <ribalda@chromium.org>,
- Michael Tretter <m.tretter@pengutronix.de>, Alain Volmat
- <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>, Steve Cho
- <stevecho@chromium.org>, Nas Chung <nas.chung@chipsnmedia.com>, Tomasz Figa
- <tfiga@chromium.org>, Hidenori Kobayashi <hidenorik@chromium.org>, Jai
- Luthra <j-luthra@ti.com>, Suresh Vankadara <svankada@qti.qualcomm.com>
-Subject: Re: [ANN] Media Summit September 16th: Draft Agenda (v3)
-Message-ID: <20240826040314.75ce2e2c@sal.lan>
-In-Reply-To: <20240825222455.GA24390@pendragon.ideasonboard.com>
-References: <1bea3c06-4f9d-4bea-a036-9166fc75808e@xs4all.nl>
-	<20240825222455.GA24390@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D88BA2D;
+	Mon, 26 Aug 2024 02:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724640191; cv=fail; b=ISG8ppUAu3Zp2fNi+Ku7rmZNCyxfH4YD3ip+qvETWICrYtKEAHtPWq8ih2oZisJBVLWfRch/Y5pe7RqU+cgp9noWvXUNEndq5l0uSBe/1/xSixxAqtdIfPeRCHc/LA43oaENfINLHe7gyt4QtZCVQgBWezRcjV/KpdG36j0oGss=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724640191; c=relaxed/simple;
+	bh=Bxx0ooDDC2a8U28Ap7LsJhOd/wuboCpoipUVltMKKy8=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=dQekIpnVRyR0l478ytgojrWSDMuvKxXYgUEndKAp3gI+7eU5HpnRUhAJO9aGkvXnO4pn9r6qgPp3g49eDJPVt2lJs0V1pl7cyFHJj1mXOrRDT5Pe1RRcjMlZMb+lZ5wkTVg80YaItY+SnLGFejxpFQ07b23Y4UlvIGmGGM+UfYY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=CgnP5OKR; arc=fail smtp.client-ip=52.101.228.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WLpQIJjabtHwpE2jlKeGsz0ahQecSyvh4dMpIyogUEt+NojRrimzllNKwLlyxC3lriEq5v3HNrod6pahJoxomWeBVQpROse3TeCVzZ+6/+6B4ntawHYtPOMWO1F6gnSasFSjQyM2UxukNh0jXHEQ/blzmg0KGyizy3FYVEVca9eheTIlPylyF3t2y8nhO0zGUeMpLyVbUqfBi+Z3Zt0WjWOGlTyVy6IpzXTYQJ6YTHU03n+Mg+7EUZTcKxUob52r8d001lnm+IAWvVTK6z6juiv1sBI+3dzy65+yu6cimwp7GvtPEJLiDNcDCZTlLU12opczT58NwFKVv6Ynh6XU2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xQ/ew77jr2hYtKOiRjmmJMQ+IWwgAH7M8AI4tJnqpo8=;
+ b=cGIhoE80vrS7PVdm6gpkBjDXvsbwE4G2LtQr0a6nFt25Ox+pKCS7uzpIfCKXX62vA6qyID2ih7OcY5Gm5izrgkYRnbCTTJi0wLfRx5nGvl9RApQdrpFBuHBsOHiwvR1eKr0MmCTAlDKR5waxTKYHC73KK29ijaEfDcYAuTqaSF3lMI3jIP2ufIorX2bodqmRD73FaJZtKkDE25CzTJ0uscfib3QylfqDmo6j7eBWzdYWgPKOwflxZ8m3Z2dc079twJuPGY/587hLD6Rd7sXyt+hPsJM4L1R9sNxGaWf5vnaDvN4Y7gq3m+FvbcwY+ihq+9ZUlsXeZEiUhMQsSVhyKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xQ/ew77jr2hYtKOiRjmmJMQ+IWwgAH7M8AI4tJnqpo8=;
+ b=CgnP5OKRKJaiIFRQGctwx2b7B2uD+QRA/LOON7zlEcMmztFjHeRmGvbhsMJTjPK36EHricPyL/rXgbw7aq8XIyljUr2PLuZMcPO+MnXaf6CSmU/8oG0DLELGmKq/ftIoLGBpbBiUstAsrb0FS3UShU/WD4w0fqFP/232rX1V9wc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB10616.jpnprd01.prod.outlook.com
+ (2603:1096:400:290::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.24; Mon, 26 Aug
+ 2024 02:43:05 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Mon, 26 Aug 2024
+ 02:43:05 +0000
+Message-ID: <87cylwqa12.wl-kuninori.morimoto.gx@renesas.com>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liam Girdwood <lgirdwood@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org, linux-omap@vger.kernel.org, linux-sound@vger.kernel.org, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH v3 0/9] of: property: add of_graph_get_next_port/port_endpoint()
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 26 Aug 2024 02:43:05 +0000
+X-ClientProxiedBy: TYCPR01CA0073.jpnprd01.prod.outlook.com
+ (2603:1096:405:3::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB10616:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ae8c3dc-d970-40d7-d8b0-08dcc578d00c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|52116014|7416014|376014|366016|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ehjsbjNnr6mLg45O9pS+hInyw3dB349cFXp3N/owvh9fWEIJuzB/A5L1Yvba?=
+ =?us-ascii?Q?FeNJloTIoC68KIf6ffxpLaT2HjvGa3ZFFdFTXJhS03QbtlBtb/ejxc5WbbL6?=
+ =?us-ascii?Q?1H5lep3AyLVKQirSsf5AiaQgZM4AQIib3/Et/xMajDpz7imNnHlOCA9Yc5P2?=
+ =?us-ascii?Q?VhbMM1mW/SO1SVYqpebTuV0irZOKfPAHCh743harC7nzqgmE1UZVBjbBdiMf?=
+ =?us-ascii?Q?A15yBwB9QbzpcjQi0KS4bl5PeROgRu+GA5ZjThETHJvKwE9fHiaX6RwNb8X+?=
+ =?us-ascii?Q?clDXnBvC+42u9Fi5R59e2Zr589XpWTloUmwEXuqCqXqyOPhWF6hsi/4qGf18?=
+ =?us-ascii?Q?Qvg2LegPHLzsiNsILmlvFUO7g3rx8q9qz91xtxXLwU1rSgCjHcj532bmq5GL?=
+ =?us-ascii?Q?gKZY1YKZ5Q8lSz0VIgbTH1WU0yVgG6rT7/hvzkVwpzVwTHzhZ7fbVp4pElPb?=
+ =?us-ascii?Q?Iyik9Q9mrJd1WT66aqoeTPUlQU1Ar8PwE37AXqsR03WtK5Vfg+VSlCD7pKqX?=
+ =?us-ascii?Q?LmFEgqw+ccVRgyNyANE/g5IHRGurpTBa5/ViTyIfrAPEVJRIlFVn/qLAZBZa?=
+ =?us-ascii?Q?HgGBjmQaMKPR9jHUDyDDkiFPNF9ZzYrt7+d74Rmi5WqpwQOvxIDKNtk9NmxZ?=
+ =?us-ascii?Q?+TNx3HraTiMUsSb0st5+StmYqZaMhFyAb9jTBbS4rYWrDByITGEZ3ToZDs1F?=
+ =?us-ascii?Q?w2hA+9Es9JK6jTSo2akSIEcpetOIDWRTl++TYqk6FGQfs83t712P7bGCflqO?=
+ =?us-ascii?Q?hYAkT3ZFqkBn6jQmzS03mYjR11EmIgibFzjOkUVhO1SrfxNzFvhD36gz6vX/?=
+ =?us-ascii?Q?GthPPGH2Ws7RIgbbbiu+F7PJzLrIQux3C7SDjdBqhk/7IMwKWp0/3XX9H2of?=
+ =?us-ascii?Q?XSvIAQHXrLLuAYf0klJyvfXW+Gv705i0I3y5xflx2LDsyeXhs/gMG84e1ij2?=
+ =?us-ascii?Q?IZbBa6XVjQG5KpkfFgOboKhs6gJCxpuZldOWYqLWbnqghOxj4TCc73ZQv17X?=
+ =?us-ascii?Q?CEq2LXGNLPY8VXY5Vaax+1SlWx4bBx2E1xCzQKFYennnwpVjDe4SjteELk8l?=
+ =?us-ascii?Q?HHVccEx/RR0cmUZuE25EKIFSf4ipC/31drNMcuiGZYcpNn0MXDC4gDSjTf6k?=
+ =?us-ascii?Q?M/jvmk5lXtHI29tsOZFycDArp3pKSWppqAT/24W/HYDyIZeDaOzQsjXKHP0D?=
+ =?us-ascii?Q?HvJ6+NNZPrRdCWPlTcTmtw8HCagh/72TQuUg3CapYm/+S5q9OvsQSi8u0J2M?=
+ =?us-ascii?Q?j/9LtHvkMYkyVRK6Df9ulweGPiKXwz8s1q2eYRB7XQNL8n2hL2U56QT2xKhl?=
+ =?us-ascii?Q?UTOmrhmxdDuvYnMO/HtZsVaeFrZfqgH68jgcenOYyQNpKq7uBgn3Ammr5ffQ?=
+ =?us-ascii?Q?GFe84ht1m+kWEBYFe0wet357SNfpXQ0nUb7LlK79NmN/L1/tzHWi13J3rmOx?=
+ =?us-ascii?Q?rNAf7WfuNRw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NtJp7qRvjcJQki7fIgcGSpe0McRmR/NEyyt84VgSvfb+S5NADEee131+OvPA?=
+ =?us-ascii?Q?oiG57ms/xr7AA7MwI/nQcWopj/vA/47q7+K7kLkoBQvdnnPWCjwO5FyCswsT?=
+ =?us-ascii?Q?Hb5c9MphJQfW+LvQbm2paHOjR2pSWor3bU+/8mYTj2xFtes96KkME0kn2tB+?=
+ =?us-ascii?Q?4Y3TPJUJYBVIiYAOGFKLk98rf+DGfBVllYGQGu3jCrKaGw0xZRdLbQQLMXD4?=
+ =?us-ascii?Q?/6DrzBKOE4bY0nZGJPvX76BvaZrf0BO5Yuc0LYmjraJkXjqsalAWkOqjrDld?=
+ =?us-ascii?Q?eOAvyOYPFt/x7PwlodwQHc+zSDonzJHu+qs+1TIMcfKK9aF+OBKNdELgaGLu?=
+ =?us-ascii?Q?pgX6XnjrC8AVxZqfWedI+OUWHuaU5noPnu8l8jYMPTI4a2FoLfZ8UBUHW07o?=
+ =?us-ascii?Q?ZLl2sA2KdcGtSCW9eO4PRRXEo1i+0UZZl8BlwatkcxlLYCKkdTW5LEhacpmG?=
+ =?us-ascii?Q?CiFFzbOUtsHu4BfQs7Fco3kBxH6vh93noIZdJp29u7EDuUXweBGkJd97Xyhe?=
+ =?us-ascii?Q?Hb1cHhbXTbdXa9zfDfKND2a/J7nSDK6E/omXUO2JaJIO7vpPiiqdOxobSBXs?=
+ =?us-ascii?Q?jdeCZHDIKez2KWuu4+tsUNihvkrbIFmhM1kHKE6DwGP8uKZRXB1Fe9Lqhkoy?=
+ =?us-ascii?Q?pn/2wIDyvACYYXWT7GIPGa5Wf3sq+l+cBzFazL4um1Fr0+CpMPmC+2K6WPv/?=
+ =?us-ascii?Q?3XdvpmKWria8Ky0E/XLIPGedXMUYWTPCWMJugzHaH2SlSHMWImKfB7zFyZKq?=
+ =?us-ascii?Q?gq6XKzXIKu5A+biFLuMA1dIONe2J4nnbnxB1C4IQynnke9BFzzYuzsmUyE4t?=
+ =?us-ascii?Q?gytGCNfHUqvAtlHvZqsOiXgYFxPK9fEPpYNNwHadC3egup2BJZyttgSOBK27?=
+ =?us-ascii?Q?0wZGxvq4HLxHw+/Akd7DRiOp3Was7gvRlLpmHuyqOk66ZHQOZ++R5jmaAjuH?=
+ =?us-ascii?Q?4AxjjQp/j+xZc5pc/I7ozlC0bLbzKtBHwF8q9AtBXqOnhRcyzJloLWzbMJLO?=
+ =?us-ascii?Q?4HegE6FGlnWPYlYQIDhje8wAQsrSdcG0NbPaPYGrQz49G5cxzw93Rb2wT0Si?=
+ =?us-ascii?Q?d3JPmnx+m9QLI1Qpx4cc3NpL1/gCfuyY4P/c3vx0k23a2cKaJVeEhH03Y8wL?=
+ =?us-ascii?Q?2KmzQNJJJ0e9kOy4YtZZW43NwEHq/2q5gjq7qZuza1RvXrbxK64Vpbexkc6l?=
+ =?us-ascii?Q?cERi6jLdnUokPWEZRtNO8UyPEPkrSXhWkhUaK8a/nvoif065qPNhmrXH1W1i?=
+ =?us-ascii?Q?ekAb2t6FSjd0JEjjRpwu0fZ+J/kCeZaPAaSjdHYUYwEMuO5u3TV3haTAAoYQ?=
+ =?us-ascii?Q?uztLe1yWKCqWo3GLTGRUse4q0a2r/SnbHJOBfSKQC9gBkYbjSfMIaOOSz3yB?=
+ =?us-ascii?Q?G4YBWudnllrz6BCGzXKc9Vq22wxgz1eZQ0ro/lR1SAcK3Fh/+BU9TKHkTmIJ?=
+ =?us-ascii?Q?WyEV+qQCDG0R8qofWSJc50fqE/05vMx7JNtAb0APQrsY8d1oLit2tzBZt2b6?=
+ =?us-ascii?Q?NsxXr8FcbG+jWP9PmU9KYpkS9MYcPXc1doNVbB7P1zSP70EEcz1eKRqaZEnx?=
+ =?us-ascii?Q?zwdPgYng9KkNXEOKWVOyCO2/uU3mb1g/ZHlEQY7nz3m3pr36hVi5QuiC5oL5?=
+ =?us-ascii?Q?z0l6tpCGaEcqS+q2YLDa0RA=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ae8c3dc-d970-40d7-d8b0-08dcc578d00c
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2024 02:43:05.7986
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P9SYfVvRbFdx9ITugHfug+9z9LAONsEfWYL4o5YTKHvVxXNkjGG1G6/0IVYJI6t3kRU7ae5Sx+XM3wQsdQEaeQ4FrIob2wvLznL2OKTwJK0K2xDenbXx7zPAsGoiCVqq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10616
 
-Em Mon, 26 Aug 2024 01:24:55 +0300
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+Hi Rob, Saravana, Tomi, Laurent, Sakari
 
-> Hello,
->=20
-> On Tue, Aug 13, 2024 at 10:17:59AM +0200, Hans Verkuil wrote:
-> > (Apologies for posting a v3 right after v2, I forgot to add Suresh to t=
-he attendee list, that's corrected in v3)
-> >=20
-> > Hi all,
-> >=20
-> > Here is my third stab at an agenda for the media summit. As always, it
-> > is subject to change and all times are guesstimates!
-> >=20
-> > The media summit will be held on Monday September 16th. Avnet Silica ha=
-s very
-> > kindly offered to host this summit at their Vienna office, which is abo=
-ut 35
-> > minutes by public transport from the Open Source Summit Europe venue
-> > (https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
-> >=20
-> > Avnet Silica Office Location:
-> >=20
-> > Sch=C3=B6nbrunner Str. 297/307, 1120 Vienna, Austria
-> >=20
-> > https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH=
-+(Silica)/@48.183203,16.3100937,15z/data=3D!4m6!3m5!1s0x476da80e20b26d5b:0x=
-2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=3Dttu
-> >=20
-> > Refreshments are available during the day.
-> >=20
-> > The meeting room is sponsored by Avnet Silica. Much appreciated!
-> >=20
-> > Regarding the face mask policy: we will follow the same guidance that t=
-he
-> > Linux Foundation gives for the EOSS conference:
-> >=20
-> > https://events.linuxfoundation.org/open-source-summit-europe/attend/hea=
-lth-and-safety/#onsite-health-and-safety
-> >=20
-> >=20
-> > In-Person Attendees:
-> >=20
-> > Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
-> > Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
-> > Mauro Carvalho Chehab <mchehab@kernel.org> (Media Kernel Maintainer)
-> > Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
-> > Martin Hecht <martin.hecht@avnet.eu> (Avnet)
-> > Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
-> > Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
-> > Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
-> > Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
-> > Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
-> > Ricardo Ribalda <ribalda@chromium.org> (Google)
-> > Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
-> > Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
-> > Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
-> > Alain Volmat <alain.volmat@foss.st.com> (ST Electronics) (TBC)
-> > Sean Young <sean@mess.org>
-> > Jerry W Hu <jerry.w.hu@intel.com> (Intel)
-> >=20
-> > Remote Attendees (using MS Teams):
-> >=20
-> > Steve Cho <stevecho@chromium.org> (Google)
-> > Nas Chung <nas.chung@chipsnmedia.com> (Chips & Media)
-> > Tomasz Figa <tfiga@chromium.org> (Google)
-> > Hidenori Kobayashi <hidenorik@chromium.org> (Google)
-> > Jai Luthra <j-luthra@ti.com> (TI)
-> >=20
-> > Note: information on how to connect remotely will come later.
-> >=20
-> > If any information above is incorrect, or if I missed someone, then ple=
-ase let me know.
-> >=20
-> > We are currently 16 confirmed in-person participants and one TBC. The m=
-aximum is 18 people,
-> > so we're almost full. If you want to join in-person, then contact me an=
-d I'll put you on a
-> > waitlist. The attendee list should be finalized by the end of August.
-> >=20
-> > Draft agenda:
-> >=20
-> > 8:45-9:15: get settled :-)
-> >=20
-> > 9:15-9:25: Hans: Quick introduction
-> >=20
-> > 9:25-10:00: Steve Cho:
-> >=20
-> > - V4L2 testing on Chromium using virtual video decode driver (VISL)
-> > - V4L2 video decoding testing with KernelCI
-> >=20
-> > 10:00-11:00: Ricardo: multi-committer model using gitlab
-> >=20
-> > 11:00-11:15: break
-> >=20
-> > 11:15-12:15: Jacopo: Multi-context support in V4L2
-> >=20
-> > 12:15-13:30: Lunch
-> >=20
-> > 13:30-14:00: Tomasz: Current state of videobuf2, its limitations and th=
-e paths forward.
-> >=20
-> > 14:00-14:45: Laurent: subdevs, state, and usage of the media controller=
- device to submit requests.
-> >=20
-> > 14:45-15:00: break
-> >=20
-> > 15:00-15:30: Sean: new tooling for infrared:
-> >=20
-> > - What it is and what it can do (love to hear any feedback of course)
-> > - Where it should be hosted? (I hope gitlab fdo, who do I ask)
-> > - What needs to be in place for a release?
-> > - This tool replaces ir-ctl and ir-keytable. How we phase them out?
-> >=20
-> > 15:30-16:00: Daniel: Rust in the media subsystem
-> >=20
-> > 16:00-16:15: break
-> >=20
-> > 16:15-16:30: Hans: UVC maintenance
-> >=20
-> > 16:30-18:00: TBD =20
->=20
-> Here's a candidate topic for this time slot:
->=20
-> Should media drivers depend on CONFIG_PM?
->=20
-> Supporting both CONFIG_PM and !CONFIG_PM in drivers requires cumbersome
-> constructs, most likely leading to bugs because !CONFIG_PM is hardly
-> ever tested. The issue can be at least partly attributed to deficiencies
-> in the runtime PM and driver core APIs that should make this task easier
-> for drivers, but that will not realistically change any time soon.
->=20
-> In !CONFIG_PM kernels, drivers using runtime PM power up the device at
-> probe time, and keep it powered until remove time. The increased power
-> consumption really makes !CONFIG_PM a niche use case, if a use case at
-> all.
->=20
-> For those reasons, I would like to propose depending on CONFIG_PM for
-> media drivers. In an ideal world this could be done for the whole
-> subsystem.=20
+This is v3 patch-set
 
-This is not an option. Not all drivers depend on it. Some of them will
-never need it - like most USB and PCI tv/capture cards and digital tv ones.
+I have been posting to add new port base for loop function
+as below steps.
 
-> However, some architectures don't support CONFIG_PM, namely
->=20
-> - alpha
-> - csky
-> - hexagon
-> - m68k
-> - microblaze
-> - nios2
-> - openrisc
-> - parisc
-> - s390
-> - sparc (32-bit version only, sparc64 supports CONFIG_PM)
+[o] done
+[@] this patch set
 
-Well, arch-dependent drivers, like the ones made to run with ARM SoC
-could depend on PM, but then there are sensor drivers and such which
-are somewhat independent.
->=20
-> I assume we would get complains of the media subsystem became unusable
-> on those architectures. The decision could be made per driver, or per
-> category of drivers. I'm in particular interested in avoiding the churn
-> of supporting !CONFIG_PM in camera sensor drivers, and in platform
-> drivers that are used only on platforms that support CONFIG_PM.
+	[o] tidyup of_graph_get_endpoint_count()
+	[o] replace endpoint func - use endpoint_by_regs()
+	[o] replace endpoint func - use for_each()
+	[@] add new port function
 
-There are a couple of sensor drivers that are used by em28xx, which, as far
-as I remember, doesn't use PM. So, even for sensors it could be problematic.
+Current Of-graph has "endpoint base" for loop, but doesn't have
+"port base" loop. "endpoint base" loop only is not enough.
+This patch-set add new "port base" for loop, and use it.
 
->=20
-> I'm aware that asking this question may open the door to a more annoying
-> one. If we decide that we need to keep supporting those platforms in
-> camera sensor drivers, and that keeping the camera sensor powered up
-> unconditionally is not good enough, then we will have to reconsider the
-> move to runtime PM for sensor drivers that we started years ago (and
-> haven't completed yet).
+v2 -> v3
+	- return NULL if it it doesn't have ports / port
+	- add visible comment on of_graph_get_next_ports()
 
-Having PM support for sensor drivers makes sense, provided that it won't
-break support of the existing drivers using them.
->=20
-> > Please reply with corrections, questions, etc. to this email. I'll upda=
-te the agenda
-> > over time. Again, these times are very preliminary. =20
->=20
+v1 -> v2
+	- add each Reviewed-by / Acked-by
+	- tidyup/update Kernel Docs
+	- use prev as parameter
+	- update git-log explanation
+	- remove extra changes
+
+
+Kuninori Morimoto (9):
+  of: property: add of_graph_get_next_port()
+  of: property: add of_graph_get_next_port_endpoint()
+  ASoC: test-component: use new of_graph functions
+  ASoC: rcar_snd: use new of_graph functions
+  ASoC: audio-graph-card: use new of_graph functions
+  ASoC: audio-graph-card2: use new of_graph functions
+  gpu: drm: omapdrm: use new of_graph functions
+  fbdev: omapfb: use new of_graph functions
+  media: xilinx-tpg: use new of_graph functions
+
+ drivers/gpu/drm/omapdrm/dss/dpi.c             |   3 +-
+ drivers/gpu/drm/omapdrm/dss/sdi.c             |   3 +-
+ drivers/media/platform/xilinx/xilinx-tpg.c    |   3 +-
+ drivers/of/property.c                         | 134 ++++++++++++++++++
+ drivers/video/fbdev/omap2/omapfb/dss/dpi.c    |   3 +-
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c |  66 ---------
+ drivers/video/fbdev/omap2/omapfb/dss/dss.c    |   9 +-
+ drivers/video/fbdev/omap2/omapfb/dss/sdi.c    |   3 +-
+ include/linux/of_graph.h                      |  66 +++++++++
+ include/video/omapfb_dss.h                    |   8 --
+ sound/soc/generic/audio-graph-card.c          |   5 +-
+ sound/soc/generic/audio-graph-card2.c         | 111 +++++++--------
+ sound/soc/generic/test-component.c            |   4 +-
+ sound/soc/sh/rcar/core.c                      |  12 +-
+ 14 files changed, 270 insertions(+), 160 deletions(-)
+
+-- 
+2.43.0
+
 
