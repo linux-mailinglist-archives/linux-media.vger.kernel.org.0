@@ -1,43 +1,48 @@
-Return-Path: <linux-media+bounces-16776-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16778-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322B495EEA6
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 12:41:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E0095EF40
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 12:59:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6553E1C217B3
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 10:41:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F32EE285FA4
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 10:59:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D910D14B06E;
-	Mon, 26 Aug 2024 10:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5101E145B1D;
+	Mon, 26 Aug 2024 10:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LnydtI38"
 X-Original-To: linux-media@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E9D14A4E1;
-	Mon, 26 Aug 2024 10:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E69239ACC;
+	Mon, 26 Aug 2024 10:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724668856; cv=none; b=Wyxcj8EZDjqy4KR8ccCLd2ylN+x8DVUJortQgG+wgAUwAYpF7HHlfMSM/esbmFPEg0DFdWzCZkP74adONvj/DvgzVdfHAr7QRorR4JgwEefkgPBA+xKQbRZx+GbtD/lkKVY+JJsEalW+isRzNmV8UyAd3ZPBk38DW793DVuAkaI=
+	t=1724669944; cv=none; b=LriAVtpVLDtzOGNxiMVo4EjrfICIEZ/hxC9hsX2NHeh09UZ8yuTbLQ6JL2hKaKHpBIQZm6vTukFC3AM3Ytx18TgdtGTs2Wvz+YM5LzEIxAhxUqutRIYo/PM8vhq7Oi9yrYvCeLuX2RKQRkqVEorHSwin+GOy8HtYdhC3Mzc3Ux0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724668856; c=relaxed/simple;
-	bh=afyYNouRafrI1PVLHdus6keUfhP3xJW8Q5A0kSWXOIo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NiS/U7mDPB1PfkOpitr+KcDpnj+wSrtdwzTGHiuHu5it0BJCqqqVqDU2Fz8PvFP21f0KRDzZWafOcrtG1lNwD5E5kaTglajQ1gQ+Exq2qqWWx1v2D5bQJ/BLTMoYJ7wvnaoTx86b34rOVsPcjO9U27SYf2zd5OV1fb6+D30mAYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Mon, 26 Aug
- 2024 13:39:39 +0300
-Received: from [192.168.211.130] (10.0.253.138) by Ex16-01.fintech.ru
- (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 26 Aug
- 2024 13:39:38 +0300
-Message-ID: <2417bf98-424b-4d37-ae36-8f5affaffb24@fintech.ru>
-Date: Mon, 26 Aug 2024 03:39:35 -0700
+	s=arc-20240116; t=1724669944; c=relaxed/simple;
+	bh=2HaqHypaGbNa4wj1xCbfhuANwTRn90UhLsl11+ksYJU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FQ8PBAx9/rmWQr4mNtoOSP+Fc64Jn2R2VHkur26DUrhEoKcY2Tkvp7/mTmUXLdYKjWm9CxXXWceUUFqo9zrVC4RmosMxJUtR/yH/Q9SLG2KDq1MdpDw6qmzuL4SuaTLtG/eaJap1l5gF1D6v6GSMqfRsC84AWxabK2HFVctrpHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LnydtI38; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84E49480;
+	Mon, 26 Aug 2024 12:57:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724669875;
+	bh=2HaqHypaGbNa4wj1xCbfhuANwTRn90UhLsl11+ksYJU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LnydtI38Rff3Rnu7oDfpALYNpC8MZEkgkM2EP/Lhp2m7Uiwt1fk+y7owrvc5p/SSJ
+	 Gr53SNSMaMi8WQV9dALfs6NLD6ZM2R0iYxex0f0hduyQSWnVAHTzGJ4CJT+sTEDS2H
+	 QTJMIwVcqB+epIWylTiqnwgA8erBbMYLd9q7JsJU=
+Message-ID: <9c51bd29-5bc1-484c-9c42-1d3304c0f245@ideasonboard.com>
+Date: Mon, 26 Aug 2024 13:58:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -45,77 +50,123 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: dvb-frontends: dib3000mb: fix uninit-value in
- dib3000_write_reg
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>
-CC: Luis Chamberlain <mcgrof@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Patrick Boettcher <pb@linuxtv.org>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<syzbot+c88fc0ebe0d5935c70da@syzkaller.appspotmail.com>,
-	<n.zhandarovich@fintech.ru>
-References: <20240517155800.9881-1-n.zhandarovich@fintech.ru>
+Subject: Re: [PATCH v2 1/7] media: microchip-isc: Drop
+ v4l2_subdev_link_validate() for video devices
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>, Eugen Hristev
+ <eugen.hristev@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
+ linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20240822154531.25912-2-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-In-Reply-To: <20240517155800.9881-1-n.zhandarovich@fintech.ru>
-Content-Type: text/plain; charset="UTF-8"
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240822154531.25912-2-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
 
 Hi,
 
-On 5/17/24 08:58, Nikita Zhandarovich wrote:
-> Syzbot reports [1] an uninitialized value issue found by KMSAN in
-> dib3000_read_reg().
+On 22/08/2024 18:45, Laurent Pinchart wrote:
+> The v4l2_subdev_link_validate() function is a helper designed to
+> validate links whose sink is a subdev. When called on a link whose sink
+> is a video device, it only prints a warning and returns. As the
+> microchip-isc driver implements manual validate of the subdev to video
+> device link, we can just dropp the v4l2_subdev_link_validate() to avoid
+> the warning.
 > 
-> Local u8 rb[2] is used in i2c_transfer() as a read buffer; in case
-> that call fails, the buffer may end up with some undefined values.
-> 
-> Since no elaborate error handling is expected in dib3000_write_reg(),
-> simply zero out rb buffer to mitigate the problem.
-> 
-> [1] Syzkaller report
-> dvb-usb: bulk message failed: -22 (6/0)
-> =====================================================
-> BUG: KMSAN: uninit-value in dib3000mb_attach+0x2d8/0x3c0 drivers/media/dvb-frontends/dib3000mb.c:758
->  dib3000mb_attach+0x2d8/0x3c0 drivers/media/dvb-frontends/dib3000mb.c:758
->  dibusb_dib3000mb_frontend_attach+0x155/0x2f0 drivers/media/usb/dvb-usb/dibusb-mb.c:31
->  dvb_usb_adapter_frontend_init+0xed/0x9a0 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:290
->  dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:90 [inline]
->  dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:186 [inline]
->  dvb_usb_device_init+0x25a8/0x3760 drivers/media/usb/dvb-usb/dvb-usb-init.c:310
->  dibusb_probe+0x46/0x250 drivers/media/usb/dvb-usb/dibusb-mb.c:110
-> ...
-> Local variable rb created at:
->  dib3000_read_reg+0x86/0x4e0 drivers/media/dvb-frontends/dib3000mb.c:54
->  dib3000mb_attach+0x123/0x3c0 drivers/media/dvb-frontends/dib3000mb.c:758
-> ...
-> 
-> Fixes: 74340b0a8bc6 ("V4L/DVB (4457): Remove dib3000-common-module")
-> Reported-by: syzbot+c88fc0ebe0d5935c70da@syzkaller.appspotmail.com
-> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/media/dvb-frontends/dib3000mb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   .../platform/microchip/microchip-isc-base.c   | 19 ++++---------------
+>   1 file changed, 4 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/media/dvb-frontends/dib3000mb.c b/drivers/media/dvb-frontends/dib3000mb.c
-> index c598b2a63325..7c452ddd9e40 100644
-> --- a/drivers/media/dvb-frontends/dib3000mb.c
-> +++ b/drivers/media/dvb-frontends/dib3000mb.c
-> @@ -51,7 +51,7 @@ MODULE_PARM_DESC(debug, "set debugging level (1=info,2=xfer,4=setfe,8=getfe (|-a
->  static int dib3000_read_reg(struct dib3000_state *state, u16 reg)
->  {
->  	u8 wb[] = { ((reg >> 8) | 0x80) & 0xff, reg & 0xff };
-> -	u8 rb[2];
-> +	u8 rb[2] = {};
->  	struct i2c_msg msg[] = {
->  		{ .addr = state->config.demod_address, .flags = 0,        .buf = wb, .len = 2 },
->  		{ .addr = state->config.demod_address, .flags = I2C_M_RD, .buf = rb, .len = 2 },
+> diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
+> index f3a5cbacadbe..28e56f6a695d 100644
+> --- a/drivers/media/platform/microchip/microchip-isc-base.c
+> +++ b/drivers/media/platform/microchip/microchip-isc-base.c
+> @@ -902,8 +902,11 @@ static int isc_set_fmt(struct isc_device *isc, struct v4l2_format *f)
+>   	return 0;
+>   }
+>   
+> -static int isc_validate(struct isc_device *isc)
+> +static int isc_link_validate(struct media_link *link)
+>   {
+> +	struct video_device *vdev =
+> +		media_entity_to_video_device(link->sink->entity);
+> +	struct isc_device *isc = video_get_drvdata(vdev);
+>   	int ret;
+>   	int i;
+>   	struct isc_format *sd_fmt = NULL;
+> @@ -1906,20 +1909,6 @@ int microchip_isc_pipeline_init(struct isc_device *isc)
+>   }
+>   EXPORT_SYMBOL_GPL(microchip_isc_pipeline_init);
+>   
+> -static int isc_link_validate(struct media_link *link)
+> -{
+> -	struct video_device *vdev =
+> -		media_entity_to_video_device(link->sink->entity);
+> -	struct isc_device *isc = video_get_drvdata(vdev);
+> -	int ret;
+> -
+> -	ret = v4l2_subdev_link_validate(link);
+> -	if (ret)
+> -		return ret;
+> -
+> -	return isc_validate(isc);
+> -}
+> -
+>   static const struct media_entity_operations isc_entity_operations = {
+>   	.link_validate = isc_link_validate,
+>   };
 
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Gentle ping...
+  Tomi
 
-Regards,
-Nikita
 
