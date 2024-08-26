@@ -1,128 +1,120 @@
-Return-Path: <linux-media+bounces-16853-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16855-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FFA95F7FE
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 19:25:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0647D95F879
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 19:45:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7C85BB22175
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 17:25:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 396871C225CD
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 17:45:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE441993B9;
-	Mon, 26 Aug 2024 17:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5B5D199248;
+	Mon, 26 Aug 2024 17:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CCe11pr6";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="IJNBUtaj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKuyWnH7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from a7-30.smtp-out.eu-west-1.amazonses.com (a7-30.smtp-out.eu-west-1.amazonses.com [54.240.7.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E11064A;
-	Mon, 26 Aug 2024 17:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.7.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7746198E6C;
+	Mon, 26 Aug 2024 17:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724693054; cv=none; b=og+42a5seL4W++xL/J3Fplz4KT5h+eSlzDfHmCQ27ruLhNt+4TxzN1jzcMHlfVc2Fler2yCNDOBaRIRvbRptym7ME0JUrMeZMf9osT9HDaDbX/9aKmAaerKbB3xSDwCqhd3JHckvCvw7uhsG2Ce9+DQv2l4aXq13tP2g8XHSLbU=
+	t=1724694274; cv=none; b=aIMjtpDqAvf4ZtmIxT7W6o/XKUDs0Inj/foP3DQjc3a7DNbKi9bo1tlz0ynASK2HULTYMJELCUq0YiJZevRy+Ns6wLd9Fhzfu6HUc03DVfPwFIDwkFbqseB6TaM+0uB4BmwuNjPVxN/bwe1pe6sWbqnW1AzoMwYMwmFfGo4O6eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724693054; c=relaxed/simple;
-	bh=etTr18PVUbyD9sH0upSXvlXDIQwDCIKkQLfctpu+WIM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZAewdbyAfzx5Xo9xptcxSXZRUGviz2c9B9BZ33KtwpCo7kNMpTZxAI/KtYDmW2uzwbHheO78BNpBdF6F6pfDbE130NxrwTzBMKM5DO/B42ihKa3JIfFlGgjx2xUbpPwZye/vQx4cnkjBt7HHd/kCn2COvau3SsLh7JWZR2DwlSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=amazonses.collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CCe11pr6; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=IJNBUtaj; arc=none smtp.client-ip=54.240.7.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1724693050;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=etTr18PVUbyD9sH0upSXvlXDIQwDCIKkQLfctpu+WIM=;
-	b=CCe11pr6qOy961/sWNVUMH6KKouTy/tOjExkTfT2L+8KDU8TzEFeUAXBuf7DPHhh
-	xKSmoKi7ylUV4vwdY/z/lQPB0QnSDieugfPWooL2O7lNTJsRIOWJ9PHsmJrXmZLTAzA
-	8V5ClmdQQVJbqNvlVho6cciT6j8qJiL3Vu8FMXLxLU/7qlgeHa3dWVQMYtDLafn/SFa
-	2c9DGBIn35M7JdGhMtZ4+LbAqV4n63cm4gMiwhEJsnjjYnEbAmYpUeDTpt5jMhO2bKs
-	iIqbM2NPqzfxAMV/3O8mxI29gN91GpixK7/1tXMdyD4xCn4M5LnVwWj6dSRbDMGbyeH
-	QwWac6451w==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1724693050;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
-	bh=etTr18PVUbyD9sH0upSXvlXDIQwDCIKkQLfctpu+WIM=;
-	b=IJNBUtajuE12ye6IkYE7m+mee4d0+VJDF+NehKONNLoVgKTBsikexRUoLLiGVJz/
-	0lbZF/0JhtX3sIS7iEcJCxEamB5WTOw6lJqcZm6w57s2ipG0UAt6BobQ+m5LtJTh4m4
-	5wPa1zr8cbvDW+/prx8x/YHw/9kbmXJACHE0JDpM=
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, 
-	hverkuil-cisco@xs4all.nl
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, kernel@collabora.com, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v7 2/3] media: test-drivers: Use V4L2_FMTDESC_FLAG_ENUM_ALL flag
-Date: Mon, 26 Aug 2024 17:24:10 +0000
-Message-ID: <010201918fb772f4-51d41cc7-a573-4d49-b75c-3e6b37839901-000000@eu-west-1.amazonses.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240826172407.140538-1-benjamin.gaignard@collabora.com>
-References: <20240826172407.140538-1-benjamin.gaignard@collabora.com>
+	s=arc-20240116; t=1724694274; c=relaxed/simple;
+	bh=a5FzUTnE9HADVd0iHq5kRlEPg4MhnxIDXhDxBBh9q5M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=biDWpTBhMfhl6/dM/bKH8hPFeoWMpirTQ8kk3dHKZyoSrpRBsPFzq2s0jqIJkvvvE36fQOO0J1YEfnN4188iWpByr3F9Yrt7yo9xK6YL3bKR29CpB1PpAucRFOJEHAwR0w1FZhs4QernA8etWLUJPgo7GnjXwFmX12heWr/pELI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKuyWnH7; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724694272; x=1756230272;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a5FzUTnE9HADVd0iHq5kRlEPg4MhnxIDXhDxBBh9q5M=;
+  b=YKuyWnH7DnLYZligp/IWQqitsIgF3SjL/WxbEyGl/cPcVkb0tXYDyB9c
+   x4yM/ZGFnuhn5mSP/XIp3DtZWWZnS7XAoNdf7mhExHI2f1eJQNwk3zl8y
+   BVqgG6E8ppXTZWZUzUYNOaL5jIOrm4dMIk5VxB8b3PPdKfgsgpmrRkNOw
+   Wl0rtb1YPjfCmPArJG2i9EEIf7Zh7mTdbS025NuVWLYXKQx+cMZxrwEdg
+   ///Wx/zsFG95X0+pMUqs3pyTsfYGvD3Iu+0kFx619xpE5m6m5mXcstoSR
+   m9ReCglJvx4A9pie3zDDbfcy0lwcDoHy5D/ojyxl8dGVKlcQMvmJhmyP+
+   A==;
+X-CSE-ConnectionGUID: aDCSvph5RaWKyQ872opFNQ==
+X-CSE-MsgGUID: 0+z+CK7LSoyItVOHQ/Iwvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22730130"
+X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
+   d="scan'208";a="22730130"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:44:31 -0700
+X-CSE-ConnectionGUID: EAKVgrsOQ0qjFLMDWPEuhA==
+X-CSE-MsgGUID: Wu7q6B5aS32in6O5qJCBCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
+   d="scan'208";a="62640390"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:44:23 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sidlL-000000021ng-2l5k;
+	Mon, 26 Aug 2024 20:44:19 +0300
+Date: Mon, 26 Aug 2024 20:44:19 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sebastian.fricke@collabora.com, linux-doc@vger.kernel.org,
+	praneeth@ti.com, nm@ti.com, vigneshr@ti.com, s-jain1@ti.com,
+	r-donadkar@ti.com, b-brnich@ti.com, detheridge@ti.com,
+	p-mantena@ti.com, vijayp@ti.com, andi.shyti@linux.intel.com,
+	nicolas@ndufresne.ca, jirislaby@kernel.org, davidgow@google.com,
+	dlatypov@google.com, corbet@lwn.net, broonie@kernel.org,
+	jani.nikula@intel.com, rdunlap@infradead.org, nik.borisov@suse.com,
+	Dave.Martin@arm.com
+Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
+ value
+Message-ID: <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
+References: <20240826150822.4057164-1-devarsht@ti.com>
+ <20240826150822.4057164-2-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.08.26-54.240.7.30
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240826150822.4057164-2-devarsht@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Since the V4L2_FMTDESC_FLAG_ENUM_ALL flag mostly targets stateless
-decoder pixel-format enumeration, update visl test driver to use it.
-When V4L2_FMTDESC_FLAG_ENUM_ALL flag is set let the driver returns
-one more pixel format.
+On Mon, Aug 26, 2024 at 08:38:17PM +0530, Devarsh Thakkar wrote:
+> Add below rounding related macros:
+> 
+> round_closest_up(x, y) : Rounds x to the closest multiple of y where y is a
+> power of 2, with a preference to round up in case two nearest values are
+> possible.
+> 
+> round_closest_down(x, y) : Rounds x to the closest multiple of y where y is
+> a power of 2, with a preference to round down in case two nearest values
+> are possible.
+> 
+> roundclosest(x, y) : Rounds x to the closest multiple of y, this macro
+> should generally be used only when y is not multiple of 2 as otherwise
+> round_closest* macros should be used which are much faster.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/media/test-drivers/visl/visl-video.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+I understand the point, but if you need to send a v3, please explain
+the equivalency between roundclosest() and one (or both?) of the
+round_closest_*() in case the argument is power-of-2.
 
-diff --git a/drivers/media/test-drivers/visl/visl-video.c b/drivers/media/test-drivers/visl/visl-video.c
-index f8d970319764..677a8564de03 100644
---- a/drivers/media/test-drivers/visl/visl-video.c
-+++ b/drivers/media/test-drivers/visl/visl-video.c
-@@ -136,6 +136,12 @@ static const u32 visl_decoded_fmts[] = {
- 	V4L2_PIX_FMT_YUV420,
- };
- 
-+static const u32 visl_extended_decoded_fmts[] = {
-+	V4L2_PIX_FMT_NV12,
-+	V4L2_PIX_FMT_YUV420,
-+	V4L2_PIX_FMT_P010,
-+};
-+
- const struct visl_coded_format_desc visl_coded_fmts[] = {
- 	{
- 		.pixelformat = V4L2_PIX_FMT_FWHT_STATELESS,
-@@ -341,11 +347,21 @@ static int visl_enum_fmt_vid_cap(struct file *file, void *priv,
- 				 struct v4l2_fmtdesc *f)
- {
- 	struct visl_ctx *ctx = visl_file_to_ctx(file);
-+	u32 index = f->index & ~V4L2_FMTDESC_FLAG_ENUM_ALL;
-+	int max_fmts = ctx->coded_format_desc->num_decoded_fmts;
-+	const u32 *decoded_fmts = ctx->coded_format_desc->decoded_fmts;
-+
-+	if (f->index & V4L2_FMTDESC_FLAG_ENUM_ALL) {
-+		max_fmts = ARRAY_SIZE(visl_extended_decoded_fmts);
-+		decoded_fmts = visl_extended_decoded_fmts;
-+	}
-+
-+	f->index = index;
- 
--	if (f->index >= ctx->coded_format_desc->num_decoded_fmts)
-+	if (index >= max_fmts)
- 		return -EINVAL;
- 
--	f->pixelformat = ctx->coded_format_desc->decoded_fmts[f->index];
-+	f->pixelformat = decoded_fmts[index];
- 	return 0;
- }
- 
+Because from the above I don't see what I'll get in such a case.
+
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
 
