@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-16786-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16787-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024F495F009
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 13:44:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D3D95F023
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 13:49:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26F671C21749
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 11:44:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E51911F24A26
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 11:49:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2928115531A;
-	Mon, 26 Aug 2024 11:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FFA5156678;
+	Mon, 26 Aug 2024 11:49:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="j2s59RRk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YEp9s7ma"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D195D1514F6;
-	Mon, 26 Aug 2024 11:43:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F7E154BFB;
+	Mon, 26 Aug 2024 11:49:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724672634; cv=none; b=G8sx7wiS7QDPdmwY3GUIz0tyrmnogJ8wWWm512FlTV73wekzJ0Bl/F02u0tk2lniMrXIx4dyuhR8cj3OGFcwXxRb0OJt3BnAREpgC7W7VU16j7Q15OMz1PZcaBcTAB+GzQAyI7Gg+ZlYjITHoYtHez9JHUiZnUU13IFDk5A7YYE=
+	t=1724672990; cv=none; b=UsvHw/HMZIAoHdvWeaY33V+/e8YpWhw5150D0lAmZpxUeOabEqK2QVX25bpAmI52HLTu9ZqP+TwQg1mOai3tmsWGwH36NU80j24l6h/Kc6HO+4TZnxRILt47iikA+Yxo19ZKut63Mb8wfCZaPT8VYuuy8/rzzpK0Vx8F766zEPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724672634; c=relaxed/simple;
-	bh=mBNa8dfx3Gjse1tciYkUBjoyaRZDW9PTWTffgcH3j7I=;
+	s=arc-20240116; t=1724672990; c=relaxed/simple;
+	bh=skIrZKcYIsIasijak/5Zm/sInv8oE+n+41dtH1EnjvE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PGkl/C6/DNmkMnnkOySM4p0ihUegeDTJpe3craVPz/lpbLVdPfnlPre65SeMO/s0aNX5zKlAvk//0oz/3U0anC6O2JuFPGkP8iRkJaAuixoAzQJCK6q+0hiYUePAab2c/IZZgfJpIer5Na41QclHxIboyAYjjZOcsB/gpMuMqQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=j2s59RRk; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=CHf+JyU8Rx9hf5rFVAV/pM9rYXsveUPdM0/Uxoq0CITtqCcWnfH8p3/fxZJe0qRN0oW7yDWoExBbIDXwi9LqOfKWVhu/aKDCqP5DGzaXwi0yNQZPM0n/8RrQRPjM5DiQC4yHJD8DObKQEzje62UMeiyLKliU+zgfOk9yhltoteE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YEp9s7ma; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7EA89480;
-	Mon, 26 Aug 2024 13:42:44 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D72EB480;
+	Mon, 26 Aug 2024 13:48:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724672565;
-	bh=mBNa8dfx3Gjse1tciYkUBjoyaRZDW9PTWTffgcH3j7I=;
+	s=mail; t=1724672921;
+	bh=skIrZKcYIsIasijak/5Zm/sInv8oE+n+41dtH1EnjvE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j2s59RRkuG0BsAubIAOF7mQOgsVw5Kv6kWmx4ONKseOG/6pqD7vbgOP1J5XAQm80g
-	 0w7Yolv3CVUb5ygeEKU84gMSg2cjwfpu6aERLSWg+2LP2g9jhKnlQz06KsAvvT0Vdd
-	 dg8evTxTSp6JvEblh+yL+FC3sExNtPBBYBv5NSI8=
-Message-ID: <93fd78a6-c8fa-421f-b10c-69a42ac8112d@ideasonboard.com>
-Date: Mon, 26 Aug 2024 14:43:47 +0300
+	b=YEp9s7mavYCiX/cmneOxtjwT0T32RjdkVneXs8MHpaMVjPLx2m0H079wvFvlaAcvJ
+	 XunUY3nMhsB6H8O4QY/4GMGqoU2xVk45hY5iGF2GjZC737vMF6e/RImKIchh8aKmNj
+	 FHRhfdYkBnJSl6APzlHtPUxC2YTFwOrSPO4ypsQw=
+Message-ID: <05718b7f-0c57-4217-97e1-ef4785d38c01@ideasonboard.com>
+Date: Mon, 26 Aug 2024 14:49:44 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] [DNI] media: renesas: vsp1: Validate all links
- through .link_validate()
+Subject: Re: [PATCH v2 6/7] media: renesas: vsp1: Implement .link_validate()
+ for video devices
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  linux-media@vger.kernel.org
 Cc: Chen-Yu Tsai <wens@csie.org>, Eugen Hristev
@@ -61,7 +61,7 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Eugen Hristev
  Maxime Ripard <mripard@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
  linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
 References: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240822154531.25912-8-laurent.pinchart+renesas@ideasonboard.com>
+ <20240822154531.25912-7-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -107,164 +107,83 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240822154531.25912-8-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20240822154531.25912-7-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 22/08/2024 18:45, Laurent Pinchart wrote:
-> Move validation of the links between video devices and subdevs,
-> performed manually in vsp1_video_streamon(), to the video device
-> .link_validate() handler.
+> The v4l2_subdev_link_validate() helper prints a warning if the
+> .link_validate() operation is not implemented for video devices
+> connected to the subdevs. Implement the operation to silence the
+> warning.
 > 
-> This is how drivers should be implemented, but sadly, doing so for the
-> vsp1 driver could break userspace, introducing a regression. This patch
-> serves as an example to showcase usage of the .link_validate()
-> operation, but should not be merged.
+> Ideally validation of the link between the video device and the subdev
+> should be implemented in that operation. That would however break
+> userspace that does not configure formats on all video devices before
+> starting streaming. While this mode of operation may not be considered
+> valid by the V4L2 API specification (interpretation differ), it is
+> nonetheless supported by the vsp1 driver at the moment and used by at
+> least the vsp1 unit test suite, and possibly other userspace
+> applciations. Removing it would be a regression.
+
+"applications"
+
+If the media graph is validated when the first stream is enabled, does 
+that mean that when the graph is "enabled", we can never change e.g. the 
+resolution, even for streams that have not been enabled and even if all 
+the drivers would support this?
+
+The pad interdependency should help there, right? Would it help here, too?
+
+  Tomi
+
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->   .../media/platform/renesas/vsp1/vsp1_video.c  | 98 +++++++------------
->   1 file changed, 37 insertions(+), 61 deletions(-)
+>   .../media/platform/renesas/vsp1/vsp1_video.c  | 22 +++++++++++++++++++
+>   1 file changed, 22 insertions(+)
 > 
 > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> index e728f9f5160e..14575698bbe7 100644
+> index fdb46ec0c872..e728f9f5160e 100644
 > --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
 > +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> @@ -45,51 +45,6 @@
->    * Helper functions
+> @@ -1081,6 +1081,27 @@ static const struct v4l2_file_operations vsp1_video_fops = {
+>   	.mmap = vb2_fop_mmap,
+>   };
+>   
+> +/* -----------------------------------------------------------------------------
+> + * Media entity operations
+> + */
+> +
+> +static int vsp1_video_link_validate(struct media_link *link)
+> +{
+> +	/*
+> +	 * Ideally, link validation should be implemented here instead of
+> +	 * calling vsp1_video_verify_format() in vsp1_video_streamon()
+> +	 * manually. That would however break userspace that start one video
+> +	 * device before configures formats on other video devices in the
+> +	 * pipeline. This operation is just a no-op to silence the warnings
+> +	 * from v4l2_subdev_link_validate().
+> +	 */
+> +	return 0;
+> +}
+> +
+> +static const struct media_entity_operations vsp1_video_media_ops = {
+> +	.link_validate = vsp1_video_link_validate,
+> +};
+> +
+>   /* -----------------------------------------------------------------------------
+>    * Suspend and Resume
 >    */
+> @@ -1215,6 +1236,7 @@ struct vsp1_video *vsp1_video_create(struct vsp1_device *vsp1,
 >   
-> -static struct v4l2_subdev *
-> -vsp1_video_remote_subdev(struct media_pad *local, u32 *pad)
-> -{
-> -	struct media_pad *remote;
-> -
-> -	remote = media_pad_remote_pad_first(local);
-> -	if (!remote || !is_media_entity_v4l2_subdev(remote->entity))
-> -		return NULL;
-> -
-> -	if (pad)
-> -		*pad = remote->index;
-> -
-> -	return media_entity_to_v4l2_subdev(remote->entity);
-> -}
-> -
-> -static int vsp1_video_verify_format(struct vsp1_video *video)
-> -{
-> -	struct v4l2_subdev_format fmt = {
-> -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> -	};
-> -	struct v4l2_subdev *subdev;
-> -	int ret;
-> -
-> -	subdev = vsp1_video_remote_subdev(&video->pad, &fmt.pad);
-> -	if (subdev == NULL)
-> -		return -EINVAL;
-> -
-> -	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
-> -	if (ret < 0)
-> -		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
-> -
-> -	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
-> -	    video->rwpf->format.height != fmt.format.height ||
-> -	    video->rwpf->format.width != fmt.format.width) {
-> -		dev_dbg(video->vsp1->dev,
-> -			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
-> -			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
-> -			video->rwpf->format.height, fmt.format.code,
-> -			fmt.format.width, fmt.format.height);
-> -		return -EPIPE;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->   static int __vsp1_video_try_format(struct vsp1_video *video,
->   				   struct v4l2_pix_format_mplane *pix,
->   				   const struct vsp1_format_info **fmtinfo)
-> @@ -991,14 +946,6 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
->   
->   	mutex_unlock(&mdev->graph_mutex);
->   
-> -	/*
-> -	 * Verify that the configured format matches the output of the connected
-> -	 * subdev.
-> -	 */
-> -	ret = vsp1_video_verify_format(video);
-> -	if (ret < 0)
-> -		goto err_stop;
-> -
->   	/* Start the queue. */
->   	ret = vb2_streamon(&video->queue, type);
->   	if (ret < 0)
-> @@ -1087,14 +1034,43 @@ static const struct v4l2_file_operations vsp1_video_fops = {
->   
->   static int vsp1_video_link_validate(struct media_link *link)
->   {
-> -	/*
-> -	 * Ideally, link validation should be implemented here instead of
-> -	 * calling vsp1_video_verify_format() in vsp1_video_streamon()
-> -	 * manually. That would however break userspace that start one video
-> -	 * device before configures formats on other video devices in the
-> -	 * pipeline. This operation is just a no-op to silence the warnings
-> -	 * from v4l2_subdev_link_validate().
-> -	 */
-> +	struct v4l2_subdev_format fmt = {
-> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> +	};
-> +	struct v4l2_subdev *subdev;
-> +	struct media_entity *entity;
-> +	struct media_pad *remote;
-> +	struct vsp1_video *video;
-> +	int ret;
-> +
-> +	if (is_media_entity_v4l2_video_device(link->source->entity)) {
-> +		entity = link->source->entity;
-> +		remote = link->sink;
-> +	} else {
-> +		entity = link->sink->entity;
-> +		remote = link->source;
-> +	}
-
-This looks a bit odd. So this device can be either a source and a sink?
-
-This made me also wonder about the .link_validate(). It's the only 
-media_entity_operations op that does not get the media_entity as a 
-parameter. Which here means the driver has to go and "guess" whether it 
-is the source or the sink of the given link.
-
-I wonder if there's a reason why .link_validate() doesn't have the 
-media_entity parameter?
-
-> +
-> +	fmt.pad = remote->index;
-> +
-> +	subdev = media_entity_to_v4l2_subdev(remote->entity);
-> +	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
-> +	if (ret < 0)
-> +		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
-> +
-> +	video = to_vsp1_video(media_entity_to_video_device(entity));
-> +
-> +	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
-> +	    video->rwpf->format.height != fmt.format.height ||
-> +	    video->rwpf->format.width != fmt.format.width) {
-> +		dev_dbg(video->vsp1->dev,
-> +			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
-> +			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
-> +			video->rwpf->format.height, fmt.format.code,
-> +			fmt.format.width, fmt.format.height);
-> +		return -EPIPE;
-> +	}
-
-Why don't we have a common videodev state which could be used to do 
-these validations in a common function? =)
-
-Fwiw:
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-
-  Tomi
+>   	/* ... and the video node... */
+>   	video->video.v4l2_dev = &video->vsp1->v4l2_dev;
+> +	video->video.entity.ops = &vsp1_video_media_ops;
+>   	video->video.fops = &vsp1_video_fops;
+>   	snprintf(video->video.name, sizeof(video->video.name), "%s %s",
+>   		 rwpf->entity.subdev.name, direction);
 
 
