@@ -1,111 +1,106 @@
-Return-Path: <linux-media+bounces-16820-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16821-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453A595F3D7
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 16:28:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E3E95F41C
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 16:44:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C308BB21883
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 14:28:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6CF4EB21898
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 14:44:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47F3F189B9B;
-	Mon, 26 Aug 2024 14:28:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF37D1917E6;
+	Mon, 26 Aug 2024 14:44:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnUS5WbL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RPleQYOc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DFC1E864
-	for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 14:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED74618E059
+	for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 14:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724682492; cv=none; b=uXO+24qwtxD1N4eIrNuTCIMo/dvAh3/waWqlYhCW6iXU87MMOrUZGcUevBAz7v4Gkz57vvuqyK2/+Ro1p+add+3/nA6G4iDsRcX2ueQE1we2VrCmtusFi4MA2ga+eXi00/DEvmB+SF97gUZpIVEGgKxSU5O9oWR3hIrrP5Mq19U=
+	t=1724683443; cv=none; b=kuXOG1tIHpqNtPvkURcYni+Yzgo2lYclltf7RTfAPRJQeMbGmCksetBzpL3gujdXDhKQXSovwDW9Q40vZ/gaw05DSuBlTxgpH7svcCDMmcfXbzR/6pygqeOGKTdhuW+bvuePJ1EgSkfbcpknivuDagvWbGHhChAD3VRh9eH10BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724682492; c=relaxed/simple;
-	bh=6xZvVCR9gV/QYjMs3/yklGWxQ9SxEkGFrlW/mLvZpXU=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=tQGnooAc6PfLTsqE6jTz5Sn/arG+VxReDmMsD7E09E6n0wd/E8uEi+q/9PMV4J2JE5KvguRinpBnB80n0qaf3sFgbat/Y85A7z5h2KE/pys8aaaW61BEjjliD6ZNtrIWjOMIakr5M8wSmiobpOPtIwT953K++hR69OACHFS7Zns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnUS5WbL; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724682491; x=1756218491;
-  h=message-id:subject:from:to:cc:date:
-   content-transfer-encoding:mime-version;
-  bh=6xZvVCR9gV/QYjMs3/yklGWxQ9SxEkGFrlW/mLvZpXU=;
-  b=WnUS5WbL1sF30bMqItvZ3ozSu0MZ+dMf1uoidDg/1mtOQBD9GjL4DKel
-   6+Ic0GCoeqwuwwT0AH5KnvrYEA3pQRl3Bm099Dw5qjbpgrFhC6WhNFsoy
-   uBOxpSMBCWziI1/alBQLoDcqbbJ1IVgy6cpLImYhcXs4aZADUPOPXUz/r
-   IGKiziAABy9CuLLJsz+PO0SSGicTASR+ge6A/OHRL3JT3Wdiy+lCPJPE3
-   ClJHCc7T7GR5NXf9341Nefr7q6gl/tb3XrhBQIzBNgmog/jhO1akLt8/N
-   yynUiQbfhfUrRBkVrf66VrVe7UhjVhB6YRBq0TivK0PMEk+sCX2AtyniK
-   w==;
-X-CSE-ConnectionGUID: IzADx+bnR2GH7J9sizoxRw==
-X-CSE-MsgGUID: aec9DCUiSxu89N3fPy3Agg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="34487356"
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="34487356"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 07:28:11 -0700
-X-CSE-ConnectionGUID: k90+ABTYTpetM0dns7KYMw==
-X-CSE-MsgGUID: GVaKTQQ5QleQvZwawmZK6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="63060607"
-Received: from ubuntu24.iil.intel.com ([143.185.122.15])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 07:28:09 -0700
-Message-ID: <d1fbfbbff5c8247a3130499985a53218c5b55c61.camel@intel.com>
-Subject: [PATCH] media: uvcvideo: RealSense D421 Depth module metadata.
-From: Dmitry Perchanov <dmitry.perchanov@intel.com>
-To: linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
- sakari.ailus@iki.fi,  demisrael@gmail.com
-Date: Mon, 26 Aug 2024 17:27:50 +0300
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	s=arc-20240116; t=1724683443; c=relaxed/simple;
+	bh=vQlO3mY66Os0V65bNK1YqlpY0iqblqsawwRrKZDee/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c5EbVcoBInnCoqesS0huCcA3ocESII+P3ro/Qffwd7Io6IjLNwE1HoAKNh2ywkIoFbp3v4XpZJkhV6IsJKFd+ImdObRpM/mw0cyBhEMqlCAVJG2HWqDiu7XG5XUNEN8CJRHxk40WwiiNfjl45Pck3Alx62Uzciok41mqWtsBXYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RPleQYOc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-142-90.net.vodafone.it [5.90.142.90])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1AA9C6CA;
+	Mon, 26 Aug 2024 16:42:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724683373;
+	bh=vQlO3mY66Os0V65bNK1YqlpY0iqblqsawwRrKZDee/k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RPleQYOc6/4UkUlBr920JBnxNhstoOZ9U5r5h/DjJyzQIl6PORknvFjRCB7zTslgd
+	 emkY3vIx5rh83NZTA8JpGYOpMF2P1pg/k1miltjixFJ4tLdEtx3pUVzCcadlG6PiL9
+	 MpmROdfy1Nz++eBrUP49zWRe0kMiWzJnQozItWkA=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Naushir Patuck <naush@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org
+Subject: [PATCH 0/4] media: pisp-be: Split jobs creation and scheduling
+Date: Mon, 26 Aug 2024 16:43:33 +0200
+Message-ID: <20240826144338.463683-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-RealSense(R) D421 Depth module is low cost solution for 3D-stereo vision.
-The module supports extended sensor metadata format D4XX.
-USB descriptor: https://paste.debian.net/1327587/
+v1->v2:
+- Add two patches to address Laurent's comments separately
+- use scoped_guard() when possible
+- Add patch to fix runtime_pm imbalance
 
-Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Currently the 'pispbe_schedule()' function does two things:
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc=
-_driver.c
-index f0febdc08c2d..427fa5759c3f 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3072,6 +3072,15 @@ static const struct usb_device_id uvc_ids[] =3D {
- 	  .bInterfaceSubClass	=3D 1,
- 	  .bInterfaceProtocol	=3D 0,
- 	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* Intel D421 Depth Module */
-+	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		=3D 0x8086,
-+	  .idProduct		=3D 0x1155,
-+	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	=3D 1,
-+	  .bInterfaceProtocol	=3D 0,
-+	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
- 	/* Generic USB Video Class */
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
---=20
-2.43.0
+1) Tries to assemble a job by inspecting all the video node queues
+   to make sure all the required buffers are available
+2) Submit the job to the hardware
 
+The pispbe_schedule() function is called at:
+
+- video device start_streaming() time
+- video device qbuf() time
+- irq handler
+
+As assembling a job requires inspecting all queues, it is a rather
+time consuming operation which is better not run in IRQ context.
+
+To avoid executing the time consuming job creation in interrupt
+context, split the job creation and job scheduling in two distinct
+operations. When a well-formed job is created, append it to the
+newly introduced 'pispbe->job_queue' where it will be dequeued from
+by the scheduling routine.
+
+At start_streaming() and qbuf() time immediately try to schedule a job
+if one has been created as the irq handler routine is only called when
+a job has completed, and we can't solely rely on it for scheduling new
+jobs.
+
+Jacopo Mondi (4):
+  media: pisp_be: Drop reference to non-existing function
+  media: pisp_be: Remove config validation from schedule()
+  media: pisp-be: Split jobs creation and scheduling
+  media: pisp_be: Fix pm_runtime underrun in probe
+
+ .../platform/raspberrypi/pisp_be/pisp_be.c    | 169 ++++++++++--------
+ 1 file changed, 92 insertions(+), 77 deletions(-)
+
+--
+2.45.2
 
 
