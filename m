@@ -1,88 +1,121 @@
-Return-Path: <linux-media+bounces-16766-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16767-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F38995EBA2
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 10:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223F395EC4F
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 10:47:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 270C22811DA
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 08:19:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCE29280F86
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 08:47:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 283CF13B792;
-	Mon, 26 Aug 2024 08:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C9CA13BC35;
+	Mon, 26 Aug 2024 08:46:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="EiNiMYrz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SaR8AbU4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2116.outbound.protection.outlook.com [40.107.249.116])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFFE213A250;
-	Mon, 26 Aug 2024 08:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8052B82D70
+	for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 08:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724660356; cv=fail; b=NQkW/oFZ1HnlAcCblltquot2oVQexDVwrx3eqoAsQESN910ESLWjgl8ymkFjZXBjzs6HJR6AJMWP6fv4aM/r67CWwdx9Z/Zc/kahJuv11QUZfWVU161QgZPslOApt88uHK+NtejhPE3j+2UZoGHIUXgs0zXgbh2smzl7my+983s=
+	t=1724662018; cv=fail; b=VT+D5ahUq7WTvvGQ+q3GD09nHzzOl6x8yfupGOLeotdhDXAtCdSrMAYW4imBrHpXI4TD7VpTu+4sBHMiw0qBF5s/0seqtGhXUIYwu2IA2oaC6dG1KHLBlQM358ln9wddj4Zso4HNt9H58KisKRKZy9gqjD+6FP4iZo2nkMh0iIM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724660356; c=relaxed/simple;
-	bh=SP3rup1PpOg0UaUfywMrjEVgXu3fB8nCjdZPKW0ctbw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=IJtbuPU4iC5tK4jJ8/wo5ndaK3Eo4IZzAls2/hnxUNn88dA5cSYRWkDiqLNz7mA1g2ritnMt4nlMLcbD0h9ZsR6Ety9VyxLrvQ+qkH99Y977e4lo2qgWelNOcm3kUrkqPi61fgV0BA54RVB+2XWqivITfdGWHZhfrtOJ+JUBt28=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net; spf=pass smtp.mailfrom=wolfvision.net; dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b=EiNiMYrz; arc=fail smtp.client-ip=40.107.249.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
+	s=arc-20240116; t=1724662018; c=relaxed/simple;
+	bh=VSV1kxCDZsaWMDOqAraLDCFckbHk3ehFx+6fiHZMfFg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=I0IMR/HkrxDTZXFaEjM5VArtUATXhFYKQ13QXgxIdWrfzOkwFhJ/Zhs9x2kXumz47x0WjTgVsYnmg0G6m8weqNXWpPFqA6QY8WYhbd9+Tc8gtRfWWGrQcRRKGADCJ6eflVpl/DJ3Tf5MnFOvHA1B/BylVerREnWl1vO9yii5cAc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SaR8AbU4; arc=fail smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724662017; x=1756198017;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=VSV1kxCDZsaWMDOqAraLDCFckbHk3ehFx+6fiHZMfFg=;
+  b=SaR8AbU4u1cvyEwwt1uUlm4f1DL024IRZyNJxJF5CTYc/cbbwEAil+ay
+   PsHVZWWsJRM+64fOrdb9E+COM1AYu2hv1scivJN1FzaPkqTXQLKFP1o/v
+   Wfk9Zi3V/PKn6MhmWwW3ZXHQ+tcqm/+KP4izj6RUPguQwQLS0YzxrJgnb
+   tVnmzcY2FDAkAHEe8yQMQ1gT/PtFGreMnt0s7btj23v54JWRkH3WaA5Bn
+   Aer1wXzwCzGo1U0JJv3mXXNGs3v4e5GM6XXCS78lgJwUT135A9hB1gg+V
+   ZRAMBNySTLQTUT+pwOLCfUJRka/s7rAkSZXcrgS/pc6Z6/2Bd7o1Keqvh
+   Q==;
+X-CSE-ConnectionGUID: uJlXrNYLT+qAPeCsOLoq6A==
+X-CSE-MsgGUID: UzUt4rCOQcagvXdPBF2Wrg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="26836498"
+X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
+   d="scan'208";a="26836498"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 01:46:56 -0700
+X-CSE-ConnectionGUID: GGfPGDb4TPme5vSrCJmEfQ==
+X-CSE-MsgGUID: 43gTcjjuRT2TFQyaYUrA1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
+   d="scan'208";a="66775685"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Aug 2024 01:46:55 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 26 Aug 2024 01:46:55 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 26 Aug 2024 01:46:54 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 26 Aug 2024 01:46:54 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 26 Aug 2024 01:46:54 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vohaknNAZ3vm3P49l/DC3AiNVihfCdRDlcfZBFqcFtokoLubr3jaJumNdKz9ohrykO0ZBKcfhOxGO9Pd+I/u5ITdPTjbO7c0r/PivsXrmCy4gjji3nMHF3Gc5CYwpOAqyoTkj6EUG393T6+bBCXm4HX2Z3oTnhEMpcx96ojaXQ/7ZG0eYpG613zIkL3LZwg7JWKsYSTSu/RP+VnnxxmwC+OyO3avpxXwTR/DbrR8IRWDi40qISlEP8aR5QgIbtSEqqDnyF9MF/Y4BLUSFj0WnOCM8hnbHIQFT3T4Py+4g4cXxvvvnD+DEEEexR1zToxMdy7Z8Yb79ovupVJJ5O2Zxw==
+ b=NRMmRdWzm8eVxY/FbeRmmonXm7CbsQ4LahTYBTnlXjUIdZCg08XrmahEHEddMiJvEspQhAnoGpln4vF6zLMAEtRmcX2eDE00QzUqyjFIcWTfnf7H250oRLiLjFhqOhyV9UHGKM8O/qOOauaRPt+DrDQKyVmoOP/Ebgy6yDvCa28V5An9SkLZqvMJvW2sh8nM/QLgIWCf551przO7dXm1Xjl42bMGVhZ2y/aEPPrN25dg9yqmNv3pxaJJnloF9/gwjCDliLJNPDsnNMH5mmLW3dR1MPltSq8kPngAxwdrMH1Ko2XBFlbMmUiyWUuKlLeFAEkx9RXir4UK3iXh8W/gDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OmR/ZQR6vuw6/ni709UpzzhB/mUS6BOHASGTcZv9W3g=;
- b=P02lsD0Bb9Va1WXUm74DJTh1PzdTUC5l1XojLIpKK4lzdH5l8qfPlnuGvMkR+8JplnF8BZ1LAWeqGXWNAj4TBPREciDhkwqxBYHxBI+BOJOb1OiARmbopgFSCrJQI8KAc0shZDzB7n6bfKDQ/sZXVXYPQ3sEbTtLZamoHq0ZudCm4II6W6H32wjUC3J8l1D4Rq/ZwrkwM2bvVSS252YEWV4cVPeBqzF0zj1cXJDFNs6ZXnUH872ujJT1peiXYFRj68ZLmv03QL8fnssCNx0nHoVBdsqe3fEWaxed1vURbdbOGCQ9Mxos8YfvfM+NdfQcpCVWRMEF0m8lnoMt0P8fVQ==
+ bh=S+vcd7vH/ApJ/HdaC/idnv0UVuSgiQtkmWWLWLBwQWU=;
+ b=fHE9JxOXG2mQgFJkRZ6cBFEscw0w2uNCrKt8L/efcbSlnTkSlpgxrVrFWxHODtCZfwmj4pF+oO44uR73AokKst0lPpmqY+aSSs96g0qvFFbQ1KWP9x9pkDb74BOAYt6vDK9SrJRNcMav9DtRtgUwpn7T3qaUBboIpza+h35wRlZKbuyIlTDY4ybBzjP843DQK9DvO9nZqpAGgSQpvr9CT5+lvhrEOtJz7f15gLHpfAQ+IeZQ3SQZJBXbMwO5sx0MMy5UoZafj4w4RawzBupbHwbXoY6DidC+DznqEwATCN/Seetq1wvlw+E1MvK7j2EtXxBUXra5c4vlyHtj0BQldQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OmR/ZQR6vuw6/ni709UpzzhB/mUS6BOHASGTcZv9W3g=;
- b=EiNiMYrznwbJk2lGfXbMH0pQw9W8rBqhiW5BHy2HGxPS25QYQLHQhpCq2OGAcs1GUsc+hCQrBiYALqK5mYwTd6AfYpDNYsqW+WhvPZqFVVHvmvWQz2fBw25LzW5GSoXi3vNBbfvsdEdD39I0OFoFjJsfYV2a/loFLfdtFpycE/U=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
- by AS1PR08MB7539.eurprd08.prod.outlook.com (2603:10a6:20b:483::14) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.14; Mon, 26 Aug
- 2024 08:19:10 +0000
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::4e72:c5d4:488e:f16d]) by DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::4e72:c5d4:488e:f16d%4]) with mapi id 15.20.7918.012; Mon, 26 Aug 2024
- 08:19:10 +0000
-Message-ID: <cf8c1764-7721-4a5a-8012-b62ead4e2e57@wolfvision.net>
-Date: Mon, 26 Aug 2024 10:19:06 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] dt-bindings: media: Document bindings for HDMI RX
- Controller
-To: Shreeya Patel <shreeya.patel@collabora.com>, heiko@sntech.de,
- mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
- shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
- hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-References: <20240719124032.26852-1-shreeya.patel@collabora.com>
- <20240719124032.26852-3-shreeya.patel@collabora.com>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@wolfvision.net>
-Organization: WolfVision GmbH
-In-Reply-To: <20240719124032.26852-3-shreeya.patel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR08CA0218.eurprd08.prod.outlook.com
- (2603:10a6:802:15::27) To DU0PR08MB9155.eurprd08.prod.outlook.com
- (2603:10a6:10:416::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Mon, 26 Aug
+ 2024 08:46:52 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.7875.018; Mon, 26 Aug 2024
+ 08:46:52 +0000
+Date: Mon, 26 Aug 2024 08:45:38 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+CC: <intel-xe@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, <thomas.hellstrom@linux.intel.com>,
+	<sumit.semwal@linaro.org>, <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 2/2] drm/xe: Use dma-fence array for media GT TLB
+ invalidations in PT code
+Message-ID: <ZsxAslCG6vJLNNcL@DUT025-TGLU.fm.intel.com>
+References: <20240823045443.2132118-1-matthew.brost@intel.com>
+ <20240823045443.2132118-3-matthew.brost@intel.com>
+ <2657940b-90b3-4abc-9f56-f6c6b70563ec@amd.com>
+ <ZsitDqXwHtIBC5ul@DUT025-TGLU.fm.intel.com>
+ <1fdc3b61-6694-4d8a-9921-7b323219801f@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1fdc3b61-6694-4d8a-9921-7b323219801f@amd.com>
+X-ClientProxiedBy: SJ0PR13CA0238.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c1::33) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,172 +123,260 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|AS1PR08MB7539:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e9dda3c-621a-4415-70a7-08dcc5a7c331
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA0PR11MB7307:EE_
+X-MS-Office365-Filtering-Correlation-Id: f1c6ecd4-46a1-4599-e09f-08dcc5aba1b4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WlZBUFdOeW5VWEFNVSsydWcxcEJaQncwRUxTU2ExSnQ3bWxhZXN5aWFvbW4x?=
- =?utf-8?B?YVFrTUIzMHFMSm1pUnRsZy9ZcWE3cUN1ZGJNVExXYi9qUUo3WUUvWUt6YzBD?=
- =?utf-8?B?eDBOQ25pOGxhUVI1dVloeEljYVpWbWZEZ1k0QTgzaWFaODZ2ZlRJVHR0OE95?=
- =?utf-8?B?RnY1T2ZZMkMxNmhKd2VxQU8rRERaK3c5WUFYL2xnWnJXSjZiTSt2K1Bwell5?=
- =?utf-8?B?QTJDb0Y5VHJpZlNwWjlYTHlzbXJiNzVpWDVCVGdGVWplUzhSNmJGV0pHcksy?=
- =?utf-8?B?ajlqS3llTzFLRi9Zbi9jN0NyM3RaM2NGTUpCeURBQnQ0djJab3orS2NOaFVr?=
- =?utf-8?B?L1JOSTE4RkI3T3owbGpmZkhzMnhEa3JyUVBKWnlzbFUydGhhbSs0OHQrclBh?=
- =?utf-8?B?dmx3MXc5bWtVdTVlakpyeXNMTnVqS0VFcUtpU0U1T1lOZlJGeHhGRVBJOGhJ?=
- =?utf-8?B?eDNLNzhmNGR4U2wwSUVTbGdBdWpybXhjQ2ErY0htNmtpRkpPM1AveGVSZ3BM?=
- =?utf-8?B?RFYvM2lKdlFnNHdMdmdQWnc5Z0dpVnNNWE5OcE9ySVpwWDZRaUZGS25RQmRT?=
- =?utf-8?B?M2FWTmszV3A0WXhReEhjRHZyK3BQQzBlZFJDL1IvMGt4eEJOdW9MOWNXZzdo?=
- =?utf-8?B?UzVpS0ZMa3QwcS8xZEVzV2RrOWI2UktXUWRlUUViYkdmeWtVaXh3RXVZSFFm?=
- =?utf-8?B?TGw3ZjdZNHEvNCtLcEQveDU4UzhYWnEyVmI1UDhCYjJ6N3hiOW9tQUdSNTQw?=
- =?utf-8?B?bGRkMHJ1anVEaVBqRUtaaUszZ0xkdjBRQjd3M0FjWXp3ZW5sRmpheEZWV2VO?=
- =?utf-8?B?N21mS0RYZUlIV3BFNi9SRDJQSDExV3B4WENTWGtRM2ROV2lnWG9FSHBjeXpZ?=
- =?utf-8?B?VkhFdDU5QnRRRFVFV295LzJrbjVQN3VHV2lSTXlEMU9OSEh1NWVtcU1BeFhH?=
- =?utf-8?B?bDllckcwTWF0SXhnVVlDZFlWUHhYNlBCdVZ5SUtkeVBRR0ZWR3kxUUFibHZG?=
- =?utf-8?B?M2s4R3pKa1gvMU1jWHRWVEUyOGFBeDJKWGZTWVIxTjJ3NE94ejc0dzRIR3pm?=
- =?utf-8?B?WEtkTjkydjFPNDUwNXhtVGlGUkN5dnZwUkxaVk9DQ1lueHdaZXQ4SlNVaXhJ?=
- =?utf-8?B?WmVwK2R1Rko0bi8zeDhvRWJpdk0rNmVZak9qRUxDdlhqNWQ1UDM5VW9PSjI5?=
- =?utf-8?B?QTA0R1I4Y1BDR1lKYnl0Z1A0M3ArN1U4ZTNITlltVWg5WUZHQmFWaFVYT0JN?=
- =?utf-8?B?MjNyUXowZTJlSEVOdlZvZEM0aEFKMFhKYTYxaFpXS0pjbVhDb2dpMjlJd3cr?=
- =?utf-8?B?aGYyYTJhNkdIcGpOa1NVUFFQUGZwZzRyYkpWN2pWd2ZTbTZaaUd5bXluc2pt?=
- =?utf-8?B?b3h1VGRuVHpValNBVmdySXh6K2I0aGxTYTJtMElkQlgwVzE5Qi9mMXZLLzkx?=
- =?utf-8?B?SkRma1hocEYyelpzNVJZdHU3aXF4NTk1RHNjYWR1NHl6NlY3OXVOdE5GYjE5?=
- =?utf-8?B?VFA0Z1M3TERYWWUxTnF6blRvWmJTMGVzVS9ub1NleXpZUERIa1I3dDNobGJz?=
- =?utf-8?B?bjQyWnNDSm10cXNTaDdqMGIxMjg1TlFPTnZMRStFeXRYUFZwTTN0ZG5yeWQ3?=
- =?utf-8?B?M3BRSVBzSUE4Q1ZxZEp5bXEyd2YrNk53U1ZpS3ZOK3p4NnQ3Z0FCMStwUVJP?=
- =?utf-8?B?TVgybUVTNEg2UlE5L1JnUFhuZTZYRkZXREJIeVNtbVNWU1dJb2ErU0xEcHRK?=
- =?utf-8?B?VW9RcnZ3SDhMT0NpRUZmdHNoeGZZZDh6dDF3SXlEWTFKdkN5c0Iycy9Qb0lU?=
- =?utf-8?B?YXNMazhoT3UzTlpwVU11WDBHY3Rpcjh6RnVkRENaZE5uY1NKVG5FUnFMbTVi?=
- =?utf-8?Q?AHxsjt8S6m0RZ?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(921020);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?JIFkMA1zTznC192s+TroYpVdJChz23E695YVs0gLm9pkK/xnP+kDcYv6Yf?=
+ =?iso-8859-1?Q?5Z25ifLccn6xPxL2EoyH1Js7i3veBdQ4K8XxUY8dqeUWMo8RsHKrGnMxmJ?=
+ =?iso-8859-1?Q?xN9nwQ3dK6uUHOnFQw28bwQdtXYfFso4MCSzYpJAY0oxydCrQZ4B7BARUB?=
+ =?iso-8859-1?Q?fnNWkYMDImJIgV6hfm8IiOrwGKfk13mx5ciy5dbztTVSW+G+XSmXd945sN?=
+ =?iso-8859-1?Q?fg9ZwXhF7JdJwUxu6c5n80gJA0Ldy/fFRydQg/tF2ykbctlXXrvgoKRro4?=
+ =?iso-8859-1?Q?ksYY0ZUpHBBEH36K6G7io0Sw4fKchZM/QZid07MsN4moj4Jo4vRdcRbPft?=
+ =?iso-8859-1?Q?E3oCDMGqx6AC3jtvqr1PxvOq2Lfe1e5zoXmlX3NixMP1kU7cZsACOlfbjt?=
+ =?iso-8859-1?Q?FYdp5m/iOOVWRa3UEuJwbO1XDQkE+8Z+YO+TtG6dn4yPoPj86BBA0thFbH?=
+ =?iso-8859-1?Q?bXlTlz56J+NbN0aWl0Y98becRtedJ4r84g8fJJoyhK+cmjoP7TLvm+oOyj?=
+ =?iso-8859-1?Q?OO/5eVex7jkEC0DDGRySDYYDq29UTrweuRpLRgk4h36GJhhKGRbm1j6uBt?=
+ =?iso-8859-1?Q?kvYeT3zfLn3bZuwhu8eCUSZfhPNb7UqS1Rhk4huXOfECVjUhqqiF13azT7?=
+ =?iso-8859-1?Q?fM0jAE20yGscKKm0BlsNUZHzXAFYjchtslbk58lOIO2kYrt1PzlBvhrCZV?=
+ =?iso-8859-1?Q?NC0bCVJLAlCI0AWgMCcWxL2gmtY2A3nFmofgrp6DeMaugkm+j9wdnPmIZs?=
+ =?iso-8859-1?Q?sjvchlpjZdlA1OkNT8j1UrK3gq378JGT5iKasjxV8pK+6+m+pMAHSB/9sm?=
+ =?iso-8859-1?Q?YJxqYJDwoQNCmLdO3zSBHEwsMUu4RIp4wrEWHy/CvknaterwrByjUDn+Gs?=
+ =?iso-8859-1?Q?Zcu22CyQ4IarCR5obw0bC6E8xibOzrSfCMyc+3+NDgcGIE0sEc2og0lRSa?=
+ =?iso-8859-1?Q?93BbahHnXubrkQ6yTM3UZHwY72Lw9RPFCx1heFlxcIRW8fGI6xHqlQ3s06?=
+ =?iso-8859-1?Q?6X0HQxms8qT4nEsCo6p1nZemaxRw3MF/w3bMro9JqObP1dKFILMnzcjC/0?=
+ =?iso-8859-1?Q?uER3BKBGIAH7DvVATdXBg/ClkpyurXWrpA+tvUxxMrGwQZ2Uf4AP3FgMq3?=
+ =?iso-8859-1?Q?cUmoScwDnkWlZs+BE5Ka+IK6+sGSMDtZxGNRQftP/TYRHrmK95FAMnWnDV?=
+ =?iso-8859-1?Q?eogafQSx5sNPzSwztIp54b11NVdQwEm9vYjClre/uUqAQoeFYHngX00/fp?=
+ =?iso-8859-1?Q?xMNFm6KMrpcQdOXG68ZGPi5iSo36QElrXdwns41a0ucm+gyRgTjHDyxpDF?=
+ =?iso-8859-1?Q?TbDPpH0YIxwU5HINk+OxH7yG46zrvtlqHcxRLOZ60Hpb1OVJepn5MubWtp?=
+ =?iso-8859-1?Q?TLLZsn2aHe?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Z3Y0QmRSeXByNlhLeUVtTWxhdzdraVA1WUg3b25iRjVPMDlGV2U5TllNNW1K?=
- =?utf-8?B?bUpSZzdTTkZoMG9xUnZpTlBCbWJ6ZmdEaEVUcmlvQmhyaVFDVFFxVW1TcmF0?=
- =?utf-8?B?c2pWbmNKTUFuaXBBeVlCakhLUGh0dGt2Q01qSlplMWZvdHJPYUdFVWxPS1c5?=
- =?utf-8?B?YXdJMkVBbGFJMkVFRkk1Q0NuWTJJdERKL2xXNVoxOWkvYXpoSHZuMHp0bFhm?=
- =?utf-8?B?QlhrdGg3QlA4dHo2eFpxY1dUdFJubVZrQkU0amxYR0RRelNQVW81RFVrYWZ2?=
- =?utf-8?B?SUNkSHpldExESXFJSmo0QUZFWnVwc1oveCtIWVFYQUJnaWdEbnZ2Snc0N1Fj?=
- =?utf-8?B?NDVVL2dDQkI5N090a3YvM1krVWo3WndoYjEwR0VjV1pwUk9OcEl6TU9zWmJQ?=
- =?utf-8?B?TFhvckRkMitoZjVCa0RBd3ZQdytWdlZhYkR2T1ZGRCsybSt3UmlwdjJPYmpo?=
- =?utf-8?B?U2VEZU1XQ3drVDljNGRkQzQzVC9vbThaQXQwbkZVN2FUWW4rN1FlaDdlVVpQ?=
- =?utf-8?B?clRjM1lZZUdrYlBLZEN2cUE5WWhCaWZQS0FJd3hyREtHWnNaZ0g3TmVyeDRh?=
- =?utf-8?B?QjE2aGVtSzBMMUI0WGZMTG93akxiNGY3c0JOald5Q21ZdkhWVERCZ3JvTlhj?=
- =?utf-8?B?QTRaMHJ2aSswRmNMNDdKWVNHR3l4SUE4aTRKbFptU1pZekE5YmpBbHo0eGZO?=
- =?utf-8?B?U0oyVGUvSkJOSE9HSU53SURiSUZOMW1lY0RZNVB3RFRXZ2dxYkRJSnVhdDI4?=
- =?utf-8?B?ZGdXcWJvMEg2eE1VWURtVk56YmpFY3BWSlNKTmRtdW4vcFFodVpzSVZmRSt0?=
- =?utf-8?B?TU4zakdmNGdBakpXeXpVVkhDRHZEdTd5T3lYYi9vT1BUUzlGWGIwVEd5bWpH?=
- =?utf-8?B?RTIveHh0ckxocmtuZUtDM0hFZUQ2MGNjTGJuRVQ0TEUyd25tOW84L0pIcCtD?=
- =?utf-8?B?QTJYakpRMUNWbG91eUdPYTZZRjhWN2hEaGpjcjJrT1Y1aEVqSWtUT2VkbCtu?=
- =?utf-8?B?eDZtdys0SElIWWc3VWcwbjRBSlVoZXpjb1dSd2ZlMDMweEdtYjdZdDh5WVV0?=
- =?utf-8?B?RWMzc2hBZDFmRVNXSytkMFVlY1dOMlU2eWlsS2Fsejc3K2ZVU3l2VWZ5clBD?=
- =?utf-8?B?U1FRdEg5d1R1eXNqa2NYUTNFZkJNVmVhVFlKQWpXVlBDRE10czRBZzF4a0Ny?=
- =?utf-8?B?ZG0vMmxlOERQS2ozQkc4TjlUbG1UVjgwenlDeEhwYkpJVU1WTWxab3VKNmxy?=
- =?utf-8?B?dU1yYi9KT1ppNmU4SzlKQk5kdWp4dzFoSDd6WUk5ZGZiSHlpSVFZTTlaSStr?=
- =?utf-8?B?NWhDaGxrSjl1MFh0K3FOdXVrK1JvYUpiaDNjKzg4WHdhRUNDYjVjSWpvdGhZ?=
- =?utf-8?B?MzlTYWZhREtyUk5taW1abG8vZnBhNmRiTzM3SXc2TWpmZHhsbXR3aXhRNGpC?=
- =?utf-8?B?bWQxZDJzOVlheVBNRFAvNllIZU9SMTFweml5bzlndkk5a3RibWU2dGNCcGIw?=
- =?utf-8?B?ejZqaUIrNDhiZWRLcTBRaWl6OCszdE1pWkliVU1MbHV0UG9KdmUxdkRuUEww?=
- =?utf-8?B?SGlZYS82SWJYVnZOU3NtMmUyWmtvRDhxSzlleUsrbUFLdGxjSndVN2M4WlZD?=
- =?utf-8?B?ckxGaTZxc0M4Tm40MFFDWURhT01PSHBmUk40V0xCcExwcUFUZ1ZXbTV6K3Ra?=
- =?utf-8?B?dFllZldwa3hTdDVBMFhKNlNrWFg1NkZCZThuVnpwWVFEaHl6VCt1SmFvV0J1?=
- =?utf-8?B?ZEt5OVMyTUNwU0JId2ZaL1Q5WU1TSEw2RTI2Sm1rMEhCTlMwNHRrTlV3Rlpj?=
- =?utf-8?B?aHUwZzZNUVdJMytHbTJIWFA3ZTRJOVhsc0IvNFRjTnRmMkNxTDgxR1F0ck1i?=
- =?utf-8?B?eHJlM0ZtckdMSWt6MklwTHhWTGlGMjlIRktTTng1UHJOdllSMGt5OUM1Rk83?=
- =?utf-8?B?akVkZ1VTNHZGSWtEQmlBUVJkdXNIOWE1ZjJxRW9xWXZLWVBuR1VBdzlseDk2?=
- =?utf-8?B?Rm5HWGs0L08rRGlmRGVDQ090QzJ2cnVHZjNNWlB0SGpFUkQrK24yUjVERGgy?=
- =?utf-8?B?T2llbkVOVmFOZ2JROEJYT1JpQjJXdUlzRXd4cWtOWDdBeWxKZUhGNDJ3UUt5?=
- =?utf-8?B?Z08vVW91R0NCK2xWblRlZVFpYTdKdW9Wb0RiOEZVa3pGaFZQZ0JZejdhVlZk?=
- =?utf-8?B?ZFE9PQ==?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e9dda3c-621a-4415-70a7-08dcc5a7c331
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?op2cTCahncHwrtBf5i7AeRRzqNIuomNtVWKPIRp0fOkkUIJ1NO5fG6kuS8?=
+ =?iso-8859-1?Q?zQSgJjfJCL1DP5S52u3jD04vYheBcKIxJOGLFFs8ORQ0QbTgrvokdop/EE?=
+ =?iso-8859-1?Q?9jIL+r8yIPfQTzWSOW/GB9eT2frrWoZLBAGJfMHwiiua7QHAllPHaljLXm?=
+ =?iso-8859-1?Q?o3dhvmJGvXL/Dq5EfsBvE/b7UDHBXeFN8ROg/0p1e23FxJXEjzlfGu13+7?=
+ =?iso-8859-1?Q?Q4PCbg1ODqAymFtR4FVNL2ICcKx93kxGUzQlnPV+EjDTukUeLucxtluLVM?=
+ =?iso-8859-1?Q?y69kDwUrKyR/TeB/qN6cjmGzJGOyeUJa7Bmu8cGjbP1Pid7c5ytvKXzvdk?=
+ =?iso-8859-1?Q?6elVDjUemBRL+C1x4ace+HVvxQJRIUOzlOHyFim2Bs9yB0+GAO2IV7RNSm?=
+ =?iso-8859-1?Q?w2uUAYpY3kDXmiT5cCDlDm3Xm3nC3LRHwwIe1eE4x55S7ZpeyqY03DNpiY?=
+ =?iso-8859-1?Q?Mez/mc1yCALcyZh7XuyZ36DCtCvjEbFaKRBH3Ntn5LR4Y/FvEFAnNyRMgN?=
+ =?iso-8859-1?Q?Wm0PO+EB1VtCTBZFwd//MZWlhPKoK+NasGEV8FRKB4oZ+jgbjnkA+zNYpF?=
+ =?iso-8859-1?Q?gCl7jeHLEJTS6IcNRct6lQb82sX1IktyiTsGqMA2mPNHT9jnOmaiBRgR+W?=
+ =?iso-8859-1?Q?yzAVAViul4rA9SbBClqdgUxohN/y/VFSmz8zmW7PADTFr9nzrFbjGihSye?=
+ =?iso-8859-1?Q?HSruz3669UZAyt0qOQt6cbY5Winx5g9FIglsL8Sg51J+gVCmt/SV/HugQY?=
+ =?iso-8859-1?Q?UhV1twYl3dDJy/iVBDKMXkXHFwxbJ7AqsmM+rELi2Y2SGSCnkc6SXLD7JI?=
+ =?iso-8859-1?Q?oZQKy2P6X3nKkoVJnfepqGf5x27g+yKIK6jQS61nmenYgekdSVS7kcSblx?=
+ =?iso-8859-1?Q?FdmIoRH8HRBQbZCyyaii0JEwAq/TccdsNMXRb/k2SVGKOEZs7xr4vzy7F3?=
+ =?iso-8859-1?Q?7e1mdTUWEz9/dnyENrD2rsn/pwrS3rpmQ9Txp5q4WAtvmYzUZWfyLQux/i?=
+ =?iso-8859-1?Q?cWOJT94eVwpSh6IEmiuOKAksJlMRN9FOHWsUFXCg7UXpdGCRAD4kft80lR?=
+ =?iso-8859-1?Q?15Yl0raS8IsoFiULb8hRXM0U0ysTvGJJbhAM6Nud0crVfTBSdyxxWlMbTq?=
+ =?iso-8859-1?Q?hjsST2jV8feA50vSrwobvztvSulvamMM72tfKHyLW+e2ksEhcFYRUUGqiz?=
+ =?iso-8859-1?Q?D32qveqC9xz/6NrJ37X06VOxegDYK6k2oY0Y+hUHqJfclpzht3vFS0A1uC?=
+ =?iso-8859-1?Q?lHmAuR7ZaMx/OiS2KL843cNwJBbOwW9s56aqJkYPT85h3CCM/xR5f+TZNx?=
+ =?iso-8859-1?Q?OieAF2T6Hk5H/bVcVNf8rnA8sGV1j0LLmOnNN3GGwD8lJqeliRo9qHS5dL?=
+ =?iso-8859-1?Q?/HZ0BuosRpEioSRlf//mGEHGK6Mlh0SEyuaVg79cY25th+n+8o514Nq1WP?=
+ =?iso-8859-1?Q?HUeCfk/zPYcOdeVhU3zw22bO6wJP80g66u5gTZfv8IXce71PZ9b2wO64QW?=
+ =?iso-8859-1?Q?tfg//qBgMD8lzda98Dh3ntjJVRaolQukTe2mnesfWCzmxLip/ssqdybln1?=
+ =?iso-8859-1?Q?B7WoVAdpSB068hggux/uzcn+3ioY3kteL+NVP1eOrGSqGeY5vELq4ywi3V?=
+ =?iso-8859-1?Q?uW2xNObeowLL2xtGdnk4eNoVepX8K516r+lBy8VjScOxWPtcYhyW9R0A?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1c6ecd4-46a1-4599-e09f-08dcc5aba1b4
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2024 08:19:10.6002
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2024 08:46:52.3768
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g+BIdfm0cghn56MAmHn7ksi0JYaCF8bvsA7h8dHKDICHqpIRi19RRgXns5xiUYIvkzC4xSb5N8uviGoLBIeubgpXe3ODFTxzBP5bxGMurBY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR08MB7539
+X-MS-Exchange-CrossTenant-UserPrincipalName: RM0pPsANEqA8Ntx7ELqWpt9w3ONLlLvxaTfDset++WrfbRIRzr1LjA9LpLcXj5OCGt0UtEuU9VSGvsu5mN6r2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7307
+X-OriginatorOrg: intel.com
 
-Hi Shreeya, hi all,
+On Mon, Aug 26, 2024 at 09:43:40AM +0200, Christian König wrote:
+> Am 23.08.24 um 17:38 schrieb Matthew Brost:
+> > On Fri, Aug 23, 2024 at 08:40:40AM +0200, Christian König wrote:
+> > > Am 23.08.24 um 06:54 schrieb Matthew Brost:
+> > > > Using a chain fence is problematic as these cannot be installed in
+> > > > timeout drm sync objects. Use a dma-fence-array instead at the cost of
+> > > > an extra failure point.
+> > > Mhm, IIRC we converted chain objects into dma-fence-arrays while installing
+> > > them into a timeline.
+> > > 
+> > > Doesn't that work any more?
+> > > 
+> > Thanks for the quick feedback.
+> > 
+> > As is, installing a dma-fence-chain into a timeline sync doesn't work.
+> > 
+> > The 'fence' returned from 'xe_pt_update_ops_run' is installed here [1]
+> > as the 'fence' argument. This blows up here [2] [3]. It does suggest in
+> > [3] to use a dma-fence-array which is what I'm doing.
+> 
+> Ah, that makes it more clear. You are not using some IOCTL to install the
+> fences into a timeline but rather want to do this at the end of your
+> submission IOCTL, right?
+> 
 
-First of all thank you very much for your efforts and patches!
+Bind IOCTL, but correct. Submission and bind IOCTLs in Xe are
+conceptually the same wrt to syncs.
 
-I have got more of a general question that came up during my recent work
-on a HDMI RX companion chip driver. It may or may not be out of scope of
-this initial submission for the Synopsys HDMI RX IP core, but anyway I
-feel like I should ask it now:
+> > The issue with using a dma-fence array as is it adds another failure
+> > point if dma_fence_array_create is used as is after collecting multiple
+> > fences from TLB invalidations. Also we have lock in xe_pt_update_ops_run
+> > which is in the path reclaim so calling dma_fence_array_create isn't
+> > allowed under that lock.
+> 
+> Ok that is a rather good argument for this.
+> 
+> Just tow comments I've seen on the code:
+> 1. Please rename dma_fence_array_arm() into dma_fence_array_init()
+> 2. Please drop WARN_ON(!array, a NULL array will result in a NULL pointer
+> de-reference and crash anyway.
+> 
 
-On 7/19/24 14:40, Shreeya Patel wrote:
-> [...]
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/power/rk3588-power.h>
-> +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
-> +    hdmi_receiver: hdmi-receiver@fdee0000 {
-> +      compatible = "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdmi-rx";
-> +      reg = <0xfdee0000 0x6000>;
-> +      interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH 0>,
-> +                   <GIC_SPI 436 IRQ_TYPE_LEVEL_HIGH 0>,
-> +                   <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH 0>;
-> +      interrupt-names = "cec", "hdmi", "dma";
-> +      clocks = <&cru ACLK_HDMIRX>,
-> +               <&cru CLK_HDMIRX_AUD>,
-> +               <&cru CLK_CR_PARA>,
-> +               <&cru PCLK_HDMIRX>,
-> +               <&cru CLK_HDMIRX_REF>,
-> +               <&cru PCLK_S_HDMIRX>,
-> +               <&cru HCLK_VO1>;
-> +      clock-names = "aclk",
-> +                    "audio",
-> +                    "cr_para",
-> +                    "pclk",
-> +                    "ref",
-> +                    "hclk_s_hdmirx",
-> +                    "hclk_vo1";
-> +      power-domains = <&power RK3588_PD_VO1>;
-> +      resets = <&cru SRST_A_HDMIRX>, <&cru SRST_P_HDMIRX>,
-> +               <&cru SRST_HDMIRX_REF>, <&cru SRST_A_HDMIRX_BIU>;
-> +      reset-names = "axi", "apb", "ref", "biu";
-> +      memory-region = <&hdmi_receiver_cma>;
-> +      pinctrl-0 = <&hdmim1_rx_cec &hdmim1_rx_hpdin &hdmim1_rx_scl &hdmim1_rx_sda &hdmirx_5v_detection>;
-> +      pinctrl-names = "default";
-> +      hpd-gpios = <&gpio1 22 GPIO_ACTIVE_LOW>;
-> +    };
+Will do.
 
-Should HDMI RX connectors be described in the device tree?
+> > I suppose we could drop that lock and directly wait TLB invalidation
+> > fences if dma_fence_array_create fails but to me it makes more sense to
+> > prealloc the dma-fence-array and populate it later. Saw your response to
+> > my first patch about how this could be problematic, a little confused on
+> > that so responding there too.
+> 
+> Yeah people came up with the crazy idea to insert dma_fence_array objects
+> into other dma_fence_array's resulting in overwriting the kernel stack when
+> you free this construct finally.
+> 
+> Additional to that Sima pointed out during the initial review of this code
+> that we should make sure that no circles can happen with a dma_fence.
+>
 
-It seems that V4L2 features support for svidio and composite connectors,
-but newer standards such as HDMI never made it to e.g,
-drivers/media/v4l2-core/v4l2-fwnode.c. The name of the corresponding DT
-binding
-Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
-somewhat confirms that only analog connectors are in the scope there.
-This means that some initial discussion and effort on the framework
-would be required.
+Ah, yes. I could see how that could be an issue.
+ 
+> But we now have a warning when somebody tries to add a container to a
+> dma_fence_array object so that should probably be fine.
+>
 
-However, this would enable some nice (although not exactly killer)
-features: describing label, orientation, and connector (sub)type on DT
-level, thus eliminating the need to know the HW description in the
-higher SW layers.
+See the warn and agree this should protect against this type of problem
+code.
 
-If the notion of HDMI RX (or, in general, digital video input)
-connectors in DT sounds reasonable to you all, there may be the chance
-to rework the submission at hand accordingly to avoid any compatibility
-issues with older/newer device trees. This is why I am bringing this up
-right now.
+Matt
 
-What do you all think?
-
-Best regards,
-Michael
+> Regards,
+> Christian.
+> 
+> > 
+> > Matt
+> > 
+> > [1] https://elixir.bootlin.com/linux/v6.10.6/source/drivers/gpu/drm/xe/xe_sync.c#L233
+> > [2] https://elixir.bootlin.com/linux/v6.10.6/source/drivers/gpu/drm/drm_syncobj.c#L349
+> > [3] https://elixir.bootlin.com/linux/v6.10.6/source/drivers/dma-buf/dma-fence-chain.c#L275
+> > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > Also fixup reserve fence count to include media GT invalidation fence.
+> > > > 
+> > > > v2:
+> > > >    - Fix reserve fence count (Casey Bowman)
+> > > > v3:
+> > > >    - Prealloc dma fence array (CI)
+> > > > 
+> > > > Fixes: 40520283e0fd ("drm/xe: Invalidate media_gt TLBs in PT code")
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > ---
+> > > >    drivers/gpu/drm/xe/xe_pt.c | 34 ++++++++++++++++++++++++----------
+> > > >    1 file changed, 24 insertions(+), 10 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+> > > > index 6c6714af3d5d..2e35444a85b0 100644
+> > > > --- a/drivers/gpu/drm/xe/xe_pt.c
+> > > > +++ b/drivers/gpu/drm/xe/xe_pt.c
+> > > > @@ -3,7 +3,7 @@
+> > > >     * Copyright © 2022 Intel Corporation
+> > > >     */
+> > > > -#include <linux/dma-fence-chain.h>
+> > > > +#include <linux/dma-fence-array.h>
+> > > >    #include "xe_pt.h"
+> > > > @@ -1629,9 +1629,11 @@ xe_pt_update_ops_rfence_interval(struct xe_vm_pgtable_update_ops *pt_update_ops,
+> > > >    static int vma_reserve_fences(struct xe_device *xe, struct xe_vma *vma)
+> > > >    {
+> > > > +	int shift = xe_device_get_root_tile(xe)->media_gt ? 1 : 0;
+> > > > +
+> > > >    	if (!xe_vma_has_no_bo(vma) && !xe_vma_bo(vma)->vm)
+> > > >    		return dma_resv_reserve_fences(xe_vma_bo(vma)->ttm.base.resv,
+> > > > -					       xe->info.tile_count);
+> > > > +					       xe->info.tile_count << shift);
+> > > >    	return 0;
+> > > >    }
+> > > > @@ -1818,6 +1820,7 @@ int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_ops *vops)
+> > > >    	struct xe_vm_pgtable_update_ops *pt_update_ops =
+> > > >    		&vops->pt_update_ops[tile->id];
+> > > >    	struct xe_vma_op *op;
+> > > > +	int shift = tile->media_gt ? 1 : 0;
+> > > >    	int err;
+> > > >    	lockdep_assert_held(&vops->vm->lock);
+> > > > @@ -1826,7 +1829,7 @@ int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_ops *vops)
+> > > >    	xe_pt_update_ops_init(pt_update_ops);
+> > > >    	err = dma_resv_reserve_fences(xe_vm_resv(vops->vm),
+> > > > -				      tile_to_xe(tile)->info.tile_count);
+> > > > +				      tile_to_xe(tile)->info.tile_count << shift);
+> > > >    	if (err)
+> > > >    		return err;
+> > > > @@ -1983,7 +1986,8 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+> > > >    		&vops->pt_update_ops[tile->id];
+> > > >    	struct dma_fence *fence;
+> > > >    	struct invalidation_fence *ifence = NULL, *mfence = NULL;
+> > > > -	struct dma_fence_chain *chain_fence = NULL;
+> > > > +	struct dma_fence **fences = NULL;
+> > > > +	struct dma_fence_array *cf = NULL;
+> > > >    	struct xe_range_fence *rfence;
+> > > >    	struct xe_vma_op *op;
+> > > >    	int err = 0, i;
+> > > > @@ -2022,8 +2026,13 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+> > > >    				err = -ENOMEM;
+> > > >    				goto free_ifence;
+> > > >    			}
+> > > > -			chain_fence = dma_fence_chain_alloc();
+> > > > -			if (!chain_fence) {
+> > > > +			fences = kmalloc_array(2, sizeof(*fences), GFP_KERNEL);
+> > > > +			if (!fences) {
+> > > > +				err = -ENOMEM;
+> > > > +				goto free_ifence;
+> > > > +			}
+> > > > +			cf = dma_fence_array_alloc(2);
+> > > > +			if (!cf) {
+> > > >    				err = -ENOMEM;
+> > > >    				goto free_ifence;
+> > > >    			}
+> > > > @@ -2068,9 +2077,13 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+> > > >    			invalidation_fence_init(tile->media_gt, mfence, fence,
+> > > >    						pt_update_ops->start,
+> > > >    						pt_update_ops->last, vm->usm.asid);
+> > > > -			dma_fence_chain_init(chain_fence, &ifence->base.base,
+> > > > -					     &mfence->base.base, 0);
+> > > > -			fence = &chain_fence->base;
+> > > > +			fences[0] = &ifence->base.base;
+> > > > +			fences[1] = &mfence->base.base;
+> > > > +			dma_fence_array_arm(cf, 2, fences,
+> > > > +					    vm->composite_fence_ctx,
+> > > > +					    vm->composite_fence_seqno++,
+> > > > +					    false);
+> > > > +			fence = &cf->base;
+> > > >    		} else {
+> > > >    			fence = &ifence->base.base;
+> > > >    		}
+> > > > @@ -2108,7 +2121,8 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
+> > > >    free_rfence:
+> > > >    	kfree(rfence);
+> > > >    free_ifence:
+> > > > -	dma_fence_chain_free(chain_fence);
+> > > > +	kfree(cf);
+> > > > +	kfree(fences);
+> > > >    	kfree(mfence);
+> > > >    	kfree(ifence);
+> > > >    kill_vm_tile1:
+> 
 
