@@ -1,117 +1,110 @@
-Return-Path: <linux-media+bounces-16934-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16935-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A76960D25
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 16:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED84960D3C
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 16:11:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6A664B27A51
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 14:05:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67A11B21759
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 14:09:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 331551BF7ED;
-	Tue, 27 Aug 2024 14:05:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB6591C68A6;
+	Tue, 27 Aug 2024 14:08:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cepbEcsj"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JTcXAHYx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA481C2DD2;
-	Tue, 27 Aug 2024 14:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C3B1C6889
+	for <linux-media@vger.kernel.org>; Tue, 27 Aug 2024 14:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724767517; cv=none; b=GnUtI7cId7zVVnNhf+bENgADVPqkPsN1ZVcLcrbDx73P6jeaLM42zWElT+8A6H9hkWeeLRvnDObepPvoVROwcg1J6uxhJOnWV1lALR5VGhat3hI/zI755aoh/Gm/+9pgVn2Z4jfYaDFFjEkwpASHELaVKmEaoHK8XTH0HO5P1XY=
+	t=1724767688; cv=none; b=THyMZnin/PJLZc85dvYZb4Wro2SQun0sBmBUVjds/YJrOcpg+lOw+R3hDehCJ4u/w7ynzzIKswXJa5uo0AwAyjOQKwTg4xXJpI/lykuHlo94SBPr5xF91EaCyzTq4gtEs+ej8DzUqandLEflGToY2WnNgjdYhHs9y+762FiDhiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724767517; c=relaxed/simple;
-	bh=LKBzwLK1VuRCG247aZ18hkKv8Cu+JZVib28vpysx80E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KlIsfW4M8fzb2TqReGP6ny/r+fIFVHDhTfTrIzOVx8EOl2hbMhopb1V8geG7/UzXaQSSg96Q9hsEPgqBaxb6yPEo3uVN8NRyrdx0AiCxiJTlAwOi3WBX1xVTDmnb5nxx+FQoHzG2xHa1P6P/CGGyOsAkyLhrmNIqML/GeC4S0pE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cepbEcsj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06326C61073;
-	Tue, 27 Aug 2024 14:05:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724767517;
-	bh=LKBzwLK1VuRCG247aZ18hkKv8Cu+JZVib28vpysx80E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cepbEcsjf81GL1oTNQ4cpG2rya1VZgaBMQ5UK+Eef8HF7HrmE4NgZchfghQqUuOQ1
-	 B9zows4udjTc8PvO/15qa2CKES/aSaYQAbDEpnyZXfi6lO2/h2VeDM4b/E2BuG/HbK
-	 bcguEJocmarmkPaH2NWtYQqWerl7WKmmrrSxP5NlBJxPSex0nAOP5JkmSAurmimAOv
-	 3UV85kxV8JNnaaj01N/DL394XITUeKKSAC3Vf7Xeyeb5m70iuFBhQOh4VdkLUG7uZv
-	 mGGepPeI8+7RdEABg0cLfiaKFExxg4wwdPTvQOv8H5dDHyCUaZmBOudvzv0jz3KH7l
-	 guzD0PZEbiaoQ==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5334b0e1a8eso7286823e87.0;
-        Tue, 27 Aug 2024 07:05:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUGaEikVsmVG2Dh6/4SeoJcCw8bdA5n1wz9/Enukmsru24/ht/SQ0S0L3ByTzyfjVmLgrI6sB4SKEyMYFI=@vger.kernel.org, AJvYcCUdkXBhGhxMGYDgdXTvqZAX00dqW6LQp6JawJ4fpCp6SRhwqd5r4VCY49HtqczsWf22XJtZaTh89zLqyFM=@vger.kernel.org, AJvYcCVH5TtZWRGWHrmqqeYoja3LbG2mepqleY8lfk9Im5mU8w7rtee28imDurHEQ5IoOR0ZLmsTZO81sEzXiA==@vger.kernel.org, AJvYcCVbNvmn1+kISpH0qgCPZ91Ii+rPUDobmLEOM/MXnMTZk9o/yykeN4NbQxZY5M9ok6pfi88fbJe0DSia@vger.kernel.org, AJvYcCXRk44K0EbcB2+SWp5gAu+tzLh2E9WkCPZYkZSb9YaHLWZxnC9a+z9mi26wWa1yn3IhhkRsCcpDyD8WYB4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhQjtMxKeau31qWnMf0gZP1NEnKOE1TqD4yA+YywtzJSigIz+k
-	WdIKTOCFGQxZsKncw2kWopJLPtbSiAoCFvBmjbyGHM4qmjBA40lRgtsZHMSa4djCKjlVQznj8J0
-	Fnfe7RMP6RkD23x/iQ5aRR7J4Fw==
-X-Google-Smtp-Source: AGHT+IER8wl94tUFX0eKrTywG7PWQXHkf/Kibv/Fvx5W7HJEPoMeI4PCXKA6CTewYNf/vhQ7d085ZoNSwSxadgFvBDE=
-X-Received: by 2002:a05:6512:31c4:b0:52e:f950:31f3 with SMTP id
- 2adb3069b0e04-53438785441mr11027241e87.35.1724767515105; Tue, 27 Aug 2024
- 07:05:15 -0700 (PDT)
+	s=arc-20240116; t=1724767688; c=relaxed/simple;
+	bh=ZBUTCv3zmcq8wCzDWDN1pjb0U21sMh9Mda4jt580So0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IPb920vP3B2tOGgxExsw1zLaoO5IMxB9QCJ6LbPUd7x1Ge2aF/swwm+sK1+1fRyh5uOwr0bKJEB3cZ2/AOfwzGGK/jJF93fxP93SqR66Uk46tco23wwoKWwaLXIE68zSdLU8UKF1oyjlX64I7dKQw6CSTLK4vitbFxC+CWbMMBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JTcXAHYx; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a8684c31c60so668359766b.3
+        for <linux-media@vger.kernel.org>; Tue, 27 Aug 2024 07:08:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724767685; x=1725372485; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CpeTd/yl72bFm2R7iWr/Y3ABLQEY7ujZ2y0DqdcJWHA=;
+        b=JTcXAHYxTLz3YI7TiGWxx3JlWzqk2K/lCs/y3pWVUZtkC07eIGNHcLarh8hehR/546
+         4lUJEtKWmLfFsbWvD5OwT6NbH/lRCf572aauykAh38xCP0cXCiupNjohFcGgZwX/WT7s
+         W8GdCWwmjyAbnloWS8Y7DqoEp4VbyrE/YM0g4HGMD9+hnj+c7KFrVwA/jwVKcsj0UHaK
+         Zb5mO/gs+VF1Jwxg01dOgjBYkiFEhwtPxqGya+t5+uoZngJ5ziDp0pcHTNuk5gpWaZ8S
+         cacDSmp7uQ4smnSeoQdjjBTQDXpZMH5cvMA0IyBotW+pTbOM8u3GYkJ95ZXRthzPm9zo
+         Ookw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724767685; x=1725372485;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CpeTd/yl72bFm2R7iWr/Y3ABLQEY7ujZ2y0DqdcJWHA=;
+        b=o1lSh7f5rPKcV1P7JygR//Ji5twVOnpJGellIvyykEzyKgrWv9qAXw+Slm17PAyttJ
+         +d3Hx6i6dhezxO7SP/2HQv4h36O22/uhEX/1c51g9RKQ/t5ehdS5NgxLncnCsMSdm2bz
+         HJWFvjYDMxbnItbtFUxD/JY6C9Ut89Y/Nz4A+tsgUJzj1wXf8PMwEPpUhYsUujKE8pmh
+         j8sWYgRVcvoz3MP6qADENlG29B6vSM4qr4jFg/a1aaqr0A0Irdts3TpS2wE7cWHwtMTR
+         ZhDqaoGPlqidsfzDQj8YmCQiipfMEclstWJOrvVIdg9c/q/7/f8BsV6DIMAWZS8sUuMb
+         nZlA==
+X-Gm-Message-State: AOJu0Yw9IZWtO48vPOOCRR/VwL6u63NPfMl5Uu8rddbsKN2iNbLTFbYb
+	BX4RUYT1IFqgebIZIa4rZjxvGf1xl3ZD08idFJwjjTr7EVU7PlC+4ByGBgt1G3ooaQ57TzTJVg8
+	e
+X-Google-Smtp-Source: AGHT+IFnXxZ6TInJiGYBFSrV4NvTQ5kX2P4kKzBITbVc2Gps66StZ4WmlWBUcCNAhc9WsjoqwzWKiA==
+X-Received: by 2002:a17:906:d7c8:b0:a86:812a:d2ca with SMTP id a640c23a62f3a-a86a52b7413mr988954466b.25.1724767684873;
+        Tue, 27 Aug 2024 07:08:04 -0700 (PDT)
+Received: from [192.168.0.25] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e5878455sm114015066b.160.2024.08.27.07.08.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Aug 2024 07:08:04 -0700 (PDT)
+Message-ID: <74126160-57f9-4abf-a26c-3491c8f3dd78@linaro.org>
+Date: Tue, 27 Aug 2024 15:08:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87cylwqa12.wl-kuninori.morimoto.gx@renesas.com>
- <87a5h0qa0g.wl-kuninori.morimoto.gx@renesas.com> <20240826154009.GA300981-robh@kernel.org>
- <Zs2tYUh3PXv-0e20@valkosipuli.retiisi.eu>
-In-Reply-To: <Zs2tYUh3PXv-0e20@valkosipuli.retiisi.eu>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 27 Aug 2024 09:05:02 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLcM3r0dPHX9eoU3cz78UxBfg3_DnU4eKX7aohbYC2mRA@mail.gmail.com>
-Message-ID: <CAL_JsqLcM3r0dPHX9eoU3cz78UxBfg3_DnU4eKX7aohbYC2mRA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/9] of: property: add of_graph_get_next_port_endpoint()
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
-	Michal Simek <michal.simek@amd.com>, Saravana Kannan <saravanak@google.com>, 
-	Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/29] media: iris: add platform driver for iris video
+ device
+To: quic_dikshita@quicinc.com, Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
+ <20240827-iris_v3-v3-3-c5fdbbe65e70@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240827-iris_v3-v3-3-c5fdbbe65e70@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 27, 2024 at 5:47=E2=80=AFAM Sakari Ailus <sakari.ailus@iki.fi> =
-wrote:
->
-> Rob, Kunimori-san,
->
-> On Mon, Aug 26, 2024 at 10:40:09AM -0500, Rob Herring wrote:
-> > On Mon, Aug 26, 2024 at 02:43:28AM +0000, Kuninori Morimoto wrote:
-> > > We already have of_graph_get_next_endpoint(), but it is not
-> > > intuitive to use in some case.
-> >
-> > Can of_graph_get_next_endpoint() users be replaced with your new
-> > helpers? I'd really like to get rid of the 3 remaining users.
->
-> The fwnode graph API has fwnode_graph_get_endpoint_by_id() which can also
-> be used to obtain endpoints within a port. It does the same than
-> of_graph_get_endpoint_by_regs() with the addition that it also has a
-> flags field to allow e.g. returning endpoints with regs higher than
-> requested (FWNODE_GRAPH_ENDPOINT_NEXT).
+On 27/08/2024 11:05, Dikshita Agarwal via B4 Relay wrote:
+> +static const struct of_device_id iris_dt_match[] = {
+> +	{ .compatible = "qcom,sm8550-iris", },
+> +	{ .compatible = "qcom,sm8250-venus", },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, iris_dt_match);
 
-Looks to me like FWNODE_GRAPH_ENDPOINT_NEXT is always used with
-endpoint #0. That's equivalent to passing -1 for the endpoint number
-with the OF API.
+The enabling patch for the compat strings should come last - if its 
+first then the time between the compat add and the last patch is a dead 
+zone where things are bound to break on a booting board.
 
-> Most users dealing with endpoints on fwnode property API use this, could
-> something like this be done on OF as well? Probably a similar flag would =
-be
-> needed though.
-
-I had fixed almost all the OF cases at one point. Unfortunately, there
-were a few corner cases that I didn't address to eliminate the API. So
-now it has proliferated with the fwnode API.
-
-Rob
+---
+bod
 
