@@ -1,172 +1,154 @@
-Return-Path: <linux-media+bounces-16936-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16937-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C09960D5C
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 16:16:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA69960EF3
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 16:54:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA2751F23B06
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 14:16:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9EA0287556
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 14:54:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 074121C4620;
-	Tue, 27 Aug 2024 14:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF08E1C86FF;
+	Tue, 27 Aug 2024 14:53:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="GuLTrcOj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XeBv6OPy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C4C1DFF5;
-	Tue, 27 Aug 2024 14:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724768159; cv=pass; b=nmdLmO1w4S22zdV2ynZSUmJVYqLT4iWWq+MPnVZY/lNDIZ6IDZF0aD3vyu9rN697/PKDFxtgzVb/s5lGMYP9vUMFVUpLhNNOx7pYhVK6DchFM+fpNZcIqNyqPmKdngLwzyUWb96WQ6jplVqtAa34rP1nT0WTM5KDMgJRoB+1h3c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724768159; c=relaxed/simple;
-	bh=nTVhOVCIP89BCAX4g/41ySPqi/xcC+80eYJA4jvAeb8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dawzjBgkOHHZJ8T8IS8KlAlQEnZbEPD7fQvz12lWzw1E6qObyU//aNnVd5HAcsna+T5VLkl/dIYB+t4OlVAVmaGlm7gf13lWEuO6Md1DwIOOjm9lyFd1Y6nS/exIUYOeMMmX2pK0O3eYEvYENnz9g0YZQX/Qv4+Y00vKYqFidq8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=GuLTrcOj; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4WtV2C56krz49Q44;
-	Tue, 27 Aug 2024 17:15:47 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1724768149;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zKYvXpJS62xLbIhNVPi2GA6XAl6FOhp0wDIum6Cn7Sg=;
-	b=GuLTrcOjhwkQglGpjy+xoMZrQyFl8RgSN/5cFaEvfoMT66611KT6SgL7iM2UTlzPaS9qZy
-	DNpZnt3az3/7Z+3OuKyMQLM44dJEb1eBKPJjXt6WfCq+7pGFzwRMmA1CWMpiZJohOHjLl4
-	Tocdh0WML/dIOXWyT1ZZiQiJB5kSuymf/dzkGKem8qsKZ/dIl6gktOoH7/0lWmIP7hCEBw
-	lP6P7j1vsjakTaqpogJUoJR6ZNsVHBhMPc3l0fMZTtSP+tNFLtRP5jgkHWtJVvjsqm0/nA
-	81BSdK5Fkdzibc0ayayLGbsmeQajFsdnN3Azs82+SmveWBcZjg9skPCflKxyDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1724768149;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zKYvXpJS62xLbIhNVPi2GA6XAl6FOhp0wDIum6Cn7Sg=;
-	b=gPAL9vZHFElW7JQJLHmvXEOMY/pMB+2D2N9+heOQ0YgG/kQqRqY5ZdJuXjMT/Y4saNtMMG
-	xcW30f1kd9Ygcj2Fp+XNaaKd/edipJYtv0cE8YfYasJGQceKWzoI/5xzr5itCRZUrwRCnX
-	pTurn7jvI9ZfG4c3EE0PU/J56pfzUlu+xyKrBuZoT/QecYCeMfXPqm6dvIaF9qFgPATe42
-	d9wHP3lu+a0zxdY7fET2xbRBUUWLwtYIj+wjeKqXaDCnvXIhjSvnbd+twA62KJ0UnMlusD
-	bgiwb+Nj9jVVTgjHVkMOt3DQqWE5QJ8RMKi05AIfZjvM4VYBCE469Sibvz1VeA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724768149; a=rsa-sha256;
-	cv=none;
-	b=K3SYGdAtU10DUuKaGGwIW5dqUdDnrNiK236yvDSGLNT9NWDj6c5NnO382nCKNRONmP3hdU
-	s31S3yqAybTx4keEJFvpLG0oJL4R7AuJPJtcyq+uABjjMHC5Y9TI36ENdsu62ilex/6qqe
-	u0crr5OOoaHRtnVpFT/DnWSPfhT/ahdbAVp8rr2rMqLMNflM7INjuYDpsEJAHm2RQMGCSC
-	GZDXdTf3lEpSdueQTGc7b8TkVFZ22OJFgD7XaS/2Re+GK6n27PCBPZbP6f+OOsUrqrmPek
-	wdsCrbmQw1kWpbXw8p5OdifSFPgjNEnFl4YkLnIaX946UzF1j7cZ/fenYrlpRQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 700C1634C93;
-	Tue, 27 Aug 2024 17:15:47 +0300 (EEST)
-Date: Tue, 27 Aug 2024 14:15:47 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Rob Herring <robh@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 2/9] of: property: add
- of_graph_get_next_port_endpoint()
-Message-ID: <Zs3fk-buU8Z-wwz3@valkosipuli.retiisi.eu>
-References: <87cylwqa12.wl-kuninori.morimoto.gx@renesas.com>
- <87a5h0qa0g.wl-kuninori.morimoto.gx@renesas.com>
- <20240826154009.GA300981-robh@kernel.org>
- <Zs2tYUh3PXv-0e20@valkosipuli.retiisi.eu>
- <CAL_JsqLcM3r0dPHX9eoU3cz78UxBfg3_DnU4eKX7aohbYC2mRA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5051C7B73;
+	Tue, 27 Aug 2024 14:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724770405; cv=none; b=JLl7JfKumnPPdX9MvtVK4b2RGE2WguFmnjBxjlwLChs0suHCAZwt2W5g8sk8pWeZqALBsLoyazwbVi+s79GnbW0S+2S1SZhsQykMgfMHL0Mhuuh+BcIHDuJsL7X660R927zWZqTlaY8GnEN28dkiiAO318XzHv7O3001WHrKqSY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724770405; c=relaxed/simple;
+	bh=Kg3GjQSiusxWVLTdLYx6/ArqcAuScIKX9tgSJRL8nm0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RwygbQA6FHqiGBm2Jo9pgMxvd6IMVnmMhpGC8kn5HabyE1zIScIQP6VJFP8tgkiL0iZxhQM5tiRcJB3axZTaEln1XFGBKJJQzKsbWhlZSzQ471HzXxT6UORZnaZM+g6md4apBdK681qysyjVdwfSbldqEEHHDVpKAALeYGP9/gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XeBv6OPy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29EE0C61053;
+	Tue, 27 Aug 2024 14:53:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724770404;
+	bh=Kg3GjQSiusxWVLTdLYx6/ArqcAuScIKX9tgSJRL8nm0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XeBv6OPyMIDQ85Q3F4L4AEHf+JcMTRSVqvYlnFOjaPLVS81hGa4e/QqhAZlF+z1z5
+	 2cd/iGDpR8T6wFTjeZkyUgRX3tIkMJ0oJmqrIepBBBKA58RenBldI0ZEo1rRnrCj98
+	 fk0J3ODMdUIPQhD6ISbcUeltIO8pXnRJzbAQwDnSneuJYpnBSPNJ3BqGFlaTAmhIIe
+	 FMYBbaEqug3Ww0kUzwzi6Ksx+v49mwshX/PFbbyTXbYKTsmIWUm/9PaLcY5mdjrbLS
+	 nj2IB+n056qdN5Mqdv8AqgfJXi+PFReXCFSbvf47tHn56UReL8M5x5vVoj7GkvcoVu
+	 o72OvtFQP8CyQ==
+Message-ID: <7dadf8dd-ad54-4e4f-a336-adc3444df4b0@kernel.org>
+Date: Tue, 27 Aug 2024 16:53:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: i2c: maxim,max96712: Add compatible
+ for MAX96724
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Cc: linux-renesas-soc@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>
+References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240827131841.629920-2-niklas.soderlund+renesas@ragnatech.se>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240827131841.629920-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_JsqLcM3r0dPHX9eoU3cz78UxBfg3_DnU4eKX7aohbYC2mRA@mail.gmail.com>
 
-Hi Rob,
+On 27/08/2024 15:18, Niklas Söderlund wrote:
+> The MAX96712 and MAX96724 are almost identical and can be supported by
+> the same driver, add a compatible for MAX96724.
 
-On Tue, Aug 27, 2024 at 09:05:02AM -0500, Rob Herring wrote:
-> On Tue, Aug 27, 2024 at 5:47 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> >
-> > Rob, Kunimori-san,
-> >
-> > On Mon, Aug 26, 2024 at 10:40:09AM -0500, Rob Herring wrote:
-> > > On Mon, Aug 26, 2024 at 02:43:28AM +0000, Kuninori Morimoto wrote:
-> > > > We already have of_graph_get_next_endpoint(), but it is not
-> > > > intuitive to use in some case.
-> > >
-> > > Can of_graph_get_next_endpoint() users be replaced with your new
-> > > helpers? I'd really like to get rid of the 3 remaining users.
-> >
-> > The fwnode graph API has fwnode_graph_get_endpoint_by_id() which can also
-> > be used to obtain endpoints within a port. It does the same than
-> > of_graph_get_endpoint_by_regs() with the addition that it also has a
-> > flags field to allow e.g. returning endpoints with regs higher than
-> > requested (FWNODE_GRAPH_ENDPOINT_NEXT).
-> 
-> Looks to me like FWNODE_GRAPH_ENDPOINT_NEXT is always used with
-> endpoint #0. That's equivalent to passing -1 for the endpoint number
-> with the OF API.
-
-If the caller needs a single endpoint only, then the two are the same, yes.
-The NEXT flag can still be used for obtaining further endpoints, unlike
-setting endpoint to -1 in of_graph_get_endpoint_by_regs(). 
+The driver statement in this context is meaningless. You did not make
+them compatible so what does it matter?
 
 > 
-> > Most users dealing with endpoints on fwnode property API use this, could
-> > something like this be done on OF as well? Probably a similar flag would be
-> > needed though.
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> * Changes since v1
+> - Group in series together with driver change.
+> ---
+>  .../devicetree/bindings/media/i2c/maxim,max96712.yaml        | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> I had fixed almost all the OF cases at one point. Unfortunately, there
-> were a few corner cases that I didn't address to eliminate the API. So
-> now it has proliferated with the fwnode API.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> index 6c72e77b927c..26f85151afbd 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> @@ -25,7 +25,10 @@ description: |
+>  
+>  properties:
+>    compatible:
+> -    const: maxim,max96712
+> +    items:
+> +      - enum:
+> +          - maxim,max96712
+> +          - maxim,max96724
 
-Much of the usage of fwnode_graph_get_next_endpoint() is conversion from
-the OF API but there are some newer drivers, too. I admit I've sometimes
-missed this in review. At the same time I can say most users in the media
-tree do employ fwnode_graph_get_endpoint_by_id() already.
+Driver change tells these are compatible and version is detectable.
+Express it in the binding with fallback or explain in commit msg why
+they are not compatible.
 
-The good thing is that almost all current users are camera sensors and
-converting them is fairly trivial. I can post patches but it'll take a
-while...
 
--- 
-Kind regards,
+Best regards,
+Krzysztof
 
-Sakari Ailus
 
