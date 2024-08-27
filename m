@@ -1,137 +1,129 @@
-Return-Path: <linux-media+bounces-16946-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16947-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6869F9618E8
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 23:00:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B0496194E
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 23:34:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E6C3B2236E
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 21:00:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD6E42852C5
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 21:34:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 887221D362C;
-	Tue, 27 Aug 2024 21:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39C8A1D1F59;
+	Tue, 27 Aug 2024 21:34:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="pyCuVy1r"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L7qIrfat"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05451197A7E;
-	Tue, 27 Aug 2024 21:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724792415; cv=pass; b=T2F1lAqJQB3OaJW1lIaf81ViYE2Zv3w61mtNivjW2xMniiL0rU5e/sFLBDqFF8dcwfIrsM+rNDek0MqtUStrOiSHKhqS4xZ/wp6WY2TXwHvixWAN/6QKx/pHKja09EMZa9E9Qlgx6MC05MeLrKkCAMzPns+nNXzmRk+vSfZMLNQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724792415; c=relaxed/simple;
-	bh=3tmDa+ApxpjRgL2H90px7hBugPgj5TyRTNHhII8BCbo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F7876056;
+	Tue, 27 Aug 2024 21:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724794489; cv=none; b=WWdxmty1jPyMRiSsZ7y30Ksl5V3kz8SBnorIornayOh0RwNfcmbDJ1BIx2igkLGhakOuw6RM2y6K/N7B5uYdZvzekmiMt3khLTx/vuv1xXV/hhqWW+ZY0SIlS3AgsCsbW/cDm7q8A1PvdQRTih45p7TQYjrqlZP0TyrPNZw8SEs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724794489; c=relaxed/simple;
+	bh=ir4QV+tGBPZRd093w4QuLzQaIVhiXZOJklJB07kYoJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FOup29OeyuBAfVRvMK7QnWiMnzil8G+zWHjTX4MU0GYEeuQBRBU3GtW+IZ/H6ctIPmzFB1sscbWXv+M5HqdbUAqGDr3JKQVayoCpIACD/WIg7i7zjupOycSphlhS7OdPd/rvV8AQb5WDCAhWk2Y9UFO17MFyxdwtpZRKHn4UGjY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=pyCuVy1r; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Wtg0n4YMnz49Q02;
-	Wed, 28 Aug 2024 00:00:09 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1724792410;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GfbL8MyofjzCdyK16tjATQ9HNfwXNF25derEKHzcUuQ=;
-	b=pyCuVy1rJH8XxzUpXSN4mtcajlztgB+66nhrYUM4PblAxTkxyvchBopdiA+MnRoK9Nivpq
-	Yk7VQHx5xYf0YMjB9Nf6ng46o/32f65FCQ87Nu0tvjsTe1u9NTLzrPC+u/GmXoHHo1sR4Y
-	sg5UTiOGdpsUp2QLJ8dyUX85yCQGD+UasXQmLgvB1w9kEAiTzy0LP4Ly0FAyjqRmMfo8i5
-	xqqbqxJXpjLWrzyGr7AgoFq+qmwAizhUhsA2tM8AkGgH1HC0syR7el+IdSeqqHnInW23uH
-	ALMc+rR7yBjzR9WxOGVd+pATzFzgyXC0F8BU0T4jJyO94CCrwBteBSpUcMimeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1724792410;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GfbL8MyofjzCdyK16tjATQ9HNfwXNF25derEKHzcUuQ=;
-	b=CndQjWSLQXTZn+GA+GaEcKyWPNUVz4yIpZcZyPXrh6w/kOnl+NA8d5A1xT5vJE0fTdkfgb
-	OglOcknhKYOWkMB+rVB3WEcWxWjeRdolI8L0rni6TgkV8OZo0HrMJBfhwNwPOjbdqFQBkj
-	2TtDgnje/k1+QBRkBSh5VPUMMNTWiSyqah5eVxrOcGeJLu3uHaiZoB0RdCtNKi1qdJjnmb
-	SevNGfBGdB5Pgwlu8Oij7VyB41gCfU2ehiRaoXdGcPCJZt1nRJQ0JLIGalt2EZ9XE/y23Q
-	yc2FfLob1vDK4O2Q1zsC/jIFe80dnQJ5vmx8adXkCpTDQ1sUIKOYmkdVXF/oZQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724792410; a=rsa-sha256;
-	cv=none;
-	b=CS2W89WRcs2QI0ZVh5pyVP+HRJ7qnBK4SyDQj/OQBKs5dkR0TZ3Lfeh8AJ6/U8BGwC39GZ
-	rWrK0J9VqvhW8sAXu3/aTZZZFzf5SzL/80Jit4IEqzmukEeFOU3drPyJolzIoBfLe9H8s4
-	fJ6BjwVnEFPANs01gxsNZxnOUmwlNv2Aa2In/cS8X5U66PigaRKnaRIO5a8N6Ee7TLty7O
-	l8ucUofp7s/yeQBWD00XfUAioEjyp3lWtpAiJgUDoj3SKegVU9PDgk7lcqGL3x1KNYRFte
-	sTsx+EQkKEFYIaicaL3jGs3WznjMXBqpWGlfKsbNA64rrmVehFh6TjBVyrU68g==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C4D4E634C93;
-	Wed, 28 Aug 2024 00:00:08 +0300 (EEST)
-Date: Tue, 27 Aug 2024 21:00:08 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=DM80uF2eWEw6ujlNAlCDSJXfJt/kPXlDB4niOxH8iWT5CUPAjPxU/TOjJju/5VspA5PSv/Benn2xsU6X/bulT3S2FJ7xUMkiVLsfWL3mcN7Pny2RrCaFG159yD2nEAXt+dDfYfAkZdE2lUxM01osMramkK7THdwS/iIRS20diTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L7qIrfat; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADA404C9;
+	Tue, 27 Aug 2024 23:33:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724794418;
+	bh=ir4QV+tGBPZRd093w4QuLzQaIVhiXZOJklJB07kYoJw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L7qIrfatxuAYtbYR7Vb5F+TuCMMJ9tujmaEJ2vm8TBo7SwkeU8slUgXEFSwEDxypZ
+	 gukG2GSqVEIR7/mJxpiN2jFsrBIFMQ/X0Bz5G+wZLTlOhjOYelKcznNsWMa9Kc8St0
+	 FjccKtCtt6mw33FKsOjHTftSb9ZC49yYv2JS3hfU=
+Date: Wed, 28 Aug 2024 00:34:41 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
-Message-ID: <Zs4-WGZYt_QjgeXE@valkosipuli.retiisi.eu>
-References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
- <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
- <Zs3Vey0NEdGJAyTE@valkosipuli.retiisi.eu>
- <20240827175735.GH2636928@fsdn.se>
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] dt-bindings: media: renesas,isp: Add Gen4 family
+ fallback
+Message-ID: <20240827213441.GA30398@pendragon.ideasonboard.com>
+References: <20240826144352.3026980-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240826144352.3026980-2-niklas.soderlund+renesas@ragnatech.se>
+ <cnca2gdh6c3kg5ybb4dxzlca5c7jsvz4tomibpkf746syejvmf@ndbq4qkykume>
+ <20240827081233.GE2636928@fsdn.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240827175735.GH2636928@fsdn.se>
+In-Reply-To: <20240827081233.GE2636928@fsdn.se>
 
-Hejssan!
-
-On Tue, Aug 27, 2024 at 07:57:35PM +0200, Niklas Söderlund wrote:
-> Hej Sakari,
-> 
-> Tack för feedback.
-
-Var så god!
-
-> > > @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
-> > >  	}
-> > >  
-> > >  	/* PCLK 75MHz. */
-> > > -	max96712_write(priv, 0x0009, 0x01);
-> > > +	if (!priv->max96724)
-> > > +		max96712_write(priv, 0x0009, 0x01);
+On Tue, Aug 27, 2024 at 10:12:33AM +0200, Niklas SÃ¶derlund wrote:
+> On 2024-08-27 08:31:22 +0200, Krzysztof Kozlowski wrote:
+> > On Mon, Aug 26, 2024 at 04:43:47PM +0200, Niklas SÃ¶derlund wrote:
+> > > The ISP Channel Selector IP is the same for all current Gen4 devices.
+> > > This was not known when adding support for V3U and V4H and a single SoC
+> > > specific compatible was used.
+> > > 
+> > > Before adding more SoC specific bindings for V4M add a family compatible
+> > > fallback for Gen4. That way the driver only needs to be updated once for
+> > > Gen4, and we still have the option to fix any problems in the driver if
+> > > any testable differences between the SoCs are found.
+> > > 
+> > > There are already DTS files using the V3U and V4H compatibles which
+> > > needs to be updated to not produce a warning for DTS checks. The driver
+> > > also needs to kept the compatible values to be backward compatible , but
+> > > for new Gen4 SoCs such as V4M we can avoid this.
+> > > 
+> > > Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > > * Changes since v1
+> > > - New in v2.
+> > > ---
+> > >  Documentation/devicetree/bindings/media/renesas,isp.yaml | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> > > index 33650a1ea034..730c86f2d7b1 100644
+> > > --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> > > @@ -22,6 +22,7 @@ properties:
+> > >        - enum:
+> > >            - renesas,r8a779a0-isp # V3U
+> > >            - renesas,r8a779g0-isp # V4H
+> > > +      - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
 > > 
-> > It'd be nice to have a macro for this, espeically now that the driver
-> > supports more than one chip.
+> > Adding generic fallback post-factum is odd, does not feel reliable.
+> > Instead use specific compatibles as fallbacks.
 > 
-> What do you mean by macro? To test for priv->max96724, a define for the 
-> register name or something else?
+> I agree, it feels a bit odd. But this was the road we hammered out at 
+> great pain for how to be able to move forward with this issue for the 
+> other IP block involved in video capture for R-Car Gen4, VIN [1]. This 
+> just mirrors that long discussion decision for the R-Car CSISP.
+> 
+> I would hate to have different solutions for the two.
+> 
+> 1. [PATCH v5 0/6] rcar-vin: Add support for R-Car V4M
+>    https://lore.kernel.org/all/20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se/
 
-Ah, I meant 0x0009 and preferrably 0x01 as well.
+The compatible fallback for VIN has been added following a request from
+Conor and Rob, so it would be nice if the three of you could agree to
+achieve consistency in the bindings :-)
 
 -- 
-Hälsningar,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
