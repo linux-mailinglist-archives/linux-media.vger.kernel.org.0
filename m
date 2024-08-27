@@ -1,174 +1,359 @@
-Return-Path: <linux-media+bounces-16938-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16939-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3249696110A
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 17:15:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 930869613B4
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 18:12:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E41C528360C
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 15:15:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC14AB21D21
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 16:12:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A06CB1A072D;
-	Tue, 27 Aug 2024 15:15:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A87E51C93AF;
+	Tue, 27 Aug 2024 16:11:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="gkXvRKFQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CzW4mLL3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A139C17C96;
-	Tue, 27 Aug 2024 15:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724771731; cv=none; b=NUdP4+FxwJ2VX5rYcK67yJKIMR9x9fuM236Tb8ayN3V0d8R6KfirtHesyvB1ttyHlljFO/GxzowzrvZrUHVs3jMJKnWMH/OLSMtAljP84PAa75ckGTYXg8cJgSq8XArdJUajWq40FvMRfDieNr6thDyQp/lVImDVaG9YGcUEhcI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724771731; c=relaxed/simple;
-	bh=eyfy9J3T0WHgU7kikTI/SpXyyUG3bjCdeOivWinCWdY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=J/07rNOXJJLe0HWk3q/SdIHZHVOma9kmqgS05hAiYwoBQhBmy3bRoB0uE8YfWeMhzAnpSgx6z8O086cTSxf36d1brEeDfQsdxjWKunZ2nNGHaa8/384AmbK6R+Us/a7PjDIWmhISu5SPogHLtRYTOMZN/E6WVYtlGJ29JnlJX5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=gkXvRKFQ; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 47RFF75n007419;
-	Tue, 27 Aug 2024 10:15:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1724771707;
-	bh=dpBlpljeW3Y3mBXmJhPRn7Sl83tQu+SC0sfnHVgX/Vs=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=gkXvRKFQ+2Y4aYNgOUXLsr5i9rUzU46qCZywZQCDhY2x+YnwjrMd7qkn0ftv2GQMe
-	 oqdu59aWlhH5E3xiFVlZCZKRWAdSyHCjPs8+Hp0QEpqNpuMrX0jn0sqqyj+vHk3LJ3
-	 d5lGJfF7pbN8RG5H2sI7y+skzoAEbQRKRgRSG/EY=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 47RFF7QY090568
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 27 Aug 2024 10:15:07 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 27
- Aug 2024 10:15:06 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 27 Aug 2024 10:15:06 -0500
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 47RFExfs085052;
-	Tue, 27 Aug 2024 10:14:59 -0500
-Message-ID: <0b06794b-34c5-ec0d-59c6-8412a8789eaf@ti.com>
-Date: Tue, 27 Aug 2024 20:44:58 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D871164A
+	for <linux-media@vger.kernel.org>; Tue, 27 Aug 2024 16:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724775117; cv=fail; b=kUIa69fMm7pJrcAYQI0ppgFLPKJ2ka8EnBm3GK5ZHddYK0qsVlWyt7BBReC3fB8Dn+0zUz5aUAHmp3twxfkKECOt/2sBWqDgjpwpG3Xa6bP1Enusj5Cnrh570PKMapxzE6MlysWYMAZ8FRWBAUHYE7LxiCLqZ/+2ErSrA0MXcFs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724775117; c=relaxed/simple;
+	bh=PcufV+6/2xDshqspoZvb7IqsJRwWthe8VcX3rNBbYJU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=XJvKeLafCuGPwp1SU/b8+efVEe7LFZqh3odMQDqHrTSknIpELDOpErbtz09qp7S03eB+p8GC3P8oTZnDrXnHJ6OuXHOJCMkUsVY2FJcdTlOAZ1hGyrsSV2irTlLg7wHcdoXKSCy4PvWjXRKMVadcZR/PppceFuULcHzeXW1tBLA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CzW4mLL3; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724775114; x=1756311114;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=PcufV+6/2xDshqspoZvb7IqsJRwWthe8VcX3rNBbYJU=;
+  b=CzW4mLL3HmVxx5cauJDMJ75Q95BszCBxBm/JL2UlmkxgC/n646shtmo/
+   sxbfRFf7JZjcYZBojbUMmY/aChxZqlBQbinb0PUoTQjVFM7gvVk1gFMoc
+   XwHxN1l0a38psKE4tZsyUHTn7pmysHfsgRGhBlRjnx01ssarD1uAOHdKa
+   B27rUO4IL8EhC4Som/j4aCx4MmJuI444AY0q3FYv4NrtHo+q4CYVsGt/y
+   4DjMJrjDBdyTmJuen8cLqwDheG8rgi5zzWmrmZ9QsOayo3q7atKTs03cu
+   ajtsSyqmORv9FoRd+x+WvdCF6b61bXLmxrCPCf5CPkgb3as/N8JJkF7jp
+   g==;
+X-CSE-ConnectionGUID: TxTARQTkQwS6zOJ16N/YXg==
+X-CSE-MsgGUID: NwsGEXpGRjq/eVBvqAuqZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="13239793"
+X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
+   d="scan'208";a="13239793"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 09:11:54 -0700
+X-CSE-ConnectionGUID: sF0xJ8hWSdykhH8uGiOeMw==
+X-CSE-MsgGUID: pypKfuDVSrabZOzBq0GIWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
+   d="scan'208";a="67809256"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 27 Aug 2024 09:11:54 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 27 Aug 2024 09:11:53 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 27 Aug 2024 09:11:53 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 27 Aug 2024 09:11:53 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.171)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 27 Aug 2024 09:11:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xACPXu3PgKe4tVXDTEdnHDpCX7wldNvlH70JVNwDjlyKLmHDoto7KZVgcZGw6xasQ6PauPj/xD5UcFUuwtK1eZBe1btTyz+V3S3AEBEGFB0uJ2PVDxIU+ecO85prsMN6s8sACHrS5IiPTLtB8qGkIjmst5JyqqY5JYWHdZ8cOwTI5sQGQ+GuYRarf4+j4dx/RNwjnJh6QwfMufXY8KouvtGlI9PO+H81r18hACcYzIkjIaoAAWolBvKQHPHywdaX8ihiz9yi06BiCXuznzXfVg9X2TLk8mV9XvtdeWN3cWGXb50GH9G2oNsXmQlUnsHrNdshA9P0HubIw00WdlvDuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=okSeKM5i8jLKPqHM4fXs2sXF3RM9dbQhReq2VA+yMjk=;
+ b=gHAJ5FZZYdPtIqb/6DO24XhCGNDAtowNrTymKRb/KCLJUDSe7bXfD98QYFYOe8rSYiiQqJq8Vy8a8MvizmaLeHprIiF27vO1lyZ37GEh6qSMDqHjXWoDJKb4I3tZ5uvxFkVPXs9HcrJIgw414h/8YJ9PTzUQCQcj8rd/YhFZgjVJIdv9B16DMKk/wwIVr0yNXw7HdJCS3tSuMIDf7MAAajdt1UKr9ChNQgZgnZ1cLEjsLLpTv7S/CeUqu425ExJSKzqpFsrnEClyetopX8j0qSoly+kHn2x0Molq4Z7gHVILjx+IQvSsr9gswhZGtyE61I8IZioX/2ooplCQm7butg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SA1PR11MB7112.namprd11.prod.outlook.com (2603:10b6:806:2b7::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Tue, 27 Aug
+ 2024 16:11:50 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.7875.018; Tue, 27 Aug 2024
+ 16:11:50 +0000
+Date: Tue, 27 Aug 2024 16:10:31 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+CC: <intel-xe@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, <thomas.hellstrom@linux.intel.com>,
+	<sumit.semwal@linaro.org>
+Subject: Re: [PATCH v2 1/2] dma-buf: Split out dma fence array create into
+ alloc and arm functions
+Message-ID: <Zs36d0fJxz3aFIqS@DUT025-TGLU.fm.intel.com>
+References: <20240826170144.2492062-1-matthew.brost@intel.com>
+ <20240826170144.2492062-2-matthew.brost@intel.com>
+ <aebe8cee-8674-42f0-b112-439da1ef7073@amd.com>
+ <ZszWJaX9I3sh5jxZ@DUT025-TGLU.fm.intel.com>
+ <52a68584-daee-4415-8ea0-7ebc737f8e10@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <52a68584-daee-4415-8ea0-7ebc737f8e10@amd.com>
+X-ClientProxiedBy: BYAPR06CA0072.namprd06.prod.outlook.com
+ (2603:10b6:a03:14b::49) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
- value
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@intel.com>,
-        Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>
-CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <sebastian.fricke@collabora.com>, <linux-doc@vger.kernel.org>,
-        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <s-jain1@ti.com>,
-        <r-donadkar@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
-        <p-mantena@ti.com>, <vijayp@ti.com>, <andi.shyti@linux.intel.com>,
-        <nicolas@ndufresne.ca>, <jirislaby@kernel.org>, <davidgow@google.com>,
-        <dlatypov@google.com>, <corbet@lwn.net>, <broonie@kernel.org>,
-        <rdunlap@infradead.org>, <nik.borisov@suse.com>, <Dave.Martin@arm.com>
-References: <20240826150822.4057164-1-devarsht@ti.com>
- <20240826150822.4057164-2-devarsht@ti.com>
- <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
- <9c41f6b7-6b06-cd5b-74bd-24873c4beaf7@ti.com> <87frqqyw9r.fsf@intel.com>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <87frqqyw9r.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA1PR11MB7112:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b6161f5-17ad-4806-ebdf-08dcc6b2f51d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?G26MrHrAIKCfaeNu/gSXZNVO/X8XeQ/WCYCqYPIVlrrInwLh5fkVyXeSMv?=
+ =?iso-8859-1?Q?u7MJMB8pkcBFlewK9IJ0a4/XUc2sHYLzYVn4Qbo2P9MTSZVOwVNxvfMHfY?=
+ =?iso-8859-1?Q?77zauP+GXd0Px9/tvJCUtQM9Ajl/S54DXQyWroZyxCnA9gzzfcEHWAe/Fk?=
+ =?iso-8859-1?Q?aI0gL22azXtuS5+VGKy2l4UXu9b1pfWqR90bpyYvUmRbR5q/SeufHkwdbu?=
+ =?iso-8859-1?Q?oNk6CVJXAjWsOSKuLS9rI2eGR2Jzi6gt+cCAjhw0W22q0zlZJw8bZyoO/I?=
+ =?iso-8859-1?Q?Ka1K4CPEf9qFZHotrqfNZBp/LjCybPcRn914TlhTQMO//0cknCPiCt3unO?=
+ =?iso-8859-1?Q?oScSQol1SkRZx5vTinmYE42foKPCJDOIEZ4n1Y8fXV5rWmvWydvYqInbHI?=
+ =?iso-8859-1?Q?XXGbqedgu6HKXMMytp8BIV1UZ4kcrOLyKeXSYpEAEDMmZygYJnGNPycrce?=
+ =?iso-8859-1?Q?IQPa8f7avPeEW813ql8GWAnvzRQz8vgwU/2FrRg4VYt/O4k4lIBlpOqaVb?=
+ =?iso-8859-1?Q?+M6bmo+gtzIYS1FScqrwHHstPdF3gzpfIWV+DYCt3O2zyHLCxIWSDiQ0ka?=
+ =?iso-8859-1?Q?hPHOsZdUO+IovcOa9H+Q8HY+BKh/usAA7iygru6GK3GGKV8knqJnbqlA05?=
+ =?iso-8859-1?Q?hzSBZ9jdTQBLbS5utssbnwIAQ843V1Rdg6uNuaEwZbfNCWB8VXNAIUVGOa?=
+ =?iso-8859-1?Q?td3aRAR9+1tCFOiPmTFX8HoZb89Jps3P6D0J+PU5YH6Z3HucT3NfGjDVsD?=
+ =?iso-8859-1?Q?Q8CuIvOib8mX04iDLwkK8ileW1Q5PGN3KYkBPctrrUdWZRcXTOMkcSRTWj?=
+ =?iso-8859-1?Q?jl4sLnJBj2aHK/NJTtdJ1TnKnPXawQR5AY80sZt4+XHNdOQnpKF89sYa1O?=
+ =?iso-8859-1?Q?/vyGMol14A6shypTXozAEydrMTOJcVu6aNSSH2IOvpuO1p0Y5zkAwE7WeW?=
+ =?iso-8859-1?Q?mlq2EquX/lNHu8FCpE1bCU+iCzhF/8GS25g3/eMjveQmuDAQ4aSM8z4bQW?=
+ =?iso-8859-1?Q?NTK/A3qieI4KlQb6m8wESpVVgFITtblXBG/GkxY6bFYTBR+yz5pKNBpvtw?=
+ =?iso-8859-1?Q?cmSgtxwZeAY+7g53mpNmEJ8g1hZo0DQqzlAc2Zc94lRDJXz2/crHUQsUsA?=
+ =?iso-8859-1?Q?BpkUMbHpMpfTAs5k1/3zmRVWpLnqIavlu/rmaHyGU3Bqco031RPGxozmDo?=
+ =?iso-8859-1?Q?zwl7F97KEI/FkSxrcnfNfo+gw6F0bUegJ2eL1hyqjrcjVKpTr7Q5IGOLaf?=
+ =?iso-8859-1?Q?aWuScbT9e6YAWunzujc0BhaR7rfzSGQot63EW1GH5mVOObjhiczLePxFYk?=
+ =?iso-8859-1?Q?RJdHcUUOqpycPOQJ5Seob1G2/Ej2dBtkdEscSijflbmyUqNV75JiY6n5Dp?=
+ =?iso-8859-1?Q?Z6bcxXloVl3iWEiwzFiaqtZf3m3klShg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?guPy5zdOeVdEdYpYQaHhdWyZfs/Y+nbkUl4+n1Kb73eDiTF2OPucd9u5HE?=
+ =?iso-8859-1?Q?5QqBqhaH5BJISCT2j3jM1/34cWJ1Qyf1DjP9RXuiLjHOE4LPWGS8NjYlb/?=
+ =?iso-8859-1?Q?WBBkFK7DvJkfcyvaQU5WkFdh3cpoP3ISwB2aME+qweyuFQbAiLk59KRb/Z?=
+ =?iso-8859-1?Q?9yf/LYNHix03IVEnwzzS9JMOVBcO06rQ+Y2vIyzS2kNjnkiWcumnXAiML6?=
+ =?iso-8859-1?Q?mNtqGWp2f6g8XGQaDLwcnwffAk7/QJYmkMT1lDXyPVZ31bg7/dj7jtZIsN?=
+ =?iso-8859-1?Q?7hLWgnaRUGPt+XpvlKTZzeZy34J7Tk/KiUaC4i0vnVSDAsxDMx3dxoLPrg?=
+ =?iso-8859-1?Q?rkFMZGFBmyCjBCmuCTEAZqQiUxyMqup71xViJLA323EUSWE18T+xCQfQhi?=
+ =?iso-8859-1?Q?pI6/JHYpUJE5Oyh/KJhVTFGTPphPICfYU8W7LUoaoJmsDdY4knr3ThD/tD?=
+ =?iso-8859-1?Q?z/WbTQu/Se/HcZF6gp1oap0mR5fkMgr0wRTXoc4JBjVfXvwyJx3Rqpu8i5?=
+ =?iso-8859-1?Q?qUwL3Ae8kFLOB8PkUFHaQbLw8CO1TaJX/ZSs2r0PkfXy8FL5s9wgqARWO1?=
+ =?iso-8859-1?Q?JOaSGZmYRVmwBJEtDnd3O7jmGLM27TiiN/v0sK+VojGQczpkbPQUZF0+6w?=
+ =?iso-8859-1?Q?fjhASMD7b6JrNxb0lFuuU8I3UBK0I7A/5Vs2iPG4eBhrbAkpkIwmzn8XwI?=
+ =?iso-8859-1?Q?9gxXVDIZ16lW0JNx8pa4S0Vl4kBq3oA+MwGJ2ng5xERU/Yh/k79SDqn4VR?=
+ =?iso-8859-1?Q?jjqtOHR5LAnc7aNMgIxOGcQkieGw5n7psgGQzI7F1tBPRk45WuyVZ2JTHx?=
+ =?iso-8859-1?Q?H4yOILr3XqwaPAnS/l6Iv+wyqWQxFEo06d2hzeF+iNKl0fvMeD+gLvEHjS?=
+ =?iso-8859-1?Q?J2P0hN629xWPMaadXAIbulxCPtYpBYxdvfumqRQDdKbIU1EP1Z3TX09Uu6?=
+ =?iso-8859-1?Q?9qqhAFsAva81JOr58G4/uiN+ayuxmxGBpTn6FEQhaNwUk6DEQa6V+TyVKm?=
+ =?iso-8859-1?Q?hLip+NyZhuBTT1fMtA0ot6Nd09WK4VUI7nE16I5V8xICIBKeV7fLv9wCxa?=
+ =?iso-8859-1?Q?UrJCFp55EI8erze4G7z5lVAFpOmIa344v/NMz+1iur6hdi7yvqe6rgvajk?=
+ =?iso-8859-1?Q?Nn0DOVIf3sxGT1qZqUZJGr54FbhoBZ1JQF9Bc4Is+ICzVu+Y2pfxruqBB/?=
+ =?iso-8859-1?Q?eDsWWrN1nIwSszDdrzK0t8zqnK9J56l3MMCg2+OZxq5J2UUyANT8pxvTKh?=
+ =?iso-8859-1?Q?ru/y05MOFAjHwSOEKUbwc+kbosfkwBNZxcd5ED+0BId4oDNUvZShulZ2l+?=
+ =?iso-8859-1?Q?hXLwA3jm56zE7iWCRZBM8zPKUxZphu+d716GBnVGKR4VzdVtKYvLqCNOis?=
+ =?iso-8859-1?Q?VKwEobB0eufy/+idGzcdNY8CkoGInxHFI1jikMEGHbkXcz4bRRz/hlJfd9?=
+ =?iso-8859-1?Q?D6nIsBTiPvWlUa+1ABvVzjdhHVw2R7aj20f7jiWfh4vtljnDOUY4Umd7sX?=
+ =?iso-8859-1?Q?QznnTHC29Zwrrp7hLSu8DjcssGmVvOS22zDOFjtm3PxHNl1jRltg1aK5hF?=
+ =?iso-8859-1?Q?rfOtpLSR0JTUzx+LTHy3pfGr5NtlQXQOTGDE/bBTb5YGCmVYoAYaFDZFcH?=
+ =?iso-8859-1?Q?CTCQJttGoPoLiDPzUWyGuBPAyVuE1yPwwMW4ZprtPkEUq7ACfzv4KVog?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b6161f5-17ad-4806-ebdf-08dcc6b2f51d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2024 16:11:49.9839
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IXishnVVzMiHCChTz5QX056qDdMFqyviSbQ5/Xy6jGoRVID740IMe6qjlwGEohw7zDtTSZWXnAzdCnMYB3mrTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7112
+X-OriginatorOrg: intel.com
 
-Hi Nikula,
-
-Thanks for the review.
-
-On 27/08/24 18:10, Jani Nikula wrote:
-> On Tue, 27 Aug 2024, Devarsh Thakkar <devarsht@ti.com> wrote:
-
-[..]
-
->> The equivalency between roundclosest w.r.t round_closest is same as
->> equivalency between existing macros rounddown w.r.t round_down. Functionally
->> both are same but the former is recommended to be used only for the scenario
->> where multiple is not power of 2 and latter is faster but is strictly for the
->> scenario where multiple is power of 2. I think the same is already summarized
->> well in commit message and further elaborated in the patch itself as part of
->> header file comments [1] so I personally don't think any update is required
->> w.r.t this.
+On Tue, Aug 27, 2024 at 08:37:56AM +0200, Christian König wrote:
+> Am 26.08.24 um 21:23 schrieb Matthew Brost:
+> > On Mon, Aug 26, 2024 at 07:57:07PM +0200, Christian König wrote:
+> > > Am 26.08.24 um 19:01 schrieb Matthew Brost:
+> > > > Useful to preallocate dma fence array and then arm in path of reclaim or
+> > > > a dma fence.
+> > > > 
+> > > > v2:
+> > > >    - s/arm/init (Christian)
+> > > >    - Drop !array warn (Christian)
+> > > > 
+> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > > > Cc: Christian König <christian.koenig@amd.com>
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > Reviewed-by: Christian König <christian.koenig@amd.com>
+> > Thanks for the review.
+> > 
+> > Unfamilar with the merge flows to dma-buf subsystem. Do you merge this
+> > into a dma-buf branch that we can then pick up in 6.12?
 > 
-> I still don't think rounddown vs. round_down naming is a good example to
-> model anything after.
+> I can push the patches into drm-misc-next or alternatively you pick them up
+> through an XE branch.
 > 
-> I have yet to hear a single compelling argument in favor of having a
-> single underscore in the middle of a name having implications about the
-> inputs of a macro/function.
-> 
-> The macros being added here are at 2 or 3 in Rusty's scale [1]. We could
-> aim for 6 (The name tells you how to use it), but also do opportunistic
-> 8 (The compiler will warn if you get it wrong) for compile-time
-> constants.
+> The change to the dma_fence_array is small enough that it probably won't
+> cause any conflict, so both approaches works for me.
 > 
 
-The macros use existing round_up/round_down underneath, so need to check if
-they have compile-time checks but either-way this should not block the current
-series as the series does not aim to enhance the existing round_up/round_down
-macros.
+Once I have a review on patch number 2, I'll go ahead and merge to
+drm-xe-next. Will also reply here once that has happened.
 
-> As-is, these, and round_up/round_down, are just setting a trap for an
-> unsuspecting kernel developer to fall into.
+Matt
+
+> Christian.
 > 
-
-I understand what you are saying but I believe this was already discussed in
-original patch series [1] where you had raised the same issue and it was even
-discussed if we want to go with a new naming convention (like
-round_closest_up_pow_2) [2] or not and the final consensus reached on naming
-was to align with the existing round*() macros [3]. Moreover, I didn't hear
-back any further arguments on this in further 8 revisions carrying this patch,
-so thought this was aligned per wider consensus.
-
-Anyways, to re-iterate the discussion do we want to change to below naming scheme?
-
-round_closest_up_pow_2
-round_closest_down_pow_2
-roundclosest
-
-or any other suggestions for naming ?
-
-If there is a wider consensus on the suggested name (and ok to deviate from
-existing naming convention), then we can go ahead with that.
-
-[1]: https://lore.kernel.org/all/ZkIG0-01pz632l4R@smile.fi.intel.com/
-[2]: https://lore.kernel.org/all/5ebcf480-81c6-4c2d-96e8-727d44f21ca9@ti.com/
-[3]:
-https://lore.kernel.org/all/ZkIG0-01pz632l4R@smile.fi.intel.com/#:~:text=series%20is%20that%3A%0A%2D-,align,-naming%20(with%20the
-
-Regards
-Devarsh
-> 
-> BR,
-> Jani.
-> 
-> 
-> [1] https://ozlabs.org/~rusty/index.cgi/tech/2008-03-30.html
-> 
-> 
->>
->> [1]: https://lore.kernel.org/all/20240826150822.4057164-2-devarsht@ti.com
->>
->> Regards
->> Devarsh
+> > 
+> > Matt
+> > 
+> > > > ---
+> > > >    drivers/dma-buf/dma-fence-array.c | 78 ++++++++++++++++++++++---------
+> > > >    include/linux/dma-fence-array.h   |  6 +++
+> > > >    2 files changed, 63 insertions(+), 21 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+> > > > index c74ac197d5fe..0659e6b29b3c 100644
+> > > > --- a/drivers/dma-buf/dma-fence-array.c
+> > > > +++ b/drivers/dma-buf/dma-fence-array.c
+> > > > @@ -144,37 +144,38 @@ const struct dma_fence_ops dma_fence_array_ops = {
+> > > >    EXPORT_SYMBOL(dma_fence_array_ops);
+> > > >    /**
+> > > > - * dma_fence_array_create - Create a custom fence array
+> > > > + * dma_fence_array_alloc - Allocate a custom fence array
+> > > > + * @num_fences:		[in]	number of fences to add in the array
+> > > > + *
+> > > > + * Return dma fence array on success, NULL on failure
+> > > > + */
+> > > > +struct dma_fence_array *dma_fence_array_alloc(int num_fences)
+> > > > +{
+> > > > +	struct dma_fence_array *array;
+> > > > +
+> > > > +	return kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
+> > > > +}
+> > > > +EXPORT_SYMBOL(dma_fence_array_alloc);
+> > > > +
+> > > > +/**
+> > > > + * dma_fence_array_init - Arm a custom fence array
+> > > > + * @array:		[in]	dma fence array to arm
+> > > >     * @num_fences:		[in]	number of fences to add in the array
+> > > >     * @fences:		[in]	array containing the fences
+> > > >     * @context:		[in]	fence context to use
+> > > >     * @seqno:		[in]	sequence number to use
+> > > >     * @signal_on_any:	[in]	signal on any fence in the array
+> > > >     *
+> > > > - * Allocate a dma_fence_array object and initialize the base fence with
+> > > > - * dma_fence_init().
+> > > > - * In case of error it returns NULL.
+> > > > - *
+> > > > - * The caller should allocate the fences array with num_fences size
+> > > > - * and fill it with the fences it wants to add to the object. Ownership of this
+> > > > - * array is taken and dma_fence_put() is used on each fence on release.
+> > > > - *
+> > > > - * If @signal_on_any is true the fence array signals if any fence in the array
+> > > > - * signals, otherwise it signals when all fences in the array signal.
+> > > > + * Implementation of @dma_fence_array_create without allocation. Useful to arm a
+> > > > + * preallocated dma fence fence in the path of reclaim or dma fence signaling.
+> > > >     */
+> > > > -struct dma_fence_array *dma_fence_array_create(int num_fences,
+> > > > -					       struct dma_fence **fences,
+> > > > -					       u64 context, unsigned seqno,
+> > > > -					       bool signal_on_any)
+> > > > +void dma_fence_array_init(struct dma_fence_array *array,
+> > > > +			  int num_fences, struct dma_fence **fences,
+> > > > +			  u64 context, unsigned seqno,
+> > > > +			  bool signal_on_any)
+> > > >    {
+> > > > -	struct dma_fence_array *array;
+> > > > -
+> > > >    	WARN_ON(!num_fences || !fences);
+> > > > -	array = kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
+> > > > -	if (!array)
+> > > > -		return NULL;
+> > > > -
+> > > >    	array->num_fences = num_fences;
+> > > >    	spin_lock_init(&array->lock);
+> > > > @@ -200,6 +201,41 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
+> > > >    	 */
+> > > >    	while (num_fences--)
+> > > >    		WARN_ON(dma_fence_is_container(fences[num_fences]));
+> > > > +}
+> > > > +EXPORT_SYMBOL(dma_fence_array_init);
+> > > > +
+> > > > +/**
+> > > > + * dma_fence_array_create - Create a custom fence array
+> > > > + * @num_fences:		[in]	number of fences to add in the array
+> > > > + * @fences:		[in]	array containing the fences
+> > > > + * @context:		[in]	fence context to use
+> > > > + * @seqno:		[in]	sequence number to use
+> > > > + * @signal_on_any:	[in]	signal on any fence in the array
+> > > > + *
+> > > > + * Allocate a dma_fence_array object and initialize the base fence with
+> > > > + * dma_fence_init().
+> > > > + * In case of error it returns NULL.
+> > > > + *
+> > > > + * The caller should allocate the fences array with num_fences size
+> > > > + * and fill it with the fences it wants to add to the object. Ownership of this
+> > > > + * array is taken and dma_fence_put() is used on each fence on release.
+> > > > + *
+> > > > + * If @signal_on_any is true the fence array signals if any fence in the array
+> > > > + * signals, otherwise it signals when all fences in the array signal.
+> > > > + */
+> > > > +struct dma_fence_array *dma_fence_array_create(int num_fences,
+> > > > +					       struct dma_fence **fences,
+> > > > +					       u64 context, unsigned seqno,
+> > > > +					       bool signal_on_any)
+> > > > +{
+> > > > +	struct dma_fence_array *array;
+> > > > +
+> > > > +	array = dma_fence_array_alloc(num_fences);
+> > > > +	if (!array)
+> > > > +		return NULL;
+> > > > +
+> > > > +	dma_fence_array_init(array, num_fences, fences,
+> > > > +			     context, seqno, signal_on_any);
+> > > >    	return array;
+> > > >    }
+> > > > diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+> > > > index 29c5650c1038..079b3dec0a16 100644
+> > > > --- a/include/linux/dma-fence-array.h
+> > > > +++ b/include/linux/dma-fence-array.h
+> > > > @@ -79,6 +79,12 @@ to_dma_fence_array(struct dma_fence *fence)
+> > > >    	for (index = 0, fence = dma_fence_array_first(head); fence;	\
+> > > >    	     ++(index), fence = dma_fence_array_next(head, index))
+> > > > +struct dma_fence_array *dma_fence_array_alloc(int num_fences);
+> > > > +void dma_fence_array_init(struct dma_fence_array *array,
+> > > > +			  int num_fences, struct dma_fence **fences,
+> > > > +			  u64 context, unsigned seqno,
+> > > > +			  bool signal_on_any);
+> > > > +
+> > > >    struct dma_fence_array *dma_fence_array_create(int num_fences,
+> > > >    					       struct dma_fence **fences,
+> > > >    					       u64 context, unsigned seqno,
 > 
 
