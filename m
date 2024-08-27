@@ -1,53 +1,52 @@
-Return-Path: <linux-media+bounces-16885-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16890-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1B69606BF
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 12:07:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 403389606C8
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 12:07:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 540311C22706
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 10:07:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBFC3288964
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 10:07:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75FB019EEDC;
-	Tue, 27 Aug 2024 10:06:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 036911A01B9;
+	Tue, 27 Aug 2024 10:06:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bZrTnZ5k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbf4nSol"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A1019D067;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D090719D8A9;
 	Tue, 27 Aug 2024 10:06:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724753194; cv=none; b=oTBr59b1PkObC6Rt1V8JNGqDSPwWjDNru6lF6U5hChxZS9VOji/A8gFm5s92clZ/w/6wdmGSoZ6j9vET1Z1vDmfTz3KQMi1O9aO7cq/iovbZ9KYtTijjn0DYT6BDsyvK+yirNvJ4tBFUIJc9Rf65sgJFLCiaV2A3wZKK0JmhH+8=
+	t=1724753194; cv=none; b=mf739Uwiet6Ty0ZWF5EewFG3SrL+a5oDX7fx0LvNwgDHf7/v0ahWdPmYbj05cj2vEgKFk153h37lHofMK8uW2fqhd82M9/GYOHpDbOLqJE9l60dtOX0H99MmHM5Jkt3MDV+adPBDlK4llgGiFH+BeorOaChPVmRsiEWmkLCAQYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1724753194; c=relaxed/simple;
-	bh=9/bXUR9vWDeYiPhm6N3/6l7AKwGwD51EVfA2fLYMVmQ=;
+	bh=CrMHvDmHqAZRXl4CoDH64DDwswVtSNt94xvcSPlw5Os=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ahhemIPsX9pa4uIvHYGa04uCyW1+/q//5BhDil8wFIIBp3wgqvT+1LFB8IUzfAoV/0D21HcyKtRPqfsLM6WB4SaXNRQVcjlgr0BzhaBja0BY2XTJvFgy4q/fSdpvvpLfLYL8HwvH4loJXOA+ArSyWNuh7ToG3NgenNmSG7Maklo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bZrTnZ5k; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4C381C4AF18;
+	 In-Reply-To:To:Cc; b=bF6MlLVaod/UAgrdFFFZ8sk7ZgjwMkO9+z62F4alHwQy05HF5d8KZhHGRf9RrvF6L8h/AOPpIBjyMMHJa/B2qToudXoB3qZr7iJq8dvMeqG2RHhK4ottcZLcJKmAxbt3f1gaKjWGyEdw4YaZvdO3kLtJRzXzoOlKFH2+gwip3K4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbf4nSol; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 648B3C4AF1D;
 	Tue, 27 Aug 2024 10:06:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1724753194;
-	bh=9/bXUR9vWDeYiPhm6N3/6l7AKwGwD51EVfA2fLYMVmQ=;
+	bh=CrMHvDmHqAZRXl4CoDH64DDwswVtSNt94xvcSPlw5Os=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=bZrTnZ5kLN58NwjnFzzyi8l17g1UdOywtHNEugK50VvygFejNcg32qt9ZmLvkeBGC
-	 aaQrYnUl84JNZ2yDjQi6XyAPMMP8zpLe73HaUycN8jkFSurqsJZlxuKOYqTT5nebDe
-	 TGzS/2fMJD55Lb+ieFnDJEXBpgWR4cC3/nmO59ZqVb30ChrsLkT0Nkex9WnSopTbXy
-	 DXr6sJr95hFoEZReaVTGR6C8D1xgWTtMOyRkYD8icwdYCyCriEfNPi2CmXtPNaHFXU
-	 lY+kY5BxFcjXSoiqt8uRLWMc3hJK42yMO/lROBRCXD8KvLajdI34RACI5QwjyCRNRr
-	 4tuQGeE01dXHw==
+	b=hbf4nSolKhIo5+gK4mpySWNdg8Oa/kjMsn/tZWpzvV2GpNWbSEQONu8oI2Az0UJnw
+	 4XoatvUIs2V3pFx2wEwgA6h8WU2tDQE2BveKVJFAzJiZL8F/Z/yJchJ+yitwhG85d1
+	 gLAdBUzZbbTPDnJoPPcI9hxPx7dqdRoI/IbT+q23raiecy6adZNTvs+xydZBFjgB+w
+	 UOMk63EWOeB/SbyH0c8twkSjTBS+yGMkjvoeoP4Lsn0utk9M87vc+F0NZva/1+jDeL
+	 Z4wOfWx6wYUGSys7GpK8e5ywT8sa2oBtE7upXpyD6F40XmpkGHxfEUwjXoOpoWHKmj
+	 zafyUqBbs9akw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 404DAC54732;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52149C5320E;
 	Tue, 27 Aug 2024 10:06:34 +0000 (UTC)
 From: Dikshita Agarwal via B4 Relay <devnull+quic_dikshita.quicinc.com@kernel.org>
-Date: Tue, 27 Aug 2024 15:35:28 +0530
-Subject: [PATCH v3 03/29] media: iris: add platform driver for iris video
- device
+Date: Tue, 27 Aug 2024 15:35:29 +0530
+Subject: [PATCH v3 04/29] media: iris: initialize power resources
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240827-iris_v3-v3-3-c5fdbbe65e70@quicinc.com>
+Message-Id: <20240827-iris_v3-v3-4-c5fdbbe65e70@quicinc.com>
 References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
 In-Reply-To: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
 To: Vikash Garodia <quic_vgarodia@quicinc.com>, 
@@ -68,11 +67,11 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Dikshita Agarwal <quic_dikshita@quicinc.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724753190; l=5969;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1724753190; l=13266;
  i=quic_dikshita@quicinc.com; s=20240826; h=from:subject:message-id;
- bh=TMJ26H+innc/Bj52EA4UGDFzuDU7dFnrwt6UHLwI580=;
- b=orECwo3xcGC+nogqmINQ3RXF7HT1Ih2G5JtubsF/sXvxALIoz80udRf+3YLsy4q0O1j+hq1kS
- 6FxZpRE7PScAbpg1+hsGUhmwmMm1wODH7ghC6OWJf6zKFQz9bNwWJgE
+ bh=ZUmC1n4wAZ0OYX2YUgQnQPDDKpqiTXXKpfIciQErzzE=;
+ b=GsDFJ2Ze3no5yB/GHG2sYobjiyG4i7WHw7Mg5/Qm5MUbbFl5f3Jq2NWE5SMWIwZLM6SrJSK9U
+ Ra1P5vXUP07Aa1K7DVOo3QZH4vj+v537tGBnTGqvnnErrbMEpBwb+wn
 X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
  pk=+c7562uu1Y968VTv9z59ch2v3jmlO2Qv3uX7srN3LJY=
 X-Endpoint-Received: by B4 Relay for quic_dikshita@quicinc.com/20240826
@@ -82,211 +81,454 @@ Reply-To: quic_dikshita@quicinc.com
 
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
-In preparation of adding H264 decode functionality,
-add probe and remove functions to iris video platform driver.
+Add support for initializing Iris "resources", which are clocks,
+interconnects, power domains, reset clocks, and clock frequencies
+used for iris hardware.
 
 Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
- drivers/media/platform/qcom/Kconfig           |   1 +
- drivers/media/platform/qcom/Makefile          |   1 +
- drivers/media/platform/qcom/iris/Kconfig      |   9 +++
- drivers/media/platform/qcom/iris/Makefile     |   3 +
- drivers/media/platform/qcom/iris/iris_core.h  |  29 +++++++
- drivers/media/platform/qcom/iris/iris_probe.c | 108 ++++++++++++++++++++++++++
- 6 files changed, 151 insertions(+)
+ drivers/media/platform/qcom/iris/Makefile          |   5 +-
+ drivers/media/platform/qcom/iris/iris_core.h       |  20 +++
+ .../platform/qcom/iris/iris_platform_common.h      |  36 +++++
+ .../platform/qcom/iris/iris_platform_sm8250.c      |  38 +++++
+ .../platform/qcom/iris/iris_platform_sm8550.c      |  38 +++++
+ drivers/media/platform/qcom/iris/iris_probe.c      |  23 ++-
+ drivers/media/platform/qcom/iris/iris_resources.c  | 171 +++++++++++++++++++++
+ drivers/media/platform/qcom/iris/iris_resources.h  |  19 +++
+ 8 files changed, 347 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/Kconfig b/drivers/media/platform/qcom/Kconfig
-index cc5799b9ea00..4f4d3a68e6e5 100644
---- a/drivers/media/platform/qcom/Kconfig
-+++ b/drivers/media/platform/qcom/Kconfig
-@@ -3,4 +3,5 @@
- comment "Qualcomm media platform drivers"
- 
- source "drivers/media/platform/qcom/camss/Kconfig"
-+source "drivers/media/platform/qcom/iris/Kconfig"
- source "drivers/media/platform/qcom/venus/Kconfig"
-diff --git a/drivers/media/platform/qcom/Makefile b/drivers/media/platform/qcom/Makefile
-index 4f055c396e04..ea2221a202c0 100644
---- a/drivers/media/platform/qcom/Makefile
-+++ b/drivers/media/platform/qcom/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-y += camss/
-+obj-y += iris/
- obj-y += venus/
-diff --git a/drivers/media/platform/qcom/iris/Kconfig b/drivers/media/platform/qcom/iris/Kconfig
-new file mode 100644
-index 000000000000..a9986aaa448d
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/Kconfig
-@@ -0,0 +1,9 @@
-+config VIDEO_QCOM_IRIS
-+        tristate "Qualcomm Iris V4L2 decoder driver"
-+        depends on VIDEO_DEV
-+        depends on ARCH_QCOM || COMPILE_TEST
-+        help
-+          This is a V4L2 driver for Qualcomm Iris video accelerator
-+          hardware. It accelerates decoding operations on various
-+          Qualcomm SoCs.
-+          To compile this driver as a module choose m here.
 diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
-new file mode 100644
-index 000000000000..913da225486b
---- /dev/null
+index 913da225486b..3e8474d064f4 100644
+--- a/drivers/media/platform/qcom/iris/Makefile
 +++ b/drivers/media/platform/qcom/iris/Makefile
-@@ -0,0 +1,3 @@
-+iris-objs += iris_probe.o \
-+
-+obj-$(CONFIG_VIDEO_QCOM_IRIS) += iris.o
+@@ -1,3 +1,6 @@
+-iris-objs += iris_probe.o \
++iris-objs += iris_platform_sm8250.o \
++             iris_platform_sm8550.o \
++             iris_probe.o \
++             iris_resources.o \
+ 
+ obj-$(CONFIG_VIDEO_QCOM_IRIS) += iris.o
 diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
-new file mode 100644
-index 000000000000..402f0aaef995
---- /dev/null
+index 402f0aaef995..a1afd4387b3a 100644
+--- a/drivers/media/platform/qcom/iris/iris_core.h
 +++ b/drivers/media/platform/qcom/iris/iris_core.h
-@@ -0,0 +1,29 @@
+@@ -6,8 +6,12 @@
+ #ifndef _IRIS_CORE_H_
+ #define _IRIS_CORE_H_
+ 
++#include <linux/types.h>
+ #include <media/v4l2-device.h>
+ 
++#include "iris_platform_common.h"
++#include "iris_resources.h"
++
+ /**
+  * struct iris_core - holds core parameters valid for all instances
+  *
+@@ -16,6 +20,14 @@
+  * @irq: iris irq
+  * @v4l2_dev: a holder for v4l2 device structure
+  * @vdev_dec: iris video device structure for decoder
++ * @icc_tbl: table of iris interconnects
++ * @icc_count: count of iris interconnects
++ * @pmdomain_tbl: table of iris power domains
++ * @opp_pmdomain_tbl: table of opp power domains
++ * @clock_tbl: table of iris clocks
++ * @clk_count: count of iris clocks
++ * @resets: table of iris reset clocks
++ * @iris_platform_data: a structure for platform data
+  */
+ 
+ struct iris_core {
+@@ -24,6 +36,14 @@ struct iris_core {
+ 	int					irq;
+ 	struct v4l2_device			v4l2_dev;
+ 	struct video_device			*vdev_dec;
++	struct icc_bulk_data			*icc_tbl;
++	u32					icc_count;
++	struct dev_pm_domain_list		*pmdomain_tbl;
++	struct dev_pm_domain_list		*opp_pmdomain_tbl;
++	struct clk_bulk_data			*clock_tbl;
++	u32					clk_count;
++	struct reset_control_bulk_data		*resets;
++	const struct iris_platform_data		*iris_platform_data;
+ };
+ 
+ #endif
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+new file mode 100644
+index 000000000000..293fb7e904b0
+--- /dev/null
++++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+@@ -0,0 +1,36 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#ifndef _IRIS_CORE_H_
-+#define _IRIS_CORE_H_
++#ifndef _IRIS_PLATFORM_COMMON_H_
++#define _IRIS_PLATFORM_COMMON_H_
 +
-+#include <media/v4l2-device.h>
++extern struct iris_platform_data sm8550_data;
++extern struct iris_platform_data sm8250_data;
 +
-+/**
-+ * struct iris_core - holds core parameters valid for all instances
-+ *
-+ * @dev: reference to device structure
-+ * @reg_base: IO memory base address
-+ * @irq: iris irq
-+ * @v4l2_dev: a holder for v4l2 device structure
-+ * @vdev_dec: iris video device structure for decoder
-+ */
++enum platform_clk_type {
++	IRIS_AXI_CLK,
++	IRIS_CTRL_CLK,
++	IRIS_HW_CLK,
++};
 +
-+struct iris_core {
-+	struct device				*dev;
-+	void __iomem				*reg_base;
-+	int					irq;
-+	struct v4l2_device			v4l2_dev;
-+	struct video_device			*vdev_dec;
++struct platform_clk_data {
++	enum platform_clk_type clk_type;
++	const char *clk_name;
++};
++
++struct iris_platform_data {
++	const struct icc_info *icc_tbl;
++	unsigned int icc_tbl_size;
++	const char * const *pmdomain_tbl;
++	unsigned int pmdomain_tbl_size;
++	const char * const *opp_pd_tbl;
++	unsigned int opp_pd_tbl_size;
++	const struct platform_clk_data *clk_tbl;
++	unsigned int clk_tbl_size;
++	const char * const *clk_rst_tbl;
++	unsigned int clk_rst_tbl_size;
 +};
 +
 +#endif
-diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
 new file mode 100644
-index 000000000000..0a54fdaa1ab5
+index 000000000000..b6f08fc327b5
 --- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_probe.c
-@@ -0,0 +1,108 @@
++++ b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+@@ -0,0 +1,38 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#include <linux/module.h>
++#include "iris_core.h"
++#include "iris_platform_common.h"
++#include "iris_resources.h"
++
++static const struct icc_info sm8250_icc_table[] = {
++	{ "cpu-cfg",    1000, 1000     },
++	{ "video-mem",  1000, 15000000 },
++};
++
++static const char * const sm8250_clk_reset_table[] = { "bus", "core" };
++
++static const char * const sm8250_pmdomain_table[] = { "venus", "vcodec0" };
++
++static const char * const sm8250_opp_pd_table[] = { "mx" };
++
++static const struct platform_clk_data sm8250_clk_table[] = {
++	{IRIS_AXI_CLK,  "iface"        },
++	{IRIS_CTRL_CLK, "core"         },
++	{IRIS_HW_CLK,   "vcodec0_core" },
++};
++
++struct iris_platform_data sm8250_data = {
++	.icc_tbl = sm8250_icc_table,
++	.icc_tbl_size = ARRAY_SIZE(sm8250_icc_table),
++	.clk_rst_tbl = sm8250_clk_reset_table,
++	.clk_rst_tbl_size = ARRAY_SIZE(sm8250_clk_reset_table),
++	.pmdomain_tbl = sm8250_pmdomain_table,
++	.pmdomain_tbl_size = ARRAY_SIZE(sm8250_pmdomain_table),
++	.opp_pd_tbl = sm8250_opp_pd_table,
++	.opp_pd_tbl_size = ARRAY_SIZE(sm8250_opp_pd_table),
++	.clk_tbl = sm8250_clk_table,
++	.clk_tbl_size = ARRAY_SIZE(sm8250_clk_table),
++};
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+new file mode 100644
+index 000000000000..f2f9e6f6775f
+--- /dev/null
++++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+@@ -0,0 +1,38 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
 +
 +#include "iris_core.h"
++#include "iris_platform_common.h"
++#include "iris_resources.h"
 +
-+static int iris_register_video_device(struct iris_core *core)
++static const struct icc_info sm8550_icc_table[] = {
++	{ "cpu-cfg",    1000, 1000     },
++	{ "video-mem",  1000, 15000000 },
++};
++
++static const char * const sm8550_clk_reset_table[] = { "bus" };
++
++static const char * const sm8550_pmdomain_table[] = { "venus", "vcodec0" };
++
++static const char * const sm8550_opp_pd_table[] = { "mxc", "mmcx" };
++
++static const struct platform_clk_data sm8550_clk_table[] = {
++	{IRIS_AXI_CLK,  "iface"        },
++	{IRIS_CTRL_CLK, "core"         },
++	{IRIS_HW_CLK,   "vcodec0_core" },
++};
++
++struct iris_platform_data sm8550_data = {
++	.icc_tbl = sm8550_icc_table,
++	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
++	.clk_rst_tbl = sm8550_clk_reset_table,
++	.clk_rst_tbl_size = ARRAY_SIZE(sm8550_clk_reset_table),
++	.pmdomain_tbl = sm8550_pmdomain_table,
++	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
++	.opp_pd_tbl = sm8550_opp_pd_table,
++	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
++	.clk_tbl = sm8550_clk_table,
++	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
++};
+diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+index 0a54fdaa1ab5..2616a31224f9 100644
+--- a/drivers/media/platform/qcom/iris/iris_probe.c
++++ b/drivers/media/platform/qcom/iris/iris_probe.c
+@@ -69,6 +69,19 @@ static int iris_probe(struct platform_device *pdev)
+ 	if (core->irq < 0)
+ 		return core->irq;
+ 
++	core->iris_platform_data = of_device_get_match_data(core->dev);
++	if (!core->iris_platform_data) {
++		ret = -ENODEV;
++		dev_err_probe(core->dev, ret, "init platform failed\n");
++		return ret;
++	}
++
++	ret = iris_init_resources(core);
++	if (ret) {
++		dev_err_probe(core->dev, ret, "init resource failed\n");
++		return ret;
++	}
++
+ 	ret = v4l2_device_register(dev, &core->v4l2_dev);
+ 	if (ret)
+ 		return ret;
+@@ -88,8 +101,14 @@ static int iris_probe(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id iris_dt_match[] = {
+-	{ .compatible = "qcom,sm8550-iris", },
+-	{ .compatible = "qcom,sm8250-venus", },
++	{
++		.compatible = "qcom,sm8550-iris",
++		.data = &sm8550_data,
++	},
++	{
++		.compatible = "qcom,sm8250-venus",
++		.data = &sm8250_data,
++	},
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, iris_dt_match);
+diff --git a/drivers/media/platform/qcom/iris/iris_resources.c b/drivers/media/platform/qcom/iris/iris_resources.c
+new file mode 100644
+index 000000000000..57c6f9f3449b
+--- /dev/null
++++ b/drivers/media/platform/qcom/iris/iris_resources.c
+@@ -0,0 +1,171 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#include <linux/clk.h>
++#include <linux/interconnect.h>
++#include <linux/pm_domain.h>
++#include <linux/pm_opp.h>
++#include <linux/reset.h>
++
++#include "iris_core.h"
++#include "iris_resources.h"
++
++static int iris_init_icc(struct iris_core *core)
 +{
-+	struct video_device *vdev;
-+	int ret;
++	const struct icc_info *icc_tbl;
++	u32 ret, i = 0;
 +
-+	vdev = video_device_alloc();
-+	if (!vdev)
++	icc_tbl = core->iris_platform_data->icc_tbl;
++
++	core->icc_count = core->iris_platform_data->icc_tbl_size;
++	core->icc_tbl = devm_kzalloc(core->dev,
++				     sizeof(struct icc_bulk_data) * core->icc_count,
++				     GFP_KERNEL);
++	if (!core->icc_tbl)
 +		return -ENOMEM;
 +
-+	strscpy(vdev->name, "qcom-iris-decoder", sizeof(vdev->name));
-+	vdev->release = video_device_release;
-+	vdev->vfl_dir = VFL_DIR_M2M;
-+	vdev->v4l2_dev = &core->v4l2_dev;
-+	vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
++	for (i = 0; i < core->icc_count; i++) {
++		core->icc_tbl[i].name = icc_tbl[i].name;
++		core->icc_tbl[i].avg_bw = icc_tbl[i].bw_min_kbps;
++		core->icc_tbl[i].peak_bw = 0;
++	}
 +
-+	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
++	ret = devm_of_icc_bulk_get(core->dev, core->icc_count, core->icc_tbl);
 +	if (ret)
-+		goto err_vdev_release;
-+
-+	core->vdev_dec = vdev;
-+	video_set_drvdata(vdev, core);
-+
-+	return 0;
-+
-+err_vdev_release:
-+	video_device_release(vdev);
++		dev_err(core->dev, "failed to get interconnect paths, NoC will stay unconfigured!\n");
 +
 +	return ret;
 +}
 +
-+static void iris_remove(struct platform_device *pdev)
++static int iris_pd_get(struct iris_core *core)
 +{
-+	struct iris_core *core;
-+
-+	core = platform_get_drvdata(pdev);
-+	if (!core)
-+		return;
-+
-+	video_unregister_device(core->vdev_dec);
-+
-+	v4l2_device_unregister(&core->v4l2_dev);
-+}
-+
-+static int iris_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct iris_core *core;
 +	int ret;
 +
-+	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
-+	if (!core)
-+		return -ENOMEM;
-+	core->dev = dev;
++	struct dev_pm_domain_attach_data iris_pd_data = {
++		.pd_names = core->iris_platform_data->pmdomain_tbl,
++		.num_pd_names = core->iris_platform_data->pmdomain_tbl_size,
++		.pd_flags = PD_FLAG_NO_DEV_LINK,
++	};
 +
-+	core->reg_base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(core->reg_base))
-+		return PTR_ERR(core->reg_base);
++	ret = devm_pm_domain_attach_list(core->dev, &iris_pd_data, &core->pmdomain_tbl);
++	if (ret < 0)
++		return ret;
 +
-+	core->irq = platform_get_irq(pdev, 0);
-+	if (core->irq < 0)
-+		return core->irq;
++	return 0;
++}
 +
-+	ret = v4l2_device_register(dev, &core->v4l2_dev);
++static int iris_opp_pd_get(struct iris_core *core)
++{
++	int ret;
++
++	struct dev_pm_domain_attach_data iris_opp_pd_data = {
++		.pd_names = core->iris_platform_data->opp_pd_tbl,
++		.num_pd_names = core->iris_platform_data->opp_pd_tbl_size,
++		.pd_flags = PD_FLAG_DEV_LINK_ON,
++	};
++
++	ret = devm_pm_domain_attach_list(core->dev, &iris_opp_pd_data, &core->opp_pmdomain_tbl);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++
++static int iris_init_power_domains(struct iris_core *core)
++{
++	const struct platform_clk_data *clk_tbl;
++	u32 clk_cnt, i;
++	int ret;
++
++	ret = iris_pd_get(core);
 +	if (ret)
 +		return ret;
 +
-+	ret = iris_register_video_device(core);
++	ret = iris_opp_pd_get(core);
 +	if (ret)
-+		goto err_v4l2_unreg;
++		return ret;
 +
-+	platform_set_drvdata(pdev, core);
++	clk_tbl = core->iris_platform_data->clk_tbl;
++	clk_cnt = core->iris_platform_data->clk_tbl_size;
 +
-+	return 0;
++	for (i = 0; i < clk_cnt; i++) {
++		if (clk_tbl[i].clk_type == IRIS_HW_CLK) {
++			ret = devm_pm_opp_set_clkname(core->dev, clk_tbl[i].clk_name);
++			if (ret)
++				return ret;
++		}
++	}
 +
-+err_v4l2_unreg:
-+	v4l2_device_unregister(&core->v4l2_dev);
++	ret = devm_pm_opp_of_add_table(core->dev);
++	if (ret) {
++		dev_err(core->dev, "failed to add opp table\n");
++		return ret;
++	}
 +
 +	return ret;
 +}
 +
-+static const struct of_device_id iris_dt_match[] = {
-+	{ .compatible = "qcom,sm8550-iris", },
-+	{ .compatible = "qcom,sm8250-venus", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, iris_dt_match);
++static int iris_init_clocks(struct iris_core *core)
++{
++	int ret;
 +
-+static struct platform_driver qcom_iris_driver = {
-+	.probe = iris_probe,
-+	.remove_new = iris_remove,
-+	.driver = {
-+		.name = "qcom-iris",
-+		.of_match_table = iris_dt_match,
-+	},
++	ret = devm_clk_bulk_get_all(core->dev, &core->clock_tbl);
++	if (ret < 0) {
++		dev_err(core->dev, "failed to get bulk clock\n");
++		return ret;
++	}
++
++	core->clk_count = ret;
++
++	return 0;
++}
++
++static int iris_init_resets(struct iris_core *core)
++{
++	const char * const *rst_tbl;
++	u32 rst_tbl_size;
++	u32 i = 0, ret;
++
++	rst_tbl = core->iris_platform_data->clk_rst_tbl;
++	rst_tbl_size = core->iris_platform_data->clk_rst_tbl_size;
++
++	core->resets = devm_kzalloc(core->dev,
++				    sizeof(*core->resets) * rst_tbl_size,
++				    GFP_KERNEL);
++	if (rst_tbl_size && !core->resets)
++		return -ENOMEM;
++
++	for (i = 0; i < rst_tbl_size; i++)
++		core->resets[i].id = rst_tbl[i];
++
++	ret = devm_reset_control_bulk_get_exclusive(core->dev, rst_tbl_size, core->resets);
++	if (ret) {
++		dev_err(core->dev, "failed to get resets\n");
++		return ret;
++	}
++
++	return 0;
++}
++
++int iris_init_resources(struct iris_core *core)
++{
++	int ret;
++
++	ret = iris_init_icc(core);
++	if (ret)
++		return ret;
++
++	ret = iris_init_power_domains(core);
++	if (ret)
++		return ret;
++
++	ret = iris_init_clocks(core);
++	if (ret)
++		return ret;
++
++	ret = iris_init_resets(core);
++
++	return ret;
++}
+diff --git a/drivers/media/platform/qcom/iris/iris_resources.h b/drivers/media/platform/qcom/iris/iris_resources.h
+new file mode 100644
+index 000000000000..b0217399030a
+--- /dev/null
++++ b/drivers/media/platform/qcom/iris/iris_resources.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#ifndef _IRIS_RESOURCES_H_
++#define _IRIS_RESOURCES_H_
++
++struct iris_core;
++
++struct icc_info {
++	const char		*name;
++	u32			bw_min_kbps;
++	u32			bw_max_kbps;
 +};
 +
-+module_platform_driver(qcom_iris_driver);
-+MODULE_DESCRIPTION("Qualcomm Iris video driver");
-+MODULE_LICENSE("GPL");
++int iris_init_resources(struct iris_core *core);
++
++#endif
 
 -- 
 2.34.1
