@@ -1,140 +1,331 @@
-Return-Path: <linux-media+bounces-16914-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16915-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5709607A6
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 12:41:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2D69607AE
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 12:42:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 448401F231EA
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 10:41:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 52C0EB20FB5
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 10:42:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 980C519E7F6;
-	Tue, 27 Aug 2024 10:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F9B819E7F7;
+	Tue, 27 Aug 2024 10:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="KCQu+W1f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtC6TKEF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA67817BEA1;
-	Tue, 27 Aug 2024 10:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724755306; cv=pass; b=pKX1T6QFj+yRArePV4afMvUDTYQiSZ6vnSZLXmT+TpnRpRW7I86q68qTQw/OZyqBDp2R/LkWYvP7FU7ROFIRtDzJb7fmc/beTENV9UwngYFgXndY3inNRcvNMd1LLlcvVqEvXB6AJl/kCuP1r+Rr2WokBH6S6PJ1PcJC4oRy7KY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724755306; c=relaxed/simple;
-	bh=5HHGbS2Ck0+c1kgxpji/owgfxzWRPttMSwUR3sN4fG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XQbNhiJgt83q0l2PZKrYS7fl3Otk3YDt1OQMFdTsII5DLB23sO0Fy+gEPEQKL7cd6rRuAS4svYuCa6qqd0/rL3VNwQOuohuAZNfSu9zDp3hqfJZ/reudOFZDWWwCdeSUY9g0oYaKJBUmF3QMWMjPoTW99ufO8GGPN4ciUr/2ny0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=KCQu+W1f; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4WtPH70vBZz49Q5R;
-	Tue, 27 Aug 2024 13:41:39 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1724755301;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bNdu/cjz6/mzEUvlwPYpUFMy3HYifTNHwSjHW2dS8tw=;
-	b=KCQu+W1fnYwS4f/4Arn6TJc8CG+MWGC3Vsfp9ey9dNkqOfBItwpO+1ki6q6Kh4xeWtU6iG
-	b1hROBKYkTzoLoNS5uMrNOkT7zlOKkK4A53GnGokV3b11eucBLKyka1NMnccE4K1mAlrJH
-	opOXqiKZ6IFedvidMipxWfLLR31aMsAp8KeIgDSbk7u9cPpO2AoyDAMek8mQ16zWOKX0q/
-	1tBYg9QLAGUuZoAX30I/+KK4X6mKeCLdSMOewwmyGkUyM49UccEvWruAoKZaxkeNllhzj7
-	XT3LfWki+Dbw1zxyilEuhmIIJHt1mi/4udAAX+2PSbAglBo4ZjzNe9+4VOpM+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1724755301;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bNdu/cjz6/mzEUvlwPYpUFMy3HYifTNHwSjHW2dS8tw=;
-	b=JWTFZ3G3YcCzkuFg6DU7fQKqwvqXyI8HzVgf3N3PvN1HKR27gZ/YpbwD3OvQc2jOp6R1wO
-	zXoO/mhL6sUkSbDj29myrd95w+sw7MS/b3U/lHiJ/G1R+ENvblnwHtlyxuPlHhofnesgrP
-	l3oV3hTrZ38wiH9NwdVYhhjRUC1ySWG4x2u0+zBkdV+u9UGLajNCn+qsc1xJM7yruVmtqZ
-	p5nv/GJhQmU7kTe1rHr3HBbZ3Bzx1bw48yNnEJUVxXbxnwcQkQ8XcCKxsLsECC4Fu8BQ04
-	mtAe6Y/NGdLmS1UefW2oZ9PXfBX/XQeTubE6qQEmuexYHLgOsJ9+XemFMywNsw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724755301; a=rsa-sha256;
-	cv=none;
-	b=sS2scnDLKWtv1UeBT9OK0S6isAWHRCBztmYhmD0NCXWu1N84HMzdNKf2DVWybcTw1jMVyD
-	Vs+X4ThlsjzmuFF4RBQNLrp+otb19wueF1CEM8XKNgn2nSn7YT33BFfnA/G1Srew3PQglu
-	5Nnxbp5d2+z5MNMTQxfrIJe78vgoSqOW3snEYbkYCpko3YSdtufDORJPpjuJjC8LnHgzSg
-	jftQTqiKTxQdCW0yHmqEMJCvjBVbaLJRNWHPRC6cs9PQ3kku/B8tUmcBUQDfahWgOovsk6
-	eH7YhC+MKi3/a8kH5wYkgX0nzCjH4vbat/RzW1TBYTpxFFk/9Rsz3ht9Attlrw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id DE609634C93;
-	Tue, 27 Aug 2024 13:41:37 +0300 (EEST)
-Date: Tue, 27 Aug 2024 10:41:37 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Rob Herring <robh@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 2/9] of: property: add
- of_graph_get_next_port_endpoint()
-Message-ID: <Zs2tYUh3PXv-0e20@valkosipuli.retiisi.eu>
-References: <87cylwqa12.wl-kuninori.morimoto.gx@renesas.com>
- <87a5h0qa0g.wl-kuninori.morimoto.gx@renesas.com>
- <20240826154009.GA300981-robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B8A149E0E;
+	Tue, 27 Aug 2024 10:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724755345; cv=none; b=qu/TGuhDc2QtocSTO9bXUO4vvcqvudxVgWfHx6kIP9ycLi2jkkfBYDtaV7OYLvJho3V+Bkj3KFONIxGE+LSqAJv5cr2FHi6xgt6LH2a0v1EG2c/kc2GEs50XA6NDjz8Pz3JcZbI2Chf4YAZuzwSa7H9KJaiyrIgmyt5WOLiH2sQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724755345; c=relaxed/simple;
+	bh=optni2zqwG4oY11mtDJO9MyF1qkPwJAC3GJE4Ba9Ri0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SHn2Jk2nkLp8/Hk3E4buj17IsEhpdY+DqKT950e/is9vaa/VtOy62GshOPu0HsBNTEukLmjJnx73KBEEuwZKlvLb3CFpNrMa4mB+xeXzZB0V5PbVQCnPsYAxsE8BgFmZspJ8ysbIdfac3hKXLEobSsosDC6RYswfkZfNu7z+JCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtC6TKEF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E2D0C4DE1F;
+	Tue, 27 Aug 2024 10:42:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724755344;
+	bh=optni2zqwG4oY11mtDJO9MyF1qkPwJAC3GJE4Ba9Ri0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XtC6TKEF+GnLoobLhH0HBYgfOh9IEmQxMlCGk+UuxLtwxKKK0hPX5zpEnB3D2mlLy
+	 vUo/+Ke+7/wCe6V0CwhdRQk1NU0P3/Ux3wSQOu+y3qrtjTosVhqJCJKTODvEEQoNd+
+	 WjbuHtINBA+WvFGIiX/nCysP/9s2gI9OpVwFc6BvITGTbLQL6PlhYwfaBhHk3X1vzQ
+	 4NSzwjimkU/REyDawRUIywPlR5zzR0FHN1qtC73ZBYo3FS6/LYKU0SbryBD1nqwXad
+	 C+xm0l2nts9IOB3ezVYO+6m6McZXq7rC2W4q+ywQCfKGVgCu7Lq3n+ziJojpMiWt4A
+	 D+bBkcf4KgFsQ==
+Message-ID: <618f4890-bdb5-48f0-b487-5123f167c322@kernel.org>
+Date: Tue, 27 Aug 2024 12:42:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240826154009.GA300981-robh@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 01/29] dt-bindings: media: Add sm8550 dt schema
+To: quic_dikshita@quicinc.com, Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
+ <20240827-iris_v3-v3-1-c5fdbbe65e70@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240827-iris_v3-v3-1-c5fdbbe65e70@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Rob, Kunimori-san,
-
-On Mon, Aug 26, 2024 at 10:40:09AM -0500, Rob Herring wrote:
-> On Mon, Aug 26, 2024 at 02:43:28AM +0000, Kuninori Morimoto wrote:
-> > We already have of_graph_get_next_endpoint(), but it is not
-> > intuitive to use in some case.
+On 27/08/2024 12:05, Dikshita Agarwal via B4 Relay wrote:
+> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > 
-> Can of_graph_get_next_endpoint() users be replaced with your new 
-> helpers? I'd really like to get rid of the 3 remaining users.
+> Add a schema description for the iris video encoder/decoder
+> on sm8550.
 
-The fwnode graph API has fwnode_graph_get_endpoint_by_id() which can also
-be used to obtain endpoints within a port. It does the same than
-of_graph_get_endpoint_by_regs() with the addition that it also has a
-flags field to allow e.g. returning endpoints with regs higher than
-requested (FWNODE_GRAPH_ENDPOINT_NEXT).
+A nit, subject: drop second/last, redundant "dt sche,a". The
+"dt-bindings" prefix is already stating that these are bindings/dt schema.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
-Most users dealing with endpoints on fwnode property API use this, could
-something like this be done on OF as well? Probably a similar flag would be
-needed though.
+And subject is neither correct nor complete. You did not add here SM8550
+SoC, but SM8550 Iris. Plus what is SM8550? TI SM8550? Samsung SM8550?
 
--- 
-Kind regards,
+You have entire commit subject to say briefly such details without
+repeating obvious "dt schema".
 
-Sakari Ailus
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>  .../bindings/media/qcom,sm8550-iris.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> new file mode 100644
+> index 000000000000..a7aa6a6190cf
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> @@ -0,0 +1,162 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,sm8550-iris.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm IRIS video encode and decode accelerators
+
+IRIS or Iris? Why it is every time written differently?
+
+If IRIS then explain the acronym in description.
+
+> +
+> +maintainers:
+> +  - Vikash Garodia <quic_vgarodia@quicinc.com>
+> +  - Dikshita Agarwal <quic_dikshita@quicinc.com>
+> +
+> +description: |
+
+Do not need '|' unless you need to preserve formatting.
+
+> +  The Iris video processing unit is a video encode and decode accelerator
+> +  present on Qualcomm platforms.
+> +
+> +allOf:
+> +  - $ref: qcom,venus-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+
+Drop oneOf
+
+> +      - enum:
+> +          - qcom,sm8550-iris
+> +
+> +  power-domains:
+> +    maxItems: 4
+> +
+> +  power-domain-names:
+> +    oneOf:
+
+Drop oneOf
+
+> +      - items:
+> +          - const: venus
+> +          - const: vcodec0
+> +          - const: mxc
+> +          - const: mmcx
+> +
+> +  clocks:
+> +    maxItems: 3
+> +
+> +  clock-names:
+> +    items:
+> +      - const: iface
+> +      - const: core
+> +      - const: vcodec0_core
+> +
+> +  interconnects:
+> +    maxItems: 2
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: cpu-cfg
+> +      - const: video-mem
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  reset-names:
+> +    items:
+> +      - const: bus
+> +
+> +  iommus:
+> +    maxItems: 2
+> +
+> +  dma-coherent: true
+> +
+> +  operating-points-v2: true
+> +
+> +  opp-table:
+> +    type: object
+> +
+> +required:
+> +  - compatible
+> +  - power-domain-names
+> +  - interconnects
+> +  - interconnect-names
+> +  - resets
+> +  - reset-names
+> +  - iommus
+> +  - dma-coherent
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,rpmh.h>
+> +    #include <dt-bindings/clock/qcom,sm8550-gcc.h>
+> +    #include <dt-bindings/clock/qcom,sm8450-videocc.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interconnect/qcom,icc.h>
+> +    #include <dt-bindings/interconnect/qcom,sm8550-rpmh.h>
+> +    #include <dt-bindings/power/qcom-rpmpd.h>
+> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+> +
+> +    iris: video-codec@aa00000 {
+
+Drop unused label
+
+> +        compatible = "qcom,sm8550-iris";
+> +
+
+No blank line here
+
+> +        reg = <0x0aa00000 0xf0000>;
+> +        interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +        power-domains = <&videocc VIDEO_CC_MVS0C_GDSC>,
+> +                        <&videocc VIDEO_CC_MVS0_GDSC>,
+> +                        <&rpmhpd RPMHPD_MXC>,
+> +                        <&rpmhpd RPMHPD_MMCX>;
+> +        power-domain-names = "venus", "vcodec0", "mxc", "mmcx";
+> +
+> +        clocks = <&gcc GCC_VIDEO_AXI0_CLK>,
+> +                 <&videocc VIDEO_CC_MVS0C_CLK>,
+> +                 <&videocc VIDEO_CC_MVS0_CLK>;
+> +        clock-names = "iface", "core", "vcodec0_core";
+> +
+> +        interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
+> +                         &config_noc SLAVE_VENUS_CFG QCOM_ICC_TAG_ALWAYS>,
+> +                        <&mmss_noc MASTER_VIDEO QCOM_ICC_TAG_ALWAYS
+> +                         &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
+> +        interconnect-names = "cpu-cfg", "video-mem";
+> +
+> +        memory-region = <&video_mem>;
+> +
+> +        resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>;
+> +        reset-names = "bus";
+> +
+> +        iommus = <&apps_smmu 0x1940 0x0000>,
+> +                 <&apps_smmu 0x1947 0x0000>;
+> +        dma-coherent;
+> +
+> +        operating-points-v2 = <&iris_opp_table>;
+> +
+> +        iris_opp_table: opp-table {
+> +            compatible = "operating-points-v2";
+> +
+> +            opp-240000000 {
+> +                opp-hz = /bits/ 64 <240000000>;
+> +                required-opps = <&rpmhpd_opp_svs>,
+> +                                <&rpmhpd_opp_low_svs>;
+> +            };
+> +
+> +            opp-338000000 {
+> +                opp-hz = /bits/ 64 <338000000>;
+> +                required-opps = <&rpmhpd_opp_svs>,
+> +                                <&rpmhpd_opp_svs>;
+> +            };
+> +
+> +            opp-366000000 {
+> +                opp-hz = /bits/ 64 <366000000>;
+> +                required-opps = <&rpmhpd_opp_svs_l1>,
+> +                                <&rpmhpd_opp_svs_l1>;
+> +            };
+> +
+> +            opp-444000000 {
+> +                opp-hz = /bits/ 64 <444000000>;
+> +                required-opps = <&rpmhpd_opp_turbo>,
+> +                                <&rpmhpd_opp_turbo>;
+> +            };
+> +
+> +            opp-533333334 {
+> +                opp-hz = /bits/ 64 <533333334>;
+> +                required-opps = <&rpmhpd_opp_turbo_l1>,
+> +                                <&rpmhpd_opp_turbo_l1>;
+> +           };
+
+Fix the indentation above.
+
+> +        };
+> +    };
+> +...
+> 
+
+Best regards,
+Krzysztof
+
 
