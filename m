@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-16942-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16943-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF25196161E
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 19:57:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B483B961657
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 20:06:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D37FD1C23640
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 17:57:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EC758B22901
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 18:06:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F28C1D2787;
-	Tue, 27 Aug 2024 17:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B3871D1756;
+	Tue, 27 Aug 2024 18:03:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="qMBazXUk";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cHCYZFTn"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="s34m8H/o";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bh2Nl+zB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
+Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CAA1D175E;
-	Tue, 27 Aug 2024 17:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D04C1D4604;
+	Tue, 27 Aug 2024 18:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724781463; cv=none; b=YrQ0hOkfHTCvUtjCoefIImIQBdAl3ylP+vF7goDrsVo0+Bb25nijaeFVe7L9JuGmrXhvD87i1C0UF+6Ink8bJeD+edjLMk5MW6Vd3bSlwrBTfqbbesFAdKQxvKzA9cOGTrK/29ojkjT47ffCef9X4M65RFspgcFz1C8GS/aDgHM=
+	t=1724781820; cv=none; b=oOYEM46rTdeVwV9irkRKLQKmU3zYr55n9TrqNUAf5sPTc/0d1Gs+nFB+/ueArROs4XYzRqWCWbQvlCBqC9SS+E9OOtOxjYXrXZdHw0mQTasff4HFhESZVYSyPfnJUO/0ZSvXLUlJPPmZjESlMvOE0iM75up07GUDK9rQSRIkovM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724781463; c=relaxed/simple;
-	bh=K58de2dlXE9yYaLqqwxVDvi+/jp8jxEixn6x5nx0a/U=;
+	s=arc-20240116; t=1724781820; c=relaxed/simple;
+	bh=fi75CE9Dmnr402+Qru85rQJ+VU/jjpjocjDbI+llpcE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rj43nfCzJjq3rJyAy3Lfy3Tt4b42B33Fv9YMg5Kc5c1txH16R9BWwxamkTQT4l6LPBYC7txgrcDeZpFfyyRFgp4wMERDG7Vuine3R3Zk8WgF7/aNPu+6Dz5aqU8xstI63TNhPj/bs4+/9eBaJOytXCKl2S3Y1x/H7Z2Y0un/aHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=qMBazXUk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cHCYZFTn; arc=none smtp.client-ip=103.168.172.154
+	 Content-Type:Content-Disposition:In-Reply-To; b=QgZ0OWAmVM65CXEvylu+BY6Cwhsa4z/6Fj1EvHyLnMXPShX4Zrkw6biUXggjmO/ymYnm58fdFpTAwZF2elcjbb57/+tLOQzdn2Fyg9U55QAcQSuxS4O07+7dM4nbJrPSQp0A3BCZsusnU3YHUwaufJ4I4BS1bM/eXwFoG6enEIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=s34m8H/o; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Bh2Nl+zB; arc=none smtp.client-ip=103.168.172.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.nyi.internal [10.202.2.44])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id C20DB1151AFE;
-	Tue, 27 Aug 2024 13:57:38 -0400 (EDT)
+Received: from phl-compute-05.internal (phl-compute-05.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 67C29138FC5C;
+	Tue, 27 Aug 2024 14:03:37 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 27 Aug 2024 13:57:38 -0400
+  by phl-compute-05.internal (MEProxy); Tue, 27 Aug 2024 14:03:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1724781458;
-	 x=1724867858; bh=8Gj0A7820TOsyxUBr4fhFPqFN6vdl1FYpMIiADPsq7A=; b=
-	qMBazXUk42cnR14iqpWOGdidzB+2eJ5pcUfQKNzW845WEFsGHKVLgiATLAwK9jjc
-	GD8lsJXbBbA+vBFaWss6mgLpbtBIrcyu9pch/4DcrHvgp7uF1fX4UCOaRSBM++2Y
-	4fY0z/81jOwe7ZxigGlKZm+5FEqLJ8M0LjKvGONEfghBqJ5Cnjk5PO3WjO4834c7
-	MIUdyaIZgW74ZzM2/hd9tIxeV3nxgDiqk54yXi0mneLtPj4mb1BS3QyYq5EQbfjk
-	5G75DCMwDohI3LMUSLoCJ75NhR5M9TiRxpOFQNUPouS17OttBwkscVLHfyfX0peB
-	1Iup2QEUYMIOGlxjh2ZtgA==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1724781817;
+	 x=1724868217; bh=cn4ZviJGDcdyhhzDBSryAJZ+KuZM5gRUrsULy8EG294=; b=
+	s34m8H/oz8CnQon+ffKodLcUuHJUaBAC32+Xcdjllz3kioVmUP334t/6k19M11zq
+	tHMV0y84iMEM2g9QAQ5BAEQUz6USfwFrEOc8KNP0sJQYAPAoJeOl+EvTpEWjfvlZ
+	jyLePSBKaUZdwEM6hdkGa+GthhFs0Yn4RqiDed37lF3jIWgfYBCha8TtjLCtuB5f
+	E9ktYL2Fa9dJ2uIYzVyln4panoqFwizWYiK/5PJ4+y9riZ1ON2awhRyzBPaazDab
+	on0J6W7lgfC+gVbGMIBIE3An5bunf2/4KJ/kmyeO5F6a28rqn6V0uJXUc/Pq8r4W
+	bSta/Jm2XQGpgDmIYZcq6w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724781458; x=
-	1724867858; bh=8Gj0A7820TOsyxUBr4fhFPqFN6vdl1FYpMIiADPsq7A=; b=c
-	HCYZFTnNfIpbyjvCAOkyFlU5A4qwA56QokUea6AIbjxyGFjcXAi53w9o8Frdw3rx
-	efvHTQKPafFi61W0Hni/em26EElzLG6BeIgiPqFDLXwyJ37b+LKWEXRF/JliXhnr
-	bQVCHWXayazKi8EBM9ZucUe+gHYGLHIwd0JtloRdw/R/yFAHaxPtuPzgO/aFCb8e
-	wWy8gvSmGm2Ce1RpQIpgzAERaDg2rimCMkuJXSO/yHPZlmc2TVJphf9sa5Qy7Bry
-	6J1SF7Z+Aq4846bDFXIyNxH6RZpquRIUt/HeEwEp2TXvpMG76fJ65GNu0HoBs36F
-	OnUVAl8Cg5In1gaUxu3OA==
-X-ME-Sender: <xms:khPOZrHSH6PN74QM8ryw3cI6ceoPYrgFeOlI8iwDvv3MZshX8SMLxQ>
-    <xme:khPOZoXX-Qyox8CJcDh3bsj2fKBwpEtgrMSCmxEio3Kzf-jODVXvS26yc68TxF5NL
-    Bqhj2DSpyzgVYKBQHg>
-X-ME-Received: <xmr:khPOZtKZ_vmZZUXf3o32DH128BB6IxVyNeCxe0f0FNtBpMbBbQ-z6vFCoWbG_PoaZK0QvJBrKWRusb7gCsh7Qi9Og8FFmS78iA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeftddguddukecutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724781817; x=
+	1724868217; bh=cn4ZviJGDcdyhhzDBSryAJZ+KuZM5gRUrsULy8EG294=; b=B
+	h2Nl+zBZBZXHFeW49rUu2OhDiYiUQ+3OqHOCb7BHAOvGSVik0lS2tnx0Qyo5T5WT
+	OKTfC/xZoxXGYCTV7TyvfehFlGq3IYV/DpKrTU234pbnMbny/fMzXy+6ElmYua7o
+	D/3HyTtnaMeJfsoQAAVhbRRcigybxrBbwhc6L4dD8lX8fBW1uLFyrE0cb3xVT5YK
+	ARMBowHRCVP9yToO56YbzDXBp7nE7+QtPXdom5y8XDa5Sa4OEKUABXqcRVfe95KC
+	/sBTbMBewokaHZHer0qQSClqeRei9+ISb/0fuNeZm2ECyDWRbpIJ17FNNUG8PR0V
+	dP8h8FicwlhPXaDbW4hug==
+X-ME-Sender: <xms:-RTOZjZMnREAYueLgxbjuYc_8cuNJLqOmBIKmCa0ulF6HC5HFjtwyQ>
+    <xme:-RTOZiYTMDBqTK08p2f4yKs-1DHPFkmOl5g9UsGEZbpVar0iYyFbvMrOfYmeaqeU0
+    AubgsckOIUjHRNYMu4>
+X-ME-Received: <xmr:-RTOZl-jFEj2oKZRmkSAoTo_61ZTbQATUmezVwm9e1cQ3RubtIyuItu7ya38mIeJPuUn0J2qJpdTjPSMYORgiMFIMWV1Mdh5Hg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeftddguddulecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
     hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
@@ -74,38 +74,40 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeftddguddukecutefuodetgg
     thhtvghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftd
     dvleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
     nhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrd
-    hsvgdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
-    pehsrghkrghrihdrrghilhhushesihhkihdrfhhipdhrtghpthhtohepmhgthhgvhhgrsg
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtoh
-    hnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhn
-    uhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirg
-    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvges
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinh
-    hgsehlihhsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:khPOZpGWFV5RBCRCwpgBGHp2C6rBswI_fGb1LNDffLMygFzX0urU7A>
-    <xmx:khPOZhUmZzwpr1R9imC09niNOfcMVSp_PSyKX4K1juY4zMTFEdJvjA>
-    <xmx:khPOZkOxZDbPoCuubiKq9MitJlvGAqCxW-xVA6fLR1fmMTXCxyl1JQ>
-    <xmx:khPOZg09g5ZhGT4oooSD0QqA53VvX5Ij98vHctN8zcMyUmKrX4DFaA>
-    <xmx:khPOZqNnZ9b_-BXW9nPnOeVi2zWUCTHWkdv6XbYNRitIofz_5mvwUqug>
+    hsvgdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrod
+    gutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhho
+    uhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvg
+    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlih
+    hsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:-RTOZppVCH7HxsyUmpT8DF67RJL_l0gPI5lMHhmPEoaynm3dY1Ihag>
+    <xmx:-RTOZuqSsNhGgd7rYY-XfjGsP2F6BpPbvzRHT8x1TfL4l7D7F6FJgw>
+    <xmx:-RTOZvRly8PwQG_qBO4NBsV9wh_6fdccvWt3Zh4RHFCO_CAYdgSrIA>
+    <xmx:-RTOZmoywSLz8k7jDklbWk0B0vbyVpvKFxFtWkay9xjUFCZQ3D1_YA>
+    <xmx:-RTOZrTdlj41cuq2t39m2__EBzNDVMZRWkb_MNolwm--W_z08XhYOeH2>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Aug 2024 13:57:37 -0400 (EDT)
-Date: Tue, 27 Aug 2024 19:57:35 +0200
+ 27 Aug 2024 14:03:36 -0400 (EDT)
+Date: Tue, 27 Aug 2024 20:03:34 +0200
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@iki.fi>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
-Message-ID: <20240827175735.GH2636928@fsdn.se>
+	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: i2c: maxim,max96712: Add compatible
+ for MAX96724
+Message-ID: <20240827180334.GI2636928@fsdn.se>
 References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
- <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
- <Zs3Vey0NEdGJAyTE@valkosipuli.retiisi.eu>
+ <20240827131841.629920-2-niklas.soderlund+renesas@ragnatech.se>
+ <7dadf8dd-ad54-4e4f-a336-adc3444df4b0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -115,162 +117,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zs3Vey0NEdGJAyTE@valkosipuli.retiisi.eu>
+In-Reply-To: <7dadf8dd-ad54-4e4f-a336-adc3444df4b0@kernel.org>
 
-Hej Sakari,
+Hi Krzysztof,
 
-Tack för feedback.
+Thanks for your feedback.
 
-On 2024-08-27 13:32:43 +0000, Sakari Ailus wrote:
-> Hejssan,
+On 2024-08-27 16:53:20 +0200, Krzysztof Kozlowski wrote:
+> On 27/08/2024 15:18, Niklas Söderlund wrote:
+> > The MAX96712 and MAX96724 are almost identical and can be supported by
+> > the same driver, add a compatible for MAX96724.
 > 
-> Tack för lappan!
+> The driver statement in this context is meaningless. You did not make
+> them compatible so what does it matter?
+
+Agreed, this commit message can be improved.
+
 > 
-> On Tue, Aug 27, 2024 at 03:18:41PM +0200, Niklas Söderlund wrote:
-> > The MAX96724 is almost identical to the MAX96712 and can be supported by
-> > the same driver, add support for it.
-> > 
-> > For the staging driver which only supports patter generation the big
-> > difference is that the datasheet (rev 4) for MAX96724 do not describe
-> > the DEBUG_EXTRA register, which is at offset 0x0009 on MAX96712. It's
-> > not clear if this register is removed or moved to a different offset.
-> > What is known is writing to register 0x0009 have no effect on MAX96724.
-> > 
-> > This makes it impossible to increase the test pattern clock frequency
-> > from 25 MHz to 75Mhz on MAX96724. To be able to get a stable test
-> > pattern the DPLL frequency have to be increase instead to compensate for
-> > this. The frequency selected is found by experimentation as the MAX96724
-> > datasheet is much sparser then what's available for MAX96712.
 > > 
 > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > > ---
 > > * Changes since v1
-> > - Group in series together with binding.
+> > - Group in series together with driver change.
 > > ---
-> >  drivers/staging/media/max96712/max96712.c | 26 ++++++++++++++++++-----
-> >  1 file changed, 21 insertions(+), 5 deletions(-)
+> >  .../devicetree/bindings/media/i2c/maxim,max96712.yaml        | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
 > > 
-> > diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> > index 6bdbccbee05a..6bd02276c413 100644
-> > --- a/drivers/staging/media/max96712/max96712.c
-> > +++ b/drivers/staging/media/max96712/max96712.c
-> > @@ -17,8 +17,10 @@
-> >  #include <media/v4l2-subdev.h>
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> > index 6c72e77b927c..26f85151afbd 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> > @@ -25,7 +25,10 @@ description: |
 > >  
-> >  #define MAX96712_ID 0x20
-> > +#define MAX96724_ID 0xA7
-> >  
-> >  #define MAX96712_DPLL_FREQ 1000
-> > +#define MAX96724_DPLL_FREQ 1200
-> >  
-> >  enum max96712_pattern {
-> >  	MAX96712_PATTERN_CHECKERBOARD = 0,
-> > @@ -31,6 +33,7 @@ struct max96712_priv {
-> >  	struct gpio_desc *gpiod_pwdn;
-> >  
-> >  	bool cphy;
-> > +	bool max96724;
-> >  	struct v4l2_mbus_config_mipi_csi2 mipi;
-> >  
-> >  	struct v4l2_subdev sd;
-> > @@ -120,6 +123,7 @@ static void max96712_mipi_enable(struct max96712_priv *priv, bool enable)
-> >  
-> >  static void max96712_mipi_configure(struct max96712_priv *priv)
-> >  {
-> > +	unsigned int dpll_freq;
-> >  	unsigned int i;
-> >  	u8 phy5 = 0;
-> >  
-> > @@ -152,10 +156,11 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
-> >  	max96712_write(priv, 0x8a5, phy5);
-> >  
-> >  	/* Set link frequency for PHY0 and PHY1. */
-> > +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
-> >  	max96712_update_bits(priv, 0x415, 0x3f,
-> > -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
-> > +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
-> >  	max96712_update_bits(priv, 0x418, 0x3f,
-> > -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
-> > +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
-> >  
-> >  	/* Enable PHY0 and PHY1 */
-> >  	max96712_update_bits(priv, 0x8a2, 0xf0, 0x30);
-> > @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
-> >  	}
-> >  
-> >  	/* PCLK 75MHz. */
-> > -	max96712_write(priv, 0x0009, 0x01);
-> > +	if (!priv->max96724)
-> > +		max96712_write(priv, 0x0009, 0x01);
+> >  properties:
+> >    compatible:
+> > -    const: maxim,max96712
+> > +    items:
+> > +      - enum:
+> > +          - maxim,max96712
+> > +          - maxim,max96724
 > 
-> It'd be nice to have a macro for this, espeically now that the driver
-> supports more than one chip.
+> Driver change tells these are compatible and version is detectable.
+> Express it in the binding with fallback or explain in commit msg why
+> they are not compatible.
 
-What do you mean by macro? To test for priv->max96724, a define for the 
-register name or something else?
+It is, and as you point out the commit message can be improved. It 
+should have made it clear that what is supported by the staging driver 
+(test pattern generator) is similar for the two devices, the full device 
+have larger differences.
+
+Before this driver can move out of staging the full GMSL side of things 
+needs to be added and there they differ more and will need different 
+bindings as one device have more PHYs then the other for example. Run 
+time detecting is not enough to be able to verify that in DTS files.
+
+I will fix this for the next version.
 
 > 
-> >  
-> >  	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
-> >  	max96712_write_bulk_value(priv, 0x1052, 0, 3);
-> > @@ -303,6 +309,7 @@ static const struct v4l2_ctrl_ops max96712_ctrl_ops = {
-> >  
-> >  static int max96712_v4l2_register(struct max96712_priv *priv)
-> >  {
-> > +	unsigned int dpll_freq;
-> >  	long pixel_rate;
-> >  	int ret;
-> >  
-> > @@ -317,7 +324,8 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
-> >  	 * TODO: Once V4L2_CID_LINK_FREQ is changed from a menu control to an
-> >  	 * INT64 control it should be used here instead of V4L2_CID_PIXEL_RATE.
-> >  	 */
-> > -	pixel_rate = MAX96712_DPLL_FREQ / priv->mipi.num_data_lanes * 1000000;
-> > +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
-> > +	pixel_rate = dpll_freq / priv->mipi.num_data_lanes * 1000000;
-> >  	v4l2_ctrl_new_std(&priv->ctrl_handler, NULL, V4L2_CID_PIXEL_RATE,
-> >  			  pixel_rate, pixel_rate, 1, pixel_rate);
-> >  
-> > @@ -438,8 +446,15 @@ static int max96712_probe(struct i2c_client *client)
-> >  	if (priv->gpiod_pwdn)
-> >  		usleep_range(4000, 5000);
-> >  
-> > -	if (max96712_read(priv, 0x4a) != MAX96712_ID)
-> > +	switch (max96712_read(priv, 0x4a)) {
-> > +	case MAX96712_ID:
-> > +		break;
-> > +	case MAX96724_ID:
-> > +		priv->max96724 = true;
-> > +		break;
-> > +	default:
-> >  		return -ENODEV;
-> > +	}
-> >  
-> >  	max96712_reset(priv);
-> >  
-> > @@ -463,6 +478,7 @@ static void max96712_remove(struct i2c_client *client)
-> >  
-> >  static const struct of_device_id max96712_of_table[] = {
-> >  	{ .compatible = "maxim,max96712" },
-> > +	{ .compatible = "maxim,max96724" },
 > 
-> How about adding compatible specific data to convey the model, instead of a
-> switch? See e.g. drivers/media/i2c/ccs/ccs-core.c for an example.
+> Best regards,
+> Krzysztof
 > 
-> You could store the DPLL frequency there, too.
-
-Good idea, will do so in next version.
-
-> 
-> >  	{ /* sentinel */ },
-> >  };
-> >  MODULE_DEVICE_TABLE(of, max96712_of_table);
-> > 
-> 
-> -- 
-> Trevliga hälsningar,
-> 
-> Sakari Ailus
 
 -- 
 Kind Regards,
