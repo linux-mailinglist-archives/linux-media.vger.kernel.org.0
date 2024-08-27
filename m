@@ -1,89 +1,79 @@
-Return-Path: <linux-media+bounces-16922-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16923-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31959609F4
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 14:21:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA6E960A7E
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 14:34:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2FC2FB21159
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 12:21:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E99C1C22CB1
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 12:34:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0603A1A01BC;
-	Tue, 27 Aug 2024 12:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="v96LigO3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99CA21BB687;
+	Tue, 27 Aug 2024 12:32:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D18619D08C
-	for <linux-media@vger.kernel.org>; Tue, 27 Aug 2024 12:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFA951C2DA7;
+	Tue, 27 Aug 2024 12:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724761294; cv=none; b=nikvfiNlDJCP2ZpgTnq810MCL3hPKPN122e9XLCWG6UiUl1gJtu4q2VDS9qW/3eUJvRrcalNtA7W2uQJKO8Lu+cSogjBzZ/3/JeXP4Vns2uUSPUlKXWVuxPp4bVD4BryZRPMl8UF0aGeNfnFLsOzxDyy7ejJVYnZqrw11SBwNpY=
+	t=1724761927; cv=none; b=pVl1xhiiUOe2yHZbysQn0wtsTEIyQE4eiU5wqIpT5186X6Z43EjH2cHrLDpvSVi71/VNsnIkIMpZG9K6D0EhG7XCdH69G8nqk25A8LQVIoLa26plvRRKYb8dRyJfQq8Wa9dAcyTdsJtYLLiXhaMYEgkRwkk4cHOimfVqMlE4M0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724761294; c=relaxed/simple;
-	bh=gYFbggpUIcjozh8uXfitok+HJo0yILVF8md++1GKmsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZvAMi+6+ccQwfg9jeu7UdlSGAxh5NAFKMfmoFYMZxDGevZtZ+saqdsMVVYccLBkIWWM2FMOd5O3LvkRLvSLYwYM2mrQ7mJSQXD1JZAq7CSR2uqc+Qw/hwdybu85aI2/qPwqMAFgUdqOSSdEWCEzZ2U165OBAfcsPYGKRHDdLp4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=v96LigO3; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB1BB9FF;
-	Tue, 27 Aug 2024 14:20:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724761223;
-	bh=gYFbggpUIcjozh8uXfitok+HJo0yILVF8md++1GKmsY=;
-	h=Date:From:To:Cc:Subject:From;
-	b=v96LigO3cMCR7wG+lJRV8g9VcRp8dkWcZfSrEJxA996CWqeGFpJfUZl0tyuNHRTYq
-	 BTRH2MtwhL222HLUB7Uy7BJiAoX7tc8GuXc/j7uSfC2K47gFUBioOczfVtwYx3YjwE
-	 bMyFVHNGG/Mz8MysGTVFj5GASGOIiquyimrg/GR0=
-Date: Tue, 27 Aug 2024 15:21:25 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [GIT PULL FOR v6.12] videobuf2 fix
-Message-ID: <20240827122125.GA17846@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1724761927; c=relaxed/simple;
+	bh=Wm/BkMezv2xCJOsSmzbRpJVXjxQ8zUW0dbYK/XHmGEE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p9cGqXjua0qA0R02k/GpiBer7XV6siTlQW1IBW9VO7FQKkBEClnQp+SXKF4JBCQK+2LDtLzo30qaTg/031jfBH17Y9BJz74tPMpxhJBH8c92pIZs5zj++Z9RR5tTd0seCkqQw/hap9UDyDVOPmaFAo5uxAtgo//HL5CrtroUF3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69B28DA7;
+	Tue, 27 Aug 2024 05:32:30 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C67E53F762;
+	Tue, 27 Aug 2024 05:32:01 -0700 (PDT)
+Message-ID: <91ef4036-6468-4ecc-ac14-0146130d8da4@arm.com>
+Date: Tue, 27 Aug 2024 13:31:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-mapping: clear mark DMA ops as an architecture
+ feature
+To: Christoph Hellwig <hch@lst.de>, iommu@lists.linux.dev
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-media@vger.kernel.org,
+ virtualization@lists.linux.dev, xen-devel@lists.xenproject.org
+References: <20240824035817.1163502-1-hch@lst.de>
+ <20240824035817.1163502-2-hch@lst.de>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240824035817.1163502-2-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello Mauro, Hans,
+On 24/08/2024 4:57 am, Christoph Hellwig wrote:
+> DMA ops are a helper for architectures and not for drivers to override
+> the DMA implementation.  Unfortunately driver authors keep ignoring
+> this.  Make this more clear by renaming the symbol to ARCH_DMA_OPS,
+> have the three drivers overriding it depend on that.  They should
+> probably also be marked broken, but we can give them a bit of a grace
+> period for that.
 
-The following changes since commit ea2e2ea551abf0ce8350f82e8cd431b7f8a1e5e9:
+Nit: from a quick survey of "git grep 'select ARCH_'", maybe 
+ARCH_HAS_DMA_OPS might be the clearest and most consistent name? 
+Otherwise, now that any potential confusion from drivers/iommu is no 
+more, I too thoroughly approve of the overall idea.
 
-  media: dt-bindings: qcom,sc7280-venus: Allow one IOMMU entry (2024-08-25 09:16:08 +0200)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/next-media-videobuf-20240827
-
-for you to fetch changes up to e5700c9037727d5a69a677d6dba25010b485d65b:
-
-  media: videobuf2: Drop minimum allocation requirement of 2 buffers (2024-08-27 14:57:38 +0300)
-
-----------------------------------------------------------------
-media: videobuf2 regression fix
-
-----------------------------------------------------------------
-Laurent Pinchart (1):
-      media: videobuf2: Drop minimum allocation requirement of 2 buffers
-
- drivers/media/common/videobuf2/videobuf2-core.c | 7 -------
- 1 file changed, 7 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
-
+Acked-by: Robin Murphy <robin.murphy@arm.com>
 
