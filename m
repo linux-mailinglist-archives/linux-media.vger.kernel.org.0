@@ -1,115 +1,86 @@
-Return-Path: <linux-media+bounces-16859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16860-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC89595F9A1
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 21:24:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 357A795FDED
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 02:14:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3FB16B21B15
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2024 19:24:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B10861F230B7
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2024 00:14:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A77D1993A3;
-	Mon, 26 Aug 2024 19:24:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 701341FAA;
+	Tue, 27 Aug 2024 00:14:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ge8KPhx9"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="QJIgPK1O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010059.outbound.protection.outlook.com [52.101.228.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C285198E9B
-	for <linux-media@vger.kernel.org>; Mon, 26 Aug 2024 19:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839F620E6;
+	Tue, 27 Aug 2024 00:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.59
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724700278; cv=fail; b=YmgmgiXolI898ZKuKsqogpZlFQQ4WMoXAoyppko4gJrjtppr2voP6PMjtIpKOg+Q33pqJrhPYytwXiD5m4t34cuMkw9XtmNvYQ8vXrAFp4gXhT2B6yYLkSe9W8/xGkmy0s1K6yzP9ox1dX9LRkxS0Upta0U4eoaryb5GBmXBCbc=
+	t=1724717664; cv=fail; b=BGLnPRPMMHBalkP3dFZzp2cbTP7BbiZSgPi5xvjUXGow2/+/HmLRef2j10YhHdpVZjGvzj7qIJOQfvB1kZOuSJgIpZc111UMMhLjAHVTdlqk97HWe/LC9NYab/m0Dopu3F65RAEA0sIF6Bn3MZH2rk/cmiAEoQ4KV3CWsvRo2rE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724700278; c=relaxed/simple;
-	bh=240VKphlzz+2bTNP1nRpayLHX5EbDhRUBPdLJkrwNbE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Dsrg6dfVZYUVCsnff11Nfs4ZOvQphS/VAttf/k3MSwXzIH5+2GRko3Z6q8NpRPsGZT2GqO4XBT3lrIX/yTLdWpj++qXz0EdlGhpypAA5lz6Owbjc6MnU8S92msBhh9i57cSoLb3t/XLVNtA0KFAbz02Lc1Ouiw+w0Twi7dE6e9I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ge8KPhx9; arc=fail smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724700276; x=1756236276;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=240VKphlzz+2bTNP1nRpayLHX5EbDhRUBPdLJkrwNbE=;
-  b=Ge8KPhx9swG2bVNXFgynKzbSaq6wN7OFHHyGfCxwssITBStYhJSKAr+/
-   06LDb7yJ911/3MELkf6zyIHFakDa9Vc29XA/nMAFcc8K437OiJ5dfqMnj
-   aaMzBhYpPI6j1L8md5uYkpyZHq5VP9tethGtn20tVINFjkSJuhYCXYY7H
-   NV35JHsn0TCSkcM6mxtgy3efxUCTo9kkeLjLKtDzv1ocy9xXNXeZyJuvB
-   vwtZNM0KybkdObbCe58TlBXhNqE9AuhkCjJ8X/1SMC3h3pNFxjXrq/pSp
-   lefMnsS61pES4GBmkdQ+3bRuiZL4vHiNF9RaagpdmVd8sMQWrLYUg6Yjv
-   A==;
-X-CSE-ConnectionGUID: dU9AUSxmS1inCkHMMe9qbQ==
-X-CSE-MsgGUID: MWujcdzrTIq5+6e52FR6qw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22952858"
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="22952858"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 12:24:36 -0700
-X-CSE-ConnectionGUID: 3Xu6IYGCSaeFuS4nE8TNFA==
-X-CSE-MsgGUID: KzTXSIRASAiXlmnbd2ApKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="62283229"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Aug 2024 12:24:36 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 26 Aug 2024 12:24:35 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 26 Aug 2024 12:24:35 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 26 Aug 2024 12:24:35 -0700
+	s=arc-20240116; t=1724717664; c=relaxed/simple;
+	bh=IpkDZ9Wa4Bou4dmZrlDD83Snb4c3fyuAK38Q3/b1gsY=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=OFSV+QMiauTKN5plXkLi8AhVpGM0sZyrOMK2anxb3TiZyYqOj/SGGicBNr5tfZB/vYx5HOkFOykp9l7HBd3FXOEl+8ilJ4cZVI8JxXO33G9XPeO8oC9Oc+NdDKacxWt/1tEpkZa+oH4R94Vu26EVFU8612UwX4mZUQFLQj1tvvk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=QJIgPK1O; arc=fail smtp.client-ip=52.101.228.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mylE1D2j4tEzhI1+l+NQ0VK3pUpGRp+dh8S1+iWo6w9Mt3iFwBleSXvCEa01t4XoYlHEvI1QDEJBuIkS7xi+wTkY7yN8jya/aoexkuRNXP5tbarpclbIJWYDjFaLnVKPL3KrhQB9NxitwQNRbC89MTgLCDdZMR3fa4sbpub05bGSXu6DAsIlhOkTTUUYhi0+DUrR57lUpyylstTQsgnAPJfbgeREvN+ANAt7EcoC64CFbibqzGyfOs+Aajzw2I41TGDGP7gbQjv7VkJoXHpTaiOn1zLbiivPKFMLGqObzaotNU7zwRGK2lytYEjkGFx6sIH5PprcLIetckClUhq6qA==
+ b=sv7ARZKwHqE1zp8RTuBj9i9Q2xLojtRrybBwVCjdB78D6yiaYVsxDnznm/K6qghtsEAvbK0yxqktezWs6Aaz22xfnYw214jtVNsQJ2cR2UFh/g59xOiptY5WLPulvQHvg/SpI+zU89w0WsJ+DXUCAbpkdrTWPGc8QMjR8ZOEQKMcphGVJFLKjlyzr0Ayc75LKJbxB8NlsFBNzmT2fZGSVSqga6JzB7UTBTgIDWodeC9dDE3MJ9UHVEXA0ULBsB9cZiurhE4A3eI4T0iHs1RQVKf0ezPrr78ZMURm+5RpJsVvh2L1kBRffO8SMTB7i+M8LfXWtOlQG+2gRVqtaZnAxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AN6YDHN+9WmpZ7Z87E+15fuuWV10De7gmXyTvlK7Lnc=;
- b=Eh5fOrl6PA64GGf8DgV6QfPuZ2t509ERTzocrimhGsweSKpPK8AGn0YgwqIoqgwxUrCJddgRFYXi7LoXL/H+OCNvOxOB+U/PbZ9FoWV0EAtGiMTEgnFzfbeISJTnpAqxiZM3QKUEyVlRhrLSn/CeCkL5hjetf0lVm7ymcGmPgf4o4vERncRKc7GWSRNfCiyUrtDHRQjfE2pRKaF1BHcsUl3kZ8GShPZtGuJnDzYvlsJ55reMwVYK3Zckg13snHHpWjxwhs5NGVCQo11fHXum12Apv0CQxaL+ib9TLlq2kPMhbDXWpCoCH8bWbcH+y/B8uvnJymBqbCd7vcQhlXhwrg==
+ bh=B5vRbbKr0kmOd1+9YQ01igm53wxBBQVAH6XY8hZa2zc=;
+ b=t/NEIxYT2xJ1GFLhpbrklr867m9iXzMETt5BNqWnqlC+ET93AJ4p5Fqhmv1B9+xnaPvDoDCaImlxaUCr6b/01REW9KZBZb3T01271D73y6nxjxW39SCQAqi7pQnJ8a9/K/2ocN5XCDDUhzDD+52GSW2wdyFGzFuJAnvAL1nycGgA3PTjGWAF9ZWv8Em3jmo8SGld7hOaoT/i7jGhOsnaoRvYbXiykyUQd/IHjvD4BSj5YXVl4UmHz3zKxB2qsqe/9Iu+OJXu/89XCuIsBigp+B+hJ991bYjPZJUH2vdutz65llWUl//uxAdOCZTnB6dZLBPNuEQiO5iDMRvhXDEBUg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B5vRbbKr0kmOd1+9YQ01igm53wxBBQVAH6XY8hZa2zc=;
+ b=QJIgPK1OiuyQl/7Y0kiGkv7nGpaLFmkUK3it6XhJup0grJWEEI141aCF/7YHpmuyt1MYga9vwSKOeX9ziqjR68KV7Dgw8Wc44KB75Fp6t3/1BY0IFVohfQ4HxqWb2oTpEjZcfWdDEHVlLcw0OjgbCJy98oWoov949Z4YFtu7rc4=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by IA1PR11MB6194.namprd11.prod.outlook.com (2603:10b6:208:3ea::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Mon, 26 Aug
- 2024 19:24:32 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.7875.018; Mon, 26 Aug 2024
- 19:24:32 +0000
-Date: Mon, 26 Aug 2024 19:23:17 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-CC: <intel-xe@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <thomas.hellstrom@linux.intel.com>,
-	<sumit.semwal@linaro.org>
-Subject: Re: [PATCH v2 1/2] dma-buf: Split out dma fence array create into
- alloc and arm functions
-Message-ID: <ZszWJaX9I3sh5jxZ@DUT025-TGLU.fm.intel.com>
-References: <20240826170144.2492062-1-matthew.brost@intel.com>
- <20240826170144.2492062-2-matthew.brost@intel.com>
- <aebe8cee-8674-42f0-b112-439da1ef7073@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aebe8cee-8674-42f0-b112-439da1ef7073@amd.com>
-X-ClientProxiedBy: BYAPR07CA0047.namprd07.prod.outlook.com
- (2603:10b6:a03:60::24) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TY3PR01MB11369.jpnprd01.prod.outlook.com
+ (2603:1096:400:3d0::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Tue, 27 Aug
+ 2024 00:14:16 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Tue, 27 Aug 2024
+ 00:14:16 +0000
+Message-ID: <87bk1ebz59.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org, linux-sound@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v3 2/9] of: property: add of_graph_get_next_port_endpoint()
+In-Reply-To: <20240826154009.GA300981-robh@kernel.org>
+References: <87cylwqa12.wl-kuninori.morimoto.gx@renesas.com>	<87a5h0qa0g.wl-kuninori.morimoto.gx@renesas.com>	<20240826154009.GA300981-robh@kernel.org>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 27 Aug 2024 00:14:15 +0000
+X-ClientProxiedBy: TYCP286CA0223.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c5::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -117,223 +88,160 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA1PR11MB6194:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb48c614-1bb5-4d58-8338-08dcc604b693
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY3PR01MB11369:EE_
+X-MS-Office365-Filtering-Correlation-Id: f88d6fed-e7ec-4d31-22a4-08dcc62d300e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?NOAJeJNx0RHE/QsDcTbyFaaskC7MqkyxGpFKV7RRlQLJklw3cRpLqJFnDH?=
- =?iso-8859-1?Q?1cRDsjPt8uzrKxeDTOO7htdvxW87vCj5jeHwHLppyGncT6dTW0/01xxQLa?=
- =?iso-8859-1?Q?ag32f3i0YZTQlhWynDtezjrNcPWZZQjkBzCYlS2IHVHP2gjw5mj+/mwiuA?=
- =?iso-8859-1?Q?/0RN7/bn5MV1BmMFZ4SqsqvkYNYyUiI8OKIKhlDcn8xOT/Vmv9Uf9quX+3?=
- =?iso-8859-1?Q?PC8jdrXf7z4sQ0aI7A+npD58ElaudpTZPm7co4HFn+Bx3WPkSXKk5EdaAZ?=
- =?iso-8859-1?Q?R8QUr2/SKS3TSc3MsiyumlraW4F6S8lpVBKI0QT0c3zkIRTL0/JvKFrSiC?=
- =?iso-8859-1?Q?wG643Feh0uruMVe0NHoL9BxWYQYudT2CzKIPalRlX/gym7X9r5+I6A/VOz?=
- =?iso-8859-1?Q?6SZ6K+eC36F62svQyBNKpLIgGUWrJB88i89MQUT13I3q5oOi/V6r8JY9x4?=
- =?iso-8859-1?Q?bkquPo4xJITeKt25Bn1NcaMWXd2M9w6zZLiwPHmNXpF7GMlJh1O26lnWK0?=
- =?iso-8859-1?Q?aP9Uy4Sha4nLbNMjyLYJwJjXLg/mfRGckPmy/CYm80X2o8tB1DHkReb8rS?=
- =?iso-8859-1?Q?0GOH0ekN55H2njFVk6gfJ6pDuyScABdkT8BOoE/DnBUSYIUZYD1KCIgT7P?=
- =?iso-8859-1?Q?SjPCxDRoYs5+aq0sF9N7he17rVv7QOWqZwOcyrK/OXdqzmpxe+THlxwP5u?=
- =?iso-8859-1?Q?DsXrxXlhKJqRgvp+nEPUinhAafOyIEYdopVujfBAujQTNXCx0koAGdZx5F?=
- =?iso-8859-1?Q?BIzefkybZn5Fe+BUvk4UlWFmpbi+0QxIHwP7p1v4GGOOrxQ9PjmbzJeQ3n?=
- =?iso-8859-1?Q?CT1duBWbWykq0H9e2nyDXHcZaOJxUFqN0+Nzn3O15ymWY7LhFpFN7BY3wM?=
- =?iso-8859-1?Q?FzoK9jELmILsvyhsM+NLy8VAGEKUTgM0JFZiOJzpr0dPE54ELZLSzGqKC5?=
- =?iso-8859-1?Q?5pVDsyJG2pEDEIVthsJ4h5DqpJNIhQN9fdunGDxyTVMLaWPfZXe4a2eRrS?=
- =?iso-8859-1?Q?uWOi+qEKaaJJ12wFbOq/pe4oo8dwT5gsKCrL0yxiaPCN6VvbHrjeb1RExT?=
- =?iso-8859-1?Q?xNGk3KefgY/3ItWmBgChpnRrwDVmtKj/T6O9zantUGKn5ULj0zMoyZx7F2?=
- =?iso-8859-1?Q?Didfom6ZQbHtk/kLzgPw/Zb8VO4VhCj9azkro6JJYDQSznJ9kL9WpP2A0b?=
- =?iso-8859-1?Q?zIdnzZIgEJmnRrEs8VqWhzamUEzbymKDHEhYAFK+H81DmLo72G3yTe9lq0?=
- =?iso-8859-1?Q?F71dFk9w0FeWhftS2cijum3UlFBPLGe3+rEqBFj7GecvTaURnpybvGIdEi?=
- =?iso-8859-1?Q?7/eWSl5nOIZmnYTmm0//4ZXD0J99grSkM9SAJFyCF6cm3OigbpsS/4+/2U?=
- =?iso-8859-1?Q?COo1P1syyteap49Sb5BpQPQ0Hv+S7DoQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|52116014|7416014|376014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ukEwedCF9ZCnbua4L7KJNsJMfo875WD8V8lKC+CbTs+J8nXZGplLjnE1XjYg?=
+ =?us-ascii?Q?IjYaPArT5gyHaAsSZ4dbC1IRhyugT6ikYjRT2QnQzmF1dRDkYTfEwfy0vdMl?=
+ =?us-ascii?Q?Y2yhBNzlQgQJfSGvt67X+8TMyJj8BX728RsOX6VusynhlhDiK2YnrMbI5KzC?=
+ =?us-ascii?Q?k2z+QSce9taYt1dOwBZa6mXOg7swGyUx1mYdwIcyYKQYApeAj6NP8Ymnp1rj?=
+ =?us-ascii?Q?tRRkLw0sIGiXHD4+s/Cmfz4OQ1wcw46X7z5gcMixtp1vcE7HuQZO3pwQiZFO?=
+ =?us-ascii?Q?BKzbkpF65iTHpdyGTIdwZ/5UUlnOr26tM8jxXEotsplO3++MAFzgdCuLJFby?=
+ =?us-ascii?Q?64IVhsA0zFX2KmNcUoCkoln0bPcmO854QpyNLCniu8kTms4XrHTYTv+rMpki?=
+ =?us-ascii?Q?RP8S19lCQNMtLWoJFNHVCHtm1PLvgHMODjTNVGic2kVBpz+7oxTh/y824K87?=
+ =?us-ascii?Q?pgF8Cp5NQWdYYj+tjC1pgaX7BQHMbBXa1gT/fhm2hXEvWcAPTWD7k3Dg2sg3?=
+ =?us-ascii?Q?3AHW7jc1sQXDtdv38Wje4QCIP0cl3v8i7+hmUZXD61NTuq2T+1mEUaS2FJzQ?=
+ =?us-ascii?Q?l+s0gOHFsmnOezMl8Dk3+KLTBTGTaUcJPTXkgbwYw4LDbpjFBp+WVECtdzAC?=
+ =?us-ascii?Q?4zCkYi9qUzSaplQPCHWa2hMPenyXnkrtFXlOVSSmxjC/2CVOBVRXwf4JMPWS?=
+ =?us-ascii?Q?jp2Dujei/6PhcZrsxNphbXjfuMG/4SrEbJQOadulGFYBghkfBIKosuY7JplI?=
+ =?us-ascii?Q?Y0BzIE0In54poxiUFvvVeZeVh/HTM9yB1h11gS72vvyy5AWYhYYIrE5fRSg4?=
+ =?us-ascii?Q?LP7/UazKYSPdu+BOsi+fD+hVtbYyhfF3FZwInxIsLsaRtKgnHycTRlVHNgLa?=
+ =?us-ascii?Q?ASsYU1qeOlJwWJNiUKmweFGAX7BH3kjGw54OmeWGHOZxKFVkIfcJpGJomuZz?=
+ =?us-ascii?Q?0Z3cVgca49oarT0zWKAY8jQ4th3slCeIHXbk9H6IU2/J7PhBYL0IEgBhxN3c?=
+ =?us-ascii?Q?0L0ILVawR5booMyfZ96T3O23fbPtZNFRBYyoaqUo0+XkpirUjtLHNwaWu21V?=
+ =?us-ascii?Q?Amdw4tfK00J2eleRoPwm0P/HbhnMfVLCn5T59qLTa9Hv39yN5DILs2v+QHk1?=
+ =?us-ascii?Q?/fEO8OQRArI7BZxfGL1zILBJF4HIEPlSpnDCVNiPoFwgYMc9feDkYiorstVG?=
+ =?us-ascii?Q?EKUvJKHVYkJp73bsK+wH8Ixtj8tSG0JfYJ6On+RsLRbDFV56zp2LYo+C7WuQ?=
+ =?us-ascii?Q?KyYbMpPlRCmokDq6xuZuO8PE47J5LOLdvobOqppp6ZHFDUD1EF3/wSxQg/v/?=
+ =?us-ascii?Q?SSkM5chyqu95UHLlr6CXxE/HbXHl+kYL5cC31nIJMZAZQSXTJAVLt+8y6SoZ?=
+ =?us-ascii?Q?lnpEGpYHyq65uVQJ+CjokD84xJH/uLKcV4EOaZkCJdqHrA1Z2w=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?RgxP3fv7T+cp+dSk4C+7tNHNGF5L5V/moonZav/sp3aGsWuyJCLVXWlXW7?=
- =?iso-8859-1?Q?9GAW42NTY2/nlw7YO/BxQrELZ4VP4lFgPc9KtKVYUjKLCfXU4h0yTteRaO?=
- =?iso-8859-1?Q?n4Uz216X8/WvE8B8SSFyAKVBEUxz2Y5As4uNEklG5LF5bDCq1FOSTMdVRO?=
- =?iso-8859-1?Q?h6xx1lvZeF6l1TudHDRE2JwgxLGc+RPZ/DTqTidOR2ajXMKutxuJ7FftSj?=
- =?iso-8859-1?Q?8UHzBLEqX9x/HDlsQStJ0Y1IAukNTPKsyvFrs4vRw4a0u8MmxXEFzMh5Ro?=
- =?iso-8859-1?Q?1iyHfxUp/mIDt2s6sZxw6x631Z5ImqG/+HZTZIDXLUdOIGSI5JC88/sn5I?=
- =?iso-8859-1?Q?0kTGPPPugBnVUTUwlKL7ve6T1MsdGao4L+gZzTv/IJTUmEqKBV2ETJKOjH?=
- =?iso-8859-1?Q?qykrBIG+MpKZKV6YlbENoDcZV8mba8CEs73TpiDGhKn12iPAuFgoIIn9Wq?=
- =?iso-8859-1?Q?B4lV9w48y0kJk4nv7b42/ArH76j1BaeY630Js4wpzJvCStdnCycn6DsDh2?=
- =?iso-8859-1?Q?6H2DxLPw+1YXdJrizLNhK+CA7Oesbj31ZkTGj+hsPJqErgiJsf8JaDZbs6?=
- =?iso-8859-1?Q?5c1NV1f0cnHBKiGYCyEZ6JMiECuwWcovjQ4j+hkRadU5k0ZSvE3MVPO6XX?=
- =?iso-8859-1?Q?DAwY6aDFMSpaRE92OgJsGb1xUeQI+B28O4zYUUkpNAhRviFkz6FNEKV9gG?=
- =?iso-8859-1?Q?BKPP/V8c3G5txMeenL9d44qhINMfKcyYAI8slpmNcRSMP5qn72ad+vVEof?=
- =?iso-8859-1?Q?dlqDoEaDjGpUbmp2BUwT7JS85HIrz1bYs7Eoeh1+KUfXACv5Ijo/YFN8WN?=
- =?iso-8859-1?Q?nZUfDa0dTr2EntARbV6jaXk7sgloJrTVonw6Ge18JlUeIIYZRdpNMWogiN?=
- =?iso-8859-1?Q?jzoinHjHXshrS/gZGpMvjGkx6yI5jbRxHF79Lf8zBs0h+Q0T1U0DOslJUQ?=
- =?iso-8859-1?Q?nBUreq+9BxbxLgR/iR+KNgoG23S2JfE3nwOYcrdPDdacvEFZ9u0fLy55L+?=
- =?iso-8859-1?Q?kCtX/u6r5GeGpZnuECo5ATDxSPaSYKz7glp48fgbS56fJ15AOZ01Z3aZ4K?=
- =?iso-8859-1?Q?9STUmbUQYdJtI5RK/YsEUz2yhEdvDy/+nwF56kOndQyXQykHfNQC42TD8I?=
- =?iso-8859-1?Q?Ap/BATblgEtYJxevyaft+KbUY4aWbLsEU5h8twlUJU0H0E4U2S+ti6auMQ?=
- =?iso-8859-1?Q?puDFVcpqXdhas174KnxteSsW9duokx5k1oDOWS41eDZG1TA5dHRLIUxqcK?=
- =?iso-8859-1?Q?SADm/zu9p0tKmXz8SLLHXcQFKtIp9AzoyLrXPKQGrA+g69UDVnbb9Bugkx?=
- =?iso-8859-1?Q?YHMnXtr6NXm+wHvnben0Gjw+KD0Lmnzgd/VbOhROM9nS8Yt2A+HtDa8ndW?=
- =?iso-8859-1?Q?HTsxcDN/i792BDhP5xklMape0UjPZ9/Wc2VWozFM/HHzA25RQoNWbq8SbV?=
- =?iso-8859-1?Q?5kSPROQapUv/idbn+TfPkbsn6/DNCPlxZZlfxh51XVUsDjiauUCPJ7js0J?=
- =?iso-8859-1?Q?Fddxl82QkwfdTg3AupyN8jpXQj7GW/BkWlBF3XB3e6WdVUtovbQPCcHp0F?=
- =?iso-8859-1?Q?eS7DAkuQgJgKzsK13hB7DXGyykeoyNFSEhSp/WFS9i0+qC5ofBbuh3czsO?=
- =?iso-8859-1?Q?swCTZ3F9PIJr35hALhzw36HtnMBUMPYhPuFOKynYHiHoByzOLBKRiKKw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb48c614-1bb5-4d58-8338-08dcc604b693
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?tadecjq1OCDnnWaUpWizHXqxNB79N37RCAKfH6CvokYZUibgMKb4R6fy5rcs?=
+ =?us-ascii?Q?1uvlmvSyHd6j76/zxWu0IDmRpK3M17d7cWbyqyUql9Ma+MdQrZNx9/NKhzyq?=
+ =?us-ascii?Q?OzUFeVIqXamdWHob+f0GBneqqaKjJaCovxXFnwJ2sPeiLl2pQ+vZJ53UWuZA?=
+ =?us-ascii?Q?tWBCI5CFpAab7hIMQF9Py13SSRfpMtqlD8QVGuxtLF7fQIKYNQwf1QD2IjUl?=
+ =?us-ascii?Q?5W6hlRqRMbtw/Ntt+p+TsRwK507WBrY3QUGs7Wk+qVu0F9PY8EojuUUNYyUX?=
+ =?us-ascii?Q?pQQIvinGKcm+l3Leb5YJu6DaIRBIMZAr5Hvugyv2vcptsndb7pzlMeuL4RlI?=
+ =?us-ascii?Q?4cAbHF8V3eoM6nGNRaGAHUVV3pTdIV6L5M+FbEf+MBe4JC+6jbFP0B+FH5qF?=
+ =?us-ascii?Q?Qlc/neDKs8g9+H/4yaq+ezR0ZuxHoY5wsezR7K+sP98zT+kobRSEdVNtFkYv?=
+ =?us-ascii?Q?ZBHj86lSM5Kb1bLKnmwIcsy9ecbQ7NAop7TyHu7fH5jOPs2kYYPLtwEEE2os?=
+ =?us-ascii?Q?5GlkJfEC6a7xhvmeWd3ygBDRGcjF3xVpBTym9zIkxnUP73bUsk6tJKw2mDii?=
+ =?us-ascii?Q?jtBASPW/D9U7rTgdk95pkG99h23/yI31Q7jf5NxFERYjqSiWn7uNtpQGPq1h?=
+ =?us-ascii?Q?hhvKOct9Nuf7ktaVKedSVle9if3FxkUxN9kX2CAAVjiz83HJELL+WY3k3E41?=
+ =?us-ascii?Q?OANFqoXq2EM2s9A0KDGhH1BYrZqcL4tNyaJlTUWfa/ZYq2LB+6DXKmgX1Fhx?=
+ =?us-ascii?Q?wO1zPybVr4L3dCy6RO7ADWv02RZU+0mZqnHKV6XmwJCrMfX1B/pqXDxeJTgZ?=
+ =?us-ascii?Q?EpppYgbEiu/PBcikMT7ed4Us3nknuiJySJxih8Lr+DfsgkRMv8dv9sfyaEYU?=
+ =?us-ascii?Q?lBC++9n55PT/l1nb622+Vkf9du0paai3E92KSc1CqpneMdQylFhO3cs19qiU?=
+ =?us-ascii?Q?5YLDYDE/RRFX7TKwNbZP1DOnV3RwxYrrH2nnH5i9bcYYCecIcKDloNJXXbSc?=
+ =?us-ascii?Q?8fADdae94Y/dWxf13BY74cqM6JFG1yXPSXiqkzitUQl+a2OGJ22YVLcG3zaF?=
+ =?us-ascii?Q?Z7ss9ndVtKHrIZKG/6za6wBeI0Z22C9oelU1fX13r647/syrH/fhMIVXCaT9?=
+ =?us-ascii?Q?PveDWR/3db7f7gYtD5xVEZXOd8Oc9t0vEH9z67zOwmssOXrF0NhVYrgv6Q9p?=
+ =?us-ascii?Q?ds4TO8AuH/pr/sAmQX69HY1i5rALH0QvdsbXsfjc2M3fLzBg168KrKSS74z9?=
+ =?us-ascii?Q?KnjYvthQTCmo4tbsHpEYPdoLa/l6b50OHNT4LTkklwfsKecY2907pW3tsBPZ?=
+ =?us-ascii?Q?wKU5yKm0IOJLCPOCQvV9PYKjhhXqhvD3IZnJRtxuwEXuLUCpXzNBwPHsqAU0?=
+ =?us-ascii?Q?EZRMgvTEhcSUh4WPLbcQooXhjkHLQD1QNvhsMD5uuo4o+HEHi1ygbVMmgVE1?=
+ =?us-ascii?Q?RAWknCEbV/zvHeBObBlIJS6Viq/Gz+ODSKCfrPs9WB/YK/lOgN5HZbMNJjLV?=
+ =?us-ascii?Q?xOwiE5TZBzjNWRsaVsgfBKAI2WlpzuGsHhNnLsrKAX/0gm3Crq3akvbRzWQ6?=
+ =?us-ascii?Q?AU5OLQOpTzQgP+AnGJVRH0ls9lQ3LrBloYv3IiUDjq8aQ/8MfLc9mIQrTGdq?=
+ =?us-ascii?Q?tcwgH4WPTHxI4ZzDhhWqNOo=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f88d6fed-e7ec-4d31-22a4-08dcc62d300e
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2024 19:24:32.6100
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2024 00:14:16.4533
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NsSQm4kgTsWvJIHoz+q05FOPDnYEEYwHHHytBXf2oU9ctg9JeX8gg20964etYtO6U8OiSkuT68yK8tyd5o1X2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6194
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: XthM9pfiEHdEPmepcrJ9IT90qP75BIgTMbOLTXADPU8TzaDCK2ZkLF9lYXEarJReb/LZCB2HJYKji1MOSKj9Lfh0/7pbyuWdPsRlKCeoGdeaOw/DN5LjN5EfI7CDHOST
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11369
 
-On Mon, Aug 26, 2024 at 07:57:07PM +0200, Christian König wrote:
-> Am 26.08.24 um 19:01 schrieb Matthew Brost:
-> > Useful to preallocate dma fence array and then arm in path of reclaim or
-> > a dma fence.
-> > 
-> > v2:
-> >   - s/arm/init (Christian)
-> >   - Drop !array warn (Christian)
-> > 
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Christian König <christian.koenig@amd.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+Hi Rob
+
+> > We already have of_graph_get_next_endpoint(), but it is not
+> > intuitive to use in some case.
 > 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+> Can of_graph_get_next_endpoint() users be replaced with your new 
+> helpers? I'd really like to get rid of the 3 remaining users.
 
-Thanks for the review.
+Hmm...
+of_graph_get_next_endpoint() will fetch "endpoint" beyond the "port",
+but new helper doesn't have such feature.
+Even though I try to replace it with new helper, I guess it will be
+almost same as current of_graph_get_next_endpoint() anyway.
 
-Unfamilar with the merge flows to dma-buf subsystem. Do you merge this
-into a dma-buf branch that we can then pick up in 6.12?
+Alternative idea is...
+One of the big user of of_graph_get_next_endpoint() is
+for_each_endpoint_of_node() loop.
 
-Matt
+So we can replace it to..
 
-> 
-> > ---
-> >   drivers/dma-buf/dma-fence-array.c | 78 ++++++++++++++++++++++---------
-> >   include/linux/dma-fence-array.h   |  6 +++
-> >   2 files changed, 63 insertions(+), 21 deletions(-)
-> > 
-> > diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-> > index c74ac197d5fe..0659e6b29b3c 100644
-> > --- a/drivers/dma-buf/dma-fence-array.c
-> > +++ b/drivers/dma-buf/dma-fence-array.c
-> > @@ -144,37 +144,38 @@ const struct dma_fence_ops dma_fence_array_ops = {
-> >   EXPORT_SYMBOL(dma_fence_array_ops);
-> >   /**
-> > - * dma_fence_array_create - Create a custom fence array
-> > + * dma_fence_array_alloc - Allocate a custom fence array
-> > + * @num_fences:		[in]	number of fences to add in the array
-> > + *
-> > + * Return dma fence array on success, NULL on failure
-> > + */
-> > +struct dma_fence_array *dma_fence_array_alloc(int num_fences)
+-	for_each_endpoint_of_node(parent, endpoint) {
++	for_each_of_graph_port(parent, port) {
++		for_each_of_graph_port_endpoint(port, endpoint) {
+
+Above is possible, but it replaces single loop to multi loops.
+
+And, we still need to consider about of_fwnode_graph_get_next_endpoint()
+which is the last user of of_graph_get_next_endpoint()
+
+> > +struct device_node *of_graph_get_next_port_endpoint(const struct device_node *port,
+> > +						    struct device_node *prev)
 > > +{
-> > +	struct dma_fence_array *array;
-> > +
-> > +	return kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_array_alloc);
-> > +
-> > +/**
-> > + * dma_fence_array_init - Arm a custom fence array
-> > + * @array:		[in]	dma fence array to arm
-> >    * @num_fences:		[in]	number of fences to add in the array
-> >    * @fences:		[in]	array containing the fences
-> >    * @context:		[in]	fence context to use
-> >    * @seqno:		[in]	sequence number to use
-> >    * @signal_on_any:	[in]	signal on any fence in the array
-> >    *
-> > - * Allocate a dma_fence_array object and initialize the base fence with
-> > - * dma_fence_init().
-> > - * In case of error it returns NULL.
-> > - *
-> > - * The caller should allocate the fences array with num_fences size
-> > - * and fill it with the fences it wants to add to the object. Ownership of this
-> > - * array is taken and dma_fence_put() is used on each fence on release.
-> > - *
-> > - * If @signal_on_any is true the fence array signals if any fence in the array
-> > - * signals, otherwise it signals when all fences in the array signal.
-> > + * Implementation of @dma_fence_array_create without allocation. Useful to arm a
-> > + * preallocated dma fence fence in the path of reclaim or dma fence signaling.
-> >    */
-> > -struct dma_fence_array *dma_fence_array_create(int num_fences,
-> > -					       struct dma_fence **fences,
-> > -					       u64 context, unsigned seqno,
-> > -					       bool signal_on_any)
-> > +void dma_fence_array_init(struct dma_fence_array *array,
-> > +			  int num_fences, struct dma_fence **fences,
-> > +			  u64 context, unsigned seqno,
-> > +			  bool signal_on_any)
-> >   {
-> > -	struct dma_fence_array *array;
-> > -
-> >   	WARN_ON(!num_fences || !fences);
-> > -	array = kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
-> > -	if (!array)
-> > -		return NULL;
-> > -
-> >   	array->num_fences = num_fences;
-> >   	spin_lock_init(&array->lock);
-> > @@ -200,6 +201,41 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
-> >   	 */
-> >   	while (num_fences--)
-> >   		WARN_ON(dma_fence_is_container(fences[num_fences]));
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_array_init);
-> > +
-> > +/**
-> > + * dma_fence_array_create - Create a custom fence array
-> > + * @num_fences:		[in]	number of fences to add in the array
-> > + * @fences:		[in]	array containing the fences
-> > + * @context:		[in]	fence context to use
-> > + * @seqno:		[in]	sequence number to use
-> > + * @signal_on_any:	[in]	signal on any fence in the array
-> > + *
-> > + * Allocate a dma_fence_array object and initialize the base fence with
-> > + * dma_fence_init().
-> > + * In case of error it returns NULL.
-> > + *
-> > + * The caller should allocate the fences array with num_fences size
-> > + * and fill it with the fences it wants to add to the object. Ownership of this
-> > + * array is taken and dma_fence_put() is used on each fence on release.
-> > + *
-> > + * If @signal_on_any is true the fence array signals if any fence in the array
-> > + * signals, otherwise it signals when all fences in the array signal.
-> > + */
-> > +struct dma_fence_array *dma_fence_array_create(int num_fences,
-> > +					       struct dma_fence **fences,
-> > +					       u64 context, unsigned seqno,
-> > +					       bool signal_on_any)
-> > +{
-> > +	struct dma_fence_array *array;
-> > +
-> > +	array = dma_fence_array_alloc(num_fences);
-> > +	if (!array)
-> > +		return NULL;
-> > +
-> > +	dma_fence_array_init(array, num_fences, fences,
-> > +			     context, seqno, signal_on_any);
-> >   	return array;
-> >   }
-> > diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
-> > index 29c5650c1038..079b3dec0a16 100644
-> > --- a/include/linux/dma-fence-array.h
-> > +++ b/include/linux/dma-fence-array.h
-> > @@ -79,6 +79,12 @@ to_dma_fence_array(struct dma_fence *fence)
-> >   	for (index = 0, fence = dma_fence_array_first(head); fence;	\
-> >   	     ++(index), fence = dma_fence_array_next(head, index))
-> > +struct dma_fence_array *dma_fence_array_alloc(int num_fences);
-> > +void dma_fence_array_init(struct dma_fence_array *array,
-> > +			  int num_fences, struct dma_fence **fences,
-> > +			  u64 context, unsigned seqno,
-> > +			  bool signal_on_any);
-> > +
-> >   struct dma_fence_array *dma_fence_array_create(int num_fences,
-> >   					       struct dma_fence **fences,
-> >   					       u64 context, unsigned seqno,
+> > +	do {
+> > +		prev = of_get_next_child(port, prev);
+> > +		if (!prev)
+> > +			break;
+> > +	} while (!of_node_name_eq(prev, "endpoint"));
 > 
+> Really, this check is validation as no other name is valid in a 
+> port node. The kernel is not responsible for validation, but okay. 
+> However, if we are going to keep this, might as well make it WARN().
+
+OK, will do in v4
+
+> > +/**
+> > + * for_each_of_graph_port_endpoint - iterate over every endpoint in a port node
+> > + * @parent: parent port node
+> > + * @child: loop variable pointing to the current endpoint node
+> > + *
+> > + * When breaking out of the loop, of_node_put(child) has to be called manually.
+> 
+> No need for this requirement anymore. Use cleanup.h so this is 
+> automatic.
+
+Do you mean it should include __free() inside this loop, like _scoped() ?
+
+#define for_each_child_of_node_scoped(parent, child) \
+	for (struct device_node *child __free(device_node) =		\
+	     of_get_next_child(parent, NULL);				\
+	     child != NULL;						\
+	     child = of_get_next_child(parent, child))
+
+In such case, I wonder does it need to have _scoped() in loop name ?
+And in such case, I think we want to have non _scoped() loop too ?
+For example, when user want to use the param.
+
+	for_each_of_graph_port_endpoint(port, endpoint)
+		if (xxx == yyy)
+			return endpoint;
+
+	for_each_of_graph_port_endpoint_scoped(port, endpoint)
+		if (xxx == yyy)
+			return of_node_get(endpoint)
+
+
+Thank you for your help !!
+
+Best regards
+---
+Kuninori Morimoto
 
