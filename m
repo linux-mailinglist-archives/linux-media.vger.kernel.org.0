@@ -1,140 +1,154 @@
-Return-Path: <linux-media+bounces-16983-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16984-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2273F962024
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 08:57:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C2B9620D9
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 09:23:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55EE11C2351F
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 06:57:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FC391F211DE
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 07:23:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82F11581F2;
-	Wed, 28 Aug 2024 06:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC23E15B12F;
+	Wed, 28 Aug 2024 07:20:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9X65n/c"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iXiG2zT1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504E214E2C0
-	for <linux-media@vger.kernel.org>; Wed, 28 Aug 2024 06:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B447415B13B
+	for <linux-media@vger.kernel.org>; Wed, 28 Aug 2024 07:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724828268; cv=none; b=IljlbIYQvXzqyMCrjWUx36NDgp3DaxhyvuRgYzydsBEH3UeI6sMDjHG05yzaX2x0hR/IQHdlQI05I02PC12qDFW+G4YTqXPfp5sHprLZ1KzFV/qzaCrj7w4nbmK9vOQ837iUf1oA5j8fSIdeL+6XSJyboJxcQzDnrdz89LQ6FWM=
+	t=1724829640; cv=none; b=k6pyHRxrQFl6lulmWOi0K6+Ai35njVFwEYUs2lE2mcxc8JbowFeFhCbz76p7dA664ThW26Kn6nNem8/JoBYAtUOyFyrs8d12cpA8VocNUghPfVkzcVw8oQd9aVXDDng4KL+lH3ukSYS098tUzqrOf0KzxNN2iiEXhCONkw5fWho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724828268; c=relaxed/simple;
-	bh=EIVg+bIKN8S5ORQwcvMgd8ZKnY0qJbDQZFQyWu6QRzM=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=AbxL/sAVQI5sBtoQaO0qSXdBYrWdTjSCr8lVS2O9j9qqpXwqdjtY5IbOVrdrjohJWpbb8rlW7Tv4WQtF3Thr8/3zIrvVCvonB84qoSBBfHEG4MHHKACX+Q6ifY6XK5CSpjC859oHfIR3b4HvTu9txn91wQ480QescFLerLdAo2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9X65n/c; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724828266; x=1756364266;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=EIVg+bIKN8S5ORQwcvMgd8ZKnY0qJbDQZFQyWu6QRzM=;
-  b=X9X65n/c0+yN7vE3IuZAFhABmFmKINU/nb0Moz+xu2DSjIZz9oH4G6f7
-   uXGtnL6V1Jvt1FJSTDpfvvzgIDOfq5DHyMqMljhOeBuiaSar+2YEvkLV1
-   8Yef6Q5H7UenrODlZqbqoWn+T9WjPmNUT+so00lfrL4LtNSq66IjfVaRb
-   y5FVhZPJVB1NexToLJ1xnW1/KzHhqH9sHT00DnBLViTf5QSakWU4cGP6/
-   5PVogybVh+hwtt9yYlMCd2QNhagp7oy8mjAzqKvqx0CrPT4pZKHUJjAy+
-   /HsOChpa8+8L6/+g66JJH3eJqZKjQC1q6cIcdV5M7rqieln4QxQz+ZIX6
-   w==;
-X-CSE-ConnectionGUID: XHqGekEmSumrVESTeHgyAQ==
-X-CSE-MsgGUID: VPmc0YXyRPK32HjwGga74w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="34715460"
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
-   d="scan'208";a="34715460"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 23:57:45 -0700
-X-CSE-ConnectionGUID: ggBbyLQBRJ+Hzp9rUVPgtQ==
-X-CSE-MsgGUID: eEBrg800QSiIc4xxKAB0YA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
-   d="scan'208";a="67809888"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 23:57:44 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8BF6D11F8B3
-	for <linux-media@vger.kernel.org>; Wed, 28 Aug 2024 09:57:42 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1sjCcg-009lWO-1Z
-	for linux-media@vger.kernel.org;
-	Wed, 28 Aug 2024 09:57:42 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Subject: [PATCH 1/1] media: i2c: imx355: Parse and register properties
-Date: Wed, 28 Aug 2024 09:57:32 +0300
-Message-Id: <20240828065732.2327616-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1724829640; c=relaxed/simple;
+	bh=hY0rdkFxlOJ73INaytL9GxG6uDuQeptdtje3tcWXF+U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PgGWlITnFmqpjjdJpaayDmKI72xJ4V+tuVqL0n+bFdiDaPAXXKFeKDodtc3Uv+GGsrLPK7WiUSjYappxrmkjFTOu/RZ0tvGsd/0JGZHwqXy2yQ0o2OaHJ+U113Wyw1g8EI4W1JhnvpYjGdmlreKEnJqj6bZvAXIV5yXwgtV1KRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iXiG2zT1; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4518d9fa2f4so190491cf.0
+        for <linux-media@vger.kernel.org>; Wed, 28 Aug 2024 00:20:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1724829636; x=1725434436; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WaKkxTlZTeNsK8i9Bxn3PWY1aY/BLsT89GdUnPxSzCs=;
+        b=iXiG2zT1LZYmRlQ14gRZynyy8LwteaYwvbXkKGk5hnY0hWAZjMr8whQjsAqKYp6nIP
+         XLnbQMYBrYHBNu2sGcwa411HH/mMlVF0VBicIn18IOgiBOcMj7TzkZBN5rg7K/Yp9zac
+         R4aJXx9G57xEL9LbZaFy70W55jvCQSwc1bpuGqMWGM3uz93nKfBiK3V6jDEh2jPTaxEM
+         ohJQqGdPdB4R2lsc7JjJsg2tfPWD/feF/rI2J35mNcyrE53PQxNmaeKZ+1xv3hFDVUjb
+         cdTv7zi2Ctk8Iohq3E3vtTNIz1joqkAMQVGFaQBTDLqcJ+jeTne9UjwOa8Bge8CxHv3Z
+         0R5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724829636; x=1725434436;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WaKkxTlZTeNsK8i9Bxn3PWY1aY/BLsT89GdUnPxSzCs=;
+        b=Qf8or6mvXWXuYAcSOjVqnFaVmS2t6BUR17dQmqEC6CA7QNCE/xJTuIYvRSJd7agADk
+         FGRdCWsAqXVQQNivtsVg32RdEqYm9RREX4NMTHAHQTL8WHBhFxUpcdH0/X58HKqbGhfa
+         jMXBkJUi6SwJR6/s9eBMYuW1ZvkTmxhgIJNwiz7RYIaASXAjVKLuZE5NwmZ5ld08NSND
+         9BPrST9GPtBTZmkEK46SFRKxC2E5jUTUoH7jqDqg+uZ8li3JE/y1dWQjcyz+YdywN+jY
+         Sm+v+gx45SzRjBMe4nAlxWBetuxEkK1ETBsErbqWNRtQLsUm0ydm1Q6YxYitFxxWOp2+
+         rW2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX5tAfoPt6jj13mowKbarsqaBuc3q29asqSSBYD9Pz2Ckh2BhzwKqibDZBoLF8wxt1NUyP8TkHrDtFI9Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAzMhi84h3JcpqGm/L7fbFTnQ7AKrMCJ2jrgDu9ldb8fCNOq+x
+	kRobpiUQzJDegTahUGnGVNsnOu2xW8K/SXTJn8VJPWJXVVzukelA2gpUwSC/cKjk29b3/97Bgji
+	pJ+Tl3NE0l5s2G57GhxGwmyC42aCycMRr7Z0g
+X-Google-Smtp-Source: AGHT+IHyMD+4xnusQLwuQ5h6kBQmR1VYMf6lXqEwBGB2U8vCgE7ervQyk/rNIf69lWKuYbdIUKJLj3Yofx+zROPan7c=
+X-Received: by 2002:a05:622a:1211:b0:451:cd18:84c3 with SMTP id
+ d75a77b69052e-4566cb29dc2mr2435821cf.12.1724829636084; Wed, 28 Aug 2024
+ 00:20:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240825041511.324452-1-almasrymina@google.com>
+ <20240825041511.324452-5-almasrymina@google.com> <20240827191519.5464a0b2@kernel.org>
+In-Reply-To: <20240827191519.5464a0b2@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Wed, 28 Aug 2024 00:20:23 -0700
+Message-ID: <CAHS8izP8T5Xj97M7efecBmCrG9z8E0PYTxWCYZ0ym0hv13-DKg@mail.gmail.com>
+Subject: Re: [PATCH net-next v22 04/13] netdev: netdevice devmem allocator
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
+	Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Robert Mader <robert.mader@collabora.com>
+On Tue, Aug 27, 2024 at 7:15=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Sun, 25 Aug 2024 04:15:02 +0000 Mina Almasry wrote:
+> > +void net_devmem_free_dmabuf(struct net_iov *niov)
+> > +{
+> > +     struct net_devmem_dmabuf_binding *binding =3D net_iov_binding(nio=
+v);
+> > +     unsigned long dma_addr =3D net_devmem_get_dma_addr(niov);
+> > +
+> > +     if (gen_pool_has_addr(binding->chunk_pool, dma_addr, PAGE_SIZE))
+> > +             gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
+>
+> Is the check necessary for correctness? Should it perhaps be a WARN
+> under DEBUG_NET instead? The rest LGTM:
+>
 
-Analogous to e.g. the imx219 driver. This enables propagating the
-V4L2_CID_CAMERA_SENSOR_ROTATION and V4L2_CID_CAMERA_ORIENTATION
-values so that userspace - e.g. libcamera - can detect the
-correct rotation and orientation from the device tree.
+Not really necessary for correctness per se, but if we try to free a
+dma_addr that is not in a gen_pool (due to some other bug in the
+code), then gen_pool_free ends up BUG_ON, crashing the kernel.
 
-Signed-off-by: Robert Mader <robert.mader@collabora.com>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
-Just reposting this here, the original patch is
-20240811111718.22513-1-robert.mader@collabora.com on LKML.
+Arguably gen_pool_free should not BUG_ON, but I think that's an old
+API, and existing call sites have worked around the BUG_ON by doing a
+gen_pool_has_addr check like I do here, for example kernel/dma/pool.c.
+So I did not seek to change this established behavior.
 
- drivers/media/i2c/imx355.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+I think WARN seems fine to me, but maybe not under DEBUG_NET. I don't
+want production code crashing due to this error, if it's OK with you.
 
-diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-index 7e9c2f65fa08..0dd25eeea60b 100644
---- a/drivers/media/i2c/imx355.c
-+++ b/drivers/media/i2c/imx355.c
-@@ -1520,6 +1520,7 @@ static const struct v4l2_subdev_internal_ops imx355_internal_ops = {
- static int imx355_init_controls(struct imx355 *imx355)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx355->sd);
-+	struct v4l2_fwnode_device_properties props;
- 	struct v4l2_ctrl_handler *ctrl_hdlr;
- 	s64 exposure_max;
- 	s64 vblank_def;
-@@ -1531,7 +1532,7 @@ static int imx355_init_controls(struct imx355 *imx355)
- 	int ret;
- 
- 	ctrl_hdlr = &imx355->ctrl_handler;
--	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
- 	if (ret)
- 		return ret;
- 
-@@ -1603,6 +1604,15 @@ static int imx355_init_controls(struct imx355 *imx355)
- 		goto error;
- 	}
- 
-+	ret = v4l2_fwnode_device_parse(&client->dev, &props);
-+	if (ret)
-+		goto error;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx355_ctrl_ops,
-+					      &props);
-+	if (ret)
-+		goto error;
-+
- 	imx355->sd.ctrl_handler = ctrl_hdlr;
- 
- 	return 0;
--- 
-2.39.2
+Unless I hear otherwise I'll add a WARN without debug here.
 
+> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+>
+
+Thanks!
+
+--=20
+Thanks,
+Mina
 
