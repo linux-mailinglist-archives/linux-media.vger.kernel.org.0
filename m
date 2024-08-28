@@ -1,240 +1,159 @@
-Return-Path: <linux-media+bounces-16995-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16996-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FFB962204
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 10:09:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A48A962311
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 11:11:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8BF971C22A5D
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 08:09:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47FC5281992
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 09:11:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50DCE15AD83;
-	Wed, 28 Aug 2024 08:09:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06EF515EFA0;
+	Wed, 28 Aug 2024 09:11:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9KeYfR7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dAGLj+IR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190B9B67A
-	for <linux-media@vger.kernel.org>; Wed, 28 Aug 2024 08:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5D4158543;
+	Wed, 28 Aug 2024 09:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724832576; cv=none; b=IzdTOMQEUMDuQvJBIP6tFwF7hj11luksijJR0QosHs3WMpNXG999/jZjAjxWsHCs4uFwLp4VJpl1pOAE8BXyemv/QOuO9GbHPWDDQNjPdVT400AGX1ZOire8XB/phm2mK4KDXlQxybMM8qFQwmr7I9j80+sR/DWL8fPXRz+EJ9g=
+	t=1724836259; cv=none; b=Gr+IBbfZBrzNx9XLo2TQJiabUdyz0Ak2igHnNDO0l7kGWOfbf1Ns3Upd5B5yMKMV26QO0Rm4JDPD23VLi/ONWr1mWVmbqYhcjdFnXNTEGPhiVIgjj1WtzDVX77gZbKYeo5/MV7Vhqb6xUI/t87ZMFastu0Qs9+iOi9GLgV8w8R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724832576; c=relaxed/simple;
-	bh=+8gZ+NwpOA0nxNDTGCN/zjyXXMBMoxXMsepCUaWvI50=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TO2c7P0rC/t/5SIpHIr+G18R/hfgWY9f/HnuYsN5LTghmhdugINg+f5ZBIeHoSHjxo3pr2MN3Ac6BR1ztzkExHR2gcPQzoWRgt2kLoZKrpCMqyFERoM+yd3D+7+1v9cPkipk10YBAv9iUQzz1HO6UxySBLvhcjS4ieJjHNfn4ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9KeYfR7; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724832575; x=1756368575;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=+8gZ+NwpOA0nxNDTGCN/zjyXXMBMoxXMsepCUaWvI50=;
-  b=A9KeYfR7hs0qD7XzKrGv+QwbkTEefNHIh5nq7izTz2vUKVVv4kRv3+CQ
-   2dRbVizb1YeUIOMHvbbC1Y0QAK0LkjcPdWGoeuZVq2hPoKo6HOV4remuJ
-   CLsLsogN5Oqjzecaob64WSnt49Zl8+vxnqZzP5LNgN7UnRvjQuK95KzVg
-   1J4e1Dy4TUE2JLpE/GsYEX3UN/NgZrdIGMQf85+NatO8B40jjKvHhxXVY
-   69zJTQT3uFjEmwiAbZ++wy3XPEjgWHk5OVIBbjCF5GoUYdL5aNZvxGByt
-   h9YDUplAOSRiHHZ1mVGRPqai7STqRRRv9iGPTh6UnEKQlDIdUhZkYcSsX
-   w==;
-X-CSE-ConnectionGUID: PPbPlVM8SYWU9huZTDqK2w==
-X-CSE-MsgGUID: pFiyi5cHQ9+qGCZtKfr4SA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23213805"
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
-   d="scan'208";a="23213805"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 01:09:35 -0700
-X-CSE-ConnectionGUID: xKFhKdCHSSaL+RK5ILmxaQ==
-X-CSE-MsgGUID: TnlqciwqR2WneUpMquX/EA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
-   d="scan'208";a="67513527"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 01:09:33 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 69B3811F95D;
-	Wed, 28 Aug 2024 11:09:30 +0300 (EEST)
-Date: Wed, 28 Aug 2024 08:09:30 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 6/6] media: i2c: og01a1b: Add management of optional
- sensor supply lines
-Message-ID: <Zs7bOr3hbrd2gG60@kekkonen.localdomain>
-References: <20240823102731.2240857-1-vladimir.zapolskiy@linaro.org>
- <20240823102731.2240857-7-vladimir.zapolskiy@linaro.org>
+	s=arc-20240116; t=1724836259; c=relaxed/simple;
+	bh=4wjsCstqQZZ/e4H4a4DtBSqr+93zTZjzDFUyeOtQ3Ac=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iVub0TumG0o86OqA1j/hu24Qw5AvaV0hmTSb4lV2QhcVQD9Zcfuldt+A5LTXVUl6ixybmww62lNwu9jye2GFEIsj2wWikve8zvs5xOXggsrsx9daW5dH6tzPIKysBVjbpo3vEOK7m6NLpRnoMEdeLMS0v+Ud8/GmJiosHWnboJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dAGLj+IR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59685C515A3;
+	Wed, 28 Aug 2024 09:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724836258;
+	bh=4wjsCstqQZZ/e4H4a4DtBSqr+93zTZjzDFUyeOtQ3Ac=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dAGLj+IR7aLFNJhsGX3eoFhoosVgIUZyVEoWteFasKTgp0e+ZwXSSb43FFYAeFMP/
+	 5MhW+Z5/pImqftHjK+DTTly4Cb6k1AHg+0LaCXNC0DRYMecxfALg+FEfN/xEOV54BH
+	 baDqbZPA/LxJraY5PIeSLrl2VALs0zLZ1HQ6caDBPRaWZGTBRUx7tuMKhmU4PRxsuV
+	 HztmIlx9un/9NVq13F/5mBH1D+39Dlui9znn78rCLth8PYXdr0KGZEYBOesi2qW1n9
+	 akMlK0pv38zuihRWnV4a1TR44jZ6B++0uuGhhr2xmeyNkE1XbO1Z5qtbZPyWYVVZo5
+	 qtOAocZIeXcfA==
+Message-ID: <8908eee4-d3a4-4d15-a68e-d0937bbca9f0@kernel.org>
+Date: Wed, 28 Aug 2024 11:10:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] dt-bindings: arm: aspeed: Add aspeed,video binding
+To: Jammy Huang <jammy_huang@aspeedtech.com>
+Cc: "robh@kernel.org" <robh@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>, "joel@jms.id.au"
+ <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
+ "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+ "pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20240819080859.1304671-1-jammy_huang@aspeedtech.com>
+ <20240819080859.1304671-2-jammy_huang@aspeedtech.com>
+ <nnjcjt2kuplsy5bbxujuubkn2xdtpifjeiqt5qfvktdmaorzuz@x444p5ezcoch>
+ <TYZPR06MB6568AB9E260263DBB1ED474DF1882@TYZPR06MB6568.apcprd06.prod.outlook.com>
+ <a17f963e-0e6d-4132-817f-2e663268ee2d@kernel.org>
+ <TYZPR06MB6568A38AD08F72EC637EFA7BF1952@TYZPR06MB6568.apcprd06.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <TYZPR06MB6568A38AD08F72EC637EFA7BF1952@TYZPR06MB6568.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240823102731.2240857-7-vladimir.zapolskiy@linaro.org>
 
-Hi Vladimir,
-
-Thanks for the update.
-
-On Fri, Aug 23, 2024 at 01:27:31PM +0300, Vladimir Zapolskiy wrote:
-> Omnivision OG01A1B camera sensor is supplied by three power rails,
-> if supplies are present as device properties, include them into
-> the sensor power up sequence.
+On 28/08/2024 08:05, Jammy Huang wrote:
+> Hi Krzysztof,
 > 
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> ---
->  drivers/media/i2c/og01a1b.c | 86 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 85 insertions(+), 1 deletion(-)
+> Sorry for the troublesome e-mail notice. We have informed IT to remove it.
 > 
-> diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-> index 90a68201f43f..0150fdd2f424 100644
-> --- a/drivers/media/i2c/og01a1b.c
-> +++ b/drivers/media/i2c/og01a1b.c
-> @@ -9,6 +9,7 @@
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -422,6 +423,9 @@ static const struct og01a1b_mode supported_modes[] = {
->  struct og01a1b {
->  	struct clk *xvclk;
->  	struct gpio_desc *reset_gpio;
-> +	struct regulator *avdd;
-> +	struct regulator *dovdd;
-> +	struct regulator *dvdd;
->  
->  	struct v4l2_subdev sd;
->  	struct media_pad pad;
-> @@ -982,11 +986,46 @@ static int og01a1b_power_on(struct device *dev)
->  {
->  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->  	struct og01a1b *og01a1b = to_og01a1b(sd);
-> +	int ret;
-> +
-> +	if (og01a1b->avdd) {
-> +		ret = regulator_enable(og01a1b->avdd);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (og01a1b->dovdd) {
-> +		ret = regulator_enable(og01a1b->dovdd);
-> +		if (ret)
-> +			goto avdd_disable;
-> +	}
-> +
-> +	if (og01a1b->dvdd) {
-> +		ret = regulator_enable(og01a1b->dvdd);
-> +		if (ret)
-> +			goto dovdd_disable;
-> +	}
->  
->  	gpiod_set_value_cansleep(og01a1b->reset_gpio, 0);
->  	usleep_range(USEC_PER_MSEC, 2 * USEC_PER_MSEC);
->  
-> -	return clk_prepare_enable(og01a1b->xvclk);
-> +	ret = clk_prepare_enable(og01a1b->xvclk);
-> +	if (ret)
-> +		goto dvdd_disable;
+> On 2024/8/23 下午 02:13, Krzysztof Kozlowski wrote:
+>> On 23/08/2024 03:11, Jammy Huang wrote:
+>>
+>>>
+>>>>
+>>>>> @@ -0,0 +1,81 @@
+>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+>>>>> +---
+>>>>> +$id: http://devicetree.org/schemas/arm/aspeed/aspeed,video.yaml#
+>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>> +
+>>>>> +title: ASPEED Video Engine
+>>>>
+>>>> ASPEED or Aspeed?
+>>> I prefer ASPEED.
+>>
+>> What is the name of the company? How is it called in all bindings? Is it an
+>> acronym?
+> It's ASPEED Technology Inc. You can find brief introduction here, https://www.aspeedtech.com/about_vision/.
+> I did check it in bindings, but both ASPEED and Aspeed can be found.
+> If you have suggestion, please let me know.
 
-Virtually all sensors require some delay between lifting the reset (which
-typically comes after enabling the regulators and the clock) and the first
-I�C access. This one appears to require 8192 XCLK cycles.
+Keep official name, so ASPEED.
 
-> +
-> +	return 0;
-> +
-> +dvdd_disable:
-> +	if (og01a1b->dvdd)
-> +		regulator_disable(og01a1b->dvdd);
-> +dovdd_disable:
-> +	if (og01a1b->dovdd)
-> +		regulator_disable(og01a1b->dovdd);
-> +avdd_disable:
-> +	if (og01a1b->avdd)
-> +		regulator_disable(og01a1b->avdd);
-> +
-> +	return ret;
->  }
->  
->  static int og01a1b_power_off(struct device *dev)
-> @@ -998,6 +1037,15 @@ static int og01a1b_power_off(struct device *dev)
->  
->  	gpiod_set_value_cansleep(og01a1b->reset_gpio, 1);
->  
-> +	if (og01a1b->dvdd)
-> +		regulator_disable(og01a1b->dvdd);
-> +
-> +	if (og01a1b->dovdd)
-> +		regulator_disable(og01a1b->dovdd);
-> +
-> +	if (og01a1b->avdd)
-> +		regulator_disable(og01a1b->avdd);
-> +
->  	return 0;
->  }
->  
-> @@ -1045,6 +1093,42 @@ static int og01a1b_probe(struct i2c_client *client)
->  		return PTR_ERR(og01a1b->reset_gpio);
->  	}
->  
-> +	og01a1b->avdd = devm_regulator_get_optional(&client->dev, "avdd");
-> +	if (IS_ERR(og01a1b->avdd)) {
-> +		ret = PTR_ERR(og01a1b->avdd);
-> +		if (ret != -ENODEV) {
-> +			dev_err_probe(&client->dev, ret,
-> +				      "Failed to get 'avdd' regulator\n");
-> +			return ret;
-> +		}
-> +
-> +		og01a1b->avdd = NULL;
-> +	}
-> +
-> +	og01a1b->dovdd = devm_regulator_get_optional(&client->dev, "dovdd");
-> +	if (IS_ERR(og01a1b->dovdd)) {
-> +		ret = PTR_ERR(og01a1b->dovdd);
-> +		if (ret != -ENODEV) {
-> +			dev_err_probe(&client->dev, ret,
-> +				      "Failed to get 'dovdd' regulator\n");
-> +			return ret;
-> +		}
-> +
-> +		og01a1b->dovdd = NULL;
-> +	}
-> +
-> +	og01a1b->dvdd = devm_regulator_get_optional(&client->dev, "dvdd");
-> +	if (IS_ERR(og01a1b->dvdd)) {
-> +		ret = PTR_ERR(og01a1b->dvdd);
-> +		if (ret != -ENODEV) {
-> +			dev_err_probe(&client->dev, ret,
-> +				      "Failed to get 'dvdd' regulator\n");
-> +			return ret;
-> +		}
-> +
-> +		og01a1b->dvdd = NULL;
-> +	}
-> +
->  	/* The sensor must be powered on to read the CHIP_ID register */
->  	ret = og01a1b_power_on(&client->dev);
->  	if (ret)
 
--- 
-Kind regards,
 
-Sakari Ailus
+Best regards,
+Krzysztof
+
 
