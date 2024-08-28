@@ -1,79 +1,80 @@
-Return-Path: <linux-media+bounces-17050-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17051-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3EE962D58
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 18:11:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E382962D5E
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 18:13:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DEDA1C21DF6
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 16:11:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B8091C2178C
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 16:13:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4B741A38FC;
-	Wed, 28 Aug 2024 16:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B2C41A3BB1;
+	Wed, 28 Aug 2024 16:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a5TKTszE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gzG0BYje"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE7818A6C3;
-	Wed, 28 Aug 2024 16:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D8534CC4;
+	Wed, 28 Aug 2024 16:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724861508; cv=none; b=G0R5B9mSos2+8n6Yh5isgC9PesZg0C8egZFVYQ8hhqQyFO28i7aVrdmWzS2eamucuotXuYZeQS2jvj2IigP1k/YM/wh8whsBegqyfXFRqZtG9e7Csm/VXeEB5qNcLIcPsI9jOnKgfjNF4PHUQCPHTqTYPhs4SAb0m0nvhBM4eRo=
+	t=1724861608; cv=none; b=slLPTcBWEp3Nw3IDraLl8/sqKMOrterHw0/H85ZY6a7lEMVu12m6u3/QV53mIk7yGvLvY8cRMJOOKDM8t8DunqH+m8yalalLZpxRQpRCHVLuTxTRVCAmklHHYtxYL7P4bn9mblSAJ0bPXNyQt/PtyEgmp/9Y78ccNZV0+BBS7f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724861508; c=relaxed/simple;
-	bh=33RAzer6xyyAOjlN7NEIkofn86OPexo8lFmAQFbiAso=;
+	s=arc-20240116; t=1724861608; c=relaxed/simple;
+	bh=Lvej6w5uIY8bD1Kx4q4GEaKPNFurV+4bBu+6h8JrzuU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=enulNFisz7lWAZx6V0cyfLh2nmLOET6hTg6b29sOA82gVVrdddo08SmzDt7nNfuPYUyQuIlufHv7pLsK/8eKB9ej+OWF9DhPOH6pN7tmycceBmXpBMdyDbyADMrR/cOHAyiCiwhVJVp25tjzQDL9wTbaBbykSXfD6zVBYMq+O4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a5TKTszE; arc=none smtp.client-ip=209.85.210.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=MFjwChC8WXM+ShcffKjVfFqQrFjx8yVWH5EnVk+SF1eYLu0240GqAx10i4nfn3BT6hC/U1GHLR9ZirnVUYTj3PSjusMm7P56pQHg5SFrjy7KO7TBzv1LsqzToDiODd9nlqv696s+G3uOrAScXLAgrv35RX0EJQpNb6hCKHNDfsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gzG0BYje; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7142a30e3bdso633524b3a.0;
-        Wed, 28 Aug 2024 09:11:46 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-204d391f53bso31123975ad.2;
+        Wed, 28 Aug 2024 09:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724861506; x=1725466306; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724861606; x=1725466406; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hvg8jGZa8C9S66bonVoH57yWLUV5bNmVAwSjkXHOxC4=;
-        b=a5TKTszEAfs0SrCplH5gkXD9jOlwlVB0WGUNpLRplSOPUxGYkmDyrUEALAsqZrtTvq
-         lPznqdnBOkGba4VVQx4923yqNAxJH+Q472vMFBMBVrbjCGWkjqCVZTyYkVvMMdLqqiUi
-         K5E3egr7poX+PzEpC+IfR2qmd3brB2zAS9DANRjbHD0XghVQoSUk2J391sfNq7hHn904
-         VDXl88rRh0sW7Csfygdg1rNqJ99j2AjwEEs04WP3Mq6Ap5thJ55+gSUzdl8vWeI6Oa4c
-         nZDiO0mGko/TFKS4b8Vv2aAbI2c/JdRIyC3xXzMqUMvtt0q2K1oOVHt1ltxL/fumOvTp
-         1xAg==
+        bh=uRQW4GdIFwAz9Vj7IzfPe+8EkFNaAd7KHI5+HTfnkDE=;
+        b=gzG0BYjeBRtnblzUoRCRE4bpTY3cM3vaLcmXuqCM6AaFLNEyPMIbDC08w78hCmw6Qt
+         eaZPfS2TfpOT7pBU7AK2grVrKdfcr0mlKSkP4qamH4PT4yYnRzn+Gq6mFLCBIe1WMgc2
+         MrJ0ZrEXsMl1yaOqXXPnZayGPvHBb4c/nCdKopEpcnhdJ5mgAYKa2fPD8QKXpRNJzQzB
+         TF9My9j7K+v54b4o+atKOX9RQZJfKFR6/1Yn5fryKkPoeip5iZuWgfseSsZfSnQeikh4
+         DjsFZwVOJ5WGuP6LOSpuQk3gFmAFELb0f/13QI6SWZYjcyxtiRs5izPF0pRSeqxWbK/L
+         BFvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724861506; x=1725466306;
+        d=1e100.net; s=20230601; t=1724861606; x=1725466406;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hvg8jGZa8C9S66bonVoH57yWLUV5bNmVAwSjkXHOxC4=;
-        b=X8m6ba6WatQKAwBj3b4+yxLt3YoEijlYOEdN/xqelB9VV8S3T0m/pFvHFIJbHhkGe/
-         av45CuNTrcBPy2gWsI8iBx/St8ENeP4ikiA20L2UrZo2OEI40LRe/YAU0CM7+xnBKXtW
-         JhTP+P8OboVBduwrLAqp43sjyPD8iCrXKkPxEmEn/0svV4594zkiGEhy2zDvGdWRXabL
-         Om69wRlwizw/mtOcBBtDRvuyEAj96N75vPNrmE6CbmpfgJlG9sGxG7TtpnILP96OYF5D
-         7vKJ8F+XV0MiFk/mMt5hVdwI2/Ktk4k9YhK4aqCHXdiP68qOgfzMRkdZvsRSj+LINJWm
-         KbJA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxT7EGyrncWgpQxNZsZvyEkoHwaw6gJTlf7LLL4PmcJMpsW0i2EzMuuxrTh+l5+GfGyLsJVZ1uibh1LQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWQAPO6qbFpW/XrEwGco2JRMf6RZLwNw+Sep8PI+maZftkHH4W
-	f4tw0NhYlaQcHPzjQmmypWP1O8NMHJ3kKcN+UQr2oqo1aGtuKrDBqNtHAQ==
-X-Google-Smtp-Source: AGHT+IGiqs4or1k1ms5R1WRUX9+55PPdj3bK3FVpGmjv4xe3Seg1tfrNdvICSeFnMN5+7KvP42J/Og==
-X-Received: by 2002:a05:6a00:8604:b0:70e:ce95:b87 with SMTP id d2e1a72fcca58-715d0bb9e83mr3450824b3a.0.1724861505705;
-        Wed, 28 Aug 2024 09:11:45 -0700 (PDT)
+        bh=uRQW4GdIFwAz9Vj7IzfPe+8EkFNaAd7KHI5+HTfnkDE=;
+        b=Ukew1op6Q6RP0mPEjzGe+igNQ1vMMxF5VX6FrR0bZgnGz4xqf6jF/jSq9UnrcHVKd8
+         YBd8dV8KDYsRhGprfgBoEJ079tKpSV1yedsfuV+nP/K5Gn0t6ECSVGCEFlzaMg0RhEwc
+         Tp0cysyUeAgPHcaiVWeeyLduo/0uBRxj1xhsFsPY7sHFDExARogPNMyoz/CGm192mWHU
+         M+5F4lj5Z/1u3616qBY42pJ81y5eNo/juFTZiMIsLunifjQ1qIWgh6XUSatNvWeT4ylT
+         YbuVJqeUl95SPJDIf94hb0thTKDw1vzJm50xQZpXTMETS4joOBGLAys9DxaZJu2Qk7gZ
+         cD4g==
+X-Forwarded-Encrypted: i=1; AJvYcCVkCoU5aElGXocooUxWvWFVKO/RWdcfHgR+giTT7McpYP9OTcxr7MLxK03GXKyHDRUTbZimDveOAFtAlw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzr5QWbMsUkZLVbKTj24lMzaoniNp/GnwO7Ffo8rRg9tehO7FuY
+	eMVwFBreAm+nJYegkRxbYlQ63PpmrjBLlv8mrobnZgfx+PXMz1NkupcttQ==
+X-Google-Smtp-Source: AGHT+IEJQxDregpNQV57q5WpbrUNp4P1Khcu+xtzue1u1dzoR06Y8UxmiGQSZ/vWkFR4T9a5z5oHcg==
+X-Received: by 2002:a17:902:ec8c:b0:201:cda4:69cb with SMTP id d9443c01a7336-204f9a6142bmr30243105ad.9.1724861605594;
+        Wed, 28 Aug 2024 09:13:25 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:3eb8:762:d1b6:97f9])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-714342e09c3sm10264487b3a.122.2024.08.28.09.11.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557e759sm100237475ad.67.2024.08.28.09.13.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 09:11:45 -0700 (PDT)
-Date: Wed, 28 Aug 2024 09:11:42 -0700
+        Wed, 28 Aug 2024 09:13:25 -0700 (PDT)
+Date: Wed, 28 Aug 2024 09:13:23 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-input@vger.kernel.org
+Cc: linux-input@vger.kernel.org, linux-media@vger.kernel.org
 Subject: Re: [PATCH 4/6] input: serio.h: add SERIO_EXTRON_DA_HD_PLUS
-Message-ID: <Zs9MPsBDLW6uSti2@google.com>
+Message-ID: <Zs9Mox-hIbpPbbmJ@google.com>
 References: <cover.1723190258.git.hverkuil-cisco@xs4all.nl>
  <ccbb099a35cb788c7304795927f508cfc2342ff8.1723190258.git.hverkuil-cisco@xs4all.nl>
+ <157c368c-f01b-4378-be1f-4af6396d03f9@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,19 +83,21 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ccbb099a35cb788c7304795927f508cfc2342ff8.1723190258.git.hverkuil-cisco@xs4all.nl>
+In-Reply-To: <157c368c-f01b-4378-be1f-4af6396d03f9@xs4all.nl>
 
-On Fri, Aug 09, 2024 at 09:57:36AM +0200, Hans Verkuil wrote:
-> Add a new serio ID for the Extron DA HD 4K Plus series of 4K HDMI
-> Distribution Amplifiers. These devices support CEC over the serial
-> port, so a new serio ID is needed to be able to associate the CEC
-> driver.
+Hi Hans,
+
+On Wed, Aug 28, 2024 at 01:25:45PM +0200, Hans Verkuil wrote:
+> Hi Dmitry,
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> It's a trivial patch, but it would be great if you can give an Acked-by
+> or Reviewed-by.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Please feel free to merge with the rest of the patches.
+My apologies, I missed this.
+
+Please make sure to CC me directly, not just the input list. Hmm, I see
+that serio.h is missing from the MAINTAINERS file, let me add it...
 
 Thanks.
 
