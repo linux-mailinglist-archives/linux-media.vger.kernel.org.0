@@ -1,117 +1,115 @@
-Return-Path: <linux-media+bounces-17000-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17001-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46BC0962441
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 12:02:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0805F9624CA
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 12:24:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 790D71C209D6
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 10:02:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B763A285986
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 10:24:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8079B16848F;
-	Wed, 28 Aug 2024 10:02:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B7F816C873;
+	Wed, 28 Aug 2024 10:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=julien.massot@collabora.com header.b="cSjo8wbN"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="0FTAnkuq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4B81553BC;
-	Wed, 28 Aug 2024 10:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724839363; cv=pass; b=e0PmFEifY9zfjL+Wz4SPvqpIpG3LYGOgbMpQ/y/MzJ0QAXtFycHRv3Hr7lcLFXXd+jSNG3C+eXGCOROpivH881/1rHaLP2oElKB9qEKRBsyZx1A5nrgQLLyLn1GOOE5LRrJFqLfUjNaSTqL2HAsj8OfTjcTJHss8/dSUCT63VxI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724839363; c=relaxed/simple;
-	bh=cVhdnGh1gtNtWJrnF9ZbO5IS+WmF+xa16YhB9Qx5chE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ckWqEuZ71aWnh4HDjhEPuHmOSR9G37je3JtqGXkkIMX3HhDldYyyrCKU/qGPCNuPNHDqJ8cumzR4o1dHW1ftkBDjdXY9jQvRqqj4qlxQaT1YpGtKT3/27/JmKCYA5ML/8Hk25bsUFhkSYWmoxMPF/61UZs0xfKR92a/PMUJ03Z8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=julien.massot@collabora.com header.b=cSjo8wbN; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724839350; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=P9ItgZk4OFmZ3oZujLJajth3nyKBxbqHHC7XSxBB/YDUGnVX1kxeJYvObWVpPwFOl7HxitnIIkdVE+1oWZu6e2WY2XPr7u68vpBCqzVfRPj30FziypcdVsNxNojoSQtNQMxmw2TkZ/6BIz0xiD97DZ2Ge90KVbc/M8ZD9h0myRU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1724839350; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ZLM7oCag8bEqv46GHSaKZQveF6nYFv5zvA0CwiARDdg=; 
-	b=OMkxr3BYhuhmPXPMZ2GR8bgkjSU4bPZ/ZbqUVOMrwxD6LqIt5wekHRG05wEQJX5Q5PRel7pIe57K1RpZaE3jsjFUouqwPfdvujDriK4u0UFggRvVlIRwvVXFyFBfga/utegYOCdIHjcVyN6G3lhD0w1Wb3aPrmVRT6xQQXXIuaQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=julien.massot@collabora.com;
-	dmarc=pass header.from=<julien.massot@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724839350;
-	s=zohomail; d=collabora.com; i=julien.massot@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=ZLM7oCag8bEqv46GHSaKZQveF6nYFv5zvA0CwiARDdg=;
-	b=cSjo8wbNH9XtnKMCb0bvgScrc5QDlcDTq3YTb3q7YMKaSVNpruDNaCusCG/xxjRg
-	PQN4466OjR/6rysuinfmNwDJEEswNbWHaaxEBaMOdTbMU6AtgeFMwD0jCSPeFFoB8oI
-	G2X4mazr3FQ6+LpepwETeezxK/gpO6q77uSJ7AB0=
-Received: by mx.zohomail.com with SMTPS id 1724839349104444.9895094581451;
-	Wed, 28 Aug 2024 03:02:29 -0700 (PDT)
-Message-ID: <dd566af6-9632-4768-b945-ec25db93814b@collabora.com>
-Date: Wed, 28 Aug 2024 12:02:24 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50EB8142E6F;
+	Wed, 28 Aug 2024 10:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724840613; cv=none; b=a9R7QH3FLPL7sCqXo+OA5+3ZhDD3zBBHdykTLIZRgWK+elxD8EVC+0QRuQnuI9kweOQYuZNL3XxOz6Iyde52ED49xJW1IPtjJ8HqIRlH5ZSFH3SXXhBW5xM2s9iPOp30m7Lrmo0gXiVIpvJl0n+nKJnH6WUQhsmxo5IVdzdcgdg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724840613; c=relaxed/simple;
+	bh=v4mNzuXWMR5xVj/YDdlp+dtthC0549x9mum6fXktL+k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=le8HoVbKT10dg9YNoPWSCmSy0Yu81ltcBikYGORRNgVXqTsCZmKQicQFcaY9A2TynAJqoO9PbvquIK4CAjn2vM3cu1dgurZYIlTtY6yO/07gvStgP5cUtkVo6cI2ByAu4GFt5mM1ENG8xtjhaa1og8X/YKYAiWBfRaMGs/+6NPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=0FTAnkuq; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=aFQK/ZLIDbeLUcGWGrZVvPLgm/ml3PTfZm4/e+yiKXc=; b=0FTAnkuq+zHry0MHA3HaPY0gHg
+	jEqvz5OWzxRwj3v6Bpvrz99N2hOXjox1zDzA+fsuX30tst99rscyOChpM2vRkYIGhksA9fPbUfoX4
+	5luES/5Ns6CW1i0Jy84FETYYSuDCsFuMlC9naAXZh2a4XwffugZa+mlRCZ/QjAarmXET0L9vT+0hP
+	87JAr8GgjJ6y+vX6H8mULY4q/2eWV78eU3R2rHm45R8NovJ5p0qS+XoKgLi6A4pQuxZ7lMWMn7HnO
+	sXtlJTCdbtJOPVAjvsd+B28qHqvkZzMyZvZnf4Co0u2Dbb7qqo/pq8eyZkrpWx0tqxN9DFCCAlupW
+	RD06O70g==;
+Received: from i5e8616cd.versanet.de ([94.134.22.205] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1sjFpo-0004U0-GI; Wed, 28 Aug 2024 12:23:28 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Alex Bee <knaerzche@gmail.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-media@vger.kernel.org, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Rob Herring <robh@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Subject: Re: (subset) [PATCH 0/3] Add VPU support for RK3128
+Date: Wed, 28 Aug 2024 12:24:38 +0200
+Message-ID: <14376251.lVVuGzaMjS@diego>
+In-Reply-To: <8a5f1856-823b-4cf7-a9fa-1dc6b9b54cd2@gmail.com>
+References:
+ <20240523185633.71355-1-knaerzche@gmail.com>
+ <171690893336.1899981.5081114224300578276.b4-ty@sntech.de>
+ <8a5f1856-823b-4cf7-a9fa-1dc6b9b54cd2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
-To: Tommaso Merciai <tomm.merciai@gmail.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
- <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
- <Zs3az1G/e5y5lkf1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-Content-Language: en-US
-From: Julien Massot <julien.massot@collabora.com>
-In-Reply-To: <Zs3az1G/e5y5lkf1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Tommaso,
-
-On 8/27/24 3:55 PM, Tommaso Merciai wrote:
-> Hi Niklas,
-> Thanks for your work.
+Am Sonntag, 4. August 2024, 18:42:13 CEST schrieb Alex Bee:
+> Hi Heiko
 > 
-> Hi Julien,
-> I think we can adopt a similar approach for the max96716 deserializer using your work
-> on max96714 driver. What do you think?
-> 
-> Thanks in advance.
+> Am 28.05.24 um 17:09 schrieb Heiko Stuebner:
+> > On Thu, 23 May 2024 20:56:30 +0200, Alex Bee wrote:
+> >> Similar to most Rockchip SoCs RK312x have hantro G1 based decoder and a
+> >> hantro H1 based encoder with attached iommu.
+> >>
+> >> The existing drivers can be used as-is.
+> >>
+> >> Fluster scores:
+> >>    - FFmpeg:
+> >>      - H.264: 127/135
+> >>      - VP8:    59/61
+> >>    - GStreamer:
+> >>      - H.264: 129/135
+> >>      - VP8:    59/61
+> >>
+> >> [...]
+> > Applied, thanks!
+> >
+> > [2/3] soc: rockchip: grf: Set RK3128's vpu main clock
+> >        commit: b465223129f951d110e633a305085bd8430d7df0
+> I just noticed this patch didn't make it in 6.11-rc1. While it's not really
+> important for this patch as the media mainainters didn't manage to apply
+> the vpu bindings patch for 6.11 anyways, it looks like all commits of your
+> v6.11-armsoc/drivers aren't merged. I still haven't fully understand how
+> the SoC tree *really* works, but I couldn't find a PR for this branch [0].
+
+That was me actually forgetting that branch :-( .
+
+With the rk3128 vpu-binding getting merged today, I just moved that
+onwards to 6.12 too. I guess this time I shouln't forget ;-)
 
 
-I don't think that supporting MAX96716 and MAX96714 in the same driver 
-is the best option
-
-MAX96714 is a very simple device with one input one output one video pipe.
-
-While the MAX96716 is a two inputs/outputs with four different pipes.
-
-IMHO we should have one driver for the 1 port GMSL2 devices, another 
-driver for the dual deserializers which will introduce more complex 
-routing, and another one for the quad deserializers since the register 
-layout is too much different.
-
-But that's only my opinion let's see when we will implement the dual 
-deserializer support.
-
-We can of course share some functions for those drivers like GPIO 
-handling or pattern generation.
-
-Regards,
-Julien
+Heiko
 
 
 
