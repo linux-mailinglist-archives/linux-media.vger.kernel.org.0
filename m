@@ -1,168 +1,247 @@
-Return-Path: <linux-media+bounces-17044-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17045-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB4D962B22
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 17:06:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE269962B4E
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 17:09:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63291284010
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 15:06:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51812B24CE7
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 15:09:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E77C41A08C0;
-	Wed, 28 Aug 2024 15:05:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F28C418801A;
+	Wed, 28 Aug 2024 15:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZtlyIXZl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i6634UzB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5491DA32;
-	Wed, 28 Aug 2024 15:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14185149C7A
+	for <linux-media@vger.kernel.org>; Wed, 28 Aug 2024 15:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724857559; cv=none; b=JkWoitQePJpL0P6TQeoGg5mxPihPvtwqBfec1/BIIooEDr+6e4/hWQueIKQp+2sMUsxysbbuZjRebHrvvvMdB5IabSR8wiBhBMq1yMY319qKWrAqP46goNgYXbBEhFMBcxPuGSaP6Y01bJ1a/+JlO49eEtb1Cdlnaqns3GS5lCI=
+	t=1724857694; cv=none; b=LE0UxMLhYExRVYONMct0NndNNpG57XX0Ifc6wsB4GW63/++e5Jt5Cm9KxxSx9NuvPPLuX1uk0VEd/qc8Pybos1V4yNhLmNvvTgd+D+H3LdGVu4g5IqRu/pceY3P5QzRYIgvhpgr/I5mEfOQ0wAhd8RZbcNF22lpb62Y5cCqoQes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724857559; c=relaxed/simple;
-	bh=6Vo1aKkY0Rdj6AZrKv1kbReR++M9czmdnc21wj24QlQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TsCRwBt281TR7meYuZDvU1uK19ljexrIzxGR0Exf0XqcbxmaP4xKu/NWpgEgaIDul4vXQPMBlUthWl2r950wk9M5rs9Gq2I7YTKA8UEhB/iePNjE+g2AZQo0yN5UbZhM2sF5jge3BcSrNxCFoHApnGvXEmdwIcB9LXwJnVaPaOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZtlyIXZl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3CDAC4CEC1;
-	Wed, 28 Aug 2024 15:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724857558;
-	bh=6Vo1aKkY0Rdj6AZrKv1kbReR++M9czmdnc21wj24QlQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZtlyIXZldOMARdAO3Q11fY81fJQfKJPNjKpbDcjLD0l4+jCjPohFdEvLkJBwp3X7l
-	 QmV8e+UOb4DhNx95fEARbw+HJXjcArzBDzs8IstHOJIiYl/IyC4GeGOUpN3JCY4FDa
-	 yEuRsFVtLad1CxjXieE63mm/ZizdYgaetD4CLGhfDKEIDEsmdOzIUvZx57hzzC0GJU
-	 X1d0SNGvt/B/IPYeEuMt0gICfKXy/rGt6o/r7PU75vg9C0qE4pXQHf4nfyyqWArZz5
-	 IcI4nTQ+WOGhNs6fbSJNE3g+R5v51/R26zrk6SA/t3AJqJyFb1cYF2aFu3NlSo5V+K
-	 RfhEGX0+ZyI3g==
-Date: Wed, 28 Aug 2024 10:05:56 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] dt-bindings: media: renesas,isp: Add Gen4 family
- fallback
-Message-ID: <20240828150556.GB3680498-robh@kernel.org>
-References: <20240826144352.3026980-1-niklas.soderlund+renesas@ragnatech.se>
- <20240826144352.3026980-2-niklas.soderlund+renesas@ragnatech.se>
- <cnca2gdh6c3kg5ybb4dxzlca5c7jsvz4tomibpkf746syejvmf@ndbq4qkykume>
- <20240827081233.GE2636928@fsdn.se>
- <20240827213441.GA30398@pendragon.ideasonboard.com>
- <9e18bbf4-ae22-4d53-a998-67ad5807d72b@kernel.org>
- <20240828105008.GJ30398@pendragon.ideasonboard.com>
- <530102e8-e638-49c1-a0ac-960c51d4f3dc@kernel.org>
+	s=arc-20240116; t=1724857694; c=relaxed/simple;
+	bh=bxF82gL7X9odamSqVR+Ny6CDw0IEU91RCpBvq6pdbPE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iaePUb9PUVJo4qCP63ItIRwmMKfd5apkYQm5hwM8PMqxt+5pTZ4l3j4XIkIsADTHxGW/gUDgELzI+Uz65rl4TzBeUQYCFQBb+pKHjGcvvQ+lAvgOXHFFASw9scaRRmiwj3cBCHnkVP+dYiGSHzQsgIu8CcY8KI8qz62O6l+zl68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i6634UzB; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724857692; x=1756393692;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=bxF82gL7X9odamSqVR+Ny6CDw0IEU91RCpBvq6pdbPE=;
+  b=i6634UzBvLdh8slh4WRQ9MlJ0FcWV/kdK03TlE/AVrEf7+UpNiS2b0yT
+   UZ9n6oUmURFbBkrNwD7oVqMD9/zzDcAHBFUSgcQiOto9VurPLccxZARJI
+   Oe6n5qTYyhNtUpCBu0rC3aGpafPM4BO8pQ9GmmJWtd0LTzmXs/asd1fN4
+   JQjObFe+b45IbPJoNC0x91I7ApB6dZSy95U8+SL04fQEQIzGFiq19FLGK
+   vMBYaZw12b9B/Q6yqC0hyV/L4xhCJmL8ENgbeadBIvkHYY2POPZHaBHqn
+   xF6CTEjD0VZ6LhdHYaO2DVG5toGmyg5xRC5SFcQQSVs/titMIVg30DNmW
+   Q==;
+X-CSE-ConnectionGUID: g8X4K/MBRHuNulilQA3lyw==
+X-CSE-MsgGUID: q8tP3v/BSTGkcIigTx1TNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23353233"
+X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; 
+   d="scan'208";a="23353233"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 08:08:12 -0700
+X-CSE-ConnectionGUID: 3tsZuQ/bRHKZBM4yUOslTQ==
+X-CSE-MsgGUID: e0pZOZEDTASN9xCyo5svrQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; 
+   d="scan'208";a="68095820"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.110])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 08:08:09 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH 2/7] media: v4l2-core: add v4l2_debugfs_if_alloc/free()
+In-Reply-To: <931a281c72e9c3081eaedc2d76806ebd770a0913.1724855053.git.hverkuil-cisco@xs4all.nl>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1724855053.git.hverkuil-cisco@xs4all.nl>
+ <931a281c72e9c3081eaedc2d76806ebd770a0913.1724855053.git.hverkuil-cisco@xs4all.nl>
+Date: Wed, 28 Aug 2024 18:08:03 +0300
+Message-ID: <87jzg0y9bg.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <530102e8-e638-49c1-a0ac-960c51d4f3dc@kernel.org>
+Content-Type: text/plain
 
-On Wed, Aug 28, 2024 at 01:06:37PM +0200, Krzysztof Kozlowski wrote:
-> On 28/08/2024 12:50, Laurent Pinchart wrote:
-> > On Wed, Aug 28, 2024 at 07:36:35AM +0200, Krzysztof Kozlowski wrote:
-> >> On 27/08/2024 23:34, Laurent Pinchart wrote:
-> >>> On Tue, Aug 27, 2024 at 10:12:33AM +0200, Niklas Söderlund wrote:
-> >>>> On 2024-08-27 08:31:22 +0200, Krzysztof Kozlowski wrote:
-> >>>>> On Mon, Aug 26, 2024 at 04:43:47PM +0200, Niklas Söderlund wrote:
-> >>>>>> The ISP Channel Selector IP is the same for all current Gen4 devices.
-> >>>>>> This was not known when adding support for V3U and V4H and a single SoC
-> >>>>>> specific compatible was used.
-> >>>>>>
-> >>>>>> Before adding more SoC specific bindings for V4M add a family compatible
-> >>>>>> fallback for Gen4. That way the driver only needs to be updated once for
-> >>>>>> Gen4, and we still have the option to fix any problems in the driver if
-> >>>>>> any testable differences between the SoCs are found.
-> >>>>>>
-> >>>>>> There are already DTS files using the V3U and V4H compatibles which
-> >>>>>> needs to be updated to not produce a warning for DTS checks. The driver
-> >>>>>> also needs to kept the compatible values to be backward compatible , but
-> >>>>>> for new Gen4 SoCs such as V4M we can avoid this.
-> >>>>>>
-> >>>>>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> >>>>>> ---
-> >>>>>> * Changes since v1
-> >>>>>> - New in v2.
-> >>>>>> ---
-> >>>>>>  Documentation/devicetree/bindings/media/renesas,isp.yaml | 3 ++-
-> >>>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
-> >>>>>>
-> >>>>>> diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
-> >>>>>> index 33650a1ea034..730c86f2d7b1 100644
-> >>>>>> --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
-> >>>>>> +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
-> >>>>>> @@ -22,6 +22,7 @@ properties:
-> >>>>>>        - enum:
-> >>>>>>            - renesas,r8a779a0-isp # V3U
-> >>>>>>            - renesas,r8a779g0-isp # V4H
-> >>>>>> +      - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
-> >>>>>
-> >>>>> Adding generic fallback post-factum is odd, does not feel reliable.
-> >>>>> Instead use specific compatibles as fallbacks.
-> >>>>
-> >>>> I agree, it feels a bit odd. But this was the road we hammered out at 
-> >>>> great pain for how to be able to move forward with this issue for the 
-> >>>> other IP block involved in video capture for R-Car Gen4, VIN [1]. This 
-> >>>> just mirrors that long discussion decision for the R-Car CSISP.
-> >>>>
-> >>>> I would hate to have different solutions for the two.
-> >>>>
-> >>>> 1. [PATCH v5 0/6] rcar-vin: Add support for R-Car V4M
-> >>>>    https://lore.kernel.org/all/20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se/
-> >>>
-> >>> The compatible fallback for VIN has been added following a request from
-> >>> Conor and Rob, so it would be nice if the three of you could agree to
-> >>> achieve consistency in the bindings :-)
-> >>
-> >> Don't twist our answers. You need fallback, but specific, not family.
-> >> There was a countless number of answers from Rob that specific
-> >> compatibles are preferred.
-> >>
-> >> Look, Conor's reply:
-> >>
-> >> https://lore.kernel.org/all/20240620-gating-coherent-af984389b2d7@spud/
-> >> Do you see family fallback? I think "r8a779g0" is SoC.
-> >>
-> >> Look here:
-> >> https://lore.kernel.org/all/20240610-screen-wolverine-78370c66d40f@spud/
-> >>
-> >> Or here
-> >> https://lore.kernel.org/all/20240624-rented-danger-300652ab8eeb@wendy/
-> >> where Conor agrees against!
-> >>
-> >> So let me actually NAK it - you got multiple comments on VIN to use
-> >> specific compatible.
-> > 
-> > Krzysztof, this tone is not acceptable, regardless of the technical
-> > argument. Period.
-> 
-> Except elevated arguments I don't think the tone is not acceptable.
+On Wed, 28 Aug 2024, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> Add new helpers to export received or transmitted HDMI InfoFrames to
+> debugfs.
+>
+> This complements similar code in drm where the transmitted HDMI infoframes
+> are exported to debugfs.
+>
+> The same names have been used as in drm, so this is consistent.
+>
+> The exported infoframes can be parsed with the edid-decode utility.
+>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  drivers/media/v4l2-core/v4l2-dv-timings.c | 63 +++++++++++++++++++++++
+>  include/media/v4l2-dv-timings.h           | 48 +++++++++++++++++
+>  2 files changed, 111 insertions(+)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-dv-timings.c b/drivers/media/v4l2-core/v4l2-dv-timings.c
+> index 942d0005c55e..86a8627f4bcc 100644
+> --- a/drivers/media/v4l2-core/v4l2-dv-timings.c
+> +++ b/drivers/media/v4l2-core/v4l2-dv-timings.c
+> @@ -1154,3 +1154,66 @@ int v4l2_phys_addr_validate(u16 phys_addr, u16 *parent, u16 *port)
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_phys_addr_validate);
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +
+> +#define DEBUGFS_FOPS(type, flag)					\
+> +static ssize_t								\
+> +infoframe_read_##type(struct file *filp,				\
+> +		      char __user *ubuf, size_t count, loff_t *ppos)	\
+> +{									\
+> +	struct v4l2_debugfs_if *infoframes = filp->private_data;	\
+> +									\
+> +	return infoframes->if_read((flag), infoframes->priv, filp,	\
+> +				   ubuf, count, ppos);			\
+> +}									\
+> +									\
+> +static const struct file_operations infoframe_##type##_fops = {		\
+> +	.owner   = THIS_MODULE,						\
+> +	.open    = simple_open,						\
+> +	.read    = infoframe_read_##type,				\
+> +}
+> +
+> +DEBUGFS_FOPS(avi, V4L2_DEBUGFS_IF_AVI);
+> +DEBUGFS_FOPS(audio, V4L2_DEBUGFS_IF_AUDIO);
+> +DEBUGFS_FOPS(spd, V4L2_DEBUGFS_IF_SPD);
+> +DEBUGFS_FOPS(hdmi, V4L2_DEBUGFS_IF_HDMI);
+> +
+> +struct v4l2_debugfs_if *v4l2_debugfs_if_alloc(struct dentry *root, u32 if_types,
+> +					      void *priv,
+> +					      v4l2_debugfs_if_read_t if_read)
+> +{
+> +	struct v4l2_debugfs_if *infoframes;
+> +
+> +	if (IS_ERR_OR_NULL(root) || !if_types || !if_read)
+> +		return NULL;
+> +
+> +	infoframes = kzalloc(sizeof(*infoframes), GFP_KERNEL);
+> +	if (!infoframes)
+> +		return NULL;
+> +
+> +	infoframes->if_dir = debugfs_create_dir("infoframes", root);
+> +	infoframes->priv = priv;
+> +	infoframes->if_read = if_read;
+> +	if (if_types & V4L2_DEBUGFS_IF_AVI)
+> +		debugfs_create_file("avi", 0400, infoframes->if_dir, infoframes, &infoframe_avi_fops);
+> +	if (if_types & V4L2_DEBUGFS_IF_AUDIO)
+> +		debugfs_create_file("audio", 0400, infoframes->if_dir, infoframes, &infoframe_audio_fops);
+> +	if (if_types & V4L2_DEBUGFS_IF_SPD)
+> +		debugfs_create_file("spd", 0400, infoframes->if_dir, infoframes, &infoframe_spd_fops);
+> +	if (if_types & V4L2_DEBUGFS_IF_HDMI)
+> +		debugfs_create_file("hdmi", 0400, infoframes->if_dir, infoframes, &infoframe_hdmi_fops);
+> +	return infoframes;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_debugfs_if_alloc);
+> +
+> +void v4l2_debugfs_if_free(struct v4l2_debugfs_if *infoframes)
+> +{
+> +	if (infoframes) {
+> +		debugfs_remove_recursive(infoframes->if_dir);
+> +		kfree(infoframes);
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_debugfs_if_free);
+> +
+> +#endif
+> diff --git a/include/media/v4l2-dv-timings.h b/include/media/v4l2-dv-timings.h
+> index 8fa963326bf6..13830411bd6c 100644
+> --- a/include/media/v4l2-dv-timings.h
+> +++ b/include/media/v4l2-dv-timings.h
+> @@ -8,6 +8,7 @@
+>  #ifndef __V4L2_DV_TIMINGS_H
+>  #define __V4L2_DV_TIMINGS_H
+>  
+> +#include <linux/debugfs.h>
 
-You cannot control nor change how someone interprets your tone, so there 
-is little point in arguing about it. But it would be worthwhile to 
-reflect on the comment.
+Please don't include headers from headers if you can get by with forward
+declarations.
 
-> Anyway, please provide references supporting your statement that Conor
-> and Rob encouraged using generic (not specific) fallback compatible.
+I recently discovered a lot of drm depending on getting seq_file.h and
+debugfs.h via media/cec.h...
 
-Encouraged? Certainly not, but tolerated or allowed, yes. Every other 
-Renesas binding reflects that.
+BR,
+Jani.
 
-Rob
+
+>  #include <linux/videodev2.h>
+>  
+>  /**
+> @@ -251,4 +252,51 @@ void v4l2_set_edid_phys_addr(u8 *edid, unsigned int size, u16 phys_addr);
+>  u16 v4l2_phys_addr_for_input(u16 phys_addr, u8 input);
+>  int v4l2_phys_addr_validate(u16 phys_addr, u16 *parent, u16 *port);
+>  
+> +/* Add support for exporting InfoFrames to debugfs */
+> +
+> +/*
+> + * HDMI InfoFrames start with a 3 byte header, then a checksum,
+> + * followed by the actual IF payload.
+> + *
+> + * The payload length is limited to 30 bytes according to the HDMI spec,
+> + * but since the length is encoded in 5 bits, it can be 31 bytes theoretically.
+> + * So set the max length as 31 + 3 (header) + 1 (checksum) = 35.
+> + */
+> +#define V4L2_DEBUGFS_IF_MAX_LEN (35)
+> +
+> +#define V4L2_DEBUGFS_IF_AVI	BIT(0)
+> +#define V4L2_DEBUGFS_IF_AUDIO	BIT(1)
+> +#define V4L2_DEBUGFS_IF_SPD	BIT(2)
+> +#define V4L2_DEBUGFS_IF_HDMI	BIT(3)
+> +
+> +typedef ssize_t (*v4l2_debugfs_if_read_t)(u32 type, void *priv,
+> +					  struct file *filp, char __user *ubuf,
+> +					  size_t count, loff_t *ppos);
+> +
+> +struct v4l2_debugfs_if {
+> +	struct dentry *if_dir;
+> +	void *priv;
+> +
+> +	v4l2_debugfs_if_read_t if_read;
+> +};
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +struct v4l2_debugfs_if *v4l2_debugfs_if_alloc(struct dentry *root, u32 if_types,
+> +					      void *priv,
+> +					      v4l2_debugfs_if_read_t if_read);
+> +void v4l2_debugfs_if_free(struct v4l2_debugfs_if *infoframes);
+> +#else
+> +static inline
+> +struct v4l2_debugfs_if *v4l2_debugfs_if_alloc(struct dentry *root, u32 if_types,
+> +					      void *priv,
+> +					      v4l2_debugfs_if_read_t if_read)
+> +{
+> +	return NULL;
+> +}
+> +
+> +static inline void v4l2_debugfs_if_free(struct v4l2_debugfs_if *infoframes)
+> +{
+> +}
+> +#endif
+> +
+>  #endif
+
+-- 
+Jani Nikula, Intel
 
