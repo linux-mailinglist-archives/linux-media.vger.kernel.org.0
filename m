@@ -1,181 +1,281 @@
-Return-Path: <linux-media+bounces-16993-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16994-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021C79621E5
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 09:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1799621FC
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 10:02:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75FA31F26169
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 07:57:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D6751F25FB9
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 08:02:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCEF815B107;
-	Wed, 28 Aug 2024 07:57:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E54915AACA;
+	Wed, 28 Aug 2024 08:02:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aeVygJH+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F4MAmccO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27EE157481;
-	Wed, 28 Aug 2024 07:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC11C200CD
+	for <linux-media@vger.kernel.org>; Wed, 28 Aug 2024 08:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724831859; cv=none; b=SL6fBOZ0Tl8W7RocXx5emEIsP7AO4ACttZwArHnMlGi3GI+BzgxM+3XpHpxbzvb3VmtUtmDx85tAP6HjgAAkERk2qKTYqqy3eziMpuTdzN8rpn5ElblkaaI+Wqc0ffTYOty6r0cqCxV3TwhirN3SoU2lMOe9DGluZAHcXrphIf8=
+	t=1724832169; cv=none; b=ftmy0gSj/HWbqydIGS9U07jbSZFByzMCYg4PCHrJkivfcZyvh0qh4DbZe3Q1aDxs9MSPdHMq5InD9DNR/4MJKt+s+ss6dOj+TYkj31L+r3GLMDZiP5/U6sfmVuQRr5qXAATt5vyyGm1oyqf96V297yH69YPDfxkvvLWiwrkQiHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724831859; c=relaxed/simple;
-	bh=K05FAUrcORe/ubjhrV0cVi3teIVNufzeXBPHAZQoR8M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HFScB3Gbovlr2r0GUm9kA51eUFfUtvvP9wuRfKsH3rE8AkSZYXv6lobfyuRd8bA60sgDfY+vWZGF7Zd5yOfVQzlIvTqyFJOtYtcorpWDFH+QKzxQcHoKKBPUkToKTaanX2j6Le8UnXVWMozhG7IAA0G+H/b6aULdCbP58EmxqVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aeVygJH+; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2d3dacaccfaso4316733a91.0;
-        Wed, 28 Aug 2024 00:57:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724831857; x=1725436657; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GfqHwI8DhzI+oBVoPKsWjmnloLfBOCfpckFVyP5GIik=;
-        b=aeVygJH+Fj9VOSSGpY6cVL1004ZD2yu6hl2B72riU+DkPFmZGxtfj2Ptx4Je4YcORO
-         fyRhv2xiN7YpAQrQ5Jl2yIN2BvmX/PdW/OLYCdY8dHPXLg14zg7rKtWkCcGdcCG5jljt
-         pGVz9jlbCzMsKYIS92/PErODlg+f0Mmac08iYYI6gDeUpfzYWCGiZb3qdHt3awEa9fK1
-         X3V6cQ4aosqOjotNlkCNL9kOvi/Z4HTGbxueFmBQN5o8A+IViyZagx88wShGYjLn/gli
-         NYcWvvd5Q5VqwVXEXlSs5U/IjIHMN3teM/IO/lqd6V6TWvZKrhKtRLo22b2J1PTh4XIB
-         CTzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724831857; x=1725436657;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GfqHwI8DhzI+oBVoPKsWjmnloLfBOCfpckFVyP5GIik=;
-        b=NGH4SvVl23/N41LmYPWtzim4gcmHT2PV1X7B5aMtWkBhXVXvi7c2VUSnSGMAnsyfEV
-         FtiLXgDBVTpyFH2ubzrr19SPbuPo1fgmvKiTa+fBiaX7scxxCQfUd/A+nuPGIEgkmudh
-         oVBT5H+rdUDduqDtaF24j/UOYMmIuQHYJ/901eCjc6uN0HzPcBk70BIDmTFkjPnbSAaL
-         6tdGezVDGH4E8HQZYYHt6IoA5txngSDtuZZexZl6E2j3SuByCm5HT/16uSTSAw4PLaSm
-         UZ/BozBviSyrCssXCiulF8aM6/UWq52RAvTLQm6pFfQ+zP1P6ptRjyLP0fMJ9T/K/WHg
-         ff+g==
-X-Forwarded-Encrypted: i=1; AJvYcCUPYS1Fqx0CxFwfTpQySauaxqEPaApjIafEK+HXm0bM/IeXr1LX6QBFXR+cFACyispXEsKncGnVA6BO@vger.kernel.org, AJvYcCUc9JSJA8iS/kfs7Axz0eP7JrZPSEXAyrvQDJWuMHlcDB3kL4QKqnrhgpRu7VFmhWrK75+uagp0NmMrRzo=@vger.kernel.org, AJvYcCUh00Ln4C52Q1p+1cv1EegzeYWNNDez0meyEPyZCqb4JCxu4gmDt8NCZWj4tXsA9LK2knPUTzSDB/dx+YNf@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHXxqt4cCVNlv0WTK+fKWVhtQ47Qd070t6pPvZj0+2MH+OMgHs
-	dUrOmCaUB0g1l1iLM8V+x/OgE5NmYnpWNovgbn/ihSwC9415gS5N
-X-Google-Smtp-Source: AGHT+IFVTQ3LfaXYubmmh//jrLLb1bQzxGTiF8xttq0VDGjJnNc/pBZNhv6nCpqY0o/0dZ2GXjw0+w==
-X-Received: by 2002:a17:90a:600c:b0:2c8:da73:af82 with SMTP id 98e67ed59e1d1-2d646bb1094mr15667628a91.10.1724831856982;
-        Wed, 28 Aug 2024 00:57:36 -0700 (PDT)
-Received: from [172.19.1.53] (60-250-196-139.hinet-ip.hinet.net. [60.250.196.139])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d844641416sm992321a91.44.2024.08.28.00.57.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Aug 2024 00:57:36 -0700 (PDT)
-Message-ID: <1d2d2637-b897-4fb5-ab4e-c419c154a744@gmail.com>
-Date: Wed, 28 Aug 2024 15:57:32 +0800
+	s=arc-20240116; t=1724832169; c=relaxed/simple;
+	bh=kaDL87jcY4BOun6cQzacGwM20kud3q17MLLvTCR8o3k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mBkT3HCUuHTNEDnYJ1lGV2UL5gNnbfGwmouHjMhO0CiSMxLtL8Kt6YGvMtL/PHa9ck6y9SxBTE/2YYmxrgI1Bos7u5vg5BGxUCf3J3nHXwfqHAw5sGHqGl4nxTHUPxMod471Yt0wmOyzGfQJ9Mc0tkTOxtmZwt3GaIqoO3n3S0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F4MAmccO; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724832167; x=1756368167;
+  h=date:from:to:cc:subject:message-id;
+  bh=kaDL87jcY4BOun6cQzacGwM20kud3q17MLLvTCR8o3k=;
+  b=F4MAmccOe5WaRrLSYB1v/YqSGZLqRxwrpiWfw5mRAgqT23UKsCmM6WPM
+   0gsFdYnihgeEi5CBNWFIr/PVzUrJCLlktUxsqnDF85tw4r2P/OK8atP/Z
+   XC7dI58EcYzKp/BBBvtAMJ6yh88SAgMezgo5h3cf9LtrCcUp8yyrKE8I7
+   cC7r4Rb+S6bzT1p0h8p7RqOcliohWvEary2CGbsmPGd6vJolzP5L3Tign
+   ho9xK7XcjCWD6Uf4aANy0swtnRj5BJ9TLDYRw84qmNm/WZFAZXoPxtNIV
+   RfeUqn135VSSKdmP6Dl/urB/RhT8BLCx51pWCgXL3aIM1zh6O12UnGu+W
+   Q==;
+X-CSE-ConnectionGUID: eitFPwRMTUqRVVh2eARpjA==
+X-CSE-MsgGUID: ZgjQHX0CQIix0rfDOtdYDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23526475"
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
+   d="scan'208";a="23526475"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 01:02:46 -0700
+X-CSE-ConnectionGUID: o7F310rPRLOqW/8VuCJnqw==
+X-CSE-MsgGUID: QwO/pbl7RQ+RL6lmHohFWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
+   d="scan'208";a="93931766"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 28 Aug 2024 01:02:45 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sjDdb-000KdK-0Q;
+	Wed, 28 Aug 2024 08:02:43 +0000
+Date: Wed, 28 Aug 2024 16:02:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:devel] BUILD SUCCESS
+ 56a09be5563ee2ffdd91c9021852f3acffc1817c
+Message-ID: <202408281613.zwFTNulL-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: mtd: nuvoton,ma35d1-nand: add new
- bindings
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: richard@nod.at, vigneshr@ti.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- esben@geanix.com, linux-arm-kernel@lists.infradead.org,
- linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20240821071132.281018-1-hpchen0nvt@gmail.com>
- <20240821071132.281018-2-hpchen0nvt@gmail.com>
- <20240823182616.5a85e1ae@xps-13>
- <fd0d73cf-6bce-4f7b-9513-5f434ab9ae00@gmail.com>
- <20240828094846.166c7de6@xps-13>
-Content-Language: en-US
-From: Hui-Ping Chen <hpchen0nvt@gmail.com>
-In-Reply-To: <20240828094846.166c7de6@xps-13>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Dear Miquel,
+tree/branch: git://linuxtv.org/sailus/media_tree.git devel
+branch HEAD: 56a09be5563ee2ffdd91c9021852f3acffc1817c  staging: media: ipu3: Stop streaming in inverse order of starting
 
-Thank you for your reply.
+elapsed time: 1467m
 
+configs tested: 188
+configs skipped: 6
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-On 2024/8/28 下午 03:48, Miquel Raynal wrote:
-> Hi Hui-Ping,
->
-> hpchen0nvt@gmail.com wrote on Wed, 28 Aug 2024 10:47:17 +0800:
->
->> Dear Miquèl,
->>
->> Thank you for your reply.
->>
->>
->>
->> On 2024/8/24 上午 12:26, Miquel Raynal wrote:
->>> Hi,
->>>
->>> hpchen0nvt@gmail.com wrote on Wed, 21 Aug 2024 07:11:31 +0000:
->>>   
->>>> Add dt-bindings for the Nuvoton MA35 SoC NAND Controller.
->>>>
->>>> Signed-off-by: Hui-Ping Chen <hpchen0nvt@gmail.com>
->>>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>> ---
->>>>    .../bindings/mtd/nuvoton,ma35d1-nand.yaml     | 93 +++++++++++++++++++
->>>>    1 file changed, 93 insertions(+)
->>>>    create mode 100644 Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml b/Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml
->>>> new file mode 100644
->>>> index 000000000000..152784e73263
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml
->>>> @@ -0,0 +1,93 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/mtd/nuvoton,ma35d1-nand.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: Nuvoton MA35D1 NAND Flash Interface (NFI) Controller
->>>> +
->>>> +maintainers:
->>>> +  - Hui-Ping Chen <hpchen0nvt@gmail.com>
->>>> +
->>>> +allOf:
->>>> +  - $ref: nand-controller.yaml#
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    enum:
->>>> +      - nuvoton,ma35d1-nand
->>> Can we please use the -nand-controller suffix. A NAND is a the common
->>> name for a chip with storage inside. You are describing a host
->>> controller that can be connected to in order to talk to a NAND.
->>
->> Okay, I will change it to nuvoton,ma35d1-nfi.
->>
->> Because in our platform, it is the NAND Flash Interface.
-> nfi is not an acronym that is understandable by everyone. Please use
-> -nand-controller. Don't be worried by the size of the string.
->
-> You can use the acronym as prefix for your NAND controller functions
-> though.
+tested configs:
+alpha                            alldefconfig   gcc-13.2.0
+alpha                             allnoconfig   gcc-13.2.0
+alpha                            allyesconfig   gcc-13.3.0
+alpha                               defconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                          axs101_defconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                   randconfig-001-20240828   gcc-13.2.0
+arc                   randconfig-002-20240828   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                              allmodconfig   gcc-14.1.0
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-14.1.0
+arm                                 defconfig   gcc-13.2.0
+arm                      footbridge_defconfig   gcc-13.2.0
+arm                            mmp2_defconfig   gcc-13.2.0
+arm                   randconfig-001-20240828   gcc-13.2.0
+arm                   randconfig-002-20240828   gcc-13.2.0
+arm                   randconfig-003-20240828   gcc-13.2.0
+arm                   randconfig-004-20240828   gcc-13.2.0
+arm                         s5pv210_defconfig   gcc-13.2.0
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240828   gcc-13.2.0
+arm64                 randconfig-002-20240828   gcc-13.2.0
+arm64                 randconfig-003-20240828   gcc-13.2.0
+arm64                 randconfig-004-20240828   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240828   gcc-13.2.0
+csky                  randconfig-002-20240828   gcc-13.2.0
+hexagon                          allmodconfig   clang-20
+hexagon                          allyesconfig   clang-20
+i386                             allmodconfig   clang-18
+i386                             allmodconfig   gcc-12
+i386                              allnoconfig   clang-18
+i386                              allnoconfig   gcc-12
+i386                             allyesconfig   clang-18
+i386                             allyesconfig   gcc-12
+i386         buildonly-randconfig-001-20240828   gcc-12
+i386         buildonly-randconfig-002-20240828   clang-18
+i386         buildonly-randconfig-002-20240828   gcc-12
+i386         buildonly-randconfig-003-20240828   clang-18
+i386         buildonly-randconfig-003-20240828   gcc-12
+i386         buildonly-randconfig-004-20240828   gcc-12
+i386         buildonly-randconfig-005-20240828   gcc-12
+i386         buildonly-randconfig-006-20240828   clang-18
+i386         buildonly-randconfig-006-20240828   gcc-12
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240828   clang-18
+i386                  randconfig-001-20240828   gcc-12
+i386                  randconfig-002-20240828   gcc-12
+i386                  randconfig-003-20240828   clang-18
+i386                  randconfig-003-20240828   gcc-12
+i386                  randconfig-004-20240828   clang-18
+i386                  randconfig-004-20240828   gcc-12
+i386                  randconfig-005-20240828   clang-18
+i386                  randconfig-005-20240828   gcc-12
+i386                  randconfig-006-20240828   gcc-12
+i386                  randconfig-011-20240828   gcc-12
+i386                  randconfig-012-20240828   gcc-12
+i386                  randconfig-013-20240828   clang-18
+i386                  randconfig-013-20240828   gcc-12
+i386                  randconfig-014-20240828   gcc-11
+i386                  randconfig-014-20240828   gcc-12
+i386                  randconfig-015-20240828   gcc-12
+i386                  randconfig-016-20240828   gcc-11
+i386                  randconfig-016-20240828   gcc-12
+loongarch                        allmodconfig   gcc-14.1.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch             randconfig-001-20240828   gcc-13.2.0
+loongarch             randconfig-002-20240828   gcc-13.2.0
+m68k                             allmodconfig   gcc-14.1.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                             allyesconfig   gcc-14.1.0
+m68k                                defconfig   gcc-13.2.0
+microblaze                       allmodconfig   gcc-14.1.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                       allyesconfig   gcc-14.1.0
+microblaze                          defconfig   gcc-13.2.0
+microblaze                      mmu_defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+mips                     cu1000-neo_defconfig   gcc-13.2.0
+mips                      malta_kvm_defconfig   gcc-13.2.0
+mips                      maltasmvp_defconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240828   gcc-13.2.0
+nios2                 randconfig-002-20240828   gcc-13.2.0
+openrisc                          allnoconfig   gcc-14.1.0
+openrisc                         allyesconfig   gcc-14.1.0
+openrisc                            defconfig   gcc-14.1.0
+parisc                           allmodconfig   gcc-14.1.0
+parisc                            allnoconfig   gcc-14.1.0
+parisc                           allyesconfig   gcc-14.1.0
+parisc                              defconfig   gcc-14.1.0
+parisc                randconfig-001-20240828   gcc-13.2.0
+parisc                randconfig-002-20240828   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                          allmodconfig   gcc-14.1.0
+powerpc                           allnoconfig   gcc-14.1.0
+powerpc                          allyesconfig   clang-20
+powerpc                          allyesconfig   gcc-14.1.0
+powerpc               randconfig-003-20240828   gcc-13.2.0
+powerpc                    socrates_defconfig   gcc-13.2.0
+powerpc64             randconfig-001-20240828   gcc-13.2.0
+powerpc64             randconfig-002-20240828   gcc-13.2.0
+powerpc64             randconfig-003-20240828   gcc-13.2.0
+riscv                            allmodconfig   clang-20
+riscv                            allmodconfig   gcc-14.1.0
+riscv                             allnoconfig   gcc-14.1.0
+riscv                            allyesconfig   clang-20
+riscv                            allyesconfig   gcc-14.1.0
+riscv                               defconfig   gcc-14.1.0
+riscv                 randconfig-001-20240828   gcc-13.2.0
+riscv                 randconfig-002-20240828   gcc-13.2.0
+s390                             allmodconfig   clang-20
+s390                              allnoconfig   clang-20
+s390                              allnoconfig   gcc-14.1.0
+s390                             allyesconfig   clang-20
+s390                             allyesconfig   gcc-14.1.0
+s390                                defconfig   gcc-14.1.0
+s390                  randconfig-001-20240828   gcc-13.2.0
+s390                  randconfig-002-20240828   gcc-13.2.0
+sh                               allmodconfig   gcc-14.1.0
+sh                                allnoconfig   gcc-13.2.0
+sh                               allyesconfig   gcc-14.1.0
+sh                                  defconfig   gcc-14.1.0
+sh                         ecovec24_defconfig   gcc-13.2.0
+sh                            migor_defconfig   gcc-13.2.0
+sh                    randconfig-001-20240828   gcc-13.2.0
+sh                    randconfig-002-20240828   gcc-13.2.0
+sh                          rsk7203_defconfig   gcc-13.2.0
+sh                           se7712_defconfig   gcc-13.2.0
+sh                   secureedge5410_defconfig   gcc-13.2.0
+sh                             shx3_defconfig   gcc-13.2.0
+sparc                            allmodconfig   gcc-14.1.0
+sparc64                             defconfig   gcc-14.1.0
+sparc64               randconfig-001-20240828   gcc-13.2.0
+sparc64               randconfig-002-20240828   gcc-13.2.0
+um                               allmodconfig   clang-20
+um                               allmodconfig   gcc-13.3.0
+um                                allnoconfig   clang-17
+um                                allnoconfig   gcc-14.1.0
+um                               allyesconfig   gcc-12
+um                               allyesconfig   gcc-13.3.0
+um                                  defconfig   gcc-14.1.0
+um                             i386_defconfig   gcc-14.1.0
+um                    randconfig-001-20240828   gcc-13.2.0
+um                    randconfig-002-20240828   gcc-13.2.0
+um                           x86_64_defconfig   gcc-14.1.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240828   clang-18
+x86_64       buildonly-randconfig-002-20240828   clang-18
+x86_64       buildonly-randconfig-003-20240828   clang-18
+x86_64       buildonly-randconfig-004-20240828   clang-18
+x86_64       buildonly-randconfig-005-20240828   clang-18
+x86_64       buildonly-randconfig-006-20240828   clang-18
+x86_64                              defconfig   clang-18
+x86_64                              defconfig   gcc-11
+x86_64                randconfig-001-20240828   clang-18
+x86_64                randconfig-002-20240828   clang-18
+x86_64                randconfig-003-20240828   clang-18
+x86_64                randconfig-004-20240828   clang-18
+x86_64                randconfig-005-20240828   clang-18
+x86_64                randconfig-006-20240828   clang-18
+x86_64                randconfig-011-20240828   clang-18
+x86_64                randconfig-012-20240828   clang-18
+x86_64                randconfig-013-20240828   clang-18
+x86_64                randconfig-014-20240828   clang-18
+x86_64                randconfig-015-20240828   clang-18
+x86_64                randconfig-016-20240828   clang-18
+x86_64                randconfig-071-20240828   clang-18
+x86_64                randconfig-072-20240828   clang-18
+x86_64                randconfig-073-20240828   clang-18
+x86_64                randconfig-074-20240828   clang-18
+x86_64                randconfig-075-20240828   clang-18
+x86_64                randconfig-076-20240828   clang-18
+x86_64                          rhel-8.3-rust   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                randconfig-001-20240828   gcc-13.2.0
+xtensa                randconfig-002-20240828   gcc-13.2.0
 
-Okay, I will change it to nuvoton,ma35d1-nand-controller.
-
-
-
-> Thanks,
-> Miquèl
-
-
-Best regards,
-
-Hui-Ping Chen
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
