@@ -1,220 +1,242 @@
-Return-Path: <linux-media+bounces-16957-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16958-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF170961B36
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 02:56:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C644A961BD4
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 04:08:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 250951F24875
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 00:56:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4653D1F24A33
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 02:08:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B50E1A270;
-	Wed, 28 Aug 2024 00:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 855A94AEC6;
+	Wed, 28 Aug 2024 02:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="LHQ280W+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KWLjs7/Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010040.outbound.protection.outlook.com [52.101.228.40])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9D7322A;
-	Wed, 28 Aug 2024 00:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724806569; cv=fail; b=gRF7T0c5CzDjKUL0aDlkHhb/OKSgxfbmu+kIE753s7PUIrs5QSU/fNpVtPQdxz1ICXdYs6PMhQALzDlMmc2vAtEytnQRSMwad0jyRW2VrdddoGzz+iuy0cpf6G5XMG5RZXPl+GE5BPF10HCprK6e8fBi3z2V3wsj0ZPBwe3W+6k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724806569; c=relaxed/simple;
-	bh=Vuxefuf9muFgreJrkK2xHMLXXkkQ9YOVHnLn+8lVPFQ=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=SXyCWQ15oNoAJCslFuGSMK0Yo1KNnPAS9kKhG0ZtxVN6xZKGn8eWTnaM6r6SSk+WyYrHB6wMuMvIaj72VS5dBo18QvvOctuLb528W1QSsWxlD3Iop+40f5KopQIQ8exVbbyt9FAymMfdHxqUQwQQx8kH0lDFhb1rZ7OtPEXYhJ0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=LHQ280W+; arc=fail smtp.client-ip=52.101.228.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VESUkiujlFoXAz42eV36FsvnRvpRfNvwcMEzsNCKJYDjpvgun/uBcleYf5u3o0Yx0AyZqxUXdaQXOzaVZi/S0y8b9+XtyYsZHzQnUgUORM/fEUgOtPshoZ2G0m7an1A7ppQy8m1v/lNrdg7acjUFnDCpTTj11tfNsS4VUYnvEFx31aurvKGvUqLVFYXQk/y7+OzE4X5hhrrBt4j0s6fTGAEdg1HIA7BfaON3Wd+ILG2zPEYHC6/zVuNSbttamQP7MQmdFbyRtuJfxR5H1i70/nfQ1PKaB6dma8bGiNMkR6V1C0c2YpX9RMsfW4Mh/bpH04Uufnzvl/nxwqUtGFEr6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AmLDuHWz3ia+yubnIbik7DzrJXWTnxAsSICokWqPLk0=;
- b=KtvP05nHy3Vx6k88IuQdRM9EyuSMGRSIuPrO6e4onWnXQmGriEOAZEm4Z1SasA/t6JnkOO5H4tXKJr8FmEYctgBNlP8BJT1On5KlwTjQrgCVp6yt9596jxaNJkhdzoDTJQaV13yzOa1ILRdMst0bTUwlk3arq8GLYj3YJW7F2vAbbmDQs+h6JDfjnTO6TChoSUy+TM4pl1zCGaIIPBBfuFinpGJMMEth7SbWTH5bnhnZAYt2lzrmuJ4xt9ZTMtzYcNS2dilGiy0WxcC7d5FgOhmDpisD3Y1eC3tlaOtbyfAx/6to7ktrTbVjMGeWZIjhlgLUK7uX/IAdY6EJwHAqvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AmLDuHWz3ia+yubnIbik7DzrJXWTnxAsSICokWqPLk0=;
- b=LHQ280W+6kjGpWTs2L9//R4hTV95nVj6r2NpkM26A4Bus0dtar6wji2z9CKIs68lCC7ueuBS7/cxhG1sOIJUqhXJrHNYKtb5dGnsJuIxZvY0+QFo1Nj/OmGL9aMXsQVsKnIQNELupklR8iPHaM26hemdMxf2F3n5Dx59Phjk3ek=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB10906.jpnprd01.prod.outlook.com
- (2603:1096:400:3af::14) by OS3PR01MB6610.jpnprd01.prod.outlook.com
- (2603:1096:604:10a::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Wed, 28 Aug
- 2024 00:56:03 +0000
-Received: from TY3PR01MB10906.jpnprd01.prod.outlook.com
- ([fe80::592:9b7b:ef57:2dd8]) by TY3PR01MB10906.jpnprd01.prod.outlook.com
- ([fe80::592:9b7b:ef57:2dd8%6]) with mapi id 15.20.7875.016; Wed, 28 Aug 2024
- 00:56:02 +0000
-Message-ID: <87h6b531p9.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v3 2/9] of: property: add of_graph_get_next_port_endpoint()
-In-Reply-To: <CAL_JsqLysakbSdENNy+_XvotK9_eHG0KP50s6gtfFUYntawyWw@mail.gmail.com>
-References: <87cylwqa12.wl-kuninori.morimoto.gx@renesas.com>
-	<87a5h0qa0g.wl-kuninori.morimoto.gx@renesas.com>
-	<20240826154009.GA300981-robh@kernel.org>
-	<87bk1ebz59.wl-kuninori.morimoto.gx@renesas.com>
-	<CAL_JsqLysakbSdENNy+_XvotK9_eHG0KP50s6gtfFUYntawyWw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 28 Aug 2024 00:56:02 +0000
-X-ClientProxiedBy: TYAPR01CA0230.jpnprd01.prod.outlook.com
- (2603:1096:404:11e::26) To TY3PR01MB10906.jpnprd01.prod.outlook.com
- (2603:1096:400:3af::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09CC1B960;
+	Wed, 28 Aug 2024 02:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724810890; cv=none; b=mC1JwX5t0/RBo5I3+qaIJ2QOkqf/iZG4v77SkRUHwazsKYPd2DFqrzSMKVMF77LJ5ao/KpgN+ATA6Y0qbAfwtPxhA1KZIzEF6VLOy219zPOeFrXlR3o+ETBr0ydp1zNBvJWSKtlrrwVKHi1RVqhLQA0MBwtvvbl+PQDn9snGepA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724810890; c=relaxed/simple;
+	bh=pzUAQn72g2IjCrxzBepeE/qG72phh6RPMrG0ZGM/Z3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P2QTCIemQhj+2uealJuHkyl57aDarnH2TAFZP1c1JE7ZTU8YPwikTvuX+V1pR4g6F/8HFiiT6VCIvLLsNwjvRbYNR4la1wqoYPd6MrNBX5nUSqRtYFRm3aADw3G8jlC3UvHvZsHSKqfIO3jtB0PJi7xFacfJaeAJXNQkX6ZimH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KWLjs7/Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE076C32782;
+	Wed, 28 Aug 2024 02:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724810889;
+	bh=pzUAQn72g2IjCrxzBepeE/qG72phh6RPMrG0ZGM/Z3s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KWLjs7/Qgvmf2hi2p8A9apxAORROArPoVp+CC4l6de78ew1ocahCSwYtOVfub6hSw
+	 vPEYrdncp744CrpU6P0eHg6umPCILBFhEfOek20yLDgxNYz7TmbS7lqWq+uahxCWJj
+	 fr/CBLU3HGPf8eYZdcTzK3J9f9qs+KZW6Z0sgaOYwKyAQ2KuhpNZRJ/MqnDOP8hTVK
+	 G5vo8CCxCGIux6ys/PLL8pJkN++SObA8lv8/4aVxr4949xzGkDMlOwh1I/CnyULmAo
+	 X8mFp0iejp8u2BgRb+0Ree5w4fEztXMNrwrOZi6ZRxpL+qGbDF7rlC/AIniAyEzH2G
+	 aSE1ThtR59BRA==
+Date: Tue, 27 Aug 2024 19:08:05 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, "=?UTF-8?B?QmrDtnJuIFTDtnBl?=
+ =?UTF-8?B?bA==?=" <bjorn@kernel.org>, Magnus Karlsson
+ <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH net-next v22 03/13] netdev: support binding dma-buf to
+ netdevice
+Message-ID: <20240827190805.7f82deb0@kernel.org>
+In-Reply-To: <20240825041511.324452-4-almasrymina@google.com>
+References: <20240825041511.324452-1-almasrymina@google.com>
+	<20240825041511.324452-4-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB10906:EE_|OS3PR01MB6610:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0044f524-a945-4397-c6e2-08dcc6fc3087
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|7416014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?3gfvY74ntZbU0A5PExB5E0X6kOTvGhndRcOl2EVBsIXvuJWkl3GiK/hTaSfx?=
- =?us-ascii?Q?bHojQBdde+iT1YWf65GgEk53fEh3GnseY7OzSS5TldUaA4Q161qvWNJ8RyLF?=
- =?us-ascii?Q?qkN9DgMTKO9C4WW0c/OskzyZhxSO5TBqa33XdWLj+Qba7J5HF07V0xRLJaV4?=
- =?us-ascii?Q?Nsa39jjokCAXqOTl0SIX1Znme83RKICXHkCt2YmvYAH02FNvfTlRSsrbLS2F?=
- =?us-ascii?Q?tPhqUYLxJk5T3Y3UMOI3U7r3n0QmLl+0W3WX1bFwDpZMo0b5Ai51eAwig/UY?=
- =?us-ascii?Q?ENwqxM3iQU3jHIZxrDRUS9nn1uneB7YlZvKGYZ5LqAuEKd35PrRmkVKGlWzb?=
- =?us-ascii?Q?nnUPWzo46Vc2xs7uQTk5CsddgcSm3C7HwgH345qZbII5eyeCkhNF1P+f4a7P?=
- =?us-ascii?Q?BcQUkBKii0tYX6tzO4PbRGj10pMVZ7wMOotgbYWkV2adrVy5cNXCJPey2XXK?=
- =?us-ascii?Q?lyQ+5D6ghoxmx+0fdc0fpg9TXw4JHFoer312Foa1Sic0vVXXiIQxF2gtMw8S?=
- =?us-ascii?Q?F7QS+bpBAn25E8pNuggAEnO7UG+Mv9Vk9PWl2GRpPcozec8aADkoXXtPDcq0?=
- =?us-ascii?Q?i3qRARvEkWFL4LCseCS3iZOENbZr/MroYbafckQVQRTTfmLC2hsrXL1e/BWZ?=
- =?us-ascii?Q?N074U56unV9cftCOzg2lgI0utFI4DbssUDSMOF1R4fkYlvX70DnHspXIYN0a?=
- =?us-ascii?Q?nAzjA812h0032cyzcg5aHXQqqoQLS5cp7OmrQebDqLNQPlSD5X0liyp+VHiQ?=
- =?us-ascii?Q?wsjpL+Q/4gNK0NtUoqDwqd6Ts48dnLXMon7DHqTPmDGXduk4S4zLCuVO/OOW?=
- =?us-ascii?Q?iScOc2eJkYTlsi8jot6PX9z3R7TmtJEypgFQlBf3fCRtg+61Qqy26ioO4L/o?=
- =?us-ascii?Q?4qpOSkDCQOa6wp/BPFXjZbIAYrpMKHb0dLQb484nem2M7f6/JBq81kkheFur?=
- =?us-ascii?Q?Z/sEtlmsQWNHopOdwSsDt5/llwQPoCRbA2X5JA+fDlit+Que2G3d4hAoyycK?=
- =?us-ascii?Q?0MjGyzD5b89S3uGHbjp5IhU8bLnYPNJefyhXC6Joq9yJhE5kTia2C67cvmH6?=
- =?us-ascii?Q?nximXOOLqP5V6kjuUrTn7YVV0Z4pED/Rg1i7SkJ+bNuZaefZYly0O7ieuIzI?=
- =?us-ascii?Q?gnkAi3m3x9j7pv/U71kUjIVdowHzz8VhjucLHpUEuNwRT9T1f5fPHuMA50Eq?=
- =?us-ascii?Q?25hZ9Rp+73GYCXbZ7xHZMq3xy+zJrscLiqheZtV1jipvRewW+QbL/kO8BZeh?=
- =?us-ascii?Q?Hnap6rDWKBTz5xy42del9kI8H6EvJTAX9hEYVtDSQh38po4xsf5decu1nHo5?=
- =?us-ascii?Q?1Otms4SHJKzf36zrrOQXFsjS1hanZupPNz3hKRtsA+XmfcoT/F4BuR4unlxR?=
- =?us-ascii?Q?IXTf0DtHPYbM+QuTytf5tivea59jiRuQq7A4kSuVyiNW6POPMg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB10906.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ociBfkTzfVtVI+9J65CEq9L2dMWp/YFAVW4tKZsXufxmwORsmmY0G8ndt74X?=
- =?us-ascii?Q?2Tg5mVN1DAS84cS08Eq4ssU9mQ117fdTAQFsVx2BuHMJdQRoarMz5S+HYEKf?=
- =?us-ascii?Q?qjcVxq9BGwoFglvwLDnKbWDBv0eVB1eWHFFaZd16YIRKjCdyDFWbMMZBz3Ko?=
- =?us-ascii?Q?xnj6Ng92j+meZOYRpG0ye9TfTTSw3zkkmKcSSt9fLPD54heLT3tOy6igqZez?=
- =?us-ascii?Q?SYlYV94raxq3G2obSY7TAxeaoZunW1cgnSCTfbjKsACPZQaUvZpKy5+dVruC?=
- =?us-ascii?Q?NKgRf7OzsWw5q8c3gV/ozV0lsxyTyuPaszkebG3i53pNLUTBu4BlBj2+9zZr?=
- =?us-ascii?Q?VKwGAOs5MItwBMtGV/J4b/p5KL39i1lJoH4WFC6qfkM7THjAzYhKlHXjwExI?=
- =?us-ascii?Q?MOPJO7WtrJgSKzE6ysLEhBxqgpfbtmwOMFWjTWzdEIgRNUXO2FDbIbXYCAy7?=
- =?us-ascii?Q?YBbohwPGwPzGCFr7e6/NRSKLAiDvRv13Q3mRwuLhVS6TeX3Rr/4Wm3odcm0t?=
- =?us-ascii?Q?vsySuveocyW04FigDNXXYcUzHGkXkpkFyf3DDoy2bhUEmdyJs3ulZX1Rk5GW?=
- =?us-ascii?Q?WMfyZDVEb5OueDSX1r3FU5ZKW8bJLeqhowGx4o6bVJ5JJAj4EKErCn0d9Kyu?=
- =?us-ascii?Q?bsFfFwrf0wqNmpHVb15ny7Gf3Umpmj9ZVCha9fMS1pkEC7NDl27r9nwLZKSu?=
- =?us-ascii?Q?5Lpzbsa5e8zVlGGuDbBio7RF74qC91GOVpYmtBhW1LHJhMmLO5mqdoYpqylA?=
- =?us-ascii?Q?wTjBS+VwM1losTkwl+kLQQ8TDET6ZFk3CEXbhPdDZeFhg8XgPzNx/MjXcULv?=
- =?us-ascii?Q?N6KqTddwYgpF7Qwu9hsQcpnj3XOYcClNa+6UoyB3QpQBx1NBAgXz8BKwp3PW?=
- =?us-ascii?Q?MaXZBgcdye7t7GKTnPPl0hglnnlb72nBYH75e3YLg0+h+EHsJUmGLV+mPsFu?=
- =?us-ascii?Q?9up5+3bdZqvD2PCoyhR321GWWVqZ+JuCiVpMK0ugLz6HAWJxu0qgSn8grenM?=
- =?us-ascii?Q?ePNkumSM/obtgEwVmzbHWYKj5QL8CStYMsyW5BjXzVxtGWoApiOwAgRayrBK?=
- =?us-ascii?Q?HoXOWZtihiG/Ch8F3Eo7nkjs9qSfANvtXP1vDkgFP/T8uFNPJoLW0aPSKvnQ?=
- =?us-ascii?Q?yOVqEpxFP5mupmdpm1XWvBz5n3RcbHejpHEbYbX0nhzujBSdYw0wD5V6dwTj?=
- =?us-ascii?Q?pH/Ge3JKA5HVjRsgzsTQ6202i1zVUMAqiiEkDlv71opmV3z4jkkSQ95fCbA8?=
- =?us-ascii?Q?Oryc24zpieIe96+uCXH9DCbnxeJICswhWcrLfKvpIvwYCE/jFZ5T0muKRm9h?=
- =?us-ascii?Q?OUZvprX04wzsRIIMDGB3B9z/yQxJV04V+HMKEboK7vxWuqnQ5yuP/i47/M+v?=
- =?us-ascii?Q?B0+JrSrTjR608nEu2ceDdnwlvBs7I4TlFQHkjWfCy88S/QwXrTuiyZZEhZr7?=
- =?us-ascii?Q?qj2F9npWGN2CxIghxG8R8l3rBi3djyd7HWK2zNpGvZFn0NkwUI1kDus+LJFC?=
- =?us-ascii?Q?vrtrekcODNc/kJY9WrxL8v3NQ+zJGLljw5vtzsk57s6A3jrVF89wusSnQO0J?=
- =?us-ascii?Q?pdZFc9WYNMU+LQAk+FELZtYFEewsPdjG+suNOIDLr6zUQixJ5GSABfPtk1MB?=
- =?us-ascii?Q?YKPtxLXU4k9iwhiJfMe6xJE=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0044f524-a945-4397-c6e2-08dcc6fc3087
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB10906.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2024 00:56:02.8946
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lfATgaliq9VTDN39rma1zGmv+QMX4hakA0wjqJINSAbLGshToT/VpE2bY8TMDBmvBs/dydnqH6lccsEzqcWN63YdByLZSDu+SuoLOi1ihU4oEOYAJ6ReuT4dg9oCPRI5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6610
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Sun, 25 Aug 2024 04:15:01 +0000 Mina Almasry wrote:
+> +u32 dev_get_min_mp_channel_count(const struct net_device *dev)
+> +{
+> +	u32 i, max = 0;
+> +
+> +	ASSERT_RTNL();
+> +
+> +	for (i = 0; i < dev->real_num_rx_queues; i++)
+> +		if (dev->_rx[i].mp_params.mp_priv)
+> +			/* The channel count is the idx plus 1. */
+> +			max = i + 1;
 
-Hi Rob
+invert the loop so you're walking from highest indexes and you can
 
-> > And, we still need to consider about of_fwnode_graph_get_next_endpoint()
-> > which is the last user of of_graph_get_next_endpoint()
-> 
-> I missed fwnode_graph_get_next_endpoint() which has lots of users.
-> Though almost all of those are just "get the endpoint" and assume
-> there is only 1. In any case, it's a lot more than 3, so nevermind for
-> now.
+			return i + 1;
+	return 0;
 
-OK, thanks.
+> +	return max;
+> +}
+> +
+>  /**
+>   * dev_index_reserve() - allocate an ifindex in a namespace
+>   * @net: the applicable net namespace
 
-> So back to the name, I don't think we need _scoped in it. I think if
-> any user treats the iterator like it's the old style, the compiler is
-> going to complain.
-> 
-> > For example, when user want to use the param.
-> >
-> >         for_each_of_graph_port_endpoint(port, endpoint)
-> >                 if (xxx == yyy)
-> >                         return endpoint;
-> >
-> >         for_each_of_graph_port_endpoint_scoped(port, endpoint)
-> >                 if (xxx == yyy)
-> >                         return of_node_get(endpoint)
-> 
-> Actually, you would do "return_ptr(endpoint)" here.
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
 
-OK, nice to know about this
-I will try to use this style on v4
+> +#include <linux/types.h>
+> +#include <linux/mm.h>
+> +#include <linux/netdevice.h>
+> +#include <trace/events/page_pool.h>
+> +#include <net/netdev_rx_queue.h>
+> +#include <net/page_pool/types.h>
+> +#include <net/page_pool/helpers.h>
+> +#include <linux/genalloc.h>
+> +#include <linux/dma-buf.h>
+> +#include <net/devmem.h>
+> +#include <net/netdev_queues.h>
 
+Please sort include files alphabetically.
 
-Thank you for your help !!
+> +#if defined(CONFIG_DMA_SHARED_BUFFER) && defined(CONFIG_GENERIC_ALLOCATOR)
 
-Best regards
----
-Kuninori Morimoto
+Could you create a hidden Kconfig for this feature and use it to make
+building this entire file conditional? Hidden Kconfig has no
+description and no help, like config NET_DEVLINK, but it can have
+dependencies.
+
+> +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	struct netdev_rx_queue *rxq;
+> +	unsigned long xa_idx;
+> +	unsigned int rxq_idx;
+> +
+> +	if (binding->list.next)
+> +		list_del(&binding->list);
+> +
+> +	xa_for_each(&binding->bound_rxqs, xa_idx, rxq) {
+> +		if (rxq->mp_params.mp_priv == binding) {
+
+WARN_ON(rxq->mp_params.mp_priv != binding) ?
+We know we're bound to this queue, nobody should be able to replace 
+the mp, right?
+
+> +			rxq->mp_params.mp_priv = NULL;
+> +
+> +			rxq_idx = get_netdev_rx_queue_index(rxq);
+> +
+> +			WARN_ON(netdev_rx_queue_restart(binding->dev, rxq_idx));
+> +		}
+> +	}
+> +
+> +	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
+> +
+> +	net_devmem_dmabuf_binding_put(binding);
+> +}
+> +
+> +int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+> +				    struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	struct netdev_rx_queue *rxq;
+> +	u32 xa_idx;
+> +	int err;
+> +
+> +	if (rxq_idx >= dev->real_num_rx_queues)
+> +		return -ERANGE;
+> +
+> +	rxq = __netif_get_rx_queue(dev, rxq_idx);
+> +	if (rxq->mp_params.mp_priv)
+> +		return -EEXIST;
+> +
+> +#ifdef CONFIG_XDP_SOCKETS
+> +	if (rxq->pool)
+> +		return -EEXIST;
+
+EBUSY plus extack "designated queue already in use by AF_XDP"
+
+> +#endif
+> +
+> +	if (dev_xdp_prog_count(dev))
+> +		return -EEXIST;
+
+Also needs an extack, but since it's not queue-specific should 
+it not live inside net_devmem_bind_dmabuf() ? Or do you anticipate
+reuse of this function by non-dmabuf code?
+
+> +void dev_dmabuf_uninstall(struct net_device *dev)
+> +{
+> +	struct net_devmem_dmabuf_binding *binding;
+> +	struct netdev_rx_queue *rxq;
+> +	unsigned long xa_idx;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < dev->real_num_rx_queues; i++) {
+> +		binding = dev->_rx[i].mp_params.mp_priv;
+> +		if (!binding)
+> +			continue;
+> +
+> +		xa_for_each(&binding->bound_rxqs, xa_idx, rxq)
+> +			if (rxq == &dev->_rx[i])
+> +				xa_erase(&binding->bound_rxqs, xa_idx);
+
+break;
+
+I don't think we can store the same queue twice
+
+> +	}
+> +}
+> +#endif
+
+> diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
+> index 2d726e65211d..269faa37f84e 100644
+> --- a/net/core/netdev-genl.c
+> +++ b/net/core/netdev-genl.c
+> @@ -10,6 +10,7 @@
+>  #include <net/netdev_rx_queue.h>
+>  #include <net/netdev_queues.h>
+>  #include <net/busy_poll.h>
+> +#include <net/devmem.h>
+
+include order
+
+> +	return genlmsg_reply(rsp, info);
+
+Should we goto err_unbind if genlmsg_reply() fails?
+Shouldn't really happen unless socket is full but simple enough to fix.
 
