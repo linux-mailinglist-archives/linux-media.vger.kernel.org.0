@@ -1,43 +1,43 @@
-Return-Path: <linux-media+bounces-17037-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17038-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DC1962A2D
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 16:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24284962A2E
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 16:26:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 458431C23FB0
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 14:26:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F2361C23FA4
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 14:26:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28F90199FCE;
-	Wed, 28 Aug 2024 14:26:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E57431A071C;
+	Wed, 28 Aug 2024 14:26:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83DB189900
-	for <linux-media@vger.kernel.org>; Wed, 28 Aug 2024 14:26:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B44198E69
+	for <linux-media@vger.kernel.org>; Wed, 28 Aug 2024 14:26:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724855180; cv=none; b=DAjKE1hMeNvWIdBBm+WPq9C6sHVo/Vap+wDSxdt+VdV0ZnXma73K9iKU/gIdizaRRcvdgerKS+Lt+QtFa7pN1iup7xoKHF4jE6cfAM3P8G3FV8kTzvqPi1iiio02or/i3I94iNourYHrPMAxLYsBF3GQvLW15NDZpAhSL7u+/1Q=
+	t=1724855182; cv=none; b=HDUro+JJf1EP3Q9KJ3XHBM9tS9WoSj4HUzx9DsNRw2qIgPwa4C6/bCWRwdEXUnvp/VLEk9qC6dRQUWgxdG57MZrew0ZyDH9RF+8WrxlPQSjW65aBSumbQLms8h7yJseQP39XK8qv/fb1ByXrVg2euutwHO/MteG+NFU/0gPO4mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724855180; c=relaxed/simple;
-	bh=x4NPBqvgAgxZJKJuLMQEFczIcYUzF9/TyUkKvcf6gFE=;
+	s=arc-20240116; t=1724855182; c=relaxed/simple;
+	bh=tAoRMFi39lZg+m6FnDYux35K3dO9IG8nrfVPiZJ5lxI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nIs/27EH8Bo+I8XSsSNOeST4VNVgZhgGOYpKBlTgEwp+fBlmIPyLt8IOpqYY6IjOHOQ3WENhcdAZ8xhjBrHDqDE3wnLGOL+0nVX9WYWUNdp+i/bGcxE0DtwxYnyLc5TSu325Gcqn3aRR8ULUfhrgfPhLHaUVPtsf/UWTkvg9RUg=
+	 MIME-Version; b=OnZZ51dy2BDQ3Hv+HIVhZuqS+8tl6BX0oPlTlODZZ94EatEpZSsRTdNqCxjJiSwUpyfSzYUHmbdnEyHX7ZBtESRwOVhj1fKtOacJFh8vY6UCnKakeyDuKMwqqQTt49kZrdDPzEmu1pfrdlF8HO5Imrl456F+PbzGA8GHWXsBQus=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E6C5C4CEE5;
-	Wed, 28 Aug 2024 14:26:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2CC7C4CEE4;
+	Wed, 28 Aug 2024 14:26:20 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Maxime Ripard <mripard@kernel.org>,
 	dri-devel@lists.freedesktop.org,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 2/7] media: v4l2-core: add v4l2_debugfs_if_alloc/free()
-Date: Wed, 28 Aug 2024 16:24:08 +0200
-Message-ID: <931a281c72e9c3081eaedc2d76806ebd770a0913.1724855053.git.hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 3/7] media: i2c: adv7511-v4l2: export InfoFrames to debugfs
+Date: Wed, 28 Aug 2024 16:24:09 +0200
+Message-ID: <97bf01b2ab437dcf65dc48100c7c7c5377fc5480.1724855053.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1724855053.git.hverkuil-cisco@xs4all.nl>
 References: <cover.1724855053.git.hverkuil-cisco@xs4all.nl>
@@ -49,157 +49,173 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add new helpers to export received or transmitted HDMI InfoFrames to
-debugfs.
-
-This complements similar code in drm where the transmitted HDMI infoframes
-are exported to debugfs.
-
-The same names have been used as in drm, so this is consistent.
-
-The exported infoframes can be parsed with the edid-decode utility.
+Export InfoFrames to debugfs.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-dv-timings.c | 63 +++++++++++++++++++++++
- include/media/v4l2-dv-timings.h           | 48 +++++++++++++++++
- 2 files changed, 111 insertions(+)
+ drivers/media/i2c/adv7511-v4l2.c | 91 ++++++++++++++++++++++++++------
+ 1 file changed, 74 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dv-timings.c b/drivers/media/v4l2-core/v4l2-dv-timings.c
-index 942d0005c55e..86a8627f4bcc 100644
---- a/drivers/media/v4l2-core/v4l2-dv-timings.c
-+++ b/drivers/media/v4l2-core/v4l2-dv-timings.c
-@@ -1154,3 +1154,66 @@ int v4l2_phys_addr_validate(u16 phys_addr, u16 *parent, u16 *port)
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(v4l2_phys_addr_validate);
+diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
+index e9406d552699..4036972af3a6 100644
+--- a/drivers/media/i2c/adv7511-v4l2.c
++++ b/drivers/media/i2c/adv7511-v4l2.c
+@@ -116,6 +116,9 @@ struct adv7511_state {
+ 	unsigned edid_detect_counter;
+ 	struct workqueue_struct *work_queue;
+ 	struct delayed_work edid_handler; /* work entry */
 +
-+#ifdef CONFIG_DEBUG_FS
-+
-+#define DEBUGFS_FOPS(type, flag)					\
-+static ssize_t								\
-+infoframe_read_##type(struct file *filp,				\
-+		      char __user *ubuf, size_t count, loff_t *ppos)	\
-+{									\
-+	struct v4l2_debugfs_if *infoframes = filp->private_data;	\
-+									\
-+	return infoframes->if_read((flag), infoframes->priv, filp,	\
-+				   ubuf, count, ppos);			\
-+}									\
-+									\
-+static const struct file_operations infoframe_##type##_fops = {		\
-+	.owner   = THIS_MODULE,						\
-+	.open    = simple_open,						\
-+	.read    = infoframe_read_##type,				\
-+}
-+
-+DEBUGFS_FOPS(avi, V4L2_DEBUGFS_IF_AVI);
-+DEBUGFS_FOPS(audio, V4L2_DEBUGFS_IF_AUDIO);
-+DEBUGFS_FOPS(spd, V4L2_DEBUGFS_IF_SPD);
-+DEBUGFS_FOPS(hdmi, V4L2_DEBUGFS_IF_HDMI);
-+
-+struct v4l2_debugfs_if *v4l2_debugfs_if_alloc(struct dentry *root, u32 if_types,
-+					      void *priv,
-+					      v4l2_debugfs_if_read_t if_read)
-+{
++	struct dentry *debugfs_dir;
 +	struct v4l2_debugfs_if *infoframes;
-+
-+	if (IS_ERR_OR_NULL(root) || !if_types || !if_read)
-+		return NULL;
-+
-+	infoframes = kzalloc(sizeof(*infoframes), GFP_KERNEL);
-+	if (!infoframes)
-+		return NULL;
-+
-+	infoframes->if_dir = debugfs_create_dir("infoframes", root);
-+	infoframes->priv = priv;
-+	infoframes->if_read = if_read;
-+	if (if_types & V4L2_DEBUGFS_IF_AVI)
-+		debugfs_create_file("avi", 0400, infoframes->if_dir, infoframes, &infoframe_avi_fops);
-+	if (if_types & V4L2_DEBUGFS_IF_AUDIO)
-+		debugfs_create_file("audio", 0400, infoframes->if_dir, infoframes, &infoframe_audio_fops);
-+	if (if_types & V4L2_DEBUGFS_IF_SPD)
-+		debugfs_create_file("spd", 0400, infoframes->if_dir, infoframes, &infoframe_spd_fops);
-+	if (if_types & V4L2_DEBUGFS_IF_HDMI)
-+		debugfs_create_file("hdmi", 0400, infoframes->if_dir, infoframes, &infoframe_hdmi_fops);
-+	return infoframes;
+ };
+ 
+ static void adv7511_check_monitor_present_status(struct v4l2_subdev *sd);
+@@ -483,27 +486,25 @@ static u8 hdmi_infoframe_checksum(u8 *ptr, size_t size)
+ 	return 256 - csum;
+ }
+ 
+-static void log_infoframe(struct v4l2_subdev *sd, const struct adv7511_cfg_read_infoframe *cri)
++static int read_infoframe(struct v4l2_subdev *sd,
++			  const struct adv7511_cfg_read_infoframe *cri,
++			  u8 *buffer)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct device *dev = &client->dev;
+-	union hdmi_infoframe frame;
+-	u8 buffer[32];
+ 	u8 len;
+ 	int i;
+ 
+ 	if (!(adv7511_rd(sd, cri->present_reg) & cri->present_mask)) {
+ 		v4l2_info(sd, "%s infoframe not transmitted\n", cri->desc);
+-		return;
++		return 0;
+ 	}
+ 
+ 	memcpy(buffer, cri->header, sizeof(cri->header));
+ 
+ 	len = buffer[2];
+ 
+-	if (len + 4 > sizeof(buffer)) {
++	if (len + 4 > V4L2_DEBUGFS_IF_MAX_LEN) {
+ 		v4l2_err(sd, "%s: invalid %s infoframe length %d\n", __func__, cri->desc, len);
+-		return;
++		return 0;
+ 	}
+ 
+ 	if (cri->payload_addr >= 0x100) {
+@@ -516,21 +517,38 @@ static void log_infoframe(struct v4l2_subdev *sd, const struct adv7511_cfg_read_
+ 	buffer[3] = 0;
+ 	buffer[3] = hdmi_infoframe_checksum(buffer, len + 4);
+ 
+-	if (hdmi_infoframe_unpack(&frame, buffer, len + 4) < 0) {
+-		v4l2_err(sd, "%s: unpack of %s infoframe failed\n", __func__, cri->desc);
++	return len + 4;
 +}
-+EXPORT_SYMBOL_GPL(v4l2_debugfs_if_alloc);
 +
-+void v4l2_debugfs_if_free(struct v4l2_debugfs_if *infoframes)
++static void log_infoframe(struct v4l2_subdev *sd,
++			  const struct adv7511_cfg_read_infoframe *cri)
 +{
-+	if (infoframes) {
-+		debugfs_remove_recursive(infoframes->if_dir);
-+		kfree(infoframes);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(v4l2_debugfs_if_free);
++	union hdmi_infoframe frame;
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct device *dev = &client->dev;
++	u8 buffer[V4L2_DEBUGFS_IF_MAX_LEN] = {};
++	int len = read_infoframe(sd, cri, buffer);
 +
-+#endif
-diff --git a/include/media/v4l2-dv-timings.h b/include/media/v4l2-dv-timings.h
-index 8fa963326bf6..13830411bd6c 100644
---- a/include/media/v4l2-dv-timings.h
-+++ b/include/media/v4l2-dv-timings.h
-@@ -8,6 +8,7 @@
- #ifndef __V4L2_DV_TIMINGS_H
- #define __V4L2_DV_TIMINGS_H
++	if (len <= 0)
++		return;
++
++	if (hdmi_infoframe_unpack(&frame, buffer, len) < 0) {
++		v4l2_err(sd, "%s: unpack of %s infoframe failed\n",
++			 __func__, cri->desc);
+ 		return;
+ 	}
  
-+#include <linux/debugfs.h>
- #include <linux/videodev2.h>
+ 	hdmi_infoframe_log(KERN_INFO, dev, &frame);
+ }
  
- /**
-@@ -251,4 +252,51 @@ void v4l2_set_edid_phys_addr(u8 *edid, unsigned int size, u16 phys_addr);
- u16 v4l2_phys_addr_for_input(u16 phys_addr, u8 input);
- int v4l2_phys_addr_validate(u16 phys_addr, u16 *parent, u16 *port);
- 
-+/* Add support for exporting InfoFrames to debugfs */
-+
-+/*
-+ * HDMI InfoFrames start with a 3 byte header, then a checksum,
-+ * followed by the actual IF payload.
-+ *
-+ * The payload length is limited to 30 bytes according to the HDMI spec,
-+ * but since the length is encoded in 5 bits, it can be 31 bytes theoretically.
-+ * So set the max length as 31 + 3 (header) + 1 (checksum) = 35.
-+ */
-+#define V4L2_DEBUGFS_IF_MAX_LEN (35)
-+
-+#define V4L2_DEBUGFS_IF_AVI	BIT(0)
-+#define V4L2_DEBUGFS_IF_AUDIO	BIT(1)
-+#define V4L2_DEBUGFS_IF_SPD	BIT(2)
-+#define V4L2_DEBUGFS_IF_HDMI	BIT(3)
-+
-+typedef ssize_t (*v4l2_debugfs_if_read_t)(u32 type, void *priv,
-+					  struct file *filp, char __user *ubuf,
-+					  size_t count, loff_t *ppos);
-+
-+struct v4l2_debugfs_if {
-+	struct dentry *if_dir;
-+	void *priv;
-+
-+	v4l2_debugfs_if_read_t if_read;
++static const struct adv7511_cfg_read_infoframe cri[] = {
++	{ "AVI", 0x44, 0x10, { 0x82, 2, 13 }, 0x55 },
++	{ "Audio", 0x44, 0x08, { 0x84, 1, 10 }, 0x73 },
++	{ "SDP", 0x40, 0x40, { 0x83, 1, 25 }, 0x103 },
 +};
 +
-+#ifdef CONFIG_DEBUG_FS
-+struct v4l2_debugfs_if *v4l2_debugfs_if_alloc(struct dentry *root, u32 if_types,
-+					      void *priv,
-+					      v4l2_debugfs_if_read_t if_read);
-+void v4l2_debugfs_if_free(struct v4l2_debugfs_if *infoframes);
-+#else
-+static inline
-+struct v4l2_debugfs_if *v4l2_debugfs_if_alloc(struct dentry *root, u32 if_types,
-+					      void *priv,
-+					      v4l2_debugfs_if_read_t if_read)
+ static void adv7511_log_infoframes(struct v4l2_subdev *sd)
+ {
+-	static const struct adv7511_cfg_read_infoframe cri[] = {
+-		{ "AVI", 0x44, 0x10, { 0x82, 2, 13 }, 0x55 },
+-		{ "Audio", 0x44, 0x08, { 0x84, 1, 10 }, 0x73 },
+-		{ "SDP", 0x40, 0x40, { 0x83, 1, 25 }, 0x103 },
+-	};
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(cri); i++)
+@@ -1693,6 +1711,34 @@ static bool adv7511_check_edid_status(struct v4l2_subdev *sd)
+ 	return false;
+ }
+ 
++static ssize_t
++adv7511_debugfs_if_read(u32 type, void *priv,
++			struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
 +{
-+	return NULL;
++	u8 buf[V4L2_DEBUGFS_IF_MAX_LEN] = {};
++	struct v4l2_subdev *sd = priv;
++	int index;
++	int len;
++
++	switch (type) {
++	case V4L2_DEBUGFS_IF_AVI:
++		index = 0;
++		break;
++	case V4L2_DEBUGFS_IF_AUDIO:
++		index = 1;
++		break;
++	case V4L2_DEBUGFS_IF_SPD:
++		index = 2;
++		break;
++	default:
++		return 0;
++	}
++	len = read_infoframe(sd, &cri[index], buf);
++	if (len > 0)
++		len = simple_read_from_buffer(ubuf, count, ppos, buf, len);
++	return len < 0 ? 0 : len;
 +}
 +
-+static inline void v4l2_debugfs_if_free(struct v4l2_debugfs_if *infoframes)
-+{
-+}
-+#endif
+ static int adv7511_registered(struct v4l2_subdev *sd)
+ {
+ 	struct adv7511_state *state = get_adv7511_state(sd);
+@@ -1700,9 +1746,16 @@ static int adv7511_registered(struct v4l2_subdev *sd)
+ 	int err;
+ 
+ 	err = cec_register_adapter(state->cec_adap, &client->dev);
+-	if (err)
++	if (err) {
+ 		cec_delete_adapter(state->cec_adap);
+-	return err;
++		return err;
++	}
 +
- #endif
++	state->debugfs_dir = debugfs_create_dir(sd->name, v4l2_debugfs_root());
++	state->infoframes = v4l2_debugfs_if_alloc(state->debugfs_dir,
++		V4L2_DEBUGFS_IF_AVI | V4L2_DEBUGFS_IF_AUDIO |
++		V4L2_DEBUGFS_IF_SPD, sd, adv7511_debugfs_if_read);
++	return 0;
+ }
+ 
+ static void adv7511_unregistered(struct v4l2_subdev *sd)
+@@ -1710,6 +1763,10 @@ static void adv7511_unregistered(struct v4l2_subdev *sd)
+ 	struct adv7511_state *state = get_adv7511_state(sd);
+ 
+ 	cec_unregister_adapter(state->cec_adap);
++	v4l2_debugfs_if_free(state->infoframes);
++	state->infoframes = NULL;
++	debugfs_remove_recursive(state->debugfs_dir);
++	state->debugfs_dir = NULL;
+ }
+ 
+ static const struct v4l2_subdev_internal_ops adv7511_int_ops = {
 -- 
 2.43.0
 
