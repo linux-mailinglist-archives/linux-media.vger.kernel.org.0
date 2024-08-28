@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-16973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16974-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78E1961E46
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 07:36:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6586961E5B
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 07:46:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 489031F24DC2
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 05:36:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4DB82B2194F
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2024 05:46:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A24414D282;
-	Wed, 28 Aug 2024 05:36:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82DD152DE7;
+	Wed, 28 Aug 2024 05:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkS476X8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="evNSe0nn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9B9D512;
-	Wed, 28 Aug 2024 05:36:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2533B146A63;
+	Wed, 28 Aug 2024 05:45:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724823402; cv=none; b=BNoMrb+oLinohU+FUJAyTiHHfeyTuge3d+bNv5rGRqMGrK1lG3MxItpyrBab+8xxtMO8fAjUWqgkU8Yc0LQaTtfWGOVJzcDeo6TGcPbCiiRIw1ZHtr1LhRBUOp9xz0tDLcU2OtJ81jWsnQk3AFziHAJ/vM2RDwxecGJvSTdPdLc=
+	t=1724823957; cv=none; b=B6vFU1wJwJgymqMcDQohjyx+vZcX0vX9pPohYTSNt55Zix70mNiwiOQDD659mO6hGyQMkGcejhrBIzv5I4Q4hSBXuUnXjXWVm1YZbZsJY2ekeVSbaeM28vkaESZ+C1YqeWSivokhKyfHllqwagisstFH3x9xdvaQ/yfHOq2NoYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724823402; c=relaxed/simple;
-	bh=9wCCo7d0Ef7xEQfuI/DgBzX1fRsoEEQzfacJCs1DP5s=;
+	s=arc-20240116; t=1724823957; c=relaxed/simple;
+	bh=qI3VUSIjzsxGBzqqd3ev0EQ24ah7nY3XOSmQmjiULz0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Sj3daLQeiBsKL07uaVk1KL2TkY56b892WJJCIRSN91mRaz99Q2zRL36O0n3VusaUkPgQJgvbU35vfxezGBA7i5ZaGMTgLOKQxRh8zkKOJJKBUCi0IJJHAB4NQNd7hh/DCax47LjqE/EtIIf+dtVYHIxMXFGC+RbW4iEEguphwdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkS476X8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12772C4AF60;
-	Wed, 28 Aug 2024 05:36:37 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=BFEMp3QVakD590v7ZgMAZxpWn96hhS+Z6ueV8WqKndjOKlfa1tvPW0IcrUZ8EUrUFXap20NEmmdIyBoGNbHhVsiS9eLml2Rn1yXwp1kuyh1GkjQZ8JhCxHOCZB7ZDwBWqdp8imqC71llQnCt/ZCkJF+7lFNGTAfsyonx6/VWzo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=evNSe0nn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C6A9C32786;
+	Wed, 28 Aug 2024 05:45:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724823401;
-	bh=9wCCo7d0Ef7xEQfuI/DgBzX1fRsoEEQzfacJCs1DP5s=;
+	s=k20201202; t=1724823956;
+	bh=qI3VUSIjzsxGBzqqd3ev0EQ24ah7nY3XOSmQmjiULz0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZkS476X844pEF78Zi4w/zXEY8mYH4nVAFi/35FRsGw6im62QS+vu1eg5bggs9kLPU
-	 MiWl+CjvxRX5g2FmdKRKIjqRdOXVO/Jy5/7uwtbGRg8JHDvK88sQIE36jPu3NoJ3/L
-	 hocfaqeqR4ESqal/6RII9eTrd232Fdo+uvt+OCIM1jxcD+acodAnhgVbIwFAyfLBk0
-	 q93ubJBbP8d7sPAVkwSUv7mvBnz9ocifnB4FR1t7QlydQ5byE/Sb+sqz9cQwha/r8G
-	 Kb9/8SwfdnBc8d0TOl0mODEeNOsjNqa2omI+A64S8RolqxS3A6oTdh4ONRguh+o2wm
-	 lRI7zne3YQTnw==
-Message-ID: <9e18bbf4-ae22-4d53-a998-67ad5807d72b@kernel.org>
-Date: Wed, 28 Aug 2024 07:36:35 +0200
+	b=evNSe0nnzv0x1+xB26nbeoU5+YGZWXiqcANER8OPPeFagtaVGvKo91N2utVKZSAqu
+	 OiIhX2aq9vH3F+m/YJ7U8HsmYMjlpetpVQiMig2+9OVHA68Q+KRJgY9Qr1jbmpwDyK
+	 ijjrAr9Ok8cScD6LCIcCGnT5CSQmzgfT7o3YbtnvfJMezuNvbPCybSE8CNH/+CPnHN
+	 4K3dEzFQB9dtoB1PlJvDudvHMy0VOtukTaAidM3vau2MfsjugImKDgdw+wZ8vV6FSG
+	 pFTTi1nx2l/Z6FoNmojRE+Ga1NW3kE4lvsV6mYLfB5+/otumW3DDe6YaG7nfraaKxv
+	 InqlCvMFuLN+g==
+Message-ID: <8aca6aa8-8b92-4e90-b4a6-75090b502964@kernel.org>
+Date: Wed, 28 Aug 2024 07:45:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,20 +50,20 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] dt-bindings: media: renesas,isp: Add Gen4 family
- fallback
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v2 1/2] dt-bindings: i2c: maxim,max96712: Add compatible
+ for MAX96724
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20240826144352.3026980-1-niklas.soderlund+renesas@ragnatech.se>
- <20240826144352.3026980-2-niklas.soderlund+renesas@ragnatech.se>
- <cnca2gdh6c3kg5ybb4dxzlca5c7jsvz4tomibpkf746syejvmf@ndbq4qkykume>
- <20240827081233.GE2636928@fsdn.se>
- <20240827213441.GA30398@pendragon.ideasonboard.com>
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>
+References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240827131841.629920-2-niklas.soderlund+renesas@ragnatech.se>
+ <7dadf8dd-ad54-4e4f-a336-adc3444df4b0@kernel.org>
+ <20240827180334.GI2636928@fsdn.se>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,81 +109,62 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240827213441.GA30398@pendragon.ideasonboard.com>
+In-Reply-To: <20240827180334.GI2636928@fsdn.se>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 27/08/2024 23:34, Laurent Pinchart wrote:
-> On Tue, Aug 27, 2024 at 10:12:33AM +0200, Niklas Söderlund wrote:
->> On 2024-08-27 08:31:22 +0200, Krzysztof Kozlowski wrote:
->>> On Mon, Aug 26, 2024 at 04:43:47PM +0200, Niklas Söderlund wrote:
->>>> The ISP Channel Selector IP is the same for all current Gen4 devices.
->>>> This was not known when adding support for V3U and V4H and a single SoC
->>>> specific compatible was used.
->>>>
->>>> Before adding more SoC specific bindings for V4M add a family compatible
->>>> fallback for Gen4. That way the driver only needs to be updated once for
->>>> Gen4, and we still have the option to fix any problems in the driver if
->>>> any testable differences between the SoCs are found.
->>>>
->>>> There are already DTS files using the V3U and V4H compatibles which
->>>> needs to be updated to not produce a warning for DTS checks. The driver
->>>> also needs to kept the compatible values to be backward compatible , but
->>>> for new Gen4 SoCs such as V4M we can avoid this.
->>>>
->>>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->>>> ---
->>>> * Changes since v1
->>>> - New in v2.
->>>> ---
->>>>  Documentation/devicetree/bindings/media/renesas,isp.yaml | 3 ++-
->>>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
->>>> index 33650a1ea034..730c86f2d7b1 100644
->>>> --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
->>>> +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
->>>> @@ -22,6 +22,7 @@ properties:
->>>>        - enum:
->>>>            - renesas,r8a779a0-isp # V3U
->>>>            - renesas,r8a779g0-isp # V4H
->>>> +      - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
->>>
->>> Adding generic fallback post-factum is odd, does not feel reliable.
->>> Instead use specific compatibles as fallbacks.
->>
->> I agree, it feels a bit odd. But this was the road we hammered out at 
->> great pain for how to be able to move forward with this issue for the 
->> other IP block involved in video capture for R-Car Gen4, VIN [1]. This 
->> just mirrors that long discussion decision for the R-Car CSISP.
->>
->> I would hate to have different solutions for the two.
->>
->> 1. [PATCH v5 0/6] rcar-vin: Add support for R-Car V4M
->>    https://lore.kernel.org/all/20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se/
+On 27/08/2024 20:03, Niklas Söderlund wrote:
+> Hi Krzysztof,
 > 
-> The compatible fallback for VIN has been added following a request from
-> Conor and Rob, so it would be nice if the three of you could agree to
-> achieve consistency in the bindings :-)
+> Thanks for your feedback.
+> 
+> On 2024-08-27 16:53:20 +0200, Krzysztof Kozlowski wrote:
+>> On 27/08/2024 15:18, Niklas Söderlund wrote:
+>>> The MAX96712 and MAX96724 are almost identical and can be supported by
+>>> the same driver, add a compatible for MAX96724.
+>>
+>> The driver statement in this context is meaningless. You did not make
+>> them compatible so what does it matter?
+> 
+> Agreed, this commit message can be improved.
+> 
+>>
+>>>
+>>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>>> ---
+>>> * Changes since v1
+>>> - Group in series together with driver change.
+>>> ---
+>>>  .../devicetree/bindings/media/i2c/maxim,max96712.yaml        | 5 ++++-
+>>>  1 file changed, 4 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+>>> index 6c72e77b927c..26f85151afbd 100644
+>>> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+>>> @@ -25,7 +25,10 @@ description: |
+>>>  
+>>>  properties:
+>>>    compatible:
+>>> -    const: maxim,max96712
+>>> +    items:
+>>> +      - enum:
+>>> +          - maxim,max96712
+>>> +          - maxim,max96724
+>>
+>> Driver change tells these are compatible and version is detectable.
+>> Express it in the binding with fallback or explain in commit msg why
+>> they are not compatible.
+> 
+> It is, and as you point out the commit message can be improved. It 
+> should have made it clear that what is supported by the staging driver 
+> (test pattern generator) is similar for the two devices, the full device 
+> have larger differences.
 
-Don't twist our answers. You need fallback, but specific, not family.
-There was a countless number of answers from Rob that specific
-compatibles are preferred.
+OK.
 
-Look, Conor's reply:
 
-https://lore.kernel.org/all/20240620-gating-coherent-af984389b2d7@spud/
-Do you see family fallback? I think "r8a779g0" is SoC.
-
-Look here:
-https://lore.kernel.org/all/20240610-screen-wolverine-78370c66d40f@spud/
-
-Or here
-https://lore.kernel.org/all/20240624-rented-danger-300652ab8eeb@wendy/
-where Conor agrees against!
-
-So let me actually NAK it - you got multiple comments on VIN to use
-specific compatible.
 
 Best regards,
 Krzysztof
