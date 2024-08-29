@@ -1,94 +1,96 @@
-Return-Path: <linux-media+bounces-17157-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17158-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35193964C04
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 18:51:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76880964C05
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 18:52:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 868E1B22E54
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 16:51:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3487D285523
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 16:52:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A964B1B654D;
-	Thu, 29 Aug 2024 16:51:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 697A91B78E0;
+	Thu, 29 Aug 2024 16:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="A2+pZeVQ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JzN3tj9J"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="iOHkCAZB";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GDFnwU7X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
+Received: from fhigh1-smtp.messagingengine.com (fhigh1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBE01B5EBD;
-	Thu, 29 Aug 2024 16:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B911B5ED3;
+	Thu, 29 Aug 2024 16:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724950286; cv=none; b=Q0S5egDS/gvY9xRPI89Klj/dM9n2Yb6rPkLccO1/2dZylaXhVas7DiNrAUJ0N1Y9HWwP09nWSw2pOi6ftdvWp2AkIRloUnw1iZQTlONq1AJJ6wN06Gnx84G++xtkBjYtaw4OEhUmJrvzsZFeCkTtzk7M4RsXZZXdDXKySGGFFlc=
+	t=1724950287; cv=none; b=C1YEzYB70U2w0EnsswBuUN8SQWP7rZvoCnYqK+S/lnnJF46ooUktY68Yvujv8emd/auM1Wol8ImgCgg0mX/xaZ/UGXGmvVPs3ls/iYVvEPTrTQ36737VxQB0ivrxXMo11hgqnNv3Cg89s2KTBqEHqXM8AoV7VENv/YOJiYNtEJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724950286; c=relaxed/simple;
-	bh=x+E2xSOliwv3VwbYh1SEe1FzDL+mwxesX5L5sUtes/Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Dz3+7s03Kd9VoEnUj5RSlfSP/+Ot0Yuy4C6vgMyi5O5E5rx2/nZ6FC/qfnygKGQMHCblb945xnANLDqEgE+oV2ccbXjzt9+8zZhOXgC5o/hwJzi3+Y7NNJ0OyYllMSWDDi+fbS/i9nmL7Z27mWr+mfHwSXrJMw/u6BpcYaays30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=A2+pZeVQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JzN3tj9J; arc=none smtp.client-ip=103.168.172.148
+	s=arc-20240116; t=1724950287; c=relaxed/simple;
+	bh=dSVZZ2bPV8W6vP7O5lvv6u41qJh4Un9BiGCua3mIYnc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=md9tAGFE3nC1eE2tCJgOwGfrpwEdd0BEsT8+EmXxeLm1KMmhXxGQb/Ccf2j579l3NrrZ2GWuZQtDJF47BbBuXBqxtTLSCp4KDaxQ7IanMTkQtj7qSUBwUgGXtFkYYp7n5pNRqYPMrevlrHEDPdEXiLKcSLgDor3QKy5C2T7as1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=iOHkCAZB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GDFnwU7X; arc=none smtp.client-ip=103.168.172.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Received: from phl-compute-01.internal (phl-compute-01.nyi.internal [10.202.2.41])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 0B18F138FFE9;
-	Thu, 29 Aug 2024 12:51:22 -0400 (EDT)
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 2139211518DD;
+	Thu, 29 Aug 2024 12:51:24 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Thu, 29 Aug 2024 12:51:22 -0400
+  by phl-compute-01.internal (MEProxy); Thu, 29 Aug 2024 12:51:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1724950282; x=1725036682; bh=d7
-	tiux3bXoYy+XC0KmOAU1uT04Wchk6bNlYn19sLwJ0=; b=A2+pZeVQ2JmheOBOY4
-	cgtm09kr6zxQuRLXfFltH8kpKsLNtyYn8s7wx6PMIvP7/cGpg51UMofgP2+BEjPA
-	xXnyvoVwmmxkmjOA2qN28Yh1v9GOfcUTn8FYXIwi0ibXwsfs1FpRuIzre+f1hfSa
-	CYKCoF8/nWqbJb8sJd/pSnOir0Hak7c+Fq/scY1eAVcU40qIhUU24RTzii4DbJcW
-	I3sAYKRtf7x1pG3Yf4BAEBFDjH3+Y81Eu0JfN7kFkZCozFVGT2tSUK4ZdDSyc0Ru
-	EGcIFzckZmWc+etJBpqIZCqy9pFGOqoAFfanNXsbLZ/KLexoJYAGFg7Ckro//PEC
-	gVxA==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1724950284;
+	 x=1725036684; bh=jVLemmR57unJcJI+diIDepvPUo2DyEpk5n22E4yDpSE=; b=
+	iOHkCAZB1yXbsYyTMyxPP8tfdB0el5b+XmBQgAcqFC0guaSvrSjCyE9alo0J9XKq
+	3KPbBQHkIXl6rEpSosJeAjhm82Qwy7HiY6w3IPkCGYTOExAm4QkIOT2TCCwSK5g6
+	uxhN2jZr8iFyhZAnkrnL++Gu3tu2ffJL4Hc7F0+pQ/YJv7R9/BYr6xonhmYcgiWp
+	7kO0SF5WbLREmY4yvh2Lxn7etcufVaHvj8+2EAoM9JtRT46Q+klT0k3aWCuHYHoA
+	XQN+T6MOaKkMkppQIlaunEwXAb7xfbbyXaQoi9C+kaQvU+gBYJss94j3jWFadrE3
+	vUs7uBrC/Su00foKw96a+Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1724950282; x=1725036682; bh=d7tiux3bXoYy+
-	XC0KmOAU1uT04Wchk6bNlYn19sLwJ0=; b=JzN3tj9Jc1gFzA9L2qZlinKZ8jI+1
-	g110LTBBMfLFQmnE2s5TGAkz3tJZ0zbmZgCArBU7DNnGeJjioVYxWoiggVO96cEL
-	va6XJkRCNnKmzY6I5/uinJTmdQtEb/L6wia0aGeqW3KVpBErprXt9OTX01woEVv+
-	jcg1ZktluTM/Aoc7p7UD/lY1r3ICb470KS/3rYdhYZrx2d8eHQgqKCVBX8dp8W/o
-	AGcVtssEnMqI6yn+45Ko03PjdbmCSzTch8Q8KlEOX1dD2DXcFset1ZwxBfFLVZiQ
-	ijGmngn/E+Z9t1uyjGSD/fM6qclKRrzqMUvwFxLa5dVUerL82umcQLiDA==
-X-ME-Sender: <xms:CafQZlff3duRQCnDvCgbmSoAp3O09PeMC6T8LnJCFoArsnUmpn7P3Q>
-    <xme:CafQZjNeSpIs8ByIKv2OEJ3yyK4BLNBPMm6epSgTSbVlNi2gWHDMazMmC3rpktxgu
-    rjblUliqnZIBPKGtFk>
-X-ME-Received: <xmr:CafQZuhFsCLXBnQ9t2nMJxJPKOI8_TKtxUfZegzl00_BEeJv7SSvWKe-vz5pCr2whMEOXp3652zEIXAwcitKb9Crpw>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724950284; x=
+	1725036684; bh=jVLemmR57unJcJI+diIDepvPUo2DyEpk5n22E4yDpSE=; b=G
+	DFnwU7XjaBDrXXjYRy+5DM3AQoQ5X406EtL2V4RjBC9X4ajYqLgbyIZ05F8JLfkQ
+	IvPXHnkDZWIk6FKlqqHryEY6d0wiSHXI0bSY4J0DtViZtFGQyc3ZtP7crYvrXSb8
+	vbmSVG/jh0L8sMAGKXPdxoVN9+rtL/qHpV4VcuoBJofsGzIIRWO/uZm/KOCPZav4
+	K5QjRIRNfexxowN3YlxFpW6f0qTipmrPWrDiMLF1z/M0rn60c9my5Tnzoel2B1Qf
+	SvlXOpyvz/+OyZp8C2PTM344J3iDVcyQoBUR9So77pe+Hum7FsczckMZFd/P2uVt
+	RGE2rEH9Vc/xcJWZ3MbHA==
+X-ME-Sender: <xms:C6fQZsOFgvsgWwR2FbVhRkR69T_2Iq1s6xdVwbPVGQ-lQVOGWCgD8A>
+    <xme:C6fQZi9CegyAfip81NOPmsnnsSOoLFgscqIUeOJsT_5qvfB69jh5aB2M6yqhfF5mw
+    N6qxn73fe1oisGcYFc>
+X-ME-Received: <xmr:C6fQZjTAOORixpmVPk7I77JaPcjAq_wC13H5lmRXzS1O6pI_PQDJLDGn_cpkUNXlsUkBjH9_K3noaWVpyrIajCx8bQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefgedguddthecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
-    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
-    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
-    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
-    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
-    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
-    htohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmtghhvghhrggssehk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhho
-    rhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhkhheslhhinhhugi
-    hfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehsrghkrghrihdrrghilhhushes
-    ihhkihdrfhhipdhrtghpthhtohepjhhulhhivghnrdhmrghsshhothestgholhhlrggsoh
-    hrrgdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhg
-X-ME-Proxy: <xmx:CafQZu-fnwohCDI0A8QlbxC0Ylb2Rn_-uu9NkPP2_InpYE3KIws8Cw>
-    <xmx:CafQZhuXP97abxKXh-O4QVTSW-ufxHzu_BsyqW-UERrIGXJ0KIBKTA>
-    <xmx:CafQZtE0oPqY87NV2EFEjkrg5IyJe-u6RwTse31gI4adR_OyPjW-mA>
-    <xmx:CafQZoPU8wZE0Rmft-yHM4x8YUVSDv0R3tKu2L_JeXXUAsL7V-SiAw>
-    <xmx:CqfQZqH7mb3bkRWtIN8K7dHCwPl9hBEzNdrrHI7nee_OeGzYNp1_rvhG>
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
+    thhtvghrnhepheeigfeuveeutdefhfehgeekvedtleeuueekveefudehhffhjeffgfegff
+    elfeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+    nhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtg
+    hpthhtohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmtghhvghhrggs
+    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptgho
+    nhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhkhheslhhinh
+    hugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehsrghkrghrihdrrghilhhu
+    shesihhkihdrfhhipdhrtghpthhtohepjhhulhhivghnrdhmrghsshhothestgholhhlrg
+    gsohhrrgdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrh
+    hnvghlrdhorhhg
+X-ME-Proxy: <xmx:DKfQZkv6q7UbGgVWfBWecNZjztjB0LMVwcwxrFPfdbE5mjcQ40Iucw>
+    <xmx:DKfQZke4gODvgiLlLJtZN9Xag8KOuZ4eNa7v8Wxq2wGkjLOhRmwVTA>
+    <xmx:DKfQZo3cuDAAFn2Z37CQuVYz9m3J99aPP1mzGBhnendINTw3IHkW6A>
+    <xmx:DKfQZo8ndt82bjC24WEW8ISPVOSOMsukUCRzBgJpED5vmGTXDLT20w>
+    <xmx:DKfQZj-oG8wnBICzr4iaDwBTDfbjg2AIlD4B-233exfF5OzRhzrqKeuB>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Aug 2024 12:51:21 -0400 (EDT)
+ 29 Aug 2024 12:51:23 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -101,11 +103,14 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 0/5] media: staging: max96712: Add support for MAX96724
-Date: Thu, 29 Aug 2024 18:50:46 +0200
-Message-ID: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v3 1/5] dt-bindings: i2c: maxim,max96712: Add compatible for MAX96724
+Date: Thu, 29 Aug 2024 18:50:47 +0200
+Message-ID: <20240829165051.2498867-2-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -115,35 +120,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello,
+The MAX96712 and MAX96724 are both quad GMSL2 to CSI-2 deserializers and
+are in parts similar, but not identical. The most obvious difference is
+on the CSI-2 side where the MAX96712 have 4 PHYs and support D-PHY with
+1x4, 2x2 and 4x2 lanes where the MAX96724 only have 2 PHYs and supports
+D-PHY with 2x4 or 4x2 lanes.
 
-This series extends the max96712 driver in staging to also support
-the MAX96724 device.
+The register layout overlap in part but there are differences and holes.
+Most of the differences are related to the different number of CSI-2
+PHYs, but there are other capability differences between the two.
 
-The devices are similar but not identical. As the staging driver only
-supports the video pattern generator the changes in the driver are
-small, but needed, to generate a stable test pattern.
+Add a specific compatible for MAX96724 to the max96712 bindings. The
+bindings do not yet support validating all DT properties to limit it the
+each devices capabilities. However to allow for this in future a
+specific compatible for the two different devices are needed.
 
-Patch 1/2 extends the bindings with a new compatible for MAX96724, while
-patchs 2/5 - 4/5 prepare for the new device with small improvements and 
-moving device specific settings to a device information struct. Finaly 
-patch 5/5 takes care of updating the driver to support generating a test
-pattern without changing the test pattern clock (which is not supported
-on MAX96724).
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+---
+* Changes since v2
+- Expand on the differences of the two devices and why a specific
+  binding is needed for the new device.
 
-See individual patches for changelog.
+* Changes since v1
+- Group in series together with driver change.
+---
+ .../devicetree/bindings/media/i2c/maxim,max96712.yaml        | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Niklas Söderlund (5):
-  dt-bindings: i2c: maxim,max96712: Add compatible for MAX96724
-  media: staging: max96712: Remove device id check
-  media: staging: max96712: Move link frequency setting to device struct
-  media: staging: max96712: Document the DEBUG_EXTRA register
-  media: staging: max96712: Add support for MAX96724
-
- .../bindings/media/i2c/maxim,max96712.yaml    |  5 +-
- drivers/staging/media/max96712/max96712.c     | 56 ++++++++++---------
- 2 files changed, 34 insertions(+), 27 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+index 6c72e77b927c..26f85151afbd 100644
+--- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+@@ -25,7 +25,10 @@ description: |
+ 
+ properties:
+   compatible:
+-    const: maxim,max96712
++    items:
++      - enum:
++          - maxim,max96712
++          - maxim,max96724
+ 
+   reg:
+     description: I2C device address
 -- 
 2.46.0
 
