@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-17099-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17100-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72AF963DC8
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 09:55:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70330963DCF
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 09:56:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 22C241F26063
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 07:55:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D829287C9C
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 07:56:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E03B189F3F;
-	Thu, 29 Aug 2024 07:55:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 513B4189F59;
+	Thu, 29 Aug 2024 07:56:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OciKxiMe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O5rzzodc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C263161914;
-	Thu, 29 Aug 2024 07:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BA7189F36;
+	Thu, 29 Aug 2024 07:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724918139; cv=none; b=l0sMvqUraEE8cRG+q6lNBRE3lRqvwlKUIeMnF6MtlS1XxLlKxYZ789vG07ckbqTHZ8hk3gNQ+HWCdvRlFznNkjOgDiVzEPTHgiweI7Q0goXhOyZNWVDDoftaz6yv34Kh6kpGF9l7aguz3sFTaxF0Bb0LN5XnjrM6L1E2sL/2TL8=
+	t=1724918187; cv=none; b=SsxLglQgL2Y65dDQ7gtSTyOrt5xYB3kBAHEvBP0ShMaA5/8ZpEYUNZt6O/qhE3g465G3oezhS+wpeW+v3k9ncmf/ysADD0wclIachqWQPU7mKV9v8b6PPswGOXiWhSn1Ow/ogdBEi3ifYgHUuDQPec9LQRR8EGZWOgGjpqIGekk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724918139; c=relaxed/simple;
-	bh=gfwdGkshrn41f6ZPGzSwIbOrEfaOncX7XjVktdIoKMs=;
+	s=arc-20240116; t=1724918187; c=relaxed/simple;
+	bh=L35tVttQDP3DiTHl/7msj81N0HAs96f+ggKxIEB/ncg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LdxATifPQxnHQ5m8bybFCqu/Gy1pYlVbNjTyYCqk7gVU21Fkdb4GffXgFhyQvnopdNeyR2IM2PkpV/rn3Oeb6p7mZoqXZ6WT6l+go0DllHLP87MfyU01xqpMR/IYxPvVUhh+Ni65QBCsNKOM7QBKDPgY0qXhk1TL7U216+XsQ38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OciKxiMe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22735C4CEC1;
-	Thu, 29 Aug 2024 07:55:33 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Gb1+5lhFIZOw2SK0lBkwN90PeiOpfL1UbSf5EMa32+lX34Uba+V5zzSUr2RQpM4iyA3+MaAYjbYdqKMYneHwbiIVxDkybV0yyO63MLU4cnCrP85KAXRopf4PR8g3ciiIoIGB7gaMenjcSR8F4yJOh7EtfszlF9j5pS4XO4bPfbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O5rzzodc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D10C4CEC1;
+	Thu, 29 Aug 2024 07:56:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724918138;
-	bh=gfwdGkshrn41f6ZPGzSwIbOrEfaOncX7XjVktdIoKMs=;
+	s=k20201202; t=1724918187;
+	bh=L35tVttQDP3DiTHl/7msj81N0HAs96f+ggKxIEB/ncg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OciKxiMeWeucX59OyqP9P1woa59CF909KQAk9RW4bWF437Xo5fk36WARTd9cWfkSs
-	 Q1/nYuTsdjijVVRQd4vCuD7cRbt0zplTslUD25VUBtPrUSYDd1j1c+ok0k7X/AmFG6
-	 CM81Oqh8JAsugp79kv04NeAr4vWe3wHZQ/BdAh7/d3cFlT+30xmB09Jg1jA+FnKApe
-	 MwWL5V6/WbQd5kBjhKtTSLYbbNJCmlMZW5ev5UWdPyLcsssQxliGw/8xOgxDturACN
-	 rR2+R4Tve7AjmG83nBDKLa3ZfXyZdvGuNlZoFFtDY3sjOf3FXzAFX90tKqiGBedjUj
-	 R2fq25LQsCG5A==
-Message-ID: <8ce757a9-ea4c-4dd2-8aaa-e04f21eb3f63@kernel.org>
-Date: Thu, 29 Aug 2024 09:55:30 +0200
+	b=O5rzzodcYeVSU6L0YNdobG69J6rctkyh45HAsOuZLJHWVpm9V0nN0aU2duPJeIIii
+	 SyhvG0xRa9BBAs1LJGyC5wYL1HlPQD/0KI8caPz+ZSwJlpiRJd9Oz5YPx6nQLuM0HU
+	 yya/rLje/ZYu6jkKancbO9NQWcWHR5EzAu3Dmr9YVDdpvK+SCD+DLQt5xfXQZen4FU
+	 sUULdtMvbW+dKQfNU8HJyju16ppFc7ck3rLikhwqITPOVpRJohGfg8ZRIk7v305hcR
+	 6E3XNTEK60DW9qW7ZBZlKUdBowLX6QDIQanCO2MkAAtjMx0ZoqC5k0vfIWOBu6Tnf1
+	 4s1BuPhfVI98g==
+Message-ID: <51d48faf-9f62-431f-b1bf-b78f0a30ae14@kernel.org>
+Date: Thu, 29 Aug 2024 09:56:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/2] dt-bindings: media: convert aspeed-video.txt to
- dt-schema
+Subject: Re: [PATCH v6 2/2] media: aspeed: Allow to capture from SoC display
+ (GFX)
 To: Jammy Huang <jammy_huang@aspeedtech.com>, robh@kernel.org,
  conor+dt@kernel.org, eajames@linux.ibm.com, mchehab@kernel.org,
  joel@jms.id.au, andrew@aj.id.au, hverkuil@xs4all.nl, pmenzel@molgen.mpg.de,
@@ -60,7 +60,7 @@ Cc: devicetree@vger.kernel.org, linux-media@vger.kernel.org,
  openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
 References: <20240829064508.3706672-1-jammy_huang@aspeedtech.com>
- <20240829064508.3706672-2-jammy_huang@aspeedtech.com>
+ <20240829064508.3706672-3-jammy_huang@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,67 +106,45 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240829064508.3706672-2-jammy_huang@aspeedtech.com>
+In-Reply-To: <20240829064508.3706672-3-jammy_huang@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/08/2024 08:45, Jammy Huang wrote:
-> Convert the ASPEED SoCs video txt bindings to dt-schema.
+> ASPEED BMC IC has 2 different display engines. Please find AST2600's
+> datasheet to get detailed information.
 > 
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> ---
->  .../bindings/media/aspeed,video-engine.yaml   | 78 +++++++++++++++++++
->  .../bindings/media/aspeed-video.txt           | 33 --------
->  2 files changed, 78 insertions(+), 33 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/aspeed-video.txt
-
-Fix the paths in kernel (git grep).
 
 ...
 
+>  
+> +/*
+> + * Get regmap without checking res, such as clk/reset, that could lead to
+> + * conflict.
+> + */
+> +static struct regmap *aspeed_regmap_lookup(struct device_node *np, const char *property)
+> +{
+> +	struct device_node *syscon_np __free(device_node) = of_parse_phandle(np, property, 0);
 > +
-> +  resets:
-> +    maxItems: 1
+> +	if (!syscon_np)
+> +		return ERR_PTR(-ENODEV);
 > +
-> +  interrupts:
-> +    maxItems: 1
+> +	return device_node_to_regmap(syscon_np);
+> +}
 > +
-> +  memory-region:
-> +    description: |
-> +      Phandle to a memory region to allocate from, as defined in
-> +      Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+>  static int aspeed_video_init(struct aspeed_video *video)
+>  {
+>  	int irq;
+>  	int rc;
+>  	struct device *dev = video->dev;
+>  
+> +	video->scu = aspeed_regmap_lookup(dev->of_node, "aspeed,scu");
+> +	video->gfx = aspeed_regmap_lookup(dev->of_node, "aspeed,gfx");
 
-Useless description, completely redundant. Please say something useful
-about this particular memory region and its usage.
+So that's a new property? Not related to conversion? Then split the
+patches. Conversion is one logical change. Adding properties for new
+hardware is completely different.
 
-Missing maxItems.
-
-> +
-> +  aspeed,scu:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: |
-> +      Specifies the scu node that is needed if video wants to capture
-> +      from sources other than Host VGA.
-> +
-> +  aspeed,gfx:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: |
-> +      Specifies the Soc Display(gfx) node that needs to be queried to get
-> +      related information if video wants to use gfx as capture source.
-
-These two were not in the binding. Mention in the commit msg any changes
-from pure conversion with rationale WHY you are changing the binding.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +
-> +additionalProperties: false
 Best regards,
 Krzysztof
 
