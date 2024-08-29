@@ -1,148 +1,150 @@
-Return-Path: <linux-media+bounces-17156-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17157-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0411964BF0
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 18:49:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35193964C04
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 18:51:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 097F31C22DDB
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 16:49:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 868E1B22E54
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 16:51:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83F7E1B583A;
-	Thu, 29 Aug 2024 16:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A964B1B654D;
+	Thu, 29 Aug 2024 16:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZN4XHFJb"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="A2+pZeVQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JzN3tj9J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22F11B3F14;
-	Thu, 29 Aug 2024 16:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBE01B5EBD;
+	Thu, 29 Aug 2024 16:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724950158; cv=none; b=bjDI/nN2iVOXK1r/wrLVtgK52EB/GzXf2OWR36kpiM1ppRH0/qp4b6a1JHLrGEJIXoYyd1BQ5JMtBO3ia/Xa2zEEGBof/LT6zGBIS2axT4L7lxf5UzEwfHhn9zugtH0rzfPPj4N+pgQvDK4j46mXh8LO+K87uT9PmPkrdlH7w/I=
+	t=1724950286; cv=none; b=Q0S5egDS/gvY9xRPI89Klj/dM9n2Yb6rPkLccO1/2dZylaXhVas7DiNrAUJ0N1Y9HWwP09nWSw2pOi6ftdvWp2AkIRloUnw1iZQTlONq1AJJ6wN06Gnx84G++xtkBjYtaw4OEhUmJrvzsZFeCkTtzk7M4RsXZZXdDXKySGGFFlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724950158; c=relaxed/simple;
-	bh=s/i27x2woyr+jAdNocf3l1he5+C/5cvjWEG3EZFHJfs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cPby08YZpkkYimvEPhXsZcMa4Y88/431HbmpC5zDRcvYsLGxYGnQ7UHn1wiAq+szmAp1nuKbUpDH3/8uGeZ0x5RtfXiXydM6dd9VNsParOHkTHzyLlic8Q8uzKGfelOA5ccgM+0D7+Kz0/r2yP1ryu9wITPZ70UY+QUuhZjc+Jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZN4XHFJb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13230226;
-	Thu, 29 Aug 2024 18:48:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724950085;
-	bh=s/i27x2woyr+jAdNocf3l1he5+C/5cvjWEG3EZFHJfs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZN4XHFJbIZPlzDx7+ysoaRN7EzJxE/R45R2r0fRgayUb8cedpeqSu6bYX1+1Kirwx
-	 96Gl5UQ/huJYwaneHw0/ConldzdPBe0qb7bPXFpsBGbvrveuuybTXGw7KUMr+Rm+hZ
-	 naK9pXMLKzuNhsA/Wppd/d6Y5tJ0xmme9Po4mPAs=
-Date: Thu, 29 Aug 2024 19:48:43 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Benjamin Bara <bbara93@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Benjamin Bara <benjamin.bara@skidata.com>
-Subject: Re: [PATCH v2 1/2] media: i2c: imx290: Check for availability in
- probe()
-Message-ID: <20240829164843.GA15799@pendragon.ideasonboard.com>
-References: <20240828-imx290-avail-v2-0-bd320ac8e8fa@skidata.com>
- <20240828-imx290-avail-v2-1-bd320ac8e8fa@skidata.com>
- <20240829131909.GD12951@pendragon.ideasonboard.com>
- <20240829163247.ovsst5ipecthtc6u@thinkpad>
+	s=arc-20240116; t=1724950286; c=relaxed/simple;
+	bh=x+E2xSOliwv3VwbYh1SEe1FzDL+mwxesX5L5sUtes/Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Dz3+7s03Kd9VoEnUj5RSlfSP/+Ot0Yuy4C6vgMyi5O5E5rx2/nZ6FC/qfnygKGQMHCblb945xnANLDqEgE+oV2ccbXjzt9+8zZhOXgC5o/hwJzi3+Y7NNJ0OyYllMSWDDi+fbS/i9nmL7Z27mWr+mfHwSXrJMw/u6BpcYaays30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=A2+pZeVQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JzN3tj9J; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-01.internal (phl-compute-01.nyi.internal [10.202.2.41])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 0B18F138FFE9;
+	Thu, 29 Aug 2024 12:51:22 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Thu, 29 Aug 2024 12:51:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1724950282; x=1725036682; bh=d7
+	tiux3bXoYy+XC0KmOAU1uT04Wchk6bNlYn19sLwJ0=; b=A2+pZeVQ2JmheOBOY4
+	cgtm09kr6zxQuRLXfFltH8kpKsLNtyYn8s7wx6PMIvP7/cGpg51UMofgP2+BEjPA
+	xXnyvoVwmmxkmjOA2qN28Yh1v9GOfcUTn8FYXIwi0ibXwsfs1FpRuIzre+f1hfSa
+	CYKCoF8/nWqbJb8sJd/pSnOir0Hak7c+Fq/scY1eAVcU40qIhUU24RTzii4DbJcW
+	I3sAYKRtf7x1pG3Yf4BAEBFDjH3+Y81Eu0JfN7kFkZCozFVGT2tSUK4ZdDSyc0Ru
+	EGcIFzckZmWc+etJBpqIZCqy9pFGOqoAFfanNXsbLZ/KLexoJYAGFg7Ckro//PEC
+	gVxA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1724950282; x=1725036682; bh=d7tiux3bXoYy+
+	XC0KmOAU1uT04Wchk6bNlYn19sLwJ0=; b=JzN3tj9Jc1gFzA9L2qZlinKZ8jI+1
+	g110LTBBMfLFQmnE2s5TGAkz3tJZ0zbmZgCArBU7DNnGeJjioVYxWoiggVO96cEL
+	va6XJkRCNnKmzY6I5/uinJTmdQtEb/L6wia0aGeqW3KVpBErprXt9OTX01woEVv+
+	jcg1ZktluTM/Aoc7p7UD/lY1r3ICb470KS/3rYdhYZrx2d8eHQgqKCVBX8dp8W/o
+	AGcVtssEnMqI6yn+45Ko03PjdbmCSzTch8Q8KlEOX1dD2DXcFset1ZwxBfFLVZiQ
+	ijGmngn/E+Z9t1uyjGSD/fM6qclKRrzqMUvwFxLa5dVUerL82umcQLiDA==
+X-ME-Sender: <xms:CafQZlff3duRQCnDvCgbmSoAp3O09PeMC6T8LnJCFoArsnUmpn7P3Q>
+    <xme:CafQZjNeSpIs8ByIKv2OEJ3yyK4BLNBPMm6epSgTSbVlNi2gWHDMazMmC3rpktxgu
+    rjblUliqnZIBPKGtFk>
+X-ME-Received: <xmr:CafQZuhFsCLXBnQ9t2nMJxJPKOI8_TKtxUfZegzl00_BEeJv7SSvWKe-vz5pCr2whMEOXp3652zEIXAwcitKb9Crpw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefgedguddthecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
+    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
+    htohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmtghhvghhrggssehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhho
+    rhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhkhheslhhinhhugi
+    hfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehsrghkrghrihdrrghilhhushes
+    ihhkihdrfhhipdhrtghpthhtohepjhhulhhivghnrdhmrghsshhothestgholhhlrggsoh
+    hrrgdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvg
+    hlrdhorhhg
+X-ME-Proxy: <xmx:CafQZu-fnwohCDI0A8QlbxC0Ylb2Rn_-uu9NkPP2_InpYE3KIws8Cw>
+    <xmx:CafQZhuXP97abxKXh-O4QVTSW-ufxHzu_BsyqW-UERrIGXJ0KIBKTA>
+    <xmx:CafQZtE0oPqY87NV2EFEjkrg5IyJe-u6RwTse31gI4adR_OyPjW-mA>
+    <xmx:CafQZoPU8wZE0Rmft-yHM4x8YUVSDv0R3tKu2L_JeXXUAsL7V-SiAw>
+    <xmx:CqfQZqH7mb3bkRWtIN8K7dHCwPl9hBEzNdrrHI7nee_OeGzYNp1_rvhG>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 29 Aug 2024 12:51:21 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Julien Massot <julien.massot@collabora.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 0/5] media: staging: max96712: Add support for MAX96724
+Date: Thu, 29 Aug 2024 18:50:46 +0200
+Message-ID: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240829163247.ovsst5ipecthtc6u@thinkpad>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Manivannan,
+Hello,
 
-On Thu, Aug 29, 2024 at 10:02:47PM +0530, Manivannan Sadhasivam wrote:
-> On Thu, Aug 29, 2024 at 04:19:09PM +0300, Laurent Pinchart wrote:
-> 
-> Hi Laurent,
-> 
-> [...]
-> 
-> > > +		dev_err(dev, "Sensor is not in standby mode\n");
-> > > +		ret = -ENODEV;
-> > > +		goto err_pm;
-> > > +	}
-> > > +
-> > 
-> > My last concern is about accessing hardware at probe time. There are
-> > known cases where this is problematic. They can be split in two
-> > categories, systems that exhibit unwanted side effects when powering the
-> > sensor up, and systems where the sensor can't be accessed at probe time.
-> > 
-> > The two issues I can think of in the first category is devices that have
-> > a camera privacy light that could cause worries among users if it
-> > flashes at boot time, and devices that agressively optimize boot time.
-> > 
-> > In the second category, I know that some people use camera serdes
-> > (FPD-Link, GMSL, ...) that are controlled by userspace. As they should
-> > instead use kernel drivers for those components, upstream may not care
-> > too much about this use case. Another issue I was told about was a
-> > device booting in temperatures that were too low for the camera to
-> > operate, which then needed half an hour to heat the device enclosure
-> > before the sensor and serdes could be accessed. That's a bit extreme,
-> > but it sounds like a valid use case to me.
-> > 
-> > What do we do with those cases ? Detecting devices at probe time does
-> > have value, so I think it should be a policy decision. We may want to
-> > convey some of that information through DT properties (I'm not sure what
-> > would be acceptable there though). In any case, that's quite a bit of
-> > yak shaving, so I'm inclined to accept this series (or rather its next
-> > version), given that quite a few other camera sensor drivers detect the
-> > device at probe time. I would however like feedback on the problem to
-> > try and find a good solution.
-> 
-> Most of the issues you mentioned applies to other hardware peripherals also IMO.
-> And it is common for the drivers to read registers and make sure the device is
-> detected on the bus during probe().
+This series extends the max96712 driver in staging to also support
+the MAX96724 device.
 
-That's true. I think the problem affects different device types
-differently though, and this may (or may not) call for different
-solutions.
+The devices are similar but not identical. As the staging driver only
+supports the video pattern generator the changes in the driver are
+small, but needed, to generate a stable test pattern.
 
-> If an usecase doesn't want to read the
-> registers during probe time, then they _should_not_ build the driver as built-in
-> rather make it as a loadable module and load it whenever necessary. This applies
-> to boot time optimization as well.
+Patch 1/2 extends the bindings with a new compatible for MAX96724, while
+patchs 2/5 - 4/5 prepare for the new device with small improvements and 
+moving device specific settings to a device information struct. Finaly 
+patch 5/5 takes care of updating the driver to support generating a test
+pattern without changing the test pattern clock (which is not supported
+on MAX96724).
 
-For most of the use cases I listed I agree with you. One exception is
-the privacy light issue. Regardless of when the camera sensor driver is
-loaded, powering the device at probe time will flash the privacy light.
-Doing so later than boot time would probably make the issue even worse,
-I would worry more if I saw my webcam privacy light flashing at a random
-point after boot time.
+See individual patches for changelog.
 
-> A DT property wouldn't be feasible as DT is supposed to describe the hardware,
-> not the usecase.
+Niklas Söderlund (5):
+  dt-bindings: i2c: maxim,max96712: Add compatible for MAX96724
+  media: staging: max96712: Remove device id check
+  media: staging: max96712: Move link frequency setting to device struct
+  media: staging: max96712: Document the DEBUG_EXTRA register
+  media: staging: max96712: Add support for MAX96724
 
-I think that rule is typically slightly relaxed, by allowing in DT
-system descriptions, not just hardware descriptions. Otherwise we
-wouldn't allow things like reserved memory ranges. Describing that a
-camera sensor has a privacy light, in a way that would allow drivers to
-avoid powering up the device at probe time without requiring much
-duplicated code in all drivers, would in my opinion be an acceptable DT
-usage.
+ .../bindings/media/i2c/maxim,max96712.yaml    |  5 +-
+ drivers/staging/media/max96712/max96712.c     | 56 ++++++++++---------
+ 2 files changed, 34 insertions(+), 27 deletions(-)
 
 -- 
-Regards,
+2.46.0
 
-Laurent Pinchart
 
