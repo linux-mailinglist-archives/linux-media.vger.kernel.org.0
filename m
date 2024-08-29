@@ -1,317 +1,306 @@
-Return-Path: <linux-media+bounces-17080-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17081-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC408963AD8
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 08:07:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98056963AFE
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 08:10:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F192E1C20CFA
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 06:07:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0BEBB2495E
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 06:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09CD542A9D;
-	Thu, 29 Aug 2024 06:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6A5B14B962;
+	Thu, 29 Aug 2024 06:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0Us3J72l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ja3mITm4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E9518A93E
-	for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 06:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724911328; cv=none; b=m5sAmmYGKPpT9QMnVFAgOhS+2ja9sypNdZLu7V+43qlHOjVEyH4ZiOdMKxM5Ret4ORH8g6qLKGK6QQS9HFgBNdCxb9nHV84XCfB076/cv28rjXIC4B1/7WT3xml6l4byBn2eU+4LcP3pVKINTKsr1AlMWnNy8wlJVv0nVtdAQPY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724911328; c=relaxed/simple;
-	bh=PXCA9a97gwO6Rx45x8jPpvYFbNkIF4OHxIg84Wdv4U4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=VxX92zmJEkTQjN9ywDNmO9HtY40BmzY3aPCTKoAJFrkknw2a1sA8EnLtaE2gcqKrYLALaFuQgfCySytQR0JaHvtDFn0S0MQRIWMvx9ejYIgntu5Oe/XSuhIQ8HbqAGs2q12ZZYwaOtS0bqrJHI79NiHa23qaOZYwx8M9G9+PacU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0Us3J72l; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e11796af1d0so454829276.3
-        for <linux-media@vger.kernel.org>; Wed, 28 Aug 2024 23:02:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724911320; x=1725516120; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q09KG2LtUFq7/0hB8XZYqxR9Zv71xizkrAmEszHqBu8=;
-        b=0Us3J72l+L/mivWxOnBspIkpBrWUOVkiWl2MlBwrRluseFQJPqaGciVpGknpkE7od9
-         Uan0d7NNyXfEkR/oCLlLxL9eu3/11z/ODU+aQJ2Blj5tqlSt92Y3wvTJHJfEBzOsHgeO
-         7v9hgo0+BIigj1BVf2Lcbb5JanHkZsA3c2tPEzxIKr84ydfEVVSjhDMGznn/KzejFzxv
-         0LdKLrb8yUGyDkZcxpJ3Bq0v4hnwPnyoucsY3T52CLGYWbmJqTs7MLFpLdIhiqopwqVS
-         g82gDHHJ/0x418QZupwOTqIS+bucRYSRGXnVWErbrFEqRW+v2HPdLhEW2qTFd97yuYg8
-         hDtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724911320; x=1725516120;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q09KG2LtUFq7/0hB8XZYqxR9Zv71xizkrAmEszHqBu8=;
-        b=uObNUJu8MVhy5/zHOT99sr80YoU1ltqrrUr4CR3hfqF6dXFp9odYCXScFF+NFIjY6/
-         0SiQhNMrkHNp54UGYFKOZ71MQ2WTwPsejuUW/uU2+elL9Cn9KqOJMHw5d+Bp/cGajX7D
-         5DA76UnLrR2EvMnBf8RrQBysW4+uXKkm57482fkAzNnl33UEd7+jkNQAwKSAtBdhME7K
-         bB8mWP7B4wCDgHki/RaDQq6X/j2W69+gm4wCJ5vSyR130+qUyzPk3v77FbVRLq5SwhZz
-         LP2m9kqjhWqZJ/O5GhFGHn6aAqJ69zx9Ttp8GUQgFreTNJ/U6DPgFlBRtJ30IrW/FNim
-         TYfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXV922M0caTUIYWjmbgt/5v1gDnDgQRY8uobKioRSWc7tjt+iaZHiDWQjn8EoM+6VsUuylVJjA+WuXWMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvEv8fSFrpmB/8IZCFMRbP9H9RAoFQkdC6V0vnmpVmXEjAdipY
-	YBoWzwVPLMNHSO6/wzUKrT0PNji5rO+74qykWCbgGs1DhJ6J2gxLbT+qBN0VuuyhzvnMp800ZE8
-	203VGFJ9ngC4N24q81X2USw==
-X-Google-Smtp-Source: AGHT+IFhVsY9dMuG1cWOZF0OfZKruBiCeO194EOj0MLnC6UMx6DwH7q6IpAeLuCd3MtmXCV4ZY5V1ZdPEiGOTmmI6w==
-X-Received: from almasrymina.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
- (user=almasrymina job=sendgmr) by 2002:a05:6902:134e:b0:e11:6fcc:b656 with
- SMTP id 3f1490d57ef6-e1a5af5e2efmr3854276.6.1724911320312; Wed, 28 Aug 2024
- 23:02:00 -0700 (PDT)
-Date: Thu, 29 Aug 2024 06:01:26 +0000
-In-Reply-To: <20240829060126.2792671-1-almasrymina@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674AB14A0A8;
+	Thu, 29 Aug 2024 06:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724911762; cv=fail; b=DkQKsDbx9b5ryv+zphGwa0rjBcvxIu4Ig6HBuH4al3sVGXohn/b1jOnmycRTpVEI53xMBsgsVZQ4Vm/ga1x2f9ll1fi8Bu9ZriUPs6O7EEvbNP0lmpw6/jVvicFJ2+By99jSaYojGjTOnEnnMgn/QtboLAHmS+liMtaPLpZ/BCs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724911762; c=relaxed/simple;
+	bh=yzWjJbxWXDVPOmlPeXbC5/kC8N0jkizfs6sSzv11fag=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=s/fWIBFPe1vJYFvesTzBmFfe++MoG0aH0AJNULpwMqSNMQUZv7fb5PNvuP6L6kov42/TqvXF6tmhrLDQdTjD5VvW5oyhLgfm1XB5hp09fXglE5E6xmNXuyY3sl7U7Ab4NXKqZThwdY8U1V6CvIuGv/d6+9nN9IrWjJsm40EuQUo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ja3mITm4; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724911760; x=1756447760;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=yzWjJbxWXDVPOmlPeXbC5/kC8N0jkizfs6sSzv11fag=;
+  b=Ja3mITm4t5ZsK+truk1rUqC1j+Wv7PKdSlJYxfhemxUmEars7M3ygGnP
+   BIWvV6h0jZl77NJM5dh3TINPF+oZBoVUR3b4VlWU88Uzu9vfYUxP0Hd8q
+   dK0oYmmUIbmy+jEL9FvxrmMjeJCesTYqr/8yk06itOx3Z6S5UpJ27zWql
+   gVVRvo2RWhwqCWnVJeL9enfsHhy95H6zvOswzJpFRQtCRw1Mi36XHiyuQ
+   9mL1LWk/aYqsT5sl0dpQ5cvD12CWEKCayIPeqUggVyu3p9vNNZ7u6j8KA
+   0cEAsh6aHbSkdTW+9mcRZ6B0MhMQabhEtJ/CRQ8m9/FxBDNTR1xNtrP2E
+   w==;
+X-CSE-ConnectionGUID: h2pVb2v1QFWdL0cqP1WNzQ==
+X-CSE-MsgGUID: Qe+3SkfpQCCsWv1Vf1FRKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23612976"
+X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
+   d="scan'208";a="23612976"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 23:09:19 -0700
+X-CSE-ConnectionGUID: 9x4KIUI1QxyD7SEr+VcYtQ==
+X-CSE-MsgGUID: oHv8yDetQF2Jk6/X9QosxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
+   d="scan'208";a="63656909"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Aug 2024 23:09:03 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 28 Aug 2024 23:09:01 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 28 Aug 2024 23:09:00 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 28 Aug 2024 23:09:00 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.40) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 28 Aug 2024 23:09:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZeaJoqorR+ESxx9Rrc3uh5umYlKsweuVExaikM7vZmztD3bOX2rz2kAOkRTPMCmcV1auN4mdKeyors+Ji67V95lb8yCC8mwaARyzH4j5szChuSVsffV6mYK5xqgAHtlssk9mbvICYgZfLNmHGGYS0p7hMQ/bhjm2YyFAPjh4DTDe+Eg58iz/K5BbaQC+X2WJJ4Lv6HIuIrvRlyNInEsoKLOlSv3dffG5EI7xmIgI3Cp4NykfgaMGN+aOw7WuJYe+pk3IM/G3+T3Ugmy+0b1BDw+0IYZCTvKUKMp0P88KXrvvbnp9iDI+oHgH58apVgJ4s7jarGD7y5QNWY90H/xIiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HBkKzo4Px2B4/7Dvq7RfzBNzk+18xre+Zn55YtKpcjc=;
+ b=g9nlTyzkphIyOjruHICBdaRsNkPxL7nSZyZDnrrprO6lERGGtatuweP9M/P9LeSiuwaRuZfhjWD7XvEw9WcyjbBwtm9vr3hGyKABaiT5MjjqnaSCuW7uEZAcEfLmW+d01hIb59OnaZZKu0EowbJkr46uNz4MMKQ/v2Oy2Sp/M2CKwchnIoLmNkeEz0ga/YAo6oXM6wXgHIGrU5rfLOXwy1atScGy3YyUDJ5qxPHxI8MSrbbV4C4vZY9DSr3iWuvFe5MZBAk8ZR9Woef5LpoH54A1jvN3dXGwgTG+W46ZaGmwWDsgT887YqCl6DHekRr2MCS0BPPqzSaGCZ3aX7d3TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by SA2PR11MB4969.namprd11.prod.outlook.com (2603:10b6:806:111::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.28; Thu, 29 Aug
+ 2024 06:08:58 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.7897.027; Thu, 29 Aug 2024
+ 06:08:58 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Huan Yang <link@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+	=?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, Gerd Hoffmann
+	<kraxel@redhat.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+CC: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
+Subject: RE: [PATCH v4 1/5] udmabuf: direct map pfn when first page fault
+Thread-Topic: [PATCH v4 1/5] udmabuf: direct map pfn when first page fault
+Thread-Index: AQHa9G+T11uuaSJPXEe+DfxssxyDrLI9NGNw
+Date: Thu, 29 Aug 2024 06:08:58 +0000
+Message-ID: <IA0PR11MB718571990B58A16756C15E2FF8962@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <20240822084342.1574914-1-link@vivo.com>
+ <20240822084342.1574914-2-link@vivo.com>
+In-Reply-To: <20240822084342.1574914-2-link@vivo.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|SA2PR11MB4969:EE_
+x-ms-office365-filtering-correlation-id: 07dabf3f-7eb7-41aa-80fa-08dcc7f111f4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?mHE0qKRHyBG4Ubcsz3bd2Vn9qceqwNcqlTNOjNuOs4mijE5vtCnAK8c9Nh?=
+ =?iso-8859-1?Q?mb96xl0ISjI+b8OkgcLv5+3so/jwstVda4aRnhMzultPowSRXuITPUQLZA?=
+ =?iso-8859-1?Q?SlikYz4SzmQ3MUcH3BUVcRCqbgKtQ5Qa3wsmCVv3YhHGy3uughUvFUwQLh?=
+ =?iso-8859-1?Q?Mnp7XUg0KaD+9DZV4tFk377cIvwINoiSfDgTcam/JT1+qGUg1Nk1zb9HNz?=
+ =?iso-8859-1?Q?DyfurejkjLPQGzRH78LPsgzPfgPqNZm2LkFs0ADYTLvXI4K9nZAjXDgSYf?=
+ =?iso-8859-1?Q?KphcqV4MWvYewvGrnkkmLUUV+yuvQ02sEubOsqpinQkNRNH1Kxmnpfye4s?=
+ =?iso-8859-1?Q?1XE9gy4XWRVHd+LnGMCfTlcm5pCaU9/ARBDMbPV2YQdzGREDSQd+IaNp9y?=
+ =?iso-8859-1?Q?Kt8biDDQM42r3bH1/sCYuKG3wqYUbp0mO3KmBLAYvb0xqWhsKNXGxhE/o5?=
+ =?iso-8859-1?Q?nkFVLTZGcWAuYqPqFpXmd9T5L3Xy3B1sQWVSs5PXAu/vSQuAmeVTxNRZhe?=
+ =?iso-8859-1?Q?Jy+JkEN3pmIDZI2WNQ5Z81jWGNVK4uXEb4WUQ+Xg1w9UzoNY4+NVMnBrOc?=
+ =?iso-8859-1?Q?SLhF85DDbyuiGwPSNOuq0F5/rC+NjtF1QS8mWPzmLGYjPGn8TVcxXb0R/z?=
+ =?iso-8859-1?Q?W9ZyyISVSE/T9wiVjnsj5N9WgT5r4ohqlyUh3ZvjOd2ornMb4Psm7uxsW7?=
+ =?iso-8859-1?Q?XnJTlToleg/eMai2MG0+q9M1ACbtklJXATkPoHN7lvGsPPjeaZILDl34o7?=
+ =?iso-8859-1?Q?xFXa6s8BQYnDqPwElClbBX1b4ysdrSgB0UOeLdTMLH/dyC/qosMbZ7v8OX?=
+ =?iso-8859-1?Q?MH3eKVA2HaLO6SFQpQmvc7uG5mIpHn+OMMynqUkM4EH00QtMWzCBiVmCTf?=
+ =?iso-8859-1?Q?B4h0bzB4m3oXZy9RLvM7ayKiPnmyBES9F7IwUC1RsgXChMw7/MixSgXBO/?=
+ =?iso-8859-1?Q?tgvLf74BmC/7/NcbSvx7b6C0p3SEBaoUIKebaPSWrJ8nKqfwxpNpPR1Iq5?=
+ =?iso-8859-1?Q?MHaDvyY+wMDzOFc/gceI69ra4vwmswk4zniBnRoiNLe5izXkFc72koloPR?=
+ =?iso-8859-1?Q?oPgh8p3ewB3fiJhGxykOVXdOdzMWaJkwVytbXycl0aHtYRXHBmd5wIQHST?=
+ =?iso-8859-1?Q?MY5QWRTyONL7xGTt6txzurE2GZ8qHKNBOG+grda7SPL8X+X8oJ1x4CqflX?=
+ =?iso-8859-1?Q?tgPE33lS2opr8183cwMcJ/QsRwL6PcHjYHA1+DOotF5VVl+jSGarthsdlh?=
+ =?iso-8859-1?Q?mlZ8OAN3dEdloRQhSkypJLt3Smfy3EzZ7851xGuROvfPslqQ1PLRcuIVSb?=
+ =?iso-8859-1?Q?YZCRAMafSWfzmUAudo+5xwvLKbl3PpNvWazJ5n+7s1wF3JRb1LyeGDkubK?=
+ =?iso-8859-1?Q?9fn9wQuusOvlwEzBx5iwyIlaXQ0YeJSngRaaihOrvL1hX2RvgyC9R3dSLM?=
+ =?iso-8859-1?Q?Penh1fHHuLQiL+0AV2XoNig2D4khLAsymQV06g=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7185.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?ktxW1WDAF0aLGqlFna9+DytN84iqiZw09Wd5LyNejWcPYaVetqUlYv4XYu?=
+ =?iso-8859-1?Q?leteIh8SrKq0t/Bz6IGuSRR4PaobaCLHFNDIJk9kuS0pKm8P2w5r2ep95W?=
+ =?iso-8859-1?Q?BhN+E4GUm5kaTnfRGYNbKxr6YY60l1nqSaHeWtfLFjn6V1aw8bC74jTTfn?=
+ =?iso-8859-1?Q?2F3fvMg34kL87KsM5cHvI/s1G7t1xw8p7FLrJCUv5Y5hX7K4cv4Vf+hYtR?=
+ =?iso-8859-1?Q?ePxH0xRoY7VrQfeAK8F/TezgKfStRibsaf5bGqFtqgDyOtCI8KAB19jWNs?=
+ =?iso-8859-1?Q?Z3az67mtQiZktEWHquWAGMSF8YEAjSpKRQ3vvHlw5nNb2dFma++HDD9Rsm?=
+ =?iso-8859-1?Q?1ywad5BtvhXQHzR2kVye8e6wI190Qe48FEoE0KTQTC/w5d+M8Qj+GphEgh?=
+ =?iso-8859-1?Q?scKd48aeKdpHxGJlH6g5yaSgczF4w78Tx9SGCg2Ai9CJImfpM2nvcDab9p?=
+ =?iso-8859-1?Q?3PjyJ+Impd3WYilxuEpslZpCwQAaVQlTVxAPlCtJhZ6nqxAP2fPH/Fh2r+?=
+ =?iso-8859-1?Q?saVaETzKFe3TnH3xSeZOwFkpgQB7Fp0ZTdETeBFfvU6p+Q6Xb9k1535NJu?=
+ =?iso-8859-1?Q?mwjrDC71GULr8QDbc3X6H0WenPbNkL95Ivsd32h/xT9xanx+Lnb/BnMY2R?=
+ =?iso-8859-1?Q?PwseZXj+a3xPu80l1sAF0ipgMRjgjdfrN+OXjWjzEQYJl4AhOrCcWszapZ?=
+ =?iso-8859-1?Q?3vU/Te9SK3qbAXYwzagScAXk15fYQuMpMQDHjJxg4xnUOVyIc1S+HNf3/B?=
+ =?iso-8859-1?Q?8pjjOQztnrdFKNtns+eAYMN4fXXinSsEB+n2OAe86Mjwrqdy48EjRzInX4?=
+ =?iso-8859-1?Q?iI3kkRPOWnGRYXwYFel9ueYfOwWlmtbWnWgzdNCczGzGQfyUx9CYM1OGeF?=
+ =?iso-8859-1?Q?viKpQOrgWLDmJoENYz7nJjNQnuUsYz5btV46bjRlGoouqFWWVCIGEr1rcN?=
+ =?iso-8859-1?Q?92e0NQUf0yOfQOLBxPdjDCl8wbMQ5+q7fWdGDGMIaMtEwLpcNgCTYtKzF4?=
+ =?iso-8859-1?Q?0F0ldd//baksWLSf7egH3hjAHfMcE0GmH1BQkrwaSsAQ7grm2flS4TvYL6?=
+ =?iso-8859-1?Q?XkIhM27KuI+3YkaIwTfbdje5Z2voP9HUBzP3gSsp/EjLmdXSKwft1QgaS1?=
+ =?iso-8859-1?Q?/j0/dLa+ScZtPBmWwZIwDuibI+XjR2D73JaBzUeaAbtWMlJ/wTju909qAa?=
+ =?iso-8859-1?Q?9pgCpxfCu+9xCL9ZVXlrgbAPgu8OQgXrO5A7tuQfwfvklWvdCDt5W8MNNR?=
+ =?iso-8859-1?Q?0em3ignb4zYgEmzb14xON0Yw2coAcCRQyMvnAXifNY5nCGOsCFcE8NLjPG?=
+ =?iso-8859-1?Q?HaUaSVZE1cp4Uxqcw3dR2xSZI2Daw6a0gERtzCeAlbJuSAbdJif2I/WfHM?=
+ =?iso-8859-1?Q?5PG5WYqP5foI75iF6kfhKGWhbVtoCmljZkast9xqWkp7JwvXl249fpfs7j?=
+ =?iso-8859-1?Q?imCJBazqmvmnIc1N8z6dK3lK2XmMfnEv4PngBIE/v4EAfO2nit9LBqpHAN?=
+ =?iso-8859-1?Q?MRfMA/eNLGB/nz+jdYZ62uhwlF9x/P0COOGK06kn9GLqXe1DwWV+pmW7m8?=
+ =?iso-8859-1?Q?YyhSDTTZYHDOGiDfJLZli44bjSSn+C/iew+1oow/AwHy/LHxq8qWjilExP?=
+ =?iso-8859-1?Q?lorthOEGqM4EUrH1kUuPwKnPveKcqeTKr3?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240829060126.2792671-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.46.0.469.g59c65b2a67-goog
-Message-ID: <20240829060126.2792671-14-almasrymina@google.com>
-Subject: [PATCH net-next v23 13/13] netdev: add dmabuf introspection
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org
-Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	"=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?=" <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, 
-	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, 
-	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Christoph Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07dabf3f-7eb7-41aa-80fa-08dcc7f111f4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2024 06:08:58.1999
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: IW5kKhgiCcDOcIrpDofdLViujldQBj2/4OhXE60X0iWGoervHuJ4z2Qzmw4/Hhtbbh4ycjfXAjzlEDdSzweeB6THsJq78kB9DaUOp7cb87c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4969
+X-OriginatorOrg: intel.com
 
-Add dmabuf information to page_pool stats:
+Hi Huan,
 
-$ ./cli.py --spec ../netlink/specs/netdev.yaml --dump page-pool-get
-...
- {'dmabuf': 10,
-  'id': 456,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 455,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 454,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 453,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 452,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 451,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 450,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 449,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
+> Subject: [PATCH v4 1/5] udmabuf: direct map pfn when first page fault
+>=20
+> The current udmabuf mmap uses a page fault to populate the vma.
+>=20
+> However, the current udmabuf has already obtained and pinned the folio
+> upon completion of the creation.This means that the physical memory has
+> already been acquired, rather than being accessed dynamically.
+>=20
+> As a result, the page fault has lost its purpose as a demanding
+> page. Due to the fact that page fault requires trapping into kernel mode
+> and filling in when accessing the corresponding virtual address in mmap,
+> when creating a large size udmabuf, this represents a considerable
+> overhead.
+>=20
+> This patch fill vma area with pfn when the first page fault trigger, so,
+> any other access will not enter page fault.
+>=20
+> Suggested-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> Signed-off-by: Huan Yang <link@vivo.com>
+> ---
+>  drivers/dma-buf/udmabuf.c | 26 ++++++++++++++++++++++++--
+>  1 file changed, 24 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index 047c3cd2ceff..0e33d25310ec 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -43,7 +43,8 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault
+> *vmf)
+>  	struct vm_area_struct *vma =3D vmf->vma;
+>  	struct udmabuf *ubuf =3D vma->vm_private_data;
+>  	pgoff_t pgoff =3D vmf->pgoff;
+> -	unsigned long pfn;
+> +	unsigned long addr, end, pfn;
+> +	vm_fault_t ret;
+>=20
+>  	if (pgoff >=3D ubuf->pagecount)
+>  		return VM_FAULT_SIGBUS;
+> @@ -51,7 +52,28 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault
+> *vmf)
+>  	pfn =3D folio_pfn(ubuf->folios[pgoff]);
+>  	pfn +=3D ubuf->offsets[pgoff] >> PAGE_SHIFT;
+>=20
+> -	return vmf_insert_pfn(vma, vmf->address, pfn);
+> +	ret =3D vmf_insert_pfn(vma, vmf->address, pfn);
+> +	if (ret & VM_FAULT_ERROR)
+> +		return ret;
+> +
+> +	/* pre fault */
+> +	pgoff =3D vma->vm_pgoff;
+> +	end =3D vma->vm_end;
+> +	addr =3D vma->vm_start;
+> +
+> +	for (; addr < end; pgoff++, addr +=3D PAGE_SIZE) {
+Although unlikely, I think we should also check for pgoff < ubuf->pagecount=
+.
 
-And queue stats:
+> +		if (addr =3D=3D vmf->address)
+> +			continue;
+> +
+> +		pfn =3D folio_pfn(ubuf->folios[pgoff]);
+> +
+> +		pfn +=3D ubuf->offsets[pgoff] >> PAGE_SHIFT;
+> +
+> +		if (vmf_insert_pfn(vma, addr, pfn) & VM_FAULT_ERROR)
+Shouldn't you store the return value of vmf_insert_pfn in ret? Otherwise, w=
+e'll
+return success when the above call fails.
 
-$ ./cli.py --spec ../netlink/specs/netdev.yaml --dump queue-get
-...
-{'dmabuf': 10, 'id': 8, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 9, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 10, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 11, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 12, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 13, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 14, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 15, 'ifindex': 3, 'type': 'rx'},
+Anyway, I am wondering if it is more optimal to just iterate over pages ins=
+tead
+of addresses. Something like below:
 
-Suggested-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
++       unsigned long nr_pages =3D vma_pages(vma);
++       unsigned long addr =3D vma->vm_start;
 
----
- Documentation/netlink/specs/netdev.yaml | 10 ++++++++++
- include/uapi/linux/netdev.h             |  2 ++
- net/core/netdev-genl.c                  | 10 ++++++++++
- net/core/page_pool_user.c               |  4 ++++
- tools/include/uapi/linux/netdev.h       |  2 ++
- 5 files changed, 28 insertions(+)
+-       if (pgoff >=3D ubuf->pagecount)
+-               return VM_FAULT_SIGBUS;
++       WARN_ON(nr_pages !=3D ubuf->pagecount);
 
-diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
-index 0c747530c275..08412c279297 100644
---- a/Documentation/netlink/specs/netdev.yaml
-+++ b/Documentation/netlink/specs/netdev.yaml
-@@ -167,6 +167,10 @@ attribute-sets:
-           "re-attached", they are just waiting to disappear.
-           Attribute is absent if Page Pool has not been detached, and
-           can still be used to allocate new memory.
-+      -
-+        name: dmabuf
-+        doc: ID of the dmabuf this page-pool is attached to.
-+        type: u32
-   -
-     name: page-pool-info
-     subset-of: page-pool
-@@ -268,6 +272,10 @@ attribute-sets:
-         name: napi-id
-         doc: ID of the NAPI instance which services this queue.
-         type: u32
-+      -
-+        name: dmabuf
-+        doc: ID of the dmabuf attached to this queue, if any.
-+        type: u32
- 
-   -
-     name: qstats
-@@ -543,6 +551,7 @@ operations:
-             - inflight
-             - inflight-mem
-             - detach-time
-+            - dmabuf
-       dump:
-         reply: *pp-reply
-       config-cond: page-pool
-@@ -607,6 +616,7 @@ operations:
-             - type
-             - napi-id
-             - ifindex
-+            - dmabuf
-       dump:
-         request:
-           attributes:
-diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
-index 91bf3ecc5f1d..7c308f04e7a0 100644
---- a/include/uapi/linux/netdev.h
-+++ b/include/uapi/linux/netdev.h
-@@ -93,6 +93,7 @@ enum {
- 	NETDEV_A_PAGE_POOL_INFLIGHT,
- 	NETDEV_A_PAGE_POOL_INFLIGHT_MEM,
- 	NETDEV_A_PAGE_POOL_DETACH_TIME,
-+	NETDEV_A_PAGE_POOL_DMABUF,
- 
- 	__NETDEV_A_PAGE_POOL_MAX,
- 	NETDEV_A_PAGE_POOL_MAX = (__NETDEV_A_PAGE_POOL_MAX - 1)
-@@ -131,6 +132,7 @@ enum {
- 	NETDEV_A_QUEUE_IFINDEX,
- 	NETDEV_A_QUEUE_TYPE,
- 	NETDEV_A_QUEUE_NAPI_ID,
-+	NETDEV_A_QUEUE_DMABUF,
- 
- 	__NETDEV_A_QUEUE_MAX,
- 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
-diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
-index 71363d258a52..50604dfd628e 100644
---- a/net/core/netdev-genl.c
-+++ b/net/core/netdev-genl.c
-@@ -293,6 +293,7 @@ static int
- netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
- 			 u32 q_idx, u32 q_type, const struct genl_info *info)
- {
-+	struct net_devmem_dmabuf_binding *binding;
- 	struct netdev_rx_queue *rxq;
- 	struct netdev_queue *txq;
- 	void *hdr;
-@@ -312,6 +313,15 @@ netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
- 		if (rxq->napi && nla_put_u32(rsp, NETDEV_A_QUEUE_NAPI_ID,
- 					     rxq->napi->napi_id))
- 			goto nla_put_failure;
-+
-+		binding = (struct net_devmem_dmabuf_binding *)
-+				  rxq->mp_params.mp_priv;
-+		if (binding) {
-+			if (nla_put_u32(rsp, NETDEV_A_QUEUE_DMABUF,
-+					binding->id))
-+				goto nla_put_failure;
-+		}
-+
- 		break;
- 	case NETDEV_QUEUE_TYPE_TX:
- 		txq = netdev_get_tx_queue(netdev, q_idx);
-diff --git a/net/core/page_pool_user.c b/net/core/page_pool_user.c
-index ce5167eb5548..92d8b1d1022a 100644
---- a/net/core/page_pool_user.c
-+++ b/net/core/page_pool_user.c
-@@ -213,6 +213,7 @@ static int
- page_pool_nl_fill(struct sk_buff *rsp, const struct page_pool *pool,
- 		  const struct genl_info *info)
- {
-+	struct net_devmem_dmabuf_binding *binding = pool->mp_priv;
- 	size_t inflight, refsz;
- 	void *hdr;
- 
-@@ -242,6 +243,9 @@ page_pool_nl_fill(struct sk_buff *rsp, const struct page_pool *pool,
- 			 pool->user.detach_time))
- 		goto err_cancel;
- 
-+	if (binding && nla_put_u32(rsp, NETDEV_A_PAGE_POOL_DMABUF, binding->id))
-+		goto err_cancel;
-+
- 	genlmsg_end(rsp, hdr);
- 
- 	return 0;
-diff --git a/tools/include/uapi/linux/netdev.h b/tools/include/uapi/linux/netdev.h
-index 91bf3ecc5f1d..7c308f04e7a0 100644
---- a/tools/include/uapi/linux/netdev.h
-+++ b/tools/include/uapi/linux/netdev.h
-@@ -93,6 +93,7 @@ enum {
- 	NETDEV_A_PAGE_POOL_INFLIGHT,
- 	NETDEV_A_PAGE_POOL_INFLIGHT_MEM,
- 	NETDEV_A_PAGE_POOL_DETACH_TIME,
-+	NETDEV_A_PAGE_POOL_DMABUF,
- 
- 	__NETDEV_A_PAGE_POOL_MAX,
- 	NETDEV_A_PAGE_POOL_MAX = (__NETDEV_A_PAGE_POOL_MAX - 1)
-@@ -131,6 +132,7 @@ enum {
- 	NETDEV_A_QUEUE_IFINDEX,
- 	NETDEV_A_QUEUE_TYPE,
- 	NETDEV_A_QUEUE_NAPI_ID,
-+	NETDEV_A_QUEUE_DMABUF,
- 
- 	__NETDEV_A_QUEUE_MAX,
- 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
--- 
-2.46.0.469.g59c65b2a67-goog
+-       pfn =3D folio_pfn(ubuf->folios[pgoff]);
+-       pfn +=3D ubuf->offsets[pgoff] >> PAGE_SHIFT;
++       for (pg =3D 0; pg < nr_pages && pg < ubuf->pagecount; pg++) {
++               pfn =3D folio_pfn(ubuf->folios[pg]);
++               pfn +=3D ubuf->offsets[pg] >> PAGE_SHIFT;
+
+-       return vmf_insert_pfn(vma, vmf->address, pfn);
++               ret =3D vmf_insert_pfn(vma, addr, pfn);
++               addr +=3D PAGE_SIZE;
++ }
+
+Thanks,
+Vivek
+
+> +			break;
+> +	}
+> +
+> +	return ret;
+>  }
+>=20
+>  static const struct vm_operations_struct udmabuf_vm_ops =3D {
+> --
+> 2.45.2
 
 
