@@ -1,195 +1,136 @@
-Return-Path: <linux-media+bounces-17096-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17097-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215BF963D15
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 09:33:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9BE963D80
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 09:46:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB85B2831B8
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 07:33:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75DBE1F24E50
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 07:46:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C39D7184549;
-	Thu, 29 Aug 2024 07:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ArxujC8U"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D342318A6B6;
+	Thu, 29 Aug 2024 07:45:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727364C70;
-	Thu, 29 Aug 2024 07:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E9D1494A8;
+	Thu, 29 Aug 2024 07:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724916791; cv=none; b=UWtKJ5b4yQTVK/XCe33Pp1KcY0LHg3JvRj4Suh4A7sGD11WDOmhyUvCLQMKJqRGcXvrUlQD6i7sJRMMeFq7CkxUkzEUpO0vfY5xuT6jQBAsemAwuhx+KWHVYoJWn78WqHWSUjD8vfz+G17Wz6XPgcDVSna7JA/B2qbmjqq9bIVo=
+	t=1724917548; cv=none; b=H81zMZPIalvPTJVQEEmm5Hetiw936MutPhpytCT0aUIblPWRMtsxt/RsZbBs4UYbtbYSPq19A32up0yOu96k5yTq8GxUTTUjc2m0RpbgaJxUg69f7g6uGOMcIiqNFNWwUVrCK0sDfhIrCzUL66GxTTyZIZmJTM52v6yknV2lKm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724916791; c=relaxed/simple;
-	bh=DNe7bW1awUzROXNZ2syZJ9t/+1lJM8MBDvyjmrihFbY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cN5FKLikEv2nUjGlaxWlGzdUMAnsjuSO2t7a46G2WgBmndLOOkIMzYOXeTM8us0iqPy0/7EPEBFWNa1w0ffnQaIv0fLIqy5HkIMPGdN+4OdPVxbaMFHppLysXQ0Y+sgAfI3PglGDuLPaOhCjGp+Xn81NW4dFelOJJWHJMqJz/F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ArxujC8U; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c0a9f2b967so298943a12.2;
-        Thu, 29 Aug 2024 00:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724916788; x=1725521588; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eO9MvSIcSf2me8q8Zept+6x5Tk0M3qHopcP6SPDZkCY=;
-        b=ArxujC8UXn+4vcemWeMvEB7UGX7L756sBCX3RSQZSi8Kb6f+iTM/ovP2q300ge/Z+J
-         qUWtVI6cO56ASGffCtfLGecV0Ssb7QErU4z08ao2cEZ1vUz1UX9n8b4FMwjKUVroLGop
-         ThSVFfHcx9vuHs0Hfg8hu3vH8WblQVJk8ZGi892hqeiymoO3rlI5nZvfhgLDeQ7ujx++
-         boqOYqHUPi6Lg2ykIJeDk/OtOHfbeVvcXLrWAR55h0dm2Dw6xa16zXSt17pb7JlYBYvA
-         N69IOv5mHSWRQHXp1o/P5sWxeklicF85piJFKTDZHXpMURYsnjRcT8nNYra93Phd66/y
-         wk6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724916788; x=1725521588;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eO9MvSIcSf2me8q8Zept+6x5Tk0M3qHopcP6SPDZkCY=;
-        b=PC6ZOHIHFHJnaPTTlUBU6xqm0eSInvx0ERBH0Ako1jnFh1TPIIwVyR8+1kWBdso4Vi
-         IwHM2dmX/2i3tHKXlEOLflq8Q4N7Vv+WzZ/oXMYxPAu1ZK5iYM3bxB7frMMj/acCsL83
-         kf2F+CINW3IMxDDrbZ8qMbcw2Gw2xXykbS+Qp2dpjoprSUe0I7xp82ueF6lnoZeTFLDY
-         1jsZsCGD8h9ZFQeH31ptMpKdPRs0Hin5sR1f0rRNAAsU58nlAy6LSkusJr6SzS43sGot
-         EMWUhqEzILpy0Pv+QB03vhJ320dZYJKLZ5QDGPgkTD1/ZbPRdwwPKLQjz2jY3nP4qgV7
-         uVHw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4OLRxCeXXIXqs9BpZ54HtzdfYYUHW87SchLi2zZ5P8Du3TLzXDSQsmDigjJC/UheGWDVfVh3Y2Hwqvps=@vger.kernel.org, AJvYcCVkx3nOPOV/60r5xRONHVNUzF1B1yjz1YPSWZdWzlnGcD4JhxcEmzhA0vhBnpdqZVWyk2K3WmCJF+N9fno=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzuzQg+qJbAcF7OwMGrtGi8MJe5CAmfgTDfqnUaTviCEmZnXA7
-	Z4x6G9VElcRgIxaSnaHTSj6x90pAmezIIAgd7AL8coDhY6RgX8DuQgsumFbg7pZIuZ1MujsU1PJ
-	osMkQtP6s7XtssMAHJacuxxyfLRo=
-X-Google-Smtp-Source: AGHT+IE4bR3U3z0Oa6dNi+4FeoDXEo9T6MSe3SDZyQPxLtqjlLbJ8q2H5mB0fEXKSX5e7UBnYm0rL3YqeJ/hD6z1SbA=
-X-Received: by 2002:a05:6402:2353:b0:5be:cd72:3757 with SMTP id
- 4fb4d7f45d1cf-5c21ed566eemr1528527a12.20.1724916787259; Thu, 29 Aug 2024
- 00:33:07 -0700 (PDT)
+	s=arc-20240116; t=1724917548; c=relaxed/simple;
+	bh=yKtD5jCkLGZgxEvKIW31UMTQNealQ96tDsaeBY1stys=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n6IAztR+3wv1yY7jkzXznsTHJdYee17ZsuTXlRCJx7rffxDZl1QI6SV3qjIpBb+buT7WjFbqYWSvTZeraq/3Ip1AVmeS0q3mYHViwDDrDMemP3pldyY6mkLkx20sHwBtL6bllUTKcOxsiXdgS9JgbZFTbxqsp/0Gv7pj5g3Zdd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B353C4CEC1;
+	Thu, 29 Aug 2024 07:45:46 +0000 (UTC)
+Message-ID: <d2400855-c9ec-4491-aa30-7b5147dcb43a@xs4all.nl>
+Date: Thu, 29 Aug 2024 09:45:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240828-imx290-avail-v2-0-bd320ac8e8fa@skidata.com>
- <20240828-imx290-avail-v2-1-bd320ac8e8fa@skidata.com> <ZtAdvtkjr0XNbvmu@kekkonen.localdomain>
-In-Reply-To: <ZtAdvtkjr0XNbvmu@kekkonen.localdomain>
-From: Benjamin Bara <bbara93@gmail.com>
-Date: Thu, 29 Aug 2024 09:32:55 +0200
-Message-ID: <CAJpcXm6O8gfDnuevjh2iEXZpt7BE0OWqVH+2YfKaOZKxatOHqQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] media: i2c: imx290: Check for availability in probe()
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Hans de Goede <hdegoede@redhat.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Alexander Stein <alexander.stein@ew.tq-group.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Benjamin Bara <benjamin.bara@skidata.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Letux-kernel] [PATCHv2 0/6] drm/omap: hdmi: improve hdmi4 CEC,
+ add CEC for hdmi5
+To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ devicetree <devicetree@vger.kernel.org>,
+ Linux-OMAP <linux-omap@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-media@vger.kernel.org,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
+References: <20210302162403.983585-1-hverkuil-cisco@xs4all.nl>
+ <43F64377-8394-448F-A6F0-4DA11DB9AEF5@goldelico.com>
+ <3c36b0cd-7b43-4a63-a832-1d8d14a4512a@ideasonboard.com>
+ <83b8be7b-a2c5-42f8-a42b-93dfc528a414@xs4all.nl>
+ <3D3C502B-C29B-4156-9616-E5EFDB89E4B7@goldelico.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <3D3C502B-C29B-4156-9616-E5EFDB89E4B7@goldelico.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
+On 28/08/2024 21:41, H. Nikolaus Schaller wrote:
+> Hi all,
+> 
+>> Am 28.08.2024 um 16:14 schrieb Hans Verkuil <hverkuil-cisco@xs4all.nl>:
+>>
+>> On 28/08/2024 15:57, Tomi Valkeinen wrote:
+>>> Hi,
+>>>
+>>> On 25/08/2024 23:31, H. Nikolaus Schaller wrote:
+>>>> Hi,
+>>>> CEC features are useful to e.g. control HDMI monitor standby.
+>>>>
+>>>> But I wonder what happened to this series?
+>>>>
+>>>> I could find some reviewed-by: and acked-by: in [1] but it wasn't merged upstream
+>>>> for unidentifiable reasons.
+>>>>
+>>>> We apparently had merged this series some years ago into our LetuxOS distro kernel
+>>>> and now we found it to be broken (NULL dereference) at least for omap5uevm
+>>>> (and likely Pyra Handheld) after rebasing to v6.11-rc (it was already broken
+>>>> since v6.9-rc1). Fixes were not difficult, but it would be better if it were
+>>>> part of upstream.
+>>>
+>>> There was a v3:
+>>>
+>>> 20210428132545.1205162-1-hverkuil-cisco@xs4all.nl
+> 
+> [A clickable link is here: https://lore.kernel.org/linux-media/20210428132545.1205162-1-hverkuil-cisco@xs4all.nl/ ]
+> 
+> Ah, I see. It wasn't sent to linux-omap so I didn't recognise/find it in my mails
+> or omap-patchwork.
+> 
+> 
+>>> I see there was a concern from Laurent in:
+>>>
+>>> YLjMZiX71mcQNQdO@pendragon.ideasonboard.com
+> 
+> Well, he didn't reject it although he had concerns, but I am not experienced with what
+> he is talking about for a proper solution...
+> 
+>>>
+>>> And we need an ack from the bridge maintainers for the drm_bridge parts. But the series is three years old, so I think someone would have to rebase on top of mainline and re-test and re-send first.
+>>
+>> I never really followed up with this. I still have the hardware, it is primarily
+>> time. And also that for me this is quite low priority since I don't use omap5.
+>>
+>> If someone wants to refresh this series and post it, then I would have no problem
+>> with it.
+> 
+> A far as I see it just needs a rebase - I guess on linux-next (or drm-misc?) and some
+> compile fixes I already have implemented for our distro kernel.
+> 
+> So if you agree I could work on it, test on omap4&5 and submit a v4 and hope that you
+> can jump in and support for the discussion. I would keep you (Hans) as commit author
+> and just add a signed-off: and tested-by:
 
-On Thu, 29 Aug 2024 at 09:05, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> Hi Benjamin,
->
-> On Wed, Aug 28, 2024 at 08:13:07PM +0200, Benjamin Bara wrote:
-> > Currently, the V4L2 subdevice is also created when the device is not
-> > available/connected. In this case, dmesg shows the following:
-> >
-> > [   10.419510] imx290 7-001a: Error writing reg 0x301c: -6
-> > [   10.428981] imx290 7-001a: Error writing reg 0x3020: -6
-> > [   10.442712] imx290 7-001a: Error writing reg 0x3018: -6
-> > [   10.454018] imx290 7-001a: Error writing reg 0x3020: -6
-> >
-> > which seems to come from imx290_ctrl_update() after the subdev init is
-> > finished. However, as the errors are ignored, the subdev is initialized
-> > but simply does not work. From userspace perspective, there is no
-> > visible difference between a working and not-working subdevice (except
-> > when trying it out or watching for the error message).
-> >
-> > This commit adds a simple availability check before starting with the
-> > subdev initialization to error out instead.
-> >
-> > Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
-> > ---
-> > Changes since v1:
-> > - define operating/standby mode and use it
-> > - read out the standby mode during probe and ensure it is standby
-> > ---
-> >  drivers/media/i2c/imx290.c | 17 +++++++++++++++--
-> >  1 file changed, 15 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > index 4150e6e4b9a6..2a869576600c 100644
-> > --- a/drivers/media/i2c/imx290.c
-> > +++ b/drivers/media/i2c/imx290.c
-> > @@ -29,6 +29,8 @@
-> >  #include <media/v4l2-subdev.h>
-> >
-> >  #define IMX290_STANDBY                                       CCI_REG8(0x3000)
-> > +#define IMX290_STANDBY_OPERATING                     (0 << 0)
-> > +#define IMX290_STANDBY_STANDBY                               (1 << 0)
-> >  #define IMX290_REGHOLD                                       CCI_REG8(0x3001)
-> >  #define IMX290_XMSTA                                 CCI_REG8(0x3002)
-> >  #define IMX290_ADBIT                                 CCI_REG8(0x3005)
-> > @@ -1016,7 +1018,7 @@ static int imx290_start_streaming(struct imx290 *imx290,
-> >               return ret;
-> >       }
-> >
-> > -     cci_write(imx290->regmap, IMX290_STANDBY, 0x00, &ret);
-> > +     cci_write(imx290->regmap, IMX290_STANDBY, IMX290_STANDBY_OPERATING, &ret);
->
-> Please run
->
->         ./scripts/checkpatch.pl --strict --max-line-length=80
->
-> the next time. I'll wrap the line this time.
+That would be fine.
 
-Sorry. I added the strict max-line check to my .gitconfig.
-"b4 prep --check" now warns me.
+For what it is worth, the last version I have is this one from 3 years ago:
 
-> >
-> >       msleep(30);
-> >
-> > @@ -1029,7 +1031,7 @@ static int imx290_stop_streaming(struct imx290 *imx290)
-> >  {
-> >       int ret = 0;
-> >
-> > -     cci_write(imx290->regmap, IMX290_STANDBY, 0x01, &ret);
-> > +     cci_write(imx290->regmap, IMX290_STANDBY, IMX290_STANDBY_STANDBY, &ret);
-> >
-> >       msleep(30);
-> >
-> > @@ -1520,6 +1522,7 @@ static int imx290_probe(struct i2c_client *client)
-> >  {
-> >       struct device *dev = &client->dev;
-> >       struct imx290 *imx290;
-> > +     u64 val;
-> >       int ret;
-> >
-> >       imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
-> > @@ -1580,6 +1583,16 @@ static int imx290_probe(struct i2c_client *client)
-> >       pm_runtime_set_autosuspend_delay(dev, 1000);
-> >       pm_runtime_use_autosuspend(dev);
-> >
-> > +     /* Make sure the sensor is available before V4L2 subdev init. */
-> > +     ret = cci_read(imx290->regmap, IMX290_STANDBY, &val, NULL);
-> > +     if (ret)
-> > +             goto err_pm;
-> > +     if (val != IMX290_STANDBY_STANDBY) {
-> > +             dev_err(dev, "Sensor is not in standby mode\n");
-> > +             ret = -ENODEV;
-> > +             goto err_pm;
-> > +     }
-> > +
-> >       /* Initialize the V4L2 subdev. */
-> >       ret = imx290_subdev_init(imx290);
-> >       if (ret)
-> >
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=omap-bridge-cec
 
-thx & regards
-Benjamin
+I haven't looked at it since.
+
+Regards,
+
+	Hans
+
+> 
+> But I will also need some time...
+> 
+> BR and thanks,
+> Nikolaus
+> 
+
 
