@@ -1,119 +1,122 @@
-Return-Path: <linux-media+bounces-17124-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17125-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D89964210
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 12:37:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E297896426D
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 12:58:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F2871F25535
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 10:37:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E29E1F277F4
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 10:58:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D34B18E37C;
-	Thu, 29 Aug 2024 10:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vOpWa6yq"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FD0618DF91;
+	Thu, 29 Aug 2024 10:58:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C3E18CBE6
-	for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 10:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B67D158A33
+	for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 10:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724927454; cv=none; b=lkKuA2mkGfS/uDi+K2IaE5rC3VpDlvBGwRvp2KMlR3TBA6DzIed6IbCkM8sSW5XAefQSMJh2sCpESYFgWoZDZ4RuE4lY8Z+7hzFGSGtzLDq8iismqUKuR2aaQO6JRTaUMAG+Nm/IUCi/nyxplz7sG/j8X94q0dkGzg6rlNU8em8=
+	t=1724929103; cv=none; b=jQUF91BzEIO3Y4lGYUj59EHM1fxJPmlm/oowW07qrD/wHFGRPjhm737AEyWsIPq9ZeTCe4jdcja1Wr0j8jZzWlSSbFOqGiP09XR+8vaEAHFPp2RLvSjF2YC0ps5hGQhQlyt/fFRAqFOzlr/vLqYk9xjQxYFsLr+mEYtpnJI+Q8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724927454; c=relaxed/simple;
-	bh=JwD/5CpATNeAUUT2U9dB5jqpbx39vshHUiLHiXYrBCs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QowSm7zOGI40j4TKNCGg8nvUdLfc59whG+6h7hd/kRnvNOst+jTrOKSGT+Xs7e3wGuXrO08QVGes04OeelMQNqS/XIe/m5jNNp++ZOXnR4dj4VLPXTtT0JA/GJXIGLmCLqyOB3muxSE2ECOiK7SVKcBMoRL3TObjxcX3srjJi/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vOpWa6yq; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2f43de7ad5eso6840201fa.1
-        for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 03:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724927451; x=1725532251; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+/rkwYzdtv1HTnAFhDMt6zw9EEXfwMPtCfoF7AvvSYU=;
-        b=vOpWa6yqIIGPLB+LvxeuaVbzdJKcgZlhA7I90lsjAcS9A/o3ESu/amJQJXvbkqNFgi
-         wd/vRC6aZ8BWeawj5rCLEuKZdmH7hRxP3fnjgndcAAaKvWNrVy8Q5FwL2VngouV/aiDL
-         4lNzWnCxorGR8flUm/HWTsay6m+Y2FBKObcD0hPLpPUs89bF+x0YhrCWU9RZ0E3FPxhf
-         /1h92pYvQZYK2FWaDk/2zt1lwGpfy3MeNmZGOOiiaSSdqhZg4yKfkfbLxNpOyBW+E2/8
-         mRpNRoWWpKyyCl31F20kL1lc8W3HzW4qD6YP38FzD7Wo2S+aG9Syf3zZYcungQdgTNUx
-         dgFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724927451; x=1725532251;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+/rkwYzdtv1HTnAFhDMt6zw9EEXfwMPtCfoF7AvvSYU=;
-        b=K6f9Er9F4XQYfWJIQJqvVBxeD5Ceye7FutOQI6O/eN6wRuDQscskHpA2flfMfWeVUL
-         XLW8/T3IP2tW5zIgTzBzCMS2+SWiQMVs489ScY8M+VfoDcPr4VyHPVVYuPHf2nIfiFVh
-         hwO85n7hFAO5qZNk7daU5LPhEHjZacBMiwq13T/EmMO60SEu4myQrBmA+5p+PFA05Cck
-         0YK1xu80dHNerthuyiIpEseTkyrzgoEeb4G+JViJrjfLpoSRvH+lexf5lrXJ5gcnm8sf
-         X5hXPxawrhlG6fFhrMB7/QlYvmD73N5B+RyCsPmIjdXlBErpf9KVK6pIkUpNESV9HC1K
-         tiRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXIHYoCZRIKwnwadmLACVJr4CYKUdcw+Tmm8gyRbFlpIHi2p2JSq5a73unxd3rPyiDBaeL+Qb4elMSkuA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySff+jYUj88fPBx5vg7kFrXDxybz1W0pz59I5NnrJF232+I84Q
-	acgWvCKe7eks7pHo87AikhUZ+d2ro/6zGOXQnca6jPkX17bIt3aF3jzuT8lUAec=
-X-Google-Smtp-Source: AGHT+IExRQfAycplDihxi2sTfQugdwOLm/BGeiRKRBZyEWM9TcHn6gFVPCB6oog9W8hrTsVTV1Oz+Q==
-X-Received: by 2002:a2e:bea6:0:b0:2ef:185d:e3d7 with SMTP id 38308e7fff4ca-2f61050fa47mr21875841fa.38.1724927450310;
-        Thu, 29 Aug 2024 03:30:50 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c226cebf6esm533814a12.97.2024.08.29.03.30.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Aug 2024 03:30:49 -0700 (PDT)
-Message-ID: <918e84fa-4a07-4ca4-bd3c-a14cb0a8f3dc@linaro.org>
-Date: Thu, 29 Aug 2024 11:30:49 +0100
+	s=arc-20240116; t=1724929103; c=relaxed/simple;
+	bh=BuTtJUyGMnr9h3gwONwxzkTs/i7h6+19eJ9xXEq/AtM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tm3BPJd1MUW7Tb2qkE/ziKbJnN+1w/WU27TSfgJ+HwziqxEJalFOVEWQ8wKdVWCGgLKxjq+DYnPvO/CKVhjhhRjRY02UyANWdBQXa5lxXuaR216cXUkNrB/Yw47EDPNpLFBRjp67hq+33+I0hJFM9XtsyWzzNWU/iz34MGEF41U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C236DC4CEC1;
+	Thu, 29 Aug 2024 10:58:21 +0000 (UTC)
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: [PATCHv3 0/3] media: mc: add manual request completion support
+Date: Thu, 29 Aug 2024 12:55:36 +0200
+Message-ID: <cover.1724928939.git.hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND v3 2/3] media: qcom: venus: Fix uninitialized variable
- warning
-To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
- hverkuil@xs4all.nl, linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-References: <20240725061034.461-1-nas.chung@chipsnmedia.com>
- <20240725061034.461-3-nas.chung@chipsnmedia.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240725061034.461-3-nas.chung@chipsnmedia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 25/07/2024 07:10, Nas Chung wrote:
-> Avoid uninitialized variable when both V4L2_TYPE_IS_OUTPUT() and
-> V4L2_TYPE_IS_CAPTURE() return false.
-> 
-> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-> ---
->   drivers/media/platform/qcom/venus/vdec.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index d12089370d91..b72b579018e3 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -161,7 +161,7 @@ find_format_by_index(struct venus_inst *inst, unsigned int index, u32 type)
->   
->   		if (V4L2_TYPE_IS_OUTPUT(type)) {
->   			valid = venus_helper_check_codec(inst, fmt[i].pixfmt);
-> -		} else if (V4L2_TYPE_IS_CAPTURE(type)) {
-> +		} else {
->   			valid = venus_helper_check_format(inst, fmt[i].pixfmt);
->   
->   			if (fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
+Normally a request contains one or more request objects, and once all
+objects are marked as 'completed' the request itself is completed and
+userspace gets a signal that the request is complete.
 
-Can you give an example of the error - compile time I assume, this fixes ?
+Calling vb2_buffer_done will complete a buffer object, and
+v4l2_ctrl_request_complete will complete a control handler object.
 
----
-bod
+In some cases (e.g. VP9 codecs) there is only a buffer object, so
+as soon as the buffer is marked done, the request is marked as
+completed. But in the case of mediatek, while the buffer is done
+(i.e. the data is consumed by the hardware), the request isn't
+completed yet as the data is still being processed. Once the
+data is fully processed, the driver wants to call
+v4l2_ctrl_request_complete() which will either update an existing
+control handler object, or add a new control handler object to the
+request containing the latest control values. But since the
+request is already completed, calling v4l2_ctrl_request_complete()
+will fail.
+
+One option is to simply postpone calling vb2_buffer_done() and do
+it after the call to v4l2_ctrl_request_complete(). However, in some
+use-cases (e.g. secure memory) the number of available buffers is
+very limited and you really want to return a buffer as soon as
+possible.
+
+In that case you want to postpone request completion until you
+know the request is really ready.
+
+Originally I thought the best way would be to make a dummy request
+object, but that turned out to be overly complicated. So instead
+I just add a bool manual_completion, which you set to true in
+req_queue, and you call media_request_manual_complete() when you
+know the request is complete. That was a lot less complicated.
+
+The first patch adds this new manual completion code, the second
+patch adds this to vicodec so it is included in regression testing,
+and the last patch is an updated old patch of mine that adds debugfs
+code to check if all requests and request objects are properly freed.
+Without it it is really hard to verify that there are no dangling
+requests or objects.
+
+I prefer to merge this third patch as well, but if there are
+objections, then I can live without it.
+
+Regards,
+
+	Hans
+
+Changes since v2:
+- fixed use-after-free bug in the third patch in media_request_object_release().
+
+Changes since the RFC:
+
+- Added WARN_ONs
+- vicodec was calling media_request_manual_complete() without
+  checking that it was the stateless output queue first.
+- Some minor cleanups in patch 3.
+
+Hans Verkuil (3):
+  media: mc: add manual request completion
+  media: vicodec: add support for manual completion
+  media: mc: add debugfs node to keep track of requests
+
+ drivers/media/mc/mc-device.c                  | 30 +++++++++++++
+ drivers/media/mc/mc-devnode.c                 |  5 +++
+ drivers/media/mc/mc-request.c                 | 44 ++++++++++++++++++-
+ .../media/test-drivers/vicodec/vicodec-core.c | 21 +++++++--
+ include/media/media-device.h                  |  9 ++++
+ include/media/media-devnode.h                 |  4 ++
+ include/media/media-request.h                 | 38 +++++++++++++++-
+ 7 files changed, 144 insertions(+), 7 deletions(-)
+
+-- 
+2.43.0
+
 
