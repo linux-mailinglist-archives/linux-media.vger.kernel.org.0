@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-17093-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17094-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910ED963CC3
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 09:26:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF23963CD7
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 09:28:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3C881C208F8
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 07:26:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AF444B23CC0
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 07:28:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E9F0186E21;
-	Thu, 29 Aug 2024 07:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9E917333D;
+	Thu, 29 Aug 2024 07:28:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bUb2x5Pg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mOc8zDJ9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A531741D5;
-	Thu, 29 Aug 2024 07:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC5715DBC1;
+	Thu, 29 Aug 2024 07:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724916362; cv=none; b=tKScy8Fo+P0t7UJo+Zway7NwG1CI8hhy23ZeuxkYaeYgO0KxRr0BEV3ww9PEOZj3XAU9NNmFwTGkaMKiGyx8OuGKD/q9YJ2vWMmqHT5XDjx7xqn+hqYoKibL+8EyOGr5eSchEP/uvb8R5hdYUUAQOlpO1k99q4S/3rMgFUgbXMw=
+	t=1724916480; cv=none; b=VNED2wl0yT/ufzJHNDCAGGT68UT+reeUcypvk9eS6fgFnm7KxADNNSSjiZfoS7vdJaXpipl+Q6VWwhD3ePty6SXSkVfUwtfxyYlegxXjJQ5PorO0bBgI5NdrPFRiqVjyBZawXBFI/CbzNED7gZVGchzte/Ty79h3kKnIozoOeoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724916362; c=relaxed/simple;
-	bh=7k6bU+JmoKUqy6RRJyf1DT8wbe5mou33C8K6Zwo3ANc=;
+	s=arc-20240116; t=1724916480; c=relaxed/simple;
+	bh=joWCvkxZ3auopsvm3Eu4KjvSI6vm+wRLZxew9+GtHYs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dZx729oe9ValOPC5pWBtCmS7Sn4sIRAVwN0izJPm9xGDt5/fjMM0PIH0ldil0xslCp/GM8aBqmqGFIuZgB8a//W9dXW1+fqhPbIfEPzLKbMIDKS1eMrk7XastvbPtNaC9YNnvyhU+Vzieo4kXeWbHroImNWVGVVLHfmXp2t1bhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bUb2x5Pg; arc=none smtp.client-ip=209.85.217.48
+	 To:Cc:Content-Type; b=FNW3n5GVJsgvHFN6qoCvXhsp31LooGc5MkASCRNR6UfNegbUuwh2746AR1gAbUKKE3DN+RvmQKA7vmxt/pI/jwPO/kgEfKCoMvZbL/ZIojDNY2MOVHL9oma5xA4i8Uu3P68mW2EiPhVi6s+ntsiqDRTDPmNJLSIR5Q3C0hZwl+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mOc8zDJ9; arc=none smtp.client-ip=209.85.221.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-498f08339c6so154025137.2;
-        Thu, 29 Aug 2024 00:26:00 -0700 (PDT)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-4fead6effe9so131229e0c.2;
+        Thu, 29 Aug 2024 00:27:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724916359; x=1725521159; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724916478; x=1725521278; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QC0bD2p/acD0u+cas37HVlFefS9txRQ5BwvW279eo8E=;
-        b=bUb2x5Pg+KEw7BAbvZ4LGxGMNGO8dFzyHKTSRR/pc5tXRvd57oa1/wwf7TX/CeRT/W
-         m0QDi7EEBcVWttyC/Kab93NBfRV+iCZewbELTp/otZhR4VVVJk+vIxDDQbvbWvyQUz8l
-         I6eINw7PG63YPqmL9QMompxZlINjbRY2J77UtbiLKQPM5XJ1gzgvioA0DRImJfE6V/d2
-         fvr0M5kjuWLevq997efPVyyaGaM319Ne2K5BXgtuj/csmNwSsBLTl5w6Gvp+pLuqJTDk
-         NYeWYqJrZgsUUufQo/uHTyi/M4eINK0CRG4VxG9ljqFPU4/Ql1DItBAmO3HNPiGVeqF+
-         8kOA==
+        bh=AKM3gZ9ROdj98aY4JHlpNqjUP3F93IoGq/pntthm/+0=;
+        b=mOc8zDJ95EWFNZQgTu0YP9vOHM9Na54rWpWCSjyX9I7SeXsMBkmBEYazX4YibS71db
+         voXiu6i5kVVNCEd8ISHoQ3P4/qXvCH8VjLYWIG2fSK8+ydQsObqTZsfcCAP2qq4qmiGd
+         tkQBpm5hva1uW1iCFSgXfEUcfmIR4jJ+QdAqvhA4iE2jQEfBP3vKLSz484VwlOwXccfX
+         Yy9cLzGq01Ft32K4A84qWZWj/gJZJ2FHKJNuSbJKiu3G2a93ogvN0qf6wVa0dV+LOcsu
+         h+BlQEvBBGcc0wIy7sr5Blp85xrozLGltWzmfRu6jfNCvXhR2e8znIxVUnokc9+n3YLf
+         yOlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724916359; x=1725521159;
+        d=1e100.net; s=20230601; t=1724916478; x=1725521278;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QC0bD2p/acD0u+cas37HVlFefS9txRQ5BwvW279eo8E=;
-        b=K+yxlCzzB/T9CJb7ZxmpgwM+ccXPp7Cu5VZYhY7JO/IzuDetvQqe4XNaa0EkYcOqA5
-         GNQL+JV2oqVMTITfCQ0BqTiCrD92Cq2ojLFF+4fZ13/VeYTg0DCluvrDvnIan7a3LUUS
-         DxSkRFizqLCLDWwmFZAHwjxhUeP+Dmwf2X466fy8sGF2f9QPn/Ce/B0hNzJr9RLDtqjP
-         o00OztPs6pPeP5+suXgde9L1fq9M6Kxz8tGoI6Y60vrgXVv8OX+kl8SPEHqY36vxOFiB
-         zlVd/4zc80xbllVnncs8+3brzmRrovNCLLdZjlWK3a4UL7Sg2YnkKvmlfSlX7YMYGhjs
-         vX7w==
-X-Forwarded-Encrypted: i=1; AJvYcCWbxqGQ0Cbq/DDm6Wquvd82DAgrVgpsDg6d2qAXVGTOM/ssWgYMTchHBZ/Zf+0luLYJf19V0rpAjAX7nQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGORMrf905y03ZkIEcrGMe2tsTHb9utVmEAK+YA8cR5dEQAA27
-	wDmX/ASiAL1fysjto6cDCb0RYwjw1JVBC7QmA8QqO6/DqAT4e0DVtVBRHHYi5sedv/xmGaHLQcO
-	74qNeNx/S0xUSIy2owTOlnRBO1FY=
-X-Google-Smtp-Source: AGHT+IEsl1OCz3QZe7vLXevmkJrWzSANS7fAytAKWsty9XQ96ut2/HxfdhWRf0ZZY6asdT1rOHVHuKP8M0aj502P/Hs=
-X-Received: by 2002:a05:6102:c93:b0:497:6b92:d925 with SMTP id
- ada2fe7eead31-49a5af83a3dmr1719292137.30.1724916359260; Thu, 29 Aug 2024
- 00:25:59 -0700 (PDT)
+        bh=AKM3gZ9ROdj98aY4JHlpNqjUP3F93IoGq/pntthm/+0=;
+        b=Z6qWhZraDyGfibRBAijrs3jepHnM5y0LTvYq+DcDio3oF/pHv9mt/mkTL/V7UR33sZ
+         yi3GVm+p8vVe1KBhyEza0ICbWsX7873+cXWBEM0t6ZO2A/zfU4uj6wWQW2W23C8vuvrS
+         OrLVi9zA4gUgl+k7ftlXAj1oasQ305UcD8DCHB6zcZOs0arDh7d3ugvwmk7Ay3h6pA0g
+         F1y+NMFDdQARNzpgjfUnQdWhu2JTtaes1ZjWx5ocAWx+Po2tDJ9wUacys5Lmg8tRtGpL
+         aSCCNeeRRe5XDJiU9Wm6LjNqGIlzkJhD062E2OM8tsh6ejbX3XbhmPDVi3W6sW847yoV
+         Ecpw==
+X-Forwarded-Encrypted: i=1; AJvYcCUYP+jjiUMyYWDjXn4Lr8WtNCmlpPz5qwpBJE5a9KhdGWbYBqPR+nnGYwaZUNTR9iJgV+nd00I598X5S7Q=@vger.kernel.org, AJvYcCV3KSpsOdtysHocXBBREbIkJPFCzuwl9xgtBwZvsqJe+xBwADYS59ZfbN3zxKdiRCR90DRmbuX+iXPr8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YySdv3EPvdNDvR2gR2kwvdBQFBnCvl74j3pHlXvD9KVC9ejhnO6
+	VwCw3FAcqxJZLzlLGD1pMPjBDG5LaaeMe3raZuWDu9pecI/ZFpYRPubF+X5sQ7bjRBhMNZ5T3Tc
+	vmHW1Wj31UUJTE+Vzy3astDO86vjpX/1E/x4=
+X-Google-Smtp-Source: AGHT+IGccSUUU7J7j1AwiF1myvo/6aKPFZElQ+PzbCYfDRXgtCGsf7OvPP9ZB5Pwih1rcFyP8Aq2c+xYT6OfRF/w3gg=
+X-Received: by 2002:a05:6122:d09:b0:4f5:1a43:de48 with SMTP id
+ 71dfb90a1353d-4fff18f7073mr2054945e0c.14.1724916478047; Thu, 29 Aug 2024
+ 00:27:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,93 +72,90 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <cover.1723190258.git.hverkuil-cisco@xs4all.nl>
- <485324508040defc0ba0fb211a6596dc65f2d994.1723190258.git.hverkuil-cisco@xs4all.nl>
- <CAPybu_2UFq6Rnyi+wPEGtXYLW5gF9a6yKiOBZwN95XymAxkxjQ@mail.gmail.com> <d78f8808-2583-4a73-952a-8dfdcdf9b6e0@xs4all.nl>
-In-Reply-To: <d78f8808-2583-4a73-952a-8dfdcdf9b6e0@xs4all.nl>
+ <f88991fc4c197ef0e32f05b2f509980183aef012.1723190258.git.hverkuil-cisco@xs4all.nl>
+ <20240828123825.vnp4gqvyy7ohrhgw@basti-XPS-13-9310>
+In-Reply-To: <20240828123825.vnp4gqvyy7ohrhgw@basti-XPS-13-9310>
 From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Thu, 29 Aug 2024 09:25:42 +0200
-Message-ID: <CAPybu_1DG9be7fKBiLYtrPfYayeFYmw2nAeoRb7rjA+oHduuHg@mail.gmail.com>
-Subject: Re: [PATCH 1/6] media: videodev2.h: add V4L2_CAP_EDID
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-input@vger.kernel.org, 
-	Erling Ljunggren <hljunggr@cisco.com>
+Date: Thu, 29 Aug 2024 09:27:41 +0200
+Message-ID: <CAPybu_3_dX9SuNNBoVbatHvivhnr=0-vFbPz+BdjHkYMNwMMJg@mail.gmail.com>
+Subject: Re: [PATCH 2/6] media: v4l2-dev: handle V4L2_CAP_EDID
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-input@vger.kernel.org, Erling Ljunggren <hljunggr@cisco.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 29, 2024 at 9:11=E2=80=AFAM Hans Verkuil <hverkuil-cisco@xs4all=
-.nl> wrote:
+On Wed, Aug 28, 2024 at 2:38=E2=80=AFPM Sebastian Fricke
+<sebastian.fricke@collabora.com> wrote:
 >
-> On 28/08/2024 14:51, Ricardo Ribalda Delgado wrote:
-> > Hi Hans
-> >
-> > On Fri, Aug 9, 2024 at 10:14=E2=80=AFAM Hans Verkuil <hverkuil-cisco@xs=
-4all.nl> wrote:
-> >>
-> >> From: Erling Ljunggren <hljunggr@cisco.com>
-> >>
-> >> Add capability flag to indicate that the device is an EDID-only device=
-.
-> >>
-> >> Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
-> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >> ---
-> >>  include/uapi/linux/videodev2.h | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/video=
-dev2.h
-> >> index 4e91362da6da..987c821aed79 100644
-> >> --- a/include/uapi/linux/videodev2.h
-> >> +++ b/include/uapi/linux/videodev2.h
-> >> @@ -502,6 +502,7 @@ struct v4l2_capability {
-> >>  #define V4L2_CAP_META_CAPTURE          0x00800000  /* Is a metadata c=
-apture device */
-> >>
-> >>  #define V4L2_CAP_READWRITE              0x01000000  /* read/write sys=
-temcalls */
-> >> +#define V4L2_CAP_EDID                  0x02000000  /* Is an EDID-only=
- device */
-> >
-> > Would it make sense to add a check for "EDID-only", I mean, if the
-> > driver sets this cap, then it should not set V4L2_CAP_STREAMING or othe=
-rs.
-> >
-> > The test could be in the core or even in v4l2-compliance.
+> Hello,
 >
-> Good point. It is easy to add this to v4l2-compliance.
+> On 09.08.2024 09:57, Hans Verkuil wrote:
+> >From: Erling Ljunggren <hljunggr@cisco.com>
+> >
+> >When the V4L2_CAP_EDID capability flag is set,
+> >ioctls for enum inputs/outputs and get/set edid are automatically set.
+> >
+> >Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
+> >Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 >
-> I noticed that the v4l2 core doesn't check for invalid caps combinations.=
- It is
-> left to v4l2-compliance to check that. So I think I'll keep the check the=
-re.
-
-cool! Thanks
-
+> Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-
-
 >
 > Regards,
->
->         Hans
->
+> Sebastian
+> >---
+> > drivers/media/v4l2-core/v4l2-dev.c | 15 +++++++++++++++
+> > 1 file changed, 15 insertions(+)
 > >
-> > Regards!
+> >diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-cor=
+e/v4l2-dev.c
+> >index be2ba7ca5de2..570ba00e00b3 100644
+> >--- a/drivers/media/v4l2-core/v4l2-dev.c
+> >+++ b/drivers/media/v4l2-core/v4l2-dev.c
+> >@@ -557,6 +557,7 @@ static void determine_valid_ioctls(struct video_devi=
+ce *vdev)
+> >       bool is_tx =3D vdev->vfl_dir !=3D VFL_DIR_RX;
+> >       bool is_io_mc =3D vdev->device_caps & V4L2_CAP_IO_MC;
+> >       bool has_streaming =3D vdev->device_caps & V4L2_CAP_STREAMING;
+> >+      bool is_edid =3D  vdev->device_caps & V4L2_CAP_EDID;
 > >
+> >       bitmap_zero(valid_ioctls, BASE_VIDIOC_PRIVATE);
 > >
-> >>  #define V4L2_CAP_STREAMING              0x04000000  /* streaming I/O =
-ioctls */
-> >>  #define V4L2_CAP_META_OUTPUT           0x08000000  /* Is a metadata o=
-utput device */
-> >>
-> >> --
-> >> 2.43.0
-> >>
-> >>
+> >@@ -784,6 +785,20 @@ static void determine_valid_ioctls(struct video_dev=
+ice *vdev)
+> >               SET_VALID_IOCTL(ops, VIDIOC_S_TUNER, vidioc_s_tuner);
+> >               SET_VALID_IOCTL(ops, VIDIOC_S_HW_FREQ_SEEK, vidioc_s_hw_f=
+req_seek);
+> >       }
+> >+      if (is_edid) {
+> >+              SET_VALID_IOCTL(ops, VIDIOC_G_EDID, vidioc_g_edid);
+> >+              if (is_tx) {
+> >+                      SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_ou=
+tput);
+> >+                      SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_ou=
+tput);
+> >+                      SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_en=
+um_output);
+> >+              }
+> >+              if (is_rx) {
+> >+                      SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enu=
+m_input);
+> >+                      SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_inp=
+ut);
+> >+                      SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_inp=
+ut);
+> >+                      SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid=
+);
+> >+              }
+> >+      }
 > >
+> >       bitmap_andnot(vdev->valid_ioctls, valid_ioctls, vdev->valid_ioctl=
+s,
+> >                       BASE_VIDIOC_PRIVATE);
+> >--
+> >2.43.0
 > >
-> > --
-> > Ricardo Ribalda
 > >
 >
 
