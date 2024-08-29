@@ -1,104 +1,121 @@
-Return-Path: <linux-media+bounces-17118-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17119-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDBE964043
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 11:36:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B84A596407F
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 11:46:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE3BC2822CB
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 09:36:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2AF27B247B6
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 09:46:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2F1218C331;
-	Thu, 29 Aug 2024 09:36:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46D3518DF86;
+	Thu, 29 Aug 2024 09:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WRsyJLdc"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UmgVhiUn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B41189BB6
-	for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 09:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5B516D300;
+	Thu, 29 Aug 2024 09:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724924177; cv=none; b=KOb+VhJo63bgf8UH5qEu0d5FrlDo6pRbcoTGwq3gvsPNIpI5uE7Jc3gBEWdhSo24dmCtzskVdWj68eAZHh3ilx2RWq627d9HWrMoCCnxNGvu8TiG3rAtb5G5RIatKo7T6qEOyTM+Y/kTjFRFj9Jn/Q23FeTgQc2tKCecbhye+08=
+	t=1724924780; cv=none; b=VBK9pnlRrv4JZZIb3G+Y088HQEu+7uxONGbYgzKf4XOwzeHcCeIFhRUWWIS3+Dq1wpiTAY+xBypynWNbjBGmso1aQza1IU/bpWLYWQ5xRT6JHWuK5bETFp6o08f5defeOJFgRKkgxylaGBzalT0Zu2HsuWc5+/r8fbOvvk43eIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724924177; c=relaxed/simple;
-	bh=hlhLXUxpMLkHBSg7g/cTYCnIZnJZv5ajArX+OuxbXH4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=As5zbuWbmJEo75LR/OLX4WnjRVnD+0LldLRamtbTItJ2TiHFW5D+YH4DG7sQxcoRBQBTBGE0MYeE6fMKIbMOl5yGVvdUsi3ZN8UaAfCJYZweGZXhBEKFS5htzeqATwohSMurxvRkeTds9jffRiRsvKRUFlsGS9E+i6tfusnvIro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WRsyJLdc; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a7a81bd549eso32391866b.3
-        for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 02:36:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724924174; x=1725528974; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bTNT9yXQN3AdBsM7Hvo07QH96T8VU0K/yy0t8WqdH2U=;
-        b=WRsyJLdc542bqCIAoRcV7iTvzWoeP8/enVkZrbWNJE2JWakwRvs6fVFdA7tS0Qlydx
-         O5KHgFIqIFWnnznnbmeRSj5319r3AcW3MqBaZ2W3giLYLmksTmHHTZb5Wr5jW9yfXE77
-         cNOySTsaFafUBkcYhqKVLIlBNo4IIgh1DK6nB5tQSx9QIwK4zkaEHOfgVusYf/kiRCmR
-         1jfFMgSfscJS9JC8OJB6Dl46o9gmATaDD94fWrtpvLQdg0Xn/gYYu6DbyHmzocqBdFDc
-         eCgqq0BG1GWvKEgfTo+8ICI/ZtstkjYkETjfiKiu9Rn9V14bMFjxg+7gZ9K9Dusmo11I
-         1u6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724924174; x=1725528974;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bTNT9yXQN3AdBsM7Hvo07QH96T8VU0K/yy0t8WqdH2U=;
-        b=vosfjI9SYCktXO6ZTQdf8LLCV0u0Zq80nsd3m6K+HaqL1ocOkNEZe1alqRR7gq46de
-         GO/YrRn57dHh9BZnmR3Pzw4iC+/KnLBVek4BjZknxQOmjdkzpqL08F/i/ebOVEOxcZwk
-         oDsDuZbBFaz8fQFZLaDMcJM8+9lATE0OEM56MG7RA1rJiRnianVzTZSHNzuXkRbQ47yl
-         z73jjNDBoxBTGrKmkCkpGiBBq6TyBs4xpSiMRCzT07UvHLhYatDbCV41lPfuV75EFkPa
-         OBedIBqVT+dMOcUhmxuYRuqCF5MQQFyQXBao50w9XpBCav/zdLik3KLnDHA/+0/3eURn
-         vplg==
-X-Forwarded-Encrypted: i=1; AJvYcCXAkW3949iZJRW4vhWgZ3v0EY6luod0jlRaKXIjFfnisdAJfz2Fi4bq2aQCx7v/lD2n9m4TYo9M1g6mwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM5+cVzDr9+YbD0sCqCIGYQPzt+AdyoVNIU6EEBeJU4PhCxM3p
-	FZ2RcbVNM3nl7yThOCH84scl7O5jIvf9TiPZXbMDgfECPnMYxYR0LQRGE83PFfE=
-X-Google-Smtp-Source: AGHT+IHN4C+WjAhb4ex1nVFmDZJXbTcRQA8CBNgpx2jfiHDO6/IuX96/T2C2Msyq3LgA0L+u9SV5Ag==
-X-Received: by 2002:a17:907:96a2:b0:a86:e9ab:f6c6 with SMTP id a640c23a62f3a-a897fad4ed5mr131683266b.68.1724924173489;
-        Thu, 29 Aug 2024 02:36:13 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989222588sm54389466b.200.2024.08.29.02.36.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Aug 2024 02:36:13 -0700 (PDT)
-Message-ID: <3e44ffa2-f680-4bb8-bacc-65fbb65c110f@linaro.org>
-Date: Thu, 29 Aug 2024 10:36:12 +0100
+	s=arc-20240116; t=1724924780; c=relaxed/simple;
+	bh=ocJ8W/+M0Xz6OUD7zGhNMsK/xqBmqnD22uG+2O4i6zY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nGXZstaQm7uUZKZqfcm0AVhqv8EiprzU44ksSVKd2Z7nkOFCwGDikq2HHFtHvQDjmGRsOdPEXj++iNoCa7DsVnlgdTLKI/Yrti5bdqQM97AQCYTXsmJxo2kski5FYqNyiTDW+E5tTmqWL9NR96060Ugdv+lbo6YjaRY4NND8t8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UmgVhiUn; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5CD3D6AF;
+	Thu, 29 Aug 2024 11:45:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724924708;
+	bh=ocJ8W/+M0Xz6OUD7zGhNMsK/xqBmqnD22uG+2O4i6zY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UmgVhiUnCSV2IzZHzRmXGnHfFK7bDFSnfuuOjoMteR7bPl/Msml6Ppb/PPfzlEBO7
+	 X3Z1uURAsbZ0Ep70kPPT4OEfDzIQAX8CsuYHNXxvTR3xubUCWDuJbyv5fux2oB6Asa
+	 ZuuGaKIN1wBu8rqJVAXHeZX2BenWnle8bo/lW3ow=
+Date: Thu, 29 Aug 2024 12:45:46 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Liao Chen <liaochen4@huawei.com>,
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+	"jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+	"jacopo@jmondi.org" <jacopo@jmondi.org>,
+	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH -next 1/3] media: v4l2-subdev: enable module autoloading
+Message-ID: <20240829094546.GA12951@pendragon.ideasonboard.com>
+References: <20240829075417.526459-1-liaochen4@huawei.com>
+ <20240829075417.526459-2-liaochen4@huawei.com>
+ <TY3PR01MB11346459841445E77A5FBA37B86962@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/29] media: iris: add platform driver for iris video
- device
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: quic_dikshita@quicinc.com, Vikash Garodia <quic_vgarodia@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
- <20240827-iris_v3-v3-3-c5fdbbe65e70@quicinc.com>
- <74126160-57f9-4abf-a26c-3491c8f3dd78@linaro.org>
- <zfltcl5x4hol2foftyvr4oigxus4hnequd74zi7bdd7tsdv56q@3nphukr4zgmm>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <zfltcl5x4hol2foftyvr4oigxus4hnequd74zi7bdd7tsdv56q@3nphukr4zgmm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB11346459841445E77A5FBA37B86962@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
-On 29/08/2024 10:13, Dmitry Baryshkov wrote:
->   What about adding sm8550 at this point and adding sm8250
-> at the end?
+On Thu, Aug 29, 2024 at 08:27:06AM +0000, Biju Das wrote:
+> Hi Liao Chen,
+> On Thursday, August 29, 2024 8:54 AM, Liao Chen wrote:
+> > Subject: [PATCH -next 1/3] media: v4l2-subdev: enable module autoloading
+> 
+> Commit header is wrong.
 
-That works too.
+Indeed, it should be
+
+media: i2c: mt9v111: Enable module autoloading
+
+> > Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded based on the alias from
+> > of_device_id table.
+
+Please also reflow the commit message to 72 columns. With those issues
+fixed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> > 
+> > Signed-off-by: Liao Chen <liaochen4@huawei.com>
+> > ---
+> >  drivers/media/i2c/mt9v111.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c index
+> > b0b98ed3c150..b6a2623798c5 100644
+> > --- a/drivers/media/i2c/mt9v111.c
+> > +++ b/drivers/media/i2c/mt9v111.c
+> > @@ -1265,6 +1265,7 @@ static const struct of_device_id mt9v111_of_match[] = {
+> >  	{ .compatible = "aptina,mt9v111", },
+> >  	{ /* sentinel */ },
+> 
+> Nit: Comma can be dropped from terminator entry as a separate patch.
+> 
+> Cheers,
+> Biju
+> 
+> >  };
+> > +MODULE_DEVICE_TABLE(of, mt9v111_of_match);
+> > 
+> >  static struct i2c_driver mt9v111_driver = {
+> >  	.driver = {
+
+-- 
+Regards,
+
+Laurent Pinchart
 
