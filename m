@@ -1,193 +1,305 @@
-Return-Path: <linux-media+bounces-17162-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17163-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582C7964C11
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 18:52:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36FD1964C85
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 19:04:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D94E51F22D42
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 16:52:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC7481F21DFD
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 17:04:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AA5E1B81A8;
-	Thu, 29 Aug 2024 16:51:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A899B1B7911;
+	Thu, 29 Aug 2024 17:00:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="u0HOd+fY";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lPq20trS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hqhpzs60"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB22E1B7904;
-	Thu, 29 Aug 2024 16:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9451B78E8;
+	Thu, 29 Aug 2024 17:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724950294; cv=none; b=M3Fz4H7W+Wzysyt5w36maWsysnVSWskzbDFgAWOEgHt3UHgFaI5p70dTUnJqVOMJ0nHwTuCOM37gAF+JbePqk/LiRGoix9XC1G5gKIUErVbp39j1U7YGL3Eb/HJ6WTQFSowikxR4ii+FNNhbd7wga1GJEb9wzmYgih1rX1ec+vc=
+	t=1724950853; cv=none; b=iTqCEfx26FGvZLrXh2CKxiZn6xMNEA1ou9f8TAAByK2PI3B+IpdQrRz2cLBt62LJuirpuUCZ70OQT9qsl/hVjLqmS30APZSLZQC3+tFYs9tc8+fLrnfY2FZ9fzeZtUfxXKO6BfmOQOj4EX4Sus0kQWR7PzN37NlYPtAf1B0kWEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724950294; c=relaxed/simple;
-	bh=e2Ul4WhNGlcZeXQdMMvVpKFIdN3eMc1T1l38qwbLHVk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Siq0g67T4aNw8FDkWVoL5jVGZFHP65IJavx8g/VsoX9O1if8UWPzKSQRpFYB9Ex2Q8l+CAkQcgh/0z2F3WVbAX60Slty+yvK05Tkb6SZBRxQayMnpzZhJTFhYqiQAxs4QKA0P03pO6Oj/mVemVtaRtMhzqIwAL0C95II9vG/i3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=u0HOd+fY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lPq20trS; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-02.internal (phl-compute-02.nyi.internal [10.202.2.42])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 50960138FFDB;
-	Thu, 29 Aug 2024 12:51:32 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 29 Aug 2024 12:51:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1724950292;
-	 x=1725036692; bh=JxRke+RPtxCDm2emvz/ESc2BXKQW8dh7vn0rKmecTrU=; b=
-	u0HOd+fY2KLbC9rCy0m9YZwodbBKswh09H2WCD6OJvac2gC3fU4VVRq4ydwz0k6/
-	fENLWo0ZEViIjYDk7KHvfRtH62Yj10IE2k0j+8zW9sbv71vtV4Wa5vQ0TVFBVzbn
-	hMKkFo7sITgXP6SRvJURh4lmzf2yT2IFOnnJ6/DAYQNbMgSj+Uq+Si/xtvhxeW9o
-	COTl2Ndts/BXOJ8WI1I+B0GRwXO3hw35JQaFO3OVcpMduaPRxhPvVdIGQ6CZEnLl
-	SeyrwUBSnAXziM/O3PzCUnXUqKgUjY6Pq5xOVKgzMfVJowYO2Mg25eHiRbPsytXy
-	N6oYUcz5tASi0CxaxDBnqw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724950292; x=
-	1725036692; bh=JxRke+RPtxCDm2emvz/ESc2BXKQW8dh7vn0rKmecTrU=; b=l
-	Pq20trS8nC3yRoqPritm9CLUhevZbmO5nkI2OJNLAfT9f6frxntgabSm84JxVDVL
-	rPEy8cslwVFdDd6J0syrMl8QJ9HwUHqkwkFNqxV+IU6nMdqti3rOEqU3BcyX2tPI
-	ahZHxjuYsm9Af2PgEur/bRWoO+a03apXsC33S3Mz9FvCEMNrf9XHDmzt7JWcCb45
-	16JTDxnGqe+19h68FAHRe6JLPeFgfRP3SiKbTwWUQGJ4u657MLjkdn5V2rfDoMBk
-	iQ6YSqZUUdnZlwVPCeLGOA80PgphOCopWtV13BLxr1RtYNINJC5kvLsmZ08rsgI/
-	IWtvqGmYV/vAe/QLI++1Q==
-X-ME-Sender: <xms:FKfQZqRqFlJCCa5-UkuwIWUkmCXzlEvEMmd-vBfY1O3hYG0uuKzNMw>
-    <xme:FKfQZvzbgOZpoE5Wg8iNmmq3pY5qJuXQTTrShdi8nG4CudvCdHEwhN1h460p0dzTD
-    kqWQBf0s-2TMtFPciw>
-X-ME-Received: <xmr:FKfQZn1qMjbiH_csr-K6b-8NJEU510S3fRRNRqb50pGs9pMxM4VctUaW6LOYHSRWKzWQ2MbUH6ZwrxJf_a7jt9gK-g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefgedguddthecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepheeigfeuveeutdefhfehgeekvedtleeuueekveefudehhffhjeffgfegff
-    elfeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtg
-    hpthhtohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmtghhvghhrggs
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptgho
-    nhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhkhheslhhinh
-    hugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehsrghkrghrihdrrghilhhu
-    shesihhkihdrfhhipdhrtghpthhtohepjhhulhhivghnrdhmrghsshhothestgholhhlrg
-    gsohhrrgdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrh
-    hnvghlrdhorhhg
-X-ME-Proxy: <xmx:FKfQZmARQzW65FDcVVV0ry2iHT1WcoODutrj1-HCsiz1yypKXNscqQ>
-    <xmx:FKfQZjhq7m_7V02tM0HUJuuHjr6me0at-4YH6cKqVowZVDl7Rdi0Gg>
-    <xmx:FKfQZiomeNidkC9xIbdy-bHhZ9EkxZnJSpX-oI2sTuI14ptNcjkNvA>
-    <xmx:FKfQZmiNxyrlv7teGO1OLQ9WBucPgzU-XM-NFrrm2gb2gKt36ro5ww>
-    <xmx:FKfQZsa3kSVxwRuqX6_FkHGup2RHixAB9GG-dNh5TbsfnbU_ur-6u6Wo>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Aug 2024 12:51:31 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Julien Massot <julien.massot@collabora.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 5/5] media: staging: max96712: Add support for MAX96724
-Date: Thu, 29 Aug 2024 18:50:51 +0200
-Message-ID: <20240829165051.2498867-6-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1724950853; c=relaxed/simple;
+	bh=/MdS2lronU3t1s9FxX1gp3QQpP2GD6vioGFr05Az4NM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gj/5eMgkzWB6DLbku0iVi1awoNBSkrLqWsNSdxA9lkjZGb2ec8eB+kNjEf4mrT0I7zjguPG0zEWgBk1iwG0XCHi0LRTmU2S26nDI1lA26facPBro5czJL1QZZz5F+GMUOk1vv1iQMwqNKbmeGod3sTVC4X0b5kHhYY01MEMslok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hqhpzs60; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 730CC226;
+	Thu, 29 Aug 2024 18:59:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724950780;
+	bh=/MdS2lronU3t1s9FxX1gp3QQpP2GD6vioGFr05Az4NM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hqhpzs6027r3z6rgQoN0w9/AHmkMfgxy5a8XOjc4yXlEeEyj5VTrQmSfvaLOA2e7l
+	 f/Ud074kQOx9F+iMa2Lx19XAGcMLqSTl5k0uJGPEQQI8B0/Cqd8P2m5bBfsJGWQDLs
+	 92g0LLN6hDcJJ3KN0S1zmL7YA+3OJs1digQ6C0KQ=
+Date: Thu, 29 Aug 2024 20:00:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Benjamin Bara <bbara93@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Benjamin Bara <benjamin.bara@skidata.com>
+Subject: Re: [PATCH v2 1/2] media: i2c: imx290: Check for availability in
+ probe()
+Message-ID: <20240829170018.GB15799@pendragon.ideasonboard.com>
+References: <20240828-imx290-avail-v2-0-bd320ac8e8fa@skidata.com>
+ <20240828-imx290-avail-v2-1-bd320ac8e8fa@skidata.com>
+ <20240829131909.GD12951@pendragon.ideasonboard.com>
+ <CAJpcXm59W-1OkDVC5NjLycR0FFOFVFQf0yfjCfsKztg4YUqtkQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJpcXm59W-1OkDVC5NjLycR0FFOFVFQf0yfjCfsKztg4YUqtkQ@mail.gmail.com>
 
-The MAX96724 is almost identical to the MAX96712 and can be supported by
-the same driver, add support for it.
+Hi Benjamin,
 
-For the staging driver which only supports patter generation the big
-difference is that the datasheet (rev 4) for MAX96724 do not describe
-the DEBUG_EXTRA register, which is at offset 0x0009 on MAX96712. It's
-not clear if this register is removed or moved to a different offset.
-What is known is writing to register 0x0009 have no effect on MAX96724.
+On Thu, Aug 29, 2024 at 05:36:48PM +0200, Benjamin Bara wrote:
+> On Thu, 29 Aug 2024 at 15:19, Laurent Pinchart wrote:
+> > On Wed, Aug 28, 2024 at 08:13:07PM +0200, Benjamin Bara wrote:
+> > > Currently, the V4L2 subdevice is also created when the device is not
+> > > available/connected. In this case, dmesg shows the following:
+> > >
+> > > [   10.419510] imx290 7-001a: Error writing reg 0x301c: -6
+> > > [   10.428981] imx290 7-001a: Error writing reg 0x3020: -6
+> > > [   10.442712] imx290 7-001a: Error writing reg 0x3018: -6
+> > > [   10.454018] imx290 7-001a: Error writing reg 0x3020: -6
+> > >
+> > > which seems to come from imx290_ctrl_update() after the subdev init is
+> > > finished.
+> >
+> > I think this should also be fixed. There should be no need to write
+> > those registers at probe time. Would moving the
+> > pm_runtime_mark_last_busy() and pm_runtime_put_autosuspend() calls to
+> > just before imx290_subdev_init() help ?
+> 
+> I guess if I decrease the autosuspend delay (now 1s), it would work -
+> but it feels like a hack to me. I would prefer to not call
 
-This makes it impossible to increase the test pattern clock frequency
-from 25 MHz to 75Mhz on MAX96724. To be able to get a stable test
-pattern the DPLL frequency have to be increase instead to compensate for
-this. The frequency selected is found by experimentation as the MAX96724
-datasheet is much sparser then what's available for MAX96712.
+Is decreading the autosuspend delay needed ? If you call
+pm_runtime_put_autosuspend() before imx290_subdev_init(), will the
+pm_runtime_get_if_in_use() call in imx290_set_ctrl() return a non-zero
+value if the device hasn't been suspended yet due to the autosuspend
+delay ? My understanding is that it shouldn't, unlike
+pm_runtime_get_if_active().
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v2
-- Use device information instead of if and switches statements to
-  differentiate between to two devices.
+> imx290_ctrl_update() at all during probe(). I guess the reason why it is
+> done is to have sane ctrl values for link_freq, hblank and vblank.
+> However, as they depend on the mode (which isn't known at that time), it
+> (at least to me) doesn't make sense to just "assume" the first mode
+> here.
 
-* Changes since v1
-- Group in series together with binding.
----
- drivers/staging/media/max96712/max96712.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+The reason why the function is called at probe time is to centralize in
+a single location all the code that computes ranges for the controls.
+Otherwise, the logic would need to be duplicated in imx290_ctrl_init().
+We could possibly split imx290_ctrl_update() in two functions, one that
+computes the ranges and one that updates the controls, and call the
+first one from imx290_ctrl_init().
 
-diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-index 5c15346c05dd..63ef7eb206e8 100644
---- a/drivers/staging/media/max96712/max96712.c
-+++ b/drivers/staging/media/max96712/max96712.c
-@@ -27,6 +27,7 @@ enum max96712_pattern {
- 
- struct max96712_info {
- 	unsigned int dpllfreq;
-+	bool have_debug_extra;
- };
- 
- struct max96712_priv {
-@@ -173,8 +174,9 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
- 		return;
- 	}
- 
--	/* PCLK 75MHz. */
--	max96712_write(priv, DEBUG_EXTRA_REG, DEBUG_EXTRE_PCLK_75MHZ);
-+	/* Set PCLK to 75MHz if device have DEBUG_EXTRA register. */
-+	if (priv->info->have_debug_extra)
-+		max96712_write(priv, DEBUG_EXTRA_REG, DEBUG_EXTRE_PCLK_75MHZ);
- 
- 	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
- 	max96712_write_bulk_value(priv, 0x1052, 0, 3);
-@@ -455,10 +457,16 @@ static void max96712_remove(struct i2c_client *client)
- 
- static const struct max96712_info max96712_info_max96712 = {
- 	.dpllfreq = 1000,
-+	.have_debug_extra = true,
-+};
-+
-+static const struct max96712_info max96712_info_max96724 = {
-+	.dpllfreq = 1200,
- };
- 
- static const struct of_device_id max96712_of_table[] = {
- 	{ .compatible = "maxim,max96712", .data = &max96712_info_max96712 },
-+	{ .compatible = "maxim,max96724", .data = &max96712_info_max96724 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, max96712_of_table);
+> I would prefer to introduce a FREQ_INDEX_OFF with 0 here and use this as
+> default, and use the ranges from the datasheet for {v,h}blank already
+> when creating the controls. When the mode is decided, the blanks will be
+> adapted to be in range.
+
+That would violate the V4L2 API I'm afraid. Subdevs are supposed to have
+a valid configuration at all times, including just after probe before
+being configured by users.
+
+> I can add an example in the next round, need to implement and test
+> first.
+> 
+> > > However, as the errors are ignored, the subdev is initialized
+> > > but simply does not work. From userspace perspective, there is no
+> > > visible difference between a working and not-working subdevice (except
+> > > when trying it out or watching for the error message).
+> > >
+> > > This commit adds a simple availability check before starting with the
+> > > subdev initialization to error out instead.
+> > >
+> > > Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+> > > ---
+> > > Changes since v1:
+> > > - define operating/standby mode and use it
+> > > - read out the standby mode during probe and ensure it is standby
+> > > ---
+> > >  drivers/media/i2c/imx290.c | 17 +++++++++++++++--
+> > >  1 file changed, 15 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > > index 4150e6e4b9a6..2a869576600c 100644
+> > > --- a/drivers/media/i2c/imx290.c
+> > > +++ b/drivers/media/i2c/imx290.c
+> > > @@ -29,6 +29,8 @@
+> > >  #include <media/v4l2-subdev.h>
+> > >
+> > >  #define IMX290_STANDBY                                       CCI_REG8(0x3000)
+> > > +#define IMX290_STANDBY_OPERATING                     (0 << 0)
+> > > +#define IMX290_STANDBY_STANDBY                               (1 << 0)
+> >
+> > The datasheet documents the STANDBY field as a single bit, but doesn't
+> > mention an OPERATING value. I would match that, drop
+> > IMX290_STANDBY_OPERATING and write
+> 
+> The imx290 datasheet from Arrow has it on page 35, but I can switch to
+> your version if preferred :)
+> 
+> > #define IMX290_STANDBY_STANDBY                          BIT(0)
+> >
+> > >  #define IMX290_REGHOLD                                       CCI_REG8(0x3001)
+> > >  #define IMX290_XMSTA                                 CCI_REG8(0x3002)
+> > >  #define IMX290_ADBIT                                 CCI_REG8(0x3005)
+> > > @@ -1016,7 +1018,7 @@ static int imx290_start_streaming(struct imx290 *imx290,
+> > >               return ret;
+> > >       }
+> > >
+> > > -     cci_write(imx290->regmap, IMX290_STANDBY, 0x00, &ret);
+> > > +     cci_write(imx291->regmap, IMX290_STANDBY, IMX290_STANDBY_OPERATING, &ret);
+> >
+> > This hunk would then be dropped.
+> >
+> > >
+> > >       msleep(30);
+> > >
+> > > @@ -1029,7 +1031,7 @@ static int imx290_stop_streaming(struct imx290 *imx290)
+> > >  {
+> > >       int ret = 0;
+> > >
+> > > -     cci_write(imx290->regmap, IMX290_STANDBY, 0x01, &ret);
+> > > +     cci_write(imx290->regmap, IMX290_STANDBY, IMX290_STANDBY_STANDBY, &ret);
+> >
+> > And this looks fine.
+> >
+> > The change isn't mentioned in the commit message though. I wouldn't ask
+> > for a v3 just to split this, but as you need to address other issues, it
+> > would be nice to have a separate patch in v3.
+> 
+> Yup, can do that :)
+> 
+> > >
+> > >       msleep(30);
+> > >
+> > > @@ -1520,6 +1522,7 @@ static int imx290_probe(struct i2c_client *client)
+> > >  {
+> > >       struct device *dev = &client->dev;
+> > >       struct imx290 *imx290;
+> > > +     u64 val;
+> > >       int ret;
+> > >
+> > >       imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
+> > > @@ -1580,6 +1583,16 @@ static int imx290_probe(struct i2c_client *client)
+> > >       pm_runtime_set_autosuspend_delay(dev, 1000);
+> > >       pm_runtime_use_autosuspend(dev);
+> > >
+> > > +     /* Make sure the sensor is available before V4L2 subdev init. */
+> > > +     ret = cci_read(imx290->regmap, IMX290_STANDBY, &val, NULL);
+> >
+> > I still wish we had an ID register, but so be it.
+> 
+> When we implement a SW reset (to be sure that there was a reset in case
+> a dummy regulator is used), we can probably come up with a mix of
+> different default values of registers to go through, but not sure if
+> this is really worth it...
+> 
+> > > +     if (ret)
+> >
+> > Maybe add
+> >
+> >                 ret = dev_err_probe(dev, -ENODEV, "Failed to detect sensor\n");
+> >
+> > or something similar ? Up to you.
+> 
+> Probably a good idea. I didn't print something here because cci_read()
+> already does.
+> 
+> > > +             goto err_pm;
+> > > +     if (val != IMX290_STANDBY_STANDBY) {
+> >
+> > I think this check could be dropped though. If the sensor isn't present
+> > or doesn't respond to I2C reads for any other reason, cci_read() will
+> > fail.
+> 
+> I added it because Sakari and Alex suggested to read back a value and
+> compare it to an expectation. Would keep it therefore?
+
+If we had an ID register that had a more discriminatory value I would
+check its contents. In this case, as the goal is to detect if the device
+is functional, I don't think the check adds much value, unless you think
+we need to protect against an incorrect devices responding to the same
+I2C address. I would prefer dropping this, but I don't mind keeping the
+check too much.
+
+> > > +             dev_err(dev, "Sensor is not in standby mode\n");
+> > > +             ret = -ENODEV;
+> > > +             goto err_pm;
+> > > +     }
+> > > +
+> >
+> > My last concern is about accessing hardware at probe time. There are
+> > known cases where this is problematic. They can be split in two
+> > categories, systems that exhibit unwanted side effects when powering the
+> > sensor up, and systems where the sensor can't be accessed at probe time.
+> >
+> > The two issues I can think of in the first category is devices that have
+> > a camera privacy light that could cause worries among users if it
+> > flashes at boot time, and devices that agressively optimize boot time.
+> >
+> > In the second category, I know that some people use camera serdes
+> > (FPD-Link, GMSL, ...) that are controlled by userspace. As they should
+> > instead use kernel drivers for those components, upstream may not care
+> > too much about this use case. Another issue I was told about was a
+> > device booting in temperatures that were too low for the camera to
+> > operate, which then needed half an hour to heat the device enclosure
+> > before the sensor and serdes could be accessed. That's a bit extreme,
+> > but it sounds like a valid use case to me.
+> >
+> > What do we do with those cases ? Detecting devices at probe time does
+> > have value, so I think it should be a policy decision. We may want to
+> > convey some of that information through DT properties (I'm not sure what
+> > would be acceptable there though). In any case, that's quite a bit of
+> > yak shaving, so I'm inclined to accept this series (or rather its next
+> > version), given that quite a few other camera sensor drivers detect the
+> > device at probe time. I would however like feedback on the problem to
+> > try and find a good solution.
+> 
+> One of the rather "simpler" solutions that come to my mind (without
+> adding something like a generic "disallow-regulator-during-probe" or
+> similar DT property) is to check the current state of the used
+> regulator(s) and keep it during the cam probe. If it is already active:
+> fine, we can communicate and find out; if not: live with schroedinger's
+> cam. Probably we should decide at one point in time if dead or alive.
+> 
+> If you think this sounds fine, I can modify the series to do that.
+
+Hmmmm that's sounds a bit dangerous, and possibly racy. I think we can
+add the check for now, and implement a more generic mechanism in a
+second step. As discussed in a separate e-mail in the same thread, most
+of the use cases I mentioned can be addressed by loading the driver as a
+module. The only exception (at the moment) is the privacy light problem.
+I'd like to address that more globally.
+
+> > >       /* Initialize the V4L2 subdev. */
+> > >       ret = imx290_subdev_init(imx290);
+> > >       if (ret)
+> > >
+
 -- 
-2.46.0
+Regards,
 
+Laurent Pinchart
 
