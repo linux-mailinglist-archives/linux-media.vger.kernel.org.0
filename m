@@ -1,109 +1,152 @@
-Return-Path: <linux-media+bounces-17154-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17155-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B25964B84
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 18:21:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E8E964BBE
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 18:33:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B923EB28246
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 16:21:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13DDE1F226B2
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 16:33:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73C01B530C;
-	Thu, 29 Aug 2024 16:19:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C80D1B4C3B;
+	Thu, 29 Aug 2024 16:32:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="znJzsXMR"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DyCocemH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B9438F9C
-	for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 16:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419F11B531B
+	for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 16:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724948367; cv=none; b=XziapHC6ukao2vgZfFJCO7espUpC81Ri3vdinQAQgypWMGWwErUUTH45CIf8e4rbDf+Bs4XDijPJ3sxwwzwrl08w/jQ3rM8oYaO69KZOmUYB4jT8dXkyYpOzHUsTMQSNNoFmoDbgPd4bowEjCbV2b05OY1nxx7PLSv6XmxONWjs=
+	t=1724949176; cv=none; b=B9alg1jv6h3Lu1ShXCxX53kXxfDyDavyMNJOizSbWyJNefwjQeqtGg9DBysmLpFlXDrVjChW3ROd7N+UXgrJW5mDcMpnuq1s6lNuNHvb1ZGSn0tWc50R43pn26fzhKLJMP/jzDYkebce4CNEonIT1pfg05wmppm27OppPTB7dAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724948367; c=relaxed/simple;
-	bh=+uOlpQ0J2VrbeZAocdSGFU6CEoIf8QiCmdwUWB6M/Eg=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=saaubWzOpwbAvxx1H5CAn+MHvvqOfins9GFIIQ5ZcZwXdE0EVhujJNLBdPRHeVlvJl5/FXBHnZ+Yvl1RwG7GeqiAgSvrn5HWT6MB6VDfN6qs1tLwZUyqh/eAESeOrOjexCq8wibEtoppq+SdSjQXb86BDKdia6vI9M1fq3QhNR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=znJzsXMR; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42bb6d93325so75e9.0
-        for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 09:19:25 -0700 (PDT)
+	s=arc-20240116; t=1724949176; c=relaxed/simple;
+	bh=dSCVXHR7sWY9fk6J1VD91oXDGZNIJaSS48/kCsYYWOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Iqg8QvvHI7T2b6eWpmYpQSqYVKyB6XnvGP7lt06pg2gdhUvkeOL0in1vHYj7QroPXKW+vUkiejNEwYlUus9kqkwDRABzf2dzwl7+Z/B/T4SWxdAwDWudYKZjDYBWKUSFZS8BYHr+fj99v9hQhZzEQ8HeuWGtbwA9nC+AwrDKUlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DyCocemH; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20230059241so7701845ad.3
+        for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 09:32:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724948364; x=1725553164; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JIx/HdAS9L+v6kcy5uXIn5+SpwFH/cXtqq0x+Bbtmtg=;
-        b=znJzsXMR3M8xgVD3XVZbgRJ8uO2PZVcpKt6Ez4LFCSwuEkUuOO0CDYjyspDVahe66F
-         S+sMx6NnI1djwy+4js5YvRz745x/Ky1qiuCt93o7zgI4ylLHgmOtZqDww+mUlTKcfcTO
-         TTaztCHWedD7w0Pz5zexu2zubkNnLCxI7oZ7FDLpDYK3fIZ23802wASa4J5ducXfZSvO
-         x4/d6gSG/wBe6Uc/6EhXYn4gb/0ZuKxhHd1mJM9CR1WT/XDtAaBJQhw0CctNPPJPPSdn
-         ynU3gs3uGq8MicT9WiD0z7E/QBMYRMGR+/ObwX1xfBfCbCO/Rl5GttRK/AmbV3QTgZ3k
-         GBpA==
+        d=linaro.org; s=google; t=1724949174; x=1725553974; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8fIpsfUdbdQiHUxC2So30sBEv2aDKWQGl8PmSlCrlic=;
+        b=DyCocemHxEpL6VIfIVWv2IO0PCFffg+dnq3Ej4zdGbIUmapQBVuYW2vtm7bB9RTPIz
+         FCHfXn4hRrdmWx86dlEbVA/TFZvWVZ1eQZVcyKXFgeidIA8yxdQZSF1ThcgAYxKbf2B+
+         8OJFv1k4Osm7wXDFbN1mZs0dPTB9pDsLdB21YWgOllrcOoVuoVlg3vSLI4z0ioL7eYkw
+         wFCLSBSwRm9C/cWsHfzmXzUNjMaYSsE/dn4zjJ/SpEQDmNA3W1ZbtkGhNtobdUXe+QTs
+         sa6Qjs87dQHbUdHnan2bzOB9V3GdVxQMATOE9WX0Sf2o3EqneObSgpNLa64MZJ9IBzIc
+         soSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724948364; x=1725553164;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JIx/HdAS9L+v6kcy5uXIn5+SpwFH/cXtqq0x+Bbtmtg=;
-        b=alP7NYtMJ9JqAgPG45arT5RFHqzOlX282eQt6KK9cvZkDNIdslcJApUG0PgV+rkLWM
-         WnBLjUMLkuuYZnXzzB8AcxB4SEny4LoMgcxEMAwvOkDzj+G6WFIWVBZdyII8/SXao3wk
-         xzsz2v7R9CTEOor0O+Ul/gujaA7ow++zSURpBcjcItC1hlp+wpP0LFGKWVHXorDJaCkG
-         Fox5R1gJdF/S40lfd7MHVJLLCdOs2VTaQre0HS9DV3JNETSToFcIpKqgDr6lH61odHiM
-         HlhluWzE2eJ+wn/rFy+JCBUs9eloDfgAVqdszu6IEocBOiE70E0duQ0e8CzOLASDKxVi
-         RYCw==
-X-Forwarded-Encrypted: i=1; AJvYcCUP0JUqyKAWWGp9rnl6QPEVBtFH2KGtxionExm1xC7yGjgg0cxTguuOConyyhnmtEVPnFf9PMqYvqjNVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxsit1N70Z7w5p3WNREj888NQFV0DXoRss/jnTcJNQddMtE+PiO
-	Rg3JteVXIoW9NdDh4gOx77Dr8BKAaaAtiS6/ZbJaK0kbmDctiw6jOFNoz1Zq6F5fifwkUTEQq/m
-	IIxEk6A9+2+6Ipzfrh/OTkPFm84awvF2T+ABJlVBNmi5PaeqXtk0=
-X-Gm-Gg: AV9I1ZRxBNwnaOEIipA614ougtBSq/ogPRXZIddOrMznn3LJnqKeAc4S4NK2PxORNlc
-	oLqd6ZIgRt3l1mfszlBmd5J9yuS89QKZbiSU3vAXHU90rwrLv2sSwz5LlLjc=
-X-Google-Smtp-Source: AGHT+IHDKtMRQFGOa36AubqoYkJGrBLNd6MjbrqiIZkJ8DTptIPnLPcEmiVNPdaVtXKqLOYNkeS3QZujgRcS4ueimtQ=
-X-Received: by 2002:a05:600c:3ace:b0:427:f1a9:cb12 with SMTP id
- 5b1f17b1804b1-42bba08b177mr7195e9.0.1724948362737; Thu, 29 Aug 2024 09:19:22
- -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724949174; x=1725553974;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8fIpsfUdbdQiHUxC2So30sBEv2aDKWQGl8PmSlCrlic=;
+        b=q7s0dUfjgfSyhGudFQ8jzLviidYsDkuVvElrpYAdXB3cYQLgcpc0e0Dx9q9AsXgC91
+         jIqgZ12R05qYqvb5c2b3GuPYsIjskGHb51VkWIqupBR2HU6lGY+z0z/Rd3NQ/uZGBqhh
+         7uu7jT6oxpEDa9Ol2BmLevAT0Zc0h0pG+5aFA+OaPEoZt5sSgPTo4xewxD5ZfIOIiY77
+         Hk1E+9F0aqcL3bBeVGHsmGfM81B0n+KrZvZT6+QMfe+Us8RU3f+vOY20+FfedTFAWxcQ
+         1AgdI3WVLAJY4Y8Iv2qq1sgy+u3VP4/en6xf14lY1S3ZthR7Q97HG44pgISiQEtTvZJS
+         sgDg==
+X-Forwarded-Encrypted: i=1; AJvYcCXYC0JN1RN70uMLWhXh/7rTNjUGTcK8PXH8ev/r+EtnzLU3JZ535JrO49cZbJk+PW9RCSKNLuQbbFaL6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeAjwwr8G7HomhNW5dJrPiUu7a7ZNiKqVbJ7BRpY+31FdW1M76
+	FtScr8a6wvbPaAXgrurrKpHKVISFEYnAB4/rCjuU4z73S+yW8PnbWThztqsTYAW0f1VjCct6D9E
+	=
+X-Google-Smtp-Source: AGHT+IG4pUefMfrP1y11CX72d+jAGCG1Of09iG3YZnUIDbcwjHHsEI1EZxY3jij+99xXcQ9Y2yPPuA==
+X-Received: by 2002:a17:902:e845:b0:1fb:90e1:c8c5 with SMTP id d9443c01a7336-2050c429e62mr39987445ad.33.1724949174394;
+        Thu, 29 Aug 2024 09:32:54 -0700 (PDT)
+Received: from thinkpad ([117.213.99.68])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20515542376sm13380525ad.204.2024.08.29.09.32.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2024 09:32:53 -0700 (PDT)
+Date: Thu, 29 Aug 2024 22:02:47 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Benjamin Bara <bbara93@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Benjamin Bara <benjamin.bara@skidata.com>
+Subject: Re: [PATCH v2 1/2] media: i2c: imx290: Check for availability in
+ probe()
+Message-ID: <20240829163247.ovsst5ipecthtc6u@thinkpad>
+References: <20240828-imx290-avail-v2-0-bd320ac8e8fa@skidata.com>
+ <20240828-imx290-avail-v2-1-bd320ac8e8fa@skidata.com>
+ <20240829131909.GD12951@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Joshua Pius <joshuapius@google.com>
-Date: Thu, 29 Aug 2024 12:18:43 -0400
-Message-ID: <CAFs7P=jk=wfo0nbHzqd1NrGX3NKpOezD4-u=nAMqzq7mq4Lidg@mail.gmail.com>
-Subject: [PATCH] ALSA: Add logitech Audio profile quirk
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240829131909.GD12951@pendragon.ideasonboard.com>
 
-Specify shortnames for the following Logitech Devices: Rally bar, Rally
-bar mini, MeetUp and Huddle.
+On Thu, Aug 29, 2024 at 04:19:09PM +0300, Laurent Pinchart wrote:
 
-BUG=b:362311751
-TEST=aplay -l
-TEST=Observe codecs listed
-UPSTREAM-TASK=b:362958780
-Signed-off-by: Joshua Pius <joshuapius@google.com>
+Hi Laurent,
 
----
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 2d6c2f1394c18..6bfbd22152819 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -375,7 +375,12 @@ static const struct usb_audio_device_name
-usb_audio_names[] = {
-        /* Creative/Toshiba Multimedia Center SB-0500 */
-        DEVICE_NAME(0x041e, 0x3048, "Toshiba", "SB-0500"),
+[...]
 
-+       /* Logitech Audio Devices */
-        DEVICE_NAME(0x046d, 0x0990, "Logitech, Inc.", "QuickCam Pro 9000"),
-+       DEVICE_NAME(0x046d, 0x0898, "Logitech, Inc.", "Logi-RB-Audio"),
-+       DEVICE_NAME(0x046d, 0x08d2, "Logitech, Inc.", "Logi-RBM-Audio"),
-+       DEVICE_NAME(0x046d, 0x0867, "Logitech, Inc.", "Logi-MeetUp"),
-+       DEVICE_NAME(0x046d, 0x087c, "Logitech, Inc.", "Logi-Huddle"),
+> > +		dev_err(dev, "Sensor is not in standby mode\n");
+> > +		ret = -ENODEV;
+> > +		goto err_pm;
+> > +	}
+> > +
+> 
+> My last concern is about accessing hardware at probe time. There are
+> known cases where this is problematic. They can be split in two
+> categories, systems that exhibit unwanted side effects when powering the
+> sensor up, and systems where the sensor can't be accessed at probe time.
+> 
+> The two issues I can think of in the first category is devices that have
+> a camera privacy light that could cause worries among users if it
+> flashes at boot time, and devices that agressively optimize boot time.
+> 
+> In the second category, I know that some people use camera serdes
+> (FPD-Link, GMSL, ...) that are controlled by userspace. As they should
+> instead use kernel drivers for those components, upstream may not care
+> too much about this use case. Another issue I was told about was a
+> device booting in temperatures that were too low for the camera to
+> operate, which then needed half an hour to heat the device enclosure
+> before the sensor and serdes could be accessed. That's a bit extreme,
+> but it sounds like a valid use case to me.
+> 
+> What do we do with those cases ? Detecting devices at probe time does
+> have value, so I think it should be a policy decision. We may want to
+> convey some of that information through DT properties (I'm not sure what
+> would be acceptable there though). In any case, that's quite a bit of
+> yak shaving, so I'm inclined to accept this series (or rather its next
+> version), given that quite a few other camera sensor drivers detect the
+> device at probe time. I would however like feedback on the problem to
+> try and find a good solution.
+> 
 
-        /* ASUS ROG Zenith II: this machine has also two devices, one for
-         * the front headphone and another for the rest
----
+Most of the issues you mentioned applies to other hardware peripherals also IMO.
+And it is common for the drivers to read registers and make sure the device is
+detected on the bus during probe(). If an usecase doesn't want to read the
+registers during probe time, then they _should_not_ build the driver as built-in
+rather make it as a loadable module and load it whenever necessary. This applies
+to boot time optimization as well.
+
+A DT property wouldn't be feasible as DT is supposed to describe the hardware,
+not the usecase.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
