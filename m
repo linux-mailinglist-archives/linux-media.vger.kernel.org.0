@@ -1,88 +1,135 @@
-Return-Path: <linux-media+bounces-17164-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17165-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B668C964C9A
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 19:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC71F964F13
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 21:38:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 734D8285192
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 17:05:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95C2428268E
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 19:38:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EF1F1B5EBF;
-	Thu, 29 Aug 2024 17:05:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6363D1BA290;
+	Thu, 29 Aug 2024 19:38:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ROhFhDPO"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Vyqjdfwa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5A61B5EB8
-	for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 17:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC891B9B59
+	for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 19:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724951122; cv=none; b=qvcDOxPH7GF/w46X3uhtLPOYS8XBbt38ia6nIYkrDtesZMLnGSLbat3kqdzt6yZTrSlDZiTWCSHRzzWOCr3qeLZe0xu4cz48wHWrZynl66JpNwmwU2yBEvXq0g67lrzyq6O1O+ubGmfqZ6FJXgmCOGkkDS8Y3iLfG6GaJfLFSKk=
+	t=1724960309; cv=none; b=dF3fKEPOJmrZM1aMk6mNqhTSKfsRaAG/LVj7rZYt/9A8hd9nF5MBBhWZsco3NbKYxPmUL8mlt72GKmCdFTEvseSrrt/1Ap7wzbknqzMdbH0tsKfFHWyTImMLopr55g/tmt+Y/56ea2q7bLChgXG2DosxsMgp3GbQuGJIscwbnhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724951122; c=relaxed/simple;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	s=arc-20240116; t=1724960309; c=relaxed/simple;
+	bh=4ASADOnCoqNrKV+beHl14a4vrTkq7UjCX+g5PUIp7tg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n3NiquS4MsSyhCCLb41w6gCrs9DGnxd/OI4iaYFVyjpDDVBMQr0eaYVqhMcQ7HBSYU8+CMmnTGCvZ/g7JwfWsjoEMRXiSPG251L+KAnrqOeY6jds/degQjYYFnGBAgzbMXlq7GH2yxStOiL1aB6TPqR4FrK/kav2z3cx0CXN9a8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ROhFhDPO; arc=none smtp.client-ip=209.85.128.48
+	 To:Cc:Content-Type; b=rpxVLQbzpCcP3Mkbq4iSFsJMR+PKOFFSzCyJZ+WyQScOo+tZFhQtG7wY++6G1enT++uUxVG6xQr7ovvpHvL17SJ6bkh+M5WeVcI3abM2Y+2OIoe+OUCJuhJt7YG4A9VxFQQIKKFg91bwSiQowqSEdSDEMD4at0tGMifn2JrZY34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Vyqjdfwa; arc=none smtp.client-ip=209.85.160.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42bb6d93325so145e9.0
-        for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 10:05:20 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4567fe32141so78661cf.0
+        for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 12:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724951119; x=1725555919; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1724960307; x=1725565107; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=ROhFhDPO9Ll9pWySk8+1RNzrFAIkqvOHeAt76Sekt/2Nq2RgyGnHOrg06nVAwJTbbx
-         zAi0uJwwJP0jqEYMfTHLkWaLJ2gekVim0k8G/dT0p2KPEwnnDBxr8vGAEIAbWGgwydbJ
-         27gRXfuhbdNIvrexgxiNmeLdRC7iD8eL/W8DICUJu+ZkoPpVwFJIzZtULYynfRQ7WJSf
-         hf3JckSyM3mS9++wZHTI426vRojfg3E4bT5gEo9V8aflq0OYneGz+LtgkdyczysS1TMQ
-         xYqLj5Joab5nUxH9a9uJl41/gt6GcyBRtoMAcugUPwyUekYoCs3c/38EOqb5F/7yf3PF
-         4aQg==
+        bh=1ZUAgIcTyrR43pe3gP0emMAssjHjCGemTU8nsF1ejxc=;
+        b=VyqjdfwarXMeB4Y4INlQGUPhZkirtCNWsnj7M3szpM9Xkt7avb/e7YL2r2AdYlJkCS
+         /Bpf7hR7X6IlL1U00gOg9VKWrTicKAP4a4yqJWgpfD21VBRGI411IWdBSUD/5Y7hsg9E
+         wiVrzRVTIUriossLHYwrF3NOTBlUA3fP1JfXXgA9ryu2/FdUqqHMT8zgBxP1tTSWZWlL
+         QCyKGDNZFHsNdIEwBTf7SgOpdzJpSQ9AKGvSvwmWIzeVHSp0cwe2o0wB9IAFaHfCkgXB
+         wDw8hEMaWDSzGdgfIQ/2EvAJXL3hA9d/YHiz5Hi5yCNbiwnKJ3rLPdpN++PpwyVTZWmo
+         hrMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724951119; x=1725555919;
+        d=1e100.net; s=20230601; t=1724960307; x=1725565107;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=qyWZXRS4aiTTPUCINld/ZXV7mRG0tg8uaEiN5CMJ3nY/zG+swn9GtmogDhZAPaQj2T
-         uifN0nQSbLxX5ULwrnF2PEcpZ0HlvbMx+dW9T14YU0d3zx5520oxwhjboWrs/f2K/Yh3
-         V4WmYdPoNNZK9HNyp6Olc0/7vCzy02/KYoA7e3OmdH14PwONjs8hCPx+QYBiTigL1Rad
-         cFQ5XIqaOImWcgLGqHaiCtb87Qa6ENYjzN3MYkK+mThEqhEbcFh4/VSCHtrPo2JcgWaP
-         Yg2EBhztN7xHOVpX/HQrggFS3SbW9F+qffiDLQRYXV7Jfpsnx0hr+/k/g3YzCjakdHL7
-         uyjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFUvJ6qKNEaqvMqNKLgJN3B3M6M19omvZ2r7lrlOdRDEsl6GLY4qNJjR/uJYV97ZWTwIXQ07c89e3fwg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC0mBq6/gicDuBwrDbHaE99k8Iea3oqlyH8WfSYFtIDjn0jlAV
-	9xIHUhCdAwJyGhxqQagWPmdwJoBLIihP+3+ECvUzfZIusighqmeWufBs+U996k7BNIXN8itWL+B
-	viJkCOKj8Vj5va7+Q/+KJvPWsWHJMl8iCbG0=
-X-Gm-Gg: AV9I1ZQM7Obj9Is9c/WWO9IG4yHhkeeTGx7veIIsbCp38VkDXUs9f94rSJowfxuaDd9
-	DcQhR2Q0GxskcoHsCaG2sN5rMGFjj1Z9oArPMA8HqhNDEQdt1eYuLSm+ViWo=
-X-Google-Smtp-Source: AGHT+IF8ncbv3hPX6txBwjD+mljfVJFZjCz8WD9pS5r0ChWeEb3HcbLEeUEQAMuL4Kr+bb+8RiZA/+ov4ZUA9UxFSLs=
-X-Received: by 2002:a05:600c:6d12:b0:424:a2ae:8d1d with SMTP id
- 5b1f17b1804b1-42bba2d4b89mr12755e9.2.1724951118768; Thu, 29 Aug 2024 10:05:18
- -0700 (PDT)
+        bh=1ZUAgIcTyrR43pe3gP0emMAssjHjCGemTU8nsF1ejxc=;
+        b=OIJ5nqr156Q2NscfQzwkhvb4QnWouS2CWD0isYLkVw/ZxfBm02WIlc/V62Vk1GewKw
+         9N4pI673x76AdpZhGZ3ZABoY0Wfl18Fu2Fs7OdXzHK+zZmrF6kCnkFF6qmXq0P/ErUb7
+         rFURkHoHFt5rIx+rk/VsP77e/hjtLzAn9wvio7sJojdtr3enIBXctW5vbgnwBRCzYA/m
+         EMGq9uYttFmkboNrn5JRKAqYfyDE36eMKNUvv7FsLUlZhI2aqa+uqpxOKD6KvRa6Wgwd
+         AkFBeWDFMTWTiPgoo47Bz6q0SBCHmOXR+jMk4MuYFOTsuteOhdhFXFJgau+hO8fQmZ7U
+         JFTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXAMha2z2RdzpJIX/6pydVMGuVyx8qeI7qYWW6mFiBjNTx9vd++nqPgxypPQCToNmL276zoISd7ljuc5w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzlg4yWj+5WEw47IH6wzJyHkbN4YqBrCxz5ll5qWl7VDDEwbaVQ
+	xwINsSkf5hPewuoItgP0UhrHCTk+gGY2FLFQMAD9Rjqo3ENl1DOb7LIyOhaT1L3qd+B9EZfcd1C
+	iZQAWwsAONSScyWR9i8wR0KuuDbdpLvXvASGM
+X-Google-Smtp-Source: AGHT+IEckjBQSLEDMwf1jYHRwORJ2ZVKtBH36SKJpIYMP8NrCeogwJVm7Q7nebuPSmPKh9r8A+fJeiK+617lAC3ocsU=
+X-Received: by 2002:a05:622a:281:b0:447:e59b:54eb with SMTP id
+ d75a77b69052e-4568aacd777mr496041cf.26.1724960306474; Thu, 29 Aug 2024
+ 12:38:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFs7P=jk=wfo0nbHzqd1NrGX3NKpOezD4-u=nAMqzq7mq4Lidg@mail.gmail.com>
-In-Reply-To: <CAFs7P=jk=wfo0nbHzqd1NrGX3NKpOezD4-u=nAMqzq7mq4Lidg@mail.gmail.com>
-From: Joshua Pius <joshuapius@google.com>
-Date: Thu, 29 Aug 2024 13:04:40 -0400
-Message-ID: <CAFs7P=jPqv2Zr6Fnw584TKhj5joBRt7X7gMidE4MiK1ABAMiRQ@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: Add logitech Audio profile quirk
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Cc: devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
+References: <20240829060126.2792671-1-almasrymina@google.com> <20240829060126.2792671-4-almasrymina@google.com>
+In-Reply-To: <20240829060126.2792671-4-almasrymina@google.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 29 Aug 2024 12:38:13 -0700
+Message-ID: <CAHS8izMCZbynEQQ3rPs2QaEbD51ew7VK0sMziBTayCi2yEZ_EA@mail.gmail.com>
+Subject: Re: [PATCH net-next v23 03/13] netdev: support binding dma-buf to netdevice
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
+	Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>, 
+	Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 
+> +#include <linux/list.h>
+>  #include <uapi/linux/netdev.h>
+>
+...
 
+>
+> +#include <linux/list.h>
+>  #include <uapi/linux/netdev.h>
+>
+
+Darn, I went too overboard with sorting of includes. ynl-regen.sh
+wants these in the reverse order, which is unsorted. I'll fix it in
+the next iteration, and I added this check as well to my presubmits.
+
+BTW I submitted 2 iterations already this week, Sunday and Wednesday.
+This is easily fixable and I can resend before the end of the week,
+but if I'm stressing NIPA too much with reposts of this large series I
+can wait until next week. Sorry about that.
+
+-- 
+Thanks,
+Mina
 
