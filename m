@@ -1,855 +1,584 @@
-Return-Path: <linux-media+bounces-17112-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17117-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7995963FD9
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 11:23:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBFD964035
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 11:33:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1BBF7B24AEC
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 09:23:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF0001F25F23
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 09:33:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5A8918DF73;
-	Thu, 29 Aug 2024 09:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22BC818D622;
+	Thu, 29 Aug 2024 09:33:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="BbVYjGMv"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qHmuYsPy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2043.outbound.protection.outlook.com [40.107.22.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEB0189F5C;
-	Thu, 29 Aug 2024 09:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724923378; cv=fail; b=WdPEHKXhWdTDL9cHq2/9+GCPG/OkhjXAEW6BR5lz6D9VEv+TlCLG+d6JljcBoWfqS1lUnZCikmM4Cwpe+B1jEuvLIuUIUIahc2dgmlc11L1b27sOl8kS7LOLpxD0fmqVUdpOegTlcuZIHbT5SNCKE7etgtwSKXcKZVUhpcSbQ14=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724923378; c=relaxed/simple;
-	bh=LQq+C8j37KVTRnSKe3p76knRPH5BY3X9qMIC9j9tb0c=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=feH3arK8i6vCNEsNHojCNY0naKcgx46GewiT2jCyyZ/gieb/CdPkXA0vMxh46qG0PtDfL3jBpfvtAcLhStsfErElyRlKR5RrPq7rwjUjvE9UlgUbHaC5yh5Apws5Oq7kbVSPg/+NfQZ0MEK5XME646ColwLVwj+nCVfbErjUz+Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=BbVYjGMv; arc=fail smtp.client-ip=40.107.22.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lJEI4LSiCx1xtlzGziwvjOknjxnHg0CY+NM2h+aVASP54nk9Af6/eUafVvxtnx7hXuAN3mNN7a6q/vgM6l1nI+1ivNWJsv/6DvkQbzdErtBvcvWOuC8Kfl66vjeNoq2mZfI54refWenPda73bk2Z2x/FquAFJuvGiJBaZcqfuVtmJluAqkOYlfEyoPfQRM06R/z+Zw6QXpYKtjNl4YUpLQA6SN8axNH7t04O5wFKljzxuCG1atJWoMkYzaryLoOhcygS9PFr3wtVbmLpmI7NIVCCOIw9vY529Y9IspqbBoEnN71eU1lzq/Bir+ZbuMifcaJYHgFr8l675w8VQEb0XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lcN7TTfY7iQQI2h+/1W+RySg64mC/hQ8II+4u8/4dxk=;
- b=OIOWyZtpfRkZbqddDRsZkcFmsqzeQiJTBjolhlbsPpIXkFj1J9+iQ4xps2sbQgD7GM+EQO3eY8Cn7jSSdTdujWh1y4FNaRXK4F3TRAcBIReWJBXSA6/TvVBsY8HTwmIcnaO/ktQbzNGQ6D/tnqeIowMqZhljOJ4AC5RjVgEvVH3HK80AnREHynW2OZ4DAbMbi84mD+qXqQHU41ronLRuVsryOdQLLK8IBw1ebOvJDkIQfi0ffIjuiQHamHu3lzH8WJTmim+Y72M1wXZZ8RhFwm1ne0zc1v59UDgNf51NAvPxo4DsBkzYY7ypoJnVvQBqS7LKtzwBG2B2lDjLNdnD8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lcN7TTfY7iQQI2h+/1W+RySg64mC/hQ8II+4u8/4dxk=;
- b=BbVYjGMvWeT7CLielatmXdM+PApLp8jKVaxD+BtaEkp7mLgS/Dcir+L2eXFbRtuEReoVP59nnGjgL5khWs1qR+sgkooRpHV0fDvQI4ynYaFDP0a7VdxVUJFhUYie5B5BC1Ctyy7gAMYq62W6iQzcf94Yvj44bT2PbIieulb02UwzgNLgH2a8sQGR+YgBc60lccoz4pVWeB/1xrk3R4KDtubj9VeRey5xWcicHvj/CirUcsMJ4fXtXEwPTU7h+geLsU4gomiwjk9/KksoOLa6lnf6jv2vlljFYwgSO3gz1YMNLROZnIns0FDdJsjsQSTLQfY0NBGdsPNSYqDE2pJsqg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB5005.eurprd04.prod.outlook.com (2603:10a6:803:57::30)
- by DBBPR04MB7625.eurprd04.prod.outlook.com (2603:10a6:10:202::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.20; Thu, 29 Aug
- 2024 09:22:50 +0000
-Received: from VI1PR04MB5005.eurprd04.prod.outlook.com
- ([fe80::3a57:67cf:6ee0:5ddb]) by VI1PR04MB5005.eurprd04.prod.outlook.com
- ([fe80::3a57:67cf:6ee0:5ddb%4]) with mapi id 15.20.7897.021; Thu, 29 Aug 2024
- 09:22:50 +0000
-From: Carlos Song <carlos.song@nxp.com>
-To: aisheng.dong@nxp.com,
-	andi.shyti@kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	sumit.semwal@linaro.org,
-	christian.koenig@amd.com
-Cc: linux-i2c@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Carlos Song <carlos.song@nxp.com>,
-	Frank Li <frank.li@nxp.com>
-Subject: [PATCH V4] i2c: imx-lpi2c: add eDMA mode support for LPI2C
-Date: Thu, 29 Aug 2024 17:31:57 +0800
-Message-Id: <20240829093157.2714736-1-carlos.song@nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM9P195CA0005.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:21f::10) To VI1PR04MB5005.eurprd04.prod.outlook.com
- (2603:10a6:803:57::30)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30AC3189F36
+	for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 09:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724924010; cv=none; b=GI9gq5RN2D1gSQ4FDppZTJF55Og5HVUKGoDZ+bqEsHgK0Ej4QTMMZP2SYBw1vjeQyxpD6LFEs4zWj1XzNGhbYSRTKNxvro4Z1d1QfxG5My5h7YrscWgyJ3vLaalVDBo1r7zM8xfmt0S2cA+jxJr53f/rzp/3G92tbjwLZ3TU/2U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724924010; c=relaxed/simple;
+	bh=VB1kDnu1MIKuQQyIPG+ao88lOi5fFWaWQ4pPR/dfLYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ITviuT+mQxXHTV0TNLetlrhxuSebLV0ZNIKApaOp0b6EtLPP2lUVgAd/EKSWTAUdEWE1y4U60rRensqGRNEAMS9OilPXCmXs8WD35F7zvZmTUcx1UvUrQpm0pwFwj8+tZeEhsA7YopS7AZOOm3InKnHdiwWQ0pqB4dlBEfQGKkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qHmuYsPy; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5343617fdddso765985e87.0
+        for <linux-media@vger.kernel.org>; Thu, 29 Aug 2024 02:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724924006; x=1725528806; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jf1RPd5k7N/KVvI+pR1mRC3GqCsCws3Rx9+XmMS/Wws=;
+        b=qHmuYsPyHOjMKuudmW3MAPOpIovYRUGYh7jBI8Ttbuhd/qlLuDKOSQKiwEAwGxgnxH
+         lONv8ExEFaHOzBCcGhm0ULoFOleF7VdAVZthz3YKBaXGJ/czZ6ih8dv/mYsCaaMjyX1w
+         /+zqciqjUE1SIT46ee//l/NkHWGY+ibY6AhCFNsBxFweYZsl9Oyk+LyH6LGN9++ir12v
+         3cRO9WzthmABKqjLmFjRXeaeUfNmxWwTZwKy0mPcYHxVE3Yizx3yXRh+mNpgmZlPBnQh
+         zxoEJpNNVhC1jfO5eWgADYn/6xzSBCGUePnZ+RYgJ0VIiiuXXhQKseKQCEAywOepVxIJ
+         bHRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724924006; x=1725528806;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jf1RPd5k7N/KVvI+pR1mRC3GqCsCws3Rx9+XmMS/Wws=;
+        b=aqplGNjkuZ/kHPZz4YVCMcZ7peEbOUzgLQobQU6QZa8NHoWP8tXiDAk2cxo/7YA8va
+         O46M1my6clMb0Syx4VQQUr1VuMLxAU7s44igEYh4ckv+V/SQss8jbnFVpljG30MvNELf
+         0oB9WVD3eYL17+DtF0Ucqwdh5xUgsArlDGbzyGMlMo1mCZhdUQdSc7qLQwcHnNEZ2Aqr
+         UWzACABY9tndk4SpcZ/ZFV5ioCY1fb8w0PgIQ9O3a2KOKgciEIA6Tdm0CGBo2DgFMW/b
+         GZ1H5M03XNZV1DqfuBG0c13yMlnjR9E742eAwUv5FfS78ZlnHvq+5R1ZGZORxGKV89ER
+         ZYNw==
+X-Forwarded-Encrypted: i=1; AJvYcCUajVxJguScVn0k1lDCJrVBPpTefqf/uFDWmY4jDoWFdui+eXknwcMM80QOVCtPL6EKXaEa/1h8VuRpXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5eCiOfMkdS/YkyXqc8zphl/n3JQw8ke3ZQhaJBfsjg2ELIfTq
+	MukxJhfs8BG7AyahY4WTfVmq4IqHpctvVsj+szrjH0SgqKKZYvUntJfr3HHO3h0=
+X-Google-Smtp-Source: AGHT+IF0uXzxqPg+vkmJaBu1kcINtw+G6a7PP/BHLmzK3LMZI1o0ADhmOi10PWnUFYBbncLDSaMPzA==
+X-Received: by 2002:a05:6512:3094:b0:52e:9921:6dff with SMTP id 2adb3069b0e04-5353e5755a3mr2004560e87.26.1724924005677;
+        Thu, 29 Aug 2024 02:33:25 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-535407ac51esm105418e87.80.2024.08.29.02.33.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2024 02:33:25 -0700 (PDT)
+Date: Thu, 29 Aug 2024 12:33:23 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: quic_dikshita@quicinc.com
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Vedang Nagar <quic_vnagar@quicinc.com>
+Subject: Re: [PATCH v3 16/29] media: iris: implement iris v4l2_ctrl_ops and
+ prepare capabilities
+Message-ID: <gehwgofhviqcnopaughxfcpsqmbbiaayid2scgat4xnd5ngwmo@ylawfiup2tqc>
+References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
+ <20240827-iris_v3-v3-16-c5fdbbe65e70@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR04MB5005:EE_|DBBPR04MB7625:EE_
-X-MS-Office365-Filtering-Correlation-Id: 004aed5e-f43a-408f-c108-08dcc80c2698
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|52116014|7416014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ico4zhJbZ9mGDTpJhg/a/l0i8tqxxvGA6Eqf+jyNrp6hPPF7MpC4YY4IP8Lz?=
- =?us-ascii?Q?nLGH79ZNP8kuWfySVyQgl6YTdQQnibSQvUtpQorIEl8q4Pqurr3CKzfsTACn?=
- =?us-ascii?Q?BM7BsJdlPjUauE52RB2peMjF1mpqd8aekU/RPaXqwYsoq+4TB2NO/krxnJat?=
- =?us-ascii?Q?4cNtB8DrsI5AMbXLytDiJPflxjS5oBnFPv8NGsdjnOP/2Nj8n1cFUGkY5/gY?=
- =?us-ascii?Q?UI4RcCJLPdipwRd5LHFwWfstIgXQujc/G8gNPW58pXLuy5B/jHibODy1zqmH?=
- =?us-ascii?Q?AUF7cnMd8jWykngz3dDi4YruxAGoHOnk9qK7AGi7UDeyRpR/cslr0EzbhyL2?=
- =?us-ascii?Q?s1NW1UHSjqBC03iTbyuDb6/8wpAdrdJDpVPwQd01k/OIxuExNMPOCGT7JZjO?=
- =?us-ascii?Q?qlPasTJ/68WgGR1WWN7l5yb3qb5CRmac2OjZ0+TgemmBf45ARk/P9S/vh3LA?=
- =?us-ascii?Q?aCuBDH9kMUEbSHiN/KxzXt+1IATBn+fbv0o7ET74k2zT6j9wY3r5dQHK0pdU?=
- =?us-ascii?Q?l4gIBb3CfqLVYSo5HzDr63yws3qEjDIqf+6eCrhzdClvDA61vZ6xcfia2zEK?=
- =?us-ascii?Q?T9bfrxgRv+0m/bNhIv8DYQnS0PMPXFCs0fy3+qLfRW1fwYBdrsKYp9UXzvdf?=
- =?us-ascii?Q?X8k6FQrq8AFP/X9ZYh/ZrWKGOG5tbaauqttMWDIjG7whlzAjr86r8Uh0ZJqq?=
- =?us-ascii?Q?sp2KEYaQY2VK7bIRw86y5xaKrhks+tqYXd8mcILWvsKObYK7GQN8PcIkH8LH?=
- =?us-ascii?Q?NxYa0ACy/NuYVjkD9tfXhCp4gl9kkO+aWfnhicjI0W7AfWiDjyHeSxKUZnc5?=
- =?us-ascii?Q?PPc35tB40UU3k9R/g6u55hpy+vYOTsF/8zLqXrpRoa33nE6ysAABd2yRuHCh?=
- =?us-ascii?Q?+6g44ptSa/QY5joutLnfOV1u6VhqKYwqCCcDofsY5BNnZhoIa4uhB0dqhUmC?=
- =?us-ascii?Q?mwjQ8rOBqBwMlEToAcB49+oo5YpETkFV3YIU49d8AixScyn4Qu1+VImza3Nd?=
- =?us-ascii?Q?JE/Uozf9utTtbKXxxILbhkkV7BXNfI+2HbgFss1T/09UZ5x4A158VPF549iU?=
- =?us-ascii?Q?F/POFrCZQ56HnUgtHaqIIEMIYU/AUTF7wkGRa6tDP/S7Yr/Ewpv1wxFszQqO?=
- =?us-ascii?Q?uvffXrU3OQuBFD89vvPwZmKCu6eDhjNaABq8hC3+ILDdPm9+TVax2VMBldX2?=
- =?us-ascii?Q?HNJUH6yHSAqs/NYooi8WYgaGSuZunHNtDpXDVNCbJQQEpbsefB8HWy36LKeW?=
- =?us-ascii?Q?nMCpxeFHv3IWwYuGQX8vOdPNJs31k5bn4Cv6I3dGTxaPPEZO/oFagFtkP7Py?=
- =?us-ascii?Q?mFkoeYHvwVGY4noykBJ+2ofkhKHi2w2iTe1XvRvS/b6vHvvBRCx09QL5OqUF?=
- =?us-ascii?Q?P0oQG0aghwYEIQpsCBGkFuiazbacvsiVvSzqT8Cd2GF+4BzqmQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5005.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(7416014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?u+NkECrJGxhuhTdPNsfNKLzrOEf0BX/HrDbX4D5v8MtfqtD7X67q8PF5CzqW?=
- =?us-ascii?Q?7PkD8J/EHYLGbTvJlpEjXSp57q5AAcuxR6W2f7yy0BEemD3p4cP6O8SWx4jR?=
- =?us-ascii?Q?Ni58qk/YkapzEnnGwpT5/7GdFYqhyCD/6wAat4+E66QYgTyycE2tq3Erwy1y?=
- =?us-ascii?Q?B8K/Hb2lMbg1cezegG/W+jjn6veYxkG+0mgIKHdMqgAOuao1RUV/qndB0+po?=
- =?us-ascii?Q?x3eG/QLg/M0gbRNA2ZgngOQgrnhKv8yjkeLcHc7DjN2uNnaf1bbiQlu9dZ4+?=
- =?us-ascii?Q?AvM0x9QDmFBQTst6O6J91nysavStzGidfuhuZvKhyHNyZmtHTk4iZpF1bT81?=
- =?us-ascii?Q?HJ/7A9ZmmgF+iLcq4aXAtihfcxs22EdxjW878nJmvNHS8cClJ0ATMHoXYyiZ?=
- =?us-ascii?Q?jZPCBUe1fsVSnYGi7qUsKDWukjEy9Wxh25C+x6YDtn+ZN6m2IuwCFBlORdMM?=
- =?us-ascii?Q?BCAoZdh5STTBlQh+1m4halK3ghsXide6OBrUQhyzcuyQeqh0XxJPvFojD2iv?=
- =?us-ascii?Q?Ijf4tMcSGatih4mQ3GZsPeb+6mr9d4L69+bVvcaxR3Pg8/2N8Gv/ZDxlIjPp?=
- =?us-ascii?Q?wc5w3LH2Qsu3w2jCn3Cuv3R9pF1BtjuXxMb/UdxuDoDn3KwIKm8xNBJny6SE?=
- =?us-ascii?Q?k8qnrY4pHAuAS3Qwa5W3oX8wipKMu/sez05zKZsFI33WOtBKLnz2B4u+mc4G?=
- =?us-ascii?Q?UmslnuIOixrcMw2t5sxOos/08On6jbxIHl0GS4JQ2GPY/aohSc3w2KVNlvLy?=
- =?us-ascii?Q?VOXzvPoNiVNsHsgdQxz5a2VV9jFrh35yORAhQa4yE5JMbyKah3DrPzDxvwsB?=
- =?us-ascii?Q?iDT/YwrZmoRz1rBAqHEC2y/EQpHnzuvbGasSqXdeFhEcvqnJEjCPgF9O0/Os?=
- =?us-ascii?Q?QSX8xysaqGfEBVuV+i+AkKxoGm1TeEaiTxmndKkK/v5HF5if1lSPGBtA0EwJ?=
- =?us-ascii?Q?gIHiUYVWJky65361ByWVXYui6HSF/USBDiA1PRly89vJyZ2/320sZ2ePSH8z?=
- =?us-ascii?Q?EBXaXC20GoPUrZGCMrtbFE+1cN6jXIyF1gm+0y9fXO1LodDoBPAxYcQmTC7Q?=
- =?us-ascii?Q?8AdHwwOksp5EH9gtAbT+dgc9nQkW2w6HDNuI+pmwb7qBoizMw+2deXX1TJgN?=
- =?us-ascii?Q?3i+qJ/+avRKCZHp6Bq8SFS3Rlw9bULYacAVObu1jVe8j29p4+SJphtWltKKN?=
- =?us-ascii?Q?0pAb63rb3K1eHaRC0lvuVMQ3kVrXndlnHR83KV+qSfKZ0+6NAvf3fpmnFRrN?=
- =?us-ascii?Q?zLbRyYWdbE8ZexNs5nIfWFwA2tWMScBvD8JX2ZhJNtO1BKJyZnRd4BCVgrxw?=
- =?us-ascii?Q?E08WrbpmQD1Gboq2jRF2S3esAJxFLUNwezUAUKuT1nJHra/TzvlQV4ME0ouU?=
- =?us-ascii?Q?wwJ/YE3lpkIxmwfqSVM6C6CXQ7pZAwzuDqmLQRnK7pzUu4NNQwSw6ew/yrn8?=
- =?us-ascii?Q?mmLgFboJ0cDfDg+sVz10iuGTjnrQpxW0HvSg4L0MXJviXA4GHGincxIp13SB?=
- =?us-ascii?Q?+dbA+HOyljS3T13aUC0X84bck/cNgZnafCkZSjIVbEaBMzWeUzxcItFkk1l5?=
- =?us-ascii?Q?XcSsSyzrnD+CwX1Meb8rJFe2mReYE/G3jSmLDp7b?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 004aed5e-f43a-408f-c108-08dcc80c2698
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5005.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 09:22:50.6151
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ARBs9CDpuLa5EAX0PWYddt19DfBdKhLuB3KcN6ZVp9RvRiRYKFf7S5TscSEdUt7VreQHB2tVGN6i34Ha23XL0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7625
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240827-iris_v3-v3-16-c5fdbbe65e70@quicinc.com>
 
-Add eDMA mode support for LPI2C.
+On Tue, Aug 27, 2024 at 03:35:41PM GMT, Dikshita Agarwal via B4 Relay wrote:
+> From: Vedang Nagar <quic_vnagar@quicinc.com>
+> 
+> Implement s_ctrl and g_volatile_ctrl ctrl ops.
+> Introduce platform specific driver and firmware capabilities.
+> Capabilities are set of video specifications
+> and features supported by a specific platform (SOC).
+> Each capability is defined with min, max, range, default
+> value and corresponding HFI.
+> 
+> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/iris/Makefile          |   1 +
+>  drivers/media/platform/qcom/iris/iris_buffer.c     |   3 +-
+>  drivers/media/platform/qcom/iris/iris_core.h       |   2 +
+>  drivers/media/platform/qcom/iris/iris_ctrls.c      | 194 +++++++++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_ctrls.h      |  15 ++
+>  .../platform/qcom/iris/iris_hfi_gen1_defines.h     |   4 +
+>  .../platform/qcom/iris/iris_hfi_gen2_command.c     |   1 +
+>  .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   9 +
+>  drivers/media/platform/qcom/iris/iris_instance.h   |   6 +
+>  .../platform/qcom/iris/iris_platform_common.h      |  71 ++++++++
+>  .../platform/qcom/iris/iris_platform_sm8250.c      |  56 ++++++
+>  .../platform/qcom/iris/iris_platform_sm8550.c      | 138 +++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_probe.c      |   7 +
+>  drivers/media/platform/qcom/iris/iris_vdec.c       |  24 ++-
+>  drivers/media/platform/qcom/iris/iris_vdec.h       |   2 +-
+>  drivers/media/platform/qcom/iris/iris_vidc.c       |  16 +-
+>  16 files changed, 536 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
+> index 9c50e29db41e..a746681e03cd 100644
+> --- a/drivers/media/platform/qcom/iris/Makefile
+> +++ b/drivers/media/platform/qcom/iris/Makefile
+> @@ -1,5 +1,6 @@
+>  iris-objs += iris_buffer.o \
+>               iris_core.o \
+> +             iris_ctrls.o \
+>               iris_firmware.o \
+>               iris_hfi_common.o \
+>               iris_hfi_gen1_command.o \
+> diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
+> index a1017ceede7d..652117a19b45 100644
+> --- a/drivers/media/platform/qcom/iris/iris_buffer.c
+> +++ b/drivers/media/platform/qcom/iris/iris_buffer.c
+> @@ -12,7 +12,6 @@
+>  #define MAX_WIDTH 4096
+>  #define MAX_HEIGHT 2304
+>  #define NUM_MBS_4K (DIV_ROUND_UP(MAX_WIDTH, 16) * DIV_ROUND_UP(MAX_HEIGHT, 16))
+> -#define BASE_RES_MB_MAX 138240
+>  
+>  /*
+>   * NV12:
+> @@ -74,7 +73,7 @@ static u32 iris_input_buffer_size(struct iris_inst *inst)
+>  	num_mbs = iris_get_mbpf(inst);
+>  	if (num_mbs > NUM_MBS_4K) {
+>  		div_factor = 4;
+> -		base_res_mbs = BASE_RES_MB_MAX;
+> +		base_res_mbs = inst->driver_cap[MBPF].value;
+>  	} else {
+>  		base_res_mbs = NUM_MBS_4K;
+>  		div_factor = 2;
+> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
+> index 1f6eca31928d..657d26a0fa2e 100644
+> --- a/drivers/media/platform/qcom/iris/iris_core.h
+> +++ b/drivers/media/platform/qcom/iris/iris_core.h
+> @@ -58,6 +58,7 @@
+>   * @intr_status: interrupt status
+>   * @sys_error_handler: a delayed work for handling system fatal error
+>   * @instances: a list_head of all instances
+> + * @inst_fw_cap: an array of supported instance capabilities
+>   */
+>  
+>  struct iris_core {
+> @@ -97,6 +98,7 @@ struct iris_core {
+>  	u32					intr_status;
+>  	struct delayed_work			sys_error_handler;
+>  	struct list_head			instances;
+> +	struct platform_inst_fw_cap		inst_fw_cap[INST_FW_CAP_MAX];
+>  };
+>  
+>  int iris_core_init(struct iris_core *core);
+> diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.c b/drivers/media/platform/qcom/iris/iris_ctrls.c
+> new file mode 100644
+> index 000000000000..868306d68a87
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_ctrls.c
+> @@ -0,0 +1,194 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include "iris_ctrls.h"
+> +#include "iris_instance.h"
+> +
+> +static bool iris_valid_cap_id(enum platform_inst_fw_cap_type cap_id)
+> +{
+> +	return cap_id >= 1 && cap_id < INST_FW_CAP_MAX;
+> +}
+> +
+> +static enum platform_inst_fw_cap_type iris_get_cap_id(u32 id)
+> +{
+> +	switch (id) {
+> +	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:
+> +		return DEBLOCK;
+> +	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
+> +		return PROFILE;
+> +	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
+> +		return LEVEL;
+> +	default:
+> +		return INST_FW_CAP_MAX;
+> +	}
+> +}
+> +
+> +static u32 iris_get_v4l2_id(enum platform_inst_fw_cap_type cap_id)
+> +{
+> +	if (!iris_valid_cap_id(cap_id))
+> +		return 0;
+> +
+> +	switch (cap_id) {
+> +	case DEBLOCK:
+> +		return V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER;
+> +	case PROFILE:
+> +		return V4L2_CID_MPEG_VIDEO_H264_PROFILE;
+> +	case LEVEL:
+> +		return V4L2_CID_MPEG_VIDEO_H264_LEVEL;
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +
+> +static int iris_vdec_op_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	enum platform_inst_fw_cap_type cap_id;
+> +	struct iris_inst *inst = NULL;
+> +
+> +	inst = container_of(ctrl->handler, struct iris_inst, ctrl_handler);
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
+> +		ctrl->val = inst->buffers[BUF_OUTPUT].min_count;
+> +		break;
+> +	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
+> +		ctrl->val = inst->buffers[BUF_INPUT].min_count;
+> +		break;
+> +	default:
+> +		cap_id = iris_get_cap_id(ctrl->id);
+> +		if (iris_valid_cap_id(cap_id))
+> +			ctrl->val = inst->fw_cap[cap_id].value;
+> +		else
+> +			return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int iris_vdec_op_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	enum platform_inst_fw_cap_type cap_id;
+> +	struct platform_inst_fw_cap *cap;
+> +	struct iris_inst *inst;
+> +
+> +	inst = container_of(ctrl->handler, struct iris_inst, ctrl_handler);
+> +	cap = &inst->fw_cap[0];
+> +
+> +	cap_id = iris_get_cap_id(ctrl->id);
+> +	if (!iris_valid_cap_id(cap_id))
+> +		return -EINVAL;
+> +
+> +	cap[cap_id].flags |= CAP_FLAG_CLIENT_SET;
+> +
+> +	inst->fw_cap[cap_id].value = ctrl->val;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops iris_ctrl_ops = {
+> +	.s_ctrl = iris_vdec_op_s_ctrl,
+> +	.g_volatile_ctrl = iris_vdec_op_g_volatile_ctrl,
+> +};
+> +
+> +int iris_ctrls_init(struct iris_inst *inst)
+> +{
+> +	struct platform_inst_fw_cap *cap;
+> +	int num_ctrls = 0, ctrl_idx = 0;
+> +	int idx = 0, ret;
+> +	u32 v4l2_id;
+> +
+> +	cap = &inst->fw_cap[0];
+> +
+> +	for (idx = 1; idx < INST_FW_CAP_MAX; idx++) {
+> +		if (iris_get_v4l2_id(cap[idx].cap_id))
+> +			num_ctrls++;
+> +	}
+> +	if (!num_ctrls)
+> +		return -EINVAL;
+> +
+> +	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, num_ctrls);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (idx = 1; idx < INST_FW_CAP_MAX; idx++) {
+> +		struct v4l2_ctrl *ctrl;
+> +
+> +		v4l2_id = iris_get_v4l2_id(cap[idx].cap_id);
+> +		if (!v4l2_id)
+> +			continue;
+> +
+> +		if (ctrl_idx >= num_ctrls) {
+> +			ret = -EINVAL;
+> +			goto error;
+> +		}
+> +
+> +		if (cap[idx].flags & CAP_FLAG_MENU) {
+> +			ctrl = v4l2_ctrl_new_std_menu(&inst->ctrl_handler,
+> +						      &iris_ctrl_ops,
+> +						      v4l2_id,
+> +						      cap[idx].max,
+> +						      ~(cap[idx].step_or_mask),
+> +						      cap[idx].value);
+> +		} else {
+> +			ctrl = v4l2_ctrl_new_std(&inst->ctrl_handler,
+> +						 &iris_ctrl_ops,
+> +						 v4l2_id,
+> +						 cap[idx].min,
+> +						 cap[idx].max,
+> +						 cap[idx].step_or_mask,
+> +						 cap[idx].value);
+> +		}
+> +		if (!ctrl) {
+> +			ret = -EINVAL;
+> +			goto error;
+> +		}
+> +
+> +		ret = inst->ctrl_handler.error;
+> +		if (ret)
+> +			goto error;
+> +
+> +		if ((cap[idx].flags & CAP_FLAG_VOLATILE) ||
+> +		    (ctrl->id == V4L2_CID_MIN_BUFFERS_FOR_CAPTURE ||
+> +		     ctrl->id == V4L2_CID_MIN_BUFFERS_FOR_OUTPUT))
+> +			ctrl->flags |= V4L2_CTRL_FLAG_VOLATILE;
+> +
+> +		ctrl->flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
+> +		ctrl_idx++;
+> +	}
+> +
+> +	return 0;
+> +error:
+> +	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+> +
+> +	return ret;
+> +}
+> +
+> +int iris_session_init_caps(struct iris_core *core)
+> +{
+> +	struct platform_inst_fw_cap *inst_plat_cap_data;
+> +	int i, num_inst_cap;
+> +	u32 cap_id;
+> +
+> +	inst_plat_cap_data = core->iris_platform_data->inst_fw_cap_data;
+> +	if (!inst_plat_cap_data)
+> +		return -EINVAL;
+> +
+> +	num_inst_cap = core->iris_platform_data->inst_fw_cap_data_size;
+> +
+> +	for (i = 0; i < num_inst_cap && i < INST_FW_CAP_MAX - 1; i++) {
 
-There are some differences between TX DMA mode and RX DMA mode.
-LPI2C MTDR register is Controller Transmit Data Register.
-When lpi2c send data, it is tx cmd register and tx data fifo.
-When lpi2c receive data, it is just a rx cmd register. LPI2C MRDR
-register is Controller Receive Data Register, received data are
-stored in this.
+Drop the second condition
 
-MTDR[8:10] is CMD field and MTDR[0:7] is DATA filed.
-+-----------+-------------------------------+
-|  C  M  D  |          D  A  T  A           |
-+---+---+---+---+---+---+---+---+---+---+---+
-| 10| 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
-+---+---+---+---+---+---+---+---+---+---+---+
+> +		cap_id = inst_plat_cap_data[i].cap_id;
+> +		if (!iris_valid_cap_id(cap_id))
+> +			continue;
+> +
+> +		core->inst_fw_cap[cap_id].cap_id = inst_plat_cap_data[i].cap_id;
+> +		core->inst_fw_cap[cap_id].min = inst_plat_cap_data[i].min;
+> +		core->inst_fw_cap[cap_id].max = inst_plat_cap_data[i].max;
+> +		core->inst_fw_cap[cap_id].step_or_mask = inst_plat_cap_data[i].step_or_mask;
+> +		core->inst_fw_cap[cap_id].value = inst_plat_cap_data[i].value;
+> +		core->inst_fw_cap[cap_id].flags = inst_plat_cap_data[i].flags;
+> +		core->inst_fw_cap[cap_id].hfi_id = inst_plat_cap_data[i].hfi_id;
+> +	}
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.h b/drivers/media/platform/qcom/iris/iris_ctrls.h
+> new file mode 100644
+> index 000000000000..46e1da847aa8
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_ctrls.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef _IRIS_CTRLS_H_
+> +#define _IRIS_CTRLS_H_
+> +
+> +struct iris_core;
+> +struct iris_inst;
+> +
+> +int iris_ctrls_init(struct iris_inst *inst);
+> +int iris_session_init_caps(struct iris_core *core);
+> +
+> +#endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
+> index da52e497b74a..9dc050063924 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
+> @@ -31,9 +31,13 @@
+>  #define HFI_EVENT_SYS_ERROR				0x1
+>  #define HFI_EVENT_SESSION_ERROR				0x2
+>  
+> +#define HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER	0x1200001
+> +
+>  #define HFI_PROPERTY_SYS_CODEC_POWER_PLANE_CTRL		0x5
+>  #define HFI_PROPERTY_SYS_IMAGE_VERSION			0x6
+>  
+> +#define HFI_PROPERTY_PARAM_WORK_MODE			0x1015
+> +#define HFI_PROPERTY_PARAM_WORK_ROUTE			0x1017
+>  #define HFI_MSG_SYS_INIT				0x20001
+>  #define HFI_MSG_SYS_SESSION_INIT			0x20006
+>  #define HFI_MSG_SYS_SESSION_END				0x20007
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> index a74114b0761a..6ad2ca7be0f0 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> @@ -108,6 +108,7 @@ static int iris_hfi_gen2_session_set_default_header(struct iris_inst *inst)
+>  	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
+>  	u32 default_header = false;
+>  
+> +	default_header = inst->fw_cap[DEFAULT_HEADER].value;
 
-MRDR is Controller Receive Data Register.
-MRDR[0:7] is DATA filed.
-+-------------------------------+
-|          D  A  T  A           |
-+---+---+---+---+---+---+---+---+
-| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
-+---+---+---+---+---+---+---+---+
+This isn't related to the s_ctrl and g_volatile_ctrl. Please split this
+commit into the chunk that is actually related to that API and the rest
+of the changes.
 
-When the LPI2C controller needs to send data, tx cmd and 8-bit data
-should be written into MTDR:
-CMD: 000b: Transmit the value in DATA[7:0].
-DATA: 8-bit data.
+>  	iris_hfi_gen2_packet_session_property(inst,
+>  					      HFI_PROP_DEC_DEFAULT_HEADER,
+>  					      HFI_HOST_FLAGS_NONE,
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+> index 18cc9365ab75..401df7b4e976 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+> @@ -28,7 +28,16 @@
+>  #define HFI_PROP_UBWC_BANK_SWZL_LEVEL3		0x03000008
+>  #define HFI_PROP_UBWC_BANK_SPREADING		0x03000009
+>  #define HFI_PROP_CODEC				0x03000100
+> +#define HFI_PROP_PROFILE			0x03000107
+> +#define HFI_PROP_LEVEL				0x03000108
+> +#define HFI_PROP_STAGE				0x0300010a
+> +#define HFI_PROP_PIPE				0x0300010b
+> +#define HFI_PROP_LUMA_CHROMA_BIT_DEPTH		0x0300010f
+> +#define HFI_PROP_CODED_FRAMES			0x03000120
+> +#define HFI_PROP_BUFFER_HOST_MAX_COUNT		0x03000123
+> +#define HFI_PROP_PIC_ORDER_CNT_TYPE		0x03000128
+>  #define HFI_PROP_DEC_DEFAULT_HEADER		0x03000168
+> +#define HFI_PROP_DEC_START_FROM_RAP_FRAME	0x03000169
+>  #define HFI_PROP_END				0x03FFFFFF
+>  
+>  #define HFI_SESSION_ERROR_BEGIN			0x04000000
+> diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
+> index d28b8fd7ec2f..2429b9860789 100644
+> --- a/drivers/media/platform/qcom/iris/iris_instance.h
+> +++ b/drivers/media/platform/qcom/iris/iris_instance.h
+> @@ -23,8 +23,11 @@
+>   * @fh: reference of v4l2 file handler
+>   * @fmt_src: structure of v4l2_format for source
+>   * @fmt_dst: structure of v4l2_format for destination
+> + * @ctrl_handler: reference of v4l2 ctrl handler
+>   * @crop: structure of crop info
+>   * @completions: structure of signal completions
+> + * @driver_cap: array of supported instance driver capabilities
+> + * @fw_cap: array of supported instance firmware capabilities
+>   * @buffers: array of different iris buffers
+>   * @fw_min_count: minimnum count of buffers needed by fw
+>   * @once_per_session_set: boolean to set once per session property
+> @@ -42,8 +45,11 @@ struct iris_inst {
+>  	struct v4l2_fh			fh;
+>  	struct v4l2_format		*fmt_src;
+>  	struct v4l2_format		*fmt_dst;
+> +	struct v4l2_ctrl_handler	ctrl_handler;
+>  	struct iris_hfi_rect_desc	crop;
+>  	struct completion		completion;
+> +	struct platform_inst_driver_cap	driver_cap[INST_DRIVER_CAP_MAX];
+> +	struct platform_inst_fw_cap	fw_cap[INST_FW_CAP_MAX];
+>  	struct iris_buffers		buffers[BUF_TYPE_MAX];
+>  	u32				fw_min_count;
+>  	bool				once_per_session_set;
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> index 754cccc638a5..2935b769abb7 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> @@ -10,6 +10,23 @@
+>  #define HW_RESPONSE_TIMEOUT_VALUE               (1000) /* milliseconds */
+>  #define AUTOSUSPEND_DELAY_VALUE			(HW_RESPONSE_TIMEOUT_VALUE + 500) /* milliseconds */
+>  
+> +#define REGISTER_BIT_DEPTH(luma, chroma)	((luma) << 16 | (chroma))
+> +#define BIT_DEPTH_8				REGISTER_BIT_DEPTH(8, 8)
+> +#define CODED_FRAMES_PROGRESSIVE		0x0
+> +#define DEFAULT_MAX_HOST_BUF_COUNT		64
+> +#define DEFAULT_MAX_HOST_BURST_BUF_COUNT	256
+> +
+> +enum stage_type {
+> +	STAGE_1 = 1,
+> +	STAGE_2 = 2,
+> +};
+> +
+> +enum pipe_type {
+> +	PIPE_1 = 1,
+> +	PIPE_2 = 2,
+> +	PIPE_4 = 4,
+> +};
+> +
+>  extern struct iris_platform_data sm8550_data;
+>  extern struct iris_platform_data sm8250_data;
+>  
+> @@ -41,6 +58,56 @@ struct ubwc_config_data {
+>  	u32	bank_spreading;
+>  };
+>  
+> +enum platform_inst_driver_cap_type {
+> +	FRAME_WIDTH = 1,
+> +	FRAME_HEIGHT,
+> +	MBPF,
+> +	INST_DRIVER_CAP_MAX,
+> +};
 
-If lpi2c controller needs to send N 8-bit data, just write N times
-(CMD(W) + DATA(u8)) to MTDR.
+Please use C structures for platform caps. You have introduced a
+wrapping that 1:1 maps to C code, which is not iterated or otherwise
+accessed via a generic ID aside from the driver code.
 
-When the LPI2C controller needs to receive data, rx cmd should be
-written into MTDR, the received data will be stored in the MRDR.
+> +
+> +enum platform_inst_fw_cap_type {
+> +	PROFILE = 1,
+> +	LEVEL,
+> +	INPUT_BUF_HOST_MAX_COUNT,
+> +	STAGE,
+> +	PIPE,
+> +	POC,
+> +	CODED_FRAMES,
+> +	BIT_DEPTH,
+> +	DEFAULT_HEADER,
+> +	RAP_FRAME,
+> +	DEBLOCK,
+> +	INST_FW_CAP_MAX,
+> +};
 
-MTDR(CMD): 001b: Receive (DATA[7:0] + 1) 8-bit data.
-MTDR(DATA): byte counter.
-MRDR(DATA): 8-bit data.
+I have mixed feelings towards fw caps. Let's see how the code evolves
+after you split the commit into V4L2 CTRL code and the rest of the
+changes.
 
-So when lpi2c controller needs to receive N 8-bit data,
-1. N <= 256:
-Write 1 time (CMD(R) + BYTE COUNT(N-1)) into MTDR and receive data from
-MRDR.
-2. N > 256:
-Write N/256 times (CMD(R) + BYTE COUNT(255)) + 1 time (CMD(R) + BYTE
-COUNT(N%256)) into MTDR and receive data from MRDR.
+> +
+> +enum platform_inst_cap_flags {
+> +	CAP_FLAG_NONE			= 0,
 
-Due to these differences, when lpi2c is in DMA TX mode, only enable TX
-channel to send data. But when lpi2c is in DMA RX mode, TX and RX channel
-are both enabled, TX channel is used to send RX cmd and RX channel is
-used to receive data.
+No need to define NONE, just skip the setting.
 
-Signed-off-by: Carlos Song <carlos.song@nxp.com>
-Signed-off-by: Frank Li <frank.li@nxp.com>
----
-Change for V4:
-- According Aisheng's suggestion, fix code for improving readability.
-- Add dma struct, when dma resource not ready not alloc dma resources.
-Change for V3:
-- Optimize DMA timeout calculate function names and variables avoid confusing
-Change for V2:
-- Optimized eDMA rx cmd buf free function to improve code readability
----
- drivers/i2c/busses/i2c-imx-lpi2c.c | 519 ++++++++++++++++++++++++++++-
- 1 file changed, 512 insertions(+), 7 deletions(-)
+> +	CAP_FLAG_DYNAMIC_ALLOWED	= BIT(0),
+> +	CAP_FLAG_MENU			= BIT(1),
+> +	CAP_FLAG_INPUT_PORT		= BIT(2),
+> +	CAP_FLAG_OUTPUT_PORT		= BIT(3),
+> +	CAP_FLAG_CLIENT_SET		= BIT(4),
+> +	CAP_FLAG_BITMASK		= BIT(5),
+> +	CAP_FLAG_VOLATILE		= BIT(6),
+> +};
+> +
+> +struct platform_inst_driver_cap {
+> +	enum platform_inst_driver_cap_type cap_id;
+> +	u32 min;
+> +	u32 max;
+> +	u32 value;
+> +};
+> +
+> +struct platform_inst_fw_cap {
+> +	enum platform_inst_fw_cap_type cap_id;
+> +	s64 min;
+> +	s64 max;
+> +	s64 step_or_mask;
+> +	s64 value;
+> +	u32 hfi_id;
+> +	enum platform_inst_cap_flags flags;
+> +};
+> +
 
-diff --git a/drivers/i2c/busses/i2c-imx-lpi2c.c b/drivers/i2c/busses/i2c-imx-lpi2c.c
-index 976d43f73f38..530ca5d76403 100644
---- a/drivers/i2c/busses/i2c-imx-lpi2c.c
-+++ b/drivers/i2c/busses/i2c-imx-lpi2c.c
-@@ -8,6 +8,8 @@
- #include <linux/clk.h>
- #include <linux/completion.h>
- #include <linux/delay.h>
-+#include <linux/dmaengine.h>
-+#include <linux/dma-mapping.h>
- #include <linux/err.h>
- #include <linux/errno.h>
- #include <linux/i2c.h>
-@@ -29,6 +31,7 @@
- #define LPI2C_MCR	0x10	/* i2c contrl register */
- #define LPI2C_MSR	0x14	/* i2c status register */
- #define LPI2C_MIER	0x18	/* i2c interrupt enable */
-+#define LPI2C_MDER	0x1C	/* i2c DMA enable */
- #define LPI2C_MCFGR0	0x20	/* i2c master configuration */
- #define LPI2C_MCFGR1	0x24	/* i2c master configuration */
- #define LPI2C_MCFGR2	0x28	/* i2c master configuration */
-@@ -70,11 +73,14 @@
- #define MCFGR1_AUTOSTOP	BIT(8)
- #define MCFGR1_IGNACK	BIT(9)
- #define MRDR_RXEMPTY	BIT(14)
-+#define MDER_TDDE	BIT(0)
-+#define MDER_RDDE	BIT(1)
- 
- #define I2C_CLK_RATIO	2
- #define CHUNK_DATA	256
- 
- #define I2C_PM_TIMEOUT		10 /* ms */
-+#define I2C_DMA_THRESHOLD	8 /* bytes */
- 
- enum lpi2c_imx_mode {
- 	STANDARD,	/* 100+Kbps */
-@@ -91,6 +97,23 @@ enum lpi2c_imx_pincfg {
- 	FOUR_PIN_PP,
- };
- 
-+struct lpi2c_imx_dma {
-+	bool			using_pio_mode;
-+	u8			rx_cmd_buf_len;
-+	u8			*dma_buf;
-+	u16			*rx_cmd_buf;
-+	unsigned int	dma_len;
-+	unsigned int	tx_burst_num;
-+	unsigned int	rx_burst_num;
-+	unsigned long	dma_msg_flag;
-+	resource_size_t		phy_addr;
-+	dma_addr_t		dma_tx_addr;
-+	dma_addr_t		dma_addr;
-+	enum dma_data_direction dma_direction;
-+	struct dma_chan		*chan_tx;
-+	struct dma_chan		*chan_rx;
-+};
-+
- struct lpi2c_imx_struct {
- 	struct i2c_adapter	adapter;
- 	int			num_clks;
-@@ -108,6 +131,8 @@ struct lpi2c_imx_struct {
- 	unsigned int		rxfifosize;
- 	enum lpi2c_imx_mode	mode;
- 	struct i2c_bus_recovery_info rinfo;
-+	bool			can_use_dma;
-+	struct lpi2c_imx_dma	*dma;
- };
- 
- static void lpi2c_imx_intctrl(struct lpi2c_imx_struct *lpi2c_imx,
-@@ -305,7 +330,7 @@ static int lpi2c_imx_master_disable(struct lpi2c_imx_struct *lpi2c_imx)
- 	return 0;
- }
- 
--static int lpi2c_imx_msg_complete(struct lpi2c_imx_struct *lpi2c_imx)
-+static int lpi2c_imx_pio_msg_complete(struct lpi2c_imx_struct *lpi2c_imx)
- {
- 	unsigned long time_left;
- 
-@@ -451,6 +476,421 @@ static void lpi2c_imx_read(struct lpi2c_imx_struct *lpi2c_imx,
- 	lpi2c_imx_intctrl(lpi2c_imx, MIER_RDIE | MIER_NDIE);
- }
- 
-+static bool is_use_dma(struct lpi2c_imx_struct *lpi2c_imx, struct i2c_msg *msg)
-+{
-+	if (!lpi2c_imx->can_use_dma)
-+		return false;
-+
-+	/*
-+	 * When the length of data is less than I2C_DMA_THRESHOLD,
-+	 * cpu mode is used directly to avoid low performance.
-+	 */
-+	if (msg->len < I2C_DMA_THRESHOLD)
-+		return false;
-+
-+	return true;
-+}
-+
-+static int lpi2c_imx_pio_xfer(struct lpi2c_imx_struct *lpi2c_imx,
-+				 struct i2c_msg *msg)
-+{
-+	int ret;
-+
-+	reinit_completion(&lpi2c_imx->complete);
-+
-+	if (msg->flags & I2C_M_RD)
-+		lpi2c_imx_read(lpi2c_imx, msg);
-+	else
-+		lpi2c_imx_write(lpi2c_imx, msg);
-+
-+	ret = lpi2c_imx_pio_msg_complete(lpi2c_imx);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int lpi2c_imx_dma_timeout_calculate(struct lpi2c_imx_struct *lpi2c_imx)
-+{
-+	unsigned long time = 0;
-+
-+	time = 8 * lpi2c_imx->dma->dma_len * 1000 / lpi2c_imx->bitrate;
-+
-+	/* Add extra second for scheduler related activities */
-+	time += 1;
-+
-+	/* Double calculated time */
-+	return msecs_to_jiffies(time * MSEC_PER_SEC);
-+}
-+
-+static int lpi2c_imx_alloc_rx_cmd_buf(struct lpi2c_imx_struct *lpi2c_imx)
-+{
-+	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-+	u16 rx_remain = dma->dma_len;
-+	int cmd_num;
-+	u16 temp;
-+
-+	/*
-+	 * Calculate the number of rx command words via the DMA TX channel
-+	 * writing into command register based on the i2c msg len, and build
-+	 * the rx command words buffer.
-+	 */
-+	cmd_num = DIV_ROUND_UP(rx_remain, CHUNK_DATA);
-+	dma->rx_cmd_buf = kcalloc(cmd_num, sizeof(u16), GFP_KERNEL);
-+	dma->rx_cmd_buf_len = cmd_num * sizeof(u16);
-+
-+	if (!dma->rx_cmd_buf) {
-+		dev_err(&lpi2c_imx->adapter.dev, "Alloc RX cmd buffer failed\n");
-+		return -ENOMEM;
-+	}
-+
-+	for (int i = 0; i < cmd_num ; i++) {
-+		temp = rx_remain > CHUNK_DATA ? CHUNK_DATA - 1 : rx_remain - 1;
-+		temp |= (RECV_DATA << 8);
-+		rx_remain -= CHUNK_DATA;
-+		dma->rx_cmd_buf[i] = temp;
-+	}
-+
-+	return 0;
-+}
-+
-+static int lpi2c_imx_dma_msg_complete(struct lpi2c_imx_struct *lpi2c_imx)
-+{
-+	unsigned long time_left, time;
-+
-+	time = lpi2c_imx_dma_timeout_calculate(lpi2c_imx);
-+	time_left = wait_for_completion_timeout(&lpi2c_imx->complete, time);
-+	if (time_left == 0) {
-+		dev_err(&lpi2c_imx->adapter.dev, "I/O Error in DMA Data Transfer\n");
-+		return -ETIMEDOUT;
-+	}
-+
-+	return 0;
-+}
-+
-+static void lpi2c_dma_unmap(struct lpi2c_imx_dma *dma)
-+{
-+	struct dma_chan *chan = dma->dma_direction == DMA_FROM_DEVICE
-+				? dma->chan_rx : dma->chan_tx;
-+
-+	dma_unmap_single(chan->device->dev, dma->dma_addr,
-+			 dma->dma_len, dma->dma_direction);
-+
-+	dma->dma_direction = DMA_NONE;
-+}
-+
-+static void lpi2c_cleanup_rx_cmd_dma(struct lpi2c_imx_dma *dma)
-+{
-+	dmaengine_terminate_sync(dma->chan_tx);
-+	dma_unmap_single(dma->chan_tx->device->dev, dma->dma_tx_addr,
-+				dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-+}
-+
-+static void lpi2c_cleanup_dma(struct lpi2c_imx_dma *dma)
-+{
-+	if (dma->dma_direction == DMA_FROM_DEVICE)
-+		dmaengine_terminate_sync(dma->chan_rx);
-+	else if (dma->dma_direction == DMA_TO_DEVICE)
-+		dmaengine_terminate_sync(dma->chan_tx);
-+
-+	lpi2c_dma_unmap(dma);
-+}
-+
-+static void lpi2c_dma_callback(void *data)
-+{
-+	struct lpi2c_imx_struct *lpi2c_imx = (struct lpi2c_imx_struct *)data;
-+
-+	complete(&lpi2c_imx->complete);
-+}
-+
-+static int lpi2c_dma_rx_cmd_submit(struct lpi2c_imx_struct *lpi2c_imx)
-+{
-+	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-+	struct dma_chan *txchan = dma->chan_tx;
-+	struct dma_async_tx_descriptor *rx_cmd_desc;
-+	dma_cookie_t cookie;
-+
-+	dma->dma_tx_addr = dma_map_single(txchan->device->dev,
-+						 dma->rx_cmd_buf,
-+						 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-+	if (dma_mapping_error(txchan->device->dev, dma->dma_tx_addr)) {
-+		dev_err(&lpi2c_imx->adapter.dev, "dma map failed, use pio\n");
-+		return -EINVAL;
-+	}
-+
-+	rx_cmd_desc = dmaengine_prep_slave_single(txchan, dma->dma_tx_addr,
-+				 dma->rx_cmd_buf_len, DMA_MEM_TO_DEV,
-+				 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-+	if (!rx_cmd_desc) {
-+		dma_unmap_single(txchan->device->dev, dma->dma_tx_addr,
-+				 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-+		dev_err(&lpi2c_imx->adapter.dev, "dma prep slave sg failed, use pio\n");
-+		return -EINVAL;
-+	}
-+
-+	cookie = dmaengine_submit(rx_cmd_desc);
-+	if (dma_submit_error(cookie)) {
-+		dma_unmap_single(txchan->device->dev, dma->dma_tx_addr,
-+				 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-+		dmaengine_desc_free(rx_cmd_desc);
-+		dev_err(&lpi2c_imx->adapter.dev, "submitting dma failed, use pio\n");
-+		return -EINVAL;
-+	}
-+
-+	dma_async_issue_pending(txchan);
-+
-+	return 0;
-+}
-+
-+static int lpi2c_dma_submit(struct lpi2c_imx_struct *lpi2c_imx)
-+{
-+	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-+	bool read = dma->dma_msg_flag & I2C_M_RD;
-+	enum dma_data_direction dir = read ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-+	struct dma_chan *chan = read ? dma->chan_rx : dma->chan_tx;
-+	struct dma_async_tx_descriptor *desc;
-+	dma_cookie_t cookie;
-+
-+	dma->dma_direction = dir;
-+	dma->dma_addr = dma_map_single(chan->device->dev,
-+					     dma->dma_buf,
-+					     dma->dma_len, dir);
-+	if (dma_mapping_error(chan->device->dev, dma->dma_addr)) {
-+		dev_err(&lpi2c_imx->adapter.dev, "dma map failed, use pio\n");
-+		return -EINVAL;
-+	}
-+
-+	desc = dmaengine_prep_slave_single(chan, dma->dma_addr,
-+					 dma->dma_len, read ?
-+					 DMA_DEV_TO_MEM : DMA_MEM_TO_DEV,
-+					 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-+	if (!desc) {
-+		dev_err(&lpi2c_imx->adapter.dev, "dma prep slave sg failed, use pio\n");
-+		lpi2c_dma_unmap(dma);
-+		return -EINVAL;
-+	}
-+
-+	reinit_completion(&lpi2c_imx->complete);
-+	desc->callback = lpi2c_dma_callback;
-+	desc->callback_param = (void *)lpi2c_imx;
-+
-+	cookie = dmaengine_submit(desc);
-+	if (dma_submit_error(cookie)) {
-+		dev_err(&lpi2c_imx->adapter.dev, "submitting dma failed, use pio\n");
-+		lpi2c_dma_unmap(dma);
-+		dmaengine_desc_free(desc);
-+		return -EINVAL;
-+	}
-+
-+	/* Can't switch to PIO mode when DMA have started transfer */
-+	dma->using_pio_mode = false;
-+
-+	dma_async_issue_pending(chan);
-+
-+	return 0;
-+}
-+
-+static int lpi2c_imx_find_max_burst_num(unsigned int fifosize, unsigned int len)
-+{
-+	unsigned int i;
-+
-+	for (i = fifosize / 2; i > 0; i--) {
-+		if (!(len % i))
-+			break;
-+	}
-+
-+	return i;
-+}
-+
-+/*
-+ * For a highest DMA efficiency, tx/rx burst number should be calculated according
-+ * to the FIFO depth.
-+ */
-+static void lpi2c_imx_dma_burst_num_calculate(struct lpi2c_imx_struct *lpi2c_imx)
-+{
-+	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-+	unsigned int cmd_num;
-+
-+	if (dma->dma_msg_flag & I2C_M_RD) {
-+		/*
-+		 * One RX cmd word can trigger DMA receive no more than 256 bytes.
-+		 * The number of RX cmd words should be calculated based on the data
-+		 * length.
-+		 */
-+		cmd_num = DIV_ROUND_UP(dma->dma_len, CHUNK_DATA);
-+		dma->tx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->txfifosize,
-+				 cmd_num);
-+		dma->rx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->rxfifosize,
-+				 dma->dma_len);
-+	} else {
-+		dma->tx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->txfifosize,
-+				 dma->dma_len);
-+	}
-+}
-+
-+static int lpi2c_dma_config(struct lpi2c_imx_struct *lpi2c_imx)
-+{
-+	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-+	struct dma_slave_config rx = {}, tx = {};
-+	int ret;
-+
-+	lpi2c_imx_dma_burst_num_calculate(lpi2c_imx);
-+
-+	if (dma->dma_msg_flag & I2C_M_RD) {
-+		tx.dst_addr = dma->phy_addr + LPI2C_MTDR;
-+		tx.dst_addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
-+		tx.dst_maxburst = dma->tx_burst_num;
-+		tx.direction = DMA_MEM_TO_DEV;
-+		ret = dmaengine_slave_config(dma->chan_tx, &tx);
-+		if (ret < 0)
-+			return ret;
-+
-+		rx.src_addr = dma->phy_addr + LPI2C_MRDR;
-+		rx.src_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
-+		rx.src_maxburst = dma->rx_burst_num;
-+		rx.direction = DMA_DEV_TO_MEM;
-+		ret = dmaengine_slave_config(dma->chan_rx, &rx);
-+		if (ret < 0)
-+			return ret;
-+	} else {
-+		tx.dst_addr = dma->phy_addr + LPI2C_MTDR;
-+		tx.dst_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
-+		tx.dst_maxburst = dma->tx_burst_num;
-+		tx.direction = DMA_MEM_TO_DEV;
-+		ret = dmaengine_slave_config(dma->chan_tx, &tx);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void lpi2c_dma_enable(struct lpi2c_imx_struct *lpi2c_imx)
-+{
-+	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-+	/*
-+	 * TX interrupt will be triggerred when the number of words in
-+	 * the transmit FIFO is equal or less than TX watermark.
-+	 * RX interrupt will be triggerred when the number of words in
-+	 * the receive FIFO is greater than RX watermark.
-+	 * In order to trigger the DMA interrupt, TX watermark should be
-+	 * set equal to the DMA TX burst number but RX watermark should
-+	 * be set less than the DMA RX burst number.
-+	 */
-+	if (dma->dma_msg_flag & I2C_M_RD) {
-+		/* Set I2C TX/RX watermark */
-+		writel(dma->tx_burst_num | (dma->rx_burst_num - 1) << 16,
-+				 lpi2c_imx->base + LPI2C_MFCR);
-+		/* Enable I2C DMA TX/RX function */
-+		writel(MDER_TDDE | MDER_RDDE, lpi2c_imx->base + LPI2C_MDER);
-+	} else {
-+		/* Set I2C TX watermark */
-+		writel(dma->tx_burst_num, lpi2c_imx->base + LPI2C_MFCR);
-+		/* Enable I2C DMA TX function */
-+		writel(MDER_TDDE, lpi2c_imx->base + LPI2C_MDER);
-+	}
-+
-+	/* Enable NACK detected */
-+	lpi2c_imx_intctrl(lpi2c_imx, MIER_NDIE);
-+};
-+
-+/*
-+ * When lpi2c in TX DMA mode we can use one DMA TX channel to write
-+ * data word into TXFIFO, but in RX DMA mode it is different.
-+ *
-+ * LPI2C MTDR register is a command data and transmit data register.
-+ * Bit 8-10 is command data field and Bit 0-7 is transmit data field.
-+ * When the LPI2C master needs to read data, the data number to read
-+ * should be set in transmit data field and RECV_DATA should be set
-+ * into the command data field to receive (DATA[7:0] + 1) bytes. The
-+ * recv data command word is made of RECV_DATA in command data field
-+ * and the data number to read in transmit data field. When the length
-+ * of data that needs to be read exceeds 256 bytes, recv data command
-+ * word needs to be written to TXFIFO multiple times.
-+ *
-+ * So when in RX DMA mode, the TX channel also needs to be configured
-+ * additionally to send RX command words and the RX command word need
-+ * be set in advance before transmitting.
-+ */
-+static int lpi2c_imx_dma_xfer(struct lpi2c_imx_struct *lpi2c_imx,
-+			 struct i2c_msg *msg)
-+{
-+	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-+	int ret;
-+
-+	/* When DMA mode failed before transferring, CPU mode can be used. */
-+	dma->using_pio_mode = true;
-+
-+	dma->dma_len = msg->len;
-+	dma->dma_msg_flag = msg->flags;
-+	dma->dma_buf = i2c_get_dma_safe_msg_buf(msg, I2C_DMA_THRESHOLD);
-+	if (!dma->dma_buf)
-+		return -ENOMEM;
-+
-+	ret = lpi2c_dma_config(lpi2c_imx);
-+	if (ret) {
-+		dev_err(&lpi2c_imx->adapter.dev, "DMA Config Fail, error %d\n", ret);
-+		goto disable_dma;
-+	}
-+
-+	lpi2c_dma_enable(lpi2c_imx);
-+
-+	ret = lpi2c_dma_submit(lpi2c_imx);
-+	if (ret) {
-+		dev_err(&lpi2c_imx->adapter.dev, "DMA submit Fail, error %d\n", ret);
-+		goto disable_dma;
-+	}
-+
-+	if (dma->dma_msg_flag & I2C_M_RD) {
-+		ret = lpi2c_imx_alloc_rx_cmd_buf(lpi2c_imx);
-+		if (ret) {
-+			lpi2c_cleanup_dma(dma);
-+			goto disable_dma;
-+		}
-+
-+		ret = lpi2c_dma_rx_cmd_submit(lpi2c_imx);
-+		if (ret) {
-+			lpi2c_cleanup_dma(dma);
-+			goto disable_dma;
-+		}
-+	}
-+
-+	ret = lpi2c_imx_dma_msg_complete(lpi2c_imx);
-+	if (ret) {
-+		if (dma->dma_msg_flag & I2C_M_RD)
-+			lpi2c_cleanup_rx_cmd_dma(dma);
-+		lpi2c_cleanup_dma(dma);
-+		goto disable_dma;
-+	}
-+
-+	/* When meet NACK in transfer, cleanup all DMA transfer */
-+	if ((readl(lpi2c_imx->base + LPI2C_MSR) & MSR_NDF) && !ret) {
-+		if (dma->dma_msg_flag & I2C_M_RD)
-+			lpi2c_cleanup_rx_cmd_dma(dma);
-+		lpi2c_cleanup_dma(dma);
-+		ret = -EIO;
-+		goto disable_dma;
-+	}
-+
-+	if (dma->dma_msg_flag & I2C_M_RD)
-+		dma_unmap_single(dma->chan_tx->device->dev, dma->dma_tx_addr,
-+					 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-+	lpi2c_dma_unmap(dma);
-+
-+disable_dma:
-+	/* Disable I2C DMA function */
-+	writel(0, lpi2c_imx->base + LPI2C_MDER);
-+
-+	if (dma->dma_msg_flag & I2C_M_RD)
-+		kfree(dma->rx_cmd_buf);
-+
-+	if (ret)
-+		i2c_put_dma_safe_msg_buf(dma->dma_buf, msg, false);
-+	else
-+		i2c_put_dma_safe_msg_buf(dma->dma_buf, msg, true);
-+	return ret;
-+}
-+
- static int lpi2c_imx_xfer(struct i2c_adapter *adapter,
- 			  struct i2c_msg *msgs, int num)
- {
-@@ -477,12 +917,14 @@ static int lpi2c_imx_xfer(struct i2c_adapter *adapter,
- 		lpi2c_imx->msglen = msgs[i].len;
- 		init_completion(&lpi2c_imx->complete);
- 
--		if (msgs[i].flags & I2C_M_RD)
--			lpi2c_imx_read(lpi2c_imx, &msgs[i]);
--		else
--			lpi2c_imx_write(lpi2c_imx, &msgs[i]);
-+		if (is_use_dma(lpi2c_imx, &msgs[i])) {
-+			result = lpi2c_imx_dma_xfer(lpi2c_imx, &msgs[i]);
-+			if (result && lpi2c_imx->dma->using_pio_mode)
-+				result = lpi2c_imx_pio_xfer(lpi2c_imx, &msgs[i]);
-+		} else {
-+			result = lpi2c_imx_pio_xfer(lpi2c_imx, &msgs[i]);
-+		}
- 
--		result = lpi2c_imx_msg_complete(lpi2c_imx);
- 		if (result)
- 			goto stop;
- 
-@@ -546,6 +988,58 @@ static int lpi2c_imx_init_recovery_info(struct lpi2c_imx_struct *lpi2c_imx,
- 	return 0;
- }
- 
-+static void dma_exit(struct device *dev, struct lpi2c_imx_dma *dma)
-+{
-+	if (dma->chan_rx)
-+		dma_release_channel(dma->chan_rx);
-+
-+	if (dma->chan_tx)
-+		dma_release_channel(dma->chan_tx);
-+
-+	devm_kfree(dev, dma);
-+}
-+
-+static int lpi2c_dma_init(struct device *dev, dma_addr_t phy_addr)
-+{
-+	struct lpi2c_imx_struct *lpi2c_imx = dev_get_drvdata(dev);
-+	struct lpi2c_imx_dma *dma;
-+	int ret;
-+
-+	dma = devm_kzalloc(dev, sizeof(*dma), GFP_KERNEL);
-+	if (!dma)
-+		return -ENOMEM;
-+
-+	dma->phy_addr = phy_addr;
-+
-+	/* Prepare for TX DMA: */
-+	dma->chan_tx = dma_request_chan(dev, "tx");
-+	if (IS_ERR(dma->chan_tx)) {
-+		ret = PTR_ERR(dma->chan_tx);
-+		if (ret != -ENODEV && ret != -EPROBE_DEFER)
-+			dev_err(dev, "can't request DMA tx channel (%d)\n", ret);
-+		dma->chan_tx = NULL;
-+		goto dma_exit;
-+	}
-+
-+	/* Prepare for RX DMA: */
-+	dma->chan_rx = dma_request_chan(dev, "rx");
-+	if (IS_ERR(dma->chan_rx)) {
-+		ret = PTR_ERR(dma->chan_rx);
-+		if (ret != -ENODEV && ret != -EPROBE_DEFER)
-+			dev_err(dev, "can't request DMA rx channel (%d)\n", ret);
-+		dma->chan_rx = NULL;
-+		goto dma_exit;
-+	}
-+
-+	lpi2c_imx->can_use_dma = true;
-+	lpi2c_imx->dma = dma;
-+	return 0;
-+
-+dma_exit:
-+	dma_exit(dev, dma);
-+	return ret;
-+}
-+
- static u32 lpi2c_imx_func(struct i2c_adapter *adapter)
- {
- 	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL |
-@@ -566,6 +1060,8 @@ MODULE_DEVICE_TABLE(of, lpi2c_imx_of_match);
- static int lpi2c_imx_probe(struct platform_device *pdev)
- {
- 	struct lpi2c_imx_struct *lpi2c_imx;
-+	struct resource *res;
-+	dma_addr_t phy_addr;
- 	unsigned int temp;
- 	int irq, ret;
- 
-@@ -573,7 +1069,7 @@ static int lpi2c_imx_probe(struct platform_device *pdev)
- 	if (!lpi2c_imx)
- 		return -ENOMEM;
- 
--	lpi2c_imx->base = devm_platform_ioremap_resource(pdev, 0);
-+	lpi2c_imx->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(lpi2c_imx->base))
- 		return PTR_ERR(lpi2c_imx->base);
- 
-@@ -587,6 +1083,7 @@ static int lpi2c_imx_probe(struct platform_device *pdev)
- 	lpi2c_imx->adapter.dev.of_node	= pdev->dev.of_node;
- 	strscpy(lpi2c_imx->adapter.name, pdev->name,
- 		sizeof(lpi2c_imx->adapter.name));
-+	phy_addr = (dma_addr_t)res->start;
- 
- 	ret = devm_clk_bulk_get_all(&pdev->dev, &lpi2c_imx->clks);
- 	if (ret < 0)
-@@ -640,6 +1137,14 @@ static int lpi2c_imx_probe(struct platform_device *pdev)
- 	if (ret == -EPROBE_DEFER)
- 		goto rpm_disable;
- 
-+	/* Init DMA */
-+	ret = lpi2c_dma_init(&pdev->dev, phy_addr);
-+	if (ret) {
-+		if (ret == -EPROBE_DEFER)
-+			goto rpm_disable;
-+		dev_info(&pdev->dev, "use pio mode\n");
-+	}
-+
- 	ret = i2c_add_adapter(&lpi2c_imx->adapter);
- 	if (ret)
- 		goto rpm_disable;
+
 -- 
-2.34.1
-
+With best wishes
+Dmitry
 
