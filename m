@@ -1,52 +1,56 @@
-Return-Path: <linux-media+bounces-17063-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17064-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9285C963956
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 06:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41611963968
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 06:30:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8976B22169
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 04:24:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9B808B22E66
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 04:30:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF4F51442F2;
-	Thu, 29 Aug 2024 04:24:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAC9A1465AB;
+	Thu, 29 Aug 2024 04:30:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC84522EF2;
-	Thu, 29 Aug 2024 04:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB4C3E47B;
+	Thu, 29 Aug 2024 04:30:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724905458; cv=none; b=TqP82HUjzizaTU8/bP35B/m7UYSUve3E8wRFgs7bibURfQKZbCEO4U+SILit7B3xCs1ur/9MtMu8WG5R3xj2cnckW6zniNIei+UX0nWeTj5QkESrVyp8exgaBhVDpkjadpERdM7QQ4+5Uxq/meUE6oYKrjk2XtO1ezpFISMgOH4=
+	t=1724905834; cv=none; b=eW3POzf946VZCefLBX1GNYFW4TKKsw0EiIWuH5ZcD8zasqjR7gZ0I8NDUELdZY5n5t0ZwdmHLtzva3qLeTRYu7bZ2QHKUBlpx3kf0938y7FKUxM8N9yO8cFcM2DQxQVq3rzN8q63hc/VY+qSI5krZoWrtuG7zz07bgK8CE3rrBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724905458; c=relaxed/simple;
-	bh=KehGCdshXIiswVfMoHH7TH5FP9Sf44TF27Ug2EGyzZg=;
+	s=arc-20240116; t=1724905834; c=relaxed/simple;
+	bh=AueP26reiFrOsaP7RP3v0TdYvlPXeawPYgnyDDU+yWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hAlG+arjYGF5+r919Yvc6o66jaxnbDv/i6i+39bGW+mYSUWUbXHs+KMt/iNQIHCw9llJEpSZ3vRhUPSM/F7dwJZBXsqegXr/tqmXvxJBgLWSP0g3CB29Oz3/Zh30rBtNhKMWFUtGa3unSzAzIzVjRat6FECrRWxSbGZu/yspyIk=
+	 Content-Type:Content-Disposition:In-Reply-To; b=h/QEqf9BEUUU9ppwEYDPPQn4m7MtPQVynvaoAy4X6byETRQFaOtHMwEPmfmcrIZJ6EebcXRPvXCyo80MDwHbwFSc8yiD6ITiS2y5XLQDhpt4OMdhKOfFn1FKaIPGHfDBIFfmHPBDKOKyotmJTTncJU1qYScI15E8M7o7Uc5fXyY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 84AC868AA6; Thu, 29 Aug 2024 06:24:12 +0200 (CEST)
-Date: Thu, 29 Aug 2024 06:24:12 +0200
+	id F39EA68AFE; Thu, 29 Aug 2024 06:30:27 +0200 (CEST)
+Date: Thu, 29 Aug 2024 06:30:27 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: Andreas Larsson <andreas@gaisler.com>
 Cc: Christoph Hellwig <hch@lst.de>, iommu@lists.linux.dev,
-	Robin Murphy <robin.murphy@arm.com>,
 	Marek Szyprowski <m.szyprowski@samsung.com>,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-hyperv@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: remove the dma_set_{max_seg_size,seg_boundary,min_align_mask}
- return value v2
-Message-ID: <20240829042412.GA4537@lst.de>
-References: <20240824034925.1163244-1-hch@lst.de> <yq1v7zkdu3s.fsf@ca-mkp.ca.oracle.com>
+	Robin Murphy <robin.murphy@arm.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-media@vger.kernel.org,
+	virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 2/2] dma-mapping: clearly mark DMA ops as an
+ architecture feature
+Message-ID: <20240829043027.GA4707@lst.de>
+References: <20240828061104.1925127-1-hch@lst.de> <20240828061104.1925127-3-hch@lst.de> <12a0f286-3114-4dac-8b75-3a638d9c8635@gaisler.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,11 +59,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <yq1v7zkdu3s.fsf@ca-mkp.ca.oracle.com>
+In-Reply-To: <12a0f286-3114-4dac-8b75-3a638d9c8635@gaisler.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
+
+On Wed, Aug 28, 2024 at 08:21:14AM +0200, Andreas Larsson wrote:
+> On 2024-08-28 08:10, Christoph Hellwig wrote:
+> > --- a/drivers/xen/Kconfig
+> > +++ b/drivers/xen/Kconfig
+> > @@ -177,8 +177,8 @@ config XEN_GRANT_DMA_ALLOC
+> >  
+> >  config SWIOTLB_XEN
+> >  	def_bool y
+> > +	depends on ARCH_DMA_OPS
+> 
+> Rename to ARCH_HAS_DMA_OPS in v2 is missing here
 
 Thanks,
 
-I've pulled the series into the dma-mapping for-next tree now.
-
+I've fixed this up locally now.
 
