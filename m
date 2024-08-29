@@ -1,115 +1,135 @@
-Return-Path: <linux-media+bounces-17147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17148-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21EEF964934
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 16:55:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F159649EC
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 17:25:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D141D28281D
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 14:55:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 622EA1F2347D
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 15:25:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD601B29C1;
-	Thu, 29 Aug 2024 14:54:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0216C1B29AB;
+	Thu, 29 Aug 2024 15:25:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y/hg1oCh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tey8LXv9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F1B1B151B;
-	Thu, 29 Aug 2024 14:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004CD1A76D3;
+	Thu, 29 Aug 2024 15:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724943276; cv=none; b=LkBSU0ALh92+l2yNGdHCfCrIXaCX5xcOZpB99v7NOWSmWtPU7Z/QjQeUF5uNHAly5PoD1JPpdS60PT1wIUIIi3ZoYHunLma9hEF7lRbOCxjsQZNAJ0zGphfWJJIoyQXHa/Scsqyn3rflL5sjg8wJmimzbFxSq2zUiYiE+B9ZZW8=
+	t=1724945118; cv=none; b=R4+UU3rGHJlqmkGh1TXqvOz/7Ql7OshlpHmAYpvJUowJEJ7YBhXmpxN3j0ErkEav13b/YkTP8dWWz/LZpfyNm/xWNUn0yOZkN87wgZ1Z1e/UtOoFRbNzL3SSQsoh7w/qiwYgsBYluSR81EwOrYZykcnfMtGBhds/kTx+V55lxz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724943276; c=relaxed/simple;
-	bh=94sqycuEg7LZE3IfoAS/UYJHpdhV1CbtJdmFG3iWS1U=;
+	s=arc-20240116; t=1724945118; c=relaxed/simple;
+	bh=W5GQhkVjz2wwdC5lXitoDCDre3m21qvN2+9J1ktg/iQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=II4rYzkPnCx8HXlGMKBBimi7h/9hsjUmIUORsBwuIa+PRgLfiQbDdSofqbuzIor4zHfuHH7Gz0N6aHE3kPEcNpGsuBtl9ygWOEPlVuR7crWeBQhJCm2PtiW0as3IbP+V25hgLAURIC796hY60QxcNpTPNTe2ucP3onJ6IMnhYj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y/hg1oCh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB876C4CEC3;
-	Thu, 29 Aug 2024 14:54:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724943276;
-	bh=94sqycuEg7LZE3IfoAS/UYJHpdhV1CbtJdmFG3iWS1U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y/hg1oCh+Ij6W4jgfibIcNLBH2y6qwXWngwcUcGr4b3eYryJduYRVobwRt6oxc42R
-	 H6f1zYxHYCrS7niInBO5J0AjCy8ecFWqNseOf/cmogScebBhrEna8OTyktEs8yEjrJ
-	 175Q0V6vAr2G+DQqxPtZGIdZNe+qIREnbKSj8qwgAhz5FNxTFMhz5yEsTHAxdoLS3i
-	 hI3xZDeYhtA/QPLEtmCboawwvUP6HlSbtj5geHqzV/za/0DVs4yDF5mOzTCBINi1xj
-	 x4gwu3HxpENBZpP5e0AkTwn4UUpF/Eb8me1jX0fvP6HHtr585Fv4o2jsG3R7yMmQpr
-	 Zda3hB26yi+pQ==
-Date: Thu, 29 Aug 2024 09:54:34 -0500
-From: Rob Herring <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v4 9/9] media: xilinx-tpg: use new of_graph functions
-Message-ID: <20240829145434.GA465065-robh@kernel.org>
-References: <87bk1d2pvt.wl-kuninori.morimoto.gx@renesas.com>
- <87y14h1b9f.wl-kuninori.morimoto.gx@renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CCeBhvOO4/roSTwe6K6usqLu+IsRn5Rz1nqdMswJ0fy8DX6juH3/VkTk1m3LRMcyRenHds0C9SpqeEM7ER37HrwHrtenFwOIGq+ZNaX7MmWFNtdMgnAUXp5TjOgpQt0vNzSirAsQ28coWfCEUgwiBMdI0urME5LW2EXTe3nvXPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tey8LXv9; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-428141be2ddso7092325e9.2;
+        Thu, 29 Aug 2024 08:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724945115; x=1725549915; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3CePclmUlJ9R5wUKygyM22ovfabY44x27bhlzsShvYo=;
+        b=Tey8LXv9NHiqcu/Y32HoVzNjsf6xaqLtc7NcTR4LQ5K84vDoFR81iYrrBA7G5Y5orU
+         pJTNjE0lYSx0fAfPM+eYZDFM2efME79dqpzFqKYbJ78yTF9p9mB0NHzMqcrEb2bJ9+JO
+         t7Yo+ErJavMUEe0KUjDi8+dfDOWwGfjKIXaKT1IRcB5LSVMkrALiUeTyVaAOf7YI+ozb
+         4PuFZFVOpD4SeJtzKi4IGjge5scaWP62M2VFjoo61ZCKam2gZJErtLHfBx8NI2MPFeVD
+         3Y0VPVOpz1+RvcUrkW0ykk+Cuqp1OvAKfIYCIPFxHNklqOZtDuJE8xpKaQC90sDHto5r
+         wiEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724945115; x=1725549915;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3CePclmUlJ9R5wUKygyM22ovfabY44x27bhlzsShvYo=;
+        b=aQFx0EBYh6N4EVwZk+bgVtzJv6SeI+82YWE73MzjImC/UnChABtc7+eVI5LVn2ZLAt
+         b8eE5Pwbnc+V6IPUJJBEQxtANson44kT/UPv7rkEmjAzFyWie4ej8cQEPvABLcUdP3JF
+         kzXcMdh/aPpXgG4HoiJR6nrYOvcXZ7owmqLGFX8w1wndbvn1MfmhffE+YkNez3fa4aTR
+         ngSzPibD2N4rI3yKMvsgG3CTBom7gPzeKk76IanyQGc4dQekLxAoT5l1/ZeGkEq9AbY+
+         Ey+BXgTmoH1l0v+SdhmXRelrZCruaYXihblvlJaQiz/7GVG0LSDK5sRt3olJfSZyT9GF
+         vA9A==
+X-Forwarded-Encrypted: i=1; AJvYcCUlCLEXFe3JUyRzen1ZUj4c+H3fFD6omSRM/hy/LoadHLrfVa2lesysfhvPpr7cnj8ScTHwaf0JjE+Iw2n1@vger.kernel.org, AJvYcCVSw59G5jQNi8YQkdPtbdI7g2OxnmLX6Rmmd5wdUKJD+j30am046r1ukVh8UnCAc6jZ2ORq+b3KVtyBXTk=@vger.kernel.org, AJvYcCXVu/631ww0GmA6GJpHJmzy80jBUONYcN0UQdtpo/Lfyk04bCeYi5FnKBADRLjm8DTIt0zolk0AHU+9S0k=@vger.kernel.org, AJvYcCXzWFQj8z7uH30wVb9Jb+PYh3MNZVun/KwyBOF74rHAftNp8EO0sdfAoQ+PeocCv7ARcdSHe7v7KmifbhCo@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXhkbpF2U0LC5u39auOyiTZ0Ebg3UHuazrvTlwrRyQKOJX+S8g
+	gL4qmU9acOEF/DTbo/t1jgcR1a92QM3FlcJKYV08XNJiTRAIZbTx
+X-Google-Smtp-Source: AGHT+IHB9DwVQH+LaPCki7l5s2XbNvXlqbr5f4VqUYxz7BdDtbuqto3Zl5PtmeS+7pmQVpMQVL7Cmg==
+X-Received: by 2002:a05:600c:474c:b0:426:6e95:78d6 with SMTP id 5b1f17b1804b1-42bb01aa1fdmr26574845e9.4.1724945114644;
+        Thu, 29 Aug 2024 08:25:14 -0700 (PDT)
+Received: from orome (p200300e41f29d300f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f29:d300:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb37f7849sm25800085e9.7.2024.08.29.08.25.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2024 08:25:13 -0700 (PDT)
+Date: Thu, 29 Aug 2024 17:25:12 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Dmitry Osipenko <digetx@gmail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kevin Tian <kevin.tian@intel.com>, linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH 1/2] media: nvidia: tegra: Use iommu_paging_domain_alloc()
+Message-ID: <2o6gpxknio4kvf5fmqgai5jaov65semmw3wvtmt4gdauwzhbti@ii3ydtlmp2sb>
+References: <20240812072105.9578-1-baolu.lu@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="cowfqq5j65e3ovof"
+Content-Disposition: inline
+In-Reply-To: <20240812072105.9578-1-baolu.lu@linux.intel.com>
+
+
+--cowfqq5j65e3ovof
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87y14h1b9f.wl-kuninori.morimoto.gx@renesas.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 28, 2024 at 05:12:28AM +0000, Kuninori Morimoto wrote:
-> Now we can use new port related functions for port parsing. Use it.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On Mon, Aug 12, 2024 at 03:21:04PM GMT, Lu Baolu wrote:
+> An iommu domain is allocated in tegra_vde_iommu_init() and is attached to
+> vde->dev. Use iommu_paging_domain_alloc() to make it explicit.
+>=20
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Link: https://lore.kernel.org/r/20240610085555.88197-9-baolu.lu@linux.int=
+el.com
 > ---
->  drivers/media/platform/xilinx/xilinx-tpg.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/xilinx/xilinx-tpg.c b/drivers/media/platform/xilinx/xilinx-tpg.c
-> index e05e528ffc6f7..a25f216b2513c 100644
-> --- a/drivers/media/platform/xilinx/xilinx-tpg.c
-> +++ b/drivers/media/platform/xilinx/xilinx-tpg.c
-> @@ -13,6 +13,7 @@
->  #include <linux/gpio/consumer.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_graph.h>
->  #include <linux/platform_device.h>
->  #include <linux/xilinx-v4l2-controls.h>
->  
-> @@ -744,7 +745,7 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
->  		}
->  
+>  drivers/media/platform/nvidia/tegra-vde/iommu.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 
-This function is looping over port nodes, why don't you make it use 
-for_each_of_graph_port()?
+Acked-by: Thierry Reding <treding@nvidia.com>
 
->  		if (nports == 0) {
-> -			endpoint = of_get_next_child(port, NULL);
-> +			endpoint = of_graph_get_next_port_endpoint(port, NULL);
->  			if (endpoint)
->  				has_endpoint = true;
->  			of_node_put(endpoint);
-> -- 
-> 2.43.0
-> 
+--cowfqq5j65e3ovof
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmbQktQACgkQ3SOs138+
+s6EUfRAAme7fMme4dA56e6MubG7cFGGWr8iHzpMLzb7Gxi4bRxcYB/Gtn/cepURr
+Ybbn9lG86we9+zbd+FNlPWTKXxFFZG3kDfKnU4eILM2y56SQApilQzwwicdOgN5a
+7aqDJu0/eEIwagudME6HYDlALal0MCib/UblMbReIP7XnAcrR+HhO1aRMy95l6P+
+xYD6VzW7evnIR1BRkz5CHS9Dgo7o3ykNsGr0wDkYjK6oFjF5g9Y6LZCZIRO3sZxe
+jqijysA0g9cAk+NsDNmWKbd0UEMM3DX1ROebrEzbBkXC9+PWe56LmP77zigyPHVr
+aVXBy9edGGmkJfKvwvkJJLAs3wpjN2cHVO8zPjg2bntFR5VhAPgMo7RJKt4Tj/A9
+rEcmcaPggDUVVgJEbogj1zZtpeTp89+56tGcFjJvMi1sVbudisnejl4aSfx/Hnzc
+4QKrj/ajGfmJkPJbjjUEIzTSV+Z7L3M06jC9eLrgKzURdymvDUAPuVaZWkPcT/DK
+hqiTAVU43r+yr40ZwRoxyuHIQLxGIxmUtnjk96uQhKa7bs3loD4KR00EIX590fGL
+cRL3yZFx2G7ILQ1Cnru0vXA3iF9RxG1eikHZHtqTPsInPseAMx6QpE0Vn0I/gT0G
+S/cBJhFE3NxmP45u2DKKrhq7+pRf6AEpKh1tnwZoB6NIx5cwGG0=
+=3ZMs
+-----END PGP SIGNATURE-----
+
+--cowfqq5j65e3ovof--
 
