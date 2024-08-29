@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-17152-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17153-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46957964A6D
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 17:45:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC41964A8E
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 17:50:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 791ED1C235CC
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 15:45:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CFA651F237AB
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 15:50:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A743C1B3B12;
-	Thu, 29 Aug 2024 15:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32E1B1B3B35;
+	Thu, 29 Aug 2024 15:50:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZpX/oRyx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WIDYYNtx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0168533998;
-	Thu, 29 Aug 2024 15:45:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB981922E6;
+	Thu, 29 Aug 2024 15:50:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724946318; cv=none; b=neHer7tDtPfdn9sQI4RVDOSUewTHT5UaP8K8MLi5ogOxMCwgIOw+YpglZlgEwMGo0nHPg4cN9SutY0p3YbqOAbNgeXEDcG4RT9B2A73vO/yn6vibjS+m7ElRY1QUN9TUeKbembS4WZxFpoZgtofu623F3MH0UNYM2NbTHk210R0=
+	t=1724946616; cv=none; b=g/l4RYu6441GtQ9E/zOvsuY+EIF0P6WjSQgi0pHWh7g3PoAOy0bsWSCEoQ7vHPKuvJPqyGuUbpt2VvqhtxC5EiydgbpxoogsD0ILlSp/tjz8d/GLNZMzPeqDk1r97mrbmxg5iVb8BPAilYfFGYyXlXSGRtgeKHv+OfmyW+KgBwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724946318; c=relaxed/simple;
-	bh=VIY5HaE7JEsJLMzs9MMF9q38bi2uPDkUtjNeBnAxG/I=;
+	s=arc-20240116; t=1724946616; c=relaxed/simple;
+	bh=KccHSL6fnfRyNdZ90h1lu3IkO6/vw/VRe94K7w5iAy4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZQQQxEv0T4WmXguxcOqZcrWQXtgXsxW0hytElAqaFoexycU1SyKaFrztuEylsjsBTGqd92JhNbmt/NUfdl19bfhw/XXBEB8GlUIFn+ybTbPa1Abw5XuLJx/oV7489NSykOm4y+QepXXJCF9/hOzzdjR8lIh1j28d3fhne/CK01I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZpX/oRyx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C421C4CEC1;
-	Thu, 29 Aug 2024 15:45:17 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=OLRj3L+klEIlWpWZgxcoqZR+QLCfH03cNYfZg5lrLENcW6/jDxmsrUbd04XA3lXLWEGBQYJDnNDtLPeZFltUh4CZp/Ru6raI4y+O5/TIYq0LcaQAhjsByhroEgezhrOCpotto7D/9zMj938AXZHknu2VLVTd5m34MTVzjwdWWj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WIDYYNtx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CADD2C4CEC1;
+	Thu, 29 Aug 2024 15:50:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724946317;
-	bh=VIY5HaE7JEsJLMzs9MMF9q38bi2uPDkUtjNeBnAxG/I=;
+	s=k20201202; t=1724946616;
+	bh=KccHSL6fnfRyNdZ90h1lu3IkO6/vw/VRe94K7w5iAy4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZpX/oRyxClc9YiG9o6xKE5jQw2jRGFQMpdFckrio93oUHx5SCLEDiSKjiMlZn2Urh
-	 Ivumr6vnpv0dovvr+Ne7nYPjF8D9k7/nV7GDiyQr+N5y5rhpYwWIUKjdOUUhwz6BXQ
-	 FZte1sDARnCFVGUOkdba75ztEvoOpNnl23MP4lCBy4YqzOvjprYlf6CksH57SMYJEI
-	 RxHqbTyLkAAL3r4ShgrSCoDX0c7Fj7LYOGHAuURSnWVIJlsUJuOPXGTfNLVA++T4Sl
-	 dSlmVVeoNrQ5WCFBwabIAojPDfY6bLWgo+zGTW+GmfsoiKxoApSmXREUkDioMatkgG
-	 gY6cO8fb6y7tg==
-Date: Thu, 29 Aug 2024 10:45:15 -0500
+	b=WIDYYNtxl0pvt7YlIt1csogI9T2a15xk1/T4FECWLIFS9jXTqScuicaXrxQ/2b8Gh
+	 qsK2yQRiErDgH9jEeSwnKvx2fWa5S10GuWUcyUaPJmocSQUu3N8UH/zXmZqsikYedH
+	 WfwZMoOpUe/kVao3rxXw3KbmgVpfef7CVVDCXh47RDPsrAmZy5S4UunyrPI+PFdhQc
+	 iaEtzw6QhCrqPYWA7OescM0zVcH1JNLwEfI6os+SWN9JskUmguFMTOpmVVHIEREJ27
+	 et59OKxRrNSj+Hq3jrAB3UIhDPnWiW2bKaXH4JtpRN2qet+nJCRlKIReqetlLGq/uQ
+	 niInKANx9CERA==
+Date: Thu, 29 Aug 2024 10:50:14 -0500
 From: Rob Herring <robh@kernel.org>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
@@ -62,7 +62,7 @@ Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
 	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
 	linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
 Subject: Re: [PATCH v4 1/9] of: property: add of_graph_get_next_port()
-Message-ID: <20240829154515.GD465065-robh@kernel.org>
+Message-ID: <20240829155014.GE465065-robh@kernel.org>
 References: <87bk1d2pvt.wl-kuninori.morimoto.gx@renesas.com>
  <87a5gx2pva.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
@@ -136,11 +136,116 @@ On Wed, Aug 28, 2024 at 05:11:37AM +0000, Kuninori Morimoto wrote:
 > 			...
 > 		};
 > 	};
+> 
+> Add "ports" / "port" base functions.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>  drivers/of/property.c    | 108 +++++++++++++++++++++++++++++++++++++++
+>  include/linux/of_graph.h |  49 ++++++++++++++++++
+>  2 files changed, 157 insertions(+)
+> 
+> diff --git a/drivers/of/property.c b/drivers/of/property.c
+> index 164d77cb94458..d99b34dd2d5b4 100644
+> --- a/drivers/of/property.c
+> +++ b/drivers/of/property.c
+> @@ -625,6 +625,97 @@ struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
+>  }
+>  EXPORT_SYMBOL(of_graph_get_port_by_id);
+>  
+> +/**
+> + * of_graph_get_next_ports() - get next ports node.
+> + * @parent: pointer to the parent device node
+> + * @prev: previous ports node, or NULL to get first
+> + *
+> + * If "parent" node doesn't have "ports" node, it returns "parent" node itself as "ports" node.
+> + *
+> + * Return: A 'ports' node pointer with refcount incremented. Refcount
+> + * of the passed @prev node is decremented.
+> + */
+> +struct device_node *of_graph_get_next_ports(struct device_node *parent,
+> +					    struct device_node *prev)
+> +{
+> +	if (!parent)
+> +		return NULL;
+> +
+> +	if (!prev) {
+> +		/*
+> +		 * Find "ports" node from parent
+> +		 *
+> +		 *	parent {
+> +		 * =>		ports {
+> +		 *			port {...};
+> +		 *		};
+> +		 *	};
+> +		 */
+> +		prev = of_get_child_by_name(parent, "ports");
+> +
+> +		/*
+> +		 * Use parent as its ports if it not exist
+> +		 *
+> +		 * =>	parent {
+> +		 *		port {...};
+> +		 *	};
+> +		 */
+> +		if (!prev) {
+> +			/* check whether "parent" has "port" node */
+> +			struct device_node *port __free(device_node) = of_get_child_by_name(parent, "port");
+> +
+> +			if (port)
+> +				prev = of_node_get(parent);
+> +		}
+> +
+> +		return prev;
+> +	}
+> +
+> +	/* Find next ports */
+> +	do {
+> +		prev = of_get_next_child(parent, prev);
+> +		if (!prev)
+> +			break;
+> +	} while (!of_node_name_eq(prev, "ports"));
+> +
+> +	return prev;
+> +}
+> +EXPORT_SYMBOL(of_graph_get_next_ports);
+> +
+> +/**
+> + * of_graph_get_next_port() - get next port node.
+> + * @parent: pointer to the parent device node, or parent ports node
+> + * @prev: previous port node, or NULL to get first
+> + *
+> + * Parent device node can be used as @parent whether device node has ports node or not.
+> + * It will work same as ports@0 node.
+> + *
+> + * Return: A 'port' node pointer with refcount incremented. Refcount
+> + * of the passed @prev node is decremented.
+> + */
+> +struct device_node *of_graph_get_next_port(struct device_node *parent,
+> +					   struct device_node *prev)
+> +{
+> +	if (!parent)
+> +		return NULL;
+> +
+> +	if (!prev) {
+> +		struct device_node *ports __free(device_node) =
+> +			of_graph_get_next_ports(parent, NULL);
+> +
+> +		return of_get_child_by_name(ports, "port");
+> +	}
+> +
+> +	do {
+> +		prev = of_get_next_child(parent, prev);
+> +		if (!prev)
+> +			break;
+> +	} while (!of_node_name_eq(prev, "port"));
+> +
+> +	return prev;
+> +}
+> +EXPORT_SYMBOL(of_graph_get_next_port);
 
-There is no schema that supports this structure. The closest thing we 
-have is in-ports and out-ports in Coresight bindings.
-
-In any case, it should be a separate patch, not buried in here.
+of_graph_is_present should be reimplemented using this function. So 
+should part of of_graph_get_next_endpoint().
 
 Rob
 
