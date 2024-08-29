@@ -1,106 +1,101 @@
-Return-Path: <linux-media+bounces-17133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17134-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0845296451D
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 14:47:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAAF8964526
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 14:48:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D27928A9C5
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 12:47:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84F3528B060
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2024 12:48:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18A251AD3E4;
-	Thu, 29 Aug 2024 12:40:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ED901AE864;
+	Thu, 29 Aug 2024 12:41:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ANB8b3DX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RheK0eJn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85E31922F6;
-	Thu, 29 Aug 2024 12:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F801AE875;
+	Thu, 29 Aug 2024 12:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724935216; cv=none; b=KiL1GUfnBSc7XFdKhGMW1BIT3U09TsmvaJjcAdFHgCZ7pg5S/5/MGyl1/GrMkmD6mxfQieN681qrX5V/FY2YoCYs9QVkI5lP++BYL747MUr/RPWhlrJSSangpnnA+oL+O200C3fweBFbdRRdkSzO+EovtOCvg2og0WV1TyVhJCM=
+	t=1724935286; cv=none; b=U3HFGtyEoJDiqrmblHIghhOuhG4t9r04nfSmhH/Psaaye3Jw+4U59Fs2oF1zj1tFzIqSnMbJ0ZkLAiqA/taOf3kFXfQHsQ0Zb1BPn/Z9p/ko0OIVb2IRNKp7LNYuObWvSZIhW442bhRETc6sIMZB0X1GLd98QzVljj+aEgSBRbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724935216; c=relaxed/simple;
-	bh=OxyNOWqYblzSsIhBilpGz1H4mBDUCbZxa1dHdXt7J5Q=;
+	s=arc-20240116; t=1724935286; c=relaxed/simple;
+	bh=Zky79R8egVa2/458w11Fjk7M+s9u0qsu+pDvP20i4R8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uVbRI7ZB3M4iSO6FKfKp9+b59jqDioEXHYeSfNZyF9TGHt4lI8XOh48E49AHUqXWJeGdfOZl2aAbHZg9nA2bPXlT6GBrHTlptDs64uzHqGkaL3aHGsBJLj5tzq05WQcsJFQPe2Mo2zztOb2rfBjZunFy9uN/CUx40YZ7SwfHXdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ANB8b3DX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74C086AF;
-	Thu, 29 Aug 2024 14:39:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724935144;
-	bh=OxyNOWqYblzSsIhBilpGz1H4mBDUCbZxa1dHdXt7J5Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ANB8b3DXtpOz2L+6pW3HiwbKpsEgpBUHvyFJehxbg0a5AAo8pIdI5xnv9dY+LaevI
-	 hlcxihjNXIvCaxOCe2J5cbbj+KVVbTeELz2wKO8oAy5KcTSvNTCv4QGC9Ps2bAu/FU
-	 tgTzG1nS7rNWWe+DboMhO2Ty3cHa2jw/20ZtWnE4=
-Date: Thu, 29 Aug 2024 15:39:42 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gyFF2cwovmrMFfyE/Zwm4m+rCUGuGBcUqlfWyppBpW0tmZ8ywd2LGmC3FMQSF0amK/VEEtVORoaEqAal+KyfC8dFxvPM5IChF8HePuJeQ1cdXngn+9ikSEBGejIaafy+oxUbIG1CgObIXPk0JeIO15zXM5BxGAt5oSZOBpjaBz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RheK0eJn; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724935285; x=1756471285;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Zky79R8egVa2/458w11Fjk7M+s9u0qsu+pDvP20i4R8=;
+  b=RheK0eJnKdl7hBuwZO0MPjzV3WU/f/s9za8cIRejURJ2FFS5ikxtwNLV
+   hLgnuWceclEGgb3qMsvuvABJYekHBSuMrz8mhYAXzzmXy6QPPlNvUcTRm
+   4kDLnaIGviVZYZ2D/lu6am0GapZ1SgqtM15x3s2YcXPCIzcM2yrfDvCQs
+   080g6uybmY6aystZiCEOQwQ7CO0U+wGxL8Qh3ME03upEt2M9BQunSc0uD
+   w8fpmIaek4TnecGBLdUE8mO+X3M1s1+K3JifxcpQhkJD/Q0P3nyazsQk4
+   eLRNNCoLNRjys2bUWHhDsK4ERBewVF4/K5mvdzNLRB7ZlN5GK4kBFZ4pi
+   Q==;
+X-CSE-ConnectionGUID: MWMzuYjaRoqLJThnBEUPCw==
+X-CSE-MsgGUID: xvsd5VNSRGO//k/inHMqgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23475730"
+X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; 
+   d="scan'208";a="23475730"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 05:41:24 -0700
+X-CSE-ConnectionGUID: ptMrzakzRz+L/7xuh5uPjA==
+X-CSE-MsgGUID: 3wxTiZkJSsWmbKmy7hz5cw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; 
+   d="scan'208";a="67945773"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 05:41:23 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 1A25A11F843;
+	Thu, 29 Aug 2024 15:41:20 +0300 (EEST)
+Date: Thu, 29 Aug 2024 12:41:20 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Benjamin Bara <bbara93@gmail.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans de Goede <hdegoede@redhat.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Alexander Stein <alexander.stein@ew.tq-group.com>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Benjamin Bara <benjamin.bara@skidata.com>
-Subject: Re: [PATCH v2 2/2] media: i2c: imx290: Remove CHIP_ID reg definition
-Message-ID: <20240829123942.GC12951@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 1/2] media: i2c: imx290: Check for availability in
+ probe()
+Message-ID: <ZtBscIbqWr2GWrJF@kekkonen.localdomain>
 References: <20240828-imx290-avail-v2-0-bd320ac8e8fa@skidata.com>
- <20240828-imx290-avail-v2-2-bd320ac8e8fa@skidata.com>
+ <20240828-imx290-avail-v2-1-bd320ac8e8fa@skidata.com>
+ <ZtAdvtkjr0XNbvmu@kekkonen.localdomain>
+ <ZtBsB1iqm4PhbfnH@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240828-imx290-avail-v2-2-bd320ac8e8fa@skidata.com>
+In-Reply-To: <ZtBsB1iqm4PhbfnH@kekkonen.localdomain>
 
-Hi Benjamin,
-
-Thank you for the patch.
-
-On Wed, Aug 28, 2024 at 08:13:08PM +0200, Benjamin Bara wrote:
-> This register is not described in the public available imx290 datasheet.
-> Additionally, a read returns '0x07d0' for an imx327lqr and also for an
-> imx462, which means it cannot be used to distinguish between those two
-> imx290 derivatives.
+On Thu, Aug 29, 2024 at 12:39:36PM +0000, Sakari Ailus wrote:
+> On Thu, Aug 29, 2024 at 07:05:34AM +0000, Sakari Ailus wrote:
+> > the next time. I'll wrap the line this time.
 > 
-> Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+> Based on the other review comments I'll wait for v2.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
-> introduced in v2
-> ---
->  drivers/media/i2c/imx290.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index 2a869576600c..48502ba19cdc 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -80,7 +80,6 @@
->  #define IMX290_ADBIT2					CCI_REG8(0x317c)
->  #define IMX290_ADBIT2_10BIT				0x12
->  #define IMX290_ADBIT2_12BIT				0x00
-> -#define IMX290_CHIP_ID					CCI_REG16_LE(0x319a)
->  #define IMX290_ADBIT3					CCI_REG8(0x31ec)
->  #define IMX290_ADBIT3_10BIT				0x37
->  #define IMX290_ADBIT3_12BIT				0x0e
-> 
+Oh well, wrong e-mail. Please ignore.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Sakari Ailus
 
