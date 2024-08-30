@@ -1,164 +1,132 @@
-Return-Path: <linux-media+bounces-17223-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17224-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8106E965CCA
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 11:27:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD90965D04
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 11:34:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 317BA1F244CF
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 09:27:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D3E31F223FF
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 09:34:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E5A517A5B2;
-	Fri, 30 Aug 2024 09:26:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47BF4171658;
+	Fri, 30 Aug 2024 09:34:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n7JXn9PQ"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Lp7kv3b8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2106217839D;
-	Fri, 30 Aug 2024 09:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8166017AE01
+	for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 09:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725009960; cv=none; b=XUuOK3UywVQ0JPKDAlTl3DAQqHkHy/PfBaqxG4+E8iwKvNI2D9cG+z195c1657M+V7Jh6i99qjn1tp5vBE3Z8EPihn8ZqBJSX8SwddJA7AawqEUn8AF9o+xylwmA3E8SnbeIYne0UHBVHW/mRTTB91+ObcdIyiV+nkmofaXATqA=
+	t=1725010445; cv=none; b=YtzkdUz1GLn0uvzbZ8mVwME5i/x+k8qtEf3K83iUksBUfVrZ0UTuvfJddf3Q5u7/XrYkuZdPJeITP5fZR9DS0L/2UNKbObmpKoiFYsGB2idHcX2TQ/wAEVxVegypG6E3SUvNwjmQTce9HU7M6I2OW29FiJ2XQfcUI4p3WrxVcHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725009960; c=relaxed/simple;
-	bh=yt0IjaTL6kWf85KWlWWslTSM1oe3LVytQN8Dx49IB9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sffSlR6hfKcxrwPwW3IWw2bRKlBsT719ymRWLjwXAh9KKPz0Cr7VRW/tzmh1YWEy8ZFbUlaKzMjzxA4DNfubsbPhVVFACZVR42F0p56V42vvi+43cbQqXODYDlrGnNIDiAJn6QjdJNcwfubLA7ckp2HNib9QCSeLy7xBEXtEBgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n7JXn9PQ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D8CB227;
-	Fri, 30 Aug 2024 11:24:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725009888;
-	bh=yt0IjaTL6kWf85KWlWWslTSM1oe3LVytQN8Dx49IB9k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n7JXn9PQXX2guuDPTzc5CNm+o5VflkFnH4U8RXSYp/vyrw68l7zE5bsp+OFm/P0uK
-	 wqmBu/w+AnOUkXDAtDb0aEuDGS+9aj+u9GtBoSBCtIdPjRwVoxMASqqBQmwHboyGG9
-	 I6DOzJv8suMkLk9jlBmJ7Az+niixyMOba0gb+200=
-Date: Fri, 30 Aug 2024 12:25:26 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Benjamin Bara <bbara93@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Benjamin Bara <benjamin.bara@skidata.com>
-Subject: Re: [PATCH v2 1/2] media: i2c: imx290: Check for availability in
- probe()
-Message-ID: <20240830092526.GE25163@pendragon.ideasonboard.com>
-References: <20240828-imx290-avail-v2-0-bd320ac8e8fa@skidata.com>
- <20240828-imx290-avail-v2-1-bd320ac8e8fa@skidata.com>
- <20240829131909.GD12951@pendragon.ideasonboard.com>
- <20240829163247.ovsst5ipecthtc6u@thinkpad>
- <20240829164843.GA15799@pendragon.ideasonboard.com>
- <20240830083107.4h5ryhcq6e6e5dw3@thinkpad>
+	s=arc-20240116; t=1725010445; c=relaxed/simple;
+	bh=5rP5zL2KLmr+ypRtFJIOpFNWn0XTqmd0dwtczaD1wMo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mEMNs5Sd1fv4Ggz+532RBT4XI9/JP+sZc5+ur6aAX/KtfEuV2uLR+Mwf5ttJvF3y0D78tf8eP1jmtByS7+3AwNfW9M865ju1G36gH0kQV2qJBFWHxOPZZErmx2o6u/GXfpmkxY+DZs2EmRsST3ZdfGbu1K2ksEc+cEAT993qziE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Lp7kv3b8; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e1a7fa52bacso50345276.1
+        for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 02:34:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1725010442; x=1725615242; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5rP5zL2KLmr+ypRtFJIOpFNWn0XTqmd0dwtczaD1wMo=;
+        b=Lp7kv3b818VevBRZFbg9sFkUzHya5kT3hJ4LjSbgt9v3uTz/DJoFkzZRUtFxQHDahM
+         Dg3rWQoDmwdWJSRFnw7KM62edUtilxxqWdRIaYO8PZ5KgIygGj2DgIfnX+2nSRYACiQ3
+         rf5P911nrQYKYiujpr+IQk9SSSAljSCv7NoMC6mQUuJDeK/rqN63J+VN/cWaHedMoXDE
+         1ykTZNf1p26bDzZ1rc3D9bSErF0eMFs+nMFXpKEXI/PSfCOgWq01hNvzwtSVrhAMiOAw
+         f+xEnK1SLek/HrtLW3YDp/QXhBT4OWN8hfHkjcU/lpo0sWnYKaI/GA7mqDhv4+CgAmjm
+         FqxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725010442; x=1725615242;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5rP5zL2KLmr+ypRtFJIOpFNWn0XTqmd0dwtczaD1wMo=;
+        b=spXou/8ImSFNITL0G8pL9404RUme+Qel0y+/ghANXLquWhiVwNH6LUEhir25VvEqdp
+         fTj9FmAEtBtYHA8+psdkTH+RSItmZbHfJO97xNVkXNoW7/Xjmq1qRmjIXD71mTUAxGBf
+         Mxmc4VLJnlodvburUY+5ORq0qlhbKd0drfQqroa/kWfsNrvI2gpircxNJJ3AN2S4Nvyx
+         hCtA+SihUuZWjRKhaKVlUG31MMLnYcqFK2LG+ii4CoWcMUubO//YC6oup1uxn8sMa5uV
+         0yfFhG4ayp+aMBuhaFneQjKOoRsgmAWK/hY4k/DT86EtwylUzKYT4beVffnS9HBtLLmR
+         AnnA==
+X-Forwarded-Encrypted: i=1; AJvYcCXxNTatVJ8JxXiISs1DnRNk6ebclRrMDnCHirqsZhlHhtr22/Q2KXndSJyAyj7YrZYOKLd5tOUozUjTpQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywkw/3YUXAD47w3ktQwBXrP1U5b4UE4MimwOBY5DM4zhc1KlrFZ
+	zQTCACIi6sm520vdel6qO4fiqHBiHeQOWiAyQFZwNXeP/466L2VT4KAvXtBYgfxBsZw8YE+8R+7
+	DfZ1rAdzMFYtZ0yaUnI1hx2OgApnxHD8nA1dBMA==
+X-Google-Smtp-Source: AGHT+IGI1I8xF4tSkkkuAM2tC1QhUAKtihp4AiB8cFNzmGSA3P/TjVLFGKmwMrM8BHcIKtVV+Zif+H7HNvm1FVotljY=
+X-Received: by 2002:a05:690c:e1f:b0:6d3:c7d:5eaa with SMTP id
+ 00721157ae682-6d4105dd651mr8373437b3.8.1725010442337; Fri, 30 Aug 2024
+ 02:34:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240830083107.4h5ryhcq6e6e5dw3@thinkpad>
+References: <20240729090042.GA2725@pendragon.ideasonboard.com>
+In-Reply-To: <20240729090042.GA2725@pendragon.ideasonboard.com>
+From: Naushir Patuck <naush@raspberrypi.com>
+Date: Fri, 30 Aug 2024 10:33:35 +0100
+Message-ID: <CAEmqJPoHUXpX3F7dDKAYCr59YKCWz9rggKD5C6hTyyOSr=EiaQ@mail.gmail.com>
+Subject: Re: Interest for a libcamera workshop in Vienna - September 17th
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 30, 2024 at 02:01:07PM +0530, Manivannan Sadhasivam wrote:
-> On Thu, Aug 29, 2024 at 07:48:43PM +0300, Laurent Pinchart wrote:
-> > On Thu, Aug 29, 2024 at 10:02:47PM +0530, Manivannan Sadhasivam wrote:
-> > > On Thu, Aug 29, 2024 at 04:19:09PM +0300, Laurent Pinchart wrote:
-> > > 
-> > > Hi Laurent,
-> > > 
-> > > [...]
-> > > 
-> > > > > +		dev_err(dev, "Sensor is not in standby mode\n");
-> > > > > +		ret = -ENODEV;
-> > > > > +		goto err_pm;
-> > > > > +	}
-> > > > > +
-> > > > 
-> > > > My last concern is about accessing hardware at probe time. There are
-> > > > known cases where this is problematic. They can be split in two
-> > > > categories, systems that exhibit unwanted side effects when powering the
-> > > > sensor up, and systems where the sensor can't be accessed at probe time.
-> > > > 
-> > > > The two issues I can think of in the first category is devices that have
-> > > > a camera privacy light that could cause worries among users if it
-> > > > flashes at boot time, and devices that agressively optimize boot time.
-> > > > 
-> > > > In the second category, I know that some people use camera serdes
-> > > > (FPD-Link, GMSL, ...) that are controlled by userspace. As they should
-> > > > instead use kernel drivers for those components, upstream may not care
-> > > > too much about this use case. Another issue I was told about was a
-> > > > device booting in temperatures that were too low for the camera to
-> > > > operate, which then needed half an hour to heat the device enclosure
-> > > > before the sensor and serdes could be accessed. That's a bit extreme,
-> > > > but it sounds like a valid use case to me.
-> > > > 
-> > > > What do we do with those cases ? Detecting devices at probe time does
-> > > > have value, so I think it should be a policy decision. We may want to
-> > > > convey some of that information through DT properties (I'm not sure what
-> > > > would be acceptable there though). In any case, that's quite a bit of
-> > > > yak shaving, so I'm inclined to accept this series (or rather its next
-> > > > version), given that quite a few other camera sensor drivers detect the
-> > > > device at probe time. I would however like feedback on the problem to
-> > > > try and find a good solution.
-> > > 
-> > > Most of the issues you mentioned applies to other hardware peripherals also IMO.
-> > > And it is common for the drivers to read registers and make sure the device is
-> > > detected on the bus during probe().
-> > 
-> > That's true. I think the problem affects different device types
-> > differently though, and this may (or may not) call for different
-> > solutions.
-> > 
-> > > If an usecase doesn't want to read the
-> > > registers during probe time, then they _should_not_ build the driver as built-in
-> > > rather make it as a loadable module and load it whenever necessary. This applies
-> > > to boot time optimization as well.
-> > 
-> > For most of the use cases I listed I agree with you. One exception is
-> > the privacy light issue. Regardless of when the camera sensor driver is
-> > loaded, powering the device at probe time will flash the privacy light.
-> > Doing so later than boot time would probably make the issue even worse,
-> > I would worry more if I saw my webcam privacy light flashing at a random
-> > point after boot time.
-> 
-> I'm not familiar with the privacy light feature in camera sensors, but is there
-> no way to prevent it from enabling by default? If that's not possible, it makes
-> sense to disable it using a DT property as it is a hardware feature.
+Hi Laurent,
 
-The whole point of the privacy light is that it shouldn't be possible to
-disable it by software. Otherwise malicious software could try to work
-around it. On many devices it is hardwired to one of the camera sensor's
-power supplies.
+Here are a few agenda items that RPi would like to include in the discussions:
 
-> > > A DT property wouldn't be feasible as DT is supposed to describe the hardware,
-> > > not the usecase.
-> > 
-> > I think that rule is typically slightly relaxed, by allowing in DT
-> > system descriptions, not just hardware descriptions. Otherwise we
-> > wouldn't allow things like reserved memory ranges. Describing that a
-> > camera sensor has a privacy light, in a way that would allow drivers to
-> > avoid powering up the device at probe time without requiring much
-> > duplicated code in all drivers, would in my opinion be an acceptable DT
-> > usage.
-> 
-> Well, I agree with you. As I said above, privacy light is a hardware feature, so
-> we can enable/disable it using a DT property. My comment about the DT property
-> applies only to detecting the devices during probe time, which is a
-> driver/usecase dependent feature.
+1) Raw reprocessing API
+2) Per-stream control RFC
+3) Non-image data streams
 
--- 
-Regards,
+Thanks,
+Naush
 
-Laurent Pinchart
+On Mon, 29 Jul 2024 at 10:01, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hello everybody,
+>
+> Following the success of our workshop in Brussels in February, we would
+> like to host another event in September.
+>
+> We have evaluated different options, and opted for week 38 in Vienna.
+> The city will host during that week the Linux Media Summit (Monday the
+> 16th, [1]), OSS Europe (Monday the 16th to Wednesday the 18th, [2]) and
+> the Linux Plumbers Conference (Wednesday the 18th to Friday the 20th,
+> [3]), and we expect that co-locating with those events will ease travel
+> for attendees of the libcamera workshop.
+>
+> The week is already busy with camera-related events on Monday with the
+> Linux Media Summit, and on Thursday afternoon with the Complex Camera
+> micro-conference at LPC ([4]). We have therefore selected Tuesday the
+> 17th for libcamera.
+>
+> To help us plan the venue, could you please register your interest by
+> replying to this e-mail, either publicly, or in private to Kieran and me
+> ? The event will be free of charge for attendees.
+>
+> Please also let us know if you have any preferred discussion topics you
+> would like to include. We will draft and circulate an agenda in the next
+> few weeks.
+>
+> [1] https://lore.kernel.org/all/ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl/
+> [2] https://events.linuxfoundation.org/open-source-summit-europe/
+> [3] https://lpc.events/
+> [4] https://lpc.events/event/18/sessions/193/
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
