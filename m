@@ -1,111 +1,88 @@
-Return-Path: <linux-media+bounces-17183-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17185-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6ACB965470
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 03:09:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2609654E5
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 03:55:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 941A3285938
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 01:09:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AE91284355
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 01:55:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34EFE225DA;
-	Fri, 30 Aug 2024 01:09:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19F75535DC;
+	Fri, 30 Aug 2024 01:55:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113AC1799D
-	for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 01:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E014690
+	for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 01:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724980184; cv=none; b=LNU+uIj7qXSwHL/9zZaPXg01ztSM9NA1pPYcK6YzQ4ikn/wvxWI62693Yjr0LTORlTmUH2gtoJ9Z06L0KeYI9aJdVZ3vQU5KTfRM5NhwIEgHg2HQKa8GAUttsGsEKgngojKOey9WS3qgKgiAMLeZ3i/SOMl18m4sQjZ3zoXejkM=
+	t=1724982952; cv=none; b=ll1LGpqG5HBGfiONxAcyv5YuF5AcqVek0UZ3eMWjy//CaUoXw7Vz+vEeQPimSCtKOih2Fbj0OVxBcGX4p2YCkGYB8ASIYaUSXK+i2qR5jUp6A3hN4Wjnmp69gVUtytTJ5tH1wdrJSLrkKgwKZSY91MX68Z+3lCMnjVaaA+TNlMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724980184; c=relaxed/simple;
-	bh=H9H3WUcsfbc6W3A7CWklkIegXpLk7srbziE63K+WdVk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HyJS5n9+jKFqP0LgOJm2eiFWe1SLZgoFBRmN320yPqzxzQsJj/XW3CBgbSaUTeqOqKZcUvXF7l9aHel2iFMPxKPdfvEI8EBUaGb2BQ586DQQ6aGFzsiMLcwKW6JybmItuoNjSv4Cfs8+pvoV4vhuibYsDDLOx+Pc9jUdaEjWQ90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+	s=arc-20240116; t=1724982952; c=relaxed/simple;
+	bh=btURHJHgcbamrJMkXS6o5YNqsFZw4OfY2G1S2IP6JuA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=i6C7lNHiZ030RPVy0EwJQsVwuhT09Qfr0DyXoR192U/LDeq+nDTHoH63vezGMaYt58mc5RcIdIGb73Z0weA5RmHrSbKx9D60L1iZEMA8IfbGw1rbpgMl+q/UZm1q53dAMnB+YwpBqTAS3Agb8FL5VZjdq277DRnFaSd3dAfd67k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Ww0PM5Nl3zLqxM;
-	Fri, 30 Aug 2024 09:07:35 +0800 (CST)
-Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6666C180105;
-	Fri, 30 Aug 2024 09:09:40 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
- (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Fri, 30 Aug
- 2024 09:09:39 +0800
-From: Li Zetao <lizetao1@huawei.com>
-To: <hdegoede@redhat.com>, <mchehab@kernel.org>,
-	<sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
-	<topofeverest8848@gmail.com>, <hverkuil-cisco@xs4all.nl>,
-	<andriy.shevchenko@linux.intel.com>
-CC: <lizetao1@huawei.com>, <linux-media@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>
-Subject: [PATCH -next 2/2] media: atomisp: use clamp() in compute_coring()
-Date: Fri, 30 Aug 2024 09:17:52 +0800
-Message-ID: <20240830011752.603433-3-lizetao1@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240830011752.603433-1-lizetao1@huawei.com>
-References: <20240830011752.603433-1-lizetao1@huawei.com>
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Ww1SM1zjQzyQy8;
+	Fri, 30 Aug 2024 09:55:15 +0800 (CST)
+Received: from kwepemf500003.china.huawei.com (unknown [7.202.181.241])
+	by mail.maildlp.com (Postfix) with ESMTPS id 66F9C140202;
+	Fri, 30 Aug 2024 09:55:47 +0800 (CST)
+Received: from [10.174.176.82] (10.174.176.82) by
+ kwepemf500003.china.huawei.com (7.202.181.241) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 30 Aug 2024 09:55:46 +0800
+Message-ID: <4bc13d33-90a6-4780-9c63-a72dca3d4f15@huawei.com>
+Date: Fri, 30 Aug 2024 09:55:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: atomisp: Remove unused declartions
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+CC: <hdegoede@redhat.com>, <linux-media@vger.kernel.org>,
+	<mchehab@kernel.org>, <sakari.ailus@linux.intel.com>
+References: <20240827071122.26706-1-zhangzekun11@huawei.com>
+ <20240829125845.708915-1-changhuang.liang@starfivetech.com>
+From: "zhangzekun (A)" <zhangzekun11@huawei.com>
+In-Reply-To: <20240829125845.708915-1-changhuang.liang@starfivetech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemd500012.china.huawei.com (7.221.188.25)
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemf500003.china.huawei.com (7.202.181.241)
 
-When it needs to get a value within a certain interval, using clamp()
-makes the code easier to understand than min(max()).
+Hi, Changhuang,
 
-Signed-off-by: Li Zetao <lizetao1@huawei.com>
----
- .../pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c   | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Thanks for your review, I will send v2 to fix this.
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
-index 70132d955e9b..def2c8fb4b38 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
-@@ -108,7 +108,7 @@ compute_coring(int coring)
- 	 * factor. Clip to [0, isp_scale-1).
- 	 */
- 	isp_coring = ((coring * isp_scale) + offset) / host_scale;
--	return min(max(isp_coring, 0), isp_scale - 1);
-+	return clamp(isp_coring, 0, isp_scale - 1);
- }
- 
- /*
-@@ -168,15 +168,15 @@ ia_css_xnr3_encode(
- 	to->alpha.y0 = alpha_y0;
- 	to->alpha.u0 = alpha_u0;
- 	to->alpha.v0 = alpha_v0;
--	to->alpha.ydiff = min(max(alpha_ydiff, min_diff), max_diff);
--	to->alpha.udiff = min(max(alpha_udiff, min_diff), max_diff);
--	to->alpha.vdiff = min(max(alpha_vdiff, min_diff), max_diff);
-+	to->alpha.ydiff = clamp(alpha_ydiff, min_diff, max_diff);
-+	to->alpha.udiff = clamp(alpha_udiff, min_diff, max_diff);
-+	to->alpha.vdiff = clamp(alpha_vdiff, min_diff, max_diff);
- 
- 	/* coring parameters are expressed in q1.NN format */
- 	to->coring.u0 = coring_u0;
- 	to->coring.v0 = coring_v0;
--	to->coring.udiff = min(max(coring_udiff, min_diff), max_diff);
--	to->coring.vdiff = min(max(coring_vdiff, min_diff), max_diff);
-+	to->coring.udiff = clamp(coring_udiff, min_diff, max_diff);
-+	to->coring.vdiff = clamp(coring_vdiff, min_diff, max_diff);
- 
- 	/* blending strength is expressed in q1.NN format */
- 	to->blending.strength = blending;
--- 
-2.34.1
+Best Regards,
+Zekun
 
+在 2024/8/29 20:58, Changhuang Liang 写道:
+> Hi, Zekun
+> 
+>> v4l2_get_acpi_sensor_info() has been removed since commit d80be6a10cd3
+>> ("media: atomisp: Drop v4l2_get_acpi_sensor_info() function"), remain
+>> the declarations untouched in the header files. So, let's remove these
+>> unused declartions.
+>>
+> 
+> You just remove one declartion.
+> Or:
+> declartions => declartion.
+> these => this.
+> 
+> Best Regards,
+> Changhuang
+> 
 
