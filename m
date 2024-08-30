@@ -1,134 +1,198 @@
-Return-Path: <linux-media+bounces-17249-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17250-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECD5966BFB
-	for <lists+linux-media@lfdr.de>; Sat, 31 Aug 2024 00:01:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C176966CAC
+	for <lists+linux-media@lfdr.de>; Sat, 31 Aug 2024 00:48:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 633611F23AA9
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 22:01:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50EAB1C21F49
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 22:48:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFB5A1B29D2;
-	Fri, 30 Aug 2024 22:00:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B7EA46B91;
+	Fri, 30 Aug 2024 22:48:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="trKEe8d+"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="Wflb+c+p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7A616E875
-	for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 22:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725055251; cv=none; b=qvEbYANLIRTizTJDbO7nbzoRqbzmuVvvqApdJoas4/3Bn30tIzQjd46xwwGqBG+pWyuq0FbVvXvbWETe9vxAhU7nnEqsl7377tE+K5pBspX8lc/Y89xi8Eu/4KqnY0c/SHunGLkXid8XE0RMqznBSAQ7y30CP8wcMoin5EbORlc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725055251; c=relaxed/simple;
-	bh=v0xeIN8ym88vwomiW5NfpJrxB02SBhHfO16FSfOdFis=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gHpFGXN6IQ+oDFmVoZq0/c7v0jaUy1IuVEpAJcKs8W7YYAb6prXljEqhokfZFitHbJpccO/q4YCk7F64Z/1V3vXKS1/lUAEX3QP8RKOrOtBp+tDNouZKHJyP43C2osO/wQvXWMZBTOIqsA9oSgpCXadvVCaVgjSzBLTs3n3JTgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=trKEe8d+; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5343eeb4973so3535053e87.2
-        for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 15:00:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725055247; x=1725660047; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tzW45B/KJymSGOyNF+ZzLXt4iw3UbCWPr9vwljHJip4=;
-        b=trKEe8d+FfYEJJR5ZIaWxxhtuvd/JaQ64Rv92HIfhh+Zd96n1Xaj0JutzssL2g1BSc
-         2Eb31AJtBMrDDblluWatzKrXiHMEl7H5UBnGzTcjsKgIE5DiOhk/GX9/m0RgQGknLEfJ
-         k1JmYiE1bVOY5HGEzYH0w8bCp3IPgIbIq9x618Gt4h7bPLrurV2hRGcSlxKKw8ZE9R/c
-         jcSnRcYbAAcNpjdB1cjCyL8eaTZFqGErLy/9hu4pdRfcIF/9l6wy3PZgy+44NgxT9d0V
-         OipPSFQNhe5OiP/qSCERiiYzdApTV2DEfcltQddvn5BQ6e1iRYeOG7fCs5zwGnErjpOn
-         pjHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725055247; x=1725660047;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tzW45B/KJymSGOyNF+ZzLXt4iw3UbCWPr9vwljHJip4=;
-        b=fkQWBaV6p/yuhj/DN8aaciTPMyYl+za8FImXqTUlgVnuNt4RFWRKIx0JmjajQNXqD3
-         sMDkYJE+KMkDszErKvPJ2COBfuPyxqzFqSoCbP7768M0liIJPe0ISHqjZBlxDvOqmke4
-         mfBOi9eROGaxoucyb3FCRNddm2RXoQD+rmMtAgpDvu3rMRhXcks9Y+tjLn1sf0mnIttH
-         /l5TuD+2NNqMgG7qD5S69KvjBbN7DLG5e5x5n23gyFF6ype4x49lUockglaOAZvIdTJO
-         hp1xQrj7xJEVmAJRrbIwSLLN64eTZ0Z5khS2PMWYg8vMTvIKE+579CvALhuE4Hedqj04
-         PlPA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqkZ2URKxvUfICqRbBLJnTu8M3cW21SpH73do2llaHJEbWRiJx52ENnOtx11WAdTmaBMlMZ8GyIZZO5g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzL+6OUP+S4A94hKNd/wgcNp6tJ48WLxCz8hJf2bMumAPBFTUv
-	LbYaRzM2o5qxrC6+XKFsKpvI6ikRctb1tYndlqbSb353WJ/48abiFgWMUWQ6M3mgV/812YRIHvK
-	+GS0RZvMV/+DiT5v46NcIn06i+hKQm3AlDiI=
-X-Google-Smtp-Source: AGHT+IFPQQvsxqmDS/76PwNqhHFuc4KN0lIvnnjTU83UXe1lfbOh5Vc0i6eo2lSA9HeuZxs7QXpK5BZptK0ZhUnEM6c=
-X-Received: by 2002:a05:6512:acb:b0:533:4505:5b2a with SMTP id
- 2adb3069b0e04-53546b4a8c9mr3000597e87.28.1725055246756; Fri, 30 Aug 2024
- 15:00:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9E4165F0B
+	for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 22:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725058109; cv=pass; b=ApEU/eHsxa68mXO9r7LYklbV81j+TMT4JVW5yCttsYFZzzOHmN5Lavp/2l3Bbrg0GNrgXB+zBAm16tPvmYVWVyEBhaMKjlWA/0VsMCenu8Py+B0MsGW1RZd0y1oSHrjt2Lh71294pwuKuDJvBXND8xWX+xQ5xzqS3cKXyISmIrA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725058109; c=relaxed/simple;
+	bh=Yrv6T/8qPTCoEAYvgrAQCQHdEZhd7McYZbOCklmOh40=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q7ujLOVVaAQsDQdgj/rtn0O37Y9M35YxtToX1S8JkBtBRHYbTp2KIAVsDmDmuLrDW5t0ehTfvUmqmvUo51JOsA35SdhfgECVmZQusOhYbSSkx6dZPz8i5cZo9pREbbBLOfm5boQQWVDaMsxw5N+jw+tjy3b5h3mPjtuMXA3TEFk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=Wflb+c+p; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4WwYG91LhBzyTV;
+	Sat, 31 Aug 2024 01:48:16 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1725058097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=EJwVHNZujQ+2dmo9Sylo51UVrAZqso+d1kGNoIEsRg8=;
+	b=Wflb+c+pCHdYN/qi1N6vt0wWanSl+78UHMCG7Aj5J2esCXsjVI+3yAJaHlOUjtc199xpwx
+	mF2BGiYPK8wwgDqMtY3/t9Y5tDwYV+gDQkKitmLGM2+jY2IKhW+zM0B/+plVT0xHzbKEBq
+	dj/mRldbJPZ93bU1r+HCF1YN6rlg1H4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1725058097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=EJwVHNZujQ+2dmo9Sylo51UVrAZqso+d1kGNoIEsRg8=;
+	b=BMKryRdfsTs/oEThNa24vTEbfJtXf1dDqzM69CuLHxC3Gvxz/ucUje7lAmR95QBiZ+MuHu
+	Yp5MBrlbdHv+GWJTKYgjCg2xL5m8PakilWS1hgHBO8/p4MBLbahZtJa3CEWINTcYPzth8K
+	gy5VvqVefGxIWiBavIXvzZ20edZnajE=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1725058097; a=rsa-sha256; cv=none;
+	b=ZSZ8m7AogNIoY6QlxnstwewFh94XuGb80B89G50yA6IrmwTJfa73l7oHUxqNMAyOUD0jgJ
+	qKvW0fVOHX1ybLg414O++9U9Aw8gTPA9K/2LZtPHh6066G53grCPfPUGjpBk39XqgN42yS
+	kt3KNihUiWDRvhU45Eq1OFlr0Z9Qqmw=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7A333634C93;
+	Sat, 31 Aug 2024 01:48:14 +0300 (EEST)
+Date: Fri, 30 Aug 2024 22:48:14 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR 6.12] Mostly camera sensor patches
+Message-ID: <ZtJMLpbKeNI8B_Z5@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240830192627.2546033-1-tjmercier@google.com>
-In-Reply-To: <20240830192627.2546033-1-tjmercier@google.com>
-From: John Stultz <jstultz@google.com>
-Date: Fri, 30 Aug 2024 15:00:34 -0700
-Message-ID: <CANDhNCryrqD08fv+Q2kRHya1Z_w_eL6cbAzGaZT8cAsUSG1iLA@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: heaps: Fix off-by-one in CMA heap fault handler
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	android-mm@google.com, Xingyu Jin <xingyuj@google.com>, stable@vger.kernel.org, 
-	John Stultz <john.stultz@linaro.org>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Aug 30, 2024 at 12:26=E2=80=AFPM T.J. Mercier <tjmercier@google.com=
-> wrote:
->
-> Until VM_DONTEXPAND was added in commit 1c1914d6e8c6 ("dma-buf: heaps:
-> Don't track CMA dma-buf pages under RssFile") it was possible to obtain
-> a mapping larger than the buffer size via mremap and bypass the overflow
-> check in dma_buf_mmap_internal. When using such a mapping to attempt to
-> fault past the end of the buffer, the CMA heap fault handler also checks
-> the fault offset against the buffer size, but gets the boundary wrong by
-> 1. Fix the boundary check so that we don't read off the end of the pages
-> array and insert an arbitrary page in the mapping.
->
-> Reported-by: Xingyu Jin <xingyuj@google.com>
-> Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma=
-_heap implementation")
-> Cc: stable@vger.kernel.org # Applicable >=3D 5.10. Needs adjustments only=
- for 5.10.
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> ---
->  drivers/dma-buf/heaps/cma_heap.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
-_heap.c
-> index c384004b918e..93be88b805fe 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -165,7 +165,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *=
-vmf)
->         struct vm_area_struct *vma =3D vmf->vma;
->         struct cma_heap_buffer *buffer =3D vma->vm_private_data;
->
-> -       if (vmf->pgoff > buffer->pagecount)
-> +       if (vmf->pgoff >=3D buffer->pagecount)
->                 return VM_FAULT_SIGBUS;
+Hi Hans, Mauro,
+
+There are a lot of patches in this PR, result of me being quite busy
+elsewhere lately. Included are:
+
+- Miscellaneous cleanups here and there, including sparse false positive
+  fixes from Ricardo
+- Fixes to ov5675, ar0521, mt9v111 and ipu3-imgu drivers
+- Improvements to imx283, imx355, og01a1b and max96717 drivers
+
+Please pull.
 
 
-Thanks for fixing this! (And thanks to Xingyu Jin for catching it!)
+The following changes since commit 393556c9f56ced8d9776c32ce99f34913cfd904e:
 
-Acked-by: John Stultz <jstultz@google.com>
+  Merge tag 'tags/next-media-videobuf-20240827' of git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git (2024-08-28 13:11:49 +0200)
 
-thanks
--john
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.12-1-signed
+
+for you to fetch changes up to 9a59151d09df8e1c03add9ea5f767b4087512f7c:
+
+  media: MAINTAINERS: Add "qcom," substring for Qualcomm Camera Subsystem (2024-08-30 12:19:08 +0300)
+
+----------------------------------------------------------------
+V4L2 patches for 6.12
+
+----------------------------------------------------------------
+Alexander Shiyan (1):
+      media: i2c: ar0521: Use cansleep version of gpiod_set_value()
+
+Bryan O'Donoghue (1):
+      media: ov5675: Fix power on/off delay timings
+
+Changhuang Liang (1):
+      media: MAINTAINERS: Add "qcom," substring for Qualcomm Camera Subsystem
+
+Hongbo Li (1):
+      media: intel/ipu6: make use of dev_err_cast_probe()
+
+Julien Massot (2):
+      media: i2c: max96717: coding style fixes
+      media: i2c: max96714: coding style fixes
+
+Liao Chen (2):
+      media: i2c: mt9v111: Enable module autoloading
+      media: i2c: mt9v111: Drop redundant comma
+
+Max Staudt (3):
+      staging: media: ipu3: Drop superfluous check in imgu_vb2_stop_streaming()
+      staging: media: ipu3: Return buffers outside of needless locking
+      staging: media: ipu3: Stop streaming in inverse order of starting
+
+Ricardo Ribalda (6):
+      media: ar0521: Refactor ar0521_power_off()
+      media: i2c: ov5645: Refactor ov5645_set_power_off()
+      media: i2c: s5c73m3: Move clk_prepare to its own function
+      media: tc358746: Move clk_prepare to its own function
+      media: meson: vdec_1: Refactor vdec_1_stop()
+      media: meson: vdec: hevc: Refactor vdec_hevc_start and vdec_hevc_stop
+
+Robert Mader (1):
+      media: i2c: imx355: Parse and register properties
+
+Tommaso Merciai (1):
+      media: i2c: max96717: add test pattern ctrl
+
+Umang Jain (3):
+      media: imx283: Add 3/3 binning mode
+      dt-bindings: media: imx335: Add reset-gpios to the DT example
+      media: imx335: Fix reset-gpio handling
+
+Vladimir Zapolskiy (6):
+      media: dt-bindings: Add OmniVision OG01A1B image sensor
+      media: i2c: og01a1b: Add OF support to the image sensor driver
+      media: i2c: og01a1b: Add stubs of runtime power management functions
+      media: i2c: og01a1b: Add support of xvclk supply clock in power management
+      media: i2c: og01a1b: Add management of optional reset GPIO
+      media: i2c: og01a1b: Add management of optional sensor supply lines
+
+Yue Haibing (2):
+      media: ccs: Remove unused declarations
+      media: siano: Remove unused declarations
+
+ .../bindings/media/i2c/ovti,og01a1b.yaml           | 107 ++++++++++
+ .../devicetree/bindings/media/i2c/sony,imx335.yaml |   4 +
+ MAINTAINERS                                        |   3 +-
+ drivers/media/common/siano/smscoreapi.h            |   6 -
+ drivers/media/i2c/ar0521.c                         |  22 +-
+ drivers/media/i2c/ccs/ccs-reg-access.h             |   3 -
+ drivers/media/i2c/imx283.c                         |  33 +++
+ drivers/media/i2c/imx335.c                         |   9 +-
+ drivers/media/i2c/imx355.c                         |  12 +-
+ drivers/media/i2c/max96714.c                       |  18 +-
+ drivers/media/i2c/max96717.c                       | 236 ++++++++++++++++++---
+ drivers/media/i2c/mt9v111.c                        |   3 +-
+ drivers/media/i2c/og01a1b.c                        | 187 ++++++++++++++--
+ drivers/media/i2c/ov5645.c                         |  15 +-
+ drivers/media/i2c/ov5675.c                         |  12 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c           |  13 +-
+ drivers/media/i2c/tc358746.c                       |  12 +-
+ drivers/media/pci/intel/ipu6/ipu6.c                |  20 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c             |  40 +++-
+ drivers/staging/media/meson/vdec/vdec_1.c          |  16 +-
+ drivers/staging/media/meson/vdec/vdec_hevc.c       |  43 +++-
+ 21 files changed, 690 insertions(+), 124 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,og01a1b.yaml
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
