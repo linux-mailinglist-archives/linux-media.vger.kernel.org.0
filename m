@@ -1,132 +1,96 @@
-Return-Path: <linux-media+bounces-17224-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17225-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD90965D04
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 11:34:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB092965E01
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 12:09:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D3E31F223FF
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 09:34:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79AF91F226DF
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 10:09:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47BF4171658;
-	Fri, 30 Aug 2024 09:34:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C40BE17B510;
+	Fri, 30 Aug 2024 10:09:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Lp7kv3b8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N9rR7XLv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8166017AE01
-	for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 09:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CE214C5A4
+	for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 10:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725010445; cv=none; b=YtzkdUz1GLn0uvzbZ8mVwME5i/x+k8qtEf3K83iUksBUfVrZ0UTuvfJddf3Q5u7/XrYkuZdPJeITP5fZR9DS0L/2UNKbObmpKoiFYsGB2idHcX2TQ/wAEVxVegypG6E3SUvNwjmQTce9HU7M6I2OW29FiJ2XQfcUI4p3WrxVcHQ=
+	t=1725012591; cv=none; b=t0uhqxOU6HeUxg4c7DCte/dr0BQW/kEyhQUM60kAnS80SDNt4BZGBJ5/XwqD9qJ+0UFk7CbLPoGUVM48UeUiOYSc01ZOaVfgMrQERYxYqozU73Eqje2+34owcGuWtFKFrSjnh2y8IRg2AHqsru3YlfWS3scwU8/VFOYMQZhQz7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725010445; c=relaxed/simple;
-	bh=5rP5zL2KLmr+ypRtFJIOpFNWn0XTqmd0dwtczaD1wMo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mEMNs5Sd1fv4Ggz+532RBT4XI9/JP+sZc5+ur6aAX/KtfEuV2uLR+Mwf5ttJvF3y0D78tf8eP1jmtByS7+3AwNfW9M865ju1G36gH0kQV2qJBFWHxOPZZErmx2o6u/GXfpmkxY+DZs2EmRsST3ZdfGbu1K2ksEc+cEAT993qziE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Lp7kv3b8; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e1a7fa52bacso50345276.1
-        for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 02:34:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1725010442; x=1725615242; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5rP5zL2KLmr+ypRtFJIOpFNWn0XTqmd0dwtczaD1wMo=;
-        b=Lp7kv3b818VevBRZFbg9sFkUzHya5kT3hJ4LjSbgt9v3uTz/DJoFkzZRUtFxQHDahM
-         Dg3rWQoDmwdWJSRFnw7KM62edUtilxxqWdRIaYO8PZ5KgIygGj2DgIfnX+2nSRYACiQ3
-         rf5P911nrQYKYiujpr+IQk9SSSAljSCv7NoMC6mQUuJDeK/rqN63J+VN/cWaHedMoXDE
-         1ykTZNf1p26bDzZ1rc3D9bSErF0eMFs+nMFXpKEXI/PSfCOgWq01hNvzwtSVrhAMiOAw
-         f+xEnK1SLek/HrtLW3YDp/QXhBT4OWN8hfHkjcU/lpo0sWnYKaI/GA7mqDhv4+CgAmjm
-         FqxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725010442; x=1725615242;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5rP5zL2KLmr+ypRtFJIOpFNWn0XTqmd0dwtczaD1wMo=;
-        b=spXou/8ImSFNITL0G8pL9404RUme+Qel0y+/ghANXLquWhiVwNH6LUEhir25VvEqdp
-         fTj9FmAEtBtYHA8+psdkTH+RSItmZbHfJO97xNVkXNoW7/Xjmq1qRmjIXD71mTUAxGBf
-         Mxmc4VLJnlodvburUY+5ORq0qlhbKd0drfQqroa/kWfsNrvI2gpircxNJJ3AN2S4Nvyx
-         hCtA+SihUuZWjRKhaKVlUG31MMLnYcqFK2LG+ii4CoWcMUubO//YC6oup1uxn8sMa5uV
-         0yfFhG4ayp+aMBuhaFneQjKOoRsgmAWK/hY4k/DT86EtwylUzKYT4beVffnS9HBtLLmR
-         AnnA==
-X-Forwarded-Encrypted: i=1; AJvYcCXxNTatVJ8JxXiISs1DnRNk6ebclRrMDnCHirqsZhlHhtr22/Q2KXndSJyAyj7YrZYOKLd5tOUozUjTpQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywkw/3YUXAD47w3ktQwBXrP1U5b4UE4MimwOBY5DM4zhc1KlrFZ
-	zQTCACIi6sm520vdel6qO4fiqHBiHeQOWiAyQFZwNXeP/466L2VT4KAvXtBYgfxBsZw8YE+8R+7
-	DfZ1rAdzMFYtZ0yaUnI1hx2OgApnxHD8nA1dBMA==
-X-Google-Smtp-Source: AGHT+IGI1I8xF4tSkkkuAM2tC1QhUAKtihp4AiB8cFNzmGSA3P/TjVLFGKmwMrM8BHcIKtVV+Zif+H7HNvm1FVotljY=
-X-Received: by 2002:a05:690c:e1f:b0:6d3:c7d:5eaa with SMTP id
- 00721157ae682-6d4105dd651mr8373437b3.8.1725010442337; Fri, 30 Aug 2024
- 02:34:02 -0700 (PDT)
+	s=arc-20240116; t=1725012591; c=relaxed/simple;
+	bh=FzMa+eg/u0N2bA81VF6JqGFTQMH4Pfg9V/uEtl8jY1A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZQmYjLhIKGFlgPwaSzOqecrXQOPF2/s0mR7yh3mBycSFBycelB80TFMl4gGRoEUkbkM68gU+R77sN4iinVdtuPwWkfQrbmEIjygn1F3G0NO5Pau/fFT108VlfYpjS0Q6h33BvG2P5nnSR4CUdfqn+A4kSKXEJhIDPEYE4pkmULQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N9rR7XLv; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725012590; x=1756548590;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=FzMa+eg/u0N2bA81VF6JqGFTQMH4Pfg9V/uEtl8jY1A=;
+  b=N9rR7XLvOcPtpKVQcU9ZBVtmw+Ik177RfFDMWCXVfZyPagiIyK1S6qWq
+   mrqj7VzQCLys/2WAdly7TNSzBgzen9iaUYLDk3RvXAVTZwQgGFMlWSsLB
+   xzbTsRbLWWA5G9h9FShdQ1pw1HhEuY1JoX2QydLgXJZ7bu9IPeWJ/oh2u
+   O5cxQo9aKUjRNs8IhKVXInEdiBJGVkrLSp4xDnXS0p876c1VoQde3hKVy
+   ChMW54mJUAfIz/pvOM0CivmNVp1/ZBR8hha5G0Ce73ay4kvlKFTkNTtOo
+   nKhXERLPyeBe0/eWI+5fRrY8h4QgqNyzr+swBejjlOrmkxUGVMIlzJGWH
+   Q==;
+X-CSE-ConnectionGUID: DbSX9Mq3S0qVYeLNfvw68Q==
+X-CSE-MsgGUID: HnG+SB4yTACtJxvWdcX8iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34807946"
+X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
+   d="scan'208";a="34807946"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 03:09:49 -0700
+X-CSE-ConnectionGUID: 67tJoTq6SES1jZ0EDqxrAg==
+X-CSE-MsgGUID: 63oM2osqQhmr/2HRT7N4kw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
+   d="scan'208";a="64200927"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.161]) ([10.245.245.161])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 03:09:46 -0700
+Message-ID: <f1ee5ce0-39dc-4c1d-a587-7326df879dee@intel.com>
+Date: Fri, 30 Aug 2024 11:09:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240729090042.GA2725@pendragon.ideasonboard.com>
-In-Reply-To: <20240729090042.GA2725@pendragon.ideasonboard.com>
-From: Naushir Patuck <naush@raspberrypi.com>
-Date: Fri, 30 Aug 2024 10:33:35 +0100
-Message-ID: <CAEmqJPoHUXpX3F7dDKAYCr59YKCWz9rggKD5C6hTyyOSr=EiaQ@mail.gmail.com>
-Subject: Re: Interest for a libcamera workshop in Vienna - September 17th
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] drm/xe: Invalidate media_gt TLBs in PT code
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: thomas.hellstrom@linux.intel.com, sumit.semwal@linaro.org,
+ christian.koenig@amd.com
+References: <20240826170144.2492062-1-matthew.brost@intel.com>
+ <20240826170144.2492062-3-matthew.brost@intel.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20240826170144.2492062-3-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
-
-Here are a few agenda items that RPi would like to include in the discussions:
-
-1) Raw reprocessing API
-2) Per-stream control RFC
-3) Non-image data streams
-
-Thanks,
-Naush
-
-On Mon, 29 Jul 2024 at 10:01, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hello everybody,
->
-> Following the success of our workshop in Brussels in February, we would
-> like to host another event in September.
->
-> We have evaluated different options, and opted for week 38 in Vienna.
-> The city will host during that week the Linux Media Summit (Monday the
-> 16th, [1]), OSS Europe (Monday the 16th to Wednesday the 18th, [2]) and
-> the Linux Plumbers Conference (Wednesday the 18th to Friday the 20th,
-> [3]), and we expect that co-locating with those events will ease travel
-> for attendees of the libcamera workshop.
->
-> The week is already busy with camera-related events on Monday with the
-> Linux Media Summit, and on Thursday afternoon with the Complex Camera
-> micro-conference at LPC ([4]). We have therefore selected Tuesday the
-> 17th for libcamera.
->
-> To help us plan the venue, could you please register your interest by
-> replying to this e-mail, either publicly, or in private to Kieran and me
-> ? The event will be free of charge for attendees.
->
-> Please also let us know if you have any preferred discussion topics you
-> would like to include. We will draft and circulate an agenda in the next
-> few weeks.
->
-> [1] https://lore.kernel.org/all/ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl/
-> [2] https://events.linuxfoundation.org/open-source-summit-europe/
-> [3] https://lpc.events/
-> [4] https://lpc.events/event/18/sessions/193/
->
-> --
-> Regards,
->
-> Laurent Pinchart
+On 26/08/2024 18:01, Matthew Brost wrote:
+> Testing on LNL has shown media GT's TLBs need to be invalidated via the
+> GuC, update PT code appropriately.
+> 
+> v2:
+>   - Do dma_fence_get before first call of invalidation_fence_init (Himal)
+>   - No need to check for valid chain fence (Himal)
+> v3:
+>   - Use dma-fence-array
+> 
+> Fixes: 3330361543fc ("drm/xe/lnl: Add LNL platform definition")
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
