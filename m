@@ -1,116 +1,164 @@
-Return-Path: <linux-media+bounces-17215-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17216-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95EDA9659F5
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 10:18:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9916965A04
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 10:20:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51ACD28A9BE
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 08:18:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 286011C22542
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 08:20:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D42E16A92F;
-	Fri, 30 Aug 2024 08:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 931D316BE18;
+	Fri, 30 Aug 2024 08:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6pf6yW2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35988167DA4;
-	Fri, 30 Aug 2024 08:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F1313D53E;
+	Fri, 30 Aug 2024 08:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725005905; cv=none; b=SLkhPakLd3F/inCN4m8SO/6NAaKByZpr/r292XFHtr8daAzyQllorVGPzG5Bo4/HLk3UDAJxaCZidfyFpFW2asWQUqCaBqH+Mozeigmxk6ZbOysHc8nf6PHZvxLAeyOWWHNTA6pIoQWCDnXR9RyDBAvUwBtKOc+HQHZtfxu2+Vo=
+	t=1725006020; cv=none; b=eQeqBYElxGA3qtF4haOCWEj91L/0MTSjts+v5eExYhWHMckIDkY61+g/+k6s9qbs9Z2W9+uAMjCz90HQOy8z/C6QEVLRSRwqRlk3WRY2GEOgtpWn5QUwqerS9qDxthcjXNxe4+KF0SARyOYenbQXB+yP/Y+cR1DFIHRmFQh5NKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725005905; c=relaxed/simple;
-	bh=35jDCi1Kj9oN2o02lDIyXMFMWMiUeUYXNfhFHuTbbIw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KlT4rxVt7S4FXAtokAYNmm7Em1Gzvru8w/Lx+jvQUDR6rgBMgmm9662WuZBhjmBhR4DRw2r5cpToQmQ6CkX/0iRzy1Krh5kZLxoyaDHpakTfJ/v+FHPagyoBjdEll0O1Yvn95iKB+wHaJieBPOuyNLPq8DibRSHv/sNIKgTFCcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6b8f13f28fbso13765337b3.1;
-        Fri, 30 Aug 2024 01:18:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725005902; x=1725610702;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NOPsquWW8Uy5MOnXlVH8v3N0MKkHs39P2/JigTaTeY0=;
-        b=O7NL4pYQEO4AVNTrGQPrfKkfre2hh4+MKcrvNxVPkeC3ogGZhdVu/RKIKgPKar4mTt
-         Xi+frVKV8n7d7O+ijP0f+rZ7RBQ7X841vDGjYGwd7ZM2U7fO0tqvw/PYwaHNdoAyI578
-         JZCaI/52RnwI3opGQRUTnqm8yKkm7Q6Ultcw2QFZWPf+06mc07pI338vfOfRxQh6oKXq
-         r4rDtSdn4xmMvjDbm/XfvD/I55cbqyV4xf/TDMLAjh3oCPe2G4TTQgzdIxX6Qo1EgTKM
-         QxEz0Ag53I1jWiRDoMqXuBwrji3S8G1Eb/amIgSTL8qj7pv2kuowx1WSPAMovEu+YBMh
-         OdDA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8RpUAOIG5HjYJXrYDEoVX0R7U9Em3laYEN4NosuR1gXVSWfo/+YdEhwWPd2rGCDJG9zH/RTbKQai0xZI=@vger.kernel.org, AJvYcCWIEJyJ8KO9y2P1o4BEPRLC+LMDn6QTDxJz/2MF+QTG1p048uFRaFO69mUk5aO6wjx8ELkLa/Pb07qp@vger.kernel.org, AJvYcCWeGVxvAMmK+2OcigXhD0NR3STZEjigT9ND/hvnM1KHg0NxEbK09e3HE9Wf/Lw0Tgoxo/yzEFhWV3hCdoDPgfnWjdI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFKSVx7n2t7gwIIeJPbN6RLTNcNSlejLhLv2YQwVJUDG67SUjY
-	TJ/0S5WuEyfpgLwr+gxtbxK/lgT2Hr27vvFpgeFZ4RL9BeN6t1qEnnjl0KhS
-X-Google-Smtp-Source: AGHT+IHsdKr+kkshSeqcDh/CV++c4SPsrXkT3SzEH8giiUkGSs4i5isHSShIPOYQMFDvxAuxeZufUg==
-X-Received: by 2002:a05:690c:3412:b0:6b5:916d:597 with SMTP id 00721157ae682-6d40e287027mr10637587b3.22.1725005902505;
-        Fri, 30 Aug 2024 01:18:22 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6d2d57de61esm5507227b3.88.2024.08.30.01.18.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Aug 2024 01:18:21 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6d3c10af2efso6681727b3.0;
-        Fri, 30 Aug 2024 01:18:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU2EVopmcHwtn3k6dRRwfc1bIpVdLgGGWh1ECzDaZK2hC7/JhnMGZd/1HOHZ7xf4YqoWIaVWNCowlnm@vger.kernel.org, AJvYcCU7Yi74qMLLVNbKtCTjEpHEGYVL/z7xQS9W8oiMc0YOO/WrAn/MfmwbdggsNHxobE6Rjv24JwhoVPIQam0=@vger.kernel.org, AJvYcCWoI5t3KfWgMZKkoJqaGIVVbKLGcRrvqf8fQZj8KgxoIUNHjQ/FiVsUrJ5r8C6nF9YzH8BOFjsfaXHXbF4uI/vtBYo=@vger.kernel.org
-X-Received: by 2002:a05:690c:418f:b0:6ae:e4b8:6a46 with SMTP id
- 00721157ae682-6d4101031c7mr10599987b3.44.1725005901391; Fri, 30 Aug 2024
- 01:18:21 -0700 (PDT)
+	s=arc-20240116; t=1725006020; c=relaxed/simple;
+	bh=8BnN5DBF5PyD8ejLqZl3nUmYt2pMYCYaD3RZT+KL8Js=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S45P59TyM6HyGpNYyg7oYI/HIRFHifMFUgErjtLNh+aiIJeBBCukFAdob06Hc15NT8HZdekSgl34Pgi68s2eutAUrpeRxA3UqVvLlv54lWKMHu5dTZLwzPmjoTL9vUwa2x9iTDBa2g8jIY8qz3t9NLgUaKgS2W5FiMXn8vUKKzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S6pf6yW2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93A5C4CEC2;
+	Fri, 30 Aug 2024 08:20:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725006019;
+	bh=8BnN5DBF5PyD8ejLqZl3nUmYt2pMYCYaD3RZT+KL8Js=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S6pf6yW2mEYxVJ8pMscwAphZR8+YV89giq2YbpUBupjpdXp7czVUvq3xG7G9XnRRH
+	 zw9ou5Lps/5xdysFVs4DY9PKf2t7oaoQAbZwp4bWCMp+6SlBwTrbYTMWbPKudpor5P
+	 zDCFaVZK7RIAlxf8qVydbijUBKgYCvOZlGTQHoYjCmidvs6ShU4NyaQnBiLIbI2vuj
+	 htfEL+cm2DaqDVqoCsYSJCBVRtteeljSo2+z7tzzWcc/c68Xbj7Xhmy06B8zOxapOL
+	 zf+1CsvX2G7hRz+n5ZIEfixA+8M/2DBMCQygmQMVcgSoUvfiUP6+Lt2dZ6xUvH5inO
+	 jtqr7UnuG+dtA==
+Date: Fri, 30 Aug 2024 10:20:17 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T . J . Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [RFC PATCH 3/4] dt-bindings: reserved-memory: add
+ linaro,restricted-heap
+Message-ID: <3bqb6mktkvbdl6h4eekad4mpjhyvzx7mjidhnanboygbwu2asz@6ros56bp6isd>
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <20240830070351.2855919-4-jens.wiklander@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se> <20240829165051.2498867-4-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240829165051.2498867-4-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 30 Aug 2024 10:18:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVenR81cvQ5BbtKjULCXC3NN+pBCHbE4SVeZUBChvAYgg@mail.gmail.com>
-Message-ID: <CAMuHMdVenR81cvQ5BbtKjULCXC3NN+pBCHbE4SVeZUBChvAYgg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] media: staging: max96712: Move link frequency
- setting to device struct
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@iki.fi>, 
-	Julien Massot <julien.massot@collabora.com>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240830070351.2855919-4-jens.wiklander@linaro.org>
 
-On Thu, Aug 29, 2024 at 6:52=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Prepare for supporting MAX96724 by moving the soon device specific link
-> frequency setting into information structure. This struct will be
-> extended to carry more differences between the two devices supported.
->
-> While at it remove trailing comma in device table, no entries will be
-> appended after the sentinel.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+On Fri, Aug 30, 2024 at 09:03:50AM +0200, Jens Wiklander wrote:
+> From: Olivier Masse <olivier.masse@nxp.com>
+> 
+> DMABUF reserved memory definition for OP-TEE secure data path feature.
+> 
+> Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 > ---
-> * Changes since v2
-> - New in v3.
+>  .../linaro,restricted-heap.yaml               | 56 +++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml b/Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
+> new file mode 100644
+> index 000000000000..0ab87cf02775
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
+> @@ -0,0 +1,56 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/reserved-memory/linaro,restricted-heap.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Linaro Secure DMABUF Heap
+> +
+> +maintainers:
+> +  - Olivier Masse <olivier.masse@nxp.com>
+> +
+> +description:
+> +  Linaro OP-TEE firmware needs a reserved memory for the
+> +  Secure Data Path feature (aka SDP).
+> +  The purpose is to provide a restricted memory heap which allow
+> +  the normal world OS (REE) to allocate/free restricted buffers.
+> +  The TEE is reponsible for protecting the SDP memory buffers.
+> +  TEE Trusted Application can access restricted memory references
+> +  provided as parameters (DMABUF file descriptor).
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+And what is the difference from regular reserved memory? Why it cannot
+be used?
 
-Gr{oetje,eeting}s,
+> +
+> +allOf:
+> +  - $ref: "reserved-memory.yaml"
 
-                        Geert
+It does not look like you tested the bindings, at least after quick
+look. Please run  (see
+Documentation/devicetree/bindings/writing-schema.rst for instructions).
+Maybe you need to update your dtschema and yamllint.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> +
+> +properties:
+> +  compatible:
+> +    const: linaro,restricted-heap
+> +
+> +  reg:
+> +    description:
+> +      Region of memory reserved for OP-TEE SDP feature
+> +
+> +  no-map:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      Avoid creating a virtual mapping of the region as part of the OS'
+> +      standard mapping of system memory.
+> +
+> +unevaluatedProperties: false
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+This goes after "required:" block.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - no-map
+> +
+> +examples:
+> +  - |
+> +  reserved-memory {
+> +    #address-cells = <2>;
+> +    #size-cells = <2>;
+> +
+> +    sdp@3e800000 {
+> +      compatible = "linaro,restricted-heap";
+> +      no-map;
+> +      reg = <0 0x3E800000 0 0x00400000>;
+
+lowercase hex
+
+Best regards,
+Krzysztof
+
 
