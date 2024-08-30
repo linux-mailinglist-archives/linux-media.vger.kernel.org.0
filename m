@@ -1,164 +1,118 @@
-Return-Path: <linux-media+bounces-17216-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17217-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9916965A04
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 10:20:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF25965A49
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 10:28:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 286011C22542
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 08:20:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7040C28D4B4
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 08:28:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 931D316BE18;
-	Fri, 30 Aug 2024 08:20:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEF5516C84C;
+	Fri, 30 Aug 2024 08:28:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6pf6yW2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GFyz2gkn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F1313D53E;
-	Fri, 30 Aug 2024 08:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47DD49625;
+	Fri, 30 Aug 2024 08:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725006020; cv=none; b=eQeqBYElxGA3qtF4haOCWEj91L/0MTSjts+v5eExYhWHMckIDkY61+g/+k6s9qbs9Z2W9+uAMjCz90HQOy8z/C6QEVLRSRwqRlk3WRY2GEOgtpWn5QUwqerS9qDxthcjXNxe4+KF0SARyOYenbQXB+yP/Y+cR1DFIHRmFQh5NKc=
+	t=1725006491; cv=none; b=o65BVKgA7L3sa6qmxGVMfmHZmXDKowWBlnrk2+Zl9+AtA6pmOjltffhFLt3tc+N7WqqtykBrpGopsc8jNQa6utTKGBtxmLquEQx2rXRL64lJeiAR5gWVVCgkZWZ+6QGqE4AIW8Q9+vSq7AEqp0V+79jnLcHszUIVuvhmA7jA+Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725006020; c=relaxed/simple;
-	bh=8BnN5DBF5PyD8ejLqZl3nUmYt2pMYCYaD3RZT+KL8Js=;
+	s=arc-20240116; t=1725006491; c=relaxed/simple;
+	bh=1CayOtffUqgYgyBF6mx88/fzOGczsfgglMDZaVTevPM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S45P59TyM6HyGpNYyg7oYI/HIRFHifMFUgErjtLNh+aiIJeBBCukFAdob06Hc15NT8HZdekSgl34Pgi68s2eutAUrpeRxA3UqVvLlv54lWKMHu5dTZLwzPmjoTL9vUwa2x9iTDBa2g8jIY8qz3t9NLgUaKgS2W5FiMXn8vUKKzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S6pf6yW2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93A5C4CEC2;
-	Fri, 30 Aug 2024 08:20:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725006019;
-	bh=8BnN5DBF5PyD8ejLqZl3nUmYt2pMYCYaD3RZT+KL8Js=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S6pf6yW2mEYxVJ8pMscwAphZR8+YV89giq2YbpUBupjpdXp7czVUvq3xG7G9XnRRH
-	 zw9ou5Lps/5xdysFVs4DY9PKf2t7oaoQAbZwp4bWCMp+6SlBwTrbYTMWbPKudpor5P
-	 zDCFaVZK7RIAlxf8qVydbijUBKgYCvOZlGTQHoYjCmidvs6ShU4NyaQnBiLIbI2vuj
-	 htfEL+cm2DaqDVqoCsYSJCBVRtteeljSo2+z7tzzWcc/c68Xbj7Xhmy06B8zOxapOL
-	 zf+1CsvX2G7hRz+n5ZIEfixA+8M/2DBMCQygmQMVcgSoUvfiUP6+Lt2dZ6xUvH5inO
-	 jtqr7UnuG+dtA==
-Date: Fri, 30 Aug 2024 10:20:17 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T . J . Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [RFC PATCH 3/4] dt-bindings: reserved-memory: add
- linaro,restricted-heap
-Message-ID: <3bqb6mktkvbdl6h4eekad4mpjhyvzx7mjidhnanboygbwu2asz@6ros56bp6isd>
-References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
- <20240830070351.2855919-4-jens.wiklander@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ft56rjPgy/ZNfAnZ6GLlb4sMnTKdHphH6PKCe4XFKs6aaMoT1ZMgbivtIM6OVqOcQgecLpXU+c2Ir1emRO4hAQTqtXK2srwWTK6aT3jRFkUDinFYROTr4zYjdz2uBDCQkqreCpAybxatTSNwADFqYKLfDJD/83APwIKLT4W91KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GFyz2gkn; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725006490; x=1756542490;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1CayOtffUqgYgyBF6mx88/fzOGczsfgglMDZaVTevPM=;
+  b=GFyz2gkngDScidu5e9yu0Up8xYfln6iWTBgkyfdIIFutITCBOxWxZ4Gt
+   KQK4r5T8s1rGzKAuBQ1dTZcXOfJESu+41W60ip6uu+G0eI8NTg1LLBlP2
+   4Z5C2DaK0jRiqdohfd6iVvUgN8ax1Diyp44wHU//DIjrdo7hd6FYo74/N
+   mgCKxUmQGvSK3cXd1PbSJh0WXa2eZbqdSHcTr7VJFj9Hy5gWaKqTbvtDJ
+   pnsyTSNVk3A8Xp1O9h2jtdJ+Ml6FeSEEoL1BB2p7HIsp01tBXKuTCpe7q
+   Hudn3LwqWoINndbQ4IKtr7GfdSrbbNs1xnvllkr9vEVUMkebyzCHMlfmM
+   A==;
+X-CSE-ConnectionGUID: 5+xr+/+zQ1OpBt0Xy6gYMA==
+X-CSE-MsgGUID: kM/S5TQFSgWcWX6sQHZymQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="26534879"
+X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
+   d="scan'208";a="26534879"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 01:28:09 -0700
+X-CSE-ConnectionGUID: Ar3Gh/53QMWdDJtMHvk19A==
+X-CSE-MsgGUID: j5jrXK30QUK1L1DDaznfgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
+   d="scan'208";a="94662490"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 01:28:05 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 97A6611F843;
+	Fri, 30 Aug 2024 11:28:01 +0300 (EEST)
+Date: Fri, 30 Aug 2024 08:28:01 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	"Paul J. Murphy" <paul.j.murphy@intel.com>,
+	Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+	Martina Krasteva <martinax.krasteva@intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v4 0/2] media: imx335: Fix reset-gpio handling
+Message-ID: <ZtGCkQtGYndCK1Aw@kekkonen.localdomain>
+References: <20240830-imx335-vflip-v4-0-cb9f20fc7b87@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240830070351.2855919-4-jens.wiklander@linaro.org>
+In-Reply-To: <20240830-imx335-vflip-v4-0-cb9f20fc7b87@ideasonboard.com>
 
-On Fri, Aug 30, 2024 at 09:03:50AM +0200, Jens Wiklander wrote:
-> From: Olivier Masse <olivier.masse@nxp.com>
+On Fri, Aug 30, 2024 at 11:41:50AM +0530, Umang Jain wrote:
+> These couple of patches intends to fix the reset-gpio handling
+> for imx335 driver.
 > 
-> DMABUF reserved memory definition for OP-TEE secure data path feature.
+> Patch 1/2 mentions reset-gpio polarity in DT binding example.
 > 
-> Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> ---
->  .../linaro,restricted-heap.yaml               | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
+> Patch 2/2 fixes the logical value of reset-gpio during
+> power-on/power-off sequence.
 > 
-> diff --git a/Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml b/Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
-> new file mode 100644
-> index 000000000000..0ab87cf02775
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/reserved-memory/linaro,restricted-heap.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Linaro Secure DMABUF Heap
-> +
-> +maintainers:
-> +  - Olivier Masse <olivier.masse@nxp.com>
-> +
-> +description:
-> +  Linaro OP-TEE firmware needs a reserved memory for the
-> +  Secure Data Path feature (aka SDP).
-> +  The purpose is to provide a restricted memory heap which allow
-> +  the normal world OS (REE) to allocate/free restricted buffers.
-> +  The TEE is reponsible for protecting the SDP memory buffers.
-> +  TEE Trusted Application can access restricted memory references
-> +  provided as parameters (DMABUF file descriptor).
+> --
+> Changes in v4:
+> - rework 2/2 commit message
+> - Explain conclusions for 2/2 patch, in the '---' section.
 
-And what is the difference from regular reserved memory? Why it cannot
-be used?
+Thanks, Umang!
 
-> +
-> +allOf:
-> +  - $ref: "reserved-memory.yaml"
+I've applied these in my tree.
 
-It does not look like you tested the bindings, at least after quick
-look. Please run  (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: linaro,restricted-heap
-> +
-> +  reg:
-> +    description:
-> +      Region of memory reserved for OP-TEE SDP feature
-> +
-> +  no-map:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description:
-> +      Avoid creating a virtual mapping of the region as part of the OS'
-> +      standard mapping of system memory.
-> +
-> +unevaluatedProperties: false
-
-This goes after "required:" block.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - no-map
-> +
-> +examples:
-> +  - |
-> +  reserved-memory {
-> +    #address-cells = <2>;
-> +    #size-cells = <2>;
-> +
-> +    sdp@3e800000 {
-> +      compatible = "linaro,restricted-heap";
-> +      no-map;
-> +      reg = <0 0x3E800000 0 0x00400000>;
-
-lowercase hex
-
-Best regards,
-Krzysztof
-
+-- 
+Sakari Ailus
 
