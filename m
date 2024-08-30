@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-17244-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17245-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE046966AA8
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 22:35:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D56E966AAB
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 22:35:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D28811C22075
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 20:35:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51D3F1C22239
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 20:35:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B4DD1C173F;
-	Fri, 30 Aug 2024 20:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C1B51BF802;
+	Fri, 30 Aug 2024 20:35:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="fodV0kkp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="W2xKvBgf"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="cavgjqLx";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QRoy+vMe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
+Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44801BF33D;
-	Fri, 30 Aug 2024 20:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6561C173B;
+	Fri, 30 Aug 2024 20:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725050107; cv=none; b=GEkqJLcq5Vp0+9/2B37CV4IlQFJwpvNR15nTFTlP4V83E3/Hn3RS0ihAW5TXQgIyLFrWkH7WfyM+6CYdCsMjQxuUI1v+uETKGUnn7Zmdz+C0eLJC12p+dr3YYzNyY23VbnxgsIBP1ejBmWmprX5AbAZEA9po/tWwlIvSHvfTl4w=
+	t=1725050109; cv=none; b=uIvRYgJsvlE22NP9ysPSrjzsfVWWJRhJ7XS2DJ20t0rHWHIxaK1O0jnJxrKa01th20CxJVDuzQCIXB6Xfc5Xis4M8a+ILd8Z9VqvTvrizJe5WGip5qLTR62Dv9nJPS8UzUfvhuk74WeM8AsWztupXLes/cnWidT8yInPvUOtEz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725050107; c=relaxed/simple;
-	bh=WUNz6y4voRiI4lcnqrqaRmOZ30otXWdyqupORu7kRh8=;
+	s=arc-20240116; t=1725050109; c=relaxed/simple;
+	bh=/n5UkoeE/vp7MTk2uKXXS64C5AW9fa/pnkY1YfYJs+U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mIMCkMPn9pFZ4nlSV3DLA35PJCMHejfOOKeQgbjLaHslw+AMd5lBRqYC+sTnfau7nn7M2dlAwt39a5zdD7M/VBZhDM0WowYV00t0FoPxEPSFrJVhIIOL+a0VKjr0yfYjcOQ2y5VATpC/0XAFsDgiWqfBLzH9QcIUiKtnQKEiBfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=fodV0kkp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=W2xKvBgf; arc=none smtp.client-ip=103.168.172.150
+	 MIME-Version:Content-Type; b=Qfw690VxTGwVKGzhwdawD/bf+nEuc8lBKXrpjVkraAVr3zZ7g2Z0ltdazZBtIoa41xYMZmtkyAWYlugifiN4QQvEAE9fPZTsBdRa0GZXxoJxYBH2YhUG8xQbK8BnPRrdLNY2njDcsWH/8+6jDDrLHSJbFhYlpADHA8QvjmnNNkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=cavgjqLx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QRoy+vMe; arc=none smtp.client-ip=103.168.172.154
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-01.internal (phl-compute-01.nyi.internal [10.202.2.41])
-	by mailfout.nyi.internal (Postfix) with ESMTP id ABDB913802B6;
-	Fri, 30 Aug 2024 16:35:04 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Fri, 30 Aug 2024 16:35:04 -0400
+Received: from phl-compute-07.internal (phl-compute-07.nyi.internal [10.202.2.47])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id A408F114017B;
+	Fri, 30 Aug 2024 16:35:06 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Fri, 30 Aug 2024 16:35:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1725050104;
-	 x=1725136504; bh=G4r1nZQumfjbzcghcDspzxo9k7U5JAHA0SOW7OoBfxE=; b=
-	fodV0kkpbftxYdILUpBagg0w9XkaciqSaw81YZnQCZwjKLMhjz8e4B+yVcOjqlME
-	0I4+hSt3iXelcqI3B98A2H4Y0cxZpQDJV0gK2Z4AjY8JYCJBLoYpARviSDAuR21C
-	CPdcyZQZDSE+vRbsdUZiVM/naW6QCH9tiHC/A75pb0ATBhxoHsKHKWCT01uL+oOM
-	L412NydOHy5BIAJFMgM2uu3mxNP8+ZsvpidhQ/7rFtNBLVxJth/Oqi3J+7xvhgCK
-	vLRVXgDqA1SAkFsCFSmCDRb6rgga6qr0lfZtBx+nVfctpNAlUBHmIRTGv0JhAsXm
-	/nu1D76ZTIrEsSwMcvFsUg==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1725050106;
+	 x=1725136506; bh=tkfYQwWrFOZJjVqUVb3P3b9wwFzVkThikFf2mLvjjrs=; b=
+	cavgjqLxJFoJ6/n7GL+Dz9AJNlDGKADjSqGwcO+H11TA/G8W6LiQz3PKVCj87e84
+	5MTOHvViEftpvlLv2dMAOdiDN1M9qHeTSxvzqL921zlcpgd3PgSp0/Gw1f3QLE/g
+	dITK4DUByp+snyHGAx2Rw+OPP+iF5Ts4cArBvHOMGsnvEYWaec83Q6YQFjKQPLG0
+	qB+0NAKpEpsoA7ys1fQfG2oTEfwypxi3rBuDGdZpHIefCmJ0O0MYvCflZ1W3uL2c
+	AD8iMjmVi5sZs63luZjN6xfsf0ZDu+dHoPMqkZAwJeyQ2/XKGmSe5D4kFGReXC2+
+	5bNPb2D7g9CBWYgln61YRQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725050104; x=
-	1725136504; bh=G4r1nZQumfjbzcghcDspzxo9k7U5JAHA0SOW7OoBfxE=; b=W
-	2xKvBgfK4hqz4GKSaARr234lGxd/b/SnE722xo7nTVK4hV0znYvuI9+hSS2mW0cI
-	qemgrdZ2CmjGeqMS3q48yzHAPqeDhgp+J25dHvjP1+bKJgUdjZ7blgANsMPquuVk
-	ccx6BHI+mYdPf0ar4WSPlrVykIRdpoYqdtgqyQeC8EPRTV4Yo3K5/u9GRm5dE8F6
-	+2sYJOxzHk28QtmNdxYvE0AccKBXbMRZiJjH1Z+t2d45AeB/93wciCGkYdnjYuQo
-	GjdgjuXxL3NUFklnpMtuMO7IwvDbxuHerwOw3qozYvEF6FR+P924l5rv3zHsVMJt
-	9DT6QwGhzTJ7Km5ocNczg==
-X-ME-Sender: <xms:-CzSZkJ8Wn0B49VTFzYwOjsy5xxVMVl3owzG_i30SEBREmTnIPYIBg>
-    <xme:-CzSZkJQ-LsM-P1wgED5VH54J1AJ3ir9UBQz9d2EYGWrWuywcPsoCCeYdX7g8CJoD
-    YZEPe1-D9vanyLlpSs>
-X-ME-Received: <xmr:-CzSZkvQDVFvetXIHzXWQFsrw-9rwvewFH3qyPRSX_ZjG6LjOVuaoksoojU5M29-7mV9IkCUkdI1zHrYQ9u9Nm-pSg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefiedgudehtdcutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725050106; x=
+	1725136506; bh=tkfYQwWrFOZJjVqUVb3P3b9wwFzVkThikFf2mLvjjrs=; b=Q
+	Roy+vMe2P1DmDdDVVuNFIzA0v0nTMVPUUpX1iMAqK3S/HJPUcQcSbSAUi7Gj6D/o
+	H9AWifP0jg8pvR3T/cNyHzoP+QaV/Hasc8Hq6CIbbGm5S/wtbjpHswhmjhM53gPH
+	I4KRHfe/uPzJxjCJPJz0Vyq+V4Jnd3hhI9WGH/DVvck14UnTFhxUB/bkiR4DM8fd
+	59Te51kEkIb6tvTJuYseleYusykUkvRSdkwmVZC9lCo2MdEgg10K/4nipdbJaDCW
+	S2TsDGKqiqHliChAEYPsLzQdRQdkxwiOJy2ih3TjzQYEY2jHOKlLXyhXrAjQvaKC
+	cLs5kME6+I0BmlAhhmDbA==
+X-ME-Sender: <xms:-izSZrUtrOL1SdFondc5kA7YimQwIMexwkAzmB-YNi2W8wItvovQog>
+    <xme:-izSZjkwMpWsqmCDgigjZ0zOeG1FMC8tFyJyAuw7Fm_E9eY1goHNS6rGSV7929ioH
+    _Q1bvfOdVKxy4XQLwA>
+X-ME-Received: <xmr:-izSZnYWnnc-WW7OXVo0WQmRXM1iVOzHdcpnPsukg3uYGrraR29JTSnelob9XGWh82nPajD5XKaaUOPZxJ9jK8N-nA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefiedgudeglecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
     hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
@@ -83,14 +83,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefiedgudehtdcutefuodetgg
     drohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggv
     pdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
     dprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:-CzSZhZ-DEA_PeE7xqyKpUeCVlRfR0-piyt1MlfZQkxICUmYyv2yNw>
-    <xmx:-CzSZrY3JQtw0bVHO8V9fFObq_NN9ooWJn6qbNmABU7rdIqCsy2aJw>
-    <xmx:-CzSZtDYlN_8YP27_FzfUGs5NKFLTIjVQcByTnp70_2z58YJ1q2OnA>
-    <xmx:-CzSZhbCiJ-bjPYh6VfWEsywto_s37Cjl_nxgTNrVt2lbNYtCgMADQ>
-    <xmx:-CzSZpC_UmuxKEfiVJhPtrXi2u5tD3FmYN2si-y-MX5v8RBwg9ERKEva>
+X-ME-Proxy: <xmx:-izSZmUAKUQm-qWbHnRP0WZyKe4BMsCGreeW4Ep-hLthjo9uk_957Q>
+    <xmx:-izSZlmtLwsi3J0maFVFqABm16nC3tV_DlISUyYm3SUtiRiVsQpWng>
+    <xmx:-izSZjdh_RX2ucfRE48pl0WGJ_ecfE9twHq9LGzZEK9Aoljr_A_enA>
+    <xmx:-izSZvFfi8UxVqE8yCBA9j7wtTQhzrueBk0DK3e0RmA4bHJtaqpk4g>
+    <xmx:-izSZrcvmnsx8Ot1tyXlySdbK8OCIcZHLlzt21VDt1Rx5rsvlyPZ0oNw>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 30 Aug 2024 16:35:04 -0400 (EDT)
+ 30 Aug 2024 16:35:06 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -103,9 +103,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	devicetree@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 4/8] media: rcar-csi2: Abstract PHTW and PHYPLL register offsets
-Date: Fri, 30 Aug 2024 22:31:00 +0200
-Message-ID: <20240830203104.3479124-5-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 5/8] media: rcar-csi2: Add helper to lookup mbps settings
+Date: Fri, 30 Aug 2024 22:31:01 +0200
+Message-ID: <20240830203104.3479124-6-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240830203104.3479124-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20240830203104.3479124-1-niklas.soderlund+renesas@ragnatech.se>
@@ -118,149 +118,195 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Most of the registers used on the R-Car V4M CSI-2 IP are shared with the
-devices already supported by the rcar-csi2 driver. Two registers which
-function and layout are the same are however found on different offsets.
+The structure mapping a configuration information to a particular mpbs
+setting needs to be extended with more information to support future
+SoCs. Before it is extended reduce code duplication by creating a helper
+to lookup information from an array of mbps setting, the lookup code
+has already been copied to two speared locations.
 
-Prepare for adding support for R-Car V4M by storing the offset to these
-two registers offsets in the device information structured. This way the
-code, which is shared between the devices, can be reused when V4M
-support is added.
+While at it rename the structure to make it clear it contains
+information related to a mbps setting, not just a single register value.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/platform/renesas/rcar-csi2.c | 27 +++++++++++++++++++---
- 1 file changed, 24 insertions(+), 3 deletions(-)
+ drivers/media/platform/renesas/rcar-csi2.c | 90 +++++++++++-----------
+ 1 file changed, 45 insertions(+), 45 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-index 5ab19f94fcde..4e85c47817a1 100644
+index 4e85c47817a1..0c65c6aa7260 100644
 --- a/drivers/media/platform/renesas/rcar-csi2.c
 +++ b/drivers/media/platform/renesas/rcar-csi2.c
-@@ -584,7 +584,13 @@ enum rcar_csi2_pads {
- 	NR_OF_RCAR_CSI2_PAD,
+@@ -242,12 +242,12 @@ struct phtw_value {
+ 	u8 code;
  };
  
-+struct rcsi2_register_layout {
-+	unsigned int phtw;
-+	unsigned int phypll;
-+};
-+
- struct rcar_csi2_info {
-+	const struct rcsi2_register_layout *regs;
- 	int (*init_phtw)(struct rcar_csi2 *priv, unsigned int mbps);
- 	int (*phy_post_init)(struct rcar_csi2 *priv);
- 	int (*start_receiver)(struct rcar_csi2 *priv,
-@@ -730,7 +736,7 @@ static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
- 	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
- 		hsfreq = hsfreq_prev;
+-struct rcsi2_mbps_reg {
++struct rcsi2_mbps_info {
+ 	u16 mbps;
+ 	u8 reg;
+ };
  
--	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
-+	rcsi2_write(priv, priv->info->regs->phypll, PHYPLL_HSFREQRANGE(hsfreq->reg));
+-static const struct rcsi2_mbps_reg phtw_mbps_v3u[] = {
++static const struct rcsi2_mbps_info phtw_mbps_v3u[] = {
+ 	{ .mbps = 1500, .reg = 0xcc },
+ 	{ .mbps = 1550, .reg = 0x1d },
+ 	{ .mbps = 1600, .reg = 0x27 },
+@@ -272,7 +272,7 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3u[] = {
+ 	{ /* sentinel */ },
+ };
+ 
+-static const struct rcsi2_mbps_reg phtw_mbps_h3_v3h_m3n[] = {
++static const struct rcsi2_mbps_info phtw_mbps_h3_v3h_m3n[] = {
+ 	{ .mbps =   80, .reg = 0x86 },
+ 	{ .mbps =   90, .reg = 0x86 },
+ 	{ .mbps =  100, .reg = 0x87 },
+@@ -292,7 +292,7 @@ static const struct rcsi2_mbps_reg phtw_mbps_h3_v3h_m3n[] = {
+ 	{ /* sentinel */ },
+ };
+ 
+-static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
++static const struct rcsi2_mbps_info phtw_mbps_v3m_e3[] = {
+ 	{ .mbps =   80, .reg = 0x00 },
+ 	{ .mbps =   90, .reg = 0x20 },
+ 	{ .mbps =  100, .reg = 0x40 },
+@@ -336,7 +336,7 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
+ #define PHYPLL_REG			0x68
+ #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
+ 
+-static const struct rcsi2_mbps_reg hsfreqrange_v3u[] = {
++static const struct rcsi2_mbps_info hsfreqrange_v3u[] = {
+ 	{ .mbps =   80, .reg = 0x00 },
+ 	{ .mbps =   90, .reg = 0x10 },
+ 	{ .mbps =  100, .reg = 0x20 },
+@@ -402,7 +402,7 @@ static const struct rcsi2_mbps_reg hsfreqrange_v3u[] = {
+ 	{ /* sentinel */ },
+ };
+ 
+-static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
++static const struct rcsi2_mbps_info hsfreqrange_h3_v3h_m3n[] = {
+ 	{ .mbps =   80, .reg = 0x00 },
+ 	{ .mbps =   90, .reg = 0x10 },
+ 	{ .mbps =  100, .reg = 0x20 },
+@@ -449,7 +449,7 @@ static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
+ 	{ /* sentinel */ },
+ };
+ 
+-static const struct rcsi2_mbps_reg hsfreqrange_m3w[] = {
++static const struct rcsi2_mbps_info hsfreqrange_m3w[] = {
+ 	{ .mbps =   80,	.reg = 0x00 },
+ 	{ .mbps =   90,	.reg = 0x10 },
+ 	{ .mbps =  100,	.reg = 0x20 },
+@@ -596,7 +596,7 @@ struct rcar_csi2_info {
+ 	int (*start_receiver)(struct rcar_csi2 *priv,
+ 			      struct v4l2_subdev_state *state);
+ 	void (*enter_standby)(struct rcar_csi2 *priv);
+-	const struct rcsi2_mbps_reg *hsfreqrange;
++	const struct rcsi2_mbps_info *hsfreqrange;
+ 	unsigned int csi0clkfreqrange;
+ 	unsigned int num_channels;
+ 	bool clear_ulps;
+@@ -662,6 +662,34 @@ static void rcsi2_write16(struct rcar_csi2 *priv, unsigned int reg, u16 data)
+ 	iowrite16(data, priv->base + reg);
+ }
+ 
++static const struct rcsi2_mbps_info *
++rcsi2_mbps_to_info(struct rcar_csi2 *priv,
++		   const struct rcsi2_mbps_info *infotable, unsigned int mbps)
++{
++	const struct rcsi2_mbps_info *info;
++	const struct rcsi2_mbps_info *prev = NULL;
++
++	if (mbps < infotable->mbps)
++		dev_warn(priv->dev, "%u Mbps less than min PHY speed %u Mbps",
++			 mbps, infotable->mbps);
++
++	for (info = infotable; info->mbps != 0; info++) {
++		if (info->mbps >= mbps)
++			break;
++		prev = info;
++	}
++
++	if (!info->mbps) {
++		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
++		return NULL;
++	}
++
++	if (prev && ((mbps - prev->mbps) <= (info->mbps - mbps)))
++		info = prev;
++
++	return info;
++}
++
+ static void rcsi2_enter_standby_gen3(struct rcar_csi2 *priv)
+ {
+ 	rcsi2_write(priv, PHYCNT_REG, 0);
+@@ -714,29 +742,13 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv,
+ 
+ static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+ {
+-	const struct rcsi2_mbps_reg *hsfreq;
+-	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
++	const struct rcsi2_mbps_info *info;
+ 
+-	if (mbps < priv->info->hsfreqrange->mbps)
+-		dev_warn(priv->dev, "%u Mbps less than min PHY speed %u Mbps",
+-			 mbps, priv->info->hsfreqrange->mbps);
+-
+-	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
+-		if (hsfreq->mbps >= mbps)
+-			break;
+-		hsfreq_prev = hsfreq;
+-	}
+-
+-	if (!hsfreq->mbps) {
+-		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
++	info = rcsi2_mbps_to_info(priv, priv->info->hsfreqrange, mbps);
++	if (!info)
+ 		return -ERANGE;
+-	}
+ 
+-	if (hsfreq_prev &&
+-	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
+-		hsfreq = hsfreq_prev;
+-
+-	rcsi2_write(priv, priv->info->regs->phypll, PHYPLL_HSFREQRANGE(hsfreq->reg));
++	rcsi2_write(priv, priv->info->regs->phypll, PHYPLL_HSFREQRANGE(info->reg));
  
  	return 0;
  }
-@@ -1455,13 +1461,13 @@ static int rcsi2_phtw_write(struct rcar_csi2 *priv, u8 data, u8 code)
- {
- 	unsigned int timeout;
- 
--	rcsi2_write(priv, PHTW_REG,
-+	rcsi2_write(priv, priv->info->regs->phtw,
- 		    PHTW_DWEN | PHTW_TESTDIN_DATA(data) |
- 		    PHTW_CWEN | PHTW_TESTDIN_CODE(code));
- 
- 	/* Wait for DWEN and CWEN to be cleared by hardware. */
- 	for (timeout = 0; timeout <= 20; timeout++) {
--		if (!(rcsi2_read(priv, PHTW_REG) & (PHTW_DWEN | PHTW_CWEN)))
-+		if (!(rcsi2_read(priv, priv->info->regs->phtw) & (PHTW_DWEN | PHTW_CWEN)))
- 			return 0;
- 
- 		usleep_range(1000, 2000);
-@@ -1707,7 +1713,13 @@ static int rcsi2_probe_resources(struct rcar_csi2 *priv,
- 	return PTR_ERR_OR_ZERO(priv->rstc);
+@@ -1494,27 +1506,15 @@ static int rcsi2_phtw_write_array(struct rcar_csi2 *priv,
  }
  
-+static const struct rcsi2_register_layout rcsi2_registers_gen3 = {
-+	.phtw = PHTW_REG,
-+	.phypll = PHYPLL_REG,
-+};
-+
- static const struct rcar_csi2_info rcar_csi2_info_r8a7795 = {
-+	.regs = &rcsi2_registers_gen3,
- 	.init_phtw = rcsi2_init_phtw_h3_v3h_m3n,
- 	.start_receiver = rcsi2_start_receiver_gen3,
- 	.enter_standby = rcsi2_enter_standby_gen3,
-@@ -1719,6 +1731,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7795 = {
- };
+ static int rcsi2_phtw_write_mbps(struct rcar_csi2 *priv, unsigned int mbps,
+-				 const struct rcsi2_mbps_reg *values, u8 code)
++				 const struct rcsi2_mbps_info *values, u8 code)
+ {
+-	const struct rcsi2_mbps_reg *value;
+-	const struct rcsi2_mbps_reg *prev_value = NULL;
++	const struct rcsi2_mbps_info *info;
  
- static const struct rcar_csi2_info rcar_csi2_info_r8a7795es2 = {
-+	.regs = &rcsi2_registers_gen3,
- 	.init_phtw = rcsi2_init_phtw_h3es2,
- 	.start_receiver = rcsi2_start_receiver_gen3,
- 	.enter_standby = rcsi2_enter_standby_gen3,
-@@ -1730,6 +1743,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7795es2 = {
- };
+-	for (value = values; value->mbps; value++) {
+-		if (value->mbps >= mbps)
+-			break;
+-		prev_value = value;
+-	}
+-
+-	if (prev_value &&
+-	    ((mbps - prev_value->mbps) <= (value->mbps - mbps)))
+-		value = prev_value;
+-
+-	if (!value->mbps) {
+-		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
++	info = rcsi2_mbps_to_info(priv, values, mbps);
++	if (!info)
+ 		return -ERANGE;
+-	}
  
- static const struct rcar_csi2_info rcar_csi2_info_r8a7796 = {
-+	.regs = &rcsi2_registers_gen3,
- 	.start_receiver = rcsi2_start_receiver_gen3,
- 	.enter_standby = rcsi2_enter_standby_gen3,
- 	.hsfreqrange = hsfreqrange_m3w,
-@@ -1738,6 +1752,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7796 = {
- };
+-	return rcsi2_phtw_write(priv, value->reg, code);
++	return rcsi2_phtw_write(priv, info->reg, code);
+ }
  
- static const struct rcar_csi2_info rcar_csi2_info_r8a77961 = {
-+	.regs = &rcsi2_registers_gen3,
- 	.start_receiver = rcsi2_start_receiver_gen3,
- 	.enter_standby = rcsi2_enter_standby_gen3,
- 	.hsfreqrange = hsfreqrange_m3w,
-@@ -1746,6 +1761,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77961 = {
- };
- 
- static const struct rcar_csi2_info rcar_csi2_info_r8a77965 = {
-+	.regs = &rcsi2_registers_gen3,
- 	.init_phtw = rcsi2_init_phtw_h3_v3h_m3n,
- 	.start_receiver = rcsi2_start_receiver_gen3,
- 	.enter_standby = rcsi2_enter_standby_gen3,
-@@ -1757,6 +1773,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77965 = {
- };
- 
- static const struct rcar_csi2_info rcar_csi2_info_r8a77970 = {
-+	.regs = &rcsi2_registers_gen3,
- 	.init_phtw = rcsi2_init_phtw_v3m_e3,
- 	.phy_post_init = rcsi2_phy_post_init_v3m_e3,
- 	.start_receiver = rcsi2_start_receiver_gen3,
-@@ -1766,6 +1783,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77970 = {
- };
- 
- static const struct rcar_csi2_info rcar_csi2_info_r8a77980 = {
-+	.regs = &rcsi2_registers_gen3,
- 	.init_phtw = rcsi2_init_phtw_h3_v3h_m3n,
- 	.start_receiver = rcsi2_start_receiver_gen3,
- 	.enter_standby = rcsi2_enter_standby_gen3,
-@@ -1776,6 +1794,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77980 = {
- };
- 
- static const struct rcar_csi2_info rcar_csi2_info_r8a77990 = {
-+	.regs = &rcsi2_registers_gen3,
- 	.init_phtw = rcsi2_init_phtw_v3m_e3,
- 	.phy_post_init = rcsi2_phy_post_init_v3m_e3,
- 	.start_receiver = rcsi2_start_receiver_gen3,
-@@ -1785,6 +1804,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77990 = {
- };
- 
- static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
-+	.regs = &rcsi2_registers_gen3,
- 	.init_phtw = rcsi2_init_phtw_v3u,
- 	.start_receiver = rcsi2_start_receiver_gen3,
- 	.enter_standby = rcsi2_enter_standby_gen3,
-@@ -1796,6 +1816,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
- };
- 
- static const struct rcar_csi2_info rcar_csi2_info_r8a779g0 = {
-+	.regs = &rcsi2_registers_gen3,
- 	.start_receiver = rcsi2_start_receiver_v4h,
- 	.use_isp = true,
- 	.support_cphy = true,
+ static int __rcsi2_init_phtw_h3_v3h_m3n(struct rcar_csi2 *priv,
 -- 
 2.46.0
 
