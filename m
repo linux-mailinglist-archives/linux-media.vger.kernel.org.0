@@ -1,215 +1,276 @@
-Return-Path: <linux-media+bounces-17220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17221-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A44965A9D
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 10:42:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F751965BA6
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 10:47:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1085B1C21DF7
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 08:42:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8DC92B22332
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2024 08:47:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8176416D31C;
-	Fri, 30 Aug 2024 08:42:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ECFA16C84C;
+	Fri, 30 Aug 2024 08:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IqyVOyCA"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="JQ47eqoU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2043.outbound.protection.outlook.com [40.107.94.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED3916D9B4
-	for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 08:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725007366; cv=none; b=uMi1NErrItv4BFcu6b4VeNsPyJHKd5V+HNw5aaAj9LRt9yxpYZkpUBn6VCswNnhwmf+HnZCzCeJlSxjCTpvO/NDlCzLVw3/0DL+mVIgD7OHAIDnE+cy3JR8FNwuBttSzJf2RdEtp4idE/G7pjn87puQShWXrreO0GBRY9XaE5iY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725007366; c=relaxed/simple;
-	bh=3HZp0lzLztTvVH8SqxLgBJ8KySpa1DaNcgUQkAFt00k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N5S7UeKfveA/gscxhp1fiEwgh9OupAUkmhNMq1V0aEapI9nSg2nepfa8vTz6HQFKclQbkUQrOFKrzdrDMCJjh9cXCZFjdldf7aLN2FAJ374Kb8cZ9TE8ndA9BAuI6KaUFotZtrGEVdJIzZLmXjJSx3OL7UsuMYfeNVzL+VOMv0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IqyVOyCA; arc=none smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5de8b17db8dso886963eaf.2
-        for <linux-media@vger.kernel.org>; Fri, 30 Aug 2024 01:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725007364; x=1725612164; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hFoJ8uGU6Wt+2B+a3U8PT9o5qr4L6h8Nf/lLSdsGyCQ=;
-        b=IqyVOyCAFA3zEgqjMLKlw3dt2A9ExgUu8lqdrp4x+OEnmbhAMHgWVDsHugaHIIrrvJ
-         Mj2RrlY/kSOSN+4eXTNb9bB2B0FQ1127x2L4M25lNBmaSklo4zk36dCXOAj56nF4KjVz
-         xteAzXHjy6kVAdRkgSshOMAQtDMSs4fwE5B/+mAMsrB3opLAyoEK7BwWiuBNZYyj7CHX
-         1wzuwUMs0hP2LBgMsYiCx0mLaE0NpGJByOINsjvWtFkFOyjhDDqXhabMKTDdRe301CC5
-         qEakr/W0058gHbvATJQMpAvwnrzPoIu8NT11VE6wGxg7jErQ++Fr5NHuc+uEhLAJU85f
-         c6cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725007364; x=1725612164;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hFoJ8uGU6Wt+2B+a3U8PT9o5qr4L6h8Nf/lLSdsGyCQ=;
-        b=ZwZIhsYulQjYhkD3ZvsuAL/9rdei7UhZj9g5yWmIGJdai39JRM2GqDHiIIi3hizrdo
-         Ro4nXoX1Y3UpXHVcBodqNltegIsiQ/Ss6P2g5Wpiw1Nf8/D5Fj4IQ3dU+hLdql5GWe/K
-         dP8IklFm16lpChxgL+fPMVF9qk4xFN3SKE7OOrjzAzox9Fz6zxkTQUZneVlMxl5VRSoz
-         51vDt2+lUg7PIJbEkUGVihGBXNVVvVwgUP78/o/wrBngsCrVxDDK5L9/j08KuJR5I2+3
-         MJjq7nQwZi+uXBLznxUUDtAomt2cPSmxibh4LQkrURPS2HJeauAj4iGnDiKHe77G6fVn
-         K2XQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVYNxDkUWOIdXAw4wro3bPSdi5eIq72rfJh9gQ/7pK3IvJ51R1LzR59Wei+OIvrTSNuoM0raOH32FJmaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV43xQQBIBf09uBgKa1NWEQidxMKVQS6MMq29fovqwsK55ZLO3
-	fL041BbXlW3Pc8ObPR8/8Q5T2F3r9wrarvkHcgx1L+lU+/gw4F0grSedHqUm8DO1Fih0cIzqW+C
-	XMoPvvhNzEpekS5GrXdZCwbQeEsyo50F95Twyj8yzexD5PHDRkXqbfAHX
-X-Google-Smtp-Source: AGHT+IHBEq2kXBcob7OwHZwxMgPl68xRTiaqYdA20dFyB6L5ns13TYFSRrWJQJLVdlnc+h48Q+Hs/qXBirYHpgAHAeU=
-X-Received: by 2002:a05:6820:2216:b0:5d6:ae6:a852 with SMTP id
- 006d021491bc7-5dfacf28289mr1998086eaf.6.1725007364035; Fri, 30 Aug 2024
- 01:42:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDC216DC3C;
+	Fri, 30 Aug 2024 08:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725007630; cv=fail; b=ml5ZQyqF2flfTk02QXzDXlfRSv+au8OPkAzJl5zrJjRaVR+EqDC1ERa7ZV9nfezlEAKeBjG+4fPm/A1dYC4sDorE5nVqudupZoFHln7xjSq8rajIfvrHmOnj6CblZnIcjnurfDmUSQwvgOfNUDk/WwvfmFTt4kFLeeGhvsLs6lc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725007630; c=relaxed/simple;
+	bh=85u+UDOrWI/OQDqnfIzLaXaUjlODAeK8AnOO19rqSa8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=tNtTIPncZjTdxAubLR5gdDiCuVxRZhZOsKr0CiEfQwlFFR6rx4W4bPuwIY/GuzVj8jEmzt4soqgXa24gXPipesYghUw7l61/nh0XsumXge/+o7Xa7iVVZ3SqtU9ZObsRSmiojKq6qZSD8cb6lWUm5i/K1S5JnnaGOkbE3C0h1rM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=JQ47eqoU; arc=fail smtp.client-ip=40.107.94.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MVLc+EaSOYt25sIstwl/pcr+rtoJukvPyR3oSAoJD704FFzpfgbI6BMUMVNMd0ngNZIrWQBkMvpSZBtXuWfdhPwbg2alfsX3RYMIy+KYsmEnkIOIfUd0jG3FIMdauazKFoBComfItLNGUCgFJcaDQkLNXnVlcLQHyvDBemlmck4FECmJZS8OR/7mEEDQI0hbmBAfGISESWvlYRC9AFXNUEmsX8zB2tCyBNoNy8Fvf0dwCdLV2rXDxWFdrIWV3cg2Mi4IO40aIo6FTPV1iWlW6eYa1sY0dbW/rIDbvrppnePotEsRhjmcYwXSzsLNTJsaL8XP//LiEb4xOplv88267g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XxNoJiwrPFBjmNnH6we5vltCbw7Lkg1og1x/2okJqv4=;
+ b=sIcIeQ7H535idrQeVSWxu/znR1I+XdmedcUZo2X+myX4Oj4RrVdcuiw9GmxCR8xyCJTtB4xCoz367g4n3mm/Zim9i/LufGWZ47rEobJtQiDanvHZChme2yL3HCNQuQliAOfs8qIDq1QfJC4pBxU7SZH6S3U4TMX0uM4SW8OKOdBzGdqM6g4gsryPLEE91vbLLunISyhCpGZiHgax5Vnw0V0bH6umG0dHHT0jNLVSVuiy+CRxqMjysVdZ1Lkc5y1mt8/QgWZs4Gl8I9v+WWJN7+BzlI/H7DFd3vAobMnJktI69aVjf/HDeUUcYRAjQiwZuYK7rwaTdU1sCf0e80uKcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XxNoJiwrPFBjmNnH6we5vltCbw7Lkg1og1x/2okJqv4=;
+ b=JQ47eqoUo/vbK2sUYhpDtEg1K17rI9AmaHqobyYo4lqg1Frq59YWLQpvLQqMTBm3VPD6H8h7Xdqj/bFNETlDo167BR9S90ThKsFy6cVv4TIA/242/c1Pzml5IDOP8E5E2gCHcdMQCYejyHPgJJr65geuAHbFdAi8b6wxCoPLu5A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN0PR12MB6002.namprd12.prod.outlook.com (2603:10b6:208:37e::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.28; Fri, 30 Aug
+ 2024 08:47:05 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7918.019; Fri, 30 Aug 2024
+ 08:47:05 +0000
+Message-ID: <4a498990-2d9e-4555-85f3-d1d22e26b9dd@amd.com>
+Date: Fri, 30 Aug 2024 10:46:56 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/4] dma-buf: heaps: restricted_heap: add no_map
+ attribute
+To: Jens Wiklander <jens.wiklander@linaro.org>, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+Cc: Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>, Sumit Garg
+ <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <20240830070351.2855919-2-jens.wiklander@linaro.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240830070351.2855919-2-jens.wiklander@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR5P281CA0018.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f1::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
- <20240830070351.2855919-4-jens.wiklander@linaro.org> <3bqb6mktkvbdl6h4eekad4mpjhyvzx7mjidhnanboygbwu2asz@6ros56bp6isd>
-In-Reply-To: <3bqb6mktkvbdl6h4eekad4mpjhyvzx7mjidhnanboygbwu2asz@6ros56bp6isd>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Fri, 30 Aug 2024 10:42:32 +0200
-Message-ID: <CAHUa44Fd-Eo5-CUfxDgCFpRVbJP0gzA7LX_-5=cBfBd8NxhpDw@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/4] dt-bindings: reserved-memory: add linaro,restricted-heap
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6002:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52d67aa5-1c57-4e75-648a-08dcc8d05310
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?eVhmSUJRcWxpZk91UDhQa2duV2EvY01EYkk1YzZXSVo1a0J2M2ZCUmF3QzAz?=
+ =?utf-8?B?T0RYT2JrQWRjLzRmZitHeS95UlVhNXBSaVFHL082L2Y1VzI5VUlZeEUvN2pk?=
+ =?utf-8?B?YzAyL3Ntanlwd0JSQUhqdXl0R1ZpNy9KNDh3VDJvTUJSeDBBdmY0Sng0SjZ0?=
+ =?utf-8?B?Z0lSaGVCY0ZGd3RLYW9ScjBjNlFWcC9Gczc2dGVrcStyQkszbzJSTkYwQ1Y3?=
+ =?utf-8?B?d1pnRFVaQTJDamtHS3h0UGdpOGs1Zlc0SjB0eFRET1hGRVBFK2Y3TWwyUVhw?=
+ =?utf-8?B?azQvcUxRNGFUMGxmWktpMitwWkVSN2dOTzdUb2wvQWpxM3ZoSzVnUXplZ2k4?=
+ =?utf-8?B?a2o5bmpQWFY2Si90b3VpZE04SGtIaXRNb3Z1eUhkb3duU3lxK3ZSQ0g5MEx5?=
+ =?utf-8?B?OGtJYnhjYWwzd1psZjY3bUcybm4xRWIxbUp3SzU0KzhsNFlMOThZRmlZeldC?=
+ =?utf-8?B?MUQzb0l6RTV1OGVTZzFtOHhVd2VqbDI1Q3Q1VU5FZVRtdm9yaS9WYWdvZENt?=
+ =?utf-8?B?eXFxV1dNNGFXL0FrVnI0bXhyRURsZ2dkNXhRelNNMTBDZy8yVGdWSUlNT0cr?=
+ =?utf-8?B?KytXcnVwbzl2NkZwNlRJenk2cFp1eENBczNiUjhETmJrWVlLQ3haVHBUVk5a?=
+ =?utf-8?B?MkdWT0k2QmFtSTMrQ28xRUl5U1NmU1M1WTY5SjNGeUU5SVJIa001Y1BoL1I2?=
+ =?utf-8?B?TngxYnZ6bE1taTVVMkFzK05RN0NoT0RKa1Qrbk5ZdjRESVVUdFZCL1NIVDNw?=
+ =?utf-8?B?aGZjTUJ0VmZQRFdWQmhqa0pQNHlEN0c3bzhjZHhLbjYvd1g3RndnZXRvaGlU?=
+ =?utf-8?B?cllCU1hldlV0QlN1bVYyR0JYQlJWTklGOFcwS2xiN1F3SzQ0VHp5OVFuMkF4?=
+ =?utf-8?B?cFNveUYrRVQvUG8veU4rTTNKVXJVYmtOcVI0eW5EYWVxaUt0TUNVbVZZaDk0?=
+ =?utf-8?B?Q29FTVhlanNCMUx1WmtML2ZWUXdKNEIyZE5zT2hmUGNvdEtjaU5nZTFYbk1h?=
+ =?utf-8?B?M2RVN2pya0N3cy84WXNIQ0JmM1pyZlFGdUVXTkx6MEJZb1ozL1ZaTmp2eFRS?=
+ =?utf-8?B?U2QxTTZybUJrWWl5cXptQ2U0UXoycStyL1FVOTRNT1FKbVZDdlZHZGFBNVBy?=
+ =?utf-8?B?aktjZy9RaFhndWgxeUFyVURHUDBrU1YrbE9VMkpkMjc5ZlI2Ynp6OVRNTmNt?=
+ =?utf-8?B?MGxWa05KeWc2RUNoM0FIay9lc1kzNW1Sdk5YMEIwN3lDcUx4ZDUycHFmcFpN?=
+ =?utf-8?B?V3FybDNCRVhPdzBBM1ZieVprT01FYTFEQVRYeUVzbExjWlBiNWdadkRraGty?=
+ =?utf-8?B?R0ZPNGRNWUk2bUJJcG5ya1VMQkpXaTFzT1ZWZTRJOTZpMEtKZ3lXMjZSb0hM?=
+ =?utf-8?B?cUhxdGFhKzFzOHFNVmZTUzJYem1GOFJFMnRGM0lRam01U1czbURDSEVudVhw?=
+ =?utf-8?B?UndXSWk4Sm9LT3F3VFBXMk1LQkRYRUNKVnpYSkZ6OWhWRVZpL2ZEVmlsUndo?=
+ =?utf-8?B?NDZvcWQ0YXhiMk0zcTl4MVJiK1Y4MWZUam51eEp0eXRPT2EzdFByRlBDOWhY?=
+ =?utf-8?B?QWdEcjRHY1JxaDM5SHlUdFdyUUU3aXRxYnNZcWRUOTlHZWlWMVgycWI0QnAv?=
+ =?utf-8?B?eWdpaW43ZUwwWmJLR2xiK0UydG9LSU5ITzd3SENaY0xQbytEK2VhakZYcDhr?=
+ =?utf-8?B?ZUh0U01yNUFkZTFocUE2MDdQTjZIclozS2NuOXA5Um1TQW85bmVJY25oSjMz?=
+ =?utf-8?B?VDFxQzZqSTgwTWJZOGRGV09EOTY2UVhlRGgwdTBKMXIwUWVETFNlOXNoRk12?=
+ =?utf-8?B?ejR4U3VTU0NheWFpemRiQT09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bGJLSkhXdFI0SEhqNkdaeEZ2K2xXN3lMVEpWT0d4NGpNcFVmV3puZXZyZE1s?=
+ =?utf-8?B?NXBoVFc2ZmNMTFlEaWxFSm5EVXJFYms1UnV5MW1CeUVjaXYxajBEWlJBY0dq?=
+ =?utf-8?B?Y2FqVzhDVFpsaVFsNEVWa0lNRnVVb29jMzFVcFgwZFQrZStNRkxGanR2WHpU?=
+ =?utf-8?B?ellvMWltWnZWU3U2MEtoTlYvaWRhUmxXYnZTTm53ZzBSVVU1VURPQ1htUktC?=
+ =?utf-8?B?WXYrYzBoYTR4MFBXVkNDT3dhNWFmUGdmdFNxYjhMSUdaLzhmclhxWXZjMzJR?=
+ =?utf-8?B?ZVRwemJiZkF0ZklRL1pQblJKZ3MySlhFd2pmMC93MFYwTTErcm9CdkNJZGJ5?=
+ =?utf-8?B?NGZ6dEpxamp0d0Zta0dOc3A1UzYwTCtGVEFIRlRWeXlWa1pqS3ZxRXlzTlZX?=
+ =?utf-8?B?L0JlekZLK3NCQ2Y0S3NOYUYrT0tkcTBqcGpXZ3JXZTYwOENBY09JeFVnVFha?=
+ =?utf-8?B?Y2R5dnU0akYwZFZ6a2w1Z1J2K0pFYWZmalYrWUltWDFwdDJSMkc4VHdtSDNI?=
+ =?utf-8?B?dDBjRlZuVGp5aEUwTVVMeUYrZVVrRXhCVjU0MkNQZ0xSQ1hLQ1AxeXNUU1Rl?=
+ =?utf-8?B?akhHdjVpREJzY0h0OWpjTytPSlBuaDNrVnoyNGRFaXdCSjlIdlZGOCtNRmRW?=
+ =?utf-8?B?Tk42bzVjT0VUd3JRMzhjQXhYS3NWa09rYThYbVZ4Mk9jaUdVZ3NEZCtDMUF3?=
+ =?utf-8?B?TThpNGNBN09qdWs1SFBGSDRNUjJqOUNSOW00MGk4WEpUSTVsS2hnVkNVZzRn?=
+ =?utf-8?B?bTNDOW9jMFhvY3gxeSsvN1RhL0NBOEtxZTM1MjduN3FwRWdTU0JpQjJickxp?=
+ =?utf-8?B?eTdTZWtaNVRDeDRxTE9jdUN6clhIeWdSQlg5VmNhV3NCSDNvY1ZWcU5YbEs0?=
+ =?utf-8?B?bzVVS3N3T2syY0FPd1YwQkpTYjRZWkxCRm00V3J6cTRmeXExempqQTA4cS9I?=
+ =?utf-8?B?Y3Arall4WVYrb1c3NytUSS9kZmZqUDBkNFgrVXBGVHJET3hWN3VlakpYL09Z?=
+ =?utf-8?B?dHRNVkZYdGZhcFBXdzY2Ty94SUNOYllWRldQOVU3WDM3Qzkrb2VNYnRPazdZ?=
+ =?utf-8?B?MU5OSXdUMUVPSTdIWnBWb0V1ZHFzMTdObkhkcWozR09mR2s0TnBsd2Flcllu?=
+ =?utf-8?B?eGFBWURZOWN5QjlsV2tnNlhXMzdGbC96eG04WTNqeXhXWC9HZ0lJSzRyQVo5?=
+ =?utf-8?B?Q3ZZUm1DZHdaMXZFZHc1MU1NeUR3bkZTcnRpOHJmMHlaZDVQRTFIb2dRM2tw?=
+ =?utf-8?B?RGozVlFWOVl1YUNFQityVW8xc0dQaFVZQm5mK255VG9yTXV6Y0UvUU91dXd6?=
+ =?utf-8?B?SnAwejdJaUdsQ1hKdDBMU0lUTkw4bGhic2l6UU0xOVFZVEM5aFFhVzhGUUNN?=
+ =?utf-8?B?blVvRnIyb21HNm1KTXp3NGYxZEhQTnpJRmpiYjVSTEJRRkIydGVOWjFvWXV4?=
+ =?utf-8?B?aEU0WHBhNG11UDEva20vYmcyRGppdFhGbkpISXhQVVpLNmxjTXFlVWs5ci83?=
+ =?utf-8?B?aWtuTE5pM01XN2JpdkJpaWtwNE12VjR0Vjh6a1BMcFU4QTJDb3ZmdllnZlor?=
+ =?utf-8?B?VVBRNU9UYk9WL2VqUHlIeit3UEdSWGcwZjI4a2JNd2VOdWRHMTJKWHRCWVJS?=
+ =?utf-8?B?V0tKM0FFRGlWcGZCT1BZeVFhTkxOZWtuRi9oWlhzMG1JaGNaTk1LNkFnNDNs?=
+ =?utf-8?B?TFhtTWgxMkJqZ3pZSS9QVThmSzhGYWhmNjZaUUNuQ2h1aG1DaGlnZFNzSm40?=
+ =?utf-8?B?cHBZRWRaWHBwb0VsMEhSd1lYZUlaY3lCREFHRituRi9wdUxTVWpOR3h6MDVi?=
+ =?utf-8?B?eFd6MWt4MWJQWSswUm9PMzY3YXdGUHZYWTNkWHN5ZkFiMEdMU2Y1NGJlVXdM?=
+ =?utf-8?B?L0lsWFpkTEROSGN1cXJmK3FNU3BSZWpkR043QytGeE0wMHZteDFFbDFZbUdQ?=
+ =?utf-8?B?VWN3RXg3blhrUWhobW1FMCt3bWdkWWJKeG5VVnUycVdMZ0xxQUJTelBCbGtt?=
+ =?utf-8?B?MmF1YWh2MWxWZ3R0ZmFCUDQyckJkUkc4Wk8vNXFsdjlwdUZYU2c3K0NhaDFs?=
+ =?utf-8?B?Q2xmUTFVNU5Fd0FFbVB1N2EyaDhGNUJDcGVWR21WSlBXK1ZuYnJUTnpmN2FU?=
+ =?utf-8?Q?3hmxXg7zjL7BOn3BXlhoNxuOd?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52d67aa5-1c57-4e75-648a-08dcc8d05310
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2024 08:47:05.3296
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x41DR3UQ1E2B+XduNb3t/BCzYnp6SijkHzqVzE+RBxRdeTLH+aGDpBj2ujhzCbPd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6002
 
-On Fri, Aug 30, 2024 at 10:20=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.o=
-rg> wrote:
->
-> On Fri, Aug 30, 2024 at 09:03:50AM +0200, Jens Wiklander wrote:
-> > From: Olivier Masse <olivier.masse@nxp.com>
-> >
-> > DMABUF reserved memory definition for OP-TEE secure data path feature.
-> >
-> > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >  .../linaro,restricted-heap.yaml               | 56 +++++++++++++++++++
-> >  1 file changed, 56 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/l=
-inaro,restricted-heap.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/reserved-memory/linaro,r=
-estricted-heap.yaml b/Documentation/devicetree/bindings/reserved-memory/lin=
-aro,restricted-heap.yaml
-> > new file mode 100644
-> > index 000000000000..0ab87cf02775
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/reserved-memory/linaro,restrict=
-ed-heap.yaml
-> > @@ -0,0 +1,56 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/reserved-memory/linaro,restricted-h=
-eap.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Linaro Secure DMABUF Heap
-> > +
-> > +maintainers:
-> > +  - Olivier Masse <olivier.masse@nxp.com>
-> > +
-> > +description:
-> > +  Linaro OP-TEE firmware needs a reserved memory for the
-> > +  Secure Data Path feature (aka SDP).
-> > +  The purpose is to provide a restricted memory heap which allow
-> > +  the normal world OS (REE) to allocate/free restricted buffers.
-> > +  The TEE is reponsible for protecting the SDP memory buffers.
-> > +  TEE Trusted Application can access restricted memory references
-> > +  provided as parameters (DMABUF file descriptor).
->
-> And what is the difference from regular reserved memory? Why it cannot
-> be used?
+Am 30.08.24 um 09:03 schrieb Jens Wiklander:
+> Add a no_map attribute to struct restricted_heap_attachment and struct
+> restricted_heap to skip the call to dma_map_sgtable() if set. This
+> avoids trying to map a dma-buf that doens't refer to memory accessible
+> by the kernel.
 
-Good question. I need a compatible =3D "linaro,restricted-heap" to find
-it, but it appears that's permitted with regular reserved memory.
-Let's drop this patch. Thanks for pointing me in the right direction.
+You seem to have a misunderstanding here dma_map_sgtable() is called to 
+map a table into IOMMU and not any kernel address space.
 
->
-> > +
-> > +allOf:
-> > +  - $ref: "reserved-memory.yaml"
->
-> It does not look like you tested the bindings, at least after quick
-> look. Please run  (see
-> Documentation/devicetree/bindings/writing-schema.rst for instructions).
-> Maybe you need to update your dtschema and yamllint.
+So please explain why you need that?
 
-You're right, sorry.
-
->
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: linaro,restricted-heap
-> > +
-> > +  reg:
-> > +    description:
-> > +      Region of memory reserved for OP-TEE SDP feature
-> > +
-> > +  no-map:
-> > +    $ref: /schemas/types.yaml#/definitions/flag
-> > +    description:
-> > +      Avoid creating a virtual mapping of the region as part of the OS=
-'
-> > +      standard mapping of system memory.
-> > +
-> > +unevaluatedProperties: false
->
-> This goes after "required:" block.
-
-OK
+Regards,
+Christian.
 
 >
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - no-map
-> > +
-> > +examples:
-> > +  - |
-> > +  reserved-memory {
-> > +    #address-cells =3D <2>;
-> > +    #size-cells =3D <2>;
-> > +
-> > +    sdp@3e800000 {
-> > +      compatible =3D "linaro,restricted-heap";
-> > +      no-map;
-> > +      reg =3D <0 0x3E800000 0 0x00400000>;
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>   drivers/dma-buf/heaps/restricted_heap.c | 17 +++++++++++++----
+>   drivers/dma-buf/heaps/restricted_heap.h |  2 ++
+>   2 files changed, 15 insertions(+), 4 deletions(-)
 >
-> lowercase hex
->
+> diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/heaps/restricted_heap.c
+> index 8bc8a5e3f969..4bf28e3727ca 100644
+> --- a/drivers/dma-buf/heaps/restricted_heap.c
+> +++ b/drivers/dma-buf/heaps/restricted_heap.c
+> @@ -16,6 +16,7 @@
+>   struct restricted_heap_attachment {
+>   	struct sg_table			*table;
+>   	struct device			*dev;
+> +	bool no_map;
+>   };
+>   
+>   static int
+> @@ -54,6 +55,8 @@ restricted_heap_memory_free(struct restricted_heap *rheap, struct restricted_buf
+>   static int restricted_heap_attach(struct dma_buf *dmabuf, struct dma_buf_attachment *attachment)
+>   {
+>   	struct restricted_buffer *restricted_buf = dmabuf->priv;
+> +	struct dma_heap *heap = restricted_buf->heap;
+> +	struct restricted_heap *rheap = dma_heap_get_drvdata(heap);
+>   	struct restricted_heap_attachment *a;
+>   	struct sg_table *table;
+>   
+> @@ -70,6 +73,7 @@ static int restricted_heap_attach(struct dma_buf *dmabuf, struct dma_buf_attachm
+>   	sg_dma_mark_restricted(table->sgl);
+>   	a->table = table;
+>   	a->dev = attachment->dev;
+> +	a->no_map = rheap->no_map;
+>   	attachment->priv = a;
+>   
+>   	return 0;
+> @@ -92,9 +96,12 @@ restricted_heap_map_dma_buf(struct dma_buf_attachment *attachment,
+>   	struct sg_table *table = a->table;
+>   	int ret;
+>   
+> -	ret = dma_map_sgtable(attachment->dev, table, direction, DMA_ATTR_SKIP_CPU_SYNC);
+> -	if (ret)
+> -		return ERR_PTR(ret);
+> +	if (!a->no_map) {
+> +		ret = dma_map_sgtable(attachment->dev, table, direction,
+> +				      DMA_ATTR_SKIP_CPU_SYNC);
+> +		if (ret)
+> +			return ERR_PTR(ret);
+> +	}
+>   	return table;
+>   }
+>   
+> @@ -106,7 +113,9 @@ restricted_heap_unmap_dma_buf(struct dma_buf_attachment *attachment, struct sg_t
+>   
+>   	WARN_ON(a->table != table);
+>   
+> -	dma_unmap_sgtable(attachment->dev, table, direction, DMA_ATTR_SKIP_CPU_SYNC);
+> +	if (!a->no_map)
+> +		dma_unmap_sgtable(attachment->dev, table, direction,
+> +				  DMA_ATTR_SKIP_CPU_SYNC);
+>   }
+>   
+>   static int
+> diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/heaps/restricted_heap.h
+> index 7dec4b8a471b..94cc0842f70d 100644
+> --- a/drivers/dma-buf/heaps/restricted_heap.h
+> +++ b/drivers/dma-buf/heaps/restricted_heap.h
+> @@ -27,6 +27,8 @@ struct restricted_heap {
+>   	unsigned long		cma_paddr;
+>   	unsigned long		cma_size;
+>   
+> +	bool			no_map;
+> +
+>   	void			*priv_data;
+>   };
+>   
 
-OK
-
-
-Thanks,
-Jens
-
-> Best regards,
-> Krzysztof
->
 
