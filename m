@@ -1,96 +1,155 @@
-Return-Path: <linux-media+bounces-17273-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17275-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818209671B6
-	for <lists+linux-media@lfdr.de>; Sat, 31 Aug 2024 15:16:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C799671BC
+	for <lists+linux-media@lfdr.de>; Sat, 31 Aug 2024 15:18:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FA172839C3
-	for <lists+linux-media@lfdr.de>; Sat, 31 Aug 2024 13:16:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1ABB3B21CD1
+	for <lists+linux-media@lfdr.de>; Sat, 31 Aug 2024 13:18:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D6711CA1;
-	Sat, 31 Aug 2024 13:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0C7FDF6C;
+	Sat, 31 Aug 2024 13:18:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="F48ETAZ5"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FJXJYhLy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C88264C74;
-	Sat, 31 Aug 2024 13:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=1.95.21.17
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8101BF2A
+	for <linux-media@vger.kernel.org>; Sat, 31 Aug 2024 13:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725110173; cv=none; b=dQR2s1irQICy9xva5jt1IWaGbyEdf7aoIgkrJ3xZ13eWBxhU1ohXgZuqmhWMBzdh9b04VaNr/e4J89jFAI3KNu588gKAHvBMFfNsf09TVrO5vD/IR7AwtjZHL3HxucPyPDdDSAPfhRTWnCnQ/o3auzGT1o8ye5jjlia1JCf70vk=
+	t=1725110311; cv=none; b=AontjGrw2+B2aK9PDWQML6vjH1fYgwruaMjoHpTeVE9AigvHhT2U7QYvQGpQEAiIhi+g9JFle66HIH+3iUF/spRXzapMg42gFDzlmsudZrvmpMQe4oAnftj46qrdiycpWSZOv0yq+llNqkV8xfoYLC+96X/z2mhKtKdU2cFvzK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725110173; c=relaxed/simple;
-	bh=tLcADBlUpicJI7YwEir5KwcWT1YA0FCaATHsP3sCmXg=;
+	s=arc-20240116; t=1725110311; c=relaxed/simple;
+	bh=hVZo+V84SZNmdyzhRszi9sW+EMc4ktap3KKIbCTjajY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fntCAIHXZs58pZC/3zIes4fWT01UXEN0tcAX4W6yaSjteRbZQpnvrwb6Oa6T+tkjnNPDF+79EyRRbxM75tRe/b4OLI7FGTDg0A6kQZD3IaQdJ1h16AvyVYmNWqdTm4rAUKtG1qFhkJ590dmFYQuI28yDwwT08RNyA4Z4IB0OGzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=F48ETAZ5; arc=none smtp.client-ip=1.95.21.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=EuKozmDV8mePyOV+B4UXYcEUDBeI4bY+pV28D9Slulo=;
-	b=F48ETAZ5kO1ZMjlO3CUi2tRVnvEyZjbVCxnB93pjLZYT0QiBPRgQVhtx4MWaHr
-	Rd2/azDlXKsaM+A2X5doMP5F8YJUsFLEZ7E0t3I1wrjq2aFWMtIwQL5IgeBwc1Qk
-	3jYAE8FmWyHV13W0MPlUHPZNuYoa3mjg9Y6GiEuJvbZMY=
-Received: from dragon (unknown [114.216.210.89])
-	by gzsmtp3 (Coremail) with SMTP id M88vCgD3VwAZF9Nmsz06AA--.20596S3;
-	Sat, 31 Aug 2024 21:14:03 +0800 (CST)
-Date: Sat, 31 Aug 2024 21:14:01 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Adam Ford <aford173@gmail.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Marek Vasut <marex@denx.de>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Peng Fan <peng.fan@nxp.com>, Rob Herring <robh@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: imx8mp: Clarify csis clock frequency
-Message-ID: <ZtMXGbpyv/1loJZM@dragon>
-References: <20240813234010.17852-1-laurent.pinchart@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BPu7HD3E/GXvPKYrk+AbdGxCzxGPBnccS4kkZkgMIKIGug+AhhnZu+3vZ447O6zUNKc9NJnJCCnCY6vEJaszZ5mx3JcxLTyXcEVAe8b3E33eKZ86WQLurxbmdpAudpxx/fs3MaZxjBmRizUrnLY+10XnzGZYU3Vmz1aMkCYfIZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FJXJYhLy; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B1BC735;
+	Sat, 31 Aug 2024 15:17:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725110237;
+	bh=hVZo+V84SZNmdyzhRszi9sW+EMc4ktap3KKIbCTjajY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FJXJYhLyVjSEFnFPBaMGLB0PENQFtFjcEUAv02IHu3+HsFMgj8DHhpazj4t4l1tgz
+	 TzGcsQPRtpZAtwsAPvsfd3TScBaofBL1prYioX0wcbOMLVcOdkZqHuKqKVrIZTHIFH
+	 A/W2S5StBHkHwi9RYppvUyEQ/bHCmnismwbBEcx8=
+Date: Sat, 31 Aug 2024 16:17:56 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Naushir Patuck <naush@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] media: pisp_be: Remove config validation from
+ schedule()
+Message-ID: <20240831131756.GV3811@pendragon.ideasonboard.com>
+References: <20240827074018.534354-1-jacopo.mondi@ideasonboard.com>
+ <20240827074018.534354-3-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240813234010.17852-1-laurent.pinchart@ideasonboard.com>
-X-CM-TRANSID:M88vCgD3VwAZF9Nmsz06AA--.20596S3
-X-Coremail-Antispam: 1Uf129KBjvdXoWruFyxJF18CF47WrW8XF1DZFb_yoWDGwc_ua
-	9xKFnrAw1UAF1fXw4DG34rW342k3W5CF48Zw1Iqr43tryUXrWku3W2v34jvw40gay2qwsI
-	k34kK3W7C3s7WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU0eT5JUUUUU==
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiCQ5MZWbS+P46mQAAs-
+In-Reply-To: <20240827074018.534354-3-jacopo.mondi@ideasonboard.com>
 
-On Wed, Aug 14, 2024 at 02:40:10AM +0300, Laurent Pinchart wrote:
-> The DT nodes for the MIPI CSI-2 receivers (MIPI_CSI) configure the
-> CAM1_PIX and CAM2_PIX clocks to 266 MHz through the assigned-clock-rates
-> property, and report that frequency in the clock-frequency property. The
-> i.MX8MP reference manual and datasheet list 266 MHz as a nominal
-> frequency when using both CSI-2 receivers, so all looks normal.
-> 
-> In reality, the clock is actually set to 250 MHz, as the selected
-> parent, IMX8MP_SYS_PLL2_1000M, has a 1/4 output that is selected as the
-> closest frequency to 266 MHz. This doesn't break operation of the
-> device, but is clearly misleading.
-> 
-> Clarify the clock configuration by selecting the IMX8MP_SYS_PLL2_250M
-> parent, dropping the redundant assigned-clock-rates, and setting
-> clock-frequency to 250 MHz. This doesn't cause any functional change.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi Jacopo,
 
-Applied, thanks!
+Thank you for the patch.
 
+On Tue, Aug 27, 2024 at 09:40:16AM +0200, Jacopo Mondi wrote:
+> The config parameters buffer is already validated in
+> pisp_be_validate_config() at .buf_prepare() time.
+
+Unfortunately .buf_prepare() isn't the right place to handle the
+validation. Userspace should not modify the contents of the buffer
+before BUF_PREPARE and QBUF, but malicious (or just buggy) userspace
+may. The validation should thus be moved to .buf_queue().
+
+> However some of the same validations are also performed at
+> pispbe_schedule() time. In particular the function checks that:
+> 
+> 1) config.num_tiles is valid
+> 2) At least one of the BAYER or RGB input is enabled
+> 
+> The input validation is already performed in pisp_be_validate_config()
+> and there is no need to repeat that at pispbe_schedule() time.
+
+Is that the same validation though ? The one in
+pisp_be_validate_config() validates config->config.global, while the
+validation in pispbe_schedule() validates job.hw_enables. The latter is
+set from config->config.global in pispbe_xlate_addrs(), but is later
+modified in the function.
+
+> The num_tiles validation can be moved to pisp_be_validate_config() as
+> well. As num_tiles is a u32 it can'be be < 0, so change the sanity
+> check accordingly.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  .../platform/raspberrypi/pisp_be/pisp_be.c    | 25 ++++++-------------
+>  1 file changed, 7 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> index 8ba1b9f43ba1..73a5c88e25d0 100644
+> --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> @@ -588,24 +588,6 @@ static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
+>  	pispbe->hw_busy = true;
+>  	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+>  
+> -	if (job.config->num_tiles <= 0 ||
+> -	    job.config->num_tiles > PISP_BACK_END_NUM_TILES ||
+> -	    !((job.hw_enables.bayer_enables | job.hw_enables.rgb_enables) &
+> -	      PISP_BE_BAYER_ENABLE_INPUT)) {
+> -		/*
+> -		 * Bad job. We can't let it proceed as it could lock up
+> -		 * the hardware, or worse!
+> -		 *
+> -		 * For now, just force num_tiles to 0, which causes the
+> -		 * H/W to do something bizarre but survivable. It
+> -		 * increments (started,done) counters by more than 1,
+> -		 * but we seem to survive...
+> -		 */
+> -		dev_dbg(pispbe->dev, "Bad job: invalid number of tiles: %u\n",
+> -			job.config->num_tiles);
+> -		job.config->num_tiles = 0;
+> -	}
+> -
+>  	pispbe_queue_job(pispbe, &job);
+>  
+>  	return;
+> @@ -703,6 +685,13 @@ static int pisp_be_validate_config(struct pispbe_dev *pispbe,
+>  		return -EIO;
+>  	}
+>  
+> +	if (config->num_tiles == 0 ||
+> +	    config->num_tiles > PISP_BACK_END_NUM_TILES) {
+> +		dev_dbg(dev, "%s: Invalid number of tiles: %d\n", __func__,
+> +			config->num_tiles);
+> +		return -EIO;
+
+Isn't -EINVAL a better error code ?
+
+> +	}
+> +
+>  	/* Ensure output config strides and buffer sizes match the V4L2 formats. */
+>  	fmt = &pispbe->node[TDN_OUTPUT_NODE].format;
+>  	if (bayer_enables & PISP_BE_BAYER_ENABLE_TDN_OUTPUT) {
+
+-- 
+Regards,
+
+Laurent Pinchart
 
