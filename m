@@ -1,112 +1,117 @@
-Return-Path: <linux-media+bounces-17266-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17267-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8961966E54
-	for <lists+linux-media@lfdr.de>; Sat, 31 Aug 2024 03:04:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33A6966F8A
+	for <lists+linux-media@lfdr.de>; Sat, 31 Aug 2024 07:54:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77DE71F23047
-	for <lists+linux-media@lfdr.de>; Sat, 31 Aug 2024 01:04:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A6B71F237D1
+	for <lists+linux-media@lfdr.de>; Sat, 31 Aug 2024 05:54:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B85A71A277;
-	Sat, 31 Aug 2024 01:04:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAE1115099B;
+	Sat, 31 Aug 2024 05:54:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tKVzcXLr"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="Y//BSKwY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB48F28EF
-	for <linux-media@vger.kernel.org>; Sat, 31 Aug 2024 01:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD503A1AC;
+	Sat, 31 Aug 2024 05:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725066246; cv=none; b=d0V45NUWvgNXaWewdwbrI1o91PPR87n2CzM34McsCdvbqjH6q7DPH1lUL197NN/CdIXia67H9WcPGNL7FiCd0HTjWiBtS1KXm2zg4fhXdupw3MFJXhB5UlNPiFFKvAAcxX2axCRHj5OLSwYrGhWjUjDo6wLJ1vfLPxA8VWvrHik=
+	t=1725083658; cv=none; b=iCCbjTtthmHfB2Ve0hJl2VzE+CEHpWSiSp68N/2YKxf6rR8xXcNhPdvhNNjZI81WG0cM2vVIK3PQO+oRqehmdec7Gk7vNZVK3gqk0uCmm9dn4KPp+9+lmZP4VJpCVos9Au0izsLwqjLl/7qxb79bgo3Gc70zt/WsuRuTddxY+FQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725066246; c=relaxed/simple;
-	bh=0HCFbL3z3ls8ATOGljGotMoC6OfydcqbyEqKbLZL0uw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z8E0BwPkbeDMhvgEqf5NM8pp2m5bsbBtimkaMqbX4fmyUo902yLEYbMN+///LmkCyIkPX9EMwO3SW5VM2uRAucE6kCrNRnT3Wf0YHuaPvu3xwGyr261zmt48DeYcsJa8UFPNwbSx+hylB6Kxrm2WRMbGx1byFcK9ebk3HtSFKck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tKVzcXLr; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2762074C;
-	Sat, 31 Aug 2024 03:02:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725066173;
-	bh=0HCFbL3z3ls8ATOGljGotMoC6OfydcqbyEqKbLZL0uw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tKVzcXLrQwesL094hH1TB86JBPaRysFuMTpT4pUaySx5/d1WnISp1kSALeZ1pUGd3
-	 Fqt9rc+LZznZkA8u4BqTZLtmeyKzHWeOZQgIcxBk09r18trTNlWTyCsOCYwdDYc/Ct
-	 p985ARwrA85rl6pNI6khDnUZtuW1WdtQHlujq3l0=
-Date: Sat, 31 Aug 2024 04:03:30 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] media: pisp_be: Drop reference to non-existing
- function
-Message-ID: <20240831010330.GC27958@pendragon.ideasonboard.com>
-References: <20240827074018.534354-1-jacopo.mondi@ideasonboard.com>
- <20240827074018.534354-2-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1725083658; c=relaxed/simple;
+	bh=46CWCYGgXcLQiP8Q6eri/gSsgZHk2pXwEM7RnSPHPV8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I0EkT0mdZ6BMrVj0DA9VXsKFsr46YpvIK5dv+tOj71PWyo4E2KfDpFyCxkQZLs7+pI+1pXs52dOA6/Hf49Wkuoqr10mQSUv/G3EFQzK3InBmNJ3JvEJsUnRWgRzxQVQhWEvhBC/kYYaNVygB6NsNL0z7cOILXL86HjLyqcQkcLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=Y//BSKwY; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 70242086675d11ef8b96093e013ec31c-20240831
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=f8Rpa4fFBhx9DDbPlfi2ydRSRTedbWnSRs5nS3M9bNU=;
+	b=Y//BSKwYxcrkxLUn+VqZh1J4qvu8JUUWGhAz0sn+WnfQxDfghJcb4KZ9FZ3by4JO5Sv/uXTWyPnSKbHKbP3dIyWItGxeHYmfcR5rL54z0fbxTDepaEISjnbXwYgRY/Z/4r/vZN2BIT2S3+al423o2jO0N4QI0KJGv0LAb8IPFuY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:62338217-638e-43c2-8aea-4b1800372d76,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:6dc6a47,CLOUDID:a40738bf-d7af-4351-93aa-42531abf0c7b,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 70242086675d11ef8b96093e013ec31c-20240831
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+	(envelope-from <zhi.mao@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1267638708; Sat, 31 Aug 2024 13:54:08 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 31 Aug 2024 13:54:08 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Sat, 31 Aug 2024 13:54:07 +0800
+From: Zhi Mao <zhi.mao@mediatek.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<shengnan.wang@mediatek.com>, <yaya.chang@mediatek.com>,
+	<teddy.chen@mediatek.com>, <yunkec@chromium.org>, <10572168@qq.com>,
+	<ot_xiaofeiw.wang@mediatek.com>, Zhi Mao <zhi.mao@mediatek.com>
+Subject: [PATCH] media: i2c: improve suspend/resume switch performance for GT9769 VCM driver
+Date: Sat, 31 Aug 2024 13:52:09 +0800
+Message-ID: <20240831055328.22482-1-zhi.mao@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240827074018.534354-2-jacopo.mondi@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-Hi Jacopo,
+Chromebook camera AP can switch between video and photo mode,
+the behavior corresponding to VCM is suspend and resume,
+it will cause camera preview is not smooth during switching operation.
+We use autosuspend function can fix this issue.
 
-Thank you for the patch.
+Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
+---
+ drivers/media/i2c/dw9768.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-On Tue, Aug 27, 2024 at 09:40:15AM +0200, Jacopo Mondi wrote:
-> A comment in the pisp_be driver references to the
-
-s/to the/the/
-
->  pispbe_schedule_internal() which doesn't exist.
-
-s/which/function which/
-
-> 
-> Drop it.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/platform/raspberrypi/pisp_be/pisp_be.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> index 65ff2382cffe..8ba1b9f43ba1 100644
-> --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> @@ -368,10 +368,7 @@ static void pispbe_xlate_addrs(struct pispbe_dev *pispbe,
->  	ret = pispbe_get_planes_addr(addrs, buf[MAIN_INPUT_NODE],
->  				     &pispbe->node[MAIN_INPUT_NODE]);
->  	if (ret <= 0) {
-> -		/*
-> -		 * This shouldn't happen; pispbe_schedule_internal should insist
-> -		 * on an input.
-> -		 */
-> +		/* Shouldn't happen, we have validated an input is available. */
-
-Actually, where is that validated ?
-
->  		dev_warn(pispbe->dev, "ISP-BE missing input\n");
->  		hw_en->bayer_enables = 0;
->  		hw_en->rgb_enables = 0;
-
+diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+index 18ef2b35c9aa..7449d29df901 100644
+--- a/drivers/media/i2c/dw9768.c
++++ b/drivers/media/i2c/dw9768.c
+@@ -374,7 +374,7 @@ static int dw9768_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 
+ static int dw9768_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ {
+-	pm_runtime_put(sd->dev);
++	pm_runtime_put_sync_autosuspend(sd->dev);
+ 
+ 	return 0;
+ }
+@@ -490,6 +490,7 @@ static int dw9768_probe(struct i2c_client *client)
+ 		goto err_power_off;
+ 	}
+ 
++	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_idle(dev);
+ 
+ 	return 0;
 -- 
-Regards,
+2.46.0
 
-Laurent Pinchart
 
