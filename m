@@ -1,64 +1,68 @@
-Return-Path: <linux-media+bounces-17300-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17301-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A681967722
-	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2024 16:34:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4FA967C4E
+	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2024 23:18:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 439AF1C21038
-	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2024 14:34:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 640B1281AEF
+	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2024 21:18:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE9D2185932;
-	Sun,  1 Sep 2024 14:33:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10274139CFF;
+	Sun,  1 Sep 2024 21:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i6MkhTrF"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bBwalnkX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59922185927;
-	Sun,  1 Sep 2024 14:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA43D56B7C
+	for <linux-media@vger.kernel.org>; Sun,  1 Sep 2024 21:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725201196; cv=none; b=M1FzYylv9m7dzClLToeTpvsrWNyNCNmPkGfCgiYanAWMRN5fCef60XbtvDMNKksZBdq6OktoizkkZcrZkyThsps6wtto11QBvtwJ3++ZhcA/TzO0RUeiVU6D6KseC3m3Qz4EMbhfC1KB6weBpsJPjtztEsIf8sQnZy61IUDB3PQ=
+	t=1725225522; cv=none; b=TXrlazMi5Sng/MF0Nrvg/T/cGltgV10Nzc0Ky+utvjDPPRVFZKNnk9cwnI7UQYzb66S8aco85D5C49IVu1gBPUoCyeJuDR1TqXeTWSdmLXiJMaILgXJpgeOBmsSWv6TKwac1gaVGq2Hkf6uxQCESY7Pr99Ouc1c/wwPjgA1lSrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725201196; c=relaxed/simple;
-	bh=ROGEn5ECVelo0EfWlJ1OSMy/l5R+qmtaTbsKv+Infh4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dKLn8i5wRBMYF2dYUvX2ExhsskkwNH6Oscsw0kthcfVETYmCJjttp+YsmWzvZYg81bg+iikLW/VXVobI6mCFZM65AJ2AAWpwctFRA4qbpCM/yPGcNouQnppswKS1L3K3eyachsuq7SuYxTzTYsyGra/tzzXVHSuq/rRBvy+ZEB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i6MkhTrF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56570C4CEC8;
-	Sun,  1 Sep 2024 14:33:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725201195;
-	bh=ROGEn5ECVelo0EfWlJ1OSMy/l5R+qmtaTbsKv+Infh4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=i6MkhTrFq716cdv+8qD66wvIL1A8tVM3FVlgHNjG3zO3nFUrcjfTC7JZLpInpP/Q3
-	 0NiMeypm1Lnf0c5Y6eNvbTEpbBlVdc1ff6hslU0NsODASxmRd2Z0rXCT2SMuzebont
-	 FLxi+knnKYiGKcArMn2iLv3IX/SBwkF2eunhz7evzPoJsuSxxHgWbtkJvrwKQz0Zbo
-	 lRZTDB8F+FrKzMABEQUdYk2al3otfZ6zfvfep/FGVoAkJ2y/lq7Al4m1d1aeSvdoII
-	 9pHenYqLpsfI0Ag8f+obus8e2aoqu1tKiT/F1BbT0Km1cUbsHElSpNnOj+eNEfBOTE
-	 lOmB9NHPCJRxA==
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Moudy Ho <moudy.ho@mediatek.com>,
-	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1725225522; c=relaxed/simple;
+	bh=h+3is2u1hDEDH6Kbi0EQfmFv2OcDrSB3NEjviM46h+E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PsCxrEzDSJiBxVdp3EsHiQx6HQEwXHBlTnWPQd1nMXzuLrs+lCL32u0MXwb5nvd9x1nbsxQFeKgZFRmrFtmXlUhSvT8N7TLFsid6iNnGK5GuVabDzLvHPC+ZCusOsnXQvanEjKBIyCplTCUDN/R0Byf51OWmY2/5+zjU/z/gHfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bBwalnkX; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1725225519;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=P3eSgRgAPinVye51XUc1h1oeEbt3BPVGzmdzfCwQzKQ=;
+	b=bBwalnkXwkT2jM4mzaMxryTTvL5xa2Z+lPMtCnzn4KLzJUucWcsqdyPZRnCcK3nn8slzY9
+	2A8nyytEZl2ZyjuiWbqDGQviDdjXf8Rm6jNRfGbYVp5Yrn6BQMgsDpCMhV3TEiq/TiSlgW
+	HxN+c6a98lLmXI6VKwxasdaZ4++Q+lA=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-298-GM_jGZk3OQeClzc1dXScow-1; Sun,
+ 01 Sep 2024 17:18:38 -0400
+X-MC-Unique: GM_jGZk3OQeClzc1dXScow-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0B2BC1956080;
+	Sun,  1 Sep 2024 21:18:37 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.24])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2727E1955F1B;
+	Sun,  1 Sep 2024 21:18:34 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
 	linux-media@vger.kernel.org
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v4 3/3] soc: mediatek: cmdq: Remove cmdq_pkt_finalize() helper function
-Date: Sun,  1 Sep 2024 14:32:59 +0000
-Message-Id: <20240901143259.16849-4-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240901143259.16849-1-chunkuang.hu@kernel.org>
-References: <20240901143259.16849-1-chunkuang.hu@kernel.org>
+Subject: [PATCH 0/2] media: v4l: Call s_stream() on VCM when it is called on the associated sensor
+Date: Sun,  1 Sep 2024 23:18:32 +0200
+Message-ID: <20240901211834.145186-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,80 +70,39 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-In order to have fine-grained control, use cmdq_pkt_eoc() and
-cmdq_pkt_jump_rel() to replace cmdq_pkt_finalize().
+Hi All,
 
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
----
- drivers/soc/mediatek/mtk-cmdq-helper.c | 22 ----------------------
- include/linux/soc/mediatek/mtk-cmdq.h  | 13 -------------
- 2 files changed, 35 deletions(-)
+The first patch in this series addresses a long standing issue with VCM
+device power-management where merely opening the /dev node causes
+the VCM to power on. This issue was recently brought up on the libcamera-
+devel list and this is my attempt at fixing this.
 
-diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index a8fccedba83f..2a47dda4dd4a 100644
---- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-+++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -538,27 +538,5 @@ int cmdq_pkt_eoc(struct cmdq_pkt *pkt)
- }
- EXPORT_SYMBOL(cmdq_pkt_eoc);
- 
--int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
--{
--	struct cmdq_instruction inst = { {0} };
--	int err;
--
--	/* insert EOC and generate IRQ for each command iteration */
--	inst.op = CMDQ_CODE_EOC;
--	inst.value = CMDQ_EOC_IRQ_EN;
--	err = cmdq_pkt_append_command(pkt, inst);
--	if (err < 0)
--		return err;
--
--	/* JUMP to end */
--	inst.op = CMDQ_CODE_JUMP;
--	inst.value = CMDQ_JUMP_PASS >>
--		cmdq_get_shift_pa(((struct cmdq_client *)pkt->cl)->chan);
--	err = cmdq_pkt_append_command(pkt, inst);
--
--	return err;
--}
--EXPORT_SYMBOL(cmdq_pkt_finalize);
--
- MODULE_DESCRIPTION("MediaTek Command Queue (CMDQ) driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 5bee6f7fc400..0c3906e8ad19 100644
---- a/include/linux/soc/mediatek/mtk-cmdq.h
-+++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -391,14 +391,6 @@ int cmdq_pkt_jump_rel(struct cmdq_pkt *pkt, s32 offset, u8 shift_pa);
-  */
- int cmdq_pkt_eoc(struct cmdq_pkt *pkt);
- 
--/**
-- * cmdq_pkt_finalize() - Append EOC and jump command to pkt.
-- * @pkt:	the CMDQ packet
-- *
-- * Return: 0 for success; else the error code is returned
-- */
--int cmdq_pkt_finalize(struct cmdq_pkt *pkt);
--
- #else /* IS_ENABLED(CONFIG_MTK_CMDQ) */
- 
- static inline int cmdq_dev_get_client_reg(struct device *dev,
-@@ -519,11 +511,6 @@ static inline int cmdq_pkt_eoc(struct cmdq_pkt *pkt)
- 	return -EINVAL;
- }
- 
--static inline int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
--{
--	return -EINVAL;
--}
--
- #endif /* IS_ENABLED(CONFIG_MTK_CMDQ) */
- 
- #endif	/* __MTK_CMDQ_H__ */
+The second patch is a new VCM driver which I have had in my personal tree
+for quite a while now, but finishing it was blocked on the power-management
+issue. This new driver shows how VCM runtime-pm can work after patch 1.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (2):
+  media: v4l: Call s_stream() on VCM when it is called on the associated
+    sensor
+  media: i2c: Add driver for AD5823 VCM
+
+ drivers/media/i2c/Kconfig             |   5 +
+ drivers/media/i2c/Makefile            |   1 +
+ drivers/media/i2c/ad5823.c            | 311 ++++++++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-async.c  |  20 ++
+ drivers/media/v4l2-core/v4l2-subdev.c |  28 ++-
+ include/media/v4l2-subdev.h           |   2 +
+ 6 files changed, 361 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/media/i2c/ad5823.c
+
 -- 
-2.34.1
+2.46.0
 
 
