@@ -1,141 +1,108 @@
-Return-Path: <linux-media+bounces-17296-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17297-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE832967665
-	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2024 14:18:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AED96771C
+	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2024 16:33:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD985282200
-	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2024 12:18:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 060B91C20F4C
+	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2024 14:33:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9FE117B50B;
-	Sun,  1 Sep 2024 12:18:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E64A183CAD;
+	Sun,  1 Sep 2024 14:33:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UFkfwSah"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WXkoa9zK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC0D14F9F1;
-	Sun,  1 Sep 2024 12:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D1318308A;
+	Sun,  1 Sep 2024 14:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725193103; cv=none; b=QBxAf7jo76IzxlpjnvFwoWrMdbIL96RA1sBEeIZP3UkApWEUtC3nr43ZlBipDi6zJOgAEDPrMMCVT+QdfpdrCvPW18Cv1Yy2+PrS8wk+4S8HmO5Bm25hVkRSjFVWP8XwlhVl5tvuEb4vCWQ6wX0CpQ3tfR4oDOgJUhqx9TJyLk8=
+	t=1725201187; cv=none; b=b8FcTEF+WxHLkpLrgcxlaYKmgjDf/diyxTnFLd4u91AHj51btSPqOSzS/HyUw6M0Dl4Ixad92Lui4ls2uGEtMU6P7xwtok44QckXFvHMqS7sfc/Fz6zpQHJkE4o0IVmAKn74rAKdFC/W0in7akKW/5PoE9IzUGP7znEhDJrQFU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725193103; c=relaxed/simple;
-	bh=7/QB0KtM8B4HpCGa2zOGQwulKoPIrKDzA21NTiK6nDQ=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=mNKU5zeqqxnzuke3wfr+TIDLWwKL6YO3AxppLSOhlRgvQRZqnV+xUiH2y6XRZizb7VF+AjcXahelkjrJDmiv3minw7GgaUcVFgZxj1WHoYDEhaKGJQ2zl7vj5EqeacJUHecKLzcyfQkKnzbpQXgMFe5miYlX46EBhnzc4Q+k7KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UFkfwSah; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725193102; x=1756729102;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=7/QB0KtM8B4HpCGa2zOGQwulKoPIrKDzA21NTiK6nDQ=;
-  b=UFkfwSahCpo82B9TyN6nr3qBhq1mfaojlQD5cg/Ui8i5t7ZW1j4iWtJa
-   8p7uiSJyCDLHk6I3z1Ac16MpUJBtkNI9jQNtx0OAlyxD44EXA8bZYsaqN
-   UFZc3yavr5awARzSswSO8g/yRJ1NVr5k+vGbm7XbNKURCWgnKUadWHYVs
-   h8aA/PyKABwJ0UznIpUfXMcTdjbv1+sY8tgr75N+DEsZGBu/4d4Q0o1Fg
-   rgmFEv6PU62+85DYgJJXrbPyEws5nPtS1MtZmJNFoehMrqwr29o6RqTDF
-   hseUGXE7dQGQikF+g9TDWqpidQkl5uHT5fSC9nIqSYoIfOVfdYi/cLrpq
-   A==;
-X-CSE-ConnectionGUID: GLNAL9dYRGOXEtqFJ+6R9w==
-X-CSE-MsgGUID: tl34bjxpSuOexBzTqjdo3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="27655075"
-X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="27655075"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 05:18:21 -0700
-X-CSE-ConnectionGUID: g8VwmCVNS2+7h8Z4f5k2qg==
-X-CSE-MsgGUID: AfsLNis4Qr+b2Wrpi+N8nQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
-   d="scan'208";a="64699177"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.124.240.228]) ([10.124.240.228])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2024 05:18:14 -0700
-Message-ID: <fd0257de-ce1a-40f3-a0b6-2f0c7dcee896@linux.intel.com>
-Date: Sun, 1 Sep 2024 20:18:11 +0800
+	s=arc-20240116; t=1725201187; c=relaxed/simple;
+	bh=kwPiH44pV1ANFJhkdOlQ2NoEBgwHo7h8ejpepwo1EGg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gDBtnSHP/ez1zJsu1Z1CZzC+N+GnEFGxS2CyYcIg2YOXkFdIiy1abH5uUxkfupPrUVTiaY4MD0Gg5FJTQPCzAVjqD03irMCbebJSDizloU88z+RVcTwd0hIwT8nEhOmQEi+AWUdw6zcoO3SZ+QVWH4/CLH0UmYJMlu0jwvV/T00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WXkoa9zK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83635C4CEC3;
+	Sun,  1 Sep 2024 14:33:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725201187;
+	bh=kwPiH44pV1ANFJhkdOlQ2NoEBgwHo7h8ejpepwo1EGg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WXkoa9zK+zwyHz3IGIZIBI49Cak3R/xK0dOG42JMjUdpekcS9VOsXzkkAj37LChqv
+	 12/aGUKYtkBI/aLxQdYq9pG0dWmFRYL05d4yGOKcgm3SYMhhhib+YruMcc6pSWt2u4
+	 RWxmHE+d7QEe/Go6VfP+1ipw6eufotuX7wutA0tfE1tJ3ScPfg61GnzskzBTbTWF02
+	 3mKTBYRCp8M9n10iZRsPPuBkhMpaXMKhbO+XCEFcNEJ4eVPo9/RgUq4ALHvtHAXLQN
+	 xS+bZxQp/ojwtOI22cq6rjTdjRhynrZPAk2Yyz4W7dJiemdBR7f9gPVSyzOxBCjh8e
+	 cV7cuBMUi+BQQ==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Moudy Ho <moudy.ho@mediatek.com>,
+	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH v4 0/3] Remove cl in struct cmdq_pkt
+Date: Sun,  1 Sep 2024 14:32:56 +0000
+Message-Id: <20240901143259.16849-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: baolu.lu@linux.intel.com, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Hunter <jonathanh@nvidia.com>, Sandy Huang <hjc@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Mikko Perttunen <mperttunen@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/tegra: Remove call to iommu_domain_alloc()
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20240812071034.9443-1-baolu.lu@linux.intel.com>
- <20240812071034.9443-3-baolu.lu@linux.intel.com>
- <qyvyd2ftebjlgmzyayfvxsqa64c4wgx7keix3a6eexdspbvawy@a5ffnm5h5tgp>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <qyvyd2ftebjlgmzyayfvxsqa64c4wgx7keix3a6eexdspbvawy@a5ffnm5h5tgp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2024/8/28 23:27, Thierry Reding wrote:
-> On Mon, Aug 12, 2024 at 03:10:34PM GMT, Lu Baolu wrote:
->> Commit <17de3f5fdd35> ("iommu: Retire bus ops") removes iommu ops from
->> the bus structure. The iommu subsystem no longer relies on bus for
->> operations. So iommu_domain_alloc() interface is no longer relevant.
->>
->> Normally, iommu_paging_domain_alloc() could be a replacement for
->> iommu_domain_alloc() if the caller has the right device for IOMMU API
->> use. Unfortunately, this is not the case for this driver.
->>
->> Iterate the devices on the platform bus and find a suitable device
->> whose device DMA is translated by an IOMMU. Then use this device to
->> allocate an iommu domain. The iommu subsystem prevents domains
->> allocated by one iommu driver from being attached to devices managed
->> by any different iommu driver.
->>
->> Signed-off-by: Lu Baolu<baolu.lu@linux.intel.com>
->> Link:https://lore.kernel.org/r/20240610085555.88197-20-baolu.lu@linux.intel.com
->> ---
->>   drivers/gpu/drm/tegra/drm.c | 34 +++++++++++++++++++++++++---------
->>   1 file changed, 25 insertions(+), 9 deletions(-)
-> Actually I think we can just do something like this:
-> 
-> --- >8 ---
-> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> index d9f0728c3afd..d35e411d536b 100644
-> --- a/drivers/gpu/drm/tegra/drm.c
-> +++ b/drivers/gpu/drm/tegra/drm.c
-> @@ -1150,7 +1150,7 @@ static int host1x_drm_probe(struct host1x_device *dev)
->   	}
->   
->   	if (host1x_drm_wants_iommu(dev) && iommu_present(&platform_bus_type)) {
-> -		tegra->domain = iommu_domain_alloc(&platform_bus_type);
-> +		tegra->domain = iommu_paging_domain_alloc(dev->dev.parent);
->   		if (!tegra->domain) {
->   			err = -ENOMEM;
->   			goto free;
-> --- >8 ---
-> 
-> That refers to the physical device that the host1x_device virtual device
-> was instantiated from and is a common parent to all physical devices
-> that are part of the virtual device.
+cl in struct cmdq_pkt is used to store struct cmdq_client, but every client
+driver has the struct cmdq_client information, so it's not necessary to
+store struct cmdq_client in struct cmdq_pkt. Because mailbox maintainer
+do not like to mix mailbox patch with other patches in a series, so
+mailbox patch [1] would be sent independently.
 
-Yes, this is really what we want. I will update the patch series later.
+Changes in v4:
+1. Rebase onto mediatek-drm-next-6.12
+2. Fix build error in mpd3 driver
+Changes in v3:
+1. Rebase onto Linux 6.11-rc1 and fix conflicts.
+Changes in v2:
+1. Fix typo of CMDQ_JUMP_RELATIVE
+2. Refine cmdq_pkt_create() and cmdq_pkt_destroy()
+3. Rename cmdq_pkt_jump() to cmdq_pkt_jump_abs()
+4. Add cmdq_pkt_jump_rel() helper function
+5. drm/mediatek: Use cmdq_pkt_create() and cmdq_pkt_destroy()
+6. mtk-mdp3: Get fine-grain control of cmdq_pkt_finalize()
+7. mtk-mdp3: Use cmdq_pkt_create() and cmdq_pkt_destroy()
 
-Thanks,
-baolu
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/commit/?h=mediatek-cmdq8&id=a1b2f7a7488285975c1f439086f1c4cc51a13bb9
+
+
+Chun-Kuang Hu (3):
+  media: platform: mtk-mdp3: Get fine-grain control of
+    cmdq_pkt_finalize()
+  media: platform: mtk-mdp3: Use cmdq_pkt_create() and
+    cmdq_pkt_destroy()
+  soc: mediatek: cmdq: Remove cmdq_pkt_finalize() helper function
+
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 49 +++----------------
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |  1 +
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    |  2 +
+ .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  1 +
+ drivers/soc/mediatek/mtk-cmdq-helper.c        | 22 ---------
+ include/linux/soc/mediatek/mtk-cmdq.h         | 13 -----
+ 6 files changed, 11 insertions(+), 77 deletions(-)
+
+-- 
+2.34.1
+
 
