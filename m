@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-17391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17392-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67ED9968E92
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 21:56:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C393A968E94
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 21:59:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 189251F234D6
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 19:56:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C3C9283758
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 19:59:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9812E1C62CE;
-	Mon,  2 Sep 2024 19:56:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C44F1C62CE;
+	Mon,  2 Sep 2024 19:58:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u+zolcOV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BbEfPd7d"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFE613CFB7;
-	Mon,  2 Sep 2024 19:56:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283F213CFB7;
+	Mon,  2 Sep 2024 19:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725306967; cv=none; b=iY+64o7cvVvu2wrcKGeP2CDb9OOw/7hMdDxTSqF0ZA7m/8wISQ7qiwTgtwZPsvi4JYOOTYo11v8+oBjv11c/8gwnvrsEbLBAAOUNw/KUkO25HG5tOfVsZ73GB5grnW+mHJ36BGhqpnd0OkKiFws975WRKlLfgR9t3VYTplhfzcg=
+	t=1725307138; cv=none; b=IN/XebxhRmCsbXo7daeayOtWSkG/gMbda47TppB3Sh3Y67xCQXq3lE7U1Gfq2YRoBT7wwzUDmHvu8JiOtMAj6n35mBzyeWqloKr2KH6BuXMXD0MeGuY3UldJJc307xCEmFGu0JakAdnsFCUdOK6oWFeK0PURt2qdyzzv6ch37tA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725306967; c=relaxed/simple;
-	bh=uf0FuTJ4W2So082zFZ0kmCS5iXJxKXqyXLx7cEF3pqM=;
+	s=arc-20240116; t=1725307138; c=relaxed/simple;
+	bh=7KdAx9F1TvPAO0yOhQpFqsCBMcQMUsxQGnEv3VgvWMQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AParuC2uc2OsX5rMftxQu/KGoN4z5DeE/s0pl8cBexdYHCgNXOmEaOxBgNFJKO7T3p1E6cM4G8BtvLstJt0FXRWdGVh+1levau/BqR7TiKuNvGwthTEDiLeFO8QjZ6TDCrXVr+xN9nXChkH3S3VmKYE7xIr9VMzKQVyQved7pHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u+zolcOV; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=VQOv8UbW7riEzkqOYjUVdMk16P08IKEluaIbNfQhDdY3yDd6qy+vZWWS1ltQQV+hbyd9wciYyOXTyljv93xhOA7jxfQctyx+b7SOn7x7HumcFxocEy8BpaKyGDT6yyA3PwE60YFuZ315mDzZlgwjoMcLmM6OwsPXi5mOCSPGp/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BbEfPd7d; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 46E614CE;
-	Mon,  2 Sep 2024 21:54:51 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9E2294CE;
+	Mon,  2 Sep 2024 21:57:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725306891;
-	bh=uf0FuTJ4W2So082zFZ0kmCS5iXJxKXqyXLx7cEF3pqM=;
+	s=mail; t=1725307063;
+	bh=7KdAx9F1TvPAO0yOhQpFqsCBMcQMUsxQGnEv3VgvWMQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u+zolcOVL3xDgmye7rOB2nl3Vb88RpREpVq3HSLfwj+t/PHM6qiNPCQEqerNITX2D
-	 40g1oMpd2xWSoiW6H8jQoCj8XtGpfA3LGqv0zT4u+j1s3rf0w/Yyulny4Zt+PfuDg5
-	 1DbA7QO6RnsG++rOQBhRqHdGAiijCUkEDWc4MnJ0=
-Date: Mon, 2 Sep 2024 22:55:29 +0300
+	b=BbEfPd7dmm1ng/jUSyW7GsQ1NgPdeb+42UYMcpvNSIlMWUOYMPA6WnLTpNBMsAVl3
+	 rt4Vk03QtOYI2Z6w141RENMrK5UEatt5/ZTPqbLLKkvbsvttSQ8H98GS6Q3SaqTAeE
+	 FoqTzonQsfKrtiprzrwad4kVp+vkKFWDYSG81KH0=
+Date: Mon, 2 Sep 2024 22:58:21 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: bbara93@gmail.com
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -51,10 +51,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Alexander Stein <alexander.stein@ew.tq-group.com>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Benjamin Bara <benjamin.bara@skidata.com>
-Subject: Re: [PATCH v3 1/7] media: i2c: imx290: Define standby mode values
-Message-ID: <20240902195529.GP1995@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 4/7] media: i2c: imx290: Introduce initial "off" mode
+ & link freq
+Message-ID: <20240902195821.GQ1995@pendragon.ideasonboard.com>
 References: <20240902-imx290-avail-v3-0-b32a12799fed@skidata.com>
- <20240902-imx290-avail-v3-1-b32a12799fed@skidata.com>
+ <20240902-imx290-avail-v3-4-b32a12799fed@skidata.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,66 +64,112 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240902-imx290-avail-v3-1-b32a12799fed@skidata.com>
+In-Reply-To: <20240902-imx290-avail-v3-4-b32a12799fed@skidata.com>
 
 Hi Benjamin,
 
-On Mon, Sep 02, 2024 at 05:57:26PM +0200, bbara93@gmail.com wrote:
+Thank you for the patch.
+
+On Mon, Sep 02, 2024 at 05:57:29PM +0200, bbara93@gmail.com wrote:
 > From: Benjamin Bara <benjamin.bara@skidata.com>
 > 
-> The imx290 datasheet states that the IMX290_STANDBY register has two
-> values: 0 for operating and 1 for standby. Define and use them.
+> To be compliant to the V4L2 API, the driver currently "randomly" decides
+> on one of the two supported modes which also implies a link frequency.
 > 
+> Add a new mode and frequency which symbolize that the sensor is not in
+> use. This can be used as a default value during probe() and enables us
+> to avoid communication with the sensor.
+
+I really doin't like this change. I would like to instead move away from
+modes and make the driver freely configurable. Furthermore, the concept
+of an initial unconfigured state isn't valid in V4L2. The driver must
+fully initialize the whole device state at probe time.
+
 > Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
 > ---
 > Changes since v2:
-> - new, split out from the previous 1/2
+> - new
 > ---
->  drivers/media/i2c/imx290.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  drivers/media/i2c/imx290.c | 29 +++++++++++++++++++++++------
+>  1 file changed, 23 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index 4150e6e4b9a6..1c97f9650eb4 100644
+> index 6812e7cb9e23..ece4d66001f5 100644
 > --- a/drivers/media/i2c/imx290.c
 > +++ b/drivers/media/i2c/imx290.c
-> @@ -29,6 +29,8 @@
->  #include <media/v4l2-subdev.h>
+> @@ -425,14 +425,17 @@ static const struct imx290_csi_cfg imx290_csi_297mhz = {
+>  /* supported link frequencies */
+>  #define FREQ_INDEX_1080P	0
+>  #define FREQ_INDEX_720P		1
+> +#define FREQ_INDEX_OFF		2
+>  static const s64 imx290_link_freq_2lanes[] = {
+>  	[FREQ_INDEX_1080P] = 445500000,
+>  	[FREQ_INDEX_720P] = 297000000,
+> +	[FREQ_INDEX_OFF] = 0,
+>  };
 >  
->  #define IMX290_STANDBY					CCI_REG8(0x3000)
-> +#define IMX290_STANDBY_OPERATING			0x00
-> +#define IMX290_STANDBY_STANDBY				BIT(0)
-
-The convention, for single-bit fields, is to define a macro to describe
-the bit, but not a macro to describe the bit not being set.
-
->  #define IMX290_REGHOLD					CCI_REG8(0x3001)
->  #define IMX290_XMSTA					CCI_REG8(0x3002)
->  #define IMX290_ADBIT					CCI_REG8(0x3005)
-> @@ -1016,7 +1018,8 @@ static int imx290_start_streaming(struct imx290 *imx290,
->  		return ret;
->  	}
+>  static const s64 imx290_link_freq_4lanes[] = {
+>  	[FREQ_INDEX_1080P] = 222750000,
+>  	[FREQ_INDEX_720P] = 148500000,
+> +	[FREQ_INDEX_OFF] = 0,
+>  };
 >  
-> -	cci_write(imx290->regmap, IMX290_STANDBY, 0x00, &ret);
-> +	cci_write(imx290->regmap, IMX290_STANDBY, IMX290_STANDBY_OPERATING,
-> +		  &ret);
-
-I would thus rather drop this change.
-
+>  /*
+> @@ -552,6 +555,10 @@ static const struct imx290_mode imx290_modes_4lanes[] = {
+>  	},
+>  };
 >  
->  	msleep(30);
->  
-> @@ -1029,7 +1032,7 @@ static int imx290_stop_streaming(struct imx290 *imx290)
+> +static const struct imx290_mode imx290_mode_off = {
+> +	.link_freq_index = FREQ_INDEX_OFF,
+> +};
+> +
+>  static inline const struct imx290_mode *imx290_modes_ptr(const struct imx290 *imx290)
 >  {
->  	int ret = 0;
+>  	if (imx290->nlanes == 2)
+> @@ -876,10 +883,19 @@ static unsigned int imx290_get_blank_min(const struct imx290 *imx290, bool v)
+>  static void imx290_ctrl_update(struct imx290 *imx290,
+>  			       const struct imx290_mode *mode)
+>  {
+> -	unsigned int hblank_min = mode->hmax_min - mode->width;
+> -	unsigned int hblank_max = IMX290_HMAX_MAX - mode->width;
+> -	unsigned int vblank_min = mode->vmax_min - mode->height;
+> -	unsigned int vblank_max = IMX290_VMAX_MAX - mode->height;
+> +	unsigned int hblank_min, hblank_max, vblank_min, vblank_max;
+> +
+> +	if (mode == &imx290_mode_off) {
+> +		hblank_min = imx290_get_blank_min(imx290, false);
+> +		hblank_max = HBLANK_MAX;
+> +		vblank_min = imx290_get_blank_min(imx290, true);
+> +		vblank_max = VBLANK_MAX;
+> +	} else {
+> +		hblank_min = mode->hmax_min - mode->width;
+> +		hblank_max = IMX290_HMAX_MAX - mode->width;
+> +		vblank_min = mode->vmax_min - mode->height;
+> +		vblank_max = IMX290_VMAX_MAX - mode->height;
+> +	}
 >  
-> -	cci_write(imx290->regmap, IMX290_STANDBY, 0x01, &ret);
-> +	cci_write(imx290->regmap, IMX290_STANDBY, IMX290_STANDBY_STANDBY, &ret);
-
-And keep this one.
-
+>  	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
 >  
->  	msleep(30);
+> @@ -932,7 +948,8 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+>  	imx290->link_freq =
+>  		v4l2_ctrl_new_int_menu(&imx290->ctrls, &imx290_ctrl_ops,
+>  				       V4L2_CID_LINK_FREQ,
+> -				       imx290_link_freqs_num(imx290) - 1, 0,
+> +				       imx290_link_freqs_num(imx290) - 1,
+> +				       FREQ_INDEX_OFF,
+>  				       imx290_link_freqs_ptr(imx290));
+>  	if (imx290->link_freq)
+>  		imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> @@ -1278,7 +1295,7 @@ static int imx290_subdev_init(struct imx290 *imx290)
+>  	struct v4l2_subdev_state *state;
+>  	int ret;
 >  
+> -	imx290->current_mode = &imx290_modes_ptr(imx290)[0];
+> +	imx290->current_mode = &imx290_mode_off;
+>  
+>  	v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
+>  	imx290->sd.internal_ops = &imx290_internal_ops;
+> 
 
 -- 
 Regards,
