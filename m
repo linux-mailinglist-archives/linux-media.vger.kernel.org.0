@@ -1,168 +1,254 @@
-Return-Path: <linux-media+bounces-17395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17396-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05E4968EA4
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 22:04:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1508968EA6
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 22:05:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B5EE1F234CA
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 20:04:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2279E1C21EE9
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 20:05:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6295D1C62C6;
-	Mon,  2 Sep 2024 20:03:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 520DA19CC29;
+	Mon,  2 Sep 2024 20:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0Z81Jk6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="i+qc1P/N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2171C1A3AAE;
-	Mon,  2 Sep 2024 20:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C741428E8;
+	Mon,  2 Sep 2024 20:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725307434; cv=none; b=U0UQGZQ60DA8mTHhm+t+YSo8hWRxDSq8mMzESlDTSMuWan7CGWlByEVNuxzMHHUSbxM3AZQn5wz57XJkY/fkv6N4BHrO6YF0GaeTL2hBzo+LhGosBf6lGK+3zx7AkyvgyWomu12jlKtVHrZTL3Zu7nxwO3En+/h161fo1nlHbfM=
+	t=1725307492; cv=none; b=Ba++qyQgvuudCmys4xtGfIvQBkCInG9KOADqZ2Vfh8sKMBm956NKlYwwf/y5JetOnTYQEZaEiTw4xc8VfwfmQ4wlSMeLwPRGmXCTXr6rAYa3Hq7KgNYYQM/Jd8s9qrNSgAourDeK8wYSVslFXe+tI7vSla3nZwF0rHis9zOJC9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725307434; c=relaxed/simple;
-	bh=qONdzdDsbnpIOzgzfTtZ+dg+Q+7gaLKkxLqxmNXtuck=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oL6IpGWVuYq1Ud/MDcN3Wewt/IgdVXaz+2C6EYYlC5sj+h/UjP7UuRDq0kr9hy16bbOB2LwDsr0mZdahQ31wC4HPywT1TSCZSHBCx9BaDfVuWRYvhdAPFABohUHn7LygEgnmjOYGJqGeSCJpNFPy+Y7wsFio9ZENo1rC5lTumhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g0Z81Jk6; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2f502086419so45773291fa.3;
-        Mon, 02 Sep 2024 13:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725307431; x=1725912231; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=G2rzI8XnwAvje8n92Q91oYkvaH28K2yhg6ufqOtQN3c=;
-        b=g0Z81Jk6Ce7GtTeXcG3aXqv040aTrPu0ch1mPBLudPaZv2HuR8WqA+UaevxLDAPpfA
-         Qz1s8aZsd5BZoPl2iAHBtcLD4XCv1ihdPGEGjkadSSpv8RAU8Bm5OjS7OcLjTj49UOwX
-         mOC49hC9Fyw7nUCIlJ0VOhhebP2k1zVfkqIAm918LO4lvnr2WmsrcRovk4+e6UrNDeaa
-         NPoW5UPSiyIGsjkrMUTObmJp96w/iLTna6/6ovDRhA6/EaEq/YKHqXmxW7qjdjC2Dse/
-         8Z0QcGLfVV8RdYGee4Lkjbhde0a37BKkBChQfcyE1RFNNY3vSQnkEu7rmlT7flB1VmM5
-         Z8yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725307431; x=1725912231;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G2rzI8XnwAvje8n92Q91oYkvaH28K2yhg6ufqOtQN3c=;
-        b=rq7+65CMGY7yOX7aRROoZwpDHhXHhrGb3ig2KQE79AgQsB1xPxkVTM7E/mBEyDjYEP
-         1il2diAfy+9Gp5M2j/hN/cfrafX8rqoO/rWPC/d02XFrtyWEzzKuXhkzqW0VRW8Gqiv5
-         6rt0gGX038wBwKPvwOsV5cQ9pxuSHNRufKF+bOYiMauF0U9BW/L1F6h08a2QPMJmJdIh
-         AyJIQZM/tRV+UM4N/Wi6rgbD6n8W6SrN3jQk309PjBhNSE6gj+95R9pqXRlo03bQglIO
-         GcyRZ6eFYIZTpLNL9GGATH/cSY1sDUpIx3JnmARoJNJLth6PQ+b+6T9i40gjGHVwdljI
-         wTlA==
-X-Forwarded-Encrypted: i=1; AJvYcCU8qhsdy4NyHrNEmDTDKmnUALViVkvBXURXKQaa1RT4q0erGWqzuCQHcvP7unR6d2CpyWpdtk6dbboy6gA=@vger.kernel.org, AJvYcCWT2ewYQzVRBtRmZryX+D0LoozT9fNRKwFsR11zM6paJAJuUSjG1J96/rILcFANyK/4PTqY0XQxInhkqi8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDfRfGrZNfs1r4hk7ePDV6RAwIrWvH1/r06ozVPJnlfBPwDtKZ
-	ydoXn0xkrkhoAvEJeZ50yCHqZsnL07MrrB5HC6WJQWWt0YJyx3OeF/SQCE2qy3PTjoNemBmai26
-	YtK0dWVFI7AmRoNNZ6+NEj+ttjSE=
-X-Google-Smtp-Source: AGHT+IHWbkeYOsIOTN15vtw00APkIdqfhCl5GBFl8Xzp2G+BrG8U2vmWOtzLcTNt51sfnTtTYK8wP3Pf28y1l4F4mQU=
-X-Received: by 2002:a05:651c:502:b0:2f3:bdc9:8914 with SMTP id
- 38308e7fff4ca-2f64440e6f8mr7462811fa.17.1725307430779; Mon, 02 Sep 2024
- 13:03:50 -0700 (PDT)
+	s=arc-20240116; t=1725307492; c=relaxed/simple;
+	bh=6lhWz/HJWsgVhkcr/5b4sSe3G9PLdRFXhG8/PBGghss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DF+1se52IfrJirt2uhLoj4kQxBbg1n2nvPsssM9c6MHWejT49J3N0LGGlxfH2FdmvbzhK4hjMWlUXCC1bWyFgP9Vzwd97BPnKl9iwMsgv26aeq6rpwBy1gRER46I8vl4h+eyjar4ZjuVE9lPmPWA4Salk/8FfEw3g0Kvx+XHOPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=i+qc1P/N; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E2244CE;
+	Mon,  2 Sep 2024 22:03:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725307417;
+	bh=6lhWz/HJWsgVhkcr/5b4sSe3G9PLdRFXhG8/PBGghss=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i+qc1P/NqJUdeyo4UIg8eurDGI7GPjB7nvScgZrUO3ytV0uQafCNwOlnMpNIM0yG7
+	 XwwGhhLDRdpy5y8LR8OkVuU9w+5NyLcI7ArqSZ3htUWP5pHw4C1MK/jJG/e0ikYmYy
+	 bFSw/pU3XJ/munm0C1Eof6/UWBE0YHALDp0Y4Cro=
+Date: Mon, 2 Sep 2024 23:04:16 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Benjamin Bara <bbara93@gmail.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Benjamin Bara <benjamin.bara@skidata.com>
+Subject: Re: [PATCH v3 7/7] media: i2c: imx290: Implement a "privacy mode"
+ for probe()
+Message-ID: <20240902200416.GT1995@pendragon.ideasonboard.com>
+References: <20240902-imx290-avail-v3-0-b32a12799fed@skidata.com>
+ <20240902-imx290-avail-v3-7-b32a12799fed@skidata.com>
+ <CAPY8ntA8V+816=UwaDa7Y-8vccPNfOoLQUvkQbC6KAtDZ0QxKw@mail.gmail.com>
+ <CAJpcXm7-g5xUsL9pf0Qek9WsCCvv2hD+Cn573t8-cP8KPHfz-A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240902-imx290-avail-v3-0-b32a12799fed@skidata.com>
- <20240902-imx290-avail-v3-6-b32a12799fed@skidata.com> <CAPY8ntCCCpjohup5Aqrrt6mRXpBukKUFnQWkuwKJ=xJCW=PDog@mail.gmail.com>
-In-Reply-To: <CAPY8ntCCCpjohup5Aqrrt6mRXpBukKUFnQWkuwKJ=xJCW=PDog@mail.gmail.com>
-From: Benjamin Bara <bbara93@gmail.com>
-Date: Mon, 2 Sep 2024 22:03:39 +0200
-Message-ID: <CAJpcXm7jYNG1rbLOJcbjHZbdbgFC7g5xGuUrTOE5b9-FcZ9xVQ@mail.gmail.com>
-Subject: Re: [PATCH v3 6/7] media: i2c: imx290: Check for availability in probe()
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Alexander Stein <alexander.stein@ew.tq-group.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Benjamin Bara <benjamin.bara@skidata.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJpcXm7-g5xUsL9pf0Qek9WsCCvv2hD+Cn573t8-cP8KPHfz-A@mail.gmail.com>
 
-Hi Dave!
+On Mon, Sep 02, 2024 at 09:49:33PM +0200, Benjamin Bara wrote:
+> On Mon, 2 Sept 2024 at 20:10, Dave Stevenson wrote:
+> > On Mon, 2 Sept 2024 at 16:59, <bbara93@gmail.com> wrote:
+> > >
+> > > From: Benjamin Bara <benjamin.bara@skidata.com>
+> > >
+> > > Currently, we have a trade-off between potentially enabling the privacy
+> > > LED and reading out the connection state of the sensor during probe().
+> > >
+> > > To have a somewhat defined policy for now, make a decision based on the
+> > > power supplies of the sensor. If they are enabled anyways, communicate
+> > > with the powered sensor for an availability check. Otherwise, create the
+> > > subdevice without knowing whether the sensor is connected or not.
+> >
+> > Almost all the camera modules used on Raspberry Pi have regulators
+> > controlled via a GPIO, but no privacy LED. The preference from us is
+> > very definitely to query the sensor during probe where possible to
+> > flag up any connectivity issues, and indeed I've had a number of
+> > support threads with imx290 where it's just not been connected but it
+> > probed fully and showed up in libcamera.
+> >
+> > How can I opt in to patch 6 checking basic I2C to the sensor during
+> > probe when I have a controllable regulator? (This is where the
+> > discussions over a dtbinding for privacy LEDs and not powering up
+> > sensors during probe comes in).
+> 
+> When you want to probe only during boot time, you can use the
+> "regulator-boot-on" DT binding on your controllable regulator. This
+> enables the regulator while it is probed and disables it later if not
+> used (in comparison to "always-on"). Should also work for modules.
 
-On Mon, 2 Sept 2024 at 20:22, Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
-> On Mon, 2 Sept 2024 at 16:58, <bbara93@gmail.com> wrote:
-> >
-> > From: Benjamin Bara <benjamin.bara@skidata.com>
-> >
-> > Currently, the V4L2 subdevice is also created when the device is not
-> > available/connected. From userspace perspective, there is no visible
-> > difference between a working and not-working subdevice (except when
-> > trying it out).
-> >
-> > This commit adds a simple availability check before starting with the
-> > subdev initialization to error out instead.
-> >
-> > Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
-> > ---
-> > Changes since v2:
-> > - the new 1/8 is split out
-> > - use dev_err_probe() (thx Laurent)
-> > ---
-> >  drivers/media/i2c/imx290.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > index 9610e9fd2059..6b292bbb0856 100644
-> > --- a/drivers/media/i2c/imx290.c
-> > +++ b/drivers/media/i2c/imx290.c
-> > @@ -1571,6 +1571,7 @@ static int imx290_probe(struct i2c_client *client)
-> >  {
-> >         struct device *dev = &client->dev;
-> >         struct imx290 *imx290;
-> > +       u64 val;
-> >         int ret;
-> >
-> >         imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
-> > @@ -1631,6 +1632,17 @@ static int imx290_probe(struct i2c_client *client)
-> >         pm_runtime_set_autosuspend_delay(dev, 1000);
-> >         pm_runtime_use_autosuspend(dev);
-> >
-> > +       /* Make sure the sensor is available before V4L2 subdev init. */
-> > +       ret = cci_read(imx290->regmap, IMX290_STANDBY, &val, NULL);
-> > +       if (ret) {
-> > +               ret = dev_err_probe(dev, -ENODEV, "Failed to detect sensor\n");
-> > +               goto err_pm;
-> > +       }
-> > +       if (val != IMX290_STANDBY_STANDBY) {
->
-> As Laurent commented on v2, this is a slightly unsafe check. If the
-> device isn't controlled via a regulator then there's no guarantee that
-> the sensor will be in standby.
-> The cci_read call will already have returned an error if the sensor
-> isn't present which will be 99.999% of the error cases.
->
-> If you want to catch the case where it's not in standby, why not put
-> it into standby as a recovery mechanism. It'd be a better user
-> experience than just bombing out of the probe.
+This seems like a hack, I'm sorry :-( I think we should instead have a
+DT property standardized for camera sensors that tell whether or not
+there is a privacy LED, and skip the detection in that case.
 
-Thanks for the idea - no idea why it didn't come to my mind. I would
-also prefer setting STANDBY instead of reading the value.
+> Unfortunately, I don't have a clean solution (which also autosuspends)
+> for "any probe time". I think it is not possible to enable a regulator
+> from user space without having a consuming DT node. A somewhat clean
+> workaround might be CONFIG_REGULATOR_USERSPACE_CONSUMER, which gives you
+> the possibility to change the state of a regulator via sysfs (after
+> creating a DT node). This gives you the possibility to enable it any
+> time. However, the userspace-consumer driver gets the regulators
+> exclusive, which means you cannot add the sensor driver as consumer and
+> therefore cannot use the autosuspend feature of the imx290. Not really
+> "nice", but probably "feasible" if you have special constraints when you
+> are allowed to probe (e.g. the temperature as mentioned by Laurent). A
+> DT binding would be easier for this case.
+> 
+> > > Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+> > > ---
+> > > Changes since v2:
+> > > - new
+> > > ---
+> > >  drivers/media/i2c/imx290.c | 82 ++++++++++++++++++++++++++++++++--------------
+> > >  1 file changed, 57 insertions(+), 25 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > > index 6b292bbb0856..338b2c5ea547 100644
+> > > --- a/drivers/media/i2c/imx290.c
+> > > +++ b/drivers/media/i2c/imx290.c
+> > > @@ -1354,6 +1354,17 @@ static void imx290_subdev_cleanup(struct imx290 *imx290)
+> > >   * Power management
+> > >   */
+> > >
+> > > +static bool is_imx290_power_on(struct imx290 *imx)
+> > > +{
+> > > +       unsigned int i;
+> > > +
+> > > +       for (i = 0; i < ARRAY_SIZE(imx->supplies); i++)
+> > > +               if (!regulator_is_enabled(imx->supplies[i].consumer))
+> > > +                       return false;
+> > > +
+> > > +       return true;
+> > > +}
+> > > +
+> > >  static int imx290_power_on(struct imx290 *imx290)
+> > >  {
+> > >         int ret;
+> > > @@ -1571,6 +1582,7 @@ static int imx290_probe(struct i2c_client *client)
+> > >  {
+> > >         struct device *dev = &client->dev;
+> > >         struct imx290 *imx290;
+> > > +       bool power_on;
+> > >         u64 val;
+> > >         int ret;
+> > >
+> > > @@ -1611,36 +1623,54 @@ static int imx290_probe(struct i2c_client *client)
+> > >                 return ret;
+> > >
+> > >         /*
+> > > -        * Enable power management. The driver supports runtime PM, but needs to
+> > > -        * work when runtime PM is disabled in the kernel. To that end, power
+> > > -        * the sensor on manually here.
+> > > +        * Privacy mode: if the regulators are not enabled, avoid enabling them.
+> > > +        * In case the regulators are enabled, we still want to make sure that
+> > > +        * the regulators know that they have another consumer, therefore run
+> > > +        * the powering sequence.
+> > >          */
+> > > -       ret = imx290_power_on(imx290);
+> > > -       if (ret < 0) {
+> > > -               dev_err(dev, "Could not power on the device\n");
+> > > -               return ret;
+> > > +       power_on = is_imx290_power_on(imx290);
+> > > +       dev_dbg(dev, "%s: power on: %d\n", __func__, power_on);
+> > > +       if (power_on) {
+> > > +               /*
+> > > +                * Enable power management. The driver supports runtime PM, but
+> > > +                * needs to work when runtime PM is disabled in the kernel. To
+> > > +                * that end, power the sensor on manually here.
+> > > +                */
+> > > +               ret = imx290_power_on(imx290);
+> > > +               if (ret < 0) {
+> > > +                       dev_err(dev, "Could not power on the device\n");
+> > > +                       return ret;
+> > > +               }
+> > > +
+> > > +               /*
+> > > +                * Enable runtime PM with autosuspend. As the device has been
+> > > +                * powered manually, mark it as active, and increase the usage
+> > > +                * count without resuming the device.
+> > > +                */
+> > > +               pm_runtime_set_active(dev);
+> > > +               pm_runtime_get_noresume(dev);
+> > >         }
+> > >
+> > > -       /*
+> > > -        * Enable runtime PM with autosuspend. As the device has been powered
+> > > -        * manually, mark it as active, and increase the usage count without
+> > > -        * resuming the device.
+> > > -        */
+> > > -       pm_runtime_set_active(dev);
+> > > -       pm_runtime_get_noresume(dev);
+> > >         pm_runtime_enable(dev);
+> > >         pm_runtime_set_autosuspend_delay(dev, 1000);
+> > >         pm_runtime_use_autosuspend(dev);
+> > >
+> > > -       /* Make sure the sensor is available before V4L2 subdev init. */
+> > > -       ret = cci_read(imx290->regmap, IMX290_STANDBY, &val, NULL);
+> > > -       if (ret) {
+> > > -               ret = dev_err_probe(dev, -ENODEV, "Failed to detect sensor\n");
+> > > -               goto err_pm;
+> > > -       }
+> > > -       if (val != IMX290_STANDBY_STANDBY) {
+> > > -               ret = dev_err_probe(dev, -ENODEV, "Sensor is not in standby\n");
+> > > -               goto err_pm;
+> > > +       /*
+> > > +        * Make sure the sensor is available before V4L2 subdev init.
+> > > +        * This only works when the sensor is powered.
+> > > +        */
+> > > +       if (power_on) {
+> > > +               ret = cci_read(imx290->regmap, IMX290_STANDBY, &val, NULL);
+> > > +               if (ret) {
+> > > +                       ret = dev_err_probe(dev, -ENODEV,
+> > > +                                           "Failed to detect sensor\n");
+> > > +                       goto err_pm;
+> > > +               }
+> > > +               if (val != IMX290_STANDBY_STANDBY) {
+> > > +                       ret = dev_err_probe(dev, -ENODEV,
+> > > +                                           "Sensor is not in standby\n");
+> > > +                       goto err_pm;
+> > > +               }
+> > >         }
+> > >
+> > >         /* Initialize the V4L2 subdev. */
+> > > @@ -1666,8 +1696,10 @@ static int imx290_probe(struct i2c_client *client)
+> > >          * Decrease the PM usage count. The device will get suspended after the
+> > >          * autosuspend delay, turning the power off.
+> > >          */
+> > > -       pm_runtime_mark_last_busy(dev);
+> > > -       pm_runtime_put_autosuspend(dev);
+> > > +       if (power_on) {
+> > > +               pm_runtime_mark_last_busy(dev);
+> > > +               pm_runtime_put_autosuspend(dev);
+> > > +       }
+> > >
+> > >         return 0;
+> > >
 
-Kind regards
-Benjamin
+-- 
+Regards,
 
->   Dave
->
-> > +               ret = dev_err_probe(dev, -ENODEV, "Sensor is not in standby\n");
-> > +               goto err_pm;
-> > +       }
-> > +
-> >         /* Initialize the V4L2 subdev. */
-> >         ret = imx290_subdev_init(imx290);
-> >         if (ret)
-> >
-> > --
-> > 2.46.0
-> >
-> >
+Laurent Pinchart
 
