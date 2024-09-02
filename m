@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-17373-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17374-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F070D968B14
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 17:31:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 269DC968B17
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 17:32:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68D841F22DE6
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 15:31:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC26828124D
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 15:32:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F109019F116;
-	Mon,  2 Sep 2024 15:31:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EA6719F13A;
+	Mon,  2 Sep 2024 15:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQOf2V/b"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RFMDEdhk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FB81CB514;
-	Mon,  2 Sep 2024 15:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C9938FB0;
+	Mon,  2 Sep 2024 15:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725291091; cv=none; b=VUV9a+lw6IKSXxYIN1ICoZ+tqwtssc3nlTfvHIedFDAkH3WDQxDdQgw+c9/K5uRqWTFqDGXCeiR5kQHOelhF/mzefVY1wxLpWqBTh9w4jgbIStZglBZZwYyiLQHZ5snBGysI64D/OBsLiJkvtZpUjW2xIjjsVY3Zi5vT2ptB+QY=
+	t=1725291120; cv=none; b=fDFfdVr2DmSMXubO2NMVQDoEbNqGgTUtH9mbY59VfbFWkDUUGeDgP+OSTE/kC91k5CCHsmcA1K/TcvoesxrMJq3iAMThBqP4kdg923yaC2OTP7oXe4QZfy2lbKpMlzkecgw3X9EfVfI5bbv7/r8mM20mVmacNF5IhH/DhLEtFOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725291091; c=relaxed/simple;
-	bh=fHYCrATv0YNMW+dvVDb2XEurW2FCe0swC9jmdEUKmLE=;
+	s=arc-20240116; t=1725291120; c=relaxed/simple;
+	bh=DRcS/eDXPxHpY5M/LuFQM13QEB+saRntbeQcU1Jk7ks=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=dIKeB2WlmVFbK5hHnvetl95t/10qnkZeRTJ3R7T7iL2d8x+7GBnhiIO3s/Nasy3ijCMRCrGWuXK41GBKSyzMLA2ni1eUYFmK4VetV4GS2C9th6I0mz+GoSu+FSo0Cd7ooL1whRqGevM19iWdbOR9xlf3VaLZVbdekMqpSsiMNuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQOf2V/b; arc=none smtp.client-ip=209.85.208.178
+	 In-Reply-To:Content-Type; b=OCXiZzFtV06eRQYFhsi4niXgqEpcGX9qIta98RUKOxIZX/GsEfkLOCkyFwB3Uo04Vu4K/qM4aUCTE0CzgSECPnylD9/QSBl+IC/cwYuRLz2bimSBrKCJKICuZTs85KvkyuhMLPLmDmvjaobkavUkhHaKZxh7DVkyJ2Rzc/G7bik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RFMDEdhk; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2f3f163e379so70766901fa.3;
-        Mon, 02 Sep 2024 08:31:29 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52f01b8738dso3103838e87.1;
+        Mon, 02 Sep 2024 08:31:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725291088; x=1725895888; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725291115; x=1725895915; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=zgWcvugTcq0n4IcB8sHG/SbLm3GxVM4wHTGq3cvMrNM=;
-        b=EQOf2V/bugoUBzNcQBturkm6PTN/Fo0PSiTNhxRTrcILWjQTKyy+eDBU+og+T8Jxqj
-         7Ixm7uJZTfzVK+oDhzNiy8lxq7YKqlHnHxbmx44DJIFQVA9huZK1tbDP+/WfWZVdcSQL
-         tqLjAdj7snIVl17jPcr7HPCgHzWoL+2js6s3HDlZ4nkvX0uSV2syxEZYcmiX3sK+7+5u
-         CShpMiXWc5bYZp+owZKvAX09LT91Gw/S5kUePXUue/y/6hA7iRi8rbTWoMZsL2f2+1JC
-         7U49dM66jSzK6km/RyDFrAyoyLb5jEGa/f+TaMZ7vymUN9PV4XAQiLUMjH3qvXQTDLZ8
-         Sltw==
+        bh=1lEAaITg61rMOKoeV9sGqIv6NT56UG0eY9VP45Si6Hs=;
+        b=RFMDEdhkIOQZ8uj68lLjoKioN+7zvdVdCunb99DWu54BI6klyR1e9G5Quc/bDu/d4S
+         1dExMkQhKU+Ons+ilHTROoIGUOiI0NdHDJCvsxiCtcAYFXp320MQvgXSJKkX5uG8cdNg
+         guFEp3iixGOdd/scmHLj3kI/7a1tz1Cew4eYPRwbrRa/+jG8vKiO1PVsUXNQzzsIEizu
+         eU807uR57sXHx1DpqiYwjodQf8ten9NsjQk97dbbYnuOU62XB4lYo9DfiyxKY+Xzn1ps
+         5xaH/yySkbknsBmM92we9uNioq+3gSY9x6FF/9y6JXlab08VYgN3j7Ka2BG7AHEwnsuF
+         ZJuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725291088; x=1725895888;
+        d=1e100.net; s=20230601; t=1725291115; x=1725895915;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zgWcvugTcq0n4IcB8sHG/SbLm3GxVM4wHTGq3cvMrNM=;
-        b=pnwKiQNUxlhFSVCzx7kgM8oo5TuopKk0ZsnAPQxJgsHSGMMJfNbTV/IhaWdqJb+SOw
-         Uvf7mBvJOOhiPSun4RR4+DBuXxmim5t+Ns5gtI0Xs4iLCwPE6xb5ov909LN4lwiK7xB5
-         4yhzJv1fkkajH3qUZrUqN6orXqGpH4SC07WUqGa7VlqA1qnEhKlkIODoE28ObiJs6fwM
-         lLvhCGT8U9NCt98e5Kjo6RflMjP1IILwnfhASrbhf+vqWdh+BwmUckLSkuqSlN7l9wvw
-         67WwrZe/JA+La20LpmzbLsCjJtah9vZVUoR81xmlZravvZm5mdyQOYFjnhR05Yd+f3Oc
-         8n0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCULpyqwzP2eX5043gwVC3fLNkxcCNCec8EW9VFrLqAUpO8G0HlL70bvvrF7LbzNh1wnOAc00ChXQA+671I=@vger.kernel.org, AJvYcCVfLM7mKYmkjo4nqFIDFz1WS2GBtfOD/W+YCs+u9wRIUuKQTxIy9nPxTryoXEEPghQSs3PjhYsvZnPdb78=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLcNoLhge+iVmoaDQGztK0NTPuXfTncydMhTC7RkRDN0+Iy6PO
-	uFMXGnPBweRquTd7szUs26pRLDemLBzt9/b2i9azxdPoQ6yQQxRm
-X-Google-Smtp-Source: AGHT+IHxV1Ic5u6QxGdGvSwxSn91NdIhv16sGfo2ufqHeeF2dqvYS7NMoiTVZIKB1TAarfANOvwn5g==
-X-Received: by 2002:a05:651c:19a3:b0:2ef:c8a1:ff4 with SMTP id 38308e7fff4ca-2f6105c49a9mr126039951fa.7.1725291087133;
-        Mon, 02 Sep 2024 08:31:27 -0700 (PDT)
+        bh=1lEAaITg61rMOKoeV9sGqIv6NT56UG0eY9VP45Si6Hs=;
+        b=J79DkCMcWasQb9R8d2MDCTavbd7zaDKIpOWsFBowa2G/WZ9aX39UR5bjLno2Ktv/tc
+         K+ytYXSvbcWpYHkcBUqV4LFUijM/2hztTaxQBoGf3d4NFiQhI2r2Vv3dbiIGKcmQleSI
+         8L6N0wZuCQX3U1L9eS5L6j7Uq5GpsgGStI7hdA0MxB/zuFzk/5oPGTsmWszgGHoAhaKF
+         5GaEF7UJg4NNosZ36mhGN5RMCbbCiBgp186BVE3EcAdmGmejDdokoJn2e5g0/39s+86n
+         drxw3fal7gSXqen12NFLpfqUgLE+fWEgLbLzIpJa5NF8/VN2lMM236sWqv5lR1WA9zbG
+         g/qA==
+X-Forwarded-Encrypted: i=1; AJvYcCXR8B64K3J9GhQzhw6Gbi6p+oyiHjyeDAkn6bqlSfuiecZ2rkCKTmq4g+nwYrgKD0ID+azSdeXxzvKb9OE=@vger.kernel.org, AJvYcCXw/y6tgYzOEDdZqeK7jcQXySHn3mnhiMRgFgMZkBaUhUZ5uOmUdEVEsoXH0FJaDXDcLNTHcUcu4kkPqf0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF7ZyLTdefZUyKuVDYOfUFtto3zEHaFXWGSfHcD3lU13Cnk95f
+	/UxD2alPcFZEqhgW+hRN33DhOFDeJwn84BqQMwg7SY9Ua/V4zq6Z
+X-Google-Smtp-Source: AGHT+IGYGf8VX7LIcYOgdyPmt731pfn6LVYofo2CruraVVYwx7aQjpnX8k6VgUS23jgFdINd2tm2Fw==
+X-Received: by 2002:a05:6512:a92:b0:533:77d:1176 with SMTP id 2adb3069b0e04-53546af3011mr6978933e87.4.1725291114527;
+        Mon, 02 Sep 2024 08:31:54 -0700 (PDT)
 Received: from [192.168.0.20] ([148.56.230.39])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a898900e95dsm573187066b.54.2024.09.02.08.31.25
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989233403sm569728466b.212.2024.09.02.08.31.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 08:31:25 -0700 (PDT)
-Message-ID: <1d4e9e86-aaaf-4d19-b89f-6f7207ab72d8@gmail.com>
-Date: Mon, 2 Sep 2024 17:31:24 +0200
+        Mon, 02 Sep 2024 08:31:53 -0700 (PDT)
+Message-ID: <f6566469-36fe-4cf8-b1c1-4a476e5c5645@gmail.com>
+Date: Mon, 2 Sep 2024 17:31:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,8 +77,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] media: platform: mtk-mdp3: Use cmdq_pkt_create()
- and cmdq_pkt_destroy()
+Subject: Re: [PATCH v4 3/3] soc: mediatek: cmdq: Remove cmdq_pkt_finalize()
+ helper function
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Moudy Ho
@@ -87,7 +87,7 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
 References: <20240901143259.16849-1-chunkuang.hu@kernel.org>
- <20240901143259.16849-3-chunkuang.hu@kernel.org>
+ <20240901143259.16849-4-chunkuang.hu@kernel.org>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -133,131 +133,86 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20240901143259.16849-3-chunkuang.hu@kernel.org>
+In-Reply-To: <20240901143259.16849-4-chunkuang.hu@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 01/09/2024 16:32, Chun-Kuang Hu wrote:
-> Use cmdq_pkt_create() and cmdq_pkt_destroy() common function
-> instead of implementing mdp3 version.
+> In order to have fine-grained control, use cmdq_pkt_eoc() and
+> cmdq_pkt_jump_rel() to replace cmdq_pkt_finalize().
 > 
 > Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+
+Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
+
 > ---
->   .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 46 ++-----------------
->   .../platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |  1 +
->   2 files changed, 6 insertions(+), 41 deletions(-)
+>   drivers/soc/mediatek/mtk-cmdq-helper.c | 22 ----------------------
+>   include/linux/soc/mediatek/mtk-cmdq.h  | 13 -------------
+>   2 files changed, 35 deletions(-)
 > 
-> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-> index ef5dade35fd3..740a484c8eb4 100644
-> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-> @@ -471,43 +471,6 @@ static int mdp_path_config(struct mdp_dev *mdp, struct mdp_cmdq_cmd *cmd,
->   	return 0;
+> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> index a8fccedba83f..2a47dda4dd4a 100644
+> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
+> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> @@ -538,27 +538,5 @@ int cmdq_pkt_eoc(struct cmdq_pkt *pkt)
+>   }
+>   EXPORT_SYMBOL(cmdq_pkt_eoc);
+>   
+> -int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+> -{
+> -	struct cmdq_instruction inst = { {0} };
+> -	int err;
+> -
+> -	/* insert EOC and generate IRQ for each command iteration */
+> -	inst.op = CMDQ_CODE_EOC;
+> -	inst.value = CMDQ_EOC_IRQ_EN;
+> -	err = cmdq_pkt_append_command(pkt, inst);
+> -	if (err < 0)
+> -		return err;
+> -
+> -	/* JUMP to end */
+> -	inst.op = CMDQ_CODE_JUMP;
+> -	inst.value = CMDQ_JUMP_PASS >>
+> -		cmdq_get_shift_pa(((struct cmdq_client *)pkt->cl)->chan);
+> -	err = cmdq_pkt_append_command(pkt, inst);
+> -
+> -	return err;
+> -}
+> -EXPORT_SYMBOL(cmdq_pkt_finalize);
+> -
+>   MODULE_DESCRIPTION("MediaTek Command Queue (CMDQ) driver");
+>   MODULE_LICENSE("GPL v2");
+> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
+> index 5bee6f7fc400..0c3906e8ad19 100644
+> --- a/include/linux/soc/mediatek/mtk-cmdq.h
+> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
+> @@ -391,14 +391,6 @@ int cmdq_pkt_jump_rel(struct cmdq_pkt *pkt, s32 offset, u8 shift_pa);
+>    */
+>   int cmdq_pkt_eoc(struct cmdq_pkt *pkt);
+>   
+> -/**
+> - * cmdq_pkt_finalize() - Append EOC and jump command to pkt.
+> - * @pkt:	the CMDQ packet
+> - *
+> - * Return: 0 for success; else the error code is returned
+> - */
+> -int cmdq_pkt_finalize(struct cmdq_pkt *pkt);
+> -
+>   #else /* IS_ENABLED(CONFIG_MTK_CMDQ) */
+>   
+>   static inline int cmdq_dev_get_client_reg(struct device *dev,
+> @@ -519,11 +511,6 @@ static inline int cmdq_pkt_eoc(struct cmdq_pkt *pkt)
+>   	return -EINVAL;
 >   }
 >   
-> -static int mdp_cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt,
-> -			       size_t size)
+> -static inline int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
 > -{
-> -	struct device *dev;
-> -	dma_addr_t dma_addr;
-> -
-> -	pkt->va_base = kzalloc(size, GFP_KERNEL);
-> -	if (!pkt->va_base)
-> -		return -ENOMEM;
-> -
-> -	pkt->buf_size = size;
-> -	pkt->cl = (void *)client;
-
-cmdq_pkt_create does not set the callback. Why doesn't that break things?
-Same holds for the crtc driver that is already in linux-next.
-
-Regards,
-Matthias
-
-> -
-> -	dev = client->chan->mbox->dev;
-> -	dma_addr = dma_map_single(dev, pkt->va_base, pkt->buf_size,
-> -				  DMA_TO_DEVICE);
-> -	if (dma_mapping_error(dev, dma_addr)) {
-> -		dev_err(dev, "dma map failed, size=%u\n", (u32)(u64)size);
-> -		kfree(pkt->va_base);
-> -		return -ENOMEM;
-> -	}
-> -
-> -	pkt->pa_base = dma_addr;
-> -
-> -	return 0;
+> -	return -EINVAL;
 > -}
 > -
-> -static void mdp_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
-> -{
-> -	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
-> -
-> -	dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_size,
-> -			 DMA_TO_DEVICE);
-> -	kfree(pkt->va_base);
-> -	pkt->va_base = NULL;
-> -}
-> -
->   static void mdp_auto_release_work(struct work_struct *work)
->   {
->   	struct mdp_cmdq_cmd *cmd;
-> @@ -538,7 +501,7 @@ static void mdp_auto_release_work(struct work_struct *work)
->   		wake_up(&mdp->callback_wq);
->   	}
+>   #endif /* IS_ENABLED(CONFIG_MTK_CMDQ) */
 >   
-> -	mdp_cmdq_pkt_destroy(&cmd->pkt);
-> +	cmdq_pkt_destroy(mdp->cmdq_clt[cmd->pp_idx], &cmd->pkt);
->   	kfree(cmd->comps);
->   	cmd->comps = NULL;
->   	kfree(cmd);
-> @@ -578,7 +541,7 @@ static void mdp_handle_cmdq_callback(struct mbox_client *cl, void *mssg)
->   		if (refcount_dec_and_test(&mdp->job_count))
->   			wake_up(&mdp->callback_wq);
->   
-> -		mdp_cmdq_pkt_destroy(&cmd->pkt);
-> +		cmdq_pkt_destroy(mdp->cmdq_clt[cmd->pp_idx], &cmd->pkt);
->   		kfree(cmd->comps);
->   		cmd->comps = NULL;
->   		kfree(cmd);
-> @@ -620,7 +583,7 @@ static struct mdp_cmdq_cmd *mdp_cmdq_prepare(struct mdp_dev *mdp,
->   		goto err_uninit;
->   	}
->   
-> -	ret = mdp_cmdq_pkt_create(mdp->cmdq_clt[pp_idx], &cmd->pkt, SZ_16K);
-> +	ret = cmdq_pkt_create(mdp->cmdq_clt[pp_idx], &cmd->pkt, SZ_16K);
->   	if (ret)
->   		goto err_free_cmd;
->   
-> @@ -700,6 +663,7 @@ static struct mdp_cmdq_cmd *mdp_cmdq_prepare(struct mdp_dev *mdp,
->   	cmd->comps = comps;
->   	cmd->num_comps = num_comp;
->   	cmd->mdp_ctx = param->mdp_ctx;
-> +	cmd->pp_idx = pp_idx;
->   
->   	kfree(path);
->   	return cmd;
-> @@ -711,7 +675,7 @@ static struct mdp_cmdq_cmd *mdp_cmdq_prepare(struct mdp_dev *mdp,
->   err_free_comps:
->   	kfree(comps);
->   err_destroy_pkt:
-> -	mdp_cmdq_pkt_destroy(&cmd->pkt);
-> +	cmdq_pkt_destroy(mdp->cmdq_clt[pp_idx], &cmd->pkt);
->   err_free_cmd:
->   	kfree(cmd);
->   err_uninit:
-> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h
-> index 53a30ad7e0b0..935ae9825728 100644
-> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h
-> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h
-> @@ -35,6 +35,7 @@ struct mdp_cmdq_cmd {
->   	struct mdp_comp *comps;
->   	void *mdp_ctx;
->   	u8 num_comps;
-> +	u8 pp_idx;
->   };
->   
->   struct mdp_dev;
+>   #endif	/* __MTK_CMDQ_H__ */
 
