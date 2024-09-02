@@ -1,161 +1,215 @@
-Return-Path: <linux-media+bounces-17397-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17398-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887F4968EB8
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 22:07:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D0E968EBC
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 22:07:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2F702838A0
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 20:07:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B240E2838B1
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 20:07:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6D6A1A4E9B;
-	Mon,  2 Sep 2024 20:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B97152139A8;
+	Mon,  2 Sep 2024 20:06:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="huLuF6DR"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="h3RNh8MR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763291A4E98;
-	Mon,  2 Sep 2024 20:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987D21AB6F3;
+	Mon,  2 Sep 2024 20:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725307554; cv=none; b=f+nuD0o/+Gq/LBEANur04tPif520xkFSQVAyd6isTlPSGvxGp6UbJ0zRRe926xbsBC5UpLLFWKi8pN1/Tu3S2SGgfzuJcX+XgTv+TmKzna2BZrA5CKBBMuCg0HxWA2MK6ztJ3EMYG49GCA9k+G6uNr9xsRRD5oRE/U92i0zdtSI=
+	t=1725307607; cv=none; b=KI+xkHyoAoHCMGfUghTgAh8T2saggTa6mxWGajITZ18W9Fvxm2cI043V3iKhQHX4WNYHUDdeb2PmqTg7nj+jVA4QqBq6/3I4lSkRBYeUugBrPZl3AxN/Vj773s8vDbSBFoM2Cq5Hfq4b9D8OVt3ZEm6ZjJvpDZdH1dL0562YbWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725307554; c=relaxed/simple;
-	bh=oR13/D3osFw2mOoOD8uvTfX3ErfCXm//ENYkudour6M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TFzha7NtxYz1xCYnp0PpMJ6pSd2I5DLTBEVgJAimLK6Gq2AHHzmpassKzd1Egmg20irl7dtoWmDkbvjz6Syua+nyZhgV91yFnJnM+bmoU+KLpXmufmCbsPefdQ/j6bpws5Qz4+cNd3Ku2YBBnKjchO/rh6YuXugPIX0IXl7RedI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=huLuF6DR; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2f4f5dbd93bso44196571fa.2;
-        Mon, 02 Sep 2024 13:05:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725307550; x=1725912350; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=q1mW6olJn60s1knsqJRVYp6yvfzwTFLjzO+ob7YZepU=;
-        b=huLuF6DR4FqL7iZ8c9uDuaEQEfR4TosGqZXLCeSXjyPf5gNrXZna8EMH46+4QsAIQj
-         jfoEhWxxLBBQmG5Zu3G5ObL0ljs+a1+m77hfFI0DKWx0phbq1zpHF+2kRGe6F1UGrFki
-         HFa4u6pWlbvruqRN+0KT8c1mymr6gwGpTrTeF8Ul8i6Cw6T8pGXuruvyJiloHvrhe9b8
-         EfNNJVmA58UF0L9wpu/7UH75hmLU3KcZ5rjInhgEgjbxZ6EHP1wiuO3973RnlQ3hjvQz
-         qNlQaFGm+SbaMJwAwmRKuKBI7cMEPchsyquDK9aN8DML2+dKlCyWWvIFN9JYVt1RWqPB
-         UMlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725307550; x=1725912350;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q1mW6olJn60s1knsqJRVYp6yvfzwTFLjzO+ob7YZepU=;
-        b=dnNA61PB94KQQ3YsL4a6Bm6s7glFloHlz4aq6TdE7saOqLjyQuNa8DPwwWWHfZSGDS
-         1PY0sVI+lQRDTQX8GSoVE+pimV0/7PBtI3UR7eCFgBqIxAGqCRulPXOSRRMv8XkdKsjZ
-         tHpuTZP3zzNrpoI5SS4wXI3YoRFWF3Wa17x3R4DKvEe+mRs2UO9fl2aiHOP0AV+iRJhV
-         OxXGFSNHg7BzzXrLgUv+o4GtEG/NXEzi/yaA79WgqjHmulq3P8/YgB5Y4+2x0mtoJSJ9
-         QttbutVBnV5oE78oCBWobDJz07Wjz2Ka2usblcEny9wX+Hk7hbEK5IWPEGqLnX2gZIY4
-         Xc9g==
-X-Forwarded-Encrypted: i=1; AJvYcCVuO7jklFpNVlve6q3ngGryKJMeaIC3I6VVdTPYlxMPdiF0Y7fsoi0C20jCK0z/aYCJ02lqRcQ/fYbWVvM=@vger.kernel.org, AJvYcCX4FKxH26tRFfIVHcajRDcj79n1E+VxYtFIsm5B03Q0+qHF3MO7aIhTuWAOZDDcvpJnyjVVYbT/hDZw2Wc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqtMt2mYYoFhX2rQzqrqmPoypt5F2+QOxR1Ri89vPUakOlcDs1
-	JyaHPOn4E6Ym0MxFES33PgttZ0EIy1INZyBMysg7QqDLxzymwU5Qr2P3HCmV/Gq0Nmb5Pfv6pgN
-	T9678OsxfkAs5zcZss4R+cbNyEf8=
-X-Google-Smtp-Source: AGHT+IHl4Jxvx9eY7X6klAx3lC8h7fPnmPOLwSEJJVuY9hCAeqjoRXSY7FY3okLBiJ5BwDy9D3rGBsnFjPynQ9cBcnA=
-X-Received: by 2002:a05:651c:1548:b0:2ef:2d3a:e70a with SMTP id
- 38308e7fff4ca-2f636a1372amr30029691fa.18.1725307550193; Mon, 02 Sep 2024
- 13:05:50 -0700 (PDT)
+	s=arc-20240116; t=1725307607; c=relaxed/simple;
+	bh=NsEQey3zJtwiqME5qiEk/k0Is3t6hGH2+t6QVXSCcn4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RRHXWW7zWnvv6eH/CnxyXf/gUSGQhtpihBVGoLRTmdj8VIoCn4natxULdQPp9bENXMc88tKYEzhkyM3r9T2ERuw4nWW/YX+DnjJDJRAW0OnXPlakit+fhQzWME/D7gimwlePYIwHNK+rtw5oq9W1EMa+x6nowNAsZIaY+CmtUvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=h3RNh8MR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 706CD4CE;
+	Mon,  2 Sep 2024 22:05:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725307532;
+	bh=NsEQey3zJtwiqME5qiEk/k0Is3t6hGH2+t6QVXSCcn4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h3RNh8MRraJQhJc+sRbC6fGL1LhgYzmP2Yq+EWAq7Vg5jOpgSk6Fok0CtkUNlMuJC
+	 IhGCoMGtN8KKCPY8gGFYTPZ6fDLUmHyX5z/dqcgPO/2qg/HkyIvvdZSnEoVIRyu+Zv
+	 XvpMjS46TST6QSudETBiKWFp7G5R29Htj+5rX9yY=
+Date: Mon, 2 Sep 2024 23:06:10 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Benjamin Bara <bbara93@gmail.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Benjamin Bara <benjamin.bara@skidata.com>
+Subject: Re: [PATCH v3 2/7] media: i2c: imx290: Define absolute control ranges
+Message-ID: <20240902200610.GU1995@pendragon.ideasonboard.com>
+References: <20240902-imx290-avail-v3-0-b32a12799fed@skidata.com>
+ <20240902-imx290-avail-v3-2-b32a12799fed@skidata.com>
+ <CAPY8ntCj=u4ZQJwjhvZF30x08Cf0h7R5yQTim7QCKd8bi_M08w@mail.gmail.com>
+ <CAJpcXm5cLjvqkuCB25strgYaUo4p058yLAXg8+LZ_7T12+3-ug@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240902-imx290-avail-v3-0-b32a12799fed@skidata.com>
- <20240902-imx290-avail-v3-1-b32a12799fed@skidata.com> <20240902195529.GP1995@pendragon.ideasonboard.com>
-In-Reply-To: <20240902195529.GP1995@pendragon.ideasonboard.com>
-From: Benjamin Bara <bbara93@gmail.com>
-Date: Mon, 2 Sep 2024 22:05:39 +0200
-Message-ID: <CAJpcXm5uNU7AbLe9BeWa7HT=48evPcM2U+K0qVa6a4MAAEkiOw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/7] media: i2c: imx290: Define standby mode values
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Alexander Stein <alexander.stein@ew.tq-group.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Benjamin Bara <benjamin.bara@skidata.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJpcXm5cLjvqkuCB25strgYaUo4p058yLAXg8+LZ_7T12+3-ug@mail.gmail.com>
 
-Hi Laurent!
+On Mon, Sep 02, 2024 at 09:43:36PM +0200, Benjamin Bara wrote:
+> Hi Dave!
+> 
+> On Mon, 2 Sept 2024 at 20:00, Dave Stevenson
+> <dave.stevenson@raspberrypi.com> wrote:
+> > On Mon, 2 Sept 2024 at 16:58, <bbara93@gmail.com> wrote:
+> > >
+> > > From: Benjamin Bara <benjamin.bara@skidata.com>
+> > >
+> > > For now, the driver activates the first mode (1080p) as current active
+> > > mode in probe(). This e.g. means that one cannot set VBLANK below 45
+> > > (vmax_min - height), although theoretically the minimum is 30 (720p
+> > > mode). Define the absolute possible/supported ranges to have them
+> > > available later.
+> >
+> > Currently the driver will set the ranges for VBLANK and HBLANK
+> > whenever the mode changes.
+> >
+> > How is it helpful to fake these numbers? Seeing as they aren't
+> > reflecting anything useful, they may as well all be 0.
+> >
+> > > Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+> > > ---
+> > > Changes since v2:
+> > > - new
+> > > ---
+> > >  drivers/media/i2c/imx290.c | 36 ++++++++++++++++++++++++++++++++----
+> > >  1 file changed, 32 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > > index 1c97f9650eb4..466492bab600 100644
+> > > --- a/drivers/media/i2c/imx290.c
+> > > +++ b/drivers/media/i2c/imx290.c
+> > > @@ -499,6 +499,10 @@ static const struct imx290_clk_cfg imx290_720p_clock_config[] = {
+> > >  };
+> > >
+> > >  /* Mode configs */
+> > > +#define WIDTH_720P     1280
+> > > +#define HEIGHT_720P    720
 
-Thanks for your feedback!
+That's pure obfuscation :-) Just use the values directly.
 
-On Mon, 2 Sept 2024 at 21:56, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Mon, Sep 02, 2024 at 05:57:26PM +0200, bbara93@gmail.com wrote:
-> > From: Benjamin Bara <benjamin.bara@skidata.com>
-> >
-> > The imx290 datasheet states that the IMX290_STANDBY register has two
-> > values: 0 for operating and 1 for standby. Define and use them.
-> >
-> > Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
-> > ---
-> > Changes since v2:
-> > - new, split out from the previous 1/2
-> > ---
-> >  drivers/media/i2c/imx290.c | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > index 4150e6e4b9a6..1c97f9650eb4 100644
-> > --- a/drivers/media/i2c/imx290.c
-> > +++ b/drivers/media/i2c/imx290.c
-> > @@ -29,6 +29,8 @@
-> >  #include <media/v4l2-subdev.h>
-> >
-> >  #define IMX290_STANDBY                                       CCI_REG8(0x3000)
-> > +#define IMX290_STANDBY_OPERATING                     0x00
-> > +#define IMX290_STANDBY_STANDBY                               BIT(0)
->
-> The convention, for single-bit fields, is to define a macro to describe
-> the bit, but not a macro to describe the bit not being set.
->
-> >  #define IMX290_REGHOLD                                       CCI_REG8(0x3001)
-> >  #define IMX290_XMSTA                                 CCI_REG8(0x3002)
-> >  #define IMX290_ADBIT                                 CCI_REG8(0x3005)
-> > @@ -1016,7 +1018,8 @@ static int imx290_start_streaming(struct imx290 *imx290,
-> >               return ret;
-> >       }
-> >
-> > -     cci_write(imx290->regmap, IMX290_STANDBY, 0x00, &ret);
-> > +     cci_write(imx290->regmap, IMX290_STANDBY, IMX290_STANDBY_OPERATING,
-> > +               &ret);
->
-> I would thus rather drop this change.
->
-> >
-> >       msleep(30);
-> >
-> > @@ -1029,7 +1032,7 @@ static int imx290_stop_streaming(struct imx290 *imx290)
-> >  {
-> >       int ret = 0;
-> >
-> > -     cci_write(imx290->regmap, IMX290_STANDBY, 0x01, &ret);
-> > +     cci_write(imx290->regmap, IMX290_STANDBY, IMX290_STANDBY_STANDBY, &ret);
->
-> And keep this one.
->
-> >
-> >       msleep(30);
-> >
+> > > +#define MINIMUM_WIDTH  WIDTH_720P
+> > > +#define MINIMUM_HEIGHT HEIGHT_720P
 
-Thanks, will do in the next version.
+Driver-specific macros should have a driver-specific prefix.
 
-Kind regards
-Benjamin
+> > >  static const struct imx290_mode imx290_modes_2lanes[] = {
+> > >         {
+> > >                 .width = 1920,
+> > > @@ -512,8 +516,8 @@ static const struct imx290_mode imx290_modes_2lanes[] = {
+> > >                 .clk_cfg = imx290_1080p_clock_config,
+> > >         },
+> > >         {
+> > > -               .width = 1280,
+> > > -               .height = 720,
+> > > +               .width = WIDTH_720P,
+> > > +               .height = HEIGHT_720P,
+> > >                 .hmax_min = 3300,
+> > >                 .vmax_min = 750,
+> > >                 .link_freq_index = FREQ_INDEX_720P,
+> > > @@ -537,8 +541,8 @@ static const struct imx290_mode imx290_modes_4lanes[] = {
+> > >                 .clk_cfg = imx290_1080p_clock_config,
+> > >         },
+> > >         {
+> > > -               .width = 1280,
+> > > -               .height = 720,
+> > > +               .width = WIDTH_720P,
+> > > +               .height = HEIGHT_720P,
+> > >                 .hmax_min = 3300,
+> > >                 .vmax_min = 750,
+> > >                 .link_freq_index = FREQ_INDEX_720P,
+> > > @@ -846,6 +850,30 @@ static const char * const imx290_test_pattern_menu[] = {
+> > >         "000/555h Toggle Pattern",
+> > >  };
+> > >
+> > > +/* absolute supported control ranges */
+> > > +#define HBLANK_MAX     (IMX290_HMAX_MAX - MINIMUM_WIDTH)
+> > > +#define VBLANK_MAX     (IMX290_VMAX_MAX - MINIMUM_HEIGHT)
 
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Here too.
+
+> > > +static unsigned int imx290_get_blank_min(const struct imx290 *imx290, bool v)
+> > > +{
+> >
+> > This function is never used in this patch. I'm surprised the compiler
+> > doesn't throw an error on a static function not being used.
+> > You first use it in patch 4 "Introduce initial "off" mode & link freq"
+> >
+> > > +       const struct imx290_mode *modes = imx290_modes_ptr(imx290);
+> > > +       unsigned int min = UINT_MAX;
+> > > +       int i;
+> > > +
+> > > +       for (i = 0; i < imx290_modes_num(imx290); i++) {
+> > > +               unsigned int tmp;
+> > > +
+> > > +               if (v)
+> > > +                       tmp = modes[i].hmax_min - modes[i].width;
+> >
+> > if (v)
+> >    return h
+> >
+> > With the complete series my sensor comes up with controls defined as
+> > vertical_blanking 0x009e0901 (int)    : min=280 max=261423 step=1
+> > default=280 value=280
+> > horizontal_blanking 0x009e0902 (int)    : min=30 max=64255 step=1
+> > default=30 value=30
+> >
+> > Set the mode to 1080p and I get
+> > vertical_blanking 0x009e0901 (int)    : min=45 max=261063 step=1
+> > default=45 value=1169
+> > horizontal_blanking 0x009e0902 (int)    : min=280 max=63615 step=1
+> > default=280 value=280
+> 
+> The idea here is to have VBLANK=30 available in the initial "after
+> probe" state of the sensor. VBLANK=30 is a valid value for 720p mode,
+> but it cannot be set after probe, because the driver (not the user)
+> decided that 1080 mode is active. The idea is to relax the ranges while
+> the mode is not set. Once the mode is known, the values are tightened
+> to the real mode-dependent values.
+> 
+> Kind regards
+> Benjamin
+> 
+> >   Dave
+> >
+> > > +               else
+> > > +                       tmp = modes[i].vmax_min - modes[i].height;
+> > > +
+> > > +               if (tmp < min)
+> > > +                       min = tmp;
+> > > +       }
+> > > +
+> > > +       return min;
+> > > +}
+> > > +
+> > >  static void imx290_ctrl_update(struct imx290 *imx290,
+> > >                                const struct imx290_mode *mode)
+> > >  {
+
+-- 
+Regards,
+
+Laurent Pinchart
 
