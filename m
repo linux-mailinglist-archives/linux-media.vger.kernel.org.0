@@ -1,166 +1,178 @@
-Return-Path: <linux-media+bounces-17346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46426968626
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 13:24:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D859686ED
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 14:03:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E5B6A1F2231A
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 11:24:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFC391F233C8
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 12:03:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FB9B187330;
-	Mon,  2 Sep 2024 11:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eLZJZqPW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F7E71DAC5E;
+	Mon,  2 Sep 2024 12:03:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BC7187332
-	for <linux-media@vger.kernel.org>; Mon,  2 Sep 2024 11:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159EF1D3188
+	for <linux-media@vger.kernel.org>; Mon,  2 Sep 2024 12:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725276269; cv=none; b=N4X058xMvB00TZrl4bYVZEJ708Qp/EgbOl7PgiuFxyV76fYidWUabAHB3JfjnW4BCODpHMUssDnX9v+CwshI26ilbSpoe2/VwMsUXFN0tUY/vNfRknUdszuJvHqLAAPDa0rPoS7ZSzQ6i6wBRdycmfye5Ee06tFFQM8JD0lTKeo=
+	t=1725278613; cv=none; b=JcDD3wAqt3xwkFF3Rd5RhFV56iYwoHRW8q02Ovki6ITvoR2G4ClbJp1yVFNq7TIuSsw2CXZdY2eGwetTGhvX39G5z1C3f3h3lXZfjWsH1S0sD6csTYb3OmxAoeerPWjCecEXfuDu+OBQ4xHvanT/5DIQVJ+acfuvG+uVhqWQNQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725276269; c=relaxed/simple;
-	bh=Erdp5FDXuyuMrU74gGazAV+6rDgd0aZnOx1iBhZwYIg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VJrsqw7Wk4qBhyJZ/t6WdI6UeWgd0n6+Hj3YUKOyk1AY5HsAsp7sFqxL7U+88LpMgHFmNp2duCC+iJflFn6XCaDwqiK80dmiX/1RaS4uHhDJfwPf6SpgdX8RkOkFi3d1xCs/YJ0JDgj4B0fwtJLG1pF0nz2wKxKTQlC6K24+uus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eLZJZqPW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-54-22.net.vodafone.it [5.90.54.22])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 032D51110;
-	Mon,  2 Sep 2024 13:23:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725276191;
-	bh=Erdp5FDXuyuMrU74gGazAV+6rDgd0aZnOx1iBhZwYIg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eLZJZqPWlAMLUusAUdXdtEQ6LTPf2MYa68MImzv2yrbD7rLiBcn57dnrJ4M81oUkw
-	 /avsDXyhZ2ACyX0ylkOtUlMHdbWKVeCJphm4izUQ5gEMbSriG3m7mQEEq/6DEvw7PB
-	 St/Vlh7C07DuGdG4yxPUkBVcEcVdZBWCOLgIuX9I=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Subject: [PATCH v4 4/4] media: pisp_be: Fix pm_runtime underrun in probe
-Date: Mon,  2 Sep 2024 13:24:06 +0200
-Message-ID: <20240902112408.493201-5-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240902112408.493201-1-jacopo.mondi@ideasonboard.com>
-References: <20240902112408.493201-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1725278613; c=relaxed/simple;
+	bh=Taemrw4fqFCKk6qN18uIAV2L6vLMtx7FoBkqF8DXpl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fIDDha0smLFWI+WA7qrjINl6nR7JUO/Du4sjHfkc/aDjrnMLzZCSJInA38DwLyAW5T1nTesxqtSDR46NZmSdVy3KnGk15gwtIZUo9HtQ9Nqkme34uUG9wd4ukeqX/zwutZnWzpPixQ0OIKE6KHCWfkWQsL8o/Gy3PYUEaCQMAqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: +90QqBjrR8iqE2WsEUivmg==
+X-CSE-MsgGUID: 5XbtWE1nSKKurFTM70WhEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="23730116"
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="23730116"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 05:03:30 -0700
+X-CSE-ConnectionGUID: lwDwsCYtRou2U65E8RdkbQ==
+X-CSE-MsgGUID: k8tewiwwSMm+CJjbPZGSRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="64409227"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 05:03:27 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andy@kernel.org>)
+	id 1sl5mF-00000004Lor-1IwB;
+	Mon, 02 Sep 2024 15:03:23 +0300
+Date: Mon, 2 Sep 2024 15:03:23 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 3/3] media: atomisp: Improve binary finding debug logging
+Message-ID: <ZtWpi7_S5d7NZx61@smile.fi.intel.com>
+References: <20240902095229.59059-1-hdegoede@redhat.com>
+ <20240902095229.59059-3-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240902095229.59059-3-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-During the probe() routine, the driver needs to power up the interface
-in order to identify and initialize the hardware and it later suspends
-it at the end of probe().
+On Mon, Sep 02, 2024 at 11:52:29AM +0200, Hans de Goede wrote:
+> The atomisp firmware contains a number of different pipeline binaries
+> inside its firmware file and the driver selects the right one depending
+> on the selected pipeline configuration.
+> 
+> Sometimes (e.g. when the selected output resolution is too big) it fails
+> to find a binary. This happens especially when adding support for new
+> sensors.
+> 
+> Improve the logging when this happens to make debugging easier:
+> 
+> 1. Replace ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, ...) with standard
+>    dev_dbg() calls so that the logs can be enabled with dyndbg
+> 
+> 2. Do not dump_stack() when this fails, doing so adds no useful extra
+>    info
+> 
+> 3. With the dump_stack() call gone, remove the wrapper and rename
+>    __ia_css_binary_find() to ia_css_binary_find()
+> 
+> 4. On error use dev_err() instead of dev_dbg() so that when things
+>    fail it is clear why they fail without needing to enable dyndbg
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Note the log messages could also do with a bit of rewording and
+> reflowing them to put more arguments on a single line to use less
+> lines. I consider that out of scope for this patch which already
+> enough (see the 1-4 enough) something like this should be done
+> in a follow-up patch IMHO.
 
-The driver erroneously resumes the interface by calling the
-pispbe_runtime_resume() function directly but suspends it by
-calling pm_runtime_put_autosuspend().
+Yes, but...
 
-This causes a PM usage count imbalance at probe time, notified by the
-runtime_pm framework with the below message in the system log:
+...
 
- pispbe 1000880000.pisp_be: Runtime PM usage count underflow!
+> -static int __ia_css_binary_find(struct ia_css_binary_descr *descr,
+> -				struct ia_css_binary *binary) {
+> +int ia_css_binary_find(struct ia_css_binary_descr *descr,
+> +		       struct ia_css_binary *binary)
 
-Fix this by suspending the interface using pm_runtime_idle() which
-doesn't decrease the pm_runtime usage count and inform the PM framework
-that the device is active by calling pm_runtime_set_active().
+...for example, in this case you touched both lines, so making them a single
+line just reduces the future churn.
 
-Adjust the pispbe_remove() function as well to disable
-the pm_runtime in the correct order,
+...
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
+> -			    "ia_css_binary_find() enter: descr=%p, (mode=%d), binary=%p\n",
+> -			    descr, descr->mode,
+> -			    binary);
+> +	dev_dbg(atomisp_dev,
+> +		"ia_css_binary_find() enter: descr=%p, (mode=%d), binary=%p\n",
 
----
-v3->v4:
-- Instead of using pm_runtime for resuming, suspend using
-  pm_runtime_idle() to support !CONFIG_PM
+> +		descr, descr->mode,
+> +		binary);
 
-v2->v3:
-- Mark pispbe_runtime_resume() as __maybe_unused as reported by
-  the kernel test robot <lkp@intel.com>
----
- .../platform/raspberrypi/pisp_be/pisp_be.c    | 26 +++++++++----------
- 1 file changed, 12 insertions(+), 14 deletions(-)
+So does this.
 
-diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-index d614f53f0f68..1c19ca946bd4 100644
---- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-+++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-@@ -1720,36 +1720,32 @@ static int pispbe_probe(struct platform_device *pdev)
- 				     "Failed to get clock");
- 
- 	/* Hardware initialisation */
--	pm_runtime_set_autosuspend_delay(pispbe->dev, 200);
--	pm_runtime_use_autosuspend(pispbe->dev);
--	pm_runtime_enable(pispbe->dev);
--
- 	ret = pispbe_runtime_resume(pispbe->dev);
- 	if (ret)
--		goto pm_runtime_disable_err;
-+		return ret;
- 
- 	pispbe->hw_busy = false;
- 	spin_lock_init(&pispbe->hw_lock);
- 	ret = pispbe_hw_init(pispbe);
- 	if (ret)
--		goto pm_runtime_suspend_err;
-+		goto runtime_suspend_err;
- 
- 	ret = pispbe_init_devices(pispbe);
- 	if (ret)
- 		goto disable_devs_err;
- 
--	pm_runtime_mark_last_busy(pispbe->dev);
--	pm_runtime_put_autosuspend(pispbe->dev);
-+	pm_runtime_set_autosuspend_delay(pispbe->dev, 200);
-+	pm_runtime_use_autosuspend(pispbe->dev);
-+	pm_runtime_set_active(pispbe->dev);
-+	pm_runtime_enable(pispbe->dev);
-+	pm_runtime_idle(pispbe->dev);
- 
- 	return 0;
- 
- disable_devs_err:
- 	pispbe_destroy_devices(pispbe);
--pm_runtime_suspend_err:
-+runtime_suspend_err:
- 	pispbe_runtime_suspend(pispbe->dev);
--pm_runtime_disable_err:
--	pm_runtime_dont_use_autosuspend(pispbe->dev);
--	pm_runtime_disable(pispbe->dev);
- 
- 	return ret;
- }
-@@ -1760,9 +1756,11 @@ static void pispbe_remove(struct platform_device *pdev)
- 
- 	pispbe_destroy_devices(pispbe);
- 
--	pispbe_runtime_suspend(pispbe->dev);
- 	pm_runtime_dont_use_autosuspend(pispbe->dev);
--	pm_runtime_disable(pispbe->dev);
-+        pm_runtime_disable(pispbe->dev);
-+        if (!pm_runtime_status_suspended(pispbe->dev))
-+                pispbe_runtime_suspend(pispbe->dev);
-+        pm_runtime_set_suspended(pispbe->dev);
- }
- 
- static const struct dev_pm_ops pispbe_pm_ops = {
+...
+
+>  	/* print a map of the binary file */
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"BINARY INFO:\n");
+> +	dev_dbg(atomisp_dev,	"BINARY INFO:\n");
+
+TAB instead of space.
+
+...
+
+> -			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
+> -					    "ia_css_binary_find() [%d] continue: !%d && %d && (%d != %d)\n",
+> -					    __LINE__, candidate->enable.continuous,
+> -					    continuous, mode,
+> -					    IA_CSS_BINARY_MODE_COPY);
+> +			dev_dbg(atomisp_dev,
+> +				"ia_css_binary_find() [%d] continue: !%d && %d && (%d != %d)\n",
+> +				__LINE__, candidate->enable.continuous,
+
+> +				continuous, mode,
+> +				IA_CSS_BINARY_MODE_COPY);
+
+Now one line?
+
+...
+
+> -			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
+> -					    "ia_css_binary_find() [%d] continue: binary is not striped\n",
+> -					    __LINE__);
+> +			dev_dbg(atomisp_dev,
+> +				"ia_css_binary_find() [%d] continue: binary is not striped\n",
+> +				__LINE__);
+
+Now the __LINE__ argument is redundant as one may run-time turn it on and off.
+So, trimming it while converting to dev_dbg() makes sense to me as a one
+logical change. Ditto for other __LINE__ cases.
+
+...
+
+Otherwise it's a good clean up!
+
 -- 
-2.45.2
+With Best Regards,
+Andy Shevchenko
+
 
 
