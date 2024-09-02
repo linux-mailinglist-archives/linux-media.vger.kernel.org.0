@@ -1,111 +1,118 @@
-Return-Path: <linux-media+bounces-17341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17342-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E469968617
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 13:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB537968622
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 13:24:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4B9F2838F0
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 11:22:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 69AA4284504
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 11:24:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9912184551;
-	Mon,  2 Sep 2024 11:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CF68185938;
+	Mon,  2 Sep 2024 11:24:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EkAzmFBA"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tLSP3rbf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E501E87B
-	for <linux-media@vger.kernel.org>; Mon,  2 Sep 2024 11:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002D313B58D
+	for <linux-media@vger.kernel.org>; Mon,  2 Sep 2024 11:24:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725276164; cv=none; b=nIkCyJVp7RDdm+bZIAj1k6YPjIaCGaku7y/4KKhss+yKhQKIKQplw2Uug7me8B9L64Rm1Xe03xsrI6AnT4q2hpx7KPHyVLgpnu3v336coHWw8h92p7gJ446O7S9412tjjS4DY8zy2ObqK70jM+Wz47JHvdcoTmgPYdtPPfPNRaM=
+	t=1725276262; cv=none; b=eGXw1MtVmOe7GRjFCxZfJW6Ai0T5wkVwSwEp2AoIC/aVWb8eIUFQgqNC29R0p8816WWihdb7HySqB2zhyTS2vx6v8GLCAN2XJaCrt+Yz0OF+2jSaf+D1Tt9dk7cQA8yLeVkokOX7wEZhFBUOD3zjAZoExZENUhkaaN+pOEEn0KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725276164; c=relaxed/simple;
-	bh=DkoV/C4N/AGB54eNckVVnTKL8exK7NJGVHIIPBDuyyQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TlyGaGUJ+DJBxq3IiSXVBBKAkUwkyIBZ13+mIJqRaMuZnZ0f6JWtxJspD3NpmQdSUK5w5OXDEQAbCPj+6DWhSztMkdYy8oQBAqJx7YkBbDVBDmMlLIbyz26QpJ+lak+i4wkn5lbsHSzvd+LfxwnWgVXUSoEY1+OLb+C8hvin5+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EkAzmFBA; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1725276262; c=relaxed/simple;
+	bh=XmSZ4CQG7NsLD/pverK/n34l/wuVLJbeKK7sDjI/XVQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nQgUfX3uduqdvKTy27KqehHdVCuXc2UWhiaObw+8Pcj8HG5Cl38qmijKHSP1ykhe86jy+ibQQeez5kQJs+Ci/DYDeaCjyInFkTqzE4adV3hGimJaJ1jOGJOzbNQBrmY41BO1b6VI3NsFyRtJMwILwIzUp7bofXpkU1fUO3aZ14A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tLSP3rbf; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (mob-5-90-54-22.net.vodafone.it [5.90.54.22])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 571B1720;
-	Mon,  2 Sep 2024 13:21:28 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4429720;
+	Mon,  2 Sep 2024 13:23:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725276088;
-	bh=DkoV/C4N/AGB54eNckVVnTKL8exK7NJGVHIIPBDuyyQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EkAzmFBA4FJ6aOdUi2dQVd0SEccrNf66YAX6Qnp7L3tgjGGNfB2eyf49f+o9/0RPq
-	 S/HPjklUrt4lLwc1eKwE8aBI9/OrgDqEALvGuae+QbHq09PoSB70wag8AmvI6dH+Cy
-	 NdENA6Aetg/7dFzag91tulYzS7sM3H0B1W46CVB0=
-Date: Mon, 2 Sep 2024 13:22:35 +0200
+	s=mail; t=1725276188;
+	bh=XmSZ4CQG7NsLD/pverK/n34l/wuVLJbeKK7sDjI/XVQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tLSP3rbfmgvUOphafaGneAVNR0Hpnb+0l0pw9BNLfs0Z8FsBwhPHWRnCYyS20OmQl
+	 QjgcFVu7q5Kjiu6qf1f4IPkEMmZQcHydw6HzS+9Jh+uekXugXvbjske2AvxoS//nl4
+	 cJe4zK6FDJ17K0uicLqq2qib5bWDDy/Vi0eLUmNU=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 3/4] media: pisp_be: add missing wait_prepare/finish ops
-Message-ID: <wvshtsjm4ruvbyzu5na3vshyfspmzhldybkyz7r5hg6nytdaq5@nctsjagloqf4>
-References: <cover.1725265884.git.hverkuil-cisco@xs4all.nl>
- <dbe984e9d94781de82a157e96274db04774cbc27.1725265884.git.hverkuil-cisco@xs4all.nl>
+To: Naushir Patuck <naush@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org
+Subject: [PATCH v4 0/4] media: pisp-be: Split jobs creation and scheduling
+Date: Mon,  2 Sep 2024 13:24:02 +0200
+Message-ID: <20240902112408.493201-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <dbe984e9d94781de82a157e96274db04774cbc27.1725265884.git.hverkuil-cisco@xs4all.nl>
+Content-Transfer-Encoding: 8bit
 
-Hi Hans
+v3->v4:
+- Expand commit message in 2/4 to explain why removing validation in schedule()
+  is safe
+- Drop ready_lock spinlock
+- Use non _irqsave version of safe_guard(spinlock
+- Support !CONFIG_PM in 4/4 by calling the enable/disable routines directly
+  and adjust pm_runtime usage as suggested by Laurent
 
-On Mon, Sep 02, 2024 at 10:31:23AM GMT, Hans Verkuil wrote:
-> Without these ops the v4l2-compliance blocking wait test will fail.
-> These ops are required to ensure that when VIDIOC_DQBUF has to
-> wait for buffers to arrive, the queue lock is correctly released
-> and retaken. Otherwise the wait for a buffer would block all other
-> queue ioctls.
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+v2->v3:
+- Mark pispbe_runtime_resume() as __maybe_unused
+- Add fixes tags where appropriate
 
-I can confirm it fixes a previously failing test
+v1->v2:
+- Add two patches to address Laurent's comments separately
+- use scoped_guard() when possible
+- Add patch to fix runtime_pm imbalance
 
-was:
+Currently the 'pispbe_schedule()' function does two things:
 
-                fail: v4l2-test-buffers.cpp(3050): !thread_streamoff.done
-                fail: v4l2-test-buffers.cpp(3078): testBlockingDQBuf(node, q)
-	test blocking wait: FAIL
+1) Tries to assemble a job by inspecting all the video node queues
+   to make sure all the required buffers are available
+2) Submit the job to the hardware
 
-now:
-	test blocking wait: OK
+The pispbe_schedule() function is called at:
 
-Acked-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Tested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+- video device start_streaming() time
+- video device qbuf() time
+- irq handler
 
-> ---
->  drivers/media/platform/raspberrypi/pisp_be/pisp_be.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> index 65ff2382cffe..7ce3be626c4a 100644
-> --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> @@ -964,6 +964,8 @@ static const struct vb2_ops pispbe_node_queue_ops = {
->  	.buf_queue = pispbe_node_buffer_queue,
->  	.start_streaming = pispbe_node_start_streaming,
->  	.stop_streaming = pispbe_node_stop_streaming,
-> +	.wait_prepare = vb2_ops_wait_prepare,
-> +	.wait_finish = vb2_ops_wait_finish,
->  };
->
->  static const struct v4l2_file_operations pispbe_fops = {
-> --
-> 2.43.0
->
->
+As assembling a job requires inspecting all queues, it is a rather
+time consuming operation which is better not run in IRQ context.
+
+To avoid executing the time consuming job creation in interrupt
+context, split the job creation and job scheduling in two distinct
+operations. When a well-formed job is created, append it to the
+newly introduced 'pispbe->job_queue' where it will be dequeued from
+by the scheduling routine.
+
+At start_streaming() and qbuf() time immediately try to schedule a job
+if one has been created as the irq handler routine is only called when
+a job has completed, and we can't solely rely on it for scheduling new
+jobs.
+
+Jacopo Mondi (4):
+  media: pisp_be: Drop reference to non-existing function
+  media: pisp_be: Remove config validation from schedule()
+  media: pisp-be: Split jobs creation and scheduling
+  media: pisp_be: Fix pm_runtime underrun in probe
+
+ .../platform/raspberrypi/pisp_be/pisp_be.c    | 190 +++++++++---------
+ 1 file changed, 93 insertions(+), 97 deletions(-)
+
+--
+2.45.2
+
 
