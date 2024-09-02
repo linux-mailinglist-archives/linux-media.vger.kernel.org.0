@@ -1,44 +1,44 @@
-Return-Path: <linux-media+bounces-17316-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17317-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE5A968218
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 10:36:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 697B9968219
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 10:36:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2CB73283736
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 08:36:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 131DF1F231EE
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 08:36:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F309D2AE99;
-	Mon,  2 Sep 2024 08:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33F09186E53;
+	Mon,  2 Sep 2024 08:36:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A98A183092
-	for <linux-media@vger.kernel.org>; Mon,  2 Sep 2024 08:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D128D183092
+	for <linux-media@vger.kernel.org>; Mon,  2 Sep 2024 08:35:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725266158; cv=none; b=d1rLC1KghmryUro+Re0noXTFc/WU4q6jgEFOZV0Zb9OsakLhFQX3DzFXgM3JUxDt53y3yHG+qYXELLa8f32fNFzgmWgNFV/JaOesa2A4E7zTbVETfQpV7NwjNrZ4DzoN8ssQcaqk9NFP5secQEVNWjqYXmn5x8fDgx92aNzgJZc=
+	t=1725266159; cv=none; b=KGQ1kJJTZmsIrzHbIsLPfEpkrh2nWCenAxuK+ESxB3WYy8GNHwvDtPFB3/VW/N4y1iqYKrzQpEEh0kZ9L8mH5WiXiI37onYXjzQO7yNgCKA4PmlfTvd3sFtWAhg+moApKA3NQgjK/Z8lnquHqEuSsKHFYHzvFlDBrhmXcARdxYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725266158; c=relaxed/simple;
-	bh=yFHmYFP/TSKuPVo4IplA+XOzXiPlN0804T596Rnmf14=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kLO9LEdfP2qQKAM15Dwkb93i+z1rYiucOhAGlubloUNggiD2n6Mvp+UXGmUjmqEQiWlDbtTekLjKhxp/9e4022FUeyoTVt+8gpX4dlH3C07Q4GkCOfSomb2c71eTNb50ewd0XQKmanz/2AzrvKz0vGk+xAlUQLfqRVFfk5KcHL4=
+	s=arc-20240116; t=1725266159; c=relaxed/simple;
+	bh=c1ZoilupvXOePwyTLsPlmR+RpTfrs6hOkihPa0UZuus=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AvUjWrM1DfXtQVb3/Hb8YvM2G8yZMm5ct6MgdcNSOFwrClzMc8YvmctX4HwThWhYPkTqk/Tn+MNKDlQVANRBdfXaN8iOAk7eY/geuJqlIDKvFZwRw5Q9N0H8lYNe2ReKgRHh7GY5Kf4aT4Ydf9O1ciuXB8Bl54OK2ZDZRItUuZQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B07B4C4CEC2;
-	Mon,  2 Sep 2024 08:35:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96580C4CEC6;
+	Mon,  2 Sep 2024 08:35:58 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH 0/4] media: add missing wait_prepare/finish ops
-Date: Mon,  2 Sep 2024 10:31:20 +0200
-Message-ID: <cover.1725265884.git.hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 1/4] media: atomisp: add missing wait_prepare/finish ops
+Date: Mon,  2 Sep 2024 10:31:21 +0200
+Message-ID: <9f401f3732dd728e3d2ca508002c97b80a2eae30.1725265884.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1725265884.git.hverkuil-cisco@xs4all.nl>
+References: <cover.1725265884.git.hverkuil-cisco@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,33 +53,25 @@ wait for buffers to arrive, the queue lock is correctly released
 and retaken. Otherwise the wait for a buffer would block all other
 queue ioctls.
 
-I would appreciate it if these patches can be tested.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_fops.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I also updated v4l2-compliance so that it executes the blocking wait
-test even if the '-s' option was not specified. This should improve
-coverage since not everyone uses that option.
-
-After this series is (hopefully) applied I plan to make changes to
-avoid the need to set these two ops, unless you need a custom
-implementation (omap3isp).
-
-Regards,
-
-	Hans
-
-Hans Verkuil (4):
-  media: atomisp: add missing wait_prepare/finish ops
-  media: omap3isp: add missing wait_prepare/finish ops
-  media: pisp_be: add missing wait_prepare/finish ops
-  media: venus: add missing wait_prepare/finish ops
-
- drivers/media/platform/qcom/venus/vdec.c       |  2 ++
- drivers/media/platform/qcom/venus/venc.c       |  2 ++
- .../platform/raspberrypi/pisp_be/pisp_be.c     |  2 ++
- drivers/media/platform/ti/omap3isp/ispvideo.c  | 18 ++++++++++++++++++
- .../staging/media/atomisp/pci/atomisp_fops.c   |  2 ++
- 5 files changed, 26 insertions(+)
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index 50c4123ba006..b180fcbea9b1 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -441,6 +441,8 @@ const struct vb2_ops atomisp_vb2_ops = {
+ 	.buf_queue		= atomisp_buf_queue,
+ 	.start_streaming	= atomisp_start_streaming,
+ 	.stop_streaming		= atomisp_stop_streaming,
++	.wait_prepare		= vb2_ops_wait_prepare,
++	.wait_finish		= vb2_ops_wait_finish,
+ };
+ 
+ static void atomisp_dev_init_struct(struct atomisp_device *isp)
 -- 
 2.43.0
 
