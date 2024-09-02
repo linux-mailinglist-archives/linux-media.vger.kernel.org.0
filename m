@@ -1,248 +1,129 @@
-Return-Path: <linux-media+bounces-17304-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17305-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB8C967C52
-	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2024 23:29:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0F6967CE7
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 02:02:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDC7D1C21191
-	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2024 21:29:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 247EEB21160
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 00:02:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19025139D13;
-	Sun,  1 Sep 2024 21:29:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B08C214290;
+	Mon,  2 Sep 2024 00:02:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="G3oB69bx"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jGE0VhGY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678C056B7C
-	for <linux-media@vger.kernel.org>; Sun,  1 Sep 2024 21:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8FC15C3
+	for <linux-media@vger.kernel.org>; Mon,  2 Sep 2024 00:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725226145; cv=none; b=riLjOuOh4369tpyCt0g3uNInxzRzdUI72HLG8lMcOkRSrXqAwfQ5aJZ3rnLOoHCPqeCmN1MfdZk4eyrcUMvTaT67S2sEeTxGIbgyVcttduCA+USFT9i4VJUhQOK9mzj6RUCKmLCe+XW12dLe4M/pWQEUv1TpwJmnl3EQ0p4MV+8=
+	t=1725235328; cv=none; b=reFoIF9s5MPnGlTrp19nNl+I6/I+6n3eAbaRR7th2IOg/UjkYO9SYLOJ5Nta6fbaHz8RIuFR1ka6Hs6kMrpiwIJG14xddWkmzjmDAgdXVsOYDyUCbY26joYKDrRB9cjXLcI2wH339oSJ8vG05qd09/RIK9L1Tc70lPDQNJfoE+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725226145; c=relaxed/simple;
-	bh=+J/HzYQiwDyoHYde/VbbIU/MrDW0n9Mqxtw4dWHtmD8=;
+	s=arc-20240116; t=1725235328; c=relaxed/simple;
+	bh=jihjezE4SKxxXHigHPjddOU+sXmPRtYhm5RHPU8ik18=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IdE7q9ektVFe0ju4u4cfePLKbTwPyAIFmNW4qsnwY8KtuPUEqPNoFEbBPem/E5+ffjS5G5ulxpe9OWwkJX9hh4b2WzTP0WD80QZvbUP7fEGrylq+0RaPEWeBk/7NavbDnc50+28gZNGpPOhOhuSlMW9VImMqKrjTiYIdnqp91DA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=G3oB69bx; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4C544CF;
-	Sun,  1 Sep 2024 23:27:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725226070;
-	bh=+J/HzYQiwDyoHYde/VbbIU/MrDW0n9Mqxtw4dWHtmD8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G3oB69bxpNj6AY9ndIhABWGzK51GlIUur6ioXwD9+f56KWgDg3IljLXxoD/1I5mp3
-	 PSPxD2l7a29oyW6EkR/D2lcRzOD2BrY6nmzXSIYJqA32J7FkzebF8z7I86zk/XlRA9
-	 TrxIcLMUzqWUuVx+R54tb8AuNmiHcL59AUuBdVsM=
-Date: Mon, 2 Sep 2024 00:28:29 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: v4l: Call s_stream() on VCM when it is called
- on the associated sensor
-Message-ID: <20240901212829.GA25983@pendragon.ideasonboard.com>
-References: <20240901211834.145186-1-hdegoede@redhat.com>
- <20240901211834.145186-2-hdegoede@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=fO7cBTHUU/asjgB6uCDEYItVfv7hc3zgwcFVm7UjmR183nwo2lQMaZTtXhpBx0dShgT+gawSl3ilRdKo6fk0Xj0zAh6ZA9P6k6t47GvLbEDs81XqTcy6vYvwjyvIQTYXgCdj2ljgp6BPdBcWy9QDsaJwa5dK1jnfp7exr1BtjD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jGE0VhGY; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5353cd18c20so4354450e87.0
+        for <linux-media@vger.kernel.org>; Sun, 01 Sep 2024 17:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725235324; x=1725840124; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q9++1ZHzcZI4fcRNlptm+zAcB1O/Jr3h7F0QPCUj+I4=;
+        b=jGE0VhGYQJc82tG/3vgEFrrGSOpotm5Oegx1utzMh0C5aXnYJerOF4avlKU0FXzShY
+         PlVVawlOV0buU3+h28LbgWwrqVE3M/b3X1/uwvTKL2sKVxJFQRoEvqfp7e+ukoI4Icc2
+         vqUBMB4Br5Dli6rnL0qs2RqRlWU/sYXRyoKbuZ9ms1pI0YxVqb0NmrpjYhSfI1WR4otq
+         S9tRe6CbLovBObbb8KnWXuMVcIhKnYmp/6cgJl/Hy99XzEgbPnaiMabFv3Froy6BCFx3
+         6gHxvxFhzICtKLL72sJPPHXCRLpmfULpBxOj9iHK4wS6zSZuAjqVE1rw/0j/wjqWvTdR
+         qVOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725235324; x=1725840124;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q9++1ZHzcZI4fcRNlptm+zAcB1O/Jr3h7F0QPCUj+I4=;
+        b=KurPYI2NK9XHHyLqEFq5WqCDJeOpf7wL57wa4wkua8/orQwZcd4Yf4LxRgRicifJUn
+         FKSEYwoY+AsDplQqDiGzp+X4N0DOetxbMHh+IgjHcxcLLHOYQWFicKf3Su53XoI7Uu+/
+         ZWYOjrKZM+2vkKgei0D+IyiOP7vQUK75pL4tYNajLTVNu1gb8pAFig4YJFYoFEbWp+Bw
+         F36cG0JybmYJdGhP5nKwBUDV4/JufMSxdMg4ra8/a8C+ZiFOfovFwIwEr6pVpCl8JuG5
+         HSYno9sJbMMxQQUAFgy6IGRKsNpy3RI5lXBHoTkb64BMkUtTHC9ksiUMy/nNzqoW4KrL
+         lEKw==
+X-Forwarded-Encrypted: i=1; AJvYcCWqfIf+C79rzB93Xtsd8yTZVd869eOZlyZ7fe+j9/6OurrSmzoK10+fycbNo0STkHpjU3Ij9ckVAYQEvA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0/ZznWqVDEnzmvL8agguYJTNoyRejuikeLbKA+d5iZJBHY6fM
+	2CTOt7x7Xi+TTddnQ4FknrsP/NKOAA9sl8I2LMzRCbBMb86fabYNj1fjOgk42xE=
+X-Google-Smtp-Source: AGHT+IECIQ8duDhzqxT+Vo3df1TEVRNCkaDmJpN6C1Sl4Mk9RAef7hTVdU+HKUJDzazX/Oygc8itYw==
+X-Received: by 2002:a05:6512:1598:b0:52f:cbce:b9b7 with SMTP id 2adb3069b0e04-53546a56c49mr5702705e87.0.1725235323524;
+        Sun, 01 Sep 2024 17:02:03 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5354079bd95sm1383884e87.62.2024.09.01.17.02.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Sep 2024 17:02:02 -0700 (PDT)
+Date: Mon, 2 Sep 2024 03:02:01 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: quic_dikshita@quicinc.com, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Vedang Nagar <quic_vnagar@quicinc.com>
+Subject: Re: [PATCH v3 00/29] Qualcomm iris video decoder driver
+Message-ID: <xwkibtfakensuzrj4ycmyh4nqjr4nwkgqr63og7n6ejiw3hjqo@rvl3hhznfftx>
+References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
+ <3a62b4cb-5c41-4c76-a957-af8e594ca8b1@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240901211834.145186-2-hdegoede@redhat.com>
+In-Reply-To: <3a62b4cb-5c41-4c76-a957-af8e594ca8b1@linaro.org>
 
-Hi Hans,
-
-Thank you for the patch.
-
-On Sun, Sep 01, 2024 at 11:18:33PM +0200, Hans de Goede wrote:
-> Currently VCM drivers power-up the VCM as soon as the VCM's /dev node
-> is opened and through the runtime-pm device-link to the sensor this
-> also powers up the sensor.
+On Sat, Aug 31, 2024 at 04:18:35PM GMT, Bryan O'Donoghue wrote:
+> > The result of v4l2-compliance test on SM8250:
+> > 
+> > v4l2-compliance 1.29.0-5239, 64 bits, 64-bit time_t
+> > v4l2-compliance SHA: a1ebb4dad512 2024-08-08 20:00:17
+> > 
+> > Compliance test for iris_driver device /dev/video0:
+> > 
+> > Driver Info:
+> >          Driver name      : iris_driver
+> >          Card type        : iris_decoder
 > 
-> Powering up the VCM and sensor when the /dev node is opened is undesirable,
-> without a VCM sensors delay powering up until s_stream(1) is called. This
-> allows querying / negotiating capabilities without powering things up.
+> Hmm, so this is decoder only ?
 > 
-> Sometimes a long running daemon like pipewire may keep the /dev node open
-> all the time. The kernel should still be able to powerdown the VCM + sensor
-> in this scenario.
+> What's the intention here for encoding support ?
 > 
-> VCM drivers should be able to do the same as sensor drivers and only
-> power-up the VCM when s_stream(1) is called on the VCM subdev, but this
-> requires that s_stream() is actually called on the VCM when the sensor
-> starts / stops streaming.
+> I've verified your results on the test branch but I just noticed that sm8250
+> with the iris driver is decoder only - whereas the venus driver does both,
+> which strikes me as a bit odd.
 
-.s_stream() doesn't conceptually make sense for VCMs. Furthermore,
-.s_stream() is being replaced with .enable_streams() and
-.disable_streams(), which will make even less sense. We need a different
-API.
+I think we all have discussed this during the review of the previous
+series: complete driver becomes very huge and complicated to review. So
+the recommendation was to submit the limited features driver (decoding,
+1 codec) and get more features (more codecs, encoding support, etc)
+after getting the Iris driver in. Of course sm8250 support in Venus
+driver will stay in until Iris driver reaches feature parity.
 
-> The s_stream() call on sensor subdevs is done by CSI-receiver/ISP drivers.
-> To avoid needing to change all these call sites to also call s_stream()
-> on the VCM (if there is one) handle the VCM in the v4l2-core similar to how
-> the core takes care of turning on/off the privacy LED.
-
-This needs to come with a design rationale, documented in
-Documentation/. The design needs to explain the use cases. Lens motion
-may take time, which I expect will influence how we will need to handle
-power management.
-
-I'm not very comfortable handling this in v4l2-subdev.c, it seems that
-we'll hardcode use cases. Without a clear and detailed designed
-rationale, this patch feels we'll paint ourselves in a corner. We have
-enough badly designed (or not designed at all) APIs for cameras, it's
-time to do better.
-
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> 
+> Is your intention to publish more patches to enable the encoder in another
+> series ?
+> 
 > ---
->  drivers/media/v4l2-core/v4l2-async.c  | 20 +++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-subdev.c | 28 +++++++++++++++++++++------
->  include/media/v4l2-subdev.h           |  2 ++
->  3 files changed, 44 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index ee884a8221fb..9b854f1d1051 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -330,6 +330,11 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->  		return 0;
->  	}
->  
-> +	if (sd->entity.function == MEDIA_ENT_F_LENS) {
-> +		dev_dbg(n->sd->dev, "Using %s VCM\n", dev_name(sd->dev));
-> +		n->sd->vcm = sd;
-> +	}
-> +
->  	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
->  
->  	return IS_ERR(link) ? PTR_ERR(link) : 0;
-> @@ -871,6 +876,21 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
->  	if (!sd->async_list.next)
->  		return;
->  
-> +#if defined(CONFIG_MEDIA_CONTROLLER)
-> +	if (sd->entity.function == MEDIA_ENT_F_LENS && sd->v4l2_dev && sd->v4l2_dev->mdev) {
-> +		struct media_entity *entity;
-> +
-> +		media_device_for_each_entity(entity, sd->v4l2_dev->mdev) {
-> +			struct v4l2_subdev *it = media_entity_to_v4l2_subdev(entity);
-> +
-> +			if (it->vcm == sd) {
-> +				dev_dbg(it->dev, "Clearing VCM\n");
-> +				it->vcm = NULL;
-> +			}
-> +		}
-> +	}
-> +#endif
-> +
->  	v4l2_subdev_put_privacy_led(sd);
->  
->  	mutex_lock(&list_lock);
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 7c5812d55315..24a68d90f686 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -148,17 +148,33 @@ static int subdev_close(struct file *file)
->  }
->  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
->  
-> -static void v4l2_subdev_enable_privacy_led(struct v4l2_subdev *sd)
-> +static void v4l2_subdev_enable_privacy_led_and_vcm(struct v4l2_subdev *sd)
->  {
->  #if IS_REACHABLE(CONFIG_LEDS_CLASS)
->  	if (!IS_ERR_OR_NULL(sd->privacy_led))
->  		led_set_brightness(sd->privacy_led,
->  				   sd->privacy_led->max_brightness);
->  #endif
-> +
-> +	if (sd->vcm && !sd->vcm_enabled &&
-> +	    v4l2_subdev_has_op(sd->vcm, video, s_stream)) {
-> +		int ret;
-> +
-> +		ret = v4l2_subdev_call(sd->vcm, video, s_stream, 1);
-> +		if (ret)
-> +			dev_err(sd->vcm->dev, "Error powering on VCM: %d\n", ret);
-> +		else
-> +			sd->vcm_enabled = true;
-> +	}
->  }
->  
-> -static void v4l2_subdev_disable_privacy_led(struct v4l2_subdev *sd)
-> +static void v4l2_subdev_disable_privacy_led_and_vcm(struct v4l2_subdev *sd)
->  {
-> +	if (sd->vcm && sd->vcm_enabled) {
-> +		v4l2_subdev_call(sd->vcm, video, s_stream, 0);
-> +		sd->vcm_enabled = false;
-> +	}
-> +
->  #if IS_REACHABLE(CONFIG_LEDS_CLASS)
->  	if (!IS_ERR_OR_NULL(sd->privacy_led))
->  		led_set_brightness(sd->privacy_led, 0);
-> @@ -466,9 +482,9 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
->  		sd->s_stream_enabled = enable;
->  
->  		if (enable)
-> -			v4l2_subdev_enable_privacy_led(sd);
-> +			v4l2_subdev_enable_privacy_led_and_vcm(sd);
->  		else
-> -			v4l2_subdev_disable_privacy_led(sd);
-> +			v4l2_subdev_disable_privacy_led_and_vcm(sd);
->  	}
->  
->  	return ret;
-> @@ -2289,7 +2305,7 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->  	 * for all cases.
->  	 */
->  	if (!use_s_stream && !already_streaming)
-> -		v4l2_subdev_enable_privacy_led(sd);
-> +		v4l2_subdev_enable_privacy_led_and_vcm(sd);
->  
->  done:
->  	if (!use_s_stream)
-> @@ -2382,7 +2398,7 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
->  done:
->  	if (!use_s_stream) {
->  		if (!v4l2_subdev_is_streaming(sd))
-> -			v4l2_subdev_disable_privacy_led(sd);
-> +			v4l2_subdev_disable_privacy_led_and_vcm(sd);
->  
->  		v4l2_subdev_unlock_state(state);
->  	}
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index bd235d325ff9..6568a0cc070b 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1094,6 +1094,7 @@ struct v4l2_subdev {
->  	 */
->  
->  	struct led_classdev *privacy_led;
-> +	struct v4l2_subdev *vcm;
->  
->  	/*
->  	 * TODO: active_state should most likely be changed from a pointer to an
-> @@ -1104,6 +1105,7 @@ struct v4l2_subdev {
->  	struct v4l2_subdev_state *active_state;
->  	u64 enabled_pads;
->  	bool s_stream_enabled;
-> +	bool vcm_enabled;
->  };
->  
->  
+> bod
 
 -- 
-Regards,
-
-Laurent Pinchart
+With best wishes
+Dmitry
 
