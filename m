@@ -1,99 +1,116 @@
-Return-Path: <linux-media+bounces-17368-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17369-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BCAF96896A
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 16:05:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F12968975
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 16:08:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACC6E2827CB
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 14:05:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCA5B1F22A7F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 14:08:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E867A2101BA;
-	Mon,  2 Sep 2024 14:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0543C2101BD;
+	Mon,  2 Sep 2024 14:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NDtmVYQE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FE220FAA7
-	for <linux-media@vger.kernel.org>; Mon,  2 Sep 2024 14:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3541210194;
+	Mon,  2 Sep 2024 14:08:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725285909; cv=none; b=IvHbKdu+h08MEDQ9kGrD8kAJsZejYp7GktRjllloHPQvzCqCpTjizCxsmeSw9TCV+dgVQraVrB/wycQb3DbPaQvI4AqO/OugzhZQkvR671FSCMX8rymmL+NV5yvZmMk9jhQ+IdDrfluzwWZmeMVj9K+t8XCP0dFEMfVlMrQwrSY=
+	t=1725286083; cv=none; b=FMmkBeKttAZKWw/IqVR2v0eo1ppc+9QvuOR2tAiiFVeOp+IHCxydq+xK4rcw7U3AuARRA2EhqERNKWvYNZeGmr1sRGa4YbgK0EuQuShVtDwbJqobyDh6ngaC+1ivRh/lnfiavILEgNhMmU+RLlKjsfiSMW4AtQs80nCxEW50JT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725285909; c=relaxed/simple;
-	bh=TTaAUjKLBPySrzQ/RRKBNy1YRB9zjPepDmxTE7up74I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bPCkK9fUzmgPTQ6T1pHtPqOqldf6jW3qfye5li149TmKCZ28Asbkw2Cn+UKVqGShUnkLTJ+QuPLZ3NxYTaODrKsMfKkHiMincdv2v9PCOLxvWnb8BDrFL9dM5PdMg0/92XeGzwqSA+y+R8q2XRkk1dP2LjDA6H59DWMDNNAs7D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75248C4CEC4;
-	Mon,  2 Sep 2024 14:05:08 +0000 (UTC)
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 9/9] media: vb2: use lock if wait_prepare/finish are NULL
-Date: Mon,  2 Sep 2024 16:04:55 +0200
-Message-Id: <29c41a6823d813e8b00e18f9397470a42347f1b3.1725285495.git.hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1725285495.git.hverkuil-cisco@xs4all.nl>
-References: <cover.1725285495.git.hverkuil-cisco@xs4all.nl>
+	s=arc-20240116; t=1725286083; c=relaxed/simple;
+	bh=aSyUMv+phorKQkVAQmMtTKKipCQUv4QLRusinzzXTMg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=VPRbL4Rpec3QKKXy1Bm8vucpO0OJDDf+Nx91ILAq2phFKBPiNkWO0lZrLF5o1CoSwYJbrODGU2PvKumBKMZyhQ9h69X+yz+H8BSRRJBz3fM6ElmCogwywktxp8PnKU3h1jFPjzKnRLPoDWtmiYXfqIwHd6Y9GxPZcgGg2Xee8fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NDtmVYQE; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2f4f505118fso48726981fa.3;
+        Mon, 02 Sep 2024 07:08:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725286080; x=1725890880; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aiC3B7wWel8g1IjOYuF3tkcRLgYjGThJArjLJQX88Ug=;
+        b=NDtmVYQENKLBjNcLscAC59OT0ZdcputRfiNl8k1Uv8fy5V29RKP44QwPOthcsjemuX
+         WVUcIBxMEIITpwzOe/T8uDFXoN+Pk8j3WLd9rcDafhH21UZyIqr7QkoSX8y7pfL10Fny
+         N5a4j1CL/93ppU+GN4jB5m2eYQnKEgGBM0IVCzO4IPSeAMXZl7QT0mx7TVWjd77EVTzS
+         ucArt7rqLugMfRyh6HTC9OZb6UxKJ3s+5pZdKwabqCcwR4jXLKBF7RzNsubB9KCTs1ZI
+         bmnD0h7hDbSMhq/CDpxLIczANV8KEwZnnmd9kScria47OhJYzTnape7jmRo4GhKtyR1L
+         e1dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725286080; x=1725890880;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aiC3B7wWel8g1IjOYuF3tkcRLgYjGThJArjLJQX88Ug=;
+        b=FMcMQ0EJSA81lo8BwHQmTaU8oA21mXyuq4uXXjdZKmKclz5VAVf8zhggEhQT+1gmh9
+         wiKqXeDe8b7ed9/MszQPv/A2C58UP1yqMaufeW29uPtTZrKYazU7vkjgOtiBc1tP68aO
+         3sR6mlJAKoRApFwuWz12AGxAXAlORAMMRz0ooUUGUZeDqajsJnNdsCnMm8uc8HcTf22Y
+         IENy20Jwr0xLP1IzZNNPgnV0VA6NSbbOxZCR0avIqT2+7IVTL7o2+DohjL7v6jII+F6j
+         oTx+y6rjDQZeH9YDZbV+/vYU/IFW/hhsj8Kvk2ScbsCSeTy+PuP9V5J206KgizHkMImf
+         3NJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/nL9xSM8W7HPrY0XnFR47EFmb3m2+lqNnalNVLD6hhdYUuHB3ykg/gjLzpHBkmgY8Pu0iQ43q04JC+6E=@vger.kernel.org, AJvYcCV/1cKs6w6X7VrOLQdFcUc/M1LOJJm8DQa3E1Z/GvLqcyVFUQrT8G1NQ5U/0tBMNq23rH19SlCbqCz5hQ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwP/AdJh+GkgVs9vFQs9mSOiihXMcyAzzgMZQD77kpFd5jC9uQI
+	/bARbX2H96PTsoSppkstEgP9Puaoiqh35iHuB3C4lHVB2fU0oxxfzmu6WZUn
+X-Google-Smtp-Source: AGHT+IFoj5VV4GIPUolNGR2fXp6lt0IDaKyyQn244yprTyyO8JNuLOnzwjTsIlOH+K2Z1aj6fOdTTw==
+X-Received: by 2002:a05:651c:549:b0:2ef:1d8d:2201 with SMTP id 38308e7fff4ca-2f6265841aemr53419881fa.23.1725286079480;
+        Mon, 02 Sep 2024 07:07:59 -0700 (PDT)
+Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bbd46b60bsm82240025e9.1.2024.09.02.07.07.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2024 07:07:58 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: mediatek: vcodec: Remove trailing space after \n newline
+Date: Mon,  2 Sep 2024 15:07:58 +0100
+Message-Id: <20240902140758.308202-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-If the wait_prepare or wait_finish callback is set, then call it.
-If it is NULL and the queue lock pointer is not NULL, then just
-unlock/lock that mutex.
+There is a extraneous space after a newline in a mtk_venc_debug message.
+Remove it.
 
-This allows simplifying drivers by dropping the wait_prepare and
-wait_finish ops (and eventually the vb2_ops_wait_prepare/finish helpers).
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/media/common/videobuf2/videobuf2-core.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ .../media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 6335ac7b771a..d064e0664851 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -2035,7 +2035,10 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
- 		 * become ready or for streamoff. Driver's lock is released to
- 		 * allow streamoff or qbuf to be called while waiting.
- 		 */
--		call_void_qop(q, wait_prepare, q);
-+		if (q->ops->wait_prepare)
-+			call_void_qop(q, wait_prepare, q);
-+		else if (q->lock)
-+			mutex_unlock(q->lock);
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+index f8145998fcaf..59e56b81d5e0 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+@@ -515,7 +515,7 @@ static int h264_encode_frame(struct venc_h264_inst *inst,
+ 	struct venc_frame_info frame_info;
+ 	struct mtk_vcodec_enc_ctx *ctx = inst->ctx;
  
- 		/*
- 		 * All locks have been released, it is safe to sleep now.
-@@ -2045,12 +2048,16 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
- 				!list_empty(&q->done_list) || !q->streaming ||
- 				q->error);
+-	mtk_venc_debug(ctx, "frm_cnt = %d\n ", inst->frm_cnt);
++	mtk_venc_debug(ctx, "frm_cnt = %d\n", inst->frm_cnt);
  
-+		if (q->ops->wait_finish)
-+			call_void_qop(q, wait_finish, q);
-+		else if (q->lock)
-+			mutex_lock(q->lock);
-+
-+		q->waiting_in_dqbuf = 0;
- 		/*
- 		 * We need to reevaluate both conditions again after reacquiring
- 		 * the locks or return an error if one occurred.
- 		 */
--		call_void_qop(q, wait_finish, q);
--		q->waiting_in_dqbuf = 0;
- 		if (ret) {
- 			dprintk(q, 1, "sleep was interrupted\n");
- 			return ret;
+ 	if (MTK_ENC_IOVA_IS_34BIT(ctx)) {
+ 		gop_size = inst->vsi_34->config.gop_size;
 -- 
-2.34.1
+2.39.2
 
 
