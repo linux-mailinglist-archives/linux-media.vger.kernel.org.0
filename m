@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-17330-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17331-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B01F96842B
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 12:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C87968436
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 12:11:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C5641C2278A
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 10:10:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB1D21C228CA
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 10:11:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 390F313D601;
-	Mon,  2 Sep 2024 10:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3853A183CA5;
+	Mon,  2 Sep 2024 10:10:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y5Im/RNr"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fe8m+bT3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BBA13CA99
-	for <linux-media@vger.kernel.org>; Mon,  2 Sep 2024 10:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D479513AD37
+	for <linux-media@vger.kernel.org>; Mon,  2 Sep 2024 10:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725271830; cv=none; b=JGu4C485ewQPTuerYoVY855HVgqtKv8KdmKikNbB4YIwT8hA7j7TW5lzuET3GcS+Ny86s317NZBr+JG9jmaxlRbYKLEnx+MJi1gwRSiUqXL9k2rPujNZqnkB5I8B50SBuQFVr3NrfDBUMZ59e1z+xwDlBGXZ17Gro3jPuoeojRw=
+	t=1725271850; cv=none; b=YA4uwtZUyJ8t1I6jjuo/naBPwCUabgPoEni/8OpVqL2bDwo3FwTTwTwa5yKOKu6DYgl4fJYczn+93Rsrjycd+Bfgp8guqSBne8IMyamyKr40jPTAr4MK86WaT2M7YXwIDSGsREQaFxtPW8sjmIiQexqCTsu3i48w6kM6dRFQIeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725271830; c=relaxed/simple;
-	bh=CJfBp+zz9O8U9TodfKkkb1LMYA7hqNM0ZKFm/w+kJw8=;
+	s=arc-20240116; t=1725271850; c=relaxed/simple;
+	bh=vjEG4yTZwz2x2AHPoS0jcARdsLxSSxZ+JUhFPRRJUIM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WGFVW3jK514RY9RyUG8wHwGcukW4l5rSyEa/YguvkzHaMWRayXa5sPB4s+x+SuhhKzJfVpBiovt3nsf824v9fMzsgZmgQUASrcnvjzR+eivUg6QiJfzcfWjFrX5Y/ESDGO3Tcuu9x0c/hf6KtBJhphsCmVq/jy8BpzLHi0BrqKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y5Im/RNr; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=UPVfq2XN8pT+cOzPGgb2TkmEvMpHL1DJVs8l8p1WE08/tNAJ2I6tJP0TdoJTssR0LxVVrCTew//lmHww6viOZbRtdLtC3mcuGkhN0DyrNYYppTtFOVCDYQPx0yOLjkWtrcmyGOwwrSBnUURVW2zba5UjlbZr7WcqyvWKcKYGASk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fe8m+bT3; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725271828;
+	s=mimecast20190719; t=1725271848;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zbcesK30dFCAjKEHF6Iech8QUJGNsrD1K+Bsbth5WGA=;
-	b=Y5Im/RNrK68oeydVgWDn2OEWpEGfOjRr/5CrpZ6HbZeE0IhZt6ACjbRK/eDz0QgNwmHlkQ
-	X/Rp8bdCkwljVlHK0zeXZmK8N2jKvrHnxUywCMZmr/FdU/SJtR4SDG7Nx8dSId5IZhfont
-	3tieGwoNFf2rCkBVDq4DVD0spP+YA1Q=
+	bh=H9RKF9H7s72V4OZfPOTUgjyYaIyw8mcKokBoElqIGAw=;
+	b=fe8m+bT30rJT2I+27TytAmsJikIu37VrTtKkCqktbt9HF1GW9V8mg26qUxdSVbbDzEoFGG
+	QGScUB3K9OwvBa5kNrs90dQfDfIbURxW4KsvRAEjTYZMvpk3S5lcybHnI81aMJDf1Jh+nr
+	vvfHkjZHraMn0gR9NDz7qNC3VkdGFCM=
 Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
  [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-358-veYzkLPvMj6081zM2jLsSQ-1; Mon, 02 Sep 2024 06:10:24 -0400
-X-MC-Unique: veYzkLPvMj6081zM2jLsSQ-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-53351fe4bb8so3948910e87.3
-        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2024 03:10:24 -0700 (PDT)
+ us-mta-259-XkRCJ5ebMSqHdbsg5i50vA-1; Mon, 02 Sep 2024 06:10:46 -0400
+X-MC-Unique: XkRCJ5ebMSqHdbsg5i50vA-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-533500041b1so4632640e87.3
+        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2024 03:10:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725271823; x=1725876623;
+        d=1e100.net; s=20230601; t=1725271845; x=1725876645;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zbcesK30dFCAjKEHF6Iech8QUJGNsrD1K+Bsbth5WGA=;
-        b=hLEtFp8O9TVeJuxKFUEC34sznttXr2mUJ89stap+9g3Mg5zQP+Bp87pubJcW8z08Bs
-         AaQ7mPSG63JyT/tHFEG3O4VHnTC3jDdTH2jRaOvQ9Z8ky+5UA4volsjwrMKrrpsl4g73
-         SD+gVkN+/DZXmntuHB/CiACzkWzZRUPd0xf+MgJWinSPTt5+2+afmQDNwjTNMM44IZOB
-         J1aMwkj+X3hbGYbMajwID+Qc0KWUbnIocwKb1EvuFfE4Cf/gdwIzU1p39Ku7XpP8haCa
-         ayYLqqurz1c08niO4RwQx8AVopOD4sde+q31fd/igThiMpCsvWiLzu+UNasYgwFmXsWa
-         dE1A==
-X-Forwarded-Encrypted: i=1; AJvYcCVoZg7lB/dqOa+UHZjuSYiLWNEYphmtp/stu8bgTpinyNbt4feduwWrboxtlDvofirwSzjCik5/otXWCg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuA7hycBhO4hLmFV8opKXT12BMFUPOP62tS6i+Jax43JPi0yIv
-	HbspVMzZ9cTbFgAqVXAZuitbI72SSy9m8H3jttL1jqPPeAlFR7Azq8cYMysdZAAUsPUxhTDBLpD
-	wmFQM13m6rEbE0LWMT0kZiVE6WF2fApV6oHUVjpevKNieNfIK8qMDYkmH80AA
-X-Received: by 2002:a05:6512:1088:b0:533:482f:afbe with SMTP id 2adb3069b0e04-53546b23dfemr6932470e87.24.1725271823249;
-        Mon, 02 Sep 2024 03:10:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEKM4RT19+f2nGX8fLMo4BLPojDh8vT2rKLAiyfS6RWsdsrTL0I9CqEd31GLPnQavcUL93/SQ==
-X-Received: by 2002:a05:6512:1088:b0:533:482f:afbe with SMTP id 2adb3069b0e04-53546b23dfemr6932433e87.24.1725271822625;
-        Mon, 02 Sep 2024 03:10:22 -0700 (PDT)
+        bh=H9RKF9H7s72V4OZfPOTUgjyYaIyw8mcKokBoElqIGAw=;
+        b=JHNkvPVqorXVk5ebkeghlTAUbOfYQoDzsT4HsxxULS7Y+0myeLSYc/Gyua+n4Lg+lq
+         bHelNdSjEAEInGWW8OdlRSraXwC5LPeyJw81j/4ZT7KfzI6VdmqL2N8RWF/TrV6fSpU9
+         s23NXlQQEbtgTDUaq+7Nbl9bFub7cJSoLQLbCg70BPpWBC590NBdPuIlDs4fl34V5KYh
+         S9AJO7klD9D1bVDo47D4WutGXPjIlPenKALhJ4C6DNfvh5Hx5DYcgLWvxDKtyVMnH6Rx
+         dKvuE5bj2QxY/HtqELUx1RSDkefd+nMn4LaHNYRiLdelXTaViMuCvubYIxW9+32YmHu1
+         nKlA==
+X-Forwarded-Encrypted: i=1; AJvYcCWJ9LsWr52lR6W415cGq16xWGtQtvzCAA27GIjEO/R81u5MmDEXc6Ck50dhmoBywcAyQwhSc8UeH/f7Ug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXmLxDGSPg7er4LehoIzX+NzZI8AkxzeHzpIAgGxroqOC7f/mK
+	4uh0EMBi1essfPQzlBt0Rjj2JG6mhQ5IKTAYU4+bmrQS4jvw9lUV5ztwmh+CLwyFPLvWE9aFKWW
+	eJZYDZrqoSxhLsZPDUFYY+UdAjQvYABubrX0/0yuXZVsQ1OEDAB00HOnyB+oe
+X-Received: by 2002:a05:6512:b15:b0:52e:976a:b34b with SMTP id 2adb3069b0e04-53546b33aadmr8012008e87.15.1725271845227;
+        Mon, 02 Sep 2024 03:10:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFYItbefjD4lhCqtpm3GS4ZxCJzNfGCn2KlBrohSSQm0qTa4hwnKBwDrS5pTLOuniFpdKxW/Q==
+X-Received: by 2002:a05:6512:b15:b0:52e:976a:b34b with SMTP id 2adb3069b0e04-53546b33aadmr8011985e87.15.1725271844799;
+        Mon, 02 Sep 2024 03:10:44 -0700 (PDT)
 Received: from [192.168.171.203] ([109.38.145.100])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989196a86sm537216166b.127.2024.09.02.03.10.20
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8988feb410sm540035566b.21.2024.09.02.03.10.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 03:10:22 -0700 (PDT)
-Message-ID: <d6724490-1f43-4bbd-a80f-575aa31af47f@redhat.com>
-Date: Mon, 2 Sep 2024 12:10:18 +0200
+        Mon, 02 Sep 2024 03:10:44 -0700 (PDT)
+Message-ID: <389b81a7-a7be-48c0-adc0-40d313a38c5d@redhat.com>
+Date: Mon, 2 Sep 2024 12:10:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,27 +82,27 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: atomisp: Fix trailing statement in
- ia_css_de.host.c
-To: Kathara Sasikumar <katharasasikumar007@gmail.com>
-Cc: ~lkcamp/patches@lists.sr.ht, mchehab@kernel.org,
+Subject: Re: [PATCH] media: atomisp: move trailing statement to next line.
+To: Sakirnth Nagarasa <sakirnth@gmail.com>, mchehab@kernel.org,
  sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
  linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, helen.koike@collabora.com
-References: <20240730082725.2524-1-katharasasikumar007@gmail.com>
+ linux-kernel@vger.kernel.org
+Cc: ~lkcamp/patches@lists.sr.ht, helen.koike@collabora.com
+References: <sakirnth@gmail.com> <20240730084220.38204-1-sakirnth@gmail.com>
 Content-Language: en-US
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240730082725.2524-1-katharasasikumar007@gmail.com>
+In-Reply-To: <20240730084220.38204-1-sakirnth@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 7/30/24 10:27 AM, Kathara Sasikumar wrote:
-> Fix checkpatch diagostic of Error : Trailing statements should be on the
-> next line
+On 7/30/24 10:42 AM, Sakirnth Nagarasa wrote:
+> Fix checkpath error "ERROR: trailing statements should be on next line"
+> in ia_css_fpn.host.c:46.
 > 
-> Signed-off-by: Kathara Sasikumar <katharasasikumar007@gmail.com>
+> Signed-off-by: Sakirnth Nagarasa <sakirnth@gmail.com>
+
 
 Thank you for your patch(es).
 
@@ -117,31 +117,28 @@ Regards,
 Hans
 
 
+
+
 > ---
-> Hi,  
 > 
-> This is my first patch for the kernel. 
-> Big thanks to Helen Koike for the guidance 
-> at her Debconf24 workshop.
-> 
-> Thank you,
-> Kathara
->  .../media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c   | 3 ++-
+> Hello, this is my first patch to the kernel.
+> ---
+>  .../atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c      | 3 ++-
 >  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c
-> index 25e3f0822..e66faeda3 100644
-> --- a/drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c
-> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c
-> @@ -47,7 +47,8 @@ ia_css_de_dump(
->      const struct sh_css_isp_de_params *de,
+> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
+> index 57b5e11e1..8ccfa99c6 100644
+> --- a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
+> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
+> @@ -43,7 +43,8 @@ ia_css_fpn_dump(
+>      const struct sh_css_isp_fpn_params *fpn,
 >      unsigned int level)
 >  {
-> -	if (!de) return;
-> +	if (!de)
+> -	if (!fpn) return;
+> +	if (!fpn)
 > +		return;
->  	ia_css_debug_dtrace(level, "Demosaic:\n");
+>  	ia_css_debug_dtrace(level, "Fixed Pattern Noise Reduction:\n");
 >  	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
->  			    "de_pixelnoise", de->pixelnoise);
+>  			    "fpn_shift", fpn->shift);
 
 
