@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-17377-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17378-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917D6968B60
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 17:58:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBFFD968B62
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 17:58:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4DFCB283C69
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 15:58:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79850283E14
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2024 15:58:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 047771AB6C8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79A8D1AB6DF;
 	Mon,  2 Sep 2024 15:57:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7n/JLd4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QA59RIqc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11DD1A265C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112561A3029;
 	Mon,  2 Sep 2024 15:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725292660; cv=none; b=gQZ9jaX9o/T68m4glMKmAQ4t2giTTBZ/x3xq+XOmbmiAlyuTULISNV/XbCknov4Ir+gqrl0FFNxZ58yV3AFYtuWRPs58b8cEqo7t+BkUtps7pUmOdBdCUmAZ7YrTjMjDV+WaAGVGU4egK91TWO+3RII0L8AC7Mr48pZe02jhYqQ=
+	t=1725292660; cv=none; b=HhP2tiUfQp75a9gj7DLPYhOLvw58Fcc7Oqu2FDJY26AvgJXJuuaOHd+6aCXRxxzHmEMDFeunhFh7ATLmid3qEvMvcalZe4rY2ftwBZfh+hbMxSKPDEDyzDOGLy4s5mK0ENRzHDUzoWI+zWygmEgSUCKXCZnjXpqXP2qomFqnuQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1725292660; c=relaxed/simple;
-	bh=dhIUmqGXD7ukNGJkdpSPw/0b0JTtqY9BJywHGpeznpU=;
+	bh=2Y1CK/ZUdRcqXt3dmTgNqjmsP7DbbBhP6WuYBevo8jk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gf1r0LM5mpouYv3J8pvkh19bRPFqIdzYRoeIdhPFwg6Ta9ofhSwYrPxSJNEXsBsrOZJfHVhdxWzXsVPh5v9GrC+jkQkMhMpCl0ETogAVPnrI0k9VgRQGXuJmJadHxPGqP6hWFeMZYHpklJ8KHK0QWnBU4QP0uAWTIuVwlxtz04U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c7n/JLd4; arc=none smtp.client-ip=209.85.208.54
+	 In-Reply-To:To:Cc; b=S3Xw7n1ulWH6z8Y6DWfKqy5JlW1+v2B0+FdkWx1bUr5BYWpL2qdYrynZaL0Mp0hkZPOVt7jP9WEjuC3UnWmWU+yFVwoaUYrDKVU8h3QiJig/JUomuSWwVw1CO+L1TklscjQaugfv4Hswtz2rvRUM8xxWTbO4QWANI/ZjH8X9epg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QA59RIqc; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5c210e23573so4474444a12.0;
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a867a564911so529316566b.2;
         Mon, 02 Sep 2024 08:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1725292657; x=1725897457; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NOTuNT2pG3NdBDrQ4sOowXdydQbe5NJerAYtbOYu3W0=;
-        b=c7n/JLd4NMdkY6BqSJ3hBqF/HOvWxpXHJJoDH8iWEQi4oEbdbGZ7YhMDtJ4ossZO61
-         ge+ndZ8xaNV9kaGkkOJ1S9Yt3fROhgBhPEutBmjkXtAbg3nsXwdSVlQrgsMjiNn9fY/K
-         tm/Dw7VzlL9ttRjQVNzXKj+34cqzV+tOa9HTpF9d66h5UDbfpaoCR01G0aWD3pkI+PRu
-         vVUUwM6Kjn+GavIDG15ZRkZH+rBy3POBKJeEUdINXzsKIoyyHXiJwPWLEoF7VJ5fsd2t
-         3eWjLt3+SjZsMHUGXcx5d3UBnV6el/dvFxSXGd/lbhaCF4tKfX+7xJrW9hqW+bCqGaBC
-         Egxw==
+        bh=NXwHXEw95cMboYJFBjnBrAHhlVpCookFbgIsrq6R6Z4=;
+        b=QA59RIqcSkAs26B54PxiAV+x6HYvASfIscKkq+TI0BT4Pxxo/tbVpPwWLkhOiTsFM8
+         ZDiL2dWL5p0U2TLumEHiUih7ZWN0tsBFY8t9xtnuWh402sOMQFhK+T4AssRozKKv/dOG
+         T22HB+CF/Khln/bQ0CfYB9hMUjuyBDcpFoGs9xpslWU1E5aSq8E19x7tcloNYvsVecJa
+         dIi8ErJePpeDl1xC4YgJzeOkn+cUIJ6auaGNkfZImmr//sVchc2+g6VznCqPp7qgR/cp
+         c3t6iZD26DkZsODo3fP5jU73EOXz9CNCa2xBvrXd3bB+3OX9iKfilpHs4y7WksberzGu
+         Yo4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1725292657; x=1725897457;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NOTuNT2pG3NdBDrQ4sOowXdydQbe5NJerAYtbOYu3W0=;
-        b=Rg0AzFvRA0JSK7Wsml9OotFNLaRR4Q/bgmCkipzdCHd+LRJAMDACCXK4TyL+guFtSX
-         LzJTfJ3ubhkXWtmwKx6HWBgJ6BNwILIhSpWCpAkcGl6tSmG8FZCysE8IqM5sWhxZ5eKt
-         iLi/v1FsCKQtkxCvlO1w8mWF3ndvJ2udGELrMFvRxOkb9fJISmpC4xKXhp875UAYq0Zo
-         jz6b+XOetEb3K6HlcjGYtLF2BNG0ckIteFQcZMv8meQoTZVscerzdwIucrBeVFzgyYsE
-         ULOxDdkWXaAqQaik6UnjfQMVY3f2z7phtzEKGelhi3x3x3bFcT5aK0YosByLOIRhmCK2
-         V/Zg==
-X-Forwarded-Encrypted: i=1; AJvYcCVHRAsrOtn6+h5JxUQKBZnEfUR1GmUauc/v69A2zJS3QaWT97M3zaAGygYjewATTOyXa9wBbO6o5zmhRrI=@vger.kernel.org, AJvYcCXYzGTktXo5Mo1Vmjh0x2yo/zI8ddUSpCqVhRmXO2qC/dFX3X/eZxlJSTGTbpxMUZJoFtFQ3IR+wTmS0J0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaZTbMJ7/ZjTxHmHKaOhVmpjtYycBmFHr6qWxu6q3v6/gouV09
-	kZIDR0g1I98wstGtlTqauhafcz+T8ZuN6c44Wp9/+k/cws3YtLhf
-X-Google-Smtp-Source: AGHT+IEoQIfVVefmqqaw6Je2s5pdfIvCaNfR+B8X8Ji2/2FJOsHtov518enxdZa31uYoylPz1sJnGw==
-X-Received: by 2002:a17:907:971c:b0:a86:6e5e:620d with SMTP id a640c23a62f3a-a8a1d2d5cc5mr50133066b.27.1725292656793;
-        Mon, 02 Sep 2024 08:57:36 -0700 (PDT)
+        bh=NXwHXEw95cMboYJFBjnBrAHhlVpCookFbgIsrq6R6Z4=;
+        b=ahWHp1nJYTrMCM86cTkINMTwsFytilvJgPzsywHpkZnorN2NUtjsU2HDxC3g4C8fOK
+         /Wy5GGwv3Edz5PJbsvqSJE3jrBZwZljC+LIMvczgMoow2evnz8j+9+osi/IbXNXzmffX
+         V/kLpTGP1Lcm1oMb/Ia2hLTEpm8Gx9/j7JaipnnV0Bx3mVaRQx6KxE/1C1VIztVowP2U
+         c0lrUm46xQPZkC7Yjs64FKr6c8JL2JdW4z1eQUL5jR+vksFMR1s+0c6ZM2p6/uI03wNg
+         M1vqt1TtWYn9NsKs+/xdu8L9RBTVCYPtx/MjO6Qy0mmqOJ0Ux2EYsY6vBzo8oAVsv+lT
+         Z45Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVnVzku48SRvc6MICj4xj/7NlaaTtugq02nZhtJrvWdd8WvandQZlzLOlcPUFCEHVZWqGhGMpVc1xEV2k8=@vger.kernel.org, AJvYcCXf1dTg8p4+/6EKEwSUnUVE2rKULGUk1HKuOeB4Cq66ICicGoo76jzHV5k2qES3Zh1wU2T3z5Y/Lj4+crs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2f6nUcuM8IdnHlq+7XYzTv+y8l/p4WoU1Mw0OilpKfrnCyMJD
+	ImJTJMrEqzTizh/+wB5zC3LnODLGp+JyeCPz5lx/xfflhvaBg3ST
+X-Google-Smtp-Source: AGHT+IEMD83ccy+oSFeK9kl7eDfBn5hiI7P5VcdM1rqK0OivirKXoCNu9QzZ7dV6iRf6BU7mHdYslw==
+X-Received: by 2002:a17:907:7f24:b0:a86:9690:9c10 with SMTP id a640c23a62f3a-a89b96f8b6emr676816666b.49.1725292657312;
+        Mon, 02 Sep 2024 08:57:37 -0700 (PDT)
 Received: from [127.0.1.1] ([2001:67c:2330:2002:af84:a410:1c4f:f793])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891d6f87sm570951366b.158.2024.09.02.08.57.35
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891d6f87sm570951366b.158.2024.09.02.08.57.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 08:57:35 -0700 (PDT)
+        Mon, 02 Sep 2024 08:57:37 -0700 (PDT)
 From: bbara93@gmail.com
-Date: Mon, 02 Sep 2024 17:57:27 +0200
-Subject: [PATCH v3 2/7] media: i2c: imx290: Define absolute control ranges
+Date: Mon, 02 Sep 2024 17:57:28 +0200
+Subject: [PATCH v3 3/7] media: i2c: imx290: Remove CHIP_ID reg definition
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,7 +78,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240902-imx290-avail-v3-2-b32a12799fed@skidata.com>
+Message-Id: <20240902-imx290-avail-v3-3-b32a12799fed@skidata.com>
 References: <20240902-imx290-avail-v3-0-b32a12799fed@skidata.com>
 In-Reply-To: <20240902-imx290-avail-v3-0-b32a12799fed@skidata.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -93,88 +93,32 @@ X-Mailer: b4 0.14.1
 
 From: Benjamin Bara <benjamin.bara@skidata.com>
 
-For now, the driver activates the first mode (1080p) as current active
-mode in probe(). This e.g. means that one cannot set VBLANK below 45
-(vmax_min - height), although theoretically the minimum is 30 (720p
-mode). Define the absolute possible/supported ranges to have them
-available later.
+This register is not described in the public available imx290 datasheet.
+Additionally, a read returns '0x07d0' for an imx327lqr and also for an
+imx462, which means it cannot be used to distinguish between those two
+imx290 derivatives.
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
 ---
 Changes since v2:
-- new
+- picked up R-b of Laurent (thx!)
 ---
- drivers/media/i2c/imx290.c | 36 ++++++++++++++++++++++++++++++++----
- 1 file changed, 32 insertions(+), 4 deletions(-)
+ drivers/media/i2c/imx290.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 1c97f9650eb4..466492bab600 100644
+index 466492bab600..6812e7cb9e23 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -499,6 +499,10 @@ static const struct imx290_clk_cfg imx290_720p_clock_config[] = {
- };
- 
- /* Mode configs */
-+#define WIDTH_720P	1280
-+#define HEIGHT_720P	720
-+#define MINIMUM_WIDTH	WIDTH_720P
-+#define MINIMUM_HEIGHT	HEIGHT_720P
- static const struct imx290_mode imx290_modes_2lanes[] = {
- 	{
- 		.width = 1920,
-@@ -512,8 +516,8 @@ static const struct imx290_mode imx290_modes_2lanes[] = {
- 		.clk_cfg = imx290_1080p_clock_config,
- 	},
- 	{
--		.width = 1280,
--		.height = 720,
-+		.width = WIDTH_720P,
-+		.height = HEIGHT_720P,
- 		.hmax_min = 3300,
- 		.vmax_min = 750,
- 		.link_freq_index = FREQ_INDEX_720P,
-@@ -537,8 +541,8 @@ static const struct imx290_mode imx290_modes_4lanes[] = {
- 		.clk_cfg = imx290_1080p_clock_config,
- 	},
- 	{
--		.width = 1280,
--		.height = 720,
-+		.width = WIDTH_720P,
-+		.height = HEIGHT_720P,
- 		.hmax_min = 3300,
- 		.vmax_min = 750,
- 		.link_freq_index = FREQ_INDEX_720P,
-@@ -846,6 +850,30 @@ static const char * const imx290_test_pattern_menu[] = {
- 	"000/555h Toggle Pattern",
- };
- 
-+/* absolute supported control ranges */
-+#define HBLANK_MAX	(IMX290_HMAX_MAX - MINIMUM_WIDTH)
-+#define VBLANK_MAX	(IMX290_VMAX_MAX - MINIMUM_HEIGHT)
-+static unsigned int imx290_get_blank_min(const struct imx290 *imx290, bool v)
-+{
-+	const struct imx290_mode *modes = imx290_modes_ptr(imx290);
-+	unsigned int min = UINT_MAX;
-+	int i;
-+
-+	for (i = 0; i < imx290_modes_num(imx290); i++) {
-+		unsigned int tmp;
-+
-+		if (v)
-+			tmp = modes[i].hmax_min - modes[i].width;
-+		else
-+			tmp = modes[i].vmax_min - modes[i].height;
-+
-+		if (tmp < min)
-+			min = tmp;
-+	}
-+
-+	return min;
-+}
-+
- static void imx290_ctrl_update(struct imx290 *imx290,
- 			       const struct imx290_mode *mode)
- {
+@@ -80,7 +80,6 @@
+ #define IMX290_ADBIT2					CCI_REG8(0x317c)
+ #define IMX290_ADBIT2_10BIT				0x12
+ #define IMX290_ADBIT2_12BIT				0x00
+-#define IMX290_CHIP_ID					CCI_REG16_LE(0x319a)
+ #define IMX290_ADBIT3					CCI_REG8(0x31ec)
+ #define IMX290_ADBIT3_10BIT				0x37
+ #define IMX290_ADBIT3_12BIT				0x0e
 
 -- 
 2.46.0
