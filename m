@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-17474-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17475-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D5D96A001
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 16:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713A196A007
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 16:13:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D39BA1F26587
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 14:12:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E810F1F26AD8
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 14:13:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C12413D518;
-	Tue,  3 Sep 2024 14:10:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70940143748;
+	Tue,  3 Sep 2024 14:11:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SXxmyu3J"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BrDFU2QF"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED8A53804;
-	Tue,  3 Sep 2024 14:10:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FBD1CA6BF;
+	Tue,  3 Sep 2024 14:11:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725372627; cv=none; b=NYbwBtb1WN86qDK2mDVZK/8VaJDnOGtuXaCXyccNdWgZq/xilCS48DPcAiVyG29V3SKrJbYTpj/4UNN2ZimuGQhSd3Dx4+aXs9CqXxbCjtjgZCHXsciuWlEpeHQa6KynjF4o5muj+Axw3sLzkMThez8QWCyKvNUmcPjTZ+bgRkc=
+	t=1725372668; cv=none; b=QuomLxgOuG15vrHzmGaU3YG1EyfLy1h7bhLRuN8dJFrvxOpg5YJ8BWeScsJSEQpk038j1EYvM5CoFKIklR11M4jSKRs7O3Pem23eQZfkzU36HXZmLpU+SabjEBcyjc9G91ANrh1XcXR4g0/owTJrlCuLChY+eJbmquJFATummH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725372627; c=relaxed/simple;
-	bh=GQbfKlZgztpPAiBhg6WW5W5KovCamTBynA3/mwhBXPU=;
+	s=arc-20240116; t=1725372668; c=relaxed/simple;
+	bh=32bGaR00puGC3AGBibGm83e/rth+qtXf5/UhP7xf9Vs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wa2z2gR1MnrctLic/x67oRAXDaQyviJuOPXMEa0ncl4Ml72Ri46A6Fy+M5T1ufYb9Ps2mztjJTFALRPMzPGwxOmAXTTKNegNz8pafpZIZ/IbRiQDJFj+mzlwM+sW6x9Ml792n+earpiOKdkQFmnGTRk7b+akMUm34Y8ATum4krA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SXxmyu3J; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA699C4CEC4;
-	Tue,  3 Sep 2024 14:10:23 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=XD5vsrnL8V70kl+L5B4z1AT2TuDMz+yevIeLWbOtAGuxzEuyNtocoCBxG/zexqJEVyX2BMStXAThP2LzLSl8OvFoNC96dYBeiFrckvZknrqJ9nqr6TsVNb9sAuZPVeDiTXNrDOaTk7yEZwy6WGid2bc5YRQbZ5AU4/ivOo6P/7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BrDFU2QF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCABAC4CEC4;
+	Tue,  3 Sep 2024 14:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725372626;
-	bh=GQbfKlZgztpPAiBhg6WW5W5KovCamTBynA3/mwhBXPU=;
+	s=k20201202; t=1725372668;
+	bh=32bGaR00puGC3AGBibGm83e/rth+qtXf5/UhP7xf9Vs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SXxmyu3Jr8GGW2E8sTE5Qf1JGhVm4WVWOo/VOJLKLYt19FqNLJ8RXIy+dmiLrGyRS
-	 ykaplILkOq/vCyrkl8shBvSftTZJCQSbjbBTCYRvBUaawh95U6seyIl3vgG/2kkOks
-	 EbNY/A+ViZJ5M4XhAbSf81LIF3JmqcuQyPQh2zJN+qYzN8dYky9bATzyFAkLfm1cfI
-	 oXraByW81aVH449VSjkTH9wlk4gMeVuhyyvRhBVj/7CsqkrLfjB2QYohmPWXzXF2Dj
-	 DMPanH3QJy2vEnsBMKqKF16EnkBc/vnFlW2mNonSHlx62NeCAuhhxLqV5SQNu7XCg2
-	 ind7g2/tZNxzg==
-Message-ID: <1f226ba2-2324-4c0c-91df-54f42938d9fb@kernel.org>
-Date: Tue, 3 Sep 2024 16:10:22 +0200
+	b=BrDFU2QFNaofTyf5PUAn/JkmEt0cu/Fz2fi5eA+LDSysSTd0wb3X5/F4dye+viMwx
+	 dwEHNdM7bLNvrOqZQOJVQenDQJtRuav/NKP7pl/EQhD6K8S6kKeCBL4WM/zz7dTKil
+	 vWJknNNM5LZp0//0Di/0AGtNWLeK7mGEfkbRG1e6Y1t4geiH4YVZdy/AXJ4KT/uwZi
+	 BhwJC27cuiF1mNNqlgq0/7C+Ni3zyD96hGSXhBf/PgJSROz4EYm4tt6hSarEHCYuWY
+	 Z2n7ux/JZpb6uspnKGF5/xlgli/Wvto2HDa5RTdLtM44LImkexuRlOqihNIxuL6Dih
+	 p+pvkkSjI+ytg==
+Message-ID: <84c4b625-0466-42eb-be11-18b48228cf50@kernel.org>
+Date: Tue, 3 Sep 2024 16:11:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] media: platform: Add c3 mipi csi2 driver
+Subject: Re: [PATCH 3/9] dt-bindings: media: Add amlogic,c3-mipi-adapter.yaml
 To: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>
@@ -58,7 +58,7 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com,
  laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com
 References: <20240903-c3isp-v1-0-8af0edcc13c8@amlogic.com>
- <20240903-c3isp-v1-2-8af0edcc13c8@amlogic.com>
+ <20240903-c3isp-v1-3-8af0edcc13c8@amlogic.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,48 +104,122 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240903-c3isp-v1-2-8af0edcc13c8@amlogic.com>
+In-Reply-To: <20240903-c3isp-v1-3-8af0edcc13c8@amlogic.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 03/09/2024 08:57, Keke Li via B4 Relay wrote:
 > From: Keke Li <keke.li@amlogic.com>
 > 
-> This driver is used to receive mipi data from image sensor.
+> c3-mipi-adapter is used to organize mipi data and
+> send raw data to ISP module.
 > 
 > Signed-off-by: Keke Li <keke.li@amlogic.com>
-
-
-...
-
-> +static int c3_mipi_csi_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct csi_device *csi;
-> +	int ret;
+> ---
+>  .../bindings/media/amlogic,c3-mipi-adapter.yaml    | 114 +++++++++++++++++++++
+>  1 file changed, 114 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml
+> new file mode 100644
+> index 000000000000..e1873fe829c7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml
+> @@ -0,0 +1,114 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/amlogic,c3-mipi-adapter.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	csi = devm_kzalloc(dev, sizeof(*csi), GFP_KERNEL);
-> +	if (!csi)
-> +		return -ENOMEM;
+> +title: Amlogic C3 MIPI adapter receiver
 > +
-> +	csi->info = of_device_get_match_data(dev);
-> +	csi->dev = dev;
+> +maintainers:
+> +  - Keke Li <keke.li@amlogic.com>
 > +
-> +	ret = c3_mipi_csi_ioremap_resource(csi);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to ioremap resource: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = c3_mipi_csi_configure_clocks(csi);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to configure clocks: %d\n", ret);
-> +		return ret;
+> +description: |-
 
-Syntax is return dev_err_probe. This was repeated multiple times, so
-please organize some inside-Amlogic sessions so you will learn from
-somebody's mistakes/reviews. That's way other developers do not repeat
-the same issue.
+Same comment.
+
+> +  MIPI adapter is used to convert the MIPI CSI-2 data
+> +  into an ISP supported data format.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - amlogic,c3-mipi-adapter
+> +
+> +  reg:
+> +    minItems: 3
+
+Same comment.
+
+> +    maxItems: 3
+> +
+> +  reg-names:
+> +    items:
+> +      - const: adap_top
+> +      - const: adap_fd
+> +      - const: adap_rd
+
+Same comment.
+
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 2
+
+Same comment.
+
+> +
+> +  clock-names:
+> +    items:
+> +      - const: vapb
+> +      - const: adap
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: input port node.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: output port node.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - power-domains
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/amlogic,c3-peripherals-clkc.h>
+> +    #include <dt-bindings/power/amlogic,c3-pwrc.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        adap: adap@ff010000 {
+> +            compatible = "amlogic,c3-mipi-adapter";
+> +
+
+Same comments.
+
 
 
 Best regards,
