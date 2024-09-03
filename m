@@ -1,167 +1,139 @@
-Return-Path: <linux-media+bounces-17490-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17491-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F7696A629
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 20:07:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E28496A844
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 22:26:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 943ED287870
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 18:07:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87B361C2412D
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 20:26:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7749F19007F;
-	Tue,  3 Sep 2024 18:07:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 083611CF7DD;
+	Tue,  3 Sep 2024 20:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ataplj0G"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="dJ/cNATT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A24EF9DF;
-	Tue,  3 Sep 2024 18:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725386831; cv=none; b=j3A9jxqao5fx0RdZhpiGv7k8XkbpyGqqlNCggkK7XTAuGLlB/hy7Dkfg4bWQhm9TfzgPsDnfLkHYW35CnNLkCtQRH9i/9s6bbLT7gRW4xnBUt29xNqJBLcq3xNfrt0pTQHD0Qb5Mjy1KFhs350G2x59G6uCp1Cp2YfCnj8LSrvs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725386831; c=relaxed/simple;
-	bh=GcyWQO62Icmx4b81tJNoRo89mbEkBZ4wiHm4cqVtjbg=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=R5lFOLNAcl6bAu0Y9/zhWn5LDRVdCQdHTZEm7cI9EmlaHNxBFazeChvSAL2dD9iAXbhxkgU7qKgVKfbrx4UfKIhE1ppi49KeLw4RHc1mA0u9CcSgwzFJZd5h3b95PSEk6IJFxQfX5jcDc1mOFnfc5d3f/VNtxZ9+ASFJT5WwaEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Ataplj0G; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from smtpclient.apple (d66-183-91-182.bchsia.telus.net [66.183.91.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7313C20B7165;
-	Tue,  3 Sep 2024 11:07:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7313C20B7165
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1725386824;
-	bh=eDO1Gub+WhZH8e1yf5DOAq4k3qry711BGtAlfp/se7c=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=Ataplj0G1mJQ7jpADnNfZwl/BaDhy+4NcF3ctLVfTPGo3y8YDLo8rvOGL1dt7I5iX
-	 95S4fwK1a4WgoRp7i99SXDxPcsNindIBOq8Zpq+JCr6n/wypWoABYpR+zP3YYpFjWM
-	 LRZNkPa0HlgUVZZ8LlGdg3J9nSLRg2EDzLigUO3U=
-Content-Type: text/plain;
-	charset=us-ascii
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56461DC745;
+	Tue,  3 Sep 2024 20:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725395174; cv=pass; b=jSF/78jZuwuMDWjcTubGEl2DN8scrAaBZ//5PjgAKIii6Ryl6smIjn8tL26x/BhYjIU4kN7GvVnSbaXxE3ulK7s/pGbYFu3aEtt/6ZdakyevBbzXmdLXZAbv3bzm9cp3NWD/P02goX6xNg/5cy02w7KumBW7bZJJEXeORmgH1J8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725395174; c=relaxed/simple;
+	bh=eONqblHUqLOYxvKD7I+HpEBVfQ2jBkc6t4nHnNtGips=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lXcCdhxW2tmGXTJOW71wj9Varl7Wsoe7t+cVKD/iBZlDZrKmHccTxkm5qG0OaxZs02mM5FTJY9FyQ6jcGb/FRBdcYxnPllFpjt1v6+ejB44Z2H0yIXKEApd1FAqL0+4R9PP/+LZuyWT9kwONODCyrCZ1g74fM4y6jpN+8xpi+UI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=dJ/cNATT; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Delivered-To: boris.brezillon@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1725395154; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ihknZ9/C8xEnHl13kF7bnFNYggJQ+QnFf+CPN+nf2nVhd0zEky7K9KLRYu7yd64eeIrj8aiUwwEMkCbnpu08dLTrW2x0/xK8C6Ns4ezvunCfReE1ZYnc+Pch9LWhnn/jqgd+XcsuSAawoAKcqXbV+ZzgKzu4zEpUskAYJp6IXII=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1725395154; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=kMPq6Wpp/4Y0fXJ4YcbXeFmAq98BeEdY1hnubqWC3+U=; 
+	b=dcxt7o3U7aOEwJd6npND3jxuS7Lw0Ik3ngQ40XXm8tLqOljMdG2FDxOOQe2PVfYSj95xTcuVsdO8xWIOsbcZ/L9XEGGF/FplpD6nRPvLsl7LKDmwG+iOTZ+usJsFVq0d2hFc7S3vEyEWCfOIi/M/AWdbkz22EWd/x70Fdsx1GCE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725395154;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=kMPq6Wpp/4Y0fXJ4YcbXeFmAq98BeEdY1hnubqWC3+U=;
+	b=dJ/cNATTLmtoCjD/DcPbLI9HZjXPRO8mdrbXt14sambmW8M/BENzczzeRZnIZHIS
+	x3edJilGshIqXUudx0zcPFc5iV/UYzpQVTDxBVh33jckCBEOl/v5FUmEEhIRDnvSTlM
+	5GWC0TNu/nc1h7goHkBkglC0TtqGMaB3FMNzEyNU=
+Received: by mx.zohomail.com with SMTPS id 1725395153456225.88044740277735;
+	Tue, 3 Sep 2024 13:25:53 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: kernel@collabora.com,
+	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v5 0/4] Support fdinfo runtime and memory stats on Panthor
+Date: Tue,  3 Sep 2024 21:25:34 +0100
+Message-ID: <20240903202541.430225-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
-Subject: Re: [RFT][PATCH 0/5] firewire: use sleepable workqueue to handle 1394
- OHCI IT/IR context events
-From: Allen Pais <apais@linux.microsoft.com>
-In-Reply-To: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
-Date: Tue, 3 Sep 2024 11:06:53 -0700
-Cc: linux1394-devel@lists.sourceforge.net,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-sound@vger.kernel.org,
- edmund.raile@protonmail.com,
- linux-media@vger.kernel.org,
- netdev@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <EB8EC5FD-AB6C-48C3-8980-65E8CB444BDF@linux.microsoft.com>
-References: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-X-Mailer: Apple Mail (2.3776.700.51)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+This patch series enables userspace utilities like gputop and nvtop to
+query a render context's fdinfo file and figure out rates of engine
+and memory utilisation.
 
+Previous discussion can be found at
+https://lore.kernel.org/dri-devel/20240716201302.2939894-1-adrian.larumbe@collabora.com/
 
->This series of change is inspired by BH workqueue available in recent
->kernel.
+Changelog:
+v5:
+ - Moved profiling information slots into a per-queue BO and away from syncobjs.
+ - Decide on size of profiling slots BO from size of CS for minimal profiled job
+ - Turn job and device profiling flag into a bit mask so that individual metrics
+ can be enabled separately.
+ - Shrunk ringbuffer slot size to that of a cache line.
+ - Track profiling slot indeces separately from the job's queue ringbuffer's
+ - Emit CS instructions one by one and tag them depending on profiling mask
+ - New helper for calculating job credits depending on profiling flags
+ - Add Documentation file for sysfs profiling knob
+ - fdinfo will only show engines or cycles tags if these are respectively enabled.
+v4:
+ - Fixed wrong assignment location for frequency values in Panthor's devfreq
+ - Removed the last two commits about registering size of internal BO's
+ - Rearranged patch series so that sysfs knob is done last and all the previous
+ time sampling and fdinfo show dependencies are already in place
+v3:
+ - Fixed some nits and removed useless bounds check in panthor_sched.c
+ - Added support for sysfs profiling knob and optional job accounting
+ - Added new patches for calculating size of internal BO's
+v2:
+ - Split original first patch in two, one for FW CS cycle and timestamp
+ calculations and job accounting memory management, and a second one
+ that enables fdinfo.
+ - Moved NUM_INSTRS_PER_SLOT to the file prelude
+ - Removed nelem variable from the group's struct definition.
+ - Precompute size of group's syncobj BO to avoid code duplication.
+ - Some minor nits.
 
->In Linux FireWire subsystem, tasklet softIRQ context has been utilized =
-to
->operate 1394 OHCI Isochronous Transmit (IT) and Isochronous Receive =
-(IR)
->contexts. The tasklet context is not preferable, as you know.
+Adrián Larumbe (4):
+  drm/panthor: introduce job cycle and timestamp accounting
+  drm/panthor: add DRM fdinfo support
+  drm/panthor: enable fdinfo for memory stats
+  drm/panthor: add sysfs knob for enabling job profiling
 
->I have already received a proposal[1][2] to replace the usage of =
-tasklet
->with BH workqueue. However, the proposal includes bare replacement for =
-1394
->OHCI IT, IR, Asynchronous Transmit (AT), and Asynchronous Receive (AR)
->contexts with neither any care of actual usage for each context nor
->practical test reports. In theory, this kind of change should be done =
-by
->step by step with enough amount of evaluation over software design to =
-avoid
->any disorder.
+ Documentation/gpu/panthor.rst             |  46 +++
+ drivers/gpu/drm/panthor/panthor_devfreq.c |  18 +-
+ drivers/gpu/drm/panthor/panthor_device.h  |  36 +++
+ drivers/gpu/drm/panthor/panthor_drv.c     |  74 +++++
+ drivers/gpu/drm/panthor/panthor_gem.c     |  12 +
+ drivers/gpu/drm/panthor/panthor_sched.c   | 372 +++++++++++++++++++---
+ 6 files changed, 513 insertions(+), 45 deletions(-)
+ create mode 100644 Documentation/gpu/panthor.rst
 
->In this series of changes, the usage of tasklet for 1394 OHCI IT/IR
->contexts is just replaced, as a first step. In 1394 OHCI IR/IT events,
->software is expected to process the content of page dedicated to DMA
->transmission for each isochronous context. It means that the content =
-can be
->processed concurrently per isochronous context. Additionally, the =
-content
->of page is immutable as long as the software schedules the transmission
->again for the page. It means that the task to process the content can =
-sleep
->or be preempted. Due to the characteristics, BH workqueue is _not_ =
-used.
-
->At present, 1394 OHCI driver is responsible for the maintenance of =
-tasklet
->context, while in this series of change the core function is =
-responsible
->for the maintenance of workqueue and work items. This change is an =
-attempt
->to let each implementation focus on own task.
-
->The change affects the following implementations of unit protocols =
-which
->operate isochronous contexts:
-
->- firewire-net for IP over 1394 (RFC 2734/3146)
->- firedtv
->- drivers in ALSA firewire stack for IEC 61883-1/6
->- user space applications
-
->As long as reading their codes, the first two drivers look to require =
-no
->change. While the drivers in ALSA firewire stack require change to =
-switch
->the type of context in which callback is executed. The series of change
->includes a patch for them to adapt to work process context.
-
->Finally, these changes are tested by devices supported by ALSA firewire
->stack with/without no-period-wakeup runtime of PCM substream. I also =
-tested
->examples in libhinoko[3] as samples of user space applications. =
-Currently I
->face no issue.
-
->On the other hand, I have neither tested for firewire-net nor firedtv,
->since I have never used these functions. If someone has any experience =
-to
->use them, I would request to test the change.
-
->[1] =
-https://lore.kernel.org/lkml/20240403144558.13398-1-apais@linux.microsoft.=
-com/
->[2] https://github.com/allenpais/for-6.9-bh-conversions/issues/1
->[3] https://git.kernel.org/pub/scm/libs/ieee1394/libhinoko.git/
-
-
->Regards
-
-Thank you for doing this work. You will probably need to send out a v2
-As most of you patches have single line comment instead of Block style
-Commnents (/* ..*/). Please have it fixed.
-
-- Allen
-
->Takashi Sakamoto (5):
-> firewire: core: allocate workqueue to handle isochronous contexts in
->   card
-> firewire: core: add local API for work items scheduled to workqueue
->   specific to isochronous contexts
-> firewire: ohci: process IT/IR events in sleepable work process to
->   obsolete tasklet softIRQ
-> firewire: core: non-atomic memory allocation for isochronous event to
->   user client
-> ALSA: firewire: use nonatomic PCM operation
-
+-- 
+2.46.0
 
 
