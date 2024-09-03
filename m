@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-17483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B6196A14D
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 16:55:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B9896A14F
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 16:55:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B8511C23E2B
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 14:55:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C1DB2875C0
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 14:55:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65A3818732D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94C11186E3D;
 	Tue,  3 Sep 2024 14:54:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gra/Mf6i"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gv4mM7ic"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BACD155742;
-	Tue,  3 Sep 2024 14:54:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BFA15AADA;
+	Tue,  3 Sep 2024 14:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725375279; cv=none; b=Mr3mOiZ7sgCcmPeUBqtAMofQDgxrijOgdPVIoGmHzZRpg1y2zTMKK+dIeN1NkfPiUX8iRRQXH+RZon3//r9rTwQC1+Vgg0I3O6vqKOOAW5HcYdYswD7ySEZPenO8Yz0IZgB+lYWW29qyk0rLP+j2ze7/AxXGMN3zm8ZS7AZ2wKk=
+	t=1725375280; cv=none; b=t5ET/5/WjskU4bbPYl6aV/HsvoL/dCuDHRbf/vy9RBf5zlZELpWiwKPxJb2H/T6bsmP+lYdD1hF59VnrSoH1COJEkvOWwbd/zb4Ag3YU1h4jaS8DK8KWNfakLU2C16wZ7BNwjNZ8c+uIPafJKnUkw3VdflTbyA9XKTvOdiDWm2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725375279; c=relaxed/simple;
-	bh=mLbRsAuEZn2az+xO/hpNkX2JQeOIrVUPVKAx//Ce0wE=;
+	s=arc-20240116; t=1725375280; c=relaxed/simple;
+	bh=3AQpCg+AS9nzmfVKYNKNCZOKNz45JZdPVmUJXv+saBE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eYtwie0wiq7Gp65ykTHb4OQT4UZuuKm4QgifLSWF1HOYENmwc5ont0kFwtWhItBOOU3Ca8Ew69pWVWxLajPk/hG/NIsFryQnk0/OcJUP9Aw3lLrTZj/3Hvew4JPrI/Oe/SY/1csvuimf+8gIdkIARcQB+PcpswAkHYc12tBqlc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gra/Mf6i; arc=none smtp.client-ip=209.85.218.42
+	 In-Reply-To:To:Cc; b=Zx0EmSV84qQEclE/ZL1TJoOUSKg2QA02ta25HkEWLHuVm7zzj13rL45O/i60XDb5hpMsS/57yDFJZOOAbC3qTau8/5A8Ov3pbBo6rHObd3ccGwz48qCI/0Tte7Eb9oTHtYRd0lfxj9UP1o2dNQ+khO0m8ftuhEECN0ssWNqYYxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gv4mM7ic; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a868d7f92feso601885766b.2;
-        Tue, 03 Sep 2024 07:54:37 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c26852aff1so1805308a12.3;
+        Tue, 03 Sep 2024 07:54:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725375276; x=1725980076; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725375277; x=1725980077; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7nTi4hFkusjt4S30oWCJic3EDfgZvusKx0tJOE2LNyM=;
-        b=Gra/Mf6igq8dnblOoZPwVPlw6GG0vAZg6hrTxuUiWXedz7xxVGM47lIcN12epTh4nB
-         81v/OVAMZw1tuzX0sn8+HTn+2aGvOXK3Yxnkp3lckppQRhcQgFuf/5zGHmtD5IDFvx3E
-         ESvtiYoW66LiK+t0R8z53RpecGpJAhO09Lz74KAZBR+Z5HuYBUIICeBSmCx6wRYlOTV2
-         xcfQa86spqN04WN0H4IpfWcTEesy8rgN6ucZlvaofqXH4PUjoEW3DXiKr2UBKOfRzLF1
-         EiRhc9c2/MFf6ZDovcA/5BxY/d5V6Sk7mrHgbIFNHYALwXZk2xszggV3VimPf62CWXOl
-         k67Q==
+        bh=9Gk6d2DdSHrdOw4Qh4rLc/5X4GJyobC1zef4qYTrCjE=;
+        b=Gv4mM7icip9mPG58wXJ/+B97HihXjvKJdCpJ+J2Tfat2gzCbobUmO8cnTzFWpi6yux
+         Zdh5MfLVLHXWxgnN+IS5FIvwc+V8F0GvBqBNvgtylqmkfAs94XLMmRAgY9UdyyVs5eCR
+         oYNFVFiZP1rfIUTta9+ZkYQhnVJ4EmOcc08U+Bt3ceMQnmVRXY0qAZmQ+KNYyw7a1OHy
+         jktNiEWGGCOzZ9IBwrXL2CDeAcZXRjuvyhXnzrOSXQ2bb2zikrgOCODD5P/ys1MhBxg9
+         jvMjwTTt3GZc4PEA2+qB1btdIGz94J2dfs0vwr6D2DNNHaa7f/llBwmUIE8SuxLTKCpV
+         dEaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725375276; x=1725980076;
+        d=1e100.net; s=20230601; t=1725375277; x=1725980077;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7nTi4hFkusjt4S30oWCJic3EDfgZvusKx0tJOE2LNyM=;
-        b=qpq1pWS15QHZyesFjZJ8lVJ/iNt76mMUoZs3Ji4waulw7DlnI4zFNwANJLKO4o5J35
-         oF5wkJpQ0xQar+n3bHz22sXsGDe9wsAvmOVqRJiWbaF/XjSZ1M5HS/wbEMgORyH2Ppxy
-         ERcC75l2TNe/+YHABk7BmU0DfuN4KoSSvC34nLqV6t9pse1WDIm4fZDGtgrB6Kt5Aj8n
-         iXkzyFCSeA3mnrbXGeKhLQm/mSST582AV8LtUPEqQlsKvUTrct7zBHVEOohjmbq9ATSw
-         Q+19HCltJnku3uUhEzo3q+SML2xYoRSfa0YKr00fnl9Wu9Z1hzkTPFWY5+g6JVbpOM8Q
-         J/dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVMEPpVe6YkRIPd9J77ItcQ+rCEn/zAnZhfFiviw2Yrn9FSz4N3OzPw+CGb0swkVrnl4p6DFV81n9xjCFA=@vger.kernel.org, AJvYcCWhsd99ilYCgr6eMiz9hUqLVS4sIyABs3LrXCVWNWI2tUjty8dSmP4xqev/g1P/K4Bt8TJRaGmcNAqr39A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2kn8R5+02saa8E+2HwGdDnlevfVuC903J47eW4K2/BMW8D/C2
-	73C33RggVYUbMGdkqk1z8I25kVlQGcmlbTXIl/Vq60KzgvSw+Nou
-X-Google-Smtp-Source: AGHT+IGScmabSCWkYPauIOqYsUzTxILK5G8FcaD2OP6WWbfjfryUIYGF59KpjLlhQhtbbSOH1nQIGQ==
-X-Received: by 2002:a17:907:72c9:b0:a7a:83f8:cfd5 with SMTP id a640c23a62f3a-a897f83506cmr1387676866b.18.1725375276273;
+        bh=9Gk6d2DdSHrdOw4Qh4rLc/5X4GJyobC1zef4qYTrCjE=;
+        b=FMCeV94J8f++tIKZqcULBw06mF+V/6W91eiUL1un+dX5vFho2ms6JE5qqU2f86teg9
+         FPP39ZY4l6A3eGEpZHVUdtrsDFuFt84Wms/zf01e7w9CKRq7a4c0Tn8W2N3mOF9Cv9MT
+         Y4DsLeLjGCYOI3+5TDENWRzHG4V3pxuYIYyrrPaKGu11uDkXxvxGSWEwW3jHwtya2B3o
+         soSWUeVzokXjcO746UzGot2ac5rVU1WsZv3tjiIspEtwPJ7azTx4ZfQOw7yJwMP4g0i8
+         /bUVhl0NyfuSe44I4BVrpXa7gnLgz7XGwY7AkqFKfEHHUTuDcNmEhKq7tWHU/tL5xKna
+         zrFg==
+X-Forwarded-Encrypted: i=1; AJvYcCWSDjD0rNGKOGWu8lzStgEVE8b1uedyQ1b33XCYDHmO0Ri0XhrWcZ4b1SmYo3FzS1GeJWUXefwCiwGcPvA=@vger.kernel.org, AJvYcCXYtRFpm00iC5BymBbFuj3qm6vuNI+uFOThABLt8GT+OB6WESaYImlLi5jbVDcuLLgGw14wO1Ja3tntmRI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEd1p76Pjfz3UALIZ9Y/1bd6g/QbR9GmAvsptIJKaNe8o4vWIS
+	YQu7n1HqBVenpE+p9hTX90bl9hnTOai2PnJqB7qQa6SUO5P9APB6TTs9K45a
+X-Google-Smtp-Source: AGHT+IHuCk+3o0It9ADHLcqZuIA81jlk495bi8Ay1WdRTzVC1jZWpXxtrVBAm8D2gTM7ADPFBnYMZg==
+X-Received: by 2002:a17:907:d24:b0:a86:700f:93c0 with SMTP id a640c23a62f3a-a89d879c339mr695316166b.35.1725375276831;
         Tue, 03 Sep 2024 07:54:36 -0700 (PDT)
 Received: from [127.0.1.1] ([2001:67c:2330:2002:af84:a410:1c4f:f793])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891d86cesm704677166b.171.2024.09.03.07.54.34
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891d86cesm704677166b.171.2024.09.03.07.54.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 07:54:35 -0700 (PDT)
+        Tue, 03 Sep 2024 07:54:36 -0700 (PDT)
 From: Benjamin Bara <bbara93@gmail.com>
-Date: Tue, 03 Sep 2024 16:54:33 +0200
-Subject: [PATCH v4 2/3] media: i2c: imx290: Avoid communication during
+Date: Tue, 03 Sep 2024 16:54:34 +0200
+Subject: [PATCH v4 3/3] media: i2c: imx290: Check for availability in
  probe()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -79,7 +79,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240903-imx290-avail-v4-2-e4a6c0837f0b@skidata.com>
+Message-Id: <20240903-imx290-avail-v4-3-e4a6c0837f0b@skidata.com>
 References: <20240903-imx290-avail-v4-0-e4a6c0837f0b@skidata.com>
 In-Reply-To: <20240903-imx290-avail-v4-0-e4a6c0837f0b@skidata.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -95,68 +95,47 @@ X-Mailer: b4 0.14.1
 
 From: Benjamin Bara <benjamin.bara@skidata.com>
 
-As we don't know the mode during probe(), it doesn't make sense to
-update the sensors' registers with assumptions. As imx290_set_ctrl(),
-which is responsible for the happening communication, already ensures that
-there is no communication with a suspended sensor, put the sensor to
-suspend before calling it.
+Currently, the V4L2 subdevice is also created when the device is not
+available/connected. From userspace perspective, there is no visible
+difference between a working and not-working subdevice (except when
+trying it out).
 
-To clarify the dependency of the PM runtime to the link of the subdev
-and the imx290 instance, put the block together.
+This commit adds a simple preparation step, which includes an
+availability check, before the subdev is initialized.
 
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
 ---
 Changes since v3:
-- just rely on the already available runtime PM check in
-  imx290_set_ctrl(), as suggested by Laurent.
-- add S-b for Laurent (thanks for the idea and the feedback).
+- thanks to the feedback of Dave, I decided to switch to a write instead
+  of a read for the availability check.
+- instead of only writing the STANDBY register, re-use stop_streaming() to
+  ensure a proper state.
 - reword commit message.
 ---
- drivers/media/i2c/imx290.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ drivers/media/i2c/imx290.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 5e4aa7237152..47cfb6a9e9b5 100644
+index 47cfb6a9e9b5..49a5bf9c17da 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -1249,11 +1249,21 @@ static int imx290_subdev_init(struct imx290 *imx290)
- 
- 	imx290->current_mode = &imx290_modes_ptr(imx290)[0];
+@@ -1589,6 +1589,16 @@ static int imx290_probe(struct i2c_client *client)
+ 	pm_runtime_set_autosuspend_delay(dev, 1000);
+ 	pm_runtime_use_autosuspend(dev);
  
 +	/*
-+	 * After linking the subdev with the imx290 instance, we are allowed to
-+	 * use the pm_runtime functions. Decrease the PM usage count. The device
-+	 * will get suspended after the autosuspend delay, turning the power
-+	 * off. However, the communication happening in imx290_ctrl_update()
-+	 * will already be prevented even before the delay.
++	 * Make sure the sensor is available, in STANDBY and not streaming
++	 * before the V4L2 subdev is initialized.
 +	 */
- 	v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
-+	imx290->sd.dev = imx290->dev;
-+	pm_runtime_mark_last_busy(imx290->dev);
-+	pm_runtime_put_autosuspend(imx290->dev);
++	ret = imx290_stop_streaming(imx290);
++	if (ret) {
++		ret = dev_err_probe(dev, ret, "Could not initialize device\n");
++		goto err_pm;
++	}
 +
- 	imx290->sd.internal_ops = &imx290_internal_ops;
- 	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
- 			    V4L2_SUBDEV_FL_HAS_EVENTS;
--	imx290->sd.dev = imx290->dev;
- 	imx290->sd.entity.ops = &imx290_subdev_entity_ops;
- 	imx290->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
-@@ -1598,13 +1608,6 @@ static int imx290_probe(struct i2c_client *client)
- 		goto err_subdev;
- 	}
- 
--	/*
--	 * Decrease the PM usage count. The device will get suspended after the
--	 * autosuspend delay, turning the power off.
--	 */
--	pm_runtime_mark_last_busy(dev);
--	pm_runtime_put_autosuspend(dev);
--
- 	return 0;
- 
- err_subdev:
+ 	/* Initialize the V4L2 subdev. */
+ 	ret = imx290_subdev_init(imx290);
+ 	if (ret)
 
 -- 
 2.46.0
