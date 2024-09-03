@@ -1,109 +1,148 @@
-Return-Path: <linux-media+bounces-17459-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17460-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF7B4969951
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 11:40:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89881969A12
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 12:24:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B5C81F22A09
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 09:40:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E7965284A2C
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 10:24:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E3121A0BE4;
-	Tue,  3 Sep 2024 09:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hh5kBEjO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64A7F1B9826;
+	Tue,  3 Sep 2024 10:24:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352471A0BCE
-	for <linux-media@vger.kernel.org>; Tue,  3 Sep 2024 09:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0609C1A0BED;
+	Tue,  3 Sep 2024 10:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725356389; cv=none; b=nu6DexPjHJzOJ6gYO8SRVkp7NsJ9w2bAKSqkJHD07l7sAlKzFByM3EzYTqGT66Gbb21T7MtJ6KP+HJB6MMcNpCMSg57OhrMR84PdTH7UzBTlD5xvv1w6kR5gur9jCexXtsD5tqkompX3o7fk20geXycXA1eayJlJvcbQp+QUNMM=
+	t=1725359079; cv=none; b=cKBoWsxnYcLd1X8274S6v1WBpXmO7XB0V+OcYuYuLenLQctH2h9Q2RFvse2EBFjwrQAjp8lbevjbEXAbESxzmpxyu4Lnv8jZkOYybWwINywqpZbGGDdZBqmvTruv+v8g/nHa5OpFKL7B84tIpHIqKFalN8ZzVqyNOUVKpV7idYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725356389; c=relaxed/simple;
-	bh=pE3Mr0PnS9xl+CUiCEH2hxI4fWM92/vwv+iNfIiq4l8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kB+v8OrTtAWoJ/ZtShjTDy4IpV4XHqT3Vn/dnffk/oy+o34mTXK2bRH2mbTeNJwFPmPF9pEirZur//DagiDPciRkZQ18yfxOD2n3PcTCpdlRIAznIBMmlA0g3qhiLKjRVNqMuEeids8+wkhUcjel2nAYOvqufbojHUvVKJrIovo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hh5kBEjO; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725356387;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cIxA/7+yR2jXA4ieeKPuD5EUL5lArHR8csGiCMl6eW4=;
-	b=Hh5kBEjOrdKZk3kRJinPc6wdUa5u6DXLTuWECSxYMTKrHHUGqSFrQ2EZzMzn9n3jPjSkDp
-	GC6ifzE63Y1thpL3mpxcPpx/fxnMhjD+tQ5mrxZr3Pk0X0fXkFZ29JbgHWf97tb3WJzpaF
-	VBc2DqBSZXXc3dJ3AutwG9VxR12KmZ0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-375-UrBlr12jMNSyStLa3aG35A-1; Tue, 03 Sep 2024 05:39:46 -0400
-X-MC-Unique: UrBlr12jMNSyStLa3aG35A-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-428040f49f9so47754125e9.0
-        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2024 02:39:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725356385; x=1725961185;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cIxA/7+yR2jXA4ieeKPuD5EUL5lArHR8csGiCMl6eW4=;
-        b=unqHdLUGfSsrenvGcrZGEPYyGFkCd4rdb0I2WW/GV2ITuvOAki3x6HE8KIpdt4LQoQ
-         HjiLf4+n6B6aggz9jL8IcLEvP+R2fMTQwsWuBIW1hJQ3n2J0ZKTfbBfMb6sVHTSFOwaS
-         Dw1JWFljsHvpSI7jW21Ve38hEngZioS2/kuh8jM8NZyQ6SoC3AZppnMQ8+UL2A48V76S
-         FAQKG/9ve0rWfBE5DOfSNlQR80zzWI1tfUReXfrhTKRDEiDyv/L/TxwVFkBs3PB79r/e
-         aq9PV1O8TFKrExuL0EgFb6LM1EBY+yf4xs5xaDBuBvimkoBnOLkPrO43Y9w4TtAJ9lIB
-         K9GA==
-X-Forwarded-Encrypted: i=1; AJvYcCWxtLAod6wdmvX+dahhQMWNxAGcU2F+j036nfZ2q9YXhunTZmMWImDgLtjGEzF0cT+1dprQw9clHtRkog==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoKMWOABTxWNwnkEQ+kD/aG8g1qezT1Hxl4s9RK+21/YXfv7VO
-	lN3kpb/18hTsSCYllI10F/8ZqQ439YZIWpDL3PLxQME6Aolq/Cvas7wvS4CnwyfoUHZj8SeSrcZ
-	5laFbLl+4G5uV9wpL2y5dlqF4osaa/o+JOXf9VqW/Lo69E1RB2zxxePnV0uF5
-X-Received: by 2002:a05:600c:1f90:b0:429:dc88:7e65 with SMTP id 5b1f17b1804b1-42bb02ecb7emr124596355e9.12.1725356385058;
-        Tue, 03 Sep 2024 02:39:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEx9ZT+cp/JOzMdJ0eMMwlRMn2QkU5Mi38V0c6sZIqJTMhc/MD50iSbcQF046e0ymvaKlJlng==
-X-Received: by 2002:a05:600c:1f90:b0:429:dc88:7e65 with SMTP id 5b1f17b1804b1-42bb02ecb7emr124595995e9.12.1725356384137;
-        Tue, 03 Sep 2024 02:39:44 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc7:441:95c6:9977:c577:f3d1:99e1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6df0f41sm164222235e9.19.2024.09.03.02.39.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 02:39:43 -0700 (PDT)
-Date: Tue, 3 Sep 2024 05:39:39 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: iommu@lists.linux.dev, Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>, Jason Wang <jasowang@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-media@vger.kernel.org, virtualization@lists.linux.dev,
-	xen-devel@lists.xenproject.org
-Subject: Re: clearly mark DMA_OPS support as an architecture feature v2
-Message-ID: <20240903053917-mutt-send-email-mst@kernel.org>
-References: <20240828061104.1925127-1-hch@lst.de>
- <20240903072744.GA2082@lst.de>
+	s=arc-20240116; t=1725359079; c=relaxed/simple;
+	bh=mjEf3vrfbq4FVxh6M1IOE6za9TDhwAjpgP+R5FYZtNo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=As1PJ0RjBxQN9WJ/eS/EjmmYTmXaTrE73nyBoNyiKsnddNMngQcxo/yb8tw6b6yF23KYOIhn/02f2w3g7oZydWV6GX2TZSvv87/vSHgeknWiHh2xc1oL9zLSgOWDs1dj1J72mVEwdDzw8nyzRMOGKMUNOgfApDWnvKwRq1s+omo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28968C4CEC4;
+	Tue,  3 Sep 2024 10:24:36 +0000 (UTC)
+Message-ID: <b64278cb-4f81-466a-a2ed-6ac3081829eb@xs4all.nl>
+Date: Tue, 3 Sep 2024 12:24:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240903072744.GA2082@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [media?] WARNING in __v4l2_ctrl_modify_dimensions
+To: Edward Adam Davis <eadavis@qq.com>,
+ syzbot+a828133770f62293563e@syzkaller.appspotmail.com
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+References: <000000000000013050062127830a@google.com>
+ <tencent_A536BA4B40741D769567D23CF5373096CA09@qq.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <tencent_A536BA4B40741D769567D23CF5373096CA09@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 03, 2024 at 09:27:44AM +0200, Christoph Hellwig wrote:
-> I've pulled this into the dma-mapping for-next tree, although I'd
-> love to see one of the vdpa maintainers look over patch 1.  I'm
-> pretty sure it's correct, but a confirmation would be good.
+Hi Edward,
 
-Missed patch 1, I was wondering why I'm CC'd. Looks good, thanks.
+On 03/09/2024 04:57, Edward Adam Davis wrote:
+> The warning appears because the size passed to kvzalloc is larger than INT_MAX.
+> 
+> Add parameter size check before calling kvzalloc in __v4l2_ctrl_modify_dimensions.
+
+I missed the original syzbot post, it ended up in my Spam folder :-(
+
+In any case, this patch doesn't address the real problem, which is that vivid
+was missing a check to prevent bad width and height values to be rejected. And
+those checks really should take place in core functionality.
+
+I've made a patch for that (you're CC-ed).
+
+Regards,
+
+	Hans
+
+> 
+> #syz test
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> index e5a364efd5e6..0b008cc94901 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> @@ -986,6 +986,7 @@ int __v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
+>  	unsigned int elems = 1;
+>  	unsigned int i;
+>  	void *p_array;
+> +	unsigned int bytes;
+>  
+>  	lockdep_assert_held(ctrl->handler->lock);
+>  
+> @@ -996,7 +997,12 @@ int __v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
+>  		elems *= dims[i];
+>  	if (elems == 0)
+>  		return -EINVAL;
+> -	p_array = kvzalloc(2 * elems * ctrl->elem_size, GFP_KERNEL);
+> +
+> +	bytes = 2 * elems * ctrl->elem_size;
+> +	if (unlikely(bytes > INT_MAX))
+> +		return -EINVAL;
+> +
+> +	p_array = kvzalloc(bytes, GFP_KERNEL);
+>  	if (!p_array)
+>  		return -ENOMEM;
+>  	kvfree(ctrl->p_array);
+> 
+> 
 
 
