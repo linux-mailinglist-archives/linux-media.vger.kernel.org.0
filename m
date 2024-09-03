@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-17473-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17474-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB2FE969FED
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 16:11:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D5D96A001
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 16:12:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AEEB286045
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 14:11:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D39BA1F26587
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 14:12:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E46215B11E;
-	Tue,  3 Sep 2024 14:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C12413D518;
+	Tue,  3 Sep 2024 14:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LmjXHHpm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SXxmyu3J"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEDC155742;
-	Tue,  3 Sep 2024 14:08:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED8A53804;
+	Tue,  3 Sep 2024 14:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725372501; cv=none; b=gQJ3WYCy6IW+GkvjOfrUl26XNzTNEqpjkpYzZwjQFM2EUx1SITZVd90CQayjGC3+WqF1+Uf6rHV8IwHlmmhyZbgIOZPNOh33oJkah6//GMRIwAkqDTmDRrsLPQ1iQ/2Ip76AC19m9z3pT/7PkAePcIGtHFtJsfHHsBcWJxVL8cI=
+	t=1725372627; cv=none; b=NYbwBtb1WN86qDK2mDVZK/8VaJDnOGtuXaCXyccNdWgZq/xilCS48DPcAiVyG29V3SKrJbYTpj/4UNN2ZimuGQhSd3Dx4+aXs9CqXxbCjtjgZCHXsciuWlEpeHQa6KynjF4o5muj+Axw3sLzkMThez8QWCyKvNUmcPjTZ+bgRkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725372501; c=relaxed/simple;
-	bh=UdtZWJ4RIO2tdvu9AL/7CUDjef2yaMjctsADnaCe6Cw=;
+	s=arc-20240116; t=1725372627; c=relaxed/simple;
+	bh=GQbfKlZgztpPAiBhg6WW5W5KovCamTBynA3/mwhBXPU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lZO2Qvy1uEdSYOMonqH0wgYKkicx/x6hrJANaFBnveQC6s3k7Uqtud0Mafw8N77ceFtAOLb+82lspY60qzkoQBmDu8O2ZiFR1FsoSXZI8nTS3Zj6AvPgS4iFZ5ueK0A3QjJLx3GSD3qj0pVcaYxv4A8OY/bKgaMQcWULeIjnbn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LmjXHHpm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD538C4CEC4;
-	Tue,  3 Sep 2024 14:08:17 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Wa2z2gR1MnrctLic/x67oRAXDaQyviJuOPXMEa0ncl4Ml72Ri46A6Fy+M5T1ufYb9Ps2mztjJTFALRPMzPGwxOmAXTTKNegNz8pafpZIZ/IbRiQDJFj+mzlwM+sW6x9Ml792n+earpiOKdkQFmnGTRk7b+akMUm34Y8ATum4krA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SXxmyu3J; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA699C4CEC4;
+	Tue,  3 Sep 2024 14:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725372500;
-	bh=UdtZWJ4RIO2tdvu9AL/7CUDjef2yaMjctsADnaCe6Cw=;
+	s=k20201202; t=1725372626;
+	bh=GQbfKlZgztpPAiBhg6WW5W5KovCamTBynA3/mwhBXPU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LmjXHHpm7pzqdeuGXjDq7CiIrMrTCSPurJpBTGiVuDLxIFqZEN46FOpSyabN9nlRI
-	 98lfoQpPKr8EmlcANFliMv3yEHCnllfNXSazyGvoNcserac0mtvPgAsQWQPbyZoi/S
-	 8tVpvS5mKYZvnpwlQk50KjeZ522SYWgaKbjBDg/O6gHktYMTvmjdsrPe83aKppGUJW
-	 yBrfWclyJrTQXQjms8ZdlQFWPNHNOF6ZjCSvZXQ0nplL5TMVVgm7LVK8tVgGTZ1gDq
-	 xaWjuqt+oMweoD5ggsAI4hzHKADlZiU4Qy5+WN2kMvcQs8W6/BQxXyOzZvrhFOpC2Z
-	 HZhBPDIxrD+NA==
-Message-ID: <d3672523-11fe-42de-ad7b-643b396b8778@kernel.org>
-Date: Tue, 3 Sep 2024 16:08:15 +0200
+	b=SXxmyu3Jr8GGW2E8sTE5Qf1JGhVm4WVWOo/VOJLKLYt19FqNLJ8RXIy+dmiLrGyRS
+	 ykaplILkOq/vCyrkl8shBvSftTZJCQSbjbBTCYRvBUaawh95U6seyIl3vgG/2kkOks
+	 EbNY/A+ViZJ5M4XhAbSf81LIF3JmqcuQyPQh2zJN+qYzN8dYky9bATzyFAkLfm1cfI
+	 oXraByW81aVH449VSjkTH9wlk4gMeVuhyyvRhBVj/7CsqkrLfjB2QYohmPWXzXF2Dj
+	 DMPanH3QJy2vEnsBMKqKF16EnkBc/vnFlW2mNonSHlx62NeCAuhhxLqV5SQNu7XCg2
+	 ind7g2/tZNxzg==
+Message-ID: <1f226ba2-2324-4c0c-91df-54f42938d9fb@kernel.org>
+Date: Tue, 3 Sep 2024 16:10:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9] dt-bindings: media: Add amlogic,c3-mipi-csi2.yaml
+Subject: Re: [PATCH 2/9] media: platform: Add c3 mipi csi2 driver
 To: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>
@@ -58,7 +58,7 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com,
  laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com
 References: <20240903-c3isp-v1-0-8af0edcc13c8@amlogic.com>
- <20240903-c3isp-v1-1-8af0edcc13c8@amlogic.com>
+ <20240903-c3isp-v1-2-8af0edcc13c8@amlogic.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,162 +104,48 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240903-c3isp-v1-1-8af0edcc13c8@amlogic.com>
+In-Reply-To: <20240903-c3isp-v1-2-8af0edcc13c8@amlogic.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 03/09/2024 08:57, Keke Li via B4 Relay wrote:
 > From: Keke Li <keke.li@amlogic.com>
 > 
-> c3-mipi-csi2 is used to receive mipi data
-> from image sensor.
-
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-
+> This driver is used to receive mipi data from image sensor.
 > 
 > Signed-off-by: Keke Li <keke.li@amlogic.com>
-> ---
->  .../bindings/media/amlogic,c3-mipi-csi2.yaml       | 130 +++++++++++++++++++++
->  1 file changed, 130 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,c3-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..85d3088d6f9f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-csi2.yaml
-> @@ -0,0 +1,130 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/amlogic,c3-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Amlogic C3 MIPI CSI-2 receiver
-> +
-> +maintainers:
-> +  - Keke Li <keke.li@amlogic.com>
-> +
-> +description: |-
-
-Do not need '|-' unless you need to preserve formatting.
 
 
-> +  MIPI CSI-2 receiver contains CSI-2 RX PHY and host controller.
-> +  It receives the MIPI data from the image sensor and sends MIPI data
-> +  to MIPI adapter.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - amlogic,c3-mipi-csi2
-> +
-> +  reg:
-> +    minItems: 3
+...
 
-Drop minItems
+> +static int c3_mipi_csi_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct csi_device *csi;
+> +	int ret;
+> +
+> +	csi = devm_kzalloc(dev, sizeof(*csi), GFP_KERNEL);
+> +	if (!csi)
+> +		return -ENOMEM;
+> +
+> +	csi->info = of_device_get_match_data(dev);
+> +	csi->dev = dev;
+> +
+> +	ret = c3_mipi_csi_ioremap_resource(csi);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to ioremap resource: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = c3_mipi_csi_configure_clocks(csi);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to configure clocks: %d\n", ret);
+> +		return ret;
 
-> +    maxItems: 3
-> +
-> +  reg-names:
-> +    items:
-> +      - const: csi_aphy
-> +      - const: csi_dphy
-> +      - const: csi_host
-
-Drop csi_ everywhere
-
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 2
-
-Your code is random... Look how this is different than other list - reg.
-Instead maxItems.
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: vapb
-> +      - const: csi_phy0
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: input port node, connected to sensor.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: output port node
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - power-domains
-> +  - clocks
-> +  - clock-names
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/amlogic,c3-peripherals-clkc.h>
-> +    #include <dt-bindings/power/amlogic,c3-pwrc.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        csi: csi@ff018000 {
-> +            compatible = "amlogic,c3-mipi-csi2";
-> +
-
-Drop blank line
-
-> +            reg = <0x0 0xff018000 0x0 0x400>,
-> +                  <0x0 0xff019000 0x0 0x300>,
-> +                  <0x0 0xff01a000 0x0 0x100>;
-> +
-
-Drop blank line
-
-
-> +            reg-names = "csi_aphy", "csi_dphy", "csi_host";
-> +
-> +            power-domains = <&pwrc PWRC_C3_MIPI_ISP_WRAP_ID>;
-> +
-> +            clocks =  <&clkc_periphs CLKID_VAPB>,
-> +                      <&clkc_periphs CLKID_CSI_PHY0>;
-> +
-
-Drop blank line. That's poorly readable code.
-
+Syntax is return dev_err_probe. This was repeated multiple times, so
+please organize some inside-Amlogic sessions so you will learn from
+somebody's mistakes/reviews. That's way other developers do not repeat
+the same issue.
 
 
 Best regards,
