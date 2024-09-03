@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-17475-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17476-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713A196A007
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 16:13:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7289496A00B
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 16:13:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E810F1F26AD8
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 14:13:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30F0E285CC2
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 14:13:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70940143748;
-	Tue,  3 Sep 2024 14:11:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A68E156F45;
+	Tue,  3 Sep 2024 14:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BrDFU2QF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hcDXrrvF"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FBD1CA6BF;
-	Tue,  3 Sep 2024 14:11:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30921CA6BF;
+	Tue,  3 Sep 2024 14:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725372668; cv=none; b=QuomLxgOuG15vrHzmGaU3YG1EyfLy1h7bhLRuN8dJFrvxOpg5YJ8BWeScsJSEQpk038j1EYvM5CoFKIklR11M4jSKRs7O3Pem23eQZfkzU36HXZmLpU+SabjEBcyjc9G91ANrh1XcXR4g0/owTJrlCuLChY+eJbmquJFATummH4=
+	t=1725372686; cv=none; b=Ont/AhtaDylJMoAP09uC9UZO4tAdOQIu/WHIw8K2JG9ZGF+BsCbhMSNJQqUFZp06+6PyNZNAVKr0bekefEex4jRg8kz3lk69WCbfxEgLF4qmjDdc+OaJULNCC74XbsaAnJVDLslgofdX2qnwptNh/IwCwBEo/r3kVlbSLVOOGbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725372668; c=relaxed/simple;
-	bh=32bGaR00puGC3AGBibGm83e/rth+qtXf5/UhP7xf9Vs=;
+	s=arc-20240116; t=1725372686; c=relaxed/simple;
+	bh=l7eIM/ybifJGVuA4RyLTfhcL+rvhoscqUpXH8iDczqE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XD5vsrnL8V70kl+L5B4z1AT2TuDMz+yevIeLWbOtAGuxzEuyNtocoCBxG/zexqJEVyX2BMStXAThP2LzLSl8OvFoNC96dYBeiFrckvZknrqJ9nqr6TsVNb9sAuZPVeDiTXNrDOaTk7yEZwy6WGid2bc5YRQbZ5AU4/ivOo6P/7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BrDFU2QF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCABAC4CEC4;
-	Tue,  3 Sep 2024 14:11:05 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=mhp6kNy7OZk82/clQ73W4DYJodFe00ibyKpDocXKs/c5K3/5fl6mNpBhX2BkHpEIG2QkdtU+AIEbBjHt3sVMftyndFsDZ8MSOv0fSNA8tCZKCvuYOAMFLGhM8vZw1e5+D3NWcUCEDNQWiy0u01g2Uqztfl73/LIO39kEB38ASII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hcDXrrvF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDAADC4CEC4;
+	Tue,  3 Sep 2024 14:11:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725372668;
-	bh=32bGaR00puGC3AGBibGm83e/rth+qtXf5/UhP7xf9Vs=;
+	s=k20201202; t=1725372686;
+	bh=l7eIM/ybifJGVuA4RyLTfhcL+rvhoscqUpXH8iDczqE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BrDFU2QFNaofTyf5PUAn/JkmEt0cu/Fz2fi5eA+LDSysSTd0wb3X5/F4dye+viMwx
-	 dwEHNdM7bLNvrOqZQOJVQenDQJtRuav/NKP7pl/EQhD6K8S6kKeCBL4WM/zz7dTKil
-	 vWJknNNM5LZp0//0Di/0AGtNWLeK7mGEfkbRG1e6Y1t4geiH4YVZdy/AXJ4KT/uwZi
-	 BhwJC27cuiF1mNNqlgq0/7C+Ni3zyD96hGSXhBf/PgJSROz4EYm4tt6hSarEHCYuWY
-	 Z2n7ux/JZpb6uspnKGF5/xlgli/Wvto2HDa5RTdLtM44LImkexuRlOqihNIxuL6Dih
-	 p+pvkkSjI+ytg==
-Message-ID: <84c4b625-0466-42eb-be11-18b48228cf50@kernel.org>
-Date: Tue, 3 Sep 2024 16:11:04 +0200
+	b=hcDXrrvFB64WG25rCDeORqqa6E/FqXx2wGlybtuAEiG4ZbKHKoiOq1oQMxgea2m+p
+	 dOunKEfYIUeAjiOjr+kwiaFtuFxfGap+vksVh8rh2zIN4AlALsfCWL3GeTKnw8IYog
+	 xlEWkX9zwqXkRbTQfGlgxQ6/jAIZ6FphAzKXNy5gUWjlf7M09nsiEFZ1ZsJ93fm+wv
+	 ASap3rQwMbB19U+LBAk7jIqszXCDvQtzXR6M0xxAsCFxHb+mi3D3UBII/rDyOOayRE
+	 RSl8ZXMiCOCatA+AvPpY7pHU3GNu7hauRHKS7PbT8SWBROfETChE7/8N45NLESPEe9
+	 slv/43cxj555w==
+Message-ID: <5f6a437f-7341-4a1c-8f6c-4a1c5f7619ad@kernel.org>
+Date: Tue, 3 Sep 2024 16:11:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] dt-bindings: media: Add amlogic,c3-mipi-adapter.yaml
+Subject: Re: [PATCH 5/9] dt-bindings: media: Add amlogic,c3-isp.yaml
 To: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>
@@ -58,7 +58,7 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com,
  laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com
 References: <20240903-c3isp-v1-0-8af0edcc13c8@amlogic.com>
- <20240903-c3isp-v1-3-8af0edcc13c8@amlogic.com>
+ <20240903-c3isp-v1-5-8af0edcc13c8@amlogic.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,123 +104,19 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240903-c3isp-v1-3-8af0edcc13c8@amlogic.com>
+In-Reply-To: <20240903-c3isp-v1-5-8af0edcc13c8@amlogic.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 03/09/2024 08:57, Keke Li via B4 Relay wrote:
 > From: Keke Li <keke.li@amlogic.com>
 > 
-> c3-mipi-adapter is used to organize mipi data and
-> send raw data to ISP module.
+> c3-isp is used to process raw image.
 > 
 > Signed-off-by: Keke Li <keke.li@amlogic.com>
 > ---
->  .../bindings/media/amlogic,c3-mipi-adapter.yaml    | 114 +++++++++++++++++++++
->  1 file changed, 114 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml
-> new file mode 100644
-> index 000000000000..e1873fe829c7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml
-> @@ -0,0 +1,114 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/amlogic,c3-mipi-adapter.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Amlogic C3 MIPI adapter receiver
-> +
-> +maintainers:
-> +  - Keke Li <keke.li@amlogic.com>
-> +
-> +description: |-
 
-Same comment.
-
-> +  MIPI adapter is used to convert the MIPI CSI-2 data
-> +  into an ISP supported data format.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - amlogic,c3-mipi-adapter
-> +
-> +  reg:
-> +    minItems: 3
-
-Same comment.
-
-> +    maxItems: 3
-> +
-> +  reg-names:
-> +    items:
-> +      - const: adap_top
-> +      - const: adap_fd
-> +      - const: adap_rd
-
-Same comment.
-
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 2
-
-Same comment.
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: vapb
-> +      - const: adap
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: input port node.
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: output port node.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - power-domains
-> +  - clocks
-> +  - clock-names
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/amlogic,c3-peripherals-clkc.h>
-> +    #include <dt-bindings/power/amlogic,c3-pwrc.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        adap: adap@ff010000 {
-> +            compatible = "amlogic,c3-mipi-adapter";
-> +
-
-Same comments.
-
-
+All previous comments apply.
 
 Best regards,
 Krzysztof
