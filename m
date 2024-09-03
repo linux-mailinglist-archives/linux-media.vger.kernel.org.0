@@ -1,150 +1,260 @@
-Return-Path: <linux-media+bounces-17477-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17478-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A91396A00F
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 16:13:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4DB96A01D
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 16:15:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCE822840B5
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 14:13:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6433B1F27E0E
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 14:15:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7E21181B88;
-	Tue,  3 Sep 2024 14:12:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 340C013C809;
+	Tue,  3 Sep 2024 14:13:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RXIgQv5g"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="kkiqh3XM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB3D3C466;
-	Tue,  3 Sep 2024 14:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181BF4CB2B
+	for <linux-media@vger.kernel.org>; Tue,  3 Sep 2024 14:13:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725372733; cv=none; b=tmeCPoq48tHTo0sxCUQB32bZhw7KHZvct2wU4Lr4/m1wvuVko4EcSm9q0VzbWXA2c9TQ3eHRNvNQ3+Z2nVxtHIq1YTteiNp7pF6D20Uo3CSumzuZPhFMABbG8nIGusRxG1b61a4Bmi0QQ8DKEmqwQXZm2W+hT3DQ8DWDytIcwdg=
+	t=1725372820; cv=none; b=D+gSz7UHGNZSFcaK5mZKD3+qjU9XHMpI4LhxwgRT5Lb0R9B3ty06xUnUcY+zEQantDKjYU+0+r4TLvBOW7c5i3nff/uZwMcEipZg//4+xhHGOKPQAx7uV3tQSJty90/vhEumOAagoHYjKiu7x/+FKKfBxXeCYhnBs9ZtJt4HeVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725372733; c=relaxed/simple;
-	bh=jlITJBJEpjKuhJv6Ul8cFYG6oTOxTpBh254LuNpdGk0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yox21Se1h1nHh8DZ7V54Hr/yd6ycABfysaiq3gI3tnzHQt+GIvmtdHnk7LaPSDYJNRP9Ek/194+io+53rEgrScNyO+1VESgBjhA0lYPJtG65h+1Gbmz8qkl8IgsYtKUF3b6XtsYC16D1sLoXYB82bYDqRmxumSNzE15ENzBvUI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RXIgQv5g; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37538C4CEC4;
-	Tue,  3 Sep 2024 14:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725372732;
-	bh=jlITJBJEpjKuhJv6Ul8cFYG6oTOxTpBh254LuNpdGk0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RXIgQv5gmDsCv+bO0I7syPXQI7Ypqp0KmEN+IMYNsB61w/TNlo7zBZXbO+6DYb8wB
-	 tJLSpK1MqsKkNPjhhB1bkjxEZAjcLv8fvepgxbqKXAWAT1JrSflbmRxjmNeHL/ZOQL
-	 cmwapzBwT/3ZthDLgS0FDwUzHWkqostET3ZvQg6sHIQeI3/lqEYlIUbaPi8e8w/er9
-	 q2cI4AN3sm6lkyd/OrYBQm5xcr6/KENq3kfMY0TX1MQTXbEYBuz2GRbh7NWEDCGHz4
-	 3d5cc5JTEbETm0MpWZrezbEr82mbThxOqcOYb4n7wsRS2N7cpuAqN/93F7LurkYOKH
-	 vEWeMoWJRpsLw==
-Message-ID: <8f0fd464-b20d-4f44-9c1a-66f8ccab63d4@kernel.org>
-Date: Tue, 3 Sep 2024 16:12:08 +0200
+	s=arc-20240116; t=1725372820; c=relaxed/simple;
+	bh=sPpHRr+MQLtm2Lboh1G6Dsx9tD1YkMHI84X65rPY/U0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OKXYb15U1LFMRr/FsfD4aZClheNvhf/nSUqZ7SUphMu/C9b3V9jN7CqTHdzl0YNUgvwa+VGbwoi1AlzoxbhBK57uJ7SPTyrGOJq55wU5IfAOLo/3GPzK0tmBmkRws4yTX+C1+YJU6DXItIwuUUN7/YhkqKePd6LBMyc+d3gik58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=kkiqh3XM; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e03caab48a2so4134993276.1
+        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2024 07:13:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1725372817; x=1725977617; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PDQY8XH9MN+Nzb3qiOmjoo7+Bk7qNxUQTWX7Kdpt7tE=;
+        b=kkiqh3XMzG2D+5ForXHL07VXvBQG6ltsAVsXHa5a9blUO0HPA++rdAm5WjRrKYLKxq
+         frvSdoGAAUomRxnMOKeUnR5r/1L/E5d4AETgukp5scByr6T9daYXLaNrW2RxWOeyhbsX
+         Zcb2Zh2R3/tpdPf32TTVGZBWi8JV3Gj9AmLA37SwKdvOWBBG3T/TMH4AxrmKj5G0KzcW
+         mF0OViY9ANP7fIgA7mMYvStdkIxDXIqsHyi+Z65wavH7zGzQj/L0ucUUJUDni59VJzNV
+         ha0yrO7uQX3PeZ/7uV0RgZwXtW31/VHzs6gbuYYsk+Vb1erpzr6wcBhdsBFRX2WFbTz+
+         Hxmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725372817; x=1725977617;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PDQY8XH9MN+Nzb3qiOmjoo7+Bk7qNxUQTWX7Kdpt7tE=;
+        b=Zj17JkYxr4sMZskOzAON93TBcQ5u42fpW4OUbNHZglcrx7zgjqoMStzFn6O4PFhJ9/
+         3RJXKDhBdSPrvMoLc+riBEth8vlOrY4ILFu+SXFopjlQllxo3IsgzD6v54LSP5nIbe6N
+         B2lson3bP6aRUfipOyfpBwYOu5fXV10kUze4Z76b1DAB2l4y6WEumIJxJAWBftwRZ359
+         nLEQYkjFH6xZN5idLMmi11OEdHPBXzZ3P10kba7Rf077Xyva3UaCpVu3oXcwSxOrO1zF
+         kXSELjIlhElRg+zxqeLPWpI/roJJ4dNnVKyqmmLj7qTm6LPkfG9fDFUeAij5YXKeFUwE
+         u+JQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVeWTpHJObFmmrJ+QTbckVGxoyyIspWd9t7OMEaO5AKDewCjQ3+qjGnKvBIDAlbF2/t6+1n0lRWMQ2Xyw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwASqOK/mbclmh2fiu2MRHCwQgJXOsSqjC/xejETmR2GQFjfr9/
+	7O4unx1UhlvcjAEpZHyw1cRFkLy/VWTucUdTknKEq+Iw1S/TcWPbHNAQQaw1C/k9MONXYnzY3io
+	NxTUgH382WoQ47yLA3Noe4u+DOFHsTrmufiopqA==
+X-Google-Smtp-Source: AGHT+IEN4iFEJvvqM9POvKE1Xbxg1aJuDADnDtFVa3bwjgX7EjE7l2Xbum94PfzolONPJBxCrlUkgWCGX+Ire6m9SXQ=
+X-Received: by 2002:a05:6902:d47:b0:e1a:90ef:3b6d with SMTP id
+ 3f1490d57ef6-e1a90ef3bf3mr7192204276.7.1725372816859; Tue, 03 Sep 2024
+ 07:13:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/9] media: platform: Add c3 mipi adapter driver
-To: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com,
- laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com
-References: <20240903-c3isp-v1-0-8af0edcc13c8@amlogic.com>
- <20240903-c3isp-v1-4-8af0edcc13c8@amlogic.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240903-c3isp-v1-4-8af0edcc13c8@amlogic.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240902-imx290-avail-v3-0-b32a12799fed@skidata.com>
+ <20240902-imx290-avail-v3-4-b32a12799fed@skidata.com> <20240902195821.GQ1995@pendragon.ideasonboard.com>
+ <CAJpcXm6r_LAD+NC7u5aNvkEHq3Vb3osCea8MAn8nQ45dCtoxSg@mail.gmail.com> <20240903130053.GA25878@pendragon.ideasonboard.com>
+In-Reply-To: <20240903130053.GA25878@pendragon.ideasonboard.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 3 Sep 2024 15:13:20 +0100
+Message-ID: <CAPY8ntD7M5k+v-oPOMhyJV=_OcHwVjq_32m18_MrHO4zsYQOzg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/7] media: i2c: imx290: Introduce initial "off" mode &
+ link freq
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Benjamin Bara <bbara93@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Benjamin Bara <benjamin.bara@skidata.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 03/09/2024 08:57, Keke Li via B4 Relay wrote:
-> From: Keke Li <keke.li@amlogic.com>
-> 
-> This driver mainly responsible for organizing
-> MIPI data and sending raw data to ISP pipeline.
-> 
-> Signed-off-by: Keke Li <keke.li@amlogic.com>
+On Tue, 3 Sept 2024 at 14:01, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Mon, Sep 02, 2024 at 10:55:04PM +0200, Benjamin Bara wrote:
+> > On Mon, 2 Sept 2024 at 21:58, Laurent Pinchart wrote:
+> > > On Mon, Sep 02, 2024 at 05:57:29PM +0200, bbara93@gmail.com wrote:
+> > > > From: Benjamin Bara <benjamin.bara@skidata.com>
+> > > >
+> > > > To be compliant to the V4L2 API, the driver currently "randomly" decides
+> > > > on one of the two supported modes which also implies a link frequency.
+> > > >
+> > > > Add a new mode and frequency which symbolize that the sensor is not in
+> > > > use. This can be used as a default value during probe() and enables us
+> > > > to avoid communication with the sensor.
+> > >
+> > > I really doin't like this change. I would like to instead move away from
+> > > modes and make the driver freely configurable.
+> >
+> > Which controls do you want to have freely configurable? At least on the
+> > imx290 the exposure limits depend on the blanking, and the blanking
+> > limits depend on the format. As the format is defined by the mode on
+> > imx290, I think this will be quite hard with the current controls.
+>
+> I want to make the format freely configurable.
 
-...
+Isn't this partly limited by the discussion led by Jacopo in Dublin
+back in 2022 [1]?
 
-> +static int c3_mipi_adap_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct adap_device *adap;
-> +	int ret;
-> +
-> +	adap = devm_kzalloc(dev, sizeof(*adap), GFP_KERNEL);
-> +	if (!adap)
-> +		return -ENOMEM;
-> +
-> +	adap->info = of_device_get_match_data(dev);
-> +	adap->dev = dev;
-> +
-> +	ret = c3_mipi_adap_ioremap_resource(adap);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to ioremap resource: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = c3_mipi_adap_configure_clocks(adap);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to configure clocks: %d\n", ret);
+How do we shift from the current list of 2 modes, to a single defined
+mode that the selection API can then crop?
+Changing the list of enumerated modes is likely to break existing
+users of this driver, and AIUI it isn't currently permitted for
+selecting a new enumerated mode to update the selection rectangles.
 
-All your patches repeat the same patterns, so all my comments apply to
-each patch.
+It also needs someone to sit down and fully digest the window cropping
+mode section of the datasheet, and hope that the sensor actually
+behaves as documented. I know I don't have the time to do that at
+present.
 
-Best regards,
-Krzysztof
+[1] https://www.spinics.net/lists/linux-media/msg218231.html
 
+> > > Furthermore, the concept of an initial unconfigured state isn't valid
+> > > in V4L2. The driver must fully initialize the whole device state at
+> > > probe time.
+> >
+> > I understand that and it makes sense to me. But given the dependencies
+> > from above and the fact that the format is currently part of this
+> > "state", it makes the "freely configurable" intention even harder :-(
+>
+> Why can't we simply initialize the controls with limits that correspond
+> to the default format ? I don't understand what issue this is trying to
+> solve.
+
+If I'm following the full discussion correctly now, it's trying to
+avoid those couple of register writes during probe due to updating
+VBLANK and HBLANK control ranges. Adding all this "dummy mode" code
+seems overkill to achieve that.
+
+I see 3 simpler approaches:
+- Move the pm_runtime calls so that the range updates are when the
+sensor is powered down. Ack on that needing very careful handling of
+what is initialised when.
+- Move the lines
+    state = v4l2_subdev_lock_and_get_active_state(&imx290->sd);
+    imx290_ctrl_update(imx290, imx290->current_mode);
+    v4l2_subdev_unlock_state(state);
+out of imx290_subdev_init to the end of imx290_probe, after the pm_runtime_put
+- Add a flag to the state (in addition to the pm_runtime handling) to
+denote that we're between stream_on and stream_off, and therefore
+imx290_set_ctrl should update registers.
+
+A quick test of the 2nd option (with patches 1, 3, and 6) appears to
+achieve that aim - I only see the one read from patch 6.
+IMHO trying to address the case where runtime PM is disabled is fairly
+redundant, but others may disagree. Option 3 would achieve that with
+minimal extra overhead though.
+
+  Dave
+
+> > > > Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+> > > > ---
+> > > > Changes since v2:
+> > > > - new
+> > > > ---
+> > > >  drivers/media/i2c/imx290.c | 29 +++++++++++++++++++++++------
+> > > >  1 file changed, 23 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > > > index 6812e7cb9e23..ece4d66001f5 100644
+> > > > --- a/drivers/media/i2c/imx290.c
+> > > > +++ b/drivers/media/i2c/imx290.c
+> > > > @@ -425,14 +425,17 @@ static const struct imx290_csi_cfg imx290_csi_297mhz = {
+> > > >  /* supported link frequencies */
+> > > >  #define FREQ_INDEX_1080P     0
+> > > >  #define FREQ_INDEX_720P              1
+> > > > +#define FREQ_INDEX_OFF               2
+> > > >  static const s64 imx290_link_freq_2lanes[] = {
+> > > >       [FREQ_INDEX_1080P] = 445500000,
+> > > >       [FREQ_INDEX_720P] = 297000000,
+> > > > +     [FREQ_INDEX_OFF] = 0,
+> > > >  };
+> > > >
+> > > >  static const s64 imx290_link_freq_4lanes[] = {
+> > > >       [FREQ_INDEX_1080P] = 222750000,
+> > > >       [FREQ_INDEX_720P] = 148500000,
+> > > > +     [FREQ_INDEX_OFF] = 0,
+> > > >  };
+> > > >
+> > > >  /*
+> > > > @@ -552,6 +555,10 @@ static const struct imx290_mode imx290_modes_4lanes[] = {
+> > > >       },
+> > > >  };
+> > > >
+> > > > +static const struct imx290_mode imx290_mode_off = {
+> > > > +     .link_freq_index = FREQ_INDEX_OFF,
+> > > > +};
+> > > > +
+> > > >  static inline const struct imx290_mode *imx290_modes_ptr(const struct imx290 *imx290)
+> > > >  {
+> > > >       if (imx290->nlanes == 2)
+> > > > @@ -876,10 +883,19 @@ static unsigned int imx290_get_blank_min(const struct imx290 *imx290, bool v)
+> > > >  static void imx290_ctrl_update(struct imx290 *imx290,
+> > > >                              const struct imx290_mode *mode)
+> > > >  {
+> > > > -     unsigned int hblank_min = mode->hmax_min - mode->width;
+> > > > -     unsigned int hblank_max = IMX290_HMAX_MAX - mode->width;
+> > > > -     unsigned int vblank_min = mode->vmax_min - mode->height;
+> > > > -     unsigned int vblank_max = IMX290_VMAX_MAX - mode->height;
+> > > > +     unsigned int hblank_min, hblank_max, vblank_min, vblank_max;
+> > > > +
+> > > > +     if (mode == &imx290_mode_off) {
+> > > > +             hblank_min = imx290_get_blank_min(imx290, false);
+> > > > +             hblank_max = HBLANK_MAX;
+> > > > +             vblank_min = imx290_get_blank_min(imx290, true);
+> > > > +             vblank_max = VBLANK_MAX;
+> > > > +     } else {
+> > > > +             hblank_min = mode->hmax_min - mode->width;
+> > > > +             hblank_max = IMX290_HMAX_MAX - mode->width;
+> > > > +             vblank_min = mode->vmax_min - mode->height;
+> > > > +             vblank_max = IMX290_VMAX_MAX - mode->height;
+> > > > +     }
+> > > >
+> > > >       __v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
+> > > >
+> > > > @@ -932,7 +948,8 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> > > >       imx290->link_freq =
+> > > >               v4l2_ctrl_new_int_menu(&imx290->ctrls, &imx290_ctrl_ops,
+> > > >                                      V4L2_CID_LINK_FREQ,
+> > > > -                                    imx290_link_freqs_num(imx290) - 1, 0,
+> > > > +                                    imx290_link_freqs_num(imx290) - 1,
+> > > > +                                    FREQ_INDEX_OFF,
+> > > >                                      imx290_link_freqs_ptr(imx290));
+> > > >       if (imx290->link_freq)
+> > > >               imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > > > @@ -1278,7 +1295,7 @@ static int imx290_subdev_init(struct imx290 *imx290)
+> > > >       struct v4l2_subdev_state *state;
+> > > >       int ret;
+> > > >
+> > > > -     imx290->current_mode = &imx290_modes_ptr(imx290)[0];
+> > > > +     imx290->current_mode = &imx290_mode_off;
+> > > >
+> > > >       v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
+> > > >       imx290->sd.internal_ops = &imx290_internal_ops;
+> > > >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
