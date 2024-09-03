@@ -1,126 +1,208 @@
-Return-Path: <linux-media+bounces-17500-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17501-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB3696AAA1
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 23:52:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EAC96AD26
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 01:59:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72DA51F23C48
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 21:52:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 214731C2436B
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 23:59:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E54E81D54D5;
-	Tue,  3 Sep 2024 21:51:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 474C71D79A5;
+	Tue,  3 Sep 2024 23:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pLZNXCj0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACy/Nee5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11150B647;
-	Tue,  3 Sep 2024 21:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB7AB647
+	for <linux-media@vger.kernel.org>; Tue,  3 Sep 2024 23:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725400314; cv=none; b=pGZQdNjxDtGE6dYWjNbpSE9ARcFQh/KwZGLDqZpK/l7o4EZ64MZjaMsFFyLGxqCkQKlT4wD3qkyWIZkQgGkslIFNinSv/CkCCfOtc4oY5I0Wq+yGiv1ZSJICS9UuoqlA0sbnjIEiEzG4UTZUv111oBqchwasFkQ7vEJz9wl2g5g=
+	t=1725407984; cv=none; b=Ysa59KM+GH6U6PLPc7VbUQXTbsUcogkLzE+dQfxBiRTeg+NIfAGcDvs/VCtyBnnnZYL1x9wDUEk0pwgaSpU+c4M+fqh2GhU+GwXkJtQ74djGqqOPgFk7kxty5vZ4TsrzVweRQgkpf0YxqyZvZGnrm/gMC0FlTK1sy4Rz/0HuJIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725400314; c=relaxed/simple;
-	bh=tN5vqlCKPar7XP4sqfMn5SllXz0g+GvMXAGcorIVqYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t6cxjg39/RKDfQYxxe+OFBE7/Xs5sUqg/aXRZIPveKrsdrsAVsX92+Yhs7ew5OmAQ8duHQp+NLZOzIanhAUL/BzkYDm5DwfEI0DPgF8qq6j7WorltBlA2F6FeTPhZg49v4FCqaDqnFshKlDLuG57VC/7wAbOxWbiSmVclEl5pD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pLZNXCj0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42686C4CEC4;
-	Tue,  3 Sep 2024 21:51:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725400313;
-	bh=tN5vqlCKPar7XP4sqfMn5SllXz0g+GvMXAGcorIVqYM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pLZNXCj0UEyKhvBJH5OnAGowSygKD8coz1erfWLAmf25HQz7h56PVHW0XMx2E/+w7
-	 xIjmR/ODgmkQ6EkT6qbdOkd5+85QO1VKRGcUIdp6j2mkLuyJOvw/tsogx2g6M2wzva
-	 plaXBbA4zNqKIrFF1xpYvfxDeNxXAy01Gmo8YJ+WZVfKF+cf6OJiYtW+gQBUW93FAy
-	 xIbMwFjMhxNIKZyJ57an/ZH5OFRWVdtyWrTv6ylNleOf2fa0XbMtEJRZe8/7ngefo1
-	 qikCcPNCOUF1XR5udOGdG6WVHyWR9fGyOzvTd3fowwLf6pKYqM5v5MJzgqDs6Hj2YM
-	 mtSUblomNCqHQ==
-Date: Tue, 3 Sep 2024 14:51:50 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, "=?UTF-8?B?QmrDtnJuIFTDtnBl?=
- =?UTF-8?B?bA==?=" <bjorn@kernel.org>, Magnus Karlsson
- <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
- <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>
-Subject: Re: [PATCH net-next v24 11/13] net: add devmem TCP documentation
-Message-ID: <20240903145150.4ffee51b@kernel.org>
-In-Reply-To: <20240831004313.3713467-12-almasrymina@google.com>
-References: <20240831004313.3713467-1-almasrymina@google.com>
-	<20240831004313.3713467-12-almasrymina@google.com>
+	s=arc-20240116; t=1725407984; c=relaxed/simple;
+	bh=CNz1Vi+Fd84zTPTejzsG4YlgD9vGpS7cn9/Q10iQrP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PGcJKI4GENWLqInQybPNdEkzxBglv4YNzWTBSIcjs7CPjHdL+QPkiQtWAudJ3ZMTqN2wAdrCAnYuRz30szNHHq4Ufwz9UFMqLn19P6EYU5ntIjTNuv2sIvwQJ/yWNfSkAlETGACx3eutO1ZFqlhCjL4EBhvUYJc0fXrDIkIQkww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACy/Nee5; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725407983; x=1756943983;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CNz1Vi+Fd84zTPTejzsG4YlgD9vGpS7cn9/Q10iQrP0=;
+  b=ACy/Nee5FgDZlDz0PAKADrbg420t2MBx5BG7saGhLxoAocuEE+I4gDSn
+   YGidmBJcLXa6Z0/ubEz2FsRt2GGYTgosnH6dafvbbuGaxzWJQ1xaO8g2G
+   GVNXAEz5FWwwbwEs+8CVRurnMB/sIRTjd5kysfIQcGX6LjSl7+DlAubRt
+   GFAvrRB6MT/Qj24/J2vaHt3NtX6SxfbFJSo7/+S6VclwOf19zriJPJ1i5
+   65+aH6HZTLLQJ6OYjgCxzNOHP9H01DWQdguaB3VPXP4jL55BMSgllImvq
+   EPV8Amn2gUIiS4QMGF+a4nNdKvpBlnhvZ5Ry4acpcyaejM7wVwcMQOU1m
+   A==;
+X-CSE-ConnectionGUID: XZVaiPJDRqaeBFx/m7a9tQ==
+X-CSE-MsgGUID: 2i+GzCZcSrSjoqXJys4raQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="46567706"
+X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
+   d="scan'208";a="46567706"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 16:59:42 -0700
+X-CSE-ConnectionGUID: EIQ2o7ltTYmSBGbjnTXtzQ==
+X-CSE-MsgGUID: ogmJn+noSt2qZsTJhNaZ+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
+   d="scan'208";a="88322503"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 03 Sep 2024 16:59:40 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sldQw-0007M4-0J;
+	Tue, 03 Sep 2024 23:59:38 +0000
+Date: Wed, 4 Sep 2024 07:59:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
+Message-ID: <202409040751.A1Dm1pgG-lkp@intel.com>
+References: <20240901211834.145186-3-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240901211834.145186-3-hdegoede@redhat.com>
 
-On Sat, 31 Aug 2024 00:43:11 +0000 Mina Almasry wrote:
-> +The socket must be flow steered to the dmabuf bound RX queue::
-> +
-> +	ethtool -N eth1 flow-type tcp4 ... queue 15,
+Hi Hans,
 
-nit: tailing comma here
+kernel test robot noticed the following build errors:
 
-> +Devmem payloads are inaccessible to the kernel processing the packets. This
-> +results in a few quirks for payloads of devmem skbs:
-> +
-> +- Loopback is not functional. Loopback relies on copying the payload, which is
-> +  not possible with devmem skbs.
-> +
-> +- Software checksum calculation fails.
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.11-rc6 next-20240903]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Speaking of which, I think we need to add readability check to 
-skb_checksum_help(). Shouldn't the check in __skb_checksum() 
-have a WARN_ON_ONCE() around it? It's impossible to return 
-an error from there.
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l-Call-s_stream-on-VCM-when-it-is-called-on-the-associated-sensor/20240902-052000
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240901211834.145186-3-hdegoede%40redhat.com
+patch subject: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
+config: x86_64-randconfig-121-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/reproduce)
 
-> +- TCP Dump and bpf can't access devmem packet payloads.
-> +
-> +
-> +Testing
-> +=======
-> +
-> +More realistic example code can be found in the kernel source under
-> +tools/testing/selftests/net/ncdevmem.c
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409040751.A1Dm1pgG-lkp@intel.com/
 
-looks like HTML output wraps the file path, maybe quote it as
-``tools/testing/selftests/net/ncdevmem.c`` ?
+All error/warnings (new ones prefixed by >>):
+
+   drivers/media/i2c/ad5823.c: In function 'ad5823_probe':
+>> drivers/media/i2c/ad5823.c:203:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c' [-Werror=implicit-function-declaration]
+     203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/i2c/ad5823.c:203:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
+         |                        ^
+   cc1: some warnings being treated as errors
+
+
+vim +/devm_cci_regmap_init_i2c +203 drivers/media/i2c/ad5823.c
+
+   193	
+   194	static int ad5823_probe(struct i2c_client *client)
+   195	{
+   196		struct ad5823_device *ad5823;
+   197		int ret;
+   198	
+   199		ad5823 = devm_kzalloc(&client->dev, sizeof(*ad5823), GFP_KERNEL);
+   200		if (!ad5823)
+   201			return -ENOMEM;
+   202	
+ > 203		ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
+   204		if (IS_ERR(ad5823->regmap))
+   205			return PTR_ERR(ad5823->regmap);
+   206	
+   207		ad5823->arc_mode = AD5823_ARC_RES1;
+   208		ad5823->resonance_period = AD5823_RESONANCE_PERIOD;
+   209	
+   210		/* Optional indication of ARC mode select */
+   211		device_property_read_u32(&client->dev, "adi,arc-mode",
+   212					 &ad5823->arc_mode);
+   213	
+   214		/* Optional indication of VCM resonance period */
+   215		device_property_read_u32(&client->dev, "adi,resonance-period",
+   216					 &ad5823->resonance_period);
+   217	
+   218		ad5823->regulator = devm_regulator_get(&client->dev, "vdd");
+   219		if (IS_ERR(ad5823->regulator))
+   220			return dev_err_probe(&client->dev, PTR_ERR(ad5823->regulator),
+   221					     "getting regulator\n");
+   222	
+   223		v4l2_i2c_subdev_init(&ad5823->sd, client, &ad5823_ops);
+   224		ad5823->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+   225	
+   226		ret = ad5823_init_controls(ad5823);
+   227		if (ret)
+   228			return ret;
+   229	
+   230		ret = media_entity_pads_init(&ad5823->sd.entity, 0, NULL);
+   231		if (ret < 0)
+   232			goto err_free_ctrl_handler;
+   233	
+   234		ad5823->sd.entity.function = MEDIA_ENT_F_LENS;
+   235	
+   236		/*
+   237		 * We need the driver to work in the event that pm runtime is disable in
+   238		 * the kernel, so power up and verify the chip now. In the event that
+   239		 * runtime pm is disabled this will leave the chip on, so that the lens
+   240		 * will work.
+   241		 */
+   242	
+   243		ret = ad5823_power_up(ad5823, true);
+   244		if (ret)
+   245			goto err_cleanup_media;
+   246	
+   247		pm_runtime_set_active(&client->dev);
+   248		pm_runtime_get_noresume(&client->dev);
+   249		pm_runtime_enable(&client->dev);
+   250	
+   251		ret = v4l2_async_register_subdev(&ad5823->sd);
+   252		if (ret < 0)
+   253			goto err_pm_runtime;
+   254	
+   255		pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+   256		pm_runtime_use_autosuspend(&client->dev);
+   257		pm_runtime_put_autosuspend(&client->dev);
+   258	
+   259		return ret;
+   260	
+   261	err_pm_runtime:
+   262		pm_runtime_disable(&client->dev);
+   263		pm_runtime_put_noidle(&client->dev);
+   264		ad5823_power_down(ad5823);
+   265	err_cleanup_media:
+   266		media_entity_cleanup(&ad5823->sd.entity);
+   267	err_free_ctrl_handler:
+   268		v4l2_ctrl_handler_free(&ad5823->ctrls.handler);
+   269	
+   270		return ret;
+   271	}
+   272	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
