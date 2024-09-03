@@ -1,266 +1,212 @@
-Return-Path: <linux-media+bounces-17437-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17438-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3041C969456
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 08:58:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCA7969470
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 09:01:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 550A31C22E6A
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 06:58:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A86FD281D22
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 07:01:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D3F0200109;
-	Tue,  3 Sep 2024 06:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698121DAC69;
+	Tue,  3 Sep 2024 06:59:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="owYXqf/w"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V8fPuQBF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48EB1DAC6B;
-	Tue,  3 Sep 2024 06:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58061DAC60
+	for <linux-media@vger.kernel.org>; Tue,  3 Sep 2024 06:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725346640; cv=none; b=LE3zCFjqsDLWPT8ZEkeqfmX3YDsl0emu2MzEll6ZeodxZpDtXnnfqQWrHm7VMiJo4SHaGjVz3JXbGJyEofyJ41zRAA29xzeDrxRss3lPnkRHGaBRZ56tg53ei27gnicQgvZF6hRcKRmRvjRtqSxpcM6HdAOhMGH567jWx9rD3ew=
+	t=1725346781; cv=none; b=F0Po2XwwtjUJZIE9ni5I9EUDhIijIjCj6SleJnMpYTzeMZle83f1+j9WC6TJhU7/ZI6hROC1JlULhVVkJcC5SLluQesJEJKJDr9ojPKBFl9gTeo0xcC6XOX3o6Y49bSrHfX/uQOIHhiF2s2Rerrf9yK1GzFfVra78Acx+y95GPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725346640; c=relaxed/simple;
-	bh=LUjMeTfQ9bZqzLTWIcK3xiA9fpPEh7p7Ch2XD8eiTYM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hVgWPc/v9GJllmOHTh1waCOjWjBHKSJ6rxgAmMPwqMP6+cn7V8A/xRL+gpMUvSeAas7B2p+14mIT5IM+ltQpsR3wI2ywSrwWy/cjfjp8Y/fy7tx+VxLvXPrDoq8ITdPEBIk6IDWUZNb8hm+V8T+86UUVy4CB4oAp5jLDapEwFto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=owYXqf/w; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2FF36C4CEDB;
-	Tue,  3 Sep 2024 06:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725346640;
-	bh=LUjMeTfQ9bZqzLTWIcK3xiA9fpPEh7p7Ch2XD8eiTYM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=owYXqf/wrqF66DL4ZBxIB0TF0pvM9hhhBd9pEWAhO3IGDay50Bp40HsnhnvfSkkOQ
-	 LKp+yAks3p5MNpqeTRhxF6mGoHaEbgETB+0fZZb4E3XVmSf44DQXW9KhpLzpV/o9h6
-	 NshzakigRxGsjSjRINMW1Kw9p5KFQZHijG3xNd9BJEhF6Zndgr8DGzc4NiLS9ok7wJ
-	 4EO5ApoOnJShsdBfAi+FQGQPOpb7Aj9BNxFsUsiKEtcWP3Z6AQrQbE4j6j+IfKQ/jX
-	 e4fEETlqmDBGb5cBDaRjtJp4yeVqocrJDDjk9BU15FLcf3D5MDpE5BE95sXft5XxL9
-	 82uVMBQDgmUig==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 285DCCD342C;
-	Tue,  3 Sep 2024 06:57:18 +0000 (UTC)
-From: Keke Li via B4 Relay <devnull+keke.li.amlogic.com@kernel.org>
-Date: Tue, 03 Sep 2024 14:57:13 +0800
-Subject: [PATCH 9/9] Documentation: media: add documentation file
- c3-isp.rst
+	s=arc-20240116; t=1725346781; c=relaxed/simple;
+	bh=0QMwKfI4fy4ir52eB0rQgUYZBbqALc2GeiY83qA9fO0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B3Y9UA6EcYJX5BmaSKmvEu00FZKuX2w8Guh3bX1Fxar4zrmZTU5odDdB+g/8MN9JcagL1Wjvsxx6jqVZGTYY5gXdLDacQ5xKGMboBngfuWlN0hUQzlbWdAkTw/9HnceWQ0XTVI9yu3Yy7t/sFBv8snv0xRgH61Jo6rjhMQxWtNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=V8fPuQBF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-56-115.net.vodafone.it [5.90.56.115])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8091A899;
+	Tue,  3 Sep 2024 08:58:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725346705;
+	bh=0QMwKfI4fy4ir52eB0rQgUYZBbqALc2GeiY83qA9fO0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V8fPuQBF8rKaODohyia/Evmpsd6cZSvoSPNm1gASXoffk5IPCvAh0j3s8NApXD5ba
+	 sp+FMcptYtPVKRWRQq/b6MuUmr/AUulyLr8aRquXDID3bcvMNPDIpHyHdNfPehujSG
+	 mQRRI7qaSHpyoGPruJFIN6ijutfdP8DycWwdeCaA=
+Date: Tue, 3 Sep 2024 08:59:33 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>, 
+	David Plowman <david.plowman@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] media: pisp_be: Remove config validation from
+ schedule()
+Message-ID: <x26qjgn523m4sxz23ksoswycm6lir6xm6txcdmmpxhg46pin5r@p5gkxy5ebdo2>
+References: <20240827074018.534354-1-jacopo.mondi@ideasonboard.com>
+ <20240827074018.534354-3-jacopo.mondi@ideasonboard.com>
+ <20240831131756.GV3811@pendragon.ideasonboard.com>
+ <arzwga3hfd2hibj6bllnzjs5mnm5kzih37mbe55xdgcnjlqsp3@zpwqt65eryht>
+ <20240902230724.GA5909@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240903-c3isp-v1-9-8af0edcc13c8@amlogic.com>
-References: <20240903-c3isp-v1-0-8af0edcc13c8@amlogic.com>
-In-Reply-To: <20240903-c3isp-v1-0-8af0edcc13c8@amlogic.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com, 
- laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com, 
- Keke Li <keke.li@amlogic.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725346629; l=7370;
- i=keke.li@amlogic.com; s=20240902; h=from:subject:message-id;
- bh=60NWyVRAbjYroOKP/Zc6hNew0FkkUGrTfDQP+/4qhj0=;
- b=HKiOJcszM7lX98DQBdKWyFiG97/Su0UsYlIEXf0DrXIrVmslh+/8eapaMuw/ef6dnggGgcKYB
- YiXfqo8qN/1AVubiuWID/2+Lqw5TNIGX33InAm12s4OIlAY2UHlRtnV
-X-Developer-Key: i=keke.li@amlogic.com; a=ed25519;
- pk=XxNPTsQ0YqMJLLekV456eoKV5gbSlxnViB1k1DhfRmU=
-X-Endpoint-Received: by B4 Relay for keke.li@amlogic.com/20240902 with
- auth_id=204
-X-Original-From: Keke Li <keke.li@amlogic.com>
-Reply-To: keke.li@amlogic.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240902230724.GA5909@pendragon.ideasonboard.com>
 
-From: Keke Li <keke.li@amlogic.com>
+Hi Laurent
 
-Add the file 'c3-isp.rst' that documents the c3-isp driver.
+On Tue, Sep 03, 2024 at 02:07:24AM GMT, Laurent Pinchart wrote:
+> On Sat, Aug 31, 2024 at 04:59:32PM +0200, Jacopo Mondi wrote:
+> > On Sat, Aug 31, 2024 at 04:17:56PM GMT, Laurent Pinchart wrote:
+> > > On Tue, Aug 27, 2024 at 09:40:16AM +0200, Jacopo Mondi wrote:
+> > > > The config parameters buffer is already validated in
+> > > > pisp_be_validate_config() at .buf_prepare() time.
+> > >
+> > > Unfortunately .buf_prepare() isn't the right place to handle the
+> > > validation. Userspace should not modify the contents of the buffer
+> > > before BUF_PREPARE and QBUF, but malicious (or just buggy) userspace
+> > > may. The validation should thus be moved to .buf_queue().
+> >
+> > Probably right, but unrelated to this patch ?
+>
+> Yes, unrelated, but it should be fixed sooner than later as it's a
+> possible security issue.
+>
+> > > > However some of the same validations are also performed at
+> > > > pispbe_schedule() time. In particular the function checks that:
+> > > >
+> > > > 1) config.num_tiles is valid
+> > > > 2) At least one of the BAYER or RGB input is enabled
+> > > >
+> > > > The input validation is already performed in pisp_be_validate_config()
+> > > > and there is no need to repeat that at pispbe_schedule() time.
+> > >
+> > > Is that the same validation though ? The one in
+> > > pisp_be_validate_config() validates config->config.global, while the
+> > > validation in pispbe_schedule() validates job.hw_enables. The latter is
+> > > set from config->config.global in pispbe_xlate_addrs(), but is later
+> > > modified in the function.
+> >
+> > Ah yes, the ones validated at schedule() time are the ones in the job
+> > populated by pispbe_xlate_addrs().
+> >
+> > However
+> >
+> > 1) config validation makes sure that in config->config.global enables
+> >    at least one of BAYER_ENABLE_INPUT or RGB_ENABLE_INPUT is set
+> >
+> > 2) xlate_addrs()
+> >    - resets both bayer_enable and rgb_enabl only if
+> >      there's no main input buffer, which as replied in the previous
+> >      email, shouldn't happen, otherwise prepare_job() fails before
+> >      calling xlate_addrs()
+>
+> This is checked in pispbe_xlate_addrs by looking at the return value of
+> pispbe_get_planes_addr() for the main input. That function fails only
+>
+> 	if (!buf || !node->pisp_format)
+> 		return 0;
+>
+> buf should indeed not be NULL, as that is checked by
+> pispbe_prepare_job(). node->pisp_format should also never be NULL, as it
+> is initialized at probe time and should never be set to a NULL value
+> afterwards. That part should be fine. I think we should remove the
+> unneeded checks, they only contribute to making the code more
+> convoluted. I'd rather simplify and clarify checks in a single place to
+> give us enough certainty that further checks are not needed. Could you
+> submit follow-up patches for that ?
+>
 
-Signed-off-by: Keke Li <keke.li@amlogic.com>
----
- Documentation/admin-guide/media/c3-isp.dot      | 26 +++++++
- Documentation/admin-guide/media/c3-isp.rst      | 96 +++++++++++++++++++++++++
- Documentation/admin-guide/media/v4l-drivers.rst |  1 +
- MAINTAINERS                                     | 10 +++
- 4 files changed, 133 insertions(+)
+Indeed. Let's land this series in order not to pile too many things
+and work on moving the validation to buf_queue() and centralized and
+clean-up the sanity checks on top.
 
-diff --git a/Documentation/admin-guide/media/c3-isp.dot b/Documentation/admin-guide/media/c3-isp.dot
-new file mode 100644
-index 000000000000..0cc1b8b96404
---- /dev/null
-+++ b/Documentation/admin-guide/media/c3-isp.dot
-@@ -0,0 +1,26 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0 | <port1> 1} | isp-core\n/dev/v4l-subdev0 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port3 -> n00000006:port0 [style=bold]
-+	n00000001:port3 -> n00000009:port0 [style=bold]
-+	n00000001:port3 -> n0000000c:port0 [style=bold]
-+	n00000001:port2 -> n00000020 [style=bold]
-+	n00000006 [label="{{<port0> 0} | isp-resizer0\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000006:port1 -> n00000014 [style=bold]
-+	n00000009 [label="{{<port0> 0} | isp-resizer1\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000009:port1 -> n00000018 [style=bold]
-+	n0000000c [label="{{<port0> 0} | isp-resizer2\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000000c:port1 -> n0000001c [style=bold]
-+	n0000000f [label="{{<port0> 0} | mipi-adapter\n/dev/v4l-subdev4 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000000f:port1 -> n00000001:port0 [style=bold]
-+	n00000014 [label="isp-video0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n00000018 [label="isp-video1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n0000001c [label="isp-video2\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n00000020 [label="isp-stats\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n00000024 [label="isp-params\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
-+	n00000024 -> n00000001:port1 [style=bold]
-+	n00000038 [label="{{<port0> 0} | mipi-csi2\n/dev/v4l-subdev5 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000038:port1 -> n0000000f:port0 [style=bold]
-+	n0000003d [label="{{} | imx290 2-001a\n/dev/v4l-subdev6 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000003d:port0 -> n00000038:port0 [style=bold]
-+}
-diff --git a/Documentation/admin-guide/media/c3-isp.rst b/Documentation/admin-guide/media/c3-isp.rst
-new file mode 100644
-index 000000000000..fab10c962465
---- /dev/null
-+++ b/Documentation/admin-guide/media/c3-isp.rst
-@@ -0,0 +1,96 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-+
-+.. include:: <isonum.txt>
-+
-+=================================================
-+Amlogic C3 Image Signal Processing (C3ISP) driver
-+=================================================
-+
-+Introduction
-+============
-+
-+This file documents the Amlogic C3ISP driver located under
-+drivers/media/platform/amlogic/c3-isp.
-+
-+The current version of the driver supports the C3ISP found on
-+Amlogic C308L processor.
-+
-+The driver implements V4L2, Media controller and V4L2 subdev interfaces.
-+Camera sensor using V4L2 subdev interface in the kernel is supported.
-+
-+The driver has been tested on AW419-C308L-Socket platform.
-+
-+Anlogic Camera hardware
-+=======================
-+
-+The Camera hardware found on C308L processors and supported by
-+the driver consists of:
-+
-+- 1 MIPI-CSI2 module. It handle the Physical layer of the CSI2 receivers and
-+  receive MIPI data.
-+  A separate camera sensor can be connected to MIPI-CSi2 module.
-+- 1 MIPI-ADAPTER module. Organize MIPI data to meet ISP input requirements and
-+  send MIPI data to ISP
-+- 1 ISP (Image Signal Processing) module. Contain a pipeline of image processing
-+  hardware blocks.
-+  The ISP pipeline contains three scalers at the end.
-+  The ISP also contains the DMA interface which writes the output data to memory.
-+
-+Supported functionality
-+=======================
-+
-+The current version of the driver supports:
-+
-+- Input from camera sensor via MIPI-CSI2;
-+
-+- Pixel output interface of ISP
-+
-+  - Scaling support. Configuration of the scaler module
-+    for downscalling with ratio up to 8x.
-+
-+Driver Architecture and Design
-+==============================
-+
-+The driver implements the V4L2 subdev interface. With the goal to model the
-+hardware links between the modules and to expose a clean, logical and usable
-+interface, the driver is split into V4L2 sub-devices as follows:
-+
-+- 1 mipi-csi2 sub-device - mipi-csi2 is represented by a single sub-device.
-+- 1 mipi-adapter sub-device - mipi-adapter is represented by a single sub-devices.
-+- 1 isp-core sub-device - isp-core is represented by a single sub-devices.
-+- 3 isp-resizer sub-devices - isp-resizer is represented by a number of sub-devices
-+  equal to the number of capture device.
-+
-+isp-core sub-device is linked to 2 separate video device nodes and
-+3 isp-resizer sub-devices nodes.
-+
-+- 1 capture statistics video device node.
-+- 1 output parameters video device node.
-+- 3 isp-resizer sub-device nodes.
-+
-+isp-resizer sub-device is linked to capture video device node.
-+
-+- isp-resizer0 is linked to isp-cap0
-+- isp-resizer1 is linked to isp-cap1
-+- isp-resizer2 is linked to isp-cap2
-+
-+The media controller pipeline graph is as follows (with connected a
-+IMX290 camera sensor):
-+
-+.. _isp_topology_graph:
-+
-+.. kernel-figure:: c3-isp.dot
-+    :alt:   c3-isp.dot
-+    :align: center
-+
-+    Media pipeline topology
-+
-+Implementation
-+==============
-+
-+Runtime configuration of the hardware via 'isp-params' video device node.
-+Acquiring statistics of ISP hardware via 'isp-stats' video device node.
-+Acquiring output image of ISP hardware via 'isp-video[0, 2]' video device node.
-+
-+The output size of the scaler module in the ISP is configured with
-+the pixel format of 'isp-video[0, 2]' video device node.
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index b6af448b9fe9..be0a8a860f39 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -10,6 +10,7 @@ Video4Linux (V4L) driver-specific documentation
- 	:maxdepth: 2
- 
- 	bttv
-+	c3-isp
- 	cafe_ccic
- 	cx88
- 	fimc
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f99d0ea45815..411bd4e6318b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4889,6 +4889,16 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/net/can/st,stm32-bxcan.yaml
- F:	drivers/net/can/bxcan.c
- 
-+C3 ISP DRIVER FOR AMLOGIC
-+M:	Keke Li <keke.li@amlogic.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/admin-guide/media/c3-isp.dot
-+F:	Documentation/admin-guide/media/c3-isp.rst
-+F:	Documentation/devicetree/bindings/media/amlogic,c3-isp.yaml
-+F:	Documentation/userspace-api/media/v4l/metafmt-c3-isp.rst
-+F:	drivers/media/platform/amlogic/c3-isp/
-+
- C3 MIPI ADAPTER DRIVER FOR AMLOGIC
- M:	Keke Li <keke.li@amlogic.com>
- L:	linux-media@vger.kernel.org
-
--- 
-2.45.2
-
-
+> >    - set bayer_enable = 0 if the BAYER_ENABLE_INPUT flag wasn't set in
+> >      config->config.global (in which case rgb_enable is set because of
+> >      the validation)
+> >
+> >    - clear bit entries in rgb_enable but only for OUTPUTS not for
+> >      input
+> >
+> >
+> > Which makes me think the validation in schedule() can be removed
+> > safely.
+> >
+> > A bit convoluted, yes, but possibily safe ?
+>
+> I think it's safe indeed. But it's definitely too convoluted :-)
+>
+> > > > The num_tiles validation can be moved to pisp_be_validate_config() as
+> > > > well. As num_tiles is a u32 it can'be be < 0, so change the sanity
+> > > > check accordingly.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > > ---
+> > > >  .../platform/raspberrypi/pisp_be/pisp_be.c    | 25 ++++++-------------
+> > > >  1 file changed, 7 insertions(+), 18 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> > > > index 8ba1b9f43ba1..73a5c88e25d0 100644
+> > > > --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> > > > +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> > > > @@ -588,24 +588,6 @@ static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
+> > > >  	pispbe->hw_busy = true;
+> > > >  	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+> > > >
+> > > > -	if (job.config->num_tiles <= 0 ||
+> > > > -	    job.config->num_tiles > PISP_BACK_END_NUM_TILES ||
+> > > > -	    !((job.hw_enables.bayer_enables | job.hw_enables.rgb_enables) &
+> > > > -	      PISP_BE_BAYER_ENABLE_INPUT)) {
+> > > > -		/*
+> > > > -		 * Bad job. We can't let it proceed as it could lock up
+> > > > -		 * the hardware, or worse!
+> > > > -		 *
+> > > > -		 * For now, just force num_tiles to 0, which causes the
+> > > > -		 * H/W to do something bizarre but survivable. It
+> > > > -		 * increments (started,done) counters by more than 1,
+> > > > -		 * but we seem to survive...
+> > > > -		 */
+> > > > -		dev_dbg(pispbe->dev, "Bad job: invalid number of tiles: %u\n",
+> > > > -			job.config->num_tiles);
+> > > > -		job.config->num_tiles = 0;
+> > > > -	}
+> > > > -
+> > > >  	pispbe_queue_job(pispbe, &job);
+> > > >
+> > > >  	return;
+> > > > @@ -703,6 +685,13 @@ static int pisp_be_validate_config(struct pispbe_dev *pispbe,
+> > > >  		return -EIO;
+> > > >  	}
+> > > >
+> > > > +	if (config->num_tiles == 0 ||
+> > > > +	    config->num_tiles > PISP_BACK_END_NUM_TILES) {
+> > > > +		dev_dbg(dev, "%s: Invalid number of tiles: %d\n", __func__,
+> > > > +			config->num_tiles);
+> > > > +		return -EIO;
+> > >
+> > > Isn't -EINVAL a better error code ?
+> > >
+> > > > +	}
+> > > > +
+> > > >  	/* Ensure output config strides and buffer sizes match the V4L2 formats. */
+> > > >  	fmt = &pispbe->node[TDN_OUTPUT_NODE].format;
+> > > >  	if (bayer_enables & PISP_BE_BAYER_ENABLE_TDN_OUTPUT) {
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
