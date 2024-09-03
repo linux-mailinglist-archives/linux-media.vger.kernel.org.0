@@ -1,100 +1,90 @@
-Return-Path: <linux-media+bounces-17421-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17422-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300E796909E
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 02:20:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C29C9690DC
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 03:20:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 634E11C22820
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 00:20:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C97731F2330E
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 01:20:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B591C14;
-	Tue,  3 Sep 2024 00:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gEJT7PPn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BE991CCEC2;
+	Tue,  3 Sep 2024 01:20:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3CEA32
-	for <linux-media@vger.kernel.org>; Tue,  3 Sep 2024 00:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E53535894
+	for <linux-media@vger.kernel.org>; Tue,  3 Sep 2024 01:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725322799; cv=none; b=P/hJCHlERVxYahc4nXtUv70CaJIYzvqc4mniR4BQwZsBZbH1HtGDUpo4EhYfEKMnUlQJhlI7azwGKH0ONphkx21YvGIdgyDhTaiQ7DK23Yvx8jMtcvKKTEdlS26VJZXth6rClNPHXJVYUoa66O65cTAUlkRNyJhPdZU5wuwma3Y=
+	t=1725326403; cv=none; b=CWh970LXPzNEt+blwpVxgLSK70EMejEHnLW4nWMQpjb5ERsPyTuPibY/648Ent4vr9yJHoVbT3nubl3zy6ksBSw5ikHDJQVwLry0V7sYKoMSmSL/aXXc+G9Hdi6LBds/VSlJugPPiLKWiK8dSWml35oavKXtjKrbJ+4kn1/0LwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725322799; c=relaxed/simple;
-	bh=2fDlkDE6UjeUw6TM4ma9CmI4VeneZ/IHhbyY82NPnbU=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=qHW5eF6hrLEX7O06XWguOxdc5yM7ZmpiiLJgxVfzSgW7ncDeeZu8U3FCBZRDJ9uerkpd46010d4tckLhu1tUVZZCBILs5+jzZiyAipfkFR7SOOcCxl1OUqQG+jFm6D9Cre68Cg6r4GmgVqF+9VMEIbR6qNCVjFC6mGhsD5SVwMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gEJT7PPn; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725322798; x=1756858798;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=2fDlkDE6UjeUw6TM4ma9CmI4VeneZ/IHhbyY82NPnbU=;
-  b=gEJT7PPnKKTa2N9bClYH774hH/G4EDnERMao86g7ZfIb+EZtAr/R+BNp
-   ozpi+ClQCpTpCdqsUiVEjQ6hpcQipm6+E2QkAeW+EaDjkXfJaBrZLFUop
-   rzAiAQSjhMI7ofLqS3hx7pPEe/JpWa40cRlmX3tvupTyN6rdK+oC2XGJx
-   IWcUrFeDNe5ytAnqcr9emwV6PTkxNBCEk40LloQ5dCnnnqkkg/gcS4cgK
-   pj3CYtymPdSaSjCWuruhdcF1lweYK8J+VmZWyClhyxB3UmxS+Cnofetrz
-   zwJuN3ZRAnP4BcF/egbsdcfoI7V+sxzRqqxu4F3AKG98BsDRtsJdPQyc2
-   g==;
-X-CSE-ConnectionGUID: 7uPooVhKRS2vrepvQorbjg==
-X-CSE-MsgGUID: //2lLLfNTL2x0C6zEcuUvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="41398387"
-X-IronPort-AV: E=Sophos;i="6.10,197,1719903600"; 
-   d="scan'208";a="41398387"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 17:19:57 -0700
-X-CSE-ConnectionGUID: CrM1+eC/S2KBKsKFifTngA==
-X-CSE-MsgGUID: zYXVHC5DQX+q+ZlaBmbWMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,197,1719903600"; 
-   d="scan'208";a="95451019"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by orviesa002.jf.intel.com with ESMTP; 02 Sep 2024 17:19:55 -0700
-Subject: Re: [PATCH -next] media: intel/ipu6: make use of dev_err_cast_probe()
-To: Hongbo Li <lihongbo22@huawei.com>, sakari.ailus@linux.intel.com,
- bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, lihongbo22@huawe.com
-References: <20240902131553.3088122-1-lihongbo22@huawei.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <08217997-6454-e4d7-b2f2-a81cad70572e@linux.intel.com>
-Date: Tue, 3 Sep 2024 08:21:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	s=arc-20240116; t=1725326403; c=relaxed/simple;
+	bh=gj+C7i0RSO5QcfWggRexxZjU9aem3UFeB12bUQ2gJSw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=rZbh8rpU5toBqOSiFZQADM5xI1Y4cAZIEbYEmgRvE7StXCcdswkdsY4oebUS3GGV5oF9lRNuM+HC9yUqVV6tAieuaWCX1y02SYJ88zMNDomHrGdloIwmUtqCLDm1/fGtTMGYWNqqeM1HZ6A+HAL7A7JtA/A472rgqoaHYcTCHhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4WySSk0Stdz1BFPr;
+	Tue,  3 Sep 2024 09:19:02 +0800 (CST)
+Received: from dggpeml500022.china.huawei.com (unknown [7.185.36.66])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9CF3C18010A;
+	Tue,  3 Sep 2024 09:19:57 +0800 (CST)
+Received: from [10.67.111.104] (10.67.111.104) by
+ dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 3 Sep 2024 09:19:57 +0800
+Message-ID: <a61da5f3-cdf2-4808-a2e8-993053c30bf1@huawei.com>
+Date: Tue, 3 Sep 2024 09:19:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240902131553.3088122-1-lihongbo22@huawei.com>
-Content-Type: text/plain; charset=windows-1252
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next] media: intel/ipu6: make use of dev_err_cast_probe()
 Content-Language: en-US
+To: Bingbu Cao <bingbu.cao@linux.intel.com>, <sakari.ailus@linux.intel.com>,
+	<bingbu.cao@intel.com>, <tian.shu.qiu@intel.com>, <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <lihongbo22@huawe.com>
+References: <20240902131553.3088122-1-lihongbo22@huawei.com>
+ <08217997-6454-e4d7-b2f2-a81cad70572e@linux.intel.com>
+From: Hongbo Li <lihongbo22@huawei.com>
+In-Reply-To: <08217997-6454-e4d7-b2f2-a81cad70572e@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500022.china.huawei.com (7.185.36.66)
 
-Hongbo,
 
-Why do you send same patch repeatly? I have some comments before.
-BTW, a typo is in your cc list.
 
-On 9/2/24 9:15 PM, Hongbo Li wrote:
-> Using dev_err_cast_probe() to simplify the code.
-> No functional changes.
+On 2024/9/3 8:21, Bingbu Cao wrote:
+> Hongbo,
 > 
-> Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
-> ---
->  drivers/media/pci/intel/ipu6/ipu6.c | 20 ++++++++------------
->  1 file changed, 8 insertions(+), 12 deletions(-)
-> 
+> Why do you send same patch repeatly? I have some comments before.
+> BTW, a typo is in your cc list.
 
--- 
-Best regards,
-Bingbu Cao
+oh, sorry, I almost missed that email. May be it cannot be used in 6.10, 
+but I have seen many modules have been changed like this way.
+
+Thanks,
+Hongbo
+
+> 
+> On 9/2/24 9:15 PM, Hongbo Li wrote:
+>> Using dev_err_cast_probe() to simplify the code.
+>> No functional changes.
+>>
+>> Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
+>> ---
+>>   drivers/media/pci/intel/ipu6/ipu6.c | 20 ++++++++------------
+>>   1 file changed, 8 insertions(+), 12 deletions(-)
+>>
+> 
 
