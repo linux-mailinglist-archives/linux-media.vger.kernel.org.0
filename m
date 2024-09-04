@@ -1,452 +1,200 @@
-Return-Path: <linux-media+bounces-17531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17532-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34CD196B394
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 09:54:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B03AF96B3B7
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 09:57:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF8282822EA
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 07:54:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D3E601C20DF5
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 07:57:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0226C17B436;
-	Wed,  4 Sep 2024 07:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05F6317920C;
+	Wed,  4 Sep 2024 07:56:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WrAgBb7y"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="k02JmGhQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010035.outbound.protection.outlook.com [52.101.228.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F152216F8E7
-	for <linux-media@vger.kernel.org>; Wed,  4 Sep 2024 07:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725436418; cv=none; b=oA8DWytAYvRWymBC87Bom+Z5SfiQ9pSvIShRZhMCn3pE9wsMLmIJS+5X6ka7xv+GrNxr8qqph4UIMnmHNzFUTryMY1GV8RsnxpeGH99Cvl3Y3lLpF6wqPk2e/0se7tvya4uxJT10PRN/8cD510RaX2APs3SW1+RQbTPyiSRsrU4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725436418; c=relaxed/simple;
-	bh=UT5Ygxuui9vQ+UOnGtglsDolufjb7lEoQP7eYry5RaU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q0KmGDpi6bjTWGUH2mRWf0vYU7dZw86eysc4SokPH0PJVqg0+yOhJ0o5r6+jEshZ5laGo3COIVTvzoJ4JJuAFvWhfRGmRBZHdpLZ3CASgzY2nFyfI4fGiZYInPazglkksKRaNUmO8pwtFExl1xATk3sIYYVinjCBwYAW1WN0zmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WrAgBb7y; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F159DD01;
-	Wed,  4 Sep 2024 09:52:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725436342;
-	bh=UT5Ygxuui9vQ+UOnGtglsDolufjb7lEoQP7eYry5RaU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WrAgBb7yQP1gyaTISOOY2aCt7bYwtUdaWbz+QsYFU8OVIjLLxVtufnQO1smtT+MI0
-	 B4rMmz33ET32C38hK7r0W3H455eAJiGbMfd+VMFMy8J6gEMNS2Yca1O5+4CRRrR/XO
-	 s5OCFWFJl+BQMKdqOZ6PXCE+b/cUnxAQYE81TM8c=
-Date: Wed, 4 Sep 2024 10:53:02 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] media: pisp-be: Split jobs creation and scheduling
-Message-ID: <20240904075302.GD16183@pendragon.ideasonboard.com>
-References: <20240902112408.493201-1-jacopo.mondi@ideasonboard.com>
- <20240902112408.493201-4-jacopo.mondi@ideasonboard.com>
- <20240903121936.GC5053@pendragon.ideasonboard.com>
- <m7lhuuglaqaqmk6aaozexg6vdsemwihea5wkmdmfongfdreqi5@p54tkbtup2dc>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500A615099D;
+	Wed,  4 Sep 2024 07:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725436597; cv=fail; b=DdywDZySaKBsK3LUHnPbQRWNuzxTggs7PRxfsr/xifrwL2+8FXAPqGQ+dq4TO0PXCoVSAC9XjWFw1eep64SQfk7auyfEg71OVamCPusNC/d33xGw41vw2LnOYYKeNuM68WVkUYVS2A5NXSXlJG3vH0JSamsMVkJPhAMkxldiemg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725436597; c=relaxed/simple;
+	bh=9M6wUmOuggdgQg8fAKCohrqexT+PO40YTBBtCTzVzJk=;
+	h=Message-ID:From:To:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=VAKBVxznwzcQfcelo4aTHpXYpcS99LTAjxIvX7JNbDx4QMjUccUN7FbX3rhEN3OvJHaBA2DYRomtyjbBrQ+VG6u/srK2b2Ro8YkKDZopJlSgRx9DD3fbiAel6UVODD0hYTO6SLtZkX+SbUjnmJF9H/9QwttSSbfM6Z1Lr8CoMDg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=k02JmGhQ; arc=fail smtp.client-ip=52.101.228.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vpBNg53XIGI7yyxscfwyn/t0HCbwSM0NLwYGvrDQzga3ieSkV0C6XOvUaxaTZYK86HJKHmoWF40vrpHWIWZICsug0CIEHGlxTS9j+AjIM20o5ZAoC1TnVAofJ3IV8D9j9mn5eaJQafoZThU2lJ6PIEzUTUw2O68PDlyOZ7RA0MJd9CSuoRfTKd5FWDReLAHla6VI1TbK8OqI3sUQKbm565O351fIWu8IdfmXqqempPfx/UvPDRp1vg1NWQ9gUzTD7ikGsRw5yYvZWEJYW1Y49p1eC0v/qZkrpwj9Jc1fgFHX2ZmyHtGQARVLubiV4eph4v1Nk+dR9LYPYQ9pEBBYBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nslbi92JKKycB48b/45jHVi+nurh2rJJ7nCi7nhcMDg=;
+ b=Y7rTfviT91sLTGai6+h+Qm/2sBzqlikxTx5BiEtqdSweDp6ITIfpU1CPa9WWnY9BIDEOYx7rc0DAfW+0p942wcA7g/Q7lUAcH73fLjnvPtFMSJKLTnHWmIBWdZTv6TLIyR1J5lFylBJ6SV0TWH84SqelKe4wwLmZ/23dW3b63GagBSPafnQris11xXDqHCzGowpw99Ba9fJFIySWQGXFAo8R7BX19JD6F1QkttpcihIffCf4WFm3YIq8xbgQbeW4R+RP7CuCn1RqHRNvis3zJp7jvqW4m6ppW4cWhV1zG36nUlSvlS9U7bMX86Rp8EAug6Q/5SCUpf5tnznQTQKjgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nslbi92JKKycB48b/45jHVi+nurh2rJJ7nCi7nhcMDg=;
+ b=k02JmGhQZWP8GkKWNslwAYH+u09BaNM6H0MKUemOWGi3Pot50y2kKWGIclX9FC/eldrqsQGl2Nhoo/6Es4Ktn3zUS86OJGTLp02KvIa5DQHM4WYiFyLn4ozzTAjQ6WUfLRFE6nZk7XY33ElNwDOdyX0epRI2UL8E3zE4Sa5avoE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OS7PR01MB11759.jpnprd01.prod.outlook.com
+ (2603:1096:604:23d::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Wed, 4 Sep
+ 2024 07:56:30 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7918.024; Wed, 4 Sep 2024
+ 07:56:30 +0000
+Message-ID: <878qw77sya.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v5 9/9] media: xilinx-tpg: use new of_graph functions
+In-Reply-To: <87ed606j88.wl-kuninori.morimoto.gx@renesas.com>
+References: <87r0a06ja1.wl-kuninori.morimoto.gx@renesas.com>
+	<87ed606j88.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 4 Sep 2024 07:56:30 +0000
+X-ClientProxiedBy: TYWPR01CA0044.jpnprd01.prod.outlook.com
+ (2603:1096:400:17f::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <m7lhuuglaqaqmk6aaozexg6vdsemwihea5wkmdmfongfdreqi5@p54tkbtup2dc>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS7PR01MB11759:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a071dae-5385-40fe-b17a-08dcccb71669
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|52116014|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?21FyEdtMuOiKVjv8eWgBiziWmGto/bT9P5NAWKtcCu8DfCbTmbWyojexukk7?=
+ =?us-ascii?Q?esaSR+cLQF7ms2aUyjy/qT1KiAnfpjtTJEo+tx2bYhazIeZsba9BIpuakuzR?=
+ =?us-ascii?Q?De2Db5mrZqBOtfeO34b0NwnyIu5yrK8w8LZUxK8MHUfxhpGBKRoBEkj0Kn+M?=
+ =?us-ascii?Q?r0smqCUzNkur2GR55fOTFc+7APFV0rlIfn1z/O93tZmGVdUQaJF/dQ3RPVN8?=
+ =?us-ascii?Q?RxJ/WHo2g7gLg94wNZJoYq9ouKKDG6fyGP4+UoUWTflJLlF+4rRn1F56cDwP?=
+ =?us-ascii?Q?B74ugBnYi9lzqj3dc8Gfk1lpOzC2HR/jLdCAb1qeSTDmcgoElXYs5xw0rpYe?=
+ =?us-ascii?Q?9jRY0rWGDr/mom8/x7R7v5tXCH6HVN/o7UdvHuMdLcQ7g4VaoLeE6Y//XPdG?=
+ =?us-ascii?Q?gMe2nu1OwscE9eulPaJg4wqIy0u/GtsKLhslZVPC11bsIu/PpYQ+VnRFL4h5?=
+ =?us-ascii?Q?oCiWIhvodIIWyG6hOSaAKcx09yn/AWxwFDm8UFPqT07KvHcj9lN8UCLu8vZT?=
+ =?us-ascii?Q?qc+yxq0jokfGBdwOU3flcXdExrR8QkgIft5Koub67CNLYjoE9FwZzVWtwIBx?=
+ =?us-ascii?Q?vbsWH5a1CxRBRROX0SGHDELjsIxSulZT44BN3CdcLB9PS6RP7XMSMdY+VCyO?=
+ =?us-ascii?Q?BOzQestgtbQAfmLE38lAgh6uRWyMNo40208LKxXHpwg82AJ94HUCEVDPHs/9?=
+ =?us-ascii?Q?3SjoDPDtbAwuVHMnMnFkI9wyB6+H5LCOUiC2W86cUZzVScBwb0wg4Z8XWVvQ?=
+ =?us-ascii?Q?CQMzRWTVIYHyNuVOT0rjXYcTkUSieU99ReI/PCKP7PJmkFrj8KQ4srpPrOT9?=
+ =?us-ascii?Q?ZBqUAn+H9NiUAs+PJpQhk9DExYn02UrAjhUhtdLuFrM59dLcVQcChyuaLJkx?=
+ =?us-ascii?Q?gv6t+KhWaQXAAC+UNaLeqRO3Jr+81HdDbemgpVoEgkq5CyUbaC5/YScR86zK?=
+ =?us-ascii?Q?2b4bWi3dF3rLwCTMxAJ5w5Wgcw3/VcE9Q8ttBtWLskl9kcFmJLM5hUKg7NSZ?=
+ =?us-ascii?Q?0kkLl8Deww+ZAezIEc/KuQPFd4Qc/+XQr3pQS53o3KBymtbgmH+A7/pnHDNz?=
+ =?us-ascii?Q?Gtz5gqCtECEoGGSqlIvJpgNa29Q61UoCfRIquDaBDJHh03l1wGse+92JEfkO?=
+ =?us-ascii?Q?ri2xmHgUS6K3omGfLJIO/WQCGRaqscaTBrBUVP3hcM5xKvoajyVGvRd1ykPl?=
+ =?us-ascii?Q?iTSyR7HAbTrnGw9H0q0Gcp1LbMZFekgM6a+X8x3Uw1yRbYG7km3UQQMqA+hp?=
+ =?us-ascii?Q?XE0bpLTkkrARLcruX6VP1PohGcR5wRy+y4JKkA3+BU/oS4p+cpQGgCsF1Tgd?=
+ =?us-ascii?Q?pbde8pvLBxQqkYVFqCubfmyj2dhWAdbBkj17w4tP45jKTx95WgQn7jOU2vWs?=
+ =?us-ascii?Q?4OL71sjqiuCaYgwiiEsCwkA2vUEI+bGkTk7Yrlb5TXypv/4+fQwcrCBJIao0?=
+ =?us-ascii?Q?KA5QSv7dm+E=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(52116014)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?HmxVQWItBEPmDkffc2HLhK3AZkvi1vyG30nZfxeeuFNAai7kkez5wujepvIt?=
+ =?us-ascii?Q?UAJMbwVhWdpXs5jlJuIc5cbQoOcydw5rClrg7hHcrnJEpZohTOw8fMZLAUvT?=
+ =?us-ascii?Q?j7DxWJXf08En9YqLvadlFTRLoSSll1MT+8CL4gsnWGRJEq1AJy8mKMjhcJo6?=
+ =?us-ascii?Q?FUKJNhzszyF50tIfhc25B0hfRsVQXBX0NCE83JXz4chJPETu2bTFs4zLrYL+?=
+ =?us-ascii?Q?NnyyuMHstFZEKcYAFNchswz3KgxxXve5dS+ZnYxwOsggUOVrERHATFZpDB1Y?=
+ =?us-ascii?Q?0NbENFfHpxjEUeIDa2OCXQdiebNr058H2J4UB+EJL9ACr1N7dvw/YYgtwJrT?=
+ =?us-ascii?Q?iMuLcyqLAlKnnPsM44FcDATl8WCr+MN+zvFQLtbogVGX/Cf6Hp+R88TlVQlu?=
+ =?us-ascii?Q?49D7Hji/4YkeRbvXk6Oiw1Led3lD2OCXETGXVglpPe94cEw9f0o6UiV6OTOg?=
+ =?us-ascii?Q?wW3Vm/55XW8NpIbNueqi0xnpHFFR40KFPPRmD7iHZKWo16YlgnLG9aI8oWiZ?=
+ =?us-ascii?Q?XymG9uE0R9Ffnd6PsUMhUmrkRRdIb/c1OnNEkJ656lxITCZDaWGO18fQCTc6?=
+ =?us-ascii?Q?ZfXXuvg+0L3pYf4J0XMiap1R3FIAu0b6eLNqajPNZIeSMvsZCo6PeBmC05Fv?=
+ =?us-ascii?Q?fYBhhLVijxqfVauU3AFYVSoYMXISFwfeCH/bret46Nf4yxmrpz9FU0tuDw23?=
+ =?us-ascii?Q?UOJYiEsU4duh8DC5mLjPhOsbuj0YNsAwUmjjiqYM78x2yzbRTlbKcZhH9J5Z?=
+ =?us-ascii?Q?F+cMbd/+avC2OAlROgGCxbuOIEBmxti/B55SGCSym1DVjUlMUbyCvtTDHpmB?=
+ =?us-ascii?Q?sFLpY3mV2sdbq2H6Fgji+uE2ISalSecKrgunu3/ejyTr7e4aVBFjfhgFAALA?=
+ =?us-ascii?Q?mf6imvvTCF1vmUlrW70BBfFEtkLDmZhYp8HP2YetINBYif4PbRJBOfGqO6GC?=
+ =?us-ascii?Q?1V88i+Xw31bYEE3qpw4x+MyRUigu8a8vGCoULRnLq8w9JzHP5xUDHZOjXfIg?=
+ =?us-ascii?Q?r1JqPjqpYWhhuuJ0Nxuk+pLu9vUhu1LyRQkhUmSUq2GD+ZWJTgK0aBPM4F7s?=
+ =?us-ascii?Q?nwjb2aQEpWbAk/8ykqVZngAowzWua8rvu5sQ4Jb0QhVN1bj9u4nfQmJpbVFx?=
+ =?us-ascii?Q?87rv2MMaFu6s7ksoUnxK/AYmxWEFmnMsWaWLDD0nACu55/Wlrs+2LfZflKYv?=
+ =?us-ascii?Q?BMLbbagD/qey75eTQ+sTXklCMoTSw4rqpyUhKn4Py+fZ0sgKfB5KmB4iGS6z?=
+ =?us-ascii?Q?oggmEVBRaYJc4s7Q1yeIDr4m+5qK8LOGk8jPyBsxmzDKYShTHBSPTy/SNRsQ?=
+ =?us-ascii?Q?DPa1APp8EYzyaYWn+XTCTgdJhaeGneNbeV3tsUBkpzUKv5/ZCkI3ostw8ycV?=
+ =?us-ascii?Q?e2tjX2DA0/Pu/gFJfsTUz8THtwiLtMu820M/cR0L63b7TY1S2SE+2b6pwHRd?=
+ =?us-ascii?Q?aUxpukIQFqPc3GaAB5TpOLnBqwFVFcDaG8MoMJ8130C0Jae8R2fmvPBWilyh?=
+ =?us-ascii?Q?4c8mUt/6ewg3h5+U4xKW1M6uFYgDAIW4S7Igxt2MRJWjxi/K8YfYNHp6+mX+?=
+ =?us-ascii?Q?5vG4RBBJdVxpjP2xGrd2/Hioqmm14yK8Ud/99w91wR8ehwh7z3SmpMXHJF4G?=
+ =?us-ascii?Q?MhGg+jjeL1MLnJUdKto8Nxw=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a071dae-5385-40fe-b17a-08dcccb71669
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2024 07:56:30.8028
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yR78lnPVRXpd2K3+GWceYQFq1sL5En284tZEHkz49OaTXU3eHsBV3dD/4J2SPWZc6qZNDQhm+oEox7VkdAQEkg32iKEfVjTiqDiYof3og2Cw9YkpwPNm3s9fxdfBb1gE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11759
 
-On Wed, Sep 04, 2024 at 09:21:45AM +0200, Jacopo Mondi wrote:
-> Hi Laurent
-> 
-> On Tue, Sep 03, 2024 at 03:19:36PM GMT, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > I just noticed the subject line writes "pisp-be" while all other patches
-> > in the series use "pisp_be".
-> >
-> > On Mon, Sep 02, 2024 at 01:24:05PM +0200, Jacopo Mondi wrote:
-> > > Currently the 'pispbe_schedule()' function does two things:
-> > >
-> > > 1) Tries to assemble a job by inspecting all the video node queues
-> > >    to make sure all the required buffers are available
-> > > 2) Submit the job to the hardware
-> > >
-> > > The pispbe_schedule() function is called at:
-> > >
-> > > - video device start_streaming() time
-> > > - video device qbuf() time
-> > > - irq handler
-> > >
-> > > As assembling a job requires inspecting all queues, it is a rather
-> > > time consuming operation which is better not run in IRQ context.
-> > >
-> > > To avoid the executing the time consuming job creation in interrupt
-> > > context split the job creation and job scheduling in two distinct
-> > > operations. When a well-formed job is created, append it to the
-> > > newly introduced 'pispbe->job_queue' where it will be dequeued from
-> > > by the scheduling routine.
-> > >
-> > > At start_streaming() and qbuf() time immediately try to schedule a job
-> > > if one has been created as the irq handler routing is only called when
-> > > a job has completed, and we can't solely rely on it for scheduling new
-> > > jobs.
-> > >
-> > > As now the per-node 'ready_queue' buffer list is only accessed in vb2
-> > > ops callbacks, protected by a mutex, it is not necessary to guard it
-> > > with a dedicated spinlock so drop it.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > ---
-> > >  .../platform/raspberrypi/pisp_be/pisp_be.c    | 134 ++++++++++--------
-> > >  1 file changed, 73 insertions(+), 61 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> > > index 41fd68b7757b..d614f53f0f68 100644
-> > > --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> > > +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> > > @@ -161,8 +161,6 @@ struct pispbe_node {
-> > >  	struct mutex node_lock;
-> > >  	/* vb2_queue lock */
-> > >  	struct mutex queue_lock;
-> > > -	/* Protect pispbe_node->ready_queue and pispbe_buffer->ready_list */
-> > > -	spinlock_t ready_lock;
-> > >  	struct list_head ready_queue;
-> > >  	struct vb2_queue queue;
-> > >  	struct v4l2_format format;
-> > > @@ -190,6 +188,8 @@ struct pispbe_hw_enables {
-> > >
-> > >  /* Records a job configuration and memory addresses. */
-> > >  struct pispbe_job_descriptor {
-> > > +	struct list_head queue;
-> > > +	struct pispbe_buffer *buffers[PISPBE_NUM_NODES];
-> > >  	dma_addr_t hw_dma_addrs[N_HW_ADDRESSES];
-> > >  	struct pisp_be_tiles_config *config;
-> > >  	struct pispbe_hw_enables hw_enables;
-> > > @@ -215,8 +215,10 @@ struct pispbe_dev {
-> > >  	unsigned int sequence;
-> > >  	u32 streaming_map;
-> > >  	struct pispbe_job queued_job, running_job;
-> > > -	spinlock_t hw_lock; /* protects "hw_busy" flag and streaming_map */
-> > > +	/* protects "hw_busy" flag, streaming_map and job_queue */
-> > > +	spinlock_t hw_lock;
-> > >  	bool hw_busy; /* non-zero if a job is queued or is being started */
-> > > +	struct list_head job_queue;
-> > >  	int irq;
-> > >  	u32 hw_version;
-> > >  	u8 done, started;
-> > > @@ -440,41 +442,47 @@ static void pispbe_xlate_addrs(struct pispbe_dev *pispbe,
-> > >   * For Output0, Output1, Tdn and Stitch, a buffer only needs to be
-> > >   * available if the blocks are enabled in the config.
-> > >   *
-> > > - * Needs to be called with hw_lock held.
-> > > + * If all the buffers required to form a job are available, append the
-> > > + * job descriptor to the job queue to be later queued to the HW.
-> > >   *
-> > >   * Returns 0 if a job has been successfully prepared, < 0 otherwise.
-> > >   */
-> > > -static int pispbe_prepare_job(struct pispbe_dev *pispbe,
-> > > -			      struct pispbe_job_descriptor *job)
-> > > +static int pispbe_prepare_job(struct pispbe_dev *pispbe)
-> > >  {
-> > >  	struct pispbe_buffer *buf[PISPBE_NUM_NODES] = {};
-> > > +	struct pispbe_job_descriptor *job;
-> > > +	unsigned int streaming_map;
-> > >  	unsigned int config_index;
-> > >  	struct pispbe_node *node;
-> > > -	unsigned long flags;
-> > >
-> > > -	lockdep_assert_held(&pispbe->hw_lock);
-> > > +	scoped_guard(spinlock, &pispbe->hw_lock) {
-> >
-> > I think I've mis-communicated the locking requirements. This spinlock is
-> > taken in both non-IRQ contexts (here) and in mixed IRQ and non-IRQ
-> > contexts (pispbe_schedule(), called from both IRQ context in
-> > pispbe_isr() and non-IRQ context in pispbe_node_buffer_queue() and
-> > pispbe_node_start_streaming()).
-> >
-> > This means that the non-IRQ contexts should use spinlock_irq(), and the
-> > mixed contexts should use spinlock_irqsave().
-> >
-> 
-> Yeah sorry, I admit I hadn't put much attention to this
-> 
-> > > +		static const u32 mask = BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE);
-> > >
-> > > -	memset(job, 0, sizeof(struct pispbe_job_descriptor));
-> > > +		if ((pispbe->streaming_map & mask) != mask)
-> > > +			return -ENODEV;
-> > >
-> > > -	if (((BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE)) &
-> > > -		pispbe->streaming_map) !=
-> > > -			(BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE)))
-> > > -		return -ENODEV;
-> > > +		/*
-> > > +		 * Take a copy of streaming_map: nodes activated after this
-> > > +		 * point are ignored when preparing this job.
-> > > +		 */
-> > > +		streaming_map = pispbe->streaming_map;
-> > > +	}
-> > > +
-> > > +	job = kzalloc(sizeof(*job), GFP_KERNEL);
-> > > +	if (!job)
-> > > +		return -ENOMEM;
-> > >
-> > >  	node = &pispbe->node[CONFIG_NODE];
-> > > -	spin_lock_irqsave(&node->ready_lock, flags);
-> > >  	buf[CONFIG_NODE] = list_first_entry_or_null(&node->ready_queue,
-> > >  						    struct pispbe_buffer,
-> > >  						    ready_list);
-> > > -	if (buf[CONFIG_NODE]) {
-> > > -		list_del(&buf[CONFIG_NODE]->ready_list);
-> > > -		pispbe->queued_job.buf[CONFIG_NODE] = buf[CONFIG_NODE];
-> > > +	if (!buf[CONFIG_NODE]) {
-> > > +		kfree(job);
-> > > +		return -ENODEV;
-> > >  	}
-> > > -	spin_unlock_irqrestore(&node->ready_lock, flags);
-> > >
-> > > -	/* Exit early if no config buffer has been queued. */
-> > > -	if (!buf[CONFIG_NODE])
-> > > -		return -ENODEV;
-> > > +	list_del(&buf[CONFIG_NODE]->ready_list);
-> > > +	job->buffers[CONFIG_NODE] = buf[CONFIG_NODE];
-> > >
-> > >  	config_index = buf[CONFIG_NODE]->vb.vb2_buf.index;
-> > >  	job->config = &pispbe->config[config_index];
-> > > @@ -495,7 +503,7 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
-> > >  			continue;
-> > >
-> > >  		buf[i] = NULL;
-> > > -		if (!(pispbe->streaming_map & BIT(i)))
-> > > +		if (!(streaming_map & BIT(i)))
-> > >  			continue;
-> > >
-> > >  		if ((!(rgb_en & PISP_BE_RGB_ENABLE_OUTPUT0) &&
-> > > @@ -522,25 +530,25 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
-> > >  		node = &pispbe->node[i];
-> > >
-> > >  		/* Pull a buffer from each V4L2 queue to form the queued job */
-> > > -		spin_lock_irqsave(&node->ready_lock, flags);
-> > >  		buf[i] = list_first_entry_or_null(&node->ready_queue,
-> > >  						  struct pispbe_buffer,
-> > >  						  ready_list);
-> > >  		if (buf[i]) {
-> > >  			list_del(&buf[i]->ready_list);
-> > > -			pispbe->queued_job.buf[i] = buf[i];
-> > > +			job->buffers[i] = buf[i];
-> > >  		}
-> > > -		spin_unlock_irqrestore(&node->ready_lock, flags);
-> > >
-> > >  		if (!buf[i] && !ignore_buffers)
-> > >  			goto err_return_buffers;
-> > >  	}
-> > >
-> > > -	pispbe->queued_job.valid = true;
-> > > -
-> > >  	/* Convert buffers to DMA addresses for the hardware */
-> > >  	pispbe_xlate_addrs(pispbe, job, buf);
-> > >
-> > > +	spin_lock(&pispbe->hw_lock);
-> > > +	list_add_tail(&job->queue, &pispbe->job_queue);
-> > > +	spin_unlock(&pispbe->hw_lock);
-> > > +
-> > >  	return 0;
-> > >
-> > >  err_return_buffers:
-> > > @@ -551,33 +559,39 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
-> > >  			continue;
-> > >
-> > >  		/* Return the buffer to the ready_list queue */
-> > > -		spin_lock_irqsave(&n->ready_lock, flags);
-> > >  		list_add(&buf[i]->ready_list, &n->ready_queue);
-> > > -		spin_unlock_irqrestore(&n->ready_lock, flags);
-> > >  	}
-> > >
-> > > -	memset(&pispbe->queued_job, 0, sizeof(pispbe->queued_job));
-> > > +	kfree(job);
-> > >
-> > >  	return -ENODEV;
-> > >  }
-> > >
-> > >  static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
-> > >  {
-> > > -	struct pispbe_job_descriptor job;
-> > > -	unsigned long flags;
-> > > -	int ret;
-> > > +	struct pispbe_job_descriptor *job;
-> > >
-> > > -	spin_lock_irqsave(&pispbe->hw_lock, flags);
-> > > +	scoped_guard(spinlock, &pispbe->hw_lock) {
-> > > +		if (clear_hw_busy)
-> > > +			pispbe->hw_busy = false;
-> > > +
-> > > +		if (pispbe->hw_busy)
-> > > +			return;
-> > >
-> > > -	if (clear_hw_busy)
-> > > -		pispbe->hw_busy = false;
-> > > +		job = list_first_entry_or_null(&pispbe->job_queue,
-> > > +					       struct pispbe_job_descriptor,
-> > > +					       queue);
-> > > +		if (!job)
-> > > +			return;
-> > >
-> > > -	if (pispbe->hw_busy)
-> > > -		goto unlock_and_return;
-> > > +		list_del(&job->queue);
-> > >
-> > > -	ret = pispbe_prepare_job(pispbe, &job);
-> > > -	if (ret)
-> > > -		goto unlock_and_return;
-> > > +		for (unsigned int i = 0; i < PISPBE_NUM_NODES; i++)
-> > > +			pispbe->queued_job.buf[i] = job->buffers[i];
-> > > +		 pispbe->queued_job.valid = true;
-> > > +
-> > > +		pispbe->hw_busy = true;
-> > > +	}
-> > >
-> > >  	/*
-> > >  	 * We can kick the job off without the hw_lock, as this can
-> > > @@ -585,16 +599,8 @@ static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
-> > >  	 * only when the following job has been queued and an interrupt
-> > >  	 * is rised.
-> > >  	 */
-> > > -	pispbe->hw_busy = true;
-> > > -	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > > -
-> > > -	pispbe_queue_job(pispbe, &job);
-> > > -
-> > > -	return;
-> > > -
-> > > -unlock_and_return:
-> > > -	/* No job has been queued, just release the lock and return. */
-> > > -	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > > +	pispbe_queue_job(pispbe, job);
-> > > +	kfree(job);
-> > >  }
-> > >
-> > >  static void pispbe_isr_jobdone(struct pispbe_dev *pispbe,
-> > > @@ -846,18 +852,16 @@ static void pispbe_node_buffer_queue(struct vb2_buffer *buf)
-> > >  		container_of(vbuf, struct pispbe_buffer, vb);
-> > >  	struct pispbe_node *node = vb2_get_drv_priv(buf->vb2_queue);
-> > >  	struct pispbe_dev *pispbe = node->pispbe;
-> > > -	unsigned long flags;
-> > >
-> > >  	dev_dbg(pispbe->dev, "%s: for node %s\n", __func__, NODE_NAME(node));
-> > > -	spin_lock_irqsave(&node->ready_lock, flags);
-> > >  	list_add_tail(&buffer->ready_list, &node->ready_queue);
-> > > -	spin_unlock_irqrestore(&node->ready_lock, flags);
-> > >
-> > >  	/*
-> > >  	 * Every time we add a buffer, check if there's now some work for the hw
-> > >  	 * to do.
-> > >  	 */
-> > > -	pispbe_schedule(pispbe, false);
-> > > +	if (!pispbe_prepare_job(pispbe))
-> > > +		pispbe_schedule(pispbe, false);
-> > >  }
-> > >
-> > >  static int pispbe_node_start_streaming(struct vb2_queue *q, unsigned int count)
-> > > @@ -883,7 +887,8 @@ static int pispbe_node_start_streaming(struct vb2_queue *q, unsigned int count)
-> > >  		node->pispbe->streaming_map);
-> > >
-> > >  	/* Maybe we're ready to run. */
-> > > -	pispbe_schedule(pispbe, false);
-> > > +	if (!pispbe_prepare_job(pispbe))
-> > > +		pispbe_schedule(pispbe, false);
-> > >
-> > >  	return 0;
-> > >
-> > > @@ -917,9 +922,6 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
-> > >  	dev_dbg(pispbe->dev, "%s: for node %s\n", __func__, NODE_NAME(node));
-> > >  	spin_lock_irqsave(&pispbe->hw_lock, flags);
-> >
-> > Is the lock needed here ? And in the err_return_buffers error path in
-> > pispbe_node_start_streaming() ? Both seem to touch the ready_queue only,
-> > which isn't protected by the hw_lock.
-> 
-> No the lock is not needed, and as this is not irq context I should
-> switch both stop_streaming() and start_streaming() to use
-> spink_lock_irq()
-> 
-> > >  	do {
-> > > -		unsigned long flags1;
-> > > -
-> > > -		spin_lock_irqsave(&node->ready_lock, flags1);
-> > >  		buf = list_first_entry_or_null(&node->ready_queue,
-> > >  					       struct pispbe_buffer,
-> > >  					       ready_list);
-> > > @@ -927,7 +929,6 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
-> > >  			list_del(&buf->ready_list);
-> > >  			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> > >  		}
-> > > -		spin_unlock_irqrestore(&node->ready_lock, flags1);
-> > >  	} while (buf);
-> > >  	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > >
-> > > @@ -935,6 +936,16 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
-> > >
-> > >  	spin_lock_irqsave(&pispbe->hw_lock, flags);
-> > >  	pispbe->streaming_map &= ~BIT(node->id);
-> > > +
-> > > +	/* Release all jobs once all nodes have stopped streaming. */
-> > > +	if (pispbe->streaming_map == 0) {
-> > > +		struct pispbe_job_descriptor *job, *temp;
-> > > +
-> > > +		list_for_each_entry_safe(job, temp, &pispbe->job_queue, queue) {
-> > > +			list_del(&job->queue);
-> > > +			kfree(job);
-> > > +		}
-> >
-> > I think this can be done outside of the lock.
-> >
-> 
-> Does it ? The job queue is accessed by the irq handler. As we
-> stop the interface -after- having cleared the job queue here, I would
-> keep this sequence inside the lock to be honest.
 
-Ah yes you right. I'm not sure what I missed.
+Hi
 
-What you can do here, though, is to splice the job_queue to a local list
-with the lock, and then iterate over the local list and free the jobs
-without the lock.
+> Now we can use new port related functions for port parsing. Use it.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
 
-> > > +	}
-> > >  	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > >
-> > >  	pm_runtime_mark_last_busy(pispbe->dev);
-> > > @@ -1393,7 +1404,6 @@ static int pispbe_init_node(struct pispbe_dev *pispbe, unsigned int id)
-> > >  	mutex_init(&node->node_lock);
-> > >  	mutex_init(&node->queue_lock);
-> > >  	INIT_LIST_HEAD(&node->ready_queue);
-> > > -	spin_lock_init(&node->ready_lock);
-> > >
-> > >  	node->format.type = node->buf_type;
-> > >  	pispbe_node_def_fmt(node);
-> > > @@ -1677,6 +1687,8 @@ static int pispbe_probe(struct platform_device *pdev)
-> > >  	if (!pispbe)
-> > >  		return -ENOMEM;
-> > >
-> > > +	INIT_LIST_HEAD(&pispbe->job_queue);
-> > > +
-> > >  	dev_set_drvdata(&pdev->dev, pispbe);
-> > >  	pispbe->dev = &pdev->dev;
-> > >  	platform_set_drvdata(pdev, pispbe);
+I'm sorry, but this patch will get below warning
 
--- 
-Regards,
+   drivers/media/platform/xilinx/xilinx-tpg.c: In function 'xtpg_parse_of':
+>> drivers/media/platform/xilinx/xilinx-tpg.c:715:29: warning: unused variable 'port' [-Wunused-variable]
 
-Laurent Pinchart
+I will post v6 after review
+
+Thank you for your help !!
+
+Best regards
+---
+Kuninori Morimoto
 
