@@ -1,308 +1,442 @@
-Return-Path: <linux-media+bounces-17590-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17591-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1C796BD26
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 14:54:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8678996BD34
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 14:55:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5611328524F
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 12:54:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E5BC281F77
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 12:55:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BEB01DC184;
-	Wed,  4 Sep 2024 12:52:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDFBC1DA2E4;
+	Wed,  4 Sep 2024 12:54:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="YMWNUsSV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kbr25GYu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LWVlRcoD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh8-smtp.messagingengine.com (fhigh8-smtp.messagingengine.com [103.168.172.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA811DC070;
-	Wed,  4 Sep 2024 12:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A0D26AED;
+	Wed,  4 Sep 2024 12:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725454337; cv=none; b=iz6y+JAl+GsSnZZiZGoLAzqXgmUFocG45kLu2tDmqfIwZRszB+cNmHBSmxoOYGTORxiVnKfkGirZIbFPXb0kCf/6jv6jmvNgBisq4kU4qZu80YaVAH0+LSlmC/2LA3LJLFbhTzwOfV5iYCqpDOMhmBKbWyAKH7Pm1u3EYgm1I+E=
+	t=1725454442; cv=none; b=JqA3lGLwXpB2wr9UvmcTAMHkfIxe1Y2g3r93E1jYwB9gBfBA5531YkJT6J4nKNNVKnZ7B+vYu5lgvgMnEcCNm3bAcqBSXdQ+UPdTiGqH/0o1yCMYicaGPM/Dh2dTvH/IiZhxxxjpMOVmC7azi8Xvl6+jQb7FDu150XPjfCP7W+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725454337; c=relaxed/simple;
-	bh=ojVAHMGLVxM6BQXsQwccByzQ1V2w5Q8flcap2aZwbVA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n4uTX47NYmU1BAwXyLqqka5hkcyRH6hVIPEREsll5e0qPiGJxyNCAn0MH24keEdC1LXu2+X+eLPgDF5wGn4WrzbnSoJG76CfenMkDlNE5GnGF/vC+70+IXxvo2HBOu6ei7+GfAq35Cgf36V08HqL4n426g5tWLLYSq89e3wa5Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=YMWNUsSV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kbr25GYu; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id D7A1C11401AB;
-	Wed,  4 Sep 2024 08:52:14 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Wed, 04 Sep 2024 08:52:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1725454334; x=
-	1725540734; bh=nv0xbhGWiRX7u7gz9SGKHEd/5MDr79jm+xvr16IY/JI=; b=Y
-	MWNUsSV+drCuf//JaaMU583NJ1Tv75Hb9txQhkyDHRKGMjHldfJVHZz2k9kV/pun
-	8H8GX9mHkFJXXyIl9+gtD9Q7q19yhyrWSVIb+DKUWw7VUsWUZAom6edlPkn1lXPu
-	AmrGZZ30dcpPvhc5oH6ZgDlSHyPkwn5bLq+otjucmCS2DdG0zm7jZkjtAz7M1IS/
-	O8HVF09uUdHWwlpvUuBdFG01exWS9342/eHJsrSMut6EBsPzJq60eqGHAFRiDts7
-	IQrUeaOaePS32QU7rgygmEfeyh7EtUknGvisQ04JVpLlu9dAX6rBtgSSG6tLVOpa
-	ME+e8xpwnSMrwsUTh08KA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725454334; x=
-	1725540734; bh=nv0xbhGWiRX7u7gz9SGKHEd/5MDr79jm+xvr16IY/JI=; b=k
-	br25GYuhZEkFybMl1mVUkoI1veBpKiO3zVPkoX1fvbSvFMNN2kfitEjmZsygoGQt
-	eIRFmgTsswjL6xB7F4N7+J+QHP3Vkr9PdW+Y399sm+corbxtHOW7Dnr61wG3D83y
-	WGAf1QBefmCSHu9mYWM4R2Taq0yEthHsJqff9xLw7ZEV57GviSnDOGu/gSqTo3Je
-	P8cCYf+PDGxzLbsqz78as0GSZ88sP7TzkuHNJFelbCjbZVJkqYGis8mgOgtAdq6Y
-	MTEkTuch4IhPjGw0QvIc31HzyU4Bk9kfnkJzzt8iUvTnYxAAyaOkFNu1wozJPJSg
-	uFq6guivLUwneDroyo0ag==
-X-ME-Sender: <xms:_lfYZgUdJseWkkFKW7GqvFpCIkZZOD4itS1hWZBRHQw-FXHW_sGKvg>
-    <xme:_lfYZkn13mfmLb9B1D3AfJooycC5mJcYhLOzChcieUlnp2oSn0krbMYLk03_gmQvy
-    BVgktDPXt7krEDYm3o>
-X-ME-Received: <xmr:_lfYZkZe-u4gEUWNMGw5Xlr-GcIvo1va06iHBHOB6W7xRz3ET-rTn5GjHa035gTaormwgaWcd0SUXbEnx03ibYSB0WYHET2ytlG4hc78RzKNgA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehjedgheejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
-    ffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghm
-    ohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrg
-    htthgvrhhnpedvjefgjeeuvdfguddukeelveetgfdtvefhtdfffeeigfevueetffeivdff
-    kedvtdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeej
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehtihifrghisehsuhhsvgdruggvpd
-    hrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopegrphgrihhssehlihhnuhigrdhmihgtrhhoshhofhhtrdgtohhmpdhr
-    tghpthhtohepvggumhhunhgurdhrrghilhgvsehprhhothhonhhmrghilhdrtghomhdprh
-    gtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:_lfYZvVzuJKDtriBBz2S_0Jk-g4SVlN410JHWqkis2l966gSqP6iZA>
-    <xmx:_lfYZqlB18g-mGDX4lJj7mzZZQlWDuKf_MInG00o-TP6vpG-Mx9rtw>
-    <xmx:_lfYZkdnV3-mvuuxinTNzhP0Pv5w4tpvjI3iU85Wfrk00e92CkfFYg>
-    <xmx:_lfYZsFUEvlyoBbTtBRPu_nd-bNI6JXJnJqtAfGs9OOlpC0dCI1Pyw>
-    <xmx:_lfYZsVjBJUhj-_ojJdPUmF7MP7GjW_opI-v-ToTfIQrgOfRn_rDQlkD>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Sep 2024 08:52:12 -0400 (EDT)
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: tiwai@suse.de,
-	linux-kernel@vger.kernel.org
-Cc: linux-sound@vger.kernel.org,
-	apais@linux.microsoft.com,
-	edmund.raile@protonmail.com,
-	linux-media@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: [PATCH 5/5] ALSA: firewire: use nonatomic PCM operation
-Date: Wed,  4 Sep 2024 21:51:54 +0900
-Message-ID: <20240904125155.461886-6-o-takashi@sakamocchi.jp>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
-References: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
+	s=arc-20240116; t=1725454442; c=relaxed/simple;
+	bh=z9Knrzwd/BdbHzP9M7K4Z0TdhsWJJoXoi8aNDf62Jko=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jjtRBu0CKlGPjpW00DGEcpk+dotbq3IqgIwxE9cd1D6P8SOGhh4TU7+jAtSJcAYk9HYZl1WLiTk3QtJvi23MiQ2aw87Sxwa0OCmjytXzQpcPAX1StLYd7PIzoQXzNH20WsbF0z218zMQhbXQyEyoH/3qBi6FrXNtXVYWK44FQFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LWVlRcoD; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5bef295a429so872970a12.2;
+        Wed, 04 Sep 2024 05:53:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725454438; x=1726059238; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4ZnlzzL7QT7HkKE72eKhZueU2Gz9gNV3yErbkwMvOmw=;
+        b=LWVlRcoDHMIrO0AxmkjVkA7QxOPRws4cL7N7hbVa6GRXahjrmgJvQ2r6Fy+w3JQIvq
+         dFpqByokgKJ42HBBH5mExZJYBPhoyWsIe+Yxz0OFRgS0cO8p7ENwlMxS8+gnwiiMO0HX
+         7ccZ37tbueI/r0yHqYERgvZwTA6vG/wTUotp0lYosYyNyV2k7Sc7CaAQsUlfMcMDJU4K
+         k5U+iEEKdtM60wmH7QGhXNkU0+nRaqhuEmc/m/LTMTqByiY7C1y8U7KhI9Bnbu405wx1
+         ZUBgWugPgONFiYMZ3m/YwVhC/q6biHjxNtvXFUrplrfNbpxCXS8StViC6M+aafo7HINB
+         gmUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725454438; x=1726059238;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4ZnlzzL7QT7HkKE72eKhZueU2Gz9gNV3yErbkwMvOmw=;
+        b=g1jvf1Tq2mt4Li/hKZGEyMSsU0kNGZniLcTAAPPrsrl1Ct3Uk37TB9X1FeEicK1sy1
+         UIOWiUEjrHJ+ahBH3GQ1Vz6AS7rKYNrY86yDgpzOqb5NxSnc83tJfRE0OgOugfLwvyZF
+         MOvmGfcWPIllYmKcNtd1cG6/7to1j3cjN4HIT1stXUrmnnUWpcit7s3c7Ab1pVYrznW7
+         LYFTvuPN60Y+gDsrYEOD8buaiE2zfYDBYnL0TVUM51GEnNmA6CLkVXKhiTTSbWC/2H67
+         TZ7FtrmlV585GyFz1KeNMmVBIaaGuuXeUTIitgs9bSn32rYcajEAHZTS1lKEQ1PUg50U
+         Oagw==
+X-Forwarded-Encrypted: i=1; AJvYcCVQMfS5istrjbyWtA2olrbpHjJiga0ygpXvrfGB7SJp7w6eafMfv+GS36o1IEIA5Uk1j7HObZ/2upgRfRE=@vger.kernel.org, AJvYcCVdtvGa4yiMyx26U6ZheE8R10kiflcxILhUr9UyWtRoq3SX8T0zZ9pepxfcKPAMl626LOJUJ8x36/7donw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzD/ZQ1jlNxyGW1BhjvGjpNYwnvMBC3rekgssZIK7wPApIAFagd
+	KDb+xJVkc9axKoOkki9FJJtcP7UZ3IFTFmV2dmJKfavT/nDkDJhn
+X-Google-Smtp-Source: AGHT+IGlzU91fc+EJhzfskLJ6HwKQ0YpbAj8wMQSSfpqEiUTzx/WPHuivD62CeMP6yJTsdsrwlETsw==
+X-Received: by 2002:a17:906:bc11:b0:a7a:a2b7:93fe with SMTP id a640c23a62f3a-a8a3f499ce8mr200803266b.47.1725454437723;
+        Wed, 04 Sep 2024 05:53:57 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-48-58.cust.vodafonedsl.it. [188.217.48.58])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891d6d88sm807659466b.151.2024.09.04.05.53.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 05:53:57 -0700 (PDT)
+Date: Wed, 4 Sep 2024 14:53:55 +0200
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linuxfancy@googlegroups.com, michael.roeder@avnet.eu,
+	julien.massot@collabora.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] media: i2c: max96717: add test pattern ctrl
+Message-ID: <ZthYYwNM9ggZzX/K@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20240627151806.3999400-1-tomm.merciai@gmail.com>
+ <20240627151806.3999400-2-tomm.merciai@gmail.com>
+ <Zs7HQxieYEVJ9-5X@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zs7HQxieYEVJ9-5X@kekkonen.localdomain>
 
-In the former commits, the callback of isochronous context runs on usual
-work process. In the case, ALSA PCM device has a flag, nonatomic, to
-acquire mutex lock instead of spin lock for PCM substream group.
+Hi Sakari,
+Sorry for delay and thanks for reviewing this.
 
-This commit uses the flag. It has an advantage in the case that ALSA PCM
-application uses the large size of intermediate buffer, since it takes
-too long time even in tasklet softIRQ to process many of isochronous
-packets, then result in the delay of system event due to disabled IRQ so
-long. It is avertible to switch to nonatomic operation.
+On Wed, Aug 28, 2024 at 06:44:19AM +0000, Sakari Ailus wrote:
+> Hi Tommaso,
+> 
+> Thanks for the patch.
+> 
+> On Thu, Jun 27, 2024 at 05:18:06PM +0200, Tommaso Merciai wrote:
+> > Add v4l2 test pattern control.
+> > 
+> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > ---
+> > Changes since v1:
+> >  - Rename and move pattern regs under VTX section as suggested by JMassot
+> >  - Fix VTX regs order
+> >  - Add comment saying that the deserializer should manage the link in
+> >    pixel mode as suggested by JMassot
+> > 
+> >  drivers/media/i2c/max96717.c | 213 ++++++++++++++++++++++++++++++++---
+> >  1 file changed, 197 insertions(+), 16 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/max96717.c b/drivers/media/i2c/max96717.c
+> > index 949306485873..859a439b64d9 100644
+> > --- a/drivers/media/i2c/max96717.c
+> > +++ b/drivers/media/i2c/max96717.c
+> > @@ -16,6 +16,7 @@
+> >  #include <linux/regmap.h>
+> >  
+> >  #include <media/v4l2-cci.h>
+> > +#include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-fwnode.h>
+> >  #include <media/v4l2-subdev.h>
+> >  
+> > @@ -38,9 +39,35 @@
+> >  #define MAX96717_DEV_REV_MASK GENMASK(3, 0)
+> >  
+> >  /* VID_TX Z */
+> > +#define MAX96717_VIDEO_TX0 CCI_REG8(0x110)
+> > +#define MAX96717_VIDEO_AUTO_BPP BIT(3)
+> >  #define MAX96717_VIDEO_TX2 CCI_REG8(0x112)
+> >  #define MAX96717_VIDEO_PCLKDET BIT(7)
+> >  
+> > +/* VTX_Z */
+> > +#define MAX96717_VTX0                  CCI_REG8(0x24e)
+> > +#define MAX96717_VTX1                  CCI_REG8(0x24f)
+> > +#define MAX96717_PATTERN_CLK_FREQ      GENMASK(3, 1)
+> > +#define MAX96717_VTX_VS_DLY            CCI_REG24(0x250)
+> > +#define MAX96717_VTX_VS_HIGH           CCI_REG24(0x253)
+> > +#define MAX96717_VTX_VS_LOW            CCI_REG24(0x256)
+> > +#define MAX96717_VTX_V2H               CCI_REG24(0x259)
+> > +#define MAX96717_VTX_HS_HIGH           CCI_REG16(0x25c)
+> > +#define MAX96717_VTX_HS_LOW            CCI_REG16(0x25e)
+> > +#define MAX96717_VTX_HS_CNT            CCI_REG16(0x260)
+> > +#define MAX96717_VTX_V2D               CCI_REG24(0x262)
+> > +#define MAX96717_VTX_DE_HIGH           CCI_REG16(0x265)
+> > +#define MAX96717_VTX_DE_LOW            CCI_REG16(0x267)
+> > +#define MAX96717_VTX_DE_CNT            CCI_REG16(0x269)
+> > +#define MAX96717_VTX29                 CCI_REG8(0x26b)
+> > +#define MAX96717_VTX_MODE              GENMASK(1, 0)
+> > +#define MAX96717_VTX_GRAD_INC          CCI_REG8(0x26c)
+> > +#define MAX96717_VTX_CHKB_COLOR_A      CCI_REG24(0x26d)
+> > +#define MAX96717_VTX_CHKB_COLOR_B      CCI_REG24(0x270)
+> > +#define MAX96717_VTX_CHKB_RPT_CNT_A    CCI_REG8(0x273)
+> > +#define MAX96717_VTX_CHKB_RPT_CNT_B    CCI_REG8(0x274)
+> > +#define MAX96717_VTX_CHKB_ALT          CCI_REG8(0x275)
+> > +
+> >  /* GPIO */
+> >  #define MAX96717_NUM_GPIO         11
+> >  #define MAX96717_GPIO_REG_A(gpio) CCI_REG8(0x2be + (gpio) * 3)
+> > @@ -82,6 +109,12 @@
+> >  /* MISC */
+> >  #define PIO_SLEW_1 CCI_REG8(0x570)
+> >  
+> > +enum max96717_vpg_mode {
+> > +	MAX96717_VPG_DISABLED = 0,
+> > +	MAX96717_VPG_CHECKERBOARD = 1,
+> > +	MAX96717_VPG_GRADIENT = 2,
+> > +};
+> > +
+> >  struct max96717_priv {
+> >  	struct i2c_client		  *client;
+> >  	struct regmap			  *regmap;
+> > @@ -89,6 +122,7 @@ struct max96717_priv {
+> >  	struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
+> >  	struct v4l2_subdev                sd;
+> >  	struct media_pad                  pads[MAX96717_PORTS];
+> > +	struct v4l2_ctrl_handler          ctrl_handler;
+> >  	struct v4l2_async_notifier        notifier;
+> >  	struct v4l2_subdev                *source_sd;
+> >  	u16                               source_sd_pad;
+> > @@ -96,6 +130,7 @@ struct max96717_priv {
+> >  	u8                                pll_predef_index;
+> >  	struct clk_hw                     clk_hw;
+> >  	struct gpio_chip                  gpio_chip;
+> > +	enum max96717_vpg_mode            pattern;
+> >  };
+> >  
+> >  static inline struct max96717_priv *sd_to_max96717(struct v4l2_subdev *sd)
+> > @@ -131,6 +166,118 @@ static inline int max96717_start_csi(struct max96717_priv *priv, bool start)
+> >  			       start ? MAX96717_START_PORT_B : 0, NULL);
+> >  }
+> >  
+> > +static int max96717_apply_patgen_timing(struct max96717_priv *priv,
+> > +					struct v4l2_subdev_state *state)
+> > +{
+> > +	struct v4l2_mbus_framefmt *fmt =
+> > +		v4l2_subdev_state_get_format(state, MAX96717_PAD_SOURCE);
+> > +	const u32 h_active = fmt->width;
+> > +	const u32 h_fp = 88;
+> > +	const u32 h_sw = 44;
+> > +	const u32 h_bp = 148;
+> > +	u32 h_tot;
+> > +	const u32 v_active = fmt->height;
+> > +	const u32 v_fp = 4;
+> > +	const u32 v_sw = 5;
+> > +	const u32 v_bp = 36;
+> 
+> Some comments here would be nice, what do these values signify for
+> instance?
 
-Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
----
- sound/firewire/amdtp-stream.c            | 34 +++++++++++++++++++-----
- sound/firewire/bebob/bebob_pcm.c         |  1 +
- sound/firewire/dice/dice-pcm.c           |  1 +
- sound/firewire/digi00x/digi00x-pcm.c     |  1 +
- sound/firewire/fireface/ff-pcm.c         |  1 +
- sound/firewire/fireworks/fireworks_pcm.c |  1 +
- sound/firewire/isight.c                  |  1 +
- sound/firewire/motu/motu-pcm.c           |  1 +
- sound/firewire/oxfw/oxfw-pcm.c           |  1 +
- sound/firewire/tascam/tascam-pcm.c       |  1 +
- 10 files changed, 36 insertions(+), 7 deletions(-)
+Oks, I will send a patch with some comments for this.
 
-diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
-index c827d7d8d800..c72b2a754775 100644
---- a/sound/firewire/amdtp-stream.c
-+++ b/sound/firewire/amdtp-stream.c
-@@ -615,6 +615,22 @@ static void update_pcm_pointers(struct amdtp_stream *s,
- 		// The program in user process should periodically check the status of intermediate
- 		// buffer associated to PCM substream to process PCM frames in the buffer, instead
- 		// of receiving notification of period elapsed by poll wait.
-+		//
-+		// Use another work item for period elapsed event to prevent the following AB/BA
-+		// deadlock:
-+		//
-+		//             thread 1                            thread 2
-+		// =================================   =================================
-+		//       A.work item (process)                pcm ioctl (process)
-+		//                 v                                   v
-+		//       process_rx_packets()                  B.PCM stream lock
-+		//       process_tx_packets()                          v
-+		//                 v                        callbacks in snd_pcm_ops
-+		//       update_pcm_pointers()                         v
-+		//         snd_pcm_elapsed()           fw_iso_context_flush_completions()
-+		//  snd_pcm_stream_lock_irqsave()             disable_work_sync()
-+		//                 v                                   v
-+		//     wait until release of B                wait until A exits
- 		if (!pcm->runtime->no_period_wakeup)
- 			queue_work(system_highpri_wq, &s->period_work);
- 	}
-@@ -1055,8 +1071,15 @@ static void generate_rx_packet_descs(struct amdtp_stream *s, struct pkt_desc *de
- 
- static inline void cancel_stream(struct amdtp_stream *s)
- {
-+	struct work_struct *work = current_work();
-+
- 	s->packet_index = -1;
--	if (in_softirq())
-+
-+	// Detect work items for any isochronous context. The work item for pcm_period_work()
-+	// should be avoided since the call of snd_pcm_period_elapsed() can reach via
-+	// snd_pcm_ops.pointer() under acquiring PCM stream(group) lock and causes dead lock at
-+	// snd_pcm_stop_xrun().
-+	if (work && work != &s->period_work)
- 		amdtp_stream_pcm_abort(s);
- 	WRITE_ONCE(s->pcm_buffer_pointer, SNDRV_PCM_POS_XRUN);
- }
-@@ -1856,12 +1879,9 @@ unsigned long amdtp_domain_stream_pcm_pointer(struct amdtp_domain *d,
- 	struct amdtp_stream *irq_target = d->irq_target;
- 
- 	if (irq_target && amdtp_stream_running(irq_target)) {
--		// use wq to prevent AB/BA deadlock competition for
--		// substream lock:
--		// fw_iso_context_flush_completions() acquires
--		// lock by ohci_flush_iso_completions(),
--		// amdtp-stream process_rx_packets() attempts to
--		// acquire same lock by snd_pcm_elapsed()
-+		// The work item to call snd_pcm_period_elapsed() can reach here by the call of
-+		// snd_pcm_ops.pointer(), however less packets would be available then. Therefore
-+		// the following call is just for user process contexts.
- 		if (current_work() != &s->period_work)
- 			fw_iso_context_flush_completions(irq_target->context);
- 	}
-diff --git a/sound/firewire/bebob/bebob_pcm.c b/sound/firewire/bebob/bebob_pcm.c
-index ce49eef0fcba..360ebf3c4ca2 100644
---- a/sound/firewire/bebob/bebob_pcm.c
-+++ b/sound/firewire/bebob/bebob_pcm.c
-@@ -367,6 +367,7 @@ int snd_bebob_create_pcm_devices(struct snd_bebob *bebob)
- 		goto end;
- 
- 	pcm->private_data = bebob;
-+	pcm->nonatomic = true;
- 	snprintf(pcm->name, sizeof(pcm->name),
- 		 "%s PCM", bebob->card->shortname);
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &playback_ops);
-diff --git a/sound/firewire/dice/dice-pcm.c b/sound/firewire/dice/dice-pcm.c
-index d64366217d57..2cf2adb48f2a 100644
---- a/sound/firewire/dice/dice-pcm.c
-+++ b/sound/firewire/dice/dice-pcm.c
-@@ -441,6 +441,7 @@ int snd_dice_create_pcm(struct snd_dice *dice)
- 		if (err < 0)
- 			return err;
- 		pcm->private_data = dice;
-+		pcm->nonatomic = true;
- 		strcpy(pcm->name, dice->card->shortname);
- 
- 		if (capture > 0)
-diff --git a/sound/firewire/digi00x/digi00x-pcm.c b/sound/firewire/digi00x/digi00x-pcm.c
-index 3bd1575c9d9c..85e65cbc00c4 100644
---- a/sound/firewire/digi00x/digi00x-pcm.c
-+++ b/sound/firewire/digi00x/digi00x-pcm.c
-@@ -350,6 +350,7 @@ int snd_dg00x_create_pcm_devices(struct snd_dg00x *dg00x)
- 		return err;
- 
- 	pcm->private_data = dg00x;
-+	pcm->nonatomic = true;
- 	snprintf(pcm->name, sizeof(pcm->name),
- 		 "%s PCM", dg00x->card->shortname);
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &playback_ops);
-diff --git a/sound/firewire/fireface/ff-pcm.c b/sound/firewire/fireface/ff-pcm.c
-index ec915671a79b..63457d24a288 100644
---- a/sound/firewire/fireface/ff-pcm.c
-+++ b/sound/firewire/fireface/ff-pcm.c
-@@ -390,6 +390,7 @@ int snd_ff_create_pcm_devices(struct snd_ff *ff)
- 		return err;
- 
- 	pcm->private_data = ff;
-+	pcm->nonatomic = true;
- 	snprintf(pcm->name, sizeof(pcm->name),
- 		 "%s PCM", ff->card->shortname);
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &pcm_playback_ops);
-diff --git a/sound/firewire/fireworks/fireworks_pcm.c b/sound/firewire/fireworks/fireworks_pcm.c
-index c3c21860b245..eaf7778211de 100644
---- a/sound/firewire/fireworks/fireworks_pcm.c
-+++ b/sound/firewire/fireworks/fireworks_pcm.c
-@@ -397,6 +397,7 @@ int snd_efw_create_pcm_devices(struct snd_efw *efw)
- 		goto end;
- 
- 	pcm->private_data = efw;
-+	pcm->nonatomic = true;
- 	snprintf(pcm->name, sizeof(pcm->name), "%s PCM", efw->card->shortname);
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &playback_ops);
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &capture_ops);
-diff --git a/sound/firewire/isight.c b/sound/firewire/isight.c
-index 806f82c9ceee..b1e059f0d473 100644
---- a/sound/firewire/isight.c
-+++ b/sound/firewire/isight.c
-@@ -454,6 +454,7 @@ static int isight_create_pcm(struct isight *isight)
- 	if (err < 0)
- 		return err;
- 	pcm->private_data = isight;
-+	pcm->nonatomic = true;
- 	strcpy(pcm->name, "iSight");
- 	isight->pcm = pcm->streams[SNDRV_PCM_STREAM_CAPTURE].substream;
- 	isight->pcm->ops = &ops;
-diff --git a/sound/firewire/motu/motu-pcm.c b/sound/firewire/motu/motu-pcm.c
-index d410c2efbde5..f3b48495acae 100644
---- a/sound/firewire/motu/motu-pcm.c
-+++ b/sound/firewire/motu/motu-pcm.c
-@@ -360,6 +360,7 @@ int snd_motu_create_pcm_devices(struct snd_motu *motu)
- 	if (err < 0)
- 		return err;
- 	pcm->private_data = motu;
-+	pcm->nonatomic = true;
- 	strcpy(pcm->name, motu->card->shortname);
- 
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &capture_ops);
-diff --git a/sound/firewire/oxfw/oxfw-pcm.c b/sound/firewire/oxfw/oxfw-pcm.c
-index 5f43a0b826d2..8ca9dde54ec6 100644
---- a/sound/firewire/oxfw/oxfw-pcm.c
-+++ b/sound/firewire/oxfw/oxfw-pcm.c
-@@ -440,6 +440,7 @@ int snd_oxfw_create_pcm(struct snd_oxfw *oxfw)
- 		return err;
- 
- 	pcm->private_data = oxfw;
-+	pcm->nonatomic = true;
- 	strcpy(pcm->name, oxfw->card->shortname);
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &playback_ops);
- 	if (cap > 0)
-diff --git a/sound/firewire/tascam/tascam-pcm.c b/sound/firewire/tascam/tascam-pcm.c
-index f6da571707ac..a73003ac11e6 100644
---- a/sound/firewire/tascam/tascam-pcm.c
-+++ b/sound/firewire/tascam/tascam-pcm.c
-@@ -279,6 +279,7 @@ int snd_tscm_create_pcm_devices(struct snd_tscm *tscm)
- 		return err;
- 
- 	pcm->private_data = tscm;
-+	pcm->nonatomic = true;
- 	snprintf(pcm->name, sizeof(pcm->name),
- 		 "%s PCM", tscm->card->shortname);
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &playback_ops);
--- 
-2.43.0
+> 
+> > +	u32 v_tot;
+> > +	int ret = 0;
+> > +
+> > +	h_tot = h_active + h_fp + h_sw + h_bp;
+> > +	v_tot = v_active + v_fp + v_sw + v_bp;
+> > +
+> > +	/* 75 Mhz pixel clock */
+> > +	cci_update_bits(priv->regmap, MAX96717_VTX1,
+> > +			MAX96717_PATTERN_CLK_FREQ, 0xa, &ret);
+> > +
+> > +	dev_info(&priv->client->dev, "height: %d width: %d\n", fmt->height,
+> > +		 fmt->width);
+> > +
+> > +	cci_write(priv->regmap, MAX96717_VTX_VS_DLY, 0, &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_VS_HIGH, v_sw * h_tot, &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_VS_LOW,
+> > +		  (v_active + v_fp + v_bp) * h_tot, &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_HS_HIGH, h_sw, &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_HS_LOW, h_active + h_fp + h_bp,
+> > +		  &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_V2D,
+> > +		  h_tot * (v_sw + v_bp) + (h_sw + h_bp), &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_HS_CNT, v_tot, &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_DE_HIGH, h_active, &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_DE_LOW, h_fp + h_sw + h_bp,
+> > +		  &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_DE_CNT, v_active, &ret);
+> > +	/* B G R */
+> > +	cci_write(priv->regmap, MAX96717_VTX_CHKB_COLOR_A, 0xfecc00, &ret);
+> > +	/* B G R */
+> > +	cci_write(priv->regmap, MAX96717_VTX_CHKB_COLOR_B, 0x006aa7, &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_CHKB_RPT_CNT_A, 0x3c, &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_CHKB_RPT_CNT_B, 0x3c, &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_CHKB_ALT, 0x3c, &ret);
+> > +	cci_write(priv->regmap, MAX96717_VTX_GRAD_INC, 0x10, &ret);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int max96717_apply_patgen(struct max96717_priv *priv,
+> > +				 struct v4l2_subdev_state *state)
+> > +{
+> > +	unsigned int val;
+> > +	int ret = 0;
+> > +
+> > +	if (priv->pattern)
+> > +		ret = max96717_apply_patgen_timing(priv, state);
+> > +
+> > +	cci_write(priv->regmap, MAX96717_VTX0, priv->pattern ? 0xfb : 0,
+> > +		  &ret);
+> > +
+> > +	val = FIELD_PREP(MAX96717_VTX_MODE, priv->pattern);
+> > +	cci_update_bits(priv->regmap, MAX96717_VTX29, MAX96717_VTX_MODE,
+> > +			val, &ret);
+> > +	return ret;
+> > +}
+> > +
+> > +static int max96717_s_ctrl(struct v4l2_ctrl *ctrl)
+> > +{
+> > +	struct max96717_priv *priv =
+> > +		container_of(ctrl->handler, struct max96717_priv, ctrl_handler);
+> > +	int ret;
+> > +
+> > +	switch (ctrl->id) {
+> > +	case V4L2_CID_TEST_PATTERN:
+> > +		if (priv->enabled_source_streams)
+> > +			return -EBUSY;
+> > +		priv->pattern = ctrl->val;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	/* Use bpp from bpp register */
+> > +	ret = cci_update_bits(priv->regmap, MAX96717_VIDEO_TX0,
+> > +			      MAX96717_VIDEO_AUTO_BPP,
+> > +			      priv->pattern ? 0 : MAX96717_VIDEO_AUTO_BPP,
+> > +			      NULL);
+> > +
+> > +	/*
+> > +	 * Pattern generator doesn't work with tunnel mode.
+> > +	 * Needs RGB color format and deserializer tunnel mode must be disabled.
+> > +	 */
+> > +	return cci_update_bits(priv->regmap, MAX96717_MIPI_RX_EXT11,
+> > +			       MAX96717_TUN_MODE,
+> > +			       priv->pattern ? 0 : MAX96717_TUN_MODE, &ret);
+> > +}
+> > +
+> > +static const char * const max96717_test_pattern[] = {
+> > +	"Disabled",
+> > +	"Checkerboard",
+> > +	"Gradient"
+> > +};
+> > +
+> > +static const struct v4l2_ctrl_ops max96717_ctrl_ops = {
+> > +	.s_ctrl = max96717_s_ctrl,
+> > +};
+> > +
+> >  static int max96717_gpiochip_get(struct gpio_chip *gpiochip,
+> >  				 unsigned int offset)
+> >  {
+> > @@ -352,20 +499,28 @@ static int max96717_enable_streams(struct v4l2_subdev *sd,
+> >  	u64 sink_streams;
+> >  	int ret;
+> >  
+> > -	sink_streams = v4l2_subdev_state_xlate_streams(state,
+> > -						       MAX96717_PAD_SOURCE,
+> > -						       MAX96717_PAD_SINK,
+> > -						       &streams_mask);
+> > -
+> >  	if (!priv->enabled_source_streams)
+> >  		max96717_start_csi(priv, true);
+> >  
+> > -	ret = v4l2_subdev_enable_streams(priv->source_sd, priv->source_sd_pad,
+> > -					 sink_streams);
+> > -	if (ret) {
+> > -		dev_err(dev, "Fail to start streams:%llu on remote subdev\n",
+> > -			sink_streams);
+> > +	ret = max96717_apply_patgen(priv, state);
+> > +	if (ret)
+> >  		goto stop_csi;
+> > +
+> > +	if (!priv->pattern) {
+> > +		sink_streams =
+> > +			v4l2_subdev_state_xlate_streams(state,
+> > +							MAX96717_PAD_SOURCE,
+> > +							MAX96717_PAD_SINK,
+> > +							&streams_mask);
+> > +
+> > +		ret = v4l2_subdev_enable_streams(priv->source_sd,
+> > +						 priv->source_sd_pad,
+> > +						 sink_streams);
+> > +		if (ret) {
+> > +			dev_err(dev, "Fail to start streams:%llu on remote subdev\n",
+> > +				sink_streams);
+> > +			goto stop_csi;
+> > +		}
+> >  	}
+> >  
+> >  	priv->enabled_source_streams |= streams_mask;
+> > @@ -394,13 +549,23 @@ static int max96717_disable_streams(struct v4l2_subdev *sd,
+> >  	if (!priv->enabled_source_streams)
+> >  		max96717_start_csi(priv, false);
+> >  
+> > -	sink_streams = v4l2_subdev_state_xlate_streams(state,
+> > -						       MAX96717_PAD_SOURCE,
+> > -						       MAX96717_PAD_SINK,
+> > -						       &streams_mask);
+> > +	if (!priv->pattern) {
+> > +		int ret;
+> > +
+> > +		sink_streams =
+> > +			v4l2_subdev_state_xlate_streams(state,
+> > +							MAX96717_PAD_SOURCE,
+> > +							MAX96717_PAD_SINK,
+> > +							&streams_mask);
+> >  
+> > -	return v4l2_subdev_disable_streams(priv->source_sd, priv->source_sd_pad,
+> > -					   sink_streams);
+> > +		ret = v4l2_subdev_disable_streams(priv->source_sd,
+> > +						  priv->source_sd_pad,
+> > +						  sink_streams);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> > +	return 0;
+> >  }
+> >  
+> >  static const struct v4l2_subdev_pad_ops max96717_pad_ops = {
+> > @@ -513,6 +678,19 @@ static int max96717_subdev_init(struct max96717_priv *priv)
+> >  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max96717_subdev_ops);
+> >  	priv->sd.internal_ops = &max96717_internal_ops;
+> >  
+> > +	v4l2_ctrl_handler_init(&priv->ctrl_handler, 1);
+> > +	priv->sd.ctrl_handler = &priv->ctrl_handler;
+> > +
+> > +	v4l2_ctrl_new_std_menu_items(&priv->ctrl_handler,
+> > +				     &max96717_ctrl_ops,
+> > +				     V4L2_CID_TEST_PATTERN,
+> > +				     ARRAY_SIZE(max96717_test_pattern) - 1,
+> > +				     0, 0, max96717_test_pattern);
+> > +	if (priv->ctrl_handler.error) {
+> > +		ret = priv->ctrl_handler.error;
+> > +		goto err_free_ctrl;
+> > +	}
+> > +
+> >  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
+> 
+> With controls, you should add the HAS_EVENTS flag.
+> 
+> I'll take this one as we're in rc5 already, please address these in a
+> separate patch.
 
+
+Will send a patch for this. 
+I think we should fix that also into max96717 driver or I'm wrong?
+
+> 
+> >  	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> >  	priv->sd.entity.ops = &max96717_entity_ops;
+> > @@ -552,6 +730,8 @@ static int max96717_subdev_init(struct max96717_priv *priv)
+> >  	v4l2_subdev_cleanup(&priv->sd);
+> >  err_entity_cleanup:
+> >  	media_entity_cleanup(&priv->sd.entity);
+> > +err_free_ctrl:
+> > +	v4l2_ctrl_handler_free(&priv->ctrl_handler);
+> >  
+> >  	return ret;
+> >  }
+> > @@ -563,6 +743,7 @@ static void max96717_subdev_uninit(struct max96717_priv *priv)
+> >  	v4l2_async_nf_cleanup(&priv->notifier);
+> >  	v4l2_subdev_cleanup(&priv->sd);
+> >  	media_entity_cleanup(&priv->sd.entity);
+> > +	v4l2_ctrl_handler_free(&priv->ctrl_handler);
+> >  }
+> >  
+> >  struct max96717_pll_predef_freq {
+> 
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
+
+
+Thanks & Regards,
+Tommaso
 
