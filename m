@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-17579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17580-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D2C96BAC2
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:32:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D22E596BACD
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:33:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C5C12839FA
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:32:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EA28285141
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:33:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F1D61D0145;
-	Wed,  4 Sep 2024 11:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 958F61D0167;
+	Wed,  4 Sep 2024 11:33:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZY7jVcqk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UC05IJVB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA0C1CF5F1;
-	Wed,  4 Sep 2024 11:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E832F1CF7BC;
+	Wed,  4 Sep 2024 11:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725449537; cv=none; b=s+Dkk8V3/SRavdxo0eFjskvSBkW4pfRfWlJrxhFrmmdk4unpkJL80IMfNZdy1Fm+aoo1qQ6t2rDp4afIcfVCkuR6nSv5+F7jNxlxcXF0kDFWrOyxRSJf6XPEB8qdVILWYfwIyvoTOKxndXP2npc5ZZNA8Ub6XMJCA+T/vY7JALI=
+	t=1725449594; cv=none; b=iOUA16vpNDcAgUvtbbgsNRy0WaNCekhnKQqxQQpLS4TzK35xltgMB/WBHgCGGfSLD9ad81ThGiIXpUEWPNEwk/+uBDvUMmrxYgoqz7OqaWvXcwSvxQen7Q0uaRAlAG2nigHxuI0pdDpZhrLxVKpzeTV7CH/6/HgQjyTcj6QxXIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725449537; c=relaxed/simple;
-	bh=wtKstOtyx5LPVKQTeY2E8V2qOJ7acABjfwTSzKH1fho=;
+	s=arc-20240116; t=1725449594; c=relaxed/simple;
+	bh=dbUSj8OHxSmbhQa1XnariWwlvDD4kEswl+Kq9eWm6kI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QScTtlVzGrfdycLCeWWh9ne8mt4RRQsQ53+NIuvPga3or+NgEQfsga1HFzsWduek2bXGVE4R1AEtPeINdR28qvS3+X2P3yr7+w07EONBvw4nu9w+edFQzs93adEh2UZ9QHLB8//FZRfvjp7rY2fC2R2fKSSXXLo8TOdc8KMEpJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZY7jVcqk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 576D9C4CEC2;
-	Wed,  4 Sep 2024 11:32:12 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=nnErv3QS3klNEtMsRGXcQUhXRSOC3V7aPPGFQTaw635CdxH4YOK3JediDeekQsSPiQOzBFmBlwzb8wg2cXDTzzOohjxUCRvDSZNiRBOo4tKF1iWL75+AN0OWg5I2bJgRsQr6tMCL2Qp0touTTR9q8gsMx+Z0CmzVXDQm9CVSnc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UC05IJVB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5658CC4CEC2;
+	Wed,  4 Sep 2024 11:33:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725449537;
-	bh=wtKstOtyx5LPVKQTeY2E8V2qOJ7acABjfwTSzKH1fho=;
+	s=k20201202; t=1725449593;
+	bh=dbUSj8OHxSmbhQa1XnariWwlvDD4kEswl+Kq9eWm6kI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZY7jVcqkyWzwxpXDTMZ3wVkUNmiA23K/5K5gNzdKuXDabTxNRtBBkshBxyQFutsTB
-	 GzOR7ndszzHA45akMI5R8la2+Kts2AQ3STWMxb6rAX1kAopqVoDIceRGHqR6yThnhF
-	 idSTVNyyYvMi1YymFX4TsBk9jgFjJABYWJfJJjQIfyUa6C405ASuMwtG6erM8Hb/fE
-	 zif7x79NMe86XoylIwZrpXk6/WDtwE7hEl35RxRDmDGDKRYeHF5DT8Tff4LWeMRxFv
-	 cem+FfkVKLt6x7auNg5TMHhMsKTZhMWk4iKe7UeIimy6PBhFSIAJbx0XR/B05Jep8v
-	 CNNgIOKEURVyg==
-Message-ID: <cb617ea7-79c9-4b0f-bcc5-300701268d6b@kernel.org>
-Date: Wed, 4 Sep 2024 13:32:10 +0200
+	b=UC05IJVBs341934lQuk9fwU6LBhYxDIWubS13saWy9FZsFAvr6WQd8EZ3J/5a73sp
+	 Ak2SsxEALGW4zQoA2z2P1/qdCu7Y/rGf/L7K/mr9hR4XKXzmm5xXYJm0hzrxWIKt1Q
+	 i1sgffSr5L4M+n7FfzPqurVxscu9wCe3D8J7Z38B5xswuNFw0to3m50dzXUbglyyPF
+	 ko9m8nVnhqC/2v4zEjLKNIHtuBhU0bssovUPwoyJF+rtk3TrN22Lbog9sKwyUbr1EZ
+	 TrJw4LS0vOKCHevUzgh9UbQvpvRhuQjZ6kohBEwbH5y0w43fAMj/F4NO7PGUYmxoIR
+	 6tM3l2lodV0Rw==
+Message-ID: <6483d0fe-1c19-4fb3-a883-2ef6e88ecf7e@kernel.org>
+Date: Wed, 4 Sep 2024 13:33:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/10] arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine:
- Enable IMX577 sensor
+Subject: Re: [PATCH 10/10] arm64: defconfig: Enable camcc driver for SC7280
 To: Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss
  <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
@@ -66,10 +65,9 @@ To: Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Hariram Purushothaman <quic_hariramp@quicinc.com>
+ linux-arm-kernel@lists.infradead.org
 References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
- <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-8-b18ddcd7d9df@quicinc.com>
+ <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-10-b18ddcd7d9df@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -115,26 +113,15 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-8-b18ddcd7d9df@quicinc.com>
+In-Reply-To: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-10-b18ddcd7d9df@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 04/09/2024 13:10, Vikram Sharma wrote:
-> Enable the IMX577 camera sensor for the qcs6490-rb3gen2-vision-mezzanine
-> board.
+> Enable the camera clock driver for SC7280.
 
-Explain what hardware are you adding here.
-
-> 
-> Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-> ---
->  arch/arm64/boot/dts/qcom/Makefile                  |  1 +
->  .../dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dts  | 61 ++++++++++++++++++++++
->  2 files changed, 62 insertions(+)
-
-Different boards need different compatibles. OTOH, mezzanine is addon,
-not a board, so I would expect overlay. This is confusing.
+What is SC7280? Why this should be enabled? Your commit msg must explain
+to these questions.
 
 Best regards,
 Krzysztof
