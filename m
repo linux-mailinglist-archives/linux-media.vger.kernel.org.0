@@ -1,128 +1,162 @@
-Return-Path: <linux-media+bounces-17599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17600-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18CC196C036
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 16:24:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9DD96C10C
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 16:45:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B5AF1C25108
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 14:24:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73A942837F6
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 14:45:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B18581E0B77;
-	Wed,  4 Sep 2024 14:20:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20B111DC18D;
+	Wed,  4 Sep 2024 14:45:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HgfWwr99"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vMaeIFXV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD821E0B62;
-	Wed,  4 Sep 2024 14:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A5A1D014A;
+	Wed,  4 Sep 2024 14:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725459652; cv=none; b=IVcWfuJ7itkbP/ckS+OJrL9z910O/rdAIW8pndJZg9rXrelatzASuxpj10EJZzAduhAy5MEyW9scbCaNB5p6BEzE6A87Mh6GhFablz6X+UmQbWgz/9EIQpw47yWXDF2wW754g29qO9iyc4AScbELn/4ES3oP9cEZS7vI5vcDGkI=
+	t=1725461100; cv=none; b=foRrnN+A/Dsy0xiLmTjHXEab6PcaV1CzT4Y4gRW1QV0I56UE8sj2Tdqmk/rRNMW+2ijvUt//h4e+X1jHAK0CX7yLIXJHgjqedEMsiKCyRDGrsqbruIpP3CfBQ1+F730qD5C45Gm/am0NCO8tPZTQFYsk4Z83AFYfL0OFK516HGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725459652; c=relaxed/simple;
-	bh=ITsGfugUMr9puQDBp+P640F9MZXA6jU3xRcO2/5S338=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=jcBmNp0qI/5C3ZiuEAFsQNpCUdS9HC3W/UHfrXcln7djDQsPJJpgMEHPoQwa+ScbpUrytAy3EN3TJ4S+NdBGqh2kGgPNM04ZMFj4BgEeD3YzZ0y5BCdfSR3UJ7WSwbNGStDQw4Scnl907hxW5fdY2Ii6gd5w1KfeCbk3zRR/dMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HgfWwr99; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484EI96p010431;
-	Wed, 4 Sep 2024 14:20:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	QrG8p65E5bnLIK8DqDLKFxiZpnW4MlFd9WmsAYCwB1g=; b=HgfWwr99jDPAjR0t
-	ZhNnb5mln0c6N91jxUTxFqlVES6PtmsYOao451NUE558th3hxETCwkvBzWxC+6Tf
-	o4xywlcGul42t0QThCOFIqPuUEjeJjCQUl6Q2oc2Ocy5lCacgQO0OkrymJaoD3Oz
-	CtHABsC5OEl4nPD5bAMOFvq/iHfH8yE4GcU75rIXrZIJuYupa1QrTr5WewDmo2Ng
-	3CQJOHve+rRrLP9lIRTtcE9FA+ouCNQy1nsvhF2SzstMVRFi0PGt3AmaCtY4XKmm
-	WwvlfAMWN/NHNpFnieP8zKNfqjfwRU6E77S6wFjZo+L+vNYkQc2l98gabPScj7Xu
-	LzK6Bg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41egmrhenu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Sep 2024 14:20:45 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 484EKitx020748
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 4 Sep 2024 14:20:44 GMT
-Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
- 07:20:39 -0700
-Message-ID: <7fb34b98-7bc0-43fb-a6e7-dee073fed317@quicinc.com>
-Date: Wed, 4 Sep 2024 22:20:36 +0800
+	s=arc-20240116; t=1725461100; c=relaxed/simple;
+	bh=ArAPCxI1Kj/v1qq50FpqqDgsTk6eZ/UAqDvPFj1T2/8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BOK1aiwRZ0HC6gcLsic6Sa0S1UfcrUXPUbG9sl24EUYVzci/dVcznS244Gw38aWA35jochw+JrrMX4kKyJaGSPbvFKPtbF2LZ+Zxu8Sbw1pXHON4LRPRAaeclwg7uFODgUp+SR9ia9A8QlYTe9zDysJ+dipSNx757kNN02HTE7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vMaeIFXV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E19D1C4CEC9;
+	Wed,  4 Sep 2024 14:44:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725461099;
+	bh=ArAPCxI1Kj/v1qq50FpqqDgsTk6eZ/UAqDvPFj1T2/8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=vMaeIFXVmG5TwnYwCPIyHpt12OpEsK/pI0cxjWT9uUKQHp1pWc4ZBU/WcIJSR0DZs
+	 QzSqsGdkj+OuQ9wXdNsaJvxdRuzx7e3Rz9elyL9vkhWYfhdY3U6Zer/Cy/8idp3bGL
+	 muQdcKV7rfHrAYEc67s94wy9Lkprb7fg0VbpeKve+qiPIbqPRDqhlIDDDj+MByqxQf
+	 Y1zUwjFiV5emnv2A9qfHNjTv1ELkKIhBAjN9WVVJTS0ZaVhTLaQyh5YkRMzHiDywrR
+	 XRVkQT8R+O7CVZ8tJC4KewPEtHaaBpJ+a8tPYK2FYZ9y7WDWjV/gQF9x/ubByzdmdx
+	 vd6yrc+Yj9Vdw==
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3e0047fcb3aso421398b6e.0;
+        Wed, 04 Sep 2024 07:44:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCULFXLEc7g6WRLhuTsdqDs6nYQlciCIsPHbOeIlh0PQ09vfkq3pkMnnxWdZu3c0MhaFUz519TsbfUVR@vger.kernel.org, AJvYcCV5SjevB/WkVeO0RvA1mTtgHqW7sykecMf2tAYXYaJZsCCx/q/v9dzveqi5bk1Dd5DIbKIMU4Bo1N240QM=@vger.kernel.org, AJvYcCVpHsYVdSGteaaWFuiBd6oPJMDSjxbmuwdPKcHsTi5j7NcYsoSCykealBQog+7sERkufqvUDrOhGOnW6U4=@vger.kernel.org, AJvYcCWJBZmUMyN1gkb+GP4OONIHduk5pFwTHA6V10Ec9qUeH/UnliXZEDFe7fu8ICCr7MZqLDAackbk3zxQH44+@vger.kernel.org, AJvYcCWKKw6TBk77hqmXb0K2zscxiXahOmNBYFnGxKXCXtDUS3WOaOzkk7sKdJJO3DcHEfoqahT5qNf+@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIjcRSyr85YSp1dnmBr31sF376Wc4M5LqonDw6QLMrqLYK7te5
+	tfbDa6Ys7HQJF68hHBu8DRkmDI3cm9m1QVPTbQeFFXDU+E9gPh3jXXDxTHnjN29d4VMR3aUzr27
+	FgBfEEldwFG+Wr7IDKFIhFvgM1dk=
+X-Google-Smtp-Source: AGHT+IEv8U+fDbCjLqUFxz4//WKn6tB39IzLuCQnJWmLkgmLJZnbV32x+Njonp88P0xuQvY07t3qf0x9Ck/Ekt8R4EI=
+X-Received: by 2002:a05:6808:138a:b0:3db:50ed:e121 with SMTP id
+ 5614622812f47-3e01315d6camr1093652b6e.0.1725461099193; Wed, 04 Sep 2024
+ 07:44:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/13] media: qcom: camss: csiphy: Add an init callback to
- CSI PHY devices
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel@quicinc.com>
-References: <20240812144131.369378-1-quic_depengs@quicinc.com>
- <20240812144131.369378-5-quic_depengs@quicinc.com>
- <3cdd7101-ae8c-45c9-9695-f7f4202d1edb@linaro.org>
-Content-Language: en-US
-From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <3cdd7101-ae8c-45c9-9695-f7f4202d1edb@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: zWSgH0K4kaVarHKiZTAVX6klUesY9va3
-X-Proofpoint-ORIG-GUID: zWSgH0K4kaVarHKiZTAVX6klUesY9va3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-04_11,2024-09-04_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- suspectscore=0 lowpriorityscore=0 mlxlogscore=950 priorityscore=1501
- spamscore=0 malwarescore=0 adultscore=0 bulkscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2409040108
+References: <20240904-devel-anna-maria-b4-timers-flseep-v1-0-e98760256370@linutronix.de>
+In-Reply-To: <20240904-devel-anna-maria-b4-timers-flseep-v1-0-e98760256370@linutronix.de>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 4 Sep 2024 16:44:47 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0i_tLZ6W2gb4VbqkYhDEfA_KM2EPyogQRFZGtsN=uGdpw@mail.gmail.com>
+Message-ID: <CAJZ5v0i_tLZ6W2gb4VbqkYhDEfA_KM2EPyogQRFZGtsN=uGdpw@mail.gmail.com>
+Subject: Re: [PATCH 00/15] timers: Cleanup delay/sleep related mess
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
+	Len Brown <len.brown@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, SeongJae Park <sj@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, damon@lists.linux.dev, linux-mm@kvack.org, 
+	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org, 
+	Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, netdev@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nathan Lynch <nathanl@linux.ibm.com>, 
+	linuxppc-dev@lists.ozlabs.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bryan,
+On Wed, Sep 4, 2024 at 3:05=E2=80=AFPM Anna-Maria Behnsen
+<anna-maria@linutronix.de> wrote:
+>
+> Hi,
+>
+> a question about which sleeping function should be used in acpi_os_sleep(=
+)
+> started a discussion and examination about the existing documentation and
+> implementation of functions which insert a sleep/delay.
+>
+> The result of the discussion was, that the documentation is outdated and
+> the implemented fsleep() reflects the outdated documentation but doesn't
+> help to reflect reality which in turns leads to the queue which covers th=
+e
+> following things:
+>
+> - Minor changes (naming and typo fixes)
+>
+> - Split out all timeout and sleep related functions from hrtimer.c and ti=
+mer.c
+>   into a separate file
+>
+> - Update function descriptions of sleep related functions
+>
+> - Change fsleep() to reflect reality
+>
+> - Rework all comments or users which obviously rely on the outdated
+>   documentation as they reference "Documentation/timers/timers-howto.rst"
+>
+> - Last but not least (as there are no more references): Update the outdat=
+ed
+>   documentation and move it into a file with a self explaining file name
+>
+> The queue is available here and applies on top of tip/timers/core:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/anna-maria/linux-devel.gi=
+t timers/misc
+>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Len Brown <len.brown@intel.com>
+> Cc: Rafael J. Wysocki <rafael@kernel.org>
+> To: Frederic Weisbecker <frederic@kernel.org>
+> To: Thomas Gleixner <tglx@linutronix.de>
+> To: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
+>
+> Thanks,
+>
+> Anna-Maria
+>
+> ---
+> Anna-Maria Behnsen (15):
+>       timers: Rename next_expiry_recalc() to be unique
+>       cpu: Use already existing usleep_range()
+>       Comments: Fix wrong singular form of jiffies
+>       timers: Move *sleep*() and timeout functions into a separate file
+>       timers: Rename sleep_idle_range() to sleep_range_idle()
+>       timers: Update function descriptions of sleep/delay related functio=
+ns
+>       timers: Adjust flseep() to reflect reality
+>       mm/damon/core: Use generic upper bound recommondation for usleep_ra=
+nge()
+>       timers: Add a warning to usleep_range_state() for wrong order of ar=
+guments
+>       checkpatch: Remove broken sleep/delay related checks
+>       regulator: core: Use fsleep() to get best sleep mechanism
+>       iopoll/regmap/phy/snd: Fix comment referencing outdated timer docum=
+entation
+>       powerpc/rtas: Use fsleep() to minimize additional sleep duration
+>       media: anysee: Fix link to outdated sleep function documentation
+>       timers/Documentation: Cleanup delay/sleep documentation
 
-On 8/19/2024 8:17 AM, Vladimir Zapolskiy wrote:
-> On 8/12/24 17:41, Depeng Shao wrote:
->> From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+I like the changes, so
 
-> I've already expressed concerns about a necessity of this function, 
-> since it
-> adds runtime burden of work, which can be successfully done at compile 
-> time,
-> but okay...
-> 
-> Since it is needed for 3PH case only, it may make sense to remove it 
-> from 2PH
-> and call it here conditionally like
-> 
->      if (csiphy->res->hw_ops->init)
->          ret = csiphy->res->hw_ops->init(csiphy);
-> 
-> But it's up to you, I hope the callback will be removed in short future.
-> 
+Acked-by: Rafael J. Wysocki <rafael@kernel.org>
 
-Could you please comment on if it is fine to remove the init from 2PH 
-driver?
-
-
-Thanks,
-Depeng
+for the series.
 
