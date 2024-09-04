@@ -1,148 +1,173 @@
-Return-Path: <linux-media+bounces-17618-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17619-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E54596C735
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 21:12:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 331EA96C8E3
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 22:49:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 804241C24EE4
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 19:12:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 662CE1C21AC6
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 20:49:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 742AD1E4126;
-	Wed,  4 Sep 2024 19:12:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED4E5191F7E;
+	Wed,  4 Sep 2024 20:46:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E27ROuvq"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="B1Tu7C0o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail-40138.protonmail.ch (mail-40138.protonmail.ch [185.70.40.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493531E4101
-	for <linux-media@vger.kernel.org>; Wed,  4 Sep 2024 19:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B18914B976;
+	Wed,  4 Sep 2024 20:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725477129; cv=none; b=mhsaaPpSlA6Bc+lX1yydv2jzh3LJfgHX4QbUXCAOGRpKAnaw++PQhCAnBLaxxr4WNaILwaPtUcd5+njWIJQyJcpukXJRbT6fOKI4kaxfB16NtHFXzQvJPt76yoibbP9rHHzlFKYO1ZNBvKco9CZckkYvzrLlC6udCtlMtOhxVfY=
+	t=1725482767; cv=none; b=arY6aiPoBeUwtdBMpNvSKzMdr00rlRmvr0XAXD2sZKWYREezodpRrv7kfnZiWfY/c4J3JdLYveqsK2/EruXKC4HYg22XEXocYJTRvhmpQhcXOs25YHNBLqkiS7pVl0OTwUhGAnoEYFOy1k531QSzf7DByDHkvT0HYaEJeuvxzLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725477129; c=relaxed/simple;
-	bh=ruLjwy2jFV+ghDFSNtgYsZSJsAG96sW8A464lo1E1rY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nP53dkWfzgvkZmWwcojgPNYv2zvpeMvw4W3BJNo3U7ABx3buAuv78R9o0RnVDCR/WWEfrBWcLKYqEJdtuzbhEnpIrWi6EcrDuIFBokJU9GNNuTHpeRrH7pAgsRF8l4zZg8jZ/EAkpi3ZKxM02M6wChblF2umUuyWk1sbsTAbDCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E27ROuvq; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725477127;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tjS+J0To6FVRmBqGu5USy4NMnRdqHmPZWkcBkzToclI=;
-	b=E27ROuvqpsIN47cLlZioMXXjzqvlzYwQVs7pkFuLGOjSe43cG+PkIBb3VetafJvPs0596d
-	AJL6PqTl6pUS1FxXwteF0529wN9qYp8nzzilRsfKPj3AKFP5+utkMVEgTzTqlRgsXWPKtS
-	rnHlNQHib0JkHBUn1u5oWrIykkjKiM4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-504-a99enW1ENIKJkeCHRS1P4A-1; Wed, 04 Sep 2024 15:12:05 -0400
-X-MC-Unique: a99enW1ENIKJkeCHRS1P4A-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5c24b4a57b4so3044760a12.2
-        for <linux-media@vger.kernel.org>; Wed, 04 Sep 2024 12:12:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725477125; x=1726081925;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tjS+J0To6FVRmBqGu5USy4NMnRdqHmPZWkcBkzToclI=;
-        b=gImfujbgUhqRH4KSk97zMftGuq0qxwqxDHFVYhvRj6S4941ewq3D4nAIuOiwMszcnZ
-         fpSAcdEl6ls327d0+wcabi4ZkM/3muGbHoC+zba9WjVk+B4xJ8zwbnDZKTofdoAbTD21
-         6E8uaTMVlpmkeD+lib9GvjNbBY1JS8Cntv1/JXH4wyQ/50kEinQFIyOlTYJT6VAyvyQg
-         nz5E5rYQh5aRiuVn9FDuPUM2ua3KmaYCPZ+O0READzdnJB++476J9lbhsE7nQLQ8T7Bq
-         N8aOKKd75bvK4iheCvlp3VUfTA6ETx2w9OaBMC/JcqUkNRBBSvVEqdKtVzue0O0dmLnV
-         jTnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVAyMF1/jztICZ2w8M2uCLl15YO9YR/OGxHMIXqYWmY1PKYASKfolUY3gnB1a6pCK+iIMDmQ9fXqPGLNw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywb8eJrDNSqw0/PBxkNTakELE/1AK3rEKWTRMUag2NTtf4euIoN
-	XZAvAWAaFzrxWzhvdL5yHrU8DePlIAmfpHd0qDBNQI1E3piDnVajeGs9Ny6yBTV830g7zmC91Gp
-	4cYrSVXhpVDpXS/tA+EkuZfDKpK1VNgfc+wy13ygtKfUdAy1XNK+Z0eyHWNZd
-X-Received: by 2002:a17:907:72c9:b0:a7a:83f8:cfd5 with SMTP id a640c23a62f3a-a897f83506cmr1728239566b.18.1725477124613;
-        Wed, 04 Sep 2024 12:12:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGyjKhNfCOaCxIiv6uycQna1F0qrwg+75CiwEi5Uhl0ou+4uRNnGGTQ5BozarWRqgiWs0NXBQ==
-X-Received: by 2002:a17:907:72c9:b0:a7a:83f8:cfd5 with SMTP id a640c23a62f3a-a897f83506cmr1728237166b.18.1725477124025;
-        Wed, 04 Sep 2024 12:12:04 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a623a68eesm25281566b.165.2024.09.04.12.12.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 12:12:03 -0700 (PDT)
-Message-ID: <dfbf0064-4b8b-49f8-89ef-19a028a359ca@redhat.com>
-Date: Wed, 4 Sep 2024 21:12:02 +0200
+	s=arc-20240116; t=1725482767; c=relaxed/simple;
+	bh=pHKsfEey7k+Kut2kFq2Fse32WE02kFkgk5ihNfV18aI=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pgPv7W9YgBsvY/fUCC+W0WoSEjHQXUxgd2aP4iH6+2W1Cn+mDbckWFC5fpZdG+gWlJk5vu3YcHjbGbpQnQ8fmGvXWV/tSgdQqkk5avKaZHpeNAzh3y/zFe/Jpy+ztguUN9pckn0uecjEXZHPdnoUVVRnmKifQEt9RX7GeeZLs78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=B1Tu7C0o; arc=none smtp.client-ip=185.70.40.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1725482753; x=1725741953;
+	bh=7dpimP15520NeL54t8R2z7oW/gXYIFdOGf+8XOb1730=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=B1Tu7C0o6+ZZ5C7eE92YubtQWSq3LG0U+WPUDYjC0+74pmfYCUb4XfBZ9AqDBdW/k
+	 d8fuf9d9fbKaQynPx2Pn3Wrv+VE9OIDvYICxB+j4N7fzi3PI1KSmtNguf09sNa6L8z
+	 Q9SJsSx1OgvRV01onguG6VgjHndp5c2ksAuWF6g50PoPacjnJsml7hKwCK1NUh38p+
+	 +90JZthXc7BzMg42gVfq07ktrCAqiidXWpJUqH136XhOHlQXIG4zuxiy8Srsu+AkAl
+	 leWqxXCbWIEo1mQMDXvXRmXVSBbaRIlGdjjmxMH6a/1/M78cnsc3n/Gl5NL+CvfT8S
+	 3B9GPYBuv6YrQ==
+Date: Wed, 04 Sep 2024 20:45:51 +0000
+To: o-takashi@sakamocchi.jp
+From: Edmund Raile <edmund.raile@protonmail.com>
+Cc: apais@linux.microsoft.com, edmund.raile@protonmail.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-sound@vger.kernel.org, linux1394-devel@lists.sourceforge.net, netdev@vger.kernel.org
+Subject: firewire: use sleepable workqueue to handle 1394 OHCI IT/IR context events: test 1
+Message-ID: <20240904204531.154290-1-edmund.raile@protonmail.com>
+In-Reply-To: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
+References: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
+Feedback-ID: 43016623:user:proton
+X-Pm-Message-ID: 4ed8ea6d8f4fdb7d65623a1afb01f1502d3fca6f
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
-To: kernel test robot <lkp@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-References: <20240901211834.145186-3-hdegoede@redhat.com>
- <202409040751.A1Dm1pgG-lkp@intel.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <202409040751.A1Dm1pgG-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hello Sakamoto-San, I very much appreciate the idea and effort to take on t=
+he tasklet conversion in small steps instead of all-at-once!
 
-On 9/4/24 1:59 AM, kernel test robot wrote:
-> Hi Hans,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on media-tree/master]
-> [also build test ERROR on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.11-rc6 next-20240903]
-> [cannot apply to sailus-media-tree/streams]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l-Call-s_stream-on-VCM-when-it-is-called-on-the-associated-sensor/20240902-052000
-> base:   git://linuxtv.org/media_tree.git master
-> patch link:    https://lore.kernel.org/r/20240901211834.145186-3-hdegoede%40redhat.com
-> patch subject: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
-> config: x86_64-randconfig-121-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409040751.A1Dm1pgG-lkp@intel.com/
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
->    drivers/media/i2c/ad5823.c: In function 'ad5823_probe':
->>> drivers/media/i2c/ad5823.c:203:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c' [-Werror=implicit-function-declaration]
->      203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
->          |                          ^~~~~~~~~~~~~~~~~~~~~~~~
->>> drivers/media/i2c/ad5823.c:203:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->      203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
->          |                        ^
->    cc1: some warnings being treated as errors
+I also thank you for the CC, I'd like to be the testing canary for the coal=
+ mine of firewire ALSA with RME FireFace!
+The ALSA mailing list is a bit overwhelming and I'll likely unsubscribe so =
+a direct CC for anything I can test is a good idea.
 
+Trying to apply patch 1 of 5 to mainline, your kernel tree appears to be ou=
+t of sync with mainline!
+It was missing b171e20 from 2009 and a7ecbe9 from 2022!
+I hope nothing else important is missing!
 
-This is caused by a missing "select V4L2_CCI_I2C" I have fixed this
-in my local tree and this fix will be included in v2 when I get
-around to posting v2 (which also depends on the discussion
-surrounding patch 1/2).
+Since in fw_card_initialize, ret is tested to be 0 we'd need an else instea=
+d, is this correct?
 
-Regards,
+I edited these functions of patch 1, now everything applies just fine:
 
-Hans
+@@ -571,11 +571,28 @@ void fw_card_initialize(struct fw_card *card,
+ }
+ EXPORT_SYMBOL(fw_card_initialize);
+=20
+-int fw_card_add(struct fw_card *card,
+-=09=09u32 max_receive, u32 link_speed, u64 guid)
++int fw_card_add(struct fw_card *card, u32 max_receive, u32 link_speed, u64=
+ guid,
++=09=09unsigned int supported_isoc_contexts)
+ {
++=09struct workqueue_struct *isoc_wq;
+ =09int ret;
+=20
++=09// This workqueue should be:
++=09//  * !=3D WQ_BH=09=09=09Sleepable.
++=09//  * =3D=3D WQ_UNBOUND=09=09Any core can process data for isoc context=
+. The
++=09//=09=09=09=09implementation of unit protocol could consumes the core
++=09//=09=09=09=09longer somehow.
++=09//  * !=3D WQ_MEM_RECLAIM=09=09Not used for any backend of block device=
+.
++=09//  * =3D=3D WQ_HIGHPRI=09=09High priority to process semi-realtime tim=
+estamped data.
++=09//  * =3D=3D WQ_SYSFS=09=09Parameters are available via sysfs.
++=09//  * max_active =3D=3D n_it + n_ir=09A hardIRQ could notify events for=
+ multiple isochronous
++=09//=09=09=09=09contexts if they are scheduled to the same cycle.
++=09isoc_wq =3D alloc_workqueue("firewire-isoc-card%u",
++=09=09=09=09  WQ_UNBOUND | WQ_HIGHPRI | WQ_SYSFS,
++=09=09=09=09  supported_isoc_contexts, card->index);
++=09if (!isoc_wq)
++=09=09return -ENOMEM;
++
+ =09card->max_receive =3D max_receive;
+ =09card->link_speed =3D link_speed;
+ =09card->guid =3D guid;
+@@ -584,9 +601,13 @@ int fw_card_add(struct fw_card *card,
+=20
+ =09generate_config_rom(card, tmp_config_rom);
+ =09ret =3D card->driver->enable(card, tmp_config_rom, config_rom_length);
+ =09if (ret =3D=3D 0)
+ =09=09list_add_tail(&card->link, &card_list);
++=09else
++=09=09destroy_workqueue(isoc_wq);
++
++=09card->isoc_wq =3D isoc_wq;
 
+ =09mutex_unlock(&card_mutex);
+
+ =09return ret;
+@@ -709,7 +729,9 @@ void fw_core_remove_card(struct fw_card *card)
+ {
+ =09struct fw_card_driver dummy_driver =3D dummy_driver_template;
+ =09unsigned long flags;
+=20
++=09might_sleep();
++
+ =09card->driver->update_phy_reg(card, 4,
+ =09=09=09=09     PHY_LINK_ACTIVE | PHY_CONTENDER, 0);
+ =09fw_schedule_bus_reset(card, false, true);
+@@ -719,6 +741,7 @@ void fw_core_remove_card(struct fw_card *card)
+ =09dummy_driver.free_iso_context=09=3D card->driver->free_iso_context;
+ =09dummy_driver.stop_iso=09=09=3D card->driver->stop_iso;
+ =09card->driver =3D &dummy_driver;
++=09drain_workqueue(card->isoc_wq);
+=20
+ =09spin_lock_irqsave(&card->lock, flags);
+ =09fw_destroy_nodes(card);
+
+Building a kernel with the patch produced 6.11.0-rc6-1-mainline-00019-g6778=
+4a74e258-dirty.
+Testing it with TI XIO2213B and RME Fireface 800 so far > 1 hour reveals no=
+ issues at all.
+ALSA streaming works fine:
+  mpv --audio-device=3Dalsa/sysdefault:CARD=3DFireface800 Spor-Ignition.fla=
+c
+
+Though I haven't the faintest clue how to measure CPU usage impact of the p=
+atch, it looks like it would be neglible.
+
+As of finishing this, I noticed you released [2] https://lore.kernel.org/lk=
+ml/20240904125155.461886-1-o-takashi@sakamocchi.jp/T/
+I'll get around to testing that one too, but tomorrow at the earliest.
+
+Kind regards,
+Edmund Raile.
+
+Signed-off-by: Edmund Raile <edmund.raile@protonmail.com>
+Tested-by: Edmund Raile <edmund.raile@protonmail.com>
 
 
