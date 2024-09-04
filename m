@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-17576-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17577-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFFC96BAA2
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:29:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA9496BAB1
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:31:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A273EB23036
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:29:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C62CA1F215FE
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:31:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 099CE1CFEDD;
-	Wed,  4 Sep 2024 11:28:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C8021D0489;
+	Wed,  4 Sep 2024 11:29:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n/0NgyCj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WcWhrQsU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFD81CFEA6;
-	Wed,  4 Sep 2024 11:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6CA126C1C;
+	Wed,  4 Sep 2024 11:29:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725449326; cv=none; b=Dp7LytLkglS70GOBdYNyUH4FeM8BAK63sIB1YQOQQQ/Z/nakNm252yEdedL7nNn9gP8+GHltLiyDNPtzEyQZH5eEs5xIULcDV6oeHJD6L4gUj4nsVMAY0K2HRNvQID5/DgpKl62wbxzKkPqszSrOju080L0ud3iEi5D/zWQud7k=
+	t=1725449390; cv=none; b=LTT1FkSWfqXmuqaxQXPBWl4QfPGM+MHiSg91snBUfAlRe+sD2mFo5TeqOBvnKtQjvbaZFOeNaiq1upAaW8bLrB/dRhci99LuVT/4891f/idsZOEr22k2RDCTCiE0SWCenUEaubhw+WV/U16oinyxl9ugTDEI1Pa8CdGiW5LwI/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725449326; c=relaxed/simple;
-	bh=sBaohaHZUVaZLsgiNkQ8gEp7Ytnh/9Nn7T7uDa7q45s=;
+	s=arc-20240116; t=1725449390; c=relaxed/simple;
+	bh=zAW4g+Ww9bqalny4pLjUVSQ3MMqdWk5LCJwEP6U8/oI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g2MNFBgGj4W0VgkRJyPPQCOqnkVP2+oTpcZSychs2YXUzDi61VH+tNXrFqKnr7aUUPHWiHxdl7wXXoqYtiS1UAeweQeFoddlcXlZE7lGYCwQROLumyrvHwl8ViRwEMhBPudMSRAa+yV7Lkv43l0YLdCeIuzFU7hn6mlP1X/SXXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n/0NgyCj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 319DBC4CEC6;
-	Wed,  4 Sep 2024 11:28:41 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=gZdnReI+IGuy5Pxfu5VuQzBy/XOoMfpV3/TtFsJixoh7jg6nSu7JXmQZWW4WlVbx7p5pw6IWJSzVPdZcbebj/ovjUGOm0QqRT4JINg6hSbB1wi0T9+nICIkZEZXIsb0KNQxRfvrzPWpCnud7GhRwI0wzrDJAxl3GJCgO1t5JwJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WcWhrQsU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1DE9C4CECB;
+	Wed,  4 Sep 2024 11:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725449325;
-	bh=sBaohaHZUVaZLsgiNkQ8gEp7Ytnh/9Nn7T7uDa7q45s=;
+	s=k20201202; t=1725449390;
+	bh=zAW4g+Ww9bqalny4pLjUVSQ3MMqdWk5LCJwEP6U8/oI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n/0NgyCjbvwCKxPDSP997qRKHOffv5uGdJzlkylZwUvTMaS2b/COWSDIxNpTlHbvX
-	 j3OkD+/E1ybTrkoLCAHUPFQsxBFNFQBgomPENThbNhRaiNBcG0Y4/D88Xqsy1ZIQ5e
-	 Wtl8SBoQgdMiJfOd91gZMsRSi7Oqv+M+WGbcwMNkLnr2+NiswtYvCIDmaNdXZsVO7e
-	 YiXayvueqYJJ0ZkrJ+IBBrtn0I6Lj1VxWCb34NJiOfATrwTP9zhYDv0o8xQgUXtG+k
-	 VstogmmQ1BlvO5HeIYLwPG3X6OvSIwBwuk3tJEYZYylbFNbZR1K0dp3WAsyUc5Cag6
-	 1YTpsegRDCi4g==
-Message-ID: <82062793-1fa3-4384-9861-38dcc2e49e92@kernel.org>
-Date: Wed, 4 Sep 2024 13:28:39 +0200
+	b=WcWhrQsUaz9/GViqf7GIkP8X7wpxfPMJfZEkRWQYfJyGMgiSD6ho+TjNMTvRPChHb
+	 RVCAcutBoiErb/s4Vnxvj74iKkfbITpqRY29CBtCxjyXUrHTtXTj4c5gl+AyWbDrVd
+	 Xnfq+4/7S8Shbobv7X8opczZUhBIA5IuDq5WdsJl9SxK91Bh8ZIxTq8L0zCM+NxYHm
+	 vBPXzIn78WMPESqFvHUNzoiHW4nisxXO/6zhR5bDr5MMdcr3KPR57ucYmtD85Dm4Vv
+	 qcKYMZ+YKGKm3Ulb230WyaO8LBACy6q4tLZkfJSw2/hYVHDNLMcJEdCvJmSagGIcvm
+	 KLTR+VTuXiXWA==
+Message-ID: <b17ad6e0-a99b-46c9-89e6-df72773a0bd4@kernel.org>
+Date: Wed, 4 Sep 2024 13:29:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/10] media: dt-bindings: media: camss: Add
- qcom,sc7280-camss binding
+Subject: Re: [PATCH 02/10] media: dt-bindings: media:
+ qcs6490-rb3gen2-vision-mezzanine: Add dt bindings
 To: Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss
  <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
@@ -66,11 +66,9 @@ To: Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Suresh Vankadara <quic_svankada@quicinc.com>,
- Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+ linux-arm-kernel@lists.infradead.org
 References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
- <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-1-b18ddcd7d9df@quicinc.com>
+ <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-2-b18ddcd7d9df@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -116,24 +114,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-1-b18ddcd7d9df@quicinc.com>
+In-Reply-To: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-2-b18ddcd7d9df@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 04/09/2024 13:10, Vikram Sharma wrote:
-> Add bindings for qcom,sc7280-camss to support the camera subsystem
-> on the SC7280 platform.
-> 
-> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
-> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-> ---
->  .../bindings/media/qcom,sc7280-camss.yaml          | 441 +++++++++++++++++++++
->  1 file changed, 441 insertions(+)
+> Add bindings for qcs6490-rb3gen2-vision-mezzanine.
 
-Why do you send the same patch? No versioning, no changelog. Please
-implement feedback from previous submissions, then send new version.
-Everything is explained in submitting-patches document.
+This we see from the diff. Explain what is this. What are the differences.
+
+Subject: drop duplicated, second media.
+
+
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
 
 Best regards,
 Krzysztof
