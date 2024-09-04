@@ -1,173 +1,244 @@
-Return-Path: <linux-media+bounces-17619-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17620-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331EA96C8E3
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 22:49:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8434296C922
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 23:07:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 662CE1C21AC6
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 20:49:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07FF31F241AB
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 21:07:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED4E5191F7E;
-	Wed,  4 Sep 2024 20:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDDFE14EC77;
+	Wed,  4 Sep 2024 21:07:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="B1Tu7C0o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S30JOPQe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-40138.protonmail.ch (mail-40138.protonmail.ch [185.70.40.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B18914B976;
-	Wed,  4 Sep 2024 20:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF8E84047;
+	Wed,  4 Sep 2024 21:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725482767; cv=none; b=arY6aiPoBeUwtdBMpNvSKzMdr00rlRmvr0XAXD2sZKWYREezodpRrv7kfnZiWfY/c4J3JdLYveqsK2/EruXKC4HYg22XEXocYJTRvhmpQhcXOs25YHNBLqkiS7pVl0OTwUhGAnoEYFOy1k531QSzf7DByDHkvT0HYaEJeuvxzLM=
+	t=1725484066; cv=none; b=TDpJIHgG18KdaMauwTW6SkHgy2jaIbGK2ORi2rHjV14BrrBwjxn+bvVEUjPkiBTlfalLQw9sigT6XKJ+vKh4ZbWNX8OxVFTkceEJqS60nui48+H2NuSoecbLeKjSM2FbLdnXgd16VzAVkfzKbQ427neSooYxAJ4vtRo0gQmU05Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725482767; c=relaxed/simple;
-	bh=pHKsfEey7k+Kut2kFq2Fse32WE02kFkgk5ihNfV18aI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pgPv7W9YgBsvY/fUCC+W0WoSEjHQXUxgd2aP4iH6+2W1Cn+mDbckWFC5fpZdG+gWlJk5vu3YcHjbGbpQnQ8fmGvXWV/tSgdQqkk5avKaZHpeNAzh3y/zFe/Jpy+ztguUN9pckn0uecjEXZHPdnoUVVRnmKifQEt9RX7GeeZLs78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=B1Tu7C0o; arc=none smtp.client-ip=185.70.40.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1725482753; x=1725741953;
-	bh=7dpimP15520NeL54t8R2z7oW/gXYIFdOGf+8XOb1730=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=B1Tu7C0o6+ZZ5C7eE92YubtQWSq3LG0U+WPUDYjC0+74pmfYCUb4XfBZ9AqDBdW/k
-	 d8fuf9d9fbKaQynPx2Pn3Wrv+VE9OIDvYICxB+j4N7fzi3PI1KSmtNguf09sNa6L8z
-	 Q9SJsSx1OgvRV01onguG6VgjHndp5c2ksAuWF6g50PoPacjnJsml7hKwCK1NUh38p+
-	 +90JZthXc7BzMg42gVfq07ktrCAqiidXWpJUqH136XhOHlQXIG4zuxiy8Srsu+AkAl
-	 leWqxXCbWIEo1mQMDXvXRmXVSBbaRIlGdjjmxMH6a/1/M78cnsc3n/Gl5NL+CvfT8S
-	 3B9GPYBuv6YrQ==
-Date: Wed, 04 Sep 2024 20:45:51 +0000
-To: o-takashi@sakamocchi.jp
-From: Edmund Raile <edmund.raile@protonmail.com>
-Cc: apais@linux.microsoft.com, edmund.raile@protonmail.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-sound@vger.kernel.org, linux1394-devel@lists.sourceforge.net, netdev@vger.kernel.org
-Subject: firewire: use sleepable workqueue to handle 1394 OHCI IT/IR context events: test 1
-Message-ID: <20240904204531.154290-1-edmund.raile@protonmail.com>
-In-Reply-To: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
-References: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
-Feedback-ID: 43016623:user:proton
-X-Pm-Message-ID: 4ed8ea6d8f4fdb7d65623a1afb01f1502d3fca6f
+	s=arc-20240116; t=1725484066; c=relaxed/simple;
+	bh=UGTJYGv+0UmGj+Ze0pdlYqBkQwyEedTIWoYfk5nRgb4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bb6sC4CpfJxZS+iCSQ8qjyGOAeVyFN0JcJtd2wTx7rRg2V3bFCObkbbwmkVUXWxqfPWHcMxYki1sBuksHhsjSjvbv+1Bj/gzRNzyEjEuxtUaGBDSCxAVkM7hgRGzej6PpeA9Dd9dAhwDLx7BZi4QyQCr+tR0j6ZPHsjEbapvr8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S30JOPQe; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-428e1915e18so57897165e9.1;
+        Wed, 04 Sep 2024 14:07:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725484063; x=1726088863; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5OiiYFimXSQBkHtC8xC7+fpH0+JqA60CxzJJEPbycak=;
+        b=S30JOPQeMCJteCt7/HY9nAO7IUgQAoUBEd+zTu7/iBheOmY+Ikq/UuAL84U6GR1InB
+         hstl+zPiYzfB+ClLeERWW0+ricCmcpZkIQ8B9wMJJGXzrdCulI47NLw/YGRx41zYLmy/
+         JUMt7LGa45lvT441dS9mSJZYEj0+G1M9Fi4fDxXAO1+TuX5S3Mj0YTk3ZlCBnv0bctQT
+         +iL1TErcWRIdJh+aRCnXj1C8NWeMKtpseFdMc6E6W4OYQUdO4VzqP/r8YYSUMGadEO5X
+         w739r8UZXd4LA8eqdH1r921SgOqCaUcTafucQ9Lu81MXggnZUBX1feQninyeK0xvMcnH
+         cP/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725484063; x=1726088863;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5OiiYFimXSQBkHtC8xC7+fpH0+JqA60CxzJJEPbycak=;
+        b=TKn/LcMsrwpMAeUOH7tzbpRT9B5gNXPNS+nhtcKxOKwfEDZqwOphUxZ7aNxOGjSH8b
+         qunRVTgz9Ba8DelLgC/E9RK+pPAcAqwzKRPHFCaeYXFrss2ZxZQQ8Ra/cOJgCFhXc5j0
+         6L1spgTxvH/UpQ7wVm63wBxHNIfqFn1SRPMNVjfQVDmqvHtDJwZH3YWRWJB7RUAjo2pc
+         tBkxYFbrO3PDPlRdwdbDZZQBPujjx5bdOsFbOhqCxi6E9IxHADUCsTxR7tdIw7h9WDpY
+         d8nA8y1E7lzeFinemWfZiqDRwTbiBnu0L6YYZnGa5DidTZrOxQG6I1Cx69mKfA9P16iY
+         74ag==
+X-Forwarded-Encrypted: i=1; AJvYcCVpyUf8JRZ2bVL5vjrmP2LUMDZzocPHmRo3JVySGNrrjbHnDonRQ7pa3jh7klefNr1Uw23DGiMktcKtX0Q=@vger.kernel.org, AJvYcCXYx8N2d3Mtb02/hV544Ps4WaNDhroG8QMMtoJ1UmVz/L5gEbRsbu128sPgnUMYq6Gkajgs9kRkHawj8cAlXck9UfU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmTeGLlLljMKJJD1LZa0C89pYEfNB7pREXMHd86iHFH+phPW/w
+	YWbRnPJqwxk+5BcdKOlU8laHBgtDtfb/H1T9myJ2NFrx/UiBp223
+X-Google-Smtp-Source: AGHT+IEisZfpjh5yr9l6IjozsVxAz5zCuH1MG1Vkuxvikw5aLmvlyJiyUkuG0hGlWfs2IGpkAl+blQ==
+X-Received: by 2002:a05:600c:3511:b0:426:6f1e:ce93 with SMTP id 5b1f17b1804b1-42c7b5f0e91mr93463875e9.33.1725484062449;
+        Wed, 04 Sep 2024 14:07:42 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:c57c:1e61:792:2ab1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42c7a41bdc8sm158821485e9.3.2024.09.04.14.07.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 14:07:41 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RFC PATCH 00/12] media: ov5645: Add support for streams
+Date: Wed,  4 Sep 2024 22:07:07 +0100
+Message-Id: <20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello Sakamoto-San, I very much appreciate the idea and effort to take on t=
-he tasklet conversion in small steps instead of all-at-once!
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-I also thank you for the CC, I'd like to be the testing canary for the coal=
- mine of firewire ALSA with RME FireFace!
-The ALSA mailing list is a bit overwhelming and I'll likely unsubscribe so =
-a direct CC for anything I can test is a good idea.
+Hi All,
 
-Trying to apply patch 1 of 5 to mainline, your kernel tree appears to be ou=
-t of sync with mainline!
-It was missing b171e20 from 2009 and a7ecbe9 from 2022!
-I hope nothing else important is missing!
+This patch series aims to add the below features,
+- Support subdev active state
+- Support for streams
+- Support for virtual channel
+- Code cleanup
 
-Since in fw_card_initialize, ret is tested to be 0 we'd need an else instea=
-d, is this correct?
+Sending this is as an RFC, I've done limited testing and Im seeing issue
+when route is updated and wanted some feedback on the implementation.
 
-I edited these functions of patch 1, now everything applies just fine:
+When route is updated for the sensor with below command, and when start
+streaming I get "Dangling sink streams: mask 0x1" error. Should the
+corresponding bridge also need to support routes to fix this? or is it
+something missing Ive missed in the current implementation.
 
-@@ -571,11 +571,28 @@ void fw_card_initialize(struct fw_card *card,
- }
- EXPORT_SYMBOL(fw_card_initialize);
-=20
--int fw_card_add(struct fw_card *card,
--=09=09u32 max_receive, u32 link_speed, u64 guid)
-+int fw_card_add(struct fw_card *card, u32 max_receive, u32 link_speed, u64=
- guid,
-+=09=09unsigned int supported_isoc_contexts)
- {
-+=09struct workqueue_struct *isoc_wq;
- =09int ret;
-=20
-+=09// This workqueue should be:
-+=09//  * !=3D WQ_BH=09=09=09Sleepable.
-+=09//  * =3D=3D WQ_UNBOUND=09=09Any core can process data for isoc context=
-. The
-+=09//=09=09=09=09implementation of unit protocol could consumes the core
-+=09//=09=09=09=09longer somehow.
-+=09//  * !=3D WQ_MEM_RECLAIM=09=09Not used for any backend of block device=
-.
-+=09//  * =3D=3D WQ_HIGHPRI=09=09High priority to process semi-realtime tim=
-estamped data.
-+=09//  * =3D=3D WQ_SYSFS=09=09Parameters are available via sysfs.
-+=09//  * max_active =3D=3D n_it + n_ir=09A hardIRQ could notify events for=
- multiple isochronous
-+=09//=09=09=09=09contexts if they are scheduled to the same cycle.
-+=09isoc_wq =3D alloc_workqueue("firewire-isoc-card%u",
-+=09=09=09=09  WQ_UNBOUND | WQ_HIGHPRI | WQ_SYSFS,
-+=09=09=09=09  supported_isoc_contexts, card->index);
-+=09if (!isoc_wq)
-+=09=09return -ENOMEM;
-+
- =09card->max_receive =3D max_receive;
- =09card->link_speed =3D link_speed;
- =09card->guid =3D guid;
-@@ -584,9 +601,13 @@ int fw_card_add(struct fw_card *card,
-=20
- =09generate_config_rom(card, tmp_config_rom);
- =09ret =3D card->driver->enable(card, tmp_config_rom, config_rom_length);
- =09if (ret =3D=3D 0)
- =09=09list_add_tail(&card->link, &card_list);
-+=09else
-+=09=09destroy_workqueue(isoc_wq);
-+
-+=09card->isoc_wq =3D isoc_wq;
+$ media-ctl -R "'ov5645 0-003c' [1/0->0/1[1]]"
 
- =09mutex_unlock(&card_mutex);
+Output after route update:
+- entity 4: ov5645 0-003c (2 pads, 1 link, 1 route)
+            type V4L2 subdev subtype Sensor flags 0
+            device node name /dev/v4l-subdev1
+        routes:
+                1/0 -> 0/1 [ACTIVE]
+        pad0: SOURCE
+                [stream:1 fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb
+                 crop:(0,0)/1920x1080]
+                -> "csi-10830400.csi2":0 [ENABLED,IMMUTABLE]
+        pad1: SINK,0x8
+                [stream:0 fmt:UYVY8_1X16/2592x1944 field:none colorspace:srgb
+                 crop:(0,0)/1920x1080]
+              
+v4l2-compliance log after this patch series:
+--------------------------------------------
+root@smarc-rzg2l:~# v4l2-compliance -u /dev/v4l-subdev1
+v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
+v4l2-compliance SHA: fc15e229d9d3 2024-07-23 19:22:15
 
- =09return ret;
-@@ -709,7 +729,9 @@ void fw_core_remove_card(struct fw_card *card)
- {
- =09struct fw_card_driver dummy_driver =3D dummy_driver_template;
- =09unsigned long flags;
-=20
-+=09might_sleep();
-+
- =09card->driver->update_phy_reg(card, 4,
- =09=09=09=09     PHY_LINK_ACTIVE | PHY_CONTENDER, 0);
- =09fw_schedule_bus_reset(card, false, true);
-@@ -719,6 +741,7 @@ void fw_core_remove_card(struct fw_card *card)
- =09dummy_driver.free_iso_context=09=3D card->driver->free_iso_context;
- =09dummy_driver.stop_iso=09=09=3D card->driver->stop_iso;
- =09card->driver =3D &dummy_driver;
-+=09drain_workqueue(card->isoc_wq);
-=20
- =09spin_lock_irqsave(&card->lock, flags);
- =09fw_destroy_nodes(card);
+Compliance test for device /dev/v4l-subdev1:
 
-Building a kernel with the patch produced 6.11.0-rc6-1-mainline-00019-g6778=
-4a74e258-dirty.
-Testing it with TI XIO2213B and RME Fireface 800 so far > 1 hour reveals no=
- issues at all.
-ALSA streaming works fine:
-  mpv --audio-device=3Dalsa/sysdefault:CARD=3DFireface800 Spor-Ignition.fla=
-c
+Driver Info:
+        Driver version   : 6.11.0
+        Capabilities     : 0x00000002
+                Streams Support
+        Client Capabilities:[   53.919041] ov5645 0-003c: =================  START STATUS  =================
+ 0x0000000000000[   53.927271] ov5645 0-003c: ==================  END STATUS  ==================
+003
+streams interval-uses-which
+Required ioctls:
+        test VIDIOC_SUDBEV_QUERYCAP: OK
+        test invalid ioctls: OK
 
-Though I haven't the faintest clue how to measure CPU usage impact of the p=
-atch, it looks like it would be neglible.
+Allow for multiple opens:
+        test second /dev/v4l-subdev1 open: OK
+        test VIDIOC_SUBDEV_QUERYCAP: OK
+        test for unlimited opens: OK
 
-As of finishing this, I noticed you released [2] https://lore.kernel.org/lk=
-ml/20240904125155.461886-1-o-takashi@sakamocchi.jp/T/
-I'll get around to testing that one too, but tomorrow at the earliest.
+Debug ioctls:
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-Kind regards,
-Edmund Raile.
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
 
-Signed-off-by: Edmund Raile <edmund.raile@protonmail.com>
-Tested-by: Edmund Raile <edmund.raile@protonmail.com>
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Sub-Device routing ioctls:
+        test Try VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+        test Active VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev1: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (12):
+  media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+  media: i2c: ov5645: Use local `dev` pointer for subdev device
+    assignment
+  media: i2c: ov5645: Enable runtime PM after
+    v4l2_async_register_subdev()
+  media: i2c: ov5645: Use dev_err_probe instead of dev_err
+  media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
+  media: i2c: ov5645: Drop `power_lock` mutex
+  media: i2c: ov5645: Use subdev active state
+  media: i2c: ov5645: Switch to {enable,disable}_streams
+  media: i2c: ov5645: Add internal image sink pad
+  media: i2c: ov5645: Report internal routes to userspace
+  media: i2c: ov5645: Report streams using frame descriptors
+  media: i2c: ov5645: Add virtual channel support
+
+ drivers/media/i2c/ov5645.c | 507 +++++++++++++++++++++++--------------
+ 1 file changed, 316 insertions(+), 191 deletions(-)
+
+-- 
+2.34.1
 
 
