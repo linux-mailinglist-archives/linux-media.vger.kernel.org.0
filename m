@@ -1,344 +1,167 @@
-Return-Path: <linux-media+bounces-17503-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17504-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB1596AD56
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 02:31:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 492D096AE3C
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 04:05:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E5021C23D9F
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 00:31:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2308286B9C
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 02:05:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77DCE3FE4;
-	Wed,  4 Sep 2024 00:30:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 004262C1AC;
+	Wed,  4 Sep 2024 02:04:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="JL5TUGEW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GTvzoOmd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SE2P216CU007.outbound.protection.outlook.com (mail-koreacentralazon11021079.outbound.protection.outlook.com [40.107.42.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2047489;
-	Wed,  4 Sep 2024 00:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725409838; cv=fail; b=I8Izrmv60dNOhN0lXX5I1JdSk/aWwiLC2naAIiWMnIQb9oyqsQitkuGe2ClosZZTa6f34BfDZ5QOBLbZMFhdkurvnzC4nMd4gR4gBwVAZbmLaSbcW4fmfmx+6nRoxRn15lJo5XqNuFcGJjhXITHieVwwlvXGHxHlXkCLWjtCZj0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725409838; c=relaxed/simple;
-	bh=L8LLsHfxA6rr5vGVPaZcRdOXH4YXrGNvoehlAhYhr2s=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=FSdqIYVf4YsMB9eOfVQFMytq52OAdGLwysxvEnCf9mnFXDIgrGmmSp7Rv1W5j6E3M9FkiSdTE9LDxQ/Mqdh7GD4Hy8u3To3zT9FpWmv4LiS/UMsyMNjcDCBJuPOEfetn+gDKKCQUQvgmyG6tsEy+TVU5dymHBcGBXaoMAbF0dKk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=JL5TUGEW; arc=fail smtp.client-ip=40.107.42.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JzWzi3MJ6uC/UAmESiG5izyxqjWkwSCDhH3kWrQSRemFJM94f3cz77Ii/yg7y7mwNm8N43Kt/WCH2PrcpUZ8zMbtA9h1sFk+IdAg67GvdHzu3fuLnW7KtiAbNtUryorA3CbtLFJiwEq7yn/cI+AkjIZDzOKhOr227TGDyzOIqPAAKZypnlqZeDeRU4GAy2FKeYN3NtkZjap5QejH6op4Hrlo1wht7SA0HJYKNP6xEOhc0Hhiqftm/dm1emcCzOBwriXjBDIAKbDYreuK8S5BB6bwITtFd68/CFkxWk/cCLfN9tIgEuEexi6Ghz3M3R/UeyuTVKiVITD5lPpwVyrAYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pu50ajiu37aDPN80tTxOHP5bB57G3igWydM2dVLFeUk=;
- b=YmsLhFGFVxL8hg6D+2Nfex6pGTeuq5UtWZv3HkuDqK8hcQzCFS6CaD6JMx9ZU+9u5YdrTxyO9QgiSSyxiJKgsF5bhvMa12de2czJOnWulMJPIBa9t7nrC7lbyPnOB4wmgW3wIjhsNaArszTYFJZBqG++vMZWAZCbETzDWVx/A/6FGneOSQAkc0oznt4QjDCNbaPbxN4gDSxCwIS7mhtF399ywUnoDN9N8PfguVT2tN+LTMIMMKNBVTn0efkBKNahOdqTsjlVW2eoc93BF9jzipSGo8TZzKKNY5zBs4twomwu9RDyViToHkOOzwf5yHudX7ZGXHRgY9tSGJN9druZaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pu50ajiu37aDPN80tTxOHP5bB57G3igWydM2dVLFeUk=;
- b=JL5TUGEWDEmOLthfJJyF9sTXEImQFQzCcz1I13t7amtDmeMSFdWxci1tgjNwjdfBx5YtQol/aGi35piEy0qcclvJXAq9R8lCjQNAfznWcm0VZEs38lPotSP1AzAdY6A/2mYqa9SXSI1iuXJ88d5C5J+XRiEjHcJQC7N4hMTgzxE=
-Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15::5) by
- PU4P216MB2283.KORP216.PROD.OUTLOOK.COM (2603:1096:301:129::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7918.27; Wed, 4 Sep 2024 00:30:31 +0000
-Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- ([fe80::b711:5ab1:b5a4:d01b]) by SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- ([fe80::b711:5ab1:b5a4:d01b%3]) with mapi id 15.20.7918.024; Wed, 4 Sep 2024
- 00:30:31 +0000
-From: jackson.lee <jackson.lee@chipsnmedia.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Nicolas Dufresne
-	<nicolas@ndufresne.ca>, Sebastian Fricke <sebastian.fricke@collabora.com>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Hans Verkuil
-	<hverkuil@xs4all.nl>, Nas Chung <nas.chung@chipsnmedia.com>, lafley.kim
-	<lafley.kim@chipsnmedia.com>, "Brnich, Brandon" <b-brnich@ti.com>
-Subject: [RESEND PATCH v7 0/4] Add features to an existing driver
-Thread-Topic: [RESEND PATCH v7 0/4] Add features to an existing driver
-Thread-Index: AQHa7IZ0qXgTRigmw0ef9EjBO4XUGrIvlgrQgBdTlmA=
-Date: Wed, 4 Sep 2024 00:30:31 +0000
-Message-ID:
- <SE1P216MB13030F374CC079CAC0C98F4BED9C2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-References: <20240812070823.125-1-jackson.lee@chipsnmedia.com>
- <SE1P216MB1303DB297A43A97CFACFD504ED8D2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-In-Reply-To:
- <SE1P216MB1303DB297A43A97CFACFD504ED8D2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-Accept-Language: ko-KR, en-US
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SE1P216MB1303:EE_|PU4P216MB2283:EE_
-x-ms-office365-filtering-correlation-id: 21d43533-7a9d-4686-9803-08dccc78c8d7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?eV1J+R0jxOgQNssurOY9WntECagrf8q6NgSCOw0nIS5TpYui2/bUiuV+H7MB?=
- =?us-ascii?Q?N/Ys+dwXZh+OcH/rxg13QfRWAodC9Rh1wjsk5BGn33EisRTYSr95oLCT4vUi?=
- =?us-ascii?Q?HHi/pBKv+oMXp08N44JHSU69Agy+a4rPNoPBHKtLP9A7RlkJ/jKPhIZvhttk?=
- =?us-ascii?Q?m/06sMr1f0absuTzhKIEkO/MLPe1xkTiuBAGBsX9unB281SgpQ8FZFsf1kuB?=
- =?us-ascii?Q?vzE4ZQphOfuJeuNAyEsq10dQIYKeMX8W50KFTfsNw85rNVqvFvzjbgFmcXDE?=
- =?us-ascii?Q?/OSZmC8ioZ9sqszGuhsvjv2Ty3lq5pC9WBsVViXLKtkywFVnOvqEmcu1mU4r?=
- =?us-ascii?Q?fmzzhkgtIkJ4EcYR+Gi7Tb7ezSjptem/xlgdCZDJ3OrIeJZ5t9P4ktcl6Ble?=
- =?us-ascii?Q?A/qUpFXLNpzSHGkD5BihvaL/XRkH8FJDOCp9G/lv7MehAbKxNYUV3Wzw2Att?=
- =?us-ascii?Q?QZIw6e/qhnUhCutEkonN9HAWC5cUn5VDtUNhqoNFDJnyWMPR6RTh0WklsVLh?=
- =?us-ascii?Q?/wIaqir6n6N5Nc2fKb9dGAhp4GXbYpiexme8D71FylHpA4ZDzzKmStxAJZm2?=
- =?us-ascii?Q?yVIAHSoAWJKRvX9QKcjFEB5o15XjvEohT2NRlRDETUqsUCQJfprLSBo55bv8?=
- =?us-ascii?Q?cDDVEbDNxwEO88t0mldp8CMubQQ2H6mX95lqV1vFGoLFvXXSjYhFrDHO/9PK?=
- =?us-ascii?Q?KCXu/zdyKCDHggcZ3dB10qios5pscvGkKkBelLOdOGdqz5cU02sAoo+0kKiM?=
- =?us-ascii?Q?iFi6XtKTFEGdnMKKCCKfMYVbjVxptb+cKU59XxdVCI8rKEgW1HoqNnWJA0aL?=
- =?us-ascii?Q?wQXEbzN81AOeHlumKSx1LZ94n8j0vvj/MQad1F4SoeDzSKXnBhIGsgJvX3Aq?=
- =?us-ascii?Q?XFNZzmfmCydq4514W8dF4lFkxTMzERBNRDzY1yDbdCxBB+Npp+QhvZAqXjR5?=
- =?us-ascii?Q?CBhMCulQNZtTQFskEJdXdrkvKPo5FUrUpKBbiWERjJBYrgxovOAu3GZOxIiK?=
- =?us-ascii?Q?THlJKHKMYEfisLrGl1k90gQcV6n/4ulK1YyTDA7iX1Y5fJ6lD3uqWgcX0vTB?=
- =?us-ascii?Q?1v2TUQdCajZamfBHwIiVAbSoEjt4sGD9FCkEOifUGrCZVDnMXojFZncECkNf?=
- =?us-ascii?Q?5cbJC1G1Wpbabw7jDIDXcxK0j0zNhkpW4poCtT6nbcJRW73LKJPp5dTMFzaH?=
- =?us-ascii?Q?E6SBArZA1HUq2c8zkuQSkOBtxWSA9EHbiZ5khyBz5x6j8haDl6iNGZV2agMa?=
- =?us-ascii?Q?sL6CR7CQ8V13I0m46CkmipSd3WX5756S/LSLrvi/nfTyN52Fo1s7f/g1FZiU?=
- =?us-ascii?Q?0ZKxKPDQp26drToIvx+5h5Sa7tFbiVxov78W6duak3b4fbcJJ10UxeqTddGz?=
- =?us-ascii?Q?hzIzN4A=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB1303.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?w8L+2sFHXQps9PLSK8iFRz1iFDUUhiPLe+Ju0YDIkSfd7F6Ap+G6DiITrUcQ?=
- =?us-ascii?Q?N4xZfOQsV/gKKqy1XbqFk7+r7nKKtkZoR8zaH91HAl7PfPmKnWBVO2XX+8HH?=
- =?us-ascii?Q?WfZvRqBHmnXEshMcP182o5zoqmYpAB+tCJM0fciafwExKobKyfAo20+Ms8G4?=
- =?us-ascii?Q?yzp9yRUHRayOTW1IcCGaxpw2lm+R93ENh6KujTvTyfZc/iOHxhAjK6c5c4/K?=
- =?us-ascii?Q?ldXdUumexXhwRWOPdc20FbqMUK+0/LALpJzFTIKrzyXkeMHi8UNh3gN/3pTX?=
- =?us-ascii?Q?WnoAkos2G1W9owcnR1YIgj1iAGt0b0IMS9MtrMnZDaZm+821w6xwW/OV8P6i?=
- =?us-ascii?Q?Ond70uNhS634ns9UZMgtSFduXVGAA86YT4FHCIDS0HAauH0SG41MkX2/tbpT?=
- =?us-ascii?Q?XUvutD6Ew5dFowtguklLSLuLZ+rCKUk3B5Z57jBTseKx4j8Fyh8u2HjUXE8r?=
- =?us-ascii?Q?pXT9G4VgkE8ABZEZ6FS5RFZJlbmd4Py28M81pneUUqDFZ8m52mzWaGbw6eOd?=
- =?us-ascii?Q?6MLUEkipVlwPx3Kgv/RH4e9gZkfDkHYkwTQy3tYSuuYtLXkMf2OpgZVvnY8j?=
- =?us-ascii?Q?DhDVG1JdsavNljrNxTLYknXmzqez68Luc7D4AjRz17gj0vFl6+pr/hzfXyFq?=
- =?us-ascii?Q?i5REzWnqtzWxeznQr6dDk2srUrU/heGJTcZrZMJVe13gYkSBL8hzBegwZzPi?=
- =?us-ascii?Q?DI7nZxsF0A6EPT5C5w85E1BluG366sNvfxEyDPoQRfcZBfFG6lo906+ie6pv?=
- =?us-ascii?Q?Q/XJEbqj3LP8Dy4kNe0E1iijtQZJ2TkoElqSMlnNgp0QJQU54RjSW+OPPqMs?=
- =?us-ascii?Q?JR4p+/SwoNlHE1s40H0fhERpbYodeSdVyRUvMxdwVI/AMiYg7xtlJA6qb5J3?=
- =?us-ascii?Q?aJ11+TyIZE/Jp/sYJ65tawi2+3YARZxXs5hR0xE8R/TdwHLpxgWuk3A8ALUD?=
- =?us-ascii?Q?om07OKrhlxoDHA5WrWO8lVWPBTJwECugBKrk8427ZOf7Ti0tGB8baYfOA5W4?=
- =?us-ascii?Q?7akgBxfcpYK0LOWJcYfmi6a532XxGzghB8DrXPn6Gtc/7V7LKtAF9M4Bq8Xz?=
- =?us-ascii?Q?mIHRqIj2/+8N0uIHN0x4w06MX6D5wOKNDMxwo9GyuwISf+pcVnObA2RFqqDt?=
- =?us-ascii?Q?G/SA1q6FfZVow76zq6E9a70uRjtwQtb61K08nD38F8ddqGVY7uTvJNDOJvfJ?=
- =?us-ascii?Q?WytJVSLGw3UfE0Wh0VVTlP0WV/OR/QHIUj8UshiExmu+qlQ+ce+aFcmkyB42?=
- =?us-ascii?Q?LowE83JOBE0rv4e8KJdvQD526NC5rdQEge+rJc03LyY8UxOy3WHyAyIGWVjq?=
- =?us-ascii?Q?tsJT0UZ13XLJd+9mHvFxXwliG1V1CSS8wTHiUesZmBNv4K1NtIDcr18GLCAv?=
- =?us-ascii?Q?O/YvMT9YaELlWJIhuGxn+JoauXufn9GwC+pz+f/4RrsCzIwtq6l1Yb2nHtuK?=
- =?us-ascii?Q?ZKuxvw9fgSPYLBnjebo+Gua6FgtXHSA39d0okjOT2quWElGZRlUlF+ePjKEi?=
- =?us-ascii?Q?+pvE+uHBk9n96TixrqHpG/mJxkWfvN++VXuFo6TL7DMOx5h2lRRETfKse/2l?=
- =?us-ascii?Q?oT/qlTVSbkFO0wJC3fW+jHnsD6O94ffCWERmCOee?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20FED529;
+	Wed,  4 Sep 2024 02:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725415496; cv=none; b=Pgh7LNsTNvw0zeMcHm91NStOaQXKcRtku0YDIng2BPK9SlQhCX2dL/RQEpYIdV3yZagy/5JWh0XSYyKEpy86HrVVfdfdbdLCVwE3uOvbZ3b7Y9Y8MOdiDLq32B3n/4eTDZz6QCxuuhtk+LapSNdFstT+/AG0oOwdPJOz0W83U04=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725415496; c=relaxed/simple;
+	bh=s4Jiezo9uL0aAB0mvZ0xJc4+WbaYsc/jG2jEIsn98UY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V4zkDTug9HeNYzRRikr5xRJxdfD/4Hr6xlV9yu1qAAR31/VWMl44fsN0vndv9Qd4xn9KZbXBI76wUl65pumGSsuMqju0S4j4pfd88SJV9blbrTIbEOsrRPTs0Tmb0TfQcs9hEmNXB7U93Y4+U9+xTOPwJHWS0ZBrW/5MM4AT9Ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GTvzoOmd; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e1a90780f6dso3794281276.0;
+        Tue, 03 Sep 2024 19:04:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725415494; x=1726020294; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qM3ZCVnrlMuurghg+8eAxbQKNT+spP3oTnGdsmJX1As=;
+        b=GTvzoOmdmZBPYBLoHEW+pAxhCIYTjfZrB1URpuHnACVSJEj0H7GULAwWf41onbS449
+         i2DIIFwqYSaedg3E1U4RnesuN/R5NQw7IZODc6r/HQM0gL8dFQ2fo1Gau+7c9tzusteK
+         TocRBAvyzD9ib5VTiJEBXOmn5Uiu/VQjlgPdnIb5du/mehg4dMFDKcp7mCFsGDgR9W75
+         YlrYrteBklfFyOsrGlhMT702WRHsjsE3DRUQvzBu8iWn23PIq2qUS0O1Ss5I/7SXMXmW
+         WJryk9chCgwI1folel43ktYv8hR5KAIrwy8PJL+x8bkbqypdZT+Ij/2B0np2erR6cUUu
+         erBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725415494; x=1726020294;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qM3ZCVnrlMuurghg+8eAxbQKNT+spP3oTnGdsmJX1As=;
+        b=w4OBVWqLF+nsmOINL1NZ/mE92tf0ZsCrNit8feZu+HFC1saNuctlTrxk4CNeb3yW4L
+         OuSxHDSRxiBCurvS6CVBPEXTJc1m6oYeXLkYi/vvR1oG3TK257iMtcahFW9//3oIirLm
+         PW3d0ILXfkOqJSvOY6geD22IEgoLc6RKw86Yco+CS9Hn5iVDieXdYzxO2SMEYjkNob94
+         JZ7cuautV+hyjnicrB+/xdTlzqD6O2fF4XuZpx2x5JgoN87m44tOzXo4FiXWo4Gw6YFx
+         KCDf5yOwYVD3xOeFb/1gMm5cYypFCpX2+gTEsF7hS5CY3JaeIaP9hm/TAeFWNoG+zdlW
+         mWVg==
+X-Forwarded-Encrypted: i=1; AJvYcCUU+BmP7G0lRyFbx4cFVOl+svSkJJcFLsg+mria0ibP6e77BZJwOhJHEqIzeIF/qtuww6LuxosQvXMRVhI=@vger.kernel.org, AJvYcCV1bYRNH50ptfPc/SSyMuEIhpOlaAklDB1bSk7rE3ljeGIdujolXgMAJ3VKuzZ2xW0CYm8y9AL+6VNX@vger.kernel.org, AJvYcCVJ2R3S8Fz+FwNpglMrtqpz7IR4fGSJVI/k64rckJ6sRXQoZceiJSScnbIrZ/ulMpNouZ757XD9pJkM@vger.kernel.org, AJvYcCWIz8BXOx8byT89EKeGjQFEJMeQ4KmtfkRWGCNK8uHKLVtqCEwQUC1Vpkjzxrd1snlZZ5EoLxEifDBsr9DjxA==@vger.kernel.org, AJvYcCXTExkW0H0rsscRkNBg7hslAAhXKGXavXWyDFTMo3OYpK1CZJmXUbX5areSYD7fyEJjwI3sAncz1azN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxm+g0ZZ5QGoXkCarB2hGcEwEsH6fj0XcKrrU09hdEhWfWLVxaw
+	8O2LIh0hqoJ6p2I8W6ZiqdRC4O/caPE2Tv+elkPZS7I2LUcPM7sIpXrrWNkR
+X-Google-Smtp-Source: AGHT+IHmLcyU2g/QYq23/BS1LXLImIdoLtFZWhjKoKdQhLAsKN6dgAbD1Lvs4axCzxRcGYk1gIBSqw==
+X-Received: by 2002:a05:6902:a90:b0:e1d:13a3:87ae with SMTP id 3f1490d57ef6-e1d13a38948mr19286276.10.1725415493804;
+        Tue, 03 Sep 2024 19:04:53 -0700 (PDT)
+Received: from localhost ([2607:fea8:52a3:d200::24da])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c34e6e07a4sm48499376d6.6.2024.09.03.19.04.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 19:04:53 -0700 (PDT)
+From: Richard Acayan <mailingradian@gmail.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Loic Poulain <loic.poulain@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH v4 0/7] Add SDM670 camera subsystem
+Date: Tue,  3 Sep 2024 22:04:49 -0400
+Message-ID: <20240904020448.52035-9-mailingradian@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21d43533-7a9d-4686-9803-08dccc78c8d7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2024 00:30:31.7393
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n/0NtsDI7iBWU+uOndtySd2txLw2qO2OVUHAnps12Dm277lH2MLX+ugt3k4yyYvJ3e7zDb5XUz9gnKue1AwvcC/n21Q6Ke8480ikkZppfrM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB2283
+Content-Transfer-Encoding: 8bit
 
+This adds support for the camera subsystem on the Snapdragon 670.
 
-Hi nicolas and Sebastian
+As of next-20240902, camss seems to be a bit broken, but the same series
+works on stable (although it is much less reliable now that the CCI clock
+frequency is not being assigned).
 
-I sent v7 patch for upstreaming , can you review the following ?
+Changes since v3 (20240819221051.31489-7-mailingradian@gmail.com):
+- add specific sdm670 compatible for camcc to dt schema and dts (1/7, 6/7)
+- pick up patch from Bryan for CCI driver (3/7)
+- stop assigning CCI frequency in dts (7/7)
+- add maxItems for sdm670 cci clocks (2/7)
+- remove empty line at top of camss dt schema (4/7)
+- move regs and reg-names up in camss dt schema (4/7)
+- move gcc and ahb clocks up in dts and dt schema (4/7, 7/7)
+- add reviewed-by from Vladimir for CCI dt-bindings patch (2/7)
+- add reviewed-by from Bryan for dts patch (7/7)
+- add reviewed-by from Krzysztof for camss dt-bindings patch (4/7)
+- add rewiew tags for camss driver patch (5/7)
 
-https://patchwork.linuxtv.org/project/linux-media/cover/20240812070823.125-=
-1-jackson.lee@chipsnmedia.com/
+Changes since v2 (20240813230037.84004-8-mailingradian@gmail.com):
+- drop unnecessary assigned AXI clock frequency (5/5)
+- drop src clocks from cci (5/5)
+- add unit name, remove mmio properties from port in example dts (2/5)
+- correct the reg-names order (2/5)
+- add parent_dev_ops to csid (3/5)
+- remove CSID clocks from VFE (3/5)
+- remove AXI clock from CSIPHY (3/5)
+- change subsystem part of the commit message summary (3/5)
+- add reviewed-by (4/5)
 
-thanks
+Changes since v1 (20240806224219.71623-7-mailingradian@gmail.com):
+- define dedicated resource structs/arrays for sdm670 (3/5)
+- separate camcc device tree node into its own patch (4/5)
+- specify correct dual license (2/5)
+- add include directives in dt-bindings camss example (2/5)
+- remove src clocks from dt-bindings (2/5)
+- remove src clocks from dtsi (5/5)
+- add power-domain-names to camss (5/5)
+- specify power domain names (3/5)
+- restrict cci-i2c clocks (1/5)
+- populate a commit message with hw info (2/5)
+- reword commit message (3/5)
 
+Bryan O'Donoghue (1):
+  i2c: qcom-cci: Stop complaining about DT set clock rate
 
-> -----Original Message-----
-> From: jackson.lee
-> Sent: Monday, August 12, 2024 4:09 PM
-> To: mchehab@kernel.org; nicolas@ndufresne.ca;=20
-> sebastian.fricke@collabora.com
-> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;=20
-> hverkuil@xs4all.nl; Nas Chung <nas.chung@chipsnmedia.com>; lafley.kim=20
-> <lafley.kim@chipsnmedia.com>; b-brnich@ti.com; jackson.lee=20
-> <jackson.lee@chipsnmedia.com>
-> Subject: [RESEND PATCH v7 0/4] Add features to an existing driver
->=20
-> The wave5 codec driver is a stateful encoder/decoder.
-> The following patches is for supporting yuv422 inpuy format,=20
-> supporting runtime suspend/resume feature and extra things.
->=20
-> v4l2-compliance results:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->=20
-> Buffer ioctls:
->        warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
->        warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
->     test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->     test VIDIOC_EXPBUF: OK
->     test Requests: OK (Not Supported)
->=20
-> Total for wave5-dec device /dev/video0: 45, Succeeded: 45, Failed: 0,
-> Warnings: 2 Total for wave5-enc device /dev/video1: 45, Succeeded: 45, Fa=
-iled:
-> 0, Warnings: 0
->=20
-> Fluster test results:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> Running test suite JCT-VC-HEVC_V1 with decoder=20
-> GStreamer-H.265-V4L2-Gst1.0 Using 1 parallel job(s)
-> Ran 132/147 tests successfully               in 89.870 secs
->=20
-> (1 test fails because of not supporting to parse multi frames, 1 test=20
-> fails because of a missing frame and slight corruption,
->  2 tests fail because of sizes which are incompatible with the IP, 11=20
-> tests fail because of unsupported 10 bit format)
->=20
-> Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0=20
-> Using
-> 1 parallel job(s)
-> Ran 77/135 tests successfully               in 30.364 secs
->=20
-> (58 fail because the hardware is unable to decode  MBAFF / FMO / Field=20
-> / Extended profile streams.)
->=20
-> Change since v6:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> * For [PATCH v4 2/4] media: chips-media: wave5: Support runtime=20
-> suspend/resume
->  - Change autosuspend delay to 100ms
->  - Add to enable/disable hrtimer in the runtime suspend/resume=20
-> function for hw not using irq
->=20
-> Change since v5:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> * For [PATCH v4 3/4] media: chips-media: wave5: Use helpers to=20
-> calculate bytesperline and sizeimage.
->  - Fix v4l2-compliance error for the vidioc_enum_framesizes
->=20
-> * For [PATCH v4 1/4] media: chips-media: wave5: Support SPS/PPS=20
-> generation for each IDR
->  - Remove warning messages for the checkpatch.pl script
->=20
-> Change since v4:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> * For [PATCH v4 2/4] media: chips-media: wave5: Support runtime=20
-> suspend/resume
->  - Fix warning message
->=20
-> * For [PATCH v4 3/4] media: chips-media: wave5: Use helpers to=20
-> calculate bytesperline and sizeimage.
->  - Fix warning message
->  - add Reviewed-By tag
->=20
-> * For [PATCH v4 4/4] media: chips-media: wave5: Support YUV422 raw=20
-> pixel- formats on the encoder
->  - add Reviewed-By tag
->=20
-> Change since v3:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * For [PATCH v4 1/4] media: chips-media: wave5: Support SPS/PPS=20
-> generation for each IDR
->  - add Reviewed-By tag
->=20
-> * For [PATCH v4 2/4] media: chips-media: wave5: Support runtime=20
-> suspend/resume
->  - add Reviewed-By tag
->=20
-> * For [PATCH v4 3/4] media: chips-media: wave5: Use helpers to=20
-> calculate bytesperline and sizeimage.
->  - modify the commit message
->  - define three framesize structures for decoder
->=20
-> * For [PATCH v4 4/4] media: chips-media: wave5: Support YUV422 raw=20
-> pixel- formats on the encoder
->  - modify the commit message
->  - use the v4l2_format_info to calculate luma, chroma size
->=20
-> Change since v2:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * For [PATCH v3 0/4] media: chips-media: wave5: Support SPS/PPS=20
-> generation for each IDR
->  - add the suggested _SHIFT suffix
->=20
-> * For [PATCH v3 1/4] media: chips-media: wave5: Support runtime=20
-> suspend/resume
->  - change a commit message
->=20
-> * For [PATCH v3 2/4] media: chips-media: wave5: Use helpers to=20
-> calculate bytesperline and sizeimage
->  - add pix_fmt_type parameter into wave5_update_pix_fmt function
->  - add min/max width/height values into dec_fmt_list
->=20
-> Change since v1:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * For [PATCH v2 0/4] media: chips-media: wave5: Support SPS/PPS=20
-> generation for each IDR
->  - define a macro for register addresses
->=20
-> * For [PATCH v2 1/4] media: chips-media: wave5: Support runtime=20
-> suspend/resume
->  - add auto suspend/resume
->=20
-> * For [PATCH v2 2/4] media: chips-media: wave5: Use helpers to=20
-> calculate bytesperline and sizeimage
->  - use helper functions to calculate bytesperline and sizeimage
->=20
-> * For [PATCH v2 3/4] media: chips-media: wave5: Support YUV422 raw=20
-> pixel- formats on the encoder
->  - remove unnecessary codes
->=20
-> Change since v0:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> The DEFAULT_SRC_SIZE macro was defined using multiple lines, To make a=20
-> simple define, tab and multiple lines has been removed, The macro is=20
-> defined using one line.
->=20
-> Jackson.lee (4):
->   media: chips-media: wave5: Support SPS/PPS generation for each IDR
->   media: chips-media: wave5: Support runtime suspend/resume
->   media: chips-media: wave5: Use helpers to calculate bytesperline and
->     sizeimage.
->   media: chips-media: wave5: Support YUV422 raw pixel-formats on the
->     encoder.
->=20
->  .../platform/chips-media/wave5/wave5-helper.c |  37 +-
->  .../platform/chips-media/wave5/wave5-helper.h |   5 +
->  .../platform/chips-media/wave5/wave5-hw.c     |  30 +-
->  .../chips-media/wave5/wave5-vpu-dec.c         | 321 +++++++-----------
->  .../chips-media/wave5/wave5-vpu-enc.c         | 313 +++++++++--------
->  .../platform/chips-media/wave5/wave5-vpu.c    |  50 +++
->  .../platform/chips-media/wave5/wave5-vpu.h    |   5 +-
->  .../platform/chips-media/wave5/wave5-vpuapi.c |  33 +-
->  .../platform/chips-media/wave5/wave5-vpuapi.h |   1 +
->  .../chips-media/wave5/wave5-vpuconfig.h       |  27 +-
->  .../media/platform/chips-media/wave5/wave5.h  |   3 +
->  11 files changed, 460 insertions(+), 365 deletions(-)
->=20
-> --
-> 2.43.0
+Richard Acayan (6):
+  dt-bindings: clock: qcom,sdm845-camcc: add sdm670 compatible
+  dt-bindings: i2c: qcom-cci: Document SDM670 compatible
+  dt-bindings: media: camss: Add qcom,sdm670-camss
+  media: qcom: camss: add support for SDM670 camss
+  arm64: dts: qcom: sdm670: add camcc
+  arm64: dts: qcom: sdm670: add camss and cci
+
+ .../bindings/clock/qcom,sdm845-camcc.yaml     |   6 +-
+ .../devicetree/bindings/i2c/qcom,i2c-cci.yaml |  19 ++
+ .../bindings/media/qcom,sdm670-camss.yaml     | 318 ++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sdm670.dtsi          | 195 +++++++++++
+ drivers/i2c/busses/i2c-qcom-cci.c             |   8 -
+ drivers/media/platform/qcom/camss/camss.c     | 191 +++++++++++
+ 6 files changed, 728 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+
+-- 
+2.46.0
 
 
