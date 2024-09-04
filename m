@@ -1,162 +1,115 @@
-Return-Path: <linux-media+bounces-17600-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17601-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9DD96C10C
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 16:45:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5334396C110
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 16:45:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73A942837F6
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 14:45:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07D991F23777
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 14:45:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20B111DC18D;
-	Wed,  4 Sep 2024 14:45:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD8371DC053;
+	Wed,  4 Sep 2024 14:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vMaeIFXV"
+	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="vUL5bGVq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A5A1D014A;
-	Wed,  4 Sep 2024 14:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0910A1DC1B5
+	for <linux-media@vger.kernel.org>; Wed,  4 Sep 2024 14:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725461100; cv=none; b=foRrnN+A/Dsy0xiLmTjHXEab6PcaV1CzT4Y4gRW1QV0I56UE8sj2Tdqmk/rRNMW+2ijvUt//h4e+X1jHAK0CX7yLIXJHgjqedEMsiKCyRDGrsqbruIpP3CfBQ1+F730qD5C45Gm/am0NCO8tPZTQFYsk4Z83AFYfL0OFK516HGM=
+	t=1725461105; cv=none; b=rKKsvRfqGNr6MYD714IQDbg+XOtw5YvFGLp7Eq0wUMJaNQqfokpRRrqma5lpRkt8QI9fQztXKlphlEVGQGiA9tOkA0FbNS5HM1hXgBp6nVwEtE8RekhGgMeX7tP2Z6P2Ha/jmidxLMVcWZL62ZC2BuevQP+SBA6zko921pzQ+LY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725461100; c=relaxed/simple;
-	bh=ArAPCxI1Kj/v1qq50FpqqDgsTk6eZ/UAqDvPFj1T2/8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BOK1aiwRZ0HC6gcLsic6Sa0S1UfcrUXPUbG9sl24EUYVzci/dVcznS244Gw38aWA35jochw+JrrMX4kKyJaGSPbvFKPtbF2LZ+Zxu8Sbw1pXHON4LRPRAaeclwg7uFODgUp+SR9ia9A8QlYTe9zDysJ+dipSNx757kNN02HTE7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vMaeIFXV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E19D1C4CEC9;
-	Wed,  4 Sep 2024 14:44:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725461099;
-	bh=ArAPCxI1Kj/v1qq50FpqqDgsTk6eZ/UAqDvPFj1T2/8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=vMaeIFXVmG5TwnYwCPIyHpt12OpEsK/pI0cxjWT9uUKQHp1pWc4ZBU/WcIJSR0DZs
-	 QzSqsGdkj+OuQ9wXdNsaJvxdRuzx7e3Rz9elyL9vkhWYfhdY3U6Zer/Cy/8idp3bGL
-	 muQdcKV7rfHrAYEc67s94wy9Lkprb7fg0VbpeKve+qiPIbqPRDqhlIDDDj+MByqxQf
-	 Y1zUwjFiV5emnv2A9qfHNjTv1ELkKIhBAjN9WVVJTS0ZaVhTLaQyh5YkRMzHiDywrR
-	 XRVkQT8R+O7CVZ8tJC4KewPEtHaaBpJ+a8tPYK2FYZ9y7WDWjV/gQF9x/ubByzdmdx
-	 vd6yrc+Yj9Vdw==
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3e0047fcb3aso421398b6e.0;
+	s=arc-20240116; t=1725461105; c=relaxed/simple;
+	bh=B29IRw+UCEYcVNyBksrJ0DRzaF5TIW1T+MkONM+dbsc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XaklC9+NiKQc+FaLHoiCsLcPYUBYxs45Mq7uzT8LxuO/iqhkK/0ALVHN7H4Z2okBvRSLbB3g4UXhhd4Viwe4bmAEv6cJnxXp5Siz5oyeVBc+e0i4k3IESkvQjeA4gmpNJpsp48UjTxqKRj8RX4R4Xx1GvvxczSo4qLE1umJYT8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie; spf=none smtp.mailfrom=nexus-software.ie; dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b=vUL5bGVq; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a7a81bd549eso615887566b.3
+        for <linux-media@vger.kernel.org>; Wed, 04 Sep 2024 07:45:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1725461100; x=1726065900; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w/kYvp33pxGDjRpRIJw+Cd3vyUH8fk3GhcxNhxFr24c=;
+        b=vUL5bGVqzN4huSqkARkLY8w92QbvWcAp2VpZfUlNjPa3AoivPpmUisuOqLe9BCdsWQ
+         nYsEUbXVquhhe/ptxUgRKHg3wcYbqAul0BUaBTKkJFYJxugJDqxG554v4CunyCVk6RVd
+         GruByJnhWgROWRfqfOGrPojyW6Sl+pte8M/WVHgI4KJAlkrBkFexCLSRoHIY3LcBfjF2
+         kW3s/TERvtIqBWalp2sls0VQSD8JXXbKRCfflDWACeqnjcQqRz9MOMEvYfpCr8w7GOYn
+         RAQpV3FFOjIsbnhMZlshv9J6RK4OeIdJ5WCE0bwI29SwJ/aXfsoCxxdrzCZDNLd8+FjX
+         EN6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725461100; x=1726065900;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=w/kYvp33pxGDjRpRIJw+Cd3vyUH8fk3GhcxNhxFr24c=;
+        b=tBSGcucKb7qgkDkUajVpj8mdnDq/MxiBaatnhMvfTPRFKcMABayDocbEIE7XwaUF3N
+         EAF7UiWCBuM/tWJeRSrBqEbO72zj8zYELEPyy+IhybEi812wBQbaEQpktfCLNLDo3imM
+         Vixm0f54ZJEpUr8rT3/Hyn1/DzJrQHUVxa/cO1APV99v5vX8WMiH6zYomKzKIECuL6tz
+         6nhmdxE0i9NYjAnBV3NImtqptmKvngMJ8VB/SUEQPBW8VUE+w2Mf7FjvpsjLMXltk/aa
+         5hn9wvVhqXbUGr9IYOlVQv8U/astGukvkfMW0k0Yz59gZ+EkjyxpttZfebEEY/LTCan3
+         UhYw==
+X-Forwarded-Encrypted: i=1; AJvYcCV8FBGm3u3mJpbmJ4FrjVVmvIdaftFkeP6p504CyavyfYoLmZ1Q19/wrwW0nnU3FbW+xNJDL81QqpEhUA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJXW0npprJreqHGcsG55XU1pigk/MDUlb7TMtQzlNMi9s9xDfN
+	v7wcetsTCI26m4itl7cmjH87hE4KHgTAwYsrSz/CA3K9Km+PG/tlq+0ceMtIxFA=
+X-Google-Smtp-Source: AGHT+IHKKGZCOMTNOifmLU7XC2AAO6pro54NRxIGJ/Wgh6Uuq/ZCIGg4bEYaQf3nQEl+RmcJ5Bxizg==
+X-Received: by 2002:a17:907:ea5:b0:a86:6a2b:3e57 with SMTP id a640c23a62f3a-a8a1d31ef60mr526331166b.29.1725461100004;
+        Wed, 04 Sep 2024 07:45:00 -0700 (PDT)
+Received: from [192.168.0.25] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a61fbae35sm1592066b.34.2024.09.04.07.44.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
         Wed, 04 Sep 2024 07:44:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCULFXLEc7g6WRLhuTsdqDs6nYQlciCIsPHbOeIlh0PQ09vfkq3pkMnnxWdZu3c0MhaFUz519TsbfUVR@vger.kernel.org, AJvYcCV5SjevB/WkVeO0RvA1mTtgHqW7sykecMf2tAYXYaJZsCCx/q/v9dzveqi5bk1Dd5DIbKIMU4Bo1N240QM=@vger.kernel.org, AJvYcCVpHsYVdSGteaaWFuiBd6oPJMDSjxbmuwdPKcHsTi5j7NcYsoSCykealBQog+7sERkufqvUDrOhGOnW6U4=@vger.kernel.org, AJvYcCWJBZmUMyN1gkb+GP4OONIHduk5pFwTHA6V10Ec9qUeH/UnliXZEDFe7fu8ICCr7MZqLDAackbk3zxQH44+@vger.kernel.org, AJvYcCWKKw6TBk77hqmXb0K2zscxiXahOmNBYFnGxKXCXtDUS3WOaOzkk7sKdJJO3DcHEfoqahT5qNf+@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIjcRSyr85YSp1dnmBr31sF376Wc4M5LqonDw6QLMrqLYK7te5
-	tfbDa6Ys7HQJF68hHBu8DRkmDI3cm9m1QVPTbQeFFXDU+E9gPh3jXXDxTHnjN29d4VMR3aUzr27
-	FgBfEEldwFG+Wr7IDKFIhFvgM1dk=
-X-Google-Smtp-Source: AGHT+IEv8U+fDbCjLqUFxz4//WKn6tB39IzLuCQnJWmLkgmLJZnbV32x+Njonp88P0xuQvY07t3qf0x9Ck/Ekt8R4EI=
-X-Received: by 2002:a05:6808:138a:b0:3db:50ed:e121 with SMTP id
- 5614622812f47-3e01315d6camr1093652b6e.0.1725461099193; Wed, 04 Sep 2024
- 07:44:59 -0700 (PDT)
+Message-ID: <f210bbce-d133-4376-878f-586e6f78fcdf@nexus-software.ie>
+Date: Wed, 4 Sep 2024 15:44:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240904-devel-anna-maria-b4-timers-flseep-v1-0-e98760256370@linutronix.de>
-In-Reply-To: <20240904-devel-anna-maria-b4-timers-flseep-v1-0-e98760256370@linutronix.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 4 Sep 2024 16:44:47 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0i_tLZ6W2gb4VbqkYhDEfA_KM2EPyogQRFZGtsN=uGdpw@mail.gmail.com>
-Message-ID: <CAJZ5v0i_tLZ6W2gb4VbqkYhDEfA_KM2EPyogQRFZGtsN=uGdpw@mail.gmail.com>
-Subject: Re: [PATCH 00/15] timers: Cleanup delay/sleep related mess
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Cc: Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
-	Len Brown <len.brown@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, SeongJae Park <sj@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, damon@lists.linux.dev, linux-mm@kvack.org, 
-	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org, 
-	Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, netdev@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nathan Lynch <nathanl@linux.ibm.com>, 
-	linuxppc-dev@lists.ozlabs.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/10] media: qcom: camss: Sort CAMSS version enums and
+ compatible strings
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss
+ <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kapatrala Syed <akapatra@quicinc.com>,
+ Hariram Purushothaman <hariramp@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ cros-qcom-dts-watchers@chromium.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Suresh Vankadara <quic_svankada@quicinc.com>,
+ Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
+ <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-4-b18ddcd7d9df@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
+In-Reply-To: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-4-b18ddcd7d9df@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 4, 2024 at 3:05=E2=80=AFPM Anna-Maria Behnsen
-<anna-maria@linutronix.de> wrote:
->
-> Hi,
->
-> a question about which sleeping function should be used in acpi_os_sleep(=
-)
-> started a discussion and examination about the existing documentation and
-> implementation of functions which insert a sleep/delay.
->
-> The result of the discussion was, that the documentation is outdated and
-> the implemented fsleep() reflects the outdated documentation but doesn't
-> help to reflect reality which in turns leads to the queue which covers th=
-e
-> following things:
->
-> - Minor changes (naming and typo fixes)
->
-> - Split out all timeout and sleep related functions from hrtimer.c and ti=
-mer.c
->   into a separate file
->
-> - Update function descriptions of sleep related functions
->
-> - Change fsleep() to reflect reality
->
-> - Rework all comments or users which obviously rely on the outdated
->   documentation as they reference "Documentation/timers/timers-howto.rst"
->
-> - Last but not least (as there are no more references): Update the outdat=
-ed
->   documentation and move it into a file with a self explaining file name
->
-> The queue is available here and applies on top of tip/timers/core:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/anna-maria/linux-devel.gi=
-t timers/misc
->
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Len Brown <len.brown@intel.com>
-> Cc: Rafael J. Wysocki <rafael@kernel.org>
-> To: Frederic Weisbecker <frederic@kernel.org>
-> To: Thomas Gleixner <tglx@linutronix.de>
-> To: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
->
-> Thanks,
->
-> Anna-Maria
->
-> ---
-> Anna-Maria Behnsen (15):
->       timers: Rename next_expiry_recalc() to be unique
->       cpu: Use already existing usleep_range()
->       Comments: Fix wrong singular form of jiffies
->       timers: Move *sleep*() and timeout functions into a separate file
->       timers: Rename sleep_idle_range() to sleep_range_idle()
->       timers: Update function descriptions of sleep/delay related functio=
-ns
->       timers: Adjust flseep() to reflect reality
->       mm/damon/core: Use generic upper bound recommondation for usleep_ra=
-nge()
->       timers: Add a warning to usleep_range_state() for wrong order of ar=
-guments
->       checkpatch: Remove broken sleep/delay related checks
->       regulator: core: Use fsleep() to get best sleep mechanism
->       iopoll/regmap/phy/snd: Fix comment referencing outdated timer docum=
-entation
->       powerpc/rtas: Use fsleep() to minimize additional sleep duration
->       media: anysee: Fix link to outdated sleep function documentation
->       timers/Documentation: Cleanup delay/sleep documentation
+On 04/09/2024 12:10, Vikram Sharma wrote:
+> Sort CAMSS version enums and compatible strings alphanumerically.
+> 
+> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 
-I like the changes, so
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
-
-for the series.
 
