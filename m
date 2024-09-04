@@ -1,64 +1,65 @@
-Return-Path: <linux-media+bounces-17562-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17564-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1208996B9D8
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C558B96B9E2
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:14:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF649281F6C
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:14:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7BDA1283DEE
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:14:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0ED91D2237;
-	Wed,  4 Sep 2024 11:12:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C64531D54EF;
+	Wed,  4 Sep 2024 11:12:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iv+3/nNA"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="B2vVGHR7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2021D014F;
-	Wed,  4 Sep 2024 11:12:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C821D014F;
+	Wed,  4 Sep 2024 11:12:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725448353; cv=none; b=TuQ2s4h7craNUI1s2EW+Pn5qxrmHn2xC7RjYSaQcS/r7MyMRvkMCg4JLO0kvqaw8tNzmNMeVkfdJ+3DyZAgmv5LZXmLdfWcQLyrdc5hjjjuHO+lIgUS6ts8C0zMstiXWmz0Vxl36gS2w1Enad/NdFeoiL30trb0DTVCsMv8Ml9U=
+	t=1725448361; cv=none; b=L4a4AEu/f/k55w6DQR7OUQMuDmHqWDOHwaSYEE4GagFqSrfGTORlKlyKZQ9WiiDXsJ4Wcj1Q0TFsvRcs7uGApaclFJ6WcPQ57xkN/NnjizioqgKOQOBY4RwDNZyJj+aYM+gheC250KjrKYEL01Cb1KJrN76G4FcHw6+5QZi4hHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725448353; c=relaxed/simple;
-	bh=TDiCjwXaBQKG1nsRyTHoyOzWVuzEAID1JICUMDQO3Ls=;
+	s=arc-20240116; t=1725448361; c=relaxed/simple;
+	bh=3o55IMd7Rd92JBDtHfXiJsTPuh3E7dt5jNiMWieXmWc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=lFmKTwwMKtwpSldFI7nJjd7gny81IE6bHj59CZIQafSzISVyOCNl7ZDZA7bQtsGQHYfHvqUAB3GQ9GOgloDf2Ar80XxhPglKVx7f5MXhjK8QtzadJV8jJEJ2hoNAIcXdvoxKSzkBn6lgIBxDLX0wz1EyTu9ZmmHpH5hK59GU6F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=iv+3/nNA; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:CC; b=T9Oe73pTDQj6FyXYBKzld9aYGaWdqUheaqrynX6IuSdVbINwaqbqC88yUDdxh7z5gjC8EzIl7jJbY3YDxuiio5ZaspLbd4e3tWVHrhegNB3a5YeCcEF/mOfrGhKmifwQgp6wFj1h7osizPpqJX+qdBSgQAcD2YbTQRdWBZnyj4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=B2vVGHR7; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484ANHJJ000699;
-	Wed, 4 Sep 2024 11:12:21 GMT
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4848KXHQ009495;
+	Wed, 4 Sep 2024 11:12:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	N/5ylamGMllBmEt3bOnxKkvgJejhp8nE5+PCYAYsIPM=; b=iv+3/nNAxP8d7Kvf
-	1Que1vRVqmTBsfIxCQc81tZjQnoUeVYMBPkrAUSlKnKI0PkWnq5a9WCIwviAEKct
-	AikIqlA0bJZkYQfau0C39vH9LQjjmOZp+XFizGPfOqhCfT6FVpJ2uD1/u1tCmVnn
-	rnEGUqtKKgYPQCXXfCk5aqETqOIGz4VvTAillBIHFsxgLIoKIdsNzpU0LTOmXC2p
-	asdkKG4A5q1cvvLcyaR7WiPx093QWSNDVJIIjha7iz488Cl/IR/z5Bb674hJ1aXk
-	rcFEXDAwQWQLSTtmw+sRrdgCgVJExvPZa6GTOS7ytGqmv9MfzrsZKqGJP8UW2ZXg
-	1LJUNw==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41drqe4t0n-1
+	kerS2jZYFfI+XEm5sc+JhUzfmntgFp7rZ77qb/uhnPE=; b=B2vVGHR7oYG0Ioqk
+	z6+UodmMG0D9Mup6KCA6+aaYGGCQWxPEYdSWmRRpqqnghSoVdKT/cP3It1GKP7ig
+	4pRPDIcwPjOrZSSF29ajX4Z4lqU/Bxp80/M+xQdNkL/Si08NKYrXLPAqUmawAUjE
+	ZTbKu0a20NIiQGMjx08JU453gcLKTiRS6kzN2OIoVRJjBZsFwuBTTOK7IkzCZjkY
+	b58eqtGJjVdFXpVRb73bLbVz8+vY242PbWQ+Dw9uEF2o6Pi49nOQ1yfaAykVLtGZ
+	DRKOPCxVmOEvy3H2NlY6pmotdMI6v2cVYH1BO7hsFXdqGyQnais5f/fxJY56NWw1
+	8L9wFA==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41e0bhkqt4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Sep 2024 11:12:21 +0000 (GMT)
+	Wed, 04 Sep 2024 11:12:27 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 484BCKt7011759
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 484BCQOn003373
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 4 Sep 2024 11:12:20 GMT
+	Wed, 4 Sep 2024 11:12:26 GMT
 Received: from [169.254.0.1] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
- 04:12:13 -0700
+ 04:12:20 -0700
 From: Vikram Sharma <quic_vikramsa@quicinc.com>
-Date: Wed, 4 Sep 2024 16:40:13 +0530
-Subject: [PATCH 07/10] arm64: dts: qcom: sc7280: Add support for camss
+Date: Wed, 4 Sep 2024 16:40:14 +0530
+Subject: [PATCH 08/10] arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine:
+ Enable IMX577 sensor
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-7-b18ddcd7d9df@quicinc.com>
+Message-ID: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-8-b18ddcd7d9df@quicinc.com>
 References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
 In-Reply-To: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
 To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
@@ -95,226 +96,120 @@ CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         Vikram Sharma
 	<quic_vikramsa@quicinc.com>,
-        Suresh Vankadara <quic_svankada@quicinc.com>,
-        Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+        Hariram Purushothaman
+	<quic_hariramp@quicinc.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725448289; l=5258;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1725448289; l=2580;
  i=quic_vikramsa@quicinc.com; s=20240628; h=from:subject:message-id;
- bh=TDiCjwXaBQKG1nsRyTHoyOzWVuzEAID1JICUMDQO3Ls=;
- b=xJmXYqO4a8ogbKx+Xi+4xhzmER3TU92TUWpFAJeP/pOSDob8sYaeiXzwz7aYHFzGtZ5sn+vNl
- 4qIoTyyFFXPAedcMfc49AW3vZeGJgyQJLelyOWU50xNK97E0NW3onty
+ bh=3o55IMd7Rd92JBDtHfXiJsTPuh3E7dt5jNiMWieXmWc=;
+ b=ZzD/bcaPGPNr2OVlW6f5ICZ7tzySK4TfSJU3NvA2OpZwS3EgDSsX2t01x4Lt3p3YhMIAnV+IB
+ wRtbjLFUk/7BFZ8YjGjsnTeyQhCSSM1TKyhKoUJESdsqKIfIUvkhJ7c
 X-Developer-Key: i=quic_vikramsa@quicinc.com; a=ed25519;
  pk=vQBkwZr1Hv+VXogAyTAu7AEx8/6bvkOmgrzYFbNGCDI=
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: IEX_5uY_ABjQCGpLq0L-TzVoZQbHSdwc
-X-Proofpoint-ORIG-GUID: IEX_5uY_ABjQCGpLq0L-TzVoZQbHSdwc
+X-Proofpoint-ORIG-GUID: EgPCxTlnN7nQsOntx8wZx0A26N-QAeCV
+X-Proofpoint-GUID: EgPCxTlnN7nQsOntx8wZx0A26N-QAeCV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-04_09,2024-09-04_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
- impostorscore=0 spamscore=0 mlxlogscore=946 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2409040084
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ priorityscore=1501 suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409040084
 
-Add changes to support the camera subsystem on the SC7280.
+Enable the IMX577 camera sensor for the qcs6490-rb3gen2-vision-mezzanine
+board.
 
-Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
-Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
 Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 175 +++++++++++++++++++++++++++++++++++
- 1 file changed, 175 insertions(+)
+ arch/arm64/boot/dts/qcom/Makefile                  |  1 +
+ .../dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dts  | 61 ++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 3d8410683402..109aafe967f8 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -4419,6 +4419,181 @@ cci1_i2c1: i2c-bus@1 {
- 			};
- 		};
- 
-+		camss: camss@acaf000 {
-+			compatible = "qcom,sc7280-camss";
+diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+index ae002c7cf126..49ec82e0e28e 100644
+--- a/arch/arm64/boot/dts/qcom/Makefile
++++ b/arch/arm64/boot/dts/qcom/Makefile
+@@ -111,6 +111,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= qcm6490-shift-otter.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-1000.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-4000.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2.dtb
++dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2-vision-mezzanine.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qcs8550-aim300-aiot.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qdu1000-idp.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= qrb2210-rb1.dtb
+diff --git a/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dts b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dts
+new file mode 100644
+index 000000000000..04b5fe80d38d
+--- /dev/null
++++ b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dts
+@@ -0,0 +1,61 @@
++// SPDX-License-Identifier: BSD-3-Clause
++/*
++ * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
++ */
 +
-+			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
-+				<&camcc CAM_CC_CPAS_AHB_CLK>,
-+				<&camcc CAM_CC_IFE_0_CSID_CLK>,
-+				<&camcc CAM_CC_IFE_1_CSID_CLK>,
-+				<&camcc CAM_CC_IFE_2_CSID_CLK>,
-+				<&camcc CAM_CC_IFE_LITE_0_CSID_CLK>,
-+				<&camcc CAM_CC_IFE_LITE_1_CSID_CLK>,
-+				<&camcc CAM_CC_CSIPHY0_CLK>,
-+				<&camcc CAM_CC_CSI0PHYTIMER_CLK>,
-+				<&camcc CAM_CC_CSIPHY1_CLK>,
-+				<&camcc CAM_CC_CSI1PHYTIMER_CLK>,
-+				<&camcc CAM_CC_CSIPHY2_CLK>,
-+				<&camcc CAM_CC_CSI2PHYTIMER_CLK>,
-+				<&camcc CAM_CC_CSIPHY3_CLK>,
-+				<&camcc CAM_CC_CSI3PHYTIMER_CLK>,
-+				<&camcc CAM_CC_CSIPHY4_CLK>,
-+				<&camcc CAM_CC_CSI4PHYTIMER_CLK>,
-+				<&gcc GCC_CAMERA_AHB_CLK>,
-+				<&gcc GCC_CAMERA_HF_AXI_CLK>,
-+				<&camcc CAM_CC_CPAS_AHB_CLK>,
-+				<&camcc CAM_CC_IFE_0_AXI_CLK>,
-+				<&camcc CAM_CC_IFE_0_CLK>,
-+				<&camcc CAM_CC_IFE_0_CPHY_RX_CLK>,
-+				<&camcc CAM_CC_IFE_1_AXI_CLK>,
-+				<&camcc CAM_CC_IFE_1_CLK>,
-+				<&camcc CAM_CC_IFE_1_CPHY_RX_CLK>,
-+				<&camcc CAM_CC_IFE_2_AXI_CLK>,
-+				<&camcc CAM_CC_IFE_2_CLK>,
-+				<&camcc CAM_CC_IFE_2_CPHY_RX_CLK>,
-+				<&camcc CAM_CC_IFE_LITE_0_CLK>,
-+				<&camcc CAM_CC_IFE_LITE_0_CPHY_RX_CLK>,
-+				<&camcc CAM_CC_IFE_LITE_1_CLK>,
-+				<&camcc CAM_CC_IFE_LITE_1_CPHY_RX_CLK>;
++/dts-v1/;
 +
-+			clock-names = "camnoc_axi",
-+				"cpas_ahb",
-+				"csi0",
-+				"csi1",
-+				"csi2",
-+				"csi3",
-+				"csi4",
-+				"csiphy0",
-+				"csiphy0_timer",
-+				"csiphy1",
-+				"csiphy1_timer",
-+				"csiphy2",
-+				"csiphy2_timer",
-+				"csiphy3",
-+				"csiphy3_timer",
-+				"csiphy4",
-+				"csiphy4_timer",
-+				"gcc_camera_ahb",
-+				"gcc_camera_axi",
-+				"soc_ahb",
-+				"vfe0_axi",
-+				"vfe0",
-+				"vfe0_cphy_rx",
-+				"vfe1_axi",
-+				"vfe1",
-+				"vfe1_cphy_rx",
-+				"vfe2_axi",
-+				"vfe2",
-+				"vfe2_cphy_rx",
-+				"vfe0_lite",
-+				"vfe0_lite_cphy_rx",
-+				"vfe1_lite",
-+				"vfe1_lite_cphy_rx";
++#include "qcs6490-rb3gen2.dts"
 +
-+			interconnect-names = "ahb", "hf_0";
-+			interconnects = <&gem_noc  MASTER_APPSS_PROC 0 &cnoc2 SLAVE_CAMERA_CFG 0>,
-+				<&mmss_noc MASTER_CAMNOC_HF  0 &mc_virt SLAVE_EBI1     0>;
++&camcc {
++	status = "okay";
++};
 +
-+			interrupts = <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 640 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 641 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 360 IRQ_TYPE_EDGE_RISING>;
++&camss {
++	vdda-phy-supply = <&vreg_l10c_0p88>;
++	vdda-pll-supply = <&vreg_l6b_1p2>;
++	status = "okay";
 +
-+			interrupt-names = "csid0",
-+				"csid1",
-+				"csid2",
-+				"csid_lite0",
-+				"csid_lite1",
-+				"csiphy0",
-+				"csiphy1",
-+				"csiphy2",
-+				"csiphy3",
-+				"csiphy4",
-+				"vfe0",
-+				"vfe1",
-+				"vfe2",
-+				"vfe_lite0",
-+				"vfe_lite1";
-+
-+			iommus = <&apps_smmu 0x800 0x4e0>;
-+
-+			power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
-+				<&camcc CAM_CC_IFE_1_GDSC>,
-+				<&camcc CAM_CC_IFE_2_GDSC>,
-+				<&camcc CAM_CC_TITAN_TOP_GDSC>;
-+			power-domains-names = "ife0", "ife1", "ife2", "top";
-+
-+			reg = <0x0 0x0acb3000 0x0 0x1000>,
-+				<0x0 0x0acba000 0x0 0x1000>,
-+				<0x0 0x0acc1000 0x0 0x1000>,
-+				<0x0 0x0acc8000 0x0 0x1000>,
-+				<0x0 0x0accf000 0x0 0x1000>,
-+				<0x0 0x0ace0000 0x0 0x2000>,
-+				<0x0 0x0ace2000 0x0 0x2000>,
-+				<0x0 0x0ace4000 0x0 0x2000>,
-+				<0x0 0x0ace6000 0x0 0x2000>,
-+				<0x0 0x0ace8000 0x0 0x2000>,
-+				<0x0 0x0acaf000 0x0 0x4000>,
-+				<0x0 0x0acb6000 0x0 0x4000>,
-+				<0x0 0x0acbd000 0x0 0x4000>,
-+				<0x0 0x0acc4000 0x0 0x4000>,
-+				<0x0 0x0accb000 0x0 0x4000>;
-+
-+			reg-names = "csid0",
-+				"csid1",
-+				"csid2",
-+				"csid_lite0",
-+				"csid_lite1",
-+				"csiphy0",
-+				"csiphy1",
-+				"csiphy2",
-+				"csiphy3",
-+				"csiphy4",
-+				"vfe0",
-+				"vfe1",
-+				"vfe2",
-+				"vfe_lite0",
-+				"vfe_lite1";
-+
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+				};
-+
-+				port@3 {
-+					reg = <3>;
-+				};
-+
-+				port@4 {
-+					reg = <4>;
-+				};
++	ports {
++		/* The port index denotes CSIPHY id i.e. csiphy3 */
++		port@3 {
++			reg = <3>;
++			csiphy3_ep: endpoint {
++				clock-lanes = <7>;
++				data-lanes = <0 1 2 3>;
++				remote-endpoint = <&imx577_ep>;
 +			};
 +		};
++	};
++};
 +
- 		camcc: clock-controller@ad00000 {
- 			compatible = "qcom,sc7280-camcc";
- 			reg = <0 0x0ad00000 0 0x10000>;
++&cci1 {
++	status = "okay";
++};
++
++&cci1_i2c1 {
++	camera@1a {
++		compatible = "sony,imx577";
++		reg = <0x1a>;
++
++		reset-gpios = <&tlmm 78 GPIO_ACTIVE_LOW>;
++		pinctrl-names = "default", "suspend";
++		pinctrl-0 = <&cam2_default>;
++		pinctrl-1 = <&cam2_suspend>;
++
++		clocks = <&camcc CAM_CC_MCLK3_CLK>;
++		assigned-clocks = <&camcc CAM_CC_MCLK3_CLK>;
++		assigned-clock-rates = <24000000>;
++
++		dovdd-supply  = <&vreg_l18b_1p8>;
++
++		port {
++			imx577_ep: endpoint {
++				clock-lanes = <7>;
++				link-frequencies = /bits/ 64 <600000000>;
++				data-lanes = <0 1 2 3>;
++				remote-endpoint = <&csiphy3_ep>;
++			};
++		};
++	};
++};
 
 -- 
 2.25.1
