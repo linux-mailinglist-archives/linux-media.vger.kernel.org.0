@@ -1,133 +1,162 @@
-Return-Path: <linux-media+bounces-17603-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17604-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26C196C145
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 16:52:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB8696C1B7
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 17:04:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2DF4DB27E64
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 14:52:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07DDCB2ACBF
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 15:00:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9123D1DC19C;
-	Wed,  4 Sep 2024 14:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB0D1DCB06;
+	Wed,  4 Sep 2024 15:00:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uSP/aT0s"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="xq1+/M09"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319471DB942
-	for <linux-media@vger.kernel.org>; Wed,  4 Sep 2024 14:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862EB1DA2FE;
+	Wed,  4 Sep 2024 15:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725461518; cv=none; b=V+twO5/A4Kej5JZ4A2+pdaFwvS5GlriQ87PxGxam7FLjkPSHWCiURESScUXp+WbaSpHZmTYQ+BGdOQZRmiKqVSEfVgtaYiaKfwewXg1Z5ykNoZW6wJgD7x45+yiguM0ui9j7ln7TBO8qY9vz0m3FA+qLSaInambOw2bnJhqN3cI=
+	t=1725462031; cv=none; b=llQjJ0DT49YzP8Zf7lOlNXJrRiIqOlKxj235AhRip+FlKyOQ1oJUS8wg288omNjRB092OzhozJYQlpeoVtlozTsvXyY48YvkdJVdHD/jg5Z+p9Gxv7kYJS7aTbTfzvfYesLnRVsnL8Gxnp1tppYUB2g9VocGBv+qaa7a/E+QlZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725461518; c=relaxed/simple;
-	bh=ZV4bjcd1yVb9I8n+Wb7M4c70xmHeXcQXOcpIq85B9dw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p6AN2Pn4aacIhUB2cbDfIO89mNddu4Ju31Hfk5312gX9hqTaHLJ41LzAXeFn6z3Kyb6u1FOJr+e5SMsV6l4iREdtiDHZXetz07TeAnnHBvFtaBktMW7iTxnpTFTW6ud8WRfY5ACgW12hQD7q9h/k6zSBO1y6sPddoc0TZ14ePZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uSP/aT0s; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5343e75c642so8657335e87.2
-        for <linux-media@vger.kernel.org>; Wed, 04 Sep 2024 07:51:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725461514; x=1726066314; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I3Zj/0oIQoWTqTF5i+8OqjuVpe0UWAOmwxaLu2EWaqw=;
-        b=uSP/aT0sYeDvBwtWbxltmyP26ddavrcPN7w2LyE5J4d5GGpmm3dTzy/ZcBEFg5CZWF
-         nRkplDb1bOGm66bDadQcKmEcz07QTJAzlZE0O0PbTS4DthZewnNIg5RLkLp9zyQGSmNH
-         clVU9MrikQaR5pcziUontm+JYqSF0czIKFqVtBnozy199Y8sbv7KOu+sVKtPZQ5mz9nS
-         QG03ChAmSvSxobNFuq6QfVZU83tqugDni/pvlWD61Id2Bvv/qSXE2ZyRdMI9lgzRCErM
-         25MzQTxqzUDmGgf4lSyBiAGd9gsyPHQMKg+/6qKnY7D7sKpyCaxcdB2V4y3fSQ/ua9Fq
-         0J4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725461514; x=1726066314;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I3Zj/0oIQoWTqTF5i+8OqjuVpe0UWAOmwxaLu2EWaqw=;
-        b=rt4ahIl9OlCSHVo+xLQLu3ZUto9W13dwLo81LsDMFfAwDgEDZR6DUNdPNeSLMBvAEK
-         9x3i6nKQzwrDorvy7S30Wo/mCWkJ6NHN0JO2FpXAS7uKzJ+jEkrjY7RLaBcJ1LC+Iffj
-         TQAKTfBgM3Ai8Obrc2uITE/aeTDdXmk7q0/isqpgasFMCfAZRkKfNFhZdm262dt6EqP0
-         JxijlPMjn9kf8LWOocOACBJYRUfgSKyEE2ajVL8BBF/XNpkrYEeOA40caE2V3Du6xWWD
-         lxepsIk4LK6zZ70cB+XQAio4NLekEtKsE2NmHe7GLiDOqe0DF8/i4No8N8V8GVKQgoxr
-         AvTg==
-X-Forwarded-Encrypted: i=1; AJvYcCWxXsikP+69ThyYUH4reddwedNrXK4vCb8u7PkgZ7/+qaGFJFjPooGsl/XbBh0YkzQS5x7HHU2nuZKwVg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkAApb08SL541LU14MaG8FXNGR/R9dqVetYam1verGMvsUf2gH
-	PYdRH6+DBEvikpEQx6ZgIdKLfvIPzpJkmEd2sw6dYKClIDdq0XV4R0PA+XA//t8=
-X-Google-Smtp-Source: AGHT+IFkqigaaN4wMGLBNJtAdSFzX1aKYyL8ehUt6BR57k4XcYMiCACdw9hdTrqWngLObGFcFo5oGA==
-X-Received: by 2002:a05:6512:3190:b0:533:4820:275a with SMTP id 2adb3069b0e04-53546bbfec9mr12860116e87.52.1725461513856;
-        Wed, 04 Sep 2024 07:51:53 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a623e67desm1021766b.209.2024.09.04.07.51.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 07:51:53 -0700 (PDT)
-Message-ID: <6f9b7047-7471-4fdf-89ae-d78c1c92690a@linaro.org>
-Date: Wed, 4 Sep 2024 15:51:52 +0100
+	s=arc-20240116; t=1725462031; c=relaxed/simple;
+	bh=zW4e45CB60Z3HQ+n2e3GFwm04wI38LW0ND8LG2idp9w=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X4AFkf1pPM5Gahan6I9d3hpcsAlzGidYhPdHzW86NGhfeO6wQZk5EcaDiLOtg6rkFrRRJXZoVmxxGUrob2l/BPkdPfzdlej9z1acgsgVi2ko6wxB/jKzMczsHTVInWApPhO5Ob1NIgQUcE5HGjfd4GerztHt6uFvmzDNMd0nQZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=xq1+/M09; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484BRIhx000324;
+	Wed, 4 Sep 2024 17:00:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-type:date:from:message-id:mime-version:subject:to; s=
+	selector1; bh=rcWgdV/egi7FK/6UdgKIDWLx60pHLS+ExR89ETmusZA=; b=xq
+	1+/M09qIBAgmqEbcwemTBS5KkPChFLlgk8aV1yWOCF/CuBR7XrdjMrXL69IVbzmM
+	zRwUiAEUG2PfgMnDXCLlo7Sr1sNfM8EDgrqUmxFGcByZCD0hFItikxfUD3zqkfVk
+	LwNzMw6MbE6N9tVsQ3yfQ5To5MWwpjlxutc92fEWt9/q+Yg7QvbRbAGcnUVfN/Ox
+	bXNSqeybDadO70m4ZRWZtBTWIHxL38eaGuDFiFQ9btma2TtR27MtwjpTf/MED8Ay
+	vjBtQ+7e7GTCygm89tluW3yLHo1O9YwU63KCbJCFIIQ8DFC67JsEoVG3VMLwbpEw
+	ABDfev8H2I4nlGisg+Jw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41bt2d9qv0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Sep 2024 17:00:04 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 8868940053;
+	Wed,  4 Sep 2024 16:58:49 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id AED4E2828CD;
+	Wed,  4 Sep 2024 16:53:01 +0200 (CEST)
+Received: from localhost (10.130.72.242) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Wed, 4 Sep
+ 2024 16:53:01 +0200
+From: Sylvain Petinot <sylvain.petinot@foss.st.com>
+To: <benjamin.mugnier@foss.st.com>, <sylvain.petinot@foss.st.com>,
+        <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <sakari.ailus@linux.intel.com>
+CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <tomm.merciai@gmail.com>,
+        <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 0/2] media: Add driver for ST VD56G3 camera sensor
+Date: Wed, 4 Sep 2024 16:52:36 +0200
+Message-ID: <20240904145238.21099-1-sylvain.petinot@foss.st.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/13] media: qcom: camss: csiphy: Add an init callback to
- CSI PHY devices
-To: Depeng Shao <quic_depengs@quicinc.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, kernel@quicinc.com
-References: <20240812144131.369378-1-quic_depengs@quicinc.com>
- <20240812144131.369378-5-quic_depengs@quicinc.com>
- <3cdd7101-ae8c-45c9-9695-f7f4202d1edb@linaro.org>
- <7fb34b98-7bc0-43fb-a6e7-dee073fed317@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <7fb34b98-7bc0-43fb-a6e7-dee073fed317@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-04_12,2024-09-04_01,2024-09-02_01
 
-On 04/09/2024 15:20, Depeng Shao wrote:
-> Hi Bryan,
-> 
-> On 8/19/2024 8:17 AM, Vladimir Zapolskiy wrote:
->> On 8/12/24 17:41, Depeng Shao wrote:
->>> From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> 
->> I've already expressed concerns about a necessity of this function, 
->> since it
->> adds runtime burden of work, which can be successfully done at compile 
->> time,
->> but okay...
->>
->> Since it is needed for 3PH case only, it may make sense to remove it 
->> from 2PH
->> and call it here conditionally like
->>
->>      if (csiphy->res->hw_ops->init)
->>          ret = csiphy->res->hw_ops->init(csiphy);
->>
->> But it's up to you, I hope the callback will be removed in short future.
->>
-> 
-> Could you please comment on if it is fine to remove the init from 2PH 
-> driver?
-> 
-> 
-> Thanks,
-> Depeng
+Hello,
 
-Yes, its dead code ATM we can enumerate this callback when/if its needed.
+This serie adds support for STMicroelectronics VD56G3 camera sensor.
+This is a 1.5M pixel global shutter camera available in both Mono (VD56G3) and
+colour (VD66GY) variants.
 
-Agreed.
+The following features are supported:
+- Auto exposure with expo bias or
+- Manual exposure with analog / digital gain
+- H/V flip
+- vblank/hblank/link freq
+- Test pattern
+- Supported resolutions in both raw8/raw10 :
+   - 1124x1364
+   - 1120x1360
+   - 1024x1280
+   - 1024x768
+   - 768x1024
+   - 720x1280
+   - 640x480
+   - 480x640
+   - 320x240
+
+This driver supports coldstart parameters for internal AE feature.
+To make it work, the driver save gain/expo values in ctrl's cur.val during
+poweroff phase. This implementation transgress V4L2 rules... Any advice to make
+it proper would be greatly appreciated.
+
+Driver tested on RB5 and RPI (with and without libcamera) for V1. V2 and V3
+mainly tested on RPI.
 
 ---
-bod
+
+v2 -> v3:
+- driver: Unify PM vd56g3_resume/suspend functions with vd56g3_power_on/off
+- driver: Add v4l2_fwnode ctrls parse and addition
+- driver: Exposure is bounded by a minimum number of lines
+- driver: Minor improvements while handling return values
+- driver: Move to __pm_runtime_put_autosuspend()
+- driver: Follow rules and convention for driver naming
+- dt-bindings: Improve st-leds description
+- dt-bindings: Add missing additionnalProperties on 'port'
+- dt-bindings: vd56g3 is a video-interface-device type of device 
+- dt-bindings: Follow rules and convention for bindings naming
+
+v1 -> v2:
+- driver: Drop VD56G3_NUM_SUPPLIES
+- driver: Rename 'ext_clock' to 'xclk_freq'
+- driver: Make use of 'container_of_const' instead of 'container_of'
+- driver: Drop usage of WARN()
+- driver: Move a few variables to unsigned int
+- driver: Add defines for the different Cut revisions
+- driver: Replace dev_warn() by dev_err() in situation we're returning errors
+- driver: Ensure sensor has dedicated 3.5ms to boot after reset
+- driver: Take into account return value of __v4l2_ctrl_modify_range() and
+  __v4l2_ctrl_s_ctrl() functions
+- driver: Merge vd56g3_power_on() and vd56g3_boot()
+- dt-bindings: Lowercase power supply names
+- dt-bindings: Drop clock-lanes property
+- dt-bindings: Drop unecessary 'items' contraint for lane-polarities
+- dt-bindings: Drop unused labels
+
+Sylvain Petinot (2):
+  media: dt-bindings: Add ST VD56G3 camera sensor
+  media: i2c: Add driver for ST VD56G3 camera sensor
+
+ .../bindings/media/i2c/st,vd56g3.yaml         |  139 ++
+ MAINTAINERS                                   |    9 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/vd56g3.c                    | 1599 +++++++++++++++++
+ 5 files changed, 1759 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/st,vd56g3.yaml
+ create mode 100644 drivers/media/i2c/vd56g3.c
+
+-- 
+2.17.1
+
 
