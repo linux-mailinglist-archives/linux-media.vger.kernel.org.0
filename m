@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-17626-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17627-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98DE396C939
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 23:09:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D06196C93C
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 23:09:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5729428A79B
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 21:09:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F0721F28C47
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 21:09:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34AD1885AA;
-	Wed,  4 Sep 2024 21:07:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 369C0188A1F;
+	Wed,  4 Sep 2024 21:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AexVnjM7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hEagMnYG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFE917D8A6;
-	Wed,  4 Sep 2024 21:07:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14A5186E40;
+	Wed,  4 Sep 2024 21:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725484073; cv=none; b=RE6rZswOD86hdcbqDVb0BLShQlObZczkm9vgDWP0O0a3UcSfT8u+uzzh9QbvWf0cbZYtIrGrGWfnA7FaKRnnTr6lpW6XBo5muuKClJXE7evUNb3/s8urJntjSentRelQT772ZKm1DYdvOu0Ndh4GnBkNBFwZYK+O2hIA13tyuUo=
+	t=1725484074; cv=none; b=t0Mw8nHrutiT353ovHZaWH6dmFpSfH92PJ4pgGLFBMAQej4YvVBCoYNWCAKTEWzNM+Ws7aXlfGyqpqG1598gv6gwK1iz/OWAfdscYgAbq7rpzjJtyjcwkdVHY2rcLumxtz8KMQvczEEo1Vn6xYg1BvAMX/hRdFCG/eGhJgOJfJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725484073; c=relaxed/simple;
-	bh=mAqO79O3l/OvTSDmMNjmx02R4NEoM9pQ3zCM/ZFlJSg=;
+	s=arc-20240116; t=1725484074; c=relaxed/simple;
+	bh=Ht70IJcyQJH4Dhqjjac98yUwsL35MwaRODP3k/kTeYo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lSADhIXxl3sxr9/O8LzPvma5zgXZi842a3KxZy6aX5SH0UH0bFdbZ6l779Ifckye9uE/u2FPw0xEPevGb7n4V6Y6hkKsBwPgaKBFJBncishnT6uu6FTDc5NpYgYCtMbOxep1vYqJWe5Bi6oGLxeFQ+zqAhvtPPn9CW9j8BfyJYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AexVnjM7; arc=none smtp.client-ip=209.85.128.48
+	 MIME-Version; b=Y4LwBMrJe1U2W8CAgjRrVCSUt/yMFNRuxL1tnFp5UfrIV9mo87jtm5wMGYAYUZunhzz8WdKRTXjX5+U6L3RACzm+kqQgufeho4aUSiRri3v/1c4YRydrazmNhI1iwEEsmNde7eTSrXnijBtkGXJhpB+eGNUg8WS7Iv9T54/Wnu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hEagMnYG; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42c79deb7c4so38336085e9.3;
-        Wed, 04 Sep 2024 14:07:51 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42bbe809b06so45963025e9.1;
+        Wed, 04 Sep 2024 14:07:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725484070; x=1726088870; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725484071; x=1726088871; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QlCGmlbK8knhiNdPKYD3AWEcb7dTp9/GfV8SpqAQwLI=;
-        b=AexVnjM7nCGVVzpwKnIfxSJ/ArLkdGcPc6AHHH0W62d93ITsstbPmDLkWATOwBZydG
-         zwG7zw17W3wCcekH+oZrH5qanN3+Dl3F9haVtnISpGwnfAH1vR6esQEfLRN+7li265Xc
-         mSSj1SCDbcB4AVdXyXVBePfFkcZZtDim+W+LFBhF+bI47Dzjrw2OZm/rfWz6l+P8zqvj
-         ds2Py5/FX+1BUOgkMn3s8qwiZKnscfQHhaqtJg21pqqi1zoktmr+ueSjsFv4JFasbuul
-         dk7feEHW1FWrQ9YEy9+sDJyq28iGO9/AaE4ydBj0szCXqLCGHkdx+cTmvpyWCVpLKuLT
-         N4qA==
+        bh=a8uiJ1o1t/FLwtZAsye5lzWDkjfsKX1SsElvPj0kYXM=;
+        b=hEagMnYGr5GhEsirkwQSLmXCHOSmMvFWmivbhnHxgtkAgOLXnh7bWt8udcnj5rZS1W
+         9xb7QJHWuYbk6G3GlEtw4vuqCbJCkUzVLGDQpuwN6Y7DRwsGbSJxCW6cUifX2xg+HWew
+         A+xs/DfkgSNkhJtSDCfblbvuBVSsl0V7EcsBrSze3Il1tQcGg9Y2+jOSHXvch8AaNh9P
+         M4Dn3GQREaT36XUFbZO6mNIe6Mdlb64fAIHVUKePUBNcoaabfEM6Baydk86UO6nX7dud
+         880/ZSFtjEezs0Ph66HAudLor+/IiMnL3fn9z7B8Sv16dujSsfuLoHPujcrhf6qL+zHD
+         qb9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725484070; x=1726088870;
+        d=1e100.net; s=20230601; t=1725484071; x=1726088871;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QlCGmlbK8knhiNdPKYD3AWEcb7dTp9/GfV8SpqAQwLI=;
-        b=uGY0sFc0mkj67ZgsFCW0vYtz7j4kNvmUmRv0w9Qty1pRr91O2oufWwb5DsPbykh7e8
-         9jL1vkKUFwG9IDxIbFK+R8RukCePX/c+XlOhEmvQq2Y2ychJRfiyJNHcnYwL2piyzALV
-         8q0zNZRnuTj+cUkkjhOhO2XjSza+9oTomjw+cl9MS+wYWk2YtLN5bI3K3GbSayMMXEgc
-         W3/Qg4Oca9QmME5YWEcs5yVyqU0LZVCfU1VbdnL1yTQek/lVITzjMTZZFBtcTiqZXTEi
-         nwa6r11RcE4qPMdXwkshHK86Fc+1vAvTdt05FER2Eu7jIBA2MSWV3FlPoUI4gLgy6mdV
-         uUdw==
-X-Forwarded-Encrypted: i=1; AJvYcCVyZUOnpZyzQfwjRwZO7KEJr9TZAX0l8ilt3V5XdAa7QK1amM2RyBPRaI+XkcKIg4SadmfiRhCNO20EO4gXLHNyEiw=@vger.kernel.org, AJvYcCXMNRVxRiCh1j/+T05F+vcyr25jOPuCTHQf2ic46d954lUp3TEnTfLFa/Px0/XlIf2b5mf/pFYcaLQxeio=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkP+Y/UOKr9uRa+RjNTFmYhccET6Vuvhps5JUw597AaEIpykZL
-	Yi3JZmOvRb6AAKWXCGHYTPXFIMfMPbHygopNpxm8FGAu1vHU1kBV
-X-Google-Smtp-Source: AGHT+IFnV/SeymYrLZnIp7dDYpEEy8cLjhEhsc8/peer0h3tQKe72voH7q46naIO52wikLgYpiGV1g==
-X-Received: by 2002:a05:600c:3511:b0:426:6f1e:ce93 with SMTP id 5b1f17b1804b1-42c7b5f0e91mr93465055e9.33.1725484069973;
-        Wed, 04 Sep 2024 14:07:49 -0700 (PDT)
+        bh=a8uiJ1o1t/FLwtZAsye5lzWDkjfsKX1SsElvPj0kYXM=;
+        b=B+Y1P0ST0sqSlQiV95WqjeLj+5qf08JGttiUDaX3ocdwc7i9LbufJ8sUtgihloBxqk
+         rBTix7JZfp8yyOvZcsJFCHmWkHqllwFQK+LtNwVAWcNuIRHqw97HGYECxnkkM/P6o4T1
+         OsN7PMLtmsJXlutrbLHV17tqQVv1JggpavktuWkYswkX2KoACyTNO2rzli/KnYaRwD/b
+         xvJMqYi7qspfZnfJaQXnHaxEIZtGziCK0FJ7KaiVf3VhUqdvLzu6KqcAcN5ANI3MuvqF
+         3dq/eca8T1+XRVBGHB+ArZve/6Olz7vMPa8dQjhx02pMuvs2E7t4w2+FNedzRSNbPu7P
+         nAhA==
+X-Forwarded-Encrypted: i=1; AJvYcCUcyJD74lr8Guf2xedrGInCdeO6rxmOu1WCkKpET/cgCketfqjiGXpQ5cBGVyadvu/UguFwO5epC8I0GVeMPam0rSQ=@vger.kernel.org, AJvYcCVJUMFcW8iEc6I/t6hznm71INtb5lOd1yHQOgZBxohRASzkCb089dEbEyuCEEyInDsGsjFnEEklhDuZbFY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVxbLlGydM/zcJtBaIXIa06buleKJshiPSD/0OxrvRg2DOQ4kl
+	XC/hDOJTI6iBhsL9xPVH+3EEk4YEePqiz8pYivPT2LaDqWQ/Ll5eEg8PxYWF
+X-Google-Smtp-Source: AGHT+IEZS+UfmS3KPR+czSjHyVOuYwvsavbrVZc1vnhF2nnFXsx2e4lTetlRGuvsmV1PL1vuTZaNog==
+X-Received: by 2002:a05:600c:a07:b0:427:abed:3602 with SMTP id 5b1f17b1804b1-42bb27a9e95mr155931335e9.24.1725484071106;
+        Wed, 04 Sep 2024 14:07:51 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2500:a01:c57c:1e61:792:2ab1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42c7a41bdc8sm158821485e9.3.2024.09.04.14.07.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42c7a41bdc8sm158821485e9.3.2024.09.04.14.07.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 14:07:49 -0700 (PDT)
+        Wed, 04 Sep 2024 14:07:50 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -82,9 +82,9 @@ Cc: linux-media@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RFC PATCH 06/12] media: i2c: ov5645: Drop `power_lock` mutex
-Date: Wed,  4 Sep 2024 22:07:13 +0100
-Message-Id: <20240904210719.52466-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RFC PATCH 07/12] media: i2c: ov5645: Use subdev active state
+Date: Wed,  4 Sep 2024 22:07:14 +0100
+Message-Id: <20240904210719.52466-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -98,73 +98,246 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Drop mutex while applying controls and just rely on
-pm_runtime_get_if_in_use() call.
+Port the ov5645 sensor driver to use the subdev active state.
+
+Move all the format configuration to the subdevice state and simplify
+the format handling, locking and initialization.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/media/i2c/ov5645.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/media/i2c/ov5645.c | 109 +++++++++++++------------------------
+ 1 file changed, 39 insertions(+), 70 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index 45687d004004..25c60afcc0ec 100644
+index 25c60afcc0ec..9497ec737cb7 100644
 --- a/drivers/media/i2c/ov5645.c
 +++ b/drivers/media/i2c/ov5645.c
-@@ -106,8 +106,6 @@ struct ov5645 {
- 	u8 timing_tc_reg20;
- 	u8 timing_tc_reg21;
+@@ -89,7 +89,6 @@ struct ov5645 {
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+ 	struct v4l2_fwnode_endpoint ep;
+-	struct v4l2_mbus_framefmt fmt;
+ 	struct v4l2_rect crop;
+ 	struct clk *xclk;
  
--	struct mutex power_lock; /* lock to protect power state */
+@@ -850,49 +849,6 @@ static int ov5645_enum_frame_size(struct v4l2_subdev *subdev,
+ 	return 0;
+ }
+ 
+-static struct v4l2_mbus_framefmt *
+-__ov5645_get_pad_format(struct ov5645 *ov5645,
+-			struct v4l2_subdev_state *sd_state,
+-			unsigned int pad,
+-			enum v4l2_subdev_format_whence which)
+-{
+-	switch (which) {
+-	case V4L2_SUBDEV_FORMAT_TRY:
+-		return v4l2_subdev_state_get_format(sd_state, pad);
+-	case V4L2_SUBDEV_FORMAT_ACTIVE:
+-		return &ov5645->fmt;
+-	default:
+-		return NULL;
+-	}
+-}
 -
- 	struct gpio_desc *enable_gpio;
- 	struct gpio_desc *rst_gpio;
- };
-@@ -782,11 +780,8 @@ static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
- 					     struct ov5645, ctrls);
+-static int ov5645_get_format(struct v4l2_subdev *sd,
+-			     struct v4l2_subdev_state *sd_state,
+-			     struct v4l2_subdev_format *format)
+-{
+-	struct ov5645 *ov5645 = to_ov5645(sd);
+-
+-	format->format = *__ov5645_get_pad_format(ov5645, sd_state,
+-						  format->pad,
+-						  format->which);
+-	return 0;
+-}
+-
+-static struct v4l2_rect *
+-__ov5645_get_pad_crop(struct ov5645 *ov5645,
+-		      struct v4l2_subdev_state *sd_state,
+-		      unsigned int pad, enum v4l2_subdev_format_whence which)
+-{
+-	switch (which) {
+-	case V4L2_SUBDEV_FORMAT_TRY:
+-		return v4l2_subdev_state_get_crop(sd_state, pad);
+-	case V4L2_SUBDEV_FORMAT_ACTIVE:
+-		return &ov5645->crop;
+-	default:
+-		return NULL;
+-	}
+-}
+-
+ static int ov5645_set_format(struct v4l2_subdev *sd,
+ 			     struct v4l2_subdev_state *sd_state,
+ 			     struct v4l2_subdev_format *format)
+@@ -903,33 +859,30 @@ static int ov5645_set_format(struct v4l2_subdev *sd,
+ 	const struct ov5645_mode_info *new_mode;
  	int ret;
  
--	mutex_lock(&ov5645->power_lock);
--	if (!pm_runtime_get_if_in_use(ov5645->dev)) {
--		mutex_unlock(&ov5645->power_lock);
-+	if (!pm_runtime_get_if_in_use(ov5645->dev))
- 		return 0;
--	}
+-	__crop = __ov5645_get_pad_crop(ov5645, sd_state, format->pad,
+-				       format->which);
+-
++	__crop = v4l2_subdev_state_get_crop(sd_state, 0);
+ 	new_mode = v4l2_find_nearest_size(ov5645_mode_info_data,
+-			       ARRAY_SIZE(ov5645_mode_info_data),
+-			       width, height,
+-			       format->format.width, format->format.height);
++					  ARRAY_SIZE(ov5645_mode_info_data),
++					  width, height, format->format.width,
++					  format->format.height);
  
- 	switch (ctrl->id) {
- 	case V4L2_CID_SATURATION:
-@@ -817,7 +812,6 @@ static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	__crop->width = new_mode->width;
+ 	__crop->height = new_mode->height;
  
+ 	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+-		ret = v4l2_ctrl_s_ctrl_int64(ov5645->pixel_clock,
+-					     new_mode->pixel_clock);
++		ret = __v4l2_ctrl_s_ctrl_int64(ov5645->pixel_clock,
++					       new_mode->pixel_clock);
+ 		if (ret < 0)
+ 			return ret;
+ 
+-		ret = v4l2_ctrl_s_ctrl(ov5645->link_freq,
+-				       new_mode->link_freq);
++		ret = __v4l2_ctrl_s_ctrl(ov5645->link_freq,
++					 new_mode->link_freq);
+ 		if (ret < 0)
+ 			return ret;
+ 
+ 		ov5645->current_mode = new_mode;
+ 	}
+ 
+-	__format = __ov5645_get_pad_format(ov5645, sd_state, format->pad,
+-					   format->which);
++	__format = v4l2_subdev_state_get_format(sd_state, 0);
+ 	__format->width = __crop->width;
+ 	__format->height = __crop->height;
+ 	__format->code = MEDIA_BUS_FMT_UYVY8_1X16;
+@@ -944,11 +897,15 @@ static int ov5645_set_format(struct v4l2_subdev *sd,
+ static int ov5645_init_state(struct v4l2_subdev *subdev,
+ 			     struct v4l2_subdev_state *sd_state)
+ {
+-	struct v4l2_subdev_format fmt = { 0 };
+-
+-	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
+-	fmt.format.width = 1920;
+-	fmt.format.height = 1080;
++	struct v4l2_subdev_format fmt = {
++		.which = V4L2_SUBDEV_FORMAT_TRY,
++		.pad = 0,
++		.format = {
++			.code = MEDIA_BUS_FMT_UYVY8_1X16,
++			.width = ov5645_mode_info_data[1].width,
++			.height = ov5645_mode_info_data[1].height,
++		},
++	};
+ 
+ 	ov5645_set_format(subdev, sd_state, &fmt);
+ 
+@@ -959,25 +916,27 @@ static int ov5645_get_selection(struct v4l2_subdev *sd,
+ 			   struct v4l2_subdev_state *sd_state,
+ 			   struct v4l2_subdev_selection *sel)
+ {
+-	struct ov5645 *ov5645 = to_ov5645(sd);
+-
+ 	if (sel->target != V4L2_SEL_TGT_CROP)
+ 		return -EINVAL;
+ 
+-	sel->r = *__ov5645_get_pad_crop(ov5645, sd_state, sel->pad,
+-					sel->which);
++	sel->r = *v4l2_subdev_state_get_crop(sd_state, 0);
+ 	return 0;
+ }
+ 
+ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+ {
+ 	struct ov5645 *ov5645 = to_ov5645(subdev);
++	struct v4l2_subdev_state *state;
+ 	int ret;
+ 
++	state = v4l2_subdev_lock_and_get_active_state(&ov5645->sd);
++
+ 	if (enable) {
+ 		ret = pm_runtime_resume_and_get(ov5645->dev);
+-		if (ret < 0)
++		if (ret < 0) {
++			v4l2_subdev_unlock_state(state);
+ 			return ret;
++		}
+ 
+ 		ret = ov5645_set_register_array(ov5645,
+ 					ov5645->current_mode->data,
+@@ -988,7 +947,7 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+ 				ov5645->current_mode->height);
+ 			goto err_rpm_put;
+ 		}
+-		ret = v4l2_ctrl_handler_setup(&ov5645->ctrls);
++		ret = __v4l2_ctrl_handler_setup(&ov5645->ctrls);
+ 		if (ret < 0) {
+ 			dev_err(ov5645->dev, "could not sync v4l2 controls\n");
+ 			goto err_rpm_put;
+@@ -1013,6 +972,7 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+ 		goto stream_off_rpm_put;
+ 	}
+ 
++	v4l2_subdev_unlock_state(state);
+ 	return 0;
+ 
+ err_rpm_put:
+@@ -1022,6 +982,7 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+ stream_off_rpm_put:
  	pm_runtime_mark_last_busy(ov5645->dev);
  	pm_runtime_put_autosuspend(ov5645->dev);
--	mutex_unlock(&ov5645->power_lock);
- 
++	v4l2_subdev_unlock_state(state);
  	return ret;
  }
-@@ -1124,8 +1118,6 @@ static int ov5645_probe(struct i2c_client *client)
- 	if (IS_ERR(ov5645->rst_gpio))
- 		return dev_err_probe(dev, PTR_ERR(ov5645->rst_gpio), "cannot get reset gpio\n");
  
--	mutex_init(&ov5645->power_lock);
--
- 	v4l2_ctrl_handler_init(&ov5645->ctrls, 9);
- 	v4l2_ctrl_new_std(&ov5645->ctrls, &ov5645_ctrl_ops,
- 			  V4L2_CID_SATURATION, -4, 4, 1, 0);
-@@ -1245,7 +1237,6 @@ static int ov5645_probe(struct i2c_client *client)
+@@ -1032,7 +993,7 @@ static const struct v4l2_subdev_video_ops ov5645_video_ops = {
+ static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
+ 	.enum_mbus_code = ov5645_enum_mbus_code,
+ 	.enum_frame_size = ov5645_enum_frame_size,
+-	.get_fmt = ov5645_get_format,
++	.get_fmt = v4l2_subdev_get_fmt,
+ 	.set_fmt = ov5645_set_format,
+ 	.get_selection = ov5645_get_selection,
+ };
+@@ -1213,12 +1174,17 @@ static int ov5645_probe(struct i2c_client *client)
+ 		goto power_down;
+ 	}
+ 
+-	ov5645_init_state(&ov5645->sd, NULL);
++	ov5645->sd.state_lock = ov5645->ctrls.lock;
++	ret = v4l2_subdev_init_finalize(&ov5645->sd);
++	if (ret < 0) {
++		dev_err_probe(dev, ret, "subdev init error\n");
++		goto power_down;
++	}
+ 
+ 	ret = v4l2_async_register_subdev_sensor(&ov5645->sd);
+ 	if (ret < 0) {
+ 		dev_err_probe(dev, ret, "could not register v4l2 device\n");
+-		goto power_down;
++		goto error_subdev_cleanup;
+ 	}
+ 
+ 	pm_runtime_set_active(dev);
+@@ -1231,6 +1197,8 @@ static int ov5645_probe(struct i2c_client *client)
+ 
+ 	return 0;
+ 
++error_subdev_cleanup:
++	v4l2_subdev_cleanup(&ov5645->sd);
+ power_down:
+ 	ov5645_set_power_off(dev);
+ free_entity:
+@@ -1247,6 +1215,7 @@ static void ov5645_remove(struct i2c_client *client)
+ 	struct ov5645 *ov5645 = to_ov5645(sd);
+ 
+ 	v4l2_async_unregister_subdev(&ov5645->sd);
++	v4l2_subdev_cleanup(sd);
  	media_entity_cleanup(&ov5645->sd.entity);
- free_ctrl:
  	v4l2_ctrl_handler_free(&ov5645->ctrls);
--	mutex_destroy(&ov5645->power_lock);
- 
- 	return ret;
- }
-@@ -1262,7 +1253,6 @@ static void ov5645_remove(struct i2c_client *client)
- 	if (!pm_runtime_status_suspended(ov5645->dev))
- 		ov5645_set_power_off(ov5645->dev);
- 	pm_runtime_set_suspended(ov5645->dev);
--	mutex_destroy(&ov5645->power_lock);
- }
- 
- static const struct i2c_device_id ov5645_id[] = {
+ 	pm_runtime_disable(ov5645->dev);
 -- 
 2.34.1
 
