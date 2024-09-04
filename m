@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-17567-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17568-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1177296BA21
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:19:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF5996BA26
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:20:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C23A0280F72
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:19:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C12C81C24276
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:20:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 397281D2202;
-	Wed,  4 Sep 2024 11:16:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95CD61D9320;
+	Wed,  4 Sep 2024 11:16:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KjHlMtPn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRVtWdg9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898471482E1;
-	Wed,  4 Sep 2024 11:16:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA4E1D016D;
+	Wed,  4 Sep 2024 11:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725448604; cv=none; b=EIuulm9Uyfx8135x4kLymrrwAxvV9eKJ9ai2JMniTFFBvtG+wRNy97yOEc8aLlHpA50gKssh7mvohzA5UWlY2pkXDCRclV1QicRhCUU3XiFh/b8F916VYW6u11Tbv5MPerOTaH3eqBDryOl/AnLD2ru6ok4sQGtuka2AORHqMOg=
+	t=1725448614; cv=none; b=ZEiRoos31J3zmjYsylpfNX9sf/a4G2UGiA8ylodqrLmFw21q91iQy7Xe96G/+9KoTmu5qFh04mZV86zY58ZAgyCx1Aly8uZqdMtlSx4gA5BMKW04D3n8tfvWphoJ8gnWZZ4nfX+q7i0BABlngKcYQgRKr144VctRT18qqqPogw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725448604; c=relaxed/simple;
-	bh=jnoKCbmPcD1GmESgYWHnWAC+C8551B8aEwnlyDgxp3c=;
+	s=arc-20240116; t=1725448614; c=relaxed/simple;
+	bh=SFWQxwybbR05p/JSlu2vfeQxyFVILJVtOStppUEw+xw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=m26i0/Gb2tZs5GGpD8A0eeFlDyYpGUQSAnUNGrktyBUaOXgh2sGjQc4FowxzJy/hDvecyCxonk2SxZP3nBzfi+576DhSwo9LuUb7aL7vgu7maM1GLlkrthuxk4UWjEJZNx34STdldG7RGD6mRiyAQzxB8HGwXiAZiZh5M+QMtao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KjHlMtPn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC3A8C4CECC;
-	Wed,  4 Sep 2024 11:16:38 +0000 (UTC)
+	 MIME-Version:Content-Type; b=DBPn4XSL1p7xjouVPi9eD1oaJKiZaIYOLwLJEMKswf3m0MbVImc0/LQGhqWFRh6gNqaOWJ9D3IaxR2P0DJhNuyNqkUGtqWcuLPvZYIRtmlpdPFsn9jMa3o1S7DFAFVi2LN+sO9SjcnXiKwwyhG9a5bcguovCp6pzcyP0VSF2WUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRVtWdg9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D711FC4CEC9;
+	Wed,  4 Sep 2024 11:16:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725448604;
-	bh=jnoKCbmPcD1GmESgYWHnWAC+C8551B8aEwnlyDgxp3c=;
+	s=k20201202; t=1725448613;
+	bh=SFWQxwybbR05p/JSlu2vfeQxyFVILJVtOStppUEw+xw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KjHlMtPnOpovnTl90GfKpIuPGs+gwJYi/h9SpXSQSXUdkrLC8x059cyHOUCTVcQOD
-	 Eqr9oJu5zIZad+ON1Qmc3Db1zhARkcfmANz8S72acVTG2+sXIuoCP+UGzxD6lMqVxL
-	 A344eGn47au8ya+z4zXlx1unlRaMD2HS3bXc2HkfL0x0sLRhbFUWjvxrIfFFXtxORU
-	 4qAl+rFufzT6CVtExWQQ+WK9KnpnQZorBxF7zoVKjz+50bzQv32m+7xqpJef5BXpXq
-	 p0i1jr9DGm3zmP/+0sQ9VrwCcFGTJnLAvroMUo6N0mCMOO9W5uEmSP7bYwNYcVHMjW
-	 LgHv2DTwNjySA==
+	b=KRVtWdg9D4xhd/xX3u5CgZSN5Sm0NZWjAaFc8R5UIZOvKvw7KgThuvHywHeB3MdGE
+	 kgA2xop/P1gXyrNDSdt9rkNvIKmYiSEpIzrKdCqUSl1RczLm9zXv5zRl4J+FummyAt
+	 Xi8bvs1g+F47UlxXsHpphN5OeHmq6pxpp0RWjA95epvKzdjasyrp2JgHw8t8e3Nosp
+	 VBomlo31XSnwYb0Cem8rEVFMAlnnrfrfSCfiFncF8c/X9VoNBp67c3eqHtvOrCoNxj
+	 q2KL+vVp0YtBLxLoISr+raawo46JGCCLhCqUxMAaeLNlbLagNf7BrjjDV86zzRJKmH
+	 Fw24bheSYB6OQ==
 From: Mark Brown <broonie@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
@@ -60,12 +60,12 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  Nicolas Belin <nbelin@baylibre.com>
-In-Reply-To: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
-References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
-Subject: Re: (subset) [PATCH v6 00/16] Add audio support for the MediaTek
+In-Reply-To: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
+References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
+Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
  Genio 350-evk board
-Message-Id: <172544859867.19172.9438630691561948517.b4-ty@kernel.org>
-Date: Wed, 04 Sep 2024 12:16:38 +0100
+Message-Id: <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
+Date: Wed, 04 Sep 2024 12:16:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,7 +76,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Wed, 19 Jun 2024 16:46:36 +0200, Alexandre Mergnat wrote:
+On Mon, 22 Jul 2024 08:53:29 +0200, Alexandre Mergnat wrote:
 > This serie aim to add the following audio support for the Genio 350-evk:
 > - Playback
 >   - 2ch Headset Jack (Earphone)
@@ -99,6 +99,8 @@ Thanks!
         commit: ceb3ca2876243e3ea02f78b3d488b1f2d734de49
 [02/16] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add audio sound card document
         commit: 76d80dcdd55f70b28930edb97b96ee375e1cce5a
+[03/16] dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
+        commit: 761cab667898d86c04867948f1b7aec1090be796
 [04/16] ASoC: mediatek: mt8365: Add common header
         commit: 38c7c9ddc74033406461d64e541bbc8268e77f73
 [05/16] ASoC: mediatek: mt8365: Add audio clock control support
