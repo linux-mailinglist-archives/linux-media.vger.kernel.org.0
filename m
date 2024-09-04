@@ -1,71 +1,49 @@
-Return-Path: <linux-media+bounces-17568-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17569-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF5996BA26
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:20:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B3796BA5A
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:25:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C12C81C24276
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:20:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D97841F232B6
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:25:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95CD61D9320;
-	Wed,  4 Sep 2024 11:16:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F12871D0DCD;
+	Wed,  4 Sep 2024 11:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRVtWdg9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D14Tt5Tr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA4E1D016D;
-	Wed,  4 Sep 2024 11:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7251CC887;
+	Wed,  4 Sep 2024 11:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725448614; cv=none; b=ZEiRoos31J3zmjYsylpfNX9sf/a4G2UGiA8ylodqrLmFw21q91iQy7Xe96G/+9KoTmu5qFh04mZV86zY58ZAgyCx1Aly8uZqdMtlSx4gA5BMKW04D3n8tfvWphoJ8gnWZZ4nfX+q7i0BABlngKcYQgRKr144VctRT18qqqPogw0=
+	t=1725448780; cv=none; b=ejvgYw1bwn3SNOGTfQ7rNNYzlYGWfi1Z+oykhqhV4cbujp+f9WXvp+YGc4hk6GZ/NQC5Ng6b2hSJC4ZqBPM5SUsSPcI8oODhbgZdcyFDqSKfAGpFqyJx00EfEv7NZ6LBkY3lpzO9GbLeT3ciHoKgmuI5tN0yTa2+LuUej8HOLwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725448614; c=relaxed/simple;
-	bh=SFWQxwybbR05p/JSlu2vfeQxyFVILJVtOStppUEw+xw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DBPn4XSL1p7xjouVPi9eD1oaJKiZaIYOLwLJEMKswf3m0MbVImc0/LQGhqWFRh6gNqaOWJ9D3IaxR2P0DJhNuyNqkUGtqWcuLPvZYIRtmlpdPFsn9jMa3o1S7DFAFVi2LN+sO9SjcnXiKwwyhG9a5bcguovCp6pzcyP0VSF2WUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRVtWdg9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D711FC4CEC9;
-	Wed,  4 Sep 2024 11:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725448613;
-	bh=SFWQxwybbR05p/JSlu2vfeQxyFVILJVtOStppUEw+xw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KRVtWdg9D4xhd/xX3u5CgZSN5Sm0NZWjAaFc8R5UIZOvKvw7KgThuvHywHeB3MdGE
-	 kgA2xop/P1gXyrNDSdt9rkNvIKmYiSEpIzrKdCqUSl1RczLm9zXv5zRl4J+FummyAt
-	 Xi8bvs1g+F47UlxXsHpphN5OeHmq6pxpp0RWjA95epvKzdjasyrp2JgHw8t8e3Nosp
-	 VBomlo31XSnwYb0Cem8rEVFMAlnnrfrfSCfiFncF8c/X9VoNBp67c3eqHtvOrCoNxj
-	 q2KL+vVp0YtBLxLoISr+raawo46JGCCLhCqUxMAaeLNlbLagNf7BrjjDV86zzRJKmH
-	 Fw24bheSYB6OQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Alexandre Mergnat <amergnat@baylibre.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Nicolas Belin <nbelin@baylibre.com>
-In-Reply-To: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
-Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
- Genio 350-evk board
-Message-Id: <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
-Date: Wed, 04 Sep 2024 12:16:48 +0100
+	s=arc-20240116; t=1725448780; c=relaxed/simple;
+	bh=HU62cloo7tqKBXnv8yfSBcE8oyrBX8Nj+XE7JGPDUFM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mdpo7bQ0GAHDMJdixueL080DvsI/qSwRq69jK7ERnxRxarFrIrw+KjBnaLtBvFwwJ3SO/CHtrSCvxy99ZMv0rLTAlfOyZAlNNri6ffxEIg3EBUwwgC9evDbYynbtlRQHNx5ZYwpH+M/94mZYnfFfRBZUzvP0j9G4ogPxHWD6Fck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=D14Tt5Tr; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07A753C7;
+	Wed,  4 Sep 2024 13:18:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725448703;
+	bh=HU62cloo7tqKBXnv8yfSBcE8oyrBX8Nj+XE7JGPDUFM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=D14Tt5TrzusAFjGFa6DNew3ttGlQm3qJD9NwJa058bj1P5TGa3KFllM9hvr+LI7eR
+	 ZH+HWF7xtFNQRsA53LVoNwlioGIInWZlKuZlJEF99A7ejH1xD6SlAUwXL8rCHvP6kR
+	 QqkTSIK0JzcbVSdmr64dELuqwy87FRlZ/eicZVQM=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v4 0/4] media: raspberrypi: Support RPi5's CFE
+Date: Wed, 04 Sep 2024 14:19:08 +0300
+Message-Id: <20240904-rp1-cfe-v4-0-f1b5b3d69c81@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,71 +52,148 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+X-B4-Tracking: v=1; b=H4sIACxC2GYC/3WQzU7DMBCEXyXyGQf/JXEihHgPxGEdb1pXOA52G
+ hVVfXecVJADcJzd/UazcyUJo8NEuuJKIi4uuTBmoR4K0h9hPCB1NmsimFBMckXjxGk/IOVKmFp
+ o0wiuSL6eIg7usjm9vmV9dGkO8XMzXvg6/fbQPx4Lp4xCX9u2ZsMghH1xFiGF0QSItuyDJ6vVI
+ na8FmzHRcaNNkoP1oA08h9c7rjm1Y7LjCOvoG1aa6Ro/sBv988ifpxzNfP9PWIgIc177+aueHf
+ j+UI9Wgc0zXDARw9pxriW4jEl2DrsiqctQCU506xhTSlVVWvK6Qn6MIXSh9G6Xwmec4TbF5s96
+ 5ulAQAA
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Naushir Patuck <naush@raspberrypi.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4736;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=HU62cloo7tqKBXnv8yfSBcE8oyrBX8Nj+XE7JGPDUFM=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBm2EJAbxIHxttGUodBxqHXux0yObI1CvUj3szML
+ LfW+8MXUF2JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZthCQAAKCRD6PaqMvJYe
+ 9c1+D/94oncnEuf5eyQlC2w7LKkkRFJnTGZxhU3LIjS5i9a/CPY07MGrLXMnY6g/QDpsMzBE3vI
+ wztPBacsjwsNr7IkHn69zFEz4pbKNeNBnsWqPP/Wew9eOlbksJZ0FKvHlHLcJ4Kkf3YLpsU1abR
+ 3hng4FyUKyddVMQgYGSl3efkrS0bybuauGXQV3f4Ae8ZCWcMJ+utHg3yiy/sY3KMHwSU7fCkTyl
+ bb4Lno0SArS4B2vZkP38C9nsOkRaCFn52pV2TUHy9rkr1/8gVwXuOHkY1keGHY+7Prp6kt1mmQ1
+ vCou77kWIwFvWeSCydwkIrmxZVim7lL2+CXodnE4WEAO48/zjmn0nzjQcNDOuD9rrHx200YqXL2
+ ubk00dDL7mVqWzsBSwiTKEptjbkeqWtuUE25iOWUcqTEQtOxz2gWGqTRkFSOM0ynjMDi/VwwbCn
+ yaJ+YNpwqWI5dVQvOtcGZy2Lub+dl+PsP5O4Hdlq13KSVEmHMGn6v3IiCKAsmhunHaBZCW0mNOu
+ iEErf044ad5tGFqpFJLI0iwnVvvcgT/zGBN3is7HTmrzOu0lD2Ayj7CJTfJCwGsYgcrNFyljufI
+ TfXyfYjaBHpo5NUG95TfQ0jB5tf30+wNNVgQbZfa9zEG+8q5oXWSeOIKQ5I7ukzS50+FGnDr3Wa
+ CuB7JhUyAX2N6Xw==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On Mon, 22 Jul 2024 08:53:29 +0200, Alexandre Mergnat wrote:
-> This serie aim to add the following audio support for the Genio 350-evk:
-> - Playback
->   - 2ch Headset Jack (Earphone)
->   - 1ch Line-out Jack (Speaker)
->   - 8ch HDMI Tx
-> - Capture
->   - 1ch DMIC (On-board Digital Microphone)
->   - 1ch AMIC (On-board Analogic Microphone)
->   - 1ch Headset Jack (External Analogic Microphone)
-> 
-> [...]
+This series adds support to the CFE hardware block on RaspberryPi 5. The
+CFE (Camera Front End) contains a CSI-2 receiver and Front End, a small
+ISP.
 
-Applied to
+To run this, you need the basic RPi5 kernel support plus relevant dts
+changes to enable the cfe and camera. My work branch with everything
+needed to run CFE can be found from:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git rp1-cfe
 
-Thanks!
+A few notes about the patches:
 
-[01/16] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio afe document
-        commit: ceb3ca2876243e3ea02f78b3d488b1f2d734de49
-[02/16] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add audio sound card document
-        commit: 76d80dcdd55f70b28930edb97b96ee375e1cce5a
-[03/16] dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
-        commit: 761cab667898d86c04867948f1b7aec1090be796
-[04/16] ASoC: mediatek: mt8365: Add common header
-        commit: 38c7c9ddc74033406461d64e541bbc8268e77f73
-[05/16] ASoC: mediatek: mt8365: Add audio clock control support
-        commit: ef307b40b7f0042d54f020bccb3e728ced292282
-[06/16] ASoC: mediatek: mt8365: Add I2S DAI support
-        commit: 402bbb13a195caa83b3279ebecdabfb11ddee084
-[07/16] ASoC: mediatek: mt8365: Add ADDA DAI support
-        commit: 7c58c88e524180e8439acdfc44872325e7f6d33d
-[08/16] ASoC: mediatek: mt8365: Add DMIC DAI support
-        commit: 1c50ec75ce6c0c6b5736499393e522f73e19d0cf
-[09/16] ASoC: mediatek: mt8365: Add PCM DAI support
-        commit: 5097c0c8634d703e3c59cfb89831b7db9dc46339
-[10/16] ASoc: mediatek: mt8365: Add a specific soundcard for EVK
-        commit: 1bf6dbd75f7603dd026660bebf324f812200dc1b
-[11/16] ASoC: mediatek: mt8365: Add the AFE driver support
-        commit: e1991d102bc2abb32331c462f8f3e77059c69578
-[12/16] ASoC: codecs: add MT6357 support
-        (no commit info)
-[13/16] ASoC: mediatek: Add MT8365 support
-        (no commit info)
+- The original work was done by RaspberryPi, mostly by Naushir Patuck.
+- The second video node only sets V4L2_CAP_META_CAPTURE instead of both
+  V4L2_CAP_META_CAPTURE and V4L2_CAP_META_CAPTURE like the other nodes.
+  This is a temporary workaround for userspace (libcamera), and
+  hopefully can be removed soon.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+I have tested this with:
+- A single IMX219 sensor connected to the RPi5's CSI-2 port
+- Arducam's UB960 FPD-Link board with four imx219 sensors connected
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+ Tomi
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v4:
+- Drop unnecessary clock-lanes from the DT bindings
+- Drop unnecessary linux-media from MAINTAINERS entry
+- Drop unnecessary conversion to bool with !!
+- Don't set cap->bus_info in cfe_querycap()
+- Make debugfs files not readable by the world
+- Check the return value of v4l2_fwnode_endpoint_parse()
+- Remove the code dealing with remote_ep_fwnode. Instead use
+  v4l2_create_fwnode_links_to_pad() and media_pad_remote_pad_unique() to
+  create the link and get the pad index.
+- Add cfe/csi2/fe/dphy argument to the respective dbg/info/err print
+  macros.
+- Drop some debug prints and add a few, clarifying the prints for
+  enabling and disabling the streams.
+- Some cosmetic changes (linefeed, drop unnecessary assignment, move a
+  define)
+- Link to v3: https://lore.kernel.org/r/20240815-rp1-cfe-v3-0-e15a979db327@ideasonboard.com
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Changes in v3:
+- Based on v6.11-rc3. The PiSP BE series is now in upstream so no extra
+  dependencies are needed.
+- Fixed cfe_remove() return value, as the .remove hook has changed
+- Added Krzysztof's Rb.
+- Link to v2: https://lore.kernel.org/r/20240620-rp1-cfe-v2-0-b8b48fdba3b3@ideasonboard.com
 
-Thanks,
-Mark
+Changes in v2:
+- Change the compatible string back to raspberrypi,rp1-cfe from raspberrypi,rpi5-rp1-cfe
+- Drop the references to rp1 headers in the DT binding example. This
+  allows compiling the example without the rp1 support.
+- Fix missing remap lines for mono formats
+- Fix csi2_pad_set_fmt() so that the format can be changed back to the
+  sink's format from 16-bit or compressed format.
+- Link to v1: https://lore.kernel.org/r/20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com
+
+---
+Tomi Valkeinen (4):
+      media: uapi: Add meta formats for PiSP FE config and stats
+      dt-bindings: media: Add bindings for raspberrypi,rp1-cfe
+      media: raspberrypi: Add support for RP1-CFE
+      media: admin-guide: Document the Raspberry Pi CFE (rp1-cfe)
+
+ .../admin-guide/media/raspberrypi-rp1-cfe.dot      |   27 +
+ .../admin-guide/media/raspberrypi-rp1-cfe.rst      |   78 +
+ Documentation/admin-guide/media/v4l-drivers.rst    |    1 +
+ .../bindings/media/raspberrypi,rp1-cfe.yaml        |   93 +
+ .../userspace-api/media/v4l/meta-formats.rst       |    1 +
+ .../userspace-api/media/v4l/metafmt-pisp-fe.rst    |   39 +
+ MAINTAINERS                                        |    7 +
+ drivers/media/platform/raspberrypi/Kconfig         |    1 +
+ drivers/media/platform/raspberrypi/Makefile        |    1 +
+ drivers/media/platform/raspberrypi/rp1-cfe/Kconfig |   14 +
+ .../media/platform/raspberrypi/rp1-cfe/Makefile    |    6 +
+ .../media/platform/raspberrypi/rp1-cfe/cfe-fmts.h  |  332 +++
+ .../media/platform/raspberrypi/rp1-cfe/cfe-trace.h |  196 ++
+ drivers/media/platform/raspberrypi/rp1-cfe/cfe.c   | 2487 ++++++++++++++++++++
+ drivers/media/platform/raspberrypi/rp1-cfe/cfe.h   |   43 +
+ drivers/media/platform/raspberrypi/rp1-cfe/csi2.c  |  583 +++++
+ drivers/media/platform/raspberrypi/rp1-cfe/csi2.h  |   89 +
+ drivers/media/platform/raspberrypi/rp1-cfe/dphy.c  |  180 ++
+ drivers/media/platform/raspberrypi/rp1-cfe/dphy.h  |   27 +
+ .../media/platform/raspberrypi/rp1-cfe/pisp-fe.c   |  581 +++++
+ .../media/platform/raspberrypi/rp1-cfe/pisp-fe.h   |   53 +
+ drivers/media/v4l2-core/v4l2-ioctl.c               |    2 +
+ .../uapi/linux/media/raspberrypi/pisp_fe_config.h  |  273 +++
+ .../linux/media/raspberrypi/pisp_fe_statistics.h   |   64 +
+ include/uapi/linux/videodev2.h                     |    2 +
+ 25 files changed, 5180 insertions(+)
+---
+base-commit: 431c1646e1f86b949fa3685efc50b660a364c2b6
+change-id: 20240314-rp1-cfe-142b628b7214
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 
