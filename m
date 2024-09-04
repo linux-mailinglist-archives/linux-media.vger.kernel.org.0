@@ -1,78 +1,109 @@
-Return-Path: <linux-media+bounces-17501-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17502-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EAC96AD26
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 01:59:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C771C96AD54
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 02:30:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 214731C2436B
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2024 23:59:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5BCAB23B4E
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 00:30:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 474C71D79A5;
-	Tue,  3 Sep 2024 23:59:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 470F9256E;
+	Wed,  4 Sep 2024 00:30:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACy/Nee5"
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="I1VurvpW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="T1yfThjZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB7AB647
-	for <linux-media@vger.kernel.org>; Tue,  3 Sep 2024 23:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555AA391;
+	Wed,  4 Sep 2024 00:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725407984; cv=none; b=Ysa59KM+GH6U6PLPc7VbUQXTbsUcogkLzE+dQfxBiRTeg+NIfAGcDvs/VCtyBnnnZYL1x9wDUEk0pwgaSpU+c4M+fqh2GhU+GwXkJtQ74djGqqOPgFk7kxty5vZ4TsrzVweRQgkpf0YxqyZvZGnrm/gMC0FlTK1sy4Rz/0HuJIw=
+	t=1725409830; cv=none; b=HnZImP0j3rapGtPASHiaZwIaL4WYLzLTCfhGBSvGKECbc0pj3kQVDXCJaJeKFzBwTniuzCrj+Vdbl74Eh6Q35O6BFhHpVOS1/CHf/8ArTqWHhDCmilQrFDgJAE5ZClEngwpOvNg/eX/FH6uccbIKKW+5i+4F7DgBAzumn7mOGi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725407984; c=relaxed/simple;
-	bh=CNz1Vi+Fd84zTPTejzsG4YlgD9vGpS7cn9/Q10iQrP0=;
+	s=arc-20240116; t=1725409830; c=relaxed/simple;
+	bh=hGmo0WNuS757TdfmGfpzHV8y4j/AC/7g1GSfO+Prb9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGcJKI4GENWLqInQybPNdEkzxBglv4YNzWTBSIcjs7CPjHdL+QPkiQtWAudJ3ZMTqN2wAdrCAnYuRz30szNHHq4Ufwz9UFMqLn19P6EYU5ntIjTNuv2sIvwQJ/yWNfSkAlETGACx3eutO1ZFqlhCjL4EBhvUYJc0fXrDIkIQkww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACy/Nee5; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725407983; x=1756943983;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CNz1Vi+Fd84zTPTejzsG4YlgD9vGpS7cn9/Q10iQrP0=;
-  b=ACy/Nee5FgDZlDz0PAKADrbg420t2MBx5BG7saGhLxoAocuEE+I4gDSn
-   YGidmBJcLXa6Z0/ubEz2FsRt2GGYTgosnH6dafvbbuGaxzWJQ1xaO8g2G
-   GVNXAEz5FWwwbwEs+8CVRurnMB/sIRTjd5kysfIQcGX6LjSl7+DlAubRt
-   GFAvrRB6MT/Qj24/J2vaHt3NtX6SxfbFJSo7/+S6VclwOf19zriJPJ1i5
-   65+aH6HZTLLQJ6OYjgCxzNOHP9H01DWQdguaB3VPXP4jL55BMSgllImvq
-   EPV8Amn2gUIiS4QMGF+a4nNdKvpBlnhvZ5Ry4acpcyaejM7wVwcMQOU1m
-   A==;
-X-CSE-ConnectionGUID: XZVaiPJDRqaeBFx/m7a9tQ==
-X-CSE-MsgGUID: 2i+GzCZcSrSjoqXJys4raQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="46567706"
-X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="46567706"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 16:59:42 -0700
-X-CSE-ConnectionGUID: EIQ2o7ltTYmSBGbjnTXtzQ==
-X-CSE-MsgGUID: ogmJn+noSt2qZsTJhNaZ+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,200,1719903600"; 
-   d="scan'208";a="88322503"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Sep 2024 16:59:40 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sldQw-0007M4-0J;
-	Tue, 03 Sep 2024 23:59:38 +0000
-Date: Wed, 4 Sep 2024 07:59:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
-Message-ID: <202409040751.A1Dm1pgG-lkp@intel.com>
-References: <20240901211834.145186-3-hdegoede@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uhT64KTMe//qCIk92zXpqcCel3gb2MVOZXdqEiFe1+YT9LGzKHBEeGqApoKkVMXIC6gSXB3tFAtuONsNWkt+eQ7KAVBRigRKsp5hXDrHBVQRTyEp4HtBHafq8KMzvNpB2LzW1qmkIy0Gd9a5ywu7++dHa3uXY0iNIW5mIGvsTqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=I1VurvpW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=T1yfThjZ; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfout.phl.internal (Postfix) with ESMTP id 4EAC9138023D;
+	Tue,  3 Sep 2024 20:30:26 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Tue, 03 Sep 2024 20:30:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1725409826; x=
+	1725496226; bh=8piwn31ZqXZogp3zBpb74/a7XmbRS2i2JWJumbJdJWQ=; b=I
+	1VurvpWYC+8KV1TDmLQuOYnHL4meZFlxOVgThutq38fHvf5RGLGVu6rYXQqLmfAp
+	TkYpf3WBSdxoseD1SvAZN5iYcp5013GNN7/VOlUwQ5vHjzgMHjHIPg6XM6Y0WhSy
+	DKzwHHMRIzzHMcN3dlAXUzJatqTN2OhzEcXccaknsJp0q0djAsRV/YaMXOH/LXyj
+	MNyfXAZ2KGahnFOsHTMH9fWqC3YsAjWPvSH8OZZWpCBoLpkDilonGCOQHCVY2nvL
+	ki+fTELyDIRVttbbZDnD8CfxDFw3eXP9hdynNo13X7B5MuW0mAiTFQrF95AeL/dU
+	sLUv/3HPEuWGMRbvWiU8Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1725409826; x=1725496226; bh=8piwn31ZqXZogp3zBpb74/a7XmbR
+	S2i2JWJumbJdJWQ=; b=T1yfThjZGXyHN4Jd7MY/d3NOaBItLSxrp0CUZIdQjNLb
+	Lfyl9VChWswyBuqTXmSQUcYjYCaHO44YJmdjTT2gsRyWz+jaQMjDjH5EkQcwwEiH
+	/3BIhGiPbfVL2wrdvhD3zFsAqNzicg8gJVZc+vwxSx8SQ2EgFO1FY2ZJJ7TjRCRu
+	nZZVqYNSqSn4cZl+ftwRJ2EfmnJRiB03Ghnrp2CAgOFxZt2LNoAXNVlVIZfvGaiY
+	0Px08/Q0UfM1gdiJKm6U7Q7Uxz3gUv4YX6ntPFtIWJhrsw1Rf7MXxYYEooqnzkNE
+	YyXXJR6RLsdz4U0ut9w8w08vBlqoLOgvlzM6mSROLQ==
+X-ME-Sender: <xms:IqrXZlUdiDpTUveRLF9mh2GRNNtnlLuwueE08ylJNqz8gT6FRKPbkw>
+    <xme:IqrXZln3oD7lD8KJmZITrk4HGKc7XTIFihmSUx9zdxfQL_Aog1DhRC-mXl6VRSWeh
+    pQgChnWC_xCaSl1OMo>
+X-ME-Received: <xmr:IqrXZhafL3Q7kNAxUg-uQTebtUiQLg9tWM7zkSvUjhFJa02z95kEcRW7SNXDoAKm6XZjrHWjhNtpsxNiG90qg-hrR-stE2Ztulc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehiedgfeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
+    ucfhrhhomhepvfgrkhgrshhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihessh
+    grkhgrmhhotggthhhirdhjpheqnecuggftrfgrthhtvghrnhepueeiueevleefvedttefg
+    vdeutdekveduheevffdvhfeluefhgfdtgeeutedtudejnecuffhomhgrihhnpehkvghrnh
+    gvlhdrohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfr
+    rghrrghmpehmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhird
+    hjphdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    rghprghisheslhhinhhugidrmhhitghrohhsohhfthdrtghomhdprhgtphhtthhopehlih
+    hnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
+    ihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvg
+    gumhhunhgurdhrrghilhgvsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopehl
+    ihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnh
+    gvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:IqrXZoXsX0L8g1PNLT2QNjUsW0zpGxJFodkWEaf9p0cg6GPPvBPPyg>
+    <xmx:IqrXZvn2Ng5_MoIacaUNfkwNcK6MVp-Tq34E8U5sR7xw_lL3E66-TQ>
+    <xmx:IqrXZld6vYstL7XtgWt07gZ9m7AClS9WELDBL9vCPKeN7aTxH3tbnQ>
+    <xmx:IqrXZpHSaGiDtV-ETuyyO3FIodqpGsFoLLlbpW0vSSkgvNqHeVV8gQ>
+    <xmx:IqrXZtaBu8Lvwx87zWwNSsufpaLH8icR7jrWiTyybME-P70PC5mr5eNT>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 3 Sep 2024 20:30:24 -0400 (EDT)
+Date: Wed, 4 Sep 2024 09:30:22 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Allen Pais <apais@linux.microsoft.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-sound@vger.kernel.org, edmund.raile@protonmail.com,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [RFT][PATCH 0/5] firewire: use sleepable workqueue to handle
+ 1394 OHCI IT/IR context events
+Message-ID: <20240904003022.GA347045@workstation.local>
+Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Allen Pais <apais@linux.microsoft.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-sound@vger.kernel.org, edmund.raile@protonmail.com,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org
+References: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
+ <EB8EC5FD-AB6C-48C3-8980-65E8CB444BDF@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,128 +112,105 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240901211834.145186-3-hdegoede@redhat.com>
+In-Reply-To: <EB8EC5FD-AB6C-48C3-8980-65E8CB444BDF@linux.microsoft.com>
 
-Hi Hans,
+HI,
 
-kernel test robot noticed the following build errors:
+On Tue, Sep 03, 2024 at 11:06:53AM -0700, Allen Pais wrote:
+> 
+> 
+> >This series of change is inspired by BH workqueue available in recent
+> >kernel.
+> 
+> >In Linux FireWire subsystem, tasklet softIRQ context has been utilized to
+> >operate 1394 OHCI Isochronous Transmit (IT) and Isochronous Receive (IR)
+> >contexts. The tasklet context is not preferable, as you know.
+> 
+> >I have already received a proposal[1][2] to replace the usage of tasklet
+> >with BH workqueue. However, the proposal includes bare replacement for 1394
+> >OHCI IT, IR, Asynchronous Transmit (AT), and Asynchronous Receive (AR)
+> >contexts with neither any care of actual usage for each context nor
+> >practical test reports. In theory, this kind of change should be done by
+> >step by step with enough amount of evaluation over software design to avoid
+> >any disorder.
+> 
+> >In this series of changes, the usage of tasklet for 1394 OHCI IT/IR
+> >contexts is just replaced, as a first step. In 1394 OHCI IR/IT events,
+> >software is expected to process the content of page dedicated to DMA
+> >transmission for each isochronous context. It means that the content can be
+> >processed concurrently per isochronous context. Additionally, the content
+> >of page is immutable as long as the software schedules the transmission
+> >again for the page. It means that the task to process the content can sleep
+> >or be preempted. Due to the characteristics, BH workqueue is _not_ used.
+> 
+> >At present, 1394 OHCI driver is responsible for the maintenance of tasklet
+> >context, while in this series of change the core function is responsible
+> >for the maintenance of workqueue and work items. This change is an attempt
+> >to let each implementation focus on own task.
+> 
+> >The change affects the following implementations of unit protocols which
+> >operate isochronous contexts:
+> 
+> >- firewire-net for IP over 1394 (RFC 2734/3146)
+> >- firedtv
+> >- drivers in ALSA firewire stack for IEC 61883-1/6
+> >- user space applications
+> 
+> >As long as reading their codes, the first two drivers look to require no
+> >change. While the drivers in ALSA firewire stack require change to switch
+> >the type of context in which callback is executed. The series of change
+> >includes a patch for them to adapt to work process context.
+> 
+> >Finally, these changes are tested by devices supported by ALSA firewire
+> >stack with/without no-period-wakeup runtime of PCM substream. I also tested
+> >examples in libhinoko[3] as samples of user space applications. Currently I
+> >face no issue.
+> 
+> >On the other hand, I have neither tested for firewire-net nor firedtv,
+> >since I have never used these functions. If someone has any experience to
+> >use them, I would request to test the change.
+> 
+> >[1] https://lore.kernel.org/lkml/20240403144558.13398-1-apais@linux.microsoft.com/
+> >[2] https://github.com/allenpais/for-6.9-bh-conversions/issues/1
+> >[3] https://git.kernel.org/pub/scm/libs/ieee1394/libhinoko.git/
+> 
+> 
+> >Regards
+> 
+> Thank you for doing this work. You will probably need to send out a v2
+> As most of you patches have single line comment instead of Block style
+> Commnents (/* ..*/). Please have it fixed.
+ 
+Thanks for your comment. However, I think we have a need to update kernel
+documentation.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.11-rc6 next-20240903]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+As long as I know, Mr. Linus has few oposition to C99-style comment[1].
+In recent kernel development process, C11 is widely accepted. Actually, we
+can see many lines with C99-style comment in source tree.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l-Call-s_stream-on-VCM-when-it-is-called-on-the-associated-sensor/20240902-052000
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240901211834.145186-3-hdegoede%40redhat.com
-patch subject: [PATCH 2/2] media: i2c: Add driver for AD5823 VCM
-config: x86_64-randconfig-121-20240904 (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409040751.A1Dm1pgG-lkp@intel.com/reproduce)
+For the kernel API documentation, we still need to use Doxygen-like block
+comment since documentation generator requires it. Additionally we can also
+see C90 comment is mandatory for UAPI since 'scripts/check-uapi.sh'
+hard-codes it. For the other part, C99-style comment brings no issue, as
+long as I know.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409040751.A1Dm1pgG-lkp@intel.com/
+> - Allen
+> 
+> >Takashi Sakamoto (5):
+> > firewire: core: allocate workqueue to handle isochronous contexts in
+> >   card
+> > firewire: core: add local API for work items scheduled to workqueue
+> >   specific to isochronous contexts
+> > firewire: ohci: process IT/IR events in sleepable work process to
+> >   obsolete tasklet softIRQ
+> > firewire: core: non-atomic memory allocation for isochronous event to
+> >   user client
+> > ALSA: firewire: use nonatomic PCM operation
 
-All error/warnings (new ones prefixed by >>):
-
-   drivers/media/i2c/ad5823.c: In function 'ad5823_probe':
->> drivers/media/i2c/ad5823.c:203:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c' [-Werror=implicit-function-declaration]
-     203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/ad5823.c:203:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     203 |         ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
-         |                        ^
-   cc1: some warnings being treated as errors
+[1] https://lore.kernel.org/lkml/CA+55aFyQYJerovMsSoSKS7PessZBr4vNp-3QUUwhqk4A4_jcbg@mail.gmail.com/
 
 
-vim +/devm_cci_regmap_init_i2c +203 drivers/media/i2c/ad5823.c
+Thanks
 
-   193	
-   194	static int ad5823_probe(struct i2c_client *client)
-   195	{
-   196		struct ad5823_device *ad5823;
-   197		int ret;
-   198	
-   199		ad5823 = devm_kzalloc(&client->dev, sizeof(*ad5823), GFP_KERNEL);
-   200		if (!ad5823)
-   201			return -ENOMEM;
-   202	
- > 203		ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
-   204		if (IS_ERR(ad5823->regmap))
-   205			return PTR_ERR(ad5823->regmap);
-   206	
-   207		ad5823->arc_mode = AD5823_ARC_RES1;
-   208		ad5823->resonance_period = AD5823_RESONANCE_PERIOD;
-   209	
-   210		/* Optional indication of ARC mode select */
-   211		device_property_read_u32(&client->dev, "adi,arc-mode",
-   212					 &ad5823->arc_mode);
-   213	
-   214		/* Optional indication of VCM resonance period */
-   215		device_property_read_u32(&client->dev, "adi,resonance-period",
-   216					 &ad5823->resonance_period);
-   217	
-   218		ad5823->regulator = devm_regulator_get(&client->dev, "vdd");
-   219		if (IS_ERR(ad5823->regulator))
-   220			return dev_err_probe(&client->dev, PTR_ERR(ad5823->regulator),
-   221					     "getting regulator\n");
-   222	
-   223		v4l2_i2c_subdev_init(&ad5823->sd, client, &ad5823_ops);
-   224		ad5823->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-   225	
-   226		ret = ad5823_init_controls(ad5823);
-   227		if (ret)
-   228			return ret;
-   229	
-   230		ret = media_entity_pads_init(&ad5823->sd.entity, 0, NULL);
-   231		if (ret < 0)
-   232			goto err_free_ctrl_handler;
-   233	
-   234		ad5823->sd.entity.function = MEDIA_ENT_F_LENS;
-   235	
-   236		/*
-   237		 * We need the driver to work in the event that pm runtime is disable in
-   238		 * the kernel, so power up and verify the chip now. In the event that
-   239		 * runtime pm is disabled this will leave the chip on, so that the lens
-   240		 * will work.
-   241		 */
-   242	
-   243		ret = ad5823_power_up(ad5823, true);
-   244		if (ret)
-   245			goto err_cleanup_media;
-   246	
-   247		pm_runtime_set_active(&client->dev);
-   248		pm_runtime_get_noresume(&client->dev);
-   249		pm_runtime_enable(&client->dev);
-   250	
-   251		ret = v4l2_async_register_subdev(&ad5823->sd);
-   252		if (ret < 0)
-   253			goto err_pm_runtime;
-   254	
-   255		pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-   256		pm_runtime_use_autosuspend(&client->dev);
-   257		pm_runtime_put_autosuspend(&client->dev);
-   258	
-   259		return ret;
-   260	
-   261	err_pm_runtime:
-   262		pm_runtime_disable(&client->dev);
-   263		pm_runtime_put_noidle(&client->dev);
-   264		ad5823_power_down(ad5823);
-   265	err_cleanup_media:
-   266		media_entity_cleanup(&ad5823->sd.entity);
-   267	err_free_ctrl_handler:
-   268		v4l2_ctrl_handler_free(&ad5823->ctrls.handler);
-   269	
-   270		return ret;
-   271	}
-   272	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Takashi Sakamoto
 
