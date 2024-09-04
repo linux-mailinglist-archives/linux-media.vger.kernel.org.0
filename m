@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-17612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17613-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F9F96C393
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 18:11:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5C496C4AC
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 19:03:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3D5D283154
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 16:11:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 66AE91C21DE8
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 17:03:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5685A1DFE3F;
-	Wed,  4 Sep 2024 16:11:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14D4B1E0B68;
+	Wed,  4 Sep 2024 17:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GImkfraZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URq5BXoa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C35C1DAC4A;
-	Wed,  4 Sep 2024 16:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE731E1308;
+	Wed,  4 Sep 2024 17:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725466295; cv=none; b=p3jQyfwFRPisvhv+qzonAQgpuSsAo2oeCpM8aFyP20XPb/1OKmoPw/V6Mw1bY9m7GBX4Fb8V2gCVSaQ7+nboDXlLQ78mbFqIl+Y8jasaNsDexQnPGALmdsR6Xgwt68W+PJfa4jy+n4UqmLSbkxtBm3F2X5rMKIlG1lUPvHaBYq0=
+	t=1725469359; cv=none; b=OuYGuF3XddeiV0kcWqUqkfwyvxw+E2/cJc7a3UZ0uQKnvZRqFE9IYooA7mVDsn4kgs6gAFzS1dJyTW7/3w/b5J1gJfNjSoP4ujy73a1xDTN8EuWso2AuyH1jsV8BDiNFDuXRJAe/l7YQp491cG2Z0knPX1DGk0pCAJvQBVDSBwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725466295; c=relaxed/simple;
-	bh=wY8MEtsxZvN4Mzjntd70BSHgqkRNh05pCy8yVjjzynQ=;
+	s=arc-20240116; t=1725469359; c=relaxed/simple;
+	bh=US8Ynb10iF9xYswNwvpB7BFfvlXZRqfZaVbdnQchArQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c7VYXHR2vVGdrW9/Bi+G4kwKlmZgqVt2HVuNs7JxH4mVyxxSozR7fTMRdtxX7fJVkb6i8x6ZacLNfvYGLkP+Fug/0WEwKAnFfO/ZlH0llfxF/2FbSu3i29sg7ZNG+fRbyPfNKHkz/95o+7B2D3op9cE8ScliCV94aDten4RSHoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GImkfraZ; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=RhXk4zK5IBOrXiXrVLNd+2kWJwm7hiN2QWPIeb+Q/j8Gs96BZzR3dDCCIwuULUSifCLsg1n/iSbar5PVdx4gp/YrzW8uWW6C1h4WBZ6h+JZwCRrVSSxe62n6I4sPiA93wZ89dXuMYzm3ZKhhv1hHPtKRD2HLDNMAqumH1rwbwdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URq5BXoa; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725466293; x=1757002293;
+  t=1725469356; x=1757005356;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=wY8MEtsxZvN4Mzjntd70BSHgqkRNh05pCy8yVjjzynQ=;
-  b=GImkfraZiw5fvFQDdOTOV3n14RxYiAYvWsej6YoZbSZg8hQ7BMmFa4Hn
-   sEtw3THgMj9jTp/DIr+eycYxsi31FS3c8WnazJdk72EE/qwS9B3ZU6Hdq
-   B0nFnnqd+84gDHg4yycq1xwnLn6c25Uy1ikOAHVcHTGQxsz6PeIwe51yc
-   Rup15X7lrQbicr9RJHw4FnaN7tkvnLTX7D07nECMHCI9yyVz42k702lt6
-   /2ofwuApzipSXFqPaTD/8CrNYJ0CI7oKxRNCWft7N61MKEHcKgnluFtFg
-   BDAAi2X2uJ+c01oRBzlJsCokYiGZhOPFJkNTSY6yH/8MDZCjkhKeTtp1a
-   Q==;
-X-CSE-ConnectionGUID: H1G/B+1tQ3GK3nH3ORpeGw==
-X-CSE-MsgGUID: n0W3HmbGSUWJzDNTxNLGNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="27897984"
+  bh=US8Ynb10iF9xYswNwvpB7BFfvlXZRqfZaVbdnQchArQ=;
+  b=URq5BXoaEa40YvuTLPb41MsPhLnTTLpaIV1iNsKLkOwyJ5dKsKYFNTL1
+   7QWBWrk+rPvvkkVVP1/8ntZOrYbxQmCtoFjAh0hxuqtSvL4lt+Rup6DBh
+   cgLUclkfRmGVCJONBuBr+x3W5ZCbY605OPU6GqatIlDPFFFvhpm6ZCHuC
+   qCTM2cihYdq4+DCUeeEzJ2HT/EDduP1BC4O7vDIRw9RAosl6phlwMihzu
+   nSMN9TpFLehlIxb7Iu//4BGUUeSRDbHkBDacKyadI8rrE20Ich7ZOSm/p
+   +5TUtX35XFLgE/1q4Vn6NeNBusZRvgxDVr+tEqB1ApwWnmuCJdtZRblSX
+   g==;
+X-CSE-ConnectionGUID: /Jiap9FxTDu+bS91b1PP0Q==
+X-CSE-MsgGUID: enKpfRJ7RcyRztGyjeUOBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="35533043"
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="27897984"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 09:11:32 -0700
-X-CSE-ConnectionGUID: v1tYzAk2QeOvgFAQTdafWw==
-X-CSE-MsgGUID: Da7JnitvTCunJasxl+eu6g==
+   d="scan'208";a="35533043"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 10:02:35 -0700
+X-CSE-ConnectionGUID: FLcKVKEESdSxQg/aSf7D6A==
+X-CSE-MsgGUID: 0tp3ZtA7QuCfz06etye05w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="69724824"
+   d="scan'208";a="65389153"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Sep 2024 09:11:28 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Sep 2024 10:02:32 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slsbO-0008Ip-0c;
-	Wed, 04 Sep 2024 16:11:26 +0000
-Date: Thu, 5 Sep 2024 00:10:45 +0800
+	id 1sltOn-0008Mj-0n;
+	Wed, 04 Sep 2024 17:02:29 +0000
+Date: Thu, 5 Sep 2024 01:02:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
 	Boris Brezillon <bbrezillon@kernel.org>,
@@ -80,7 +80,7 @@ Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
 	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
 Subject: Re: [PATCH v5 1/4] drm/panthor: introduce job cycle and timestamp
  accounting
-Message-ID: <202409042317.CRCMb6bs-lkp@intel.com>
+Message-ID: <202409050054.oRwtzLQ4-lkp@intel.com>
 References: <20240903202541.430225-2-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -95,10 +95,10 @@ In-Reply-To: <20240903202541.430225-2-adrian.larumbe@collabora.com>
 
 Hi Adrián,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.11-rc6 next-20240904]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.11-rc6 next-20240904]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -107,156 +107,64 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-pantho
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
 patch link:    https://lore.kernel.org/r/20240903202541.430225-2-adrian.larumbe%40collabora.com
 patch subject: [PATCH v5 1/4] drm/panthor: introduce job cycle and timestamp accounting
-config: x86_64-buildonly-randconfig-002-20240904 (https://download.01.org/0day-ci/archive/20240904/202409042317.CRCMb6bs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240904/202409042317.CRCMb6bs-lkp@intel.com/reproduce)
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240905/202409050054.oRwtzLQ4-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409050054.oRwtzLQ4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409042317.CRCMb6bs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409050054.oRwtzLQ4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'idle' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'mem' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'ref' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gt' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'sync64' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'bo' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'offset' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'kmap' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'lock' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'id' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'last_fence' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slots' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slot_count' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'profiling_seqno' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:810: warning: Function parameter or struct member 'profiling_slot' not described in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:810: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:810: warning: Excess struct member 'size' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:810: warning: Excess struct member 'latest_flush' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:810: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:810: warning: Excess struct member 'end' description in 'panthor_job'
->> drivers/gpu/drm/panthor/panthor_sched.c:810: warning: Excess struct member 'profile_slot' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:1731: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:1731: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:2623: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
+   In file included from <command-line>:
+   In function 'copy_instrs_to_ringbuf',
+       inlined from 'queue_run_job' at drivers/gpu/drm/panthor/panthor_sched.c:3089:2:
+>> include/linux/compiler_types.h:510:45: error: call to '__compiletime_assert_435' declared with attribute error: min(ringbuf_size - start, size) signedness error
+     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:491:25: note: in definition of macro '__compiletime_assert'
+     491 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
+     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_sched.c:2882:19: note: in expansion of macro 'min'
+    2882 |         written = min(ringbuf_size - start, size);
+         |                   ^~~
 
 
-vim +494 drivers/gpu/drm/panthor/panthor_sched.c
+vim +/__compiletime_assert_435 +510 include/linux/compiler_types.h
 
-de85488138247d Boris Brezillon 2024-02-29  397  
-de85488138247d Boris Brezillon 2024-02-29  398  	/** @ringbuf: Command stream ring-buffer. */
-de85488138247d Boris Brezillon 2024-02-29  399  	struct panthor_kernel_bo *ringbuf;
-de85488138247d Boris Brezillon 2024-02-29  400  
-de85488138247d Boris Brezillon 2024-02-29  401  	/** @iface: Firmware interface. */
-de85488138247d Boris Brezillon 2024-02-29  402  	struct {
-de85488138247d Boris Brezillon 2024-02-29  403  		/** @mem: FW memory allocated for this interface. */
-de85488138247d Boris Brezillon 2024-02-29  404  		struct panthor_kernel_bo *mem;
-de85488138247d Boris Brezillon 2024-02-29  405  
-de85488138247d Boris Brezillon 2024-02-29  406  		/** @input: Input interface. */
-de85488138247d Boris Brezillon 2024-02-29  407  		struct panthor_fw_ringbuf_input_iface *input;
-de85488138247d Boris Brezillon 2024-02-29  408  
-de85488138247d Boris Brezillon 2024-02-29  409  		/** @output: Output interface. */
-de85488138247d Boris Brezillon 2024-02-29  410  		const struct panthor_fw_ringbuf_output_iface *output;
-de85488138247d Boris Brezillon 2024-02-29  411  
-de85488138247d Boris Brezillon 2024-02-29  412  		/** @input_fw_va: FW virtual address of the input interface buffer. */
-de85488138247d Boris Brezillon 2024-02-29  413  		u32 input_fw_va;
-de85488138247d Boris Brezillon 2024-02-29  414  
-de85488138247d Boris Brezillon 2024-02-29  415  		/** @output_fw_va: FW virtual address of the output interface buffer. */
-de85488138247d Boris Brezillon 2024-02-29  416  		u32 output_fw_va;
-de85488138247d Boris Brezillon 2024-02-29  417  	} iface;
-de85488138247d Boris Brezillon 2024-02-29  418  
-de85488138247d Boris Brezillon 2024-02-29  419  	/**
-de85488138247d Boris Brezillon 2024-02-29  420  	 * @syncwait: Stores information about the synchronization object this
-de85488138247d Boris Brezillon 2024-02-29  421  	 * queue is waiting on.
-de85488138247d Boris Brezillon 2024-02-29  422  	 */
-de85488138247d Boris Brezillon 2024-02-29  423  	struct {
-de85488138247d Boris Brezillon 2024-02-29  424  		/** @gpu_va: GPU address of the synchronization object. */
-de85488138247d Boris Brezillon 2024-02-29  425  		u64 gpu_va;
-de85488138247d Boris Brezillon 2024-02-29  426  
-de85488138247d Boris Brezillon 2024-02-29  427  		/** @ref: Reference value to compare against. */
-de85488138247d Boris Brezillon 2024-02-29  428  		u64 ref;
-de85488138247d Boris Brezillon 2024-02-29  429  
-de85488138247d Boris Brezillon 2024-02-29  430  		/** @gt: True if this is a greater-than test. */
-de85488138247d Boris Brezillon 2024-02-29  431  		bool gt;
-de85488138247d Boris Brezillon 2024-02-29  432  
-de85488138247d Boris Brezillon 2024-02-29  433  		/** @sync64: True if this is a 64-bit sync object. */
-de85488138247d Boris Brezillon 2024-02-29  434  		bool sync64;
-de85488138247d Boris Brezillon 2024-02-29  435  
-de85488138247d Boris Brezillon 2024-02-29  436  		/** @bo: Buffer object holding the synchronization object. */
-de85488138247d Boris Brezillon 2024-02-29  437  		struct drm_gem_object *obj;
-de85488138247d Boris Brezillon 2024-02-29  438  
-de85488138247d Boris Brezillon 2024-02-29  439  		/** @offset: Offset of the synchronization object inside @bo. */
-de85488138247d Boris Brezillon 2024-02-29  440  		u64 offset;
-de85488138247d Boris Brezillon 2024-02-29  441  
-de85488138247d Boris Brezillon 2024-02-29  442  		/**
-de85488138247d Boris Brezillon 2024-02-29  443  		 * @kmap: Kernel mapping of the buffer object holding the
-de85488138247d Boris Brezillon 2024-02-29  444  		 * synchronization object.
-de85488138247d Boris Brezillon 2024-02-29  445  		 */
-de85488138247d Boris Brezillon 2024-02-29  446  		void *kmap;
-de85488138247d Boris Brezillon 2024-02-29  447  	} syncwait;
-de85488138247d Boris Brezillon 2024-02-29  448  
-de85488138247d Boris Brezillon 2024-02-29  449  	/** @fence_ctx: Fence context fields. */
-de85488138247d Boris Brezillon 2024-02-29  450  	struct {
-de85488138247d Boris Brezillon 2024-02-29  451  		/** @lock: Used to protect access to all fences allocated by this context. */
-de85488138247d Boris Brezillon 2024-02-29  452  		spinlock_t lock;
-de85488138247d Boris Brezillon 2024-02-29  453  
-de85488138247d Boris Brezillon 2024-02-29  454  		/**
-de85488138247d Boris Brezillon 2024-02-29  455  		 * @id: Fence context ID.
-de85488138247d Boris Brezillon 2024-02-29  456  		 *
-de85488138247d Boris Brezillon 2024-02-29  457  		 * Allocated with dma_fence_context_alloc().
-de85488138247d Boris Brezillon 2024-02-29  458  		 */
-de85488138247d Boris Brezillon 2024-02-29  459  		u64 id;
-de85488138247d Boris Brezillon 2024-02-29  460  
-de85488138247d Boris Brezillon 2024-02-29  461  		/** @seqno: Sequence number of the last initialized fence. */
-de85488138247d Boris Brezillon 2024-02-29  462  		atomic64_t seqno;
-de85488138247d Boris Brezillon 2024-02-29  463  
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  464  		/**
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  465  		 * @last_fence: Fence of the last submitted job.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  466  		 *
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  467  		 * We return this fence when we get an empty command stream.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  468  		 * This way, we are guaranteed that all earlier jobs have completed
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  469  		 * when drm_sched_job::s_fence::finished without having to feed
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  470  		 * the CS ring buffer with a dummy job that only signals the fence.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  471  		 */
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  472  		struct dma_fence *last_fence;
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  473  
-de85488138247d Boris Brezillon 2024-02-29  474  		/**
-de85488138247d Boris Brezillon 2024-02-29  475  		 * @in_flight_jobs: List containing all in-flight jobs.
-de85488138247d Boris Brezillon 2024-02-29  476  		 *
-de85488138247d Boris Brezillon 2024-02-29  477  		 * Used to keep track and signal panthor_job::done_fence when the
-de85488138247d Boris Brezillon 2024-02-29  478  		 * synchronization object attached to the queue is signaled.
-de85488138247d Boris Brezillon 2024-02-29  479  		 */
-de85488138247d Boris Brezillon 2024-02-29  480  		struct list_head in_flight_jobs;
-de85488138247d Boris Brezillon 2024-02-29  481  	} fence_ctx;
-6f64890b41a576 Adrián Larumbe  2024-09-03  482  
-6f64890b41a576 Adrián Larumbe  2024-09-03  483  	/** @profiling_info: Job profiling data slots and access information. */
-6f64890b41a576 Adrián Larumbe  2024-09-03  484  	struct {
-6f64890b41a576 Adrián Larumbe  2024-09-03  485  		/** @slots: Kernel BO holding the slots. */
-6f64890b41a576 Adrián Larumbe  2024-09-03  486  		struct panthor_kernel_bo *slots;
-6f64890b41a576 Adrián Larumbe  2024-09-03  487  
-6f64890b41a576 Adrián Larumbe  2024-09-03  488  		/** @slot_count: Number of jobs ringbuffer can hold at once. */
-6f64890b41a576 Adrián Larumbe  2024-09-03  489  		u32 slot_count;
-6f64890b41a576 Adrián Larumbe  2024-09-03  490  
-6f64890b41a576 Adrián Larumbe  2024-09-03  491  		/** @profiling_seqno: Index of the next available profiling information slot. */
-6f64890b41a576 Adrián Larumbe  2024-09-03  492  		u32 profiling_seqno;
-6f64890b41a576 Adrián Larumbe  2024-09-03  493  	} profiling_info;
-de85488138247d Boris Brezillon 2024-02-29 @494  };
-de85488138247d Boris Brezillon 2024-02-29  495  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  496  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  497  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  498  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  499  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  500  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  501   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  502   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  503   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  504   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  505   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  506   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  507   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  509  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @510  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  511  
 
 -- 
 0-DAY CI Kernel Test Service
