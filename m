@@ -1,460 +1,321 @@
-Return-Path: <linux-media+bounces-17538-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17539-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116BD96B4D1
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 10:37:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1FE96B52E
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 10:42:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD39A282519
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 08:37:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 82F031C21852
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 08:42:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E96901CF2A8;
-	Wed,  4 Sep 2024 08:35:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 542201CC88D;
+	Wed,  4 Sep 2024 08:37:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uOhYhjha"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="blGSes8w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from SEVP216CU002.outbound.protection.outlook.com (mail-koreacentralazon11022102.outbound.protection.outlook.com [40.107.43.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE0F1CEEBA
-	for <linux-media@vger.kernel.org>; Wed,  4 Sep 2024 08:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725438926; cv=none; b=HZnoSon8mXu9uXGV9ovfk9yoe3iPceFJyWwF8dsIASuTAJPXJQo20meERMUTgmw0EU0AS1p35zAuBEN1jf8L/sQzTmhpSn80Y3l5Zh4AvIA7/Ryfeqg8lbsfTEWVbfZVtICVYnQ7CINaa/AZxW+4PvzOke1aq3V3Hnhn64DhVw4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725438926; c=relaxed/simple;
-	bh=g2UQhhC/1dqtHqGIZowkjqFRfi9Xn6qPEiNsKkQc9Jo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rxqpWcUUOCh++JkT9QiGQIrwGy68hsjx6MM5LEgY1NiZenuJsRMAgt7LNZeHSQwQaYnRlm6klWghMGmW85OB5f12MYf1NLjwFBNUzdmIrFfpbT8RaIUc9nhe14uh/MHocWAjSqCg4jjnKgsVzwzbI6XyLktadhCOpjiYpVUIa+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uOhYhjha; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 818C451B;
-	Wed,  4 Sep 2024 10:34:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725438849;
-	bh=g2UQhhC/1dqtHqGIZowkjqFRfi9Xn6qPEiNsKkQc9Jo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uOhYhjhadEB4oDP+r9g0lPzufN1ZyTJq2o4HbeD5I1wFD/7YmcnB6ZSQAirtD1TgP
-	 m0iSEy01S8haE1TlcdtATLQW+1dYnof7tpOJiI5Gixgl6RFA1R0iL7BKVyQlZMbfmt
-	 8crbtXGa40ad2I3UQk6sRB0SOfU/MsS3GpLA03kY=
-Date: Wed, 4 Sep 2024 10:35:18 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>, 
-	David Plowman <david.plowman@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] media: pisp-be: Split jobs creation and scheduling
-Message-ID: <y3neterrrtmlcvlxzojbynw2oydqtpzbsuzcq3pent2fmbu4we@pxfww6tlwiy5>
-References: <20240902112408.493201-1-jacopo.mondi@ideasonboard.com>
- <20240902112408.493201-4-jacopo.mondi@ideasonboard.com>
- <20240903121936.GC5053@pendragon.ideasonboard.com>
- <m7lhuuglaqaqmk6aaozexg6vdsemwihea5wkmdmfongfdreqi5@p54tkbtup2dc>
- <20240904075302.GD16183@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF511CC17F;
+	Wed,  4 Sep 2024 08:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.43.102
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725439021; cv=fail; b=WyAfMrANzhad3mS+6v//cAXsut0KNv8lv9cpdEhAnqsrd+SHUFbxkGActOJIZkLwfMmDj3p2WUvd5Tvba+QN227tiMcBvQd89oGnQWbUm66HJT2G7UXLKfhCMUWXqWjFYdttyVuAKobdzJ0GlPQOa51UMlwoP7Pu0FZj6HX++Ic=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725439021; c=relaxed/simple;
+	bh=mAVKiQd/XMvxWPSMfxWNjUqzTekr7zVxbSVQLX1ST1s=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=RaJ/jdgwaeM9mqxzYOz6Wqa5IqadMQytCbpnM2OpoBGFYAy5tzlspnMfuIRxQLZCU5ljSemwJrnOkzEfS5YzvPjbpEv7dlGwtTe92sshYdbkveWfsSf07ACwTqb+hbTD84EsJglF70qNrsslC1ez6ktV2U/D6TKoXVVqY0qNwPo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=blGSes8w; arc=fail smtp.client-ip=40.107.43.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UhMFOj5dqlnS4laBD1cHe48+bBy2wISPL5516Ea6ZU4sfwzsipof3nSwaChJAlgTCT7Oys1x1uvIj+E2aNQ/tWMhIEfNasDEBCZ1zSh4JQOBR87hjz7rimehtYI9jytQqlhIHue741Ttp06dUNdg0cEjT/Boh1UPpGSQ7MhTc/0Z+PUF4uqadzznNniAxUtMcmvMabnZXsLL16e1A1CXu7RSgUXkM6J62+ISI4UbMS5GfqDxEmxdr5MeWYgLfOiLB1EhcD375bahPU75g0dtIt2F3iYYt8/S/sxuSuOG4JoDscfvBp9tivt7RhLhpmERxbAZAuIEYoGz30XM+qQN0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mAVKiQd/XMvxWPSMfxWNjUqzTekr7zVxbSVQLX1ST1s=;
+ b=VqualfEKDN1r6X9IXgXZv6/sOE0eOvkA4p0Z6IwWneUwQ9v0Zb+UHlHIysXEsE12V0d76xYtrKQAwcxoMfi8w2nFhq5Yde1jzNejgpnjHkF0s5chh0JAXXtCbx9JIAHzjnQMUlyFNLGa2iVaFWzedjtuYYl5lIhfKPXGFLqGW59o2Y0VP08zkqRAn1SedZ8hojwqQlidVyjYdi6r05aMU8G7XlyXQIkJbXkia0KEDdd2efXs4nJL2fTcp7o19Pki+iA+RpEleXqRdqowHPS7msjStDEcLOL2StcSfTk2Lt8edSDnuQcivoCl3scNLIjD0blYskP3ZVEtt0dblr8ZyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mAVKiQd/XMvxWPSMfxWNjUqzTekr7zVxbSVQLX1ST1s=;
+ b=blGSes8w9qsxMEYXmLdagzdbmjJertWGZYDzD7GmqJn/6zT0SR18CKDW/OsPgYeitH1wBDBGT+/JSCQT4uxWr2VS+BQQXxOuprtZ5jtUhYXhtoD4rTYStB9cbztccFcoUXsB1OAJg5rm3B6BohPK+yTOzToyco1zaEAwLKEnzOU=
+Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15::5) by
+ SE2P216MB1506.KORP216.PROD.OUTLOOK.COM (2603:1096:101:2c::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7918.27; Wed, 4 Sep 2024 08:36:53 +0000
+Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ ([fe80::b711:5ab1:b5a4:d01b]) by SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ ([fe80::b711:5ab1:b5a4:d01b%3]) with mapi id 15.20.7918.024; Wed, 4 Sep 2024
+ 08:36:53 +0000
+From: jackson.lee <jackson.lee@chipsnmedia.com>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Nicolas Dufresne
+	<nicolas@ndufresne.ca>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Nas Chung
+	<nas.chung@chipsnmedia.com>, lafley.kim <lafley.kim@chipsnmedia.com>,
+	"Brnich, Brandon" <b-brnich@ti.com>
+Subject: RE: [RESEND PATCH v7 0/4] Add features to an existing driver
+Thread-Topic: [RESEND PATCH v7 0/4] Add features to an existing driver
+Thread-Index: AQHa7IZ0qXgTRigmw0ef9EjBO4XUGrIvlgrQgBdTlmCAAIQUAIAABFtw
+Date: Wed, 4 Sep 2024 08:36:53 +0000
+Message-ID:
+ <SE1P216MB1303D80A5154E1AC3EB5E744ED9C2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+References: <20240812070823.125-1-jackson.lee@chipsnmedia.com>
+ <SE1P216MB1303DB297A43A97CFACFD504ED8D2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+ <SE1P216MB13030F374CC079CAC0C98F4BED9C2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+ <20240904082102.dxutsm3apyke7dhd@basti-XPS-13-9310>
+In-Reply-To: <20240904082102.dxutsm3apyke7dhd@basti-XPS-13-9310>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SE1P216MB1303:EE_|SE2P216MB1506:EE_
+x-ms-office365-filtering-correlation-id: 6b4d00ec-5a4d-487e-3ae7-08dcccbcba68
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?Q01OVXltZjNYcFdZa3RPUVBGbGh0WHJMWk9lLzJRK2VDQ0lQLy9laTVsYWFz?=
+ =?utf-8?B?TVk2cm5GUmVoRU9peHkzY2RlSG1nRlYrKzNaUno4SS9jeDZPeEw5THlpZGNN?=
+ =?utf-8?B?WWEwQnpuM1JKWmVneDhIaDNWVDZJTUZ1bDJ5MnhJN2NFSFJTWi8vc25aZmow?=
+ =?utf-8?B?NXNreDE5bytRMmJUajI3aHJUd3ZEY0x3WGNoaXdBMzhRMWxLRjRqYlhBQUky?=
+ =?utf-8?B?Y01YdW5TMmhyakxSTjlPWEw2VjI2QVVPblpHdUFaZk56QmJ3K1B6aGhZSzRS?=
+ =?utf-8?B?NzBscmh0K0lsRTJUVVFyTkVFRGlZRno0UmFxZW9BYlNkMXhLMkZ2OUh4TmdV?=
+ =?utf-8?B?QjNjanNFSHVLZVl3eW80WExTbDVpOG5Yd2wvMmxrV3p4OHlyNUVWK1A1Nk5l?=
+ =?utf-8?B?a05zUVg5cnUxN25UaU80VVJSUURpTE45QlRZZHZOV2dVcWRURmUvS2kyOFNk?=
+ =?utf-8?B?bUg5SHc3UnlKbldNc2NpTXIxSGQ1RWRkQXp4blhkaCtVRmhHWTNZUWV4b0lD?=
+ =?utf-8?B?aXMrNTZWKzdmalhGUUZCVEpaOVpPWURaU1pLNU14bUdKYnFPeDZRL3pEYlZV?=
+ =?utf-8?B?eEJZZ0xuL0Rta0lTRzVZaDkwbXJiMTJnbmFuRGFsajBjM1BUa1VNUlYwRVRO?=
+ =?utf-8?B?OEhsN0dtQXNhSzBMZEU3QzlRanhQL3hoVjRBTTAvc0s3bEJyRUZFWGkzRkJt?=
+ =?utf-8?B?Q1lxR1IwajFwUWl6aFBydGQ0c2creWRubml1OTFtbFdKTGZCU0hCYWlwNEt0?=
+ =?utf-8?B?UTNiTkQrOEdtOE1XTnA2Sk5KQnZGUVdnWklzTFpDK3REcFVScWlaVmRFQ2k4?=
+ =?utf-8?B?ZGZMT3JYb1U0UVRFR09jVlpOTHFvMmpKTW9FZmRmVnpSV05vUi9HNFlhMkRj?=
+ =?utf-8?B?YlVvenlmaE9nekN4WTUwY21qQ1E3M3dqdDh5U0tCOEFaUWNuK3h5SEtzcFR0?=
+ =?utf-8?B?VkRMcTRkMWF5cm1NejkvSGZiamdUSVlmM3FIRHVNT0UyVTFuYW1jcFFmYmxG?=
+ =?utf-8?B?V1dWVTlIbXBIVVJGRFpyOVQ0ZDlzKy9QUWQwTUE2dy9icmQvOU03d0VpME9W?=
+ =?utf-8?B?anI2REtOeE8xSGtFZGdJTXNPb3VqcEpDcEdST2YwWSttTkxnREtlYUtsUTU2?=
+ =?utf-8?B?N2hwQWNRd1l4Z2dyRm03aXErQlB4MmJaS0ZOdXpBdVkxd043WGZwN2RUeldn?=
+ =?utf-8?B?cnhWbzl6MmF4blM1RXVTNE5hTTRxbENNRnhxVkNYdTBBUlA0VUl1SjY1dllP?=
+ =?utf-8?B?c1crdzlPS1pZQUpnTmRSYTZzYTgzN2IxbVNvTVkrYmZzOC82dUorWWNiWXlr?=
+ =?utf-8?B?R3BQSEhQTWdpVVN0azBhTjRZeFY3aVZjYWlvUjh4bnZiV1hxazZjYnVVKzl2?=
+ =?utf-8?B?c3Vkdm1nN2NxN0VGOW1Sdll0UU1mVjNtendsUVRZWDFSTXV4TW41QnNLYWMw?=
+ =?utf-8?B?TERsSzU0UTdYRkdpRnE4UW1NRytGcXVpZEc1dVJYeWUzWmVkU3BqRitKSWpy?=
+ =?utf-8?B?RFNnL1hNb0d4d2VQNmRoSXJRSWpiY2hDV2ZvejFncFdvQjFycXBGUFdCaElm?=
+ =?utf-8?B?cW5vbUhrZi9FL1NNRHAwYS9mMVBHRzJLb2Z3NTNIdWFhSHg3cnNyMVVGbm93?=
+ =?utf-8?B?QVJpc1JubUFtZXlJYUYybnQrZVFHZEtsVm0veVIvK2lLQi9tbENWVHpManhw?=
+ =?utf-8?B?b1FuWXdteHdzMFVwS1MwTWh0MmRQYldrVHo2WVhheW5LejN2My9pbnhaTEhn?=
+ =?utf-8?B?NkJXamlYYkVvU2NpNU5jdTY2VzBCS204TDFyYTBGQzNBK1VsSjc4SjJYcnQx?=
+ =?utf-8?Q?iwc3N3mOpnYt88He5zfiXu9mrJU2UYmLR/idI=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:ko;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB1303.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Z1YyUDNGUkJBTlU1OVNGaW1RYXFDQ1BEMnNlS2JISHBHTnMwaHNncHVxQmZP?=
+ =?utf-8?B?eWlZS3hzVnJzdi9tTGdLSysvK1ZldUk2bGRVSmRPQmFZeXozSkpsMUlxMFUx?=
+ =?utf-8?B?V0t5eFhqZkh3eXZNMUpRYWdBL2pkdlJwYjErYjFGeWdpUHJ0ekhqUThKdFRE?=
+ =?utf-8?B?bnJ4U1NHL1FKMkVMa252eW42d2M1S0FodStiSHJMcDNPVUQ3MUFiUDl0c1Jk?=
+ =?utf-8?B?LzRzYnpQbERieFdWMDE5cElaaVp0bEYvSjQwVHh1QTlBSmFPQXdvK2x1QlBS?=
+ =?utf-8?B?VWZtazYzQnJuMFhzQjZiblEwTUlzRTRJNmZSdkt4QTk4SFJiZ1dEU1lJWHVw?=
+ =?utf-8?B?T3M0ei90Y01hbHUvL2JuZExOcm5XQ0k4aUU4Q0thcXU1NHNJRitjL1VZNXVL?=
+ =?utf-8?B?UnUyaTgwVTQwTlFzanpGYlhsbThCUmx1RjVMdmNDdFpjbENGcHh6eWdBUDRa?=
+ =?utf-8?B?UmsxU3Z0R044THdaMzdLVmNxbm14VGZ5eGZPbXhPYVdQRTYwbVVhWlVZMTAx?=
+ =?utf-8?B?Vk1NendNWTI1UHVqUzB2MVdnNWtpeE53eEY5Z3ZPc2l6cVM5bGh3TUsvZzNP?=
+ =?utf-8?B?SWZrOEVKdWwwOHBMZElYTUNTamRHcGpUYzhISGVlODFxaHRZa1k2WHBnUW1E?=
+ =?utf-8?B?QnFMR0FOektyUTNyeGhrbTRlOFRsWlFCdUJseWVOdFhMWFRtT2N0bDR0Smtk?=
+ =?utf-8?B?Z2x2Y1UwYXlLd3ZJdEpiVjE3RHA3NEtIWnJqT2tRdkduQlUvVXBrd2pjdENp?=
+ =?utf-8?B?ajhEY3dOWGxLMklLRFFUelJ2R2g4YWtxZ3dnTmtSUFVJRnlIS0VSRFVackpS?=
+ =?utf-8?B?WXIzL2kyTFpOeUwzMGQ0YTdGNGJNdFNzVy80UmpoR3N6WGJlN3hRT1ltMWhj?=
+ =?utf-8?B?cUFQbCttc2k2VTVxOXdEZlp4dDBjdkNUQmo1WEhnSUNka1pSQWlvcCtDR2Jm?=
+ =?utf-8?B?Yzh5aG1QeURTdVVjencvYk5ORHFhVStZUHNOV3g1TldicnBROTVtY0NWZU9t?=
+ =?utf-8?B?RzA0R1FmOTc2ZWxIczhnUzZtL3BPTmw4c3R4WmphTlVIN1IzQ3F6aytMRXZw?=
+ =?utf-8?B?TlRFcmF4eWxHajFiUExYWmJuek5WVnhlYUs3NkxQSWFoMi9mNmdzb0wrN3pW?=
+ =?utf-8?B?TjRyTnBsanRld2QvWnhuV01YSTVOM0lTc0g1Tm5JTWtiSkRYTXRJaU5uSW5D?=
+ =?utf-8?B?OGEzdmxtcW5KQWRpT0RPY2NwZEYwNUJrc2d0d2FQZXptek9MSTgwbDFFM1RR?=
+ =?utf-8?B?OUJPLytVYmQ0dnorVDZYRVR3UmpXc0IwVE13clhxcXZvWkFLVnBrNnJEazM2?=
+ =?utf-8?B?cmJZNFpxVkZYQkI3MEFUSEpNRWVwUk1oTVZNekRPcjdMcUpnZEJXZzdwcEVq?=
+ =?utf-8?B?dW44UVhoVFl3STZva1h5QXlibVZsQzErWExUdFN2SHM4TE5USU1VM1QzeVVo?=
+ =?utf-8?B?ZHJSWlZ6NlgwV0huN0lqMjRUa21mQjU3UXh3b0Vrd3kvU2xKUWREeEhMdnFF?=
+ =?utf-8?B?ZUtQcUd4SHN1WGZtUVgxN1J6SEQ2Q3k0emlhRUw3QllSRU4yZDlGRmI1N3RK?=
+ =?utf-8?B?SGw0UUI2RVZqcGRhc3oyRm1YVUN4aVpBcktpVVJIeTREend3SjJRZlRPc0Uv?=
+ =?utf-8?B?SUhjenJjZVpZUmo5TElYU1NZc2JBTmN4SmU2cysxVVNhMk9MdU5IUlRmd2lq?=
+ =?utf-8?B?NExaQk5QU2dWc0c0WGhsZ1Q5UHY3WmxWM2czZmFYSDlEWjkxWEozSkNkVG4y?=
+ =?utf-8?B?RHM2WjBZc2xpdHowRDJZUXhQWlMrSmh6ZEtNcVArUGsrVlQ3NktzZ0xZNUNy?=
+ =?utf-8?B?QTBIVnpsSjNSZFVNdXdFbUx4NVJlQ0tsYW1QVHVqOEFxMXVXOE91QTFOcnNO?=
+ =?utf-8?B?WW03U0tTd2tBVWJITEIvL0NqVnNUUjRGKzQyTU5ZOUl5blF6cThBNTV5cm1a?=
+ =?utf-8?B?VEFTVU9sOW5lZXlpSkE1SHRJazFzZUpKbUFJZXFnaW8yYTZGK0x2R1RaemNm?=
+ =?utf-8?B?d1BZclNmNWthM2MySG9vUUtqZGo1dVpqbkYzMWltWnNSdEowTS9qZmZ1cmcx?=
+ =?utf-8?B?LzFiS0U4Q3FtT2pFVzc2Sm9ZWFJ2YU9tVjJjZldUejV5YlBuNWZFS1FaNEtT?=
+ =?utf-8?B?Z0daaUtkc0Q4MWQ2bnluMXFGUXFCOVBPR05ZUytjUHhnQTdGRXRKYXBDbE1v?=
+ =?utf-8?B?WlE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240904075302.GD16183@pendragon.ideasonboard.com>
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b4d00ec-5a4d-487e-3ae7-08dcccbcba68
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2024 08:36:53.2623
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2pn1o5z49/LnmnmylTfBCSdrH+Tja50Btf03OA+Whc1GtPltWuKSYA9FVySW+8pckjow98vJBFrla2CXbsJL+V+Xn++d5Y5lil0Tr5e/5TU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE2P216MB1506
 
-Hi Laurent
-
-On Wed, Sep 04, 2024 at 10:53:02AM GMT, Laurent Pinchart wrote:
-> On Wed, Sep 04, 2024 at 09:21:45AM +0200, Jacopo Mondi wrote:
-> > Hi Laurent
-> >
-> > On Tue, Sep 03, 2024 at 03:19:36PM GMT, Laurent Pinchart wrote:
-> > > Hi Jacopo,
-> > >
-> > > Thank you for the patch.
-> > >
-> > > I just noticed the subject line writes "pisp-be" while all other patches
-> > > in the series use "pisp_be".
-> > >
-> > > On Mon, Sep 02, 2024 at 01:24:05PM +0200, Jacopo Mondi wrote:
-> > > > Currently the 'pispbe_schedule()' function does two things:
-> > > >
-> > > > 1) Tries to assemble a job by inspecting all the video node queues
-> > > >    to make sure all the required buffers are available
-> > > > 2) Submit the job to the hardware
-> > > >
-> > > > The pispbe_schedule() function is called at:
-> > > >
-> > > > - video device start_streaming() time
-> > > > - video device qbuf() time
-> > > > - irq handler
-> > > >
-> > > > As assembling a job requires inspecting all queues, it is a rather
-> > > > time consuming operation which is better not run in IRQ context.
-> > > >
-> > > > To avoid the executing the time consuming job creation in interrupt
-> > > > context split the job creation and job scheduling in two distinct
-> > > > operations. When a well-formed job is created, append it to the
-> > > > newly introduced 'pispbe->job_queue' where it will be dequeued from
-> > > > by the scheduling routine.
-> > > >
-> > > > At start_streaming() and qbuf() time immediately try to schedule a job
-> > > > if one has been created as the irq handler routing is only called when
-> > > > a job has completed, and we can't solely rely on it for scheduling new
-> > > > jobs.
-> > > >
-> > > > As now the per-node 'ready_queue' buffer list is only accessed in vb2
-> > > > ops callbacks, protected by a mutex, it is not necessary to guard it
-> > > > with a dedicated spinlock so drop it.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > ---
-> > > >  .../platform/raspberrypi/pisp_be/pisp_be.c    | 134 ++++++++++--------
-> > > >  1 file changed, 73 insertions(+), 61 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> > > > index 41fd68b7757b..d614f53f0f68 100644
-> > > > --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> > > > +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> > > > @@ -161,8 +161,6 @@ struct pispbe_node {
-> > > >  	struct mutex node_lock;
-> > > >  	/* vb2_queue lock */
-> > > >  	struct mutex queue_lock;
-> > > > -	/* Protect pispbe_node->ready_queue and pispbe_buffer->ready_list */
-> > > > -	spinlock_t ready_lock;
-> > > >  	struct list_head ready_queue;
-> > > >  	struct vb2_queue queue;
-> > > >  	struct v4l2_format format;
-> > > > @@ -190,6 +188,8 @@ struct pispbe_hw_enables {
-> > > >
-> > > >  /* Records a job configuration and memory addresses. */
-> > > >  struct pispbe_job_descriptor {
-> > > > +	struct list_head queue;
-> > > > +	struct pispbe_buffer *buffers[PISPBE_NUM_NODES];
-> > > >  	dma_addr_t hw_dma_addrs[N_HW_ADDRESSES];
-> > > >  	struct pisp_be_tiles_config *config;
-> > > >  	struct pispbe_hw_enables hw_enables;
-> > > > @@ -215,8 +215,10 @@ struct pispbe_dev {
-> > > >  	unsigned int sequence;
-> > > >  	u32 streaming_map;
-> > > >  	struct pispbe_job queued_job, running_job;
-> > > > -	spinlock_t hw_lock; /* protects "hw_busy" flag and streaming_map */
-> > > > +	/* protects "hw_busy" flag, streaming_map and job_queue */
-> > > > +	spinlock_t hw_lock;
-> > > >  	bool hw_busy; /* non-zero if a job is queued or is being started */
-> > > > +	struct list_head job_queue;
-> > > >  	int irq;
-> > > >  	u32 hw_version;
-> > > >  	u8 done, started;
-> > > > @@ -440,41 +442,47 @@ static void pispbe_xlate_addrs(struct pispbe_dev *pispbe,
-> > > >   * For Output0, Output1, Tdn and Stitch, a buffer only needs to be
-> > > >   * available if the blocks are enabled in the config.
-> > > >   *
-> > > > - * Needs to be called with hw_lock held.
-> > > > + * If all the buffers required to form a job are available, append the
-> > > > + * job descriptor to the job queue to be later queued to the HW.
-> > > >   *
-> > > >   * Returns 0 if a job has been successfully prepared, < 0 otherwise.
-> > > >   */
-> > > > -static int pispbe_prepare_job(struct pispbe_dev *pispbe,
-> > > > -			      struct pispbe_job_descriptor *job)
-> > > > +static int pispbe_prepare_job(struct pispbe_dev *pispbe)
-> > > >  {
-> > > >  	struct pispbe_buffer *buf[PISPBE_NUM_NODES] = {};
-> > > > +	struct pispbe_job_descriptor *job;
-> > > > +	unsigned int streaming_map;
-> > > >  	unsigned int config_index;
-> > > >  	struct pispbe_node *node;
-> > > > -	unsigned long flags;
-> > > >
-> > > > -	lockdep_assert_held(&pispbe->hw_lock);
-> > > > +	scoped_guard(spinlock, &pispbe->hw_lock) {
-> > >
-> > > I think I've mis-communicated the locking requirements. This spinlock is
-> > > taken in both non-IRQ contexts (here) and in mixed IRQ and non-IRQ
-> > > contexts (pispbe_schedule(), called from both IRQ context in
-> > > pispbe_isr() and non-IRQ context in pispbe_node_buffer_queue() and
-> > > pispbe_node_start_streaming()).
-> > >
-> > > This means that the non-IRQ contexts should use spinlock_irq(), and the
-> > > mixed contexts should use spinlock_irqsave().
-> > >
-> >
-> > Yeah sorry, I admit I hadn't put much attention to this
-> >
-> > > > +		static const u32 mask = BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE);
-> > > >
-> > > > -	memset(job, 0, sizeof(struct pispbe_job_descriptor));
-> > > > +		if ((pispbe->streaming_map & mask) != mask)
-> > > > +			return -ENODEV;
-> > > >
-> > > > -	if (((BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE)) &
-> > > > -		pispbe->streaming_map) !=
-> > > > -			(BIT(CONFIG_NODE) | BIT(MAIN_INPUT_NODE)))
-> > > > -		return -ENODEV;
-> > > > +		/*
-> > > > +		 * Take a copy of streaming_map: nodes activated after this
-> > > > +		 * point are ignored when preparing this job.
-> > > > +		 */
-> > > > +		streaming_map = pispbe->streaming_map;
-> > > > +	}
-> > > > +
-> > > > +	job = kzalloc(sizeof(*job), GFP_KERNEL);
-> > > > +	if (!job)
-> > > > +		return -ENOMEM;
-> > > >
-> > > >  	node = &pispbe->node[CONFIG_NODE];
-> > > > -	spin_lock_irqsave(&node->ready_lock, flags);
-> > > >  	buf[CONFIG_NODE] = list_first_entry_or_null(&node->ready_queue,
-> > > >  						    struct pispbe_buffer,
-> > > >  						    ready_list);
-> > > > -	if (buf[CONFIG_NODE]) {
-> > > > -		list_del(&buf[CONFIG_NODE]->ready_list);
-> > > > -		pispbe->queued_job.buf[CONFIG_NODE] = buf[CONFIG_NODE];
-> > > > +	if (!buf[CONFIG_NODE]) {
-> > > > +		kfree(job);
-> > > > +		return -ENODEV;
-> > > >  	}
-> > > > -	spin_unlock_irqrestore(&node->ready_lock, flags);
-> > > >
-> > > > -	/* Exit early if no config buffer has been queued. */
-> > > > -	if (!buf[CONFIG_NODE])
-> > > > -		return -ENODEV;
-> > > > +	list_del(&buf[CONFIG_NODE]->ready_list);
-> > > > +	job->buffers[CONFIG_NODE] = buf[CONFIG_NODE];
-> > > >
-> > > >  	config_index = buf[CONFIG_NODE]->vb.vb2_buf.index;
-> > > >  	job->config = &pispbe->config[config_index];
-> > > > @@ -495,7 +503,7 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
-> > > >  			continue;
-> > > >
-> > > >  		buf[i] = NULL;
-> > > > -		if (!(pispbe->streaming_map & BIT(i)))
-> > > > +		if (!(streaming_map & BIT(i)))
-> > > >  			continue;
-> > > >
-> > > >  		if ((!(rgb_en & PISP_BE_RGB_ENABLE_OUTPUT0) &&
-> > > > @@ -522,25 +530,25 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
-> > > >  		node = &pispbe->node[i];
-> > > >
-> > > >  		/* Pull a buffer from each V4L2 queue to form the queued job */
-> > > > -		spin_lock_irqsave(&node->ready_lock, flags);
-> > > >  		buf[i] = list_first_entry_or_null(&node->ready_queue,
-> > > >  						  struct pispbe_buffer,
-> > > >  						  ready_list);
-> > > >  		if (buf[i]) {
-> > > >  			list_del(&buf[i]->ready_list);
-> > > > -			pispbe->queued_job.buf[i] = buf[i];
-> > > > +			job->buffers[i] = buf[i];
-> > > >  		}
-> > > > -		spin_unlock_irqrestore(&node->ready_lock, flags);
-> > > >
-> > > >  		if (!buf[i] && !ignore_buffers)
-> > > >  			goto err_return_buffers;
-> > > >  	}
-> > > >
-> > > > -	pispbe->queued_job.valid = true;
-> > > > -
-> > > >  	/* Convert buffers to DMA addresses for the hardware */
-> > > >  	pispbe_xlate_addrs(pispbe, job, buf);
-> > > >
-> > > > +	spin_lock(&pispbe->hw_lock);
-> > > > +	list_add_tail(&job->queue, &pispbe->job_queue);
-> > > > +	spin_unlock(&pispbe->hw_lock);
-> > > > +
-> > > >  	return 0;
-> > > >
-> > > >  err_return_buffers:
-> > > > @@ -551,33 +559,39 @@ static int pispbe_prepare_job(struct pispbe_dev *pispbe,
-> > > >  			continue;
-> > > >
-> > > >  		/* Return the buffer to the ready_list queue */
-> > > > -		spin_lock_irqsave(&n->ready_lock, flags);
-> > > >  		list_add(&buf[i]->ready_list, &n->ready_queue);
-> > > > -		spin_unlock_irqrestore(&n->ready_lock, flags);
-> > > >  	}
-> > > >
-> > > > -	memset(&pispbe->queued_job, 0, sizeof(pispbe->queued_job));
-> > > > +	kfree(job);
-> > > >
-> > > >  	return -ENODEV;
-> > > >  }
-> > > >
-> > > >  static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
-> > > >  {
-> > > > -	struct pispbe_job_descriptor job;
-> > > > -	unsigned long flags;
-> > > > -	int ret;
-> > > > +	struct pispbe_job_descriptor *job;
-> > > >
-> > > > -	spin_lock_irqsave(&pispbe->hw_lock, flags);
-> > > > +	scoped_guard(spinlock, &pispbe->hw_lock) {
-> > > > +		if (clear_hw_busy)
-> > > > +			pispbe->hw_busy = false;
-> > > > +
-> > > > +		if (pispbe->hw_busy)
-> > > > +			return;
-> > > >
-> > > > -	if (clear_hw_busy)
-> > > > -		pispbe->hw_busy = false;
-> > > > +		job = list_first_entry_or_null(&pispbe->job_queue,
-> > > > +					       struct pispbe_job_descriptor,
-> > > > +					       queue);
-> > > > +		if (!job)
-> > > > +			return;
-> > > >
-> > > > -	if (pispbe->hw_busy)
-> > > > -		goto unlock_and_return;
-> > > > +		list_del(&job->queue);
-> > > >
-> > > > -	ret = pispbe_prepare_job(pispbe, &job);
-> > > > -	if (ret)
-> > > > -		goto unlock_and_return;
-> > > > +		for (unsigned int i = 0; i < PISPBE_NUM_NODES; i++)
-> > > > +			pispbe->queued_job.buf[i] = job->buffers[i];
-> > > > +		 pispbe->queued_job.valid = true;
-> > > > +
-> > > > +		pispbe->hw_busy = true;
-> > > > +	}
-> > > >
-> > > >  	/*
-> > > >  	 * We can kick the job off without the hw_lock, as this can
-> > > > @@ -585,16 +599,8 @@ static void pispbe_schedule(struct pispbe_dev *pispbe, bool clear_hw_busy)
-> > > >  	 * only when the following job has been queued and an interrupt
-> > > >  	 * is rised.
-> > > >  	 */
-> > > > -	pispbe->hw_busy = true;
-> > > > -	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > > > -
-> > > > -	pispbe_queue_job(pispbe, &job);
-> > > > -
-> > > > -	return;
-> > > > -
-> > > > -unlock_and_return:
-> > > > -	/* No job has been queued, just release the lock and return. */
-> > > > -	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > > > +	pispbe_queue_job(pispbe, job);
-> > > > +	kfree(job);
-> > > >  }
-> > > >
-> > > >  static void pispbe_isr_jobdone(struct pispbe_dev *pispbe,
-> > > > @@ -846,18 +852,16 @@ static void pispbe_node_buffer_queue(struct vb2_buffer *buf)
-> > > >  		container_of(vbuf, struct pispbe_buffer, vb);
-> > > >  	struct pispbe_node *node = vb2_get_drv_priv(buf->vb2_queue);
-> > > >  	struct pispbe_dev *pispbe = node->pispbe;
-> > > > -	unsigned long flags;
-> > > >
-> > > >  	dev_dbg(pispbe->dev, "%s: for node %s\n", __func__, NODE_NAME(node));
-> > > > -	spin_lock_irqsave(&node->ready_lock, flags);
-> > > >  	list_add_tail(&buffer->ready_list, &node->ready_queue);
-> > > > -	spin_unlock_irqrestore(&node->ready_lock, flags);
-> > > >
-> > > >  	/*
-> > > >  	 * Every time we add a buffer, check if there's now some work for the hw
-> > > >  	 * to do.
-> > > >  	 */
-> > > > -	pispbe_schedule(pispbe, false);
-> > > > +	if (!pispbe_prepare_job(pispbe))
-> > > > +		pispbe_schedule(pispbe, false);
-> > > >  }
-> > > >
-> > > >  static int pispbe_node_start_streaming(struct vb2_queue *q, unsigned int count)
-> > > > @@ -883,7 +887,8 @@ static int pispbe_node_start_streaming(struct vb2_queue *q, unsigned int count)
-> > > >  		node->pispbe->streaming_map);
-> > > >
-> > > >  	/* Maybe we're ready to run. */
-> > > > -	pispbe_schedule(pispbe, false);
-> > > > +	if (!pispbe_prepare_job(pispbe))
-> > > > +		pispbe_schedule(pispbe, false);
-> > > >
-> > > >  	return 0;
-> > > >
-> > > > @@ -917,9 +922,6 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
-> > > >  	dev_dbg(pispbe->dev, "%s: for node %s\n", __func__, NODE_NAME(node));
-> > > >  	spin_lock_irqsave(&pispbe->hw_lock, flags);
-> > >
-> > > Is the lock needed here ? And in the err_return_buffers error path in
-> > > pispbe_node_start_streaming() ? Both seem to touch the ready_queue only,
-> > > which isn't protected by the hw_lock.
-> >
-> > No the lock is not needed, and as this is not irq context I should
-> > switch both stop_streaming() and start_streaming() to use
-> > spink_lock_irq()
-> >
-> > > >  	do {
-> > > > -		unsigned long flags1;
-> > > > -
-> > > > -		spin_lock_irqsave(&node->ready_lock, flags1);
-> > > >  		buf = list_first_entry_or_null(&node->ready_queue,
-> > > >  					       struct pispbe_buffer,
-> > > >  					       ready_list);
-> > > > @@ -927,7 +929,6 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
-> > > >  			list_del(&buf->ready_list);
-> > > >  			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> > > >  		}
-> > > > -		spin_unlock_irqrestore(&node->ready_lock, flags1);
-> > > >  	} while (buf);
-> > > >  	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > > >
-> > > > @@ -935,6 +936,16 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
-> > > >
-> > > >  	spin_lock_irqsave(&pispbe->hw_lock, flags);
-> > > >  	pispbe->streaming_map &= ~BIT(node->id);
-> > > > +
-> > > > +	/* Release all jobs once all nodes have stopped streaming. */
-> > > > +	if (pispbe->streaming_map == 0) {
-> > > > +		struct pispbe_job_descriptor *job, *temp;
-> > > > +
-> > > > +		list_for_each_entry_safe(job, temp, &pispbe->job_queue, queue) {
-> > > > +			list_del(&job->queue);
-> > > > +			kfree(job);
-> > > > +		}
-> > >
-> > > I think this can be done outside of the lock.
-> > >
-> >
-> > Does it ? The job queue is accessed by the irq handler. As we
-> > stop the interface -after- having cleared the job queue here, I would
-> > keep this sequence inside the lock to be honest.
->
-> Ah yes you right. I'm not sure what I missed.
->
-> What you can do here, though, is to splice the job_queue to a local list
-> with the lock, and then iterate over the local list and free the jobs
-> without the lock.
->
-
-Do you expect this to be such a critical path that this is reequired ?
-True, the lock is contended with the irq handler, but I don't expect
-the job queue to be that long. Do you ?
-
-> > > > +	}
-> > > >  	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > > >
-> > > >  	pm_runtime_mark_last_busy(pispbe->dev);
-> > > > @@ -1393,7 +1404,6 @@ static int pispbe_init_node(struct pispbe_dev *pispbe, unsigned int id)
-> > > >  	mutex_init(&node->node_lock);
-> > > >  	mutex_init(&node->queue_lock);
-> > > >  	INIT_LIST_HEAD(&node->ready_queue);
-> > > > -	spin_lock_init(&node->ready_lock);
-> > > >
-> > > >  	node->format.type = node->buf_type;
-> > > >  	pispbe_node_def_fmt(node);
-> > > > @@ -1677,6 +1687,8 @@ static int pispbe_probe(struct platform_device *pdev)
-> > > >  	if (!pispbe)
-> > > >  		return -ENOMEM;
-> > > >
-> > > > +	INIT_LIST_HEAD(&pispbe->job_queue);
-> > > > +
-> > > >  	dev_set_drvdata(&pdev->dev, pispbe);
-> > > >  	pispbe->dev = &pdev->dev;
-> > > >  	platform_set_drvdata(pdev, pispbe);
->
-> --
-> Regards,
->
-> Laurent Pinchart
+VGhhbmtzIFNlYmFzdGlhbi4NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9t
+OiBTZWJhc3RpYW4gRnJpY2tlIDxzZWJhc3RpYW4uZnJpY2tlQGNvbGxhYm9yYS5jb20+DQo+IFNl
+bnQ6IFdlZG5lc2RheSwgU2VwdGVtYmVyIDQsIDIwMjQgNToyMSBQTQ0KPiBUbzogamFja3Nvbi5s
+ZWUgPGphY2tzb24ubGVlQGNoaXBzbm1lZGlhLmNvbT4NCj4gQ2M6IE1hdXJvIENhcnZhbGhvIENo
+ZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPjsgTmljb2xhcyBEdWZyZXNuZQ0KPiA8bmljb2xhc0Bu
+ZHVmcmVzbmUuY2E+OyBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LQ0KPiBrZXJu
+ZWxAdmdlci5rZXJuZWwub3JnOyBIYW5zIFZlcmt1aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD47IE5h
+cyBDaHVuZw0KPiA8bmFzLmNodW5nQGNoaXBzbm1lZGlhLmNvbT47IGxhZmxleS5raW0gPGxhZmxl
+eS5raW1AY2hpcHNubWVkaWEuY29tPjsNCj4gQnJuaWNoLCBCcmFuZG9uIDxiLWJybmljaEB0aS5j
+b20+DQo+IFN1YmplY3Q6IFJlOiBbUkVTRU5EIFBBVENIIHY3IDAvNF0gQWRkIGZlYXR1cmVzIHRv
+IGFuIGV4aXN0aW5nIGRyaXZlcg0KPiANCj4gSGV5IEphY2tzb24sDQo+IA0KPiBPbiAwNC4wOS4y
+MDI0IDAwOjMwLCBqYWNrc29uLmxlZSB3cm90ZToNCj4gPg0KPiA+SGkgbmljb2xhcyBhbmQgU2Vi
+YXN0aWFuDQo+ID4NCj4gPkkgc2VudCB2NyBwYXRjaCBmb3IgdXBzdHJlYW1pbmcgLCBjYW4geW91
+IHJldmlldyB0aGUgZm9sbG93aW5nID8NCj4gDQo+IFllcyB3ZSBoYXZlIHRoYXQgb24gb3VyIGxp
+c3QgYW5kIGxvb2sgaW50byB0aGF0IGFzIHNvb24gYXMgcG9zc2libGUuDQo+IA0KPiA+DQo+ID5o
+dHRwczovL3BhdGNod29yay5saW51eHR2Lm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhL2NvdmVyLzIw
+MjQwODEyMDcwODIzLg0KPiA+MTI1LTEtamFja3Nvbi5sZWVAY2hpcHNubWVkaWEuY29tLw0KPiA+
+DQo+ID50aGFua3MNCj4gDQo+IFJlZ2FyZHMsDQo+IFNlYmFzdGlhbg0KPiANCj4gPg0KPiA+DQo+
+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206IGphY2tzb24ubGVlDQo+
+ID4+IFNlbnQ6IE1vbmRheSwgQXVndXN0IDEyLCAyMDI0IDQ6MDkgUE0NCj4gPj4gVG86IG1jaGVo
+YWJAa2VybmVsLm9yZzsgbmljb2xhc0BuZHVmcmVzbmUuY2E7DQo+ID4+IHNlYmFzdGlhbi5mcmlj
+a2VAY29sbGFib3JhLmNvbQ0KPiA+PiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBs
+aW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOw0KPiA+PiBodmVya3VpbEB4czRhbGwubmw7IE5h
+cyBDaHVuZyA8bmFzLmNodW5nQGNoaXBzbm1lZGlhLmNvbT47IGxhZmxleS5raW0NCj4gPj4gPGxh
+ZmxleS5raW1AY2hpcHNubWVkaWEuY29tPjsgYi1icm5pY2hAdGkuY29tOyBqYWNrc29uLmxlZQ0K
+PiA+PiA8amFja3Nvbi5sZWVAY2hpcHNubWVkaWEuY29tPg0KPiA+PiBTdWJqZWN0OiBbUkVTRU5E
+IFBBVENIIHY3IDAvNF0gQWRkIGZlYXR1cmVzIHRvIGFuIGV4aXN0aW5nIGRyaXZlcg0KPiA+Pg0K
+PiA+PiBUaGUgd2F2ZTUgY29kZWMgZHJpdmVyIGlzIGEgc3RhdGVmdWwgZW5jb2Rlci9kZWNvZGVy
+Lg0KPiA+PiBUaGUgZm9sbG93aW5nIHBhdGNoZXMgaXMgZm9yIHN1cHBvcnRpbmcgeXV2NDIyIGlu
+cHV5IGZvcm1hdCwNCj4gPj4gc3VwcG9ydGluZyBydW50aW1lIHN1c3BlbmQvcmVzdW1lIGZlYXR1
+cmUgYW5kIGV4dHJhIHRoaW5ncy4NCj4gPj4NCj4gPj4gdjRsMi1jb21wbGlhbmNlIHJlc3VsdHM6
+DQo+ID4+ID09PT09PT09PT09PT09PT09PT09PT09PQ0KPiA+Pg0KPiA+PiB2NGwyLWNvbXBsaWFu
+Y2UgMS4yNC4xLCA2NCBiaXRzLCA2NC1iaXQgdGltZV90DQo+ID4+DQo+ID4+IEJ1ZmZlciBpb2N0
+bHM6DQo+ID4+ICAgICAgICB3YXJuOiB2NGwyLXRlc3QtYnVmZmVycy5jcHAoNjkzKTogVklESU9D
+X0NSRUFURV9CVUZTIG5vdCBzdXBwb3J0ZWQNCj4gPj4gICAgICAgIHdhcm46IHY0bDItdGVzdC1i
+dWZmZXJzLmNwcCg2OTMpOiBWSURJT0NfQ1JFQVRFX0JVRlMgbm90IHN1cHBvcnRlZA0KPiA+PiAg
+ICAgdGVzdCBWSURJT0NfUkVRQlVGUy9DUkVBVEVfQlVGUy9RVUVSWUJVRjogT0sNCj4gPj4gICAg
+IHRlc3QgVklESU9DX0VYUEJVRjogT0sNCj4gPj4gICAgIHRlc3QgUmVxdWVzdHM6IE9LIChOb3Qg
+U3VwcG9ydGVkKQ0KPiA+Pg0KPiA+PiBUb3RhbCBmb3Igd2F2ZTUtZGVjIGRldmljZSAvZGV2L3Zp
+ZGVvMDogNDUsIFN1Y2NlZWRlZDogNDUsIEZhaWxlZDogMCwNCj4gPj4gV2FybmluZ3M6IDIgVG90
+YWwgZm9yIHdhdmU1LWVuYyBkZXZpY2UgL2Rldi92aWRlbzE6IDQ1LCBTdWNjZWVkZWQ6IDQ1LA0K
+PiBGYWlsZWQ6DQo+ID4+IDAsIFdhcm5pbmdzOiAwDQo+ID4+DQo+ID4+IEZsdXN0ZXIgdGVzdCBy
+ZXN1bHRzOg0KPiA+PiA9PT09PT09PT09PT09PT09PT09PT0NCj4gPj4NCj4gPj4gUnVubmluZyB0
+ZXN0IHN1aXRlIEpDVC1WQy1IRVZDX1YxIHdpdGggZGVjb2Rlcg0KPiA+PiBHU3RyZWFtZXItSC4y
+NjUtVjRMMi1Hc3QxLjAgVXNpbmcgMSBwYXJhbGxlbCBqb2IocykNCj4gPj4gUmFuIDEzMi8xNDcg
+dGVzdHMgc3VjY2Vzc2Z1bGx5ICAgICAgICAgICAgICAgaW4gODkuODcwIHNlY3MNCj4gPj4NCj4g
+Pj4gKDEgdGVzdCBmYWlscyBiZWNhdXNlIG9mIG5vdCBzdXBwb3J0aW5nIHRvIHBhcnNlIG11bHRp
+IGZyYW1lcywgMSB0ZXN0DQo+ID4+IGZhaWxzIGJlY2F1c2Ugb2YgYSBtaXNzaW5nIGZyYW1lIGFu
+ZCBzbGlnaHQgY29ycnVwdGlvbiwNCj4gPj4gIDIgdGVzdHMgZmFpbCBiZWNhdXNlIG9mIHNpemVz
+IHdoaWNoIGFyZSBpbmNvbXBhdGlibGUgd2l0aCB0aGUgSVAsIDExDQo+ID4+IHRlc3RzIGZhaWwg
+YmVjYXVzZSBvZiB1bnN1cHBvcnRlZCAxMCBiaXQgZm9ybWF0KQ0KPiA+Pg0KPiA+PiBSdW5uaW5n
+IHRlc3Qgc3VpdGUgSlZULUFWQ19WMSB3aXRoIGRlY29kZXINCj4gPj4gR1N0cmVhbWVyLUguMjY0
+LVY0TDItR3N0MS4wIFVzaW5nDQo+ID4+IDEgcGFyYWxsZWwgam9iKHMpDQo+ID4+IFJhbiA3Ny8x
+MzUgdGVzdHMgc3VjY2Vzc2Z1bGx5ICAgICAgICAgICAgICAgaW4gMzAuMzY0IHNlY3MNCj4gPj4N
+Cj4gPj4gKDU4IGZhaWwgYmVjYXVzZSB0aGUgaGFyZHdhcmUgaXMgdW5hYmxlIHRvIGRlY29kZSAg
+TUJBRkYgLyBGTU8gLw0KPiA+PiBGaWVsZCAvIEV4dGVuZGVkIHByb2ZpbGUgc3RyZWFtcy4pDQo+
+ID4+DQo+ID4+IENoYW5nZSBzaW5jZSB2NjoNCj4gPj4gPT09PT09PT09PT09PT09PQ0KPiA+PiAq
+IEZvciBbUEFUQ0ggdjQgMi80XSBtZWRpYTogY2hpcHMtbWVkaWE6IHdhdmU1OiBTdXBwb3J0IHJ1
+bnRpbWUNCj4gPj4gc3VzcGVuZC9yZXN1bWUNCj4gPj4gIC0gQ2hhbmdlIGF1dG9zdXNwZW5kIGRl
+bGF5IHRvIDEwMG1zDQo+ID4+ICAtIEFkZCB0byBlbmFibGUvZGlzYWJsZSBocnRpbWVyIGluIHRo
+ZSBydW50aW1lIHN1c3BlbmQvcmVzdW1lDQo+ID4+IGZ1bmN0aW9uIGZvciBodyBub3QgdXNpbmcg
+aXJxDQo+ID4+DQo+ID4+IENoYW5nZSBzaW5jZSB2NToNCj4gPj4gPT09PT09PT09PT09PT09PQ0K
+PiA+PiAqIEZvciBbUEFUQ0ggdjQgMy80XSBtZWRpYTogY2hpcHMtbWVkaWE6IHdhdmU1OiBVc2Ug
+aGVscGVycyB0bw0KPiA+PiBjYWxjdWxhdGUgYnl0ZXNwZXJsaW5lIGFuZCBzaXplaW1hZ2UuDQo+
+ID4+ICAtIEZpeCB2NGwyLWNvbXBsaWFuY2UgZXJyb3IgZm9yIHRoZSB2aWRpb2NfZW51bV9mcmFt
+ZXNpemVzDQo+ID4+DQo+ID4+ICogRm9yIFtQQVRDSCB2NCAxLzRdIG1lZGlhOiBjaGlwcy1tZWRp
+YTogd2F2ZTU6IFN1cHBvcnQgU1BTL1BQUw0KPiA+PiBnZW5lcmF0aW9uIGZvciBlYWNoIElEUg0K
+PiA+PiAgLSBSZW1vdmUgd2FybmluZyBtZXNzYWdlcyBmb3IgdGhlIGNoZWNrcGF0Y2gucGwgc2Ny
+aXB0DQo+ID4+DQo+ID4+IENoYW5nZSBzaW5jZSB2NDoNCj4gPj4gPT09PT09PT09PT09PT09PQ0K
+PiA+PiAqIEZvciBbUEFUQ0ggdjQgMi80XSBtZWRpYTogY2hpcHMtbWVkaWE6IHdhdmU1OiBTdXBw
+b3J0IHJ1bnRpbWUNCj4gPj4gc3VzcGVuZC9yZXN1bWUNCj4gPj4gIC0gRml4IHdhcm5pbmcgbWVz
+c2FnZQ0KPiA+Pg0KPiA+PiAqIEZvciBbUEFUQ0ggdjQgMy80XSBtZWRpYTogY2hpcHMtbWVkaWE6
+IHdhdmU1OiBVc2UgaGVscGVycyB0bw0KPiA+PiBjYWxjdWxhdGUgYnl0ZXNwZXJsaW5lIGFuZCBz
+aXplaW1hZ2UuDQo+ID4+ICAtIEZpeCB3YXJuaW5nIG1lc3NhZ2UNCj4gPj4gIC0gYWRkIFJldmll
+d2VkLUJ5IHRhZw0KPiA+Pg0KPiA+PiAqIEZvciBbUEFUQ0ggdjQgNC80XSBtZWRpYTogY2hpcHMt
+bWVkaWE6IHdhdmU1OiBTdXBwb3J0IFlVVjQyMiByYXcNCj4gPj4gcGl4ZWwtIGZvcm1hdHMgb24g
+dGhlIGVuY29kZXINCj4gPj4gIC0gYWRkIFJldmlld2VkLUJ5IHRhZw0KPiA+Pg0KPiA+PiBDaGFu
+Z2Ugc2luY2UgdjM6DQo+ID4+ID09PT09PT09PT09PT09PT09DQo+ID4+DQo+ID4+ICogRm9yIFtQ
+QVRDSCB2NCAxLzRdIG1lZGlhOiBjaGlwcy1tZWRpYTogd2F2ZTU6IFN1cHBvcnQgU1BTL1BQUw0K
+PiA+PiBnZW5lcmF0aW9uIGZvciBlYWNoIElEUg0KPiA+PiAgLSBhZGQgUmV2aWV3ZWQtQnkgdGFn
+DQo+ID4+DQo+ID4+ICogRm9yIFtQQVRDSCB2NCAyLzRdIG1lZGlhOiBjaGlwcy1tZWRpYTogd2F2
+ZTU6IFN1cHBvcnQgcnVudGltZQ0KPiA+PiBzdXNwZW5kL3Jlc3VtZQ0KPiA+PiAgLSBhZGQgUmV2
+aWV3ZWQtQnkgdGFnDQo+ID4+DQo+ID4+ICogRm9yIFtQQVRDSCB2NCAzLzRdIG1lZGlhOiBjaGlw
+cy1tZWRpYTogd2F2ZTU6IFVzZSBoZWxwZXJzIHRvDQo+ID4+IGNhbGN1bGF0ZSBieXRlc3Blcmxp
+bmUgYW5kIHNpemVpbWFnZS4NCj4gPj4gIC0gbW9kaWZ5IHRoZSBjb21taXQgbWVzc2FnZQ0KPiA+
+PiAgLSBkZWZpbmUgdGhyZWUgZnJhbWVzaXplIHN0cnVjdHVyZXMgZm9yIGRlY29kZXINCj4gPj4N
+Cj4gPj4gKiBGb3IgW1BBVENIIHY0IDQvNF0gbWVkaWE6IGNoaXBzLW1lZGlhOiB3YXZlNTogU3Vw
+cG9ydCBZVVY0MjIgcmF3DQo+ID4+IHBpeGVsLSBmb3JtYXRzIG9uIHRoZSBlbmNvZGVyDQo+ID4+
+ICAtIG1vZGlmeSB0aGUgY29tbWl0IG1lc3NhZ2UNCj4gPj4gIC0gdXNlIHRoZSB2NGwyX2Zvcm1h
+dF9pbmZvIHRvIGNhbGN1bGF0ZSBsdW1hLCBjaHJvbWEgc2l6ZQ0KPiA+Pg0KPiA+PiBDaGFuZ2Ug
+c2luY2UgdjI6DQo+ID4+ID09PT09PT09PT09PT09PT09DQo+ID4+DQo+ID4+ICogRm9yIFtQQVRD
+SCB2MyAwLzRdIG1lZGlhOiBjaGlwcy1tZWRpYTogd2F2ZTU6IFN1cHBvcnQgU1BTL1BQUw0KPiA+
+PiBnZW5lcmF0aW9uIGZvciBlYWNoIElEUg0KPiA+PiAgLSBhZGQgdGhlIHN1Z2dlc3RlZCBfU0hJ
+RlQgc3VmZml4DQo+ID4+DQo+ID4+ICogRm9yIFtQQVRDSCB2MyAxLzRdIG1lZGlhOiBjaGlwcy1t
+ZWRpYTogd2F2ZTU6IFN1cHBvcnQgcnVudGltZQ0KPiA+PiBzdXNwZW5kL3Jlc3VtZQ0KPiA+PiAg
+LSBjaGFuZ2UgYSBjb21taXQgbWVzc2FnZQ0KPiA+Pg0KPiA+PiAqIEZvciBbUEFUQ0ggdjMgMi80
+XSBtZWRpYTogY2hpcHMtbWVkaWE6IHdhdmU1OiBVc2UgaGVscGVycyB0bw0KPiA+PiBjYWxjdWxh
+dGUgYnl0ZXNwZXJsaW5lIGFuZCBzaXplaW1hZ2UNCj4gPj4gIC0gYWRkIHBpeF9mbXRfdHlwZSBw
+YXJhbWV0ZXIgaW50byB3YXZlNV91cGRhdGVfcGl4X2ZtdCBmdW5jdGlvbg0KPiA+PiAgLSBhZGQg
+bWluL21heCB3aWR0aC9oZWlnaHQgdmFsdWVzIGludG8gZGVjX2ZtdF9saXN0DQo+ID4+DQo+ID4+
+IENoYW5nZSBzaW5jZSB2MToNCj4gPj4gPT09PT09PT09PT09PT09PT0NCj4gPj4NCj4gPj4gKiBG
+b3IgW1BBVENIIHYyIDAvNF0gbWVkaWE6IGNoaXBzLW1lZGlhOiB3YXZlNTogU3VwcG9ydCBTUFMv
+UFBTDQo+ID4+IGdlbmVyYXRpb24gZm9yIGVhY2ggSURSDQo+ID4+ICAtIGRlZmluZSBhIG1hY3Jv
+IGZvciByZWdpc3RlciBhZGRyZXNzZXMNCj4gPj4NCj4gPj4gKiBGb3IgW1BBVENIIHYyIDEvNF0g
+bWVkaWE6IGNoaXBzLW1lZGlhOiB3YXZlNTogU3VwcG9ydCBydW50aW1lDQo+ID4+IHN1c3BlbmQv
+cmVzdW1lDQo+ID4+ICAtIGFkZCBhdXRvIHN1c3BlbmQvcmVzdW1lDQo+ID4+DQo+ID4+ICogRm9y
+IFtQQVRDSCB2MiAyLzRdIG1lZGlhOiBjaGlwcy1tZWRpYTogd2F2ZTU6IFVzZSBoZWxwZXJzIHRv
+DQo+ID4+IGNhbGN1bGF0ZSBieXRlc3BlcmxpbmUgYW5kIHNpemVpbWFnZQ0KPiA+PiAgLSB1c2Ug
+aGVscGVyIGZ1bmN0aW9ucyB0byBjYWxjdWxhdGUgYnl0ZXNwZXJsaW5lIGFuZCBzaXplaW1hZ2UN
+Cj4gPj4NCj4gPj4gKiBGb3IgW1BBVENIIHYyIDMvNF0gbWVkaWE6IGNoaXBzLW1lZGlhOiB3YXZl
+NTogU3VwcG9ydCBZVVY0MjIgcmF3DQo+ID4+IHBpeGVsLSBmb3JtYXRzIG9uIHRoZSBlbmNvZGVy
+DQo+ID4+ICAtIHJlbW92ZSB1bm5lY2Vzc2FyeSBjb2Rlcw0KPiA+Pg0KPiA+PiBDaGFuZ2Ugc2lu
+Y2UgdjA6DQo+ID4+ID09PT09PT09PT09PT09PT09DQo+ID4+IFRoZSBERUZBVUxUX1NSQ19TSVpF
+IG1hY3JvIHdhcyBkZWZpbmVkIHVzaW5nIG11bHRpcGxlIGxpbmVzLCBUbyBtYWtlDQo+ID4+IGEg
+c2ltcGxlIGRlZmluZSwgdGFiIGFuZCBtdWx0aXBsZSBsaW5lcyBoYXMgYmVlbiByZW1vdmVkLCBU
+aGUgbWFjcm8NCj4gPj4gaXMgZGVmaW5lZCB1c2luZyBvbmUgbGluZS4NCj4gPj4NCj4gPj4gSmFj
+a3Nvbi5sZWUgKDQpOg0KPiA+PiAgIG1lZGlhOiBjaGlwcy1tZWRpYTogd2F2ZTU6IFN1cHBvcnQg
+U1BTL1BQUyBnZW5lcmF0aW9uIGZvciBlYWNoIElEUg0KPiA+PiAgIG1lZGlhOiBjaGlwcy1tZWRp
+YTogd2F2ZTU6IFN1cHBvcnQgcnVudGltZSBzdXNwZW5kL3Jlc3VtZQ0KPiA+PiAgIG1lZGlhOiBj
+aGlwcy1tZWRpYTogd2F2ZTU6IFVzZSBoZWxwZXJzIHRvIGNhbGN1bGF0ZSBieXRlc3BlcmxpbmUg
+YW5kDQo+ID4+ICAgICBzaXplaW1hZ2UuDQo+ID4+ICAgbWVkaWE6IGNoaXBzLW1lZGlhOiB3YXZl
+NTogU3VwcG9ydCBZVVY0MjIgcmF3IHBpeGVsLWZvcm1hdHMgb24gdGhlDQo+ID4+ICAgICBlbmNv
+ZGVyLg0KPiA+Pg0KPiA+PiAgLi4uL3BsYXRmb3JtL2NoaXBzLW1lZGlhL3dhdmU1L3dhdmU1LWhl
+bHBlci5jIHwgIDM3ICstDQo+ID4+ICAuLi4vcGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2
+ZTUtaGVscGVyLmggfCAgIDUgKw0KPiA+PiAgLi4uL3BsYXRmb3JtL2NoaXBzLW1lZGlhL3dhdmU1
+L3dhdmU1LWh3LmMgICAgIHwgIDMwICstDQo+ID4+ICAuLi4vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2
+ZTUtdnB1LWRlYy5jICAgICAgICAgfCAzMjEgKysrKysrKy0tLS0tLS0tLS0tDQo+ID4+ICAuLi4v
+Y2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUtdnB1LWVuYy5jICAgICAgICAgfCAzMTMgKysrKysrKysr
+LS0tLS0tLS0NCj4gPj4gIC4uLi9wbGF0Zm9ybS9jaGlwcy1tZWRpYS93YXZlNS93YXZlNS12cHUu
+YyAgICB8ICA1MCArKysNCj4gPj4gIC4uLi9wbGF0Zm9ybS9jaGlwcy1tZWRpYS93YXZlNS93YXZl
+NS12cHUuaCAgICB8ICAgNSArLQ0KPiA+PiAgLi4uL3BsYXRmb3JtL2NoaXBzLW1lZGlhL3dhdmU1
+L3dhdmU1LXZwdWFwaS5jIHwgIDMzICstDQo+ID4+ICAuLi4vcGxhdGZvcm0vY2hpcHMtbWVkaWEv
+d2F2ZTUvd2F2ZTUtdnB1YXBpLmggfCAgIDEgKw0KPiA+PiAgLi4uL2NoaXBzLW1lZGlhL3dhdmU1
+L3dhdmU1LXZwdWNvbmZpZy5oICAgICAgIHwgIDI3ICstDQo+ID4+ICAuLi4vbWVkaWEvcGxhdGZv
+cm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUuaCAgfCAgIDMgKw0KPiA+PiAgMTEgZmlsZXMgY2hh
+bmdlZCwgNDYwIGluc2VydGlvbnMoKyksIDM2NSBkZWxldGlvbnMoLSkNCj4gPj4NCj4gPj4gLS0N
+Cj4gPj4gMi40My4wDQo+ID4NCj4gPg0KPiBTZWJhc3RpYW4gRnJpY2tlDQo+IENvbnN1bHRhbnQg
+U29mdHdhcmUgRW5naW5lZXINCj4gDQo+IENvbGxhYm9yYSBMdGQNCj4gUGxhdGludW0gQnVpbGRp
+bmcsIFN0IEpvaG4ncyBJbm5vdmF0aW9uIFBhcmssIENhbWJyaWRnZSBDQjQgMERTLCBVSw0KPiBS
+ZWdpc3RlcmVkIGluIEVuZ2xhbmQgJiBXYWxlcyBubyA1NTEzNzE4Lg0K
 
