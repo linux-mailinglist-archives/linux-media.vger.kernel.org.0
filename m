@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-17586-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17587-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABCA96BD17
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 14:53:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCEFE96BD1B
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 14:53:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6FA9E1C2482E
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 12:53:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DF8F1C2494C
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 12:53:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CBED1DA624;
-	Wed,  4 Sep 2024 12:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B1971DB53C;
+	Wed,  4 Sep 2024 12:52:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="M84nyQbf";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aRZsavbO"
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="rSnh85vQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="f476JSad"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh8-smtp.messagingengine.com (fhigh8-smtp.messagingengine.com [103.168.172.159])
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBAA1DA0F9;
-	Wed,  4 Sep 2024 12:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688561DA607;
+	Wed,  4 Sep 2024 12:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725454326; cv=none; b=Es5kIpAWjen/wHtxzL1OvYtMkn1JdpFvTitIMx+l6WHp2ZeAUtfWZIO+MpKOPHH4u3ez4OooVc/ys/XCg/kcx7GDTDS4kdMA88y3Hz+PuEQgsLY6AosKMY9gfsytSNyG0TX8pWeuER9QKVNHdJcz22g2/HUQNFoVJteL26hmeA0=
+	t=1725454328; cv=none; b=ioY0wpn0rLXcLVhW7I06dqTTqmfeiRtxvntARYMRCQV+zMD6ofdWc9SgvX5OBX2hSnRmHurB0fvdnm47Z+isGIgGfBF8Kv+2JLtwgLHp2EHRSJpRVeGMiVocOnEfuEgiqnaSLIFxBRdLtYieb3VdyISd6I3m6fLHQ6PVj7q+96E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725454326; c=relaxed/simple;
-	bh=C20p58o23RybaLCy7Uefjz1YpuuKQk3hZiEMinwkUsY=;
+	s=arc-20240116; t=1725454328; c=relaxed/simple;
+	bh=Rt4lx3HXVPQrysORXCw0l3fKDUyXQb2o3/1ZWr1n2bA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ARl2rFn9pRCLJGKnr4l650L7DaE8lgkVdWnSl9FbXN2CRQNhoMGDRhKXKFRQXkCE9NBfTtK4KUYbBX2kSkEL6a79VBQY4Cc3iDmfgNDA47TPpqyJTFsW78jvzxH3mJylhr4WONvflnXtrz2yw7r+dLjwoxuIn0X2u6AsOsrJZis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=M84nyQbf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aRZsavbO; arc=none smtp.client-ip=103.168.172.159
+	 MIME-Version; b=lyRwGCzobnOUItyDkQ8UAW7PxdCjAHmjq4Dt2/AEFZ/H66DKnw5wGy7Pn3gxgmulGigqs94wXlFvbVFkhvEqenmVM+er4H2X9g+c+wSHN7r9Oxw8Kw43+eSumcMr7SrNYRAcLOcovfkwbWIQbe53FgwGgyTF0aSBU2jjYJoMo/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=rSnh85vQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=f476JSad; arc=none smtp.client-ip=103.168.172.147
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 794DE1140186;
-	Wed,  4 Sep 2024 08:52:03 -0400 (EDT)
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id B3AAF1380141;
+	Wed,  4 Sep 2024 08:52:05 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Wed, 04 Sep 2024 08:52:03 -0400
+  by phl-compute-01.internal (MEProxy); Wed, 04 Sep 2024 08:52:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1725454323; x=
-	1725540723; bh=WazlOufqSk7gZmSGDY67vvnRDePqJMEVBnNj+5hH5Go=; b=M
-	84nyQbfT9DVLk71D5DyZzift/zyQqs6LglR2vfQl7GmyvW0+6KStvlRKPWvKnXX8
-	zuci3u9Z2cg81VJ/qvKjKIRfqiJDCSjTmW6ap2q0gWZ79+FhL8laK8M0LOUy3qMR
-	id6iGexfku7Z6aB/TUEI9ajQdQ6Khq1LV0KdeE/gTvA4GXMGLBoxDKxJKHJS7HIP
-	28+oPFsOqRxyMqA9gOtCpYwkZCpw1HjP51b4JDEJZKqGwpiE1WONw+v28oY8lPzc
-	y2uRrM4hA4mCot6/LaTPb5E/KtnP2/k6eRm8mTj66bq2OEbtQfJkmq6vjScMl0Ql
-	8PJZA8JDYP96lClJoioOA==
+	:reply-to:subject:subject:to:to; s=fm1; t=1725454325; x=
+	1725540725; bh=RSfspq38f8gW7QJFYGIc1REufVKmHzw31V7N3gqLU3w=; b=r
+	Snh85vQYtngRK7fiwEM9LT89woRP8/quEXuYdz7s+tktehi5lsDR4FjoR5E6Wziw
+	nKONHtf85FDIp4+ltQZwk7DLYLHpTv8bZclDCRxZyzAopQ/9lnc2rOOEMUofMXqp
+	rBnrNX8J83Fg2k/DHaganeHDY44h4seBUuXdktxcmWW/bUSP4KJortiKnVxNw5pt
+	ZD+d/dar3w0i+r8NbPeNxBtn3qSwrQ4YkwecffmrRlT1onYKwYsHR1Duo9xbnCWl
+	IoLXheYIJS6+YL0bTEtaL3q41WwNGx7xnFmgABpUOTLVO+28lfPRn7cCtS9HspMG
+	HhFDEkSkLoWBSqXZf3jDA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725454323; x=
-	1725540723; bh=WazlOufqSk7gZmSGDY67vvnRDePqJMEVBnNj+5hH5Go=; b=a
-	RZsavbOtIbE5IXMDIDzWn88MPILbsCjfbnfJeB0GCvCVEQ4rQ4Xy9X7lqea/JRZs
-	OZF7w+P/bBZpRCh8PsGQJIx/tIYUCCBBItiRnQJ53MgeWjlfDDtizuKm70VAhudE
-	ytCdki4g8ym4t8hcvOxg2u70b9Pgox1AhkVg6x5QFmLWeyxXnCUP5xDZ8X9ga+3a
-	KhXyixPsUwfJN1Jrlgp5e2EtFklIz/UnRZO86PNMszujo/yLaXIuM6E8t108a4F7
-	Q0FvqexTHlavFEBcs4OFiuoD13EaSzc/DBZR3k4+jqaUn21EOsN6n0QfzvzxKOv/
-	Gc1EpFdqe+jUYEaZkdIPA==
-X-ME-Sender: <xms:81fYZhJFjusZo61BlCyn_TzFUXqmtTkPJ9B48ZdxSujJx0_8e_kQew>
-    <xme:81fYZtKwL64pbC5UeKln7lpwGnkJrdjQV1fImiLd5V9m8zjxZ6j002QibyynAo51t
-    06OHSa6vl5tJ7B_etY>
-X-ME-Received: <xmr:81fYZptNIxhnEiZr_5sZZUItfz-7U2vaiHrDFyWS2L2PnWNvz8BTkZkGXI00LXo0lExtNLfP5WELUe9axBOWuAlyI8A-z39guRHGIAuvnNg3qA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehjedgheeiucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725454325; x=
+	1725540725; bh=RSfspq38f8gW7QJFYGIc1REufVKmHzw31V7N3gqLU3w=; b=f
+	476JSad/qUY+bLQTJbCPoZZTVytfoDAwLndGnRD8l5RIa9psGrkq896mNNIq8hF4
+	JfGfHfuox3mDWvxeGEXqRRFsgHJXACoRgXK6SiuAKVjQixmULW6z8JcBTXEw0LhS
+	ZwbgmKHOGrZJv7grC5bF6IfIVy5R0o1l1kWpYVLasBhctbesu4fQ00OdkgUkbY3F
+	+zBZAQm3Z/HoISRDkkvJUXfUxME96shajxhbKom/Pf1+JHYx3eJaij9Neh7kLSE5
+	1oYm8YQGDzwX+XQgn5ewIlJT+k6Dy08ekYCnRLgEvt2bWMeRLMvsoCKHtlk2e1oA
+	IudPnwqYFbFKkIHDTvkSw==
+X-ME-Sender: <xms:9VfYZpB4lVXmp1lL7JIg_GOZR9NCovUNxTRrA6wEkL_j_wWc0exg-A>
+    <xme:9VfYZnjRqwf17hoo0nF7sP2zwzdYKVqK0syuxHwctyUJ-IqPoEfDNzyR4kZrcmKv0
+    YzFagNH-yX4OJ6VO30>
+X-ME-Received: <xmr:9VfYZklYWsQ4PW9lY0ARs24PrFnoKTWtdSlPDU2IjwwlAHUqnroPhqaB9ADgnpNeZK7_vxJ3A-6ZiA097N5Nsu844OGBWXmGQ3MKVu_bkrJnmw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehjedgheejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
     ffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghm
@@ -80,14 +80,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehjedgheeiucetufdoteggod
     tghpthhtohepvggumhhunhgurdhrrghilhgvsehprhhothhonhhmrghilhdrtghomhdprh
     gtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
     tghpthhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:81fYZia5iDiOtKkynNoXT7io-gmPUC0bFLc8PC7UZwrakyoLS-BwfA>
-    <xmx:81fYZoa92scdMEGVYNZFPAqtpEysy1PWvZykYTQYRkdGvPlCfbbJ1w>
-    <xmx:81fYZmCy1wrP2r5KtQnf4ofa8cgeOXwB24mgNETf8WBVXSBILx9UNQ>
-    <xmx:81fYZmbENot-fDe1-uC5Slmwl07y2os237VlgLi-va9X-LxAUnZMgA>
-    <xmx:81fYZo4TD2uPZh3jwbOcy59QB4qkz83tHF0wqZBBS2F0g_dzYgtnOvq7>
+X-ME-Proxy: <xmx:9VfYZjyZ-LuwxXFYZ3cnjuojfaQxcqCtiV4GOF8IynVgFjt8rm8HUw>
+    <xmx:9VfYZuTqGOrZycffjXkhe_XdMiaTu0OVLh5TFPVOsE3oFQ6fZRC51w>
+    <xmx:9VfYZmZ3u9ICDJ-b7Lm1yxYEXT_clto3tLgBbWo70OD62GESmhOJ2g>
+    <xmx:9VfYZvQLvR_zO8rwtVPyXosvk96uEo71h0R1MqByQ3PW30Qeyw5JrA>
+    <xmx:9VfYZrSpDCcfkQKHSTcxyAXpBgPWgoLybfveeBqogYR6tUrHVV0LNu09>
 Feedback-ID: ie8e14432:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Sep 2024 08:52:01 -0400 (EDT)
+ 4 Sep 2024 08:52:03 -0400 (EDT)
 From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 To: tiwai@suse.de,
 	linux-kernel@vger.kernel.org
@@ -96,9 +96,9 @@ Cc: linux-sound@vger.kernel.org,
 	edmund.raile@protonmail.com,
 	linux-media@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH 1/5] firewire: core: allocate workqueue to handle isochronous contexts in card
-Date: Wed,  4 Sep 2024 21:51:50 +0900
-Message-ID: <20240904125155.461886-2-o-takashi@sakamocchi.jp>
+Subject: [PATCH 2/5] firewire: core: add local API to queue work item to workqueue specific to isochronous contexts
+Date: Wed,  4 Sep 2024 21:51:51 +0900
+Message-ID: <20240904125155.461886-3-o-takashi@sakamocchi.jp>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
 References: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
@@ -110,154 +110,106 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This commit adds a workqueue dedicated for isochronous context processing.
+In the previous commit, the workqueue is added per the instance of fw_card
+structure for isochronous contexts. The workqueue is designed to be used by
+the implementation of fw_card_driver structure underlying the fw_card.
 
-The workqueue is allocated per instance of fw_card structure to satisfy the
-following characteristics descending from 1394 OHCI specification:
-
-In 1394 OHCI specification, memory pages are reserved to each isochronous
-context dedicated to DMA transmission. It allows to operate these
-per-context pages concurrently. Software can schedule hardware interrupt
-for several isochronous context to the same cycle, thus WQ_UNBOUND is
-specified. Additionally, it is sleepable to operate the content of pages,
-thus WQ_BH is not used.
-
-The isochronous context delivers the packets with time stamp, thus
-WQ_HIGHPRI is specified for semi real-time data such as IEC 61883-1/6
-protocol implemented by ALSA firewire stack. The isochronous context is not
-used by the implementation of SCSI over IEEE1394 protocol (sbp2), thus
-WQ_MEM_RECLAIM is not specified.
-
-It is useful for users to adjust cpu affinity of the workqueue depending
-on their work loads, thus WQ_SYS is specified to expose the attributes to
-user space.
+This commit adds some local APIs to be used by the implementation.
 
 Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 ---
- drivers/firewire/core-card.c | 33 ++++++++++++++++++++++++++++++---
- drivers/firewire/core.h      |  4 ++--
- drivers/firewire/ohci.c      |  2 +-
- include/linux/firewire.h     |  2 ++
- 4 files changed, 35 insertions(+), 6 deletions(-)
+ drivers/firewire/core-iso.c | 30 ++++++++++++++++++++++++++++--
+ drivers/firewire/core.h     | 10 ++++++++++
+ include/linux/firewire.h    |  1 +
+ 3 files changed, 39 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firewire/core-card.c b/drivers/firewire/core-card.c
-index e80b762888fa..01354b9de8b2 100644
---- a/drivers/firewire/core-card.c
-+++ b/drivers/firewire/core-card.c
-@@ -571,11 +571,30 @@ void fw_card_initialize(struct fw_card *card,
- }
- EXPORT_SYMBOL(fw_card_initialize);
+diff --git a/drivers/firewire/core-iso.c b/drivers/firewire/core-iso.c
+index 101433b8bb51..af76fa1823f1 100644
+--- a/drivers/firewire/core-iso.c
++++ b/drivers/firewire/core-iso.c
+@@ -211,21 +211,47 @@ EXPORT_SYMBOL(fw_iso_context_queue_flush);
  
--int fw_card_add(struct fw_card *card,
--		u32 max_receive, u32 link_speed, u64 guid)
-+int fw_card_add(struct fw_card *card, u32 max_receive, u32 link_speed, u64 guid,
-+		unsigned int supported_isoc_contexts)
+ int fw_iso_context_flush_completions(struct fw_iso_context *ctx)
  {
-+	struct workqueue_struct *isoc_wq;
- 	int ret;
- 
-+	// This workqueue should be:
-+	//  * != WQ_BH			Sleepable.
-+	//  * == WQ_UNBOUND		Any core can process data for isoc context. The
-+	//				implementation of unit protocol could consumes the core
-+	//				longer somehow.
-+	//  * != WQ_MEM_RECLAIM		Not used for any backend of block device.
-+	//  * == WQ_FREEZABLE		Isochronous communication is at regular interval in real
-+	//				time, thus should be drained if possible at freeze phase.
-+	//  * == WQ_HIGHPRI		High priority to process semi-realtime timestamped data.
-+	//  * == WQ_SYSFS		Parameters are available via sysfs.
-+	//  * max_active == n_it + n_ir	A hardIRQ could notify events for multiple isochronous
-+	//				contexts if they are scheduled to the same cycle.
-+	isoc_wq = alloc_workqueue("firewire-isoc-card%u",
-+				  WQ_UNBOUND | WQ_FREEZABLE | WQ_HIGHPRI | WQ_SYSFS,
-+				  supported_isoc_contexts, card->index);
-+	if (!isoc_wq)
-+		return -ENOMEM;
++	int err;
 +
- 	card->max_receive = max_receive;
- 	card->link_speed = link_speed;
- 	card->guid = guid;
-@@ -584,9 +603,12 @@ int fw_card_add(struct fw_card *card,
+ 	trace_isoc_outbound_flush_completions(ctx);
+ 	trace_isoc_inbound_single_flush_completions(ctx);
+ 	trace_isoc_inbound_multiple_flush_completions(ctx);
  
- 	generate_config_rom(card, tmp_config_rom);
- 	ret = card->driver->enable(card, tmp_config_rom, config_rom_length);
--	if (ret < 0)
-+	if (ret < 0) {
-+		destroy_workqueue(isoc_wq);
- 		return ret;
-+	}
- 
-+	card->isoc_wq = isoc_wq;
- 	list_add_tail(&card->link, &card_list);
- 
- 	return 0;
-@@ -708,6 +730,8 @@ void fw_core_remove_card(struct fw_card *card)
- {
- 	struct fw_card_driver dummy_driver = dummy_driver_template;
- 
+-	return ctx->card->driver->flush_iso_completions(ctx);
 +	might_sleep();
 +
- 	card->driver->update_phy_reg(card, 4,
- 				     PHY_LINK_ACTIVE | PHY_CONTENDER, 0);
- 	fw_schedule_bus_reset(card, false, true);
-@@ -719,6 +743,7 @@ void fw_core_remove_card(struct fw_card *card)
- 	dummy_driver.free_iso_context	= card->driver->free_iso_context;
- 	dummy_driver.stop_iso		= card->driver->stop_iso;
- 	card->driver = &dummy_driver;
-+	drain_workqueue(card->isoc_wq);
- 
- 	scoped_guard(spinlock_irqsave, &card->lock)
- 		fw_destroy_nodes(card);
-@@ -727,6 +752,8 @@ void fw_core_remove_card(struct fw_card *card)
- 	fw_card_put(card);
- 	wait_for_completion(&card->done);
- 
-+	destroy_workqueue(card->isoc_wq);
++	// Avoid dead lock due to programming mistake.
++	if (WARN_ON(current_work() == &ctx->work))
++		return 0;
 +
- 	WARN_ON(!list_empty(&card->transaction_list));
++	disable_work_sync(&ctx->work);
++
++	err = ctx->card->driver->flush_iso_completions(ctx);
++
++	enable_work(&ctx->work);
++
++	return err;
  }
- EXPORT_SYMBOL(fw_core_remove_card);
+ EXPORT_SYMBOL(fw_iso_context_flush_completions);
+ 
+ int fw_iso_context_stop(struct fw_iso_context *ctx)
+ {
++	int err;
++
+ 	trace_isoc_outbound_stop(ctx);
+ 	trace_isoc_inbound_single_stop(ctx);
+ 	trace_isoc_inbound_multiple_stop(ctx);
+ 
+-	return ctx->card->driver->stop_iso(ctx);
++	might_sleep();
++
++	// Avoid dead lock due to programming mistake.
++	if (WARN_ON(current_work() == &ctx->work))
++		return 0;
++
++	err = ctx->card->driver->stop_iso(ctx);
++
++	cancel_work_sync(&ctx->work);
++
++	return err;
+ }
+ EXPORT_SYMBOL(fw_iso_context_stop);
+ 
 diff --git a/drivers/firewire/core.h b/drivers/firewire/core.h
-index 57d101c01e36..96ae366889e0 100644
+index 96ae366889e0..2874f316156a 100644
 --- a/drivers/firewire/core.h
 +++ b/drivers/firewire/core.h
-@@ -115,8 +115,8 @@ struct fw_card_driver {
+@@ -159,6 +159,16 @@ int fw_iso_buffer_alloc(struct fw_iso_buffer *buffer, int page_count);
+ int fw_iso_buffer_map_dma(struct fw_iso_buffer *buffer, struct fw_card *card,
+ 			  enum dma_data_direction direction);
  
- void fw_card_initialize(struct fw_card *card,
- 		const struct fw_card_driver *driver, struct device *device);
--int fw_card_add(struct fw_card *card,
--		u32 max_receive, u32 link_speed, u64 guid);
-+int fw_card_add(struct fw_card *card, u32 max_receive, u32 link_speed, u64 guid,
-+		unsigned int supported_isoc_contexts);
- void fw_core_remove_card(struct fw_card *card);
- int fw_compute_block_crc(__be32 *block);
- void fw_schedule_bm_work(struct fw_card *card, unsigned long delay);
-diff --git a/drivers/firewire/ohci.c b/drivers/firewire/ohci.c
-index 3930fdd56155..50627b8fc38f 100644
---- a/drivers/firewire/ohci.c
-+++ b/drivers/firewire/ohci.c
-@@ -3827,7 +3827,7 @@ static int pci_probe(struct pci_dev *dev,
- 		goto fail_msi;
- 	}
++static inline void fw_iso_context_init_work(struct fw_iso_context *ctx, work_func_t func)
++{
++	INIT_WORK(&ctx->work, func);
++}
++
++static inline void fw_iso_context_queue_work(struct fw_iso_context *ctx)
++{
++	queue_work(ctx->card->isoc_wq, &ctx->work);
++}
++
  
--	err = fw_card_add(&ohci->card, max_receive, link_speed, guid);
-+	err = fw_card_add(&ohci->card, max_receive, link_speed, guid, ohci->n_it + ohci->n_ir);
- 	if (err)
- 		goto fail_irq;
+ /* -topology */
  
 diff --git a/include/linux/firewire.h b/include/linux/firewire.h
-index 1cca14cf5652..10e135d60824 100644
+index 10e135d60824..72f497b61739 100644
 --- a/include/linux/firewire.h
 +++ b/include/linux/firewire.h
-@@ -134,6 +134,8 @@ struct fw_card {
- 	__be32 topology_map[(CSR_TOPOLOGY_MAP_END - CSR_TOPOLOGY_MAP) / 4];
+@@ -511,6 +511,7 @@ union fw_iso_callback {
  
- 	__be32 maint_utility_register;
-+
-+	struct workqueue_struct *isoc_wq;
- };
- 
- static inline struct fw_card *fw_card_get(struct fw_card *card)
+ struct fw_iso_context {
+ 	struct fw_card *card;
++	struct work_struct work;
+ 	int type;
+ 	int channel;
+ 	int speed;
 -- 
 2.43.0
 
