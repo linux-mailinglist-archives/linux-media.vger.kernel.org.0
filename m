@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-17578-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17579-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7858696BABA
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:32:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D2C96BAC2
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 13:32:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E1B71F20EE3
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:32:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C5C12839FA
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2024 11:32:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E3EE1D1F7E;
-	Wed,  4 Sep 2024 11:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F1D61D0145;
+	Wed,  4 Sep 2024 11:32:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hsK9OeS9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZY7jVcqk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFC91CFED1;
-	Wed,  4 Sep 2024 11:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA0C1CF5F1;
+	Wed,  4 Sep 2024 11:32:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725449469; cv=none; b=nih6nwok9BcKEuKoOcDDI5m6S7Rf2N8O99clpd0DhN9InIFOr/tWfoGTuq/RG7QUgllX61sSyRY44LWSL1SyxsqIVKUm99Vwr7ALfaEz8K0zGzW/YjgxVEdmNZHLtLLU5WbQBhwvIxysNyxwqoLbnCzZWbQXeU6pMM84QXZ23OY=
+	t=1725449537; cv=none; b=s+Dkk8V3/SRavdxo0eFjskvSBkW4pfRfWlJrxhFrmmdk4unpkJL80IMfNZdy1Fm+aoo1qQ6t2rDp4afIcfVCkuR6nSv5+F7jNxlxcXF0kDFWrOyxRSJf6XPEB8qdVILWYfwIyvoTOKxndXP2npc5ZZNA8Ub6XMJCA+T/vY7JALI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725449469; c=relaxed/simple;
-	bh=MkyMpmO/PXogmhxNVvz1q1S51Ajlc5jfq4s2NDuILmk=;
+	s=arc-20240116; t=1725449537; c=relaxed/simple;
+	bh=wtKstOtyx5LPVKQTeY2E8V2qOJ7acABjfwTSzKH1fho=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jemW45OAXWFo/kAFxROxKFqM2rY2UEWYKhUGtFdT6VXYBqgHbUqYXxYyyM9akfivP7dwm6TOKqr6vMU95MBWJIvdN0psUDiZ2W9ZQsbv93mZ0vX/Ml8lS4wBtPAwCqfU66+2fu22xni8MQDz8JJhN6jaLw2FBlHgDtCV0BPUwr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hsK9OeS9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 476F8C4CEC2;
-	Wed,  4 Sep 2024 11:31:04 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=QScTtlVzGrfdycLCeWWh9ne8mt4RRQsQ53+NIuvPga3or+NgEQfsga1HFzsWduek2bXGVE4R1AEtPeINdR28qvS3+X2P3yr7+w07EONBvw4nu9w+edFQzs93adEh2UZ9QHLB8//FZRfvjp7rY2fC2R2fKSSXXLo8TOdc8KMEpJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZY7jVcqk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 576D9C4CEC2;
+	Wed,  4 Sep 2024 11:32:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725449469;
-	bh=MkyMpmO/PXogmhxNVvz1q1S51Ajlc5jfq4s2NDuILmk=;
+	s=k20201202; t=1725449537;
+	bh=wtKstOtyx5LPVKQTeY2E8V2qOJ7acABjfwTSzKH1fho=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hsK9OeS95yLNzd4xSNg5EUKYjcRUVy9W7rGdY54R7/ikcN94B/kXYu5h/iQtWftAy
-	 vyJOKePdR/3GMg2hI0PDgPeqkIbugoIt/D+vYnzYbF2+AxsPA1ZwsV05PkQ0eTZI2a
-	 EPP+S2/ZdKa2pKWqtQm3BipwYntCPz8c0OxU3yMI0VUZZ5C/Za5R4lHwpcggiUpTSU
-	 qq8NpnCn4RutygcefxTWUGZxO78ybA+Hi33srGDZZQeUi5lcwXNfT6JzjiQ90LfCAU
-	 jcZ3DYbzbRxu/ZUMoHH+Z/S99YlC+2ZBCGWOVv3nUUCjNkXpDVL53wrsG7v0Jgcc0R
-	 +LlbZ1Zba+nEw==
-Message-ID: <c2dc5341-755f-42da-93c9-9cf540a0f140@kernel.org>
-Date: Wed, 4 Sep 2024 13:31:02 +0200
+	b=ZY7jVcqkyWzwxpXDTMZ3wVkUNmiA23K/5K5gNzdKuXDabTxNRtBBkshBxyQFutsTB
+	 GzOR7ndszzHA45akMI5R8la2+Kts2AQ3STWMxb6rAX1kAopqVoDIceRGHqR6yThnhF
+	 idSTVNyyYvMi1YymFX4TsBk9jgFjJABYWJfJJjQIfyUa6C405ASuMwtG6erM8Hb/fE
+	 zif7x79NMe86XoylIwZrpXk6/WDtwE7hEl35RxRDmDGDKRYeHF5DT8Tff4LWeMRxFv
+	 cem+FfkVKLt6x7auNg5TMHhMsKTZhMWk4iKe7UeIimy6PBhFSIAJbx0XR/B05Jep8v
+	 CNNgIOKEURVyg==
+Message-ID: <cb617ea7-79c9-4b0f-bcc5-300701268d6b@kernel.org>
+Date: Wed, 4 Sep 2024 13:32:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/10] arm64: dts: qcom: sc7280: Add support for camss
+Subject: Re: [PATCH 08/10] arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine:
+ Enable IMX577 sensor
 To: Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss
  <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
@@ -66,10 +67,9 @@ To: Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss
 Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org,
- Suresh Vankadara <quic_svankada@quicinc.com>,
- Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+ Hariram Purushothaman <quic_hariramp@quicinc.com>
 References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
- <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-7-b18ddcd7d9df@quicinc.com>
+ <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-8-b18ddcd7d9df@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -115,22 +115,26 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-7-b18ddcd7d9df@quicinc.com>
+In-Reply-To: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-8-b18ddcd7d9df@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 04/09/2024 13:10, Vikram Sharma wrote:
-> Add changes to support the camera subsystem on the SC7280.
+> Enable the IMX577 camera sensor for the qcs6490-rb3gen2-vision-mezzanine
+> board.
+
+Explain what hardware are you adding here.
+
 > 
-> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
-> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+> Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
 > Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 > ---
->  arch/arm64/boot/dts/qcom/sc7280.dtsi | 175 +++++++++++++++++++++++++++++++++++
->  1 file changed, 175 insertions(+)
-> 
+>  arch/arm64/boot/dts/qcom/Makefile                  |  1 +
+>  .../dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dts  | 61 ++++++++++++++++++++++
+>  2 files changed, 62 insertions(+)
 
-This does not follow DTS coding style.
+Different boards need different compatibles. OTOH, mezzanine is addon,
+not a board, so I would expect overlay. This is confusing.
 
 Best regards,
 Krzysztof
