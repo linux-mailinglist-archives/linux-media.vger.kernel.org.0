@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-17667-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17668-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7943A96D693
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 13:00:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F7096D6A1
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 13:02:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E02C1C23113
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 11:00:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB8A81C233E6
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 11:02:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 492401991D5;
-	Thu,  5 Sep 2024 10:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57DE7199222;
+	Thu,  5 Sep 2024 11:02:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KIvnwBWC"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IoY345tm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3A21990CE;
-	Thu,  5 Sep 2024 10:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EA619413B;
+	Thu,  5 Sep 2024 11:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725533997; cv=none; b=RUvaUd87nmmLw7g9X0AW0QKjU2Y4W4O2+r0BwsCZS33Fvj3qlFpdGvcaN7/zqcPu1aMZIGApLBweca6PCTLvK5pce640aod4KA2akvkqpXUn3aqNW06XqsPXdSSE2nmJJiwxQZfn7uIq5RBTaatg6ketVOcJpswHANnFyykR0ik=
+	t=1725534147; cv=none; b=gTr7RW514gDsxb62w8MrKb2skZjkjXdqTiLRh8E3BTWtS4CK0f9hdICR5WVmUFOgNGLuYCVQifNLkg0Xi+u+hF5dEnqqh0ptH9tlfkhdOtqy9eTjfX/2YI7SWpnKBPmeGNmc0ryadyjxMibafoHk2zWd2KKilFiSU1xDCOIAQAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725533997; c=relaxed/simple;
-	bh=G8vIAqhBoCUmW3PYj1YRTTXzOEypuOjhZ2S4WZOUKEQ=;
+	s=arc-20240116; t=1725534147; c=relaxed/simple;
+	bh=ZFdRC4A5sTItvhZXRVNVWQldHrRHtLXiPKSBlhWNfuc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=PrS8lRKm/XXvj8cF/v1BvOeEk/zMZFtQImRE7ZOfkktIlzb2h220SyQqfYfnJv60N5YvNX+Larr8kiS/C+F131rwa1n+dS/kSouXHUpjJobdDbJrlUaiGBIUsISPZo3wGBo5l3EHnWMBqUNBGD2C6+H/gS7FZxDrYmXVpjKT2/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KIvnwBWC; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=ZB9CVxCHzwdJvaxuzUpLrGxvGrzaZWmgjwnbXU6IReBj6E1UUIt+4jQRz1YIsEEBh4BHbDy4s1nUTMoXLJ7lQTj5En0BNR8O0OZcdGNxtceYKiJXN6DP+Torez6gpjpUeJqjaTO9P7pSqZ43FMSPa5K9cJHT8Dj3e0R/9kzQ92g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IoY345tm; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48597lfR004502;
-	Thu, 5 Sep 2024 10:59:49 GMT
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48597Bh8008901;
+	Thu, 5 Sep 2024 11:02:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/hRnIwW1i7chXnFLofgXR//0tKVfnDVwkMWp0okmFq8=; b=KIvnwBWCsCyS8wN4
-	LB3h4jjajGTyUlBk3rb8J7I/JzcOCtWKLfnS1Ndqt9LAaWUOcoYmUKK7UNg4Bye/
-	pXyvj+CbfDL64DbStSTex8qhc7OSrI4s9Nfn2aFn8n/Q19IvGr2wwxWWlJ2UHuLm
-	CXvdJ+QSjpU0cYUEiZtntZR+0/GFB/JigDktXdrfrkKDKEryBzlCQ9OgQlJnVO7s
-	H/rR+eBKDi9YHbWyg8deBaQedTXM8KNrx2zYu/pN9lFlr6ujD/j76cX1e/2WJo4B
-	EaJGKTaADWZCK+3efxaz58apXYcTs5Z2P87fWaHgw1k+XuOm94fglKt/g85WSyP3
-	ITrBAQ==
+	BfEiKs1H66nyF+gJ/YpC9LCfTEdm4n3aH2Qb1pf7mnU=; b=IoY345tmVmq5A/Xm
+	Cc2dMePLTDrapDlCOfYyxHvkzlslnd2QzI5m5uc9xbv8omTjRYddM/qBHLt/Hmm9
+	lUcLtETDw1Gg1TlWrlajGlwSVGZOGXwT5M1UHWKLqMB0PK0ftQmNdgY+/3PMStU9
+	yV19S+9YEd51P1AYKjAndhRzboW/UwxWC3WNvWei8m1+acXRGgHKxZ2BirgZdCS8
+	y85HFrLtDk/xrsFPrRs7F9YLRp8bvKRwR9nFyE/VwQXw7W7ubVN+Aw4zOC4N6cm4
+	gxL6y91d4mLGJxDI0G3AuHr4OziiVZe4hakhP63vaNkTEiEbO7rzbT/a/c85CkiI
+	qH4/Qw==
 Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41bt675svf-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41f91r0dhh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Sep 2024 10:59:48 +0000 (GMT)
+	Thu, 05 Sep 2024 11:02:17 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 485AxlJo008601
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 485B2GAx017214
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Sep 2024 10:59:47 GMT
+	Thu, 5 Sep 2024 11:02:16 GMT
 Received: from [10.216.46.64] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Sep 2024
- 03:59:42 -0700
-Message-ID: <bcfdeaf6-58c7-1c53-035b-07ae4bfa37f0@quicinc.com>
-Date: Thu, 5 Sep 2024 16:29:39 +0530
+ 04:02:11 -0700
+Message-ID: <2108cb24-0e1b-c804-eb0d-397cefa0fc32@quicinc.com>
+Date: Thu, 5 Sep 2024 16:32:08 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,104 +66,105 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v3 03/29] media: iris: add platform driver for iris video
- device
+Subject: Re: [PATCH v3 02/29] media: MAINTAINERS: Add Qualcomm Iris video
+ accelerator driver
 Content-Language: en-US
 To: Dmitry Baryshkov <dbaryshkov@gmail.com>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
+CC: Krzysztof Kozlowski <krzk@kernel.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
         Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
         Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>, <linux-media@vger.kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>, <linux-media@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
- <20240827-iris_v3-v3-3-c5fdbbe65e70@quicinc.com>
- <74126160-57f9-4abf-a26c-3491c8f3dd78@linaro.org>
- <zfltcl5x4hol2foftyvr4oigxus4hnequd74zi7bdd7tsdv56q@3nphukr4zgmm>
- <fa674301-9c4e-c4de-361a-1d1abf413ffc@quicinc.com>
- <adb2eed8-8d5e-a052-81b3-cde705c3503b@quicinc.com>
- <ydah7lm6ov26fy5odqc6u6vlfu2w5gzqxquplimhbdamw3gdpj@dmgdr52pvm5g>
+ <20240827-iris_v3-v3-2-c5fdbbe65e70@quicinc.com>
+ <afba364d-8299-49b6-9848-ed1660f86327@kernel.org>
+ <809c359f-6c24-f2d4-3c4b-83e543d8c120@quicinc.com>
+ <tdvofocpygklipddgf7gbpttxdnmhe33krziwkzh2czpf4uiao@htiismc4dekz>
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <ydah7lm6ov26fy5odqc6u6vlfu2w5gzqxquplimhbdamw3gdpj@dmgdr52pvm5g>
+In-Reply-To: <tdvofocpygklipddgf7gbpttxdnmhe33krziwkzh2czpf4uiao@htiismc4dekz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 5r8qYnlRL7_Ea-fKWD5EzJ5GEkpV1K_L
-X-Proofpoint-GUID: 5r8qYnlRL7_Ea-fKWD5EzJ5GEkpV1K_L
+X-Proofpoint-ORIG-GUID: SDA6edydo67fMzt0DkYyiIndBCStrjj2
+X-Proofpoint-GUID: SDA6edydo67fMzt0DkYyiIndBCStrjj2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-05_06,2024-09-04_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- bulkscore=0 mlxscore=0 impostorscore=0 suspectscore=0 phishscore=0
- mlxlogscore=999 lowpriorityscore=0 spamscore=0 clxscore=1011
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2409050080
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ malwarescore=0 clxscore=1015 spamscore=0 priorityscore=1501 suspectscore=0
+ adultscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409050081
 
 
 
-On 9/5/2024 3:41 PM, Dmitry Baryshkov wrote:
-> On Thu, Sep 05, 2024 at 11:45:25AM GMT, Dikshita Agarwal wrote:
+On 9/5/2024 3:40 PM, Dmitry Baryshkov wrote:
+> On Thu, Sep 05, 2024 at 11:17:55AM GMT, Dikshita Agarwal wrote:
 >>
 >>
->> On 9/5/2024 11:42 AM, Dikshita Agarwal wrote:
->>>
->>>
->>> On 8/29/2024 2:43 PM, Dmitry Baryshkov wrote:
->>>> On Tue, Aug 27, 2024 at 03:08:03PM GMT, Bryan O'Donoghue wrote:
->>>>> On 27/08/2024 11:05, Dikshita Agarwal via B4 Relay wrote:
->>>>>> +static const struct of_device_id iris_dt_match[] = {
->>>>>> +	{ .compatible = "qcom,sm8550-iris", },
->>>>>> +	{ .compatible = "qcom,sm8250-venus", },
->>>>>> +	{ },
->>>>>> +};
->>>>>> +MODULE_DEVICE_TABLE(of, iris_dt_match);
->>>>>
->>>>> The enabling patch for the compat strings should come last - if its first
->>>>> then the time between the compat add and the last patch is a dead zone where
->>>>> things are bound to break on a booting board.
+>> On 8/27/2024 4:12 PM, Krzysztof Kozlowski wrote:
+>>> On 27/08/2024 12:05, Dikshita Agarwal via B4 Relay wrote:
+>>>> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
 >>>>
->>>> But then it's impossible to test the driver in the interim state.
->>>> Moreover enabling it at the end only makes it hard to follow platform
->>>> data changes. What about adding sm8550 at this point and adding sm8250
->>>> at the end? Or enabling qcom,sm8550-iris and the fake qcom,sm8250-iris
->>>> now (and clearly documenting it as fake) and as the last patch change it
->>>> to qcom,sm8250-venus.
->>>
->>> Sure, we will add qcom,sm8250-iris at this point so that it enables the
->>> testing of the driver, and will add one patch at the last to add
->>> qcom,sm8250-venus.
->> Sorry fixing the typos. what I meant was,
->> we will add qcom,sm8550-iris at this point so that it enables the
->> testing of the driver, and will add one patch at the last to add
->> qcom,sm8250-venus.
-> 
-> I hope you meant 'to change qcom,sm8250-iris to qcom,sm8250-venus'. Also
-> please clearly document that qcom,sm8250-iris is a temporary thing just
-> to facilitate documentation and testing of the driver to be removed as a
-> last patch.
-> 
-I was agreeing to follow this suggestion of yours
-"What about adding sm8550 at this point and adding sm8250
-at the end?"
-Where we will add sm8550(qcom,sm8550-iris) first so driver can be tested on
-sm8550 and add sm8250(qcom,sm8250-venus) in the last patch.
-I think Bryan also agreed to the same.
->>>
->>> Thanks,
->>> Dikshita
+>>>> Add an entry for Iris video decoder accelerator driver.
 >>>>
+>>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>>> ---
+>>>>  MAINTAINERS | 11 +++++++++++
+>>>>  1 file changed, 11 insertions(+)
+>>>>
+>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>> index 8766f3e5e87e..105e67fca308 100644
+>>>> --- a/MAINTAINERS
+>>>> +++ b/MAINTAINERS
+>>>> @@ -18898,6 +18898,17 @@ S:	Maintained
+>>>>  F:	Documentation/devicetree/bindings/regulator/vqmmc-ipq4019-regulator.yaml
+>>>>  F:	drivers/regulator/vqmmc-ipq4019-regulator.c
+>>>>  
+>>>> +QUALCOMM IRIS VIDEO ACCELERATOR DRIVER
+>>>> +M:	Vikash Garodia <quic_vgarodia@quicinc.com>
+>>>> +M:	Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>>> +R:	Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>> +L:	linux-media@vger.kernel.org
+>>>> +L:	linux-arm-msm@vger.kernel.org
+>>>> +S:	Maintained
+>>>> +T:	git git://linuxtv.org/media_tree.git
+>>>
+>>> Drop, you do not maintain that Git tree.
+>> Sure, will remove
+>>>
+>>>> +F:	Documentation/devicetree/bindings/media/qcom,*-iris.yaml
+>>>> +F:	drivers/media/platform/qcom/iris/
+>>>
+>>> Drop, does not exist. Or fix your patch order.
+>> Are you suggesting to add this patch as the last patch of the series?
+>> or remove just below entry and add one more patch at the end to update
+>> MAINTAINERS file with the same?
+> 
+> Adding it after the patch that adds the driver should be fine. Likewise
+> adding it at the end is also fine.
+> 
+sure, so should I add the whole patch once driver is introduced or have a
+separate patch for just below?
+>> +F:	drivers/media/platform/qcom/iris/
+>>
+>> Thanks,
+>> Dikshita
+>>>
+>>>
+>>> Best regards,
+>>> Krzysztof
+>>>
 >>>
 > 
 
