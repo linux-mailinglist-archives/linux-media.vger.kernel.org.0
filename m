@@ -1,171 +1,169 @@
-Return-Path: <linux-media+bounces-17666-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17667-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FBF396D684
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 12:57:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7943A96D693
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 13:00:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 93F841C2367A
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 10:57:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E02C1C23113
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 11:00:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9445D1991BA;
-	Thu,  5 Sep 2024 10:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 492401991D5;
+	Thu,  5 Sep 2024 10:59:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="A/cKexi0"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KIvnwBWC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841031990BC;
-	Thu,  5 Sep 2024 10:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3A21990CE;
+	Thu,  5 Sep 2024 10:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725533864; cv=none; b=qlBQX0ZqQ4tj/wPn3+WpWIx/p72oGT5L1rX8e2CRZL0c5pH7I0SeKd6LLYSbmXIo0lbk8KjmA3s1MHtzouyCBATROp7fQiaBDT34FgRvNJ0nvuZBo9jwItHaGxojomDVEzRXO4WmCV/wlsWG28NiVFAjgQGZGJg5cnd5Frp1bQc=
+	t=1725533997; cv=none; b=RUvaUd87nmmLw7g9X0AW0QKjU2Y4W4O2+r0BwsCZS33Fvj3qlFpdGvcaN7/zqcPu1aMZIGApLBweca6PCTLvK5pce640aod4KA2akvkqpXUn3aqNW06XqsPXdSSE2nmJJiwxQZfn7uIq5RBTaatg6ketVOcJpswHANnFyykR0ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725533864; c=relaxed/simple;
-	bh=4lcWVFFe95tKLdrn4zflmv1HKktKQEoGhVTAo3Nh+Cs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CQUz0Yty6qRalKvyKKvyNjVCla9WVhw52MQ7NgPZdnPQbmlKzkyphMt9hzr/VTR6uEiHeNCnGxLnDJDLoUAwGMo0s/1/0Iypz5z2LGixqiC1FXS2qNmwKBw4EPa9i2rinwPKC15MdSmWVra9jBjBf7VJrjW20Rv2fWbSd5peNRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=A/cKexi0; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38D57AD0;
-	Thu,  5 Sep 2024 12:56:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725533786;
-	bh=4lcWVFFe95tKLdrn4zflmv1HKktKQEoGhVTAo3Nh+Cs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=A/cKexi0iRE2TsNd6nG6S4gnpjSvSRaAkFfvWSk+maG+uKxRhfFZm7RpWagwHZqQV
-	 dVLJ/WvJJljpBsueBIH+4axvl2UQckj9ZcjXkguJ9UQRrIwVPZdoWC4RAtByPY/Tuf
-	 KQfFpMjPNSXJDwKoHKYIUbR1RiPrxCdvB1Dh9H5c=
-Message-ID: <1eead6a9-87c7-409d-abd6-32c4d0dafe05@ideasonboard.com>
-Date: Thu, 5 Sep 2024 13:57:36 +0300
+	s=arc-20240116; t=1725533997; c=relaxed/simple;
+	bh=G8vIAqhBoCUmW3PYj1YRTTXzOEypuOjhZ2S4WZOUKEQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=PrS8lRKm/XXvj8cF/v1BvOeEk/zMZFtQImRE7ZOfkktIlzb2h220SyQqfYfnJv60N5YvNX+Larr8kiS/C+F131rwa1n+dS/kSouXHUpjJobdDbJrlUaiGBIUsISPZo3wGBo5l3EHnWMBqUNBGD2C6+H/gS7FZxDrYmXVpjKT2/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KIvnwBWC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48597lfR004502;
+	Thu, 5 Sep 2024 10:59:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/hRnIwW1i7chXnFLofgXR//0tKVfnDVwkMWp0okmFq8=; b=KIvnwBWCsCyS8wN4
+	LB3h4jjajGTyUlBk3rb8J7I/JzcOCtWKLfnS1Ndqt9LAaWUOcoYmUKK7UNg4Bye/
+	pXyvj+CbfDL64DbStSTex8qhc7OSrI4s9Nfn2aFn8n/Q19IvGr2wwxWWlJ2UHuLm
+	CXvdJ+QSjpU0cYUEiZtntZR+0/GFB/JigDktXdrfrkKDKEryBzlCQ9OgQlJnVO7s
+	H/rR+eBKDi9YHbWyg8deBaQedTXM8KNrx2zYu/pN9lFlr6ujD/j76cX1e/2WJo4B
+	EaJGKTaADWZCK+3efxaz58apXYcTs5Z2P87fWaHgw1k+XuOm94fglKt/g85WSyP3
+	ITrBAQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41bt675svf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Sep 2024 10:59:48 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 485AxlJo008601
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 5 Sep 2024 10:59:47 GMT
+Received: from [10.216.46.64] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Sep 2024
+ 03:59:42 -0700
+Message-ID: <bcfdeaf6-58c7-1c53-035b-07ae4bfa37f0@quicinc.com>
+Date: Thu, 5 Sep 2024 16:29:39 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/12] media: ov5645: Add support for streams
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <3eeae62a-e22b-443a-aad4-f1a384c0a3f7@ideasonboard.com>
- <514490a2-181a-42ac-bc54-7a700e8d1bb9@ideasonboard.com>
- <CA+V-a8v0s8Unk3pNhR1wgBk_wqkua__Dumq3KT=n-cXUwq=6Bw@mail.gmail.com>
- <c928e09a-751e-45af-8e57-f105b41df2be@ideasonboard.com>
- <CA+V-a8svfVrjEjYbSko4eh6z_9kEkfwMHr0YHwaxEPWLKJBPyg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 03/29] media: iris: add platform driver for iris video
+ device
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <CA+V-a8svfVrjEjYbSko4eh6z_9kEkfwMHr0YHwaxEPWLKJBPyg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Dmitry Baryshkov <dbaryshkov@gmail.com>
+CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
+ <20240827-iris_v3-v3-3-c5fdbbe65e70@quicinc.com>
+ <74126160-57f9-4abf-a26c-3491c8f3dd78@linaro.org>
+ <zfltcl5x4hol2foftyvr4oigxus4hnequd74zi7bdd7tsdv56q@3nphukr4zgmm>
+ <fa674301-9c4e-c4de-361a-1d1abf413ffc@quicinc.com>
+ <adb2eed8-8d5e-a052-81b3-cde705c3503b@quicinc.com>
+ <ydah7lm6ov26fy5odqc6u6vlfu2w5gzqxquplimhbdamw3gdpj@dmgdr52pvm5g>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <ydah7lm6ov26fy5odqc6u6vlfu2w5gzqxquplimhbdamw3gdpj@dmgdr52pvm5g>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 5r8qYnlRL7_Ea-fKWD5EzJ5GEkpV1K_L
+X-Proofpoint-GUID: 5r8qYnlRL7_Ea-fKWD5EzJ5GEkpV1K_L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-05_06,2024-09-04_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ bulkscore=0 mlxscore=0 impostorscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=999 lowpriorityscore=0 spamscore=0 clxscore=1011
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409050080
 
-On 05/09/2024 13:51, Lad, Prabhakar wrote:
-> Hi Tomi,
-> 
-> On Thu, Sep 5, 2024 at 11:29 AM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
+
+
+On 9/5/2024 3:41 PM, Dmitry Baryshkov wrote:
+> On Thu, Sep 05, 2024 at 11:45:25AM GMT, Dikshita Agarwal wrote:
 >>
->> On 05/09/2024 13:27, Lad, Prabhakar wrote:
->>> Hi Tomi,
+>>
+>> On 9/5/2024 11:42 AM, Dikshita Agarwal wrote:
 >>>
->>> On Thu, Sep 5, 2024 at 10:11 AM Tomi Valkeinen
->>> <tomi.valkeinen@ideasonboard.com> wrote:
+>>>
+>>> On 8/29/2024 2:43 PM, Dmitry Baryshkov wrote:
+>>>> On Tue, Aug 27, 2024 at 03:08:03PM GMT, Bryan O'Donoghue wrote:
+>>>>> On 27/08/2024 11:05, Dikshita Agarwal via B4 Relay wrote:
+>>>>>> +static const struct of_device_id iris_dt_match[] = {
+>>>>>> +	{ .compatible = "qcom,sm8550-iris", },
+>>>>>> +	{ .compatible = "qcom,sm8250-venus", },
+>>>>>> +	{ },
+>>>>>> +};
+>>>>>> +MODULE_DEVICE_TABLE(of, iris_dt_match);
+>>>>>
+>>>>> The enabling patch for the compat strings should come last - if its first
+>>>>> then the time between the compat add and the last patch is a dead zone where
+>>>>> things are bound to break on a booting board.
 >>>>
->>> <snip>
->>>>> I think you actually want 1/0->0/0 routing. The error says that the sink
->>>>> side device has routing which does not have a stream at stream ID 1, or
->>>>> no routing support at all, which implies a single stream at stream ID 0.
->>>>
->>>> Looking at patch 12, there's something wrong with the approach here. Are
->>>> you perhaps trying to define the CSI-2 VC with the streams?
->>>>
->>> Yes, based on the previous feedback received, I am implementing
->>> virtual channels as streams. If this isn't the correct approach can
->>> you please guide me on what we should be using to support virtual
->>> channels?
->>
->> Can you describe what kind of hardware you have and how the VCs are
->> supposed to be configured and used there?
->>
+>>>> But then it's impossible to test the driver in the interim state.
+>>>> Moreover enabling it at the end only makes it hard to follow platform
+>>>> data changes. What about adding sm8550 at this point and adding sm8250
+>>>> at the end? Or enabling qcom,sm8550-iris and the fake qcom,sm8250-iris
+>>>> now (and clearly documenting it as fake) and as the last patch change it
+>>>> to qcom,sm8250-venus.
+>>>
+>>> Sure, we will add qcom,sm8250-iris at this point so that it enables the
+>>> testing of the driver, and will add one patch at the last to add
+>>> qcom,sm8250-venus.
+>> Sorry fixing the typos. what I meant was,
+>> we will add qcom,sm8550-iris at this point so that it enables the
+>> testing of the driver, and will add one patch at the last to add
+>> qcom,sm8250-venus.
 > 
->   __________________                       ______________
->      _____________________
-> |                                     |                     |
->                  |                   |
->        |
-> | OV5645   Sensor        |                     |  RZ/G2L CSI2   |
->               |  RZ/G2L CRU                 |
-> | 1ch out of 4x VC         |---------------> |   4x VC
-> |-------------->|  1Ch capture out 4xVC  |
-> |__________________|                      |_____________|
->       |____________________|
-
-The formatting there is quite broken, but afaiu you have a standard 
-setup with single stream. Then it should be as I wrote earlier: a single 
-hardcoded 1/0->0/0 route in the sensor, and .get_frame_desc() returns VC 
-0 and a suitable DT for that stream.
-
-When you say "implementing virtual channels as streams", what is the 
-feature/requirement you are looking at? Do you have some specific need 
-to use other VCs than 0?
-
-  Tomi
-
+> I hope you meant 'to change qcom,sm8250-iris to qcom,sm8250-venus'. Also
+> please clearly document that qcom,sm8250-iris is a temporary thing just
+> to facilitate documentation and testing of the driver to be removed as a
+> last patch.
+> 
+I was agreeing to follow this suggestion of yours
+"What about adding sm8550 at this point and adding sm8250
+at the end?"
+Where we will add sm8550(qcom,sm8550-iris) first so driver can be tested on
+sm8550 and add sm8250(qcom,sm8250-venus) in the last patch.
+I think Bryan also agreed to the same.
+>>>
+>>> Thanks,
+>>> Dikshita
+>>>>
+>>>
+> 
 
