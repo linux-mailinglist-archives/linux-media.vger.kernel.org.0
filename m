@@ -1,128 +1,194 @@
-Return-Path: <linux-media+bounces-17683-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17684-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A5496D8C0
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 14:37:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F5096D8E1
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 14:41:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F3182824C0
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 12:37:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0487A1F290E3
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 12:41:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F66519CC2B;
-	Thu,  5 Sep 2024 12:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F3FE19C56E;
+	Thu,  5 Sep 2024 12:41:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x+DNWcX9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q/944Bw+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4BC19AD8C
-	for <linux-media@vger.kernel.org>; Thu,  5 Sep 2024 12:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B0419AD48;
+	Thu,  5 Sep 2024 12:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725539820; cv=none; b=DCzFARm9QkRSFeYa5Mq8uPrY36Z+u+/7QXBrlveXjVDinyiLTC+fPnroqJpEvPokrdjdiLGO6XVk9JKRi2BipgAGMfZTEBhXfJKKKr5o9m13l6ct7ytUSyGKwBqJzgcyC+72USATaGdCKpAV5kJ3RhcDIag+EGZemlJuGdlFprU=
+	t=1725540074; cv=none; b=K/WgzY11Y7o2aCuVX8n2+Psvfz+aa15zvZXQvsrJzoH/XE42HFRmWUkURYrIQPpqAujp03ZZ4m3cHEWpnoJIAL0czS9ay9bTPOM5EvJ6SqLSWQph7W4BlQ3kT00rgJVi2KEsNrtTZ58zd7pjuGZ6Y1H/Ykv+oHafS1YnFuoswKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725539820; c=relaxed/simple;
-	bh=OQ8/sBGiChbcjrtKY5POQPKnSXe245LSYHuTYskerOI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YUGnODXGE4lFECQoXZsMi5WVlzKWHeKc80s+sl1wxprs2GbXB10JEhJglTpFFNdFDAtFcfiFKNp89Z8HfR46XoE4uFs9C21CqeT7LSIy5+vCMWTGo5j7MXlM4wk4fPdOriuebZ2KGYH/izik0T7Gsu13HJl9hdHzDnZMx3hKSOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x+DNWcX9; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-374c4c6cb29so601609f8f.3
-        for <linux-media@vger.kernel.org>; Thu, 05 Sep 2024 05:36:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725539817; x=1726144617; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kcJQ6CbLoNoUKpf33h9pQfnLdDyothljlCNcjVpGJKM=;
-        b=x+DNWcX9hjswGG1dKZo5CfIjjLknzyR9LF1oVdwMC+XDQxLeE6eBzBD6HooO1QSJDw
-         CaxGvOIPFFpT04eo729C+q/kuzrmFUZstQDOINwdbrdojsfjwwPApd3vSyyyBeZCactF
-         SM+ozpETZS+dHGXEQ1DDkhgsOedw3B9/JRB0wtNHuOwubVoHJLFET5RdDoR2XQOG5dZs
-         5QNIV2vsRrxVcEVCDjwgLRYNkKoFS1Eiqao1+s/JbzzGkwZraQh1zAMMFCCkmvkMJNP6
-         /a77FQef+ASMobPwQ4i8j8NOGF2QbIoTaHslQmPI7ac1fBnvdoBuuaxcB3u9jjIcjfT3
-         TEQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725539817; x=1726144617;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kcJQ6CbLoNoUKpf33h9pQfnLdDyothljlCNcjVpGJKM=;
-        b=gC1tul1+1G5bpfU8XtJyuizM1Mb+5rqIJW1SfJETNvJbqaouU5fZ3EoXdLNKzgAWFv
-         cpbegGfJzYvxwa2s/9uDe3rkRYFCGDCfHCRNE0Q5b+YMqC6OQr/VkkbptEp2xjxiD1OA
-         H7Xfn5pvwQp16O5FZboH+XKMd2AoW+kcLK450fAHrMPUcav6hdCjdy32qRqEDfrwxUWw
-         dFr5RfTGS1FCjg+0cuyPFgNJ886Lwxsz+i4ARKr8dD03GLfDFLgk78HdiaB3z0dugcqi
-         i1/TOSaEb37YeucJRMbgKkIp5nl7VY+bn6IWCpCwp/+AfOMLsLQTqKrNw7OjlccJv6R+
-         ACGA==
-X-Gm-Message-State: AOJu0YyeM3anwusVzY6DxHp9PgcWMZ67/Vf4IGdKXlo1v3PAOADjzbM7
-	HAalWvpSMuMOvqvC2uZnYcfG/ZgM9GDu1BUFv3LRp8IPgp4NdZUftPx3F28G3hM=
-X-Google-Smtp-Source: AGHT+IFnKY2CWqoAVevjfLX2YALDhGW6evQi+sqpvIrnjPk2Ms8HYMqnBQGTJWRqCwAuc9MzdjX08w==
-X-Received: by 2002:a05:6000:124c:b0:374:c29a:a0d6 with SMTP id ffacd0b85a97d-374c29aa194mr13366485f8f.2.1725539817084;
-        Thu, 05 Sep 2024 05:36:57 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a62045e44sm131160466b.78.2024.09.05.05.36.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Sep 2024 05:36:56 -0700 (PDT)
-Message-ID: <06036309-a7cd-4eb8-b7bf-1704f49ffdf1@linaro.org>
-Date: Thu, 5 Sep 2024 13:36:55 +0100
+	s=arc-20240116; t=1725540074; c=relaxed/simple;
+	bh=Vmi+1f/dZY2VqSgcwNZ8hfyxCiVY3aGx6vrPWR7PizU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JInSTmaj2yyhiUQ9fHUdg0a/IaZBsxAnutcqbL+UIICzSRMRjd2TE6KdaViTzeeJ1bZ4Y3kLWvnKf0F77YwV9OJVaVQfZWBFSdWg1ad/uo3mSJlb1mc5gs1I/Nns0y6gQlnzGPB3pxZ6xxKNXl08Ap792ayEw8Uxz3YaeaO/il0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q/944Bw+; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725540073; x=1757076073;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Vmi+1f/dZY2VqSgcwNZ8hfyxCiVY3aGx6vrPWR7PizU=;
+  b=Q/944Bw+YX9pvELdh1odWY5fiJLev1bsMsr5+KujuThiTfibEWUO1GSu
+   LV11Co7chIiPv8x4f2duFXm7iNJ7O+gyfL44dahy2Tbrx0hAEhvYDJp6c
+   LXjUf1zvA+m+lcOaGdWSX/Ow59Qiblk09SdbydHhDAK1Wnm4s+om4HY19
+   z+D23z3IlL8x2iaBgq3//QLUreFe+ftcBBA3hIeqL4g1smdef8Jy95aJD
+   5vIXdnqRCPT33MQAjGRLwlS8IpOS1u7Oly6HkYsbCIuK8y5+DNKgsWcZa
+   w64MjqaUyX6vRJ6pJVRqTCVqYrhweNWG65bfJ7ILK8nIcbJCuCMcXFaqu
+   g==;
+X-CSE-ConnectionGUID: brb8ncNWSmWrH/VYb9ICPQ==
+X-CSE-MsgGUID: vzMt2iUoTqmC7gICVhdcXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="34919010"
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="34919010"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 05:41:12 -0700
+X-CSE-ConnectionGUID: g0N9q6twQTC2A0FV6dSL6w==
+X-CSE-MsgGUID: kQc8pjfKTDeNleY3Fp7LKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="65301491"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 05:40:57 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1smBn9-00000005OYX-3K6o;
+	Thu, 05 Sep 2024 15:40:51 +0300
+Date: Thu, 5 Sep 2024 15:40:51 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Hannes Reinecke <hare@suse.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jiri Pirko <jiri@resnulli.us>, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com
+Subject: Re: [PATCH 00/18] random: Include <linux/percpu.h> and resolve
+ circular include dependency
+Message-ID: <Ztmm00eLBQGtiwRM@smile.fi.intel.com>
+References: <20240905122020.872466-1-ubizjak@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/29] media: iris: introduce Host firmware interface
- with necessary hooks
-To: quic_dikshita@quicinc.com, Vikash Garodia <quic_vgarodia@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
- <20240827-iris_v3-v3-9-c5fdbbe65e70@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240827-iris_v3-v3-9-c5fdbbe65e70@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240905122020.872466-1-ubizjak@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 27/08/2024 11:05, Dikshita Agarwal via B4 Relay wrote:
-> +enum hfi_packet_port_type {
-> +	HFI_PORT_NONE		= 0x00000000,
-> +	HFI_PORT_BITSTREAM	= 0x00000001,
-> +	HFI_PORT_RAW		= 0x00000002,
-> +};
-> +
-> +enum hfi_packet_payload_info {
-> +	HFI_PAYLOAD_NONE	= 0x00000000,
-> +	HFI_PAYLOAD_U32		= 0x00000001,
-> +	HFI_PAYLOAD_S32		= 0x00000002,
-> +	HFI_PAYLOAD_U64		= 0x00000003,
-> +	HFI_PAYLOAD_S64		= 0x00000004,
-> +	HFI_PAYLOAD_STRUCTURE	= 0x00000005,
-> +	HFI_PAYLOAD_BLOB	= 0x00000006,
-> +	HFI_PAYLOAD_STRING	= 0x00000007,
-> +	HFI_PAYLOAD_Q16		= 0x00000008,
-> +	HFI_PAYLOAD_U32_ENUM	= 0x00000009,
-> +	HFI_PAYLOAD_32_PACKED	= 0x0000000a,
-> +	HFI_PAYLOAD_U32_ARRAY	= 0x0000000b,
-> +	HFI_PAYLOAD_S32_ARRAY	= 0x0000000c,
-> +	HFI_PAYLOAD_64_PACKED	= 0x0000000d,
-> +};
-> +
-> +enum hfi_packet_host_flags {
-> +	HFI_HOST_FLAGS_NONE			= 0x00000000,
+On Thu, Sep 05, 2024 at 02:17:08PM +0200, Uros Bizjak wrote:
+> There were several attempts to resolve circular include dependency
+> after the addition of percpu.h: 1c9df907da83 ("random: fix circular
+> include dependency on arm64 after addition of percpu.h"), c0842fbc1b18
+> ("random32: move the pseudo-random 32-bit definitions to prandom.h") and
+> finally d9f29deb7fe8 ("prandom: Remove unused include") that completely
+> removes inclusion of <linux/percpu.h>.
+> 
+> Due to legacy reasons, <linux/random.h> includes <linux/prandom.h>, but
+> with the commit entry remark:
+> 
+> --quote--
+> A further cleanup step would be to remove this from <linux/random.h>
+> entirely, and make people who use the prandom infrastructure include
+> just the new header file.  That's a bit of a churn patch, but grepping
+> for "prandom_" and "next_pseudo_random32" "struct rnd_state" should
+> catch most users.
+> 
+> But it turns out that that nice cleanup step is fairly painful, because
+> a _lot_ of code currently seems to depend on the implicit include of
+> <linux/random.h>, which can currently come in a lot of ways, including
+> such fairly core headfers as <linux/net.h>.
+> 
+> So the "nice cleanup" part may or may never happen.
+> --/quote--
+> 
+> __percpu tag is currently defined in include/linux/compiler_types.h,
+> so there is no direct need for the inclusion of <linux/percpu.h>.
+> However, in [1] we would like to repurpose __percpu tag as a named
+> address space qualifier, where __percpu macro uses defines from
+> <linux/percpu.h>.
+> 
+> This patch series is the "nice cleanup" part, and allows us to finally
+> include <linux/percpu.h> in prandom.h.
+> 
+> The whole series was tested by compiling the kernel for x86_64 allconfig
+> and some popular architectures, namely arm64 defconfig, powerpc defconfig
+> and loongarch defconfig.
 
-Are these NONE flags used/necessary ?
+Obvious question(s) is(are):
+1) have you seen the Ingo's gigantic patch series towards resolving issues with
+the headers?
+2) if not, please look at the preliminary work and take something from there, I
+believe there are many useful changes already waiting for a couple of years to
+be applied.
 
-If they are dead enum values, please drop in the next version.
+Because I haven't found any references nor mentions of that in the cover letter
+here and explanation why it was not taking into consideration.
 
----
-bod
+> [1] https://lore.kernel.org/lkml/20240812115945.484051-4-ubizjak@gmail.com/
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
