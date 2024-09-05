@@ -1,146 +1,184 @@
-Return-Path: <linux-media+bounces-17671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17672-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B505396D6C8
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 13:11:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B875396D6D1
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 13:14:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E87581C2504D
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 11:11:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 462B01F2623C
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 11:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C8A719924A;
-	Thu,  5 Sep 2024 11:11:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B895B199389;
+	Thu,  5 Sep 2024 11:13:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rFYMZ7l0"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="X+L2wY/+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97692194A61;
-	Thu,  5 Sep 2024 11:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7115194A61;
+	Thu,  5 Sep 2024 11:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725534686; cv=none; b=tOPfZfT06pRdioMYAWL97FQ+8mp67kL1GK7NcGGcDVO6GzvnzIh7vwdogTImY3WBTO3ZHaDaiUPTKnxT0zy5g5fJ+df+7wNriB5vul4+Rbb7v1euyQHNOkmL32FVrjeejiRRVpHC5xXyf2dqb3eEz6//PaDVGaY2E89E8N5vnOc=
+	t=1725534836; cv=none; b=ZQyNxRr1lNAKqCMru7e4Fn7RXre+HoZi123uPoedJiffvAUWiBfS+uUnALRHy1bbRvH0A80NixMiS6xoPUR204qQIvkmVEKC6Smbtd8sqRuzWmU0KLKluJzPmpBGoOO9k/Xj74nUbIvJ3ZD7IcPSvik5vvTkyVR9s0ZCCACs3NI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725534686; c=relaxed/simple;
-	bh=+Wp7h+yVKjMqDOnuzocHsFpFD+fZU7fCOYID9KB6ZEo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m8fpkdoAWVNUt68Fs5p2p3U8Wm/u2J7vr64KUO5oa+H40YxnODd8e1E+26KDWawIjZw4uySEBN8GiHPNxN9S1hqIMXkiEMT3qWwHebrxFfEp87lXRbORYqALAIgFQJScqbLqxAizclK9JuXXV3ixDzMIrNGbySZ0qoV7axCIVV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rFYMZ7l0; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F2F13E6;
-	Thu,  5 Sep 2024 13:10:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725534609;
-	bh=+Wp7h+yVKjMqDOnuzocHsFpFD+fZU7fCOYID9KB6ZEo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rFYMZ7l0z0n/9sZxti07wmHVLgrUZmxiqTRVmk0FxQLfTKljvqCypiEI86RwgfxH6
-	 QsshlovyxJQFRu6xjHEe9+ju4aumXWcR7zJFd1bl+i1c74n9linBIt/6f1IXmDzy4l
-	 qtUlbyxPaXs04Hfn6ePj2p73v41SgvcvFYoij7k4=
-Date: Thu, 5 Sep 2024 14:11:20 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
-Message-ID: <20240905111120.GK16183@pendragon.ideasonboard.com>
-References: <20240904-rp1-cfe-v4-3-f1b5b3d69c81@ideasonboard.com>
- <202409051822.ZzUGw3XQ-lkp@intel.com>
+	s=arc-20240116; t=1725534836; c=relaxed/simple;
+	bh=q3odayBUC48ttl67f9rTJzHtF510j1fax/cMiY7xTgA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=pnH8B1xe8ujYf3yA16H8D9sFdH86DBTvCPMVhSDdSwqbs7znZWq5jKWDqwvhr4ZvdK3Af0zaE+dq3uqYPjsUi7rmp18SHBf/7OVwKX4nogsbBAEciSWcHScV0gRbTM1JMJABxQ4h9HG5BPElu92cRageW4oNMujBt77ZAd14LrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=X+L2wY/+; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48597NT5002154;
+	Thu, 5 Sep 2024 11:13:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	QbNe/FgErEC3RvJy4xyFPEI0Um7dNobSWdkWZqmBj2U=; b=X+L2wY/+QvpdOSr2
+	Zl/1yqf57j6dQFsB8UbTePiOJg3PxzTGuOW0+OJjZjxGG8c1TnoIB4vCeqHRJ+Df
+	ZLOwbgPhXNi+c+1aNXYQWNDidZfZNvu7RqBHQR5MAmmZd00fkbdp92wLHjdF8jkV
+	Cq2dOca+AvbEk0BL0wX12AJj8WJUwbBNJGCFYPtM0GwiuImfy8kDieVznOZS3Dpy
+	zvnT1A6Rq1tlD8xvMsAcVB2+yWT9JQhZo5zK6fhgpaTZiOLi8ol5BuAuGxXaYcCA
+	Lk8ir/6QyAl2typY6APWTTOqrteRONRsj5IWVqUA8Ne+ddFRQDz0Kw1U9tXfEcFS
+	9QboGw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41bt675tw0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Sep 2024 11:13:46 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 485BDjs9024056
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 5 Sep 2024 11:13:45 GMT
+Received: from [10.216.46.64] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Sep 2024
+ 04:13:40 -0700
+Message-ID: <2ba270bf-5995-b152-0def-a900aac836fa@quicinc.com>
+Date: Thu, 5 Sep 2024 16:43:37 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202409051822.ZzUGw3XQ-lkp@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 03/29] media: iris: add platform driver for iris video
+ device
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Dmitry Baryshkov <dbaryshkov@gmail.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
+ <20240827-iris_v3-v3-3-c5fdbbe65e70@quicinc.com>
+ <74126160-57f9-4abf-a26c-3491c8f3dd78@linaro.org>
+ <zfltcl5x4hol2foftyvr4oigxus4hnequd74zi7bdd7tsdv56q@3nphukr4zgmm>
+ <fa674301-9c4e-c4de-361a-1d1abf413ffc@quicinc.com>
+ <adb2eed8-8d5e-a052-81b3-cde705c3503b@quicinc.com>
+ <ydah7lm6ov26fy5odqc6u6vlfu2w5gzqxquplimhbdamw3gdpj@dmgdr52pvm5g>
+ <bcfdeaf6-58c7-1c53-035b-07ae4bfa37f0@quicinc.com>
+ <CAA8EJpp75N0OHZZ+dLnKXXDk7AksJjYkKP0uwJ+da3zA+60KgA@mail.gmail.com>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <CAA8EJpp75N0OHZZ+dLnKXXDk7AksJjYkKP0uwJ+da3zA+60KgA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 9-YzNrzt0sRPbrpoy9rR55bjbrZ1Cd_X
+X-Proofpoint-GUID: 9-YzNrzt0sRPbrpoy9rR55bjbrZ1Cd_X
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-05_06,2024-09-04_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ bulkscore=0 mlxscore=0 impostorscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=999 lowpriorityscore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409050082
 
-On Thu, Sep 05, 2024 at 06:50:48PM +0800, kernel test robot wrote:
-> Hi Tomi,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and-stats/20240904-192729
-> base:   431c1646e1f86b949fa3685efc50b660a364c2b6
-> patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3-f1b5b3d69c81%40ideasonboard.com
-> patch subject: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409051822.ZzUGw3XQ-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12: warning: 'cfe_runtime_resume' defined but not used [-Wunused-function]
->     2445 | static int cfe_runtime_resume(struct device *dev)
->          |            ^~~~~~~~~~~~~~~~~~
-> >> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12: warning: 'cfe_runtime_suspend' defined but not used [-Wunused-function]
->     2435 | static int cfe_runtime_suspend(struct device *dev)
->          |            ^~~~~~~~~~~~~~~~~~~
-> vim +/cfe_runtime_resume +2445 drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
 
-The recommended way to fix this is to switch from SET_RUNTIME_PM_OPS()
-to RUNTIME_PM_OPS() and use pm_ptr() to set .driver.pm. This being said,
-the driver won't work on a kernel with !CONFIG_PM given how you
-implemented probe() and remove().
 
-The pisp-be driver suffered from the same issue and Jacopo fixed it in
-the last version. You can have a look at implement something similar.
-
->   2434	
-> > 2435	static int cfe_runtime_suspend(struct device *dev)
->   2436	{
->   2437		struct platform_device *pdev = to_platform_device(dev);
->   2438		struct cfe_device *cfe = platform_get_drvdata(pdev);
->   2439	
->   2440		clk_disable_unprepare(cfe->clk);
->   2441	
->   2442		return 0;
->   2443	}
->   2444	
-> > 2445	static int cfe_runtime_resume(struct device *dev)
->   2446	{
->   2447		struct platform_device *pdev = to_platform_device(dev);
->   2448		struct cfe_device *cfe = platform_get_drvdata(pdev);
->   2449		int ret;
->   2450	
->   2451		ret = clk_prepare_enable(cfe->clk);
->   2452		if (ret) {
->   2453			dev_err(dev, "Unable to enable clock\n");
->   2454			return ret;
->   2455		}
->   2456	
->   2457		return 0;
->   2458	}
->   2459	
-
--- 
-Regards,
-
-Laurent Pinchart
+On 9/5/2024 4:37 PM, Dmitry Baryshkov wrote:
+> On Thu, 5 Sept 2024 at 13:59, Dikshita Agarwal
+> <quic_dikshita@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 9/5/2024 3:41 PM, Dmitry Baryshkov wrote:
+>>> On Thu, Sep 05, 2024 at 11:45:25AM GMT, Dikshita Agarwal wrote:
+>>>>
+>>>>
+>>>> On 9/5/2024 11:42 AM, Dikshita Agarwal wrote:
+>>>>>
+>>>>>
+>>>>> On 8/29/2024 2:43 PM, Dmitry Baryshkov wrote:
+>>>>>> On Tue, Aug 27, 2024 at 03:08:03PM GMT, Bryan O'Donoghue wrote:
+>>>>>>> On 27/08/2024 11:05, Dikshita Agarwal via B4 Relay wrote:
+>>>>>>>> +static const struct of_device_id iris_dt_match[] = {
+>>>>>>>> +        { .compatible = "qcom,sm8550-iris", },
+>>>>>>>> +        { .compatible = "qcom,sm8250-venus", },
+>>>>>>>> +        { },
+>>>>>>>> +};
+>>>>>>>> +MODULE_DEVICE_TABLE(of, iris_dt_match);
+>>>>>>>
+>>>>>>> The enabling patch for the compat strings should come last - if its first
+>>>>>>> then the time between the compat add and the last patch is a dead zone where
+>>>>>>> things are bound to break on a booting board.
+>>>>>>
+>>>>>> But then it's impossible to test the driver in the interim state.
+>>>>>> Moreover enabling it at the end only makes it hard to follow platform
+>>>>>> data changes. What about adding sm8550 at this point and adding sm8250
+>>>>>> at the end? Or enabling qcom,sm8550-iris and the fake qcom,sm8250-iris
+>>>>>> now (and clearly documenting it as fake) and as the last patch change it
+>>>>>> to qcom,sm8250-venus.
+>>>>>
+>>>>> Sure, we will add qcom,sm8250-iris at this point so that it enables the
+>>>>> testing of the driver, and will add one patch at the last to add
+>>>>> qcom,sm8250-venus.
+>>>> Sorry fixing the typos. what I meant was,
+>>>> we will add qcom,sm8550-iris at this point so that it enables the
+>>>> testing of the driver, and will add one patch at the last to add
+>>>> qcom,sm8250-venus.
+>>>
+>>> I hope you meant 'to change qcom,sm8250-iris to qcom,sm8250-venus'. Also
+>>> please clearly document that qcom,sm8250-iris is a temporary thing just
+>>> to facilitate documentation and testing of the driver to be removed as a
+>>> last patch.
+>>>
+>> I was agreeing to follow this suggestion of yours
+>> "What about adding sm8550 at this point and adding sm8250
+>> at the end?"
+>> Where we will add sm8550(qcom,sm8550-iris) first so driver can be tested on
+>> sm8550 and add sm8250(qcom,sm8250-venus) in the last patch.
+>> I think Bryan also agreed to the same.
+> 
+> To point out, qcom,sm8250-iris can not stay.
+yes, we are not using it currently as well.
+> 
+>>>>>
+>>>>> Thanks,
+>>>>> Dikshita
+>>>>>>
+>>>>>
+>>>
+> 
+> 
+> 
 
