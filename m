@@ -1,147 +1,141 @@
-Return-Path: <linux-media+bounces-17661-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17662-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C0896D58D
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 12:12:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5462396D60F
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 12:29:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EDEB288707
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 10:12:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7CB6B22B89
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 10:29:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67DA51474CF;
-	Thu,  5 Sep 2024 10:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CD301990A7;
+	Thu,  5 Sep 2024 10:27:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GU8y23pd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gOHTi1Xu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244E7198827;
-	Thu,  5 Sep 2024 10:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED01197A76;
+	Thu,  5 Sep 2024 10:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725531122; cv=none; b=Ks8ZX/Urw75T97QQyMMWkeMOU9Mvn1taL9a3rAj0Lvh3cpRNXWe+lfklUMqzFM74gg7aHJf2McVd6UU4ULl3wW/NO1I6evsGNt8Uhf6MOsZoQHKn9qQAHht2itwcJUGwDnc4/H5M937PFOHyxpCttSHM8UDLPTaQx6hwGRvEY3A=
+	t=1725532049; cv=none; b=rbrnSXN5UjAF//qNcnQF9Ttof2EyT9PDMHR+OC6SF3RYT5/IavtGyo/2gHD/OXgQA/x0i3LY1va62febzaqrvaumIBhkIxc26dljkve+HDvNPuQmO5fxSawF7Cc4QIUJSDHsBZmIn1GmN09D7bgcuajf0ynTwnp1csUVUfnQh4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725531122; c=relaxed/simple;
-	bh=NpgfnBUDDDIHIJ+5rvxER+luCoAGATy95tqNs1ggz1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WxF1QO3SwDsLUHViDag3uZB/ZXc9nCyeG5U53WRw2PBFNk8U8SLkrM87AaH8mT+iL13Jc3yWLMPjNcRUhPLzQx43cWTVsC7LspL7amOX3a8WoZIR+rhfbfCkobCbpMHb4fEvitaMm2nGDNBQ9dqQlQNMfG2bpm1iXP5G/fAGQtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GU8y23pd; arc=none smtp.client-ip=209.85.167.50
+	s=arc-20240116; t=1725532049; c=relaxed/simple;
+	bh=JMiWnaNp2rJzetkKnAwy6Oxo/TbQBaqMm6owphXO7/8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dpojkpIdc29SBGYJ9UcFpJKOl4PeuDSDNwOmIvpP4hvJ3XVElHhd0qxAkIZZVx8iH702XvOgQBgPuJ+NVGBK69mRFUqK8WiBVw83r5LUu9CNHqpBVuO6PuQim8FcnR6I4GIUdHw9L5Yzwms55ytxjJvI6J3HgfKhhYOkaL49SqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gOHTi1Xu; arc=none smtp.client-ip=209.85.221.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5333b2fbedaso979844e87.0;
-        Thu, 05 Sep 2024 03:12:00 -0700 (PDT)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5010a36e69dso258742e0c.0;
+        Thu, 05 Sep 2024 03:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725531119; x=1726135919; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pzrURegSMUDDYerdE+30Uf6YpbtaSiHaZehj0uPry7E=;
-        b=GU8y23pdHbFqklGZlaI9FN0IsBiXvTj7N+3arL/dIXJD1ThqlMgWwtjrlFOno/Dgmd
-         O1JIEr+T5B8oYGRn9SAH1y53y3dEZCF8kBLfOrP72ZZdrSIRpMfM8ttUGCOz5Myq0ZDb
-         DHqkciqAHhq5e+h3S7h+hITfS0HkFt0pv920Y0FOmmq8xQMCXGcS1B7nABw3HljQLSny
-         ihk3vtHnn0jDqzeoYmFW+5Ld7d9rcbGnGqz2xIch1u04THykO1Nij02uSx3DDv3KqG0I
-         ovyJ/kThBHp44KsRD3htJdnqeRYkfhVY5tev9Gp9+cn1sxnSxrObMIBPmi9Qdqhvq2ma
-         ZkKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725531119; x=1726135919;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1725532046; x=1726136846; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pzrURegSMUDDYerdE+30Uf6YpbtaSiHaZehj0uPry7E=;
-        b=bJ8mSS7Cc6BCidILdpSFEik+sOW1L7qm3WJFLn+EbhAIJWva3ok4HnqO8QJXt4LDhW
-         9L2jxI50Sq2FqEhvjalrqG2g/ffxvzvjAIegLEeJXGJRgomfmBwkB3A3BpgWCqEVJhss
-         8jSYaHji22z/G/SUtG19Xs4F9kCI3omisx9LEywq0HGNboEcBZEZDMnso28mcuxc6Bbl
-         4kVYOgOlH5KhS1BNqk1MZ4+e3/wrzOnAHkKrFVRLjgSYIYGDKntNEvmcmVbjiE69ZmwK
-         hUtbAoQ2Wsu4I4BMDhwx3eNdXC0i6y/wyWigFaSFydUqwgMlJj9L0YpvP7UDx+VTCTx+
-         a4Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCUwgyHOvKqrUcYGJGNtmNGDClOOsQewmj6s6qgi5D8u1/qcqVlvWua3pYrAFokeqeo1O3sB+t3wf8BQLQk=@vger.kernel.org, AJvYcCWLVsrODw9LYzYyBoSxnodezdg2FRdqI+mnk36c9WnlOaaHu05LLEfyCkXFtiCCUpVcUArh/09N5D7TGHu1@vger.kernel.org, AJvYcCWzho8D2rUUshBBAz5i3DgZAsimbdu3+gQ/0E56nywtPAAzIjmbQ7+ZwSVG+tyEJK3o+/7oxshsBNtl@vger.kernel.org, AJvYcCXJBr5P19yO7sNXxEdgeZg5Kaq8QzWFVt5L0ZTF36PnovdWYxHXstyqh7AlFR6Vky4p2kK2T3IjDdmrqzAyNA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8ZKky4VH4/CBh2dfAS3LPCoc4378gCnnqhBYeOMD4jr5OWhMF
-	VI0SUlOGD5UFVGkZPwFAAZZncuUP9Edv+7xkPjAwV6WO/VUPKS8/
-X-Google-Smtp-Source: AGHT+IF4+CfYhaSNDTCoF8WR7KvHhLY8mDHHI6agOH9EqSh0FYR5WXYowVijtgaLMH4pyzRQuTq16g==
-X-Received: by 2002:a05:6512:1244:b0:52f:d15f:d46b with SMTP id 2adb3069b0e04-53546b05cd2mr14947909e87.14.1725531118288;
-        Thu, 05 Sep 2024 03:11:58 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-536544c40cdsm62422e87.114.2024.09.05.03.11.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 03:11:57 -0700 (PDT)
-Date: Thu, 5 Sep 2024 13:11:56 +0300
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 03/29] media: iris: add platform driver for iris video
- device
-Message-ID: <ydah7lm6ov26fy5odqc6u6vlfu2w5gzqxquplimhbdamw3gdpj@dmgdr52pvm5g>
-References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
- <20240827-iris_v3-v3-3-c5fdbbe65e70@quicinc.com>
- <74126160-57f9-4abf-a26c-3491c8f3dd78@linaro.org>
- <zfltcl5x4hol2foftyvr4oigxus4hnequd74zi7bdd7tsdv56q@3nphukr4zgmm>
- <fa674301-9c4e-c4de-361a-1d1abf413ffc@quicinc.com>
- <adb2eed8-8d5e-a052-81b3-cde705c3503b@quicinc.com>
+        bh=JMiWnaNp2rJzetkKnAwy6Oxo/TbQBaqMm6owphXO7/8=;
+        b=gOHTi1XutH0brJZkTBLGIE/6rDYGOocBlO9o5ZoMqaYv7NAKxwbohSqAdyFfkkC4F4
+         DRHEq3kLN3Iu3eBpXYJwnyFEUidQqJrazp7s5OJ6c4KXedUe5/0X4ro7iJPWfuQkza61
+         nzLAB9e6/fykjWWvFi7VGtx1+F2AXbE8diNBJ3OQfSLjogMCWn0krcFEVaPgYMq3Slua
+         T3kbuBStVKRuP5vxeuRsFnVfIuDYbYi6TOSvTRI+FBwXvu8axWr5xkzxK0t+2aj7I0/c
+         uwKIPlyR/P6o9CCgXrHa16WX2Ej/yQBu4lL92GC0D4poQ3ZJEMbEBHSyYekPX3m7dBwm
+         lL5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725532046; x=1726136846;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JMiWnaNp2rJzetkKnAwy6Oxo/TbQBaqMm6owphXO7/8=;
+        b=nndrZPLsFCvzjdZiX2XckZHv/wYQyWQMys9NDK6kz794jqwDj9UWoK9MqiFt7vAU9H
+         edZidBId+Ll+X8kgKmuCBPFBfNpdSHvwTVDvRui/bDEZC23xCTRJKpZ66HEXupNTf9/Q
+         5VfW0gK8FTiwlgXbPKBXr825tB8zkVdJDhw5RFXZZjG8IfbKfzYQoOXAPZDEX9JIqpyo
+         T42mBEjpQoVL4SKMZEttndtIRmgMydp8A5nhjW8W2yuUM8qsCir1dz0ob6W707GW8InJ
+         O2AtRcasSQDcxnUYwJVvxsGl4uOK1MvF1/HMBonMpCYzI1aeG/8LA3fF56lhfXRVQNgG
+         fgZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUl2u8q2+FcJvrW97a/Q1q1o5uUxLEBOyFp05hNVETNoS4ILFQ2UklIScvzqeqbzxt5fGAjdLNh94f9Rsw=@vger.kernel.org, AJvYcCVAqK8E8xd2WhGG/m1AU59ahV/n6XaFQRU+m32P9JOv1FMPOyLCfyJ3ozv0pkXzdUVGHdRuDmHsUZgd1FA=@vger.kernel.org, AJvYcCVpCw0Yn7kJ8QbtEtwEVhkbzui2zTE33M2ULgzGCs8dJaAhyYky6HgXPTmy7iGyXgcdqR94/TrhcR7WZsXrA+fpW0k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCtQW/HkVFAa5QY8JsKXmb5kMKD76Yq1tsYesc7LiAQECtnSIB
+	ljHRtCFJW4MkQVxcw9Kn48SpUlwE9V8g4z7qx5ApvhA2/JYGvZ8tOMg+FGY+4DqYq/8DA5qLdr8
+	YZGSz1F9dMAEAKVYH2mE7dbi/R1I=
+X-Google-Smtp-Source: AGHT+IFgbTBL4ZgLkSBwcCMLXJ7TmAXzpB9E0KkYZU/rcjvFRKZfAs+wBl3/XuVv2z34RD6Elx84nfzcjI77AtlnMz4=
+X-Received: by 2002:a05:6122:a04:b0:4f6:b160:3806 with SMTP id
+ 71dfb90a1353d-500d5cfc710mr12004286e0c.11.1725532046248; Thu, 05 Sep 2024
+ 03:27:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <adb2eed8-8d5e-a052-81b3-cde705c3503b@quicinc.com>
+References: <20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <3eeae62a-e22b-443a-aad4-f1a384c0a3f7@ideasonboard.com> <514490a2-181a-42ac-bc54-7a700e8d1bb9@ideasonboard.com>
+In-Reply-To: <514490a2-181a-42ac-bc54-7a700e8d1bb9@ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 5 Sep 2024 11:27:00 +0100
+Message-ID: <CA+V-a8v0s8Unk3pNhR1wgBk_wqkua__Dumq3KT=n-cXUwq=6Bw@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/12] media: ov5645: Add support for streams
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 05, 2024 at 11:45:25AM GMT, Dikshita Agarwal wrote:
-> 
-> 
-> On 9/5/2024 11:42 AM, Dikshita Agarwal wrote:
-> > 
-> > 
-> > On 8/29/2024 2:43 PM, Dmitry Baryshkov wrote:
-> >> On Tue, Aug 27, 2024 at 03:08:03PM GMT, Bryan O'Donoghue wrote:
-> >>> On 27/08/2024 11:05, Dikshita Agarwal via B4 Relay wrote:
-> >>>> +static const struct of_device_id iris_dt_match[] = {
-> >>>> +	{ .compatible = "qcom,sm8550-iris", },
-> >>>> +	{ .compatible = "qcom,sm8250-venus", },
-> >>>> +	{ },
-> >>>> +};
-> >>>> +MODULE_DEVICE_TABLE(of, iris_dt_match);
-> >>>
-> >>> The enabling patch for the compat strings should come last - if its first
-> >>> then the time between the compat add and the last patch is a dead zone where
-> >>> things are bound to break on a booting board.
-> >>
-> >> But then it's impossible to test the driver in the interim state.
-> >> Moreover enabling it at the end only makes it hard to follow platform
-> >> data changes. What about adding sm8550 at this point and adding sm8250
-> >> at the end? Or enabling qcom,sm8550-iris and the fake qcom,sm8250-iris
-> >> now (and clearly documenting it as fake) and as the last patch change it
-> >> to qcom,sm8250-venus.
-> > 
-> > Sure, we will add qcom,sm8250-iris at this point so that it enables the
-> > testing of the driver, and will add one patch at the last to add
-> > qcom,sm8250-venus.
-> Sorry fixing the typos. what I meant was,
-> we will add qcom,sm8550-iris at this point so that it enables the
-> testing of the driver, and will add one patch at the last to add
-> qcom,sm8250-venus.
+Hi Tomi,
 
-I hope you meant 'to change qcom,sm8250-iris to qcom,sm8250-venus'. Also
-please clearly document that qcom,sm8250-iris is a temporary thing just
-to facilitate documentation and testing of the driver to be removed as a
-last patch.
+On Thu, Sep 5, 2024 at 10:11=E2=80=AFAM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+>
+<snip>
+> > I think you actually want 1/0->0/0 routing. The error says that the sin=
+k
+> > side device has routing which does not have a stream at stream ID 1, or
+> > no routing support at all, which implies a single stream at stream ID 0=
+.
+>
+> Looking at patch 12, there's something wrong with the approach here. Are
+> you perhaps trying to define the CSI-2 VC with the streams?
+>
+Yes, based on the previous feedback received, I am implementing
+virtual channels as streams. If this isn't the correct approach can
+you please guide me on what we should be using to support virtual
+channels?
 
-> > 
-> > Thanks,
-> > Dikshita
-> >>
-> > 
+> If you have a camera with a single image stream coming from an internal
+> pad, you should have one hardcoded route, 1/0->0/0. The
+> .get_frame_desc() should return the CSI-2 VC (most likely always 0) and
+> DT (based on the format) for that stream.
+>
+Agreed.
 
--- 
-With best wishes
-Dmitry
+> If you also have embedded data, then you'd have another internal pad
+> (pad number 2), and the routing would be:
+>
+> 1/0->0/0
+> 2/0->0/1
+>
+> And here .get_frame_desc() would also handle the second stream, and most
+> likely for that stream the VC would also be 0.
+>
+Ok agreed.
+
+> The stream ID in the routing table is a software level concept, not
+> related to the VC.
+>
+> Also, the internal pad should use the sensor's native format, not
+> UYVY8_1X16.
+>
+Ok, I will update it to MEDIA_BUS_FMT_SBGGR10_1X10.
+
+Cheers,
+Prabhakar
 
