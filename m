@@ -1,141 +1,159 @@
-Return-Path: <linux-media+bounces-17663-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17664-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C3A96D614
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 12:30:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F6496D663
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 12:51:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD9B41F21BAE
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 10:30:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 121DC1C23328
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 10:51:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13A01198E81;
-	Thu,  5 Sep 2024 10:29:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C65B1991CB;
+	Thu,  5 Sep 2024 10:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HGfcqMNW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQTxQflg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDD419415D;
-	Thu,  5 Sep 2024 10:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5A8198E89;
+	Thu,  5 Sep 2024 10:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725532183; cv=none; b=q2yVGwByaVP5WPbbR5UKfe2GLwmPRBAOhvAd7eVI2uVnu1PfceP8uby2iK1yNMDbvq53OZDuXYGjlEBh0AyWX5lu2mb1rGsxts5f1fQniZV1aevcfRFEsVwJcjY6451m+3MvQN01VFnlzBSPshB8Pivais2T+orqEoJpWBGqT5M=
+	t=1725533462; cv=none; b=jpunJ64E5Lh2AZ4FY+YtJ5uVBI6C1t0gXoitX7Lz0AGGgDs771giSK7N2HYWwFt4Vzp3B1ExBw9VTnn2JS46Rm/S16+/J2UqVPVITecImgojVgNXXKfST6JLTmFjaluSmDfe/eHtbBZXzkNZIoOSwSJpeDlE3HMI0A4IgKzaprQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725532183; c=relaxed/simple;
-	bh=YpBcUX+3RuIZIuZg05hsVGdqPPMg1tTxC1ZG56Aov3A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dUMxS+knymZBFv9HJ6DwvwsQPVaxcesenXvwoEuewCr4xqKJUKiXNu6BxcPy/9VBRxW0R0/bAwR7UdbH1uVWOzDaqnoXVqNOjO5DIjHUVexaPfzNrQQQVi1o9D+04RsVFifsD5jhME7GN5MS3SLw1v9Rxt2q7Rz1K0B3U6VYJ2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HGfcqMNW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96458AD0;
-	Thu,  5 Sep 2024 12:28:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725532106;
-	bh=YpBcUX+3RuIZIuZg05hsVGdqPPMg1tTxC1ZG56Aov3A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HGfcqMNWis0YRXKvxNTCqXZtAIaj5oo9v6Gs3pUKJpcno31mn0s+tj6Em65KBP3VW
-	 Mfx5zJ36nccUNAN01obAyT9X/BSK0+h1a3OBc6AEE46cm4ctwVMCPGP65zWVhJ22NP
-	 5KPjnOqKS/ZK/KyEWt8+/6arJACLPk3CDTFYldds=
-Message-ID: <c928e09a-751e-45af-8e57-f105b41df2be@ideasonboard.com>
-Date: Thu, 5 Sep 2024 13:29:35 +0300
+	s=arc-20240116; t=1725533462; c=relaxed/simple;
+	bh=XLzeVrx0nfVBrQ3s2XfXLT+YSpUPBoeab7Ui3TUDgL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uL+f0urTMLCklFUvjx7UuwYw5M5gW+AncD3Z3ru8MQyPW9LEaZjP1XEf8yy63einvb8Evogbiezdik5Oqd5jRRkiSjRNNPpVzIWw7Tuh+Z4uUoeSjhLrt+eFsEFmrEG+kWkMs3odN231lWQKDKsvjQPl13c/s1F6n5Ri/mcOvqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQTxQflg; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725533460; x=1757069460;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XLzeVrx0nfVBrQ3s2XfXLT+YSpUPBoeab7Ui3TUDgL4=;
+  b=RQTxQflgKxrH1tHpSd6aPLp63mW1l3K95hrztEnDW2zTlQttbtq1B6Qa
+   ggBbbszqYVNWmPl9/34EyQUyWnjGsKnhbUWGXuTsat0/kXMvUmINjiyHh
+   7f2sFV9ZBpVzmkbrlQgSJ226m3/zwo+EhCW3kF2HG8vFh1SDoGyic1ED3
+   wbylW5QZrlWALYUl8ZSMnpcPyCDE6UY7cDLepTjw0PZNPZdbROWwfafJl
+   whuQNF46G6uNlU8vRPQo8KYkJxR72RisO3UU8CpUWuC5SZqjXGcFo6WV+
+   his5Prm7xz4DZen3o8Wc0j/AeZN5jgjaJ+A7vqDQNf4dS2xzJOp+tlTIF
+   A==;
+X-CSE-ConnectionGUID: sj2knzlMQZuh0Sbv4LmJDQ==
+X-CSE-MsgGUID: sGUb/IRkT7G0L5KYaGdWaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24434643"
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="24434643"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 03:50:59 -0700
+X-CSE-ConnectionGUID: iHbgLJ1WSCWObw5SGIr4DQ==
+X-CSE-MsgGUID: FszYRi5HTv6pW4J1GFg2qw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="66326302"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 05 Sep 2024 03:50:55 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1smA4i-0009gf-1X;
+	Thu, 05 Sep 2024 10:50:52 +0000
+Date: Thu, 5 Sep 2024 18:50:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
+Message-ID: <202409051822.ZzUGw3XQ-lkp@intel.com>
+References: <20240904-rp1-cfe-v4-3-f1b5b3d69c81@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/12] media: ov5645: Add support for streams
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <3eeae62a-e22b-443a-aad4-f1a384c0a3f7@ideasonboard.com>
- <514490a2-181a-42ac-bc54-7a700e8d1bb9@ideasonboard.com>
- <CA+V-a8v0s8Unk3pNhR1wgBk_wqkua__Dumq3KT=n-cXUwq=6Bw@mail.gmail.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <CA+V-a8v0s8Unk3pNhR1wgBk_wqkua__Dumq3KT=n-cXUwq=6Bw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240904-rp1-cfe-v4-3-f1b5b3d69c81@ideasonboard.com>
 
-On 05/09/2024 13:27, Lad, Prabhakar wrote:
-> Hi Tomi,
-> 
-> On Thu, Sep 5, 2024 at 10:11 AM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->>
-> <snip>
->>> I think you actually want 1/0->0/0 routing. The error says that the sink
->>> side device has routing which does not have a stream at stream ID 1, or
->>> no routing support at all, which implies a single stream at stream ID 0.
->>
->> Looking at patch 12, there's something wrong with the approach here. Are
->> you perhaps trying to define the CSI-2 VC with the streams?
->>
-> Yes, based on the previous feedback received, I am implementing
-> virtual channels as streams. If this isn't the correct approach can
-> you please guide me on what we should be using to support virtual
-> channels?
+Hi Tomi,
 
-Can you describe what kind of hardware you have and how the VCs are 
-supposed to be configured and used there?
+kernel test robot noticed the following build warnings:
 
-  Tomi
+[auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and-stats/20240904-192729
+base:   431c1646e1f86b949fa3685efc50b660a364c2b6
+patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3-f1b5b3d69c81%40ideasonboard.com
+patch subject: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409051822.ZzUGw3XQ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12: warning: 'cfe_runtime_resume' defined but not used [-Wunused-function]
+    2445 | static int cfe_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12: warning: 'cfe_runtime_suspend' defined but not used [-Wunused-function]
+    2435 | static int cfe_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/cfe_runtime_resume +2445 drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+
+  2434	
+> 2435	static int cfe_runtime_suspend(struct device *dev)
+  2436	{
+  2437		struct platform_device *pdev = to_platform_device(dev);
+  2438		struct cfe_device *cfe = platform_get_drvdata(pdev);
+  2439	
+  2440		clk_disable_unprepare(cfe->clk);
+  2441	
+  2442		return 0;
+  2443	}
+  2444	
+> 2445	static int cfe_runtime_resume(struct device *dev)
+  2446	{
+  2447		struct platform_device *pdev = to_platform_device(dev);
+  2448		struct cfe_device *cfe = platform_get_drvdata(pdev);
+  2449		int ret;
+  2450	
+  2451		ret = clk_prepare_enable(cfe->clk);
+  2452		if (ret) {
+  2453			dev_err(dev, "Unable to enable clock\n");
+  2454			return ret;
+  2455		}
+  2456	
+  2457		return 0;
+  2458	}
+  2459	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
