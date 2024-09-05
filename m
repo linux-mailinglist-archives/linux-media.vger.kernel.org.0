@@ -1,118 +1,156 @@
-Return-Path: <linux-media+bounces-17689-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17690-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFFBD96DA3A
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 15:25:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B2996DAA4
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 15:46:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 050D51C24EF1
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 13:25:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68921B22041
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 13:46:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD81D19D090;
-	Thu,  5 Sep 2024 13:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA8CF19D8B7;
+	Thu,  5 Sep 2024 13:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="lSSjlIv/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7ZP1P0W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0672519AA73
-	for <linux-media@vger.kernel.org>; Thu,  5 Sep 2024 13:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EB31991A9;
+	Thu,  5 Sep 2024 13:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725542704; cv=none; b=FHefMEXRZ19ATLt/OrFyXvRLKD1tiSGL5suVR9DqhgtV1cJQImky3+wK07vnwnVOkjBSloIkGJA7goYo18tPtBKDnQnb38Ybn0Tx+f8xjYtt6XPo02bZFwkCSONaMC79bbO1GhxnWdhNs858cE7Fv4wqSs1vVPBAWbwtjftyRVA=
+	t=1725543985; cv=none; b=GV+TBPCO6vVRbQBj0Jt0QjuLOaCv7OaPd7NuHQVLqGXEKrl39CPHMTZJecDaiF7SG6JQDE2oIfTsLaV6xiP8KTQWoO3Krym2vVQszRmEgJPhqh62bKZCVv/YvZRYRvzncXrYwFGGetcJWFIZyRi0k8VhcCDFawlRAU3Gq2iG8UQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725542704; c=relaxed/simple;
-	bh=zDCA23YGQ/Y69ta8sNwCokd06k4hwHincXxUa2TuAnE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h/ZStn4SPiODH7b4HCdJ7u3HIJtgQ4VoxW3LfRawx14FjZ/KQZSkyhzQNQRf58sK5OP4eCK3D3xLSZnGUdt1xIbesfr0ZK3n8iNkq1HQ1EfGGl3MICIGBfHNhZGPLa3taPGCXZ1MwncnLTCaITDtf71eagOf276dKACwowjxP1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=lSSjlIv/; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6c3551ce5c9so16582096d6.0
-        for <linux-media@vger.kernel.org>; Thu, 05 Sep 2024 06:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1725542701; x=1726147501; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QQZ/prAHSJzNYvQ41aDnul/jxJL4VTE2Yg49JItkgwg=;
-        b=lSSjlIv/kEBtZ0fWhJpDDd1YSsjQ0Rht569jS4gXVTeK5zSf9itPQXrXh+0qUbNARF
-         mh0iI94b9DyGnMeCY8ZWkYI5D+wg3Iv3QgdHeY9z5+ZlQpiOidcqL+6hw0ZU9o81Z0Xi
-         //9Upe0abhCT7McHoF2eHePzfJTtxh2A39/LWL8hAr6e5/0faDTuUa+oiN0EqxvSnb/W
-         eCnjh+5aPEXl0VpEnMYvW5aU3R/uoO+5rD0D+l6h/C8iEZA3uIj09Aiig/i55FdGhxLV
-         /UqLcOyZdvSMUclXCEcd33aEOJadB3nrtB7JKgmdH8clDbMbqp5ABmc1WMtSdr2xjZtU
-         c8tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725542701; x=1726147501;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QQZ/prAHSJzNYvQ41aDnul/jxJL4VTE2Yg49JItkgwg=;
-        b=QUMEoW0toWyed5Op3QruCRLlwpMZY3wGXG0vI2vuX9NifCbAYFdsO89Uuu6O4UMX0R
-         K9IXRdHtaeKSdbx8/sybXfFjUIVANqdgGk9r9eG0gt6waUGbBF8UjAP2ncHBT4Fit3Ii
-         XJJz133EL8Wu9waua3Jp1QW9jW0iVMb1COz5/3D+5x3Ec7zlKRUjGrfwcPjLGiyyc38y
-         8TQnFeho1hrLRISncwXgyW8Dh31clnvEKJJWyLiLcCrBZOfsujVQ6jdpL94w23g1L8DB
-         2Jz77TkftZ/F26wnTkfNPzTJ82Tt9CdX1oBfM4Ito4Jgts6m6VjwGDeQBCqETWZ3mEoJ
-         +eTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHmQZQWtWP9GBDW/M5i8qE3a9p2iHqOX30LQZ/HvBwG2C0iRZAPcYQXkvmixRkNQW+YF9A1q1wVpof7Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNjCCRxfC9B3IqbPeR0tI5D11Qo+VoQ2APIa+VYSLVzuDN0sc9
-	VEqJriVPP4VawkvW1hVAP0Wxlx3FCfG14qOEa5niYvRtQNrmZHxcVX4aVFs4mBw=
-X-Google-Smtp-Source: AGHT+IEDu6pY51+TBXvcoJ6tFwe8exqs/WY3csyGmyVmQ8kYoFXlzHQS0zH+YsMUz1IR39QgtqrhaA==
-X-Received: by 2002:ad4:44a8:0:b0:6c3:6799:dde3 with SMTP id 6a1803df08f44-6c5191197b4mr91124026d6.23.1725542700794;
-        Thu, 05 Sep 2024 06:25:00 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c5201dff49sm7525176d6.15.2024.09.05.06.25.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 06:25:00 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1smCTr-00CTrV-Rv;
-	Thu, 05 Sep 2024 10:24:59 -0300
-Date: Thu, 5 Sep 2024 10:24:59 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>, Karol Herbst <kherbst@redhat.com>,
-	Danilo Krummrich <dakr@redhat.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Kevin Tian <kevin.tian@intel.com>, dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] drm/nouveau/tegra: Use iommu_paging_domain_alloc()
-Message-ID: <20240905132459.GG1909087@ziepe.ca>
-References: <20240902014700.66095-1-baolu.lu@linux.intel.com>
- <20240902014700.66095-2-baolu.lu@linux.intel.com>
- <a43c31da6a6989874eb0998dc937d7a611ec542c.camel@redhat.com>
+	s=arc-20240116; t=1725543985; c=relaxed/simple;
+	bh=GQZAEp8fjoyPw58mOjAfHRzea9bsP3cmexcWmvk/rmo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t0R9DyJ1tnSU0sAqb1R3hFe/s2tesEwdMnbOTEYxK5ku5TYJIhG6fA2R3fjYGTxnzKD/y73uxBCuJcL1sLytccdv1OHcw/dXT9WYQKmqH1bYrKSdbAJ0zA8gRhhiGHEXa3FRNR/x5zH4PVQ5MhtyuAozQpaxAl54r3oO8dIjneE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7ZP1P0W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1942C4CEC3;
+	Thu,  5 Sep 2024 13:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725543984;
+	bh=GQZAEp8fjoyPw58mOjAfHRzea9bsP3cmexcWmvk/rmo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=i7ZP1P0WGaLa5SlSkdum2to6VyUfztq00fNfKcYjQHL2Ynw/BuDuGb4NvZTssQShn
+	 ea58Xqz2qKmInPEhR8NKQegOEqnJirnA/z2rfV9fmqpXwDaAhPGG01/bD4ndanoz7q
+	 bBkMYrXGZD9igz0vPYBBWWUq484cXzsnQP38zweZYMneor6olCbLu4Son6TBqxzKtX
+	 PqhHQGcBJZr9ybPCiJp4YWArFXVFXYKr6k2ptvXr047i/AUSLp60NuQTYHx7jm+tf9
+	 RxOgzDAMg807O0oLq4HLcEPrCtAb2G49IYIjHAmQCQgDRvpjLFT5sULimMoyxRPwD+
+	 +Jdw6fLmUZpmw==
+Message-ID: <c3ad5248-fe47-4622-a53b-386e556a0add@kernel.org>
+Date: Thu, 5 Sep 2024 15:46:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a43c31da6a6989874eb0998dc937d7a611ec542c.camel@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 10/29] media: iris: implement power management
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, quic_dikshita@quicinc.com,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
+ <20240827-iris_v3-v3-10-c5fdbbe65e70@quicinc.com>
+ <d3679f2f-f177-494e-b68d-2a67b423d0cb@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <d3679f2f-f177-494e-b68d-2a67b423d0cb@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 04, 2024 at 03:06:07PM -0400, Lyude Paul wrote:
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
+On 05/09/2024 15:23, Bryan O'Donoghue wrote:
+> On 27/08/2024 11:05, Dikshita Agarwal via B4 Relay wrote:
+>> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>
+>> Implement runtime power management for iris including
+>> platform specific power on/off sequence.
+>>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > 
-> Will handle pushing it to drm-misc in just a moment
+>> +int iris_hfi_pm_suspend(struct iris_core *core)
+>> +{
+>> +	int ret;
+>> +
+>> +	if (!mutex_is_locked(&core->lock))
+>> +		return -EINVAL;
+>> +
+>> +	if (core->state != IRIS_CORE_INIT)
+>> +		return -EINVAL;
+> 
+> Reiterating a previous point
+> 
+> Are these checks realistic or defensive coding ?
 
-Did you just take this one patch? 
+Well, this one:
 
-Who will take the rest of the series for DRM?
+if (!mutex_is_locked(&core->lock))
 
-Jason
+is clear bug or someone is reinventing lockdep.
+
+>> +
+>> +	if (!core->power_enabled) {
+>> +		dev_err(core->dev, "power not enabled\n");
+>> +		return 0;
+>> +	}
+> 
+> Similarly is this a real check an error that can happen and if so how ?
+
+And here re-inventing runtime PM.
+
+Best regards,
+Krzysztof
+
 
