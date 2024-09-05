@@ -1,185 +1,122 @@
-Return-Path: <linux-media+bounces-17673-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17674-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756BA96D6DA
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 13:14:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D3396D6EE
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 13:18:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED8BA1F215E0
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 11:14:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 40461282062
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 11:18:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 750C519415D;
-	Thu,  5 Sep 2024 11:14:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCFE41991AC;
+	Thu,  5 Sep 2024 11:18:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OLUIcOJj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HG+sjMcH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621DE199247;
-	Thu,  5 Sep 2024 11:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1F919885E
+	for <linux-media@vger.kernel.org>; Thu,  5 Sep 2024 11:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725534869; cv=none; b=piggBMXvKlyQuEgtFbCAq/LHnlaimB1tsT6XOwRwaNLbF0AIlOFKeQ40IN/hASciFf7by0sl2R108Bd+xrFVakE7ToQh9Ve8at399jmxzueWuvLiA1SJjIbn7JyRGMK7FfClIi2IvnzBFrp5fbBXJw26zHKzIrmX+5EtCf99cb4=
+	t=1725535094; cv=none; b=kAmcS+K/vXHCbHSGgyENuf2xZtBACBnoaQUUXTM4aLCyPWjlcXiItRUTQj9zigUjlYVZUIocSX7q6DeQvXJP4qnx76g9ToDYLtHHSnFWobsCDrLff/a/TRr87Ht88usHBSCwDmKWDrVfGV7z4zCXJ+MN9VVLGTOBS1ETBz8CLWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725534869; c=relaxed/simple;
-	bh=/Hki5a1bsehYW9KnV/KZCdaEfDYBT+eF2SQREZTYE4Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=phf84z6dYeiRu2vU7/xVhN+mVWLtZw2egLzVk4mbEBnOwZaD7BHebG/D4MY5RjEwczQQlljZhUHGB1HyAssKwuCHiw2W5anZQKxESGKH6lpv3xCThh6II3VuS9kv8B9x8bB+RUm3QDalTWXBBchp8xo01bBfo4qMvzFR6Gz+7HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=OLUIcOJj; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48597206025917;
-	Thu, 5 Sep 2024 11:14:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	H/onZTNapTZoV/5wqwqOKg44uzr8+SRWVEiUw2X6/ak=; b=OLUIcOJjAqsdcCE4
-	x2eoWKZv08AsDGyCxrW2LeptCw4crLpayv91BjwYF92+1yx8EXruduqQUQ+VJKVG
-	O3UIuGBvmFpGSdpcqQnw20nxjMHq0SwzVkvjF84L3xi82hqCNsLHGKnN90fTgTk3
-	d/Flydwn2AiVTftRqUxfqiL6ave8f3wF2QjbdIG+iCtRSfgWqX7iuMXyQF/nEcpJ
-	z7llA/clxpgrCDvOkK4vbK52Lw6UEWpM/KqOhDKY7cSH4TBwS7rFgbXqybx830na
-	JXP1+/FvZdE5y9YMnKwS2a8VwL/MM6IDc2W50idw7spfiVuN9wrkbjS8EJUtkZ/M
-	4gdV/w==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41drqe81tc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Sep 2024 11:14:21 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 485BEKuM032089
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Sep 2024 11:14:20 GMT
-Received: from [10.216.46.64] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Sep 2024
- 04:14:16 -0700
-Message-ID: <2a7ab8f7-44af-c994-953b-813b7aaa68e7@quicinc.com>
-Date: Thu, 5 Sep 2024 16:44:13 +0530
+	s=arc-20240116; t=1725535094; c=relaxed/simple;
+	bh=CkNP16Qtdan0csSu5fnTnyzhQfmSk5DbvyxCC/Pf7FA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hpdoo2Y8+aO0+Cq/DAuzO2OIeIIs0Jf7pk6V8HycQUs1n9cIn8j0fbyzzzrANjnAceDYCHvb9YTItO6hH5hwM20JYkMvtaISusABD4m8wKia3wLP91Yu77TLVA2le29JcywqaaVrMT2/5Atkh116jih5DUvogQ3ICTgS4mYalsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HG+sjMcH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E10E63E6;
+	Thu,  5 Sep 2024 13:16:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725535018;
+	bh=CkNP16Qtdan0csSu5fnTnyzhQfmSk5DbvyxCC/Pf7FA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HG+sjMcH3ZKScBPvjiQVDbzTCDArkcu5PU4nj726EhiA2UgpsakmLQyVe0Mzqt4T4
+	 sqkaaq39WKySMvKGGcms2idGfLpkOtUaye/jfOfGx5VvmxQmLayiG/0eAm7NhSfjXw
+	 c7KB5Z3Dk8sdj4gtp7FXuanNP0mdT+ERfX22fud0=
+Date: Thu, 5 Sep 2024 14:18:08 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Hu, Jerry W" <jerry.w.hu@intel.com>
+Cc: "libcamera-devel@lists.libcamera.org" <libcamera-devel@lists.libcamera.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: Interest for a libcamera workshop in Vienna - September 17th
+Message-ID: <20240905111808.GL16183@pendragon.ideasonboard.com>
+References: <20240729090042.GA2725@pendragon.ideasonboard.com>
+ <SA2PR11MB5131B121A4F3745C6EAD4206D39D2@SA2PR11MB5131.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 02/29] media: MAINTAINERS: Add Qualcomm Iris video
- accelerator driver
-Content-Language: en-US
-To: Dmitry Baryshkov <dbaryshkov@gmail.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
- <20240827-iris_v3-v3-2-c5fdbbe65e70@quicinc.com>
- <afba364d-8299-49b6-9848-ed1660f86327@kernel.org>
- <809c359f-6c24-f2d4-3c4b-83e543d8c120@quicinc.com>
- <tdvofocpygklipddgf7gbpttxdnmhe33krziwkzh2czpf4uiao@htiismc4dekz>
- <2108cb24-0e1b-c804-eb0d-397cefa0fc32@quicinc.com>
- <CALT56yMni-p3XSj=pa4yU7GtgKqXW2wXVfAvwAXjAjxRdQdJRA@mail.gmail.com>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <CALT56yMni-p3XSj=pa4yU7GtgKqXW2wXVfAvwAXjAjxRdQdJRA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 7oZflV2TwLMC0JM_-EOjsUvrt1RQMRmd
-X-Proofpoint-ORIG-GUID: 7oZflV2TwLMC0JM_-EOjsUvrt1RQMRmd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-05_06,2024-09-04_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
- impostorscore=0 spamscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2409050082
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <SA2PR11MB5131B121A4F3745C6EAD4206D39D2@SA2PR11MB5131.namprd11.prod.outlook.com>
 
+Hi Jerry,
 
+On Thu, Sep 05, 2024 at 09:04:40AM +0000, Hu, Jerry W wrote:
+> Hi Laurent
+> 
+> Will it be an interesting to add following topic for discussion?
+> 
+> "Post Processing with PipeHandler" The post processing is done by SW
+> (on GPU/NPU), the flow under pipehandler shall be considered as not
+> ISP vendor specific, for example "Face Detection", it is ISP
+> independent, but depends on the flow of PipeHandler. 
 
-On 9/5/2024 4:32 PM, Dmitry Baryshkov wrote:
-> On Thu, 5 Sept 2024 at 14:02, Dikshita Agarwal
-> <quic_dikshita@quicinc.com> wrote:
->>
->>
->>
->> On 9/5/2024 3:40 PM, Dmitry Baryshkov wrote:
->>> On Thu, Sep 05, 2024 at 11:17:55AM GMT, Dikshita Agarwal wrote:
->>>>
->>>>
->>>> On 8/27/2024 4:12 PM, Krzysztof Kozlowski wrote:
->>>>> On 27/08/2024 12:05, Dikshita Agarwal via B4 Relay wrote:
->>>>>> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
->>>>>>
->>>>>> Add an entry for Iris video decoder accelerator driver.
->>>>>>
->>>>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->>>>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->>>>>> ---
->>>>>>  MAINTAINERS | 11 +++++++++++
->>>>>>  1 file changed, 11 insertions(+)
->>>>>>
->>>>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>>>> index 8766f3e5e87e..105e67fca308 100644
->>>>>> --- a/MAINTAINERS
->>>>>> +++ b/MAINTAINERS
->>>>>> @@ -18898,6 +18898,17 @@ S:        Maintained
->>>>>>  F:        Documentation/devicetree/bindings/regulator/vqmmc-ipq4019-regulator.yaml
->>>>>>  F:        drivers/regulator/vqmmc-ipq4019-regulator.c
->>>>>>
->>>>>> +QUALCOMM IRIS VIDEO ACCELERATOR DRIVER
->>>>>> +M:        Vikash Garodia <quic_vgarodia@quicinc.com>
->>>>>> +M:        Dikshita Agarwal <quic_dikshita@quicinc.com>
->>>>>> +R:        Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>>> +L:        linux-media@vger.kernel.org
->>>>>> +L:        linux-arm-msm@vger.kernel.org
->>>>>> +S:        Maintained
->>>>>> +T:        git git://linuxtv.org/media_tree.git
->>>>>
->>>>> Drop, you do not maintain that Git tree.
->>>> Sure, will remove
->>>>>
->>>>>> +F:        Documentation/devicetree/bindings/media/qcom,*-iris.yaml
->>>>>> +F:        drivers/media/platform/qcom/iris/
->>>>>
->>>>> Drop, does not exist. Or fix your patch order.
->>>> Are you suggesting to add this patch as the last patch of the series?
->>>> or remove just below entry and add one more patch at the end to update
->>>> MAINTAINERS file with the same?
->>>
->>> Adding it after the patch that adds the driver should be fine. Likewise
->>> adding it at the end is also fine.
->>>
->> sure, so should I add the whole patch once driver is introduced or have a
->> separate patch for just below?
+Very good topic, I've added it to the agenda.
+
+I will publish a draft of the agenda in the middle of next week. We have
+space for more discussion topics.
+
+> -----Original Message-----
+> From: libcamera-devel <libcamera-devel-bounces@lists.libcamera.org> On Behalf Of Laurent Pinchart
+> Sent: Monday, July 29, 2024 5:01 PM
+> To: libcamera-devel@lists.libcamera.org
+> Cc: linux-media@vger.kernel.org; Kieran Bingham <kieran.bingham@ideasonboard.com>
+> Subject: Interest for a libcamera workshop in Vienna - September 17th
 > 
-> I'd say a single patch is better.
-Noted.
+> Hello everybody,
 > 
->>>> +F:  drivers/media/platform/qcom/iris/
->>>>
->>>> Thanks,
->>>> Dikshita
->>>>>
->>>>>
->>>>> Best regards,
->>>>> Krzysztof
->>>>>
->>>>>
->>>
+> Following the success of our workshop in Brussels in February, we
+> would like to host another event in September.
 > 
+> We have evaluated different options, and opted for week 38 in Vienna.
+> The city will host during that week the Linux Media Summit (Monday the
+> 16th, [1]), OSS Europe (Monday the 16th to Wednesday the 18th, [2])
+> and the Linux Plumbers Conference (Wednesday the 18th to Friday the
+> 20th, [3]), and we expect that co-locating with those events will ease
+> travel for attendees of the libcamera workshop.
 > 
+> The week is already busy with camera-related events on Monday with the
+> Linux Media Summit, and on Thursday afternoon with the Complex Camera
+> micro-conference at LPC ([4]). We have therefore selected Tuesday the
+> 17th for libcamera.
 > 
+> To help us plan the venue, could you please register your interest by
+> replying to this e-mail, either publicly, or in private to Kieran and
+> me ? The event will be free of charge for attendees.
+> 
+> Please also let us know if you have any preferred discussion topics
+> you would like to include. We will draft and circulate an agenda in
+> the next few weeks.
+> 
+> [1] https://lore.kernel.org/all/ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl/
+> [2] https://events.linuxfoundation.org/open-source-summit-europe/
+> [3] https://lpc.events/
+> [4] https://lpc.events/event/18/sessions/193/
+
+-- 
+Regards,
+
+Laurent Pinchart
 
