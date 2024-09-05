@@ -1,217 +1,220 @@
-Return-Path: <linux-media+bounces-17645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17646-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D874596CFD8
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 08:56:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B32296D034
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 09:16:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89B9E284B87
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 06:56:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70B4E1C2314A
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 07:16:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D01A2192B6B;
-	Thu,  5 Sep 2024 06:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mfMGEJTc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0F43192589;
+	Thu,  5 Sep 2024 07:16:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F031925A1
-	for <linux-media@vger.kernel.org>; Thu,  5 Sep 2024 06:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89948126C1C
+	for <linux-media@vger.kernel.org>; Thu,  5 Sep 2024 07:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725519387; cv=none; b=Yq4XRim4sIELm08VRE+5N39dEOBNq7KJEVYL+GVook461bgJCq7bx4SiPSLy4yvTg9JQ9jlvOAFQRl3OxF8oajK9gXzNt+C2qMMJeFc0XZD2dLj/GXamGugGB9qghn3Ll2B6vMPp6NzcHAGiSeNypYsZEHx8dz3+SD2XtUK5Wcc=
+	t=1725520593; cv=none; b=Wi8/w2+LGtPFvPrr9Ylc/Y01kMkZOLBLo0/gXtF39ko+6Mjt7a/upbMaTxW9BINyZhN5UurobwMXNGHZ5YfUW6HdmLWOVDRCWxT4f+jbuVQ9mg90/2z7aavZ74uaRLlmfsDXsQK8vMNa9Di67r11BJWwluJVlfjT90xd8XdIQ44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725519387; c=relaxed/simple;
-	bh=smMXhjuqZRoNTKp9fMH70kgIlhlUnlp9P4aEtTO8T1c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sD5SwqqTImUekXm6EW/pzhfL65ore3keILLemGE7RiHTN7VeFiWfbbuzWx3zNLpmYbmRbmxEnk6rxWL12zrbkp0VlNjK63ffuYJhKTuZoMfL69tiZA/FbNLbBj7oFKZ/AL8cY/u8gHITKae2cQNMan7aX8cXEiDUZHxeapHNGjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mfMGEJTc; arc=none smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-709340f1cb1so175723a34.3
-        for <linux-media@vger.kernel.org>; Wed, 04 Sep 2024 23:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725519383; x=1726124183; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=is6oA3m8LIEojdfLA7VjQTerM+IVLQZFBibvLCSwhaA=;
-        b=mfMGEJTcauafV9kSbMjRObSWB25mUC0KdE8tzHYw4FGc5/aZWh/+/J+s3rWYzW5WZk
-         Am776c9A5hNnOj30XnIbViaFigscTy110CVg36IA5qwVoYIpqSmUNjjyS19hqxX1nsY5
-         Za7ABCIhtnmQMERG0hv5bjLWHhduPIfUNWwCzCdYo+EyIqPnZWO2HUNEzH5pDwHhYvQ4
-         Yrjm6wxsczHoMu3vvOd7Pq8brlduh4m0ILVxz4EK8qeB7EX3DdsXQZQe1Fbqh6l3dCvP
-         ei8wQdudptqg79QFbIockBIqeE/cDkugeghReqYZDoVsscUo5ENIgQH9L/+wnyLMzcQJ
-         c/FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725519383; x=1726124183;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=is6oA3m8LIEojdfLA7VjQTerM+IVLQZFBibvLCSwhaA=;
-        b=Gw2+WtijFQo7qQ6ysNT65uom//fyOyGebRSUXEmjILw49dYvJKUIYuWHBeP8HdMv3e
-         Ky2ArDomTUJvMqW00gUI4smJH+1lSaZbnq3m01TvosA3f7ctiT1X4JVDMEJifKFdnnuX
-         uLpc+gAlvkmha7GzzeNHsoct8wCpdeLvbzZXAZqFoxjdX6ksigQo+IEqhZMQhmcqEyaJ
-         4QN/zM/rCM9Lt8uASGTTewEt65dsL2bnEd3MWHBpGWXYTU2qQEE9eqHSB+062JmzTV0/
-         qsPqYROQomDAEvvh4S2Z+Px9trBI4cooE5iPHbyHO/ivieIL0k8EEBSVQI2G1RUetnTc
-         S20Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWyjVqY0M1d4Y/wFJCgz4+8KF/Nwt7JgCVDr8bRC4k0oFo5v4Dyu72eZHProvnevA0sBDmCwkSh6hsS5A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx61aDpwIoL1wSyI8C2xv0q/4EdppZpMxD/oB3jNYkwjOdaFSsa
-	9CGD1ogFS1pC5+sNS0C5NYLPMHUQRef+0evtK2KRrDu710If4HSHWlDF/BxCR2zeZB/IMxlnxPf
-	C77e1j/JI7Stye5PPPctFpfMzCeCO+ZMXDYkXRQ==
-X-Google-Smtp-Source: AGHT+IH5sLg/BL7saD9/TXa220ctb5hvcylawPt/eU1IH9MP/VmfAzkYvlQbzwvsbvXXi2U8bfsvnevyQYB2IQEHh6U=
-X-Received: by 2002:a05:6830:25d6:b0:703:63d3:9eef with SMTP id
- 46e09a7af769-70f7072e89bmr16742155a34.25.1725519383303; Wed, 04 Sep 2024
- 23:56:23 -0700 (PDT)
+	s=arc-20240116; t=1725520593; c=relaxed/simple;
+	bh=rLKwYt9YoiGmNDg3JOnYxj/kpzil79NlNJdeIqIvzzA=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=cNWJvWcCf1YCzvzhQkZz7mWT6BowigAjObKZxoT74yWKtdj4bEOdJrj/7o27xUE9baEiyBHBCYhv1niADpmOeYJmsWFcgYcrvAJzsbybiaYip1/5un/CHBC5288U9nl8wJFJCM1sbrp7XgUVJgl+TJWAqG6cQtukgM8sLFfUXjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D70CC4CEC4;
+	Thu,  5 Sep 2024 07:16:28 +0000 (UTC)
+Message-ID: <c50f4bfe-6d72-426e-9595-5c8b0751c08b@xs4all.nl>
+Date: Thu, 5 Sep 2024 09:16:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
- <20240830070351.2855919-2-jens.wiklander@linaro.org> <4a498990-2d9e-4555-85f3-d1d22e26b9dd@amd.com>
-In-Reply-To: <4a498990-2d9e-4555-85f3-d1d22e26b9dd@amd.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Thu, 5 Sep 2024 08:56:11 +0200
-Message-ID: <CAHUa44G9yF2GoQD8XrE=agkGCditH1v+NYm16WpdORX4aRixYg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] dma-buf: heaps: restricted_heap: add no_map attribute
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] Media Summit September 16th: Draft Agenda (v5)
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Martin Hecht <martin.hecht@avnet.eu>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
+ Steve Cho <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+ Hidenori Kobayashi <hidenorik@chromium.org>,
+ "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Suresh Vankadara <svankada@qti.qualcomm.com>,
+ Devarsh Thakkar <devarsht@ti.com>, r-donadkar@ti.com
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 30, 2024 at 10:47=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 30.08.24 um 09:03 schrieb Jens Wiklander:
-> > Add a no_map attribute to struct restricted_heap_attachment and struct
-> > restricted_heap to skip the call to dma_map_sgtable() if set. This
-> > avoids trying to map a dma-buf that doens't refer to memory accessible
-> > by the kernel.
->
-> You seem to have a misunderstanding here dma_map_sgtable() is called to
-> map a table into IOMMU and not any kernel address space.
->
-> So please explain why you need that?
+Hi all,
 
-You're right, I had misunderstood dma_map_sgtable(). There's no need
-for the no_map attribute, so I'll remove it.
+Here is my fifth (and likely final) stab at an agenda for the media summit. As always,
+it is subject to change and all times are guesstimates!
 
-Perhaps you have a suggestion on how to fix a problem when using
-dma_map_sgtable()?
+The media summit will be held on Monday September 16th. Avnet Silica has very
+kindly offered to host this summit at their Vienna office, which is about 35
+minutes by public transport from the Open Source Summit Europe venue
+(https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
 
-Without it, I'll have to assign a pointer to teedev->dev.dma_mask when
-using the restricted heap with the OP-TEE driver or there will be a
-warning in __dma_map_sg_attrs() ending with a failure when trying to
-register the dma-buf fd. OP-TEE is probed with a platform device, and
-taking the dma_mask pointer from that device works. Is that a good
-approach or is there a better way of assigning dma_mask?
+Avnet Silica Office Location:
 
-Thanks,
-Jens
+Schönbrunner Str. 297/307, 1120 Vienna, Austria
 
->
-> Regards,
-> Christian.
->
-> >
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >   drivers/dma-buf/heaps/restricted_heap.c | 17 +++++++++++++----
-> >   drivers/dma-buf/heaps/restricted_heap.h |  2 ++
-> >   2 files changed, 15 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/=
-heaps/restricted_heap.c
-> > index 8bc8a5e3f969..4bf28e3727ca 100644
-> > --- a/drivers/dma-buf/heaps/restricted_heap.c
-> > +++ b/drivers/dma-buf/heaps/restricted_heap.c
-> > @@ -16,6 +16,7 @@
-> >   struct restricted_heap_attachment {
-> >       struct sg_table                 *table;
-> >       struct device                   *dev;
-> > +     bool no_map;
-> >   };
-> >
-> >   static int
-> > @@ -54,6 +55,8 @@ restricted_heap_memory_free(struct restricted_heap *r=
-heap, struct restricted_buf
-> >   static int restricted_heap_attach(struct dma_buf *dmabuf, struct dma_=
-buf_attachment *attachment)
-> >   {
-> >       struct restricted_buffer *restricted_buf =3D dmabuf->priv;
-> > +     struct dma_heap *heap =3D restricted_buf->heap;
-> > +     struct restricted_heap *rheap =3D dma_heap_get_drvdata(heap);
-> >       struct restricted_heap_attachment *a;
-> >       struct sg_table *table;
-> >
-> > @@ -70,6 +73,7 @@ static int restricted_heap_attach(struct dma_buf *dma=
-buf, struct dma_buf_attachm
-> >       sg_dma_mark_restricted(table->sgl);
-> >       a->table =3D table;
-> >       a->dev =3D attachment->dev;
-> > +     a->no_map =3D rheap->no_map;
-> >       attachment->priv =3D a;
-> >
-> >       return 0;
-> > @@ -92,9 +96,12 @@ restricted_heap_map_dma_buf(struct dma_buf_attachmen=
-t *attachment,
-> >       struct sg_table *table =3D a->table;
-> >       int ret;
-> >
-> > -     ret =3D dma_map_sgtable(attachment->dev, table, direction, DMA_AT=
-TR_SKIP_CPU_SYNC);
-> > -     if (ret)
-> > -             return ERR_PTR(ret);
-> > +     if (!a->no_map) {
-> > +             ret =3D dma_map_sgtable(attachment->dev, table, direction=
-,
-> > +                                   DMA_ATTR_SKIP_CPU_SYNC);
-> > +             if (ret)
-> > +                     return ERR_PTR(ret);
-> > +     }
-> >       return table;
-> >   }
-> >
-> > @@ -106,7 +113,9 @@ restricted_heap_unmap_dma_buf(struct dma_buf_attach=
-ment *attachment, struct sg_t
-> >
-> >       WARN_ON(a->table !=3D table);
-> >
-> > -     dma_unmap_sgtable(attachment->dev, table, direction, DMA_ATTR_SKI=
-P_CPU_SYNC);
-> > +     if (!a->no_map)
-> > +             dma_unmap_sgtable(attachment->dev, table, direction,
-> > +                               DMA_ATTR_SKIP_CPU_SYNC);
-> >   }
-> >
-> >   static int
-> > diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/=
-heaps/restricted_heap.h
-> > index 7dec4b8a471b..94cc0842f70d 100644
-> > --- a/drivers/dma-buf/heaps/restricted_heap.h
-> > +++ b/drivers/dma-buf/heaps/restricted_heap.h
-> > @@ -27,6 +27,8 @@ struct restricted_heap {
-> >       unsigned long           cma_paddr;
-> >       unsigned long           cma_size;
-> >
-> > +     bool                    no_map;
-> > +
-> >       void                    *priv_data;
-> >   };
-> >
->
+https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
+
+Refreshments are available during the day.
+
+Lunch is held at Schönbrunner Stöckl (https://www.schoenbrunnerstoeckl.com/), close
+to the Avnet Silica office. The lunch is sponsored by Ideas on Board and Cisco Systems
+Norway.
+
+Regarding the face mask policy: we will follow the same guidance that the
+Linux Foundation gives for the EOSS conference:
+
+https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/#onsite-health-and-safety
+
+
+In-Person Attendees:
+
+Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
+Mauro Carvalho Chehab <mchehab@kernel.org> (Huawei, Media Kernel Maintainer)
+Steve Cho <stevecho@chromium.org> (Google)
+Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+Ricardo Ribalda <ribalda@chromium.org> (Google)
+Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
+Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
+Sean Young <sean@mess.org>
+Jerry W Hu <jerry.w.hu@intel.com> (Intel)
+
+Remote Attendees (using MS Teams):
+
+Rishikesh Donadkar <r-donadkar@ti.com> (TI)
+Tomasz Figa <tfiga@chromium.org> (Google)
+Hidenori Kobayashi <hidenorik@chromium.org> (Google)
+Devarsh Thakkar <devarsht@ti.com> (TI)
+
+Note: information on how to connect remotely will come later.
+
+If any information above is incorrect, or if I missed someone, then please let me know.
+
+We are currently 17 confirmed in-person participants, so we're pretty much full.
+If you want to join remotely, then contact me and I'll add you to that list.
+
+Draft agenda:
+
+8:45-9:15: get settled :-)
+
+9:15-9:25: Hans: Quick introduction
+
+9:25-11:00: Ricardo: multi-committer model using gitlab
+
+11:00-11:15: break
+
+11:15-12:15: Jacopo: Multi-context support in V4L2
+
+12:15-13:30: Lunch
+
+13:30-14:00: Tomasz: Current state of videobuf2, its limitations and the paths forward.
+
+14:00-14:45: Laurent: subdevs, state, and usage of the media controller device to submit requests.
+
+14:45-15:00: break
+
+15:00-15:30: Sean: new tooling for infrared:
+
+- What it is and what it can do (love to hear any feedback of course)
+- Where it should be hosted? (I hope gitlab fdo, who do I ask)
+- What needs to be in place for a release?
+- This tool replaces ir-ctl and ir-keytable. How we phase them out?
+
+15:30-16:00: Daniel: Rust in the media subsystem
+
+16:00-16:15: break
+
+16:15-16:30: Hans: UVC maintenance
+
+16:30-17:00: Steve Cho:
+
+- V4L2 testing on Chromium using virtual video decode driver (VISL)
+- V4L2 video decoding testing with KernelCI
+
+17:00-17:30: Laurent: Should media drivers depend on CONFIG_PM?
+See here for more info:
+https://lore.kernel.org/linux-media/20240825222455.GA24390@pendragon.ideasonboard.com/
+
+17:30-18:00: TBD
+
+Please reply with corrections, questions, etc. to this email. I'll update the agenda
+over time. Again, these times are very preliminary.
+
+Regards,
+
+	Hans
+
 
