@@ -1,269 +1,217 @@
-Return-Path: <linux-media+bounces-17644-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17645-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B775C96CFBA
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 08:49:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D874596CFD8
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 08:56:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F9AE1F2155B
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 06:49:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89B9E284B87
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2024 06:56:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD95818BC21;
-	Thu,  5 Sep 2024 06:48:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D01A2192B6B;
+	Thu,  5 Sep 2024 06:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="o00r1KZG"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mfMGEJTc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B5442C0B;
-	Thu,  5 Sep 2024 06:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F031925A1
+	for <linux-media@vger.kernel.org>; Thu,  5 Sep 2024 06:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725518931; cv=none; b=T/NBSJ377pH40KP+Q1hC11nY4srKT58UM9pDa4uUpt6Y4s5zL70ZGJct8l6BK1CupXMr5pjOLejbNH3RL/uNnxRrUN/ruB381aPyO5AM337urLSm+9HJIvJgKGsnrPrhoCEOXSeYNk5R00mn6wA2xL2kMqa2VCs8/ylsszsmAYk=
+	t=1725519387; cv=none; b=Yq4XRim4sIELm08VRE+5N39dEOBNq7KJEVYL+GVook461bgJCq7bx4SiPSLy4yvTg9JQ9jlvOAFQRl3OxF8oajK9gXzNt+C2qMMJeFc0XZD2dLj/GXamGugGB9qghn3Ll2B6vMPp6NzcHAGiSeNypYsZEHx8dz3+SD2XtUK5Wcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725518931; c=relaxed/simple;
-	bh=9xUfUPENPtjHwyfHPHB9xwgpM1K3DSiYtyPUrLN/mrI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nyjFaJy+sKuuqOku7lIgTJiK5na5XC6TGniEbSEhHLOYbf8ApGSyIZVkeV864g/P4AXVT+nia/hrA3cvkaO2YOvwo0Xg3uWWfnXviiQbdMT0jtFpRABdjbM3An9imNKexrX+x96a/usSo4G7Qi2j87dYJPyBTvrZhDuhuYBwouQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=o00r1KZG; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04D371648;
-	Thu,  5 Sep 2024 08:47:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725518839;
-	bh=9xUfUPENPtjHwyfHPHB9xwgpM1K3DSiYtyPUrLN/mrI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=o00r1KZGZ2jlmVGPDqy7sE6CeOexYJoDSkJ6cBvRlKgqoYRCg7j5ZquJO8m13wgeV
-	 5IyFJJgWupMnJ12T0rJ/3wG42GQekKMONjhDQYkvTFBpvIc3RD2tixAtZaUlCRyd8I
-	 IDkQekK63zCKNtjPXzLAgfA/0YUyNM+EPBh4ur5E=
-Message-ID: <3eeae62a-e22b-443a-aad4-f1a384c0a3f7@ideasonboard.com>
-Date: Thu, 5 Sep 2024 09:48:27 +0300
+	s=arc-20240116; t=1725519387; c=relaxed/simple;
+	bh=smMXhjuqZRoNTKp9fMH70kgIlhlUnlp9P4aEtTO8T1c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sD5SwqqTImUekXm6EW/pzhfL65ore3keILLemGE7RiHTN7VeFiWfbbuzWx3zNLpmYbmRbmxEnk6rxWL12zrbkp0VlNjK63ffuYJhKTuZoMfL69tiZA/FbNLbBj7oFKZ/AL8cY/u8gHITKae2cQNMan7aX8cXEiDUZHxeapHNGjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mfMGEJTc; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-709340f1cb1so175723a34.3
+        for <linux-media@vger.kernel.org>; Wed, 04 Sep 2024 23:56:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725519383; x=1726124183; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=is6oA3m8LIEojdfLA7VjQTerM+IVLQZFBibvLCSwhaA=;
+        b=mfMGEJTcauafV9kSbMjRObSWB25mUC0KdE8tzHYw4FGc5/aZWh/+/J+s3rWYzW5WZk
+         Am776c9A5hNnOj30XnIbViaFigscTy110CVg36IA5qwVoYIpqSmUNjjyS19hqxX1nsY5
+         Za7ABCIhtnmQMERG0hv5bjLWHhduPIfUNWwCzCdYo+EyIqPnZWO2HUNEzH5pDwHhYvQ4
+         Yrjm6wxsczHoMu3vvOd7Pq8brlduh4m0ILVxz4EK8qeB7EX3DdsXQZQe1Fbqh6l3dCvP
+         ei8wQdudptqg79QFbIockBIqeE/cDkugeghReqYZDoVsscUo5ENIgQH9L/+wnyLMzcQJ
+         c/FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725519383; x=1726124183;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=is6oA3m8LIEojdfLA7VjQTerM+IVLQZFBibvLCSwhaA=;
+        b=Gw2+WtijFQo7qQ6ysNT65uom//fyOyGebRSUXEmjILw49dYvJKUIYuWHBeP8HdMv3e
+         Ky2ArDomTUJvMqW00gUI4smJH+1lSaZbnq3m01TvosA3f7ctiT1X4JVDMEJifKFdnnuX
+         uLpc+gAlvkmha7GzzeNHsoct8wCpdeLvbzZXAZqFoxjdX6ksigQo+IEqhZMQhmcqEyaJ
+         4QN/zM/rCM9Lt8uASGTTewEt65dsL2bnEd3MWHBpGWXYTU2qQEE9eqHSB+062JmzTV0/
+         qsPqYROQomDAEvvh4S2Z+Px9trBI4cooE5iPHbyHO/ivieIL0k8EEBSVQI2G1RUetnTc
+         S20Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWyjVqY0M1d4Y/wFJCgz4+8KF/Nwt7JgCVDr8bRC4k0oFo5v4Dyu72eZHProvnevA0sBDmCwkSh6hsS5A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx61aDpwIoL1wSyI8C2xv0q/4EdppZpMxD/oB3jNYkwjOdaFSsa
+	9CGD1ogFS1pC5+sNS0C5NYLPMHUQRef+0evtK2KRrDu710If4HSHWlDF/BxCR2zeZB/IMxlnxPf
+	C77e1j/JI7Stye5PPPctFpfMzCeCO+ZMXDYkXRQ==
+X-Google-Smtp-Source: AGHT+IH5sLg/BL7saD9/TXa220ctb5hvcylawPt/eU1IH9MP/VmfAzkYvlQbzwvsbvXXi2U8bfsvnevyQYB2IQEHh6U=
+X-Received: by 2002:a05:6830:25d6:b0:703:63d3:9eef with SMTP id
+ 46e09a7af769-70f7072e89bmr16742155a34.25.1725519383303; Wed, 04 Sep 2024
+ 23:56:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/12] media: ov5645: Add support for streams
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <20240830070351.2855919-2-jens.wiklander@linaro.org> <4a498990-2d9e-4555-85f3-d1d22e26b9dd@amd.com>
+In-Reply-To: <4a498990-2d9e-4555-85f3-d1d22e26b9dd@amd.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Thu, 5 Sep 2024 08:56:11 +0200
+Message-ID: <CAHUa44G9yF2GoQD8XrE=agkGCditH1v+NYm16WpdORX4aRixYg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] dma-buf: heaps: restricted_heap: add no_map attribute
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 05/09/2024 00:07, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Hi All,
-> 
-> This patch series aims to add the below features,
-> - Support subdev active state
-> - Support for streams
-> - Support for virtual channel
-> - Code cleanup
-> 
-> Sending this is as an RFC, I've done limited testing and Im seeing issue
-> when route is updated and wanted some feedback on the implementation.
-> 
-> When route is updated for the sensor with below command, and when start
-> streaming I get "Dangling sink streams: mask 0x1" error. Should the
-> corresponding bridge also need to support routes to fix this? or is it
-> something missing Ive missed in the current implementation.
-> 
-> $ media-ctl -R "'ov5645 0-003c' [1/0->0/1[1]]"
-> 
-> Output after route update:
-> - entity 4: ov5645 0-003c (2 pads, 1 link, 1 route)
->              type V4L2 subdev subtype Sensor flags 0
->              device node name /dev/v4l-subdev1
->          routes:
->                  1/0 -> 0/1 [ACTIVE]
->          pad0: SOURCE
->                  [stream:1 fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb
->                   crop:(0,0)/1920x1080]
->                  -> "csi-10830400.csi2":0 [ENABLED,IMMUTABLE]
->          pad1: SINK,0x8
->                  [stream:0 fmt:UYVY8_1X16/2592x1944 field:none colorspace:srgb
->                   crop:(0,0)/1920x1080]
+On Fri, Aug 30, 2024 at 10:47=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 30.08.24 um 09:03 schrieb Jens Wiklander:
+> > Add a no_map attribute to struct restricted_heap_attachment and struct
+> > restricted_heap to skip the call to dma_map_sgtable() if set. This
+> > avoids trying to map a dma-buf that doens't refer to memory accessible
+> > by the kernel.
+>
+> You seem to have a misunderstanding here dma_map_sgtable() is called to
+> map a table into IOMMU and not any kernel address space.
+>
+> So please explain why you need that?
 
-I think you actually want 1/0->0/0 routing. The error says that the sink 
-side device has routing which does not have a stream at stream ID 1, or 
-no routing support at all, which implies a single stream at stream ID 0.
+You're right, I had misunderstood dma_map_sgtable(). There's no need
+for the no_map attribute, so I'll remove it.
 
-  Tomi
+Perhaps you have a suggestion on how to fix a problem when using
+dma_map_sgtable()?
 
->                
-> v4l2-compliance log after this patch series:
-> --------------------------------------------
-> root@smarc-rzg2l:~# v4l2-compliance -u /dev/v4l-subdev1
-> v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: fc15e229d9d3 2024-07-23 19:22:15
-> 
-> Compliance test for device /dev/v4l-subdev1:
-> 
-> Driver Info:
->          Driver version   : 6.11.0
->          Capabilities     : 0x00000002
->                  Streams Support
->          Client Capabilities:[   53.919041] ov5645 0-003c: =================  START STATUS  =================
->   0x0000000000000[   53.927271] ov5645 0-003c: ==================  END STATUS  ==================
-> 003
-> streams interval-uses-which
-> Required ioctls:
->          test VIDIOC_SUDBEV_QUERYCAP: OK
->          test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->          test second /dev/v4l-subdev1 open: OK
->          test VIDIOC_SUBDEV_QUERYCAP: OK
->          test for unlimited opens: OK
-> 
-> Debug ioctls:
->          test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->          test VIDIOC_ENUMAUDIO: OK (Not Supported)
->          test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->          test VIDIOC_G/S_AUDIO: OK (Not Supported)
->          Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->          Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->          test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Sub-Device routing ioctls:
->          test Try VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
->          test Active VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
-> 
-> Control ioctls:
->          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->          test VIDIOC_QUERYCTRL: OK
->          test VIDIOC_G/S_CTRL: OK
->          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->          Standard Controls: 12 Private Controls: 0
-> 
-> Format ioctls:
->          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
->          test VIDIOC_G/S_PARM: OK (Not Supported)
->          test VIDIOC_G_FBUF: OK (Not Supported)
->          test VIDIOC_G_FMT: OK (Not Supported)
->          test VIDIOC_TRY_FMT: OK (Not Supported)
->          test VIDIOC_S_FMT: OK (Not Supported)
->          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->          test Cropping: OK (Not Supported)
->          test Composing: OK (Not Supported)
->          test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
->          test CREATE_BUFS maximum buffers: OK
->          test VIDIOC_REMOVE_BUFS: OK
->          test VIDIOC_EXPBUF: OK (Not Supported)
->          test Requests: OK (Not Supported)
-> 
-> Total for device /dev/v4l-subdev1: 47, Succeeded: 47, Failed: 0, Warnings: 0
-> 
-> Cheers,
-> Prabhakar
-> 
-> Lad Prabhakar (12):
->    media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
->    media: i2c: ov5645: Use local `dev` pointer for subdev device
->      assignment
->    media: i2c: ov5645: Enable runtime PM after
->      v4l2_async_register_subdev()
->    media: i2c: ov5645: Use dev_err_probe instead of dev_err
->    media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
->    media: i2c: ov5645: Drop `power_lock` mutex
->    media: i2c: ov5645: Use subdev active state
->    media: i2c: ov5645: Switch to {enable,disable}_streams
->    media: i2c: ov5645: Add internal image sink pad
->    media: i2c: ov5645: Report internal routes to userspace
->    media: i2c: ov5645: Report streams using frame descriptors
->    media: i2c: ov5645: Add virtual channel support
-> 
->   drivers/media/i2c/ov5645.c | 507 +++++++++++++++++++++++--------------
->   1 file changed, 316 insertions(+), 191 deletions(-)
-> 
+Without it, I'll have to assign a pointer to teedev->dev.dma_mask when
+using the restricted heap with the OP-TEE driver or there will be a
+warning in __dma_map_sg_attrs() ending with a failure when trying to
+register the dma-buf fd. OP-TEE is probed with a platform device, and
+taking the dma_mask pointer from that device works. Is that a good
+approach or is there a better way of assigning dma_mask?
 
+Thanks,
+Jens
+
+>
+> Regards,
+> Christian.
+>
+> >
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >   drivers/dma-buf/heaps/restricted_heap.c | 17 +++++++++++++----
+> >   drivers/dma-buf/heaps/restricted_heap.h |  2 ++
+> >   2 files changed, 15 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/=
+heaps/restricted_heap.c
+> > index 8bc8a5e3f969..4bf28e3727ca 100644
+> > --- a/drivers/dma-buf/heaps/restricted_heap.c
+> > +++ b/drivers/dma-buf/heaps/restricted_heap.c
+> > @@ -16,6 +16,7 @@
+> >   struct restricted_heap_attachment {
+> >       struct sg_table                 *table;
+> >       struct device                   *dev;
+> > +     bool no_map;
+> >   };
+> >
+> >   static int
+> > @@ -54,6 +55,8 @@ restricted_heap_memory_free(struct restricted_heap *r=
+heap, struct restricted_buf
+> >   static int restricted_heap_attach(struct dma_buf *dmabuf, struct dma_=
+buf_attachment *attachment)
+> >   {
+> >       struct restricted_buffer *restricted_buf =3D dmabuf->priv;
+> > +     struct dma_heap *heap =3D restricted_buf->heap;
+> > +     struct restricted_heap *rheap =3D dma_heap_get_drvdata(heap);
+> >       struct restricted_heap_attachment *a;
+> >       struct sg_table *table;
+> >
+> > @@ -70,6 +73,7 @@ static int restricted_heap_attach(struct dma_buf *dma=
+buf, struct dma_buf_attachm
+> >       sg_dma_mark_restricted(table->sgl);
+> >       a->table =3D table;
+> >       a->dev =3D attachment->dev;
+> > +     a->no_map =3D rheap->no_map;
+> >       attachment->priv =3D a;
+> >
+> >       return 0;
+> > @@ -92,9 +96,12 @@ restricted_heap_map_dma_buf(struct dma_buf_attachmen=
+t *attachment,
+> >       struct sg_table *table =3D a->table;
+> >       int ret;
+> >
+> > -     ret =3D dma_map_sgtable(attachment->dev, table, direction, DMA_AT=
+TR_SKIP_CPU_SYNC);
+> > -     if (ret)
+> > -             return ERR_PTR(ret);
+> > +     if (!a->no_map) {
+> > +             ret =3D dma_map_sgtable(attachment->dev, table, direction=
+,
+> > +                                   DMA_ATTR_SKIP_CPU_SYNC);
+> > +             if (ret)
+> > +                     return ERR_PTR(ret);
+> > +     }
+> >       return table;
+> >   }
+> >
+> > @@ -106,7 +113,9 @@ restricted_heap_unmap_dma_buf(struct dma_buf_attach=
+ment *attachment, struct sg_t
+> >
+> >       WARN_ON(a->table !=3D table);
+> >
+> > -     dma_unmap_sgtable(attachment->dev, table, direction, DMA_ATTR_SKI=
+P_CPU_SYNC);
+> > +     if (!a->no_map)
+> > +             dma_unmap_sgtable(attachment->dev, table, direction,
+> > +                               DMA_ATTR_SKIP_CPU_SYNC);
+> >   }
+> >
+> >   static int
+> > diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/=
+heaps/restricted_heap.h
+> > index 7dec4b8a471b..94cc0842f70d 100644
+> > --- a/drivers/dma-buf/heaps/restricted_heap.h
+> > +++ b/drivers/dma-buf/heaps/restricted_heap.h
+> > @@ -27,6 +27,8 @@ struct restricted_heap {
+> >       unsigned long           cma_paddr;
+> >       unsigned long           cma_size;
+> >
+> > +     bool                    no_map;
+> > +
+> >       void                    *priv_data;
+> >   };
+> >
+>
 
