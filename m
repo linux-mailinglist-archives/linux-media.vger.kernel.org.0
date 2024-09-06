@@ -1,206 +1,184 @@
-Return-Path: <linux-media+bounces-17767-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17768-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A96E96F313
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 13:28:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE1396F3C9
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 13:56:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FB131F24029
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 11:28:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 61D2EB26AED
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 11:56:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E3171CBE89;
-	Fri,  6 Sep 2024 11:28:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4DF91CE6FB;
+	Fri,  6 Sep 2024 11:55:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vDkiP1tj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FaRbn/+8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6C81CB306
-	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 11:28:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A671CDFBC;
+	Fri,  6 Sep 2024 11:55:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725622086; cv=none; b=C5ujIx30IV295Q+ayAHGvqWLBrUIrybCJigPSF2UfE9hHX87RA5jIh/3CSWFxpvoX8lVhJGCzSiXh23PCXSWmC1fNhULohZcao6HCgv19AUfAM3UPvq8Vlf4J+XhBNt6rCuWV3F544xTvamgRU1slZ63bvJT3TBV0Xxem840FCg=
+	t=1725623738; cv=none; b=cinj6bIusbHrsnowOmfS7J/RiAYUud+YkXUIfdWGLKrTKyhpk/cTSEzkNvfsglGPiRJwyvMHr5wSJfEdaVBdO+LDdsPW6KYaVDykT1L65ammSniaMfrGPprDSmsY6OF3sTsvEb9Lfgh4ejAt5QPykcIpD7RLXavlTKNkbbWGbds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725622086; c=relaxed/simple;
-	bh=MolLPwKSrfECjEKA6RH+nPz+dFPPcVfpOJ7Ga3eVHzs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=MdOBPj4gDFV4KFmcSmlFKBi5HjHW0ntW6I1LBZvgWZwbJh+oZoC7mJvSgqrgUaG9OgKyVp9IhPPncFZ83zIl6IpeIpgsDi9WW+XcGltAbZqRoHWQosLNeq8TP6AriL4sSFP2VuYitbPuaWRrNsQgrdEEUcbgaY3V7zYUXC4nb4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vDkiP1tj; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1725623738; c=relaxed/simple;
+	bh=M8CTVmoRvxULSkyhlQwl7B01sbJxbPheVsswpFvSKNo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=chrqRucotRfQ4dr0hvhqWFzDUBAUPQiU3rqfFTt7eFufYV6U0gVoitbQKUzOcjG82d3e7LVeSFeVYSQ8O81seLfYOtTeu+dw1kjQYbpKSnFWu6bls+7duni/Wxc1Zhm9lRAcMEStc/r2/RAQDWKbcNArPK+vnojWXAl+Uv06SNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FaRbn/+8; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B001545B;
-	Fri,  6 Sep 2024 13:26:48 +0200 (CEST)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7449145B;
+	Fri,  6 Sep 2024 13:54:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725622008;
-	bh=MolLPwKSrfECjEKA6RH+nPz+dFPPcVfpOJ7Ga3eVHzs=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=vDkiP1tjDmSclOZ1eQj3fyxMxxhLlRngqmVb0n/eTJiBvdOgwyQEJjQDM54ld+8JL
-	 63Qptk98jgEf++HoVOqhyVYGASJiDnm/x65gUP9g330ddYEx9slHqekeBG4e1PSYFh
-	 et3jq65DGgSkkGcMw5lvz+CncllsKyGTtJCZ/gaw=
-Message-ID: <c8feb1c4-ec6a-4ea9-b8cd-cb10d99e09ca@ideasonboard.com>
-Date: Fri, 6 Sep 2024 14:27:59 +0300
+	s=mail; t=1725623660;
+	bh=M8CTVmoRvxULSkyhlQwl7B01sbJxbPheVsswpFvSKNo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FaRbn/+8pDV9pWLNcM0Z2dami7oO1NDdiRyLpQG8sOQTSmJgiN5WNO4745myBN4nH
+	 Te2NE0q2ExucISDC37fIlAHD1BlUhgGUB5jH9aiMoahmTFy72pP3myXL2DDWtFOK+5
+	 a+DnmYJchOch346f3/Kr+AsQQ4Att/yD5kzHOWik=
+Date: Fri, 6 Sep 2024 14:55:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH/RFC v2 8/9] media: v4l: ctrls: Add a control for
+ companding
+Message-ID: <20240906115532.GA12683@pendragon.ideasonboard.com>
+References: <20240905225308.11267-1-laurent.pinchart@ideasonboard.com>
+ <20240905225308.11267-9-laurent.pinchart@ideasonboard.com>
+ <3690e2f3-17e7-4758-a3c9-05320cc92f1d@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Race in rcar-v4l2.c
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: linux-media@vger.kernel.org
-References: <af3f0b7c-d184-4b2e-bb75-6349ef32e4c3@ideasonboard.com>
- <20240906101446.GS3708622@fsdn.se>
- <fbb2f448-c253-44b0-82ae-e9d751b469e2@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <fbb2f448-c253-44b0-82ae-e9d751b469e2@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3690e2f3-17e7-4758-a3c9-05320cc92f1d@xs4all.nl>
 
-Hi,
+Hi Hans,
 
-On 06/09/2024 14:14, Tomi Valkeinen wrote:
-> Hi Niklas,
+On Fri, Sep 06, 2024 at 07:44:05AM +0200, Hans Verkuil wrote:
+> On 06/09/2024 00:53, Laurent Pinchart wrote:
+> > Companding refers to compression and expansion of pixel data to fit in a
+> > smaller range. The control is named V4L2_CID_COMPANDING, and only
+> > supports compression initially.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> > 
+> > - Rename V4L2_COMPANDING_ALAW to V4L2_COMPANDING_COMPRESS
+> > - Document V4L2_COMPANDING_LINEAR and V4L2_COMPANDING_COMPRESS
+> > ---
+> >  .../media/v4l/ext-ctrls-image-process.rst        | 16 ++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c        |  9 +++++++++
+> >  include/uapi/linux/v4l2-controls.h               |  5 +++++
+> >  3 files changed, 30 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> > index b1c2ab2854af..d529b0a8cd41 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> > @@ -55,3 +55,19 @@ Image Process Control IDs
+> >      control value divided by e.g. 0x100, meaning that to get no
+> >      digital gain the control value needs to be 0x100. The no-gain
+> >      configuration is also typically the default.
+> > +
+> > +``V4L2_CID_COMPANDING (menu)``
+> > +    Companding refers to compression and expansion of pixel data to fit in a
+> > +    smaller range.
+> > +
+> > +
+> > +.. tabularcolumns:: |p{5.7cm}|p{11.8cm}|
+> > +
+> > +.. flat-table::
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +
+> > +    * - ``V4L2_COMPANDING_LINEAR``
+> > +      - No companding.
+> > +    * - ``V4L2_COMPANDING_COMPRESS``
 > 
-> On 06/09/2024 13:14, Niklas Söderlund wrote:
->> Hi Tomi,
->>
->> Thanks for your report.
->>
->> I have an on-going series trying to clean this all up [1]. The one
->> change in the v4l-async core I proposed was however rejected and I have
->> yet to circle back to figure out a different solution.
->>
->> Could you give it a try and see if it also solves this issue?
->>
->> 1. [PATCH 0/6] media: rcar-vin: Make use of multiple connections in 
->> v4l-async
->>     https://lore.kernel.org/linux-renesas- 
->> soc/20240129202254.1126012-1-niklas.soderlund+renesas@ragnatech.se/
+> It's weird that this is called 'COMPRESS',
 > 
-> The compilation fails (broken in media: rcar-vin: Simplify remote source 
-> type detection) with:
+> > +      - Compress the data using a device-specific curve.
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > index 1ea52011247a..841e415a88ae 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -611,6 +611,11 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+> >  		"Cyclic",
+> >  		NULL,
+> >  	};
+> > +	static const char * const companding[] = {
+> > +		"Linear",
+> > +		"A-Law",
 > 
-> drivers/media/platform/renesas/rcar-vin/rcar-dma.c:767:24: error: 
-> ‘struct rvin_dev’ has no member named ‘is_csi’
-> 
-> If I hack past that, I don't see the warnings anymore. But if I'm not 
-> mistaken, rvin_release() is not called at all anymore. I can also see 
-> plenty of leaks with kmemleak. Those seem to originate from max96712, 
-> but... I don't see max96712's remove() getting called either when I 
-> remove the module.
+> but it is called 'A-Law' here. I think the same name should be used for both
+> as this is confusing.
 
-Sorry, never mind that. I had the debug print in max96714... =). So 
-max96712 remove() gets called, but it's missing:
+I forgot to change this. I'll use "Compress".
 
-+       v4l2_subdev_cleanup(&priv->sd);
-+       media_entity_cleanup(&priv->sd.entity);
-+       v4l2_ctrl_handler_free(&priv->ctrl_handler);
+> > +		NULL
+> > +	};
+> >  
+> >  	switch (id) {
+> >  	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
+> > @@ -750,6 +755,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+> >  		return camera_orientation;
+> >  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
+> >  		return intra_refresh_period_type;
+> > +	case V4L2_CID_COMPANDING:
+> > +		return companding;
+> >  	default:
+> >  		return NULL;
+> >  	}
+> > @@ -1164,6 +1171,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >  	case V4L2_CID_TEST_PATTERN:		return "Test Pattern";
+> >  	case V4L2_CID_DEINTERLACING_MODE:	return "Deinterlacing Mode";
+> >  	case V4L2_CID_DIGITAL_GAIN:		return "Digital Gain";
+> > +	case V4L2_CID_COMPANDING:		return "Companding";
+> >  
+> >  	/* DV controls */
+> >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > @@ -1421,6 +1429,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> >  	case V4L2_CID_CAMERA_ORIENTATION:
+> >  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
+> >  	case V4L2_CID_HDR_SENSOR_MODE:
+> > +	case V4L2_CID_COMPANDING:
+> >  		*type = V4L2_CTRL_TYPE_MENU;
+> >  		break;
+> >  	case V4L2_CID_LINK_FREQ:
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > index 974fd254e573..ca9e25f72886 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -1225,6 +1225,11 @@ enum v4l2_jpeg_chroma_subsampling {
+> >  #define V4L2_CID_TEST_PATTERN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 3)
+> >  #define V4L2_CID_DEINTERLACING_MODE		(V4L2_CID_IMAGE_PROC_CLASS_BASE + 4)
+> >  #define V4L2_CID_DIGITAL_GAIN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 5)
+> > +#define V4L2_CID_COMPANDING			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 6)
+> > +enum v4l2_companding {
+> > +	V4L2_COMPANDING_LINEAR		= 0,
+> > +	V4L2_COMPANDING_COMPRESS	= 1,
+> > +};
+> >  
+> >  /*  DV-class control IDs defined by V4L2 */
+> >  #define V4L2_CID_DV_CLASS_BASE			(V4L2_CTRL_CLASS_DV | 0x900)
 
-But now I'm seeing rvin_release() getting called (no warnings). I'm not 
-sure what changed. Maybe I had some extra changes lying around. Let me 
-test the series a bit more...
+-- 
+Regards,
 
-  Tomi
-
-> I'm testing on Renesas' whitehawk board, with max96712 TPG. If you have 
-> that board, and want to try module loading & unloading, you also need to 
-> fix the max96712 remove function:
-> 
-> -       struct max96712_priv *priv = i2c_get_clientdata(client);
-> +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +       struct max96712_priv *priv = v4l2_get_subdevdata(sd);
-> 
->   Tomi
-> 
->> On 2024-09-06 12:57:50 +0300, Tomi Valkeinen wrote:
->>> Hi Niklas,
->>>
->>> There seems to be a race in rcar-v4l2.c, causing
->>> WARN_ON(entity->use_count < 0) in pipeline_pm_power_one().
->>>
->>> If my understanding is correct, the VIN v4l2 nodes are being created
->>> (rvin_v4l2_register), meaning they are userspace accessible, but the 
->>> media
->>> pipeline as a whole is not ready yet (e.g. media links).
->>>
->>> So what happens is that after some video nodes have been created, the
->>> userspace opens them (I think it's udevd checking the new device nodes),
->>> causing rvin_open(). rvin_open() goes through the media graph and 
->>> does some
->>> PM enabling (I'm not familiar with the legacy v4l2_pipeline_pm_get()).
->>> However, as the links are not there, it doesn't really enable much at 
->>> all.
->>>
->>> Then the driver goes forward and finishes with the media graph.
->>>
->>> Then the userspace closes the opened video nodes, rvin_release() gets 
->>> called
->>> and it goes through the media graph, which now contains all the 
->>> entities,
->>> and powers them down. As the entities were never powered up, we hit the
->>> use_count warning.
->>>
->>> This happens quite often to me when loading the modules, but I think 
->>> it can
->>> be made to happen more often by adding msleep(1000) to the beginning of
->>> rvin_release(), thus ensuring that the graph setup is finished before 
->>> the
->>> rvin_release() proceeds (and hoping that the graph setup was not 
->>> ready when
->>> rvin_open() was called).
->>>
->>>   Tomi
->>>
->>
-> 
-
+Laurent Pinchart
 
