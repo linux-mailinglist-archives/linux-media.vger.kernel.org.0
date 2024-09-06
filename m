@@ -1,128 +1,132 @@
-Return-Path: <linux-media+bounces-17830-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17831-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9695896FD86
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 23:43:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D37E96FE10
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 00:38:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2E591C241E6
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 21:43:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99ACA1C21CA6
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 22:38:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C67158559;
-	Fri,  6 Sep 2024 21:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 226DB15B0E3;
+	Fri,  6 Sep 2024 22:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bUSSF14Q"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vzD4W7/i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5BC1591E2
-	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 21:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04851581EA;
+	Fri,  6 Sep 2024 22:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725658985; cv=none; b=HYLRN1EEUA/Qav7v1+2F0sWFZ0UPcVH2JlkD1+ylJT+ji6xs09f0pdzMtNXui+LdW/KR8/tYmsvZ6KJjRY8oGPZKBjGgcXod9J/vsl9mGTKftl6hNr02BphB4i7lGpvmK7dwoxvbpYXY+IIeF9aHG/sB2uRuvNdFpDe+i4XzoNA=
+	t=1725662317; cv=none; b=HTsYReh7+9gEr9flp/yHYeYSLagLTh/fkcPtL6K+ajyeYe+vBQjF38OyIs3lsxvRHwHzWPXl1A/ZQ36E6o5DmoaCYiYGFZmCkTR+KQpAPHJCJab99UNgde97soPSooba0fcu3VxQcwqmBT1cqUtax5mRm9Q2BCdb7yoOKcjKYjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725658985; c=relaxed/simple;
-	bh=VuX4Jn656SyN3lFhlYF+3sJWBSxZXV1d8YF9Qq7gn+A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KWD1xECeDqy4EdKkCAydcPBEOEBsBszAd7PogJ/EDd+aZZoohoLL1UNwYNnZVBKr40BY/71Q4h0vQ2lKQWplrOdZvVGb452gH9pXqlivKbkxoo86aex4tTam0HQc+W0Q2adZvaUY0aI4dOE/QFRUWHnlhhc6uxM07OmB2Ms1JCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bUSSF14Q; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53652c3bffdso334061e87.1
-        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2024 14:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725658981; x=1726263781; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QMJVvz0JpBRvUB5FSNKq4yW1CoRz1HX38oGPUb4Dv+4=;
-        b=bUSSF14QtEcolpbcFn7m+kNaM7cbgdqChLWVJL2WpLCebj0d0nJQH/vxgIcKpotPgZ
-         qIYbcnPec1PWBOreNnLPZAtEOu4yPTFzHg3Y1FdwF0Xo5lKM8t4EcDsuJJXd6/xO8W+I
-         phujWRFzzdud0ZPFsZoZATsqCFLzoV4LhbLVh6/YlZOkuFGcfP0Y0KDEgM4DlI+Gdtm8
-         LoehIp0Ty8gg5+jw5Cx3U9mWe55LEJYLGaBnZapYWKXHMEbUGm/fT/YTEaJ0lWzTvLEI
-         xfwhidB1oCJg71lfb3YxBg1oqQsoxcLHORtz1jX6N/gC+PYqfICCRUKwRiI4B67cd9Uz
-         YjEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725658981; x=1726263781;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QMJVvz0JpBRvUB5FSNKq4yW1CoRz1HX38oGPUb4Dv+4=;
-        b=C3v8+ykWNEhSMSoFYZb5m2gQ0AEIaXJi3z9HLgqH+wq0vJg+nv1pmuYu0vqCbutmIs
-         g1wHXW4ASWJt41RcJfdpIRJYcS1GisuFWqBPlPW6nCDaSeTmZHkQ5OfpCZCOAtKQZNBF
-         +HDzppaybPIq/uRUbCfVqa1vaAcJgx74mFAkVkymXgdSXvbOfQXGtbPmcHuEh9YSs84a
-         D6naUjJbkTODj6aIMvqv29ZwgtfOWV7+jdJSVMQaCaFiVam/fTqCRtWnFtTU9d3MZaOv
-         GR2VobXFmbSKJrD2lKGo4hovRRAjBy2IRePzZGtCwDOTOpQQePqYvwjJCjr5H/+u7AP9
-         zIeg==
-X-Forwarded-Encrypted: i=1; AJvYcCXsiaj+I7evqdTzdVCQZITf9mBS6fBOF8tkchTrJsBQf2lmuYL2xdOb4KdgLFuVFwJf0YfOAcM2aOT11Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwogUSfn8uKjvqhEpb8gDZ9Vf9xtlUjHp0Ixp4Yruw2ecf8c5yy
-	XSo9T7A6viFvWz6OB1ZvrQdAKiyxckZN/qjDtYevileJojJSfeLAKYeKLHTJzp0=
-X-Google-Smtp-Source: AGHT+IE/D+5ba+1hDZr0V2IYH3UjMXEOuRVLlJRqu+mfaEn6EiITN40Eds9AruP0dsVxsMAjPuEB/w==
-X-Received: by 2002:a05:6512:3b24:b0:535:3dfb:a51a with SMTP id 2adb3069b0e04-536587b818emr1498588e87.5.1725658981064;
-        Fri, 06 Sep 2024 14:43:01 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53655aa72adsm384248e87.304.2024.09.06.14.43.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Sep 2024 14:43:00 -0700 (PDT)
-Message-ID: <8d3e4ad1-82e3-42ad-80c2-dacd863e8e3e@linaro.org>
-Date: Sat, 7 Sep 2024 00:42:59 +0300
+	s=arc-20240116; t=1725662317; c=relaxed/simple;
+	bh=X/567zU5k9K5hStaCvKzrLyx0nYNiuyl9q1uQZPX8L8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l1pjpXh0YOItmvWh48wo6teWMJRiGNiqrggUXhGVyQDfYmS+g458oER/j1SYyCJapaKzDfMm2fc54/7D9aQ6zjkjTofx+CD/vbwv9A0ueoprD1Kvuue+E8OQCYbxtrmF8crnMg5OlzP3/Scx04F4jUR0oWWJ0VtNFxZtcecdZZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vzD4W7/i; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B02D593;
+	Sat,  7 Sep 2024 00:37:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725662239;
+	bh=X/567zU5k9K5hStaCvKzrLyx0nYNiuyl9q1uQZPX8L8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vzD4W7/iYfESqZfmK/mbSEn5BHWHvxf2mB/jDB6qZkE4SlU6MP+u6VC3yN1UBXoA0
+	 dMDj6v6Jiz5MrFxruBYZ3W+DB7eIC6dHdkUMvlIT3McftmORcL5D43H886pgUMYCVi
+	 vSbeFfomlt/UIQqLM5HOCDtv44xnTtR8lLQC4GgI=
+Date: Sat, 7 Sep 2024 01:38:31 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/3] media: platform: rzg2l-cru: rzg2l-csi2: Implement
+ .get_frame_desc()
+Message-ID: <20240906223831.GB12915@pendragon.ideasonboard.com>
+References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906173947.282402-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] arm64: dts: qcom: sc8280xp: Fix interrupt type of
- camss interrupts
-Content-Language: en-US
-To: Johan Hovold <johan@kernel.org>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20240905164142.3475873-1-vladimir.zapolskiy@linaro.org>
- <20240905164142.3475873-5-vladimir.zapolskiy@linaro.org>
- <ZtsSTsSsOas0hVNg@hovoldconsulting.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <ZtsSTsSsOas0hVNg@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240906173947.282402-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Johan,
+Hi Prabhakar,
 
-On 9/6/24 17:31, Johan Hovold wrote:
-> On Thu, Sep 05, 2024 at 07:41:40PM +0300, Vladimir Zapolskiy wrote:
->> The expected type of all CAMSS interrupts is edge rising, fix it in
->> the CAMSS device tree node for sc8280xp platform.
->>
->> Fixes: 5994dd60753e ("arm64: dts: qcom: sc8280xp: camss: Add CAMSS block definition")
->> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Thank you for the patch.
+
+On Fri, Sep 06, 2024 at 06:39:45PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Camera still works on the X13s. Didn't try to reproduce the probe
-> deferral issue.
+> The RZ/G2L CRU requires information about which VCx to process data from,
+> among the four available VCs. To obtain this information, the
+> .get_frame_desc() routine is implemented. This routine, in turn, calls
+> .get_frame_desc() on the remote sensor connected to the CSI2 bridge.
 > 
-> Tested-by: Johan Hovold <johan+linaro@kernel.org>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c    | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> index c7fdee347ac8..a7e4a0c109da 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> @@ -582,6 +582,17 @@ static int rzg2l_csi2_enum_frame_size(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +static int rzg2l_csi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> +				     struct v4l2_mbus_frame_desc *fd)
+> +{
+> +	struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
+> +
+> +	if (!csi2->remote_source)
+> +		return -EINVAL;
 
-thank you for testing!
+Maybe -ENODEV ?
 
-One of the simplest ways to reproduce the fixed problem would be to
-unbind/bind the camss device:
+> +
+> +	return v4l2_subdev_call(csi2->remote_source, pad, get_frame_desc, pad, fd);
+> +}
+> +
 
-% echo -n ac5a000.camss > /sys/bus/platform/drivers/qcom-camss/unbind
-% echo -n ac5a000.camss > /sys/bus/platform/drivers/qcom-camss/bind
+I wonder if we should implement a wrapper around .get_frame_desc() that
+would automatically forward the call to the source if .get_frame_desc()
+isn't implemented by a subdev. That's not a requirement for this series,
 
-I don't have access to the X13s, but I believe that it should display the issue.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
---
-Best wishes,
-Vladimir
+>  static const struct v4l2_subdev_video_ops rzg2l_csi2_video_ops = {
+>  	.s_stream = rzg2l_csi2_s_stream,
+>  	.pre_streamon = rzg2l_csi2_pre_streamon,
+> @@ -593,6 +604,7 @@ static const struct v4l2_subdev_pad_ops rzg2l_csi2_pad_ops = {
+>  	.enum_frame_size = rzg2l_csi2_enum_frame_size,
+>  	.set_fmt = rzg2l_csi2_set_format,
+>  	.get_fmt = v4l2_subdev_get_fmt,
+> +	.get_frame_desc = rzg2l_csi2_get_frame_desc,
+>  };
+>  
+>  static const struct v4l2_subdev_ops rzg2l_csi2_subdev_ops = {
+
+-- 
+Regards,
+
+Laurent Pinchart
 
