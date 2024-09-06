@@ -1,146 +1,166 @@
-Return-Path: <linux-media+bounces-17726-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17727-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD7C96E7CF
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 04:36:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBF196E96B
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 07:44:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B5AC4B23C7B
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 02:36:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 238E71F21275
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 05:44:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4EFC36130;
-	Fri,  6 Sep 2024 02:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQDwoTPC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 986C2130A47;
+	Fri,  6 Sep 2024 05:44:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C074C1B969;
-	Fri,  6 Sep 2024 02:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0193EA71;
+	Fri,  6 Sep 2024 05:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725590195; cv=none; b=uDe7FHmYMnqccbX1NQS8SPx2woERup+t1i3Gyh9M5+LgqzI7azdDCTB7vikGv10m0915rpu/J2AmegAFoO5Yo42+/KCOZbjHUZSEnLkt7YWv2edYXC8uJjUTf1a1UmGQ1vA9c3N1RX39cWKnoxdSTL4Ato5zg87PfyWJbr/z5Uo=
+	t=1725601449; cv=none; b=DT4Iyh42LV4/7u7O70q03NNLDkiRONbNM/v3gjBLns+nevtykhsvAxt4X7pjZBCcdXCxMqn8D0H3S/+8nJzChvDXPy6JErUCc6FebjuDX8YX8WETjW7izM+H4Siy9YZl/KWT1PB3iDfFEPB2fwM9fxkOrCuHQe/7DGqsaAJN+lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725590195; c=relaxed/simple;
-	bh=l/L5FGZqn4EE3bWvcZ4oUF9HzXQWZkujyE9rwI0wzNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=guTumuWo8fp1FDqKWz6MWTdfmCxg8cyeInNKagnbazRdaTlEuvex6CR+NTcZAhbS1waVkaNL7De0eq7vqez7LTvvx9z8xWvu9K72SzbDQUxLbJEoSu9t7tnWCJ2Vsw8Gq3Mrj44JOKkKz1lya9ZPP6kYQi3DJv0/FCj4cz2uloo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQDwoTPC; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e1a989bd17aso1622170276.1;
-        Thu, 05 Sep 2024 19:36:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725590193; x=1726194993; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pVMdGlIj9xk2r5uxVbI4SIjTki6YfCzvVODN1CuCuF4=;
-        b=fQDwoTPC+78YKZ6MP+CBwjsd+bilaqolyPHTNhTZlMM0RWxFksAG9x8RLCm9x6tOAs
-         exaJ6LUji8q/MfQAq9nWBFQSpazW7rn9mfSmZkuElz59gO4BXlJhYmGbioen9IOKdCBD
-         9TAasB9smhuMSlZ4Yc9BlXyOk+FlDr4AtzTko91SEv6yOZEzgQBcLZQQGJ2qNfR/dMAL
-         f6DgY0G4KUJLHPfDr6leNFw36Axy0spEh+CZVCWUVzQNNe+ysj8XXgPfQ/bZRmyJEL/B
-         Yl6Mawk5pTls1hbMTSn8QZIuuEby13WOXbeXY4qSA8FfKQZldQmH2sF9jjnCRPDzzQAO
-         Ob4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725590193; x=1726194993;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pVMdGlIj9xk2r5uxVbI4SIjTki6YfCzvVODN1CuCuF4=;
-        b=B9ZYu+Mt9uox6xIpzx4IeUa+r0kwJVlhUvaaMfU86nWjHsNO6rji+AWnwYmY0fc14n
-         58i2JqDLbTVbSx3QYATDVdyiI60OvYjoordNo/sN6CkeKF+u6GqNOajJtppHV8zoGVV3
-         wxjCMoX1H0CIXVJzO1XfpYxSa7g9PUX9jBvS65MBXfi5fZ9DN6h0/iR4DA+6Y9Cz3TkL
-         FOq6N/suW9+Git8+f+U71eEZJ6gcpczwYKyzg8RbTUklXi9sBCCf1qLhJOSNO5wOztWb
-         oYJr1ZiGyS6PNflbV0halXqICeJ5N5Ak82F9JgndpJm5NMuSYQrl5hcxm6rSqgkCrlhd
-         vwuA==
-X-Forwarded-Encrypted: i=1; AJvYcCUBj7J+ZQcHYJV3/Yg0yzgtKtC12iihi2O250Qd6HbOy4Zb2kJ3b0KB78TFvJABL+6RNvmJqeeKXlkE@vger.kernel.org, AJvYcCV7ReY+OPLEYLJCSSzXDxxJx09VIJji7eKFvW5lsw9tFEZimCH1MLtEo935uD3hJPj7qbwomZhE34axYopSnA==@vger.kernel.org, AJvYcCV9knSbij/dARIrm5AD6J2uajlhH4SiW9TZG6vaDX4DwCG7wwEssEFMy75KJmWYo8kMb8yzcqgfRmsB@vger.kernel.org, AJvYcCVShNLuxzLdVeqEIH5WEGT/mutdoqov9aqMXN5OaCFUPhceCY3rbhYKRrHObV9dLZD0hmog75yoJSZE@vger.kernel.org, AJvYcCWH+REPiqJqbDWwhsdip7Ao6fmnNRAJ20SFRdqOiEJCuRmp95xzXRYn2ayw2nP0e06qoDBjI6WKAJs0RmU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7kiCOqldnNF4M+YGpl5f5osml35+Q/2siFyqp2lIzmriR62wL
-	/TSDeKrOef/Lfnmc4tSLCcowH7iEMJn9Xi1A8jiGBdSiQeB6adoL
-X-Google-Smtp-Source: AGHT+IF86jLnkCVqdhTbMHpt4/KAK2kFi9egstzyzRlVhvtwUHnadDj+kjXTpmL6llQZUVva33ipRg==
-X-Received: by 2002:a05:6902:1242:b0:e1a:b04d:673 with SMTP id 3f1490d57ef6-e1d34a3a94emr1447077276.55.1725590192531;
-        Thu, 05 Sep 2024 19:36:32 -0700 (PDT)
-Received: from localhost ([2607:fea8:52a3:d200::4eac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45801b35d07sm12458121cf.27.2024.09.05.19.36.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 19:36:31 -0700 (PDT)
-Date: Thu, 5 Sep 2024 22:36:28 -0400
-From: Richard Acayan <mailingradian@gmail.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Loic Poulain <loic.poulain@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Subject: Re: [PATCH v4 0/7] Add SDM670 camera subsystem
-Message-ID: <ZtpqrANbJurWNOzV@radian>
-References: <20240904020448.52035-9-mailingradian@gmail.com>
- <tthbaop6bkyvebpibiyvyct4khrd5o4apdbipqdthnidxmu2cx@m726xv4ocblg>
+	s=arc-20240116; t=1725601449; c=relaxed/simple;
+	bh=x0sTSRSJwVt/NcZ9e2iIEEOQ3sDAj1QcUi0CZsId3LE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=krUwX0j3tsJNX0nTM99CS5SozH5BGKuwOWYBP7uzKMOdhGfCG9pYpkHG6SYD06CXGAFerhFPWilaw9GNnFovg5jMqLYaf24c6ZubA8Kasz0FAJj8EM1BoegzDwFQYqgVkMZgLEWXr/XgkiRt08a0+hfJ0M78PJiF6Zycq+XW06c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03C2EC4CEC4;
+	Fri,  6 Sep 2024 05:44:06 +0000 (UTC)
+Message-ID: <3690e2f3-17e7-4758-a3c9-05320cc92f1d@xs4all.nl>
+Date: Fri, 6 Sep 2024 07:44:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tthbaop6bkyvebpibiyvyct4khrd5o4apdbipqdthnidxmu2cx@m726xv4ocblg>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH/RFC v2 8/9] media: v4l: ctrls: Add a control for
+ companding
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20240905225308.11267-1-laurent.pinchart@ideasonboard.com>
+ <20240905225308.11267-9-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240905225308.11267-9-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 05, 2024 at 10:09:34PM +0200, Andi Shyti wrote:
-> Hi Richard,
+On 06/09/2024 00:53, Laurent Pinchart wrote:
+> Companding refers to compression and expansion of pixel data to fit in a
+> smaller range. The control is named V4L2_CID_COMPANDING, and only
+> supports compression initially.
 > 
-> On Tue, Sep 03, 2024 at 10:04:49PM GMT, Richard Acayan wrote:
-> > This adds support for the camera subsystem on the Snapdragon 670.
-> > 
-> > As of next-20240902, camss seems to be a bit broken, but the same series
-> > works on stable (although it is much less reliable now that the CCI clock
-> > frequency is not being assigned).
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> Changes since v1:
 > 
-> I am not understanding this bit: is this series making it better
-> or not? Can you please clarify what is broken, what is less
-> reliable and what works?
+> - Rename V4L2_COMPANDING_ALAW to V4L2_COMPANDING_COMPRESS
+> - Document V4L2_COMPANDING_LINEAR and V4L2_COMPANDING_COMPRESS
+> ---
+>  .../media/v4l/ext-ctrls-image-process.rst        | 16 ++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c        |  9 +++++++++
+>  include/uapi/linux/v4l2-controls.h               |  5 +++++
+>  3 files changed, 30 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> index b1c2ab2854af..d529b0a8cd41 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> @@ -55,3 +55,19 @@ Image Process Control IDs
+>      control value divided by e.g. 0x100, meaning that to get no
+>      digital gain the control value needs to be 0x100. The no-gain
+>      configuration is also typically the default.
+> +
+> +``V4L2_CID_COMPANDING (menu)``
+> +    Companding refers to compression and expansion of pixel data to fit in a
+> +    smaller range.
+> +
+> +
+> +.. tabularcolumns:: |p{5.7cm}|p{11.8cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +
+> +    * - ``V4L2_COMPANDING_LINEAR``
+> +      - No companding.
+> +    * - ``V4L2_COMPANDING_COMPRESS``
 
-When applying this camss series and some camera sensor patches on
-linux-next, the Pixel 3a seems to hang when camera capture starts.
+It's weird that this is called 'COMPRESS',
 
-When applying the same patches on stable, the camera does not cause the
-Pixel 3a to hang.
+> +      - Compress the data using a device-specific curve.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index 1ea52011247a..841e415a88ae 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -611,6 +611,11 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>  		"Cyclic",
+>  		NULL,
+>  	};
+> +	static const char * const companding[] = {
+> +		"Linear",
+> +		"A-Law",
 
-When these device tree properties from the previous series were removed:
+but it is called 'A-Law' here. I think the same name should be used for both
+as this is confusing.
 
-			assigned-clocks = <&camcc CAM_CC_CCI_CLK>;
-			assigned-clock-rates = <37500000>;
+Regards,
 
-the CCI would sometimes fail to probe with the error:
+	Hans
 
-	[   51.572732] i2c-qcom-cci ac4a000.cci: deferred probe timeout, ignoring dependency
-	[   51.572769] i2c-qcom-cci ac4a000.cci: probe with driver i2c-qcom-cci failed with error -110
+> +		NULL
+> +	};
+>  
+>  	switch (id) {
+>  	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
+> @@ -750,6 +755,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>  		return camera_orientation;
+>  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
+>  		return intra_refresh_period_type;
+> +	case V4L2_CID_COMPANDING:
+> +		return companding;
+>  	default:
+>  		return NULL;
+>  	}
+> @@ -1164,6 +1171,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_TEST_PATTERN:		return "Test Pattern";
+>  	case V4L2_CID_DEINTERLACING_MODE:	return "Deinterlacing Mode";
+>  	case V4L2_CID_DIGITAL_GAIN:		return "Digital Gain";
+> +	case V4L2_CID_COMPANDING:		return "Companding";
+>  
+>  	/* DV controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1421,6 +1429,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_CAMERA_ORIENTATION:
+>  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
+>  	case V4L2_CID_HDR_SENSOR_MODE:
+> +	case V4L2_CID_COMPANDING:
+>  		*type = V4L2_CTRL_TYPE_MENU;
+>  		break;
+>  	case V4L2_CID_LINK_FREQ:
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 974fd254e573..ca9e25f72886 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1225,6 +1225,11 @@ enum v4l2_jpeg_chroma_subsampling {
+>  #define V4L2_CID_TEST_PATTERN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 3)
+>  #define V4L2_CID_DEINTERLACING_MODE		(V4L2_CID_IMAGE_PROC_CLASS_BASE + 4)
+>  #define V4L2_CID_DIGITAL_GAIN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 5)
+> +#define V4L2_CID_COMPANDING			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 6)
+> +enum v4l2_companding {
+> +	V4L2_COMPANDING_LINEAR		= 0,
+> +	V4L2_COMPANDING_COMPRESS	= 1,
+> +};
+>  
+>  /*  DV-class control IDs defined by V4L2 */
+>  #define V4L2_CID_DV_CLASS_BASE			(V4L2_CTRL_CLASS_DV | 0x900)
 
-On further testing, the rate can be set to 19.2 MHz, and there would be
-no failure (or rather, it wouldn't happen often enough for me to witness
-it).
-
-> Besides, I'm reading that this series has not been tested and it
-> makes it difficult for me to take this in, considering that you
-> are adding a new support.
-
-Of course. This revision of the series wasn't submitted to rush into
-v6.12-rc1. It can wait until everything is resolved.
-
-When device tree maintainers comment "not tested" on the documentation,
-it usually means that `make dt_bindings_check DT_SCHEMA_FILES=...` gives
-errors or warnings (even though the device tree and driver may work on
-the hardware). It's a separate test and one of the things I haven't
-scripted into my workflow, although it's still a responsibility.
 
