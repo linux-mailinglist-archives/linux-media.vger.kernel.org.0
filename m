@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-17796-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17798-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0933E96F84B
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 17:35:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BCB96F851
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 17:35:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1EF81F253E7
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 15:35:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B87111C23737
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 15:35:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F9BB1D3623;
-	Fri,  6 Sep 2024 15:34:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 252751D363C;
+	Fri,  6 Sep 2024 15:34:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Bos4fWvx"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bNGBp4eO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FA81D3193;
-	Fri,  6 Sep 2024 15:34:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337D81D3631;
+	Fri,  6 Sep 2024 15:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725636877; cv=none; b=tCU0bTEj/KLd4iV7eyGchDRXwgUcGTbthP4Ivdpp15Pjinbqgn2vtLU8epGn4azMp1M5agaFZX9u71M0o4fiu2WTkAhf5iSFJ9tocQMLri0nqUzFFclsrYNHAfYv6XgKjRQJNeeoNhKC9BnfaT4hyWpVp+UsI8hsakpdXR7WmBA=
+	t=1725636880; cv=none; b=kyXNJvONDuXWRZtEVgy2gtbPw9e6j9BvJzAWPUopQ06C3kd0Qlc0bCR+ti2WXehrS3H7bDLJYNRVYUTsivL2mes4nUKOQqtdg6Ro1oiboRkGUVmJGrLNiLDCrSp1OzgxAqotVMcz0E2Rv5qUg0X9/YH3PyGDy7AoJeAryCo2SwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725636877; c=relaxed/simple;
-	bh=zBnQQkDgt8h5ulByWUAuBBFHQ3RLDmG+qAj/b9+HP9E=;
+	s=arc-20240116; t=1725636880; c=relaxed/simple;
+	bh=9md3nPbu0aGQRGJnIR4TfFQhAzkk7HdYUg/1PmAd1jM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SC/5YEiIwwbIXSkqnmenFALvfVELKPBxF9XILsdDMf25Km6cPZgQ0CTwpyt8jzUXpi1tWSKip3c0wxmr4148eQsl7xkAIUo01d15CtG/THg+KHXXiuNWRf7iGLCaR66Av6AYe5fYSAjfThNE1Sing2788iyJL9YIoDv9VD6yLYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Bos4fWvx; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=SjCFup4D8a9ZPs38rvkNZyp0O6DjvAaycdtu1Rq1y/J0v0/FPhTThoBpjqEEyGlLX9t5Nl3TtHUefxoea0H3wdxStip8cReKBhTW5DZIfvPVEtocnr3hIRxcn/2iM+HrF4kYbgjD4fjD1vIWY426fNxZbbwIukPcBBM0wVJjGaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bNGBp4eO; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ABBB21733;
-	Fri,  6 Sep 2024 17:33:09 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50C73192D;
+	Fri,  6 Sep 2024 17:33:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725636790;
-	bh=zBnQQkDgt8h5ulByWUAuBBFHQ3RLDmG+qAj/b9+HP9E=;
+	s=mail; t=1725636791;
+	bh=9md3nPbu0aGQRGJnIR4TfFQhAzkk7HdYUg/1PmAd1jM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Bos4fWvxmaHNEq7E4Ff7bhynMvzi4zf95FUywk8DA71Zz+co8D4buxm1ui1ERjDGN
-	 ti/N0Ws3wCDt9XmyN6KwehY79T+tpLK5MGoXMT/NJT0TiZ+oRj1jED5NT9VaDGwYR+
-	 4QbwQOF48ggG+q5EDVKkKfq17p/4SYXF6SOJE+AA=
+	b=bNGBp4eOrgYQ1oOKoN7QUMf1EKAMZiZ6WxI9u3vOsZb43uGF2HNa91drfDAy7wLJj
+	 3VjLDP975Z0IpwOvu7uvRmuJebKc/njOFrNrCZF9C7Kmfih8NOTqiHnt8bxBvINY0B
+	 yWwkgMyL8vQL+XR4pLDusDBG/biaC9iFmXQa/X24=
 From: Daniel Scally <dan.scally@ideasonboard.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -56,9 +56,9 @@ Cc: jacopo.mondi@ideasonboard.com,
 	laurent.pinchart@ideasonboard.com,
 	sakari.ailus@iki.fi,
 	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH v7 08/17] MAINTAINERS: Add entry for mali-c55 driver
-Date: Fri,  6 Sep 2024 16:33:57 +0100
-Message-Id: <20240906153406.650105-9-dan.scally@ideasonboard.com>
+Subject: [PATCH v7 09/17] media: Add MALI_C55_3A_STATS meta format
+Date: Fri,  6 Sep 2024 16:33:58 +0100
+Message-Id: <20240906153406.650105-10-dan.scally@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240906153406.650105-1-dan.scally@ideasonboard.com>
 References: <20240906153406.650105-1-dan.scally@ideasonboard.com>
@@ -70,10 +70,11 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a MAINTAINERS entry for the mali-c55 driver and its associated
-documentation.
+Add a new meta format for the Mali-C55 ISP's 3A Statistics along
+with a new descriptor entry.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
 Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
@@ -84,48 +85,42 @@ Changes in v7:
 
 Changes in v6:
 
-	- None
+	- New patch
 
 Changes in v5:
 
-	- None
+	- New patch
 
-Changes in v4:
-	- None
+ drivers/media/v4l2-core/v4l2-ioctl.c | 1 +
+ include/uapi/linux/videodev2.h       | 3 +++
+ 2 files changed, 4 insertions(+)
 
-Changes in v3:
-
-	- none
-
-Changes in v2:
-
-	- none
-
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8766f3e5e87e..f2124a8eb9a5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1757,6 +1757,17 @@ F:	Documentation/gpu/panfrost.rst
- F:	drivers/gpu/drm/panfrost/
- F:	include/uapi/drm/panfrost_drm.h
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index e14db67be97c..50453da0b112 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1459,6 +1459,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
+ 	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
+ 	case V4L2_META_FMT_RK_ISP1_EXT_PARAMS:	descr = "Rockchip ISP1 Ext 3A Params"; break;
++	case V4L2_META_FMT_MALI_C55_STATS:	descr = "ARM Mali-C55 ISP 3A Statistics"; break;
+ 	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 725e86c4bbbd..f0a33cdef750 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -859,6 +859,9 @@ struct v4l2_pix_format {
+ /* Vendor specific - used for RaspberryPi PiSP */
+ #define V4L2_META_FMT_RPI_BE_CFG	v4l2_fourcc('R', 'P', 'B', 'C') /* PiSP BE configuration */
  
-+ARM MALI-C55 ISP DRIVER
-+M:	Daniel Scally <dan.scally@ideasonboard.com>
-+M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/admin-guide/media/mali-c55-graph.dot
-+F:	Documentation/admin-guide/media/mali-c55.rst
-+F:	Documentation/devicetree/bindings/media/arm,mali-c55.yaml
-+F:	drivers/media/platform/arm/mali-c55/
++/* Vendor specific - used for Arm Mali-C55 ISP */
++#define V4L2_META_FMT_MALI_C55_STATS	v4l2_fourcc('C', '5', '5', 'S') /* ARM Mali-C55 3A Statistics */
 +
- ARM MALI PANTHOR DRM DRIVER
- M:	Boris Brezillon <boris.brezillon@collabora.com>
- M:	Steven Price <steven.price@arm.com>
+ #ifdef __KERNEL__
+ /*
+  * Line-based metadata formats. Remember to update v4l_fill_fmtdesc() when
 -- 
 2.34.1
 
