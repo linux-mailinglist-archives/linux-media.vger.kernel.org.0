@@ -1,308 +1,362 @@
-Return-Path: <linux-media+bounces-17815-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17816-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755D096FA0D
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 19:41:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A307696FA0F
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 19:43:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EAFB51F22D1D
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 17:41:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8553E2808B3
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 17:43:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70FC31D86F1;
-	Fri,  6 Sep 2024 17:40:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3BE41D4615;
+	Fri,  6 Sep 2024 17:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AqiZUeT8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QLzGRNkR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D061D679A;
-	Fri,  6 Sep 2024 17:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F16D1CCB21
+	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 17:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725644430; cv=none; b=DOl4HRCclv2jhRDJQ8P8eEhjAOZFjCVGo20BIyX5ZL83FUtNXPT9tjitiFNjq8P+ETnxIvAv39J2JyYP+75LptqpyePEitqOLGkVi0+f81HOzuHBaoUQMLCtu0QVW876xn+Li8ezESCyIN40JWpIrAWfM2Su+fmegOGTdv+YU2s=
+	t=1725644598; cv=none; b=tFcXH3eBlsdaXxr5+7/Q+PkriEEpyhnY02fD3RUt1WAP6WiLKmUfxjOPeNDx9oULtTZoAWhKiGQ9C715SjbEIXYKIzR9giVfE2To9VbxLGl0YhXoJdzpd/os3qUO3HVfthduRbq4cn1LFkjrsdy7czKy2qQEUln3CtBgrNokEPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725644430; c=relaxed/simple;
-	bh=Kg1fESNf0X+5YiKDQLqfDlABO5VKIZosjyhbT0lEztE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=O3dfjtzQeN9qJiwd79cL/zWkzm9AFjKt1sfxnU+/g2nAFYFtnBKm0uIVvb6ECDg8wPVHtBZ8l5aTWnuyd/lmMfA3mY7uakLuFNi+okkCpYbB/Dw3JrUUIvHxlQGNFsjOfEN42PlpUO+0Txf5hZ9ebHxjJXSxP7KZ8bI0E6MPfsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AqiZUeT8; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c260b19f71so2458588a12.1;
-        Fri, 06 Sep 2024 10:40:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725644427; x=1726249227; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zNJfl5F+xChDdawnSeQiz1xfV4q03mnwuTx7Ec+zuZM=;
-        b=AqiZUeT8wHsZQQ+dH9/dDo9FS41ABJ5U4uSm8dDVNaHkoQPOkqZX73MQhknZUF2Ae0
-         HixAFSkEWmZfwN9fseoT/g5p7Q1emRW4J4mAnz2LKV3CmIXLrwDFFhCkKu4lH+0cLiE0
-         tRNtyDUhNXHeLFGN/7lrPGsuuT8lStDGDVRpaD6WoMYp9pwYAZbdVMBrdaQdPDbXrU64
-         PnixRIECozYC1fiqjmcNo7VtmbLX4lN5PCGs1iHOmO0N7FuWcBuBt/8LwNajAdnBAsxt
-         jbL6ieOvsgIcgzc1PVu7vvlTp8y7i01lGib+Fu2+bqBXViLpFR92pcXz9HSFX4+xsiER
-         4X2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725644427; x=1726249227;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zNJfl5F+xChDdawnSeQiz1xfV4q03mnwuTx7Ec+zuZM=;
-        b=iCLngzOAR+GynMfVBkvavvDys/JCZdjqqb8HsdI8QSPEkG5gMktU/Zqah6TRDhZPjV
-         x6oUOFvrO6OlNosimdJgPAJl9Ngr4e6EicZqhTC/AW0ZdkgsGYpJiw49VWstAaBCbyB+
-         b0xVKhmdeWvuhwR5smcGOcp4FZ3R1drM3bEylMUNo9om+pq/LB6oq+EE393dEE/cjr6Y
-         +hd+B9WStLg/EPH7IUeDmUXAIUYfZeKYgFsifMn/O2vGEJZ2ccHvzZ9iwWi55pCswyGE
-         roRlY9ssrfbr2ZMwOHPHIbgHOOzjbM3SNq3/5cAuuz2e20ZiQopGo6Sj45SSyIiQu7+n
-         n2tg==
-X-Forwarded-Encrypted: i=1; AJvYcCU2+xR/1OhT1HFsQeQwgMxjyAiQyoRdFfDdCKYFaPFibcg1/CZSomSyV4yDp+6J401675dN8dAVOrkluGs=@vger.kernel.org, AJvYcCXvWTj6dCQ+Na93ILeKi4UPp8ND9BxVSSo+camN+ehSpLUyrlEMasMpfcV9kTaz5C1zlVOAUiJAA2nE9/aGcBrDtL0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywem2wFjbou/ULXtGVAijLQBmP7N1KxJgFl/qmpBIdAAWaVG5z1
-	bYykOlnhw/bia2/dNEPkiwyeu4Jp6ruGVQVTyLFtyBEvz+ha7DEALbNxcTN3QNo=
-X-Google-Smtp-Source: AGHT+IEgT20D35Jq7u07g5CPkHIdZkey4MccTXBjTlh7Xr5XvBls1yInooC8Pp9czV7Ju4//M/l4lw==
-X-Received: by 2002:a05:6402:5386:b0:5a2:68a2:ae57 with SMTP id 4fb4d7f45d1cf-5c3dc7c4c45mr2092216a12.31.1725644426996;
-        Fri, 06 Sep 2024 10:40:26 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3cc697fedsm2623557a12.64.2024.09.06.10.40.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Sep 2024 10:40:26 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 3/3] media: platform: rzg2l-cru: Add support to capture 8bit raw sRGB
-Date: Fri,  6 Sep 2024 18:39:47 +0100
-Message-Id: <20240906173947.282402-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1725644598; c=relaxed/simple;
+	bh=0k2uH2hl5FmN3X88ba/YGy83GFeqPtOER90NX/YpnIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Jh/5WJiQI880smfU5isglsHXeseeEYnzBoUl5rSbUxHmyjAe5wcrswP/YcF3jshDF+cvp3vWGHbPL9dePJlnE/1+w5jJaFEfZQpEk/R3AiV4grNwLoiXfkV/GTIas9/ZhBwNgAAM3LRN+HaMwXrg2viqxrBcWcSAQM8kMAU0nU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QLzGRNkR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98484C4CEC4;
+	Fri,  6 Sep 2024 17:43:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725644598;
+	bh=0k2uH2hl5FmN3X88ba/YGy83GFeqPtOER90NX/YpnIA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QLzGRNkR1jiNNkTrb136BVbPhmTxp7MxgFDUJvbzhmjD/QSWnSR3BFKRoHbprDXfx
+	 Chfj6kw1nj5LdzVb56VDHsawsWRGsLUT+dJ5oOMPLwlLYg+Q2GHis9oVVEaT1lH3LE
+	 s5B/sTKdpBjhMMeTNGxXxMansJaWzCZYAT4V7cAD5MCozSAzgr1Nr9Ao2divAB3E+U
+	 K/PgwNTbqvr1yZcXmimsHK8iqKW75UvZI4oQmXg3wFFb7h/DvkkerU0SfNTeGc3b+p
+	 HPUfRXX7ZZMRGyISYSiQi9489szs92JKBhlXS5Oz9zho3sRfIOgwoPzfX9qMFmVx5z
+	 /hDdsxqh29vLA==
+Date: Fri, 6 Sep 2024 19:43:10 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Martin Hecht <martin.hecht@avnet.eu>, Tommaso Merciai
+ <tomm.merciai@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Ricardo Ribalda
+ <ribalda@chromium.org>, Michael Tretter <m.tretter@pengutronix.de>, Alain
+ Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>, Steve Cho
+ <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>, Hidenori
+ Kobayashi <hidenorik@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Suresh Vankadara <svankada@qti.qualcomm.com>, Devarsh Thakkar
+ <devarsht@ti.com>, r-donadkar@ti.com
+Subject: Re: [ANN] Media Summit September 16th: Draft Agenda (v5)
+Message-ID: <20240906194257.58902baf@foz.lan>
+In-Reply-To: <20240906132959.GC27086@pendragon.ideasonboard.com>
+References: <c50f4bfe-6d72-426e-9595-5c8b0751c08b@xs4all.nl>
+	<20240906101141.451db4f4@foz.lan>
+	<20240906103658.updwgahyisda5yid@basti-XPS-13-9310>
+	<20240906131030.6880e5f5@foz.lan>
+	<20240906132959.GC27086@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Em Fri, 6 Sep 2024 16:29:59 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-Add support to capture 8bit Bayer formats.
+> On Fri, Sep 06, 2024 at 01:10:30PM +0200, Mauro Carvalho Chehab wrote:
+> > Em Fri, 6 Sep 2024 12:36:58 +0200 Sebastian Fricke escreveu:  
+> > > On 06.09.2024 10:11, Mauro Carvalho Chehab wrote:  
+> > > > Em Thu, 5 Sep 2024 09:16:27 +0200 Hans Verkuil escreveu:
+> > > >    
+> > ...  
+> > > > 1. All committers shall use a common procedure for all merges.
+> > > >
+> > > >   This is easy said than done. So, IMO, it is needed some common scripts
+> > > >   to be used by all committers. On my tests when merging two PRs there,
+> > > >   those seems to be the minimal set of scripts that are needed:
+> > > >
+> > > >   a) script to create a new topic branch at linux-media/users/<user>
+> > > >      The input parameter is the message-ID, e. g. something like:
+> > > >
+> > > >	create_media_staging_topic <topic_name> <message_id>
+> > > >
+> > > >      (eventually with an extra parameter with the name of the tree)
+> > > >
+> > > >      It shall use patchwork REST interface to get the patches - or at least
+> > > >      to check if all patches are there (and then use b4).
+> > > >
+> > > >      such script needs to work with a single patch, a patch series and a
+> > > >      pull request.
+> > > >
+> > > >      the message ID of every patch, including the PR should be stored at
+> > > >      the MR, as this will be needed to later update patchwork.  
+> 
+> I'm sure individual committers will want to optimize their workflow
+> using scripts, and possibly share them, but what's wrong with simply
+> using b4 ? With -l it will add a link to lore, so the message ID will be
+> available.
+> 
+> I'd rather first focus on what we want to see included in commit
+> messages, and then on how to make sure it gets there.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  5 ++
- .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  7 ++-
- .../platform/renesas/rzg2l-cru/rzg2l-ip.c     |  9 +++-
- .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 51 ++++++++++++++++---
- 4 files changed, 61 insertions(+), 11 deletions(-)
+It is not just running b4. There's the need of preparing a MR message that
+matches the content of patch 0, very likely with the message IDs of patches
+and PRs, and check if everything is in place on patchwork, as this is the 
+main tool to track the pending queue. Surely b4 can be called on such script.
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-index 174760239548..83c664cb0929 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-@@ -58,6 +58,11 @@ struct rzg2l_cru_ip {
- 	struct v4l2_subdev *remote;
- };
+It doesn't need to be complex, but it should automate the basic steps that
+all committers will use.
  
-+enum rzg2l_cru_fmt {
-+	RZG2L_YUV = 0,
-+	RZG2L_RAW_BAYER,
-+	RZG2L_USER_DEFINED,
-+};
- /**
-  * struct rzg2l_cru_dev - Renesas CRU device structure
-  * @dev:		(OF) device
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-index a7e4a0c109da..b14c92cd7c18 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-@@ -18,6 +18,7 @@
- #include <linux/sys_soc.h>
- #include <linux/units.h>
- 
-+#include <media/mipi-csi2.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-@@ -188,7 +189,11 @@ struct rzg2l_csi2_format {
- };
- 
- static const struct rzg2l_csi2_format rzg2l_csi2_formats[] = {
--	{ .code = MEDIA_BUS_FMT_UYVY8_1X16,	.datatype = 0x1e, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_UYVY8_1X16, .datatype = MIPI_CSI2_DT_YUV422_8B, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR8_1X8, .datatype = MIPI_CSI2_DT_RAW8, .bpp = 8, },
-+	{ .code = MEDIA_BUS_FMT_SGBRG8_1X8, .datatype = MIPI_CSI2_DT_RAW8, .bpp = 8, },
-+	{ .code = MEDIA_BUS_FMT_SGRBG8_1X8, .datatype = MIPI_CSI2_DT_RAW8, .bpp = 8, },
-+	{ .code = MEDIA_BUS_FMT_SRGGB8_1X8, .datatype = MIPI_CSI2_DT_RAW8, .bpp = 8, },
- };
- 
- static inline struct rzg2l_csi2 *sd_to_csi2(struct v4l2_subdev *sd)
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-index ac8ebae4ed07..5f60be92ea85 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include <linux/delay.h>
-+#include <media/mipi-csi2.h>
- #include "rzg2l-cru.h"
- 
- struct rzg2l_cru_ip_format {
-@@ -15,7 +16,11 @@ struct rzg2l_cru_ip_format {
- };
- 
- static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
--	{ .code = MEDIA_BUS_FMT_UYVY8_1X16,	.datatype = 0x1e, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_UYVY8_1X16, .datatype = MIPI_CSI2_DT_YUV422_8B, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR8_1X8, .datatype = MIPI_CSI2_DT_RAW8, .bpp = 8, },
-+	{ .code = MEDIA_BUS_FMT_SGBRG8_1X8, .datatype = MIPI_CSI2_DT_RAW8, .bpp = 8, },
-+	{ .code = MEDIA_BUS_FMT_SGRBG8_1X8, .datatype = MIPI_CSI2_DT_RAW8, .bpp = 8, },
-+	{ .code = MEDIA_BUS_FMT_SRGGB8_1X8, .datatype = MIPI_CSI2_DT_RAW8, .bpp = 8, },
- };
- 
- enum rzg2l_csi2_pads {
-@@ -149,7 +154,7 @@ static int rzg2l_cru_ip_enum_frame_size(struct v4l2_subdev *sd,
- 	if (fse->index != 0)
- 		return -EINVAL;
- 
--	if (fse->code != MEDIA_BUS_FMT_UYVY8_1X16)
-+	if (!rzg2l_cru_ip_code_to_fmt(fse->code))
- 		return -EINVAL;
- 
- 	fse->min_width = RZG2L_CRU_MIN_INPUT_WIDTH;
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 6101a070e785..66a0b80e8da7 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -15,6 +15,7 @@
- #include <linux/delay.h>
- #include <linux/pm_runtime.h>
- 
-+#include <media/mipi-csi2.h>
- #include <media/v4l2-ioctl.h>
- #include <media/videobuf2-dma-contig.h>
- 
-@@ -78,6 +79,7 @@
- #define ICnMC				0x208
- #define ICnMC_CSCTHR			BIT(5)
- #define ICnMC_INF_YUV8_422		(0x1e << 16)
-+#define ICnMC_INF_RAW8			(0x2a << 16)
- #define ICnMC_INF_USER			(0x30 << 16)
- #define ICnMC_VCSEL(x)			((x) << 22)
- #define ICnMC_INF_MASK			GENMASK(21, 16)
-@@ -203,6 +205,10 @@ static int rzg2l_cru_mc_validate_format(struct rzg2l_cru_dev *cru,
- 
- 	switch (fmt.format.code) {
- 	case MEDIA_BUS_FMT_UYVY8_1X16:
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
- 		break;
- 	default:
- 		return -EPIPE;
-@@ -300,7 +306,7 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
- 	rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
- }
- 
--static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *input_is_yuv,
-+static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, enum rzg2l_cru_fmt *input_fmt,
- 				 struct v4l2_mbus_framefmt *ip_sd_fmt)
- {
- 	u32 icnmc;
-@@ -308,11 +314,18 @@ static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *input_is_yuv,
- 	switch (ip_sd_fmt->code) {
- 	case MEDIA_BUS_FMT_UYVY8_1X16:
- 		icnmc = ICnMC_INF_YUV8_422;
--		*input_is_yuv = true;
-+		*input_fmt = RZG2L_YUV;
-+		break;
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+		icnmc = ICnMC_INF_RAW8;
-+		*input_fmt = RZG2L_RAW_BAYER;
- 		break;
- 	default:
--		*input_is_yuv = false;
- 		icnmc = ICnMC_INF_USER;
-+		*input_fmt = RZG2L_USER_DEFINED;
- 		break;
- 	}
- 
-@@ -327,17 +340,23 @@ static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *input_is_yuv,
- static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
- 					   struct v4l2_mbus_framefmt *ip_sd_fmt)
- {
--	bool output_is_yuv = false;
--	bool input_is_yuv = false;
-+	enum rzg2l_cru_fmt input_fmt, output_fmt;
- 	u32 icndmr;
- 
--	rzg2l_cru_csi2_setup(cru, &input_is_yuv, ip_sd_fmt);
-+	rzg2l_cru_csi2_setup(cru, &input_fmt, ip_sd_fmt);
- 
- 	/* Output format */
- 	switch (cru->format.pixelformat) {
- 	case V4L2_PIX_FMT_UYVY:
- 		icndmr = ICnDMR_YCMODE_UYVY;
--		output_is_yuv = true;
-+		output_fmt = RZG2L_YUV;
-+		break;
-+	case V4L2_PIX_FMT_SBGGR8:
-+	case V4L2_PIX_FMT_SGBRG8:
-+	case V4L2_PIX_FMT_SGRBG8:
-+	case V4L2_PIX_FMT_SRGGB8:
-+		icndmr = 0;
-+		output_fmt = RZG2L_RAW_BAYER;
- 		break;
- 	default:
- 		dev_err(cru->dev, "Invalid pixelformat (0x%x)\n",
-@@ -346,7 +365,7 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
- 	}
- 
- 	/* If input and output use same colorspace, do bypass mode */
--	if (output_is_yuv == input_is_yuv)
-+	if (input_fmt == output_fmt)
- 		rzg2l_cru_write(cru, ICnMC,
- 				rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR);
- 	else
-@@ -809,6 +828,22 @@ static const struct v4l2_format_info rzg2l_cru_formats[] = {
- 		.format = V4L2_PIX_FMT_UYVY,
- 		.bpp[0] = 2,
- 	},
-+	{
-+		.format = V4L2_PIX_FMT_SBGGR8,
-+		.bpp[0] = 1,
-+	},
-+	{
-+		.format = V4L2_PIX_FMT_SGBRG8,
-+		.bpp[0] = 1,
-+	},
-+	{
-+		.format = V4L2_PIX_FMT_SGRBG8,
-+		.bpp[0] = 1,
-+	},
-+	{
-+		.format = V4L2_PIX_FMT_SRGGB8,
-+		.bpp[0] = 1,
-+	},
- };
- 
- const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format)
--- 
-2.34.1
+> > > >
+> > > >   b) once gitlab CI runs, there are two possible outcomes: patches may
+> > > >      pass or not. If they pass, a MR will be created and eventually be
+> > > >      merged.
+> > > >
+> > > >      Either merged or not (because something failed or the patches require
+> > > >      more work), the patchwork status of the patch require changes to
+> > > >      reflect what happened. IMO, another script is needed to update the
+> > > >      patch/patch series/PR on patchwork on a consistent way.
+> > > >
+> > > >      This is actually a *big* gap we have here. I have a script that
+> > > >      manually check patchwork status and the gap is huge. currently,
+> > > >      there are 73 patches that seems to be merged, but patchwork was not
+> > > >      updated.
+> > > >
+> > > >      From what I noticed, some PR submitters almost never update patchwork
+> > > >      after the merges.    
+> > > 
+> > > Interesting I thought that is how it should be? I mean if I send a PR,
+> > > the one taking the PR must decide whether he wants to pull it, so the
+> > > decision whether the set is accepted should be on the one pulling the
+> > > changes and not on the one pushing them. Right?  
+> > 
+> > Yes, but you still need to update previous attempts to submit the
+> > work. So, let's see a patch series at v9 got a PR. It is up to you
+> > to cleanup everything on patchwork from v1 to v8.  
+> 
+> That should be done before though, when v2 is submitted, v1 should be
+> marked as superseded. 
 
+Agreed. Still most of the ones sending PRs those days don't do that.
+
+> Isn't there a patchwork bot that can help with this ? 
+
+As far as I'm aware, no.
+
+> It's not perfect in the sense that it doesn't always match new
+> versions with previous ones, but if it can lower the manual burden by
+> even 80%, it's a big win.
+> 
+> > Now, the committer handing PR for v9 should be in charge of updating
+> > the status of it and the patches that belong to it, once the patch
+> > is merged or once he takes a decision otherwise.  
+> 
+> Today most authors don't have a patchwork account, so they can't update
+> the status themselves. The responsibility mostly falls on you and Hans.
+
+The responsibility is for the ones that submit PRs. Unfortunately, this
+is a process that it is not working right now. 
+
+See, if you're reviewing a v2 of a patch series, you know that v1 is
+obsolete. It should be easy to run a script that would take the v1
+patch series and update patchwork to mark all v1 patches obsoleted.
+
+> I'm fine with moving this to committers, which will make your life
+> easier. The patchwork update when merging a branch should ideally be
+> done automatically by the gitlab instance. If we have lore links in the
+> commit messages, that sounds doable.
+
+With multi-committer, it won't be possible anymore for Hans and I do
+do such updates, as the workflow will be handled by the committers.
+
+So, all committers will need to cleanup patch status on patchwork.
+
+> > > >
+> > > >      So another script to solve this gap is needed, doing updates on all
+> > > >      patches that were picked by the first script. Something like:    
+> > > 
+> > > Shouldn't the update happen after the MR has been created instead,
+> > > because only after running the CI we know whether the tests fail or
+> > > pass? From what you say above it sounds like the first script merely
+> > > prepares a topic branch to be tested.  
+> > 
+> > the first script I mentioned prepares and pushes the topic branch. The
+> > patchwork update script (the second one) can be used on several parts
+> > of the workflow:
+> > 
+> > - before MR: if the committer decides to not merge the changes, because
+> >   it didn't pass on his review;
+> > - after MR pipeline failures;
+> > - after MR being merged: once it reaches media-staging master.
+> >   
+> > > >      update_patchwork_from_topic <topic_name> <new_status>
+> > > >
+> > > >      This would likely need to use some logic to pick the message IDs
+> > > >      of the patch inside the MR.
+> > > >
+> > > >      Such script could also check for previous versions of the patch
+> > > >      and for identical patches (it is somewhat common to receive identical
+> > > >      patches with trivial fixes from different developers).
+> > > >
+> > > >   Someone needs to work on such script, as otherwise the multi committers
+> > > >   model may fail, and we risk needing to return back to the current model.    
+> > > 
+> > > Just my personal thought: This sounds a bit extreme to me, I mean we are
+> > > currently in the first test run as preparation for the Media-summit
+> > > where we actually want to discuss policies and further requirements.  
+> > 
+> > What I'm saying is that multiple-committers model will only work if
+> > all committers follow a common procedure (still variants between
+> > committers is possible, provided that the minimal set is followed).
+> > 
+> > If this doesn't happens, maintainers may be forced to do rebases and other
+> > manual fixes, with will actually make life worse for everyone. That's
+> > what I want to avoid by having a common set of scripts for the very basic
+> > tasks: create a topic branch for CI to test and update patchwork.  
+> 
+> The issues you've listed above are about updating status of patches in
+> patchwork. That's important (or otherwise we should drop patchwork if we
+> think it's not important, but I don't think that's the case), but I
+> hardly see how missing updates to patchwork would call for a rebase :-)
+
+The need for rebase typically won't be due to patchwork[1], but to
+broken processes to validate patches that may happen if the patches
+don't reach first a tree under linux-media/users; if someone uses a wrong
+version of compliance utils; if it has a broken topic branch, etc.
+E. g. it may happen if the agreed process isn't be followed to the
+letter.
+
+[1] Still, rebases might still be needed if the developer is not taking
+    enough care on patchwork. See, if a developer sends a patch X with a
+    change, and some days/weeks later another developer sends a patch Y
+    identical to X, except for the author (and eventually description), 
+    if patch Y is merged, there will be a need to drop it and pick X, to
+    properly give credits to the right person.
+
+> There's a need to make sure that what lands in the shared tree is
+> proper, and for that we need a clearly documented procedure. At this
+> point I don't think it requires a committer tool script, even if in the
+> future developing such a tool could help.
+> 
+> > > > 2. The mailbomb script that notifies when a patch is merged at media-stage
+> > > >    we're using right now doesn't work with well with multiple committers.
+> > > >
+> > > >    Right now, the tree at linuxtv runs it, but it might end sending patches
+> > > >    to the author and to linuxtv-commits ML that reached upstream from other
+> > > >    trees. It has some logic to prevent that, but it is not bulletproof.
+> > > >
+> > > >    A replacement script is needed. Perhaps this can be executed together
+> > > >    with the patchwork script (1B) at the committer's machine.  
+> 
+> This could possibly be done with 'b4 ty'.
+
+Call b4 ty after having patches merged at media staging tree works for me. 
+Again placing it on a script that would for instance call pwclient and
+b4 ty afterwards sounds the right thing to do.
+
+> Another option is to rely on patchwork notifications instead. If a patch is 
+> marked as merged, the notification e-mail sounds enough to notify the
+> submitter.
+
+Patchwork notification e-mails is about patch reviews, being optional.
+Most authors won't create accounts at patchwork, but are interested only
+at the final result. "b4 ty" or similar sounds more appropriate to me.
+
+Also, having such patches c/c to linuxtv-commits help maintainers,
+committers and developers to keep track with tree updates.
+
+> > The bar for sending stuff to drivers/staging is lower than for
+> > drivers/media. According with Kernel's documentation at
+> > Documentation/process/2.Process.rst:
+> > 
+> > 	"Current rules require that drivers contributed to staging
+> > 	 must, at a minimum, compile properly."
+> > 
+> > We actually try to be better than that, but still when new stuff is
+> > added to staging, while we try to also ensure no static code checkers
+> > would fail, we may need to relax the rules, as it is not uncommon to
+> > receive drivers that need extra care to follow Kernel coding style
+> > there.  
+> 
+> Why can't we tell the submitter to fix the warnings first ? Especially
+> if we can point them to a CI report, that would seem the best course of
+> action to me. drivers/staging/ is meant for code that need more time to
+> be considered stable enough for the kernel. The stabilization doesn't
+> happen by magic, it requires someone actively working on it. If the
+> submitter can't bother to fix the warnings, it doesn't forebode anything
+> good and wouldn't make me confident that the code would ever get out of
+> staging (other than simply being deleted).
+
+Surely we can ask fixes, but sometimes the driver is in so bad shape
+that it may take some time, specially when it is a driver that came
+from a developer without Linux upstream development experience. That
+happened, for instance, when we merged lirc drivers, several USB non-uvc
+camera drivers, atomisp, etc.
+
+So, I'd say this will happen case by case, but, from the media CI PoV, 
+an option to relax the checks for stuff under drivers/staging is needed.
+
+> > > > 4. We need to have some sort of "honour code": if undesired behavior
+> > > >    is noticed, maintainers may temporarily (or permanently) revoke
+> > > >    committer rights.    
+> > > 
+> > > That sounds like something to discuss on the media summit,   
+> > 
+> > Sure. That's why I'm asking to explicitly add it to the topics to be
+> > discussed there ;-)
+> > 
+> > It would be nice if someone could come up with a proposal for 
+> > it, although the discussions of such proposal should likely happen via 
+> > email.
+> > 
+> > Also, the ones to be added there likely need to explicitly ack with
+> > such code before being added to gitlab's permission group.  
+> 
+> This sounds fairly straightforward, I think we'll easily agree on rules.
+
+Sure, but a document with those and an explicit ack sounds an important
+measure to avoid potential future problems.
+
+> > 5. The procedure for fixes wil remain the same. We'll have already enough
+> >    things to make it work. Let's not add fixes complexity just yet.
+> >    Depending on how well the new multi-committers experimental model
+> >    works, we may think using it for fixes as well.  
+> 
+> I think this last point should still be discussed in Vienna. I want to
+> design a clear workflow that covers -next and -fixes. I'm fine if we
+> decide to then implement part of the workflow only as an initial step,
+> if there are good enough reasons to do so.
+
+I don't see any need. There will be enough things for discussion there
+just for -next, which is where 99% of the patches sit.
+
+Handling -fixes require a different procedure, as maintainers need to
+prepare an special PR to send them. Also, it is up to the maintainers 
+to decide to either accept a patch as fixes or postpone to next,
+as sometimes it is not a black and white decision if a patch belongs
+to -fixes or if they will be postponed to the next merge week.
+
+For instance, at -rc7, we usually postpone more complex fixes to
+the merge window, as it is usually not a good idea to do last minute 
+complex changes. If a committer write a fix patch during -rc7 and get
+it merged, but the maintainers decide to postpone to the merge window,
+the fix branch will require rebase.
+
+Thanks,
+Mauro
 
