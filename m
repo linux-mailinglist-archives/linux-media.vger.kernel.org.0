@@ -1,340 +1,805 @@
-Return-Path: <linux-media+bounces-17748-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17749-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D7A96EE64
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 10:41:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9D696EEBB
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 11:01:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CFCB21F24DEC
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 08:41:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 096141C240A1
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 09:01:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FA8D158DDD;
-	Fri,  6 Sep 2024 08:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="BPyoJj2p"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A4081BF7F1;
+	Fri,  6 Sep 2024 09:01:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from HK2PR02CU002.outbound.protection.outlook.com (mail-eastasiaazon11010029.outbound.protection.outlook.com [52.101.128.29])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970FE158538;
-	Fri,  6 Sep 2024 08:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.128.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725612044; cv=fail; b=TPMRSuMFf1qNuTkVH85oCUphAsGEkceGY+pqT+jOFIlz4sg7vbI4HObl1q5dRUlG3ZJKnEJ4nJr8OjMoBg1Zci+aEKdlIPukM560co1pJamfaGfHBUcepAryClPGGRCTDeo+LkN/qTVGp9k3sPLbk6nbxJnl+9MvH7be/aItXgo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725612044; c=relaxed/simple;
-	bh=FrVkqsluabo3DtCEKlh7KSEPuXGJKM1d5xsPZkvA/xU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=DNTiHtw3GqcUqTowY3ugMGZppjPnI35L6SrGWEsOQCO7LN49FqKq7KyR659KcXSrMC0G5denNqRPfwxqsqeZJCrtEJutwgspM88wDRI/aTIHgGxmpaM579ypHIMEDHGNzgzPXUNk0fxXZ9fC3luvwoqz+WpfSRpPo+VAW6YLheE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=BPyoJj2p; arc=fail smtp.client-ip=52.101.128.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TpZyyYrRHn7KgpP3ZERX0Q5qHLy0A4PC8yZPlrrVANTYABMut6kkuavZWfwUyriJi+XDXsX6BwDDc3OEx+rAVkg49gidcbbIm3V4xUpZnIMYBRVdgHV5kXdTunFdbZH3rqhEmsvHS8l9Hzt8c6I0KyegevpB0snyc4twuMTAb+G3XAPh0CvRqbDjXCcdvCBonqJzrM9pNjcyqKyBndexoGAFRUo/LuHOB8qkD+fmLyX5+iyztoNiw2QuFBAdu5+JMG26vvbZY1/BJNvKfBJkrcEnGhnRAyfWbKlqdllDXGMF0w3ukt45wq/QQj0+OCv0yv2Oc4dppN6lZV/kThYQgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WH9Q1LOhgnyzCH6K/JCSXfnJwz6Ncp7z/w4Nx4FpR18=;
- b=uzy5nt6s3uLcIQp9LP+1GpsVCTBa+qz1upVieBAbIJ9JopjArGk19pgAInjSzgS4TcdVQJTyNc76LYDHbX9Cr/ufGgJui9EAPDOa1klagJ+Oznbd2eKC2OdLh2W/SQq7nIKna3r/B3bMcJaE2HRqUTGvxJrrKn7El20vePQnJIB9b6Q/RdUgJaygJcTW50xg4ngwGifSt7Ps2UP080r6yXO3V8Q4cxNqKnfvO+MrtKhnm5YHnzLqvGJYxSM8D4LNd9oYstGYy+kEYsNTAeAmSG56bF2D0Zk6DtQB2AbEHiSwbG+gmo4LiGpXPzIc1GnDYoRXdEVA67XOdYYbtxK0jA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WH9Q1LOhgnyzCH6K/JCSXfnJwz6Ncp7z/w4Nx4FpR18=;
- b=BPyoJj2pnVH83cFy5S9IbmkHmatnK+kdKotLApfFFbfacDAPO5nEQ33P85Xl9z7qKmA7jhRWYjyOlIJt0/MB8ZFYcKWwpOPyjdh2ZHcAoBqvzQK52e+BC0wzqUTZ+lWmyMzEWZvE5h9tuazhLhAWIklQBOKsJVoQWXXSqesiNceG9RWLKoYhvc8mDZaGeWL59mQazoQB7OoVQHrxoZHQMV0yYaPW/qsqO5OBXEBIMs6lAO6v0t4zoGn3es9PQuF11bXRULOvPxlFczgZE//v/EbZ1tUhVymK09tB9/pMOPcx9EMwZPGTkVei65FXNPrqpIR+yVXv3kFGzcVyqXAW9A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by SG2PR06MB5012.apcprd06.prod.outlook.com (2603:1096:4:1c4::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.17; Fri, 6 Sep
- 2024 08:40:37 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7939.017; Fri, 6 Sep 2024
- 08:40:37 +0000
-Message-ID: <90c35051-0528-4dd4-b97b-6ac937b729ab@vivo.com>
-Date: Fri, 6 Sep 2024 16:40:32 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 7/7] udmabuf: reuse folio array when pin folios
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
-References: <20240903083818.3071759-1-link@vivo.com>
- <20240903083818.3071759-8-link@vivo.com>
- <IA0PR11MB7185D2C5AE98C2EBD72B72C3F89E2@IA0PR11MB7185.namprd11.prod.outlook.com>
-From: Huan Yang <link@vivo.com>
-In-Reply-To: <IA0PR11MB7185D2C5AE98C2EBD72B72C3F89E2@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR02CA0043.apcprd02.prod.outlook.com
- (2603:1096:3:18::31) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B1F1BFE17
+	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 09:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725613302; cv=none; b=n33F4ZpRehIiun1SFchwCqjm2lYLMYtyaUOXMgaoNz/bYf6f2IlufAn/4DB2cNwz7fesRhjuTbfsWrL2rvAnhC7U/kiKedHxa4cw94+bSl0V1wy/rHrsgqm0hjQe4YrUStfO5r6dHyLjeslsnwgm0547hY/k03NO2U8RfqdxdC0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725613302; c=relaxed/simple;
+	bh=9YYz6kv2/rsWgUV1QNsp+OAJZ2AAFli9QWwfgQY5I08=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ejz+OJzaBhbZCgvHxF1soQ8o7DVMTj3/5zGb/xurEZjb4+q3zruuJ2HBYGLctigrOhM1vPmRz4PEWs9VYlbFf/0nq6ayzcxB/4p2nVK2OLzvmXvzu21Q2OwivXc2QWXvC+6HeU8KTmbj/KTnujbhU6R54J+lMkJnpCu0Xlxg2ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1smUqM-0002aw-2Z; Fri, 06 Sep 2024 11:01:26 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1smUqL-005uBl-8I; Fri, 06 Sep 2024 11:01:25 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1smUqL-0003Xt-0W;
+	Fri, 06 Sep 2024 11:01:25 +0200
+Message-ID: <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
+ Estevam <festevam@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
+ <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev
+Date: Fri, 06 Sep 2024 11:01:25 +0200
+In-Reply-To: <20240724002044.112544-2-marex@denx.de>
+References: <20240724002044.112544-1-marex@denx.de>
+	 <20240724002044.112544-2-marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|SG2PR06MB5012:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f6dca3f-0b79-4cf4-1bcd-08dcce4f948d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NmZGckxpbjZIMUlrT2pGbW1VRzFiRGU2MDAzMWJnRHhyNHNMS2FoU1F4NW9p?=
- =?utf-8?B?dEE0aTUxaE5LdTVFU0dDYVRleS9PQTc1Yno4ZFBvL2IwbVpmYjZVc01lYWxW?=
- =?utf-8?B?MWo3OVRVaG5nS3pCNmU4MngyVXpmR3BNY05hSHFNL20zSEhRZkRLVTlzNTdD?=
- =?utf-8?B?amVkSEs1SVh0L2hhUXNXM01PQ2xEaEkrVXV0TDlwWTdlQWs4UFBtc1RPSnFm?=
- =?utf-8?B?N1ZvcEt5ckxSbWFoRkk4b3M3VytKZXJ4Q2s5Rm0zNm1Cc3hiWG1kOE0yOHJz?=
- =?utf-8?B?ZDZvSTdzT29mNzkrWGZtZVlkUjl6bDdJTDZGQ0dNZ2I5V3F0R08xdFdJK1Zt?=
- =?utf-8?B?M281dEFjTG5IUkxVMUc1bzlPYWpZWEJTSmhoUFVMNkdXbHZnR0tUTWh2MWNB?=
- =?utf-8?B?K0ZYak5WUEdEZTNSSEo2Q0N4OTNpOHVHbDhsMmtYeURKS0x4eEhiTkExbG9p?=
- =?utf-8?B?NUV3dlluS1hKbHVuZ2tHQ1N5UHA0cWQ2cDRJMWdDeFZ3TlQzS1IxQVdQTU5q?=
- =?utf-8?B?MFo0a2t3YjBtYk5Wb1YvOFdLZEZtMjhjeitqdkJFQlMyRlg4K2p0UlBVWmdZ?=
- =?utf-8?B?TU05WHdFdit5TjErMUxTYkRDZW1oNFpzQnVxT0VUQjg3UHRHK01CTWR2NEJn?=
- =?utf-8?B?bG5GWG5IWWViRllYdm9pZ2VQN0VqeWtKaC9hSWFVU2FDeWZrSzN0TUpPQ3Rx?=
- =?utf-8?B?c0M1SkVsNFJhOU5jV3I5NFJWQ3VsR0c1b3RkbVZvMlJmNHlMbjFnZGpQWHZz?=
- =?utf-8?B?YmozWUtvekRlU09SUnoyUFErSE84ajdCc0tMMWYzOVJWcGNUcTVCUmYrVHhZ?=
- =?utf-8?B?OEYwSE5TeXhzZzhkYWEzdVhvdFdydWFaeGNtczJSb0dCWUYyVm84cm5SSkRU?=
- =?utf-8?B?QTBKWjI0MW42S3NaNGVsVE1nUlR0bUxvMjBVcDRTYnZhQVM1eHFqbGdEYUdB?=
- =?utf-8?B?b1hNWUtkL2c5dU84bEpjRnZqVk0rbE5uOTJNN05YcWd3ckl2cXZVMGRvY2s3?=
- =?utf-8?B?OElKQTNQd1dGSjNNRHFVVWJHUHkyMkpzU01SM0p4aEpybU5sRlUzNXphRUFT?=
- =?utf-8?B?MGpZcXhTbDkvU2NhVVF2V3paRFREOGc1QWhDUld0UDc2dUFLMDcyN2RTd1VP?=
- =?utf-8?B?V1dBdEdxQXpoWURNVVZ4LzkyaFdGWVhFMEo2NkFhSjlmM0dTeHZUTUE0ajM2?=
- =?utf-8?B?K29KRzZiS1NCR3lCM3MvanNUUDFUQms4dFk4Q01hdWZlTWJZYlZTTGtkSE1U?=
- =?utf-8?B?bmpiVk00dVNUSHk2bE1QYWE1Y05WcEppSnJGZ2o5cEhzblp4aTVGOFNzUTFI?=
- =?utf-8?B?TXZKWkdVUm1kVlhUN2lkZG84cDI3dnpiT3FFKzRvb2JLdHRQSTN5YkREbUts?=
- =?utf-8?B?a0lhMXh1Nm5hZ2d1K091Sk55ZC9KZ2VNcytRRkUvK0t3S0FxSzQ0SGU0ODlr?=
- =?utf-8?B?eG4wRjdJYXU5TTVZY05CYU1HdXBoVHM1Wk9YdVdlMDZLN2NxYm8rOTRZMHdy?=
- =?utf-8?B?V0NqaVlMRXVFY2ladUU5eFpzc2ZKVXhiU3ZqRWd0dHFaZkFhaFVtektrYXhY?=
- =?utf-8?B?TzBFOFBBK2Z4S0JYa0pobUtZNFhOM3hxeVJUSkZKdkFZUWx0NDF6RUpraEc2?=
- =?utf-8?B?UHU4YUVWc08rTm5RSFNqVm9HbUJ1Y3ZqVElqUFdncFV4ekVHZlpyWG5Vb3Qx?=
- =?utf-8?B?Vzk1bCtxcmRkeEZwOVBlQmRWdENGcmlHYmJ3UU9rQnlvU21nbHZHZXpvU1Yy?=
- =?utf-8?B?MVJLV0FrUXY5VVJPOTM4VlRDS3V4ak5qdGZ0RzhBdTY1ek1NSW42MlZibEsx?=
- =?utf-8?B?VmR2dzN2Njl5U3QwWkJsOUZFaFBCQnl3L0dnbEZLODR2MUEvN2VIcWkvSWdr?=
- =?utf-8?B?RGRpZldaMnpraHdVS2tIK2tIaFRTeCt0amRlSmV0YXJNTVE9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a2tmM0x1Z1NmVnFFSVdFRlJhd2MxWnlJVVdYRzZjY1Z1NjUxempWODlFcGta?=
- =?utf-8?B?cWRRVk80MDNWd2MxK1llVkM3TTBIMk95OEdGQzFTRVVzcFA4RDM5SUIxeGFk?=
- =?utf-8?B?eG5lYXZ5WVFzQk9pVG90aER2MlYwZUZtOVFIQkxVblVIUlFVZktoRXJyWVZ4?=
- =?utf-8?B?bzcrMitMTjc1Y0RiNDlURnE3dW5Sb0xLSlVMTXI3bk1uUjJoZTc1Z1NSd2J3?=
- =?utf-8?B?Y0VQa2cxZkxLN2hHa0NVKzU1ZmduenliWHl0aHRGUlI2QVpNQ3ErYkdRd3lT?=
- =?utf-8?B?Z0lqWUJyRkg3NEU2M1FLZExrV1J4MndWTG9Nd1B0M3g3enMveGw2K1JvQzRU?=
- =?utf-8?B?VkFMUXlBa0RuSFpVYUJLWTRzNjM2MmtiSW5hSk9TSTZHT3djMjhLbnptVVBN?=
- =?utf-8?B?Qk9XSEdtMTlRMkc5YmczSVl5d2Q1b1RMZVQyLzR2dDF4dVU3ZzBCcjNUV1Qx?=
- =?utf-8?B?NThGeFVjaVZtT1RpZ3g3Q0g2dUNHQ1gxSVRTNUo4QXpwaHVwTE5FWExJeHRw?=
- =?utf-8?B?SnBEYytGNnJob1pNQmxJTUU5bk5KZ1luOVZSRWxoQ2xqZGFmWlB2TExlQWZI?=
- =?utf-8?B?cEljeFgzZnQvRHBvQ3F6dXN0a0o2YmVuSC9qQjRCZ3MwS2lJYWdUUXlBdWlQ?=
- =?utf-8?B?T2lVa1NHaHFjbjRkQzRwdkNnaTE4RmdOa3BRUmJGVU5vSXQra1VxTTMwVXpt?=
- =?utf-8?B?SEJUV2hqL1NLenJtR3NGMHVHbEVxZ3kxUWtFaW05T0RRV2Eybk1iVXZTTENX?=
- =?utf-8?B?YXpuS2N3eVhaaDdJV3BrQW9uVmRCMm9oTjV6dVp3VGQ2RUgwWU9TK21Gd2Rh?=
- =?utf-8?B?MXRoQ0dVMG84OXN0cHlXN29VZlY2RmxKNjMrVERqNStjYXVyV0lmdFdXMEQ3?=
- =?utf-8?B?K3MwM1RRd2NDZ0tZNThoMVN3NHhnVGMxZ2RtUUhlWTBCcVduUjdxS09zVkZh?=
- =?utf-8?B?eW1LVng5VmNRaHk4VE1zNEZCSGg5TXJMMGVsQVl0YTM3Tzg1MmhpWDRXSDQz?=
- =?utf-8?B?d3FxYnZWSTB1MDF0WXJYcU41eG1IMTY0V0kzZi9FQ3hsNEVzcjI1Umo2UXZh?=
- =?utf-8?B?RFMwUEhVS3A2SjBBQWdYdmlqN0c1RG9nZmRubGRkelpmMloxcFROVHVTb3pB?=
- =?utf-8?B?bmsyYXgyYklya0dwRmd2WThuUlZjcnlNcW1GUjVkUUdUVW5mak8rRitZcDdK?=
- =?utf-8?B?Q2RlWDFOK2hlR21kOTd4WXhmbjV0OXNKc3ZxYUF1bXBpVVUwS2VYU1lCYnRk?=
- =?utf-8?B?bXgwVS9UaGcyN0NiQ1JYNkkvNXZpb0c4NHRRT3laWGEyTTYrS2xaWHlpdW1E?=
- =?utf-8?B?bG8wR0NST1hRdjZNWitoVjdYUHBkZ3F1NGowSSs2Vi9GdW5vV0hUN2J0Z2hw?=
- =?utf-8?B?b1ZGZGpWOC8zeWQ5RmtZeWo4RExhNTRFQlVCd1ozUHdaV25PakFtQjVOeHpJ?=
- =?utf-8?B?d1lubFlBVFN6ekZBOUtjUENRTTlxOERSaDRMdWhYaUFVakpXUWVwZGJWV3dN?=
- =?utf-8?B?QmZOZUFuRXlGcTA2Nm9pb2VMVXVncnlZdTQvRTlCUjM0NnFiL3VtQlBRV0hp?=
- =?utf-8?B?YjA1STBjVG8ydDUwbmdpT1RHTFpCM1Z3T1RqS1hQYW85dVRqR2VPdC9nT1VW?=
- =?utf-8?B?S0VoUmJlK1M1RlFQMDRyRDQydlJvKzZlY1ZSTlEvajZNcnplRmlTK1B4Zk44?=
- =?utf-8?B?WXRmdFdCeGRPM1crTFJzRk1SRjU2b0UrZG52Z1BSRWg5NTZrWGEweUVFdS9E?=
- =?utf-8?B?VkhScUNxMVYyMndwREtDWExDb2dpQ29Ocnk4dzluRjJBd2hRc1ptOTh6Uk13?=
- =?utf-8?B?c2p4bUM5dFZpejZVbUxiMlJ5aWFWWFcySmQ0SjFhNkIxRE84eThma0trTUNn?=
- =?utf-8?B?TXJ1Tko2anIwczVmQkZFSnhYcSttcUdrTEgvZERJVDMyV0tHVVUvcmNBU0NQ?=
- =?utf-8?B?a0VPMGFrVmFvSjZxcmdlZDFQdERFV1NybkEwQktBRWJsZWlBdjFoZjlLenNo?=
- =?utf-8?B?TXdsN0RtYVhrNis3QnRBbXl5SHJnekRxTjI2MGlCdisrNUI2UWl4cXB4TGND?=
- =?utf-8?B?RGJyN2I2SUF4MzllVk9oVDBYZEtyUEdaUjIwa3FpNkEvK2I5d09CNjZpRzdk?=
- =?utf-8?Q?juY192FSIBLSW4QAxTvQvSZf0?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f6dca3f-0b79-4cf4-1bcd-08dcce4f948d
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 08:40:37.1323
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jMFLMszeI1J+50a9tKcJHBNFqW1kgX5LJxFru2Yv+roRYhpOfQFvJgMcctzKBAfknsWXnbNFWYKmBMt2thoO4w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB5012
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
+Hi Marek,
 
-在 2024/9/6 16:23, Kasireddy, Vivek 写道:
-> Hi Huan,
->
->> Subject: [PATCH v5 7/7] udmabuf: reuse folio array when pin folios
->>
->> When invoke memfd_pin_folios, we need offer an array to save each folio
->> which we pinned.
->>
->> The currently way is dynamic alloc an array, get folios, save into
->> udmabuf and then free.
->>
->> If the size is tiny, alloc from slab, is ok due to slab can cache it.
->> Or, just PCP order can cover, also ok.
->>
->> But if size is huge, need fallback into vmalloc, then, not well, due to
->> each page will iter alloc, and map into vmalloc area. Too heavy.
->>
->> Now that we need to iter each udmabuf item, then pin it's range folios,
->> we can reuse the maximum size range's folios array.
->>
->> Signed-off-by: Huan Yang <link@vivo.com>
->> ---
->>   drivers/dma-buf/udmabuf.c | 34 ++++++++++++++++++++--------------
->>   1 file changed, 20 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->> index d449c1fd67a5..d70e45c33442 100644
->> --- a/drivers/dma-buf/udmabuf.c
->> +++ b/drivers/dma-buf/udmabuf.c
->> @@ -343,28 +343,21 @@ static int export_udmabuf(struct udmabuf *ubuf,
->>   }
->>
->>   static int udmabuf_pin_folios(struct udmabuf *ubuf, struct file *memfd,
->> -			      loff_t start, loff_t size)
->> +			      loff_t start, loff_t size, struct folio **folios)
->>   {
->>   	pgoff_t pgoff, pgcnt;
->>   	pgoff_t upgcnt = ubuf->pagecount;
->>   	pgoff_t nr_pinned = ubuf->nr_pinned;
->>   	u32 cur_folio, cur_pgcnt;
->> -	struct folio **folios = NULL;
->>   	long nr_folios;
->>   	loff_t end;
->>   	int ret = 0;
->>
->>   	pgcnt = size >> PAGE_SHIFT;
->> -	folios = kvmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
->> -	if (!folios)
->> -		return -ENOMEM;
->> -
->>   	end = start + (pgcnt << PAGE_SHIFT) - 1;
->>   	nr_folios = memfd_pin_folios(memfd, start, end, folios, pgcnt,
->> &pgoff);
->> -	if (nr_folios <= 0) {
->> -		ret = nr_folios ? nr_folios : -EINVAL;
->> -		goto err;
->> -	}
->> +	if (nr_folios <= 0)
->> +		return nr_folios ? nr_folios : -EINVAL;
->>
->>   	cur_pgcnt = 0;
->>   	for (cur_folio = 0; cur_folio < nr_folios; ++cur_folio) {
->> @@ -389,10 +382,8 @@ static int udmabuf_pin_folios(struct udmabuf
->> *ubuf, struct file *memfd,
->>   		pgoff = 0;
->>   	}
->>   end:
->> -err:
->>   	ubuf->pagecount = upgcnt;
->>   	ubuf->nr_pinned = nr_pinned;
->> -	kvfree(folios);
->>   	return ret;
-> The variable ret is now unused in this function. Remove it and just
-> return 0 at the end.
+On Mi, 2024-07-24 at 02:19 +0200, Marek Vasut wrote:
+> Introduce dedicated memory-to-memory IPUv3 VDI deinterlacer driver.
+> Currently the IPUv3 can operate VDI in DIRECT mode, from sensor to
+> memory. This only works for single stream, that is, one input from
+> one camera is deinterlaced on the fly with a helper buffer in DRAM
+> and the result is written into memory.
+>=20
+> The i.MX6Q/QP does support up to four analog cameras via two IPUv3
+> instances, each containing one VDI deinterlacer block. In order to
+> deinterlace all four streams from all four analog cameras live, it
+> is necessary to operate VDI in INDIRECT mode, where the interlaced
+> streams are written to buffers in memory, and then deinterlaced in
+> memory using VDI in INDIRECT memory-to-memory mode.
+>=20
+> This driver also makes use of the IDMAC->VDI->IC->IDMAC data path
+> to provide pixel format conversion from input YUV formats to both
+> output YUV or RGB formats. The later is useful in case the data
+> are imported into the GPU, which on this platform cannot directly
+> sample YUV buffers.
+>=20
+> This is derived from previous work by Steve Longerbeam and from the
+> IPUv3 CSC Scaler mem2mem driver.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-staging@lists.linux.dev
+> ---
+> V2: - Add complementary imx_media_mem2mem_vdic_uninit()
+>     - Drop uninitiaized ret from ipu_mem2mem_vdic_device_run()
+>     - Drop duplicate nbuffers assignment in ipu_mem2mem_vdic_queue_setup(=
+)
+>     - Fix %u formatting string in ipu_mem2mem_vdic_queue_setup()
+>     - Drop devm_*free from ipu_mem2mem_vdic_get_ipu_resources() fail path
+>       and ipu_mem2mem_vdic_put_ipu_resources()
+>     - Add missing video_device_release()
+> ---
+>  drivers/staging/media/imx/Makefile            |   2 +-
+>  drivers/staging/media/imx/imx-media-dev.c     |  55 +
+>  .../media/imx/imx-media-mem2mem-vdic.c        | 997 ++++++++++++++++++
+>  drivers/staging/media/imx/imx-media.h         |  10 +
+>  4 files changed, 1063 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/staging/media/imx/imx-media-mem2mem-vdic.c
+>=20
+> diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/i=
+mx/Makefile
+> index 330e0825f506b..0cad87123b590 100644
+> --- a/drivers/staging/media/imx/Makefile
+> +++ b/drivers/staging/media/imx/Makefile
+> @@ -4,7 +4,7 @@ imx-media-common-objs :=3D imx-media-capture.o imx-media-=
+dev-common.o \
+> =20
+>  imx6-media-objs :=3D imx-media-dev.o imx-media-internal-sd.o \
+>  	imx-ic-common.o imx-ic-prp.o imx-ic-prpencvf.o imx-media-vdic.o \
+> -	imx-media-csc-scaler.o
+> +	imx-media-mem2mem-vdic.o imx-media-csc-scaler.o
+> =20
+>  imx6-media-csi-objs :=3D imx-media-csi.o imx-media-fim.o
+> =20
+> diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/staging/=
+media/imx/imx-media-dev.c
+> index be54dca11465d..a841fdb4c2394 100644
+> --- a/drivers/staging/media/imx/imx-media-dev.c
+> +++ b/drivers/staging/media/imx/imx-media-dev.c
+> @@ -57,7 +57,52 @@ static int imx6_media_probe_complete(struct v4l2_async=
+_notifier *notifier)
+>  		goto unlock;
+>  	}
+> =20
+> +	imxmd->m2m_vdic[0] =3D imx_media_mem2mem_vdic_init(imxmd, 0);
+> +	if (IS_ERR(imxmd->m2m_vdic[0])) {
+> +		ret =3D PTR_ERR(imxmd->m2m_vdic[0]);
+> +		imxmd->m2m_vdic[0] =3D NULL;
+> +		goto unlock;
+> +	}
+> +
+> +	/* MX6S/DL has one IPUv3, init second VDI only on MX6Q/QP */
+> +	if (imxmd->ipu[1]) {
+> +		imxmd->m2m_vdic[1] =3D imx_media_mem2mem_vdic_init(imxmd, 1);
+> +		if (IS_ERR(imxmd->m2m_vdic[1])) {
+> +			ret =3D PTR_ERR(imxmd->m2m_vdic[1]);
+> +			imxmd->m2m_vdic[1] =3D NULL;
+> +			goto uninit_vdi0;
+> +		}
+> +	}
 
-Oh, nice catch.
+Instead of presenting two devices to userspace, it would be better to
+have a single video device that can distribute work to both IPUs.
+To be fair, we never implemented that for the CSC/scaler mem2mem device
+either.
 
-Thanks.
+> +
+>  	ret =3D imx_media_csc_scaler_device_register(imxmd->m2m_vdev);
+> +	if (ret)
+> +		goto uninit_vdi1;
+> +
+> +	ret =3D imx_media_mem2mem_vdic_register(imxmd->m2m_vdic[0]);
+> +	if (ret)
+> +		goto unreg_csc;
+> +
+> +	/* MX6S/DL has one IPUv3, init second VDI only on MX6Q/QP */
+> +	if (imxmd->ipu[1]) {
+> +		ret =3D imx_media_mem2mem_vdic_register(imxmd->m2m_vdic[1]);
+> +		if (ret)
+> +			goto unreg_vdic;
+> +	}
+> +
+> +	mutex_unlock(&imxmd->mutex);
+> +	return ret;
+> +
+> +unreg_vdic:
+> +	imx_media_mem2mem_vdic_unregister(imxmd->m2m_vdic[0]);
+> +	imxmd->m2m_vdic[0] =3D NULL;
+> +unreg_csc:
+> +	imx_media_csc_scaler_device_unregister(imxmd->m2m_vdev);
+> +	imxmd->m2m_vdev =3D NULL;
+> +uninit_vdi1:
+> +	if (imxmd->ipu[1])
+> +		imx_media_mem2mem_vdic_uninit(imxmd->m2m_vdic[1]);
+> +uninit_vdi0:
+> +	imx_media_mem2mem_vdic_uninit(imxmd->m2m_vdic[0]);
+>  unlock:
+>  	mutex_unlock(&imxmd->mutex);
+>  	return ret;
+> @@ -108,6 +153,16 @@ static void imx_media_remove(struct platform_device =
+*pdev)
+> =20
+>  	v4l2_info(&imxmd->v4l2_dev, "Removing imx-media\n");
+> =20
+> +	if (imxmd->m2m_vdic[1]) {	/* MX6Q/QP only */
+> +		imx_media_mem2mem_vdic_unregister(imxmd->m2m_vdic[1]);
+> +		imxmd->m2m_vdic[1] =3D NULL;
+> +	}
+> +
+> +	if (imxmd->m2m_vdic[0]) {
+> +		imx_media_mem2mem_vdic_unregister(imxmd->m2m_vdic[0]);
+> +		imxmd->m2m_vdic[0] =3D NULL;
+> +	}
+> +
+>  	if (imxmd->m2m_vdev) {
+>  		imx_media_csc_scaler_device_unregister(imxmd->m2m_vdev);
+>  		imxmd->m2m_vdev =3D NULL;
+> diff --git a/drivers/staging/media/imx/imx-media-mem2mem-vdic.c b/drivers=
+/staging/media/imx/imx-media-mem2mem-vdic.c
+> new file mode 100644
+> index 0000000000000..71c6c023d2bf8
+> --- /dev/null
+> +++ b/drivers/staging/media/imx/imx-media-mem2mem-vdic.c
+> @@ -0,0 +1,997 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * i.MX VDIC mem2mem de-interlace driver
+> + *
+> + * Copyright (c) 2024 Marek Vasut <marex@denx.de>
+> + *
+> + * Based on previous VDIC mem2mem work by Steve Longerbeam that is:
+> + * Copyright (c) 2018 Mentor Graphics Inc.
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/fs.h>
+> +#include <linux/module.h>
+> +#include <linux/sched.h>
+> +#include <linux/slab.h>
+> +#include <linux/version.h>
+> +
+> +#include <media/media-device.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/v4l2-mem2mem.h>
+> +#include <media/videobuf2-dma-contig.h>
+> +
+> +#include "imx-media.h"
+> +
+> +#define fh_to_ctx(__fh)	container_of(__fh, struct ipu_mem2mem_vdic_ctx, =
+fh)
+> +
+> +#define to_mem2mem_priv(v) container_of(v, struct ipu_mem2mem_vdic_priv,=
+ vdev)
 
->
->>   }
->>
->> @@ -403,6 +394,8 @@ static long udmabuf_create(struct miscdevice
->> *device,
->>   	pgoff_t pgcnt = 0, pglimit;
->>   	long ret = -EINVAL;
->>   	struct udmabuf *ubuf;
->> +	struct folio **folios = NULL;
->> +	unsigned long max_nr_folios = 0;
->>   	u32 i, flags;
->>
->>   	ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
->> @@ -411,14 +404,19 @@ static long udmabuf_create(struct miscdevice
->> *device,
->>
->>   	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
->>   	for (i = 0; i < head->count; i++) {
->> +		pgoff_t subpgcnt;
->> +
->>   		if (!PAGE_ALIGNED(list[i].offset))
->>   			goto err_noinit;
->>   		if (!PAGE_ALIGNED(list[i].size))
->>   			goto err_noinit;
->>
->> -		pgcnt += list[i].size >> PAGE_SHIFT;
->> +		subpgcnt = list[i].size >> PAGE_SHIFT;
->> +		pgcnt += subpgcnt;
->>   		if (pgcnt > pglimit)
->>   			goto err_noinit;
->> +
->> +		max_nr_folios = max_t(unsigned long, subpgcnt,
->> max_nr_folios);
->>   	}
->>
->>   	if (!pgcnt)
->> @@ -428,6 +426,12 @@ static long udmabuf_create(struct miscdevice
->> *device,
->>   	if (ret)
->>   		goto err;
->>
->> +	folios = kvmalloc_array(max_nr_folios, sizeof(*folios), GFP_KERNEL);
->> +	if (!folios) {
->> +		ret = -ENOMEM;
->> +		goto err;
->> +	}
->> +
->>   	for (i = 0; i < head->count; i++) {
->>   		struct file *memfd = fget(list[i].memfd);
->>
->> @@ -436,7 +440,7 @@ static long udmabuf_create(struct miscdevice
->> *device,
->>   			goto err;
->>
->>   		ret = udmabuf_pin_folios(ubuf, memfd, list[i].offset,
->> -					 list[i].size);
->> +					 list[i].size, folios);
->>   		fput(memfd);
->>   		if (ret)
->>   			goto err;
->> @@ -447,12 +451,14 @@ static long udmabuf_create(struct miscdevice
->> *device,
->>   	if (ret < 0)
->>   		goto err;
->>
->> +	kvfree(folios);
-> Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
->
->>   	return ret;
->>
->>   err:
->>   	deinit_udmabuf(ubuf);
->>   err_noinit:
->>   	kfree(ubuf);
->> +	kvfree(folios);
->>   	return ret;
->>   }
->>
->> --
->> 2.45.2
+These could be inline functions for added type safety.
+
+> +
+> +enum {
+> +	V4L2_M2M_SRC =3D 0,
+> +	V4L2_M2M_DST =3D 1,
+> +};
+> +
+> +struct ipu_mem2mem_vdic_ctx;
+> +
+> +struct ipu_mem2mem_vdic_priv {
+> +	struct imx_media_video_dev	vdev;
+> +	struct imx_media_dev		*md;
+> +	struct device			*dev;
+> +	struct ipu_soc			*ipu_dev;
+> +	int				ipu_id;
+> +
+> +	struct v4l2_m2m_dev		*m2m_dev;
+> +	struct mutex			mutex;		/* mem2mem device mutex */
+> +
+> +	/* VDI resources */
+> +	struct ipu_vdi			*vdi;
+> +	struct ipu_ic			*ic;
+> +	struct ipuv3_channel		*vdi_in_ch_p;
+> +	struct ipuv3_channel		*vdi_in_ch;
+> +	struct ipuv3_channel		*vdi_in_ch_n;
+> +	struct ipuv3_channel		*vdi_out_ch;
+> +	int				eof_irq;
+> +	int				nfb4eof_irq;
+> +	spinlock_t			irqlock;	/* protect eof_irq handler */
+> +
+> +	atomic_t			stream_count;
+> +
+> +	struct ipu_mem2mem_vdic_ctx	*curr_ctx;
+> +
+> +	struct v4l2_pix_format		fmt[2];
+> +};
+> +
+> +struct ipu_mem2mem_vdic_ctx {
+> +	struct ipu_mem2mem_vdic_priv	*priv;
+> +	struct v4l2_fh			fh;
+> +	unsigned int			sequence;
+> +	struct vb2_v4l2_buffer		*prev_buf;
+> +	struct vb2_v4l2_buffer		*curr_buf;
+> +};
+> +
+> +static struct v4l2_pix_format *
+> +ipu_mem2mem_vdic_get_format(struct ipu_mem2mem_vdic_priv *priv,
+> +			    enum v4l2_buf_type type)
+> +{
+> +	return &priv->fmt[V4L2_TYPE_IS_OUTPUT(type) ? V4L2_M2M_SRC : V4L2_M2M_D=
+ST];
+> +}
+> +
+> +static bool ipu_mem2mem_vdic_format_is_yuv420(const u32 pixelformat)
+> +{
+> +	/* All 4:2:0 subsampled formats supported by this hardware */
+> +	return pixelformat =3D=3D V4L2_PIX_FMT_YUV420 ||
+> +	       pixelformat =3D=3D V4L2_PIX_FMT_YVU420 ||
+> +	       pixelformat =3D=3D V4L2_PIX_FMT_NV12;
+> +}
+> +
+> +static bool ipu_mem2mem_vdic_format_is_yuv422(const u32 pixelformat)
+> +{
+> +	/* All 4:2:2 subsampled formats supported by this hardware */
+> +	return pixelformat =3D=3D V4L2_PIX_FMT_UYVY ||
+> +	       pixelformat =3D=3D V4L2_PIX_FMT_YUYV ||
+> +	       pixelformat =3D=3D V4L2_PIX_FMT_YUV422P ||
+> +	       pixelformat =3D=3D V4L2_PIX_FMT_NV16;
+> +}
+> +
+> +static bool ipu_mem2mem_vdic_format_is_yuv(const u32 pixelformat)
+> +{
+> +	return ipu_mem2mem_vdic_format_is_yuv420(pixelformat) ||
+> +	       ipu_mem2mem_vdic_format_is_yuv422(pixelformat);
+> +}
+> +
+> +static bool ipu_mem2mem_vdic_format_is_rgb16(const u32 pixelformat)
+> +{
+> +	/* All 16-bit RGB formats supported by this hardware */
+> +	return pixelformat =3D=3D V4L2_PIX_FMT_RGB565;
+> +}
+> +
+> +static bool ipu_mem2mem_vdic_format_is_rgb24(const u32 pixelformat)
+> +{
+> +	/* All 24-bit RGB formats supported by this hardware */
+> +	return pixelformat =3D=3D V4L2_PIX_FMT_RGB24 ||
+> +	       pixelformat =3D=3D V4L2_PIX_FMT_BGR24;
+> +}
+> +
+> +static bool ipu_mem2mem_vdic_format_is_rgb32(const u32 pixelformat)
+> +{
+> +	/* All 32-bit RGB formats supported by this hardware */
+> +	return pixelformat =3D=3D V4L2_PIX_FMT_XRGB32 ||
+> +	       pixelformat =3D=3D V4L2_PIX_FMT_XBGR32 ||
+> +	       pixelformat =3D=3D V4L2_PIX_FMT_BGRX32 ||
+> +	       pixelformat =3D=3D V4L2_PIX_FMT_RGBX32;
+> +}
+> +
+> +/*
+> + * mem2mem callbacks
+> + */
+> +static irqreturn_t ipu_mem2mem_vdic_eof_interrupt(int irq, void *dev_id)
+> +{
+> +	struct ipu_mem2mem_vdic_priv *priv =3D dev_id;
+> +	struct ipu_mem2mem_vdic_ctx *ctx =3D priv->curr_ctx;
+> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> +
+> +	spin_lock(&priv->irqlock);
+> +
+> +	src_buf =3D v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+> +	dst_buf =3D v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> +
+> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
+> +
+> +	src_buf->sequence =3D ctx->sequence++;
+> +	dst_buf->sequence =3D src_buf->sequence;
+> +
+> +	v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
+> +	v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
+> +
+> +	v4l2_m2m_job_finish(priv->m2m_dev, ctx->fh.m2m_ctx);
+> +
+> +	spin_unlock(&priv->irqlock);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t ipu_mem2mem_vdic_nfb4eof_interrupt(int irq, void *dev=
+_id)
+> +{
+> +	struct ipu_mem2mem_vdic_priv *priv =3D dev_id;
+> +
+> +	/* That is about all we can do about it, report it. */
+> +	dev_warn_ratelimited(priv->dev, "NFB4EOF error interrupt occurred\n");
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static void ipu_mem2mem_vdic_device_run(void *_ctx)
+> +{
+> +	struct ipu_mem2mem_vdic_ctx *ctx =3D _ctx;
+> +	struct ipu_mem2mem_vdic_priv *priv =3D ctx->priv;
+> +	struct vb2_v4l2_buffer *curr_buf, *dst_buf;
+> +	dma_addr_t prev_phys, curr_phys, out_phys;
+> +	struct v4l2_pix_format *infmt;
+> +	u32 phys_offset =3D 0;
+> +	unsigned long flags;
+> +
+> +	infmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT)=
+;
+> +	if (V4L2_FIELD_IS_SEQUENTIAL(infmt->field))
+> +		phys_offset =3D infmt->sizeimage / 2;
+> +	else if (V4L2_FIELD_IS_INTERLACED(infmt->field))
+> +		phys_offset =3D infmt->bytesperline;
+> +	else
+> +		dev_err(priv->dev, "Invalid field %d\n", infmt->field);
+> +
+> +	dst_buf =3D v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> +	out_phys =3D vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+> +
+> +	curr_buf =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> +	if (!curr_buf) {
+> +		dev_err(priv->dev, "Not enough buffers\n");
+> +		return;
+> +	}
+> +
+> +	spin_lock_irqsave(&priv->irqlock, flags);
+> +
+> +	if (ctx->curr_buf) {
+> +		ctx->prev_buf =3D ctx->curr_buf;
+> +		ctx->curr_buf =3D curr_buf;
+> +	} else {
+> +		ctx->prev_buf =3D curr_buf;
+> +		ctx->curr_buf =3D curr_buf;
+> +		dev_warn(priv->dev, "Single-buffer mode, fix your userspace\n");
+> +	}
+> +
+> +	prev_phys =3D vb2_dma_contig_plane_dma_addr(&ctx->prev_buf->vb2_buf, 0)=
+;
+> +	curr_phys =3D vb2_dma_contig_plane_dma_addr(&ctx->curr_buf->vb2_buf, 0)=
+;
+> +
+> +	priv->curr_ctx =3D ctx;
+> +	spin_unlock_irqrestore(&priv->irqlock, flags);
+> +
+> +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
+> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset);
+> +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
+> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset);
+
+This always outputs at a frame rate of half the field rate, and only
+top fields are ever used as current field, and bottom fields as
+previous/next fields, right?
+
+I think it would be good to add a mode that doesn't drop the
+
+	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
+	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, prev_phys + phys_offset);
+	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys);
+
+output frames, right from the start.
+
+If we don't start with that supported, I fear userspace will make
+assumptions and be surprised when a full rate mode is added later.
+
+> +
+> +	/* No double buffering, always pick buffer 0 */
+> +	ipu_idmac_select_buffer(priv->vdi_out_ch, 0);
+> +	ipu_idmac_select_buffer(priv->vdi_in_ch_p, 0);
+> +	ipu_idmac_select_buffer(priv->vdi_in_ch, 0);
+> +	ipu_idmac_select_buffer(priv->vdi_in_ch_n, 0);
+> +
+> +	/* Enable the channels */
+> +	ipu_idmac_enable_channel(priv->vdi_out_ch);
+> +	ipu_idmac_enable_channel(priv->vdi_in_ch_p);
+> +	ipu_idmac_enable_channel(priv->vdi_in_ch);
+> +	ipu_idmac_enable_channel(priv->vdi_in_ch_n);
+> +}
+> +
+> +/*
+> + * Video ioctls
+> + */
+> +static int ipu_mem2mem_vdic_querycap(struct file *file, void *priv,
+> +				     struct v4l2_capability *cap)
+> +{
+> +	strscpy(cap->driver, "imx-m2m-vdic", sizeof(cap->driver));
+> +	strscpy(cap->card, "imx-m2m-vdic", sizeof(cap->card));
+> +	strscpy(cap->bus_info, "platform:imx-m2m-vdic", sizeof(cap->bus_info));
+> +	cap->device_caps =3D V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING;
+> +	cap->capabilities =3D cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ipu_mem2mem_vdic_enum_fmt(struct file *file, void *fh, struct=
+ v4l2_fmtdesc *f)
+> +{
+> +	struct ipu_mem2mem_vdic_ctx *ctx =3D fh_to_ctx(fh);
+> +	struct vb2_queue *vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+> +	enum imx_pixfmt_sel cs =3D vq->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE =
+?
+> +				 PIXFMT_SEL_YUV_RGB : PIXFMT_SEL_YUV;
+> +	u32 fourcc;
+> +	int ret;
+> +
+> +	ret =3D imx_media_enum_pixel_formats(&fourcc, f->index, cs, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	f->pixelformat =3D fourcc;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ipu_mem2mem_vdic_g_fmt(struct file *file, void *fh, struct v4=
+l2_format *f)
+> +{
+> +	struct ipu_mem2mem_vdic_ctx *ctx =3D fh_to_ctx(fh);
+> +	struct ipu_mem2mem_vdic_priv *priv =3D ctx->priv;
+> +	struct v4l2_pix_format *fmt =3D ipu_mem2mem_vdic_get_format(priv, f->ty=
+pe);
+> +
+> +	f->fmt.pix =3D *fmt;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ipu_mem2mem_vdic_try_fmt(struct file *file, void *fh,
+> +				    struct v4l2_format *f)
+> +{
+> +	const struct imx_media_pixfmt *cc;
+> +	enum imx_pixfmt_sel cs;
+> +	u32 fourcc;
+> +
+> +	if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE) {	/* Output */
+> +		cs =3D PIXFMT_SEL_YUV_RGB;	/* YUV direct / RGB via IC */
+> +
+> +		f->fmt.pix.field =3D V4L2_FIELD_NONE;
+> +	} else {
+> +		cs =3D PIXFMT_SEL_YUV;		/* YUV input only */
+> +
+> +		/*
+> +		 * Input must be interlaced with frame order.
+> +		 * Fall back to SEQ_TB otherwise.
+> +		 */
+> +		if (!V4L2_FIELD_HAS_BOTH(f->fmt.pix.field) ||
+> +		    f->fmt.pix.field =3D=3D V4L2_FIELD_INTERLACED)
+> +			f->fmt.pix.field =3D V4L2_FIELD_SEQ_TB;
+> +	}
+> +
+> +	fourcc =3D f->fmt.pix.pixelformat;
+> +	cc =3D imx_media_find_pixel_format(fourcc, cs);
+> +	if (!cc) {
+> +		imx_media_enum_pixel_formats(&fourcc, 0, cs, 0);
+> +		cc =3D imx_media_find_pixel_format(fourcc, cs);
+> +	}
+> +
+> +	f->fmt.pix.pixelformat =3D cc->fourcc;
+> +
+> +	v4l_bound_align_image(&f->fmt.pix.width,
+> +			      1, 968, 1,
+> +			      &f->fmt.pix.height,
+> +			      1, 1024, 1, 1);
+> +
+> +	if (ipu_mem2mem_vdic_format_is_yuv420(f->fmt.pix.pixelformat))
+> +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 3 / 2;
+> +	else if (ipu_mem2mem_vdic_format_is_yuv422(f->fmt.pix.pixelformat))
+> +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 2;
+> +	else if (ipu_mem2mem_vdic_format_is_rgb16(f->fmt.pix.pixelformat))
+> +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 2;
+> +	else if (ipu_mem2mem_vdic_format_is_rgb24(f->fmt.pix.pixelformat))
+> +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 3;
+> +	else if (ipu_mem2mem_vdic_format_is_rgb32(f->fmt.pix.pixelformat))
+> +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 4;
+> +	else
+> +		f->fmt.pix.bytesperline =3D f->fmt.pix.width;
+> +
+> +	f->fmt.pix.sizeimage =3D f->fmt.pix.height * f->fmt.pix.bytesperline;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ipu_mem2mem_vdic_s_fmt(struct file *file, void *fh, struct v4=
+l2_format *f)
+> +{
+> +	struct ipu_mem2mem_vdic_ctx *ctx =3D fh_to_ctx(fh);
+> +	struct ipu_mem2mem_vdic_priv *priv =3D ctx->priv;
+> +	struct v4l2_pix_format *fmt, *infmt, *outfmt;
+> +	struct vb2_queue *vq;
+> +	int ret;
+> +
+> +	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+> +	if (vb2_is_busy(vq)) {
+> +		dev_err(priv->dev, "%s queue busy\n",  __func__);
+> +		return -EBUSY;
+> +	}
+> +
+> +	ret =3D ipu_mem2mem_vdic_try_fmt(file, fh, f);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	fmt =3D ipu_mem2mem_vdic_get_format(priv, f->type);
+> +	*fmt =3D f->fmt.pix;
+> +
+> +	/* Propagate colorimetry to the capture queue */
+> +	infmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT)=
+;
+> +	outfmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CAPTUR=
+E);
+> +	outfmt->colorspace =3D infmt->colorspace;
+> +	outfmt->ycbcr_enc =3D infmt->ycbcr_enc;
+> +	outfmt->xfer_func =3D infmt->xfer_func;
+> +	outfmt->quantization =3D infmt->quantization;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_ioctl_ops mem2mem_ioctl_ops =3D {
+> +	.vidioc_querycap		=3D ipu_mem2mem_vdic_querycap,
+> +
+> +	.vidioc_enum_fmt_vid_cap	=3D ipu_mem2mem_vdic_enum_fmt,
+> +	.vidioc_g_fmt_vid_cap		=3D ipu_mem2mem_vdic_g_fmt,
+> +	.vidioc_try_fmt_vid_cap		=3D ipu_mem2mem_vdic_try_fmt,
+> +	.vidioc_s_fmt_vid_cap		=3D ipu_mem2mem_vdic_s_fmt,
+> +
+> +	.vidioc_enum_fmt_vid_out	=3D ipu_mem2mem_vdic_enum_fmt,
+> +	.vidioc_g_fmt_vid_out		=3D ipu_mem2mem_vdic_g_fmt,
+> +	.vidioc_try_fmt_vid_out		=3D ipu_mem2mem_vdic_try_fmt,
+> +	.vidioc_s_fmt_vid_out		=3D ipu_mem2mem_vdic_s_fmt,
+> +
+> +	.vidioc_reqbufs			=3D v4l2_m2m_ioctl_reqbufs,
+> +	.vidioc_querybuf		=3D v4l2_m2m_ioctl_querybuf,
+> +
+> +	.vidioc_qbuf			=3D v4l2_m2m_ioctl_qbuf,
+> +	.vidioc_expbuf			=3D v4l2_m2m_ioctl_expbuf,
+> +	.vidioc_dqbuf			=3D v4l2_m2m_ioctl_dqbuf,
+> +	.vidioc_create_bufs		=3D v4l2_m2m_ioctl_create_bufs,
+> +
+> +	.vidioc_streamon		=3D v4l2_m2m_ioctl_streamon,
+> +	.vidioc_streamoff		=3D v4l2_m2m_ioctl_streamoff,
+> +
+> +	.vidioc_subscribe_event		=3D v4l2_ctrl_subscribe_event,
+> +	.vidioc_unsubscribe_event	=3D v4l2_event_unsubscribe,
+> +};
+> +
+> +/*
+> + * Queue operations
+> + */
+> +static int ipu_mem2mem_vdic_queue_setup(struct vb2_queue *vq, unsigned i=
+nt *nbuffers,
+> +					unsigned int *nplanes, unsigned int sizes[],
+> +					struct device *alloc_devs[])
+> +{
+> +	struct ipu_mem2mem_vdic_ctx *ctx =3D vb2_get_drv_priv(vq);
+> +	struct ipu_mem2mem_vdic_priv *priv =3D ctx->priv;
+> +	struct v4l2_pix_format *fmt =3D ipu_mem2mem_vdic_get_format(priv, vq->t=
+ype);
+> +	unsigned int count =3D *nbuffers;
+> +
+> +	if (*nplanes)
+> +		return sizes[0] < fmt->sizeimage ? -EINVAL : 0;
+> +
+> +	*nplanes =3D 1;
+> +	sizes[0] =3D fmt->sizeimage;
+> +
+> +	dev_dbg(ctx->priv->dev, "get %u buffer(s) of size %d each.\n",
+> +		count, fmt->sizeimage);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ipu_mem2mem_vdic_buf_prepare(struct vb2_buffer *vb)
+> +{
+> +	struct ipu_mem2mem_vdic_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(vb);
+> +	struct ipu_mem2mem_vdic_priv *priv =3D ctx->priv;
+> +	struct vb2_queue *vq =3D vb->vb2_queue;
+> +	struct v4l2_pix_format *fmt;
+> +	unsigned long size;
+> +
+> +	dev_dbg(ctx->priv->dev, "type: %d\n", vb->vb2_queue->type);
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
+> +		if (vbuf->field =3D=3D V4L2_FIELD_ANY)
+> +			vbuf->field =3D V4L2_FIELD_SEQ_TB;
+> +		if (!V4L2_FIELD_HAS_BOTH(vbuf->field)) {
+> +			dev_dbg(ctx->priv->dev, "%s: field isn't supported\n",
+> +				__func__);
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +	fmt =3D ipu_mem2mem_vdic_get_format(priv, vb->vb2_queue->type);
+> +	size =3D fmt->sizeimage;
+> +
+> +	if (vb2_plane_size(vb, 0) < size) {
+> +		dev_dbg(ctx->priv->dev,
+> +			"%s: data will not fit into plane (%lu < %lu)\n",
+> +			__func__, vb2_plane_size(vb, 0), size);
+> +		return -EINVAL;
+> +	}
+> +
+> +	vb2_set_plane_payload(vb, 0, fmt->sizeimage);
+> +
+> +	return 0;
+> +}
+> +
+> +static void ipu_mem2mem_vdic_buf_queue(struct vb2_buffer *vb)
+> +{
+> +	struct ipu_mem2mem_vdic_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_queue);
+> +
+> +	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, to_vb2_v4l2_buffer(vb));
+> +}
+> +
+> +/* VDIC hardware setup */
+> +static int ipu_mem2mem_vdic_setup_channel(struct ipu_mem2mem_vdic_priv *=
+priv,
+> +					  struct ipuv3_channel *channel,
+> +					  struct v4l2_pix_format *fmt,
+> +					  bool in)
+> +{
+> +	struct ipu_image image =3D { 0 };
+> +	unsigned int burst_size;
+> +	int ret;
+> +
+> +	image.pix =3D *fmt;
+> +	image.rect.width =3D image.pix.width;
+> +	image.rect.height =3D image.pix.height;
+> +
+> +	ipu_cpmem_zero(channel);
+> +
+> +	if (in) {
+> +		/* One field to VDIC channels */
+> +		image.pix.height /=3D 2;
+> +		image.rect.height /=3D 2;
+> +	} else {
+> +		/* Skip writing U and V components to odd rows */
+> +		if (ipu_mem2mem_vdic_format_is_yuv420(image.pix.pixelformat))
+> +			ipu_cpmem_skip_odd_chroma_rows(channel);
+> +	}
+> +
+> +	ret =3D ipu_cpmem_set_image(channel, &image);
+> +	if (ret)
+> +		return ret;
+> +
+> +	burst_size =3D (image.pix.width & 0xf) ? 8 : 16;
+> +	ipu_cpmem_set_burstsize(channel, burst_size);
+> +
+> +	if (!ipu_prg_present(priv->ipu_dev))
+> +		ipu_cpmem_set_axi_id(channel, 1);
+> +
+> +	ipu_idmac_set_double_buffer(channel, false);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ipu_mem2mem_vdic_setup_hardware(struct ipu_mem2mem_vdic_priv =
+*priv)
+> +{
+> +	struct v4l2_pix_format *infmt, *outfmt;
+> +	struct ipu_ic_csc csc;
+> +	bool in422, outyuv;
+> +	int ret;
+> +
+> +	infmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT)=
+;
+> +	outfmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CAPTUR=
+E);
+> +	in422 =3D ipu_mem2mem_vdic_format_is_yuv422(infmt->pixelformat);
+> +	outyuv =3D ipu_mem2mem_vdic_format_is_yuv(outfmt->pixelformat);
+> +
+> +	ipu_vdi_setup(priv->vdi, in422, infmt->width, infmt->height);
+> +	ipu_vdi_set_field_order(priv->vdi, V4L2_STD_UNKNOWN, infmt->field);
+> +	ipu_vdi_set_motion(priv->vdi, HIGH_MOTION);
+
+This maps to VDI_C_MOT_SEL_FULL aka VDI_MOT_SEL=3D2, which is documented
+as "full motion, only vertical filter is used". Doesn't this completely
+ignore the previous/next fields and only use the output of the di_vfilt
+four tap vertical filter block to fill in missing lines from the
+surrounding pixels (above and below) of the current field?
+
+I think this should at least be configurable, and probably default to
+MED_MOTION.
+
+regards
+Philipp
+
 
