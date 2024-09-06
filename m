@@ -1,219 +1,257 @@
-Return-Path: <linux-media+bounces-17778-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17779-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E471D96F53E
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 15:21:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3CA96F54D
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 15:27:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CE0E1C21D59
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 13:21:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1C99E1F242AE
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 13:27:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EC8C1CE701;
-	Fri,  6 Sep 2024 13:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64A281CE6FF;
+	Fri,  6 Sep 2024 13:27:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="riEO3u0Y"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q1CKEvty"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2070.outbound.protection.outlook.com [40.107.95.70])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6127212F5A5;
-	Fri,  6 Sep 2024 13:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725628856; cv=fail; b=PDobRDeieQrdlc2O1CD2dqBW9Oj2Z77lFNk1NI2tdw1jA4mbJQipCneic82Kp/+ajOqNoqp54Qc44A0UlwWEaEKAC51LeJ4k42EkmBXQLxt+ncWFR5oj7FnzQi1H/oGtFHOC+sWm7rj7ono2onyiGJhhOxBqFusmLQ+FmgTM3Co=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725628856; c=relaxed/simple;
-	bh=INvUd6f3W8C4m1X0kpRGxcj+HHVJTeR7jlxKAsq6C88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=thyhLfUEIikpkGSzcYgVCAK8zAByb2mBqGnL5I4/Mgcoqmy+Eu0yb3A1zXwmrUDLEOYje9ftqmPn3+M3p8En2X4uuHA6i6Rs1hY6GMXmZoXFFKzF8FXeH3yCKjJ6HAfKSkA1Y2x0u+/NMX5UQ/2bo0kT7ZZnC18c+XokAUWYKpg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=riEO3u0Y; arc=fail smtp.client-ip=40.107.95.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YkJyqjROKCZVvk4udOLHri8keYD+GubJPpyk3TpPOmAW0GcwThWputzX8HFU06q0aQtFGkxvzEDd9Pn1YLDsBAIoYWtRxZAC6isMxwucGe3tZVEMmjp1DsQCMp6anrAzwzzs+1dxI0bJnDW4Sw21qX61HqZE3u7R/QlVfGgCOFOj9nhbZB+a5ev+hJHizpVQagLqRF9nmfee3rYXOvl7h4VhmFZArjxULtnr0goi0L0Z0EctXV9s00yDdue8DGFn4mH1YiK9/KDLzRE1DFHsNb4aDSAAJYAKfreB+owcKM9d1y2ML7zgtcP+amGWp9x0zyyqtJEJKaNFKZoLZ5RMvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W6FTr56g8KUsb5RUo5wq/ALoxye8LyZSXT9uT+7k+dU=;
- b=qq4J+4/p9M/oGT8Z69jqBpynRcAg3Vf1pJN7fhvTd1WVqzGlD8D6yGpPdX79g24eXP4Mevnzxl4Xx9pwzjkHcIpHgxn9dVt5KjvC/Y+jmJ+L4D/KDvM/ZONcQvUuc2a/y5/wJtVV0y97agYUkkHjpFwfifQGN4B3JAN6FFbNtz8eCS8boaCq0OWdq9DIksclnzeImXzzAPxCBRrpNetcOMgNAmhL8gTL2jhXU+dgpIbVPV6QbpQpxI/no73pLH7yxno/0O3/anLKtxwozrhh7R37+JITTXmYWxxrhf5sFlfrMsq7/+PxVevmkJfl4iDspkPnZJS5Zo4JfejEmKpi1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W6FTr56g8KUsb5RUo5wq/ALoxye8LyZSXT9uT+7k+dU=;
- b=riEO3u0Y2x0jA3uBZ049AuRtWvVwYknO/ZEW9KQlsUmwoODaFXuSFUMHKDJ9sAcMLZcXoYKk0+O9IFJXsvT5Ann3O00aoVnn5FVY2bUahfb5/ZLlEQ6QeevYTXgHh6gCshZ+kUJfxyktF/FmOvrbIyQieXhllEYUplfoTX6e/UfmiTJA7a2bDl4mi4RdvMmadjml5sA2NNvOchUkWwL7J/K7pujVn9qi4LT/Ply1V/u9YHSXNP73mig0AG0kcUdQM1ro1qwpXO8aiNV1pwFeR5CBLRuPaNmt9tFW6sLsk1Iax6YnsD8i4K6s9S2rXX1KLHvJS6AWpPAzu0Lr/Sx5LQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB7763.namprd12.prod.outlook.com (2603:10b6:610:145::10)
- by CY8PR12MB7363.namprd12.prod.outlook.com (2603:10b6:930:51::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Fri, 6 Sep
- 2024 13:20:50 +0000
-Received: from CH3PR12MB7763.namprd12.prod.outlook.com
- ([fe80::8b63:dd80:c182:4ce8]) by CH3PR12MB7763.namprd12.prod.outlook.com
- ([fe80::8b63:dd80:c182:4ce8%3]) with mapi id 15.20.7918.024; Fri, 6 Sep 2024
- 13:20:49 +0000
-Date: Fri, 6 Sep 2024 10:20:48 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Stanimir Varbanov <svarbanov@suse.de>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Kevin Tian <kevin.tian@intel.com>, linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: venus: firmware: Use
- iommu_paging_domain_alloc()
-Message-ID: <20240906132048.GD1358970@nvidia.com>
-References: <20240812072105.9578-1-baolu.lu@linux.intel.com>
- <20240812072105.9578-2-baolu.lu@linux.intel.com>
- <c5141c18-3f7b-41ac-a064-9911873d0bf9@gmail.com>
- <20240904121614.GA782327@nvidia.com>
- <d6d5490e-7270-4391-b91a-72af551c6e7d@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d6d5490e-7270-4391-b91a-72af551c6e7d@suse.de>
-X-ClientProxiedBy: MN0P220CA0014.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:52e::6) To CH3PR12MB7763.namprd12.prod.outlook.com
- (2603:10b6:610:145::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E511CA6AF
+	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 13:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725629249; cv=none; b=kN0ookOxBmnL/MwjbF/gt8FeFZpuacxX4bJGuicBxTvib2zoMyRBuo6nRPeScerel/mU9uaB/oLmEDJRNEOdkUQGyhvJgL89sHQAekfLQn9KgzVhYQoRweXgJ/QQVQI4EbcK0oKpH1VuVDkorjWEi3jxbQDelYXEtTwjSvKX6mY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725629249; c=relaxed/simple;
+	bh=PNl5VaLScIOW7HEGpUxB5WvNQhPrASGN9iNkVb0l/GQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nxVT22oTYpvJbJ2xD86UEmCbWmFFemQRz2b77zUTRCxHK1j68Eo80N3NxIegdZlT0mqN5fLO4RJJj4pW7wUe0V9ctUwozGsOCbOkv3BsN8+aHWvSdEleRMa0lN1o9rdDOHWUfR/AR2ovpdhANeAuCNPrvYqelD3+5eMhQsI6djk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q1CKEvty; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1725629246;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IjPNr022xYLhGolVIu2SsQehzxUqDqWe4EUz1zQe2/Q=;
+	b=Q1CKEvtynmUBOgEiRJmq0vwaiv2Yi8fabyfdHYNgQGV9SDSucI6BYURAPej9+IbRTofgJ7
+	djCJUwmRi6Xuct7/I05BpSbfo/GHdx3F8451LKFGKuYS0SJJcQyZtMEX3FlvmSe/Opo4hK
+	Cltaj1WStZVmC5JK6QQy48xNzbU+Jas=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-644-2nkZpXQjODKlqyMKWp9yzQ-1; Fri, 06 Sep 2024 09:27:25 -0400
+X-MC-Unique: 2nkZpXQjODKlqyMKWp9yzQ-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a8b6ed71659so36864366b.0
+        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2024 06:27:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725629244; x=1726234044;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IjPNr022xYLhGolVIu2SsQehzxUqDqWe4EUz1zQe2/Q=;
+        b=DCEjEVmGMVdcZ6Ep+xLqx+arC+w1WGF03TFP0/rkrPdIRP3pQbl6Horl5jD5lwRt6i
+         tCbKoOdWI0xda1TxS1SNh2KWntTRK0s7q26eFcE9LWp3M3cGd9KA8uY/4i2jz5Ohg0i9
+         XOJjBejJpIe7Nj8gbbX0RSf38TsKs0gkBoDcGwZer1B6UOI/oq1p1VX51mJQ0WJ4NztU
+         1LjFv74NRswnm8jXmr8kTveoqfRxQ5G0lUuEaeoRAuLzNjeVCp6hLIONHSqomIIVZZ0k
+         /yt/A3nehmtBMbVf4UgMPtE16un7doHSST4LRjpnGySiJTpq4yeWb1eLSien4Xw2bM1U
+         OIAg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJX0cGx5EM+luDTfOejjihAMwWUsqWA3kSrRLTWQNdVztR/95ebjpw/Sjma7IyVUK1dn/HFWVC2kcWGA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIflDC7T2RnRSsXi6VfBpLuouKO5JGbbiCavtOzl0nIA1Ak9aw
+	0/GfxYgs6QiDbhpp1v12iJkzlDgJepLCiDTd+H8AKPYkr+DxdcfN8s4XyJUEPwMli2jyW7dzGAQ
+	oLqJwtHPk+fftxokYOV0N0ixKfzjpaWzEvgUN8LpeOSZ3TC0pq+WkQSXzKhLq
+X-Received: by 2002:a17:907:987:b0:a80:f6a9:c311 with SMTP id a640c23a62f3a-a8a88273565mr211888766b.0.1725629244492;
+        Fri, 06 Sep 2024 06:27:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGcB3QQBR2uDx98v2VQckrBWO4C7RMR8S/lKeukGfKtD9JofnNPZhsq+M/SfqWpA92TtDIsYg==
+X-Received: by 2002:a17:907:987:b0:a80:f6a9:c311 with SMTP id a640c23a62f3a-a8a88273565mr211885866b.0.1725629243894;
+        Fri, 06 Sep 2024 06:27:23 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a6da35496sm226328666b.67.2024.09.06.06.27.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Sep 2024 06:27:23 -0700 (PDT)
+Message-ID: <8fc721e5-74e4-4150-897e-ca203a8d1309@redhat.com>
+Date: Fri, 6 Sep 2024 15:27:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB7763:EE_|CY8PR12MB7363:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99f5372d-0d20-4ba5-6c99-08dcce76b9b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QS9hYWwrb3FZVld6T0RtSVBTTzROQzIzZzBQWkdGRDFnMXg5NjBuazU2VEJ2?=
- =?utf-8?B?ak5qRDdKNC8zOCtYbWpHZUVzNUJ5LzJlcE5JM0lDREgyUHdVWElwTnBiYTFx?=
- =?utf-8?B?QjRSc2JDcWx5c3NmRmlvWVV5QWsybjFWSGtDMlJhZUZra3hORXM5bGs4Y2xQ?=
- =?utf-8?B?VHhNamlNMGQ3dFYzZmdzWE12UHIra2ZDaUVlRTVtVjlhNXpDWWxGbGNvc0Iy?=
- =?utf-8?B?VTArdEJpVERORVl0QUhBT0ZWSEpjYnhzaUg0TitGWVo5djBtajBSNC95L3R2?=
- =?utf-8?B?eGIwb2dNWVJ4Qk5aeDVzWTZhRC9mUnpjcnRhTVlBTFd6eDVEMm5rZXcyYUo2?=
- =?utf-8?B?SnUyK1Nta3VYK0RBdkg1cjhrRUd4WnRSMHRBQjFTQzZGeXlNNVVJR1lROG10?=
- =?utf-8?B?eHJTaHBGT1NyaVhBSWtZdCtDQ2dNd3pabHpwckkxVHNQek81dHpISmhYY094?=
- =?utf-8?B?dFd1dXdkZW5Qb0NCR2IvZ3Q2WDkwNmVGRzBJRU5rai9iVXlRQkorMnZhaGVX?=
- =?utf-8?B?QUJkUnRFUUhWczlrNHVNY2ora01Dd3hPOGNuakdmc2tvN2FzU05wVDR6UXBy?=
- =?utf-8?B?MDFOeFM2T1I1eVcvYW5xTWJ3dEFtYzRVOEtMMnFVNkhUUGIraHFPL2ZCc1Fu?=
- =?utf-8?B?Q0ZXMm9INHRvTm4vUENSN3BMK2UwaVVVcnN6UnAzbzlJUUhhaFB5QUF6cHZr?=
- =?utf-8?B?TS9yMDdkQlZQdVJhRHFiQm1YbW02dmc0RCtSSkdqNUdBdExWRkpsUE95MjVn?=
- =?utf-8?B?ampRNURIZXBwR1h6ZkZuY1ZhalA4a2t6WU43WTZCUCtyWTQyN0FGV0tIdEtT?=
- =?utf-8?B?bVFmUUlJWE1FRXZsR0tBLzdEZUdvVXB2WWUvVFNXR3V1YmY4NzBUTUNlK2JJ?=
- =?utf-8?B?aFJ4OUN6dEE1RjQ2UTU3NkNHZEtqZ1hWbjVpV2l0SGJnc2wxUHVkcUR1cE9y?=
- =?utf-8?B?VTRKcXB5ZXMyNUpPQmIyVWpXaEExYjNRZ1BzY0JtSGpsd1FGb0swNi80UlpY?=
- =?utf-8?B?ZHgwWXAyMzQxNS9QeXlDdmxLbmZSMUhHS3htU3JaQnQxVHRPdHE2Z0R0L1hL?=
- =?utf-8?B?aXM1cDEzSUNQTlY5UzFlQXZOWUgzeWdSKzFQRlhXRllReDVTQWFQdEJDREND?=
- =?utf-8?B?QkNYcjM5SmpMQmQ3dlNlc3NEbTJSTFNQcW9QSkZiU3hqaTZ3T2k4Vy85Wms4?=
- =?utf-8?B?cFVycEROejAvdTJaT2huNFRMbDVWK1NZRUd3Znl0aFhHM3Nva0RpaTkvUlZW?=
- =?utf-8?B?QzVSbFJuZ1ZIcDBCbGdwN1FUb1o3NUVRL0hBaG5GdGpwd1p4b2hpTVJJVzNW?=
- =?utf-8?B?QW5CcGF0SmVPWUpMdHR4NHJUN1g4bWVzb3VkZWQ1MXlvZExLdjRUdmlMbCsz?=
- =?utf-8?B?K3I0ZXY5R1U5TVdhTVFwanRWL3lBN2lBWVJ5SXdBdTRWMUdqTFhXaVNyQkI3?=
- =?utf-8?B?TzI0MkZiRnI2ck1HRUpCcDdNdEtHelFWK2tlWUxhVlFNWjUvSUZQcjg3N3U3?=
- =?utf-8?B?aGlCZlRLekk3VWx6bkUwQVJYWC8ybGl0VThPMnQ5SC9oVGJQMWtUdXg3eFVV?=
- =?utf-8?B?Z21IeU5TdTJhUGlNaWdnWjl3SkZsSGE1dlhVcVZNdHZLZEZBODd5VFlmUUI3?=
- =?utf-8?B?R3JmcTRkUWtpV0FuQnFLNDV6L2l2YXI0QzFCWmxnSm9nT1QxVjJacm1iUmc3?=
- =?utf-8?B?eDV6RmVTTGs2RmF2ZEtHalppM0JvWHRLVmllbUdpYWpkL24rR0FTVVdFM2o1?=
- =?utf-8?B?WURzek1ORDdUSWtRLytkTjUzeVEya1J4R01jZ3AyY2hic29BK2Z4SzhKVTM1?=
- =?utf-8?B?YjU3SDdhcTA1dFNLdzlEdz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7763.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VE41NG5wRWVZa2w4eCtkN3dUSVdwUlpwL1lsVXE5MFdkWk5saE5pNCtTdFRo?=
- =?utf-8?B?RlQ1dzU3UWVDOXZrZ3dvbmxUZ1h0UFlTcXdBeXIwRXMvb3F6TnFnRHVwVXpO?=
- =?utf-8?B?ZzNsT3c4K1FjR2dxQkdJU0pZZi90TTdHY3V0TmY3aktRSEZqQ1Fad01JMnJu?=
- =?utf-8?B?dkpRNVBQU3dvQ1E4MjBsdFplYjFzRGRXTUhjQ0pYelRKWjd6U2xmSFh4Y0NF?=
- =?utf-8?B?Q2VlR242bHZTRkpTK2V2YzkrcHNtMzdRYzJva3FjRjVrWFltMVV0d2N5a0hm?=
- =?utf-8?B?OEU1NkZSK1VsSlhHbmFzeWhCL3piemdXWmFOL3pFUlFxRzRiSm12M0d1WFNh?=
- =?utf-8?B?bXJGLzY3Yk1zbmJMV2huMHdOVGdtZ0FjZTN5YzlzdlB5OU9lL05RRGtxMXBQ?=
- =?utf-8?B?MG1oSFhGMjBocEVqdWZxUlFhOUwzZk1NamFmSGRPUmZ4b3JOMnB4UzhUaVBm?=
- =?utf-8?B?TjFvYUh5T2FHRWlRc08wNTVRMHJpTXJ6NzFyTjZ0M3ZFZWtLVGpJUW94bklD?=
- =?utf-8?B?UjM4NHA2V1pXd0gzMzBGNGw5c1ZWWUJvSTlNdjMvY1lhaHlBbkxxMEx4UGRB?=
- =?utf-8?B?dVFsQWhHWHN4M1VRSzY4dGpTUVIzYW83TDNmcjdvWml3MEZmYTNoNEtDZk1a?=
- =?utf-8?B?Y21TbWJxeU9rbnpwYjBsQzlXVUNlOEhPNC9FYS9RVW8rUHpjT09hVGs3U0xk?=
- =?utf-8?B?aEkwcWIxMkxLdUlrcFU0OFRvQjJKSjhQYVZKYWdNV2lWS3pLYjh3ZTQzUWdB?=
- =?utf-8?B?WE1kbElxTE1iOGoyZ0NGVHM0czhQQVB2WVZnaEdJNVNHU0xVOUpkRXJiZXZu?=
- =?utf-8?B?Vk95UThaV2NFT1BQeUQ5Q3Y5UUdkaDhyQ2Q1SUYzbWJpZ3Z4aWplTkV4bkE3?=
- =?utf-8?B?TllmekxybE1XMW9jbWVDTmZMWWVDM2lLWmt5a0ZDanRFWGR2Y3pBd3NuYkcx?=
- =?utf-8?B?SnIxbVZFWFY5eU9mZXVzUGtiRGNwZGFBYXMzU3MwVUswbUdGQ2Vzc3RnR2o3?=
- =?utf-8?B?MmJUOFpxZVZYZjVHS0c5ODFYY1JQZEVGdWxHTXduRllDMjNNSWFPeHYxQzIy?=
- =?utf-8?B?TFRsWFd3bzNhcXFRN0VlSzFKc0YxVUttR3krQ3RDbFBjSEh2c1BkNzFtVVUr?=
- =?utf-8?B?ZmhvNDNPS1pjbXBLaHk4bUEvZ0hEZHU0cDJpZStRdzgveUhzTGpsYjBGb1A3?=
- =?utf-8?B?QjhpRTUwOW1ZckxtaWIreWtrczBmdXhlNXpyalVySk83QWpGRElDaklkVjQy?=
- =?utf-8?B?RnFtcGNsUlUxOXJGOG92eWI1YVVFT1p2VXVTbWdHSks1V3pYRllSV0JEeHIw?=
- =?utf-8?B?MFdua0llcVA4ZWc5WHUvOWFLT0d1aTFaVEw0c3hlYUw4NmowcEZYTlZNT2Fq?=
- =?utf-8?B?RlZlNmR3ZmIwdC9xa3NIbWt5NDkrckxlOVlzcUdqWUs1NGRKeG9WdmxCUm5K?=
- =?utf-8?B?Zmh6cVUzVUNtcVZhZk1uLzZseVlSVzZIRlZLTHg0WlZ3bTNxSHpIZVA0VDZ4?=
- =?utf-8?B?RzVZbkxhSGNXbllFeXY2Z3dpSFJCdzIyS3IwMHZGSEJ4U1ZTcWJ1N3Via1pp?=
- =?utf-8?B?Q1JlZ0g2YlBTR0doSmREWStlaU9XVHBvU2pUQnMrZnVJd2wrOURrb2xNZ3Yx?=
- =?utf-8?B?OTF6emgwTHNwUm9ZRzcwUXFvcEpFa24vU1RQNE5hVTRSQ3pnNVMzMWRrOXBX?=
- =?utf-8?B?WStJSkFEWmlLSjVncXVUd3kyQTlqeFV0S1VrN1ZqZG9YdXZaM3dmemFRV1pM?=
- =?utf-8?B?bDVkYXRwZHE5YmQ0NDZlclZIMTZVcUY4bCtXTFdyUjBCaWZjbVNmeWJjMUEz?=
- =?utf-8?B?YzcrYzVISHZYUkJ6M1Y5TEliV25iS21DNHpHV3NQbmphREFyQjdlQ1JzTUJw?=
- =?utf-8?B?RVJiOFRqNWlqRU9OVFhuSCtGMDFyOTRidUdrSlFXN29LN2l6SmxSdmxQeDhO?=
- =?utf-8?B?NmRBYUJmQ29Ib1Aybk9PUFFHZG5VZVhWb0J4djZqQkVVOGZ1SlNUbUpJd3R6?=
- =?utf-8?B?UlZjT3pFMzJaWjZoekdvbE5ueFFWdzVHcGxicE4yempveXhML3NBUERYTXNL?=
- =?utf-8?B?NEd6UkxkVWRGVDVpY0F5UjhyVjRHbGNXUTNWSlIwaXFqVVpIN29xaFBiU09T?=
- =?utf-8?Q?m1zJMBsX5jWnB09fF3gcbjdDw?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99f5372d-0d20-4ba5-6c99-08dcce76b9b5
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7763.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 13:20:49.8816
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6fjNGyGbpj74xs0VSzMk2//kLo5PsVudtfGjhxobaOvVE3kGOhOHHnLr+KtLkMAZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7363
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: atomisp: Use clamp_t() in
+ ia_css_eed1_8_vmem_encode()
+To: David Laight <David.Laight@ACULAB.COM>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+References: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
+ <20240906081542.5cb0c142@foz.lan>
+ <b37a0c60-55aa-44ec-b96c-68cdaabdc110@redhat.com>
+ <a9bc91f35f494fb1971229a2df419706@AcuMS.aculab.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <a9bc91f35f494fb1971229a2df419706@AcuMS.aculab.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 06, 2024 at 12:51:08PM +0300, Stanimir Varbanov wrote:
-> >> On 12.08.24 г. 10:21 ч., Lu Baolu wrote:
-> >>> An iommu domain is allocated in venus_firmware_init() and is attached to
-> >>> core->fw.dev in the same function. Use iommu_paging_domain_alloc() to
-> >>> make it explicit.
-> >>>
-> >>> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-> >>> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> >>> Link: https://lore.kernel.org/r/20240610085555.88197-10-baolu.lu@linux.intel.com
-> >>> ---
-> >>>   drivers/media/platform/qcom/venus/firmware.c | 6 +++---
-> >>>   1 file changed, 3 insertions(+), 3 deletions(-)
-> >>>
-> >>> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
-> >>> index fe7da2b30482..66a18830e66d 100644
-> >>> --- a/drivers/media/platform/qcom/venus/firmware.c
-> >>> +++ b/drivers/media/platform/qcom/venus/firmware.ced
-> >>
-> >> Acked-by: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-> >>
-> >> I'll take the patch through linux-media tree.
-> > 
-> > Did this patch and the 1/2:
->
-> 2/2 is in linux-next now.
+Hi,
 
-And 1/2? Can someone pick it up too?
+On 9/6/24 10:05 AM, David Laight wrote:
+> From: Hans de Goede
+>> Sent: 06 September 2024 08:53
+>>
+>> Hi Mauro,
+>>
+>> On 9/6/24 8:15 AM, Mauro Carvalho Chehab wrote:
+>>> Em Sat, 27 Jul 2024 14:51:56 +0200
+>>> Christophe JAILLET <christophe.jaillet@wanadoo.fr> escreveu:
+>>>
+>>>> Using clamp_t() instead of min_t(max_t()) is easier to read.
+>>>>
+>>>> It also reduces the size of the preprocessed files by ~ 193 ko.
+>>>> (see [1] for a discussion about it)
+>>>>
+>>>> $ ls -l ia_css_eed1_8.host*.i
+>>>>  4829993 27 juil. 14:36 ia_css_eed1_8.host.old.i
+>>>>  4636649 27 juil. 14:42 ia_css_eed1_8.host.new.i
+>>>>
+>>>> [1]: https://lore.kernel.org/all/23bdb6fc8d884ceebeb6e8b8653b8cfe@AcuMS.aculab.com/
+>>>>
+>>>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>>>> ---
+>>>>  .../isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 24 +++++++++----------
+>>>>  1 file changed, 12 insertions(+), 12 deletions(-)
+>>>>
+>>>> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+>> b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+>>>> index e4fc90f88e24..96c13ebc4331 100644
+>>>> --- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+>>>> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+>>>> @@ -172,25 +172,25 @@ ia_css_eed1_8_vmem_encode(
+>>>>  		base = shuffle_block * i;
+>>>>
+>>>>  		for (j = 0; j < IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS; j++) {
+>>>> -			to->e_dew_enh_x[0][base + j] = min_t(int, max_t(int,
+>>>> -							     from->dew_enhance_seg_x[j], 0),
+>>>> -							     8191);
+>>>> -			to->e_dew_enh_y[0][base + j] = min_t(int, max_t(int,
+>>>> -							     from->dew_enhance_seg_y[j], -8192),
+>>>> -							     8191);
+>>>> +			to->e_dew_enh_x[0][base + j] = clamp_t(int,
+>>>> +							       from->dew_enhance_seg_x[j],
+>>>> +							       0, 8191);
+>>>> +			to->e_dew_enh_y[0][base + j] = clamp_t(int,
+>>>> +							       from->dew_enhance_seg_y[j],
+>>>> +							       -8192, 8191);
+>>>
+>>> Such change introduces two warnings on smatch:
+>>>
+>>> drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:
+>> drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:177
+>> ia_css_eed1_8_vmem_encode() warn: assigning (-8192) to unsigned variable 'to->e_dew_enh_y[0][base +
+>> j]'
+>>> drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:
+>> drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:182
+>> ia_css_eed1_8_vmem_encode() warn: assigning (-8192) to unsigned variable 'to->e_dew_enh_a[0][base +
+>> j]'
+>>>
+>>> Should dew_enhance_seg_x and dew_enhance_seg_y be converted to signed?
+>>
+>> These already are s32, the problem is that e_dew_enh_a is of type t_vmem_elem which is:
+>>
+>> typedef u16 t_vmem_elem;
+> 
+> Ugg... :-)
+> 
+>>
+>> And that type is used in a lot of places, so we cannot
+>> just change that.
+>>
+>> I guess we could add a t_signed_vmem_elem (s16) and use that for these vmem-arrays ?
+>>
+>> I tried fixing it like this:
 
-https://lore.kernel.org/all/2o6gpxknio4kvf5fmqgai5jaov65semmw3wvtmt4gdauwzhbti@ii3ydtlmp2sb/
+<snip>
 
-Thanks,
-Jason
+>>  		/* enable group hold */
+>> -		ret = cci_multi_reg_write(sensor->regmap, t4ka3_param_hold,
+>> -					  ARRAY_SIZE(t4ka3_param_hold), NULL);
+>> -		if (ret)
+>> -			goto error_powerdown;
+>> -
+>> -		ret = cci_multi_reg_write(sensor->regmap, sensor->res->regs, sensor->res->regs_len, NULL);
+>> +		cci_multi_reg_write(sensor->regmap, t4ka3_param_hold,
+>> +				    ARRAY_SIZE(t4ka3_param_hold), &ret);
+>> +		cci_multi_reg_write(sensor->regmap, sensor->res->regs,
+>> +				    sensor->res->regs_len, &ret);
+>>  		if (ret)
+>>  			goto error_powerdown;
+> 
+> Isn't that unrelated?
+
+Yes my bad.
+
+>> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+>> b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+>> index b79d78e5b77f..c9043d516192 100644
+>> --- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+>> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+>> @@ -172,21 +172,21 @@ ia_css_eed1_8_vmem_encode(
+>>  		base = shuffle_block * i;
+>>
+>>  		for (j = 0; j < IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS; j++) {
+>> -			to->e_dew_enh_x[0][base + j] = clamp(from->dew_enhance_seg_x[j],
+>> -							     0, 8191);
+>> -			to->e_dew_enh_y[0][base + j] = clamp(from->dew_enhance_seg_y[j],
+>> -							     -8192, 8191);
+>> +			to->e_dew_enh_x[0][base + j] = (u16)clamp(from->dew_enhance_seg_x[j],
+>> +								  0, 8191);
+>> +			to->e_dew_enh_y[0][base + j] = (u16)clamp(from->dew_enhance_seg_y[j],
+>> +								  -8192, 8191);
+> 
+> How about an explicit clamp(...) & 0xffffu?
+
+Yes that should work, I tihnk.  I actually have changed the type of e_dew_enh_y
+and e_dew_enh_f to s16 now and that does the trick of silencing smatch and seems
+like a nicer fix.
+
+I need to go and test the fix on actual hw to make sure nothing breaks and then
+I'll submit it.
+
+> 
+>>
+>>  		for (j = 0; j < (IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS - 1); j++) {
+>> -			to->e_dew_enh_a[0][base + j] = clamp(from->dew_enhance_seg_slope[j],
+>> -							     -8192, 8191);
+>> +			to->e_dew_enh_a[0][base + j] = (u16)clamp(from->dew_enhance_seg_slope[j],
+>> +								  -8192, 8191);
+>>  			/* Convert dew_enhance_seg_exp to flag:
+>>  			 * 0 -> 0
+>>  			 * 1...13 -> 1
+>>  			 */
+>> -			to->e_dew_enh_f[0][base + j] = clamp(from->dew_enhance_seg_exp[j],
+>> -							     0, 13) > 0;
+>> +			to->e_dew_enh_f[0][base + j] = (u16)clamp(from->dew_enhance_seg_exp[j],
+>> +								  0, 13) > 0;
+> 
+> Isn't the RHS just from->dew_enhance_seg_exp[j] > 0 ?
+> That shouldn't be generating any kind of warning anyway.
+
+It indeed does not generate a warning I changed all the clamp() calls here
+to keep things consistent.
+
+Regards,
+
+Hans
+
 
