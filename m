@@ -1,192 +1,243 @@
-Return-Path: <linux-media+bounces-17734-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17735-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5134996ED1C
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 10:06:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EECC896ED43
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 10:12:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11764282FE2
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 08:06:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6F0B281EB9
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 08:12:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F48414A61A;
-	Fri,  6 Sep 2024 08:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0551B155CB0;
+	Fri,  6 Sep 2024 08:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aBh4u+54"
 X-Original-To: linux-media@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C999155732
-	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 08:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D0C3C463
+	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 08:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725609985; cv=none; b=mezsilXkfKIee1uhtS7TpzhmSpYYsVFQ4dMGpcRuA26uoRQ5gTCxD+CE+4xEjoeue4GF0cPIcZqBfHFMBMSUB5aCYCZDplLC8ju7Zuf9O3unfXfStrsCmyFcMG5BGPeMie/xkAUQd0AOiQ2Try/J8OSWrnfCvfRVVaALPShFFgk=
+	t=1725610316; cv=none; b=Ts0NA/JWNea5GDKfRTHlAwUjY4XeR76tl5xAEszQ7Sp5OmpAC3/2mG6PLxY/G5+fSeyshoM7dFwKFw3v752mN3U45hxUwZkDNYLX74BDcoQcv1oZRIO95MHnn6gMvVL7A+7PZX1pAolbgxVhjZEPQCW5YhtNBF8j2S/1L+JdfXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725609985; c=relaxed/simple;
-	bh=upTSyxk8hczRoOa1X/oKZx40HrQE6C6CeKbf5UHjejg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=eIrIEIU3AYmQ5kLYv+/aRAbMU5VqleuiBbwZes0yX1KxqMUURcNNtzaMSE2Cj5qF4CZveFAR6efy5QGXato3NrovRsGzWxtMluaXiqj1NtpnTG3w52u3A89IXBWwcDocBmz93Aa053GDPUf+JGmZxEpyYr7ADHuQ3rrK6tZEEnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-322-Vdn20LnyNRa83Vnsely1sg-1; Fri, 06 Sep 2024 09:06:20 +0100
-X-MC-Unique: Vdn20LnyNRa83Vnsely1sg-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 6 Sep
- 2024 09:05:36 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Fri, 6 Sep 2024 09:05:36 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Hans de Goede' <hdegoede@redhat.com>, Mauro Carvalho Chehab
-	<mchehab+huawei@kernel.org>, Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "kernel-janitors@vger.kernel.org"
-	<kernel-janitors@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>
-Subject: RE: [PATCH] media: atomisp: Use clamp_t() in
- ia_css_eed1_8_vmem_encode()
-Thread-Topic: [PATCH] media: atomisp: Use clamp_t() in
- ia_css_eed1_8_vmem_encode()
-Thread-Index: AQHbADHFSZhym8822Um0O/Vp+JZzC7JKZYkQ
-Date: Fri, 6 Sep 2024 08:05:36 +0000
-Message-ID: <a9bc91f35f494fb1971229a2df419706@AcuMS.aculab.com>
-References: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
- <20240906081542.5cb0c142@foz.lan>
- <b37a0c60-55aa-44ec-b96c-68cdaabdc110@redhat.com>
-In-Reply-To: <b37a0c60-55aa-44ec-b96c-68cdaabdc110@redhat.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1725610316; c=relaxed/simple;
+	bh=yCXikCur5GsBPVZBekWjPxAAEYuR/8Diz45uzSZmWUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tJCIt8hhmxPFso8XH8QSYcedmjzc16cJR0qrIZEX8jgimlYIpaGMfLTtJqEUOwOiKO1BlaCqSfYHEWPI+6UhtRqsScUvkuNR4iHmQLZJdNwoDUULQRBfGcBXjwuhvyIegfaYgwZW6FOHa4w7XB1/MIvdbeRXk1vvr9RY252fA5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aBh4u+54; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D0CEC4CEC4;
+	Fri,  6 Sep 2024 08:11:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725610316;
+	bh=yCXikCur5GsBPVZBekWjPxAAEYuR/8Diz45uzSZmWUI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aBh4u+54WVBkRnKrH6tJmVgPs/OhWO6NYyFQjatBvfHjvEZcRb+Q5GL3EpZs5L5e9
+	 FA7umKVfBypd5QudF5lIVqQ7PN4S3ldG0cd0rhfI9QCKNFcb8pQLH5o/roi9tskEcB
+	 cHo2edT7I8S6msVVl6cST4oQSZdkzCZkED5HhbH/k5ZOeCE8N196A55lMpXorzwLz3
+	 R9Tvp3c8sWadskQK6s59cU0b6zjk6lU6tKEKqvjRLl/BCgQHokevRoU6v9bKiyTaRK
+	 flfPS3VsakZNyyCMI2ObFgouYQ0vjJHWHSqPbV2K/lP02dA0FauVIbJl+fpEkJNutK
+	 btvFl/DnoPhvQ==
+Date: Fri, 6 Sep 2024 10:11:48 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>, Martin Hecht
+ <martin.hecht@avnet.eu>, Tommaso Merciai <tomm.merciai@gmail.com>, Jacopo
+ Mondi <jacopo.mondi@ideasonboard.com>, Benjamin Mugnier
+ <benjamin.mugnier@foss.st.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Ricardo Ribalda
+ <ribalda@chromium.org>, Michael Tretter <m.tretter@pengutronix.de>, Alain
+ Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>, Steve Cho
+ <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>, Hidenori
+ Kobayashi <hidenorik@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Suresh Vankadara <svankada@qti.qualcomm.com>, Devarsh Thakkar
+ <devarsht@ti.com>, r-donadkar@ti.com
+Subject: Re: [ANN] Media Summit September 16th: Draft Agenda (v5)
+Message-ID: <20240906101141.451db4f4@foz.lan>
+In-Reply-To: <c50f4bfe-6d72-426e-9595-5c8b0751c08b@xs4all.nl>
+References: <c50f4bfe-6d72-426e-9595-5c8b0751c08b@xs4all.nl>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 
-RnJvbTogSGFucyBkZSBHb2VkZQ0KPiBTZW50OiAwNiBTZXB0ZW1iZXIgMjAyNCAwODo1Mw0KPiAN
-Cj4gSGkgTWF1cm8sDQo+IA0KPiBPbiA5LzYvMjQgODoxNSBBTSwgTWF1cm8gQ2FydmFsaG8gQ2hl
-aGFiIHdyb3RlOg0KPiA+IEVtIFNhdCwgMjcgSnVsIDIwMjQgMTQ6NTE6NTYgKzAyMDANCj4gPiBD
-aHJpc3RvcGhlIEpBSUxMRVQgPGNocmlzdG9waGUuamFpbGxldEB3YW5hZG9vLmZyPiBlc2NyZXZl
-dToNCj4gPg0KPiA+PiBVc2luZyBjbGFtcF90KCkgaW5zdGVhZCBvZiBtaW5fdChtYXhfdCgpKSBp
-cyBlYXNpZXIgdG8gcmVhZC4NCj4gPj4NCj4gPj4gSXQgYWxzbyByZWR1Y2VzIHRoZSBzaXplIG9m
-IHRoZSBwcmVwcm9jZXNzZWQgZmlsZXMgYnkgfiAxOTMga28uDQo+ID4+IChzZWUgWzFdIGZvciBh
-IGRpc2N1c3Npb24gYWJvdXQgaXQpDQo+ID4+DQo+ID4+ICQgbHMgLWwgaWFfY3NzX2VlZDFfOC5o
-b3N0Ki5pDQo+ID4+ICA0ODI5OTkzIDI3IGp1aWwuIDE0OjM2IGlhX2Nzc19lZWQxXzguaG9zdC5v
-bGQuaQ0KPiA+PiAgNDYzNjY0OSAyNyBqdWlsLiAxNDo0MiBpYV9jc3NfZWVkMV84Lmhvc3QubmV3
-LmkNCj4gPj4NCj4gPj4gWzFdOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjNiZGI2ZmM4
-ZDg4NGNlZWJlYjZlOGI4NjUzYjhjZmVAQWN1TVMuYWN1bGFiLmNvbS8NCj4gPj4NCj4gPj4gU2ln
-bmVkLW9mZi1ieTogQ2hyaXN0b3BoZSBKQUlMTEVUIDxjaHJpc3RvcGhlLmphaWxsZXRAd2FuYWRv
-by5mcj4NCj4gPj4gLS0tDQo+ID4+ICAuLi4vaXNwL2tlcm5lbHMvZWVkMV84L2lhX2Nzc19lZWQx
-XzguaG9zdC5jICAgfCAyNCArKysrKysrKystLS0tLS0tLS0tDQo+ID4+ICAxIGZpbGUgY2hhbmdl
-ZCwgMTIgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pDQo+ID4+DQo+ID4+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvaXNwL2tlcm5lbHMvZWVkMV84
-L2lhX2Nzc19lZWQxXzguaG9zdC5jDQo+IGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL2F0b21pc3Av
-cGNpL2lzcC9rZXJuZWxzL2VlZDFfOC9pYV9jc3NfZWVkMV84Lmhvc3QuYw0KPiA+PiBpbmRleCBl
-NGZjOTBmODhlMjQuLjk2YzEzZWJjNDMzMSAxMDA2NDQNCj4gPj4gLS0tIGEvZHJpdmVycy9zdGFn
-aW5nL21lZGlhL2F0b21pc3AvcGNpL2lzcC9rZXJuZWxzL2VlZDFfOC9pYV9jc3NfZWVkMV84Lmhv
-c3QuYw0KPiA+PiArKysgYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvaXNwL2tl
-cm5lbHMvZWVkMV84L2lhX2Nzc19lZWQxXzguaG9zdC5jDQo+ID4+IEBAIC0xNzIsMjUgKzE3Miwy
-NSBAQCBpYV9jc3NfZWVkMV84X3ZtZW1fZW5jb2RlKA0KPiA+PiAgCQliYXNlID0gc2h1ZmZsZV9i
-bG9jayAqIGk7DQo+ID4+DQo+ID4+ICAJCWZvciAoaiA9IDA7IGogPCBJQV9DU1NfTlVNQkVSX09G
-X0RFV19FTkhBTkNFX1NFR01FTlRTOyBqKyspIHsNCj4gPj4gLQkJCXRvLT5lX2Rld19lbmhfeFsw
-XVtiYXNlICsgal0gPSBtaW5fdChpbnQsIG1heF90KGludCwNCj4gPj4gLQkJCQkJCQkgICAgIGZy
-b20tPmRld19lbmhhbmNlX3NlZ194W2pdLCAwKSwNCj4gPj4gLQkJCQkJCQkgICAgIDgxOTEpOw0K
-PiA+PiAtCQkJdG8tPmVfZGV3X2VuaF95WzBdW2Jhc2UgKyBqXSA9IG1pbl90KGludCwgbWF4X3Qo
-aW50LA0KPiA+PiAtCQkJCQkJCSAgICAgZnJvbS0+ZGV3X2VuaGFuY2Vfc2VnX3lbal0sIC04MTky
-KSwNCj4gPj4gLQkJCQkJCQkgICAgIDgxOTEpOw0KPiA+PiArCQkJdG8tPmVfZGV3X2VuaF94WzBd
-W2Jhc2UgKyBqXSA9IGNsYW1wX3QoaW50LA0KPiA+PiArCQkJCQkJCSAgICAgICBmcm9tLT5kZXdf
-ZW5oYW5jZV9zZWdfeFtqXSwNCj4gPj4gKwkJCQkJCQkgICAgICAgMCwgODE5MSk7DQo+ID4+ICsJ
-CQl0by0+ZV9kZXdfZW5oX3lbMF1bYmFzZSArIGpdID0gY2xhbXBfdChpbnQsDQo+ID4+ICsJCQkJ
-CQkJICAgICAgIGZyb20tPmRld19lbmhhbmNlX3NlZ195W2pdLA0KPiA+PiArCQkJCQkJCSAgICAg
-ICAtODE5MiwgODE5MSk7DQo+ID4NCj4gPiBTdWNoIGNoYW5nZSBpbnRyb2R1Y2VzIHR3byB3YXJu
-aW5ncyBvbiBzbWF0Y2g6DQo+ID4NCj4gPiBkcml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9w
-Y2kvaXNwL2tlcm5lbHMvZWVkMV84L2lhX2Nzc19lZWQxXzguaG9zdC5jOg0KPiBkcml2ZXJzL3N0
-YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvaXNwL2tlcm5lbHMvZWVkMV84L2lhX2Nzc19lZWQxXzgu
-aG9zdC5jOjE3Nw0KPiBpYV9jc3NfZWVkMV84X3ZtZW1fZW5jb2RlKCkgd2FybjogYXNzaWduaW5n
-ICgtODE5MikgdG8gdW5zaWduZWQgdmFyaWFibGUgJ3RvLT5lX2Rld19lbmhfeVswXVtiYXNlICsN
-Cj4gal0nDQo+ID4gZHJpdmVycy9zdGFnaW5nL21lZGlhL2F0b21pc3AvcGNpL2lzcC9rZXJuZWxz
-L2VlZDFfOC9pYV9jc3NfZWVkMV84Lmhvc3QuYzoNCj4gZHJpdmVycy9zdGFnaW5nL21lZGlhL2F0
-b21pc3AvcGNpL2lzcC9rZXJuZWxzL2VlZDFfOC9pYV9jc3NfZWVkMV84Lmhvc3QuYzoxODINCj4g
-aWFfY3NzX2VlZDFfOF92bWVtX2VuY29kZSgpIHdhcm46IGFzc2lnbmluZyAoLTgxOTIpIHRvIHVu
-c2lnbmVkIHZhcmlhYmxlICd0by0+ZV9kZXdfZW5oX2FbMF1bYmFzZSArDQo+IGpdJw0KPiA+DQo+
-ID4gU2hvdWxkIGRld19lbmhhbmNlX3NlZ194IGFuZCBkZXdfZW5oYW5jZV9zZWdfeSBiZSBjb252
-ZXJ0ZWQgdG8gc2lnbmVkPw0KPiANCj4gVGhlc2UgYWxyZWFkeSBhcmUgczMyLCB0aGUgcHJvYmxl
-bSBpcyB0aGF0IGVfZGV3X2VuaF9hIGlzIG9mIHR5cGUgdF92bWVtX2VsZW0gd2hpY2ggaXM6DQo+
-IA0KPiB0eXBlZGVmIHUxNiB0X3ZtZW1fZWxlbTsNCg0KVWdnLi4uIDotKQ0KDQo+IA0KPiBBbmQg
-dGhhdCB0eXBlIGlzIHVzZWQgaW4gYSBsb3Qgb2YgcGxhY2VzLCBzbyB3ZSBjYW5ub3QNCj4ganVz
-dCBjaGFuZ2UgdGhhdC4NCj4gDQo+IEkgZ3Vlc3Mgd2UgY291bGQgYWRkIGEgdF9zaWduZWRfdm1l
-bV9lbGVtIChzMTYpIGFuZCB1c2UgdGhhdCBmb3IgdGhlc2Ugdm1lbS1hcnJheXMgPw0KPiANCj4g
-SSB0cmllZCBmaXhpbmcgaXQgbGlrZSB0aGlzOg0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-c3RhZ2luZy9tZWRpYS9hdG9taXNwL2kyYy9hdG9taXNwLXQ0a2EzLmMNCj4gYi9kcml2ZXJzL3N0
-YWdpbmcvbWVkaWEvYXRvbWlzcC9pMmMvYXRvbWlzcC10NGthMy5jDQo+IGluZGV4IDFlMDFkMzU0
-MTUyYi4uN2MwMTk1ZDE1ZjUzIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEv
-YXRvbWlzcC9pMmMvYXRvbWlzcC10NGthMy5jDQo+ICsrKyBiL2RyaXZlcnMvc3RhZ2luZy9tZWRp
-YS9hdG9taXNwL2kyYy9hdG9taXNwLXQ0a2EzLmMNCj4gQEAgLTQyOCwxOCArNDI4LDEzIEBAIHN0
-YXRpYyBpbnQgdDRrYTNfc19zdHJlYW0oc3RydWN0IHY0bDJfc3ViZGV2ICpzZCwgaW50IGVuYWJs
-ZSkNCj4gIAkJCWdvdG8gZXJyb3JfdW5sb2NrOw0KPiAgCQl9DQo+IA0KPiAtCQlyZXQgPSBjY2lf
-bXVsdGlfcmVnX3dyaXRlKHNlbnNvci0+cmVnbWFwLCB0NGthM19pbml0X2NvbmZpZywNCj4gLQkJ
-CQkJICBBUlJBWV9TSVpFKHQ0a2EzX2luaXRfY29uZmlnKSwgTlVMTCk7DQo+IC0JCWlmIChyZXQp
-DQo+IC0JCQlnb3RvIGVycm9yX3Bvd2VyZG93bjsNCj4gLQ0KPiArCQljY2lfbXVsdGlfcmVnX3dy
-aXRlKHNlbnNvci0+cmVnbWFwLCB0NGthM19pbml0X2NvbmZpZywNCj4gKwkJCQkgICAgQVJSQVlf
-U0laRSh0NGthM19pbml0X2NvbmZpZyksICZyZXQpOw0KPiAgCQkvKiBlbmFibGUgZ3JvdXAgaG9s
-ZCAqLw0KPiAtCQlyZXQgPSBjY2lfbXVsdGlfcmVnX3dyaXRlKHNlbnNvci0+cmVnbWFwLCB0NGth
-M19wYXJhbV9ob2xkLA0KPiAtCQkJCQkgIEFSUkFZX1NJWkUodDRrYTNfcGFyYW1faG9sZCksIE5V
-TEwpOw0KPiAtCQlpZiAocmV0KQ0KPiAtCQkJZ290byBlcnJvcl9wb3dlcmRvd247DQo+IC0NCj4g
-LQkJcmV0ID0gY2NpX211bHRpX3JlZ193cml0ZShzZW5zb3ItPnJlZ21hcCwgc2Vuc29yLT5yZXMt
-PnJlZ3MsIHNlbnNvci0+cmVzLT5yZWdzX2xlbiwgTlVMTCk7DQo+ICsJCWNjaV9tdWx0aV9yZWdf
-d3JpdGUoc2Vuc29yLT5yZWdtYXAsIHQ0a2EzX3BhcmFtX2hvbGQsDQo+ICsJCQkJICAgIEFSUkFZ
-X1NJWkUodDRrYTNfcGFyYW1faG9sZCksICZyZXQpOw0KPiArCQljY2lfbXVsdGlfcmVnX3dyaXRl
-KHNlbnNvci0+cmVnbWFwLCBzZW5zb3ItPnJlcy0+cmVncywNCj4gKwkJCQkgICAgc2Vuc29yLT5y
-ZXMtPnJlZ3NfbGVuLCAmcmV0KTsNCj4gIAkJaWYgKHJldCkNCj4gIAkJCWdvdG8gZXJyb3JfcG93
-ZXJkb3duOw0KDQpJc24ndCB0aGF0IHVucmVsYXRlZD8NCg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9zdGFnaW5nL21lZGlhL2F0b21pc3AvcGNpL2lzcC9rZXJuZWxzL2VlZDFfOC9pYV9jc3NfZWVk
-MV84Lmhvc3QuYw0KPiBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9hdG9taXNwL3BjaS9pc3Ava2Vy
-bmVscy9lZWQxXzgvaWFfY3NzX2VlZDFfOC5ob3N0LmMNCj4gaW5kZXggYjc5ZDc4ZTViNzdmLi5j
-OTA0M2Q1MTYxOTIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9hdG9taXNw
-L3BjaS9pc3Ava2VybmVscy9lZWQxXzgvaWFfY3NzX2VlZDFfOC5ob3N0LmMNCj4gKysrIGIvZHJp
-dmVycy9zdGFnaW5nL21lZGlhL2F0b21pc3AvcGNpL2lzcC9rZXJuZWxzL2VlZDFfOC9pYV9jc3Nf
-ZWVkMV84Lmhvc3QuYw0KPiBAQCAtMTcyLDIxICsxNzIsMjEgQEAgaWFfY3NzX2VlZDFfOF92bWVt
-X2VuY29kZSgNCj4gIAkJYmFzZSA9IHNodWZmbGVfYmxvY2sgKiBpOw0KPiANCj4gIAkJZm9yIChq
-ID0gMDsgaiA8IElBX0NTU19OVU1CRVJfT0ZfREVXX0VOSEFOQ0VfU0VHTUVOVFM7IGorKykgew0K
-PiAtCQkJdG8tPmVfZGV3X2VuaF94WzBdW2Jhc2UgKyBqXSA9IGNsYW1wKGZyb20tPmRld19lbmhh
-bmNlX3NlZ194W2pdLA0KPiAtCQkJCQkJCSAgICAgMCwgODE5MSk7DQo+IC0JCQl0by0+ZV9kZXdf
-ZW5oX3lbMF1bYmFzZSArIGpdID0gY2xhbXAoZnJvbS0+ZGV3X2VuaGFuY2Vfc2VnX3lbal0sDQo+
-IC0JCQkJCQkJICAgICAtODE5MiwgODE5MSk7DQo+ICsJCQl0by0+ZV9kZXdfZW5oX3hbMF1bYmFz
-ZSArIGpdID0gKHUxNiljbGFtcChmcm9tLT5kZXdfZW5oYW5jZV9zZWdfeFtqXSwNCj4gKwkJCQkJ
-CQkJICAwLCA4MTkxKTsNCj4gKwkJCXRvLT5lX2Rld19lbmhfeVswXVtiYXNlICsgal0gPSAodTE2
-KWNsYW1wKGZyb20tPmRld19lbmhhbmNlX3NlZ195W2pdLA0KPiArCQkJCQkJCQkgIC04MTkyLCA4
-MTkxKTsNCg0KSG93IGFib3V0IGFuIGV4cGxpY2l0IGNsYW1wKC4uLikgJiAweGZmZmZ1Pw0KDQo+
-IA0KPiAgCQlmb3IgKGogPSAwOyBqIDwgKElBX0NTU19OVU1CRVJfT0ZfREVXX0VOSEFOQ0VfU0VH
-TUVOVFMgLSAxKTsgaisrKSB7DQo+IC0JCQl0by0+ZV9kZXdfZW5oX2FbMF1bYmFzZSArIGpdID0g
-Y2xhbXAoZnJvbS0+ZGV3X2VuaGFuY2Vfc2VnX3Nsb3BlW2pdLA0KPiAtCQkJCQkJCSAgICAgLTgx
-OTIsIDgxOTEpOw0KPiArCQkJdG8tPmVfZGV3X2VuaF9hWzBdW2Jhc2UgKyBqXSA9ICh1MTYpY2xh
-bXAoZnJvbS0+ZGV3X2VuaGFuY2Vfc2VnX3Nsb3BlW2pdLA0KPiArCQkJCQkJCQkgIC04MTkyLCA4
-MTkxKTsNCj4gIAkJCS8qIENvbnZlcnQgZGV3X2VuaGFuY2Vfc2VnX2V4cCB0byBmbGFnOg0KPiAg
-CQkJICogMCAtPiAwDQo+ICAJCQkgKiAxLi4uMTMgLT4gMQ0KPiAgCQkJICovDQo+IC0JCQl0by0+
-ZV9kZXdfZW5oX2ZbMF1bYmFzZSArIGpdID0gY2xhbXAoZnJvbS0+ZGV3X2VuaGFuY2Vfc2VnX2V4
-cFtqXSwNCj4gLQkJCQkJCQkgICAgIDAsIDEzKSA+IDA7DQo+ICsJCQl0by0+ZV9kZXdfZW5oX2Zb
-MF1bYmFzZSArIGpdID0gKHUxNiljbGFtcChmcm9tLT5kZXdfZW5oYW5jZV9zZWdfZXhwW2pdLA0K
-PiArCQkJCQkJCQkgIDAsIDEzKSA+IDA7DQoNCklzbid0IHRoZSBSSFMganVzdCBmcm9tLT5kZXdf
-ZW5oYW5jZV9zZWdfZXhwW2pdID4gMCA/DQpUaGF0IHNob3VsZG4ndCBiZSBnZW5lcmF0aW5nIGFu
-eSBraW5kIG9mIHdhcm5pbmcgYW55d2F5Lg0KDQoJRGF2aWQNCg0KPiAgCQl9DQo+IA0KPiAgCQkv
-KiBIYXJkLWNvZGVkIHRvIDAsIGluIG9yZGVyIHRvIGJlIGFibGUgdG8gaGFuZGxlIG91dCBvZg0K
-PiANCj4gYnV0IHNtYXRjaCBzdGlsbCBjb21wbGFpbnMgYWZ0ZXIgdGhpcy4uLg0KPiANCj4gUmVn
-YXJkcywNCj4gDQo+IEhhbnMNCj4gDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwg
-QnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVn
-aXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
+Em Thu, 5 Sep 2024 09:16:27 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
+> Hi all,
+>=20
+> Here is my fifth (and likely final) stab at an agenda for the media summi=
+t. As always,
+> it is subject to change and all times are guesstimates!
+>=20
+> The media summit will be held on Monday September 16th. Avnet Silica has =
+very
+> kindly offered to host this summit at their Vienna office, which is about=
+ 35
+> minutes by public transport from the Open Source Summit Europe venue
+> (https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
+>=20
+> Avnet Silica Office Location:
+>=20
+> Sch=C3=B6nbrunner Str. 297/307, 1120 Vienna, Austria
+>=20
+> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(=
+Silica)/@48.183203,16.3100937,15z/data=3D!4m6!3m5!1s0x476da80e20b26d5b:0x2c=
+5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=3Dttu
+>=20
+> Refreshments are available during the day.
+>=20
+> Lunch is held at Sch=C3=B6nbrunner St=C3=B6ckl (https://www.schoenbrunner=
+stoeckl.com/), close
+> to the Avnet Silica office. The lunch is sponsored by Ideas on Board and =
+Cisco Systems
+> Norway.
+>=20
+> Regarding the face mask policy: we will follow the same guidance that the
+> Linux Foundation gives for the EOSS conference:
+>=20
+> https://events.linuxfoundation.org/open-source-summit-europe/attend/healt=
+h-and-safety/#onsite-health-and-safety
+>=20
+>=20
+> In-Person Attendees:
+>=20
+> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+> Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
+> Mauro Carvalho Chehab <mchehab@kernel.org> (Huawei, Media Kernel Maintain=
+er)
+> Steve Cho <stevecho@chromium.org> (Google)
+> Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+> Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+> Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+> Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+> Ricardo Ribalda <ribalda@chromium.org> (Google)
+> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+> Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
+> Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+> Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
+> Sean Young <sean@mess.org>
+> Jerry W Hu <jerry.w.hu@intel.com> (Intel)
+>=20
+> Remote Attendees (using MS Teams):
+>=20
+> Rishikesh Donadkar <r-donadkar@ti.com> (TI)
+> Tomasz Figa <tfiga@chromium.org> (Google)
+> Hidenori Kobayashi <hidenorik@chromium.org> (Google)
+> Devarsh Thakkar <devarsht@ti.com> (TI)
+>=20
+> Note: information on how to connect remotely will come later.
+>=20
+> If any information above is incorrect, or if I missed someone, then pleas=
+e let me know.
+>=20
+> We are currently 17 confirmed in-person participants, so we're pretty muc=
+h full.
+> If you want to join remotely, then contact me and I'll add you to that li=
+st.
+>=20
+> Draft agenda:
+>=20
+> 8:45-9:15: get settled :-)
+>=20
+> 9:15-9:25: Hans: Quick introduction
+>=20
+> 9:25-11:00: Ricardo: multi-committer model using gitlab
+
+As part of such discussion, IMO some topics that should be covered:
+
+1. All committers shall use a common procedure for all merges.
+
+   This is easy said than done. So, IMO, it is needed some common scripts
+   to be used by all committers. On my tests when merging two PRs there,
+   those seems to be the minimal set of scripts that are needed:
+
+   a) script to create a new topic branch at linux-media/users/<user>
+      The input parameter is the message-ID, e. g. something like:
+
+	create_media_staging_topic <topic_name> <message_id>
+
+      (eventually with an extra parameter with the name of the tree)
+
+      It shall use patchwork REST interface to get the patches - or at least
+      to check if all patches are there (and then use b4).
+
+      such script needs to work with a single patch, a patch series and a
+      pull request.
+
+      the message ID of every patch, including the PR should be stored at
+      the MR, as this will be needed to later update patchwork.
+
+   b) once gitlab CI runs, there are two possible outcomes: patches may
+      pass or not. If they pass, a MR will be created and eventually be
+      merged.
+
+      Either merged or not (because something failed or the patches require
+      more work), the patchwork status of the patch require changes to
+      reflect what happened. IMO, another script is needed to update the
+      patch/patch series/PR on patchwork on a consistent way.
+
+      This is actually a *big* gap we have here. I have a script that=20
+      manually check patchwork status and the gap is huge. currently,
+      there are 73 patches that seems to be merged, but patchwork was not
+      updated.
+
+      From what I noticed, some PR submitters almost never update patchwork
+      after the merges.
+
+      So another script to solve this gap is needed, doing updates on all=20
+      patches that were picked by the first script. Something like:
+
+      update_patchwork_from_topic <topic_name> <new_status>
+
+      This would likely need to use some logic to pick the message IDs
+      of the patch inside the MR.
+
+      Such script could also check for previous versions of the patch
+      and for identical patches (it is somewhat common to receive identical
+      patches with trivial fixes from different developers).
+
+   Someone needs to work on such script, as otherwise the multi committers
+   model may fail, and we risk needing to return back to the current model.
+
+2. The mailbomb script that notifies when a patch is merged at media-stage
+   we're using right now doesn't work with well with multiple committers.
+
+   Right now, the tree at linuxtv runs it, but it might end sending patches
+   to the author and to linuxtv-commits ML that reached upstream from other
+   trees. It has some logic to prevent that, but it is not bulletproof.
+=20
+   A replacement script is needed. Perhaps this can be executed together
+   with the patchwork script (1B) at the committer's machine.
+
+3. Staging require different rules, as smatch/spatch/sparse/checkpatch
+   warnings and errors can be acceptable.
+
+4. We need to have some sort of "honour code": if undesired behavior
+   is noticed, maintainers may temporarily (or permanently) revoke
+   committer rights.
+
+   Hopefully, this will never happen, but, if it happens, a rebase
+   of media-staging tree may be needed.
+
+5. The procedure for fixes wil remain the same. We'll have already enough
+   things to make it work. Let's not add fixes complexity just yet.
+   Depending on how well the new multi-committers experimental model
+   works, we may think using it for fixes as well.
+
+Thanks,
+Mauro
 
