@@ -1,241 +1,163 @@
-Return-Path: <linux-media+bounces-17760-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17761-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD9996F271
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 13:10:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 274BF96F277
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 13:12:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11FD61F21D01
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 11:10:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 448511C21AE5
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 11:12:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E57EF1CB150;
-	Fri,  6 Sep 2024 11:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18AB51C9ECA;
+	Fri,  6 Sep 2024 11:12:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="urPze1YR"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nw6k5K+C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D69B1C9ECA
-	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 11:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB123158866
+	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 11:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725621038; cv=none; b=GUlQQwNpAvaYqVlkERQhEONryTJsdE7fImyNcvnVOX9v7DtabWAUBjzm0hQ2wEqchc8u8Um+lj5E8uRarp3B0DNTsOPHzsLh6netjo1DC6QevSuhQLAjd/NyHLLjss/GV4GhtpU5zaFZUwDhHJ24nCXzV82ZyOq+Vi3xnBWUL/I=
+	t=1725621150; cv=none; b=A6HdOodRU7siRo0gpX6PqonFuagCuIiUcuH2l3d/ruPkFgNEubHYHIem2oC8y7fL1zgee9tesLmTp4OzeH0djmv6uW4ZZWacq+h+R4M4x9OGCeZs6sgsL4EBLyRxsokdLpcZg0qloImoGyYMvMTu9GLFZ8gItmXMMZkdJb49j2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725621038; c=relaxed/simple;
-	bh=QLRwqq3/wyH1aDLYTR7BaauW4lF+sD+CFVWSQFtqQbo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aeHYum0YL/ugYjCRAfKVdYyuG5Ez7AazSUfZOkHnhCZd6Ml7bI5gbNO5wAHWdexB0V+7RPrWpUPi47caTnuOA+OMeJUt3sJEDdTWW7iFDnsu7ArSc73CroEyKbEuvAWTOySjvaSPzrDMGXI3D52PpYaFHbHVvZapV3fsoHxi//A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=urPze1YR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FAA6C4CEC4;
-	Fri,  6 Sep 2024 11:10:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725621037;
-	bh=QLRwqq3/wyH1aDLYTR7BaauW4lF+sD+CFVWSQFtqQbo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=urPze1YRuRywXwNHd8whWLABb78c0vqrSHL0IBVOSBOzVuR02S6BBdpKU5mMXKL9m
-	 m6KWs0O1PmD3smyN+utbRDTzFBWoAqPAoilZox3cAlViq9DI225TXq1mPdIMV7Lhfd
-	 E1saB+a6JLo0V5Vd1QEPosFJz6eGImbzc62dVp+E792zNzQb0L/F8Z5uVREZpWTgYm
-	 elv2kxmg5DN1zsja+Pgxcim+eFPcc445OCWXJtF9gJjxQYhZ+Xw13tCCJQNaZ6NYqL
-	 UpX4+rNh7ew1EyZ5MnpFdtB7tiB2Zom3UTMJ/YjS1dw6vmovcssYZgcanXSxdTjBhh
-	 2z4GEvyae80zQ==
-Date: Fri, 6 Sep 2024 13:10:30 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Martin Hecht <martin.hecht@avnet.eu>, Tommaso Merciai
- <tomm.merciai@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Ricardo Ribalda
- <ribalda@chromium.org>, Michael Tretter <m.tretter@pengutronix.de>, Alain
- Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>, Steve Cho
- <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>, Hidenori
- Kobayashi <hidenorik@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
- Suresh Vankadara <svankada@qti.qualcomm.com>, Devarsh Thakkar
- <devarsht@ti.com>, r-donadkar@ti.com
-Subject: Re: [ANN] Media Summit September 16th: Draft Agenda (v5)
-Message-ID: <20240906131030.6880e5f5@foz.lan>
-In-Reply-To: <20240906103658.updwgahyisda5yid@basti-XPS-13-9310>
-References: <c50f4bfe-6d72-426e-9595-5c8b0751c08b@xs4all.nl>
-	<20240906101141.451db4f4@foz.lan>
-	<20240906103658.updwgahyisda5yid@basti-XPS-13-9310>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1725621150; c=relaxed/simple;
+	bh=FHH3wyQ7zY55R9CADvoIO5OcTdzNx226agmLIAzSrhM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZhrRkgoRuSUjt2c1hA0wjcRWvaBVHiRaAkbARXHLTVxL1v6pGPpOMwhajPXo8T8/nU4WtqD3H30JLjWRMt4qtS0pPVQQ7DmYfeECyNowNIIRp01ZKDlwZ8ShsJjj6mN66DlefzQxUG9tJoNXy+f7G5fZG1JaaEyYd2/NUIao83k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nw6k5K+C; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a8a7596b7dfso281565666b.0
+        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2024 04:12:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725621147; x=1726225947; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uc2+zdjiBpu46m7tub9zqiCMuodzrCPOa9EZooZK8Qc=;
+        b=Nw6k5K+CzDyDOiRFVgiHoIgbdTZqfCj5ppP0QdTScyXJ8er0NG9dDH6Bzkmp3lWgP5
+         Dfl/ouPwNj2s24NAo3vxteFlIS8+pzAqvLQ3ha+V9p9kXgOyGrvXKJ4YOArFOO2jNV8Q
+         YhupLW8QSCc9OE9d2yiqJg7MDl5STkTisvOm1+NEfNJC5sqmuOEEZv4uK6kOiyWAb2lA
+         VXQaMZbm3YBM255UaFmbcMrBvrshvMfKAlXF1dmIOjy8sKSDEngpcJftHvncWfFk+FxG
+         Cj2zWKzHp0AkKOHTa4uXik/MGgdNpOXybXjBdZEeRnKkZh761eOKbWPTPVSsfo+hryaP
+         oKdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725621147; x=1726225947;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uc2+zdjiBpu46m7tub9zqiCMuodzrCPOa9EZooZK8Qc=;
+        b=p5AK0ogZU55JyN+gHveU7QaStW4g/RtKe2AdAJUZaPIK/B/BD1LP/nir1n7LGiw+nW
+         4LoHn4VOCV/wSKnbf8GcGxBWenNKdcC8VrXSlPv/KmYemTwWy9KZHk8w7EE+RgX7BShV
+         jQEEAlSG7EevEG32B7TasPoekSPg/J6oXkPuM2iIMr5OeB6sF6crKBx0kUQ9ENYHc/DK
+         YcjzDLTN++LSBzyIJJu9pWyRFjuZS2AqLTUUheWJ1UUE8KBVcaBBAQs0FLYVDXW2HP2U
+         4rzzvZU11j9keILDS1Gd9Xa2VDl/cegu11xpvSLbFcWctQwA2jdwF6kFzbszQO9LoHnx
+         HKDA==
+X-Forwarded-Encrypted: i=1; AJvYcCU0c3S0f+PELNzmLftbzYAQ77YREfJdGclsaAWb5gCUlNbj6O1tIuwPyQV/HSMZz63HGW2nHh7B/Hcvdw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYeC8kbirN33cLwuoCD9A+5pDynP8V/mUlHtWUkfKT9ywrOlN9
+	mm8da2BlU4gUD65xmlGjIRx5MNNc1pZdXiOqSDQi3JOn6u2byeCF/5VpFAAvYiU=
+X-Google-Smtp-Source: AGHT+IHLGnwvuz0Zuk0iYkufW1lBlP6YOjby/D3zebopxnLANfHrrf5x7pPi6Md1UNB5/c88v20cNQ==
+X-Received: by 2002:a17:907:1c22:b0:a8d:cef:bdd with SMTP id a640c23a62f3a-a8d0cef18a5mr44043766b.10.1725621146924;
+        Fri, 06 Sep 2024 04:12:26 -0700 (PDT)
+Received: from [192.168.0.25] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8c8cd01fbfsm26513366b.123.2024.09.06.04.12.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Sep 2024 04:12:26 -0700 (PDT)
+Message-ID: <d94c322e-b26b-4f1b-bcb8-187142dc25fa@linaro.org>
+Date: Fri, 6 Sep 2024 12:12:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/6] arm64: dts: qcom: sc8280xp: Fix interrupt type of
+ camss interrupts
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20240905164142.3475873-1-vladimir.zapolskiy@linaro.org>
+ <20240905164142.3475873-5-vladimir.zapolskiy@linaro.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240905164142.3475873-5-vladimir.zapolskiy@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Em Fri, 6 Sep 2024 12:36:58 +0200
-Sebastian Fricke <sebastian.fricke@collabora.com> escreveu:
-
-> Hey Mauro,
+On 05/09/2024 17:41, Vladimir Zapolskiy wrote:
+> The expected type of all CAMSS interrupts is edge rising, fix it in
+> the CAMSS device tree node for sc8280xp platform.
 > 
-> On 06.09.2024 10:11, Mauro Carvalho Chehab wrote:
-> >Em Thu, 5 Sep 2024 09:16:27 +0200
-> >Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> >  
-...
-> >1. All committers shall use a common procedure for all merges.
-> >
-> >   This is easy said than done. So, IMO, it is needed some common scripts
-> >   to be used by all committers. On my tests when merging two PRs there,
-> >   those seems to be the minimal set of scripts that are needed:
-> >
-> >   a) script to create a new topic branch at linux-media/users/<user>
-> >      The input parameter is the message-ID, e. g. something like:
-> >
-> >	create_media_staging_topic <topic_name> <message_id>
-> >
-> >      (eventually with an extra parameter with the name of the tree)
-> >
-> >      It shall use patchwork REST interface to get the patches - or at least
-> >      to check if all patches are there (and then use b4).
-> >
-> >      such script needs to work with a single patch, a patch series and a
-> >      pull request.
-> >
-> >      the message ID of every patch, including the PR should be stored at
-> >      the MR, as this will be needed to later update patchwork.
-> >
-> >   b) once gitlab CI runs, there are two possible outcomes: patches may
-> >      pass or not. If they pass, a MR will be created and eventually be
-> >      merged.
-> >
-> >      Either merged or not (because something failed or the patches require
-> >      more work), the patchwork status of the patch require changes to
-> >      reflect what happened. IMO, another script is needed to update the
-> >      patch/patch series/PR on patchwork on a consistent way.
-> >
-> >      This is actually a *big* gap we have here. I have a script that
-> >      manually check patchwork status and the gap is huge. currently,
-> >      there are 73 patches that seems to be merged, but patchwork was not
-> >      updated.
-> >
-> >      From what I noticed, some PR submitters almost never update patchwork
-> >      after the merges.  
+> Fixes: 5994dd60753e ("arm64: dts: qcom: sc8280xp: camss: Add CAMSS block definition")
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> ---
+>   arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 40 +++++++++++++-------------
+>   1 file changed, 20 insertions(+), 20 deletions(-)
 > 
-> Interesting I thought that is how it should be? I mean if I send a PR,
-> the one taking the PR must decide whether he wants to pull it, so the
-> decision whether the set is accepted should be on the one pulling the
-> changes and not on the one pushing them. Right?
+> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> index 80a57aa22839..aa2678eb3bcd 100644
+> --- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> @@ -3882,26 +3882,26 @@ camss: camss@ac5a000 {
+>   				    "vfe3",
+>   				    "csid3";
+>   
+> -			interrupts = <GIC_SPI 359 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 468 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 469 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 640 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 641 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 758 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 759 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 760 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 761 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 762 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 764 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupts = <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 360 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 640 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 641 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 758 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 759 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 760 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 761 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 762 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 764 IRQ_TYPE_EDGE_RISING>;
+>   			interrupt-names = "csid1_lite",
+>   					  "vfe_lite1",
+>   					  "csiphy3",
 
-Yes, but you still need to update previous attempts to submit the
-work. So, let's see a patch series at v9 got a PR. It is up to you
-to cleanup everything on patchwork from v1 to v8.
+Yep, downstream defines these as rising.
 
-Now, the committer handing PR for v9 should be in charge of updating
-the status of it and the patches that belong to it, once the patch
-is merged or once he takes a decision otherwise.
-
-> >
-> >      So another script to solve this gap is needed, doing updates on all
-> >      patches that were picked by the first script. Something like:  
-> 
-> Shouldn't the update happen after the MR has been created instead,
-> because only after running the CI we know whether the tests fail or
-> pass? From what you say above it sounds like the first script merely
-> prepares a topic branch to be tested.
-
-the first script I mentioned prepares and pushes the topic branch. The
-patchwork update script (the second one) can be used on several parts
-of the workflow:
-
-- before MR: if the committer decides to not merge the changes, because
-  it didn't pass on his review;
-- after MR pipeline failures;
-- after MR being merged: once it reaches media-staging master.
-
-> >      update_patchwork_from_topic <topic_name> <new_status>
-> >
-> >      This would likely need to use some logic to pick the message IDs
-> >      of the patch inside the MR.
-> >
-> >      Such script could also check for previous versions of the patch
-> >      and for identical patches (it is somewhat common to receive identical
-> >      patches with trivial fixes from different developers).
-> >
-> >   Someone needs to work on such script, as otherwise the multi committers
-> >   model may fail, and we risk needing to return back to the current model.  
-> 
-> Just my personal thought: This sounds a bit extreme to me, I mean we are
-> currently in the first test run as preparation for the Media-summit
-> where we actually want to discuss policies and further requirements.
-
-What I'm saying is that multiple-committers model will only work if
-all committers follow a common procedure (still variants between
-committers is possible, provided that the minimal set is followed).
-
-If this doesn't happens, maintainers may be forced to do rebases and other
-manual fixes, with will actually make life worse for everyone. That's
-what I want to avoid by having a common set of scripts for the very basic
-tasks: create a topic branch for CI to test and update patchwork.
-
-> >2. The mailbomb script that notifies when a patch is merged at media-stage
-> >   we're using right now doesn't work with well with multiple committers.
-> >
-> >   Right now, the tree at linuxtv runs it, but it might end sending patches
-> >   to the author and to linuxtv-commits ML that reached upstream from other
-> >   trees. It has some logic to prevent that, but it is not bulletproof.
-> >
-> >   A replacement script is needed. Perhaps this can be executed together
-> >   with the patchwork script (1B) at the committer's machine.
-> >
-> >3. Staging require different rules, as smatch/spatch/sparse/checkpatch
-> >   warnings and errors can be acceptable.  
-> 
-> I thought that we came to a consensus that only warnings are acceptable?
-> If we accept errors in the staging but not in media master, does that
-> mean that we ought to send patches to the media staging tree then?
-> I'd vote for only allowing patches without errors into the staging tree
-> and in the worst case add a list with acceptable errors.
-
-No, you got me wrong. By staging, I'm referring to drivers/staging/
-not to the multi-committers tree.
-
-The bar for sending stuff to drivers/staging is lower than for
-drivers/media. According with Kernel's documentation at
-Documentation/process/2.Process.rst:
-
-	"Current rules require that drivers contributed to staging
-	 must, at a minimum, compile properly."
-
-We actually try to be better than that, but still when new stuff is
-added to staging, while we try to also ensure no static code checkers
-would fail, we may need to relax the rules, as it is not uncommon to
-receive drivers that need extra care to follow Kernel coding style
-there.
-
-> >4. We need to have some sort of "honour code": if undesired behavior
-> >   is noticed, maintainers may temporarily (or permanently) revoke
-> >   committer rights.  
-> 
-> That sounds like something to discuss on the media summit, 
-
-Sure. That's why I'm asking to explicitly add it to the topics to be
-discussed there ;-)
-
-It would be nice if someone could come up with a proposal for 
-it, although the discussions of such proposal should likely happen via 
-email.
-
-Also, the ones to be added there likely need to explicitly ack with
-such code before being added to gitlab's permission group.
-
-> revoking
-> commit rights shouldn't be hard as you just have to remove push rights
-> for that GitLab tree.
-
-Technically yes, but in practice this is usually very hard, as we're
-dealing with people that will very likely be very unhappy of getting banned.
-
-Thanks,
-Mauro
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
