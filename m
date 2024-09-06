@@ -1,164 +1,125 @@
-Return-Path: <linux-media+bounces-17826-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17827-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50CE96FC56
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 21:48:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAA896FC7E
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 22:02:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 385E928102E
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 19:48:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1811EB21865
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 20:02:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67BB01D6788;
-	Fri,  6 Sep 2024 19:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F18191D6788;
+	Fri,  6 Sep 2024 20:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Fy2+DCtI"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KBfwCypv";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="dOdrA8+j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a7-42.smtp-out.eu-west-1.amazonses.com (a7-42.smtp-out.eu-west-1.amazonses.com [54.240.7.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB966EB7C;
-	Fri,  6 Sep 2024 19:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226982BCF5;
+	Fri,  6 Sep 2024 20:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.7.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725652097; cv=none; b=qxg6unGRNSuA16x0iuHXFpBAIcPWb5aOpvEUQNMP/JFQSUq+YwtWZl6hiw7iuOz9vi13/hAPm8W3GjtPpf0eKn8NxcKXx0HsAr4iY3KNZFbrDNr4+8PlhcoCxhT81OAPQ+MM/MDAtMsZgCfWSFO476tU+FfVQGrfdOEwTzeNmGs=
+	t=1725652939; cv=none; b=oCuvh6opoQr9uQuNKJLlPPDQ58B63fCFu0e8fZICKZ86N+7sMSiWxFm2SrXllLjCWtgr+anIbbRa6bLECmItB97hW9O5tL+kD+W7la2A/w6ijTSfweEHbK50XUWzuw5PYXxZNdbukk6+sK58w+sSmkdMwOlrj/poVOZBKA/6YLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725652097; c=relaxed/simple;
-	bh=Ue8pqHqk+M1slk9kDJ7vbKUUmH3JA70snSffYA+4/q0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=a2F/390nOplCjGnrQksOEnMMq7b/DApUJxzSw2KimwHz0F6h190DSnS7NNOtDDfpmtFL86HOORzTnMKvkiMfkNkwbpZ9176EuV5w4041UGDd6LHZRVG0PCqYfZu40pVn8Xi/fKy22Me/FD3EuDvXcDHsngiiLp4bZYtBnDtkj5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Fy2+DCtI; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4868hk0f021803;
-	Fri, 6 Sep 2024 19:48:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	NA/5pkBd6SgZdss0M2e+CPDEPACI2C9W6/N8XKt+d2g=; b=Fy2+DCtIsEBGTy7r
-	PBba8d3/Ld/fS/EhpHakTCbxJhHFd0+YgSdm0bqR6ADEHzX6Xi7hfSlbMCHxqZ7Q
-	sEURJjMlCVkwwG3tNLjgtoE3SizRyYiaWn5CLOnRQNdBUTd79difxEqtMAtEZEnG
-	91V4UlYtVa5O0K65lnTNa3F/g0e6P50VOmF9uFj615/TQX+3GOm8mr7zinzH9Fou
-	YfnqBJcw1D/1sEi7dZOds4uFzWStlH1LQ+XEZC8+YGpZJQhGkTuNcLYqYHJhAMfP
-	wGU05SEPJewe4d+uvWELnfgLlGPwjYJaVqhm3VloM/iCQVLM+2311DSh7Lvd4QDt
-	itMk+A==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41fhwu38sv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Sep 2024 19:48:09 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 486Jm8ZK021332
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 6 Sep 2024 19:48:08 GMT
-Received: from [10.216.47.237] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Sep 2024
- 12:48:04 -0700
-Message-ID: <463caa4f-c32c-d74c-a8c6-1afbc22a877d@quicinc.com>
-Date: Sat, 7 Sep 2024 01:17:50 +0530
+	s=arc-20240116; t=1725652939; c=relaxed/simple;
+	bh=vj3ywybZ5L9YAyh1lIVp6jPH3WTnH0ExmDAOYOwj8dA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pwpAyvWZRmk0nUksbCv/BAWNXed1LnHOaULGjeWDIvF0NC9OemPetvZ726NZ7u+buhiqg6hImRRNVJz+DlZpUcPZH0NMHOfo+d7pWptHbvL3zQBfxilkQUeR+WgPS15BYFa2Ve8Bn2aBGq4CODQZqwIt3oDSPpDuZXbfOX26Gfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=amazonses.collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KBfwCypv; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=dOdrA8+j; arc=none smtp.client-ip=54.240.7.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1725652935;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Content-Type:MIME-Version:Content-Transfer-Encoding;
+	bh=vj3ywybZ5L9YAyh1lIVp6jPH3WTnH0ExmDAOYOwj8dA=;
+	b=KBfwCypvcRPdsL/Eo0DFYXrF2uApqQtwT6PvonrhhJDvZLsAxau0euqDaiSDUdxu
+	+/Nj4l2RhQ7GKV/tUfO2IjO60l+fvzncB2zyRf69Takz910PdyUltEEoBwdr7wuMPUY
+	TxmJ8RKKHAH2z+TSt3OtZK3L/1CK6ruxVr1azoWyL/wQz//PPoDzztOKqKFMRJ21oaH
+	qpe0NeQtrynWDqVbLCylgvFwLIOVMnXcQ3ZhdO4ZoUsqf5nn0yzN7zMSk6UvkGeugp5
+	qxdYa+U8y5zO7wpQ+U1gxA0TxQAYXB9o27RUjzPqIAn+Q/kiWB7bZ0/CNE51UATeqww
+	CCHi7mEaZA==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1725652935;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Content-Type:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+	bh=vj3ywybZ5L9YAyh1lIVp6jPH3WTnH0ExmDAOYOwj8dA=;
+	b=dOdrA8+jrpjcFCumpeWG9DyalV69rl6yMTX0Ziye+dYBdM81FVIz/vI37I4GiNix
+	FsIgyxdjuYRqfpvwiZ9N5tPCLv/jH02ra7BMfTmE0rwidMTDNCapSlvPCFUWKTM3UQS
+	TZiA8gddWV92lQNq3O9OlqVvGuVdspVajZAwJI9Y=
+Message-ID: <01020191c8ee20f9-9382cd7e-c3f5-4e19-a9d2-9222fd36e789-000000@eu-west-1.amazonses.com>
+Subject: Re: [PATCH v4 0/4] Add Synopsys DesignWare HDMI RX Controller
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Shreeya Patel <shreeya.patel@collabora.com>, 
+	Tim Surber <me@timsurber.de>
+Cc: heiko <heiko@sntech.de>, mchehab <mchehab@kernel.org>, 
+	robh <robh@kernel.org>, krzk+dt <krzk+dt@kernel.org>, 
+	conor+dt <conor+dt@kernel.org>, mturquette <mturquette@baylibre.com>, 
+	sboyd <sboyd@kernel.org>, "p.zabel" <p.zabel@pengutronix.de>, 
+	"jose.abreu" <jose.abreu@synopsys.com>, 
+	"nelson.costa" <nelson.costa@synopsys.com>, 
+	"shawn.wen" <shawn.wen@rock-chips.com>, 
+	hverkuil <hverkuil@xs4all.nl>, 
+	hverkuil-cisco <hverkuil-cisco@xs4all.nl>, 
+	kernel <kernel@collabora.com>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-media <linux-media@vger.kernel.org>, 
+	devicetree <devicetree@vger.kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	linux-rockchip <linux-rockchip@lists.infradead.org>
+Date: Fri, 6 Sep 2024 20:02:14 +0000
+In-Reply-To: <1919d97402f.b403f96c443474.1860819764033812181@collabora.com>
+References: <20240719124032.26852-1-shreeya.patel@collabora.com>
+	 <6f5c4ebb-84ab-4b65-9817-ac5f6158911f@timsurber.de>
+	 <19150697f90.11f343d091099757.4301715823219222254@collabora.com>
+	 <74850340-b662-4a58-b5eb-a4e352c5002c@timsurber.de>
+	 <1919d97402f.b403f96c443474.1860819764033812181@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3 04/29] media: iris: initialize power resources
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Dikshita Agarwal
-	<quic_dikshita@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
- <20240827-iris_v3-v3-4-c5fdbbe65e70@quicinc.com>
- <81fd218f-aa0f-4710-b832-cab927bfab9d@kernel.org>
- <ba747923-38de-5c05-9220-762c5272ec74@quicinc.com>
- <76ffb882-10f9-4737-afa2-9bb60248835d@kernel.org>
- <f88d8596-c6a0-356e-060e-81d68f038995@quicinc.com>
- <c7fd8c50-d5d9-4210-8253-457d7523eb30@kernel.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <c7fd8c50-d5d9-4210-8253-457d7523eb30@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 24FuV94a64TqePv22neLw2nI7091OTZN
-X-Proofpoint-ORIG-GUID: 24FuV94a64TqePv22neLw2nI7091OTZN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_05,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- lowpriorityscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
- priorityscore=1501 bulkscore=0 mlxscore=0 phishscore=0 suspectscore=0
- impostorscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2408220000 definitions=main-2409060146
+Content-Transfer-Encoding: 8bit
+Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
+X-SES-Outgoing: 2024.09.06-54.240.7.42
 
-Hi,
+Hi Shreya,
 
-On 9/6/2024 5:34 PM, Krzysztof Kozlowski wrote:
-> On 06/09/2024 13:21, Vikash Garodia wrote:
->>>>>
->>>>>> +	}
->>>>>> +
->>>>>>  	ret = v4l2_device_register(dev, &core->v4l2_dev);
->>>>>>  	if (ret)
->>>>>>  		return ret;
->>>>>> @@ -88,8 +101,14 @@ static int iris_probe(struct platform_device *pdev)
->>>>>>  }
->>>>>>  
->>>>>>  static const struct of_device_id iris_dt_match[] = {
->>>>>> -	{ .compatible = "qcom,sm8550-iris", },
->>>>>> -	{ .compatible = "qcom,sm8250-venus", },
->>>>>> +	{
->>>>>> +		.compatible = "qcom,sm8550-iris",
->>>>>> +		.data = &sm8550_data,
->>>>>> +	},
->>>>>> +	{
->>>>>> +		.compatible = "qcom,sm8250-venus",
->>>>>> +		.data = &sm8250_data,
->>>>>
->>>>> You just added this. No, please do not add code which is immediatly
->>>>> incorrect.
->>>> It's not incorrect, in earlier patch we only added the compatible strings
->>>> and with this patch introducing the platform data and APIs to get it.
->>>
->>> It is incorrect to immediately remove it. You keep arguing on basic
->>> stuff. Sorry, but that is not how it works. If you add code and
->>> IMMEDIATELY remove it, then it means the code was not needed. Or was not
->>> correct. Choose one.
->> I think it is not removing it. It is adding platform data to compatibles
->> introduced in previous patch. Maybe it appears as if it is removing it.
+Le jeudi 29 août 2024 à 15:33 +0530, Shreeya Patel a écrit :
+>  ---- On Thu, 29 Aug 2024 03:43:40 +0530  Tim Surber  wrote --- 
+>  > Hi Shreeya,
+>  > 
+>  > another hint:
+>  > 
+>  > Changing the EDID like you described fixed the 4k60fps BGR3 input.
+>  > 
+>  > But still for NV16/NV24 (I can't output NV12 for some reason) there is 
+>  > the error which Nicolas described.
+>  > 
+>  > The output from v4l2-ctl for NV16/NV24 is:
+>  > 
+>  > Plane 0           :
+>  >         Bytes per Line : 3840
+>  >         Size Image     : 8294400
+>  > 
+>  > According to Nicolas there should be an additional plane/more memory 
+>  > reserved.
+>  > 
 > 
-> I know how the diff works.
-Perhaps, i have misunderstood. Are you suggesting to add compat data and
-compatible string together in single patch rather than splitting it in 2 patches
-? If so, that would essentially end up squashing patch #3 and #4. Let me know if
-that would address your comment and we will plan to do that.
+> Yes, it could be possible that the imagesize is incorrect as we made some
+> modifications related to it in v4. I'll increase this as required by the NV12/24
+> and see if that fixes the issue.
 
-> The way you avoid solving the problem with trivial responses is not
-> helping. We already have been there with another patchset from different
-> person and it lead to annoying all DT maintainers and (usually very
-> patient) some of networking folks. I ask you to approach to the review
-> seriously.
-Please be assured that all comments are valued upon and are being taken seriously.
 
-> NAK.
-> 
-> Best regards,
-> Krzysztof
-> 
-Regards,
-Vikash
+Sorry for the slow feedback, just noticed this message. Please make sure to us
+v4l2-common, these exists exactly because no one can get strides and image size
+right on first go.
+
+Nicolas
 
