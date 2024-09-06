@@ -1,48 +1,74 @@
-Return-Path: <linux-media+bounces-17807-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17808-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1C396F890
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 17:45:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 737B396F8E2
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 17:58:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E19FC1C22B9F
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 15:45:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CEE14284090
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 15:58:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56B21D2F7D;
-	Fri,  6 Sep 2024 15:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CB801D365D;
+	Fri,  6 Sep 2024 15:56:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fdwhIyEF"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="quFOWuR9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DCD1D0DD7
-	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 15:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21341D363A
+	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 15:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725637533; cv=none; b=SL08hEmqHoHwnO+AqzSA9qgMgUu/pvBCqHoDCMMXKnbV0UZjzVoyXDWP9+JxBBqsVLf5SSxw4hFq3PQJY++bYG5gYoRGz9eeHMUqCdFlS27g0qLKpJ5ymCslRc6XdnCTKLqgcYMxmv++FYsHLjx0qvUhIWI69dT9sc4lBQp/AWI=
+	t=1725638188; cv=none; b=F37vWg8WTFvmBitF/l9BwOloK3y2kjyzoxMwSqlbtr1nQKwTnI9zQVVBO7H56R9pXbrCJG40cQf61mPhly5FsG9PYDPcGyNvuRd5Kh8U3j02JJSjN5vxZnPu916J817k78Km/0N/kxEkdBSX46Yxb51LkGx5vkS6fG+6uajF+oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725637533; c=relaxed/simple;
-	bh=bv28PMzp5y281VOW3n9WwK1mO641QgRvbaHNAxd/7JE=;
+	s=arc-20240116; t=1725638188; c=relaxed/simple;
+	bh=4cg8BWc+R6nIy9hv+UKxy2CN9dth+ZpDiVs7xRNz7MQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I8S31uXnkNKT5DlHneHuVukYA4I3YGEqmX+SNVJg4JXv9Faxq8vhVj42D3/Zu1UVRgroM0ByTP4FcYns+JXb/v2a+C9VhB8vmP+XKtk0npCx4SK8j3VRjq39SRrxjkgxpNdU1KFzu2OHtq2AhL1F/2oxRP84BpVTKiUIJYn5jsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fdwhIyEF; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4AEED160;
-	Fri,  6 Sep 2024 17:44:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725637454;
-	bh=bv28PMzp5y281VOW3n9WwK1mO641QgRvbaHNAxd/7JE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fdwhIyEFi+FyUCIUmXwSlspioRboM/XOGPuZ1twWWHvnp5FNTeZLynx7M4WoZiniu
-	 dhVt9WbiFdXtbeVuaT/AYC4qurZNubNa9XZ7K/iNL2vCv0vi5dWJajzpd4SYBuRLKA
-	 vUoMKlynmwfVTROunnZDlMWp5n7fgm7relZy0A5w=
-Message-ID: <e7136e95-2dd1-4c87-ae32-027f2514d9f3@ideasonboard.com>
-Date: Fri, 6 Sep 2024 18:45:25 +0300
+	 In-Reply-To:Content-Type; b=MblQPNcVom3MVn5uUyiNPEawSRPUki/Xh3drFbN5FbM06TZ8499webvwNbc5lbDjBDJwvlTWz8G4mh9C7wazqEaJzhbFNeOcoVjky8iHVx1K18umJC1liPUkz7wzyxbV1+LESWFhhmfqZ/ftjxgXj1cvBuQom7a2WIBJyjAL5JQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=quFOWuR9; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53569ef26e6so319222e87.1
+        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2024 08:56:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725638185; x=1726242985; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dWoWkKXcwQY4B/OesPC+cf/kmi3mDig7H7BN4yK6Ob0=;
+        b=quFOWuR96oVuiGT6QPl5Fr1IccZaJkv+FM70KKebhGP3PQLR375amyVUIiWwbPI4vz
+         inxECC2M1YPFf5nJkg2xprsjfEZpcSGSi0NK7rxrjhgxrGXZeOyvrVxf9GyIJBszDsFx
+         Ks5EUrKMi8Me8DT2P2rJbwaODj1FZjJH8pRcwbe4iXuB5DFGgcRUFqOlM+uHeQzDu0mF
+         YAg4rK5bDWRgaEs061eVfi8I8HQosWZGHa7yHj28WaKS6KR0q/KTlPYFuZ+xpaFQIVKE
+         C6twBFTQZy/YVH7/hMzwTGN/Mgmh6uHk2NEnZQLMtUhDhs+hObHkNOdG6SZ60ySsK4C+
+         xAtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725638185; x=1726242985;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dWoWkKXcwQY4B/OesPC+cf/kmi3mDig7H7BN4yK6Ob0=;
+        b=guNInltBDV2BhkQi1uw49MqS4l8ptj/RJlwyvW1PeobPHtxrSM79FUFHTWOZ9/xpu9
+         nGOmKnWun1+Ou4SIl5bElVQqmIIMaUc/43BXHSWB81VNsH0BOkeBUdCY2sXDNbjEVcYX
+         1a82uO8sHSpN+cJL8zSDAPJKt0M5AiXp2VmOwgI/ESM/cbM6CKoh860EFRjbMq6KOtVZ
+         u2EtJlgAXHvu5ZLl72ePTOTzc9UnOwpu0L5wDHDP275VHaN6peoKaYu08gxu24MbQqB5
+         X+GKK1JziWR16IrpM+FIGmf+UDhDrAg9ZKt2ZzpIHlAJDLADMksDM3jfBtvu7wWJB4mD
+         pnyw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmY+JPRYwRYzowI04bp3wIoK10q1qqO8v4QiKH5Cat9EmmKwYKxgkPHN/nMFj7nMBW9EnM0pxfFXc3wQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzjd5mqG7kwt+V3Kr+qNorGGFWd5814PWDUGxWaX4oaJROwZ7Sl
+	+zZMGNwdu5r2GetCeXV9RV/tFIPUO2uvpkizglCeuBYSefomKxWQb2w3SYD0OJk=
+X-Google-Smtp-Source: AGHT+IHh37EyeaRel9WOT+5cYxUN6vbPMzhO5ZvdhSAMl9nsZgy9x61BK3F6TLnHqCmkvobrxQ92oQ==
+X-Received: by 2002:a05:6512:acf:b0:52c:ce28:82bf with SMTP id 2adb3069b0e04-536587b3f3amr1186678e87.5.1725638184796;
+        Fri, 06 Sep 2024 08:56:24 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53569471e85sm679367e87.139.2024.09.06.08.56.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Sep 2024 08:56:24 -0700 (PDT)
+Message-ID: <9ed92660-5f42-4a1a-9261-b8800133972a@linaro.org>
+Date: Fri, 6 Sep 2024 18:56:22 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,86 +76,258 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Race in rcar-v4l2.c
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: linux-media@vger.kernel.org
-References: <af3f0b7c-d184-4b2e-bb75-6349ef32e4c3@ideasonboard.com>
- <20240906101446.GS3708622@fsdn.se>
- <fbb2f448-c253-44b0-82ae-e9d751b469e2@ideasonboard.com>
- <c8feb1c4-ec6a-4ea9-b8cd-cb10d99e09ca@ideasonboard.com>
- <ff998461-29fc-4e8c-8a59-dadbe971bf63@ideasonboard.com>
- <20240906134604.GT3708622@fsdn.se>
- <144b60f7-70f7-4f8e-936d-9689cf6d1120@ideasonboard.com>
- <20240906151822.GV3708622@fsdn.se>
+Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
+ binding
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240906151822.GV3708622@fsdn.se>
+To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-8-quic_depengs@quicinc.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20240812144131.369378-8-quic_depengs@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 06/09/2024 18:18, Niklas Söderlund wrote:
-> On 2024-09-06 17:13:28 +0300, Tomi Valkeinen wrote:
->>> Awesome! I will try to find some time soon and rebase that series, I
->>> think I have an idea on how to avoid having to mock around in the
->>> v4l-async core and still achieve the same thing.
->>
->> Hmm, do you mean "[PATCH] media: v4l: async: Fix completion of chained
->> subnotifiers"? I only now noticed that. I did not apply that... Should I
->> have?
+Hi Depeng,
+
+On 8/12/24 17:41, Depeng Shao wrote:
+> Add bindings for qcom,sm8550-camss in order to support the camera
+> subsystem for sm8550.
 > 
-> If you got video nodes from rcar-vin then there is no need. Without it
-> there is a dependency on probe order for the VIN instances, if done in
-> "incorrect" order the complete callback is not called and no video
-> device nodes are registered.
+> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
+> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
+> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
 
-I noticed that if I don't load the max96712 driver at all, I still get a 
-media pipeline, with only rcar_isp and rcar_csi2 in it. I'd expect to 
-get no media pipeline as a component is missing. I applied the patch 
-above, but it didn't affect this problem.
+there are a few more things, which I noticed.
 
-  Tomi
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        camss: camss@ace4000 {
+> +            compatible = "qcom,sm8550-camss";
+> +
+> +            reg = <0 0x0acb7000 0 0xd00>,
+> +                  <0 0x0acb9000 0 0xd00>,
+> +                  <0 0x0acbb000 0 0xd00>,
+> +                  <0 0x0acca000 0 0xa00>,
+> +                  <0 0x0acce000 0 0xa00>,
+> +                  <0 0x0acb6000 0 0x1000>,
+> +                  <0 0x0ace4000 0 0x2000>,
+> +                  <0 0x0ace6000 0 0x2000>,
+> +                  <0 0x0ace8000 0 0x2000>,
+> +                  <0 0x0acea000 0 0x2000>,
+> +                  <0 0x0acec000 0 0x2000>,
+> +                  <0 0x0acee000 0 0x2000>,
+> +                  <0 0x0acf0000 0 0x2000>,
+> +                  <0 0x0acf2000 0 0x2000>,
+> +                  <0 0x0ac62000 0 0xf000>,
+> +                  <0 0x0ac71000 0 0xf000>,
+> +                  <0 0x0ac80000 0 0xf000>,
+> +                  <0 0x0accb000 0 0x2800>,
+> +                  <0 0x0accf000 0 0x2800>;
 
+Please sort the list above in numerical order, this will change positions
+of "vfe_lite0", "vfe_lite1" etc.
+
+Another note, since it's not possible to map less than a page, so I believe
+it might make sense to align all sizes to 0x1000.
+
+> +            reg-names = "csid0",
+> +                        "csid1",
+> +                        "csid2",
+> +                        "csid_lite0",
+> +                        "csid_lite1",
+> +                        "csid_top",
+> +                        "csiphy0",
+> +                        "csiphy1",
+> +                        "csiphy2",
+> +                        "csiphy3",
+> +                        "csiphy4",
+> +                        "csiphy5",
+> +                        "csiphy6",
+> +                        "csiphy7",
+> +                        "vfe0",
+> +                        "vfe1",
+> +                        "vfe2",
+> +                        "vfe_lite0",
+> +                        "vfe_lite1";
+> +
+> +            clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+> +                     <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +                     <&camcc CAM_CC_CPAS_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_LITE_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_0_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_1_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_2_CLK>,
+> +                     <&camcc CAM_CC_CSID_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY0_CLK>,
+> +                     <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY1_CLK>,
+> +                     <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY2_CLK>,
+> +                     <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY3_CLK>,
+> +                     <&camcc CAM_CC_CSI3PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY4_CLK>,
+> +                     <&camcc CAM_CC_CSI4PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY5_CLK>,
+> +                     <&camcc CAM_CC_CSI5PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY6_CLK>,
+> +                     <&camcc CAM_CC_CSI6PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY7_CLK>,
+> +                     <&camcc CAM_CC_CSI7PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSID_CSIPHY_RX_CLK>,
+> +                     <&camcc CAM_CC_IFE_0_CLK>,
+> +                     <&camcc CAM_CC_IFE_0_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_1_CLK>,
+> +                     <&camcc CAM_CC_IFE_1_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_2_CLK>,
+> +                     <&camcc CAM_CC_IFE_2_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CSID_CLK>,
+> +                     <&gcc GCC_CAMERA_HF_AXI_CLK>;
+
+Could you please put the &gcc provided clock as the first one in the list?
+
+> +
+> +            clock-names = "camnoc_axi",
+> +                          "cpas_ahb",
+> +                          "cpas_fast_ahb_clk",
+> +                          "cpas_ife_lite",
+> +                          "cpas_vfe0",
+> +                          "cpas_vfe1",
+> +                          "cpas_vfe2",
+> +                          "csid",
+> +                          "csiphy0",
+> +                          "csiphy0_timer",
+> +                          "csiphy1",
+> +                          "csiphy1_timer",
+> +                          "csiphy2",
+> +                          "csiphy2_timer",
+> +                          "csiphy3",
+> +                          "csiphy3_timer",
+> +                          "csiphy4",
+> +                          "csiphy4_timer",
+> +                          "csiphy5",
+> +                          "csiphy5_timer",
+> +                          "csiphy6",
+> +                          "csiphy6_timer",
+> +                          "csiphy7",
+> +                          "csiphy7_timer",
+> +                          "csiphy_rx",
+> +                          "vfe0",
+> +                          "vfe0_fast_ahb",
+> +                          "vfe1",
+> +                          "vfe1_fast_ahb",
+> +                          "vfe2",
+> +                          "vfe2_fast_ahb",
+> +                          "vfe_lite",
+> +                          "vfe_lite_ahb",
+> +                          "vfe_lite_cphy_rx",
+> +                          "vfe_lite_csid",
+> +                          "gcc_axi_hf";
+> +
+> +            interconnects = <&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_CAMERA_CFG 0>,
+> +                            <&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI1 0>,
+> +                            <&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt SLAVE_EBI1 0>,
+> +                            <&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt SLAVE_EBI1 0>;
+> +            interconnect-names = "ahb",
+> +                                 "hf_0_mnoc",
+> +                                 "icp_mnoc",
+> +                                 "sf_0_mnoc";
+
+Just a note for myself, interconnect names lost "cam_" prefix, and it should
+be fine.
+
+> +
+> +            interrupts = <GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 431 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 605 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 376 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 278 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 277 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 604 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 688 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 606 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +            interrupt-names = "csid0",
+> +                              "csid1",
+> +                              "csid2",
+> +                              "csid_lite0",
+> +                              "csid_lite1",
+> +                              "csiphy0",
+> +                              "csiphy1",
+> +                              "csiphy2",
+> +                              "csiphy3",
+> +                              "csiphy4",
+> +                              "csiphy5",
+> +                              "csiphy6",
+> +                              "csiphy7",
+> +                              "vfe0",
+> +                              "vfe1",
+> +                              "vfe2",
+> +                              "vfe_lite0",
+> +                              "vfe_lite1";
+> +
+> +            iommus = <&apps_smmu 0x800 0x20>;
+> +
+> +            power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
+> +                            <&camcc CAM_CC_IFE_1_GDSC>,
+> +                            <&camcc CAM_CC_IFE_2_GDSC>,
+> +                            <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +            power-domain-names = "ife0",
+> +                                 "ife1",
+> +                                 "ife2",
+> +                                 "top";
+> +
+> +            vdda-phy-supply = <&vreg_l1e_0p88>;
+> +            vdda-pll-supply = <&vreg_l3e_1p2>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+
+In case of a single child node #address-cells/#size-cells could be omitted,
+if I'm not mistaken about it...
+
+> +                port@0 {
+> +                    reg = <0>;
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+
+Same as above.
+
+> +
+> +                    csiphy_ep0: endpoint@0 {
+> +                        reg = <0>;
+> +                        clock-lanes = <7>;
+> +                        data-lanes = <0 1>;
+> +                        remote-endpoint = <&sensor_ep>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+
+--
+Best wishes,
+Vladimir
 
