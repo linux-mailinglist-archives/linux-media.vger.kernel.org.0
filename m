@@ -1,272 +1,206 @@
-Return-Path: <linux-media+bounces-17766-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17767-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BEB696F310
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 13:28:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A96E96F313
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 13:28:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CF61284F95
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 11:28:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FB131F24029
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 11:28:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E4BC1CB31E;
-	Fri,  6 Sep 2024 11:27:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E3171CBE89;
+	Fri,  6 Sep 2024 11:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="a2e2SYxL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vDkiP1tj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A9E1CB306;
-	Fri,  6 Sep 2024 11:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6C81CB306
+	for <linux-media@vger.kernel.org>; Fri,  6 Sep 2024 11:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725622078; cv=none; b=P4h7avPUzIi7ZT8J81Eq7EQq09wSGz+jHCe4IP66Mr6xgeds2pTN6fNvxueDp0Yx3LVKV09xVcBD+1gae1iOjh9tBV4vuDA68OudZXcXj5Sqr8Qjrlgf9yf/FYXICD9QE3iuOgIy4neseAJl6DYCvjPiSu7v9QqKhUfHE8zu3AE=
+	t=1725622086; cv=none; b=C5ujIx30IV295Q+ayAHGvqWLBrUIrybCJigPSF2UfE9hHX87RA5jIh/3CSWFxpvoX8lVhJGCzSiXh23PCXSWmC1fNhULohZcao6HCgv19AUfAM3UPvq8Vlf4J+XhBNt6rCuWV3F544xTvamgRU1slZ63bvJT3TBV0Xxem840FCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725622078; c=relaxed/simple;
-	bh=JS9tCM7zRwVfmi+uCTwHUfXz53NUIe6pPP+J2IRd2NU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=O7C6roVyIBQcTmqAN4IUSgGZNng6mjJQgPujUwFjs75knMN9USs5MresYUBPrAYVHTTvclYXIj3ORhLo6s0pfCO/mvX/ZuDdqjhj6dAToEFzWsRNRZSCVx0rTEv5QnEIfIhsTtxwZ/f1TYLOGPqRZdeR/ODX5HSnD0cfTomRW14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=a2e2SYxL; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4868WQma019626;
-	Fri, 6 Sep 2024 11:27:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	NuMwQdQx744DZopb396rXYPa1vSCfM568MDlnN/j46k=; b=a2e2SYxL66W4ugWU
-	q8pzMonHXohTgIi7Px47VrIWfPh7+J2cBuzCXq2l7ddjdWxSaTjEkhI6Fm94dksC
-	1SR3skyc2hVV1JEXBZyW5OH3Cq0oxsy2HXXPThsQjNx2G7TSECw3vI3oplkRjXGu
-	lCIf/wcXbD/nohFcBPva4TqbzrYHIKLiyu65r8BGq+5XToTJrgcE8Zj8MjGvBT96
-	fangiAIwyvXh8TVkJjgoqXUHhfS/ZGWikXB+uTm50JlOJ2jsmqyV4GhKRZtfkQZu
-	C5TTFDzmeUxJe2bUL3vsMPaIdzyNT7teV2rV5Z58pn/3X7wMk8ZRABgu65DrCiAw
-	K/EpxA==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41fhwu243x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Sep 2024 11:27:50 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 486BRn6u028826
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 6 Sep 2024 11:27:49 GMT
-Received: from [10.204.100.69] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Sep 2024
- 04:27:46 -0700
-Message-ID: <edf7beb9-6457-f089-7fb6-f54a382d6e8b@quicinc.com>
-Date: Fri, 6 Sep 2024 16:57:43 +0530
+	s=arc-20240116; t=1725622086; c=relaxed/simple;
+	bh=MolLPwKSrfECjEKA6RH+nPz+dFPPcVfpOJ7Ga3eVHzs=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=MdOBPj4gDFV4KFmcSmlFKBi5HjHW0ntW6I1LBZvgWZwbJh+oZoC7mJvSgqrgUaG9OgKyVp9IhPPncFZ83zIl6IpeIpgsDi9WW+XcGltAbZqRoHWQosLNeq8TP6AriL4sSFP2VuYitbPuaWRrNsQgrdEEUcbgaY3V7zYUXC4nb4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vDkiP1tj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B001545B;
+	Fri,  6 Sep 2024 13:26:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725622008;
+	bh=MolLPwKSrfECjEKA6RH+nPz+dFPPcVfpOJ7Ga3eVHzs=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=vDkiP1tjDmSclOZ1eQj3fyxMxxhLlRngqmVb0n/eTJiBvdOgwyQEJjQDM54ld+8JL
+	 63Qptk98jgEf++HoVOqhyVYGASJiDnm/x65gUP9g330ddYEx9slHqekeBG4e1PSYFh
+	 et3jq65DGgSkkGcMw5lvz+CncllsKyGTtJCZ/gaw=
+Message-ID: <c8feb1c4-ec6a-4ea9-b8cd-cb10d99e09ca@ideasonboard.com>
+Date: Fri, 6 Sep 2024 14:27:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3 08/29] media: iris: implement boot sequence of the
- firmware
+User-Agent: Mozilla Thunderbird
+Subject: Re: Race in rcar-v4l2.c
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: linux-media@vger.kernel.org
+References: <af3f0b7c-d184-4b2e-bb75-6349ef32e4c3@ideasonboard.com>
+ <20240906101446.GS3708622@fsdn.se>
+ <fbb2f448-c253-44b0-82ae-e9d751b469e2@ideasonboard.com>
 Content-Language: en-US
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <quic_dikshita@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
- <20240827-iris_v3-v3-8-c5fdbbe65e70@quicinc.com>
- <3b578b1b-53d5-4f2d-a2b8-8483a4051a24@linaro.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <3b578b1b-53d5-4f2d-a2b8-8483a4051a24@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <fbb2f448-c253-44b0-82ae-e9d751b469e2@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: gOE_NPhob6W3D9x7PohB_vE9NflCPhoi
-X-Proofpoint-GUID: gOE_NPhob6W3D9x7PohB_vE9NflCPhoi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-05_17,2024-09-05_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 bulkscore=0 adultscore=0 suspectscore=0
- clxscore=1015 mlxscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409060083
 
-Hi Bryan,
+Hi,
 
-On 9/5/2024 6:04 PM, Bryan O'Donoghue wrote:
-> On 27/08/2024 11:05, Dikshita Agarwal via B4 Relay wrote:
->> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+On 06/09/2024 14:14, Tomi Valkeinen wrote:
+> Hi Niklas,
+> 
+> On 06/09/2024 13:14, Niklas Söderlund wrote:
+>> Hi Tomi,
 >>
->> Set memory region to firmware and implement boot sequence.
+>> Thanks for your report.
 >>
->> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->> ---
->>   drivers/media/platform/qcom/iris/Makefile          |  1 +
->>   drivers/media/platform/qcom/iris/iris_core.c       |  7 ++
->>   .../platform/qcom/iris/iris_platform_common.h      |  1 +
->>   .../platform/qcom/iris/iris_platform_sm8550.c      |  3 +
->>   drivers/media/platform/qcom/iris/iris_vpu_common.c | 87 ++++++++++++++++++++++
->>   drivers/media/platform/qcom/iris/iris_vpu_common.h | 13 ++++
->>   6 files changed, 112 insertions(+)
+>> I have an on-going series trying to clean this all up [1]. The one
+>> change in the v4l-async core I proposed was however rejected and I have
+>> yet to circle back to figure out a different solution.
 >>
->> diff --git a/drivers/media/platform/qcom/iris/Makefile
->> b/drivers/media/platform/qcom/iris/Makefile
->> index ddd4c994a0b9..95f4e92fe085 100644
->> --- a/drivers/media/platform/qcom/iris/Makefile
->> +++ b/drivers/media/platform/qcom/iris/Makefile
->> @@ -8,5 +8,6 @@ iris-objs += iris_core.o \
->>                iris_probe.o \
->>                iris_resources.o \
->>                iris_vidc.o \
->> +             iris_vpu_common.o \
->>     obj-$(CONFIG_VIDEO_QCOM_IRIS) += iris.o
->> diff --git a/drivers/media/platform/qcom/iris/iris_core.c
->> b/drivers/media/platform/qcom/iris/iris_core.c
->> index 8c7d53c57086..5ad66ac113ae 100644
->> --- a/drivers/media/platform/qcom/iris/iris_core.c
->> +++ b/drivers/media/platform/qcom/iris/iris_core.c
->> @@ -6,6 +6,7 @@
->>   #include "iris_core.h"
->>   #include "iris_firmware.h"
->>   #include "iris_state.h"
->> +#include "iris_vpu_common.h"
->>     void iris_core_deinit(struct iris_core *core)
->>   {
->> @@ -39,10 +40,16 @@ int iris_core_init(struct iris_core *core)
->>       if (ret)
->>           goto error_queue_deinit;
->>   +    ret = iris_vpu_boot_firmware(core);
->> +    if (ret)
->> +        goto error_unload_fw;
->> +
->>       mutex_unlock(&core->lock);
->>         return 0;
->>   +error_unload_fw:
->> +    iris_fw_unload(core);
->>   error_queue_deinit:
->>       iris_hfi_queues_deinit(core);
->>   error:
->> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h
->> b/drivers/media/platform/qcom/iris/iris_platform_common.h
->> index 9c919367f9d7..47fdebd8135c 100644
->> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
->> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
->> @@ -45,6 +45,7 @@ struct iris_platform_data {
->>       const char *fwname;
->>       u32 pas_id;
->>       struct tz_cp_config *tz_cp_config_data;
->> +    u32 core_arch;
->>   };
->>     #endif
->> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
->> b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
->> index 1bb34c3e6e18..a559e095fefc 100644
->> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
->> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
->> @@ -8,6 +8,8 @@
->>   #include "iris_platform_common.h"
->>   #include "iris_resources.h"
->>   +#define VIDEO_ARCH_LX 1
->> +
->>   static const struct icc_info sm8550_icc_table[] = {
->>       { "cpu-cfg",    1000, 1000     },
->>       { "video-mem",  1000, 15000000 },
->> @@ -48,4 +50,5 @@ struct iris_platform_data sm8550_data = {
->>       .fwname = "qcom/vpu/vpu30_p4.mbn",
->>       .pas_id = IRIS_PAS_ID,
->>       .tz_cp_config_data = &tz_cp_config_sm8550,
->> +    .core_arch = VIDEO_ARCH_LX,
->>   };
->> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c
->> b/drivers/media/platform/qcom/iris/iris_vpu_common.c
->> new file mode 100644
->> index 000000000000..df87b1b719a9
->> --- /dev/null
->> +++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
->> @@ -0,0 +1,87 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->> + */
->> +
->> +#include <linux/iopoll.h>
->> +
->> +#include "iris_core.h"
->> +#include "iris_vpu_common.h"
->> +
->> +#define CPU_BASE_OFFS                0x000A0000
->> +
->> +#define CPU_CS_BASE_OFFS            (CPU_BASE_OFFS)
->> +
->> +#define CTRL_INIT                (CPU_CS_BASE_OFFS + 0x48)
->> +#define CTRL_STATUS                (CPU_CS_BASE_OFFS + 0x4C)
->> +
->> +#define CTRL_ERROR_STATUS__M            0xfe
->> +
->> +#define QTBL_INFO                (CPU_CS_BASE_OFFS + 0x50)
->> +#define QTBL_ADDR                (CPU_CS_BASE_OFFS + 0x54)
->> +#define CPU_CS_SCIACMDARG3            (CPU_CS_BASE_OFFS + 0x58)
->> +#define SFR_ADDR                (CPU_CS_BASE_OFFS + 0x5C)
->> +#define UC_REGION_ADDR                (CPU_CS_BASE_OFFS + 0x64)
->> +#define UC_REGION_SIZE                (CPU_CS_BASE_OFFS + 0x68)
->> +
->> +#define CPU_CS_H2XSOFTINTEN            (CPU_CS_BASE_OFFS + 0x148)
->> +#define CPU_CS_X2RPMH                (CPU_CS_BASE_OFFS + 0x168)
->> +
->> +static void iris_vpu_setup_ucregion_memory_map(struct iris_core *core)
->> +{
->> +    u32 queue_size, value;
->> +
->> +    /* Iris hardware requires 4K queue alignment */
->> +    queue_size = ALIGN(sizeof(struct iris_hfi_queue_table_header) +
->> +        (IFACEQ_QUEUE_SIZE * IFACEQ_NUMQ), SZ_4K);
->> +
->> +    value = (u32)core->iface_q_table_daddr;
->> +    writel(value, core->reg_base + UC_REGION_ADDR);
->> +
->> +    /* Iris hardware requires 1M queue alignment */
->> +    value = ALIGN(SFR_SIZE + queue_size, SZ_1M);
->> +    writel(value, core->reg_base + UC_REGION_SIZE);
->> +
->> +    value = (u32)core->iface_q_table_daddr;
->> +    writel(value, core->reg_base + QTBL_ADDR);
->> +
->> +    writel(0x01, core->reg_base + QTBL_INFO);
+>> Could you give it a try and see if it also solves this issue?
+>>
+>> 1. [PATCH 0/6] media: rcar-vin: Make use of multiple connections in 
+>> v4l-async
+>>     https://lore.kernel.org/linux-renesas- 
+>> soc/20240129202254.1126012-1-niklas.soderlund+renesas@ragnatech.se/
 > 
-> A general comment I have is instead of writing hard-coded values to registers we
-> should define at a minimum the bit-fields we use if not the entire set of
-> bits-fields for the register.
+> The compilation fails (broken in media: rcar-vin: Simplify remote source 
+> type detection) with:
 > 
-> The only exception to this is when we don't know what those values are - for
-> example receiving a magic write sequence for a camera sensor.
+> drivers/media/platform/renesas/rcar-vin/rcar-dma.c:767:24: error: 
+> ‘struct rvin_dev’ has no member named ‘is_csi’
 > 
-> In this case though we have full access to enumerate the register bit-fields.
-> 
-> Without looking at the register descriptions I guess this bit is an enable or a
-> startup bit =>
-> 
-> #define QTBL_INFO_EN BIT(0)
-Yes, we should expand the bits being set to provide better context to it. There
-are few other places as well, primarily the power on/off sequences, will update it.
+> If I hack past that, I don't see the warnings anymore. But if I'm not 
+> mistaken, rvin_release() is not called at all anymore. I can also see 
+> plenty of leaks with kmemleak. Those seem to originate from max96712, 
+> but... I don't see max96712's remove() getting called either when I 
+> remove the module.
 
-> 
-> I'll not go through this series reiterating this comment but, it certainly
-> applies to any bit-field/register in the same => please define at least the bits
-> used if not the full set of bits for register writes instead of using magic
-> numbers.
-> 
-> ---
-> bod
+Sorry, never mind that. I had the debug print in max96714... =). So 
+max96712 remove() gets called, but it's missing:
 
-Regards,
-Vikash
++       v4l2_subdev_cleanup(&priv->sd);
++       media_entity_cleanup(&priv->sd.entity);
++       v4l2_ctrl_handler_free(&priv->ctrl_handler);
+
+But now I'm seeing rvin_release() getting called (no warnings). I'm not 
+sure what changed. Maybe I had some extra changes lying around. Let me 
+test the series a bit more...
+
+  Tomi
+
+> I'm testing on Renesas' whitehawk board, with max96712 TPG. If you have 
+> that board, and want to try module loading & unloading, you also need to 
+> fix the max96712 remove function:
+> 
+> -       struct max96712_priv *priv = i2c_get_clientdata(client);
+> +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +       struct max96712_priv *priv = v4l2_get_subdevdata(sd);
+> 
+>   Tomi
+> 
+>> On 2024-09-06 12:57:50 +0300, Tomi Valkeinen wrote:
+>>> Hi Niklas,
+>>>
+>>> There seems to be a race in rcar-v4l2.c, causing
+>>> WARN_ON(entity->use_count < 0) in pipeline_pm_power_one().
+>>>
+>>> If my understanding is correct, the VIN v4l2 nodes are being created
+>>> (rvin_v4l2_register), meaning they are userspace accessible, but the 
+>>> media
+>>> pipeline as a whole is not ready yet (e.g. media links).
+>>>
+>>> So what happens is that after some video nodes have been created, the
+>>> userspace opens them (I think it's udevd checking the new device nodes),
+>>> causing rvin_open(). rvin_open() goes through the media graph and 
+>>> does some
+>>> PM enabling (I'm not familiar with the legacy v4l2_pipeline_pm_get()).
+>>> However, as the links are not there, it doesn't really enable much at 
+>>> all.
+>>>
+>>> Then the driver goes forward and finishes with the media graph.
+>>>
+>>> Then the userspace closes the opened video nodes, rvin_release() gets 
+>>> called
+>>> and it goes through the media graph, which now contains all the 
+>>> entities,
+>>> and powers them down. As the entities were never powered up, we hit the
+>>> use_count warning.
+>>>
+>>> This happens quite often to me when loading the modules, but I think 
+>>> it can
+>>> be made to happen more often by adding msleep(1000) to the beginning of
+>>> rvin_release(), thus ensuring that the graph setup is finished before 
+>>> the
+>>> rvin_release() proceeds (and hoping that the graph setup was not 
+>>> ready when
+>>> rvin_open() was called).
+>>>
+>>>   Tomi
+>>>
+>>
+> 
+
 
