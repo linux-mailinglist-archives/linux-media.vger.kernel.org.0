@@ -1,118 +1,131 @@
-Return-Path: <linux-media+bounces-17729-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17730-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F398D96E9E8
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 08:16:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D883196EBD7
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 09:21:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A02D01F23E51
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 06:16:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BACE282395
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 07:21:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2D0A141987;
-	Fri,  6 Sep 2024 06:15:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D8A014BFBF;
+	Fri,  6 Sep 2024 07:21:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ps6pc50W"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a10YbZlr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F74512EBDB;
-	Fri,  6 Sep 2024 06:15:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E6E17C9B;
+	Fri,  6 Sep 2024 07:21:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725603348; cv=none; b=RvBTB7YoHmSWGAsPT16/7/H4+3jerK29rJsFvRfh22HWeXG6Wap9pLDSXxiw0KvSykU4HSqUCUOHLbN1Vybzgec5YPV0C8ZjLhlBx13BTH+kT2oBr2l8bm19hNUoDRJFzTiOaDn6TxB6Pfc2pQcQgUxW/dM3UUEqpFky//Frzvk=
+	t=1725607269; cv=none; b=FVJ3fT4S5c7uODBwQlyL1Gc5CN41OJz8dyPRVh4Jt9bTRNpWQt+0ZnOyO+iU5DGJuOVoB00vUZzFoLHp34Gx1z9eR2/LgzxvpOQ73QAYcPlZ+zXMfi0x0ZBn+xrGrJh7KcwI094afehyeELAZGLd6Gqye0OOeBffGHmYv5ERAmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725603348; c=relaxed/simple;
-	bh=uKrZh1jdPMoORV9fa/jntxXR+oVK/tJHtgjFJMvQhDM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rgfD5FhmNMk9PxlJ/L81OrP1AOlMGQhlwDazaOXn15sz5qJ4yZAcCE9OF5T7mm7dfwHnqNTz6lb2vpVwwALbnueqIy3DRgwjtAO9Xs8hXk164A1KV7G4t8pPAc5eHo3jqfcc5a/ckL6f36WCsUvrqhXNxC6tfDjl0h14mzlBbqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ps6pc50W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6921BC4CEC4;
-	Fri,  6 Sep 2024 06:15:45 +0000 (UTC)
+	s=arc-20240116; t=1725607269; c=relaxed/simple;
+	bh=XH2QzjP1CufEq8D/+0yCvenvO3KuEuFwhuTKcq7Vxz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HofZW//Ibn9t8j5BNQt9qhmM8XBzsolKGRmlzDOL2UyppFe4RdnCA9X3QiziKTsuJjkIeVqHfqPYpV7eusxKWSCnps2p+YK5Pt3Q2FjM0HdSSzUawRmfnLwUqe/Ws4owW8+5oKeVcdVeCvwvWe0WJfV9+OfJGIAiaSatEaZpzFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a10YbZlr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4984FC4CEC4;
+	Fri,  6 Sep 2024 07:21:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725603347;
-	bh=uKrZh1jdPMoORV9fa/jntxXR+oVK/tJHtgjFJMvQhDM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Ps6pc50WPRj+gGrrhcCgI1vqj3/y19/szxyR5TX9GQNLi47ORzP+tceC7Ds9VzCU+
-	 rHF8pDfOh5gHhI/+rfK68w9u3sfA7nJfB3Vv3Js54B6y7s+pcKyuvpdZN3aJWPT3m8
-	 2lMvhV9tpgldf2peTp2RTG0kTR4Y2CIoIWsMLKyg1KEYawD6S64A2gdwBgTZP94p7t
-	 Nd4Sy+GCCjExEuW3++SpElM5qTlkqjjTmucqge9gDB54ijG2uaEgqNQG7hq/LobZlo
-	 vIHnR7BTeucWKPSU1qBbJqG2A8yYsGAsIFGGobZXlbQjjawcay5ychqy2amTcaxDL3
-	 orRoyuEetyTJQ==
-Date: Fri, 6 Sep 2024 08:15:42 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Hans de Goede
- <hdegoede@redhat.com>
-Cc: David.Laight@ACULAB.COM, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: atomisp: Use clamp_t() in
- ia_css_eed1_8_vmem_encode()
-Message-ID: <20240906081542.5cb0c142@foz.lan>
-In-Reply-To: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
-References: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1725607269;
+	bh=XH2QzjP1CufEq8D/+0yCvenvO3KuEuFwhuTKcq7Vxz0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a10YbZlrC+BkaBwuH8U8LtN0ZB3KbrVXgtag0KdHoq3/qt+tPPotLhyGEaAmy73x+
+	 WcHqA5ncjVzF2JRLrtuubpDHf0ABaIQd+gRUZLBVcHvhaNCfqqMjyaXFGjN/gWXmBa
+	 P349v9CGW8rFADmaC++KQvVa0BQWymFy7i4IKiSSZJVwzxJDQJg2uguJGtEpTgPLgf
+	 o0uAK4daqQhswhX8k7CKjVCYAQume/uP0BL0ptsVDaItKTois/53B/MV7C2WthT58o
+	 kk4/U0KQqJZKgokzptTxgcHM9M0m205K0IvXztv2t50WITZn8qb2FZ/+G/ejtUN8qR
+	 3j3JUVYuDRO1Q==
+Date: Fri, 6 Sep 2024 09:21:04 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Todor Tomov <todor.too@gmail.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-media@vger.kernel.org, 
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Subject: Re: [PATCH v4 0/7] Add SDM670 camera subsystem
+Message-ID: <vjfddnykgeihdjlp5wzaeu4d4qn2boc22hufe2ceajt5wazznb@nysgwxk4ksdm>
+References: <20240904020448.52035-9-mailingradian@gmail.com>
+ <tthbaop6bkyvebpibiyvyct4khrd5o4apdbipqdthnidxmu2cx@m726xv4ocblg>
+ <ZtpqrANbJurWNOzV@radian>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZtpqrANbJurWNOzV@radian>
 
-Em Sat, 27 Jul 2024 14:51:56 +0200
-Christophe JAILLET <christophe.jaillet@wanadoo.fr> escreveu:
+Hi Richard,
 
-> Using clamp_t() instead of min_t(max_t()) is easier to read.
+On Thu, Sep 05, 2024 at 10:36:28PM GMT, Richard Acayan wrote:
+> On Thu, Sep 05, 2024 at 10:09:34PM +0200, Andi Shyti wrote:
+> > Hi Richard,
+> > 
+> > On Tue, Sep 03, 2024 at 10:04:49PM GMT, Richard Acayan wrote:
+> > > This adds support for the camera subsystem on the Snapdragon 670.
+> > > 
+> > > As of next-20240902, camss seems to be a bit broken, but the same series
+> > > works on stable (although it is much less reliable now that the CCI clock
+> > > frequency is not being assigned).
+> > 
+> > I am not understanding this bit: is this series making it better
+> > or not? Can you please clarify what is broken, what is less
+> > reliable and what works?
 > 
-> It also reduces the size of the preprocessed files by ~ 193 ko.
-> (see [1] for a discussion about it)
+> When applying this camss series and some camera sensor patches on
+> linux-next, the Pixel 3a seems to hang when camera capture starts.
 > 
-> $ ls -l ia_css_eed1_8.host*.i
->  4829993 27 juil. 14:36 ia_css_eed1_8.host.old.i
->  4636649 27 juil. 14:42 ia_css_eed1_8.host.new.i
+> When applying the same patches on stable, the camera does not cause the
+> Pixel 3a to hang.
 > 
-> [1]: https://lore.kernel.org/all/23bdb6fc8d884ceebeb6e8b8653b8cfe@AcuMS.aculab.com/
+> When these device tree properties from the previous series were removed:
 > 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  .../isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 24 +++++++++----------
->  1 file changed, 12 insertions(+), 12 deletions(-)
+> 			assigned-clocks = <&camcc CAM_CC_CCI_CLK>;
+> 			assigned-clock-rates = <37500000>;
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-> index e4fc90f88e24..96c13ebc4331 100644
-> --- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-> @@ -172,25 +172,25 @@ ia_css_eed1_8_vmem_encode(
->  		base = shuffle_block * i;
->  
->  		for (j = 0; j < IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS; j++) {
-> -			to->e_dew_enh_x[0][base + j] = min_t(int, max_t(int,
-> -							     from->dew_enhance_seg_x[j], 0),
-> -							     8191);
-> -			to->e_dew_enh_y[0][base + j] = min_t(int, max_t(int,
-> -							     from->dew_enhance_seg_y[j], -8192),
-> -							     8191);
-> +			to->e_dew_enh_x[0][base + j] = clamp_t(int,
-> +							       from->dew_enhance_seg_x[j],
-> +							       0, 8191);
-> +			to->e_dew_enh_y[0][base + j] = clamp_t(int,
-> +							       from->dew_enhance_seg_y[j],
-> +							       -8192, 8191);
+> the CCI would sometimes fail to probe with the error:
+> 
+> 	[   51.572732] i2c-qcom-cci ac4a000.cci: deferred probe timeout, ignoring dependency
+> 	[   51.572769] i2c-qcom-cci ac4a000.cci: probe with driver i2c-qcom-cci failed with error -110
+> 
+> On further testing, the rate can be set to 19.2 MHz, and there would be
+> no failure (or rather, it wouldn't happen often enough for me to witness
+> it).
+> 
+> > Besides, I'm reading that this series has not been tested and it
+> > makes it difficult for me to take this in, considering that you
+> > are adding a new support.
+> 
+> Of course. This revision of the series wasn't submitted to rush into
+> v6.12-rc1. It can wait until everything is resolved.
+> 
+> When device tree maintainers comment "not tested" on the documentation,
+> it usually means that `make dt_bindings_check DT_SCHEMA_FILES=...` gives
+> errors or warnings (even though the device tree and driver may work on
+> the hardware). It's a separate test and one of the things I haven't
+> scripted into my workflow, although it's still a responsibility.
 
-Such change introduces two warnings on smatch:
+OK, thanks for clarifying. Then, please, next time, to avoid
+confusion, make it an RFC; or, if the series is in an advanced
+state with little things to improve, state it clearly in the
+cover letter or after the '---' section.
 
-drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c: drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:177 ia_css_eed1_8_vmem_encode() warn: assigning (-8192) to unsigned variable 'to->e_dew_enh_y[0][base + j]'
-drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c: drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:182 ia_css_eed1_8_vmem_encode() warn: assigning (-8192) to unsigned variable 'to->e_dew_enh_a[0][base + j]'
+For now, thanks a lot, I will keep the R-b's for the time being
+(unless the reviewers are against) and I will wait for you to
+know the outcome of the tests.
 
-Should dew_enhance_seg_x and dew_enhance_seg_y be converted to signed?
-
-
-Thanks,
-Mauro
+Andi
 
