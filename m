@@ -1,117 +1,113 @@
-Return-Path: <linux-media+bounces-17821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17822-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA4B96FB43
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 20:34:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F32D196FBCE
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 21:06:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27A6228B167
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 18:34:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B989284AB1
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2024 19:06:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B87B13D889;
-	Fri,  6 Sep 2024 18:34:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF7181D279E;
+	Fri,  6 Sep 2024 19:06:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q4Oqns1Z"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="FVx3eV8z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A471B85C7;
-	Fri,  6 Sep 2024 18:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C482613D899;
+	Fri,  6 Sep 2024 19:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725647690; cv=none; b=az3kGuWjkoRvUwmtjCPM2+altK0ZxhlmNtsJ0rAk/9eRtSJm4iPTRywpmSO73XNIHqYU+adzcGLfkV517K/ZWhTkJa0bB7WUkDyqf6Wqe6QHtog9o5W2KiD0r27SKtcVuPTyEGGeov+pIiKv3w2leRMj2AF/N2RjK/GnnLi0G7Q=
+	t=1725649585; cv=none; b=YcIwBJacDtouxvsP8wIK+stvX9ULW4hWaxAWtNka7zYiQj+0p6kGI8m90iE+nGE6zYVBYx+ELr8KOqTVmBaKA/rSqwbBM4Dnp55SRVunB8vDs30Zkufgq57xIezhu+clcSxJ0J+oCEBvRIqta2mVpe+oFno2nwsIx63XR85grUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725647690; c=relaxed/simple;
-	bh=DfKGjEXx5hSeUXB8vrUl2jj650dPsUbikh6TxwpLm8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Huzm9/g1nx9n7P6yesCIc2hgkw5V7CHDSYZ/tAfYeGMazeTcIYnbr7n6g4JUuruRiG+FqLq4eL4eucWT6q1OoNdPGmndSpcFVNMN0POpTf6AaMooEnr/Vg0ZlUYJght/zozUp6+CHyF4eCJc1k0jTBukaQhgaYJWjB+EDzIVICA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q4Oqns1Z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1FA9C4CEC4;
-	Fri,  6 Sep 2024 18:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725647689;
-	bh=DfKGjEXx5hSeUXB8vrUl2jj650dPsUbikh6TxwpLm8k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q4Oqns1ZT+8BaXLlOHhPFVIqEyFqit8FSM7w0q2NuoPjesvljHet03opQbah0Fwxd
-	 li+VWGIxfeiBscR7cdhr1Sy4mt+y+hYdDRA+rN4uLd1xeodMLwkuDVrEuYECMXCZTK
-	 CZ+7Os7xhiAZZQ+VWkLUzv4LxRv0iM9Lo8i6uGsU+ps91zOS1cpLAb+HwrfoYCDFdL
-	 2CEVjrZo14qSo8Xfi4+KQC2byM9ofWla+hmuHH03vmYga0Sq+49XxD3/Yjkn0OT6Yv
-	 KC5BgEJOCmV7E3+xU78KHnbNuQhBVtcMmwemLDcDNlVDaXuqiZYD34GbP0fxuK7F81
-	 LKrJw9XYcGO0g==
-Date: Fri, 6 Sep 2024 19:34:46 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Alexandre Mergnat <amergnat@baylibre.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
- Genio 350-evk board
-Message-ID: <ZttLRhOn9uIuk0Kl@finisterre.sirena.org.uk>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
- <20240906180348.GA1239602@thelio-3990X>
- <ZttJdexQFOq2Q9iQ@finisterre.sirena.org.uk>
+	s=arc-20240116; t=1725649585; c=relaxed/simple;
+	bh=nr6OX5UedFpgxYakr+FAYRZIVUTAKAr0Ym9FJ7B5DNI=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=qq+bY+0zxLfYims6090NfLlq31BksxOgNOFSVtOjyMcJIqeVOIhwCsmxewAFwJwn/a/3MYxXRgSl+zV3cJoBOlcKyla6INZVTYZTwl6BZSvV6LSIdR5W9ChT0S7/9derfsU//fSBmVzoDDQ2RmfNl0s2nfwKlt2zAn7LWZsuiRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=FVx3eV8z; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1725649557; x=1726254357; i=markus.elfring@web.de;
+	bh=tiX2YP3egz3aDYEiqN04/pLGavK4NnAFCP8ntbEUtO4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=FVx3eV8zyGY86PThuNOZ/UWwKbP48MBxkx9f8utvAPN9sQIAKYkfPR8hUBS1Ot8Y
+	 8+sdxH0ZfoXBEaSmRSbuV0VTWuviKJw++tM7fTtsr4V0/c66eO6JRmuRUN1ibXNtY
+	 U/qZi/e/mM9tHS5b0CvDPjQcCHxsBaVYavHU9GtmYbENjegmNaqqdmdRkmxTBmtNM
+	 qmf0DHmoFsxW1LIU0+EM+273JZM1aEw/ngexSMdr8nVzZT0VIbKjuBOfhVjy6Rdv8
+	 DGxxRiHzXYwuS0S6Q2Hg1wNWoESywKl6y3fZzCoQbcK5ZUHifpHFY1724IaxS+StL
+	 R06aQbNhrdzO3u9GMg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.84.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MKdLK-1sTtVZ2ii4-00XRoT; Fri, 06
+ Sep 2024 21:05:57 +0200
+Message-ID: <08d9a783-2de1-4658-b617-5e6e6947ac2b@web.de>
+Date: Fri, 6 Sep 2024 21:05:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ROeGXY+oUkHH2KgO"
-Content-Disposition: inline
-In-Reply-To: <ZttJdexQFOq2Q9iQ@finisterre.sirena.org.uk>
-X-Cookie: Your love life will be... interesting.
+User-Agent: Mozilla Thunderbird
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20240827-iris_v3-v3-5-c5fdbbe65e70@quicinc.com>
+Subject: Re: [PATCH v3 05/29] media: iris: implement iris v4l2 file ops
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240827-iris_v3-v3-5-c5fdbbe65e70@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:kOT5rk8SrRtRtib6YRMMzjISI8NWVzWAqga/vXC5ot8h2UzXvzq
+ JARjg7GAEzgT+SnhOTMsGMdV+SFw1a8yk3J/G/bkDHVVI6B3AGadE/QE4xFRjZ4A18CXmil
+ 1xZPBrPiAbiEqy35AvfhlA6ETSUYxMYz6FVIXKHJoqL6CekTVo0l56+aPWujjegoisVzlBN
+ ccRYPwiS85cfrQIGJse5g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:/ODuNcg3LSo=;lYa8jdaHlEtgHfAfnYzz0F+9BHv
+ iAKVzgaSzQ2UGPQ7n3WtpUTLCu27GWvo+VQNpEJLNYgw0dynez2zx48QSjMnG18rhzdB1AWor
+ 0Iw/45MahnghVeAhE5VpOTrN/6iUEDY+9w2v6qYjSHDYn1gkQO6Zap2mm0aYXse9a+kAxZUMx
+ 5YEyO1xhHpGnhMckG8hXFaqOfLktlkCFarb2wMLPJE5eV2p6aZOME7GaHdyLGpkyh3qjUjWw2
+ nCmZ0VBtOMAxWqkGeIrrdlQ7DcJ670mli6FwoL+UfmKQSzJN7tF8oFpzpt2MLpccpXFf0g3hm
+ djpgKFLIY/xx9bw5CZfKCu0c/NSz5HQ6KG2hicSvxbJn45BjMPgZu0W0LuMTUNN4VhnCUN1ti
+ LOTZ3Xb38aHerEx1JdOIRQ95ZiP16xnKfr2JxiUWNLjfUTz7rrXDl4A2ilkoQvF3/Cyou7UUO
+ 0H9TZYHKMBIv+k04+0sSmdsWaWuirJVy27IAnGB4smyXGfqVPfIEpamK1QhGJgPAHkndAoR4W
+ 16wc5zwe3KJvOi0+DqB6Ne+ZqfErrDEfmRy86qPNU5J8E/wGLAOTOdAkP07VQ2vWfuSWWoKKa
+ 60QfsoeDnG5D7NuOn+wX/BVqLLhDWeWV2bVtKuX9E0WhYUYZebTnb5ytfTyaUQcYChrpN7qkE
+ iBXdNOcZKxqmZrQCDzagD6vxTJ6oTLc5Wm4nTkw7dkahLzuHb8eQi+WE0HeLekkvwSjGg0teh
+ 8PnojDKYArmRVPXW4HBuwZ4h3oJl8aHk8rY4i18Lp+0bZjAMZYOlgPvUlclpFRnXzmaCDUy4V
+ nf85wGKrWet3ZFUCZGtGT9hA==
 
+=E2=80=A6
+> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+> @@ -0,0 +1,174 @@
+=E2=80=A6
+> ++int iris_close(struct file *filp)
+> +{
+=E2=80=A6
+> +	mutex_lock(&inst->lock);
+> +	iris_v4l2_fh_deinit(inst);
+> +	mutex_unlock(&inst->lock);
+=E2=80=A6
 
---ROeGXY+oUkHH2KgO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Under which circumstances would you become interested to apply a statement
+like =E2=80=9Cguard(mutex)(&inst->lock);=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.11-rc6/source/include/linux/mutex.h#L1=
+96
 
-On Fri, Sep 06, 2024 at 07:27:04PM +0100, Mark Brown wrote:
-
-> These commits passed an x86 allmodconfig with GCC 12 at each step (I did
-> catch one warning there with another patch in the series that didn't get
-> applied) and 0day didn't say anything at any point.
-
-Oh, actually right as I was writing that message 0day decided to report
-that (and some other things that look rather preexisting), though only
-with clang 20.
-
---ROeGXY+oUkHH2KgO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbbS0UACgkQJNaLcl1U
-h9A4PAf9EXvt7UgwANg6DLruDFhtYHs50i0gB5suWbYdBIV1oNQ+ZsrdL38D1SfO
-s4IvxwibYw+GjhYu6rWRC1S3yF1kpB5/Y6bnyZC3y7T9anqLD0wC56ZraWJB4vON
-Uqm04cTI/g/MNzFxJn0l9dU+5r3y9hX890cCtRBZYVagmM/u9eG8IULqbCOHhPVG
-kHrJv7MTxpQ1emjKM/ZKCbZ6Z056BkaBgAk3mht5pjv9D3VvvlRIhgZ/0tVrwTdd
-/OaQPpR8z/dLk0LJ2sgPCx2/0MjGrmEveCCTH7/uvJEJ/DQV2bAqgL693OJ0uUc1
-hrVwYOMO6wBL9SUj5BU/2dFxPFLmxg==
-=5wcC
------END PGP SIGNATURE-----
-
---ROeGXY+oUkHH2KgO--
+Regards,
+Markus
 
