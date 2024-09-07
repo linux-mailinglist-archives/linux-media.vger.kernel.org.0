@@ -1,68 +1,53 @@
-Return-Path: <linux-media+bounces-17859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17860-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A93696FFBD
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 05:14:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A6596FFDC
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 05:35:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 27F67B2500A
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 03:14:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC59F1F22BE8
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 03:35:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C53C15C148;
-	Sat,  7 Sep 2024 03:10:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 303223A1BA;
+	Sat,  7 Sep 2024 03:35:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E57157488;
-	Sat,  7 Sep 2024 03:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA7B1CAAC
+	for <linux-media@vger.kernel.org>; Sat,  7 Sep 2024 03:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725678652; cv=none; b=VZfagMJ9MitAfdd66D3zuz1E5f8seFX6InU01cyOR+glaZnQlET2WdbjOZ/EbZ0S1PvBSQoKwmLDo6WPQ0zKG9B3wJ08XuApvjS/8vc8I6A8ykvBJRdHTgsfkYq9IbLYzOEmjhF97DkDGC1keAGZP3eyImZKYNBPR2UeDOL7xU4=
+	t=1725680114; cv=none; b=Q7B3f11R2HyWW1LIQfavT41hs1p2c4bUk4VVTffpXdhGK90DSVfZ/NK4W7fLUREedpoflGOJdt/j9hYxev0UxtBmzc3eGaryGfFkH+fmyXWncdn2QoRxdRC3RSgc6euy44Q9qKSIQBefNCFYsG+HOrLTr9Kwwh1Lefu1n+s/dT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725678652; c=relaxed/simple;
-	bh=QTU7fufNN1BaBlcJYY1qHswGUbgAx/DUxgQa8eGoits=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y4R74S3Usi7BlfYSr3/7gxCchPu0iWMY3SyToZALChEr29FNMZT+NhvOSQOWo4H06E3go4+gHTD3HwBKxP6BBxaBLfB3SXqd6kVr1wARh0Q9oTdjyzuzswRhtA8aUtDkDJZVGVmJVlBK2YGTCTCVxzKYQgnokEIpo07fNjzcS0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
+	s=arc-20240116; t=1725680114; c=relaxed/simple;
+	bh=whVQBy4YiYeqaKcukKbd8CbWIZ7/ozer1z+E4DyF2tY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FZ44DfKZm2P8MFHOaDz0k/zLW/17T/kQIoYT36aB+X06IxSCd2P1aZ4x+qIwTx7TJpHKRTWx4vEJdMKPh9j5kdoU3tqhAxkQ8s8/eeuvrm3RMMustsjjzw/3lXFUXbH+p98Vj3Xm52P3rYNObuAimbIj8Z+19jetyWrYLpgwzjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4X0yjT4WHVz1xwt7;
-	Sat,  7 Sep 2024 11:08:45 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4X0zHV6Rnjz1j88w;
+	Sat,  7 Sep 2024 11:34:46 +0800 (CST)
 Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9151D1A016C;
-	Sat,  7 Sep 2024 11:10:47 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 844BE14011F;
+	Sat,  7 Sep 2024 11:35:10 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
  (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Sat, 7 Sep
- 2024 11:10:46 +0800
+ 2024 11:35:09 +0800
 From: Li Zetao <lizetao1@huawei.com>
-To: <mchehab@kernel.org>, <florian.fainelli@broadcom.com>, <andrew@lunn.ch>,
-	<olteanv@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>, <heiko@sntech.de>,
-	<yisen.zhuang@huawei.com>, <salil.mehta@huawei.com>, <hauke@hauke-m.de>,
-	<alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
-	<mcoquelin.stm32@gmail.com>, <wellslutw@gmail.com>,
-	<radhey.shyam.pandey@amd.com>, <michal.simek@amd.com>, <hdegoede@redhat.com>,
-	<ilpo.jarvinen@linux.intel.com>, <ruanjinjie@huawei.com>,
-	<lizetao1@huawei.com>, <hverkuil-cisco@xs4all.nl>,
-	<u.kleine-koenig@pengutronix.de>, <jacky_chou@aspeedtech.com>,
-	<jacob.e.keller@intel.com>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-rockchip@lists.infradead.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	<platform-driver-x86@vger.kernel.org>
-Subject: [PATCH net-next v2 10/10] net: xilinx: axienet: Convert using devm_clk_get_optional_enabled() in axienet_probe()
-Date: Sat, 7 Sep 2024 11:19:26 +0800
-Message-ID: <20240907031926.3591353-11-lizetao1@huawei.com>
+To: <hverkuil-cisco@xs4all.nl>, <mchehab@kernel.org>,
+	<gregkh@linuxfoundation.org>, <lizetao1@huawei.com>,
+	<laurent.pinchart+renesas@ideasonboard.com>, <ricardo@marliere.net>,
+	<ruanjinjie@huawei.com>
+CC: <linux-media@vger.kernel.org>
+Subject: [PATCH -next v2 1/2] media: cec: remove redundant null pointer checks in cec_devnode_init()
+Date: Sat, 7 Sep 2024 11:43:59 +0800
+Message-ID: <20240907034400.3693797-1-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240907031926.3591353-1-lizetao1@huawei.com>
-References: <20240907031926.3591353-1-lizetao1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,65 +59,41 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  kwepemd500012.china.huawei.com (7.221.188.25)
 
-Use devm_clk_get_optional_enabled() instead of devm_clk_get_optional() +
-clk_prepare_enable(), which can make the clk consistent with the device
-life cycle and reduce the risk of unreleased clk resources. Since the
-device framework has automatically released the clk resource, there is
-no need to execute clk_disable_unprepare(clk) on the error path.
+Since the debugfs_create_dir() never returns a null pointer, checking
+the return value for a null pointer is redundant. Remove this check
+since debugfs_create_file can handle IS_ERR pointers. At the same time,
+debugfs_create_dir returns ERR_PTR (-ENODEV) by default when
+CONFIG_DEBUG_FS=N, so there is no need for CONFIG_DEBUG_FS macro
+isolation.
 
-Reviewed-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/net/ethernet/xilinx/xilinx_axienet_main.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+v1 -> v2: Remove this check since debugfs_create_file can handle IS_ERR
+pointers. And drop the ifdef CONFIG_DEBUG_FS statement.
+v1:
+https://lore.kernel.org/all/20240903143607.2004802-1-lizetao1@huawei.com/
 
-diff --git a/drivers/net/ethernet/xilinx/xilinx_axienet_main.c b/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
-index 374dff70ef0d..87c5dcec2325 100644
---- a/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
-+++ b/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
-@@ -2592,22 +2592,17 @@ static int axienet_probe(struct platform_device *pdev)
- 	seqcount_mutex_init(&lp->hw_stats_seqcount, &lp->stats_lock);
- 	INIT_DEFERRABLE_WORK(&lp->stats_work, axienet_refresh_stats);
- 
--	lp->axi_clk = devm_clk_get_optional(&pdev->dev, "s_axi_lite_clk");
--	if (!lp->axi_clk) {
-+	lp->axi_clk = devm_clk_get_optional_enabled(&pdev->dev, "s_axi_lite_clk");
-+	if (!lp->axi_clk)
- 		/* For backward compatibility, if named AXI clock is not present,
- 		 * treat the first clock specified as the AXI clock.
- 		 */
--		lp->axi_clk = devm_clk_get_optional(&pdev->dev, NULL);
--	}
-+		lp->axi_clk = devm_clk_get_optional_enabled(&pdev->dev, NULL);
-+
- 	if (IS_ERR(lp->axi_clk)) {
- 		ret = PTR_ERR(lp->axi_clk);
- 		goto free_netdev;
+ drivers/media/cec/core/cec-core.c | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
+index e0756826d629..77be6c11c63c 100644
+--- a/drivers/media/cec/core/cec-core.c
++++ b/drivers/media/cec/core/cec-core.c
+@@ -439,13 +439,7 @@ static int __init cec_devnode_init(void)
+ 		return ret;
  	}
--	ret = clk_prepare_enable(lp->axi_clk);
--	if (ret) {
--		dev_err(&pdev->dev, "Unable to enable AXI clock: %d\n", ret);
--		goto free_netdev;
+ 
+-#ifdef CONFIG_DEBUG_FS
+ 	top_cec_dir = debugfs_create_dir("cec", NULL);
+-	if (IS_ERR_OR_NULL(top_cec_dir)) {
+-		pr_warn("cec: Failed to create debugfs cec dir\n");
+-		top_cec_dir = NULL;
 -	}
+-#endif
  
- 	lp->misc_clks[0].id = "axis_clk";
- 	lp->misc_clks[1].id = "ref_clk";
-@@ -2923,7 +2918,6 @@ static int axienet_probe(struct platform_device *pdev)
- 		axienet_mdio_teardown(lp);
- cleanup_clk:
- 	clk_bulk_disable_unprepare(XAE_NUM_MISC_CLOCKS, lp->misc_clks);
--	clk_disable_unprepare(lp->axi_clk);
- 
- free_netdev:
- 	free_netdev(ndev);
-@@ -2947,7 +2941,6 @@ static void axienet_remove(struct platform_device *pdev)
- 	axienet_mdio_teardown(lp);
- 
- 	clk_bulk_disable_unprepare(XAE_NUM_MISC_CLOCKS, lp->misc_clks);
--	clk_disable_unprepare(lp->axi_clk);
- 
- 	free_netdev(ndev);
- }
+ 	ret = bus_register(&cec_bus_type);
+ 	if (ret < 0) {
 -- 
 2.34.1
 
