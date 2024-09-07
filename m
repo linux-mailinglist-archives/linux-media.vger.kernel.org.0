@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-17861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17862-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5C096FFDD
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 05:35:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71AF796FFF3
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 06:17:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A0BF11C21D85
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 03:35:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75827B2369C
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 04:17:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67A751CAAC;
-	Sat,  7 Sep 2024 03:35:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A6263AC36;
+	Sat,  7 Sep 2024 04:17:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C9CEAE9
-	for <linux-media@vger.kernel.org>; Sat,  7 Sep 2024 03:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAF14437F
+	for <linux-media@vger.kernel.org>; Sat,  7 Sep 2024 04:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725680115; cv=none; b=mupveE5Ju2KGJHWmLHmOaMwevXJsmMVV1beDf32Wklm09mg725coGUPMXV/JqTVtDHRrQVDUSyaEonqGOEzeIiZDNEvif1cdqScrb7y4/1mIiMoPNhAN1mFmuU3Wc0BiUdrV0ATsTNPWGUaes8AEJ1b3hvL0x0KrCNzQENZgMpc=
+	t=1725682635; cv=none; b=UwvZvo6Jrf0g2tn9farzQWazxloT3VsxTxzLDMsbSNWNkEHjxPOa4CDh6b+rnE/IuQGVfb7Pr60kPIt6F0FI+6t499wwQdb49jXrAiepw8nC/FBKrhfFZ7n+eJKwytH02teUQoxFVqwuOL2cfr9eSR1WONRsXKGtYW5nX6F/1RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725680115; c=relaxed/simple;
-	bh=9ndR7JYgXlK6gaL2DuxYVbZkag02HgoUfkhmww6ZP34=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t90vrNFihMdIPE+k/gDyeROfW8WSYPhShAPvjfSpl9TVGXqzV9r3+cWNTxkhubj0PLS5jppM5VfYzcuUR3yACmWnYWsI2pQxCyXp5VqoaWtWrl8jVUb+c5b7RfDWjvH0/WJQfvHI+xkCLodYoZaC7sA+At3y/A0aw81/ScyuPJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4X0zGn6v74z1BMZZ;
-	Sat,  7 Sep 2024 11:34:09 +0800 (CST)
-Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id E22C6180A9E;
-	Sat,  7 Sep 2024 11:35:10 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
- (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Sat, 7 Sep
- 2024 11:35:10 +0800
-From: Li Zetao <lizetao1@huawei.com>
-To: <hverkuil-cisco@xs4all.nl>, <mchehab@kernel.org>,
-	<gregkh@linuxfoundation.org>, <lizetao1@huawei.com>,
-	<laurent.pinchart+renesas@ideasonboard.com>, <ricardo@marliere.net>,
-	<ruanjinjie@huawei.com>
-CC: <linux-media@vger.kernel.org>
-Subject: [PATCH -next v2 2/2] media: siano: remove redundant null pointer checks in cec_devnode_init()
-Date: Sat, 7 Sep 2024 11:44:00 +0800
-Message-ID: <20240907034400.3693797-2-lizetao1@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240907034400.3693797-1-lizetao1@huawei.com>
-References: <20240907034400.3693797-1-lizetao1@huawei.com>
+	s=arc-20240116; t=1725682635; c=relaxed/simple;
+	bh=UP//niK0G23L/kn0dzIVoPxgUmPix8KRkQb17VPmiZc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=o3Phz4wznnAHrVZUXc+8PVjamv5KC+D0qXxw8BzC0ZiyYp8erff/Y+u7lv8kd2Ky8yNvDbXDsP56AaLyH6uJuaErO2sT4xwmke+iFLKcwZgCtVRvtstuuk5jQKcyQlRD4ARkCZb6xhEYK6RI09lAQpV2j470HAiJqSyz98Yctvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1smmsq-0005qt-1b;
+	Sat, 07 Sep 2024 04:17:12 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+	by slave0 with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1smmso-001JWm-2l;
+	Sat, 07 Sep 2024 04:17:11 +0000
+From: Jenkins <jenkins@linuxtv.org>
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>
+Cc: builder@linuxtv.org
+Subject: Re: [GIT PULL] media: atomisp: Changes for 6.12-1 (#103933)
+Date: Sat,  7 Sep 2024 04:17:09 +0000
+Message-Id: <20240907041709.313383-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <44e7e455-754b-4b2e-9b06-11562e3ad3ec@redhat.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,40 +58,40 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemd500012.china.huawei.com (7.221.188.25)
 
-Since the debugfs_create_dir() never returns a null pointer, checking
-the return value for a null pointer is redundant, Remove this check
-since debugfs_create_file can handle IS_ERR pointers.
+From: builder@linuxtv.org
 
-Signed-off-by: Li Zetao <lizetao1@huawei.com>
----
-v1 -> v2: Remove this check since debugfs_create_file can
-handle IS_ERR pointers.
-v1:
-https://lore.kernel.org/all/20240903143607.2004802-2-lizetao1@huawei.com/
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/44e7e455-754b-4b2e-9b06-11562e3ad3ec@redhat.com/
+Build log: https://builder.linuxtv.org/job/patchwork/384357/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/44e7e455-754b-4b2e-9b06-11562e3ad3ec@redhat.com
 
- drivers/media/common/siano/smsdvb-debugfs.c | 4 ----
- 1 file changed, 4 deletions(-)
+gpg: Signature made Tue 03 Sep 2024 11:37:50 AM UTC
+gpg:                using RSA key BAF03B5D2718411A5E9E177E92EC4779440327DC
+gpg:                issuer "hdegoede@redhat.com"
+gpg: Good signature from "Hans de Goede <hans@hansg.org>" [expired]
+gpg:                 aka "Hans de Goede <hdegoede@redhat.com>" [expired]
+gpg: hdegoede@redhat.com: Verified 1 signatures in the past 1 second.  Encrypted
+     0 messages.
+gpg: Warning: we've only seen one message signed using this key and user id!
+gpg: Warning: you have yet to encrypt a message to this key!
+gpg: Warning: if you think you've seen more signatures by this key and user
+     id, then this key might be a forgery!  Carefully examine the email address
+     for small variations.  If the key is suspect, then use
+       gpg --tofu-policy bad A1EA0673EAD8B74F17D2B9E17C31E21A98D21E0D
+     to mark it as being bad.
+gpg: Note: This key has expired!
+Primary key fingerprint: A1EA 0673 EAD8 B74F 17D2  B9E1 7C31 E21A 98D2 1E0D
+     Subkey fingerprint: BAF0 3B5D 2718 411A 5E9E  177E 92EC 4779 4403 27DC
 
-diff --git a/drivers/media/common/siano/smsdvb-debugfs.c b/drivers/media/common/siano/smsdvb-debugfs.c
-index 73990e469df9..9db38ae4ecee 100644
---- a/drivers/media/common/siano/smsdvb-debugfs.c
-+++ b/drivers/media/common/siano/smsdvb-debugfs.c
-@@ -411,10 +411,6 @@ void smsdvb_debugfs_register(void)
- 	 * subsystem.
- 	 */
- 	d = debugfs_create_dir("smsdvb", usb_debug_root);
--	if (IS_ERR_OR_NULL(d)) {
--		pr_err("Couldn't create sysfs node for smsdvb\n");
--		return;
--	}
- 	smsdvb_debugfs_usb_root = d;
- }
- 
--- 
-2.34.1
+
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0001-media-atomisp-Fix-spelling-mistake-in-csi_rx_public..patch doesn't apply:
+Applying patch patches/0001-media-atomisp-Fix-spelling-mistake-in-csi_rx_public..patch
+patching file drivers/staging/media/atomisp/pci/hive_isp_css_include/host/csi_rx_public.h
+Hunk #1 FAILED at 94.
+Hunk #2 FAILED at 119.
+2 out of 2 hunks FAILED -- rejects in file drivers/staging/media/atomisp/pci/hive_isp_css_include/host/csi_rx_public.h
+Patch patches/0001-media-atomisp-Fix-spelling-mistake-in-csi_rx_public..patch can be reverse-applied
 
 
