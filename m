@@ -1,133 +1,297 @@
-Return-Path: <linux-media+bounces-17875-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17876-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8DF970211
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 13:50:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28017970218
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 13:55:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3A6E280FBB
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 11:50:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40A8C1C21CA8
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 11:55:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3520415B552;
-	Sat,  7 Sep 2024 11:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HHc8+LeH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 073AD15ADA7;
+	Sat,  7 Sep 2024 11:55:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAD7159583;
-	Sat,  7 Sep 2024 11:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DED13C836
+	for <linux-media@vger.kernel.org>; Sat,  7 Sep 2024 11:55:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725709745; cv=none; b=REdTgF0nwZFX3YrADp+tAg59xipvAqmxQRBhZDDdri0IE/f+TOW4Qgnu+DDie0j4Zf+nMbxrkdIRG9lnIMUBJbfUL7BNmEx0Es5DbvtujiBsKtLFyR6UrPb4+IKTNvYBRYvMNPydPLBjNf7jtugLNlQ9DFV3G9tjGWXKJ+TFvKQ=
+	t=1725710152; cv=none; b=OtfQBokX5rntmPnmJ6QQ9FaV0Yw3F489jg+dcU+/w5Jyqih50Y8D0UW7S91KXgRDbG9kkYyfuC0TDJiRnL6UWq1oD+YUmx2fO81GCKrvUKU4gD9YqX/ie52OJqQaw+dos6PmQb8BG0pyM32Ya+HNgSAe2B8CAvVVLwrTGwG/qCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725709745; c=relaxed/simple;
-	bh=eLBXJetdD5j03P1c9yViblj7mq5YY1zzUGq/BpZWIbE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=djOgQsVeD5K54F5y8NGbg8gf4Wr1Bt34tphlWhx7tbuXDV3J9Lsi/E8dZnR9nTRYatJWBOxaQYMlq+6K2aRSGR5APLX8RSGQP/gT+69vmmFLh+nyaU0UA+EjSkeTWN1XwpSOEJRjhRjGgO3fq5zMVG8fMuILsYWwxoZTbVq0L0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HHc8+LeH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59B603EA;
-	Sat,  7 Sep 2024 13:47:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725709667;
-	bh=eLBXJetdD5j03P1c9yViblj7mq5YY1zzUGq/BpZWIbE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HHc8+LeHnN1GjD5AW+5YrUbbXz91AVcVT7rKrVoodmNvGwXRvBdXGf0cDmWQHjQxH
-	 664OGRRbcK5ZY8EPfBqZU01iTxu4PDFzfApqPRXPR/fUM870CXBFH44SvJukwrXbY1
-	 58R0NwdANEBE+vipj/slN5cuL7qtCZcVKKWuC13Q=
-Date: Sat, 7 Sep 2024 14:48:58 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Hien Huynh <hien.huynh.px@renesas.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Pavel Machek <pavel@denx.de>
-Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Fix the comment
- in rzg2l_cru_start_streaming_vq()
-Message-ID: <20240907114858.GC15491@pendragon.ideasonboard.com>
-References: <20240905112508.160560-1-biju.das.jz@bp.renesas.com>
- <20240907000434.GI27086@pendragon.ideasonboard.com>
- <TY3PR01MB1134601C75125427794EB493D869F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1725710152; c=relaxed/simple;
+	bh=TNEh0tnO6+jzGlWe1xNFJsCcsqBaqFCji8sSKM+ZO9M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ivudrPbNpZ0otj6TjoqHMc09xsdFfEsdnPrFl18mUeeVhNAibLzpYM2r1FRKCKjLxm9+QpjMIlKM05jt0EXeVYEw1BKsSJxUyoJSRKph9RgBDjnD+wK7ZcfODAlchtoulMraiEy7PWPwdWAwDbeR1J6PYYujN9eqLPwAIFg6C6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84922C4CEC2;
+	Sat,  7 Sep 2024 11:55:48 +0000 (UTC)
+Message-ID: <0a282bd5-d70a-436d-b00f-5710872bfc60@xs4all.nl>
+Date: Sat, 7 Sep 2024 13:55:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB1134601C75125427794EB493D869F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [ANN] Media Summit September 16th: Draft Agenda (v5)
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Martin Hecht <martin.hecht@avnet.eu>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
+ Steve Cho <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+ Hidenori Kobayashi <hidenorik@chromium.org>,
+ "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Suresh Vankadara <svankada@qti.qualcomm.com>,
+ Devarsh Thakkar <devarsht@ti.com>, r-donadkar@ti.com
+References: <c50f4bfe-6d72-426e-9595-5c8b0751c08b@xs4all.nl>
+ <20240906101141.451db4f4@foz.lan>
+ <12c1a383-83ef-4989-85b4-ae696da9ba5d@xs4all.nl>
+ <20240907114602.GB15491@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240907114602.GB15491@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 07, 2024 at 07:28:13AM +0000, Biju Das wrote:
-> Hi Laurent,
+On 07/09/2024 13:46, Laurent Pinchart wrote:
+> On Sat, Sep 07, 2024 at 10:02:07AM +0200, Hans Verkuil wrote:
+>> On 06/09/2024 10:11, Mauro Carvalho Chehab wrote:
+>>> Em Thu, 5 Sep 2024 09:16:27 +0200
+>>> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+>>>
+>>>> Hi all,
+>>>>
+>>>> Here is my fifth (and likely final) stab at an agenda for the media summit. As always,
+>>>> it is subject to change and all times are guesstimates!
+>>>>
+>>>> The media summit will be held on Monday September 16th. Avnet Silica has very
+>>>> kindly offered to host this summit at their Vienna office, which is about 35
+>>>> minutes by public transport from the Open Source Summit Europe venue
+>>>> (https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
+>>>>
+>>>> Avnet Silica Office Location:
+>>>>
+>>>> Schönbrunner Str. 297/307, 1120 Vienna, Austria
+>>>>
+>>>> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
+>>>>
+>>>> Refreshments are available during the day.
+>>>>
+>>>> Lunch is held at Schönbrunner Stöckl (https://www.schoenbrunnerstoeckl.com/), close
+>>>> to the Avnet Silica office. The lunch is sponsored by Ideas on Board and Cisco Systems
+>>>> Norway.
+>>>>
+>>>> Regarding the face mask policy: we will follow the same guidance that the
+>>>> Linux Foundation gives for the EOSS conference:
+>>>>
+>>>> https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/#onsite-health-and-safety
+>>>>
+>>>>
+>>>> In-Person Attendees:
+>>>>
+>>>> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+>>>> Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
+>>>> Mauro Carvalho Chehab <mchehab@kernel.org> (Huawei, Media Kernel Maintainer)
+>>>> Steve Cho <stevecho@chromium.org> (Google)
+>>>> Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+>>>> Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+>>>> Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+>>>> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+>>>> Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
+>>>> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+>>>> Ricardo Ribalda <ribalda@chromium.org> (Google)
+>>>> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+>>>> Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
+>>>> Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+>>>> Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
+>>>> Sean Young <sean@mess.org>
+>>>> Jerry W Hu <jerry.w.hu@intel.com> (Intel)
+>>>>
+>>>> Remote Attendees (using MS Teams):
+>>>>
+>>>> Rishikesh Donadkar <r-donadkar@ti.com> (TI)
+>>>> Tomasz Figa <tfiga@chromium.org> (Google)
+>>>> Hidenori Kobayashi <hidenorik@chromium.org> (Google)
+>>>> Devarsh Thakkar <devarsht@ti.com> (TI)
+>>>>
+>>>> Note: information on how to connect remotely will come later.
+>>>>
+>>>> If any information above is incorrect, or if I missed someone, then please let me know.
+>>>>
+>>>> We are currently 17 confirmed in-person participants, so we're pretty much full.
+>>>> If you want to join remotely, then contact me and I'll add you to that list.
+>>>>
+>>>> Draft agenda:
+>>>>
+>>>> 8:45-9:15: get settled :-)
+>>>>
+>>>> 9:15-9:25: Hans: Quick introduction
+>>>>
+>>>> 9:25-11:00: Ricardo: multi-committer model using gitlab
+>>>
+>>> As part of such discussion, IMO some topics that should be covered:
+>>>
+>>> 1. All committers shall use a common procedure for all merges.
+>>>
+>>>    This is easy said than done. So, IMO, it is needed some common scripts
+>>>    to be used by all committers. On my tests when merging two PRs there,
+>>>    those seems to be the minimal set of scripts that are needed:
+>>>
+>>>    a) script to create a new topic branch at linux-media/users/<user>
+>>>       The input parameter is the message-ID, e. g. something like:
+>>>
+>>> 	create_media_staging_topic <topic_name> <message_id>
+>>>
+>>>       (eventually with an extra parameter with the name of the tree)
+>>>
+>>>       It shall use patchwork REST interface to get the patches - or at least
+>>>       to check if all patches are there (and then use b4).
+>>>
+>>>       such script needs to work with a single patch, a patch series and a
+>>>       pull request.
+>>>
+>>>       the message ID of every patch, including the PR should be stored at
+>>>       the MR, as this will be needed to later update patchwork.
+>>>
+>>>    b) once gitlab CI runs, there are two possible outcomes: patches may
+>>>       pass or not. If they pass, a MR will be created and eventually be
+>>>       merged.
+>>>
+>>>       Either merged or not (because something failed or the patches require
+>>>       more work), the patchwork status of the patch require changes to
+>>>       reflect what happened. IMO, another script is needed to update the
+>>>       patch/patch series/PR on patchwork on a consistent way.
+>>>
+>>>       This is actually a *big* gap we have here. I have a script that 
+>>>       manually check patchwork status and the gap is huge. currently,
+>>>       there are 73 patches that seems to be merged, but patchwork was not
+>>>       updated.
+>>>
+>>>       From what I noticed, some PR submitters almost never update patchwork
+>>>       after the merges.
+>>>
+>>>       So another script to solve this gap is needed, doing updates on all 
+>>>       patches that were picked by the first script. Something like:
+>>>
+>>>       update_patchwork_from_topic <topic_name> <new_status>
+>>>
+>>>       This would likely need to use some logic to pick the message IDs
+>>>       of the patch inside the MR.
+>>>
+>>>       Such script could also check for previous versions of the patch
+>>>       and for identical patches (it is somewhat common to receive identical
+>>>       patches with trivial fixes from different developers).
+>>>
+>>>    Someone needs to work on such script, as otherwise the multi committers
+>>>    model may fail, and we risk needing to return back to the current model.
+>>>
+>>> 2. The mailbomb script that notifies when a patch is merged at media-stage
+>>>    we're using right now doesn't work with well with multiple committers.
+>>>
+>>>    Right now, the tree at linuxtv runs it, but it might end sending patches
+>>>    to the author and to linuxtv-commits ML that reached upstream from other
+>>>    trees. It has some logic to prevent that, but it is not bulletproof.
+>>>  
+>>>    A replacement script is needed. Perhaps this can be executed together
+>>>    with the patchwork script (1B) at the committer's machine.
+>>>
+>>> 3. Staging require different rules, as smatch/spatch/sparse/checkpatch
+>>>    warnings and errors can be acceptable.
+>>>
+>>> 4. We need to have some sort of "honour code": if undesired behavior
+>>>    is noticed, maintainers may temporarily (or permanently) revoke
+>>>    committer rights.
+>>>
+>>>    Hopefully, this will never happen, but, if it happens, a rebase
+>>>    of media-staging tree may be needed.
+>>>
+>>> 5. The procedure for fixes wil remain the same. We'll have already enough
+>>>    things to make it work. Let's not add fixes complexity just yet.
+>>>    Depending on how well the new multi-committers experimental model
+>>>    works, we may think using it for fixes as well.
+>>
+>> 6. Since now the committer has to collect the necessary A-by/R-by tags,
+>>    how do we handle that? Today it is implicit by posting a PR: the patches
+>>    will be signed off by me or Mauro when we process the PR. Now you need
+>>    to collect the tags by asking others. I'd like to formalize this in some
+>>    way.
 > 
-> Thanks for the feedback.
+> Tags should be sent to the list as part of the review process, right ?
+> In that case they can be collected from there. b4 does so automatically.
+> We also sometimes give Rb tags in IRC as a shortcut, they can be added
+> manually, or we can decide that tags always have to be posted to the
+> list.
 > 
-> > -----Original Message-----
-> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Sent: Saturday, September 7, 2024 1:05 AM
-> > Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Fix the comment in
-> > rzg2l_cru_start_streaming_vq()
-> > 
-> > Hi Biju,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Thu, Sep 05, 2024 at 12:25:05PM +0100, Biju Das wrote:
-> > > Replace "buffer." -> "buffer", for consistency with rest of the
-> > > comment blocks in rzg2l_cru_start_streaming_vq().
-> > 
-> > I usually go the other way around, sentences should end with a period.
-> > You can go either way as it's your driver.
+> I don't really see the issue, am I missing something ?
 > 
-> Ok, I will send next version with sentences end with a period.
 
-It's really up to you, and I mean it :-) What I favour the most is
-consistency. I personally think sentences are better with a trailing
-period, but if you prefer considering all those comments as titles and
-drop the period, I'm OK with it too. As long as it doesn't conflict with
-subsystem-wide rules, your driver, your preferences.
+It's not the collecting of given tags, it is knowing that I need to review
+a patch so it can be given a A-by or R-by tag. Today a PR implies that I
+will look at it (to varying degrees) and sign off on it, but now you need
+to actively request that I look at e.g. a v4l2-core patch so you can have
+the required minimum number A/R-by tags.
 
-> > > Reported-by: Pavel Machek <pavel@denx.de>
-> > > Closes: https://lore.kernel.org/all/ZtWNFuw70nkB37EK@duo.ucw.cz/
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > This patch have merge dependency on [1] [1]
-> > > https://lore.kernel.org/all/20240826110740.271212-1-biju.das.jz@bp.ren
-> > > esas.com/
-> > > ---
-> > >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > index bbf4674f888d..d17e3eac4177 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > @@ -648,7 +648,7 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
-> > >  		goto assert_aresetn;
-> > >  	}
-> > >
-> > > -	/* Allocate scratch buffer. */
-> > > +	/* Allocate scratch buffer */
-> > >  	cru->scratch = dma_alloc_coherent(cru->dev, cru->format.sizeimage,
-> > >  					  &cru->scratch_phys, GFP_KERNEL);
-> > >  	if (!cru->scratch) {
+There is no clear process for that.
 
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
 
