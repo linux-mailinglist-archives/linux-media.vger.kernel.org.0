@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-17868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17869-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6FB9700B0
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 09:56:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3329700B9
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 10:02:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBA751C21DA9
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 07:56:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 14C7F1F235B3
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 08:02:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FC891494BD;
-	Sat,  7 Sep 2024 07:56:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A29D61465AB;
+	Sat,  7 Sep 2024 08:02:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF012D627
-	for <linux-media@vger.kernel.org>; Sat,  7 Sep 2024 07:56:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C59712E5B
+	for <linux-media@vger.kernel.org>; Sat,  7 Sep 2024 08:02:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725695804; cv=none; b=roRVwHGZDaaki/AK1ot2TRX4msy+iPxYb4mHUp4XSd5jfzpHASzQRxupMV8zA/33Ngs5Mm5KgHZmzcaJk9LFnTRFimAfiuBijiENtODxckhYlejERHE4uPFC6NOE4bTCqBpykvxnZF2U9ZsQa1pCadPfI70JrPNGsXXdmvsokug=
+	t=1725696133; cv=none; b=RtAcFN/ZFQHAC7sVozCFN7rnoMKn5ztjW+gGHXHsWYRBNDXho4zR5XHIDtmjSd/yVH7fWQc1ee20WJQqs946GFGAV/sXl7gWSv6monNaZGMlVXtAiE7mW+1aGbPM9OHurAJu5ix3bmlKTMTTXstOiqo+FU0/dimcEIsC8zLgZIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725695804; c=relaxed/simple;
-	bh=+CkJVt7j1VtMR1HLnH9p1Xyqp719emvfsK7DT5DOrXc=;
+	s=arc-20240116; t=1725696133; c=relaxed/simple;
+	bh=MfmKU71wBHzgZztr5LmaSeGaZ/gmCUSO//6ytRsn+9w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PPTZNUTcrk4Q30QpfbwkjcIp8FLUmjAk2kxf0U3wLwgkjyKDSVlPQL5qFK1JhDqKPZ1Bjj4B8s2QOArJC2N7XRfbXd42gJbB1m+pTcTw99HM7lXcNOLCRmxRyx30JWseiuJ2R9jR10TOUnb21sh13+fxfqVisNazUterokRu0AE=
+	 In-Reply-To:Content-Type; b=cKVTKciugr6aHowNWfTDPb93oGq+k9YyjHQ0nAifJz9u2OHnHrlyC0YjEVRm7qlDMgGdwBqwBM+O25UCgoyD/ArMOzGtnmjvFiHYKt6+olcR7iRzv9KrOJIF8aQLlvu2T/8t+b968AlNE1nPUCAx/6PDDCRT2PIyyKQE5CQMD9s=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7208FC4CEC2;
-	Sat,  7 Sep 2024 07:56:40 +0000 (UTC)
-Message-ID: <75edce37-e64d-469e-b9f5-4be58195548f@xs4all.nl>
-Date: Sat, 7 Sep 2024 09:56:39 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39FFAC4CEC2;
+	Sat,  7 Sep 2024 08:02:09 +0000 (UTC)
+Message-ID: <12c1a383-83ef-4989-85b4-ae696da9ba5d@xs4all.nl>
+Date: Sat, 7 Sep 2024 10:02:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -39,17 +39,17 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [ANN] Media Summit September 16th: Draft Agenda (v5)
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
  Martin Hecht <martin.hecht@avnet.eu>,
  Tommaso Merciai <tomm.merciai@gmail.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Ricardo Ribalda <ribalda@chromium.org>,
  Michael Tretter <m.tretter@pengutronix.de>,
  Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
@@ -57,15 +57,9 @@ Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
  Hidenori Kobayashi <hidenorik@chromium.org>,
  "Hu, Jerry W" <jerry.w.hu@intel.com>,
  Suresh Vankadara <svankada@qti.qualcomm.com>,
- Devarsh Thakkar <devarsht@ti.com>, r-donadkar@ti.com,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+ Devarsh Thakkar <devarsht@ti.com>, r-donadkar@ti.com
 References: <c50f4bfe-6d72-426e-9595-5c8b0751c08b@xs4all.nl>
  <20240906101141.451db4f4@foz.lan>
- <20240906103658.updwgahyisda5yid@basti-XPS-13-9310>
- <20240906131030.6880e5f5@foz.lan>
- <20240906132959.GC27086@pendragon.ideasonboard.com>
- <20240906194257.58902baf@foz.lan>
- <20240906180439.GA12915@pendragon.ideasonboard.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -111,38 +105,177 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20240906180439.GA12915@pendragon.ideasonboard.com>
+In-Reply-To: <20240906101141.451db4f4@foz.lan>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 06/09/2024 20:04, Laurent Pinchart wrote:
-> Hi Mauro,
+On 06/09/2024 10:11, Mauro Carvalho Chehab wrote:
+> Em Thu, 5 Sep 2024 09:16:27 +0200
+> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 > 
-
-<snip>
-
->> Patchwork notification e-mails is about patch reviews, being optional.
->> Most authors won't create accounts at patchwork, but are interested only
->> at the final result. "b4 ty" or similar sounds more appropriate to me.
+>> Hi all,
+>>
+>> Here is my fifth (and likely final) stab at an agenda for the media summit. As always,
+>> it is subject to change and all times are guesstimates!
+>>
+>> The media summit will be held on Monday September 16th. Avnet Silica has very
+>> kindly offered to host this summit at their Vienna office, which is about 35
+>> minutes by public transport from the Open Source Summit Europe venue
+>> (https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
+>>
+>> Avnet Silica Office Location:
+>>
+>> Schönbrunner Str. 297/307, 1120 Vienna, Austria
+>>
+>> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
+>>
+>> Refreshments are available during the day.
+>>
+>> Lunch is held at Schönbrunner Stöckl (https://www.schoenbrunnerstoeckl.com/), close
+>> to the Avnet Silica office. The lunch is sponsored by Ideas on Board and Cisco Systems
+>> Norway.
+>>
+>> Regarding the face mask policy: we will follow the same guidance that the
+>> Linux Foundation gives for the EOSS conference:
+>>
+>> https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/#onsite-health-and-safety
+>>
+>>
+>> In-Person Attendees:
+>>
+>> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+>> Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
+>> Mauro Carvalho Chehab <mchehab@kernel.org> (Huawei, Media Kernel Maintainer)
+>> Steve Cho <stevecho@chromium.org> (Google)
+>> Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+>> Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+>> Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+>> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+>> Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
+>> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+>> Ricardo Ribalda <ribalda@chromium.org> (Google)
+>> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+>> Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
+>> Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+>> Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
+>> Sean Young <sean@mess.org>
+>> Jerry W Hu <jerry.w.hu@intel.com> (Intel)
+>>
+>> Remote Attendees (using MS Teams):
+>>
+>> Rishikesh Donadkar <r-donadkar@ti.com> (TI)
+>> Tomasz Figa <tfiga@chromium.org> (Google)
+>> Hidenori Kobayashi <hidenorik@chromium.org> (Google)
+>> Devarsh Thakkar <devarsht@ti.com> (TI)
+>>
+>> Note: information on how to connect remotely will come later.
+>>
+>> If any information above is incorrect, or if I missed someone, then please let me know.
+>>
+>> We are currently 17 confirmed in-person participants, so we're pretty much full.
+>> If you want to join remotely, then contact me and I'll add you to that list.
+>>
+>> Draft agenda:
+>>
+>> 8:45-9:15: get settled :-)
+>>
+>> 9:15-9:25: Hans: Quick introduction
+>>
+>> 9:25-11:00: Ricardo: multi-committer model using gitlab
 > 
-> Does patchwork send notification to the author if they don't have an
-> account ?
+> As part of such discussion, IMO some topics that should be covered:
 > 
->> Also, having such patches c/c to linuxtv-commits help maintainers,
->> committers and developers to keep track with tree updates.
+> 1. All committers shall use a common procedure for all merges.
 > 
-> Who uses linuxtv-commits, and for what purpose ? I know I never look at
-> it, but I'm interested in hearing if anyone uses it.
+>    This is easy said than done. So, IMO, it is needed some common scripts
+>    to be used by all committers. On my tests when merging two PRs there,
+>    those seems to be the minimal set of scripts that are needed:
+> 
+>    a) script to create a new topic branch at linux-media/users/<user>
+>       The input parameter is the message-ID, e. g. something like:
+> 
+> 	create_media_staging_topic <topic_name> <message_id>
+> 
+>       (eventually with an extra parameter with the name of the tree)
+> 
+>       It shall use patchwork REST interface to get the patches - or at least
+>       to check if all patches are there (and then use b4).
+> 
+>       such script needs to work with a single patch, a patch series and a
+>       pull request.
+> 
+>       the message ID of every patch, including the PR should be stored at
+>       the MR, as this will be needed to later update patchwork.
+> 
+>    b) once gitlab CI runs, there are two possible outcomes: patches may
+>       pass or not. If they pass, a MR will be created and eventually be
+>       merged.
+> 
+>       Either merged or not (because something failed or the patches require
+>       more work), the patchwork status of the patch require changes to
+>       reflect what happened. IMO, another script is needed to update the
+>       patch/patch series/PR on patchwork on a consistent way.
+> 
+>       This is actually a *big* gap we have here. I have a script that 
+>       manually check patchwork status and the gap is huge. currently,
+>       there are 73 patches that seems to be merged, but patchwork was not
+>       updated.
+> 
+>       From what I noticed, some PR submitters almost never update patchwork
+>       after the merges.
+> 
+>       So another script to solve this gap is needed, doing updates on all 
+>       patches that were picked by the first script. Something like:
+> 
+>       update_patchwork_from_topic <topic_name> <new_status>
+> 
+>       This would likely need to use some logic to pick the message IDs
+>       of the patch inside the MR.
+> 
+>       Such script could also check for previous versions of the patch
+>       and for identical patches (it is somewhat common to receive identical
+>       patches with trivial fixes from different developers).
+> 
+>    Someone needs to work on such script, as otherwise the multi committers
+>    model may fail, and we risk needing to return back to the current model.
+> 
+> 2. The mailbomb script that notifies when a patch is merged at media-stage
+>    we're using right now doesn't work with well with multiple committers.
+> 
+>    Right now, the tree at linuxtv runs it, but it might end sending patches
+>    to the author and to linuxtv-commits ML that reached upstream from other
+>    trees. It has some logic to prevent that, but it is not bulletproof.
+>  
+>    A replacement script is needed. Perhaps this can be executed together
+>    with the patchwork script (1B) at the committer's machine.
+> 
+> 3. Staging require different rules, as smatch/spatch/sparse/checkpatch
+>    warnings and errors can be acceptable.
+> 
+> 4. We need to have some sort of "honour code": if undesired behavior
+>    is noticed, maintainers may temporarily (or permanently) revoke
+>    committer rights.
+> 
+>    Hopefully, this will never happen, but, if it happens, a rebase
+>    of media-staging tree may be needed.
+> 
+> 5. The procedure for fixes wil remain the same. We'll have already enough
+>    things to make it work. Let's not add fixes complexity just yet.
+>    Depending on how well the new multi-committers experimental model
+>    works, we may think using it for fixes as well.
 
-I do. It is easy to search if I want to know if a specific patch was merged,
-faster than checking with git. Also I can see immediately when a patch was
-merged.
-
-I'd call it a convenience for me, rather than an essential part of my workflow.
-I.e., I could do without it, but it is nice to have.
+6. Since now the committer has to collect the necessary A-by/R-by tags,
+   how do we handle that? Today it is implicit by posting a PR: the patches
+   will be signed off by me or Mauro when we process the PR. Now you need
+   to collect the tags by asking others. I'd like to formalize this in some
+   way.
 
 Regards,
 
 	Hans
+
+> 
+> Thanks,
+> Mauro
 
 
