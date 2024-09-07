@@ -1,170 +1,282 @@
-Return-Path: <linux-media+bounces-17878-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17879-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9519970361
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 19:32:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAA4970412
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 22:32:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EC522838DB
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 17:32:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1CD11C21B55
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 20:32:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1528249637;
-	Sat,  7 Sep 2024 17:32:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA3A21684A2;
+	Sat,  7 Sep 2024 20:32:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cQCkM4+L"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="nRQl57fA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from msa.smtpout.orange.fr (smtp-77.smtpout.orange.fr [80.12.242.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782DB28FC;
-	Sat,  7 Sep 2024 17:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0723F9CC;
+	Sat,  7 Sep 2024 20:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725730361; cv=none; b=lfSjIKKQg8a//8bPhOU337S1JsC495H0qteKRtD18xvY78e+DJSNtrt39++Igde49p3O/mHQCizZ+eMyHfSOgDo344xCgqSJI0jVuo8Hd5OB8Nzcp9ckNTa02GRYRRKG8h4GdedsGbK+ZLJ5ctC3s4SRWvN+6w1U9EtwoUOgcx8=
+	t=1725741141; cv=none; b=XSa+0XPL9gVa9XNhwQmoXe29/85swjtq4gtd07wCHhgMAIHcBhYVHj98nTkFOn4od8LJpnAIhd/WmT43AVJN/ntcUKXE4UZ9JdqGuEMJVINv9Y720Dz2GjVq6UNbG7iUIP0K0FDH5DQvxwzDChSSecudwnpXnltdUqMqWmeDXCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725730361; c=relaxed/simple;
-	bh=vnUnh9s7HkwYRNQ1rCpFGD3Gx2eWs0ugMiU4/08C0rY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mV56etPrdFiG745o3MfK/eW9HBHXenteK/Y/Ld7TXZP+Y1Als/YnKIHY8VwyUIGZBSB+GlPIdtHDJEz72MtfUCNzsyONA+5H9Z1gSXnwX4XeAgQjpvExeeZsGLdK/4tdR1NDd01XT0lMkzNk+jPRXyCAY0f7/Md0l782Kq6ZLLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cQCkM4+L; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 451C882E;
-	Sat,  7 Sep 2024 19:31:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725730281;
-	bh=vnUnh9s7HkwYRNQ1rCpFGD3Gx2eWs0ugMiU4/08C0rY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cQCkM4+L38R6p6Ha6VLJKWahOm3/uGPQ1Zui3X++jtaNpDnSk/PpelmqdzvswX79G
-	 vxkVUj6aX+hY2CujLtrP7hnWUeoIGOrDSvFVcHk4Vj5I96FudP8gaC1vlwF9a2pMt3
-	 t3uAJfYzliFLrc2b/DtuyxoZCg1P2FBGtWMFtbtE=
-Date: Sat, 7 Sep 2024 20:32:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hien Huynh <hien.huynh.px@renesas.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Set AXI burst
- max length
-Message-ID: <20240907173232.GE15491@pendragon.ideasonboard.com>
-References: <20240905111828.159670-1-biju.das.jz@bp.renesas.com>
- <20240906235948.GH27086@pendragon.ideasonboard.com>
- <TY3PR01MB113461F40823C3404EB4E61AA869F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1725741141; c=relaxed/simple;
+	bh=yLGqfgyzjqmRJqgzGXDIOUEE7fkWFRssNKvQottSDeE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NhDNHLvaic2wGoqlpAEF8UPqHil/J67EwWh3A2ViNysZz+H6A4ndHCYGIZfDaja6p5rohvshq5uHrLhcNMT+7zZ71YLUI9e/3t0oV+g/iiEzbGjfZ24vifHF7XXdHI91URyqMGj8gstEmGOPJ8hxx221Ep5eebqqVczWOvcnb1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=nRQl57fA; arc=none smtp.client-ip=80.12.242.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from fedora.home ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id n25BsU48FQaX2n25BsQW8P; Sat, 07 Sep 2024 22:30:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1725741058;
+	bh=C0HZK5gX7EHpsfXjRldNuzd5k9/czrbSmOypVOt8t4c=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=nRQl57fAIj4iAyoix6Xd9h5lK4DROgDUevvVoCCMKfQ5UTP/igI0K5cejrQF0/k6G
+	 60BfNX6Ruph7bT2Y5yI9pFjebJ9sRHWGmFH4qfV7QddLLfcGPdC8WQWFqdHEcL0NZr
+	 yvGUlo9EnGjNul5VZIpNv6JPpqrr0h/E7pWQP2sCF5AK+YGtAHhGkpcwOybqSdxiUA
+	 bZEtTSwAKWOm9x8mMPO+WgAd551gmxtPvjHX5E+BPi8jE57QJNYN+nLZZOrLxzhOmy
+	 hJJfWsCYdrKMuCKVjlmJU03b3lzhafWgFrQQwiP44j0R3zup9wUvSjl2j8FR83zF9N
+	 HSuotU3NrP2ag==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 07 Sep 2024 22:30:57 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Malcolm Priestley <tvboxspy@gmail.com>,
+	Michael Krufky <mkrufky@linuxtv.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: dvb-usb-v2: Constify struct i2c_algorithm
+Date: Sat,  7 Sep 2024 22:30:42 +0200
+Message-ID: <d84110421a78dc6769435b2c7ff30c7e873f4cd0.1725741030.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <TY3PR01MB113461F40823C3404EB4E61AA869F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
-Hi Biju,
+'struct i2c_algorithm' are not modified in these drivers.
 
-On Sat, Sep 07, 2024 at 07:41:24AM +0000, Biju Das wrote:
-> On Saturday, September 7, 2024 1:00 AM, Laurent Pinchart wrote:
-> > On Thu, Sep 05, 2024 at 12:18:26PM +0100, Biju Das wrote:
-> > > As per the hardware manual section 35.2.3.26 'AXI Master Transfer
-> > > Setting Register for CRU Image Data;, it is mentioned that to improve
-> > > the transfer
-> > 
-> > s/;/'/
-> 
-> Oops, Will fix this in next version.
-> 
-> > > performance of CRU, it is recommended to use AXILEN value '0xf' for
-> > > AXI burst max length setting for image data.
-> > >
-> > > Signed-off-by: Hien Huynh <hien.huynh.px@renesas.com>
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  .../media/platform/renesas/rzg2l-cru/rzg2l-video.c    | 11 +++++++++++
-> > >  1 file changed, 11 insertions(+)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > index 374dc084717f..d17e3eac4177 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > @@ -52,6 +52,11 @@
-> > >  #define AMnMBS				0x14c
-> > >  #define AMnMBS_MBSTS			0x7
-> > >
-> > > +/* AXI Master Transfer Setting Register for CRU Image Data */
-> > > +#define AMnAXIATTR			0x158
-> > > +#define AMnAXIATTR_AXILEN_MASK		GENMASK(3, 0)
-> > > +#define AMnAXIATTR_AXILEN		(0xf)
-> > > +
-> > >  /* AXI Master FIFO Pointer Register for CRU Image Data */
-> > >  #define AMnFIFOPNTR			0x168
-> > >  #define AMnFIFOPNTR_FIFOWPNTR		GENMASK(7, 0)
-> > > @@ -278,6 +283,7 @@ static void rzg2l_cru_fill_hw_slot(struct
-> > > rzg2l_cru_dev *cru, int slot)  static void
-> > > rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)  {
-> > >  	unsigned int slot;
-> > > +	u32 amnaxiattr;
-> > >
-> > >  	/*
-> > >  	 * Set image data memory banks.
-> > > @@ -287,6 +293,11 @@ static void rzg2l_cru_initialize_axi(struct
-> > > rzg2l_cru_dev *cru)
-> > >
-> > >  	for (slot = 0; slot < cru->num_buf; slot++)
-> > >  		rzg2l_cru_fill_hw_slot(cru, slot);
-> > > +
-> > > +	/* Set AXI burst max length to recommended setting */
-> > > +	amnaxiattr = rzg2l_cru_read(cru, AMnAXIATTR) & ~AMnAXIATTR_AXILEN_MASK;
-> > > +	amnaxiattr |= AMnAXIATTR_AXILEN;
-> > > +	rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
-> > 
-> > It would be more efficient to just write
-> > 
-> > 	rzg2l_cru_write(cru, AMnAXIATTR, AMnAXIATTR_AXILEN);
-> 
-> I thought about that. But then re-reading register description changed the mind because
-> of the below bits
-> 
-> {9,8} — 01b R Reserved:
-> When read, the initial value is read. When writing, be sure to write the initial value.
-> Operation is not guaranteed if a value other than the initial value is written.
-> 
-> {6,4} — 101b R Reserved:
-> When read, the initial value is read. When writing, be sure to write the initial value.
-> Operation is not guaranteed if a value other than the initial value is written.
-> 
-> Also, bits {27,24}, {22,16} and {13,12} -0b :
-> 
-> It is mentioned that
-> When read, the initial value is read. When writing, be sure to write the initial value.
-> operation is not guaranteed if a value other than the initial value is written.
+Constifying this structure moves some data to a read-only section, so
+increase overall security, especially when the structure holds some
+function pointers.
 
-Let's keep the code as-is then. I'll fix the typo in (and reflow) the
-commit message myself, no need to resubmit.
+More over, dvb_usb_device_properties->i2c_algo seems to only be copied in
+i2c_adapter->algo, which is already a "const struct i2c_algorithm".
+This is done in dvb_usbv2_i2c_init()
 
-> > the hardware manual however doesn't make it clear if this is safe or not. The rest of the register is
-> > reserved, and writes as documented as ignored, but the reset value is non-zero. If it's not safe to
-> > write the reserved bits to 0,
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > >  }
-> > >
-> > >  static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool
-> > > *input_is_yuv,
+On a x86_64, with allmodconfig, as an example:
+Before:
+======
+   text	   data	    bss	    dec	    hex	filename
+  35366	   5832	     36	  41234	   a112	drivers/media/usb/dvb-usb-v2/af9015.o
 
+After:
+=====
+   text	   data	    bss	    dec	    hex	filename
+  35430	   5768	     36	  41234	   a112	drivers/media/usb/dvb-usb-v2/af9015.o
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+--
+Compile tested only
+---
+ drivers/media/usb/dvb-usb-v2/af9015.c   | 2 +-
+ drivers/media/usb/dvb-usb-v2/af9035.c   | 2 +-
+ drivers/media/usb/dvb-usb-v2/anysee.c   | 2 +-
+ drivers/media/usb/dvb-usb-v2/au6610.c   | 2 +-
+ drivers/media/usb/dvb-usb-v2/az6007.c   | 2 +-
+ drivers/media/usb/dvb-usb-v2/ce6230.c   | 2 +-
+ drivers/media/usb/dvb-usb-v2/dvb_usb.h  | 2 +-
+ drivers/media/usb/dvb-usb-v2/dvbsky.c   | 2 +-
+ drivers/media/usb/dvb-usb-v2/ec168.c    | 2 +-
+ drivers/media/usb/dvb-usb-v2/gl861.c    | 2 +-
+ drivers/media/usb/dvb-usb-v2/lmedm04.c  | 2 +-
+ drivers/media/usb/dvb-usb-v2/mxl111sf.c | 2 +-
+ drivers/media/usb/dvb-usb-v2/rtl28xxu.c | 2 +-
+ 13 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/media/usb/dvb-usb-v2/af9015.c b/drivers/media/usb/dvb-usb-v2/af9015.c
+index 4014f7d07330..3eddc40377bf 100644
+--- a/drivers/media/usb/dvb-usb-v2/af9015.c
++++ b/drivers/media/usb/dvb-usb-v2/af9015.c
+@@ -260,7 +260,7 @@ static u32 af9015_i2c_func(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm af9015_i2c_algo = {
++static const struct i2c_algorithm af9015_i2c_algo = {
+ 	.master_xfer = af9015_i2c_xfer,
+ 	.functionality = af9015_i2c_func,
+ };
+diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
+index 0d2c42819d39..04e8bdf0acf4 100644
+--- a/drivers/media/usb/dvb-usb-v2/af9035.c
++++ b/drivers/media/usb/dvb-usb-v2/af9035.c
+@@ -477,7 +477,7 @@ static u32 af9035_i2c_functionality(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm af9035_i2c_algo = {
++static const struct i2c_algorithm af9035_i2c_algo = {
+ 	.master_xfer = af9035_i2c_master_xfer,
+ 	.functionality = af9035_i2c_functionality,
+ };
+diff --git a/drivers/media/usb/dvb-usb-v2/anysee.c b/drivers/media/usb/dvb-usb-v2/anysee.c
+index 8699846eb416..12b6d0ac9049 100644
+--- a/drivers/media/usb/dvb-usb-v2/anysee.c
++++ b/drivers/media/usb/dvb-usb-v2/anysee.c
+@@ -244,7 +244,7 @@ static u32 anysee_i2c_func(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm anysee_i2c_algo = {
++static const struct i2c_algorithm anysee_i2c_algo = {
+ 	.master_xfer   = anysee_master_xfer,
+ 	.functionality = anysee_i2c_func,
+ };
+diff --git a/drivers/media/usb/dvb-usb-v2/au6610.c b/drivers/media/usb/dvb-usb-v2/au6610.c
+index be223fc8aa14..c20a9469f564 100644
+--- a/drivers/media/usb/dvb-usb-v2/au6610.c
++++ b/drivers/media/usb/dvb-usb-v2/au6610.c
+@@ -115,7 +115,7 @@ static u32 au6610_i2c_func(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm au6610_i2c_algo = {
++static const struct i2c_algorithm au6610_i2c_algo = {
+ 	.master_xfer   = au6610_i2c_xfer,
+ 	.functionality = au6610_i2c_func,
+ };
+diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
+index 2410054ddb2c..65ef045b74ca 100644
+--- a/drivers/media/usb/dvb-usb-v2/az6007.c
++++ b/drivers/media/usb/dvb-usb-v2/az6007.c
+@@ -838,7 +838,7 @@ static u32 az6007_i2c_func(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm az6007_i2c_algo = {
++static const struct i2c_algorithm az6007_i2c_algo = {
+ 	.master_xfer = az6007_i2c_xfer,
+ 	.functionality = az6007_i2c_func,
+ };
+diff --git a/drivers/media/usb/dvb-usb-v2/ce6230.c b/drivers/media/usb/dvb-usb-v2/ce6230.c
+index d3b5cb4a24da..7ebaf3ee4491 100644
+--- a/drivers/media/usb/dvb-usb-v2/ce6230.c
++++ b/drivers/media/usb/dvb-usb-v2/ce6230.c
+@@ -154,7 +154,7 @@ static u32 ce6230_i2c_functionality(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm ce6230_i2c_algorithm = {
++static const struct i2c_algorithm ce6230_i2c_algorithm = {
+ 	.master_xfer   = ce6230_i2c_master_xfer,
+ 	.functionality = ce6230_i2c_functionality,
+ };
+diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb.h b/drivers/media/usb/dvb-usb-v2/dvb_usb.h
+index 288c15a7d72b..ecdc20d45132 100644
+--- a/drivers/media/usb/dvb-usb-v2/dvb_usb.h
++++ b/drivers/media/usb/dvb-usb-v2/dvb_usb.h
+@@ -243,7 +243,7 @@ struct dvb_usb_device_properties {
+ 	int (*download_firmware) (struct dvb_usb_device *,
+ 			const struct firmware *);
+ 
+-	struct i2c_algorithm *i2c_algo;
++	const struct i2c_algorithm *i2c_algo;
+ 
+ 	unsigned int num_adapters;
+ 	int (*get_adapter_count) (struct dvb_usb_device *);
+diff --git a/drivers/media/usb/dvb-usb-v2/dvbsky.c b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+index 1221c924312a..ceac0ea21dab 100644
+--- a/drivers/media/usb/dvb-usb-v2/dvbsky.c
++++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+@@ -169,7 +169,7 @@ static u32 dvbsky_i2c_func(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm dvbsky_i2c_algo = {
++static const struct i2c_algorithm dvbsky_i2c_algo = {
+ 	.master_xfer   = dvbsky_i2c_xfer,
+ 	.functionality = dvbsky_i2c_func,
+ };
+diff --git a/drivers/media/usb/dvb-usb-v2/ec168.c b/drivers/media/usb/dvb-usb-v2/ec168.c
+index 0e4773fc025c..973b32356b17 100644
+--- a/drivers/media/usb/dvb-usb-v2/ec168.c
++++ b/drivers/media/usb/dvb-usb-v2/ec168.c
+@@ -176,7 +176,7 @@ static u32 ec168_i2c_func(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm ec168_i2c_algo = {
++static const struct i2c_algorithm ec168_i2c_algo = {
+ 	.master_xfer   = ec168_i2c_xfer,
+ 	.functionality = ec168_i2c_func,
+ };
+diff --git a/drivers/media/usb/dvb-usb-v2/gl861.c b/drivers/media/usb/dvb-usb-v2/gl861.c
+index c71e7b93476d..0538170ccf29 100644
+--- a/drivers/media/usb/dvb-usb-v2/gl861.c
++++ b/drivers/media/usb/dvb-usb-v2/gl861.c
+@@ -162,7 +162,7 @@ static u32 gl861_i2c_functionality(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm gl861_i2c_algo = {
++static const struct i2c_algorithm gl861_i2c_algo = {
+ 	.master_xfer   = gl861_i2c_master_xfer,
+ 	.functionality = gl861_i2c_functionality,
+ };
+diff --git a/drivers/media/usb/dvb-usb-v2/lmedm04.c b/drivers/media/usb/dvb-usb-v2/lmedm04.c
+index 8a34e6c0d6a6..c9aa77ff088f 100644
+--- a/drivers/media/usb/dvb-usb-v2/lmedm04.c
++++ b/drivers/media/usb/dvb-usb-v2/lmedm04.c
+@@ -549,7 +549,7 @@ static u32 lme2510_i2c_func(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm lme2510_i2c_algo = {
++static const struct i2c_algorithm lme2510_i2c_algo = {
+ 	.master_xfer   = lme2510_i2c_xfer,
+ 	.functionality = lme2510_i2c_func,
+ };
+diff --git a/drivers/media/usb/dvb-usb-v2/mxl111sf.c b/drivers/media/usb/dvb-usb-v2/mxl111sf.c
+index cd5861a30b6f..870ac3c8b085 100644
+--- a/drivers/media/usb/dvb-usb-v2/mxl111sf.c
++++ b/drivers/media/usb/dvb-usb-v2/mxl111sf.c
+@@ -911,7 +911,7 @@ static u32 mxl111sf_i2c_func(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm mxl111sf_i2c_algo = {
++static const struct i2c_algorithm mxl111sf_i2c_algo = {
+ 	.master_xfer   = mxl111sf_i2c_xfer,
+ 	.functionality = mxl111sf_i2c_func,
+ #ifdef NEED_ALGO_CONTROL
+diff --git a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
+index f7884bb56fcc..487c6ab784ab 100644
+--- a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
++++ b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
+@@ -290,7 +290,7 @@ static u32 rtl28xxu_i2c_func(struct i2c_adapter *adapter)
+ 	return I2C_FUNC_I2C;
+ }
+ 
+-static struct i2c_algorithm rtl28xxu_i2c_algo = {
++static const struct i2c_algorithm rtl28xxu_i2c_algo = {
+ 	.master_xfer   = rtl28xxu_i2c_xfer,
+ 	.functionality = rtl28xxu_i2c_func,
+ };
 -- 
-Regards,
+2.46.0
 
-Laurent Pinchart
 
