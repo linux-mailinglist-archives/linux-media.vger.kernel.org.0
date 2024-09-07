@@ -1,165 +1,97 @@
-Return-Path: <linux-media+bounces-17863-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17864-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7463D970036
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 07:36:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0FB970040
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 07:49:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9FF571C222A8
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 05:36:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6ADC11F227E5
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 05:49:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC3711311B5;
-	Sat,  7 Sep 2024 05:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C84612D766;
+	Sat,  7 Sep 2024 05:49:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Ov4MO2/E"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SB5djsi4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from msa.smtpout.orange.fr (smtp-83.smtpout.orange.fr [80.12.242.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1C832C8E;
-	Sat,  7 Sep 2024 05:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A462F2AE8A
+	for <linux-media@vger.kernel.org>; Sat,  7 Sep 2024 05:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725687370; cv=none; b=SpM3BSXHaRHpyJgRPqLOKMd2lRAxYDuSOvvWa4fPDHSiQvSdlsRg1q0SDjNbQ1EiNgJcS3n0Yuv8BmKb2SngBmJjYrfDnQcabIbigq75DLYeMhS3adOz30+2BwZQI6ftITcpSjp7hJnDe3AqdqAEc3MCJGo1GYlTmDxzjC9mzs8=
+	t=1725688141; cv=none; b=ivCBInvxw1kQB0pJGuZJVKvERUnFC8adss8VaQnByDlj+AC6aJM6+EFebdSOOwqn+rfZEth5Ox6nmkCPwTfVk5RT3ltPXiTUBj54+ZhTbEBr2iTiz4NfAyohVCBnbDt7gn5tO0TysaAQ538qY4+6OqRa+CnxA/jk+/J9iWDWZhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725687370; c=relaxed/simple;
-	bh=bWdr1VYjmts1AtM3hv/151cs6BQWWh7DP6hLoyQaDLI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rR1i8N4/wb5ZGG6vYOrRzYIkVyLBNcUU6CwC+BZ3BmJDY9IQWnqk6Se37XfI190y8zIxB5WsdpgTkkcbHkMWvXz+LVPI/A/j5m3IgdJDJ8jY1ocqvQYAzbufydj3w+47JRV5uM4pjR3KsYYi1gikQAzwz66ru1p8SYZlhdm/o3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Ov4MO2/E; arc=none smtp.client-ip=80.12.242.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id mo5jsZENhQYYumo5jsI8EG; Sat, 07 Sep 2024 07:34:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1725687289;
-	bh=zhb/fr3/ahbe9u0OOQ3I4zVqjQ6OdAdflP4aJvLzC4g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=Ov4MO2/EsHbrXOn9mC5X45wUoZIu5LI6TUyK0ggF1aC8TviLvfB2vCpHsKNXLYgO5
-	 vBaAVBW+bZ0l5ZTWIpIqG1k5s5ogB6GbmyJep53eZUBPf7UrWql6sNXCVJAV7qwJ/1
-	 IKAMTL4XPED5b32aaNhI45/3uOfPJ3CGw0qz15LWBCyr9YqZ3KUAXf9faq3OFP5C8r
-	 RcDhXSGvkEV2+CZzDd2oTGxqPwspFww7txYJdfKzDwGcoeUud15+vIoJ0S0x/fCqRZ
-	 1y+Kq0GAzZTDRh8RQOXn6s6TFr9lLo8cXOffoCQL4+J2ZW41amN0iv7I2iv+YmsbqH
-	 V9/TpYOhfBxiA==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sat, 07 Sep 2024 07:34:49 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <daf856a8-32ad-47ac-91b2-0aa2253636f8@wanadoo.fr>
-Date: Sat, 7 Sep 2024 07:34:35 +0200
+	s=arc-20240116; t=1725688141; c=relaxed/simple;
+	bh=y5CuRZoAfmz5Hm07hQSAAE5GLKPVsGSnV7nHnf5p2Mk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cehx9PEWDAQQTncdTsBkcMEM7jzuwaozc5vyQrL1s9YZi/VvDRpcgWogajlFzWM4px15atPoIfsRWBYlM4yvsbvR22YhWGpSIYk6a713PnU5VnZnrm60fhZlHbpIMBlF4OeQxvJE0icL1+KIxwxY9q+/Zq89B0BftoIkmW6RC/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SB5djsi4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C76B3C4CEC2;
+	Sat,  7 Sep 2024 05:49:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1725688141;
+	bh=y5CuRZoAfmz5Hm07hQSAAE5GLKPVsGSnV7nHnf5p2Mk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SB5djsi4P/T6Z5wmYC3ob+OewFp2nBBsG7im6Q2SBTuUlTg6roAMYylDySmUn+/q7
+	 u3ggU0UaNOEvAx35CKUsVaTS5MR+IhJGDezf/6GtOyC6ildmjwvmKoxR1g6xtoj2HD
+	 iZJpcd1imUFWNqr+N8P/o7+GdfQW1j67r3gEDZg4=
+Date: Sat, 7 Sep 2024 07:48:57 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Li Zetao <lizetao1@huawei.com>
+Cc: hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
+	laurent.pinchart+renesas@ideasonboard.com, ricardo@marliere.net,
+	ruanjinjie@huawei.com, linux-media@vger.kernel.org
+Subject: Re: [PATCH -next v2 2/2] media: siano: remove redundant null pointer
+ checks in cec_devnode_init()
+Message-ID: <2024090737-pavement-santa-b360@gregkh>
+References: <20240907034400.3693797-1-lizetao1@huawei.com>
+ <20240907034400.3693797-2-lizetao1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 02/10] net: ethernet: Convert using
- devm_clk_get_enabled() in emac_probe()
-To: Li Zetao <lizetao1@huawei.com>, mchehab@kernel.org,
- florian.fainelli@broadcom.com, andrew@lunn.ch, olteanv@gmail.com,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, heiko@sntech.de, yisen.zhuang@huawei.com,
- salil.mehta@huawei.com, hauke@hauke-m.de, alexandre.torgue@foss.st.com,
- joabreu@synopsys.com, mcoquelin.stm32@gmail.com, wellslutw@gmail.com,
- radhey.shyam.pandey@amd.com, michal.simek@amd.com, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, ruanjinjie@huawei.com,
- hverkuil-cisco@xs4all.nl, u.kleine-koenig@pengutronix.de,
- jacky_chou@aspeedtech.com, jacob.e.keller@intel.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, platform-driver-x86@vger.kernel.org
-References: <20240907031926.3591353-1-lizetao1@huawei.com>
- <20240907031926.3591353-3-lizetao1@huawei.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240907031926.3591353-3-lizetao1@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240907034400.3693797-2-lizetao1@huawei.com>
 
-Le 07/09/2024 à 05:19, Li Zetao a écrit :
-> Use devm_clk_get_enabled() instead of devm_clk_get() +
-> clk_prepare_enable(), which can make the clk consistent with the device
-> life cycle and reduce the risk of unreleased clk resources. Since the
-> device framework has automatically released the clk resource, there is
-> no need to execute clk_disable_unprepare(clk) on the error path, drop
-> the out_clk_disable_unprepare label, and the original error process can
-> changed to the out_dispose_mapping error path.
+On Sat, Sep 07, 2024 at 11:44:00AM +0800, Li Zetao wrote:
+> Since the debugfs_create_dir() never returns a null pointer, checking
+> the return value for a null pointer is redundant, Remove this check
+> since debugfs_create_file can handle IS_ERR pointers.
 > 
 > Signed-off-by: Li Zetao <lizetao1@huawei.com>
-
-Hi,
-
-I think that the subject should be "net: ethernet: allwinner:", or maybe 
-even "net: allwinner:"
-
-
-clk can now be removed from struct emac_board_info I think.
-You should check for all patches, as asked in [1].
-
-I've not looked all patches, but lantiq_xrx200() looks also a good 
-candidate for removing clk from a structure.
-
-CJ
-
-[1]: https://lore.kernel.org/all/20240903151649.1b466145@kernel.org/
-
-CJ
-
 > ---
->   drivers/net/ethernet/allwinner/sun4i-emac.c | 13 ++-----------
->   1 file changed, 2 insertions(+), 11 deletions(-)
+> v1 -> v2: Remove this check since debugfs_create_file can
+> handle IS_ERR pointers.
+> v1:
+> https://lore.kernel.org/all/20240903143607.2004802-2-lizetao1@huawei.com/
 > 
-> diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/ethernet/allwinner/sun4i-emac.c
-> index d761c08fe5c1..8f42501729b7 100644
-> --- a/drivers/net/ethernet/allwinner/sun4i-emac.c
-> +++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
-> @@ -1005,22 +1005,16 @@ static int emac_probe(struct platform_device *pdev)
->   	if (emac_configure_dma(db))
->   		netdev_info(ndev, "configure dma failed. disable dma.\n");
->   
-> -	db->clk = devm_clk_get(&pdev->dev, NULL);
-> +	db->clk = devm_clk_get_enabled(&pdev->dev, NULL);
->   	if (IS_ERR(db->clk)) {
->   		ret = PTR_ERR(db->clk);
->   		goto out_dispose_mapping;
->   	}
->   
-> -	ret = clk_prepare_enable(db->clk);
-> -	if (ret) {
-> -		dev_err(&pdev->dev, "Error couldn't enable clock (%d)\n", ret);
-> -		goto out_dispose_mapping;
+>  drivers/media/common/siano/smsdvb-debugfs.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/media/common/siano/smsdvb-debugfs.c b/drivers/media/common/siano/smsdvb-debugfs.c
+> index 73990e469df9..9db38ae4ecee 100644
+> --- a/drivers/media/common/siano/smsdvb-debugfs.c
+> +++ b/drivers/media/common/siano/smsdvb-debugfs.c
+> @@ -411,10 +411,6 @@ void smsdvb_debugfs_register(void)
+>  	 * subsystem.
+>  	 */
+>  	d = debugfs_create_dir("smsdvb", usb_debug_root);
+> -	if (IS_ERR_OR_NULL(d)) {
+> -		pr_err("Couldn't create sysfs node for smsdvb\n");
+> -		return;
 > -	}
-> -
->   	ret = sunxi_sram_claim(&pdev->dev);
->   	if (ret) {
->   		dev_err(&pdev->dev, "Error couldn't map SRAM to device\n");
-> -		goto out_clk_disable_unprepare;
-> +		goto out_dispose_mapping;
->   	}
->   
->   	db->phy_node = of_parse_phandle(np, "phy-handle", 0);
-> @@ -1068,8 +1062,6 @@ static int emac_probe(struct platform_device *pdev)
->   
->   out_release_sram:
->   	sunxi_sram_release(&pdev->dev);
-> -out_clk_disable_unprepare:
-> -	clk_disable_unprepare(db->clk);
->   out_dispose_mapping:
->   	irq_dispose_mapping(ndev->irq);
->   	dma_release_channel(db->rx_chan);
-> @@ -1095,7 +1087,6 @@ static void emac_remove(struct platform_device *pdev)
->   
->   	unregister_netdev(ndev);
->   	sunxi_sram_release(&pdev->dev);
-> -	clk_disable_unprepare(db->clk);
->   	irq_dispose_mapping(ndev->irq);
->   	iounmap(db->membase);
->   	free_netdev(ndev);
+>  	smsdvb_debugfs_usb_root = d;
 
+Why is d even needed here, just assign it to smsdvb_debugfs_usb_root
+directly, right?
+
+thanks,
+
+greg k-h
 
