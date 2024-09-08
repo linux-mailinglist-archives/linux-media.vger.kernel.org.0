@@ -1,148 +1,144 @@
-Return-Path: <linux-media+bounces-17886-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17887-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA259705C2
-	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2024 10:21:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BAC9709AD
+	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2024 22:24:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8D0CCB219DF
-	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2024 08:21:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A74441F22078
+	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2024 20:24:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA950136326;
-	Sun,  8 Sep 2024 08:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70B83179658;
+	Sun,  8 Sep 2024 20:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="FlZu3XJY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TGHutnDW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8736D481D1;
-	Sun,  8 Sep 2024 08:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A714085D;
+	Sun,  8 Sep 2024 20:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725783678; cv=none; b=buiQwrf1T9JJekw3SEePUVntPp5PkJl0H4De6maNA5+X/VzcugBKgYkZ/pb4vAVVAnUgLq5E9nTkdxG911j/q5bKhDdmbYx6pB0c3+EUkQoCMSxrz+5ut+tNe4LIjHW/hrQEWQ/917CMv3lw1WsHDEHM+hGloWnkgKGDGlzoga8=
+	t=1725827061; cv=none; b=UrZV/lGtu+hKZ4uQSu5WDLJh6HpVLqdRtug8dOYCNZoh9S2O/p64DXExrxklb2Joi8NcRFrr4msL31PcauL7xpTM+YCXlgEAO1VpFNrWCXBGKZNN5Ig0rnn+beOJQYamMl8qfSeGGdJt+/lXimyDCnkMsagwhvd1jU3o+3G/I50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725783678; c=relaxed/simple;
-	bh=KmyIw4s7JcNk9rW5F8w4aDMjCMIawXFYRFVG+FdSl2U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kYw+WHcpmbTmQ9+JLgowuBqUkEL4kW5/kVqpwE6Z1VJhNW9kHY3T6cytRZsNTPsrznfqLm19kyWH2DQH9+crsCSJjUEvJ70NKvKdVK3w/HYL3hYW4k9X8IexDH8+9CEUkX3k8+joNU9sm0OCT3S61Qw4Uyd/gT7VdB4M4wKvXmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=FlZu3XJY; arc=none smtp.client-ip=80.12.242.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from fedora.home ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id nDAQsWqBbNe0InDAQsCb5p; Sun, 08 Sep 2024 10:21:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1725783666;
-	bh=mB8r9utYDzoQqJnYPb9tbgFFpnfU8g77w3vPVA1MzE4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=FlZu3XJYsL7mc5dtbv9g+pg2e9cOagmcUgUuwoXIhHOsz/3n6vYFQjdcxqpvp8ygD
-	 DAGapcl2GX/KfGazF/u/RLQK+GHiAl7sMkrCKOPUTSVoFSDQ6fp2dbXkr+A2P1AYae
-	 BwRjvARwTJyz5TeZJryHkcaB19pF8znMHTg7KD9/hPKmIvW2G/rEc/Brc+1dTfBo6Z
-	 KIpbYwc7BbBKFA0cAVfmIScDfKaq+Ao91wLBuLwZQ7j7nQ/TmFYXFYD1KMtW9S1/zz
-	 EL20WTbosbM7px7xzYre0gSrjpV+5mIshe9Ntt/d48lOtVW/6ls64f2Q80rAKECDZJ
-	 dBqkY3LOpo8pQ==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 08 Sep 2024 10:21:06 +0200
-X-ME-IP: 90.11.132.44
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-media@vger.kernel.org
-Subject: [PATCH v2] media: dibx000_common: Constify struct i2c_algorithm
-Date: Sun,  8 Sep 2024 10:21:00 +0200
-Message-ID: <6539caa4d0eb235e9d2a28ae8e341e46fece1544.1725780011.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.46.0
+	s=arc-20240116; t=1725827061; c=relaxed/simple;
+	bh=qyTMDaNl3wEhwWVcojNWjkZnsJpC+40VxxbDY5HqtT8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fHTbdF24IO0OFoSxy34rNnYcCLl9QvDQfTpoMvjKlLWsJCWDvqtyeul+rBfFr8qxdW4WKDfT46eHeuPK4RbYao/cR6c9vacokdyAKTbajkQsCzW8oTF4/5MpByRXsru6lA4VQqz6GB1cc6OeAnhcIXzNFMMdmYcNfZJC+VvvZFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TGHutnDW; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-502b144f31bso887498e0c.1;
+        Sun, 08 Sep 2024 13:24:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725827059; x=1726431859; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sl+8qFsuwS53ls/QxH0ANQIZHTR+8dp3OUKkdq/DQXU=;
+        b=TGHutnDWGgum1oCmH31TOFATZ9vSAEoWy1vhH4avZ/PGL0QODpcs6ZOc2CXbpapmqi
+         UN+1CEsBM30MCQ/e7939CJO4GsXwUk7ZC4cBFK33WU1JhOFPd09kBwyiI3UtZcNtQEkB
+         /sfwC8B/1HFoJcZWj1uJMdcsz155A9wRt/JyQQzVziIeWnm+TgbURDkcGVcfPYVDG9K4
+         xk3ozTXHsysn3IeOXw/84xm/KIwd3lYa+99Pai4phWPeJg0nqVnW5I4xLH4zpzqr/VQm
+         wTyfwu3cL85HDddKqFYChXijaYYthIGsfGCdrnqWAZEXPGBeeNTZdDFnxWNSPWqDtjDD
+         fzaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725827059; x=1726431859;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Sl+8qFsuwS53ls/QxH0ANQIZHTR+8dp3OUKkdq/DQXU=;
+        b=dh0qhnLmkOwFPgX6K+pU+qnJkq+jbszCvidPvEKuatAQkpDGFLbW2DrBG9GflBRu/a
+         ap6HFbD1/x3q5fytXjV/X4rWeAW0AKv33qkeFTxLKXMk/4M3RhFTVeEIR6TKBtAb2tJl
+         KHajP7f60XykL06O7ZjAjQKigQ4omhC9lrJ70yCaRtzmA4GQohgj1JhOqOT52Dtrpz8g
+         gssW7M1q7MLkkM9tSmDcs25L3htOr35squAb9KLh1GQI4Qa3mo5ldMAH0VidrLwtB9nl
+         LOZ9SpO6YGc7qOva9g3Btv8arobb8iFRbVxaTK/mM3QJn1xOTwt+cWeHPeI/jaoHAdQ+
+         g1EA==
+X-Forwarded-Encrypted: i=1; AJvYcCVtSrUu26lYkO+SWJOuEAhX+m0MKeIUpJs5LjZQ2dj1gtSX6SZcnfu3foAxD+rqFKnRqvApPAjQsiU+SxI=@vger.kernel.org, AJvYcCW8xU6luNVLD6KW0pFET1CSIUAyov3jTkZ1VFAxmVnSFHpoetzdD+ICKJSHx2xiNOjOHZbyBQ9vaGDdNyeylbniWAo=@vger.kernel.org, AJvYcCWyPkV8DmvIyzdhMxUSCl0RQ+VxkOgMmYR/bLs/N5Oni5y+tndY1oPFqlalFXjTXJ1ra2/jqBuJSb2PqkU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7fjRmfNzK7YNwsy20ejXxK3+lavF3xJKLHd4gCVpvp621U3cv
+	1SzcMe7tZXuBhTiNeoZpbkgyFr9usqu3How2JrzQfBIveuSOhqcXjQRV8aPoVP6jO6bPtM3qpdb
+	XQQHGZZlD0atgCFKfXhle5/24dNzLth5BzuX+Ag==
+X-Google-Smtp-Source: AGHT+IHmWtl+POZCFiFgXBKJFuO0g41J3A5BIAsnkX9EHA+oI8Tuq0ND52koymelfGcabRoqf24bHCCox9nxwnWa51o=
+X-Received: by 2002:a05:6122:168d:b0:4ed:145:348f with SMTP id
+ 71dfb90a1353d-50220c7bb1emr10298047e0c.12.1725827059067; Sun, 08 Sep 2024
+ 13:24:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906173947.282402-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906231038.GC12915@pendragon.ideasonboard.com> <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
+In-Reply-To: <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Sun, 8 Sep 2024 21:23:52 +0100
+Message-ID: <CA+V-a8s4UjjDTrQ4aw3OjQuac8B-oq++KqYf-fJEQvuxD5GodA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: platform: rzg2l-cru: rzg2l-video: Retrieve
+ virtual channel information
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-'struct i2c_algorithm' is not modified in this driver.
+Hi Laurent,
 
-Constifying this structure moves some data to a read-only section, so
-increase overall security, especially when the structure holds some
-function pointers.
+On Sat, Sep 7, 2024 at 10:09=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Laurent,
+>
+> Thank you for the review.
+>
+> On Sat, Sep 7, 2024 at 12:10=E2=80=AFAM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+<snip>
+> > > +
+> > >  int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
+> > >  {
+> > >       struct v4l2_mbus_framefmt *fmt =3D rzg2l_cru_ip_get_src_fmt(cru=
+);
+> > >       unsigned long flags;
+> > >       int ret;
+> > >
+> > > +     ret =3D rzg2l_cru_get_virtual_channel(cru);
+> > > +     if (ret < 0)
+> > > +             return ret;
+> > > +     cru->csi.channel =3D ret;
+> >
+> > How about passing the value to the function that needs it, instead of
+> > storing it in cru->csi.channel ? You can do that on top and drop the
+> > csi.channel field.
+> >
+> OK, let me check if this can be done.
+>
+The virtual channel number is programmed in rzg2l_cru_csi2_setup() [0]
+call, below is the code flow of the call. This code flow is called by
+spinlock held.
 
-To do so, the prototype of i2c_adapter_init() has to be updated as well.
+rzg2l_cru_start_image_processing()
+    rzg2l_cru_initialize_image_conv()
+        rzg2l_cru_csi2_setup()
 
-On a x86_64, with allmodconfig:
-Before:
-======
-   text	   data	    bss	    dec	    hex	filename
-  17213	    932	     20	  18165	   46f5	drivers/media/dvb-frontends/dibx000_common.o
+When rzg2l_cru_get_virtual_channel() is called directly in
+rzg2l_cru_csi2_setup() function we get "BUG: Invalid wait context"
+(when PROVE_LOCKING is enabled) this is due to we do a mutex lock as
+part of v4l2_subdev_lock_and_get_active_state() in get_frame_desc.
 
-After:
-=====
-   text	   data	    bss	    dec	    hex	filename
-  17490	    660	     20	  18170	   46fa	drivers/media/dvb-frontends/dibx000_common.o
+So probably I'll leave this as it is now.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
---
-Compile tested only
+[0] https://elixir.bootlin.com/linux/v6.10.8/source/drivers/media/platform/=
+renesas/rzg2l-cru/rzg2l-video.c#L311
 
-Changes in v2:
-  - Fix commit message
-
-v1: https://lore.kernel.org/all/6539cac4d4eb239e9d2528ae7e34be46fe0e1544.1725780011.git.christophe.jaillet@wanadoo.fr/
----
- drivers/media/dvb-frontends/dibx000_common.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/dvb-frontends/dibx000_common.c b/drivers/media/dvb-frontends/dibx000_common.c
-index 63a4c6a4afb5..bd5c5d7223aa 100644
---- a/drivers/media/dvb-frontends/dibx000_common.c
-+++ b/drivers/media/dvb-frontends/dibx000_common.c
-@@ -250,12 +250,12 @@ static int dibx000_i2c_master_xfer_gpio34(struct i2c_adapter *i2c_adap, struct i
- 	return num;
- }
- 
--static struct i2c_algorithm dibx000_i2c_master_gpio12_xfer_algo = {
-+static const struct i2c_algorithm dibx000_i2c_master_gpio12_xfer_algo = {
- 	.master_xfer = dibx000_i2c_master_xfer_gpio12,
- 	.functionality = dibx000_i2c_func,
- };
- 
--static struct i2c_algorithm dibx000_i2c_master_gpio34_xfer_algo = {
-+static const struct i2c_algorithm dibx000_i2c_master_gpio34_xfer_algo = {
- 	.master_xfer = dibx000_i2c_master_xfer_gpio34,
- 	.functionality = dibx000_i2c_func,
- };
-@@ -324,7 +324,7 @@ static int dibx000_i2c_gated_gpio67_xfer(struct i2c_adapter *i2c_adap,
- 	return ret;
- }
- 
--static struct i2c_algorithm dibx000_i2c_gated_gpio67_algo = {
-+static const struct i2c_algorithm dibx000_i2c_gated_gpio67_algo = {
- 	.master_xfer = dibx000_i2c_gated_gpio67_xfer,
- 	.functionality = dibx000_i2c_func,
- };
-@@ -369,7 +369,7 @@ static int dibx000_i2c_gated_tuner_xfer(struct i2c_adapter *i2c_adap,
- 	return ret;
- }
- 
--static struct i2c_algorithm dibx000_i2c_gated_tuner_algo = {
-+static const struct i2c_algorithm dibx000_i2c_gated_tuner_algo = {
- 	.master_xfer = dibx000_i2c_gated_tuner_xfer,
- 	.functionality = dibx000_i2c_func,
- };
-@@ -422,7 +422,7 @@ void dibx000_reset_i2c_master(struct dibx000_i2c_master *mst)
- EXPORT_SYMBOL(dibx000_reset_i2c_master);
- 
- static int i2c_adapter_init(struct i2c_adapter *i2c_adap,
--				struct i2c_algorithm *algo, const char *name,
-+				const struct i2c_algorithm *algo, const char *name,
- 				struct dibx000_i2c_master *mst)
- {
- 	strscpy(i2c_adap->name, name, sizeof(i2c_adap->name));
--- 
-2.46.0
-
+Cheers,
+Prabhakar
 
