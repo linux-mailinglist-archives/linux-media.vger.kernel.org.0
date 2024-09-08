@@ -1,144 +1,193 @@
-Return-Path: <linux-media+bounces-17887-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17888-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BAC9709AD
-	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2024 22:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4FF970A77
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 00:39:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A74441F22078
-	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2024 20:24:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8EF3F1F21E12
+	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2024 22:39:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70B83179658;
-	Sun,  8 Sep 2024 20:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF7D6178CF6;
+	Sun,  8 Sep 2024 22:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TGHutnDW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H2IVnZlS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A714085D;
-	Sun,  8 Sep 2024 20:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF630F9EC;
+	Sun,  8 Sep 2024 22:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725827061; cv=none; b=UrZV/lGtu+hKZ4uQSu5WDLJh6HpVLqdRtug8dOYCNZoh9S2O/p64DXExrxklb2Joi8NcRFrr4msL31PcauL7xpTM+YCXlgEAO1VpFNrWCXBGKZNN5Ig0rnn+beOJQYamMl8qfSeGGdJt+/lXimyDCnkMsagwhvd1jU3o+3G/I50=
+	t=1725835158; cv=none; b=fKc6qezJ0pYJT90tDh+VU5PpK5cvuYWflD+chN3YV/BhlGBzlnjwaRUopD9Et4iBpyOMZoOZxCMM0qloK9NfjZwUtfZlT9kpt5glZJXWq3bmi6WVW4Ldc+rBjiKcmzwOPUhLzICKeafR4A11k9f6FkTaM/xeHf6aers5mndMvxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725827061; c=relaxed/simple;
-	bh=qyTMDaNl3wEhwWVcojNWjkZnsJpC+40VxxbDY5HqtT8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fHTbdF24IO0OFoSxy34rNnYcCLl9QvDQfTpoMvjKlLWsJCWDvqtyeul+rBfFr8qxdW4WKDfT46eHeuPK4RbYao/cR6c9vacokdyAKTbajkQsCzW8oTF4/5MpByRXsru6lA4VQqz6GB1cc6OeAnhcIXzNFMMdmYcNfZJC+VvvZFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TGHutnDW; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-502b144f31bso887498e0c.1;
-        Sun, 08 Sep 2024 13:24:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725827059; x=1726431859; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Sl+8qFsuwS53ls/QxH0ANQIZHTR+8dp3OUKkdq/DQXU=;
-        b=TGHutnDWGgum1oCmH31TOFATZ9vSAEoWy1vhH4avZ/PGL0QODpcs6ZOc2CXbpapmqi
-         UN+1CEsBM30MCQ/e7939CJO4GsXwUk7ZC4cBFK33WU1JhOFPd09kBwyiI3UtZcNtQEkB
-         /sfwC8B/1HFoJcZWj1uJMdcsz155A9wRt/JyQQzVziIeWnm+TgbURDkcGVcfPYVDG9K4
-         xk3ozTXHsysn3IeOXw/84xm/KIwd3lYa+99Pai4phWPeJg0nqVnW5I4xLH4zpzqr/VQm
-         wTyfwu3cL85HDddKqFYChXijaYYthIGsfGCdrnqWAZEXPGBeeNTZdDFnxWNSPWqDtjDD
-         fzaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725827059; x=1726431859;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Sl+8qFsuwS53ls/QxH0ANQIZHTR+8dp3OUKkdq/DQXU=;
-        b=dh0qhnLmkOwFPgX6K+pU+qnJkq+jbszCvidPvEKuatAQkpDGFLbW2DrBG9GflBRu/a
-         ap6HFbD1/x3q5fytXjV/X4rWeAW0AKv33qkeFTxLKXMk/4M3RhFTVeEIR6TKBtAb2tJl
-         KHajP7f60XykL06O7ZjAjQKigQ4omhC9lrJ70yCaRtzmA4GQohgj1JhOqOT52Dtrpz8g
-         gssW7M1q7MLkkM9tSmDcs25L3htOr35squAb9KLh1GQI4Qa3mo5ldMAH0VidrLwtB9nl
-         LOZ9SpO6YGc7qOva9g3Btv8arobb8iFRbVxaTK/mM3QJn1xOTwt+cWeHPeI/jaoHAdQ+
-         g1EA==
-X-Forwarded-Encrypted: i=1; AJvYcCVtSrUu26lYkO+SWJOuEAhX+m0MKeIUpJs5LjZQ2dj1gtSX6SZcnfu3foAxD+rqFKnRqvApPAjQsiU+SxI=@vger.kernel.org, AJvYcCW8xU6luNVLD6KW0pFET1CSIUAyov3jTkZ1VFAxmVnSFHpoetzdD+ICKJSHx2xiNOjOHZbyBQ9vaGDdNyeylbniWAo=@vger.kernel.org, AJvYcCWyPkV8DmvIyzdhMxUSCl0RQ+VxkOgMmYR/bLs/N5Oni5y+tndY1oPFqlalFXjTXJ1ra2/jqBuJSb2PqkU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7fjRmfNzK7YNwsy20ejXxK3+lavF3xJKLHd4gCVpvp621U3cv
-	1SzcMe7tZXuBhTiNeoZpbkgyFr9usqu3How2JrzQfBIveuSOhqcXjQRV8aPoVP6jO6bPtM3qpdb
-	XQQHGZZlD0atgCFKfXhle5/24dNzLth5BzuX+Ag==
-X-Google-Smtp-Source: AGHT+IHmWtl+POZCFiFgXBKJFuO0g41J3A5BIAsnkX9EHA+oI8Tuq0ND52koymelfGcabRoqf24bHCCox9nxwnWa51o=
-X-Received: by 2002:a05:6122:168d:b0:4ed:145:348f with SMTP id
- 71dfb90a1353d-50220c7bb1emr10298047e0c.12.1725827059067; Sun, 08 Sep 2024
- 13:24:19 -0700 (PDT)
+	s=arc-20240116; t=1725835158; c=relaxed/simple;
+	bh=oKBzCVtgHJg7DdDPVdriKTlHZHHU34KAuqI25QTmZmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MYJMC2skZh7Y5zDnZ9/B5/QndVdhdLe4bOTgLAFoWT6kDe6UyXiHnv7sP1wO7OKXlxQ65guH1xqLrLHwUzEpOP6bNgZG2d1EJ2ju3GAR/bfi5C+4DwSKub6hQ8qNSZ9mc0N5CV7vAD64jfP46mTTtLWwkAZbV5IRzUcNjD2CMi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H2IVnZlS; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91B985A4;
+	Mon,  9 Sep 2024 00:37:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725835072;
+	bh=oKBzCVtgHJg7DdDPVdriKTlHZHHU34KAuqI25QTmZmY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H2IVnZlSh8pEU3KW7Gz4vSVm67eN0dlFtz/gUGfVcWR9vjvOoolcNP9ykJh/k5n5X
+	 6XjMrzipiV06ujtXy2i75+UHRtFCtlVRXUgKUUA9fdAgbfZogZY1IwRwNigKwSnyHJ
+	 JKT8VxvREUyNxtLedg3FURFwh08oDhG3VDohAn4g=
+Date: Mon, 9 Sep 2024 01:39:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/3] media: platform: rzg2l-cru: rzg2l-video: Retrieve
+ virtual channel information
+Message-ID: <20240908223905.GG15491@pendragon.ideasonboard.com>
+References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906173947.282402-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240906231038.GC12915@pendragon.ideasonboard.com>
+ <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240906173947.282402-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240906231038.GC12915@pendragon.ideasonboard.com> <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sun, 8 Sep 2024 21:23:52 +0100
-Message-ID: <CA+V-a8s4UjjDTrQ4aw3OjQuac8B-oq++KqYf-fJEQvuxD5GodA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] media: platform: rzg2l-cru: rzg2l-video: Retrieve
- virtual channel information
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hi Prabhakar,
 
-On Sat, Sep 7, 2024 at 10:09=E2=80=AFPM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
+On Sat, Sep 07, 2024 at 10:09:10PM +0100, Lad, Prabhakar wrote:
+> On Sat, Sep 7, 2024 at 12:10 AM Laurent Pinchart wrote:
+> > On Fri, Sep 06, 2024 at 06:39:46PM +0100, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > The RZ/G2L CRU needs to configure the ICnMC.VCSEL bits to specify which
+> > > virtual channel should be processed from the four available VCs. To
+> > > retrieve this information from the connected subdevice, the
+> > > .get_frame_desc() function is called.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 29 +++++++++++++++++++
+> > >  1 file changed, 29 insertions(+)
+> > >
+> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > index bbf4674f888d..6101a070e785 100644
+> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > > @@ -433,12 +433,41 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
+> > >       spin_unlock_irqrestore(&cru->qlock, flags);
+> > >  }
+> > >
+> > > +static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
+> > > +{
+> > > +     struct v4l2_mbus_frame_desc fd = { };
+> > > +     struct media_pad *pad;
+> > > +     int ret;
+> > > +
+> > > +     pad = media_pad_remote_pad_unique(&cru->ip.pads[1]);
+> >
+> > It would be nice to use RZG2L_CRU_IP_SOURCE here instead of hardcoding
+> > the pad number. That would require moving rzg2l_csi2_pads to the shared
+> > header. You can do that on top.
 >
-> Hi Laurent,
+> With the below comment we dont need to move rzg2l_csi2_pads into the
+> shared header.
+> 
+> > An now that I've said that, is it really the source pad you need here ?
 >
-> Thank you for the review.
+> Ouch you are right.
+> 
+> > > +     if (IS_ERR(pad))
+> > > +             return PTR_ERR(pad);
+> >
+> > Can this happen, or would the pipeline fail to validate ? I think you
+> > can set the MUST_CONNECT flag on the sink pad, then you'll have a
+> > guarantee something will be connected.
 >
-> On Sat, Sep 7, 2024 at 12:10=E2=80=AFAM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-<snip>
+> After adding the MUST_CONNECT flag, I wouldn't need the  above
+> media_pad_remote_pad_unique()...
+> 
+> > > +
+> > > +     ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc,
+> > > +                            pad->index, &fd);
+>
+> ... and here I can use '0' instead
+
+Can you ? You need to call the operation on the pad of the connected
+entity that is connected to tbe sink pad of the IP entity. That would be
+the source pad of the CSI-2 RX in this case, but it can't be hardcoded
+as it could also bethe source pad of a parallel sensor (once support for
+that will be implemented). I think you therefore need to keep the
+media_pad_remote_pad_unique() call.
+
+> or do you prefer RZG2L_CRU_IP_SINK
+> (I say because we are calling into remote subdev of IP which is CSI so
+> the RZG2L_CRU_IP_SINK wont make sense)?
+> 
+> > > +     if (ret < 0 && ret != -ENOIOCTLCMD)
+> >
+> > Printing an error message would help debugging.
+> >
+> OK, I will add.
+> 
+> > > +             return ret;
+> > > +     /* If remote subdev does not implement .get_frame_desc default to VC0. */
+> > > +     if (ret == -ENOIOCTLCMD)
+> > > +             return 0;
+> > > +
+> > > +     if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+> >
+> > An error message would help here too I think.
+> >
+> OK, I will add.
+> 
+> > > +             return -EINVAL;
+> > > +
+> > > +     return fd.num_entries ? fd.entry[0].bus.csi2.vc : 0;
+> >
+> > I think you should return an error if fd.num_entries is 0, that
+> > shouldn't happen.
+> >
+> OK, I will add.
+> 
+> > > +}
 > > > +
 > > >  int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
 > > >  {
-> > >       struct v4l2_mbus_framefmt *fmt =3D rzg2l_cru_ip_get_src_fmt(cru=
-);
+> > >       struct v4l2_mbus_framefmt *fmt = rzg2l_cru_ip_get_src_fmt(cru);
 > > >       unsigned long flags;
 > > >       int ret;
 > > >
-> > > +     ret =3D rzg2l_cru_get_virtual_channel(cru);
+> > > +     ret = rzg2l_cru_get_virtual_channel(cru);
 > > > +     if (ret < 0)
 > > > +             return ret;
-> > > +     cru->csi.channel =3D ret;
+> > > +     cru->csi.channel = ret;
 > >
 > > How about passing the value to the function that needs it, instead of
 > > storing it in cru->csi.channel ? You can do that on top and drop the
 > > csi.channel field.
 > >
 > OK, let me check if this can be done.
->
-The virtual channel number is programmed in rzg2l_cru_csi2_setup() [0]
-call, below is the code flow of the call. This code flow is called by
-spinlock held.
 
-rzg2l_cru_start_image_processing()
-    rzg2l_cru_initialize_image_conv()
-        rzg2l_cru_csi2_setup()
+-- 
+Regards,
 
-When rzg2l_cru_get_virtual_channel() is called directly in
-rzg2l_cru_csi2_setup() function we get "BUG: Invalid wait context"
-(when PROVE_LOCKING is enabled) this is due to we do a mutex lock as
-part of v4l2_subdev_lock_and_get_active_state() in get_frame_desc.
-
-So probably I'll leave this as it is now.
-
-[0] https://elixir.bootlin.com/linux/v6.10.8/source/drivers/media/platform/=
-renesas/rzg2l-cru/rzg2l-video.c#L311
-
-Cheers,
-Prabhakar
+Laurent Pinchart
 
