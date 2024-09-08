@@ -1,206 +1,144 @@
-Return-Path: <linux-media+bounces-17884-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17885-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2637E97042B
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 23:25:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A79A9970552
+	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2024 09:21:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 47A451C21211
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2024 21:25:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64E1C282B21
+	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2024 07:21:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 848DD1547E8;
-	Sat,  7 Sep 2024 21:25:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2AC871750;
+	Sun,  8 Sep 2024 07:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fHH+yBfd"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="MxDhUpew"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-19.smtpout.orange.fr [80.12.242.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9EC1B85E6
-	for <linux-media@vger.kernel.org>; Sat,  7 Sep 2024 21:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648B71CA81;
+	Sun,  8 Sep 2024 07:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725744327; cv=none; b=LgcQttov04Yf7VnU1uCbcEPu7wQ9E/L5WxJK/LNmgmHjRVQAZt8kObQ/T9HRGAorMcdoWZWC0qJbZiHDxi3JIs26BaMEfhTLDOsqx96BF05HgTFyu1X+NFbotNNXqpbNHk2mDN5p7HTds4HKlkNk+GSYVifTFDxFhhZCcLE5C2o=
+	t=1725780055; cv=none; b=SquHgSRJK/vydgu177rsOeHbJmX+Bh9XsLF7+T+k0c/jS5zW8XzTDVK0xOLKUz/Ebk2mixzlwyLtmI5iL6h6Dv8J/Sw6FsFpnox4Twh7AueKAB6+ksQ0GZcsSRxORlk5eh3PVZRrhe75ExGrqNGr0NHkjATw7LKte6NSFQ/wHCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725744327; c=relaxed/simple;
-	bh=bl75LcHs/kCZVvn92bGF8OaEZHCm80XTcvdJ2TM6Exs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ORZOx4EGR8aAPUJL7YJzpwRLeg0M9QU+2S8C5B2H3iLaYqywgScbsnKijR792DCpYXPbxKKzpckTZpDyVthmt92+Yz9nR8RkRrcKQYIx5kCvNVG8Mm0uJQrxYgoRVUA6jVPlsnsukt0XDB3a84ZoThcthZ4FoQSdgfQhGhKFxpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fHH+yBfd; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725744326; x=1757280326;
-  h=date:from:to:cc:subject:message-id;
-  bh=bl75LcHs/kCZVvn92bGF8OaEZHCm80XTcvdJ2TM6Exs=;
-  b=fHH+yBfdUbSQYW97EiE4EusosIv5RvEsPAwDoxHwfIf6oKfukK+o+Tg/
-   1nQnteC6pvLmC00PgaKE+Ix7z9dMUX9NiXuDK+C9WNnklhYR7FQyV3um6
-   YHEsBYEnmwgKhJ7LY2T6UyI2H3gdWO2bIK0jJok5M9a7C1QrKS5h+fhBw
-   Mlcn7gQgSLx8zEtEFg2jAJnUDD65kM6dnt3uSE+AZFAtYCKD0EemMLvdV
-   3ZuXzTuX/bW0MtwmvxEjlHzqfKuDu0wUlAVFl3tYZ7QqqTwws8l6g1N81
-   dR7shbHnSUDwIR21pCRpkisj691GBQbz7TacisbnZySChcR+Yv2GcEWBh
-   Q==;
-X-CSE-ConnectionGUID: eHAjZsEYSAGV7OHc8nRlHQ==
-X-CSE-MsgGUID: nJEg8pFlQaq3G5SLHdlyFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="28260252"
-X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="28260252"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 14:25:25 -0700
-X-CSE-ConnectionGUID: u/pnNp4TRD+AMyE1HlD49A==
-X-CSE-MsgGUID: 74dkh1vHT7ijV83iTSLmhw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="70403808"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Sep 2024 14:25:24 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sn2vq-000D0z-0d;
-	Sat, 07 Sep 2024 21:25:22 +0000
-Date: Sun, 08 Sep 2024 05:25:12 +0800
-From: kernel test robot <lkp@intel.com>
+	s=arc-20240116; t=1725780055; c=relaxed/simple;
+	bh=HeG2uL8Bqswn5W8MK5eBY16hS8/iTMvLaKfm0muxDTo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GyaXp7eX46QVboRKe72CXtFmLOkG9OAAQfUIXWcDNmhqHvXWT+Y0Qx7KMhpsha4MxNHjztHnOpoTV9NeeUu3KIyCNDA5ohpBi7ikgQd+pATd+ipdJk8Pn8AF2VEImEOQnWML1fCimhErchMpzejWMuNCSqq5NcGDwLh7tAWhYfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=MxDhUpew; arc=none smtp.client-ip=80.12.242.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from fedora.home ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id nCDzsEBBjH7HInCDzsT8vQ; Sun, 08 Sep 2024 09:20:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1725780044;
+	bh=tmhFCMafs4w7/ikKQfk8iMWvMCPuQdk70+cMn7alsA8=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=MxDhUpewEFnAOziGUSMo3wFmMdeYNJHhK4WsSVwrFHgUejtmqHIwZyP0Vn4edjK+y
+	 Y45Y9L4ofHE0wRXzNSu+1h7OhLar2+ekng1+bqztcqGSSGrtHkVmQhRtLHpwCY/IZk
+	 h+D8hGeeJNOfVL+GUyOJoR4QIWgVZZR3Zi+3XJvoTf7bF4Fb1ZPZYBzJKBtLDLDb1O
+	 dEDXFWUuK6XYzqz/MDgFLx31cgd6bE0d5EpVq2usBU4zs1FO9tAlLkHBE+kP8LmthR
+	 2DUL+AtoHcXAIazHE9CDUxhLVw2lUCs+8af+5jneHUAjGDmghcDo5I0gDP5S0J2Ier
+	 wu6xOnHO1DXSw==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 08 Sep 2024 09:20:44 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- b36c41c51e9d763393634359b90f02414ef470a3
-Message-ID: <202409080510.3ZtXpoLg-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: dibx000_common: Constify struct i2c_algorithm
+Date: Sun,  8 Sep 2024 09:20:37 +0200
+Message-ID: <6539cac4d4eb239e9d2528ae7e34be46fe0e1544.1725780011.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: b36c41c51e9d763393634359b90f02414ef470a3  media: atomisp: set lock before calling vb2_queue_init()
+'struct i2c_algorithm' and 'struct virtio_device_id' are not modified in
+this driver.
 
-elapsed time: 1930m
+To do so, the prototype of i2c_adapter_init() has to be updated as well.
 
-configs tested: 113
-configs skipped: 3
+Constifying this structure moves some data to a read-only section, so
+increase overall security, especially when the structure holds some
+function pointers.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+On a x86_64, with allmodconfig:
+Before:
+======
+   text	   data	    bss	    dec	    hex	filename
+  17213	    932	     20	  18165	   46f5	drivers/media/dvb-frontends/dibx000_common.o
 
-tested configs:
-alpha                             allnoconfig   gcc-14.1.0
-alpha                            allyesconfig   clang-20
-alpha                               defconfig   gcc-14.1.0
-arc                              allmodconfig   clang-20
-arc                               allnoconfig   gcc-14.1.0
-arc                              allyesconfig   clang-20
-arc                                 defconfig   gcc-14.1.0
-arm                              allmodconfig   clang-20
-arm                               allnoconfig   gcc-14.1.0
-arm                              allyesconfig   clang-20
-arm                                 defconfig   gcc-14.1.0
-arm64                            allmodconfig   clang-20
-arm64                             allnoconfig   gcc-14.1.0
-arm64                               defconfig   gcc-14.1.0
-csky                              allnoconfig   gcc-14.1.0
-csky                                defconfig   gcc-14.1.0
-hexagon                          allmodconfig   clang-20
-hexagon                           allnoconfig   gcc-14.1.0
-hexagon                          allyesconfig   clang-20
-hexagon                             defconfig   gcc-14.1.0
-i386                             allmodconfig   clang-18
-i386                             allmodconfig   gcc-12
-i386                              allnoconfig   clang-18
-i386                              allnoconfig   gcc-12
-i386                             allyesconfig   clang-18
-i386                             allyesconfig   gcc-12
-i386         buildonly-randconfig-001-20240907   clang-18
-i386         buildonly-randconfig-002-20240907   gcc-12
-i386         buildonly-randconfig-003-20240907   gcc-12
-i386         buildonly-randconfig-004-20240907   clang-18
-i386         buildonly-randconfig-005-20240907   clang-18
-i386         buildonly-randconfig-006-20240907   gcc-12
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240907   clang-18
-i386                  randconfig-002-20240907   clang-18
-i386                  randconfig-003-20240907   clang-18
-i386                  randconfig-004-20240907   gcc-12
-i386                  randconfig-005-20240907   gcc-12
-i386                  randconfig-006-20240907   gcc-12
-i386                  randconfig-011-20240907   clang-18
-i386                  randconfig-012-20240907   gcc-12
-i386                  randconfig-013-20240907   clang-18
-i386                  randconfig-014-20240907   clang-18
-i386                  randconfig-015-20240907   clang-18
-i386                  randconfig-016-20240907   clang-18
-loongarch                        allmodconfig   gcc-14.1.0
-loongarch                         allnoconfig   gcc-14.1.0
-loongarch                           defconfig   gcc-14.1.0
-m68k                             allmodconfig   gcc-14.1.0
-m68k                              allnoconfig   gcc-14.1.0
-m68k                             allyesconfig   gcc-14.1.0
-m68k                                defconfig   gcc-14.1.0
-microblaze                       allmodconfig   gcc-14.1.0
-microblaze                        allnoconfig   gcc-14.1.0
-microblaze                       allyesconfig   gcc-14.1.0
-microblaze                          defconfig   gcc-14.1.0
-mips                              allnoconfig   gcc-14.1.0
-nios2                             allnoconfig   gcc-14.1.0
-nios2                               defconfig   gcc-14.1.0
-openrisc                          allnoconfig   clang-20
-openrisc                            defconfig   gcc-12
-parisc                            allnoconfig   clang-20
-parisc                              defconfig   gcc-12
-parisc64                            defconfig   gcc-14.1.0
-powerpc                           allnoconfig   clang-20
-riscv                             allnoconfig   clang-20
-riscv                               defconfig   gcc-12
-s390                             allmodconfig   gcc-14.1.0
-s390                              allnoconfig   clang-20
-s390                             allyesconfig   gcc-14.1.0
-s390                                defconfig   gcc-12
-sh                               allmodconfig   gcc-14.1.0
-sh                                allnoconfig   gcc-14.1.0
-sh                               allyesconfig   gcc-14.1.0
-sh                                  defconfig   gcc-12
-sparc                            allmodconfig   gcc-14.1.0
-sparc64                             defconfig   gcc-12
-um                               allmodconfig   clang-20
-um                                allnoconfig   clang-20
-um                               allyesconfig   clang-20
-um                                  defconfig   gcc-12
-um                             i386_defconfig   gcc-12
-um                           x86_64_defconfig   gcc-12
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240907   gcc-12
-x86_64       buildonly-randconfig-002-20240907   gcc-12
-x86_64       buildonly-randconfig-003-20240907   gcc-12
-x86_64       buildonly-randconfig-004-20240907   gcc-12
-x86_64       buildonly-randconfig-005-20240907   gcc-12
-x86_64       buildonly-randconfig-006-20240907   gcc-12
-x86_64                              defconfig   clang-18
-x86_64                              defconfig   gcc-11
-x86_64                randconfig-001-20240907   gcc-12
-x86_64                randconfig-002-20240907   gcc-12
-x86_64                randconfig-003-20240907   gcc-12
-x86_64                randconfig-004-20240907   gcc-12
-x86_64                randconfig-005-20240907   gcc-12
-x86_64                randconfig-006-20240907   gcc-12
-x86_64                randconfig-011-20240907   gcc-12
-x86_64                randconfig-012-20240907   gcc-12
-x86_64                randconfig-013-20240907   gcc-12
-x86_64                randconfig-014-20240907   gcc-12
-x86_64                randconfig-015-20240907   gcc-12
-x86_64                randconfig-016-20240907   gcc-12
-x86_64                randconfig-071-20240907   gcc-12
-x86_64                randconfig-072-20240907   gcc-12
-x86_64                randconfig-073-20240907   gcc-12
-x86_64                randconfig-074-20240907   gcc-12
-x86_64                randconfig-075-20240907   gcc-12
-x86_64                randconfig-076-20240907   gcc-12
-x86_64                          rhel-8.3-rust   clang-18
-xtensa                            allnoconfig   gcc-14.1.0
+After:
+=====
+   text	   data	    bss	    dec	    hex	filename
+  17490	    660	     20	  18170	   46fa	drivers/media/dvb-frontends/dibx000_common.o
 
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+--
+Compile tested only
+---
+ drivers/media/dvb-frontends/dibx000_common.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/dvb-frontends/dibx000_common.c b/drivers/media/dvb-frontends/dibx000_common.c
+index 63a4c6a4afb5..bd5c5d7223aa 100644
+--- a/drivers/media/dvb-frontends/dibx000_common.c
++++ b/drivers/media/dvb-frontends/dibx000_common.c
+@@ -250,12 +250,12 @@ static int dibx000_i2c_master_xfer_gpio34(struct i2c_adapter *i2c_adap, struct i
+ 	return num;
+ }
+ 
+-static struct i2c_algorithm dibx000_i2c_master_gpio12_xfer_algo = {
++static const struct i2c_algorithm dibx000_i2c_master_gpio12_xfer_algo = {
+ 	.master_xfer = dibx000_i2c_master_xfer_gpio12,
+ 	.functionality = dibx000_i2c_func,
+ };
+ 
+-static struct i2c_algorithm dibx000_i2c_master_gpio34_xfer_algo = {
++static const struct i2c_algorithm dibx000_i2c_master_gpio34_xfer_algo = {
+ 	.master_xfer = dibx000_i2c_master_xfer_gpio34,
+ 	.functionality = dibx000_i2c_func,
+ };
+@@ -324,7 +324,7 @@ static int dibx000_i2c_gated_gpio67_xfer(struct i2c_adapter *i2c_adap,
+ 	return ret;
+ }
+ 
+-static struct i2c_algorithm dibx000_i2c_gated_gpio67_algo = {
++static const struct i2c_algorithm dibx000_i2c_gated_gpio67_algo = {
+ 	.master_xfer = dibx000_i2c_gated_gpio67_xfer,
+ 	.functionality = dibx000_i2c_func,
+ };
+@@ -369,7 +369,7 @@ static int dibx000_i2c_gated_tuner_xfer(struct i2c_adapter *i2c_adap,
+ 	return ret;
+ }
+ 
+-static struct i2c_algorithm dibx000_i2c_gated_tuner_algo = {
++static const struct i2c_algorithm dibx000_i2c_gated_tuner_algo = {
+ 	.master_xfer = dibx000_i2c_gated_tuner_xfer,
+ 	.functionality = dibx000_i2c_func,
+ };
+@@ -422,7 +422,7 @@ void dibx000_reset_i2c_master(struct dibx000_i2c_master *mst)
+ EXPORT_SYMBOL(dibx000_reset_i2c_master);
+ 
+ static int i2c_adapter_init(struct i2c_adapter *i2c_adap,
+-				struct i2c_algorithm *algo, const char *name,
++				const struct i2c_algorithm *algo, const char *name,
+ 				struct dibx000_i2c_master *mst)
+ {
+ 	strscpy(i2c_adap->name, name, sizeof(i2c_adap->name));
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.46.0
+
 
