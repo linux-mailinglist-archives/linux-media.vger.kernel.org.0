@@ -1,226 +1,324 @@
-Return-Path: <linux-media+bounces-17945-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17947-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7337970FCF
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 09:30:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83136971073
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 09:57:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C42271C222EC
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:30:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02CA91F22CE1
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:57:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96BE81B5EDF;
-	Mon,  9 Sep 2024 07:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F1C91B1420;
+	Mon,  9 Sep 2024 07:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhBWjD5i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CC91B1D76
-	for <linux-media@vger.kernel.org>; Mon,  9 Sep 2024 07:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8846171E5A;
+	Mon,  9 Sep 2024 07:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725866697; cv=none; b=kQNsCZb610fTfZjX/DkFtlhq6sf0Df7SsuewdkAVpn9F/V68RL4ekOuD2JxMxXeyUtH+r6rU8JJzq8EiWWAe/ui0O4ZpwzgZPQd2plK79rhRf4gNYcvdJTbxb4/Q7jdKYTJMPt8QiSytxqwQ6YknZHcrK5ZfULzb/wFF2sDLu6o=
+	t=1725868610; cv=none; b=d1ewVky97YRqDtcgA/auMLU9B8UT+d62NUArMXrP725CVBApEREsjVr08FauEFAZ1SABx7MN6vEmgTcniZx0IyH1ALM4ir+244dn2BEmIC6PvpyGDFFNs0n9l/bZTfNuGdpIiDyHq6F9eIPdjWOq9fqvXK3yHr1FluxV6aGyCsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725866697; c=relaxed/simple;
-	bh=4/V9vzNiV+XnZ6jGdJFlJYxJJTq1kgEqRVR01PSdock=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=ptH3olgP6ZufObxb4B6PLvXQx8+oCcmfrteu2BXPnuXkYmXl2li0h7XN5D1rpZoyjZs2Xg894+Q9j8wj0gJu/fLr4lOqNyER2hN/6bU5wI9vcxEG60BSWgFERgB8h0O/MYiuh9XiqDhEVQSUMdgCfzJ8dQCIerDMU7pIp57dW+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4E53C4CEC5;
-	Mon,  9 Sep 2024 07:24:52 +0000 (UTC)
-Message-ID: <b4144072-f794-4de3-b057-8767944c4463@xs4all.nl>
-Date: Mon, 9 Sep 2024 09:24:51 +0200
+	s=arc-20240116; t=1725868610; c=relaxed/simple;
+	bh=ecTuTBb8nrhq5psYTt0CPe+4p0xCP+KHVPh5i6FQ/es=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PQoyALH5p5cULSDOslCRSMginFqMEtEmoFelol8KXAWDjqAnV8AIH/34NKoarHL/gb7zWrTQiDUdjC3VizAQmbQagY6MsqQWGJWh7He8hIWZbLkVK1dW8phcrck45tR9C+g0mc1tIiTTVkNq39cqXlvjpYP9sn6IRojLwd7k8MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OhBWjD5i; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42cb0f28bfbso14486565e9.1;
+        Mon, 09 Sep 2024 00:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725868607; x=1726473407; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R4NS6jV5fKGk/mwoZluVrj+7uJlJEVUPyFdbxV7oRHQ=;
+        b=OhBWjD5iUWox4oVV7JO8Y835qqqS9myx+Gr3jXIpTiB/iISVWDhK3uc20df9XY5SKL
+         eLbBjdmudg0yXSY6G3blAOiOGSvPGXmykTSjktDbeceEe7r/zAtotuCaOHkcqyhRd00O
+         E7OvAP670Q1AeO65ijsZQ/2qoTt/LLiStkce6kh4F2zfH1rwacIAseTaVSiCOOc034o1
+         YS2AOcK669G7zBtowCmV30OHbr4ssNjO1t0JO1RCNNQyGSVSDU6X5BQ7qCOgkqhgVHf0
+         pErFjuey5PV4ylE0XhcWe1M7tvDVyte5AVW/EJSY30HfDfTU9oSeyMNI0RhMaQXBSy1V
+         oncg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725868607; x=1726473407;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R4NS6jV5fKGk/mwoZluVrj+7uJlJEVUPyFdbxV7oRHQ=;
+        b=akKBlBqrMNp2korsx+kCQ5uFpXk5RBFhCZVNj61G2U32d7cyDW/VmPKlrzos//OCkG
+         JZLsKly4mG37KMG/K9vQE4Y1d9Q3xI6abXtLYFJPOp7Q99953bjKjqNLikGCQYtaHsX4
+         RFpXgY4uFsFYhY+OcuneHYABEzTjtG79WW1HqRtggGHuLEpi1D/vR0ADRSzXOVPOp37m
+         mKqP12Tf7vGkhikngvGI1H7SfkuJDH0wt7q2cootIhEp19fxfhfSLNKvmZNYgtJQRm6Y
+         1eLRnFYD7w69FkRhaXg2mlQ96lyHydPmaowu5a4goKgGh/YuAZvLp4LJEWrn34Qm3DxS
+         F85A==
+X-Forwarded-Encrypted: i=1; AJvYcCUZV9Xex7CtITqRt4Kf0PEN438kqpdKR287q42QNTS0+7bLYFeMNipAVjcWX1xXb/xw4uryANAx/XiqFj0Ey7aY@vger.kernel.org, AJvYcCUoNEpossl1+rvIpbSm3E0FZvtiADQWEyzt30WBaXp+C9AjhY+qpZDOPNfCrsI/k4/Xpsq0BdLSTkCQNAbI@vger.kernel.org, AJvYcCW/9eZkeMvRTbGE3voobZ5E6tSmIu2mZYjUN0HfxoOJMRwnbfGFHKqsUFRSt+wwQE9HG3ylV2ydqTpy08mfMQ==@vger.kernel.org, AJvYcCWfOdsCIzWD6dMtJKauN7rmu/8ojdPXhJUXq6jMCwylB2U27GnvtXbnPt27WuAnlzwpz10PrS90LISHJdM=@vger.kernel.org, AJvYcCXN7e1njff2PkwKtyRjv5cqnOz5j6rDZYLH8Fz3OaogynWkcYNTMofFgODdp6POczVBgWORwgFvRvEwcQ==@vger.kernel.org, AJvYcCXV+URywT4bglUdzDwsdZoIi14eDjwdQ57dWvrMS4mdJE7K39Hw+eu8PPypNDQ938AekxlJZe9gJ/SP+Qi3@vger.kernel.org, AJvYcCXr2BU7tY4Ekdh35rzagdrgLk/q7YP4pUn5Ev7gWrCOsiApaVOYnhMHuHxJHGO14NUNPhA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOvxzIt5FHaIshbyaZtTwsXJMxHqTog562pkpC7fbjbAVFxfwy
+	8bErsAmvEVS28fEN1qE81m/HeBRj8Yhj7CeSB1T5kOMujYhOpt7h
+X-Google-Smtp-Source: AGHT+IEA5yak33SFTx+YZRupolj5vmzjBVIUunnRVoxkecwVhW5D0ABKP0ZK9jxMzGmcV67/WpIyKA==
+X-Received: by 2002:a05:600c:310a:b0:42c:8812:82a6 with SMTP id 5b1f17b1804b1-42c9f98a81cmr79250105e9.21.1725868606867;
+        Mon, 09 Sep 2024 00:56:46 -0700 (PDT)
+Received: from fedora.iskraemeco.si ([193.77.86.250])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37895675b7esm5303001f8f.50.2024.09.09.00.56.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Sep 2024 00:56:46 -0700 (PDT)
+From: Uros Bizjak <ubizjak@gmail.com>
+To: x86@kernel.org,
+	linux-crypto@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-fscrypt@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org
+Cc: Uros Bizjak <ubizjak@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Hannes Reinecke <hare@suse.de>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	Rae Moar <rmoar@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [PATCH RESEND v2 00/19] random: Resolve circular include dependency and include <linux/percpu.h> 
+Date: Mon,  9 Sep 2024 09:53:43 +0200
+Message-ID: <20240909075641.258968-1-ubizjak@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Media Summit September 16th: Draft Agenda (v6)
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Martin Hecht <martin.hecht@avnet.eu>,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
- Steve Cho <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
- Hidenori Kobayashi <hidenorik@chromium.org>,
- "Hu, Jerry W" <jerry.w.hu@intel.com>,
- Suresh Vankadara <svankada@qti.qualcomm.com>,
- Devarsh Thakkar <devarsht@ti.com>, r-donadkar@ti.com,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+Resent due to missing linux-kernel@ mailing list inclusion.
 
-Here is my sixth (and likely final) stab at an agenda for the media summit. As always,
-it is subject to change and all times are guesstimates!
+There were several attempts to resolve circular include dependency
+after the addition of percpu.h: 1c9df907da83 ("random: fix circular
+include dependency on arm64 after addition of percpu.h"), c0842fbc1b18
+("random32: move the pseudo-random 32-bit definitions to prandom.h") and
+finally d9f29deb7fe8 ("prandom: Remove unused include") that completely
+removes the inclusion of <linux/percpu.h>.
 
-The media summit will be held on Monday September 16th. Avnet Silica has very
-kindly offered to host this summit at their Vienna office, which is about 35
-minutes by public transport from the Open Source Summit Europe venue
-(https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
+Due to legacy reasons, <linux/random.h> includes <linux/prandom.h>, but
+with the commit entry remark:
 
-Avnet Silica Office Location:
+--quote--
+A further cleanup step would be to remove this from <linux/random.h>
+entirely, and make people who use the prandom infrastructure include
+just the new header file.  That's a bit of a churn patch, but grepping
+for "prandom_" and "next_pseudo_random32" "struct rnd_state" should
+catch most users.
 
-Schönbrunner Str. 297/307, 1120 Vienna, Austria
+But it turns out that that nice cleanup step is fairly painful, because
+a _lot_ of code currently seems to depend on the implicit include of
+<linux/random.h>, which can currently come in a lot of ways, including
+such fairly core headfers as <linux/net.h>.
 
-https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
+So the "nice cleanup" part may or may never happen.
+--/quote--
 
-Refreshments are available during the day.
+We would like to include <linux/percpu.h> in <linux/prandom.h>.
+In [1] we would like to repurpose __percpu tag as a named address space
+qualifier, where __percpu macro uses defines from <linux/percpu.h>.
 
-Lunch is held at Schönbrunner Stöckl (https://www.schoenbrunnerstoeckl.com/), close
-to the Avnet Silica office. The lunch is sponsored by Ideas on Board and Cisco Systems
-Norway.
+The major roadblock to inclusion of <linux/percpu.h> is the above
+mentioned legacy inclusion of <linux/prandom.h> in <linux/random.h> that
+causes circular include dependency that prevents <linux/percpu.h>
+inclusion.
 
-Regarding the face mask policy: we will follow the same guidance that the
-Linux Foundation gives for the EOSS conference:
+This patch series is the "nice cleanup" part that:
 
-https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/#onsite-health-and-safety
+a) Substitutes the inclusion of <linux/random.h> with the
+inclusion of <linux/prandom.h> where needed (patches 1 - 17).
 
+b) Removes legacy inclusion of <linux/prandom.h> from
+<linux/random.h> (patch 18).
 
-In-Person Attendees:
+c) Includes <linux/percpu.h> in <linux/prandom.h> (patch 19).
 
-Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
-Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
-Mauro Carvalho Chehab <mchehab@kernel.org> (Huawei, Media Kernel Maintainer)
-Steve Cho <stevecho@chromium.org> (Google)
-Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
-Martin Hecht <martin.hecht@avnet.eu> (Avnet)
-Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
-Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
-Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
-Ricardo Ribalda <ribalda@chromium.org> (Google)
-Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
-Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
-Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
-Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
-Sean Young <sean@mess.org>
-Jerry W Hu <jerry.w.hu@intel.com> (Intel)
+The whole series was tested by compiling the kernel for x86_64 allconfig
+and some popular architectures, namely arm64 defconfig, powerpc defconfig
+and loongarch defconfig.
 
-Remote Attendees (using MS Teams):
+[1] https://lore.kernel.org/lkml/20240812115945.484051-4-ubizjak@gmail.com/
 
-Mehdi Djait <mehdi.djait@linux.intel.com> (Intel)
-Rishikesh Donadkar <r-donadkar@ti.com> (TI)
-Nicolas Dufresne <nicolas@ndufresne.ca> (Collabora)
-Tomasz Figa <tfiga@chromium.org> (Google)
-Hidenori Kobayashi <hidenorik@chromium.org> (Google)
-Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
-Devarsh Thakkar <devarsht@ti.com> (TI)
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: x86@kernel.org
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Hannes Reinecke <hare@suse.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: John Fastabend <john.fastabend@gmail.com>
+Cc: Andrii Nakryiko <andrii@kernel.org>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>
+Cc: Eduard Zingerman <eddyz87@gmail.com>
+Cc: Song Liu <song@kernel.org>
+Cc: Yonghong Song <yonghong.song@linux.dev>
+Cc: KP Singh <kpsingh@kernel.org>
+Cc: Stanislav Fomichev <sdf@fomichev.me>
+Cc: Hao Luo <haoluo@google.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>
+Cc: David Gow <davidgow@google.com>
+Cc: Rae Moar <rmoar@google.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Stephen Hemminger <stephen@networkplumber.org>
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Cong Wang <xiyou.wangcong@gmail.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>
+---
+v2: - Reword commit messages to mention the removal of legacy inclusion
+    of <linux/prandom.h> from <linux/random.h>
+    - Add missing substitution in crypto/testmgr.c
+    (reported by kernel test robot)
+    - Add Acked-by:.
 
-Note: information on how to connect remotely will come later.
+Uros Bizjak (19):
+  x86/kaslr: Include <linux/prandom.h> instead of <linux/random.h>
+  crypto: testmgr: Include <linux/prandom.h> instead of <linux/random.h>
+  drm/i915/selftests: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  drm/lib: Include <linux/prandom.h> instead of <linux/random.h>
+  media: vivid: Include <linux/prandom.h> in vivid-vid-cap.c
+  mtd: tests: Include <linux/prandom.h> instead of <linux/random.h>
+  fscrypt: Include <linux/once.h> in fs/crypto/keyring.c
+  scsi: libfcoe: Include <linux/prandom.h> instead of <linux/random.h>
+  bpf: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/interval_tree_test.c: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  kunit: string-stream-test: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  random32: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/rbtree-test: Include <linux/prandom.h> instead of <linux/random.h>
+  bpf/tests: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/test_parman: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/test_scanf: Include <linux/prandom.h> instead of <linux/random.h>
+  netem: Include <linux/prandom.h> in sch_netem.c
+  random: Do not include <linux/prandom.h> in <linux/random.h>
+  prandom: Include <linux/percpu.h> in <linux/prandom.h>
 
-If any information above is incorrect, or if I missed someone, then please let me know.
+ arch/x86/mm/kaslr.c                              | 2 +-
+ crypto/testmgr.c                                 | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem.c        | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_random.h     | 2 +-
+ drivers/gpu/drm/i915/selftests/scatterlist.c     | 2 +-
+ drivers/gpu/drm/lib/drm_random.h                 | 2 +-
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c | 1 +
+ drivers/mtd/tests/oobtest.c                      | 2 +-
+ drivers/mtd/tests/pagetest.c                     | 2 +-
+ drivers/mtd/tests/subpagetest.c                  | 2 +-
+ fs/crypto/keyring.c                              | 1 +
+ include/linux/prandom.h                          | 1 +
+ include/linux/random.h                           | 7 -------
+ include/scsi/libfcoe.h                           | 2 +-
+ kernel/bpf/core.c                                | 2 +-
+ lib/interval_tree_test.c                         | 2 +-
+ lib/kunit/string-stream-test.c                   | 1 +
+ lib/random32.c                                   | 2 +-
+ lib/rbtree_test.c                                | 2 +-
+ lib/test_bpf.c                                   | 2 +-
+ lib/test_parman.c                                | 2 +-
+ lib/test_scanf.c                                 | 2 +-
+ net/sched/sch_netem.c                            | 1 +
+ 23 files changed, 22 insertions(+), 24 deletions(-)
 
-We are currently 17 confirmed in-person participants, so we're pretty much full.
-If you want to join remotely, then contact me and I'll add you to that list.
-
-Draft agenda:
-
-8:45-9:15: get settled :-)
-
-9:15-9:25: Hans: Quick introduction
-
-9:25-11:00: Ricardo: multi-committer model using gitlab
-
-11:00-11:15: break
-
-11:15-12:15: Jacopo: Multi-context support in V4L2
-
-12:15-13:30: Lunch at Schönbrunner Stöckl
-
-13:30-14:00: Tomasz: Current state of videobuf2, its limitations and the paths forward.
-
-14:00-14:45: Laurent: subdevs, state, and usage of the media controller device to submit requests.
-
-14:45-15:00: break
-
-15:00-15:30: Sean: new tooling for infrared:
-
-- What it is and what it can do (love to hear any feedback of course)
-- Where it should be hosted? (I hope gitlab fdo, who do I ask)
-- What needs to be in place for a release?
-- This tool replaces ir-ctl and ir-keytable. How we phase them out?
-
-15:30-16:00: Daniel: Rust in the media subsystem
-
-16:00-16:15: break
-
-16:15-16:30: Hans: UVC maintenance
-
-16:30-17:00: Steve Cho:
-
-- V4L2 testing on Chromium using virtual video decode driver (visl)
-- V4L2 video decoding testing with KernelCI
-
-17:00-17:30: Laurent: Should media drivers depend on CONFIG_PM?
-See here for more info:
-https://lore.kernel.org/linux-media/20240825222455.GA24390@pendragon.ideasonboard.com/
-
-17:30-18:00: TBD
-
-Please reply with corrections, questions, etc. to this email. I'll update the agenda
-over time. Again, these times are guesstimates.
-
-Regards,
-
-	Hans
+-- 
+2.46.0
 
 
