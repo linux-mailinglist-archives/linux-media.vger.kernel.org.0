@@ -1,193 +1,193 @@
-Return-Path: <linux-media+bounces-17888-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17889-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4FF970A77
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 00:39:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A860B970AC3
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 02:21:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8EF3F1F21E12
-	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2024 22:39:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE8A21C20A81
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 00:21:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF7D6178CF6;
-	Sun,  8 Sep 2024 22:39:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FE9CDF6C;
+	Mon,  9 Sep 2024 00:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H2IVnZlS"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="L1Phm7wG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF630F9EC;
-	Sun,  8 Sep 2024 22:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C1D6FB6
+	for <linux-media@vger.kernel.org>; Mon,  9 Sep 2024 00:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725835158; cv=none; b=fKc6qezJ0pYJT90tDh+VU5PpK5cvuYWflD+chN3YV/BhlGBzlnjwaRUopD9Et4iBpyOMZoOZxCMM0qloK9NfjZwUtfZlT9kpt5glZJXWq3bmi6WVW4Ldc+rBjiKcmzwOPUhLzICKeafR4A11k9f6FkTaM/xeHf6aers5mndMvxg=
+	t=1725841299; cv=none; b=mdDYEkAVTW6/Zs2A183CgL6SHtLJ/N+5L95gZdRT/3f/Z7dfuXp7N6ND7Li2CVu46ji5910wljOrriw8J4lk/OD25DXm3oom5mpkFfqXcFDIQNFhUFENozs6EQuEvo8svFBQBAAmDfUEwfXeRq4Wveh0Y+Fx2wsKAjhzlTUL68Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725835158; c=relaxed/simple;
-	bh=oKBzCVtgHJg7DdDPVdriKTlHZHHU34KAuqI25QTmZmY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MYJMC2skZh7Y5zDnZ9/B5/QndVdhdLe4bOTgLAFoWT6kDe6UyXiHnv7sP1wO7OKXlxQ65guH1xqLrLHwUzEpOP6bNgZG2d1EJ2ju3GAR/bfi5C+4DwSKub6hQ8qNSZ9mc0N5CV7vAD64jfP46mTTtLWwkAZbV5IRzUcNjD2CMi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H2IVnZlS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91B985A4;
-	Mon,  9 Sep 2024 00:37:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725835072;
-	bh=oKBzCVtgHJg7DdDPVdriKTlHZHHU34KAuqI25QTmZmY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H2IVnZlSh8pEU3KW7Gz4vSVm67eN0dlFtz/gUGfVcWR9vjvOoolcNP9ykJh/k5n5X
-	 6XjMrzipiV06ujtXy2i75+UHRtFCtlVRXUgKUUA9fdAgbfZogZY1IwRwNigKwSnyHJ
-	 JKT8VxvREUyNxtLedg3FURFwh08oDhG3VDohAn4g=
-Date: Mon, 9 Sep 2024 01:39:05 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 2/3] media: platform: rzg2l-cru: rzg2l-video: Retrieve
- virtual channel information
-Message-ID: <20240908223905.GG15491@pendragon.ideasonboard.com>
-References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240906173947.282402-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240906231038.GC12915@pendragon.ideasonboard.com>
- <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
+	s=arc-20240116; t=1725841299; c=relaxed/simple;
+	bh=KVZMNnMYMnNRh9XEUd/AbAsrshEQNXgSkDB5lDD5qq8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jBTUzzWYrYwyMiHr55EhJgDCko5QYU4zOwRA5JlV507adoANcJouPS+RyP18xajYiAjmdy0KdVoK7MWt/NXepKH2ehWQfp20GZ5Wh2YMRXuMrNFRuuLoENjQAxCwIgBQr5so+xrtadzGvwNIeahdFruAl+vtW6d0/BLI3uSfMME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=L1Phm7wG; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4581cec6079so317021cf.0
+        for <linux-media@vger.kernel.org>; Sun, 08 Sep 2024 17:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725841296; x=1726446096; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+M1qVooEyNPT1gAAftfRiR4Q5Ah3XuHi08JSkLTfyCg=;
+        b=L1Phm7wGMuZuJebhYKnd+JQyBUyE9C1zk1fQHdZNxb97P8m+M+PxEraXZjvXXUAMxN
+         YgeLRp+lFQS66t9ESCBstlYEggoxa0L1O/PC+UpZxl6L665n3Rv4OnKWpcbaTlaXpWf0
+         9c/7mIYxN3/DmAJu6trHAsXv8hyRFuuFoFHjV/iJGToGgpxTbH2z/J2T93C6Ekh9D9Xw
+         mKakVQhQm860axVGd1VHj7SIRv/pB5vXfMZqrzwpugZo5E1rbuACJ0d/qs9z36lc0gC4
+         v+H5OuBq9pX20rpRn3oES5ryQ4nnoL4jusdt9JjBhzBLJ3hxIViJUR2dmGv04meKCtBN
+         ye6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725841296; x=1726446096;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+M1qVooEyNPT1gAAftfRiR4Q5Ah3XuHi08JSkLTfyCg=;
+        b=MQNfJkKVLkuGBCsJOn0rBZ9wNIzGq7Q4UrMNNTXu8TdFowBu3phOXED2j+JXUpb2SZ
+         kCEE8DpZdGpbaaiV7d4K8PgBRM5g82+quc9PovPS2Bd/vFwn7rGnY1VtS/EIIdLK7mjr
+         cTlsB1DC1hBwk5nFuKKjkA7FgToapRkzFs0m9K4xx3wfcUZF+GJTMzhbxV1U83IG0188
+         ecvEGEARzgtYZ3o9Zv3VOG4mU6t5RIh+BdFMcKXMNkGBQ2+KmAuTA+uDV2GL0FrZ7ctb
+         Z2jgzQdKLRg6qk8nEcJjfzrekAS7/Dt0WMhji9UNJCGCicscIeLueoM4oB9ap+vhBiAw
+         tLWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU9GQzfTYGOImxDrp8cdmf+UtFyulAVHO7BqmmtYiAHlN+mZ0w+Ep6cZqNB/tz1XkhYoXfvmHRDrTi87Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuZBzWhAbMy6mPpD44CwEukJFb3VdUAOQ8xxueMqNfz6vcyQDf
+	ZEb8qTIne1MpdxONJYVRlEAInsLjBC2wO3HSA8mTRY9WiMTgNI5BUAHG1FCtjEahxTlsTSKB7ay
+	vECcJfRnQ6IiRn1Yq7tYcjspBypXVZ9l8lJYj
+X-Google-Smtp-Source: AGHT+IHeebo47LrVuqQNlmWSroknDWyh0p2+ySnmSfFMd++vvWmH0RLig1T8xF/sYDtVArFYD/iKIyTthz+4Y2vdWxE=
+X-Received: by 2002:ac8:5714:0:b0:456:796b:2fe5 with SMTP id
+ d75a77b69052e-4582147fdcamr3000151cf.9.1725841295262; Sun, 08 Sep 2024
+ 17:21:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
+References: <20240831004313.3713467-1-almasrymina@google.com>
+ <20240831004313.3713467-7-almasrymina@google.com> <20240903141948.269e22bb@kernel.org>
+In-Reply-To: <20240903141948.269e22bb@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Sun, 8 Sep 2024 17:21:23 -0700
+Message-ID: <CAHS8izN_6_0VUWJzyXZ60kDjvGpdJv1a=-6mGOURapHdfHbcMQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v24 06/13] memory-provider: dmabuf devmem memory provider
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
+	Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-
-On Sat, Sep 07, 2024 at 10:09:10PM +0100, Lad, Prabhakar wrote:
-> On Sat, Sep 7, 2024 at 12:10 AM Laurent Pinchart wrote:
-> > On Fri, Sep 06, 2024 at 06:39:46PM +0100, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > The RZ/G2L CRU needs to configure the ICnMC.VCSEL bits to specify which
-> > > virtual channel should be processed from the four available VCs. To
-> > > retrieve this information from the connected subdevice, the
-> > > .get_frame_desc() function is called.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 29 +++++++++++++++++++
-> > >  1 file changed, 29 insertions(+)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > index bbf4674f888d..6101a070e785 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > @@ -433,12 +433,41 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
-> > >       spin_unlock_irqrestore(&cru->qlock, flags);
-> > >  }
-> > >
-> > > +static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
-> > > +{
-> > > +     struct v4l2_mbus_frame_desc fd = { };
-> > > +     struct media_pad *pad;
-> > > +     int ret;
-> > > +
-> > > +     pad = media_pad_remote_pad_unique(&cru->ip.pads[1]);
-> >
-> > It would be nice to use RZG2L_CRU_IP_SOURCE here instead of hardcoding
-> > the pad number. That would require moving rzg2l_csi2_pads to the shared
-> > header. You can do that on top.
+On Tue, Sep 3, 2024 at 2:19=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
+te:
 >
-> With the below comment we dont need to move rzg2l_csi2_pads into the
-> shared header.
-> 
-> > An now that I've said that, is it really the source pad you need here ?
+> On Sat, 31 Aug 2024 00:43:06 +0000 Mina Almasry wrote:
+> > diff --git a/include/net/mp_dmabuf_devmem.h b/include/net/mp_dmabuf_dev=
+mem.h
+> > new file mode 100644
+> > index 000000000000..6d1cf2a77f6b
+> > --- /dev/null
+> > +++ b/include/net/mp_dmabuf_devmem.h
 >
-> Ouch you are right.
-> 
-> > > +     if (IS_ERR(pad))
-> > > +             return PTR_ERR(pad);
-> >
-> > Can this happen, or would the pipeline fail to validate ? I think you
-> > can set the MUST_CONNECT flag on the sink pad, then you'll have a
-> > guarantee something will be connected.
+> this header can live under net/core/ like netmem_priv.h right?
+> devmem internals should be of no interest outside of core networking.
 >
-> After adding the MUST_CONNECT flag, I wouldn't need the  above
-> media_pad_remote_pad_unique()...
-> 
-> > > +
-> > > +     ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc,
-> > > +                            pad->index, &fd);
+
+Yes, those can be moved under net/core trivially. done.
+
+> In fact the same is true for include/net/devmem.h ?
 >
-> ... and here I can use '0' instead
 
-Can you ? You need to call the operation on the pad of the connected
-entity that is connected to tbe sink pad of the IP entity. That would be
-the source pad of the CSI-2 RX in this case, but it can't be hardcoded
-as it could also bethe source pad of a parallel sensor (once support for
-that will be implemented). I think you therefore need to keep the
-media_pad_remote_pad_unique() call.
+This turned out to be possible, but with a minor moving around of some
+helpers. Basically netmem.h included devmem.h to get access to some
+devmem internals for some of the net_iov helpers specific to devmem.
+Moving these helpers to devmem.h enabled me to keep
+include/net/netmem.h but put devmem.h under net/core. Now netmem.h
+doesn't need to include devmem.h. I think this is an improvement.
 
-> or do you prefer RZG2L_CRU_IP_SINK
-> (I say because we are calling into remote subdev of IP which is CSI so
-> the RZG2L_CRU_IP_SINK wont make sense)?
-> 
-> > > +     if (ret < 0 && ret != -ENOIOCTLCMD)
-> >
-> > Printing an error message would help debugging.
-> >
-> OK, I will add.
-> 
-> > > +             return ret;
-> > > +     /* If remote subdev does not implement .get_frame_desc default to VC0. */
-> > > +     if (ret == -ENOIOCTLCMD)
-> > > +             return 0;
-> > > +
-> > > +     if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
-> >
-> > An error message would help here too I think.
-> >
-> OK, I will add.
-> 
-> > > +             return -EINVAL;
-> > > +
-> > > +     return fd.num_entries ? fd.entry[0].bus.csi2.vc : 0;
-> >
-> > I think you should return an error if fd.num_entries is 0, that
-> > shouldn't happen.
-> >
-> OK, I will add.
-> 
-> > > +}
-> > > +
-> > >  int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
-> > >  {
-> > >       struct v4l2_mbus_framefmt *fmt = rzg2l_cru_ip_get_src_fmt(cru);
-> > >       unsigned long flags;
-> > >       int ret;
-> > >
-> > > +     ret = rzg2l_cru_get_virtual_channel(cru);
-> > > +     if (ret < 0)
-> > > +             return ret;
-> > > +     cru->csi.channel = ret;
-> >
-> > How about passing the value to the function that needs it, instead of
-> > storing it in cru->csi.channel ? You can do that on top and drop the
-> > csi.channel field.
-> >
-> OK, let me check if this can be done.
+> > +static inline netmem_ref mp_dmabuf_devmem_alloc_netmems(struct page_po=
+ol *pool,
+> > +                                                     gfp_t gfp)
+>
+> Please break the lines after the return type if the line gets long:
+>
+> static inline netmem_ref
+> mp_dmabuf_devmem_alloc_netmems(struct page_pool *pool, gfp_t gfp)
+>
+> Please fix where you can (at least where it cases going over 80 chars)
+>
 
--- 
-Regards,
+FWIW I use a formatting tool (clang-format) which seems to prefer
+breaking in between the args, but I'll fix this manually and wherever
+else I notice.
 
-Laurent Pinchart
+> >       struct_group_tagged(page_pool_params_slow, slow,
+> >               struct net_device *netdev;
+> > +             struct netdev_rx_queue *queue;
+>
+> Why set a pointer? It should work but drivers don't usually deal with
+> netdev_rx_queue struct directly. struct xdp_rxq_info takes an integer
+> queue id, and it serves a somewhat similar function.
+>
+> Keep in mind that there will be more drivers than core code, so
+> convenience for them matters more.
+>
+
+Makes sense.
+
+> > +bool mp_dmabuf_devmem_release_page(struct page_pool *pool, netmem_ref =
+netmem)
+> > +{
+> > +     if (WARN_ON_ONCE(!netmem_is_net_iov(netmem)))
+> > +             return false;
+> > +
+> > +     if (WARN_ON_ONCE(atomic_long_read(netmem_get_pp_ref_count_ref(net=
+mem)) !=3D
+> > +                  1))
+>
+> something needs factoring out here, to make this line shorter, please..
+> either netmem -> net_iov conversion or at least reading of the ref
+> count?
+>
+
+Ah, sorry I think you pointed this out earlier and I missed applying
+it. Should be done in the next iteration.
+
+--
+Thanks,
+Mina
 
