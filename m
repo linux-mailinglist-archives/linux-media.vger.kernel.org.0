@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-17895-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17896-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F398970CD6
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:08:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 601F8970CE9
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:23:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D3441C2185D
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 05:08:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED077B213E7
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 05:23:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B58DF1ACE1C;
-	Mon,  9 Sep 2024 05:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8CCB1AD3E0;
+	Mon,  9 Sep 2024 05:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MYropRbZ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pIVqidD/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E783F9461;
-	Mon,  9 Sep 2024 05:08:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A64FB658;
+	Mon,  9 Sep 2024 05:23:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725858489; cv=none; b=SfYjmFsPXzD7Na/s7qXaja1qbGMv/FL+p9AXXXKd7qhhlEiHXE8ivx14X4isBLe9xIOTxER4Ib1DdGevGlZo5G6GgLRxZoX333ip/jwzUoeD4bHTSnCRWuAJjYQbnD/Ao72nHja//O+oYgPiIIPiicW8jdsGRA/FAo58Klmxuvs=
+	t=1725859388; cv=none; b=IMPe1uugl+thlKh1k5VC/tZ6CjdJXlFSOHlTMhYRE8b+6BJ6ckSHH2QrI42cabNMzhKOrplOHWbL8W72pdVagXedIs7o3zEe+ptmLMmm1W7mTPq9vRErdlEtBcbntvrUYzXbIRs6A6CR7Aw71+HfUGGDTSzfJOH2S2dEPlOrHQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725858489; c=relaxed/simple;
-	bh=cViwBcSL2eJK2KEiF4+UCbZlJ/7Jb60mwsfIFX/LNXg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WiDT1QecixhPjT2R5vdc4G40yxphDXE4UIyvrscmZiBHP+KgRqz6o9+R+46MB9DSb2GlH+qLxMZSgnPAdr2flyEz2Zq1kH/ZCsa2e3/IpoPEFL3Igsa14X2ghMY4lxyZBXrwybB6y9cuRiINjrwwfBnhdfvGemo/qbYD+o1/Jn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MYropRbZ; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1725859388; c=relaxed/simple;
+	bh=yptEiLaPg3d8jq9xeVRYa/hEVXcDgko9enYoa0dy0gw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=A/SQlul6PCBKxojNbGVKzNVRcFxi81WpPDC2kP9EXmXAycdPVRSa4u1wSY2dtn7Xf84VTJCDk2UfozKNeAZjaxWKOL6/8+2CvNbrJaDrgg21whT2ACUXQcBS1coB/NroMjlfLKoqwX16Iyr4TXLBSIEWbBQGDiI6j/XwH1rGXUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pIVqidD/; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 218F43EA;
-	Mon,  9 Sep 2024 07:06:48 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 00E953EA;
+	Mon,  9 Sep 2024 07:21:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725858409;
-	bh=cViwBcSL2eJK2KEiF4+UCbZlJ/7Jb60mwsfIFX/LNXg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MYropRbZm6S7gwem9F0TMcV4zXxRf+N9sv8biltmv7iH3K7UV0hN5/WJVAefHRTqs
-	 9g54aKLd8O3WSuaKiQlpcW111v1S9vP9x6IL/1/t6/njkEl4Qrwvq2FShram4lfNvB
-	 jVZNuN95Jiiji4s3LwTrWqdippzalrcEggzGL1gg=
-Message-ID: <40cc1e95-b9fc-4c27-9428-1698d0bf9d25@ideasonboard.com>
-Date: Mon, 9 Sep 2024 08:08:00 +0300
+	s=mail; t=1725859307;
+	bh=yptEiLaPg3d8jq9xeVRYa/hEVXcDgko9enYoa0dy0gw=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=pIVqidD/tocHxtd0qCt8J7AaBrBkM+FLE4biEQuYEqprdo/KXYKPCZAsoASV2RIUJ
+	 QvYaI1wurxZyDgEwn4+QfHyDZJ1rEVVKUPYXHTaaku6iFP/ztrwSSaIHMP81qnENU1
+	 wzertAvCSewwXI/o9DJjjEACJnRYYgn0jLunIv+w=
+Message-ID: <763b3147-d7cb-44a7-b73b-8f7f4fd622ab@ideasonboard.com>
+Date: Mon, 9 Sep 2024 08:22:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,7 +51,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
@@ -63,14 +65,13 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, Naushir Patuck
  <naush@raspberrypi.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  kernel test robot <lkp@intel.com>
 References: <20240904-rp1-cfe-v4-3-f1b5b3d69c81@ideasonboard.com>
  <202409051822.ZzUGw3XQ-lkp@intel.com>
  <20240905111120.GK16183@pendragon.ideasonboard.com>
+ <40cc1e95-b9fc-4c27-9428-1698d0bf9d25@ideasonboard.com>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -114,53 +115,72 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240905111120.GK16183@pendragon.ideasonboard.com>
+In-Reply-To: <40cc1e95-b9fc-4c27-9428-1698d0bf9d25@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Laurent, Jacopo,
 
-On 05/09/2024 14:11, Laurent Pinchart wrote:
-> On Thu, Sep 05, 2024 at 06:50:48PM +0800, kernel test robot wrote:
->> Hi Tomi,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and-stats/20240904-192729
->> base:   431c1646e1f86b949fa3685efc50b660a364c2b6
->> patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3-f1b5b3d69c81%40ideasonboard.com
->> patch subject: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
->> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
->> compiler: m68k-linux-gcc (GCC) 14.1.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202409051822.ZzUGw3XQ-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12: warning: 'cfe_runtime_resume' defined but not used [-Wunused-function]
->>      2445 | static int cfe_runtime_resume(struct device *dev)
->>           |            ^~~~~~~~~~~~~~~~~~
->>>> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12: warning: 'cfe_runtime_suspend' defined but not used [-Wunused-function]
->>      2435 | static int cfe_runtime_suspend(struct device *dev)
->>           |            ^~~~~~~~~~~~~~~~~~~
->> vim +/cfe_runtime_resume +2445 drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+On 09/09/2024 08:08, Tomi Valkeinen wrote:
+> Hi,
 > 
-> The recommended way to fix this is to switch from SET_RUNTIME_PM_OPS()
-> to RUNTIME_PM_OPS() and use pm_ptr() to set .driver.pm. This being said,
-> the driver won't work on a kernel with !CONFIG_PM given how you
-> implemented probe() and remove().
+> On 05/09/2024 14:11, Laurent Pinchart wrote:
+>> On Thu, Sep 05, 2024 at 06:50:48PM +0800, kernel test robot wrote:
+>>> Hi Tomi,
+>>>
+>>> kernel test robot noticed the following build warnings:
+>>>
+>>> [auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
+>>>
+>>> url:    https://github.com/intel-lab-lkp/linux/commits/Tomi- 
+>>> Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and- 
+>>> stats/20240904-192729
+>>> base:   431c1646e1f86b949fa3685efc50b660a364c2b6
+>>> patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3- 
+>>> f1b5b3d69c81%40ideasonboard.com
+>>> patch subject: [PATCH v4 3/4] media: raspberrypi: Add support for 
+>>> RP1-CFE
+>>> config: m68k-allmodconfig (https://download.01.org/0day-ci/ 
+>>> archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
+>>> compiler: m68k-linux-gcc (GCC) 14.1.0
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/ 
+>>> archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new 
+>>> version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild- 
+>>> all/202409051822.ZzUGw3XQ-lkp@intel.com/
+>>>
+>>> All warnings (new ones prefixed by >>):
+>>>
+>>>>> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12: warning: 
+>>>>> 'cfe_runtime_resume' defined but not used [-Wunused-function]
+>>>      2445 | static int cfe_runtime_resume(struct device *dev)
+>>>           |            ^~~~~~~~~~~~~~~~~~
+>>>>> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12: warning: 
+>>>>> 'cfe_runtime_suspend' defined but not used [-Wunused-function]
+>>>      2435 | static int cfe_runtime_suspend(struct device *dev)
+>>>           |            ^~~~~~~~~~~~~~~~~~~
+>>> vim +/cfe_runtime_resume +2445 drivers/media/platform/raspberrypi/ 
+>>> rp1-cfe/cfe.c
+>>
+>> The recommended way to fix this is to switch from SET_RUNTIME_PM_OPS()
+>> to RUNTIME_PM_OPS() and use pm_ptr() to set .driver.pm. This being said,
+>> the driver won't work on a kernel with !CONFIG_PM given how you
+>> implemented probe() and remove().
+>>
+>> The pisp-be driver suffered from the same issue and Jacopo fixed it in
+>> the last version. You can have a look at implement something similar.
 > 
-> The pisp-be driver suffered from the same issue and Jacopo fixed it in
-> the last version. You can have a look at implement something similar.
+> I can't right away think of any reason to not just depend on CONFIG_PM 
+> and be done with it without any tricks. Do you know if there's a reason?
 
-I can't right away think of any reason to not just depend on CONFIG_PM 
-and be done with it without any tricks. Do you know if there's a reason?
+Also, I don't think pisp-be is correct. It just calls 
+pispbe_runtime_resume() in probe() to wake the IP up (which only enables 
+pisp clock), without telling the runtime PM about it. This means the 
+parent device and the suppliers may not be powered up.
 
   Tomi
 
