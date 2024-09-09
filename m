@@ -1,194 +1,143 @@
-Return-Path: <linux-media+bounces-17998-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17999-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA0B971B78
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 15:46:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E257F971B9C
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 15:50:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2D321F24191
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 13:46:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D8281C233AF
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 13:50:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E46E1BA88D;
-	Mon,  9 Sep 2024 13:45:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 534761B6549;
+	Mon,  9 Sep 2024 13:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gukUyOix"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KYqURXPL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1745D1BA27C;
-	Mon,  9 Sep 2024 13:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323CC1B3F23;
+	Mon,  9 Sep 2024 13:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725889523; cv=none; b=u5fKdIivIBrIeGkaBS6G/e0fq4miLP8onN2APCOrDtmkpQ4CKNF+n+xN4iOpasc3ivOkdIwjUvCPQT/S0Pe0ki6HJ8jWeIe4DPbKRgDFtPvuYIcOKY19EXabjm+mgugp6QrL1d0iaoG2rB+qnH9cOeXF/mQmbEo0VZep81Ecd8s=
+	t=1725889833; cv=none; b=G1ocftZJrXy/PMUHwJhr2OenwNw44/fXDKJbKBn27aSJW9/xOlqjPxGIMrZvAI6yMu9oyWjvI+BtbuhTj+3EVK6dLTraYYd1+XM3+ubwz7BuFN1xCPjH4L6InGJrgVFM4IgFmjQ1f78WM/+HwvTjGieV1+oel5d2I+N0udc8CAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725889523; c=relaxed/simple;
-	bh=DIgINnfFNQiU0BeYyQfLH/SdoJ0HKoSPauy5k5X5lJI=;
+	s=arc-20240116; t=1725889833; c=relaxed/simple;
+	bh=itxo6/62dv5QH54RJ3ls+SJy/YuQMZMxrdupV5XIk/U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NEwgRMB5ToB6mDhZqPO3MXt4iV3w6h+1iEuG26+CNZdTjfcAmkRYepchMkKGqWwiUMwiqBkJl2Y1jgTXpecIzDDax8lQPFBHIZyphF+Dm8RQ5peiXKimJqTwogvClTw+cySWp4uWcP/1KxKxGnf+G+Zde7oQ01OpFouMmItDhuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gukUyOix; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 542F95A4;
-	Mon,  9 Sep 2024 15:44:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725889443;
-	bh=DIgINnfFNQiU0BeYyQfLH/SdoJ0HKoSPauy5k5X5lJI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gukUyOixUwMCQa0c/DYH1Su6z3uDYM0EV12q70+qrExNSRaTa2OSu0LuZgHQIIVB2
-	 PrN55ehOPvvzSOruRl53NJNP00g710Ac0R2a20O4z4w/kPDZH2uT27HO+8ho61CQHU
-	 0NqQFwWWTLZWyUwFHi9ttZfGwn1bsGbbtDhOobkI=
-Date: Mon, 9 Sep 2024 16:45:16 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
-Message-ID: <20240909134516.GA9448@pendragon.ideasonboard.com>
-References: <20240904-rp1-cfe-v4-3-f1b5b3d69c81@ideasonboard.com>
- <202409051822.ZzUGw3XQ-lkp@intel.com>
- <20240905111120.GK16183@pendragon.ideasonboard.com>
- <40cc1e95-b9fc-4c27-9428-1698d0bf9d25@ideasonboard.com>
- <763b3147-d7cb-44a7-b73b-8f7f4fd622ab@ideasonboard.com>
- <yib2r4wisxvk3kgogbjqawrpmfq6lcezfk4xjmftj44jzkbclc@icapodv2ffzk>
- <d5188c0a-4a52-4378-89b1-48f606e448cc@ideasonboard.com>
- <ggtlreq5gyhzfdv6yzeuia46y7fxpuyvg236prig52t43xsl2a@crlqks2nhfpe>
+	 Content-Type:Content-Disposition:In-Reply-To; b=AGyeQN6Ufk9+72IeryCbaOCQtHlyw3MNnX8U02sbrcyh5D3DWeZ49/itlcBN62ZPkVsaM3/F5Rj6WjTTOEIcE54tl56hes37KmkTmhsjsjK5Ei/QtRuPW2vnrNSA/x4qxTtppN/bzctXUn0TgRNWYLlSAKmDXOCbROTVNNi1aDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KYqURXPL; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42cae6bb895so20049285e9.1;
+        Mon, 09 Sep 2024 06:50:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725889830; x=1726494630; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uTmI7FKnXchw996SUeECY59GrYXxeJtGeoLPHxq544M=;
+        b=KYqURXPLDYrQRNnmPX3TGNlZmuC3OKG2keN+WETWGWTddXEbsG2RQUStbAx3sDMCl4
+         72V66QTXR3GFMUt2SeSWEWV6MiKdgb+A4GgWLb4x+EMYDuu2098y5Rrq9jED3SDSmhDX
+         QiQCA6ZCjaOIYgZOiKJU8sy3Hd/MMOt2KekcTlPawcULOK/rYL3f+RzF2gbX/sx9lq3N
+         aP+lCma20q+SZRzzwD7EHVpZ1l9MPzngxU8isKPiQ5hXrclV8RpsMV+qFvs6UIjd78J1
+         CheYn2ZpUhjKguSHpybPRJS2K3oQYi7XrWhnoq8UlgH2PyOsVeGI1E5ByQI+Zvrp/saE
+         DPlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725889830; x=1726494630;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uTmI7FKnXchw996SUeECY59GrYXxeJtGeoLPHxq544M=;
+        b=Vcfn4NtiBaPwqj/LUIunjayao98WdR2WIRdnD6ofp4UO8ey9QP8gOny64o+kieH0cm
+         eYcYMwYo9+uYQOUQvKqwz4D1o1xG0/sWMyPfuFLJlzGZ3noFnug7InNDrF6PxgWgqbqP
+         9nGhdTxnt/Q9EM0qAod9twhM5fwbvt8RGXH4cMUCUyrP5smgGku7arxQEoRcZsZtY8tt
+         W0C0P0mSxWV5vH2bfOqZv+IoOwb4A9bBJtym93DMTMMMP0QGUcWeQO8L6T20NI8YLMek
+         GvBt8u2HiyIUgVuNs1cB2myqUdR14ODChhhX5LtlMOcN5QD8ic63mW6qsWPAUZWKe+Tp
+         0DKg==
+X-Forwarded-Encrypted: i=1; AJvYcCUgBD7+KYaxNBkYH07s/dsBnbFAk4RVY7Xlr2lyb0aCTG5icm77CA5St33b9WY7190xJENOjEoFawWQwoI=@vger.kernel.org, AJvYcCUihogjjQjTJSiaKIMC9aqi2dGOUBfPT+A2SWPVlvwka88ovBDHfVS9oXGYtckmoDhk0Tlz5A94nHxLwIg=@vger.kernel.org, AJvYcCV0VO0ouwavM7agx3fouuTCiZpaaJk8KOHXSxwAinaQyrrlG89EkR0kNRgTdAnotzAzQHJVeRTYdBEh2DQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaH8jU5B9PZvJDjj16HXZO/DVHJU01nlAj+BK+ifDFms38DhVr
+	guuzqkm5A0+5heXCwO9aPJFq9fW2TuG+G4gpOF71iyYybuz86Kmz
+X-Google-Smtp-Source: AGHT+IFWznISjjxuV7eQKDlaN9b6a4OoZXrdhN32jKOPKPIhtjTxNr0Q41kQYaOLItLh2+izQfDzHw==
+X-Received: by 2002:a05:600c:19ce:b0:42c:aeff:9766 with SMTP id 5b1f17b1804b1-42caeff99aamr49332695e9.20.1725889829441;
+        Mon, 09 Sep 2024 06:50:29 -0700 (PDT)
+Received: from orome (p200300e41f29d300f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f29:d300:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42caeb81ac0sm78365275e9.34.2024.09.09.06.50.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Sep 2024 06:50:28 -0700 (PDT)
+Date: Mon, 9 Sep 2024 15:50:26 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+	Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sandy Huang <hjc@rock-chips.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kevin Tian <kevin.tian@intel.com>, dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+	linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] drm/tegra: Use iommu_paging_domain_alloc()
+Message-ID: <7unmvrhiydje2fqcrmj6flbvdbpexujibatpgoqcqevmuhkcgs@pa62yzobzajj>
+References: <20240902014700.66095-1-baolu.lu@linux.intel.com>
+ <20240902014700.66095-4-baolu.lu@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="sekau6utgzc3r2ki"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ggtlreq5gyhzfdv6yzeuia46y7fxpuyvg236prig52t43xsl2a@crlqks2nhfpe>
+In-Reply-To: <20240902014700.66095-4-baolu.lu@linux.intel.com>
 
-On Mon, Sep 09, 2024 at 03:29:30PM +0200, Jacopo Mondi wrote:
-> On Mon, Sep 09, 2024 at 01:04:35PM GMT, Tomi Valkeinen wrote:
-> > On 09/09/2024 12:13, Jacopo Mondi wrote:
-> > > On Mon, Sep 09, 2024 at 08:22:59AM GMT, Tomi Valkeinen wrote:
-> > > > On 09/09/2024 08:08, Tomi Valkeinen wrote:
-> > > > > On 05/09/2024 14:11, Laurent Pinchart wrote:
-> > > > > > On Thu, Sep 05, 2024 at 06:50:48PM +0800, kernel test robot wrote:
-> > > > > > > Hi Tomi,
-> > > > > > >
-> > > > > > > kernel test robot noticed the following build warnings:
-> > > > > > >
-> > > > > > > [auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
-> > > > > > >
-> > > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-
-> > > > > > > Valkeinen/media-uapi-Add-meta-formats-for-PiSP-FE-config-and-
-> > > > > > > stats/20240904-192729
-> > > > > > > base:   431c1646e1f86b949fa3685efc50b660a364c2b6
-> > > > > > > patch link:    https://lore.kernel.org/r/20240904-rp1-cfe-v4-3-
-> > > > > > > f1b5b3d69c81%40ideasonboard.com
-> > > > > > > patch subject: [PATCH v4 3/4] media: raspberrypi: Add support
-> > > > > > > for RP1-CFE
-> > > > > > > config: m68k-allmodconfig (https://download.01.org/0day-ci/
-> > > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/config)
-> > > > > > > compiler: m68k-linux-gcc (GCC) 14.1.0
-> > > > > > > reproduce (this is a W=1 build):
-> > > > > > > (https://download.01.org/0day-ci/
-> > > > > > > archive/20240905/202409051822.ZzUGw3XQ-lkp@intel.com/reproduce)
-> > > > > > >
-> > > > > > > If you fix the issue in a separate patch/commit (i.e. not just a
-> > > > > > > new version of
-> > > > > > > the same patch/commit), kindly add following tags
-> > > > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > > | Closes: https://lore.kernel.org/oe-kbuild-
-> > > > > > > all/202409051822.ZzUGw3XQ-lkp@intel.com/
-> > > > > > >
-> > > > > > > All warnings (new ones prefixed by >>):
-> > > > > > >
-> > > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2445:12:
-> > > > > > > > > warning: 'cfe_runtime_resume' defined but not used
-> > > > > > > > > [-Wunused-function]
-> > > > > > >       2445 | static int cfe_runtime_resume(struct device *dev)
-> > > > > > >            |            ^~~~~~~~~~~~~~~~~~
-> > > > > > > > > drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2435:12:
-> > > > > > > > > warning: 'cfe_runtime_suspend' defined but not used
-> > > > > > > > > [-Wunused-function]
-> > > > > > >       2435 | static int cfe_runtime_suspend(struct device *dev)
-> > > > > > >            |            ^~~~~~~~~~~~~~~~~~~
-> > > > > > > vim +/cfe_runtime_resume +2445
-> > > > > > > drivers/media/platform/raspberrypi/ rp1-cfe/cfe.c
-> > > > > >
-> > > > > > The recommended way to fix this is to switch from SET_RUNTIME_PM_OPS()
-> > > > > > to RUNTIME_PM_OPS() and use pm_ptr() to set .driver.pm. This being said,
-> > > > > > the driver won't work on a kernel with !CONFIG_PM given how you
-> > > > > > implemented probe() and remove().
-> > > > > >
-> > > > > > The pisp-be driver suffered from the same issue and Jacopo fixed it in
-> > > > > > the last version. You can have a look at implement something similar.
-> > > > >
-> > > > > I can't right away think of any reason to not just depend on CONFIG_PM
-> > > > > and be done with it without any tricks. Do you know if there's a reason?
-> > >
-> > > We had the same discussion, and even if I would be fine depending on
-> > > CONFIG_PM, supporting !CONFIG_PM is not that much work, I kept it as
-> > > an optional dependency (it was suggested during the review as well)
-> > >
-> > > >
-> > > > Also, I don't think pisp-be is correct. It just calls
-> > > > pispbe_runtime_resume() in probe() to wake the IP up (which only enables
-> > > > pisp clock), without telling the runtime PM about it. This means the parent
-> > > > device and the suppliers may not be powered up.
-> > >
-> > > Are you referring to the code currently in the tree or to this patch ?
-> > > https://patchwork.linuxtv.org/project/linux-media/patch/20240904095836.344833-5-jacopo.mondi@ideasonboard.com/
-> >
-> > Ah, I missed that one.
-> >
-> > I don't think it fixes the issue I mentioned. If we have PM enabled, and the
-> > parent device requires powering up for the child device (BE) to be
-> > accessible, the driver will crash when calling pispbe_hw_init(). I think you
-> > should call pm_runtime_set_active() before calling pispbe_runtime_resume().
-> 
-> As discussed, this is not a problem currently for BE, but indeed you
-> have a point.
-> 
-> Sad note: most of all the occurrences of "grep set_active" in
-> drivers/media/platform/ show that set_active() is used as I've done in
-> my patch
-> 
-> > However, you said above that "supporting !CONFIG_PM is not that much work".
-> > Maybe not. But how much work is it to get it right (for both PM and !PM),
-> > and make sure it stays right? =).
-> >
-> > Just my opinion, but if there are zero use cases for the !PM, I would just
-> > go with "depends on PM" to keep the driver simpler, less bug-prone, and
-> > easier to maintain.
 
-I'm fine with that, and for platform drivers, that's my preferred
-option. Sakari ?
+--sekau6utgzc3r2ki
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> I don't see a use case for !PM and we confirmed with RPi they don't
-> need to support it. During the review of a previous version of the BE
-> driver iirc I've been asked to support !PM but I'm not sure I recall
-> the reasons.
+On Mon, Sep 02, 2024 at 09:47:00AM GMT, Lu Baolu wrote:
+> Commit <17de3f5fdd35> ("iommu: Retire bus ops") removes iommu ops from
+> the bus structure. The iommu subsystem no longer relies on bus for
+> operations. So iommu_domain_alloc() interface is no longer relevant.
+>=20
+> Replace iommu_domain_alloc() with iommu_paging_domain_alloc() which takes
+> the physical device from which the host1x_device virtual device was
+> instantiated. This physical device is a common parent to all physical
+> devices that are part of the virtual device.
+>=20
+> Suggested-by: Thierry Reding <thierry.reding@gmail.com>
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>  drivers/gpu/drm/tegra/drm.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 
-I hope it wasn't me :-)
+Acked-by: Thierry Reding <treding@nvidia.com>
 
--- 
-Regards,
+--sekau6utgzc3r2ki
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Laurent Pinchart
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmbe/SIACgkQ3SOs138+
+s6GivQ/+JSKDqhg5e7WkMv/tttd5OTC46SSL0+cobiyQfyKnv+49GXf27ORgQw1S
+aVk1ecp/nPSd0KksxiAd/ZDwulfWcOZSEVKSNhhm8Ju3WrCAZcDoI7wjiOjhNK4U
+o1kbLg2ly3JhXkEhPuyvfW+1pk6rNt/xcqY5NrpW8Fh6/G1K5AJiC6oCEAsS65Ak
+QejXU8T/A6s4jfBOd3O23td1serVya4AAc+wJzKgGcmVsG6ELwWbJSD0rGX+Ai5a
+vO2IGIt5qzeibQIP/ZSOLX0lacV028ZEc0zCK/0tgoLkk/TiMfraIO6Ay3Ok5wdo
+WiLZ/VYBfsxlQO/IqlgI/WbmhwcTReCK+T46GoyFAW6fvS2TP4YQ0JGJsubrxUby
+zk8Bt9oUwJcAq9LotbPSaXgHgrkbUq1Zg4AX53UoZi6n2ClKsMusqx60Z7kbKBTU
+MefEmbsZaQCoY6PdDZPYHehE08YC3d0RlojHdxwrzJM2UHfn9fCtdD5HQJGnpGxi
+tgNrxCPCUNa7EzE0lqRIkDM3QoBaoxAQVf6Q2uI3BG3HPBowuwXXcTayfrKPJEoP
+IVZHM9lH1aEo6B2iT1zE4oXbNS8PFeJPLkzS4XEZk+Ct0ytaBLLoGykSvvk8xE5h
+oSnbslewV6UY1RVPQyOSGA/kxxwOhbB9hd65dQ87qSyKaXwc1u4=
+=K/dz
+-----END PGP SIGNATURE-----
+
+--sekau6utgzc3r2ki--
 
