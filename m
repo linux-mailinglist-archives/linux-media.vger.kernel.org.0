@@ -1,143 +1,206 @@
-Return-Path: <linux-media+bounces-17933-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17934-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13F8970F58
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 09:11:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D29E970F6A
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 09:16:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFA1B1C21F3A
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:11:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16F38282B5B
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:16:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 912BB1AE852;
-	Mon,  9 Sep 2024 07:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2A401AE861;
+	Mon,  9 Sep 2024 07:16:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ux6uKSci"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="hKclIISG";
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="Ml18fWZl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584621AE851;
-	Mon,  9 Sep 2024 07:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725865729; cv=none; b=BnAgXKolf4BaF0FOornvT/YVMfBTWxxPMaHUjtqoFe6IWbCq6CcdfzlIbF/QnpD14Acfy3nCqjESZgTJaG/jV7GM4TdPVriYTuXoqOax3lm2/ai5YMeVy31K0XUNSwi6c1MXI0ZrfrKbDCU35EKbo1x8Ya0OnrA8wYBT0HZPhLQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725865729; c=relaxed/simple;
-	bh=3uUcilVnojt4+ddh4TttNjspH/Ah42tEMA3oIXy4hyM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hF0BzZyuBhzbKI/DcOC6DV6gBk9OdmrlJS34Kj2gwXMqmXzgyIs9evlDXyZYNMXrBKWy9cehwCL8xItIgD47ipGLJL6d6gbxENtHWeSj/4ywbQWIxinrKGOtJQFJXcWr/qOh+YLpw/QJHTpREpa1TNs/gObZ+sDt/lYGl73F1ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ux6uKSci; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-374bd0da617so2425835f8f.3;
-        Mon, 09 Sep 2024 00:08:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725865726; x=1726470526; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=diK2vfMDlJNUyXW9lcHoHKMejPsgQZ2jk7i/6JqtmLQ=;
-        b=Ux6uKScirvcgEd5Q8isotUgcfYFAjLTRiwUr4Sa40EjhMTMEe7BZBW4/J1cCwx3W52
-         Ncjn/o5fCAtrNEBKtisDnD+2OOjAt9rcI/wdJBIFdz2FZrlR+EXi4ryyH0FdivTUbQFu
-         K3+DXafIckj4T4CV6yr7yBZBfdzIujVURJnCe3mn6ia2sRirjrbcODnW0+cED9cEDdha
-         z8tC2ZZ3Fuo3uJr3hA8gqnJNMOu2dRJy56kk/kfvCPa8Tt4tFH1fGHytX9xrpU3nHbcp
-         qCn1xiv+fifo+ELO55wQdeYLVeQGgmpd1nZxrlqJ6jAkjLBzPUEEX33d+YhpnK3cVcAo
-         anhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725865726; x=1726470526;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=diK2vfMDlJNUyXW9lcHoHKMejPsgQZ2jk7i/6JqtmLQ=;
-        b=kVmr3lb5im1aJEwLgxP7ioz+hABBCzj0dYVcc+Dg4zCZI9jipSeoKCkcuQXkegCQPV
-         Cx9IntyvMwRGlVrTZxQlcC17eADkb4FaSagcWzRnSmVucpHXi2jdPYjXPx8NboEcLDLA
-         GI0cBpPZJRY+yg5nA3bFeOcpXGj4sUPxC5R+nxpVt9ixrYR67E3XcucL3YANJDKQUk4e
-         YKMKSRC+08HzaDo15T7BFnSqfnRxgH5kxo/ZgSpf51JIjemuVA2z+okKDT5kBrWjzEsA
-         w0BtxjtAFq6vurXTzJR2J0O0VZUPOiV96z8Ru1jx6knAE/uk+FUssUJA/wLXQKveLohJ
-         m6kg==
-X-Forwarded-Encrypted: i=1; AJvYcCU6DrEUR/gVXkvM9w+tUGWE+s7glmVs6QBxHbuQ7m3kJWOStN3S3jlolznkbjzbDK6vJ2gMRQWmsQ3C3eUiynru@vger.kernel.org, AJvYcCUiOsX5EKpfk5yWj2FCCTxHRZgJf0PLOCtWuw2ObTZj8lF0ZEX6JoXbsrXTe9EH6vQWWzzRoCrH2UcqEYA=@vger.kernel.org, AJvYcCV5CHS5em+quwNJ4cQg/EHPMgCaR9K14oWniwFSOja5N1WOW1UlrTwpJ+zMIpoD+NfZtnOepl7cT8Nr79p//w==@vger.kernel.org, AJvYcCVtDhFsox0Gu2euccTF2M9sUVHMYIn9ZtxBNbhd2+JikeesRtgIP1hDQXKVqF5XeWmiM5+notXRjj+HNlmL@vger.kernel.org, AJvYcCWdBnWBiaIYP6zw+Q9K0uMe3ubl4WFvI60FP1mSznj7cAbHElH8zdNUBRPY1j2L3SYwtO1ZXq5FOG2tPQ==@vger.kernel.org, AJvYcCX4yj3ml+A0QjqhrX0P1xTOOHuzYO4BYKFcVFfkWP5OEISjuICcLRXrIz3bTQIveE35lZI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1Js4Jj+uyt99Sxdj5Ty/U1DpHV81Dkvz/4aEPAZLyRw0GEGxc
-	IRcRTOUHy42IrA6Gf1PS7rTsjPYwgEcfR9O8mPP0X3/QXGz6z7bF
-X-Google-Smtp-Source: AGHT+IH7d2LCOjCEmuJ4w2L75gV8H1NZjK585Hq//GX1VCkES/VJ6SkCqMbky8lLj0QZa/YVXZoH6g==
-X-Received: by 2002:a05:6000:e51:b0:371:8f19:bff0 with SMTP id ffacd0b85a97d-378895cc423mr6510141f8f.20.1725865725676;
-        Mon, 09 Sep 2024 00:08:45 -0700 (PDT)
-Received: from fedora.iskraemeco.si ([193.77.86.250])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d375asm5178754f8f.66.2024.09.09.00.08.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2024 00:08:45 -0700 (PDT)
-From: Uros Bizjak <ubizjak@gmail.com>
-To: x86@kernel.org,
-	linux-crypto@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	linux-fscrypt@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com
-Cc: Uros Bizjak <ubizjak@gmail.com>,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [PATCH v2 19/19] prandom: Include <linux/percpu.h> in <linux/prandom.h>
-Date: Mon,  9 Sep 2024 09:05:33 +0200
-Message-ID: <20240909070742.75425-20-ubizjak@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240909070742.75425-1-ubizjak@gmail.com>
-References: <20240909070742.75425-1-ubizjak@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DDF2AD00;
+	Mon,  9 Sep 2024 07:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725866162; cv=pass; b=qmsDd+khYU+f216aWM5d88ffi+3UGayMlPujYhag460mWiGHVNipIVxgdUjO8YVm3c2iMmWvZVO7bGAi12asVkK2MhZy5hYQrhU8EUBd4OZc/Rvz7SpXKIYRIUIA573OoZWQIFhpNP09sLS0GAeDzedDNvfjTe1PlmUFKvA3bYo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725866162; c=relaxed/simple;
+	bh=7G7zBJlExtmydqxCr9mVjW8xZMFrev0MPrda7pC3MxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DHF2vPp3TD/qUBBPhmdmofM4m9AZj3oxNNqZR3XPKFozeZ2aoiF66MephNdIaGe/hUNDzcn4ruUCPNTbuAG0RX3nEhD7SPhkgOoK0nmYkVY7cqtva4DMPla9ujeW2brJXySeTvnX8wwhbnIwCsCT2yFjlFujhFoZpb/AotnBFpA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=hKclIISG; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=Ml18fWZl; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4X2HvT4zx2z49Q4M;
+	Mon,  9 Sep 2024 10:07:01 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1725865621;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rB6CLnaMnuoydR8oaepO8QVaIy/l0GNypx3UN3JOWHI=;
+	b=hKclIISGar2WyE0TfCCoCZAe7gmrkWrsjg7DHSh/5yhaMPZsXfkn7M4rmphEAjDF8+fzNW
+	G5aEgIjpKE9226SHkGH/HFYvPdLCCwvPLzKpN6yJEakrNjgAbcg9e2oHcQgu3WUqEc1Fpm
+	ibv40qPgSeReVjkPlozUHx9+6d+Irg9/Je/BLK9K57HqRd1MOdwPpM4XVyCbmFxdqxvgDX
+	p2VDkVyVDeGrftyo4lTzbrmZgd73QLL0JuwHGL4axZ9lB6QjGhwaLinaA6dG3rBkw407Sg
+	DP1L3tgoZM/MiuCwa3k4ypbX8xQvPf0PxLfBDW6rm3/5O1T027hJIr0vwfipEA==
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4X2HvJ1VfrzySG;
+	Mon,  9 Sep 2024 10:06:52 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1725865612;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rB6CLnaMnuoydR8oaepO8QVaIy/l0GNypx3UN3JOWHI=;
+	b=Ml18fWZlQyQeyvEKf8D3uFwF5LqNDFshOuX4CUm8pxbaspmhnk7H+g4K+28mrlHzbV13je
+	plI5X7Lb+Iko2anGDfPdVmTPr6HHaEFk+eqRL1wPXRFPsc1tBqkR7AYHghtVulW3Xh/L1P
+	CAo8loImrDngBTmMpxBTAccTfCZgNHY=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1725865612; a=rsa-sha256; cv=none;
+	b=PQ9uoecVT25SykmTHog7cP46063bfw3GZlZuq6xAZ0nAJzdiKNU0bfUlJ6YPZurPNahfBk
+	yNYmyK1SBn0k/kGFOho+fIiS9VtYpipbazDKQnkVRxpiFDTBAvhndx8V3JeXosM0FpzbSe
+	07y/DsAJGs9dgdssnqluljhQFvqRvRA=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1725865612;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rB6CLnaMnuoydR8oaepO8QVaIy/l0GNypx3UN3JOWHI=;
+	b=G/PpeGwnV6MWp+/48PODiIFYEsbpiDGjhPS12NU+Sp0XJnppj7SMF7Ezn0A/8KeezhVHdw
+	nt8dYj0bCy9N09FFPhSkjKkIq/ORLQi6+O8Nh1GJa5EGre/6rZN28VbfFHdEMTy2ZxBE0Q
+	jtiMEvAf8hQJGhizwyjYJEbgW9yojfM=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 847B5634C94;
+	Mon,  9 Sep 2024 10:06:51 +0300 (EEST)
+Date: Mon, 9 Sep 2024 07:06:51 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Sylvain Petinot <sylvain.petinot@foss.st.com>
+Cc: benjamin.mugnier@foss.st.com, mchehab@kernel.org, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: i2c: Add driver for ST VD56G3 camera sensor
+Message-ID: <Zt6ei2-orFC4Jq1g@valkosipuli.retiisi.eu>
+References: <20240521162950.6987-1-sylvain.petinot@foss.st.com>
+ <20240521162950.6987-3-sylvain.petinot@foss.st.com>
+ <ZlXEvR3yKe0W8X_q@valkosipuli.retiisi.eu>
+ <ecccf332-66e5-43c0-8a48-d49b0aa1e5a9@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ecccf332-66e5-43c0-8a48-d49b0aa1e5a9@foss.st.com>
 
-<linux/percpu.h> include was removed from <linux/prandom.h>
-in d9f29deb7fe8 ("prandom: Remove unused include") because
-this inclusion broke arm64 due to a circular dependency
-on include files.
+Hi Sylwain,
 
-__percpu tag is defined in include/linux/compiler_types.h, so there
-is currently no direct need for the inclusion of <linux/percpu.h>.
-However, in [1] we would like to repurpose __percpu tag as a named
-address space qualifier, where __percpu macro uses defines from
-<linux/percpu.h>.
+Apologies for the delay...
 
-The circular dependency was removed in xxxxxxxxxxxx ("random: Do not
-include <linux/prandom.h> in <linux/random.h>") and it cleared
-the path for the inclusion of <linux/percpu.h> in <linux/prandom.h>.
+On Mon, Jun 03, 2024 at 11:59:29AM +0200, Sylvain Petinot wrote:
+> >> +/*
+> >> + * The VD56G3 pixel array is organized as follows:
+> >> + *
+> >> + * +--------------------------------+
+> >> + * |                                | \
+> >> + * |   +------------------------+   |  |
+> >> + * |   |                        |   |  |
+> >> + * |   |                        |   |  |
+> >> + * |   |                        |   |  |
+> >> + * |   |                        |   |  |
+> >> + * |   |                        |   |  |
+> >> + * |   |   Default resolution   |   |  | Native height (1364)
+> > 
+> > What's outside the default resolution? It doesn't appear the driver would
+> > allow capturing pixels out side this area.
+> 
+> Well both native and default resolutions are supported in the
+> 'vd56g3_supported_modes' below.
+> However this quite exotic resolution (1364 x 1124) isn't well supported
+> by csi receivers, ISPs. That's why the default resolution of the driver
+> is 1120 x 1360 (multiple of 16).
 
-This patch is basically a revert of d9f29deb7fe8
-("prandom: Remove unused include").
+Ack.
 
-[1] https://lore.kernel.org/lkml/20240812115945.484051-4-ubizjak@gmail.com/
+I'd still keep the native resolution as the default and allow configuring
+something else if the user space wants to.
 
-Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
-Cc: "Theodore Ts'o" <tytso@mit.edu>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>
----
- include/linux/prandom.h | 1 +
- 1 file changed, 1 insertion(+)
+The desired resolution really depends on the use case (as well as the ISP).
 
-diff --git a/include/linux/prandom.h b/include/linux/prandom.h
-index f7f1e5251c67..f2ed5b72b3d6 100644
---- a/include/linux/prandom.h
-+++ b/include/linux/prandom.h
-@@ -10,6 +10,7 @@
- 
- #include <linux/types.h>
- #include <linux/once.h>
-+#include <linux/percpu.h>
- #include <linux/random.h>
- 
- struct rnd_state {
+> >> +		break;
+> >> +	case V4L2_CID_EXPOSURE_AUTO:
+> >> +		is_auto = (ctrl->val == V4L2_EXPOSURE_AUTO);
+> >> +		__v4l2_ctrl_grab(sensor->ae_lock_ctrl, !is_auto);
+> >> +		__v4l2_ctrl_grab(sensor->ae_bias_ctrl, !is_auto);
+> >> +		break;
+> >> +	default:
+> >> +		break;
+> > 
+> > You could omit default here.
+> 
+> I don't really like switch case without default. For sure I can omit,
+> but I prefer making it explicit.
+
+I'm ok with that.
+
+...
+
+> >> +static int vd56g3_power_off(struct vd56g3 *sensor)
+> >> +{
+> >> +	clk_disable_unprepare(sensor->xclk);
+> >> +	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
+> >> +	regulator_bulk_disable(ARRAY_SIZE(sensor->supplies), sensor->supplies);
+> >> +	return 0;
+> > 
+> > You can make the return type void.
+> > 
+> > Do you need two pairs of functions doing the same, or could you call
+> > vd56g3_runtime_resume and vd56g3_runtime_suspend from driver's probe and
+> > remove functions, too?
+> 
+> "Well, in fact, I tested both options before submitting V2 (I mean the
+> unification of vd56g3_runtime_resume/suspend functions with
+> vd56g3_power_on/off).
+> 
+> The unification option has the advantage of simplifying the code and
+> removing two "useless" functions. The only drawback is that I had to
+> call v4l2_i2c_subdev_init() earlier in the probe() function, whereas
+> it's currently called in vd56g3_subdev_init() (currently at the end of
+> the probe()). OK, it's not a big deal, but I find that the resulting
+> code is not as well structured/divided (thus readable).
+> 
+> I'm interested to get your feedback to decide wich option to push for V3.
+
+I'd prefer calling v4l2_i2c_subdev_init() earlier, in order to set the
+device context. These are usually among those things that should be done as
+early as possible, in order to avoid invalid pointers where much of the
+driver code expects something else.
+
+Btw. if you're not in too much hurry (I guess so?), we're just about to
+rework the sensor API, to include internal pads and embedded data, for
+better sensor configurability. It'll take a while before we're there
+though, but when this driver is merged, the existing API must continue to
+work.
+
 -- 
-2.46.0
+Kind regards,
 
+Sakari Ailus
 
