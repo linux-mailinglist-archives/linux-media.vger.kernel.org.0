@@ -1,266 +1,226 @@
-Return-Path: <linux-media+bounces-17940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17945-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 759D8970FBD
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 09:28:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7337970FCF
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 09:30:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2EFAC283440
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:28:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C42271C222EC
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:30:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD7AE1B3F2A;
-	Mon,  9 Sep 2024 07:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdIchWOr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96BE81B5EDF;
+	Mon,  9 Sep 2024 07:24:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B711B14FA;
-	Mon,  9 Sep 2024 07:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CC91B1D76
+	for <linux-media@vger.kernel.org>; Mon,  9 Sep 2024 07:24:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725866680; cv=none; b=amrBRajNRHrZ2CbIpaA9Mp8dK/iAIWgpep4xay4/SNXeU3ms10LjkylGWjK/IKirCzqnvldxZzmn51Z3p2yXtUA90u972pg3wrt1tNy3tvWYvWm4Vy0GsUPpSt5X5OH8gTueYkmcdbgektPu1drS+wKNXtMtFPNB+XBODdbt9oU=
+	t=1725866697; cv=none; b=kQNsCZb610fTfZjX/DkFtlhq6sf0Df7SsuewdkAVpn9F/V68RL4ekOuD2JxMxXeyUtH+r6rU8JJzq8EiWWAe/ui0O4ZpwzgZPQd2plK79rhRf4gNYcvdJTbxb4/Q7jdKYTJMPt8QiSytxqwQ6YknZHcrK5ZfULzb/wFF2sDLu6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725866680; c=relaxed/simple;
-	bh=Q1fphv/9rcuC2t7jMyj1Iz2PXhOWNXDZDraMQA0XRCs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ts90ZtpFcfYwtsBxzWAkn1tNFgbT8VY+sZf21IOE+NEeXJ6EiZ15+tqpyLTNA5rS/GupngcD2Lq0LQHfcBEeZQhmu4BeJWYPTQDCvjbMZkBvrApYzsPgEb0Nv1mk9fcWx1Z0w6mvqDHhhLEiPaPaQsJg+iGFQ+PdnoesTOmZ92E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fdIchWOr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 15478C4CEDF;
-	Mon,  9 Sep 2024 07:24:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725866680;
-	bh=Q1fphv/9rcuC2t7jMyj1Iz2PXhOWNXDZDraMQA0XRCs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=fdIchWOrkitYVhj3lYmbQ7Gychz7zGQVlc6Kpvd3hfWNu3oMduqa+F08lZ08VZUNl
-	 whVMrlm0VEWNz29aXZNvl2FgFQ5YJvCeyND8jiB4wPwz9BejJTxVLBeoMxEzmxmuxZ
-	 lfYysL/pZq5c7YotVsXx9+W9lKav2aO4p9a353VbNqOjhD6Q15cn8z3Ym+gf3t+m/w
-	 gzFJGC7XQShs/Nfy8ahsKKN5oPnagMmjUPLa2BrddVZxdZdFukmSmzNXPDdkBpJkYH
-	 mAe1or0XF2LPEn13Vc7qSZnyyGdGfDKw5dL2vOhsHBVpiTzzCFYXr/9kb7na3JdXnv
-	 acxtdFmaHZ/Lw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F554ECE57B;
-	Mon,  9 Sep 2024 07:24:40 +0000 (UTC)
-From: Keke Li via B4 Relay <devnull+keke.li.amlogic.com@kernel.org>
-Date: Mon, 09 Sep 2024 15:24:19 +0800
-Subject: [PATCH v2 9/9] Documentation: media: add documentation file
- c3-isp.rst
+	s=arc-20240116; t=1725866697; c=relaxed/simple;
+	bh=4/V9vzNiV+XnZ6jGdJFlJYxJJTq1kgEqRVR01PSdock=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=ptH3olgP6ZufObxb4B6PLvXQx8+oCcmfrteu2BXPnuXkYmXl2li0h7XN5D1rpZoyjZs2Xg894+Q9j8wj0gJu/fLr4lOqNyER2hN/6bU5wI9vcxEG60BSWgFERgB8h0O/MYiuh9XiqDhEVQSUMdgCfzJ8dQCIerDMU7pIp57dW+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4E53C4CEC5;
+	Mon,  9 Sep 2024 07:24:52 +0000 (UTC)
+Message-ID: <b4144072-f794-4de3-b057-8767944c4463@xs4all.nl>
+Date: Mon, 9 Sep 2024 09:24:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240909-c3isp-v2-9-3c866a1cea56@amlogic.com>
-References: <20240909-c3isp-v2-0-3c866a1cea56@amlogic.com>
-In-Reply-To: <20240909-c3isp-v2-0-3c866a1cea56@amlogic.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com, 
- laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com, 
- Keke Li <keke.li@amlogic.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725866660; l=7370;
- i=keke.li@amlogic.com; s=20240902; h=from:subject:message-id;
- bh=YTakAYx84g0TgdRm+4VZZoiQabR9jqtyfMu7f8UQ3P0=;
- b=I8RMk++oabUd+d0burnDCZr5v1o4h0EvVUFOBugBZ4lnw582NMg3/EnWxtx3p1Z6Nw/5jOi7s
- mk9WFuQb+tIDGDMeIGLmURagsjqsSOAuM0ZAewzt7P7gVMfc/01jXNb
-X-Developer-Key: i=keke.li@amlogic.com; a=ed25519;
- pk=XxNPTsQ0YqMJLLekV456eoKV5gbSlxnViB1k1DhfRmU=
-X-Endpoint-Received: by B4 Relay for keke.li@amlogic.com/20240902 with
- auth_id=204
-X-Original-From: Keke Li <keke.li@amlogic.com>
-Reply-To: keke.li@amlogic.com
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] Media Summit September 16th: Draft Agenda (v6)
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Martin Hecht <martin.hecht@avnet.eu>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
+ Steve Cho <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+ Hidenori Kobayashi <hidenorik@chromium.org>,
+ "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Suresh Vankadara <svankada@qti.qualcomm.com>,
+ Devarsh Thakkar <devarsht@ti.com>, r-donadkar@ti.com,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Keke Li <keke.li@amlogic.com>
+Hi all,
 
-Add the file 'c3-isp.rst' that documents the c3-isp driver.
+Here is my sixth (and likely final) stab at an agenda for the media summit. As always,
+it is subject to change and all times are guesstimates!
 
-Signed-off-by: Keke Li <keke.li@amlogic.com>
----
- Documentation/admin-guide/media/c3-isp.dot      | 26 +++++++
- Documentation/admin-guide/media/c3-isp.rst      | 96 +++++++++++++++++++++++++
- Documentation/admin-guide/media/v4l-drivers.rst |  1 +
- MAINTAINERS                                     | 10 +++
- 4 files changed, 133 insertions(+)
+The media summit will be held on Monday September 16th. Avnet Silica has very
+kindly offered to host this summit at their Vienna office, which is about 35
+minutes by public transport from the Open Source Summit Europe venue
+(https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
 
-diff --git a/Documentation/admin-guide/media/c3-isp.dot b/Documentation/admin-guide/media/c3-isp.dot
-new file mode 100644
-index 000000000000..0cc1b8b96404
---- /dev/null
-+++ b/Documentation/admin-guide/media/c3-isp.dot
-@@ -0,0 +1,26 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0 | <port1> 1} | isp-core\n/dev/v4l-subdev0 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port3 -> n00000006:port0 [style=bold]
-+	n00000001:port3 -> n00000009:port0 [style=bold]
-+	n00000001:port3 -> n0000000c:port0 [style=bold]
-+	n00000001:port2 -> n00000020 [style=bold]
-+	n00000006 [label="{{<port0> 0} | isp-resizer0\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000006:port1 -> n00000014 [style=bold]
-+	n00000009 [label="{{<port0> 0} | isp-resizer1\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000009:port1 -> n00000018 [style=bold]
-+	n0000000c [label="{{<port0> 0} | isp-resizer2\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000000c:port1 -> n0000001c [style=bold]
-+	n0000000f [label="{{<port0> 0} | mipi-adapter\n/dev/v4l-subdev4 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000000f:port1 -> n00000001:port0 [style=bold]
-+	n00000014 [label="isp-video0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n00000018 [label="isp-video1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n0000001c [label="isp-video2\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n00000020 [label="isp-stats\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n00000024 [label="isp-params\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
-+	n00000024 -> n00000001:port1 [style=bold]
-+	n00000038 [label="{{<port0> 0} | mipi-csi2\n/dev/v4l-subdev5 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000038:port1 -> n0000000f:port0 [style=bold]
-+	n0000003d [label="{{} | imx290 2-001a\n/dev/v4l-subdev6 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000003d:port0 -> n00000038:port0 [style=bold]
-+}
-diff --git a/Documentation/admin-guide/media/c3-isp.rst b/Documentation/admin-guide/media/c3-isp.rst
-new file mode 100644
-index 000000000000..fab10c962465
---- /dev/null
-+++ b/Documentation/admin-guide/media/c3-isp.rst
-@@ -0,0 +1,96 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-+
-+.. include:: <isonum.txt>
-+
-+=================================================
-+Amlogic C3 Image Signal Processing (C3ISP) driver
-+=================================================
-+
-+Introduction
-+============
-+
-+This file documents the Amlogic C3ISP driver located under
-+drivers/media/platform/amlogic/c3-isp.
-+
-+The current version of the driver supports the C3ISP found on
-+Amlogic C308L processor.
-+
-+The driver implements V4L2, Media controller and V4L2 subdev interfaces.
-+Camera sensor using V4L2 subdev interface in the kernel is supported.
-+
-+The driver has been tested on AW419-C308L-Socket platform.
-+
-+Anlogic Camera hardware
-+=======================
-+
-+The Camera hardware found on C308L processors and supported by
-+the driver consists of:
-+
-+- 1 MIPI-CSI2 module. It handle the Physical layer of the CSI2 receivers and
-+  receive MIPI data.
-+  A separate camera sensor can be connected to MIPI-CSi2 module.
-+- 1 MIPI-ADAPTER module. Organize MIPI data to meet ISP input requirements and
-+  send MIPI data to ISP
-+- 1 ISP (Image Signal Processing) module. Contain a pipeline of image processing
-+  hardware blocks.
-+  The ISP pipeline contains three scalers at the end.
-+  The ISP also contains the DMA interface which writes the output data to memory.
-+
-+Supported functionality
-+=======================
-+
-+The current version of the driver supports:
-+
-+- Input from camera sensor via MIPI-CSI2;
-+
-+- Pixel output interface of ISP
-+
-+  - Scaling support. Configuration of the scaler module
-+    for downscalling with ratio up to 8x.
-+
-+Driver Architecture and Design
-+==============================
-+
-+The driver implements the V4L2 subdev interface. With the goal to model the
-+hardware links between the modules and to expose a clean, logical and usable
-+interface, the driver is split into V4L2 sub-devices as follows:
-+
-+- 1 mipi-csi2 sub-device - mipi-csi2 is represented by a single sub-device.
-+- 1 mipi-adapter sub-device - mipi-adapter is represented by a single sub-devices.
-+- 1 isp-core sub-device - isp-core is represented by a single sub-devices.
-+- 3 isp-resizer sub-devices - isp-resizer is represented by a number of sub-devices
-+  equal to the number of capture device.
-+
-+isp-core sub-device is linked to 2 separate video device nodes and
-+3 isp-resizer sub-devices nodes.
-+
-+- 1 capture statistics video device node.
-+- 1 output parameters video device node.
-+- 3 isp-resizer sub-device nodes.
-+
-+isp-resizer sub-device is linked to capture video device node.
-+
-+- isp-resizer0 is linked to isp-cap0
-+- isp-resizer1 is linked to isp-cap1
-+- isp-resizer2 is linked to isp-cap2
-+
-+The media controller pipeline graph is as follows (with connected a
-+IMX290 camera sensor):
-+
-+.. _isp_topology_graph:
-+
-+.. kernel-figure:: c3-isp.dot
-+    :alt:   c3-isp.dot
-+    :align: center
-+
-+    Media pipeline topology
-+
-+Implementation
-+==============
-+
-+Runtime configuration of the hardware via 'isp-params' video device node.
-+Acquiring statistics of ISP hardware via 'isp-stats' video device node.
-+Acquiring output image of ISP hardware via 'isp-video[0, 2]' video device node.
-+
-+The output size of the scaler module in the ISP is configured with
-+the pixel format of 'isp-video[0, 2]' video device node.
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index b6af448b9fe9..be0a8a860f39 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -10,6 +10,7 @@ Video4Linux (V4L) driver-specific documentation
- 	:maxdepth: 2
- 
- 	bttv
-+	c3-isp
- 	cafe_ccic
- 	cx88
- 	fimc
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c682e83dff31..4a9afbc6de1c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4887,6 +4887,16 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/net/can/st,stm32-bxcan.yaml
- F:	drivers/net/can/bxcan.c
- 
-+C3 ISP DRIVER FOR AMLOGIC
-+M:	Keke Li <keke.li@amlogic.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/admin-guide/media/c3-isp.dot
-+F:	Documentation/admin-guide/media/c3-isp.rst
-+F:	Documentation/devicetree/bindings/media/amlogic,c3-isp.yaml
-+F:	Documentation/userspace-api/media/v4l/metafmt-c3-isp.rst
-+F:	drivers/media/platform/amlogic/c3-isp/
-+
- C3 MIPI ADAPTER DRIVER FOR AMLOGIC
- M:	Keke Li <keke.li@amlogic.com>
- L:	linux-media@vger.kernel.org
+Avnet Silica Office Location:
 
--- 
-2.46.0
+Schönbrunner Str. 297/307, 1120 Vienna, Austria
 
+https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
+
+Refreshments are available during the day.
+
+Lunch is held at Schönbrunner Stöckl (https://www.schoenbrunnerstoeckl.com/), close
+to the Avnet Silica office. The lunch is sponsored by Ideas on Board and Cisco Systems
+Norway.
+
+Regarding the face mask policy: we will follow the same guidance that the
+Linux Foundation gives for the EOSS conference:
+
+https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/#onsite-health-and-safety
+
+
+In-Person Attendees:
+
+Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
+Mauro Carvalho Chehab <mchehab@kernel.org> (Huawei, Media Kernel Maintainer)
+Steve Cho <stevecho@chromium.org> (Google)
+Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+Ricardo Ribalda <ribalda@chromium.org> (Google)
+Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
+Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
+Sean Young <sean@mess.org>
+Jerry W Hu <jerry.w.hu@intel.com> (Intel)
+
+Remote Attendees (using MS Teams):
+
+Mehdi Djait <mehdi.djait@linux.intel.com> (Intel)
+Rishikesh Donadkar <r-donadkar@ti.com> (TI)
+Nicolas Dufresne <nicolas@ndufresne.ca> (Collabora)
+Tomasz Figa <tfiga@chromium.org> (Google)
+Hidenori Kobayashi <hidenorik@chromium.org> (Google)
+Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
+Devarsh Thakkar <devarsht@ti.com> (TI)
+
+Note: information on how to connect remotely will come later.
+
+If any information above is incorrect, or if I missed someone, then please let me know.
+
+We are currently 17 confirmed in-person participants, so we're pretty much full.
+If you want to join remotely, then contact me and I'll add you to that list.
+
+Draft agenda:
+
+8:45-9:15: get settled :-)
+
+9:15-9:25: Hans: Quick introduction
+
+9:25-11:00: Ricardo: multi-committer model using gitlab
+
+11:00-11:15: break
+
+11:15-12:15: Jacopo: Multi-context support in V4L2
+
+12:15-13:30: Lunch at Schönbrunner Stöckl
+
+13:30-14:00: Tomasz: Current state of videobuf2, its limitations and the paths forward.
+
+14:00-14:45: Laurent: subdevs, state, and usage of the media controller device to submit requests.
+
+14:45-15:00: break
+
+15:00-15:30: Sean: new tooling for infrared:
+
+- What it is and what it can do (love to hear any feedback of course)
+- Where it should be hosted? (I hope gitlab fdo, who do I ask)
+- What needs to be in place for a release?
+- This tool replaces ir-ctl and ir-keytable. How we phase them out?
+
+15:30-16:00: Daniel: Rust in the media subsystem
+
+16:00-16:15: break
+
+16:15-16:30: Hans: UVC maintenance
+
+16:30-17:00: Steve Cho:
+
+- V4L2 testing on Chromium using virtual video decode driver (visl)
+- V4L2 video decoding testing with KernelCI
+
+17:00-17:30: Laurent: Should media drivers depend on CONFIG_PM?
+See here for more info:
+https://lore.kernel.org/linux-media/20240825222455.GA24390@pendragon.ideasonboard.com/
+
+17:30-18:00: TBD
+
+Please reply with corrections, questions, etc. to this email. I'll update the agenda
+over time. Again, these times are guesstimates.
+
+Regards,
+
+	Hans
 
 
