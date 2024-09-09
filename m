@@ -1,124 +1,106 @@
-Return-Path: <linux-media+bounces-18010-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18011-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9694B971D3A
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 16:55:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBA7971D40
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 16:55:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5846E1F21100
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 14:55:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3744E1F22BA3
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 14:55:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 739981BBBFA;
-	Mon,  9 Sep 2024 14:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qEVjieBn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA1F1BBBFC;
+	Mon,  9 Sep 2024 14:55:36 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AA41AE039
-	for <linux-media@vger.kernel.org>; Mon,  9 Sep 2024 14:54:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CC91BBBEC
+	for <linux-media@vger.kernel.org>; Mon,  9 Sep 2024 14:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725893700; cv=none; b=UOI7p7Qcg6mcjpYbQmFS3qhG2lvpqwioW/lsmiKoinmpnM4x1Uqe7QztRM4nOlyFUDHmElJbWX1+Ki08ll3t5SdM2HpoO1VVm2hCWc5Mv1SDUAZJkIU9OIhuW+m6rzYht/TzZH0RjnNBIsByg66tcdGb+XPiO7n6I0TVyw3GPsk=
+	t=1725893736; cv=none; b=ckHWzn0q9hhXELbEhil1USKxuA8OVwE+u8JnY5KNH7mb76WnFTlIfkOi1Ha1cLhwCEODC2d62SGY11tqXTmXSsT4S7HTmbb380Rivh4cp4NLp9CgRAMbOiTs8O4u25hpCPqc/g4+8sIzoenNeeLlevHOMX9+QV7RgjxjLN3SMQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725893700; c=relaxed/simple;
-	bh=HdKq02QukmNmdW54NIrJuslg3HS7Ba3263hVxa1XRRk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WRrHlEPqJjNPNXbtO8JGqfQ3Qv9nlEtijcdpB3KtJ1NiQoNt9vfTeMr//aaM/vV0+mVuiy4VvLVvafUD/TLEFXdgJrMpbRK0N3/o6mOLQprhsIWJ/254oNAm4aJZ4H8AREWB3WpQl/Jokz0jVV9vcoPwg/hSAc6xSkqh26/NW2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qEVjieBn; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF4625A4;
-	Mon,  9 Sep 2024 16:53:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725893622;
-	bh=HdKq02QukmNmdW54NIrJuslg3HS7Ba3263hVxa1XRRk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qEVjieBnpqnuetFeiz8uVKAJExT7Q3Bq5/nm3mH7JF+Lj8BW4JeZcNasOUy2FbGtB
-	 a3m4VHQnXqvtNHVzHEF5WGYGypRU+d6XsK8NPcY7KWZu3BMb19YjHMUEHZgiR153nn
-	 FjfMf968jxERqW9eS8aETtdJUXPFb2f7oeF3zAIU=
-Date: Mon, 9 Sep 2024 17:54:54 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH 4/9] media: hackrf: set lock before calling
- vb2_queue_init()
-Message-ID: <20240909145454.GF27525@pendragon.ideasonboard.com>
-References: <cover.1725285495.git.hverkuil-cisco@xs4all.nl>
- <82f2c2cc2bfb9f30a65869202785c01aec3f591f.1725285495.git.hverkuil-cisco@xs4all.nl>
+	s=arc-20240116; t=1725893736; c=relaxed/simple;
+	bh=VcGrLD3/cARqRjAjxbxUUI3S6vITjOHKcBt4lWGiF1k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J99UOsXQj+VxTQoNsn21fPVIlnbAf8YTRqIfYGsq4K7/sYrDRrKnLnFshN2+XFubwThw09tCfe5KaPOlA8s8LPhnokRTyLyPqjLLKW1fbcHx9nJzIaiM8ygac9ebV1xlCKrNHKEbLu4CT4W43rrnYzJd0Q4zGKUNqM6GcOlVEAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F85BC4CEC5;
+	Mon,  9 Sep 2024 14:55:33 +0000 (UTC)
+Message-ID: <c95beba7-2506-4de2-9601-47348623dba0@xs4all.nl>
+Date: Mon, 9 Sep 2024 16:55:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <82f2c2cc2bfb9f30a65869202785c01aec3f591f.1725285495.git.hverkuil-cisco@xs4all.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] media: rcar_drif.c: set lock before calling
+ vb2_queue_init()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+ Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+References: <cover.1725285495.git.hverkuil-cisco@xs4all.nl>
+ <31085af170e3cc9b4fe115d53a556ccf477751d3.1725285495.git.hverkuil-cisco@xs4all.nl>
+ <20240909145146.GA27525@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240909145146.GA27525@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Hans,
-
-Thank you for the patch.
-
-On Mon, Sep 02, 2024 at 04:04:50PM +0200, Hans Verkuil wrote:
-> The vb2_queue_init() will expect the vb2_queue lock pointer to be set in
-> the future. So for those drivers that set the lock later, move it up to
-> before the vb2_queue_init() call.
+On 09/09/2024 16:51, Laurent Pinchart wrote:
+> Hi Hans,
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/media/usb/hackrf/hackrf.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Thank you for the patch.
 > 
-> diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
-> index 9c0ecd5f056c..a1a7690a344a 100644
-> --- a/drivers/media/usb/hackrf/hackrf.c
-> +++ b/drivers/media/usb/hackrf/hackrf.c
-> @@ -1398,6 +1398,7 @@ static int hackrf_probe(struct usb_interface *intf,
->  	dev->rx_vb2_queue.drv_priv = dev;
->  	dev->rx_vb2_queue.buf_struct_size = sizeof(struct hackrf_buffer);
->  	dev->rx_vb2_queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> +	dev->rx_vb2_queue.lock = &dev->vb_queue_lock;
->  	ret = vb2_queue_init(&dev->rx_vb2_queue);
->  	if (ret) {
->  		dev_err(dev->dev, "Could not initialize rx vb2 queue\n");
-> @@ -1413,6 +1414,7 @@ static int hackrf_probe(struct usb_interface *intf,
->  	dev->tx_vb2_queue.drv_priv = dev;
->  	dev->tx_vb2_queue.buf_struct_size = sizeof(struct hackrf_buffer);
->  	dev->tx_vb2_queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> +	dev->tx_vb2_queue.lock = &dev->vb_queue_lock;
+> On Mon, Sep 02, 2024 at 04:04:52PM +0200, Hans Verkuil wrote:
+>> The vb2_queue_init() will expect the vb2_queue lock pointer to be set in
+>> the future. So for those drivers that set the lock later, move it up to
+>> before the vb2_queue_init() call.
+> 
+> The commit message doesn't match the change below, you're moving the
+> lock down, not up.
 
-I'm not sure if setting the same lock for both video queues is desired,
-but that's unrelated to this patch.
+Actually, I am moving it up, as in 'set earlier', but in this case it is
+a bit confusing in the patch.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
->  	ret = vb2_queue_init(&dev->tx_vb2_queue);
->  	if (ret) {
->  		dev_err(dev->dev, "Could not initialize tx vb2 queue\n");
-> @@ -1474,7 +1476,6 @@ static int hackrf_probe(struct usb_interface *intf,
->  	/* Init video_device structure for receiver */
->  	dev->rx_vdev = hackrf_template;
->  	dev->rx_vdev.queue = &dev->rx_vb2_queue;
-> -	dev->rx_vdev.queue->lock = &dev->vb_queue_lock;
->  	dev->rx_vdev.v4l2_dev = &dev->v4l2_dev;
->  	dev->rx_vdev.ctrl_handler = &dev->rx_ctrl_handler;
->  	dev->rx_vdev.lock = &dev->v4l2_lock;
-> @@ -1494,7 +1495,6 @@ static int hackrf_probe(struct usb_interface *intf,
->  	/* Init video_device structure for transmitter */
->  	dev->tx_vdev = hackrf_template;
->  	dev->tx_vdev.queue = &dev->tx_vb2_queue;
-> -	dev->tx_vdev.queue->lock = &dev->vb_queue_lock;
->  	dev->tx_vdev.v4l2_dev = &dev->v4l2_dev;
->  	dev->tx_vdev.ctrl_handler = &dev->tx_ctrl_handler;
->  	dev->tx_vdev.lock = &dev->v4l2_lock;
-
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Cc: Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>
+>> Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>> ---
+>>  drivers/media/platform/renesas/rcar_drif.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
+>> index f21d05054341..5d3109940ded 100644
+>> --- a/drivers/media/platform/renesas/rcar_drif.c
+>> +++ b/drivers/media/platform/renesas/rcar_drif.c
+>> @@ -1071,7 +1071,6 @@ static int rcar_drif_sdr_register(struct rcar_drif_sdr *sdr)
+>>  	sdr->vdev->release = video_device_release;
+>>  	sdr->vdev->lock = &sdr->v4l2_mutex;
+>>  	sdr->vdev->queue = &sdr->vb_queue;
+>> -	sdr->vdev->queue->lock = &sdr->vb_queue_mutex;
+>>  	sdr->vdev->ctrl_handler = &sdr->ctrl_hdl;
+>>  	sdr->vdev->v4l2_dev = &sdr->v4l2_dev;
+>>  	sdr->vdev->device_caps = V4L2_CAP_SDR_CAPTURE | V4L2_CAP_TUNER |
+>> @@ -1316,6 +1315,7 @@ static int rcar_drif_sdr_probe(struct rcar_drif_sdr *sdr)
+>>  	sdr->vb_queue.ops = &rcar_drif_vb2_ops;
+>>  	sdr->vb_queue.mem_ops = &vb2_vmalloc_memops;
+>>  	sdr->vb_queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>> +	sdr->vb_queue.lock = &sdr->vb_queue_mutex;
+>>  
+>>  	/* Init videobuf2 queue */
+>>  	ret = vb2_queue_init(&sdr->vb_queue);
+> 
+
 
