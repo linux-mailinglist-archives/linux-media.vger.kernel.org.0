@@ -1,195 +1,495 @@
-Return-Path: <linux-media+bounces-18037-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18038-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796CD9723EC
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 22:46:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3323F97247B
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 23:23:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 394A62840AD
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 20:46:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 568011C22D5C
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 21:23:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F038418B469;
-	Mon,  9 Sep 2024 20:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3396F18C901;
+	Mon,  9 Sep 2024 21:22:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="IVF7ozqT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LJsGXwku"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7328189916
-	for <linux-media@vger.kernel.org>; Mon,  9 Sep 2024 20:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF98189F2F;
+	Mon,  9 Sep 2024 21:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725914790; cv=none; b=BIOFaKf9nHoVrwKhcmNzD9FbkXbpxY9rr1M4laB74jxkeeCqVCnd4f+2u6cu1BRWPnFJPYyzvJ6WuDN6QI4SaBUSsdoEIwvFZ/zQ2b4+dD436zrw8D4nkKTs8KbpWhkmbtv45D2IQVQCenz5qay/+8K6JDSstBx5Fqs3u0sn4gU=
+	t=1725916976; cv=none; b=SubtHjJy17abSHX+IxGjkjsgJODFgz0RkWIyP7hQpyxcSouxdGB98HpozkJ1ObWy8Qg/eBMzTtGFkxfmwQol/k2vAAdEtOe4zJ/6G9DmSBix2hxPnzVEcAGDZt6ZSBWNEDUWbHAxK//mewkmSHeAsBxjxY+W8RngLJpqZDfTG70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725914790; c=relaxed/simple;
-	bh=x8Vt+Fc966x2sFxjsehNaKnI6GC7V/cMqA0XuIhrYts=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HDvHOdnlL+RmhabYg8UHvHGEB/qOOoh2lJxmWSSXmLFZBxiJjSj7jetnu+cHaN+EB2+DrqySmJIKLkoAOLkBNTqP9LGr2sGRPKx6gaMx+LyuEipWNWfjNC/aubEEAiOUCM834PbWls/sxfvy/i0cgbEZ/Z4QLWoBMzv8YhZIbXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=IVF7ozqT; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=hUMjRnKcrTLnebHMIfSdNNYnDwsB5VMV4e0FJ/HK55s=; b=IVF7ozqTA9EiDWM21Pqz+zrlTi
-	6uhl3PZrvOKfZczJsGk2PPxUqeS49CXTrZA/4tsY0ZjpPL2B4MFuZe/kuL0jskPSIdHsMRSIhShJF
-	Iz+R/bgx/UQUyX75WYFA+cRsQGPH9y++/v7/xAq5jt4HFLt2/7bzcy3xbdLEbhXFdoWk/tOhzs1of
-	POjFkA9wAuKAtP7biS3nFZ9WssvSFSnZOAPZzNhq/UvmJBDmoWl7mBOCKCTe+qTQp8HT5fPGuxzTO
-	81txyNjcQaTxnarah1pNSnUpiR8eRns54DEL4kUd8x0TAkZ6CYgdhTgXpbjblCkLnnQ1KOb+EsbwD
-	X7BR28dw==;
-Received: from 179-125-79-204-dinamico.pombonet.net.br ([179.125.79.204] helo=localhost.localdomain)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1snlHF-00BkAA-7I; Mon, 09 Sep 2024 22:46:25 +0200
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-To: linux-media@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
-	syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com,
-	syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
-Subject: [PATCH 2/2] media: uvcvideo: require entities to have a non-zero ID
-Date: Mon,  9 Sep 2024 17:46:05 -0300
-Message-Id: <20240909204605.1870265-3-cascardo@igalia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240909204605.1870265-1-cascardo@igalia.com>
-References: <20240909204605.1870265-1-cascardo@igalia.com>
+	s=arc-20240116; t=1725916976; c=relaxed/simple;
+	bh=DHoBHitf6XqutCBUKBaXtWsNw566Wkx2sWsCIpIA5kg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hu5iRoMNW6t4qKXthz79U2FylndGp9/yCy9YQ4tkISBKcUW7JP2A542EYoAGrHYfioao+2DNxwWkEw8TqK6c/MUJ/Pm1CZZeqjdHUcKw/5lbrMmkmdR77cCkwXVwUUzUwgarAHD7twEynTMJaehxaV1yPNI+8KXYt5EJN2E7qT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LJsGXwku; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572A0C4CECC;
+	Mon,  9 Sep 2024 21:22:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725916976;
+	bh=DHoBHitf6XqutCBUKBaXtWsNw566Wkx2sWsCIpIA5kg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LJsGXwkujv9FcaUCCoYZ1vb9KTSfWqsJj5ePQ1LmXJQcHAWA3W79P2JrqFeV2s/jv
+	 zNpo7fEkKTXdoeSE8pIwdUfkTDHUyGup96gAcEv8vcsFbzEJEdgJXB1bNHnHAoIdba
+	 79vNjt/214TimJH42afhMYFVIvEzsLuYsCmn5ovpua0UPfyX77+b8QBUGPNn+lqQiE
+	 UHgwigS7Ul8uJCa39r5p86jkELBsywN76Cy37sEQvhooGcOXXZRtIvp3UNN13g7MyK
+	 PGxRHlybeKE/Q2FRal8JAYjGqygbYThYS6i8M/3QPrO+dtYYbNnxt0UWDVzbTitAB3
+	 PwgfqJ860nxiw==
+Date: Mon, 9 Sep 2024 23:22:51 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Carlos Song <carlos.song@nxp.com>
+Cc: aisheng.dong@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, sumit.semwal@linaro.org, 
+	christian.koenig@amd.com, linux-i2c@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Frank Li <frank.li@nxp.com>
+Subject: Re: [PATCH V4] i2c: imx-lpi2c: add eDMA mode support for LPI2C
+Message-ID: <7czathanmppyyw5bbno6gmsfqtn75py33lccyfu6klreh74n6o@d6347uzrxwj4>
+References: <20240829093157.2714736-1-carlos.song@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240829093157.2714736-1-carlos.song@nxp.com>
 
-Per UVC 1.5 specification, units and terminals must have a non-zero ID.
+Hi Carlos,
 
-So, deny allocating an entity with a 0 ID.
+Thanks for your patch, sorry for having taken so much time, looks
+good, just some nitpicks.
 
-This also prevents some syzkaller reproducers from triggering warnings due
-to a backward chain which is considered finished as the source ID is 0.
-Later on, that entity is found, but its pads are not valid.
+...
 
-[   26.840968] usb 1-1: new high-speed USB device number 2 using dummy_hcd
-[   27.051040] usb 1-1: Using ep0 maxpacket: 8
-[   27.071823] usb 1-1: config 0 has an invalid descriptor of length 0, skipping remainder of the config
-[   27.151406] usb 1-1: config 0 descriptor??
-[   27.656382] usb 1-1: Found UVC 0.00 device <unnamed> (0bd3:0d55)
-[   27.663246] pubrepro2 (533) used greatest stack depth: 10776 bytes left
-[   27.720063] uvcvideo 1-1:0.0: Entity type for entity Output 255 was not initialized!
-[   27.741991] ------------[ cut here ]------------
-[   27.744566] WARNING: CPU: 0 PID: 9 at drivers/media/mc/mc-entity.c:1144 media_create_pad_link+0x2bc/0x2e0
-[   27.749558] Modules linked in:
-[   27.751791] CPU: 0 UID: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.11.0-rc7-00030-g3480e43aeccf #444
-[   27.756432] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01/2014
-[   27.760678] Workqueue: usb_hub_wq hub_event
-[   27.762941] RIP: 0010:media_create_pad_link+0x2bc/0x2e0
-[   27.765711] Code: c0 eb 10 4c 89 f7 4c 89 fe e8 20 01 00 00 b8 f4 ff ff ff 48 83 c4 30 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc 0f 0b eb e9 <0f> 0b eb 0a 0f 0b eb 06 0f 0b eb 02 0f 0b b8 ea ff ff ff eb d4 66
-[   27.775169] RSP: 0018:ffffc9000004b318 EFLAGS: 00010246
-[   27.779654] RAX: ffff888004e5d458 RBX: 0000000000000000 RCX: ffffffff818fccad
-[   27.784120] RDX: 0000000000000a4e RSI: 0000000000000000 RDI: ffff888004b940b8
-[   27.789098] RBP: 0000000000000000 R08: 0001ffffffffffff R09: 0000000000000000
-[   27.793848] R10: 0000000000000014 R11: 0001888004b940b8 R12: 0000000000000003
-[   27.797876] R13: ffff888004f27080 R14: ffff888004b94080 R15: 0000000000000000
-[   27.804270] FS:  0000000000000000(0000) GS:ffff88803ec00000(0000) knlGS:0000000000000000
-[   27.808541] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   27.812003] CR2: 0000578d13848018 CR3: 0000000004b40000 CR4: 0000000000750ef0
-[   27.816142] PKRU: 55555554
-[   27.817778] Call Trace:
-[   27.819195]  <TASK>
-[   27.820492]  ? __warn+0xc4/0x210
-[   27.823079]  ? media_create_pad_link+0x2bc/0x2e0
-[   27.826014]  ? report_bug+0x11b/0x1a0
-[   27.827976]  ? handle_bug+0x3d/0x70
-[   27.830074]  ? exc_invalid_op+0x1a/0x50
-[   27.832903]  ? asm_exc_invalid_op+0x1a/0x20
-[   27.836194]  ? media_create_pad_link+0x4d/0x2e0
-[   27.840070]  ? media_create_pad_link+0x2bc/0x2e0
-[   27.842879]  ? media_create_pad_link+0x4d/0x2e0
-[   27.847327]  ? _raw_spin_unlock+0x1e/0x40
-[   27.849827]  ? __v4l2_device_register_subdev+0x202/0x210
-[   27.852753]  uvc_mc_register_entities+0x358/0x400
-[   27.855335]  uvc_register_chains+0x1fd/0x290
-[   27.857622]  uvc_probe+0x380e/0x3dc0
-[   27.859547]  ? __lock_acquire+0x5aa/0x26e0
-[   27.861876]  ? find_held_lock+0x33/0xa0
-[   27.864068]  ? kernfs_activate+0x70/0x80
-[   27.866231]  ? usb_match_dynamic_id+0x1b/0x70
-[   27.869323]  ? find_held_lock+0x33/0xa0
-[   27.871595]  ? usb_match_dynamic_id+0x55/0x70
-[   27.874363]  ? lock_release+0x124/0x260
-[   27.877941]  ? usb_match_one_id_intf+0xa2/0x100
-[   27.881568]  usb_probe_interface+0x1ba/0x330
-[   27.884095]  really_probe+0x1ba/0x4c0
-[   27.887244]  __driver_probe_device+0xb2/0x180
-[   27.891340]  driver_probe_device+0x5a/0x100
-[   27.895146]  __device_attach_driver+0xe9/0x160
-[   27.899163]  ? __pfx___device_attach_driver+0x10/0x10
-[   27.902074]  bus_for_each_drv+0xa9/0x100
-[   27.904215]  __device_attach+0xed/0x190
-[   27.906374]  device_initial_probe+0xe/0x20
-[   27.908604]  bus_probe_device+0x4d/0xd0
-[   27.910876]  device_add+0x308/0x590
-[   27.912874]  usb_set_configuration+0x7b6/0xaf0
-[   27.915194]  usb_generic_driver_probe+0x36/0x80
-[   27.917720]  usb_probe_device+0x7b/0x130
-[   27.919813]  really_probe+0x1ba/0x4c0
-[   27.921836]  __driver_probe_device+0xb2/0x180
-[   27.924258]  driver_probe_device+0x5a/0x100
-[   27.926471]  __device_attach_driver+0xe9/0x160
-[   27.928865]  ? __pfx___device_attach_driver+0x10/0x10
-[   27.931675]  bus_for_each_drv+0xa9/0x100
-[   27.933829]  __device_attach+0xed/0x190
-[   27.935994]  device_initial_probe+0xe/0x20
-[   27.938287]  bus_probe_device+0x4d/0xd0
-[   27.940356]  device_add+0x308/0x590
-[   27.942538]  usb_new_device+0x347/0x610
-[   27.944599]  hub_event+0x156b/0x1e30
-[   27.946522]  ? process_scheduled_works+0x48b/0xaf0
-[   27.949049]  process_scheduled_works+0x5a3/0xaf0
-[   27.951579]  worker_thread+0x3cf/0x560
-[   27.953644]  ? kthread+0x109/0x1b0
-[   27.955506]  kthread+0x197/0x1b0
-[   27.957290]  ? __pfx_worker_thread+0x10/0x10
-[   27.959574]  ? __pfx_kthread+0x10/0x10
-[   27.961654]  ret_from_fork+0x32/0x40
-[   27.963630]  ? __pfx_kthread+0x10/0x10
-[   27.965636]  ret_from_fork_asm+0x1a/0x30
-[   27.967739]  </TASK>
+> diff --git a/drivers/i2c/busses/i2c-imx-lpi2c.c b/drivers/i2c/busses/i2c-imx-lpi2c.c
+> index 976d43f73f38..530ca5d76403 100644
+> --- a/drivers/i2c/busses/i2c-imx-lpi2c.c
+> +++ b/drivers/i2c/busses/i2c-imx-lpi2c.c
+> @@ -8,6 +8,8 @@
+>  #include <linux/clk.h>
+>  #include <linux/completion.h>
+>  #include <linux/delay.h>
+> +#include <linux/dmaengine.h>
+> +#include <linux/dma-mapping.h>
 
-Reported-by: syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=0584f746fde3d52b4675
-Reported-by: syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
-Fixes: a3fbc2e6bb05 ("media: mc-entity.c: use WARN_ON, validate link pads")
-Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 4 ++++
- 1 file changed, 4 insertions(+)
+please sort in alphabetical order
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index a6973b0ba676..be3e77308ecb 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -783,6 +783,10 @@ static struct uvc_entity *uvc_alloc_entity(struct uvc_device *dev, u16 type,
- 	unsigned int size;
- 	unsigned int i;
- 
-+	/* Per UVC 1.5 spec, the ID should be non-zero */
-+	if (id == 0)
-+		return NULL;
-+
- 	/* Per UVC 1.5 spec, the ID is unique */
- 	if (uvc_entity_by_id(dev, id))
- 		return NULL;
--- 
-2.34.1
+>  #include <linux/err.h>
+>  #include <linux/errno.h>
+>  #include <linux/i2c.h>
 
+...
+
+> +struct lpi2c_imx_dma {
+> +	bool			using_pio_mode;
+> +	u8			rx_cmd_buf_len;
+> +	u8			*dma_buf;
+> +	u16			*rx_cmd_buf;
+> +	unsigned int	dma_len;
+> +	unsigned int	tx_burst_num;
+> +	unsigned int	rx_burst_num;
+> +	unsigned long	dma_msg_flag;
+> +	resource_size_t		phy_addr;
+> +	dma_addr_t		dma_tx_addr;
+> +	dma_addr_t		dma_addr;
+> +	enum dma_data_direction dma_direction;
+> +	struct dma_chan		*chan_tx;
+> +	struct dma_chan		*chan_rx;
+> +};
+
+The alignment here is a bit off
+
+...
+
+> +static bool is_use_dma(struct lpi2c_imx_struct *lpi2c_imx, struct i2c_msg *msg)
+> +{
+> +	if (!lpi2c_imx->can_use_dma)
+> +		return false;
+> +
+> +	/*
+> +	 * When the length of data is less than I2C_DMA_THRESHOLD,
+> +	 * cpu mode is used directly to avoid low performance.
+> +	 */
+> +	if (msg->len < I2C_DMA_THRESHOLD)
+> +		return false;
+> +
+> +	return true;
+
+You could do
+
+	return !(msg->len < I2C_DMA_THRESHOLD);
+
+Just a matter of taste, your choice.
+
+> +}
+> +
+> +static int lpi2c_imx_pio_xfer(struct lpi2c_imx_struct *lpi2c_imx,
+> +				 struct i2c_msg *msg)
+> +{
+> +	int ret;
+> +
+> +	reinit_completion(&lpi2c_imx->complete);
+> +
+> +	if (msg->flags & I2C_M_RD)
+> +		lpi2c_imx_read(lpi2c_imx, msg);
+> +	else
+> +		lpi2c_imx_write(lpi2c_imx, msg);
+> +
+> +	ret = lpi2c_imx_pio_msg_complete(lpi2c_imx);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+
+You could do
+
+	return lpi2c_imx_pio_msg_complete(lpi2c_imx);
+
+Purely taste, your choice, still.
+
+> +}
+
+...
+
+> +static void lpi2c_cleanup_rx_cmd_dma(struct lpi2c_imx_dma *dma)
+> +{
+> +	dmaengine_terminate_sync(dma->chan_tx);
+> +	dma_unmap_single(dma->chan_tx->device->dev, dma->dma_tx_addr,
+> +				dma->rx_cmd_buf_len, DMA_TO_DEVICE);
+
+alignment
+
+> +}
+
+...
+
+> +static int lpi2c_dma_rx_cmd_submit(struct lpi2c_imx_struct *lpi2c_imx)
+> +{
+> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
+> +	struct dma_chan *txchan = dma->chan_tx;
+> +	struct dma_async_tx_descriptor *rx_cmd_desc;
+> +	dma_cookie_t cookie;
+> +
+> +	dma->dma_tx_addr = dma_map_single(txchan->device->dev,
+> +						 dma->rx_cmd_buf,
+> +						 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
+> +	if (dma_mapping_error(txchan->device->dev, dma->dma_tx_addr)) {
+> +		dev_err(&lpi2c_imx->adapter.dev, "dma map failed, use pio\n");
+
+/dma/DMA/ and it's valid for every time you have used "dma".
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	rx_cmd_desc = dmaengine_prep_slave_single(txchan, dma->dma_tx_addr,
+> +				 dma->rx_cmd_buf_len, DMA_MEM_TO_DEV,
+> +				 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+
+alignment.
+
+> +	if (!rx_cmd_desc) {
+> +		dma_unmap_single(txchan->device->dev, dma->dma_tx_addr,
+> +				 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
+
+put dma_unmap_single() in a goto exit path.
+
+> +		dev_err(&lpi2c_imx->adapter.dev, "dma prep slave sg failed, use pio\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	cookie = dmaengine_submit(rx_cmd_desc);
+> +	if (dma_submit_error(cookie)) {
+> +		dma_unmap_single(txchan->device->dev, dma->dma_tx_addr,
+> +				 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
+> +		dmaengine_desc_free(rx_cmd_desc);
+> +		dev_err(&lpi2c_imx->adapter.dev, "submitting dma failed, use pio\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	dma_async_issue_pending(txchan);
+> +
+> +	return 0;
+> +}
+> +
+> +static int lpi2c_dma_submit(struct lpi2c_imx_struct *lpi2c_imx)
+> +{
+> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
+> +	bool read = dma->dma_msg_flag & I2C_M_RD;
+> +	enum dma_data_direction dir = read ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
+> +	struct dma_chan *chan = read ? dma->chan_rx : dma->chan_tx;
+
+I generally prefer the assignment to be done after the
+declaration. It looks more clear.
+
+> +	struct dma_async_tx_descriptor *desc;
+> +	dma_cookie_t cookie;
+> +
+> +	dma->dma_direction = dir;
+> +	dma->dma_addr = dma_map_single(chan->device->dev,
+> +					     dma->dma_buf,
+> +					     dma->dma_len, dir);
+
+alignment is off.
+
+> +	if (dma_mapping_error(chan->device->dev, dma->dma_addr)) {
+> +		dev_err(&lpi2c_imx->adapter.dev, "dma map failed, use pio\n");
+
+/dma/DMA/
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	desc = dmaengine_prep_slave_single(chan, dma->dma_addr,
+> +					 dma->dma_len, read ?
+> +					 DMA_DEV_TO_MEM : DMA_MEM_TO_DEV,
+> +					 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+
+alignment off.
+
+> +	if (!desc) {
+> +		dev_err(&lpi2c_imx->adapter.dev, "dma prep slave sg failed, use pio\n");
+> +		lpi2c_dma_unmap(dma);
+
+put lpi2c_dma_unmape under a goto exit path.
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	reinit_completion(&lpi2c_imx->complete);
+> +	desc->callback = lpi2c_dma_callback;
+> +	desc->callback_param = (void *)lpi2c_imx;
+
+the cast is not needed.
+
+> +	cookie = dmaengine_submit(desc);
+> +	if (dma_submit_error(cookie)) {
+> +		dev_err(&lpi2c_imx->adapter.dev, "submitting dma failed, use pio\n");
+> +		lpi2c_dma_unmap(dma);
+> +		dmaengine_desc_free(desc);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Can't switch to PIO mode when DMA have started transfer */
+> +	dma->using_pio_mode = false;
+> +
+> +	dma_async_issue_pending(chan);
+> +
+> +	return 0;
+> +}
+> +
+> +static int lpi2c_imx_find_max_burst_num(unsigned int fifosize, unsigned int len)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = fifosize / 2; i > 0; i--) {
+> +		if (!(len % i))
+> +			break;
+> +	}
+
+braces are not needed
+
+> +
+> +	return i;
+> +}
+> +
+> +/*
+> + * For a highest DMA efficiency, tx/rx burst number should be calculated according
+> + * to the FIFO depth.
+> + */
+> +static void lpi2c_imx_dma_burst_num_calculate(struct lpi2c_imx_struct *lpi2c_imx)
+> +{
+> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
+> +	unsigned int cmd_num;
+> +
+> +	if (dma->dma_msg_flag & I2C_M_RD) {
+> +		/*
+> +		 * One RX cmd word can trigger DMA receive no more than 256 bytes.
+> +		 * The number of RX cmd words should be calculated based on the data
+> +		 * length.
+> +		 */
+> +		cmd_num = DIV_ROUND_UP(dma->dma_len, CHUNK_DATA);
+> +		dma->tx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->txfifosize,
+> +				 cmd_num);
+> +		dma->rx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->rxfifosize,
+> +				 dma->dma_len);
+> +	} else {
+> +		dma->tx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->txfifosize,
+> +				 dma->dma_len);
+
+Alignment is off.
+
+> +	}
+> +}
+
+...
+
+> +/*
+> + * When lpi2c in TX DMA mode we can use one DMA TX channel to write
+
+/in/is in/
+
+> + * data word into TXFIFO, but in RX DMA mode it is different.
+> + *
+> + * LPI2C MTDR register is a command data and transmit data register.
+
+/LPI2C/The LPI2C/
+
+> + * Bit 8-10 is command data field and Bit 0-7 is transmit data field.
+
+/Bit 8-10 is/Bits 8-10 are the/
+/Bit 0-7 is/ Bits 0-7 are the/
+
+> + * When the LPI2C master needs to read data, the data number to read
+
+/data number/number of bytes/
+
+> + * should be set in transmit data field and RECV_DATA should be set
+> + * into the command data field to receive (DATA[7:0] + 1) bytes. The
+> + * recv data command word is made of RECV_DATA in command data field
+
+/in command/in the command/
+
+> + * and the data number to read in transmit data field. When the length
+
+/data number/number of bytes/
+
+> + * of data that needs to be read exceeds 256 bytes, recv data command
+
+/data that needs to be read/data to be read/
+
+> + * word needs to be written to TXFIFO multiple times.
+> + *
+> + * So when in RX DMA mode, the TX channel also needs to be configured
+> + * additionally to send RX command words and the RX command word need
+
+/additionally//
+/need/must/
+
+> + * be set in advance before transmitting.
+> + */
+> +static int lpi2c_imx_dma_xfer(struct lpi2c_imx_struct *lpi2c_imx,
+> +			 struct i2c_msg *msg)
+
+The alignemnt here is off (did you run checkpatch.pl?)
+
+> +{
+> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
+> +	int ret;
+> +
+> +	/* When DMA mode failed before transferring, CPU mode can be used. */
+
+/failed/fails/
+
+> +	dma->using_pio_mode = true;
+> +
+> +	dma->dma_len = msg->len;
+> +	dma->dma_msg_flag = msg->flags;
+> +	dma->dma_buf = i2c_get_dma_safe_msg_buf(msg, I2C_DMA_THRESHOLD);
+> +	if (!dma->dma_buf)
+> +		return -ENOMEM;
+> +
+> +	ret = lpi2c_dma_config(lpi2c_imx);
+> +	if (ret) {
+> +		dev_err(&lpi2c_imx->adapter.dev, "DMA Config Fail, error %d\n", ret);
+
+Please rephrase as:
+
+	... "Failed to configure DMA (%d)\n", ret);
+
+> +		goto disable_dma;
+> +	}
+> +
+> +	lpi2c_dma_enable(lpi2c_imx);
+> +
+> +	ret = lpi2c_dma_submit(lpi2c_imx);
+> +	if (ret) {
+> +		dev_err(&lpi2c_imx->adapter.dev, "DMA submit Fail, error %d\n", ret);
+
+Please rephrase as:
+
+	... "DMA submission failed (%d)\n", ret);
+
+> +		goto disable_dma;
+> +	}
+> +
+> +	if (dma->dma_msg_flag & I2C_M_RD) {
+> +		ret = lpi2c_imx_alloc_rx_cmd_buf(lpi2c_imx);
+> +		if (ret) {
+> +			lpi2c_cleanup_dma(dma);
+> +			goto disable_dma;
+> +		}
+> +
+> +		ret = lpi2c_dma_rx_cmd_submit(lpi2c_imx);
+> +		if (ret) {
+> +			lpi2c_cleanup_dma(dma);
+> +			goto disable_dma;
+> +		}
+> +	}
+> +
+> +	ret = lpi2c_imx_dma_msg_complete(lpi2c_imx);
+> +	if (ret) {
+> +		if (dma->dma_msg_flag & I2C_M_RD)
+> +			lpi2c_cleanup_rx_cmd_dma(dma);
+> +		lpi2c_cleanup_dma(dma);
+> +		goto disable_dma;
+> +	}
+> +
+> +	/* When meet NACK in transfer, cleanup all DMA transfer */
+
+Please rephrase as:
+
+/* When encountering NACK in transfer, clean up all DMA transfers */
+
+> +	if ((readl(lpi2c_imx->base + LPI2C_MSR) & MSR_NDF) && !ret) {
+> +		if (dma->dma_msg_flag & I2C_M_RD)
+> +			lpi2c_cleanup_rx_cmd_dma(dma);
+> +		lpi2c_cleanup_dma(dma);
+> +		ret = -EIO;
+> +		goto disable_dma;
+> +	}
+> +
+> +	if (dma->dma_msg_flag & I2C_M_RD)
+> +		dma_unmap_single(dma->chan_tx->device->dev, dma->dma_tx_addr,
+> +					 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
+> +	lpi2c_dma_unmap(dma);
+> +
+
+you could add here:
+
+disable_cleanup_dma:
+	lpi2c_cleanup_dma(dma);
+
+and goto here instead of calling lpi2c_cleanup_dma(dma) at each
+phase.
+
+> +disable_dma:
+> +	/* Disable I2C DMA function */
+> +	writel(0, lpi2c_imx->base + LPI2C_MDER);
+> +
+> +	if (dma->dma_msg_flag & I2C_M_RD)
+> +		kfree(dma->rx_cmd_buf);
+> +
+> +	if (ret)
+> +		i2c_put_dma_safe_msg_buf(dma->dma_buf, msg, false);
+> +	else
+> +		i2c_put_dma_safe_msg_buf(dma->dma_buf, msg, true);
+
+I could leave a blank line here to put some space between
+if...else and return.
+
+> +	return ret;
+> +}
+
+...
+
+Thanks,
+Andi
 
