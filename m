@@ -1,172 +1,187 @@
-Return-Path: <linux-media+bounces-18021-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18022-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D55971FA5
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 18:54:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4E9972287
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 21:25:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DC441C22314
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 16:54:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE07EB22502
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 19:25:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 582A8170A1B;
-	Mon,  9 Sep 2024 16:54:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82084189BAC;
+	Mon,  9 Sep 2024 19:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zftvtENv"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="FnTTabrK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6ED16D4E5
-	for <linux-media@vger.kernel.org>; Mon,  9 Sep 2024 16:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D719189B81
+	for <linux-media@vger.kernel.org>; Mon,  9 Sep 2024 19:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725900873; cv=none; b=Dzdg2LiVcVaRLhlh5T1qGYzsRY8CmPev6pLfJXByps3mZ6j4lESEa0OX7uVLkCldC/sCNKM0sTziYjNQkOUkzYs/Zp3kjN/4a7be/O+PiEb9htqRtbkuFoXVRUy1SQlNa5T/y+Y9zWpSSutgT/v7KrkLmqJj6sLAky489CWC15k=
+	t=1725909944; cv=none; b=k937MNSJfG9taiHJ1YBU7SSptFsuj1o51uAIe0tAggzM1FdmrqUHBwfqw9Kuy6PnN3qsI89kFa3EYTmO3jdvE7Rig6mTXewEt4Yeb247sxEJbul3TTcusZ8aq4/JQuyEfj8iIyM3Rxs8cP6MLCz+11YPIGKVtUWBtFjXEVYmgEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725900873; c=relaxed/simple;
-	bh=6Q+C9ogz7U8bywbJQGcpiixXLogu0mto8kJ/rFDq1hM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WffoepbwHP8BBbcaBtmYs+L8YaU2B3r/lRnS/QREPdKyulYfF7dQnsoRdCqTKwYEWgr/vDXKePo9w4CO9iqMVK8E2fTnwFBBEXb0hICnr1+bUqRWTX7gzG90evcszPptVGkwu0yt4msoHGjHYNDWBbG/E1BiIgXzv6dnEUIBx8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zftvtENv; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4582b71df40so3401cf.1
-        for <linux-media@vger.kernel.org>; Mon, 09 Sep 2024 09:54:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725900869; x=1726505669; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6Q+C9ogz7U8bywbJQGcpiixXLogu0mto8kJ/rFDq1hM=;
-        b=zftvtENvf4uW4nTJnM1KzDdzsjU/F6GJgfAfeBgXXP2uuc5R0x0Kin63bhC9hvd/vH
-         lOfRESNkXIoUeuO16b3giev/BkoRw7HYGj2RZ8Lvd9He0RUoi88r8+K3kPT1CoOLj4/Q
-         usEGOwEPS+E/A3x6BI69rphus4gz+2y9PLzEtKsUTePo6eeOEWQGGvbVRhz1y2fmHjMC
-         99BOrVbl1AxyGX4XP5qEycLLC6+4z0njV0eGcMUD/+tvUU+W2czbSU+g7M+ms3vNBMUl
-         x2mDCVPwq0Ouv1sjdvlcfWatCwNaWuDoFUgH7or5cgIBrnlgKvOKQYOhkTRB9ftp5kzZ
-         rc8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725900869; x=1726505669;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6Q+C9ogz7U8bywbJQGcpiixXLogu0mto8kJ/rFDq1hM=;
-        b=sYGJbKz/AQ8eOPEpcEmFOD0u4zlTKgdoXx4YN0YBq0uyYHeSVoavs2CKIDTHPWsOIp
-         2hVCFZZJJwzuaIOPnxJp3l8HW1aWiaoZLhgOXD922W09XPqx46zy/08wmwSJU0i0nwVV
-         bn6YzTUaJwaY5uhQX1vlknVcAaIsC+PB63M9aSxnvAWAwQ1KqAU1CrPOfGkBrQ5SsBYC
-         bGukzfL5KHRUK1vyLhfvWVs4CyCsd3PNML4XXFkaiR7pmfXKhGfFyeuYAAYYKd0Z6YqQ
-         BvvUSg1v9yvb26+FemRb9dpTDekdh7XHs1TM5tCa/QndY4NYeuaiKkxNqKfM4U2nuMu/
-         1DDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWUuwyy7bExyI0+rWd/Z+RU8ZVNh3wF2pAL7XhgrWmIaTDVbK8wNPF0ymUuenKpLTzh0y1ptw0pgV0CBQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxhpYNJqgDS2j5S2d1wakt2QI8XgTVuRnFKaeg6ah8uWMJdK/r
-	Xq0tM2Hjx3JGHfms5ZFPlyCZlSeNI/Zo7k9n8FfaMqTXNVaUpUCkKyQpI6SvrVeBTjN5ZR8AMUQ
-	B2ptpegeXAMkgRDogNROn3G/CXK1ZoKxSES2V
-X-Google-Smtp-Source: AGHT+IH5CAMa7jyagoL/SPMKxnbKYwRciBwcTHNa9+5fhr4aw1DzDFUIylCWU3J1Sf54qZeykPAuKVr/EjpKtXIeTYU=
-X-Received: by 2002:ac8:7f0f:0:b0:456:7501:7c4d with SMTP id
- d75a77b69052e-458214943fbmr5401741cf.9.1725900869141; Mon, 09 Sep 2024
- 09:54:29 -0700 (PDT)
+	s=arc-20240116; t=1725909944; c=relaxed/simple;
+	bh=LuIEaWHOTmmGoVcMlknrPEExCesY2Co0+fYNU8bCPmU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tk4RN9Yx5gtJATIcOWLj9ZKU7zDLRCziT3aTvEEDp5enfgI1vRsqbcjygIf4zYPCX4s1bdIHouhjpkrsQtq0mS3MrZVe55GwnTQBeBQqJU4K8cEbr/xQC8q79E97N0cbVjLN79qcfQMbeMLHfsG+Cow3ZC0DUAYdEXEYMsirOn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=FnTTabrK; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-e1b5cab7be; t=1725909933;
+ bh=x2QaFsh9EJMqL2uPo0SiypQbsPJylPWDU0XohT8JYoo=;
+ b=FnTTabrKjNg1w/qkxFlmWpHJGlvx5eynj6e4yOxvzHPuE1BDS2/3wzBaEC6RT41fg42cj63RD
+ Tigg/DqkQDN71pwXHyix7iyWQiXINjTilNYH+hw/x/mW0DJM1eQZakFmX+RfsNv0GmgYuM0JV/x
+ vZIjQiJa0vUPP9mI1zjcE0Oi2tL0lDwucwUXZMADsrYjZ0HE1rBkj89blp0H9q/Bt/XSNUqKdRp
+ H1pUwJmube7kO78G9Ja0qXHaH4/P0bQsGH5AqXpeH+EvClz4wQ+4qgbXDbczNAvbtyla6tcAMNH
+ sEs+NsBsdTZ/Dv+nibQG1I5R3C6wxBZNdj7r0ig85s2A==
+From: Jonas Karlman <jonas@kwiboo.se>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Alex Bee <knaerzche@gmail.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v6 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2 profile support
+Date: Mon,  9 Sep 2024 19:24:58 +0000
+Message-ID: <20240909192522.1076704-1-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240909054318.1809580-1-almasrymina@google.com> <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
-In-Reply-To: <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 9 Sep 2024 09:54:16 -0700
-Message-ID: <CAHS8izMX+9F1NngbPx6w7ikKR9TgPvm+jMwZ8168NJYhFC7sVQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v25 00/13] Device Memory TCP
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
-	Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Christoph Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 66df4baac680cb8b7d2dc0ea
 
-On Mon, Sep 9, 2024 at 4:21=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
-> wrote:
->
-> On 2024/9/9 13:43, Mina Almasry wrote:
->
-> >
-> > Perf - page-pool benchmark:
-> > ---------------------------
-> >
-> > bench_page_pool_simple.ko tests with and without these changes:
-> > https://pastebin.com/raw/ncHDwAbn
-> >
-> > AFAIK the number that really matters in the perf tests is the
-> > 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
-> > cycles without the changes but there is some 1 cycle noise in some
-> > results.
-> >
-> > With the patches this regresses to 9 cycles with the changes but there
-> > is 1 cycle noise occasionally running this test repeatedly.
-> >
-> > Lastly I tried disable the static_branch_unlikely() in
-> > netmem_is_net_iov() check. To my surprise disabling the
-> > static_branch_unlikely() check reduces the fast path back to 8 cycles,
-> > but the 1 cycle noise remains.
->
-> Sorry for the late report, as I was adding a testing page_pool ko basing
-> on [1] to avoid introducing performance regression when fixing the bug in
-> [2].
-> I used it to test the performance impact of devmem patchset for page_pool
-> too, it seems there might be some noticable performance impact quite stab=
-ly
-> for the below testcases, about 5%~16% performance degradation as below in
-> the arm64 system:
->
+This series add H.264 High 10 and 4:2:2 profile support to the Rockchip
+Video Decoder driver.
 
-Correct me if I'm wrong here, but on the surface here it seems that
-you're re-reporting a known issue. Consensus seems to be that it's a
-non-issue.
+Patch 1 add helpers for calculating plane bytesperline and sizeimage.
+Patch 2 add two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
 
-In v6 I reported that the bench_page_pool_simple.ko test reports a 1
-cycle regression with these patches, from 8->9 cycles. That is roughly
-consistent with the 5-15% you're reporting.
+Patch 3 change to use bytesperline and buffer height to configure strides.
+Patch 4 change to use values from SPS/PPS control to configure the HW.
 
-I root caused the reason for the regression to be the
-netmem_is_net_iov() check in the fast path. I removed this regression
-in v7 (see the change log) by conditionally compiling the check in
-that function.
+Patch 5-9 refactor code to support filtering of CAPUTRE formats based
+on the image format returned from a get_image_fmt ops.
 
-In v8, Pavel/Jens/David pushed back on the ifdef check. See this
-entire thread, but in particular this response from Jens:
+Patch 10 add final bits to support H.264 High 10 and 4:2:2 profiles.
 
-https://lore.kernel.org/lkml/11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk=
-/
+Patch 11 add a fix for enumerated frame sizes returned to userspace.
 
-Seems consensus that it's 'not really worth it in this scenario'.
+Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
 
---=20
-Thanks,
-Mina
+  v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
+  ...
+  Total for rkvdec device /dev/video1: 48, Succeeded: 48, Failed: 0, Warnings: 0
+
+  Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-v4l2request
+  ...
+  Ran 65/69 tests successfully
+
+  Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-v4l2request
+  ...
+  Ran 129/135 tests successfully
+
+Before this series:
+
+  Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-v4l2request
+  ...
+  Ran 44/69 tests successfully
+
+Changes in v6:
+- Change to use fmt_idx instead of j++ tucked inside a condition (Dan)
+- Add patch to fix enumerated frame sizes returned to userspace (Alex)
+- Fluster test score is same as v4 and v5, see [4] and [5]
+Link to v5: https://lore.kernel.org/linux-media/20240618194647.742037-1-jonas@kwiboo.se/
+
+Changes in v5:
+- Drop Remove SPS validation at streaming start patch
+- Move buffer align from rkvdec_fill_decoded_pixfmt to min/step_width
+- Use correct profiles for V4L2_CID_MPEG_VIDEO_H264_PROFILE
+- Collect r-b and t-b tags
+- Fluster test score is same as v4, see [4] and [5]
+Link to v4: https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+
+Changes in v4:
+- Fix failed v4l2-compliance tests related to CAPTURE queue
+- Rework CAPTURE format filter anv validate to use an image format
+- Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
+Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
+
+Changes in v3:
+- Drop merged patches
+- Use bpp and bpp_div instead of prior misuse of block_w/block_h
+- New patch to use values from SPS/PPS control to configure the HW
+- New patch to remove an unnecessary call to validate sps at streaming start
+- Reworked pixel format validation
+Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+
+Changes in v2:
+- Collect r-b tags
+- SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+- New patch to not override output buffer sizeimage
+- Reworked pixel format validation
+- Only align decoded buffer instead of changing frmsize step_width
+Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
+
+To fully runtime test this series you may need FFmpeg patches from [1]
+and fluster patches from [2], this series is also available at [3].
+
+[1] https://github.com/Kwiboo/FFmpeg/commits/v4l2request-2024-v2-rkvdec/
+[2] https://github.com/Kwiboo/fluster/commits/ffmpeg-v4l2request-rkvdec/
+[3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v6/
+[4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+[5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+
+Regards,
+Jonas
+
+Alex Bee (1):
+  media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+
+Jonas Karlman (10):
+  media: v4l2-common: Add helpers to calculate bytesperline and
+    sizeimage
+  media: v4l2: Add NV15 and NV20 pixel formats
+  media: rkvdec: h264: Use bytesperline and buffer height as virstride
+  media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+  media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+  media: rkvdec: Extract decoded format enumeration into helper
+  media: rkvdec: Add image format concept
+  media: rkvdec: Add get_image_fmt ops
+  media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+  media: rkvdec: Fix enumerate frame sizes
+
+ .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++
+ drivers/media/v4l2-core/v4l2-common.c         |  80 +++---
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+ drivers/staging/media/rkvdec/rkvdec-h264.c    |  64 +++--
+ drivers/staging/media/rkvdec/rkvdec.c         | 239 +++++++++++++-----
+ drivers/staging/media/rkvdec/rkvdec.h         |  18 +-
+ include/uapi/linux/videodev2.h                |   2 +
+ 7 files changed, 410 insertions(+), 123 deletions(-)
+
+-- 
+2.46.0
+
 
