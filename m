@@ -1,441 +1,321 @@
-Return-Path: <linux-media+bounces-17913-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17915-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3491970DE6
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 08:31:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E60970EDE
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 09:08:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D59C282A8D
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 06:31:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 658931F22AB8
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:08:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 973051ACDF5;
-	Mon,  9 Sep 2024 06:31:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38CC11AE05B;
+	Mon,  9 Sep 2024 07:08:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="mEI4n5ap"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lS78+Lk2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2065.outbound.protection.outlook.com [40.107.117.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFBB14C5BA;
-	Mon,  9 Sep 2024 06:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725863490; cv=fail; b=tWF4DjHHSGGA0A8kSgE28swI1Wp95mFShxPDTB7FsiHlW4g4/q/82t7GNI90TVBNLd0kvSaVCc3H6t+Xt7qclAF0aZO6pGH+7z/KIrrO+pLn80w80jFTR0iXR6tzX5z2iAhehLHVdnUGbPgeOYGag1CNa0U+Xxh3Qto/Dn09bVw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725863490; c=relaxed/simple;
-	bh=FZeoXwVspxCVN5dBaGxNs4To4vTFTEx5+nK23XZntG8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=p4wrl02fIYpRSG5JUNQvqExgCP3PGs8Q0/1dhIIlHNO0nWW9N2ZaezUHkXId+dNBCfB6HQs0+0MNwRYj8cUc4b4xjPVtAynCY5bEu3A43BX9Zcpnft5ikQ3uF0UoPHak7+nX9nq6qA8JZUeFyzJ1hhWHQKtF3YoB7DfIJrQr3mQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=mEI4n5ap; arc=fail smtp.client-ip=40.107.117.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fJbJ3UYCwQQH6ul5uouSFG2r84/TbuQuxZJIVFFSxm33saQKcl4/BPRQKW9cj3rwYy5YSip7O3/99Zr8ipuCtCrj9nLm6OpxUiiTkr9KfzxP86nnS8J3dijHF9lbe1e6bfKQtwlyIiQiaCE172Bio7koodqFRj4qqcbdNg9yLcOD8G+HeGqSnf3GrJukG9PMXibZ/SESdxF89Wt+R81yHb/jpS/gxVIyy5miWERFeP0VHwTP/mwuG22hSA+cY2ggFErX0bdGGSS/ThfPmnsZ5ncqvFTXIXP+2IP4TNlKsHrqgBvAGHLg9VY678R+O9IV26ndS2GDDCOTE7Vw7Wd/Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=igDsuP4N2fz4ic4AcBGpSic3BENLoAczWJb/VRDtrIw=;
- b=xcnaA/Y9YEDcxLDLCt/pcYYfTIFO91u1+bffInAolABYurP0DZTcXA21CeAAENOLC+ai0bsN2H9fZNNZ0eWHZ3jtWt7X62WEXbRVrpMhhLP+4Rg15OkD2QMgH8R4TRVX14jc1cPOSUlYbkKg48v7n9UHcNnp/LpbKZOs+xLiL5BjDUUOLPck5nC8dQM2K51eOChWl6AdcdX+Y7cCa+CwwJCsDWFp7ePDx/2CHJmWWnmkfXqiYFjAOK126BWIJlGMbHGZWexZSaeQycFuPTysdbJQEDHfTST52NLKPNAxv1UZilCgW1uiBkij7MxTRmll8m1h4lkA66tN/33l+G+yrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=igDsuP4N2fz4ic4AcBGpSic3BENLoAczWJb/VRDtrIw=;
- b=mEI4n5apTaHUCktUbaOBkuD8cm2Chk0Emi8/Fx5SzDnhbfaXV+60SBYBm3NyKbQ1v+dJW2yp7ybiXstWXjSQLklbbZJfF7g7DoQNz6G3h7lzTeMvytMLo8Bhdr9dzdPcc2OAdq0wci0Lfwp3BPcNHCCliiZGPLkd4FP17tGp62ExeA9XdazLfuqpvwqPAfkX041EiFBSI6dHrzsVl5RpY/C9xDM/92iUiCYlkzARQ+kACO30jqdWLh4iyZSOzjKLpWX3kRLjqLlElJ3JbM2200y/6AZ0KA5c+d18rULCi7xhnKiPCuk3YJaiXqTG9NVpKgi/c2bH4q8u/ZG7H3TOng==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by PUZPR06MB5954.apcprd06.prod.outlook.com (2603:1096:301:119::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Mon, 9 Sep
- 2024 06:31:21 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7939.017; Mon, 9 Sep 2024
- 06:31:21 +0000
-Message-ID: <005ca835-2768-4a7a-a76f-5ea0e318b9e4@vivo.com>
-Date: Mon, 9 Sep 2024 14:31:15 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/7] udmabuf: udmabuf_create pin folio codestyle
- cleanup
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
-References: <20240903083818.3071759-1-link@vivo.com>
- <20240903083818.3071759-5-link@vivo.com>
- <IA0PR11MB7185AA974CF7207048178187F89E2@IA0PR11MB7185.namprd11.prod.outlook.com>
- <d213c597-ec2a-4685-9048-5b477f64853f@vivo.com>
- <CH3PR11MB7177760ADAF50756F886989CF8992@CH3PR11MB7177.namprd11.prod.outlook.com>
-From: Huan Yang <link@vivo.com>
-In-Reply-To: <CH3PR11MB7177760ADAF50756F886989CF8992@CH3PR11MB7177.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI1PR02CA0055.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::16) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC9613AD1C;
+	Mon,  9 Sep 2024 07:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725865700; cv=none; b=G8QhHaMlz9KZmATQu6IRxJdK4u6nErBgN26TVfJNfy0uHRThkg0DYvm/iN9R/yipZGvzHOyFw4KLsmllGl890lrw38kVE5DJ+zTMSO/oNUw6laP5SncdXB0fV9QsCDBzi5YbfiyWCHWiqYiUs6/X+QBUD/w4o8D+g8I5TYB02PY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725865700; c=relaxed/simple;
+	bh=RMuc+tRrmkYpvFs6XoBT06qJxFcaXeP4F1UTo91Sw8M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XN1mEvb25jSIz0dnZCLqJSof+UfmsMvtCrJA57UM3VfHm4KRjjj2EmzcfNEsM9bF/Zn45X1cmGuashpP6yEdtxNz3BB9IzNwi9Boa1U/wJDWJnBW7rLySId/MgupNZ8isVyvIFPkAbjAuD7Y8s4T2yezG1AwcpIa2sGITi7uwmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lS78+Lk2; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-374c962e5adso2152152f8f.1;
+        Mon, 09 Sep 2024 00:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725865697; x=1726470497; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=miIa0uylE1UFUz+fjwRH8q3H5W2F4hzW6ItDHV+UbYY=;
+        b=lS78+Lk2n0ieNORBO1hGCGQVQDgpLFx6HylIWYw8Sxy2cOXjOt+l4H4tl+y2RwmOea
+         ZSMKU8Ej6MgRoV1iuEm61vqHzl6xM0tFIqqIFU8bLhDzMSrWwoGGqdSuK/hh7R3s360B
+         I1F38/vPKRUCdCoWR8QEs5m6c1G6cb8P1eNUxs7TPmEAfxDzkhtP88rj1ROJxnHRNB/g
+         bs+SBMMZpLRM7ofqEbOx6lh+5kiwE3daMsrVXSZmS8x2r/Z9DekUZZfYTA4rIV+tqYRY
+         j132atV8ba3MXRI7BchBBvyATnhDCGrKXXFaNHI47ucQ7zs2ONQh85j6wkuVOCybxrKW
+         Tuhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725865697; x=1726470497;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=miIa0uylE1UFUz+fjwRH8q3H5W2F4hzW6ItDHV+UbYY=;
+        b=ipZxceh+e7QNLM5o7It0inLXheh3BmLQzhdcFl7K1oL7ebl6hOQF8b7MZksy4Vwu6e
+         kjP9o8769WcuuVn9G58vk4JXyaotYhoEd076qTTgZbBrR0LuNjCxaxacyIRc2340zsDR
+         GyxQ7W0ZEWGaArYHTSkRnHWowtXJR60U4bZLnt64SouKMhwRtxzsiUeXt5DmgHm5LvjW
+         za68R2JkmJvHyx8B6Gd/DYMD1JBNr1xaTnRckxopYfA/ySSrUXvOKENUXC0xmCNZrdHB
+         JgQznA6wLe8ebTzfKTYuKClhNjLTyiLYjcZFJqDy99/IKQJ5KQKqi8H1Nh5/l6eSqL1L
+         fiRw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7l2g2Sb7Cg/5lzYGfLWEsdql4VJ31wz95O6FCrVKGvDViDbb1su1wXyK2owUHl7qEgFBAkuBd7HRbmqUO+Ymn@vger.kernel.org, AJvYcCVhc5NMFEVHJ1t0l4IxbhdQ+hqn1mFONYU1+U9p307RfT0DIBlpDShtFvUE71IfGc7pCA/XZVXAp9FqDXA=@vger.kernel.org, AJvYcCWBw7PtNFPsCJFS1gpnEx+cNZA7T9DXXtC2TFQ/i/TevjGW7tYMyRaWFoA5bJmq07vyq+l5Kko6dx3pDw==@vger.kernel.org, AJvYcCWRwbk6pSI6smdN7QpZdgtOp1LjbFUtz7hF59Mxb9Bv0rP8HHODYPe193Hk+NnSC6ovdX6ZQh8jvJM0+TIboQ==@vger.kernel.org, AJvYcCX5h0TXHKAbcOebbm2m+ddCFiJwdGq6ieCPxTnIwHdVwJAZ2mfz6WJym612Fs5tATiws+YlHlLu6H++Zh6e@vger.kernel.org, AJvYcCXT4ysz5bf/O4MXm/T0DR2BMEql4inr+3EMLGYbTl3KxhoUujfJxCZepW9oZ6ihdjNFJds=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrYzhZET3c08dQ9B/FVT/iO4XfCf3VMd+WnV1kFz6x3fveUP0X
+	6FzqUBgdQpZQHtcJxtYiuwYVwwWjcElWygGifuETZvGgZ26bV9ol
+X-Google-Smtp-Source: AGHT+IF7PvU559w9RG/+WWePAWHfln7qrp/xZmFruXqBgk/EtXWofmJCF9Gu7pllhU4Q5vs+uudvoA==
+X-Received: by 2002:a5d:4146:0:b0:367:938f:550 with SMTP id ffacd0b85a97d-3779bb2e591mr10665534f8f.25.1725865696041;
+        Mon, 09 Sep 2024 00:08:16 -0700 (PDT)
+Received: from fedora.iskraemeco.si ([193.77.86.250])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d375asm5178754f8f.66.2024.09.09.00.08.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Sep 2024 00:08:15 -0700 (PDT)
+From: Uros Bizjak <ubizjak@gmail.com>
+To: x86@kernel.org,
+	linux-crypto@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-fscrypt@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com
+Cc: Uros Bizjak <ubizjak@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Hannes Reinecke <hare@suse.de>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	Rae Moar <rmoar@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [PATCH v2 00/19] random: Resolve circular include dependency and include <linux/percpu.h>
+Date: Mon,  9 Sep 2024 09:05:14 +0200
+Message-ID: <20240909070742.75425-1-ubizjak@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|PUZPR06MB5954:EE_
-X-MS-Office365-Filtering-Correlation-Id: de6d4fa4-97ea-45ef-fd0d-08dcd09904f2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?L0g1cGFUcEpNMGNrdEVNRnRsM1BEcDFLRitTaGRZS0crSlJZNFlnYldaQ0xL?=
- =?utf-8?B?emZGaSs2QVNvc1gzSU5ZcWFtNC9VemJzRnNkZjM5VFc0RFhhUzZaSUtFcnVm?=
- =?utf-8?B?TnRYTWhpNnlmZVIyNVBrTFBBd04rQlZKMXYyZ1dxdklldUNoTGxPQkxkRERJ?=
- =?utf-8?B?UmovYUh1RFVzWVVYV0F1VXowc0NyK2NFSVZKbWRpSDJOME5yc3R2ZTBuY2dI?=
- =?utf-8?B?R1A0ai9xbEdzazhUa3VBOHdaU0Mzak85Mm95TWhHeDhZUlNrOEtZcThjdm94?=
- =?utf-8?B?dmlKSkdqZGhoallTK3dnNGRsZE9KU0FYRCs5b1Z0Z0tFMGdyZ2xhT3RFT3BO?=
- =?utf-8?B?R0c1L1A2YlZ3NzVGbkgrVDBHbzFsN0JSaDhxNitVOXZENkNaQmxoN0V6NVRh?=
- =?utf-8?B?WXFPOGd0SndaYjNXODluemFOQzJtNU1remxtTGswUXVOaS9YdTA2K0RLUzNk?=
- =?utf-8?B?VTA2TExOV0swTDMxUmVCVUNYOFczemZRK0RFcWxaUHRyMDR5bWs0QUlCMkFZ?=
- =?utf-8?B?a2JTRXNFTW85d0tqZDZMOUpQTUJFaTFhMUhPZU1PYjdReUVGbjlsOTRmNEZi?=
- =?utf-8?B?UkZRWTN5eisvYUdiVjQvM3VVQkYrdUlpbFZrWXV4MGdpeFZxUFlDaENTa2hp?=
- =?utf-8?B?ZjBua0RpbGw4aWdiSU1OVHpRd24zVGNySThsZWRUMWRVQkZ5Qy91dnEyemF6?=
- =?utf-8?B?WTZPaTdML1IwdlpVUWtPanRkbEdzRjg1MXFyZ2FwdHUxWVRyczdTT0ExWlpm?=
- =?utf-8?B?bkc5R01YNFEwYXlLTERWNFZNMXd0TFZIdFQvWCtzdlUrcldPRDJiRHBLdVJv?=
- =?utf-8?B?MUpMM2orVDgvV0lCbStFQzR6UWFUK3NNNHhWZkVRYzE2T1JUYlp1OTFqa2s1?=
- =?utf-8?B?MFBOdXJkenRFbExjeFhHdFEvL2U1cDFma2ZFL0ozRk91YSt3UGlyTGlJOTFY?=
- =?utf-8?B?RCtuMnIrM0NaVkpMRWl2K21nQ2ExbVlObHBKRTYxNHFoZ3pZVHE4R1I3UHJB?=
- =?utf-8?B?aWxSckdUdU1qWkczOTBwaWxBYXRpMjI3ems5SU54NVdvQzVRWVRCWk41bGcy?=
- =?utf-8?B?UGsxVGtBVExpSVpWMlNCaWRIL3hyTkxpRDFQd2RKakdGQWlISVB0aWN1Q1Fu?=
- =?utf-8?B?UGQxS2NpV0NZdXdFRWZ3K1pncEpvSTZTVW01dGNhV2M4SmpQZHM4RkxOazZD?=
- =?utf-8?B?djRqRE9WSjcya3pPTjVhOVZuMkliOHc2czdZNzIyMkdrSDlWaVEwNmJCZVBh?=
- =?utf-8?B?WCtBMkpqdm5qV2xGVkhORkNaaUV1MGJIbHEvM01nOUFnOW1OdTcrckJ2bnpW?=
- =?utf-8?B?d25XR1hNcUpkUnMrVDlrT3AyMUl5ZThmaU5WbEVWRnZoS1FORERKbG1zbkZ2?=
- =?utf-8?B?b1ZIL1MvYk10dGtibXdwQzNvaWJSQkl4Z2lNUkpOSWlKSlZPVEovOG93QWFk?=
- =?utf-8?B?cUE5Rk5rN2VlOCtQcE5MdG02REVUTFZRZzBCOWdiY1NrQlBMWlE5T2NtOVRz?=
- =?utf-8?B?QW1KRnFjY21UU0tUNnhCQjZkMExJSFJIdWx6TXV0aFNDUUpoT01Vd050bDln?=
- =?utf-8?B?bDQxcmZyM2NxcWYyU2QrcFFFczFqNStwWGIzVWZ4ZUZwTk1RUWJOT0dGVkFo?=
- =?utf-8?B?d1ZnM2p5S1U2UmJrWlJMMXk2enNsYVhHVzdqR0QzMEJUa3hyelFpeWJkMmNt?=
- =?utf-8?B?WWpUV1M5VzRhV0g1WFNlOUx0dVJzTmN6bzQ5eFM1T1I5REI5Ui9mbTdDcWd4?=
- =?utf-8?B?QXJONHJrbFlJckIyVVdQK0swSTN6K3Z0d0twblpiWnA1dFdLVXlubTR6dWdQ?=
- =?utf-8?B?NDRiV2Y2Z1UyVjRCRGpkQnhwVmJpZzNRaGZuV1FJelhMSEtyZlcxZno1OFJl?=
- =?utf-8?B?aGVCOWdjaFJzK2dEazBJV2lpNERvNVFuUEplRE1OZUUvbHc9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RzJUelhlYktSdHp1cU5Nc3VjYVFkM0ZiSjRPaDRUVU1vRFpzWkdGbVJTVHdO?=
- =?utf-8?B?SnpzUUErMllDOUMyYzlXSnFVUWtxWkxhYWViVytqclJmZmVoNFNHdWYxVE0y?=
- =?utf-8?B?M3VxMUZ0Nk83a3NlaU1RVGZQdmwrTVNaNzFiQnMrREsrNXZibmNPeWdxL3dC?=
- =?utf-8?B?d1BRSTQ4NnhQekxRZGdwb3NlMkwzU2hvR050SFJRc2ZzcEF1NlNsL3d5bzQz?=
- =?utf-8?B?TDgrRnUray9HWU9peFhBaUZUVHZNc290VnRwRkYxRExTNnhRNzNDOGRLRnlv?=
- =?utf-8?B?eTZIZlllNmVUK2RrL1ZhbktEUktqb09YTXVqWTRlZUtRc0F5SWtuOUhrYW14?=
- =?utf-8?B?TCtYV0lPRlJoWVcyZnp3Z3ZSWERvRzBuU3ZYdkxmRmowQ2gvMlRuVW5qbFRR?=
- =?utf-8?B?Sk9UYi9RRGloQk8yMEdpMTN0RmFXejZDbjJNak40T2tTUDd1TkFmOTdxVkZ5?=
- =?utf-8?B?cHA4S0dGMmVjZjBsNEZiQzgzOW9jdHJjMFJGS3hSWk01TzgzR1ZwTXg0US9l?=
- =?utf-8?B?czE3U09yTE04N0Q5NDg5Z01nSy9FZG90Q2tkeWkvRFZKMEFxY3BBNDFGaFh5?=
- =?utf-8?B?V09sTER0N3d4MlhqVHYxbDloaDQ5QTR0L2Q0NEllMnhNYWRDb052TDBIUW9p?=
- =?utf-8?B?cHBzVThIbUZwRjcrSHBuTjAzWVF3bkxQT2VVanVCdnB3aitvSUxPcnA2NlJW?=
- =?utf-8?B?bW4xRWxRcTN1emtyWW9CMEtvdlBkbzNycnJrRzdaZnh2NlAyVjVkME9Td2Z2?=
- =?utf-8?B?S0lkZTdTVVNOUTBvdzc1ZGVnYWpyYXM1a0ZDT2tlTVRNMXZOaVl3QTRZcGRK?=
- =?utf-8?B?eUhKRzNnT2t1NnE1UERNczVzOEN1MzU0ZEk1ZXNlMlVhczBnenVpR2lhV0tu?=
- =?utf-8?B?bmtwVzFXSFZEMzBEdUhCUzRESDVjSThXMUNPUWFZeXZ2THVzblVhV2s4bFRJ?=
- =?utf-8?B?WnF5KzhyZHdsbTF3RnlNZEdCR1o1cnpLSitRRmJzVWhHQkMzMzU4WUVoZWk5?=
- =?utf-8?B?bFdWSVhLaWhLOEdxeW9qeDBGcXRwNjFCQXVIT0U0VUl5LzNldDhyZzVIak1m?=
- =?utf-8?B?M2tTajg2US9KNkJTbzZqNjhIL3JvUUpkRzRPZnkzTVJnWGl3QWtid1BLcDZO?=
- =?utf-8?B?WnhUVllsOUQ5SHlQUFNkWnNJbWdkSzFjR2l6MTdKV2xwUVk5YUNBRlVrUDhQ?=
- =?utf-8?B?WUszQSs0WGRJckxtb216KzN2RDBmSStaS052NkhBZE9vRVppbnk5ZW0vR0JM?=
- =?utf-8?B?d0crMzZLRVI0N3AvRDQ5eUh2UUtOaEZWZld0SkZnV2Jxd0R3NHNYYkszMUlJ?=
- =?utf-8?B?WWtjVU1mWVhSQ2x0bE0rc3NvSFlqMlo3ZUlQUXpGVmdRNlhWejhHL0Y2aFNp?=
- =?utf-8?B?V0M4RlZ2elpoak1lOFBJRWpQNjRNSm5GaG5oUWNuS3hxZ1VxU0dkSkJ6R0hj?=
- =?utf-8?B?RkVoRGxqaGFKZDBvditITnlNdlYzVFNlYzlGbmpvUnpVeUJYeisxaEkwUTNz?=
- =?utf-8?B?Y0R2VTl4bjIwaHgwcGVWOHBuMExYdTVDNG5aa1VYdWl1K1YzUkVmK0g2cXdr?=
- =?utf-8?B?dThpbHZiVDRFTXhXMFYrUUNNcjBlVjFVeVcwMEZMS1ArYUpyTzhxWCt2eUtm?=
- =?utf-8?B?WlQ3SUJFcHFxR1FNRUFpVXpocXV3SUtYVTY1R1QzOHliNFRNbzQxemtjQUw3?=
- =?utf-8?B?eDlRRUhLd2RqalliNmNrbjBqTVRGQnFsU015SzlaV2NpL3lpcHplTUZUZW1W?=
- =?utf-8?B?TTd0L2JRWHhHbTd0MDZXNndKb2JIV0FSc080Y2J4WHFSdHFIMDZVNXZ1dFN5?=
- =?utf-8?B?L0VtODVCNTducVEwckhYRVk5ZXJYemx4TW1QNmRpc0lZR29VQ21PM3ZBd0lR?=
- =?utf-8?B?cGlDTEpmeGJlYU9xWE53dTUyZmw4a0V0SmFyNjNhcWI5QTlkbUl3blp3amgz?=
- =?utf-8?B?WGFHWkwrZ05ZcWl2NU5PcW9SRWlwZ1poMGt0aDI1QTdob0VxM09Hc2g4L1FN?=
- =?utf-8?B?MmUvSUUzNWd6T2NrSjJLeTJyRkl0ck9TZUl1K1NJZFFVekU2S0VqNnRmdkhM?=
- =?utf-8?B?TWZqT3VnN2pYOHIwRnR6MVdMS1Q1Z0E2amJJLzlJaHpJVCs0SEJCWENvbEhp?=
- =?utf-8?Q?YNftmTtSUlMbBPxHRYq57XLY8?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de6d4fa4-97ea-45ef-fd0d-08dcd09904f2
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 06:31:21.3533
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hLS8F2PTgfWu+2UH6u3xaUBqAEN/FaZJ9XLeM19fFRcQWQB4fukhdtEkCBVvu06vtxB+xpBYQuMfwacyG4irvw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5954
+Content-Transfer-Encoding: 8bit
 
+There were several attempts to resolve circular include dependency
+after the addition of percpu.h: 1c9df907da83 ("random: fix circular
+include dependency on arm64 after addition of percpu.h"), c0842fbc1b18
+("random32: move the pseudo-random 32-bit definitions to prandom.h") and
+finally d9f29deb7fe8 ("prandom: Remove unused include") that completely
+removes the inclusion of <linux/percpu.h>.
 
-在 2024/9/9 13:03, Kasireddy, Vivek 写道:
-> Hi Huan,
->
->> Subject: Re: [PATCH v5 4/7] udmabuf: udmabuf_create pin folio codestyle
->> cleanup
->>
->>
->> 在 2024/9/6 16:17, Kasireddy, Vivek 写道:
->>> Hi Huan,
->>>
->>>> Subject: [PATCH v5 4/7] udmabuf: udmabuf_create pin folio codestyle
->>>> cleanup
->>>>
->>>> This patch split pin folios into single function: udmabuf_pin_folios.
->>>>
->>>> When record folio and offset into udmabuf_folio and offsets, the outer
->>>> loop of this patch iterates through folios, while the inner loop correctly
->>>> sets the folio and corresponding offset into the udmabuf starting from
->>>> the offset. if reach to pgcnt or nr_folios, end of loop.
->>>>
->>>> By this, more readable.
->>>>
->>>> Signed-off-by: Huan Yang <link@vivo.com>
->>>> ---
->>>>    drivers/dma-buf/udmabuf.c | 132 ++++++++++++++++++++------------------
->>>>    1 file changed, 71 insertions(+), 61 deletions(-)
->>>>
->>>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->>>> index 456db58446e1..ca2b21c5c57f 100644
->>>> --- a/drivers/dma-buf/udmabuf.c
->>>> +++ b/drivers/dma-buf/udmabuf.c
->>>> @@ -330,17 +330,67 @@ static int export_udmabuf(struct udmabuf
->> *ubuf,
->>>>    	return dma_buf_fd(buf, flags);
->>>>    }
->>>>
->>>> +static int udmabuf_pin_folios(struct udmabuf *ubuf, struct file *memfd,
->>>> +			      loff_t start, loff_t size)
->>>> +{
->>>> +	pgoff_t pgoff, pgcnt, upgcnt = ubuf->pagecount;
->>>> +	u32 cur_folio, cur_pgcnt;
->>>> +	struct folio **folios = NULL;
->>>> +	long nr_folios;
->>>> +	loff_t end;
->>>> +	int ret = 0;
->>> Change ret's type and this function's return type to long for consistency.
->>>
->>>> +
->>>> +	pgcnt = size >> PAGE_SHIFT;
->>>> +	folios = kvmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
->>>> +	if (!folios)
->>>> +		return -ENOMEM;
->>>> +
->>>> +	end = start + (pgcnt << PAGE_SHIFT) - 1;
->>>> +	nr_folios = memfd_pin_folios(memfd, start, end, folios, pgcnt,
->>>> &pgoff);
->>>> +	if (nr_folios <= 0) {
->>>> +		ret = nr_folios ? nr_folios : -EINVAL;
->>>> +		goto err;
->>>> +	}
->>>> +
->>>> +	cur_pgcnt = 0;
->>>> +	for (cur_folio = 0; cur_folio < nr_folios; ++cur_folio) {
->>>> +		pgoff_t subpgoff = pgoff;
->>>> +		size_t fsize = folio_size(folios[cur_folio]);
->>>> +
->>>> +		ret = add_to_unpin_list(&ubuf->unpin_list, folios[cur_folio]);
->>>> +		if (ret < 0)
->>>> +			goto err;
->>>> +
->>>> +		for (; subpgoff < fsize; subpgoff += PAGE_SIZE) {
->>>> +			ubuf->folios[upgcnt] = folios[cur_folio];
->>>> +			ubuf->offsets[upgcnt] = subpgoff;
->>>> +			++upgcnt;
->>>> +
->>>> +			if (++cur_pgcnt >= pgcnt)
->>>> +				goto end;
->>>> +		}
->>>> +
->>>> +		/**
->>>> +		 * The term range may start with offset, so the first folio
->>>> +		 * need take care of it. And the remain folio start from 0.
->>> The comments above are not very meaningful. Please rewrite them as:
->>> * In a given range, only the first subpage of the first folio has an offset, that
->>> * is returned by memfd_pin_folios(). The first subpages of other folios (in
->> the
->>> * range) have an offset of 0.
->>>
->>>> +		 */
->>>> +		pgoff = 0;
->>>> +	}
->>>> +end:
->>>> +err:
->>> No need to have two labels here. Keep end and get rid of err?
->>>
->>>> +	ubuf->pagecount = upgcnt;
->>>> +	kvfree(folios);
->>>> +	return ret;
->>>> +}
->>>> +
->>>>    static long udmabuf_create(struct miscdevice *device,
->>>>    			   struct udmabuf_create_list *head,
->>>>    			   struct udmabuf_create_item *list)
->>>>    {
->>>> -	pgoff_t pgoff, pgcnt, pglimit, pgbuf = 0;
->>>> -	long nr_folios, ret = -EINVAL;
->>>> -	struct file *memfd = NULL;
->>>> -	struct folio **folios;
->>>> +	pgoff_t pgcnt = 0, pglimit;
->>>> +	long ret = -EINVAL;
->>>>    	struct udmabuf *ubuf;
->>>> -	u32 i, j, k, flags;
->>>> -	loff_t end;
->>>> +	u32 i, flags;
->>>>
->>>>    	ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
->>>>    	if (!ubuf)
->>>> @@ -349,81 +399,43 @@ static long udmabuf_create(struct miscdevice
->>>> *device,
->>>>    	INIT_LIST_HEAD(&ubuf->unpin_list);
->>>>    	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
->>>>    	for (i = 0; i < head->count; i++) {
->>>> -		if (!IS_ALIGNED(list[i].offset, PAGE_SIZE))
->>>> +		if (!PAGE_ALIGNED(list[i].offset))
->>>>    			goto err;
->>>> -		if (!IS_ALIGNED(list[i].size, PAGE_SIZE))
->>>> +		if (!PAGE_ALIGNED(list[i].size))
->>>>    			goto err;
->>>> -		ubuf->pagecount += list[i].size >> PAGE_SHIFT;
->>>> -		if (ubuf->pagecount > pglimit)
->>>> +
->>>> +		pgcnt += list[i].size >> PAGE_SHIFT;
->>>> +		if (pgcnt > pglimit)
->>>>    			goto err;
->>>>    	}
->>>>
->>>> -	if (!ubuf->pagecount)
->>>> +	if (!pgcnt)
->>>>    		goto err;
->>>>
->>>> -	ubuf->folios = kvmalloc_array(ubuf->pagecount, sizeof(*ubuf-
->>>>> folios),
->>>> -				      GFP_KERNEL);
->>>> +	ubuf->folios = kvmalloc_array(pgcnt, sizeof(*ubuf->folios),
->>>> GFP_KERNEL);
->>>>    	if (!ubuf->folios) {
->>>>    		ret = -ENOMEM;
->>>>    		goto err;
->>>>    	}
->>>> -	ubuf->offsets = kvcalloc(ubuf->pagecount, sizeof(*ubuf->offsets),
->>>> -				 GFP_KERNEL);
->>>> +
->>>> +	ubuf->offsets = kvcalloc(pgcnt, sizeof(*ubuf->offsets), GFP_KERNEL);
->>>>    	if (!ubuf->offsets) {
->>>>    		ret = -ENOMEM;
->>>>    		goto err;
->>>>    	}
->>>>
->>>> -	pgbuf = 0;
->>>>    	for (i = 0; i < head->count; i++) {
->>>> -		memfd = fget(list[i].memfd);
->>>> +		struct file *memfd = fget(list[i].memfd);
->>>> +
->>>>    		ret = check_memfd_seals(memfd);
->>>>    		if (ret < 0)
->>>>    			goto err;
->>>>
->>>> -		pgcnt = list[i].size >> PAGE_SHIFT;
->>>> -		folios = kvmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
->>>> -		if (!folios) {
->>>> -			ret = -ENOMEM;
->>>> -			goto err;
->>>> -		}
->>>> -
->>>> -		end = list[i].offset + (pgcnt << PAGE_SHIFT) - 1;
->>>> -		ret = memfd_pin_folios(memfd, list[i].offset, end,
->>>> -				       folios, pgcnt, &pgoff);
->>>> -		if (ret <= 0) {
->>>> -			kvfree(folios);
->>>> -			if (!ret)
->>>> -				ret = -EINVAL;
->>>> -			goto err;
->>>> -		}
->>>> -
->>>> -		nr_folios = ret;
->>>> -		pgoff >>= PAGE_SHIFT;
->>>> -		for (j = 0, k = 0; j < pgcnt; j++) {
->>>> -			ubuf->folios[pgbuf] = folios[k];
->>>> -			ubuf->offsets[pgbuf] = pgoff << PAGE_SHIFT;
->>>> -
->>>> -			if (j == 0 || ubuf->folios[pgbuf-1] != folios[k]) {
->>>> -				ret = add_to_unpin_list(&ubuf->unpin_list,
->>>> -							folios[k]);
->>>> -				if (ret < 0) {
->>>> -					kfree(folios);
->>>> -					goto err;
->>>> -				}
->>>> -			}
->>>> -
->>>> -			pgbuf++;
->>>> -			if (++pgoff == folio_nr_pages(folios[k])) {
->>>> -				pgoff = 0;
->>>> -				if (++k == nr_folios)
->>>> -					break;
->>>> -			}
->>>> -		}
->>>> -
->>>> -		kvfree(folios);
->>>> +		ret = udmabuf_pin_folios(ubuf, memfd, list[i].offset,
->>>> +					 list[i].size);
->>>>    		fput(memfd);
->>>> -		memfd = NULL;
->>>> +		if (ret)
->>>> +			goto err;
->>>>    	}
->>>>
->>>>    	flags = head->flags & UDMABUF_FLAGS_CLOEXEC ? O_CLOEXEC : 0;
->>>> @@ -434,8 +446,6 @@ static long udmabuf_create(struct miscdevice
->>>> *device,
->>>>    	return ret;
->>>>
->>>>    err:
->>>> -	if (memfd)
->>>> -		fput(memfd);
->>> I think this needs to stay because if the seals check fails, then we would not
->> be
->>> doing fput(memfd).
->> Yes, there a mistake, but I'd like set it into here:
->>
->>    		ret = check_memfd_seals(memfd);
->>    		if (ret < 0) {
-> You still need an if (memfd) check here because check_memfd_seals() might do:
->          if (!memfd)
->                  return -EBADFD;
+Due to legacy reasons, <linux/random.h> includes <linux/prandom.h>, but
+with the commit entry remark:
 
-Yes, fput do not check if pointer is NULL.
+--quote--
+A further cleanup step would be to remove this from <linux/random.h>
+entirely, and make people who use the prandom infrastructure include
+just the new header file.  That's a bit of a churn patch, but grepping
+for "prandom_" and "next_pseudo_random32" "struct rnd_state" should
+catch most users.
 
-Thanks.
+But it turns out that that nice cleanup step is fairly painful, because
+a _lot_ of code currently seems to depend on the implicit include of
+<linux/random.h>, which can currently come in a lot of ways, including
+such fairly core headfers as <linux/net.h>.
 
->
-> Thanks,
-> Vivek
->
->> 			fput(memfd);
->>    			goto err;
->> 		}
->> due to only in inner look, memfd can get. and memfd change into loop var.
->> Thanks
->>
->>> Thanks,
->>> Vivek
->>>
->>>>    	unpin_all_folios(&ubuf->unpin_list);
->>>>    	kvfree(ubuf->offsets);
->>>>    	kvfree(ubuf->folios);
->>>> --
->>>> 2.45.2
+So the "nice cleanup" part may or may never happen.
+--/quote--
+
+We would like to include <linux/percpu.h> in <linux/prandom.h>.
+In [1] we would like to repurpose __percpu tag as a named address space
+qualifier, where __percpu macro uses defines from <linux/percpu.h>.
+
+The major roadblock to inclusion of <linux/percpu.h> is the above
+mentioned legacy inclusion of <linux/prandom.h> in <linux/random.h> that
+causes circular include dependency that prevents <linux/percpu.h>
+inclusion.
+
+This patch series is the "nice cleanup" part that:
+
+a) Substitutes the inclusion of <linux/random.h> with the
+inclusion of <linux/prandom.h> where needed (patches 1 - 17).
+
+b) Removes legacy inclusion of <linux/prandom.h> from
+<linux/random.h> (patch 18).
+
+c) Includes <linux/percpu.h> in <linux/prandom.h> (patch 19).
+
+The whole series was tested by compiling the kernel for x86_64 allconfig
+and some popular architectures, namely arm64 defconfig, powerpc defconfig
+and loongarch defconfig.
+
+[1] https://lore.kernel.org/lkml/20240812115945.484051-4-ubizjak@gmail.com/
+
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: x86@kernel.org
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Hannes Reinecke <hare@suse.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: John Fastabend <john.fastabend@gmail.com>
+Cc: Andrii Nakryiko <andrii@kernel.org>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>
+Cc: Eduard Zingerman <eddyz87@gmail.com>
+Cc: Song Liu <song@kernel.org>
+Cc: Yonghong Song <yonghong.song@linux.dev>
+Cc: KP Singh <kpsingh@kernel.org>
+Cc: Stanislav Fomichev <sdf@fomichev.me>
+Cc: Hao Luo <haoluo@google.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>
+Cc: David Gow <davidgow@google.com>
+Cc: Rae Moar <rmoar@google.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Stephen Hemminger <stephen@networkplumber.org>
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Cong Wang <xiyou.wangcong@gmail.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>
+---
+v2: - Reword commit messages to mention the removal of legacy inclusion
+    of <linux/prandom.h> from <linux/random.h>
+    - Add missing substitution in crypto/testmgr.c
+    (reported by kernel test robot)
+    - Add Acked-by:.
+
+Uros Bizjak (19):
+  x86/kaslr: Include <linux/prandom.h> instead of <linux/random.h>
+  crypto: testmgr: Include <linux/prandom.h> instead of <linux/random.h>
+  drm/i915/selftests: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  drm/lib: Include <linux/prandom.h> instead of <linux/random.h>
+  media: vivid: Include <linux/prandom.h> in vivid-vid-cap.c
+  mtd: tests: Include <linux/prandom.h> instead of <linux/random.h>
+  fscrypt: Include <linux/once.h> in fs/crypto/keyring.c
+  scsi: libfcoe: Include <linux/prandom.h> instead of <linux/random.h>
+  bpf: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/interval_tree_test.c: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  kunit: string-stream-test: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  random32: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/rbtree-test: Include <linux/prandom.h> instead of <linux/random.h>
+  bpf/tests: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/test_parman: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/test_scanf: Include <linux/prandom.h> instead of <linux/random.h>
+  netem: Include <linux/prandom.h> in sch_netem.c
+  random: Do not include <linux/prandom.h> in <linux/random.h>
+  prandom: Include <linux/percpu.h> in <linux/prandom.h>
+
+ arch/x86/mm/kaslr.c                              | 2 +-
+ crypto/testmgr.c                                 | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem.c        | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_random.h     | 2 +-
+ drivers/gpu/drm/i915/selftests/scatterlist.c     | 2 +-
+ drivers/gpu/drm/lib/drm_random.h                 | 2 +-
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c | 1 +
+ drivers/mtd/tests/oobtest.c                      | 2 +-
+ drivers/mtd/tests/pagetest.c                     | 2 +-
+ drivers/mtd/tests/subpagetest.c                  | 2 +-
+ fs/crypto/keyring.c                              | 1 +
+ include/linux/prandom.h                          | 1 +
+ include/linux/random.h                           | 7 -------
+ include/scsi/libfcoe.h                           | 2 +-
+ kernel/bpf/core.c                                | 2 +-
+ lib/interval_tree_test.c                         | 2 +-
+ lib/kunit/string-stream-test.c                   | 1 +
+ lib/random32.c                                   | 2 +-
+ lib/rbtree_test.c                                | 2 +-
+ lib/test_bpf.c                                   | 2 +-
+ lib/test_parman.c                                | 2 +-
+ lib/test_scanf.c                                 | 2 +-
+ net/sched/sch_netem.c                            | 1 +
+ 23 files changed, 22 insertions(+), 24 deletions(-)
+
+-- 
+2.46.0
+
 
