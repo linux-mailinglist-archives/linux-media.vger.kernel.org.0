@@ -1,194 +1,202 @@
-Return-Path: <linux-media+bounces-17994-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17995-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603CF971A0B
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 14:54:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 108FF971A29
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 14:57:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB5801F2389D
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 12:54:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60812B22B38
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 12:57:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ED5A1B81DE;
-	Mon,  9 Sep 2024 12:54:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B2191B9B4A;
+	Mon,  9 Sep 2024 12:57:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NKsEpgSL"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kQzRz1gJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38111B2529;
-	Mon,  9 Sep 2024 12:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46A41B9B43
+	for <linux-media@vger.kernel.org>; Mon,  9 Sep 2024 12:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725886470; cv=none; b=eKc+vfSZjlwCqo8RguJrF7hu6ftp3oqZFKESn+heSBpST7m4r8C+2P0A/vqUpM6vE9w9GaTp95mcQu6RnVVFmCRgqoJMk6PrldDccOJilxigpbhwwfYb4kfNIcbigroTFHJZ7h/5ipYrecupCnbfN4z0yhxQwIdZfxVmywOITgA=
+	t=1725886632; cv=none; b=Yws2kW0Zr0z5SYKsLDmnXihZYMcvgfVmcW9DYf/Kig2DMMAbBulVFWEGE8KHWqMurYaxUUV/hr5Hv7JmKasvlj1eb4JOCniaVAmaPQuZ5QKPy/5DPklX0acyOY27lSe2efx75pOz9jcB+M19v6Nwx+OmJsKcFUmWW23DjFhpvpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725886470; c=relaxed/simple;
-	bh=txW1654y94X29FXMN4GClRGV1MDVbTcNImneVY/pVf4=;
+	s=arc-20240116; t=1725886632; c=relaxed/simple;
+	bh=VJrDj21vOIS62JlQsT0v0+UaclTuE4zpD/NzqT9l+xA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BWHpJc6aCSKwq3N09+T1oVhPHo+LyivPNHLXBWeIVM/If3UyHChYpRptoB/2XLrj+PrLetPYS+eFrg23P9cIET29xoPl7s9Z8fjLxy28CTsaHhm8os5t00AmdjclqJiomN3BRECBV3xRwCgu/v0H8JsFBK3+LYSIQeyWwxxM4FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NKsEpgSL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA73D3DA;
-	Mon,  9 Sep 2024 14:53:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725886391;
-	bh=txW1654y94X29FXMN4GClRGV1MDVbTcNImneVY/pVf4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NKsEpgSLOPB1qhSKxi951O7k2CmyMjRZRpuRZRLM0xHHnDd/XHKkOaNkRVYn3pt+W
-	 nUuFPjLMl0ece0VU873fHPCTDDVDi3rJ5nq5mJJ4QUToiGp69UbUMNo7UdZQL6tNp3
-	 SJ1Bm4FSs6/8Qq6FhIqzwjSkEr66OfDxVsbv3AYk=
-Date: Mon, 9 Sep 2024 15:54:23 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 2/3] media: platform: rzg2l-cru: rzg2l-video: Retrieve
- virtual channel information
-Message-ID: <20240909125423.GB13983@pendragon.ideasonboard.com>
-References: <20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240906173947.282402-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240906231038.GC12915@pendragon.ideasonboard.com>
- <CA+V-a8vsmYSOWgoiHnO5xWdn-wo-eda6hdxGz5X_Hc5s-yVv6g@mail.gmail.com>
- <20240908223905.GG15491@pendragon.ideasonboard.com>
- <CA+V-a8sEgOmL5P=YDZB4EnFy=RSFWjCVVPuBFYr39qSB83D_qQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=S4Td5p3ZMlxdV3IszmbOZ+jFCUVwQbfjB7bNdI2xaKh2Ezbg2PNhtU6fAEn7r8VjmzmJHadqZFBFWdUxpej/oSgphn0TaF/iIXc5gi1oEieRUtisUa2QbQ6mUJzdF6OIjQppf+fuiwmQIghUAlPT9fCEPmmKv48sIUgEhxsWMhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kQzRz1gJ; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53658f30749so3384220e87.3
+        for <linux-media@vger.kernel.org>; Mon, 09 Sep 2024 05:57:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725886629; x=1726491429; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NdmWO/y6gEncx0yc/KC1ZIgIx6TLjxCgyEgLMmNM1FU=;
+        b=kQzRz1gJtuaDoUuZCDWXVo1RLgWTeZPeLr841Le/PBOGCvzGNnUNcL51dQs5zShCP4
+         YyNIACLuNg0Rie2LLMecj474nY+h0+Bp5ay/08FlQQ/7NYkKVQWEiQtUBl/uk0025Bjo
+         ulj0KlkQduawJS1CEFlHTw9a0ytB95jF+kTYwFrThda2t75M9g4PMM/A0xLAkUexu4uL
+         4x4Zyi7PjMH+eGHo3BSw+FTBP0bDrB/7hMisVIRD3hu3Tfizye7kD8D56+LnfG3xUHdm
+         hli+QOqde2W42z86xhcz7tvDOqqaeT7pdWAeDXL5Z5PVqeeoBPuqNIwKIH+J+C1LdvWv
+         1i1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725886629; x=1726491429;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NdmWO/y6gEncx0yc/KC1ZIgIx6TLjxCgyEgLMmNM1FU=;
+        b=HPjMcs2y0PnZskcarYka+kFSC522uS7gcnnGgCUX+XIjKEG0+l5lX6+kAH+n6g4NEd
+         grvkJsVenBnhaLlzj7y1Ckjqrbj+TzoR5X4zryqij1NLGORn+zuwK2AkUhXfqJJGTLpb
+         5aLaAo6ADgG+9k5l+kozyltXq7H1t/dy0IaH0XtrsFKOjKTpHQNr/1pT+a0XBFL88Cis
+         kWSpGEn965EjS7t20eWrtNKdPP+a5pZJCM7YL+EZ2k6WXLKDsKTk8mwxVfN40iFOT6VH
+         59PG641kUgMaEW5OJQE3SkCsC9ipmycMX0gMNVEehlHpKus9a7lcpOdZReWLfOeu3i3A
+         aYow==
+X-Forwarded-Encrypted: i=1; AJvYcCUGgXuwbkc+BZhHfXnuOxHuHnmCzh0G+Vz8NfEfhFkLs0rUa0qK7cXJmw5DaSHRUMfmiru3KP2U7yRh1w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9T+kko2OO4alOd/ffBThbBQs+umZR3JSBBi50cXgux0yvJ+CN
+	XbzwjXp5eqUVxxkFoJCegGniMvvJhfe3iMlkCpgLr6BqteNLhN4F0KUN0gOJoL8=
+X-Google-Smtp-Source: AGHT+IGg6lD6GrF9orDPwQmF2EnUQWjg+tjIcVSrbmI3BFu/hSrE5+5/oRxQV8ihfoTz1okFEZmoYw==
+X-Received: by 2002:a05:6512:2313:b0:533:40dc:8248 with SMTP id 2adb3069b0e04-536587a5453mr8033269e87.11.1725886628058;
+        Mon, 09 Sep 2024 05:57:08 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5365f90d44asm749391e87.247.2024.09.09.05.57.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Sep 2024 05:57:07 -0700 (PDT)
+Date: Mon, 9 Sep 2024 15:57:06 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Miaoqing Pan <quic_miaoqing@quicinc.com>, ath11k@lists.infradead.org, 
+	Dmitry Baryshkov <dbaryshkov@gmail.com>, linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+	agross@kernel.org, andersson@kernel.org, linux-kernel@vger.kernel.org, 
+	konrad.dybcio@linaro.org, mchehab@kernel.org, quic_vgarodia@quicinc.com, 
+	stanimir.k.varbanov@gmail.com
+Subject: Re: [PATCH] arm64: dts: qcom: sa8775p-ride: add WiFi/BT nodes
+Message-ID: <5mz7b4tou6iohqkdt5igt4cajt4hzvibvphcyo7bzk3uf7jg45@unijiusqdpga>
+References: <20240905064817.3885953-1-quic_miaoqing@quicinc.com>
+ <d6mt6i4a6xa3juvn4gzytuhsot2kx7dn4wmm3kmgwywfj2hcau@leecyxx36wql>
+ <87a1a50f-f485-4a4f-91fc-34fa19312519@quicinc.com>
+ <6to5p2dgsu6pvebkmkliojv5kfhnairigd46tmbraimxij7ddu@h6ziv7uwjeeq>
+ <871q1tgj1f.fsf@kernel.org>
+ <CAA8EJpp9=tm1WAEc22-DZtTZsErqAiZM-0Cu-kc18E92frdYYA@mail.gmail.com>
+ <87wmjlf1vf.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8sEgOmL5P=YDZB4EnFy=RSFWjCVVPuBFYr39qSB83D_qQ@mail.gmail.com>
+In-Reply-To: <87wmjlf1vf.fsf@kernel.org>
 
-Hi Prabhakar,
-
-On Mon, Sep 09, 2024 at 10:57:59AM +0100, Lad, Prabhakar wrote:
-> On Sun, Sep 8, 2024 at 11:39 PM Laurent Pinchart wrote:
-> > On Sat, Sep 07, 2024 at 10:09:10PM +0100, Lad, Prabhakar wrote:
-> > > On Sat, Sep 7, 2024 at 12:10 AM Laurent Pinchart wrote:
-> > > > On Fri, Sep 06, 2024 at 06:39:46PM +0100, Prabhakar wrote:
-> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > >
-> > > > > The RZ/G2L CRU needs to configure the ICnMC.VCSEL bits to specify which
-> > > > > virtual channel should be processed from the four available VCs. To
-> > > > > retrieve this information from the connected subdevice, the
-> > > > > .get_frame_desc() function is called.
-> > > > >
-> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > ---
-> > > > >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 29 +++++++++++++++++++
-> > > > >  1 file changed, 29 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > > index bbf4674f888d..6101a070e785 100644
-> > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > > > @@ -433,12 +433,41 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
-> > > > >       spin_unlock_irqrestore(&cru->qlock, flags);
-> > > > >  }
-> > > > >
-> > > > > +static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
-> > > > > +{
-> > > > > +     struct v4l2_mbus_frame_desc fd = { };
-> > > > > +     struct media_pad *pad;
-> > > > > +     int ret;
-> > > > > +
-> > > > > +     pad = media_pad_remote_pad_unique(&cru->ip.pads[1]);
-> > > >
-> > > > It would be nice to use RZG2L_CRU_IP_SOURCE here instead of hardcoding
-> > > > the pad number. That would require moving rzg2l_csi2_pads to the shared
-> > > > header. You can do that on top.
-> > >
-> > > With the below comment we dont need to move rzg2l_csi2_pads into the
-> > > shared header.
-> > >
-> > > > An now that I've said that, is it really the source pad you need here ?
-> > >
-> > > Ouch you are right.
-> > >
-> > > > > +     if (IS_ERR(pad))
-> > > > > +             return PTR_ERR(pad);
-> > > >
-> > > > Can this happen, or would the pipeline fail to validate ? I think you
-> > > > can set the MUST_CONNECT flag on the sink pad, then you'll have a
-> > > > guarantee something will be connected.
-> > >
-> > > After adding the MUST_CONNECT flag, I wouldn't need the  above
-> > > media_pad_remote_pad_unique()...
-> > >
-> > > > > +
-> > > > > +     ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc,
-> > > > > +                            pad->index, &fd);
-> > >
-> > > ... and here I can use '0' instead
+On Mon, Sep 09, 2024 at 03:27:48PM GMT, Kalle Valo wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> writes:
+> 
+> > On Mon, 9 Sept 2024 at 14:31, Kalle Valo <kvalo@kernel.org> wrote:
 > >
-> > Can you ? You need to call the operation on the pad of the connected
-> > entity that is connected to tbe sink pad of the IP entity. That would be
-> > the source pad of the CSI-2 RX in this case, but it can't be hardcoded
-> > as it could also bethe source pad of a parallel sensor (once support for
-> > that will be implemented). I think you therefore need to keep the
-> > media_pad_remote_pad_unique() call.
->
-> media pipeline for RZ/G2L is [0].
+> >>
+> >> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> writes:
+> >>
+> >> > On Fri, Sep 06, 2024 at 08:19:28AM GMT, Miaoqing Pan wrote:
+> >> >
+> >> >>
+> >> >>
+> >> >> On 9/5/2024 8:49 PM, Dmitry Baryshkov wrote:
+> >> >> > On Thu, Sep 05, 2024 at 02:48:17PM GMT, Miaoqing Pan wrote:
+> >> >> > > Add a node for the PMU module of the WCN6855 present on the sa8775p-ride
+> >> >> > > board. Assign its LDO power outputs to the existing WiFi/Bluetooth module.
+> >> >> > >
+> >> >> > > Signed-off-by: Miaoqing Pan <quic_miaoqing@quicinc.com>
+> >> >> > > ---
+> >> >> > >   arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 119 +++++++++++++++++++++
+> >> >> > >   arch/arm64/boot/dts/qcom/sa8775p.dtsi      |   2 +-
+> >> >> > >   2 files changed, 120 insertions(+), 1 deletion(-)
+> >> >> > >
+> >> >> > > @@ -837,3 +939,20 @@ &usb_2_hsphy {
+> >> >> > >   &xo_board_clk {
+> >> >> > >          clock-frequency = <38400000>;
+> >> >> > >   };
+> >> >> > > +
+> >> >> > > +&pcieport0 {
+> >> >> > > +        wifi@0 {
+> >> >> > > +                compatible = "pci17cb,1101";
+> >> >> > > +                reg = <0x10000 0x0 0x0 0x0 0x0>;
+> >> >> > > +
+> >> >> > > +                vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
+> >> >> > > +                vddaon-supply = <&vreg_pmu_aon_0p59>;
+> >> >> > > +                vddwlcx-supply = <&vreg_pmu_wlcx_0p8>;
+> >> >> > > +                vddwlmx-supply = <&vreg_pmu_wlmx_0p85>;
+> >> >> > > +                vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
+> >> >> > > +                vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
+> >> >> > > +                vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
+> >> >> > > +                vddpcie0p9-supply = <&vreg_pmu_pcie_0p9>;
+> >> >> > > +                vddpcie1p8-supply = <&vreg_pmu_pcie_1p8>;
+> >> >> >
+> >> >> > Please add
+> >> >> >
+> >> >> > qcom,ath11k-calibration-variant = "name";
+> >> >>
+> >> >> No need, here the WiFi node is for 'drivers/pci/pwrctl', not ath11k driver.
+> >> >
+> >> > NAK, nodes describe hardware, not drivers. And we have had enough issues
+> >> > with the WCN wifi having collisions on the board-id / chip-id / etc.
+> >> >
+> >> > Maybe we should make calibration-data required for the DT-based systems?
+> >> > Kalle, WDYT?
+> >>
+> >> I don't know exactly what hardware you are referring so this is just a
+> >> quick and vague answer, take all this as grain of salt.
+> >>
+> >> I don't have any numbers but I'm assuming most of the
+> >> ath10k/ath11k/ath12k devices have the calibration data stored in OTP
+> >> inside the chip. There are also devices which store the calibration
+> >> outside the chip, for example in DT, but my understanding is that they
+> >> are a minority.
+> >
+> > Please excuse me, the comment was about the
+> > qcom,athNk-calibration-variant
 > 
-> Calling media_pad_remote_pad_unique() with sink pad of IP entity will
-> return source pad of CSI-Rx, where the pad index will be '1', passing
-> pad index '1' to .get_frame_desc to CSI subdev and then OV5645 subdev
-> would return -EINVAL.
+> Ah :) In case you were wondering, I was talking above about
+> qcom,ath10k-calibration-data property which is the full calibration
+> data, board files are not used at all in that case. So please ignore all
+> that I said.
+> 
+> > the property used to identify the BDF within board-2.bin. Currently
+> > it is optional, which leads to developers omitting it. I think it's
+> > worth making it a required property for new DT devices, making sure
+> > that we don't have an issue with the plenty of boards programmed to
+> > use 0xff as the board_id. Or just using the same ID, but different BDF
+> > files.
+> 
+> This is also a quick answer, the merge window is getting close and we
+> are finalising the ath12k MLO support so not much free time right now.
+> 
+> Some chipsets do provide unique information for the ath10k/ath11k/ath12k
+> driver to choose the correct board file, but I guess they are mostly
+> mobile chipsets. Though not even all mobile chipsets provide that, as
+> you are painfully aware. For AP chipsets it seems to be a rule that they
+> don't provide unique information to choose the board file and a variant
+> field is always needed. So I think there is a point in your proposal.
 
-Why does it return -EINVAL ?
+Ack, thanks :-)
 
-> I need to update patch [1] instead of just forwarding the pad index to
-> remote subdev I'll need to do the same as done IP subdev ie in CSI
-> subdev call media_pad_remote_pad_unique() on sink pad of CSI which
-> will return OV5465 source pad, and this will have a pad index of '0'.
+> 
+> Backward compatibility is important but I think we already handle that,
+> at least in ath11k, as it's first try with variant field and then
+> without variant. But this needs more investigation on both ath11k and
+> ath12k. I hope for ath10k we would not need to touch the driver anymore.
+> 
+> Can we revisit this in few weeks, after MLO is in better shape, and
+> maybe you could start a new thread?
 
-Ah, that's why it returns -EINVAL :-)
-
-You're right, the pad number can't be propagated as-is.
-
-> The CSI get_frame_desc() will look something like below:
-> 
-> static int rzg2l_csi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
->                      struct v4l2_mbus_frame_desc *fd)
-> {
->     struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
->     struct media_pad *remote_pad;
-> 
->     if (!csi2->remote_source)
->         return -ENODEV;
-> 
->     remote_pad = media_pad_remote_pad_unique(&csi2->pads[RZG2L_CSI2_SINK]);
->     if (IS_ERR(remote_pad)) {
->         dev_err(csi2->dev, "can't get source pad of %s (%ld)\n",
->             csi2->remote_source->name, PTR_ERR(remote_pad));
->         return PTR_ERR(remote_pad);
->     }
->     return v4l2_subdev_call(csi2->remote_source, pad, get_frame_desc,
-> remote_pad->index, fd);
-> }
-> 
-> For the parallel input case I plan to implement something similar to
-> R-Car vin with bool flag 'is_csi' where we skip calling
-> 'rzg2l_cru_get_virtual_channel'.
-> 
-> [0] https://postimg.cc/rz0vSMLC
-> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20240906173947.282402-2-prabhakar.mahadev-lad.rj@bp.renesas.com/
+Sure. Let's agree that I'll send a patch after -rc1, if I don't forget
+about it.
 
 -- 
-Regards,
-
-Laurent Pinchart
+With best wishes
+Dmitry
 
