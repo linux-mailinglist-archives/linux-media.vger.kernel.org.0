@@ -1,264 +1,450 @@
-Return-Path: <linux-media+bounces-17911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-17912-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714C0970DB4
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E307970DB5
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 07:50:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2F9F1F236DB
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 05:50:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DE1AF1F23774
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 05:50:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38FE91AD3FE;
-	Mon,  9 Sep 2024 05:45:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D0831AD419;
+	Mon,  9 Sep 2024 05:47:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="EtYGADbc"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="TrMl8JDC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010057.outbound.protection.outlook.com [52.101.229.57])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9F21AC8A5;
-	Mon,  9 Sep 2024 05:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53597136A;
+	Mon,  9 Sep 2024 05:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725860735; cv=fail; b=b8Wyw4fgIdPkjZy2yEpa2p74iZQW6mOIrhnRWwPe5E7OEPj6VX2hnc6hnKXYh3ZTvYDljmqg0ANHd2s0YvbWHo4kDIXafXPMeozdyFwMGDJB7lEAsR4tXg37Enb7QV/oal5enR4mtc3tUL55gCAb+83PEmuWHiADPXOiNwOkOfk=
+	t=1725860833; cv=pass; b=gm6BTwhf8G/WxLCOr3VpWL0UeTRrH1LcvSeMFPVX4gOdZxC35HGQGM746ZUQGGt3Hwpvb3WHqQ73DBxvBwDl9gnG32rur+aPThNyJhSVrP/UFjM/ejaN5U7bJazxYmSjksKvxGy6yupznkEmQBfsHXxoHwK9Y+V3AguLcf3GVCE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725860735; c=relaxed/simple;
-	bh=4qf/J4AZCm+D7Ylk1ketegY4VdEFepErqEKamS/Rnto=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=oBAgKXdrdqzMFcJb+RcOJ1gCpBGci6Fv1FbfGnBGsKYzdUdmS3hjxU0uaxZYFgy18qEDrU2DCymcC/9C8A6huZbo0k7WsaMBo4hnvRKT/WKf9pnsCl9kILwEb/B8U1JnwFYcadzvLLO9mewdpLWss/zKJBfG79OIww+TbFaUdS0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=EtYGADbc; arc=fail smtp.client-ip=52.101.229.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AR3MiAscZHImQA3+sss/0TBl6rzR3MLWrEgLujg3w8jlbS3KSu3BlghfRdV+N+qgpTsMhkctU7VTnpEwIo6pSlTY7uNHn2llnZAL2aZkADIYAXSIjn9AfXFsR6RnWP74d2ybnh53ri5wJrnG9FcbvjuwQKzbvnsxl5xQRTA27yyH9SFd6Y3aA3qFxFHNJN50cfoWpHPumxUoEMg8RzHTPnfjRadXL5Fjqq9YB64I53NyNGW6XD1LmnPB+iMsIYz2DYiBBjCalU7q5p1+VCKIUmTjGGJZ2MU/usK0MtVm8XRX2w3bF2io44dC5f4NolmUlRDsOjFYmyqs5JMS5H+Ucw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4qf/J4AZCm+D7Ylk1ketegY4VdEFepErqEKamS/Rnto=;
- b=sND8BQF50yGyVG3FFT9Ttul+YPN9QeqFusRZjKI2n3mrmygGOXu5wPPO4yZc7pyeFFYGXwnuW0tLRkwZLFL83pnJDuK06shE5tn6UoP/UnQ9XFElha9jpyzPzliYHbl1P3nwqMlPVKpLcED57Z/yIkAO/mxcEGDFTsBWjp1fwW0S8BVX2EMFVfKjxMieX2rRJ5CZnDJZ82740j1H8wgrpiSR/rbNRbujrqvgH4yTuVlRSbMAUDD3ZDHaIxuV0utTAm2esIkJqMaE8g8FFpKg5aBqSB76zyYHRO11QhFMnnTVIwmvwN5Vn4ZqzAh9kZRJK+JYbN+U8lnsI92xq1oTzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4qf/J4AZCm+D7Ylk1ketegY4VdEFepErqEKamS/Rnto=;
- b=EtYGADbcrrQH6ydn8h0g5EnQICQ/OrONlzfZDSehUQZqVVyNgjvt/bbdFuglPR96fFS78RCNz6fwtuFot2dzCzG5c101ydbDopIzpx7SgBK0ya3X71zeFlgMZMf/Dk1aS750G/FwAb2d0YJ1f66KkCDGtte9JmZsAwqHSNq7Eu0=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYYPR01MB13137.jpnprd01.prod.outlook.com (2603:1096:405:165::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.23; Mon, 9 Sep
- 2024 05:45:27 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.7939.022; Mon, 9 Sep 2024
- 05:45:20 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>, Hien Huynh <hien.huynh.px@renesas.com>, Benjamin
- Gaignard <benjamin.gaignard@collabora.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Set AXI burst
- max length
-Thread-Topic: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Set AXI burst
- max length
-Thread-Index: AQHa/4Vayw10oWeJKk+GlBZb9vTbq7JLcqoAgAB+MjCAAKfvAIACXt9A
-Date: Mon, 9 Sep 2024 05:45:20 +0000
-Message-ID:
- <TY3PR01MB11346774C42D8B1D837E9D41086992@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20240905111828.159670-1-biju.das.jz@bp.renesas.com>
- <20240906235948.GH27086@pendragon.ideasonboard.com>
- <TY3PR01MB113461F40823C3404EB4E61AA869F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <20240907173232.GE15491@pendragon.ideasonboard.com>
-In-Reply-To: <20240907173232.GE15491@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYYPR01MB13137:EE_
-x-ms-office365-filtering-correlation-id: eefe3df9-09d3-42e7-7bbb-08dcd092978d
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?K1dlaWROdDZUbGFEeUhPN1I2VGVZMGJlSzBBcHZoUkVvZHg5c21rQ0xuRlhH?=
- =?utf-8?B?cnZsSnBpSk5aWmwvWlZEb250cVlSYkdEODhlV0hoaS9VV0Rlc2VNZlVMRnQ5?=
- =?utf-8?B?RTZFOHI2OXlpRkpadUsxcUhwY20wUTYrbTVNTlhrT2Vpdi95V1hSUzZDRldI?=
- =?utf-8?B?dzhVWkRtSWtVZVR4aWhFUGxxZml4ZDdKcGl6UGQ5TnRBWEtpN3B4a2FLckZF?=
- =?utf-8?B?Z3lwUkQxaUtiUHYraDBiTU5YUUhyRkNLUCtyOUJVd1UvdXpONkFDM0RPd3FB?=
- =?utf-8?B?eC9pLzNreE12VVJqdE9UcHFsbHJ5cTN2NHBUZ1N4ZDlHaVM2QVlmeHZybUFx?=
- =?utf-8?B?SDdpQTA4bXVMYTM5T2xhZTQvZWFkVmw5OHFLeEc5a2pnOFBlYmRBcENHQVVN?=
- =?utf-8?B?NTNzZWF3Z2crWURUMVVCSG50RHk1MHNWcnIySGsvREtycUl2cUIxU0pqalV5?=
- =?utf-8?B?QUhZNU94TWNjZ0VnRS9lY0hLWUZ5TVVSZHpLTmcvVnNKUFExMnpVN01YL3JW?=
- =?utf-8?B?bllod2VYL3N2U2V2NEpZVC9sUTU4U0VsaWJ1TGQ5V2QzUEl5MGg4d0pZTTFS?=
- =?utf-8?B?U1Y5SFpBdHlWdTM1cVB3aEE0VDZWWVFleEhIc3cxTUU5NnhUYVZTS21zZU9J?=
- =?utf-8?B?N3VyUWorSHVGZEtPOFdWVEZJUVBHM0lwZHF0S0xRV05IakNpV21EQ2U3VjVs?=
- =?utf-8?B?bFk1VWJOK09heitlTU1pOHlyNFJIeE03M1ZCZmF0aTNLM08vQXhHbXlwT1lO?=
- =?utf-8?B?OHl6U3ljcmhyYnIwL2oxOWxjMTltQVZ3bVBXbi9XMGJkZ2wvN3Nsc1pnWkdC?=
- =?utf-8?B?SGRQeGZCbE1HUWRhdURGdittRnYrbWoxWE1Td1llOEl5WnA5M3l2ZjM5RitV?=
- =?utf-8?B?WmlRS3BDY0QxamZGeGQ2SmJ0RGVybkdGd1ZBZVJ3WG5IV1dtenExVGt6K1ov?=
- =?utf-8?B?VnBneWs0RVlySXhjM0x3NE5RY1dyNGV1aW5idkdkN0RFNFN6Uk55Mm5qK21F?=
- =?utf-8?B?cXlSUHRBQVVLdU9rcnE4MC9iQXUrWU9sVnlZWFVHRGVKRGtiSFBUeUpVK3RY?=
- =?utf-8?B?Qk5Kd3hyL1haNHRrSVFmNGJZOUNBY1FmR0NOSXBJd0IxeVRjV0hNM3d2MkRB?=
- =?utf-8?B?MFRGTzlGUG9QUG9TZi9qZ0E2bnBtWkQvdHNaWVY3UldIUDdxMUZXOSsxVEI1?=
- =?utf-8?B?UWs0VE5KbjB5eWg4cW94ZE5LbWVKa2Yrem1SYTUxa1Izbkw4UlhKWHVWRDJE?=
- =?utf-8?B?NGl5ZUQ2VjNTUG5OakxhTSt2TmNGUm1ZOE4zZHZaNEpTKzR0S0dWM1BVdjJ5?=
- =?utf-8?B?c25nQmlMU3pHLzhMYXI4Zm9INSt2aDRES05SOWhMS2lrNzdyOHRoc0JMNmxF?=
- =?utf-8?B?eml1S0JISFAwdmJ4N29xOGZ5MndJOFJiTW1iTVFwT3ltOVJFK1hoMzNoTVBU?=
- =?utf-8?B?WUZCR3pET0JJd3dyc1VhS21XMXhnbHFIMFI3QnYvR0pzOVVQeDJEaVBzc29U?=
- =?utf-8?B?RnlHenhzWC91NUhQNnRxZkJZb0szVTJydFplNU82VWJBTUovZUNGY0pBZjVR?=
- =?utf-8?B?VGxjS0NnU29ScnQ5QWwwQ01uYllMT09CeXJhMDJrUVRRVGt6cWZwS1ZQUDlj?=
- =?utf-8?B?Z2FtYTVPRmNOVFZUdGxQV0NtRFV3WFdRZFhXRnZ6cm1zNEV1K0dZY3J2dm8x?=
- =?utf-8?B?ckZNYUNLb1NFM3h1NVBuQU1jRjdZRXdNMkc0eG5lZ2R3cWVYOGFwTzlkOGQ2?=
- =?utf-8?B?OEJtdDZGVitRNVhVelNLYUJxQlZOUEhOT2YzZEcyYnMrNXQ1T21DN2szZ1FI?=
- =?utf-8?B?bjVvN1JteEJpcmtZTWRNYmVhbVRCcnhZQXRiekUyOG9KZ2dPRE5ZamdwdlRS?=
- =?utf-8?B?VXBCeTc0ZGpQZkJaaGp0bW03M0JFaXczN0h1S29ieUMzV0E9PQ==?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?dDB2VU9WUTVzbjArRlZRRlZueXpZeHZoUW1XaWxrbHh6Q1l2bFY4R0ZxcU1q?=
- =?utf-8?B?TDhPY3d0VDhid1MycTR6Z2xtRTVjdTRneDhPbThRYTM0K2V2eVR1UWg3Q2dG?=
- =?utf-8?B?ZmZoTzNOWWpYaVhDa2hjb2xEK2V3aTQ5VEM1ckJla3M2VnZtb05CaXoxdUlT?=
- =?utf-8?B?YkprUnMrclFBeG12bm9BM1lNbS9wNU5TK1kzazJXNk5vZ1RyQUhvQkhOY3Bm?=
- =?utf-8?B?UjQyRmF3bEVVVW1LR25KZG8rZk1HdC95THN6S0dGa1RJNmhrTkV1NDNtVHhl?=
- =?utf-8?B?bERNUzZDNTRTbVo5OUhLQ2dtL25GSmlOQkNvOXNaZmYxZ2hOYjFIb2wrSFpJ?=
- =?utf-8?B?a1E5dGJBNTVuS01zZE0rUm52V2VDeWRBMjBLSS9sVHFpN09hbzFMdlNvNXo5?=
- =?utf-8?B?SjdmTVVoUk1UQk0vZXFsRWx5cjJZZncxLzE5NGthdmtpQ1p6WVE5QVlYNDcr?=
- =?utf-8?B?U3dUR2dESWgzemU5WlJ6cDF1Q1BncDdIaFUrTmgwK01yRkxZL29JK2xyd0do?=
- =?utf-8?B?R2JrdHlkNnhlblZCUUZuTElqeVdIMG52YnlJdlZPRWFRbHZycUNCdkNqT0xh?=
- =?utf-8?B?U3VPWEZwKy9ZVWpWWE1IZFV1a000Y3B6bnJCRFhmcWtIWlZ0eEtSRDJuSmRC?=
- =?utf-8?B?ZmYvNnpmMXdBY2U4bFpIS0R1a3JJNCtwemdzZnhma0MvMkd4cDBHblVIZ0o1?=
- =?utf-8?B?NW5ZZjlNbldiWGNNS2lHM1ltNGJiK2kwTGlNN1JlVlQ4Zys2YmJuMEw3KzRL?=
- =?utf-8?B?b0V3dE4vR1NKdEUzcStlYkgxZmtRYUdZNXFDc2hGbUJuVWdZZHpYc0MvRk5v?=
- =?utf-8?B?VnU5R3YyQ0llQVZUVHlIVWpoMkpqR1kwYzltOUdGN0hwTnhCeE93elFpbnhy?=
- =?utf-8?B?S2M2N0hzUnpFTHUxSEkzaEg1cmw4OTVjQTNrcC9TREpTb01EckpRakZuQVBP?=
- =?utf-8?B?TFJCUmtpUXA2SXc3N2x0L0sxVzNwd2xoYTN5M1p0NHRhSG5rdHFoVWlYWHVI?=
- =?utf-8?B?RzdOYTgwbXo1dENDZmtzak80ekIxaHAzQ2dLeDZqakpuZjlyNGQ0TDFuaGxh?=
- =?utf-8?B?T3BQazJBOEFGUms2d3dMdnEwZE9oZ0NnUHN3ZjM4cEttbC9BWmFjL0JGV0F4?=
- =?utf-8?B?TnhGOU1zL3E5cnV6T0JXNHBrRHdvQTRHek1ZeEZ3QVRQdDhCVDlxampHNVFV?=
- =?utf-8?B?OWFXVytjSXNFL1hsaFJXb1RQOEFKL0xaNDkrYnRUUXA3TG0vZUlYUzhaMWFr?=
- =?utf-8?B?N0pBZWR0TjUyMUFVY3FacHlpZUU4b3RsNUd2QzZVa0taUld4ZWdSKzdEQS81?=
- =?utf-8?B?LzBuN1FObTV5NVdWU1lJRXFaZWFxb2NpTE5HOVZNejA3RXZMajRMY3Q3cmtR?=
- =?utf-8?B?TFFFdUl1YS9zd09wN3R0ZnQ1djVOdSs1YW5PRnRpNTV3SnhLdjBYdFZhM1Uw?=
- =?utf-8?B?Sjl2eDM3OE1IcEhZWG1ndkkwTW9iWmFraDkxcytOSDVyMFRwWkFmaVlWbnZW?=
- =?utf-8?B?cERnUnNZZVd6bGpWU1A0ajVseXp5OE0wbXFzK0xvZDBaUXlLbjB5UTV0bHFq?=
- =?utf-8?B?UkZLQy83YndhVG1jRWxBcFNqWDl1aUVLM3FFOVBzU3dJUUVvdCszZHRoSVZj?=
- =?utf-8?B?S291NUIyRWo4a3JVWUJwNnczZHY4OHNQeFZDcWN0b1BySjZKY2swdno0YkZX?=
- =?utf-8?B?eSt1eFVhZGF0OWN5dzdXYVdpSG5PUWFxc2NGRkNpSnBGRWZta09DUlAzeVZM?=
- =?utf-8?B?NXFMcURFUitEVzYzZFg4cEFudUxJVDZScURMcmQwOWFSRXZ5aWVqZk1ydFBx?=
- =?utf-8?B?RTE1b090WFZLM2FldUVpV0ltb0pvVjJyNEZpa3l2d1YxdG1TODE1YWlhajVy?=
- =?utf-8?B?VnFpbUJpazRGK2pkc2NPV2tuek9ZaExHRXhYcTBKSDdJb2l4UlJwckdtdEo5?=
- =?utf-8?B?aDMyeXNFclBqR3lHZkhoQzNlSjhSV1JpQXVHQ2w1MktkTy9UNEZ4M09tcHY4?=
- =?utf-8?B?SGl0NEg4UWlBWm9jZU1FR1ZrWnVnNTJJSEUycjlJbEpCakcwKzBadVZqRGty?=
- =?utf-8?B?ZTVjVS9PazNqdkU3WUp2QjhQSjJlM2hBZWVzbzNIcldIdk8rVDVJeUJremZC?=
- =?utf-8?B?VTByekZCeklnY0xIZkVhRGNPTUZoSnpnWmtKUmh5SHVkVWZHRXNHMDB3N0RI?=
- =?utf-8?B?Ymc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1725860833; c=relaxed/simple;
+	bh=3T0Nzd1dTvtfI4Ydx4eHqiNfYGruhy673BL8zn0d0uk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JmSRFvjKnoeV873jg0k9nmBugDXcXjFLdOtEdHHxknaTMLPpEXGqugaSkJaln8+8iUGkTAaK/M96Vd50wJ4IcfASzf1JrcSoXJJ4ayxEESztkkWUwBIVQl8Sy2o/IbivtrQOfx7mbSqAmiFabY1HUOIpK7eJ/6ryZXFIoSwyNMI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=TrMl8JDC; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1725860817; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=cnYucnM5bSoWTdtbCNK46WiFMuplPF2N8QKTm6RaWByeXi4ZbRltOZQtf6iiKW28gDc8Ed5zLePzA478gfFGrdT23H5vUK68vjVNjRc9eTNNk6jtUXtpAqKe6SkTFq/i65yheUsvyffm2h6iQPoyLGAkgFINj21MC4122p44wYA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1725860817; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=T6FwUNHJwXGaSz2cN98RQw0+W+kkYIAIZ9K75TrIFSg=; 
+	b=BwDlhGsalPGB6jbM55p41vSnmW/hPKwt4/k+MnxzgFOvVOUd3S//4kczHDg6UDazuSUUv0dLAjwE4sp1GU/Czr/oBiZKjJV7LnzYdZj/NPHhR4fJOx9hbjIhse3C32/W4flLObyqXVd3UO/R3qsrXZYMa082NoRafqGZaMH8PeE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725860817;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=T6FwUNHJwXGaSz2cN98RQw0+W+kkYIAIZ9K75TrIFSg=;
+	b=TrMl8JDC+HbYwB8ymlz3/+/xsWl0XxLT8vPjCT/TN17OBjrldjaowZOyUELU2+Ty
+	fFbLP2NHegfhEpWcHj+o2Ji5EPq0hzluRsS2njB299hTFmVkgMorx9G8IBm4CGDt5a8
+	I50TopoU+FevmYPm0Hn6WChkOWMHMc9mK1rYYi4E=
+Received: by mx.zohomail.com with SMTPS id 1725860814390762.874679423403;
+	Sun, 8 Sep 2024 22:46:54 -0700 (PDT)
+Date: Mon, 9 Sep 2024 07:46:50 +0200
+From: "sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	"lafley.kim" <lafley.kim@chipsnmedia.com>,
+	"b-brnich@ti.com" <b-brnich@ti.com>
+Subject: Re: [RESEND PATCH v7 2/4] media: chips-media: wave5: Support runtime
+ suspend/resume
+Message-ID: <20240909054650.cwq2lafzwguqztfl@basti-XPS-13-9310>
+References: <20240812070823.125-1-jackson.lee@chipsnmedia.com>
+ <20240812070823.125-3-jackson.lee@chipsnmedia.com>
+ <777c81510ea6fbaee4aa6b32595d5386523261a4.camel@ndufresne.ca>
+ <bf9b423c3fae61be27e0955fe4aed932d42e9d27.camel@ndufresne.ca>
+ <SE1P216MB130331A2FAB08DBFEE8D0C90ED992@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eefe3df9-09d3-42e7-7bbb-08dcd092978d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2024 05:45:20.5643
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bULlFjruzu/QV0gljVLLF6q9M3rTW0dymZXUd5LSp2tkKqC9Y6Sgp3oikARBOgRhtTcimqzgkuvCw5o4LiBJaSd0qfgzZxp3PM/+LlB9ytw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB13137
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SE1P216MB130331A2FAB08DBFEE8D0C90ED992@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+X-ZohoMailClient: External
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGF1cmVudCBQaW5jaGFy
-dCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPg0KPiBTZW50OiBTYXR1cmRheSwg
-U2VwdGVtYmVyIDcsIDIwMjQgNjozMyBQTQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBtZWRpYTog
-cGxhdGZvcm06IHJ6ZzJsLWNydTogcnpnMmwtdmlkZW86IFNldCBBWEkgYnVyc3QgbWF4IGxlbmd0
-aA0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIFNhdCwgU2VwIDA3LCAyMDI0IGF0IDA3OjQxOjI0
-QU0gKzAwMDAsIEJpanUgRGFzIHdyb3RlOg0KPiA+IE9uIFNhdHVyZGF5LCBTZXB0ZW1iZXIgNywg
-MjAyNCAxOjAwIEFNLCBMYXVyZW50IFBpbmNoYXJ0IHdyb3RlOg0KPiA+ID4gT24gVGh1LCBTZXAg
-MDUsIDIwMjQgYXQgMTI6MTg6MjZQTSArMDEwMCwgQmlqdSBEYXMgd3JvdGU6DQo+ID4gPiA+IEFz
-IHBlciB0aGUgaGFyZHdhcmUgbWFudWFsIHNlY3Rpb24gMzUuMi4zLjI2ICdBWEkgTWFzdGVyIFRy
-YW5zZmVyDQo+ID4gPiA+IFNldHRpbmcgUmVnaXN0ZXIgZm9yIENSVSBJbWFnZSBEYXRhOywgaXQg
-aXMgbWVudGlvbmVkIHRoYXQgdG8NCj4gPiA+ID4gaW1wcm92ZSB0aGUgdHJhbnNmZXINCj4gPiA+
-DQo+ID4gPiBzLzsvJy8NCj4gPg0KPiA+IE9vcHMsIFdpbGwgZml4IHRoaXMgaW4gbmV4dCB2ZXJz
-aW9uLg0KPiA+DQo+ID4gPiA+IHBlcmZvcm1hbmNlIG9mIENSVSwgaXQgaXMgcmVjb21tZW5kZWQg
-dG8gdXNlIEFYSUxFTiB2YWx1ZSAnMHhmJw0KPiA+ID4gPiBmb3IgQVhJIGJ1cnN0IG1heCBsZW5n
-dGggc2V0dGluZyBmb3IgaW1hZ2UgZGF0YS4NCj4gPiA+ID4NCj4gPiA+ID4gU2lnbmVkLW9mZi1i
-eTogSGllbiBIdXluaCA8aGllbi5odXluaC5weEByZW5lc2FzLmNvbT4NCj4gPiA+ID4gU2lnbmVk
-LW9mZi1ieTogQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gPiAt
-LS0NCj4gPiA+ID4gIC4uLi9tZWRpYS9wbGF0Zm9ybS9yZW5lc2FzL3J6ZzJsLWNydS9yemcybC12
-aWRlby5jICAgIHwgMTEgKysrKysrKysrKysNCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxMSBp
-bnNlcnRpb25zKCspDQo+ID4gPiA+DQo+ID4gPiA+IGRpZmYgLS1naXQNCj4gPiA+ID4gYS9kcml2
-ZXJzL21lZGlhL3BsYXRmb3JtL3JlbmVzYXMvcnpnMmwtY3J1L3J6ZzJsLXZpZGVvLmMNCj4gPiA+
-ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3JlbmVzYXMvcnpnMmwtY3J1L3J6ZzJsLXZpZGVv
-LmMNCj4gPiA+ID4gaW5kZXggMzc0ZGMwODQ3MTdmLi5kMTdlM2VhYzQxNzcgMTAwNjQ0DQo+ID4g
-PiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcmVuZXNhcy9yemcybC1jcnUvcnpnMmwt
-dmlkZW8uYw0KPiA+ID4gPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3JlbmVzYXMvcnpn
-MmwtY3J1L3J6ZzJsLXZpZGVvLmMNCj4gPiA+ID4gQEAgLTUyLDYgKzUyLDExIEBADQo+ID4gPiA+
-ICAjZGVmaW5lIEFNbk1CUwkJCQkweDE0Yw0KPiA+ID4gPiAgI2RlZmluZSBBTW5NQlNfTUJTVFMJ
-CQkweDcNCj4gPiA+ID4NCj4gPiA+ID4gKy8qIEFYSSBNYXN0ZXIgVHJhbnNmZXIgU2V0dGluZyBS
-ZWdpc3RlciBmb3IgQ1JVIEltYWdlIERhdGEgKi8NCj4gPiA+ID4gKyNkZWZpbmUgQU1uQVhJQVRU
-UgkJCTB4MTU4DQo+ID4gPiA+ICsjZGVmaW5lIEFNbkFYSUFUVFJfQVhJTEVOX01BU0sJCUdFTk1B
-U0soMywgMCkNCj4gPiA+ID4gKyNkZWZpbmUgQU1uQVhJQVRUUl9BWElMRU4JCSgweGYpDQo+ID4g
-PiA+ICsNCj4gPiA+ID4gIC8qIEFYSSBNYXN0ZXIgRklGTyBQb2ludGVyIFJlZ2lzdGVyIGZvciBD
-UlUgSW1hZ2UgRGF0YSAqLw0KPiA+ID4gPiAgI2RlZmluZSBBTW5GSUZPUE5UUgkJCTB4MTY4DQo+
-ID4gPiA+ICAjZGVmaW5lIEFNbkZJRk9QTlRSX0ZJRk9XUE5UUgkJR0VOTUFTSyg3LCAwKQ0KPiA+
-ID4gPiBAQCAtMjc4LDYgKzI4Myw3IEBAIHN0YXRpYyB2b2lkIHJ6ZzJsX2NydV9maWxsX2h3X3Ns
-b3Qoc3RydWN0DQo+ID4gPiA+IHJ6ZzJsX2NydV9kZXYgKmNydSwgaW50IHNsb3QpICBzdGF0aWMg
-dm9pZA0KPiA+ID4gPiByemcybF9jcnVfaW5pdGlhbGl6ZV9heGkoc3RydWN0IHJ6ZzJsX2NydV9k
-ZXYgKmNydSkgIHsNCj4gPiA+ID4gIAl1bnNpZ25lZCBpbnQgc2xvdDsNCj4gPiA+ID4gKwl1MzIg
-YW1uYXhpYXR0cjsNCj4gPiA+ID4NCj4gPiA+ID4gIAkvKg0KPiA+ID4gPiAgCSAqIFNldCBpbWFn
-ZSBkYXRhIG1lbW9yeSBiYW5rcy4NCj4gPiA+ID4gQEAgLTI4Nyw2ICsyOTMsMTEgQEAgc3RhdGlj
-IHZvaWQgcnpnMmxfY3J1X2luaXRpYWxpemVfYXhpKHN0cnVjdA0KPiA+ID4gPiByemcybF9jcnVf
-ZGV2ICpjcnUpDQo+ID4gPiA+DQo+ID4gPiA+ICAJZm9yIChzbG90ID0gMDsgc2xvdCA8IGNydS0+
-bnVtX2J1Zjsgc2xvdCsrKQ0KPiA+ID4gPiAgCQlyemcybF9jcnVfZmlsbF9od19zbG90KGNydSwg
-c2xvdCk7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwkvKiBTZXQgQVhJIGJ1cnN0IG1heCBsZW5ndGgg
-dG8gcmVjb21tZW5kZWQgc2V0dGluZyAqLw0KPiA+ID4gPiArCWFtbmF4aWF0dHIgPSByemcybF9j
-cnVfcmVhZChjcnUsIEFNbkFYSUFUVFIpICYgfkFNbkFYSUFUVFJfQVhJTEVOX01BU0s7DQo+ID4g
-PiA+ICsJYW1uYXhpYXR0ciB8PSBBTW5BWElBVFRSX0FYSUxFTjsNCj4gPiA+ID4gKwlyemcybF9j
-cnVfd3JpdGUoY3J1LCBBTW5BWElBVFRSLCBhbW5heGlhdHRyKTsNCj4gPiA+DQo+ID4gPiBJdCB3
-b3VsZCBiZSBtb3JlIGVmZmljaWVudCB0byBqdXN0IHdyaXRlDQo+ID4gPg0KPiA+ID4gCXJ6ZzJs
-X2NydV93cml0ZShjcnUsIEFNbkFYSUFUVFIsIEFNbkFYSUFUVFJfQVhJTEVOKTsNCj4gPg0KPiA+
-IEkgdGhvdWdodCBhYm91dCB0aGF0LiBCdXQgdGhlbiByZS1yZWFkaW5nIHJlZ2lzdGVyIGRlc2Ny
-aXB0aW9uIGNoYW5nZWQNCj4gPiB0aGUgbWluZCBiZWNhdXNlIG9mIHRoZSBiZWxvdyBiaXRzDQo+
-ID4NCj4gPiB7OSw4fSDigJQgMDFiIFIgUmVzZXJ2ZWQ6DQo+ID4gV2hlbiByZWFkLCB0aGUgaW5p
-dGlhbCB2YWx1ZSBpcyByZWFkLiBXaGVuIHdyaXRpbmcsIGJlIHN1cmUgdG8gd3JpdGUgdGhlIGlu
-aXRpYWwgdmFsdWUuDQo+ID4gT3BlcmF0aW9uIGlzIG5vdCBndWFyYW50ZWVkIGlmIGEgdmFsdWUg
-b3RoZXIgdGhhbiB0aGUgaW5pdGlhbCB2YWx1ZSBpcyB3cml0dGVuLg0KPiA+DQo+ID4gezYsNH0g
-4oCUIDEwMWIgUiBSZXNlcnZlZDoNCj4gPiBXaGVuIHJlYWQsIHRoZSBpbml0aWFsIHZhbHVlIGlz
-IHJlYWQuIFdoZW4gd3JpdGluZywgYmUgc3VyZSB0byB3cml0ZSB0aGUgaW5pdGlhbCB2YWx1ZS4N
-Cj4gPiBPcGVyYXRpb24gaXMgbm90IGd1YXJhbnRlZWQgaWYgYSB2YWx1ZSBvdGhlciB0aGFuIHRo
-ZSBpbml0aWFsIHZhbHVlIGlzIHdyaXR0ZW4uDQo+ID4NCj4gPiBBbHNvLCBiaXRzIHsyNywyNH0s
-IHsyMiwxNn0gYW5kIHsxMywxMn0gLTBiIDoNCj4gPg0KPiA+IEl0IGlzIG1lbnRpb25lZCB0aGF0
-DQo+ID4gV2hlbiByZWFkLCB0aGUgaW5pdGlhbCB2YWx1ZSBpcyByZWFkLiBXaGVuIHdyaXRpbmcs
-IGJlIHN1cmUgdG8gd3JpdGUgdGhlIGluaXRpYWwgdmFsdWUuDQo+ID4gb3BlcmF0aW9uIGlzIG5v
-dCBndWFyYW50ZWVkIGlmIGEgdmFsdWUgb3RoZXIgdGhhbiB0aGUgaW5pdGlhbCB2YWx1ZSBpcyB3
-cml0dGVuLg0KPiANCj4gTGV0J3Mga2VlcCB0aGUgY29kZSBhcy1pcyB0aGVuLiBJJ2xsIGZpeCB0
-aGUgdHlwbyBpbiAoYW5kIHJlZmxvdykgdGhlIGNvbW1pdCBtZXNzYWdlIG15c2VsZiwgbm8gbmVl
-ZA0KPiB0byByZXN1Ym1pdC4NCg0KVGhhbmtzIExhdXJlbnQuDQoNCkNoZWVycywNCkJpanUNCg0K
-PiANCj4gPiA+IHRoZSBoYXJkd2FyZSBtYW51YWwgaG93ZXZlciBkb2Vzbid0IG1ha2UgaXQgY2xl
-YXIgaWYgdGhpcyBpcyBzYWZlIG9yDQo+ID4gPiBub3QuIFRoZSByZXN0IG9mIHRoZSByZWdpc3Rl
-ciBpcyByZXNlcnZlZCwgYW5kIHdyaXRlcyBhcyBkb2N1bWVudGVkDQo+ID4gPiBhcyBpZ25vcmVk
-LCBidXQgdGhlIHJlc2V0IHZhbHVlIGlzIG5vbi16ZXJvLiBJZiBpdCdzIG5vdCBzYWZlIHRvDQo+
-ID4gPiB3cml0ZSB0aGUgcmVzZXJ2ZWQgYml0cyB0byAwLA0KPiA+ID4NCj4gPiA+IFJldmlld2Vk
-LWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+
-DQo+ID4gPg0KPiA+ID4gPiAgfQ0KPiA+ID4gPg0KPiA+ID4gPiAgc3RhdGljIHZvaWQgcnpnMmxf
-Y3J1X2NzaTJfc2V0dXAoc3RydWN0IHJ6ZzJsX2NydV9kZXYgKmNydSwgYm9vbA0KPiA+ID4gPiAq
-aW5wdXRfaXNfeXV2LA0KPiANCj4gLS0NCj4gUmVnYXJkcywNCj4gDQo+IExhdXJlbnQgUGluY2hh
-cnQNCg==
+Hey Jackson,
+
+On 09.09.2024 01:21, jackson.lee wrote:
+>Hi Nicolas
+>
+>> -----Original Message-----
+>> From: Nicolas Dufresne <nicolas@ndufresne.ca>
+>> Sent: Saturday, September 7, 2024 4:27 AM
+>> To: jackson.lee <jackson.lee@chipsnmedia.com>; mchehab@kernel.org;
+>> sebastian.fricke@collabora.com
+>> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
+>> hverkuil@xs4all.nl; Nas Chung <nas.chung@chipsnmedia.com>; lafley.kim
+>> <lafley.kim@chipsnmedia.com>; b-brnich@ti.com
+>> Subject: Re: [RESEND PATCH v7 2/4] media: chips-media: wave5: Support
+>> runtime suspend/resume
+>>
+>> Hi Again,
+>>
+>> Le vendredi 06 septembre 2024 à 13:08 -0400, Nicolas Dufresne a écrit :
+>> > Hi,
+>> >
+>> > Le lundi 12 août 2024 à 16:08 +0900, Jackson.lee a écrit :
+>> > > Add support for runtime suspend/resume in the encoder and decoder.
+>> > > This is achieved by saving the VPU state and powering it off while the
+>> VPU idle.
+>> >
+>> > If you don't, I'll edit to "while the VPU *is* idle".
+>> >
+>> > regards,
+>> > Nicolas
+>> >
+>> > >
+>> > > Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
+>> > > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+>> > > Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>> > > ---
+>> > >  .../platform/chips-media/wave5/wave5-helper.c | 13 -----
+>> > >  .../platform/chips-media/wave5/wave5-hw.c     |  4 +-
+>> > >  .../chips-media/wave5/wave5-vpu-dec.c         | 21 ++++++--
+>> > >  .../chips-media/wave5/wave5-vpu-enc.c         | 20 ++++++--
+>> > >  .../platform/chips-media/wave5/wave5-vpu.c    | 50 +++++++++++++++++++
+>> > >  .../platform/chips-media/wave5/wave5-vpuapi.c | 33 ++++++++++--
+>> > > .../media/platform/chips-media/wave5/wave5.h  |  3 ++
+>> > >  7 files changed, 118 insertions(+), 26 deletions(-)
+>> > >
+>> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c
+>> > > b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+>> > > index d60841c54a80..a20d84dbe3aa 100644
+>> > > --- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
+>> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+>> > > @@ -58,7 +58,6 @@ int wave5_vpu_release_device(struct file *filp,
+>> > >  			     char *name)
+>> > >  {
+>> > >  	struct vpu_instance *inst = wave5_to_vpu_inst(filp->private_data);
+>> > > -	struct vpu_device *dev = inst->dev;
+>> > >  	int ret = 0;
+>> > >
+>> > >  	v4l2_m2m_ctx_release(inst->v4l2_fh.m2m_ctx);
+>> > > @@ -78,18 +77,6 @@ int wave5_vpu_release_device(struct file *filp,
+>> > >  	}
+>> > >
+>> > >  	wave5_cleanup_instance(inst);
+>> > > -	if (dev->irq < 0) {
+>> > > -		ret = mutex_lock_interruptible(&dev->dev_lock);
+>> > > -		if (ret)
+>> > > -			return ret;
+>> > > -
+>> > > -		if (list_empty(&dev->instances)) {
+>> > > -			dev_dbg(dev->dev, "Disabling the hrtimer\n");
+>> > > -			hrtimer_cancel(&dev->hrtimer);
+>> > > -		}
+>> > > -
+>> > > -		mutex_unlock(&dev->dev_lock);
+>> > > -	}
+>> > >
+>> > >  	return ret;
+>> > >  }
+>> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+>> > > b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+>> > > index 2a98bab446d0..c8a905994109 100644
+>> > > --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+>> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+>> > > @@ -1228,8 +1228,8 @@ int wave5_vpu_re_init(struct device *dev, u8 *fw,
+>> size_t size)
+>> > >  	return setup_wave5_properties(dev);  }
+>> > >
+>> > > -static int wave5_vpu_sleep_wake(struct device *dev, bool i_sleep_wake,
+>> const uint16_t *code,
+>> > > -				size_t size)
+>> > > +int wave5_vpu_sleep_wake(struct device *dev, bool i_sleep_wake, const
+>> uint16_t *code,
+>> > > +			 size_t size)
+>> > >  {
+>> > >  	u32 reg_val;
+>> > >  	struct vpu_buf *common_vb;
+>> > > diff --git
+>> > > a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>> > > b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>> > > index 0c5c9a8de91f..698c83e3082e 100644
+>> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>> > > @@ -5,6 +5,7 @@
+>> > >   * Copyright (C) 2021-2023 CHIPS&MEDIA INC
+>> > >   */
+>> > >
+>> > > +#include <linux/pm_runtime.h>
+>> > >  #include "wave5-helper.h"
+>> > >
+>> > >  #define VPU_DEC_DEV_NAME "C&M Wave5 VPU decoder"
+>> > > @@ -518,6 +519,8 @@ static void wave5_vpu_dec_finish_decode(struct
+>> vpu_instance *inst)
+>> > >  	if (q_status.report_queue_count == 0 &&
+>> > >  	    (q_status.instance_queue_count == 0 ||
+>> dec_info.sequence_changed)) {
+>> > >  		dev_dbg(inst->dev->dev, "%s: finishing job.\n", __func__);
+>> > > +		pm_runtime_mark_last_busy(inst->dev->dev);
+>> > > +		pm_runtime_put_autosuspend(inst->dev->dev);
+>> > >  		v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+>> > >  	}
+>> > >  }
+>> > > @@ -1398,6 +1401,7 @@ static int wave5_vpu_dec_start_streaming(struct
+>> vb2_queue *q, unsigned int count
+>> > >  	int ret = 0;
+>> > >
+>> > >  	dev_dbg(inst->dev->dev, "%s: type: %u\n", __func__, q->type);
+>> > > +	pm_runtime_resume_and_get(inst->dev->dev);
+>> > >
+>> > >  	v4l2_m2m_update_start_streaming_state(m2m_ctx, q);
+>> > >
+>> > > @@ -1429,13 +1433,15 @@ static int
+>> wave5_vpu_dec_start_streaming(struct vb2_queue *q, unsigned int count
+>> > >  		if (ret)
+>> > >  			goto return_buffers;
+>> > >  	}
+>> > > -
+>> > > +	pm_runtime_mark_last_busy(inst->dev->dev);
+>> > > +	pm_runtime_put_autosuspend(inst->dev->dev);
+>> > >  	return ret;
+>> > >
+>> > >  free_bitstream_vbuf:
+>> > >  	wave5_vdi_free_dma_memory(inst->dev, &inst->bitstream_vbuf);
+>> > >  return_buffers:
+>> > >  	wave5_return_bufs(q, VB2_BUF_STATE_QUEUED);
+>> > > +	pm_runtime_put_autosuspend(inst->dev->dev);
+>> > >  	return ret;
+>> > >  }
+>> > >
+>> > > @@ -1521,6 +1527,7 @@ static void wave5_vpu_dec_stop_streaming(struct
+>> vb2_queue *q)
+>> > >  	bool check_cmd = TRUE;
+>> > >
+>> > >  	dev_dbg(inst->dev->dev, "%s: type: %u\n", __func__, q->type);
+>> > > +	pm_runtime_resume_and_get(inst->dev->dev);
+>> > >
+>> > >  	while (check_cmd) {
+>> > >  		struct queue_status_info q_status; @@ -1544,6 +1551,9 @@
+>> static
+>> > > void wave5_vpu_dec_stop_streaming(struct vb2_queue *q)
+>> > >  		streamoff_output(q);
+>> > >  	else
+>> > >  		streamoff_capture(q);
+>> > > +
+>> > > +	pm_runtime_mark_last_busy(inst->dev->dev);
+>> > > +	pm_runtime_put_autosuspend(inst->dev->dev);
+>> > >  }
+>> > >
+>> > >  static const struct vb2_ops wave5_vpu_dec_vb2_ops = { @@ -1630,7
+>> > > +1640,7 @@ static void wave5_vpu_dec_device_run(void *priv)
+>> > >  	int ret = 0;
+>> > >
+>> > >  	dev_dbg(inst->dev->dev, "%s: Fill the ring buffer with new
+>> > > bitstream data", __func__);
+>> > > -
+>> > > +	pm_runtime_resume_and_get(inst->dev->dev);
+>> > >  	ret = fill_ringbuffer(inst);
+>> > >  	if (ret) {
+>> > >  		dev_warn(inst->dev->dev, "Filling ring buffer failed\n"); @@
+>> > > -1713,6 +1723,8 @@ static void wave5_vpu_dec_device_run(void *priv)
+>> > >
+>> > >  finish_job_and_return:
+>> > >  	dev_dbg(inst->dev->dev, "%s: leave and finish job", __func__);
+>> > > +	pm_runtime_mark_last_busy(inst->dev->dev);
+>> > > +	pm_runtime_put_autosuspend(inst->dev->dev);
+>> > >  	v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);  }
+>> > >
+>> > > @@ -1879,9 +1891,8 @@ static int wave5_vpu_open_dec(struct file *filp)
+>> > >  	if (ret)
+>> > >  		goto cleanup_inst;
+>> > >
+>> > > -	if (dev->irq < 0 && !hrtimer_active(&dev->hrtimer) &&
+>> list_empty(&dev->instances))
+>> > > -		hrtimer_start(&dev->hrtimer, ns_to_ktime(dev-
+>> >vpu_poll_interval * NSEC_PER_MSEC),
+>> > > -			      HRTIMER_MODE_REL_PINNED);
+>> > > +	if (list_empty(&dev->instances))
+>> > > +		pm_runtime_use_autosuspend(inst->dev->dev);
+>> > >
+>> > >  	list_add_tail(&inst->list, &dev->instances);
+>> > >
+>> > > diff --git
+>> > > a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>> > > b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>> > > index b731decbfda6..985de0c293e2 100644
+>> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>> > > @@ -5,6 +5,7 @@
+>> > >   * Copyright (C) 2021-2023 CHIPS&MEDIA INC
+>> > >   */
+>> > >
+>> > > +#include <linux/pm_runtime.h>
+>> > >  #include "wave5-helper.h"
+>> > >
+>> > >  #define VPU_ENC_DEV_NAME "C&M Wave5 VPU encoder"
+>> > > @@ -1310,6 +1311,7 @@ static int wave5_vpu_enc_start_streaming(struct
+>> vb2_queue *q, unsigned int count
+>> > >  	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx;
+>> > >  	int ret = 0;
+>> > >
+>> > > +	pm_runtime_resume_and_get(inst->dev->dev);
+>> > >  	v4l2_m2m_update_start_streaming_state(m2m_ctx, q);
+>> > >
+>> > >  	if (inst->state == VPU_INST_STATE_NONE && q->type ==
+>> > > V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) { @@ -1364,9 +1366,13 @@ static int
+>> wave5_vpu_enc_start_streaming(struct vb2_queue *q, unsigned int count
+>> > >  	if (ret)
+>> > >  		goto return_buffers;
+>> > >
+>> > > +	pm_runtime_mark_last_busy(inst->dev->dev);
+>> > > +	pm_runtime_put_autosuspend(inst->dev->dev);
+>> > >  	return 0;
+>> > >  return_buffers:
+>> > >  	wave5_return_bufs(q, VB2_BUF_STATE_QUEUED);
+>> > > +	pm_runtime_mark_last_busy(inst->dev->dev);
+>> > > +	pm_runtime_put_autosuspend(inst->dev->dev);
+>> > >  	return ret;
+>> > >  }
+>> > >
+>> > > @@ -1408,6 +1414,7 @@ static void wave5_vpu_enc_stop_streaming(struct
+>> vb2_queue *q)
+>> > >  	 */
+>> > >
+>> > >  	dev_dbg(inst->dev->dev, "%s: type: %u\n", __func__, q->type);
+>> > > +	pm_runtime_resume_and_get(inst->dev->dev);
+>> > >
+>> > >  	if (wave5_vpu_both_queues_are_streaming(inst))
+>> > >  		switch_state(inst, VPU_INST_STATE_STOP); @@ -1432,6 +1439,9
+>> @@
+>> > > static void wave5_vpu_enc_stop_streaming(struct vb2_queue *q)
+>> > >  		streamoff_output(inst, q);
+>> > >  	else
+>> > >  		streamoff_capture(inst, q);
+>> > > +
+>> > > +	pm_runtime_mark_last_busy(inst->dev->dev);
+>> > > +	pm_runtime_put_autosuspend(inst->dev->dev);
+>> > >  }
+>> > >
+>> > >  static const struct vb2_ops wave5_vpu_enc_vb2_ops = { @@ -1478,6
+>> > > +1488,7 @@ static void wave5_vpu_enc_device_run(void *priv)
+>> > >  	u32 fail_res = 0;
+>> > >  	int ret = 0;
+>> > >
+>> > > +	pm_runtime_resume_and_get(inst->dev->dev);
+>> > >  	switch (inst->state) {
+>> > >  	case VPU_INST_STATE_PIC_RUN:
+>> > >  		ret = start_encode(inst, &fail_res); @@ -1491,6 +1502,8 @@
+>> static
+>> > > void wave5_vpu_enc_device_run(void *priv)
+>> > >  			break;
+>> > >  		}
+>> > >  		dev_dbg(inst->dev->dev, "%s: leave with active job",
+>> __func__);
+>> > > +		pm_runtime_mark_last_busy(inst->dev->dev);
+>> > > +		pm_runtime_put_autosuspend(inst->dev->dev);
+>> > >  		return;
+>> > >  	default:
+>> > >  		WARN(1, "Execution of a job in state %s is invalid.\n", @@
+>> > > -1498,6 +1511,8 @@ static void wave5_vpu_enc_device_run(void *priv)
+>> > >  		break;
+>> > >  	}
+>> > >  	dev_dbg(inst->dev->dev, "%s: leave and finish job", __func__);
+>> > > +	pm_runtime_mark_last_busy(inst->dev->dev);
+>> > > +	pm_runtime_put_autosuspend(inst->dev->dev);
+>> > >  	v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);  }
+>> > >
+>> > > @@ -1739,9 +1754,8 @@ static int wave5_vpu_open_enc(struct file *filp)
+>> > >  	if (ret)
+>> > >  		goto cleanup_inst;
+>> > >
+>> > > -	if (dev->irq < 0 && !hrtimer_active(&dev->hrtimer) &&
+>> list_empty(&dev->instances))
+>> > > -		hrtimer_start(&dev->hrtimer, ns_to_ktime(dev-
+>> >vpu_poll_interval * NSEC_PER_MSEC),
+>> > > -			      HRTIMER_MODE_REL_PINNED);
+>> > > +	if (list_empty(&dev->instances))
+>> > > +		pm_runtime_use_autosuspend(inst->dev->dev);
+>> > >
+>> > >  	list_add_tail(&inst->list, &dev->instances);
+>> > >
+>> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>> > > b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>> > > index 7273254ecb03..41c4bf64f27d 100644
+>> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>> > > @@ -10,6 +10,7 @@
+>> > >  #include <linux/clk.h>
+>> > >  #include <linux/firmware.h>
+>> > >  #include <linux/interrupt.h>
+>> > > +#include <linux/pm_runtime.h>
+>> > >  #include <linux/reset.h>
+>> > >  #include "wave5-vpu.h"
+>> > >  #include "wave5-regdefine.h"
+>> > > @@ -153,6 +154,45 @@ static int wave5_vpu_load_firmware(struct device
+>> *dev, const char *fw_name,
+>> > >  	return 0;
+>> > >  }
+>> > >
+>> > > +static __maybe_unused int wave5_pm_suspend(struct device *dev) {
+>> > > +	struct vpu_device *vpu = dev_get_drvdata(dev);
+>> > > +
+>> > > +	if (pm_runtime_suspended(dev))
+>> > > +		return 0;
+>> > > +
+>> > > +	if (vpu->irq < 0)
+>> > > +		hrtimer_cancel(&vpu->hrtimer);
+>> > > +
+>> > > +	wave5_vpu_sleep_wake(dev, true, NULL, 0);
+>> > > +	clk_bulk_disable_unprepare(vpu->num_clks, vpu->clks);
+>> > > +
+>> > > +	return 0;
+>> > > +}
+>> > > +
+>> > > +static __maybe_unused int wave5_pm_resume(struct device *dev) {
+>> > > +	struct vpu_device *vpu = dev_get_drvdata(dev);
+>> > > +	int ret = 0;
+>> > > +
+>> > > +	wave5_vpu_sleep_wake(dev, false, NULL, 0);
+>> > > +	ret = clk_bulk_prepare_enable(vpu->num_clks, vpu->clks);
+>> > > +	if (ret) {
+>> > > +		dev_err(dev, "Enabling clocks, fail: %d\n", ret);
+>> > > +		return ret;
+>> > > +	}
+>> > > +
+>> > > +	if (vpu->irq < 0 && !hrtimer_active(&vpu->hrtimer))
+>> > > +		hrtimer_start(&vpu->hrtimer, ns_to_ktime(vpu-
+>> >vpu_poll_interval * NSEC_PER_MSEC),
+>> > > +				HRTIMER_MODE_REL_PINNED);
+>>
+>> I have fixed locally this style error. Alignment should match open
+>> parenthesis.
+>> Checkpatch caught that, it saves times if you run checkpatch before your
+>> submissions.
+>>
+>> https://gitlab.freedesktop.org/ndufresne/media-staging/-/jobs/63283654
+>>
+>
+>
+>Sorry for that, thanks for your feedback.
+>Should I make v8 for that ?
+
+That is not required in this case, when he says "I have fixed locally",
+that means that the required change is applied by the maintainer before
+merging the changes upstream.
+
+Regards,
+Sebastian
 
