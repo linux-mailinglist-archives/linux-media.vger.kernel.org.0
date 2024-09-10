@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-18069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E9B973347
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 12:30:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E686697338B
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 12:33:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 134F61F20DD9
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 10:30:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B666281AB2
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 10:33:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7B8A199FB3;
-	Tue, 10 Sep 2024 10:26:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34C2A193092;
+	Tue, 10 Sep 2024 10:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="r+96PVa7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oWj863Ob"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D685318E76F;
-	Tue, 10 Sep 2024 10:26:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2056414D431;
+	Tue, 10 Sep 2024 10:28:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725964008; cv=none; b=ZiFg1DHKmknuF0+PojdNjhvVtvTjiYR40k5b0jFILQjPMVRSIx3QQEQJAgclaEzrpHixkmI80kqE52pHqOKGtkjFjiTydKxE96nE1IfedcZfUHzlgz4UXegqxM9YIeK9BCPwqj80NHg0kn2sKYDJ3BQuHMipffFwUQjG/Ua9GJw=
+	t=1725964121; cv=none; b=bE5YORYMuBk5Qu9zEDisxR99SajgPolV87tDTzA+87xzdI+GRw3dq+aybd6QtP8vsJV0arz9GZbLQM8NJjpkyq9QyRdx0i5tXl1HqS1RQ4N3Bz7A4CBYumMpPbZCUkwsozdhFm6Ppu/3mDlaeR3nDPTtyeIclRShtV3V/WLyGlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725964008; c=relaxed/simple;
-	bh=aBqO3tr9kbrirz6f5Jo9KoT+Y/aD8+njMKvQt7DA2k8=;
+	s=arc-20240116; t=1725964121; c=relaxed/simple;
+	bh=XEbWh0WLTjphokKQvSyqZ5V9lRpdsA8yoA26gsUttoE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BYairZQJNo73bOP5BbKwKP0sW3QJ8E4apS45jwBTCa6ca239yOBb/6wWmwYFGYkjuQGKs0glfgGXux4yOXdYJxkuSpgk8PRIsQ/TbrPVkgQqCYL5KQ+BRE9X013dZAJGJYRBFjNq5q34IxqvEQsEgGa9hUMAbwa98ETM4SLMozY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=r+96PVa7; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=q32U0abhoCjXLV0lTkoo8fuMxIMeQ4TdaT/Yh7Po7er/EISKRwT0xlvSzQCS1XQWYrDqzCFaiOZ4EaSdHYFuIxq5Y2dGL/bitI1Ln2eZlJf2uJfoCJ/7FGnHMF/46NNk8AiEd5ytrs81kkERTbjBvu0pudZO4OIu4bp3jI0/r+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oWj863Ob; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B9D1A63F;
-	Tue, 10 Sep 2024 12:25:26 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1CF8963F;
+	Tue, 10 Sep 2024 12:27:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725963927;
-	bh=aBqO3tr9kbrirz6f5Jo9KoT+Y/aD8+njMKvQt7DA2k8=;
+	s=mail; t=1725964041;
+	bh=XEbWh0WLTjphokKQvSyqZ5V9lRpdsA8yoA26gsUttoE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=r+96PVa7bnqgdrJys27Tmr+gFuQ8ez6PvDzkF0onCAcwFoyMmxDqFruPfAEuMKv5X
-	 YBOp8tbwI/qDekbtIRqthF+GwST2It8bfexa25OSyP/mVmSgPtAkGMwvAXbgWYi/tC
-	 PqAGUc/Ll4MdKemwBMdFuT2FegBC14z7Uz2H+e6o=
-Message-ID: <6477da61-4e7f-418c-b586-39c7b34066f8@ideasonboard.com>
-Date: Tue, 10 Sep 2024 13:26:39 +0300
+	b=oWj863ObnL3xJ9uh+dJCkvaW6PZhBnORGQYlSRfFaYyoRQWJXorRg7vOwqn+xTkt7
+	 2qm3jogfTQ+O2cWjCxeEeDKN25fkRS2cNpCOGZ0xhCufOlP2RdJ9zaPVL2M1cknMXY
+	 cwpkO7AmFeDOYFzqyWccJ3UadHrRNtNaulBHiSAs=
+Message-ID: <2e9a8d32-1f30-4623-b420-44dfc76c1ef0@ideasonboard.com>
+Date: Tue, 10 Sep 2024 13:28:34 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,9 +51,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 3/4] media: raspberrypi: Add support for RP1-CFE
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
@@ -76,7 +76,7 @@ References: <20240905111120.GK16183@pendragon.ideasonboard.com>
  <Zt8ZysTT5DIZr-J7@kekkonen.localdomain>
  <jdtjdspf4qyrgn6jmyxeab5ueo53wjd5vuhvlpin3pdiyifwht@dndfcqnmv7sd>
  <49e375a3-d8e4-4b58-9456-1e6395b02a07@ideasonboard.com>
- <20240910101137.GD6996@pendragon.ideasonboard.com>
+ <csfjh3rdhdieemasmfjmvuy4uaypvbct7y7vm2zogdgmglsc56@u7yzkyrbuthz>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -122,14 +122,16 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240910101137.GD6996@pendragon.ideasonboard.com>
+In-Reply-To: <csfjh3rdhdieemasmfjmvuy4uaypvbct7y7vm2zogdgmglsc56@u7yzkyrbuthz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 10/09/2024 13:11, Laurent Pinchart wrote:
-> On Tue, Sep 10, 2024 at 12:56:38PM +0300, Tomi Valkeinen wrote:
+
+On 10/09/2024 13:18, Jacopo Mondi wrote:
+> Hi Tomi
+> 
+> On Tue, Sep 10, 2024 at 12:56:38PM GMT, Tomi Valkeinen wrote:
 >> On 10/09/2024 12:19, Jacopo Mondi wrote:
 >>
 >>> However, I think this current patch is correct (assuming the above
@@ -138,34 +140,36 @@ On 10/09/2024 13:11, Laurent Pinchart wrote:
 >>
 >> I think the existence of this discussion alone proves my point that we
 >> should only support PM-case, unless !PM is a requirement =).
-> 
-> For me it proves there's a dire need to document the runtime PM API in a
-> way that a human could understand :-)
-
-That too, but it's a parallel track =).
-
+>>
 >> But if you do want to keep !PM:
 >>
 >> Is there a reason why not mark the device as active with
 >> pm_runtime_set_active() after calling pispbe_runtime_resume and before
->> accessing the device? That feels like the most logical way to use the
->> function, and it would be right regardless whether the core will enable
->> the parents before probe() or not.
 > 
-> Does pm_runtime_set_active() resume the parent ?
+> cargo-cult ?
+> 
+>> accessing the device? That feels like the most logical way to use the
+>> function, and it would be right regardless whether the core will enable the
+>> parents before probe() or not.
+> 
+> Possibly more accurate, but there's no guarantee it's correct. The
+> peripheral might have requirements on the clock or power rails
+> enablement order and some might be managed by the parent. I know we're
+> talking hypothesis but my point is that there's not correctness
+> guarantee we can enforce unless the parent is powered up when the
+> device probes ?
+> 
+> Anyway, I'll defer the call to the group: either keep the patch as it
+> is right now on the list, or go full runtime_pm. I understand there is
+> no reason to care about !CONFIG_PM but somehow I feel "bad" in listing
+> it as a dependency if the peripheral can actually work without it.
+> Maybe I should just ignore that feeling ?
 
-I thought so, but I'm not sure anymore:
+The runtime PM is just a software construct, so all peripherals can work 
+without it.
 
-> if the device has a parent and the parent is not active, and the
-> parent's power.ignore_children flag is unset, the device's status
- > cannot be set to RPM_ACTIVE, so -EBUSY is returned in that case.
-
-It does resume the suppliers, though.
-
-So using pm_runtime_set_active() only works if you know that the parent 
-has been activated earlier? If there's such a guarantee for probe() and 
-remove(), does it then mean that you can only call 
-pm_runtime_set_active() in probe()/remove()...
+I decided to ignore the feeling, very much based on this thread, and 
+sent CFE v5 with it depending on PM.
 
   Tomi
 
