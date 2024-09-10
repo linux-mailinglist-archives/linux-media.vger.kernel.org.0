@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-18052-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18053-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBDD972C5A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 10:40:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDAA972C70
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 10:45:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7DCDB2572F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 08:40:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD1332879A0
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 08:45:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46311183CB0;
-	Tue, 10 Sep 2024 08:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B94B18661A;
+	Tue, 10 Sep 2024 08:44:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z5XjA4xq"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VLugMxRt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B4D18593C
-	for <linux-media@vger.kernel.org>; Tue, 10 Sep 2024 08:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CD414A4C3;
+	Tue, 10 Sep 2024 08:44:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725957621; cv=none; b=FD62ZFK0pGQsXN6iZqs7lnAwyXq8KGDUO8RtEnsl9dDl3gmSc4H7ftJUJJ7JdcNteAFocFzYaipNgO4wQs19hePeqCK2/ww53MVRFOVSWs2W4c2uTCxopS8WODOVIG3acN55d9jE/6+epRFmJvsoBYXUZC2bxZ+MGi7VTGwBR0U=
+	t=1725957894; cv=none; b=Moz/PjvocgUh0zxr0BUcZgzeSDklMnwSctlZoessRHP6ZWOMdKMaJdIZneJkDwl3BuIS7WNjMEisk0Jd9jFRWLUawPG0njX0LgYfciagzeLSuNnie3a0rmaHYl2G98x6e0J8gSYbZUYsEBITv8C736fF1//yZ+nZ55rAp0VLFcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725957621; c=relaxed/simple;
-	bh=ewWcvYN9HJYaotRGCi3VfVSfRsqWTRZ7PgOlQLbhBAo=;
+	s=arc-20240116; t=1725957894; c=relaxed/simple;
+	bh=sDFBkX7W5EUl3yXu98e2iOyq/FusRtFK34zTdz0riCE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B2OoUgWJ6yXiAcoHWU7SEZHdoN8DTNM5zHkrIDYdaRc+fN8mtY/+Ft/yZeGJMGUXdPK40U58p42M54kUSCR1hIjVfQX4meJOmNYu51F/EZwafqGxIQ3S9dZoJ+xPf8JriJjc4K9/qe1gyz5Uj3wTo6La/mkNazQsnxa5NBhxY6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z5XjA4xq; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=qpO3iSnaRt9I/reT4I6PcQVQK7O7qj6R1iKggHHROy7p6VR+gqsHwqm1FI54MeMpKlYhWBk5s1BKG/AMtHc+2nMS67ezHOjGpRG/BjBtVjPl6A6YMPE+PtMpMJT4CmcCtMmsihH2ZMss2JkDDWhhGbD4bjRc+KKTbmVclDIIa44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VLugMxRt; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61558C8A;
-	Tue, 10 Sep 2024 10:39:01 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2D4173;
+	Tue, 10 Sep 2024 10:43:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725957541;
-	bh=ewWcvYN9HJYaotRGCi3VfVSfRsqWTRZ7PgOlQLbhBAo=;
+	s=mail; t=1725957814;
+	bh=sDFBkX7W5EUl3yXu98e2iOyq/FusRtFK34zTdz0riCE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Z5XjA4xqFxBmVP+f/50sAbUQ5ZPQb8net/GR9C4Kv01LVmdmrELZwnkHa19kd2KaM
-	 MVS6nye6EbMzbnau3HP6FjBI/hFF/MT4EKgFN8gQPf5wb4TPyiYtnIqWE54QJzFtMF
-	 JtUc03HRGrE4qaUiusuAy2qHV7SJvUllFvAYpNMM=
-Message-ID: <25fc667c-1170-4b8b-b2ba-578758c78804@ideasonboard.com>
-Date: Tue, 10 Sep 2024 11:40:15 +0300
+	b=VLugMxRtgMsAzA8R+hSefNW3HOINV4lGe4NsFankTIbeF52twhViUD2bgsx81Hm2V
+	 jfeTvPeYCZQN+t7zVo9GIKrVzTMH6xtPW5Chn5sZ2gBC06hhHHjie0aH/auZpFkPvr
+	 1ksu2rI+ff9f1xtWkXS03ktAqTX3EFj1wZ5D0K7c=
+Message-ID: <2566e769-45d6-4b15-887b-86449181645d@ideasonboard.com>
+Date: Tue, 10 Sep 2024 11:44:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,11 +50,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] media: i2c: ds90ub960: Add DS90UB954 support
+Subject: Re: [PATCH 3/3] media: dt-bindings: i2c: ds90ub960: Add DS90UB954
+ chip to DS90UB960 bindings
 To: Alexander Shiyan <eagle.alexander923@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20240830070008.9486-1-eagle.alexander923@gmail.com>
- <20240830070008.9486-2-eagle.alexander923@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20240830070117.9534-1-eagle.alexander923@gmail.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -100,194 +101,37 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240830070008.9486-2-eagle.alexander923@gmail.com>
+In-Reply-To: <20240830070117.9534-1-eagle.alexander923@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 30/08/2024 10:00, Alexander Shiyan wrote:
-> Add support for TI DS90UB954 FPD-Link III Deserializer.
+On 30/08/2024 10:01, Alexander Shiyan wrote:
+> The ds90ub960 driver can now be used for the DS90UB954 chip as it has
+> a similar register set and configuration.
+> Let's add an additional compatibility line to the bindings.
 > 
 > Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
 > ---
->   drivers/media/i2c/Kconfig     |  2 +-
->   drivers/media/i2c/ds90ub960.c | 52 +++++++++++++++++++++++++++++------
->   2 files changed, 44 insertions(+), 10 deletions(-)
+>   Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 8ba096b8ebca..18766898280b 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1604,7 +1604,7 @@ config VIDEO_DS90UB960
->   	select V4L2_FWNODE
->   	select VIDEO_V4L2_SUBDEV_API
->   	help
-> -	  Device driver for the Texas Instruments DS90UB960
-> +	  Device driver for the Texas Instruments DS90UB954/DS90UB960
->   	  FPD-Link III Deserializer and DS90UB9702 FPD-Link IV Deserializer.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> index 0b71e6f911a8..86d43d949dd3 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> @@ -19,6 +19,7 @@ allOf:
+>   properties:
+>     compatible:
+>       enum:
+> +      - ti,ds90ub954-q1
+>         - ti,ds90ub960-q1
+>         - ti,ds90ub9702-q1
 >   
->   config VIDEO_MAX96714
-> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index e9f9abf439ee..9edc7e8ceebd 100644
-> --- a/drivers/media/i2c/ds90ub960.c
-> +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -403,6 +403,7 @@
->   #define UB960_NUM_EQ_LEVELS (UB960_MAX_EQ_LEVEL - UB960_MIN_EQ_LEVEL + 1)
->   
->   enum chip_type {
-> +	UB954,
->   	UB960,
->   	UB9702,
->   };
-> @@ -1154,10 +1155,17 @@ static int ub960_parse_dt_txport(struct ub960_data *priv,
->   	priv->tx_link_freq[0] = vep.link_frequencies[0];
->   	priv->tx_data_rate = priv->tx_link_freq[0] * 2;
->   
-> -	if (priv->tx_data_rate != MHZ(1600) &&
-> -	    priv->tx_data_rate != MHZ(1200) &&
-> -	    priv->tx_data_rate != MHZ(800) &&
-> -	    priv->tx_data_rate != MHZ(400)) {
-> +	switch (priv->tx_data_rate) {
-> +	case MHZ(1600):
-> +	case MHZ(800):
-> +	case MHZ(400):
-> +		break;
-> +	case MHZ(1200):
-> +		/* UB954 does not support 1.2 Gbps */
-> +		if (priv->hw_data->chip_type != UB954)
-> +			break;
 
-Here, and in a few other places, don't check for model != UB954, but 
-rather check for model == UB954. Otherwise if we add a new chip model 
-these won't necessarily go right.
-
-> +		fallthrough;
-> +	default:
->   		dev_err(dev, "tx%u: invalid 'link-frequencies' value\n", nport);
->   		ret = -EINVAL;
->   		goto err_free_vep;
-> @@ -1419,7 +1427,7 @@ static void ub960_rxport_config_eq(struct ub960_data *priv, unsigned int nport)
->   
->   	if (priv->strobe.manual)
->   		ub960_rxport_set_strobe_pos(priv, nport, rxport->eq.strobe_pos);
-> -	else
-> +	else if (priv->hw_data->chip_type != UB954)
->   		ub960_rxport_set_strobe_pos(priv, nport, 0);
-
-This looks odd. Manually set strobe pos is ok, but not the default?
-
-What is the reason for this if?
-
->   
->   	if (rxport->eq.manual_eq) {
-> @@ -3807,7 +3815,7 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
->   	u8 rev_mask;
->   	int ret;
->   	u8 dev_sts;
-> -	u8 refclk_freq;
-> +	u8 refclk_freq[2];
-
-Instead of an array, I think the code will be clearer if you just add a 
-new variable (refclk_freq_new?).
-
->   
->   	ret = regulator_enable(priv->vddio);
->   	if (ret)
-> @@ -3839,6 +3847,9 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
->   	}
->   
->   	switch (priv->hw_data->chip_type) {
-> +	case UB954:
-> +		model = "UB954";
-> +		break;
->   	case UB960:
->   		model = "UB960";
->   		break;
-> @@ -3856,12 +3867,26 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
->   	if (ret)
->   		goto err_pd_gpio;
->   
-> -	ret = ub960_read(priv, UB960_XR_REFCLK_FREQ, &refclk_freq);
-> +	ret = ub960_read(priv, UB960_XR_REFCLK_FREQ, &refclk_freq[0]);
->   	if (ret)
->   		goto err_pd_gpio;
->   
-> +	/* From DS90UB954-Q1 datasheet:
-> +	 * "REFCLK_FREQ measurement is not synchronized. Value in this register
-> +	 * should read twice and only considered valid if
-> +	 * REFCLK_FREQ is unchanged between reads."
-> +	*/
-
-The coding style says the multiline comments are like:
-
-/*
-  * Foo
-  */
-
-> +	while (priv->hw_data->chip_type == UB954) {
-> +		ret = ub960_read(priv, UB960_XR_REFCLK_FREQ, &refclk_freq[1]);
-> +		if (ret)
-> +			goto err_pd_gpio;
-> +		if (refclk_freq[0] == refclk_freq[1])
-> +			break;
-> +		refclk_freq[0] = refclk_freq[1];
-> +	};
-
-This is potentially an infinite loop, which is not a good idea. Also, 
-don't loop with "while (priv->hw_data->chip_type == UB954)"... Just use 
-an if for the chip_type, and loop with a proper condition.
-
-> +
->   	dev_dbg(dev, "refclk valid %u freq %u MHz (clk fw freq %lu MHz)\n",
-> -		!!(dev_sts & BIT(4)), refclk_freq,
-> +		!!(dev_sts & BIT(4)), refclk_freq[0],
->   		clk_get_rate(priv->refclk) / 1000000);
->   
->   	/* Disable all RX ports by default */
-> @@ -3923,7 +3948,8 @@ static int ub960_probe(struct i2c_client *client)
->   	 */
->   	priv->reg_current.indirect_target = 0xff;
->   	priv->reg_current.rxport = 0xff;
-> -	priv->reg_current.txport = 0xff;
-> +	/* Avoid using UB960_SR_CSI_PORT_SEL register for single TX channel */
-> +	priv->reg_current.txport = priv->hw_data->num_txports > 1 ? 0xff : 0x00;
-
-No, don't do this. Just do a proper check in ub960_txport_select() and 
-skip the reg write there.
+The binding lists 6 ports as required, but UB954 only has 3 ports.
 
   Tomi
-
->   	ret = ub960_get_hw_resources(priv);
->   	if (ret)
-> @@ -4031,6 +4057,12 @@ static void ub960_remove(struct i2c_client *client)
->   	mutex_destroy(&priv->reg_lock);
->   }
->   
-> +static const struct ub960_hw_data ds90ub954_hw = {
-> +	.chip_type = UB954,
-> +	.num_rxports = 2,
-> +	.num_txports = 1,
-> +};
-> +
->   static const struct ub960_hw_data ds90ub960_hw = {
->   	.chip_type = UB960,
->   	.num_rxports = 4,
-> @@ -4045,6 +4077,7 @@ static const struct ub960_hw_data ds90ub9702_hw = {
->   };
->   
->   static const struct i2c_device_id ub960_id[] = {
-> +	{ "ds90ub954-q1", (kernel_ulong_t)&ds90ub954_hw },
->   	{ "ds90ub960-q1", (kernel_ulong_t)&ds90ub960_hw },
->   	{ "ds90ub9702-q1", (kernel_ulong_t)&ds90ub9702_hw },
->   	{}
-> @@ -4052,6 +4085,7 @@ static const struct i2c_device_id ub960_id[] = {
->   MODULE_DEVICE_TABLE(i2c, ub960_id);
->   
->   static const struct of_device_id ub960_dt_ids[] = {
-> +	{ .compatible = "ti,ds90ub954-q1", .data = &ds90ub954_hw },
->   	{ .compatible = "ti,ds90ub960-q1", .data = &ds90ub960_hw },
->   	{ .compatible = "ti,ds90ub9702-q1", .data = &ds90ub9702_hw },
->   	{}
 
 
