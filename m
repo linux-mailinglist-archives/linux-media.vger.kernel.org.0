@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-18092-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18093-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD0E973E14
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 19:06:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 714D6973E17
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 19:06:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 63D291F26DAC
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 17:06:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFD6A2869DC
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 17:06:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E5D41A2C00;
-	Tue, 10 Sep 2024 17:06:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1401A38C2;
+	Tue, 10 Sep 2024 17:06:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ew+Ju16R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YgJCUBc8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DFD1922E3;
-	Tue, 10 Sep 2024 17:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF8719B3D8;
+	Tue, 10 Sep 2024 17:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725987981; cv=none; b=cwiG6LODcXHUAwquWetmokeccIIImNKP8p4w1Fglg0pLNvx31mqh6EqlxOkeegfdG/cUuD7TR2OgLW8YD8Ptv1/c+Tv0SSzeUPE+T0Wf1R/th3ybaImrSvyQayhKEcwL6fpaohhh/ejAKEjmikl+yL7/pt12IOm/FaUIzf0d/bU=
+	t=1725987982; cv=none; b=BJq7sTHhqdUg2bEOg9Oe39Mg8dG3HaZNqIdx0Fm2J93kQNsxkljL/3mbOSgimaTFSBJZwhyn4DsZZ9Hg16IxFc4q/FB9nqQ3GZmJX6mWMMRDa2CK819tLnLCMSgf4Y3jitJg4p5taBhDleR3TYtcMM7zb0anzEFGhskK8Ykt2ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725987981; c=relaxed/simple;
-	bh=aY/aJQpV38qNROExL3xJqYKRw9fwpPUOQxSrGJ5yIiU=;
+	s=arc-20240116; t=1725987982; c=relaxed/simple;
+	bh=JGdJLaovjJBbYCO4/ZAujBbI9fa+eu1eoBgflmmamM4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Je/FtU1oYPYVyLOVfqGUvN/T2w8s9WcHmYBjl4Da1P3w1mF2lJgEP8J9aQAojY82yMCxIALo+JJSj7xUUxJnDPFVLbqjm0/+sWcNgoSDqIwIgd9gtPA+RuiiVp1eaxwTZ9U77+7+y6A57PWwPJ5zSfaYQl6UlPG02LL24ZHMPsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ew+Ju16R; arc=none smtp.client-ip=209.85.221.53
+	 MIME-Version; b=qRWpXJN4NAZm68pcMkmeHpeAn4Fwo0YMZhFTjTA+19WmujyXQMdx9+eK1+omNe4eghflhz8r7zpQHs7S/sgMncGWafee7lf/OMDI5yJQbd+69MdDHB8lqcYtwDB6rHVa5ex7VfSmi9UAej3FQ3e1hnwztJTFb/4gNIchAfQfwXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YgJCUBc8; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-374bfc395a5so17203f8f.0;
-        Tue, 10 Sep 2024 10:06:19 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42cbface8d6so13466505e9.3;
+        Tue, 10 Sep 2024 10:06:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725987978; x=1726592778; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725987979; x=1726592779; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jc7MVYbBTomhAghG+qJoHxAlGvl31VLQMoetsad1iTQ=;
-        b=Ew+Ju16Rww2coDa1KTz4nSnQ2YPnhJFm2AeldzViBtOu57yNBagwJX9UW9aeTnZyLt
-         zxzV/EeKnVbxL/FY49aAGu3nqpk0leSGmscsXRwsbiFhIcNHQCmjqZ1f3F+AMvYIqByW
-         cp5HcR1j09ty8xq1sy3BQIgQBQPXFFIFxJw5fHK4DTqtMvMAwbUCWfZwDugUPY+NbN1K
-         PwFqOhr/X33LqbDCuwbbPXdjNSjEjrj5am0NmXzmocK/Zf0WzEFLOF5d/LapdnCzLI/0
-         SFZiD/7Mx3t8R3P/DhMPGeMLTGKFfIJ9klxi1cKxiLDrP3Bq2eFd2x/3XCT4+kbFrtmg
-         Smhg==
+        bh=EKDEYlUyX9mtDWuZXG8A6gqXn9QYzoYPNiuiR8K1vRg=;
+        b=YgJCUBc8RJ3QHYwA0RbAvZ6Rudfh5jD0zc05sKv5/ppHjIdh5lE8VF+yhuJBJfbdOV
+         FbqJFAH0mYy+0JpKkS/d0QNS2YZc8MAHZ/tV9yVeerFhNUi2XIbjo1n0Ztlvr+/1tpeN
+         0LUYwDLy7GZl/VlP4k5ZvJq1ZbR3qy7zl6BHk41PMzIF/DRhPRgBDZx5JIwJx6ZqoT8F
+         mJaOYwTzSccNJgv3AdsBVQHklz+fm97le56viOguEUzSIvqIkxuyJNaxuhVLjEqvIcjC
+         Dg4/ek2NXfHWjyV7+mgii2H6C+m0AnVW1DwBNnkCcfV3b1CLiJU9L/tRMoyxXypXR3wC
+         5/sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725987978; x=1726592778;
+        d=1e100.net; s=20230601; t=1725987979; x=1726592779;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Jc7MVYbBTomhAghG+qJoHxAlGvl31VLQMoetsad1iTQ=;
-        b=d2y6D+QyF69PEwtB/XvsB43ULF9wE9L9FWoza4yl+NETCcNrirtmku+eSta4UPXGID
-         9CFP1ddDrgZTl/D1SZQVep88UE6xhnsue7wumx3jvsNL5B5o63W22yv/glFfekSUVe1Z
-         Kju/g8vqCXD1q1QSDU770EFDPu3Olv05ZWOEXoj1G6wI/FFyBeGDzOyYHvw9PMXufriZ
-         J+tWmvEA36S9zyHfHEfwaz7I9Oc1vGPkG+jsXA+kmRr13jSwPAq0ZA2PWVmnoEaOGiAa
-         U/oyxoTXI0Dm7uEd2fmkDtlKSUEUrWbZ7JJhHxZEcoqSCgQrHAAnniWzDKcOxUbySben
-         Lqlg==
-X-Forwarded-Encrypted: i=1; AJvYcCUMquM5MW60Z1nikoTioEILyaCIvWUSLWmrjof2euhr7Ka47/FgPa0VNNjaZGpX78hDbGFH9sIdc/NFgNI=@vger.kernel.org, AJvYcCVbXtE+AByvORotSqpUgn0tcrRQsY/TcD5mAhFPj60uMPt89w2qgxr3JuqcgOlg0+LXU5B+pt8n6GjOCNjeK9R1v9o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1FLOPGhDFhR+hTmGaW1uEviY/eCZsGSv8+VkXRXxlPDacRVQr
-	CMHgGK7IJAempHSLIcHA/0spzeZ6Md5KpTpl2+UZmojoYM4B5671
-X-Google-Smtp-Source: AGHT+IGdEs37CqFnTH/L3fiaagnY/yzdCuig7ywcrD7kKLYsNFPo9lnDw9DrB84U1oqO3LR+fgjqgA==
-X-Received: by 2002:a5d:5f87:0:b0:374:c400:8556 with SMTP id ffacd0b85a97d-378a8a1b6a6mr3012695f8f.11.1725987977697;
-        Tue, 10 Sep 2024 10:06:17 -0700 (PDT)
+        bh=EKDEYlUyX9mtDWuZXG8A6gqXn9QYzoYPNiuiR8K1vRg=;
+        b=wLcYJIe88IulGG9YYHfiI4Ecw+4MyIK6gBAnXiiJDAagB3H1I8a6pYcwICWvzDqAGQ
+         iIkAhhr8gpkn0AoXknPdMpEBJlmOdG+4wEmZVYUox2yuKwIIjHFvd/dmtVBk1xXQLBdh
+         s+GZiqGcLSn1r+cpeguvbm+/2LC3oBVP6XqB0q8HWUVFT/SreYBiMXFlRxJSES+oxrgB
+         8w1tYQ/xgIl67jV7JtKh+SOEifkPQRcGTL5hEJbLzncqevhOwccYvT6VLtQTX1EhIbXx
+         La25Gu4DzMH4X2IvBbWomGBnkLBuNCp4iQVV8U5Q+jyBVomHI1H8ueBvT6paLPqcy0p4
+         0f2A==
+X-Forwarded-Encrypted: i=1; AJvYcCUKSjfW/HZwmDiYk2eS8sGI3RiZz+iazpDrNeAP7nTtOFazyyu4kBL1Ji/aRe+KHW+Rm+7kgeiXrHvf/kKeUP+gMVY=@vger.kernel.org, AJvYcCXPxehv7pOEk6ITLOW6Z1jNRQRUWCI+Tg3ZE9bI6Ksyvs08p7yzkwYFTbVE2Ganipgn3b079vh5SMd12Ms=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx27XaKX7ERZU/s6MEq9RBao+xS0YFwAuabfRetosQzaEfs0L1E
+	xxoGsGZ4F7CywDm+TuRQNvdUkFdDGLXPn0ObVmOV4uR48Hzh4/KH
+X-Google-Smtp-Source: AGHT+IE/ddFu/z1GAxp7BaYUY9T8bKlWQ1dmYKRj6okptMgprtc/vsgg+nKiwNMQwuzo8WrR2It6Cg==
+X-Received: by 2002:a05:600c:1e22:b0:42c:b187:bdd5 with SMTP id 5b1f17b1804b1-42cb187c012mr97209215e9.22.1725987978861;
+        Tue, 10 Sep 2024 10:06:18 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2500:a01:94a6:1e64:e5a2:2b2a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956de4b9sm9438925f8f.111.2024.09.10.10.06.16
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956de4b9sm9438925f8f.111.2024.09.10.10.06.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 10:06:17 -0700 (PDT)
+        Tue, 10 Sep 2024 10:06:18 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -83,9 +83,9 @@ Cc: linux-media@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 01/11] media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
-Date: Tue, 10 Sep 2024 18:06:00 +0100
-Message-Id: <20240910170610.226189-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 02/11] media: i2c: ov5645: Use local `dev` pointer for subdev device assignment
+Date: Tue, 10 Sep 2024 18:06:01 +0100
+Message-Id: <20240910170610.226189-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -99,49 +99,27 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The OV5645 sensor exposes controls, so the V4L2_SUBDEV_FL_HAS_EVENTS flag
-should be set and implement subscribe_event and unsubscribe_event hooks.
+While assigning the subdev device pointer, use the local `dev` pointer
+which is already extracted from the `i2c_client` pointer.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/media/i2c/ov5645.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ov5645.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index 019979f553b1..6eedd0310b02 100644
+index 6eedd0310b02..ab3a419df2df 100644
 --- a/drivers/media/i2c/ov5645.c
 +++ b/drivers/media/i2c/ov5645.c
-@@ -29,6 +29,7 @@
- #include <linux/slab.h>
- #include <linux/types.h>
- #include <media/v4l2-ctrls.h>
-+#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
-@@ -1042,7 +1043,13 @@ static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
- 	.get_selection = ov5645_get_selection,
- };
- 
-+static const struct v4l2_subdev_core_ops ov5645_core_ops = {
-+	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
- static const struct v4l2_subdev_ops ov5645_subdev_ops = {
-+	.core = &ov5645_core_ops,
- 	.video = &ov5645_video_ops,
- 	.pad = &ov5645_subdev_pad_ops,
- };
-@@ -1178,7 +1185,7 @@ static int ov5645_probe(struct i2c_client *client)
- 
- 	v4l2_i2c_subdev_init(&ov5645->sd, client, &ov5645_subdev_ops);
+@@ -1187,7 +1187,7 @@ static int ov5645_probe(struct i2c_client *client)
  	ov5645->sd.internal_ops = &ov5645_internal_ops;
--	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+ 	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
  	ov5645->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	ov5645->sd.dev = &client->dev;
+-	ov5645->sd.dev = &client->dev;
++	ov5645->sd.dev = dev;
  	ov5645->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+ 
+ 	ret = media_entity_pads_init(&ov5645->sd.entity, 1, &ov5645->pad);
 -- 
 2.34.1
 
