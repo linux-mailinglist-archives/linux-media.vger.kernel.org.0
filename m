@@ -1,327 +1,153 @@
-Return-Path: <linux-media+bounces-18117-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18118-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE4E973EFD
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 19:19:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85041974132
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 19:54:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BD6E4B2991A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 17:19:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E9811F22B5B
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 17:54:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21FA31AAE15;
-	Tue, 10 Sep 2024 17:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698E11A38F3;
+	Tue, 10 Sep 2024 17:54:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ATHsfwNv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VxxVjaA1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E7A1A7055
-	for <linux-media@vger.kernel.org>; Tue, 10 Sep 2024 17:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD1516DED5;
+	Tue, 10 Sep 2024 17:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725988534; cv=none; b=uWs4ZJgNCtAYS+FmbPQqCDDPx3ZKP1bUX5MaKSgeNmEZAHs4Q/AeqM10SqYm7ijo+M12UzI3ge0hfTWMbMan9oNOpLqi8NP7twKh8v5xjprq56ijSJ0dlPvhPbMtJGo7Am9uVNJ+ZDbS2ID/LR4f1KowrCG0Vx3glNfcXrN/nKo=
+	t=1725990862; cv=none; b=jUXxe3MqBpjH2aCJVr6ed9mF13sf6kt/n4XCG+FLxDm3zuXqmasquxj54zf+hUCsf1wBKtOaTkOAkwyuI8JPeHGLvE8FgWa/fkZh2xtzxWtA/vPQWsxXD9W+xd8KaTTo9gmNQRd1qOBWUXlFJjDoDJluACFRwGm6CwiVedvqCsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725988534; c=relaxed/simple;
-	bh=Xy8VKEYnwSDTZv8an0rR9HKd/Tj5FfgAkYHF3vihv2Y=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=cF2TStmxj5wuRGNPVK08gFjoJzZgzUKJ7t55ZEpb54Ki92pjRmNjNN71IhPTfjAXREvFi5n1DZIEXR5JixeXx+LbvoPmFCyWzr/gaBY5FUHO6+qNMgr2KJ4/k2FVdxJ7Pw3u8wSFHSJQSBYV20UXz291RI4N5i9lzV55qNv5ZqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ATHsfwNv; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e1d351c9fb5so9980435276.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Sep 2024 10:15:27 -0700 (PDT)
+	s=arc-20240116; t=1725990862; c=relaxed/simple;
+	bh=NlSjka77y+J8o4ScRfds9q3Fu4ziU17R6W9K0mJQg5c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=vEKwHLEO8DtWvSkpopLvCbVH0+QYPeOGkKJXSHfktvGGob1gBlsBcrVj9rh+qEPxOfu2wQ5xAti9DlqpSEkVqW5olTIwko/7mzpMXu7txtDQCMpahdIT3/V8Gk8YaNtF8oFUjkaJKes/FdGRHN4mpmSe4xbjKinHKdXOKDpBqpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VxxVjaA1; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-375e5c12042so573260f8f.3;
+        Tue, 10 Sep 2024 10:54:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725988525; x=1726593325; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qr6gPDE1UK5B1I6Iwow8La1ZlcxSQmU/6SFdxdUBC4Y=;
-        b=ATHsfwNvrfTKk+mFi4/+LHorWbqSOVBG4OlVIs1s4bu0WA2stczgVDF34saVXw6+D3
-         olXRbNVN8+b8ReZq6DBsR4WC8zzp+xi/kGwZNSEzTGXnskxuUZlnw4XOaiwqc+hRAVCr
-         4M4XIrVJfMC32RzuvHMvYobhittaGnD+UOFeH4ZinVxpy6eZ3ixDh+Q+8BqLTeuGnv37
-         QMGaPTdPvUgUEQUdiJCAWd7ExUYCD76iiMXj+yv0yHfsP/VpfaiiAoeCb0pT+bWgQSvl
-         TSi10y9qXu5XsKUSbIwpd9ODDDEpnzlk8VsbXHBaLSwZ5KtjMNU+1QAr3Fx5DamJnVXw
-         ih7w==
+        d=gmail.com; s=20230601; t=1725990859; x=1726595659; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lnrn0tVafziV/wQlzrgAUX9MZJP0JQ/xVWaaouixC1k=;
+        b=VxxVjaA1caXvor5nBBYaRP+ttJmV+5BJ5JGyaPO8ZwpREWTxdxpFu6X9AU77CwuCxY
+         qZi7uaNlySR/iWVIN4MxzqRSLGJiwh8+SNEMtbwlzkBpC/uCMzO8i7NfNriapmvOEPKM
+         dtU8p9HwdDa2AB24gNl+yp4jzcs0TqzR9SSeQu8qGO353DWe6qTarZQpfnlGVNDUUwYt
+         jofLDhBa+h/psRptk9kfWK/XW2tekPxd1ko8INVNYZpH7RBRdjUNBeEHp4WWf2A9X9Q/
+         FdnO1D+gHy7p8Z+oAJ0EDyZmv7FurAsh8tNblctMyjItSR7yCxUCQMR0qkJjabKDw02u
+         atCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725988525; x=1726593325;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qr6gPDE1UK5B1I6Iwow8La1ZlcxSQmU/6SFdxdUBC4Y=;
-        b=rKw4Gu1Yg5bhDZby5uA4OYKa8hkt/xz5Itac+raKaY3GgNxLyB3fcGB250wo5Y12Ng
-         rvSgggcWAs5oqkjLOWt+9mlO9edPa4Zlz2jCjmGv6n/6OMxbYy7tDXkwcQ/ThRkCPGET
-         zFmezz1MmIvNMQhzl4XzT2RtWOOPGWQsQR/NTd7tticeX5TbMxN4vEk2SW+VSLj2NPqx
-         fyDCkGu0d5tWtPT1pJqaJGgaqSij5ya/UnoTlYCVSIIDQ5FiA6Kc+X7Q7cT7CpqelLoI
-         2ibiW8SXd1VeNpcMPQffcIA3jPyQ2up5kTjnhAFA5lTu1gImRpy8JFkVoMdonEx0rw1w
-         xxyA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8kCBp/ZnfzC7hEBwz78r3TNEsUqWv1Dj1QCT7viKirU0DOk/1xxyFBi67Gl0L0066iUMkrF0/9AANew==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1Wl6usAk7yfWRX1WwxUu0mcHf6HuUWQ+W4vlLjGmh7/stTuoA
-	MAiQ9MqNhS+np0RtViH1AuZH7iRqs5daqY1cifK1RGX1eR9wguB6UedMpdoUrNuOcQ0w0eTSpC9
-	X63H3v/PdThc67omOf+chhQ==
-X-Google-Smtp-Source: AGHT+IGZCB+Bwki1p8fPYMVywna8K28oR2ffM3Z76Sw+TMtsD9U3aR4klRuEh553qX5yh3rrwgfboDT90OGw/cXyFA==
-X-Received: from almasrymina.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
- (user=almasrymina job=sendgmr) by 2002:a25:2e08:0:b0:e17:8e73:866c with SMTP
- id 3f1490d57ef6-e1d34a40ec5mr105962276.10.1725988524819; Tue, 10 Sep 2024
- 10:15:24 -0700 (PDT)
-Date: Tue, 10 Sep 2024 17:14:57 +0000
-In-Reply-To: <20240910171458.219195-1-almasrymina@google.com>
+        d=1e100.net; s=20230601; t=1725990859; x=1726595659;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lnrn0tVafziV/wQlzrgAUX9MZJP0JQ/xVWaaouixC1k=;
+        b=Uufq6YDHUoXj+Sk23WYTdYQ5ajWxNjmdJrGRZ3qt9qI3B/k6sRMzQnxBSlN/yGynzA
+         PKwPlqyOAFZ582/5pF1wPRwerp+S6w2o9sXjnTEUdyI0fHhocw8/Ass0pRVBeBywQGCa
+         el18NffvUapV/bPLPEdPSphaXt9QU9699qSs49Ng6nhN/QolLNKVKM99thozyHzuh+nn
+         yTxoxrBkS89OBIF4pN3SSmWpVl0ZDrJGhe6Nh0WpkLREJEE8s+2uJFZHX2bKmV/aegeT
+         uavH6ETKqhvQO27U2oZTpnYNtV4QxXh1jlZFHbwPPYPVubtT1nR90av9BUN9StiXs2HI
+         0TIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUVYcW+/SR/COdVR+G5b0labb1n/IlEbZSd34mEdL2rrYnO/k6uikz/BN84QzgRwRSNkhsJ4F/IajLeNnK9ze6eHaw=@vger.kernel.org, AJvYcCUZrtCvxFbzTv3IjtVViSf9bWVDWJ2DaD6t75m4gPHX4jXxuancSHqhR/JImo9gp+MRGgznwdvM2jXE5hw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDCCo5nnAhbHYr0RsvDfqId0kxK4Fliv3bOF6bgeKsP6Nj4+2u
+	bhg5DmO09yM2+Pt4VOEOtuOccY73sRZDyN0XS8QrxeWgs+PZrbQV
+X-Google-Smtp-Source: AGHT+IELlOZrbpDDmQmCbRbG0vRIkhFYJaViGyYnBLu4bKmd6e+VWjqkUKFL2ARZcYylZS9VGP+oBw==
+X-Received: by 2002:adf:e5c4:0:b0:371:8e0d:c1d9 with SMTP id ffacd0b85a97d-378b07ad2dbmr332439f8f.19.1725990859385;
+        Tue, 10 Sep 2024 10:54:19 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:94a6:1e64:e5a2:2b2a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37895675c40sm9516562f8f.51.2024.09.10.10.54.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 10:54:18 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 00/16] media: platform: rzg2l-cru: CSI-2 and CRU enhancements
+Date: Tue, 10 Sep 2024 18:53:41 +0100
+Message-Id: <20240910175357.229075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240910171458.219195-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.46.0.598.g6f2099f65c-goog
-Message-ID: <20240910171458.219195-14-almasrymina@google.com>
-Subject: [PATCH net-next v26 13/13] netdev: add dmabuf introspection
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org
-Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	"=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?=" <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, 
-	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, 
-	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Christoph Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Add dmabuf information to page_pool stats:
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-$ ./cli.py --spec ../netlink/specs/netdev.yaml --dump page-pool-get
-...
- {'dmabuf': 10,
-  'id': 456,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 455,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 454,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 453,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 452,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 451,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 450,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
- {'dmabuf': 10,
-  'id': 449,
-  'ifindex': 3,
-  'inflight': 1023,
-  'inflight-mem': 4190208},
+Hi All,
 
-And queue stats:
+This patch series aims to add the below:
+- Retrieve virtual channel from remote subdev
+- Support to capture 8bit Bayer formats.
 
-$ ./cli.py --spec ../netlink/specs/netdev.yaml --dump queue-get
-...
-{'dmabuf': 10, 'id': 8, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 9, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 10, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 11, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 12, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 13, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 14, 'ifindex': 3, 'type': 'rx'},
-{'dmabuf': 10, 'id': 15, 'ifindex': 3, 'type': 'rx'},
+v1->v2
+- Fixed retrieving VC from subdev
+- Fixed review comments pointed by Laurent
+  * Refactored supported CRU formats
+  * Added MUST_CONNECT flag wherever required
+  * Dropped `channel` member from `struct
 
-Suggested-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+v1:
+Link: https://lore.kernel.org/all/20240906173947.282402-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
----
+Cheers,
+Prabhakar
 
-v24:
-- Code cleanup, no cast and use 1 if statement (Jakub)
+Lad Prabhakar (16):
+  media: platform: rzg2l-cru: rzg2l-ip: Use the RZG2L_CRU_IP_SINK/SOURCE
+    enum entries
+  media: platform: rzg2l-cru: Mark sink pads with MUST_CONNECT flag
+  media: platform: rzg2l-cru: rzg2l-csi2: Mark sink and source pad with
+    MUST_CONNECT flag
+  media: platform: rzg2l-cru: rzg2l-csi2: Make use of
+    NR_OF_RZG2L_CSI2_PAD
+  media: platform: rzg2l-cru: rzg2l-csi2: Implement .get_frame_desc()
+  media: platform: rzg2l-cru: rzg2l-video: Retrieve virtual channel
+    information
+  media: platform: rzg2l-cru: Remove `channel` member from `struct
+    rzg2l_cru_csi`
+  media: platform: rzg2l-cru: rzg2l-video: Use MIPI CSI-2 data types for
+    ICnMC_INF definitions
+  media: platform: rzg2l-cru: Remove unused fields from
+    rzg2l_cru_ip_format struct
+  media: platform: rzg2l-cru: Simplify handling of supported formats
+  media: platform: rzg2l-cru: rzg2l-ip: Use `rzg2l_cru_ip_formats` array
+    in enum_frame_size callback
+  media: platform: rzg2l-cru: rzg2l-csi2: Remove unused datatype field
+    from rzg2l_csi2_format
+  media: platform: rzg2l-cru: rzg2l-video: Use
+    rzg2l_cru_ip_code_to_fmt() to validate format
+  media: platform: rzg2l-cru: rzg2l-csi2: Make use of rzg2l_csi2_formats
+    array in rzg2l_csi2_enum_frame_size()
+  media: renesas: rzg2l-cru: Refactor ICnDMR register configuration
+  media: platform: rzg2l-cru: Add support to capture 8bit raw sRGB
 
----
- Documentation/netlink/specs/netdev.yaml | 10 ++++++++++
- include/uapi/linux/netdev.h             |  2 ++
- net/core/netdev-genl.c                  |  7 +++++++
- net/core/page_pool_user.c               |  5 +++++
- tools/include/uapi/linux/netdev.h       |  2 ++
- 5 files changed, 26 insertions(+)
+ .../platform/renesas/rzg2l-cru/rzg2l-core.c   |   3 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  31 +++-
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  39 ++++-
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     |  91 +++++++++---
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 133 ++++++++++--------
+ 5 files changed, 207 insertions(+), 90 deletions(-)
 
-diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
-index 0c747530c275..08412c279297 100644
---- a/Documentation/netlink/specs/netdev.yaml
-+++ b/Documentation/netlink/specs/netdev.yaml
-@@ -167,6 +167,10 @@ attribute-sets:
-           "re-attached", they are just waiting to disappear.
-           Attribute is absent if Page Pool has not been detached, and
-           can still be used to allocate new memory.
-+      -
-+        name: dmabuf
-+        doc: ID of the dmabuf this page-pool is attached to.
-+        type: u32
-   -
-     name: page-pool-info
-     subset-of: page-pool
-@@ -268,6 +272,10 @@ attribute-sets:
-         name: napi-id
-         doc: ID of the NAPI instance which services this queue.
-         type: u32
-+      -
-+        name: dmabuf
-+        doc: ID of the dmabuf attached to this queue, if any.
-+        type: u32
- 
-   -
-     name: qstats
-@@ -543,6 +551,7 @@ operations:
-             - inflight
-             - inflight-mem
-             - detach-time
-+            - dmabuf
-       dump:
-         reply: *pp-reply
-       config-cond: page-pool
-@@ -607,6 +616,7 @@ operations:
-             - type
-             - napi-id
-             - ifindex
-+            - dmabuf
-       dump:
-         request:
-           attributes:
-diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
-index 91bf3ecc5f1d..7c308f04e7a0 100644
---- a/include/uapi/linux/netdev.h
-+++ b/include/uapi/linux/netdev.h
-@@ -93,6 +93,7 @@ enum {
- 	NETDEV_A_PAGE_POOL_INFLIGHT,
- 	NETDEV_A_PAGE_POOL_INFLIGHT_MEM,
- 	NETDEV_A_PAGE_POOL_DETACH_TIME,
-+	NETDEV_A_PAGE_POOL_DMABUF,
- 
- 	__NETDEV_A_PAGE_POOL_MAX,
- 	NETDEV_A_PAGE_POOL_MAX = (__NETDEV_A_PAGE_POOL_MAX - 1)
-@@ -131,6 +132,7 @@ enum {
- 	NETDEV_A_QUEUE_IFINDEX,
- 	NETDEV_A_QUEUE_TYPE,
- 	NETDEV_A_QUEUE_NAPI_ID,
-+	NETDEV_A_QUEUE_DMABUF,
- 
- 	__NETDEV_A_QUEUE_MAX,
- 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
-diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
-index 9153a8ab0cf8..1cb954f2d39e 100644
---- a/net/core/netdev-genl.c
-+++ b/net/core/netdev-genl.c
-@@ -295,6 +295,7 @@ static int
- netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
- 			 u32 q_idx, u32 q_type, const struct genl_info *info)
- {
-+	struct net_devmem_dmabuf_binding *binding;
- 	struct netdev_rx_queue *rxq;
- 	struct netdev_queue *txq;
- 	void *hdr;
-@@ -314,6 +315,12 @@ netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
- 		if (rxq->napi && nla_put_u32(rsp, NETDEV_A_QUEUE_NAPI_ID,
- 					     rxq->napi->napi_id))
- 			goto nla_put_failure;
-+
-+		binding = rxq->mp_params.mp_priv;
-+		if (binding &&
-+		    nla_put_u32(rsp, NETDEV_A_QUEUE_DMABUF, binding->id))
-+			goto nla_put_failure;
-+
- 		break;
- 	case NETDEV_QUEUE_TYPE_TX:
- 		txq = netdev_get_tx_queue(netdev, q_idx);
-diff --git a/net/core/page_pool_user.c b/net/core/page_pool_user.c
-index cd6267ba6fa3..48335766c1bf 100644
---- a/net/core/page_pool_user.c
-+++ b/net/core/page_pool_user.c
-@@ -9,6 +9,7 @@
- #include <net/page_pool/types.h>
- #include <net/sock.h>
- 
-+#include "devmem.h"
- #include "page_pool_priv.h"
- #include "netdev-genl-gen.h"
- 
-@@ -213,6 +214,7 @@ static int
- page_pool_nl_fill(struct sk_buff *rsp, const struct page_pool *pool,
- 		  const struct genl_info *info)
- {
-+	struct net_devmem_dmabuf_binding *binding = pool->mp_priv;
- 	size_t inflight, refsz;
- 	void *hdr;
- 
-@@ -242,6 +244,9 @@ page_pool_nl_fill(struct sk_buff *rsp, const struct page_pool *pool,
- 			 pool->user.detach_time))
- 		goto err_cancel;
- 
-+	if (binding && nla_put_u32(rsp, NETDEV_A_PAGE_POOL_DMABUF, binding->id))
-+		goto err_cancel;
-+
- 	genlmsg_end(rsp, hdr);
- 
- 	return 0;
-diff --git a/tools/include/uapi/linux/netdev.h b/tools/include/uapi/linux/netdev.h
-index 91bf3ecc5f1d..7c308f04e7a0 100644
---- a/tools/include/uapi/linux/netdev.h
-+++ b/tools/include/uapi/linux/netdev.h
-@@ -93,6 +93,7 @@ enum {
- 	NETDEV_A_PAGE_POOL_INFLIGHT,
- 	NETDEV_A_PAGE_POOL_INFLIGHT_MEM,
- 	NETDEV_A_PAGE_POOL_DETACH_TIME,
-+	NETDEV_A_PAGE_POOL_DMABUF,
- 
- 	__NETDEV_A_PAGE_POOL_MAX,
- 	NETDEV_A_PAGE_POOL_MAX = (__NETDEV_A_PAGE_POOL_MAX - 1)
-@@ -131,6 +132,7 @@ enum {
- 	NETDEV_A_QUEUE_IFINDEX,
- 	NETDEV_A_QUEUE_TYPE,
- 	NETDEV_A_QUEUE_NAPI_ID,
-+	NETDEV_A_QUEUE_DMABUF,
- 
- 	__NETDEV_A_QUEUE_MAX,
- 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
 -- 
-2.46.0.598.g6f2099f65c-goog
+2.34.1
 
 
