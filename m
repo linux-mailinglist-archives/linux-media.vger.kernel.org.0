@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-18051-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18052-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B9D972C13
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 10:24:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBDD972C5A
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 10:40:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BDEC1F24FB5
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 08:24:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7DCDB2572F
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 08:40:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3026F186284;
-	Tue, 10 Sep 2024 08:24:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46311183CB0;
+	Tue, 10 Sep 2024 08:40:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eol374oi"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z5XjA4xq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D981B17E8F7
-	for <linux-media@vger.kernel.org>; Tue, 10 Sep 2024 08:24:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B4D18593C
+	for <linux-media@vger.kernel.org>; Tue, 10 Sep 2024 08:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725956649; cv=none; b=mqxXNPwjmh+tCeIe9iokARCcXr4/BfXEnc9sJ0darAlWXOvfJuSsc3/Xd5S+OLKPQjcQCJXs2ovJYoPc4qlZovOqsDCm4dY/OgbA0u4GH9Vf8KZS7DeU95MBkrISqMzqbRKApeZ0Evasm7C+OSZG0W9ymY8IpBfmzN/rCz/q3+Y=
+	t=1725957621; cv=none; b=FD62ZFK0pGQsXN6iZqs7lnAwyXq8KGDUO8RtEnsl9dDl3gmSc4H7ftJUJJ7JdcNteAFocFzYaipNgO4wQs19hePeqCK2/ww53MVRFOVSWs2W4c2uTCxopS8WODOVIG3acN55d9jE/6+epRFmJvsoBYXUZC2bxZ+MGi7VTGwBR0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725956649; c=relaxed/simple;
-	bh=JO7Zcf3xFEx+3pZDTNr7dvUrfiSzuGyzVOjmOuceKso=;
+	s=arc-20240116; t=1725957621; c=relaxed/simple;
+	bh=ewWcvYN9HJYaotRGCi3VfVSfRsqWTRZ7PgOlQLbhBAo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BbgrLcNdBC6WJCiZIB61IvAi/ud8f2RemCGCL1+mGh5jFWkxUQerMhSVUj07jcM9dndPwLVSE3n5O6dz5u8XwI8/sksesZMQux6ARFG7O75OlB57VS+ZEmahMveyLcgmoejWrlqD5ycAEmrmoHGZOkqxnYrlHscjwxnIQiDWuLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eol374oi; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=B2OoUgWJ6yXiAcoHWU7SEZHdoN8DTNM5zHkrIDYdaRc+fN8mtY/+Ft/yZeGJMGUXdPK40U58p42M54kUSCR1hIjVfQX4meJOmNYu51F/EZwafqGxIQ3S9dZoJ+xPf8JriJjc4K9/qe1gyz5Uj3wTo6La/mkNazQsnxa5NBhxY6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z5XjA4xq; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76A2EC8A;
-	Tue, 10 Sep 2024 10:22:49 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61558C8A;
+	Tue, 10 Sep 2024 10:39:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725956569;
-	bh=JO7Zcf3xFEx+3pZDTNr7dvUrfiSzuGyzVOjmOuceKso=;
+	s=mail; t=1725957541;
+	bh=ewWcvYN9HJYaotRGCi3VfVSfRsqWTRZ7PgOlQLbhBAo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eol374oiammYV6ItramHytv1bWweb7XrKV0gCeu/13RVuqDBZQpNrxDWPfjB2VkNH
-	 wxmh3j578obs70gvcpVzH1N23sfDaX/JQxESWJHtklqvWPKdB+pjHr3gQQkA2c2+Ug
-	 hoGTc1Lw3SYLOIXD+ps0RQNSJQZby5ZezGuE2ruQ=
-Message-ID: <f1d92693-427a-4aa9-8795-4acc30049e7f@ideasonboard.com>
-Date: Tue, 10 Sep 2024 11:24:03 +0300
+	b=Z5XjA4xqFxBmVP+f/50sAbUQ5ZPQb8net/GR9C4Kv01LVmdmrELZwnkHa19kd2KaM
+	 MVS6nye6EbMzbnau3HP6FjBI/hFF/MT4EKgFN8gQPf5wb4TPyiYtnIqWE54QJzFtMF
+	 JtUc03HRGrE4qaUiusuAy2qHV7SJvUllFvAYpNMM=
+Message-ID: <25fc667c-1170-4b8b-b2ba-578758c78804@ideasonboard.com>
+Date: Tue, 10 Sep 2024 11:40:15 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,11 +50,11 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: i2c: ds90ub960: Convert IC specific variables
- to flags
+Subject: Re: [PATCH 2/3] media: i2c: ds90ub960: Add DS90UB954 support
 To: Alexander Shiyan <eagle.alexander923@gmail.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 References: <20240830070008.9486-1-eagle.alexander923@gmail.com>
+ <20240830070008.9486-2-eagle.alexander923@gmail.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -100,174 +100,194 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240830070008.9486-1-eagle.alexander923@gmail.com>
+In-Reply-To: <20240830070008.9486-2-eagle.alexander923@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 30/08/2024 10:00, Alexander Shiyan wrote:
-> This patch converts chip-specific variables into generic flags that
-> can be used to easily add support for other chip types.
+> Add support for TI DS90UB954 FPD-Link III Deserializer.
 > 
 > Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
 > ---
->   drivers/media/i2c/ds90ub960.c | 48 ++++++++++++++++++++++++-----------
->   1 file changed, 33 insertions(+), 15 deletions(-)
+>   drivers/media/i2c/Kconfig     |  2 +-
+>   drivers/media/i2c/ds90ub960.c | 52 +++++++++++++++++++++++++++++------
+>   2 files changed, 44 insertions(+), 10 deletions(-)
 > 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 8ba096b8ebca..18766898280b 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -1604,7 +1604,7 @@ config VIDEO_DS90UB960
+>   	select V4L2_FWNODE
+>   	select VIDEO_V4L2_SUBDEV_API
+>   	help
+> -	  Device driver for the Texas Instruments DS90UB960
+> +	  Device driver for the Texas Instruments DS90UB954/DS90UB960
+>   	  FPD-Link III Deserializer and DS90UB9702 FPD-Link IV Deserializer.
+>   
+>   config VIDEO_MAX96714
 > diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index ffe5f25f8647..e9f9abf439ee 100644
+> index e9f9abf439ee..9edc7e8ceebd 100644
 > --- a/drivers/media/i2c/ds90ub960.c
 > +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -402,12 +402,18 @@
->   #define UB960_MAX_EQ_LEVEL  14
+> @@ -403,6 +403,7 @@
 >   #define UB960_NUM_EQ_LEVELS (UB960_MAX_EQ_LEVEL - UB960_MIN_EQ_LEVEL + 1)
 >   
-> +enum chip_type {
-> +	UB960,
-> +	UB9702,
-> +};
-> +
-> +#define FLAGS_HAS_FPDLINK4			BIT(0)
-> +
->   struct ub960_hw_data {
-> -	const char *model;
-> +	enum chip_type chip_type;
->   	u8 num_rxports;
->   	u8 num_txports;
-> -	bool is_ub9702;
-> -	bool is_fpdlink4;
-> +	u32 flags;
-
-Let's drop the is_fpdlink4/FLAGS_HAS_FPDLINK4. It's only used in one 
-place, and just checking for the model == UB9702 is fine.
-
-While you're at this, can you go through the code for ifs/selects for 
-chip_type, and change the code so that we don't have plain "else" blocks 
-there. I.e. in each chip_type test we would be explicitly testing for 
-matching chip types, and _not_ do things like:
-
-if (ub960)
-	xyz-for-ub960;
-else
-	must-be-ub9702;
-
-Also, with the above change, and adding UB954, I wonder if it would make 
-the code simpler if we added a "chip family" property. The UB960 & UB954 
-are clearly part of the same family, whereas UB9702 (and other FPD-Link 
-4 desers which the driver doesn't support) are another. As we don't have 
-a good name for them, maybe just FAMILY_FPD3 and FAMILY_FPD4.
-
-  Tomi
-
+>   enum chip_type {
+> +	UB954,
+>   	UB960,
+>   	UB9702,
 >   };
+> @@ -1154,10 +1155,17 @@ static int ub960_parse_dt_txport(struct ub960_data *priv,
+>   	priv->tx_link_freq[0] = vep.link_frequencies[0];
+>   	priv->tx_data_rate = priv->tx_link_freq[0] * 2;
 >   
->   enum ub960_rxport_mode {
-> @@ -1654,7 +1660,7 @@ static int ub960_rxport_add_serializer(struct ub960_data *priv, u8 nport)
+> -	if (priv->tx_data_rate != MHZ(1600) &&
+> -	    priv->tx_data_rate != MHZ(1200) &&
+> -	    priv->tx_data_rate != MHZ(800) &&
+> -	    priv->tx_data_rate != MHZ(400)) {
+> +	switch (priv->tx_data_rate) {
+> +	case MHZ(1600):
+> +	case MHZ(800):
+> +	case MHZ(400):
+> +		break;
+> +	case MHZ(1200):
+> +		/* UB954 does not support 1.2 Gbps */
+> +		if (priv->hw_data->chip_type != UB954)
+> +			break;
+
+Here, and in a few other places, don't check for model != UB954, but 
+rather check for model == UB954. Otherwise if we add a new chip model 
+these won't necessarily go right.
+
+> +		fallthrough;
+> +	default:
+>   		dev_err(dev, "tx%u: invalid 'link-frequencies' value\n", nport);
+>   		ret = -EINVAL;
+>   		goto err_free_vep;
+> @@ -1419,7 +1427,7 @@ static void ub960_rxport_config_eq(struct ub960_data *priv, unsigned int nport)
 >   
->   	ser_pdata->port = nport;
->   	ser_pdata->atr = priv->atr;
-> -	if (priv->hw_data->is_ub9702)
-> +	if (priv->hw_data->chip_type == UB9702)
->   		ser_pdata->bc_rate = ub960_calc_bc_clk_rate_ub9702(priv, rxport);
->   	else
->   		ser_pdata->bc_rate = ub960_calc_bc_clk_rate_ub960(priv, rxport);
-> @@ -1785,7 +1791,7 @@ static int ub960_init_tx_ports(struct ub960_data *priv)
+>   	if (priv->strobe.manual)
+>   		ub960_rxport_set_strobe_pos(priv, nport, rxport->eq.strobe_pos);
+> -	else
+> +	else if (priv->hw_data->chip_type != UB954)
+>   		ub960_rxport_set_strobe_pos(priv, nport, 0);
+
+This looks odd. Manually set strobe pos is ok, but not the default?
+
+What is the reason for this if?
+
 >   
->   	ub960_write(priv, UB960_SR_CSI_PLL_CTL, speed_select);
->   
-> -	if (priv->hw_data->is_ub9702) {
-> +	if (priv->hw_data->chip_type == UB9702) {
->   		ub960_write(priv, UB960_SR_CSI_PLL_DIV, pll_div);
->   
->   		switch (priv->tx_data_rate) {
-> @@ -2140,7 +2146,7 @@ static int ub960_init_rx_ports(struct ub960_data *priv)
->   		if (!rxport)
->   			continue;
->   
-> -		if (priv->hw_data->is_ub9702)
-> +		if (priv->hw_data->chip_type == UB9702)
->   			ub960_init_rx_port_ub9702(priv, rxport);
->   		else
->   			ub960_init_rx_port_ub960(priv, rxport);
-> @@ -2509,7 +2515,7 @@ static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
->   
->   		case RXPORT_MODE_CSI2_SYNC:
->   		case RXPORT_MODE_CSI2_NONSYNC:
-> -			if (!priv->hw_data->is_ub9702) {
-> +			if (priv->hw_data->chip_type != UB9702) {
->   				/* Map all VCs from this port to the same VC */
->   				ub960_rxport_write(priv, nport, UB960_RR_CSI_VC_MAP,
->   						   (vc << UB960_RR_CSI_VC_MAP_SHIFT(3)) |
-> @@ -3217,7 +3223,8 @@ ub960_parse_dt_rxport_link_properties(struct ub960_data *priv,
->   		return -EINVAL;
->   	}
->   
-> -	if (!priv->hw_data->is_fpdlink4 && cdr_mode == RXPORT_CDR_FPD4) {
-> +	if (!(priv->hw_data->flags & FLAGS_HAS_FPDLINK4) &&
-> +	    (cdr_mode == RXPORT_CDR_FPD4)) {
->   		dev_err(dev, "rx%u: FPD-Link 4 CDR not supported\n", nport);
->   		return -EINVAL;
->   	}
-> @@ -3796,6 +3803,7 @@ static int ub960_get_hw_resources(struct ub960_data *priv)
->   static int ub960_enable_core_hw(struct ub960_data *priv)
->   {
->   	struct device *dev = &priv->client->dev;
-> +	const char *model;
+>   	if (rxport->eq.manual_eq) {
+> @@ -3807,7 +3815,7 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
 >   	u8 rev_mask;
 >   	int ret;
 >   	u8 dev_sts;
-> @@ -3830,8 +3838,19 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
->   		goto err_pd_gpio;
+> -	u8 refclk_freq;
+> +	u8 refclk_freq[2];
+
+Instead of an array, I think the code will be clearer if you just add a 
+new variable (refclk_freq_new?).
+
+>   
+>   	ret = regulator_enable(priv->vddio);
+>   	if (ret)
+> @@ -3839,6 +3847,9 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
 >   	}
 >   
-> -	dev_dbg(dev, "Found %s (rev/mask %#04x)\n", priv->hw_data->model,
-> -		rev_mask);
-> +	switch (priv->hw_data->chip_type) {
-> +	case UB960:
-> +		model = "UB960";
+>   	switch (priv->hw_data->chip_type) {
+> +	case UB954:
+> +		model = "UB954";
 > +		break;
-> +	case UB9702:
-> +		model = "UB9702";
-> +		break;
-> +	default:
-> +		model = "Unknown";
-> +		break;
-> +	};
-> +
-> +	dev_dbg(dev, "Found %s (rev/mask %#04x)\n", model, rev_mask);
->   
->   	ret = ub960_read(priv, UB960_SR_DEVICE_STS, &dev_sts);
+>   	case UB960:
+>   		model = "UB960";
+>   		break;
+> @@ -3856,12 +3867,26 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
 >   	if (ret)
-> @@ -3851,7 +3870,7 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
 >   		goto err_pd_gpio;
 >   
->   	/* release GPIO lock */
-> -	if (priv->hw_data->is_ub9702) {
-> +	if (priv->hw_data->chip_type == UB9702) {
->   		ret = ub960_update_bits(priv, UB960_SR_RESET,
->   					UB960_SR_RESET_GPIO_LOCK_RELEASE,
->   					UB960_SR_RESET_GPIO_LOCK_RELEASE);
-> @@ -4013,17 +4032,16 @@ static void ub960_remove(struct i2c_client *client)
+> -	ret = ub960_read(priv, UB960_XR_REFCLK_FREQ, &refclk_freq);
+> +	ret = ub960_read(priv, UB960_XR_REFCLK_FREQ, &refclk_freq[0]);
+>   	if (ret)
+>   		goto err_pd_gpio;
+>   
+> +	/* From DS90UB954-Q1 datasheet:
+> +	 * "REFCLK_FREQ measurement is not synchronized. Value in this register
+> +	 * should read twice and only considered valid if
+> +	 * REFCLK_FREQ is unchanged between reads."
+> +	*/
+
+The coding style says the multiline comments are like:
+
+/*
+  * Foo
+  */
+
+> +	while (priv->hw_data->chip_type == UB954) {
+> +		ret = ub960_read(priv, UB960_XR_REFCLK_FREQ, &refclk_freq[1]);
+> +		if (ret)
+> +			goto err_pd_gpio;
+> +		if (refclk_freq[0] == refclk_freq[1])
+> +			break;
+> +		refclk_freq[0] = refclk_freq[1];
+> +	};
+
+This is potentially an infinite loop, which is not a good idea. Also, 
+don't loop with "while (priv->hw_data->chip_type == UB954)"... Just use 
+an if for the chip_type, and loop with a proper condition.
+
+> +
+>   	dev_dbg(dev, "refclk valid %u freq %u MHz (clk fw freq %lu MHz)\n",
+> -		!!(dev_sts & BIT(4)), refclk_freq,
+> +		!!(dev_sts & BIT(4)), refclk_freq[0],
+>   		clk_get_rate(priv->refclk) / 1000000);
+>   
+>   	/* Disable all RX ports by default */
+> @@ -3923,7 +3948,8 @@ static int ub960_probe(struct i2c_client *client)
+>   	 */
+>   	priv->reg_current.indirect_target = 0xff;
+>   	priv->reg_current.rxport = 0xff;
+> -	priv->reg_current.txport = 0xff;
+> +	/* Avoid using UB960_SR_CSI_PORT_SEL register for single TX channel */
+> +	priv->reg_current.txport = priv->hw_data->num_txports > 1 ? 0xff : 0x00;
+
+No, don't do this. Just do a proper check in ub960_txport_select() and 
+skip the reg write there.
+
+  Tomi
+
+>   	ret = ub960_get_hw_resources(priv);
+>   	if (ret)
+> @@ -4031,6 +4057,12 @@ static void ub960_remove(struct i2c_client *client)
+>   	mutex_destroy(&priv->reg_lock);
 >   }
 >   
+> +static const struct ub960_hw_data ds90ub954_hw = {
+> +	.chip_type = UB954,
+> +	.num_rxports = 2,
+> +	.num_txports = 1,
+> +};
+> +
 >   static const struct ub960_hw_data ds90ub960_hw = {
-> -	.model = "ub960",
-> +	.chip_type = UB960,
+>   	.chip_type = UB960,
 >   	.num_rxports = 4,
->   	.num_txports = 2,
->   };
->   
->   static const struct ub960_hw_data ds90ub9702_hw = {
-> -	.model = "ub9702",
-> +	.chip_type = UB9702,
->   	.num_rxports = 4,
->   	.num_txports = 2,
-> -	.is_ub9702 = true,
-> -	.is_fpdlink4 = true,
-> +	.flags = FLAGS_HAS_FPDLINK4,
+> @@ -4045,6 +4077,7 @@ static const struct ub960_hw_data ds90ub9702_hw = {
 >   };
 >   
 >   static const struct i2c_device_id ub960_id[] = {
+> +	{ "ds90ub954-q1", (kernel_ulong_t)&ds90ub954_hw },
+>   	{ "ds90ub960-q1", (kernel_ulong_t)&ds90ub960_hw },
+>   	{ "ds90ub9702-q1", (kernel_ulong_t)&ds90ub9702_hw },
+>   	{}
+> @@ -4052,6 +4085,7 @@ static const struct i2c_device_id ub960_id[] = {
+>   MODULE_DEVICE_TABLE(i2c, ub960_id);
+>   
+>   static const struct of_device_id ub960_dt_ids[] = {
+> +	{ .compatible = "ti,ds90ub954-q1", .data = &ds90ub954_hw },
+>   	{ .compatible = "ti,ds90ub960-q1", .data = &ds90ub960_hw },
+>   	{ .compatible = "ti,ds90ub9702-q1", .data = &ds90ub9702_hw },
+>   	{}
 
 
