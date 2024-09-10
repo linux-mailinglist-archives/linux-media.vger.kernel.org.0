@@ -1,206 +1,116 @@
-Return-Path: <linux-media+bounces-18074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18075-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05651973768
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 14:31:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CD89738F5
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 15:45:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 296A31C24E56
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 12:31:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12A04B22FB1
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 13:45:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A64CC1917FB;
-	Tue, 10 Sep 2024 12:31:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BCB2192D86;
+	Tue, 10 Sep 2024 13:44:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gX5WLC4W"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+Q5dYwk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B661E493;
-	Tue, 10 Sep 2024 12:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC3B757EB;
+	Tue, 10 Sep 2024 13:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725971495; cv=none; b=mWYJUi3Erv4wfGiBnEg/H1Rrp4jMoh96akraQbzZV/tzRPzMkJ67FucJeyoX/WXHLBLEq42kHKWAgOQz61zofYYFhj9Py3zNDqpd2AzQo17wvuG8vHu5pgpPgWBTTP3r2eMT79c4KPydTbttvtA6x21e9R3Hp/GqxSih6NLiwxM=
+	t=1725975874; cv=none; b=MvJ9zvloFf8DJlKM3wgDBBnw7erxoN8BbaCnFRzHg8AwbCqs8FdVPbMBjHOpOQlraSqgwvQDAlkeFGu8gp7MvqYhrRnGSgdwdLOfZfpNLTEpgUsKjTF9/ZviA1pZ3/NzCbW6Ou0jet6MyrWbgUoHuFfVKpnzgjNeMai/618SbAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725971495; c=relaxed/simple;
-	bh=wQKkQQ0xITGBCqfPfPCikx77uwRKAH0jIp3FVk1QCDU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j1WL5pGICO41cGQJw+qNURtvAkD7k8ihWjl8GTronfXprVenGJ4KmgDdX+iQ8+TVnLClHA4S0Eb9DoZFCI+Pewlr2MYednlmlrwBQTF4mnO949ZPv22nV22JjZtdPfOJGYjM4L3kw1kxqwtXIqnD43JYzDOv2cpbFbQdefT5vcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gX5WLC4W; arc=none smtp.client-ip=209.85.167.41
+	s=arc-20240116; t=1725975874; c=relaxed/simple;
+	bh=DXByzTTy/f415QVKdUTEQ3xm+xTMxU/+02D0OFJZ4Ao=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=T7AN1xECd4SuI12VJBqwd6hr8L6d6s5Zy6VaK+E/jzyfUZ5YyPKOTEj1ihUJ969xBZRRG4ueJ64+EhNvzhRn04W/E0kGbCwFaTTHwIMJp8U0Wu3gWR6BcZftXN5K9c88cXLQpron81eioWfKpZl7q7va8eyw1PW4rfHPckujpLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g+Q5dYwk; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5365aa568ceso5280894e87.0;
-        Tue, 10 Sep 2024 05:31:32 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a8d2b24b7a8so24184966b.1;
+        Tue, 10 Sep 2024 06:44:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725971491; x=1726576291; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AtcRhukYoCtt3zbp0P2CQXM3Yj4Vl3Xs7XXdCTCWAv4=;
-        b=gX5WLC4WtMNh+j0/DvLDK+6+zDbUesT1/QmPTiQRB5z9g43x+xsFf4+4qkhjHcEN7C
-         a7epgs4g1P92PJVzkVFgWTMgjfCskGELw90lSasNA8DzcsF8WQb1NRZ8p04bfFR26YW0
-         WhIKEL4gA/hIm6sGjQdrHtFHQyYimcl0BZyfh/qYcvDvTv0SY8BjIbQppqjB7lXtI8gR
-         D8/DiNpaQXUY8EyJuu9426ZCeE63rbqeB7Ou3W9ANmx5DE0NPx1Rwgp1U4GGrdmhtpuH
-         REu7dgHTXvejV9xvofcMDsYWhckelzxdfuDlwTbl9q0j5cw/B42TbQKsjUAEeUwntZFc
-         1iGA==
+        d=gmail.com; s=20230601; t=1725975871; x=1726580671; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WbzSAdtntG8KY2qP52HGIskbSqDIE6ROJSa5o88LDvA=;
+        b=g+Q5dYwkBWTr8BDfH7gLNdh3AskCYYjbiEj2quOMV694sCl8Rqj6QyK0XICWsLWbGI
+         JEyiWMtDq8yfjs/A1/ky2XF0aHRYVipK0qQ/BfKXB/+qpuS86UYPxwwG0BaqtkR7Q1IN
+         zKHE5Rqn+KpVGE5qZYF5QL/hh+Cjzk2C+YZzHN7Z+Adp8ppCTZKDUNItYs/Pjikg0RgT
+         013Tf+2LxkUn44KJaR9v8G6VksF3gjzijVyFUSxde17vKs6I6gLdwMUgBZ8jApbs1OCN
+         MphwUTV+9ah3/O0AvgpGZc8jaKZ6XOZnFNayLfg2NykRqgZPefDNrI9zBKpJB6O1ho9u
+         KYdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725971491; x=1726576291;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AtcRhukYoCtt3zbp0P2CQXM3Yj4Vl3Xs7XXdCTCWAv4=;
-        b=K+cBsStNp1PoL2AWUFV1Ny2fFBmIbcgGyl7wtiNNxdAm7dX1vIcj+mVj0XHGJe9+oj
-         wOHAGvzqFq/xH+ovJHizi9aTPUQeBIX/v9pyjgkegkhhtfxYeyKEKuEbT4qc6NYPk1rY
-         N5CgWthpefY91A1AclQcg/rxgTyz9Dpzd7uPirXPHCnA2DRQeSLUd0q/RwTZ9f2qPI45
-         OQQYXhrVlOjkq7kBtotdBI0YS6uXUdp/TMgYJiJtRBznwLDGrhhnkNR7ESUvYmZBQ1il
-         GUeZ6XulvFSNs/9yHZptR8jfh4rLKykXrVin09DjsE6gMTZOJ6bQWO/mKjTQ/SOo2Jz5
-         mqZg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+FsFZeCi0zf46D3myVeLv81+DmVX4J0eY3dYMTFoYcXUm257uXdI6kQhqNucuH9/hz84=@vger.kernel.org, AJvYcCUH4WPfUvt8Uj/8mx5JLsx/yeYvZuNjeOAAqIVzMKmkqOqAOAwn+1Z/venyYkVGrPEALLNIo9ViR//J7Q==@vger.kernel.org, AJvYcCUZLxXyrrs/Zn9sMmu19KQOVmxVNVBfdatSCoumdC+EzJr32Hzv3qcjOfYRXJt6QKG7rhtCXG4Xaxxy9s8=@vger.kernel.org, AJvYcCVI6/CRVZTnHMCBEXVTzPcy1GuvUyWCAs8EQyjkRsvnURWeJ/xbYni6QmmQqdHXI3a3u8VfoHdAkJTn@vger.kernel.org, AJvYcCVh0epzvCu3b586T7Mcstrkfoca9F42dJcUUmyANHBfFZLpeyhJqzyNsC8xbGr5/uDLtB7VCsr914EKl0+b@vger.kernel.org, AJvYcCWfjtnDAs9iDl4ZEuqR2n4QznWbFdyKioIz2MY+4MELUbih3l/Gi1EFIr4/rXKjbhOxaKtTznWFgHE/Bw==@vger.kernel.org, AJvYcCWmLGnOuKJzwO8743PopL/+cDrv+jE8owNzTOVkY7y+OdL5G72ZTF9czmCH5WtSvycjdgj24ihTjcHvcYWkdFbv@vger.kernel.org, AJvYcCXGRTc1MIGDB+JptwptyDChiezcy+nwVOHk7IWC496s88OIiCVJo299eNKsgX6GdSAFsW20Inm46n2O/IAz@vger.kernel.org, AJvYcCXLlLvSc3E/87HHNlSwgOZu400mOwnxLWDbgYP3n7Xu4x04tdtCzy3HPWbdd5a8mui2tm81cLFoF0qU6Q==@vger.kernel.org, AJvYcCXchaykcV96AGUMh9TbDqvk
- dNCEpOY8zv1WbKRXRqkaesBdxRYB1Q45mcCj32+Ze3XotyFNmC2Yp1HKak07oqn9c4xk@vger.kernel.org, AJvYcCXz0H4hcDz7JyEqCCvQSvDqX1U942GTpNri8aL0Gvj5JmGoWqrIBcQTf9pttXkPsO/7/3U7aDdBq6QDun4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4MYR2NjXdNXOpjBuvUo3DR+goPG2uQIFB1cVAgP4V0Sfja48t
-	Fs3waM3VqfpXWUka4462os3NMB5Tgfh++CwtiOubidpeROald8q2
-X-Google-Smtp-Source: AGHT+IGEVkB6nnSie3fLjpdXReDnDVW5WUCRhLkJsLhAZYuUFak44mbGNRXGfWfCij7/1bK1evFE2Q==
-X-Received: by 2002:a05:6512:4021:b0:536:5810:e89 with SMTP id 2adb3069b0e04-5365880b041mr13327012e87.49.1725971490461;
-        Tue, 10 Sep 2024 05:31:30 -0700 (PDT)
-Received: from [192.168.42.252] ([163.114.131.193])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d259511c0sm475844966b.62.2024.09.10.05.31.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Sep 2024 05:31:29 -0700 (PDT)
-Message-ID: <9116f069-63a7-4cc9-b197-1f39ebfd0a57@gmail.com>
-Date: Tue, 10 Sep 2024 13:31:56 +0100
+        d=1e100.net; s=20230601; t=1725975871; x=1726580671;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WbzSAdtntG8KY2qP52HGIskbSqDIE6ROJSa5o88LDvA=;
+        b=UKJzsZXOBVJK3ko2UhS0H0GIWAF+LPkBkinhS+1hcwjXkPLA97v9hlRDmzxWvx+cGd
+         /VB/TZdgUPCDXvCJADsBte8vJ0EfmWy+Th1wB4RywEjuqk9fZhiiI3cGTGGXWkrQgvyH
+         6KzeJ5hMZjmCMK2kgEj5ufYoKE18E/pQt+6f4sQLyzAv4mk74QO6+g4k6Nmbklb9hpQa
+         KNthLOD5oXJm74Po97rY/jeyWFyRKmJ0V4g0LsQBNv+WS3BuLF3OWChrRymQ7zLTfGDy
+         zDyrnLhEieO9tMQMTu5rACXziBOHTfSHLMAI5yQy41iaCLaDGfBkklJwrDLrzpz3HUX6
+         p5sA==
+X-Forwarded-Encrypted: i=1; AJvYcCUir83aJKCpsfvke7lVaJ+nxzUVSXbn0WQrdwSitu+RqpK58ooLdnxdBBPEsn6nJ6ZYtA9jeeaTHECiC6k=@vger.kernel.org, AJvYcCVyo6FWQAsmlPTYtZjVzt5FqALIoSPB05CraA1C7TSXdUphAYYhNNHjpZ3lbRh9o5/duO+dATBnqOLU9cc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvsPB9MqpTRfIOIITYnsi/7u4CPxW1M36pQZNyrFS5neebLpGf
+	upRmaFnOtAqPGVxkSyQRSttIq7M1alhEked3m2L0bM7JX23vftKI
+X-Google-Smtp-Source: AGHT+IGRz8xECKskw1nSSSppCMSPIUw6qv+o8Z3vn6OMWZUihaDcaFcxSGXDnMsbGuw00YMKTcmBSA==
+X-Received: by 2002:a17:906:f597:b0:a8a:71bb:e9ef with SMTP id a640c23a62f3a-a8ffae0418amr104584166b.20.1725975870754;
+        Tue, 10 Sep 2024 06:44:30 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-188-217-48-58.cust.vodafonedsl.it. [188.217.48.58])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25d65cf6sm481182966b.222.2024.09.10.06.44.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 06:44:30 -0700 (PDT)
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: 
+Cc: linuxfancy@googlegroups.com,
+	sakari.ailus@linux.intel.com,
+	laurent.pinchart@ideasonboard.com,
+	tomm.merciai@gmail.com,
+	julien.massot@collabora.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] media: i2c: max96714/max96717
+Date: Tue, 10 Sep 2024 15:44:26 +0200
+Message-Id: <20240910134428.795273-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v25 00/13] Device Memory TCP
-To: Yunsheng Lin <linyunsheng@huawei.com>,
- Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- Magnus Karlsson <magnus.karlsson@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>
-References: <20240909054318.1809580-1-almasrymina@google.com>
- <42c202e6-8c4c-494f-8c28-17d66ed75880@huawei.com>
- <CAHS8izMX+9F1NngbPx6w7ikKR9TgPvm+jMwZ8168NJYhFC7sVQ@mail.gmail.com>
- <95e6c282-1e4f-458b-9e40-9b626d64b3bd@huawei.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <95e6c282-1e4f-458b-9e40-9b626d64b3bd@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 9/10/24 11:44, Yunsheng Lin wrote:
-> On 2024/9/10 0:54, Mina Almasry wrote:
->> On Mon, Sep 9, 2024 at 4:21 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
->>>
->>> On 2024/9/9 13:43, Mina Almasry wrote:
->>>
->>>>
->>>> Perf - page-pool benchmark:
->>>> ---------------------------
->>>>
->>>> bench_page_pool_simple.ko tests with and without these changes:
->>>> https://pastebin.com/raw/ncHDwAbn
->>>>
->>>> AFAIK the number that really matters in the perf tests is the
->>>> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
->>>> cycles without the changes but there is some 1 cycle noise in some
->>>> results.
->>>>
->>>> With the patches this regresses to 9 cycles with the changes but there
->>>> is 1 cycle noise occasionally running this test repeatedly.
->>>>
->>>> Lastly I tried disable the static_branch_unlikely() in
->>>> netmem_is_net_iov() check. To my surprise disabling the
->>>> static_branch_unlikely() check reduces the fast path back to 8 cycles,
->>>> but the 1 cycle noise remains.
->>>
->>> Sorry for the late report, as I was adding a testing page_pool ko basing
->>> on [1] to avoid introducing performance regression when fixing the bug in
->>> [2].
->>> I used it to test the performance impact of devmem patchset for page_pool
->>> too, it seems there might be some noticable performance impact quite stably
->>> for the below testcases, about 5%~16% performance degradation as below in
->>> the arm64 system:
->>>
->>
->> Correct me if I'm wrong here, but on the surface here it seems that
->> you're re-reporting a known issue. Consensus seems to be that it's a
->> non-issue.
->>
->> In v6 I reported that the bench_page_pool_simple.ko test reports a 1
->> cycle regression with these patches, from 8->9 cycles. That is roughly
->> consistent with the 5-15% you're reporting.
-> 
->  From the description above in the cover letter, I thought the performance
-> data using the out of tree testing ko is not stable enough to justify the
-> performance impact.
-> 
->>
->> I root caused the reason for the regression to be the
->> netmem_is_net_iov() check in the fast path. I removed this regression
->> in v7 (see the change log) by conditionally compiling the check in
->> that function.
->>
->> In v8, Pavel/Jens/David pushed back on the ifdef check. See this
->> entire thread, but in particular this response from Jens:
-> 
-> It seemed the main objection is about how to enable this feature
-> for the io_uring?
+Hi All,
+This patchset add missing HAS_EVENTS flags to max96714/max96717 drivers.
 
-The pushback was that config checks as optimisation don't work in real
-life, they inevitably get enabled everywhere but some niche cases.
-io_uring could do another config for memory providers, but even if it's
-not enabled by default (which is not a great option), distributions will
-eventually turn it on.
+"If HAS_DEVNODE is set, and there are controls, then HAS_EVENTS
+must be set and you have to be able to (un)subscribe to events.
+Because the controls can be exposed to userspace via a v4l-subdevX device, and
+userspace has to be able to subscribe to control events so that it is
+notified when the control changes value."
 
-So, if you have that "niche use case" that fully controls the kernel and
-wants to shed this overhead, we can do a config structure, but if it's
-about overhead for everyone in general, configs hardly help anything,
-even without any io_uring in the picture.
+References:
+ - https://www.spinics.net/lists/linux-media/msg220721.html
 
-> And it seemed that you had added the CONFIG_NET_DEVMEM for this
-> devmem thing, why not use it for that?
+Regards,
+Tommaso
+
+Tommaso Merciai (2):
+  media: i2c: max96714: add HAS_EVENTS subdev flag
+  media: i2c: max96717: add HAS_EVENTS subdev flag
+
+ drivers/media/i2c/max96714.c | 3 ++-
+ drivers/media/i2c/max96717.c | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
 -- 
-Pavel Begunkov
+2.34.1
+
 
