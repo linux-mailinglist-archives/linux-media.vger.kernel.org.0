@@ -1,70 +1,72 @@
-Return-Path: <linux-media+bounces-18091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18092-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BDF973E11
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 19:06:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD0E973E14
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 19:06:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E35CC1F26B28
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 17:06:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 63D291F26DAC
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 17:06:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C221A01CC;
-	Tue, 10 Sep 2024 17:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E5D41A2C00;
+	Tue, 10 Sep 2024 17:06:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nsL9sZBD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ew+Ju16R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1753A19ABC6;
-	Tue, 10 Sep 2024 17:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DFD1922E3;
+	Tue, 10 Sep 2024 17:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725987980; cv=none; b=b8E5JyBwSPs5fJC8AGV2I6tVRtToO5n2y2rxNZMgOC2ypRDzoWlC37WGBioO8si/EH/iC/m1jYcNzxASs4w9ag3dYHtCdEutS4NonoZ7pwJOlTbQn9OLKIOS17kLz67cHH4bhBRnRQHkX1g7xYPJhWKoNhpBkFy6G3iqm3LViNQ=
+	t=1725987981; cv=none; b=cwiG6LODcXHUAwquWetmokeccIIImNKP8p4w1Fglg0pLNvx31mqh6EqlxOkeegfdG/cUuD7TR2OgLW8YD8Ptv1/c+Tv0SSzeUPE+T0Wf1R/th3ybaImrSvyQayhKEcwL6fpaohhh/ejAKEjmikl+yL7/pt12IOm/FaUIzf0d/bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725987980; c=relaxed/simple;
-	bh=ERSOo1gLyL6NRUXpI7BYr7TNKvkN81Ne2xc5qpENzSE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tqQMv8gAnV8zITiXJrZGzSnizzF0YiJiLLz5fQMmlpkbArh8m4CnhyxVC4iYous3i+S9SB96Sd7HP4Dt8HytF3YnTVJHS0nJAWNArllYgyXtATd9wJ/8xzu5o0Yozf8/OsYtBF352muFw0cy1ZCWRFaIQyeSxJU7AO4hRLU7aAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nsL9sZBD; arc=none smtp.client-ip=209.85.208.169
+	s=arc-20240116; t=1725987981; c=relaxed/simple;
+	bh=aY/aJQpV38qNROExL3xJqYKRw9fwpPUOQxSrGJ5yIiU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Je/FtU1oYPYVyLOVfqGUvN/T2w8s9WcHmYBjl4Da1P3w1mF2lJgEP8J9aQAojY82yMCxIALo+JJSj7xUUxJnDPFVLbqjm0/+sWcNgoSDqIwIgd9gtPA+RuiiVp1eaxwTZ9U77+7+y6A57PWwPJ5zSfaYQl6UlPG02LL24ZHMPsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ew+Ju16R; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f752d9ab62so55073921fa.3;
-        Tue, 10 Sep 2024 10:06:18 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-374bfc395a5so17203f8f.0;
+        Tue, 10 Sep 2024 10:06:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725987977; x=1726592777; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IictGBPqCiiw3p09IMxat80agLiHcd00LB2nW0GaKVs=;
-        b=nsL9sZBDGVRswUh44BUxrEyemNPcff3Valy9sYFVBzEbunEdJm1w0ESnA3hFczxnAx
-         ArtENa+LhrGGjajG1oDWQOZB/VuqsSFsxIBU7OTQEkDBRNa81IIC18Zn/U56sdhh6kpS
-         b1MMC/7/sP0gv9jxTS7MnB8VfiJmiIJ20gyw5DKLx5gM5JXXzIjkZMD5s/otnPNaghg3
-         q9TB7uGT4yymRCWsuj37FdCyz6S1c78CgtWbwI6WaYcTmQiO9/KTCSaFRCnykEioXP7/
-         XpQcUz2KrZrrSRZvNf2aKUOVFK3K9/OvI+/k2fvyD9D0l5y2Gc5e3HdxYbZ2qkLXuN0e
-         a9ng==
+        d=gmail.com; s=20230601; t=1725987978; x=1726592778; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jc7MVYbBTomhAghG+qJoHxAlGvl31VLQMoetsad1iTQ=;
+        b=Ew+Ju16Rww2coDa1KTz4nSnQ2YPnhJFm2AeldzViBtOu57yNBagwJX9UW9aeTnZyLt
+         zxzV/EeKnVbxL/FY49aAGu3nqpk0leSGmscsXRwsbiFhIcNHQCmjqZ1f3F+AMvYIqByW
+         cp5HcR1j09ty8xq1sy3BQIgQBQPXFFIFxJw5fHK4DTqtMvMAwbUCWfZwDugUPY+NbN1K
+         PwFqOhr/X33LqbDCuwbbPXdjNSjEjrj5am0NmXzmocK/Zf0WzEFLOF5d/LapdnCzLI/0
+         SFZiD/7Mx3t8R3P/DhMPGeMLTGKFfIJ9klxi1cKxiLDrP3Bq2eFd2x/3XCT4+kbFrtmg
+         Smhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725987977; x=1726592777;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IictGBPqCiiw3p09IMxat80agLiHcd00LB2nW0GaKVs=;
-        b=E3fVuLM0pm9IqfAxFCdzhN1DcVJB69aHqRT+X7nG8sYYDTXJ870cyQ+178MIUj0/Z7
-         GohQZC80eYje1pgvWYEtzJRR1c6nIEzIzJ1fNwQrVHuIoPi4pbpn7qDaGkV67udg2pUZ
-         ZFLrEpY15dJYcF4rWpA75OtNQkYDISrlKLtYfyFBSxdavYuPxka8VxCA+ROY+Zb29/hS
-         e5RZk20wshQomjGnlyC4HrLeIRDg62QEwGpt/8Ad4C9/P4gwTWUWT114BlmKU+Guvvuo
-         BELZZx6l/X1H7GN5PdRzOdV6oKvTRSDKjc9oQc1krbRVOcCzm8yEiyNlZtxx+pY39z4k
-         OSow==
-X-Forwarded-Encrypted: i=1; AJvYcCUeqTwz4XQ2Y4DX/hDbCBzpyXUYMAZWp+Khibf1lSG5qrZL9nUuJ7AKEzyhGn58hl1rVEm1cVbY0UbtclRZXMV7C0U=@vger.kernel.org, AJvYcCVWtWrGlarejWzrkcAP/sD2z0Ut7AD8Y7zxPNrvLWrNK85yEaY4wWE9kaNm4U4mSSMjB5fM1ry7PDZCwQI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/o3wHrpdwFpcyd7I6nN3EoHUrp4ZwapJFvfbEUKnAqHBN3Qu+
-	7V1lBHzJrPMtCJW5KBBoKllED8SBCJ+ijxuqd4fVCxB/izCHs9b/
-X-Google-Smtp-Source: AGHT+IGDW33Klp1v5arH0qZGDpA2Gs9o2FYaMLo2uhtpKVWfWvsdhU8NjPo2eDJcbZ04R54u1I7Ddg==
-X-Received: by 2002:a05:6512:b1e:b0:52e:7448:e137 with SMTP id 2adb3069b0e04-536587a6790mr11834418e87.6.1725987976594;
-        Tue, 10 Sep 2024 10:06:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725987978; x=1726592778;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Jc7MVYbBTomhAghG+qJoHxAlGvl31VLQMoetsad1iTQ=;
+        b=d2y6D+QyF69PEwtB/XvsB43ULF9wE9L9FWoza4yl+NETCcNrirtmku+eSta4UPXGID
+         9CFP1ddDrgZTl/D1SZQVep88UE6xhnsue7wumx3jvsNL5B5o63W22yv/glFfekSUVe1Z
+         Kju/g8vqCXD1q1QSDU770EFDPu3Olv05ZWOEXoj1G6wI/FFyBeGDzOyYHvw9PMXufriZ
+         J+tWmvEA36S9zyHfHEfwaz7I9Oc1vGPkG+jsXA+kmRr13jSwPAq0ZA2PWVmnoEaOGiAa
+         U/oyxoTXI0Dm7uEd2fmkDtlKSUEUrWbZ7JJhHxZEcoqSCgQrHAAnniWzDKcOxUbySben
+         Lqlg==
+X-Forwarded-Encrypted: i=1; AJvYcCUMquM5MW60Z1nikoTioEILyaCIvWUSLWmrjof2euhr7Ka47/FgPa0VNNjaZGpX78hDbGFH9sIdc/NFgNI=@vger.kernel.org, AJvYcCVbXtE+AByvORotSqpUgn0tcrRQsY/TcD5mAhFPj60uMPt89w2qgxr3JuqcgOlg0+LXU5B+pt8n6GjOCNjeK9R1v9o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1FLOPGhDFhR+hTmGaW1uEviY/eCZsGSv8+VkXRXxlPDacRVQr
+	CMHgGK7IJAempHSLIcHA/0spzeZ6Md5KpTpl2+UZmojoYM4B5671
+X-Google-Smtp-Source: AGHT+IGdEs37CqFnTH/L3fiaagnY/yzdCuig7ywcrD7kKLYsNFPo9lnDw9DrB84U1oqO3LR+fgjqgA==
+X-Received: by 2002:a5d:5f87:0:b0:374:c400:8556 with SMTP id ffacd0b85a97d-378a8a1b6a6mr3012695f8f.11.1725987977697;
+        Tue, 10 Sep 2024 10:06:17 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2500:a01:94a6:1e64:e5a2:2b2a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956de4b9sm9438925f8f.111.2024.09.10.10.06.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956de4b9sm9438925f8f.111.2024.09.10.10.06.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 10:06:15 -0700 (PDT)
+        Tue, 10 Sep 2024 10:06:17 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -81,10 +83,12 @@ Cc: linux-media@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 00/11] media: ov5645: Add support for streams
-Date: Tue, 10 Sep 2024 18:05:59 +0100
-Message-Id: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 01/11] media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+Date: Tue, 10 Sep 2024 18:06:00 +0100
+Message-Id: <20240910170610.226189-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,170 +99,49 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi All,
+The OV5645 sensor exposes controls, so the V4L2_SUBDEV_FL_HAS_EVENTS flag
+should be set and implement subscribe_event and unsubscribe_event hooks.
 
-This patch series aims to add the below features,
-- Support subdev active state
-- Support for streams
-- Support for virtual channel
-- Code cleanup
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/media/i2c/ov5645.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Note, these patches are dependent on below:
-1] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-27-sakari.ailus@linux.intel.com/
-2] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-26-sakari.ailus@linux.intel.com/
-
-RFC->v2
-- Dropped setting of VC using routes
-- Defaulted the native format to MEDIA_BUS_FMT_SBGGR8_1X8
-- Fixed ov5645_enum_frame_size and ov5645_enum_mbus_code
-  for internal image pad
-
-RFC patch,
-Link: https://lore.kernel.org/all/20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-
-Test logs:
-====================================
-
-root@smarc-rzg2l:~# media-ctl -p
-.....
-- entity 4: ov5645 0-003c (2 pads, 1 link, 1 route)
-            type V4L2 subdev subtype Sensor flags 0
-            device node name /dev/v4l-subdev1
-        routes:
-                1/0 -> 0/0 [ACTIVE]
-        pad0: SOURCE
-                [stream:0 fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb
-                 crop:(0,0)/1920x1080]
-                -> "csi-10830400.csi2":0 [ENABLED,IMMUTABLE]
-        pad1: SINK,0x8
-                [stream:0 fmt:SBGGR8_1X8/2592x1944 field:none colorspace:srgb
-                 crop:(0,0)/1920x1080]
-.....
-
-root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-mbus-codes pad=0
-ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0,stream=0)
-    0x200f: MEDIA_BUS_FMT_UYVY8_1X16
-root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-mbus-codes pad=1
-ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=1,stream=0)
-    0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
-root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-framesizes pad=1,code=0x3001
-ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=1,stream=0)
-    Size Range: 2592x1944 - 2592x1944
-root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x200f
-ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0,stream=0)
-    Size Range: 1280x960 - 1280x960
-    Size Range: 1920x1080 - 1920x1080
-    Size Range: 2592x1944 - 2592x1944
-root@smarc-rzg2l:~#
-
-v4l2-compliance log:
--------------------
-root@smarc-rzg2l:~# v4l2-compliance -u /dev/v4l-subdev1
-v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
-v4l2-compliance SHA: fc15e229d9d3 2024-07-23 19:22:15
-
-Compliance test for device /dev/v[ 6347.789338] ov5645 0-003c: ================= START STATUS =================
-4l-subdev1:
-
-Driver In[ 6347.798197] ov5645 0-003c: ================== END STATUS ==================
-fo:
-    Driver version  : 6.11.0
-    Capabilities   : 0x00000002
-        Streams Support
-    Client Capabilities: 0x0000000000000003
-streams interval-uses-which
-Required ioctls:
-    test VIDIOC_SUDBEV_QUERYCAP: OK
-    test invalid ioctls: OK
-
-Allow for multiple opens:
-    test second /dev/v4l-subdev1 open: OK
-    test VIDIOC_SUBDEV_QUERYCAP: OK
-    test for unlimited opens: OK
-
-Debug ioctls:
-    test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-    test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-    test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-    test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-    test VIDIOC_ENUMAUDIO: OK (Not Supported)
-    test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-    test VIDIOC_G/S_AUDIO: OK (Not Supported)
-    Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-    test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-    test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-    test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-    test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-    test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-    Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-    test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-    test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-    test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-    test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Sub-Device routing ioctls:
-    test Try VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
-    test Active VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
-
-Control ioctls:
-    test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-    test VIDIOC_QUERYCTRL: OK
-    test VIDIOC_G/S_CTRL: OK
-    test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-    test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-    test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-    Standard Controls: 12 Private Controls: 0
-
-Format ioctls:
-    test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-    test VIDIOC_G/S_PARM: OK (Not Supported)
-    test VIDIOC_G_FBUF: OK (Not Supported)
-    test VIDIOC_G_FMT: OK (Not Supported)
-    test VIDIOC_TRY_FMT: OK (Not Supported)
-    test VIDIOC_S_FMT: OK (Not Supported)
-    test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-    test Cropping: OK (Not Supported)
-    test Composing: OK (Not Supported)
-    test Scaling: OK (Not Supported)
-
-Codec ioctls:
-    test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-    test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-    test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-    test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-    test CREATE_BUFS maximum buffers: OK
-    test VIDIOC_REMOVE_BUFS: OK
-    test VIDIOC_EXPBUF: OK (Not Supported)
-    test Requests: OK (Not Supported)
-
-Total for device /dev/v4l-subdev1: 47, Succeeded: 47, Failed: 0, Warnings: 0
-
-Lad Prabhakar (11):
-  media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
-  media: i2c: ov5645: Use local `dev` pointer for subdev device
-    assignment
-  media: i2c: ov5645: Enable runtime PM after
-    v4l2_async_register_subdev()
-  media: i2c: ov5645: Use dev_err_probe instead of dev_err
-  media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
-  media: i2c: ov5645: Drop `power_lock` mutex
-  media: i2c: ov5645: Use subdev active state
-  media: i2c: ov5645: Switch to {enable,disable}_streams
-  media: i2c: ov5645: Add internal image sink pad
-  media: i2c: ov5645: Report internal routes to userspace
-  media: i2c: ov5645: Report streams using frame descriptors
-
- drivers/media/i2c/ov5645.c | 433 ++++++++++++++++++++-----------------
- 1 file changed, 240 insertions(+), 193 deletions(-)
-
+diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+index 019979f553b1..6eedd0310b02 100644
+--- a/drivers/media/i2c/ov5645.c
++++ b/drivers/media/i2c/ov5645.c
+@@ -29,6 +29,7 @@
+ #include <linux/slab.h>
+ #include <linux/types.h>
+ #include <media/v4l2-ctrls.h>
++#include <media/v4l2-event.h>
+ #include <media/v4l2-fwnode.h>
+ #include <media/v4l2-subdev.h>
+ 
+@@ -1042,7 +1043,13 @@ static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
+ 	.get_selection = ov5645_get_selection,
+ };
+ 
++static const struct v4l2_subdev_core_ops ov5645_core_ops = {
++	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
++	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
++};
++
+ static const struct v4l2_subdev_ops ov5645_subdev_ops = {
++	.core = &ov5645_core_ops,
+ 	.video = &ov5645_video_ops,
+ 	.pad = &ov5645_subdev_pad_ops,
+ };
+@@ -1178,7 +1185,7 @@ static int ov5645_probe(struct i2c_client *client)
+ 
+ 	v4l2_i2c_subdev_init(&ov5645->sd, client, &ov5645_subdev_ops);
+ 	ov5645->sd.internal_ops = &ov5645_internal_ops;
+-	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+ 	ov5645->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	ov5645->sd.dev = &client->dev;
+ 	ov5645->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
 -- 
 2.34.1
 
