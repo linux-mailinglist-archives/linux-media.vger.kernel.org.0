@@ -1,155 +1,265 @@
-Return-Path: <linux-media+bounces-18090-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18091-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B92973DF3
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 19:00:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BDF973E11
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 19:06:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4ACCA1C252AA
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 17:00:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E35CC1F26B28
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 17:06:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72F021A3BB1;
-	Tue, 10 Sep 2024 17:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C221A01CC;
+	Tue, 10 Sep 2024 17:06:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QaHtwbxU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nsL9sZBD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DB01A38EB;
-	Tue, 10 Sep 2024 17:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1753A19ABC6;
+	Tue, 10 Sep 2024 17:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725987606; cv=none; b=LkksD+Uil0/l17YV6Nl6tB8Njbfd1hru1RSAjpp0Vs/oJFlX8nuy/6m8QBuXrQz1wPi56+djUJhoN0hKgJYf4Afi/yk5500DlLE6t1l2gIHi71um7eK31UCeMBI+WkA2J3YSMAUDOVpJXeTXmN4Y6dWl2ayxvoQgs9A+rS0/H+o=
+	t=1725987980; cv=none; b=b8E5JyBwSPs5fJC8AGV2I6tVRtToO5n2y2rxNZMgOC2ypRDzoWlC37WGBioO8si/EH/iC/m1jYcNzxASs4w9ag3dYHtCdEutS4NonoZ7pwJOlTbQn9OLKIOS17kLz67cHH4bhBRnRQHkX1g7xYPJhWKoNhpBkFy6G3iqm3LViNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725987606; c=relaxed/simple;
-	bh=ALtxkw4ZqKMXNnXQl/i/xpN+EN/zlr7OEimE583h86o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V9c8sYOVtxwCpfHcWs4wqmDNXAt7tX6XMScW51oczoyI4p54Xav0uM59FNsJJ2mYKGmaM0m6Z87ZVVpGH91g1/C/K2AQD4N2aKN95smBQzpLvdeJDeE3OQtgEFA9VR20n4tP+IBFxQDIpgzkQCc+EQC/rk7I/MaI6vodtcZmLeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QaHtwbxU; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.53] (213-229-8-243.static.upcbusiness.at [213.229.8.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E1B263F;
-	Tue, 10 Sep 2024 18:58:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725987525;
-	bh=ALtxkw4ZqKMXNnXQl/i/xpN+EN/zlr7OEimE583h86o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QaHtwbxUPuLQm7Og43Y+gPFAQRHN4PX99UyAl6lY+dF2b+KrDnHxoCHwUWvhvknxM
-	 V67WFky36W9+m6cqUuqnkK2DwDFx0uuX3COL1aOBsMv5a56jiIOmb2Q7Z0Q0w4woAE
-	 Esi26W0IJeY0CByqlQcEQj1IAgvx1Cn6wVNiFLDk=
-Message-ID: <24932b2f-9eb2-4371-bd0e-40530c87134c@ideasonboard.com>
-Date: Tue, 10 Sep 2024 17:59:58 +0100
+	s=arc-20240116; t=1725987980; c=relaxed/simple;
+	bh=ERSOo1gLyL6NRUXpI7BYr7TNKvkN81Ne2xc5qpENzSE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tqQMv8gAnV8zITiXJrZGzSnizzF0YiJiLLz5fQMmlpkbArh8m4CnhyxVC4iYous3i+S9SB96Sd7HP4Dt8HytF3YnTVJHS0nJAWNArllYgyXtATd9wJ/8xzu5o0Yozf8/OsYtBF352muFw0cy1ZCWRFaIQyeSxJU7AO4hRLU7aAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nsL9sZBD; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f752d9ab62so55073921fa.3;
+        Tue, 10 Sep 2024 10:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725987977; x=1726592777; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IictGBPqCiiw3p09IMxat80agLiHcd00LB2nW0GaKVs=;
+        b=nsL9sZBDGVRswUh44BUxrEyemNPcff3Valy9sYFVBzEbunEdJm1w0ESnA3hFczxnAx
+         ArtENa+LhrGGjajG1oDWQOZB/VuqsSFsxIBU7OTQEkDBRNa81IIC18Zn/U56sdhh6kpS
+         b1MMC/7/sP0gv9jxTS7MnB8VfiJmiIJ20gyw5DKLx5gM5JXXzIjkZMD5s/otnPNaghg3
+         q9TB7uGT4yymRCWsuj37FdCyz6S1c78CgtWbwI6WaYcTmQiO9/KTCSaFRCnykEioXP7/
+         XpQcUz2KrZrrSRZvNf2aKUOVFK3K9/OvI+/k2fvyD9D0l5y2Gc5e3HdxYbZ2qkLXuN0e
+         a9ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725987977; x=1726592777;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IictGBPqCiiw3p09IMxat80agLiHcd00LB2nW0GaKVs=;
+        b=E3fVuLM0pm9IqfAxFCdzhN1DcVJB69aHqRT+X7nG8sYYDTXJ870cyQ+178MIUj0/Z7
+         GohQZC80eYje1pgvWYEtzJRR1c6nIEzIzJ1fNwQrVHuIoPi4pbpn7qDaGkV67udg2pUZ
+         ZFLrEpY15dJYcF4rWpA75OtNQkYDISrlKLtYfyFBSxdavYuPxka8VxCA+ROY+Zb29/hS
+         e5RZk20wshQomjGnlyC4HrLeIRDg62QEwGpt/8Ad4C9/P4gwTWUWT114BlmKU+Guvvuo
+         BELZZx6l/X1H7GN5PdRzOdV6oKvTRSDKjc9oQc1krbRVOcCzm8yEiyNlZtxx+pY39z4k
+         OSow==
+X-Forwarded-Encrypted: i=1; AJvYcCUeqTwz4XQ2Y4DX/hDbCBzpyXUYMAZWp+Khibf1lSG5qrZL9nUuJ7AKEzyhGn58hl1rVEm1cVbY0UbtclRZXMV7C0U=@vger.kernel.org, AJvYcCVWtWrGlarejWzrkcAP/sD2z0Ut7AD8Y7zxPNrvLWrNK85yEaY4wWE9kaNm4U4mSSMjB5fM1ry7PDZCwQI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/o3wHrpdwFpcyd7I6nN3EoHUrp4ZwapJFvfbEUKnAqHBN3Qu+
+	7V1lBHzJrPMtCJW5KBBoKllED8SBCJ+ijxuqd4fVCxB/izCHs9b/
+X-Google-Smtp-Source: AGHT+IGDW33Klp1v5arH0qZGDpA2Gs9o2FYaMLo2uhtpKVWfWvsdhU8NjPo2eDJcbZ04R54u1I7Ddg==
+X-Received: by 2002:a05:6512:b1e:b0:52e:7448:e137 with SMTP id 2adb3069b0e04-536587a6790mr11834418e87.6.1725987976594;
+        Tue, 10 Sep 2024 10:06:16 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:94a6:1e64:e5a2:2b2a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956de4b9sm9438925f8f.111.2024.09.10.10.06.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 10:06:15 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 00/11] media: ov5645: Add support for streams
+Date: Tue, 10 Sep 2024 18:05:59 +0100
+Message-Id: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/9] media: Add C3ISP_PARAMS and C3ISP_STATS meta formats
-To: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com,
- laurent.pinchart@ideasonboard.com
-References: <20240903-c3isp-v1-0-8af0edcc13c8@amlogic.com>
- <20240903-c3isp-v1-6-8af0edcc13c8@amlogic.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240903-c3isp-v1-6-8af0edcc13c8@amlogic.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Keke
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On 03/09/2024 07:57, Keke Li via B4 Relay wrote:
-> From: Keke Li <keke.li@amlogic.com>
->
-> C3ISP_PARAMS is the C3 ISP Parameters format.
-> C3ISP_STATS is the C3 ISP Statistics format.
->
-> Signed-off-by: Keke Li <keke.li@amlogic.com>
-> ---
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
->   drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
->   include/uapi/linux/videodev2.h       | 4 ++++
->   2 files changed, 6 insertions(+)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index e14db67be97c..d0e346f301c1 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1459,6 +1459,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->   	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
->   	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
->   	case V4L2_META_FMT_RK_ISP1_EXT_PARAMS:	descr = "Rockchip ISP1 Ext 3A Params"; break;
-> +	case V4L2_META_FMT_C3ISP_PARAMS:	descr = "Amlogic C3 ISP Parameters"; break;
-> +	case V4L2_META_FMT_C3ISP_STATS:		descr = "Amlogic C3 ISP Statistics"; break;
->   	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
->   	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
->   	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 725e86c4bbbd..d76f53bef4fb 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -856,6 +856,10 @@ struct v4l2_pix_format {
->   #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
->   #define V4L2_META_FMT_RK_ISP1_EXT_PARAMS	v4l2_fourcc('R', 'K', '1', 'E') /* Rockchip ISP1 3a Extensible Parameters */
->   
-> +/* Vendor specific - used for C3_ISP */
-> +#define V4L2_META_FMT_C3ISP_PARAMS	v4l2_fourcc('C', 'P', 'R', 'M') /* Amlogic C3 ISP Parameters */
-> +#define V4L2_META_FMT_C3ISP_STATS	v4l2_fourcc('C', 'S', 'T', 'S') /* Amlogic C3 ISP Statistics */
-> +
->   /* Vendor specific - used for RaspberryPi PiSP */
->   #define V4L2_META_FMT_RPI_BE_CFG	v4l2_fourcc('R', 'P', 'B', 'C') /* PiSP BE configuration */
->   
->
+Hi All,
+
+This patch series aims to add the below features,
+- Support subdev active state
+- Support for streams
+- Support for virtual channel
+- Code cleanup
+
+Note, these patches are dependent on below:
+1] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-27-sakari.ailus@linux.intel.com/
+2] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-26-sakari.ailus@linux.intel.com/
+
+RFC->v2
+- Dropped setting of VC using routes
+- Defaulted the native format to MEDIA_BUS_FMT_SBGGR8_1X8
+- Fixed ov5645_enum_frame_size and ov5645_enum_mbus_code
+  for internal image pad
+
+RFC patch,
+Link: https://lore.kernel.org/all/20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Test logs:
+====================================
+
+root@smarc-rzg2l:~# media-ctl -p
+.....
+- entity 4: ov5645 0-003c (2 pads, 1 link, 1 route)
+            type V4L2 subdev subtype Sensor flags 0
+            device node name /dev/v4l-subdev1
+        routes:
+                1/0 -> 0/0 [ACTIVE]
+        pad0: SOURCE
+                [stream:0 fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb
+                 crop:(0,0)/1920x1080]
+                -> "csi-10830400.csi2":0 [ENABLED,IMMUTABLE]
+        pad1: SINK,0x8
+                [stream:0 fmt:SBGGR8_1X8/2592x1944 field:none colorspace:srgb
+                 crop:(0,0)/1920x1080]
+.....
+
+root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-mbus-codes pad=0
+ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0,stream=0)
+    0x200f: MEDIA_BUS_FMT_UYVY8_1X16
+root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-mbus-codes pad=1
+ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=1,stream=0)
+    0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
+root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-framesizes pad=1,code=0x3001
+ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=1,stream=0)
+    Size Range: 2592x1944 - 2592x1944
+root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x200f
+ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0,stream=0)
+    Size Range: 1280x960 - 1280x960
+    Size Range: 1920x1080 - 1920x1080
+    Size Range: 2592x1944 - 2592x1944
+root@smarc-rzg2l:~#
+
+v4l2-compliance log:
+-------------------
+root@smarc-rzg2l:~# v4l2-compliance -u /dev/v4l-subdev1
+v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
+v4l2-compliance SHA: fc15e229d9d3 2024-07-23 19:22:15
+
+Compliance test for device /dev/v[ 6347.789338] ov5645 0-003c: ================= START STATUS =================
+4l-subdev1:
+
+Driver In[ 6347.798197] ov5645 0-003c: ================== END STATUS ==================
+fo:
+    Driver version  : 6.11.0
+    Capabilities   : 0x00000002
+        Streams Support
+    Client Capabilities: 0x0000000000000003
+streams interval-uses-which
+Required ioctls:
+    test VIDIOC_SUDBEV_QUERYCAP: OK
+    test invalid ioctls: OK
+
+Allow for multiple opens:
+    test second /dev/v4l-subdev1 open: OK
+    test VIDIOC_SUBDEV_QUERYCAP: OK
+    test for unlimited opens: OK
+
+Debug ioctls:
+    test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+    test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+    test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+    test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+    test VIDIOC_ENUMAUDIO: OK (Not Supported)
+    test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+    test VIDIOC_G/S_AUDIO: OK (Not Supported)
+    Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+    test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+    test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+    test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+    test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+    test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+    Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+    test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+    test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+    test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+    test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Sub-Device routing ioctls:
+    test Try VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+    test Active VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+
+Control ioctls:
+    test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+    test VIDIOC_QUERYCTRL: OK
+    test VIDIOC_G/S_CTRL: OK
+    test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+    test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+    test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+    Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+    test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+    test VIDIOC_G/S_PARM: OK (Not Supported)
+    test VIDIOC_G_FBUF: OK (Not Supported)
+    test VIDIOC_G_FMT: OK (Not Supported)
+    test VIDIOC_TRY_FMT: OK (Not Supported)
+    test VIDIOC_S_FMT: OK (Not Supported)
+    test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+    test Cropping: OK (Not Supported)
+    test Composing: OK (Not Supported)
+    test Scaling: OK (Not Supported)
+
+Codec ioctls:
+    test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+    test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+    test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+    test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+    test CREATE_BUFS maximum buffers: OK
+    test VIDIOC_REMOVE_BUFS: OK
+    test VIDIOC_EXPBUF: OK (Not Supported)
+    test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev1: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Lad Prabhakar (11):
+  media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+  media: i2c: ov5645: Use local `dev` pointer for subdev device
+    assignment
+  media: i2c: ov5645: Enable runtime PM after
+    v4l2_async_register_subdev()
+  media: i2c: ov5645: Use dev_err_probe instead of dev_err
+  media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
+  media: i2c: ov5645: Drop `power_lock` mutex
+  media: i2c: ov5645: Use subdev active state
+  media: i2c: ov5645: Switch to {enable,disable}_streams
+  media: i2c: ov5645: Add internal image sink pad
+  media: i2c: ov5645: Report internal routes to userspace
+  media: i2c: ov5645: Report streams using frame descriptors
+
+ drivers/media/i2c/ov5645.c | 433 ++++++++++++++++++++-----------------
+ 1 file changed, 240 insertions(+), 193 deletions(-)
+
+-- 
+2.34.1
+
 
