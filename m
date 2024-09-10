@@ -1,495 +1,168 @@
-Return-Path: <linux-media+bounces-18038-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18039-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3323F97247B
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 23:23:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D4A97263D
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 02:38:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 568011C22D5C
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2024 21:23:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2CFA7B21FF1
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2024 00:38:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3396F18C901;
-	Mon,  9 Sep 2024 21:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4735F2BAE2;
+	Tue, 10 Sep 2024 00:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LJsGXwku"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ZKwT+fr4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF98189F2F;
-	Mon,  9 Sep 2024 21:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B87DF4EB;
+	Tue, 10 Sep 2024 00:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725916976; cv=none; b=SubtHjJy17abSHX+IxGjkjsgJODFgz0RkWIyP7hQpyxcSouxdGB98HpozkJ1ObWy8Qg/eBMzTtGFkxfmwQol/k2vAAdEtOe4zJ/6G9DmSBix2hxPnzVEcAGDZt6ZSBWNEDUWbHAxK//mewkmSHeAsBxjxY+W8RngLJpqZDfTG70=
+	t=1725928677; cv=none; b=roBtr6YVMxxBHugMO7V01Nj0qpD8GIGjcynrr7zTEnPomHlqCJawXU7+dFPxc+dWJa6MzNykBa9CAnjxlH0Hua4ZS/XKv4hCpGFV+rHT1Zh/zxpRL0Zy579gKQWxkL7Fdf1lasqRNA2RnfG0Abj54G7j/CMkbdCt3osTyV71WEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725916976; c=relaxed/simple;
-	bh=DHoBHitf6XqutCBUKBaXtWsNw566Wkx2sWsCIpIA5kg=;
+	s=arc-20240116; t=1725928677; c=relaxed/simple;
+	bh=jr5zVGRGboL5XtozuVLN38ByT/dg4+14+mi3ttijOhM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hu5iRoMNW6t4qKXthz79U2FylndGp9/yCy9YQ4tkISBKcUW7JP2A542EYoAGrHYfioao+2DNxwWkEw8TqK6c/MUJ/Pm1CZZeqjdHUcKw/5lbrMmkmdR77cCkwXVwUUzUwgarAHD7twEynTMJaehxaV1yPNI+8KXYt5EJN2E7qT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LJsGXwku; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572A0C4CECC;
-	Mon,  9 Sep 2024 21:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725916976;
-	bh=DHoBHitf6XqutCBUKBaXtWsNw566Wkx2sWsCIpIA5kg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LJsGXwkujv9FcaUCCoYZ1vb9KTSfWqsJj5ePQ1LmXJQcHAWA3W79P2JrqFeV2s/jv
-	 zNpo7fEkKTXdoeSE8pIwdUfkTDHUyGup96gAcEv8vcsFbzEJEdgJXB1bNHnHAoIdba
-	 79vNjt/214TimJH42afhMYFVIvEzsLuYsCmn5ovpua0UPfyX77+b8QBUGPNn+lqQiE
-	 UHgwigS7Ul8uJCa39r5p86jkELBsywN76Cy37sEQvhooGcOXXZRtIvp3UNN13g7MyK
-	 PGxRHlybeKE/Q2FRal8JAYjGqygbYThYS6i8M/3QPrO+dtYYbNnxt0UWDVzbTitAB3
-	 PwgfqJ860nxiw==
-Date: Mon, 9 Sep 2024 23:22:51 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Carlos Song <carlos.song@nxp.com>
-Cc: aisheng.dong@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, festevam@gmail.com, sumit.semwal@linaro.org, 
-	christian.koenig@amd.com, linux-i2c@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Frank Li <frank.li@nxp.com>
-Subject: Re: [PATCH V4] i2c: imx-lpi2c: add eDMA mode support for LPI2C
-Message-ID: <7czathanmppyyw5bbno6gmsfqtn75py33lccyfu6klreh74n6o@d6347uzrxwj4>
-References: <20240829093157.2714736-1-carlos.song@nxp.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IynONVi+VOwrI3/gTULrbtV3ITfxXPKwt8SH9fjxBcCU9wekCYDu8OFfhQdxn4sqzNTd6wnWuZcyKegnqQkwXm8wDG+IQhmVuqIgJzXiv2N0FFUD6Qo6RYjMARTMErkgADVWFpAys88AA4J3W+hHrlScP790oCFP2qgAx9Qnam0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=ZKwT+fr4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51DC3C4CEC5;
+	Tue, 10 Sep 2024 00:37:50 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ZKwT+fr4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1725928668;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OQLtanPdpI6IiO92yLD4QK+WpMduqZbfYjfvTA4Wjlg=;
+	b=ZKwT+fr48l6iq8LtejYrRYTAB9HVjSoYl2w9SIS8taTr8eJGaMN+UnDXFn2Y+3WPqB/R/F
+	rRaSffSolaALbBnXYJobLzN3VpV4Ezx51BMaa/1NhCLY3oqj42i7Mx1nH5OoYZ9G42zSuF
+	N4doRAUS+Xs6qZlnbpNizLgjSg5FNi8=
+Received: 
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9dac766c (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 10 Sep 2024 00:37:47 +0000 (UTC)
+Date: Tue, 10 Sep 2024 02:37:38 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: x86@kernel.org, linux-crypto@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Hannes Reinecke <hare@suse.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jiri Pirko <jiri@resnulli.us>, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: Re: [PATCH RESEND v2 00/19] random: Resolve circular include
+ dependency and include <linux/percpu.h>
+Message-ID: <Zt-U0opo2EW8LSRJ@zx2c4.com>
+References: <20240909075641.258968-1-ubizjak@gmail.com>
+ <Zt8a6_RwLG2pEnZ6@zx2c4.com>
+ <CAFULd4ak3n1x0tGrqiNoxvDBRw6AWgchfBO_k4aKps34DomPvA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240829093157.2714736-1-carlos.song@nxp.com>
-
-Hi Carlos,
-
-Thanks for your patch, sorry for having taken so much time, looks
-good, just some nitpicks.
-
-...
-
-> diff --git a/drivers/i2c/busses/i2c-imx-lpi2c.c b/drivers/i2c/busses/i2c-imx-lpi2c.c
-> index 976d43f73f38..530ca5d76403 100644
-> --- a/drivers/i2c/busses/i2c-imx-lpi2c.c
-> +++ b/drivers/i2c/busses/i2c-imx-lpi2c.c
-> @@ -8,6 +8,8 @@
->  #include <linux/clk.h>
->  #include <linux/completion.h>
->  #include <linux/delay.h>
-> +#include <linux/dmaengine.h>
-> +#include <linux/dma-mapping.h>
-
-please sort in alphabetical order
-
->  #include <linux/err.h>
->  #include <linux/errno.h>
->  #include <linux/i2c.h>
-
-...
-
-> +struct lpi2c_imx_dma {
-> +	bool			using_pio_mode;
-> +	u8			rx_cmd_buf_len;
-> +	u8			*dma_buf;
-> +	u16			*rx_cmd_buf;
-> +	unsigned int	dma_len;
-> +	unsigned int	tx_burst_num;
-> +	unsigned int	rx_burst_num;
-> +	unsigned long	dma_msg_flag;
-> +	resource_size_t		phy_addr;
-> +	dma_addr_t		dma_tx_addr;
-> +	dma_addr_t		dma_addr;
-> +	enum dma_data_direction dma_direction;
-> +	struct dma_chan		*chan_tx;
-> +	struct dma_chan		*chan_rx;
-> +};
-
-The alignment here is a bit off
-
-...
-
-> +static bool is_use_dma(struct lpi2c_imx_struct *lpi2c_imx, struct i2c_msg *msg)
-> +{
-> +	if (!lpi2c_imx->can_use_dma)
-> +		return false;
-> +
-> +	/*
-> +	 * When the length of data is less than I2C_DMA_THRESHOLD,
-> +	 * cpu mode is used directly to avoid low performance.
-> +	 */
-> +	if (msg->len < I2C_DMA_THRESHOLD)
-> +		return false;
-> +
-> +	return true;
-
-You could do
-
-	return !(msg->len < I2C_DMA_THRESHOLD);
-
-Just a matter of taste, your choice.
-
-> +}
-> +
-> +static int lpi2c_imx_pio_xfer(struct lpi2c_imx_struct *lpi2c_imx,
-> +				 struct i2c_msg *msg)
-> +{
-> +	int ret;
-> +
-> +	reinit_completion(&lpi2c_imx->complete);
-> +
-> +	if (msg->flags & I2C_M_RD)
-> +		lpi2c_imx_read(lpi2c_imx, msg);
-> +	else
-> +		lpi2c_imx_write(lpi2c_imx, msg);
-> +
-> +	ret = lpi2c_imx_pio_msg_complete(lpi2c_imx);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-
-You could do
-
-	return lpi2c_imx_pio_msg_complete(lpi2c_imx);
-
-Purely taste, your choice, still.
-
-> +}
-
-...
-
-> +static void lpi2c_cleanup_rx_cmd_dma(struct lpi2c_imx_dma *dma)
-> +{
-> +	dmaengine_terminate_sync(dma->chan_tx);
-> +	dma_unmap_single(dma->chan_tx->device->dev, dma->dma_tx_addr,
-> +				dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-
-alignment
-
-> +}
-
-...
-
-> +static int lpi2c_dma_rx_cmd_submit(struct lpi2c_imx_struct *lpi2c_imx)
-> +{
-> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-> +	struct dma_chan *txchan = dma->chan_tx;
-> +	struct dma_async_tx_descriptor *rx_cmd_desc;
-> +	dma_cookie_t cookie;
-> +
-> +	dma->dma_tx_addr = dma_map_single(txchan->device->dev,
-> +						 dma->rx_cmd_buf,
-> +						 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-> +	if (dma_mapping_error(txchan->device->dev, dma->dma_tx_addr)) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "dma map failed, use pio\n");
-
-/dma/DMA/ and it's valid for every time you have used "dma".
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	rx_cmd_desc = dmaengine_prep_slave_single(txchan, dma->dma_tx_addr,
-> +				 dma->rx_cmd_buf_len, DMA_MEM_TO_DEV,
-> +				 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-
-alignment.
-
-> +	if (!rx_cmd_desc) {
-> +		dma_unmap_single(txchan->device->dev, dma->dma_tx_addr,
-> +				 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-
-put dma_unmap_single() in a goto exit path.
-
-> +		dev_err(&lpi2c_imx->adapter.dev, "dma prep slave sg failed, use pio\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	cookie = dmaengine_submit(rx_cmd_desc);
-> +	if (dma_submit_error(cookie)) {
-> +		dma_unmap_single(txchan->device->dev, dma->dma_tx_addr,
-> +				 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-> +		dmaengine_desc_free(rx_cmd_desc);
-> +		dev_err(&lpi2c_imx->adapter.dev, "submitting dma failed, use pio\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	dma_async_issue_pending(txchan);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lpi2c_dma_submit(struct lpi2c_imx_struct *lpi2c_imx)
-> +{
-> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-> +	bool read = dma->dma_msg_flag & I2C_M_RD;
-> +	enum dma_data_direction dir = read ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> +	struct dma_chan *chan = read ? dma->chan_rx : dma->chan_tx;
-
-I generally prefer the assignment to be done after the
-declaration. It looks more clear.
-
-> +	struct dma_async_tx_descriptor *desc;
-> +	dma_cookie_t cookie;
-> +
-> +	dma->dma_direction = dir;
-> +	dma->dma_addr = dma_map_single(chan->device->dev,
-> +					     dma->dma_buf,
-> +					     dma->dma_len, dir);
-
-alignment is off.
-
-> +	if (dma_mapping_error(chan->device->dev, dma->dma_addr)) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "dma map failed, use pio\n");
-
-/dma/DMA/
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	desc = dmaengine_prep_slave_single(chan, dma->dma_addr,
-> +					 dma->dma_len, read ?
-> +					 DMA_DEV_TO_MEM : DMA_MEM_TO_DEV,
-> +					 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-
-alignment off.
-
-> +	if (!desc) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "dma prep slave sg failed, use pio\n");
-> +		lpi2c_dma_unmap(dma);
-
-put lpi2c_dma_unmape under a goto exit path.
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	reinit_completion(&lpi2c_imx->complete);
-> +	desc->callback = lpi2c_dma_callback;
-> +	desc->callback_param = (void *)lpi2c_imx;
-
-the cast is not needed.
-
-> +	cookie = dmaengine_submit(desc);
-> +	if (dma_submit_error(cookie)) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "submitting dma failed, use pio\n");
-> +		lpi2c_dma_unmap(dma);
-> +		dmaengine_desc_free(desc);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Can't switch to PIO mode when DMA have started transfer */
-> +	dma->using_pio_mode = false;
-> +
-> +	dma_async_issue_pending(chan);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lpi2c_imx_find_max_burst_num(unsigned int fifosize, unsigned int len)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = fifosize / 2; i > 0; i--) {
-> +		if (!(len % i))
-> +			break;
-> +	}
-
-braces are not needed
-
-> +
-> +	return i;
-> +}
-> +
-> +/*
-> + * For a highest DMA efficiency, tx/rx burst number should be calculated according
-> + * to the FIFO depth.
-> + */
-> +static void lpi2c_imx_dma_burst_num_calculate(struct lpi2c_imx_struct *lpi2c_imx)
-> +{
-> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-> +	unsigned int cmd_num;
-> +
-> +	if (dma->dma_msg_flag & I2C_M_RD) {
-> +		/*
-> +		 * One RX cmd word can trigger DMA receive no more than 256 bytes.
-> +		 * The number of RX cmd words should be calculated based on the data
-> +		 * length.
-> +		 */
-> +		cmd_num = DIV_ROUND_UP(dma->dma_len, CHUNK_DATA);
-> +		dma->tx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->txfifosize,
-> +				 cmd_num);
-> +		dma->rx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->rxfifosize,
-> +				 dma->dma_len);
-> +	} else {
-> +		dma->tx_burst_num = lpi2c_imx_find_max_burst_num(lpi2c_imx->txfifosize,
-> +				 dma->dma_len);
-
-Alignment is off.
-
-> +	}
-> +}
-
-...
-
-> +/*
-> + * When lpi2c in TX DMA mode we can use one DMA TX channel to write
-
-/in/is in/
-
-> + * data word into TXFIFO, but in RX DMA mode it is different.
-> + *
-> + * LPI2C MTDR register is a command data and transmit data register.
-
-/LPI2C/The LPI2C/
-
-> + * Bit 8-10 is command data field and Bit 0-7 is transmit data field.
-
-/Bit 8-10 is/Bits 8-10 are the/
-/Bit 0-7 is/ Bits 0-7 are the/
-
-> + * When the LPI2C master needs to read data, the data number to read
-
-/data number/number of bytes/
-
-> + * should be set in transmit data field and RECV_DATA should be set
-> + * into the command data field to receive (DATA[7:0] + 1) bytes. The
-> + * recv data command word is made of RECV_DATA in command data field
-
-/in command/in the command/
-
-> + * and the data number to read in transmit data field. When the length
-
-/data number/number of bytes/
-
-> + * of data that needs to be read exceeds 256 bytes, recv data command
-
-/data that needs to be read/data to be read/
-
-> + * word needs to be written to TXFIFO multiple times.
-> + *
-> + * So when in RX DMA mode, the TX channel also needs to be configured
-> + * additionally to send RX command words and the RX command word need
-
-/additionally//
-/need/must/
-
-> + * be set in advance before transmitting.
-> + */
-> +static int lpi2c_imx_dma_xfer(struct lpi2c_imx_struct *lpi2c_imx,
-> +			 struct i2c_msg *msg)
-
-The alignemnt here is off (did you run checkpatch.pl?)
-
-> +{
-> +	struct lpi2c_imx_dma *dma = lpi2c_imx->dma;
-> +	int ret;
-> +
-> +	/* When DMA mode failed before transferring, CPU mode can be used. */
-
-/failed/fails/
-
-> +	dma->using_pio_mode = true;
-> +
-> +	dma->dma_len = msg->len;
-> +	dma->dma_msg_flag = msg->flags;
-> +	dma->dma_buf = i2c_get_dma_safe_msg_buf(msg, I2C_DMA_THRESHOLD);
-> +	if (!dma->dma_buf)
-> +		return -ENOMEM;
-> +
-> +	ret = lpi2c_dma_config(lpi2c_imx);
-> +	if (ret) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "DMA Config Fail, error %d\n", ret);
-
-Please rephrase as:
-
-	... "Failed to configure DMA (%d)\n", ret);
-
-> +		goto disable_dma;
-> +	}
-> +
-> +	lpi2c_dma_enable(lpi2c_imx);
-> +
-> +	ret = lpi2c_dma_submit(lpi2c_imx);
-> +	if (ret) {
-> +		dev_err(&lpi2c_imx->adapter.dev, "DMA submit Fail, error %d\n", ret);
-
-Please rephrase as:
-
-	... "DMA submission failed (%d)\n", ret);
-
-> +		goto disable_dma;
-> +	}
-> +
-> +	if (dma->dma_msg_flag & I2C_M_RD) {
-> +		ret = lpi2c_imx_alloc_rx_cmd_buf(lpi2c_imx);
-> +		if (ret) {
-> +			lpi2c_cleanup_dma(dma);
-> +			goto disable_dma;
-> +		}
-> +
-> +		ret = lpi2c_dma_rx_cmd_submit(lpi2c_imx);
-> +		if (ret) {
-> +			lpi2c_cleanup_dma(dma);
-> +			goto disable_dma;
-> +		}
-> +	}
-> +
-> +	ret = lpi2c_imx_dma_msg_complete(lpi2c_imx);
-> +	if (ret) {
-> +		if (dma->dma_msg_flag & I2C_M_RD)
-> +			lpi2c_cleanup_rx_cmd_dma(dma);
-> +		lpi2c_cleanup_dma(dma);
-> +		goto disable_dma;
-> +	}
-> +
-> +	/* When meet NACK in transfer, cleanup all DMA transfer */
-
-Please rephrase as:
-
-/* When encountering NACK in transfer, clean up all DMA transfers */
-
-> +	if ((readl(lpi2c_imx->base + LPI2C_MSR) & MSR_NDF) && !ret) {
-> +		if (dma->dma_msg_flag & I2C_M_RD)
-> +			lpi2c_cleanup_rx_cmd_dma(dma);
-> +		lpi2c_cleanup_dma(dma);
-> +		ret = -EIO;
-> +		goto disable_dma;
-> +	}
-> +
-> +	if (dma->dma_msg_flag & I2C_M_RD)
-> +		dma_unmap_single(dma->chan_tx->device->dev, dma->dma_tx_addr,
-> +					 dma->rx_cmd_buf_len, DMA_TO_DEVICE);
-> +	lpi2c_dma_unmap(dma);
-> +
-
-you could add here:
-
-disable_cleanup_dma:
-	lpi2c_cleanup_dma(dma);
-
-and goto here instead of calling lpi2c_cleanup_dma(dma) at each
-phase.
-
-> +disable_dma:
-> +	/* Disable I2C DMA function */
-> +	writel(0, lpi2c_imx->base + LPI2C_MDER);
-> +
-> +	if (dma->dma_msg_flag & I2C_M_RD)
-> +		kfree(dma->rx_cmd_buf);
-> +
-> +	if (ret)
-> +		i2c_put_dma_safe_msg_buf(dma->dma_buf, msg, false);
-> +	else
-> +		i2c_put_dma_safe_msg_buf(dma->dma_buf, msg, true);
-
-I could leave a blank line here to put some space between
-if...else and return.
-
-> +	return ret;
-> +}
-
-...
-
-Thanks,
-Andi
+In-Reply-To: <CAFULd4ak3n1x0tGrqiNoxvDBRw6AWgchfBO_k4aKps34DomPvA@mail.gmail.com>
+
+Hi Uros,
+
+On Mon, Sep 09, 2024 at 09:30:06PM +0200, Uros Bizjak wrote:
+> Besides GCC, clang can define various named address space via
+> address_space attribute:
+> 
+> --cut here--
+> #define __as(N) __attribute__((address_space(N)))
+> 
+> void *foo(void __as(1) *x) { return x; }         // error
+> 
+> void *bar(void __as(1) *x) { return (void *)x; } // fine
+> --cut here--
+> 
+> When compiling this, the compiler returns:
+> 
+> clang-as.c:3:37: error: returning '__as(1) void *' from a function
+> with result type 'void *' changes address space of pointer
+
+Super cool. Looking forward to having it all wired up and the bugs we'll
+find with it. 
+
+> I think that the best approach is to target this patchset for linux
+> 6.13 via random.git tree. I will prepare a v3 after 6.12rc1, so when
+> committed to random.git, the patchset will be able to spend some time
+> in linux-next. This way, there will be plenty of time for CI robots to
+> do additional checks also for some less popular targets (although
+> individual patches are dead simple, removing these kinds of "legacy"
+> includes can be tricky), and I will also be able to collect Acked-by:s
+> in the meantime.
+> 
+> While the patchset is an improvement by itself, its inclusion is not
+> time sensitive. The follow up percpu named address checking
+> functionality requires a very recent feature (__typeof_unqual__
+> keyword), which is only supported in recent compilers (gcc-14 and
+> clang-20). Besides compiler support, sparse doesn't know about
+> __typeof_unqual__, resulting in broken type tracing and hundreds of
+> sparse errors with C=1 due to unknown keyword.
+> 
+> So, I think we are not in a hurry and can take the slow and safe path.
+
+Okay, sure, that sounds good to me. I'll keep my eyes open for v3
+in a few weeks then.
+
+Jason
 
