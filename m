@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-18154-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18155-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680819750C9
-	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 13:28:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6695E975169
+	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 14:04:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28CC828285B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 11:28:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A0AA28B540
+	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 12:04:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3867187342;
-	Wed, 11 Sep 2024 11:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 141E4192B88;
+	Wed, 11 Sep 2024 12:03:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="v7O+hv0P"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Hco7YKrU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD92185B7A;
-	Wed, 11 Sep 2024 11:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D9613AA3E;
+	Wed, 11 Sep 2024 12:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726054112; cv=none; b=rwja0joepd7prVIYHzbCe+cCBmVnrhm95O5lgEapyoRhmvImO7oKARseOb3u7LZtcjkf1DRmE84oAmNZnUihuzXG9rk//8Z3uCyC4iSGKMH8x2hqjIVbmHDzAu9VSyZwcX3Xjd3xs38F1OIhaFqkw9Cnc42Jsy+TxoUaOXLE3ss=
+	t=1726056212; cv=none; b=i299KGUj19Sv7m4yOkZO3T3kY5+1PZIMrQPaJMUcMdkrFIi/H1uMcWRZhmfqLZlIc8Zrp5gYaBX2KGI/j+fW4fR4VMO6rXls8v0Qh0T/LCyQ60jCgBDItW5aIQM5xR14QIZS8Z2L9NCgQj+wIJD9BX+7TMhFllTA29bmaHBDmLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726054112; c=relaxed/simple;
-	bh=G+RdD7E+bzW4iedtiBzQQENI8h25tsSLHurvSrLM67g=;
+	s=arc-20240116; t=1726056212; c=relaxed/simple;
+	bh=to/dI+U8c82M6OElNphf9TFg4NuIv4FJo3rnED38GM0=;
 	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=BVaI0G0bMIpVVUgJ/QFhkxG6wD4OLAS+6fO2Juf+lNe7Cd6QCb3/xbMm9NzzEBHPxUFqIryDRGY/wNz0td2xxMQvI00VIUlUXJ6nd4Q2FZ8GQ/9PWL5Yq9b4C8GiFdC8XUirqCW+RdLZLyzF5ouGHKRv7M89BStoU0xz41PXNvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=v7O+hv0P; arc=none smtp.client-ip=212.227.15.14
+	 In-Reply-To:Content-Type; b=qyo6R6X+0OrSonWS/Zz/d5FwTsrO2hwVNIC3KZvoI1aJx3d1VpAr6HxcObhAefsxD5YDL8RPtGgTkKUx4NRU0njWLWmMw7OgNmjtalwp8tyuC7Rw8ROdSHzUtXJp6bOMt/+l7DASv2+ohPk1OpqRNcUlRP7NapiFOFidYEHOnzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Hco7YKrU; arc=none smtp.client-ip=212.227.15.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1726054066; x=1726658866; i=markus.elfring@web.de;
-	bh=yTtZxWE0JHb3TnA6oJ50YzGe95/FIcKE44d4OiLu6iY=;
+	s=s29768273; t=1726056179; x=1726660979; i=markus.elfring@web.de;
+	bh=to/dI+U8c82M6OElNphf9TFg4NuIv4FJo3rnED38GM0=;
 	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
 	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
 	 cc:content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=v7O+hv0Pzxur6hSXyQsSyzWcSvALNs8t7DoMepgzk/EIvE6coR6h5wrLCiV84VP2
-	 yWGTGdFq8d2lGn4B1OfVqsyFJgIlfpjHymgYNYA9yUAbtorOqP1EDndL+reSaKsTq
-	 k2v7NX1ZLhl23YUlMOJdlb5ylRrT5MdmNXZWkukOPFBKHTuTNAo0BuLPirsHOpmWS
-	 /Zun4/Bg1c4xr2nhs0HQspM7IqYmhm+nX7Tg6byaFLaP4bnIonedU5zYWDrGyMMBY
-	 1NhZNIQxfgE143BOpBQ/oxj9Lw2QAh3jvx9vKvlcY8SiZ5Q3eZEsgD5W41Fwbrdt9
-	 5HLRQpxflVyC3BLDMw==
+	b=Hco7YKrUwUPLHLTI+twaLWbzmwXkV0mINsS6UdWH0Ao4XcME4uYbNUftJ3kU1pHV
+	 3TnV+338SIWsnrYLfBGOePElSld13/qNvlJzwiGtQ3iGlpC+H7hbOvZM7TyhO7fll
+	 j6Igv1gKAJbFpN3QKa0DoYV8pdLnS8gvG7G0jL1s1BVle1excKCC5rDKt/mV5bfOz
+	 uvSA1U51+g6XacpRV91OjjW5OTJibj9W/f6N4h3/N6zkoGazT0xycNsGIfmfsW0ZA
+	 q7TFkNuWXMuarFC58jEqaiUmN3y9MLvljDU9RCR47gd9+K6X1cWrd2Up2l+TQ8H9R
+	 y8sK5w41dgaVC01TgA==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MSIF2-1sQ2I61AYC-00NmSK; Wed, 11
- Sep 2024 13:27:46 +0200
-Message-ID: <50b75b24-afbd-46cf-af4d-01e6ea4832dc@web.de>
-Date: Wed, 11 Sep 2024 13:27:30 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mq182-1sBDbl0Two-00cfwJ; Wed, 11
+ Sep 2024 14:02:59 +0200
+Message-ID: <ba285b99-96a6-4fbf-b72e-b264a300ce6f@web.de>
+Date: Wed, 11 Sep 2024 14:02:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,8 +71,7 @@ To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-media@vger.kernel.org,
  Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Will Deacon <will@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>
+Cc: LKML <linux-kernel@vger.kernel.org>
 References: <20240612-6-10-rocket-v1-8-060e48eea250@tomeuvizoso.net>
 Subject: Re: [PATCH 8/9] accel/rocket: Add job submission IOCTL
 Content-Language: en-GB
@@ -80,44 +79,36 @@ From: Markus Elfring <Markus.Elfring@web.de>
 In-Reply-To: <20240612-6-10-rocket-v1-8-060e48eea250@tomeuvizoso.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:YmCb7NXdmFPxc7xnbYpPH3gDEvf/+oJCB9LfDAxISh25xOGXJhX
- xJqwC0k2vwG8Wg4Ljwp7J46b69w5H04HZv2saRwka7NMsngHoOuHBmnF99t40n/HTDcyhGv
- OrfeycGLIHZUB7lOU6SsqIQpHvz9/XbkMtydirXYtDwk1N8Bm+5VGFHufghtREbqgs5ak67
- RyCZOjWVRgOrA3ww41D7A==
+X-Provags-ID: V03:K1:gBOc2VelSGYN7vMulw3gUfHiDfi7Fce6hUGRA3ig0e7CkPk7ctW
+ 02fliq1YqKL5NKGvp3rgm2vGCmn6B7aS1N/nr+h0YbeeRcbBWnwr7+rO2Hwhq057gL31eNi
+ LR1cvkK0e+qFvnrh0GnTB7rpMSh2/emhZOdJ2z2xi7Ae1r7gPW55kJ+Yp8MMxUhxUlDXyUk
+ vYuXx5zKe7w6f1ZlWKmSg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vOiVie10tQI=;pJqeoruLOD0q7PLKWjhqjCwpMIi
- wUbyfof0VkY56VFhYv5E8enK/5ratFGUpbica8CWkS3qKC1hdYt+nL1C9lBq/QYL3ggZ7tHMK
- Ay6RFBIY1peAsoplJfuNsFcf5yc/+e0a1vH3K54FG1XxeFO/KyBd1FagIie5cpHn4hag4+IGq
- Fk9XkUeWuK/w2igQAWvqKiRbdKvW4FrMZDe29pyjluya5cnGhRG6ymxugx0zGew4ta+fGLMAs
- c9e0y95ig0wgeGxExJx7DlNodPGaWckOHFx1DqwNW/ebOYhaKCljiQCWBe26rXyLX3QKbRNQB
- OD+26NpEXB3m31Scmy6ikiA5W31Fn30ExYO4LYL+yvtad8t1VygAI+DPUEOo5HsWylUeIQSJ2
- ZpAD586s5jnQmq4W3Vc9+Hf098axsiatJr+6qwvvHzrWzBLI2erE2nmpWo2hcgATmBTSUwZT4
- GM4qWb6SKc7gxH2I1Ye0b9Z+gc6ZDgFSu2HDMr9DGS5qWGTpQJfJGuV1VNaLqEFGeGQwkvUwd
- giCNsWeWCkGNvKws6NOLjWJUhsjYO6jLNeIIyjD4oWwKikAujz/MpjFh9H7AXFtJgTkdUvov/
- ra0USbAlz9O58lp7DkyTQtNap5DGe9arwchl5QkVTe8pGtvxjMhJFb7frOH2X+fsPNCINrQFT
- y3amKgwJB2dzOEWcwV84QlydNzgJQhe86O2ihbbEBl5Buiz7slG7BWBF//5tzRxwmyOoA5o4F
- YIZExP3lWGJX0GcnA7zpzTCgIAqCRuoqiG+/TnWhl2oVEQloxmjuIMK5APcPETjfdyRYsdvNM
- ufMAAL+QG9jA4fAnPdJj9w4A==
+UI-OutboundReport: notjunk:1;M01:P0:kwUCKjmSRow=;GXfTPl9KFQxzuxjHbnw0svEf0G3
+ Uctcq9Kr/ho6Y0LyjZNPPDYlzYjtlry3asr8W82jx14bpGu3jCx2WlCJNwLO0/RybxYvHtqyt
+ 0eJR2xvpk1mD3BfD6ES4G4nPghEA0Xe0VmyS/bOP3h7e5ccgwFG6rh5+NcRay3ifHOEpc2dJq
+ 3lz97Wz4Jwb+bX9qUxV2p21EKo0fk/MGTTw+ic/kF7yL3Hj0qMX55emMFpldoG2w1wb3XZSas
+ NTbXmQfGKosykNVgoNLaRCy92S00vVSewSAIGc7NLaQksiPebe2x0I0CrEBOSyFKCiJ1lRKHs
+ sXoJDShFfVErAk+ftvVPr/5f+uwSALx5Rn4ga/tYXitIuOicPsv9lctt2RJvUUeu7CopQY/J7
+ x3Gm3cmwjHVs4GpfTV5F3yUxpiX6gHTwl420nPg98AEQKnlw+9G56/eEv/UOYcHYRq3Plq8xo
+ 3BzcllAiZYFg/2VEUN85RXJ8nvHYIV6O2UPR0dIeVS97RQfqr5ZDQ58q/KjOl2l2TTgvLYDwo
+ 9z08q7kvWwjdKsZp7dfTFcdDRsL54w4z7bFZ9Pri6T9YrKUSbIdKGaElp2z7CW+1e4YP0L3Zz
+ RkpV3P0IioN2RRARyS9Q4KgwspVFg+nS7lYw/QAgc2hYLa4ve7+kGrWH+XeYK99OXePLIThWj
+ oIhQy4AkUaIfiAw2vIr5HWObE/R3WDhulqPh2xWizhETqAPkKZJbRPr6v/yopUUdtUnQB9Kwg
+ 3id6Oi229ubAiXjr8QtfEw3lsksciZSnl8UuBNhEEOYXyXsNd/B84HnV1Z6/QUqaoKJRztkHQ
+ Al0RJc+9fpFxCgs5ckOfnE1w==
 
 =E2=80=A6
-> +++ b/drivers/accel/rocket/rocket_job.c
-> @@ -0,0 +1,708 @@
+> +++ b/drivers/accel/rocket/rocket_job.h
+> @@ -0,0 +1,49 @@
 =E2=80=A6
-> +static int rocket_job_push(struct rocket_job *job)
-> +{
-=E2=80=A6
-> +	mutex_lock(&rdev->sched_lock);
-> +	drm_sched_job_arm(&job->base);
-=E2=80=A6
-> +	drm_sched_entity_push_job(&job->base);
-> +
-> +	mutex_unlock(&rdev->sched_lock);
+> +#ifndef __ROCKET_JOB_H__
+> +#define __ROCKET_JOB_H__
 =E2=80=A6
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&rdev->sched_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.11-rc7/source/include/linux/mutex.h#L1=
-96
+I suggest to omit leading underscores from such identifiers.
+https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+d=
+efine+a+reserved+identifier
 
 Regards,
 Markus
