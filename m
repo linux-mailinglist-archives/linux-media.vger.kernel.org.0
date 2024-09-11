@@ -1,120 +1,176 @@
-Return-Path: <linux-media+bounces-18179-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18180-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7011B975A1B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 20:12:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16899975A7A
+	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 20:45:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3085928C7EB
-	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 18:12:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC00A2873CC
+	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 18:45:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A52A1B81AB;
-	Wed, 11 Sep 2024 18:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA2E41B9B36;
+	Wed, 11 Sep 2024 18:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QLQDzddJ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZdboSke0";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="YOOE5Zh2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from a7-51.smtp-out.eu-west-1.amazonses.com (a7-51.smtp-out.eu-west-1.amazonses.com [54.240.7.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3A01B140D
-	for <linux-media@vger.kernel.org>; Wed, 11 Sep 2024 18:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9C8187543;
+	Wed, 11 Sep 2024 18:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.7.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726078308; cv=none; b=QAYDBQwYTdslafg4EolxJ9Ywq2cs4lpwaUH861BPqtf/zSAzBITE4Hydw8xPN39IXYG0yMBu/nlQvjvpeNESFa7Z8rxX0VIwIiJNhhwj2CWLmd400KMFX2Dv9EQ0kHs+UBSpQXgucmlLn8YhEo+pNSCt1wVHLI2nh3ZDKzBoVTE=
+	t=1726080301; cv=none; b=Shm4crK1v8oZ7woWz4Ax6YcZ0TCGIvlseypLMpOChBXBhGYUmWceAJl5xJp54vgOIo6CHstE/WquCteuZXte9d28oXYq8xKuFp1UYAXQo8DYEvEarp+++h8//ZcWp+QoxJWSy6EeIu4eYhXDShyoEqWavjiZMXOykrOOtVwTX98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726078308; c=relaxed/simple;
-	bh=z857oVhOO9Ge5wn4k4nabsLRCg+zyT2pPs33TkWJQgE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rVzHCBjlL38TZ3Mab8aYHL79+G0EdTj5dGVJ6Rpfke12SXVyqwS79eXqh2ifwvCfH7tw95/yEh4x5tpxg3nGvx3bI/So4KTZnaDVEbAFtY4DJCUlxkAq8l/MfOJJP8P8MG8Q35PtP6wa1DMTe9S9Lza7tnubT3vzZghbAHv7k9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QLQDzddJ; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a8d100e9ce0so14657866b.2
-        for <linux-media@vger.kernel.org>; Wed, 11 Sep 2024 11:11:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1726078304; x=1726683104; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QXiJI/L0vchgadKCOX7xJsbzxv2AfJtb8fmGhILgPNI=;
-        b=QLQDzddJHGLjsGGeAU/V/QerDX+8YYLHUswbATuFFhKBdQrsC7CBrFaJjwOqlQn02p
-         tpVFrUtM/Ca7GRyEfJ/ivHZXoEfElvTDcJrjfmEP9SY4Slse7JgyL3T6WWkSbsp9gRaI
-         dpI61X7heQ6V9ISr1aKwEzIe4OZog/cF962IU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726078304; x=1726683104;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QXiJI/L0vchgadKCOX7xJsbzxv2AfJtb8fmGhILgPNI=;
-        b=ku70seKp7HyhE0nuujuWbR7MgwwS7LYPBk3IrT0auGWSURClnFwM7rlrIMskDuVlCW
-         L+XuYyyj4QV1Vj8DRZQfdphPxdRPUP7a3yhZzJagcPv+3N+ycFbUylotzuDsy69zQp6E
-         Kxhkur/w+9C+jG+X/fcC+JVAPK9gAVPyjRP4WTcURbeej42HOsMXyMw83TQ69bhhQyTd
-         P11E/45vEe0/VWcpELc12fzLaDEh5Ykr1IaE/TT6n+q8ORK4WHoBjRraxeldccRUM+Zx
-         lppZpQ8o2PCDNfIzY5uq3gvD/42tFZGPc5uvRwolKRzObNHuakTRYKeTrg43WZCML0TI
-         KEKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFWP0JaWr0rf63U+Vbf41KrdBEd72vd1KyEGqoMp2C+LMBMRHA0fd8ZkltQ1NJCquXzhx6ixYJU4q+uw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXH5GmkdPi1ebmvpaDWbIyNc0l8X8YSXNdbsABmam8GsZNBI5V
-	srW+OC8Q/LZ4AMItWwA/l2pKkPzwnml4CEs1xku2hgH0UmwHG+qk3sr0Ghl01LjqAFw8FG6j/2O
-	qzfn8DQ==
-X-Google-Smtp-Source: AGHT+IHkVrL1v/fsqrhA7JuFLRubH+4/paRaGYsdT/gkFo6FJmr2tm/t4RdvLLIShbKRZ762TA9UMg==
-X-Received: by 2002:a17:907:868c:b0:a8d:2d2e:90f3 with SMTP id a640c23a62f3a-a9029668262mr25028166b.55.1726078304264;
-        Wed, 11 Sep 2024 11:11:44 -0700 (PDT)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25cf03fcsm636288566b.162.2024.09.11.11.11.42
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Sep 2024 11:11:43 -0700 (PDT)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5c245c62362so113684a12.0
-        for <linux-media@vger.kernel.org>; Wed, 11 Sep 2024 11:11:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV9F/V5kKIBo7B6blE/nza2HeLER5lHOZTd9m1wBSn1FL0bQHmVO5xWoL7tuZp1ON9JInPXgnRZD9ES8A==@vger.kernel.org
-X-Received: by 2002:a05:6402:33d5:b0:5c2:5620:f70 with SMTP id
- 4fb4d7f45d1cf-5c413e4fbd6mr215370a12.28.1726078302536; Wed, 11 Sep 2024
- 11:11:42 -0700 (PDT)
+	s=arc-20240116; t=1726080301; c=relaxed/simple;
+	bh=CR2RtkO2BSHxVxQC+ucikk+G5Cf3fAmUmuV21ZYLYpo=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nAxf3t1iK1eLjveIkyRNTq3tX9g/wsFwmO7iprekiwlpyIcGZEMk1zVQT10LXcR1BJRkxVd6twon+e2WHMpEif3pwQqDXqVuJuFfX9NabZbH0q1JAD57FhLNbRMWO3QTcQ0MmutHHCpUH4zPv8F8h2IaX0YW13+sQiDZCNdg0f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=amazonses.collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZdboSke0; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=YOOE5Zh2; arc=none smtp.client-ip=54.240.7.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1726080298;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:Content-Type:MIME-Version:Content-Transfer-Encoding;
+	bh=CR2RtkO2BSHxVxQC+ucikk+G5Cf3fAmUmuV21ZYLYpo=;
+	b=ZdboSke0HhoFjztGdp5MMBrBds+Q2D4rn8RIvPzlJyYc72JFvemSvWIPnegYveWV
+	kRLfsV8a9fy6IBIXLbUmKsRr5xSSLa3BhAOhhvcQp9+uu4JBKpONs+9x8vqODZGlSLJ
+	FNuTX3RtY0LWK+YRTvBi0Gbo/ZWgl9kCHKlNibStQy3wwabHr0gWLckXFmb93F0KA8N
+	ra+mecnSwrH47FkzPGPvHJ4Dcmm7lQ7OPcO/awrl9UebjkQJyprrYw3vcj3hj1HD3Vo
+	Qrrj8czi0QuaB5IoqvCrNbdXffst+lwyb5rcdAuEKlvF/UvJbDjFVgr3qfDumsuW/VB
+	jw0FL3JxTg==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1726080298;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:Content-Type:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+	bh=CR2RtkO2BSHxVxQC+ucikk+G5Cf3fAmUmuV21ZYLYpo=;
+	b=YOOE5Zh2+tRJtL0YwyNnu02LYplS1fSY+2THCVFX3YJCkr/Gpjv1xwPbaOFM9roA
+	6dKUEF7MtlPE4mrm7fF6t8KKdcq59nnGQvrmBxlD9OQooLeUZdk/iykdPPK2Q0JVSGe
+	+n4xsSIZwSh70UloGWi0VKQ6Oxze0XK6gEms+A90=
+Message-ID: <01020191e2672cd9-0b3804cc-def2-4dfb-aa44-8eddbd5e99fb-000000@eu-west-1.amazonses.com>
+Subject: Re: [PATCH 2/2] media: verisilicon: add WebP decoding support
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Fritz Koenig <frkoenig@chromium.org>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Date: Wed, 11 Sep 2024 18:44:58 +0000
+In-Reply-To: <1d02cbe2797053c69ba9d7adb9c666ca221407e0.camel@collabora.com>
+References: <20240911135011.161217-1-hugues.fruchet@foss.st.com>
+	 <20240911135011.161217-3-hugues.fruchet@foss.st.com>
+	 <1d02cbe2797053c69ba9d7adb9c666ca221407e0.camel@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1726074904.git.lorenzo.stoakes@oracle.com> <b38d8936eaddd524d19823f7429138e2ef24e0d1.1726074904.git.lorenzo.stoakes@oracle.com>
-In-Reply-To: <b38d8936eaddd524d19823f7429138e2ef24e0d1.1726074904.git.lorenzo.stoakes@oracle.com>
-From: Linus Torvalds <torvalds@linuxfoundation.org>
-Date: Wed, 11 Sep 2024 11:11:25 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgWJmQJSWz_5S8ZqEpDs1t3Abym9DPZfUzWu+OCNM3igw@mail.gmail.com>
-Message-ID: <CAHk-=wgWJmQJSWz_5S8ZqEpDs1t3Abym9DPZfUzWu+OCNM3igw@mail.gmail.com>
-Subject: Re: [PATCH hotfix 6.11 v2 3/3] minmax: reduce min/max macro expansion
- in atomisp driver
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Richard Narron <richard@aaazen.com>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Marcin Wojtas <marcin.s.wojtas@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, "David S . Miller" <davem@davemloft.net>, 
-	Arnd Bergmann <arnd@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-mm@kvack.org, Andrew Lunn <andrew@lunn.ch>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
+X-SES-Outgoing: 2024.09.11-54.240.7.51
 
-On Wed, 11 Sept 2024 at 10:51, Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> Avoid unnecessary nested min()/max() which results in egregious macro
-> expansion. Use clamp_t() as this introduces the least possible expansion.
+Le mercredi 11 septembre 2024 à 13:58 -0400, Nicolas Dufresne a écrit :
+> Hi Hugues,
+> 
+> Le mercredi 11 septembre 2024 à 15:50 +0200, Hugues Fruchet a écrit :
+> > Add WebP picture decoding support to VP8 stateless decoder.
+> 
+> Unless when its obvious, the commit message should explain what is being
+> changed.
+> 
+> > 
+> > Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+> > ---
+> >  drivers/media/platform/verisilicon/hantro_g1_regs.h    | 1 +
+> >  drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c | 7 +++++++
+> >  2 files changed, 8 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/verisilicon/hantro_g1_regs.h b/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> > index c623b3b0be18..e7d4db788e57 100644
+> > --- a/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> > +++ b/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> > @@ -232,6 +232,7 @@
+> >  #define     G1_REG_DEC_CTRL7_DCT7_START_BIT(x)		(((x) & 0x3f) << 0)
+> >  #define G1_REG_ADDR_STR					0x030
+> >  #define G1_REG_ADDR_DST					0x034
+> > +#define G1_REG_ADDR_DST_CHROMA				0x038
+> >  #define G1_REG_ADDR_REF(i)				(0x038 + ((i) * 0x4))
+> >  #define     G1_REG_ADDR_REF_FIELD_E			BIT(1)
+> >  #define     G1_REG_ADDR_REF_TOPC_E			BIT(0)
+> > diff --git a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+> > index 851eb67f19f5..c6a7584b716a 100644
+> > --- a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+> > +++ b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+> > @@ -427,6 +427,11 @@ static void cfg_buffers(struct hantro_ctx *ctx,
+> >  
+> >  	dst_dma = hantro_get_dec_buf_addr(ctx, &vb2_dst->vb2_buf);
+> >  	vdpu_write_relaxed(vpu, dst_dma, G1_REG_ADDR_DST);
+> > +
+> > +	if (hdr->flags & V4L2_VP8_FRAME_FLAG_WEBP)
+> > +		vdpu_write_relaxed(vpu, dst_dma +
+> > +				   ctx->dst_fmt.height * ctx->dst_fmt.width,
+> 
+> I'm not really not fan of that type of formula using padded width/height. Not
+> sure if its supported already, but if we have foreign buffers with a bigger
+> bytesperline, the IP may endup overwriting the luma. Please use the per-plane
+> bytesperline, we have v4l2-common to help with that when needed.
+> > +				   G1_REG_ADDR_DST_CHROMA);
+> 
+> I have a strong impression this patch is incomplete (not generic enough). The
+> documentation I have indicates that the resolution range for WebP can be
+> different for different synthesis. See swreg54 (0xd8), if bit 19 is set, then it
+> can support 16K x 16K resolution. There is no other way around that then
+> signalling explicitly at the format level that this is webp, since otherwise you
+> can't know from userspace and can't enumerate the different resolution. I'm
+> curious what is the difference at bitstream level, would be nice to clarify too.
 
-I took this (single) patch directly, since that's the one that
-actually causes build problems in limited environments (admittedly not
-in current git with the more invasive min/max cleanups, but in order
-to be back-ported).
+I've also found that when the PP is used, you need to fill some extended
+dimension (SWREG92) with the missing bit of the width/height, as the dimension
+don't fit the usual register.
 
-Plus it cleans up the code with more legible inline functions, rather
-than just doing some minimal syntactic changes. I expanded on the
-commit message to say that.
+More notes, I noticed that WebP supports having a second frame for the alpha,
+similar to WebM Alpha, for that we expect 2 requests, so no issue on this front.
+WebP Loss-less is a completely different codec, and should have its own format.
 
-The two others I'll leave for now and see what maintainers of their
-respective areas think.
+I think overall, from my read of the spec, that its normal VP8, but the
+resolution will exceed the normal one. We also can't always enable WebP, since
+it will break references.
 
-            Linus
+Nicolas
+
+> 
+> On GStreamer side, the formats are entirely seperate, image/webp vs video/x-vp8
+> are the mime types. Seems a lot safe to keep these two as seperate formats. They
+> can certainly share the same stateless frame structure, with the additional flag
+> imho.
+> 
+> Nicolas
+> 
+> >  }
+> >  
+> >  int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+> > @@ -471,6 +476,8 @@ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+> >  		reg |= G1_REG_DEC_CTRL0_SKIP_MODE;
+> >  	if (hdr->lf.level == 0)
+> >  		reg |= G1_REG_DEC_CTRL0_FILTERING_DIS;
+> > +	if (hdr->flags & V4L2_VP8_FRAME_FLAG_WEBP)
+> > +		reg |= G1_REG_DEC_CTRL0_WEBP_E;
+> >  	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL0);
+> >  
+> >  	/* Frame dimensions */
+> 
+
 
