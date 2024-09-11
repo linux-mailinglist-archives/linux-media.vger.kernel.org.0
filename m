@@ -1,117 +1,119 @@
-Return-Path: <linux-media+bounces-18149-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18150-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B194974A6B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 08:29:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9DA974CC4
+	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 10:37:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D6DE288F86
-	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 06:29:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D14AE286730
+	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2024 08:37:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61A5F8174E;
-	Wed, 11 Sep 2024 06:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC32155398;
+	Wed, 11 Sep 2024 08:36:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nQd2fY9P"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="ThBWrKYL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691CA136341
-	for <linux-media@vger.kernel.org>; Wed, 11 Sep 2024 06:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726036184; cv=none; b=MTA7gQxKEPoD8XdnWestc2aoUQytdN8JdCMm8y+LI0cNuZHNYI5E8afCGJvouBdfwaSOtrMsI2LRZIbkMDngfOnfm56JmqPN1zRXkdungoOA1FN/5/E135nibi4+ZWM38wC27Sf9dFzADg/ZN3kbY7Pfccagm9aKKThVfZGzS9o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726036184; c=relaxed/simple;
-	bh=oW66k3+QWZlMy+jN8zb3h81JKhTcgu/ndVePWG3x0Nk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IV2nAJT8SiTwSloBFiqMsv2nXAFCAyyW8sPZoeef3XIKFizsa2uYUz+N0y812YEJwjjRKYR4Y1tp15ypyB1x5Q55S3muxEFEhuacnmDE+dutfc+I3OatF0VeR8WlG6qOhsI49Uypy6i28x9XbSyfkG8YuPftHZrdtE9HC4Q6fgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nQd2fY9P; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5012778824eso1574463e0c.2
-        for <linux-media@vger.kernel.org>; Tue, 10 Sep 2024 23:29:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1726036182; x=1726640982; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oW66k3+QWZlMy+jN8zb3h81JKhTcgu/ndVePWG3x0Nk=;
-        b=nQd2fY9PNIyfarGf5HQxv4FY6IIbeXEk46YGvrmEXpl7L1jYwbsViFiQJlGxEVsktY
-         LQIKzp5yTAY2pVqpLq1HksgmwPHFAS9li9ngp5XSyKHjTQKp31VkNpDtIS2OzvBSlTL9
-         wE9mP+hOpkKVJYLudKmVRzh2xRWbHDF9hh8QI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726036182; x=1726640982;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oW66k3+QWZlMy+jN8zb3h81JKhTcgu/ndVePWG3x0Nk=;
-        b=Gm32uhUPFFKqy7V2GzZmTBre4PbJbVjlIBEeqrZ3PdysmaQ6j7UX6xc6oE25xf2+Sr
-         DQECwhJw2PMtk27DZDfpSm1py+mxb+H1dGbLvxGUPMvwGF8ruZdLUOoG4qJYnRsXHlOA
-         E/ZVQKKs40zDoKreCZVADHIguYkyk7tUYetzto+mpi8E9B1+FxVugcKcYy9DCMt7Rm6d
-         7+DlWPePNznOaZe2gGx1TUl2bmxL2qxNoeidsFE9+zEk5rpl2ymAMMG4Xtg6dfvXOlv6
-         S94cwOiCBoHeSegNqfnPMzfSPObiMmViX7rbKpAKDthp5r4mxeMbClU+CxupOMGAlHnA
-         lAlw==
-X-Forwarded-Encrypted: i=1; AJvYcCUCyIBz5JbOrN5PBvnRyW+ITZW3shhi954BFWbyQTpT9ozDASYBa4frqOVgW62xrud7OZsHY5NLxz5Fmw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEZvz2pd4yONwjuG0WR/SGsa1BaP6dH4ILTP9WuSzEm2OBIxix
-	ygQo/FFd0ibiOyXXC422UnFJqed/j6wpXXp/0EQgMtsFSiP3xO/J56OrOAigGrEslYRE7hDmVMA
-	=
-X-Google-Smtp-Source: AGHT+IHOUYYa3WsXsIziryJkkZza6j4BiKMHbfQSWcxhng/c7h/YmqClXMqiarXDPmw2I15ZvHM/KQ==
-X-Received: by 2002:a05:6122:182a:b0:4fc:f1e3:d238 with SMTP id 71dfb90a1353d-50207af371emr13217585e0c.1.1726036181755;
-        Tue, 10 Sep 2024 23:29:41 -0700 (PDT)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-502f9b1baf6sm388102e0c.40.2024.09.10.23.29.40
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Sep 2024 23:29:40 -0700 (PDT)
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-846d1ba933eso1431806241.2
-        for <linux-media@vger.kernel.org>; Tue, 10 Sep 2024 23:29:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWMr40bsAYMciFdGGzcWqhCJDbysOytK73GlhP+RoKOOqTCOet8fhKWeJy7MGpRQ8O0qfsUZSejAg4JTw==@vger.kernel.org
-X-Received: by 2002:a05:6122:90b:b0:4f5:202b:6220 with SMTP id
- 71dfb90a1353d-501e7798358mr12652144e0c.0.1726036180309; Tue, 10 Sep 2024
- 23:29:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1381531E8;
+	Wed, 11 Sep 2024 08:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726043805; cv=pass; b=PUJac3EKzmmVLwx8mrNP4FAMkTTy8CA5MJ+Dv+Tx501qOp4Zxv1Noj8cacsDymlGMI1sSmy8eUN2ImBdAUltQEIbKSRtibuoFrvHa2+W/YkCajQGyVmN7S26zx6H3sHpELObXp8ZP92lN7K0P7fxnaOj5dnjcEriOi7lo5ivGCs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726043805; c=relaxed/simple;
+	bh=CisOF+GzloX2ELLDfmetlehnk05LJsWU/x4Br/cJY5g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Qwj0gxVIBVlajLZdj41QAt2st2g2BuGpgHWArzRaMNEdoVsxhxaimCeV7l8RIf5XTjdQhXYaWb4XPM8fEhwzaZbg3DzmgtpjMy+rk2+7PS4Y+kIsfNqa69MgD2R9dSSVMc/xdxObFku7qrg7BpESfb/4pmsYxYuDa+fvzrwgNQ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=ThBWrKYL; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1726043782; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=TIDGdcdMMfBpc3GHbU4HsJZjhc84rJnvMihZNDhRlLz0ZnDlnRBbV3jBBVzHA8tSwthmFj6xJquZAd0Fr0OhsPPMh5cPIry7w9oZMNuzcT0gg8Cj88I2qpQCYBdLsJiz8tKi5HSMKdIfG86DRhLil1ptb6wV+BDX2CdbNFqIsIM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1726043782; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=mT3ADEMXwV/Ibk5Ee+fwaO68r9xxRfMHx8SLf6Y/bbY=; 
+	b=bG7/b18qTJfrInI0H64mfKIG3XrP9/+zBZ9NwrjVWWbRM/yvFCt8W37AjVlYe2Lmi16/3iLFKBjLOzTJy8boBYjpcdHNBsAtYcY/kqnphah7P/twS/uYxu9gnbtBG01gVaXsH8XucatAq4Ho3jboGcA1zklsmWrfxdYa0NKjWTg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
+	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726043782;
+	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=mT3ADEMXwV/Ibk5Ee+fwaO68r9xxRfMHx8SLf6Y/bbY=;
+	b=ThBWrKYLX5PZ30+1eyNiC+HqemAmvx0PJ6nvsfCKx71okggGmjGioItyiudqEuXJ
+	1bV39Fm/MsFwdlI7SBqIl15mqZD2hqUTnA5gmpwZ19j3x+QeAeMMUqVXnqCL3ld1xom
+	UdHqI7gjZZm2w8ia/INBZ9g9LDRrFHhShXeFEr7Y=
+Received: by mx.zohomail.com with SMTPS id 1726043780360437.0100803082877;
+	Wed, 11 Sep 2024 01:36:20 -0700 (PDT)
+Message-ID: <6c6e00fd-334c-41ae-963c-eeffb368b727@collabora.com>
+Date: Wed, 11 Sep 2024 10:36:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240521095536.3869399-1-fshao@chromium.org> <9f73dffc48394e6304263ac2293a2b18864ae3dd.camel@collabora.com>
- <CAC=S1njnqrdrQqJZYQ7mffgmAUUxtoO7utZumED0dmX=Fa9+Qw@mail.gmail.com> <20240822142403.qz3ia26at3rxob2v@basti-XPS-13-9310>
-In-Reply-To: <20240822142403.qz3ia26at3rxob2v@basti-XPS-13-9310>
-From: Fei Shao <fshao@chromium.org>
-Date: Wed, 11 Sep 2024 14:29:02 +0800
-X-Gmail-Original-Message-ID: <CAC=S1ngw0h9=i_sH8BvUqi8hTt1JgyvO6Epq9jA2D_WmqRLQeg@mail.gmail.com>
-Message-ID: <CAC=S1ngw0h9=i_sH8BvUqi8hTt1JgyvO6Epq9jA2D_WmqRLQeg@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Reduce msg queue trans buffer size
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Yunfei Dong <yunfei.dong@mediatek.com>, 
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Tiffany Lin <tiffany.lin@mediatek.com>, Xiaoyong Lu <xiaoyong.lu@mediatek.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: verisilicon: av1: Fix reference video buffer
+ pointer assignment
+To: Nicolas Dufresne <nicolas@ndufresne.ca>, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de, mchehab@kernel.org, heiko@sntech.de,
+ hverkuil-cisco@xs4all.nl
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com
+References: <01020191dc45365b-26b103cd-153a-4b74-a663-ed7beecc1713-000000@eu-west-1.amazonses.com>
+ <10f107089cf679bcabd03e49fc469bb89518deeb.camel@ndufresne.ca>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <10f107089cf679bcabd03e49fc469bb89518deeb.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Sebastian,
 
-On Thu, Aug 22, 2024 at 10:24=E2=80=AFPM Sebastian Fricke
-<sebastian.fricke@collabora.com> wrote:
-> So are you going to send a new version for this?
+Le 10/09/2024 à 21:44, Nicolas Dufresne a écrit :
+> Hi,
+>
+> Le mardi 10 septembre 2024 à 14:10 +0000, Benjamin Gaignard a écrit :
+>> Always get new destination buffer for reference frame because nothing
+>> garanty the one set previously is still valid or unused.
+> Mind documenting here which tests got fixed with this change ?
 
-Sorry for the delayed response.
+Only one from chromium test suite:
+https://chromium.googlesource.com/chromium/src/media/+/refs/heads/main/test/data/test-25fps.av1.ivf
 
-Not likely in a short period. I haven't had a more detailed discussion
-with MediaTek about their buffer requirements on this.
-I'll resend a new version after I have a better picture of a more
-dynamic implementation based on the resolution size.
-Feel free to archive or ignore this patch as needed.
+Fluster AV1 score remains unchanged.
 
-Thanks,
-Fei
+>
+>> Fixes: 727a400686a2 ("media: verisilicon: Add Rockchip AV1 decoder")
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   .../media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c    | 3 +--
+>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+>> index 372dfcd0fcd9..2b9a1047479c 100644
+>> --- a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+>> +++ b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+>> @@ -161,8 +161,7 @@ static int rockchip_vpu981_av1_dec_frame_ref(struct hantro_ctx *ctx,
+>>   		av1_dec->frame_refs[i].timestamp = timestamp;
+>>   		av1_dec->frame_refs[i].frame_type = frame->frame_type;
+>>   		av1_dec->frame_refs[i].order_hint = frame->order_hint;
+>> -		if (!av1_dec->frame_refs[i].vb2_ref)
+>> -			av1_dec->frame_refs[i].vb2_ref = hantro_get_dst_buf(ctx);
+>> +		av1_dec->frame_refs[i].vb2_ref = hantro_get_dst_buf(ctx);
+> Good catch, would still be nice to improve the commit message.
+>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>
+>>   
+>>   		for (j = 0; j < V4L2_AV1_TOTAL_REFS_PER_FRAME; j++)
+>>   			av1_dec->frame_refs[i].order_hints[j] = frame->order_hints[j];
+>
 
