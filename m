@@ -1,103 +1,95 @@
-Return-Path: <linux-media+bounces-18226-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18228-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23114976F2F
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 18:54:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E96A977174
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 21:31:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3122281B7C
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 16:54:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5F3D8B21BD4
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 19:31:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9C551BE866;
-	Thu, 12 Sep 2024 16:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 541591BC09F;
+	Thu, 12 Sep 2024 19:30:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RSkpgXj+"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="EFLZWG46"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E741AD256;
-	Thu, 12 Sep 2024 16:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D4F4AEF4
+	for <linux-media@vger.kernel.org>; Thu, 12 Sep 2024 19:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726160053; cv=none; b=jU9/GSlmoOcDmOj6Usf2+E868R4wB/4db62vP3PPw9VD82qigJkoZBz3PAMjVEm6Hr9q5N4TwcupN6gfv7MZeHhuiBY4JqNbqRTPRWZg3/XPN/Egvgl5mj09r7zqA5N6jajSp6cff/ZeTDYqpoTbdhVkM5IkLgcqRQvkjOxTEJo=
+	t=1726169455; cv=none; b=a8CpIP2DIweReQfA9bDnvaa+FCieFmPrUmPn8Aul1bCj5YV6q9/HVOkQeNpwCRNTB82ifMTzpxk3kmeuDWh9zcNraCqcJ7RtfsNKJ4C8oQ2vLAmzh5SGXb19Olcg9SCzHn6kF4+7zjSomvOy8Iqp0pgBoPoSLk9sfaE539t2Rv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726160053; c=relaxed/simple;
-	bh=EvuQRTOvCygv4JttyYOrIYG2JZuDMwbgBuOgkBJTeAc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iMNTeCkbzpKSzXs7ErKT00apM2Cvt6yIOx+l3kUHiPD2Q1IrI3gh1VLaHznAp43Y4r4wGQF24MIq/pqYGzYhoNm7QDzojZA7QukEx8b46X6o77ijnw9gCYVgWqI169uHVix8jhnpnEi15JAT5/JMcyg/oPsaIivpBA7TUkhNWWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RSkpgXj+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B42B2C4CEC3;
-	Thu, 12 Sep 2024 16:54:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726160052;
-	bh=EvuQRTOvCygv4JttyYOrIYG2JZuDMwbgBuOgkBJTeAc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RSkpgXj+jtRgdtCiTXLvwsUHUdoe4J25kmlMfVfb1/cYDHZ39VIPLu0B+EVQYrWEg
-	 eXasDGChp/IqEDddBOUc/14D0P3rUbJEy8ojr8kmWAWhcEzxIidEsLruIsiveCeT/7
-	 BlQTgenMOoQZz0A1+zCRv5EXrG4ipcfqagMuMEj9+sGrXYxlBljX5jv/saUVLWc63C
-	 tcH1VSgSzk7SiVByhan7p8/+K8io2ALVDTPqrE6CHWBJxDwKKo++qPawPEqMRdrpOn
-	 qYlXGo0kJqpyKlp5jnHne3PZ/qwgUGIbicMDDSaRVjD5Tv0fhuY5O5667XleL8Nm6P
-	 g8cY44G2Vnw+A==
-Date: Thu, 12 Sep 2024 17:54:04 +0100
-From: Lee Jones <lee@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
- Genio 350-evk board
-Message-ID: <20240912165404.GG24460@google.com>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
- <20240912145100.GE24460@google.com>
- <10c1217b-d8a3-489c-93fc-6de45dcbe47c@sirena.org.uk>
+	s=arc-20240116; t=1726169455; c=relaxed/simple;
+	bh=JUirZW1Ci1XBAwNTttY62Bf1OfJpXmW+qorQ0TJYuoY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jh2AP4ek+08siIfyLKA0PtBSGHGoqImM3RO7SpNnTaml9cQHe2923nU5PKARIL+1gqDY8RkxIx2DpN3FkKoVjW2tgXStsNOgEMq8RzNizi4b7q/J1YNsnr0cMoR88fhQSgPiYHrPFFkQm5jgyPccN5ty2H5/tL6BBr5q/AXC9bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=EFLZWG46; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=H9MSZwD75seWuTcpIk4cLIZInbSf1bXzpt6wRs0/01Q=; b=EFLZWG46fG0Pc7hlSd3nDfH9IE
+	IToNxBnqsY+W++2wKkwUeIujD7+MMTotE1HIoYWpaT4KO+1gxHpaJA6U2DN3hzrWeVoN7JoWs9cNL
+	ZOb03OmjFT9yT4kmjEB2m3syOfGtnx/Kay8oeKJ9f50nQDw7q9f+C8+OTppFJ1jj91wIrHqmXupPz
+	lGqR2Yu671UdmOpaXHye6eL4OekfiykWYsXgNBy5dqwFWKRGpAfoRl3JgclPRhyyUgJlcc3+J/2vG
+	K7syalzqqJNPMBwxoFMVzT2w6KHdAFZ/UAxXm2Qn3X4nx5ruXJtqFipvePh5ltA5AgpQWABZy3eTA
+	+ZMWb6Yw==;
+Received: from 179-125-71-245-dinamico.pombonet.net.br ([179.125.71.245] helo=localhost.localdomain)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1soouz-00CyKn-Ll; Thu, 12 Sep 2024 20:51:50 +0200
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+To: linux-media@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	kernel-dev@igalia.com,
+	Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Subject: [PATCH v2 0/1] uvcvideo: require spec compliance to avoid bugs
+Date: Thu, 12 Sep 2024 15:51:32 -0300
+Message-Id: <20240912185133.1181322-1-cascardo@igalia.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <10c1217b-d8a3-489c-93fc-6de45dcbe47c@sirena.org.uk>
 
-On Thu, 12 Sep 2024, Mark Brown wrote:
+Some syzkaller reproducers have triggered cases where the devices would not
+comply with the UVC specification and warnings would result.
 
-> On Thu, Sep 12, 2024 at 03:51:00PM +0100, Lee Jones wrote:
-> > On Wed, 04 Sep 2024, Mark Brown wrote:
-> 
-> > > [03/16] dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
-> > >         commit: 761cab667898d86c04867948f1b7aec1090be796
-> 
-> > Did you mean to hoover this up?
-> 
-> It seemed to go along with the series and had a DT review so it looked
-> like you'd just left it to the DT people to review, there wasn't any
-> other MFD content in the series.
+These cases can be simply fixed by preventing the allocation of entities
+with duplicate IDs or zero IDs.
 
-I applied it from this set 6 weeks ago! :)
+v2:
+Squash the two commits into one.
+Version 1.1 of the spec already mentioned the restrictions on section 3.7.2.
+Renamed uvc_alloc_entity to uvc_alloc_new_entity.
+Print error message.
+Return PTR_ERR values.
+Fix checkpatch warnings.
 
+I used section 3.7.2 excerpt from the spec as it is not specific to Output
+units/terminals and it also mentions that zero IDs are undefined.
+
+Thadeu Lima de Souza Cascardo (1):
+  media: uvcvideo: require entities to have a unique ID
+
+ drivers/media/usb/uvc/uvc_driver.c | 70 ++++++++++++++++++------------
+ 1 file changed, 43 insertions(+), 27 deletions(-)
 
 -- 
-Lee Jones [李琼斯]
+2.34.1
+
 
