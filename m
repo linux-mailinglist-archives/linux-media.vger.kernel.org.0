@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-18203-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18204-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9225E976AE8
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 15:41:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31582976AEA
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 15:41:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5726A283B0E
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 13:41:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 63D44B22C17
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 13:41:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B3331B29A2;
-	Thu, 12 Sep 2024 13:40:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC2C91B533E;
+	Thu, 12 Sep 2024 13:40:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s9FdrCMR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TW5idV19"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781E71A3020;
-	Thu, 12 Sep 2024 13:40:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2068B1B373C;
+	Thu, 12 Sep 2024 13:40:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726148417; cv=none; b=thDChYSElBGxFcNL8pzWkuikNTm6A7ByX1TP9x3SjiYmEJMzIZgI2iVEPmBIyWWB5k+4q/ec2SOsvJLv1NsU6Fh7qUhyDOoqEy/bPaabiOhRILGPR3Iru+I9uzuNfTMM3bYlTgbmAczQUbvCvVJh6aevHwD2MQlxtoviDNWI0Pg=
+	t=1726148420; cv=none; b=g7SPrOomz2hyNa4RUFTnhONRdf90WK8YNZbaaNq81mt0HdC2v0l9II0jNxe0e2yoyX0yWSiUqjunCXmmtnPkDqFDAT0tJr1sRuW9DsHzAsuGKdSbeiQSnaM8FfPJlzgcT5B10DSiN4B8iy9ptkhGfF8yfdk3Qw6GPrsrJB1bx7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726148417; c=relaxed/simple;
-	bh=e/uFP1CphoNt44PYeNO4pq1wqKErQRZCThOiQyDPwGg=;
+	s=arc-20240116; t=1726148420; c=relaxed/simple;
+	bh=hnuDMFVFKJKzJm+tCSK4hoexSPaAdd90xkmvmu1bfdo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IDzhIaV4MyFYavv6gAp+y7HySeLNvaJMKuk3OTMCprSekXviOEMTrf4owYXI+kdzirb0AloDzt5/JShqIujEpB3iy1Yt4g3bMnsYTUvmvWxtl1xbR7LaNEtmR/OoXtKRoKkquW1yHOIrCoOIqwxp8qO+nXLo54ux0nwaDmAc7og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s9FdrCMR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F26EDC4CECC;
-	Thu, 12 Sep 2024 13:40:16 +0000 (UTC)
+	 To:Cc:Content-Type; b=U/iDFNI34DImc9YofO4nOiFHKoWw9Baf9h3SFhISPpzdyLGBWkzte2hNL7/5bE5chpl6ju80YuWxrygdorlzDtdprbRkg2lxgUfQnacOtXHCklEcs7P11Heux3+pQQlaSGGB+Jn7w4UjVk8vmuGRAoJsKSQ4/5R9Km+elIZqC8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TW5idV19; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E74F3C4CECF;
+	Thu, 12 Sep 2024 13:40:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726148417;
-	bh=e/uFP1CphoNt44PYeNO4pq1wqKErQRZCThOiQyDPwGg=;
+	s=k20201202; t=1726148419;
+	bh=hnuDMFVFKJKzJm+tCSK4hoexSPaAdd90xkmvmu1bfdo=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=s9FdrCMReWMeOAXVCvMjFhWLJ7S63UImsjK7c+igXiBH/HxrYBRMII06yUtA7b04f
-	 7bYQ1NIkzRVd6qZk3VXgeNK5cyqE8hp1SejNKBz3UuSHgLMwXaU98g3kTz00inw2+0
-	 MKDV1bzVggOLW1/HdvqbrmpnI5Xwan3ln256CJAaplggvuG9Uw4ABgFPbRXF0mXqSO
-	 jlpAd2h3KKo3cBlneS5pzHRq7+zKq7eJc1nZWh5VmGf0jzuN/d83kGTXlkfE3SpdGu
-	 pioz80B8LWFfiuea3QwHIbkUiZ5JCKw7nb4pOKHW8cIanXDLXOkq/9Wnfs2KrXNKwh
-	 lRYEZb4o8NyXQ==
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-502ce40f31cso266732e0c.3;
-        Thu, 12 Sep 2024 06:40:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV++oQuDjEsOEc6zQw296hS8kb6WYfSX7ThXBuTE3r0MPwT8ornT/wxlw0INCzaogC2sliAxoVnifC37Ek=@vger.kernel.org, AJvYcCVGVwDzzUV3DrPtlwPzwhqxv82kAk+Zi6zK36N0mDDdL6m0WChkYKL/+RKGeiO7PtYXuyhfwvI52Sp8Udk=@vger.kernel.org, AJvYcCWPUt4908UchUTJJDd9UIBVWOaU5ZvBmF8gvVl1/RENtuqEUUjvMd0GEUUzgVcKNl+HmGOlfUG03lsZv/E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+8AlokYfOJ7GvhvIP6OqGgqdubcb/Za6D+XnO6sHJ7rA0ZWtS
-	wxQks/yYqLnjYIbxfwCRbXDsK+lw3a4AivSgOeObhANWtiO2VL6m0rH/qswEqVDYnri/sVnJFEv
-	hHAUsE2zIv8Hjl6u7dU/w5diEX4o=
-X-Google-Smtp-Source: AGHT+IHva79r5vVs/ZzO6mFifRPUnwQHDwTZqvGq63QBXJeVQWj7aMkmqoHIOJQHzTyksLfwcC3KKH5EYmXaeakHDW0=
-X-Received: by 2002:a05:6122:3682:b0:501:309:5b0b with SMTP id
- 71dfb90a1353d-5032d750211mr2103740e0c.12.1726148415951; Thu, 12 Sep 2024
- 06:40:15 -0700 (PDT)
+	b=TW5idV19y1HYx7ZqpcIxqiHqM4FEc0E+urqa5UvQp+BaMrfIl/HmuS3eG6mm5wUs+
+	 /Vvfh9gI8PHIhbWpE64vqzC6PgPpoNbn2k8vRVycKrbH8DWSHjGgoUBvcQ4Z/v9Cjm
+	 Zp7f2igndKwOgJ3IhZ+edz6MZLOi1E7SRj3riPGR4T1tPeNJVfsoSoIzlEuh7nARMg
+	 1/BUh3UHOIthp+vd2EFys/uRDL6iMPk7CfDBzUvkgs/zQV4hVzm3b2Hyz48LdPw/hd
+	 mxr9jXbLhotOVoIQvf5NeiG3bxy1H7YshdDLk16nrEpyY8umnKQzSuTKKa+ClDc3hg
+	 4L4ZfjWIq7AyA==
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7093c94435bso375576a34.0;
+        Thu, 12 Sep 2024 06:40:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUxNqag2wL7f0Bt1dthx5hNGi3dC3u4b6r9WdTGMmv7V9hoJ08FXVjSfKGGJENKP4ApUpxGxSnphmqRUY0=@vger.kernel.org, AJvYcCVZfaHZUBqoUkQOdx+5zpaix8eQMe7lgT/4UYxhD1jYtfpUuo0gVl3Hmw+15FpnRqDxeU2CgyelpsJiqJ8=@vger.kernel.org, AJvYcCXM0+t97fvyN5IkXgZ9CCSDMBL/p2xSr5VQdI2Ee/ksHMchabsTSwsOMYEMUUeQOmvaxWevXDSvxvplLvQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywdm0cjRWUP4Mhn3n5Krwb9v8FhakgKM0rCivTk1g8n3eYYxTLx
+	W0oRsgeETG2l3wbVOL9q3C81MV0ylRKsV3c7+2txIBXuDTawhsn2ZuNJQ9NO7MOND+kifBOMMwp
+	EDNTi5x4hFFXPyqpqyHxGsDMBiBs=
+X-Google-Smtp-Source: AGHT+IEqo2rAx6xj9RnabfL5LM1QQgdmUiIeQzgwdsuN9M9SN+nWCz4leQciHkzXQpClrAiVsAcxZgej1y4nALC/pzw=
+X-Received: by 2002:a05:6830:2802:b0:70a:98d8:34a with SMTP id
+ 46e09a7af769-7110946185cmr3176900a34.1.1726148419206; Thu, 12 Sep 2024
+ 06:40:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240902-imx214-v1-0-c96cba989315@apitzsch.eu> <20240902-imx214-v1-11-c96cba989315@apitzsch.eu>
-In-Reply-To: <20240902-imx214-v1-11-c96cba989315@apitzsch.eu>
+References: <20240902-imx214-v1-0-c96cba989315@apitzsch.eu> <20240902-imx214-v1-8-c96cba989315@apitzsch.eu>
+In-Reply-To: <20240902-imx214-v1-8-c96cba989315@apitzsch.eu>
 From: Ricardo Ribalda Delgado <ribalda@kernel.org>
-Date: Thu, 12 Sep 2024 15:39:59 +0200
-X-Gmail-Original-Message-ID: <CAPybu_2eOr4gscSR6jkUNLdE=-ywJAn=WT-76HhJRgN6zpsurQ@mail.gmail.com>
-Message-ID: <CAPybu_2eOr4gscSR6jkUNLdE=-ywJAn=WT-76HhJRgN6zpsurQ@mail.gmail.com>
-Subject: Re: [PATCH 11/13] media: i2c: imx214: Add analogue/digital gain control
+Date: Thu, 12 Sep 2024 15:40:02 +0200
+X-Gmail-Original-Message-ID: <CAPybu_2VPDTHb=nOaze7bwLvEEGxcS1zK=su5vpfLNao59Gwfw@mail.gmail.com>
+Message-ID: <CAPybu_2VPDTHb=nOaze7bwLvEEGxcS1zK=su5vpfLNao59Gwfw@mail.gmail.com>
+Subject: Re: [PATCH 08/13] media: i2c: imx214: Add vblank and hblank controls
 To: git@apitzsch.eu
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
@@ -72,247 +72,280 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+Hi
+
+Arent you missing some chage in enum_frame_interval?
+
 On Mon, Sep 2, 2024 at 11:53=E2=80=AFPM Andr=C3=A9 Apitzsch via B4 Relay
 <devnull+git.apitzsch.eu@kernel.org> wrote:
 >
 > From: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
 >
-> The imx214 sensor supports analogue gain up to 8x and digital gain up to
-> 16x. Implement the corresponding controls in the driver. Default gain
-> values are not modified by this patch.
+> Add vblank control to allow changing the framerate /
+> higher exposure values.
 >
-Acked-by: Ricardo Ribalda <ribalda@chromium.org>
-
+> The vblank and hblank controls are needed for libcamera support.
+>
+> While at it, fix the minimal exposure time according to the datasheet.
+>
 > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
->
 > ---
->
-> With the analogue gain control added by this patch, the kernel log shows
-> the following message when closing megapixels and a similar one when
-> closing qcam (from libcamera):
->
-> [  100.042856] ------------[ cut here ]------------
-> [  100.042886] WARNING: CPU: 4 PID: 3444 at drivers/media/common/videobuf=
-2/videobuf2-core.c:2182 __vb2_queue_cancel+0x228/0x2c0 [videobuf2_common]
-> [  100.042948] Modules linked in: rfcomm zstd zstd_compress zram zsmalloc=
- rpmsg_wwan_ctrl q6voice_dai q6asm_dai q6voice q6afe_dai q6routing q6cvs q6=
-adm q6asm q6cvp q6mvm snd_q6dsp_common q6voice_common q6afe q6core apr pdr_=
-interface nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct n=
-f_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables nfnetlink algif_hash al=
-gif_skcipher af_alg bnep qcom_pd_mapper qcom_pdr_msg wcn36xx btqcomsmd btqc=
-a ipv6 wcnss_ctrl qcom_bam_dmux imx214 v4l2_cci ledtrig_pattern bmi160_i2c =
-ak8975 leds_ktd202x bmi160_core ltr501 leds_sy7802 qcom_wcnss_pil qcom_cams=
-s qcom_q6v5_mss snd_soc_msm8916_digital snd_soc_msm8916_analog pm8xxx_vibra=
-tor v4l2_fwnode qcom_pil_info videobuf2_dma_sg qcom_common qcom_q6v5 videob=
-uf2_memops videobuf2_v4l2 videobuf2_common i2c_qcom_cci leds_sgm3140 v4l2_f=
-lash_led_class led_class_flash v4l2_async videodev qcom_memshare mc usb_f_n=
-cm u_ether panel_longcheer_truly_nt35695 atmel_mxt_ts smb1360 msm mdt_loade=
-r drm_exec drm_display_he
->  lper gpu_sched libcomposite
-> [  100.043688] CPU: 4 UID: 10000 PID: 3444 Comm: megapixels Not tainted 6=
-.11.0-rc3-msm8916 #312
-> [  100.043716] Hardware name: BQ Aquaris M5 (Longcheer L9100) (DT)
-> [  100.043730] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [  100.043756] pc : __vb2_queue_cancel+0x228/0x2c0 [videobuf2_common]
-> [  100.043787] lr : __vb2_queue_cancel+0x28/0x2c0 [videobuf2_common]
-> [  100.043815] sp : ffff80008450ba50
-> [  100.043826] x29: ffff80008450ba50 x28: 0000000000000001 x27: ffff00000=
-f946180
-> [  100.043867] x26: 0000000000000000 x25: ffff00000f946780 x24: ffff00000=
-f946910
-> [  100.043906] x23: ffff00000175a620 x22: ffff0000036ddc90 x21: ffff00000=
-36e4410
-> [  100.043946] x20: ffff0000036e44b8 x19: ffff0000036e4410 x18: ffff80008=
-450ba98
-> [  100.043985] x17: ffffffffffffffff x16: 0000000000000000 x15: 000000000=
-0000040
-> [  100.044023] x14: 0256932925642338 x13: ffff00000f946200 x12: 000000000=
-0000001
-> [  100.044062] x11: ffff00000f946200 x10: 0000000000000a20 x9 : 000000000=
-0000000
-> [  100.044100] x8 : ffff0000bf964880 x7 : 0000000000000020 x6 : 000000000=
-0000100
-> [  100.044138] x5 : ffff0000036e4b68 x4 : 0000000000000000 x3 : ffff00000=
-f946180
-> [  100.044176] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 000000000=
-000000f
-> [  100.044214] Call trace:
-> [  100.044226]  __vb2_queue_cancel+0x228/0x2c0 [videobuf2_common]
-> [  100.044257]  vb2_core_queue_release+0x20/0x74 [videobuf2_common]
-> [  100.044285]  _vb2_fop_release+0x68/0xb0 [videobuf2_v4l2]
-> [  100.044314]  vb2_fop_release+0x28/0x50 [videobuf2_v4l2]
-> [  100.044341]  video_release+0x20/0x40 [qcom_camss]
-> [  100.044406]  v4l2_release+0xb4/0xf4 [videodev]
-> [  100.044481]  __fput+0xbc/0x274
-> [  100.044510]  ____fput+0xc/0x14
-> [  100.044533]  task_work_run+0x78/0xc0
-> [  100.044563]  do_exit+0x2dc/0x8b0
-> [  100.044590]  do_group_exit+0x30/0x8c
-> [  100.044615]  get_signal+0x7b4/0x8a0
-> [  100.044643]  do_signal+0x94/0xd14
-> [  100.044672]  do_notify_resume+0xd0/0x120
-> [  100.044697]  el0_svc+0x44/0x60
-> [  100.044730]  el0t_64_sync_handler+0x118/0x124
-> [  100.044753]  el0t_64_sync+0x14c/0x150
-> [  100.044775] ---[ end trace 0000000000000000 ]---
-> [  100.044793] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 0 in active state
-> [  100.045722] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 1 in active state
-> [  100.046587] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 2 in active state
-> [  100.047439] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 3 in active state
-> [  100.048288] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 4 in active state
-> [  100.049242] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 5 in active state
-> [  100.050098] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 6 in active state
-> [  100.050945] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 7 in active state
-> [  100.051793] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 8 in active state
-> [  100.052692] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 14 in active state
-> [  100.053548] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 15 in active state
-> [  100.054396] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 16 in active state
-> [  100.055244] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 17 in active state
-> [  100.056137] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 18 in active state
-> [  100.056988] videobuf2_common: driver bug: stop_streaming operation is =
-leaving buffer 19 in active state
->
-> From the log it looks like the cause is in some other module and not in
-> the imx214 driver, that's why the patch wasn't dropped from this series.
-> ---
->  drivers/media/i2c/imx214.c | 53 +++++++++++++++++++++++++++++++++-------=
+>  drivers/media/i2c/imx214.c | 112 ++++++++++++++++++++++++++++++++++++---=
 ------
->  1 file changed, 38 insertions(+), 15 deletions(-)
+>  1 file changed, 91 insertions(+), 21 deletions(-)
 >
 > diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> index 4a1433728cd5..ce6d8a90f4a1 100644
+> index 3b422cddbdce..9f5a57aebb86 100644
 > --- a/drivers/media/i2c/imx214.c
 > +++ b/drivers/media/i2c/imx214.c
-> @@ -53,12 +53,20 @@
->  /* Analog gain control */
->  #define IMX214_REG_ANALOG_GAIN         CCI_REG16(0x0204)
->  #define IMX214_REG_SHORT_ANALOG_GAIN   CCI_REG16(0x0216)
-> +#define IMX214_ANA_GAIN_MIN            0
-> +#define IMX214_ANA_GAIN_MAX            448
-> +#define IMX214_ANA_GAIN_STEP           1
-> +#define IMX214_ANA_GAIN_DEFAULT                0x0
+> @@ -34,11 +34,18 @@
 >
->  /* Digital gain control */
->  #define IMX214_REG_DIG_GAIN_GREENR     CCI_REG16(0x020e)
->  #define IMX214_REG_DIG_GAIN_RED                CCI_REG16(0x0210)
->  #define IMX214_REG_DIG_GAIN_BLUE       CCI_REG16(0x0212)
->  #define IMX214_REG_DIG_GAIN_GREENB     CCI_REG16(0x0214)
-> +#define IMX214_DGTL_GAIN_MIN           0x0100
-> +#define IMX214_DGTL_GAIN_MAX           0x0fff
-> +#define IMX214_DGTL_GAIN_DEFAULT       0x0100
-> +#define IMX214_DGTL_GAIN_STEP          1
+>  /* V-TIMING internal */
+>  #define IMX214_REG_FRM_LENGTH_LINES    CCI_REG16(0x0340)
+> +#define IMX214_VTS_MAX                 0xffff
+> +
+> +#define IMX214_VBLANK_MIN              4
+> +
+> +/* HBLANK control - read only */
+> +#define IMX214_PPL_DEFAULT             5008
 >
->  #define IMX214_REG_ORIENTATION         CCI_REG8(0x0101)
+>  /* Exposure control */
+>  #define IMX214_REG_EXPOSURE            CCI_REG16(0x0202)
+> -#define IMX214_EXPOSURE_MIN            0
+> -#define IMX214_EXPOSURE_MAX            3184
+> +#define IMX214_EXPOSURE_OFFSET         10
+> +#define IMX214_EXPOSURE_MIN            1
+> +#define IMX214_EXPOSURE_MAX            (IMX214_VTS_MAX - IMX214_EXPOSURE=
+_OFFSET)
+>  #define IMX214_EXPOSURE_STEP           1
+>  #define IMX214_EXPOSURE_DEFAULT                3184
+>  #define IMX214_REG_EXPOSURE_RATIO      CCI_REG8(0x0222)
+> @@ -189,6 +196,8 @@ struct imx214 {
+>         struct v4l2_ctrl_handler ctrls;
+>         struct v4l2_ctrl *pixel_rate;
+>         struct v4l2_ctrl *link_freq;
+> +       struct v4l2_ctrl *vblank;
+> +       struct v4l2_ctrl *hblank;
+>         struct v4l2_ctrl *exposure;
+>         struct v4l2_ctrl *unit_size;
 >
-> @@ -271,13 +279,6 @@ static const struct cci_reg_sequence mode_4096x2304[=
-] =3D {
+> @@ -205,8 +214,6 @@ static const struct cci_reg_sequence mode_4096x2304[]=
+ =3D {
+>         { IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
+>         { IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH },
+>         { IMX214_REG_EXPOSURE_RATIO, 1 },
+> -       { IMX214_REG_FRM_LENGTH_LINES, 3194 },
+> -       { IMX214_REG_LINE_LENGTH_PCK, 5008 },
+>         { IMX214_REG_X_ADD_STA, 56 },
+>         { IMX214_REG_Y_ADD_STA, 408 },
+>         { IMX214_REG_X_ADD_END, 4151 },
+> @@ -277,8 +284,6 @@ static const struct cci_reg_sequence mode_1920x1080[]=
+ =3D {
+>         { IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
+>         { IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH },
+>         { IMX214_REG_EXPOSURE_RATIO, 1 },
+> -       { IMX214_REG_FRM_LENGTH_LINES, 3194 },
+> -       { IMX214_REG_LINE_LENGTH_PCK, 5008 },
+>         { IMX214_REG_X_ADD_STA, 1144 },
+>         { IMX214_REG_Y_ADD_STA, 1020 },
+>         { IMX214_REG_X_ADD_END, 3063 },
+> @@ -362,6 +367,7 @@ static const struct cci_reg_sequence mode_table_commo=
+n[] =3D {
+>         { IMX214_REG_ORIENTATION, 0 },
+>         { IMX214_REG_MASK_CORR_FRAMES, IMX214_CORR_FRAMES_MASK },
+>         { IMX214_REG_FAST_STANDBY_CTRL, 1 },
+> +       { IMX214_REG_LINE_LENGTH_PCK, IMX214_PPL_DEFAULT },
+>         { CCI_REG8(0x4550), 0x02 },
+>         { CCI_REG8(0x4601), 0x00 },
+>         { CCI_REG8(0x4642), 0x05 },
+> @@ -465,18 +471,24 @@ static const struct cci_reg_sequence mode_table_com=
+mon[] =3D {
+>  static const struct imx214_mode {
+>         u32 width;
+>         u32 height;
+> +
+> +       /* V-timing */
+> +       unsigned int vts_def;
+> +
+>         unsigned int num_of_regs;
+>         const struct cci_reg_sequence *reg_table;
+>  } imx214_modes[] =3D {
+>         {
+>                 .width =3D 4096,
+>                 .height =3D 2304,
+> +               .vts_def =3D 3194,
+>                 .num_of_regs =3D ARRAY_SIZE(mode_4096x2304),
+>                 .reg_table =3D mode_4096x2304,
+>         },
+>         {
+>                 .width =3D 1920,
+>                 .height =3D 1080,
+> +               .vts_def =3D 3194,
+>                 .num_of_regs =3D ARRAY_SIZE(mode_1920x1080),
+>                 .reg_table =3D mode_1920x1080,
+>         },
+> @@ -629,6 +641,37 @@ static int imx214_set_format(struct v4l2_subdev *sd,
+>         __crop->width =3D mode->width;
+>         __crop->height =3D mode->height;
 >
->         { IMX214_REG_SHORT_EXPOSURE, 500 },
->
-> -       { IMX214_REG_ANALOG_GAIN, 0 },
-> -       { IMX214_REG_DIG_GAIN_GREENR, 256 },
-> -       { IMX214_REG_DIG_GAIN_RED, 256 },
-> -       { IMX214_REG_DIG_GAIN_BLUE, 256 },
-> -       { IMX214_REG_DIG_GAIN_GREENB, 256 },
-> -       { IMX214_REG_SHORT_ANALOG_GAIN, 0 },
-> -
->         { CCI_REG8(0x4170), 0x00 },
->         { CCI_REG8(0x4171), 0x10 },
->         { CCI_REG8(0x4176), 0x00 },
-> @@ -327,13 +328,6 @@ static const struct cci_reg_sequence mode_1920x1080[=
-] =3D {
->
->         { IMX214_REG_SHORT_EXPOSURE, 500 },
->
-> -       { IMX214_REG_ANALOG_GAIN, 0 },
-> -       { IMX214_REG_DIG_GAIN_GREENR, 256 },
-> -       { IMX214_REG_DIG_GAIN_RED, 256 },
-> -       { IMX214_REG_DIG_GAIN_BLUE, 256 },
-> -       { IMX214_REG_DIG_GAIN_GREENB, 256 },
-> -       { IMX214_REG_SHORT_ANALOG_GAIN, 0 },
-> -
->         { CCI_REG8(0x4170), 0x00 },
->         { CCI_REG8(0x4171), 0x10 },
->         { CCI_REG8(0x4176), 0x00 },
-> @@ -757,6 +751,18 @@ static int imx214_entity_init_state(struct v4l2_subd=
-ev *subdev,
+> +       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
+> +               int exposure_max;
+> +               int exposure_def;
+> +               int hblank;
+> +
+> +               /* Update limits and set FPS to default */
+> +               __v4l2_ctrl_modify_range(imx214->vblank, IMX214_VBLANK_MI=
+N,
+> +                                        IMX214_VTS_MAX - mode->height, 1=
+,
+> +                                        mode->vts_def - mode->height);
+> +               __v4l2_ctrl_s_ctrl(imx214->vblank,
+> +                                  mode->vts_def - mode->height);
+> +
+> +               /* Update max exposure while meeting expected vblanking *=
+/
+> +               exposure_max =3D mode->vts_def - IMX214_EXPOSURE_OFFSET;
+> +               exposure_def =3D (exposure_max < IMX214_EXPOSURE_DEFAULT)=
+ ?
+> +                       exposure_max : IMX214_EXPOSURE_DEFAULT;
+> +               __v4l2_ctrl_modify_range(imx214->exposure,
+> +                                        imx214->exposure->minimum,
+> +                                        exposure_max, imx214->exposure->=
+step,
+> +                                        exposure_def);
+> +
+> +               /*
+> +                * Currently PPL is fixed to IMX214_PPL_DEFAULT, so hblan=
+k
+> +                * depends on mode->width only, and is not changeble in a=
+ny
+> +                * way other than changing the mode.
+> +                */
+> +               hblank =3D IMX214_PPL_DEFAULT - mode->width;
+> +               __v4l2_ctrl_modify_range(imx214->hblank, hblank, hblank, =
+1,
+> +                                        hblank);
+> +       }
+> +
 >         return 0;
 >  }
 >
-> +static int imx214_update_digital_gain(struct imx214 *imx214, u32 val)
-> +{
-> +       int ret =3D 0;
-> +
-> +       cci_write(imx214->regmap, IMX214_REG_DIG_GAIN_GREENR, val, &ret);
-> +       cci_write(imx214->regmap, IMX214_REG_DIG_GAIN_RED, val, &ret);
-> +       cci_write(imx214->regmap, IMX214_REG_DIG_GAIN_BLUE, val, &ret);
-> +       cci_write(imx214->regmap, IMX214_REG_DIG_GAIN_GREENB, val, &ret);
-> +
-> +       return ret;
-> +}
-> +
->  static int imx214_set_ctrl(struct v4l2_ctrl *ctrl)
+> @@ -678,8 +721,25 @@ static int imx214_set_ctrl(struct v4l2_ctrl *ctrl)
 >  {
 >         struct imx214 *imx214 =3D container_of(ctrl->handler,
-> @@ -788,6 +794,15 @@ static int imx214_set_ctrl(struct v4l2_ctrl *ctrl)
->                 return 0;
+>                                              struct imx214, ctrls);
+> +       const struct v4l2_mbus_framefmt *format;
+> +       struct v4l2_subdev_state *state;
+>         int ret;
 >
->         switch (ctrl->id) {
-> +       case V4L2_CID_ANALOGUE_GAIN:
-> +               cci_write(imx214->regmap, IMX214_REG_ANALOG_GAIN,
-> +                         ctrl->val, &ret);
-> +               cci_write(imx214->regmap, IMX214_REG_SHORT_ANALOG_GAIN,
-> +                         ctrl->val, &ret);
-> +               break;
-> +       case V4L2_CID_DIGITAL_GAIN:
-> +               ret =3D imx214_update_digital_gain(imx214, ctrl->val);
-> +               break;
+> +       state =3D v4l2_subdev_get_locked_active_state(&imx214->sd);
+> +       format =3D v4l2_subdev_state_get_format(state, 0);
+> +
+> +       if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
+> +               int exposure_max, exposure_def;
+> +
+> +               /* Update max exposure while meeting expected vblanking *=
+/
+> +               exposure_max =3D format->height + ctrl->val - IMX214_EXPO=
+SURE_OFFSET;
+> +               exposure_def =3D min(exposure_max, IMX214_EXPOSURE_DEFAUL=
+T);
+> +               __v4l2_ctrl_modify_range(imx214->exposure,
+> +                                        imx214->exposure->minimum,
+> +                                        exposure_max, imx214->exposure->=
+step,
+> +                                        exposure_def);
+> +       }
+> +
+>         /*
+>          * Applying V4L2 control value only happens
+>          * when power is up for streaming
+> @@ -691,7 +751,10 @@ static int imx214_set_ctrl(struct v4l2_ctrl *ctrl)
 >         case V4L2_CID_EXPOSURE:
 >                 cci_write(imx214->regmap, IMX214_REG_EXPOSURE, ctrl->val,=
  &ret);
 >                 break;
-> @@ -834,7 +849,7 @@ static int imx214_ctrls_init(struct imx214 *imx214)
+> -
+> +       case V4L2_CID_VBLANK:
+> +               cci_write(imx214->regmap, IMX214_REG_FRM_LENGTH_LINES,
+> +                         format->height + ctrl->val, &ret);
+> +               break;
+>         default:
+>                 ret =3D -EINVAL;
+>         }
+> @@ -714,8 +777,11 @@ static int imx214_ctrls_init(struct imx214 *imx214)
+>                 .width =3D 1120,
+>                 .height =3D 1120,
+>         };
+> +       const struct imx214_mode *mode =3D &imx214_modes[0];
+>         struct v4l2_fwnode_device_properties props;
+>         struct v4l2_ctrl_handler *ctrl_hdlr;
+> +       int exposure_max, exposure_def;
+> +       int hblank;
+>         int ret;
+>
+>         ret =3D v4l2_fwnode_device_parse(imx214->dev, &props);
+> @@ -723,7 +789,7 @@ static int imx214_ctrls_init(struct imx214 *imx214)
 >                 return ret;
 >
 >         ctrl_hdlr =3D &imx214->ctrls;
-> -       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 10);
-> +       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 12);
+> -       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 6);
+> +       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 8);
 >         if (ret)
 >                 return ret;
 >
-> @@ -871,6 +886,14 @@ static int imx214_ctrls_init(struct imx214 *imx214)
->                                              IMX214_EXPOSURE_STEP,
->                                              exposure_def);
+> @@ -739,22 +805,26 @@ static int imx214_ctrls_init(struct imx214 *imx214)
+>         if (imx214->link_freq)
+>                 imx214->link_freq->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
 >
-> +       v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops, V4L2_CID_ANALOGUE_=
-GAIN,
-> +                         IMX214_ANA_GAIN_MIN, IMX214_ANA_GAIN_MAX,
-> +                         IMX214_ANA_GAIN_STEP, IMX214_ANA_GAIN_DEFAULT);
+> -       /*
+> -        * WARNING!
+> -        * Values obtained reverse engineering blobs and/or devices.
+> -        * Ranges and functionality might be wrong.
+> -        *
+> -        * Sony, please release some register set documentation for the
+> -        * device.
+> -        *
+> -        * Yours sincerely, Ricardo.
+> -        */
+
+I would like to keep this comment until there is a public document availabl=
+e.
+
+
+
+> +       /* Initial vblank/hblank/exposure parameters based on current mod=
+e */
+> +       imx214->vblank =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
+> +                                          V4L2_CID_VBLANK, IMX214_VBLANK=
+_MIN,
+> +                                          IMX214_VTS_MAX - mode->height,=
+ 1,
+> +                                          mode->vts_def - mode->height);
 > +
-> +       v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops, V4L2_CID_DIGITAL_G=
-AIN,
-> +                         IMX214_DGTL_GAIN_MIN, IMX214_DGTL_GAIN_MAX,
-> +                         IMX214_DGTL_GAIN_STEP, IMX214_DGTL_GAIN_DEFAULT=
-);
+> +       hblank =3D IMX214_PPL_DEFAULT - mode->width;
+> +       imx214->hblank =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
+> +                                          V4L2_CID_HBLANK, hblank, hblan=
+k,
+> +                                          1, hblank);
+> +       if (imx214->hblank)
+> +               imx214->hblank->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
 > +
->         imx214->hflip =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
->                                           V4L2_CID_HFLIP, 0, 1, 1, 0);
->         if (imx214->hflip)
+> +       exposure_max =3D mode->vts_def - IMX214_EXPOSURE_OFFSET;
+> +       exposure_def =3D min(exposure_max, IMX214_EXPOSURE_DEFAULT);
+>         imx214->exposure =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_op=
+s,
+>                                              V4L2_CID_EXPOSURE,
+> -                                            IMX214_EXPOSURE_MIN,
+> -                                            IMX214_EXPOSURE_MAX,
+> +                                            IMX214_EXPOSURE_MIN, exposur=
+e_max,
+>                                              IMX214_EXPOSURE_STEP,
+> -                                            IMX214_EXPOSURE_DEFAULT);
+> +                                            exposure_def);
+>
+>         imx214->unit_size =3D v4l2_ctrl_new_std_compound(ctrl_hdlr,
+>                                 NULL,
 >
 > --
 > 2.46.0
