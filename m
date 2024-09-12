@@ -1,76 +1,65 @@
-Return-Path: <linux-media+bounces-18214-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18215-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E75976B14
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 15:48:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C6B976B6B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 16:03:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 85EC21C22BAF
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 13:48:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF88C281C44
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 14:03:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FAA11AD258;
-	Thu, 12 Sep 2024 13:48:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 705AD1AD25A;
+	Thu, 12 Sep 2024 14:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JyvWCATG"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="UwcYyyKY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF491A4E9F
-	for <linux-media@vger.kernel.org>; Thu, 12 Sep 2024 13:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1E714F6C;
+	Thu, 12 Sep 2024 14:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726148913; cv=none; b=Tc89FY3/g6pdoRQozvIixn89eHMA4S8swa9tpRkPWClyjgvHoKg2cyo3ddW1AXFl8eHhiSqyd7ho1D3KOZynvpQgo4yUqI71Q7QEiPC+7UWFbYMyvRi1n7PWmp25QxVJRcxMBvFkHwQXcJupq8QjQ4nk844a2px7zzD394b4dzI=
+	t=1726149784; cv=none; b=LuEf77hVBDFU/zD7tffkg3oXg8YTDVZKm7KG5Co9MOZFLMgz8iZNcZQgxuPca7iYgqC2I68c3OI88Gp1B4NYzys/5d05tkDhD8r1jxPv10ZZirunESC19K3P/VQonifj2g/IvNEDN2lzMUIfN34pWeRfQMUO1zRvPaOVHgFXbsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726148913; c=relaxed/simple;
-	bh=xGmSZvJPMA6/WDsG5Nu532RgUOS4u5eT+NtzLeebeXs=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ARbSza9LMzfpPPwZnaZVSw7bJTjCNZxUalwVe4GUVFy5eealBqVjJedqsnUeZ2BFfy3gzvVoTco+PQMQv41otwWy6ku73dWiMudk+XoSBaNMhon/riSCb+oy6G/DlcrN6VrF7cmPMzUHaFzuzWGVoZV/Jy34AP3zcazizUgN8jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JyvWCATG; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42cd74c0d16so9414355e9.1
-        for <linux-media@vger.kernel.org>; Thu, 12 Sep 2024 06:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726148910; x=1726753710; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Rbwy09Mt6M+UVIdl4w21jxB17U9+FB7plRA5s10UoaA=;
-        b=JyvWCATGXwMjfqeHMrbzZmUbE3EL/yHBo44lcSE5SdJ/+Pot/lsPmFJpRG61lMpj3r
-         8YhTPKl3Tzc5hWctV6JiDb1PS2EcXrwXUcqrY9BfsKSlHjfd2rdpgvjN3t0ZzPL1Pz92
-         4YL4xmchuRrp+CcBtPscignireNljpTh0w+T/LQJ+xUwto3eUMqqcSgZyXQUTRS9GlrK
-         RMKuD7j1VwK2kNPQ1+85r8D0OrxFlMSjR0jnuJS0DsapJ91zRDXUNq+NvWiJ7abzajlQ
-         EYzCC2MJA1QXyBx8/r9YA5RHUp63gNs3LtA2WEUFIhaalUqR6tAoT0bNsUyWWhp7pYJM
-         BFxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726148910; x=1726753710;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Rbwy09Mt6M+UVIdl4w21jxB17U9+FB7plRA5s10UoaA=;
-        b=EKnUugHe7XYaywNV4U60vnvHeHsMNj5sjiIPN0n6Z4QYuNMz7vLT1Jdopqc1rLPPxr
-         nEOPSlg571KkvV4lns7exFto6DsF2ayq4+PELTRI2qRLA3jkQ+VbwY21Q1PTocJ4Klsj
-         bScQEZ8dzqt0l0BThrqiqiBqLWHAscb8QVQMj/M6r9r1GLsgN6y+BQ7uYEkf6207W4ea
-         DShlMKHD2CG5gsJbEEFgh2zs/WZdIL2c3kdZLWK8Z+NOZ7b9bSK4P0/8rntkzdqUmoRq
-         Whw4pCz73cMIhMEvYLoTrXxpz51rvHLZqPuT4jEteuVQZRc1aF8WGbZBsyhkc+OcYHQX
-         OG9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU6tkWLSgJ7pF1dpVXkLNcQv7M3aOcUX3+/g/a1OW6lryRsKkUK1sle0ZIQT8RydiZxNU3Cl8+p+T56pA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8qpqXtNaXh/sTVUzHP6bSnwDRzmKm7AiOa2NzghpXYOQVm+6g
-	gMR+uUCO2GeKay6hiS1LGezV+HCSzNn0a0BYXVyUO+Nri0sjzj+XvlGzWtDZTiA=
-X-Google-Smtp-Source: AGHT+IEjEDquT/aJgXoom8sDLR++VADiuZhuI/LJsjJSdWAMIa+jxBJ8AUa1I3E93mENrXnqOyJi6A==
-X-Received: by 2002:a05:600c:5127:b0:42c:a574:6360 with SMTP id 5b1f17b1804b1-42cdb5790c1mr24484905e9.29.1726148909401;
-        Thu, 12 Sep 2024 06:48:29 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:ab97:5a37:ff38:488e? ([2a01:e0a:982:cbb0:ab97:5a37:ff38:488e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956ddbbbsm14253237f8f.93.2024.09.12.06.48.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Sep 2024 06:48:28 -0700 (PDT)
-Message-ID: <6d78c1de-00bf-4aea-b0c6-a147faa40a8f@linaro.org>
-Date: Thu, 12 Sep 2024 15:48:27 +0200
+	s=arc-20240116; t=1726149784; c=relaxed/simple;
+	bh=6VNELcmiOGridR0hfeVG9f1nXPaRFEiRQOHr2rlq44M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=TGlUWFZwerGrc1C9mPz5C6s8pao3+q+qKmVHexoxkfm1DL2wIWWFH2t7JKqjLt15aJupVT3I/LpV+nLEWTiic9yxEtAzQMVbox8fnX4nMp6b5k15dLcLJHqc9FYqyBC0uB70gEp0i3Uo8SMySieEPwIZlU1mj2OA/waffRXBZIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=UwcYyyKY; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48CA0B91007769;
+	Thu, 12 Sep 2024 16:01:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	wydyosr06jttKvWq2McbxmUj/AVPLDsXH8zlKd5DuUs=; b=UwcYyyKYBr/7L4Xg
+	m8LL6KaR0eq5R5RnY8GuczEq5eY9C9UWSoKg50ePrd1TeMIEYXxELmuNAVIG2KzH
+	hmY5z6dRQRSRstZultdS3cGa4bcggvdZs0tGB/Zt1Drjf1B4/4LlXZJ12Elq7voE
+	8Tjj0siwS++QLyKb0GPK6gIglLebje/z+Ye/4UHKijLcqX8zZ7QpsJRK+pTYmeZT
+	G/qJ4ES7VJp9uFGbDeoGlrHPgYZX5Ifno4nTXzOGCJ9CXsqccgXQ8LDG1WIkphOU
+	W40UmoxDUEhlSqoZ+Lw8d86tUTtx5inmHTTv6X5DBfPSf7qxVRgxcRl+el7R/3eB
+	E1Wj4w==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41h1sgm66q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Sep 2024 16:01:12 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id D47F440072;
+	Thu, 12 Sep 2024 15:59:55 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6149726CBC1;
+	Thu, 12 Sep 2024 15:57:01 +0200 (CEST)
+Received: from [10.48.86.208] (10.48.86.208) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 12 Sep
+ 2024 15:57:00 +0200
+Message-ID: <1b863880-89e1-4fb4-8365-8c69e6228cb6@foss.st.com>
+Date: Thu, 12 Sep 2024 15:57:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,135 +67,222 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
- binding
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
-References: <20240812144131.369378-1-quic_depengs@quicinc.com>
- <20240812144131.369378-8-quic_depengs@quicinc.com>
- <b1b4a866-fa64-4844-a49b-dfdcfca536df@linaro.org>
- <82dd61ab-83c0-4f9c-a2ee-e00473f4ff23@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <82dd61ab-83c0-4f9c-a2ee-e00473f4ff23@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 2/2] media: verisilicon: add WebP decoding support
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil
+	<hverkuil-cisco@xs4all.nl>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Sebastian
+ Fricke <sebastian.fricke@collabora.com>,
+        Daniel Almeida
+	<daniel.almeida@collabora.com>,
+        Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>
+References: <20240911135011.161217-1-hugues.fruchet@foss.st.com>
+ <20240911135011.161217-3-hugues.fruchet@foss.st.com>
+ <1d02cbe2797053c69ba9d7adb9c666ca221407e0.camel@collabora.com>
+ <01020191e2672cd9-0b3804cc-def2-4dfb-aa44-8eddbd5e99fb-000000@eu-west-1.amazonses.com>
+ <e3e4a4e6-d0ac-455e-9854-d93bdb13f272@foss.st.com>
+ <01020191e65d93a5-448a3c64-c746-4d9b-820f-6a9413c6f0af-000000@eu-west-1.amazonses.com>
+Content-Language: en-US
+From: Hugues FRUCHET <hugues.fruchet@foss.st.com>
+In-Reply-To: <01020191e65d93a5-448a3c64-c746-4d9b-820f-6a9413c6f0af-000000@eu-west-1.amazonses.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-On 12/09/2024 13:41, Bryan O'Donoghue wrote:
-> On 12/09/2024 09:22, Vladimir Zapolskiy wrote:
->>> +
->>> +  vdda-phy-supply:
->>> +    description:
->>> +      Phandle to a regulator supply to PHY core block.
->>> +
->>> +  vdda-pll-supply:
->>> +    description:
->>> +      Phandle to 1.2V regulator supply to PHY refclk pll block.
->>> +
+Thanks Nicolas,
+
+
+On 9/12/24 15:12, Nicolas Dufresne wrote:
+> Le jeudi 12 septembre 2024 à 14:18 +0200, Hugues FRUCHET a écrit :
+>> Hi Nicolas,
 >>
->> Here the supplies should be split into ones, which are specific to CSI blocks,
->> and I believe they shall be set as optional.
-> 
-> In principle I agree with that, each CSIPHY should have its own vdda-phy and vdda-pll regulator specified.
-> 
-> In practice though I don't believe its necessary, below.
-> 
->> The proposed names are:
+>> Thanks for reviewing.
 >>
->> vdda-phy-01-supply
->> vdda-pll-01-supply
->> vdda-phy-23-supply
->> vdda-pll-23-supply
->> vdda-phy-46-supply
->> vdda-pll-46-supply
->> vdda-phy-57-supply
->> vdda-pll-57-supply
+>> GStreamer changes are provided through this merge request:
+>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7505
+>>
+>> Code:
+>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/138ecfac54ce85b273a26ff6f0fefe3998f8d436?merge_request_iid=7505
+>>
+>>
+>>
+>> On 9/11/24 20:44, Nicolas Dufresne wrote:
+>>> Le mercredi 11 septembre 2024 à 13:58 -0400, Nicolas Dufresne a écrit :
+>>>> Hi Hugues,
+>>>>
+>>>> Le mercredi 11 septembre 2024 à 15:50 +0200, Hugues Fruchet a écrit :
+>>>>> Add WebP picture decoding support to VP8 stateless decoder.
+>>>>
+>>>> Unless when its obvious, the commit message should explain what is being
+>>>> changed.
+>>>>
+>>>>>
+>>>>> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+>>>>> ---
+>>>>>    drivers/media/platform/verisilicon/hantro_g1_regs.h    | 1 +
+>>>>>    drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c | 7 +++++++
+>>>>>    2 files changed, 8 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/media/platform/verisilicon/hantro_g1_regs.h b/drivers/media/platform/verisilicon/hantro_g1_regs.h
+>>>>> index c623b3b0be18..e7d4db788e57 100644
+>>>>> --- a/drivers/media/platform/verisilicon/hantro_g1_regs.h
+>>>>> +++ b/drivers/media/platform/verisilicon/hantro_g1_regs.h
+>>>>> @@ -232,6 +232,7 @@
+>>>>>    #define     G1_REG_DEC_CTRL7_DCT7_START_BIT(x)		(((x) & 0x3f) << 0)
+>>>>>    #define G1_REG_ADDR_STR					0x030
+>>>>>    #define G1_REG_ADDR_DST					0x034
+>>>>> +#define G1_REG_ADDR_DST_CHROMA				0x038
+>>>>>    #define G1_REG_ADDR_REF(i)				(0x038 + ((i) * 0x4))
+>>>>>    #define     G1_REG_ADDR_REF_FIELD_E			BIT(1)
+>>>>>    #define     G1_REG_ADDR_REF_TOPC_E			BIT(0)
+>>>>> diff --git a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+>>>>> index 851eb67f19f5..c6a7584b716a 100644
+>>>>> --- a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+>>>>> +++ b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+>>>>> @@ -427,6 +427,11 @@ static void cfg_buffers(struct hantro_ctx *ctx,
+>>>>>    
+>>>>>    	dst_dma = hantro_get_dec_buf_addr(ctx, &vb2_dst->vb2_buf);
+>>>>>    	vdpu_write_relaxed(vpu, dst_dma, G1_REG_ADDR_DST);
+>>>>> +
+>>>>> +	if (hdr->flags & V4L2_VP8_FRAME_FLAG_WEBP)
+>>>>> +		vdpu_write_relaxed(vpu, dst_dma +
+>>>>> +				   ctx->dst_fmt.height * ctx->dst_fmt.width,
+>>>>
+>>>> I'm not really not fan of that type of formula using padded width/height. Not
+>>>> sure if its supported already, but if we have foreign buffers with a bigger
+>>>> bytesperline, the IP may endup overwriting the luma. Please use the per-plane
+>>>> bytesperline, we have v4l2-common to help with that when needed.
+>>>>> +				   G1_REG_ADDR_DST_CHROMA);
+>>
+>> OK, I'll check that.
+>>
+>>>>
+>>>> I have a strong impression this patch is incomplete (not generic enough). The
+>>>> documentation I have indicates that the resolution range for WebP can be
+>>>> different for different synthesis. See swreg54 (0xd8), if bit 19 is set, then it
+>>>> can support 16K x 16K resolution. There is no other way around that then
+>>>> signalling explicitly at the format level that this is webp, since otherwise you
+>>>> can't know from userspace and can't enumerate the different resolution. I'm
+>>>> curious what is the difference at bitstream level, would be nice to clarify too.
+>>
+>> See below WebP image details.
+>>
+>>>
+>>> I've also found that when the PP is used, you need to fill some extended
+>>> dimension (SWREG92) with the missing bit of the width/height, as the dimension
+>>> don't fit the usual register.
+>>>
+>>
+>> Yes there are additional registers to set in postproc for large image >
+>> 3472x4672 and image input bitstream larger than 16777215 bytes.
+>> I have not tested such large images for now.
+>> Additionally I don't have postproc support on STM32MP25.
+>> Anyway I can guard for those limits in code...
+>>
+>>> More notes, I noticed that WebP supports having a second frame for the alpha,
+>>> similar to WebM Alpha, for that we expect 2 requests, so no issue on this front.
+>>> WebP Loss-less is a completely different codec, and should have its own format.
+>>>
+>>> I think overall, from my read of the spec, that its normal VP8, but the
+>>> resolution will exceed the normal one. We also can't always enable WebP, since
+>>> it will break references.
+>>>
+>>> Nicolas
+>>>
+>>
+>> As far as I have understood & tested, WebP is just an encapsulation of
+>> VP8 video chunk:
+>>    * Webp image RIFF header
+>>    *
+>>    * 52 49 46 46 f6 00 00 00 57 45 42 50 56 50 38 20  RIFF....WEBPVP8
+>>    * ea 00 00 00 90 09 00 9d 01 2a 30 00 30 00 3e 35  .........*0.0.>5
+>>    *           | \______/ \______/
+>>    *           |       |         \__VP8 startcode
+>>    *           |        \__VP8 frame_tag
+>>    *           |
+>>    *            \__End of WebP RIFF header: 20 bytes, then VP8 chunk
+>>
+>> At least for lossy WebP.
+>>
+>> There are two others WebP formats which are loss-less WebP and animated
+>> WebP but untested on my side, I don't even know if those formats are
+>> supported by the hardware IP.
+>>
+>>>>
+>>>> On GStreamer side, the formats are entirely seperate, image/webp vs video/x-vp8
+>>>> are the mime types. Seems a lot safe to keep these two as seperate formats. They
+>>>> can certainly share the same stateless frame structure, with the additional flag
+>>>> imho.
+>>>>
+>>>> Nicolas
+>>
+>> Really very few changes needed on VP8 codebase to support WebP. On my
+>> opinion it doesn't need a fork of codec for that, hence just the minor
+>> addition of "WebP"  signaling on uAPI see GStreamer limited changes in
+>> VP8 codebase to support WebP:
+>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/138ecfac54ce85b273a26ff6f0fefe3998f8d436?merge_request_iid=7505
 > 
-> In principle, you're right, we need to expand the name set here.
+> If it was identical, we'd need no flag. The requirement to use the flag is not
+> discoverable. What I'm guessing is that anything above 1080p needs the flag. But
+> then if you enable that flag, you loose the ability to use references, so that
+> would equally break normal VP8. It seems like a VP8 decoder is compatible with
+> WebP, but a WebP decoder is not compatible with VP8.
 > 
->> I understand that what I ask is much more clumsy, and it could be seen even as
->> unneeded, however it'll be the right set of properties to describe the CAMSS IP
->> in this respect
-> I think the following naming would be better as it matches the power-grid naming in the docs.
+> I cannot accept what you believe is a simple solution since its not discover-
+> able by userspace. The Hantro VP8 decoder driver is not the only VP8 driver, so
+> the GStreamer implementation would break randomly on other SoC.
 > 
-> csiphyX-vdda-phy-supply
-> csiphyX-vdda-pll-supply
+> My recommendation is to introduce V4L2_PIX_FMT_WEBP_FRAME, and make it so that
+> format reused 100% of the VP8_FRAME format (very little work, no flag needed
+> since the format holds that). This way, drivers can be very explicit through
+> their ENUM_FORMAT implementation, and can also expose different resolution
+> ranges properly.
 > 
-> =>
-> 
-> // voltage domain = vdd_a_csi_01_09 = regulator l1e
-> csiphy0-vdda-phy-supply = <&vreg_l1e_0p9>;
-> 
-> // voltage domain = vdd_a_csi_01_1p2 = regulator l3e
-> csiphy0-vdda-pll-supply = <&vreg_l3e_1p2>;
-> 
-> //
-> csiphy1-vdda-phy-supply = <&vreg_l1e_0p9>;
-> csiphy1-vdda-pll-supply = <&vreg_l3e_1p2>;
-> 
-> Where X indicates the CSIPHY number.
-> 
-> So in fact, in practice we don't need to differentiate these entries.
-> 
-> Checking x1e80100 ...
-> 
-> csiphy0
-> 
-> vdda-phy-supply = <&vreg_l2c_0p9>;
-> vdda-pll-supply = <&vreg_l1c_1p2>;
-> 
-> This is also the case for csiphy 1/2/4
-> 
-> So, I _don't_ believe this is work we need to do, since its the same regulator for each PHY.
+> Nicolas
 
-Except when it's not the case, like on the SM8650 HDK:
-VDD_A_CSI_01_0P9	=> VREG_L2I_0P88
-VDD_A_CSI_01_1P2	=> VREG_L3I_1P2
-VDD_A_CSI_24_0P9	=> VREG_L1I_0P88
-VDD_A_CSI_24_1P2	=> VREG_L3I_1P2
-VDD_A_CSI_35_0P9	=> VREG_L2I_0P88
-VDD_A_CSI_35_1P2	=> VREG_L3I_1P2
-
-the 1P2 all uses VREG_L3I_1P2, while the 0P9 are using VREG_L2I_0P88 or VREG_L1I_0P88
-
-Not declaring the exact supplies is pure lazyness, it will bounce back at our faces at some point.
-
-Neil
+OK, I'll wait for your comments on GStreamer side to propose a new 
+kernel patchset based on this new format.
 
 > 
-> ---
-> bod
+> p.s. you should draft the required synthesis check and postproc code, I can test
+> it for you.
+> 
 
+Thanks for that ;)
+
+>>
+>>>>
+>>>>>    }
+>>>>>    
+>>>>>    int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+>>>>> @@ -471,6 +476,8 @@ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+>>>>>    		reg |= G1_REG_DEC_CTRL0_SKIP_MODE;
+>>>>>    	if (hdr->lf.level == 0)
+>>>>>    		reg |= G1_REG_DEC_CTRL0_FILTERING_DIS;
+>>>>> +	if (hdr->flags & V4L2_VP8_FRAME_FLAG_WEBP)
+>>>>> +		reg |= G1_REG_DEC_CTRL0_WEBP_E;
+>>>>>    	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL0);
+>>>>>    
+>>>>>    	/* Frame dimensions */
+>>>>
+>>>
+>>
+>> BR,
+>> Hugues.
+> 
+BR,
+Hugues.
 
