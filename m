@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-18201-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18202-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD908976AE3
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 15:40:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB0A976AE6
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 15:40:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F668B214D6
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 13:40:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D9201C210FB
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 13:40:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7D0F1AD9CF;
-	Thu, 12 Sep 2024 13:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31DE01B12F1;
+	Thu, 12 Sep 2024 13:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="phUJWwHH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BEp8c2YY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0341AD261;
-	Thu, 12 Sep 2024 13:40:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8804E1A3020;
+	Thu, 12 Sep 2024 13:40:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726148407; cv=none; b=JalHGaUZqa6qhQMoju3eGJ/TBI/k7l+DiqVql2lj5pokzXneKJ2CrewCEX5zUThzEr12VLH47CfixC8Fv1Dg/Pe1siAtmXYUc6NxGQwcyUlen9fZ8Q/3nBdlnQlMCNyieVm0i4WG6ICHvTyk6K1rXpJnMZLFZ7GBTcfa7MefnH0=
+	t=1726148413; cv=none; b=cZA4qAXE+Y2Jc7sPqiR0cOUoQmdmJzKCMqrPtvLKh7R5GXttsItdpLSNLJFjHk8rL53rpVhJTukrzMDTgCW3gz35akvOVbGFakj8Zh6HBeFbtTtoGev+QqzC2CciogS59pDpkA9xK6igW07m1N71UYjBm93xWGAW2LRQg2zljUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726148407; c=relaxed/simple;
-	bh=t0C22QyaCqzG2yvHQ2RZ31l9aCLaC6AArCao759kBig=;
+	s=arc-20240116; t=1726148413; c=relaxed/simple;
+	bh=DL4r0O+R6v2AX/R0/ff7Hz0z7SSO2IxHsWtTWD68ru0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FeRE6scgtQ1OkupcbPg/2sgvwzlP+fuGk2KbiLhGVpNyMKOxDxSWCWnVRT8wsFY/Glsx/qDGLIIpcOHnYXvDHc5qjaUXW7+VQk+Sp1hV2gP1nv7EVMhQ2pfc75j1ij+H7mMSBLDGqcDxi1FZ79aEuBRVJCNAm0ruKEUYyU5Svko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=phUJWwHH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEBF9C4CEDC;
-	Thu, 12 Sep 2024 13:40:06 +0000 (UTC)
+	 To:Cc:Content-Type; b=IUiKox1Q6cFQQp1pZrCV8kMGEVGuppNE/nAPBKtifMGDZ3BeynHLQ/Juk+EgkpwmFBJ6j34MtVUiIRsewcAdfMQV7kgs+FPFfGBg3IVJCvUgDClwwRu3EIc2GzLuIEPGuzrDBadxcVsBMPl5l6mkUCUOv9T4iHxJ9dP0HAdzIPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BEp8c2YY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209E7C4CECF;
+	Thu, 12 Sep 2024 13:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726148406;
-	bh=t0C22QyaCqzG2yvHQ2RZ31l9aCLaC6AArCao759kBig=;
+	s=k20201202; t=1726148413;
+	bh=DL4r0O+R6v2AX/R0/ff7Hz0z7SSO2IxHsWtTWD68ru0=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=phUJWwHH6rnE8bkaPS5BxOr0ZWkhbO+BUE9aCWP/w9gR/oGC6QZuCukN+3qMF0V5z
-	 01Yf+wzehvymgJcdE31amCBxyugiUgdvMwyMszUvZgD8oGE0NTUHE0uorSCv1CyXiM
-	 lLTyd78Kd9QbIH5NwhjLW/NJNxENw2W7AMTmWlkWenc4zp/5DBKbWHl03OKRjWXJwo
-	 vVE0CwmTsL8Et8439qRFj3AFVUnupgAcV0kCVcMkmlnY8aXC7BcWovRNnpe/B1O/de
-	 KAI3s3f9EFgC30Imiw1LC0OzxcECMaZEp1QbrJAtV/oUe5KII/QhgW775BSXsSvC/h
-	 y0eRvGdA44MaQ==
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5dfad5a9c21so513042eaf.0;
-        Thu, 12 Sep 2024 06:40:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVCk0BkN5xQhW3xr3OoHzVSbK6RG0tzDELAnNntZ7CUcfJBmOubCjAxtkOHjanOoasTMliC73aSdcrGjNM=@vger.kernel.org, AJvYcCVtkJ4tbQwPKctjPw7qHlMFvouLRWblYSlgUfE24odNhuHY/lNpj4vPniea6TWb/iKStREJJWUF7WCNFTI=@vger.kernel.org, AJvYcCW6OalGmcJQW4i8KbNEz0lcCtrdVlGx3UAT/ZOsUvivh8ZNWVBVAfoDBlUnkDTR7M0WukIwnDaMBqwhWR8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1LaataDf2M85WUsoo02k/X7tKOucO6BmAmxGATaoSvcdsVEVo
-	QnxiG1r8KpmW0ZHVVke4sZrlKsDB+a9VbPmI+3Zqqy0ALiUyOyTrthi3PYYuIWdxroJHq0s9rXZ
-	HciVpiJqtFflFLALgFy4CgMe16rY=
-X-Google-Smtp-Source: AGHT+IGg4vhvLJcnOfVSBmYnq3FKAUWcSd7Xn5LU0g3lK+44H8wIzNUpy3jTNLKz6gKKLp1J/aXormKK7RdaaGu/0X8=
-X-Received: by 2002:a05:6358:914c:b0:1b8:40ad:8e73 with SMTP id
- e5c5f4694b2df-1bb14e23828mr181847855d.12.1726148405907; Thu, 12 Sep 2024
- 06:40:05 -0700 (PDT)
+	b=BEp8c2YYQzSka1e725md1K+4XTuMMiqQMo+eHx6KHzP1b7xE4sP4aiLk0m24vLrj4
+	 fW0DI6Nne/DBuip9cjLY46EinJXE3BbVKG+s1wxy8gN6VaCWtqe9CEEHZM7wcIFZF3
+	 9mE1psx1PxT3wztFGxRRHSHX/qoONxqu4jekjjEmzfdOcmG6n44dS+WO6lWehSXV+N
+	 ko6KJjoLCBjmQMOh/vfk9KhJ3NUqy3s6CUT1ip9OXdMOWNgXpvMGR8DCvb0tlM+kvH
+	 DVSd5tWLVm/dtGRIBRTPurfy7iEXmQUgLfCz7IFzBI7nsM8A+OleH6NeZwxsPA3ZYi
+	 hjcaulsr2wkKg==
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-711009878e2so389707a34.2;
+        Thu, 12 Sep 2024 06:40:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVi6RlgfHZwsbdopBHLt570NudE+UIIwqfQbmZQCxoR6l3XJidcWQbb49E6LZv8hj0DZg+aqQPJyFclOa0=@vger.kernel.org, AJvYcCXFL3xcRG71XoS4kXcaHJzA/805Yu8jwxQ0xRkbvPo026e1zNGGzIJ9SeVe8DZg8tKzmudo094wznYdU0I=@vger.kernel.org, AJvYcCXKqGXlzep9MDYBKbAOiRTwbtOwNPoaTMU4ogPAW9iB6gl/CBsMlKt6dRvy+RWYUonOmJbf1O1ERctd8uE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7ABz29/Pe8McbQAF3yXUBqUiPCtJtnwMhjO1AafQLCxrROO15
+	naM2xRenNlg+34GITmoWFI2F0ArXxyiE5UnnslajGjOzyZOsqmBHTflZOVXVPKDVJZVMBGjguU9
+	9bO4vipfdJU1PMT1REcE4gNxKyEc=
+X-Google-Smtp-Source: AGHT+IGHZExVrLttlRlmulr921uUh4RLCBBvJ8OSgzw4JC2tb2Gh9GkIoaehGRMR7LrEXd9k4KwH57vTAnIHrsHEWgM=
+X-Received: by 2002:a05:6358:5e03:b0:1ba:5d0d:a259 with SMTP id
+ e5c5f4694b2df-1bb23e0322bmr141981555d.24.1726148412418; Thu, 12 Sep 2024
+ 06:40:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240902-imx214-v1-0-c96cba989315@apitzsch.eu> <20240902-imx214-v1-13-c96cba989315@apitzsch.eu>
-In-Reply-To: <20240902-imx214-v1-13-c96cba989315@apitzsch.eu>
+References: <20240902-imx214-v1-0-c96cba989315@apitzsch.eu> <20240902-imx214-v1-12-c96cba989315@apitzsch.eu>
+In-Reply-To: <20240902-imx214-v1-12-c96cba989315@apitzsch.eu>
 From: Ricardo Ribalda Delgado <ribalda@kernel.org>
-Date: Thu, 12 Sep 2024 15:39:49 +0200
-X-Gmail-Original-Message-ID: <CAPybu_2Yt0VBuPDAWS2MGM0U3ncUQ7VZD1gju18-2DxUvtUL7A@mail.gmail.com>
-Message-ID: <CAPybu_2Yt0VBuPDAWS2MGM0U3ncUQ7VZD1gju18-2DxUvtUL7A@mail.gmail.com>
-Subject: Re: [PATCH 13/13] media: i2c: imx214: Add test pattern control
+Date: Thu, 12 Sep 2024 15:39:56 +0200
+X-Gmail-Original-Message-ID: <CAPybu_2JqoQbAz8qm8BWF_dknbMExK+vhNvn62wjaO0QrZyeHA@mail.gmail.com>
+Message-ID: <CAPybu_2JqoQbAz8qm8BWF_dknbMExK+vhNvn62wjaO0QrZyeHA@mail.gmail.com>
+Subject: Re: [PATCH 12/13] media: i2c: imx214: Verify chip ID
 To: git@apitzsch.eu
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
@@ -77,141 +77,71 @@ On Mon, Sep 2, 2024 at 11:53=E2=80=AFPM Andr=C3=A9 Apitzsch via B4 Relay
 >
 > From: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
 >
-> This adds V4L2_CID_TEST_PATTERN control support.
+> Check the chip ID and stop probing if it is no imx214 sensor.
 >
 > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
 Acked-by: Ricardo Ribalda <ribalda@chromium.org>
+
 > ---
->  drivers/media/i2c/imx214.c | 77 ++++++++++++++++++++++++++++++++++++++++=
-++++--
->  1 file changed, 75 insertions(+), 2 deletions(-)
+>  drivers/media/i2c/imx214.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
 >
 > diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> index 6493a9b9ea88..6d67c7b307bd 100644
+> index ce6d8a90f4a1..6493a9b9ea88 100644
 > --- a/drivers/media/i2c/imx214.c
 > +++ b/drivers/media/i2c/imx214.c
-> @@ -181,6 +181,23 @@
+> @@ -20,6 +20,10 @@
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-subdev.h>
 >
->  #define IMX214_REG_ATR_FAST_MOVE       CCI_REG8(0x9300)
->
-> +/* Test Pattern Control */
-> +#define IMX214_REG_TEST_PATTERN                CCI_REG16(0x0600)
-> +#define IMX214_TEST_PATTERN_DISABLE    0
-> +#define IMX214_TEST_PATTERN_SOLID_COLOR        1
-> +#define IMX214_TEST_PATTERN_COLOR_BARS 2
-> +#define IMX214_TEST_PATTERN_GREY_COLOR 3
-> +#define IMX214_TEST_PATTERN_PN9                4
+> +/* Chip ID */
+> +#define IMX214_REG_CHIP_ID             CCI_REG16(0x0016)
+> +#define IMX214_CHIP_ID                 0x0214
 > +
-> +/* Test pattern colour components */
-> +#define IMX214_REG_TESTP_RED           CCI_REG16(0x0602)
-> +#define IMX214_REG_TESTP_GREENR                CCI_REG16(0x0604)
-> +#define IMX214_REG_TESTP_BLUE          CCI_REG16(0x0606)
-> +#define IMX214_REG_TESTP_GREENB                CCI_REG16(0x0608)
-> +#define IMX214_TESTP_COLOUR_MIN                0
-> +#define IMX214_TESTP_COLOUR_MAX                0x03ff
-> +#define IMX214_TESTP_COLOUR_STEP       1
+>  #define IMX214_REG_MODE_SELECT         CCI_REG8(0x0100)
+>  #define IMX214_MODE_STANDBY            0x00
+>  #define IMX214_MODE_STREAMING          0x01
+> @@ -1168,6 +1172,27 @@ static int imx214_get_regulators(struct device *de=
+v, struct imx214 *imx214)
+>                                        imx214->supplies);
+>  }
+>
+> +/* Verify chip ID */
+> +static int imx214_identify_module(struct imx214 *imx214)
+> +{
+> +       struct i2c_client *client =3D v4l2_get_subdevdata(&imx214->sd);
+> +       int ret;
+> +       u64 val;
 > +
->  /* IMX214 native and active pixel array size */
->  #define IMX214_NATIVE_WIDTH            4224U
->  #define IMX214_NATIVE_HEIGHT           3136U
-> @@ -213,6 +230,22 @@ static const u32 imx214_mbus_formats[] =3D {
->         MEDIA_BUS_FMT_SBGGR10_1X10,
->  };
->
-> +static const char * const imx214_test_pattern_menu[] =3D {
-> +       "Disabled",
-> +       "Color Bars",
-> +       "Solid Color",
-> +       "Grey Color Bars",
-> +       "PN9"
-> +};
+> +       ret =3D cci_read(imx214->regmap, IMX214_REG_CHIP_ID, &val, NULL);
+> +       if (ret)
+> +               return dev_err_probe(&client->dev, ret,
+> +                                    "failed to read chip id %x\n",
+> +                                    IMX214_CHIP_ID);
 > +
-> +static const int imx214_test_pattern_val[] =3D {
-> +       IMX214_TEST_PATTERN_DISABLE,
-> +       IMX214_TEST_PATTERN_COLOR_BARS,
-> +       IMX214_TEST_PATTERN_SOLID_COLOR,
-> +       IMX214_TEST_PATTERN_GREY_COLOR,
-> +       IMX214_TEST_PATTERN_PN9,
-> +};
+> +       if (val !=3D IMX214_CHIP_ID)
+> +               return dev_err_probe(&client->dev, -EIO,
+> +                                    "chip id mismatch: %x!=3D%llx\n",
+> +                                    IMX214_CHIP_ID, val);
 > +
->  struct imx214 {
->         struct device *dev;
->         struct clk *xclk;
-> @@ -819,6 +852,26 @@ static int imx214_set_ctrl(struct v4l2_ctrl *ctrl)
->                 cci_write(imx214->regmap, IMX214_REG_FRM_LENGTH_LINES,
->                           format->height + ctrl->val, &ret);
->                 break;
-> +       case V4L2_CID_TEST_PATTERN:
-> +               cci_write(imx214->regmap, IMX214_REG_TEST_PATTERN,
-> +                         imx214_test_pattern_val[ctrl->val], &ret);
-> +               break;
-> +       case V4L2_CID_TEST_PATTERN_RED:
-> +               cci_write(imx214->regmap, IMX214_REG_TESTP_RED,
-> +                         ctrl->val, &ret);
-> +               break;
-> +       case V4L2_CID_TEST_PATTERN_GREENR:
-> +               cci_write(imx214->regmap, IMX214_REG_TESTP_GREENR,
-> +                         ctrl->val, &ret);
-> +               break;
-> +       case V4L2_CID_TEST_PATTERN_BLUE:
-> +               cci_write(imx214->regmap, IMX214_REG_TESTP_BLUE,
-> +                         ctrl->val, &ret);
-> +               break;
-> +       case V4L2_CID_TEST_PATTERN_GREENB:
-> +               cci_write(imx214->regmap, IMX214_REG_TESTP_GREENB,
-> +                         ctrl->val, &ret);
-> +               break;
->         default:
->                 ret =3D -EINVAL;
->         }
-> @@ -846,14 +899,14 @@ static int imx214_ctrls_init(struct imx214 *imx214)
->         struct v4l2_ctrl_handler *ctrl_hdlr;
->         int exposure_max, exposure_def;
->         int hblank;
-> -       int ret;
-> +       int i, ret;
->
->         ret =3D v4l2_fwnode_device_parse(imx214->dev, &props);
->         if (ret < 0)
->                 return ret;
->
->         ctrl_hdlr =3D &imx214->ctrls;
-> -       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 12);
-> +       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 13);
->         if (ret)
->                 return ret;
->
-> @@ -908,6 +961,26 @@ static int imx214_ctrls_init(struct imx214 *imx214)
->         if (imx214->vflip)
->                 imx214->vflip->flags |=3D V4L2_CTRL_FLAG_MODIFY_LAYOUT;
->
-> +       v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx214_ctrl_ops,
-> +                                    V4L2_CID_TEST_PATTERN,
-> +                                    ARRAY_SIZE(imx214_test_pattern_menu)=
- - 1,
-> +                                    0, 0, imx214_test_pattern_menu);
-> +       for (i =3D 0; i < 4; i++) {
-> +               /*
-> +                * The assumption is that
-> +                * V4L2_CID_TEST_PATTERN_GREENR =3D=3D V4L2_CID_TEST_PATT=
-ERN_RED + 1
-> +                * V4L2_CID_TEST_PATTERN_BLUE   =3D=3D V4L2_CID_TEST_PATT=
-ERN_RED + 2
-> +                * V4L2_CID_TEST_PATTERN_GREENB =3D=3D V4L2_CID_TEST_PATT=
-ERN_RED + 3
-> +                */
-> +               v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
-> +                                 V4L2_CID_TEST_PATTERN_RED + i,
-> +                                 IMX214_TESTP_COLOUR_MIN,
-> +                                 IMX214_TESTP_COLOUR_MAX,
-> +                                 IMX214_TESTP_COLOUR_STEP,
-> +                                 IMX214_TESTP_COLOUR_MAX);
-> +               /* The "Solid color" pattern is white by default */
-> +       }
+> +       return 0;
+> +}
 > +
->         imx214->unit_size =3D v4l2_ctrl_new_std_compound(ctrl_hdlr,
->                                 NULL,
->                                 V4L2_CID_UNIT_CELL_SIZE,
+>  static int imx214_parse_fwnode(struct device *dev, struct imx214 *imx214=
+)
+>  {
+>         struct fwnode_handle *endpoint;
+> @@ -1261,6 +1286,10 @@ static int imx214_probe(struct i2c_client *client)
+>          */
+>         imx214_power_on(imx214->dev);
+>
+> +       ret =3D imx214_identify_module(imx214);
+> +       if (ret)
+> +               goto error_power_off;
+> +
+>         pm_runtime_set_active(imx214->dev);
+>         pm_runtime_enable(imx214->dev);
+>         pm_runtime_idle(imx214->dev);
 >
 > --
 > 2.46.0
