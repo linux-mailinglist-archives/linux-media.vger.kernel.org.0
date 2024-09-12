@@ -1,426 +1,653 @@
-Return-Path: <linux-media+bounces-18220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18221-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A334E976CB3
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 16:52:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDA5976CF7
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 17:04:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 252C51F24F4E
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 14:52:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A41F6B218C4
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 15:04:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 606151B29D8;
-	Thu, 12 Sep 2024 14:51:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1289B1AD251;
+	Thu, 12 Sep 2024 15:04:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Yze7yuSK"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="TDLw7eDT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B75C47F6B
-	for <linux-media@vger.kernel.org>; Thu, 12 Sep 2024 14:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726152694; cv=none; b=bjhpSBdWsvF4uI7OANAS3ltnTeeUjbPGu0STo0s1LNN5AY1HSBem4UqiVo6cV5VjQdroAPQwt32LLZqNhkqEaWjOACUtSaf1k0dL4uEUnBktm9AL/5HgJ8XB/nSilaT8RPOx8WRUcD/8YgXxd1h0ycBb5j9rJTVMiNhHU7OptwY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726152694; c=relaxed/simple;
-	bh=RZQFypfeX9TrywRPmW6cwL/Krnv3GLCAD6r6CrtTv84=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lzzN2d7xgvNW6R3QqRnmp47zittNa17NYxQcEstcoRfiKUAXLPiQOaHEKC98BslYyxaxQkz8aVKFypOTO2OZw4R9iuK+bDeXGi7+P7vroLhAUm5WnzdxqqyEYP3QTgZ52b3Kq6S54KVfO+BVIWtBSWiRDbwGUBKHqFdCrfMO8Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Yze7yuSK; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e1d74e6c8d8so970167276.1
-        for <linux-media@vger.kernel.org>; Thu, 12 Sep 2024 07:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1726152691; x=1726757491; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/6Va2xPqOEk33E5AfH0xgYcrVCi0r5AOnG5DFPjSBkw=;
-        b=Yze7yuSK6rSyhkj1fqVKME8BmjLiLw3r8S/MlnZa95F/WTx1xa55NlTyz0jOSTyVFV
-         QlbWwX4pr9QVCuVZKzmnk3/OWT26RxmDDY5PrR4uy5U4v4rQ4usGyt7VgLgK0cfja88i
-         fO/ihEMGI+7wyQ3M0AaiVcfXGY2veqOd6psZlSq5JhaMqHPGROw5WKhMKHlXJlqbAuZA
-         Hm39v+49vydKU5CB7jmLhzc7X2kXkS8hqfFilJyEZ5oqBkrk3PnAq+EJJ6wKIbgu6b09
-         qUk7VwXxLT4Q8DXmCFDKCcj7Wp/hN5Ca/5cocodcjjW5I5zFNNQhsbeUz1N0lK4XRv26
-         Cl3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726152691; x=1726757491;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/6Va2xPqOEk33E5AfH0xgYcrVCi0r5AOnG5DFPjSBkw=;
-        b=eD9D3HYOFqAJEZ9tnJatNahigNVFtXxtJU8hdqT5kxktW79c/mSC0Nm34DDX2FQ+CX
-         1rUbCp4XglfAv8vkyo5c2rETTE/gDkvhB4x3EuKYkaAWPMopkCo2DhBd26eLCUKXGpVm
-         RH9zk7sBBdfe9R7j8CnmLVwucqVzeLkdedTCpBVIFK1G0xNsqgzGANCqDSsl3syH8q4c
-         N8qJ3+EPLo9vRUX9mtcwn5HMdjq9LHX3mDsi2QOuFmSTL1qhd83p3fjliNDJxfy61wTh
-         90/WjgdVKI6cgY/kIoWbJEPgP9n7Z/58EHnNc2uMg2Zx68o+7pA80eOCYs2BY8SzhqbD
-         v+xw==
-X-Forwarded-Encrypted: i=1; AJvYcCV6VwURFT4XvQLx77Lls7AzE4tvQx4kwPjv/9VavuynfYCUa5zpXhhCysnLN5uDvMAqw7w9HieWVfLEGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh8TVorNzllK9A3QruF72Er1lgFE8n4NYja75YxaTkb9fUWXav
-	lxNNTW9WMaK+NRqou0BSheiEbZmgPn9mK6idKuZdTLiGfjXcE5mFv/vCkYprR5OvmCuKdoEPORg
-	4Iw4irBVwvO7NePCzOYLVnz4RyUcrX6LqAOmXdg==
-X-Google-Smtp-Source: AGHT+IEatxtcvEOjJNOQA46gP6GIxTqwpTb5hmrMYGSwB3W/GOrd22Z+Dw5WS5G4QCwUjFk66AYg9sgvV5OEHtby7E4=
-X-Received: by 2002:a05:6902:1081:b0:e1a:85df:832c with SMTP id
- 3f1490d57ef6-e1d9db9c8fdmr2379333276.12.1726152690986; Thu, 12 Sep 2024
- 07:51:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA741AD24E;
+	Thu, 12 Sep 2024 15:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726153453; cv=pass; b=VPaYm2601s+8POvZHIbOOB68VyKtlCbVlqUgP3F3uKAYKa9fO3iywbeENNj4aRr/aSQl010amKS3WiBc7LbuTOovM7q/DjgepHtzS3qAs8nULKi/vLaiVbUZQT6yPxlzHZSgFmFxzeuCpNxTkC+BuY4CjpgG3ChARGt4dc0XmOU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726153453; c=relaxed/simple;
+	bh=y0i19QoK5yZ5viMEgkglpFCD85bt4W6rToODcA7+Ark=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VqorbBkpniDxchCqUOuZrul/D969CSCEb9eXkxokwUr85G67e7sgN3nowoz/JadX6PwxJLV7ujEzwvzQoEHmjtybuPYWtMlijG6mgTV79rO4jmwE4FTe0bfResHEdYzPVJnNTg+5s5aNinu8FsjLOdG37rY48pWBobto4ab+C38=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=TDLw7eDT; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1726153424; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=XLu5TmLH5WxIyN6iHXxyTwXYPR/mcKtXtm2j+OHmSJlzh/n3WRlh4CYtNG4BND4sTgy/nQ2cKFXcOavR5FWT38l1qUFzZ25ugcYkgClmzD4cRaxZuNw4nM0dJRXu4iqewJGlIzjXOgipDAV8GGRyhshT6sBMGwnN5CUnC6jTgU8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1726153424; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=fdhkiEBblTKQOTCZyx+BlFvMPA/u1R3FSocuuwuvnIA=; 
+	b=Uyze+W+4LN4wp7T5W4isOmHdVz1Vc2RMqYusWekY0cVP2+ipnMxzQsTo7oTbsoajNI4GZBrQvO4AgpLxrqHF5N2WPGD0d/dgEgsDiy2hIv+FKChjIxGGFUQrFaR4o7D39apiPFN9yyCwSnZdB7rC/VDjm5WH8uKZS1c7E1vlfds=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726153424;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=fdhkiEBblTKQOTCZyx+BlFvMPA/u1R3FSocuuwuvnIA=;
+	b=TDLw7eDTVAqG99lPt1M31B3bwylEUcR38Ef52/nLwJyRGqAgyXRgPtQErL52iMtf
+	q+lPeJFwkjS4kTCbxC4vxGwJJBxcffIs7ownH917IT2PSISUNSrFUqhaKOL02NFq2Zy
+	oalhVerbac2w17TIVlXOAwGcypjSS31EqSQ2ZmdA=
+Received: by mx.zohomail.com with SMTPS id 1726153422554902.3386535551048;
+	Thu, 12 Sep 2024 08:03:42 -0700 (PDT)
+Date: Thu, 12 Sep 2024 16:03:37 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v5 1/4] drm/panthor: introduce job cycle and timestamp
+ accounting
+Message-ID: <unnhhn4dzqs56wsme7lyrlwf373xd6gqydfwvkqmv7gkzz6dfy@pbmsoynwp5rx>
+References: <20240903202541.430225-1-adrian.larumbe@collabora.com>
+ <20240903202541.430225-2-adrian.larumbe@collabora.com>
+ <20240904094915.1d92661d@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240902-imx214-v1-0-c96cba989315@apitzsch.eu>
- <20240902-imx214-v1-8-c96cba989315@apitzsch.eu> <CAPybu_2VPDTHb=nOaze7bwLvEEGxcS1zK=su5vpfLNao59Gwfw@mail.gmail.com>
-In-Reply-To: <CAPybu_2VPDTHb=nOaze7bwLvEEGxcS1zK=su5vpfLNao59Gwfw@mail.gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 12 Sep 2024 15:51:15 +0100
-Message-ID: <CAPY8ntCOWxXXmkahhMwx4E74LAtFQKrUxmJOrERm2F7KqiiOyg@mail.gmail.com>
-Subject: Re: [PATCH 08/13] media: i2c: imx214: Add vblank and hblank controls
-To: Ricardo Ribalda Delgado <ribalda@kernel.org>
-Cc: git@apitzsch.eu, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
-	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240904094915.1d92661d@collabora.com>
 
-Hi Andr=C3=A9 & Ricardo
+Hi Boris, thanks for the remarks,
 
-On Thu, 12 Sept 2024 at 14:41, Ricardo Ribalda Delgado
-<ribalda@kernel.org> wrote:
->
-> Hi
->
-> Arent you missing some chage in enum_frame_interval?
-
-Raw sensors shouldn't be using [enum|set|get]_frame_interval at all
-https://www.kernel.org/doc/html/latest/userspace-api/media/drivers/camera-s=
-ensor.html#frame-interval-configuration
-
-The question now is how to handle the backwards compatibility for any
-userspace app that might be using this driver and expecting to use the
-frame_interval calls.
-Seeing as it only ever allowed a fixed value of 30fps, leaving it as
-is with a comment as to why it is there would be reasonable in my
-view.
-
-> On Mon, Sep 2, 2024 at 11:53=E2=80=AFPM Andr=C3=A9 Apitzsch via B4 Relay
-> <devnull+git.apitzsch.eu@kernel.org> wrote:
-> >
-> > From: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
-> >
-> > Add vblank control to allow changing the framerate /
-> > higher exposure values.
-> >
-> > The vblank and hblank controls are needed for libcamera support.
-> >
-> > While at it, fix the minimal exposure time according to the datasheet.
-> >
-> > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+On 04.09.2024 09:49, Boris Brezillon wrote:
+> On Tue,  3 Sep 2024 21:25:35 +0100
+> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+> 
+> > Enable calculations of job submission times in clock cycles and wall
+> > time. This is done by expanding the boilerplate command stream when running
+> > a job to include instructions that compute said times right before an after
+> > a user CS.
+> > 
+> > A separate kernel BO is created per queue to store those values. Jobs can
+> > access their sampled data through a slots buffer-specific index different
+> > from that of the queue's ringbuffer. The reason for this is saving memory
+> > on the profiling information kernel BO, since the amount of simultaneous
+> > profiled jobs we can write into the queue's ringbuffer might be much
+> > smaller than for regular jobs, as the former take more CSF instructions.
+> > 
+> > This commit is done in preparation for enabling DRM fdinfo support in the
+> > Panthor driver, which depends on the numbers calculated herein.
+> > 
+> > A profile mode mask has been added that will in a future commit allow UM to
+> > toggle performance metric sampling behaviour, which is disabled by default
+> > to save power. When a ringbuffer CS is constructed, timestamp and cycling
+> > sampling instructions are added depending on the enabled flags in the
+> > profiling mask.
+> > 
+> > A helper was provided that calculates the number of instructions for a
+> > given set of enablement mask, and these are passed as the number of credits
+> > when initialising a DRM scheduler job.
+> > 
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 > > ---
-> >  drivers/media/i2c/imx214.c | 112 ++++++++++++++++++++++++++++++++++++-=
---------
-> >  1 file changed, 91 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> > index 3b422cddbdce..9f5a57aebb86 100644
-> > --- a/drivers/media/i2c/imx214.c
-> > +++ b/drivers/media/i2c/imx214.c
-> > @@ -34,11 +34,18 @@
-> >
-> >  /* V-TIMING internal */
-> >  #define IMX214_REG_FRM_LENGTH_LINES    CCI_REG16(0x0340)
-> > +#define IMX214_VTS_MAX                 0xffff
+> >  drivers/gpu/drm/panthor/panthor_device.h |  22 ++
+> >  drivers/gpu/drm/panthor/panthor_sched.c  | 327 ++++++++++++++++++++---
+> >  2 files changed, 305 insertions(+), 44 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > index e388c0472ba7..a48e30d0af30 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > @@ -66,6 +66,25 @@ struct panthor_irq {
+> >  	atomic_t suspended;
+> >  };
+> >  
+> > +/**
+> > + * enum panthor_device_profiling_mode - Profiling state
+> > + */
+> > +enum panthor_device_profiling_flags {
+> > +	/** @PANTHOR_DEVICE_PROFILING_DISABLED: Profiling is disabled. */
+> > +	PANTHOR_DEVICE_PROFILING_DISABLED = 0,
 > > +
-> > +#define IMX214_VBLANK_MIN              4
+> > +	/** @PANTHOR_DEVICE_PROFILING_CYCLES: Sampling job cycles. */
+> > +	PANTHOR_DEVICE_PROFILING_CYCLES = BIT(0),
 > > +
-> > +/* HBLANK control - read only */
-> > +#define IMX214_PPL_DEFAULT             5008
-> >
-> >  /* Exposure control */
-> >  #define IMX214_REG_EXPOSURE            CCI_REG16(0x0202)
-> > -#define IMX214_EXPOSURE_MIN            0
-> > -#define IMX214_EXPOSURE_MAX            3184
-> > +#define IMX214_EXPOSURE_OFFSET         10
-> > +#define IMX214_EXPOSURE_MIN            1
-> > +#define IMX214_EXPOSURE_MAX            (IMX214_VTS_MAX - IMX214_EXPOSU=
-RE_OFFSET)
-> >  #define IMX214_EXPOSURE_STEP           1
-> >  #define IMX214_EXPOSURE_DEFAULT                3184
-> >  #define IMX214_REG_EXPOSURE_RATIO      CCI_REG8(0x0222)
-> > @@ -189,6 +196,8 @@ struct imx214 {
-> >         struct v4l2_ctrl_handler ctrls;
-> >         struct v4l2_ctrl *pixel_rate;
-> >         struct v4l2_ctrl *link_freq;
-> > +       struct v4l2_ctrl *vblank;
-> > +       struct v4l2_ctrl *hblank;
-> >         struct v4l2_ctrl *exposure;
-> >         struct v4l2_ctrl *unit_size;
-> >
-> > @@ -205,8 +214,6 @@ static const struct cci_reg_sequence mode_4096x2304=
-[] =3D {
-> >         { IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
-> >         { IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH },
-> >         { IMX214_REG_EXPOSURE_RATIO, 1 },
-> > -       { IMX214_REG_FRM_LENGTH_LINES, 3194 },
-> > -       { IMX214_REG_LINE_LENGTH_PCK, 5008 },
-> >         { IMX214_REG_X_ADD_STA, 56 },
-> >         { IMX214_REG_Y_ADD_STA, 408 },
-> >         { IMX214_REG_X_ADD_END, 4151 },
-> > @@ -277,8 +284,6 @@ static const struct cci_reg_sequence mode_1920x1080=
-[] =3D {
-> >         { IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
-> >         { IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH },
-> >         { IMX214_REG_EXPOSURE_RATIO, 1 },
-> > -       { IMX214_REG_FRM_LENGTH_LINES, 3194 },
-> > -       { IMX214_REG_LINE_LENGTH_PCK, 5008 },
-> >         { IMX214_REG_X_ADD_STA, 1144 },
-> >         { IMX214_REG_Y_ADD_STA, 1020 },
-> >         { IMX214_REG_X_ADD_END, 3063 },
-> > @@ -362,6 +367,7 @@ static const struct cci_reg_sequence mode_table_com=
-mon[] =3D {
-> >         { IMX214_REG_ORIENTATION, 0 },
-> >         { IMX214_REG_MASK_CORR_FRAMES, IMX214_CORR_FRAMES_MASK },
-> >         { IMX214_REG_FAST_STANDBY_CTRL, 1 },
-> > +       { IMX214_REG_LINE_LENGTH_PCK, IMX214_PPL_DEFAULT },
-> >         { CCI_REG8(0x4550), 0x02 },
-> >         { CCI_REG8(0x4601), 0x00 },
-> >         { CCI_REG8(0x4642), 0x05 },
-> > @@ -465,18 +471,24 @@ static const struct cci_reg_sequence mode_table_c=
-ommon[] =3D {
-> >  static const struct imx214_mode {
-> >         u32 width;
-> >         u32 height;
+> > +	/** @PANTHOR_DEVICE_PROFILING_TIMESTAMP: Sampling job timestamp. */
+> > +	PANTHOR_DEVICE_PROFILING_TIMESTAMP = BIT(1),
 > > +
-> > +       /* V-timing */
-> > +       unsigned int vts_def;
+> > +	/** @PANTHOR_DEVICE_PROFILING_ALL: Sampling everything. */
+> > +	PANTHOR_DEVICE_PROFILING_ALL =
+> > +	PANTHOR_DEVICE_PROFILING_CYCLES |
+> > +	PANTHOR_DEVICE_PROFILING_TIMESTAMP,
+> > +};
 > > +
-> >         unsigned int num_of_regs;
-> >         const struct cci_reg_sequence *reg_table;
-> >  } imx214_modes[] =3D {
-> >         {
-> >                 .width =3D 4096,
-> >                 .height =3D 2304,
-> > +               .vts_def =3D 3194,
-> >                 .num_of_regs =3D ARRAY_SIZE(mode_4096x2304),
-> >                 .reg_table =3D mode_4096x2304,
-> >         },
-> >         {
-> >                 .width =3D 1920,
-> >                 .height =3D 1080,
-> > +               .vts_def =3D 3194,
-> >                 .num_of_regs =3D ARRAY_SIZE(mode_1920x1080),
-> >                 .reg_table =3D mode_1920x1080,
-> >         },
-> > @@ -629,6 +641,37 @@ static int imx214_set_format(struct v4l2_subdev *s=
-d,
-> >         __crop->width =3D mode->width;
-> >         __crop->height =3D mode->height;
-> >
-> > +       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > +               int exposure_max;
-> > +               int exposure_def;
-> > +               int hblank;
+> >  /**
+> >   * struct panthor_device - Panthor device
+> >   */
+> > @@ -162,6 +181,9 @@ struct panthor_device {
+> >  		 */
+> >  		struct page *dummy_latest_flush;
+> >  	} pm;
 > > +
-> > +               /* Update limits and set FPS to default */
-> > +               __v4l2_ctrl_modify_range(imx214->vblank, IMX214_VBLANK_=
-MIN,
-> > +                                        IMX214_VTS_MAX - mode->height,=
- 1,
-> > +                                        mode->vts_def - mode->height);
-> > +               __v4l2_ctrl_s_ctrl(imx214->vblank,
-> > +                                  mode->vts_def - mode->height);
+> > +	/** @profile_mask: User-set profiling flags for job accounting. */
+> > +	u32 profile_mask;
+> >  };
+> >  
+> >  /**
+> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> > index c426a392b081..b087648bf59a 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> > @@ -93,6 +93,9 @@
+> >  #define MIN_CSGS				3
+> >  #define MAX_CSG_PRIO				0xf
+> >  
+> > +#define NUM_INSTRS_PER_CACHE_LINE		(64 / sizeof(u64))
+> > +#define MAX_INSTRS_PER_JOB			32
 > > +
-> > +               /* Update max exposure while meeting expected vblanking=
- */
-> > +               exposure_max =3D mode->vts_def - IMX214_EXPOSURE_OFFSET=
-;
-> > +               exposure_def =3D (exposure_max < IMX214_EXPOSURE_DEFAUL=
-T) ?
-> > +                       exposure_max : IMX214_EXPOSURE_DEFAULT;
-> > +               __v4l2_ctrl_modify_range(imx214->exposure,
-> > +                                        imx214->exposure->minimum,
-> > +                                        exposure_max, imx214->exposure=
-->step,
-> > +                                        exposure_def);
+> >  struct panthor_group;
+> >  
+> >  /**
+> > @@ -476,6 +479,18 @@ struct panthor_queue {
+> >  		 */
+> >  		struct list_head in_flight_jobs;
+> >  	} fence_ctx;
 > > +
-> > +               /*
-> > +                * Currently PPL is fixed to IMX214_PPL_DEFAULT, so hbl=
-ank
-> > +                * depends on mode->width only, and is not changeble in=
- any
-> > +                * way other than changing the mode.
-> > +                */
-> > +               hblank =3D IMX214_PPL_DEFAULT - mode->width;
-> > +               __v4l2_ctrl_modify_range(imx214->hblank, hblank, hblank=
-, 1,
-> > +                                        hblank);
-> > +       }
+> > +	/** @profiling_info: Job profiling data slots and access information. */
+> > +	struct {
+> > +		/** @slots: Kernel BO holding the slots. */
+> > +		struct panthor_kernel_bo *slots;
 > > +
-> >         return 0;
+> > +		/** @slot_count: Number of jobs ringbuffer can hold at once. */
+> > +		u32 slot_count;
+> > +
+> > +		/** @profiling_seqno: Index of the next available profiling information slot. */
+> > +		u32 profiling_seqno;
+> 
+> Nit: no need to repeat profiling as it's under the profiling_info
+> struct. I would simply name that one 'seqno'.
+> 
+> > +	} profiling_info;
+> 
+> s/profiling_info/profiling/ ?
+> 
+> >  };
+> >  
+> >  /**
+> > @@ -661,6 +676,18 @@ struct panthor_group {
+> >  	struct list_head wait_node;
+> >  };
+> >  
+> > +struct panthor_job_profiling_data {
+> > +	struct {
+> > +		u64 before;
+> > +		u64 after;
+> > +	} cycles;
+> > +
+> > +	struct {
+> > +		u64 before;
+> > +		u64 after;
+> > +	} time;
+> > +};
+> > +
+> >  /**
+> >   * group_queue_work() - Queue a group work
+> >   * @group: Group to queue the work for.
+> > @@ -774,6 +801,12 @@ struct panthor_job {
+> >  
+> >  	/** @done_fence: Fence signaled when the job is finished or cancelled. */
+> >  	struct dma_fence *done_fence;
+> > +
+> > +	/** @profile_mask: Current device job profiling enablement bitmask. */
+> > +	u32 profile_mask;
+> > +
+> > +	/** @profile_slot: Job profiling information index in the profiling slots BO. */
+> > +	u32 profiling_slot;
+> 
+> Nit: we tend to group fields together under sub-structs, so I'd say:
+> 
+> 	struct {
+> 		u32 mask; // or flags
+> 		u32 slot;
+> 	} profiling;
+> 
+> >  };
+> >  
+> >  static void
+> > @@ -838,6 +871,7 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
+> >  
+> >  	panthor_kernel_bo_destroy(queue->ringbuf);
+> >  	panthor_kernel_bo_destroy(queue->iface.mem);
+> > +	panthor_kernel_bo_destroy(queue->profiling_info.slots);
+> >  
+> >  	/* Release the last_fence we were holding, if any. */
+> >  	dma_fence_put(queue->fence_ctx.last_fence);
+> > @@ -1982,8 +2016,6 @@ tick_ctx_init(struct panthor_scheduler *sched,
+> >  	}
 > >  }
-> >
-> > @@ -678,8 +721,25 @@ static int imx214_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  {
-> >         struct imx214 *imx214 =3D container_of(ctrl->handler,
-> >                                              struct imx214, ctrls);
-> > +       const struct v4l2_mbus_framefmt *format;
-> > +       struct v4l2_subdev_state *state;
-> >         int ret;
-> >
-> > +       state =3D v4l2_subdev_get_locked_active_state(&imx214->sd);
-> > +       format =3D v4l2_subdev_state_get_format(state, 0);
-> > +
-> > +       if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
-> > +               int exposure_max, exposure_def;
-> > +
-> > +               /* Update max exposure while meeting expected vblanking=
- */
-> > +               exposure_max =3D format->height + ctrl->val - IMX214_EX=
-POSURE_OFFSET;
-> > +               exposure_def =3D min(exposure_max, IMX214_EXPOSURE_DEFA=
-ULT);
-> > +               __v4l2_ctrl_modify_range(imx214->exposure,
-> > +                                        imx214->exposure->minimum,
-> > +                                        exposure_max, imx214->exposure=
-->step,
-> > +                                        exposure_def);
-> > +       }
-> > +
-> >         /*
-> >          * Applying V4L2 control value only happens
-> >          * when power is up for streaming
-> > @@ -691,7 +751,10 @@ static int imx214_set_ctrl(struct v4l2_ctrl *ctrl)
-> >         case V4L2_CID_EXPOSURE:
-> >                 cci_write(imx214->regmap, IMX214_REG_EXPOSURE, ctrl->va=
-l, &ret);
-> >                 break;
+> >  
+> > -#define NUM_INSTRS_PER_SLOT		16
 > > -
-> > +       case V4L2_CID_VBLANK:
-> > +               cci_write(imx214->regmap, IMX214_REG_FRM_LENGTH_LINES,
-> > +                         format->height + ctrl->val, &ret);
-
-My datasheet says this register is "set up in multiples of 2".
-(LINE_LENGTH_PCK for HBLANK is "set in multiples of 8")
-
-I don't have one of these modules, but is that saying only multiples
-of 2 are permitted (in which case the step size for the control needs
-to reflect that), or that setting a value of N is interpreted by the
-hardware as 2N?
-Do all the numbers with PIXEL_RATE work out correctly in the frame rate cal=
-cs?
-
-Reading the spec sheet that 30fps is the max frame rate at full res
-(4096x2304), and the driver was setting a value of 3194 to this
-register, I don't see it being interpreted as 2N. Then again having
-VBLANK at 890 seems pretty high.
-
-> > +               break;
-> >         default:
-> >                 ret =3D -EINVAL;
-> >         }
-> > @@ -714,8 +777,11 @@ static int imx214_ctrls_init(struct imx214 *imx214=
-)
-> >                 .width =3D 1120,
-> >                 .height =3D 1120,
-> >         };
-> > +       const struct imx214_mode *mode =3D &imx214_modes[0];
-> >         struct v4l2_fwnode_device_properties props;
-> >         struct v4l2_ctrl_handler *ctrl_hdlr;
-> > +       int exposure_max, exposure_def;
-> > +       int hblank;
-> >         int ret;
-> >
-> >         ret =3D v4l2_fwnode_device_parse(imx214->dev, &props);
-> > @@ -723,7 +789,7 @@ static int imx214_ctrls_init(struct imx214 *imx214)
-> >                 return ret;
-> >
-> >         ctrl_hdlr =3D &imx214->ctrls;
-> > -       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 6);
-> > +       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 8);
-> >         if (ret)
-> >                 return ret;
-> >
-> > @@ -739,22 +805,26 @@ static int imx214_ctrls_init(struct imx214 *imx21=
-4)
-> >         if (imx214->link_freq)
-> >                 imx214->link_freq->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-> >
-> > -       /*
-> > -        * WARNING!
-> > -        * Values obtained reverse engineering blobs and/or devices.
-> > -        * Ranges and functionality might be wrong.
-> > -        *
-> > -        * Sony, please release some register set documentation for the
-> > -        * device.
-> > -        *
-> > -        * Yours sincerely, Ricardo.
-> > -        */
->
-> I would like to keep this comment until there is a public document availa=
-ble.
-
-I suspect you'll be waiting forever for a document to be officially release=
-d.
-
-I have a datasheet for IMX214, and I believe Kieran and Jacopo do too.
-Which specific values do you wish to be verified?
-
->
-> > +       /* Initial vblank/hblank/exposure parameters based on current m=
-ode */
-> > +       imx214->vblank =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_op=
-s,
-> > +                                          V4L2_CID_VBLANK, IMX214_VBLA=
-NK_MIN,
-
-IMX214_VBLANK_MIN being 4 feels plausible, but pretty low.
-I read the datasheet to say there are 4 embedded data lines per image.
-Seeing as you have STATS data output enabled as well that makes 5
-lines of non-image data per frame, but you're only adding blanking
-time for 4 lines.
-
-As noted above, I think you've also increased the max frame rate
-significantly above that quoted by Sony. Has that been actually
-exercised and confirmed to function correctly?
-
-  Dave
-
-> > +                                          IMX214_VTS_MAX - mode->heigh=
-t, 1,
-> > +                                          mode->vts_def - mode->height=
-);
+> >  static void
+> >  group_term_post_processing(struct panthor_group *group)
+> >  {
+> > @@ -2815,65 +2847,211 @@ static void group_sync_upd_work(struct work_struct *work)
+> >  	group_put(group);
+> >  }
+> >  
+> > -static struct dma_fence *
+> > -queue_run_job(struct drm_sched_job *sched_job)
+> > +struct panthor_job_ringbuf_instrs {
+> > +	u64 buffer[MAX_INSTRS_PER_JOB];
+> > +	u32 count;
+> > +};
 > > +
-> > +       hblank =3D IMX214_PPL_DEFAULT - mode->width;
-> > +       imx214->hblank =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_op=
-s,
-> > +                                          V4L2_CID_HBLANK, hblank, hbl=
-ank,
-> > +                                          1, hblank);
-> > +       if (imx214->hblank)
-> > +               imx214->hblank->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+> > +struct panthor_job_instr {
+> > +	u32 profile_mask;
+> > +	u64 instr;
+> > +};
 > > +
-> > +       exposure_max =3D mode->vts_def - IMX214_EXPOSURE_OFFSET;
-> > +       exposure_def =3D min(exposure_max, IMX214_EXPOSURE_DEFAULT);
-> >         imx214->exposure =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_=
-ops,
-> >                                              V4L2_CID_EXPOSURE,
-> > -                                            IMX214_EXPOSURE_MIN,
-> > -                                            IMX214_EXPOSURE_MAX,
-> > +                                            IMX214_EXPOSURE_MIN, expos=
-ure_max,
-> >                                              IMX214_EXPOSURE_STEP,
-> > -                                            IMX214_EXPOSURE_DEFAULT);
-> > +                                            exposure_def);
-> >
-> >         imx214->unit_size =3D v4l2_ctrl_new_std_compound(ctrl_hdlr,
-> >                                 NULL,
-> >
-> > --
-> > 2.46.0
-> >
-> >
->
+> > +#define JOB_INSTR(__prof, __instr) \
+> > +	{ \
+> > +		.profile_mask = __prof, \
+> > +		.instr = __instr, \
+> > +	}
+> > +
+> > +static void
+> > +copy_instrs_to_ringbuf(struct panthor_queue *queue,
+> > +		       struct panthor_job *job,
+> > +		       struct panthor_job_ringbuf_instrs *instrs)
+> > +{
+> > +	ssize_t ringbuf_size = panthor_kernel_bo_size(queue->ringbuf);
+> > +	u32 start = job->ringbuf.start & (ringbuf_size - 1);
+> > +	ssize_t size, written;
+> > +
+> > +	/*
+> > +	 * We need to write a whole slot, including any trailing zeroes
+> > +	 * that may come at the end of it. Also, because instrs.buffer had
+> > +	 * been zero-initialised, there's no need to pad it with 0's
+> > +	 */
+> > +	instrs->count = ALIGN(instrs->count, NUM_INSTRS_PER_CACHE_LINE);
+> > +	size = instrs->count * sizeof(u64);
+> > +	written = min(ringbuf_size - start, size);
+> > +
+> > +	memcpy(queue->ringbuf->kmap + start, instrs->buffer, written);
+> > +
+> > +	if (written < size)
+> > +		memcpy(queue->ringbuf->kmap,
+> > +		       &instrs->buffer[(ringbuf_size - start)/sizeof(u64)],
+> > +		       size - written);
+> > +}
+> > +
+> > +struct panthor_job_cs_params {
+> > +	u32 profile_mask;
+> > +	u64 addr_reg; u64 val_reg;
+> > +	u64 cycle_reg; u64 time_reg;
+> > +	u64 sync_addr; u64 times_addr;
+> > +	u64 cs_start; u64 cs_size;
+> > +	u32 last_flush; u32 waitall_mask;
+> > +};
+> > +
+> > +static void
+> > +get_job_cs_params(struct panthor_job *job, struct panthor_job_cs_params *params)
+> >  {
+> > -	struct panthor_job *job = container_of(sched_job, struct panthor_job, base);
+> >  	struct panthor_group *group = job->group;
+> >  	struct panthor_queue *queue = group->queues[job->queue_idx];
+> >  	struct panthor_device *ptdev = group->ptdev;
+> >  	struct panthor_scheduler *sched = ptdev->scheduler;
+> > -	u32 ringbuf_size = panthor_kernel_bo_size(queue->ringbuf);
+> > -	u32 ringbuf_insert = queue->iface.input->insert & (ringbuf_size - 1);
+> > -	u64 addr_reg = ptdev->csif_info.cs_reg_count -
+> > -		       ptdev->csif_info.unpreserved_cs_reg_count;
+> > -	u64 val_reg = addr_reg + 2;
+> > -	u64 sync_addr = panthor_kernel_bo_gpuva(group->syncobjs) +
+> > -			job->queue_idx * sizeof(struct panthor_syncobj_64b);
+> > -	u32 waitall_mask = GENMASK(sched->sb_slot_count - 1, 0);
+> > -	struct dma_fence *done_fence;
+> > -	int ret;
+> >  
+> > -	u64 call_instrs[NUM_INSTRS_PER_SLOT] = {
+> > +	params->addr_reg = ptdev->csif_info.cs_reg_count -
+> > +			   ptdev->csif_info.unpreserved_cs_reg_count;
+> > +	params->val_reg = params->addr_reg + 2;
+> > +	params->cycle_reg = params->addr_reg;
+> > +	params->time_reg = params->val_reg;
+> > +
+> > +	params->sync_addr = panthor_kernel_bo_gpuva(group->syncobjs) +
+> > +			    job->queue_idx * sizeof(struct panthor_syncobj_64b);
+> > +	params->times_addr = panthor_kernel_bo_gpuva(queue->profiling_info.slots) +
+> > +			     (job->profiling_slot * sizeof(struct panthor_job_profiling_data));
+> > +	params->waitall_mask = GENMASK(sched->sb_slot_count - 1, 0);
+> > +
+> > +	params->cs_start = job->call_info.start;
+> > +	params->cs_size = job->call_info.size;
+> > +	params->last_flush = job->call_info.latest_flush;
+> > +
+> > +	params->profile_mask = job->profile_mask;
+> > +}
+> > +
+> > +static void
+> > +prepare_job_instrs(const struct panthor_job_cs_params *params,
+> > +		   struct panthor_job_ringbuf_instrs *instrs)
+> > +{
+> > +	const struct panthor_job_instr instr_seq[] = {
+> >  		/* MOV32 rX+2, cs.latest_flush */
+> > -		(2ull << 56) | (val_reg << 48) | job->call_info.latest_flush,
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED,
+> > +			  (2ull << 56) | (params->val_reg << 48) | params->last_flush),
+> >  
+> >  		/* FLUSH_CACHE2.clean_inv_all.no_wait.signal(0) rX+2 */
+> > -		(36ull << 56) | (0ull << 48) | (val_reg << 40) | (0 << 16) | 0x233,
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED,
+> > +			  (36ull << 56) | (0ull << 48) | (params->val_reg << 40) | (0 << 16) | 0x233),
+> > +
+> > +		/* MOV48 rX:rX+1, cycles_offset */
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_CYCLES,
+> > +			  (1ull << 56) | (params->cycle_reg << 48) |
+> > +			  (params->times_addr +
+> > +			   offsetof(struct panthor_job_profiling_data, cycles.before))),
+> > +		/* STORE_STATE cycles */
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_CYCLES,
+> > +			  (40ull << 56) | (params->cycle_reg << 40) | (1ll << 32)),
+> > +		/* MOV48 rX:rX+1, time_offset */
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_TIMESTAMP,
+> > +			  (1ull << 56) | (params->time_reg << 48) |
+> > +			  (params->times_addr +
+> > +			   offsetof(struct panthor_job_profiling_data, time.before))),
+> > +		/* STORE_STATE timer */
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_TIMESTAMP,
+> > +			  (40ull << 56) | (params->time_reg << 40) | (0ll << 32)),
+> >  
+> >  		/* MOV48 rX:rX+1, cs.start */
+> > -		(1ull << 56) | (addr_reg << 48) | job->call_info.start,
+> > -
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED,
+> > +			  (1ull << 56) | (params->addr_reg << 48) | params->cs_start),
+> >  		/* MOV32 rX+2, cs.size */
+> > -		(2ull << 56) | (val_reg << 48) | job->call_info.size,
+> > -
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED,
+> > +			  (2ull << 56) | (params->val_reg << 48) | params->cs_size),
+> >  		/* WAIT(0) => waits for FLUSH_CACHE2 instruction */
+> > -		(3ull << 56) | (1 << 16),
+> > -
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED, (3ull << 56) | (1 << 16)),
+> >  		/* CALL rX:rX+1, rX+2 */
+> > -		(32ull << 56) | (addr_reg << 40) | (val_reg << 32),
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED,
+> > +			  (32ull << 56) | (params->addr_reg << 40) | (params->val_reg << 32)),
+> > +
+> > +		/* MOV48 rX:rX+1, cycles_offset */
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_CYCLES,
+> > +			  (1ull << 56) | (params->cycle_reg << 48) |
+> > +			  (params->times_addr +
+> > +			   offsetof(struct panthor_job_profiling_data, cycles.after))),
+> > +		/* STORE_STATE cycles */
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_CYCLES,
+> > +			  (40ull << 56) | (params->cycle_reg << 40) | (1ll << 32)),
+> > +
+> > +		/* MOV48 rX:rX+1, time_offset */
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_TIMESTAMP,
+> > +			  (1ull << 56) | (params->time_reg << 48) |
+> > +			  (params->times_addr +
+> > +			   offsetof(struct panthor_job_profiling_data, time.after))),
+> > +		/* STORE_STATE timer */
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_TIMESTAMP,
+> > +			  (40ull << 56) | (params->time_reg << 40) | (0ll << 32)),
+> >  
+> >  		/* MOV48 rX:rX+1, sync_addr */
+> > -		(1ull << 56) | (addr_reg << 48) | sync_addr,
+> > -
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED,
+> > +			  (1ull << 56) | (params->addr_reg << 48) | params->sync_addr),
+> >  		/* MOV48 rX+2, #1 */
+> > -		(1ull << 56) | (val_reg << 48) | 1,
+> > -
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED,
+> > +			  (1ull << 56) | (params->val_reg << 48) | 1),
+> >  		/* WAIT(all) */
+> > -		(3ull << 56) | (waitall_mask << 16),
+> > -
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED,
+> > +			  (3ull << 56) | (params->waitall_mask << 16)),
+> >  		/* SYNC_ADD64.system_scope.propage_err.nowait rX:rX+1, rX+2*/
+> > -		(51ull << 56) | (0ull << 48) | (addr_reg << 40) | (val_reg << 32) | (0 << 16) | 1,
+> > -
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED,
+> > +			  (51ull << 56) | (0ull << 48) | (params->addr_reg << 40) |
+> > +			  (params->val_reg << 32) | (0 << 16) | 1),
+> >  		/* ERROR_BARRIER, so we can recover from faults at job
+> >  		 * boundaries.
+> >  		 */
+> > -		(47ull << 56),
+> > +		JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED, (47ull << 56)),
+> > +	};
+> > +	u32 pad;
+> > +
+> > +	/* NEED to be cacheline aligned to please the prefetcher. */
+> > +	static_assert(sizeof(instrs->buffer) % 64 == 0,
+> > +		      "panthor_job_ringbuf_instrs::buffer is not aligned on a cacheline");
+> > +
+> > +	/* Make sure we have enough storage to store the whole sequence. */
+> > +	static_assert(ALIGN(ARRAY_SIZE(instr_seq), NUM_INSTRS_PER_CACHE_LINE) <=
+> > +		      ARRAY_SIZE(instrs->buffer),
+> > +		      "instr_seq vs panthor_job_ringbuf_instrs::buffer size mismatch");
+> 
+> We probably want to catch situations where instrs->buffer has gone
+> bigger than needed (say we found a way to drop instructions), so I
+> would turn the '<=' condition into an '=='.
+
+I did this but it's triggering the static assert, because the instr_seq array has 19 elements,
+which when aligned to NUM_INSTRS_PER_CACHE_LINE (8 I think) renders 24, still less than the
+32 slots in instrs->buffer. Having a slightly oversized instrs.buffer array isn't a problem
+though because instrs.count is being used when copying them into the ringbuffer, so I think
+leaving this assert as an <= should be alright. 
+
+> > +
+> > +	for (u32 i = 0; i < ARRAY_SIZE(instr_seq); i++) {
+> > +		/* If the profile mask of this instruction is not enabled, skip it. */
+> > +		if (instr_seq[i].profile_mask &&
+> > +		    !(instr_seq[i].profile_mask & params->profile_mask))
+> > +			continue;
+> > +
+> > +		instrs->buffer[instrs->count++] = instr_seq[i].instr;
+> > +	}
+> > +
+> > +	pad = ALIGN(instrs->count, NUM_INSTRS_PER_CACHE_LINE);
+> > +	memset(&instrs->buffer[instrs->count], 0,
+> > +	       (pad - instrs->count) * sizeof(instrs->buffer[0]));
+> > +	instrs->count = pad;
+> > +}
+> > +
+> > +static u32 calc_job_credits(u32 profile_mask)
+> > +{
+> > +	struct panthor_job_ringbuf_instrs instrs;
+> > +	struct panthor_job_cs_params params = {
+> > +		.profile_mask = profile_mask,
+> >  	};
+> >  
+> > -	/* Need to be cacheline aligned to please the prefetcher. */
+> > -	static_assert(sizeof(call_instrs) % 64 == 0,
+> > -		      "call_instrs is not aligned on a cacheline");
+> > +	prepare_job_instrs(&params, &instrs);
+> > +	return instrs.count;
+> > +}
+> > +
+> > +static struct dma_fence *
+> > +queue_run_job(struct drm_sched_job *sched_job)
+> > +{
+> > +	struct panthor_job *job = container_of(sched_job, struct panthor_job, base);
+> > +	struct panthor_group *group = job->group;
+> > +	struct panthor_queue *queue = group->queues[job->queue_idx];
+> > +	struct panthor_device *ptdev = group->ptdev;
+> > +	struct panthor_scheduler *sched = ptdev->scheduler;
+> > +	struct panthor_job_ringbuf_instrs instrs;
+> > +	struct panthor_job_cs_params cs_params;
+> > +	struct dma_fence *done_fence;
+> > +	int ret;
+> >  
+> >  	/* Stream size is zero, nothing to do except making sure all previously
+> >  	 * submitted jobs are done before we signal the
+> > @@ -2900,17 +3078,23 @@ queue_run_job(struct drm_sched_job *sched_job)
+> >  		       queue->fence_ctx.id,
+> >  		       atomic64_inc_return(&queue->fence_ctx.seqno));
+> >  
+> > -	memcpy(queue->ringbuf->kmap + ringbuf_insert,
+> > -	       call_instrs, sizeof(call_instrs));
+> > +	job->profiling_slot = queue->profiling_info.profiling_seqno++;
+> > +	if (queue->profiling_info.profiling_seqno == queue->profiling_info.slot_count)
+> > +		queue->profiling_info.profiling_seqno = 0;
+> > +
+> > +	job->ringbuf.start = queue->iface.input->insert;
+> > +
+> > +	get_job_cs_params(job, &cs_params);
+> > +	prepare_job_instrs(&cs_params, &instrs);
+> > +	copy_instrs_to_ringbuf(queue, job, &instrs);
+> > +
+> > +	job->ringbuf.end = job->ringbuf.start + (instrs.count * sizeof(u64));
+> >  
+> >  	panthor_job_get(&job->base);
+> >  	spin_lock(&queue->fence_ctx.lock);
+> >  	list_add_tail(&job->node, &queue->fence_ctx.in_flight_jobs);
+> >  	spin_unlock(&queue->fence_ctx.lock);
+> >  
+> > -	job->ringbuf.start = queue->iface.input->insert;
+> > -	job->ringbuf.end = job->ringbuf.start + sizeof(call_instrs);
+> > -
+> >  	/* Make sure the ring buffer is updated before the INSERT
+> >  	 * register.
+> >  	 */
+> > @@ -3003,6 +3187,24 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
+> >  	.free_job = queue_free_job,
+> >  };
+> >  
+> > +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
+> > +				       u32 cs_ringbuf_size)
+> > +{
+> > +	u32 min_profiled_job_instrs = U32_MAX;
+> > +	u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
+> > +
+> > +	for (u32 i = 0; i < last_flag; i++) {
+> > +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
+> > +			min_profiled_job_instrs =
+> > +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
+> > +	}
+> 
+> Okay, I think this loop deserves an explanation. The goal is to
+> calculate the minimal size of a profile job so we can deduce the
+> maximum number of profiling slots that will be used simultaneously. We
+> ignore PANTHOR_DEVICE_PROFILING_DISABLED, because those jobs won't use
+> a profiling slot in the first place.
+> 
+> > +
+> > +	drm_WARN_ON(&ptdev->base,
+> > +		    !IS_ALIGNED(min_profiled_job_instrs, NUM_INSTRS_PER_CACHE_LINE));
+> 
+> We can probably drop this WARN_ON(), it's supposed to be checked in
+> calc_job_credits().
+> 
+> > +
+> > +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
+> > +}
+> > +
+> >  static struct panthor_queue *
+> >  group_create_queue(struct panthor_group *group,
+> >  		   const struct drm_panthor_queue_create *args)
+> > @@ -3056,9 +3258,38 @@ group_create_queue(struct panthor_group *group,
+> >  		goto err_free_queue;
+> >  	}
+> >  
+> > +	queue->profiling_info.slot_count =
+> > +		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
+> > +
+> > +	queue->profiling_info.slots =
+> > +		panthor_kernel_bo_create(group->ptdev, group->vm,
+> > +					 queue->profiling_info.slot_count *
+> > +					 sizeof(struct panthor_job_profiling_data),
+> > +					 DRM_PANTHOR_BO_NO_MMAP,
+> > +					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+> > +					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> > +					 PANTHOR_VM_KERNEL_AUTO_VA);
+> > +
+> > +	if (IS_ERR(queue->profiling_info.slots)) {
+> > +		ret = PTR_ERR(queue->profiling_info.slots);
+> > +		goto err_free_queue;
+> > +	}
+> > +
+> > +	ret = panthor_kernel_bo_vmap(queue->profiling_info.slots);
+> > +	if (ret)
+> > +		goto err_free_queue;
+> > +
+> > +	memset(queue->profiling_info.slots->kmap, 0,
+> > +	       queue->profiling_info.slot_count * sizeof(struct panthor_job_profiling_data));
+> 
+> I don't think we need to memset() the profiling buffer.
+> 
+> > +
+> > +	/*
+> > +	 * Credit limit argument tells us the total number of instructions
+> > +	 * across all CS slots in the ringbuffer, with some jobs requiring
+> > +	 * twice as many as others, depending on their profiling status.
+> > +	 */
+> >  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
+> >  			     group->ptdev->scheduler->wq, 1,
+> > -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
+> > +			     args->ringbuf_size / sizeof(u64),
+> >  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+> >  			     group->ptdev->reset.wq,
+> >  			     NULL, "panthor-queue", group->ptdev->base.dev);
+> > @@ -3354,6 +3585,7 @@ panthor_job_create(struct panthor_file *pfile,
+> >  {
+> >  	struct panthor_group_pool *gpool = pfile->groups;
+> >  	struct panthor_job *job;
+> > +	u32 credits;
+> >  	int ret;
+> >  
+> >  	if (qsubmit->pad)
+> > @@ -3407,9 +3639,16 @@ panthor_job_create(struct panthor_file *pfile,
+> >  		}
+> >  	}
+> >  
+> > +	job->profile_mask = pfile->ptdev->profile_mask;
+> > +	credits = calc_job_credits(job->profile_mask);
+> > +	if (credits == 0) {
+> > +		ret = -EINVAL;
+> > +		goto err_put_job;
+> > +	}
+> > +
+> >  	ret = drm_sched_job_init(&job->base,
+> >  				 &job->group->queues[job->queue_idx]->entity,
+> > -				 1, job->group);
+> > +				 credits, job->group);
+> >  	if (ret)
+> >  		goto err_put_job;
+> >  
+> 
+> Just add a bunch of minor comments (mostly cosmetic changes), but the
+> implementation looks good to me.
+> 
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+Adrian Larumbe
 
