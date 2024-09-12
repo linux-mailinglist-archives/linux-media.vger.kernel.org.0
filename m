@@ -1,137 +1,92 @@
-Return-Path: <linux-media+bounces-18184-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18185-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E6497600D
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 06:40:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 449E49760F3
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 08:07:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD4B21C22E07
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 04:40:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE8B21F267B7
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 06:06:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2C1B18892F;
-	Thu, 12 Sep 2024 04:40:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4C9D189535;
+	Thu, 12 Sep 2024 06:06:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f9a/ZSq5"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="Dut6C6Eb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73AF26AC1;
-	Thu, 12 Sep 2024 04:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2EF5028C;
+	Thu, 12 Sep 2024 06:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726116040; cv=none; b=XVaeMHH1LmFeCUWgn7TEkzgj0CxulECW6acPr0UtB0jGWIR4uLfNqhM+HfhIJzSdEeY5xt/i+aBkBlp2Vnbfh9I2jVny3Aw3eNkutKioBfyQ1r2gKXQC93DnNK7S8pKTud+udG+uj16h2spz//pVlzC2oqVkIrqV3sX6J6NpqkI=
+	t=1726121206; cv=none; b=OPFLUE/o6e+3T2Tb2pvD9KtIFWj+a8m24fO3ZKe3qtrP6Svz8Lsx/QLYhit8BOT+8waWYyirCcr/CBu1rT7obiDjRmf+FIoB0LPFX3Uu4KD+91WDgbjFS4adXSHvLoPCoZc3z71duEe33djb1EbtuoSrRFVF2RVBxoWcRrWLb5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726116040; c=relaxed/simple;
-	bh=atZ4KPNKSjb83Uge3zpflsYcUJEL/us60I8XWzukpe0=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=UWDVL6KbFt/8F6TKkHEL3e2YBaXpJyIGtQRatymZd1qsy8IiDE/xsooS4ueSdC0R4epLSNNHCPw09iseRz+SxBTJaYK6xy4tu/d0lzRNNed2VLj5Tzfs4jwZa6CiDRnJSOD+0yh9doPqxl1NbS1R8s+u1a8iFnR1zTxhyt9/Xtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f9a/ZSq5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 771B7C4CEC4;
-	Thu, 12 Sep 2024 04:40:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726116039;
-	bh=atZ4KPNKSjb83Uge3zpflsYcUJEL/us60I8XWzukpe0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=f9a/ZSq5MjAJpdiUDHoVavctM5HOoilo2YhcN45JiEfgJYuD+evoGy3GTwFy3dWNK
-	 MCcZexV/mRsbKVhAIikQXE7layOfhJ3sIvPU5XZi6xuLqnLkHkdE/Qx+MQdf+g1ZYB
-	 gce1dGWnviJLx6aL4O8iqydw5+DCEJVlzFx2Q4DVfqfcYtCglZ0a3zjxo4FLA5531c
-	 BDOtc/uZ1bzZ/QMAIY/iMLCh/H1rCZm7mMteXHfen+24mVBLqbsIC2bNyatAA+Kt/j
-	 RB4GjdEViDywOWSDVtOg00irITukuSvO9eccISaYhdBZr0Vmo/BFTcf9+Idkdg7vhE
-	 pfG55SGZsz4KA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE1073806656;
-	Thu, 12 Sep 2024 04:40:41 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1726121206; c=relaxed/simple;
+	bh=mN+R3ToxhkuxGdCM/aq45jOkr3+/T3AE3qU1LI66plA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=jzmRXal8z/FS1sfw8Qup1byplC0/gc7oOYZw9jEmrBrC/jquKyBFPHpxyYC9B+fhgHy7ukc/9DffURjhgcqEg4g35mvteZa3fI4825PtWjgc8FXVTcv/RUPoAsA9bIwtybif42DJ3GslkHkjG9JO7prdRJT7TJMocmsWKrQUwlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=Dut6C6Eb; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=3xlRzXI9yb+oNIsqCP0Wa4u5a4LZve9QqMy4C7Th5mc=; b=Dut6C6EbXHKl46S1QMOW38R/r8
+	3ekj8fbSVpa3M/4/NfVU0/L2n4YksdJhPe6RCzswqcuWg3XU0BC0sZSZebL3LtKud0noRiobvGk3s
+	s/vCZiFAoEpUs3s3m9eG2GLI2hq9hOkVu+/Pyiz7KuUe6mkob8ueP+ie3hXBRJSLcpskkGSmRSJDN
+	qrau35IL7NHMtOaOM/vu6KRhLjNPt0bgnC3Zh6h5EfMCiahs5z3wgoDQcFxfm3fN4JbbCQ9+0fccb
+	D2WcU7+AMLG+HPRlw3XBvisLeOAhLALpq8oK72eukqxOqnZIqQZ9rgtSG88tBc821hJ2S4hROU7Jq
+	VRGE9A6w==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1socoG-001u5Y-2v;
+	Thu, 12 Sep 2024 14:06:19 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 12 Sep 2024 14:06:18 +0800
+Date: Thu, 12 Sep 2024 14:06:18 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: x86@kernel.org, linux-crypto@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	ubizjak@gmail.com, davem@davemloft.net
+Subject: Re: [PATCH RESEND v2 02/19] crypto: testmgr: Include
+ <linux/prandom.h> instead of <linux/random.h>
+Message-ID: <ZuKE2sffS3wddU3-@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v26 00/13] Device Memory TCP
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <172611604053.1162260.14936560637203902304.git-patchwork-notify@kernel.org>
-Date: Thu, 12 Sep 2024 04:40:40 +0000
-References: <20240910171458.219195-1-almasrymina@google.com>
-In-Reply-To: <20240910171458.219195-1-almasrymina@google.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, donald.hunter@gmail.com, corbet@lwn.net,
- richard.henderson@linaro.org, ink@jurassic.park.msu.ru, mattst88@gmail.com,
- tsbogend@alpha.franken.de, James.Bottomley@HansenPartnership.com,
- deller@gmx.de, andreas@gaisler.com, hawk@kernel.org,
- ilias.apalodimas@linaro.org, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, arnd@arndb.de, steffen.klassert@secunet.com,
- herbert@gondor.apana.org.au, dsahern@kernel.org,
- willemdebruijn.kernel@gmail.com, bjorn@kernel.org, magnus.karlsson@intel.com,
- maciej.fijalkowski@intel.com, jonathan.lemon@gmail.com, shuah@kernel.org,
- ast@kernel.org, daniel@iogearbox.net, john.fastabend@gmail.com,
- sumit.semwal@linaro.org, christian.koenig@amd.com, asml.silence@gmail.com,
- dw@davidwei.uk, jgg@ziepe.ca, linyunsheng@huawei.com, shailend@google.com,
- hramamurthy@google.com, shakeel.butt@linux.dev, jeroendb@google.com,
- pkaligineedi@google.com, bagasdotme@gmail.com, hch@infradead.org,
- razor@blackwall.org, ap420073@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240909075641.258968-3-ubizjak@gmail.com>
+X-Newsgroups: apana.lists.os.linux.cryptoapi,apana.lists.os.linux.kernel,apana.lists.os.linux.scsi
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Tue, 10 Sep 2024 17:14:44 +0000 you wrote:
-> v26: https://patchwork.kernel.org/project/netdevbpf/list/?series=888227&state=*
-> ====
+Uros Bizjak <ubizjak@gmail.com> wrote:
+> Substitute the inclusion of <linux/random.h> header with
+> <linux/prandom.h> to allow the removal of legacy inclusion
+> of <linux/prandom.h> from <linux/random.h>.
 > 
-> No major changes. Only applied Reviewed-by tags from Jakub and addressed
-> reported nits.
-> 
-> v25: https://patchwork.kernel.org/project/netdevbpf/list/?series=885396&state=*
-> ===
-> 
-> [...]
+> Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> ---
+> crypto/testmgr.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Here is the summary with links:
-  - [net-next,v26,01/13] netdev: add netdev_rx_queue_restart()
-    https://git.kernel.org/netdev/net-next/c/7c88f86576f3
-  - [net-next,v26,02/13] net: netdev netlink api to bind dma-buf to a net device
-    https://git.kernel.org/netdev/net-next/c/3efd7ab46d0a
-  - [net-next,v26,03/13] netdev: support binding dma-buf to netdevice
-    https://git.kernel.org/netdev/net-next/c/170aafe35cb9
-  - [net-next,v26,04/13] netdev: netdevice devmem allocator
-    https://git.kernel.org/netdev/net-next/c/28c5c74eeaa0
-  - [net-next,v26,05/13] page_pool: devmem support
-    https://git.kernel.org/netdev/net-next/c/8ab79ed50cf1
-  - [net-next,v26,06/13] memory-provider: dmabuf devmem memory provider
-    https://git.kernel.org/netdev/net-next/c/0f9214046893
-  - [net-next,v26,07/13] net: support non paged skb frags
-    https://git.kernel.org/netdev/net-next/c/9f6b619edf2e
-  - [net-next,v26,08/13] net: add support for skbs with unreadable frags
-    https://git.kernel.org/netdev/net-next/c/65249feb6b3d
-  - [net-next,v26,09/13] tcp: RX path for devmem TCP
-    https://git.kernel.org/netdev/net-next/c/8f0b3cc9a4c1
-  - [net-next,v26,10/13] net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
-    https://git.kernel.org/netdev/net-next/c/678f6e28b5f6
-  - [net-next,v26,11/13] net: add devmem TCP documentation
-    https://git.kernel.org/netdev/net-next/c/09d1db26b5e5
-  - [net-next,v26,12/13] selftests: add ncdevmem, netcat for devmem TCP
-    https://git.kernel.org/netdev/net-next/c/85585b4bc8d8
-  - [net-next,v26,13/13] netdev: add dmabuf introspection
-    https://git.kernel.org/netdev/net-next/c/d0caf9876a1c
-
-You are awesome, thank you!
+Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
 
