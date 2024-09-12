@@ -1,172 +1,136 @@
-Return-Path: <linux-media+bounces-18192-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18193-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB5C976806
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 13:41:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FEE97689E
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 14:06:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CF9D1C216C8
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 11:41:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CF9B1F25110
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 12:06:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8E6C1A0BC8;
-	Thu, 12 Sep 2024 11:41:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01DBA1A2659;
+	Thu, 12 Sep 2024 12:05:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c2PiO1QY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wm2kivNI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A53152166
-	for <linux-media@vger.kernel.org>; Thu, 12 Sep 2024 11:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DE51A2639;
+	Thu, 12 Sep 2024 12:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726141289; cv=none; b=VR92qU0yRrQZ47unpptX7h+pX7/WXKpvh+vYTY4ffXesUjkFi0agdfI0gCk8m4W6O8TX551UH1QGJmVN8zsGO/eDCb64nNG/vvEG/hQHw0mq+hQBwidNsCIBgFoRLXgOG9YwGQsf0f0CP2rhfaIPtXOU1h41LsiLwhpmzXS0Z70=
+	t=1726142749; cv=none; b=XgGwlLhOoWdGKdHiT8j1llNAhm1mEnDFscaJgg96xAn/2WVRscn8eWz/VzgEWwSRSmY8nqAQoHoTisi4rUnpHJRxuNrMZXzvdFNIchfP4l2JQGAoq0v3ucbkVjNqqJnsiq8WTAHibA36m90JY04YWe6szJFEmy7z2TTXu17eOyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726141289; c=relaxed/simple;
-	bh=Heof43DyvfqRJlRi0bBeyPYxJf13DtSSsWQ+FAooBOQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=leEXAxNx7A/KheZTcADZBJ7VLf/9S3GJFmUAAPAOI5OVJJczazb8sE1wlWxgmVIUs/SrCEi/LaOYzu19zf/17lompcbNJGK6lo1CdiRSMckkYX/AeDMCa4f3njANiCuqKZMpcD7flzQJxm7zvs2hKjBG3IeaWxetWFPFdLY/v30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=c2PiO1QY; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5c3ca32971cso1019982a12.0
-        for <linux-media@vger.kernel.org>; Thu, 12 Sep 2024 04:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726141286; x=1726746086; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tzc1SB9FR1O0Hrrsa6BC4Sqb7TXAInj7HgbZ9sPm2/s=;
-        b=c2PiO1QYeAB6e+2rWgvYegE4mql9jjepoLT8xkXpkTHe+mqD1bnVT42vtPN3u8cnVf
-         iPKmDyY3NdYm9rvL3SyDj/4H/TQB//fteLoXsRxg9YS9s73dVTy2mpTEcuYNpABZpbHn
-         jfXyIWmi+MBX5NkuoNro8/cEdw8uAKzeyituls1+ggbnxKFyNyqgPPu42vnKLM97XouD
-         pZp0nsG0sGl4hGwb/8qnApcTBsbgb/z00HdaqQf5ew60j3X8PFEWCzIEiEGJ1MRsoDDT
-         ZYFERopwb2aj2zuusC9Nw2QZKTKUmog3pkR8CjWMiFdxCh+8Pb4SOwmh6xafEEcKsOBN
-         MQ1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726141286; x=1726746086;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tzc1SB9FR1O0Hrrsa6BC4Sqb7TXAInj7HgbZ9sPm2/s=;
-        b=iYoOFG5kGGQzfVaG3sQGJ+dy0NvlFsrvQOYkvF1ZdC9kXdqWCGBR3dftJdID41nOrj
-         Ci4TvGJlwhOgg5oVQAcMzODAQLMh/H5XB/vn20Kyzy70nj2jNBF+O72lBSmT2SbO//zb
-         eAruxuMw6ASXMnYkBwCw6Nv9mJfaTlfTTOI+T16R6hDkEGsbitXqbFuSZQ5govKTQMJ4
-         JE5QrMHzbxA6YQ4TV/cqh4J7QxUpGulDiDIQ2esre+6w3+pLnuc/3GzI6ocuHxIbGffD
-         /N8fdpoz3dbaxJrpNmcXwP+QbQFUDjIzm+bqha1mMaeBAmAFoRtSNNmcV1Cn4oS8QQqP
-         clwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVIQIEKUHzhEs5OJ9ZvxyoIIfC/UgxZy9KDpJKHMKWozFLTupxRKqp87vb3KbZHre9qW6xbGFKDvBw59w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwF3LnCWNG9nZ2EWUPGgGID+BoqmVNOlVIZ5pJTjWkoo2EdLZor
-	nCmsfFO+RDB0n7LA9sV87vnJpBsldRfKHxPmC/OshrS2GM35OtL48qeEViSG0J4=
-X-Google-Smtp-Source: AGHT+IF2wx3/sCQSoXraGqXOBRLBye6JAmeptMCNWTKtJqhL/MIXqZonIUqoAEP5C6ftg/j1PBtCNw==
-X-Received: by 2002:a17:907:e6e8:b0:a86:7ddf:2909 with SMTP id a640c23a62f3a-a90294fcf3bmr253511866b.14.1726141285775;
-        Thu, 12 Sep 2024 04:41:25 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25ce9ed6sm729090166b.165.2024.09.12.04.41.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Sep 2024 04:41:25 -0700 (PDT)
-Message-ID: <82dd61ab-83c0-4f9c-a2ee-e00473f4ff23@linaro.org>
-Date: Thu, 12 Sep 2024 12:41:23 +0100
+	s=arc-20240116; t=1726142749; c=relaxed/simple;
+	bh=agfC5ZtSxRDKdSEOCCVkvyOM5Vt8+Q5NReccVU8cJ6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fyX0IXtYw9sAzRUSrn2A3MUwdmFmmC2bzcpjhn4vQkGdgE5ZpdW6Kogd0MdBgPrZvKtsIoKybUxJuREfTzEJCSl+l6SabN+oeVdIe91Io2skKKFrk97H7aiAsQOmvHsKxbyWsYktCV3JBrLxtw5fAmkafFuMQEMvM122HmGlsYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Wm2kivNI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D091F73;
+	Thu, 12 Sep 2024 14:04:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1726142666;
+	bh=agfC5ZtSxRDKdSEOCCVkvyOM5Vt8+Q5NReccVU8cJ6k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Wm2kivNIsDpZOPp099FU0SUk7ecPkahkuEGu8b23O9Xynhh+SGJ8TEZ79G2bXNK6U
+	 yUX3xUMXpuxi3iXGDM4owBih9Zm5wIxe2GUhGVIrbKacruthEEfVgdYQiqXciif4Wo
+	 kZXefQcg16UKFUQXWNn6lGjjEjgeASGriq3LLOt8=
+Date: Thu, 12 Sep 2024 15:05:10 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: linuxfancy@googlegroups.com, sakari.ailus@linux.intel.com,
+	julien.massot@collabora.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: i2c: max96714: add HAS_EVENTS subdev flag
+Message-ID: <20240912120510.GB25276@pendragon.ideasonboard.com>
+References: <20240910134428.795273-1-tomm.merciai@gmail.com>
+ <20240910134428.795273-2-tomm.merciai@gmail.com>
+ <20240912104409.GA25276@pendragon.ideasonboard.com>
+ <ZuLMUaxn/oTw5dco@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
- binding
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
-References: <20240812144131.369378-1-quic_depengs@quicinc.com>
- <20240812144131.369378-8-quic_depengs@quicinc.com>
- <b1b4a866-fa64-4844-a49b-dfdcfca536df@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <b1b4a866-fa64-4844-a49b-dfdcfca536df@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZuLMUaxn/oTw5dco@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 
-On 12/09/2024 09:22, Vladimir Zapolskiy wrote:
->> +
->> +  vdda-phy-supply:
->> +    description:
->> +      Phandle to a regulator supply to PHY core block.
->> +
->> +  vdda-pll-supply:
->> +    description:
->> +      Phandle to 1.2V regulator supply to PHY refclk pll block.
->> +
+On Thu, Sep 12, 2024 at 01:11:13PM +0200, Tommaso Merciai wrote:
+> Hi Laurent,
 > 
-> Here the supplies should be split into ones, which are specific to CSI 
-> blocks,
-> and I believe they shall be set as optional.
-
-In principle I agree with that, each CSIPHY should have its own vdda-phy 
-and vdda-pll regulator specified.
-
-In practice though I don't believe its necessary, below.
-
-> The proposed names are:
+> On Thu, Sep 12, 2024 at 01:44:09PM +0300, Laurent Pinchart wrote:
+> > Hi Tommaso,
+> > 
+> > On Tue, Sep 10, 2024 at 03:44:27PM +0200, Tommaso Merciai wrote:
+> > > Controls can be exposed to userspace via a v4l-subdevX device, and
+> > > userspace has to be able to subscribe to control events so that it is
+> > > notified when the control changes value. Add missing HAS_EVENTS flag.
+> > 
+> > How is this supposed to work, given that the driver doesn't implement
+> > .subscribe_event() ?
 > 
-> vdda-phy-01-supply
-> vdda-pll-01-supply
-> vdda-phy-23-supply
-> vdda-pll-23-supply
-> vdda-phy-46-supply
-> vdda-pll-46-supply
-> vdda-phy-57-supply
-> vdda-pll-57-supply
+> You are completely right, sorry.
+> I think in both cases I'm missing:
+> 
+> diff --git a/drivers/media/i2c/max96714.c b/drivers/media/i2c/max96714.c
+> index 94b1bc000e48..2257b6b807ea 100644
+> --- a/drivers/media/i2c/max96714.c
+> +++ b/drivers/media/i2c/max96714.c
+> @@ -17,6 +17,7 @@
+> 
+>  #include <media/v4l2-cci.h>
+>  #include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-event.h>
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-subdev.h>
+> 
+> @@ -488,6 +489,8 @@ static int max96714_log_status(struct v4l2_subdev *sd)
+> 
+>  static const struct v4l2_subdev_core_ops max96714_subdev_core_ops = {
+>         .log_status = max96714_log_status,
+> +       .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> +       .unsubscribe_event = v4l2_event_subdev_unsubscribe,
+>  };
+> 
+>  static const struct v4l2_subdev_video_ops max96714_video_ops = {
+> 
+> Like you suggest. Or I'm wrong?
 
-In principle, you're right, we need to expand the name set here.
+That looks better :-)
 
-> I understand that what I ask is much more clumsy, and it could be seen 
-> even as
-> unneeded, however it'll be the right set of properties to describe the 
-> CAMSS IP
-> in this respect
-I think the following naming would be better as it matches the 
-power-grid naming in the docs.
+Out of curiosity, what's your use case for control events ?
 
-csiphyX-vdda-phy-supply
-csiphyX-vdda-pll-supply
+> > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > > ---
+> > >  drivers/media/i2c/max96714.c | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/media/i2c/max96714.c b/drivers/media/i2c/max96714.c
+> > > index 159753b13777..94b1bc000e48 100644
+> > > --- a/drivers/media/i2c/max96714.c
+> > > +++ b/drivers/media/i2c/max96714.c
+> > > @@ -602,7 +602,8 @@ static int max96714_create_subdev(struct max96714_priv *priv)
+> > >  		goto err_free_ctrl;
+> > >  	}
+> > >  
+> > > -	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
+> > > +	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> > > +			  V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_STREAMS;
+> > >  	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> > >  	priv->sd.entity.ops = &max96714_entity_ops;
+> > >  
 
-=>
+-- 
+Regards,
 
-// voltage domain = vdd_a_csi_01_09 = regulator l1e
-csiphy0-vdda-phy-supply = <&vreg_l1e_0p9>;
-
-// voltage domain = vdd_a_csi_01_1p2 = regulator l3e
-csiphy0-vdda-pll-supply = <&vreg_l3e_1p2>;
-
-//
-csiphy1-vdda-phy-supply = <&vreg_l1e_0p9>;
-csiphy1-vdda-pll-supply = <&vreg_l3e_1p2>;
-
-Where X indicates the CSIPHY number.
-
-So in fact, in practice we don't need to differentiate these entries.
-
-Checking x1e80100 ...
-
-csiphy0
-
-vdda-phy-supply = <&vreg_l2c_0p9>;
-vdda-pll-supply = <&vreg_l1c_1p2>;
-
-This is also the case for csiphy 1/2/4
-
-So, I _don't_ believe this is work we need to do, since its the same 
-regulator for each PHY.
-
----
-bod
+Laurent Pinchart
 
