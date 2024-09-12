@@ -1,65 +1,75 @@
-Return-Path: <linux-media+bounces-18197-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18198-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EE397693F
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 14:36:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB0897695A
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 14:44:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFCBB28478B
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 12:36:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCA36285BA2
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2024 12:44:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB6B91A704B;
-	Thu, 12 Sep 2024 12:36:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F4461A3058;
+	Thu, 12 Sep 2024 12:44:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="Nlf+ARJf"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aLjFVlzq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4932519F42D;
-	Thu, 12 Sep 2024 12:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67571A3AA5
+	for <linux-media@vger.kernel.org>; Thu, 12 Sep 2024 12:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726144598; cv=none; b=Luuvlwn5VgyFQZFRqDf7dJrhTDsJUWvhDZqnTbPBhg1dqMJvrsNxtOMFrUXks/uJwef8grkLcne+2L2mlSmvWjN3+dpSAtGmy1SU+asY5TLdUVknuMp0bTdSwYZA3SMVEMS1Yn0pxFqUCqyvTbynYApUUjlerT/BZZiNPdaT5UM=
+	t=1726145056; cv=none; b=m7AktNLxginH5Tp0RMH40U6xrYCm03nAm0l7RUqZm+DRlE9Z7f43LhSo6Lj5KGLHvSiBunYPAuz7epE31MjZA3L8akzj7VMG9XZThLt2IQwfJJIwDQL3O1f7YvoR1jDiJPVucVku66ssjW/FUtbhZ7IzMmFfwgbwx7i6OYxnDPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726144598; c=relaxed/simple;
-	bh=e0+ULRJe/0UPjAGbqFTaPDEPJA7zDqYn2Tg68Qzn/vc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=cOpclnd5fqxqdVSc4n+j2JFELZreESlgcQ9rjnTFHCGWBEtUjSvJvnj2/ZAGK6L6n1VxAiWitWN8CV0Lee2wtX7gycAKutQbtV0A0w6w7su8zjnlCAUgQQB9ZHi33RhxvB5RaskDyomFncJ/vqpcgjSx5jU2YDOURn3/2DjJ49A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=Nlf+ARJf; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48C9XnPZ002414;
-	Thu, 12 Sep 2024 14:36:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	ycOodbDvrhisx/5OptdgsTR2uHOjLnY6oXa5ZUn9Ewk=; b=Nlf+ARJfan7qvNcb
-	wKVmVHjIjlPE/OfQkt/x0tPUVrVc01CZD/nD1x/z0K88NJB9IYu2B8bexiQhqytm
-	apcdr+HAidJPid4giMBZlfsI++fIwgMAuho4nBq+6zEgLbzDOtisqTKe7eQcxELO
-	SZl4MGZ63X/LuKq4Jd4BeftUCAhgXiJfND07sGHUGTPRm/50dozk48ZQuTs0Pb69
-	ed0ZLdHeQVTosEIK7b3Ua9bPY6Zq6MoGRAU3IOEsuf3KFKhttMFzexx+GcbBjNoL
-	Ea54M6iiPL/gZok/R137I9XT7v5pSw2DPq/zrMOqbizMXUyAfLSSnyA7VoO2wDpO
-	8Vyydg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41gyaakyu1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Sep 2024 14:36:09 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id AC36D4004C;
-	Thu, 12 Sep 2024 14:34:49 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0198B269E16;
-	Thu, 12 Sep 2024 14:32:43 +0200 (CEST)
-Received: from [10.48.86.208] (10.48.86.208) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 12 Sep
- 2024 14:32:42 +0200
-Message-ID: <7869d6b4-6b6e-4fb6-95d9-bbe497caeceb@foss.st.com>
-Date: Thu, 12 Sep 2024 14:32:41 +0200
+	s=arc-20240116; t=1726145056; c=relaxed/simple;
+	bh=0urSazZdA3Q//+hFIfRp0TDi61MzX9DROm8rbQ4pKxk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gZ7k6nc/jdTFBxM6Q1nUDR5SR+plbbXlS2X+Vun44J2Fo5GFR3i1Fu3CtbyINo6tOWblUv2FqFrViGy9OcA4JqplVMPc5haj2zqL4eTZ8jW+u73htqzt3GbIQQFMSn9UM0LFL9NfFSYeCAlC8PZ7EE9Bx8fQOq87pNEUhqYLKYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aLjFVlzq; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2f75d529b49so534981fa.1
+        for <linux-media@vger.kernel.org>; Thu, 12 Sep 2024 05:44:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726145053; x=1726749853; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yMaEX9I1RQP11LCLQlJt88Oo9tTkzQ2nXArFlvuYAlk=;
+        b=aLjFVlzq80G5RBCxwLW8/Ae8vLJOM6/Aja+kr5SbATUI8/llKfH+0eo4c0as3CQie0
+         whXSoXmIaSV7bhQWL6UxhymQZcHGXdhcGcq5P52SikXRT2tlAEtoxHAQY5ZmPIjCAqP1
+         At8HS5ovffbvraafIW6xhZKEDrsYurmUJyP8CrvjYO6kDM9/519ulp40niocedjI4dfl
+         aovjnlsXszh165U5g4soLNSXs0G8GjXiuL7zU0jOobFEmi6/qzEWDvACKqrL2FqxStdw
+         YoTmDOPzrystC1feTkwic5kcdWKk+16ogv9QwZDJsxlVzav8RUyFfCw5BwVIGsYlVTCU
+         42Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726145053; x=1726749853;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yMaEX9I1RQP11LCLQlJt88Oo9tTkzQ2nXArFlvuYAlk=;
+        b=KS8Zs75xm9JJek8QaplfZf0Y4mc+JAmHJYT0PwBBuSIFJ/G+Hv9cfAke4kbEBDTETB
+         6smqfohnzYIXAx/knwIOohdddIQl0IJGY5DpDfKVTyLGJuJT/xlbpXoSenXkDimgIHPZ
+         wKcLFNwClu09NHavK36NwTWEtHthErc7LoSZP8IWDJJFPiPfGlAWegWR+g/S9kxJZSdG
+         6uTzc1eX57d/SZw3DwwCamcx9Cs8qizmXZ3tGpLJn1JK1SquIblNCbEbWA1zf2Yz+0Lv
+         tiNfjW4hdh687aga1MmzuGH4UFb2w8nBZ+RTf0npll5k10EOl36dxFY2uaIPMerBY94b
+         Ad4w==
+X-Forwarded-Encrypted: i=1; AJvYcCV86p47h4iRHX7xAAEv4X4B0xW/Q83EaT7FmJ+bX237+SWui8R/QkkrDQUYzhu6BaJ9xL2E2+ciX0NQeg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwuUBhst4782zTm0kacKsfpoUXps/Rn8berWf+Uge/AMP08Moi
+	2pPiPipjFXHDJ+yOGvHCVAJAKDdIztvRklpnQN8JWzQ09NsRc01VWTkopNYnN0eiD0gssNWf+cj
+	c
+X-Google-Smtp-Source: AGHT+IEsQyCCvQn8ayp0ihr0+sIEfLHDRxRsCTv6scTqDFj5NaZm60IwE+Ob1juIBiajON1Byw0mdw==
+X-Received: by 2002:a2e:a983:0:b0:2f7:66ce:a319 with SMTP id 38308e7fff4ca-2f787f4a5d2mr4217221fa.9.1726145052973;
+        Thu, 12 Sep 2024 05:44:12 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5365f8cb73esm1904592e87.174.2024.09.12.05.44.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Sep 2024 05:44:12 -0700 (PDT)
+Message-ID: <da60cf71-13a4-465d-a0ee-ca2ad3775262@linaro.org>
+Date: Thu, 12 Sep 2024 15:44:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,111 +77,115 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: uapi: add WebP VP8 frame flag
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Sebastian
- Fricke <sebastian.fricke@collabora.com>,
-        Daniel Almeida
-	<daniel.almeida@collabora.com>,
-        Andrzej Pietrasiewicz
-	<andrzej.p@collabora.com>,
-        Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>
-References: <20240911135011.161217-1-hugues.fruchet@foss.st.com>
- <20240911135011.161217-2-hugues.fruchet@foss.st.com>
- <01020191e212f333-703af7d0-fc68-4f47-b55c-6c0c3de6708a-000000@eu-west-1.amazonses.com>
+Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
+ binding
 Content-Language: en-US
-From: Hugues FRUCHET <hugues.fruchet@foss.st.com>
-In-Reply-To: <01020191e212f333-703af7d0-fc68-4f47-b55c-6c0c3de6708a-000000@eu-west-1.amazonses.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-8-quic_depengs@quicinc.com>
+ <b1b4a866-fa64-4844-a49b-dfdcfca536df@linaro.org>
+ <82dd61ab-83c0-4f9c-a2ee-e00473f4ff23@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <82dd61ab-83c0-4f9c-a2ee-e00473f4ff23@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Nicolas,
+Hi Bryan.
 
-Thanks for reviewing.
-
-On 9/11/24 19:12, Nicolas Dufresne wrote:
-> Hi Hugues,
-> 
-> Le mercredi 11 septembre 2024 à 15:50 +0200, Hugues Fruchet a écrit :
->> Add a flag indicating that VP8 bitstream is a WebP picture.
-> 
-> Sounds like there should be some code changes in GStreamer that you haven't
-> disclosed. Mind sharing how this new uAPI is used ? I would also expect this
-> commit message to give more insight on what is special about WebP that makes
-> this flag required.
-
-
-GStreamer changes here:
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/138ecfac54ce85b273a26ff6f0fefe3998f8d436?merge_request_iid=7505
-
-Verisilicon datasheet is not explicit on why WebP must be signaled to 
-hardware but WebP decoding fails if not.
-Seems to me that such a simple addition on an already existing flag is 
-something acceptable and preferable to the development of a new complete 
-uAPI for WebP decoding.
-
-> 
-> I would also need some more API or documentation that explain how we can
-> differentiate a upstream decoder that is capable of WebP decoding from one that
-> does not. I wonder if it would not have been better to define a new format ?
-> That being said, I haven't looked at all in the specification and only rely on
-> your cover letter and patch series.
-> 
-> Nicolas
-
-
-> 
+On 9/12/24 14:41, Bryan O'Donoghue wrote:
+> On 12/09/2024 09:22, Vladimir Zapolskiy wrote:
+>>> +
+>>> +  vdda-phy-supply:
+>>> +    description:
+>>> +      Phandle to a regulator supply to PHY core block.
+>>> +
+>>> +  vdda-pll-supply:
+>>> +    description:
+>>> +      Phandle to 1.2V regulator supply to PHY refclk pll block.
+>>> +
 >>
->> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
->> ---
->>   .../userspace-api/media/v4l/ext-ctrls-codec-stateless.rst      | 3 +++
->>   include/uapi/linux/v4l2-controls.h                             | 1 +
->>   2 files changed, 4 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
->> index 0da635691fdc..bb08aacddc9c 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
->> @@ -1062,6 +1062,9 @@ FWHT Flags
->>       * - ``V4L2_VP8_FRAME_FLAG_SIGN_BIAS_ALT``
->>         - 0x20
->>         - Sign of motion vectors when the alt frame is referenced.
->> +    * - ``V4L2_VP8_FRAME_FLAG_WEBP``
->> +      - 0x40
->> +      - Indicates that this frame is a WebP picture.
->>   
->>   .. c:type:: v4l2_vp8_entropy_coder_state
->>   
->> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->> index 974fd254e573..e41b62f2cb2b 100644
->> --- a/include/uapi/linux/v4l2-controls.h
->> +++ b/include/uapi/linux/v4l2-controls.h
->> @@ -1897,6 +1897,7 @@ struct v4l2_vp8_entropy_coder_state {
->>   #define V4L2_VP8_FRAME_FLAG_MB_NO_SKIP_COEFF	0x08
->>   #define V4L2_VP8_FRAME_FLAG_SIGN_BIAS_GOLDEN	0x10
->>   #define V4L2_VP8_FRAME_FLAG_SIGN_BIAS_ALT	0x20
->> +#define V4L2_VP8_FRAME_FLAG_WEBP		0x40
->>   
->>   #define V4L2_VP8_FRAME_IS_KEY_FRAME(hdr) \
->>   	(!!((hdr)->flags & V4L2_VP8_FRAME_FLAG_KEY_FRAME))
+>> Here the supplies should be split into ones, which are specific to CSI
+>> blocks,
+>> and I believe they shall be set as optional.
 > 
+> In principle I agree with that, each CSIPHY should have its own vdda-phy
+> and vdda-pll regulator specified.
+> 
+> In practice though I don't believe its necessary, below.
+> 
+>> The proposed names are:
+>>
+>> vdda-phy-01-supply
+>> vdda-pll-01-supply
+>> vdda-phy-23-supply
+>> vdda-pll-23-supply
+>> vdda-phy-46-supply
+>> vdda-pll-46-supply
+>> vdda-phy-57-supply
+>> vdda-pll-57-supply
+> 
+> In principle, you're right, we need to expand the name set here.
+> 
+>> I understand that what I ask is much more clumsy, and it could be seen
+>> even as
+>> unneeded, however it'll be the right set of properties to describe the
+>> CAMSS IP
+>> in this respect
+> I think the following naming would be better as it matches the
+> power-grid naming in the docs.
+> 
+> csiphyX-vdda-phy-supply
+> csiphyX-vdda-pll-supply
 
-BR,
-Hugues.
+I have no opinion about the names, any reason for name selection is
+good for me.
+
+> =>
+> 
+> // voltage domain = vdd_a_csi_01_09 = regulator l1e
+> csiphy0-vdda-phy-supply = <&vreg_l1e_0p9>;
+> 
+> // voltage domain = vdd_a_csi_01_1p2 = regulator l3e
+> csiphy0-vdda-pll-supply = <&vreg_l3e_1p2>;
+> 
+> //
+> csiphy1-vdda-phy-supply = <&vreg_l1e_0p9>;
+> csiphy1-vdda-pll-supply = <&vreg_l3e_1p2>;
+> 
+> Where X indicates the CSIPHY number.
+> 
+> So in fact, in practice we don't need to differentiate these entries.
+> 
+> Checking x1e80100 ...
+
+Checking some particular board, right?
+
+> csiphy0
+> 
+> vdda-phy-supply = <&vreg_l2c_0p9>;
+> vdda-pll-supply = <&vreg_l1c_1p2>;
+> 
+> This is also the case for csiphy 1/2/4
+> 
+> So, I _don't_ believe this is work we need to do, since its the same
+> regulator for each PHY.
+
+This is board specific, and even if the separation is not needed on the boards
+you have just checked, still it may be needed on some boards, which are not yet
+checked/not yet known.
+
+It's needed to make the best predictions about all possible usage of hardware,
+fortunately it's easy in this particular case, and it's trivial to correct it now
+than on some day later on.
+
+--
+Best wishes,
+Vladimir
 
