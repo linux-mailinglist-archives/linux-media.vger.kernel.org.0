@@ -1,393 +1,189 @@
-Return-Path: <linux-media+bounces-18250-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18257-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69ED2978052
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 14:45:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9507978145
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 15:35:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 885861C214D6
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 12:45:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D00241C2289C
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 13:35:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF1DE1DA600;
-	Fri, 13 Sep 2024 12:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="mdoLiH4H"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4CCF1DB93C;
+	Fri, 13 Sep 2024 13:35:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E471DA2EB
-	for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 12:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78891DB926
+	for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 13:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726231494; cv=none; b=hEIdnU/y2syMvj9mKsIsBWda4jmOF65ykpldXp0Iy+u/V82/HVN9rswQFbTp7+RCuOW8YATqHLQpigZy1Qu5KxedxGpz13hBxdkU1uapKy+bwEKicWzLgQH2W74fg3hK5bOxqREYiwrWjHe2WNYGd5NUv3CuZfCAufAqs35SUyE=
+	t=1726234526; cv=none; b=Iy/s2aEmGtvuh6YVvG7fLwaa0QeR1zmQ/6+aFf2xD5aJd53ePCZmpojhTIKLuNkgTRQ1K+alZcLOwllAXHBgP5gqRHtCK7z3fXEbT3vrdNpcQkfiXwcUzII7BxRTANAwPLavxdVEG7CBbQknnlMrwt5pNXeje0xRcX/2QOt98Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726231494; c=relaxed/simple;
-	bh=wF4jNRAZE40rAQeFuqeuLzRj2nDLoQUKmy9ZD8fKPCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Eyh/sNODuROJvlHOMTFbTxLft7QkJ4OWil91ava/+9ZP4qL7KZLSjatVE7Zo8rQNpPZbBOH0MCH9ytr/GmagfXvO8IIN5znfeEzMwcbaSLvo5X0Td2Db72jCR7j6QHrDFl4IZcphWE9wqTngfXNtXkKJwjm4BOEGwddp5+B/Fw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=mdoLiH4H; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=AIlD1e9CA9y5FNwbrgaashnxkMW07UxyVz8ShEP41/g=; b=mdoLiH4Hm1V6BAiGX77e8oa4nE
-	NDj8hXhlPcZLN04VIjoDNxXNALvyMykGa1JeG3LfvhIwXmjvJGBPwclD3mDBKwekjNrFPsnLctTnM
-	yAkku/plI7Nacb9uR2o2PeCGISl6DhkIONd/cBq8QwyljYS6HYO9T/gcWNgxeUuc6fp907z/6RcJJ
-	xWiBmjMWrZDCkwrdOG0A3IN6TpUE4UyIS30wq3kf25C3LguXKShn37TowBbtDR8NwDudSKCVNvNdR
-	1uqJoaBxWUUYolc8uGzKcFvMue5CBsHFu0Qn25ocpyULn2AUpjXcQ+g3tBjNxeKGzOJAGc2UwrdOn
-	J8ey+e1g==;
-Received: from 179-125-71-245-dinamico.pombonet.net.br ([179.125.71.245] helo=quatroqueijos.cascardo.eti.br)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1sp5fC-00DLBu-8f; Fri, 13 Sep 2024 14:44:38 +0200
-Date: Fri, 13 Sep 2024 09:44:31 -0300
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: linux-media@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel-dev@igalia.com,
-	syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com,
-	syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2 1/1] media: uvcvideo: require entities to have a
- non-zero unique ID
-Message-ID: <ZuQzr2kvp6xCljm/@quatroqueijos.cascardo.eti.br>
-References: <20240912185133.1181322-1-cascardo@igalia.com>
- <20240912185133.1181322-2-cascardo@igalia.com>
- <CANiDSCsgJXONHX8HJ8a+ou-yLx7sKUVkVR6H2EadH4=A4iHB5w@mail.gmail.com>
+	s=arc-20240116; t=1726234526; c=relaxed/simple;
+	bh=L617Mvljy9HXxjmnwsSVVglV+7CPs0s/u19e4e37Gww=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=BOgGd2Ol4WcIlFz69xBR9wbgaSUAM2kAE/bBl5a0z8By58S8tzTxqvHQ0u4qLZSi9UsTOFJEsvLRdzYeIHgd05gLiDiVAhf7h3nZZ01IEdr1maBtxZ8ChIPRFdmjNLAAIMirG1NfRyz0WSM/+JfxjY2jsD1AMPqZ4GveIeHJ0Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3a0862f232fso23118475ab.0
+        for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 06:35:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726234524; x=1726839324;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PKoCISMK/cJuQ+TbC+0Y5hS3vYJ16tnnHaLKn4tGUJA=;
+        b=lGDTdUTcK1fdmxGnONHJ/dTbIna7eOQBgqZL6CGO7UV5n1hURPYZPs91hEjJ7b1GqO
+         laWcTeH25nBU6vw/CsFlER+JxTlboJmjSh47kJOaaMvEp0UN7KVlzmA2EFFsSedahTRY
+         VWmLmMMLstKKyxnpZ9kKL9CyidYg/ilk7GMTFQXgdPnczCIDzfbDip7IGZbz6pdRt4R7
+         s2X2WfR7v7fS6K/6WzB/5kq9qUMCYyMk0BM9Z0GsaTU2Ngpfqx/7XqRKE3rc90dsNI0X
+         1ftvbkHajnJDu3sbfAhj8jUqkMDcVIxKKFehAmoEZTuLcWIuAU2TErH+sqVxtu4hBZg6
+         H3sg==
+X-Forwarded-Encrypted: i=1; AJvYcCWYJ7aJ1CGVLrX1ER1Gf+N+khujxwnou6WSHPUNIKbqNTBkLHwiJWomksxIfDGs70c7FPUBikYS0GbbbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPuHAb2ls6Oci39ACBucL0uoQSvE8XBZI9T1wQ2TJcnZhFUWX5
+	laPhzzCXN73ja68Gb7ufNGjeWSHQwziz26JJQ0L3Swz2gsWEThvyPif/VRqdFaRR53YI/uSIh33
+	YCWGzktajLuWMg2SEAInNg5/e5U3S+UT1ZVMjAxrV83TNSDsnDbzeYu0=
+X-Google-Smtp-Source: AGHT+IFaewThfqOu3Dxs6Z2K3D6Ex89U7YXfa6Dv7psqA58MWU+8j6fd59h3RMPd5T3lE2HTfYsPfyy7zSaCh4mlwQGOO2xQryfy
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiDSCsgJXONHX8HJ8a+ou-yLx7sKUVkVR6H2EadH4=A4iHB5w@mail.gmail.com>
+X-Received: by 2002:a05:6e02:1d85:b0:3a0:8dc8:4cd with SMTP id
+ e9e14a558f8ab-3a08dc80569mr16597575ab.23.1726234523807; Fri, 13 Sep 2024
+ 06:35:23 -0700 (PDT)
+Date: Fri, 13 Sep 2024 06:35:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000974b090622004b40@google.com>
+Subject: [syzbot] [media?] general protection fault in dvb_usbv2_generic_write
+From: syzbot <syzbot+f9f5333782a854509322@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 13, 2024 at 10:02:33AM +0200, Ricardo Ribalda wrote:
-> Hi Thadeu
-> 
-> Take a look at checkpatch
-> https://gitlab.freedesktop.org/linux-media/users/patchwork/-/jobs/63550656
-> , and the nit.
-> 
-> After that feel free to add my
-> 
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> 
+Hello,
 
-Hi, Ricardo.
+syzbot found the following issue on:
 
-Thanks a lot for the review. As for the order you pointed below, I totally
-agree. My fist version even had it intentionally like that. Sorry that I
-missed it here.
+HEAD commit:    5dadc1be8fc5 Merge tag 'char-misc-6.11-rc7' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16784e00580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=58a85aa6925a8b78
+dashboard link: https://syzkaller.appspot.com/bug?extid=f9f5333782a854509322
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: i386
 
-As for the checkpatch nit, I wonder why it didn't catch this locally.
-Perhaps the CI is using a different version or using some parameters I am
-not familiar with?
+Unfortunately, I don't have any reproducer for this issue yet.
 
-But as for the check itself:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/21e48b60b45c/disk-5dadc1be.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/92982a88343c/vmlinux-5dadc1be.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2149656ca3d1/bzImage-5dadc1be.xz
 
-CHECK: spaces preferred around that '*' (ctx:VxV)
-#182: FILE: drivers/media/usb/uvc/uvc_driver.c:921:
-+					    buffer[3], p + 1, 2*n);
- 					                       ^
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f9f5333782a854509322@syzkaller.appspotmail.com
 
-There are other uses of 2*n without any spaces around that line. I am happy to
-change that single instance in my patch, but I wonder if I should keep it as is
-to keep consistency, or perhaps send a separate patch fixing all the style
-issues related to that.
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000019: 0000 [#1] PREEMPT SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x00000000000000c8-0x00000000000000cf]
+CPU: 0 UID: 0 PID: 10852 Comm: syz.3.1595 Not tainted 6.11.0-rc6-syzkaller-00355-g5dadc1be8fc5 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
+RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:587 [inline]
+RIP: 0010:__mutex_lock+0xf2/0xd70 kernel/locking/mutex.c:752
+Code: c0 c0 b9 33 9a 48 c1 e8 03 42 0f b6 04 20 84 c0 0f 85 79 0b 00 00 83 3d bb 28 71 0e 00 75 21 49 8d 7d 60 48 89 f8 48 c1 e8 03 <42> 80 3c 20 00 74 05 e8 b2 42 38 f6 4d 39 6d 60 0f 85 f3 0a 00 00
+RSP: 0018:ffffc9000313ef60 EFLAGS: 00010202
+RAX: 0000000000000019 RBX: 0000000000000000 RCX: ffffffff9a33b903
+RDX: dffffc0000000000 RSI: ffff888030280000 RDI: 00000000000000c8
+RBP: ffffc9000313f0b8 R08: ffffc9000313f027 R09: 0000000000000000
+R10: ffffc9000313f000 R11: fffff52000627e05 R12: dffffc0000000000
+R13: 0000000000000068 R14: 0000000000000000 R15: ffff888060c51958
+FS:  0000000000000000(0000) GS:ffff8880b8800000(0063) knlGS:00000000f5776b40
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 00007f35653215e8 CR3: 0000000028422000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ dvb_usbv2_generic_write+0x26/0x50 drivers/media/usb/dvb-usb-v2/dvb_usb_urb.c:77
+ mxl111sf_ctrl_msg+0x143/0x270 drivers/media/usb/dvb-usb-v2/mxl111sf.c:73
+ mxl111sf_write_reg+0xd8/0x1f0 drivers/media/usb/dvb-usb-v2/mxl111sf.c:123
+ mxl111sf_i2c_start drivers/media/usb/dvb-usb-v2/mxl111sf-i2c.c:130 [inline]
+ mxl111sf_i2c_xfer+0x91e/0x8a30 drivers/media/usb/dvb-usb-v2/mxl111sf-i2c.c:813
+ __i2c_transfer+0x866/0x21f0
+ i2c_transfer+0x271/0x3b0 drivers/i2c/i2c-core-base.c:2304
+ i2cdev_ioctl_rdwr+0x452/0x700 drivers/i2c/i2c-dev.c:309
+ compat_i2cdev_ioctl+0x7ca/0x8e0 drivers/i2c/i2c-dev.c:576
+ __do_compat_sys_ioctl fs/ioctl.c:1007 [inline]
+ __se_compat_sys_ioctl+0x51c/0xca0 fs/ioctl.c:950
+ do_syscall_32_irqs_on arch/x86/entry/common.c:165 [inline]
+ __do_fast_syscall_32+0xb4/0x110 arch/x86/entry/common.c:386
+ do_fast_syscall_32+0x34/0x80 arch/x86/entry/common.c:411
+ entry_SYSENTER_compat_after_hwframe+0x84/0x8e
+RIP: 0023:0xf747d579
+Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+RSP: 002b:00000000f577656c EFLAGS: 00000206 ORIG_RAX: 0000000000000036
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000000707
+RDX: 0000000020001100 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000206 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:587 [inline]
+RIP: 0010:__mutex_lock+0xf2/0xd70 kernel/locking/mutex.c:752
+Code: c0 c0 b9 33 9a 48 c1 e8 03 42 0f b6 04 20 84 c0 0f 85 79 0b 00 00 83 3d bb 28 71 0e 00 75 21 49 8d 7d 60 48 89 f8 48 c1 e8 03 <42> 80 3c 20 00 74 05 e8 b2 42 38 f6 4d 39 6d 60 0f 85 f3 0a 00 00
+RSP: 0018:ffffc9000313ef60 EFLAGS: 00010202
+RAX: 0000000000000019 RBX: 0000000000000000 RCX: ffffffff9a33b903
+RDX: dffffc0000000000 RSI: ffff888030280000 RDI: 00000000000000c8
+RBP: ffffc9000313f0b8 R08: ffffc9000313f027 R09: 0000000000000000
+R10: ffffc9000313f000 R11: fffff52000627e05 R12: dffffc0000000000
+R13: 0000000000000068 R14: 0000000000000000 R15: ffff888060c51958
+FS:  0000000000000000(0000) GS:ffff8880b8800000(0063) knlGS:00000000f5776b40
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 000055f273f047f0 CR3: 0000000028422000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	c0 c0 b9             	rol    $0xb9,%al
+   3:	33 9a 48 c1 e8 03    	xor    0x3e8c148(%rdx),%ebx
+   9:	42 0f b6 04 20       	movzbl (%rax,%r12,1),%eax
+   e:	84 c0                	test   %al,%al
+  10:	0f 85 79 0b 00 00    	jne    0xb8f
+  16:	83 3d bb 28 71 0e 00 	cmpl   $0x0,0xe7128bb(%rip)        # 0xe7128d8
+  1d:	75 21                	jne    0x40
+  1f:	49 8d 7d 60          	lea    0x60(%r13),%rdi
+  23:	48 89 f8             	mov    %rdi,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 20 00       	cmpb   $0x0,(%rax,%r12,1) <-- trapping instruction
+  2f:	74 05                	je     0x36
+  31:	e8 b2 42 38 f6       	call   0xf63842e8
+  36:	4d 39 6d 60          	cmp    %r13,0x60(%r13)
+  3a:	0f 85 f3 0a 00 00    	jne    0xb33
 
-Thoughs? Preferences?
 
-Thanks.
-Cascardo.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-> On Thu, 12 Sept 2024 at 20:52, Thadeu Lima de Souza Cascardo
-> <cascardo@igalia.com> wrote:
-> >
-> > Per UVC 1.1+ specification 3.7.2, units and terminals must have a non-zero
-> > unique ID.
-> >
-> > ```
-> > Each Unit and Terminal within the video function is assigned a unique
-> > identification number, the Unit ID (UID) or Terminal ID (TID), contained in
-> > the bUnitID or bTerminalID field of the descriptor. The value 0x00 is
-> > reserved for undefined ID,
-> > ```
-> >
-> > So, deny allocating an entity with ID 0 or an ID that belongs to a unit
-> > that is already added to the list of entities.
-> >
-> > This also prevents some syzkaller reproducers from triggering warnings due
-> > to a chain of entities referring to themselves. In one particular case, an
-> > Output Unit is connected to an Input Unit, both with the same ID of 1. But
-> > when looking up for the source ID of the Output Unit, that same entity is
-> > found instead of the input entity, which leads to such warnings.
-> >
-> > In another case, a backward chain was considered finished as the source ID
-> > was 0. Later on, that entity was found, but its pads were not valid.
-> >
-> > Here is a sample stack trace for one of those cases.
-> >
-> > [   20.650953] usb 1-1: new high-speed USB device number 2 using dummy_hcd
-> > [   20.830206] usb 1-1: Using ep0 maxpacket: 8
-> > [   20.833501] usb 1-1: config 0 descriptor??
-> > [   21.038518] usb 1-1: string descriptor 0 read error: -71
-> > [   21.038893] usb 1-1: Found UVC 0.00 device <unnamed> (2833:0201)
-> > [   21.039299] uvcvideo 1-1:0.0: Entity type for entity Output 1 was not initialized!
-> > [   21.041583] uvcvideo 1-1:0.0: Entity type for entity Input 1 was not initialized!
-> > [   21.042218] ------------[ cut here ]------------
-> > [   21.042536] WARNING: CPU: 0 PID: 9 at drivers/media/mc/mc-entity.c:1147 media_create_pad_link+0x2c4/0x2e0
-> > [   21.043195] Modules linked in:
-> > [   21.043535] CPU: 0 UID: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.11.0-rc7-00030-g3480e43aeccf #444
-> > [   21.044101] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01/2014
-> > [   21.044639] Workqueue: usb_hub_wq hub_event
-> > [   21.045100] RIP: 0010:media_create_pad_link+0x2c4/0x2e0
-> > [   21.045508] Code: fe e8 20 01 00 00 b8 f4 ff ff ff 48 83 c4 30 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc 0f 0b eb e9 0f 0b eb 0a 0f 0b eb 06 <0f> 0b eb 02 0f 0b b8 ea ff ff ff eb d4 66 2e 0f 1f 84 00 00 00 00
-> > [   21.046801] RSP: 0018:ffffc9000004b318 EFLAGS: 00010246
-> > [   21.047227] RAX: ffff888004e5d458 RBX: 0000000000000000 RCX: ffffffff818fccf1
-> > [   21.047719] RDX: 000000000000007b RSI: 0000000000000000 RDI: ffff888004313290
-> > [   21.048241] RBP: ffff888004313290 R08: 0001ffffffffffff R09: 0000000000000000
-> > [   21.048701] R10: 0000000000000013 R11: 0001888004313290 R12: 0000000000000003
-> > [   21.049138] R13: ffff888004313080 R14: ffff888004313080 R15: 0000000000000000
-> > [   21.049648] FS:  0000000000000000(0000) GS:ffff88803ec00000(0000) knlGS:0000000000000000
-> > [   21.050271] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [   21.050688] CR2: 0000592cc27635b0 CR3: 000000000431c000 CR4: 0000000000750ef0
-> > [   21.051136] PKRU: 55555554
-> > [   21.051331] Call Trace:
-> > [   21.051480]  <TASK>
-> > [   21.051611]  ? __warn+0xc4/0x210
-> > [   21.051861]  ? media_create_pad_link+0x2c4/0x2e0
-> > [   21.052252]  ? report_bug+0x11b/0x1a0
-> > [   21.052540]  ? trace_hardirqs_on+0x31/0x40
-> > [   21.052901]  ? handle_bug+0x3d/0x70
-> > [   21.053197]  ? exc_invalid_op+0x1a/0x50
-> > [   21.053511]  ? asm_exc_invalid_op+0x1a/0x20
-> > [   21.053924]  ? media_create_pad_link+0x91/0x2e0
-> > [   21.054364]  ? media_create_pad_link+0x2c4/0x2e0
-> > [   21.054834]  ? media_create_pad_link+0x91/0x2e0
-> > [   21.055131]  ? _raw_spin_unlock+0x1e/0x40
-> > [   21.055441]  ? __v4l2_device_register_subdev+0x202/0x210
-> > [   21.055837]  uvc_mc_register_entities+0x358/0x400
-> > [   21.056144]  uvc_register_chains+0x1fd/0x290
-> > [   21.056413]  uvc_probe+0x380e/0x3dc0
-> > [   21.056676]  ? __lock_acquire+0x5aa/0x26e0
-> > [   21.056946]  ? find_held_lock+0x33/0xa0
-> > [   21.057196]  ? kernfs_activate+0x70/0x80
-> > [   21.057533]  ? usb_match_dynamic_id+0x1b/0x70
-> > [   21.057811]  ? find_held_lock+0x33/0xa0
-> > [   21.058047]  ? usb_match_dynamic_id+0x55/0x70
-> > [   21.058330]  ? lock_release+0x124/0x260
-> > [   21.058657]  ? usb_match_one_id_intf+0xa2/0x100
-> > [   21.058997]  usb_probe_interface+0x1ba/0x330
-> > [   21.059399]  really_probe+0x1ba/0x4c0
-> > [   21.059662]  __driver_probe_device+0xb2/0x180
-> > [   21.059944]  driver_probe_device+0x5a/0x100
-> > [   21.060170]  __device_attach_driver+0xe9/0x160
-> > [   21.060427]  ? __pfx___device_attach_driver+0x10/0x10
-> > [   21.060872]  bus_for_each_drv+0xa9/0x100
-> > [   21.061312]  __device_attach+0xed/0x190
-> > [   21.061812]  device_initial_probe+0xe/0x20
-> > [   21.062229]  bus_probe_device+0x4d/0xd0
-> > [   21.062590]  device_add+0x308/0x590
-> > [   21.062912]  usb_set_configuration+0x7b6/0xaf0
-> > [   21.063403]  usb_generic_driver_probe+0x36/0x80
-> > [   21.063714]  usb_probe_device+0x7b/0x130
-> > [   21.063936]  really_probe+0x1ba/0x4c0
-> > [   21.064111]  __driver_probe_device+0xb2/0x180
-> > [   21.064577]  driver_probe_device+0x5a/0x100
-> > [   21.065019]  __device_attach_driver+0xe9/0x160
-> > [   21.065403]  ? __pfx___device_attach_driver+0x10/0x10
-> > [   21.065820]  bus_for_each_drv+0xa9/0x100
-> > [   21.066094]  __device_attach+0xed/0x190
-> > [   21.066535]  device_initial_probe+0xe/0x20
-> > [   21.066992]  bus_probe_device+0x4d/0xd0
-> > [   21.067250]  device_add+0x308/0x590
-> > [   21.067501]  usb_new_device+0x347/0x610
-> > [   21.067817]  hub_event+0x156b/0x1e30
-> > [   21.068060]  ? process_scheduled_works+0x48b/0xaf0
-> > [   21.068337]  process_scheduled_works+0x5a3/0xaf0
-> > [   21.068668]  worker_thread+0x3cf/0x560
-> > [   21.068932]  ? kthread+0x109/0x1b0
-> > [   21.069133]  kthread+0x197/0x1b0
-> > [   21.069343]  ? __pfx_worker_thread+0x10/0x10
-> > [   21.069598]  ? __pfx_kthread+0x10/0x10
-> > [   21.069908]  ret_from_fork+0x32/0x40
-> > [   21.070169]  ? __pfx_kthread+0x10/0x10
-> > [   21.070424]  ret_from_fork_asm+0x1a/0x30
-> > [   21.070737]  </TASK>
-> >
-> > Reported-by: syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=0584f746fde3d52b4675
-> > Reported-by: syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
-> > Fixes: a3fbc2e6bb05 ("media: mc-entity.c: use WARN_ON, validate link pads")
-> > Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> > ---
-> >  drivers/media/usb/uvc/uvc_driver.c | 70 ++++++++++++++++++------------
-> >  1 file changed, 43 insertions(+), 27 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index f0febdc08c2d..3daa93a29776 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -775,14 +775,27 @@ static const u8 uvc_media_transport_input_guid[16] =
-> >         UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT;
-> >  static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
-> >
-> > -static struct uvc_entity *uvc_alloc_entity(u16 type, u16 id,
-> > -               unsigned int num_pads, unsigned int extra_size)
-> > +static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
-> > +                                              u16 id, unsigned int num_pads,
-> > +                                              unsigned int extra_size)
-> >  {
-> >         struct uvc_entity *entity;
-> >         unsigned int num_inputs;
-> >         unsigned int size;
-> >         unsigned int i;
-> >
-> 
-> nit: I'd swap the order of the checks, !id is a much simpler check
-> than uvc_entity_by_id().
-> 
-> > +       /* Per UVC 1.1+ spec 3.7.2, the ID is unique */
-> > +       if (uvc_entity_by_id(dev, id)) {
-> > +               dev_err(&dev->udev->dev, "Found multiple Units with the same ID.\n");
-> > +               return ERR_PTR(-EINVAL);
-> > +       }
-> > +
-> > +       /* Per UVC 1.1+ spec 3.7.2, the ID should be non-zero */
-> > +       if (id == 0) {
-> > +               dev_err(&dev->udev->dev, "Found Unit with invalid ID 0.\n");
-> > +               return ERR_PTR(-EINVAL);
-> > +       }
-> > +
-> >         extra_size = roundup(extra_size, sizeof(*entity->pads));
-> >         if (num_pads)
-> >                 num_inputs = type & UVC_TERM_OUTPUT ? num_pads : num_pads - 1;
-> > @@ -792,7 +805,7 @@ static struct uvc_entity *uvc_alloc_entity(u16 type, u16 id,
-> >              + num_inputs;
-> >         entity = kzalloc(size, GFP_KERNEL);
-> >         if (entity == NULL)
-> > -               return NULL;
-> > +               return ERR_PTR(-ENOMEM);
-> >
-> >         entity->id = id;
-> >         entity->type = type;
-> > @@ -904,10 +917,10 @@ static int uvc_parse_vendor_control(struct uvc_device *dev,
-> >                         break;
-> >                 }
-> >
-> > -               unit = uvc_alloc_entity(UVC_VC_EXTENSION_UNIT, buffer[3],
-> > -                                       p + 1, 2*n);
-> > -               if (unit == NULL)
-> > -                       return -ENOMEM;
-> > +               unit = uvc_alloc_new_entity(dev, UVC_VC_EXTENSION_UNIT,
-> > +                                           buffer[3], p + 1, 2*n);
-> > +               if (IS_ERR(unit))
-> > +                       return PTR_ERR(unit);
-> >
-> >                 memcpy(unit->guid, &buffer[4], 16);
-> >                 unit->extension.bNumControls = buffer[20];
-> > @@ -1016,10 +1029,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
-> >                         return -EINVAL;
-> >                 }
-> >
-> > -               term = uvc_alloc_entity(type | UVC_TERM_INPUT, buffer[3],
-> > -                                       1, n + p);
-> > -               if (term == NULL)
-> > -                       return -ENOMEM;
-> > +               term = uvc_alloc_new_entity(dev, type | UVC_TERM_INPUT,
-> > +                                           buffer[3], 1, n + p);
-> > +               if (IS_ERR(term))
-> > +                       return PTR_ERR(term);
-> >
-> >                 if (UVC_ENTITY_TYPE(term) == UVC_ITT_CAMERA) {
-> >                         term->camera.bControlSize = n;
-> > @@ -1075,10 +1088,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
-> >                         return 0;
-> >                 }
-> >
-> > -               term = uvc_alloc_entity(type | UVC_TERM_OUTPUT, buffer[3],
-> > -                                       1, 0);
-> > -               if (term == NULL)
-> > -                       return -ENOMEM;
-> > +               term = uvc_alloc_new_entity(dev, type | UVC_TERM_OUTPUT,
-> > +                                           buffer[3], 1, 0);
-> > +               if (IS_ERR(term))
-> > +                       return PTR_ERR(term);
-> >
-> >                 memcpy(term->baSourceID, &buffer[7], 1);
-> >
-> > @@ -1097,9 +1110,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
-> >                         return -EINVAL;
-> >                 }
-> >
-> > -               unit = uvc_alloc_entity(buffer[2], buffer[3], p + 1, 0);
-> > -               if (unit == NULL)
-> > -                       return -ENOMEM;
-> > +               unit = uvc_alloc_new_entity(dev, buffer[2], buffer[3],
-> > +                                           p + 1, 0);
-> > +               if (IS_ERR(unit))
-> > +                       return PTR_ERR(unit);
-> >
-> >                 memcpy(unit->baSourceID, &buffer[5], p);
-> >
-> > @@ -1119,9 +1133,9 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
-> >                         return -EINVAL;
-> >                 }
-> >
-> > -               unit = uvc_alloc_entity(buffer[2], buffer[3], 2, n);
-> > -               if (unit == NULL)
-> > -                       return -ENOMEM;
-> > +               unit = uvc_alloc_new_entity(dev, buffer[2], buffer[3], 2, n);
-> > +               if (IS_ERR(unit))
-> > +                       return PTR_ERR(unit);
-> >
-> >                 memcpy(unit->baSourceID, &buffer[4], 1);
-> >                 unit->processing.wMaxMultiplier =
-> > @@ -1148,9 +1162,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
-> >                         return -EINVAL;
-> >                 }
-> >
-> > -               unit = uvc_alloc_entity(buffer[2], buffer[3], p + 1, n);
-> > -               if (unit == NULL)
-> > -                       return -ENOMEM;
-> > +               unit = uvc_alloc_new_entity(dev, buffer[2], buffer[3],
-> > +                                           p + 1, n);
-> > +               if (IS_ERR(unit))
-> > +                       return PTR_ERR(unit);
-> >
-> >                 memcpy(unit->guid, &buffer[4], 16);
-> >                 unit->extension.bNumControls = buffer[20];
-> > @@ -1290,9 +1305,10 @@ static int uvc_gpio_parse(struct uvc_device *dev)
-> >                 return dev_err_probe(&dev->udev->dev, irq,
-> >                                      "No IRQ for privacy GPIO\n");
-> >
-> > -       unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
-> > -       if (!unit)
-> > -               return -ENOMEM;
-> > +       unit = uvc_alloc_new_entity(dev, UVC_EXT_GPIO_UNIT,
-> > +                                   UVC_EXT_GPIO_UNIT_ID, 0, 1);
-> > +       if (IS_ERR(unit))
-> > +               return PTR_ERR(unit);
-> >
-> >         unit->gpio.gpio_privacy = gpio_privacy;
-> >         unit->gpio.irq = irq;
-> > --
-> > 2.34.1
-> >
-> 
-> 
-> -- 
-> Ricardo Ribalda
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
