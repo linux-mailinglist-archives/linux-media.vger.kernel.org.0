@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-18277-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18278-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCE6978AD8
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 23:47:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 081D6978AD9
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 23:47:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6EDC91F25774
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 21:47:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2CA391C23219
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 21:47:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F97A1714D9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6CE1176FC5;
 	Fri, 13 Sep 2024 21:47:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OYTnzKUZ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ESxg6pjh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E6A1494DC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872FD155321
 	for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 21:47:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726264051; cv=none; b=niSgTuNjQAimzTRvqQ/ocS+38nSu7FA71xmuqJeyFUuoOT+RxY3VDwMdeekj8WvpFm88GuplTYoJRD/KXdb+TXxjyhaLmdHYt4SrujKewVUupmgNMihCDaRDrVQ2fGLLCPXdCbrMNb9qFy05Ec61IEmdaKS0RN5bxBVMumcaIww=
+	t=1726264051; cv=none; b=PdII1cQIN2uGcpBn2/fnSXQsZc90/Hxdbr66wvVHYNH1aSI3Mg7zxdTLi3tRDifdbOvVU4Kz6cF70dgS4qyMTqAK83Y13Bz5x8JOlz3pHO5fhIENCImjAebrLcWWMGA95SstIgXbpSBPzCN/Mnu5OinzX2RNAOsb+Zm0hGpa550=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1726264051; c=relaxed/simple;
-	bh=JkL1mUCZoVEqCrviXrBtMAXA0r6wMGrZjDYOteOnxVk=;
+	bh=GUHZucC0wAGj+SaY2ua/nwT8wz9U+p/L2rERLawE1qE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F9OCdJIT+HgRTvHgbjt58yOwEtAmtgDNWafsbCZupwSw2xMHxqOGZbUHMZ/V0WwB7lWnsSbzLwe2Fyq2d73sYCIn2hlyZ3XruMv6iLNeNIg9QQX6ploF8F7Me6l8lanqPrbWmTGh2aTlSQdt3PT6oDPl0d4NntI8sQJdw0rnRgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OYTnzKUZ; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=hROIQzFoc9XmHvvJhQ/OUI0jBU4rpm8HxSEEOaA43VHXerLEx6oPU40LI1Uv95nQ2308q8nvroSqMRKLQLksruz3GrFsqVfTzPHYBFuFV6TE2C0Xr3AzQrOl4eBaYSKAjNAP1QqnD6jqCxlz+OdTxp9i8POhs36Uc9i1W1n8LMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ESxg6pjh; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC7862590;
-	Fri, 13 Sep 2024 23:45:50 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F17D2593;
+	Fri, 13 Sep 2024 23:45:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1726263950;
-	bh=JkL1mUCZoVEqCrviXrBtMAXA0r6wMGrZjDYOteOnxVk=;
+	s=mail; t=1726263951;
+	bh=GUHZucC0wAGj+SaY2ua/nwT8wz9U+p/L2rERLawE1qE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OYTnzKUZSYI7BxfCrL9jdhEHkJs0xV0gCAjWrCLdxZsHdKhN7nBdlv1QAEo22Dg1I
-	 IoT1teSLOgzNuzMcqp3YvUAeSjyZEwj7BOH7UCN3I9ExvPjfWECqSKw9ElX0c6gx2o
-	 dulyIgWliZFH4feMuqQv+D69M4WhCMKZLF0rZGKE=
+	b=ESxg6pjhxMQ361CAXULysldLS4y/N5zK9qFERL3rV09WgiGb7ioPQIeOCtHwO2hU3
+	 cP4GyYwSR1boJOdtgpCCCCmbACMyngMV5HlxqmhMF/OxXQKk5V0jF9Xo+vfNtJV84V
+	 0yAgTztnWbbPz+Yzisofb2ywU94r6aUfvubvYxTY=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 08/10] videobuf2-v4l2: Support vb2_queue embedded in a context
-Date: Fri, 13 Sep 2024 23:46:53 +0200
-Message-ID: <20240913214657.1502838-9-jacopo.mondi@ideasonboard.com>
+Subject: [PATCH 09/10] media: media-entity: Validate context in pipeline start
+Date: Fri, 13 Sep 2024 23:46:54 +0200
+Message-ID: <20240913214657.1502838-10-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240913214657.1502838-1-jacopo.mondi@ideasonboard.com>
 References: <20240913214657.1502838-1-jacopo.mondi@ideasonboard.com>
@@ -59,324 +59,346 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Support device drivers that implement multi-context operations in the
-videobuf2 core by providing an helper to retrieve the vb2_queue from
-the context associated with an open file handle. If no context is
-associated with a file handle, retrieve it from the video device
-default context, created by the core for multi-context aware drivers.
+Add helpers to validate the an execution context when starting the media
+pipeline. Validating an execution context implies that when creating
+the streaming pipeline all the entities part of the pipeline shall
+have a valid context associated with the media context in use.
 
-Fall-back to use the vb2_queue from the video_device to support existing
-drivers which are not context aware.
+When creating the media pipeline increase the device context use
+count to guarantee that during the streaming phase drivers will
+always operate with valid contexts.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- .../media/common/videobuf2/videobuf2-v4l2.c   | 129 +++++++++++-------
- 1 file changed, 81 insertions(+), 48 deletions(-)
+ drivers/media/mc/mc-entity.c       | 89 +++++++++++++++++++++++++++---
+ drivers/media/v4l2-core/v4l2-dev.c | 30 ++++++++++
+ include/media/media-entity.h       | 42 +++++++++++++-
+ include/media/v4l2-dev.h           | 42 ++++++++++++++
+ 4 files changed, 194 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index c7a54d82a55e..a221436718c2 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -976,27 +976,46 @@ EXPORT_SYMBOL_GPL(vb2_poll);
-  * and so they simplify the driver code.
-  */
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 4108d3da4cb0..b1932e3ddbdc 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -755,8 +755,51 @@ static int media_pipeline_populate(struct media_pipeline *pipe,
+ 	return ret;
+ }
  
-+/*
-+ * Helper to get the vb2 queue either from:
-+ * 1) The video context bound to the open file handle
-+ * 2) The default context for context-aware drivers if userspace has not bound
-+ *    a context to the file handle
-+ * 3) From the video device for non-context aware drivers
-+ */
-+static struct vb2_queue *get_vb2_queue(struct file *file,
-+				       struct video_device *vdev)
+-__must_check int __media_pipeline_start(struct media_pad *pad,
+-					struct media_pipeline *pipe)
++static int
++media_pipeline_validate_context(struct media_device_context *mdev_context,
++				struct media_entity *entity,
++				struct media_pipeline_pad *ppad)
 +{
-+	struct video_device_context *ctx =
-+				video_device_context_from_file(file, vdev);
++	struct media_entity_context *context;
 +
-+	return ctx ? &ctx->queue
-+		   : vdev->default_context ? &vdev->default_context->queue
-+		   : vdev->queue;
++	if (!mdev_context)
++		return 0;
++
++	/*
++	 * It's not mandatory for all entities in the pipeline to support
++	 * contexts.
++	 */
++	if (!entity->ops || !entity->ops->alloc_context ||
++	    !entity->ops->destroy_context)
++		return 0;
++
++	/*
++	 * But if they do they should be bound to the same media device context
++	 * as all other entities.
++	 */
++	context = media_device_get_entity_context(mdev_context, entity);
++
++	/*
++	 * Fail validation if no context is associated with this media context.
++	 */
++	if (!context)
++		return -EINVAL;
++
++	/*
++	 * Increase the ref-counting of the context. Store a reference in the
++	 * ppad for later decreasing the reference count when the pipeline is
++	 * stopped.
++	 */
++	media_entity_context_get(context);
++	ppad->context = context;
++
++	return 0;
 +}
 +
- /* vb2 ioctl helpers */
- 
- int vb2_ioctl_reqbufs(struct file *file, void *priv,
- 			  struct v4l2_requestbuffers *p)
++__must_check int
++__media_pipeline_start_context(struct media_pad *pad,
++			       struct media_pipeline *pipe,
++			       struct media_device_context *mdev_context)
  {
- 	struct video_device *vdev = video_devdata(file);
--	int res = vb2_verify_memory_type(vdev->queue, p->memory, p->type);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
-+	int res = vb2_verify_memory_type(q, p->memory, p->type);
- 	u32 flags = p->flags;
+ 	struct media_device *mdev = pad->graph_obj.mdev;
+ 	struct media_pipeline_pad *err_ppad;
+@@ -816,7 +859,15 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 		}
  
--	fill_buf_caps(vdev->queue, &p->capabilities);
--	validate_memory_flags(vdev->queue, p->memory, &flags);
-+	fill_buf_caps(q, &p->capabilities);
-+	validate_memory_flags(q, p->memory, &flags);
- 	p->flags = flags;
- 	if (res)
- 		return res;
--	if (vb2_queue_is_busy(vdev->queue, file))
-+	if (vb2_queue_is_busy(q, file))
- 		return -EBUSY;
--	res = vb2_core_reqbufs(vdev->queue, p->memory, p->flags, &p->count);
-+	res = vb2_core_reqbufs(q, p->memory, p->flags, &p->count);
- 	/* If count == 0, then the owner has released all buffers and he
- 	   is no longer owner of the queue. Otherwise we have a new owner. */
- 	if (res == 0)
--		vdev->queue->owner = p->count ? file->private_data : NULL;
-+		q->owner = p->count ? file->private_data : NULL;
- 	return res;
- }
- EXPORT_SYMBOL_GPL(vb2_ioctl_reqbufs);
-@@ -1005,12 +1024,13 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
- 			  struct v4l2_create_buffers *p)
- {
- 	struct video_device *vdev = video_devdata(file);
--	int res = vb2_verify_memory_type(vdev->queue, p->memory,
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
-+	int res = vb2_verify_memory_type(q, p->memory,
- 			p->format.type);
+ 		/*
+-		 * 2. Validate all active links whose sink is the current pad.
++		 * 2. If we have a media context, ensure the entity has a device
++		 * context associated with it.
++		 */
++		ret = media_pipeline_validate_context(mdev_context, entity, ppad);
++		if (ret)
++			goto error;
++
++		/*
++		 * 3. Validate all active links whose sink is the current pad.
+ 		 * Validation of the source pads is performed in the context of
+ 		 * the connected sink pad to avoid duplicating checks.
+ 		 */
+@@ -862,7 +913,7 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 		}
  
--	p->index = vdev->queue->num_buffers;
--	fill_buf_caps(vdev->queue, &p->capabilities);
--	validate_memory_flags(vdev->queue, p->memory, &p->flags);
-+	p->index = q->num_buffers;
-+	fill_buf_caps(q, &p->capabilities);
-+	validate_memory_flags(q, p->memory, &p->flags);
- 	/*
- 	 * If count == 0, then just check if memory and type are valid.
- 	 * Any -EBUSY result from vb2_verify_memory_type can be mapped to 0.
-@@ -1019,12 +1039,12 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
- 		return res != -EBUSY ? res : 0;
- 	if (res)
- 		return res;
--	if (vb2_queue_is_busy(vdev->queue, file))
-+	if (vb2_queue_is_busy(q, file))
- 		return -EBUSY;
+ 		/*
+-		 * 3. If the pad has the MEDIA_PAD_FL_MUST_CONNECT flag set,
++		 * 4. If the pad has the MEDIA_PAD_FL_MUST_CONNECT flag set,
+ 		 * ensure that it has either no link or an enabled link.
+ 		 */
+ 		if ((pad->flags & MEDIA_PAD_FL_MUST_CONNECT) &&
+@@ -892,6 +943,9 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 		if (err_ppad == ppad)
+ 			break;
  
--	res = vb2_create_bufs(vdev->queue, p);
-+	res = vb2_create_bufs(q, p);
- 	if (res == 0)
--		vdev->queue->owner = file->private_data;
-+		q->owner = file->private_data;
- 	return res;
- }
- EXPORT_SYMBOL_GPL(vb2_ioctl_create_bufs);
-@@ -1033,69 +1053,76 @@ int vb2_ioctl_prepare_buf(struct file *file, void *priv,
- 			  struct v4l2_buffer *p)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 
--	if (vb2_queue_is_busy(vdev->queue, file))
-+	if (vb2_queue_is_busy(q, file))
- 		return -EBUSY;
--	return vb2_prepare_buf(vdev->queue, vdev->v4l2_dev->mdev, p);
-+	return vb2_prepare_buf(q, vdev->v4l2_dev->mdev, p);
- }
- EXPORT_SYMBOL_GPL(vb2_ioctl_prepare_buf);
- 
- int vb2_ioctl_querybuf(struct file *file, void *priv, struct v4l2_buffer *p)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 
- 	/* No need to call vb2_queue_is_busy(), anyone can query buffers. */
--	return vb2_querybuf(vdev->queue, p);
-+	return vb2_querybuf(q, p);
- }
- EXPORT_SYMBOL_GPL(vb2_ioctl_querybuf);
- 
- int vb2_ioctl_qbuf(struct file *file, void *priv, struct v4l2_buffer *p)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 
--	if (vb2_queue_is_busy(vdev->queue, file))
-+	if (vb2_queue_is_busy(q, file))
- 		return -EBUSY;
--	return vb2_qbuf(vdev->queue, vdev->v4l2_dev->mdev, p);
-+	return vb2_qbuf(q, vdev->v4l2_dev->mdev, p);
- }
- EXPORT_SYMBOL_GPL(vb2_ioctl_qbuf);
- 
- int vb2_ioctl_dqbuf(struct file *file, void *priv, struct v4l2_buffer *p)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 
--	if (vb2_queue_is_busy(vdev->queue, file))
-+	if (vb2_queue_is_busy(q, file))
- 		return -EBUSY;
--	return vb2_dqbuf(vdev->queue, p, file->f_flags & O_NONBLOCK);
-+	return vb2_dqbuf(q, p, file->f_flags & O_NONBLOCK);
- }
- EXPORT_SYMBOL_GPL(vb2_ioctl_dqbuf);
- 
- int vb2_ioctl_streamon(struct file *file, void *priv, enum v4l2_buf_type i)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 
--	if (vb2_queue_is_busy(vdev->queue, file))
-+	if (vb2_queue_is_busy(q, file))
- 		return -EBUSY;
--	return vb2_streamon(vdev->queue, i);
-+	return vb2_streamon(q, i);
- }
- EXPORT_SYMBOL_GPL(vb2_ioctl_streamon);
- 
- int vb2_ioctl_streamoff(struct file *file, void *priv, enum v4l2_buf_type i)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 
--	if (vb2_queue_is_busy(vdev->queue, file))
-+	if (vb2_queue_is_busy(q, file))
- 		return -EBUSY;
--	return vb2_streamoff(vdev->queue, i);
-+	return vb2_streamoff(q, i);
- }
- EXPORT_SYMBOL_GPL(vb2_ioctl_streamoff);
- 
- int vb2_ioctl_expbuf(struct file *file, void *priv, struct v4l2_exportbuffer *p)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 
--	if (vb2_queue_is_busy(vdev->queue, file))
-+	if (vb2_queue_is_busy(q, file))
- 		return -EBUSY;
--	return vb2_expbuf(vdev->queue, p);
-+	return vb2_expbuf(q, p);
- }
- EXPORT_SYMBOL_GPL(vb2_ioctl_expbuf);
- 
-@@ -1104,20 +1131,22 @@ EXPORT_SYMBOL_GPL(vb2_ioctl_expbuf);
- int vb2_fop_mmap(struct file *file, struct vm_area_struct *vma)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 
--	return vb2_mmap(vdev->queue, vma);
-+	return vb2_mmap(q, vma);
- }
- EXPORT_SYMBOL_GPL(vb2_fop_mmap);
- 
- int _vb2_fop_release(struct file *file, struct mutex *lock)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 
- 	if (lock)
- 		mutex_lock(lock);
--	if (file->private_data == vdev->queue->owner) {
--		vb2_queue_release(vdev->queue);
--		vdev->queue->owner = NULL;
-+	if (file->private_data == q->owner) {
-+		vb2_queue_release(q);
-+		q->owner = NULL;
++		if (err_ppad->context)
++			media_entity_context_put(err_ppad->context);
++
+ 		err_ppad->pad->pipe = NULL;
  	}
- 	if (lock)
- 		mutex_unlock(lock);
-@@ -1128,7 +1157,8 @@ EXPORT_SYMBOL_GPL(_vb2_fop_release);
- int vb2_fop_release(struct file *file)
- {
- 	struct video_device *vdev = video_devdata(file);
--	struct mutex *lock = vdev->queue->lock ? vdev->queue->lock : vdev->lock;
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
-+	struct mutex *lock = q->lock ? q->lock : vdev->lock;
  
- 	return _vb2_fop_release(file, lock);
+@@ -899,19 +953,35 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 
+ 	return ret;
  }
-@@ -1138,19 +1168,20 @@ ssize_t vb2_fop_write(struct file *file, const char __user *buf,
- 		size_t count, loff_t *ppos)
++EXPORT_SYMBOL_GPL(__media_pipeline_start_context);
++
++__must_check int __media_pipeline_start(struct media_pad *pad,
++					struct media_pipeline *pipe)
++{
++	return __media_pipeline_start_context(pad, pipe, NULL);
++}
+ EXPORT_SYMBOL_GPL(__media_pipeline_start);
+ 
+-__must_check int media_pipeline_start(struct media_pad *pad,
+-				      struct media_pipeline *pipe)
++__must_check int
++media_pipeline_start_context(struct media_pad *pad,
++			     struct media_pipeline *pipe,
++			     struct media_device_context *context)
  {
- 	struct video_device *vdev = video_devdata(file);
--	struct mutex *lock = vdev->queue->lock ? vdev->queue->lock : vdev->lock;
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
-+	struct mutex *lock = q->lock ? q->lock : vdev->lock;
- 	int err = -EBUSY;
+ 	struct media_device *mdev = pad->graph_obj.mdev;
+ 	int ret;
  
--	if (!(vdev->queue->io_modes & VB2_WRITE))
-+	if (!(q->io_modes & VB2_WRITE))
- 		return -EINVAL;
- 	if (lock && mutex_lock_interruptible(lock))
- 		return -ERESTARTSYS;
--	if (vb2_queue_is_busy(vdev->queue, file))
-+	if (vb2_queue_is_busy(q, file))
- 		goto exit;
--	err = vb2_write(vdev->queue, buf, count, ppos,
--		       file->f_flags & O_NONBLOCK);
--	if (vdev->queue->fileio)
--		vdev->queue->owner = file->private_data;
-+	err = vb2_write(q, buf, count, ppos,
-+			file->f_flags & O_NONBLOCK);
-+	if (q->fileio)
-+		q->owner = file->private_data;
- exit:
- 	if (lock)
- 		mutex_unlock(lock);
-@@ -1162,20 +1193,21 @@ ssize_t vb2_fop_read(struct file *file, char __user *buf,
- 		size_t count, loff_t *ppos)
- {
- 	struct video_device *vdev = video_devdata(file);
--	struct mutex *lock = vdev->queue->lock ? vdev->queue->lock : vdev->lock;
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
-+	struct mutex *lock = q->lock ? q->lock : vdev->lock;
- 	int err = -EBUSY;
- 
--	if (!(vdev->queue->io_modes & VB2_READ))
-+	if (!(q->io_modes & VB2_READ))
- 		return -EINVAL;
- 	if (lock && mutex_lock_interruptible(lock))
- 		return -ERESTARTSYS;
--	if (vb2_queue_is_busy(vdev->queue, file))
-+	if (vb2_queue_is_busy(q, file))
- 		goto exit;
--	vdev->queue->owner = file->private_data;
--	err = vb2_read(vdev->queue, buf, count, ppos,
-+	q->owner = file->private_data;
-+	err = vb2_read(q, buf, count, ppos,
- 		       file->f_flags & O_NONBLOCK);
--	if (!vdev->queue->fileio)
--		vdev->queue->owner = NULL;
-+	if (!q->fileio)
-+		q->owner = NULL;
- exit:
- 	if (lock)
- 		mutex_unlock(lock);
-@@ -1186,7 +1218,7 @@ EXPORT_SYMBOL_GPL(vb2_fop_read);
- __poll_t vb2_fop_poll(struct file *file, poll_table *wait)
- {
- 	struct video_device *vdev = video_devdata(file);
--	struct vb2_queue *q = vdev->queue;
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 	struct mutex *lock = q->lock ? q->lock : vdev->lock;
- 	__poll_t res;
- 	void *fileio;
-@@ -1202,7 +1234,7 @@ __poll_t vb2_fop_poll(struct file *file, poll_table *wait)
- 
- 	fileio = q->fileio;
- 
--	res = vb2_poll(vdev->queue, file, wait);
-+	res = vb2_poll(q, file, wait);
- 
- 	/* If fileio was started, then we have a new queue owner. */
- 	if (!fileio && q->fileio)
-@@ -1218,8 +1250,9 @@ unsigned long vb2_fop_get_unmapped_area(struct file *file, unsigned long addr,
- 		unsigned long len, unsigned long pgoff, unsigned long flags)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct vb2_queue *q = get_vb2_queue(file, vdev);
- 
--	return vb2_get_unmapped_area(vdev->queue, addr, len, pgoff, flags);
-+	return vb2_get_unmapped_area(q, addr, len, pgoff, flags);
+ 	mutex_lock(&mdev->graph_mutex);
+-	ret = __media_pipeline_start(pad, pipe);
++	ret = __media_pipeline_start_context(pad, pipe, context);
+ 	mutex_unlock(&mdev->graph_mutex);
+ 	return ret;
  }
- EXPORT_SYMBOL_GPL(vb2_fop_get_unmapped_area);
- #endif
++EXPORT_SYMBOL_GPL(media_pipeline_start_context);
++
++__must_check int media_pipeline_start(struct media_pad *pad,
++				      struct media_pipeline *pipe)
++{
++	return media_pipeline_start_context(pad, pipe, NULL);
++}
+ EXPORT_SYMBOL_GPL(media_pipeline_start);
+ 
+ void __media_pipeline_stop(struct media_pad *pad)
+@@ -929,8 +999,11 @@ void __media_pipeline_stop(struct media_pad *pad)
+ 	if (--pipe->start_count)
+ 		return;
+ 
+-	list_for_each_entry(ppad, &pipe->pads, list)
++	list_for_each_entry(ppad, &pipe->pads, list) {
++		if (ppad->context)
++			media_entity_context_put(ppad->context);
+ 		ppad->pad->pipe = NULL;
++	}
+ 
+ 	media_pipeline_cleanup(pipe);
+ 
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+index d92989d76cf0..791a32cd3fae 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -1222,6 +1222,36 @@ __must_check int __video_device_pipeline_start(struct video_device *vdev,
+ }
+ EXPORT_SYMBOL_GPL(__video_device_pipeline_start);
+ 
++__must_check int
++video_device_context_pipeline_start(struct video_device_context *context,
++				    struct media_pipeline *pipe)
++{
++	struct video_device *vdev = context->vdev;
++	struct media_entity *entity = &vdev->entity;
++
++	if (entity->num_pads != 1)
++		return -ENODEV;
++
++	return media_pipeline_start_context(&entity->pads[0], pipe,
++					    context->base.mdev_context);
++}
++EXPORT_SYMBOL(video_device_context_pipeline_start);
++
++__must_check int
++__video_device_context_pipeline_start(struct video_device_context *context,
++				      struct media_pipeline *pipe)
++{
++	struct video_device *vdev = context->vdev;
++	struct media_entity *entity = &vdev->entity;
++
++	if (entity->num_pads != 1)
++		return -ENODEV;
++
++	return __media_pipeline_start_context(&entity->pads[0], pipe,
++					      context->base.mdev_context);
++}
++EXPORT_SYMBOL(__video_device_context_pipeline_start);
++
+ void video_device_pipeline_stop(struct video_device *vdev)
+ {
+ 	struct media_entity *entity = &vdev->entity;
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index 002a326de9b9..7161f8aea3fe 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -21,6 +21,7 @@
+ #include <linux/minmax.h>
+ #include <linux/types.h>
+ 
++
+ /* Enums used internally at the media controller to represent graphs */
+ 
+ /**
+@@ -119,16 +120,20 @@ struct media_pipeline {
+  * @list:		Entry in the media_pad pads list
+  * @pipe:		The media_pipeline that the pad is part of
+  * @pad:		The media pad
++ * @context:		Reference to a video device or subdevice context
+  *
+  * This structure associate a pad with a media pipeline. Instances of
+  * media_pipeline_pad are created by media_pipeline_start() when it builds the
+  * pipeline, and stored in the &media_pad.pads list. media_pipeline_stop()
+- * removes the entries from the list and deletes them.
++ * removes the entries from the list and deletes them. The context field is
++ * populated only if a valid context has been associated with the pad.
+  */
++struct media_entity_context;
+ struct media_pipeline_pad {
+ 	struct list_head list;
+ 	struct media_pipeline *pipe;
+ 	struct media_pad *pad;
++	struct media_entity_context *context;
+ };
+ 
+ /**
+@@ -1205,6 +1210,7 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph);
+  */
+ __must_check int media_pipeline_start(struct media_pad *pad,
+ 				      struct media_pipeline *pipe);
++
+ /**
+  * __media_pipeline_start - Mark a pipeline as streaming
+  *
+@@ -1216,6 +1222,40 @@ __must_check int media_pipeline_start(struct media_pad *pad,
+ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 					struct media_pipeline *pipe);
+ 
++/**
++ * media_pipeline_start_context - Mark a pipeline as streaming
++ * @pad: Starting pad
++ * @pipe: Media pipeline to be assigned to all pads in the pipeline.
++ * @context: The media device context the pipeline belongs to
++ *
++ * Mark all pads connected to a given pad through enabled links, either
++ * directly or indirectly, as streaming. The given pipeline object is assigned
++ * to every pad in the pipeline and stored in the media_pad pipe field.
++ *
++ * Calls to this function can be nested, in which case the same number of
++ * media_pipeline_stop() calls will be required to stop streaming. The
++ * pipeline pointer must be identical for all nested calls to
++ * media_pipeline_start().
++ */
++__must_check int
++media_pipeline_start_context(struct media_pad *pad,
++			     struct media_pipeline *pipe,
++			     struct media_device_context *context);
++
++/**
++ * __media_pipeline_start_context - Mark a pipeline as streaming
++ *
++ * @pad: Starting pad
++ * @pipe: Media pipeline to be assigned to all pads in the pipeline.
++ * @context: The media device context the pipeline belongs to
++ *
++ * ..note:: This is the non-locking version of media_pipeline_start()
++ */
++__must_check int
++__media_pipeline_start_context(struct media_pad *pad,
++			       struct media_pipeline *pipe,
++			       struct media_device_context *mdev_context);
++
+ /**
+  * media_pipeline_stop - Mark a pipeline as not streaming
+  * @pad: Starting pad
+diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+index 2ef49d0aaf09..1088bcac81a5 100644
+--- a/include/media/v4l2-dev.h
++++ b/include/media/v4l2-dev.h
+@@ -579,6 +579,48 @@ __must_check int video_device_pipeline_start(struct video_device *vdev,
+ __must_check int __video_device_pipeline_start(struct video_device *vdev,
+ 					       struct media_pipeline *pipe);
+ 
++/**
++ * video_device_context_pipeline_start - Mark a pipeline as streaming starting
++ *					 from a video device context
++ * @context: The video device context that starts the streaming
++ * @pipe: Media pipeline to be assigned to all entities in the pipeline.
++ *
++ * ..note:: This is the multi-context version of video_device_pipeline_start()
++ *          Documentation of this function only describes specific aspects of
++ *          this version. Refer to the video_device_pipeline_start()
++ *          documentation for a complete reference.
++ *
++ * Validate that all entities connected to a video device through enabled links
++ * by ensuring that a context associated with the same media device context
++ * exists for them. Increase the reference counting of each of the contexts part
++ * of the pipeline to guarantee their lifetime is maintained as long as the
++ * pipeline is streaming.
++ *
++ * Context validation and refcounting of all entities that are part of a
++ * streaming pipeline ensures that device drivers can safely access device
++ * contexts in a media device context during streaming. References to contexts
++ * retried by a call to media_device_get_entity_context(), are guaranteed to be
++ * valid as long as the pipeline is streaming. Likewise, the media device
++ * context that contains the device contexts is guaranteed to be valid as long
++ * as the pipeline is streaming.
++ */
++__must_check int
++video_device_context_pipeline_start(struct video_device_context *context,
++				    struct media_pipeline *pipe);
++
++/**
++ * video_device_context_pipeline_start - Mark a pipeline as streaming starting
++ *					 from a video device context
++ * @context: The video device context that starts the streaming
++ * @pipe: Media pipeline to be assigned to all entities in the pipeline.
++ *
++ * ..note:: This is the non-locking version of
++ *	    __video_device_context_pipeline_start()
++ */
++__must_check int
++__video_device_context_pipeline_start(struct video_device_context *context,
++				      struct media_pipeline *pipe);
++
+ /**
+  * video_device_pipeline_stop - Mark a pipeline as not streaming
+  * @vdev: Starting video device
 -- 
 2.46.0
 
