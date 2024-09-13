@@ -1,53 +1,56 @@
-Return-Path: <linux-media+bounces-18269-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18270-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF11E978AD0
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 23:47:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 774A4978AD1
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 23:47:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 85F931F21C22
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 21:47:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C4E91C2314B
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 21:47:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0A5114F12D;
-	Fri, 13 Sep 2024 21:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94CD1155321;
+	Fri, 13 Sep 2024 21:47:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EA20Rsdd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Pg7hnVNN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0350C2B9D2
-	for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 21:47:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2144A6BFD4
+	for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 21:47:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726264037; cv=none; b=jI1rCyCXWJn4Sa66wY68QAsO2Mw5CuT2IXaSt+2KdLSKmcC2n8aunCDK2fZwYxYKTzX4FV0DrZPi7sDv6ww9jyNl/s9DJqITWR+jpy0mxxJVYw+HbO6D+hWv1YDo+qMwwT36t2geYbqYFJZog1CYsH0w+Oq9u7m556MyhhcUi4U=
+	t=1726264038; cv=none; b=hoWfAuDtN4piTjxXpAIubz4vszS/fWEaZZlfXt+xxtfhC5/nko1yVrx95rzP3PJfydeNEZX/sDCtv/Spb5Z01H3AMUPKmYbeweSr7FDnReIp7R05C02OshQM4hNVFl4xqXCTng0HHBeazszSuVJPpjqvEQPR3OlfQh2CQ6SSf/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726264037; c=relaxed/simple;
-	bh=zXp0ssCJ36wTDFnW2NYJmaJVXukPtvpz48qu4FQ5e3g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NldCd8Rya7a96c749ukgzSWVt01BBzYetbLNTxw9X+yV8vS661NKCj5uRZgM6cAsFlmjGK3f10y5Mfntb3I+TwJpWvCVvGX/VAZDSxKWHJbF8X4DKvIIWfD3tLNbbXekqs0cNe5gSjMyaCPHi/KGja/LZFMlVRlrsFlTOW5NYwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EA20Rsdd; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1726264038; c=relaxed/simple;
+	bh=LXaWD9KIdKV1BX3OScWS0sAEKTLeBqsNcj+9a5HDpLQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pJlVzloA9G9mb2vx5PksrQDYtKGQo7ECJGWsWH4pVRqkgVfr4m00tYPZesVEIz7YTCU5cfDZqa2U8qsTzkEC8vh7xtS7w9wDJnauO9C7pwzFujCn4hSnb8+ROWcU0lQ0NrLVddQhAPZK7BRJhBIiROv814rvmolZDUrlZ+K+xic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Pg7hnVNN; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EEAAEA5;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4AE91083;
 	Fri, 13 Sep 2024 23:45:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1726263948;
-	bh=zXp0ssCJ36wTDFnW2NYJmaJVXukPtvpz48qu4FQ5e3g=;
-	h=From:To:Cc:Subject:Date:From;
-	b=EA20RsddIJxZUEdmAZC4NNJJ8vm3dqr6FyZP28y4bLHYIf2ZZb9A3HknnTM1P4vj8
-	 DGecN7l3cf17+MKy51AEbg0PTxhIi5c6reMNLIVDtsneRG/rTGD5c8lfGJYBQiwiI0
-	 FcpehQI/6yhbMdXzKONYtOSdA9v0/++Wv0ypVNkM=
+	bh=LXaWD9KIdKV1BX3OScWS0sAEKTLeBqsNcj+9a5HDpLQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Pg7hnVNN6moh8dJ/g3OHytTz1tJjorOe+/o0fU3TrCilAdFRJi+2LvsnUmzmmuQZE
+	 Vi3caaSV2FMtgGyoFdR30X3ccNAfNBrlhtJQTugPdCKXIfg6LfQTJgBjJwN0AFDECJ
+	 clT5HUDTx9NnTIYWNiefOfoMn9auf5a7GNL8EsKw=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [RFC PATCH 00/10] Introduce support for multi-context in V4L2 and MC
-Date: Fri, 13 Sep 2024 23:46:45 +0200
-Message-ID: <20240913214657.1502838-1-jacopo.mondi@ideasonboard.com>
+Subject: [PATCH 01/10] media: media-entity: Introduce media_entity_context
+Date: Fri, 13 Sep 2024 23:46:46 +0200
+Message-ID: <20240913214657.1502838-2-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240913214657.1502838-1-jacopo.mondi@ideasonboard.com>
+References: <20240913214657.1502838-1-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,117 +59,210 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello list,
+Introduce the 'struct media_entity_context' type, which serves for
+reference counting and introduce two new media entity operations to
+allow drivers to allocate and free a media entity context.
 
-   this series serves as a base for the forthcoming discussion at the Linux
-Media Summit in Vienna on Monday.
+The newly introduced type will be used as a base type for the
+device context types (video_device_context and v4l2_subdevice_context)
+that will be introduced in the next patches.
 
-The series is sent as RFC but has been tested and developed on a real HW
-platform, the RaspberryPi 5 PiSP Back End.
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+ drivers/media/mc/mc-entity.c | 46 +++++++++++++++++
+ include/media/media-entity.h | 99 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 145 insertions(+)
 
-I'm not going here in great length on the background and motivations of the
-series, as it will be the subject of Monday discussion, but here it is a bit
-of background, by reporting the abstract presented for the Media Summit.
-
--------------------------------------------------------------------------------
-Modern ISPs are designed to handle multiple "streams" of data, not necessarily
-related to the same image or video stream.
-
-The hardware resources are generally time-multiplexed between different
-execution contexts at the hardware or firmware level and in order to operate the
-ISP with multiple video sources it is necessary for drivers to keep track of
-per-context data and resources.
-
-In V4L2 the M2M framework supports multiple contexts through multiple opens of
-the same video device. This doesn't however support drivers exposing multiple
-video devices and sub-devices. Several out-of-tree drivers implement
-multi-context support by registering multiple 'logical' instances of the same
-media graph, one for each context. This effectively multiplies the number of
-video device nodes and subdevice nodes. Userspace applications open one media
-graph instance and operate on the corresponding video devices, under the
-impression of dealing with a dedicated instance of the sole underlying hardware
-resource.
-
-This solution is however a short term hack, it doesn't scale well when the
-number of contexts grow. ISPs such as the Mali C55 have been designed to process
-8 cameras concurrently, and other ISPs may do more.
-
-For this reason, a solution to expose and manage multiple execution contexts
-without duplicating the number of media, video and sub-devices registered to
-userspace is needed to improve support for multi-context devices in V4L2. This
-will also be useful for codecs that need more than an output and a capture video
-queue.
---------------------------------------------------------------------------------
-
-The series enables userspace to multiplex the usage of a media device and of
-video devices without duplicating the number of devnodes in userspace, by
-introducing the following concept in the framework:
-
-- Media Device Context: a context created at media-device open time and stored
-  in the media-fh file handle. To a media device context is associated a list
-  of media entity contexts which are 'bound' to it.
-
-- Video Device Context (and V4L2 Subdevice Context, not implemented in this RFC)
-  represents an isolated execution context of a video device. By storing the
-  data and the configuration of a video device userspace is allowed to
-  effectively multiplex the usage of a device node. Both the Video Device Context
-  and the V4L2 Subdevice Context extend the Media Entity Context base type so
-  that the MC and V4L2 layers are kept independent one from each other.
-
-- A Video Device Context is created by a new ioctl VIDIOC_BIND_CONTEXT and is
-  stored in the v4l2-fh file handle. The VIDIOC_BIND_CONTEXT associates a
-  Video Device Context to a Media Device Context. By binding a set of video
-  devices and subdevices to a media device context userspace can create several
-  isolated 'execution contexts' which can be operated independently one from
-  each other.
-
-The implementation has been tested by porting the PiSP BE driver in the last
-patch to showcase the newly introduced driver API. The implementation has been
-tested with a slightly modified version of libcamera with 2 concurrent camera
-streams running in parallel.
-
-Albeit I'm listed as the author of the here proposed implementation the majority
-of the design (and several private review rounds) have to be attributed to
-Laurent which has a much more profound understanding of the framework and its
-future evolution than me. Thanks for the guidance and the several comments and
-discussions.
-
-The series is based on Sakari's
-"PATCH v4 00/26] Media device lifetime management" which introduces media-fh.c
-and a branch based on rpi's v6.6.y used for testing is available at
-https://gitlab.freedesktop.org/linux-media/users/jmondi/-/tree/multicontext/rpi-6.6.y/v1
-
-For any question, see you on Monday in Vienna!
-
-Jacopo Mondi (10):
-  media: media-entity: Introduce media_entity_context
-  media: media-device: Introduce media_device_context
-  media: v4l2-dev: Introduce video device context
-  media: v4l2-ioctl: Introduce VIDIOC_BIND_CONTEXT
-  media: Introduce default contexts
-  media: v4l2-dev: Add video_device_context_from_file()
-  media: v4l2-dev: Add video_device_context_from_queue()
-  videobuf2-v4l2: Support vb2_queue embedded in a context
-  media: media-entity: Validate context in pipeline start
-  media: pispbe: Add support for multi-context
-
- .../media/common/videobuf2/videobuf2-v4l2.c   | 129 +++--
- drivers/media/mc/mc-device.c                  | 179 ++++++
- drivers/media/mc/mc-entity.c                  | 136 ++++-
- .../platform/raspberrypi/pisp_be/pisp_be.c    | 509 +++++++++++++-----
- drivers/media/v4l2-core/v4l2-dev.c            | 141 ++++-
- drivers/media/v4l2-core/v4l2-fh.c             |   1 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |  64 +++
- include/media/media-device.h                  | 215 ++++++++
- include/media/media-entity.h                  | 141 ++++-
- include/media/media-fh.h                      |   4 +
- include/media/v4l2-dev.h                      | 235 ++++++++
- include/media/v4l2-fh.h                       |   3 +
- include/media/v4l2-ioctl.h                    |   5 +
- include/uapi/linux/videodev2.h                |  11 +
- 14 files changed, 1576 insertions(+), 197 deletions(-)
-
---
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 951b79ca125c..8ce72d72bc1d 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -1660,3 +1660,49 @@ struct media_link *__media_entity_next_link(struct media_entity *entity,
+ 	return NULL;
+ }
+ EXPORT_SYMBOL_GPL(__media_entity_next_link);
++
++static void media_entity_release_context(struct kref *refcount)
++{
++	struct media_entity_context *ctx =
++		container_of(refcount, struct media_entity_context, refcount);
++
++	ctx->entity->ops->destroy_context(ctx);
++}
++
++struct media_entity_context *
++media_entity_context_get(struct media_entity_context *ctx)
++{
++	if (!ctx)
++		return ERR_PTR(-EINVAL);
++
++	kref_get(&ctx->refcount);
++
++	return ctx;
++}
++EXPORT_SYMBOL_GPL(media_entity_context_get);
++
++void media_entity_context_put(struct media_entity_context *ctx)
++{
++	if (!ctx)
++		return;
++
++	kref_put(&ctx->refcount, media_entity_release_context);
++}
++EXPORT_SYMBOL_GPL(media_entity_context_put);
++
++void media_entity_init_context(struct media_entity *entity,
++			       struct media_entity_context *ctx)
++{
++	if (!ctx)
++		return;
++
++	ctx->entity = entity;
++	kref_init(&ctx->refcount);
++	INIT_LIST_HEAD(&ctx->list);
++}
++EXPORT_SYMBOL_GPL(media_entity_init_context);
++
++void media_entity_cleanup_context(struct media_entity_context *ctx)
++{
++}
++EXPORT_SYMBOL_GPL(media_entity_cleanup_context);
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index 4d95893c8984..002a326de9b9 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -15,6 +15,7 @@
+ #include <linux/bug.h>
+ #include <linux/container_of.h>
+ #include <linux/fwnode.h>
++#include <linux/kref.h>
+ #include <linux/list.h>
+ #include <linux/media.h>
+ #include <linux/minmax.h>
+@@ -248,6 +249,37 @@ struct media_pad {
+ 	struct media_pipeline *pipe;
+ };
+ 
++/**
++ * struct media_entity_context - A media entity execution context
++ * @mdev_context: The media device context this media entity is bound to.
++ *		  The field is initialized when the entity is bound to a media
++ *		  device context.
++ * @entity: The media entity this context belongs to
++ * @refcount: The kref reference counter
++ * list: The list entry to link the entity context in the media device context
++ *
++ * This type represent the 'base class' used to implement execution context for
++ * video device contexts and subdevice contexts. Those types embedds an instance
++ * of 'struct media_entity_context' as their first member, allowing the MC core
++ * to implement type polymorphism and handle video device and subdevice contexts
++ * transparently.
++ *
++ * The main function of this type is to provide reference counting for the
++ * 'dervived' device context types. The video device and subdevice core
++ * populates the 'context_release' function pointer that implement specific
++ * clean-up operations, similar to what a 'virtual destructor' would do in C++.
++ *
++ * Drivers are not expected to use this type directly, but only the MC core
++ * will.
++ */
++struct media_device_context;
++struct media_entity_context {
++	struct media_device_context *mdev_context;
++	struct media_entity *entity;
++	struct kref refcount;
++	struct list_head list;
++};
++
+ /**
+  * struct media_entity_operations - Media entity operations
+  * @get_fwnode_pad:	Return the pad number based on a fwnode endpoint or
+@@ -269,6 +301,15 @@ struct media_pad {
+  *			media_entity_has_pad_interdep().
+  *			Optional: If the operation isn't implemented all pads
+  *			will be considered as interdependent.
++ * @alloc_context:	Allocate a media entity context. Drivers are allowed to
++ *			sub-class the entity context type by defining a driver
++ *			specific type that embeds an instance of either a
++ *			video_device_context or subdevice_context as first
++ *			member, and allocate the size of a driver-specific type
++ *			in the implementation of this operation. Returns 0 for
++ *			success, or an error code < 0 otherwise.
++ * @destroy_context:	Release a media entity context previously allocated by
++ *			the driver.
+  *
+  * .. note::
+  *
+@@ -284,6 +325,9 @@ struct media_entity_operations {
+ 	int (*link_validate)(struct media_link *link);
+ 	bool (*has_pad_interdep)(struct media_entity *entity, unsigned int pad0,
+ 				 unsigned int pad1);
++	int (*alloc_context)(struct media_entity *entity,
++			     struct media_entity_context **context);
++	void (*destroy_context)(struct media_entity_context *context);
+ };
+ 
+ /**
+@@ -1452,3 +1496,58 @@ struct media_link *__media_entity_next_link(struct media_entity *entity,
+ 					     MEDIA_LNK_FL_DATA_LINK))
+ 
+ #endif
++
++/**
++ * media_entity_context_get - Increase the media entity context reference count
++ *			      and return a reference to it
++ *
++ * @ctx: the media entity context
++ *
++ * Increase the media entity context reference count. The reference count
++ * is increased by the V4L2 core when:
++ *
++ * - a new context is allocated when bounding a media entity to a media device
++ *   context (by kref_init())
++ * - the media pipeline the context is part of starts streaming
++ *
++ * The entity context gets automatically decreased by the V4L2 core when:
++ * - a context is unbound
++ * - the pipeline stops streaming
++ */
++struct media_entity_context *
++media_entity_context_get(struct media_entity_context *ctx);
++
++/**
++ * media_entity_context_put - Decrease the media entity context reference count
++ *
++ * @ctx: the media entity context
++ *
++ * Decrease the media entity context reference count. The reference count
++ * is decreased by the V4L2 core when:
++ * - the file handle the context is associated with is closed
++ * - the media pipeline the context is part of is stopped
++ */
++void media_entity_context_put(struct media_entity_context *ctx);
++
++/**
++ * media_entity_init_context - Initialize the media entity context
++ *
++ * @entity: the media entity this context belongs to
++ * @ctx: the media entity context
++ *
++ * Initialize the media entity context by initializing the kref reference
++ * counter. The intended caller of this function are the video device context
++ * and subdevic context initialize functions.
++ */
++void media_entity_init_context(struct media_entity *entity,
++			       struct media_entity_context *ctx);
++
++/**
++ * media_entity_cleanup_context - Cleanup the media entity context
++ *
++ * @ctx: the media entity context
++ *
++ * Cleanup the media entity context. The intended caller of this function are
++ * the video device and subdevice context cleanup functions.
++ */
++void media_entity_cleanup_context(struct media_entity_context *ctx);
+-- 
 2.46.0
 
 
