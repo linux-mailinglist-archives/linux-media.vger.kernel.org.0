@@ -1,78 +1,109 @@
-Return-Path: <linux-media+bounces-18247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18248-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D34977C1C
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 11:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268C9977C58
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 11:40:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E6C81C2074D
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 09:23:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51A4F1C24744
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 09:40:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD5171D6C75;
-	Fri, 13 Sep 2024 09:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 035C31D86EA;
+	Fri, 13 Sep 2024 09:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e4xETvYl"
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="HcX1kffT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="N4PwImb1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2C61D5CC1
-	for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 09:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C721E18A6D6;
+	Fri, 13 Sep 2024 09:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726219429; cv=none; b=LSR7yunpd1gRiCNsgxAt43gRKotrqkvjmKlnbbyYack220FTvy5rQvjoDCxl3sGL6oA93WGal1haUdGJMUPdrifVhjIB2gwh3ZKOqMtjavJqqn5l8rInjD2d97hKbmhmaJA+jKd7PfkVOxwwa0ahXuiv5KwSv9Ic0BehoSdX9iI=
+	t=1726220342; cv=none; b=tjjJYJqs9tbQMjvsXG8QSEwB0cCZV7xnVgs+6fMOnzEu36orxotfheBHeFs4NzGl7nzk0WT6eoozVYGRpvyqbz2xce7m6p7v07o7jZyXbkO9hXcwTMKMxv9eLpea3+wgYdfomoGCu+TXrvYs/FaHYkMe/pzL0RkuL+JvzzrqFaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726219429; c=relaxed/simple;
-	bh=J2eohR9Mz5LOLU0QI8F3OROlJzQ54ggb33ngfQx3zCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LbL9dXVCTgFW1YsOQzeLWrL1VYcRTZ1rUNjwRl/Dxb+KJgQ2TIvD4f3pZIWpBhOsDoSIpuxaZgNBO/o638wuSOvNjUqLl8hxbZfLBRug6WYtu4pNQQabrZhLPzG7wED+CaJlVVkSopgU+PIJcozWPNXwjWRenpKuP7nMr8cGSSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e4xETvYl; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726219428; x=1757755428;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J2eohR9Mz5LOLU0QI8F3OROlJzQ54ggb33ngfQx3zCU=;
-  b=e4xETvYlFfn0aknZFZxws3QTK2Q2S7LINQHuF26p+FAeaTdsn73g9XDS
-   ZwtsUltnlBBPzwAHYmQVSrTyyu+gNu1i8DCKk2MbmZzikzNd8zjGKSpqM
-   OylmW+aDXmqLVpFfV48An8tqayzp2t/6mtIx+IIGPYL7yU6BivTHBX3OK
-   HXOZeIrAXrQxJVZMuuG3iMIr0Bpr+GCHX4g1ivS/po3K68EPJMRvitAX2
-   cDiTvNVyUm5VI3yGoUHk7xThlQawK+IbXweiUXs9wlEW4PDiieFgmK566
-   BuvOp6TM69qh0sSCC6PbltNRDA9uULPUqyZgpneq7omDrcYN6mI9IPMKO
-   Q==;
-X-CSE-ConnectionGUID: 0Csav2BHSOKaR0qwiZ7+uw==
-X-CSE-MsgGUID: C4YrKc8fTaCwC+KjYsWiIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="47627568"
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="47627568"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 02:23:47 -0700
-X-CSE-ConnectionGUID: twJE3TqnRsCTLkfSW6woNQ==
-X-CSE-MsgGUID: dP8pLkChQSeHKZ5wws+trQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="67615378"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Sep 2024 02:23:45 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sp2Wk-0006IM-2e;
-	Fri, 13 Sep 2024 09:23:42 +0000
-Date: Fri, 13 Sep 2024 17:22:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [linux-next:master 9293/11623]
- drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:51:
- warning: 'DCEC' directive output may be truncated writing 4 bytes into a
- region of size between 0 and 53
-Message-ID: <202409131718.JZ7cRIiX-lkp@intel.com>
+	s=arc-20240116; t=1726220342; c=relaxed/simple;
+	bh=A2qVBIMYp/2r3CFer6xBiqk5bNkvq3f/Xhhuxq/P0po=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gStnrp6ys6MRZDMJ3al5Ft6ELEwyIKphSO0MOAW418TqImtc3vv9HTm4expb1kkyiXGYFEdh/VuEjskPZEMNHl4Q28XtGH/yp8RShnT5mXlkj+nnQkidw1dwyRiuLqLZeswAy6yz5XdGU4JTybVfUbm4DJVy6zKZhUwcSC3Ypg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=HcX1kffT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=N4PwImb1; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfout.phl.internal (Postfix) with ESMTP id C6E8B1380313;
+	Fri, 13 Sep 2024 05:38:58 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Fri, 13 Sep 2024 05:38:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1726220338; x=
+	1726306738; bh=K+AlDx1kABcH1bjNHO39XpWBnTf9rTOESmFmUtu1C08=; b=H
+	cX1kffT3gCsZo8AGKNkafPUMycPnllN8WmPLz3Onpcfx7YO0aAf3umyQRTO3TGkV
+	7wNfcGotSKBxOTmB4fnfYkzDNVUFGEA9oG60zaVOwQmaGOhRYKq0WripbZxmWt0P
+	1IymJe/4mIR59TfXSFJs9cpj+LbuAaWlvSfR5yLfqtoAU10uM9x1GrjU3YFTvnI4
+	MHksV7cyLq2+YSR9ntus9OlHurj+p4sKYoe24WBskIZcGFy632YkVc1llOAcdqIQ
+	wIFkyeBrV9t1PsmygnWQlbHYXdz7fWG7DynapGOidwfWpMhLezjObPw/qnDiyOpF
+	foDE1kkKPkV2E20Xc8dJA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1726220338; x=1726306738; bh=K+AlDx1kABcH1bjNHO39XpWBnTf9
+	rTOESmFmUtu1C08=; b=N4PwImb1Y8dtY3Yvdl0JyU0ll9bbD+5QfTwsw8ZoJGrw
+	9kkTnH2JCxeuPOh+TkLO2oNrVhVirAUSHg30Zp1xmPfQ7OKzpIyFw7HltEHWCB6l
+	NX/8Bju0TjV6Vpchbo/txdvmOEQ1a44gtD6c5zch8EXZWlD5fqJZdy8mcvhNuKLq
+	cTyXYxSO5CVkQ+HAEfSlKXBbenHPWjSDSRJz0XCDMTwHmxVihdVfhHQ/VdcbAoWq
+	7CwRN34bzjo0S+OE/dNCN2gmB37jBViTEofPl3Qi1jCSW3ETTn9HQiEDJa8fkNDs
+	Nj1X7bZFt/1cpnmhcMsG4Qe/JWodvqNYmTYJxI+SIQ==
+X-ME-Sender: <xms:MgjkZuGHfqvk9YQjf1X1JztIqEs3eg6EVQaNNOTtEP7yQFd989E1hQ>
+    <xme:MgjkZvUcVlw1GV-1wp7QecddrABnrkNs2jmL1mzcLXYTgdcOHB27WWWF8Lw6-9-8_
+    gbmS-DCBDXJCeu7JJ8>
+X-ME-Received: <xmr:MgjkZoLK6s0QnlUD9d53h_XsEY1X7bJ1MYESpm4ZE_up0g0aJlV2YnyRoKTQroWLCdfp19IIo_-gSu5CyoWVT_CPU70z44MKVonL>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudejjedgudejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
+    ucfhrhhomhepvfgrkhgrshhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihessh
+    grkhgrmhhotggthhhirdhjpheqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeu
+    ffevveeufedtlefhjeeiieetvdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhho
+    tggthhhirdhjphdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepvggumhhunhgurdhrrghilhgvsehprhhothhonhhmrghilhdrtghomhdprhgt
+    phhtthhopegrphgrihhssehlihhnuhigrdhmihgtrhhoshhofhhtrdgtohhmpdhrtghpth
+    htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepth
+    hifigrihesshhushgvrdguvg
+X-ME-Proxy: <xmx:MgjkZoFxpE_q3HpW7obNDw_FUZc7_Ln34uOcTKuGQPGsHtya35QuIQ>
+    <xmx:MgjkZkX-LWRIRQTd0aUj3Ro9XsT86bvURayymGs0pzDzpeRx_frMnw>
+    <xmx:MgjkZrPdibi_zgMrPML7e7dDkNSxVMAHfsIhvnVBV8L_VrTot0q44Q>
+    <xmx:MgjkZr3Ig31IgjdsnlOsY4zqVG7cl8rMmhf5UiPZZ2dq7dvRkz6qdQ>
+    <xmx:MgjkZnHOhA9Xlf6OvTSjXfCdK3GeHHBNJ7BzZMvmb_olpb3wOgCwNNG4>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 Sep 2024 05:38:56 -0400 (EDT)
+Date: Fri, 13 Sep 2024 18:38:52 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Edmund Raile <edmund.raile@protonmail.com>
+Cc: apais@linux.microsoft.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
+	netdev@vger.kernel.org, tiwai@suse.de
+Subject: Re: firewire: use sleepable workqueue to handle 1394 OHCI IT/IR
+ context events: test 2
+Message-ID: <20240913093852.GA305057@workstation.local>
+Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Edmund Raile <edmund.raile@protonmail.com>,
+	apais@linux.microsoft.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
+	netdev@vger.kernel.org, tiwai@suse.de
+References: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
+ <20240912214404.10616-2-edmund.raile@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,58 +112,79 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240912214404.10616-2-edmund.raile@protonmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   57f962b956f1d116cd64d5c406776c4975de549d
-commit: 056f2821b631df2b94d3b017fd1e1eef918ed98d [9293/11623] media: cec: extron-da-hd-4k-plus: add the Extron DA HD 4K Plus CEC driver
-config: parisc-randconfig-r113-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131718.JZ7cRIiX-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240913/202409131718.JZ7cRIiX-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131718.JZ7cRIiX-lkp@intel.com/
+On Thu, Sep 12, 2024 at 09:44:52PM +0000, Edmund Raile wrote:
+> Hello Sakamoto-San, I came around to testing your patch [1], after RFT.
+> 
+> I've had to make the following changes to patch 1/5 again for it to apply to
+> mainline (d1f2d51b711a3b7f1ae1b46701c769c1d580fa7f), due to missing b171e20
+> from 2009 and a7ecbe9 from 2022.
+> 
+> @@ -584,9 +601,13 @@ int fw_card_add(struct fw_card *card,
+>  
+>  	generate_config_rom(card, tmp_config_rom);
+>  	ret = card->driver->enable(card, tmp_config_rom, config_rom_length);
+>  	if (ret == 0)
+>  		list_add_tail(&card->link, &card_list);
+> +	else
+> +		destroy_workqueue(isoc_wq);
+> +
+> +	card->isoc_wq = isoc_wq;
+> 
+>  	mutex_unlock(&card_mutex);
+> 
+>  	return ret;
+> @@ -709,7 +729,9 @@ void fw_core_remove_card(struct fw_card *card)
+>  {
+>  	struct fw_card_driver dummy_driver = dummy_driver_template;
+>  	unsigned long flags;
+>  
+> +	might_sleep();
+> +
+>  	card->driver->update_phy_reg(card, 4,
+>  				     PHY_LINK_ACTIVE | PHY_CONTENDER, 0);
+>  	fw_schedule_bus_reset(card, false, true);
+> @@ -719,6 +741,7 @@ void fw_core_remove_card(struct fw_card *card)
+>  	dummy_driver.free_iso_context	= card->driver->free_iso_context;
+>  	dummy_driver.stop_iso		= card->driver->stop_iso;
+>  	card->driver = &dummy_driver;
+> +	drain_workqueue(card->isoc_wq);
+>  
+>  	spin_lock_irqsave(&card->lock, flags);
+>  	fw_destroy_nodes(card);
+> 
+> Then everything applied fine.
+> 
+> This resulted in 6.11.0-rc6-1-mainline-00326-gd1f2d51b711a-dirty.
+> 
+> Testing it with TI XIO2213B and RME Fireface 800 so far:
+> 
+> Initially I had a buffer freeze after 3 hours of continuous ALSA playback
+> from mpv:
+>   mpv --audio-device=alsa/sysdefault:CARD=Fireface800 Spor-Ignition.flac
+> accompanied by stresstest (mprime).
+> 
+> It didn't freeze/crash the kernel, just the audio buffer kept repeating.
+> Gone after power-cycling the interface and restarting playback.
+> 
+> Can't say with certainty whether it's related, have been unable to replicate
+> the issue for the past 3 days (good sign I hope).
+> That's why I was holding this message back a bit.
+> 
+> Kind regards,
+> Edmund Raile.
+> 
+> Signed-off-by: Edmund Raile <edmund.raile@protonmail.com>
+> Tested-by: Edmund Raile <edmund.raile@protonmail.com>
+ 
+Thank you for your test. I've picked up your Tested-by tag to the
+series.
 
-All warnings (new ones prefixed by >>):
 
-   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_cec_adap_transmit':
->> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:51: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
-    1014 |         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
-         |                                                   ^~~~
-   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:9: note: 'snprintf' output between 13 and 72 bytes into a destination of size 61
-    1014 |         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1015 |                  port->direction, port->port.port,
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1016 |                  cec_msg_initiator(msg), cec_msg_destination(msg), buf);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Thanks
 
-
-vim +/DCEC +1014 drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-
-  1000	
-  1001	static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
-  1002					    u32 signal_free_time, struct cec_msg *msg)
-  1003	{
-  1004		struct extron_port *port = cec_get_drvdata(adap);
-  1005		char buf[CEC_MAX_MSG_SIZE * 3 + 1];
-  1006		char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
-  1007		unsigned int i;
-  1008	
-  1009		if (port->disconnected)
-  1010			return -ENODEV;
-  1011		buf[0] = 0;
-  1012		for (i = 0; i < msg->len - 1; i++)
-  1013			sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
-> 1014		snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
-  1015			 port->direction, port->port.port,
-  1016			 cec_msg_initiator(msg), cec_msg_destination(msg), buf);
-  1017		return extron_send_and_wait(port->extron, port, cmd, NULL);
-  1018	}
-  1019	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Takashi Sakamoto
 
