@@ -1,267 +1,215 @@
-Return-Path: <linux-media+bounces-18280-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18281-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1FC978AE6
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 23:55:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B82AA978B98
+	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2024 01:01:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7A5D6B21411
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 21:55:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCC691C22699
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 23:01:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C686E17BECD;
-	Fri, 13 Sep 2024 21:54:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 100A61714C6;
+	Fri, 13 Sep 2024 23:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kYclmCaD"
+	dkim=pass (2048-bit key) header.d=cowlark.com header.i=@cowlark.com header.b="Bat9unlz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mx1.mythic-beasts.com (mx1.mythic-beasts.com [46.235.224.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507A5156222;
-	Fri, 13 Sep 2024 21:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0E26F2EB
+	for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 23:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.224.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726264478; cv=none; b=A4ey+Ndeo6r0/GnSBnYLNdnm2QCloei9Nu1wNvlLFJjYL/Gy9QtFZzw5VXqqKg0MabiaC3rB0gWuem79ottQ/JZ8dj/tvduG+YgBrG6o1tAiIyuics7SMLzqE4S4mE2872kY/86CNpkLhTB6iiVIg663FSnSSUzOLo71cg9LLqI=
+	t=1726268511; cv=none; b=EqoEfftnaajDU9qvKJ1m8+/dJ67YacPS8P8zgy35oWqXAgCMuR1xLI2AayYlnQ9P0wRDzMRUwagG4sIEYtsiag3EhYR3v9RiCzkEfKuUQ8Vk/HQeRuLtl5K1OIap4/Ph3s8CqGK+GWe82FELxugD3IYUOn2rnTLAyta3SX+Cjsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726264478; c=relaxed/simple;
-	bh=u2Ahxvhg/4cmIB2NS2TyIW6kyvQjVb+fS+f9vi5tKR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ibyEZScWVOAH/xUQlfjhEzxpdL9KPK7cj0jQLOrevk+bDdoWi4Xcj8ipVZ+P+Teu2vZ1zB3RRLjUSCBiY3DfqliWZDQCizkCe85lH3PH/8PgeIYn6imIXI3Ss66ydN56yy/G9fHotxKr8hWoKUe5FQDErFTRa1istlKGFtO1EkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kYclmCaD; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726264477; x=1757800477;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=u2Ahxvhg/4cmIB2NS2TyIW6kyvQjVb+fS+f9vi5tKR4=;
-  b=kYclmCaDkg8wwTAqyezmBmwx20jg6fd6GL6g2+G/S85bXnYwpiZdylg2
-   T52JY+XWJemP1DP9XuNXDY/BJWYRrQV2DmsZdcw7ZgZ99nJUURK+LKkXe
-   q7k7PuEvBGXzDqHMazJyauDZFptkVRTMoXQM7HQDub3+KPlncuji7e+2Q
-   xKTScurlOBmEAkHhjD7sitRWgFyX+eVTsfyrtIq/TRmOW+Po+DxTopCda
-   WPATpICxZlrMYtYd9qbl2pXISy7TjorfxDIpjVfzzZNYX2YqGpFZqbGCf
-   9lmk4sjndfQyVbKkjIxjIVVXkzpsnwyzHiIWXiFsWWg1dYKhgfxsYp8qB
-   g==;
-X-CSE-ConnectionGUID: EM47GUURTRGLTPvjCHcIJg==
-X-CSE-MsgGUID: Q/99ioRgTo+9dc6lfd7i9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="28964299"
-X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="28964299"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 14:54:33 -0700
-X-CSE-ConnectionGUID: lco3PineQ0qLLO2xIY9tnw==
-X-CSE-MsgGUID: l+nYzBSmT9SL+8H7GUXq/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,227,1719903600"; 
-   d="scan'208";a="72802512"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Sep 2024 14:54:28 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1spEFF-00074i-29;
-	Fri, 13 Sep 2024 21:54:25 +0000
-Date: Sat, 14 Sep 2024 05:53:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
-	=?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
- accounting
-Message-ID: <202409140506.OBoqSiVk-lkp@intel.com>
-References: <20240913124857.389630-2-adrian.larumbe@collabora.com>
+	s=arc-20240116; t=1726268511; c=relaxed/simple;
+	bh=NFf5hCrSwSyN7JxqUCl7CiR2Mb5Q1gAD9JT4L+nxnLQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P95O+Gibkzcto9suiMkUOcVydnyY8mYm//sQ3YRz2xUOXYmIhGv3E6mkYrhaVs/lekStzytrOjC0CCXhVgmhMg4yRcxhRYN42ls3zjBbrzbA90NdbGoiKYnFWmwiAMGzVzW2XAx1bcG3hMD6ZB2YKIXLmchcchPgxuMYt0G9Pbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cowlark.com; spf=pass smtp.mailfrom=cowlark.com; dkim=pass (2048-bit key) header.d=cowlark.com header.i=@cowlark.com header.b=Bat9unlz; arc=none smtp.client-ip=46.235.224.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cowlark.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cowlark.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cowlark.com
+	; s=mythic-beasts-k1; h=To:Subject:Date:From;
+	bh=30KdyPWPmVyhCmKAV3n6wdvIwne5+aLf/LWT3z1+Aoo=; b=Bat9unlzDFgXG7D5gvLeI18BmN
+	n0Ht3M96ewrD6VLFVW/U0O03QDuITxggzhHEslsKsYz3rzokd4YJcTgAtuIGD/NZZDDIzBxJBd5RJ
+	RgbxvdJK8NoBiXNicvX83YwdjY+41O2J4QNkmkoo9/KnwB0ECK6Mtf0rRNaRnURWCt3O2bmr1M6Pi
+	csdctH70+EAlRyr7dYAf7xf1DicszrpVvuTC1iQ7RmBCbFK9bjRDSzMvR+D41/eRaBAqLSWL6J5nB
+	4JaRPjSi8ftEfBzgvKFywxeBrW5B6MpDBwj92N1bVt6H8dFuyJ0DVUq48s+p8+48Gf/GmG+DD1vVn
+	DcOIAqAA==;
+Received: by mailhub-cam-d.mythic-beasts.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <dg@cowlark.com>)
+	id 1spFIJ-007kVf-Os
+	for linux-media@vger.kernel.org; Sat, 14 Sep 2024 00:01:39 +0100
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7d4f9e39c55so1960555a12.2
+        for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 16:01:38 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yw16XtXEb0kMSwwSdkFbL3Q5HDwJKuKj2DxkZyM9eV50XV31uOj
+	jLR7EBSp5cgLOCWh/gc4AhBpIEmvYSpviO6V5TnGqQRrjFJhNi0K+O5PBEU22YrWQjH7Mwc11wr
+	71FLx4kj8ozmfT/VwBgV9v47rRho=
+X-Google-Smtp-Source: AGHT+IGqZlcfnhUQZXKXNZDQiz2tAugPhBdJ410qT1DA6pwfzxGqvjALC13fA4JQRT0EGJs9iXRtgo4jxrPlRcsQoRw=
+X-Received: by 2002:a17:90a:644d:b0:2da:89ac:75b9 with SMTP id
+ 98e67ed59e1d1-2db9ff9237emr8277401a91.11.1726268496663; Fri, 13 Sep 2024
+ 16:01:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240913124857.389630-2-adrian.larumbe@collabora.com>
+References: <CALgV52gdx5m3eP88Sqa4s09qy+N4rpaZ8UHFXfphkCXZUxyNHQ@mail.gmail.com>
+ <CANiDSCuOojPtX4M9Q7DOe4sR-DpuKp1Rzzpa3NrJxV7HuzAAeg@mail.gmail.com>
+In-Reply-To: <CANiDSCuOojPtX4M9Q7DOe4sR-DpuKp1Rzzpa3NrJxV7HuzAAeg@mail.gmail.com>
+From: David Given <dg@cowlark.com>
+Date: Sat, 14 Sep 2024 01:01:25 +0200
+X-Gmail-Original-Message-ID: <CALgV52iM3B4G2Sa0jjuMcEZtE+rn8B80NOMWj3i4jEUCiVVnRw@mail.gmail.com>
+Message-ID: <CALgV52iM3B4G2Sa0jjuMcEZtE+rn8B80NOMWj3i4jEUCiVVnRw@mail.gmail.com>
+Subject: Re: No uvc video support for D3DFMT video GUIDs?
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: linux-media@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+X-BlackCat-Spam-Score: 9
 
-Hi Adrián,
+After learning the difference between GUID text and memory
+representation, I have hacked support into the kernel. And it doesn't
+work.
 
-kernel test robot noticed the following build warnings:
+The kernel tracing says this:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.11-rc7 next-20240913]
-[cannot apply to drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+mplayer says this:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-introduce-job-cycle-and-timestamp-accounting/20240913-205038
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240913124857.389630-2-adrian.larumbe%40collabora.com
-patch subject: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp accounting
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240914/202409140506.OBoqSiVk-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409140506.OBoqSiVk-lkp@intel.com/reproduce)
+---snip---
+name: Video 4 Linux 2 input
+author: Martin Olschewski <olschewski@zpr.uni-koeln.de>
+comment: first try, more to come ;-)
+v4l2: your device driver does not support VIDIOC_G_STD ioctl, VIDIOC_G_PARM was
+used instead.
+Selected device: IR VIDEO: IR Camera
+Capabilities:  video capture  streaming
+supported norms:
+inputs: 0 = Camera 1;
+Current input: 0
+Current format: RGB565
+v4l2: ioctl set format failed: Input/output error
+v4l2: ioctl set mute failed: Invalid argument
+v4l2: 0 frames successfully processed, 0 frames dropped.
+---snip---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409140506.OBoqSiVk-lkp@intel.com/
+mplayer says this:
 
-All warnings (new ones prefixed by >>):
+---snip---
+[17267.675757] usb 3-5.4.3: UVC non compliance - GET_DEF(PROBE) not
+supported. Enabling workaround.
+[17460.849025] uvcvideo 3-5.4.3:1.1: Failed to query (130) UVC probe
+control : -32 (exp. 26).
+  (this last line appears when mplayer runs)
+---snip---
 
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'idle' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
->> drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Function parameter or struct member 'profiling' not described in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'mem' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'ref' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gt' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'sync64' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'bo' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'offset' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'kmap' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'lock' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'id' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'last_fence' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'profiling_info' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slots' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slot_count' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'profiling_seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'size' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'latest_flush' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'end' description in 'panthor_job'
->> drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'mask' description in 'panthor_job'
->> drivers/gpu/drm/panthor/panthor_sched.c:813: warning: Excess struct member 'slot' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:1734: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:1734: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:2626: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
+v4l2-compliance's report on the format ioctls says this (the entire
+thing for both devices is on pastebin as it's big:
+https://pastebin.com/RAzpkigp)
 
+---snip---
+Format ioctls (Input 0):
+       test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+               fail: v4l2-test-formats.cpp(1442): ret && node->has_frmintervals
+       test VIDIOC_G/S_PARM: FAIL
+       test VIDIOC_G_FBUF: OK (Not Supported)
+       test VIDIOC_G_FMT: OK
+               fail: v4l2-test-formats.cpp(767): Video Capture is valid, but no
+TRY_FMT was implemented
+       test VIDIOC_TRY_FMT: FAIL
+               fail: v4l2-test-formats.cpp(473): expected EINVAL, but got 5 whe
+n getting format for buftype 1
+       test VIDIOC_S_FMT: FAIL
+       test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+       test Cropping: OK (Not Supported)
+       test Composing: OK (Not Supported)
+               fail: v4l2-test-formats.cpp(1853): doioctl(node, VIDIOC_S_FMT, &
+fmt)
+               fail: v4l2-test-formats.cpp(2001): testBasicScaling(node, fmt)
+       test Scaling: FAIL
+---snip---
 
-vim +494 drivers/gpu/drm/panthor/panthor_sched.c
+I'm feeling like this is a very ill camera. However, capturing does
+work on Windows. I see there is support for UVC device quirks
+(https://elixir.bootlin.com/linux/v6.10.10/source/drivers/media/usb/uvc/uvcvideo.h#L63).
+Any suggestions of anything which might work? I tried a few things
+randomly and nothing seemed to make a difference.
 
-de85488138247d Boris Brezillon 2024-02-29  397  
-de85488138247d Boris Brezillon 2024-02-29  398  	/** @ringbuf: Command stream ring-buffer. */
-de85488138247d Boris Brezillon 2024-02-29  399  	struct panthor_kernel_bo *ringbuf;
-de85488138247d Boris Brezillon 2024-02-29  400  
-de85488138247d Boris Brezillon 2024-02-29  401  	/** @iface: Firmware interface. */
-de85488138247d Boris Brezillon 2024-02-29  402  	struct {
-de85488138247d Boris Brezillon 2024-02-29  403  		/** @mem: FW memory allocated for this interface. */
-de85488138247d Boris Brezillon 2024-02-29  404  		struct panthor_kernel_bo *mem;
-de85488138247d Boris Brezillon 2024-02-29  405  
-de85488138247d Boris Brezillon 2024-02-29  406  		/** @input: Input interface. */
-de85488138247d Boris Brezillon 2024-02-29  407  		struct panthor_fw_ringbuf_input_iface *input;
-de85488138247d Boris Brezillon 2024-02-29  408  
-de85488138247d Boris Brezillon 2024-02-29  409  		/** @output: Output interface. */
-de85488138247d Boris Brezillon 2024-02-29  410  		const struct panthor_fw_ringbuf_output_iface *output;
-de85488138247d Boris Brezillon 2024-02-29  411  
-de85488138247d Boris Brezillon 2024-02-29  412  		/** @input_fw_va: FW virtual address of the input interface buffer. */
-de85488138247d Boris Brezillon 2024-02-29  413  		u32 input_fw_va;
-de85488138247d Boris Brezillon 2024-02-29  414  
-de85488138247d Boris Brezillon 2024-02-29  415  		/** @output_fw_va: FW virtual address of the output interface buffer. */
-de85488138247d Boris Brezillon 2024-02-29  416  		u32 output_fw_va;
-de85488138247d Boris Brezillon 2024-02-29  417  	} iface;
-de85488138247d Boris Brezillon 2024-02-29  418  
-de85488138247d Boris Brezillon 2024-02-29  419  	/**
-de85488138247d Boris Brezillon 2024-02-29  420  	 * @syncwait: Stores information about the synchronization object this
-de85488138247d Boris Brezillon 2024-02-29  421  	 * queue is waiting on.
-de85488138247d Boris Brezillon 2024-02-29  422  	 */
-de85488138247d Boris Brezillon 2024-02-29  423  	struct {
-de85488138247d Boris Brezillon 2024-02-29  424  		/** @gpu_va: GPU address of the synchronization object. */
-de85488138247d Boris Brezillon 2024-02-29  425  		u64 gpu_va;
-de85488138247d Boris Brezillon 2024-02-29  426  
-de85488138247d Boris Brezillon 2024-02-29  427  		/** @ref: Reference value to compare against. */
-de85488138247d Boris Brezillon 2024-02-29  428  		u64 ref;
-de85488138247d Boris Brezillon 2024-02-29  429  
-de85488138247d Boris Brezillon 2024-02-29  430  		/** @gt: True if this is a greater-than test. */
-de85488138247d Boris Brezillon 2024-02-29  431  		bool gt;
-de85488138247d Boris Brezillon 2024-02-29  432  
-de85488138247d Boris Brezillon 2024-02-29  433  		/** @sync64: True if this is a 64-bit sync object. */
-de85488138247d Boris Brezillon 2024-02-29  434  		bool sync64;
-de85488138247d Boris Brezillon 2024-02-29  435  
-de85488138247d Boris Brezillon 2024-02-29  436  		/** @bo: Buffer object holding the synchronization object. */
-de85488138247d Boris Brezillon 2024-02-29  437  		struct drm_gem_object *obj;
-de85488138247d Boris Brezillon 2024-02-29  438  
-de85488138247d Boris Brezillon 2024-02-29  439  		/** @offset: Offset of the synchronization object inside @bo. */
-de85488138247d Boris Brezillon 2024-02-29  440  		u64 offset;
-de85488138247d Boris Brezillon 2024-02-29  441  
-de85488138247d Boris Brezillon 2024-02-29  442  		/**
-de85488138247d Boris Brezillon 2024-02-29  443  		 * @kmap: Kernel mapping of the buffer object holding the
-de85488138247d Boris Brezillon 2024-02-29  444  		 * synchronization object.
-de85488138247d Boris Brezillon 2024-02-29  445  		 */
-de85488138247d Boris Brezillon 2024-02-29  446  		void *kmap;
-de85488138247d Boris Brezillon 2024-02-29  447  	} syncwait;
-de85488138247d Boris Brezillon 2024-02-29  448  
-de85488138247d Boris Brezillon 2024-02-29  449  	/** @fence_ctx: Fence context fields. */
-de85488138247d Boris Brezillon 2024-02-29  450  	struct {
-de85488138247d Boris Brezillon 2024-02-29  451  		/** @lock: Used to protect access to all fences allocated by this context. */
-de85488138247d Boris Brezillon 2024-02-29  452  		spinlock_t lock;
-de85488138247d Boris Brezillon 2024-02-29  453  
-de85488138247d Boris Brezillon 2024-02-29  454  		/**
-de85488138247d Boris Brezillon 2024-02-29  455  		 * @id: Fence context ID.
-de85488138247d Boris Brezillon 2024-02-29  456  		 *
-de85488138247d Boris Brezillon 2024-02-29  457  		 * Allocated with dma_fence_context_alloc().
-de85488138247d Boris Brezillon 2024-02-29  458  		 */
-de85488138247d Boris Brezillon 2024-02-29  459  		u64 id;
-de85488138247d Boris Brezillon 2024-02-29  460  
-de85488138247d Boris Brezillon 2024-02-29  461  		/** @seqno: Sequence number of the last initialized fence. */
-de85488138247d Boris Brezillon 2024-02-29  462  		atomic64_t seqno;
-de85488138247d Boris Brezillon 2024-02-29  463  
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  464  		/**
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  465  		 * @last_fence: Fence of the last submitted job.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  466  		 *
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  467  		 * We return this fence when we get an empty command stream.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  468  		 * This way, we are guaranteed that all earlier jobs have completed
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  469  		 * when drm_sched_job::s_fence::finished without having to feed
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  470  		 * the CS ring buffer with a dummy job that only signals the fence.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  471  		 */
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  472  		struct dma_fence *last_fence;
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  473  
-de85488138247d Boris Brezillon 2024-02-29  474  		/**
-de85488138247d Boris Brezillon 2024-02-29  475  		 * @in_flight_jobs: List containing all in-flight jobs.
-de85488138247d Boris Brezillon 2024-02-29  476  		 *
-de85488138247d Boris Brezillon 2024-02-29  477  		 * Used to keep track and signal panthor_job::done_fence when the
-de85488138247d Boris Brezillon 2024-02-29  478  		 * synchronization object attached to the queue is signaled.
-de85488138247d Boris Brezillon 2024-02-29  479  		 */
-de85488138247d Boris Brezillon 2024-02-29  480  		struct list_head in_flight_jobs;
-de85488138247d Boris Brezillon 2024-02-29  481  	} fence_ctx;
-a706810cebb072 Adrián Larumbe  2024-09-13  482  
-a706810cebb072 Adrián Larumbe  2024-09-13  483  	/** @profiling_info: Job profiling data slots and access information. */
-a706810cebb072 Adrián Larumbe  2024-09-13  484  	struct {
-a706810cebb072 Adrián Larumbe  2024-09-13  485  		/** @slots: Kernel BO holding the slots. */
-a706810cebb072 Adrián Larumbe  2024-09-13  486  		struct panthor_kernel_bo *slots;
-a706810cebb072 Adrián Larumbe  2024-09-13  487  
-a706810cebb072 Adrián Larumbe  2024-09-13  488  		/** @slot_count: Number of jobs ringbuffer can hold at once. */
-a706810cebb072 Adrián Larumbe  2024-09-13  489  		u32 slot_count;
-a706810cebb072 Adrián Larumbe  2024-09-13  490  
-a706810cebb072 Adrián Larumbe  2024-09-13  491  		/** @profiling_seqno: Index of the next available profiling information slot. */
-a706810cebb072 Adrián Larumbe  2024-09-13  492  		u32 seqno;
-a706810cebb072 Adrián Larumbe  2024-09-13  493  	} profiling;
-de85488138247d Boris Brezillon 2024-02-29 @494  };
-de85488138247d Boris Brezillon 2024-02-29  495  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Thu, 12 Sept 2024 at 12:52, Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> Hi David
+>
+>
+> On Wed, 11 Sept 2024 at 21:58, David Given <dg@cowlark.com> wrote:
+> >
+> > Hello,
+> >
+> > I've just received a review sample thermal camera which doesn't work
+> > with Linux uvcvideo. It's reporting itself as providing a D3DFMT GUID:
+> >
+> > ---snip---
+> >      VideoStreaming Interface Descriptor:
+> >        bLength                            27
+> >        bDescriptorType                    36
+> >        bDescriptorSubtype                  4 (FORMAT_UNCOMPRESSED)
+> >        bFormatIndex                        1
+> >        bNumFrameDescriptors                1
+> >        guidFormat
+> > {e436eb7b-524f-11ce-9f53-0020af0ba770}
+> >        bBitsPerPixel                      16
+> >        bDefaultFrameIndex                  1
+> >        bAspectRatioX                       0
+> >        bAspectRatioY                       0
+> >        bmInterlaceFlags                 0x00
+> >          Interlaced stream or variable: No
+> >          Fields per frame: 2 fields
+> >          Field 1 first: No
+> >          Field pattern: Field 1 only
+> >        bCopyProtect                        0
+> > ---snip---
+> >
+> > This corresponds to D3DFMT_R5G6B5 or MEDIASUBTYPE_RGB565, based on the
+> > reference here: https://gix.github.io/media-types/#ID0EC2AI However,
+> > the UVC driver is expecting RGB565 to be using the 4cc RGBP GUID
+> > 52474250-0000-1000-8000-00aa00389b71. This is very nearly the same as
+> > the alternative GUID described on the document above,
+> > 00000017-0000-0010-8000-00AA00389B71, which uses an index rather than
+> > a 4cc.
+> >
+> > I haven't been able to find any references as to what GUIDs are
+> > supported for guidFormat.
+>
+> The uvc spec only defines GUIDs for YUY2, NV12, M420 and I420.
+>
+> It would have been nice that the vendor had used the same GUID as
+> TomTom (Check 507910799160e85eac5e7729e0d2f1ba26f6a8cf)
+> but apparently it is not required to be like this.
+>
+>
+> Why dont you try adding a new mapping to  include/linux/usb/uvc.h and
+> drivers/media/common/uvc.c ? Similar to what Marek did here:
+> 015d44c2b700ba9639dd29672ba362796cc0be54
+>
+> I believe that if a camera does not use TomToms GUID and the new GUI,
+> everything would work...
+>
+> Regards
+>
+> >
+> > (a) Is the camera wrong?
+> > (b) Is the kernel wrong?
+> > (c) Am I looking at the wrong document?
+> >
+> > The easy fix is to patch the uvcvideo driver to support the e436...
+> > GUID, but that doesn't seem a great idea. Any suggestions?
+> >
+>
+>
+> --
+> Ricardo Ribalda
 
