@@ -1,121 +1,107 @@
-Return-Path: <linux-media+bounces-18237-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18238-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9436977834
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 07:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17CD977878
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 07:46:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A31B1286CA4
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 05:12:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 961382881F0
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 05:46:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFA5A154BFC;
-	Fri, 13 Sep 2024 05:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FA1D187349;
+	Fri, 13 Sep 2024 05:45:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="bin4cJWu";
-	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="bin4cJWu"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Vc6HI0oO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.mleia.com (mleia.com [178.79.152.223])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E224A07;
-	Fri, 13 Sep 2024 05:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.79.152.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629A1323D;
+	Fri, 13 Sep 2024 05:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726204347; cv=none; b=sVF5L51kPatv38KbYGP2/59Xwa/RaTLTWN+EnTgeqjVcNAy8GLv5LXUQfZJe+s125AnyAh+nr6kNJ4jRShPJ8f+0JVt3PRqjzVnB2RrZiG2LEe2s8YQa5uPFizjzR3/ywkBE1/fmaw2kj+CAufCRlmlVYYSdvnpdmWBTGTsTuo4=
+	t=1726206358; cv=none; b=bolpEluMgKmJbkxoeJ4CCvMByIfCQN5+q/o88S70fIQFZRynF2lyIT7wnzh/u5zDeMsUGqgs4VZM1WvxnNXSVOKGweNtOePauiyiozXsBqU6mfUjvL6DpQwaznVAG+eT3zrns3ZbJmiw6OGixCGq3kW4Tko1vPsSXf267jXkfZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726204347; c=relaxed/simple;
-	bh=zKWRrgAFSWuhGcaRCQ3nngkM1N/MGL7JF+DDMTRquU8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a5036VJBOXjgJanV+QnDjusLlGAig1ZSJXWz8mgeM3l8If7yoar3VmTkU7vzOQSlXss7nTjZhmLY8dusvuMhR3mjDK2XosmOvQULe/Dl/csOa7PrDQOTshuOGQpQAxRwSur1oCe4Vo52y3q4qM2taJod/eMG2CPbULzaAbVEvwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com; spf=none smtp.mailfrom=mleia.com; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=bin4cJWu; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=bin4cJWu; arc=none smtp.client-ip=178.79.152.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mleia.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
-	t=1726203978; bh=zKWRrgAFSWuhGcaRCQ3nngkM1N/MGL7JF+DDMTRquU8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bin4cJWuoAYuwjiR4RzoFv/5MJlf4pw3UjMEcEpF1T8Aoy6ynq1ynlqyDeiKFGTmR
-	 Cs4Ima/M57RvsPdD+Iambt2AAC3F8Gq10J6zu3z/Kzn99RuzBmEqEn5gXWSTHT/qPn
-	 jPOhBXMk0FNLv3c/TbL6iVLdpq2RIhjHPha4ReJ+kqSnroqwuoSq1wPBWTmNyfXuOJ
-	 /2z/odadxW6sObiookQbcKmoibNmSCxbJEQennDD87LE8pxXLTRZgyTI8d0gEwZcpS
-	 fH/OBwqS8W8cq6AiQOAdq/LmtJ/UYmGtyMRQHmqDu/lyDiTgRxHeXxi/JBwD1Jh0c6
-	 DOZCo7VmQTVUQ==
-Received: from mail.mleia.com (localhost [127.0.0.1])
-	by mail.mleia.com (Postfix) with ESMTP id 9A13F381854;
-	Fri, 13 Sep 2024 05:06:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
-	t=1726203978; bh=zKWRrgAFSWuhGcaRCQ3nngkM1N/MGL7JF+DDMTRquU8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bin4cJWuoAYuwjiR4RzoFv/5MJlf4pw3UjMEcEpF1T8Aoy6ynq1ynlqyDeiKFGTmR
-	 Cs4Ima/M57RvsPdD+Iambt2AAC3F8Gq10J6zu3z/Kzn99RuzBmEqEn5gXWSTHT/qPn
-	 jPOhBXMk0FNLv3c/TbL6iVLdpq2RIhjHPha4ReJ+kqSnroqwuoSq1wPBWTmNyfXuOJ
-	 /2z/odadxW6sObiookQbcKmoibNmSCxbJEQennDD87LE8pxXLTRZgyTI8d0gEwZcpS
-	 fH/OBwqS8W8cq6AiQOAdq/LmtJ/UYmGtyMRQHmqDu/lyDiTgRxHeXxi/JBwD1Jh0c6
-	 DOZCo7VmQTVUQ==
-Message-ID: <cab95caa-9ffb-446a-858b-342939e80811@mleia.com>
-Date: Fri, 13 Sep 2024 08:06:17 +0300
+	s=arc-20240116; t=1726206358; c=relaxed/simple;
+	bh=j/822kzXcyIG5H7tPbl8l2orDpVb112DQq7779ZYxac=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gVVrtufwL5l62e+sxUPo7Q8ogYbqCBTG+z3NRSCK+VWy/JaktlhZWUWyFwZY6nfhRIGzMJYEASo/GjPNQEw+R4xVYqgmeS2q0BW7I6MG0M4+VDx4tWGzzUmm+1lmOlUOd//j/koI3NpNGboa0795RP/mO7rLj8KKxHeopel+oNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Vc6HI0oO; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 48D5jgpW031454;
+	Fri, 13 Sep 2024 00:45:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1726206342;
+	bh=OG+Jm9i+45wPVOh6b0SXKwHuKe2bzE0DCmffsR29r9w=;
+	h=From:To:CC:Subject:Date;
+	b=Vc6HI0oOv/I5Kjl09AMgBLxXbCzloaMYPhf4eHgmuVrccZSaq6P1qd7hiq5cLNOTv
+	 TqutLC+J8goSKw0SPnPh3LR2CR+5VuXm5TZolswdX29bydpEOtKcizD0OA3sCQhBCt
+	 vfnILScb+Wqqn3Q6cPC+nwrBh2QaFbA0mfypw828=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 48D5jgZu042107;
+	Fri, 13 Sep 2024 00:45:42 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 13
+ Sep 2024 00:45:41 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 13 Sep 2024 00:45:42 -0500
+Received: from localhost (jluthra.dhcp.ti.com [172.24.227.116])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 48D5jfgU037153;
+	Fri, 13 Sep 2024 00:45:41 -0500
+From: Jai Luthra <j-luthra@ti.com>
+To: Jai Luthra <jai.luthra@linux.dev>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+CC: Jai Luthra <j-luthra@ti.com>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Vignesh
+ Raghavendra <vigneshr@ti.com>,
+        Devarsh Thakkar <devarsht@ti.com>, Nishanth
+ Menon <nm@ti.com>
+Subject: [PATCH 0/2] MAINTAINERS, .mailmap, bindings: Update Jai Luthra's email address
+Date: Fri, 13 Sep 2024 11:14:59 +0530
+Message-ID: <20240913-maintainer_email-v1-0-10c574bc1e7f@ti.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
- binding
-Content-Language: en-US
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
-References: <20240812144131.369378-1-quic_depengs@quicinc.com>
- <20240812144131.369378-8-quic_depengs@quicinc.com>
- <b1b4a866-fa64-4844-a49b-dfdcfca536df@linaro.org>
- <82dd61ab-83c0-4f9c-a2ee-e00473f4ff23@linaro.org>
- <da60cf71-13a4-465d-a0ee-ca2ad3775262@linaro.org>
- <97e4f888-1ed7-4d82-b972-3e0b95610198@linaro.org>
- <6eadc285-f413-4bf0-8795-59ff19c734da@linaro.org>
- <6562a958-47e9-4a49-b235-fe8deba3c051@linaro.org>
-From: Vladimir Zapolskiy <vz@mleia.com>
-In-Reply-To: <6562a958-47e9-4a49-b235-fe8deba3c051@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.12.4
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
-X-CRM114-CacheID: sfid-20240913_050618_659088_184595F4 
-X-CRM114-Status: UNSURE (   7.36  )
-X-CRM114-Notice: Please train this message. 
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On 9/13/24 01:41, Bryan O'Donoghue wrote:
-> On 12/09/2024 21:57, Vladimir Zapolskiy wrote:
->>> 3. Required not optional in the yaml
->>>
->>>       => You can't use the PHY without its regulators
->>
->> No, the supplies shall be optional, since it's absolutely possible to have
->> such a board, where supplies are merely not connected to the SoC.
-> 
-> For any _used_ PHY both supplies are certainly required.
-> 
-> That's what the yaml/dts check for this should achieve.
+I will no longer have access to my TI email address, so update it to my
+linux.dev address.
 
-I believe it is technically possible by writing an enormously complex
-scheme, when all possible "port" cases and combinations are listed.
+Signed-off-by: Jai Luthra <j-luthra@ti.com>
+---
+Jai Luthra (2):
+      MAINTAINERS: mailmap: update Jai Luthra's email address
+      dt-bindings: media: ti,j721e-csi2rx-shim: Update maintainer email
 
-Do you see any simpler way? Do you insist that it is utterly needed?
+ .mailmap                                                          | 1 +
+ Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.yaml | 2 +-
+ MAINTAINERS                                                       | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+---
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+change-id: 20240913-maintainer_email-bb4355123542
 
-In any case, there are optional and required device tree properties,
-the CAMSS supplies shall be split into multiple ones and become optional.
+Best regards,
+-- 
+Jai Luthra <j-luthra@ti.com>
 
-That's exactly the point of my first message in the discussion, so far
-nothing has been added or changed.
-
---
-Best wishes,
-Vladimir
 
