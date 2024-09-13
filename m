@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-18272-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18273-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B00978AD3
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 23:47:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E18978AD4
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 23:47:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 434001F233E6
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 21:47:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35DBC1C23005
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 21:47:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9F2D1553A1;
-	Fri, 13 Sep 2024 21:47:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1845815B0EE;
+	Fri, 13 Sep 2024 21:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jkASImwi"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PZIymVBY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897E66BFD4
-	for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 21:47:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95346BFD4
+	for <linux-media@vger.kernel.org>; Fri, 13 Sep 2024 21:47:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726264041; cv=none; b=IuSxOZjBKZctJH+7AGk4sG/u+2ZsNpPJN1AjZTWVZt9rSmlvocTeod9D9FizOU6Y2KhRgHJlGt/IfBK/fghSg9Gi5GzGX1IHdUH+OC4kLSzE8R/wxWt6DT6XmXUbkCYL0OCwT4ixcDURpLIpqJrLelZg6rGFCckiBdzxQ/vGNY4=
+	t=1726264044; cv=none; b=aA+BZM02bHNGQVnBacU9Uab+HfGP8W/2V4053+giL4vpMPBKAng69s164aIyuYYHtaUWKU3UNt4JKJcVOrQf/rkuVgi6cWiapJInAzqqAXcEjkLf0RS8/Nad/iDo9Itg0u1gykH9xr1dZo25tQv/EHr7nL8Gh7dqO4OnT1eNrks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726264041; c=relaxed/simple;
-	bh=0rfsX8AyCcPjFdwHSZwxO5xVQc289O+3Qd7RMdFkYL8=;
+	s=arc-20240116; t=1726264044; c=relaxed/simple;
+	bh=C/tLRufzYECRe+GhTy0TGewSXXIqGyGCVTzqUTapgGA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fa2UVYfvygsJjjq83EMk+IeVQrdOoqqD94tNCduDxIcXxa3JSbvn3ftJksLeuy7kG+cnd6YVDsnxwCuN1QDuPoZnXaTJZXiTAhH+4J0fffu0KN2b+X43Di3t7z5qSOmgBZA3iJcyZbmmH/sDqMzUM52SkPYEPwQQT7SQG67dxjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jkASImwi; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=J2p/zbGk6Zv7M1uWK23I4wpo4qtjWlTEQyKJgfH8TlDpnOcepY1SPdZiJ8GflqdG3q03Oeir9la4v6CqKlDEmVzLDwd4oCqX2mhdYRahs/d+OEV+K6UXD6VHvc6ejBT4JGnYRYqqwjZHWxv7eHQYrvK+9MlEEmdPGFW3UoZULhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PZIymVBY; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (213-229-8-243.static.upcbusiness.at [213.229.8.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 510DD186C;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 989841961;
 	Fri, 13 Sep 2024 23:45:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1726263949;
-	bh=0rfsX8AyCcPjFdwHSZwxO5xVQc289O+3Qd7RMdFkYL8=;
+	bh=C/tLRufzYECRe+GhTy0TGewSXXIqGyGCVTzqUTapgGA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jkASImwi9a7Fupb9X8Z79aSOKr4RRkRSfHmjJ/WglGdwHM7CFKNqQEP1LaknpauME
-	 4O9KSvLyVB06w62iPyuJkkDrRXHWnUh/WmRTy7yOK73f0oJ0NOGHdALj2zHYj/g1c1
-	 NCN4XucUGJeup6E+Jz+czAIS63FVNzKXxNIxCwN0=
+	b=PZIymVBY0tIA3OpULT+ZeT9fear0PwP0kLVBu5GrxIv9zKNPHqGPYXuUqdJEqN1t4
+	 wT9dP0Z1Mgg1pk3iK7Gn61PPA/dttUv9BfZQLWlSihWyhnlfWmXn/2mgP7uOYouwJb
+	 rE1JqqZVD/ld3KGInnCUiEDtEgHKWJ8gzpgtn/Vk=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 03/10] media: v4l2-dev: Introduce video device context
-Date: Fri, 13 Sep 2024 23:46:48 +0200
-Message-ID: <20240913214657.1502838-4-jacopo.mondi@ideasonboard.com>
+Subject: [PATCH 04/10] media: v4l2-ioctl: Introduce VIDIOC_BIND_CONTEXT
+Date: Fri, 13 Sep 2024 23:46:49 +0200
+Message-ID: <20240913214657.1502838-5-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240913214657.1502838-1-jacopo.mondi@ideasonboard.com>
 References: <20240913214657.1502838-1-jacopo.mondi@ideasonboard.com>
@@ -59,249 +59,221 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce a new type in video-device that represents a video device
-context. It extends 'struct media_entity_context' to include
-video-device specific data and configuration. The new type is intended
-to be extended by drivers that can store driver-specific information
-in their video device derived types.
+Introduce a new ioctl in V4L2 to allocate a video device context and
+associate it with a media device context.
 
-The next patch will introduce the VIDIOC_BIND_CONTEXT ioctl that allows
-to create a video device context and uniquely associate it with a media
-context.
+The ioctl is valid only if support for MEDIA_CONTROLLER is compiled in
+as it calls into the entity ops to let driver allocate a new context and
+binds the newly created context with the media context associated
+with the file descriptor provided by userspace as the new ioctl
+argument.
+
+The newly allocated video context is then stored in the v4l2-fh that
+represent the open file handle on which the ioctl has been called.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-dev.c |  43 ++++++++++
- include/media/v4l2-dev.h           | 126 +++++++++++++++++++++++++++++
- include/media/v4l2-fh.h            |   3 +
- 3 files changed, 172 insertions(+)
+ drivers/media/v4l2-core/v4l2-dev.c   | 10 +++++
+ drivers/media/v4l2-core/v4l2-fh.c    |  1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c | 64 ++++++++++++++++++++++++++++
+ include/media/v4l2-ioctl.h           |  5 +++
+ include/uapi/linux/videodev2.h       | 11 +++++
+ 5 files changed, 91 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index b80010bf3ec3..0fd6ff3f00f6 100644
+index 0fd6ff3f00f6..41719b009c1e 100644
 --- a/drivers/media/v4l2-core/v4l2-dev.c
 +++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -1200,6 +1200,49 @@ struct media_pipeline *video_device_pipeline(struct video_device *vdev)
- }
- EXPORT_SYMBOL_GPL(video_device_pipeline);
+@@ -628,6 +628,10 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ 		__set_bit(_IOC_NR(VIDIOC_ENUM_FREQ_BANDS), valid_ioctls);
  
-+struct video_device_context *
-+video_device_context_get(struct media_device_context *mdev_context,
-+			 struct video_device *vdev)
+ 	if (is_vid) {
++#ifdef CONFIG_MEDIA_CONTROLLER
++		__set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls);
++#endif
++
+ 		/* video specific ioctls */
+ 		if ((is_rx && (ops->vidioc_enum_fmt_vid_cap ||
+ 			       ops->vidioc_enum_fmt_vid_overlay)) ||
+@@ -681,12 +685,18 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ 		SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_meta_cap);
+ 		SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_meta_cap);
+ 		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_meta_cap);
++#ifdef CONFIG_MEDIA_CONTROLLER
++		__set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls);
++#endif
+ 	} else if (is_meta && is_tx) {
+ 		/* metadata output specific ioctls */
+ 		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FMT, vidioc_enum_fmt_meta_out);
+ 		SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_meta_out);
+ 		SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_meta_out);
+ 		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_meta_out);
++#ifdef CONFIG_MEDIA_CONTROLLER
++		__set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls);
++#endif
+ 	}
+ 	if (is_vbi) {
+ 		/* vbi specific ioctls */
+diff --git a/drivers/media/v4l2-core/v4l2-fh.c b/drivers/media/v4l2-core/v4l2-fh.c
+index 90eec79ee995..f7af444d2344 100644
+--- a/drivers/media/v4l2-core/v4l2-fh.c
++++ b/drivers/media/v4l2-core/v4l2-fh.c
+@@ -93,6 +93,7 @@ int v4l2_fh_release(struct file *filp)
+ 	struct v4l2_fh *fh = filp->private_data;
+ 
+ 	if (fh) {
++		video_device_context_put(fh->context);
+ 		v4l2_fh_del(fh);
+ 		v4l2_fh_exit(fh);
+ 		kfree(fh);
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 4119b23bb954..0e37e777d21f 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include <linux/compat.h>
++#include <linux/file.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+@@ -349,6 +350,13 @@ static void v4l_print_format(const void *arg, bool write_only)
+ 	}
+ }
+ 
++static void v4l_print_context(const void *arg, bool write_only)
 +{
-+	struct media_entity *entity = &vdev->entity;
-+	struct media_entity_context *ctx =
-+		media_device_get_entity_context(mdev_context, entity);
++	const struct v4l2_context *c = arg;
 +
-+	if (!ctx)
-+		return NULL;
-+
-+	return container_of(ctx, struct video_device_context, base);
++	pr_cont("context=%u\n", c->context_fd);
 +}
-+EXPORT_SYMBOL_GPL(video_device_context_get);
 +
-+void video_device_context_put(struct video_device_context *ctx)
+ static void v4l_print_framebuffer(const void *arg, bool write_only)
+ {
+ 	const struct v4l2_framebuffer *p = arg;
+@@ -2110,6 +2118,61 @@ static int v4l_overlay(const struct v4l2_ioctl_ops *ops,
+ 	return ops->vidioc_overlay(file, fh, *(unsigned int *)arg);
+ }
+ 
++static int v4l_bind_context(const struct v4l2_ioctl_ops *ops,
++			    struct file *file, void *fh, void *arg)
 +{
-+	if (!ctx)
-+		return;
++	struct video_device *vdev = video_devdata(file);
++	struct media_device_context *mdev_context;
++	struct v4l2_fh *vfh =
++		test_bit(V4L2_FL_USES_V4L2_FH, &vdev->flags) ? fh : NULL;
++	struct v4l2_context *c = arg;
++	int ret;
 +
-+	media_entity_context_put(&ctx->base);
-+}
-+EXPORT_SYMBOL_GPL(video_device_context_put);
++	/*
++	 * TODO: do not __set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls)
++	 * if V4L2_FL_USES_V4L2_FH isn't set or the driver does not implement
++	 * alloc_context and destroy_context.
++	 */
++	if (!vfh)
++		return -ENOTTY;
 +
-+int video_device_init_context(struct video_device *vdev,
-+			      struct video_device_context *ctx)
-+{
-+	media_entity_init_context(&vdev->entity, &ctx->base);
++	if (!vdev->entity.ops || !vdev->entity.ops->alloc_context ||
++	    !vdev->entity.ops->destroy_context)
++		return -ENOTTY;
 +
-+	ctx->vdev = vdev;
-+	mutex_init(&ctx->queue_lock);
++	mdev_context = media_device_context_get_from_fd(c->context_fd);
++	if (!mdev_context)
++		return -EINVAL;
++
++	/* Let the driver allocate the per-file handle context. */
++	ret = vdev->entity.ops->alloc_context(&vdev->entity,
++					      (struct media_entity_context **)
++					      &vfh->context);
++	if (ret)
++		goto err_put_mdev_context;
++
++	/*
++	 * Bind the newly created video device context to the media device
++	 * context identified by the file descriptor.
++	 */
++	ret = media_device_bind_context(mdev_context,
++					(struct media_entity_context *)
++					vfh->context);
++	if (ret)
++		goto err_put_context;
++
++	media_device_context_put(mdev_context);
 +
 +	return 0;
-+}
-+EXPORT_SYMBOL_GPL(video_device_init_context);
 +
-+void video_device_cleanup_context(struct video_device_context *ctx)
-+{
-+	mutex_destroy(&ctx->queue_lock);
-+	media_entity_cleanup_context(&ctx->base);
-+}
-+EXPORT_SYMBOL_GPL(video_device_cleanup_context);
++err_put_context:
++	video_device_context_put(vfh->context);
++err_put_mdev_context:
++	media_device_context_put(mdev_context);
 +
- #endif /* CONFIG_MEDIA_CONTROLLER */
- 
- /*
-diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-index e0a13505f88d..d538f0f32d6d 100644
---- a/include/media/v4l2-dev.h
-+++ b/include/media/v4l2-dev.h
++	return ret;
++}
++
+ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
+ 				struct file *file, void *fh, void *arg)
+ {
+@@ -2853,6 +2916,7 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+ 	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
+ 	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
+ 	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
++	IOCTL_INFO(VIDIOC_BIND_CONTEXT, v4l_bind_context, v4l_print_context, 0),
+ 	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
+ 	IOCTL_INFO(VIDIOC_QUERYBUF, v4l_querybuf, v4l_print_buffer, INFO_FL_QUEUE | INFO_FL_CLEAR(v4l2_buffer, length)),
+ 	IOCTL_INFO(VIDIOC_G_FBUF, v4l_stub_g_fbuf, v4l_print_framebuffer, 0),
+diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
+index edb733f21604..a70d2e446351 100644
+--- a/include/media/v4l2-ioctl.h
++++ b/include/media/v4l2-ioctl.h
 @@ -18,6 +18,7 @@
  #include <linux/videodev2.h>
  
- #include <media/media-entity.h>
-+#include <media/videobuf2-core.h>
- 
- #define VIDEO_MAJOR	81
- 
-@@ -639,6 +640,131 @@ __must_check int video_device_pipeline_alloc_start(struct video_device *vdev);
-  */
- struct media_pipeline *video_device_pipeline(struct video_device *vdev);
- 
-+/**
-+ * struct video_device_context - The video device context
-+ * @base: The media entity context base class member
-+ * @mdev_context: The media device context this context is associated with
-+ * @vdev: The video device this context belongs to
-+ * @queue_lock: Protects the vb2 queue
-+ * @queue: The vb2 queue
-+ *
-+ * This structure represents an isolated execution context of a video device.
-+ * This type 'derives' the base 'struct media_entity_context' type which
-+ * implements refcounting on our behalf and allows instances of this type to be
-+ * linked in the media_device_context contexts list.
-+ *
-+ * By storing the data and the configuration of a video device in a per-file
-+ * handle context, userspace is allowed to multiplex the usage of a single video
-+ * device devnode by opening it multiple times and by associating it with a
-+ * media device context. This operation is called 'bounding' and is performed
-+ * using the VIDIOC_BIND_CONTEXT ioctl.
-+ *
-+ * A video device context is created and stored in the v4l2-fh file handle
-+ * associated with an open file descriptor when a video device is 'bound' to a
-+ * media device context. The 'bounding' operation realizes a permanent
-+ * association valid until the video device context is released.
-+ *
-+ * A video device can be bound to the same media device context once only.
-+ * Trying to bind the same video device to the same media device context a
-+ * second time, without releasing the already established context by closing the
-+ * bound file descriptor first, will result in an error.
-+ *
-+ * To create a video device context userspace shall use the VIDIOC_BIND_CONTEXT
-+ * ioctl that creates the video device context and uniquely associates it with a
-+ * media device file descriptor.
-+ *
-+ * Once a video device file descriptor has been bound to a media device context,
-+ * all the operations performed on the video device file descriptor will be
-+ * directed on the just created video device context. This means, in example,
-+ * that the video device format and the buffer queue are isolated from the ones
-+ * associated with a different file descriptor obtained by opening again the
-+ * same video device devnode but bound to a different media device context.
-+ *
-+ * Drivers that implement multiplexing support have to provide a valid
-+ * implementation of the context-related operations in the
-+ * media entity operations.
-+ *
-+ * Drivers are allowed to sub-class the video_device_context structure by
-+ * defining a driver-specific type which embeds a struct video_device_context
-+ * instance as first member, and allocate the driver-specific structure size in
-+ * their implementation of the `alloc_context` operation.
-+ *
-+ * Video device contexts are ref-counted by embedding an instance of 'struct
-+ * media_entity_context' and are freed once all the references to it are
-+ * released.
-+ *
-+ * A video device context ref-count is increased when:
-+ * - The context is created by bounding a video device to a media device context
-+ * - The media pipeline starts streaming
-+ * A video device context ref-count is decreased when:
-+ * - The associated file handle is closed
-+ * - The media pipeline stops streaming
-+ *
-+ * The ref-count is increased by a call to video_device_context_get() and is
-+ * reponsibility of the caller to decrease the reference count with a call to
-+ * video_device_context_put().
-+ */
-+struct video_device_context {
-+	struct media_entity_context base;
-+
-+	struct video_device *vdev;
-+	struct mutex queue_lock;
-+	struct vb2_queue queue;
-+};
-+
-+/**
-+ * video_device_context_get - Helper to get a video device context from a
-+ *			      media device context
-+ *
-+ * @mdev_context: The media device context
-+ * @vdev: The video device the context refers to
-+ *
-+ * Helper function that wraps media_device_get_entity_context() and returns
-+ * the video device context associated with a video device in a media device
-+ * context.
-+ *
-+ * The reference count of the returned video device context is increased.
-+ * Callers of this function are required to decrease the reference count of
-+ * the context reference with a call to video_device_context_put().
-+ */
-+struct video_device_context *
-+video_device_context_get(struct media_device_context *mdev_context,
-+			 struct video_device *vdev);
-+
-+/**
-+ * video_device_context_put - Helper to decrease a video context reference
-+ *			      count
-+ *
-+ * @ctx: The video context to release
-+ */
-+void video_device_context_put(struct video_device_context *ctx);
-+
-+/**
-+ * video_device_init_context - Initialize the video device context
-+ *
-+ * @vdev: The video device this context belongs to
-+ * @ctx: The context to initialize
-+ *
-+ * Initialize the video device context. The intended callers of this function
-+ * are driver-specific implementations of the media_entity_ops.alloc_context()
-+ * function that allocates their driver specific types that derive from
-+ * struct video_device_context.
-+ */
-+int video_device_init_context(struct video_device *vdev,
-+			      struct video_device_context *ctx);
-+
-+/**
-+ * video_device_cleanup_context - Cleanup the video device context
-+ *
-+ * @ctx: The context to cleanup.
-+ *
-+ * Cleanup the video device context. The intended callers of this function are
-+ * driver specific implementation of the media_entity_ops.destroy_context()
-+ * function before releasing the memory previously allocated by
-+ * media_entity_ops.alloc_context().
-+ */
-+void video_device_cleanup_context(struct video_device_context *ctx);
-+
- #endif /* CONFIG_MEDIA_CONTROLLER */
- 
- #endif /* _V4L2_DEV_H */
-diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
-index b5b3e00c8e6a..a8de8613a026 100644
---- a/include/media/v4l2-fh.h
-+++ b/include/media/v4l2-fh.h
-@@ -20,6 +20,7 @@
- 
- struct video_device;
- struct v4l2_ctrl_handler;
+ struct v4l2_fh;
 +struct video_device_context;
  
  /**
-  * struct v4l2_fh - Describes a V4L2 file handler
-@@ -38,6 +39,7 @@ struct v4l2_ctrl_handler;
-  * @sequence: event sequence number
-  *
-  * @m2m_ctx: pointer to &struct v4l2_m2m_ctx
-+ * @context: The video device context
-  */
- struct v4l2_fh {
- 	struct list_head	list;
-@@ -54,6 +56,7 @@ struct v4l2_fh {
- 	u32			sequence;
+  * struct v4l2_ioctl_ops - describe operations for each V4L2 ioctl
+@@ -406,6 +407,10 @@ struct v4l2_ioctl_ops {
+ 	int (*vidioc_try_fmt_meta_out)(struct file *file, void *fh,
+ 				       struct v4l2_format *f);
  
- 	struct v4l2_m2m_ctx	*m2m_ctx;
-+	struct video_device_context *context;
++	/* Context handlers */
++	int (*vidioc_bind_context)(struct file *file, void *fh,
++				   struct video_device_context *c);
++
+ 	/* Buffer handlers */
+ 	int (*vidioc_reqbufs)(struct file *file, void *fh,
+ 			      struct v4l2_requestbuffers *b);
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index f8157c9c9da6..0b7f12fd798e 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1035,6 +1035,14 @@ struct v4l2_jpegcompression {
+ 					* always use APP0 */
  };
  
- /**
++/*
++ *     V I D E O   D E V I C E   C O N T E X T
++ */
++
++struct v4l2_context {
++	__u32 context_fd;
++};
++
+ /*
+  *	M E M O R Y - M A P P I N G   B U F F E R S
+  */
+@@ -2758,6 +2766,9 @@ struct v4l2_create_buffers {
+ 
+ #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl)
+ 
++/* Context handling */
++#define VIDIOC_BIND_CONTEXT	_IOW('V', 104, struct v4l2_context)
++
+ /* Reminder: when adding new ioctls please add support for them to
+    drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
+ 
 -- 
 2.46.0
 
