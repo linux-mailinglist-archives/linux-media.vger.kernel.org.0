@@ -1,190 +1,150 @@
-Return-Path: <linux-media+bounces-18248-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18251-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268C9977C58
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 11:40:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B10B3978067
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 14:49:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51A4F1C24744
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 09:40:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB9C21C2163F
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2024 12:49:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 035C31D86EA;
-	Fri, 13 Sep 2024 09:39:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9722C1DA61F;
+	Fri, 13 Sep 2024 12:49:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="HcX1kffT";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="N4PwImb1"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="FfJDb/J1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C721E18A6D6;
-	Fri, 13 Sep 2024 09:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726220342; cv=none; b=tjjJYJqs9tbQMjvsXG8QSEwB0cCZV7xnVgs+6fMOnzEu36orxotfheBHeFs4NzGl7nzk0WT6eoozVYGRpvyqbz2xce7m6p7v07o7jZyXbkO9hXcwTMKMxv9eLpea3+wgYdfomoGCu+TXrvYs/FaHYkMe/pzL0RkuL+JvzzrqFaw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726220342; c=relaxed/simple;
-	bh=A2qVBIMYp/2r3CFer6xBiqk5bNkvq3f/Xhhuxq/P0po=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gStnrp6ys6MRZDMJ3al5Ft6ELEwyIKphSO0MOAW418TqImtc3vv9HTm4expb1kkyiXGYFEdh/VuEjskPZEMNHl4Q28XtGH/yp8RShnT5mXlkj+nnQkidw1dwyRiuLqLZeswAy6yz5XdGU4JTybVfUbm4DJVy6zKZhUwcSC3Ypg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=HcX1kffT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=N4PwImb1; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.phl.internal (Postfix) with ESMTP id C6E8B1380313;
-	Fri, 13 Sep 2024 05:38:58 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Fri, 13 Sep 2024 05:38:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1726220338; x=
-	1726306738; bh=K+AlDx1kABcH1bjNHO39XpWBnTf9rTOESmFmUtu1C08=; b=H
-	cX1kffT3gCsZo8AGKNkafPUMycPnllN8WmPLz3Onpcfx7YO0aAf3umyQRTO3TGkV
-	7wNfcGotSKBxOTmB4fnfYkzDNVUFGEA9oG60zaVOwQmaGOhRYKq0WripbZxmWt0P
-	1IymJe/4mIR59TfXSFJs9cpj+LbuAaWlvSfR5yLfqtoAU10uM9x1GrjU3YFTvnI4
-	MHksV7cyLq2+YSR9ntus9OlHurj+p4sKYoe24WBskIZcGFy632YkVc1llOAcdqIQ
-	wIFkyeBrV9t1PsmygnWQlbHYXdz7fWG7DynapGOidwfWpMhLezjObPw/qnDiyOpF
-	foDE1kkKPkV2E20Xc8dJA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1726220338; x=1726306738; bh=K+AlDx1kABcH1bjNHO39XpWBnTf9
-	rTOESmFmUtu1C08=; b=N4PwImb1Y8dtY3Yvdl0JyU0ll9bbD+5QfTwsw8ZoJGrw
-	9kkTnH2JCxeuPOh+TkLO2oNrVhVirAUSHg30Zp1xmPfQ7OKzpIyFw7HltEHWCB6l
-	NX/8Bju0TjV6Vpchbo/txdvmOEQ1a44gtD6c5zch8EXZWlD5fqJZdy8mcvhNuKLq
-	cTyXYxSO5CVkQ+HAEfSlKXBbenHPWjSDSRJz0XCDMTwHmxVihdVfhHQ/VdcbAoWq
-	7CwRN34bzjo0S+OE/dNCN2gmB37jBViTEofPl3Qi1jCSW3ETTn9HQiEDJa8fkNDs
-	Nj1X7bZFt/1cpnmhcMsG4Qe/JWodvqNYmTYJxI+SIQ==
-X-ME-Sender: <xms:MgjkZuGHfqvk9YQjf1X1JztIqEs3eg6EVQaNNOTtEP7yQFd989E1hQ>
-    <xme:MgjkZvUcVlw1GV-1wp7QecddrABnrkNs2jmL1mzcLXYTgdcOHB27WWWF8Lw6-9-8_
-    gbmS-DCBDXJCeu7JJ8>
-X-ME-Received: <xmr:MgjkZoLK6s0QnlUD9d53h_XsEY1X7bJ1MYESpm4ZE_up0g0aJlV2YnyRoKTQroWLCdfp19IIo_-gSu5CyoWVT_CPU70z44MKVonL>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudejjedgudejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
-    ucfhrhhomhepvfgrkhgrshhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihessh
-    grkhgrmhhotggthhhirdhjpheqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeu
-    ffevveeufedtlefhjeeiieetvdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhho
-    tggthhhirdhjphdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtg
-    hpthhtohepvggumhhunhgurdhrrghilhgvsehprhhothhonhhmrghilhdrtghomhdprhgt
-    phhtthhopegrphgrihhssehlihhnuhigrdhmihgtrhhoshhofhhtrdgtohhmpdhrtghpth
-    htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepth
-    hifigrihesshhushgvrdguvg
-X-ME-Proxy: <xmx:MgjkZoFxpE_q3HpW7obNDw_FUZc7_Ln34uOcTKuGQPGsHtya35QuIQ>
-    <xmx:MgjkZkX-LWRIRQTd0aUj3Ro9XsT86bvURayymGs0pzDzpeRx_frMnw>
-    <xmx:MgjkZrPdibi_zgMrPML7e7dDkNSxVMAHfsIhvnVBV8L_VrTot0q44Q>
-    <xmx:MgjkZr3Ig31IgjdsnlOsY4zqVG7cl8rMmhf5UiPZZ2dq7dvRkz6qdQ>
-    <xmx:MgjkZnHOhA9Xlf6OvTSjXfCdK3GeHHBNJ7BzZMvmb_olpb3wOgCwNNG4>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Sep 2024 05:38:56 -0400 (EDT)
-Date: Fri, 13 Sep 2024 18:38:52 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Edmund Raile <edmund.raile@protonmail.com>
-Cc: apais@linux.microsoft.com, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
-	netdev@vger.kernel.org, tiwai@suse.de
-Subject: Re: firewire: use sleepable workqueue to handle 1394 OHCI IT/IR
- context events: test 2
-Message-ID: <20240913093852.GA305057@workstation.local>
-Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Edmund Raile <edmund.raile@protonmail.com>,
-	apais@linux.microsoft.com, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
-	netdev@vger.kernel.org, tiwai@suse.de
-References: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
- <20240912214404.10616-2-edmund.raile@protonmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708451DA2F5;
+	Fri, 13 Sep 2024 12:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726231770; cv=pass; b=K4Qw/A44aZtw2XYPC94AGIoJ1VunDPh+1/D4aAB9wTSj/uKGOR8blo/gNEktNjWVh+oT2jvA61rtjuVVlguFs8NQABpiBLr2zhAtPjwUgD7+Ml/EQY9TBE7mOA23sFDSzE9gBk3SxtcnaBj5mHqroyksxKG2PB1fuGFLHGlvQS0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726231770; c=relaxed/simple;
+	bh=RyodbfDvOfQeLlmTG10oiCaIpl9uv05a7oTN/9sphdk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KWcbFUT7ad2sjeXMqTLF+AuxDXJRq43W72XfvTGO2q/8ECLTIDcKuMFtOwrokZ+8puwlWZOmzj+xOuQ6ubyxqXgjeVlByc/PNec/dcUA3gee3bH8Lawe3LW0bGgSMjtom0k2sKjZ8nC/FjtSqQdPCtm/n/JajEjkO4KkvFqYnKU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=FfJDb/J1; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1726231751; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=BNPYSzWVCMOmo/hTyJKoZ5FIjbNSu0BhXNE3L2T/dVdGB5Pzc8siPkbF+pmRVzirwnvw+QYJ3xicim0Qz5zFCrnkZAzJDPaZrICPDZXH7WeOCetrwVDvvM4mw8xnoiDfjL/qihg70uqRCbRhWOjYw81P5BL1PA1X+yeiKNVBabo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1726231751; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=X1FWXYkdFTAZTf7isrudo8jAfS0TveWzA+M9/g9zXoA=; 
+	b=lc6BtIYv0u4t58KRvKlOiMt1BIe80S+PN37HbZE21CyovpWHYohszS7vTUf6W1kdxIUDNSEp3i4pgdCvK8dYusem49OTM2OzMU1sQWYVEh8fmsYY+8LjdaMtHZ09qvinhVmwlowgpCv4t7heirQDLVXsxbVtCO8KcI+ikvLlmHc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726231751;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=X1FWXYkdFTAZTf7isrudo8jAfS0TveWzA+M9/g9zXoA=;
+	b=FfJDb/J1ZBv/QpN/TkmJEaWuLtnbuQ5hkLKa6W6APF94Ld1VQ/nbabYifYT1t30y
+	TJLVY/BP4t5+zPtFbe5hap5wODVyRJXuNaTU5KseK1uw+gQCSC5nVijUuFsthOcutZB
+	+Ie4iiOG1YijPkIZ/xjBI1a+CBKFpiTNZU2Kkv4g=
+Received: by mx.zohomail.com with SMTPS id 1726231750315208.30409114526583;
+	Fri, 13 Sep 2024 05:49:10 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: kernel@collabora.com,
+	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v6 0/5] Support fdinfo runtime and memory stats on Panthor
+Date: Fri, 13 Sep 2024 13:42:08 +0100
+Message-ID: <20240913124857.389630-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240912214404.10616-2-edmund.raile@protonmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This patch series enables userspace utilities like gputop and nvtop to
+query a render context's fdinfo file and figure out rates of engine
+and memory utilisation.
 
-On Thu, Sep 12, 2024 at 09:44:52PM +0000, Edmund Raile wrote:
-> Hello Sakamoto-San, I came around to testing your patch [1], after RFT.
-> 
-> I've had to make the following changes to patch 1/5 again for it to apply to
-> mainline (d1f2d51b711a3b7f1ae1b46701c769c1d580fa7f), due to missing b171e20
-> from 2009 and a7ecbe9 from 2022.
-> 
-> @@ -584,9 +601,13 @@ int fw_card_add(struct fw_card *card,
->  
->  	generate_config_rom(card, tmp_config_rom);
->  	ret = card->driver->enable(card, tmp_config_rom, config_rom_length);
->  	if (ret == 0)
->  		list_add_tail(&card->link, &card_list);
-> +	else
-> +		destroy_workqueue(isoc_wq);
-> +
-> +	card->isoc_wq = isoc_wq;
-> 
->  	mutex_unlock(&card_mutex);
-> 
->  	return ret;
-> @@ -709,7 +729,9 @@ void fw_core_remove_card(struct fw_card *card)
->  {
->  	struct fw_card_driver dummy_driver = dummy_driver_template;
->  	unsigned long flags;
->  
-> +	might_sleep();
-> +
->  	card->driver->update_phy_reg(card, 4,
->  				     PHY_LINK_ACTIVE | PHY_CONTENDER, 0);
->  	fw_schedule_bus_reset(card, false, true);
-> @@ -719,6 +741,7 @@ void fw_core_remove_card(struct fw_card *card)
->  	dummy_driver.free_iso_context	= card->driver->free_iso_context;
->  	dummy_driver.stop_iso		= card->driver->stop_iso;
->  	card->driver = &dummy_driver;
-> +	drain_workqueue(card->isoc_wq);
->  
->  	spin_lock_irqsave(&card->lock, flags);
->  	fw_destroy_nodes(card);
-> 
-> Then everything applied fine.
-> 
-> This resulted in 6.11.0-rc6-1-mainline-00326-gd1f2d51b711a-dirty.
-> 
-> Testing it with TI XIO2213B and RME Fireface 800 so far:
-> 
-> Initially I had a buffer freeze after 3 hours of continuous ALSA playback
-> from mpv:
->   mpv --audio-device=alsa/sysdefault:CARD=Fireface800 Spor-Ignition.flac
-> accompanied by stresstest (mprime).
-> 
-> It didn't freeze/crash the kernel, just the audio buffer kept repeating.
-> Gone after power-cycling the interface and restarting playback.
-> 
-> Can't say with certainty whether it's related, have been unable to replicate
-> the issue for the past 3 days (good sign I hope).
-> That's why I was holding this message back a bit.
-> 
-> Kind regards,
-> Edmund Raile.
-> 
-> Signed-off-by: Edmund Raile <edmund.raile@protonmail.com>
-> Tested-by: Edmund Raile <edmund.raile@protonmail.com>
- 
-Thank you for your test. I've picked up your Tested-by tag to the
-series.
+Previous discussion can be found at
+https://lore.kernel.org/dri-devel/20240903202541.430225-1-adrian.larumbe@collabora.com/
 
+Changelog:
+v6:
+ - Addressed some nits and style issues.
+ - Enforced static assert equality of instruction buffer when calculating job
+ credits or copying them into the ringbuffer.
+ - Added explanation to the way in which job credits and profiled job size is done.
+ - Broke down fdinfo enablement patch into two, one of them dealing with adding
+ support for calculating the current and top operating device frequencies
+ - Fixed race at the time drm file-wide profiling stats are gathered from groups.
+v5:
+ - Moved profiling information slots into a per-queue BO and away from syncobjs.
+ - Decide on size of profiling slots BO from size of CS for minimal profiled job
+ - Turn job and device profiling flag into a bit mask so that individual metrics
+ can be enabled separately.
+ - Shrunk ringbuffer slot size to that of a cache line.
+ - Track profiling slot indeces separately from the job's queue ringbuffer's
+ - Emit CS instructions one by one and tag them depending on profiling mask
+ - New helper for calculating job credits depending on profiling flags
+ - Add Documentation file for sysfs profiling knob
+ - fdinfo will only show engines or cycles tags if these are respectively enabled.
+v4:
+ - Fixed wrong assignment location for frequency values in Panthor's devfreq
+ - Removed the last two commits about registering size of internal BO's
+ - Rearranged patch series so that sysfs knob is done last and all the previous
+ time sampling and fdinfo show dependencies are already in place
+v3:
+ - Fixed some nits and removed useless bounds check in panthor_sched.c
+ - Added support for sysfs profiling knob and optional job accounting
+ - Added new patches for calculating size of internal BO's
+v2:
+ - Split original first patch in two, one for FW CS cycle and timestamp
+ calculations and job accounting memory management, and a second one
+ that enables fdinfo.
+ - Moved NUM_INSTRS_PER_SLOT to the file prelude
+ - Removed nelem variable from the group's struct definition.
+ - Precompute size of group's syncobj BO to avoid code duplication.
+ - Some minor nits.
 
-Thanks
+Adrián Larumbe (5):
+  drm/panthor: introduce job cycle and timestamp accounting
+  drm/panthor: record current and maximum device clock frequencies
+  drm/panthor: add DRM fdinfo support
+  drm/panthor: enable fdinfo for memory stats
+  drm/panthor: add sysfs knob for enabling job profiling
 
-Takashi Sakamoto
+ .../testing/sysfs-driver-panthor-profiling    |  10 +
+ Documentation/gpu/panthor.rst                 |  46 ++
+ drivers/gpu/drm/panthor/panthor_devfreq.c     |  18 +-
+ drivers/gpu/drm/panthor/panthor_device.h      |  36 ++
+ drivers/gpu/drm/panthor/panthor_drv.c         |  73 ++++
+ drivers/gpu/drm/panthor/panthor_gem.c         |  12 +
+ drivers/gpu/drm/panthor/panthor_sched.c       | 393 ++++++++++++++++--
+ drivers/gpu/drm/panthor/panthor_sched.h       |   2 +
+ 8 files changed, 545 insertions(+), 45 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-panthor-profiling
+ create mode 100644 Documentation/gpu/panthor.rst
+
+-- 
+2.46.0
+
 
