@@ -1,86 +1,131 @@
-Return-Path: <linux-media+bounces-18291-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18292-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5219792C1
-	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2024 19:57:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8469979345
+	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2024 22:08:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 34D931F227C5
-	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2024 17:57:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3A141C21299
+	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2024 20:08:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99F5D1D1310;
-	Sat, 14 Sep 2024 17:56:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B7E1126C09;
+	Sat, 14 Sep 2024 20:08:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="GQJ5jy8a"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="Fpa+NjOE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919D1433BB;
-	Sat, 14 Sep 2024 17:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726336618; cv=none; b=EvNZ3aIeJMBFO5vbTyOKXbRiIf8yebHI8jVoC+ex73bdTRf+SGYvjv9ccBP/6NuF6m9coS2+s6Y9sCEFoMKQsNvhaRaK/8Exb/PkGAt7ath73Vdxg0B7vxwE+Jgh9axL659yoevTsl32V8uAJ8gibGQU1Rwfk44UVLEwZi+nGUM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726336618; c=relaxed/simple;
-	bh=dD7xaoWu9YGaPQ3bJ0EPoxTKTYlYt+kZpnhjEU2jeA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QBZrpgLYzAsXTnnSDtLpv4GWgAWmbgW1Y/P/ubrdSCZuPaj6/EA+BrK4ImClRpJWaKxTHr3ie+xfdVVhpad2G8SIc2YDwL5/ucOFZfphFXsYQ1ZNsy19vdgSpSZbQ75j3utEVWXwt1vRI/yntdEIsIXquMtpESJZ/eoE2ZmSoow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=GQJ5jy8a; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=4xjUEiTV/Fxa2/tsOWp1Mc3wNtQvWZ9FHr+91WMPEJw=; b=GQJ5jy8anA+yuzbb
-	//tYn/enOX9yur2wa/nKlrLR6yMlgFFlzIxeJ6B7lFsf25umBYTOLH/s5HAWndgj24aFXBnKBdJYQ
-	Frme3lhPt1P/Jkiw5eNxTGC2+CGtariFnwPY5E+W3d/yTHuVg8yAfFMUkq0jew0LLXB9XxI6RSLI0
-	qAThq0O6cz0vURk4HzgK+xF0Vv6n6I3g9CVPRkhZBmBJBJKkbL/zJPedxDoNINOV7K5O7/YFJIpxn
-	1OZi1JgfRURdTHjKZkwXoMPbEw8xniONQDBQbhGN8yExoBo2auKQooy6ekEwV56zZ5B8w0TR6nP42
-	Ukv4ZlvNJN7UKsqoSQ==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1spX0k-005lyK-21;
-	Sat, 14 Sep 2024 17:56:42 +0000
-Date: Sat, 14 Sep 2024 17:56:42 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: hdegoede@redhat.com, mchehab@kernel.org, sakari.ailus@linux.intel.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: atomisp-libmsrlisthelper.c
-Message-ID: <ZuXOWjvVYa64c1-5@gallifrey>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD331E871
+	for <linux-media@vger.kernel.org>; Sat, 14 Sep 2024 20:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726344482; cv=pass; b=IDwNFg4p46KYWvVMjMWnQsy8QnoznWOWXO714ucsilKW+iWTdy+IVP5tey/hLGgvdydgsE4aSLRz4V0JH9Q2v/MvOlqalUB+Mg96I5LYauGit2fFuDHCWFPs6wo2T5uBQRnCZ3lkSXyzwhIdiX26BeipIgfJUhtTSiegQPJlVnc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726344482; c=relaxed/simple;
+	bh=jc9llhozjg3/vl30drnDpWl3omQC2aUkYkvJVPbL1x8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F/SkYt9mr04nB5GLuqZl5bTf9nhWaSHSjYN6N5BfNju+kl48FLPriNYd+yF2upnz5E2NuuWpMvwafgo8i8P9I6+o1OAEEwQWU+/PYwMAxTFW8baIK9IVC5bkhT40ArjkTxHIEaR0aUZIwePXGDIU9I8xZWcwfMGKiiVOJCSeRck=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=Fpa+NjOE; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4X5j0B3KMWz49Q3G;
+	Sat, 14 Sep 2024 23:07:54 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1726344476;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mUU9j2H08mwXCheT13l/EzmJRxEWZ4J9ZgTdc7Yj5kE=;
+	b=Fpa+NjOEUyWfPcoBotnhkFq7RwkYLiavuxNNIoEDBz7Jql5Z3A5ZxZBLRyx0Vb0l+CazTb
+	S+xruyty89JcGf9cyOwV3CW5hMLK5FaEd7nVsumPXk5+4Y/Hc70AcG01cwaQ3HnCsJn+pZ
+	8LCi39e/c1lNb133WemPeGiTbFYVlzMmwqjdPSHfl7CuoqqLZ9J/8Lf+A4UQUDo7ZP3Cfz
+	6QjIZlc06cd+70BQoIlxeZ2AQh6Mrx5RyqgzAYoJIhCJmU51NTT5HiIFiLDxIIekjfuxLc
+	dHKMNw+TJGrwJqToOAV/djIFZeYd/o32B8+tQn3zFpHbYr6jvlFAzguCFmls2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1726344476;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mUU9j2H08mwXCheT13l/EzmJRxEWZ4J9ZgTdc7Yj5kE=;
+	b=sLEghB0zA2O8BRIy7UgDflZWRvjcMZYrZ9VuqupEHuXx0o7pxuOKgupMtxmQ7eFW5d8+h3
+	nharcvgDzstkMZlNtnEa11+Rt+kmOCl1pc4uT1j3VMXv7A7hqETbtMOGXOI2bhbyTOHHpV
+	WAVhSE+3yOJa5D+GBVK8RNJH2pHYSEShtB8Jr0kslN7dZwc+snPjjn2nnqEq6U+TmCjK0Y
+	Jyc9GwO5PIocW594VQvMEPGLk+wgUleR0m3plr6RGhFuEySArJTAkdCZogKGKKR0HI5/Ed
+	rA9SFWlqhAs87R2Bcg6cGxEyAOFge1vuWn1a7u8ADiliOOzaWpIwL3mLa6PTlw==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1726344476; a=rsa-sha256;
+	cv=none;
+	b=OJVPf9J+0F8h9RiRA84GfOB+1K29v/ZW0K6B6xic9Wdvh3iwmg+VmU/y1yABdleB3/MEaq
+	pTEdIsFPR579hjXL6Cxc2b4tT+YlR/iEy3oAUixrbXNqlhvPs95UtHM4lI8UBPM3NLRC1Q
+	16nMun0dG6XferC6MvkSl5Q3Xldb+dSGVSjnyHXXzoWNPgCefaVI2IgNIBMPQ8iUes99U2
+	pku/QSHXC187e1LB07UJuiny5cbnTSaduN4jjyM0EhLanK+svYa1XF4gARJd5OivMGHGs8
+	c7AfcKrVpSY3+Qd+HrO93/KlJ5cSjEWHATG7U6NkF0e1MsYsjRFj3UUwhySTfQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0AF9B634C96;
+	Sat, 14 Sep 2024 23:07:52 +0300 (EEST)
+Date: Sat, 14 Sep 2024 20:07:52 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Martin Hecht <martin.hecht@avnet.eu>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
+	Steve Cho <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+	Hidenori Kobayashi <hidenorik@chromium.org>,
+	"Hu, Jerry W" <jerry.w.hu@intel.com>,
+	Suresh Vankadara <svankada@qti.qualcomm.com>,
+	Devarsh Thakkar <devarsht@ti.com>, r-donadkar@ti.com,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Salahaldeen Altous <salahaldeen.altous@leica-camera.com>
+Subject: Re: [ANN] Media Summit September 16th: Final Agenda (v7)
+Message-ID: <ZuXtGA8gXJJFmC-Z@valkosipuli.retiisi.eu>
+References: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 17:31:48 up 129 days,  4:45,  1 user,  load average: 0.00, 0.00,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
 
-Hi,
-  As far as I can tell none of the functions in atomisp-libmsrlisthelper.c
-are called in the tree any more; I think:
+Hi Hans,
 
-commit 3a81c7660f8021967dccd52624fa1a6fcf117000
-Author: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Date:   Wed Sep 27 14:24:56 2017 -0400
+On Wed, Sep 11, 2024 at 11:03:26AM +0200, Hans Verkuil wrote:
+> 17:30-18:00: Any other topics and feedback on what can be improved next media summit.
 
-    media: staging: atomisp: Remove IMX sensor support
+Perhaps this could be a good occasion to discuss the upcoming sub-device
+configuration models and the common raw camera model in particular. This is
+closely related to the metadata set and in fact the main reason why the
+latter isn't in upstream yet.
 
-removed the last users of it.
-
-Would it make sense just to remove that?
-
-Dave
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Kind regards,
+
+Sakari Ailus
 
