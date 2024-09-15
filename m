@@ -1,121 +1,92 @@
-Return-Path: <linux-media+bounces-18301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18302-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBC2979872
-	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2024 21:33:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C798A97987F
+	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2024 21:37:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85F6D2828DE
-	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2024 19:33:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05C881C21AEF
+	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2024 19:37:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81FA11C9EC8;
-	Sun, 15 Sep 2024 19:33:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 541021CA68B;
+	Sun, 15 Sep 2024 19:37:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="CLP8cmpp"
+	dkim=pass (2048-bit key) header.d=cowlark.com header.i=@cowlark.com header.b="pNLMKwsi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from mx2.mythic-beasts.com (mx2.mythic-beasts.com [46.235.227.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A841B85D9
-	for <linux-media@vger.kernel.org>; Sun, 15 Sep 2024 19:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E1B1C9DE4
+	for <linux-media@vger.kernel.org>; Sun, 15 Sep 2024 19:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726428816; cv=none; b=LgqLDH8u1Z5e/2d69v5i91y9/mQxwGN3e4DDNfYAjNf4Ilof+qAocAFFHFxCc49ZUhzraddkhHecaFZdXsQu0/6uw/XGvKJ8TlTRIbIUGf2EB5EDc8XwxSsg2bzpsYRK4bGqZIO/NcWhd1UtM13GzVEFO5FGnG4xo3UPrvPwx48=
+	t=1726429057; cv=none; b=ROoZPf1kT4tS1968RhiUjXbGDIax2w9kwB/9UUStct3GQ6maaT0/PfO2tRPyYgge5hHucOFxXYsqMsCUWclwqvZddUKZ2EydqhWBUK2dKgp9aEBvgLQPNBgWHFDHh+lgmheYZ8D5zH4z3QfBR00bW8NWKS51PCpuVXdnlAj55S8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726428816; c=relaxed/simple;
-	bh=lALraOZx/xE47Ge5+jm3IRp3yyg9orwfCFcJyjSymfw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=utuKiya5vIrKm5WVpZpm/WBywkh/LP5+tV1dj0abqD7WCXoiWUVSQzAdRhMddtgNKUKoU4MdUFbbDRgXbVjaHFjXB/PLlXGj5E9DzgBuf3TzjG/g3DZEBlHK/jD+I9uX4Xw+Pld2oyeFOEitok6jUS1kVcVjWaBW23Bn6s8jYjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=CLP8cmpp; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id A0BC31C009E; Sun, 15 Sep 2024 21:33:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1726428803;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AIegrtLasYm6bXHMKIJbfPbHTEL5jEYrfkgpw6IqPGk=;
-	b=CLP8cmppVZvj1eGxY0zM3KAwDWcoI0oaAaTrmJlRAfQGWIuIkKqbMh6A3jfUyFNiiq7eRk
-	9r3x+tOt5dtxzvy28xzO9n+n4GCTnA0y7sRllGaUNbZvJPcqiu6y5H6+t3rNqNyQys7zuI
-	PlKY/sja0WKaudTgjCOt2bA6v60Jc9g=
-Date: Sun, 15 Sep 2024 21:33:21 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org
-Subject: Re: libcamera workshop in Vienna - September 17th - Agenda
-Message-ID: <Zuc2gZHxWK5TZd8U@duo.ucw.cz>
-References: <20240914234300.GA28657@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1726429057; c=relaxed/simple;
+	bh=/FoIwVNC1/eYtPCe6C0oOHe+8Ojk7t+VKHlOXZA9LKY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QWoskgtAteG6l03p694amc0ntgmii69kSldVSOG9sbQK0N66OaG303Q34QFlHpwtlPZsBl0fxELi5nVCUwi4epbRbnLWzK2Gac0DOVqV/Xvww2BSpPFkBxCUxz23dbSH0xJdpEX51PZKrDUJHhYIJRNddT72zAf+swB08FTzDrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cowlark.com; spf=pass smtp.mailfrom=cowlark.com; dkim=pass (2048-bit key) header.d=cowlark.com header.i=@cowlark.com header.b=pNLMKwsi; arc=none smtp.client-ip=46.235.227.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cowlark.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cowlark.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cowlark.com
+	; s=mythic-beasts-k1; h=To:Subject:Date:From;
+	bh=/FoIwVNC1/eYtPCe6C0oOHe+8Ojk7t+VKHlOXZA9LKY=; b=pNLMKwsilORLhSXq6W0j4izT+M
+	UHdMTouiEqVdJBIef6W+dPzEghmrZSruiFf3m+g7b/nErkDY3ZVDsp5chpezi15PFRLwW6G7mG5AP
+	dLIXuRc9U4a1wQrVqRRyzx4UFBCf0FzxNXr5BUEKD0cicjYrhICBnHrlcF/6XtKZVb+ReibO6mgCH
+	Bn078mwPE43DK6VTIR6eOYKW+qk3K7VQx/0gg47T2OtewGQw3B9ocBa81Orr1mw/N0F2298oNiaH7
+	pLhqe1JElC/qNDfg34g5q+0FSbRasdkom6zQK0VfQiVEN3l9Srw6OH1cpJ+wQVW5TMThqn0TSRyAj
+	CQbGlDdg==;
+Received: by mailhub-hex-d.mythic-beasts.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <dg@cowlark.com>)
+	id 1spv3o-005sKc-0t
+	for linux-media@vger.kernel.org; Sun, 15 Sep 2024 20:37:28 +0100
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7c1324be8easo3444175a12.1
+        for <linux-media@vger.kernel.org>; Sun, 15 Sep 2024 12:37:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUJINwmkRnRTm7fRl3yblin5xl15oemrMysy1Whw1gCWXmIiMplmiUeFMmtGRoDwgbRSsfsW2MAQ3l4jQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMRGabW8o2uGW39Z95Xgqfi/GocPrUjndPVsDYMjkneG2iDgoo
+	G5wTmSR3Gdg5UGuDlHp4WhIGROZSia5MFcPzzPD05LnG1MFdqrTEKU7sPrg2zQwcP6MaTOAbcVS
+	b5+qw2wIIJRzkfH8XCG2LApriaYc=
+X-Google-Smtp-Source: AGHT+IHDmFR+OYfL/KCMKzBMacd7CYR3c4xbcYhR8gv/QeFISWAyX4CGZFAU8xR2W79/4G2ALnuIvrA2GPoxqyq5PG4=
+X-Received: by 2002:a17:90a:7445:b0:2da:8b9f:5b74 with SMTP id
+ 98e67ed59e1d1-2db9fcb93f8mr19437551a91.13.1726429044188; Sun, 15 Sep 2024
+ 12:37:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="IAh9iVPk8xZLmgzG"
-Content-Disposition: inline
-In-Reply-To: <20240914234300.GA28657@pendragon.ideasonboard.com>
+References: <CALgV52gdx5m3eP88Sqa4s09qy+N4rpaZ8UHFXfphkCXZUxyNHQ@mail.gmail.com>
+ <CANiDSCuOojPtX4M9Q7DOe4sR-DpuKp1Rzzpa3NrJxV7HuzAAeg@mail.gmail.com>
+ <CALgV52iM3B4G2Sa0jjuMcEZtE+rn8B80NOMWj3i4jEUCiVVnRw@mail.gmail.com>
+ <20240913234037.GB9669@pendragon.ideasonboard.com> <CALgV52i7=-jH-EmQQb-gaYAs7vuS1bPxyUv_PSvrTKyRYewWuw@mail.gmail.com>
+ <CALgV52htoEjohXv7NLTAb7eCy8nPujWtcd82prNZ=jWrVY7wyA@mail.gmail.com>
+ <CALgV52jhPHmfaVnbskCXZw-8N4jYFGtowaVMmVL3NwUg1Jiutw@mail.gmail.com> <20240915093922.GJ22087@pendragon.ideasonboard.com>
+In-Reply-To: <20240915093922.GJ22087@pendragon.ideasonboard.com>
+From: David Given <dg@cowlark.com>
+Date: Sun, 15 Sep 2024 21:37:12 +0200
+X-Gmail-Original-Message-ID: <CALgV52gDq5V1n5oPqz32qS9V-ZndmNVHt2w5H-FE-C5y4cZJ7g@mail.gmail.com>
+Message-ID: <CALgV52gDq5V1n5oPqz32qS9V-ZndmNVHt2w5H-FE-C5y4cZJ7g@mail.gmail.com>
+Subject: Re: No uvc video support for D3DFMT video GUIDs?
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-BlackCat-Spam-Score: 9
 
+On Sun, 15 Sept 2024 at 11:39, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+[...]
+> The linux-media mailing list is the right place. Please CC me as well.
 
---IAh9iVPk8xZLmgzG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Done (under a different thread).
 
-Hi!
+[...]
+> -32 is the -EPIPE error code.
 
-> Here's the agenda for the workshop on Tuesday. As all workshop agendas,
-> it's tentative and we will adjust the exact timing depending on how the
-> discussions progress.
->=20
-> 09:00 - 09:15  Welcome and agenda bashing
-> 09:15 - 10:00  Non-image data streams (Naush Patuck)
-> 10:00 - 10:45  Per-stream controls (Naush Patuck)
-> 10:45 - 11:15  Break
-> 11:15 - 12:00  What and how we would like to achieve with software ISP
->                in the foreseeable future (Milan Zamazal)
-> 12:00 - 12:45  Post processing with pipeline handler (Jerry W Hu)
-> 12:45 - 13:45  Lunch
-> 13:45 - 14:30  libcamera and Khronos Kamaros (Suresh Vankadara)
-> 14:30 - 15:15  Raw reprocessing API (Naush Patuck)
-> 15:15 - 15:45  Break
-> 15:45 - 16:30  Specify tuning file at camera open/acquire time (Naush
->                Patuck)
-> 16:30 - 17:15  Cache handling (Robert Mader)
-> 17:15 - 18:00  TBD
->=20
-> Each agenda item is listed with the name of the person who proposed it.
-> We expect those persons to introduce the topic (orally or with slides,
-> at your discretion) and drive the discussion. We will take care of
-> topics proposed by people who unfortunately won't be able to attend.
->=20
-> We will use Jitsi Meet for remote access. The event will be accessible
-> at https://meet.jit.si/libcamera-workshop-vienna-2024. We can however
-> not guarantee the quality of the network connection on site.
-
-So I'm in Vienna and some topics (cache, software ISP) look
-interesting to me. Would it be ok to join? If so, what is the place?
-
-I guess I could jump on jitsi if it is full.
-
-Thanks and best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---IAh9iVPk8xZLmgzG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZuc2gQAKCRAw5/Bqldv6
-8vCeAJ43r58281sXAnUhON89VVcB/YvjmQCfZhhIoXRkmE+4VkrXhjeTBZTO/Z0=
-=boQQ
------END PGP SIGNATURE-----
-
---IAh9iVPk8xZLmgzG--
+Yeah, I figured that out the next day --- apparently understanding
+word wrap was too much for my 2am brain...
 
