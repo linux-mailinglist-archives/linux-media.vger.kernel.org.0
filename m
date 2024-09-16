@@ -1,290 +1,213 @@
-Return-Path: <linux-media+bounces-18304-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18305-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C999979AD5
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2024 07:42:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B82E4979C38
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2024 09:48:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D1384B20C5F
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2024 05:42:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7B490283FAF
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2024 07:48:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CED9381BA;
-	Mon, 16 Sep 2024 05:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 624DB13775E;
+	Mon, 16 Sep 2024 07:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="TPLuph1d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011000.outbound.protection.outlook.com [52.101.70.0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C22256D
-	for <linux-media@vger.kernel.org>; Mon, 16 Sep 2024 05:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726465351; cv=none; b=s6bdW+ljDzbm/IIVRwxfBsPUr5CHzQOFibVVRQcxNoPS1mYts+728VqCtU6ef05Rn/Rga3R1XtrB6l1dAXPguAbo4u31uSE2Un1C1xO2hI2kOo8czmbBIPi6kkwrCsbg+97FTUKGUVZBUDZ7rPMVSzNYd4rVT3DfjQcBnrpO2zY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726465351; c=relaxed/simple;
-	bh=sYkNxxNrI4V2SdQzxfireltB13mZvSb+WGmmMuGgtVQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=dKu3Ty2x8Ef8+6RIYLaxpWAd3HMiMC3H+ErQxD+IJvjdJvswnUWk91zuanrVNiomM1bmzqIiOeXC+YD8+Uv2HEXGRmHJyEe4c6rCwJZu/fh31L36Foh3QmCxDYPTOE9yLaamu7mytORMw08LsoRBZXBVsqvc2QqFGwUUrElympc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1658C4CEC4;
-	Mon, 16 Sep 2024 05:42:11 +0000 (UTC)
-Message-ID: <b38355e3-a160-4e9a-98bc-c2352529b755@xs4all.nl>
-Date: Mon, 16 Sep 2024 07:42:07 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABB823A9
+	for <linux-media@vger.kernel.org>; Mon, 16 Sep 2024 07:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.0
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726472882; cv=fail; b=kp6+ByIMGsakHe94l2dTLcWJwPOciIDZ2LN0UhkaP3AyIa7okVUSS8eBtIJlcDa/pUrhnYEOZXqHcx0fUvT+5kx74ywRrnrF8h/FR37W9L/ukYNBzFp145mgExoltLQdm8J3RCtNeKxdiE3qOcvoYpIvvQ1+9aqbFAeJ5QhYJ0s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726472882; c=relaxed/simple;
+	bh=zOhrh/e+0BLqxk0h/oe6yVxw7FqCLiXTzBuas2nQU2I=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Kv7kI6tetc+Ntr1poKY94AfpA9n6Tr2rdskwJjJ1cCrF8UxxafzLCG9kujWWdq0ivpdr/eHS13RUjAMK3cyCNjzrCHP8Gjh08RcxooDnOaAdZeaQjjZAN8/IKsNmglJKqz/Whryu/1jh+FRPRe1kq5sFPMbwWr7F4chUITSzJQc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=TPLuph1d; arc=fail smtp.client-ip=52.101.70.0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jQa4ajKA8vqvDGn3/mECn0bpGKennoTUSmmLr6D9sQsJkylzTUA8Us9uaWZWkQqsJjGU47V5Gw1ujojCZ8TmuXc0cduRPDXTZSgvMkUmwxd82100UIi1Oy1sI9pWkfCDztHTwampcfkFffmLUkZNwMWASfPok691GJ6KQmEXz8/MBcoEJt7+0+c8dUXd2/oIQKkvcE9nVVZfu7icQJFQkM22uJxWNbsCVPWLpWNIqYzBh8lSyof2haWlV8p0i+hs+1S/++bCit5+5aPmuwdu99AcAYrTKEz43RqeoubECdL50NyiJLVgz8s5VAjOMkU7/BfH4clHVJVYUHH6Kpl0lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YIFEPYbKRyJYYKOvOiK90VlicHctbN5ysOBEdc21pZs=;
+ b=ApeN4iyHPTy06QV+iFeSa7PQyYhNmzTKH5H21ejFe1CJlcN+VXUi+ANMWCYVdFmuH5zB3LGMO4ZizYS5WEUQcdF04G6sVlMOdJQ//8mw00nDATyY+4pnxwMx5mD1ExcMhei9GVs9TAtrxvdcdgfQ91dWDi4z28uTejReVJQpxEHMbZYse78M7fDKEUtCIp499u/ElCFeCXP98/pVJwqKs1pv1SHnNdzXNm3luFUAgiE/6U2t5ydWc6HQdd6Ywgqku4hhLW1y9u4G5rg6pCCzeLleArW4OKo3HHA9IBFQ7vstiFhAZ3cwQQRBFKxUzKwJyXAhzwzhNjrWot/1PBMBAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YIFEPYbKRyJYYKOvOiK90VlicHctbN5ysOBEdc21pZs=;
+ b=TPLuph1dx1XWNZ/+5mCjyOa51bYQQGoDzfNX1vvFypuj9MPSgfuV4KZLnIu0j0OVsj70Jb/UaIaur1MGMpo50xvYam39BNMFAM9dmjkP07wvAgcB3rRkywc0zlkZdIaP5V7o9Ta494RETuFUWUcpnKU6joKgyvukPIjInQBhFNwaGMSxR/NP7hXJ5sbGBJ1akge2WuyglDTvncuLykU6kUUZpjFLeF/Dilx3nNA6yfHT9p1dIzvDAjmgWvi1wMd/dWhBGCM/XUSvVcZLsTIGjBeUIPv78EH2hsJmQRDEfAt9clRSOsIeUHqT2pozkmfYXaJlv/oJDkAnivRNseDO+A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8703.eurprd04.prod.outlook.com (2603:10a6:102:21e::22)
+ by PAXPR04MB9057.eurprd04.prod.outlook.com (2603:10a6:102:230::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.23; Mon, 16 Sep
+ 2024 07:47:54 +0000
+Received: from PAXPR04MB8703.eurprd04.prod.outlook.com
+ ([fe80::eeac:ae8a:b567:e3b3]) by PAXPR04MB8703.eurprd04.prod.outlook.com
+ ([fe80::eeac:ae8a:b567:e3b3%4]) with mapi id 15.20.7918.024; Mon, 16 Sep 2024
+ 07:47:54 +0000
+Message-ID: <cd387675-f0b0-496e-8873-cac38f9b5435@oss.nxp.com>
+Date: Mon, 16 Sep 2024 09:47:47 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: dw100: Rectify debug log
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20240914142928.17215-1-umang.jain@ideasonboard.com>
+ <172632483367.3771860.18357256911961312611@ping.linuxembedded.co.uk>
+From: "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
+Content-Language: en-US
+In-Reply-To: <172632483367.3771860.18357256911961312611@ping.linuxembedded.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR01CA0019.prod.exchangelabs.com (2603:10b6:a02:80::32)
+ To PAXPR04MB8703.eurprd04.prod.outlook.com (2603:10a6:102:21e::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: AW: Re: [ANN] Media Summit September 16th: Final Agenda (v7)
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: "Hecht, Martin (Avnet Silica)" <Martin.Hecht@avnet.eu>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
- Steve Cho <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
- Hidenori Kobayashi <hidenorik@chromium.org>,
- "Hu, Jerry W" <jerry.w.hu@intel.com>,
- Suresh Vankadara <svankada@qti.qualcomm.com>,
- Devarsh Thakkar <devarsht@ti.com>, "r-donadkar@ti.com" <r-donadkar@ti.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Salahaldeen Altous <salahaldeen.altous@leica-camera.com>
-Cc: linux-media@vger.kernel.org
-References: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
- <87a594e0-7f3e-495f-af49-d8816870bac9@xs4all.nl>
- <FR4P281MB3434D01975FAC00E49F70CEAFD672@FR4P281MB3434.DEUP281.PROD.OUTLOOK.COM>
- <496a875e-e65b-4e43-a92e-0fd84678aa7d@xs4all.nl>
-Content-Language: en-US
-In-Reply-To: <496a875e-e65b-4e43-a92e-0fd84678aa7d@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8703:EE_|PAXPR04MB9057:EE_
+X-MS-Office365-Filtering-Correlation-Id: c763c241-db06-4e30-3315-08dcd623df63
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RmVqL2pyZWNRRGdxV1RHVzBlVzRoMHM4VkNXNEJvUFNBd21lbVBwQ3JUWDVJ?=
+ =?utf-8?B?U0VuUWVIUVErSGpjVW83M1g2N1dDall6TDlxQVFNQXk0d0doMWNQbDFZUSt3?=
+ =?utf-8?B?NitSVzFjZzIwRDlRTld1Wm82Z0Yzd3RNelVVaFNoMXJaaytGYUh4OE84cG94?=
+ =?utf-8?B?eWJaSEV5azduTStxWGhNUVM0TGRtV2tLQ0JPa2FMVENXYWVQZEtzd1I4YXpL?=
+ =?utf-8?B?eE40YUdWblVmVlpiMWJHTXV4aGwxYUFrRGFNQVVWeHRrME5UT1pmbWMyWTFz?=
+ =?utf-8?B?U1RpcXJxdEVGMHVJYmQ3S3RrUUpucCtZbXk5TUEwK09ucjJadThEZld5Rjk4?=
+ =?utf-8?B?cDFVcWN5aTBSTzNWV3hFY21CVlh3bnBnSElIcUJGMkdud1c3SFRPT2RZN1pq?=
+ =?utf-8?B?Q0k4Vi8wK1hWczM4RDRVSU5pd3RueDcyOXlmS1hKcFRwY29TVGNvM251TlV3?=
+ =?utf-8?B?K3UwSS93N1NwT1ZBaWw3czBtMGwyUUY3M2NHWVhLUk1KT2hPVDg5UWZOdDNp?=
+ =?utf-8?B?VlMraW1DSVA2OC9vN09nMjZPUjZ0TSt3V0RHUHN2UEtlMTlSNFBYYnMxUGtQ?=
+ =?utf-8?B?MFBhck1TR2pCM21QVjJOd045WXJnaTdqd0RLR1NpYTNPZU5HNGtIWEdIRi8y?=
+ =?utf-8?B?ZHd1SzNvZCtYRmRoUEg5Mzl6KzVXK3p1SkZDMG16MXZ1aE9oZ1JDeFMyeHlN?=
+ =?utf-8?B?c1JjU3FJRWJFLzl5OWcvNkZFSGgvRm9tc3NqYnJsV29LRldqbnJYZXZSWXNV?=
+ =?utf-8?B?bUc4dHJweCtTdEU1cEVyMjVMN2xlTEZxSksrdi90bzhpc09uUFg5bDY4NXVI?=
+ =?utf-8?B?WkFMVmo4VDJyTG5WTEdobk1nejZwYi9xdDNtbmhRM2FBbTErZm9DZzU2WEN5?=
+ =?utf-8?B?Qis0S3RHTVZPNmRyb3ZSRjFpclloSWtYazc1YXFJelF0VkJUWUNYUnlldTkw?=
+ =?utf-8?B?OUFlTWdBOVNBQS85N3llRlJkVXN2L3JoUFFJUndFYUoxbUtja3FTcFR1Vytn?=
+ =?utf-8?B?NC96Y0ZHS0JpUkFLRTV4S20rdWpud2JtWkVHRVJ5SjJxVVVnVml2TDFnQjF5?=
+ =?utf-8?B?ekpVTE1TOUk1ZnhUOEk5eVV6Z0pRQmpmbVljQjFNZ2FEeGt1YVo2UWdwbTQ1?=
+ =?utf-8?B?M3hDTlZreEhXY0lVSkdZTnBkUmZUeVJBQXJsVFVTWDdyZ1Y0czE0YnVsN0ZF?=
+ =?utf-8?B?V0tKVU4zamZ4R21ua0RUYS9zNWpoZEZDU1lnSGNoZy8yWHl3L1F0MUE0SWRK?=
+ =?utf-8?B?OUlETU5XSDBQZCs1RDE5WDYrNlY3ZVZRdUt2eEVvNU00MGRtUlcvdmhKdGNq?=
+ =?utf-8?B?MXFzdk4rWGdTZVJORjVRaE5HNTdrZGlkcDUyY2NFQk85Z2ZXbWZWc1JzZ0FP?=
+ =?utf-8?B?MWk0dGZFdkJISVNWUnZKRTl0ZWl6cjVZbmxkUFBUVy9TWjV4MjhCVmFXbGl5?=
+ =?utf-8?B?UjdzekxhL3JhUSttbnlSQTNmNUYvOVBPN09aSHlTcm45aUtndnl6UW44bGZz?=
+ =?utf-8?B?dk1GNHV2Y2ZHdkRHU1NNVUYyWGN4VUJTTEZadGlpT3E4ZzFPVjRrdlVFYmV1?=
+ =?utf-8?B?VVdEdklIUnBXaHhUMzExZ0FncjA2Ymp0SEpkV1pZaFpmVEFWVXZGNzJMTXFn?=
+ =?utf-8?B?bE9XVHNNVFhpOCtNRHZ4aVJ6K2JYY1VieVdZSjFmVHN1aWNyTUZjNFh4Q3lL?=
+ =?utf-8?B?WFlOUVR3R1IwZ080UFc0czFrK0xleXJYUUhFaHZtdCtaTUd4WTJ3WVBZbUY5?=
+ =?utf-8?B?Nm81L1J2OE9SWnZ4YkJ3bExOREx0bzQ1MmZIaWsvbjJIRk1HV1RRMzNaWkVJ?=
+ =?utf-8?B?NVI1K3RFWlE0cndjbm1JZz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8703.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?amVvTk4zcU5oOElaWlVsdUNuM0Z3U1FQdzZ0MEUycUJ3eXZhaUpUeVAwK3Iy?=
+ =?utf-8?B?Skg0WmR0S0llL2JBWjhuMkNFdDh1cDdWU3R6dnRZdzVqWGpTaDVaZTd3a3JC?=
+ =?utf-8?B?eDE4VzBjT0NDMjg0dWdsRmc2QStZVjlsR3N6TXFmZEdlYWM5WGJMSWtWK0tn?=
+ =?utf-8?B?T2trS0cwcVJYUEovbUtvd3lHYVFpaCtFZGJ2L2poK1E4QWp4VGxvZnJvRjRJ?=
+ =?utf-8?B?aTZJZ0Z3UmllbkF4dDlZVzRpamlhb1dBS1ZraENFVWFIWjdsM0x4NnFKOUxy?=
+ =?utf-8?B?cHlwazNLWGptejAwNnUyRmUzcVFIdk1aMXpHSys4NWt0Q1FXM0JLYmVFdmF2?=
+ =?utf-8?B?RHpoU3h4TkY5dGZML0IwNFVqR0hUYjVSR0FhZ2V4UnYrUzZXSlp5amJNUGFx?=
+ =?utf-8?B?L0t4WGNTNXA3V2lHendTbXNmNFhuQytqZXQrY1hJbGFQUENQaGk4UDc1dzB3?=
+ =?utf-8?B?dWlrelk4SytKcEN5ekFlYmdwNVRYZGZ3MTdGQUd3dkUva1FjR2o1SEcxYmkr?=
+ =?utf-8?B?UHlrRklKN3pCdWxINUZ1ZnVPWUZRSTNwYndSYkU2cVNmbWxGN3ZidE1lRXVy?=
+ =?utf-8?B?SnphQ1RvZ3NlalpyQkFSSDlrZlVGUUUxQUxEUCtYRjgvYUFJL1cySWtOY3Vp?=
+ =?utf-8?B?LzBHSjMvL2VNaDQ5Vm5ZTWYwRVJoaWhlZWk4T0x6cjVqcGczU2tsSVpYbFoz?=
+ =?utf-8?B?WFBxQ0o0Zkh3L3ArcEUwMjQrVGZwNVZJRU1YUDRaRTM3NzRnYTBITVJYMFIz?=
+ =?utf-8?B?UWFRUWVMUW5xL1RabnBTSlhJcFdTSDZ6enlSRjNDaEVXbHpNWlNHUmtxTWk2?=
+ =?utf-8?B?a2V1TVhnb2xzUzBSR0lFSXB4djB6ZkliMWJ6dUwrclY5d242WlRMWHlyaUI5?=
+ =?utf-8?B?L1UzL0dlOFc1eVFwT2J6elA4WG9QOVovdVNvQUg0MmUrZVI4czdJYUtDcGkz?=
+ =?utf-8?B?OUtRMVdsWXZqWUs2bUUwbXY0cEpHNVJqeTcrdWVRWjN0ejFmSUJKY1E0eFBh?=
+ =?utf-8?B?RElKOWJ5ZU1QVnNRK2x1Skl5bUpPcnl5aTBFSE9OYi8xQm10MXg4Ymx6REFw?=
+ =?utf-8?B?Z1V5T3VyOGtISDB4SkRoQ2R3UFA5aG9ET29aaVNEY2F0SjF1SkRPWEppQU5Q?=
+ =?utf-8?B?ZENPa3VvYW9CTmNFOFZjb3pWZXF2cCt3dlp4UE5uSmlTTzRMUkVUdUxMQlVT?=
+ =?utf-8?B?RkJ2NERIeW9uK0E0L2FWZXpmdnl0WDd5QkV2QkxUU2cyL0J4dWhncWVzT0F0?=
+ =?utf-8?B?SmRDVHQ3TCtobXF6azRidyt0dUY4UlZ2dEVFdURJMzIzWTlpbCswTnEzZVNv?=
+ =?utf-8?B?Wm91SDdxVkRvMHNzamplaVhZN0wzZWtPRjkxTUpxZ2cvWmZrU0tFUFE0cnZN?=
+ =?utf-8?B?NDh6WHB1Ny9BWG9IOEtqMGxjQUdzYkl4VlQzYnNqVVJrNi9PSlBHVERTT2Nh?=
+ =?utf-8?B?Z0lFdytlY2ttUW5ISWYvYi9jdnFlUG1oWnhUWEh1VkJVeUNrditpaDI5N0Ux?=
+ =?utf-8?B?SWtRT1lEZDV1MHVudUNudEZIT3E4T1J2eWYvWXA5M2xDYVBEUGY3NFVQQW8v?=
+ =?utf-8?B?eVM0eFZSR3dtYUY1M1g4V0h2SElwbFROcXZ4eE9jRHcvdU92VnJqekhoSm1u?=
+ =?utf-8?B?MVpWM0liYVI4aFpJeUVoVEJ2ZlFOakhmRW5YaituM2I5SVBxcUhRY1hnK3Jm?=
+ =?utf-8?B?ZnlZR2kzeVNhUlNzZE9VUXVZUjkwVkRIS3lUWFB2OHdIa2k2Vit0TDBWZUJh?=
+ =?utf-8?B?R0dDYzZ5QnpITy9iWFBJaXREeXhVS3h0OTZ4anh3VS9qdkdzL2VGcVJwS0tG?=
+ =?utf-8?B?VE5zYnMrL3BUMkdKdi9KMmRGenNJTW4wTWwwUlJHRHNLYk5jaU0xZmVaVk5s?=
+ =?utf-8?B?eXVOdmQrdy9kdTBxajhMVlBtUlI3YlA0bVJ1eGxYTTBlZ2NaVzNJd1hkR1k0?=
+ =?utf-8?B?Q0VrblRsUllzTVFOeW5xRTBqTDVGd0NMRFc3YWJ3UTU2S0pkZG1VblUremJB?=
+ =?utf-8?B?RytJWVg2ekxscnJLSHhxVFNQbDQ4NkFxdHNSbWFjMGRqSGdqM25rMmNBRWRm?=
+ =?utf-8?B?cWl5M3ZXZlo2SHJlVTVRczIzaW9tUzlrWDBaTU5xdm5pOEdoVVNkeVBKR1NS?=
+ =?utf-8?B?TzFSQ3Q3RklNTnoxNmtXL1U2YjErT0xMWndvZmt1VDFuR2ZzbHZLMEdMb1Bo?=
+ =?utf-8?B?Y3c9PQ==?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c763c241-db06-4e30-3315-08dcd623df63
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8703.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2024 07:47:54.6459
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: M7pLm8yoUFguRdBDyWiIXLedLAeslTjzIcdz9JzSNgqVenFJRjFdBiIRt6Rzir3k4k+jdLwtXzj8IP4cxIKtGA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9057
 
-Etherpad for the meeting notes:
+Hi Umang,
 
-https://pad.systemli.org/p/media-summit-2024
+On 9/14/24 4:40 PM, Kieran Bingham wrote:
+> Quoting Umang Jain (2024-09-14 15:29:28)
+>> Rectify dev_dbg() log of dw100_hw_set_destination() from
+>> "Set HW source registers" to "Set HW destination registers".
+>>
+> 
+> Yes, that looks pretty clear to be a copy/paste error when the function
+> was duplicated, and would make reading the logs confusing.
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> 
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   drivers/media/platform/nxp/dw100/dw100.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
+>> index 0024d6175ad9..394f1f6129e3 100644
+>> --- a/drivers/media/platform/nxp/dw100/dw100.c
+>> +++ b/drivers/media/platform/nxp/dw100/dw100.c
+>> @@ -1311,7 +1311,7 @@ static void dw100_hw_set_destination(struct dw100_device *dw_dev,
+>>          }
+>>   
+>>          dev_dbg(&dw_dev->pdev->dev,
+>> -               "Set HW source registers for %ux%u - stride %u, pixfmt: %p4cc, dma:%pad\n",
+>> +               "Set HW destination registers for %ux%u - stride %u, pixfmt: %p4cc, dma:%pad\n",
+>>                  width, height, stride, &fourcc, &addr_y);
+>>   
+>>          /* Pixel Format */
+>> -- 
+>> 2.45.2
+>>
+Thanks for your patch. Indeed..
 
-Regards,
+Reviewed-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
 
-	Hans
-
-On 9/16/24 7:27 AM, Hans Verkuil wrote:
-> +linux-media
-> 
-> Sorry, I'd removed that in my previous reply, but some people may not 
-> have access to their company email while on the road, but are subscribed 
-> to linux-media with their private email.
-> 
-> So read the instructions below on where to find the Avnet office, and 
-> use WienMobil app to determine the route to the office, since Google 
-> Maps still thinks the U4 U-Bahn can get there, which isn't true due to 
-> flooding.
-> 
-> Regards,
-> 
->      Hans
-> 
-> On 9/16/24 1:03 AM, Hecht, Martin (Avnet Silica) wrote:
->> Hi all,
->>
->> please apologize the late update.
->>
->> When you arrive at Schoenbrunner Strasse 297 please use the vehicle 
->> entry to enter the area und walk through the tunnel to pass the first 
->> building. Turn to right and walk until you see the entrance of the 
->> building in the second row of that area labelled with "Grunbergstrasse 
->> 15 - Stiege 1" above a glass door. This is the correct entry and you 
->> will see a white plate showing the names "Avnet" and "EBV".
->> Please take the lift and go up to meet us in the Avnet office at Level 4.
->>
->> If you need further assistance, please don't hesitate to send me an 
->> email or call me on my mobile phone +491728906019.
->>
->> BR Martin
->>
->>
->> ________________________________________
->> Von: Hans Verkuil <hverkuil@xs4all.nl>
->> Gesendet: Sonntag, 15. September 2024 17:10
->> An: Sakari Ailus; Daniel Almeida; Mauro Carvalho Chehab; Sebastian 
->> Fricke; Hecht, Martin (Avnet Silica); Tommaso Merciai; Jacopo Mondi; 
->> Benjamin Mugnier; Laurent Pinchart; Ricardo Ribalda; Michael Tretter; 
->> Alain Volmat; Sean Young; Steve Cho; Tomasz Figa; Hidenori Kobayashi; 
->> Hu, Jerry W; Suresh Vankadara; Devarsh Thakkar; r-donadkar@ti.com; 
->> Dave Stevenson; Mehdi Djait; Nicolas Dufresne; Salahaldeen Altous
->> Betreff: [External]Re: [ANN] Media Summit September 16th: Final Agenda 
->> (v7)
->>
->> Hi all,
->>
->> The large amount of rain in Vienna affected the public transport, in
->> particular the U4 U-Bahn is partially closed, including the station
->> closest to the Avnet office. I noticed that Google Maps still doesn't
->> take that into account when calculating the route to take. Instead I
->> advice to use the WienMobil app, that is kept up to date.
->>
->> For me it means 15-20 minutes extra travel time.
->>
->> Another problem is that I couldn't find the entrance to the Avnet office
->> when I went there on Saturday (scouting the place!). Schönbrunner Str.
->> 297 is easy enough to find, but I couldn't find Avnet mentioned on the
->> list of companies at either entrance.
->>
->> Martin Hecht will try to figure that out, so hopefully he can give an
->> update later today.
->>
->> Regards,
->>
->>          Hans
->>
->> On 9/11/24 11:03 AM, Hans Verkuil wrote:
->>> Hi all,
->>>
->>> Here is my seventh and final version of the agenda for the media 
->>> summit. As always,
->>> all times (except lunch time) are guesstimates!
->>>
->>> The media summit will be held on Monday September 16th. Avnet Silica 
->>> has very
->>> kindly offered to host this summit at their Vienna office, which is 
->>> about 35
->>> minutes by public transport from the Open Source Summit Europe venue
->>> (https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
->>>
->>> Avnet Silica Office Location:
->>>
->>> Schönbrunner Str. 297/307, 1120 Vienna, Austria
->>>
->>> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
->>>
->>> Refreshments are available during the day.
->>>
->>> Lunch is held at Schönbrunner Stöckl 
->>> (https://www.schoenbrunnerstoeckl.com/), close
->>> to the Avnet Silica office. The lunch is sponsored by Ideas on Board 
->>> and Cisco Systems
->>> Norway.
->>>
->>> Regarding the face mask policy: we will follow the same guidance that 
->>> the
->>> Linux Foundation gives for the EOSS conference:
->>>
->>> https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/#onsite-health-and-safety
->>>
->>>
->>> In-Person Attendees:
->>>
->>> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
->>> Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
->>> Salahaldeen Altous <salahaldeen.altous@leica-camera.com> (Leica 
->>> Camera AG)
->>> Mauro Carvalho Chehab <mchehab@kernel.org> (Huawei, Media Kernel 
->>> Maintainer)
->>> Steve Cho <stevecho@chromium.org> (Google)
->>> Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
->>> Martin Hecht <martin.hecht@avnet.eu> (Avnet)
->>> Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
->>> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
->>> Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
->>> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
->>> Ricardo Ribalda <ribalda@chromium.org> (Google)
->>> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
->>> Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
->>> Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
->>> Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
->>> Sean Young <sean@mess.org>
->>> Jerry W Hu <jerry.w.hu@intel.com> (Intel)
->>>
->>> Remote Attendees (using MS Teams):
->>>
->>> Mehdi Djait <mehdi.djait@linux.intel.com> (Intel)
->>> Rishikesh Donadkar <r-donadkar@ti.com> (TI)
->>> Nicolas Dufresne <nicolas@ndufresne.ca> (Collabora)
->>> Tomasz Figa <tfiga@chromium.org> (Google)
->>> Hidenori Kobayashi <hidenorik@chromium.org> (Google)
->>> Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
->>> Devarsh Thakkar <devarsht@ti.com> (TI)
->>>
->>> All remote participants listed above should have received an invite 
->>> with connection details.
->>> If not, please contact Martin Hecht <martin.hecht@avnet.eu> asap.
->>>
->>> If any information above is incorrect, or if I missed someone, then 
->>> please let me know.
->>>
->>> We have 18 confirmed in-person participants, so we're full.
->>> If you want to join remotely, then contact me and I'll add you to 
->>> that list.
->>>
->>> Draft agenda:
->>>
->>> 8:45-9:15: Get settled :-)
->>>
->>> 9:15-9:25: Hans: Quick introduction
->>>
->>> 9:25-11:00: Ricardo: multi-committer model using gitlab
->>>
->>> 11:00-11:15: break
->>>
->>> 11:15-12:15: Jacopo: Multi-context support in V4L2
->>>
->>> 12:15-13:30: Lunch at Schönbrunner Stöckl
->>>
->>> 13:30-14:00: Tomasz: Current state of videobuf2, its limitations and 
->>> the paths forward.
->>>
->>> 14:00-14:45: Laurent: subdevs, state, and usage of the media 
->>> controller device to submit requests.
->>>
->>> 14:45-15:00: break
->>>
->>> 15:00-15:30: Sean: new tooling for infrared:
->>>
->>> - What it is and what it can do (love to hear any feedback of course)
->>> - Where it should be hosted? (I hope gitlab fdo, who do I ask)
->>> - What needs to be in place for a release?
->>> - This tool replaces ir-ctl and ir-keytable. How we phase them out?
->>>
->>> 15:30-16:00: Daniel: Rust in the media subsystem
->>>
->>> 16:00-16:15: break
->>>
->>> 16:15-16:30: Hans: UVC maintenance
->>>
->>> 16:30-17:00: Steve Cho:
->>>
->>> - V4L2 testing on Chromium using virtual video decode driver (visl)
->>> - V4L2 video decoding testing with KernelCI
->>>
->>> 17:00-17:30: Laurent: Should media drivers depend on CONFIG_PM?
->>> See here for more info:
->>> https://lore.kernel.org/linux-media/20240825222455.GA24390@pendragon.ideasonboard.com/
->>>
->>> 17:30-18:00: Any other topics and feedback on what can be improved 
->>> next media summit.
->>>
->>> Hope to see you all on Monday!
->>>
->>> Regards,
->>>
->>>        Hans
->>>
->>>
->>>
->>
->> We continuously commit to comply with the applicable data protection 
->> laws and ensure fair and transparent processing of your personal data.
->> Please read our privacy statement including an information notice and 
->> data protection policy for detailed information on our website.
 
