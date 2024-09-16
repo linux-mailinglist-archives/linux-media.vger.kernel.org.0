@@ -1,155 +1,172 @@
-Return-Path: <linux-media+bounces-18309-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18310-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFAE97A027
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2024 13:20:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65EAD97A094
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2024 13:55:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7D8B1F228C5
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2024 11:20:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18DB31F23DD4
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2024 11:55:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67E41153814;
-	Mon, 16 Sep 2024 11:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A469414F12F;
+	Mon, 16 Sep 2024 11:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CQg8GTZ5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93BAD13A89B;
-	Mon, 16 Sep 2024 11:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CB04962E
+	for <linux-media@vger.kernel.org>; Mon, 16 Sep 2024 11:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726485594; cv=none; b=o2doxUmiul2dwQlkVcKnyJ8Isn8XdOJ6/myT4BrbsADvearY3iD7s/9aCpz4q/pHTR++a/dEjxJQ3ThYz/qZMliGI2R5II6ZpsS9rBzPXWw7WGjJzqUxVp9DEytfZHn1hIm7/B9Kmi8dgymDISJ8/v09JNgQOqz6Lwc2N0pREF4=
+	t=1726487733; cv=none; b=HjV+wkykuMWF8+yp0+s03cY8mpGZS+J3SleJ/RyfcLTBYfoH51kE57ollHv9qOuSiUOND4cl3Jem7MjKOO0yc3L5svs3Ae0M6pnpXW6xsrUf6gA4MOi6SGg5O68d6KcI6PM6yNwxKY3HCg/DrYfHDX14DRckM6xi0eMIf8pNXso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726485594; c=relaxed/simple;
-	bh=ZoK3q31s4/59pAlwuI5842tk/+O0v/TuLdfdgn6gGvQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eI6g2yfw1KN4J6AwipEm+TpAGd2U/ZUUeNscu0pJqL1jNkFhCeCj3tKHe9gKGPJBLCu8ck3fWEHZrz5r4tRVu7dVoVlQqnP5zjM0abNw2GA9F8CL+2Y3sCleJiqnnE2XjKvuxDFitavn75tAPl0Yu8r2/RXcrFN+6rwK6boORmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4991311FB;
-	Mon, 16 Sep 2024 04:20:21 -0700 (PDT)
-Received: from [10.57.76.90] (unknown [10.57.76.90])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF9533F64C;
-	Mon, 16 Sep 2024 04:19:48 -0700 (PDT)
-Message-ID: <0b748c7d-0800-4352-97b9-4940f115cec9@arm.com>
-Date: Mon, 16 Sep 2024 12:19:46 +0100
+	s=arc-20240116; t=1726487733; c=relaxed/simple;
+	bh=ly7Y5bDNOzqlP3jXTdXYQB7ND4B7FljAHZu/OjU3j9U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e4H+Eg6jS0m1VWlgEVqwsPNiab252V3UmIpeK/aakIJ0U1y+QYH64jZm+HD6L27Bfb/C+tiObFDpZk3Zhin2NYzbIjkbVxw3dy4xWGMbWZcFzEjn8qEjXKjJVgI+ilmjyalDNPCVR40oSwjZb07czUgHsa62jF8zAK38Aa53J5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CQg8GTZ5; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2053a0bd0a6so43802935ad.3
+        for <linux-media@vger.kernel.org>; Mon, 16 Sep 2024 04:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1726487729; x=1727092529; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tunw2sAoP6knppIh5HYN+eXeKYnrpGUJ/1w8l0j+5Vo=;
+        b=CQg8GTZ522cm3sB60v1Di2dRk3Ba6uawXWMEZ9J6d/y5o4VPWUkl4JCzFXqjbOt+mF
+         OisfqYuaaAzBTKlEVprJjF8C3dN22DZeoawQGTFw0irm6EtnOFdD58R5PiY1NI+0el+2
+         IFqZjmI+g1Z4x8puGvU9DSokw/Mh9vIOlwiPc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726487729; x=1727092529;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tunw2sAoP6knppIh5HYN+eXeKYnrpGUJ/1w8l0j+5Vo=;
+        b=Glh5rKwoXEnxa+ZYVZYkeyy/IsT5aKfIbqu9Dik83nRCudwiY1lQcvuuKjpdJW0vI3
+         5EwH9biMTDOYdyKXmcfvtApZLxlBmALtojapemya46DDZVZm+q9IQBxjWfAX5lnb3bc6
+         v8BjeIIGu6CpfVTGP8z/CvwLKAqZaXXXQr3o+XzDIWjWfGLgtzulXygkUVf+DafaFSZU
+         ZjF7Z6dypTzzrTPy2DLH8uWbxCGr0kgQATU/Jo0Ppx88NKe1OBQOurwyzrhtlgpRXRl5
+         QxXpng726U73apMeaFQL96M9oprn6ITmZXJocKJHQwuk2VY1nS8fjeDlyMTFe2bgOZMg
+         QyAA==
+X-Gm-Message-State: AOJu0YwpwjR+LHljihdLKeSBgQQs/o43G3hXvQt5Ou5y6Tdp5C/h6bbZ
+	kliuX+vOnFkya184L7D2zufIj+YiK/ttzxd1wtmb4s5pifG/2qvDHeMRgvNtmrmbXdEYEgPlk9U
+	=
+X-Google-Smtp-Source: AGHT+IF+W8pyequH19lxbqfM31IZu5mzpvvO4UhGHrzSralu7/rrFRj8CetvEzkvRFs+lzfLERe4kA==
+X-Received: by 2002:a17:902:f693:b0:205:68a4:b2d8 with SMTP id d9443c01a7336-2076e3155e9mr264008845ad.11.1726487729472;
+        Mon, 16 Sep 2024 04:55:29 -0700 (PDT)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com. [209.85.214.174])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-207946d27dasm34645305ad.172.2024.09.16.04.55.28
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Sep 2024 04:55:28 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1fee6435a34so37098665ad.0
+        for <linux-media@vger.kernel.org>; Mon, 16 Sep 2024 04:55:28 -0700 (PDT)
+X-Received: by 2002:a17:90b:524c:b0:2da:5edd:c165 with SMTP id
+ 98e67ed59e1d1-2dba0060fb3mr16656082a91.30.1726487727635; Mon, 16 Sep 2024
+ 04:55:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/5] drm/panthor: record current and maximum device
- clock frequencies
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240913124857.389630-1-adrian.larumbe@collabora.com>
- <20240913124857.389630-3-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20240913124857.389630-3-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CALgV52gHPWrcBBv2m6fAAyF_i_8T7cRTtBRS+FKe4TgfRVG0DA@mail.gmail.com>
+In-Reply-To: <CALgV52gHPWrcBBv2m6fAAyF_i_8T7cRTtBRS+FKe4TgfRVG0DA@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 16 Sep 2024 13:55:15 +0200
+X-Gmail-Original-Message-ID: <CANiDSCti8SmcNWjhEKm1qM+Bzm30dumU=dptmHzcHeiObv-k+Q@mail.gmail.com>
+Message-ID: <CANiDSCti8SmcNWjhEKm1qM+Bzm30dumU=dptmHzcHeiObv-k+Q@mail.gmail.com>
+Subject: Re: [PATCH] uvc: add support for the Kaiweets KTI-W02 infrared camera
+To: David Given <dg@cowlark.com>
+Cc: linux-media@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 13/09/2024 13:42, Adrián Larumbe wrote:
-> In order to support UM in calculating rates of GPU utilisation, the current
-> operating and maximum GPU clock frequencies must be recorded during device
-> initialisation, and also during OPP state transitions.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+HI David
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Can you add the output of lsusb -v -d 1fc9 ?
 
-> ---
->  drivers/gpu/drm/panthor/panthor_devfreq.c | 18 +++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_device.h  |  6 ++++++
->  2 files changed, 23 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
-> index c6d3c327cc24..9d0f891b9b53 100644
-> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
-> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
-> @@ -62,14 +62,20 @@ static void panthor_devfreq_update_utilization(struct panthor_devfreq *pdevfreq)
->  static int panthor_devfreq_target(struct device *dev, unsigned long *freq,
->  				  u32 flags)
->  {
-> +	struct panthor_device *ptdev = dev_get_drvdata(dev);
->  	struct dev_pm_opp *opp;
-> +	int err;
->  
->  	opp = devfreq_recommended_opp(dev, freq, flags);
->  	if (IS_ERR(opp))
->  		return PTR_ERR(opp);
->  	dev_pm_opp_put(opp);
->  
-> -	return dev_pm_opp_set_rate(dev, *freq);
-> +	err = dev_pm_opp_set_rate(dev, *freq);
-> +	if (!err)
-> +		ptdev->current_frequency = *freq;
-> +
-> +	return err;
->  }
->  
->  static void panthor_devfreq_reset(struct panthor_devfreq *pdevfreq)
-> @@ -130,6 +136,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
->  	struct panthor_devfreq *pdevfreq;
->  	struct dev_pm_opp *opp;
->  	unsigned long cur_freq;
-> +	unsigned long freq = ULONG_MAX;
->  	int ret;
->  
->  	pdevfreq = drmm_kzalloc(&ptdev->base, sizeof(*ptdev->devfreq), GFP_KERNEL);
-> @@ -161,6 +168,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
->  		return PTR_ERR(opp);
->  
->  	panthor_devfreq_profile.initial_freq = cur_freq;
-> +	ptdev->current_frequency = cur_freq;
->  
->  	/* Regulator coupling only takes care of synchronizing/balancing voltage
->  	 * updates, but the coupled regulator needs to be enabled manually.
-> @@ -204,6 +212,14 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
->  
->  	dev_pm_opp_put(opp);
->  
-> +	/* Find the fastest defined rate  */
-> +	opp = dev_pm_opp_find_freq_floor(dev, &freq);
-> +	if (IS_ERR(opp))
-> +		return PTR_ERR(opp);
-> +	ptdev->fast_rate = freq;
-> +
-> +	dev_pm_opp_put(opp);
-> +
->  	/*
->  	 * Setup default thresholds for the simple_ondemand governor.
->  	 * The values are chosen based on experiments.
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index a48e30d0af30..2109905813e8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -184,6 +184,12 @@ struct panthor_device {
->  
->  	/** @profile_mask: User-set profiling flags for job accounting. */
->  	u32 profile_mask;
-> +
-> +	/** @current_frequency: Device clock frequency at present. Set by DVFS*/
-> +	unsigned long current_frequency;
-> +
-> +	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
-> +	unsigned long fast_rate;
->  };
->  
->  /**
+Also, the patch should be implemented of top of
+https://git.linuxtv.org/media_stage.git/log/
 
+Could you rebase your patch and send as v2?
+https://patchwork.linuxtv.org/project/linux-media/patch/CALgV52gHPWrcBBv2m6fAAyF_i_8T7cRTtBRS+FKe4TgfRVG0DA@mail.gmail.com/
+
+Thanks!
+
+
+
+On Sun, 15 Sept 2024 at 21:32, David Given <dg@cowlark.com> wrote:
+>
+> - adds support for the D3DFMT_R5G6B5 bitmap format (just RGBP but with
+> a different GUID)
+> - adds a quirk for the Kaiweets camera which uses it
+>
+> The camera uses an NXP chipset (product ID 0x1fc9), but I can't find
+> any references to a device with vendor ID 0x009b. It may be specific
+> to the Kaiweets camera.
+>
+> diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
+> index c54c2268f..c12d58932 100644
+> --- a/drivers/media/common/uvc.c
+> +++ b/drivers/media/common/uvc.c
+> @@ -96,6 +96,10 @@ static const struct uvc_format_desc uvc_fmts[] = {
+>          .guid        = UVC_GUID_FORMAT_RGBP,
+>          .fcc        = V4L2_PIX_FMT_RGB565,
+>      },
+> +    {
+> +        .guid        = UVC_GUID_FORMAT_D3DFMT_R5G6B5,
+> +        .fcc        = V4L2_PIX_FMT_RGB565,
+> +    },
+>      {
+>          .guid        = UVC_GUID_FORMAT_BGR3,
+>          .fcc        = V4L2_PIX_FMT_BGR24,
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c
+> b/drivers/media/usb/uvc/uvc_driver.c
+> index f0febdc08..5a29f6970 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -3072,6 +3072,15 @@ static const struct usb_device_id uvc_ids[] = {
+>        .bInterfaceSubClass    = 1,
+>        .bInterfaceProtocol    = 0,
+>        .driver_info        = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> +    /* NXP Semiconductors IR VIDEO */
+> +    { .match_flags        = USB_DEVICE_ID_MATCH_DEVICE
+> +                | USB_DEVICE_ID_MATCH_INT_INFO,
+
+The quirks are sorted by idVendor:IdProduct
+
+> +      .idVendor        = 0x1fc9,
+> +      .idProduct        = 0x009b,
+> +      .bInterfaceClass    = USB_CLASS_VIDEO,
+> +      .bInterfaceSubClass    = 1,
+> +      .bInterfaceProtocol    = 0,
+> +      .driver_info        = (kernel_ulong_t)&uvc_quirk_probe_minmax },
+>      /* Generic USB Video Class */
+>      { USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+>      { USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+> index 88d96095b..01c3b2f45 100644
+> --- a/include/linux/usb/uvc.h
+> +++ b/include/linux/usb/uvc.h
+> @@ -140,6 +140,9 @@
+>  #define UVC_GUID_FORMAT_D3DFMT_L8 \
+>      {0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, \
+>       0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_D3DFMT_R5G6B5 \
+> +    {0x7b, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
+> +     0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+>  #define UVC_GUID_FORMAT_KSMEDIA_L8_IR \
+>      {0x32, 0x00, 0x00, 0x00, 0x02, 0x00, 0x10, 0x00, \
+>       0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+>
+
+
+-- 
+Ricardo Ribalda
 
