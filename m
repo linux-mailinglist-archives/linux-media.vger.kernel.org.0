@@ -1,102 +1,143 @@
-Return-Path: <linux-media+bounces-18327-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18329-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9880397AEEE
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 12:36:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7856D97B047
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 14:44:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A35E2813EC
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 10:36:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A9421F22C49
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 12:44:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CA65166F16;
-	Tue, 17 Sep 2024 10:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ceeHaIYE"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DDD5174EF0;
+	Tue, 17 Sep 2024 12:43:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0462165F08
-	for <linux-media@vger.kernel.org>; Tue, 17 Sep 2024 10:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DA0170A20
+	for <linux-media@vger.kernel.org>; Tue, 17 Sep 2024 12:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.185.170.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726569385; cv=none; b=mHINEYo0CsZ1P/J8RrRAeUcb3tdnXhSWWKPRwu5fR1xNm73y7BX+35IsQE2uqsFbSRyr1a3zCOt4z74WXP+e8LvX2+kgcIWFJcwhodl9BWcHBuypDKsP7ApIs+rrBzQEfvypXdSydBEutSWz8OCgcwO2ZSLwjceXxJjN/BE0SCU=
+	t=1726577037; cv=none; b=gNic1lXb9m16C+JTvznnJliHz2/PCx/pYB5o13eElbANFDtPO7b1bMVRKrl2BtBwESCwuI26VuYGGgvV4Eo+SfCSgNsjg7ktrjxmefAuVs6dZhd3WW0wj1Y25o/oVnRlpsn687T2CaoEUAD0aGFWtnzRCRYS20z0OJ1DzgH5qX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726569385; c=relaxed/simple;
-	bh=l9xNALwwkHZ/mS69ylaRUPl0iGnnCSc6gzdJ2WK+MMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l78Wk6CiwXkMByzE827iLGxOKHd/QFYZUAa+Z+Z+viS4J0oN44DGG0D5u1vDL+JRQ1krwc31qTd6awkAVdgFB6ZiN2DaomOoM9oZde0uJ6W9S46T9PbhLVWC/HhxcSYNHwMJyqqQvLic07oyswujzYMnsrQPdhY96vbj6pF9pPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ceeHaIYE; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (62-46-121-59.adsl.highway.telekom.at [62.46.121.59])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 875613C7;
-	Tue, 17 Sep 2024 12:34:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1726569299;
-	bh=l9xNALwwkHZ/mS69ylaRUPl0iGnnCSc6gzdJ2WK+MMw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ceeHaIYEwZfVQ9hPok69Yn7vLu8Bl93842teEe/3TFWA/VkHUdX3LWbgKKUiec8oq
-	 e4Igk9iY9bQbLraEp/vfH7YLVGjDb3alB/n6hJBr5PBwvdrkvvau/somd1QOtN57fz
-	 clW05XFZkiWyAirixNFZvwbA4VnQI55QjK6G9DY8=
-Date: Tue, 17 Sep 2024 13:35:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Steve Cho <stevecho@google.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Martin Hecht <martin.hecht@avnet.eu>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	s=arc-20240116; t=1726577037; c=relaxed/simple;
+	bh=Wyb+mNcj5vmeR9iK9Xo4xGPVhyu10EEkyG8ENFOntjc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=i2EOkhduMea+1s/5VXItuTQX92uhNW6h/JPcvrWAuXBPnIkF0s8QrmSnQWbTPT64jh98jD3IGFkAV+TfFR2ek1Jhqsa3fXhGYMF/9JaZz5oDYJKIu+y9z3UmXNPqveQS+q0n6TlxWfkeLoJtuKlQObwAhogtMW/NTp7ouGXmGWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=iki.fi; arc=none smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4X7M0K6jHfz49PyM;
+	Tue, 17 Sep 2024 15:43:45 +0300 (EEST)
+Received: from vihersipuli.localdomain (vihersipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::84:2])
+	by hillosipuli.retiisi.eu (Postfix) with ESMTP id 75F0D634C96;
+	Tue, 17 Sep 2024 15:43:45 +0300 (EEST)
+Received: from sailus by vihersipuli.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@iki.fi>)
+	id 1sqXYX-0004LH-13;
+	Tue, 17 Sep 2024 15:43:45 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com,
+	tomi.valkeinen@ideasonboard.com,
+	Alain Volmat <alain.volmat@foss.st.com>,
 	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
-	Steve Cho <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
-	Hidenori Kobayashi <hidenorik@chromium.org>,
-	"Hu, Jerry W" <jerry.w.hu@intel.com>,
-	Suresh Vankadara <svankada@qti.qualcomm.com>,
-	Devarsh Thakkar <devarsht@ti.com>, r-donadkar@ti.com,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Salahaldeen Altous <salahaldeen.altous@leica-camera.com>
-Subject: Re: [ANN] Media Summit September 16th: Final Agenda (v7)
-Message-ID: <20240917103547.GA17350@pendragon.ideasonboard.com>
-References: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
- <20240917091744.qltmddftdy7bpgpg@basti-XPS-13-9310>
- <CAN0yncErs6T9MTp+QxrmbRgSWp79_YvoS_ekVOZB5N1mQ2wdLw@mail.gmail.com>
- <ZulbQNBZidwApHX5@kekkonen.localdomain>
+	hverkuil@xs4all.nl
+Subject: [PATCH 1/2] media: Documentation: Deprecate s_stream video op, update docs
+Date: Tue, 17 Sep 2024 15:43:44 +0300
+Message-Id: <20240917124345.16681-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZulbQNBZidwApHX5@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 17, 2024 at 10:34:40AM +0000, Sakari Ailus wrote:
-> Hi Steve,
-> 
-> On Tue, Sep 17, 2024 at 12:18:21PM +0200, Steve Cho wrote:
-> > If it were to happen on Wed, I can book at a room for some times at OSS
-> > venue.
-> 
-> Not everyone is attending OSS. It'd be the best if this would take place
-> outside both OSS and LPC but I'm not sure if this is doable.
+The scope of the s_stream video operation is now fully supported by
+{enable,disable}_straems. Explicitly document the s_stream() op as
+deprecated and update the related documentation.
 
-I'm personally available on Friday only, or possibly on Thursday after
-the complex camera micro-conference.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ Documentation/driver-api/media/camera-sensor.rst |  8 ++++----
+ Documentation/driver-api/media/tx-rx.rst         | 11 ++++++-----
+ include/media/v4l2-subdev.h                      |  5 +++--
+ 3 files changed, 13 insertions(+), 11 deletions(-)
 
+diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+index b4920b34cebc..c290833165e6 100644
+--- a/Documentation/driver-api/media/camera-sensor.rst
++++ b/Documentation/driver-api/media/camera-sensor.rst
+@@ -81,10 +81,10 @@ restart when the system is resumed. This requires coordination between the
+ camera sensor and the rest of the camera pipeline. Bridge drivers are
+ responsible for this coordination, and instruct camera sensors to stop and
+ restart streaming by calling the appropriate subdev operations
+-(``.s_stream()``, ``.enable_streams()`` or ``.disable_streams()``). Camera
+-sensor drivers shall therefore **not** keep track of the streaming state to
+-stop streaming in the PM suspend handler and restart it in the resume handler.
+-Drivers should in general not implement the system PM handlers.
++(``.enable_streams()`` or ``.disable_streams()``). Camera sensor drivers shall
++therefore **not** keep track of the streaming state to stop streaming in the PM
++suspend handler and restart it in the resume handler. Drivers should in general
++not implement the system PM handlers.
+ 
+ Camera sensor drivers shall **not** implement the subdev ``.s_power()``
+ operation, as it is deprecated. While this operation is implemented in some
+diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
+index 29d66a47b56e..a339df61fca8 100644
+--- a/Documentation/driver-api/media/tx-rx.rst
++++ b/Documentation/driver-api/media/tx-rx.rst
+@@ -49,11 +49,12 @@ Link frequency
+ The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
+ receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
+ 
+-``.s_stream()`` callback
+-^^^^^^^^^^^^^^^^^^^^^^^^
++``.enable_streams()`` and ``.disable_streams()`` callbacks
++^^^^^^^^^^^^^^^^^^^^^^^^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-The struct struct v4l2_subdev_video_ops->s_stream() callback is used by the
+-receiver driver to control the transmitter driver's streaming state.
++The struct v4l2_subdev_pad_ops->enable_streams() and struct
++v4l2_subdev_pad_ops->disable_streams() callbacks are used by the receiver driver
++to control the transmitter driver's streaming state.
+ 
+ 
+ CSI-2 transmitter drivers
+@@ -127,7 +128,7 @@ Stopping the transmitter
+ ^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ A transmitter stops sending the stream of images as a result of
+-calling the ``.s_stream()`` callback. Some transmitters may stop the
++calling the ``.disable_streams()`` callback. Some transmitters may stop the
+ stream at a frame boundary whereas others stop immediately,
+ effectively leaving the current frame unfinished. The receiver driver
+ should not make assumptions either way, but function properly in both
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 8daa0929865c..3cc6b4a5935f 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -450,8 +450,9 @@ enum v4l2_subdev_pre_streamon_flags {
+  *	already started or stopped subdev. Also see call_s_stream wrapper in
+  *	v4l2-subdev.c.
+  *
+- *	New drivers should instead implement &v4l2_subdev_pad_ops.enable_streams
+- *	and &v4l2_subdev_pad_ops.disable_streams operations, and use
++ *	This callback is DEPRECATED. New drivers should instead implement
++ *	&v4l2_subdev_pad_ops.enable_streams and
++ *	&v4l2_subdev_pad_ops.disable_streams operations, and use
+  *	v4l2_subdev_s_stream_helper for the &v4l2_subdev_video_ops.s_stream
+  *	operation to support legacy users.
+  *
 -- 
-Regards,
+2.39.5
 
-Laurent Pinchart
 
