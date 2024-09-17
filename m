@@ -1,138 +1,111 @@
-Return-Path: <linux-media+bounces-18348-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18352-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F045897B3BA
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 19:40:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DE097B56B
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 23:57:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5A6C1F24851
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 17:40:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E35201F21B0B
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 21:57:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 279B7183CCE;
-	Tue, 17 Sep 2024 17:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="utuaubGN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75F9C1922CC;
+	Tue, 17 Sep 2024 21:57:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF90174EFA
-	for <linux-media@vger.kernel.org>; Tue, 17 Sep 2024 17:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18572186E51
+	for <linux-media@vger.kernel.org>; Tue, 17 Sep 2024 21:57:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726594835; cv=none; b=FCI9eW/ift5pRPV8yInjMq9nx/ixrlMaMMXpjufwDgF7HjJLrFD1SRcxK/uSrZumrRcPmqegclMRXuNr6A/aWWLTacfacZxnDqE0giLWcXCP7f6RFCUoN7+jAdLUKTFLKlDB7sAvdyePbB+8vNdCyy5sDxuqJ/91lUEyGj9mnRM=
+	t=1726610260; cv=none; b=pebM+BAlEKBBDYU8h4JFM6LfmPPd5Hb92Mlg8WDI/R5TciS4McwOTPifGA8619xHrj8B7jpEiPJN24EBDCK+0zEOTjrpJYZ7obP1duD5x2/8f9dPKQsOPR8FahZAeH13jPXrMYkUEL1X47TitPVVFbzGHfw04a3qKYpUjkcQYio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726594835; c=relaxed/simple;
-	bh=uOKEHtdmpq1Svmu0rQSGbsfBIRRwZxpPfLTX8I+NrDc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E2tBmIzVoG/1j4HpcAr1qZ9HhicDYthGnacpMY18s0qz6fyKD9eMSVJueE0n/zUykrZIgf9najlnwkj0zRMFskInO75PDSVvdgWucNeMwwENQFoYmTb9qOIAtg0xQq5MkP9xyGv8S3h/g4Wl+b347O9F1XQt2UbJZHmRtu1GQ60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=utuaubGN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC67E3C7;
-	Tue, 17 Sep 2024 19:39:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1726594750;
-	bh=uOKEHtdmpq1Svmu0rQSGbsfBIRRwZxpPfLTX8I+NrDc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=utuaubGNlM+qCZVVDMHecBorJKHg6pRlISSAjDN+S3TziSQcDtLZ1KvCJPSivZ1Zf
-	 Ugti3H6jquQ+FP1z80uXpsCuvcNVB9atrG0A94k/qYsUt3JLEXj2NiH0iiD1HBXRrI
-	 vPu6SJm4m9m7GVCozbAbEkbZakkGhSG/7m927BAA=
-Message-ID: <d5068889-ba2b-4397-9b7a-3e1bf05d55d3@ideasonboard.com>
-Date: Tue, 17 Sep 2024 20:40:28 +0300
+	s=arc-20240116; t=1726610260; c=relaxed/simple;
+	bh=uAGMMKvnD/u2ET/5hRcLY90UL9v27LgQGKXSRmzmugk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qkd875IcM678ewEzoPAgvudsXfDRUEmwHYEee2WAuYv9R7+bY4WZAUY7RnNk59eKc68Y49c0jGyP7AzRePcwA6CfPWfiGgDovDf0KQS8PzN+0r1t7j1MDiWP8k6c1pwNW+JnuWbpVxWScmqMpi8D88KKurchG6/S4u9H16GqvgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=cowlark.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=cowlark.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f7657f9f62so67004501fa.3
+        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2024 14:57:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726610256; x=1727215056;
+        h=content-transfer-encoding:signed-off-by:mime-version:message-id
+         :date:subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=swSntFnySqm2bESqQpVWbl+fcKBAxVc4S+mTfKeJoP0=;
+        b=QEqb6JKs5KkwGmqSjFkbIsNT010svmAwcSFW8/+j/cVLr8j1unLbw9HSqjx28Odj32
+         /CggYqP5J1EC34PS3d3KhKziLih3wYCIAUt5r+8rMdsJw1KaNIS+b44e/Jrn3mwBQKYI
+         GzQ0C5bbFnftKwm8f0Yb6D0WVj3Dqji4U9t1Se+8RVSUqqh02HLCIjsnds2PfRAc1/gy
+         XRJPoMeaxHI0awHL+0I1ce13IxLJQbTdztBe4YSTuXKBYAE7I5Cjmf3e4pV3wkFd8KKV
+         doat4G4aNN+sy7k6/WBVYbz/nmPGzy9gbObI4rSKKf9RMa4dq/gwRZNWPbrEVSMYM7mz
+         rcmQ==
+X-Gm-Message-State: AOJu0Yy0OS5qEjK8h6WgdX1ZvdKcEgRSyxiRKSfl/M/Yf3T6Dwcr7XWW
+	wM2WCjTfTYw3piAF3LDeLLcMVuhyUvguy/vy+LgAShSLazyJm0y0UKfqzA==
+X-Google-Smtp-Source: AGHT+IFVE1d+7v4DRgt/BuiTIPmdg3EoK3xaIWHqjLqse6yqgjDpxta41sxibyYc7l/ssD6cHBFRgw==
+X-Received: by 2002:a2e:611:0:b0:2f7:8b28:dcd5 with SMTP id 38308e7fff4ca-2f78b28dd66mr77772351fa.36.1726610255229;
+        Tue, 17 Sep 2024 14:57:35 -0700 (PDT)
+Received: from hilfy.lan ([2a02:169:1b5::22c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e7800308sm10612074f8f.87.2024.09.17.14.57.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Sep 2024 14:57:34 -0700 (PDT)
+From: David Given <dg@cowlark.com>
+To: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com,
+	David Given <dg@cowlark.com>
+Subject: [PATCH v2 1/2] media: add support for the D3DFMT_R5G6B5 pixmap type
+Date: Tue, 17 Sep 2024 23:57:27 +0200
+Message-ID: <20240917215728.50342-1-dg@cowlark.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] Update streaming related documentation
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com, Alain Volmat
- <alain.volmat@foss.st.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- hverkuil@xs4all.nl
-References: <20240917150254.17639-1-sakari.ailus@linux.intel.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240917150254.17639-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Signed-off-by: David Given <dg@cowlark.com>
+Content-Transfer-Encoding: 8bit
 
-On 17/09/2024 18:02, Sakari Ailus wrote:
-> Hi folks,
-> 
-> This set updates streaming starting and stopping related documentation.
-> 
-> since v1:
-> 
-> - Document the use of v4l2_subdev_{en,dis}able_streams() and setting the
->    streams_mask for drivers that do not support streams.
-> 
-> Sakari Ailus (3):
->    media: Documentation: Deprecate s_stream video op, update docs
->    media: Documentation: Update {enable,disable}_streams documentation
->    media: Documentation: Improve v4l2_subdev_{en,dis}able_streams
->      documentation
-> 
->   .../driver-api/media/camera-sensor.rst          |  8 ++++----
->   Documentation/driver-api/media/tx-rx.rst        | 13 ++++++++-----
->   include/media/v4l2-subdev.h                     | 17 +++++++++++++++--
->   3 files changed, 27 insertions(+), 11 deletions(-)
-> 
+This media format is used by the NXP Semiconductors 1fc9:009b chipset,
+used by the Kaiweets KTI-W02 infrared camera.
 
-Still missing addressing 
-20240917145735.GE17350@pendragon.ideasonboard.com comments, but with 
-those fixed:
+---
+ drivers/media/common/uvc.c | 4 ++++
+ include/linux/usb/uvc.h    | 3 +++
+ 2 files changed, 7 insertions(+)
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
-  Tomi
+diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
+index c54c2268f..c12d58932 100644
+--- a/drivers/media/common/uvc.c
++++ b/drivers/media/common/uvc.c
+@@ -96,6 +96,10 @@ static const struct uvc_format_desc uvc_fmts[] = {
+ 		.guid		= UVC_GUID_FORMAT_RGBP,
+ 		.fcc		= V4L2_PIX_FMT_RGB565,
+ 	},
++	{
++		.guid		= UVC_GUID_FORMAT_D3DFMT_R5G6B5,
++		.fcc		= V4L2_PIX_FMT_RGB565,
++	},
+ 	{
+ 		.guid		= UVC_GUID_FORMAT_BGR3,
+ 		.fcc		= V4L2_PIX_FMT_BGR24,
+diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+index 88d96095b..01c3b2f45 100644
+--- a/include/linux/usb/uvc.h
++++ b/include/linux/usb/uvc.h
+@@ -140,6 +140,9 @@
+ #define UVC_GUID_FORMAT_D3DFMT_L8 \
+ 	{0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, \
+ 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
++#define UVC_GUID_FORMAT_D3DFMT_R5G6B5 \
++	{0x7b, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
++	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+ #define UVC_GUID_FORMAT_KSMEDIA_L8_IR \
+ 	{0x32, 0x00, 0x00, 0x00, 0x02, 0x00, 0x10, 0x00, \
+ 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+-- 
+2.45.2
 
 
