@@ -1,283 +1,162 @@
-Return-Path: <linux-media+bounces-18337-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18338-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5915297B11E
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 16:11:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7CA97B128
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 16:16:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DFB41C20DE6
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 14:11:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF9CF1C20FDA
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 14:16:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B75318892A;
-	Tue, 17 Sep 2024 14:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF73317335E;
+	Tue, 17 Sep 2024 14:16:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lOShdXFy"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fKmrrAWr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5AC1865FB;
-	Tue, 17 Sep 2024 14:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27AE17BA4
+	for <linux-media@vger.kernel.org>; Tue, 17 Sep 2024 14:16:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726582216; cv=none; b=kwVfsxAZZblgYRTGXwhfFLiPeu6bGBZX/e8B0Kcw7K1rWZmb5z6ArNfRd9lm3FiIPc1mceen1GyuE+MX8qdCRoV1jFFOBAaDHrRM4R+Zl+OK4MXQ2aDL16Tiv5ttfCNHWw2xiR3GHzgtIXRDdDoRLXN7d+YjdcBVJ/fkNoPdMvs=
+	t=1726582592; cv=none; b=BzmJNXlIDqpMsMuYbiyafMReNa9N29Eb8BCEAOocD+Chxtz7rdEpG9uTPyjNVk3SCH9BfjBpDQuO//9fZQuW3ImmjiSm7Hk64ZhxTTYMZTNTIcthrDoGkuyjACcR5TAkToWmOq/LRzye4mkkj8+XnjCLKMJBMh46ctCEkM6Aoeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726582216; c=relaxed/simple;
-	bh=MQejPUhA+YLEWckuXq06Okd8VmXhHdkXVmMWosZvBuA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZTsZZTTYhFXCEjnrpCJAZN355SsMcCYRLjBBqD4bVNQ2TnhY5onts2QN5KKEMDYtgcZXtJ1+HEGErhOtw63Kx2rpYUEv6IETLCQ0bwUWhu5Y4WZz5HNTehmtOmFd401+IfuB08AMvunemb8J1dp6I+yp8gPc2m3IbhEHMXRKbFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lOShdXFy; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1726582592; c=relaxed/simple;
+	bh=SW2TNt0h4SAwRibA8CrrIoRlga+dH1nMXRIW8PVQIjw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FaVKUkOnttVGfPDSMHQ0W9eobX3sdYNTpxyDKxK/tEJIs0lZtNIJcaZPxtpbooR0c0dRuh8nHmg28mQISyvEuOMP44k/LMZ4l6kqfpCv4MaUHHj+ox68OAcs7oCBiK7Q4U+zM3bvqzkuaEnLX8OR+BLQpfPsc04RA16PMC9/AcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fKmrrAWr; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0A3AF86;
-	Tue, 17 Sep 2024 16:08:45 +0200 (CEST)
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EC02514;
+	Tue, 17 Sep 2024 16:15:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1726582126;
-	bh=MQejPUhA+YLEWckuXq06Okd8VmXhHdkXVmMWosZvBuA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lOShdXFyeyghnksDq3BUEuaAHxnMrKyuEQgc5wKLPICFYn0EVRTnbJOSlpZ5AETlK
-	 qz0hiKaD8bx4l+bA6Yr69EQOo2Ru/F0zbWgdz20Ug2aIJStfwB363kv3M6TYsyKqNJ
-	 ltBKkzppKTd/O3ACPDMsT3FRT5j6fKwD4hZ6wi6U=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 17 Sep 2024 17:09:32 +0300
-Subject: [PATCH 4/4] media: i2c: ds90ub9xx: Use state cleanup macros
+	s=mail; t=1726582507;
+	bh=SW2TNt0h4SAwRibA8CrrIoRlga+dH1nMXRIW8PVQIjw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fKmrrAWr/lqg393hR+d+vZxDLc9FK58n5gGx3JTBD9wcUbmQf9FcIuIfVPIkE4wCc
+	 doelbXPQRtOGUz0FN61xcSaNIdd9bTFQ8FtU8Lnc6CVWlUj2g8F49xMsyR+shW40lL
+	 +TlFlC7PLgOUN7TYVD6EQf6Rf+k02ked6W3OzLWY=
+Message-ID: <61a0d763-2a6f-48f7-9439-3cc8102cb803@ideasonboard.com>
+Date: Tue, 17 Sep 2024 17:16:25 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: Documentation: Update {enable,disable}_streams
+ documentation
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, Alain Volmat <alain.volmat@foss.st.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, hverkuil@xs4all.nl
+References: <20240917124345.16681-1-sakari.ailus@linux.intel.com>
+ <20240917124345.16681-2-sakari.ailus@linux.intel.com>
+ <20240917130047.GC17350@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240917130047.GC17350@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240917-scoped-state-v1-4-b8ba3fbe5952@ideasonboard.com>
-References: <20240917-scoped-state-v1-0-b8ba3fbe5952@ideasonboard.com>
-In-Reply-To: <20240917-scoped-state-v1-0-b8ba3fbe5952@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6178;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=jLqnCfsN8nWchZxolR03Bfc5Bu6MqE3ssrg54dj55Ws=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBm6Y28wB6Ai7xXG80tcbePYq2sntO19C9gE02uH
- /PaWbLMZL6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZumNvAAKCRD6PaqMvJYe
- 9SjYD/90l4x4d+2tL/hXEM8LzacA4AJAFJD7izawzpBX7JaoQdz/Ixk4yITPnA2mobPeajwrgWm
- KDs1DDVmmvJ2mV5T2lo8rRdA7t6mHuuhyEw8BYEb1LX1UUJQMCTLf9fInREGC2rikDFn/U4c2Ob
- 7LUa7btVgJpWwDjtxT2N8HmbrseqX7OCQEZgAzsX/qywGU/8qAL/mMoaZTC0ftazkqb9T4cTvQT
- iqUR1K11wv8SiKvXyEnzDFDYfMQUOGaMkEKukrzzR6pQRQ4hn5sjk2+xd6/o6y7x3KMVwBouYfC
- 5CGCd7sZyQ+EbxwnUDITLJHNAqJun365W0KZhciXHVfAjP0hThDBhbp4aJDextQh1U7ArUQLQFc
- LxU2z4hSSEst8hZfrhJGpAX+zaD1umPTikraTgkIsnmJEIR8ecqKpP5iqfgXLtGorhb8HT006Cz
- +6xBzoxi/7dSouWql8xIYzvOraIVCiKwACoYQV2uOAXovz0947WBcFkNcykBo0yuoHzU8o/O9Dq
- hQ9kuDt7BunsnM/U7vSBktDXlPhmEdk+PVHzgQRcDaXbrQC/lYvRRi7UrxR0Xl9ywzznVzunbc/
- 4sOpdeM3oqSAoRSez8lDAkO06bcwkxxXcVuAzF+L4mGC1j5W/6IO3JFwCWMTcBla9DS+wX50DOw
- Ct3S0oZ3RdGwZyQ==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On 17/09/2024 16:00, Laurent Pinchart wrote:
+> On Tue, Sep 17, 2024 at 03:43:45PM +0300, Sakari Ailus wrote:
+>> Document the expected {enable,disable}_streams callback behaviour for
+>> drivers that are stream-unaware i.e. don't specify the
+>> V4L2_SUBDEV_CAP_STREAMS sub-device capability flat. In this specific case,
+>> the mask argument can be ignored.
+> 
+> Wouldn't it be better to use BIT(0) in that case to simplifiy
+> interoperability with stream-aware devices ?
 
-Use the new subdev state cleanup macros.
+The caller has to set BIT(0), but I think here the documentation is 
+about the callee.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- drivers/media/i2c/ds90ub913.c | 11 +++--------
- drivers/media/i2c/ds90ub953.c | 11 +++--------
- drivers/media/i2c/ds90ub960.c | 27 ++++++++-------------------
- 3 files changed, 14 insertions(+), 35 deletions(-)
+If the driver is not stream aware and implements the callbacks, it will 
+get BIT(0) as the mask parameter (do we enforce this?), but as there's 
+nothing it can do with the parameter it "does not need to be concerned 
+with the mask argument".
 
-diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
-index ca9bb29dab89..7a53b68db1b4 100644
---- a/drivers/media/i2c/ds90ub913.c
-+++ b/drivers/media/i2c/ds90ub913.c
-@@ -351,7 +351,6 @@ static int ub913_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 	const struct v4l2_subdev_krouting *routing;
- 	struct v4l2_mbus_frame_desc source_fd;
- 	struct v4l2_subdev_route *route;
--	struct v4l2_subdev_state *state;
- 	int ret;
- 
- 	if (pad != UB913_PAD_SOURCE)
-@@ -364,7 +363,7 @@ static int ub913_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 
- 	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL;
- 
--	state = v4l2_subdev_lock_and_get_active_state(sd);
-+	CLASS(v4l2_subdev_lock_and_get_active_state, state)(sd);
- 
- 	routing = &state->routing;
- 
-@@ -382,8 +381,7 @@ static int ub913_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		if (i == source_fd.num_entries) {
- 			dev_err(&priv->client->dev,
- 				"Failed to find stream from source frame desc\n");
--			ret = -EPIPE;
--			goto out_unlock;
-+			return -EPIPE;
- 		}
- 
- 		fd->entry[fd->num_entries].stream = route->source_stream;
-@@ -395,10 +393,7 @@ static int ub913_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		fd->num_entries++;
- 	}
- 
--out_unlock:
--	v4l2_subdev_unlock_state(state);
--
--	return ret;
-+	return 0;
- }
- 
- static int ub913_set_fmt(struct v4l2_subdev *sd,
-diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
-index 16f88db14981..131b1523c3a5 100644
---- a/drivers/media/i2c/ds90ub953.c
-+++ b/drivers/media/i2c/ds90ub953.c
-@@ -488,7 +488,6 @@ static int ub953_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 	struct ub953_data *priv = sd_to_ub953(sd);
- 	struct v4l2_mbus_frame_desc source_fd;
- 	struct v4l2_subdev_route *route;
--	struct v4l2_subdev_state *state;
- 	int ret;
- 
- 	if (pad != UB953_PAD_SOURCE)
-@@ -501,7 +500,7 @@ static int ub953_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 
- 	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
- 
--	state = v4l2_subdev_lock_and_get_active_state(sd);
-+	CLASS(v4l2_subdev_lock_and_get_active_state, state)(sd);
- 
- 	for_each_active_route(&state->routing, route) {
- 		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
-@@ -520,8 +519,7 @@ static int ub953_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		if (!source_entry) {
- 			dev_err(&priv->client->dev,
- 				"Failed to find stream from source frame desc\n");
--			ret = -EPIPE;
--			goto out_unlock;
-+			return -EPIPE;
- 		}
- 
- 		fd->entry[fd->num_entries].stream = route->source_stream;
-@@ -536,10 +534,7 @@ static int ub953_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		fd->num_entries++;
- 	}
- 
--out_unlock:
--	v4l2_subdev_unlock_state(state);
--
--	return ret;
-+	return 0;
- }
- 
- static int ub953_set_fmt(struct v4l2_subdev *sd,
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index ffe5f25f8647..e873611bf5c7 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -2777,7 +2777,6 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- {
- 	struct ub960_data *priv = sd_to_ub960(sd);
- 	struct v4l2_subdev_route *route;
--	struct v4l2_subdev_state *state;
- 	int ret = 0;
- 	struct device *dev = &priv->client->dev;
- 	u8 vc_map[UB960_MAX_RX_NPORTS] = {};
-@@ -2787,7 +2786,7 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 
- 	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
- 
--	state = v4l2_subdev_lock_and_get_active_state(&priv->sd);
-+	CLASS(v4l2_subdev_lock_and_get_active_state, state)(&priv->sd);
- 
- 	ub960_get_vc_maps(priv, state, vc_map);
- 
-@@ -2810,7 +2809,7 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 			dev_err(dev,
- 				"Failed to get source frame desc for pad %u\n",
- 				route->sink_pad);
--			goto out_unlock;
-+			return ret;
- 		}
- 
- 		for (i = 0; i < source_fd.num_entries; i++) {
-@@ -2823,8 +2822,7 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		if (!source_entry) {
- 			dev_err(dev,
- 				"Failed to find stream from source frame desc\n");
--			ret = -EPIPE;
--			goto out_unlock;
-+			return -EPIPE;
- 		}
- 
- 		fd->entry[fd->num_entries].stream = route->source_stream;
-@@ -2844,16 +2842,13 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 			fmt = v4l2_subdev_state_get_format(state, pad,
- 							   route->source_stream);
- 
--			if (!fmt) {
--				ret = -EINVAL;
--				goto out_unlock;
--			}
-+			if (!fmt)
-+				return -EINVAL;
- 
- 			ub960_fmt = ub960_find_format(fmt->code);
- 			if (!ub960_fmt) {
- 				dev_err(dev, "Unable to find format\n");
--				ret = -EINVAL;
--				goto out_unlock;
-+				return -EINVAL;
- 			}
- 
- 			fd->entry[fd->num_entries].bus.csi2.dt =
-@@ -2863,10 +2858,7 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		fd->num_entries++;
- 	}
- 
--out_unlock:
--	v4l2_subdev_unlock_state(state);
--
--	return ret;
-+	return 0;
- }
- 
- static int ub960_set_fmt(struct v4l2_subdev *sd,
-@@ -2944,14 +2936,13 @@ static int ub960_log_status(struct v4l2_subdev *sd)
- {
- 	struct ub960_data *priv = sd_to_ub960(sd);
- 	struct device *dev = &priv->client->dev;
--	struct v4l2_subdev_state *state;
- 	unsigned int nport;
- 	unsigned int i;
- 	u16 v16 = 0;
- 	u8 v = 0;
- 	u8 id[UB960_SR_FPD3_RX_ID_LEN];
- 
--	state = v4l2_subdev_lock_and_get_active_state(sd);
-+	CLASS(v4l2_subdev_lock_and_get_active_state, state)(sd);
- 
- 	for (i = 0; i < sizeof(id); i++)
- 		ub960_read(priv, UB960_SR_FPD3_RX_ID(i), &id[i]);
-@@ -3078,8 +3069,6 @@ static int ub960_log_status(struct v4l2_subdev *sd)
- 		}
- 	}
- 
--	v4l2_subdev_unlock_state(state);
--
- 	return 0;
- }
- 
+  Tomi
 
--- 
-2.43.0
+>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> ---
+>>   include/media/v4l2-subdev.h | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>> index 3cc6b4a5935f..67a6e6ec58b8 100644
+>> --- a/include/media/v4l2-subdev.h
+>> +++ b/include/media/v4l2-subdev.h
+>> @@ -834,11 +834,19 @@ struct v4l2_subdev_state {
+>>    *	v4l2_subdev_init_finalize() at initialization time). Do not call
+>>    *	directly, use v4l2_subdev_enable_streams() instead.
+>>    *
+>> + *	Drivers that support only a single stream without setting the
+>> + *	V4L2_SUBDEV_CAP_STREAMS sub-device capatility flag do not need to
+>> + *	be concerned with the mask argument.
+>> + *
+>>    * @disable_streams: Disable the streams defined in streams_mask on the given
+>>    *	source pad. Subdevs that implement this operation must use the active
+>>    *	state management provided by the subdev core (enabled through a call to
+>>    *	v4l2_subdev_init_finalize() at initialization time). Do not call
+>>    *	directly, use v4l2_subdev_disable_streams() instead.
+>> + *
+>> + *	Drivers that support only a single stream without setting the
+>> + *	V4L2_SUBDEV_CAP_STREAMS sub-device capatility flag do not need to
+>> + *	be concerned with the mask argument.
+>>    */
+>>   struct v4l2_subdev_pad_ops {
+>>   	int (*enum_mbus_code)(struct v4l2_subdev *sd,
+> 
 
 
