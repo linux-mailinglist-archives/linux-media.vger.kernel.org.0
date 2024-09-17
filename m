@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-18338-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18339-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7CA97B128
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 16:16:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07CFC97B166
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 16:23:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF9CF1C20FDA
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 14:16:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D2561F21AA2
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 14:23:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF73317335E;
-	Tue, 17 Sep 2024 14:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF5C117C9B0;
+	Tue, 17 Sep 2024 14:22:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fKmrrAWr"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oq/eoQSs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27AE17BA4
-	for <linux-media@vger.kernel.org>; Tue, 17 Sep 2024 14:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E3617C233
+	for <linux-media@vger.kernel.org>; Tue, 17 Sep 2024 14:22:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726582592; cv=none; b=BzmJNXlIDqpMsMuYbiyafMReNa9N29Eb8BCEAOocD+Chxtz7rdEpG9uTPyjNVk3SCH9BfjBpDQuO//9fZQuW3ImmjiSm7Hk64ZhxTTYMZTNTIcthrDoGkuyjACcR5TAkToWmOq/LRzye4mkkj8+XnjCLKMJBMh46ctCEkM6Aoeo=
+	t=1726582955; cv=none; b=UacJ21LMI8D7tvPfbmj5G6BHgTRpwxbqPnyqMI9F4XaHoRKa6Rz5S2Ahx5dgSiLIfPT/PqOWlhTpNrvSySSrSlCRuMPhAdkXpqrfpCSB53sUnN7WwdxsDkFx07DELAn2ugKdvGVJ9jZcZ74mxVAywvuQx25pmDojcJwVoeolwdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726582592; c=relaxed/simple;
-	bh=SW2TNt0h4SAwRibA8CrrIoRlga+dH1nMXRIW8PVQIjw=;
+	s=arc-20240116; t=1726582955; c=relaxed/simple;
+	bh=3UqR623i6UuV/s50QmloXJiV5dH80h9nX1WAafAY7KQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FaVKUkOnttVGfPDSMHQ0W9eobX3sdYNTpxyDKxK/tEJIs0lZtNIJcaZPxtpbooR0c0dRuh8nHmg28mQISyvEuOMP44k/LMZ4l6kqfpCv4MaUHHj+ox68OAcs7oCBiK7Q4U+zM3bvqzkuaEnLX8OR+BLQpfPsc04RA16PMC9/AcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fKmrrAWr; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=rhZT+DqE2sGG6n/WpUo2oOJdeAalrHl6ROg3nrWtHQ8kGcNKNLr8pSIgEFF/ZakUfX9sAbtOIY9HCh30IOa8OgWd7/qi2SmnWBoskfMvwLJBoCJOviVraZ6FkVla1Bi92RXX68a2enLDHbHtpP7YIV4Cohz47GOVgnFw7rDaJRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oq/eoQSs; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EC02514;
-	Tue, 17 Sep 2024 16:15:07 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 139D4514;
+	Tue, 17 Sep 2024 16:21:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1726582507;
-	bh=SW2TNt0h4SAwRibA8CrrIoRlga+dH1nMXRIW8PVQIjw=;
+	s=mail; t=1726582870;
+	bh=3UqR623i6UuV/s50QmloXJiV5dH80h9nX1WAafAY7KQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fKmrrAWr/lqg393hR+d+vZxDLc9FK58n5gGx3JTBD9wcUbmQf9FcIuIfVPIkE4wCc
-	 doelbXPQRtOGUz0FN61xcSaNIdd9bTFQ8FtU8Lnc6CVWlUj2g8F49xMsyR+shW40lL
-	 +TlFlC7PLgOUN7TYVD6EQf6Rf+k02ked6W3OzLWY=
-Message-ID: <61a0d763-2a6f-48f7-9439-3cc8102cb803@ideasonboard.com>
-Date: Tue, 17 Sep 2024 17:16:25 +0300
+	b=oq/eoQSsdnju4KaJ+4iLlKYVSLQDEVR5RKq+fHOZ4LbRHCVXSPc8R+aOfkdR9O7cZ
+	 It8ygL5Dm4FcOJVeqL+qkHJxHHBbns5cyvMaCX+FlO3U/6/yRg/OH/6PwgAekuOYu6
+	 0X7q03j+qFgoTfYukXaw6tK5N8U9OAth3RCnX7cc=
+Message-ID: <6a869a88-9fb0-43fd-99f9-9c465419e4cf@ideasonboard.com>
+Date: Tue, 17 Sep 2024 17:22:29 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,15 +50,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: Documentation: Update {enable,disable}_streams
- documentation
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Alain Volmat <alain.volmat@foss.st.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>, hverkuil@xs4all.nl
+Subject: Re: [PATCH 1/2] media: Documentation: Deprecate s_stream video op,
+ update docs
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com, Alain Volmat
+ <alain.volmat@foss.st.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ hverkuil@xs4all.nl
 References: <20240917124345.16681-1-sakari.ailus@linux.intel.com>
- <20240917124345.16681-2-sakari.ailus@linux.intel.com>
- <20240917130047.GC17350@pendragon.ideasonboard.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -104,59 +102,100 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240917130047.GC17350@pendragon.ideasonboard.com>
+In-Reply-To: <20240917124345.16681-1-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 17/09/2024 16:00, Laurent Pinchart wrote:
-> On Tue, Sep 17, 2024 at 03:43:45PM +0300, Sakari Ailus wrote:
->> Document the expected {enable,disable}_streams callback behaviour for
->> drivers that are stream-unaware i.e. don't specify the
->> V4L2_SUBDEV_CAP_STREAMS sub-device capability flat. In this specific case,
->> the mask argument can be ignored.
+On 17/09/2024 15:43, Sakari Ailus wrote:
+> The scope of the s_stream video operation is now fully supported by
+> {enable,disable}_straems. Explicitly document the s_stream() op as
+> deprecated and update the related documentation.
 > 
-> Wouldn't it be better to use BIT(0) in that case to simplifiy
-> interoperability with stream-aware devices ?
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>   Documentation/driver-api/media/camera-sensor.rst |  8 ++++----
+>   Documentation/driver-api/media/tx-rx.rst         | 11 ++++++-----
+>   include/media/v4l2-subdev.h                      |  5 +++--
+>   3 files changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> index b4920b34cebc..c290833165e6 100644
+> --- a/Documentation/driver-api/media/camera-sensor.rst
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -81,10 +81,10 @@ restart when the system is resumed. This requires coordination between the
+>   camera sensor and the rest of the camera pipeline. Bridge drivers are
+>   responsible for this coordination, and instruct camera sensors to stop and
+>   restart streaming by calling the appropriate subdev operations
+> -(``.s_stream()``, ``.enable_streams()`` or ``.disable_streams()``). Camera
+> -sensor drivers shall therefore **not** keep track of the streaming state to
+> -stop streaming in the PM suspend handler and restart it in the resume handler.
+> -Drivers should in general not implement the system PM handlers.
+> +(``.enable_streams()`` or ``.disable_streams()``). Camera sensor drivers shall
 
-The caller has to set BIT(0), but I think here the documentation is 
-about the callee.
+I didn't go through the docs, but I think we need to make it clear 
+somewhere that v4l2_subdev_enable_streams() and 
+v4l2_subdev_disable_streams() _must_ be used to enable/disable the 
+streaming in the source subdevice, and the related subdev callbacks must 
+not be called directly.
 
-If the driver is not stream aware and implements the callbacks, it will 
-get BIT(0) as the mask parameter (do we enforce this?), but as there's 
-nothing it can do with the parameter it "does not need to be concerned 
-with the mask argument".
+Also, v4l2_subdev_enable_streams() and v4l2_subdev_disable_streams() 
+kernel doc doesn't seem to clarify that if the driver using those 
+functions does not support streams, it should use BIT_ULL(1) as the 
+streams_mask parameter.
 
   Tomi
 
->> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->> ---
->>   include/media/v4l2-subdev.h | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->> index 3cc6b4a5935f..67a6e6ec58b8 100644
->> --- a/include/media/v4l2-subdev.h
->> +++ b/include/media/v4l2-subdev.h
->> @@ -834,11 +834,19 @@ struct v4l2_subdev_state {
->>    *	v4l2_subdev_init_finalize() at initialization time). Do not call
->>    *	directly, use v4l2_subdev_enable_streams() instead.
->>    *
->> + *	Drivers that support only a single stream without setting the
->> + *	V4L2_SUBDEV_CAP_STREAMS sub-device capatility flag do not need to
->> + *	be concerned with the mask argument.
->> + *
->>    * @disable_streams: Disable the streams defined in streams_mask on the given
->>    *	source pad. Subdevs that implement this operation must use the active
->>    *	state management provided by the subdev core (enabled through a call to
->>    *	v4l2_subdev_init_finalize() at initialization time). Do not call
->>    *	directly, use v4l2_subdev_disable_streams() instead.
->> + *
->> + *	Drivers that support only a single stream without setting the
->> + *	V4L2_SUBDEV_CAP_STREAMS sub-device capatility flag do not need to
->> + *	be concerned with the mask argument.
->>    */
->>   struct v4l2_subdev_pad_ops {
->>   	int (*enum_mbus_code)(struct v4l2_subdev *sd,
-> 
+> +therefore **not** keep track of the streaming state to stop streaming in the PM
+> +suspend handler and restart it in the resume handler. Drivers should in general
+> +not implement the system PM handlers.
+>   
+>   Camera sensor drivers shall **not** implement the subdev ``.s_power()``
+>   operation, as it is deprecated. While this operation is implemented in some
+> diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
+> index 29d66a47b56e..a339df61fca8 100644
+> --- a/Documentation/driver-api/media/tx-rx.rst
+> +++ b/Documentation/driver-api/media/tx-rx.rst
+> @@ -49,11 +49,12 @@ Link frequency
+>   The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
+>   receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
+>   
+> -``.s_stream()`` callback
+> -^^^^^^^^^^^^^^^^^^^^^^^^
+> +``.enable_streams()`` and ``.disable_streams()`` callbacks
+> +^^^^^^^^^^^^^^^^^^^^^^^^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   
+> -The struct struct v4l2_subdev_video_ops->s_stream() callback is used by the
+> -receiver driver to control the transmitter driver's streaming state.
+> +The struct v4l2_subdev_pad_ops->enable_streams() and struct
+> +v4l2_subdev_pad_ops->disable_streams() callbacks are used by the receiver driver
+> +to control the transmitter driver's streaming state.
+>   
+>   
+>   CSI-2 transmitter drivers
+> @@ -127,7 +128,7 @@ Stopping the transmitter
+>   ^^^^^^^^^^^^^^^^^^^^^^^^
+>   
+>   A transmitter stops sending the stream of images as a result of
+> -calling the ``.s_stream()`` callback. Some transmitters may stop the
+> +calling the ``.disable_streams()`` callback. Some transmitters may stop the
+>   stream at a frame boundary whereas others stop immediately,
+>   effectively leaving the current frame unfinished. The receiver driver
+>   should not make assumptions either way, but function properly in both
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 8daa0929865c..3cc6b4a5935f 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -450,8 +450,9 @@ enum v4l2_subdev_pre_streamon_flags {
+>    *	already started or stopped subdev. Also see call_s_stream wrapper in
+>    *	v4l2-subdev.c.
+>    *
+> - *	New drivers should instead implement &v4l2_subdev_pad_ops.enable_streams
+> - *	and &v4l2_subdev_pad_ops.disable_streams operations, and use
+> + *	This callback is DEPRECATED. New drivers should instead implement
+> + *	&v4l2_subdev_pad_ops.enable_streams and
+> + *	&v4l2_subdev_pad_ops.disable_streams operations, and use
+>    *	v4l2_subdev_s_stream_helper for the &v4l2_subdev_video_ops.s_stream
+>    *	operation to support legacy users.
+>    *
 
 
