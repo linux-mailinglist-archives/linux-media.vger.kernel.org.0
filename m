@@ -1,107 +1,154 @@
-Return-Path: <linux-media+bounces-18320-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18321-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93EB397AA7D
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 05:42:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0360397AAF9
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 07:22:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1631CB29FF2
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 03:42:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18A6D1C273AB
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2024 05:22:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E098327733;
-	Tue, 17 Sep 2024 03:42:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0401E12F399;
+	Tue, 17 Sep 2024 05:22:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZcKOHQPi"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="uE7YHFnc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from msa.smtpout.orange.fr (msa-210.smtpout.orange.fr [193.252.23.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32F91BC41
-	for <linux-media@vger.kernel.org>; Tue, 17 Sep 2024 03:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7E04D8CE
+	for <linux-media@vger.kernel.org>; Tue, 17 Sep 2024 05:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.23.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726544543; cv=none; b=d8Plmg6WAiD2mkGO4jruQEtqdYPjYTTDLNiJu5ZsWr7IU9sy9sPiyVwosnt/ns16aNjmp+kCzVYVIlmq6kkZsT7xsjZM+H5XvRFL9g5COba4v9TZOgJNka9DrWyk7ey6j6HTn9+ddLw8aFQW/VnyaLHdF+JW1K/7JVDWoUSkAtQ=
+	t=1726550538; cv=none; b=MZdUbXWbP3CBXQPp8DuXSu48ZCMrHJzKwc6o7HUCAPbgbejQTaL3KX5PC9F3K9EajFWN37O3EZEih3u2FREVfITddsbhJZ7QQ8vOp/wQV85nydKvinvcc/MsGQ7fkac0nxFJ016oWlVnNiKLQlNxxxtNf+uo04Xx1p4b/jbI7C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726544543; c=relaxed/simple;
-	bh=KXce0ex+flq39iG7tyrRoSCZpC3q7IbXfT+gAfDKhm0=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=ozjRehgNJS2l3ZVFEW4i2T5jJufHF0gT73ERqVKc45yxHESxKKEbGAz61vMSJ6wtnEHl0j8+UsMmXooc+8e/IBCZAmmwMhBC4a01zTnp8/TJ4Wwm1XfRww7f9uCSTVTir3L5oZS3ukdvhLr8UsiPeogxagMQau95BLKX67Qkz4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZcKOHQPi; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5356ab89665so5653217e87.1
-        for <linux-media@vger.kernel.org>; Mon, 16 Sep 2024 20:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726544539; x=1727149339; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=I8+ZRMKJz6tR3X7Wgj3FKb6WJ8SAcGypVKNmuvhwG0o=;
-        b=ZcKOHQPiwIFjTiXH9WxnoXHZOtwGglh3WvCF/20RMU9slVPrhf3OrLFgUDhfkkUnQC
-         YlY2eGWhjMlw856aXlCMCEIOeTonSVJE9wZoZdv1IxuTX8P2Q8dLYyka4RYJtGKJDzw6
-         iaNmGwbeqJeaqRAIygMXO2C7/SJR1V3GxfmY5BH3qUxb9OWtT715wYK6ZoiMfIbvAisv
-         JTJ2dzuOuEDUJjFOo9TrfJ2uCRPlnRvb/8gBLwes9HHSY3erLear2raGUEfdaAJy6W43
-         R9A6FSLE24Ay22oj54msloQRaoqkrUMevYDTevxyHfLLNR5q/8nS2yjDpFUNJxKwDy+8
-         T/zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726544539; x=1727149339;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I8+ZRMKJz6tR3X7Wgj3FKb6WJ8SAcGypVKNmuvhwG0o=;
-        b=tbc7rrK4eWWlzekI7AKWdk8SriSlooIpWpNoHpKrVPVnttfezlitDjEdvTyChmYFAT
-         etjckzu8N6bZ3wnHv5mZfb6L91R1yvgE8/6iDvjYvXdlOn9IN4k5sbl1PzQu4i6cnC0Y
-         aAMmZRBGKqM7+DFkfUwzgGC+oQgkjeTcQjB+c51VNCvIDp4lT0RJNk4xF8HTDlRs4gF1
-         Jl+1F7o5lpLuATXP2Y67TRfQGstRchCSYjcqsDsVyGMMv778vaRFC6aghNIR36A7+NMy
-         TjQkSrepyz+JP63pbMAdD5cEIzbMKNkSpeR75OgX2RTs0N0UAYQ721neH7Wn2THIsLaC
-         z8jA==
-X-Gm-Message-State: AOJu0Yx93oaoA/vhh4hisuWO/v0kFGL+OG2ClLS5zyEQ4swumNqu1rAZ
-	1sfIDhsLfBDm9ab3RykUnOUs78xVdGeMzhgAOqX+fJXpJPdX7y7vEDz8ArycXBxrU07DfrHtZ98
-	ss0YQluyy7pGyGrs3AFGR9Hdahz7x9Tn/
-X-Google-Smtp-Source: AGHT+IGjuB1l8R0j2zFC6Y/D5YGbOErJY+F37BcQn1U5Xc7ZO7yXE68aCfWKc0mikM0Z2Xc8ZqriNVqjeZj0ftk0FjY=
-X-Received: by 2002:a05:6512:1384:b0:52c:e1cd:39b7 with SMTP id
- 2adb3069b0e04-53678fb1e9fmr8639429e87.5.1726544538591; Mon, 16 Sep 2024
- 20:42:18 -0700 (PDT)
+	s=arc-20240116; t=1726550538; c=relaxed/simple;
+	bh=FROrw0IXlzItQSfhHRHUvjIOTBu4ABMZqIMKJtQffAE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=BtadYQCUYOYGqWlTYn9BGxpKuog4ezH7ZAgJuJ+6FRpzumlmM1FKQCyXilUmlr6HgthRiUZwcOEdRBvtWvk242+7isv8VYBkja4FzH8hv5Xf1tFyY+8uTZej6QKkZbxbG6ELCrR725UsnlaOd/Bxlg1vwmr2ZEXrGkJzAslsGq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=uE7YHFnc; arc=none smtp.client-ip=193.252.23.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id qQf2sEuii3ZMyqQf2s4PfP; Tue, 17 Sep 2024 07:22:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1726550528;
+	bh=ox/BUEVjGvecYqicoCV10v4Q9kXMIsRKDm9TgbacwPA=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To;
+	b=uE7YHFncSbIkns75ceMLvKBWR2lLESwDluJGLQhQBCQV5lrcOaRwCaTNTSOfcQpVq
+	 HJm+j7e1uOEsx+GUZ7TkF+WOOqssb6mQ20ALFlGIaRf9KYFvSjIxmC0ctChK9RKjkP
+	 VHegYqJfxnmpTt+hhya69OXSYxRcdh4NY3Nx4ludydVSWdFFHnCuY48Vq5d4BGuFHH
+	 iIBCrqPhkEWoNiBUDqoomBPmojMFvpSGzksiXevYTJzesiUhHvUmNIIDj1if0WR1dK
+	 bCJHsDM4ZJQSKYDiq97zSpNKRY9B+XwVjxgT8qhAE/jWfxA728uT22uHSOZu+Yfgmr
+	 KFRvY0tmnJyeg==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Tue, 17 Sep 2024 07:22:08 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <6cbedd50-c2d5-4ad7-8133-774eebd9d2f1@wanadoo.fr>
+Date: Tue, 17 Sep 2024 07:22:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Karthik Poduval <karthik.poduval@gmail.com>
-Date: Mon, 16 Sep 2024 20:42:06 -0700
-Message-ID: <CAFP0Ok-pjOYpRxj8TbSgFgdQ6xT-pegd0b9uiM8LDhmu_WvZMw@mail.gmail.com>
-Subject: Media Requests on Video Capture Device
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH v2 00/15] timers: Cleanup delay/sleep related mess
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, damon@lists.linux.dev,
+ linux-mm@kvack.org, SeongJae Park <sj@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
+ Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Andy Whitcroft <apw@canonical.com>,
+ Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Andrew Lunn <andrew@lunn.ch>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, netdev@vger.kernel.org,
+ linux-sound@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Nathan Lynch <nathanl@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>
+References: <20240911-devel-anna-maria-b4-timers-flseep-v2-0-b0d3f33ccfe0@linutronix.de>
+ <c794b4a6-468d-4552-a6d6-8185f49339d3@wanadoo.fr>
+Content-Language: en-US, fr-FR
+In-Reply-To: <c794b4a6-468d-4552-a6d6-8185f49339d3@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi All,
 
-I was trying to implement media requests on a video capture device on
-kernel version 6.1. On my video capture device driver I configured the
-q settings as
-q->min_buffers_needed = 4;
-q->supports_requests = true;
 
-To make the application work however I had to comment out the
-following lines from videobuf2-core.c
- /*
-* This combination is not allowed since a non-zero value of
-* q->min_queued_buffers can cause vb2_core_qbuf() to fail if
-* it has to call start_streaming(), and the Request API expects
-* that queueing a request (and thus queueing a buffer contained
-* in that request) will always succeed. There is no method of
-* propagating an error back to userspace.
-*/
-//if (WARN_ON(q->supports_requests && q->min_queued_buffers))
-// return -EINVAL;
+Le 16/09/2024 à 22:20, Christophe JAILLET a écrit :
+> Le 11/09/2024 à 07:13, Anna-Maria Behnsen a écrit :
+>> Hi,
+>>
+>> a question about which sleeping function should be used in 
+>> acpi_os_sleep()
+>> started a discussion and examination about the existing documentation and
+>> implementation of functions which insert a sleep/delay.
+>>
+>> The result of the discussion was, that the documentation is outdated and
+>> the implemented fsleep() reflects the outdated documentation but doesn't
+>> help to reflect reality which in turns leads to the queue which covers 
+>> the
+>> following things:
+>>
+>> - Split out all timeout and sleep related functions from hrtimer.c and 
+>> timer.c
+>>    into a separate file
+>>
+>> - Update function descriptions of sleep related functions
+>>
+>> - Change fsleep() to reflect reality
+>>
+>> - Rework all comments or users which obviously rely on the outdated
+>>    documentation as they reference "Documentation/timers/timers- 
+>> howto.rst"
+>>
+>> - Last but not least (as there are no more references): Update the 
+>> outdated
+>>    documentation and move it into a file with a self explaining file name
+>>
+>> The queue is available here and applies on top of tip/timers/core:
+>>
+>>    git://git.kernel.org/pub/scm/linux/kernel/git/anna-maria/linux- 
+>> devel.git timers/misc
+>>
+>> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
+> 
+> Hi,
+> 
+> not directly related to your serie, but some time ago I sent a patch to 
+> micro-optimize Optimize usleep_range(). (See [1])
+> 
+> The idea is that the 2 parameters of usleep_range() are usually 
+> constants and some code reordering could easily let the compiler compute 
+> a few things at compilation time.
+> 
+> There was consensus on the value of the change (see [2]), but as you are 
 
-Regular capture would not work without min_buffers_needed being set
-and requests wouldn't work without supports_requests being set.
+Typo: there was *no* consensus...
 
-Does this mean that media requests are not supported on video capture devices ?
-Kindly advise on how to proceed.
+> touching things here, maybe it makes sense now to save a few cycles at 
+> runtime and a few bytes of code?
+> 
+> CJ
+> 
+> [1]: https://lore.kernel.org/all/ 
+> f0361b83a0a0b549f8ec5ab8134905001a6f2509.1659126514.git.christophe.jaillet@wanadoo.fr/
+> 
+> [2]: https://lore.kernel.org/ 
+> all/03c2bbe795fe4ddcab66eb852bae3715@AcuMS.aculab.com/
+> 
+> 
+> 
+> 
 
--- 
-Regards,
-Karthik Poduval
 
