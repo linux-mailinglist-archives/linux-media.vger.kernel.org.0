@@ -1,472 +1,154 @@
-Return-Path: <linux-media+bounces-18385-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18386-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3AA97BB38
-	for <lists+linux-media@lfdr.de>; Wed, 18 Sep 2024 12:59:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A95ED97BB8D
+	for <lists+linux-media@lfdr.de>; Wed, 18 Sep 2024 13:23:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C416A288C6A
-	for <lists+linux-media@lfdr.de>; Wed, 18 Sep 2024 10:59:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC15F1C22373
+	for <lists+linux-media@lfdr.de>; Wed, 18 Sep 2024 11:23:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EA2A1898E0;
-	Wed, 18 Sep 2024 10:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DCD117DFFF;
+	Wed, 18 Sep 2024 11:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8wPAg66"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9928E1865F5
-	for <linux-media@vger.kernel.org>; Wed, 18 Sep 2024 10:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB325291E
+	for <linux-media@vger.kernel.org>; Wed, 18 Sep 2024 11:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726657137; cv=none; b=GqGM6ziAqBPc5JvhjaLbtNchPool4B9gut2UjdqE+zfbDcRtJ17J8nZRSDbyUQanfhC38vQfYyt92raicGgRSXfx7fXDR3VCKflUaSkdEWI+IvsCpZvbaHjWzIjAaKIKClLiFz6QmaSoQM4usOUoeTusKsrQ/WaXE+bpHyvag4o=
+	t=1726658617; cv=none; b=rtBDc0PKTzcdCH0uX9LTT4zeDKgk/n3IXRwr+AbOo2sJnKeBpu7uPfwIeOqPBFBhegJGlYoyw1eHpb9v/xi43M1VOeAD1pEk9QSzkYu1pwYG/V3Hg0wBe65w2KbALxK4Yir+rfUz2GUo9tfR48BqTwW5Agf+deFNvqE2x97tru8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726657137; c=relaxed/simple;
-	bh=PbxBhHN7vN+kkxE4URxlvwkZX9VcUD7bmsJwMbHPftw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HE90KRY+oesn66qqV1uf6gJEcRmSL6Urq6yKq4e3N5CX6/G20lAUPWgLK1Sgdef7j7VjMes1qVG6aGrxQ/gre2xny0rSNI2alpKQHQKFjNji9iWU4dmdWPswnZZ7okKKyDkHVeN0if9sMGUQlU23Rv7VmHobC4+aCvmSMyD9aiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sqsNz-0004yv-FL; Wed, 18 Sep 2024 12:58:15 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sqsNx-008nPU-TV; Wed, 18 Sep 2024 12:58:13 +0200
-Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sqsNx-00F7vT-2Y;
-	Wed, 18 Sep 2024 12:58:13 +0200
-Date: Wed, 18 Sep 2024 12:58:13 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Hui-Ping Chen <hpchen0nvt@gmail.com>
-Cc: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com, esben@geanix.com,
-	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 2/2] mtd: rawnand: nuvoton: add new driver for the
- Nuvoton MA35 SoC
-Message-ID: <ZuqyRXi-LWZ7-Qgw@pengutronix.de>
-References: <20240918090308.292617-1-hpchen0nvt@gmail.com>
- <20240918090308.292617-3-hpchen0nvt@gmail.com>
+	s=arc-20240116; t=1726658617; c=relaxed/simple;
+	bh=ntHFXfDrNjLbRc74I2u6rdn+blxfJG2PdB0xM/jYxPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jBPITTyIW+3yjEjdkNdgSbC+lu6+LLBpX7zilyq9Z8Q7QYd+caJSNuQ9J3gUy2h1FQZLp4+kNPiJ0ySgvC0RU7/lZWxvPsgO5I1LWPoK9UkcZSE9IFfEJd5QNuVGhRgnuThqJlaW0XLjnlHjkNzRaufjtR+gA75ARY8eWIlIshU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8wPAg66; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31520C4CEC7;
+	Wed, 18 Sep 2024 11:23:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726658617;
+	bh=ntHFXfDrNjLbRc74I2u6rdn+blxfJG2PdB0xM/jYxPE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=A8wPAg66O/BL4g5aWXpUZb8gFHBcFUWSrOQ62XeLBFQ2NURhOb3LcMNemnUVBlnaQ
+	 RpHWwdI0KWeUWI+vudpw/RFqygBxVEQcKM5cv5ed4r5nfSzNgV2X3jrn1eQAYx3/N+
+	 2pj+5qOa4b71dcg0NN7s1wKABjneMD6R54Hx2MdmcBJ+U6zk2hOQrqag458JFpzKXS
+	 RKQ3f8JeTovg/FcCAqMMVsItJ0YT5ilNXZdqz2f2mDXVAw1Biy2vBTjFAXSSu3s76N
+	 YtHIsaKi6d9kqW7ScwNWTQlYDPcR+IsMU3yiTf3tfO9FR0Zq5ngP1MUD/GzYYSzRrJ
+	 +dc+fUIzelP3Q==
+Date: Wed, 18 Sep 2024 13:23:23 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Martin Hecht <martin.hecht@avnet.eu>, Tommaso Merciai
+ <tomm.merciai@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Ricardo Ribalda
+ <ribalda@chromium.org>, Michael Tretter <m.tretter@pengutronix.de>, Alain
+ Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>, Steve Cho
+ <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>, Hidenori
+ Kobayashi <hidenorik@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Suresh Vankadara <svankada@qti.qualcomm.com>, Devarsh Thakkar
+ <devarsht@ti.com>, r-donadkar@ti.com, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Mehdi Djait
+ <mehdi.djait@linux.intel.com>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Salahaldeen Altous <salahaldeen.altous@leica-camera.com>
+Subject: Re: [ANN] Media Summit September 16th: Final Agenda (v7)
+Message-ID: <20240918132323.2a384f87@sal.lan>
+In-Reply-To: <20240918093020.u5rz7qfjoumfezql@basti-XPS-13-9310>
+References: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
+	<20240917091744.qltmddftdy7bpgpg@basti-XPS-13-9310>
+	<bb8c09c7-0eae-4e1a-8fb8-e325fcf326df@xs4all.nl>
+	<20240918092454.21884920@sal.lan>
+	<20240918093020.u5rz7qfjoumfezql@basti-XPS-13-9310>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240918090308.292617-3-hpchen0nvt@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Em Wed, 18 Sep 2024 11:30:20 +0200
+Sebastian Fricke <sebastian.fricke@collabora.com> escreveu:
 
-The driver has a few minor whitespace issues, please run through
-checkpatch.pl to catch them.
-
-Some more things inline.
-
-On Wed, Sep 18, 2024 at 09:03:08AM +0000, Hui-Ping Chen wrote:
-> Nuvoton MA35 SoCs NAND Flash Interface Controller
-> supports 2kiB, 4kiB and 8kiB page size, and up to
-> 8-bit, 12-bit, and 24-bit hardware ECC calculation
-> circuit to protect data.
+> Hey Hans & Mauro,
 > 
-> Signed-off-by: Hui-Ping Chen <hpchen0nvt@gmail.com>
-> ---
->  drivers/mtd/nand/raw/Kconfig               |   8 +
->  drivers/mtd/nand/raw/Makefile              |   1 +
->  drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c | 935 +++++++++++++++++++++
->  3 files changed, 944 insertions(+)
->  create mode 100644 drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c
+> On 18.09.2024 09:24, Mauro Carvalho Chehab wrote:
+> >Em Tue, 17 Sep 2024 14:52:19 +0200
+> >Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+> >  
+> >> Hi Sebastian,
+> >>
+> >> On 9/17/24 11:17 AM, Sebastian Fricke wrote:  
+> >> > Greetings,
+> >> >
+> >> > I remember that we wanted to still define a couple of processes for the
+> >> > multi-committer model for which we hadn't have the time on the media
+> >> > summit. Just would like to gather who would be interested to meet for
+> >> > that, where we meet (probably LPC venue) and when (Laurent just told me
+> >> > that Friday is probably a good slot for that).  
+> >>
+> >> Can you refresh my memory which processes need more work?  
 > 
-> +#define SKIP_SPARE_BYTES	4
+> Well I basically remember that we had a bunch of topics in our meetings
+> that we wanted to skip in order to talk about them here.
+> We looked at the documentation from DRM and wanted to think about
+> equivalent policies for media.
+> https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html#where-do-i-apply-my-patch
 
-Unused, please drop.
+Thanks for the pointer. Yeah, examples from other trees can be helpful when
+improving media developers profile and writing the committers agreement,
+even when they have a message that it is just the opposite of what we
+we want, like this (from DRM-misc ruleset):
 
-> +static int ma35_nfi_ecc_check(struct nand_chip *chip, unsigned long addr)
-> +{
-> +	struct ma35_nand_info *nand = nand_get_controller_data(chip);
-> +	struct mtd_info *mtd = nand_to_mtd(chip);
-> +	int status, i, j, nchunks = 0;
+	"Since even a broken driver is more useful than no driver minimal
+	 review standards are a lot lower."
 
-status should be unsigned.
+In this particular case, for instance, as discussed at media summit, we'd
+like to have high quality standards for stuff under drivers/media. After
+all, we do use drivers/media/staging for low quality drivers. 
 
-> +	int report_err = 0;
-> +	int err_cnt = 0;
-> +
-> +	nchunks = mtd->writesize / chip->ecc.steps;
-> +	if (nchunks < 4)
-> +		nchunks = 1;
-> +	else
-> +		nchunks /= 4;
-> +
-> +	for (j = 0; j < nchunks; j++) {
-> +		status = readl(nand->regs + MA35_NFI_REG_NANDECCES0 + j*4);
-> +		if (!status)
-> +			continue;
-> +
-> +		for (i = 0; i < 4; i++) {
-> +			if (!(status & ECC_STATUS_MASK)) {
-> +				/* No error */
-> +				status >>= 8;
-> +				continue;
-> +
-> +			} else if ((status & ECC_STATUS_MASK) == 0x01) {
-> +				/* Correctable error */
-> +				err_cnt = (status >> 2) & ECC_ERR_CNT_MASK;
-> +				dev_warn(nand->dev, "nchunks (%d, %d) have %d error!\n",
-> +					j, i, err_cnt);
+It it worth mentioning that committers shall not merge low quality drivers
+nor patches for staging. If ever needed, those should be done via PRs or
+be explicitly authorized by maintainers.
 
-Correctable bitflips are expected. Please don't spam the log with it.
+> Also there were topics like how to handle backports. 
 
-> +				ma35_nfi_correct(nand, j*4+i, err_cnt, (u8 *)addr);
-> +				report_err += err_cnt;
-> +
-> +			} else {
-> +				/* uncorrectable error */
-> +				dev_warn(nand->dev, "uncorrectable error! 0x%4x\n", status);
-> +				return -1;
-> +			}
-> +			status >>= 8;
-> +		}
-> +	}
-> +	return report_err;
+We don't handle backports on media tree. This is up to stable maintainers.
+Basically, we follow stable rules to the letter:
 
-There are a few things wrong here. Your chip->ecc.read_page op must
-return the maximum number of bitflips occured on a subpage while
-reading a page.
+	Documentation/process/stable-kernel-rules.rst
 
-To archieve this I suggest you fix the return value of this function
-accordingly and call it from chip->ecc.read_page rather than from the
-interrupt handler.
+E. g. patches that require backports shall have the proper meta-tags 
+(specially cc: stable and  fixes:). 
 
-Nevertheless mtd->ecc_stats.corrected counts the total number of
-bitflips, so you must handle this counter in this function.
+Also, we're not implementing multi-committers for fixes, just for next.
 
-See rk_nfc_read_page_hwecc() as an example of a driver which gets it
-right.
+So, fixes shall follow the normal flow: they should be sent via PR.
 
-The background is that we have to rewrite the page once one ECC block
-hits a critical bitflip limit. A whole page might be fine when the
-bitflips are evenly distributed across the subpages, but it's not when
-all bitflips are occur in a single subpage.
+> >I have the same doubt. As discussed during the summit, Hans and I had some
+> >discussions yesterday, to address a few details. For both of us the process
+> >sounds well defined.  
+> 
+> I know that we scraped a lot of topics in the meeting at the media
+> summit and I am not sure about the scope you discussed with Ricardo
+> yesterday. So, we don't have to meet if you feel like we covered
+> everything, just wanted to use the opportunity as long as we are all in
+> the same place.
 
-> +static int ma35_nand_do_write(struct nand_chip *chip, const u8 *addr, u32 len)
-> +{
-> +	struct ma35_nand_info *nand = nand_get_controller_data(chip);
-> +	struct mtd_info *mtd = nand_to_mtd(chip);
-> +	dma_addr_t dma_addr;
-> +	int ret = 0, i;
-> +	u32 val, reg;
-> +
-> +	ma35_nand_target_enable(nand);
-> +
-> +	if (len != mtd->writesize) {
-> +		for (i = 0; i < len; i++)
-> +			writel(addr[i], nand->regs + MA35_NFI_REG_NANDDATA);
-> +		ma35_nand_target_disable(nand);
-> +		return ret;
-> +	}
-> +
-> +	/* Check the DMA status before enabling the DMA */
-> +	ret = readl_poll_timeout(nand->regs + MA35_NFI_REG_DMACTL, val,
-> +				 !(val & DMA_BUSY), 50, HZ/2);
-> +	if (ret)
-> +		dev_warn(nand->dev, "dma busy\n");
-> +
-> +	/* Reinitial dmac */
-> +	ma35_nand_dmac_init(nand);
+I guess we covered everything that are needed for now. If required,
+further discussions may happen later via e-mail and/or virtual meetings.
 
-The function name already says it and the comment doesn't offer any
-additional information. Please drop such comments.
-
-> +
-> +	writel(mtd->oobsize, nand->regs + MA35_NFI_REG_NANDRACTL);
-> +
-> +	/* setup and start DMA using dma_addr */
-> +	writel(INT_DMA, nand->regs + MA35_NFI_REG_NANDINTEN);
-> +	/* To mark this page as dirty. */
-> +	reg = readl(nand->regs + MA35_NFI_REG_NANDRA0);
-> +	if (reg & 0xffff0000)
-> +		writel(reg & 0xffff, nand->regs + MA35_NFI_REG_NANDRA0);
-> +
-> +	/* Fill dma_addr */
-> +	dma_addr = dma_map_single(nand->dev, (void *)addr, len, DMA_TO_DEVICE);
-> +	dma_sync_single_for_device(nand->dev, dma_addr, len, DMA_TO_DEVICE);
-> +	ret = dma_mapping_error(nand->dev, dma_addr);
-> +	if (ret) {
-> +		dev_err(nand->dev, "dma mapping error\n");
-> +		return -EINVAL;
-> +	}
-
-Call dma_sync_single_for_device() after you have checked for an error
-with dma_mapping_error().
-
-That said, I think calling dma_sync_single_for_device() after
-dma_map_single() is unnecessary.
-
-> +
-> +	writel((unsigned long)dma_addr, nand->regs + MA35_NFI_REG_DMASA);
-> +	writel(readl(nand->regs + MA35_NFI_REG_NANDCTL) | DMA_W_EN,
-> +		nand->regs + MA35_NFI_REG_NANDCTL);
-> +	ret = wait_for_completion_timeout(&nand->complete, msecs_to_jiffies(1000));
-> +	if (!ret) {
-> +		dev_err(nand->dev, "write timeout\n");
-> +		ret = -ETIMEDOUT;
-> +	}
-> +
-> +	dma_unmap_single(nand->dev, dma_addr, len, DMA_TO_DEVICE);
-> +
-> +	ma35_nand_target_disable(nand);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ma35_nand_do_read(struct nand_chip *chip, const u8 *addr, u32 len)
-
-The addr argument shouldn't be const. You are supposed to write to this
-buffer and you actually do so.
-
-> +{
-> +	struct ma35_nand_info *nand = nand_get_controller_data(chip);
-> +	struct mtd_info *mtd = nand_to_mtd(chip);
-> +	u8 *ptr = (u8 *)addr;
-> +	dma_addr_t dma_addr;
-> +	int ret = 0, i;
-> +	u32 val;
-> +
-> +	ma35_nand_target_enable(nand);
-> +
-> +	if (len != mtd->writesize) {
-> +		for (i = 0; i < len; i++)
-> +			*(ptr+i) = (u8)readl(nand->regs + MA35_NFI_REG_NANDDATA);
-> +		ma35_nand_target_disable(nand);
-> +		return ret;
-
-Just return 0 here. It's easier to read than having to look up the
-initialization value.
-
-> +	}
-> +
-> +	/* Check the DMA status before enabling the DMA */
-> +	ret = readl_poll_timeout(nand->regs + MA35_NFI_REG_DMACTL, val,
-> +				 !(val & DMA_BUSY), 50, HZ/2);
-> +	if (ret)
-> +		dev_warn(nand->dev, "dma busy\n");
-> +
-> +	/* Reinitial dmac */
-> +	ma35_nand_dmac_init(nand);
-> +
-> +	writel(mtd->oobsize, nand->regs + MA35_NFI_REG_NANDRACTL);
-> +
-> +	/* setup and start DMA using dma_addr */
-> +	dma_addr = dma_map_single(nand->dev, (void *)addr, len, DMA_FROM_DEVICE);
-> +	ret = dma_mapping_error(nand->dev, dma_addr);
-> +	if (ret) {
-> +		dev_err(nand->dev, "dma mapping error\n");
-> +		return -EINVAL;
-> +	}
-> +	nand->dma_buf = (u8 *)addr;
-> +	nand->dma_addr = dma_addr;
-> +
-> +	writel((unsigned long)dma_addr, nand->regs + MA35_NFI_REG_DMASA);
-> +	writel(readl(nand->regs + MA35_NFI_REG_NANDCTL) | DMA_R_EN,
-> +		nand->regs + MA35_NFI_REG_NANDCTL);
-> +	ret = wait_for_completion_timeout(&nand->complete, msecs_to_jiffies(1000));
-> +	if (!ret) {
-> +		dev_err(nand->dev, "read timeout\n");
-> +		ret = -ETIMEDOUT;
-> +	}
-> +
-> +	dma_sync_single_for_cpu(nand->dev, dma_addr, len, DMA_FROM_DEVICE);
-> +	dma_unmap_single(nand->dev, dma_addr, len, DMA_FROM_DEVICE);
-
-No need to call dma_sync_single_for_cpu() before dma_unmap_single().
-
-> +
-> +	ma35_nand_target_disable(nand);
-> +
-> +	return ret;
-> +}
-> +
-> +
-> +static int ma35_nand_write_page_hwecc(struct nand_chip *chip, const u8 *buf,
-> +				      int oob_required, int page)
-> +{
-> +	struct mtd_info *mtd = nand_to_mtd(chip);
-> +	u8 *ecc_calc = chip->ecc.calc_buf;
-
-Make this a void * to get rid of the explicit casting below.
-
-> +
-> +	ma35_clear_spare(chip, mtd->oobsize);
-> +	ma35_write_spare(chip, mtd->oobsize - chip->ecc.total, (u32 *)chip->oob_poi);
-> +
-> +	nand_prog_page_begin_op(chip, page, 0, buf, mtd->writesize);
-> +	nand_prog_page_end_op(chip);
-> +
-> +	/* Copy parity code in NANDRA to calc */
-> +	ma35_read_spare(chip, chip->ecc.total, (u32 *)ecc_calc,
-> +			mtd->oobsize - chip->ecc.total);
-> +
-> +	/* Copy parity code in calc to oob_poi */
-> +	memcpy((void *)(chip->oob_poi + (mtd->oobsize - chip->ecc.total)),
-> +		(void *)ecc_calc, chip->ecc.total);
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t ma35_nand_irq(int irq, void *id)
-> +{
-> +	struct ma35_nand_info *nand = (struct ma35_nand_info *)id;
-> +	struct mtd_info *mtd = nand_to_mtd(&nand->chip);
-> +	int stat = 0;
-> +	u32 isr;
-> +
-> +	spin_lock(&nand->dma_lock);
-> +
-> +	isr = readl(nand->regs + MA35_NFI_REG_NANDINTSTS);
-> +	if (isr & INT_ECC) {
-> +		dma_sync_single_for_cpu(nand->dev, nand->dma_addr, mtd->writesize,
-> +					DMA_FROM_DEVICE);
-> +		stat = ma35_nfi_ecc_check(&nand->chip, (unsigned long)nand->dma_buf);
-
-nand->dma_buf already is a pointer which you cast to unisgned long here
-and back to a pointer in ma35_nfi_ecc_check(). ma35_nfi_ecc_check()
-should take a poiner instead.
-
-> +		if (stat < 0) {
-> +			mtd->ecc_stats.failed++;
-> +			writel(DMA_RST | DMA_EN, nand->regs + MA35_NFI_REG_DMACTL);
-> +			writel(readl(nand->regs + MA35_NFI_REG_NANDCTL) | SWRST,
-> +				nand->regs + MA35_NFI_REG_NANDCTL);
-> +		} else if (stat > 0) {
-> +			mtd->ecc_stats.corrected += stat;   /* Add corrected bit count */
-> +		}
-> +		writel(INT_ECC, nand->regs + MA35_NFI_REG_NANDINTSTS);
-> +	}
-> +	if (isr & INT_DMA) {
-> +		writel(INT_DMA, nand->regs + MA35_NFI_REG_NANDINTSTS);
-> +		complete(&nand->complete);
-> +	}
-> +	spin_unlock(&nand->dma_lock);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int ma35_nfc_exec_op(struct nand_chip *chip,
-> +			  const struct nand_operation *op,
-> +			  bool check_only)
-> +{
-> +	struct ma35_nand_info *nand = nand_get_controller_data(chip);
-> +	u32 i, reg;
-> +	int ret = 0;
-> +
-> +	if (check_only)
-> +		return 0;
-> +
-> +	ma35_nand_target_enable(nand);
-> +	reg = readl(nand->regs + MA35_NFI_REG_NANDINTSTS);
-> +	reg |= INT_RB0;
-> +	writel(reg, nand->regs + MA35_NFI_REG_NANDINTSTS);
-> +
-> +	for (i = 0; i < op->ninstrs; i++) {
-> +		ret = ma35_nfc_exec_instr(chip, &op->instrs[i]);
-> +		if (ret)
-> +			break;
-> +	}
-
-The way ma35_nand_target_[en|dis]able() is called looks inconsistent.
-
-This function calls ma35_nand_target_enable(), so I would expect that
-the corresponding ma35_nand_target_disable() should be called here as
-well.
-
-ma35_nand_do_read() is called from here which has its own call to
-ma35_nand_target_enable(), but it doesn't call ma35_nand_target_disable()
-from all of its return pathes.
-
-> +
-> +	ret = devm_request_irq(&pdev->dev, nand->irq, ma35_nand_irq,
-> +				  IRQF_TRIGGER_HIGH, "ma35d1-nand", nand);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "failed to request NAND irq\n");
-> +		clk_disable_unprepare(nand->clk);
-
-You used devm_clk_get_enabled(), so this will be done automatically.
-
-> +		return -ENXIO;
-> +	}
-> +
-> +	nand->chip.controller = &nand->controller;
-> +	platform_set_drvdata(pdev, nand);
-> +
-> +	chip->options |= NAND_NO_SUBPAGE_WRITE | NAND_USES_DMA;
-> +
-> +	/* set default mode in case dt entry is missing */
-> +	chip->ecc.engine_type = NAND_ECC_ENGINE_TYPE_ON_HOST;
-> +
-> +	chip->ecc.write_page = ma35_nand_write_page_hwecc;
-> +	chip->ecc.read_page  = ma35_nand_read_page_hwecc;
-> +	chip->ecc.read_oob   = ma35_nand_read_oob_hwecc;
-> +
-> +	mtd = nand_to_mtd(chip);
-> +	mtd->priv = chip;
-> +	mtd->owner = THIS_MODULE;
-> +	mtd->dev.parent = &pdev->dev;
-> +
-> +	writel(NAND_EN, nand->regs + MA35_NFI_REG_GCTL);
-> +
-> +	ret = nand_scan(chip, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = mtd_device_register(mtd, NULL, 0);
-> +	if (ret) {
-> +		nand_cleanup(chip);
-> +		devm_kfree(&pdev->dev, nand);
-
-Unnecessary free. Drop it.
-
-> +		return ret;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static void ma35_nand_remove(struct platform_device *pdev)
-> +{
-> +	struct ma35_nand_info *nand = platform_get_drvdata(pdev);
-> +	int ret;
-> +
-> +	devm_free_irq(&pdev->dev, nand->irq, nand);
-
-devm_ is a mechanism to let resources be freed automatically. There's
-normally no need to do this manually.
-
-Sascha
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Regards,
+Mauro
 
