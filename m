@@ -1,82 +1,60 @@
-Return-Path: <linux-media+bounces-18473-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18474-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D10197EDD9
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2024 17:13:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A001D97EFF7
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2024 19:50:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 439F3282029
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2024 15:13:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13FD628248B
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2024 17:50:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E510F19D898;
-	Mon, 23 Sep 2024 15:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9F8819F412;
+	Mon, 23 Sep 2024 17:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PBfKNMCo";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ncg/SvYz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="J/ga2qcu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AF512C526;
-	Mon, 23 Sep 2024 15:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8838C19C57C;
+	Mon, 23 Sep 2024 17:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727104381; cv=none; b=ZGo9tdZl5yAFrXG7JM570DRLGThoaQWbjQ6we/oBm42+Q2c6o23gQDIvFVnEAcKvBdjPKjYF4/a8J+DawN5JKovPya34881evC51OjIxiQqz4M3qgLJZm/CXF+Y4Qsfez+NyM/LjTdtCAkPzFTKKbH92pb54nwGXIXBQd7smCnQ=
+	t=1727113831; cv=none; b=Bgo5fnLoCuNIA1YC9y1UMYvRoRRTXbwbq4pZ92pwbeVBlKiCuKzlf7rFG4IO8W49LhWNRFD9d7YhOfic81QB9Z+ORZdNAmnnRwH0hLufHFo0T8fiVaNbuTvwuWuHxQof+4s/Y0LVjus13f2Cr17NHLpPihYKSvn78nXPraO7KA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727104381; c=relaxed/simple;
-	bh=cMr7bXWI7gtfyAzSse1AawSl0oobveTp5Oo0fERlJx4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jSomddfwlgRRhGhrKs24LtLAgDW5D9LvieIo+ce1/YOyfUcmyzO0h1HQ9y23BGzoEWSGCJ3GcBgRcQ+icnlxZ/gKqKT8TTc77iaGMh/Z7716TrCayAqz6bc24cm+svOaoSI2h36uskrtIcZYKCg6E0YKV+oSbIXjm12QqdordAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PBfKNMCo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ncg/SvYz; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Anna-Maria Behnsen <anna-maria@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1727104377;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=elBGvOspzH3iGmK1fYd/bVgzyP8I6OQGyztmlAKbFJU=;
-	b=PBfKNMCoXVgqUMQ+jS8J96N56vpHFkiEIv7N0xlOaDipsFXHcUA3PDP3QEcMOcBBsigKcu
-	ep2rSt1lLmY2DOAonrtcys3ggssiwc2a9tr/YB5alUERWPb6VXbNoKRZigHzcgV4755VTn
-	wYk2+oEYFTBeLTvaEZ2pCcfw4KlNVPS6/D7TaIAiY0D8BB+WIJhmIwmXannp8UhBY3G1mi
-	G3uxSUcypZgacKtqZK/L7EwPqpg1IfqrNDdQvgliRnYaxsk4TTzPhYuwSgE1DT6uKROso/
-	5t/eiTVejV5slXI2ZzVLWwCneMD86d/J/xsNeJTYKgO8rphcsMBTmkNWCz+K2w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1727104377;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=elBGvOspzH3iGmK1fYd/bVgzyP8I6OQGyztmlAKbFJU=;
-	b=Ncg/SvYzGFuvGC711XUusZn2/nNt5VKfdynTFfYe/Dj4+RDnjWTCN3ea404B/VToJ/4LZq
-	lwKy9a1/BRdLjSCQ==
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>, "Rafael
- J. Wysocki" <rafael@kernel.org>, Andrew Morton
- <akpm@linux-foundation.org>, damon@lists.linux.dev, linux-mm@kvack.org,
- SeongJae Park <sj@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-arch@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>, "David
- S. Miller" <davem@davemloft.net>, Andy Whitcroft <apw@canonical.com>, Joe
- Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Andrew
- Lunn <andrew@lunn.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, netdev@vger.kernel.org, linux-sound@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Nathan Lynch
- <nathanl@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Mauro Carvalho
- Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, Frederic
- Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 00/15] timers: Cleanup delay/sleep related mess
-In-Reply-To: <6cbedd50-c2d5-4ad7-8133-774eebd9d2f1@wanadoo.fr>
-References: <20240911-devel-anna-maria-b4-timers-flseep-v2-0-b0d3f33ccfe0@linutronix.de>
- <c794b4a6-468d-4552-a6d6-8185f49339d3@wanadoo.fr>
- <6cbedd50-c2d5-4ad7-8133-774eebd9d2f1@wanadoo.fr>
-Date: Mon, 23 Sep 2024 17:12:56 +0200
-Message-ID: <87ed5aietj.fsf@somnus>
+	s=arc-20240116; t=1727113831; c=relaxed/simple;
+	bh=JGXfMkUiwtaq500AgOAJUQN6K7N3gE60kZZ9SY5VISg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MNsqSwfNW4U5LXiVoIlEJ16x8dK0yGh2DM1aFw0EDl19hnsa++Llsef3aRNmK0zufLAoPJYT/E+wh/yW62lDC/iVkqGk6xgcZO7qWpoYXofARNkksr4rVul3EcBNHQNRV/nM++PSlMWHNf5sF2vWbX1L1nd4TofoSMduriW2STI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=J/ga2qcu; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90F6263D;
+	Mon, 23 Sep 2024 19:48:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1727113735;
+	bh=JGXfMkUiwtaq500AgOAJUQN6K7N3gE60kZZ9SY5VISg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J/ga2qcu6ElzdhGEAxGG8omnkL/3Kib7LbA5MhnhEQP+BP5OgRaZzvmT8tNaV5pNK
+	 TK0XFHQgKm+PnuUkgzBRx+Pe1gGE1/8sem3JM/F7xCUvUhIprCcVMXY3fXyJxHUe1A
+	 dmCl7Qgi14WWbW35Jh9YGzjra37acHiwvd8b2c6k=
+Date: Mon, 23 Sep 2024 19:50:18 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Guoniu Zhou <guoniu.zhou@nxp.com>, 
+	Jacopo Mondi <jacopo@jmondi.org>, Christian Hemp <c.hemp@phytec.de>, 
+	Stefan Riedmueller <s.riedmueller@phytec.de>, linux-media@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: nxp: imx8-isi: add m2m usage_count check in
+ streamoff
+Message-ID: <h74uhtfdqzhq4qgcfqonwrlvoddaspi73h2m7u6bg6akjq3ugm@vxjt5ttzfkkx>
+References: <20240920142715.2246323-1-laurentiu.palcu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,77 +62,60 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20240920142715.2246323-1-laurentiu.palcu@oss.nxp.com>
 
-Christophe JAILLET <christophe.jaillet@wanadoo.fr> writes:
+Hi Laurentiu
 
-> Le 16/09/2024 =C3=A0 22:20, Christophe JAILLET a =C3=A9crit=C2=A0:
->> Le 11/09/2024 =C3=A0 07:13, Anna-Maria Behnsen a =C3=A9crit=C2=A0:
->>> Hi,
->>>
->>> a question about which sleeping function should be used in=20
->>> acpi_os_sleep()
->>> started a discussion and examination about the existing documentation a=
-nd
->>> implementation of functions which insert a sleep/delay.
->>>
->>> The result of the discussion was, that the documentation is outdated and
->>> the implemented fsleep() reflects the outdated documentation but doesn't
->>> help to reflect reality which in turns leads to the queue which covers=
-=20
->>> the
->>> following things:
->>>
->>> - Split out all timeout and sleep related functions from hrtimer.c and=
-=20
->>> timer.c
->>> =C2=A0=C2=A0 into a separate file
->>>
->>> - Update function descriptions of sleep related functions
->>>
->>> - Change fsleep() to reflect reality
->>>
->>> - Rework all comments or users which obviously rely on the outdated
->>> =C2=A0=C2=A0 documentation as they reference "Documentation/timers/time=
-rs-=20
->>> howto.rst"
->>>
->>> - Last but not least (as there are no more references): Update the=20
->>> outdated
->>> =C2=A0=C2=A0 documentation and move it into a file with a self explaini=
-ng file name
->>>
->>> The queue is available here and applies on top of tip/timers/core:
->>>
->>> =C2=A0=C2=A0 git://git.kernel.org/pub/scm/linux/kernel/git/anna-maria/l=
-inux-=20
->>> devel.git timers/misc
->>>
->>> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
->>=20
->> Hi,
->>=20
->> not directly related to your serie, but some time ago I sent a patch to=
-=20
->> micro-optimize Optimize usleep_range(). (See [1])
->>=20
->> The idea is that the 2 parameters of usleep_range() are usually=20
->> constants and some code reordering could easily let the compiler compute=
-=20
->> a few things at compilation time.
->>=20
->> There was consensus on the value of the change (see [2]), but as you are=
-=20
+On Fri, Sep 20, 2024 at 05:27:15PM GMT, Laurentiu Palcu wrote:
+> Currently, if streamon/streamoff calls are imbalanced we can end up
+> with a negative ISI m2m usage_count. When that happens, the next
+> streamon call will not enable the ISI m2m channel.
 >
-> Typo: there was *no* consensus...
+> So, instead of throwing a warning in streamoff when usage_count drops
+> below 0, just make sure we don't get there.
+
+Isn't the whole purpose of the WARN() to highlight something's wrong
+with userspace ? I think it's expected to have the same number of
+streamon and streamoff calls, do you have any idea why it might not be
+happening ?
+
+Thanks
+  j
+
 >
->> touching things here, maybe it makes sense now to save a few cycles at=20
->> runtime and a few bytes of code?
->>=20
-
-Sorry for the late reply. I'll check it and will come back to you.
-
-Thanks,
-	Anna-Maria
-
+> Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> ---
+>  drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+> index 9745d6219a166..b71195a3ba256 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+> @@ -575,6 +575,9 @@ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
+>
+>  	mutex_lock(&m2m->lock);
+>
+> +	if (m2m->usage_count == 0)
+> +		goto unlock;
+> +
+>  	/*
+>  	 * If the last context is this one, reset it to make sure the device
+>  	 * will be reconfigured when streaming is restarted.
+> @@ -594,8 +597,7 @@ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
+>  		mxc_isi_channel_release(m2m->pipe);
+>  	}
+>
+> -	WARN_ON(m2m->usage_count < 0);
+> -
+> +unlock:
+>  	mutex_unlock(&m2m->lock);
+>
+>  	return 0;
+> --
+> 2.34.1
+>
+>
 
