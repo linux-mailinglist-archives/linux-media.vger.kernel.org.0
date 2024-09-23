@@ -1,123 +1,100 @@
-Return-Path: <linux-media+bounces-18478-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18479-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804AA983973
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 00:01:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0F89839E2
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 01:05:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B2EB28258A
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2024 22:01:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A8582824D2
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2024 22:25:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AAB684E0A;
-	Mon, 23 Sep 2024 22:01:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 846D4126BE2;
+	Mon, 23 Sep 2024 22:25:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RTs0brzf"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="H9W4lYj9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0914AEF5;
-	Mon, 23 Sep 2024 22:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727128885; cv=none; b=qPX2T84SX2Jr3I3Ot6SGp9XbexJaMbziT9zrr1f/WGenitBVJLu46MGLiu3rZRNyVyRo8n6aJuRCIPErY0zFxUyFYNxfInZgcRicZXyDN7KoD5Zpf+PVEYxfVGi1BDkXxI07WdI0Hg4d+tDMnKAet19FVXwjLSkJJ51LNsHIkRM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727128885; c=relaxed/simple;
-	bh=NH1pb+6p0LfHTfpVZjf826pzBCeQgJObBOljsscCafk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hPiun7BvzVxST35wr8GOtUGPJyuqS7MS1UPt7zFHwhGXGKkdYk7r5MwmL9qVTYTLzTtbidSAeAcBsHi5zgOoiNyZmWMW+rJ3h21+P5dsHW7SruzjfLe4ajIOwEyVn1gsRVkyHo1/V6pgnIw0rQRkY+1Gjmcz9QQeSAIopOg1t+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RTs0brzf; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E79669CA;
-	Mon, 23 Sep 2024 23:59:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727128795;
-	bh=NH1pb+6p0LfHTfpVZjf826pzBCeQgJObBOljsscCafk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RTs0brzfsfkl0YyZ7PfyEklG6oYaa9PaW0d6pfwGwFgawo65Kg2gj65cq7Goc7pFZ
-	 X5kqmFSaX18yiGJJzPMpS9fSCuwjRLNJGv2fHLh1HHODJWUwv7AjToT1FnY4UOSg1N
-	 X9c2+axVpxG8dcMRXIYtRUMNntC127LdEQFLaJSE=
-Date: Tue, 24 Sep 2024 01:00:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Christian Hemp <c.hemp@phytec.de>,
-	Stefan Riedmueller <s.riedmueller@phytec.de>,
-	Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: nxp: imx8-isi: fix m2m device v4l2-compliance
- test errors
-Message-ID: <20240923220047.GH8227@pendragon.ideasonboard.com>
-References: <20240923120048.3200166-1-laurentiu.palcu@oss.nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576A22942A;
+	Mon, 23 Sep 2024 22:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727130328; cv=pass; b=A/c1W0uRXy1kdV1Z1J74GAnou0yPBvD+DOTp15534vCF2McoWlJvAqMButKOEXypwduSvujrPD1c29nEgYPlaobTqnsYbsMuoR2gWg0raJk93QThBzaDH5BEYp8PbfeygzkQ+PJ47DMk5TpM921U/yBF4dmqSc9t4TPGKhXlsEM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727130328; c=relaxed/simple;
+	bh=Er1R3DujufWyloaeYQ8YJUJhozPPJ77kf3f9khDSoWo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hn4irSHxpIpnIJXQu3wdCVhDpQRG7CBLHM9lEzsP6DGt4SE/XuNAWBrQnnaC151ONxB/SKJqgEIUxkwsb6hDw6UgpLWYjD3Mt5Xy0V4kw9SCktnsiH6uOaI2c5M7VL9QH+AfgXSx4udhPGA7xmC5vbk2+jgZC+LDxhSZBZoqgYc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=H9W4lYj9; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1727130273; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=YfYNJdMgp/y1uP6d8OafGpncvOgQDBktKmhw/iFx6zKap/RvxnMc38P54Qum1I6bBqHHU38aERxlvKhWiiCz0nQkP8aNQeoAHMSczYlVplQVY3nlWFF3TWVtcsQ/ncNbtmESt46WJNEzNICkwsR0k6YX5/5axbj35HW8q4FTols=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1727130273; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=1r2+YqfMcD9QvzdF/0v6a42z5qBEA9M5RklZEc7Zddk=; 
+	b=NwJ16BUcMQ8fcywQ6N0XX9ONOjdjym4UIzG9ftA1QF/wvRuF2msBg0lfyWcKZQ4w9FMvjA8YnMiostY/mDOO/q90qNebvQ4lb9ibsRE4aoUKMirGghqH4m3Gqp4G6pO9GxpyXzBDxlxfLxhtslsclGixh8mnruP3D2gjWU080GE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727130273;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=1r2+YqfMcD9QvzdF/0v6a42z5qBEA9M5RklZEc7Zddk=;
+	b=H9W4lYj923wdFyT39nL9dzqsqpqPxWLufsdajfpDh5o/hv1Y/M3ScXCk/pfSE3vf
+	nrmGXPIyz3e80r4VwzM3SmykO1RW3K59gs6JCnx4czERQPPAER+H0O2CopPn+BFGK6t
+	P9eT+VuS96oN+OW/6+pttPe8tNXhlXq8fUGJJf5c=
+Received: by mx.zohomail.com with SMTPS id 1727130270973625.9553539455802;
+	Mon, 23 Sep 2024 15:24:30 -0700 (PDT)
+Message-ID: <8239ae11-12a7-49fd-b78e-c906f3a468de@collabora.com>
+Date: Tue, 24 Sep 2024 01:24:24 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240923120048.3200166-1-laurentiu.palcu@oss.nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/4] media: platform: synopsys: Add support for hdmi
+ input driver
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ Shreeya Patel <shreeya.patel@collabora.com>, heiko@sntech.de,
+ mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
+ p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
+ shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
+ hverkuil-cisco@xs4all.nl
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+References: <20240719124032.26852-1-shreeya.patel@collabora.com>
+ <20240719124032.26852-5-shreeya.patel@collabora.com>
+ <c5b9be4d-16ee-45f7-b980-d2e0e4b3ef23@xs4all.nl>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <c5b9be4d-16ee-45f7-b980-d2e0e4b3ef23@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Hi Laurentiu,
+On 7/23/24 11:48, Hans Verkuil wrote:
+>> +static u8 edid_init_data_340M[] = {
+> This should be under #ifdef CONFIG_HDMIRX_LOAD_DEFAULT_EDID, since there is
+> no point to have this if you are not using it.
 
-Thank you for the patch.
+No need to use #ifdef since EDID array will be compiled out at a build
+time. Kernel doesn't support old compilers that can't eliminate dead code.
 
-On Mon, Sep 23, 2024 at 03:00:48PM +0300, Laurentiu Palcu wrote:
-> Running the v4l2-compliance (1.27.0-5208, SHA: af114250d48d) on the m2m
-> device fails on the MMAP streaming tests, with the following messages:
-> 
-> fail: v4l2-test-buffers.cpp(240): g_field() == V4L2_FIELD_ANY
-> fail: v4l2-test-buffers.cpp(1508): buf.qbuf(node)
-> 
-> Apparently, the driver does not properly set the field member of
-> vb2_v4l2_buffer struct, returning the default V4L2_FIELD_ANY value which
-> is against the guidelines.
-
-Strange, I would have sworn v4l2-compliance passed successfully when I
-submitted the driver. Maybe it has been updated in the meantime.
-
-> Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> ---
->  drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-> index b71195a3ba256..3f0c9e2ac802d 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-> @@ -222,6 +222,11 @@ static int mxc_isi_m2m_vb2_buffer_prepare(struct vb2_buffer *vb2)
->  	struct mxc_isi_m2m_ctx *ctx = vb2_get_drv_priv(vq);
->  	const struct mxc_isi_m2m_ctx_queue_data *qdata =
->  		mxc_isi_m2m_ctx_qdata(ctx, vq->type);
-> +	struct vb2_v4l2_buffer *v4l2_buf = to_vb2_v4l2_buffer(vb2);
-> +
-> +	v4l2_buf->field = vq->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE ?
-> +			  ctx->queues.out.format.field :
-> +			  ctx->queues.cap.format.field;
-
-Wouldn't it be better to handle this in mxc_isi_video_buffer_prepare() ?
-I think the same issue exists for live capture, not just for M2M
-operation.
-
->  
->  	return mxc_isi_video_buffer_prepare(ctx->m2m->isi, vb2, qdata->info,
->  					    &qdata->format);
+#ifdef makes code less readable and adds requirement to build-test all
+variants with/without the #ifdef, we don't want either of these.
 
 -- 
-Regards,
+Best regards,
+Dmitry
 
-Laurent Pinchart
 
