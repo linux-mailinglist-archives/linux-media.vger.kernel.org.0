@@ -1,823 +1,606 @@
-Return-Path: <linux-media+bounces-18460-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18461-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B19C97E7FB
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2024 10:57:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E028F97E825
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2024 11:07:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E4A01C20F65
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2024 08:57:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 764D5280AB0
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2024 09:07:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC71019414E;
-	Mon, 23 Sep 2024 08:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DXgRqQFq"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDA801946B9;
+	Mon, 23 Sep 2024 09:07:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FB31940B0;
-	Mon, 23 Sep 2024 08:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD85D28684;
+	Mon, 23 Sep 2024 09:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727081824; cv=none; b=baUnjjtTUMr6OPwRKQpWDKTg7RanKNrP2GDBtMQKJyColTxFLBTrWxTIYOak0A4XYJKKXkj8xBm//7pYbyUmDd1akNRlu6nXtRECiPEfUyGiKF4M6UHRdIvfRHA/ekRJUse61ZEUZofjsVFR+RGb4YaVLAv4DwuZb5/kcdFxWWI=
+	t=1727082442; cv=none; b=cxp7bW79MvhAcDfm5MvqKDl0wjvQxkOQZFG1HhlrM0uYbU3GkQQKKzhV5L5r+T3/fD1PUZ4RlH3KXX/dE8eX+yEmahb/GlKW/lG2rGDgV5eSfSuHZ9BKLZHpoZwJvIeIFCYWUfEUINhdh0IPNl4NIN+s7s9RU75fJot2c0tvmpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727081824; c=relaxed/simple;
-	bh=WTP2vkgSyoi7wDeWKgI7PNUcU1noZoNCYtA9ekWDUEU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rMiBbzXU4xTiC97YWctNFM6rNTYgc/R4cp5yQJDKqm/BGGDLe1XKrDFrcxgLxiBwrPmGnAOnKofd98P26F279cyuQi1fXqLsowmm3nH4ntVPbrVCgQxrNrbDvI2trZlEQfnDqeJcGJ7nSw/+Hi6XNlxLK9LEgeH/NHaGXZOqiVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DXgRqQFq; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727081821; x=1758617821;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=WTP2vkgSyoi7wDeWKgI7PNUcU1noZoNCYtA9ekWDUEU=;
-  b=DXgRqQFq/PTNU6Aj93kT/byJTlymkU261A2rz8JiTPMiEyMTHUeI0fe5
-   HA9850tW5coD4ohhY+rjViGQcPFGmpU6Nnnt+PybsfDwhKE0Ln+ksLFSO
-   Y2+IQoyOxArQDFcM4dCPwzGFDno4RMIx9Zlrx13nKoFAE3Q+yLN/34jBk
-   O67rArCbw+6p01lb4qg2BbxD/5FR3KVpc//k3Lf657aSdAJA4NySB1l41
-   /vSje4Y0UK1l7dNE15irOrmwHVraBGgd+LkWM2a4nZLJlkrBX1XcLCb0z
-   lDORgeR3nM+N6G0W8aI3gn/4x3CWZTRQw2TB94p2nej1sZcgHl76vzELO
-   Q==;
-X-CSE-ConnectionGUID: 9kfbcLkiQfWMQBUAXuliOw==
-X-CSE-MsgGUID: dqEEZfi5QS+DxqjeQDu8rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25537173"
-X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="25537173"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 01:57:00 -0700
-X-CSE-ConnectionGUID: v3S5j/8zQcWJ2TgLxSiw4Q==
-X-CSE-MsgGUID: hT0FUBvVQQKgk8UNH2VMxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="71272977"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Sep 2024 01:56:57 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 2A69E2CC; Mon, 23 Sep 2024 11:56:56 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [rft, PATCH v1 1/1] media: atomisp: Replace macros from math_support.h
-Date: Mon, 23 Sep 2024 11:56:06 +0300
-Message-ID: <20240923085652.3457117-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+	s=arc-20240116; t=1727082442; c=relaxed/simple;
+	bh=Tj/4V7msDkG4uRtmwcwxcBBkVF90c3N0xuIFZoBGhNY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BEW+ysZ9puD2nMEKLbyoS8lcFxEftsW58sOBgLuRv39oaoXnXlqP1tDjITMUBiBqDXypHNvpYReF9nWBELudXcJU23qJBP886iMqPuBllWgktmzqSwSku3+v+VIl4JvHSR2pXwqzdnyUEWdFF+LJ64XOv/gKmV6cKb5n/YgJcuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81EC3FEC;
+	Mon, 23 Sep 2024 02:07:48 -0700 (PDT)
+Received: from [10.57.79.18] (unknown [10.57.79.18])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1471D3F64C;
+	Mon, 23 Sep 2024 02:07:15 -0700 (PDT)
+Message-ID: <07c8c715-4016-4963-8544-2e9cc1a8208b@arm.com>
+Date: Mon, 23 Sep 2024 10:07:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/5] drm/panthor: introduce job cycle and timestamp
+ accounting
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org,
+ Boris Brezillon <boris.brezillon@collabora.com>
+References: <20240920234436.207563-1-adrian.larumbe@collabora.com>
+ <20240920234436.207563-2-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240920234436.207563-2-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Replace rarely used macros by generic ones from Linux kernel headers.
+On 21/09/2024 00:43, Adrián Larumbe wrote:
+> Enable calculations of job submission times in clock cycles and wall
+> time. This is done by expanding the boilerplate command stream when running
+> a job to include instructions that compute said times right before and
+> after a user CS.
+> 
+> A separate kernel BO is created per queue to store those values. Jobs can
+> access their sampled data through an index different from that of the
+> queue's ringbuffer. The reason for this is saving memory on the profiling
+> information kernel BO, since the amount of simultaneous profiled jobs we
+> can write into the queue's ringbuffer might be much smaller than for
+> regular jobs, as the former take more CSF instructions.
+> 
+> This commit is done in preparation for enabling DRM fdinfo support in the
+> Panthor driver, which depends on the numbers calculated herein.
+> 
+> A profile mode mask has been added that will in a future commit allow UM to
+> toggle performance metric sampling behaviour, which is disabled by default
+> to save power. When a ringbuffer CS is constructed, timestamp and cycling
+> sampling instructions are added depending on the enabled flags in the
+> profiling mask.
+> 
+> A helper was provided that calculates the number of instructions for a
+> given set of enablement mask, and these are passed as the number of credits
+> when initialising a DRM scheduler job.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
+I think just one bug remaining - see below...
 
-Please, apply only after tests that confirm everything is working
-as expected.
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.h |  22 ++
+>  drivers/gpu/drm/panthor/panthor_sched.c  | 328 +++++++++++++++++++----
+>  2 files changed, 301 insertions(+), 49 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index e388c0472ba7..a48e30d0af30 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -66,6 +66,25 @@ struct panthor_irq {
+>  	atomic_t suspended;
+>  };
+>  
+> +/**
+> + * enum panthor_device_profiling_mode - Profiling state
+> + */
+> +enum panthor_device_profiling_flags {
+> +	/** @PANTHOR_DEVICE_PROFILING_DISABLED: Profiling is disabled. */
+> +	PANTHOR_DEVICE_PROFILING_DISABLED = 0,
+> +
+> +	/** @PANTHOR_DEVICE_PROFILING_CYCLES: Sampling job cycles. */
+> +	PANTHOR_DEVICE_PROFILING_CYCLES = BIT(0),
+> +
+> +	/** @PANTHOR_DEVICE_PROFILING_TIMESTAMP: Sampling job timestamp. */
+> +	PANTHOR_DEVICE_PROFILING_TIMESTAMP = BIT(1),
+> +
+> +	/** @PANTHOR_DEVICE_PROFILING_ALL: Sampling everything. */
+> +	PANTHOR_DEVICE_PROFILING_ALL =
+> +	PANTHOR_DEVICE_PROFILING_CYCLES |
+> +	PANTHOR_DEVICE_PROFILING_TIMESTAMP,
+> +};
+> +
+>  /**
+>   * struct panthor_device - Panthor device
+>   */
+> @@ -162,6 +181,9 @@ struct panthor_device {
+>  		 */
+>  		struct page *dummy_latest_flush;
+>  	} pm;
+> +
+> +	/** @profile_mask: User-set profiling flags for job accounting. */
+> +	u32 profile_mask;
+>  };
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 42afdf0ddb7e..6da5c3d0015e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -93,6 +93,9 @@
+>  #define MIN_CSGS				3
+>  #define MAX_CSG_PRIO				0xf
+>  
+> +#define NUM_INSTRS_PER_CACHE_LINE		(64 / sizeof(u64))
+> +#define MAX_INSTRS_PER_JOB			24
+> +
+>  struct panthor_group;
+>  
+>  /**
+> @@ -476,6 +479,18 @@ struct panthor_queue {
+>  		 */
+>  		struct list_head in_flight_jobs;
+>  	} fence_ctx;
+> +
+> +	/** @profiling: Job profiling data slots and access information. */
+> +	struct {
+> +		/** @slots: Kernel BO holding the slots. */
+> +		struct panthor_kernel_bo *slots;
+> +
+> +		/** @slot_count: Number of jobs ringbuffer can hold at once. */
+> +		u32 slot_count;
+> +
+> +		/** @seqno: Index of the next available profiling information slot. */
+> +		u32 seqno;
+> +	} profiling;
+>  };
+>  
+>  /**
+> @@ -661,6 +676,18 @@ struct panthor_group {
+>  	struct list_head wait_node;
+>  };
+>  
+> +struct panthor_job_profiling_data {
+> +	struct {
+> +		u64 before;
+> +		u64 after;
+> +	} cycles;
+> +
+> +	struct {
+> +		u64 before;
+> +		u64 after;
+> +	} time;
+> +};
+> +
+>  /**
+>   * group_queue_work() - Queue a group work
+>   * @group: Group to queue the work for.
+> @@ -774,6 +801,15 @@ struct panthor_job {
+>  
+>  	/** @done_fence: Fence signaled when the job is finished or cancelled. */
+>  	struct dma_fence *done_fence;
+> +
+> +	/** @profiling: Job profiling information. */
+> +	struct {
+> +		/** @mask: Current device job profiling enablement bitmask. */
+> +		u32 mask;
+> +
+> +		/** @slot: Job index in the profiling slots BO. */
+> +		u32 slot;
+> +	} profiling;
+>  };
+>  
+>  static void
+> @@ -838,6 +874,7 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
+>  
+>  	panthor_kernel_bo_destroy(queue->ringbuf);
+>  	panthor_kernel_bo_destroy(queue->iface.mem);
+> +	panthor_kernel_bo_destroy(queue->profiling.slots);
+>  
+>  	/* Release the last_fence we were holding, if any. */
+>  	dma_fence_put(queue->fence_ctx.last_fence);
+> @@ -1982,8 +2019,6 @@ tick_ctx_init(struct panthor_scheduler *sched,
+>  	}
+>  }
+>  
+> -#define NUM_INSTRS_PER_SLOT		16
+> -
+>  static void
+>  group_term_post_processing(struct panthor_group *group)
+>  {
+> @@ -2815,65 +2850,192 @@ static void group_sync_upd_work(struct work_struct *work)
+>  	group_put(group);
+>  }
+>  
+> -static struct dma_fence *
+> -queue_run_job(struct drm_sched_job *sched_job)
+> +struct panthor_job_ringbuf_instrs {
+> +	u64 buffer[MAX_INSTRS_PER_JOB];
+> +	u32 count;
+> +};
+> +
+> +struct panthor_job_instr {
+> +	u32 profile_mask;
+> +	u64 instr;
+> +};
+> +
+> +#define JOB_INSTR(__prof, __instr) \
+> +	{ \
+> +		.profile_mask = __prof, \
+> +		.instr = __instr, \
+> +	}
+> +
+> +static void
+> +copy_instrs_to_ringbuf(struct panthor_queue *queue,
+> +		       struct panthor_job *job,
+> +		       struct panthor_job_ringbuf_instrs *instrs)
+> +{
+> +	u64 ringbuf_size = panthor_kernel_bo_size(queue->ringbuf);
+> +	u64 start = job->ringbuf.start & (ringbuf_size - 1);
+> +	u64 size, written;
+> +
+> +	/*
+> +	 * We need to write a whole slot, including any trailing zeroes
+> +	 * that may come at the end of it. Also, because instrs.buffer has
+> +	 * been zero-initialised, there's no need to pad it with 0's
+> +	 */
+> +	instrs->count = ALIGN(instrs->count, NUM_INSTRS_PER_CACHE_LINE);
+> +	size = instrs->count * sizeof(u64);
+> +	WARN_ON(size > ringbuf_size);
+> +	written = min(ringbuf_size - start, size);
+> +
+> +	memcpy(queue->ringbuf->kmap + start, instrs->buffer, written);
+> +
+> +	if (written < size)
+> +		memcpy(queue->ringbuf->kmap,
+> +		       &instrs->buffer[written/sizeof(u64)],
+> +		       size - written);
+> +}
+> +
+> +struct panthor_job_cs_params {
+> +	u32 profile_mask;
+> +	u64 addr_reg; u64 val_reg;
+> +	u64 cycle_reg; u64 time_reg;
+> +	u64 sync_addr; u64 times_addr;
+> +	u64 cs_start; u64 cs_size;
+> +	u32 last_flush; u32 waitall_mask;
+> +};
+> +
+> +static void
+> +get_job_cs_params(struct panthor_job *job, struct panthor_job_cs_params *params)
+>  {
+> -	struct panthor_job *job = container_of(sched_job, struct panthor_job, base);
+>  	struct panthor_group *group = job->group;
+>  	struct panthor_queue *queue = group->queues[job->queue_idx];
+>  	struct panthor_device *ptdev = group->ptdev;
+>  	struct panthor_scheduler *sched = ptdev->scheduler;
+> -	u32 ringbuf_size = panthor_kernel_bo_size(queue->ringbuf);
+> -	u32 ringbuf_insert = queue->iface.input->insert & (ringbuf_size - 1);
+> -	u64 addr_reg = ptdev->csif_info.cs_reg_count -
+> -		       ptdev->csif_info.unpreserved_cs_reg_count;
+> -	u64 val_reg = addr_reg + 2;
+> -	u64 sync_addr = panthor_kernel_bo_gpuva(group->syncobjs) +
+> -			job->queue_idx * sizeof(struct panthor_syncobj_64b);
+> -	u32 waitall_mask = GENMASK(sched->sb_slot_count - 1, 0);
+> -	struct dma_fence *done_fence;
+> -	int ret;
+>  
+> -	u64 call_instrs[NUM_INSTRS_PER_SLOT] = {
+> -		/* MOV32 rX+2, cs.latest_flush */
+> -		(2ull << 56) | (val_reg << 48) | job->call_info.latest_flush,
+> +	params->addr_reg = ptdev->csif_info.cs_reg_count -
+> +			   ptdev->csif_info.unpreserved_cs_reg_count;
+> +	params->val_reg = params->addr_reg + 2;
+> +	params->cycle_reg = params->addr_reg;
+> +	params->time_reg = params->val_reg;
+>  
+> -		/* FLUSH_CACHE2.clean_inv_all.no_wait.signal(0) rX+2 */
+> -		(36ull << 56) | (0ull << 48) | (val_reg << 40) | (0 << 16) | 0x233,
+> +	params->sync_addr = panthor_kernel_bo_gpuva(group->syncobjs) +
+> +			    job->queue_idx * sizeof(struct panthor_syncobj_64b);
+> +	params->times_addr = panthor_kernel_bo_gpuva(queue->profiling.slots) +
+> +			     (job->profiling.slot * sizeof(struct panthor_job_profiling_data));
+> +	params->waitall_mask = GENMASK(sched->sb_slot_count - 1, 0);
+>  
+> -		/* MOV48 rX:rX+1, cs.start */
+> -		(1ull << 56) | (addr_reg << 48) | job->call_info.start,
+> +	params->cs_start = job->call_info.start;
+> +	params->cs_size = job->call_info.size;
+> +	params->last_flush = job->call_info.latest_flush;
+>  
+> -		/* MOV32 rX+2, cs.size */
+> -		(2ull << 56) | (val_reg << 48) | job->call_info.size,
+> +	params->profile_mask = job->profiling.mask;
+> +}
+>  
+> -		/* WAIT(0) => waits for FLUSH_CACHE2 instruction */
+> -		(3ull << 56) | (1 << 16),
+> +#define JOB_INSTR_ALWAYS(instr) \
+> +	JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED, (instr))
+> +#define JOB_INSTR_TIMESTAMP(instr) \
+> +	JOB_INSTR(PANTHOR_DEVICE_PROFILING_TIMESTAMP, (instr))
+> +#define JOB_INSTR_CYCLES(instr) \
+> +	JOB_INSTR(PANTHOR_DEVICE_PROFILING_CYCLES, (instr))
+>  
+> +static void
+> +prepare_job_instrs(const struct panthor_job_cs_params *params,
+> +		   struct panthor_job_ringbuf_instrs *instrs)
+> +{
+> +	const struct panthor_job_instr instr_seq[] = {
+> +		/* MOV32 rX+2, cs.latest_flush */
+> +		JOB_INSTR_ALWAYS((2ull << 56) | (params->val_reg << 48) | params->last_flush),
+> +		/* FLUSH_CACHE2.clean_inv_all.no_wait.signal(0) rX+2 */
+> +		JOB_INSTR_ALWAYS((36ull << 56) | (0ull << 48) | (params->val_reg << 40) | (0 << 16) | 0x233),
+> +		/* MOV48 rX:rX+1, cycles_offset */
+> +		JOB_INSTR_CYCLES((1ull << 56) | (params->cycle_reg << 48) |
+> +				 (params->times_addr + offsetof(struct panthor_job_profiling_data, cycles.before))),
+> +		/* STORE_STATE cycles */
+> +		JOB_INSTR_CYCLES((40ull << 56) | (params->cycle_reg << 40) | (1ll << 32)),
+> +		/* MOV48 rX:rX+1, time_offset */
+> +		JOB_INSTR_TIMESTAMP((1ull << 56) | (params->time_reg << 48) | (params->times_addr +
+> +			   offsetof(struct panthor_job_profiling_data, time.before))),
+> +		/* STORE_STATE timer */
+> +		JOB_INSTR_TIMESTAMP((40ull << 56) | (params->time_reg << 40) | (0ll << 32)),
+> +		/* MOV48 rX:rX+1, cs.start */
+> +		JOB_INSTR_ALWAYS((1ull << 56) | (params->addr_reg << 48) | params->cs_start),
+> +		/* MOV32 rX+2, cs.size */
+> +		JOB_INSTR_ALWAYS((2ull << 56) | (params->val_reg << 48) | params->cs_size),
+> +		/* WAIT(0) => waits for FLUSH_CACHE2 instruction */
+> +		JOB_INSTR_ALWAYS((3ull << 56) | (1 << 16)),
+>  		/* CALL rX:rX+1, rX+2 */
+> -		(32ull << 56) | (addr_reg << 40) | (val_reg << 32),
+> -
+> +		JOB_INSTR_ALWAYS((32ull << 56) | (params->addr_reg << 40) | (params->val_reg << 32)),
+> +		/* MOV48 rX:rX+1, cycles_offset */
+> +		JOB_INSTR_CYCLES((1ull << 56) | (params->cycle_reg << 48) |
+> +				 (params->times_addr + offsetof(struct panthor_job_profiling_data, cycles.after))),
+> +		/* STORE_STATE cycles */
+> +		JOB_INSTR_CYCLES((40ull << 56) | (params->cycle_reg << 40) | (1ll << 32)),
+> +		/* MOV48 rX:rX+1, time_offset */
+> +		JOB_INSTR_TIMESTAMP((1ull << 56) | (params->time_reg << 48) |
+> +			  (params->times_addr + offsetof(struct panthor_job_profiling_data, time.after))),
+> +		/* STORE_STATE timer */
+> +		JOB_INSTR_TIMESTAMP((40ull << 56) | (params->time_reg << 40) | (0ll << 32)),
+>  		/* MOV48 rX:rX+1, sync_addr */
+> -		(1ull << 56) | (addr_reg << 48) | sync_addr,
+> -
+> +		JOB_INSTR_ALWAYS((1ull << 56) | (params->addr_reg << 48) | params->sync_addr),
+>  		/* MOV48 rX+2, #1 */
+> -		(1ull << 56) | (val_reg << 48) | 1,
+> -
+> +		JOB_INSTR_ALWAYS((1ull << 56) | (params->val_reg << 48) | 1),
+>  		/* WAIT(all) */
+> -		(3ull << 56) | (waitall_mask << 16),
+> -
+> +		JOB_INSTR_ALWAYS((3ull << 56) | (params->waitall_mask << 16)),
+>  		/* SYNC_ADD64.system_scope.propage_err.nowait rX:rX+1, rX+2*/
+> -		(51ull << 56) | (0ull << 48) | (addr_reg << 40) | (val_reg << 32) | (0 << 16) | 1,
+> +		JOB_INSTR_ALWAYS((51ull << 56) | (0ull << 48) | (params->addr_reg << 40) |
+> +				 (params->val_reg << 32) | (0 << 16) | 1),
+> +		/* ERROR_BARRIER, so we can recover from faults at job boundaries. */
+> +		JOB_INSTR_ALWAYS((47ull << 56)),
+> +	};
+> +	u32 pad;
+>  
+> -		/* ERROR_BARRIER, so we can recover from faults at job
+> -		 * boundaries.
+> -		 */
+> -		(47ull << 56),
+> +	/* NEED to be cacheline aligned to please the prefetcher. */
+> +	static_assert(sizeof(instrs->buffer) % 64 == 0,
+> +		      "panthor_job_ringbuf_instrs::buffer is not aligned on a cacheline");
+> +
+> +	/* Make sure we have enough storage to store the whole sequence. */
+> +	static_assert(ALIGN(ARRAY_SIZE(instr_seq), NUM_INSTRS_PER_CACHE_LINE) ==
+> +		      ARRAY_SIZE(instrs->buffer),
+> +		      "instr_seq vs panthor_job_ringbuf_instrs::buffer size mismatch");
+> +
+> +	for (u32 i = 0; i < ARRAY_SIZE(instr_seq); i++) {
+> +		/* If the profile mask of this instruction is not enabled, skip it. */
+> +		if (instr_seq[i].profile_mask &&
+> +		    !(instr_seq[i].profile_mask & params->profile_mask))
+> +			continue;
+> +
+> +		instrs->buffer[instrs->count++] = instr_seq[i].instr;
+> +	}
+> +
+> +	pad = ALIGN(instrs->count, NUM_INSTRS_PER_CACHE_LINE);
+> +	memset(&instrs->buffer[instrs->count], 0,
+> +	       (pad - instrs->count) * sizeof(instrs->buffer[0]));
+> +	instrs->count = pad;
+> +}
+> +
+> +static u32 calc_job_credits(u32 profile_mask)
+> +{
+> +	struct panthor_job_ringbuf_instrs instrs = {
+> +		.count = 0,
+> +	};
+> +	struct panthor_job_cs_params params = {
+> +		.profile_mask = profile_mask,
+>  	};
+>  
+> -	/* Need to be cacheline aligned to please the prefetcher. */
+> -	static_assert(sizeof(call_instrs) % 64 == 0,
+> -		      "call_instrs is not aligned on a cacheline");
+> +	prepare_job_instrs(&params, &instrs);
+> +	return instrs.count;
+> +}
+> +
+> +static struct dma_fence *
+> +queue_run_job(struct drm_sched_job *sched_job)
+> +{
+> +	struct panthor_job *job = container_of(sched_job, struct panthor_job, base);
+> +	struct panthor_group *group = job->group;
+> +	struct panthor_queue *queue = group->queues[job->queue_idx];
+> +	struct panthor_device *ptdev = group->ptdev;
+> +	struct panthor_scheduler *sched = ptdev->scheduler;
+> +	struct panthor_job_ringbuf_instrs instrs;
 
- .../media/atomisp/pci/atomisp_compat_css20.c  | 15 ++++----
- .../kernels/anr/anr_1.0/ia_css_anr_types.h    |  4 ++-
- .../pci/isp/kernels/dpc2/ia_css_dpc2_param.h  |  6 ++--
- .../isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c |  4 +--
- .../isp/kernels/eed1_8/ia_css_eed1_8_param.h  | 22 ++++++------
- .../isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c |  6 ++--
- .../isp/kernels/sc/sc_1.0/ia_css_sc_param.h   |  2 +-
- .../pci/isp/modes/interface/input_buf.isp.h   |  5 ++-
- .../pci/isp/modes/interface/isp_const.h       | 32 +++++++++--------
- .../pci/runtime/debug/src/ia_css_debug.c      |  1 -
- .../atomisp/pci/runtime/frame/src/frame.c     | 34 +++++++++----------
- .../atomisp/pci/runtime/ifmtr/src/ifmtr.c     | 11 +++---
- .../pci/runtime/isys/src/virtual_isys.c       |  2 +-
- drivers/staging/media/atomisp/pci/sh_css.c    | 10 +++---
- .../staging/media/atomisp/pci/sh_css_defs.h   | 12 +++----
- .../media/atomisp/pci/sh_css_internal.h       |  8 ++---
- .../media/atomisp/pci/sh_css_param_dvs.h      | 19 ++++++-----
- .../media/atomisp/pci/sh_css_param_shading.c  |  4 +--
- .../staging/media/atomisp/pci/sh_css_params.c | 12 +++----
- 19 files changed, 110 insertions(+), 99 deletions(-)
+instrs isn't initialised...
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index a62a5c0b3c00..cbd57b52e7ea 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -12,10 +12,12 @@
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-- *
-- *
-  */
- 
-+#include <linux/io.h>
-+#include <linux/math.h>
-+#include <linux/pm_runtime.h>
-+
- #include <media/v4l2-dev.h>
- #include <media/v4l2-event.h>
- 
-@@ -36,9 +38,6 @@
- #include "sh_css_hrt.h"
- #include "ia_css_isys.h"
- 
--#include <linux/io.h>
--#include <linux/pm_runtime.h>
--
- /* Assume max number of ACC stages */
- #define MAX_ACC_STAGES	20
- 
-@@ -1939,10 +1938,8 @@ static void __configure_capture_pp_input(struct atomisp_sub_device *asd,
- 	    height * 9 / 10 < pipe_configs->output_info[0].res.height)
- 		return;
- 	/* here just copy the calculation in css */
--	hor_ds_factor = CEIL_DIV(width >> 1,
--				 pipe_configs->output_info[0].res.width);
--	ver_ds_factor = CEIL_DIV(height >> 1,
--				 pipe_configs->output_info[0].res.height);
-+	hor_ds_factor = DIV_ROUND_UP(width >> 1, pipe_configs->output_info[0].res.width);
-+	ver_ds_factor = DIV_ROUND_UP(height >> 1, pipe_configs->output_info[0].res.height);
- 
- 	if ((asd->isp->media_dev.hw_revision <
- 	     (ATOMISP_HW_REVISION_ISP2401 << ATOMISP_HW_REVISION_SHIFT) ||
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr_types.h
-index 9b22f2da45d5..1dd345ece44c 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr_types.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr_types.h
-@@ -20,9 +20,11 @@
-  * CSS-API header file for Advanced Noise Reduction kernel v1
-  */
- 
-+#include <linux/math.h>
-+
- /* Application specific DMA settings  */
- #define ANR_BPP                 10
--#define ANR_ELEMENT_BITS        ((CEIL_DIV(ANR_BPP, 8)) * 8)
-+#define ANR_ELEMENT_BITS        round_up(ANR_BPP, 8)
- 
- /* Advanced Noise Reduction configuration.
-  *  This is also known as Low-Light.
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/dpc2/ia_css_dpc2_param.h b/drivers/staging/media/atomisp/pci/isp/kernels/dpc2/ia_css_dpc2_param.h
-index 1ccceadbb7bf..3b2e99065968 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/dpc2/ia_css_dpc2_param.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/dpc2/ia_css_dpc2_param.h
-@@ -16,6 +16,8 @@
- #ifndef __IA_CSS_DPC2_PARAM_H
- #define __IA_CSS_DPC2_PARAM_H
- 
-+#include <linux/math.h>
-+
- #include "type_support.h"
- #include "vmem.h" /* for VMEM_ARRAY*/
- 
-@@ -28,12 +30,12 @@
- /* 3 lines state per color plane input_line_state */
- #define DPC2_STATE_INPUT_BUFFER_HEIGHT	(3 * NUM_PLANES)
- /* Each plane has width equal to half frame line */
--#define DPC2_STATE_INPUT_BUFFER_WIDTH	CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define DPC2_STATE_INPUT_BUFFER_WIDTH	DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* 1 line state per color plane for local deviation state*/
- #define DPC2_STATE_LOCAL_DEVIATION_BUFFER_HEIGHT	(1 * NUM_PLANES)
- /* Each plane has width equal to half frame line */
--#define DPC2_STATE_LOCAL_DEVIATION_BUFFER_WIDTH		CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define DPC2_STATE_LOCAL_DEVIATION_BUFFER_WIDTH		DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* MINMAX state buffer stores 1 full input line (GR-R color line) */
- #define DPC2_STATE_SECOND_MINMAX_BUFFER_HEIGHT	1
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
-index 07ce5b4f0816..a47fe523e1d9 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
-@@ -150,10 +150,10 @@ convert_coords_to_ispparams(
- 
- 			/* similar to topleft_y calculation, but round up if ymax
- 			 * has any fraction bits */
--			bottom_y = CEIL_DIV(ymax, 1 << DVS_COORD_FRAC_BITS);
-+			bottom_y = DIV_ROUND_UP(ymax, BIT(DVS_COORD_FRAC_BITS));
- 			s.in_block_height = bottom_y - topleft_y + dvs_interp_envelope;
- 
--			bottom_x = CEIL_DIV(xmax, 1 << DVS_COORD_FRAC_BITS);
-+			bottom_x = DIV_ROUND_UP(xmax, BIT(DVS_COORD_FRAC_BITS));
- 			s.in_block_width = bottom_x - topleft_x + dvs_interp_envelope;
- 
- 			topleft_x_frac = topleft_x << (DVS_COORD_FRAC_BITS);
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8_param.h b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8_param.h
-index 6fb3b38f49e7..27cf6ad7e293 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8_param.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8_param.h
-@@ -16,6 +16,8 @@
- #ifndef __IA_CSS_EED1_8_PARAM_H
- #define __IA_CSS_EED1_8_PARAM_H
- 
-+#include <linux/math.h>
-+
- #include "type_support.h"
- #include "vmem.h" /* needed for VMEM_ARRAY */
- 
-@@ -44,35 +46,35 @@
- #define EED1_8_STATE_INPUT_BUFFER_HEIGHT	(5 * NUM_PLANES)
- 
- /* Each plane has width equal to half frame line */
--#define EED1_8_STATE_INPUT_BUFFER_WIDTH	CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define EED1_8_STATE_INPUT_BUFFER_WIDTH	DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* 1 line state per color plane LD_H state */
- #define EED1_8_STATE_LD_H_HEIGHT	(1 * NUM_PLANES)
--#define EED1_8_STATE_LD_H_WIDTH		CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define EED1_8_STATE_LD_H_WIDTH		DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* 1 line state per color plane LD_V state */
- #define EED1_8_STATE_LD_V_HEIGHT	(1 * NUM_PLANES)
--#define EED1_8_STATE_LD_V_WIDTH		CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define EED1_8_STATE_LD_V_WIDTH		DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* 1 line (single plane) state for D_Hr state */
- #define EED1_8_STATE_D_HR_HEIGHT	1
--#define EED1_8_STATE_D_HR_WIDTH		CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define EED1_8_STATE_D_HR_WIDTH		DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* 1 line (single plane) state for D_Hb state */
- #define EED1_8_STATE_D_HB_HEIGHT	1
--#define EED1_8_STATE_D_HB_WIDTH		CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define EED1_8_STATE_D_HB_WIDTH		DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* 2 lines (single plane) state for D_Vr state */
- #define EED1_8_STATE_D_VR_HEIGHT	2
--#define EED1_8_STATE_D_VR_WIDTH		CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define EED1_8_STATE_D_VR_WIDTH		DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* 2 line (single plane) state for D_Vb state */
- #define EED1_8_STATE_D_VB_HEIGHT	2
--#define EED1_8_STATE_D_VB_WIDTH		CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define EED1_8_STATE_D_VB_WIDTH		DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* 2 lines state for R and B (= 2 planes) rb_zipped_state */
- #define EED1_8_STATE_RB_ZIPPED_HEIGHT	(2 * 2)
--#define EED1_8_STATE_RB_ZIPPED_WIDTH	CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define EED1_8_STATE_RB_ZIPPED_WIDTH	DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- #if EED1_8_FC_ENABLE_MEDIAN
- /* 1 full input line (GR-R color line) for Yc state */
-@@ -81,11 +83,11 @@
- 
- /* 1 line state per color plane Cg_state */
- #define EED1_8_STATE_CG_HEIGHT	(1 * NUM_PLANES)
--#define EED1_8_STATE_CG_WIDTH	CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define EED1_8_STATE_CG_WIDTH	DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* 1 line state per color plane Co_state */
- #define EED1_8_STATE_CO_HEIGHT	(1 * NUM_PLANES)
--#define EED1_8_STATE_CO_WIDTH	CEIL_DIV(MAX_FRAME_SIMDWIDTH, 2)
-+#define EED1_8_STATE_CO_WIDTH	DIV_ROUND_UP(MAX_FRAME_SIMDWIDTH, 2)
- 
- /* 1 full input line (GR-R color line) for AbsK state */
- #define EED1_8_STATE_ABSK_HEIGHT	1
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-index 8ccfa99c61ef..4b83b828cbbe 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-@@ -13,6 +13,8 @@
-  * more details.
-  */
- 
-+#include <linux/math.h>
-+
- #include <assert_support.h>
- #include <ia_css_frame_public.h>
- #include <ia_css_frame.h>
-@@ -80,9 +82,9 @@ int ia_css_fpn_configure(const struct ia_css_binary     *binary,
- 		&my_info
- 	};
- 
--	my_info.res.width       = CEIL_DIV(info->res.width, 2);		/* Packed by 2x */
-+	my_info.res.width       = DIV_ROUND_UP(info->res.width, 2);	/* Packed by 2x */
- 	my_info.res.height      = info->res.height;
--	my_info.padded_width    = CEIL_DIV(info->padded_width, 2);	/* Packed by 2x */
-+	my_info.padded_width    = DIV_ROUND_UP(info->padded_width, 2);	/* Packed by 2x */
- 	my_info.format          = info->format;
- 	my_info.raw_bit_depth   = FPN_BITS_PER_PIXEL;
- 	my_info.raw_bayer_order = info->raw_bayer_order;
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_param.h b/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_param.h
-index fab11d3350fd..ace918baeadc 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_param.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_param.h
-@@ -31,7 +31,7 @@ struct sh_css_isp_sc_params {
-  * vec_slice is used for 2 adjacent vectors of shading gains.
-  * The number of shift times by vec_slice is 8.
-  *     Max grid cell bqs to support the shading table centerting: N = 32
-- *     CEIL_DIV(N-1, ISP_SLICE_NELEMS) = CEIL_DIV(31, 4) = 8
-+ *     DIV_ROUND_UP(N-1, ISP_SLICE_NELEMS) = DIV_ROUND_UP(31, 4) = 8
-  */
- #define SH_CSS_SC_INTERPED_GAIN_HOR_SLICE_TIMES   8
- 
-diff --git a/drivers/staging/media/atomisp/pci/isp/modes/interface/input_buf.isp.h b/drivers/staging/media/atomisp/pci/isp/modes/interface/input_buf.isp.h
-index f86cf9bf13a5..7c021a83c05b 100644
---- a/drivers/staging/media/atomisp/pci/isp/modes/interface/input_buf.isp.h
-+++ b/drivers/staging/media/atomisp/pci/isp/modes/interface/input_buf.isp.h
-@@ -16,6 +16,8 @@ more details.
- #ifndef _INPUT_BUF_ISP_H_
- #define _INPUT_BUF_ISP_H_
- 
-+#include <linux/math.h>
-+
- /* Temporary include, since IA_CSS_BINARY_MODE_COPY is still needed */
- #include "sh_css_defs.h"
- #include "isp_const.h" /* MAX_VECTORS_PER_INPUT_LINE */
-@@ -30,7 +32,8 @@ more details.
- /* In continuous mode, the input buffer must be a fixed size for all binaries
-  * and at a fixed address since it will be used by the SP. */
- #define EXTRA_INPUT_VECTORS	2 /* For left padding */
--#define MAX_VECTORS_PER_INPUT_LINE_CONT (CEIL_DIV(SH_CSS_MAX_SENSOR_WIDTH, ISP_NWAY) + EXTRA_INPUT_VECTORS)
-+#define MAX_VECTORS_PER_INPUT_LINE_CONT						\
-+	(DIV_ROUND_UP(SH_CSS_MAX_SENSOR_WIDTH, ISP_NWAY) + EXTRA_INPUT_VECTORS)
- 
- /* The input buffer should be on a fixed address in vmem, for continuous capture */
- #define INPUT_BUF_ADDR 0x0
-diff --git a/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_const.h b/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_const.h
-index 73432dc35ae3..f79764ad7e85 100644
---- a/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_const.h
-+++ b/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_const.h
-@@ -16,6 +16,8 @@ more details.
- #ifndef _COMMON_ISP_CONST_H_
- #define _COMMON_ISP_CONST_H_
- 
-+#include <linux/math.h>
-+
- /*#include "isp.h"*/	/* ISP_VEC_NELEMS */
- 
- /* Binary independent constants */
-@@ -33,8 +35,8 @@ more details.
- #define XMEM_INTS_PER_WORD           (HIVE_ISP_DDR_WORD_BITS / 32)
- #define XMEM_POW2_BYTES_PER_WORD      HIVE_ISP_DDR_WORD_BYTES
- 
--#define BITS8_ELEMENTS_PER_XMEM_ADDR    CEIL_DIV(XMEM_WIDTH_BITS, 8)
--#define BITS16_ELEMENTS_PER_XMEM_ADDR    CEIL_DIV(XMEM_WIDTH_BITS, 16)
-+#define BITS8_ELEMENTS_PER_XMEM_ADDR    DIV_ROUND_UP(XMEM_WIDTH_BITS, 8)
-+#define BITS16_ELEMENTS_PER_XMEM_ADDR    DIV_ROUND_UP(XMEM_WIDTH_BITS, 16)
- 
- #define ISP_NWAY_LOG2  6
- 
-@@ -67,17 +69,17 @@ more details.
- #define UDS_MAX_CHUNKS                16
- 
- #define ISP_LEFT_PADDING	_ISP_LEFT_CROP_EXTRA(ISP_LEFT_CROPPING)
--#define ISP_LEFT_PADDING_VECS	CEIL_DIV(ISP_LEFT_PADDING, ISP_VEC_NELEMS)
-+#define ISP_LEFT_PADDING_VECS	DIV_ROUND_UP(ISP_LEFT_PADDING, ISP_VEC_NELEMS)
- /* in case of continuous the croppong of the current binary doesn't matter for the buffer calculation, but the cropping of the sp copy should be used */
- #define ISP_LEFT_PADDING_CONT	_ISP_LEFT_CROP_EXTRA(SH_CSS_MAX_LEFT_CROPPING)
--#define ISP_LEFT_PADDING_VECS_CONT	CEIL_DIV(ISP_LEFT_PADDING_CONT, ISP_VEC_NELEMS)
-+#define ISP_LEFT_PADDING_VECS_CONT	DIV_ROUND_UP(ISP_LEFT_PADDING_CONT, ISP_VEC_NELEMS)
- 
- #define CEIL_ROUND_DIV_STRIPE(width, stripe, padding) \
--	CEIL_MUL(padding + CEIL_DIV(width - padding, stripe), ((ENABLE_RAW_BINNING || ENABLE_FIXED_BAYER_DS) ? 4 : 2))
-+	round_up(padding + DIV_ROUND_UP(width - padding, stripe), (ENABLE_RAW_BINNING || ENABLE_FIXED_BAYER_DS) ? 4 : 2)
- 
- /* output (Y,U,V) image, 4:2:0 */
- #define MAX_VECTORS_PER_LINE \
--	CEIL_ROUND_DIV_STRIPE(CEIL_DIV(ISP_MAX_INTERNAL_WIDTH, ISP_VEC_NELEMS), \
-+	CEIL_ROUND_DIV_STRIPE(DIV_ROUND_UP(ISP_MAX_INTERNAL_WIDTH, ISP_VEC_NELEMS), \
- 			      ISP_NUM_STRIPES, \
- 			      ISP_LEFT_PADDING_VECS)
- 
-@@ -89,16 +91,16 @@ more details.
-  * ((width[vectors]/num_of_stripes) + 2[vectors])
-  */
- #define MAX_VECTORS_PER_OUTPUT_LINE \
--	CEIL_DIV(CEIL_DIV(ISP_MAX_OUTPUT_WIDTH, ISP_NUM_STRIPES) + ISP_LEFT_PADDING, ISP_VEC_NELEMS)
-+	DIV_ROUND_UP(DIV_ROUND_UP(ISP_MAX_OUTPUT_WIDTH, ISP_NUM_STRIPES) + ISP_LEFT_PADDING, ISP_VEC_NELEMS)
- 
- /* Must be even due to interlaced bayer input */
--#define MAX_VECTORS_PER_INPUT_LINE	CEIL_MUL((CEIL_DIV(ISP_MAX_INPUT_WIDTH, ISP_VEC_NELEMS) + ISP_LEFT_PADDING_VECS), 2)
-+#define MAX_VECTORS_PER_INPUT_LINE	round_up(DIV_ROUND_UP(ISP_MAX_INPUT_WIDTH, ISP_VEC_NELEMS) + ISP_LEFT_PADDING_VECS, 2)
- #define MAX_VECTORS_PER_INPUT_STRIPE	CEIL_ROUND_DIV_STRIPE(MAX_VECTORS_PER_INPUT_LINE, \
- 							      ISP_NUM_STRIPES, \
- 							      ISP_LEFT_PADDING_VECS)
- 
- /* Add 2 for left croppping */
--#define MAX_SP_RAW_COPY_VECTORS_PER_INPUT_LINE	(CEIL_DIV(ISP_MAX_INPUT_WIDTH, ISP_VEC_NELEMS) + 2)
-+#define MAX_SP_RAW_COPY_VECTORS_PER_INPUT_LINE	(DIV_ROUND_UP(ISP_MAX_INPUT_WIDTH, ISP_VEC_NELEMS) + 2)
- 
- #define MAX_VECTORS_PER_BUF_LINE \
- 	(MAX_VECTORS_PER_LINE + DUMMY_BUF_VECTORS)
-@@ -111,14 +113,14 @@ more details.
- #define MAX_OUTPUT_C_FRAME_WIDTH \
- 	(MAX_OUTPUT_Y_FRAME_WIDTH / 2)
- #define MAX_OUTPUT_C_FRAME_SIMDWIDTH \
--	CEIL_DIV(MAX_OUTPUT_C_FRAME_WIDTH, ISP_VEC_NELEMS)
-+	DIV_ROUND_UP(MAX_OUTPUT_C_FRAME_WIDTH, ISP_VEC_NELEMS)
- 
- /* should be even */
- #define NO_CHUNKING (OUTPUT_NUM_CHUNKS == 1)
- 
- #define MAX_VECTORS_PER_CHUNK \
- 	(NO_CHUNKING ? MAX_VECTORS_PER_LINE \
--				: 2 * CEIL_DIV(MAX_VECTORS_PER_LINE, \
-+				: 2 * DIV_ROUND_UP(MAX_VECTORS_PER_LINE, \
- 					     2 * OUTPUT_NUM_CHUNKS))
- 
- #define MAX_C_VECTORS_PER_CHUNK \
-@@ -127,7 +129,7 @@ more details.
- /* should be even */
- #define MAX_VECTORS_PER_OUTPUT_CHUNK \
- 	(NO_CHUNKING ? MAX_VECTORS_PER_OUTPUT_LINE \
--				: 2 * CEIL_DIV(MAX_VECTORS_PER_OUTPUT_LINE, \
-+				: 2 * DIV_ROUND_UP(MAX_VECTORS_PER_OUTPUT_LINE, \
- 					     2 * OUTPUT_NUM_CHUNKS))
- 
- #define MAX_C_VECTORS_PER_OUTPUT_CHUNK \
-@@ -136,7 +138,7 @@ more details.
- /* should be even */
- #define MAX_VECTORS_PER_INPUT_CHUNK \
- 	(INPUT_NUM_CHUNKS == 1 ? MAX_VECTORS_PER_INPUT_STRIPE \
--			       : 2 * CEIL_DIV(MAX_VECTORS_PER_INPUT_STRIPE, \
-+			       : 2 * DIV_ROUND_UP(MAX_VECTORS_PER_INPUT_STRIPE, \
- 					    2 * OUTPUT_NUM_CHUNKS))
- 
- #define DEFAULT_C_SUBSAMPLING      2
-@@ -148,9 +150,9 @@ more details.
- /* [isp vmem] table size[vectors] per line per color (GR,R,B,GB),
-    multiples of NWAY */
- #define ISP2400_SCTBL_VECTORS_PER_LINE_PER_COLOR \
--	CEIL_DIV(SH_CSS_MAX_SCTBL_WIDTH_PER_COLOR, ISP_VEC_NELEMS)
-+	DIV_ROUND_UP(SH_CSS_MAX_SCTBL_WIDTH_PER_COLOR, ISP_VEC_NELEMS)
- #define ISP2401_SCTBL_VECTORS_PER_LINE_PER_COLOR \
--	CEIL_DIV(SH_CSS_MAX_SCTBL_WIDTH_PER_COLOR, ISP_VEC_NELEMS)
-+	DIV_ROUND_UP(SH_CSS_MAX_SCTBL_WIDTH_PER_COLOR, ISP_VEC_NELEMS)
- /* [isp vmem] table size[vectors] per line for 4colors (GR,R,B,GB),
-    multiples of NWAY */
- #define SCTBL_VECTORS_PER_LINE \
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index 35c98fb8d6e8..dfb8bef6897d 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -60,7 +60,6 @@
- #include "sp.h"
- #include "isp.h"
- #include "type_support.h"
--#include "math_support.h" /* CEIL_DIV */
- #include "input_system.h"	/* input_formatter_reg_load */
- #include "ia_css_tagger_common.h"
- 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-index 2d7fddb114f6..3adcefb2feeb 100644
---- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-@@ -13,15 +13,16 @@
-  * more details.
-  */
- 
--#include "hmm.h"
-+#include <linux/bitops.h>
-+#include <linux/math.h>
- 
--#include "ia_css_frame.h"
--#include <math_support.h>
- #include "assert_support.h"
-+#include "atomisp_internal.h"
-+#include "hmm.h"
- #include "ia_css_debug.h"
-+#include "ia_css_frame.h"
- #include "isp.h"
- #include "sh_css_internal.h"
--#include "atomisp_internal.h"
- 
- #define NV12_TILEY_TILE_WIDTH  128
- #define NV12_TILEY_TILE_HEIGHT  32
-@@ -427,7 +428,7 @@ int ia_css_dma_configure_from_info(struct dma_port_config *config,
- 	unsigned int bits_per_pixel = is_raw_packed ? info->raw_bit_depth :
- 				      ia_css_elems_bytes_from_info(info) * 8;
- 	unsigned int pix_per_ddrword = HIVE_ISP_DDR_WORD_BITS / bits_per_pixel;
--	unsigned int words_per_line = CEIL_DIV(info->padded_width, pix_per_ddrword);
-+	unsigned int words_per_line = DIV_ROUND_UP(info->padded_width, pix_per_ddrword);
- 	unsigned int elems_b = pix_per_ddrword;
- 
- 	config->stride = HIVE_ISP_DDR_WORD_BYTES * words_per_line;
-@@ -468,15 +469,16 @@ static void frame_init_single_plane(struct ia_css_frame *frame,
- 	unsigned int stride;
- 
- 	stride = subpixels_per_line * bytes_per_pixel;
--	/* Frame height needs to be even number - needed by hw ISYS2401
--	   In case of odd number, round up to even.
--	   Images won't be impacted by this round up,
--	   only needed by jpeg/embedded data.
--	   As long as buffer allocation and release are using data_bytes,
--	   there won't be memory leak. */
--	frame->data_bytes = stride * CEIL_MUL2(height, 2);
-+	/*
-+	 * Frame height needs to be even number - needed by hw ISYS2401.
-+	 * In case of odd number, round up to even.
-+	 * Images won't be impacted by this round up,
-+	 * only needed by jpeg/embedded data.
-+	 * As long as buffer allocation and release are using data_bytes,
-+	 * there won't be memory leak.
-+	 */
-+	frame->data_bytes = stride * round_up(height, 2);
- 	frame_init_plane(plane, subpixels_per_line, stride, height, 0);
--	return;
- }
- 
- static void frame_init_raw_single_plane(
-@@ -491,11 +493,9 @@ static void frame_init_raw_single_plane(
- 	assert(frame);
- 
- 	stride = HIVE_ISP_DDR_WORD_BYTES *
--		 CEIL_DIV(subpixels_per_line,
--			  HIVE_ISP_DDR_WORD_BITS / bits_per_pixel);
-+		 DIV_ROUND_UP(subpixels_per_line, HIVE_ISP_DDR_WORD_BITS / bits_per_pixel);
- 	frame->data_bytes = stride * height;
- 	frame_init_plane(plane, subpixels_per_line, stride, height, 0);
--	return;
- }
- 
- static void frame_init_nv_planes(struct ia_css_frame *frame,
-@@ -699,7 +699,7 @@ ia_css_elems_bytes_from_info(const struct ia_css_frame_info *info)
- 	if (info->format == IA_CSS_FRAME_FORMAT_RAW
- 	    || (info->format == IA_CSS_FRAME_FORMAT_RAW_PACKED)) {
- 		if (info->raw_bit_depth)
--			return CEIL_DIV(info->raw_bit_depth, 8);
-+			return BITS_TO_BYTES(info->raw_bit_depth);
- 		else
- 			return 2; /* bytes per pixel */
- 	}
-diff --git a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-index 7b5603e4e173..f8d184483a58 100644
---- a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-@@ -13,9 +13,9 @@
-  * more details.
-  */
- 
--#include "system_global.h"
--#include <linux/kernel.h>
-+#include <linux/math.h>
- 
-+#include "system_global.h"
- 
- #include "ia_css_ifmtr.h"
- #include <math_support.h>
-@@ -158,10 +158,9 @@ int ia_css_ifmtr_configure(struct ia_css_stream_config *config,
- 		left_padding = 2 * ISP_VEC_NELEMS - config->left_padding;
- 
- 	if (left_padding) {
--		num_vectors = CEIL_DIV(cropped_width + left_padding,
--				       ISP_VEC_NELEMS);
-+		num_vectors = DIV_ROUND_UP(cropped_width + left_padding, ISP_VEC_NELEMS);
- 	} else {
--		num_vectors = CEIL_DIV(cropped_width, ISP_VEC_NELEMS);
-+		num_vectors = DIV_ROUND_UP(cropped_width, ISP_VEC_NELEMS);
- 		num_vectors *= buffer_height;
- 		/* todo: in case of left padding,
- 		   num_vectors is vectors per line,
-@@ -314,7 +313,7 @@ int ia_css_ifmtr_configure(struct ia_css_stream_config *config,
- 		if ((!binary) || config->continuous)
- 			/* !binary -> sp raw copy pipe */
- 			buffer_height *= 2;
--		vectors_per_line = CEIL_DIV(cropped_width, ISP_VEC_NELEMS);
-+		vectors_per_line = DIV_ROUND_UP(cropped_width, ISP_VEC_NELEMS);
- 		vectors_per_line = CEIL_MUL(vectors_per_line, deinterleaving);
- 		break;
- 	case ATOMISP_INPUT_FORMAT_RAW_14:
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-index 2e0193671f4b..05d6bfaf921e 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-@@ -817,7 +817,7 @@ static bool calculate_isys2401_dma_port_cfg(
- 
- 	cfg->elements	= HIVE_ISP_DDR_WORD_BITS / bits_per_pixel;
- 	cfg->cropping	= 0;
--	cfg->width	= CEIL_DIV(cfg->stride, HIVE_ISP_DDR_WORD_BYTES);
-+	cfg->width	= DIV_ROUND_UP(cfg->stride, HIVE_ISP_DDR_WORD_BYTES);
- 
- 	return true;
- }
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index ca97ea082cf4..131defbce0cc 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -5846,8 +5846,8 @@ static int ia_css_pipe_create_cas_scaler_desc_single_output(
- 	/* We assume that this function is used only for single output port case. */
- 	descr->num_output_stage = 1;
- 
--	hor_ds_factor = CEIL_DIV(in_info->res.width, out_info->res.width);
--	ver_ds_factor = CEIL_DIV(in_info->res.height, out_info->res.height);
-+	hor_ds_factor = DIV_ROUND_UP(in_info->res.width, out_info->res.width);
-+	ver_ds_factor = DIV_ROUND_UP(in_info->res.height, out_info->res.height);
- 	/* use the same horizontal and vertical downscaling factor for simplicity */
- 	assert(hor_ds_factor == ver_ds_factor);
- 
-@@ -5987,8 +5987,10 @@ ia_css_pipe_create_cas_scaler_desc(struct ia_css_pipe *pipe,
- 		}
- 
- 		if (out_info[i]) {
--			hor_scale_factor[i] = CEIL_DIV(in_info.res.width, out_info[i]->res.width);
--			ver_scale_factor[i] = CEIL_DIV(in_info.res.height, out_info[i]->res.height);
-+			hor_scale_factor[i] =
-+				DIV_ROUND_UP(in_info.res.width, out_info[i]->res.width);
-+			ver_scale_factor[i] =
-+				DIV_ROUND_UP(in_info.res.height, out_info[i]->res.height);
- 			/* use the same horizontal and vertical scaling factor for simplicity */
- 			assert(hor_scale_factor[i] == ver_scale_factor[i]);
- 			scale_factor = 1;
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_defs.h b/drivers/staging/media/atomisp/pci/sh_css_defs.h
-index 2afde974e75d..cf00ae6c63ff 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_defs.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_defs.h
-@@ -16,12 +16,12 @@
- #ifndef _SH_CSS_DEFS_H_
- #define _SH_CSS_DEFS_H_
- 
-+#include <linux/math.h>
-+
- #include "isp.h"
- 
- /*#include "vamem.h"*/ /* Cannot include for VAMEM properties this file is visible on ISP -> pipeline generator */
- 
--#include "math_support.h"	/* max(), min, etc etc */
--
- /* ID's for refcount */
- #define IA_CSS_REFCOUNT_PARAM_SET_POOL  0xCAFE0001
- #define IA_CSS_REFCOUNT_PARAM_BUFFER    0xCAFE0002
-@@ -191,7 +191,7 @@ RGB[0,8191],coef[-8192,8191] -> RGB[0,8191]
-    The ISP firmware needs these rules to be applied at pre-processor time,
-    that's why these are macros, not functions. */
- #define _ISP_BQS(num)  ((num) / 2)
--#define _ISP_VECS(width) CEIL_DIV(width, ISP_VEC_NELEMS)
-+#define _ISP_VECS(width) DIV_ROUND_UP(width, ISP_VEC_NELEMS)
- 
- #define ISP_BQ_GRID_WIDTH(elements_per_line, deci_factor_log2) \
- 	CEIL_SHIFT(elements_per_line / 2,  deci_factor_log2)
-@@ -203,9 +203,9 @@ RGB[0,8191],coef[-8192,8191] -> RGB[0,8191]
- /* The morphing table is similar to the shading table in the sense that we
-    have 1 more value than we have cells in the grid. */
- #define _ISP_MORPH_TABLE_WIDTH(int_width) \
--	(CEIL_DIV(int_width, SH_CSS_MORPH_TABLE_GRID) + 1)
-+	(DIV_ROUND_UP(int_width, SH_CSS_MORPH_TABLE_GRID) + 1)
- #define _ISP_MORPH_TABLE_HEIGHT(int_height) \
--	(CEIL_DIV(int_height, SH_CSS_MORPH_TABLE_GRID) + 1)
-+	(DIV_ROUND_UP(int_height, SH_CSS_MORPH_TABLE_GRID) + 1)
- #define _ISP_MORPH_TABLE_ALIGNED_WIDTH(width) \
- 	CEIL_MUL(_ISP_MORPH_TABLE_WIDTH(width), \
- 		 SH_CSS_MORPH_TABLE_ELEMS_PER_DDR_WORD)
-@@ -307,7 +307,7 @@ RGB[0,8191],coef[-8192,8191] -> RGB[0,8191]
- 			     c_subsampling, \
- 			     num_chunks, \
- 			     pipelining) \
--	CEIL_MUL2(CEIL_MUL2(MAX(__ISP_PADDED_OUTPUT_WIDTH(out_width, \
-+	round_up(round_up(MAX(__ISP_PADDED_OUTPUT_WIDTH(out_width, \
- 							    dvs_env_width, \
- 							    left_crop), \
- 				  __ISP_MIN_INTERNAL_WIDTH(num_chunks, \
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-index 959e7f549641..b4623d044225 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-@@ -17,6 +17,7 @@
- #define _SH_CSS_INTERNAL_H_
- 
- #include <linux/build_bug.h>
-+#include <linux/math.h>
- #include <linux/stdarg.h>
- 
- #include <system_global.h>
-@@ -104,7 +105,6 @@
-  * the SIZE_OF_XXX macro of the corresponding struct. If they are not
-  * equal, functionality will break.
-  */
--#define CALC_ALIGNMENT_MEMBER(x, y)	(CEIL_MUL(x, y) - x)
- #define SIZE_OF_HRT_VADDRESS		sizeof(hive_uint32)
- 
- /* Number of SP's */
-@@ -713,13 +713,11 @@ struct sh_css_hmm_buffer {
- 
- /* Do not use sizeof(uint64_t) since that does not exist of SP */
- #define SIZE_OF_SH_CSS_HMM_BUFFER_STRUCT				\
--	(SIZE_OF_PAYLOAD_UNION +					\
--	CALC_ALIGNMENT_MEMBER(SIZE_OF_PAYLOAD_UNION, 8) +		\
-+	(round_up(SIZE_OF_PAYLOAD_UNION, 8) +		\
- 	8 +						\
- 	8 +						\
- 	SIZE_OF_IA_CSS_TIME_MEAS_STRUCT +				\
--	SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT +			\
--	CALC_ALIGNMENT_MEMBER(SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT, 8))
-+	round_up(SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT, 8))
- 
- static_assert(sizeof(struct sh_css_hmm_buffer) == SIZE_OF_SH_CSS_HMM_BUFFER_STRUCT);
- 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.h b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.h
-index 25e5b4570f7d..308e3d804d4a 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.h
-@@ -16,6 +16,8 @@
- #ifndef _SH_CSS_PARAMS_DVS_H_
- #define _SH_CSS_PARAMS_DVS_H_
- 
-+#include <linux/math.h>
-+
- #include <math_support.h>
- #include <ia_css_types.h>
- #include "gdc_global.h" /* gdc_warp_param_mem_t */
-@@ -29,16 +31,17 @@
- 
- /* ISP2400 */
- /* horizontal 64x64 blocks round up to DVS_BLOCKDIM_X, make even */
--#define DVS_NUM_BLOCKS_X(X)		(CEIL_MUL(CEIL_DIV((X), DVS_BLOCKDIM_X), 2))
-+#define DVS_NUM_BLOCKS_X(X)		round_up(DIV_ROUND_UP((X), DVS_BLOCKDIM_X), 2)
-+#define DVS_NUM_BLOCKS_X_CHROMA(X)	DIV_ROUND_UP((X), DVS_BLOCKDIM_X)
- 
- /* ISP2400 */
- /* vertical   64x64 blocks round up to DVS_BLOCKDIM_Y */
--#define DVS_NUM_BLOCKS_Y(X)		(CEIL_DIV((X), DVS_BLOCKDIM_Y_LUMA))
--#define DVS_NUM_BLOCKS_X_CHROMA(X)	(CEIL_DIV((X), DVS_BLOCKDIM_X))
--#define DVS_NUM_BLOCKS_Y_CHROMA(X)	(CEIL_DIV((X), DVS_BLOCKDIM_Y_CHROMA))
-+#define DVS_NUM_BLOCKS_Y(X)		DIV_ROUND_UP((X), DVS_BLOCKDIM_Y_LUMA)
-+#define DVS_NUM_BLOCKS_Y_CHROMA(X)	DIV_ROUND_UP((X), DVS_BLOCKDIM_Y_CHROMA)
- 
--#define DVS_TABLE_IN_BLOCKDIM_X_LUMA(X)	(DVS_NUM_BLOCKS_X(X) + 1)  /* N blocks have N + 1 set of coords */
--#define DVS_TABLE_IN_BLOCKDIM_X_CHROMA(X)   (DVS_NUM_BLOCKS_X_CHROMA(X) + 1)
-+/* N blocks have N + 1 set of coords */
-+#define DVS_TABLE_IN_BLOCKDIM_X_LUMA(X)		(DVS_NUM_BLOCKS_X(X) + 1)
-+#define DVS_TABLE_IN_BLOCKDIM_X_CHROMA(X)	(DVS_NUM_BLOCKS_X_CHROMA(X) + 1)
- #define DVS_TABLE_IN_BLOCKDIM_Y_LUMA(X)		(DVS_NUM_BLOCKS_Y(X) + 1)
- #define DVS_TABLE_IN_BLOCKDIM_Y_CHROMA(X)	(DVS_NUM_BLOCKS_Y_CHROMA(X) + 1)
- 
-@@ -52,8 +55,8 @@
- 
- #define XMEM_ALIGN_LOG2 (5)
- 
--#define DVS_6AXIS_COORDS_ELEMS CEIL_MUL(sizeof(gdc_warp_param_mem_t) \
--					, HIVE_ISP_DDR_WORD_BYTES)
-+#define DVS_6AXIS_COORDS_ELEMS \
-+	round_up(sizeof(gdc_warp_param_mem_t), HIVE_ISP_DDR_WORD_BYTES)
- 
- /* currently we only support two output with the same resolution, output 0 is th default one. */
- #define DVS_6AXIS_BYTES(binary) \
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-index 5b43cc656269..1f95447ea5af 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-@@ -107,8 +107,8 @@ crop_and_interpolate(unsigned int cropped_width,
- 	out_ptr = out_table->data[color];
- 
- 	padded_width = cropped_width + left_padding + right_padding;
--	out_cell_size = CEIL_DIV(padded_width, out_table->width - 1);
--	in_cell_size  = CEIL_DIV(sensor_width, table_width - 1);
-+	out_cell_size = DIV_ROUND_UP(padded_width, out_table->width - 1);
-+	in_cell_size  = DIV_ROUND_UP(sensor_width, table_width - 1);
- 
- 	out_start_col = ((int)sensor_width - (int)cropped_width) / 2 - left_padding;
- 	out_start_row = ((int)sensor_height - (int)cropped_height) / 2 - top_padding;
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 232744973ab8..bcb26b2dc56b 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -13,6 +13,8 @@
-  * more details.
-  */
- 
-+#include <linux/math.h>
-+
- #include "gdc_device.h"		/* gdc_lut_store(), ... */
- #include "isp.h"			/* ISP_VEC_ELEMBITS */
- #include "vamem.h"
-@@ -30,8 +32,6 @@
- 
- #include "platform_support.h"
- #include "assert_support.h"
--#include "misc_support.h"	/* NOT_USED */
--#include "math_support.h"	/* max(), min()  EVEN_FLOOR()*/
- 
- #include "ia_css_stream.h"
- #include "sh_css_params_internal.h"
-@@ -4051,10 +4051,10 @@ sh_css_update_uds_and_crop_info(
- 		}
- 
- 		/* Must enforce that the crop position is even */
--		crop_x = EVEN_FLOOR(crop_x);
--		crop_y = EVEN_FLOOR(crop_y);
--		uds_xc = EVEN_FLOOR(uds_xc);
--		uds_yc = EVEN_FLOOR(uds_yc);
-+		crop_x = round_down(crop_x, 2);
-+		crop_y = round_down(crop_y, 2);
-+		uds_xc = round_down(uds_xc, 2);
-+		uds_yc = round_down(uds_yc, 2);
- 
- 		uds->xc = (uint16_t)uds_xc;
- 		uds->yc = (uint16_t)uds_yc;
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+> +	struct panthor_job_cs_params cs_params;
+> +	struct dma_fence *done_fence;
+> +	int ret;
+>  
+>  	/* Stream size is zero, nothing to do except making sure all previously
+>  	 * submitted jobs are done before we signal the
+> @@ -2900,17 +3062,23 @@ queue_run_job(struct drm_sched_job *sched_job)
+>  		       queue->fence_ctx.id,
+>  		       atomic64_inc_return(&queue->fence_ctx.seqno));
+>  
+> -	memcpy(queue->ringbuf->kmap + ringbuf_insert,
+> -	       call_instrs, sizeof(call_instrs));
+> +	job->profiling.slot = queue->profiling.seqno++;
+> +	if (queue->profiling.seqno == queue->profiling.slot_count)
+> +		queue->profiling.seqno = 0;
+> +
+> +	job->ringbuf.start = queue->iface.input->insert;
+> +
+> +	get_job_cs_params(job, &cs_params);
+> +	prepare_job_instrs(&cs_params, &instrs);
+
+...but it's passed into prepare_job_instrs() which depends on
+instrs.count (same bug as was in calc_job_credits()) - sorry I didn't
+spot it last review.
+
+Initializing instrs makes everything work for me.
+
+I'm not sure quite what kernel configuration you are using but I wonder
+if you've got a 'hardening' option enabled which is causing the stack to
+be zero-initialised. It's worth turning it off for testing purposes ;)
+
+Steve
+
+> +	copy_instrs_to_ringbuf(queue, job, &instrs);
+> +
+> +	job->ringbuf.end = job->ringbuf.start + (instrs.count * sizeof(u64));
+>  
+>  	panthor_job_get(&job->base);
+>  	spin_lock(&queue->fence_ctx.lock);
+>  	list_add_tail(&job->node, &queue->fence_ctx.in_flight_jobs);
+>  	spin_unlock(&queue->fence_ctx.lock);
+>  
+> -	job->ringbuf.start = queue->iface.input->insert;
+> -	job->ringbuf.end = job->ringbuf.start + sizeof(call_instrs);
+> -
+>  	/* Make sure the ring buffer is updated before the INSERT
+>  	 * register.
+>  	 */
+> @@ -3003,6 +3171,34 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
+>  	.free_job = queue_free_job,
+>  };
+>  
+> +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
+> +				       u32 cs_ringbuf_size)
+> +{
+> +	u32 min_profiled_job_instrs = U32_MAX;
+> +	u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
+> +
+> +	/*
+> +	 * We want to calculate the minimum size of a profiled job's CS,
+> +	 * because since they need additional instructions for the sampling
+> +	 * of performance metrics, they might take up further slots in
+> +	 * the queue's ringbuffer. This means we might not need as many job
+> +	 * slots for keeping track of their profiling information. What we
+> +	 * need is the maximum number of slots we should allocate to this end,
+> +	 * which matches the maximum number of profiled jobs we can place
+> +	 * simultaneously in the queue's ring buffer.
+> +	 * That has to be calculated separately for every single job profiling
+> +	 * flag, but not in the case job profiling is disabled, since unprofiled
+> +	 * jobs don't need to keep track of this at all.
+> +	 */
+> +	for (u32 i = 0; i < last_flag; i++) {
+> +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
+> +			min_profiled_job_instrs =
+> +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
+> +	}
+> +
+> +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
+> +}
+> +
+>  static struct panthor_queue *
+>  group_create_queue(struct panthor_group *group,
+>  		   const struct drm_panthor_queue_create *args)
+> @@ -3056,9 +3252,35 @@ group_create_queue(struct panthor_group *group,
+>  		goto err_free_queue;
+>  	}
+>  
+> +	queue->profiling.slot_count =
+> +		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
+> +
+> +	queue->profiling.slots =
+> +		panthor_kernel_bo_create(group->ptdev, group->vm,
+> +					 queue->profiling.slot_count *
+> +					 sizeof(struct panthor_job_profiling_data),
+> +					 DRM_PANTHOR_BO_NO_MMAP,
+> +					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+> +					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> +					 PANTHOR_VM_KERNEL_AUTO_VA);
+> +
+> +	if (IS_ERR(queue->profiling.slots)) {
+> +		ret = PTR_ERR(queue->profiling.slots);
+> +		goto err_free_queue;
+> +	}
+> +
+> +	ret = panthor_kernel_bo_vmap(queue->profiling.slots);
+> +	if (ret)
+> +		goto err_free_queue;
+> +
+> +	/*
+> +	 * Credit limit argument tells us the total number of instructions
+> +	 * across all CS slots in the ringbuffer, with some jobs requiring
+> +	 * twice as many as others, depending on their profiling status.
+> +	 */
+>  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
+>  			     group->ptdev->scheduler->wq, 1,
+> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
+> +			     args->ringbuf_size / sizeof(u64),
+>  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+>  			     group->ptdev->reset.wq,
+>  			     NULL, "panthor-queue", group->ptdev->base.dev);
+> @@ -3354,6 +3576,7 @@ panthor_job_create(struct panthor_file *pfile,
+>  {
+>  	struct panthor_group_pool *gpool = pfile->groups;
+>  	struct panthor_job *job;
+> +	u32 credits;
+>  	int ret;
+>  
+>  	if (qsubmit->pad)
+> @@ -3407,9 +3630,16 @@ panthor_job_create(struct panthor_file *pfile,
+>  		}
+>  	}
+>  
+> +	job->profiling.mask = pfile->ptdev->profile_mask;
+> +	credits = calc_job_credits(job->profiling.mask);
+> +	if (credits == 0) {
+> +		ret = -EINVAL;
+> +		goto err_put_job;
+> +	}
+> +
+>  	ret = drm_sched_job_init(&job->base,
+>  				 &job->group->queues[job->queue_idx]->entity,
+> -				 1, job->group);
+> +				 credits, job->group);
+>  	if (ret)
+>  		goto err_put_job;
+>  
 
 
