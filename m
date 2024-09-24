@@ -1,242 +1,632 @@
-Return-Path: <linux-media+bounces-18490-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18491-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1457A983F6A
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 09:41:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A39D798409E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 10:37:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36A781C21D36
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 07:41:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66B75281C6C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 08:37:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 277881494A3;
-	Tue, 24 Sep 2024 07:41:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B7DF14F12D;
+	Tue, 24 Sep 2024 08:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="BJfpKZmg"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="W1GV9CO/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011070.outbound.protection.outlook.com [52.101.70.70])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF5E148823;
-	Tue, 24 Sep 2024 07:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727163681; cv=fail; b=rV+ZubDS9nRdBEvROawhZ4YX81fftZTiHXA4n8YbrZa0wV/B26/GyGF90n72YdtratZGlbhN1dylI1q83Ovon2G0oX9rNpBHbVQKEqVVXizDE8E91RnUEabCyx7hHfpnjU87HA62S4ZGUUJxLCr/mOiiif7la2yB6eCualet14M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727163681; c=relaxed/simple;
-	bh=vHbJlbu4H85qGfDmW0nuwwPVPE3qXFwIHszGOuRkhmI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=qua9gdLMAcg0MLx9NK5yws9G1pKy3vK9By4JRwuAiCCMXqypri+u/HUkdke9OuQUjVR5DHSyIKqrqUxnVDYLpBM8RAfvSjWgDkHi9cHlQvISqP/lq7oseCLkwMaaIYV0A8xy3pH08WD1RsvGzdO/aJniQEicLzyEKUOMVrFE48I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=BJfpKZmg; arc=fail smtp.client-ip=52.101.70.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qi8VhHAATBKnUUiPYLs3jPGUWY8H3LJFzyROI6Qxyb8/em1peeoBJiV1bYdo3Q/oMw1xjT6I4CiwoZ5DfVVBdDNBGGfByvojzbwzE/OevRI4nghX8uMSJZLV0ErdV9nYeXiar8vKZ3lzI5DiRUfjzkZHy5GCY89qvNBUH6VZRhm9Z5wch06Y9D/6lGpJnLrJ3C6WbItQ0FU9I6Oxne3WAjmL0jdAONT42f0YuNXPoNOD6vJoFJFsezeIIue9PswLK7rXKcxXW/eixH/SXL4cuswo+WOI6PHKzJS/23KO6L6Bz9UFyHzuti8SPqyhsl0WYEsmLxe5byGNzVdEeR9Dsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aBTtvEQ9V3WMy6LqgvStGp8Y0FuZWS12xsK9AkW0/G0=;
- b=Cvpo/RQmAeSXc7pYVtxn9YssBS9WZ03Aj+x9Y4a6Rzt5ScUBz542Iouch7JujXV0/UL9rrGosfYOngZ2ymSBmGR+RWNP4nop+QxuakVNQxlsfY/ho2lsRB2A3yxuDeY5q6bOgryyzoQBlu6J+EwN8aPo+fGteHGCbfZiSP/r9o+liu7fJEkogiFBwwkz2nEUhJqY3UfT5fpF3ixWxVAWk8atBe7uKc7DlU8M2nZLKGiJLI8iuweaO/bwsRejBlvjE8IjQc7gHUC85fS0+szxK+O/LIHzdDexY+3r7kPoxn5MBg0g4S+H9Q0Xvj6r6JJiPeSn+tqY13J7+gG3T2sWQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aBTtvEQ9V3WMy6LqgvStGp8Y0FuZWS12xsK9AkW0/G0=;
- b=BJfpKZmgP/wC5gWNLAntvPtRFJE1313qF/heyD70IXTjtvG6yjm7vpqxc1viKCy7Nz4yZWAmvvhbskRPvfV7DR5blwFCVb38lhM5WimR+lo97XZ+R04aumo3lf9c0PN/IHEr/G7U4C+QaAgk/a54L4G5vlKtUzrLVIqNqqvPrqNCdULLoZcZkwlkI+AvSgapZkZCkUpF+7nT25IjcYxKJGK6q17WyA3tV45AgKY7PAvW2/2PC3NZ9jISkkJJfrdEWx6s3JWehD0RNYBjBDGgtncFH4pAPlGOVndNYKlz/PViXILgWspDaQA50/uZLS3fulVeTWDHyaJQxsAAEv/vtA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
- by DB9PR04MB9867.eurprd04.prod.outlook.com (2603:10a6:10:4c0::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Tue, 24 Sep
- 2024 07:41:11 +0000
-Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
- ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
- ([fe80::9cf2:8eae:c3d1:2f30%7]) with mapi id 15.20.7982.022; Tue, 24 Sep 2024
- 07:41:11 +0000
-Date: Tue, 24 Sep 2024 10:41:07 +0300
-From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Guoniu Zhou <guoniu.zhou@nxp.com>, 
-	Jacopo Mondi <jacopo@jmondi.org>, Christian Hemp <c.hemp@phytec.de>, 
-	Stefan Riedmueller <s.riedmueller@phytec.de>, linux-media@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: nxp: imx8-isi: add m2m usage_count check in
- streamoff
-Message-ID: <o5pvycxgjqop4636tf6u4g64uhqyro4lkmspv5f6rxlnvsg24t@zr22tgsh62yw>
-References: <20240920142715.2246323-1-laurentiu.palcu@oss.nxp.com>
- <h74uhtfdqzhq4qgcfqonwrlvoddaspi73h2m7u6bg6akjq3ugm@vxjt5ttzfkkx>
- <20240923215246.GG8227@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240923215246.GG8227@pendragon.ideasonboard.com>
-X-ClientProxiedBy: AM0PR01CA0179.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:aa::48) To AS4PR04MB9576.eurprd04.prod.outlook.com
- (2603:10a6:20b:4fe::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F7B1FB4;
+	Tue, 24 Sep 2024 08:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727167042; cv=none; b=I4x6cmBsaZn7DZLeH4Zr1VPLjgGSe90d1GqpgAOLY+pU5pYxucas4diUBYj+T8gSNrbGIcylsyGArZCOtJRmbigRmxA0VmRwhgvj6uImVGQhd644AInh4mSzHsT06VGhCls1L4rOeGMZ4BGV2zFBU28k2I/5vg5c9UK93C6nz4w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727167042; c=relaxed/simple;
+	bh=Pe3pVF25/lxtU2W2xL43BEs3uV9Mc5GW2csRnndcuCo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=PTcIjooxqWfEVYm9uu047Rrs6P3W5xQkzJcMFsgVB34Xs64Aj5t7EgABZDD46g3N7tJFN4Sma+DXMf5KeF5qkLFBIrGY6WEWWEnVa5dyjoTyULVlgkIvruCm3e5kK3XU8hQVfutkwAJA44Dc7i4RvTQFY/nani7kS4XLN9Xyp9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=W1GV9CO/; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48NMbrv3002210;
+	Tue, 24 Sep 2024 08:37:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	tvyQTrAtCTV/IHLMvn7hPwdjxCW23gZ2/+nJbTyrmrM=; b=W1GV9CO/yQmlya0c
+	KIkgai0iqZApO2JGEoqHiDiki60+lcRnhIgnaIlVaplPCo0qMZZw+mBEj5KOTccr
+	32X7cImJazYnwlZQzXGgLDW2E9mLI1FeNXUiL71hhCCicQpxWKudF/5XlQhA2kxO
+	QNKUwLRsT0XfclRRcYiTaOJ2843OAUdbnl7UklWCYlK0jKXfrjSft1f0gtcBPUI/
+	kxX1bEloZPyLH9ZqfLiSv95bwbKy1gxqjZWPd1cuFRNHPj8FqBgdkh3Fs6IeDub5
+	hXNxwB/ZjrDYHssUAKAZBApjwr7NWkPyDNmkE5UO/ff9eKbwR/M/Tm2reQV8Lz+8
+	n5CGXQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sn5bquwg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Sep 2024 08:37:04 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48O8b3Pe021864
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Sep 2024 08:37:03 GMT
+Received: from [10.204.101.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 24 Sep
+ 2024 01:36:59 -0700
+Message-ID: <5f27cf8f-6246-3e18-ac3a-680eef98a9b6@quicinc.com>
+Date: Tue, 24 Sep 2024 14:06:41 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|DB9PR04MB9867:EE_
-X-MS-Office365-Filtering-Correlation-Id: 470eaef1-48e2-4d2a-9792-08dcdc6c42b2
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?Cl3wL1biu5SBmF3AttBVkP/UxUlBvFFezDid/Wx4XvMx6ZM8RORmHEHU/T+4?=
- =?us-ascii?Q?5QjZfqNq3rkxW6Lo78AyG+V6Kc8Q4rKOgGw4hIQObJd0BlpBt54tbgh+nJV9?=
- =?us-ascii?Q?5xnkFQ7O8ftpQfO7rAA8QtGmOi+j1bRiDW4o19J4YWUDRJ37PkUDAOTAYHBd?=
- =?us-ascii?Q?aPOGGZmLpEvlsN9Xz+I16zR5l1Cqamz7B6vl/kbmsA3ADR2smSJp6vfcWDC5?=
- =?us-ascii?Q?bHeGCoQfb02RfZYfRh4HD+hUjYwjnRlVt2SzKnk9dMLZoELotYF5R0NAc0Np?=
- =?us-ascii?Q?9O8pt+nnAoece9cQQqHfhYPfojDMwXOjHIWrN2fLetIOxX17Rv7P1/I2Lvau?=
- =?us-ascii?Q?rneBw3kyUGSVoelkQJjHZEZD9SI6K9AiedjOJplbNYFrneCaRXtYd5sT6uGA?=
- =?us-ascii?Q?0c2GhMNuHOUUPfqTX0ot8+86etVTKyX1LYHAfUsTDJDyQeEGlz+P2IXLe/yd?=
- =?us-ascii?Q?SzKBKeJp55FJbm9yIQpgTO/ln1q0S5Bgv6oxLoREoYHhaZ0P2D23rQEuPUqu?=
- =?us-ascii?Q?T4n6wN7+BSO5EMInppnjhawntLuAwd5jBozTFknzwUhiF/6M1MAQOE3JNu+O?=
- =?us-ascii?Q?9sM1Zy0UjYcRVyBS8STO3Dpii/ybFBZR8CFKwcs3ISIXHS84y9jR9gN6tiOX?=
- =?us-ascii?Q?4uelAZ08t5VB0DqzwHP4zirdDJBbX2IAYNTAYj/OfBO/H76NfrU17OcsMWMs?=
- =?us-ascii?Q?5P1YdH6aPAjlPQoEFh9jNeK257isaBgxgk/GFh0cdwuUbBHDJYo+XfKZe6aS?=
- =?us-ascii?Q?3t0yTyHqlOB5v8b1VGV5EWlAoOH2+u/A+f2hSXcYMHizDzIoeMzaQrUXxMoz?=
- =?us-ascii?Q?y/LAQdcjFx64hVCJWUiF9fPGlIwPVqg47otkHOUKThQWicHu8058e9QQwonW?=
- =?us-ascii?Q?C2ItFnvQ1TpGmNS8OjorsBFVfekC5eWgDUaetSO3YvPAYI1lG8NpN9iFP83a?=
- =?us-ascii?Q?nijoFqfFyMbZxmoWLx5MvSlb18pkSR6WXrCZXg5oDRmeNHq9VwpRBc+j3n2W?=
- =?us-ascii?Q?3VF0Hlw2Vp7Qg+TnwzMrKWXY4xPfhzV3bunnvPg4rfsOEX1tDtmv5SPAjJpE?=
- =?us-ascii?Q?tKDbuxyDsRNlA9Lnfqe1WCPV3P8dLLR1U04uoqAyhcYeXA4teARaMyP+Iilc?=
- =?us-ascii?Q?OPynvYfTJJGEb3v2ZP8VyHKQG21aMvFsyjOjpvoxYRoX+FClP0r6uTEGdDgs?=
- =?us-ascii?Q?xpPMpc9vOgfJvtDkjaRHRhRpUAJhoegXKAkLbLoKICKCmtpDr0g+o70/hp7M?=
- =?us-ascii?Q?V3kKlIQHD/bp1CEMVLaKgHc/7MK0fF0G0gw+FQcAwJT1O6if7eaHhZYETw59?=
- =?us-ascii?Q?4SIcnq39Z93RaPeRmD3eZFaseTqMSe9hqD161OzG6XydzA=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?oVwWiSeSAqF0h4Wxl0Q182C3AyFw1G0uDBjn0mz6AsIYDnbtkxK40AeYME2w?=
- =?us-ascii?Q?FfAPW6hXhN9cVr3KC7nTWLWUc0sr2XtNHdpgjuIVnTJhyX8nA6RtBGJsG08O?=
- =?us-ascii?Q?AxOGv5YJJzXpdLRTgWRH7p+p3Oqzy7U2rjPhSxw/M1tpJyfs/n5WYWUSNmSk?=
- =?us-ascii?Q?SuOqfnFiGDB4oAOXtPdl0ipxfQlyTT/0jyGsA4pv/3ihDZYxBxvePjehfOcH?=
- =?us-ascii?Q?2/NCbgZi8NakY59HRHX45mzAwScLBpOz2vL+YpqD0J7XuoFM2NIaNVzEeBfx?=
- =?us-ascii?Q?pLFhmMCLQoYz12+LziL3HsnNhEdZk0x7bQgbGcYxNywOql4t1i3PuYRGmbcr?=
- =?us-ascii?Q?bFt+Q/JkxTRLPPHRM6BF852ih+nsj5sv00X06bUPL1mqn0aJn780HntWwlRq?=
- =?us-ascii?Q?N9whmVBwffqUttF5vaRJlC16UhO4DjSCy9Pe393ir26hKNvyTJHVCwx3Vrhp?=
- =?us-ascii?Q?AGx/D3bTdcuVsjvPdU0VNRKOrSV+BJKN+2aqhSXuN7Mk4QEdl+t1QJ8kFz9r?=
- =?us-ascii?Q?8Il/aXnHnCrzcWb2z5jSSZwFVTs4KXY8Ge9feY5FX5wRzKUs6E61lmFHWjAS?=
- =?us-ascii?Q?KHaAiSCPDhtVvDtCEGmAJdsOOkOrFm/Ns+OCcgi8CEpArW2XykV1uqvqi/25?=
- =?us-ascii?Q?XkERZ5k9IULgwM6YjgK5ApEnwphMKf5oI2IY5B/AWUMfS+DiHbtoH9v7PekQ?=
- =?us-ascii?Q?lP4TrEY8Kuu19rNc/RNKzJ+75ny+dQ19g6TuIzTT57U7GnM5rJpTE6fIIXh1?=
- =?us-ascii?Q?jDdhnxPizUtKy/HDFVWQg2WV5fAVmdze9BenvjJDVcO/MEmvkAwRJwIw0oF4?=
- =?us-ascii?Q?IcVNxGRdNgp1Rb75yfHZBE6KZw6fdN10PlJVL18k65qIJE5pLopSfCyQ9Qqb?=
- =?us-ascii?Q?cSWrhn9WkPTfJN14oD3H5DHFlU+LVt6uONdbhVFWTFDe+5Gtyw/XGqML6x95?=
- =?us-ascii?Q?ZimtoprR5RElyLIqjIte1JeMoGmmaEVW4kY91nEchcTPC/V+LKNwEg5qdr+r?=
- =?us-ascii?Q?ajd4JxzzVldeGUAW+ZmK8VgOXwCzVvfNgiCmniy8r+yHby6ZEI9ybRPgcVnD?=
- =?us-ascii?Q?DcOpU16ArYt0CRpmJJEyFBZ3+4IfOkLit0+mF/LYyoYqEQ4s/w8QOzIjV2OI?=
- =?us-ascii?Q?9J8eeicO5m+Z5H7zkRZbD4fKgoi+B2rnXQ4dYrYAYS9gAJsb5gul5h6mbrcd?=
- =?us-ascii?Q?MKcdRM1MsA0z3DJG/fZduwesiO8YgV6kkvu1GFkMm00x9pU87Nz0Yc+JxxU2?=
- =?us-ascii?Q?Yp9fhk9m3g3a6PchCDye3WkLpuT9v64HKsW2CFfklkmlz25PGSvg9So2rOUd?=
- =?us-ascii?Q?VXTq4rIkfP1lXRWpM/eSqE/BVaX4zvBd98ivzOxM9NSFMa1krD7KYfyaST2a?=
- =?us-ascii?Q?ZakxWMGNyoNLHndlKPrmlJg4TiQUjn6mz7T+oZ6YSax/xpv0q4ChqEsSBUcH?=
- =?us-ascii?Q?zXqY1woUKsP0nbV2FrTgU6BOt5wwbg+SpZ4x0YieQ5tnEwILObROiD/Uc+u7?=
- =?us-ascii?Q?h2OxD64vFwMyc8382a+dS4aDdXRQyyX96ZvMES/JKkNmfsiwi6WG15MrFtgv?=
- =?us-ascii?Q?3jHXhmWro7lezaSwWqXtMlYqJoAm0h6/BKEFp5fWxBany+hq1dxfDTeizkHb?=
- =?us-ascii?Q?ZA=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 470eaef1-48e2-4d2a-9792-08dcdc6c42b2
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 07:41:11.6148
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B8/n+Mzia+Oap2B6gGq1jjnADS2kyR53AO9bcJulcAy1zfhvvLAupPC16i5JfrJg6ZuhrwFj36z+OSK2Gf9qNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9867
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 10/29] media: iris: implement power management
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
+ <20240827-iris_v3-v3-10-c5fdbbe65e70@quicinc.com>
+ <d3679f2f-f177-494e-b68d-2a67b423d0cb@linaro.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <d3679f2f-f177-494e-b68d-2a67b423d0cb@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: R-k_a3L5_bn9FbDWRXILqW5Q9qa-hTr9
+X-Proofpoint-GUID: R-k_a3L5_bn9FbDWRXILqW5Q9qa-hTr9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
+ spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409240059
 
-Hi Laurent,
 
-On Tue, Sep 24, 2024 at 12:52:46AM +0300, Laurent Pinchart wrote:
-> On Mon, Sep 23, 2024 at 07:50:18PM +0200, Jacopo Mondi wrote:
-> > On Fri, Sep 20, 2024 at 05:27:15PM GMT, Laurentiu Palcu wrote:
-> > > Currently, if streamon/streamoff calls are imbalanced we can end up
-> > > with a negative ISI m2m usage_count. When that happens, the next
-> > > streamon call will not enable the ISI m2m channel.
-> > >
-> > > So, instead of throwing a warning in streamoff when usage_count drops
-> > > below 0, just make sure we don't get there.
-> > 
-> > Isn't the whole purpose of the WARN() to highlight something's wrong
-> > with userspace ? I think it's expected to have the same number of
-> > streamon and streamoff calls, do you have any idea why it might not be
-> > happening ?
+
+On 9/5/2024 6:53 PM, Bryan O'Donoghue wrote:
+> On 27/08/2024 11:05, Dikshita Agarwal via B4 Relay wrote:
+>> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>
+>> Implement runtime power management for iris including
+>> platform specific power on/off sequence.
+>>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > 
-> WARN() is much too strong to report userspace problems.
+>> +int iris_hfi_pm_suspend(struct iris_core *core)
+>> +{
+>> +    int ret;
+>> +
+>> +    if (!mutex_is_locked(&core->lock))
+>> +        return -EINVAL;
+>> +
+>> +    if (core->state != IRIS_CORE_INIT)
+>> +        return -EINVAL;
 > 
-> > > Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")
-> > > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> > > ---
-> > >  drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c | 6 ++++--
-> > >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-> > > index 9745d6219a166..b71195a3ba256 100644
-> > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-> > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-> > > @@ -575,6 +575,9 @@ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
-> > >
-> > >  	mutex_lock(&m2m->lock);
-> > >
-> > > +	if (m2m->usage_count == 0)
-> > > +		goto unlock;
+> Reiterating a previous point
 > 
-> This isn't right. Userspace can still call VIDIOC_STREAMOFF while not
-> streaming, which will decrement the usage count when it shouldn't.
-
-Hmm, I didn't consider that... :/
-
-> The right fix is to return from mxc_isi_m2m_streamoff() without
-> decrementing the usage count if the particular context the function is
-> called for is not streaming. You will possibly need to also modify
-> mxc_isi_m2m_streamon() to make sure the two functions won't race each
-> other.
+> Are these checks realistic or defensive coding ?
+This state check is needed here, since its a delayed autosuspend work and
+sys error handler from the reverse thread can move the state to core deinit
+state anytime.
+>> +
+>> +    if (!core->power_enabled) {
+>> +        dev_err(core->dev, "power not enabled\n");
+>> +        return 0;
+>> +    }
 > 
-> Could you work on an improved patch ?
-
-I'll give it a shot.
-
-> Please let me know if you need help, it's important to fix this issue.
-
-Thanks, I'll ping you on IRC if I get stuck.
-
-Laurentiu
-
+> Similarly is this a real check an error that can happen and if so how ?
 > 
-> > > +
-> > >  	/*
-> > >  	 * If the last context is this one, reset it to make sure the device
-> > >  	 * will be reconfigured when streaming is restarted.
-> > > @@ -594,8 +597,7 @@ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
-> > >  		mxc_isi_channel_release(m2m->pipe);
-> > >  	}
-> > >
-> > > -	WARN_ON(m2m->usage_count < 0);
-> > > -
-> > > +unlock:
-> > >  	mutex_unlock(&m2m->lock);
-> > >
-> > >  	return 0;
+We can remove this check from here.
+>> +
+>> +    ret = iris_vpu_prepare_pc(core);
+>> +    if (ret) {
+>> +        dev_err(core->dev, "prepare pc ret %d\n", ret);
+>> +        pm_runtime_mark_last_busy(core->dev);
+>> +        return -EAGAIN;
+>> +    }
+>> +
+>> +    ret = iris_set_hw_state(core, false);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    iris_power_off(core);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +int iris_hfi_pm_resume(struct iris_core *core)
+>> +{
+>> +    const struct iris_hfi_command_ops *ops;
+>> +    int ret;
+>> +
+>> +    ops = core->hfi_ops;
+>> +
+>> +    ret = iris_power_on(core);
+>> +    if (ret)
+>> +        goto error;
+>> +
+>> +    ret = iris_set_hw_state(core, true);
+>> +    if (ret)
+>> +        goto err_power_off;
+>> +
+>> +    ret = iris_vpu_boot_firmware(core);
+>> +    if (ret)
+>> +        goto err_suspend_hw;
+>> +
+>> +    ret = ops->sys_interframe_powercollapse(core);
+>> +    if (ret)
+>> +        goto err_suspend_hw;
+>> +
+>> +    return 0;
+>> +
+>> +err_suspend_hw:
+>> +    iris_set_hw_state(core, false);
+>> +err_power_off:
+>> +    iris_power_off(core);
+>> +error:
+>> +    dev_err(core->dev, "failed to resume\n");
+>> +
+>> +    return -EBUSY;
+>> +}
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_common.h
+>> b/drivers/media/platform/qcom/iris/iris_hfi_common.h
+>> index c3d5b899cf60..e050b1ae90fe 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_common.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_common.h
+>> @@ -46,6 +46,7 @@ struct iris_hfi_command_ops {
+>>       int (*sys_init)(struct iris_core *core);
+>>       int (*sys_image_version)(struct iris_core *core);
+>>       int (*sys_interframe_powercollapse)(struct iris_core *core);
+>> +    int (*sys_pc_prep)(struct iris_core *core);
+>>   };
+>>     struct iris_hfi_response_ops {
+>> @@ -53,6 +54,8 @@ struct iris_hfi_response_ops {
+>>   };
+>>     int iris_hfi_core_init(struct iris_core *core);
+>> +int iris_hfi_pm_suspend(struct iris_core *core);
+>> +int iris_hfi_pm_resume(struct iris_core *core);
+>>     irqreturn_t iris_hfi_isr(int irq, void *data);
+>>   irqreturn_t iris_hfi_isr_handler(int irq, void *data);
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+>> b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+>> index 8f045ef56163..e778ae33b953 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+>> @@ -56,10 +56,21 @@ static int
+>> iris_hfi_gen1_sys_interframe_powercollapse(struct iris_core *core)
+>>       return ret;
+>>   }
+>>   +static int iris_hfi_gen1_sys_pc_prep(struct iris_core *core)
+>> +{
+>> +    struct hfi_sys_pc_prep_pkt pkt;
+>> +
+>> +    pkt.hdr.size = sizeof(struct hfi_sys_pc_prep_pkt);
+>> +    pkt.hdr.pkt_type = HFI_CMD_SYS_PC_PREP;
+>> +
+>> +    return iris_hfi_queue_cmd_write_locked(core, &pkt, pkt.hdr.size);
+>> +}
+>> +
+>>   static const struct iris_hfi_command_ops iris_hfi_gen1_command_ops = {
+>>       .sys_init = iris_hfi_gen1_sys_init,
+>>       .sys_image_version = iris_hfi_gen1_sys_image_version,
+>>       .sys_interframe_powercollapse =
+>> iris_hfi_gen1_sys_interframe_powercollapse,
+>> +    .sys_pc_prep = iris_hfi_gen1_sys_pc_prep,
+>>   };
+>>     void iris_hfi_gen1_command_ops_init(struct iris_core *core)
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
+>> b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
+>> index 5c07d6a29863..991d5a5dc792 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
+>> @@ -12,6 +12,7 @@
+>>   #define HFI_ERR_NONE                    0x0
+>>     #define HFI_CMD_SYS_INIT                0x10001
+>> +#define HFI_CMD_SYS_PC_PREP                0x10002
+>>   #define HFI_CMD_SYS_SET_PROPERTY            0x10005
+>>   #define HFI_CMD_SYS_GET_PROPERTY            0x10006
+>>   @@ -48,6 +49,10 @@ struct hfi_sys_get_property_pkt {
+>>       u32 data;
+>>   };
+>>   +struct hfi_sys_pc_prep_pkt {
+>> +    struct hfi_pkt_hdr hdr;
+>> +};
+>> +
+>>   struct hfi_msg_event_notify_pkt {
+>>       struct hfi_pkt_hdr hdr;
+>>       u32 event_id;
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+>> b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+>> index 807266858d93..0871c0bdea90 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+>> @@ -66,10 +66,30 @@ static int
+>> iris_hfi_gen2_sys_interframe_powercollapse(struct iris_core *core)
+>>       return ret;
+>>   }
+>>   +static int iris_hfi_gen2_sys_pc_prep(struct iris_core *core)
+>> +{
+>> +    struct iris_hfi_header *hdr;
+>> +    u32 packet_size;
+>> +    int ret;
+>> +
+>> +    packet_size = sizeof(*hdr) + sizeof(struct iris_hfi_packet);
+>> +    hdr = kzalloc(packet_size, GFP_KERNEL);
+>> +    if (!hdr)
+>> +        return -ENOMEM;
+>> +
+>> +    iris_hfi_gen2_packet_sys_pc_prep(core, hdr);
+>> +    ret = iris_hfi_queue_cmd_write_locked(core, hdr, hdr->size);
+>> +
+>> +    kfree(hdr);
+>> +
+>> +    return ret;
+>> +}
+>> +
+>>   static const struct iris_hfi_command_ops iris_hfi_gen2_command_ops = {
+>>       .sys_init = iris_hfi_gen2_sys_init,
+>>       .sys_image_version = iris_hfi_gen2_sys_image_version,
+>>       .sys_interframe_powercollapse =
+>> iris_hfi_gen2_sys_interframe_powercollapse,
+>> +    .sys_pc_prep = iris_hfi_gen2_sys_pc_prep,
+>>   };
+>>     void iris_hfi_gen2_command_ops_init(struct iris_core *core)
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+>> b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+>> index 3e3e4ddfe21f..4104479c7251 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+>> @@ -12,6 +12,7 @@
+>>     #define HFI_CMD_BEGIN                0x01000000
+>>   #define HFI_CMD_INIT                0x01000001
+>> +#define HFI_CMD_POWER_COLLAPSE            0x01000002
+>>   #define HFI_CMD_END                0x01FFFFFF
+>>     #define HFI_PROP_BEGIN                0x03000000
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c
+>> b/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c
+>> index 8266eae5ff94..9ea26328a300 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c
+>> @@ -162,3 +162,16 @@ void
+>> iris_hfi_gen2_packet_sys_interframe_powercollapse(struct iris_core *core,
+>>                       &payload,
+>>                       sizeof(u32));
+>>   }
+>> +
+>> +void iris_hfi_gen2_packet_sys_pc_prep(struct iris_core *core, struct
+>> iris_hfi_header *hdr)
+>> +{
+>> +    iris_hfi_gen2_create_header(hdr, 0 /*session_id*/, core->header_id++);
+>> +
+>> +    iris_hfi_gen2_create_packet(hdr,
+>> +                    HFI_CMD_POWER_COLLAPSE,
+>> +                    HFI_HOST_FLAGS_NONE,
+>> +                    HFI_PAYLOAD_NONE,
+>> +                    HFI_PORT_NONE,
+>> +                    core->packet_id++,
+>> +                    NULL, 0);
+>> +}
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.h
+>> b/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.h
+>> index eba109efeb76..163295783b7d 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.h
+>> @@ -65,5 +65,6 @@ void iris_hfi_gen2_packet_sys_init(struct iris_core
+>> *core, struct iris_hfi_heade
+>>   void iris_hfi_gen2_packet_image_version(struct iris_core *core, struct
+>> iris_hfi_header *hdr);
+>>   void iris_hfi_gen2_packet_sys_interframe_powercollapse(struct iris_core
+>> *core,
+>>                                  struct iris_hfi_header *hdr);
+>> +void iris_hfi_gen2_packet_sys_pc_prep(struct iris_core *core, struct
+>> iris_hfi_header *hdr);
+>>     #endif
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+>> b/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+>> index b24d4640fea9..3a511d5e5cfc 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+>> @@ -3,6 +3,8 @@
+>>    * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights
+>> reserved.
+>>    */
+>>   +#include <linux/pm_runtime.h>
+>> +
+>>   #include "iris_core.h"
+>>   #include "iris_hfi_queue.h"
+>>   #include "iris_vpu_common.h"
+>> @@ -145,13 +147,27 @@ int iris_hfi_queue_cmd_write(struct iris_core
+>> *core, void *pkt, u32 pkt_size)
+>>   {
+>>       int ret;
+>>   +    ret = pm_runtime_resume_and_get(core->dev);
+>> +    if (ret < 0)
+>> +        goto exit;
+>> +
+>>       mutex_lock(&core->lock);
+>>       ret = iris_hfi_queue_cmd_write_locked(core, pkt, pkt_size);
+>> -    if (ret)
+>> +    if (ret) {
+>>           dev_err(core->dev, "iris_hfi_queue_cmd_write_locked failed with
+>> %d\n", ret);
+>> -
+>> +        mutex_unlock(&core->lock);
+>> +        goto exit;
+>> +    }
+>>       mutex_unlock(&core->lock);
+>>   +    pm_runtime_mark_last_busy(core->dev);
+>> +    pm_runtime_put_autosuspend(core->dev);
+>> +
+>> +    return 0;
+>> +
+>> +exit:
+>> +    pm_runtime_put_sync(core->dev);
+>> +
+>>       return ret;
+>>   }
+>>   diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> index 4577977f9f8c..899a696a931d 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> @@ -8,6 +8,7 @@
+>>     #define IRIS_PAS_ID                9
+>>   #define HW_RESPONSE_TIMEOUT_VALUE               (1000) /* milliseconds */
+>> +#define AUTOSUSPEND_DELAY_VALUE            (HW_RESPONSE_TIMEOUT_VALUE +
+>> 500) /* milliseconds */
+>>     extern struct iris_platform_data sm8550_data;
+>>   extern struct iris_platform_data sm8250_data;
+>> @@ -40,10 +41,22 @@ struct ubwc_config_data {
+>>       u32    bank_spreading;
+>>   };
+>>   +struct iris_core_power {
+>> +    u64 clk_freq;
+>> +    u64 icc_bw;
+>> +};
+>> +
+>> +enum platform_pm_domain_type {
+>> +    IRIS_CTRL_POWER_DOMAIN,
+>> +    IRIS_HW_POWER_DOMAIN,
+>> +};
+>> +
+>>   struct iris_platform_data {
+>>       void (*init_hfi_command_ops)(struct iris_core *core);
+>>       void (*init_hfi_response_ops)(struct iris_core *core);
+>>       struct iris_inst *(*get_instance)(void);
+>> +    const struct vpu_ops *vpu_ops;
+>> +    void (*set_preset_registers)(struct iris_core *core);
+>>       const struct icc_info *icc_tbl;
+>>       unsigned int icc_tbl_size;
+>>       const char * const *pmdomain_tbl;
+>> @@ -61,6 +74,7 @@ struct iris_platform_data {
+>>       u32 core_arch;
+>>       u32 hw_response_timeout;
+>>       struct ubwc_config_data *ubwc_config;
+>> +    u32 num_vpp_pipe;
+>>   };
+>>     #endif
+>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+>> b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+>> index b83665a9c5a2..1adbafa373a5 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+>> @@ -7,6 +7,12 @@
+>>   #include "iris_platform_common.h"
+>>   #include "iris_resources.h"
+>>   #include "iris_hfi_gen1.h"
+>> +#include "iris_vpu_common.h"
+>> +
+>> +static void iris_set_sm8250_preset_registers(struct iris_core *core)
+>> +{
+>> +    writel(0x0, core->reg_base + 0xB0088);
+>> +}
+>>     static const struct icc_info sm8250_icc_table[] = {
+>>       { "cpu-cfg",    1000, 1000     },
+>> @@ -36,6 +42,8 @@ struct iris_platform_data sm8250_data = {
+>>       .get_instance = iris_hfi_gen1_get_instance,
+>>       .init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
+>>       .init_hfi_response_ops = iris_hfi_gen1_response_ops_init,
+>> +    .vpu_ops = &iris_vpu2_ops,
+>> +    .set_preset_registers = iris_set_sm8250_preset_registers,
+>>       .icc_tbl = sm8250_icc_table,
+>>       .icc_tbl_size = ARRAY_SIZE(sm8250_icc_table),
+>>       .clk_rst_tbl = sm8250_clk_reset_table,
+>> @@ -51,4 +59,5 @@ struct iris_platform_data sm8250_data = {
+>>       .pas_id = IRIS_PAS_ID,
+>>       .tz_cp_config_data = &tz_cp_config_sm8250,
+>>       .hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
+>> +    .num_vpp_pipe = 4,
+>>   };
+>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+>> b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+>> index 91bfc0fa0989..950ccdccde31 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+>> @@ -7,9 +7,15 @@
+>>   #include "iris_hfi_gen2.h"
+>>   #include "iris_platform_common.h"
+>>   #include "iris_resources.h"
+>> +#include "iris_vpu_common.h"
+>>     #define VIDEO_ARCH_LX 1
+>>   +static void iris_set_sm8550_preset_registers(struct iris_core *core)
+>> +{
+>> +    writel(0x0, core->reg_base + 0xB0088);
+>> +}
+>> +
+>>   static const struct icc_info sm8550_icc_table[] = {
+>>       { "cpu-cfg",    1000, 1000     },
+>>       { "video-mem",  1000, 15000000 },
+>> @@ -48,6 +54,8 @@ struct iris_platform_data sm8550_data = {
+>>       .get_instance = iris_hfi_gen2_get_instance,
+>>       .init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+>>       .init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
+>> +    .vpu_ops = &iris_vpu3_ops,
+>> +    .set_preset_registers = iris_set_sm8550_preset_registers,
+>>       .icc_tbl = sm8550_icc_table,
+>>       .icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
+>>       .clk_rst_tbl = sm8550_clk_reset_table,
+>> @@ -65,4 +73,5 @@ struct iris_platform_data sm8550_data = {
+>>       .core_arch = VIDEO_ARCH_LX,
+>>       .hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
+>>       .ubwc_config = &ubwc_config_sm8550,
+>> +    .num_vpp_pipe = 4,
+>>   };
+>> diff --git a/drivers/media/platform/qcom/iris/iris_power.c
+>> b/drivers/media/platform/qcom/iris/iris_power.c
+>> new file mode 100644
+>> index 000000000000..e697c27c8a8a
+>> --- /dev/null
+>> +++ b/drivers/media/platform/qcom/iris/iris_power.c
+>> @@ -0,0 +1,35 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights
+>> reserved.
+>> + */
+>> +
+>> +#include "iris_core.h"
+>> +#include "iris_power.h"
+>> +#include "iris_vpu_common.h"
+>> +
+>> +void iris_power_off(struct iris_core *core)
+>> +{
+>> +    if (!core->power_enabled)
+>> +        return;
 > 
-> -- 
-> Regards,
+> <snip>
 > 
-> Laurent Pinchart
+>> +
+>> +int iris_power_on(struct iris_core *core)
+>> +{
+>> +    int ret;
+>> +
+>> +    if (core->power_enabled)
+>> +        return 0;
+> 
+> When do you call either of these functions without the state already being
+> known ?
+> 
+> You're guarding against reentrancy - but are these functions reentrant in
+> your logic ?
+> 
+> If not then the checks are redundant.
+> 
+Sure, We can remove core->power_enabled check from all the places.
+>> +}
+>> diff --git a/drivers/media/platform/qcom/iris/iris_power.h
+>> b/drivers/media/platform/qcom/iris/iris_power.h
+>> new file mode 100644
+>> index 000000000000..ff9b6be3b086
+>> --- /dev/null
+>> +++ b/drivers/media/platform/qcom/iris/iris_power.h
+>> @@ -0,0 +1,14 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights
+>> reserved.
+>> + */
+>> +
+>> +#ifndef _IRIS_POWER_H_
+>> +#define _IRIS_POWER_H_
+>> +
+>> +struct iris_core;
+>> +
+>> +int iris_power_on(struct iris_core *core);
+>> +void iris_power_off(struct iris_core *core);
+>> +
+>> +#endif
+>> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c
+>> b/drivers/media/platform/qcom/iris/iris_probe.c
+>> index ecf1a50be63b..3222e9116551 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+>> @@ -4,6 +4,7 @@
+>>    */
+>>     #include <linux/module.h>
+>> +#include <linux/pm_runtime.h>
+>>     #include "iris_core.h"
+>>   #include "iris_vidc.h"
+>> @@ -111,17 +112,25 @@ static int iris_probe(struct platform_device *pdev)
+>>       if (core->irq < 0)
+>>           return core->irq;
+>>   +    pm_runtime_set_autosuspend_delay(core->dev, AUTOSUSPEND_DELAY_VALUE);
+>> +    pm_runtime_use_autosuspend(core->dev);
+>> +    ret = devm_pm_runtime_enable(core->dev);
+>> +    if (ret) {
+>> +        dev_err(core->dev, "failed to enable runtime pm\n");
+>> +        goto err_runtime_disable;
+>> +    }
+>> +
+>>       ret = iris_init_isr(core);
+>>       if (ret) {
+>>           dev_err_probe(core->dev, ret, "Failed to init isr\n");
+>> -        return ret;
+>> +        goto err_runtime_disable;
+>>       }
+>>         core->iris_platform_data = of_device_get_match_data(core->dev);
+>>       if (!core->iris_platform_data) {
+>>           ret = -ENODEV;
+>>           dev_err_probe(core->dev, ret, "init platform failed\n");
+>> -        return ret;
+>> +        goto err_runtime_disable;
+>>       }
+>>         iris_init_ops(core);
+>> @@ -131,12 +140,12 @@ static int iris_probe(struct platform_device *pdev)
+>>       ret = iris_init_resources(core);
+>>       if (ret) {
+>>           dev_err_probe(core->dev, ret, "init resource failed\n");
+>> -        return ret;
+>> +        goto err_runtime_disable;
+>>       }
+>>         ret = v4l2_device_register(dev, &core->v4l2_dev);
+>>       if (ret)
+>> -        return ret;
+>> +        goto err_runtime_disable;
+>>         ret = iris_register_video_device(core);
+>>       if (ret)
+>> @@ -159,10 +168,58 @@ static int iris_probe(struct platform_device *pdev)
+>>       video_unregister_device(core->vdev_dec);
+>>   err_v4l2_unreg:
+>>       v4l2_device_unregister(&core->v4l2_dev);
+>> +err_runtime_disable:
+>> +    pm_runtime_set_suspended(core->dev);
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +static int iris_pm_suspend(struct device *dev)
+>> +{
+>> +    struct iris_core *core;
+>> +    int ret;
+>> +
+>> +    if (!dev || !dev->driver)
+>> +        return 0;
+> 
+> Why/when/how ?
+> 
+> :g/Zap redundant checks///g
+I agree, not needed, will remove these checks.
+> 
+> ---
+> bod
 
