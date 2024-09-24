@@ -1,108 +1,134 @@
-Return-Path: <linux-media+bounces-18525-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18526-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A49984D48
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 00:03:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6AE984DED
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 00:36:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 581C81F24586
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 22:03:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A67C1B243C4
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 22:36:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E25D2146A93;
-	Tue, 24 Sep 2024 22:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 664F514C5AF;
+	Tue, 24 Sep 2024 22:36:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="djbVBHLr"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kl5+6y61"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BB413D25E
-	for <linux-media@vger.kernel.org>; Tue, 24 Sep 2024 22:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8FE139D07;
+	Tue, 24 Sep 2024 22:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727215389; cv=none; b=sChi7x5uIsLsj0dimf8cHAnb5uTLj5Jj5Y9+xJUi6PWxKV6YWjKYLe58txCH+jno5cYz0Y9inhmZSFDwZa/NltVh6/xjabe3fRxCVN5v0UQg5/KRtcnSb0Il+dRYv9wQUYIjlq5XaeXfgyv3Dd5iv8j3wf49k9Zp+/2u9JKekhU=
+	t=1727217361; cv=none; b=QlhH3moCJIFmGPDFejUa0/t6rpwr6pRY+WZJVb89DKUaG1bfGwv2xDEAXpyoQd6F05SRgenoV7V6eYzZdCQWInhgl3aCmzsmIgkKGAPhZDQDJUErJndxv2uC1NDAGIf8UvYrIX4kbF4SBMkuj9ovpN/QNCIRSLDPc3MYULL6eUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727215389; c=relaxed/simple;
-	bh=NsZrdsG+uwrLVvS5FWIhBRuHHog4+l/Yf5EAxQLtzhs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WVYlZ9j0JkzdFu8797qrJtDB+KgNqcfF54t1ax24uqxoqrD9Ww8/ozCG9ZdSvBQQTxyCDe9ASdzEeBlmP7ZKq0djFQyV0StZtn1KKf0rxkU7F5/WjqSo/AEmncpF/3idcu68t3yjW3s/rWloqm7KyiysG9Vl8TSN8+So7Gd9rHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=djbVBHLr; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7a99a46af10so627244685a.0
-        for <linux-media@vger.kernel.org>; Tue, 24 Sep 2024 15:03:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar.org; s=google; t=1727215386; x=1727820186; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NsZrdsG+uwrLVvS5FWIhBRuHHog4+l/Yf5EAxQLtzhs=;
-        b=djbVBHLrcuojBXGYJbM/DhCPfqFxPFaWJW7Bq8aGqE0nekN5bf/AH5bvrMb80X0vMi
-         jPV23fsa3AdGutjCpwkvGnOhl94/LlXfRN7JdCn6LpvE0sEw6pCHr2M8ZZesOOXMxsS3
-         nl7ZbdJgxlYhh16lOjd1NUokMbgEOqWhXNikdCbKpN64zyCBkk64G4kW5zcf55nAJrsK
-         57YNvHPmZP/GWLmEQDtx4Co2smjvuZjjS/mY5xYkxM0tbuqG/G86Qvpje6OWF3C6Kxop
-         xIpsJMnBt1jiyaySttZFx5YeY61nIsE5poxNyRhwg9Dze+Mlk8ggciBnkJMOjku6gozp
-         kPpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727215386; x=1727820186;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NsZrdsG+uwrLVvS5FWIhBRuHHog4+l/Yf5EAxQLtzhs=;
-        b=EZ6yrG2gGUgzThbgxQzzZkqN4x2tg+ZwX47MzNDY87hf8Md6a0btiBhwdMsIQaOU9o
-         9GZmRAtRragz97KG0V52j9+tGjaCMyzfFc6kq1GzD+PCVmyFPAo/lxJ2kcoOB7QkQfcW
-         VH2/I+Wluic+aQuA/8b/CS1C7UJS3KBhJzaxbXif+u0gorsJN0AT90BH76NLf/hAzjY3
-         Wpdw1Iqhl3OU4NW1ZWhAIimBmRJ/R44aW5oCoYf1X5oxevAZIUFNNP1rwGN6Wj++OevX
-         AujeYI3TEf2EOCM+29Q0aqxCChLD7ZUWx7wKLMFsCvGPw8m5HH4juirKBEvBpQ+UMaqo
-         azoA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3/sY1m2EpcXMA51kXJCX1f6Jaqd3FCxy2rdmDSUXl0EEoOzRWiKjyZzEJPRgTejUVo/kmZaG/L/qSsw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5Jkl2P9CfRGz9Ylk/mss7Ox7yOuU5O23PHWA/wy8Jk2u0PT/B
-	nyCKyismUAtg5ZXUZ9efIWN+k76fU2z0OBILLuHDhlPSjuM1gXufJXhUd2j12jOLEhe0mrycDeI
-	Brlu4Yu8zStEHdsTOGAor5yQ9klkQ4l9TXeJGDw==
-X-Google-Smtp-Source: AGHT+IElqfXPuPng8AojlDDF2C6GLMgjgq9uYfkfDW9uAzUUN373GhIZBRXCnSZ4eftp7Scr+RM/AU3bO+2aPn4itIQ=
-X-Received: by 2002:a05:620a:179e:b0:7a9:be7a:9220 with SMTP id
- af79cd13be357-7ace745d94emr87761585a.60.1727215386507; Tue, 24 Sep 2024
- 15:03:06 -0700 (PDT)
+	s=arc-20240116; t=1727217361; c=relaxed/simple;
+	bh=rgB0PV0c7KbZbJOi/cWNbAlJadZ/8RCZoiJ03Cr4wec=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kkI/ZkqLKAQ7yJxfcobwxFhAlxAJeUs/7cf+sKPKk6Sqij+oPioLnIiNgkEsTDMibu1KLmZbjNqbPJlORS+SlQioWf5tefGBz4P9Krjby6gY+j7w7aKubW/leeoS1Czp5jRcwPONg3hE01LsdJNbAu0cdw9E6qxuEOBrqu7rm20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Kl5+6y61; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EFA8169;
+	Wed, 25 Sep 2024 00:34:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1727217270;
+	bh=rgB0PV0c7KbZbJOi/cWNbAlJadZ/8RCZoiJ03Cr4wec=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Kl5+6y61zISE4LjS1u77Udw+e3T5EP9G4pqj3eZ2e/r6So2GbF2QfjbfVDLzFUePC
+	 PWpbEu8CVWk69nyRb8duxR8rr7RwT2Qn7v+bj7nEAJkHjR9hQG4J77ZD81njijF587
+	 k1jbUgIryU/qL2C5djd/ge5jVn5eRUdQqz9fB1xg=
+Date: Wed, 25 Sep 2024 01:35:23 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 01/11] media: i2c: ov5645: Add
+ V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+Message-ID: <20240924223523.GJ7165@pendragon.ideasonboard.com>
+References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240910170610.226189-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
-In-Reply-To: <20240830070351.2855919-1-jens.wiklander@linaro.org>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 24 Sep 2024 23:02:54 +0100
-Message-ID: <CAPj87rM5LSBEdMECyh0WTkjWWySDv2_eyqj7ew_qU7xQ5LEdgA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] Linaro restricted heap
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240910170610.226189-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Jens,
+Hi Prabhakar,
 
-On Fri, 30 Aug 2024 at 08:04, Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> This patch set is based on top of Yong Wu's restricted heap patch set [1].
-> It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
->
-> The Linaro restricted heap uses genalloc in the kernel to manage the heap
-> carvout. This is a difference from the Mediatek restricted heap which
-> relies on the secure world to manage the carveout.
+Thank you for the patch.
 
-Calling this the 'genalloc heap' would be much more clear.
+On Tue, Sep 10, 2024 at 06:06:00PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> The OV5645 sensor exposes controls, so the V4L2_SUBDEV_FL_HAS_EVENTS flag
+> should be set and implement subscribe_event and unsubscribe_event hooks.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Cheers,
-Daniel
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/ov5645.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> index 019979f553b1..6eedd0310b02 100644
+> --- a/drivers/media/i2c/ov5645.c
+> +++ b/drivers/media/i2c/ov5645.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/types.h>
+>  #include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-event.h>
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-subdev.h>
+>  
+> @@ -1042,7 +1043,13 @@ static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
+>  	.get_selection = ov5645_get_selection,
+>  };
+>  
+> +static const struct v4l2_subdev_core_ops ov5645_core_ops = {
+> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> +};
+> +
+>  static const struct v4l2_subdev_ops ov5645_subdev_ops = {
+> +	.core = &ov5645_core_ops,
+>  	.video = &ov5645_video_ops,
+>  	.pad = &ov5645_subdev_pad_ops,
+>  };
+> @@ -1178,7 +1185,7 @@ static int ov5645_probe(struct i2c_client *client)
+>  
+>  	v4l2_i2c_subdev_init(&ov5645->sd, client, &ov5645_subdev_ops);
+>  	ov5645->sd.internal_ops = &ov5645_internal_ops;
+> -	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+>  	ov5645->pad.flags = MEDIA_PAD_FL_SOURCE;
+>  	ov5645->sd.dev = &client->dev;
+>  	ov5645->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> -- 
+> 2.34.1
+> 
+
+-- 
+Regards,
+
+Laurent Pinchart
 
