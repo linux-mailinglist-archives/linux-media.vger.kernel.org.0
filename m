@@ -1,246 +1,224 @@
-Return-Path: <linux-media+bounces-18488-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18489-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADD8983AEF
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 03:37:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61BB0983F02
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 09:23:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 109D61F222E0
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 01:37:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B861281A44
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 07:23:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 321158BFF;
-	Tue, 24 Sep 2024 01:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D8F2145B1D;
+	Tue, 24 Sep 2024 07:23:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="ATK/TOzz"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="KTNjdDLP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2057.outbound.protection.outlook.com [40.107.255.57])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2078.outbound.protection.outlook.com [40.107.21.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861C4ECF;
-	Tue, 24 Sep 2024 01:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CC01BC3F;
+	Tue, 24 Sep 2024 07:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.78
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727141845; cv=fail; b=nKDMAdbHstaQxtKSX4q+31apezoMVBTV24QmLTJiRnNTwpFvY+lDkjFz226r6E8X61uFyzMjhxHCmMkdeIkjN/QBDX8OcSXAqD0TD6Hs0dryBXG5edUFQS/PbjzU4isZ6Se1Ij7BLkTuEZ9LMj0WcAjzkQmcC0SFWVEm3HpLnbY=
+	t=1727162611; cv=fail; b=fhdqKDKV5QI34zpbx9841ISUHTgKQvh9AeZmJfaVZYLxBp3HU3nU5Ml7BWtdLdViY4AkaAIPuKnxD0bAmEOb/Zud7KGsMd3m4h1b56fZQek3cik1nltZBYmzY5KBVBYXMtFJMkwCKpFrJ8HJmyB2D/mAJ6xMRcDGUJQebuFy/vM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727141845; c=relaxed/simple;
-	bh=Oaq+DKu1163IHXg11lnZdYofmFthDsQETuED88D6nMM=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=WpBeh8sQIj3o8/WB4CTKK1q9aL147KZlOwFSjJFTvs35vsNHMjYEjOzWz2SFZHHd1clmjP/zUbZ5Qr9IenvEoDSNjtOJTIwkpOAQn8OdhZGGn+jdkF8V5tkH6BkTF8vdERpFLPHKbNaA66BbuqH3MKMeI6bfNTdqpsMPmZhi48o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=ATK/TOzz; arc=fail smtp.client-ip=40.107.255.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	s=arc-20240116; t=1727162611; c=relaxed/simple;
+	bh=t/ho/prQVUaqXI6erllpYGqT4tEzhk8DlqOCVov1Pjg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=X7t6Hhrrot0hZYxbuA0rVX0NCSY+HpBIh0kOAZWZQzLPrKpUR6s3np0PNcMQpSmpNr/LdaRp+MictXRGtu2c8gxPzc0tCfVHuYUXPzAJnh66RcY1blk1btumjGGDOFxlXAEkQHNAN+x+b082xZH5saCQZ+XvMIgxNkkKgfDWiGI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=KTNjdDLP; arc=fail smtp.client-ip=40.107.21.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CC1Ia6pp9BdJ23MpgpOux3gztfsBvrrR5ofahmwtoGajdxTCsiPCWREk8sJGXLl67SCQemVTk0QN9VfENXcGbns2q0nknMaW/0QlCZIBGgPLtqPeIz7AZKQkI4U/ErdoHkg86NLlQI5S9tvPbFpigsYdvU6TWP8lC76P4SAtIPjN2l12e87xbNHSjhZdciCIE+3zrWKkO8GCGwQSILuTBe1e3QJwULsReKIn2kkEYQSl6nj0j3XttjyytNm8TazhgfrvlUmMb395W/V7g2Va+uY0HtHNQvwElsJlfLvxk1V0wovfzBnnlaNR1zUV9Vq8nyHIWQsHi0lNWk4yFn1ceA==
+ b=IvWmH2M41ki24CK/4JDTPirIj/MzqZKZXjQt0v5lZ0T4EPKgN6iXK3XoZGxG3/Z5EJ9Mtqa8wN9oWWxHL9W/YTSpthTQg2DWr0agC2VXzjk8etOm4IUNh3Ld1speTlSa/z7bFVh97OJalhvPz7Zoe0B+9GmBJQKLEbuWOsY60fQ/5mT/ERe4wx0W8isjOfJxNM0KBICeoUli6yQQQLYhhlgHYTDWlBnN355LnteWN0b4qINpfl3o56m5G945kRFJVZj3AdLmeaBbVjezPvdhtzfluzQUwDuGYxYNzejJ3T/qu5ZsZRSSOJdWSdzHGXtRk5m39NWGGiSk9oere6R4Xw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3exlML4kgEXs9O29EpZv3Fgly1eJr99SOqJaJIh3sH4=;
- b=SX4Wtnb3O5DrU7/giOeCXHi5qq2oVtvLDDIE/yPwU/wk1x+fZplrcYVpQgsRfRwuEfqPwliWdBJxfneOYn5A26JKJPz/VqWMyZj3yx1evc8AAnftDBDqzryUNNA1sV9jtol9rLMkjaYwNUPBPXlyHsm4fpN5+RX+ay2cj3REFsqp53jhXErPAQTcsEc4vy//wxnTig7GRSG7bOpBP7cVdK2j+DHfV/96JcMMMe0qUe3t9lQ7DKx+CDoKk2rIWkwJQUOp82aYT3c9qJ0fVdmm4iPDM8Mv8R3Zf3coSonndKgwZingFzDwy4AOudoolMP4yn+o5l4RaOtXKFk2JKRvOQ==
+ bh=KYtfrIlucZxTwR680IeS9lomgExbOnspiWg4tXWJxRg=;
+ b=fYUzANvuTbnN7s8s7DjwiOKZmVgGv7dfWd58YEU2bqNIX+O6dbOotpRA7OkxSbNlpqpIYhp5LvNVy70TOSaLhbqQZNr9CX9VZJEs/YmUuodAhsnom/Bl/wyoCH/51kxdLTvwaA3ws5EWye8BQb4AGUGW6+S6ytX/BwIJU/y+H/9D0XmMYy6Bt3VzbcexI/kBJrHnvyYtc7Jywn6r4JRQ6MhQDzaOqK4VW8giufJHuoN8fV99bJKcNR7bKIdrQVn9a3XpwK57devj+aOXwDthk3f9rLF3KGFg5SWu6YnJoe7cS0HiMcOREa86NrxsaleGsS+ncsggOQvA+mqbeRyayw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3exlML4kgEXs9O29EpZv3Fgly1eJr99SOqJaJIh3sH4=;
- b=ATK/TOzz+B0dtrQxvZiY9CNoJ1vMnwyvqWSreKdL8A2D26f2G5fRcOqUvle5NY98QTpvVQotZbIMMaXHGwiGvXFKVuhEmFZIS+rC5DntWZ8A1ny/36pH5a+0md3gLHTbktinom3YuddO36AiLxRwXWEcYEiZw2byiAU3yLEr2je6iF7lvNtkcQLDUGXQqtuI9YiCcbD4LNLw8HRTkAOOXq95wbz5kQDTOEG6gkOwRw7H9ECBPcQdw5x1DzqAMNKe1H1u4nML1Lw/PLprhTYTiRefyz3b65vQxLsFyRCE9nMV1NxYs/fM9hMJQOhU1hW4JSpkhMuDwClnUu48munv3w==
+ bh=KYtfrIlucZxTwR680IeS9lomgExbOnspiWg4tXWJxRg=;
+ b=KTNjdDLPTeatE22LWUvOMb5peRtQ21t2O8mysE7I9QhdhcqD7rwNLws8jtnXl4CpX/36W4WRHfKBLt8AD+/A0fNBOjUi45A1RB3bzDyPRDPqN54cMlo2yLNGjiuMnGGZnqxQnldLH2gjwaNQwVvl6dssoXYJYtKRCLh32Rf7jTU4xDW9dklcu4X/D3eECYQXGQkXoJ7s/m7CQq0kpCXZp+sp0FOqrfcofWAnNBGWKc2eLOqd72yvzbpt8M4ok9Wy179U4Dbo9u9MsvMWeCaUvcthFcjcvWWVTWdvlFn6X95dnZvfJY6ByzmTJwsi7N0ts6yezGmhdGCcGnpiGh9xDQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from TYZPR06MB4461.apcprd06.prod.outlook.com (2603:1096:400:82::8)
- by TYZPR06MB5483.apcprd06.prod.outlook.com (2603:1096:400:288::8) with
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
+ by VI1PR04MB7037.eurprd04.prod.outlook.com (2603:10a6:800:125::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Tue, 24 Sep
- 2024 01:37:19 +0000
-Received: from TYZPR06MB4461.apcprd06.prod.outlook.com
- ([fe80::9c62:d1f5:ede3:1b70]) by TYZPR06MB4461.apcprd06.prod.outlook.com
- ([fe80::9c62:d1f5:ede3:1b70%5]) with mapi id 15.20.7982.022; Tue, 24 Sep 2024
- 01:37:19 +0000
-From: Yu Jiaoliang <yujiaoliang@vivo.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xingquan Liu <b1n@b1n.io>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-Subject: [PATCH v2] media: atomisp: Fix typos in comments across various files
-Date: Tue, 24 Sep 2024 09:37:03 +0800
-Message-Id: <20240924013705.2628576-1-yujiaoliang@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYAPR04CA0019.apcprd04.prod.outlook.com
- (2603:1096:404:15::31) To TYZPR06MB4461.apcprd06.prod.outlook.com
- (2603:1096:400:82::8)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.27; Tue, 24 Sep
+ 2024 07:23:20 +0000
+Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
+ ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
+ ([fe80::9cf2:8eae:c3d1:2f30%7]) with mapi id 15.20.7982.022; Tue, 24 Sep 2024
+ 07:23:20 +0000
+Date: Tue, 24 Sep 2024 10:23:15 +0300
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Dong Aisheng <aisheng.dong@nxp.com>, Guoniu Zhou <guoniu.zhou@nxp.com>, 
+	Christian Hemp <c.hemp@phytec.de>, Stefan Riedmueller <s.riedmueller@phytec.de>, 
+	Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: nxp: imx8-isi: fix m2m device v4l2-compliance
+ test errors
+Message-ID: <pgz7woiqzp2ph56hdugrvfelqjtmgwn544vrufdxexiifdny72@iwxmakvwlv52>
+References: <20240923120048.3200166-1-laurentiu.palcu@oss.nxp.com>
+ <20240923220047.GH8227@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240923220047.GH8227@pendragon.ideasonboard.com>
+X-ClientProxiedBy: AM0PR01CA0146.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:aa::15) To AS4PR04MB9576.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4fe::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB4461:EE_|TYZPR06MB5483:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ac42bda-e13f-4121-8853-08dcdc396d96
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|VI1PR04MB7037:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f86ee97-49c9-4a71-e471-08dcdc69c44b
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?EKr39g0n8YLWrzIlSm2iUmK1KZFdKAEQwzYU0aeDLRjVsYVIOHFrwVOlLVSV?=
- =?us-ascii?Q?WV/jnbalrtEzkpMtQHAx7ApOGuVjyOd5sX3MDE4SOo//56ZGVe4c+OsHcdOa?=
- =?us-ascii?Q?vdZ9ov+MS02+NNNxk8O6JsLYdWUY1wc0H7R+X5FnZX6qm9lBPcsR0iKthGfo?=
- =?us-ascii?Q?iIAPCV/Yiv3M42N0CqWH71JUrShI6z/zB8KwUsRvXtGmoxAYv+oTSrybxGBY?=
- =?us-ascii?Q?IicP4tmGqy5+29UNBu+bPRENOkJDMS4UbOSEWiXex/OpW6fUqjt+R93dK9K+?=
- =?us-ascii?Q?9TLASm8wriVBBroF2eF38BSvjvVO7MlPK2hJfXgiyCC+zSK2QtvJlWBoWr68?=
- =?us-ascii?Q?phCPyhP7sqvhmx/arALIn/M8+KqEiUILGCOAQlMx4wQiI9+3ah/E4FwaeYgh?=
- =?us-ascii?Q?hUucF9aVxtus6P/Hlvs21p6AJnj21oBSJLStTFXBk9J4aVSdKkal9rYRMP5Q?=
- =?us-ascii?Q?pakdbuVeHKV5EjsiZhgMPbg1NBiEIZZn2H3iDWpgg6sg+ZAaTXSlB8tjlF1N?=
- =?us-ascii?Q?x/atIk+21+6q2Z0B1LpAGkcG5hh4BO/lGVB+1V26G8CGdUywLCe75CdCLj8j?=
- =?us-ascii?Q?XrYhc9R8M8qmtDZhWoip9Ns/lolO4RzoIqlgBP50KMdO17IggSzP6rmWHd6c?=
- =?us-ascii?Q?tKCTagNartdmdHqmeKT6Foud67lNttHR8izrC1ySb204m+ID5LJponByrkz5?=
- =?us-ascii?Q?f/JiXn2tVHlNx2WpWHCToFBZUabj09oFwJysaQvGQuilCwlGoecQiuQsRaZe?=
- =?us-ascii?Q?r8fsJ7oeb+Ze2RAEhJcDp/sm1RtZYXQBDdVsZFQgewyBU4vYbwMoBnWdXBfs?=
- =?us-ascii?Q?7b0A47LuyZSU5s00G31u6AwV39uss0AvwEqYqWFEYL51hOUr7YFPyzKuyvZO?=
- =?us-ascii?Q?yb71/pZns/aF/eI8H9zLeBBJYX/1QoWdqsaHherYWrUjKbgGwC+fvF4knaob?=
- =?us-ascii?Q?wNS89OeLgS0D7hHaqly3miIIrFKtcTEoIWUtmISAZGob32Dwg5slLvkhPW13?=
- =?us-ascii?Q?Qtnn8nsHxgQ4lzE41E+6OZy77oux6v5yqkGJUUbKlZ1uSLWbrXPoYeowvbZn?=
- =?us-ascii?Q?Zc4LVD4Rsn1OK8xnmGKv3R1gwdprHkjQhymm0hJ1iXAwz5Nk7J73Z+GIdoOF?=
- =?us-ascii?Q?uBWwbH2lYsg56Q4FzL30dlaWzfzmEg9+D+6PBe+xD9rT9VUlWefYeWnlMNx8?=
- =?us-ascii?Q?Ev7WegpzbWYjZ8gBhlMGJj9S3md+Cnja5vKzg5A/564RZlTtXOPS84uVrO5+?=
- =?us-ascii?Q?QJyQNxV4dEY3nh17Ex97vR6GOHC7ycl4uCJ0IAGHQY7yWWDeT6BbKflUti6V?=
- =?us-ascii?Q?uWAQ71pn7n0uvfzh04hJaH31ZJ49cN+XL7fuJ1sggXSaEGmj+NTm4ZYzelkX?=
- =?us-ascii?Q?0bQNf5kR+iYyszQP1wU1YxnPzLofG5wp9VHONBq1P7f3BILARQ=3D=3D?=
+ =?us-ascii?Q?OPdQMsfTIjBv2snc7OTYKynHtD6c0wqImcuJwOniEXD0ODiV/ZuMCcZim7Jq?=
+ =?us-ascii?Q?GgjWjhZcZtg8K4WIjsvhSQIu/Bqddi7hXFpbcShvY89tCdlR++s3bweoR3Xs?=
+ =?us-ascii?Q?TFZrTpPgV2hkx6KLE/86lTO08Z6MG7XSbzTFvz8yEpR+Qhen5D3+NedWS9MK?=
+ =?us-ascii?Q?UQEoKgFQLmCRPsOKS1JR2lYk8uPkG+YIcN4wsNCj/slfr5M2RY33pbUE/Rpk?=
+ =?us-ascii?Q?P2uzu64ONkB+xZ4fcattl0kMRDa9WjeQ8jqEZ1i9T7626d6Gc3LNkVzoJhMJ?=
+ =?us-ascii?Q?cbPyLU2lwrVP/gtQsRlaVgJNEcM3f/tK4Ad71Z54NxW23zNrLFbccwV0wEg8?=
+ =?us-ascii?Q?SfcEWU6d82Yr9FAHujMildfWp18rDE21/p8rbcFxKP7MynVggcig2JUGzJS8?=
+ =?us-ascii?Q?Obhr1AcLM3E18qZsqOhYK4HGmmske8ShLT8RjW9YLddWV+DB8xUP9Ps38QnK?=
+ =?us-ascii?Q?1kFgE2cO8t5JXnbce+J96/c8hoidgRrVdqCdKnOOKgpu1u200KlbQeCTZhaO?=
+ =?us-ascii?Q?Ud5bkAJg0YHCDWz0CnGYXldg0hqEPci2ew6frH2iBWv8BUxcjwYxbW2rPNfT?=
+ =?us-ascii?Q?1HzI5DfdSShDd756HJ9xkU97NjaZ9RBDhbl27Ykt620gcrCcI+mVsDSz7p9d?=
+ =?us-ascii?Q?QE9T6dlPkIfn1NLIVKgBJyNeHWSPgwiZIdobBRhwaOWC4sQiVvdhLafU7gE0?=
+ =?us-ascii?Q?sB4i87ymkFVUfS1jRoukBlb0suRWiwPP2jHGv0m0FTYjYddEkZcuy9zFKeRw?=
+ =?us-ascii?Q?6SS2absdnLN4brGwbgfbTNQy5aqNvdyqK4Us1KGEOfFJqewGK1F5EHYUVjm1?=
+ =?us-ascii?Q?tgULKVNLkCE0G37zkXRo+RqqVTYmYN0oNc/+1HTUTyAJoAc/R8sxzuugduS4?=
+ =?us-ascii?Q?1PqptwPMrzeDKqCVcHX5tRypQ5oI51jP2A4NZzKiNf8RnJTxgwmE7ZrWC6J0?=
+ =?us-ascii?Q?oW2l+B3nk26yRFDoi0fkCljQqLwVUcG9ZpFuJ8lTZk6m4QZc16Mh8YanGJKU?=
+ =?us-ascii?Q?N0jqYAhZR1OObjNqV8a5g6dXIFLtmx3eRhvfuFE6ImYcgrKy6rUu7/tJjBfY?=
+ =?us-ascii?Q?uV8n590Jp/xYCH0lVvugs9TUph7V60cy0uIhTmnMCLBImbVgcrapGw4Lk4A3?=
+ =?us-ascii?Q?+C+IRyCJIYUG7LxuGSg6J7d2s7tcHW/E8/dvBIOX03dOY0shdVfCFKEnzQzd?=
+ =?us-ascii?Q?7s4GvoRRT9LUtFB8s3Eou7QthEqc8sVvlsz4OZpj5AA3yCVdkfuyDbJk7BtG?=
+ =?us-ascii?Q?mrsmfKJ9gpRp17Uc9Ha1eTBRFGRK5Wo9Aw+R9YcsnQ=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4461.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?N2PA/VBZ/4gCgK+GWRYwJ8tU/QcJaJrWD53OBcMq4jVb8sJLLiPpNPvard4F?=
- =?us-ascii?Q?gB1JB2xgZbI/VAwtkNMKMvmsGLnkWPfpXe+ZFFYO1BOhlWsyzeshBTSRQax0?=
- =?us-ascii?Q?1fqG3RySWbf2j5AnzLm43jbEscs+tOqlaJ8Si8GBByaRhJ0ysLKR/MdT52Hg?=
- =?us-ascii?Q?I0+gDHQHkAAMxcPP2t1yzqJNezCTTz7AABoOAv/zO/pdpTr4n6q4e7bPr+kV?=
- =?us-ascii?Q?obVML0PTbX4qiYq67virhJuQErQuWo5u6WpqOGwq41juW2Y6JDRrb5oWiq4d?=
- =?us-ascii?Q?wXVCaG1yQKE6bcAou8ZiWhtAW+/Ba8937gDLlvUOTKW2/emw86Mpt19aHTfJ?=
- =?us-ascii?Q?nIqy8x2LjubhEs54nyzRLnLK2CSrByUBCpDhNQr0x1rofviX5wX+zDx2p1T3?=
- =?us-ascii?Q?/Bp7hh70jflUhHFfJ1RK/vmjNea1ikRRE7v3NjLIIOxCfyz1QUY3Ocxx24os?=
- =?us-ascii?Q?Ohf4G+x5/b1tlViy5qvcGTkAZDhy4uWpNSfsr8gI3AoltXtvar+P80ia8O3+?=
- =?us-ascii?Q?J7znwEfOVbYGI3hhIJdy3pHrPVuINm1A01vcWr6MKf0YMHfXvnFtbPzgI4+9?=
- =?us-ascii?Q?gn4H2gAhvgX7u62nImvB6xEhKvTiUBEwcVtrJqzUJ3efOwK9aHCipZxDzkpw?=
- =?us-ascii?Q?T6vMg+xjq3xRGAoRmMi5CluV8mdwRsTn0gmMfPArk1cdzR1lXuqYu7hrGL+U?=
- =?us-ascii?Q?RLU3W2HX1GbFr3g4chaqAz9igUdF8Z1Bd258j9PUvdkMhs5GQa+H9Peg0Vwf?=
- =?us-ascii?Q?PY+vuH4l2ydi05kxAfrO3Iwt5DVb5/5wlZfW17B/xG9iiuZOS93FS+WG1aWW?=
- =?us-ascii?Q?78i+xY+dRZ/Ad4uFf/K0qi2CalOGpXrA3Ueup221WoIPj68JSe3tbbg+xH7M?=
- =?us-ascii?Q?2l7b2ZbwIlgMeyxbufCHoaTXyNUIOZnEbdTE5eQ/KhlUNdoJj5++ez0yoDIZ?=
- =?us-ascii?Q?jZdnyIdImhdeSfq6UZ3ebMuC6T48mck5U05KejfUQPRDi7arPZVcV2GBma1I?=
- =?us-ascii?Q?o7ksjlZchlKNBLSVq7YprWOdjJqBiHVfTigWjQaCVGyvih4J7g1dgXoIjgz6?=
- =?us-ascii?Q?wRvPVr6DYwEBllZWmOwcq4fsbEUpYRe+zlIb7fzxWaxae6I8WZ0Vp+63aIyo?=
- =?us-ascii?Q?PpuJr2t1AKc9uWy34Hf8j+JUqGnJaT2m/Bym3wV6v9rakjoSr0lDD5L/Byuf?=
- =?us-ascii?Q?wftCULTdu+HZhoepp5hVnnLAw9T65+MwVjdgZo62dERAzWHVLnnVbU3QImSi?=
- =?us-ascii?Q?cfwZdoLLFOziTcZv2VBcTcEB/tfIkrAtN4lHXvfql1ySHCP8hLlzX5lyAC8x?=
- =?us-ascii?Q?jNY8Zg47gGS4/f4y937yw1sGSRTBr3EWHMmzmnjE3m7ht8TzqBpacTSR/UIc?=
- =?us-ascii?Q?KPpl9RjtSa552i/2DnsdvsQfnKba5DbVIhFGY2nL3FQ6Glrc1Dy887zPz6Vw?=
- =?us-ascii?Q?h1SQrB5CjcShj3RBdSHFTbKSJm9953WJI5xq+yZUXeGCCoPKZVLfLMquZECg?=
- =?us-ascii?Q?ze3MDSDH4l98xosV/fputeAfB9HlO9Wtb4Kvol1U6wpv262uGkYgj1DgzVGS?=
- =?us-ascii?Q?JklPwfkG6oqNqhlxw09H33812lzSSi4IcCKyZqnQ?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ac42bda-e13f-4121-8853-08dcdc396d96
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4461.apcprd06.prod.outlook.com
+ =?us-ascii?Q?5qP+6Ye6FZvrgpDnLeajmEtjR0iSupZGQe/KopJlPu7ekkxiU+3cklUbmNM/?=
+ =?us-ascii?Q?PUu4HyCLWTz5Jg+OcfJVHK6Ctq7gYjhxwZ3D66tM5RqzoidcH8Pc6JRWGHpk?=
+ =?us-ascii?Q?5zTQI6p9nEs4rHj7fDyj0Je9PhaEJ29YZdE9LPkvaThI2kJCxOGPwaddFX7+?=
+ =?us-ascii?Q?jTdTkoWjTb55M8o7NhEQXcXhynemTMLv0z7kni3Mt8mMOWarhRAL1dWYwbm7?=
+ =?us-ascii?Q?EyrAj8xZb+3inHAWH8DByBeXSuVGTsMGhEF3L4qh+Sq4AfmSRmjP3KzSYx/2?=
+ =?us-ascii?Q?PJPy2MDy/2jSd/AVYlfIEuLHtvTlw7t9JWWhGUvVKuPQ5a6kx4r9GSAc3e50?=
+ =?us-ascii?Q?zGiePsF9OF2tjecVIHbbcwpWB5MebrpGr25bumYZaYmEVtSk2vrOM/X220kG?=
+ =?us-ascii?Q?nQRsYGLqM9EMb4eEFp11oBUffFLgErZ2uECln8daNHfCMxIG10fRXM7YURSN?=
+ =?us-ascii?Q?5qNsHCrhpbUjxEGJjFWPsuurqsloYbyypqE9+j+IXFtO78v6YuLRmdRluUlv?=
+ =?us-ascii?Q?T6RJVKYjb0XR1RIjewzLXNsYGZzyUGS9qPFqBTvrPdN/hUVS5t6NoC1uowVL?=
+ =?us-ascii?Q?Ykr1DxCAXP0QDkQEZBfxBepNF3dUUo9uF868JvzJE48XWtA883phDKmg4g8W?=
+ =?us-ascii?Q?mlNTaxM4Yd6Pm9u1wIYnkBJvwjfo6Yluu1PxCtNilvSDmSX001M2OQdf0Oa6?=
+ =?us-ascii?Q?5pMAizBzV+ztUCKCXrUrS5e28dFXHFet4PXvjfZ0GUz0YBuiaCcc9mK03nZw?=
+ =?us-ascii?Q?S8ExMK/dlZAfKMJG7B/hKm+89RPTv3ak7FlntwqZ+GbnwFpM+4NliZUYVOwe?=
+ =?us-ascii?Q?GYpuvRNgB5CpMCQ5o9zyuhReoNw+C/3d0FkLpFoHjxSTypvY5TNu8M+vGJdu?=
+ =?us-ascii?Q?AImKl7mLoF/8uxQvDK7MeGPZ2W2ib23UYczVjMhg53tQfdkdUmiBA8JyzgQA?=
+ =?us-ascii?Q?5bv/q/eEW1qK2L/zrkt77ZZcnDYJC31NrQbpA/twbB3B9vY146F1v7uS2vjc?=
+ =?us-ascii?Q?SVXYUUFVQ1CAxlnfvc05qvYL6EXg5E6867eFGqE5Ko9r6BWQ3l3A3JA/eJuZ?=
+ =?us-ascii?Q?S+5+N+Q6tYvazfgKXu+5CwEYbW8EfU088FVXI4CvUpzfH3wrlJC6L85KENOC?=
+ =?us-ascii?Q?r3JD5e+QdXzy0+5DlKR/K9YPiGZgI86E7/BHwCp5zBxvzdBiqb5003JCKAFb?=
+ =?us-ascii?Q?J5frj4HNtwDR24E1JtmgR6KcXAUyMjSW5Kdwluo822sn1CCanKn/O6YMpvt9?=
+ =?us-ascii?Q?6K8C9f6FtgiNpyXuT3oLo4hs/EUFjzMtvGA4Oqs0NvPyrHG3/ngvQePty3nP?=
+ =?us-ascii?Q?UY3J+FgsvcV0ge0/vJhYDccigtR0MduJAj3sJO7X/2i0LzJMm9cwHzgPNhO2?=
+ =?us-ascii?Q?Tj90mjdKMsnnkO8tt/6GevFfyij6D2e15AtL1KJiqNMnNBy51Vb+ehZXqnrt?=
+ =?us-ascii?Q?25GYCS3LEPJouQUKRdjb9RSkybdCSZN1E2aho7xSwlCqxYXoYfeMitjkelOK?=
+ =?us-ascii?Q?AtZhKJnlQt3NQpPT7VIoaekIJdHQDDA9kT716hZDHXUsUxC7xZSOCrjcjFYf?=
+ =?us-ascii?Q?wKpke/31GQOAr/4cXNr8iwY1tQqTEg0eRweuKGvxURhukHd3DNhxLRYwOaNH?=
+ =?us-ascii?Q?LQ=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f86ee97-49c9-4a71-e471-08dcdc69c44b
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 01:37:19.1636
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 07:23:20.5144
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WQFLxNWU9ZOH4Y21cazb0EqGKrCWuUjfdWKN2Kk2W3xDrcakw/31JjqAuNCJH+t7MqE9k0sJoQ2O4sDNXus8Vg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5483
+X-MS-Exchange-CrossTenant-UserPrincipalName: +6mndv+a31X/xxQR/dPwNhhx6toBsRDXrAXPyoUVV+ZXed91EsSNEc/Z1/MQyLuywXkRUbUaLvY+ZJNs0p9jwA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7037
 
-This patch fixes typos in comments in the atomisp driver.
-These changes improve code readability without affecting
-functionality.
+Hi Laurent,
 
-Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
----
-v2:
-- Updated commit message.
-- Rebased the code to be based on the latest staging-testing branch.
-v1:
-- https://lore.kernel.org/all/84c96000-e198-4502-b37d-0ca15c311968@gmail.com/
-- https://lore.kernel.org/all/25ec1b00-02fc-4ecb-853c-de9c8a12f9fc@gmail.com/
----
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c                | 2 +-
- .../media/atomisp/pci/hive_isp_css_common/host/input_system.c   | 2 +-
- drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c   | 2 +-
- drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c     | 2 +-
- drivers/staging/media/atomisp/pci/sh_css_mipi.c                 | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+On Tue, Sep 24, 2024 at 01:00:47AM +0300, Laurent Pinchart wrote:
+> Hi Laurentiu,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Sep 23, 2024 at 03:00:48PM +0300, Laurentiu Palcu wrote:
+> > Running the v4l2-compliance (1.27.0-5208, SHA: af114250d48d) on the m2m
+> > device fails on the MMAP streaming tests, with the following messages:
+> > 
+> > fail: v4l2-test-buffers.cpp(240): g_field() == V4L2_FIELD_ANY
+> > fail: v4l2-test-buffers.cpp(1508): buf.qbuf(node)
+> > 
+> > Apparently, the driver does not properly set the field member of
+> > vb2_v4l2_buffer struct, returning the default V4L2_FIELD_ANY value which
+> > is against the guidelines.
+> 
+> Strange, I would have sworn v4l2-compliance passed successfully when I
+> submitted the driver. Maybe it has been updated in the meantime.
+> 
+> > Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")
+> > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> > ---
+> >  drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+> > index b71195a3ba256..3f0c9e2ac802d 100644
+> > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+> > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+> > @@ -222,6 +222,11 @@ static int mxc_isi_m2m_vb2_buffer_prepare(struct vb2_buffer *vb2)
+> >  	struct mxc_isi_m2m_ctx *ctx = vb2_get_drv_priv(vq);
+> >  	const struct mxc_isi_m2m_ctx_queue_data *qdata =
+> >  		mxc_isi_m2m_ctx_qdata(ctx, vq->type);
+> > +	struct vb2_v4l2_buffer *v4l2_buf = to_vb2_v4l2_buffer(vb2);
+> > +
+> > +	v4l2_buf->field = vq->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE ?
+> > +			  ctx->queues.out.format.field :
+> > +			  ctx->queues.cap.format.field;
+> 
+> Wouldn't it be better to handle this in mxc_isi_video_buffer_prepare() ?
+> I think the same issue exists for live capture, not just for M2M
+> operation.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index c9984f155..eb46ba4f4 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -55,7 +55,7 @@
- /* G-Min addition: pull this in from intel_mid_pm.h */
- #define CSTATE_EXIT_LATENCY_C1  1
- 
--/* cross componnet debug message flag */
-+/* cross component debug message flag */
- int dbg_level;
- module_param(dbg_level, int, 0644);
- MODULE_PARM_DESC(dbg_level, "debug message level (default:0)");
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-index 8f2f4e8ed..c18f62fe6 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-@@ -406,7 +406,7 @@ input_system_err_t input_system_configuration_reset(void)
- 	config.unallocated_ib_mem_words			 = IB_CAPACITY_IN_WORDS;
- 	//config.acq_allocated_ib_mem_words		 = 0;
- 
--	// Set the start of the session cofiguration.
-+	// Set the start of the session configuration.
- 	config.session_flags = INPUT_SYSTEM_CFG_FLAG_REQUIRED;
- 
- 	return INPUT_SYSTEM_ERR_NO_ERROR;
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index b0f904a5e..91342091f 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -950,7 +950,7 @@ static int __ia_css_binary_find(struct ia_css_binary_descr *descr,
- 	unsigned int i;
- 
- 	assert(descr);
--	/* MW: used after an error check, may accept NULL, but doubtfull */
-+	/* MW: used after an error check, may accept NULL, but doubtful */
- 	assert(binary);
- 
- 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
-diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-index 2d7fddb11..0ab83e1b5 100644
---- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-@@ -362,7 +362,7 @@ void ia_css_frame_free_multiple(unsigned int num_frames,
- int ia_css_frame_allocate_with_buffer_size(struct ia_css_frame **frame,
- 					   const unsigned int buffer_size_bytes)
- {
--	/* AM: Body coppied from frame_allocate_with_data(). */
-+	/* AM: Body copied from frame_allocate_with_data(). */
- 	int err;
- 	struct ia_css_frame *me = frame_create(0, 0,
- 					       IA_CSS_FRAME_FORMAT_NUM,/* Not valid format yet */
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index 80f0395cc..710744ff0 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -169,7 +169,7 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
- 	/* ceil(words_per_odd_line/8); mem_word = 32 bytes, 8 words */
- 	mem_words_for_first_line = (words_for_first_line + 7) >> 3;
- 	mem_words_per_even_line  = (words_per_even_line + 7) >> 3;
--	mem_words_for_EOF        = 1; /* last line consisit of the optional (EOL) and EOF */
-+	mem_words_for_EOF        = 1; /* last line consist of the optional (EOL) and EOF */
- 
- 	mem_words = ((embedded_data_size_words + 7) >> 3) +
- 	mem_words_for_first_line +
--- 
-2.34.1
+Yes, you're right. I guess I missed the fact that the queue's pixel
+format is passed to the mxc_isi_video_buffer_prepare() which makes it
+easier to set the field there. I'll send a v2 shortly.
 
+Thanks,
+Laurentiu
+
+> 
+> >  
+> >  	return mxc_isi_video_buffer_prepare(ctx->m2m->isi, vb2, qdata->info,
+> >  					    &qdata->format);
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
