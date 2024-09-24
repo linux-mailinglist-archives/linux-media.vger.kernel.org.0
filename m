@@ -1,213 +1,278 @@
-Return-Path: <linux-media+bounces-18499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18500-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F5879843B4
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 12:33:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D854B9843ED
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 12:44:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C60E1F23BF2
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 10:33:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0C09287D17
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 10:44:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BC3619C54C;
-	Tue, 24 Sep 2024 10:33:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94DEC19DF41;
+	Tue, 24 Sep 2024 10:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="c9ikHpwC"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="eFWWH8Hm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2077.outbound.protection.outlook.com [40.107.22.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7952519B3C3;
-	Tue, 24 Sep 2024 10:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727174009; cv=fail; b=hInLUeBrPhV1pzIZmttRiy488bDFCDbygC7MS8Q/vgomaq3qzQImK6haeC5/QDQGrfadLysjsaHjbWaWtSmW75sRohbpcJySvBV6RFKeOva25Iu6TsaIvNndXp0qdoYYtJzLU8aMfjKLmhGrtN5z7HUVoX/QeDtKKYiFAh4OC0U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727174009; c=relaxed/simple;
-	bh=q0FPEloOlVpS8Er9UdkyG/Uvxzpc22gxGNiYHn5IVlg=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=bjTaz7m4LR2EuIav9Ov7Ot9qDNZNfDevcv/pQArNcE6mKdxKGLalby3XnvCuEaX53e/WQJcK7DILDVeYvlwQZrnjbT4W0tP2Ya4SsQJtCSr3vlpQQBgFUWVVTchYGidvedADrbJf9Y+2ROAuekB0a+HEHeDPxiE0Bk6TtawONdU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=c9ikHpwC; arc=fail smtp.client-ip=40.107.22.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fDGfWuQNqAA0Z1eXJll9YGt7irrVSx07yM6j01O0IRZWXwcqlEIq8YmXO/Pa2FfA6sw6bcDeyjNSvWz1TzXUnzucG0khGMTZU2BvZloIEoyxT6Z42e7kQrJ5YjH5poqs2mw1C8YsicPRwppSghxd9fUbicce99AtKkZbIdu36pEAZxBqyAH3R7rn+U2vOwljavFijC+rozgUTtN91NfU6LL7KTB0K1/EuW58nJGzjbLiBBhDG8efrQTcGOvHhB/Anl5o+lokxOGE1Ise95P+kkOmXEoDXxi3wO+sEyi86LBSB/VxFXF7wDl1oBgyPXtiBtBKcifBjbp4BhkIR2ZLmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vW1ZVtQ5gP2VFZ6CvIDUlYCQPPo6gfXH9zlozSoPuow=;
- b=SzX793xFikhwdUYa434FgXXm7yHytrqgvj9xssioG08huOgo9R57x2NeccvOeavXKdfu6nH3tcRtmwe9iHvP1I5PJ6/e7dVCtZzqc7R3oBva4ZM2SHCkden9bRR6HSGhOcGaMfk522MQHhlyEW0r8cOgsp2EsW5sjkcAHyVPsuzLfyeEA1WF+eGs/DQt1frcnw2Gask+d1clcRdzBXUaJmE2slAZU619VOr4vuWGTwtrP5/+JbWzRGjz/gRtjkFQexmyxdiQUZoP40OOmTMyyUonoemV5ktoD5yP4ETZeNCQFjqc2vSrLSp74BdC3qb8dVBWYnDW588R2o/7ckK+EA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vW1ZVtQ5gP2VFZ6CvIDUlYCQPPo6gfXH9zlozSoPuow=;
- b=c9ikHpwCQGxiL2gGW1RK1u8FE/8h6xYMZVUqSrlBJ6mr94sVF+RryUzHNdHQwMXQhvptMMAWiJPOSXtj2L65RCqN7wFvsR/eYHhhY0dThsXrfxxGPPhOtIR4v0S1jBzylKYmvTe7QKqmR0BmWOxOlRmIvM58latT2KjOq0uvVUYSu6lFl2R4yFv1/7LL5GzKZl7u2nqh6MFFF8uhIZtnqmRQQaSw1UMbsBHOgp4Wjcj9W90twTUW5suDNR5Y/WlNNNlaDldYY4+pnMaVsvklODGcT4zw46z/8aBPqZRyHbmyM9lowwqGNBJvY8QX80MFi4CRx4lokDdcUZzbrc3ZLg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
- by PR3PR04MB7257.eurprd04.prod.outlook.com (2603:10a6:102:93::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Tue, 24 Sep
- 2024 10:33:23 +0000
-Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
- ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
- ([fe80::9cf2:8eae:c3d1:2f30%7]) with mapi id 15.20.7982.022; Tue, 24 Sep 2024
- 10:33:22 +0000
-From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Christian Hemp <c.hemp@phytec.de>,
-	Dong Aisheng <aisheng.dong@nxp.com>
-Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	linux-media@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: nxp: imx8-isi: fix v4l2-compliance test errors
-Date: Tue, 24 Sep 2024 13:33:04 +0300
-Message-Id: <20240924103304.124085-1-laurentiu.palcu@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR10CA0033.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::13) To AS4PR04MB9576.eurprd04.prod.outlook.com
- (2603:10a6:20b:4fe::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1109319D886
+	for <linux-media@vger.kernel.org>; Tue, 24 Sep 2024 10:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727174673; cv=none; b=Cn/9jjl/SwdpAFqVpTVzdlG6WNiAQZmMtItIBqAHBFwMNTqz0Q4moIZt8XE4kcETdI+Pr6ki2g3UPqf93i6Ox6tNYpsQPe8tnEWjh1Z8qWAygqqfLY1O6Ox//C4MOu30HxXV9SKEM5pg6IcXhoaPfdeNoozpa+izrKEUVu7ALsg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727174673; c=relaxed/simple;
+	bh=vSNW/+B75QZ6s6u2VGWRRHqfSZPy9mqUh/MvYkJWf7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OA1UXeD7ktKXThpFsWvxIGKpBFVQUNsVGSBbaXuXD89SPp2GgFY2cOCJrDzV8de1PyoEKctTu/IwVv9jQZx8VA0MRJLAASJQV87rr3pFW30qf+llBW4uAyRg1RIAeRZpaMuVIPcwn5t5GIW7RrLyJzWHd111z6jv+ikKeOjsVBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=eFWWH8Hm; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5c42f406e29so7707565a12.2
+        for <linux-media@vger.kernel.org>; Tue, 24 Sep 2024 03:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1727174670; x=1727779470; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hg57tMMy0blYSuezkQiHoCi7dn58SQLwrksj0aFKAtU=;
+        b=eFWWH8HmWs4d9JqBcmwLNk5ELK66EvH5lgS3rd788Mzyq+cgMpboswImDi/5jucQD5
+         GcmU5FgS56J6rA+690PMjPvLs4aIuHeTkw63s6YLElCs5kO2uuxPpFGzobbcD09MisU6
+         DAOQZYn8cQBIGACgseMAJdzJ2fM2Wlx1Ux6TU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727174670; x=1727779470;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hg57tMMy0blYSuezkQiHoCi7dn58SQLwrksj0aFKAtU=;
+        b=qT0Bs4tHFruVc0yQQg3D8xF9bskCJtQ6PHfnm22oQbBYNpyeRGFwAoUH2Bc7kMfZP+
+         v1y1v7Yu4da8pG4tPf13kWhp+ljixWfojU8tZxfFTkcbxSOLq6XC68fSYrX8NPmEBbRj
+         vE0OmYZ+/pkqlf2TewhM28EBACP8lWFi/qkbHfxUhnCohwSyhv9/YDxXxlTlfOhKNg89
+         0CejzANdA8q/Is/BB9eEiE6aDPEimXwDVVSxdE/EdcEgaABF5TzMDOIVGHVQShcw1caf
+         KC2DlGE07e33qCTYoP2y9bqYEE2N+DnSfSdD012EN4GQRvKOqf1ZJj3Mb5PDdMjCKvqM
+         XnjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCGkjFK+/16DrGZ8VPu3Tk1ky54rtvg6vBi4IpdPFdUK3II4gjITOZ/qfaHAR3ppKp5Zg6wKoCs89bRw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3f31mXN9u/jOMcWDk01rMFF11xUwC61QpvgQLcaya1gPy/2Gf
+	iHlp0VR8TYtgVgBZ+m7klQBP7WVTOD2nXR6siDVI7n8Tlx9JslexCQlyHsZ81kg=
+X-Google-Smtp-Source: AGHT+IFsbAPQtvwlsECTfv5o6GbOlmX9+qawAUAtHMx47dRNmzL6e4E6m9ePldWVdx0t67RittQL/w==
+X-Received: by 2002:a17:907:9282:b0:a7a:af5d:f312 with SMTP id a640c23a62f3a-a90d514a9b4mr1367037666b.46.1727174670064;
+        Tue, 24 Sep 2024 03:44:30 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9392f3479fsm69803366b.39.2024.09.24.03.44.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Sep 2024 03:44:29 -0700 (PDT)
+Date: Tue, 24 Sep 2024 12:44:27 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: sumit.semwal@linaro.org, daniel@ffwll.ch, tursulin@ursulin.net,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 1/2] dma-buf/dma-fence: remove unnecessary callbacks
+Message-ID: <ZvKYC1WPOhQpjw94@phenom.ffwll.local>
+References: <20240918115513.2716-1-christian.koenig@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|PR3PR04MB7257:EE_
-X-MS-Office365-Filtering-Correlation-Id: 312e64f1-40cc-443d-2784-08dcdc84508d
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?5Fn962mjFLeDPj03vV+n1dyIhzveP6+ueaDh9g54ONtTICaY+ngIC9qLoXKW?=
- =?us-ascii?Q?VDO6Wou7oM9ge97KOk3CpvsDngxu+NKT6gTT561opfQAeOInbOwD1kXwlBOL?=
- =?us-ascii?Q?vY386PGx4/OkAaRkMJd+S4I0B6+y94OdB+biA4KOwRh0y2/Lr2dyQpa3mt6o?=
- =?us-ascii?Q?hBodYE2V8IvdRR5OndPFYm8cWoxxD65CZGn/XueZknzB68dDwnuLDR3gR40Z?=
- =?us-ascii?Q?ufi8WuEEOT/SCoLQGyB1rrdD9xJ6iftppkMOefL7YGLXU+XxWqFU4Y8ZHK3a?=
- =?us-ascii?Q?lG9zbXDyrTf4BstahwvGOWr0r49RRjq0hYNd/6vs+NYxxR86/Rg0wVSemkdU?=
- =?us-ascii?Q?jrvObxFydyCnFH2ma4tMc2l3VDyM46curFq4ApT1Iue7A7qbgq/wMI2TsFFG?=
- =?us-ascii?Q?xA3FhOXlaWQdDZXEAZ3QOwGsXGvuqkKTmgfGRw9mMqWMadJoxIoZUPXsnMH8?=
- =?us-ascii?Q?l3/JBd2ZCR8cdpZJZj2H6qWQD+tFbUKXBsivyHbdoyNlpjx+2BAHvYkUuyPK?=
- =?us-ascii?Q?Hrh6dPVmiQiAPptRR5D5CIj+a6Kh02G3hf6nk4pWQ975uabWLuayJyTAl45F?=
- =?us-ascii?Q?UBSuFC1kjZOBQmqLnlllZp+KUhLESlRfYbCwBXwxAZHiGujvEityL/z/aLed?=
- =?us-ascii?Q?XS/EnmwNxtjUm5MIc0N6wuPNsABCU7kVlMYVoNXn6h5ArG35xVZtfKzq19jC?=
- =?us-ascii?Q?xdd+mRKDpKKsFWBv7piSqJ++pO59WhrdSj4BSOGnyOmQVYomz6zvfzMdBxXo?=
- =?us-ascii?Q?hgIQrFseV8a0W6pOJKNrrVWW6ENOsHRX31CnM2ql4iZCywkcCmxJq3vXaQNB?=
- =?us-ascii?Q?7AdwOWU/41e82ApM7OiiCWJ97Bs2O49jGc2FMdnjNOLanRPNhxTaGlx7qdkS?=
- =?us-ascii?Q?6EDY4pu8sV4BNT4Ekir95gxpabSsgrBcGAygHYJCIC3YVzkpKSbZrbWAPyWJ?=
- =?us-ascii?Q?pVS7aABqIGDwiyOcnL76shWk1Sd24TsXsJTEHxQMLy3M5XllQujm2+K/xDaD?=
- =?us-ascii?Q?z150aLk6cAW6Gh98mfJ0Xgzl/F8PwV6sgVTpugaOg0lNyZfNiItbmJjTw5M9?=
- =?us-ascii?Q?yXezjhuHD0KeI+X/XG7ecyIQgh4j0h0PRqfFr6fWMy3D1j5pmgdm25g9pLXO?=
- =?us-ascii?Q?jvoBnuPgkpyCvpYKaCe22zdWSj8namLEN5YjcbIIIdgfnRNeDCp+Q3o9zJ1q?=
- =?us-ascii?Q?LX3JEnsCJISBaXoMbLcVf9eUWoi7wRu0qzwcQ5Ag423CPwk/SlkTw9ZMpJKJ?=
- =?us-ascii?Q?FeqB6po6EkCMnydj1uUZuEMl+nmX/piSjXwwZvDzxQ=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?KWNH+AZUCMB82IOWup2zxHIuDxeWN0d9MeFPCVYIcejJBt3rEkhvsH/GswWH?=
- =?us-ascii?Q?JSmJUHEYLJz7jwPEp1/2pTxI2KIKFVU6fFJYPRnf0BAUtWzJMAicRXbDZ8TP?=
- =?us-ascii?Q?35LqhcYate2rRs4u29EQiuumjCIqDgv8ALhf3FpXw/rwU2oj+2tJjBUmgZwT?=
- =?us-ascii?Q?9rcnkE7X2S/pK+WaJuV2PcDnQud9S6Xygowk5CfCmh/yZ4TmmHd/vExbQ5pQ?=
- =?us-ascii?Q?Wgiqy03vv0Mnz2GUl3E/65IRFFXqS1Qx26W8gvezosN7ehvdXlg85tpruat1?=
- =?us-ascii?Q?S4T7bylUq2DPGlJONZwKYymE1gqvKn5b5UROFD5rxi9MtMkWsQOVL0HbYqM+?=
- =?us-ascii?Q?YCMfOQBDaq6G1J4ARN4BjTNomosy+1mr/969wbjN/nwmQ8ko+u3IfFvZi57b?=
- =?us-ascii?Q?K4/o7Be8F+Kuni50XUaIkRWMmX6IT6YJoOsQJx1OVRtnXi2YBJiC4uABoedh?=
- =?us-ascii?Q?E6ZGnYsbu2wp3DDJuQsJwYqiPcc3y+DySQRyvqqGTrP9na/tkJ9r8OJhSOL0?=
- =?us-ascii?Q?o8SZlpGbtjr9Be9cYIDDZHv9JHdQHlxVq4NeL8cXeMLBvrIdR0o5/cnuyr+i?=
- =?us-ascii?Q?ymIllD6SzHBtsyK3Sbmbd3bjzoC8THPOkKWDypcVaPZ9g1o6Wf2JsRMf89jX?=
- =?us-ascii?Q?pPNo7bGOc48n+xMJoip6O7yuvFky2FgEiL80/2iIGFh2r26Dvv1hcqynXeqd?=
- =?us-ascii?Q?D6CyxbLkSkVunORpR5qIOigQQzY1LyPVPlyFQoHxoJj5O2IoskFXXBNVzOEu?=
- =?us-ascii?Q?yps0EoxDo4tFfBipMD20jzOlFtJJ33Uyu6f+xQUJFJxpJWD9WxoVXAoMSyk4?=
- =?us-ascii?Q?Tb/w3AfNpjNvh8CzLIwCeywuvuhC+d0yKCQOcYoBrt1qj3qVnW+TsvlR2vWa?=
- =?us-ascii?Q?ld+bnkk6zVgBd31fcjDeWQgVOp5pT3wwduRtGgwcsYy4+cDl3sJtm5b2vUS4?=
- =?us-ascii?Q?HHr8m1tyQnF6UBjfzZwN06fDrDjZV3tKmp/0IGW+syfetGNUQkpaYCoDmCho?=
- =?us-ascii?Q?Z6dS9JDwU1lii34gBJgI8hgJW5DLG95ffwryV55+Ggg1+Dzk13N21NpiviXK?=
- =?us-ascii?Q?+3voHRTslUfT1EmmGG0AYeHbyt+luRs2ybOQEOIk3eIZIj7yrl8xHSpU3GrM?=
- =?us-ascii?Q?wU64HwJC3bb95XWvPQrvqDUnMl9PAl2j6+BiEZdCl7EKeIdGBgYnlKoJNZjd?=
- =?us-ascii?Q?GeeWgH9G9evsI03J9adwqTJJqNaU0sqCHukbIbnWOIlQQGBi53YlmhYjnMZ8?=
- =?us-ascii?Q?afly0LkfP/ylkL6NVXedNHPB9rDmcfPNfbyG1cNS3nPVwbmIzc02B4UjAUjw?=
- =?us-ascii?Q?9jxBUXwkt4d4kPnsYGwrE9x90ZjXXeF+a0QMSTEF5Yke3KiE8FQrzR1nuScg?=
- =?us-ascii?Q?n/pNah9yfQLEmgpCIzMkXkV84+/+kV5r/pRe45Y4G8c6m2U22rLJEX6lK1N6?=
- =?us-ascii?Q?U1z9QClTAhdV2qDKP8C8TRNlHFdA68XwLQeG1TkaTqpEr7Ia8jVpVGRUdSyV?=
- =?us-ascii?Q?rW8wywEChyA755mRX85kphBXy90R9CVXKlQMIzrRIr9ozZOQQzls3Btd1vCa?=
- =?us-ascii?Q?Ofo0kT7K061FgeITXa7nasuENkQ5X8DtLxgyhIqrSukgS3fMMzr/4rbRvqDS?=
- =?us-ascii?Q?hA=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 312e64f1-40cc-443d-2784-08dcdc84508d
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 10:33:22.7053
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qcwwak0dCTzvaEE8AEQN0tQUzZsnlpQTq8/oS8OxKDNmvgn0DBCUXO3gFeN+hkwsH+7LL+1RsJpcY2Qt6ypwQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7257
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240918115513.2716-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 6.10.6-amd64 
 
-Running the v4l2-compliance (1.27.0-5208, SHA: af114250d48d) on the m2m
-device fails on the MMAP streaming tests, with the following messages:
+On Wed, Sep 18, 2024 at 01:55:12PM +0200, Christian König wrote:
+> The fence_value_str and timeline_value_str callbacks were just an
+> unnecessary abstraction in the SW sync implementation.
+> 
+> The only caller of those callbacks already knew that the fence in
+> questions is a timeline_fence. So print the values directly instead
+> of using a redirection.
+> 
+> Additional to that remove the implementations from virtgpu and vgem.
+> As far as I can see those were never used in the first place.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-fail: v4l2-test-buffers.cpp(240): g_field() == V4L2_FIELD_ANY
-fail: v4l2-test-buffers.cpp(1508): buf.qbuf(node)
+Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-Apparently, the driver does not properly set the field member of
-vb2_v4l2_buffer struct, returning the default V4L2_FIELD_ANY value which
-is against the guidelines.
+> ---
+>  drivers/dma-buf/sw_sync.c              | 16 ----------------
+>  drivers/dma-buf/sync_debug.c           | 21 ++-------------------
+>  drivers/gpu/drm/vgem/vgem_fence.c      | 15 ---------------
+>  drivers/gpu/drm/virtio/virtgpu_fence.c | 16 ----------------
+>  include/linux/dma-fence.h              | 21 ---------------------
+>  5 files changed, 2 insertions(+), 87 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+> index c353029789cf..f7ce4c6b8b8e 100644
+> --- a/drivers/dma-buf/sw_sync.c
+> +++ b/drivers/dma-buf/sw_sync.c
+> @@ -178,20 +178,6 @@ static bool timeline_fence_enable_signaling(struct dma_fence *fence)
+>  	return true;
+>  }
+>  
+> -static void timeline_fence_value_str(struct dma_fence *fence,
+> -				    char *str, int size)
+> -{
+> -	snprintf(str, size, "%lld", fence->seqno);
+> -}
+> -
+> -static void timeline_fence_timeline_value_str(struct dma_fence *fence,
+> -					     char *str, int size)
+> -{
+> -	struct sync_timeline *parent = dma_fence_parent(fence);
+> -
+> -	snprintf(str, size, "%d", parent->value);
+> -}
+> -
+>  static void timeline_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+>  {
+>  	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
+> @@ -214,8 +200,6 @@ static const struct dma_fence_ops timeline_fence_ops = {
+>  	.enable_signaling = timeline_fence_enable_signaling,
+>  	.signaled = timeline_fence_signaled,
+>  	.release = timeline_fence_release,
+> -	.fence_value_str = timeline_fence_value_str,
+> -	.timeline_value_str = timeline_fence_timeline_value_str,
+>  	.set_deadline = timeline_fence_set_deadline,
+>  };
+>  
+> diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
+> index 237bce21d1e7..270daae7d89a 100644
+> --- a/drivers/dma-buf/sync_debug.c
+> +++ b/drivers/dma-buf/sync_debug.c
+> @@ -82,25 +82,8 @@ static void sync_print_fence(struct seq_file *s,
+>  		seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.tv_nsec);
+>  	}
+>  
+> -	if (fence->ops->timeline_value_str &&
+> -		fence->ops->fence_value_str) {
+> -		char value[64];
+> -		bool success;
+> -
+> -		fence->ops->fence_value_str(fence, value, sizeof(value));
+> -		success = strlen(value);
+> -
+> -		if (success) {
+> -			seq_printf(s, ": %s", value);
+> -
+> -			fence->ops->timeline_value_str(fence, value,
+> -						       sizeof(value));
+> -
+> -			if (strlen(value))
+> -				seq_printf(s, " / %s", value);
+> -		}
+> -	}
+> -
+> +	seq_printf(s, ": %lld", fence->seqno);
+> +	seq_printf(s, " / %d", parent->value);
+>  	seq_putc(s, '\n');
+>  }
+>  
+> diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
+> index e15754178395..5298d995faa7 100644
+> --- a/drivers/gpu/drm/vgem/vgem_fence.c
+> +++ b/drivers/gpu/drm/vgem/vgem_fence.c
+> @@ -53,25 +53,10 @@ static void vgem_fence_release(struct dma_fence *base)
+>  	dma_fence_free(&fence->base);
+>  }
+>  
+> -static void vgem_fence_value_str(struct dma_fence *fence, char *str, int size)
+> -{
+> -	snprintf(str, size, "%llu", fence->seqno);
+> -}
+> -
+> -static void vgem_fence_timeline_value_str(struct dma_fence *fence, char *str,
+> -					  int size)
+> -{
+> -	snprintf(str, size, "%llu",
+> -		 dma_fence_is_signaled(fence) ? fence->seqno : 0);
+> -}
+> -
+>  static const struct dma_fence_ops vgem_fence_ops = {
+>  	.get_driver_name = vgem_fence_get_driver_name,
+>  	.get_timeline_name = vgem_fence_get_timeline_name,
+>  	.release = vgem_fence_release,
+> -
+> -	.fence_value_str = vgem_fence_value_str,
+> -	.timeline_value_str = vgem_fence_timeline_value_str,
+>  };
+>  
+>  static void vgem_fence_timeout(struct timer_list *t)
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
+> index f28357dbde35..44c1d8ef3c4d 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_fence.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
+> @@ -49,26 +49,10 @@ static bool virtio_gpu_fence_signaled(struct dma_fence *f)
+>  	return false;
+>  }
+>  
+> -static void virtio_gpu_fence_value_str(struct dma_fence *f, char *str, int size)
+> -{
+> -	snprintf(str, size, "[%llu, %llu]", f->context, f->seqno);
+> -}
+> -
+> -static void virtio_gpu_timeline_value_str(struct dma_fence *f, char *str,
+> -					  int size)
+> -{
+> -	struct virtio_gpu_fence *fence = to_virtio_gpu_fence(f);
+> -
+> -	snprintf(str, size, "%llu",
+> -		 (u64)atomic64_read(&fence->drv->last_fence_id));
+> -}
+> -
+>  static const struct dma_fence_ops virtio_gpu_fence_ops = {
+>  	.get_driver_name     = virtio_gpu_get_driver_name,
+>  	.get_timeline_name   = virtio_gpu_get_timeline_name,
+>  	.signaled            = virtio_gpu_fence_signaled,
+> -	.fence_value_str     = virtio_gpu_fence_value_str,
+> -	.timeline_value_str  = virtio_gpu_timeline_value_str,
+>  };
+>  
+>  struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev,
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index e7ad819962e3..cf91cae6e30f 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -238,27 +238,6 @@ struct dma_fence_ops {
+>  	 */
+>  	void (*release)(struct dma_fence *fence);
+>  
+> -	/**
+> -	 * @fence_value_str:
+> -	 *
+> -	 * Callback to fill in free-form debug info specific to this fence, like
+> -	 * the sequence number.
+> -	 *
+> -	 * This callback is optional.
+> -	 */
+> -	void (*fence_value_str)(struct dma_fence *fence, char *str, int size);
+> -
+> -	/**
+> -	 * @timeline_value_str:
+> -	 *
+> -	 * Fills in the current value of the timeline as a string, like the
+> -	 * sequence number. Note that the specific fence passed to this function
+> -	 * should not matter, drivers should only use it to look up the
+> -	 * corresponding timeline structures.
+> -	 */
+> -	void (*timeline_value_str)(struct dma_fence *fence,
+> -				   char *str, int size);
+> -
+>  	/**
+>  	 * @set_deadline:
+>  	 *
+> -- 
+> 2.34.1
+> 
 
-Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
----
-v2:
- * set the 'field' in mxc_isi_video_buffer_prepare() as suggested by
-   Laurent;
- * change the commit subject to make it more generic as the fix does
-   not address only the M2M device compliance errors but also the
-   video capture ones;
-
- drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-index ddd42a8f17884..60c55d6839431 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-@@ -898,6 +898,7 @@ int mxc_isi_video_buffer_prepare(struct mxc_isi_dev *isi, struct vb2_buffer *vb2
- 				 const struct v4l2_pix_format_mplane *pix)
- {
- 	unsigned int i;
-+	struct vb2_v4l2_buffer *v4l2_buf = to_vb2_v4l2_buffer(vb2);
- 
- 	for (i = 0; i < info->mem_planes; i++) {
- 		unsigned long size = pix->plane_fmt[i].sizeimage;
-@@ -911,6 +912,8 @@ int mxc_isi_video_buffer_prepare(struct mxc_isi_dev *isi, struct vb2_buffer *vb2
- 		vb2_set_plane_payload(vb2, i, size);
- 	}
- 
-+	v4l2_buf->field = pix->field;
-+
- 	return 0;
- }
- 
 -- 
-2.44.1
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
