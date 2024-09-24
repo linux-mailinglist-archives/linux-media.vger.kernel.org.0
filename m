@@ -1,74 +1,54 @@
-Return-Path: <linux-media+bounces-18518-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18520-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627DB984862
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 17:16:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB03C9849F2
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 18:45:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D02F282764
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 15:16:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4CCBFB213D5
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 16:45:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 480EA14F9ED;
-	Tue, 24 Sep 2024 15:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E841ABEDD;
+	Tue, 24 Sep 2024 16:45:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C3nPpx7L"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="OmEObOsu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000F717579
-	for <linux-media@vger.kernel.org>; Tue, 24 Sep 2024 15:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA7D1AC428;
+	Tue, 24 Sep 2024 16:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727190971; cv=none; b=BMp/oodzDFht1MpUUzSbMHU9S4ZQZ7anO2f7U8YoMHn714m/G8snI6hVjTE7uauAqvJfZvXFV2sLq4nG22IDsjgwhBLbTQDDQcPvfG44ujgTIdDjyYRebInsKxmPLyXQarnMSswUdNNt8HdrHz6YZDWRIrgJeP4uV0l4fmn8cxU=
+	t=1727196326; cv=none; b=FnkRWhR3uAAR3wFi8g1JGtO+Pbdgqaajb3T5nodb29PezNKquREh5xQ+rrKc6LW7b8GybyXQgZkfWCAH8SOCqxhrLX/kOlWpfTWywqUcRKO94MxiEMG7sSyBaIMQtKOdR0XhrwaZuCgt10j/kF9oTKFPQAaowqY4Lv3so7FZ0EU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727190971; c=relaxed/simple;
-	bh=PwTDlLox2AQAmONIpbECM8jVk9QU0Vp6e7ZQgQ06bE0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qhW8KZIX9OaYe9YD5IN40x0X/K2O1vx2ow+ITHoCNRBe6r4NV4ytRWH37GO1GlIKd/vK3tUjvIEOdDGEXX93dIToWXbPmByYMG+THML8i3aVWisFPPUBBvAlULUIM7pmL1MQzB4tWGUe3g68FEmXOFqRZGiy/L69JjhBneMDOmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C3nPpx7L; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f74b6e1810so46883771fa.2
-        for <linux-media@vger.kernel.org>; Tue, 24 Sep 2024 08:16:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727190968; x=1727795768; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M2+kErz59ViWHYR3BIUhJh9tCnLP5LQVNzAaQ1sSNYU=;
-        b=C3nPpx7LcETD3OwJ5UC7uqNcT61XcL6WP2dt+Ga+OaNRsKz/2kEpJV8M5EUEopFb8F
-         rjtLXyiPPT8YkjnDgT35bLGfGZrYo97dcpHz1L0A8txhyerUQ1PN2a0RAEJJBSKUtA7v
-         aMlkD+tw6V+JPinEBIwIQyxgENhKuZfQpfOPkQyepr/VOYKFiHMfx8aflVQTICYbouXp
-         FUBMeQmcL7il1jnKTlgj77i6WHzuokxJXIZfMcs7pS5a6xhNH1IQFjyEgK2Cy0U3CoPZ
-         eTKGgS8hx78mikL6vHPjADgFj5dCXO2HNr+e9YNThrzMFfF3MtHlamObA1qtFpw8qYeZ
-         sGQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727190968; x=1727795768;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M2+kErz59ViWHYR3BIUhJh9tCnLP5LQVNzAaQ1sSNYU=;
-        b=RRk5oxd9tw7qnag6/xnlYCJTt6W2daqQmATQD9RIdgFX2Fv3fb6gzaTR10nl0fH+dJ
-         XHm8Z33Y6vsCqTQTmGvsv59xgMpgPuwOxnkHUIDfX1hmIJ9CPe/dexpzHxhn7GUb4gKG
-         TNNPw3IN+DltnyBiHjIuBSJIbejII5bpKv5DT9HVg0FSa1Mg/EJ9Is3s/Hnw/L7LvLUk
-         klgmTiRJhHGHjrTB2mYyeAbSoYRJoPy8f/4VjIV+i8Ds54FJRlC5pHU65CvpfX+q5ruF
-         krdPh8pREXbu+3rcvG91guuG0JuK7EsJ1SqQz/IpV2FYyp88fihEVHuX3532JN+rOdPN
-         mfQw==
-X-Gm-Message-State: AOJu0YzPpNmwqrhNlP65K8GBHepcq8XJqCg1vYx7xfBfyCWa3Z6Sehh+
-	XdqwqzO8bXRstEripfn3ITuyIUoaOrcWhkD+SYRWKS6JZQEIzVXMiezrX6YPZyTe81CaaIUndYn
-	H7d8=
-X-Google-Smtp-Source: AGHT+IGga//IkWzGe9va/Pn0IB7tDK/PAFPD+bS+JVMybUqi1i8ZQsWDZz9NCHDjyOTeeTzh5RfKGw==
-X-Received: by 2002:a2e:a593:0:b0:2f7:5980:78ca with SMTP id 38308e7fff4ca-2f7cb360495mr81537551fa.32.1727190968045;
-        Tue, 24 Sep 2024 08:16:08 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c5cf49d41esm841259a12.42.2024.09.24.08.16.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Sep 2024 08:16:07 -0700 (PDT)
-Message-ID: <b259f304-77a2-4b0e-a8b3-c8d0fb8f9750@linaro.org>
-Date: Tue, 24 Sep 2024 16:16:06 +0100
+	s=arc-20240116; t=1727196326; c=relaxed/simple;
+	bh=rCfIVPGFT37TLiSakYjQVCPJampvNGxibhpB8QAbAMw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Fns80NPQpFvUx8kK3M7quVm/4FheGJDuJ6/Aew97KFc00yg+Zp+sm+WCePPsgLFx7u5kkXKdBZvncI4jH5TBdLIKJS/hScXSJ0CSFCBjDfTGxpTgueTdSp3z7O5RBFXQxi+kmHQMu2ly9mm9cKV5dyMus4hO5DSlbireXzgarQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=OmEObOsu; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 5520388580;
+	Tue, 24 Sep 2024 18:45:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1727196319;
+	bh=/Jgh2J56THl4Ke+D7QEi5nBhb50MSZCH9cCXRjOyfYI=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=OmEObOsuIyMuuEy8T1cDPkzmwhe3PnLL+TB5IGYFqRdVpIQmqnaquhSYrLvmn9957
+	 2ZZJwClGW3YIJnYty1BS3bip4v1/5PsQ/kB9MQyT0jmAsJWiXJcJteNT/Cvb55Rzir
+	 LBkHEngLq8f+RJPX07nOtZbgV3JnEuR+t2L/4rzkgIQ4CFAdtZHVj0vFxx5RQjcBkH
+	 MOEiWssJSHcg8rpjSUvjdm589BHHe/9pXtY2c0IUrMlhdnCPSPj6d3/KJjM0SBIl2E
+	 2qGcMPcm4CeCdQy8fr9sILsjcAJMWeNP7eslmUH0Lgf2OVI8h6SrXkqXhUbLAronA/
+	 rqdythIZtZqrg==
+Message-ID: <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
+Date: Tue, 24 Sep 2024 17:28:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,137 +56,268 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 20/29] media: iris: subscribe parameters and properties
- to firmware for hfi_gen2
-To: quic_dikshita@quicinc.com, Vikash Garodia <quic_vgarodia@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Vedang Nagar <quic_vnagar@quicinc.com>
-References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
- <20240827-iris_v3-v3-20-c5fdbbe65e70@quicinc.com>
+From: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+To: Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240724002044.112544-1-marex@denx.de>
+ <20240724002044.112544-2-marex@denx.de>
+ <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
 Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240827-iris_v3-v3-20-c5fdbbe65e70@quicinc.com>
+In-Reply-To: <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-On 27/08/2024 11:05, Dikshita Agarwal via B4 Relay wrote:
-> From: Vedang Nagar <quic_vnagar@quicinc.com>
+On 9/6/24 11:01 AM, Philipp Zabel wrote:
+
+Hi,
+
+>> diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/staging/media/imx/imx-media-dev.c
+>> index be54dca11465d..a841fdb4c2394 100644
+>> --- a/drivers/staging/media/imx/imx-media-dev.c
+>> +++ b/drivers/staging/media/imx/imx-media-dev.c
+>> @@ -57,7 +57,52 @@ static int imx6_media_probe_complete(struct v4l2_async_notifier *notifier)
+>>   		goto unlock;
+>>   	}
+>>   
+>> +	imxmd->m2m_vdic[0] = imx_media_mem2mem_vdic_init(imxmd, 0);
+>> +	if (IS_ERR(imxmd->m2m_vdic[0])) {
+>> +		ret = PTR_ERR(imxmd->m2m_vdic[0]);
+>> +		imxmd->m2m_vdic[0] = NULL;
+>> +		goto unlock;
+>> +	}
+>> +
+>> +	/* MX6S/DL has one IPUv3, init second VDI only on MX6Q/QP */
+>> +	if (imxmd->ipu[1]) {
+>> +		imxmd->m2m_vdic[1] = imx_media_mem2mem_vdic_init(imxmd, 1);
+>> +		if (IS_ERR(imxmd->m2m_vdic[1])) {
+>> +			ret = PTR_ERR(imxmd->m2m_vdic[1]);
+>> +			imxmd->m2m_vdic[1] = NULL;
+>> +			goto uninit_vdi0;
+>> +		}
+>> +	}
 > 
-> For hfi_gen2, subscribe for different bitstream parameters to
-> firmware to get notified for change in any of the subscribed
-> parameters.
+> Instead of presenting two devices to userspace, it would be better to
+> have a single video device that can distribute work to both IPUs.
+
+Why do you think so ?
+
+I think it is better to keep the kernel code as simple as possible, i.e. 
+provide the device node for each m2m device to userspace and handle the 
+m2m device hardware interaction in the kernel driver, but let userspace 
+take care of policy like job scheduling, access permissions assignment 
+to each device (e.g. if different user accounts should have access to 
+different VDICs), or other such topics.
+
+> To be fair, we never implemented that for the CSC/scaler mem2mem device
+> either.
+
+I don't think that is actually a good idea. Instead, it would be better 
+to have two scaler nodes in userspace.
+
+[...]
+
+>> +++ b/drivers/staging/media/imx/imx-media-mem2mem-vdic.c
+>> @@ -0,0 +1,997 @@
+>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>> +/*
+>> + * i.MX VDIC mem2mem de-interlace driver
+>> + *
+>> + * Copyright (c) 2024 Marek Vasut <marex@denx.de>
+>> + *
+>> + * Based on previous VDIC mem2mem work by Steve Longerbeam that is:
+>> + * Copyright (c) 2018 Mentor Graphics Inc.
+>> + */
+>> +
+>> +#include <linux/delay.h>
+>> +#include <linux/fs.h>
+>> +#include <linux/module.h>
+>> +#include <linux/sched.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/version.h>
+>> +
+>> +#include <media/media-device.h>
+>> +#include <media/v4l2-ctrls.h>
+>> +#include <media/v4l2-device.h>
+>> +#include <media/v4l2-event.h>
+>> +#include <media/v4l2-ioctl.h>
+>> +#include <media/v4l2-mem2mem.h>
+>> +#include <media/videobuf2-dma-contig.h>
+>> +
+>> +#include "imx-media.h"
+>> +
+>> +#define fh_to_ctx(__fh)	container_of(__fh, struct ipu_mem2mem_vdic_ctx, fh)
+>> +
+>> +#define to_mem2mem_priv(v) container_of(v, struct ipu_mem2mem_vdic_priv, vdev)
 > 
-> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->   drivers/media/platform/qcom/iris/iris_hfi_gen2.h   |   6 +
->   .../platform/qcom/iris/iris_hfi_gen2_command.c     | 179 +++++++++++++++++++++
->   .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   9 ++
->   .../platform/qcom/iris/iris_platform_common.h      |   4 +
->   .../platform/qcom/iris/iris_platform_sm8550.c      |  13 ++
->   5 files changed, 211 insertions(+)
+> These could be inline functions for added type safety.
+
+Fixed in v3
+
+[...]
+
+>> +static void ipu_mem2mem_vdic_device_run(void *_ctx)
+>> +{
+>> +	struct ipu_mem2mem_vdic_ctx *ctx = _ctx;
+>> +	struct ipu_mem2mem_vdic_priv *priv = ctx->priv;
+>> +	struct vb2_v4l2_buffer *curr_buf, *dst_buf;
+>> +	dma_addr_t prev_phys, curr_phys, out_phys;
+>> +	struct v4l2_pix_format *infmt;
+>> +	u32 phys_offset = 0;
+>> +	unsigned long flags;
+>> +
+>> +	infmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+>> +	if (V4L2_FIELD_IS_SEQUENTIAL(infmt->field))
+>> +		phys_offset = infmt->sizeimage / 2;
+>> +	else if (V4L2_FIELD_IS_INTERLACED(infmt->field))
+>> +		phys_offset = infmt->bytesperline;
+>> +	else
+>> +		dev_err(priv->dev, "Invalid field %d\n", infmt->field);
+>> +
+>> +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+>> +	out_phys = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+>> +
+>> +	curr_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+>> +	if (!curr_buf) {
+>> +		dev_err(priv->dev, "Not enough buffers\n");
+>> +		return;
+>> +	}
+>> +
+>> +	spin_lock_irqsave(&priv->irqlock, flags);
+>> +
+>> +	if (ctx->curr_buf) {
+>> +		ctx->prev_buf = ctx->curr_buf;
+>> +		ctx->curr_buf = curr_buf;
+>> +	} else {
+>> +		ctx->prev_buf = curr_buf;
+>> +		ctx->curr_buf = curr_buf;
+>> +		dev_warn(priv->dev, "Single-buffer mode, fix your userspace\n");
+>> +	}
+>> +
+>> +	prev_phys = vb2_dma_contig_plane_dma_addr(&ctx->prev_buf->vb2_buf, 0);
+>> +	curr_phys = vb2_dma_contig_plane_dma_addr(&ctx->curr_buf->vb2_buf, 0);
+>> +
+>> +	priv->curr_ctx = ctx;
+>> +	spin_unlock_irqrestore(&priv->irqlock, flags);
+>> +
+>> +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
+>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset);
+>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
+>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset);
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2.h
-> index 8170c1fef569..5fbbab844025 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2.h
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2.h
-> @@ -18,12 +18,18 @@ struct iris_core;
->    *
->    * @inst: pointer to iris_instance structure
->    * @packet: HFI packet
-> + * @ipsc_properties_set: boolean to set ipsc properties to fw
-> + * @opsc_properties_set: boolean to set opsc properties to fw
->    * @src_subcr_params: subscription params to fw on input port
-> + * @dst_subcr_params: subscription params to fw on output port
->    */
->   struct iris_inst_hfi_gen2 {
->   	struct iris_inst		inst;
->   	struct iris_hfi_header		*packet;
-> +	bool				ipsc_properties_set;
-> +	bool				opsc_properties_set;
->   	struct hfi_subscription_params	src_subcr_params;
-> +	struct hfi_subscription_params	dst_subcr_params;
->   };
->   
->   void iris_hfi_gen2_command_ops_init(struct iris_core *core);
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> index e50f00021f6d..791b535a3584 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> @@ -472,6 +472,9 @@ static int iris_hfi_gen2_session_open(struct iris_inst *inst)
->   	if (inst->state != IRIS_INST_DEINIT)
->   		return -EALREADY;
->   
-> +	inst_hfi_gen2->ipsc_properties_set = false;
-> +	inst_hfi_gen2->opsc_properties_set = false;
-> +
->   	inst_hfi_gen2->packet = kzalloc(4096, GFP_KERNEL);
->   	if (!inst_hfi_gen2->packet)
->   		return -ENOMEM;
-> @@ -536,9 +539,185 @@ static int iris_hfi_gen2_session_close(struct iris_inst *inst)
->   	return ret;
->   }
->   
-> +static int iris_hfi_gen2_session_subscribe_mode(struct iris_inst *inst,
-> +						u32 cmd, u32 plane, u32 payload_type,
-> +						void *payload, u32 payload_size)
-> +{
-> +	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
-> +
-> +	iris_hfi_gen2_packet_session_command(inst,
-> +					     cmd,
-> +					     (HFI_HOST_FLAGS_RESPONSE_REQUIRED |
-> +					     HFI_HOST_FLAGS_INTR_REQUIRED),
-> +					     iris_hfi_gen2_get_port(plane),
-> +					     inst->session_id,
-> +					     payload_type,
-> +					     payload,
-> +					     payload_size);
-> +
-> +	return iris_hfi_queue_cmd_write(inst->core, inst_hfi_gen2->packet,
-> +					inst_hfi_gen2->packet->size);
-> +}
-> +
-> +static int iris_hfi_gen2_subscribe_change_param(struct iris_inst *inst, u32 plane)
-> +{
-> +	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
-> +	struct hfi_subscription_params subsc_params;
-> +	u32 prop_type, payload_size, payload_type;
-> +	struct iris_core *core = inst->core;
-> +	const u32 *change_param = NULL;
-> +	u32 change_param_size = 0;
-> +	u32 payload[32] = {0};
-> +	u32 hfi_port = 0;
-> +	int ret;
-> +	u32 i;
-> +
-> +	if ((V4L2_TYPE_IS_OUTPUT(plane) && inst_hfi_gen2->ipsc_properties_set) ||
-> +	    (V4L2_TYPE_IS_CAPTURE(plane) && inst_hfi_gen2->opsc_properties_set)) {
-> +		dev_err(core->dev, "invalid plane\n");
-> +		return 0;
-> +	}
-> +
-> +	change_param = core->iris_platform_data->input_config_params;
-> +	change_param_size = core->iris_platform_data->input_config_params_size;
-> +
-> +	if (!change_param || !change_param_size)
-> +		return -EINVAL;
+> This always outputs at a frame rate of half the field rate, and only
+> top fields are ever used as current field, and bottom fields as
+> previous/next fields, right?
 
-That's an odd one, checking for zero but _not_ bounds checking 
-chanage_param_size < (sizeof(payload)/sizeof(u32)) - 1
+Yes, currently the driver extracts 1 frame from two consecutive incoming 
+fields (previous Bottom, and current Top and Bottom):
 
-I'm not sure where inpug_config_param_size gets populated but I'd rather 
-check that type of parameter - for exactly that reason - than the 
-defensive coding done on your inputs elsewhere.
+(frame 1 and 3 below is omitted)
 
-TL;DR why do you trust change_param_size < your array size but not 
-change_param_size >= 1 ?
+     1  2  3  4
+...|T |T |T |T |...
+...| B| B| B| B|...
+      | ||  | ||
+      '-''  '-''
+       ||    ||
+       ||    \/
+       \/  Frame#4
+     Frame#2
 
----
-bod
+As far as I understand it, this is how the current VDI implementation 
+behaves too, right ?
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/staging/media/imx/imx-media-vdic.c#n207
+
+> I think it would be good to add a mode that doesn't drop the
+> 
+> 	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
+> 	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, prev_phys + phys_offset);
+> 	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys);
+> 
+> output frames, right from the start.
+
+This would make the VDI act as a frame-rate doubler, which would spend a 
+lot more memory bandwidth, which is limited on MX6, so I would also like 
+to have a frame-drop mode (i.e. current behavior).
+
+Can we make that behavior configurable ? Since this is a mem2mem device, 
+we do not really have any notion of input and output frame-rate, so I 
+suspect this would need some VIDIOC_* ioctl ?
+
+> If we don't start with that supported, I fear userspace will make
+> assumptions and be surprised when a full rate mode is added later.
+
+I'm afraid that since the current VDI already does retain input frame 
+rate instead of doubling it, the userspace already makes an assumption, 
+so that ship has sailed.
+
+But I think we can make the frame doubling configurable ?
+
+>> +	/* No double buffering, always pick buffer 0 */
+>> +	ipu_idmac_select_buffer(priv->vdi_out_ch, 0);
+>> +	ipu_idmac_select_buffer(priv->vdi_in_ch_p, 0);
+>> +	ipu_idmac_select_buffer(priv->vdi_in_ch, 0);
+>> +	ipu_idmac_select_buffer(priv->vdi_in_ch_n, 0);
+>> +
+>> +	/* Enable the channels */
+>> +	ipu_idmac_enable_channel(priv->vdi_out_ch);
+>> +	ipu_idmac_enable_channel(priv->vdi_in_ch_p);
+>> +	ipu_idmac_enable_channel(priv->vdi_in_ch);
+>> +	ipu_idmac_enable_channel(priv->vdi_in_ch_n);
+>> +}
+
+[...]
+
+>> +static int ipu_mem2mem_vdic_setup_hardware(struct ipu_mem2mem_vdic_priv *priv)
+>> +{
+>> +	struct v4l2_pix_format *infmt, *outfmt;
+>> +	struct ipu_ic_csc csc;
+>> +	bool in422, outyuv;
+>> +	int ret;
+>> +
+>> +	infmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+>> +	outfmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>> +	in422 = ipu_mem2mem_vdic_format_is_yuv422(infmt->pixelformat);
+>> +	outyuv = ipu_mem2mem_vdic_format_is_yuv(outfmt->pixelformat);
+>> +
+>> +	ipu_vdi_setup(priv->vdi, in422, infmt->width, infmt->height);
+>> +	ipu_vdi_set_field_order(priv->vdi, V4L2_STD_UNKNOWN, infmt->field);
+>> +	ipu_vdi_set_motion(priv->vdi, HIGH_MOTION);
+> 
+> This maps to VDI_C_MOT_SEL_FULL aka VDI_MOT_SEL=2, which is documented
+> as "full motion, only vertical filter is used". Doesn't this completely
+> ignore the previous/next fields and only use the output of the di_vfilt
+> four tap vertical filter block to fill in missing lines from the
+> surrounding pixels (above and below) of the current field?
+
+Is there a suitable knob for this or shall I introduce a device specific 
+one, like the vdic_ctrl_motion_menu for the current VDIC direct driver ?
+
+If we introduce such a knob, then it is all the more reason to provide 
+one device node per one VDIC hardware instance, since each can be 
+configured for different motion settings.
+
+> I think this should at least be configurable, and probably default to
+> MED_MOTION.
+
+I think to be compatible with the current VDI behavior and to reduce 
+memory bandwidth usage, let's default to the HIGH/full mode. That one 
+produces reasonably good results without spending too much memory 
+bandwidth which is constrained already on the MX6, and if the user needs 
+better image quality, they can configure another mode using the V4L2 
+control.
+
+[...]
 
