@@ -1,140 +1,156 @@
-Return-Path: <linux-media+bounces-18519-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18521-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E424D9849F1
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 18:45:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F11A0984A38
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 19:18:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20D7C1C227FE
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 16:45:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8AEC8B2138E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2024 17:18:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ABDF1ABEDA;
-	Tue, 24 Sep 2024 16:45:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB3F51AC427;
+	Tue, 24 Sep 2024 17:18:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="OsInmcF9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kbrpGWm2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FFE1AC442;
-	Tue, 24 Sep 2024 16:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A892E419;
+	Tue, 24 Sep 2024 17:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727196326; cv=none; b=gfKUrbjOezhaZZgTJ9n2LQoLUUgdevXE4+wxwRRd6gzlnwoQkVH9HJmID1wBsrpmHGz+H4qNZ2UJYRlYbmht+rCKndSxw1YtEIWb+T4Pm4Shtz3C63Tr3eddIjwbFoOUUTtR/QV3GZURXtJt+tcrRW5dGi9unUyLnpiJ+TE80fM=
+	t=1727198295; cv=none; b=mA7sS1n8c/BS7rsUuvogYYgyKjvAM0aZh3O2bvCbLgmFFYnK2+n7fStplkM2sa0kfsliSN3uT4A6+b7p4h2hyfMhgMbMDnH/IHZlSFxfmo7GcIq3i2nqedQ/OiIubdj9wPn71cOAmtTS88a7Xpl33ROYfulAK1OYBL8GtbpfZ1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727196326; c=relaxed/simple;
-	bh=InCCWoG3adxGtYBl1KJ1A0wtIntYs6J8nTlU5jG90Yo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KP5vgGWw6BrPwCMXpZ6fp3yHcZJTClijpmIyL1pQUMgtMzL0OLZkKTuxp59bEapfy5ZX4Ahb/JLrRYJUHW0ikvkxkbX9jgBzmG6aPMlC4CZz/00GwWijTLx8wtVWa7XiWQzqcHoVPianYJ+YGqaugFGiyCbaIyP1dGF8cacZZtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=OsInmcF9; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id B6FFB88599;
-	Tue, 24 Sep 2024 18:45:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1727196320;
-	bh=bWwrE328F7Z+63CI6eWDJIHlvUQra1+8FULnnYG6ROQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OsInmcF9MnpWRstLF1yZsIScU3ErKXqFbp7byMIsYMHRpRDmP5qw9rVnNVStMkIf2
-	 fKwGGuykws/4A6HnsPiZZQg4oUUm33udBmtt/BuG6bOMI7ajhVr4Bi+4w5NHkSZTsN
-	 oi8VlUC+K12JOtnmdiRmAKHtq91v7TYcmEz+0FZt+BlR4KNK/QnKHGfe2SAn1Om427
-	 AonOHwCV/HACE3csIk3ZRYqgvadLA5sVu+hDQ7Ntq1Mhf7c7mwdD06YyF7cWVFwEu4
-	 6uTTrLXMHR3A8NrD5PB9VgGbf3dLk+q+xtrYzh6I0aGuTQfKMl82Mn0dWH3XIUWL8N
-	 zk5rP6G14Z/eA==
-Message-ID: <0db95012-3ff6-41bf-85c8-ab0cdffdfc74@denx.de>
-Date: Tue, 24 Sep 2024 17:42:14 +0200
+	s=arc-20240116; t=1727198295; c=relaxed/simple;
+	bh=SDh/w9bYOwefz7vHc6h1SwrveHXcT778HDAlVUqm8NY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UJrGUhVBf0Cb+TOy03yrqByspOkPAgTaJhCWy0SuThL7Mhy8WkBjC/R0Url79T1ZYCqq5NJsNGT+JtH/L72ScWJ2JfcSWXwDqdzeIbW+SdtC60sUlIodvV3TzyE6yc9Qx7JqkYQ8lU3BXAXpzRbdctbcVIur1dzcX8psBoTA+og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kbrpGWm2; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 090B719BA;
+	Tue, 24 Sep 2024 19:16:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1727198202;
+	bh=SDh/w9bYOwefz7vHc6h1SwrveHXcT778HDAlVUqm8NY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kbrpGWm2C3eLPF/4upHVSAiEaLjx9FeY7fwYC/vIXZJvsY9NSOFOASb5EgvjOBkO2
+	 uR+ekoGYYdJAP+5ML8I9sb65FZuss09drV6f+wqenx5H4sUexHkMs4X354Au7j+Mvl
+	 mFcyubbPes5HkZTBXY9pBNO+ix8Al7Sz00Leq9qo=
+Date: Tue, 24 Sep 2024 20:17:36 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH 1/4] media: v4l2-subdev: Add cleanup macros for active
+ state
+Message-ID: <20240924171736.GE30551@pendragon.ideasonboard.com>
+References: <20240917-scoped-state-v1-0-b8ba3fbe5952@ideasonboard.com>
+ <20240917-scoped-state-v1-1-b8ba3fbe5952@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <5e5fba4fd6c3c0c9df23697bd328367e5fdfa923.camel@ndufresne.ca>
- <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
- <2229769f3a9baf58fbeeed93fa4b0373a02055e3.camel@ndufresne.ca>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <2229769f3a9baf58fbeeed93fa4b0373a02055e3.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240917-scoped-state-v1-1-b8ba3fbe5952@ideasonboard.com>
 
-On 7/30/24 6:05 PM, Nicolas Dufresne wrote:
+Hi Tomi,
 
-Hi,
+Thank you for the patch.
 
-sorry for the abysmal delay.
-
->>> Le mercredi 24 juillet 2024 à 02:19 +0200, Marek Vasut a écrit :
->>>> Introduce dedicated memory-to-memory IPUv3 VDI deinterlacer driver.
->>>> Currently the IPUv3 can operate VDI in DIRECT mode, from sensor to
->>>> memory. This only works for single stream, that is, one input from
->>>> one camera is deinterlaced on the fly with a helper buffer in DRAM
->>>> and the result is written into memory.
->>>>
->>>> The i.MX6Q/QP does support up to four analog cameras via two IPUv3
->>>> instances, each containing one VDI deinterlacer block. In order to
->>>> deinterlace all four streams from all four analog cameras live, it
->>>> is necessary to operate VDI in INDIRECT mode, where the interlaced
->>>> streams are written to buffers in memory, and then deinterlaced in
->>>> memory using VDI in INDIRECT memory-to-memory mode.
->>>
->>> Just a quick design question. Is it possible to chain the deinterlacer and the
->>> csc-scaler ?
->>
->> I think you could do that.
->>
->>> If so, it would be much more efficient if all this could be
->>> combined into the existing m2m driver, since you could save a memory rountrip
->>> when needing to deinterlace, change the colorspace and possibly scale too.
->>
->> The existing PRP/IC driver is similar to what this driver does, yes, but
->> it uses a different DMA path , I believe it is IDMAC->PRP->IC->IDMAC .
->> This driver uses IDMAC->VDI->IC->IDMAC . I am not convinced mixing the
->> two paths into a single driver would be beneficial, but I am reasonably
->> sure it would be very convoluted. Instead, this driver could be extended
->> to do deinterlacing and scaling using the IC if that was needed. I think
->> that would be the cleaner approach.
+On Tue, Sep 17, 2024 at 05:09:29PM +0300, Tomi Valkeinen wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > 
-> Not that I only meant to ask if there was a path to combine
-> CSC/Scaling/Deinterlacing without a memory rountrip. If a rountrip is needed
-> anyway, I would rather make separate video nodes, and leave it to userspace to
-> deal with. Though, if we can avoid it, a combined driver should be highly
-> beneficial.
-The VDI mem2mem driver already uses the IC as an output path from the 
-deinterlacer, IC is capable of scaling and it could be configured to do 
-scaling. The IC configuration in the VDI mem2mem driver is some 10 lines 
-of code (select input and output colorspace, and input and output image 
-resolution), the rest of the VDI mem2mem driver is interaction with the 
-VDI itself.
+> Add cleanup macros for active state. These can be used to call
+> v4l2_subdev_lock_and_get_active_state() and manage the unlocking either
+> in unscoped or scoped fashion:
+> 
+> This locks the state, gets it to the 'state' variable, and unlocks when
+> exiting the surrounding scope:
+> 
+> CLASS(v4l2_subdev_lock_and_get_active_state, state)(subdev);
+> 
+> This does the same, but inside the given scope:
+> 
+> scoped_v4l2_subdev_lock_and_get_active_state(subdev) {
+> }
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  include/media/v4l2-subdev.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index bd235d325ff9..699007cfffd7 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -8,6 +8,7 @@
+>  #ifndef _V4L2_SUBDEV_H
+>  #define _V4L2_SUBDEV_H
+>  
+> +#include <linux/cleanup.h>
+>  #include <linux/types.h>
+>  #include <linux/v4l2-subdev.h>
+>  #include <media/media-entity.h>
+> @@ -1854,6 +1855,15 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
+>  	return sd->active_state;
+>  }
+>  
+> +DEFINE_CLASS(v4l2_subdev_lock_and_get_active_state, struct v4l2_subdev_state *,
+> +	     v4l2_subdev_unlock_state(_T),
+> +	     v4l2_subdev_lock_and_get_active_state(sd), struct v4l2_subdev *sd);
+> +
+> +#define scoped_v4l2_subdev_lock_and_get_active_state(sd)              \
+> +	for (CLASS(v4l2_subdev_lock_and_get_active_state, state)(sd), \
+> +	     *done = NULL;                                            \
+> +	     !done; done = (void *)1)
 
-Since the IC configuration (i.e. color space conversion and scaling) is 
-already well factored out, I think mixing the VDI and CSC drivers 
-wouldn't bring any real benefit, it would only make the code more 
-complicated.
+That a very long name :-S Could this be done using the scoped_guard()
+macro instead ? For instance, with spinlocks you can do
 
-[...]
+	scoped_guard(spinlock_irqsave, &dev->lock) {
+		...
+	}
+
+It would be nice to be able to write
+
+	scoped_guard(v4l2_subdev_state, sd) {
+		...
+	}
+
+This being said, we would then end up with the state variable being
+named scope, which wouldn't be great.
+
+This is actually one of my issues with the above macros, and especially
+scoped_v4l2_subdev_lock_and_get_active_state(). It creates a local state
+variable in the scope, which makes the code less readable in my opinion.
+
+We could keep the class and drop
+scoped_v4l2_subdev_lock_and_get_active_state(). I think I would like to
+shorten the class name then.
+
+Another option is to use DEFINE_FREE() and __free() instead.
+
+> +
+>  /**
+>   * v4l2_subdev_init - initializes the sub-device struct
+>   *
+> 
+
+-- 
+Regards,
+
+Laurent Pinchart
 
