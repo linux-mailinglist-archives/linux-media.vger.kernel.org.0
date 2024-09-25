@@ -1,231 +1,108 @@
-Return-Path: <linux-media+bounces-18539-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18540-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB21985380
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 09:15:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49406985446
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 09:37:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43B0F2823D7
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 07:15:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08F8B281379
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 07:37:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB524155359;
-	Wed, 25 Sep 2024 07:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K3x08vSL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E9A8157466;
+	Wed, 25 Sep 2024 07:37:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36827154423
-	for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 07:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD09154BF5
+	for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 07:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727248512; cv=none; b=tYhF82QqU90RDkzMOrMMxQ4mP4+wIIp6gur0Q3TXH9LH0lHlczvzcy20D8eDBqREn4l0R+GkZvdTywu0n/gN+efsO3xbJs/eLqIoRJgyG5ChCoqryEfCrF3PYBYHkvilwLUDz/Q3//06rjkMR7XfRZ/gt1NKosiBSaiQfW1MwkI=
+	t=1727249828; cv=none; b=qFmyDwbWjZekDXF7+rb2gzNgSIi0EPN25JeLKGohfDVpaDeKFD7kvC9RaH4DWmZyW72Vd65EEcQyimzc1SSpdZuyBcc0tOldI9wDpsaLJsedykUBfb+skt+Sd3FZ09XqcPSr8bqAsO9sdIRUxRYLnFHoJkVakx8EIFVov0+H7Lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727248512; c=relaxed/simple;
-	bh=YvH5CO/g/ZZSGTW6Ve+4KcjKGOqOYedFuS4vYOlaBCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XtMa+n+ZOY7WLdO8dtkRU32wQzrdflMUB/mBFgjiFyPJhDFRWrmq7koR2o1WDOvuK62yVjDcDMFKb8D9ezhqyt97D6vJv2fn7B39qSTvUL8gU//6IpUlExY1GV27mBgYIyMJ7mZlU0n/FT2weniObus8cuZsFIyMNuEA1FEw0Q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K3x08vSL; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a86e9db75b9so1001981766b.1
-        for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 00:15:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727248508; x=1727853308; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TDaNdhjF6czZwZ8GYJQ+xlqUWHjP+ROLSrQsWDOJZts=;
-        b=K3x08vSLc2O2J/FoeZVxTfvniV8zz3At4298ho6IWsjEWLXrlrUbESVsXgrQ0npS3n
-         kYNLLltJlJi7Dm3cYlfA8pGMAgMEnJ06L+jqf3IDJD8qhUrj0cpa3D8PXxHjVz3TEVKI
-         xtBZwCZjrwWncn5stzABQEh/nEMYW+Uwmu0yi3YtjmLiOB42SskJY6fkMf0WDn+FgeZ8
-         +0uBgT2Gu5PiqV92zWSonqKiL0s8qW1mlAdwineqvjPzsRj2kTV530R5gibC6JMAErjJ
-         tJtjmcg33LngHrCNlbKQNsZCn0z+KeEJ/Yadomo5Mld1kZJxRL1Ka+vpUoh1xJKNQdH0
-         f63A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727248508; x=1727853308;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TDaNdhjF6czZwZ8GYJQ+xlqUWHjP+ROLSrQsWDOJZts=;
-        b=py0voXNfIsAC/fYYGckOqasMZVnvePlRcFtpgrEQ1uRkIGYXO8n58q8H2PwAcFjOCN
-         PK7mm0OWwSDis7iPEzgy/pFoBPG7X4EbVEpzImmsVW4uDHzpnACKqxiJ1sOnVy5H9TYa
-         winbP2VGsdl6MXU7D3OAq6sc4ore6KbOpiCqtow4NOQHy1twq1mWx0mdTpcmr3g60G2Q
-         +izgAB+YKxl0EQZ/lSeURWQx0U3rYhf44CK37oohvs7jAMiMZNIpTFpV6aEX0eb9Ss08
-         UAr1xe4wV5OR36bZXJ3H5YcDJLD114NKoXCSP1gjenx+P24mAV+xlVcX5mQwxP1OXU7V
-         u7dA==
-X-Forwarded-Encrypted: i=1; AJvYcCWwX+8IfK0sq+mjxx5rq+y7Yv8ELl3OxnxdRs4TTqjmhFpyeYErbYXh2l7It/02jre8AI4R0KxOszgkhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzT/3pEEzShcQdGI+p+def8BD5HkdZ8jxRxUxUcDnvhWNSAFW5r
-	cb9AVX8sFKns+z7l089gsSa5CZLHv6NlUzo5CLKT8qhRORw/lvNfh80VcCSfZdU=
-X-Google-Smtp-Source: AGHT+IHv93X+9j84xZuTxFkaqtse2mqrU5kPecB2WQv7iIqPArSVbHN4jb/WWw/ItxeQzBtjVNzB3Q==
-X-Received: by 2002:a17:907:e656:b0:a86:9644:2a60 with SMTP id a640c23a62f3a-a93a03200d0mr161368666b.6.1727248508395;
-        Wed, 25 Sep 2024 00:15:08 -0700 (PDT)
-Received: from rayden (h-217-31-164-171.A175.priv.bahnhof.se. [217.31.164.171])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9393138bd5sm174570466b.205.2024.09.25.00.15.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 00:15:06 -0700 (PDT)
-Date: Wed, 25 Sep 2024 09:15:04 +0200
-From: Jens Wiklander <jens.wiklander@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Olivier Masse <olivier.masse@nxp.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T . J . Mercier" <tjmercier@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Sumit Garg <sumit.garg@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [RFC PATCH 0/4] Linaro restricted heap
-Message-ID: <20240925071504.GA3519798@rayden>
-References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
- <dhxvyshwi4qmcmwceokhqey2ww4azjcs6qrpnkgivdj7tv5cke@r36srvvbof6q>
+	s=arc-20240116; t=1727249828; c=relaxed/simple;
+	bh=0MQ+9H8fy8+rnoy5ZKQqpi9QlI7i56xTukRnFS3rjAA=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=QPALBEfzsJF37zAXCLn6nPcT3kU8aNzhMEpdoTAxySIDUgjxtrMxm1LlDtNpbCDvMXlBe4lxNDoGl1UIg709gZ8WQinr5LJsT2+7fpnjTzFhrdEDJAh2UNslOukrWPmJR8/2eq1l/FD1/dyYAMdqh5+I0fOBZRQfc2jzmkMDG6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08603C4CEC6
+	for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 07:37:07 +0000 (UTC)
+Message-ID: <43d49557-5924-4102-a948-ec5099573463@xs4all.nl>
+Date: Wed, 25 Sep 2024 09:37:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <dhxvyshwi4qmcmwceokhqey2ww4azjcs6qrpnkgivdj7tv5cke@r36srvvbof6q>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] mailmap: add entries for Hans Verkuil
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 23, 2024 at 09:33:29AM +0300, Dmitry Baryshkov wrote:
-> Hi,
-> 
-> On Fri, Aug 30, 2024 at 09:03:47AM GMT, Jens Wiklander wrote:
-> > Hi,
-> > 
-> > This patch set is based on top of Yong Wu's restricted heap patch set [1].
-> > It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
-> > 
-> > The Linaro restricted heap uses genalloc in the kernel to manage the heap
-> > carvout. This is a difference from the Mediatek restricted heap which
-> > relies on the secure world to manage the carveout.
-> > 
-> > I've tried to adress the comments on [2], but [1] introduces changes so I'm
-> > afraid I've had to skip some comments.
-> 
-> I know I have raised the same question during LPC (in connection to
-> Qualcomm's dma-heap implementation). Is there any reason why we are
-> using generic heaps instead of allocating the dma-bufs on the device
-> side?
-> 
-> In your case you already have TEE device, you can use it to allocate and
-> export dma-bufs, which then get imported by the V4L and DRM drivers.
-> 
-> I have a feeling (I might be completely wrong here) that by using
-> generic dma-buf heaps we can easily end up in a situation when the
-> userspace depends heavily on the actual platform being used (to map the
-> platform to heap names). I think we should instead depend on the
-> existing devices (e.g. if there is a TEE device, use an IOCTL to
-> allocate secured DMA BUF from it, otherwise check for QTEE device,
-> otherwise check for some other vendor device).
+Map my work email and my 'courtesy' hverkuil-cisco email to my
+standard personal email.
 
-That makes sense, it's similar to what we do with TEE_IOC_SHM_ALLOC
-where we allocate from a carveout reserverd for shared memory with the
-secure world. It was even based on dma-buf until commit dfd0743f1d9e
-("tee: handle lookup of shm with reference count 0").
-
-We should use a new TEE_IOC_*_ALLOC for these new dma-bufs to avoid
-confusion and to have more freedom when designing the interface.
-
-> 
-> The mental experiment to check if the API is correct is really simple:
-> Can you use exactly the same rootfs on several devices without
-> any additional tuning (e.g. your QEMU, HiKey, a Mediatek board, Qualcomm
-> laptop, etc)?
-
-No, I don't think so.
-
-> 
-> > 
-> > This can be tested on QEMU with the following steps:
-> > repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
-> >         -b prototype/sdp-v1
-> > repo sync -j8
-> > cd build
-> > make toolchains -j4
-> > make all -j$(nproc)
-> > make run-only
-> > # login and at the prompt:
-> > xtest --sdp-basic
-> > 
-> > https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> > list dependencies needed to build the above.
-> > 
-> > The tests are pretty basic, mostly checking that a Trusted Application in
-> > the secure world can access and manipulate the memory.
-> 
-> - Can we test that the system doesn't crash badly if user provides
->   non-secured memory to the users which expect a secure buffer?
-> 
-> - At the same time corresponding entities shouldn't decode data to the
->   buffers accessible to the rest of the sytem.
-
-I'll a few tests along that.
-
-Thanks,
-Jens
-
-> 
-> > 
-> > Cheers,
-> > Jens
-> > 
-> > [1] https://lore.kernel.org/dri-devel/20240515112308.10171-1-yong.wu@mediatek.com/
-> > [2] https://lore.kernel.org/lkml/20220805135330.970-1-olivier.masse@nxp.com/
-> > 
-> > Changes since Olivier's post [2]:
-> > * Based on Yong Wu's post [1] where much of dma-buf handling is done in
-> >   the generic restricted heap
-> > * Simplifications and cleanup
-> > * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf heap
-> >   support"
-> > * Replaced the word "secure" with "restricted" where applicable
-> > 
-> > Etienne Carriere (1):
-> >   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
-> > 
-> > Jens Wiklander (2):
-> >   dma-buf: heaps: restricted_heap: add no_map attribute
-> >   dma-buf: heaps: add Linaro restricted dmabuf heap support
-> > 
-> > Olivier Masse (1):
-> >   dt-bindings: reserved-memory: add linaro,restricted-heap
-> > 
-> >  .../linaro,restricted-heap.yaml               |  56 ++++++
-> >  drivers/dma-buf/heaps/Kconfig                 |  10 ++
-> >  drivers/dma-buf/heaps/Makefile                |   1 +
-> >  drivers/dma-buf/heaps/restricted_heap.c       |  17 +-
-> >  drivers/dma-buf/heaps/restricted_heap.h       |   2 +
-> >  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++++++++
-> >  drivers/tee/tee_core.c                        |  38 ++++
-> >  drivers/tee/tee_shm.c                         | 104 ++++++++++-
-> >  include/linux/tee_drv.h                       |  11 ++
-> >  include/uapi/linux/tee.h                      |  29 +++
-> >  10 files changed, 426 insertions(+), 7 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
-> >  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.c
-> > 
-> > -- 
-> > 2.34.1
-> > 
-> 
-> -- 
-> With best wishes
-> Dmitry
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/.mailmap b/.mailmap
+index e51d76df75c2..8f13fbfeb0a4 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -239,6 +239,8 @@ Guru Das Srinagesh <quic_gurus@quicinc.com> <gurus@codeaurora.org>
+ Gustavo Padovan <gustavo@las.ic.unicamp.br>
+ Gustavo Padovan <padovan@profusion.mobi>
+ Hanjun Guo <guohanjun@huawei.com> <hanjun.guo@linaro.org>
++Hans Verkuil <hverkuil@xs4all.nl> <hansverk@cisco.com>
++Hans Verkuil <hverkuil@xs4all.nl> <hverkuil-cisco@xs4all.nl>
+ Heiko Carstens <hca@linux.ibm.com> <h.carstens@de.ibm.com>
+ Heiko Carstens <hca@linux.ibm.com> <heiko.carstens@de.ibm.com>
+ Heiko Stuebner <heiko@sntech.de> <heiko.stuebner@bqreaders.com>
 
