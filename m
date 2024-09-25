@@ -1,310 +1,240 @@
-Return-Path: <linux-media+bounces-18546-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18547-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E05A9856BA
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 11:56:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9775E9859E9
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 14:03:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 589572874AD
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 09:56:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF3F0B22CB5
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 12:03:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77B06158557;
-	Wed, 25 Sep 2024 09:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C3E51B1510;
+	Wed, 25 Sep 2024 11:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D1tMJt/X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A19E13B284;
-	Wed, 25 Sep 2024 09:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B911B14FF
+	for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 11:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727258171; cv=none; b=dJRUxqRYnd6dVvsSbk69ZziYcyLJfypxtl+pxJPvLQrkN21s14utV4VOp86QgrnNRldkpkdaTCJAGF9ymq4LmSK4ZIXwZZm2iwRXspNlYgVwATLgPgoPv16u1jo/PckbRDoggJUcrWYSBfsIuJ20IiylFTCIehwin751mD8eX5s=
+	t=1727264476; cv=none; b=W6v+Dv/0a+zQXBDbYIdGIh7h3Co+VYuNZAO1OtJWgHWHCBFubk6lvOiBqz74lSa1Tc0YT6OJLsjbBPDuS+oGY2wEVRVpcL9GcDlhZdXH9NJIPF/z3h1LfeRXoE+8lIFzlJb5gqNUp4auGN3Uid8t9ObpY8oVcEYZeJfgOMpn4G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727258171; c=relaxed/simple;
-	bh=SKG7T5E2iG+DmItT/XrkXD2mDXw496/hmcH5RpxfgTs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qzkK43rwAlxF/zH6jN4icxV4Nb425DbBHTu3c+uUhpR301lpDjztYehq/VlbHJNqvFvumgw0DEFDFSUs0bp+m7Yz1W5ZgG2NKQA9UNBRE3V9ob8Gk1ZLAT44F9FtaswKgFNlKT8sKcMWMZ/l97yMNq9TzBmqjMCo9QFhaXT0XwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1EFD512FC;
-	Wed, 25 Sep 2024 02:56:37 -0700 (PDT)
-Received: from [10.57.78.226] (unknown [10.57.78.226])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6EB9E3F64C;
-	Wed, 25 Sep 2024 02:56:04 -0700 (PDT)
-Message-ID: <033f8885-9c0e-4c5a-a272-baf48807dc5d@arm.com>
-Date: Wed, 25 Sep 2024 10:56:01 +0100
+	s=arc-20240116; t=1727264476; c=relaxed/simple;
+	bh=1TjHviNtJD6f6Ks5DxlP5+P6W1/bFmhn5hpDnHZbYtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TactrszkEYFyUJ6s/OK8GXCgMxQNN3ACBzuP4LcllmXdOUauAEzd19AWTYTQSDf0N4kzu6OlhlHMt0Ez7OKGuWw1wVCKveULKVoF5ibwhKmCbZmhno2ds+GlsmbjJ/XNOrmfRy3R+fKKnwcDiW77Tw2ZpHzVvYEBLVFP26dIa5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D1tMJt/X; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5365c512b00so1394005e87.3
+        for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 04:41:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727264471; x=1727869271; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eq5kqVdxIPnr1qj+gRKTOVccfM5+TlCgxfIme/nC8tk=;
+        b=D1tMJt/XpgwY3G3W7ZEBendA454+LkkYn/lNnMUi/tu0Tg/j3QHP8rbsI9Dpsl2Zp9
+         phYLFOvBfyaEOKIo69om0rX90++/qEDSBsRGRIhClseVxb6DUdgDd6FVLf5QTvxSTc9J
+         +pr14TS/gzvEg72q+1ZkRYu8Yfjb0p3J0ywxYMPwVoFqxL+ZEaf8pE0SSJS+u4nGuMHe
+         sPBCLkUtYuJMAq3tsJDHmcIGirA7xomgjM7JKhtGNWemnetD+3gVp/hf6JQaNQu8dd1E
+         ZumVcMvcC3n/TtvL9ImNE8GnmEbnpu6HLiBF025FH/ieKv55GQN/VegxFl3litChnlby
+         p4bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727264471; x=1727869271;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eq5kqVdxIPnr1qj+gRKTOVccfM5+TlCgxfIme/nC8tk=;
+        b=I17fhI5QRC9QmccWo7BaJPk3/VGT+8wqHcRSXCwtf4FW0XgAlOAf016W92oHJw5cGH
+         OzoxStLCGJxMbetSkX68tqOC4aauXjnkJQ3xltnol74xYA3LnPixG59n+crBs1AiA/WA
+         +fmQl8AD/Mun8YTQP0+QEcze5DPfaPhN5TqBgzoE+MTIFKiZbq61ouJip1Hvf9xkLiq/
+         t6rNlgmewIBvXlHBFAB+MCHLVESy4Ylz1l7wagqtt/vR2sw8DoXfi6f2LpZJ6hbqgbbN
+         5ziXTuC3N26k7OiJke6lMoWgODPWkYUjFcnnOBlW5Y3pFZTLSKuChqLBvmTEmjxtGEnG
+         BrWA==
+X-Forwarded-Encrypted: i=1; AJvYcCV/jCq7aWUq5Ft2syYS+US63xs/lmavYuXSppNhLjNGOmLDonvzGbPKnFiVGs5NGMO7DCmGSyIEC1dtOA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3MfHODpofwhbSDUDPghnFH60V2j9j8gXqqKfLBgwqVhp0Xkr3
+	x7fQ6RVNDH/Gkdvf3pEDlIQv6w0tKHAAWt61dNudMTixo+m/D8FoIPY1QEVUtg0=
+X-Google-Smtp-Source: AGHT+IHqv2IMWN3oXR6umOJo26p2rI5FNSuQAxfP5Ks/Hkq3jsOKqQQKyJ6wBA/PwN9+yj2xFK6XGw==
+X-Received: by 2002:a05:6512:3d0a:b0:52e:74d5:89ae with SMTP id 2adb3069b0e04-5387c7799d8mr1295841e87.39.1727264470164;
+        Wed, 25 Sep 2024 04:41:10 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-537a85e5bf3sm500872e87.75.2024.09.25.04.41.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2024 04:41:09 -0700 (PDT)
+Date: Wed, 25 Sep 2024 14:41:07 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T . J . Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [RFC PATCH 0/4] Linaro restricted heap
+Message-ID: <bktt4yanmfn4gjljy2wxmigj6mncpga237oxyf4g4h2vxu2a3q@asnsn7smi4u2>
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <dhxvyshwi4qmcmwceokhqey2ww4azjcs6qrpnkgivdj7tv5cke@r36srvvbof6q>
+ <20240925071504.GA3519798@rayden>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
- accounting
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <5c4d1008-261f-4c47-ab73-c527675484a4@arm.com>
- <bq6lctwgpsxvrdaajmjo3xdjt32srmsxvjhtzyebdj6izjzoaw@6duby4axg3pf>
- <ef799587-f7c2-472a-8550-9c40a395eccb@arm.com>
- <jgdknf77n6vqanh4jv2yixe4n4hsbhqqhth4beued4topggwgz@wx7bumhrbpje>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <jgdknf77n6vqanh4jv2yixe4n4hsbhqqhth4beued4topggwgz@wx7bumhrbpje>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240925071504.GA3519798@rayden>
 
-On 23/09/2024 21:43, Adrián Larumbe wrote:
-> Hi Steve,
+On Wed, Sep 25, 2024 at 09:15:04AM GMT, Jens Wiklander wrote:
+> On Mon, Sep 23, 2024 at 09:33:29AM +0300, Dmitry Baryshkov wrote:
+> > Hi,
+> > 
+> > On Fri, Aug 30, 2024 at 09:03:47AM GMT, Jens Wiklander wrote:
+> > > Hi,
+> > > 
+> > > This patch set is based on top of Yong Wu's restricted heap patch set [1].
+> > > It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
+> > > 
+> > > The Linaro restricted heap uses genalloc in the kernel to manage the heap
+> > > carvout. This is a difference from the Mediatek restricted heap which
+> > > relies on the secure world to manage the carveout.
+> > > 
+> > > I've tried to adress the comments on [2], but [1] introduces changes so I'm
+> > > afraid I've had to skip some comments.
+> > 
+> > I know I have raised the same question during LPC (in connection to
+> > Qualcomm's dma-heap implementation). Is there any reason why we are
+> > using generic heaps instead of allocating the dma-bufs on the device
+> > side?
+> > 
+> > In your case you already have TEE device, you can use it to allocate and
+> > export dma-bufs, which then get imported by the V4L and DRM drivers.
+> > 
+> > I have a feeling (I might be completely wrong here) that by using
+> > generic dma-buf heaps we can easily end up in a situation when the
+> > userspace depends heavily on the actual platform being used (to map the
+> > platform to heap names). I think we should instead depend on the
+> > existing devices (e.g. if there is a TEE device, use an IOCTL to
+> > allocate secured DMA BUF from it, otherwise check for QTEE device,
+> > otherwise check for some other vendor device).
 > 
-> On 23.09.2024 09:55, Steven Price wrote:
->> On 20/09/2024 23:36, Adrián Larumbe wrote:
->>> Hi Steve, thanks for the review.
->>
->> Hi Adrián,
->>
->>> I've applied all of your suggestions for the next patch series revision, so I'll
->>> only be answering to your question about the calc_profiling_ringbuf_num_slots
->>> function further down below.
->>>
->>
->> [...]
->>
->>>>> @@ -3003,6 +3190,34 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
->>>>>  	.free_job = queue_free_job,
->>>>>  };
->>>>>  
->>>>> +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
->>>>> +				       u32 cs_ringbuf_size)
->>>>> +{
->>>>> +	u32 min_profiled_job_instrs = U32_MAX;
->>>>> +	u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
->>>>> +
->>>>> +	/*
->>>>> +	 * We want to calculate the minimum size of a profiled job's CS,
->>>>> +	 * because since they need additional instructions for the sampling
->>>>> +	 * of performance metrics, they might take up further slots in
->>>>> +	 * the queue's ringbuffer. This means we might not need as many job
->>>>> +	 * slots for keeping track of their profiling information. What we
->>>>> +	 * need is the maximum number of slots we should allocate to this end,
->>>>> +	 * which matches the maximum number of profiled jobs we can place
->>>>> +	 * simultaneously in the queue's ring buffer.
->>>>> +	 * That has to be calculated separately for every single job profiling
->>>>> +	 * flag, but not in the case job profiling is disabled, since unprofiled
->>>>> +	 * jobs don't need to keep track of this at all.
->>>>> +	 */
->>>>> +	for (u32 i = 0; i < last_flag; i++) {
->>>>> +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
->>>>> +			min_profiled_job_instrs =
->>>>> +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
->>>>> +	}
->>>>> +
->>>>> +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
->>>>> +}
->>>>
->>>> I may be missing something, but is there a situation where this is
->>>> different to calc_job_credits(0)? AFAICT the infrastructure you've added
->>>> can only add extra instructions to the no-flags case - whereas this
->>>> implies you're thinking that instructions may also be removed (or replaced).
->>>>
->>>> Steve
->>>
->>> Since we create a separate kernel BO to hold the profiling information slot, we
->>> need one that would be able to accomodate as many slots as the maximum number of
->>> profiled jobs we can insert simultaneously into the queue's ring buffer. Because
->>> profiled jobs always take more instructions than unprofiled ones, then we would
->>> usually need fewer slots than the number of unprofiled jobs we could insert at
->>> once in the ring buffer.
->>>
->>> Because we represent profiling metrics with a bit mask, then we need to test the
->>> size of the CS for every single metric enabled in isolation, since enabling more
->>> than one will always mean a bigger CS, and therefore fewer jobs tracked at once
->>> in the queue's ring buffer.
->>>
->>> In our case, calling calc_job_credits(0) would simply tell us the number of
->>> instructions we need for a normal job with no profiled features enabled, which
->>> would always requiere less instructions than profiled ones, and therefore more
->>> slots in the profiling info kernel BO. But we don't need to keep track of
->>> profiling numbers for unprofiled jobs, so there's no point in calculating this
->>> number.
->>>
->>> At first I was simply allocating a profiling info kernel BO as big as the number
->>> of simultaneous unprofiled job slots in the ring queue, but Boris pointed out
->>> that since queue ringbuffers can be as big as 2GiB, a lot of this memory would
->>> be wasted, since profiled jobs always require more slots because they hold more
->>> instructions, so fewer profiling slots in said kernel BO.
->>>
->>> The value of this approach will eventually manifest if we decided to keep track of
->>> more profiling metrics, since this code won't have to change at all, other than
->>> adding new profiling flags in the panthor_device_profiling_flags enum.
->>
->> Thanks for the detailed explanation. I think what I was missing is that
->> the loop is checking each bit flag independently and *not* checking
->> calc_job_credits(0).
->>
->> The check for (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL) is probably what
->> confused me - that should be completely redundant. Or at least we need
->> something more intelligent if we have profiling bits which are not
->> mutually compatible.
+> That makes sense, it's similar to what we do with TEE_IOC_SHM_ALLOC
+> where we allocate from a carveout reserverd for shared memory with the
+> secure world. It was even based on dma-buf until commit dfd0743f1d9e
+> ("tee: handle lookup of shm with reference count 0").
 > 
-> I thought of an alternative that would only test bits that are actually part of
-> the mask:
+> We should use a new TEE_IOC_*_ALLOC for these new dma-bufs to avoid
+> confusion and to have more freedom when designing the interface.
 > 
-> static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
-> 				       u32 cs_ringbuf_size)
-> {
-> 	u32 min_profiled_job_instrs = U32_MAX;
-> 	u32 profiling_mask = PANTHOR_DEVICE_PROFILING_ALL;
+> > 
+> > The mental experiment to check if the API is correct is really simple:
+> > Can you use exactly the same rootfs on several devices without
+> > any additional tuning (e.g. your QEMU, HiKey, a Mediatek board, Qualcomm
+> > laptop, etc)?
 > 
-> 	while (profiling_mask) {
-> 		u32 i = ffs(profiling_mask) - 1;
-> 		profiling_mask &= ~BIT(i);
-> 		min_profiled_job_instrs =
-> 			min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
-> 	}
+> No, I don't think so.
+
+Then the API needs to be modified.
+
+Or the userspace needs to be modified in the way similar to Vulkan /
+OpenCL / glvnd / VA / VDPU: platform-specific backends, coexisting on a
+single rootfs.
+
+It is more or less fine to have platform-specific rootfs when we are
+talking about the embedded, resource-limited devices. But for the
+end-user devices we must be able to install a generic distro with no
+device-specific packages being selected.
+
 > 
-> 	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
-> }
+> > 
+> > > 
+> > > This can be tested on QEMU with the following steps:
+> > > repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
+> > >         -b prototype/sdp-v1
+> > > repo sync -j8
+> > > cd build
+> > > make toolchains -j4
+> > > make all -j$(nproc)
+> > > make run-only
+> > > # login and at the prompt:
+> > > xtest --sdp-basic
+> > > 
+> > > https://optee.readthedocs.io/en/latest/building/prerequisites.html
+> > > list dependencies needed to build the above.
+> > > 
+> > > The tests are pretty basic, mostly checking that a Trusted Application in
+> > > the secure world can access and manipulate the memory.
+> > 
+> > - Can we test that the system doesn't crash badly if user provides
+> >   non-secured memory to the users which expect a secure buffer?
+> > 
+> > - At the same time corresponding entities shouldn't decode data to the
+> >   buffers accessible to the rest of the sytem.
 > 
-> However, I don't think this would be more efficient, because ffs() is probably
-> fetching the first set bit by performing register shifts, and I guess this would
-> take somewhat longer than iterating over every single bit from the last one,
-> even if also matching them against the whole mask, just in case in future
-> additions of performance metrics we decide to leave some of the lower
-> significance bits untouched.
-
-Efficiency isn't very important here - we're not on a fast path, so it's
-more about ensuring the code is readable. I don't think the above is
-more readable then the original for loop.
-
-> Regarding your question about mutual compatibility, I don't think that is an
-> issue here, because we're testing bits in isolation. If in the future we find
-> out that some of the values we're profiling cannot be sampled at once, we can
-> add that logic to the sysfs knob handler, to make sure UM cannot set forbidden
-> profiling masks.
-
-My comment about compatibility is because in the original above you were
-calculating the top bit of PANTHOR_DEVICE_PROFILING_ALL:
-
-> u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
-
-then looping between 0 and that bit:
-
-> for (u32 i = 0; i < last_flag; i++) {
-
-So the test:
-
-> if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
-
-would only fail if PANTHOR_DEVICE_PROFILING_ALL had gaps in the bits
-that it set. The only reason I can think for that to be true in the
-future is if there is some sort of incompatibility - e.g. maybe there's
-an old and new way of doing some form of profiling with the old way
-being kept for backwards compatibility. But I suspect if/when that is
-required we'll need to revisit this function anyway. So that 'if'
-statement seems completely redundant (it's trivially always true).
-
-Steve
-
->> I'm also not entirely sure that the amount of RAM saved is significant,
->> but you've already written the code so we might as well have the saving ;)
+> I'll a few tests along that.
 > 
-> I think this was more evident before Boris suggested we reduce the basic slot
-> size to that of a single cache line, because then the minimum profiled job
-> might've taken twice as many ringbuffer slots as a nonprofiled one. In that
-> case, we would need a half as big BO for holding the sampled data (in case the
-> least size profiled job CS would extend over the 16 instruction boundary).
-> I still think this is a good idea so that in the future we don't need to worry
-> about adjusting the code that deals with preparing the right boilerplate CS,
-> since it'll only be a matter of adding new instructions inside prepare_job_instrs().
+> Thanks,
+> Jens
 > 
->> Thanks,
->> Steve
->>
->>> Regards,
->>> Adrian
->>>
->>>>> +
->>>>>  static struct panthor_queue *
->>>>>  group_create_queue(struct panthor_group *group,
->>>>>  		   const struct drm_panthor_queue_create *args)
->>>>> @@ -3056,9 +3271,35 @@ group_create_queue(struct panthor_group *group,
->>>>>  		goto err_free_queue;
->>>>>  	}
->>>>>  
->>>>> +	queue->profiling.slot_count =
->>>>> +		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
->>>>> +
->>>>> +	queue->profiling.slots =
->>>>> +		panthor_kernel_bo_create(group->ptdev, group->vm,
->>>>> +					 queue->profiling.slot_count *
->>>>> +					 sizeof(struct panthor_job_profiling_data),
->>>>> +					 DRM_PANTHOR_BO_NO_MMAP,
->>>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->>>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
->>>>> +					 PANTHOR_VM_KERNEL_AUTO_VA);
->>>>> +
->>>>> +	if (IS_ERR(queue->profiling.slots)) {
->>>>> +		ret = PTR_ERR(queue->profiling.slots);
->>>>> +		goto err_free_queue;
->>>>> +	}
->>>>> +
->>>>> +	ret = panthor_kernel_bo_vmap(queue->profiling.slots);
->>>>> +	if (ret)
->>>>> +		goto err_free_queue;
->>>>> +
->>>>> +	/*
->>>>> +	 * Credit limit argument tells us the total number of instructions
->>>>> +	 * across all CS slots in the ringbuffer, with some jobs requiring
->>>>> +	 * twice as many as others, depending on their profiling status.
->>>>> +	 */
->>>>>  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
->>>>>  			     group->ptdev->scheduler->wq, 1,
->>>>> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
->>>>> +			     args->ringbuf_size / sizeof(u64),
->>>>>  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
->>>>>  			     group->ptdev->reset.wq,
->>>>>  			     NULL, "panthor-queue", group->ptdev->base.dev);
->>>>> @@ -3354,6 +3595,7 @@ panthor_job_create(struct panthor_file *pfile,
->>>>>  {
->>>>>  	struct panthor_group_pool *gpool = pfile->groups;
->>>>>  	struct panthor_job *job;
->>>>> +	u32 credits;
->>>>>  	int ret;
->>>>>  
->>>>>  	if (qsubmit->pad)
->>>>> @@ -3407,9 +3649,16 @@ panthor_job_create(struct panthor_file *pfile,
->>>>>  		}
->>>>>  	}
->>>>>  
->>>>> +	job->profiling.mask = pfile->ptdev->profile_mask;
->>>>> +	credits = calc_job_credits(job->profiling.mask);
->>>>> +	if (credits == 0) {
->>>>> +		ret = -EINVAL;
->>>>> +		goto err_put_job;
->>>>> +	}
->>>>> +
->>>>>  	ret = drm_sched_job_init(&job->base,
->>>>>  				 &job->group->queues[job->queue_idx]->entity,
->>>>> -				 1, job->group);
->>>>> +				 credits, job->group);
->>>>>  	if (ret)
->>>>>  		goto err_put_job;
->>>>>  
->>>
-> 
-> 
-> Adrian Larumbe
+> > 
+> > > 
+> > > Cheers,
+> > > Jens
+> > > 
+> > > [1] https://lore.kernel.org/dri-devel/20240515112308.10171-1-yong.wu@mediatek.com/
+> > > [2] https://lore.kernel.org/lkml/20220805135330.970-1-olivier.masse@nxp.com/
+> > > 
+> > > Changes since Olivier's post [2]:
+> > > * Based on Yong Wu's post [1] where much of dma-buf handling is done in
+> > >   the generic restricted heap
+> > > * Simplifications and cleanup
+> > > * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf heap
+> > >   support"
+> > > * Replaced the word "secure" with "restricted" where applicable
+> > > 
+> > > Etienne Carriere (1):
+> > >   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
+> > > 
+> > > Jens Wiklander (2):
+> > >   dma-buf: heaps: restricted_heap: add no_map attribute
+> > >   dma-buf: heaps: add Linaro restricted dmabuf heap support
+> > > 
+> > > Olivier Masse (1):
+> > >   dt-bindings: reserved-memory: add linaro,restricted-heap
+> > > 
+> > >  .../linaro,restricted-heap.yaml               |  56 ++++++
+> > >  drivers/dma-buf/heaps/Kconfig                 |  10 ++
+> > >  drivers/dma-buf/heaps/Makefile                |   1 +
+> > >  drivers/dma-buf/heaps/restricted_heap.c       |  17 +-
+> > >  drivers/dma-buf/heaps/restricted_heap.h       |   2 +
+> > >  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++++++++
+> > >  drivers/tee/tee_core.c                        |  38 ++++
+> > >  drivers/tee/tee_shm.c                         | 104 ++++++++++-
+> > >  include/linux/tee_drv.h                       |  11 ++
+> > >  include/uapi/linux/tee.h                      |  29 +++
+> > >  10 files changed, 426 insertions(+), 7 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
+> > >  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.c
+> > > 
+> > > -- 
+> > > 2.34.1
+> > > 
+> > 
+> > -- 
+> > With best wishes
+> > Dmitry
 
+-- 
+With best wishes
+Dmitry
 
