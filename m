@@ -1,271 +1,327 @@
-Return-Path: <linux-media+bounces-18552-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18555-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F1498636B
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 17:26:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF8D98638F
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 17:31:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3636C1F277C9
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 15:26:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 428971C27666
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 15:31:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFC07186616;
-	Wed, 25 Sep 2024 15:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE6A913B5AF;
+	Wed, 25 Sep 2024 15:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="etU5KFHl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E591865F7
-	for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 15:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746DE25757;
+	Wed, 25 Sep 2024 15:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727276862; cv=none; b=QIuxhb9mqP7NmB5V9LcESkYkLgFu1sUzZ3DeesXSiGVBpcvqMuNGPXvPIbxhKJfoBhSqNeeWrmTtlb5kuoipk4K3tmOvyKsguYJgWo+HGK5XVzkzC/Vb/T/LcFCfTgD3HLgFfBKnJdhKuiGUgb6jjH3l1Gr0aYDdxlLdFAw8pHE=
+	t=1727277921; cv=none; b=UBDiNvBDhomYIIDvwpg2JMwvZhiE6LKWzjabYvPwyRg93K5ygiO+vXuxWxWmSdIG8Cq8MGE3c8gp7KLKGA9ezfqbyhASzehsAtQgqZEQv0KN1q6Odrh4vXXw4ou5aT0XLTlKsBIeqfU3x3m4g2upYtTfjnG1WWPJSPWDNZQthgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727276862; c=relaxed/simple;
-	bh=8GfBUdOg/QSvr9uhZROpCY6GPCwtP46GQFOUZHOoOrc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dYxNLUggr14y2lV9Ab5F/tHoyxYEd218VlVIRCnt2AmtaJgDWZo+xmf4zk9BbTSyesVqngdFNMRNpVXy29pVCzGOnwH9C1ZBirWYrD1RwNynuutYSnvbDNtDfXOXO629cJc/I+50EDoxzNL+YNOdcorbBggosl4KmlAxMT4TXm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1stTbx-0005WS-Gp; Wed, 25 Sep 2024 17:07:25 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1stTbw-001Tgc-Qq; Wed, 25 Sep 2024 17:07:24 +0200
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1stTbw-000MKv-2P;
-	Wed, 25 Sep 2024 17:07:24 +0200
-Message-ID: <f894eb3fd132a214ddbf2fa3ed405d065e629398.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
- Estevam <festevam@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
- <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev
-Date: Wed, 25 Sep 2024 17:07:24 +0200
-In-Reply-To: <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
-References: <20240724002044.112544-1-marex@denx.de>
-	 <20240724002044.112544-2-marex@denx.de>
-	 <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
-	 <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1727277921; c=relaxed/simple;
+	bh=/rg8lzY/L9SaJEfUUJfiiuMItn3SqcxpEq8hsR2vPO4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bBSx672mEknz1m8iVmFoCB9g9bmGNtcYZ1r7wQE2LtvtuSU+BfKpW8hwZlX+RviJF8HBVGDW1kUeUmx28kf4Mc8igFfvwbbegzUyfqt8duuTNCWZ+KGOMUAoi4XdP2qYvdzKAuxrlojtMwGrMhiewPk3spB0PvMuEgJlfGcqIas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=etU5KFHl; arc=none smtp.client-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-49bbbebc26dso2344443137.0;
+        Wed, 25 Sep 2024 08:25:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727277918; x=1727882718; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+xh/2EOs2WTw8AQzEyqJvYQT+wfQifYuKy9bTkOCzPg=;
+        b=etU5KFHls/AQi12xnZireF/Bul4TeGc3/Zpff4oAti2Uet6y0XV6vVQss1O7rtLb+d
+         XWOwzalINOdfF4Dy+7mu6D5sdIBDKSNCb+gVRbzwmlPkzHWb8KbDP9/TLRnOnPPV9ZaZ
+         3YvLaClToFIRSJU80RG93mnHzyGUb+paS6GtrUf2iXYHwLjnqMOwVEPQbBYRBx4dJ/2c
+         Ld1XsOgOvATr2FeDkzhh+Ghv0awgSw4QB1l7asw4DyzrcaSUa5HD4rNTNwKPw+YVza5z
+         pVyoHerGAvcxAuWsKxPiM+SWas92bejvpQHTb0Kfl2f4aLip7yV/3pjPV1dkoZv736iv
+         uRFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727277918; x=1727882718;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+xh/2EOs2WTw8AQzEyqJvYQT+wfQifYuKy9bTkOCzPg=;
+        b=S276bpY0ArP6o+RIfQAtvbNkJS7PeX2vH+iGnElhfBgLtTvXnkV6a13SWf7SScCfQY
+         xN0BnOL3PNZ47fyJIKnznTvAcborXTG81ts+9XC6C/ATLs1jdxvm8RVWji17T6mkrg+Y
+         khaLDQg/vbH6hK1iKtXmBpYMKEPFG+OPLLj3QhatQ+cq6LwPRdBEAPc9MRBRet3VJb6t
+         ya8mASDBkkFnmYJGAJLPBCFX2moW97KjkmBv5a+SBBN9zJtBz5piFgy3G1wR3fVWZUe4
+         t9zu+1L/6+ix0IzZDjZ70O1qrNACkjHX7ivE0fAug5QFDuScZQcGTLk+BB/MN4KRhAup
+         8QPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUNYoB7yQIgMa6KFCgoPl5rcVNshThLOteLsG6j9BZhJZHB69ZpFa5vVETjwqcP9C78JcQZwXlEPbW5dx2VtqRPkjg=@vger.kernel.org, AJvYcCX5PBVnjeQQhMPpABx+v4L0UARat99AQytFwOzaE+CZmvgJRMatlLy9XPmxlRdOzC0F1bT4V7v0vpyZvec=@vger.kernel.org, AJvYcCXftOCL+dTxV1XQeYM0yZlcxv6noOiXxSPd5WwOPQe9aiL4zXJOq4ttjkK9jMINCGNkIKrwFl7Zb3XhIS0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyE1+TrW3Mc3EbfUmiZq4p7p0v22n2GkDTQDRA+fogYXifXX0ns
+	Tmch/us69CXk4M0cnwZTbYqKfNUnJ3jWnddvFkkQelCwayhuJY358mQ6k01moOFJ2VbW/grrAtD
+	r1XKe1pYUcGid9cpVoB2Y0foHa+c=
+X-Google-Smtp-Source: AGHT+IEg6P4vnh18BilWdWKPk3+aT1nLRyAXyvrAWbYUOD6SRQAugNrB4O6aCr5Atj7f9apSxRU16+Pjxx7ksN+WqtM=
+X-Received: by 2002:a05:6122:319b:b0:4ef:5b2c:df41 with SMTP id
+ 71dfb90a1353d-505c20745fcmr2875987e0c.9.1727277917965; Wed, 25 Sep 2024
+ 08:25:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240910170610.226189-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240924224357.GM7165@pendragon.ideasonboard.com>
+In-Reply-To: <20240924224357.GM7165@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 25 Sep 2024 16:24:52 +0100
+Message-ID: <CA+V-a8uZP0_kvtNYzfTA8atn=wgFrabLODxyVuyYvjR68z=HZA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/11] media: i2c: ov5645: Use dev_err_probe instead of dev_err
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Laurent,
 
-On Di, 2024-09-24 at 17:28 +0200, Marek Vasut wrote:
-> On 9/6/24 11:01 AM, Philipp Zabel wrote:
-[...]
-> > Instead of presenting two devices to userspace, it would be better to
-> > have a single video device that can distribute work to both IPUs.
->=20
-> Why do you think so ?
+Thank you for the review.
 
-The scaler/colorspace converter supports frames larger than the
-1024x1024 hardware by splitting each frame into multiple tiles. It
-currently does so sequentially on a single IC. Speed could be improved
-by distributing the tiles to both ICs. This is not an option anymore if
-there are two video devices that are fixed to one IC each.
-
-The same would be possible for the deinterlacer, e.g. to support 720i
-frames split into two tiles each sent to one of the two VDICs.
-
-> I think it is better to keep the kernel code as simple as possible, i.e.=
-=20
-> provide the device node for each m2m device to userspace and handle the=
-=20
-> m2m device hardware interaction in the kernel driver, but let userspace=
-=20
-> take care of policy like job scheduling, access permissions assignment=
-=20
-> to each device (e.g. if different user accounts should have access to=20
-> different VDICs), or other such topics.
-
-I both agree and disagree with you at the same time.
-
-If the programming model were more similar to DRM, I'd agree in a
-heartbeat. If the kernel driver just had to do memory/fence handling
-and command submission (and parameter sanitization, because there is no
-MMU), and there was some userspace API on top, it would make sense to
-me to handle parameter calculation and job scheduling in a hardware
-specific userspace driver that can just open one device for each IPU.
-
-With the rigid V4L2 model though, where memory handling, parameter
-calculation, and job scheduling of tiles in a single frame all have to
-be hidden behind the V4L2 API, I don't think requiring userspace to
-combine multiple mem2mem video devices to work together on a single
-frame is feasible.
-
-Is limiting different users to the different deinterlacer hardware
-units a real usecase? I saw the two ICs, when used as mem2mem devices,
-as interchangeable resources.
-
-> > To be fair, we never implemented that for the CSC/scaler mem2mem device
-> > either.
->=20
-> I don't think that is actually a good idea. Instead, it would be better=
-=20
-> to have two scaler nodes in userspace.
-
-See above, that would make it impossible (or rather unreasonably
-complicated) to distribute work on a single frame to both IPUs.
-
-[...]
-> > > +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
-> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset)=
-;
-> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
-> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset)=
-;
-> >=20
-> > This always outputs at a frame rate of half the field rate, and only
-> > top fields are ever used as current field, and bottom fields as
-> > previous/next fields, right?
->=20
-> Yes, currently the driver extracts 1 frame from two consecutive incoming=
-=20
-> fields (previous Bottom, and current Top and Bottom):
->=20
-> (frame 1 and 3 below is omitted)
->=20
->      1  2  3  4
-> ...|T |T |T |T |...
-> ...| B| B| B| B|...
->       | ||  | ||
->       '-''  '-''
->        ||    ||
->        ||    \/
->        \/  Frame#4
->      Frame#2
->=20
-> As far as I understand it, this is how the current VDI implementation=20
-> behaves too, right ?
-
-Yes, that is a hardware limitation when using the direct CSI->VDIC
-direct path. As far as I understand, for each frame (two fields) the
-CSI only sends the first ("PREV") field directly to the VDIC, which
-therefor can only be run in full motion mode (use the filter to add in
-the missing lines).
-The second ("CUR") field is just ignored. It could be written to RAM
-via IDMAC output channel 13 (IPUV3_CHANNEL_VDI_MEM_RECENT), which can
-not be used by the VDIC in direct mode. So this is not implemented.
-
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
-rivers/staging/media/imx/imx-media-vdic.c#n207
-
-That code is unused. The direct hardware path doesn't use
-IPUV3_CHANNEL_MEM_VDI_PREV/CUR/NEXT, but is has a similar effect, half
-of the incoming fields are dropped. The setup is vdic_setup_direct().
-
-> > I think it would be good to add a mode that doesn't drop the
-> >=20
-> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
-> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, prev_phys + phys_offset);
-> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys);
-> >=20
-> > output frames, right from the start.
->=20
-> This would make the VDI act as a frame-rate doubler, which would spend a=
-=20
-> lot more memory bandwidth, which is limited on MX6, so I would also like=
-=20
-> to have a frame-drop mode (i.e. current behavior).
+On Tue, Sep 24, 2024 at 11:44=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Can we make that behavior configurable ? Since this is a mem2mem device,=
-=20
-> we do not really have any notion of input and output frame-rate, so I=20
-> suspect this would need some VIDIOC_* ioctl ?
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Tue, Sep 10, 2024 at 06:06:03PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Drop dev_err() and use the dev_err_probe() helper on probe path.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/media/i2c/ov5645.c | 74 +++++++++++++++-----------------------
+> >  1 file changed, 28 insertions(+), 46 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> > index 78b86438c798..9e6ff1f1b9ac 100644
+> > --- a/drivers/media/i2c/ov5645.c
+> > +++ b/drivers/media/i2c/ov5645.c
+> > @@ -1076,51 +1076,37 @@ static int ov5645_probe(struct i2c_client *clie=
+nt)
+> >       ov5645->dev =3D dev;
+> >
+> >       endpoint =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+> > -     if (!endpoint) {
+> > -             dev_err(dev, "endpoint node not found\n");
+> > -             return -EINVAL;
+> > -     }
+> > +     if (!endpoint)
+> > +             return dev_err_probe(dev, -EINVAL, "endpoint node not fou=
+nd\n");
+> >
+> >       ret =3D v4l2_fwnode_endpoint_parse(of_fwnode_handle(endpoint),
+> >                                        &ov5645->ep);
+> >
+> >       of_node_put(endpoint);
+> >
+> > -     if (ret < 0) {
+> > -             dev_err(dev, "parsing endpoint node failed\n");
+> > -             return ret;
+> > -     }
+> > +     if (ret < 0)
+> > +             return dev_err_probe(dev, ret, "parsing endpoint node fai=
+led\n");
+> >
+> > -     if (ov5645->ep.bus_type !=3D V4L2_MBUS_CSI2_DPHY) {
+> > -             dev_err(dev, "invalid bus type, must be CSI2\n");
+> > -             return -EINVAL;
+> > -     }
+> > +     if (ov5645->ep.bus_type !=3D V4L2_MBUS_CSI2_DPHY)
+> > +             return dev_err_probe(dev, -EINVAL, "invalid bus type, mus=
+t be CSI2\n");
+> >
+> >       /* get system clock (xclk) */
+> >       ov5645->xclk =3D devm_clk_get(dev, NULL);
+> > -     if (IS_ERR(ov5645->xclk)) {
+> > -             dev_err(dev, "could not get xclk");
+> > -             return PTR_ERR(ov5645->xclk);
+> > -     }
+> > +     if (IS_ERR(ov5645->xclk))
+> > +             return dev_err_probe(dev, PTR_ERR(ov5645->xclk), "could n=
+ot get xclk");
+> >
+> >       ret =3D of_property_read_u32(dev->of_node, "clock-frequency", &xc=
+lk_freq);
+> > -     if (ret) {
+> > -             dev_err(dev, "could not get xclk frequency\n");
+> > -             return ret;
+> > -     }
+> > +     if (ret)
+> > +             return dev_err_probe(dev, ret, "could not get xclk freque=
+ncy\n");
+> >
+> >       /* external clock must be 24MHz, allow 1% tolerance */
+> > -     if (xclk_freq < 23760000 || xclk_freq > 24240000) {
+> > -             dev_err(dev, "external clock frequency %u is not supporte=
+d\n",
+> > -                     xclk_freq);
+> > -             return -EINVAL;
+> > -     }
+> > +     if (xclk_freq < 23760000 || xclk_freq > 24240000)
+> > +             return dev_err_probe(dev, -EINVAL, "external clock freque=
+ncy %u is not supported\n",
+> > +                                  xclk_freq);
+> >
+> >       ret =3D clk_set_rate(ov5645->xclk, xclk_freq);
+> > -     if (ret) {
+> > -             dev_err(dev, "could not set xclk frequency\n");
+> > -             return ret;
+> > -     }
+> > +     if (ret)
+> > +             return dev_err_probe(dev, ret, "could not set xclk freque=
+ncy\n");
+> >
+> >       for (i =3D 0; i < OV5645_NUM_SUPPLIES; i++)
+> >               ov5645->supplies[i].supply =3D ov5645_supply_name[i];
+> > @@ -1131,16 +1117,12 @@ static int ov5645_probe(struct i2c_client *clie=
+nt)
+> >               return ret;
+> >
+> >       ov5645->enable_gpio =3D devm_gpiod_get(dev, "enable", GPIOD_OUT_H=
+IGH);
+> > -     if (IS_ERR(ov5645->enable_gpio)) {
+> > -             dev_err(dev, "cannot get enable gpio\n");
+> > -             return PTR_ERR(ov5645->enable_gpio);
+> > -     }
+> > +     if (IS_ERR(ov5645->enable_gpio))
+> > +             return dev_err_probe(dev, PTR_ERR(ov5645->enable_gpio), "=
+cannot get enable gpio\n");
+>
+> Those lines are getting long. We usually try to wrap at 80 columns for
+> sensor drivers:
+>
+As there will be a v3 anyway, I'll wrap it to 80 columns.
 
-That would be good. The situation I'd like to avoid is that this device
-becomes available without the full frame-rate mode, userspace then
-assumes this is a 1:1 frame converter device, and then we can't add the
-full frame-rate later without breaking userspace.
+>                 return dev_err_probe(dev, PTR_ERR(ov5645->enable_gpio),
+>                                      "cannot get enable gpio\n");
+>
+> Same elsewhere. I'll let Sakari decide.
+>
+> >
+> >       ov5645->rst_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH)=
+;
+> > -     if (IS_ERR(ov5645->rst_gpio)) {
+> > -             dev_err(dev, "cannot get reset gpio\n");
+> > -             return PTR_ERR(ov5645->rst_gpio);
+> > -     }
+> > +     if (IS_ERR(ov5645->rst_gpio))
+> > +             return dev_err_probe(dev, PTR_ERR(ov5645->rst_gpio), "can=
+not get reset gpio\n");
+> >
+> >       mutex_init(&ov5645->power_lock);
+> >
+> > @@ -1177,9 +1159,9 @@ static int ov5645_probe(struct i2c_client *client=
+)
+> >       ov5645->sd.ctrl_handler =3D &ov5645->ctrls;
+> >
+> >       if (ov5645->ctrls.error) {
+> > -             dev_err(dev, "%s: control initialization error %d\n",
+> > -                    __func__, ov5645->ctrls.error);
+> >               ret =3D ov5645->ctrls.error;
+> > +             dev_err_probe(dev, ret, "%s: control initialization error=
+ %d\n",
+> > +                           __func__, ov5645->ctrls.error);
+> >               goto free_ctrl;
+> >       }
+> >
+> > @@ -1192,7 +1174,7 @@ static int ov5645_probe(struct i2c_client *client=
+)
+> >
+> >       ret =3D media_entity_pads_init(&ov5645->sd.entity, 1, &ov5645->pa=
+d);
+> >       if (ret < 0) {
+> > -             dev_err(dev, "could not register media entity\n");
+> > +             dev_err_probe(dev, ret, "could not register media entity\=
+n");
+> >               goto free_ctrl;
+> >       }
+> >
+> > @@ -1202,14 +1184,14 @@ static int ov5645_probe(struct i2c_client *clie=
+nt)
+> >
+> >       ret =3D ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_hig=
+h);
+> >       if (ret < 0 || chip_id_high !=3D OV5645_CHIP_ID_HIGH_BYTE) {
+> > -             dev_err(dev, "could not read ID high\n");
+> >               ret =3D -ENODEV;
+> > +             dev_err_probe(dev, ret, "could not read ID high\n");
+> >               goto power_down;
+> >       }
+> >       ret =3D ov5645_read_reg(ov5645, OV5645_CHIP_ID_LOW, &chip_id_low)=
+;
+> >       if (ret < 0 || chip_id_low !=3D OV5645_CHIP_ID_LOW_BYTE) {
+> > -             dev_err(dev, "could not read ID low\n");
+> >               ret =3D -ENODEV;
+> > +             dev_err_probe(dev, ret, "could not read ID low\n");
+> >               goto power_down;
+> >       }
+> >
+> > @@ -1218,24 +1200,24 @@ static int ov5645_probe(struct i2c_client *clie=
+nt)
+> >       ret =3D ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
+> >                             &ov5645->aec_pk_manual);
+> >       if (ret < 0) {
+> > -             dev_err(dev, "could not read AEC/AGC mode\n");
+> >               ret =3D -ENODEV;
+> > +             dev_err_probe(dev, ret, "could not read AEC/AGC mode\n");
+> >               goto power_down;
+> >       }
+> >
+> >       ret =3D ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
+> >                             &ov5645->timing_tc_reg20);
+> >       if (ret < 0) {
+> > -             dev_err(dev, "could not read vflip value\n");
+> >               ret =3D -ENODEV;
+> > +             dev_err_probe(dev, ret, "could not read vflip value\n");
+> >               goto power_down;
+> >       }
+> >
+> >       ret =3D ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
+> >                             &ov5645->timing_tc_reg21);
+> >       if (ret < 0) {
+> > -             dev_err(dev, "could not read hflip value\n");
+> >               ret =3D -ENODEV;
+> > +             dev_err_probe(dev, ret, "could not read hflip value\n");
+> >               goto power_down;
+> >       }
+> >
+> > @@ -1243,7 +1225,7 @@ static int ov5645_probe(struct i2c_client *client=
+)
+> >
+> >       ret =3D v4l2_async_register_subdev(&ov5645->sd);
+> >       if (ret < 0) {
+> > -             dev_err(dev, "could not register v4l2 device\n");
+> > +             dev_err_probe(dev, ret, "could not register v4l2 device\n=
+");
+> >               goto power_down;
+> >       }
+> >
+>
+> The probe function looks really young, I think it would benefit from
+> being broken down in multiple functions.
+>
+I will add this once this initial series gets accepted.
 
-> > If we don't start with that supported, I fear userspace will make
-> > assumptions and be surprised when a full rate mode is added later.
->=20
-> I'm afraid that since the current VDI already does retain input frame=20
-> rate instead of doubling it, the userspace already makes an assumption,=
-=20
-> so that ship has sailed.
-
-No, this is about the deinterlacer mem2mem device, which doesn't exist
-before this series.
-
-The CSI capture path already has configurable framedrops (in the CSI).
-
-> But I think we can make the frame doubling configurable ?
-
-That would be good. Specifically, there must be no guarantee that one
-input frame with two fields only produces one deinterlaced output
-frame, and userspace should somehow be able to understand this.
-
-This would be an argument against Nicolas' suggestion of including this
-in the csc/scaler device, which always must produce one output frame
-per input frame.
-
-[...]
-> > This maps to VDI_C_MOT_SEL_FULL aka VDI_MOT_SEL=3D2, which is documente=
-d
-> > as "full motion, only vertical filter is used". Doesn't this completely
-> > ignore the previous/next fields and only use the output of the di_vfilt
-> > four tap vertical filter block to fill in missing lines from the
-> > surrounding pixels (above and below) of the current field?
->=20
-> Is there a suitable knob for this or shall I introduce a device specific=
-=20
-> one, like the vdic_ctrl_motion_menu for the current VDIC direct driver ?
->=20
-> If we introduce such a knob, then it is all the more reason to provide=
-=20
-> one device node per one VDIC hardware instance, since each can be=20
-> configured for different motion settings.
-
-As far as I know, there is no such control yet. I don't think this
-should be per-device, but per-stream (or even per-frame).
-
-> > I think this should at least be configurable, and probably default to
-> > MED_MOTION.
->=20
-> I think to be compatible with the current VDI behavior and to reduce=20
-> memory bandwidth usage, let's default to the HIGH/full mode. That one=20
-> produces reasonably good results without spending too much memory=20
-> bandwidth which is constrained already on the MX6, and if the user needs=
-=20
-> better image quality, they can configure another mode using the V4L2=20
-> control.
-
-I'd rather not default to the setting that throws away half of the
-input data. Not using frame doubling by default is sensible, but now
-that using all three input fields to calculate the output frame is
-possible, why not make that the default.
-
-regards
-Philipp
+Cheers,
+Prabhakar
 
