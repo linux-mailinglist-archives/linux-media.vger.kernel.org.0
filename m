@@ -1,193 +1,236 @@
-Return-Path: <linux-media+bounces-18579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18580-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D87A986937
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 00:38:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2CE98697A
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 01:24:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B7CAB1F24B21
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 22:38:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AF7DD1C21378
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 23:24:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8EF0154BF5;
-	Wed, 25 Sep 2024 22:38:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B201A3AB9;
+	Wed, 25 Sep 2024 23:24:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e7tfeSU+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rf0TTza1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C53E56A
-	for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 22:38:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8696F12BEBB;
+	Wed, 25 Sep 2024 23:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727303904; cv=none; b=qOVNgJE+gAtaE5W8ZBUVe1IBRlElxCRc3JREWbnk47dvOmN4qNiseUdJx613kX/7ra7jgjmWhVTj82ayeT7UmJttBQ+DUJoAniarkD+TOWZ944eXO7lYas2mLePgQqmFn75zd5SJW/PBdaJ6vyI2ONkwLRxDx9pptOz0hCd/38o=
+	t=1727306670; cv=none; b=qI2KcHz70sN89WXhbiIzswZ1AT2NvZuVLZzI0/z3A+q6eARt8PgYzjEoigWHlOyK3YyxWSTugDXQprDYPlo56p+EMSChSYRDFekm08dc1ckueSyn37Gozii94qR+dFU6gfxlm1ADO4PR/w6zWMS4Wg6zj42zVcnqg6WNETTZWls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727303904; c=relaxed/simple;
-	bh=G8exd1NnFsB5ReUc3RWHgiZWKY+4CBwK5uR8NGkPF58=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YASbRL2VZO2EKo27h29LvU6USiQpJ3rB3Cs+0MlqGn8FJfIXmzss+uD5p1dE1jIvMut5kbnHw4mMgNAu0N3QB/Bq2md46CFCRdviBLOAdrkwflspJXCi75EPgSifvMXLcbvTlqV/plxkYWejCSCwLtU6QeMYzbLLsDOfr/S5ax0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e7tfeSU+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC1AC4CEC3;
-	Wed, 25 Sep 2024 22:38:18 +0000 (UTC)
+	s=arc-20240116; t=1727306670; c=relaxed/simple;
+	bh=g3zNEuACkNKKF7DM2e0wUsD+QK9yDA1CFZXE6cxfm0Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MxXLqJ/pNN/WxH9zl2KS1VrVK9xkIvwBBpBPSfjiWIZx3m+lVVXQEGWg/2saD2/T3AnLd37zqGlMvhXQGVbq57UvG+8TADNmh9M6MF+SAGkNeP5flGkv1N6PYizDW5y9l0AvoukJcqfeHlofwlPjPy6bTch/1ykzeKFJubL6CkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rf0TTza1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCF87C4CEC3;
+	Wed, 25 Sep 2024 23:24:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727303903;
-	bh=G8exd1NnFsB5ReUc3RWHgiZWKY+4CBwK5uR8NGkPF58=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=e7tfeSU+ges1DxuWAtv6W+MfstZzI/JVybD7MtRGGz0P+9lpPgHd3SBJrZnel1n19
-	 WOoifeTKj4/7e7BTwf40Q7l8guq3Y4Ba7H7B9oPBCIyWYpDoZpI+Dj0RTndqry0MB5
-	 Lp5OKb5pTPIjdCIFfLYogkPdRpAKEPXcx2hDGb5nv683IOE5APKGSoVlahj8oKm2+H
-	 0y94GGPSvPjB972MLrsBmYQsQNOUUZgy1cQo8LqmSGXCs5uOX07CdQVGiVoBCCaicN
-	 QLv8fn0aYCY41oNOiuMEn1y93xNm+xedBlC6Py3dRJsCqklYgrbyoIEwe/YxTFVTLh
-	 KD5muXbTAQH9A==
-Date: Thu, 26 Sep 2024 00:38:15 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>, Hans Verkuil
- <hverkuil@xs4all.nl>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Martin Hecht <martin.hecht@avnet.eu>, Tommaso Merciai
- <tomm.merciai@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Ricardo Ribalda
- <ribalda@chromium.org>, Michael Tretter <m.tretter@pengutronix.de>, Alain
- Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>, Steve Cho
- <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>, Hidenori
- Kobayashi <hidenorik@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
- Suresh Vankadara <svankada@qti.qualcomm.com>, Devarsh Thakkar
- <devarsht@ti.com>, r-donadkar@ti.com, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Mehdi Djait
- <mehdi.djait@linux.intel.com>, Nicolas Dufresne <nicolas@ndufresne.ca>,
- Salahaldeen Altous <salahaldeen.altous@leica-camera.com>
-Subject: Re: [ANN] Media Summit September 16th: Final Agenda (v7)
-Message-ID: <20240926003815.6537fdbb@foz.lan>
-In-Reply-To: <20240925195653.GJ30399@pendragon.ideasonboard.com>
-References: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
-	<20240917091744.qltmddftdy7bpgpg@basti-XPS-13-9310>
-	<bb8c09c7-0eae-4e1a-8fb8-e325fcf326df@xs4all.nl>
-	<20240918092454.21884920@sal.lan>
-	<20240918093020.u5rz7qfjoumfezql@basti-XPS-13-9310>
-	<20240918132323.2a384f87@sal.lan>
-	<20240925195653.GJ30399@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1727306670;
+	bh=g3zNEuACkNKKF7DM2e0wUsD+QK9yDA1CFZXE6cxfm0Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rf0TTza1S3p1YALqFQOCom6Jm3i4y+VPz/1puW5DS6e880ny5qmARn/pd/8fBs2t1
+	 H+kU9g7OoIXdRgMnbqXMAo+xn2K5IUNrX4Um6d5Kx2D1e+tYvFeSWoKQT3bgdXYj9W
+	 0v+KcOIMJVKUH7cPijm0cHyM4JbEemZro3q2q5sfvola1hxVqM08tWdooSdOpDAU+3
+	 aiJfMwgHXTFKN9GUXQ6RPKAeW/mkp6MDVGOlgzW67u/JFmuwPnvqM1S3qKzAI2Jpn3
+	 EENwc0xldR/ocJgJZoovineWQvpe46VBWPrN2Bc4wCqf26JtgRzGd9xNEDw/AIKaA2
+	 wRYObDcnba5wg==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Conor Dooley <conor@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Jim Quinlan <jim2101024@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Andy Gross <agross@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Jim Quinlan <james.quinlan@broadcom.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH] dt-bindings: Fix array property constraints
+Date: Wed, 25 Sep 2024 18:24:06 -0500
+Message-ID: <20240925232409.2208515-1-robh@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Wed, 25 Sep 2024 22:56:53 +0300
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+Schemas for array properties should only have 1 level of array
+constraints (e.g. items, maxItems, minItems). Sometimes the old
+encoding of all properties into a matrix leaked into the schema, and
+didn't matter for validation. Now the inner constraints are just
+silently ignored as json-schema array keywords are ignored on scalar
+values.
 
-> Hi Mauro,
-> 
-> On Wed, Sep 18, 2024 at 01:23:23PM +0200, Mauro Carvalho Chehab wrote:
-> > Em Wed, 18 Sep 2024 11:30:20 +0200 Sebastian Fricke escreveu:  
-> > > On 18.09.2024 09:24, Mauro Carvalho Chehab wrote:  
-> > > > Em Tue, 17 Sep 2024 14:52:19 +0200 Hans Verkuil escreveu:  
-> > > >> On 9/17/24 11:17 AM, Sebastian Fricke wrote:    
-> > > >> > Greetings,
-> > > >> >
-> > > >> > I remember that we wanted to still define a couple of processes for the
-> > > >> > multi-committer model for which we hadn't have the time on the media
-> > > >> > summit. Just would like to gather who would be interested to meet for
-> > > >> > that, where we meet (probably LPC venue) and when (Laurent just told me
-> > > >> > that Friday is probably a good slot for that).    
-> > > >>
-> > > >> Can you refresh my memory which processes need more work?    
-> > > 
-> > > Well I basically remember that we had a bunch of topics in our meetings
-> > > that we wanted to skip in order to talk about them here.
-> > > We looked at the documentation from DRM and wanted to think about
-> > > equivalent policies for media.
-> > > https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html#where-do-i-apply-my-patch  
-> > 
-> > Thanks for the pointer. Yeah, examples from other trees can be helpful when
-> > improving media developers profile and writing the committers agreement,
-> > even when they have a message that it is just the opposite of what we
-> > we want, like this (from DRM-misc ruleset):
-> > 
-> > 	"Since even a broken driver is more useful than no driver minimal
-> > 	 review standards are a lot lower."
-> > 
-> > In this particular case, for instance, as discussed at media summit, we'd
-> > like to have high quality standards for stuff under drivers/media. After
-> > all, we do use drivers/media/staging for low quality drivers. 
-> > 
-> > It it worth mentioning that committers shall not merge low quality drivers
-> > nor patches for staging. If ever needed, those should be done via PRs or
-> > be explicitly authorized by maintainers.  
-> 
-> Do you mean new drivers only, or also patches for existing staging/
-> drivers ?
+Generally, keep the inner constraints and drop the outer "items". With
+gicv3 "mbi-alias" property, it is more appropriately a uint32 or uint64
+as it is an address and size depends on "#address-cells".
 
-New drivers only. Patches for drivers already at staging can go via
-committers tree.
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/cache/l2c2x0.yaml  |  5 ++---
+ .../devicetree/bindings/dma/dma-common.yaml          |  7 +++----
+ .../bindings/interrupt-controller/arm,gic-v3.yaml    | 12 +++++-------
+ .../devicetree/bindings/media/i2c/thine,thp7312.yaml |  3 +--
+ .../bindings/memory-controllers/exynos-srom.yaml     |  5 ++---
+ .../devicetree/bindings/pci/brcm,stb-pcie.yaml       |  5 ++---
+ .../devicetree/bindings/soc/qcom/qcom,smp2p.yaml     |  3 +--
+ 7 files changed, 16 insertions(+), 24 deletions(-)
 
-> 
-> > > Also there were topics like how to handle backports.   
-> > 
-> > We don't handle backports on media tree. This is up to stable maintainers.
-> > Basically, we follow stable rules to the letter:
-> > 
-> > 	Documentation/process/stable-kernel-rules.rst
-> > 
-> > E. g. patches that require backports shall have the proper meta-tags 
-> > (specially cc: stable and  fixes:).   
-> 
-> Sebastian may have meant backmerges.
-> 
-> > Also, we're not implementing multi-committers for fixes, just for next.
-> > 
-> > So, fixes shall follow the normal flow: they should be sent via PR.  
-> 
-> I see there's a fixes branch in the media-committers tree, does that
-> mean you have agreed with Hans and Ricardo that fixes will go through
-> pull requests but be pushed there for visibility ? If so, thanks for
-> that, I think it will improve the experience.
+diff --git a/Documentation/devicetree/bindings/cache/l2c2x0.yaml b/Documentation/devicetree/bindings/cache/l2c2x0.yaml
+index d7840a5c4037..10c1a900202f 100644
+--- a/Documentation/devicetree/bindings/cache/l2c2x0.yaml
++++ b/Documentation/devicetree/bindings/cache/l2c2x0.yaml
+@@ -100,9 +100,8 @@ properties:
+       filter. Addresses in the filter window are directed to the M1 port. Other
+       addresses will go to the M0 port.
+     $ref: /schemas/types.yaml#/definitions/uint32-array
+-    items:
+-      minItems: 2
+-      maxItems: 2
++    minItems: 2
++    maxItems: 2
+ 
+   arm,io-coherent:
+     description: indicates that the system is operating in an hardware
+diff --git a/Documentation/devicetree/bindings/dma/dma-common.yaml b/Documentation/devicetree/bindings/dma/dma-common.yaml
+index ea700f8ee6c6..fde5160b5d29 100644
+--- a/Documentation/devicetree/bindings/dma/dma-common.yaml
++++ b/Documentation/devicetree/bindings/dma/dma-common.yaml
+@@ -32,10 +32,9 @@ properties:
+       The first item in the array is for channels 0-31, the second is for
+       channels 32-63, etc.
+     $ref: /schemas/types.yaml#/definitions/uint32-array
+-    items:
+-      minItems: 1
+-      # Should be enough
+-      maxItems: 255
++    minItems: 1
++    # Should be enough
++    maxItems: 255
+ 
+   dma-channels:
+     $ref: /schemas/types.yaml#/definitions/uint32
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml b/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
+index 5f051c666cbe..f3247a47f9ee 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
+@@ -132,10 +132,9 @@ properties:
+       Address property. Base address of an alias of the GICD region containing
+       only the {SET,CLR}SPI registers to be used if isolation is required,
+       and if supported by the HW.
+-    $ref: /schemas/types.yaml#/definitions/uint32-array
+-    items:
+-      minItems: 1
+-      maxItems: 2
++    oneOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - $ref: /schemas/types.yaml#/definitions/uint64
+ 
+   ppi-partitions:
+     type: object
+@@ -223,9 +222,8 @@ patternProperties:
+           (u32, u32) tuple describing the untranslated
+           address and size of the pre-ITS window.
+         $ref: /schemas/types.yaml#/definitions/uint32-array
+-        items:
+-          minItems: 2
+-          maxItems: 2
++        minItems: 2
++        maxItems: 2
+ 
+     required:
+       - compatible
+diff --git a/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml b/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
+index 535acf2b88a9..bc339a7374b2 100644
+--- a/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
+@@ -135,8 +135,7 @@ properties:
+ 
+           data-lanes:
+             $ref: /schemas/media/video-interfaces.yaml#/properties/data-lanes
+-            items:
+-              maxItems: 4
++            maxItems: 4
+             description:
+               This property is for lane reordering between the THP7312 and the imaging
+               sensor that it is connected to.
+diff --git a/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml b/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml
+index 10a2d97e5f8b..a5598ade399f 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml
+@@ -66,9 +66,8 @@ patternProperties:
+ 
+       samsung,srom-timing:
+         $ref: /schemas/types.yaml#/definitions/uint32-array
+-        items:
+-          minItems: 6
+-          maxItems: 6
++        minItems: 6
++        maxItems: 6
+         description: |
+           Array of 6 integers, specifying bank timings in the following order:
+           Tacp, Tcah, Tcoh, Tacc, Tcos, Tacs.
+diff --git a/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml b/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
+index 0925c520195a..2ad1652c2584 100644
+--- a/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
++++ b/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
+@@ -92,9 +92,8 @@ properties:
+       may have two component regions -- base and extended -- so
+       this information cannot be deduced from the dma-ranges.
+     $ref: /schemas/types.yaml#/definitions/uint64-array
+-    items:
+-      minItems: 1
+-      maxItems: 3
++    minItems: 1
++    maxItems: 3
+ 
+   resets:
+     minItems: 1
+diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,smp2p.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,smp2p.yaml
+index 141d666dc3f7..1ba1d419e83b 100644
+--- a/Documentation/devicetree/bindings/soc/qcom/qcom,smp2p.yaml
++++ b/Documentation/devicetree/bindings/soc/qcom/qcom,smp2p.yaml
+@@ -55,8 +55,7 @@ properties:
+ 
+   qcom,smem:
+     $ref: /schemas/types.yaml#/definitions/uint32-array
+-    items:
+-      maxItems: 2
++    maxItems: 2
+     description:
+       Two identifiers of the inbound and outbound smem items used for this edge.
+ 
+-- 
+2.45.2
 
-Hans and I are planning to push fixes at the media-committers tree, as it
-allows CI to run those, but the goal here is not about visibility - it is
-just to ensure that CI will execute tests on the merged patches. 
-For committers and developers, the fixes workflow remains the same:
-PRs for committers and patches for developers.
-
--
-
-See, the main repository is hosted at linuxtv.org. We intend to avoid 
-as much as possible rebases at the media tree at linuxtv.org, on both
-fixes and next branches.
-
-The media-committers tree at fdo is focused on executing patches at CI
-and should only be used by committers. All other developers should base 
-their work at the repository stored at linuxtv.org[1].
-
-[1] We are planning to have a "media" repository there, replacing the
-    current "media-stage" tree.
-
-See, the media-committers repository at fdo can be rebased. This might
-happen, for instance, if we don't agree with some merge there during
-our merge review or if other committers disagree with merges. On such
-case, the not-accepted patches will be dropped via rebase and the patches
-will need to be reviewed the normal way.
-
-> > > > I have the same doubt. As discussed during the summit, Hans and I had some
-> > > > discussions yesterday, to address a few details. For both of us the process
-> > > > sounds well defined.    
-> > > 
-> > > I know that we scraped a lot of topics in the meeting at the media
-> > > summit and I am not sure about the scope you discussed with Ricardo
-> > > yesterday. So, we don't have to meet if you feel like we covered
-> > > everything, just wanted to use the opportunity as long as we are all in
-> > > the same place.  
-> > 
-> > I guess we covered everything that are needed for now. If required,
-> > further discussions may happen later via e-mail and/or virtual meetings.  
-
-Thanks,
-Mauro
 
