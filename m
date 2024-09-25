@@ -1,376 +1,115 @@
-Return-Path: <linux-media+bounces-18576-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18577-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D14899867D1
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 22:50:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC3598689B
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 23:48:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58D3D280C68
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 20:50:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC902B213FC
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 21:48:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EEDF15383F;
-	Wed, 25 Sep 2024 20:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF86C15AAB6;
+	Wed, 25 Sep 2024 21:47:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="e/RCyGLt"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XVb1J1Yo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0B214F114;
-	Wed, 25 Sep 2024 20:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DEF18452A
+	for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 21:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727297398; cv=none; b=sE0s88f2saD+S5jOPfd2gzxYR83DLf8iHdqyB3vk/ydNylQmxppxNUG6cDCtvNO88tYBRPDDWCNqq0kZYXTiR9BeOUmvWeLeROn7KI3k0+CTGuuvP0iEffyenpT5sTgpzMtyRtcHGmYBMvzt9Ba6P60rSa7LpT7MyoQnQWv1VVw=
+	t=1727300821; cv=none; b=NQ5GRPH80ohY2H2CMiKE9LynCLeP4FtUQWCiimmpN1R6rezuwEv51k80pm2EtPE1Nwa/G+gaGugjH94mNgPaLWIyW7ZoBOgc/ygRU/4LEemSgYF8OIbj3Riy119RmYO6xun54fBHmzit6lU1YdUgf/qjJ3iohlDzhyGVjdw9ocI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727297398; c=relaxed/simple;
-	bh=ip1hMMF8O6FqOFEz57jDc2zrukz3BYdST74ZAUHcmgg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ctNbsaewOknTMT12gliSkzNYGd6PU4qlgmaV91d6Fr9NubMhbEkwx8SWArNj9+tWRNwp9SkhuyoNkm1+Nz8k377/nPZIbUPBMEvEpeJaVxYPC/e3cRyqB98UbXh31iFPoc/lzIHZ9Qud46F1T8d3/y79dtKojVLO9LeHmsUNkss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=e/RCyGLt; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 951F5880D8;
-	Wed, 25 Sep 2024 22:49:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1727297394;
-	bh=zA1bPjKVCQ+/q7twBKcSEpbo5NaODKvE4JaFQ6OIdVw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=e/RCyGLt56Lh9eqd34kRP2AkX068h1mcx5tSe4QSLDQBgqrKPM2maVcwVvySK7/1R
-	 FNUr7lyDoVjiGBZG3ay+SxuYuXZYoSUFNLBTT9dIPcOaSreoTzsi7Q6gXGvqKF4IAa
-	 9dth2JxHn+vzjBZMRZBozDlc3PcPDz3DOr8MauwIjwDMinXWUl3AmS+lnA+DifJkK/
-	 q8HC2Zgzd/FAH3CnFJPND8B+IRBccHr9wOuVTZICrZWlbsIDEMVKNXE7552jjyw1Qp
-	 /sqVgZwl0pP728ksqV3kiOlyFX1IUACGzDKkUVZJIGxgzzOkPw77hOrNpnTXWAKEmn
-	 v+KUJHQgLblew==
-Message-ID: <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
-Date: Wed, 25 Sep 2024 22:45:20 +0200
+	s=arc-20240116; t=1727300821; c=relaxed/simple;
+	bh=g6PBn7djUoTJkGCL+SBMP6lCsNt9S2JHsLk2hfPblm8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gcgW1DtqXHGFmxPVadild1qsV5Eq8leA9738IficaMJWAu5WHb5WRBHKpjJQIZlET2yNLiXdrbHT/IYTqJqXuxiaU61feJCSCI8jqEERee5gFHAN3NwarlHQmb0Rj7gm9Ipev9QKiLgvg0FXKBOYdkRYfmF3weEU56ENSOpm1mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XVb1J1Yo; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 808DD7E2;
+	Wed, 25 Sep 2024 23:45:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1727300729;
+	bh=g6PBn7djUoTJkGCL+SBMP6lCsNt9S2JHsLk2hfPblm8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XVb1J1YoQ+ZTOC0nkQOwEu3xQqAVu4ubm5g26aEenp5NJnVK9HuxiDdE3ecsDnIXu
+	 09hAd1oGHn03CrseXBuxODmTgEkpPUXO4J3/iKQuamPlaCTSv0zuzzE40tMYqxrYMP
+	 kQiV5CGU6ZA2lUP1VJ2Xz5CcIRMC0zeweF9dRuTQ=
+Date: Thu, 26 Sep 2024 00:46:54 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, hverkuil@xs4all.nl
+Subject: Re: [PATCH v3 2/3] media: Documentation: Update
+ {enable,disable}_streams documentation
+Message-ID: <20240925214654.GA11070@pendragon.ideasonboard.com>
+References: <20240920073503.22536-1-sakari.ailus@linux.intel.com>
+ <20240920073503.22536-3-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240920073503.22536-3-sakari.ailus@linux.intel.com>
 
-On 9/25/24 7:58 PM, Nicolas Dufresne wrote:
+Hi Sakari,
 
-Hi,
+Thank you for the patch.
 
-[...]
+On Fri, Sep 20, 2024 at 10:35:02AM +0300, Sakari Ailus wrote:
+> Document the expected {enable,disable}_streams callback behaviour for
+> drivers that are stream-unaware i.e. don't specify the
+> V4L2_SUBDEV_CAP_STREAMS sub-device capability flat. In this specific case,
 
->> +static struct v4l2_pix_format *
->> +ipu_mem2mem_vdic_get_format(struct ipu_mem2mem_vdic_priv *priv,
->> +			    enum v4l2_buf_type type)
->> +{
->> +	return &priv->fmt[V4L2_TYPE_IS_OUTPUT(type) ? V4L2_M2M_SRC : V4L2_M2M_DST];
->> +}
+s/flat/flag/
+
+> the mask argument can be ignored.
 > 
->  From here ...
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+>  include/media/v4l2-subdev.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
->> +
->> +static bool ipu_mem2mem_vdic_format_is_yuv420(const u32 pixelformat)
->> +{
->> +	/* All 4:2:0 subsampled formats supported by this hardware */
->> +	return pixelformat == V4L2_PIX_FMT_YUV420 ||
->> +	       pixelformat == V4L2_PIX_FMT_YVU420 ||
->> +	       pixelformat == V4L2_PIX_FMT_NV12;
->> +}
->> +
->> +static bool ipu_mem2mem_vdic_format_is_yuv422(const u32 pixelformat)
->> +{
->> +	/* All 4:2:2 subsampled formats supported by this hardware */
->> +	return pixelformat == V4L2_PIX_FMT_UYVY ||
->> +	       pixelformat == V4L2_PIX_FMT_YUYV ||
->> +	       pixelformat == V4L2_PIX_FMT_YUV422P ||
->> +	       pixelformat == V4L2_PIX_FMT_NV16;
->> +}
->> +
->> +static bool ipu_mem2mem_vdic_format_is_yuv(const u32 pixelformat)
->> +{
->> +	return ipu_mem2mem_vdic_format_is_yuv420(pixelformat) ||
->> +	       ipu_mem2mem_vdic_format_is_yuv422(pixelformat);
->> +}
->> +
->> +static bool ipu_mem2mem_vdic_format_is_rgb16(const u32 pixelformat)
->> +{
->> +	/* All 16-bit RGB formats supported by this hardware */
->> +	return pixelformat == V4L2_PIX_FMT_RGB565;
->> +}
->> +
->> +static bool ipu_mem2mem_vdic_format_is_rgb24(const u32 pixelformat)
->> +{
->> +	/* All 24-bit RGB formats supported by this hardware */
->> +	return pixelformat == V4L2_PIX_FMT_RGB24 ||
->> +	       pixelformat == V4L2_PIX_FMT_BGR24;
->> +}
->> +
->> +static bool ipu_mem2mem_vdic_format_is_rgb32(const u32 pixelformat)
->> +{
->> +	/* All 32-bit RGB formats supported by this hardware */
->> +	return pixelformat == V4L2_PIX_FMT_XRGB32 ||
->> +	       pixelformat == V4L2_PIX_FMT_XBGR32 ||
->> +	       pixelformat == V4L2_PIX_FMT_BGRX32 ||
->> +	       pixelformat == V4L2_PIX_FMT_RGBX32;
->> +}
-> 
-> To here, these days, all this information can be derived from v4l2_format_info
-> in v4l2-common in a way you don't have to create a big barrier to adding more
-> formats in the future.
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 3cc6b4a5935f..ff63fb6046b1 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -834,11 +834,19 @@ struct v4l2_subdev_state {
+>   *	v4l2_subdev_init_finalize() at initialization time). Do not call
+>   *	directly, use v4l2_subdev_enable_streams() instead.
+>   *
+> + *	Drivers that support only a single stream without setting the
+> + *	V4L2_SUBDEV_CAP_STREAMS sub-device capability flag can ignore the mask
+> + *	argument.
+> + *
+>   * @disable_streams: Disable the streams defined in streams_mask on the given
+>   *	source pad. Subdevs that implement this operation must use the active
+>   *	state management provided by the subdev core (enabled through a call to
+>   *	v4l2_subdev_init_finalize() at initialization time). Do not call
+>   *	directly, use v4l2_subdev_disable_streams() instead.
+> + *
+> + *	Drivers that support only a single stream without setting the
+> + *	V4L2_SUBDEV_CAP_STREAMS sub-device capability flag can ignore the mask
+> + *	argument.
+>   */
+>  struct v4l2_subdev_pad_ops {
+>  	int (*enum_mbus_code)(struct v4l2_subdev *sd,
 
-I am not sure I quite understand this suggestion, what should I change here?
+-- 
+Regards,
 
-Note that the IPUv3 seems to be done, it does not seem like there will 
-be new SoCs with this block, so the list of formats here is likely final.
-
-[...]
-
->> +static irqreturn_t ipu_mem2mem_vdic_nfb4eof_interrupt(int irq, void *dev_id)
->> +{
->> +	struct ipu_mem2mem_vdic_priv *priv = dev_id;
->> +
->> +	/* That is about all we can do about it, report it. */
->> +	dev_warn_ratelimited(priv->dev, "NFB4EOF error interrupt occurred\n");
-> 
-> Not sure this is right. If that means ipu_mem2mem_vdic_eof_interrupt won't fire,
-> then it means streamoff/close after that will hang forever, leaving a zombie
-> process behind.
-> 
-> Perhaps mark the buffers as ERROR, and finish the job.
-
-The NFB4EOF interrupt is generated when the VDIC didn't write (all of) 
-output frame . I think it stands for "New Frame Before EOF" or some 
-such. Basically the currently written frame will be corrupted and the 
-next frame(s) are likely going to be OK again.
-
->> +
->> +	return IRQ_HANDLED;
->> +}
->> +
->> +static void ipu_mem2mem_vdic_device_run(void *_ctx)
->> +{
->> +	struct ipu_mem2mem_vdic_ctx *ctx = _ctx;
->> +	struct ipu_mem2mem_vdic_priv *priv = ctx->priv;
->> +	struct vb2_v4l2_buffer *curr_buf, *dst_buf;
->> +	dma_addr_t prev_phys, curr_phys, out_phys;
->> +	struct v4l2_pix_format *infmt;
->> +	u32 phys_offset = 0;
->> +	unsigned long flags;
->> +
->> +	infmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT);
->> +	if (V4L2_FIELD_IS_SEQUENTIAL(infmt->field))
->> +		phys_offset = infmt->sizeimage / 2;
->> +	else if (V4L2_FIELD_IS_INTERLACED(infmt->field))
->> +		phys_offset = infmt->bytesperline;
->> +	else
->> +		dev_err(priv->dev, "Invalid field %d\n", infmt->field);
->> +
->> +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
->> +	out_phys = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
->> +
->> +	curr_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
->> +	if (!curr_buf) {
->> +		dev_err(priv->dev, "Not enough buffers\n");
->> +		return;
-> 
-> Impossible branch, has been checked by __v4l2_m2m_try_queue().
-
-Fixed in V3
-
->> +	}
->> +
->> +	spin_lock_irqsave(&priv->irqlock, flags);
->> +
->> +	if (ctx->curr_buf) {
->> +		ctx->prev_buf = ctx->curr_buf;
->> +		ctx->curr_buf = curr_buf;
->> +	} else {
->> +		ctx->prev_buf = curr_buf;
->> +		ctx->curr_buf = curr_buf;
->> +		dev_warn(priv->dev, "Single-buffer mode, fix your userspace\n");
->> +	}
-> 
-> The driver is not taking ownership of prev_buf, only curr_buf is guaranteed to
-> exist until v4l2_m2m_job_finish() is called. Usespace could streamoff, allocate
-> new buffers, and then an old freed buffer may endup being used.
-
-So, what should I do about this ? Is there some way to ref the buffer to 
-keep it around ?
-
-> Its also unclear to me how userspace can avoid this ugly warning, how can you
-> have curr_buf set the first time ? (I might be missing something you this one
-> though).
-
-The warning happens when streaming starts and there is only one input 
-frame available for the VDIC, which needs three fields to work 
-correctly. So, if there in only one input frame, VDI uses the input 
-frame bottom field as PREV field for the prediction, and input frame top 
-and bottom fields as CURR and NEXT fields for the prediction, the result 
-may be one sub-optimal deinterlaced output frame (the first one). Once 
-another input frame gets enqueued, the VDIC uses the previous frame 
-bottom field as PREV and the newly enqueued frame top and bottom fields 
-as CURR and NEXT and the prediction works correctly from that point on.
-
-> Perhaps what you want is a custom job_ready() callback, that ensure you have 2
-> buffers in the OUTPUT queue ? You also need to ajust the CID
-> MIN_BUFFERS_FOR_OUTPUT accordingly.
-
-I had that before, but gstreamer didn't enqueue the two frames for me, 
-so I got back to this variant for maximum compatibility.
-
->> +	prev_phys = vb2_dma_contig_plane_dma_addr(&ctx->prev_buf->vb2_buf, 0);
->> +	curr_phys = vb2_dma_contig_plane_dma_addr(&ctx->curr_buf->vb2_buf, 0);
->> +
->> +	priv->curr_ctx = ctx;
->> +	spin_unlock_irqrestore(&priv->irqlock, flags);
->> +
->> +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
->> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset);
->> +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
->> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset);
->> +
->> +	/* No double buffering, always pick buffer 0 */
->> +	ipu_idmac_select_buffer(priv->vdi_out_ch, 0);
->> +	ipu_idmac_select_buffer(priv->vdi_in_ch_p, 0);
->> +	ipu_idmac_select_buffer(priv->vdi_in_ch, 0);
->> +	ipu_idmac_select_buffer(priv->vdi_in_ch_n, 0);
->> +
->> +	/* Enable the channels */
->> +	ipu_idmac_enable_channel(priv->vdi_out_ch);
->> +	ipu_idmac_enable_channel(priv->vdi_in_ch_p);
->> +	ipu_idmac_enable_channel(priv->vdi_in_ch);
->> +	ipu_idmac_enable_channel(priv->vdi_in_ch_n);
->> +}
-
-[...]
-
->> +static int ipu_mem2mem_vdic_try_fmt(struct file *file, void *fh,
->> +				    struct v4l2_format *f)
->> +{
->> +	const struct imx_media_pixfmt *cc;
->> +	enum imx_pixfmt_sel cs;
->> +	u32 fourcc;
->> +
->> +	if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {	/* Output */
->> +		cs = PIXFMT_SEL_YUV_RGB;	/* YUV direct / RGB via IC */
->> +
->> +		f->fmt.pix.field = V4L2_FIELD_NONE;
->> +	} else {
->> +		cs = PIXFMT_SEL_YUV;		/* YUV input only */
->> +
->> +		/*
->> +		 * Input must be interlaced with frame order.
->> +		 * Fall back to SEQ_TB otherwise.
->> +		 */
->> +		if (!V4L2_FIELD_HAS_BOTH(f->fmt.pix.field) ||
->> +		    f->fmt.pix.field == V4L2_FIELD_INTERLACED)
->> +			f->fmt.pix.field = V4L2_FIELD_SEQ_TB;
->> +	}
->> +
->> +	fourcc = f->fmt.pix.pixelformat;
->> +	cc = imx_media_find_pixel_format(fourcc, cs);
->> +	if (!cc) {
->> +		imx_media_enum_pixel_formats(&fourcc, 0, cs, 0);
->> +		cc = imx_media_find_pixel_format(fourcc, cs);
->> +	}
->> +
->> +	f->fmt.pix.pixelformat = cc->fourcc;
->> +
->> +	v4l_bound_align_image(&f->fmt.pix.width,
->> +			      1, 968, 1,
->> +			      &f->fmt.pix.height,
->> +			      1, 1024, 1, 1);
-> 
-> Perhaps use defines for the magic numbers ?
-
-Fixed in V3, thanks
-
->> +
->> +	if (ipu_mem2mem_vdic_format_is_yuv420(f->fmt.pix.pixelformat))
->> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 3 / 2;
->> +	else if (ipu_mem2mem_vdic_format_is_yuv422(f->fmt.pix.pixelformat))
->> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
->> +	else if (ipu_mem2mem_vdic_format_is_rgb16(f->fmt.pix.pixelformat))
->> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
->> +	else if (ipu_mem2mem_vdic_format_is_rgb24(f->fmt.pix.pixelformat))
->> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 3;
->> +	else if (ipu_mem2mem_vdic_format_is_rgb32(f->fmt.pix.pixelformat))
->> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 4;
->> +	else
->> +		f->fmt.pix.bytesperline = f->fmt.pix.width;
->> +
->> +	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
-> 
-> And use v4l2-common ?
-
-I don't really understand, there is nothing in v4l2-common.c that would 
-be really useful replacement for this ?
-
->> +	return 0;
->> +}
->> +
->> +static int ipu_mem2mem_vdic_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
->> +{
->> +	struct ipu_mem2mem_vdic_ctx *ctx = fh_to_ctx(fh);
->> +	struct ipu_mem2mem_vdic_priv *priv = ctx->priv;
->> +	struct v4l2_pix_format *fmt, *infmt, *outfmt;
->> +	struct vb2_queue *vq;
->> +	int ret;
->> +
->> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
->> +	if (vb2_is_busy(vq)) {
->> +		dev_err(priv->dev, "%s queue busy\n",  __func__);
->> +		return -EBUSY;
->> +	}
->> +
->> +	ret = ipu_mem2mem_vdic_try_fmt(file, fh, f);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	fmt = ipu_mem2mem_vdic_get_format(priv, f->type);
->> +	*fmt = f->fmt.pix;
->> +
->> +	/* Propagate colorimetry to the capture queue */
->> +	infmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT);
->> +	outfmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CAPTURE);
->> +	outfmt->colorspace = infmt->colorspace;
->> +	outfmt->ycbcr_enc = infmt->ycbcr_enc;
->> +	outfmt->xfer_func = infmt->xfer_func;
->> +	outfmt->quantization = infmt->quantization;
-> 
-> So you can do CSC conversion but not colorimetry ? We have
-> V4L2_PIX_FMT_FLAG_SET_CSC if you can do colorimetry transforms too. I have
-> patches that I'll send for the csc-scaler driver.
-
-See ipu_ic_calc_csc() , that's what does the colorspace conversion in 
-this driver (on output from VDI).
-
-[...]
+Laurent Pinchart
 
