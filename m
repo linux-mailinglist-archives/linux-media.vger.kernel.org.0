@@ -1,36 +1,40 @@
-Return-Path: <linux-media+bounces-18545-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18546-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A357B9856A7
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 11:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E05A9856BA
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 11:56:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 697DB282E92
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 09:50:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 589572874AD
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 09:56:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F080015B546;
-	Wed, 25 Sep 2024 09:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77B06158557;
+	Wed, 25 Sep 2024 09:56:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B8C156F36;
-	Wed, 25 Sep 2024 09:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A19E13B284;
+	Wed, 25 Sep 2024 09:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727257845; cv=none; b=N9OCUhL0m7pClFD2ceGDEQetQ5SWswa1xYXv4akNhsQNq5z84UZR9wKGsqxVn1Kvyy/MutemO48ujXv/zkLHZ4xjGWOcrr1g/1KNSmd5Vih0Bhmrb3AXx9wNzIyeBfEfaanRa9Vg6119CQSdazk6hnSu+K/hGIJMfDle4epYZRo=
+	t=1727258171; cv=none; b=dJRUxqRYnd6dVvsSbk69ZziYcyLJfypxtl+pxJPvLQrkN21s14utV4VOp86QgrnNRldkpkdaTCJAGF9ymq4LmSK4ZIXwZZm2iwRXspNlYgVwATLgPgoPv16u1jo/PckbRDoggJUcrWYSBfsIuJ20IiylFTCIehwin751mD8eX5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727257845; c=relaxed/simple;
-	bh=uk6LDy6E0VzCQgbbwnbYsWQi9ro1nsxbNBj76H7N1eE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=NfaYsZf6ih8pfCC586gWliOoW1GI/FhDUitUcEBUUU37/qSQBpJw5+eaxvOTPjnbK1Aa+j5JKA9IgWffxE7nqlR/xAH6Hy0whXAidFF98UKS3Tpzz8gHVWSUkC1dN1zJg7xh+1EVG73g/73vRQljL108F6rGBuWF15HCmeRj1zA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A4BCC4CEC3;
-	Wed, 25 Sep 2024 09:50:42 +0000 (UTC)
-Message-ID: <318aa048-ffdf-4379-929b-54358b018c94@xs4all.nl>
-Date: Wed, 25 Sep 2024 11:50:41 +0200
+	s=arc-20240116; t=1727258171; c=relaxed/simple;
+	bh=SKG7T5E2iG+DmItT/XrkXD2mDXw496/hmcH5RpxfgTs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qzkK43rwAlxF/zH6jN4icxV4Nb425DbBHTu3c+uUhpR301lpDjztYehq/VlbHJNqvFvumgw0DEFDFSUs0bp+m7Yz1W5ZgG2NKQA9UNBRE3V9ob8Gk1ZLAT44F9FtaswKgFNlKT8sKcMWMZ/l97yMNq9TzBmqjMCo9QFhaXT0XwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1EFD512FC;
+	Wed, 25 Sep 2024 02:56:37 -0700 (PDT)
+Received: from [10.57.78.226] (unknown [10.57.78.226])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6EB9E3F64C;
+	Wed, 25 Sep 2024 02:56:04 -0700 (PDT)
+Message-ID: <033f8885-9c0e-4c5a-a272-baf48807dc5d@arm.com>
+Date: Wed, 25 Sep 2024 10:56:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,148 +42,269 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/4] media: uvcvideo: Stop stream during unregister
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Tomasz Figa <tfiga@chromium.org>,
- Alan Stern <stern@rowland.harvard.edu>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ricardo Ribalda <ribalda@chromium.org>
-References: <20240614-guenter-mini-v6-0-7b7fdc3b21b3@chromium.org>
- <20240614-guenter-mini-v6-1-7b7fdc3b21b3@chromium.org>
- <f4c49ccf-9dc9-475a-8fc9-4ef4c85a729a@xs4all.nl>
-Content-Language: en-US, nl
-In-Reply-To: <f4c49ccf-9dc9-475a-8fc9-4ef4c85a729a@xs4all.nl>
+Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
+ accounting
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <5c4d1008-261f-4c47-ab73-c527675484a4@arm.com>
+ <bq6lctwgpsxvrdaajmjo3xdjt32srmsxvjhtzyebdj6izjzoaw@6duby4axg3pf>
+ <ef799587-f7c2-472a-8550-9c40a395eccb@arm.com>
+ <jgdknf77n6vqanh4jv2yixe4n4hsbhqqhth4beued4topggwgz@wx7bumhrbpje>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <jgdknf77n6vqanh4jv2yixe4n4hsbhqqhth4beued4topggwgz@wx7bumhrbpje>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 25/09/2024 10:32, Hans Verkuil wrote:
-> Hi Laurent,
+On 23/09/2024 21:43, Adrián Larumbe wrote:
+> Hi Steve,
 > 
-> We discussed this patch last week, and you thought that there was still
-> a race condition if the uvc device was unplugged while an application was
-> in the VIDIOC_DQBUF call waiting for a buffer to arrive (so the vb2 wait_prepare
-> op is called, which unlocks the serialization mutex).
+> On 23.09.2024 09:55, Steven Price wrote:
+>> On 20/09/2024 23:36, Adrián Larumbe wrote:
+>>> Hi Steve, thanks for the review.
+>>
+>> Hi Adrián,
+>>
+>>> I've applied all of your suggestions for the next patch series revision, so I'll
+>>> only be answering to your question about the calc_profiling_ringbuf_num_slots
+>>> function further down below.
+>>>
+>>
+>> [...]
+>>
+>>>>> @@ -3003,6 +3190,34 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
+>>>>>  	.free_job = queue_free_job,
+>>>>>  };
+>>>>>  
+>>>>> +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
+>>>>> +				       u32 cs_ringbuf_size)
+>>>>> +{
+>>>>> +	u32 min_profiled_job_instrs = U32_MAX;
+>>>>> +	u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * We want to calculate the minimum size of a profiled job's CS,
+>>>>> +	 * because since they need additional instructions for the sampling
+>>>>> +	 * of performance metrics, they might take up further slots in
+>>>>> +	 * the queue's ringbuffer. This means we might not need as many job
+>>>>> +	 * slots for keeping track of their profiling information. What we
+>>>>> +	 * need is the maximum number of slots we should allocate to this end,
+>>>>> +	 * which matches the maximum number of profiled jobs we can place
+>>>>> +	 * simultaneously in the queue's ring buffer.
+>>>>> +	 * That has to be calculated separately for every single job profiling
+>>>>> +	 * flag, but not in the case job profiling is disabled, since unprofiled
+>>>>> +	 * jobs don't need to keep track of this at all.
+>>>>> +	 */
+>>>>> +	for (u32 i = 0; i < last_flag; i++) {
+>>>>> +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
+>>>>> +			min_profiled_job_instrs =
+>>>>> +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
+>>>>> +	}
+>>>>> +
+>>>>> +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
+>>>>> +}
+>>>>
+>>>> I may be missing something, but is there a situation where this is
+>>>> different to calc_job_credits(0)? AFAICT the infrastructure you've added
+>>>> can only add extra instructions to the no-flags case - whereas this
+>>>> implies you're thinking that instructions may also be removed (or replaced).
+>>>>
+>>>> Steve
+>>>
+>>> Since we create a separate kernel BO to hold the profiling information slot, we
+>>> need one that would be able to accomodate as many slots as the maximum number of
+>>> profiled jobs we can insert simultaneously into the queue's ring buffer. Because
+>>> profiled jobs always take more instructions than unprofiled ones, then we would
+>>> usually need fewer slots than the number of unprofiled jobs we could insert at
+>>> once in the ring buffer.
+>>>
+>>> Because we represent profiling metrics with a bit mask, then we need to test the
+>>> size of the CS for every single metric enabled in isolation, since enabling more
+>>> than one will always mean a bigger CS, and therefore fewer jobs tracked at once
+>>> in the queue's ring buffer.
+>>>
+>>> In our case, calling calc_job_credits(0) would simply tell us the number of
+>>> instructions we need for a normal job with no profiled features enabled, which
+>>> would always requiere less instructions than profiled ones, and therefore more
+>>> slots in the profiling info kernel BO. But we don't need to keep track of
+>>> profiling numbers for unprofiled jobs, so there's no point in calculating this
+>>> number.
+>>>
+>>> At first I was simply allocating a profiling info kernel BO as big as the number
+>>> of simultaneous unprofiled job slots in the ring queue, but Boris pointed out
+>>> that since queue ringbuffers can be as big as 2GiB, a lot of this memory would
+>>> be wasted, since profiled jobs always require more slots because they hold more
+>>> instructions, so fewer profiling slots in said kernel BO.
+>>>
+>>> The value of this approach will eventually manifest if we decided to keep track of
+>>> more profiling metrics, since this code won't have to change at all, other than
+>>> adding new profiling flags in the panthor_device_profiling_flags enum.
+>>
+>> Thanks for the detailed explanation. I think what I was missing is that
+>> the loop is checking each bit flag independently and *not* checking
+>> calc_job_credits(0).
+>>
+>> The check for (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL) is probably what
+>> confused me - that should be completely redundant. Or at least we need
+>> something more intelligent if we have profiling bits which are not
+>> mutually compatible.
 > 
-> I'll go through the code below, explaining why that isn't an issue.
+> I thought of an alternative that would only test bits that are actually part of
+> the mask:
+> 
+> static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
+> 				       u32 cs_ringbuf_size)
+> {
+> 	u32 min_profiled_job_instrs = U32_MAX;
+> 	u32 profiling_mask = PANTHOR_DEVICE_PROFILING_ALL;
+> 
+> 	while (profiling_mask) {
+> 		u32 i = ffs(profiling_mask) - 1;
+> 		profiling_mask &= ~BIT(i);
+> 		min_profiled_job_instrs =
+> 			min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
+> 	}
+> 
+> 	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
+> }
+> 
+> However, I don't think this would be more efficient, because ffs() is probably
+> fetching the first set bit by performing register shifts, and I guess this would
+> take somewhat longer than iterating over every single bit from the last one,
+> even if also matching them against the whole mask, just in case in future
+> additions of performance metrics we decide to leave some of the lower
+> significance bits untouched.
 
-Update: I added an extra check for this scenario to the test-media script to make
-sure we catch any potential regressions in how this is handled in the core.
+Efficiency isn't very important here - we're not on a fast path, so it's
+more about ensuring the code is readable. I don't think the above is
+more readable then the original for loop.
 
-Regards,
+> Regarding your question about mutual compatibility, I don't think that is an
+> issue here, because we're testing bits in isolation. If in the future we find
+> out that some of the values we're profiling cannot be sampled at once, we can
+> add that logic to the sysfs knob handler, to make sure UM cannot set forbidden
+> profiling masks.
 
-	Hans
+My comment about compatibility is because in the original above you were
+calculating the top bit of PANTHOR_DEVICE_PROFILING_ALL:
 
+> u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
+
+then looping between 0 and that bit:
+
+> for (u32 i = 0; i < last_flag; i++) {
+
+So the test:
+
+> if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
+
+would only fail if PANTHOR_DEVICE_PROFILING_ALL had gaps in the bits
+that it set. The only reason I can think for that to be true in the
+future is if there is some sort of incompatibility - e.g. maybe there's
+an old and new way of doing some form of profiling with the old way
+being kept for backwards compatibility. But I suspect if/when that is
+required we'll need to revisit this function anyway. So that 'if'
+statement seems completely redundant (it's trivially always true).
+
+Steve
+
+>> I'm also not entirely sure that the amount of RAM saved is significant,
+>> but you've already written the code so we might as well have the saving ;)
 > 
-> On 14/06/2024 14:41, Ricardo Ribalda wrote:
->> uvc_unregister_video() can be called asynchronously from
->> uvc_disconnect(). If the device is still streaming when that happens, a
->> plethora of race conditions can occur.
+> I think this was more evident before Boris suggested we reduce the basic slot
+> size to that of a single cache line, because then the minimum profiled job
+> might've taken twice as many ringbuffer slots as a nonprofiled one. In that
+> case, we would need a half as big BO for holding the sampled data (in case the
+> least size profiled job CS would extend over the 16 instruction boundary).
+> I still think this is a good idea so that in the future we don't need to worry
+> about adjusting the code that deals with preparing the right boilerplate CS,
+> since it'll only be a matter of adding new instructions inside prepare_job_instrs().
+> 
+>> Thanks,
+>> Steve
 >>
->> Make sure that the device has stopped streaming before exiting this
->> function.
->>
->> If the user still holds handles to the driver's file descriptors, any
->> ioctl will return -ENODEV from the v4l2 core.
->>
->> This change makes uvc more consistent with the rest of the v4l2 drivers
->> using the vb2_fop_* and vb2_ioctl_* helpers.
->>
->> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->> ---
->>  drivers/media/usb/uvc/uvc_driver.c | 32 +++++++++++++++++++++++++++++++-
->>  1 file changed, 31 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
->> index bbd90123a4e7..55132688e363 100644
->> --- a/drivers/media/usb/uvc/uvc_driver.c
->> +++ b/drivers/media/usb/uvc/uvc_driver.c
->> @@ -1908,11 +1908,41 @@ static void uvc_unregister_video(struct uvc_device *dev)
->>  	struct uvc_streaming *stream;
->>  
->>  	list_for_each_entry(stream, &dev->streams, list) {
->> +		/* Nothing to do here, continue. */
->>  		if (!video_is_registered(&stream->vdev))
->>  			continue;
->>  
->> +		/*
->> +		 * For stream->vdev we follow the same logic as:
->> +		 * vb2_video_unregister_device().
->> +		 */
->> +
->> +		/* 1. Take a reference to vdev */
->> +		get_device(&stream->vdev.dev);
-> 
-> This ensures that the device refcount won't go to 0 if video_unregister_device
-> is called (which calls put_device).
-> 
-> But note that if an application called VIDIOC_DQBUF and is waiting for a buffer,
-> then that open filehandle also called get_device(). So while that application is
-> waiting, the device refcount will never go to 0.
-> 
->> +
->> +		/* 2. Ensure that no new ioctls can be called. */
->>  		video_unregister_device(&stream->vdev);
->> -		video_unregister_device(&stream->meta.vdev);
->> +
->> +		/* 3. Wait for old ioctls to finish. */
->> +		mutex_lock(&stream->mutex);
-> 
-> If VIDIOC_DQBUF is waiting for a buffer to arrive, then indeed we can take this
-> lock here. So in that case this won't wait for that specific ioctl to finish.
-> 
->> +
->> +		/* 4. Stop streaming. */
->> +		uvc_queue_release(&stream->queue);
-> 
-> This will __vb2_queue_cancel() which will stop streaming and wake up the wait for
-> buffers in VIDIOC_DQBUF. It will try to lock this mutex again, and sleeps while
-> waiting for the mutex to become available.
-> 
->> +
->> +		mutex_unlock(&stream->mutex);
-> 
-> At this point it can take the mutex again. But since q->streaming is now false,
-> (due to the __vb2_queue_cancel call) this will return an error which is returned
-> to userspace.
-> 
->> +
->> +		put_device(&stream->vdev.dev);
-> 
-> This releases the reference we took earlier. If the application has already closed
-> the filehandle, then this will release all memory. If the application still has the
-> fh open, then only when it closes that fh will the memory be released.
-> 
-> Conclusion: there is no race condition here, this is handled correctly by the core.
-> 
->> +
->> +		/*
->> +		 * For stream->meta.vdev we can directly call:
->> +		 * vb2_video_unregister_device().
->> +		 */
->> +		vb2_video_unregister_device(&stream->meta.vdev);
-> 
-> Perhaps a patch adding more comments to the vb2_video_unregister_device()
-> function might help document this sequence better.
-> 
-> Regards,
-> 
-> 	Hans
-> 
->> +
->> +		/*
->> +		 * Now both vdevs are not streaming and all the ioctls will
->> +		 * return -ENODEV.
->> +		 */
->>  
->>  		uvc_debugfs_cleanup_stream(stream);
->>  	}
->>
+>>> Regards,
+>>> Adrian
+>>>
+>>>>> +
+>>>>>  static struct panthor_queue *
+>>>>>  group_create_queue(struct panthor_group *group,
+>>>>>  		   const struct drm_panthor_queue_create *args)
+>>>>> @@ -3056,9 +3271,35 @@ group_create_queue(struct panthor_group *group,
+>>>>>  		goto err_free_queue;
+>>>>>  	}
+>>>>>  
+>>>>> +	queue->profiling.slot_count =
+>>>>> +		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
+>>>>> +
+>>>>> +	queue->profiling.slots =
+>>>>> +		panthor_kernel_bo_create(group->ptdev, group->vm,
+>>>>> +					 queue->profiling.slot_count *
+>>>>> +					 sizeof(struct panthor_job_profiling_data),
+>>>>> +					 DRM_PANTHOR_BO_NO_MMAP,
+>>>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>>>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+>>>>> +					 PANTHOR_VM_KERNEL_AUTO_VA);
+>>>>> +
+>>>>> +	if (IS_ERR(queue->profiling.slots)) {
+>>>>> +		ret = PTR_ERR(queue->profiling.slots);
+>>>>> +		goto err_free_queue;
+>>>>> +	}
+>>>>> +
+>>>>> +	ret = panthor_kernel_bo_vmap(queue->profiling.slots);
+>>>>> +	if (ret)
+>>>>> +		goto err_free_queue;
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * Credit limit argument tells us the total number of instructions
+>>>>> +	 * across all CS slots in the ringbuffer, with some jobs requiring
+>>>>> +	 * twice as many as others, depending on their profiling status.
+>>>>> +	 */
+>>>>>  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
+>>>>>  			     group->ptdev->scheduler->wq, 1,
+>>>>> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
+>>>>> +			     args->ringbuf_size / sizeof(u64),
+>>>>>  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+>>>>>  			     group->ptdev->reset.wq,
+>>>>>  			     NULL, "panthor-queue", group->ptdev->base.dev);
+>>>>> @@ -3354,6 +3595,7 @@ panthor_job_create(struct panthor_file *pfile,
+>>>>>  {
+>>>>>  	struct panthor_group_pool *gpool = pfile->groups;
+>>>>>  	struct panthor_job *job;
+>>>>> +	u32 credits;
+>>>>>  	int ret;
+>>>>>  
+>>>>>  	if (qsubmit->pad)
+>>>>> @@ -3407,9 +3649,16 @@ panthor_job_create(struct panthor_file *pfile,
+>>>>>  		}
+>>>>>  	}
+>>>>>  
+>>>>> +	job->profiling.mask = pfile->ptdev->profile_mask;
+>>>>> +	credits = calc_job_credits(job->profiling.mask);
+>>>>> +	if (credits == 0) {
+>>>>> +		ret = -EINVAL;
+>>>>> +		goto err_put_job;
+>>>>> +	}
+>>>>> +
+>>>>>  	ret = drm_sched_job_init(&job->base,
+>>>>>  				 &job->group->queues[job->queue_idx]->entity,
+>>>>> -				 1, job->group);
+>>>>> +				 credits, job->group);
+>>>>>  	if (ret)
+>>>>>  		goto err_put_job;
+>>>>>  
+>>>
 > 
 > 
+> Adrian Larumbe
 
 
