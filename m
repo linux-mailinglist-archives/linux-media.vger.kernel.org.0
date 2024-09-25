@@ -1,115 +1,197 @@
-Return-Path: <linux-media+bounces-18557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FD39863B2
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 17:35:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BE29863D1
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 17:40:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C56E81C26B30
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 15:35:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30E9F28A754
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 15:40:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77E641D5ABE;
-	Wed, 25 Sep 2024 15:35:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AF1C17557;
+	Wed, 25 Sep 2024 15:40:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k8fL3p5d"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="o/bWVpAB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8B579E5;
-	Wed, 25 Sep 2024 15:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C28DDC5;
+	Wed, 25 Sep 2024 15:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727278530; cv=none; b=goFJA/c2Y3U0xFyRAdIZ53t2vyJU/Y7ooVpDy8QU4ywUq7PHrytgegkrYYkpaR0w1/+E9xSPoTJeH4IYs/oPzOX60W/KxPMsCtH4aaev8HApbjW98XCD33k4+iYGBpu0n5QtPqlRQzkseLqIIMdDr7GYKUEa1yyPTzoNtUSzjkk=
+	t=1727278829; cv=none; b=XZf1V6iP99HI9P4zqFqLFPT5Y9MXl91YWffHjKFrgqzcVVfNtk7iyxs0MdsoG/WAoO3zyFMVt95VDUF1m1UCbIP8T2zi6/Zk9HVytff7CGeG+Pnj6Wl0L7wR+wu83ov+ecBsvN2D5jiyVPsw7wB6J9a0teyyEfOvXBXl7oGMWmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727278530; c=relaxed/simple;
-	bh=zQtvEQZux0ML2QJMt6fDRCxvIWYfMtXL2Qqa2On/ugs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eTpup1kTL2WFSkzESLoXpOtz8jFCpnn/NR4Yp4x3kCRoV144l23rZCkw8O1LN0C6JnSV7pXWbYrtvRE6L1SsUZJ9do/Fvz1rnU8G2wm5EVQ1zk2Yg30rAGU0YMmTPzzMGrWO+UGucIPJwuGD2PNqN/XqbRtLaE6LoWa68wFecHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k8fL3p5d; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e201f146cc8so6434679276.3;
-        Wed, 25 Sep 2024 08:35:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727278528; x=1727883328; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zQtvEQZux0ML2QJMt6fDRCxvIWYfMtXL2Qqa2On/ugs=;
-        b=k8fL3p5dH5HnnZgwZ5dHJWHh0S0hlGG+y3Zhf+joxw9jrq/udqb60Vdzy0yS7BNKDA
-         u61qJed/Z8p7CriEw++GJTOm+/jP8ql7fG7SnQkKMPprfGqt9lJOtwcHpf94WdBxKF3S
-         Ky1Mrr1VaDbrSIpdrQmChjWXoTccVMoZeqNPs9AEa4yPncRMK1Bi1rvlC90PWWMdJmwI
-         7ArMuO5PDxNQEB6oOIfwu1b5IDjA+W6JWi7prfZdDpwodahMyfau/w2kb3SeENG5SUQ1
-         3L47MxxrhLVbU9SgB5jU7FkI+zTsUg8/zUhIxbDF7TqFk0wBcmhGMEMnO/l5hcziiTp4
-         gH6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727278528; x=1727883328;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zQtvEQZux0ML2QJMt6fDRCxvIWYfMtXL2Qqa2On/ugs=;
-        b=qRhNuFw6Jnl1RswYovQd3LSpERfu1lHx/JCWqM158pT/tGoHKsTmHz2yzSs5yRpBht
-         7S2p/djapiwYIwaBjH6tVNEExSri+gq0e2Q4OO1aoqOle3gIMwUe0MkLmreKsaa/kdAw
-         FLSJHQgqIpbb+vc8TzmVOkY4eaXvdQ+FmijqrGnjs0AVa/eMc3oo2BoaGEkPjy4IzXKM
-         dyFUggHh9RpCq1ieGezOwf/XEB72oJ4xPVywwBMFPI0tA1jGxgVnouDmlGKM9peboCO4
-         Sd56sRimHyZaDe3ioOWjicdMY+YtCMA7l0QX4JwGP88ntxwkqwtODbTZMBt6MP2t2Bfq
-         s6Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCWfacPMYOaX7ObS7ARpBt8IvtYhv+EEdMRL0sd4C8s8GwmfNoThseDRnZBDpblEbF7S2vgIS4SHpwme7j8=@vger.kernel.org, AJvYcCWjegKrkNCawm/ksjsBXBHgbwbX7rVV4MvpifQ1cSwLzGYSy8GSK6RVEjNB4+SZziPbAVOn0CcH27dkhWkVGmQtfWg=@vger.kernel.org, AJvYcCXmDiV1iV/Wo9Y2HmAh2Nx82wNwCgULflspkAf323mhJtP571bytSnhOvN3xZt+r6aBshZUM/tvFdoW2Lw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeWwChJA8kfbUBsU/xV4Z2waQHWdhBSZsG/AGFiYGLndDn8Njf
-	4gBznxHjr3u9goi+yzXuWwaaK37186cdKcTMbvC81dlgwP9QngjQOVXNATB8dUcBcQjgrhjgGZ9
-	C3vOOeo9aGLeu824yBjxhMhpgyz4=
-X-Google-Smtp-Source: AGHT+IE+2X3AfhW58Tzy6ESrwc3qTUV/BFSmfpIDzkHnR4x6F1OU0TYi/H6DgUWIt/+vb4KQ4MkXlsROndqj5JYxYoE=
-X-Received: by 2002:a05:6902:2310:b0:e17:bd74:f2a7 with SMTP id
- 3f1490d57ef6-e24d9bdabc1mr2120620276.44.1727278528192; Wed, 25 Sep 2024
- 08:35:28 -0700 (PDT)
+	s=arc-20240116; t=1727278829; c=relaxed/simple;
+	bh=986SlRrlycEw9SEZ7YlGWIbuS0GUP+bBf/BOWdsi/cs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=NvXSlbn5URxNUwSxmXWXlsk2rGhCmI+zLlsIOutf5PUYmled4IKXmT0dW2C9n7wo6J/Vw1SHK7dX+xrgP7jQsr2F4DPyVFlh4H9u7bVy6jX6JgXC2jQXfUkEkGpGru+EWMlCz7CfzfWACXJr+UPZhXss2fyuEmrdLjjU+vyNs8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=o/bWVpAB; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48P7TBAx002097;
+	Wed, 25 Sep 2024 15:40:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	eu5BTfN7gGDmJfFLzwg37VwuJ3b5VZixko81Swn6aOw=; b=o/bWVpABz4/j08O8
+	InPMwtLHG2uvu/JWp/aQYvHM6s295xronx4XcgfZROWxjkOEtkk9k1uTi2A7B9b9
+	DJ3Y/tJm7PmkpvTywUKQqc572TSKqjbtVPav67OPxsZAXcyCtPcOj1KO/wPSUzjk
+	Iv4AwU48P8SdN8FoEK4K0Uul2bF8B97zX7UvFq9f6ofUeufX8ZlLQQj1CWVyebwu
+	mSEsnyN1fJhskV5ohPicI7bqYyzhr5YKsNzaIKrO4bEywwOLctCuWuEHoZCy7HtB
+	4Cow7GaseO2cTKWZyEddhtz/SUKU6S+yBLZAvdtKk+lw2XiHY4vx8NWVGbE9OriW
+	LmFntw==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41spwevfmf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Sep 2024 15:40:23 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48PFeMpw008110
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Sep 2024 15:40:22 GMT
+Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 25 Sep
+ 2024 08:40:16 -0700
+Message-ID: <a0f66292-fb97-40ae-9fb1-d79160e70bb3@quicinc.com>
+Date: Wed, 25 Sep 2024 23:40:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240910170610.226189-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240924224619.GO7165@pendragon.ideasonboard.com>
-In-Reply-To: <20240924224619.GO7165@pendragon.ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 25 Sep 2024 16:35:02 +0100
-Message-ID: <CA+V-a8t-goaBwU2WAZLz1C1f3z-ATm_kS8NAD=zU23nDCTnNEg@mail.gmail.com>
-Subject: Re: [PATCH v2 06/11] media: i2c: ov5645: Drop `power_lock` mutex
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
+ binding
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>, <krzk+dt@kernel.org>,
+        Neil Armstrong
+	<neil.armstrong@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <todor.too@gmail.com>,
+        <rfoss@kernel.org>, <conor+dt@kernel.org>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-8-quic_depengs@quicinc.com>
+ <b1b4a866-fa64-4844-a49b-dfdcfca536df@linaro.org>
+ <82dd61ab-83c0-4f9c-a2ee-e00473f4ff23@linaro.org>
+ <da60cf71-13a4-465d-a0ee-ca2ad3775262@linaro.org>
+ <97e4f888-1ed7-4d82-b972-3e0b95610198@linaro.org>
+ <6eadc285-f413-4bf0-8795-59ff19c734da@linaro.org>
+ <6562a958-47e9-4a49-b235-fe8deba3c051@linaro.org>
+ <cab95caa-9ffb-446a-858b-342939e80811@mleia.com>
+ <4e94106d-5ca9-485b-8c51-c18dcd4e64b0@linaro.org>
+ <b779182f-a963-400a-8fc1-2468710082d2@linaro.org>
+Content-Language: en-US
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <b779182f-a963-400a-8fc1-2468710082d2@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: CCd-aqsO0QRZw8MMe7MBcT94d3Vl79kg
+X-Proofpoint-ORIG-GUID: CCd-aqsO0QRZw8MMe7MBcT94d3Vl79kg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 priorityscore=1501 clxscore=1011
+ malwarescore=0 mlxscore=0 mlxlogscore=999 impostorscore=0 phishscore=0
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409250112
 
-Hi Laurent,
+Hi Vladimir, Bryan,
 
-Thank you for the review.
+On 9/18/2024 7:16 AM, Vladimir Zapolskiy wrote:
+> Hi Bryan,
+> 
+> On 9/18/24 01:40, Bryan O'Donoghue wrote:
+>> On 13/09/2024 06:06, Vladimir Zapolskiy wrote:
+>>> On 9/13/24 01:41, Bryan O'Donoghue wrote:
+>>>> On 12/09/2024 21:57, Vladimir Zapolskiy wrote:
+>>>>>> 3. Required not optional in the yaml
+>>>>>>
+>>>>>>        => You can't use the PHY without its regulators
+>>>>>
+>>>>> No, the supplies shall be optional, since it's absolutely possible to
+>>>>> have
+>>>>> such a board, where supplies are merely not connected to the SoC.
+>>>>
+>>>> For any _used_ PHY both supplies are certainly required.
+>>>>
+>>>> That's what the yaml/dts check for this should achieve.
+>>>
+>>> I believe it is technically possible by writing an enormously complex
+>>> scheme, when all possible "port" cases and combinations are listed.
+>>>
+>>> Do you see any simpler way? Do you insist that it is utterly needed?
+>>
+>> I asked Krzysztof about this offline.
+>>
+>> He said something like
+>>
+>> Quote:
+>> This is possible, but I think not between child nodes.
+>> https://elixir.bootlin.com/linux/v6.11-rc7/source/Documentation/ 
+>> devicetree/bindings/example-schema.yaml#L194
+>>
+>> You could require something in children, but not in parent node. For
+>> children something around:
+>> https://elixir.bootlin.com/linux/v6.4-rc7/source/Documentation/ 
+>> devicetree/bindings/net/qcom,ipa.yaml#L174
+>>
+>> allOf:
+>>     - if:
+>>         required:
+>>           - something-in-parent
+>>       then:
+>>         properties:
+>>           child-node:
+>>             required:
+>>               - something-in-child
+>>
+>> I will see if I can turn that into a workable proposal/patch.
+>>
+> 
+> thank you for pushing my review request forward.
+> 
+> Overall I believe making supply properties as optional ones is sufficient,
+> technically straightforward and merely good enough, thus please let me
+> ask you to ponder on this particular variant one more time.
+> 
 
-On Tue, Sep 24, 2024 at 11:46=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Tue, Sep 10, 2024 at 06:06:05PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Drop mutex while applying controls and just rely on
-> > pm_runtime_get_if_in_use() call.
->
-> Here too the commit message should explain why the mutex can be dropped.
-> Given that it is only used in .s_ctrl(), and the control framework
-> serializes calls to the function, the mutex is not needed.
->
-Agreed, I'll update the commit message as above and send a v3.
+So, we are discussing two things.
 
-Cheers,
-Prabhakar
+1# Use separate supplies for each CSI block, looks like there is no 
+doubt about it anymore. So, I will update it just like based on suggestion.
+
+csiphyX-vdda-phy-supply
+csiphyX-vdda-pll-supply
+
+Then I will need below items in the required list if they are required.
+required:
+   - csiphy0-vdda-phy-supply
+   - csiphy0-vdda-pll-supply
+   - csiphy1-vdda-phy-supply
+   - csiphy1-vdda-pll-supply
+...
+   - csiphy7-vdda-phy-supply
+   - csiphy7-vdda-pll-supply
+
+2# Regarding the CSI supplies, if they need to be making as optional?
+Looks like there is no conclusion now.
+
+@Bryan, do you agree with this?
+
+Thanks,
+Depeng
 
