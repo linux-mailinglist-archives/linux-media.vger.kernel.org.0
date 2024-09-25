@@ -1,108 +1,193 @@
-Return-Path: <linux-media+bounces-18578-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18579-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BE798689C
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 23:48:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D87A986937
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 00:38:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C50A1C20E35
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 21:48:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B7CAB1F24B21
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 22:38:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9CB3158205;
-	Wed, 25 Sep 2024 21:47:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8EF0154BF5;
+	Wed, 25 Sep 2024 22:38:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PwHwQPYz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e7tfeSU+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7834C91
-	for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 21:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C53E56A
+	for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 22:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727300853; cv=none; b=g3nH4kTKsapsO3hXvY6b+v2dEr+BJRFHqP4I/xTzErm8PfAMfPaRt1yeARUVW11UZr+OPnWz9gcHNerW9VbtMkeEEwSofvTPRqGhRjJ1Ogn5LtOPadFU0f4CQogZKLG9S8lTCqDAgOL04u9nu3WjgixbnP5rZGlBLYbtwkexIFk=
+	t=1727303904; cv=none; b=qOVNgJE+gAtaE5W8ZBUVe1IBRlElxCRc3JREWbnk47dvOmN4qNiseUdJx613kX/7ra7jgjmWhVTj82ayeT7UmJttBQ+DUJoAniarkD+TOWZ944eXO7lYas2mLePgQqmFn75zd5SJW/PBdaJ6vyI2ONkwLRxDx9pptOz0hCd/38o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727300853; c=relaxed/simple;
-	bh=QDZTTUzSh/D1DhNYS53UtwSK5Aykg55QX1IWlQNLMFE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B15bXCjkPjhhgrYlYqXlRpVSEAbE1kUCDLMYjNZkgXjAycAx3oXj4f/vFna4/xQrB1L+TJU2C5LUDKvHodm7icI8syF861zIe3jJNQ1Wbm8WAqI58RISce51+uvFtzmhZK151lk55jJEpPyNaAKQCoF9fPkPpSenfa9jCynXdHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PwHwQPYz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 80EFECDB;
-	Wed, 25 Sep 2024 23:46:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727300762;
-	bh=QDZTTUzSh/D1DhNYS53UtwSK5Aykg55QX1IWlQNLMFE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PwHwQPYz/QyBj8omYGu2PJ31uo6sNHtPVOIJrcnFLwKgropb4CYmdEK02W7z2Q3Kt
-	 VP4tpE2wb6dbi+rkeXfmx9d2DwwkQk006sb833G2qrp6Z8IqYCe78WT1GifMarYXwt
-	 /6xTo3LO88/Ndq/TfwYWRgbvUFOj/QZO3xGUYEYU=
-Date: Thu, 26 Sep 2024 00:47:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, hverkuil@xs4all.nl
-Subject: Re: [PATCH v3 3/3] media: Documentation: Improve
- v4l2_subdev_{en,dis}able_streams documentation
-Message-ID: <20240925214728.GB11070@pendragon.ideasonboard.com>
-References: <20240920073503.22536-1-sakari.ailus@linux.intel.com>
- <20240920073503.22536-4-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1727303904; c=relaxed/simple;
+	bh=G8exd1NnFsB5ReUc3RWHgiZWKY+4CBwK5uR8NGkPF58=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YASbRL2VZO2EKo27h29LvU6USiQpJ3rB3Cs+0MlqGn8FJfIXmzss+uD5p1dE1jIvMut5kbnHw4mMgNAu0N3QB/Bq2md46CFCRdviBLOAdrkwflspJXCi75EPgSifvMXLcbvTlqV/plxkYWejCSCwLtU6QeMYzbLLsDOfr/S5ax0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e7tfeSU+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC1AC4CEC3;
+	Wed, 25 Sep 2024 22:38:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727303903;
+	bh=G8exd1NnFsB5ReUc3RWHgiZWKY+4CBwK5uR8NGkPF58=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=e7tfeSU+ges1DxuWAtv6W+MfstZzI/JVybD7MtRGGz0P+9lpPgHd3SBJrZnel1n19
+	 WOoifeTKj4/7e7BTwf40Q7l8guq3Y4Ba7H7B9oPBCIyWYpDoZpI+Dj0RTndqry0MB5
+	 Lp5OKb5pTPIjdCIFfLYogkPdRpAKEPXcx2hDGb5nv683IOE5APKGSoVlahj8oKm2+H
+	 0y94GGPSvPjB972MLrsBmYQsQNOUUZgy1cQo8LqmSGXCs5uOX07CdQVGiVoBCCaicN
+	 QLv8fn0aYCY41oNOiuMEn1y93xNm+xedBlC6Py3dRJsCqklYgrbyoIEwe/YxTFVTLh
+	 KD5muXbTAQH9A==
+Date: Thu, 26 Sep 2024 00:38:15 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Martin Hecht <martin.hecht@avnet.eu>, Tommaso Merciai
+ <tomm.merciai@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Ricardo Ribalda
+ <ribalda@chromium.org>, Michael Tretter <m.tretter@pengutronix.de>, Alain
+ Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>, Steve Cho
+ <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>, Hidenori
+ Kobayashi <hidenorik@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Suresh Vankadara <svankada@qti.qualcomm.com>, Devarsh Thakkar
+ <devarsht@ti.com>, r-donadkar@ti.com, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Mehdi Djait
+ <mehdi.djait@linux.intel.com>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Salahaldeen Altous <salahaldeen.altous@leica-camera.com>
+Subject: Re: [ANN] Media Summit September 16th: Final Agenda (v7)
+Message-ID: <20240926003815.6537fdbb@foz.lan>
+In-Reply-To: <20240925195653.GJ30399@pendragon.ideasonboard.com>
+References: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
+	<20240917091744.qltmddftdy7bpgpg@basti-XPS-13-9310>
+	<bb8c09c7-0eae-4e1a-8fb8-e325fcf326df@xs4all.nl>
+	<20240918092454.21884920@sal.lan>
+	<20240918093020.u5rz7qfjoumfezql@basti-XPS-13-9310>
+	<20240918132323.2a384f87@sal.lan>
+	<20240925195653.GJ30399@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240920073503.22536-4-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
+Em Wed, 25 Sep 2024 22:56:53 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-Thank you for the patch.
-
-On Fri, Sep 20, 2024 at 10:35:03AM +0300, Sakari Ailus wrote:
-> Document that callers of v4l2_subdev_{en,dis}able_streams() need to set
-> the mask to BIT_ULL(0).
+> Hi Mauro,
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
->  include/media/v4l2-subdev.h | 4 ++++
->  1 file changed, 4 insertions(+)
+> On Wed, Sep 18, 2024 at 01:23:23PM +0200, Mauro Carvalho Chehab wrote:
+> > Em Wed, 18 Sep 2024 11:30:20 +0200 Sebastian Fricke escreveu:  
+> > > On 18.09.2024 09:24, Mauro Carvalho Chehab wrote:  
+> > > > Em Tue, 17 Sep 2024 14:52:19 +0200 Hans Verkuil escreveu:  
+> > > >> On 9/17/24 11:17 AM, Sebastian Fricke wrote:    
+> > > >> > Greetings,
+> > > >> >
+> > > >> > I remember that we wanted to still define a couple of processes for the
+> > > >> > multi-committer model for which we hadn't have the time on the media
+> > > >> > summit. Just would like to gather who would be interested to meet for
+> > > >> > that, where we meet (probably LPC venue) and when (Laurent just told me
+> > > >> > that Friday is probably a good slot for that).    
+> > > >>
+> > > >> Can you refresh my memory which processes need more work?    
+> > > 
+> > > Well I basically remember that we had a bunch of topics in our meetings
+> > > that we wanted to skip in order to talk about them here.
+> > > We looked at the documentation from DRM and wanted to think about
+> > > equivalent policies for media.
+> > > https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html#where-do-i-apply-my-patch  
+> > 
+> > Thanks for the pointer. Yeah, examples from other trees can be helpful when
+> > improving media developers profile and writing the committers agreement,
+> > even when they have a message that it is just the opposite of what we
+> > we want, like this (from DRM-misc ruleset):
+> > 
+> > 	"Since even a broken driver is more useful than no driver minimal
+> > 	 review standards are a lot lower."
+> > 
+> > In this particular case, for instance, as discussed at media summit, we'd
+> > like to have high quality standards for stuff under drivers/media. After
+> > all, we do use drivers/media/staging for low quality drivers. 
+> > 
+> > It it worth mentioning that committers shall not merge low quality drivers
+> > nor patches for staging. If ever needed, those should be done via PRs or
+> > be explicitly authorized by maintainers.  
 > 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index ff63fb6046b1..2f2200875b03 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1685,6 +1685,8 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
->   * function implements a best-effort compatibility by calling the .s_stream()
->   * operation, limited to subdevs that have a single source pad.
->   *
-> + * Drivers that are not stream-aware shall set @streams_mask to BIT_ULL(0).
-> + *
->   * Return:
->   * * 0: Success
->   * * -EALREADY: One of the streams in streams_mask is already enabled
-> @@ -1715,6 +1717,8 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->   * function implements a best-effort compatibility by calling the .s_stream()
->   * operation, limited to subdevs that have a single source pad.
->   *
-> + * Drivers that are not stream-aware shall set @streams_mask to BIT_ULL(0).
-> + *
->   * Return:
->   * * 0: Success
->   * * -EALREADY: One of the streams in streams_mask is not enabled
+> Do you mean new drivers only, or also patches for existing staging/
+> drivers ?
 
--- 
-Regards,
+New drivers only. Patches for drivers already at staging can go via
+committers tree.
 
-Laurent Pinchart
+> 
+> > > Also there were topics like how to handle backports.   
+> > 
+> > We don't handle backports on media tree. This is up to stable maintainers.
+> > Basically, we follow stable rules to the letter:
+> > 
+> > 	Documentation/process/stable-kernel-rules.rst
+> > 
+> > E. g. patches that require backports shall have the proper meta-tags 
+> > (specially cc: stable and  fixes:).   
+> 
+> Sebastian may have meant backmerges.
+> 
+> > Also, we're not implementing multi-committers for fixes, just for next.
+> > 
+> > So, fixes shall follow the normal flow: they should be sent via PR.  
+> 
+> I see there's a fixes branch in the media-committers tree, does that
+> mean you have agreed with Hans and Ricardo that fixes will go through
+> pull requests but be pushed there for visibility ? If so, thanks for
+> that, I think it will improve the experience.
+
+Hans and I are planning to push fixes at the media-committers tree, as it
+allows CI to run those, but the goal here is not about visibility - it is
+just to ensure that CI will execute tests on the merged patches. 
+For committers and developers, the fixes workflow remains the same:
+PRs for committers and patches for developers.
+
+-
+
+See, the main repository is hosted at linuxtv.org. We intend to avoid 
+as much as possible rebases at the media tree at linuxtv.org, on both
+fixes and next branches.
+
+The media-committers tree at fdo is focused on executing patches at CI
+and should only be used by committers. All other developers should base 
+their work at the repository stored at linuxtv.org[1].
+
+[1] We are planning to have a "media" repository there, replacing the
+    current "media-stage" tree.
+
+See, the media-committers repository at fdo can be rebased. This might
+happen, for instance, if we don't agree with some merge there during
+our merge review or if other committers disagree with merges. On such
+case, the not-accepted patches will be dropped via rebase and the patches
+will need to be reviewed the normal way.
+
+> > > > I have the same doubt. As discussed during the summit, Hans and I had some
+> > > > discussions yesterday, to address a few details. For both of us the process
+> > > > sounds well defined.    
+> > > 
+> > > I know that we scraped a lot of topics in the meeting at the media
+> > > summit and I am not sure about the scope you discussed with Ricardo
+> > > yesterday. So, we don't have to meet if you feel like we covered
+> > > everything, just wanted to use the opportunity as long as we are all in
+> > > the same place.  
+> > 
+> > I guess we covered everything that are needed for now. If required,
+> > further discussions may happen later via e-mail and/or virtual meetings.  
+
+Thanks,
+Mauro
 
