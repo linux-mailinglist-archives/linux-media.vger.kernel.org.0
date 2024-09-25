@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-18575-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18576-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAD79867CF
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 22:50:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D14899867D1
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 22:50:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4932A1C2162B
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 20:50:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58D3D280C68
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 20:50:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2C9F1509B3;
-	Wed, 25 Sep 2024 20:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EEDF15383F;
+	Wed, 25 Sep 2024 20:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="Mob5/Ijo"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="e/RCyGLt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C1214D2B8;
-	Wed, 25 Sep 2024 20:49:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0B214F114;
+	Wed, 25 Sep 2024 20:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727297397; cv=none; b=Tj5Hbo5jd/pYQ2xCZdS/RXl1IzQOoSUjsjHOTsP0zBZxhgrM9FaPZojk3+T9qBH/lcRbBlqrlNsyc8yVM+HI3jpgU5qn3TJ6qBYHiUT2+0Yf0HiontmZtyUh1qzxtIHPafZ5JAqRkg+BBEt0t5CCV36rG7CMbHbeFaykJooyobQ=
+	t=1727297398; cv=none; b=sE0s88f2saD+S5jOPfd2gzxYR83DLf8iHdqyB3vk/ydNylQmxppxNUG6cDCtvNO88tYBRPDDWCNqq0kZYXTiR9BeOUmvWeLeROn7KI3k0+CTGuuvP0iEffyenpT5sTgpzMtyRtcHGmYBMvzt9Ba6P60rSa7LpT7MyoQnQWv1VVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727297397; c=relaxed/simple;
-	bh=JkgLQpkXzDTlcYRbzgZjdSzIvdrqm2/16IjBSOD1ZZ4=;
+	s=arc-20240116; t=1727297398; c=relaxed/simple;
+	bh=ip1hMMF8O6FqOFEz57jDc2zrukz3BYdST74ZAUHcmgg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j5qZrCqN6Ph8HDujmcIBsojBCsnEamkNNpwTGz9oQ3LQJsQepFw4+TotpWgffFpN2svDXR9i9cRN+ZWYTxuz75y190UaPUTsQiMoLHW1FFJHn05BV59vyVDhB1ndkZ3cLffZeLolO/xdf8xNBf++moTTwWFnY8A6enlT9DWgogE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=Mob5/Ijo; arc=none smtp.client-ip=85.214.62.61
+	 In-Reply-To:Content-Type; b=ctNbsaewOknTMT12gliSkzNYGd6PU4qlgmaV91d6Fr9NubMhbEkwx8SWArNj9+tWRNwp9SkhuyoNkm1+Nz8k377/nPZIbUPBMEvEpeJaVxYPC/e3cRyqB98UbXh31iFPoc/lzIHZ9Qud46F1T8d3/y79dtKojVLO9LeHmsUNkss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=e/RCyGLt; arc=none smtp.client-ip=85.214.62.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 3F5CA87179;
-	Wed, 25 Sep 2024 22:49:46 +0200 (CEST)
+	by phobos.denx.de (Postfix) with ESMTPSA id 951F5880D8;
+	Wed, 25 Sep 2024 22:49:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1727297393;
-	bh=00qhpUSbPwX7l/uw3vpiF1kyNQLTvs1CqaV2gPPJTQM=;
+	s=phobos-20191101; t=1727297394;
+	bh=zA1bPjKVCQ+/q7twBKcSEpbo5NaODKvE4JaFQ6OIdVw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Mob5/IjohpnRjUMrReUNnbsdSPwU92aY7GdjtJLxkMWJRlWGJJYV6UAGQRRlNpcZa
-	 bvTwxP1sXipZPza/BIqwHVn3ssHLkpWDv1yNYgVfOoRLWvzP2WFSwQKODRiQLuUPwe
-	 LtJHWlRP7nMW2+sutH+CtKMvjWxoItJH7TwL59xGnc9TtgYL0o8OcXFvrjBsxtGyNC
-	 huGurmrDFM77jHYuYRN8xLMnPetqhz3QCi5klSkmzs1eSvVPvgi3jeB+XnNMFR5f3r
-	 NuhMADkwgsOti+00+vg/3IwJRRpLGAfAS7t+RakdJPjbsi2hdqZbhP65/uN7UVFZ6U
-	 V2pTdrQuC8rAQ==
-Message-ID: <a7b7acff-e710-4c50-97b8-1bce557eadde@denx.de>
-Date: Wed, 25 Sep 2024 22:14:39 +0200
+	b=e/RCyGLt56Lh9eqd34kRP2AkX068h1mcx5tSe4QSLDQBgqrKPM2maVcwVvySK7/1R
+	 FNUr7lyDoVjiGBZG3ay+SxuYuXZYoSUFNLBTT9dIPcOaSreoTzsi7Q6gXGvqKF4IAa
+	 9dth2JxHn+vzjBZMRZBozDlc3PcPDz3DOr8MauwIjwDMinXWUl3AmS+lnA+DifJkK/
+	 q8HC2Zgzd/FAH3CnFJPND8B+IRBccHr9wOuVTZICrZWlbsIDEMVKNXE7552jjyw1Qp
+	 /sqVgZwl0pP728ksqV3kiOlyFX1IUACGzDKkUVZJIGxgzzOkPw77hOrNpnTXWAKEmn
+	 v+KUJHQgLblew==
+Message-ID: <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
+Date: Wed, 25 Sep 2024 22:45:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,249 +58,319 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
  deinterlacer driver
-To: Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+To: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
 Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Fabio Estevam <festevam@gmail.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
  <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
 References: <20240724002044.112544-1-marex@denx.de>
  <20240724002044.112544-2-marex@denx.de>
- <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
- <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
- <f894eb3fd132a214ddbf2fa3ed405d065e629398.camel@pengutronix.de>
+ <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <f894eb3fd132a214ddbf2fa3ed405d065e629398.camel@pengutronix.de>
+In-Reply-To: <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
 X-Virus-Status: Clean
 
-On 9/25/24 5:07 PM, Philipp Zabel wrote:
+On 9/25/24 7:58 PM, Nicolas Dufresne wrote:
 
 Hi,
 
-> On Di, 2024-09-24 at 17:28 +0200, Marek Vasut wrote:
->> On 9/6/24 11:01 AM, Philipp Zabel wrote:
-> [...]
->>> Instead of presenting two devices to userspace, it would be better to
->>> have a single video device that can distribute work to both IPUs.
->>
->> Why do you think so ?
+[...]
+
+>> +static struct v4l2_pix_format *
+>> +ipu_mem2mem_vdic_get_format(struct ipu_mem2mem_vdic_priv *priv,
+>> +			    enum v4l2_buf_type type)
+>> +{
+>> +	return &priv->fmt[V4L2_TYPE_IS_OUTPUT(type) ? V4L2_M2M_SRC : V4L2_M2M_DST];
+>> +}
 > 
-> The scaler/colorspace converter supports frames larger than the
-> 1024x1024 hardware by splitting each frame into multiple tiles. It
-> currently does so sequentially on a single IC. Speed could be improved
-> by distributing the tiles to both ICs. This is not an option anymore if
-> there are two video devices that are fixed to one IC each.
-
-The userspace could distribute the frames between the two devices in an 
-alternating manner, can it not ?
-
-> The same would be possible for the deinterlacer, e.g. to support 720i
-> frames split into two tiles each sent to one of the two VDICs.
-
-Would the 1280x360 field be split into two tiles vertically and each 
-tile (newly 1280/2 x 360) be enqueued on each VDIC ? I don't think that 
-works, because you wouldn't be able to stitch those tiles back together 
-nicely after the deinterlacing, would you? I would expect to see some 
-sort of an artifact exactly where the two tiles got stitched back 
-together, because the VDICs are unaware of each other and how each 
-deinterlaced the tile.
-
->> I think it is better to keep the kernel code as simple as possible, i.e.
->> provide the device node for each m2m device to userspace and handle the
->> m2m device hardware interaction in the kernel driver, but let userspace
->> take care of policy like job scheduling, access permissions assignment
->> to each device (e.g. if different user accounts should have access to
->> different VDICs), or other such topics.
+>  From here ...
 > 
-> I both agree and disagree with you at the same time.
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_yuv420(const u32 pixelformat)
+>> +{
+>> +	/* All 4:2:0 subsampled formats supported by this hardware */
+>> +	return pixelformat == V4L2_PIX_FMT_YUV420 ||
+>> +	       pixelformat == V4L2_PIX_FMT_YVU420 ||
+>> +	       pixelformat == V4L2_PIX_FMT_NV12;
+>> +}
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_yuv422(const u32 pixelformat)
+>> +{
+>> +	/* All 4:2:2 subsampled formats supported by this hardware */
+>> +	return pixelformat == V4L2_PIX_FMT_UYVY ||
+>> +	       pixelformat == V4L2_PIX_FMT_YUYV ||
+>> +	       pixelformat == V4L2_PIX_FMT_YUV422P ||
+>> +	       pixelformat == V4L2_PIX_FMT_NV16;
+>> +}
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_yuv(const u32 pixelformat)
+>> +{
+>> +	return ipu_mem2mem_vdic_format_is_yuv420(pixelformat) ||
+>> +	       ipu_mem2mem_vdic_format_is_yuv422(pixelformat);
+>> +}
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_rgb16(const u32 pixelformat)
+>> +{
+>> +	/* All 16-bit RGB formats supported by this hardware */
+>> +	return pixelformat == V4L2_PIX_FMT_RGB565;
+>> +}
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_rgb24(const u32 pixelformat)
+>> +{
+>> +	/* All 24-bit RGB formats supported by this hardware */
+>> +	return pixelformat == V4L2_PIX_FMT_RGB24 ||
+>> +	       pixelformat == V4L2_PIX_FMT_BGR24;
+>> +}
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_rgb32(const u32 pixelformat)
+>> +{
+>> +	/* All 32-bit RGB formats supported by this hardware */
+>> +	return pixelformat == V4L2_PIX_FMT_XRGB32 ||
+>> +	       pixelformat == V4L2_PIX_FMT_XBGR32 ||
+>> +	       pixelformat == V4L2_PIX_FMT_BGRX32 ||
+>> +	       pixelformat == V4L2_PIX_FMT_RGBX32;
+>> +}
 > 
-> If the programming model were more similar to DRM, I'd agree in a
-> heartbeat. If the kernel driver just had to do memory/fence handling
-> and command submission (and parameter sanitization, because there is no
-> MMU), and there was some userspace API on top, it would make sense to
-> me to handle parameter calculation and job scheduling in a hardware
-> specific userspace driver that can just open one device for each IPU.
+> To here, these days, all this information can be derived from v4l2_format_info
+> in v4l2-common in a way you don't have to create a big barrier to adding more
+> formats in the future.
+
+I am not sure I quite understand this suggestion, what should I change here?
+
+Note that the IPUv3 seems to be done, it does not seem like there will 
+be new SoCs with this block, so the list of formats here is likely final.
+
+[...]
+
+>> +static irqreturn_t ipu_mem2mem_vdic_nfb4eof_interrupt(int irq, void *dev_id)
+>> +{
+>> +	struct ipu_mem2mem_vdic_priv *priv = dev_id;
+>> +
+>> +	/* That is about all we can do about it, report it. */
+>> +	dev_warn_ratelimited(priv->dev, "NFB4EOF error interrupt occurred\n");
 > 
-> With the rigid V4L2 model though, where memory handling, parameter
-> calculation, and job scheduling of tiles in a single frame all have to
-> be hidden behind the V4L2 API, I don't think requiring userspace to
-> combine multiple mem2mem video devices to work together on a single
-> frame is feasible.
-
-If your concern is throughput (from what I gathered from the text 
-above), userspace could schedule frames on either VDIC in alternating 
-manner.
-
-I think this is much better and actually generic approach than trying to 
-combine two independent devices on kernel level and introduce some sort 
-of scheduler into kernel driver to distribute jobs between the two 
-devices. Generic, because this approach works even if either of the two 
-devices is not VDIC. Independent devices, because yes, the MX6Q IPUs are 
-two independent blocks, it is only the current design of the IPUv3 
-driver that makes them look kind-of like they are one single big device, 
-I am not happy about that design, but rewriting the IPUv3 driver is way 
-out of scope here. (*)
-
-> Is limiting different users to the different deinterlacer hardware
-> units a real usecase? I saw the two ICs, when used as mem2mem devices,
-> as interchangeable resources.
-
-I do not have that use case, but I can imagine it could come up.
-In my case, I schedule different cameras to different VDICs from 
-userspace as needed.
-
->>> To be fair, we never implemented that for the CSC/scaler mem2mem device
->>> either.
->>
->> I don't think that is actually a good idea. Instead, it would be better
->> to have two scaler nodes in userspace.
+> Not sure this is right. If that means ipu_mem2mem_vdic_eof_interrupt won't fire,
+> then it means streamoff/close after that will hang forever, leaving a zombie
+> process behind.
 > 
-> See above, that would make it impossible (or rather unreasonably
-> complicated) to distribute work on a single frame to both IPUs.
+> Perhaps mark the buffers as ERROR, and finish the job.
 
-Is your concern latency instead of throughput ? See my comment in 
-paragraph (*) .
+The NFB4EOF interrupt is generated when the VDIC didn't write (all of) 
+output frame . I think it stands for "New Frame Before EOF" or some 
+such. Basically the currently written frame will be corrupted and the 
+next frame(s) are likely going to be OK again.
 
+>> +
+>> +	return IRQ_HANDLED;
+>> +}
+>> +
+>> +static void ipu_mem2mem_vdic_device_run(void *_ctx)
+>> +{
+>> +	struct ipu_mem2mem_vdic_ctx *ctx = _ctx;
+>> +	struct ipu_mem2mem_vdic_priv *priv = ctx->priv;
+>> +	struct vb2_v4l2_buffer *curr_buf, *dst_buf;
+>> +	dma_addr_t prev_phys, curr_phys, out_phys;
+>> +	struct v4l2_pix_format *infmt;
+>> +	u32 phys_offset = 0;
+>> +	unsigned long flags;
+>> +
+>> +	infmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+>> +	if (V4L2_FIELD_IS_SEQUENTIAL(infmt->field))
+>> +		phys_offset = infmt->sizeimage / 2;
+>> +	else if (V4L2_FIELD_IS_INTERLACED(infmt->field))
+>> +		phys_offset = infmt->bytesperline;
+>> +	else
+>> +		dev_err(priv->dev, "Invalid field %d\n", infmt->field);
+>> +
+>> +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+>> +	out_phys = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+>> +
+>> +	curr_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+>> +	if (!curr_buf) {
+>> +		dev_err(priv->dev, "Not enough buffers\n");
+>> +		return;
 > 
-> [...]
->>>> +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
->>>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset);
->>>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
->>>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset);
->>>
->>> This always outputs at a frame rate of half the field rate, and only
->>> top fields are ever used as current field, and bottom fields as
->>> previous/next fields, right?
->>
->> Yes, currently the driver extracts 1 frame from two consecutive incoming
->> fields (previous Bottom, and current Top and Bottom):
->>
->> (frame 1 and 3 below is omitted)
->>
->>       1  2  3  4
->> ...|T |T |T |T |...
->> ...| B| B| B| B|...
->>        | ||  | ||
->>        '-''  '-''
->>         ||    ||
->>         ||    \/
->>         \/  Frame#4
->>       Frame#2
->>
->> As far as I understand it, this is how the current VDI implementation
->> behaves too, right ?
+> Impossible branch, has been checked by __v4l2_m2m_try_queue().
+
+Fixed in V3
+
+>> +	}
+>> +
+>> +	spin_lock_irqsave(&priv->irqlock, flags);
+>> +
+>> +	if (ctx->curr_buf) {
+>> +		ctx->prev_buf = ctx->curr_buf;
+>> +		ctx->curr_buf = curr_buf;
+>> +	} else {
+>> +		ctx->prev_buf = curr_buf;
+>> +		ctx->curr_buf = curr_buf;
+>> +		dev_warn(priv->dev, "Single-buffer mode, fix your userspace\n");
+>> +	}
 > 
-> Yes, that is a hardware limitation when using the direct CSI->VDIC
-> direct path. As far as I understand, for each frame (two fields) the
-> CSI only sends the first ("PREV") field directly to the VDIC, which
-> therefor can only be run in full motion mode (use the filter to add in
-> the missing lines).
-> The second ("CUR") field is just ignored. It could be written to RAM
-> via IDMAC output channel 13 (IPUV3_CHANNEL_VDI_MEM_RECENT), which can
-> not be used by the VDIC in direct mode. So this is not implemented.
+> The driver is not taking ownership of prev_buf, only curr_buf is guaranteed to
+> exist until v4l2_m2m_job_finish() is called. Usespace could streamoff, allocate
+> new buffers, and then an old freed buffer may endup being used.
+
+So, what should I do about this ? Is there some way to ref the buffer to 
+keep it around ?
+
+> Its also unclear to me how userspace can avoid this ugly warning, how can you
+> have curr_buf set the first time ? (I might be missing something you this one
+> though).
+
+The warning happens when streaming starts and there is only one input 
+frame available for the VDIC, which needs three fields to work 
+correctly. So, if there in only one input frame, VDI uses the input 
+frame bottom field as PREV field for the prediction, and input frame top 
+and bottom fields as CURR and NEXT fields for the prediction, the result 
+may be one sub-optimal deinterlaced output frame (the first one). Once 
+another input frame gets enqueued, the VDIC uses the previous frame 
+bottom field as PREV and the newly enqueued frame top and bottom fields 
+as CURR and NEXT and the prediction works correctly from that point on.
+
+> Perhaps what you want is a custom job_ready() callback, that ensure you have 2
+> buffers in the OUTPUT queue ? You also need to ajust the CID
+> MIN_BUFFERS_FOR_OUTPUT accordingly.
+
+I had that before, but gstreamer didn't enqueue the two frames for me, 
+so I got back to this variant for maximum compatibility.
+
+>> +	prev_phys = vb2_dma_contig_plane_dma_addr(&ctx->prev_buf->vb2_buf, 0);
+>> +	curr_phys = vb2_dma_contig_plane_dma_addr(&ctx->curr_buf->vb2_buf, 0);
+>> +
+>> +	priv->curr_ctx = ctx;
+>> +	spin_unlock_irqrestore(&priv->irqlock, flags);
+>> +
+>> +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
+>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset);
+>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
+>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset);
+>> +
+>> +	/* No double buffering, always pick buffer 0 */
+>> +	ipu_idmac_select_buffer(priv->vdi_out_ch, 0);
+>> +	ipu_idmac_select_buffer(priv->vdi_in_ch_p, 0);
+>> +	ipu_idmac_select_buffer(priv->vdi_in_ch, 0);
+>> +	ipu_idmac_select_buffer(priv->vdi_in_ch_n, 0);
+>> +
+>> +	/* Enable the channels */
+>> +	ipu_idmac_enable_channel(priv->vdi_out_ch);
+>> +	ipu_idmac_enable_channel(priv->vdi_in_ch_p);
+>> +	ipu_idmac_enable_channel(priv->vdi_in_ch);
+>> +	ipu_idmac_enable_channel(priv->vdi_in_ch_n);
+>> +}
+
+[...]
+
+>> +static int ipu_mem2mem_vdic_try_fmt(struct file *file, void *fh,
+>> +				    struct v4l2_format *f)
+>> +{
+>> +	const struct imx_media_pixfmt *cc;
+>> +	enum imx_pixfmt_sel cs;
+>> +	u32 fourcc;
+>> +
+>> +	if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {	/* Output */
+>> +		cs = PIXFMT_SEL_YUV_RGB;	/* YUV direct / RGB via IC */
+>> +
+>> +		f->fmt.pix.field = V4L2_FIELD_NONE;
+>> +	} else {
+>> +		cs = PIXFMT_SEL_YUV;		/* YUV input only */
+>> +
+>> +		/*
+>> +		 * Input must be interlaced with frame order.
+>> +		 * Fall back to SEQ_TB otherwise.
+>> +		 */
+>> +		if (!V4L2_FIELD_HAS_BOTH(f->fmt.pix.field) ||
+>> +		    f->fmt.pix.field == V4L2_FIELD_INTERLACED)
+>> +			f->fmt.pix.field = V4L2_FIELD_SEQ_TB;
+>> +	}
+>> +
+>> +	fourcc = f->fmt.pix.pixelformat;
+>> +	cc = imx_media_find_pixel_format(fourcc, cs);
+>> +	if (!cc) {
+>> +		imx_media_enum_pixel_formats(&fourcc, 0, cs, 0);
+>> +		cc = imx_media_find_pixel_format(fourcc, cs);
+>> +	}
+>> +
+>> +	f->fmt.pix.pixelformat = cc->fourcc;
+>> +
+>> +	v4l_bound_align_image(&f->fmt.pix.width,
+>> +			      1, 968, 1,
+>> +			      &f->fmt.pix.height,
+>> +			      1, 1024, 1, 1);
 > 
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/staging/media/imx/imx-media-vdic.c#n207
+> Perhaps use defines for the magic numbers ?
+
+Fixed in V3, thanks
+
+>> +
+>> +	if (ipu_mem2mem_vdic_format_is_yuv420(f->fmt.pix.pixelformat))
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 3 / 2;
+>> +	else if (ipu_mem2mem_vdic_format_is_yuv422(f->fmt.pix.pixelformat))
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
+>> +	else if (ipu_mem2mem_vdic_format_is_rgb16(f->fmt.pix.pixelformat))
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
+>> +	else if (ipu_mem2mem_vdic_format_is_rgb24(f->fmt.pix.pixelformat))
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 3;
+>> +	else if (ipu_mem2mem_vdic_format_is_rgb32(f->fmt.pix.pixelformat))
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 4;
+>> +	else
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width;
+>> +
+>> +	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
 > 
-> That code is unused. The direct hardware path doesn't use
-> IPUV3_CHANNEL_MEM_VDI_PREV/CUR/NEXT, but is has a similar effect, half
-> of the incoming fields are dropped. The setup is vdic_setup_direct().
+> And use v4l2-common ?
 
-All right, let's drop that unused code then, I'll prepare a patch.
+I don't really understand, there is nothing in v4l2-common.c that would 
+be really useful replacement for this ?
 
-But it seems the bottom line is, the VDI direct mode does not act as a 
-frame-rate doubler ?
-
->>> I think it would be good to add a mode that doesn't drop the
->>>
->>> 	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
->>> 	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, prev_phys + phys_offset);
->>> 	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys);
->>>
->>> output frames, right from the start.
->>
->> This would make the VDI act as a frame-rate doubler, which would spend a
->> lot more memory bandwidth, which is limited on MX6, so I would also like
->> to have a frame-drop mode (i.e. current behavior).
->>
->> Can we make that behavior configurable ? Since this is a mem2mem device,
->> we do not really have any notion of input and output frame-rate, so I
->> suspect this would need some VIDIOC_* ioctl ?
+>> +	return 0;
+>> +}
+>> +
+>> +static int ipu_mem2mem_vdic_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>> +{
+>> +	struct ipu_mem2mem_vdic_ctx *ctx = fh_to_ctx(fh);
+>> +	struct ipu_mem2mem_vdic_priv *priv = ctx->priv;
+>> +	struct v4l2_pix_format *fmt, *infmt, *outfmt;
+>> +	struct vb2_queue *vq;
+>> +	int ret;
+>> +
+>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+>> +	if (vb2_is_busy(vq)) {
+>> +		dev_err(priv->dev, "%s queue busy\n",  __func__);
+>> +		return -EBUSY;
+>> +	}
+>> +
+>> +	ret = ipu_mem2mem_vdic_try_fmt(file, fh, f);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	fmt = ipu_mem2mem_vdic_get_format(priv, f->type);
+>> +	*fmt = f->fmt.pix;
+>> +
+>> +	/* Propagate colorimetry to the capture queue */
+>> +	infmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+>> +	outfmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>> +	outfmt->colorspace = infmt->colorspace;
+>> +	outfmt->ycbcr_enc = infmt->ycbcr_enc;
+>> +	outfmt->xfer_func = infmt->xfer_func;
+>> +	outfmt->quantization = infmt->quantization;
 > 
-> That would be good. The situation I'd like to avoid is that this device
-> becomes available without the full frame-rate mode, userspace then
-> assumes this is a 1:1 frame converter device, and then we can't add the
-> full frame-rate later without breaking userspace.
+> So you can do CSC conversion but not colorimetry ? We have
+> V4L2_PIX_FMT_FLAG_SET_CSC if you can do colorimetry transforms too. I have
+> patches that I'll send for the csc-scaler driver.
 
-Why would adding the (configurable) frame-rate doubling mode break 
-userspace if this is not the default ?
+See ipu_ic_calc_csc() , that's what does the colorspace conversion in 
+this driver (on output from VDI).
 
->>> If we don't start with that supported, I fear userspace will make
->>> assumptions and be surprised when a full rate mode is added later.
->>
->> I'm afraid that since the current VDI already does retain input frame
->> rate instead of doubling it, the userspace already makes an assumption,
->> so that ship has sailed.
-> 
-> No, this is about the deinterlacer mem2mem device, which doesn't exist
-> before this series.
-
-I am not convinced it is OK if the direct VDI path and mem2mem VDI 
-behave differently, that would be surprising to me as a user ?
-
-> The CSI capture path already has configurable framedrops (in the CSI).
-
-What am I looking for ? git grep doesn't give me any hits ? (**)
-
->> But I think we can make the frame doubling configurable ?
-> 
-> That would be good. Specifically, there must be no guarantee that one
-> input frame with two fields only produces one deinterlaced output
-> frame, and userspace should somehow be able to understand this.
-
-See my question (**) , where is this configurable framedrops thing ?
-
-> This would be an argument against Nicolas' suggestion of including this
-> in the csc/scaler device, which always must produce one output frame
-> per input frame.
-> 
-> [...]
->>> This maps to VDI_C_MOT_SEL_FULL aka VDI_MOT_SEL=2, which is documented
->>> as "full motion, only vertical filter is used". Doesn't this completely
->>> ignore the previous/next fields and only use the output of the di_vfilt
->>> four tap vertical filter block to fill in missing lines from the
->>> surrounding pixels (above and below) of the current field?
->>
->> Is there a suitable knob for this or shall I introduce a device specific
->> one, like the vdic_ctrl_motion_menu for the current VDIC direct driver ?
->>
->> If we introduce such a knob, then it is all the more reason to provide
->> one device node per one VDIC hardware instance, since each can be
->> configured for different motion settings.
-> 
-> As far as I know, there is no such control yet. I don't think this
-> should be per-device, but per-stream (or even per-frame).
-> 
->>> I think this should at least be configurable, and probably default to
->>> MED_MOTION.
->>
->> I think to be compatible with the current VDI behavior and to reduce
->> memory bandwidth usage, let's default to the HIGH/full mode. That one
->> produces reasonably good results without spending too much memory
->> bandwidth which is constrained already on the MX6, and if the user needs
->> better image quality, they can configure another mode using the V4L2
->> control.
-> 
-> I'd rather not default to the setting that throws away half of the
-> input data. Not using frame doubling by default is sensible, but now
-> that using all three input fields to calculate the output frame is
-> possible, why not make that the default.
-To save memory bandwidth on the MX6, that's my main concern.
+[...]
 
