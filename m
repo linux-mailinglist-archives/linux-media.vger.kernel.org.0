@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-18554-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18556-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9FE986471
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 18:05:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3B3986484
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 18:12:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D62DAB38B86
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 15:30:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5C4F7B23DFB
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2024 15:32:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48014187337;
-	Wed, 25 Sep 2024 15:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF196E571;
+	Wed, 25 Sep 2024 15:27:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nfYOUbW9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OiybpZce"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4116E26AF5;
-	Wed, 25 Sep 2024 15:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FA71D5AB1;
+	Wed, 25 Sep 2024 15:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727277765; cv=none; b=lYx1vkHdjU7n6yE7XiSGBHTri9PLsTnMuwIVTpxi8LCxJwhBhxEI/FAT9zcgH5jeuJS7NSX1dHRu2TrOMzVzt5YpPXICUNHhyx0UDYirdHw5JpNhKrC6j0/iLRy7EJmT8d6VfuKI08/5WB36b8tSzc4ldpvqJL6RvmKT5TIFOHw=
+	t=1727278044; cv=none; b=N+5NwJqwGZu1pK6KF0jzhpSC72NYVDhk9/GXmfV6YLFdp0q9RKcFK+s/VJi90ymtSW9Kjy2s/ai+HiOxpdagjRwtAKZLcRARlk4Z9xwpbaFd1YyIrxeK3sSS+0gqhfSIR/ChqZb+igS+X6KlZCTc/jrHidZyXbjZjDbhNxqlkXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727277765; c=relaxed/simple;
-	bh=E6vIP4pLFWWrtvbUIG48yyFvZgYCUGXO8NPYzOGdxp8=;
+	s=arc-20240116; t=1727278044; c=relaxed/simple;
+	bh=VLJzEBA6BP1aaYoFnRl+tPYJhwrgksdsnuLTdmQ5FcM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=imuhnW5Xj54A9Tsswr+DhE+lHtoHncaYu+nighR7pjLAuNIFaxZF94MrXtauVH2g1QStbAZgMPIe40ZQwIAisvJV3TXRs1SB9iqj9c3IU5+dUCR004zO1A7OsnxoLNOkjXNq363cjJ1UKqfh0Cm2eM7//KC3NF3Q0BWW16usebk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nfYOUbW9; arc=none smtp.client-ip=209.85.222.45
+	 To:Cc:Content-Type; b=Mgd20B9Swwqcb0UNPQMV6d5e8fiKGRaNdztprQRfD3zGO0uki1pF+OW7h1Zt9+UknG3jAQLwJhAJo35fNkXaeYhOTgbfT27OkvQmLiw+kvEZSHgv3wtFgkHxzlDFBdY+YM7a7dpzKyppE3/Enx0YNPuWYuEhhQ9LPoxO8PvBNro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OiybpZce; arc=none smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-84e85d2b5baso308742241.1;
-        Wed, 25 Sep 2024 08:22:43 -0700 (PDT)
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7124395ca86so2716007a34.0;
+        Wed, 25 Sep 2024 08:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727277763; x=1727882563; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727278042; x=1727882842; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E6vIP4pLFWWrtvbUIG48yyFvZgYCUGXO8NPYzOGdxp8=;
-        b=nfYOUbW9YjAdXo5IWa6cbN6UXfwucL0/hCQ4bL/40Y3Re2AaA2Dt93FT593K3ZMhUX
-         29lai2JDpg3lDxp5YFUoU7MoWUzLAvv/CakfhwNWaJJzC2kfpjAFr5gQ2RoOjJR1dtlL
-         pZU0kh98uoBFlvMIaWmT809emYtNY6PQoZCebuM8Pf/P1uaNyf8KLe/XWz8X10BJvwuS
-         L4k8Op6Gz81QToJfbVqF35R8E1JSUvQt7aurmOoICkrfUPXWt2Vh9QLemqcLogQ50301
-         nLqWNKOeVPX8flBfF8r5fW1PmRs7EEzytPVmOgzuAyEDcFsd6bBS8hBjxLNkvpeSy0yo
-         ZgWA==
+        bh=VLJzEBA6BP1aaYoFnRl+tPYJhwrgksdsnuLTdmQ5FcM=;
+        b=OiybpZcewW42EySMnPn0rGX0gjar+9O0q06pZWf26KW63VKxH6y2vc0UOuWn1X0L+4
+         QhFp3iSFgfiLZikxobugGrRRNWGcHPcnXTXibCR7e+49EFLZ1YsEODtCsu5aikcabXnK
+         ZMNLvsVCIQ0qlLT1XjiXl59tkz1ka65NVHbp6MrtA0UvrFoWWtk4QO9WM0VY7cnJpM9H
+         ngjlbL3JzNOfM0/UvrWu20HgJs50F6t48VveNiipEDq0M27I02W7QIYze2lejTGmmnRm
+         EEb2hh/hugATdFBrOtPOYtsLAovX2m/+BpV1u8X2kp07UqN/RiQtQr8lh9vcg358QWA5
+         8cTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727277763; x=1727882563;
+        d=1e100.net; s=20230601; t=1727278042; x=1727882842;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E6vIP4pLFWWrtvbUIG48yyFvZgYCUGXO8NPYzOGdxp8=;
-        b=biEf0ZrdCefgU/VuT21sQ+e013K4dXIbWfIu9/4sYaIoqm8Jso4UOC/cy3V86r4PG4
-         h7lKK+ciMCS/ziZCsKNp7BwjZGlov5w/+j/+AVVKgGRcVi28B4l3JHyAZSSflX0nFWdN
-         /6ADxz3ttJI2z3TuclctB7JyvFSEHR3BHSHAk5BSwfvnK96g/2RYCsIcHgVgWbMGqNeJ
-         YsOI5H9xKHJoI9uRQH6qK9kJb9nHYK0XQvrblxKiavAIjgIXSpwlafEHnhkPsKa8q4QS
-         0NR863QEUykh80tOWXPeDwANGNoDgB5KE7vpUdFgDtwOvCBrwHwhCKcSkYYa2fZc6fQT
-         BG1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVwmmhFax25+GDFjzCIUdSUxUnrnbUptJyahnUfUnz+vlShhegiju2qqb/MSY2jEXN370scn0bbjV9oyrW5fxQyNR8=@vger.kernel.org, AJvYcCVybOENtjikYcqmblX/ZqH6DMcpiRNwLueJNlnVByzw8hchS1JBjjZ/nxY2x24a9HvXRcJIDk6JPsc4SJk=@vger.kernel.org, AJvYcCX3yNn/yfXa7fubZhhml30sTPZtzHjdDszwT6XTAr/Yf/J9kCuNsP50cGBLxW74hZQh3H4WNg3dYEJDnhU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXJhSSbIZ6iehpVxt3MCppsGwUKCZLe2BKr2iy09GT0szEp7gx
-	9CRB4sch1O0z68CU6BPIzZBZJiVfB/TfRRiG3z7D8t19tqB3oXJbBY9ALjl5SDMwU/o+GxTnr3a
-	YKtyt7vUv/UYME9EoVQ9ihsIooiHDuQ==
-X-Google-Smtp-Source: AGHT+IGKodtfaaU3chHy1ljxg9SBW4VmFxTsane1zQyUhE//XpjpYSGXNRG0OflZUOYVn8866qNPFK2TbdK4d2ZT+J4=
-X-Received: by 2002:a05:6122:d0f:b0:4fc:e3c2:2c71 with SMTP id
- 71dfb90a1353d-505c1d36780mr2646672e0c.2.1727277762797; Wed, 25 Sep 2024
- 08:22:42 -0700 (PDT)
+        bh=VLJzEBA6BP1aaYoFnRl+tPYJhwrgksdsnuLTdmQ5FcM=;
+        b=SC2Jew/D/vuaShUT9E67Fil5kjr8Sgq9aCjz1d6XyFrTfh569/hfSqs77kMkqae5Pb
+         DJrt0LknRKU9yEZsttPxu7JBM7KybKhVBX9JKaQb8L1gsG6JMwMxpHWU6yivoW/tO/q8
+         Jf4EqFbUTXCfpMPcPny4xilwn2dPdlQs1MlW5lCENGqQIRXxB7avTmokEWWqd30JQWWN
+         8T1Nr6Lev351ZNypMfFMxsTTWjuculgotk9WwqLz+PTyX392cF3qLhhD1g0XkxPgCu7c
+         pbj5ZM7bDqmQd4qpUdNUfYRT8+nZkm+Qabm3RJzB9Jnb+8lBtMbGi+A52gzJIuOFwbFk
+         dgNA==
+X-Forwarded-Encrypted: i=1; AJvYcCVbe1s/u/odh8i5SBvxQKJN/J8UBe165QH9yoRh+lCYduCjLzeNQ5bzDm/I3T2A0QzJ1nrIHcvV8KBTgCE=@vger.kernel.org, AJvYcCWF2KZ5ZvmZw79eKoufUhIjeDRJEz0NG5Ik+QCsCqR0cZtGSfUfimF8pNXwIAe+gxu7dSkWl+EdXba5Jmk=@vger.kernel.org, AJvYcCXcyNGZXeOepvHpZabj5yJikXa3pUm+03R930IqBm8F8efnmSfChyC3LlWvqzilb2BbCfBxO0DPZ0joVc6Wzr+qbjA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2lgdCdqsXr4HaPntldAkUp12521UxF2ISc9KAtSLu4QEywfDF
+	l1RfHnF0vTXA2AwJBN5J+ziwiLS+knpl1VTtVC9b3n7X7EV6liu3CIak7wC23Jk8ycfybq6Va7y
+	JiU4sf39gBs7B4fqfXZao0acwftw=
+X-Google-Smtp-Source: AGHT+IFcoo4m0J3fW0Fjub2lfthqwCKhP3Gnjm4sWBC69WipXB2td90mcLi9PLM6DP3Zb4BX4NfRdBNTIS4xje69jI8=
+X-Received: by 2002:a05:6830:d0b:b0:713:8387:9efc with SMTP id
+ 46e09a7af769-713c7d94344mr3523790a34.3.1727278041765; Wed, 25 Sep 2024
+ 08:27:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,12 +72,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240910170610.226189-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240924223740.GL7165@pendragon.ideasonboard.com>
-In-Reply-To: <20240924223740.GL7165@pendragon.ideasonboard.com>
+ <20240910170610.226189-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240924224452.GN7165@pendragon.ideasonboard.com>
+In-Reply-To: <20240924224452.GN7165@pendragon.ideasonboard.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 25 Sep 2024 16:22:16 +0100
-Message-ID: <CA+V-a8tuCJD=2whHdY1AjgrBz_Bsgk9CZWU=2kCEn6sWahTF3g@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] media: i2c: ov5645: Enable runtime PM after v4l2_async_register_subdev()
+Date: Wed, 25 Sep 2024 16:26:55 +0100
+Message-ID: <CA+V-a8tGREVn_LWJbrKwb1HGjp4g7r=ZXu4AZWS+0RfdXhYrdg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
@@ -95,28 +95,18 @@ Hi Laurent,
 
 Thank you for the review.
 
-On Tue, Sep 24, 2024 at 11:38=E2=80=AFPM Laurent Pinchart
+On Tue, Sep 24, 2024 at 11:45=E2=80=AFPM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Tue, Sep 10, 2024 at 06:06:02PM +0100, Prabhakar wrote:
+> On Tue, Sep 10, 2024 at 06:06:04PM +0100, Prabhakar wrote:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > To simplify the probe error path, enable runtime PM after the
-> > v4l2_async_register_subdev() call.
-> >
-> > This change ensures that runtime PM is only enabled once the subdevice
-> > registration is successful, avoiding unnecessary cleanup in the error
-> > path.
+> > Make use v4l2_async_register_subdev_sensor() helper to register
+> > the subdev.
 >
-> The subdev could start being used as soon as it gets registered, so
-> runtime PM initialization should happen before
-> v4l2_async_register_subdev().
+> The commit message should explain why.
 >
-Agreed, I will drop this patch.
+Sure I'll update the commit message.
 
 Cheers,
 Prabhakar
