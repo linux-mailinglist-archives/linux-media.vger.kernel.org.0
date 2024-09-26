@@ -1,48 +1,36 @@
-Return-Path: <linux-media+bounces-18599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18600-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887E3986D4B
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 09:13:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16113986D8F
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 09:27:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 442F32822D4
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 07:13:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9796E1F24BD5
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 07:27:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF91018BB9C;
-	Thu, 26 Sep 2024 07:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="t71QJoRz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCE0618C03C;
+	Thu, 26 Sep 2024 07:27:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E73224D6;
-	Thu, 26 Sep 2024 07:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85054186298
+	for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 07:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727334816; cv=none; b=YtdX9kAQgZ22piGcFG5u0FpDCmg8TqPiDK82K6X5uNnqEiQWensItfDZnPgduzKMiOM34PfVJbxj7oQ3uhhATFeYnnRpXST+u/dyRBEkF+cGPTsywo+Oq0wt27vmqcDKQaWWnTE0CIY2N04mM2glNi2KT8j6SA9+YW5JZ/RiGs4=
+	t=1727335647; cv=none; b=Ec7XS8RsV2YnRYZjfeWrvTINiGbsnRlWrfGzx7rgTm7gUF3SQggJ+3MukRCFwGdkKc+AHKOsys6GG++4jH+BmpR2LGI8Hz8JhEMu1h26W1F2ql7QCvL6EJYdvXrmmD7zLFk1VHabObjMptMqUfnoQNqxxV9zk7AZVlSI58GapUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727334816; c=relaxed/simple;
-	bh=mxaesniZDobVQDHBLuX45uEc5YOxQMsEkUYYRn1BU5U=;
+	s=arc-20240116; t=1727335647; c=relaxed/simple;
+	bh=Ky/aAiaEpWOGTYGQT2Nx/HaOo9Q+RUmxqQbAnHAzDf0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k/UuxnU2MxjB1OQaPLNoM99o0tNeGj11QPoam9GduAr6tliK9m/kBMuVzvfpCwLRXHtpABwTsM4ORkNGZDHATMmyMkX7p6E+gz72ghDKgi7BqaQl0FU18MTry68UeipfvLs75z+C4JmpK9NQIF6rxyNfE6f1dbOVQsYboPefQMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=t71QJoRz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 809D08D4;
-	Thu, 26 Sep 2024 09:12:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727334724;
-	bh=mxaesniZDobVQDHBLuX45uEc5YOxQMsEkUYYRn1BU5U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t71QJoRzOLEw29qfeCw81IqtOVhV9hv5IZLt3g7s4A+lP8CGTnN+mGSYHEXvYdBmX
-	 nWyYfra0jKDB+OmRJh0QM94S0Sfl1Y76484QLht0pNxFnvcCygEyTPOSFxIAZPw6/i
-	 CajO1wihAmPiiGarwlpNVDaL3qFncMsnFqFp7Mno=
-Message-ID: <fe968dc7-67a5-40be-871e-fe682dc60d70@ideasonboard.com>
-Date: Thu, 26 Sep 2024 10:13:29 +0300
+	 In-Reply-To:Content-Type; b=oUgSzHykZ2NsY3N2XEf5+K5iMr0Yid3dMEuupSpQKv8TPx8wzLNAuUT2sexgN/3Q8gdpHgpiRQUPldO4XPnNAcBNc+hrGOQpRS8paegLcdsSgdK35OD9uenq1CG6hAbmq99NB83/N+AR7iBwo4Ryp07xpDqMiPkRWRfWKVtVVgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCD07C4CEC5;
+	Thu, 26 Sep 2024 07:27:21 +0000 (UTC)
+Message-ID: <902b2828-5eb8-4741-90af-8e42f1240e86@xs4all.nl>
+Date: Thu, 26 Sep 2024 09:27:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,186 +38,291 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/4] media: raspberrypi: Support RPi5's CFE
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Subject: Re: [ANN] Media Summit September 16th: Final Agenda (v7)
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Martin Hecht <martin.hecht@avnet.eu>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Naushir Patuck <naush@raspberrypi.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20240910-rp1-cfe-v5-0-9ab4c4c8eace@ideasonboard.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240910-rp1-cfe-v5-0-9ab4c4c8eace@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
+ Steve Cho <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+ Hidenori Kobayashi <hidenorik@chromium.org>,
+ "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Suresh Vankadara <svankada@qti.qualcomm.com>,
+ Devarsh Thakkar <devarsht@ti.com>, r-donadkar@ti.com,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Salahaldeen Altous <salahaldeen.altous@leica-camera.com>
+References: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
+ <20240917091744.qltmddftdy7bpgpg@basti-XPS-13-9310>
+ <bb8c09c7-0eae-4e1a-8fb8-e325fcf326df@xs4all.nl>
+ <20240918092454.21884920@sal.lan>
+ <20240925195843.GK30399@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240925195843.GK30399@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 25/09/2024 21:58, Laurent Pinchart wrote:
+> Hi Mauro,
+> 
+> On Wed, Sep 18, 2024 at 09:24:54AM +0200, Mauro Carvalho Chehab wrote:
+>> Em Tue, 17 Sep 2024 14:52:19 +0200 Hans Verkuil escreveu:
+>>> On 9/17/24 11:17 AM, Sebastian Fricke wrote:
+>>>> Greetings,
+>>>>
+>>>> I remember that we wanted to still define a couple of processes for the
+>>>> multi-committer model for which we hadn't have the time on the media
+>>>> summit. Just would like to gather who would be interested to meet for
+>>>> that, where we meet (probably LPC venue) and when (Laurent just told me
+>>>> that Friday is probably a good slot for that).  
+>>>
+>>> Can you refresh my memory which processes need more work?
+>>
+>> I have the same doubt. As discussed during the summit, Hans and I had some
+>> discussions yesterday, to address a few details. For both of us the process
+>> sounds well defined.
+>>
+>> From my personal notes, this will be the new process:
+>>
+>> - committers will merge patches at media-committers.git tree at fdo,
+>>   provided that they'll follow the rules defined on a committers agreement
+>>   and (partially?) enforced by media-ci checks;
+>> - core committers follow the same rules, with a broader privilege of
+>>   changing kernel API/ABI;
+>> - committers will ensure that patchwork will reflect the review process of
+>>   the patches;
+>> - maintainers will double-check if everything is ok and, if ok, merge the
+>>   changes at linuxtv.org. We intend to rename the tree there to "media.git",
+>>   being the main tree to be used for development;
+>> - pull requests will keep using the same process as currently. The only
+>>   change is that the media-stage.git tree will be renamed to "media.git";
+>> - maintainers will periodically send patches upstream.
+>>
+>> The media-commiters.git tree at fdo might be rebased if needed; the 
+>> media.git tree at linuxtv.org is stable. A large effort will be taken to
+>> avoid rebasing it.
+>>
+>> We may need some helper scripts and/or use pwclient to keep patchwork
+>> updated after committers reviews.
+> 
+> What will happen if we update the status of patches in patchwork when
+> merging them to the fdo tree, and the tree is later rebased to drop
+> commits ? Will the person rebasing handle updating patchwork to move the
+> patches back from accepted to a different status ?
 
-On 10/09/2024 11:07, Tomi Valkeinen wrote:
-> This series adds support to the CFE hardware block on RaspberryPi 5. The
-> CFE (Camera Front End) contains a CSI-2 receiver and Front End, a small
-> ISP.
-> 
-> To run this, you need the basic RPi5 kernel support plus relevant dts
-> changes to enable the cfe and camera. My work branch with everything
-> needed to run CFE can be found from:
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git rp1-cfe
-> 
-> A few notes about the patches:
-> 
-> - The original work was done by RaspberryPi, mostly by Naushir Patuck.
-> - The second video node only sets V4L2_CAP_META_CAPTURE instead of both
->    V4L2_CAP_META_CAPTURE and V4L2_CAP_META_CAPTURE like the other nodes.
->    This is a temporary workaround for userspace (libcamera), and
->    hopefully can be removed soon.
-> 
-> I have tested this with:
-> - A single IMX219 sensor connected to the RPi5's CSI-2 port
-> - Arducam's UB960 FPD-Link board with four imx219 sensors connected
-> 
->   Tomi
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> Changes in v5:
-> - Add "depends on PM". The platforms that use CFE will always have PM in
->    practice, and it's not worth supporting both the PM and !PM cases as
->    it adds complexity to the driver.
-> - Link to v4: https://lore.kernel.org/r/20240904-rp1-cfe-v4-0-f1b5b3d69c81@ideasonboard.com
+That should be the responsibility of the person doing the rebase. I think
+that's what is done today as well in the rare cases we rebase.
 
-Is this solution to the PM issue ok for everyone? It feels most sensible 
-to me. Any other comments?
+Regards,
 
-  Tomi
+	Hans
 
-> Changes in v4:
-> - Drop unnecessary clock-lanes from the DT bindings
-> - Drop unnecessary linux-media from MAINTAINERS entry
-> - Drop unnecessary conversion to bool with !!
-> - Don't set cap->bus_info in cfe_querycap()
-> - Make debugfs files not readable by the world
-> - Check the return value of v4l2_fwnode_endpoint_parse()
-> - Remove the code dealing with remote_ep_fwnode. Instead use
->    v4l2_create_fwnode_links_to_pad() and media_pad_remote_pad_unique() to
->    create the link and get the pad index.
-> - Add cfe/csi2/fe/dphy argument to the respective dbg/info/err print
->    macros.
-> - Drop some debug prints and add a few, clarifying the prints for
->    enabling and disabling the streams.
-> - Some cosmetic changes (linefeed, drop unnecessary assignment, move a
->    define)
-> - Link to v3: https://lore.kernel.org/r/20240815-rp1-cfe-v3-0-e15a979db327@ideasonboard.com
 > 
-> Changes in v3:
-> - Based on v6.11-rc3. The PiSP BE series is now in upstream so no extra
->    dependencies are needed.
-> - Fixed cfe_remove() return value, as the .remove hook has changed
-> - Added Krzysztof's Rb.
-> - Link to v2: https://lore.kernel.org/r/20240620-rp1-cfe-v2-0-b8b48fdba3b3@ideasonboard.com
+>> Such process will start after -rc1. 
+>>
+>> We intend to rename media-state to media at linuxtv after -rc1.
+>>
+>> It is up to maintainers to invite and decide who will be a committer.
+>>
+>> All committers/core-committers need to explicitly accept a committers
+>> agreement. We may end starting without it at the beginning, but as soon
+>> as a final version of such agreement is written, everyone with access to
+>> the media-committers tree have to explicitly accept to keep their
+>> commit rights on such tree.
+>>
+>> The only part that still require some work is the committers
+>> agreement. I'm working on it together with Hans. As soon as we have
+>> a version, we'll submit a patch to the kernel, to add it to the
+>> media developer's profile[1].
+>>
+>> [1] Documentation/driver-api/media/maintainer-entry-profile.rst
+>>
+>>> For me I think Friday afternoon (probably after 14:00) is the only 
+>>> option, or perhaps Thursday after the Camera MC.
+>>
+>> I can't meet on Friday afternoon. I probably will be on another
+>> event on Thursday (Openeuler MC).
+>>
+>>>> On 11.09.2024 11:03, Hans Verkuil wrote:  
+>>>>> Hi all,
+>>>>>
+>>>>> Here is my seventh and final version of the agenda for the media 
+>>>>> summit. As always,
+>>>>> all times (except lunch time) are guesstimates!
+>>>>>
+>>>>> The media summit will be held on Monday September 16th. Avnet Silica 
+>>>>> has very
+>>>>> kindly offered to host this summit at their Vienna office, which is 
+>>>>> about 35
+>>>>> minutes by public transport from the Open Source Summit Europe venue
+>>>>> (https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
+>>>>>
+>>>>> Avnet Silica Office Location:
+>>>>>
+>>>>> Schönbrunner Str. 297/307, 1120 Vienna, Austria
+>>>>>
+>>>>> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
+>>>>>
+>>>>> Refreshments are available during the day.
+>>>>>
+>>>>> Lunch is held at Schönbrunner Stöckl 
+>>>>> (https://www.schoenbrunnerstoeckl.com/), close
+>>>>> to the Avnet Silica office. The lunch is sponsored by Ideas on Board 
+>>>>> and Cisco Systems
+>>>>> Norway.
+>>>>>
+>>>>> Regarding the face mask policy: we will follow the same guidance that the
+>>>>> Linux Foundation gives for the EOSS conference:
+>>>>>
+>>>>> https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/#onsite-health-and-safety
+>>>>>
+>>>>>
+>>>>> In-Person Attendees:
+>>>>>
+>>>>> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+>>>>> Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
+>>>>> Salahaldeen Altous <salahaldeen.altous@leica-camera.com> (Leica Camera 
+>>>>> AG)
+>>>>> Mauro Carvalho Chehab <mchehab@kernel.org> (Huawei, Media Kernel 
+>>>>> Maintainer)
+>>>>> Steve Cho <stevecho@chromium.org> (Google)
+>>>>> Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+>>>>> Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+>>>>> Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+>>>>> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+>>>>> Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
+>>>>> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+>>>>> Ricardo Ribalda <ribalda@chromium.org> (Google)
+>>>>> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+>>>>> Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
+>>>>> Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+>>>>> Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
+>>>>> Sean Young <sean@mess.org>
+>>>>> Jerry W Hu <jerry.w.hu@intel.com> (Intel)
+>>>>>
+>>>>> Remote Attendees (using MS Teams):
+>>>>>
+>>>>> Mehdi Djait <mehdi.djait@linux.intel.com> (Intel)
+>>>>> Rishikesh Donadkar <r-donadkar@ti.com> (TI)
+>>>>> Nicolas Dufresne <nicolas@ndufresne.ca> (Collabora)
+>>>>> Tomasz Figa <tfiga@chromium.org> (Google)
+>>>>> Hidenori Kobayashi <hidenorik@chromium.org> (Google)
+>>>>> Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
+>>>>> Devarsh Thakkar <devarsht@ti.com> (TI)
+>>>>>
+>>>>> All remote participants listed above should have received an invite 
+>>>>> with connection details.
+>>>>> If not, please contact Martin Hecht <martin.hecht@avnet.eu> asap.
+>>>>>
+>>>>> If any information above is incorrect, or if I missed someone, then 
+>>>>> please let me know.
+>>>>>
+>>>>> We have 18 confirmed in-person participants, so we're full.
+>>>>> If you want to join remotely, then contact me and I'll add you to that 
+>>>>> list.
+>>>>>
+>>>>> Draft agenda:
+>>>>>
+>>>>> 8:45-9:15: Get settled :-)
+>>>>>
+>>>>> 9:15-9:25: Hans: Quick introduction
+>>>>>
+>>>>> 9:25-11:00: Ricardo: multi-committer model using gitlab
+>>>>>
+>>>>> 11:00-11:15: break
+>>>>>
+>>>>> 11:15-12:15: Jacopo: Multi-context support in V4L2
+>>>>>
+>>>>> 12:15-13:30: Lunch at Schönbrunner Stöckl
+>>>>>
+>>>>> 13:30-14:00: Tomasz: Current state of videobuf2, its limitations and 
+>>>>> the paths forward.
+>>>>>
+>>>>> 14:00-14:45: Laurent: subdevs, state, and usage of the media 
+>>>>> controller device to submit requests.
+>>>>>
+>>>>> 14:45-15:00: break
+>>>>>
+>>>>> 15:00-15:30: Sean: new tooling for infrared:
+>>>>>
+>>>>> - What it is and what it can do (love to hear any feedback of course)
+>>>>> - Where it should be hosted? (I hope gitlab fdo, who do I ask)
+>>>>> - What needs to be in place for a release?
+>>>>> - This tool replaces ir-ctl and ir-keytable. How we phase them out?
+>>>>>
+>>>>> 15:30-16:00: Daniel: Rust in the media subsystem
+>>>>>
+>>>>> 16:00-16:15: break
+>>>>>
+>>>>> 16:15-16:30: Hans: UVC maintenance
+>>>>>
+>>>>> 16:30-17:00: Steve Cho:
+>>>>>
+>>>>> - V4L2 testing on Chromium using virtual video decode driver (visl)
+>>>>> - V4L2 video decoding testing with KernelCI
+>>>>>
+>>>>> 17:00-17:30: Laurent: Should media drivers depend on CONFIG_PM?
+>>>>> See here for more info:
+>>>>> https://lore.kernel.org/linux-media/20240825222455.GA24390@pendragon.ideasonboard.com/
+>>>>>
+>>>>> 17:30-18:00: Any other topics and feedback on what can be improved 
+>>>>> next media summit.
+>>>>>
+>>>>> Hope to see you all on Monday!
 > 
-> Changes in v2:
-> - Change the compatible string back to raspberrypi,rp1-cfe from raspberrypi,rpi5-rp1-cfe
-> - Drop the references to rp1 headers in the DT binding example. This
->    allows compiling the example without the rp1 support.
-> - Fix missing remap lines for mono formats
-> - Fix csi2_pad_set_fmt() so that the format can be changed back to the
->    sink's format from 16-bit or compressed format.
-> - Link to v1: https://lore.kernel.org/r/20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com
-> 
-> ---
-> Tomi Valkeinen (4):
->        media: uapi: Add meta formats for PiSP FE config and stats
->        dt-bindings: media: Add bindings for raspberrypi,rp1-cfe
->        media: raspberrypi: Add support for RP1-CFE
->        media: admin-guide: Document the Raspberry Pi CFE (rp1-cfe)
-> 
->   .../admin-guide/media/raspberrypi-rp1-cfe.dot      |   27 +
->   .../admin-guide/media/raspberrypi-rp1-cfe.rst      |   78 +
->   Documentation/admin-guide/media/v4l-drivers.rst    |    1 +
->   .../bindings/media/raspberrypi,rp1-cfe.yaml        |   93 +
->   .../userspace-api/media/v4l/meta-formats.rst       |    1 +
->   .../userspace-api/media/v4l/metafmt-pisp-fe.rst    |   39 +
->   MAINTAINERS                                        |    7 +
->   drivers/media/platform/raspberrypi/Kconfig         |    1 +
->   drivers/media/platform/raspberrypi/Makefile        |    1 +
->   drivers/media/platform/raspberrypi/rp1-cfe/Kconfig |   15 +
->   .../media/platform/raspberrypi/rp1-cfe/Makefile    |    6 +
->   .../media/platform/raspberrypi/rp1-cfe/cfe-fmts.h  |  332 +++
->   .../media/platform/raspberrypi/rp1-cfe/cfe-trace.h |  196 ++
->   drivers/media/platform/raspberrypi/rp1-cfe/cfe.c   | 2487 ++++++++++++++++++++
->   drivers/media/platform/raspberrypi/rp1-cfe/cfe.h   |   43 +
->   drivers/media/platform/raspberrypi/rp1-cfe/csi2.c  |  583 +++++
->   drivers/media/platform/raspberrypi/rp1-cfe/csi2.h  |   89 +
->   drivers/media/platform/raspberrypi/rp1-cfe/dphy.c  |  180 ++
->   drivers/media/platform/raspberrypi/rp1-cfe/dphy.h  |   27 +
->   .../media/platform/raspberrypi/rp1-cfe/pisp-fe.c   |  581 +++++
->   .../media/platform/raspberrypi/rp1-cfe/pisp-fe.h   |   53 +
->   drivers/media/v4l2-core/v4l2-ioctl.c               |    2 +
->   .../uapi/linux/media/raspberrypi/pisp_fe_config.h  |  273 +++
->   .../linux/media/raspberrypi/pisp_fe_statistics.h   |   64 +
->   include/uapi/linux/videodev2.h                     |    2 +
->   25 files changed, 5181 insertions(+)
-> ---
-> base-commit: 431c1646e1f86b949fa3685efc50b660a364c2b6
-> change-id: 20240314-rp1-cfe-142b628b7214
-> 
-> Best regards,
 
 
