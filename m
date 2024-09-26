@@ -1,119 +1,159 @@
-Return-Path: <linux-media+bounces-18653-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18654-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ECC49877A4
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 18:37:14 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E3E987899
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 19:48:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEABF1C2447C
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 16:37:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8B427B21BCC
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 17:48:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A83EA15B118;
-	Thu, 26 Sep 2024 16:37:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D659316130C;
+	Thu, 26 Sep 2024 17:48:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJWIDfQi"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uzqXQvja"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B1312BEBB;
-	Thu, 26 Sep 2024 16:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF414A24;
+	Thu, 26 Sep 2024 17:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727368620; cv=none; b=ASWskJdqojKnDDXh6nlrYWb0lfNHl/xu26v7CyLB12Q3t8GPo5OmQn1X5rPRntwm3yO7xJX2eku4vRzTbDnmRnFK9lebPyYxf8oe3I+DGgj7b7+vttQfPXxT7jvdu9trIsNGNdqGiTr+cMuCLJBr1Um81piXPnfMlU9P9evRmcc=
+	t=1727372908; cv=none; b=YCQFD+/K2g78+dGFxcyDRr2mD/8tSPgnel2ky18h+ydXkjb+gvKIjHj1F4vPw1/+JlA8yWXPLh427s8VE1mJocFTaEILezsPpK0Z/eA0pqPQoBH5/3JaCZMM3m3yV13Cu33CHgQ770HGMdZ0PmaBsuDAKyx4SdnoJQTtKegEs+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727368620; c=relaxed/simple;
-	bh=w1FJdKOm32c+Ge8FTW9mqPZjuB6KQQTcj8OAX5YmD4o=;
+	s=arc-20240116; t=1727372908; c=relaxed/simple;
+	bh=GqLH4dC8Wk7BOLguF4xiTuSKGoyO7U82IHOcy3yXBCE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GkZ5qREBmwl+s7E12XwYPuULtTauWy/qh9/VM3nxeqSZ0IkZSaYn/FOaXsoQVVbU0QjMrvb9cBU/6znPgpq+4FgSKQKS4ygD1ad8ntm6134kaJkf5I1LNNXn0iZNcqk4BDGo7lF6PpP1vC15H0GSDeZ7DfutXc61zn7tLgs+3k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TJWIDfQi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC584C4CEC5;
-	Thu, 26 Sep 2024 16:36:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727368619;
-	bh=w1FJdKOm32c+Ge8FTW9mqPZjuB6KQQTcj8OAX5YmD4o=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=AOsXX1pC5uWQCKsJ2rubwQdqQwtQDFclQB5Zs16bXaJ3nLGx35vdNV46+jnJz4QzDXORKZRTGjXUljTDQeOxZbbWQvepFLmNM7hnXpXoGwMthFs32qnYncUFTTrwYt5I8SvdAI1jhDVaU3wtn/yq8lT3LBQKgYZCMuOxpTf1L6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uzqXQvja; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7658E163;
+	Thu, 26 Sep 2024 19:46:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1727372813;
+	bh=GqLH4dC8Wk7BOLguF4xiTuSKGoyO7U82IHOcy3yXBCE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TJWIDfQiU3geDX/2aC7h48yAL5lr4yBVoaHkFfIiMG2WxAK9jVbdT8d0DDKwwCfrU
-	 VgGEIMqGfYackuRbizXofkLgd3uwft1kELY7e8nW7oXy8tmugyRHDWlMXuLKrDiVRB
-	 4M+3Y0chGvD5CO/8hcYvhpmKffIvMleF1oZ76l0SCGdRoQ2LTzThDA4hci6c67GzCc
-	 UK29Sg2RR10ZjRqupgOeZK0+tCRHrpLtvLrO7e0xfItdeyN6G1jquRpAoM4/xDTgfX
-	 WmDpEC2Nqz4UvKwHtHtbm94EG0WKQxNunbFiwUfrfN1n8FUtRUNpXc6nebKIN3c6fP
-	 dd6gOhBKhV6UQ==
-Date: Thu, 26 Sep 2024 17:36:51 +0100
-From: Conor Dooley <conor@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
+	b=uzqXQvjaPSRAQUGls3RL8ziGEY1+tU4SRdEp6aLdU821q78nuw0QJfrcnhSUP+jaC
+	 u/Zxc5nLxDbWO17cVZkH47a4gjmGk4H4KYtPopKhIDoOFdhOnWgx7I7CMiW0acUNDP
+	 A6bBds09S2i0BmNPQ/9RqFxMXUU+jq4Vm+5FaPm4=
+Date: Thu, 26 Sep 2024 20:48:19 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Jim Quinlan <jim2101024@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jim Quinlan <james.quinlan@broadcom.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix array property constraints
-Message-ID: <20240926-bullion-semester-024fab878903@spud>
-References: <20240925232409.2208515-1-robh@kernel.org>
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 11/11] media: i2c: ov5645: Report streams using frame
+ descriptors
+Message-ID: <20240926174819.GK21788@pendragon.ideasonboard.com>
+References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240910170610.226189-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <ZvWBlivUaZ92KoAI@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="uWcwIitsRojZdEUY"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240925232409.2208515-1-robh@kernel.org>
+In-Reply-To: <ZvWBlivUaZ92KoAI@kekkonen.localdomain>
 
+On Thu, Sep 26, 2024 at 03:45:26PM +0000, Sakari Ailus wrote:
+> Hi Prabhakar,
+> 
+> Thanks for the set. It looks largely very nice to me, after addressing
+> Laurent's comments. A few comments here and possibly on other patches...
+> 
+> On Tue, Sep 10, 2024 at 06:06:10PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > 
+> > Implement the .get_frame_desc() subdev operation to report information
+> > about streams to the connected CSI-2 receiver. This is required to let
+> > the CSI-2 receiver driver know about virtual channels and data types for
+> > each stream.
+> > 
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/media/i2c/ov5645.c | 28 ++++++++++++++++++++++++++++
+> >  1 file changed, 28 insertions(+)
+> > 
+> > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> > index 7f1133292ffc..c24eb6e7a7b5 100644
+> > --- a/drivers/media/i2c/ov5645.c
+> > +++ b/drivers/media/i2c/ov5645.c
+> > @@ -28,6 +28,7 @@
+> >  #include <linux/regulator/consumer.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/types.h>
+> > +#include <media/mipi-csi2.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-event.h>
+> >  #include <media/v4l2-fwnode.h>
+> > @@ -829,6 +830,32 @@ static const struct v4l2_ctrl_ops ov5645_ctrl_ops = {
+> >  	.s_ctrl = ov5645_s_ctrl,
+> >  };
+> >  
+> > +static int ov5645_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > +				 struct v4l2_mbus_frame_desc *fd)
+> > +{
+> > +	const struct v4l2_mbus_framefmt *fmt;
+> > +	struct v4l2_subdev_state *state;
+> > +
+> > +	if (pad != OV5645_PAD_SOURCE)
+> > +		return -EINVAL;
+> 
+> As you have a single source pad, and pretty much all sensor drivers will, I
+> think it'd be nice to add a check for this (that it's not an internal pad)
+> to the caller side in v4l2-subdev.c. And of course drop this one.
 
---uWcwIitsRojZdEUY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+What check would you add, just verifying that the pad is a source pad ?
 
-On Wed, Sep 25, 2024 at 06:24:06PM -0500, Rob Herring (Arm) wrote:
-> Schemas for array properties should only have 1 level of array
-> constraints (e.g. items, maxItems, minItems). Sometimes the old
-> encoding of all properties into a matrix leaked into the schema, and
-> didn't matter for validation. Now the inner constraints are just
-> silently ignored as json-schema array keywords are ignored on scalar
-> values.
->=20
-> Generally, keep the inner constraints and drop the outer "items". With
-> gicv3 "mbi-alias" property, it is more appropriately a uint32 or uint64
-> as it is an address and size depends on "#address-cells".
->=20
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > +
+> > +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> > +	fmt = v4l2_subdev_state_get_format(state, OV5645_PAD_SOURCE, 0);
+> > +	v4l2_subdev_unlock_state(state);
+> > +
+> > +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+> > +	fd->num_entries = 1;
+> > +
+> > +	memset(fd->entry, 0, sizeof(fd->entry));
+> > +
+> > +	fd->entry[0].pixelcode = fmt->code;
+> > +	fd->entry[0].stream = 0;
+> > +	fd->entry[0].bus.csi2.vc = 0;
+> > +	fd->entry[0].bus.csi2.dt = MIPI_CSI2_DT_YUV422_8B;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int ov5645_enum_mbus_code(struct v4l2_subdev *sd,
+> >  				 struct v4l2_subdev_state *sd_state,
+> >  				 struct v4l2_subdev_mbus_code_enum *code)
+> > @@ -1062,6 +1089,7 @@ static const struct v4l2_subdev_video_ops ov5645_video_ops = {
+> >  };
+> >  
+> >  static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
+> > +	.get_frame_desc = ov5645_get_frame_desc,
+> >  	.enum_mbus_code = ov5645_enum_mbus_code,
+> >  	.enum_frame_size = ov5645_enum_frame_size,
+> >  	.get_fmt = v4l2_subdev_get_fmt,
+> > 
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+-- 
+Regards,
 
---uWcwIitsRojZdEUY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZvWNowAKCRB4tDGHoIJi
-0uo/AQCSoUq76yV2zPjc/Dv0ex3UOkszyyKeTqzAyCiuqne2QAD/WOq25LSaE13W
-/Ok8UcwWwBnHRPHDLu6I17O3OvhLEAk=
-=PPnK
------END PGP SIGNATURE-----
-
---uWcwIitsRojZdEUY--
+Laurent Pinchart
 
