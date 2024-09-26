@@ -1,72 +1,69 @@
-Return-Path: <linux-media+bounces-18596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18597-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 664E7986C23
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 07:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92AA1986C31
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 07:59:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 968201C220C0
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 05:51:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ABB201C2244A
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 05:59:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF283188CC6;
-	Thu, 26 Sep 2024 05:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42D8D18890A;
+	Thu, 26 Sep 2024 05:59:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WSS7ckOh"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bx0IQXOO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3833187348
-	for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 05:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A18218756A
+	for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 05:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727329817; cv=none; b=VVcijVweM5EfSrF5Jmt0ozJ4a+Imxau8bPtDdS16nXgWLb7MaOerRyo+8mIt5sU6KTKIJ4p26Xn8dETtPvHwKQsM2UMh5CicWKo4RGKOZfdiiPhzSqiixs/7r2PCguSsbl1L6VIWXiI3FjdfsetcCx6lty3vucgBoVGlvK/YNXc=
+	t=1727330361; cv=none; b=ULCINWmQNcYljMlZuqbXjqgoZh3qjk7/ErLbUAR66RhW7+Y2HSIJut2M5ttMtqTtG98yEVXOiuvOLSaImuEuhovjto+7b8rSnZBh9RJsZSpfZIX4MLviIKnoT5Y3FtLH0vrTaB0kJKT9gzXlnK6BDfBM/oHYe97vo4+U6NhJp6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727329817; c=relaxed/simple;
-	bh=bp/AyInNx+sYmGScXTk/dVr8nFraf0tgtMRd3LHHRBg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ifcRvnIPW9lJJvBqDoMV04eNwx28igCELHwUWcaHP4JeECgo5jjJsO+65ZjYZuS+rKt+QLCb4C36HvLNxrxBKRdrocLSTfzPThPsU2GPYcgJfWQtgFaBxV/k9R0k3bxNt0DWmXY9vq9rZafo1NVGUV3sd+9pmeCs/XsEKC9louA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WSS7ckOh; arc=none smtp.client-ip=209.85.160.172
+	s=arc-20240116; t=1727330361; c=relaxed/simple;
+	bh=XYyn/uWSwGEwZ2izkIKhOmYIuCbBJ8CxIZasp0IY31A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BLA1M66HQuF3EyVCyz3017czMx9lcBBXpsUM3JCPBlECK8mUA4fsJEBgraBV0qP9FD+zN0BJcwNxejAminwOxF519J5+jWCSHc1WhNnzFzxduoa5seBM/hBwgOqtE9Vv6E4B7bkigBBkVZGeFZjUzqNGzV7ys+p+aqnBKw4k5jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bx0IQXOO; arc=none smtp.client-ip=209.85.160.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-45832b2784bso4352931cf.3
-        for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 22:50:15 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-456757d8871so3637361cf.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Sep 2024 22:59:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727329814; x=1727934614; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1Jte9oqU3bEqLQEq3uaVn2nHKDdidO4uVkSl6injc2E=;
-        b=WSS7ckOh7Rgcph7n8Z2LsZEk84OufCi6Ire0pDgM1fLfl9cILAbeVnpxUys1yMaL1M
-         UoT6k0dJR8xaCvtgaFywqDbzaPhe1T1wLUpUiSg7HPbAQKi7Qm0Bz48cR86NU3Lu9gWb
-         SeOyuibY33nC3nyEIXBcPn0izyvEM70KXUZy0=
+        d=chromium.org; s=google; t=1727330357; x=1727935157; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o/c8AisojHt8E8qq/bSCfOVPkpZhoMvB2alieW7bAk4=;
+        b=bx0IQXOOJVzSvCeYKB1yNPRKrRMe4LGl0iKna1BizoObe62ouDS05M4Xt2C6w5ZPU1
+         jRRmxJju8Wa4ks7XOMnnGybV6D1E4tFtEPIU3CbktPPob5kM43FXvy4WEA6dR3uwQv/v
+         CplrSGwYP0t/c9Gik+XjCDUC7M5pfaIRDgi7Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727329814; x=1727934614;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1Jte9oqU3bEqLQEq3uaVn2nHKDdidO4uVkSl6injc2E=;
-        b=dt44pkUZT3UribvKzUBdrcKoXtVba+LqcrMb5MWgrKrGjnduluOWB6KEtJ+YGkMo56
-         FYVyqUfcdR97D5ZYdPSD8FwK1F7YCg/aBqyDq1jmB72moGP5i7J2LWyBTEXiO9DQjoUY
-         b2ijscvbr0VJ87Nbg7bNNW/vbpxyXhYH5J9KDldjjWybCQ8EzYI/yLc1LxTUmXywZa5e
-         cS7weKlWCaVr4QUuCOmPrrP4theWjZ3C7S470V+12PWfW/YW9lA7zDOhi9vTkiu5Yfvg
-         UTOxwA8Ud+gD21Ce62zjat8QXvteRhAPD+8Ik0z9VCkqL+U6PhUeCt7Gyyq0z01s3ZWv
-         gqRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXazV1Sei5CW5Vs2gDI97OD2YGfxghzZjDRyHCKEM8pwzloNUAjb3bd+XUkFcHAQ+EdwPt7+IpxTp6Xfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywu+wuG/GrLWqr1KptxYGgmnYsejT/LNC+nBEgkrNpk1pGebyze
-	5Vyfi6lWaDpjehvl8BSLEk67koIip84reVFex+69KPil2wGly+AiHloNObNr7g==
-X-Google-Smtp-Source: AGHT+IFxCfHwEy321Bw8EBQt293rqr5m34pmJLEgFglHcCaIk+ih11NQYLPeHDvPTI9jJvdqYBjNuQ==
-X-Received: by 2002:ac8:5885:0:b0:456:94fe:dcdf with SMTP id d75a77b69052e-45b5def4674mr65467061cf.35.1727329814538;
-        Wed, 25 Sep 2024 22:50:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727330357; x=1727935157;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o/c8AisojHt8E8qq/bSCfOVPkpZhoMvB2alieW7bAk4=;
+        b=B4ysQJFgmFPE3BUD9Ly/r5vkwZGH+HoEuKA2/TzrEl7YLk5DvNJOMyxxg0EDiOi8HV
+         VoKgZUw99EzmNM+CIAGisS2MgIAi3mbn4mf4Et+pbGvl7C6prGeUxQxVLks8/mJq+mx4
+         ptWuC250bxLmvUo5Z5F4a84CkDccT0esszANRJ39vhgc3n05qu9ayNZKFh8DjX/vYh/X
+         mIZDGGlLawx77HklM+s8CrKxN46BP7lmOuc8Nb9JbZxs5NgtDF/fC/XXNnGIvi+vdDaW
+         EW0s3NJP1HDPwXGG3JYOFVcmhMtELdaHkx3pF8GwkdvPTaWzo5AQ1UktpkfQox0hH9A+
+         SzGg==
+X-Gm-Message-State: AOJu0YyIzk+UoiqekPzkVmCP8poVFseBzS7IEsoNZvFpLQYw6zNR6kpR
+	OVirDrpWVHemtKT3YFjLHJPtfo312b/k0pD+YVBiCCDC6Dm3Fz0gNo1J46v7Ag==
+X-Google-Smtp-Source: AGHT+IH8HqXesp42SaUkdV4xroJDzKJ0Wpb2M4gze5VjC9BE0JCCtVeG2eBFGZII9cPYa+Z2uyfzxQ==
+X-Received: by 2002:ac8:5fd0:0:b0:458:2e48:b5ec with SMTP id d75a77b69052e-45b5e094b69mr64342101cf.45.1727330356886;
+        Wed, 25 Sep 2024 22:59:16 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45b5264b629sm22406781cf.64.2024.09.25.22.50.12
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45b5253b05fsm22611271cf.10.2024.09.25.22.59.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 22:50:13 -0700 (PDT)
+        Wed, 25 Sep 2024 22:59:15 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 26 Sep 2024 05:49:59 +0000
-Subject: [PATCH v7 3/3] media: uvcvideo: Exit early if there is not int_urb
+Date: Thu, 26 Sep 2024 05:59:06 +0000
+Subject: [PATCH] media: uvcvideo: Stop stream during unregister
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,60 +72,96 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240926-guenter-mini-v7-3-690441953d4a@chromium.org>
-References: <20240926-guenter-mini-v7-0-690441953d4a@chromium.org>
-In-Reply-To: <20240926-guenter-mini-v7-0-690441953d4a@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Tomasz Figa <tfiga@chromium.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Alan Stern <stern@rowland.harvard.edu>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>, 
- Ricardo Ribalda <ribalda@chromium.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>
+Message-Id: <20240926-uvc_stop_streaming-v1-1-038180fafe5f@chromium.org>
+X-B4-Tracking: v=1; b=H4sIACn49GYC/x2MQQqAIBAAvyJ7TjAJw74SEaZb7SELLQnEvyddB
+ uYwkyFiIIwwsAwBE0U6fZW2YWB34zfk5KqDFLITWir+JDvH+7wqApqD/MYV6tVJgbpfLNTwCrj
+ S+0/HqZQPntZ+N2QAAAA=
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-If there is no int_urb there is no need to do a clean stop.
+uvc_unregister_video() can be called asynchronously from
+uvc_disconnect(). If the device is still streaming when that happens, a
+plethora of race conditions can occur.
 
-Also we avoid calling usb_kill_urb(NULL). It is properly handled by the
-usb framework, but it is not polite.
+Make sure that the device has stopped streaming before exiting this
+function.
 
-Now that we are at it, fix the code style in uvc_status_start() for
-consistency.
+If the user still holds handles to the driver's file descriptors, any
+ioctl will return -ENODEV from the v4l2 core.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+This change makes uvc more consistent with the rest of the v4l2 drivers
+using the vb2_fop_* and vb2_ioctl_* helpers.
+
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_status.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+This patch was part of the series:
+https://patchwork.linuxtv.org/project/linux-media/list/?series=13064
 
-diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-index d8d5b327693f..c7901ac32c26 100644
---- a/drivers/media/usb/uvc/uvc_status.c
-+++ b/drivers/media/usb/uvc/uvc_status.c
-@@ -308,7 +308,7 @@ static int uvc_status_start(struct uvc_device *dev, gfp_t flags)
- {
- 	lockdep_assert_held(&dev->status_lock);
+Moved out from it to ease the review.
+---
+ drivers/media/usb/uvc/uvc_driver.c | 32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index f0febdc08c2d..bee150b852e4 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -1919,11 +1919,41 @@ static void uvc_unregister_video(struct uvc_device *dev)
+ 	struct uvc_streaming *stream;
  
--	if (dev->int_urb == NULL)
-+	if (!dev->int_urb)
- 		return 0;
+ 	list_for_each_entry(stream, &dev->streams, list) {
++		/* Nothing to do here, continue. */
+ 		if (!video_is_registered(&stream->vdev))
+ 			continue;
  
- 	return usb_submit_urb(dev->int_urb, flags);
-@@ -320,6 +320,9 @@ static void uvc_status_stop(struct uvc_device *dev)
- 
- 	lockdep_assert_held(&dev->status_lock);
- 
-+	if (!dev->int_urb)
-+		return;
++		/*
++		 * For stream->vdev we follow the same logic as:
++		 * vb2_video_unregister_device().
++		 */
 +
- 	/*
- 	 * Prevent the asynchronous control handler from requeing the URB. The
- 	 * barrier is needed so the flush_status change is visible to other
++		/* 1. Take a reference to vdev */
++		get_device(&stream->vdev.dev);
++
++		/* 2. Ensure that no new ioctls can be called. */
+ 		video_unregister_device(&stream->vdev);
+-		video_unregister_device(&stream->meta.vdev);
++
++		/* 3. Wait for old ioctls to finish. */
++		mutex_lock(&stream->mutex);
++
++		/* 4. Stop streaming. */
++		uvc_queue_release(&stream->queue);
++
++		mutex_unlock(&stream->mutex);
++
++		put_device(&stream->vdev.dev);
++
++		/*
++		 * For stream->meta.vdev we can directly call:
++		 * vb2_video_unregister_device().
++		 */
++		vb2_video_unregister_device(&stream->meta.vdev);
++
++		/*
++		 * Now both vdevs are not streaming and all the ioctls will
++		 * return -ENODEV.
++		 */
+ 
+ 		uvc_debugfs_cleanup_stream(stream);
+ 	}
 
+---
+base-commit: 81ee62e8d09ee3c7107d11c8bbfd64073ab601ad
+change-id: 20240926-uvc_stop_streaming-6e9fd20e97bc
+
+Best regards,
 -- 
-2.46.1.824.gd892dcdcdd-goog
+Ricardo Ribalda <ribalda@chromium.org>
 
 
