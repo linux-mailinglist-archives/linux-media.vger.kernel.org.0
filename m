@@ -1,88 +1,76 @@
-Return-Path: <linux-media+bounces-18661-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18662-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B2B987B21
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 00:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AD8987B90
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 01:18:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E0761C22877
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 22:25:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 708271C22023
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 23:18:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2CFD17C233;
-	Thu, 26 Sep 2024 22:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F9711B0100;
+	Thu, 26 Sep 2024 23:18:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="F0ZI7/Xg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nX29XnYF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4DB018E76F
-	for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 22:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E84A157A41
+	for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 23:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727389501; cv=none; b=eQUvdGgvEvF1JUgDA91s0fG2P5uCMLix/mHMr2s5qAT1LUJHuRsydRlXXR4ef3RASIVpgMiLyacBlI5GiENhyZTF0uqXVo4IxbqgYfqu/7/vEm/WiRXJzCXTbgMvEU51KbgJTDQ0qqBl3+OBTuSV3gxF4lJ/HpSlLrgv/PegL5M=
+	t=1727392702; cv=none; b=ciwacYe3v2V6QWo0pZJa3xpezsX0ePyH0UE2nTKohA2h3ux6cX4WMrOMAp8yPhCj18oNdVK8YCmn/1Uqz0rTW+o0Fl53WC3SkfZFB9/jqcSx8KUnvpmF8kmX7cKF0HptB9/PRgjZDq4MhtMW99WrNBVSuBEUmYtQ6z6rnhi/sUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727389501; c=relaxed/simple;
-	bh=9LWxw0GkDNKQzpLWJEw8INCGvjdnC+s0GVdlJVVvbaI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=clTd2Bq8cvMYMH6Y2t67t6BpYuJ+AgWIXrvllYI6eHFXHBkt0n0GKoLgXfyCcnjHr/VobBhfPwjTC10x/LTf0s5GARGyEFVSBZrYLXqfVNhFZUFFOPn92gAjk4kGBJCQXRkKCTwBpuc5Us/ytpRBS4paBBQIsfs/Cu8vrxf7U/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np; spf=none smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=F0ZI7/Xg; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=everestkc.com.np
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2068bee21d8so15986425ad.2
-        for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 15:24:59 -0700 (PDT)
+	s=arc-20240116; t=1727392702; c=relaxed/simple;
+	bh=JwNUUL0MIAVlJYRLbFGBNTazvr8N7AlNqoKnIwfewnA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iY4zZv5FjDEFR1A4rHJkOAF5NPGqIokguQR3/3NtSOSNbshILqCjrOJ0pPfINw043iqpjeXbvhiFJlR3iPO68ksZhekOSUUeZKBuBavqzPx8DzeunGMSGH1wJCPfCNNtZk7AZn+JcisEXEonMMten7IZfEly+xJce7WE45e7yr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nX29XnYF; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20b01da232aso11785675ad.1
+        for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 16:18:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1727389499; x=1727994299; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727392700; x=1727997500; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nwvdoFGxm3KhCqcwA7uNn+nsr1FJVT8Rrylkxk+BHzY=;
-        b=F0ZI7/XgFHmE1EWCmdDGM7o2SV8DiQ2ici+lgrln1f0YwNgrg9uYCPCjvPf5qK0UT6
-         mRLMpIwXcO5NaxDnXmYj95PcdSD5bW04q20DyxjHgZQfx8VptyU1sn1B0gwReZiqZ16G
-         B0mHdqrE/McNE0115vOUZ/ssarVmR+sHq2iBXVJx8jQRQxCesAyt5MIl3CMeLeX3bX1h
-         kS43Y0qJATkoaDm8boAXK87+nUTvmc+w7NCMy0PhEQk09KrdSn97I20I+HBW5t7KYv4d
-         hvWQjGjbzyi6DwFjES71UanLooVklt0SgL+AXY469kDZAhcjo+LSAN0mnV9em7XnMfBS
-         z3CQ==
+        bh=9VAhweZRKnXlTFj41v71IlHvC1esjQxSvn4r4/VgGYA=;
+        b=nX29XnYFmkpYSGgUyQ+uOptkzvXxznBK07hoY5nAu5YGtnuIObId3Iv105JsA60a6R
+         GHVlv3dfmLJ9AuZkBgoYo4tX5q+6P14VWh/8ividYAjAKupad/Dbb5Por5eZkJbo8PWJ
+         9W8TDexJoMfwTHwfRHL2CGYoOxeyaB9L46oufDFpZg77na4xToKLAfNlSmVktUAuIMnj
+         N63FIHgK363Orzv+F6/rFct8/15oUOj81wqfSd8hSGscBYSLjYvye6pW1K+plMMXiqH6
+         4WveFRC8Y54MDzvlGylVzssJEpNfTtD7+cBQ4f2F57akwykHh7zzoz/RldVkxd1nRjdK
+         VaZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727389499; x=1727994299;
+        d=1e100.net; s=20230601; t=1727392700; x=1727997500;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nwvdoFGxm3KhCqcwA7uNn+nsr1FJVT8Rrylkxk+BHzY=;
-        b=S2ZgA4IRCvg+qdnQYcD9YFhHZCvagwOcDAHS4CN+TMirMS6IHghSAJbaHfoveGxE8z
-         uRu1ihLW0OvkkpDaF7dA35Ck87CA6wZ2h7LPdeH6RDptk1FUNFf3bUaYyX1psr8kWWki
-         +gZbqNtbPR/DfRW50kjM3fOTQF4ja+hDVIsyxtBR4opACdTHmMaPa31Dch7NVRshFN5j
-         xOlC+2m8hVYSbF5+DGXKN/+TkfjzX00W/KZfEEt8H8C3vwFpTcK5j9+lrks3Knr4E+Yk
-         1SyOL+ajAIXRULk+NNNks9XHDaWb36ZD3xmXtrr3Y5T9nX5Q+fQCWhVzqbpByzLuyp9x
-         3bZw==
-X-Forwarded-Encrypted: i=1; AJvYcCXubwk3uH9+pHEebt+CH0eDIMOwFZNlYobtpF3YTkPvJh8WVwSam9QU2pi8joHQmg+qCySnDOLO/Lmbjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywkf7NPowlRtk5BesD9byTcStmlv5nw+GgJOgBUiVeK0EYcjZYw
-	600pMP+lRIEMv3sGXJdY86LwBvNV/Vrl41/yl2SNztgUmhi//aULLaIFUslqCHY=
-X-Google-Smtp-Source: AGHT+IFm/tktsslJFScr7N0Z8rSDXeabptEUKFyK1ckvN8vsNqDXTzaPkw22+7tUHK36g8LVTD4Xmg==
-X-Received: by 2002:a17:903:2287:b0:205:43b8:1aa4 with SMTP id d9443c01a7336-20b36ad3bcemr12377615ad.19.1727389499047;
-        Thu, 26 Sep 2024 15:24:59 -0700 (PDT)
-Received: from localhost.localdomain ([132.178.238.27])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20b37da334asm3064755ad.105.2024.09.26.15.24.58
+        bh=9VAhweZRKnXlTFj41v71IlHvC1esjQxSvn4r4/VgGYA=;
+        b=B9uQdKnAgHMTIkGyYbomsJCt2sOaqZX8MGbTNjQr3lE54tOOWfSCbWufKrNks+do0F
+         tHrvrxa6drjMv2/kW/3wL9MXve5GIF4ms2dG3NbCk/+hm9k3t+44IYvoghYiqhAiM5IK
+         jJmYKzfkDCn3+8kYPYj61/UCZOATxOLrgVpnIMOpykKIXobKfdt8uwVvfUTxtzSxOxV5
+         pE4z947byUtfMh7g+rTqZFCF3+kWtC4iTQXVGPhY02NGRf7YTX3LK/3B8eRHZuyYK1Nf
+         dUk2xU9B4MGCYKq9ggCg949a1gdgSzccxVhh1bLS324RyKSGboFOA4HdU0nPjfmPVOXD
+         QCKw==
+X-Gm-Message-State: AOJu0YzUPDQ4Ti98L/7OsMvh+M4iyK+lQZt7UfzcInZxpm664qL+hqqM
+	PoCWnvIDHQtWXVvLOrD4bq8ZyaeLuq31OqjG0iHhyrKIjCnayaMcqvXiT69MHE14ow==
+X-Google-Smtp-Source: AGHT+IG82hvZ8TSZWNu+F+44BdSdJ1sEWua1JX69lQOgMvIgX6kneSc7RvRfF5C39l2Xx76utSK3fg==
+X-Received: by 2002:a17:902:f78c:b0:205:7b03:ec3f with SMTP id d9443c01a7336-20b366725e1mr24196895ad.19.1727392700214;
+        Thu, 26 Sep 2024 16:18:20 -0700 (PDT)
+Received: from localhost.localdomain (n203-164-232-111.bla21.nsw.optusnet.com.au. [203.164.232.111])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e51330sm3308965ad.254.2024.09.26.16.18.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2024 15:24:58 -0700 (PDT)
-From: "Everest K.C." <everestkc@everestkc.com.np>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	andy@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	kieran.bingham+renesas@ideasonboard.com,
-	benjamin.gaignard@collabora.com
-Cc: "Everest K.C." <everestkc@everestkc.com.np>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] media: atomisp: Fix spelling errors reported by codespell
-Date: Thu, 26 Sep 2024 16:23:37 -0600
-Message-ID: <20240926222351.7116-1-everestkc@everestkc.com.np>
-X-Mailer: git-send-email 2.43.0
+        Thu, 26 Sep 2024 16:18:19 -0700 (PDT)
+From: Rohan Barar <rohan.barar@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: Rohan Barar <rohan.barar@gmail.com>
+Subject: [PATCH] Added ID 1d19:6108 Dexatek Technology Ltd. Video Grabber
+Date: Fri, 27 Sep 2024 08:49:45 +1000
+Message-ID: <20240926224944.248487-2-rohan.barar@gmail.com>
+X-Mailer: git-send-email 2.46.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,58 +79,47 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixed spelling errors as follows:
-	unkonwn ==> unknown
-	Stablization ==> Stabilization
-	previouly ==> previously
-	acknowlede ==> acknowledge
-
-Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
 ---
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/usb/cx231xx/cx231xx-cards.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index d7e8a9871522..1e42a8ca68f5 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -43,7 +43,7 @@ static const char *CARD = "ATOM ISP";	/* max size 31 */
+diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
+index 92efe6c1f..bda729b42 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-cards.c
++++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
+@@ -994,6 +994,8 @@ const unsigned int cx231xx_bcount = ARRAY_SIZE(cx231xx_boards);
  
- /*
-  * FIXME: ISP should not know beforehand all CIDs supported by sensor.
-- * Instead, it needs to propagate to sensor unkonwn CIDs.
-+ * Instead, it needs to propagate to sensor unknown CIDs.
-  */
- static struct v4l2_queryctrl ci_v4l2_controls[] = {
- 	{
-@@ -112,7 +112,7 @@ static struct v4l2_queryctrl ci_v4l2_controls[] = {
- 	{
- 		.id = V4L2_CID_ATOMISP_VIDEO_STABLIZATION,
- 		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "Video Stablization",
-+		.name = "Video Stabilization",
- 		.minimum = 0,
- 		.maximum = 1,
- 		.step = 1,
-@@ -678,7 +678,7 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
- 
- 	f->fmt.pix = pipe->pix;
- 
--	/* If s_fmt was issued, just return whatever is was previouly set */
-+	/* If s_fmt was issued, just return whatever is was previously set */
- 	if (f->fmt.pix.sizeimage)
- 		return 0;
- 
-@@ -1028,7 +1028,7 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
- 	/*
- 	 * ISP work around, need to reset ISP to allow next stream on to work.
- 	 * Streams have already been destroyed by atomisp_css_stop().
--	 * Disable PUNIT/ISP acknowlede/handshake - SRSE=3 and then reset.
-+	 * Disable PUNIT/ISP acknowledge/handshake - SRSE=3 and then reset.
- 	 */
- 	pci_write_config_dword(pdev, PCI_I_CONTROL,
- 			       isp->saved_regs.i_control | MRFLD_PCI_I_CONTROL_SRSE_RESET_MASK);
+ /* table of devices that work with this driver */
+ struct usb_device_id cx231xx_id_table[] = {
++	{USB_DEVICE(0x1D19, 0x6108),
++	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
+ 	{USB_DEVICE(0x1D19, 0x6109),
+ 	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
+ 	{USB_DEVICE(0x0572, 0x5A3C),
 -- 
-2.43.0
+2.46.1
 
+Dear Maintainers,
+
+This patch adds support for the USB device 1D19:6108 (Dexatek Technology Ltd. Video Grabber) to the cx231xx driver.
+
+This device was sold by the supermarket chain 'ALDI' in Australia circa 2013 as part of the 'BAUHN DVD Maker (DK8723)'.
+
+This device is very similar to the 1D19:6109 (https://www.linuxtv.org/wiki/index.php/SilverCrest_USB_2.0_Video_Grabber_SVG_2.0_A2).
+
+I have confirmed that both video and audio capture are working correctly by compiling, signing and loading the patched driver into the kernel using modprobe:
+* Video Capture: CONFIRMED WORKING in OBS & VLC.
+* Audio Capture: CONFIRMED WORKING via command `arecord -D hw:1,0 -f S16_LE -r 48000 -c 2 audio_capture_test.wav`.
+
+The sole modification is including a new entry to the device ID table, which can be found in `drivers/media/usb/cx231xx/cx231xx-cards.c`.
+
+Note: I previously submitted this patch to vdr@linuxtv.org (https://linuxtv.org/mailman3/hyperkitty/list/vdr@linuxtv.org/thread/4QFRB6JX3WD7Q74XAR32DHUDODTPKNBE/), but was redirected here.
+
+Signed-off-by: Rohan Barar rohan.barar@gmail.com
+
+Thank you for considering my patch!
+
+Kind regards,
+
+Rohan Barar
 
