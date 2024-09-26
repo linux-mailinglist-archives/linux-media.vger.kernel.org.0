@@ -1,77 +1,64 @@
-Return-Path: <linux-media+bounces-18603-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18604-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A276D986EFB
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 10:37:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA3D986F87
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 11:04:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EB71288750
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 08:37:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B33B31F25063
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 09:04:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07F391AD40B;
-	Thu, 26 Sep 2024 08:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D6CD1A7ADF;
+	Thu, 26 Sep 2024 09:04:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DBecXBrH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bM3gB8nU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C1C1A76DF;
-	Thu, 26 Sep 2024 08:36:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481C7208CA;
+	Thu, 26 Sep 2024 09:04:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727339784; cv=none; b=sNTSdVCUpepO3O8PoVE9lg4C9JzanEZrFhIOb7pBE1XdHbyEGtZFhqbroeeq8CC6ecUlDm3zPI7yayLazwBO/nxl9Tuj85RUyAlLO2JFhGbGXgc2UAsm0NlHyvvbAc/l5isQaJfLxqYrqeL8lvZsSjoIKXidrsRAnsAZlN45yOk=
+	t=1727341483; cv=none; b=b5BrNKUd46bNnyA6IoGJ2xKnXyWyC/6t2FiCcOAOCZRTqEb6GyyHJGFM3FIVXNAbEghDXaBTAXsJDppR6opEDcBlmCKLsO5ITAQ02X/Lk0yRbNJh8jkK6qqvchNlU8yQoCAtKQIu6mjreuPkxB3OxMoopyN7iNfmwbGUkUAI8W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727339784; c=relaxed/simple;
-	bh=0vx2wLHIP341Fcw6qUhYwA5kM6D965fe51U5NDuNykk=;
+	s=arc-20240116; t=1727341483; c=relaxed/simple;
+	bh=di2rL5GeXYpO0V4uTOsJz4GFmNmDIN3da4xmQ9fk8GI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G5SfY7IiZbxUm309tSk3epAhTSWi24rD4JaC28BYvPuD3rs84gvOliRIQ17vUhzc08+dqqXlWOqT5DZhr4JCDTliYcuZPpxPMTaWg1WtEuTzAXcK3pYS59qzUlGyFbvoFYmD392sdfNeVwulOy4TALPnMbmv/US8RdtQYY6/gqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DBecXBrH; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=UegS8ruHt0xyx+In24Y1JQI/38tzHFBo3/qlXpibfs+QxjKzsQPa7zjheCX8ylNfU6KVXOFDvZPXFMj+KiSS0g+aWlus5pJwwT0MnMRj4cm4AwU43XQZcHc4zgVVWrEaurhPI2tTd7EKfQT2lSkYFZIarQPjZRivObNXG6L/M5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bM3gB8nU; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CFCEF169;
-	Thu, 26 Sep 2024 10:34:51 +0200 (CEST)
+Received: from ideasonboard.com (mob-5-90-51-229.net.vodafone.it [5.90.51.229])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 883DC8D4;
+	Thu, 26 Sep 2024 11:03:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727339692;
-	bh=0vx2wLHIP341Fcw6qUhYwA5kM6D965fe51U5NDuNykk=;
+	s=mail; t=1727341391;
+	bh=di2rL5GeXYpO0V4uTOsJz4GFmNmDIN3da4xmQ9fk8GI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DBecXBrHZnJ73ugoSwlvEFZl5HNOOcuYbIIdgLX1AkDR6PH7vK9Arte2y8mICEzuh
-	 DXLodimMtWBjICZsq8QJw6rUDxSmTNStU9keIPkEqgc1e45rvdlA7HJY/31ZgKMTlG
-	 9tBNMwgZHEvdG1BfpH27Ivag8bjqyiquObr5/TM0=
-Date: Thu, 26 Sep 2024 11:36:17 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Conor Dooley <conor@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Jim Quinlan <jim2101024@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jim Quinlan <james.quinlan@broadcom.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix array property constraints
-Message-ID: <20240926083617.GA29582@pendragon.ideasonboard.com>
-References: <20240925232409.2208515-1-robh@kernel.org>
+	b=bM3gB8nUyh5eV5Z5HCch6mMxBZW+JATtWYP/hiQrjV6uKPtjAA20hFUHLJdIEwRfH
+	 Wowr807WRIAsu7i21zsc6UZu/uIozBxjh994yA4RTk/yKXEceSMiXCMHfKW4+vZ7hQ
+	 uYYX4Rva+2K2pKzj+BBJUPtF2bBLKycYm6SASsDc=
+Date: Thu, 26 Sep 2024 11:04:36 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH v5 0/4] media: raspberrypi: Support RPi5's CFE
+Message-ID: <yj5zt4a275pjedrxvs4ys2wgp5heblisihal6jrqdryoq3ydph@6rriiytwpkpq>
+References: <20240910-rp1-cfe-v5-0-9ab4c4c8eace@ideasonboard.com>
+ <fe968dc7-67a5-40be-871e-fe682dc60d70@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,167 +67,129 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240925232409.2208515-1-robh@kernel.org>
+In-Reply-To: <fe968dc7-67a5-40be-871e-fe682dc60d70@ideasonboard.com>
 
-Hi Rob,
+Hi Tomi
 
-Thank you for the patch.
+On Thu, Sep 26, 2024 at 10:13:29AM GMT, Tomi Valkeinen wrote:
+> Hi,
+>
+> On 10/09/2024 11:07, Tomi Valkeinen wrote:
+> > This series adds support to the CFE hardware block on RaspberryPi 5. The
+> > CFE (Camera Front End) contains a CSI-2 receiver and Front End, a small
+> > ISP.
+> >
+> > To run this, you need the basic RPi5 kernel support plus relevant dts
+> > changes to enable the cfe and camera. My work branch with everything
+> > needed to run CFE can be found from:
+> >
+> > git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git rp1-cfe
+> >
+> > A few notes about the patches:
+> >
+> > - The original work was done by RaspberryPi, mostly by Naushir Patuck.
+> > - The second video node only sets V4L2_CAP_META_CAPTURE instead of both
+> >    V4L2_CAP_META_CAPTURE and V4L2_CAP_META_CAPTURE like the other nodes.
+> >    This is a temporary workaround for userspace (libcamera), and
+> >    hopefully can be removed soon.
+> >
+> > I have tested this with:
+> > - A single IMX219 sensor connected to the RPi5's CSI-2 port
+> > - Arducam's UB960 FPD-Link board with four imx219 sensors connected
+> >
+> >   Tomi
+> >
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > ---
+> > Changes in v5:
+> > - Add "depends on PM". The platforms that use CFE will always have PM in
+> >    practice, and it's not worth supporting both the PM and !PM cases as
+> >    it adds complexity to the driver.
+> > - Link to v4: https://lore.kernel.org/r/20240904-rp1-cfe-v4-0-f1b5b3d69c81@ideasonboard.com
+>
+> Is this solution to the PM issue ok for everyone? It feels most sensible to
+> me. Any other comments?
 
-On Wed, Sep 25, 2024 at 06:24:06PM -0500, Rob Herring (Arm) wrote:
-> Schemas for array properties should only have 1 level of array
-> constraints (e.g. items, maxItems, minItems). Sometimes the old
-> encoding of all properties into a matrix leaked into the schema, and
-> didn't matter for validation. Now the inner constraints are just
-> silently ignored as json-schema array keywords are ignored on scalar
-> values.
-> 
-> Generally, keep the inner constraints and drop the outer "items". With
-> gicv3 "mbi-alias" property, it is more appropriately a uint32 or uint64
-> as it is an address and size depends on "#address-cells".
+There was consensus at the media summit that platform drivers are
+allowed to depend on PM.
 
-I haven't followed what changed in the validation tools, but this is
-definitely less confusing. Thanks for improving the experience.
+I'll do the same for my latest PiSP BE series.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/cache/l2c2x0.yaml  |  5 ++---
->  .../devicetree/bindings/dma/dma-common.yaml          |  7 +++----
->  .../bindings/interrupt-controller/arm,gic-v3.yaml    | 12 +++++-------
->  .../devicetree/bindings/media/i2c/thine,thp7312.yaml |  3 +--
->  .../bindings/memory-controllers/exynos-srom.yaml     |  5 ++---
->  .../devicetree/bindings/pci/brcm,stb-pcie.yaml       |  5 ++---
->  .../devicetree/bindings/soc/qcom/qcom,smp2p.yaml     |  3 +--
->  7 files changed, 16 insertions(+), 24 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/cache/l2c2x0.yaml b/Documentation/devicetree/bindings/cache/l2c2x0.yaml
-> index d7840a5c4037..10c1a900202f 100644
-> --- a/Documentation/devicetree/bindings/cache/l2c2x0.yaml
-> +++ b/Documentation/devicetree/bindings/cache/l2c2x0.yaml
-> @@ -100,9 +100,8 @@ properties:
->        filter. Addresses in the filter window are directed to the M1 port. Other
->        addresses will go to the M0 port.
->      $ref: /schemas/types.yaml#/definitions/uint32-array
-> -    items:
-> -      minItems: 2
-> -      maxItems: 2
-> +    minItems: 2
-> +    maxItems: 2
->  
->    arm,io-coherent:
->      description: indicates that the system is operating in an hardware
-> diff --git a/Documentation/devicetree/bindings/dma/dma-common.yaml b/Documentation/devicetree/bindings/dma/dma-common.yaml
-> index ea700f8ee6c6..fde5160b5d29 100644
-> --- a/Documentation/devicetree/bindings/dma/dma-common.yaml
-> +++ b/Documentation/devicetree/bindings/dma/dma-common.yaml
-> @@ -32,10 +32,9 @@ properties:
->        The first item in the array is for channels 0-31, the second is for
->        channels 32-63, etc.
->      $ref: /schemas/types.yaml#/definitions/uint32-array
-> -    items:
-> -      minItems: 1
-> -      # Should be enough
-> -      maxItems: 255
-> +    minItems: 1
-> +    # Should be enough
-> +    maxItems: 255
->  
->    dma-channels:
->      $ref: /schemas/types.yaml#/definitions/uint32
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml b/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
-> index 5f051c666cbe..f3247a47f9ee 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
-> @@ -132,10 +132,9 @@ properties:
->        Address property. Base address of an alias of the GICD region containing
->        only the {SET,CLR}SPI registers to be used if isolation is required,
->        and if supported by the HW.
-> -    $ref: /schemas/types.yaml#/definitions/uint32-array
-> -    items:
-> -      minItems: 1
-> -      maxItems: 2
-> +    oneOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - $ref: /schemas/types.yaml#/definitions/uint64
->  
->    ppi-partitions:
->      type: object
-> @@ -223,9 +222,8 @@ patternProperties:
->            (u32, u32) tuple describing the untranslated
->            address and size of the pre-ITS window.
->          $ref: /schemas/types.yaml#/definitions/uint32-array
-> -        items:
-> -          minItems: 2
-> -          maxItems: 2
-> +        minItems: 2
-> +        maxItems: 2
->  
->      required:
->        - compatible
-> diff --git a/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml b/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
-> index 535acf2b88a9..bc339a7374b2 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
-> @@ -135,8 +135,7 @@ properties:
->  
->            data-lanes:
->              $ref: /schemas/media/video-interfaces.yaml#/properties/data-lanes
-> -            items:
-> -              maxItems: 4
-> +            maxItems: 4
->              description:
->                This property is for lane reordering between the THP7312 and the imaging
->                sensor that it is connected to.
-> diff --git a/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml b/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml
-> index 10a2d97e5f8b..a5598ade399f 100644
-> --- a/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml
-> +++ b/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml
-> @@ -66,9 +66,8 @@ patternProperties:
->  
->        samsung,srom-timing:
->          $ref: /schemas/types.yaml#/definitions/uint32-array
-> -        items:
-> -          minItems: 6
-> -          maxItems: 6
-> +        minItems: 6
-> +        maxItems: 6
->          description: |
->            Array of 6 integers, specifying bank timings in the following order:
->            Tacp, Tcah, Tcoh, Tacc, Tcos, Tacs.
-> diff --git a/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml b/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
-> index 0925c520195a..2ad1652c2584 100644
-> --- a/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
-> +++ b/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
-> @@ -92,9 +92,8 @@ properties:
->        may have two component regions -- base and extended -- so
->        this information cannot be deduced from the dma-ranges.
->      $ref: /schemas/types.yaml#/definitions/uint64-array
-> -    items:
-> -      minItems: 1
-> -      maxItems: 3
-> +    minItems: 1
-> +    maxItems: 3
->  
->    resets:
->      minItems: 1
-> diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,smp2p.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,smp2p.yaml
-> index 141d666dc3f7..1ba1d419e83b 100644
-> --- a/Documentation/devicetree/bindings/soc/qcom/qcom,smp2p.yaml
-> +++ b/Documentation/devicetree/bindings/soc/qcom/qcom,smp2p.yaml
-> @@ -55,8 +55,7 @@ properties:
->  
->    qcom,smem:
->      $ref: /schemas/types.yaml#/definitions/uint32-array
-> -    items:
-> -      maxItems: 2
-> +    maxItems: 2
->      description:
->        Two identifiers of the inbound and outbound smem items used for this edge.
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+>  Tomi
+>
+> > Changes in v4:
+> > - Drop unnecessary clock-lanes from the DT bindings
+> > - Drop unnecessary linux-media from MAINTAINERS entry
+> > - Drop unnecessary conversion to bool with !!
+> > - Don't set cap->bus_info in cfe_querycap()
+> > - Make debugfs files not readable by the world
+> > - Check the return value of v4l2_fwnode_endpoint_parse()
+> > - Remove the code dealing with remote_ep_fwnode. Instead use
+> >    v4l2_create_fwnode_links_to_pad() and media_pad_remote_pad_unique() to
+> >    create the link and get the pad index.
+> > - Add cfe/csi2/fe/dphy argument to the respective dbg/info/err print
+> >    macros.
+> > - Drop some debug prints and add a few, clarifying the prints for
+> >    enabling and disabling the streams.
+> > - Some cosmetic changes (linefeed, drop unnecessary assignment, move a
+> >    define)
+> > - Link to v3: https://lore.kernel.org/r/20240815-rp1-cfe-v3-0-e15a979db327@ideasonboard.com
+> >
+> > Changes in v3:
+> > - Based on v6.11-rc3. The PiSP BE series is now in upstream so no extra
+> >    dependencies are needed.
+> > - Fixed cfe_remove() return value, as the .remove hook has changed
+> > - Added Krzysztof's Rb.
+> > - Link to v2: https://lore.kernel.org/r/20240620-rp1-cfe-v2-0-b8b48fdba3b3@ideasonboard.com
+> >
+> > Changes in v2:
+> > - Change the compatible string back to raspberrypi,rp1-cfe from raspberrypi,rpi5-rp1-cfe
+> > - Drop the references to rp1 headers in the DT binding example. This
+> >    allows compiling the example without the rp1 support.
+> > - Fix missing remap lines for mono formats
+> > - Fix csi2_pad_set_fmt() so that the format can be changed back to the
+> >    sink's format from 16-bit or compressed format.
+> > - Link to v1: https://lore.kernel.org/r/20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com
+> >
+> > ---
+> > Tomi Valkeinen (4):
+> >        media: uapi: Add meta formats for PiSP FE config and stats
+> >        dt-bindings: media: Add bindings for raspberrypi,rp1-cfe
+> >        media: raspberrypi: Add support for RP1-CFE
+> >        media: admin-guide: Document the Raspberry Pi CFE (rp1-cfe)
+> >
+> >   .../admin-guide/media/raspberrypi-rp1-cfe.dot      |   27 +
+> >   .../admin-guide/media/raspberrypi-rp1-cfe.rst      |   78 +
+> >   Documentation/admin-guide/media/v4l-drivers.rst    |    1 +
+> >   .../bindings/media/raspberrypi,rp1-cfe.yaml        |   93 +
+> >   .../userspace-api/media/v4l/meta-formats.rst       |    1 +
+> >   .../userspace-api/media/v4l/metafmt-pisp-fe.rst    |   39 +
+> >   MAINTAINERS                                        |    7 +
+> >   drivers/media/platform/raspberrypi/Kconfig         |    1 +
+> >   drivers/media/platform/raspberrypi/Makefile        |    1 +
+> >   drivers/media/platform/raspberrypi/rp1-cfe/Kconfig |   15 +
+> >   .../media/platform/raspberrypi/rp1-cfe/Makefile    |    6 +
+> >   .../media/platform/raspberrypi/rp1-cfe/cfe-fmts.h  |  332 +++
+> >   .../media/platform/raspberrypi/rp1-cfe/cfe-trace.h |  196 ++
+> >   drivers/media/platform/raspberrypi/rp1-cfe/cfe.c   | 2487 ++++++++++++++++++++
+> >   drivers/media/platform/raspberrypi/rp1-cfe/cfe.h   |   43 +
+> >   drivers/media/platform/raspberrypi/rp1-cfe/csi2.c  |  583 +++++
+> >   drivers/media/platform/raspberrypi/rp1-cfe/csi2.h  |   89 +
+> >   drivers/media/platform/raspberrypi/rp1-cfe/dphy.c  |  180 ++
+> >   drivers/media/platform/raspberrypi/rp1-cfe/dphy.h  |   27 +
+> >   .../media/platform/raspberrypi/rp1-cfe/pisp-fe.c   |  581 +++++
+> >   .../media/platform/raspberrypi/rp1-cfe/pisp-fe.h   |   53 +
+> >   drivers/media/v4l2-core/v4l2-ioctl.c               |    2 +
+> >   .../uapi/linux/media/raspberrypi/pisp_fe_config.h  |  273 +++
+> >   .../linux/media/raspberrypi/pisp_fe_statistics.h   |   64 +
+> >   include/uapi/linux/videodev2.h                     |    2 +
+> >   25 files changed, 5181 insertions(+)
+> > ---
+> > base-commit: 431c1646e1f86b949fa3685efc50b660a364c2b6
+> > change-id: 20240314-rp1-cfe-142b628b7214
+> >
+> > Best regards,
+>
+>
 
