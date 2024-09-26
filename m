@@ -1,150 +1,320 @@
-Return-Path: <linux-media+bounces-18641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A184987542
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 16:15:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5CA79875C9
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 16:40:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA6101C24F05
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 14:15:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 652F01F2224B
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 14:40:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56E5B136352;
-	Thu, 26 Sep 2024 14:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F291913BC0E;
+	Thu, 26 Sep 2024 14:39:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4EBY8c8"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bx/ex1jO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16ED76410;
-	Thu, 26 Sep 2024 14:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85267A13A;
+	Thu, 26 Sep 2024 14:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727360098; cv=none; b=eFxpDnaR1hJeQuyb1GYpgQ/6GjsTyh4FUSjsO6MrBBQeBlP4kgnfuoTqHRusamhup6URweYknEUGuv98LnFIjzLBMBzLD0/GKoEa2fdQGsRGSveo9p4Nzuupp5q9cCvus8FfZX4+G/z5SmhRDuKfMuarmuS+jnh3+LhHnerKA7w=
+	t=1727361586; cv=none; b=nmF127ceQDp8YSzCCgKweWxwANcVErxU24jVNTFg+xVI8QNm48tXADKr8cdybCd6fAQ7pOFBi4YhmI6/geY5HSRDNBFJ2+yurOA6+ceGFNB4uxihF9kuct3SNNNF3+MoQs7gAJBFo/vv1jMGqErP04z7uI4yC32lvL1yI+D+JFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727360098; c=relaxed/simple;
-	bh=xOYG5RGqxeLQkmMttklxNRWvBmW1y2v3QvsWponf7F8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mnQQ84DsNfPxzK5rpK6NokvasPhQi+B2CaXJ5ptJjxTcRqwY48qSc/gg7PWYy33k5l6jZSR2XMGsGIU7z4XhvkPVlwv8AmA/FRJqbk0VJkXvRhaXQ9vwzQj9LOyhScHBsshNiE18GSYUftZEXVcEMTz2sIIKlfs/gZ9N3oaVQT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4EBY8c8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1BA2C4CEC5;
-	Thu, 26 Sep 2024 14:14:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727360098;
-	bh=xOYG5RGqxeLQkmMttklxNRWvBmW1y2v3QvsWponf7F8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=P4EBY8c8D7c4iGAO+4T3IyhZDELYEe74LPDGwT7whsmjEfrzXO3cYGW80RNobghBO
-	 AXrNJVPUrSfrhWA8/T4HNZ2hJHbAGMn5XCvmWDUpPpk89h3CxZp3o+laoysO0A3Urk
-	 g4XTmp8gqlReFGM6t4ZFujYiaI/ulOxzado4dbhd0A6PR7hpJcV022Gbl/PetTjZ7o
-	 ohoXaol8K56ZqjAZpbEGK/swko6Rqz0hVnORS3rmcfK3gBMR+k0O2sVtCd4FQkuuD4
-	 +NVkIIXSRlmDbW/9WXt2L/Oraqs3s2LpKPe3GVC5/v/ID3QA3zlHvfXq0y7a2/FbCz
-	 EfOqqPKfp1VsA==
-Date: Thu, 26 Sep 2024 16:14:50 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Hecht, Martin (Avnet Silica)" <Martin.Hecht@avnet.eu>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>, Hans Verkuil
- <hverkuil@xs4all.nl>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Tommaso Merciai <tomm.merciai@gmail.com>, Jacopo
- Mondi <jacopo.mondi@ideasonboard.com>, Benjamin Mugnier
- <benjamin.mugnier@foss.st.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Ricardo Ribalda
- <ribalda@chromium.org>, Michael Tretter <m.tretter@pengutronix.de>, Alain
- Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>, Steve Cho
- <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>, Hidenori
- Kobayashi <hidenorik@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
- "Suresh Vankadara" <svankada@qti.qualcomm.com>, Devarsh Thakkar
- <devarsht@ti.com>, "r-donadkar@ti.com" <r-donadkar@ti.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Mehdi Djait
- <mehdi.djait@linux.intel.com>, Nicolas Dufresne <nicolas@ndufresne.ca>,
- Salahaldeen Altous <salahaldeen.altous@leica-camera.com>,
- kernelci@lists.linux.dev, Gustavo Padovan <gus@collabora.com>
-Subject: Kernel CI media test - Was: Re: [ANN] Media Summit September 16th:
- Final Agenda (v7)
-Message-ID: <20240926161450.5022ba06@foz.lan>
-In-Reply-To: <FR4P281MB3434AE7AEB218146C9CD062CFD6C2@FR4P281MB3434.DEUP281.PROD.OUTLOOK.COM>
-References: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
-	<20240917091744.qltmddftdy7bpgpg@basti-XPS-13-9310>
-	<bb8c09c7-0eae-4e1a-8fb8-e325fcf326df@xs4all.nl>
-	<20240918092454.21884920@sal.lan>
-	<20240918093020.u5rz7qfjoumfezql@basti-XPS-13-9310>
-	<FR4P281MB3434AE7AEB218146C9CD062CFD6C2@FR4P281MB3434.DEUP281.PROD.OUTLOOK.COM>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1727361586; c=relaxed/simple;
+	bh=bkYkLOAw713fILsyCYM13JpHUst94SgvFIH1CgWWuX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AIqmh348mfjDDj3iRQfiE6WFJKYyCR1bqGdE3diH+w880a3BEk+oQKnIFrFVfo+wg5wMmvDaYiYM+lU3EF2ohd77ghMr699DDiboZ+5Xmz9Jlmlh4JHuqSkVj4qzgcMiAA3CKRT79leg5SMrUGUhK3ydrZWVecRF+HvHJvQJHAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bx/ex1jO; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D26E8D4;
+	Thu, 26 Sep 2024 16:38:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1727361494;
+	bh=bkYkLOAw713fILsyCYM13JpHUst94SgvFIH1CgWWuX8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bx/ex1jO75gq7J+rLJjqdQRCH9ckfvbYx8N5WMpQgL3sktG3/iSnSI2dkvsgKQUiu
+	 T53GrRN5/4CRW2L8c/zQYot8DDorM0DxP0jfd8WUhDAWQTqiwCZPcrkPtV95ODpQV2
+	 cXm4FAuZNPty9ccktaOmpzpNIzBrFWKg/bpF1h2Y=
+Date: Thu, 26 Sep 2024 17:39:40 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sean Paul <seanpaul@chromium.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v7 1/3] media: uvcvideo: Refactor the status irq API
+Message-ID: <20240926143940.GI21788@pendragon.ideasonboard.com>
+References: <20240926-guenter-mini-v7-0-690441953d4a@chromium.org>
+ <20240926-guenter-mini-v7-1-690441953d4a@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240926-guenter-mini-v7-1-690441953d4a@chromium.org>
 
-Hi Martin,
+Hi Ricardo,
 
-Em Wed, 25 Sep 2024 22:53:42 +0300
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+Thank you for the patch.
 
-> Hi Martin,
->=20
-> On Fri, Sep 20, 2024 at 12:16:29PM +0000, Hecht, Martin (Avnet Silica) wr=
-ote:
-> > Hey Hans and Mauro,
-> >=20
-> > I remember also on a very little point regarding hardware for testing.
-> > But we didn't go in detail again during the summit.
-> >=20
-> > How do we can go ahead here? Are there some test systems up and
-> > running somewhere centralized or how it is organized right now? =20
->=20
-> Testing on real hardware is among our goals, but will require quite som
-> extra work. We will likely need to setup lava labs and integrate them
-> with media-ci. We had a discussion on Friday with kernel-ci developers,
-> and we will probably benefit from ongoing work on their side. I don't
-> think there's a plan to address this on our side in the very short term
-> (mostly due to lack of time, we're currently focusing on getting
-> media-ci up and running and integrated with the maintenance workflow).
+On Thu, Sep 26, 2024 at 05:49:57AM +0000, Ricardo Ribalda wrote:
+> There are two different use-cases of uvc_status():
+> 
+> - adding/removing a user when the camera is open/closed
+> - stopping/starting when the camera is suspended/resumed
+> 
+> Make the API reflect these two use-cases and move all the refcounting
+> and locking logic to the uvc_status.c file.
+> 
+> No functional change is expected from this patch.
+> 
+> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 13 ++--------
+>  drivers/media/usb/uvc/uvc_status.c | 53 ++++++++++++++++++++++++++++++++++++--
+>  drivers/media/usb/uvc/uvc_v4l2.c   | 22 +++++-----------
+>  drivers/media/usb/uvc/uvcvideo.h   | 10 ++++---
+>  4 files changed, 65 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index f0febdc08c2d..31e8942f1ef8 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2116,7 +2116,6 @@ static int uvc_probe(struct usb_interface *intf,
+>  	INIT_LIST_HEAD(&dev->streams);
+>  	kref_init(&dev->ref);
+>  	atomic_set(&dev->nmappings, 0);
+> -	mutex_init(&dev->lock);
+>  
+>  	dev->udev = usb_get_dev(udev);
+>  	dev->intf = usb_get_intf(intf);
+> @@ -2288,10 +2287,7 @@ static int uvc_suspend(struct usb_interface *intf, pm_message_t message)
+>  	/* Controls are cached on the fly so they don't need to be saved. */
+>  	if (intf->cur_altsetting->desc.bInterfaceSubClass ==
+>  	    UVC_SC_VIDEOCONTROL) {
+> -		mutex_lock(&dev->lock);
+> -		if (dev->users)
+> -			uvc_status_stop(dev);
+> -		mutex_unlock(&dev->lock);
+> +		uvc_status_suspend(dev);
+>  		return 0;
+>  	}
+>  
+> @@ -2322,12 +2318,7 @@ static int __uvc_resume(struct usb_interface *intf, int reset)
+>  				return ret;
+>  		}
+>  
+> -		mutex_lock(&dev->lock);
+> -		if (dev->users)
+> -			ret = uvc_status_start(dev, GFP_NOIO);
+> -		mutex_unlock(&dev->lock);
+> -
+> -		return ret;
+> +		return uvc_status_resume(dev);
+>  	}
+>  
+>  	list_for_each_entry(stream, &dev->streams, list) {
+> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+> index a78a88c710e2..e438ae5af2e8 100644
+> --- a/drivers/media/usb/uvc/uvc_status.c
+> +++ b/drivers/media/usb/uvc/uvc_status.c
+> @@ -257,6 +257,8 @@ int uvc_status_init(struct uvc_device *dev)
+>  	unsigned int pipe;
+>  	int interval;
+>  
+> +	mutex_init(&dev->status_lock);
+> +
+>  	if (ep == NULL)
+>  		return 0;
+>  
+> @@ -302,18 +304,22 @@ void uvc_status_cleanup(struct uvc_device *dev)
+>  	kfree(dev->status);
+>  }
+>  
+> -int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+> +static int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+>  {
+> +	lockdep_assert_held(&dev->status_lock);
+> +
+>  	if (dev->int_urb == NULL)
+>  		return 0;
+>  
+>  	return usb_submit_urb(dev->int_urb, flags);
+>  }
+>  
+> -void uvc_status_stop(struct uvc_device *dev)
+> +static void uvc_status_stop(struct uvc_device *dev)
+>  {
+>  	struct uvc_ctrl_work *w = &dev->async_ctrl;
+>  
+> +	lockdep_assert_held(&dev->status_lock);
+> +
+>  	/*
+>  	 * Prevent the asynchronous control handler from requeing the URB. The
+>  	 * barrier is needed so the flush_status change is visible to other
+> @@ -350,3 +356,46 @@ void uvc_status_stop(struct uvc_device *dev)
+>  	 */
+>  	smp_store_release(&dev->flush_status, false);
+>  }
+> +
+> +int uvc_status_resume(struct uvc_device *dev)
+> +{
+> +	guard(mutex)(&dev->status_lock);
+> +
+> +	if (dev->status_users)
+> +		return  uvc_status_start(dev, GFP_NOIO);
 
-With regards to integrating Avnet Silica labs for doing CI tests on
-media hardware with upstream kernels, this is something I always wanted.
+Double space afer return. I'll fix when applying.
 
-Yet, as Laurent mentioned, right now we're not doing it directly=20
-(but I guess Collabora is doing it for some media drivers they're=20
-developing).
+> +
+> +	return 0;
+> +}
+> +
+> +void uvc_status_suspend(struct uvc_device *dev)
+> +{
+> +	guard(mutex)(&dev->status_lock);
+> +
+> +	if (dev->status_users)
+> +		uvc_status_stop(dev);
+> +}
+> +
+> +int uvc_status_get(struct uvc_device *dev)
+> +{
+> +	int ret = 0;
+> +
+> +	guard(mutex)(&dev->status_lock);
+> +
+> +	if (!dev->status_users)
+> +		ret = uvc_status_start(dev, GFP_KERNEL);
+> +	if (!ret)
+> +		dev->status_users++;
 
-=46rom the discussions I had during LPC and the ones I also had one year
-ago at ELCE, it seems that the best way to do it is by using Kernel CI
-to aggregate results from different test labs.
+Thanks for the scoped guard, we can write
 
-The main idea is to use Kernel CI for such purpose.
+	if (!dev->status_users) {
+		int ret = uvc_status_start(dev, GFP_KERNEL);
+		if (ret)
+			return ret;
+	}
 
-With such purpose, let's start a separate thread to discuss it together
-with the Kernel CI community.=20
+	dev->status_users++;
 
-So, I'm c/c Kernel CI public ML here and Gustavo Padovan that have been=20
-involved on several efforts related to that. I had some hallway=20
-discussions with him during LPC.
+	return 0;
 
-It I recall correctly, we need to is:
+which I think is nicer to read. If that's fine with you I'll do this
+locally, not need to a new version.
 
-1. To define a common test set (probably a subset of what we do=20
-   already for the virtual drivers);
-2. add hardware platforms to Kernel CI infrastructure;
-3. add some logic at Kernel CI to execute the tests at the hardware
-   that will be made available at the labs.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-=46rom our discussions during the Media Summit, my understanding is that
-Avnet Silica can help us with that by providing some hardware platforms
-that could be integrated at Kernel CI infra and test real drivers with
-real hardware. If you have someone to spare, maybe you can also contribute
-with (1) and (3).
+> +
+> +	return ret;
+> +}
+> +
+> +void uvc_status_put(struct uvc_device *dev)
+> +{
+> +	guard(mutex)(&dev->status_lock);
+> +
+> +	if (dev->status_users == 1)
+> +		uvc_status_stop(dev);
+> +	WARN_ON(!dev->status_users);
+> +	if (dev->status_users)
+> +		dev->status_users--;
+> +}
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index f4988f03640a..97c5407f6603 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -628,20 +628,13 @@ static int uvc_v4l2_open(struct file *file)
+>  		return -ENOMEM;
+>  	}
+>  
+> -	mutex_lock(&stream->dev->lock);
+> -	if (stream->dev->users == 0) {
+> -		ret = uvc_status_start(stream->dev, GFP_KERNEL);
+> -		if (ret < 0) {
+> -			mutex_unlock(&stream->dev->lock);
+> -			usb_autopm_put_interface(stream->dev->intf);
+> -			kfree(handle);
+> -			return ret;
+> -		}
+> +	ret = uvc_status_get(stream->dev);
+> +	if (ret) {
+> +		usb_autopm_put_interface(stream->dev->intf);
+> +		kfree(handle);
+> +		return ret;
+>  	}
+>  
+> -	stream->dev->users++;
+> -	mutex_unlock(&stream->dev->lock);
+> -
+>  	v4l2_fh_init(&handle->vfh, &stream->vdev);
+>  	v4l2_fh_add(&handle->vfh);
+>  	handle->chain = stream->chain;
+> @@ -670,10 +663,7 @@ static int uvc_v4l2_release(struct file *file)
+>  	kfree(handle);
+>  	file->private_data = NULL;
+>  
+> -	mutex_lock(&stream->dev->lock);
+> -	if (--stream->dev->users == 0)
+> -		uvc_status_stop(stream->dev);
+> -	mutex_unlock(&stream->dev->lock);
+> +	uvc_status_put(stream->dev);
+>  
+>  	usb_autopm_put_interface(stream->dev->intf);
+>  	return 0;
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index b7d24a853ce4..07f9921d83f2 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -563,8 +563,6 @@ struct uvc_device {
+>  
+>  	const struct uvc_device_info *info;
+>  
+> -	struct mutex lock;		/* Protects users */
+> -	unsigned int users;
+>  	atomic_t nmappings;
+>  
+>  	/* Video control interface */
+> @@ -586,6 +584,8 @@ struct uvc_device {
+>  	struct usb_host_endpoint *int_ep;
+>  	struct urb *int_urb;
+>  	struct uvc_status *status;
+> +	struct mutex status_lock; /* Protects status_users */
+> +	unsigned int status_users;
+>  	bool flush_status;
+>  
+>  	struct input_dev *input;
+> @@ -752,8 +752,10 @@ int uvc_register_video_device(struct uvc_device *dev,
+>  int uvc_status_init(struct uvc_device *dev);
+>  void uvc_status_unregister(struct uvc_device *dev);
+>  void uvc_status_cleanup(struct uvc_device *dev);
+> -int uvc_status_start(struct uvc_device *dev, gfp_t flags);
+> -void uvc_status_stop(struct uvc_device *dev);
+> +int uvc_status_resume(struct uvc_device *dev);
+> +void uvc_status_suspend(struct uvc_device *dev);
+> +int uvc_status_get(struct uvc_device *dev);
+> +void uvc_status_put(struct uvc_device *dev);
+>  
+>  /* Controls */
+>  extern const struct v4l2_subscribed_event_ops uvc_ctrl_sub_ev_ops;
 
-Anyway, this is just an introduction e-mail with what I captured so far
-to start our discussions.
+-- 
+Regards,
 
-
-Thanks,
-Mauro
+Laurent Pinchart
 
