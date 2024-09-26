@@ -1,53 +1,73 @@
-Return-Path: <linux-media+bounces-18611-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18612-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E7C987186
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 12:30:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 624179871A3
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 12:35:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 739C61F21DDE
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 10:30:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 124752856E4
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 10:35:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B21D41AD5F6;
-	Thu, 26 Sep 2024 10:30:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 266861AD412;
+	Thu, 26 Sep 2024 10:35:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Xd901Dfn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5NKbBvj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B41C1ACDF3
-	for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 10:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A67617BB30
+	for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 10:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727346609; cv=none; b=tljeVIMYYMe9C4fEExgTIuMhYqk4cBREQ467O2BGLfQafPNY9ZjEVhm8OAyr6ZN1niWtJNMHPgEVuB9aNQNXX/P/+JuaFtmXsq9LOqgPLlDlrdqUTH2ycB/BwgWb/xJJeliKiaAanQZuxK7ysvkoFz+eBFNFJSpg7q2Um4S4PB0=
+	t=1727346945; cv=none; b=fc2pTTmKErChjSWWLuYR4lpqPgH8anInrnTebI+jdPEIRfM2H+X4uHhz4CXvf869Tbt/Jmt0yJg9zkbjIO3mEVxMUnRJZBfF1lXAmgBAMBi5BmMU/pWjtWR62/l+wcMTRoWBOsydqKQIleAs5ziIk3cWqW/vA3d7Toxd9SseCDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727346609; c=relaxed/simple;
-	bh=Dw6dlx/l00x/A/9wKv7GahUD7lHEW+QsPr40apVY1RY=;
+	s=arc-20240116; t=1727346945; c=relaxed/simple;
+	bh=SUuVSGpk5q02Dm4uJBEsvhHiRGQGez1yiKQYfuHXQ8Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CxGlSLS6o64JNYJfewzVmg4nIWDPWdfFTDqU0sn/ryZGlcNNh5ob5rUI0xO0GEokr5nhwdY6Jzx+oxAeCftLG39QsTW9RBREIWNvUXy942QHWvYXCu140zyrLJipVmdyo02zV8GBWxkLpadsXNcXpYlWq5p+E0CObUqd4qttEkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Xd901Dfn; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4CEF9169;
-	Thu, 26 Sep 2024 12:28:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727346517;
-	bh=Dw6dlx/l00x/A/9wKv7GahUD7lHEW+QsPr40apVY1RY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xd901DfnSre5iMcGxZxQJpkORl1HG2PO/mfGnwYJq5AbvGxeSKtJsOIhxk7Ia1wyC
-	 qRTsWlEBZnJC9DtM6fuU111AqdDr/0k+kz48UhEg6OLHcArG/LtkQgvA0OygNOOws+
-	 7zhSNhMKdLsTW/aKq5+k4twD9Nb5OXjwQhgP4pi4=
-Date: Thu, 26 Sep 2024 13:30:02 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=L+FqbL1AfWF+qjvihk9F3zshA1qORzDJ8PnIOmfEQzcc5Yk0EvCcWt6ocVTZ7lUzB8of/ZJL/Dhhgd6u/mTUGBpY98ZlCi66cdHKLc1izR694rcMucRH1wYYHpkDOrrpBWks0aG5NxTM10CN9jbQhBPM7SeXo6XBPx7BH4PSdf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5NKbBvj; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727346943; x=1758882943;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SUuVSGpk5q02Dm4uJBEsvhHiRGQGez1yiKQYfuHXQ8Y=;
+  b=C5NKbBvjmlZ59yRrOrWDZ1jCUcSCd3eyEchB8SU1iEKeN6Ltie6nsUVm
+   7XDls+7BaRuXlnHOqXd88Ydc7BGyKhB4H9x0w9mcMwQXnIj2Yxhp55w4W
+   iGMYqCU1IhQ2tm1M8bRSGUQCGOY3yqguES/m6shlEA0ekLqt+TrUMJ9wX
+   Inf28jX64BJ9SaymGPrYE5NlAQJdMbMBSghghIPjVQIMX49CZOaKEQQ5t
+   9RR0uWXqOlXAdOiM6A3Fe125iHPVc4dTHa79ehxdGtMHE3MTmi5tjuAGq
+   LBehPQAsnCFxWzMFUZlmOX+aEM26kgbcDPCDDmiNhrH0aR9XEeLkMxDhz
+   A==;
+X-CSE-ConnectionGUID: aV40cHKjQpabsxslYFJXIA==
+X-CSE-MsgGUID: WyQEOSsOSxurRkQFb02IeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="43902512"
+X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
+   d="scan'208";a="43902512"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 03:35:42 -0700
+X-CSE-ConnectionGUID: O7xYiYQwQQ2ND+EyKxt0eQ==
+X-CSE-MsgGUID: M7n3RZd6RQKDNgwonamNkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
+   d="scan'208";a="76920089"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 03:35:37 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 914C311F843;
+	Thu, 26 Sep 2024 13:35:34 +0300 (EEST)
+Date: Thu, 26 Sep 2024 10:35:34 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Daniel Almeida <daniel.almeida@collabora.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Martin Hecht <martin.hecht@avnet.eu>,
@@ -67,155 +87,136 @@ Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
 	Nicolas Dufresne <nicolas@ndufresne.ca>,
 	Salahaldeen Altous <salahaldeen.altous@leica-camera.com>
 Subject: Re: [ANN] Media Summit September 16th: Final Agenda (v7)
-Message-ID: <20240926103002.GB21788@pendragon.ideasonboard.com>
+Message-ID: <ZvU49mrccFlKDhD0@kekkonen.localdomain>
 References: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
  <20240917091744.qltmddftdy7bpgpg@basti-XPS-13-9310>
  <bb8c09c7-0eae-4e1a-8fb8-e325fcf326df@xs4all.nl>
  <20240918092454.21884920@sal.lan>
- <20240918093020.u5rz7qfjoumfezql@basti-XPS-13-9310>
- <20240918132323.2a384f87@sal.lan>
- <20240925195653.GJ30399@pendragon.ideasonboard.com>
- <20240926003815.6537fdbb@foz.lan>
+ <20240925195843.GK30399@pendragon.ideasonboard.com>
+ <902b2828-5eb8-4741-90af-8e42f1240e86@xs4all.nl>
+ <ZvUpuopPY8lwBHEm@kekkonen.localdomain>
+ <20240926121914.69b47a50@foz.lan>
+ <20240926102448.GA21788@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240926003815.6537fdbb@foz.lan>
+In-Reply-To: <20240926102448.GA21788@pendragon.ideasonboard.com>
 
-On Thu, Sep 26, 2024 at 12:38:15AM +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 25 Sep 2024 22:56:53 +0300
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
-> 
-> > Hi Mauro,
+Hi Laurent,
+
+On Thu, Sep 26, 2024 at 01:24:48PM +0300, Laurent Pinchart wrote:
+> On Thu, Sep 26, 2024 at 12:19:14PM +0200, Mauro Carvalho Chehab wrote:
+> > Em Thu, 26 Sep 2024 09:30:34 +0000
+> > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 > > 
-> > On Wed, Sep 18, 2024 at 01:23:23PM +0200, Mauro Carvalho Chehab wrote:
-> > > Em Wed, 18 Sep 2024 11:30:20 +0200 Sebastian Fricke escreveu:  
-> > > > On 18.09.2024 09:24, Mauro Carvalho Chehab wrote:  
-> > > > > Em Tue, 17 Sep 2024 14:52:19 +0200 Hans Verkuil escreveu:  
-> > > > >> On 9/17/24 11:17 AM, Sebastian Fricke wrote:    
-> > > > >> > Greetings,
-> > > > >> >
-> > > > >> > I remember that we wanted to still define a couple of processes for the
-> > > > >> > multi-committer model for which we hadn't have the time on the media
-> > > > >> > summit. Just would like to gather who would be interested to meet for
-> > > > >> > that, where we meet (probably LPC venue) and when (Laurent just told me
-> > > > >> > that Friday is probably a good slot for that).    
+> > > > >>> Can you refresh my memory which processes need more work?  
 > > > > >>
-> > > > >> Can you refresh my memory which processes need more work?    
+> > > > >> I have the same doubt. As discussed during the summit, Hans and I had some
+> > > > >> discussions yesterday, to address a few details. For both of us the process
+> > > > >> sounds well defined.
+> > > > >>
+> > > > >> From my personal notes, this will be the new process:
+> > > > >>
+> > > > >> - committers will merge patches at media-committers.git tree at fdo,
+> > > > >>   provided that they'll follow the rules defined on a committers agreement
+> > > > >>   and (partially?) enforced by media-ci checks;
+> > > > >> - core committers follow the same rules, with a broader privilege of
+> > > > >>   changing kernel API/ABI;
+> > > > >> - committers will ensure that patchwork will reflect the review process of
+> > > > >>   the patches;
+> > > > >> - maintainers will double-check if everything is ok and, if ok, merge the
+> > > > >>   changes at linuxtv.org. We intend to rename the tree there to "media.git",
+> > > > >>   being the main tree to be used for development;
+> > > > >> - pull requests will keep using the same process as currently. The only
+> > > > >>   change is that the media-stage.git tree will be renamed to "media.git";
+> > > > >> - maintainers will periodically send patches upstream.
+> > > > >>
+> > > > >> The media-commiters.git tree at fdo might be rebased if needed; the 
+> > > > >> media.git tree at linuxtv.org is stable. A large effort will be taken to
+> > > > >> avoid rebasing it.
+> > > > >>
+> > > > >> We may need some helper scripts and/or use pwclient to keep patchwork
+> > > > >> updated after committers reviews.  
+> > > > > 
+> > > > > What will happen if we update the status of patches in patchwork when
+> > > > > merging them to the fdo tree, and the tree is later rebased to drop
+> > > > > commits ? Will the person rebasing handle updating patchwork to move the
+> > > > > patches back from accepted to a different status ?  
 > > > > 
-> > > > Well I basically remember that we had a bunch of topics in our meetings
-> > > > that we wanted to skip in order to talk about them here.
-> > > > We looked at the documentation from DRM and wanted to think about
-> > > > equivalent policies for media.
-> > > > https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html#where-do-i-apply-my-patch  
+> > > > That should be the responsibility of the person doing the rebase. I think
+> > > > that's what is done today as well in the rare cases we rebase.  
 > > > 
-> > > Thanks for the pointer. Yeah, examples from other trees can be helpful when
-> > > improving media developers profile and writing the committers agreement,
-> > > even when they have a message that it is just the opposite of what we
-> > > we want, like this (from DRM-misc ruleset):
+> > > Sounds reasonable. I'd also like to avoid rebases as much as possible.
 > > > 
-> > > 	"Since even a broken driver is more useful than no driver minimal
-> > > 	 review standards are a lot lower."
-> > > 
-> > > In this particular case, for instance, as discussed at media summit, we'd
-> > > like to have high quality standards for stuff under drivers/media. After
-> > > all, we do use drivers/media/staging for low quality drivers. 
-> > > 
-> > > It it worth mentioning that committers shall not merge low quality drivers
-> > > nor patches for staging. If ever needed, those should be done via PRs or
-> > > be explicitly authorized by maintainers.  
+> > > Do we have a list of cases where a rebase would be needed? A license issue
+> > > or a missing Sob line, perhaps?
 > > 
-> > Do you mean new drivers only, or also patches for existing staging/
-> > drivers ?
-> 
-> New drivers only. Patches for drivers already at staging can go via
-> committers tree.
-
-I think those could still be pushed directly, but I'm fine with a pull
-request for the time being. If the concern is that you'd like to have a
-look at the driver first, in the long run I'd rather ping you for a
-review and then push once you give an ack. We should move away from
-reviews at pull request time, they don't scale.
-
-> > > > Also there were topics like how to handle backports.   
-> > > 
-> > > We don't handle backports on media tree. This is up to stable maintainers.
-> > > Basically, we follow stable rules to the letter:
-> > > 
-> > > 	Documentation/process/stable-kernel-rules.rst
-> > > 
-> > > E. g. patches that require backports shall have the proper meta-tags 
-> > > (specially cc: stable and  fixes:).   
+> > No, and I don't think we can write a rule to cover such cases. The only rule
+> > is that it is up to maintainers to decide to do a rebase or not, and this
+> > will be done case by case.
 > > 
-> > Sebastian may have meant backmerges.
+> > With regards to the cases you mentioned, it is almost surely that license 
+> > issues will call for a rebase. The same may apply up to some point for 
+> > missing/refused SoBs from authors, co-developers and from the committers.
 > > 
-> > > Also, we're not implementing multi-committers for fixes, just for next.
-> > > 
-> > > So, fixes shall follow the normal flow: they should be sent via PR.  
+> > Yet, I would expect that a more common case is if someone touches the code
+> > and another committer/developer/author nacks with such changes.
 > > 
-> > I see there's a fixes branch in the media-committers tree, does that
-> > mean you have agreed with Hans and Ricardo that fixes will go through
-> > pull requests but be pushed there for visibility ? If so, thanks for
-> > that, I think it will improve the experience.
+> > So, for instance, suppose you maintain driver A. Some other committer
+> > may end merging a patch for driver A without your ack. Depending on the
+> > patch that could be OK (trivial/doc changes, bugs with bug fixes that
+> > are available for some time, etc).
+> > 
+> > Yet, even if the committer did an honest handling of the patch, you may 
+> > still disagree or want some changes at the original patch. On such cases, 
+> > the maintainers may decide to drop the changes and do a normal review
+> > process. They may otherwise request a patch on the top of the applied
+> > one to address the pointed issues.
 > 
-> Hans and I are planning to push fixes at the media-committers tree, as it
-> allows CI to run those, but the goal here is not about visibility - it is
-> just to ensure that CI will execute tests on the merged patches. 
+> Let's do a revert in that case, and keep rebases for cases where having
+> content in the git history causes issues other than bisection problems.
 
-That's also a useful goal of course. If we can kill two birds with one
-stone, that's a good outcome.
+I'd very much prefer this as well: revert or fix, if at all reasonable,
+instead of rebasing should be a rule.
 
-> For committers and developers, the fixes workflow remains the same:
-> PRs for committers and patches for developers.
 > 
-> -
+> I'd argue that even a missing SoB may not be a cause for rebase if it's
+> an accident, but that's not worth debating because CI will make sure
+> this never happens.
+
+Does it?
+
+checkpatch.pl checks should just be warnings. And that should probably
+stay. Sob: and From: being different isn't necessarily that far-fetched as
+having an address in .mailmap may change From: field but not Sob:,
+resulting in a checkpatch.pl warning.
+
+I wonder if checkpatch.pl should know about .mailmap actually, currently it
+doesn't. I could send a patch.
+
 > 
-> See, the main repository is hosted at linuxtv.org. We intend to avoid 
-> as much as possible rebases at the media tree at linuxtv.org, on both
-> fixes and next branches.
+> > There is also worse case scenarios, like a committer violating the
+> > committer's agreement.
 > 
-> The media-committers tree at fdo is focused on executing patches at CI
-> and should only be used by committers. All other developers should base 
-> their work at the repository stored at linuxtv.org[1].
+> I'm fine with rebases if someone gets rogue and merges malicious code,
+> or commits with insults in the commit message. I don't foresee that
+> happening regularly, if ever.
 
-That I don't like. We want people working on the media subsystem to test
-the very latest code, and to base their work on the tree that their
-patches will land in. Otherwise there will be conflicts, and the risk of
-conflict will increase as we pick up pace with the new workflow and
-merge patches faster.
+I'm more concerned of a malicious actor getting access to the committer's
+credentials rather than the committer him-/herself going crazy. And if this
+happens, changes are it won't be noticed immediately.
 
-> [1] We are planning to have a "media" repository there, replacing the
->     current "media-stage" tree.
-> 
-> See, the media-committers repository at fdo can be rebased. This might
-> happen, for instance, if we don't agree with some merge there during
-> our merge review or if other committers disagree with merges. On such
-> case, the not-accepted patches will be dropped via rebase and the patches
-> will need to be reviewed the normal way.
-
-Things that haven't reached a consensus should not be merged in the
-first place, and in the rare cases where it happens, a revert is fine.
-Rebases should be kept for situations where no other option is possible.
-
-> > > > > I have the same doubt. As discussed during the summit, Hans and I had some
-> > > > > discussions yesterday, to address a few details. For both of us the process
-> > > > > sounds well defined.    
-> > > > 
-> > > > I know that we scraped a lot of topics in the meeting at the media
-> > > > summit and I am not sure about the scope you discussed with Ricardo
-> > > > yesterday. So, we don't have to meet if you feel like we covered
-> > > > everything, just wanted to use the opportunity as long as we are all in
-> > > > the same place.  
-> > > 
-> > > I guess we covered everything that are needed for now. If required,
-> > > further discussions may happen later via e-mail and/or virtual meetings.  
+Reminding of
+<URL:https://github.com/lfit/itpol/blob/master/linux-workstation-security.md>
+in the instructions might not be a bad idea.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
