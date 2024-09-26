@@ -1,31 +1,31 @@
-Return-Path: <linux-media+bounces-18630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18631-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4DC9872AE
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 13:17:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 795489872AB
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 13:17:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60E78B2698E
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 11:14:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26C1E1F24DCC
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2024 11:17:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAA451AE871;
-	Thu, 26 Sep 2024 11:14:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A28CB17C9B0;
+	Thu, 26 Sep 2024 11:16:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC58C1AD5E6
-	for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 11:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CB3136672
+	for <linux-media@vger.kernel.org>; Thu, 26 Sep 2024 11:16:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727349287; cv=none; b=P/0rxtxlQ4dgZcKzUS+bUDiXdFqOIZ0n1VCVldH5Bst+bosIFfnEjNV5Mw3zKjCiAYdTxWCiiwys44Dg4TszD7OV6cyvvlYrcDLUFX4Ynz06cu61omR7vQw15lu/U4Dp9SUmHn7c8qDO8kFfxLDKSXHHDAjklZ6p3ZXgNDYKqmM=
+	t=1727349416; cv=none; b=KC92W1Rsf/duxfYHf7IxeLKZ+L0rroyeCTxCRP/YELWn27vwXQrQ2sDBWnqfXf33SF3v8p6mMeKxb89zYymcAxQfGbX2IoaYMH9AKrfDsozrm2F5dHrX56OlvyXgqvSoDuaAFN07B9dDZl2IRyqcZVdduApgO8X02Gb9AMweciA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727349287; c=relaxed/simple;
-	bh=OY+RoylwIHKlWFkVL127YO8zyPocJAw/K/+znq1UllA=;
+	s=arc-20240116; t=1727349416; c=relaxed/simple;
+	bh=gfAYz1FhSJF0mcztXmglNZGa5Hr4CN8dL+gZRiY39Ww=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=T0xBB8vpUt/GSVJjU6gBIH47LzENBa2EZZcZca+kJD5oL+yHsisuPO6yElBATRy1Vxry3RKMtD1gymkVHt+hqqz/L0Dp0RidoQkBtEJLarmv5z3gPxdCt59RWIJpmAxG2njyGLewkZYVzqZ1fieUQd+zr29pBE44SHsXOz3nq6s=
+	 Content-Type:MIME-Version; b=naKC6QW+VWeubaD+EZzafNC9k77t+mWhdZwXEkBMrHRAmyNFKtmpGcXdXtlQyHI5F+K3liodauC3yYkzdGFhHry1bKBODKIhGnsyOhCYY+qjGzD3cJyrCNHr/+yPQGVerQ7fOpAI+Q7fFXRabV1QNCI2auedJlZw6/A+0hofbh4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -33,21 +33,22 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1stmRt-00051o-Lh; Thu, 26 Sep 2024 13:14:17 +0200
+	id 1stmUI-0006bC-4t; Thu, 26 Sep 2024 13:16:46 +0200
 Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1stmRs-001fjT-Te; Thu, 26 Sep 2024 13:14:16 +0200
+	id 1stmUH-001fje-Eu; Thu, 26 Sep 2024 13:16:45 +0200
 Received: from pza by lupine with local (Exim 4.96)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1stmRs-0005As-2h;
-	Thu, 26 Sep 2024 13:14:16 +0200
-Message-ID: <c09a325a5166cf31b9a7fd09ed8266a2b19afcd2.camel@pengutronix.de>
+	id 1stmUH-0005Ig-1D;
+	Thu, 26 Sep 2024 13:16:45 +0200
+Message-ID: <b1c5fb155c77355ef2889b6e054a5c0696481ebd.camel@pengutronix.de>
 Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
  deinterlacer driver
 From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+To: Marek Vasut <marex@denx.de>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
+	linux-media@vger.kernel.org
 Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
  Estevam <festevam@gmail.com>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
@@ -57,14 +58,12 @@ Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
  linux-staging@lists.linux.dev
-Date: Thu, 26 Sep 2024 13:14:16 +0200
-In-Reply-To: <a7b7acff-e710-4c50-97b8-1bce557eadde@denx.de>
+Date: Thu, 26 Sep 2024 13:16:45 +0200
+In-Reply-To: <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
 References: <20240724002044.112544-1-marex@denx.de>
 	 <20240724002044.112544-2-marex@denx.de>
-	 <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
-	 <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
-	 <f894eb3fd132a214ddbf2fa3ed405d065e629398.camel@pengutronix.de>
-	 <a7b7acff-e710-4c50-97b8-1bce557eadde@denx.de>
+	 <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
+	 <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -79,183 +78,23 @@ X-SA-Exim-Mail-From: p.zabel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Hi,
-
-On Mi, 2024-09-25 at 22:14 +0200, Marek Vasut wrote:
-> The userspace could distribute the frames between the two devices in an=
-=20
-> alternating manner, can it not ?
-
-This doesn't help with latency, or when converting a single large
-frame.
-
-For the deinterlacer, this can't be done with the motion-aware
-temporally filtering modes. Those need a field from the previous frame.
-
->=20
-> Would the 1280x360 field be split into two tiles vertically and each=20
-> tile (newly 1280/2 x 360) be enqueued on each VDIC ? I don't think that=
-=20
-> works, because you wouldn't be able to stitch those tiles back together=
-=20
-> nicely after the deinterlacing, would you? I would expect to see some=20
-> sort of an artifact exactly where the two tiles got stitched back=20
-> together, because the VDICs are unaware of each other and how each=20
-> deinterlaced the tile.
-
-I was thinking horizontally, two 640x720 tiles side by side. 1280 is
-larger than the 968 pixel maximum horizontal resolution of the VDIC.
-
-As you say, splitting vertically (which would be required for 1080i)
-should cause artifacts at the seam due to the 4-tap vertical filter.
-
+On Mi, 2024-09-25 at 22:45 +0200, Marek Vasut wrote:
 [...]
+> > The driver is not taking ownership of prev_buf, only curr_buf is guaran=
+teed to
+> > exist until v4l2_m2m_job_finish() is called. Usespace could streamoff, =
+allocate
+> > new buffers, and then an old freed buffer may endup being used.
+>=20
+> So, what should I do about this ? Is there some way to ref the buffer to=
+=20
+> keep it around ?
+
+Have a look how other deinterlacers with temporal filtering do it.
+sunxi/sun8i-di or ti/vpe look like candidates.
+
+>=20
 > >=20
-> > With the rigid V4L2 model though, where memory handling, parameter
-> > calculation, and job scheduling of tiles in a single frame all have to
-> > be hidden behind the V4L2 API, I don't think requiring userspace to
-> > combine multiple mem2mem video devices to work together on a single
-> > frame is feasible.
->=20
-> If your concern is throughput (from what I gathered from the text=20
-> above), userspace could schedule frames on either VDIC in alternating=20
-> manner.
-
-Both throughput and latency.
-
-Yes, alternating to different devices would help with throughput where
-possible, but it's worse for frame pacing, a hassle to implement
-generically in userspace, and it's straight up impossible with temporal
-filtering.
-
-> I think this is much better and actually generic approach than trying to=
-=20
-> combine two independent devices on kernel level and introduce some sort=
-=20
-> of scheduler into kernel driver to distribute jobs between the two=20
-> devices. Generic, because this approach works even if either of the two=
-=20
-> devices is not VDIC. Independent devices, because yes, the MX6Q IPUs are=
-=20
-> two independent blocks, it is only the current design of the IPUv3=20
-> driver that makes them look kind-of like they are one single big device,=
-=20
-> I am not happy about that design, but rewriting the IPUv3 driver is way=
-=20
-> out of scope here. (*)
-
-The IPUs are glued together at the capture and output paths, so yes,
-they are independent blocks, but also work together as a big device.
-
-> > Is limiting different users to the different deinterlacer hardware
-> > units a real usecase? I saw the two ICs, when used as mem2mem devices,
-> > as interchangeable resources.
->=20
-> I do not have that use case, but I can imagine it could come up.
-> In my case, I schedule different cameras to different VDICs from=20
-> userspace as needed.
-
-Is this just because a single VDIC does not have enough throughput to
-serve all cameras, or is there some reason for a fixed assignment
-between cameras and VDICs?
-
-> > > > To be fair, we never implemented that for the CSC/scaler mem2mem de=
-vice
-> > > > either.
-> > >=20
-> > > I don't think that is actually a good idea. Instead, it would be bett=
-er
-> > > to have two scaler nodes in userspace.
-> >=20
-> > See above, that would make it impossible (or rather unreasonably
-> > complicated) to distribute work on a single frame to both IPUs.
->=20
-> Is your concern latency instead of throughput ? See my comment in=20
-> paragraph (*) .
-
-Either, depending on the use case.
-
-[...]
-> > > >=20
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/drivers/staging/media/imx/imx-media-vdic.c#n207
-> >=20
-> > That code is unused. The direct hardware path doesn't use
-> > IPUV3_CHANNEL_MEM_VDI_PREV/CUR/NEXT, but is has a similar effect, half
-> > of the incoming fields are dropped. The setup is vdic_setup_direct().
->=20
-> All right, let's drop that unused code then, I'll prepare a patch.
-
-Thanks!
-
-> But it seems the bottom line is, the VDI direct mode does not act as a=
-=20
-> frame-rate doubler ?
-
-Yes, it can't. In direct mode, VDIC only receives half of the fields.
-
-[...]
-> > >=20
-> Why would adding the (configurable) frame-rate doubling mode break=20
-> userspace if this is not the default ?
-
-I'm not sure it would. Maybe there should be a deinterlacer control to
-choose between full and half field rate output (aka frame doubling and
-1:1 input to output frame rate).
-
-Also, my initial assumption was that currently there is 1:1 input
-frames to output frames. But with temporal filtering enabled there's
-already one input frame (the first one) that doesn't produce any
-output.
-
-> > > > If we don't start with that supported, I fear userspace will make
-> > > > assumptions and be surprised when a full rate mode is added later.
-> > >=20
-> > > I'm afraid that since the current VDI already does retain input frame
-> > > rate instead of doubling it, the userspace already makes an assumptio=
-n,
-> > > so that ship has sailed.
-> >=20
-> > No, this is about the deinterlacer mem2mem device, which doesn't exist
-> > before this series.
->=20
-> I am not convinced it is OK if the direct VDI path and mem2mem VDI=20
-> behave differently, that would be surprising to me as a user ?
-
-Is this still about the frame rate doubling? Surely supporting it in
-the mem2mem device and not in the capture path is ok. I'm not arguing
-that frame doubling should be enabled by default.
-
-> > The CSI capture path already has configurable framedrops (in the CSI).
->=20
-> What am I looking for ? git grep doesn't give me any hits ? (**)
-
-That's configured by the set_frame_interval pad op of the CSI subdevice
-- on the IDMAC output pad. See csi_find_best_skip().
-
-> > > But I think we can make the frame doubling configurable ?
-> >=20
-> > That would be good. Specifically, there must be no guarantee that one
-> > input frame with two fields only produces one deinterlaced output
-> > frame, and userspace should somehow be able to understand this.
->=20
-> See my question (**) , where is this configurable framedrops thing ?
-
-This would have to be done differently, though. Here we don't have
-subdev set_frame_interval configuration, and while VIDIOC_S_PARM /
-v4l2_captureparm were used to configure frame dropping on capture
-devices, that's not really applicable to mem2mem deinterlacers.
-
-> > I'd rather not default to the setting that throws away half of the
-> > input data. Not using frame doubling by default is sensible, but now
-> > that using all three input fields to calculate the output frame is
-> > possible, why not make that the default.
->
-> To save memory bandwidth on the MX6, that's my main concern.
-
-What userspace are you using to exercise this driver? Maybe we can back
-this concern with a few numbers (or mine with pictures).
-
 regards
-Philipp
+Phlipp
 
