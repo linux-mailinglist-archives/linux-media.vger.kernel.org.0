@@ -1,78 +1,77 @@
-Return-Path: <linux-media+bounces-18700-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18701-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40ACC988659
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 15:37:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F558988663
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 15:40:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A1AD1C2317B
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 13:37:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A1D11F23C96
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 13:40:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B44D18CBF7;
-	Fri, 27 Sep 2024 13:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3ACD19C567;
+	Fri, 27 Sep 2024 13:40:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DW5OfYqc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fImNSDae"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9909618C008
-	for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 13:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31DD19AD85
+	for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 13:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727444234; cv=none; b=aecy7uEK+jNluma//gfjeSeNJyBYeiUn4pNU+etTObBdjD8TEoz6uXTI/7apn+/pjUKJzrEXj7C4VuCGqq1X1XbMtQb0gla06jUJpjKbdIyL75MW+9HVcva/L9G3dftf/UmF48oyV25IeaA3FdlDhWm1ttlOh+7H5OOk7YhOhpo=
+	t=1727444426; cv=none; b=NJNjc8UIxDa5pjRuszdLsGMYj+YQvHss5MO1s+iW+yAeLGwMlO71sq9KE1VUfKPVhZ1ivMibLQsyNoJEAqZYqvtp8gmTpfMDBJrsIqj5p/GSWXjoWehfvGK6qTRGenD776DeWEbXEQNyo3kW7BJDs1KBvguf+AzTZTreGH4X3T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727444234; c=relaxed/simple;
-	bh=mJqzhQs2d8bJEgb4FoXbYFG4boe5RYvjwKY713AdSmg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SiMoa77hzDFfz+8zsGBUgsB/S4E99N6vrJc6jtU1DC6fIcU5NI/CUYPJ/5LPhYrV/EQM/AsPVOEiXU2X/jr8JzIzOhvdx2mUoOjdpGwapb80x0hceX1wJ+IxR3QEVM+DXgu5Mlcty6o/GFWc8QFPZPqMM0TjfZnJ3RgSICL2Jmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DW5OfYqc; arc=none smtp.client-ip=209.85.208.172
+	s=arc-20240116; t=1727444426; c=relaxed/simple;
+	bh=RMXp7priB5Y5j7nKppG92BHu2f1S/fC6r3jfeox3Jlw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QtIQd+q2wb+4hf1lBCxmyn8OtUflukef15Rk+7yBpvLmMFnve2Q22SmC29pLrwHokqE9oOAyIUXLLyC6MCqxmXj89GGEoTH/thip5cEPVobFsJCgs7oMgu5wVnKhW1tIcJRWUxcU9MlJCKjgC0GFhDnuRCzhTzDxbMpqjiYMtBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fImNSDae; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f761461150so32038071fa.0
-        for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 06:37:11 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a8d6ac24a3bso395244066b.1
+        for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 06:40:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727444229; x=1728049029; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727444423; x=1728049223; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ve/KjEDzmVhOxst916EZwWilrgIrxVlTVSP13uF+SbA=;
-        b=DW5OfYqc7hYMGIUJxkbOIP1iQSqHjVIHdS1D9vpMwwNMMCVucgi/odvtx/MugrOHvT
-         9p9qhf/UJe43NfxX151mXB94T8rDgLepUbb+vbEr3Zvw1iENCEav16DSRcigpKhBcUW7
-         z0+50nhKXZWmlh7kYwmiE0Vy1yumse0A4YTU5xaH4UPcoJ3UjKhm5yxWptMqrcw0tThF
-         DEbwAeF08nOLd1yf0L1zxqIFLSZaKsd1V/AzRcVHhLRU4OwIOuZb+yjOFF6YLTlhoyz+
-         KR0Dni+joa4MZUme67G8M5IXwYWzF3VPe20msu5zkKbsNZJazdJeTU49CnltluJKEGZw
-         PWKA==
+        bh=LnLrvve10Rvi05QdcUmc9qxadiCueCa9J3bDA0HtS/Y=;
+        b=fImNSDae8CzVu0vkgjEEfIcI+NlWP3bXKrOATvFTKJqQIM5ZDktgiBgTR+2uN57G50
+         IiXTmBe3I3oSFXcCiYeaP00W14NxykA4+cRQ/YQlvzgCAcB1R0r0yg2MrT7t83e8+ki/
+         So1RZAm0VVWhnsZyKURbhsu1UCm9wvWZZVZNwouP6wgLk+d1bhbKqTGhpjC6QeEiLBEt
+         3PSFw4fqaXje5DRRIXne7HO+oUwrcQhUmC6oWPODHmRyyHJmhsbpr28ePrWJwkn8tEWT
+         S65K+UM3S/yxSwtZBIXZ9xNp5k4AYWcl2id086K+L4AD2BxmtdJG75IkIhcAXWKRScCJ
+         9Low==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727444229; x=1728049029;
+        d=1e100.net; s=20230601; t=1727444423; x=1728049223;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ve/KjEDzmVhOxst916EZwWilrgIrxVlTVSP13uF+SbA=;
-        b=HAlvLzjVsRwnmg0ioRdMy3BIFzBahyxTf/PeYGTPDpp9rr/2EWQynR6MrZ/2+UYo8V
-         /rVu974EaIO7qHIA30ZVcJ1OLuj5+kNeen8wmRv+z7U/SwAYZcPdEKV0YqjJTbRvIn2b
-         CmmmmUykGMxsbjonlvkRfz0DqGQjkKzvVb8Kcqdx1IohfJL/LgWPKSzPWeecGogx8RUn
-         n0R5P2OZRWx6AGPhJsmFMPNh55LHSmQA49l8PkEaGQFHtyVbKykK6ktBMieG5yePGtZp
-         /y0xS6E35PX0BoJOnzzHN+29brox4AIANwDfZj8v/L7gCVvj00kL4ZC5c8zV/sHjrjxi
-         zNmA==
-X-Gm-Message-State: AOJu0YwA8VA05ndArPDwwuzR6McHyKyylIUrl+vbPoUSQbTEZaeM+dXM
-	t4UzP3AsRlUVdWg6Fk/8fsLC0GBp5rMTZmivbMfE+duKysqwSbjXqzhU+A==
-X-Google-Smtp-Source: AGHT+IHjHeEdrSyPGOcOGFpKq2VzqWyBkgPwiN5V8tPuUN9J05/L2hi15oURF5o2SkjgKGRKLVeTQA==
-X-Received: by 2002:a2e:719:0:b0:2f6:4a89:9afa with SMTP id 38308e7fff4ca-2f9d3e59e96mr22221851fa.22.1727444228402;
-        Fri, 27 Sep 2024 06:37:08 -0700 (PDT)
-Received: from localhost.localdomain ([95.161.223.172])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f9d460546esm3367141fa.84.2024.09.27.06.37.05
+        bh=LnLrvve10Rvi05QdcUmc9qxadiCueCa9J3bDA0HtS/Y=;
+        b=qmIFm9qADrfK1CpZ1pW1s+qrKy1q5ZMxn6fdd7XanTrc/jVbjwmBil5+jthbSFPBHr
+         +oSnUDgdBOhGqgXifGMae090vTgxdOV6dMxn3H3ciGMGrsmrjBsRkOm6mm8LEi126gP9
+         gDFh/LYrtmi+nYwXW0K7GSj9LSw4QX2mP/Q7Ir4pPwz2brWBxUc1QQc0plxi2qKQ2vRs
+         A0Ol8n6EXLaEZtod09v81MMj41z1PVsd2wbb8gCYw152GSyzW5Mqi+o8jfreYs/3z63I
+         57DScKy/sk+YQBOXyhCKhbi13oo3oJXKgAz8y7uZNZgiRdK4jWP9RztAh03bUcfyqkcy
+         gewg==
+X-Gm-Message-State: AOJu0Yw0yV+osEO+0hL4SfGVPyQFzTBk2oUbdDsXJmG/6OPtsniSaKy6
+	oF3rTylhyH3FPB5A5kfDu1g+E9VQsLgxtkGxP8vKvHTlryBATtIhaSrhgQ==
+X-Google-Smtp-Source: AGHT+IETX83mp/YeKU9B7+xG1zvqisNuReklWY0ricqpDGCDDZQig0tpjSe3RHdKR0aOL0AIi+i3aw==
+X-Received: by 2002:a17:907:3f26:b0:a8d:481a:563a with SMTP id a640c23a62f3a-a93b165ddd5mr681264866b.25.1727444422807;
+        Fri, 27 Sep 2024 06:40:22 -0700 (PDT)
+Received: from fedora.to.infn.it (eduroam.to.infn.it. [192.84.137.37])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27ecfedsm137315766b.95.2024.09.27.06.40.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2024 06:37:06 -0700 (PDT)
-From: Alexander Shiyan <eagle.alexander923@gmail.com>
+        Fri, 27 Sep 2024 06:40:22 -0700 (PDT)
+From: Fabio Luongo <f.langufo.l@gmail.com>
 To: linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>
-Subject: [RFC PATCH] media: i2c: Add AR0233 camera sensor driver
-Date: Fri, 27 Sep 2024 16:36:54 +0300
-Message-Id: <20240927133654.2389990-1-eagle.alexander923@gmail.com>
-X-Mailer: git-send-email 2.38.2
+Cc: mchehab@kernel.org,
+	Fabio Luongo <f.langufo.l@gmail.com>
+Subject: [PATCH] Fix the S-Video capture on August VGB100
+Date: Fri, 27 Sep 2024 15:38:41 +0200
+Message-ID: <20240927133841.109973-1-f.langufo.l@gmail.com>
+X-Mailer: git-send-email 2.46.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,1240 +80,77 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is a new driver for the AR0233 ON Semiconductor camera sensor.
-The patch does not provide devicetree bindings yet and is published as RFC.
+There are three separate issues preventing color capture with S-Video
+on August VGB100 with the cx231xx driver (same vid/pid as OTG102):
 
-Tested on Rockchip RK3568 with DS90UB953 serializer
-and DS90UB954 deserializer.
+1. `cx231xx_set_decoder_video_input` is called with a u32 passed
+   as its third argument, yet this functions expects a u8 instead.
+   Some information about the configuration of the video mux is lost
+   in the conversion, so that ch2 and ch3 do not get set by
+   `cx231xx_afe_set_input_mux` (expecting a u32 but being passed a u8).
 
-Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
+2. The input pin for the chroma signal is not correctly specified
+   in cx231xx-cards.c, which can be verified by looking at the inf file
+   coming with the VGB100 and OTG102' drivers for Windows.
+   The mistake in the cx231xx driver likely stems from a wrong comment
+   in the same file, suggesting VIN1_2 for chroma,
+   while VIN3_2 is actually used.
+
+3. Even after fixing the two issues above, the captured stream remains
+   essentially B&W (although acquiring some pale green shades, suggesting
+   we're moving in the right direction).
+   After tests with somewhat random changes, it was found that removing
+   `CX25840_SVIDEO_ON` from the vmux configuration in cx231xx-cards.c
+   results in a captured stream with the expected colors.
+
+Signed-off-by: Fabio Luongo <f.langufo.l@gmail.com>
 ---
- drivers/media/i2c/Kconfig  |   11 +
- drivers/media/i2c/Makefile |    1 +
- drivers/media/i2c/ar0233.c | 1179 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 1191 insertions(+)
- create mode 100644 drivers/media/i2c/ar0233.c
+ drivers/media/usb/cx231xx/cx231xx-avcore.c | 2 +-
+ drivers/media/usb/cx231xx/cx231xx-cards.c  | 3 +--
+ drivers/media/usb/cx231xx/cx231xx.h        | 2 +-
+ 3 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 8ba096b8ebca..327e68b5fe0b 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -51,6 +51,17 @@ config VIDEO_ALVIUM_CSI2
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called alvium-csi2.
+diff --git a/drivers/media/usb/cx231xx/cx231xx-avcore.c b/drivers/media/usb/cx231xx/cx231xx-avcore.c
+index 3d3c881c8e58..9025693bc295 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-avcore.c
++++ b/drivers/media/usb/cx231xx/cx231xx-avcore.c
+@@ -623,7 +623,7 @@ int cx231xx_set_video_input_mux(struct cx231xx *dev, u8 input)
+ }
  
-+config VIDEO_AR0233
-+	tristate "onsemi AR0233 sensor support"
-+	depends on OF || COMPILE_TEST
-+	select V4L2_CCI_I2C
-+	help
-+	  This is a Video4Linux2 sensor driver for the onsemi AR0233 camera
-+	  sensor.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called ar0233.
-+
- config VIDEO_AR0521
- 	tristate "ON Semiconductor AR0521 sensor support"
- 	help
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index fbb988bd067a..055123335a28 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -19,6 +19,7 @@ obj-$(CONFIG_VIDEO_AK7375) += ak7375.o
- obj-$(CONFIG_VIDEO_AK881X) += ak881x.o
- obj-$(CONFIG_VIDEO_ALVIUM_CSI2) += alvium-csi2.o
- obj-$(CONFIG_VIDEO_APTINA_PLL) += aptina-pll.o
-+obj-$(CONFIG_VIDEO_AR0233) += ar0233.o
- obj-$(CONFIG_VIDEO_AR0521) += ar0521.o
- obj-$(CONFIG_VIDEO_BT819) += bt819.o
- obj-$(CONFIG_VIDEO_BT856) += bt856.o
-diff --git a/drivers/media/i2c/ar0233.c b/drivers/media/i2c/ar0233.c
-new file mode 100644
-index 000000000000..a832bb367a99
---- /dev/null
-+++ b/drivers/media/i2c/ar0233.c
-@@ -0,0 +1,1179 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Driver for the AR0233 camera sensor from ON Semiconductor
-+ *
-+ * Written by Alexander Shiyan <eagle.alexander923@gmail.com>
-+ *
-+ * Some parts of code taken from ar0144.c by:
-+ * Copyright (C) 2024 Ideas on Board Oy
-+ * Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-+ *
-+ * Some parts of code taken from imx335.c by:
-+ * Copyright (C) 2021 Intel Corporation
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/i2c.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/regulator/consumer.h>
-+#include <media/mipi-csi2.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-subdev.h>
-+
-+#define AR0233_FRAME_STATUS					CCI_REG16(0x2008)
-+#	define AR0233_FRAME_STATUS_STANDBY			BIT(1)
-+#define AR0233_CHIP_VERSION_REG					CCI_REG16(0x3000)
-+#	define AR0233_CHIP_VERSION_AR0233			(0x0956)
-+#define AR0233_Y_ADDR_START					CCI_REG16(0x3002)
-+#define AR0233_X_ADDR_START					CCI_REG16(0x3004)
-+#define AR0233_Y_ADDR_END					CCI_REG16(0x3006)
-+#define AR0233_X_ADDR_END					CCI_REG16(0x3008)
-+#define AR0233_FRAME_LENGTH_LINES				CCI_REG16(0x300a)
-+#	define AR0233_MIN_FRAME_LENGTH_LINES			(40)
-+#	define AR0233_MAX_FRAME_LENGTH_LINES			(65535)
-+#define AR0233_LINE_LENGTH_PCK					CCI_REG16(0x300c)
-+#	define AR0233_MIN_LINE_LENGTH_PCK			(1840)
-+#	define AR0233_MAX_LINE_LENGTH_PCK			(65534)
-+#define AR0233_REVISION_NUMBER					CCI_REG16(0x300e)
-+#define AR0233_COARSE_INTEGRATION_TIME				CCI_REG16(0x3012)
-+#define AR0233_RESET_REGISTER					CCI_REG16(0x301a)
-+#	define AR0233_RESET_LPF_ENABLE				BIT(13)
-+#	define AR0233_RESET_REGISTER_SMIA_SERIALIZER_DIS	BIT(12)
-+#	define AR0233_RESET_REGISTER_MASK_BAD			BIT(9)
-+#	define AR0233_RESET_REGISTER_STANDBY_EOF		BIT(4)
-+#	define AR0233_RESET_REGISTER_LOCK_REG			BIT(3)
-+#	define AR0233_RESET_REGISTER_STREAM			BIT(2)
-+#define	AR0233_MODE_SELECT					CCI_REG8(0x301c)
-+#define AR0233_IMAGE_ORIENTATION				CCI_REG8(0x301d)
-+#	define AR0233_ORIENTATION_VERT_FLIP			BIT(1)
-+#	define AR0233_ORIENTATION_HORIZ_MIRROR			BIT(0)
-+#define AR0233_SOFTWARE_RESET					CCI_REG8(0x3021)
-+#	define AR0233_RESET					BIT(0)
-+#define AR0233_GROUPED_PARAMETER_HOLD				CCI_REG8(0x3022)
-+#	define AR0233_RESET_REGISTER_GROUPED_PARAMETER_HOLD	BIT(0)
-+#define AR0233_VT_PIX_CLK_DIV					CCI_REG16(0x302a)
-+#define AR0233_VT_SYS_CLK_DIV					CCI_REG16(0x302c)
-+#	define FASTER_CLK_DIV(x)				((x) << 8)
-+#define AR0233_PRE_PLL_CLK_DIV					CCI_REG16(0x302e)
-+#define AR0233_PLL_MULTIPLIER					CCI_REG16(0x3030)
-+#define AR0233_OP_PIX_CLK_DIV					CCI_REG16(0x3036)
-+#define AR0233_OP_SYS_CLK_DIV					CCI_REG16(0x3038)
-+#define AR0233_GLOBAL_GAIN					CCI_REG16(0x305e)
-+#define AR0233_TEST_PATTERN_MODE				CCI_REG16(0x3070)
-+#	define AR0233_TEST_PATTERN_NONE				(0)
-+#	define AR0233_TEST_PATTERN_SOLID			(1)
-+#	define AR0233_TEST_PATTERN_BARS				(2)
-+#	define AR0233_TEST_PATTERN_BARS_FADE			(3)
-+#	define AR0233_TEST_PATTERN_WALKING_1S			(256)
-+#define AR0233_TEST_DATA_RED					CCI_REG16(0x3072)
-+#define AR0233_TEST_DATA_GREENR					CCI_REG16(0x3074)
-+#define AR0233_TEST_DATA_BLUE					CCI_REG16(0x3076)
-+#define AR0233_TEST_DATA_GREENB					CCI_REG16(0x3078)
-+#define AR0233_DATA_FORMAT_BITS					CCI_REG16(0x31ac)
-+#	define AR0233_DATA_FORMAT_RAW(x)			((x) << 8)
-+#	define AR0233_DATA_FORMAT_OUTPUT(x)			((x) << 0)
-+#define AR0233_SERIAL_FORMAT					CCI_REG16(0x31ae)
-+#	define AR0233_SERIAL_FORMAT_TYPE_MIPI			(2 << 8)
-+#	define AR0233_SERIAL_FORMAT_LANES(x)			((x) << 0)
-+#define AR0233_CUSTOMER_REV					CCI_REG16(0x31fe)
-+#define AR0233_MIPI_F1_PDT_EDT					CCI_REG16(0x3342)
-+#	define AR0233_MIPI_Fx_EDT(x)				((x) << 8)
-+#	define AR0233_MIPI_Fx_PDT(x)				((x) << 0)
-+#define AR0233_MIPI_F1_VDT_VC					CCI_REG16(0x3344)
-+#	define AR0233_MIPI_Fx_VC(x)				((x) << 8)
-+#	define AR0233_MIPI_Fx_VDT(x)				((x) << 0)
-+#define AR0233_MIPI_F2_PDT_EDT					CCI_REG16(0x3346)
-+#define AR0233_MIPI_F2_VDT_VC					CCI_REG16(0x3348)
-+#define AR0233_MIPI_F3_PDT_EDT					CCI_REG16(0x334a)
-+#define AR0233_MIPI_F3_VDT_VC					CCI_REG16(0x334c)
-+#define AR0233_MIPI_F4_PDT_EDT					CCI_REG16(0x334e)
-+#define AR0233_MIPI_F4_VDT_VC					CCI_REG16(0x3350)
-+#define AR0233_ANALOG_GAIN					CCI_REG16(0x3366)
-+
-+#define AR0233_MIN_HBLANK			(400)
-+#define AR0233_MIN_VBLANK			(AR0233_MIN_FRAME_LENGTH_LINES)
-+
-+#define AR0233_ACT_WIDTH			(2048)
-+#define AR0233_ACT_HEIGHT			(1280)
-+#define AR0233_MIN_WIDTH			(32)
-+#define AR0233_MIN_HEIGHT			(32)
-+#define AR0233_DEF_WIDTH			(1920)
-+#define AR0233_DEF_HEIGHT			(1080)
-+
-+/* Offsets to sensor optical center */
-+#define AR0233_X_OFFSET				((2064 - AR0233_ACT_WIDTH) / 2)
-+#define AR0233_Y_OFFSET				((1288 - AR0233_ACT_HEIGHT) / 2)
-+
-+struct ar0233_format_info {
-+	u32 format;
-+	u16 bpp_input;	/* Legal values are 12, 14, 16, 18, 20, 24 */
-+	u16 bpp_output;	/* Legal values are 10, 12, 14, 16, 20, 24 */
-+	u16 datatype;
-+};
-+
-+static const struct ar0233_format_info ar0233_formats[] = {
-+	{
-+		.format = MEDIA_BUS_FMT_SGRBG12_1X12,
-+		.bpp_input = 14,
-+		.bpp_output = 12,
-+		.datatype = MIPI_CSI2_DT_RAW12,
-+	},
-+};
-+
-+static const char * const ar0233_supplies[] = {
-+	"vaa",		/* Analog supply */
-+	"vaapix",	/* Pixel supply */
-+	"vddio",	/* I/O Digital supply */
-+	"vddphy",	/* PHY Digital supply */
-+	"vdd",		/* Core Digital supply */
-+};
-+
-+struct ar0233 {
-+	struct device *dev;
-+
-+	u16 customer_rev;
-+
-+	struct regmap *cci;
-+	struct clk *clk;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(ar0233_supplies)];
-+
-+	u64 pixel_rate;
-+
-+	u16 pll_div;
-+	u16 pll_mul;
-+	u16 vt_pix_clk_div;
-+	u16 vt_sys_clk_div;
-+	u16 op_pix_clk_div;
-+	u16 op_sys_clk_div;
-+
-+	struct v4l2_fwnode_endpoint bus_cfg;
-+
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+
-+	struct v4l2_ctrl_handler ctrls;
-+	struct v4l2_ctrl *rate;
-+	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *test_data[4];
-+	struct {
-+		struct v4l2_ctrl *hflip;
-+		struct v4l2_ctrl *vflip;
-+	};
-+};
-+
-+static inline struct ar0233 *to_ar0233(struct v4l2_subdev *sd)
-+{
-+	return container_of(sd, struct ar0233, sd);
-+}
-+
-+static const struct ar0233_format_info *
-+	ar0233_format_info(struct ar0233 *sensor, u32 code, bool use_def)
-+{
-+	const struct ar0233_format_info *def = NULL;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(ar0233_formats); ++i) {
-+		const struct ar0233_format_info *info = &ar0233_formats[i];
-+
-+		if (info->format == code)
-+			return info;
-+
-+		if (!def)
-+			def = info;
-+	}
-+
-+	return use_def ? def : NULL;
-+}
-+
-+static int ar0233_configure_pll(struct ar0233 *sensor)
-+{
-+	int ret = 0;
-+
-+	if (sensor->pll_mul & 1)
-+		dev_warn_once(sensor->dev,
-+			"Odd PLL multiplier, Link frequency will not be exact\n");
-+
-+	cci_write(sensor->cci, AR0233_PRE_PLL_CLK_DIV,
-+		  sensor->pll_div, &ret);
-+	cci_write(sensor->cci, AR0233_PLL_MULTIPLIER,
-+		  sensor->pll_mul, &ret);
-+	cci_write(sensor->cci, AR0233_VT_PIX_CLK_DIV,
-+		  sensor->vt_pix_clk_div, &ret);
-+	cci_write(sensor->cci, AR0233_VT_SYS_CLK_DIV,
-+		  FASTER_CLK_DIV(7) | sensor->vt_sys_clk_div, &ret);
-+	cci_write(sensor->cci, AR0233_OP_PIX_CLK_DIV,
-+		  sensor->op_pix_clk_div, &ret);
-+	cci_write(sensor->cci, AR0233_OP_SYS_CLK_DIV,
-+		  sensor->op_sys_clk_div, &ret);
-+
-+	/* Wait 1ms for the PLL to lock. */
-+	fsleep(1000);
-+
-+	return ret;
-+}
-+
-+static int ar0233_configure_mipi(struct ar0233 *sensor,
-+				 const struct ar0233_format_info *info)
-+{
-+	const u32 edt = AR0233_MIPI_Fx_EDT(MIPI_CSI2_DT_EMBEDDED_8B);
-+	const u32 pdt = AR0233_MIPI_Fx_PDT(info->datatype);
-+	const u32 vdt = AR0233_MIPI_Fx_VDT(MIPI_CSI2_DT_BLANKING);
-+	unsigned int num_lanes = sensor->bus_cfg.bus.mipi_csi2.num_data_lanes;
-+	int ret = 0;
-+
-+	cci_write(sensor->cci, AR0233_SERIAL_FORMAT,
-+		  AR0233_SERIAL_FORMAT_TYPE_MIPI |
-+		  AR0233_SERIAL_FORMAT_LANES(num_lanes), &ret);
-+
-+	cci_write(sensor->cci, AR0233_MIPI_F1_PDT_EDT, edt | pdt, &ret);
-+	cci_write(sensor->cci, AR0233_MIPI_F1_VDT_VC,
-+		  AR0233_MIPI_Fx_VC(0) | vdt, &ret);
-+	cci_write(sensor->cci, AR0233_MIPI_F2_PDT_EDT, edt | pdt, &ret);
-+	cci_write(sensor->cci, AR0233_MIPI_F2_VDT_VC,
-+		  AR0233_MIPI_Fx_VC(0) | vdt, &ret);
-+	cci_write(sensor->cci, AR0233_MIPI_F3_PDT_EDT, edt | pdt, &ret);
-+	cci_write(sensor->cci, AR0233_MIPI_F3_VDT_VC,
-+		  AR0233_MIPI_Fx_VC(0) | vdt, &ret);
-+	cci_write(sensor->cci, AR0233_MIPI_F4_PDT_EDT, edt | pdt, &ret);
-+	cci_write(sensor->cci, AR0233_MIPI_F4_VDT_VC,
-+		  AR0233_MIPI_Fx_VC(0) | vdt, &ret);
-+
-+	return ret;
-+}
-+
-+static int ar0233_start_streaming(struct ar0233 *sensor,
-+				  const struct v4l2_subdev_state *state)
-+{
-+	const struct v4l2_mbus_framefmt *format;
-+	const struct ar0233_format_info *info;
-+	const struct v4l2_rect *crop;
-+	int ret;
-+	u16 val;
-+
-+	format = v4l2_subdev_state_get_format(state, 0);
-+	crop = v4l2_subdev_state_get_crop(state, 0);
-+	info = ar0233_format_info(sensor, format->code, true);
-+
-+	/* For REV1, 24 bit is not operational (OUTPUT) */
-+	if ((sensor->customer_rev < 2) && (info->bpp_output == 24)) {
-+		dev_err(sensor->dev, "The sensor does not support 24bpp.\n");
-+		return -EINVAL;
-+	}
-+
-+	ret = ar0233_configure_pll(sensor);
-+	if (ret)
-+		return ret;
-+
-+	cci_write(sensor->cci, AR0233_DATA_FORMAT_BITS,
-+		  AR0233_DATA_FORMAT_RAW(info->bpp_input) |
-+		  AR0233_DATA_FORMAT_OUTPUT(info->bpp_output), &ret);
-+
-+	cci_write(sensor->cci, AR0233_X_ADDR_START,
-+		  crop->left + AR0233_X_OFFSET, &ret);
-+	cci_write(sensor->cci, AR0233_Y_ADDR_START,
-+		  crop->top + AR0233_Y_OFFSET, &ret);
-+	cci_write(sensor->cci, AR0233_X_ADDR_END,
-+		  crop->left + crop->width + AR0233_X_OFFSET - 1, &ret);
-+	cci_write(sensor->cci, AR0233_Y_ADDR_END,
-+		  crop->top + crop->height + AR0233_Y_OFFSET - 1, &ret);
-+
-+	if (ret)
-+		return ret;
-+
-+	ret = __v4l2_ctrl_handler_setup(&sensor->ctrls);
-+	if (ret)
-+		return ret;
-+
-+	ret = ar0233_configure_mipi(sensor, info);
-+
-+	val = AR0233_RESET_LPF_ENABLE;
-+	val |= AR0233_RESET_REGISTER_MASK_BAD;
-+	val |= AR0233_RESET_REGISTER_STANDBY_EOF;
-+	val |= AR0233_RESET_REGISTER_LOCK_REG;
-+	val |= AR0233_RESET_REGISTER_STREAM;
-+	cci_write(sensor->cci, AR0233_RESET_REGISTER, val, &ret);
-+
-+	return ret;
-+}
-+
-+#define ar0233_read_poll_timeout(sensor, addr, bit)			\
-+({									\
-+	int __ret, __err = 0;						\
-+	u64 __val = 0;							\
-+									\
-+	__ret = read_poll_timeout(cci_read, __err,			\
-+				  __err || (__val & (bit)), 200,	\
-+				  2000000, false, (sensor)->cci,	\
-+				  addr,	&__val, NULL);			\
-+									\
-+	__ret ? : __err;						\
-+})
-+
-+static int ar0233_stop_streaming(struct ar0233 *sensor)
-+{
-+	int ret = 0;
-+
-+	/* Initiate the transition to standby by clearing the STREAM bit */
-+	if (cci_write(sensor->cci, AR0233_MODE_SELECT, 0, &ret))
-+		return ret;
-+
-+	ret = ar0233_read_poll_timeout(sensor, AR0233_FRAME_STATUS,
-+				       AR0233_FRAME_STATUS_STANDBY);
-+	if (ret)
-+		dev_warn(sensor->dev, "%s while trying to enter standby (%d)\n",
-+			 (ret == -ETIMEDOUT) ? "timeout" : "error", ret);
-+
-+	/* Standby state reached, disable the output interface */
-+	return cci_write(sensor->cci, AR0233_RESET_REGISTER,
-+			 AR0233_RESET_REGISTER_SMIA_SERIALIZER_DIS, NULL);
-+}
-+
-+static int ar0233_pll_calculate(struct ar0233 *sensor, unsigned int bpp)
-+{
-+	u64 link_freq = sensor->bus_cfg.link_frequencies[0] * 2;
-+	u16 bpp_div = bpp / 2;
-+
-+	sensor->pixel_rate = DIV_ROUND_CLOSEST_ULL(link_freq, bpp_div);
-+
-+	if ((sensor->pixel_rate < 4000000ULL) ||
-+	    (sensor->pixel_rate > 125000000ULL)) {
-+		dev_err(sensor->dev, "Link frequency out of bounds\n");
-+		return -EINVAL;
-+	}
-+
-+	sensor->vt_pix_clk_div = bpp_div;
-+	sensor->vt_sys_clk_div = sensor->bus_cfg.bus.mipi_csi2.num_data_lanes;
-+	sensor->op_pix_clk_div = bpp_div;
-+	sensor->op_sys_clk_div = 2;
-+
-+	for (sensor->pll_div = 1; sensor->pll_div < 64; sensor->pll_div++) {
-+		u64 rate = DIV_ROUND_CLOSEST_ULL(clk_get_rate(sensor->clk),
-+						 sensor->pll_div);
-+		sensor->pll_mul = DIV_ROUND_DOWN_ULL(link_freq, rate);
-+		if ((rate * sensor->pll_mul) == link_freq)
-+			return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int ar0233_pll_update(struct ar0233 *sensor,
-+			     const struct ar0233_format_info *info)
-+{
-+	int ret;
-+
-+	ret = ar0233_pll_calculate(sensor, info->bpp_output);
-+	if (ret)
-+		dev_err(sensor->dev, "PLL calculations failed: %d\n", ret);
-+	else
-+		__v4l2_ctrl_s_ctrl_int64(sensor->rate, sensor->pixel_rate);
-+
-+	return ret;
-+}
-+
-+static const char * const ar0233_test_pattern_menu[] = {
-+	"Disabled",
-+	"Solid color",
-+	"Full Color Bars",
-+	"Fade to Gray Color Bars",
-+	"Walking 1",
-+};
-+
-+static const u32 ar0233_test_pattern_values[] = {
-+	AR0233_TEST_PATTERN_NONE,
-+	AR0233_TEST_PATTERN_SOLID,
-+	AR0233_TEST_PATTERN_BARS,
-+	AR0233_TEST_PATTERN_BARS_FADE,
-+	AR0233_TEST_PATTERN_WALKING_1S,
-+};
-+
-+static int ar0233_update_exposure(struct ar0233 *sensor,
-+				  const struct v4l2_rect *crop)
-+{
-+	const unsigned int max = crop->height + sensor->vblank->val - 1;
-+
-+	return __v4l2_ctrl_modify_range(sensor->exposure, 1, max, 1, max);
-+}
-+
-+static void ar0233_update_blanking(struct ar0233 *sensor,
-+				   const struct v4l2_subdev_state *state)
-+{
-+	const struct v4l2_rect *crop;
-+	unsigned int min, max;
-+
-+	crop = v4l2_subdev_state_get_crop(state, 0);
-+
-+	min = AR0233_MIN_HBLANK;
-+	max = AR0233_MAX_LINE_LENGTH_PCK - crop->width;
-+	__v4l2_ctrl_modify_range(sensor->hblank, min, max, 2, min);
-+
-+	min = AR0233_MIN_VBLANK;
-+	max = AR0233_MAX_FRAME_LENGTH_LINES - crop->height;
-+	__v4l2_ctrl_modify_range(sensor->vblank, min, max, 1, min);
-+
-+	ar0233_update_exposure(sensor, crop);
-+}
-+
-+static int ar0233_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct ar0233 *sensor = container_of(ctrl->handler, struct ar0233, ctrls);
-+	const struct v4l2_subdev_state *state;
-+	const struct v4l2_mbus_framefmt *format;
-+	const struct ar0233_format_info *info;
-+	const struct v4l2_rect *crop;
-+	int ret = 0;
-+	u16 reg;
-+
-+	/*
-+	 * Return immediately for controls that don't need to be applied to the
-+	 * device.
-+	 */
-+	if (ctrl->flags & (V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_GRABBED))
-+		return 0;
-+
-+	state = v4l2_subdev_get_locked_active_state(&sensor->sd);
-+	format = v4l2_subdev_state_get_format(state, 0);
-+	info = ar0233_format_info(sensor, format->code, true);
-+	crop = v4l2_subdev_state_get_crop(state, 0);
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_VBLANK:
-+		ret = ar0233_update_exposure(sensor, crop);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	if (ret)
-+		return ret;
-+
-+	if (!pm_runtime_get_if_in_use(sensor->dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		reg = ctrl->val << 12;
-+		reg |= ctrl->val << 8;
-+		reg |= ctrl->val << 4;
-+		reg |= ctrl->val << 0;
-+		cci_write(sensor->cci, AR0233_ANALOG_GAIN, reg, &ret);
-+		break;
-+	case V4L2_CID_DIGITAL_GAIN:
-+		cci_write(sensor->cci, AR0233_GLOBAL_GAIN, ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_EXPOSURE:
-+		cci_write(sensor->cci, AR0233_COARSE_INTEGRATION_TIME,
-+			  ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_HBLANK:
-+		cci_write(sensor->cci, AR0233_LINE_LENGTH_PCK,
-+			  crop->width + ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_VBLANK:
-+		cci_write(sensor->cci, AR0233_FRAME_LENGTH_LINES,
-+			  crop->height + ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		cci_write(sensor->cci, AR0233_TEST_PATTERN_MODE,
-+			  ar0233_test_pattern_values[ctrl->val], &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN_RED:
-+	case V4L2_CID_TEST_PATTERN_GREENR:
-+	case V4L2_CID_TEST_PATTERN_BLUE:
-+	case V4L2_CID_TEST_PATTERN_GREENB:
-+		cci_write(sensor->cci, AR0233_GROUPED_PARAMETER_HOLD,
-+			  AR0233_RESET_REGISTER_GROUPED_PARAMETER_HOLD, &ret);
-+
-+		cci_write(sensor->cci, AR0233_TEST_DATA_RED,
-+			  sensor->test_data[0]->val, &ret);
-+		cci_write(sensor->cci, AR0233_TEST_DATA_GREENR,
-+			  sensor->test_data[1]->val, &ret);
-+		cci_write(sensor->cci, AR0233_TEST_DATA_BLUE,
-+			  sensor->test_data[2]->val, &ret);
-+		cci_write(sensor->cci, AR0233_TEST_DATA_GREENB,
-+			  sensor->test_data[3]->val, &ret);
-+
-+		cci_write(sensor->cci, AR0233_GROUPED_PARAMETER_HOLD,
-+			  0, &ret);
-+		break;
-+	case V4L2_CID_HFLIP:
-+	case V4L2_CID_VFLIP:
-+		reg = sensor->hflip->val ? AR0233_ORIENTATION_HORIZ_MIRROR : 0;
-+		reg |= sensor->vflip->val ? AR0233_ORIENTATION_VERT_FLIP : 0;
-+
-+		cci_write(sensor->cci, AR0233_IMAGE_ORIENTATION, reg, &ret);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	pm_runtime_put(sensor->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops ar0233_ctrl_ops = {
-+	.s_ctrl = ar0233_s_ctrl,
-+};
-+
-+static const u32 test_pattern_ctrls[] = {
-+	V4L2_CID_TEST_PATTERN_RED,
-+	V4L2_CID_TEST_PATTERN_GREENR,
-+	V4L2_CID_TEST_PATTERN_BLUE,
-+	V4L2_CID_TEST_PATTERN_GREENB,
-+};
-+
-+static int ar0233_init_ctrls(struct ar0233 *sensor)
-+{
-+	struct v4l2_fwnode_device_properties props;
-+	unsigned int i;
-+	int ret;
-+
-+	ret = v4l2_fwnode_device_parse(sensor->dev, &props);
-+	if (ret < 0)
-+		return ret;
-+
-+	v4l2_ctrl_handler_init(&sensor->ctrls, 15);
-+
-+	v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ar0233_ctrl_ops,
-+					&props);
-+
-+	sensor->rate = v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
-+					 V4L2_CID_PIXEL_RATE, 1, INT_MAX, 1, 1);
-+
-+	sensor->hblank =
-+		v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
-+				  V4L2_CID_HBLANK, AR0233_MIN_HBLANK,
-+				  AR0233_MIN_HBLANK, 2, AR0233_MIN_HBLANK);
-+
-+	sensor->vblank =
-+		v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
-+				  V4L2_CID_VBLANK, AR0233_MIN_VBLANK,
-+				  AR0233_MIN_VBLANK, 1, AR0233_MIN_VBLANK);
-+
-+	sensor->exposure =
-+		v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
-+				  V4L2_CID_EXPOSURE, 1,
-+				  AR0233_MAX_FRAME_LENGTH_LINES - 1, 1,
-+				  AR0233_DEF_HEIGHT + AR0233_MIN_VBLANK - 1);
-+
-+	v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
-+			  V4L2_CID_ANALOGUE_GAIN, 0, 5, 1, 2);
-+
-+	v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
-+			  V4L2_CID_DIGITAL_GAIN, 0, 0x7ff, 1, 0x080);
-+
-+	v4l2_ctrl_new_std_menu_items(&sensor->ctrls, &ar0233_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(ar0233_test_pattern_menu) - 1,
-+				     0, 0, ar0233_test_pattern_menu);
-+
-+	for (i = 0; i < ARRAY_SIZE(test_pattern_ctrls); ++i)
-+		sensor->test_data[i] =
-+			v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
-+					  test_pattern_ctrls[i], 0, 4095, 1, 0);
-+
-+	sensor->hflip = v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
-+					  V4L2_CID_HFLIP, 0, 1, 1, 0);
-+
-+	sensor->vflip = v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
-+					  V4L2_CID_VFLIP, 0, 1, 1, 0);
-+
-+	if (sensor->ctrls.error) {
-+		ret = sensor->ctrls.error;
-+		v4l2_ctrl_handler_free(&sensor->ctrls);
-+		return ret;
-+	}
-+
-+	v4l2_ctrl_cluster(4, sensor->test_data);
-+	v4l2_ctrl_cluster(2, &sensor->hflip);
-+
-+	sensor->sd.ctrl_handler = &sensor->ctrls;
-+
-+	return 0;
-+}
-+
-+static int ar0233_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	if (code->index >= ARRAY_SIZE(ar0233_formats))
-+		return -EINVAL;
-+
-+	code->code = ar0233_formats[code->index].format;
-+
-+	return 0;
-+}
-+
-+static int ar0233_enum_frame_size(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state,
-+				  struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	struct ar0233 *sensor = to_ar0233(sd);
-+	const struct ar0233_format_info *info;
-+
-+	info = ar0233_format_info(sensor, fse->code, false);
-+	if (!info)
-+		return -EINVAL;
-+
-+	if (fse->index >= ARRAY_SIZE(ar0233_formats))
-+		return -EINVAL;
-+
-+	fse->min_width = AR0233_MIN_WIDTH;
-+	fse->max_width = AR0233_ACT_WIDTH;
-+	fse->min_height = AR0233_MIN_HEIGHT;
-+	fse->max_height = AR0233_ACT_HEIGHT;
-+
-+	return 0;
-+}
-+
-+static int ar0233_set_fmt(struct v4l2_subdev *sd,
-+			  struct v4l2_subdev_state *state,
-+			  struct v4l2_subdev_format *format)
-+{
-+	struct ar0233 *sensor = to_ar0233(sd);
-+	const struct ar0233_format_info *info;
-+	struct v4l2_mbus_framefmt *fmt;
-+	const struct v4l2_rect *crop;
-+
-+	if (v4l2_subdev_is_streaming(sd) &&
-+	    (format->which == V4L2_SUBDEV_FORMAT_ACTIVE))
-+		return -EBUSY;
-+
-+	fmt = v4l2_subdev_state_get_format(state, format->pad);
-+	crop = v4l2_subdev_state_get_crop(state, format->pad);
-+	info = ar0233_format_info(sensor, format->format.code, true);
-+	fmt->code = info->format;
-+
-+	fmt->width = clamp(format->format.width, 1U, crop->width);
-+	fmt->height = clamp(format->format.height, 1U, crop->height);
-+
-+	format->format = *fmt;
-+
-+	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-+		ar0233_pll_update(sensor, info);
-+
-+	return 0;
-+}
-+
-+static int ar0233_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP:
-+		sel->r = *v4l2_subdev_state_get_crop(state, sel->pad);
-+		break;
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+		sel->r.left = (AR0233_ACT_WIDTH - AR0233_DEF_WIDTH) / 2;
-+		sel->r.top = (AR0233_ACT_HEIGHT - AR0233_DEF_HEIGHT) / 2;
-+		sel->r.width = AR0233_DEF_WIDTH;
-+		sel->r.height = AR0233_DEF_HEIGHT;
-+		break;
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.left = 0;
-+		sel->r.top = 0;
-+		sel->r.width = AR0233_ACT_WIDTH;
-+		sel->r.height = AR0233_ACT_HEIGHT;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ar0233_set_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_rect *crop;
-+
-+	if (v4l2_subdev_is_streaming(sd) &&
-+	    (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE))
-+		return -EBUSY;
-+
-+	if (sel->target != V4L2_SEL_TGT_CROP)
-+		return -EINVAL;
-+
-+	crop = v4l2_subdev_state_get_crop(state, 0);
-+	fmt = v4l2_subdev_state_get_format(state, 0);
-+
-+	crop->left = min_t(unsigned int, ALIGN(sel->r.left, 2),
-+			   AR0233_ACT_WIDTH - AR0233_MIN_WIDTH);
-+	crop->top = min_t(unsigned int, ALIGN(sel->r.top, 2),
-+			  AR0233_ACT_HEIGHT - AR0233_MIN_HEIGHT);
-+	crop->width = clamp(sel->r.width, AR0233_MIN_WIDTH,
-+			    AR0233_ACT_WIDTH - crop->left);
-+	crop->height = clamp(sel->r.height, AR0233_MIN_HEIGHT,
-+			     AR0233_ACT_HEIGHT - crop->top);
-+
-+	sel->r = *crop;
-+
-+	fmt->width = crop->width;
-+	fmt->height = crop->height;
-+
-+	return 0;
-+}
-+
-+static int ar0233_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-+				 struct v4l2_mbus_frame_desc *fd)
-+{
-+	struct ar0233 *sensor = to_ar0233(sd);
-+	const struct ar0233_format_info *info;
-+	const struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_subdev_state *state;
-+	u32 code;
-+
-+	state = v4l2_subdev_lock_and_get_active_state(sd);
-+	fmt = v4l2_subdev_state_get_format(state, 0);
-+	code = fmt->code;
-+	v4l2_subdev_unlock_state(state);
-+
-+	info = ar0233_format_info(sensor, code, true);
-+
-+	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-+	fd->num_entries = 1;
-+
-+	fd->entry[0].pixelcode = code;
-+	fd->entry[0].stream = 0;
-+	fd->entry[0].bus.csi2.vc = 0;
-+	fd->entry[0].bus.csi2.dt = info->datatype;
-+
-+	return 0;
-+}
-+
-+static int ar0233_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
-+{
-+	struct ar0233 *sensor = to_ar0233(sd);
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(sensor->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = ar0233_start_streaming(sensor, state);
-+	if (ret) {
-+		dev_err(sensor->dev, "Failed to start streaming: %d\n", ret);
-+		pm_runtime_put_sync(sensor->dev);
-+	}
-+
-+	return ret;
-+}
-+
-+static int ar0233_disable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state, u32 pad,
-+				  u64 streams_mask)
-+{
-+	struct ar0233 *sensor = to_ar0233(sd);
-+
-+	ar0233_stop_streaming(sensor);
-+	pm_runtime_put(sensor->dev);
-+
-+	return 0;
-+}
-+
-+static int ar0233_entity_init_state(struct v4l2_subdev *sd,
-+				    struct v4l2_subdev_state *state)
-+{
-+	const struct ar0233_format_info *info;
-+	struct ar0233 *sensor = to_ar0233(sd);
-+	struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_rect *crop;
-+
-+	info = ar0233_format_info(sensor, 0, true);
-+
-+	fmt = v4l2_subdev_state_get_format(state, 0);
-+	fmt->width = AR0233_DEF_WIDTH;
-+	fmt->height = AR0233_DEF_HEIGHT;
-+	fmt->code = info->format;
-+	fmt->field = V4L2_FIELD_NONE;
-+	fmt->colorspace = V4L2_COLORSPACE_RAW;
-+	fmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-+	fmt->quantization = V4L2_QUANTIZATION_DEFAULT;
-+	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
-+
-+	crop = v4l2_subdev_state_get_crop(state, 0);
-+	crop->left = 0;
-+	crop->top = 0;
-+	crop->width = AR0233_DEF_WIDTH;
-+	crop->height = AR0233_DEF_HEIGHT;
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_pad_ops ar0233_subdev_pad_ops = {
-+	.enum_mbus_code = ar0233_enum_mbus_code,
-+	.enum_frame_size = ar0233_enum_frame_size,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = ar0233_set_fmt,
-+	.get_selection = ar0233_get_selection,
-+	.set_selection = ar0233_set_selection,
-+	.get_frame_desc = ar0233_get_frame_desc,
-+	.enable_streams = ar0233_enable_streams,
-+	.disable_streams = ar0233_disable_streams,
-+};
-+
-+static const struct v4l2_subdev_ops ar0233_subdev_ops = {
-+	.pad = &ar0233_subdev_pad_ops,
-+};
-+
-+static const struct v4l2_subdev_internal_ops ar0233_subdev_internal_ops = {
-+	.init_state = ar0233_entity_init_state,
-+};
-+
-+static const struct media_entity_operations ar0233_entity_ops = {
-+	.link_validate = v4l2_subdev_link_validate,
-+};
-+
-+static int ar0233_init_subdev(struct ar0233 *sensor)
-+{
-+	struct i2c_client *client = to_i2c_client(sensor->dev);
-+	struct v4l2_subdev *sd = &sensor->sd;
-+	const struct v4l2_mbus_framefmt *format;
-+	const struct ar0233_format_info *info;
-+	struct v4l2_subdev_state *state;
-+	int ret;
-+
-+	v4l2_i2c_subdev_init(sd, client, &ar0233_subdev_ops);
-+
-+	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	sd->internal_ops = &ar0233_subdev_internal_ops;
-+	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+	sd->entity.ops = &ar0233_entity_ops;
-+
-+	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
-+
-+	ret = media_entity_pads_init(&sd->entity, 1, &sensor->pad);
-+	if (ret)
-+		return ret;
-+
-+	ret = ar0233_init_ctrls(sensor);
-+	if (ret)
-+		goto err_entity;
-+
-+	sensor->sd.state_lock = sensor->ctrls.lock;
-+	ret = v4l2_subdev_init_finalize(&sensor->sd);
-+	if (ret)
-+		goto err_ctrls;
-+
-+	state = v4l2_subdev_lock_and_get_active_state(sd);
-+	format = v4l2_subdev_state_get_format(state, 0);
-+	info = ar0233_format_info(sensor, format->code, true);
-+
-+	ar0233_pll_update(sensor, info);
-+	ar0233_update_blanking(sensor, state);
-+
-+	v4l2_subdev_unlock_state(state);
-+
-+	return 0;
-+
-+err_ctrls:
-+	v4l2_ctrl_handler_free(&sensor->ctrls);
-+
-+err_entity:
-+	media_entity_cleanup(&sd->entity);
-+
-+	return ret;
-+}
-+
-+static void ar0233_cleanup_subdev(struct ar0233 *sensor)
-+{
-+	v4l2_subdev_cleanup(&sensor->sd);
-+	v4l2_ctrl_handler_free(&sensor->ctrls);
-+	media_entity_cleanup(&sensor->sd.entity);
-+}
-+
-+static int ar0233_detect(struct ar0233 *sensor)
-+{
-+	int ret = 0;
-+	u64 val;
-+
-+	if (cci_read(sensor->cci, AR0233_CHIP_VERSION_REG, &val, &ret)) {
-+		dev_err(sensor->dev, "Failed to read Chip ID: %d\n", ret);
-+		return ret;
-+	}
-+
-+	if (val != AR0233_CHIP_VERSION_AR0233) {
-+		dev_err(sensor->dev, "Wrong Chip ID: 0x%04x\n", (u16)val);
-+		return -ENXIO;
-+	}
-+
-+	if (!cci_read(sensor->cci, AR0233_CUSTOMER_REV, &val, &ret))
-+		sensor->customer_rev = val & 0xf;
-+
-+	if (!cci_read(sensor->cci, AR0233_REVISION_NUMBER, &val, &ret))
-+		dev_info(sensor->dev,
-+			 "Found AR0233 chip, revision %d, customer rev %d\n",
-+			 (u16)val, sensor->customer_rev);
-+
-+	return ret;
-+}
-+
-+static int ar0233_power_on(struct ar0233 *sensor)
-+{
-+	unsigned long clk_rate;
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ar0233_supplies),
-+				    sensor->supplies);
-+	if (ret) {
-+		dev_err(sensor->dev, "Failed to enable regulators\n");
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(sensor->clk);
-+	if (ret) {
-+		dev_err(sensor->dev, "Failed to enable clock\n");
-+		regulator_bulk_disable(ARRAY_SIZE(ar0233_supplies),
-+				       sensor->supplies);
-+		return ret;
-+	}
-+
-+	clk_rate = clk_get_rate(sensor->clk);
-+	if ((clk_rate < 6000000) || (clk_rate > 64000000)) {
-+		dev_err(sensor->dev, "Clock frequency out of bounds\n");
-+		clk_disable_unprepare(sensor->clk);
-+		regulator_bulk_disable(ARRAY_SIZE(ar0233_supplies),
-+				       sensor->supplies);
-+		return -EINVAL;
-+	}
-+
-+	fsleep(1000);
-+
-+	if (sensor->reset_gpio)
-+		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
-+	else
-+		cci_write(sensor->cci, AR0233_SOFTWARE_RESET, AR0233_RESET,
-+			  &ret);
-+
-+	/* The typical internal initialization time is 236K Ext clk cycles */
-+	fsleep(DIV_ROUND_UP_ULL(236000ULL * USEC_PER_SEC, clk_rate));
-+
-+	return ret;
-+}
-+
-+static void ar0233_power_off(struct ar0233 *sensor)
-+{
-+	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
-+	clk_disable_unprepare(sensor->clk);
-+	regulator_bulk_disable(ARRAY_SIZE(ar0233_supplies), sensor->supplies);
-+}
-+
-+static int ar0233_parse_dt(struct ar0233 *sensor)
-+{
-+	struct v4l2_fwnode_endpoint *ep = &sensor->bus_cfg;
-+	struct fwnode_handle *endpoint;
-+	unsigned int i;
-+	int ret;
-+
-+	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(sensor->dev), NULL);
-+	if (!endpoint) {
-+		dev_err(sensor->dev, "Endpoint node not found\n");
-+		return -EINVAL;
-+	}
-+
-+	ep->bus_type = V4L2_MBUS_UNKNOWN;
-+	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, ep);
-+	fwnode_handle_put(endpoint);
-+	if (ret) {
-+		dev_err(sensor->dev, "Parsing endpoint node failed\n");
-+		goto ep_free;
-+	}
-+
-+	switch (ep->bus_type) {
-+	case V4L2_MBUS_CSI2_DPHY:
-+		switch (ep->bus.mipi_csi2.num_data_lanes) {
-+		case 1:
-+		case 2:
-+		case 4:
-+			break;
-+		default:
-+			dev_err(sensor->dev, "Invalid data lanes count: %d\n",
-+				ep->bus.mipi_csi2.num_data_lanes);
-+			ret = -EINVAL;
-+			goto ep_free;
-+		}
-+		break;
-+
-+	default:
-+		dev_err(sensor->dev, "Unsupported bus type %u\n", ep->bus_type);
-+		ret = -EINVAL;
-+		goto ep_free;
-+	}
-+
-+	if (!ep->nr_of_link_frequencies) {
-+		dev_err(sensor->dev, "link-frequency property not found\n");
-+		ret = -EINVAL;
-+		goto ep_free;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(ar0233_formats); i++) {
-+		const struct ar0233_format_info *info = &ar0233_formats[i];
-+
-+		ret = ar0233_pll_calculate(sensor, info->bpp_output);
-+		if (ret) {
-+			dev_err(sensor->dev,
-+				"Link frequency %llu not valid for %u bpp\n",
-+				ep->link_frequencies[0], info->bpp_output);
-+			goto ep_free;
-+		}
-+	}
-+
-+	return 0;
-+
-+ep_free:
-+	v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
-+
-+	return ret;
-+}
-+
-+static int ar0233_probe(struct i2c_client *client)
-+{
-+	struct ar0233 *sensor;
-+	unsigned int i;
-+	int ret;
-+
-+	sensor = devm_kzalloc(&client->dev, sizeof(*sensor), GFP_KERNEL);
-+	if (!sensor)
-+		return -ENOMEM;
-+
-+	sensor->dev = &client->dev;
-+
-+	sensor->cci = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(sensor->cci))
-+		return dev_err_probe(sensor->dev, PTR_ERR(sensor->cci),
-+				     "Unable to initialize I2C\n");
-+
-+	sensor->clk = devm_clk_get(sensor->dev, NULL);
-+	if (IS_ERR(sensor->clk))
-+		return dev_err_probe(sensor->dev, PTR_ERR(sensor->clk),
-+				     "Cannot get clock\n");
-+
-+	sensor->reset_gpio = devm_gpiod_get_optional(sensor->dev, "reset",
-+						     GPIOD_OUT_LOW);
-+	if (IS_ERR(sensor->reset_gpio))
-+		return dev_err_probe(sensor->dev, PTR_ERR(sensor->reset_gpio),
-+				     "Cannot get reset gpio\n");
-+
-+	for (i = 0; i < ARRAY_SIZE(ar0233_supplies); i++)
-+		sensor->supplies[i].supply = ar0233_supplies[i];
-+
-+	ret = devm_regulator_bulk_get(sensor->dev, ARRAY_SIZE(ar0233_supplies),
-+				      sensor->supplies);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret, "Cannot get supplies\n");
-+
-+	ret = ar0233_parse_dt(sensor);
-+	if (ret)
-+		return ret;
-+
-+	ret = ar0233_power_on(sensor);
-+	if (ret) {
-+		dev_err_probe(sensor->dev, ret,
-+			      "Could not power on the device\n");
-+		goto err_dt;
-+	}
-+
-+	ret = ar0233_detect(sensor);
-+	if (ret)
-+		goto err_power;
-+
-+	ret = ar0233_init_subdev(sensor);
-+	if (ret) {
-+		dev_err(sensor->dev, "Subdev initialization error %d\n", ret);
-+		goto err_power;
-+	}
-+
-+	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
-+	if (ret) {
-+		dev_err(sensor->dev, "Could not register V4L2 subdevice\n");
-+		goto err_subdev;
-+	}
-+
-+	pm_runtime_set_active(sensor->dev);
-+	pm_runtime_enable(sensor->dev);
-+	pm_runtime_idle(sensor->dev);
-+
-+	return 0;
-+
-+err_subdev:
-+	ar0233_cleanup_subdev(sensor);
-+
-+err_power:
-+	ar0233_power_off(sensor);
-+
-+err_dt:
-+	v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
-+
-+	return ret;
-+}
-+
-+static void ar0233_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct ar0233 *sensor = to_ar0233(sd);
-+
-+	v4l2_async_unregister_subdev(&sensor->sd);
-+	ar0233_cleanup_subdev(sensor);
-+	v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
-+
-+	pm_runtime_disable(sensor->dev);
-+	if (!pm_runtime_status_suspended(sensor->dev))
-+		ar0233_power_off(sensor);
-+	pm_runtime_set_suspended(sensor->dev);
-+}
-+
-+static int __maybe_unused ar0233_runtime_resume(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ar0233 *sensor = to_ar0233(sd);
-+
-+	return ar0233_power_on(sensor);
-+}
-+
-+static int __maybe_unused ar0233_runtime_suspend(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ar0233 *sensor = to_ar0233(sd);
-+
-+	ar0233_power_off(sensor);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops __maybe_unused ar0233_pm_ops = {
-+	RUNTIME_PM_OPS(ar0233_runtime_suspend, ar0233_runtime_resume, NULL)
-+};
-+
-+static const struct of_device_id ar0233_of_match[] = {
-+	{ .compatible = "onnn,ar0233" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ar0233_of_match);
-+
-+static struct i2c_driver ar0233_i2c_driver = {
-+	.driver = {
-+		.name = "ar0233",
-+		.of_match_table = of_match_ptr(ar0233_of_match),
-+		.pm = pm_ptr(&ar0233_pm_ops),
-+	},
-+	.probe = ar0233_probe,
-+	.remove = ar0233_remove,
-+};
-+module_i2c_driver(ar0233_i2c_driver);
-+
-+MODULE_DESCRIPTION("Onsemi AR0233 Camera Sensor Driver");
-+MODULE_AUTHOR("Alexander Shiyan <eagle.alexander923@gmail.com>");
-+MODULE_LICENSE("GPL");
+ int cx231xx_set_decoder_video_input(struct cx231xx *dev,
+-				u8 pin_type, u8 input)
++				u8 pin_type, u32 input)
+ {
+ 	int status = 0;
+ 	u32 value = 0;
+diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
+index 92efe6c1f47b..f68a6ab9d5aa 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-cards.c
++++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
+@@ -679,8 +679,7 @@ struct cx231xx_board cx231xx_boards[] = {
+ 			}, {
+ 				.type = CX231XX_VMUX_SVIDEO,
+ 				.vmux = CX231XX_VIN_1_1 |
+-					(CX231XX_VIN_1_2 << 8) |
+-					CX25840_SVIDEO_ON,
++					(CX231XX_VIN_3_2 << 8),
+ 				.amux = CX231XX_AMUX_LINE_IN,
+ 				.gpio = NULL,
+ 			}
+diff --git a/drivers/media/usb/cx231xx/cx231xx.h b/drivers/media/usb/cx231xx/cx231xx.h
+index 74339a6a2f71..228ecea4cfe4 100644
+--- a/drivers/media/usb/cx231xx/cx231xx.h
++++ b/drivers/media/usb/cx231xx/cx231xx.h
+@@ -916,7 +916,7 @@ int cx231xx_enable_i2c_port_3(struct cx231xx *dev, bool is_port_3);
+ /* video audio decoder related functions */
+ void video_mux(struct cx231xx *dev, int index);
+ int cx231xx_set_video_input_mux(struct cx231xx *dev, u8 input);
+-int cx231xx_set_decoder_video_input(struct cx231xx *dev, u8 pin_type, u8 input);
++int cx231xx_set_decoder_video_input(struct cx231xx *dev, u8 pin_type, u32 input);
+ int cx231xx_do_mode_ctrl_overrides(struct cx231xx *dev);
+ int cx231xx_set_audio_input(struct cx231xx *dev, u8 input);
+ 
 -- 
-2.38.2
+2.46.1
 
 
