@@ -1,103 +1,143 @@
-Return-Path: <linux-media+bounces-18688-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18689-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97CEE988244
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 12:11:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5EB198824D
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 12:17:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 515551F22C4D
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 10:11:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 112BC1C22BA5
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 10:17:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 012B01BC9FE;
-	Fri, 27 Sep 2024 10:10:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD67E1BBBC6;
+	Fri, 27 Sep 2024 10:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GKLLTdnN"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Wq/39tSf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E745A185B7C
-	for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 10:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0111C15B10E
+	for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 10:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727431850; cv=none; b=bFur4FenmMb934/bGxl55AZlviH/HL0fp8qpNnM30kNi3Eu0vSFTbvxGGPGvSp5TBSC3Z5SSPO4SNpVuTHmmxZSDU8akN9X8TbK1x7cbfkdbpHFEUnt1MsVkP9CHF94vSkp/xpBy3l/xYqirGK0a68kDRUh/Eehwz9IG72NrN40=
+	t=1727432215; cv=none; b=cMcwcbZQhQLNKNkOuBzrDjuNeM2GjUe/mEk1OeVC0yB0fsY6duPrPrp+Tkz59ofN8gOAnDNXMMr1nFT3689Cdx6iM86LpDPfHV3SwC9pWr++Z6S3ailcHyzNYVsn3dymYMk3BB1EK1tLLPuUxRt0c3VQBlnQn+sKNbHapH8rmnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727431850; c=relaxed/simple;
-	bh=82V/weC2dG7OB/opVXdY0JQstq8r5ZG2HazKjLEYZz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fKNGezzjzzyft9WmDDlB6aUXbZTTmdPjLwAps6hvCvR7gzSy1GNcOuPPAvrgM29vbxpDameBbluHuQR/+IeZtuG+UUYDVbB6uyYQ6NIgIAitOxVayAep0j5PG2FxC0/zyrp7Xziu+i+xz9+9ikhpwFmaQJSGXZZRAksWSDq9e+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GKLLTdnN; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42cbc38a997so12338645e9.1
-        for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 03:10:48 -0700 (PDT)
+	s=arc-20240116; t=1727432215; c=relaxed/simple;
+	bh=cAxaVY79viWfr3dOL3dJjnZC0KcE579FMqX0FSoNdpg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TOQJ69S3SwTzQL5LO5uPegoUuvSzBs1TvzHD+tZAapn3UDWpNGMuI+UxbUuOPSGH9/jQR+CfaedghMn++SJvXW+0OZyQq4vTNQ6FpcUJLWZjH7uUwW4lhxUn0DQ2DnDfZManQFznQrG2Kvc5LJ+yZBVMxPrTdWXLK94OEFz0jGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Wq/39tSf; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-206aee40676so16721385ad.0
+        for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 03:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727431847; x=1728036647; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qihw7+w8108Risk6Cj7+yuN4HLwBR7iDJgyzm7bJIQ0=;
-        b=GKLLTdnNJ/lS5jKg/L+X9kc3oRFXZfcrkFacZOgb3KMP/urqoPQbAvM15Wp9vvTpry
-         jeyV5Q+fMknXdDuGJpgGbtugQE1y+QjD91f568RFRw86TSkJ1gCZshhHA+kPiJu7sBJ6
-         FvsTuki3mwW6GRs0PcPFebv664yFuZqmgNdzRIO+cnbmEo7PMzZ5Bm3En5nuQmx6ikEC
-         1hePNpSoUjxYEMpPd/ztzD7VGb5FLkmiN+ezS91pjLPjK1XlUXpb1a0a2lzh/kEIqlhe
-         ojcMC7qLiWkVcWfsaFSUVeAlsTnYk0gSouCNuaMWtWANnwHnAmx9r0rvKc2YAMJRRvoy
-         Ckcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727431847; x=1728036647;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1727432213; x=1728037013; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qihw7+w8108Risk6Cj7+yuN4HLwBR7iDJgyzm7bJIQ0=;
-        b=o7gOlo67OxA+nqKINV8Qdpp5XoJQyeY9ZFaYJCt9GAbNTZnIYRPc/hw2ANyJ1vYjrk
-         oNTfjNAtqVJx443vy+BexwMDsrlj7b2NQTR8SzFpBsJpHHKCa6GT8WjkjC2Paa6rnGTh
-         2bCr9/b+ovV88sfOKpwkJtELbnyrcXMtUgWTGyryByutNgARTfFl71M2ZYyUhUcsP0RH
-         8IJ9+6LIpXK3YFK01nU5D2NeOCt7cy47aOp4gXxnO3BRv+LHI8sJZhv9EXQwuRp1OcVw
-         0jxPZAZqwNQ3z/X3fjaCLLdtQKcDywTYyLofGdAuyFY3y9w+Xtw2vFhL8hAPbrlNJaDf
-         WCJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXfMuKg+bQ8JG5nq6S2CDVm6JTy4+xCX10YRZDD2+TvUK5sbN1Xplao+pgDN7nLuHfL998Ado+x/uv6lg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDUh7NoSkz3LdeQO7NPKs9Baam6qxP0HLsfrinWCsjDTtBEx2t
-	aUrL76lfzOoatLrpdub8Iyl56hOzM1Rt7oa175dyBzC5cAZHF7IVzh5A23GrVnA=
-X-Google-Smtp-Source: AGHT+IHcgcyQYD74PprfDGjdFD8bGNs61lZ/QrBpu1J/emsL5e6sSlWoWQavNAXIDSV+FDiS4Uirog==
-X-Received: by 2002:a05:600c:3550:b0:42c:b7ae:4c97 with SMTP id 5b1f17b1804b1-42f52200f17mr36164135e9.11.1727431847307;
-        Fri, 27 Sep 2024 03:10:47 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f57e13a28sm21924985e9.29.2024.09.27.03.10.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2024 03:10:46 -0700 (PDT)
-Date: Fri, 27 Sep 2024 13:10:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Benoit Parrot <bparrot@ti.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 3/3] media: atomisp: Use max() macros
-Message-ID: <aad1bee3-594a-40db-b81e-f7917ab1a408@stanley.mountain>
-References: <20240927-cocci-6-12-v2-0-1c6ad931959b@chromium.org>
- <20240927-cocci-6-12-v2-3-1c6ad931959b@chromium.org>
+        bh=CwCiuRYsk936wm4u/HVOckfXG1k6CXzT+Xy0kwjFKfs=;
+        b=Wq/39tSfgTet3ccRn4yF+YIKFSZgenKd4gLwHGddPlCX3jfUPODRNQqTFJf7ydjGsV
+         Smrv3GzCVemLt50jnAqo8I4ytyE/UJjRK1uqm56MJGea7H70yuj2TJ9Fjjj+eGqWau44
+         RS3/mKN2aeMUrJDp3GX5/F7LBTHM+C+p+b2Ic=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727432213; x=1728037013;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CwCiuRYsk936wm4u/HVOckfXG1k6CXzT+Xy0kwjFKfs=;
+        b=WpoIfe+OdjJEcNr5EJtJqc/C830lS1k7HqvT6TUCjEJThsf2uKVCl6+DWky6NoN5aD
+         JehkIdMRrFl2WFOvNifmiqqTU7yi2hKW305+bQTuAKQBySLp7WocXX/FiMckzOU9WYXS
+         Ste3cx/gUHW5Qkq2Gh9ZhkjVp+aiU7bISTegFgGKoabSdS57enR9iIh8dsR8QjH8+coy
+         XBhWJkBapCBJzE3RFrLy64fPY4PY6TJaz9sj7f75XBSPvjr8tMAf1GIJ7zLgBw7igRDd
+         DXZZeyCnGKFqG2TdntyOH0O6j7VuxvafR6KVF9Ewak6wItq9dK+DKaHsa6gkB32OVn4D
+         mNSw==
+X-Forwarded-Encrypted: i=1; AJvYcCXwAs3c6Jw6GvqnZ6KAIkepydXInlg1Y9h2/AyHpi9TiHLOzhR+RhrEBUQw44ewrTCGAPlUbmgbr0YqVg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAGAoO+993fxkYkDMD+VmghUjObFmzfxY17X8cAvwD4plEGGzA
+	jD4fCR4eMa7Ao9a7WtDEeFcTD+znOoWCs2LdUcMq/IjrK8nBCIBAgMPjUshNII+4cPn9X96NKxA
+	=
+X-Google-Smtp-Source: AGHT+IH8nw7/kHDHRWDr40wr07hg4gehZKr6LvBGRqGgYJYQhLj6uZ7qB97YqeuQOtaos6ALqUKafQ==
+X-Received: by 2002:a17:902:db02:b0:20b:272:924d with SMTP id d9443c01a7336-20b3776d97bmr45480005ad.36.1727432212859;
+        Fri, 27 Sep 2024 03:16:52 -0700 (PDT)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com. [209.85.215.171])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e0f881sm10991535ad.159.2024.09.27.03.16.51
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Sep 2024 03:16:51 -0700 (PDT)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7db908c9c83so1223345a12.2
+        for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 03:16:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW2Z9YayikM35Uu78khwDpcOIYt5b3ezweZrkdzi5+khHwZDyFdxwUp4wJ4eEdK8tPfbgeMgkJWObuujA==@vger.kernel.org
+X-Received: by 2002:a17:90a:ba95:b0:2e0:b6f5:1884 with SMTP id
+ 98e67ed59e1d1-2e0b7b83739mr3267623a91.0.1727432210480; Fri, 27 Sep 2024
+ 03:16:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927-cocci-6-12-v2-3-1c6ad931959b@chromium.org>
+References: <20240927-cocci-6-12-v2-0-1c6ad931959b@chromium.org>
+ <20240927-cocci-6-12-v2-1-1c6ad931959b@chromium.org> <CAHp75VeGAzU1BT5bE0BrVj4MR=TR2KEzjwhoFUnN5Q=fUanJZg@mail.gmail.com>
+In-Reply-To: <CAHp75VeGAzU1BT5bE0BrVj4MR=TR2KEzjwhoFUnN5Q=fUanJZg@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 27 Sep 2024 12:16:34 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvF4g7H77Tuy=YUfCG5xYxcb8R8oTsvCjSt65zPAsepog@mail.gmail.com>
+Message-ID: <CANiDSCvF4g7H77Tuy=YUfCG5xYxcb8R8oTsvCjSt65zPAsepog@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] media: ti: cal: Use str_up_down()
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Benoit Parrot <bparrot@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy@kernel.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The commit message doesn't make sense.  Please, wait for a day before resending
-patches.  There is no rush.
+Hi Andy
 
-regards,
-dan carpenter
+On Fri, 27 Sept 2024 at 12:10, Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Fri, Sep 27, 2024 at 1:02=E2=80=AFPM Ricardo Ribalda <ribalda@chromium=
+.org> wrote:
+> >
+> > The str_up_down() helper simplifies the code and fixes the following co=
+cci
+> > warning:
+> >
+> > drivers/media/platform/ti/cal/cal-camerarx.c:194:3-9: opportunity for s=
+tr_up_down(enable)
+>
+> ...
+>
+> >         if (i =3D=3D 10)
+> >                 phy_err(phy, "Failed to power %s complexio\n",
+> > -                       enable ? "up" : "down");
+> > +                       str_up_down(enable);
+>
+> You never tested this, do not bother to send untested material, please!
 
+Do you mean tested in real hardware or compile test it?
+
+I did test it:
+https://gitlab.freedesktop.org/linux-media/users/ribalda/-/commits/test-new=
+linus
+
+But obviously we are not building that file :S. Let me figure out why
+did this happened
+
+Sorry for the noise
+
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+
+
+
+--=20
+Ricardo Ribalda
 
