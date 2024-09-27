@@ -1,325 +1,174 @@
-Return-Path: <linux-media+bounces-18702-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18703-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54FBE988797
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 16:53:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46906988851
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 17:32:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 774581C2282F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 14:53:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B14A41F21C66
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 15:32:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59C471C1723;
-	Fri, 27 Sep 2024 14:53:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D75831C0DFD;
+	Fri, 27 Sep 2024 15:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="dDhAxQ5K"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nGSTpYpA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C733E101F2;
-	Fri, 27 Sep 2024 14:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727448819; cv=pass; b=I22NaredpBtXgunUe2lU8hBNN8U3XTj2wk9n3f62wTyLh9Rpbd2qzrNQKvIG38iLbSXlxRH9hc1V6I5rqNR7TI61+ZJUGfsAVGQetnD/wZ5abcpjkDl/eGOxTGX6sqg+cVCdFYPoNduyrKSioEJ/EHc8+jrXpbF6W/3SNjTL6hU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727448819; c=relaxed/simple;
-	bh=fnc+b+/OVaedreBulviypeEcdYrkzohxEfCHDYZwc7E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GNtvCEeUfvbwJs/FpKrCLLvI+s050x9XLVVzUBKBo98J0gVFlzHnmSMG7T2dMAgUxUR+03o2qkMfb6MtKG4qNuzgbjcrMJsUHsFdMWVIYpR0VhWKhYXoEz2uJMHT1DpskXd9HULFC6cz51lfd0tJlh/69bL11hPkYc8+rerB+C0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=dDhAxQ5K; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1727448797; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YeV4skKts/uC7qsGNAueSjntVW7a1zOn89cSj9HDiyW89bmLoPDYqCVOJ7HeMuNa0zdmgbJbH4EpWs/AtmFcpC7KrT0VbNAJPN/tiyQO+yi+t6qF1HSXJ+sez6evfzhWbU4xFBx9un+Q+6zM20Wp36JuDtLSKXLZtAEG/EF+9gg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1727448797; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=7vdr0FHgb01Q/8JXQyzZImJX7vsMYZPFwkh+dtRKbkk=; 
-	b=jhW4BfhA7qkfjQuHbTQu6oVVuecVy2x5isyi6UuO21SIsZbqHSwdGm7JuMWgYujJFqZukrc63M6F0zV+YCxeZNyS30eGxoExfqoSDcABb6M7LfbQ5yZ5BPqbtXdmwWhsRCNZpQIFR01Kmcp+8AY2CFx6DatQ3TBSnVc3Dx+/u90=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727448797;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=7vdr0FHgb01Q/8JXQyzZImJX7vsMYZPFwkh+dtRKbkk=;
-	b=dDhAxQ5KLZkuOClA25gKC6dLvHH5uqEFWm/IKzn2xn1HswhW4qn+vojdF7dVHfeB
-	f/iJYRB85ss0KJi5BPuXo/fPYCQZMrNK1GGXvu0iJjwqIluiN08+hbMQeUbd+merkqY
-	UieOTULoQRcDMJ37yHTulIXlWAO2zVzNYtYnwqIk=
-Received: by mx.zohomail.com with SMTPS id 1727448795031200.9673622331943;
-	Fri, 27 Sep 2024 07:53:15 -0700 (PDT)
-Date: Fri, 27 Sep 2024 15:53:10 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	kernel@collabora.com, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
- accounting
-Message-ID: <gxtbgvg6dihcbcwm7sihnfl7cqnfx72ekr7mgvgykeukpltwak@b3pdwok2n5p6>
-References: <5c4d1008-261f-4c47-ab73-c527675484a4@arm.com>
- <bq6lctwgpsxvrdaajmjo3xdjt32srmsxvjhtzyebdj6izjzoaw@6duby4axg3pf>
- <ef799587-f7c2-472a-8550-9c40a395eccb@arm.com>
- <jgdknf77n6vqanh4jv2yixe4n4hsbhqqhth4beued4topggwgz@wx7bumhrbpje>
- <033f8885-9c0e-4c5a-a272-baf48807dc5d@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3B174BED;
+	Fri, 27 Sep 2024 15:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727451120; cv=none; b=BuLCxrZ3Em8X8j69LHJyhCOljRZPZGNO8SwFX9OrKRQrOMDh9raMn2kqrI4BCsWC1tSgaI2MYnYP6qEbyJOHcLK6iQkAp426WXCQI7cyKfoUjZdxQlx8ue0+2O9DRW/G7CZvLpxA0uzx6RV9T9IeUnUDQikwJmkXAxnHeSa32Q0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727451120; c=relaxed/simple;
+	bh=ecsRbGoKvi94m683sBbOe5u+7jAt/EOz4MF3SLQZLRs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PHymMlTlARExjT1BzLeTJsat9F1uPNDoORPFurosfbMTxcsdyNfQDMNRv5wvOXUbQFgDrvf93Lbib+Yn9v+7lFcIeCNUNl1m04CpRLQ8SmaEBWL/SUIoAUChpa/JSN3fssib3SwDNozUYE3rlUoV8vr56KErXchOXLIRc+SJweA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nGSTpYpA; arc=none smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5d5eec95a74so1092758eaf.1;
+        Fri, 27 Sep 2024 08:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727451118; x=1728055918; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=usbGndAEP6RKj6SG8WhrwCRKqwPvgi09AD1FuzxTCC8=;
+        b=nGSTpYpA1odliLMKUvHOtHshO/k9RzygWzJtp5H2C+BUDCwaBlClBUcfM1Ly/4am4W
+         1dZ0yKlmNilEhBEBXqhpWSKW7WLWFFIGeuEJCA31C5lMf8C0EGx1KYtBlDwfDAr+nbpF
+         nPLBfUStyutu3km6cl0RmeuuHD8YqdDkKjTzTKNN3fT1tCEByVcPJbjYfTbo5ZB1VKBy
+         Td9aGsR2rDl1EBwbQKLNxe8iqGWPaYSzfVJHgbh47hPL20Z747VbgXaflYi46y07z9BT
+         i154cSyCkvpZKfl0qM+FU9uxupdpAH0WNeNZ/h+yA2Y6ojHHt+dq8qVQZXdQtaE/WzLe
+         yVuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727451118; x=1728055918;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=usbGndAEP6RKj6SG8WhrwCRKqwPvgi09AD1FuzxTCC8=;
+        b=meIh2f1s6bNkk6f0zikvJ2o4nA5fY162rUur275V1zeUN2SP5mDSSmOeGkM6A392bY
+         C1Jyz0jqyTeNFX1yCU7EKQ/3GVR8zIu2ngKlmzbl2b7aoHsEDQe5zpIggtPDR7URK+9d
+         N8nCpYXPvmusDEHvnehtz6ilsMB2beclf3CP32iBQw7vkKt5MSLE8xM1ziUgO47kl5p6
+         3cWT+eKReGligMRoamkNcbPMfAEnfvtTE06JjHvbzczNt5ZgLzMDHL9ERs3C0lmBs644
+         +hDEfkLZWekTeYJYfM9ccdPvfa1HnqOmf+HTXBVxPUui1KOgFh8fP4jh/Asq2XdNJxDy
+         aOyg==
+X-Forwarded-Encrypted: i=1; AJvYcCUTNGXvoP8RHP/ewpVN1oLsFbQqkd84aiOoojs2INsQqHnsR7vKGV/11aANGQoaGDbqAvPCups73UN7olY=@vger.kernel.org, AJvYcCXc8mtD0xsnyATTyZaG8Z1ig0Pxdb9ZJeTVdccaCLbyt4mzyyMP9tVkHadaAmKJxEMSqgKacr2BnFft610=@vger.kernel.org, AJvYcCXqTfvCZiyObFlt+rRcGISeXws6RqWfnLmNMK02BweN6Wp+5srHQBqMtv55adQz26lHrWEZUzrIGnO8KRHtM1jDp9U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/0qMOro/fMS64peAUe3nPdB9Nmkfh7vR6hFIpMDixLdVJmqxT
+	T+WZvboKiRCUjgqlgyMD9YfXmsFJaaRJxzQdFNZuM9bGUPCDZGzbBQdRjnqIPSzwtO+RQwSj4io
+	QvkXYA7uk2BNs1Ukokc8J9kZNAJc=
+X-Google-Smtp-Source: AGHT+IF4JspM/zMBLkoNZehhJMPEmtTkj8/Ez0HqBPtRzJrG7epkmEQIYm8UrvsTuDdZxqRg4sw4VNQOBVlqUn6pffw=
+X-Received: by 2002:a05:6358:99aa:b0:1b5:f74e:ae3a with SMTP id
+ e5c5f4694b2df-1becbbb8890mr235276755d.15.1727451117751; Fri, 27 Sep 2024
+ 08:31:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <033f8885-9c0e-4c5a-a272-baf48807dc5d@arm.com>
+References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240910170610.226189-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <ZvWBlivUaZ92KoAI@kekkonen.localdomain> <20240926174819.GK21788@pendragon.ideasonboard.com>
+ <ZvWumaGsMPGGwPaS@kekkonen.localdomain>
+In-Reply-To: <ZvWumaGsMPGGwPaS@kekkonen.localdomain>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 27 Sep 2024 16:31:31 +0100
+Message-ID: <CA+V-a8uGmyrSQQULY9sS9r-Ss_Gxw7OBtbYjFYOMpLJ_e=ZRGg@mail.gmail.com>
+Subject: Re: [PATCH v2 11/11] media: i2c: ov5645: Report streams using frame descriptors
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 25.09.2024 10:56, Steven Price wrote:
->On 23/09/2024 21:43, Adrián Larumbe wrote:
->> Hi Steve,
->> 
->> On 23.09.2024 09:55, Steven Price wrote:
->>> On 20/09/2024 23:36, Adrián Larumbe wrote:
->>>> Hi Steve, thanks for the review.
->>>
->>> Hi Adrián,
->>>
->>>> I've applied all of your suggestions for the next patch series revision, so I'll
->>>> only be answering to your question about the calc_profiling_ringbuf_num_slots
->>>> function further down below.
->>>>
->>>
->>> [...]
->>>
->>>>>> @@ -3003,6 +3190,34 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
->>>>>>  	.free_job = queue_free_job,
->>>>>>  };
->>>>>>  
->>>>>> +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
->>>>>> +				       u32 cs_ringbuf_size)
->>>>>> +{
->>>>>> +	u32 min_profiled_job_instrs = U32_MAX;
->>>>>> +	u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
->>>>>> +
->>>>>> +	/*
->>>>>> +	 * We want to calculate the minimum size of a profiled job's CS,
->>>>>> +	 * because since they need additional instructions for the sampling
->>>>>> +	 * of performance metrics, they might take up further slots in
->>>>>> +	 * the queue's ringbuffer. This means we might not need as many job
->>>>>> +	 * slots for keeping track of their profiling information. What we
->>>>>> +	 * need is the maximum number of slots we should allocate to this end,
->>>>>> +	 * which matches the maximum number of profiled jobs we can place
->>>>>> +	 * simultaneously in the queue's ring buffer.
->>>>>> +	 * That has to be calculated separately for every single job profiling
->>>>>> +	 * flag, but not in the case job profiling is disabled, since unprofiled
->>>>>> +	 * jobs don't need to keep track of this at all.
->>>>>> +	 */
->>>>>> +	for (u32 i = 0; i < last_flag; i++) {
->>>>>> +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
->>>>>> +			min_profiled_job_instrs =
->>>>>> +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
->>>>>> +	}
->>>>>> +
->>>>>> +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
->>>>>> +}
->>>>>
->>>>> I may be missing something, but is there a situation where this is
->>>>> different to calc_job_credits(0)? AFAICT the infrastructure you've added
->>>>> can only add extra instructions to the no-flags case - whereas this
->>>>> implies you're thinking that instructions may also be removed (or replaced).
->>>>>
->>>>> Steve
->>>>
->>>> Since we create a separate kernel BO to hold the profiling information slot, we
->>>> need one that would be able to accomodate as many slots as the maximum number of
->>>> profiled jobs we can insert simultaneously into the queue's ring buffer. Because
->>>> profiled jobs always take more instructions than unprofiled ones, then we would
->>>> usually need fewer slots than the number of unprofiled jobs we could insert at
->>>> once in the ring buffer.
->>>>
->>>> Because we represent profiling metrics with a bit mask, then we need to test the
->>>> size of the CS for every single metric enabled in isolation, since enabling more
->>>> than one will always mean a bigger CS, and therefore fewer jobs tracked at once
->>>> in the queue's ring buffer.
->>>>
->>>> In our case, calling calc_job_credits(0) would simply tell us the number of
->>>> instructions we need for a normal job with no profiled features enabled, which
->>>> would always requiere less instructions than profiled ones, and therefore more
->>>> slots in the profiling info kernel BO. But we don't need to keep track of
->>>> profiling numbers for unprofiled jobs, so there's no point in calculating this
->>>> number.
->>>>
->>>> At first I was simply allocating a profiling info kernel BO as big as the number
->>>> of simultaneous unprofiled job slots in the ring queue, but Boris pointed out
->>>> that since queue ringbuffers can be as big as 2GiB, a lot of this memory would
->>>> be wasted, since profiled jobs always require more slots because they hold more
->>>> instructions, so fewer profiling slots in said kernel BO.
->>>>
->>>> The value of this approach will eventually manifest if we decided to keep track of
->>>> more profiling metrics, since this code won't have to change at all, other than
->>>> adding new profiling flags in the panthor_device_profiling_flags enum.
->>>
->>> Thanks for the detailed explanation. I think what I was missing is that
->>> the loop is checking each bit flag independently and *not* checking
->>> calc_job_credits(0).
->>>
->>> The check for (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL) is probably what
->>> confused me - that should be completely redundant. Or at least we need
->>> something more intelligent if we have profiling bits which are not
->>> mutually compatible.
->> 
->> I thought of an alternative that would only test bits that are actually part of
->> the mask:
->> 
->> static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
->> 				       u32 cs_ringbuf_size)
->> {
->> 	u32 min_profiled_job_instrs = U32_MAX;
->> 	u32 profiling_mask = PANTHOR_DEVICE_PROFILING_ALL;
->> 
->> 	while (profiling_mask) {
->> 		u32 i = ffs(profiling_mask) - 1;
->> 		profiling_mask &= ~BIT(i);
->> 		min_profiled_job_instrs =
->> 			min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
->> 	}
->> 
->> 	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
->> }
->> 
->> However, I don't think this would be more efficient, because ffs() is probably
->> fetching the first set bit by performing register shifts, and I guess this would
->> take somewhat longer than iterating over every single bit from the last one,
->> even if also matching them against the whole mask, just in case in future
->> additions of performance metrics we decide to leave some of the lower
->> significance bits untouched.
->
->Efficiency isn't very important here - we're not on a fast path, so it's
->more about ensuring the code is readable. I don't think the above is
->more readable then the original for loop.
->
->> Regarding your question about mutual compatibility, I don't think that is an
->> issue here, because we're testing bits in isolation. If in the future we find
->> out that some of the values we're profiling cannot be sampled at once, we can
->> add that logic to the sysfs knob handler, to make sure UM cannot set forbidden
->> profiling masks.
->
->My comment about compatibility is because in the original above you were
->calculating the top bit of PANTHOR_DEVICE_PROFILING_ALL:
->
->> u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
->
->then looping between 0 and that bit:
->
->> for (u32 i = 0; i < last_flag; i++) {
->
->So the test:
->
->> if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
->
->would only fail if PANTHOR_DEVICE_PROFILING_ALL had gaps in the bits
->that it set. The only reason I can think for that to be true in the
->future is if there is some sort of incompatibility - e.g. maybe there's
->an old and new way of doing some form of profiling with the old way
->being kept for backwards compatibility. But I suspect if/when that is
->required we'll need to revisit this function anyway. So that 'if'
->statement seems completely redundant (it's trivially always true).
+Hi Sakari and Laurent,
 
-I think you're right about this. Would you be fine with the rest of the patch
-as it is in revision 8 if I also deleted this bitmask check?
-
->Steve
+On Thu, Sep 26, 2024 at 7:57=E2=80=AFPM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
 >
->>> I'm also not entirely sure that the amount of RAM saved is significant,
->>> but you've already written the code so we might as well have the saving ;)
->> 
->> I think this was more evident before Boris suggested we reduce the basic slot
->> size to that of a single cache line, because then the minimum profiled job
->> might've taken twice as many ringbuffer slots as a nonprofiled one. In that
->> case, we would need a half as big BO for holding the sampled data (in case the
->> least size profiled job CS would extend over the 16 instruction boundary).
->> I still think this is a good idea so that in the future we don't need to worry
->> about adjusting the code that deals with preparing the right boilerplate CS,
->> since it'll only be a matter of adding new instructions inside prepare_job_instrs().
->> 
->>> Thanks,
->>> Steve
->>>
->>>> Regards,
->>>> Adrian
->>>>
->>>>>> +
->>>>>>  static struct panthor_queue *
->>>>>>  group_create_queue(struct panthor_group *group,
->>>>>>  		   const struct drm_panthor_queue_create *args)
->>>>>> @@ -3056,9 +3271,35 @@ group_create_queue(struct panthor_group *group,
->>>>>>  		goto err_free_queue;
->>>>>>  	}
->>>>>>  
->>>>>> +	queue->profiling.slot_count =
->>>>>> +		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
->>>>>> +
->>>>>> +	queue->profiling.slots =
->>>>>> +		panthor_kernel_bo_create(group->ptdev, group->vm,
->>>>>> +					 queue->profiling.slot_count *
->>>>>> +					 sizeof(struct panthor_job_profiling_data),
->>>>>> +					 DRM_PANTHOR_BO_NO_MMAP,
->>>>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->>>>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
->>>>>> +					 PANTHOR_VM_KERNEL_AUTO_VA);
->>>>>> +
->>>>>> +	if (IS_ERR(queue->profiling.slots)) {
->>>>>> +		ret = PTR_ERR(queue->profiling.slots);
->>>>>> +		goto err_free_queue;
->>>>>> +	}
->>>>>> +
->>>>>> +	ret = panthor_kernel_bo_vmap(queue->profiling.slots);
->>>>>> +	if (ret)
->>>>>> +		goto err_free_queue;
->>>>>> +
->>>>>> +	/*
->>>>>> +	 * Credit limit argument tells us the total number of instructions
->>>>>> +	 * across all CS slots in the ringbuffer, with some jobs requiring
->>>>>> +	 * twice as many as others, depending on their profiling status.
->>>>>> +	 */
->>>>>>  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
->>>>>>  			     group->ptdev->scheduler->wq, 1,
->>>>>> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
->>>>>> +			     args->ringbuf_size / sizeof(u64),
->>>>>>  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
->>>>>>  			     group->ptdev->reset.wq,
->>>>>>  			     NULL, "panthor-queue", group->ptdev->base.dev);
->>>>>> @@ -3354,6 +3595,7 @@ panthor_job_create(struct panthor_file *pfile,
->>>>>>  {
->>>>>>  	struct panthor_group_pool *gpool = pfile->groups;
->>>>>>  	struct panthor_job *job;
->>>>>> +	u32 credits;
->>>>>>  	int ret;
->>>>>>  
->>>>>>  	if (qsubmit->pad)
->>>>>> @@ -3407,9 +3649,16 @@ panthor_job_create(struct panthor_file *pfile,
->>>>>>  		}
->>>>>>  	}
->>>>>>  
->>>>>> +	job->profiling.mask = pfile->ptdev->profile_mask;
->>>>>> +	credits = calc_job_credits(job->profiling.mask);
->>>>>> +	if (credits == 0) {
->>>>>> +		ret = -EINVAL;
->>>>>> +		goto err_put_job;
->>>>>> +	}
->>>>>> +
->>>>>>  	ret = drm_sched_job_init(&job->base,
->>>>>>  				 &job->group->queues[job->queue_idx]->entity,
->>>>>> -				 1, job->group);
->>>>>> +				 credits, job->group);
->>>>>>  	if (ret)
->>>>>>  		goto err_put_job;
->>>>>>  
->>>>
+> On Thu, Sep 26, 2024 at 08:48:19PM +0300, Laurent Pinchart wrote:
+> > On Thu, Sep 26, 2024 at 03:45:26PM +0000, Sakari Ailus wrote:
+> > > Hi Prabhakar,
+> > >
+> > > Thanks for the set. It looks largely very nice to me, after addressin=
+g
+> > > Laurent's comments. A few comments here and possibly on other patches=
+...
+> > >
+> > > On Tue, Sep 10, 2024 at 06:06:10PM +0100, Prabhakar wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Implement the .get_frame_desc() subdev operation to report informat=
+ion
+> > > > about streams to the connected CSI-2 receiver. This is required to =
+let
+> > > > the CSI-2 receiver driver know about virtual channels and data type=
+s for
+> > > > each stream.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
+> > > > ---
+> > > >  drivers/media/i2c/ov5645.c | 28 ++++++++++++++++++++++++++++
+> > > >  1 file changed, 28 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.=
+c
+> > > > index 7f1133292ffc..c24eb6e7a7b5 100644
+> > > > --- a/drivers/media/i2c/ov5645.c
+> > > > +++ b/drivers/media/i2c/ov5645.c
+> > > > @@ -28,6 +28,7 @@
+> > > >  #include <linux/regulator/consumer.h>
+> > > >  #include <linux/slab.h>
+> > > >  #include <linux/types.h>
+> > > > +#include <media/mipi-csi2.h>
+> > > >  #include <media/v4l2-ctrls.h>
+> > > >  #include <media/v4l2-event.h>
+> > > >  #include <media/v4l2-fwnode.h>
+> > > > @@ -829,6 +830,32 @@ static const struct v4l2_ctrl_ops ov5645_ctrl_=
+ops =3D {
+> > > >   .s_ctrl =3D ov5645_s_ctrl,
+> > > >  };
+> > > >
+> > > > +static int ov5645_get_frame_desc(struct v4l2_subdev *sd, unsigned =
+int pad,
+> > > > +                          struct v4l2_mbus_frame_desc *fd)
+> > > > +{
+> > > > + const struct v4l2_mbus_framefmt *fmt;
+> > > > + struct v4l2_subdev_state *state;
+> > > > +
+> > > > + if (pad !=3D OV5645_PAD_SOURCE)
+> > > > +         return -EINVAL;
+> > >
+> > > As you have a single source pad, and pretty much all sensor drivers w=
+ill, I
+> > > think it'd be nice to add a check for this (that it's not an internal=
+ pad)
+> > > to the caller side in v4l2-subdev.c. And of course drop this one.
+> >
+> > What check would you add, just verifying that the pad is a source pad ?
+>
+> I think you could add that, too, besides the absence of the internal flag=
+.
+>
+Checking only for the source flag should suffice, as the
+MEDIA_PAD_FL_INTERNAL flag cannot be set for a source pad because
+media_entity_pads_init() enforces this restriction.
+
+Do you agree?
+
+Cheers,
+Prabhakar
 
