@@ -1,230 +1,279 @@
-Return-Path: <linux-media+bounces-18670-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18671-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A6F987F60
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 09:25:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F05A987FF6
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 10:04:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 78D2F1C22D6F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 07:25:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 279761C21AAF
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 08:04:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03518188A23;
-	Fri, 27 Sep 2024 07:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DEC6189914;
+	Fri, 27 Sep 2024 08:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="gaDy027M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2047.outbound.protection.outlook.com [40.107.104.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0696817E000;
-	Fri, 27 Sep 2024 07:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727421920; cv=none; b=qI5r2a0760hkdBh241KOMtcemb40mD1smGJ7iz28VRFBEoI0KoW6tUPphW72rQxBdv6Ya0khzl/Br3SaOJNnvWa+ky2cmPj05aTXr5SUscOj/XykA/IvpqvOFhPqJOVnFe1o+15NTvliLneugjbsnmtnlr3WleV3LKD0946PLo0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727421920; c=relaxed/simple;
-	bh=qo3Cd6DVpmzQMbTciJkAYSD2fPKJTcdbunRKS19+MAg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=AjjdXxk+C1hfxz+Kpeg9mOJCBqflzNRZ6voPFoF+xLYpGgQkDyTh0jxBbDgYjE9pYJgjHjBxZOtBF8IPXnhsyBvUppeKPEP4IqDYoloPHl6ViuKLcqksgZWzphHGqYhH/gYyPMaxApww7T3nS91hvwGmj/iDa6i18K/yH3Cjw8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.17])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4XFMMk1vKlz1HKGY;
-	Fri, 27 Sep 2024 15:21:22 +0800 (CST)
-Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id C25E81A0188;
-	Fri, 27 Sep 2024 15:25:14 +0800 (CST)
-Received: from [10.67.120.129] (10.67.120.129) by
- dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 27 Sep 2024 15:25:14 +0800
-Message-ID: <2a495d47-f1ca-42ee-a23d-736d4cd47880@huawei.com>
-Date: Fri, 27 Sep 2024 15:25:14 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731A21898F1;
+	Fri, 27 Sep 2024 08:04:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727424276; cv=fail; b=sovXiIZC3Updpd5iihWW4DSXpG/u1j54r+mAfREov+i2Q+qhEdZPyLGLwd3/n0hZFyR5i49XUKgEsuHJyXgJast/aA9e+HVJZT8aVPVhhsc8MvoUfx6tDn5dvDLUZ8Z45reSK/ijTjPOHb2ZgrrsVAVJaBzgdo/y2CxRc/nAxUE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727424276; c=relaxed/simple;
+	bh=E1PGbLfsyU+w5SMSraLV2u5ukCUH7mGSeXf82TQCvqI=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=mV0X91DfIO4HIMLzVAGUt3f+lYlOOXIT6YaApr2wBSZ3RlC+Cw+qcZUf398Bg4j5TRXXxlXRuZWpD30awLVTgWDNQrAbch1dj0dCoUnt5Gch9mNT/EaLwMBDHxcIK/PtzMsqMQGYJMTWciRojI5R1U8S+csNleJw0ri0aA7rGds=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=gaDy027M; arc=fail smtp.client-ip=40.107.104.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aozN5IMCXF2a6vyItuJnUKBL4ByBgEUpYao2idweqEqVVBsfaKUmvvkis+WGS4isOZrcSN/bstcQ9SRCIpaotzZOi58yPJCS45HjWX79N+IcVuNOGmeLnvv8J535gnceMyFlydq0m4hqfXraflN8tR3HZgS67OT1/eEt+ZXlakyD4HhqBNsD9PJHcCoQiAQWkeLqKVbUMC8ZRNUe9p289h8K2BDaZByWeqzKN7eiXLnxk1eEF6gAEPFxDfboEH41AphSBen1mhu+mjtQK4NmW9AY43mT71wlidvX6kVIX/T9g6aFGbO3OQCHeulRmOjGsdiPS7mGUG/CENz6l5hU5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1a9Q7q0Ddd1jDlCkAJ5oFa6bcAu9/xMd6pSl2NflMUI=;
+ b=dBcH1LsQRvBXyfEC3KJt1pv6ajNRLXBVtDM4khM6fbGM99Wn8qB+V6JF8fPCLVSHnNybSCPEAatrUCdXM0ufRGCShVS7OtQyUZtP0cgXPxLp0HuHxKbtiZ4t2pIB2sqIlzi4iyEH8kSltL+2H3VdY+x6qtGVO2opQjNdR+AFhbWX//3km62O72fty0vIQCTx5RKyLF3CW+lhXaW0jwzT0I5jdH7g1bUNdu/2w3DwOq7/Q570Kk5kEjwlnaIhCjDKG0RH7Tj1R3NrM6Wy2pUyE9LuSQTkV71i36DHoipB2+AgcIn/7L5js79VJzrLYiSbO0D2+fDnb1wqS2rqkSk5Og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1a9Q7q0Ddd1jDlCkAJ5oFa6bcAu9/xMd6pSl2NflMUI=;
+ b=gaDy027MkBxDsDAjaHs36DfWq28JbS7ZOAn4C/bdlceHyA/aeo1Aogpd5/X+fy775BSa5LBZG/hab60iHXnIXIdbrtyqnFCOu8juy+ULC/ctjgHpzy6LhyWQefmN+V90v6K7XhkvpD/2ZrI4D4LBCtHW8I+ZgeK3lW+HyQitLMPUh87f2Opus2vvakTgtd/EoDif1hqQ1NSCiBb9Ss01eg2o4d54FylpxmQOtCwOKjoEJagbOfaxfjaFpBxIA1Af3mVoAMt+se1cltR155aNdVA7k/JSOMZxfutfV1DiZuvQ/vMU3Pp0PG3oD3p5eezMi1upRsSLCysyza+t2aWjXg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
+ by AM8PR04MB7809.eurprd04.prod.outlook.com (2603:10a6:20b:242::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.20; Fri, 27 Sep
+ 2024 08:04:30 +0000
+Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
+ ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
+ ([fe80::9cf2:8eae:c3d1:2f30%7]) with mapi id 15.20.8005.020; Fri, 27 Sep 2024
+ 08:04:30 +0000
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Stefan Riedmueller <s.riedmueller@phytec.de>,
+	Guoniu Zhou <guoniu.zhou@nxp.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Christian Hemp <c.hemp@phytec.de>
+Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	linux-media@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: nxp: imx8-isi: better handle the m2m usage_count
+Date: Fri, 27 Sep 2024 11:04:20 +0300
+Message-Id: <20240927080420.3867806-1-laurentiu.palcu@oss.nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS4P250CA0024.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5e3::17) To AS4PR04MB9576.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4fe::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2 2/2] page_pool: fix IOMMU crash when driver has
- already unbound
-To: Mina Almasry <almasrymina@google.com>
-CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<liuyonglong@huawei.com>, <fanghaiqing@huawei.com>, <zhangkun09@huawei.com>,
-	Robin Murphy <robin.murphy@arm.com>, Alexander Duyck
-	<alexander.duyck@gmail.com>, IOMMU <iommu@lists.linux.dev>, Wei Fang
-	<wei.fang@nxp.com>, Shenwei Wang <shenwei.wang@nxp.com>, Clark Wang
-	<xiaoning.wang@nxp.com>, Eric Dumazet <edumazet@google.com>, Tony Nguyen
-	<anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Alexei Starovoitov
-	<ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard
- Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, Saeed
- Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq Toukan
-	<tariqt@nvidia.com>, Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi
-	<lorenzo@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>, Shayne Chen
-	<shayne.chen@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, Kalle Valo
-	<kvalo@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andrew
- Morton <akpm@linux-foundation.org>, Ilias Apalodimas
-	<ilias.apalodimas@linaro.org>, <imx@lists.linux.dev>,
-	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<intel-wired-lan@lists.osuosl.org>, <bpf@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-mm@kvack.org>, Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<linaro-mm-sig@lists.linaro.org>
-References: <20240925075707.3970187-1-linyunsheng@huawei.com>
- <20240925075707.3970187-3-linyunsheng@huawei.com>
- <CAHS8izOxugzWJDTc-4CWqaKABTj=J4OHs=Lcb=SE9r8gX0J+yg@mail.gmail.com>
- <842c8cc6-f716-437a-bc98-70bc26d6fd38@huawei.com>
- <CAHS8izN-3Ooiexsr+Xp2234=GqMUy0sTTMqExKVkXAgmjeWQ6w@mail.gmail.com>
-Content-Language: en-US
-From: Yunsheng Lin <linyunsheng@huawei.com>
-In-Reply-To: <CAHS8izN-3Ooiexsr+Xp2234=GqMUy0sTTMqExKVkXAgmjeWQ6w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemf200006.china.huawei.com (7.185.36.61)
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|AM8PR04MB7809:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7033f3fe-445c-40af-c965-08dcdecb03ee
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?bhqTBkke2jEhvp1IRkSOl/YVEmf358sWh4l9Yzm9pK744qzcrCj5lOMzv5s3?=
+ =?us-ascii?Q?XrIXqZlMtTCcufPHYxXihoY0/icILB6d0i47C36kICcK0UrS7Jsjw4Rs2BB9?=
+ =?us-ascii?Q?z7h6yHn7WL9rHSSIGoVnT+WQJEMqpZT+vL1UEoQGE06hASaehPvPuD/NMjv5?=
+ =?us-ascii?Q?qamW6v7PRVOUMieswad3R9V8akhG7c5HfmRsQZqGSVp+jg0jXRL7b3Sp+P0V?=
+ =?us-ascii?Q?K8sgSgTiWcH8I1ZVWWokJQx/eXYfnwSSWquUPK8jO+M89IH1qfjVm4YfpzTg?=
+ =?us-ascii?Q?d/F5iM758F/ZU2/38LoOn+URw59vMiNCZeTZ2/MbePEGk5UVrGjCvngtQmvD?=
+ =?us-ascii?Q?FhsM8rNzzFHXCvVJ9a0Ih6NGqcdbwtE1sva8Gihg2E+oEYIjBdNywdFSEcJ9?=
+ =?us-ascii?Q?PpsjCNHazKP3fZWX3GD8G6DYTA4h2vtb3lXFPjw7fKxTI1NEn1BQRU+ZFnMf?=
+ =?us-ascii?Q?KfNamkmOJURJegxzdxsVvzqq3UbpCXzV5nM5bXmnZ0fm+9k0MwxzkjYHdFyu?=
+ =?us-ascii?Q?H/HL0v7hOXgCx68tRHPC0/4YadTNfRwYPbHvK9Xke/dD9aDKMkyduDCkMUzZ?=
+ =?us-ascii?Q?7VbeJYbOFN9SHsVNXZbHnIDJWzBW2uwh0Gr+X8+mNYG2OR7/XKEcvsfshdkS?=
+ =?us-ascii?Q?4c+MDVgQa/5xpN+Jiue4AY2QSRULjPCeAkiuVc6NDUXJLRb2GoqFWti4zwek?=
+ =?us-ascii?Q?wV+ctCc+ICkY7plysW8nTflGlvhWAH7tLrfne5OcQdPU1+7Z8SHKvFXa1pjq?=
+ =?us-ascii?Q?IKonR0Jocue74bIpweS42NKCPqr2UoVQ8JUdMp7P2moMeL5f2DvDphKkCDPw?=
+ =?us-ascii?Q?Hg5gyK1fa/QbnFpGGyHm2VDa6f9mgN9vQ4TdtazPVQr3Punt/YCWwhz+xieo?=
+ =?us-ascii?Q?5v+8G5OAdm5yLCuwkboB1jcuto2X4Az6oW4hileL/EmUks4LVJTQ/iiitGLS?=
+ =?us-ascii?Q?EFr/vXq/VkNjQqiLxApL+7OXsi0m9Yoxsnt1VMFRmO2+uCGglskvmVonW8Sz?=
+ =?us-ascii?Q?W41GNxCPjB8QrvP1Sw21To094lyYIvgQGw4jK+T7ana6LtwCVSmHZNFBYgg2?=
+ =?us-ascii?Q?k6b36yvWOXIDypGeAKvreXNnw/QWhSVJj6yBoLFSY9xU+1TBX9i6T/2s81+a?=
+ =?us-ascii?Q?3+rYIhC7yKXmuJKre+dKZmiDJqc9p9FulHgrrD/lHssOR2en1wiAjGYouke6?=
+ =?us-ascii?Q?E69bSzxa+029H0lSexINCmoEvqLJ2VRDkXiHh8/bQoBL1+UC9iDm2FBMgRqs?=
+ =?us-ascii?Q?sRKaRkcZI9K9s0BHbIfFgroB5qYYtUEtb0MSh7PPb11MTdnSQCGrPckSFntu?=
+ =?us-ascii?Q?KnGrXEurV74t3n/dRziuWQ6STePeJ1gZym6V8bLWohr1Bn6bOx96AyHvCdXT?=
+ =?us-ascii?Q?6NVDW1dk9Q7cVk5ulyRypYiVzK8q?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?As39oaCawWtMJrBrAxSARlzqvWD8oN4dWwvOOwJOqlJwpb1nFGrio9Doz5GZ?=
+ =?us-ascii?Q?F0p6FPRD9zKgROnEGcSa4wMQ37ldh5G9hPy6+CCaErGzLJgWyvhJ24t+FYb3?=
+ =?us-ascii?Q?guKzWRKjttGKDxFD5hMPku+whOz2P0d3Qc0bHCK70+iz+3/seIuh5/o1k/gk?=
+ =?us-ascii?Q?pLAvbBJ4WCKOiJzcf26h1NVCfTivzx3TeIa6w5OFtzPQEnP52/1v8piv85Up?=
+ =?us-ascii?Q?HoYZiTQACzQJVMG455P9zZW8TIkcOnLmgV0q/vu3uLe2eSM9EB2jGE+jqD2G?=
+ =?us-ascii?Q?4jO1q2xL6zD0Cso1nofAo4C1c+et2XDosdnNoT5tqj+B2fLm6p0RFWrsarl1?=
+ =?us-ascii?Q?J4msD6DVrCuy1jHG1dhK0o90bFDmnJtqfhWzBbzpNI2IrXJfM21xr+uYQyLT?=
+ =?us-ascii?Q?toRl8e4+MGaxxlE+tyEjwHwHefGWYLQk2+WPmJXIDllR0y/aLckb4JvwcTRn?=
+ =?us-ascii?Q?n09GWtsvj0rAIsIwJYxD1zcIj/EVBC0nw78zXYqQSCF1rVOEVsbLtj9OUs5L?=
+ =?us-ascii?Q?jeN8qAQYPBEkkBjmClTcAq0fCRCao6KTqECXSFvGJjSG2+XoMmGHPx3BXyiu?=
+ =?us-ascii?Q?vjoB4LAzFLVTMV/zhpl08XfDjPfqAvHXKOsZkBWkqUs3DF96lhIEzDjrJd+P?=
+ =?us-ascii?Q?PMhBnAnS0o5VBwNyYFXb+BoAfbvdHPvPECzyxWfHTSTqTvSbGO2vj7QLu9m4?=
+ =?us-ascii?Q?f8yl6jQr2r92dimEkrcjR3F/jIOFdXg6u1cf9Ryi+RY3lUBJ0/Kv8YwPz9bQ?=
+ =?us-ascii?Q?3Er/D6KNiSIw6OwHcD2umAoqoN6wwXQntGPQJgsFHMVs9H9Yc+lhYjJGYkRd?=
+ =?us-ascii?Q?B19TV2T6TZEzWjdFFtNdxOX54ttFPlLDMpOdiAd8EZBKG97B2VqFHSa/V+6W?=
+ =?us-ascii?Q?5RUmUVU+yUfGbaLMrc3uaO8n4evCpPC00uXONimo9y22nfI1/UdHkU7RvwsL?=
+ =?us-ascii?Q?gH/Mfe2RcqpCmJaKqT3GlHKBzEyLm+xg+JHs+4Oop5nbBSDushqQzG0YL27L?=
+ =?us-ascii?Q?5yoo63zm7hHSal2MtgwSjvoZkPdY6g0FE6vD8rBiNyJFfPzferevcR4ZRFm9?=
+ =?us-ascii?Q?A+5SDyirXzxsJj1GiKV8G+A/Q7qws10NsuUCN1bUs4HWZwYZhGlDxMkVDYVG?=
+ =?us-ascii?Q?UHdOpkemX3RXpHsaO+YcSOAvTrgqAMiwpeiW74R62JaRV7K1Lmiz+53Pr91e?=
+ =?us-ascii?Q?mRDopEMwqGgEwZNmcTmMplnU5nQKYWURhT4Xc/gSApmxJB+xul87mHo1UvW7?=
+ =?us-ascii?Q?RhOUMoJkshD398XBZOJFakxQR6U1M7jbENbuUcUPLdWb9Ky7K0oGrRm01mDu?=
+ =?us-ascii?Q?S6eW9NuBG57iLBtCWzWQEmcQ1iF7kdyU8ZeN67KGECQqGRHpbyCWTTjkiLaK?=
+ =?us-ascii?Q?VfZ19g5agHxERgmYIc+iPnDpD/gc2QDc84jdj6NGQBIybwUuFvvlasn9OxYh?=
+ =?us-ascii?Q?i/TUKYeAK6z4sZaey6qu9kbQkSvOVVCjljBPZkVWBMVlJ76+iHws0V3PIRW/?=
+ =?us-ascii?Q?YWsmg6Looy+6elL9X0KmjDRsTWjDXjIHoQFdepCTkF+7tHmXJTsFuNTFixY7?=
+ =?us-ascii?Q?mo81nVAqgIcoyHAkOWb0ndtHPHBG7gsBgTzBtNC7xBT4u/B5VsB68IMoJNYK?=
+ =?us-ascii?Q?uw=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7033f3fe-445c-40af-c965-08dcdecb03ee
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2024 08:04:30.8500
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zrW2kOcLex8ULW4Q+u8iSzgHTISd10G4/OrFMgs0gUiQLZ07Sez0jVuXXDf1O2AVKQk3JrO6lEX0ILSY+Q0KRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7809
 
-adding Sumit & Christian & dma-buf maillist
+Currently, if streamon/streamoff calls are imbalanced we can either end up
+with a negative ISI m2m usage_count (if streamoff() is called more times
+than streamon()) in which case we'll not be able to restart the ISI pipe
+next time, or the usage_count never gets to 0 and the pipe is never
+switched off.
 
-On 2024/9/27 13:54, Mina Almasry wrote:
-> On Thu, Sep 26, 2024 at 8:58 PM Yunsheng Lin <linyunsheng@huawei.com> wrote:
->>
->> On 2024/9/27 2:15, Mina Almasry wrote:
->>>
->>>> In order not to do the dma unmmapping after driver has already
->>>> unbound and stall the unloading of the networking driver, add
->>>> the pool->items array to record all the pages including the ones
->>>> which are handed over to network stack, so the page_pool can
->>>> do the dma unmmapping for those pages when page_pool_destroy()
->>>> is called.
->>>
->>> One thing I could not understand from looking at the code: if the
->>> items array is in the struct page_pool, why do you need to modify the
->>> page_pool entry in the struct page and in the struct net_iov? I think
->>> the code could be made much simpler if you can remove these changes,
->>> and you wouldn't need to modify the public api of the page_pool.
->>
->> As mentioned in [1]:
->> "There is no space in 'struct page' to track the inflight pages, so
->> 'pp' in 'struct page' is renamed to 'pp_item' to enable the tracking
->> of inflight page"
->>
->> As we still need pp for "struct page_pool" for page_pool_put_page()
->> related API, the container_of() trick is used to get the pp from the
->> pp_item.
->>
->> As you had changed 'struct net_iov' to be mirroring the 'struct page',
->> so change 'struct net_iov' part accordingly.
->>
->> 1. https://lore.kernel.org/all/50a463d5-a5a1-422f-a4f7-d3587b12c265@huawei.com/
->>
-> 
-> I'm not sure we need the pages themselves to have the list of pages
-> that need to be dma unmapped on page_pool_destroy. The pool can have
-> the list of pages that need to be unmapped on page_pool_destroy, and
-> the individual pages need not track them, unless I'm missing
-> something.
+So, to avoid that, add an 'in_use' flag in the ctx structure that will
+keep track whether the output/capture queues have been started or not,
+and use it to avoid decrementing/incrementing the usage_count
+unnecessarily.
 
-It is about the pool having the list of pages that need to be unmapped.
-The point is that the list of pages that need to be unmapped is dynamic,
-it is not a static list:
-1. How to find a empty space in the list and add a page to the list?
-2. How to find a page in the list and delete it from the list?
-3. How to do the about two steps concurrently without obvious overhead?
+Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+---
+v2:
+ * Changed the way 'usage_count' is incremented/decremented by taking
+   into account the context the streamon/streamoff functions are called
+   from;
+ * Changed the commit message and subject to reflect the changes;
 
-I am not sure how it is possible to do the above without something like
-the 'pp_item' added in this patch? Even the lockless list in the
-include/linux/llist.h need a 'struct llist_node' for that to work.
-But if it is possible, please share the idea in your mind.
+ .../platform/nxp/imx8-isi/imx8-isi-m2m.c      | 24 +++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
-> 
->>>
->>>> As the pool->items need to be large enough to avoid
->>>> performance degradation, add a 'item_full' stat to indicate the
->>>> allocation failure due to unavailability of pool->items.
->>>>
->>>
->>> I'm not sure there is any way to size the pool->items array correctly.
->>
->> Currently the size of pool->items is calculated in page_pool_create_percpu()
->> as below, to make sure the size of pool->items is somewhat twice of the
->> size of pool->ring so that the number of page sitting in the driver's rx
->> ring waiting for the new packet is the similar to the number of page that is
->> still being handled in the network stack as most drivers seems to set the
->> pool->pool_size according to their rx ring size:
->>
->> +#define PAGE_POOL_MIN_INFLIGHT_ITEMS           512
->> +       unsigned int item_cnt = (params->pool_size ? : 1024) +
->> +                               PP_ALLOC_CACHE_SIZE + PAGE_POOL_MIN_INFLIGHT_ITEMS;
->> +       item_cnt = roundup_pow_of_two(item_cnt);
->>
-> 
-> I'm not sure it's OK to add a limitation to the page_pool that it can
-> only allocate N pages. At the moment, AFAIU, N is unlimited and it may
-> become a regression if we add a limitation.
+diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+index 9745d6219a166..3f06ae1349e53 100644
+--- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
++++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+@@ -65,6 +65,7 @@ struct mxc_isi_m2m_ctx {
+ 	} ctrls;
+ 
+ 	bool chained;
++	bool in_use[2];
+ };
+ 
+ static inline struct mxc_isi_m2m_buffer *
+@@ -491,6 +492,7 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
+ 	const struct mxc_isi_format_info *cap_info = ctx->queues.cap.info;
+ 	const struct mxc_isi_format_info *out_info = ctx->queues.out.info;
+ 	struct mxc_isi_m2m *m2m = ctx->m2m;
++	bool already_in_use;
+ 	bool bypass;
+ 
+ 	int ret;
+@@ -502,6 +504,8 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
+ 		goto unlock;
+ 	}
+ 
++	already_in_use = ctx->in_use[type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE];
++
+ 	bypass = cap_pix->width == out_pix->width &&
+ 		 cap_pix->height == out_pix->height &&
+ 		 cap_info->encoding == out_info->encoding;
+@@ -520,7 +524,10 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
+ 		mxc_isi_channel_get(m2m->pipe);
+ 	}
+ 
+-	m2m->usage_count++;
++	if (!already_in_use) {
++		m2m->usage_count++;
++		ctx->in_use[type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE] = true;
++	}
+ 
+ 	/*
+ 	 * Allocate resources for the channel, counting how many users require
+@@ -555,7 +562,12 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
+ 	ctx->chained = false;
+ 
+ deinit:
+-	if (--m2m->usage_count == 0) {
++	if (!already_in_use) {
++		m2m->usage_count--;
++		ctx->in_use[type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE] = false;
++	}
++
++	if (m2m->usage_count == 0) {
+ 		mxc_isi_channel_put(m2m->pipe);
+ 		mxc_isi_channel_release(m2m->pipe);
+ 	}
+@@ -575,6 +587,9 @@ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
+ 
+ 	mutex_lock(&m2m->lock);
+ 
++	if (!ctx->in_use[type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE])
++		goto unlock;
++
+ 	/*
+ 	 * If the last context is this one, reset it to make sure the device
+ 	 * will be reconfigured when streaming is restarted.
+@@ -587,6 +602,8 @@ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
+ 		mxc_isi_channel_unchain(m2m->pipe);
+ 	ctx->chained = false;
+ 
++	ctx->in_use[type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE] = false;
++
+ 	/* Turn off the light with the last user. */
+ 	if (--m2m->usage_count == 0) {
+ 		mxc_isi_channel_disable(m2m->pipe);
+@@ -594,8 +611,7 @@ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
+ 		mxc_isi_channel_release(m2m->pipe);
+ 	}
+ 
+-	WARN_ON(m2m->usage_count < 0);
+-
++unlock:
+ 	mutex_unlock(&m2m->lock);
+ 
+ 	return 0;
+-- 
+2.34.1
 
-Maybe, let's see if there is some stronger argument that it is not ok
-to add the limitation or some testing that does show the limitation
-does bring a regression.
-
-> 
->>> Can you use a data structure here that can grow? Linked list or
->>> xarray?
->>>
->>> AFAIU what we want is when the page pool allocates a netmem it will
->>> add the netmem to the items array, and when the pp releases a netmem
->>> it will remove it from the array. Both of these operations are slow
->>> paths, right? So the performance of a data structure more complicated
->>> than an array may be ok. bench_page_pool_simple will tell for sure.
->>
->> The question would be why do we need the pool->items to grow with the
->> additional overhead and complication by dynamic allocation of item, using
->> complicated data structure and concurrent handling?
->>
->> As mentioned in [2], it was the existing semantics, but it does not means
->> we need to keep it. The changing of semantics seems like an advantage
->> to me, as we are able to limit how many pages is allowed to be used by
->> a page_pool instance.
->>
->> 2. https://lore.kernel.org/all/2fb8d278-62e0-4a81-a537-8f601f61e81d@huawei.com/
->>
->>>
->>>> Note, the devmem patchset seems to make the bug harder to fix,
->>>> and may make backporting harder too. As there is no actual user
->>>> for the devmem and the fixing for devmem is unclear for now,
->>>> this patch does not consider fixing the case for devmem yet.
->>>>
->>>
->>> net_iovs don't hit this bug, dma_unmap_page_attrs() is never called on
->>> them, so no special handling is needed really. However for code
->>
->> I am really doubtful about your above claim. As at least the below
->> implementaion of dma_buf_unmap_attachment_unlocked() called in
->> __net_devmem_dmabuf_binding_free() seems be using the DMA API directly:
->>
->> https://elixir.bootlin.com/linux/v6.7-rc8/source/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c#L215
->>
->> Or am I missing something obvious here?
->>
-> 
-> I mean currently net_iovs don't hit the __page_pool_release_page_dma
-> function that causes the crash in the stack trace. The dmabuf layer
-> handles the unmapping when the dmabuf dies (I assume correctly).
-
-It seems like the similar assumption made about the normal page.
-How is dmabuf layer able to handles the unmapping when the driver
-which creates the page_pool with the devmem pages has unbound and
-the 'struct device' behind the driver has became invalid?
-
-If dmabuf layer is able to handle that, it seems the page_pool may
-be able to handle that too. Adding the maintainers of Dma-buf to see
-if there is some clarifying from them.
-
-> 
 
