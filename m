@@ -1,104 +1,113 @@
-Return-Path: <linux-media+bounces-18679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18680-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D594988203
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 11:56:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1E498821C
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 12:00:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8C33286F05
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 09:56:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AE862889E6
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 10:00:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6499F1BB6B3;
-	Fri, 27 Sep 2024 09:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CE901BC074;
+	Fri, 27 Sep 2024 10:00:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF891BB692;
-	Fri, 27 Sep 2024 09:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1621BBBD1;
+	Fri, 27 Sep 2024 10:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727431001; cv=none; b=EbDlx3GwprkH+0a4hTDNAZ8TjEhQPWA0Q73HnSMCyMg4bkjxDqVpUBN5rPGmyoZ9QSzGOlbID0R40Ml7EHChPfA2E3flvYikHBYXWSPuunkBgYzM43H0sATVOFcUIdWEeLbJnP73ktjGg8CEos/t703lmzBU/5GLc22uY9INMZc=
+	t=1727431232; cv=none; b=NyEBJn7Q4KlultBSoeEB8vuhD30lIU3Oy/Q3WQcG15Axx+Vr8G9M9TN0mqwApnsrIcRouBLkpZ5Nycc8pJbc2INcd5BohsLMpRPMV0o2jusT2kMk0s4Z7rnToxXVqeXGL/oWGw+VyJBFpCFG15p0R6Kcluo2wjqyqqSl1gXFItI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727431001; c=relaxed/simple;
-	bh=ubLJ/01eZPUNKmqlmt4+u+gpdCBcyH/lXFA7EMubI5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s3WqOd5By3kAo+VXN/UPvsKhmXsYlI5EZ/cAFKbRs1r2eutAXn9jo/SiTF85QNXH4yJ3KOTOMb7do+btHlbSD0lwmzrw0rK3ehKY2z/tKeAODdE1118zjTFIB2EAStrLI+bJw3Ms0b8/VAdgn5hFdV6mE9X58mdZwQqvj5kRdM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: DlYPob+nR42a/MrSK3gw8Q==
-X-CSE-MsgGUID: khRn5AmnQBSI/kGtZpSwZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37241910"
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="37241910"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 02:56:39 -0700
-X-CSE-ConnectionGUID: j0pcyrElSMK1xZZKr5PENw==
-X-CSE-MsgGUID: WZDmNds9Tvauv0QID5VPlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="72381646"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 02:56:35 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andy@kernel.org>)
-	id 1su7iC-0000000DWl0-3D35;
-	Fri, 27 Sep 2024 12:56:32 +0300
-Date: Fri, 27 Sep 2024 12:56:32 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Benoit Parrot <bparrot@ti.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/3] media: ti: cal: Use str_up_down()
-Message-ID: <ZvaBUJCPpCAHY8GC@smile.fi.intel.com>
-References: <20240927-cocci-6-12-v1-0-a318d4e6a19d@chromium.org>
- <20240927-cocci-6-12-v1-1-a318d4e6a19d@chromium.org>
+	s=arc-20240116; t=1727431232; c=relaxed/simple;
+	bh=Wz4gJSZYZWHvZUo0vjR343i8kACgblFpbi/inpMMNZw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XTDoAPv74YkVD3Uh4Kljj9yRqQD/TSIwubCfVvGoxBAKSEWzLKo2sh+0lJekbTfyjixUsFedgNpDt3WbI4RkGo0RH99lwA0Oc57fEuHz6wtnVw6th5rF/ays7Yt3sSrNp5rqXLKqjfGk2w7UW1+riMtZnFbN3jD8EK9RewwKaKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE275C4CEC4;
+	Fri, 27 Sep 2024 10:00:28 +0000 (UTC)
+Message-ID: <c88f736f-6845-414b-aeff-fcf76fa83cda@xs4all.nl>
+Date: Fri, 27 Sep 2024 12:00:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927-cocci-6-12-v1-1-a318d4e6a19d@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] media: atomisp: Use max() macros
+To: Ricardo Ribalda <ribalda@chromium.org>, Benoit Parrot <bparrot@ti.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20240927-cocci-6-12-v1-0-a318d4e6a19d@chromium.org>
+ <20240927-cocci-6-12-v1-3-a318d4e6a19d@chromium.org>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240927-cocci-6-12-v1-3-a318d4e6a19d@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 27, 2024 at 09:42:13AM +0000, Ricardo Ribalda wrote:
-> The str_up_down() helper simplifies the code and fixes the following cocci
-> warning:
+On 27/09/2024 11:42, Ricardo Ribalda wrote:
+> The max() macro produce nicer code and also fixes the following cocci
+> errors:
 > 
-> drivers/media/platform/ti/cal/cal-camerarx.c:194:3-9: opportunity for str_up_down(enable)
+> drivers/staging/media/atomisp/pci/sh_css_frac.h:40:17-18: WARNING opportunity for max()
+> drivers/staging/media/atomisp/pci/sh_css_frac.h:50:17-18: WARNING opportunity for max()
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/staging/media/atomisp/pci/sh_css_frac.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_frac.h b/drivers/staging/media/atomisp/pci/sh_css_frac.h
+> index 8ba65161f7a9..9642506d2388 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_frac.h
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_frac.h
+> @@ -37,7 +37,7 @@ static inline int sDIGIT_FITTING(int v, int a, int b)
+>  	int fit_shift = sFRACTION_BITS_FITTING(a) - b;
+>  
+>  	v >>= sSHIFT;
+> -	v >>= fit_shift > 0 ? fit_shift : 0;
+> +	v >>= max(fit_shift, 0);
 
-...
+Does the warning go away if you change this to:
 
->  	if (i == 10)
->  		phy_err(phy, "Failed to power %s complexio\n",
-> -			enable ? "up" : "down");
-> +			str_up_down(enable);
+	if (fit_shift > 0)
+		v >>= fit_shift;
 
-Now can fit one line
+Using 'max' for a shift is a bit weird in my opinion.
+Also this change was done to reduce the min/max calls, so introducing
+a new max call feels odd (although it should be fine).
 
-		phy_err(phy, "Failed to power %s complexio\n", str_up_down(enable));
+Note that I think those cocci warnings should perhaps be ignored or
+dropped. In part because of the huge macro expansion of min and max, but
+also I often find the code that is not using min or max at least as readable,
+if not more.
 
-But have you compiled it?
+Regards,
 
+	Hans
+
+>  
+>  	return clamp_t(int, v, sISP_VAL_MIN, sISP_VAL_MAX);
 >  }
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> @@ -47,7 +47,7 @@ static inline unsigned int uDIGIT_FITTING(unsigned int v, int a, int b)
+>  	int fit_shift = uFRACTION_BITS_FITTING(a) - b;
+>  
+>  	v >>= uSHIFT;
+> -	v >>= fit_shift > 0 ? fit_shift : 0;
+> +	v >>= max(fit_shift, 0);
+>  
+>  	return clamp_t(unsigned int, v, uISP_VAL_MIN, uISP_VAL_MAX);
+>  }
+> 
 
 
