@@ -1,170 +1,166 @@
-Return-Path: <linux-media+bounces-18705-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18706-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDAE89888A6
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 18:01:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 122719888AF
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 18:04:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 756CE1F22958
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 16:01:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDF4F283C43
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 16:04:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 452181C1AA4;
-	Fri, 27 Sep 2024 16:01:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1E61C0DFB;
+	Fri, 27 Sep 2024 16:04:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQycrSD9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R4uBc7fB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCDE200A3;
-	Fri, 27 Sep 2024 16:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557431487F1
+	for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 16:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727452883; cv=none; b=MbTITho5nn9VSpWU9U/b1nieF5M+oAiqlq8lFjKa2T1XvQolBuLXNXhTQZx8C4iz97sUjKYbmPcV3qfXACnK/ZQfbjcozOrYS2HVQpSEfz4Qhdq6dDNnnqGOgraeuQ7tBJTdLAXCj1mZVjydxsR68HPvRiTymg21PIWEiyErnTI=
+	t=1727453049; cv=none; b=DTqkBWBc6YzjDRZtEvjDHmpSlx5wm9reyH5gMsBhSOP5bl2iIMLpj23DHEME8v0uNRnsybHmr1MvV7BB0nrTAdFziWah0g8abt9v2ideV6mM848Sz2ixt+rUYTOyymCXxguIgaUcIewyB6/U13+I3c8csm7puERpidkL1lh+tuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727452883; c=relaxed/simple;
-	bh=ML4bUSiL9vWSGJG2FlDF3bvvDk9dX/mDX9Fx3HwVjfA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K/PbICkCY4OeqRQA0kMBVfRZSTAjClu140/ZEsUPHhZYfaZEERCWmfv7llEWZPmr7JKm1N5shtuOfXgLewKUdqsTDyj8V2ksgPORVPsxbXMGxsNfjMxPJUZsF/beAQKBDYEb9zrmFk/FntLEdvfosdK0o3oxUn1zEE9AlKJMqJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQycrSD9; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727452882; x=1758988882;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ML4bUSiL9vWSGJG2FlDF3bvvDk9dX/mDX9Fx3HwVjfA=;
-  b=CQycrSD960Vc2hganxkoYS2K2unKeh5qQIcrxF7WZz98WXnrZEY/5G5y
-   A9Cjibateng18tKIC5Ij4QrWeSS3nk2HGlFzaihk3NzCSVLa18xCB3vWL
-   0+avJ39ga/tOei7sB7WCSbvC/lUCgTdE9Ex345O1uBvYcTZBNTA9YfDTA
-   JO794Slsu13ADC4vNiKIJXV8I6epi4tXmNbRS47ZHr0HgqccQuziVIyj0
-   Hl/KDM9x9NRb1z4JtxIK80dbyPeijn4J2a5U9fmUF9DaU2JqfXrepu0LA
-   YLnaLFS6UxrPGHLf4NsxGfE0mju51vri2QJUC/HX8NjG+djXDbiSW1OzB
-   g==;
-X-CSE-ConnectionGUID: /CzqOtRnR3+UyPnEwxf/Yg==
-X-CSE-MsgGUID: dOlPpVFDQfCBj9Q0K4l0pA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="49129534"
-X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="49129534"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 09:01:21 -0700
-X-CSE-ConnectionGUID: ERXO9FCDTvOhNgMlz6XQsQ==
-X-CSE-MsgGUID: w/2fPN6HQTatXxXL7cy9Ew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,159,1725346800"; 
-   d="scan'208";a="73002111"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 09:01:14 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 81E1511F817;
-	Fri, 27 Sep 2024 19:01:10 +0300 (EEST)
-Date: Fri, 27 Sep 2024 16:01:10 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 11/11] media: i2c: ov5645: Report streams using frame
- descriptors
-Message-ID: <ZvbWxsOtF7PGrbsz@kekkonen.localdomain>
-References: <20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240910170610.226189-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <ZvWBlivUaZ92KoAI@kekkonen.localdomain>
- <20240926174819.GK21788@pendragon.ideasonboard.com>
- <ZvWumaGsMPGGwPaS@kekkonen.localdomain>
- <CA+V-a8uGmyrSQQULY9sS9r-Ss_Gxw7OBtbYjFYOMpLJ_e=ZRGg@mail.gmail.com>
+	s=arc-20240116; t=1727453049; c=relaxed/simple;
+	bh=Y+VgZJR67YYKlRXdFSpK4IurRcj7VRi7v/KWeO4Kw30=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=alTNieqLz+RnxcvWMkHgeSD11oj1rwLch9T3IeMnSezFp1rwpJubRdOSIcTJZ/SfwiHZheKqZP6iHRgxmyIrppdbNkRA+lOPfWxBDpOaOzOidfWLFdTzJKNHlYEBXTMIOjdsMwpa1akxMS83gqRmWPmkbQB5hBhXld1tC2Bqb7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R4uBc7fB; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70ACB163;
+	Fri, 27 Sep 2024 18:02:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1727452956;
+	bh=Y+VgZJR67YYKlRXdFSpK4IurRcj7VRi7v/KWeO4Kw30=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=R4uBc7fBGbNm9KQ37SsY5kbfZOtFiYdt6sNgJLMAjBs9LNzOxOMc+6kQsxUV2rALA
+	 HVx89Hpz0ePMiz9yyQDJrVXHx99/+FIesf7WxatvaVIb2r3/95dKd4HfBNoWuKhn0c
+	 2UTLFemn4ksu0PpcfmLncEQQcjr634Zo1IZhmt7M=
+Message-ID: <9e2c5226-d15e-4a84-b73e-131668b3b624@ideasonboard.com>
+Date: Fri, 27 Sep 2024 19:04:01 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] media: i2c: ds90ub960: Add DS90UB954 support
+To: Alexander Shiyan <eagle.alexander923@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <20240830070008.9486-1-eagle.alexander923@gmail.com>
+ <20240830070008.9486-2-eagle.alexander923@gmail.com>
+ <25fc667c-1170-4b8b-b2ba-578758c78804@ideasonboard.com>
+ <CAP1tNvQ2bXA9QAo2-PEGOkigctEGmFhLkEYabzBJY3ZyEdtqNA@mail.gmail.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <CAP1tNvQ2bXA9QAo2-PEGOkigctEGmFhLkEYabzBJY3ZyEdtqNA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8uGmyrSQQULY9sS9r-Ss_Gxw7OBtbYjFYOMpLJ_e=ZRGg@mail.gmail.com>
 
-Hi Prabhakar,
+Hi,
 
-On Fri, Sep 27, 2024 at 04:31:31PM +0100, Lad, Prabhakar wrote:
-> Hi Sakari and Laurent,
+On 11/09/2024 09:15, Alexander Shiyan wrote:
+> Hello.
 > 
-> On Thu, Sep 26, 2024 at 7:57 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > On Thu, Sep 26, 2024 at 08:48:19PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Sep 26, 2024 at 03:45:26PM +0000, Sakari Ailus wrote:
-> > > > Hi Prabhakar,
-> > > >
-> > > > Thanks for the set. It looks largely very nice to me, after addressing
-> > > > Laurent's comments. A few comments here and possibly on other patches...
-> > > >
-> > > > On Tue, Sep 10, 2024 at 06:06:10PM +0100, Prabhakar wrote:
-> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > >
-> > > > > Implement the .get_frame_desc() subdev operation to report information
-> > > > > about streams to the connected CSI-2 receiver. This is required to let
-> > > > > the CSI-2 receiver driver know about virtual channels and data types for
-> > > > > each stream.
-> > > > >
-> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > ---
-> > > > >  drivers/media/i2c/ov5645.c | 28 ++++++++++++++++++++++++++++
-> > > > >  1 file changed, 28 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> > > > > index 7f1133292ffc..c24eb6e7a7b5 100644
-> > > > > --- a/drivers/media/i2c/ov5645.c
-> > > > > +++ b/drivers/media/i2c/ov5645.c
-> > > > > @@ -28,6 +28,7 @@
-> > > > >  #include <linux/regulator/consumer.h>
-> > > > >  #include <linux/slab.h>
-> > > > >  #include <linux/types.h>
-> > > > > +#include <media/mipi-csi2.h>
-> > > > >  #include <media/v4l2-ctrls.h>
-> > > > >  #include <media/v4l2-event.h>
-> > > > >  #include <media/v4l2-fwnode.h>
-> > > > > @@ -829,6 +830,32 @@ static const struct v4l2_ctrl_ops ov5645_ctrl_ops = {
-> > > > >   .s_ctrl = ov5645_s_ctrl,
-> > > > >  };
-> > > > >
-> > > > > +static int ov5645_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> > > > > +                          struct v4l2_mbus_frame_desc *fd)
-> > > > > +{
-> > > > > + const struct v4l2_mbus_framefmt *fmt;
-> > > > > + struct v4l2_subdev_state *state;
-> > > > > +
-> > > > > + if (pad != OV5645_PAD_SOURCE)
-> > > > > +         return -EINVAL;
-> > > >
-> > > > As you have a single source pad, and pretty much all sensor drivers will, I
-> > > > think it'd be nice to add a check for this (that it's not an internal pad)
-> > > > to the caller side in v4l2-subdev.c. And of course drop this one.
-> > >
-> > > What check would you add, just verifying that the pad is a source pad ?
-> >
-> > I think you could add that, too, besides the absence of the internal flag.
-> >
-> Checking only for the source flag should suffice, as the
-> MEDIA_PAD_FL_INTERNAL flag cannot be set for a source pad because
-> media_entity_pads_init() enforces this restriction.
+> вт, 10 сент. 2024 г. в 11:40, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>:
+>> On 30/08/2024 10:00, Alexander Shiyan wrote:
+>>> Add support for TI DS90UB954 FPD-Link III Deserializer.
+> ...
+>>> @@ -1419,7 +1427,7 @@ static void ub960_rxport_config_eq(struct ub960_data *priv, unsigned int nport)
+>>>
+>>>        if (priv->strobe.manual)
+>>>                ub960_rxport_set_strobe_pos(priv, nport, rxport->eq.strobe_pos);
+>>> -     else
+>>> +     else if (priv->hw_data->chip_type != UB954)
+>>>                ub960_rxport_set_strobe_pos(priv, nport, 0);
+>>
+>> This looks odd. Manually set strobe pos is ok, but not the default?
+>> What is the reason for this if?
 > 
-> Do you agree?
+> In fact, these registers are described as reserved in the datasheet.
 
-Works for me.
+Yes, but my point was that in your patch you disable the call to 
+ub960_rxport_set_strobe_pos() if manual strobe is not set, but still 
+allow it if manual strobe is set.
 
--- 
-Sakari Ailus
+> (We are speaking about indirect page 1).
+> Here is an excerpt from datasheet UB960:
+> Indirect Access Register Select:
+> Selects target for register access
+> 0000: Pattern Generator and CSI-2 Timing (PATGEN_AND_CSI-2) Registers
+> xxxx: RESERVED
+> 
+> In UB954 datasheet this area is described as "FPD-Link III Channel 0
+> Reserved Registers: Test and Debug registers".
+
+They're marked reserved in the UB960 datasheet too.
+
+> I tested the UB954 and when writing to this area an error occurs and
+> the chip no longer responds.
+> When disabling ub960_rxport_set_strobe_pos() everything works as expected.
+
+"Margin Analysis Program (MAP) and strobe positions for DS90UB954-Q1 and 
+DS90UB960-Q1" describes the registers:
+
+https://www.ti.com/lit/pdf/snla301
+
+It's been a while since I worked on this, but I remember having some 
+trouble fitting the docs to what actually worked. And there was some 
+small diff between UB954 and UB960, if I'm not mistaken.
+
+You might be able to sort it out with the doc above, but if not or if 
+you're not interested, I'm fine with marking the relevant code for UB960 
+only. But be careful to disable the code in all the code paths.
+
+  Tomi
+
 
