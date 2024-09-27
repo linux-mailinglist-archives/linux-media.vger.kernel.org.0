@@ -1,166 +1,288 @@
-Return-Path: <linux-media+bounces-18706-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18707-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122719888AF
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 18:04:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFB1988AC4
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 21:33:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDF4F283C43
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 16:04:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 828351F221C5
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 19:33:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1E61C0DFB;
-	Fri, 27 Sep 2024 16:04:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EF96165F0E;
+	Fri, 27 Sep 2024 19:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R4uBc7fB"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="jvzHC3RK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557431487F1
-	for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 16:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68480136354
+	for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 19:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727453049; cv=none; b=DTqkBWBc6YzjDRZtEvjDHmpSlx5wm9reyH5gMsBhSOP5bl2iIMLpj23DHEME8v0uNRnsybHmr1MvV7BB0nrTAdFziWah0g8abt9v2ideV6mM848Sz2ixt+rUYTOyymCXxguIgaUcIewyB6/U13+I3c8csm7puERpidkL1lh+tuo=
+	t=1727465601; cv=none; b=hVvDiJMK1gc9MP45N6V++eL/AACkcu4UoZGfzmTGHBiHi226HvnvYhu78UgHmweZZODYZGTAa+ypc06caGzFxAkjmr8uezhS4bT6UxN8Uf/a5A7f0u1e/vG4CzgxHejV8Ctw4pSiR2eHiUWTUe/BdlGb/KH2fMyY4IrMrYdQOBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727453049; c=relaxed/simple;
-	bh=Y+VgZJR67YYKlRXdFSpK4IurRcj7VRi7v/KWeO4Kw30=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=alTNieqLz+RnxcvWMkHgeSD11oj1rwLch9T3IeMnSezFp1rwpJubRdOSIcTJZ/SfwiHZheKqZP6iHRgxmyIrppdbNkRA+lOPfWxBDpOaOzOidfWLFdTzJKNHlYEBXTMIOjdsMwpa1akxMS83gqRmWPmkbQB5hBhXld1tC2Bqb7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R4uBc7fB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70ACB163;
-	Fri, 27 Sep 2024 18:02:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727452956;
-	bh=Y+VgZJR67YYKlRXdFSpK4IurRcj7VRi7v/KWeO4Kw30=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=R4uBc7fBGbNm9KQ37SsY5kbfZOtFiYdt6sNgJLMAjBs9LNzOxOMc+6kQsxUV2rALA
-	 HVx89Hpz0ePMiz9yyQDJrVXHx99/+FIesf7WxatvaVIb2r3/95dKd4HfBNoWuKhn0c
-	 2UTLFemn4ksu0PpcfmLncEQQcjr634Zo1IZhmt7M=
-Message-ID: <9e2c5226-d15e-4a84-b73e-131668b3b624@ideasonboard.com>
-Date: Fri, 27 Sep 2024 19:04:01 +0300
+	s=arc-20240116; t=1727465601; c=relaxed/simple;
+	bh=9nBIWT0lzbhUH/iN+bL0j/cZv61u7ADR+T2WUGbt+hs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pLT5OOrWIxAwuJvHMYnRLGCNMO+cfl0Kk8cVbc6iEG5rK+x8V4uF57dNDMQ4HAmoNxfo6rPn6lpgqzfxO+2N43eGF20utVl335ooYqzfSp1qQK5D7vpeTJFyrhcKGGWxOHi7iAC1SkgwJkU5Aptla5ELBv6X/nYpqItqbabosZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=jvzHC3RK; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6cb2e136da3so16275226d6.1
+        for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 12:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1727465599; x=1728070399; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VKladj2sFJjdiWtfrOuq4uA29WlsH18GzOxyRfbvkm8=;
+        b=jvzHC3RKLdzafqmyOQuJY7E+SIwixCqV29upEvgmsvUbkt5xZ13zexP6BbW5D8wzIb
+         3GYO/0Oh93lBh69NQ8144xOq7p/1rGvGV/XUIyl7tW3+I4toDyUUnQXyzfO1XneaiZBA
+         WFGnZp7tXfK+Cs/SuJbBYE3npHVsBo1KTk0gOUV18UQvZu5mrgjjy3hCZibLusIGEAod
+         NJuPdWcYMqGiLc6jZA2Cxf9ps2y9/6MbP05/oewxoSvuA2y4BjHcYMbIeavx038Kn+LD
+         PMxDH9Mha3dUnBghRc0NfHgDlGXS6iIe+RGohItNaNtvXHkLYRdjrb0uiCexdmHYKQMG
+         MAcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727465599; x=1728070399;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VKladj2sFJjdiWtfrOuq4uA29WlsH18GzOxyRfbvkm8=;
+        b=nVSSRBB1JiAoCoIOtegJ/on7Bh+I21/oLR7OheNAUSu4R6JIP6X2pPHaB8hxMUFtGQ
+         Woy7f160EzmFn3IvFiVUgakFSB9VmD35GyAQqxikOl5qsAVgVBZpXAUZDlXH1kZohsEO
+         Bj0g7woXcHgIhYquFLZ/6Zt2okLLd0LNraeDt5CjmSKpnh6wkTCuBR9xEZn2Wcma4yEL
+         DjCO+sbL4U0Okh262CoEMGLXpauYUjAK6tA3iuIShTY5dD816eLjY66Y1udr1Tb776ac
+         WOi2mpQlY7UUEsUdeoAnNVQ1JBEd1/RufonSDb05Uyvp1brKusbAVeYBhHNmx4XYGnWs
+         V05A==
+X-Forwarded-Encrypted: i=1; AJvYcCXddr8jrzIZmCqzGTDdMcmWcxT+2FzIamrDLTnBbpdQKIDUZwZ+tohlQ9lF+xT65HA792hIL0KxOOa3aQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS+tAChJaevVeeAwTA1maTkAx5LjHkcEAvdBGajjXC+hYTf48/
+	ncYWoS9zqJw3YzpfxeQ9Jdz3gdJqjsrkbvz/+3RPgZwA90M3Bz6bjrCTOcihrHU=
+X-Google-Smtp-Source: AGHT+IEhDe5EE9y0RFQCZTtCNmMq10z4RbPVeb2m5iqTjmA1e9FxI+tgYD6oSZc2Z9WqFDJgdWHibA==
+X-Received: by 2002:a05:6214:3bc7:b0:6cb:4e39:1a93 with SMTP id 6a1803df08f44-6cb4e395f0cmr619406d6.38.1727465599241;
+        Fri, 27 Sep 2024 12:33:19 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:15:862e::580])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b680045sm11835946d6.104.2024.09.27.12.33.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2024 12:33:18 -0700 (PDT)
+Message-ID: <386f4e12fd835b18c3f618f2c94cbd426bd6cf28.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
+ Estevam <festevam@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Steve
+ Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org,  linux-staging@lists.linux.dev
+Date: Fri, 27 Sep 2024 15:33:17 -0400
+In-Reply-To: <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
+References: <20240724002044.112544-1-marex@denx.de>
+	 <20240724002044.112544-2-marex@denx.de>
+	 <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
+	 <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] media: i2c: ds90ub960: Add DS90UB954 support
-To: Alexander Shiyan <eagle.alexander923@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20240830070008.9486-1-eagle.alexander923@gmail.com>
- <20240830070008.9486-2-eagle.alexander923@gmail.com>
- <25fc667c-1170-4b8b-b2ba-578758c78804@ideasonboard.com>
- <CAP1tNvQ2bXA9QAo2-PEGOkigctEGmFhLkEYabzBJY3ZyEdtqNA@mail.gmail.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <CAP1tNvQ2bXA9QAo2-PEGOkigctEGmFhLkEYabzBJY3ZyEdtqNA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi,
+Le mercredi 25 septembre 2024 =C3=A0 22:45 +0200, Marek Vasut a =C3=A9crit=
+=C2=A0:
+> On 9/25/24 7:58 PM, Nicolas Dufresne wrote:
+>=20
+>=20
 
-On 11/09/2024 09:15, Alexander Shiyan wrote:
-> Hello.
-> 
-> вт, 10 сент. 2024 г. в 11:40, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>:
->> On 30/08/2024 10:00, Alexander Shiyan wrote:
->>> Add support for TI DS90UB954 FPD-Link III Deserializer.
-> ...
->>> @@ -1419,7 +1427,7 @@ static void ub960_rxport_config_eq(struct ub960_data *priv, unsigned int nport)
->>>
->>>        if (priv->strobe.manual)
->>>                ub960_rxport_set_strobe_pos(priv, nport, rxport->eq.strobe_pos);
->>> -     else
->>> +     else if (priv->hw_data->chip_type != UB954)
->>>                ub960_rxport_set_strobe_pos(priv, nport, 0);
->>
->> This looks odd. Manually set strobe pos is ok, but not the default?
->> What is the reason for this if?
-> 
-> In fact, these registers are described as reserved in the datasheet.
+[...]
 
-Yes, but my point was that in your patch you disable the call to 
-ub960_rxport_set_strobe_pos() if manual strobe is not set, but still 
-allow it if manual strobe is set.
+>=20
+> > > +static irqreturn_t ipu_mem2mem_vdic_nfb4eof_interrupt(int irq, void =
+*dev_id)
+> > > +{
+> > > +	struct ipu_mem2mem_vdic_priv *priv =3D dev_id;
+> > > +
+> > > +	/* That is about all we can do about it, report it. */
+> > > +	dev_warn_ratelimited(priv->dev, "NFB4EOF error interrupt occurred\n=
+");
+> >=20
+> > Not sure this is right. If that means ipu_mem2mem_vdic_eof_interrupt wo=
+n't fire,
+> > then it means streamoff/close after that will hang forever, leaving a z=
+ombie
+> > process behind.
+> >=20
+> > Perhaps mark the buffers as ERROR, and finish the job.
+>=20
+> The NFB4EOF interrupt is generated when the VDIC didn't write (all of)=
+=20
+> output frame . I think it stands for "New Frame Before EOF" or some=20
+> such. Basically the currently written frame will be corrupted and the=20
+> next frame(s) are likely going to be OK again.
 
-> (We are speaking about indirect page 1).
-> Here is an excerpt from datasheet UB960:
-> Indirect Access Register Select:
-> Selects target for register access
-> 0000: Pattern Generator and CSI-2 Timing (PATGEN_AND_CSI-2) Registers
-> xxxx: RESERVED
-> 
-> In UB954 datasheet this area is described as "FPD-Link III Channel 0
-> Reserved Registers: Test and Debug registers".
+So the other IRQ will be triggered ? After this one ? Is so, perhaps take a
+moment to mark the frames as ERROR (which means corrupted).
 
-They're marked reserved in the UB960 datasheet too.
+[...]
 
-> I tested the UB954 and when writing to this area an error occurs and
-> the chip no longer responds.
-> When disabling ub960_rxport_set_strobe_pos() everything works as expected.
+> >=20
+> > The driver is not taking ownership of prev_buf, only curr_buf is guaran=
+teed to
+> > exist until v4l2_m2m_job_finish() is called. Usespace could streamoff, =
+allocate
+> > new buffers, and then an old freed buffer may endup being used.
+>=20
+> So, what should I do about this ? Is there some way to ref the buffer to=
+=20
+> keep it around ?
+>=20
+> > Its also unclear to me how userspace can avoid this ugly warning, how c=
+an you
+> > have curr_buf set the first time ? (I might be missing something you th=
+is one
+> > though).
+>=20
+> The warning happens when streaming starts and there is only one input=20
+> frame available for the VDIC, which needs three fields to work=20
+> correctly. So, if there in only one input frame, VDI uses the input=20
+> frame bottom field as PREV field for the prediction, and input frame top=
+=20
+> and bottom fields as CURR and NEXT fields for the prediction, the result=
+=20
+> may be one sub-optimal deinterlaced output frame (the first one). Once=
+=20
+> another input frame gets enqueued, the VDIC uses the previous frame=20
+> bottom field as PREV and the newly enqueued frame top and bottom fields=
+=20
+> as CURR and NEXT and the prediction works correctly from that point on.
 
-"Margin Analysis Program (MAP) and strobe positions for DS90UB954-Q1 and 
-DS90UB960-Q1" describes the registers:
+Warnings by default are not acceptable.
 
-https://www.ti.com/lit/pdf/snla301
+>=20
+> > Perhaps what you want is a custom job_ready() callback, that ensure you=
+ have 2
+> > buffers in the OUTPUT queue ? You also need to ajust the CID
+> > MIN_BUFFERS_FOR_OUTPUT accordingly.
+>=20
+> I had that before, but gstreamer didn't enqueue the two frames for me,=
+=20
+> so I got back to this variant for maximum compatibility.
 
-It's been a while since I worked on this, but I remember having some 
-trouble fitting the docs to what actually worked. And there was some 
-small diff between UB954 and UB960, if I'm not mistaken.
+Its well known that GStreamer v4l2convert element have no support for
+detinterlacing and need to be improved to support any deinterlace drivers o=
+ut
+there.
 
-You might be able to sort it out with the doc above, but if not or if 
-you're not interested, I'm fine with marking the relevant code for UB960 
-only. But be careful to disable the code in all the code paths.
+Other drivers will simply holds on output buffers until it has enough to pr=
+oduce
+the first valid picture. Holding meaning not marking them done, which keeps=
+ then
+in the ACTIVE state, which is being tracked by the core for your.
 
-  Tomi
+[...]
 
+> > > +
+> > > +	if (ipu_mem2mem_vdic_format_is_yuv420(f->fmt.pix.pixelformat))
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 3 / 2;
+> > > +	else if (ipu_mem2mem_vdic_format_is_yuv422(f->fmt.pix.pixelformat))
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 2;
+> > > +	else if (ipu_mem2mem_vdic_format_is_rgb16(f->fmt.pix.pixelformat))
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 2;
+> > > +	else if (ipu_mem2mem_vdic_format_is_rgb24(f->fmt.pix.pixelformat))
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 3;
+> > > +	else if (ipu_mem2mem_vdic_format_is_rgb32(f->fmt.pix.pixelformat))
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 4;
+> > > +	else
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width;
+> > > +
+> > > +	f->fmt.pix.sizeimage =3D f->fmt.pix.height * f->fmt.pix.bytesperlin=
+e;
+> >=20
+> > And use v4l2-common ?
+>=20
+> I don't really understand, there is nothing in v4l2-common.c that would=
+=20
+> be really useful replacement for this ?
+
+Not sure I get your response, v4l2-common is used in many drivers already, =
+and
+we intent to keep improving it so that all driver uses it in the long term.=
+ It
+been created because folks believed they can calculate bytesperline and
+sizeimage, but as the number of format grows, it always endup wrong, causin=
+g the
+HW to overflow and break the system at a larger scale.
+
+>=20
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int ipu_mem2mem_vdic_s_fmt(struct file *file, void *fh, struc=
+t v4l2_format *f)
+> > > +{
+> > > +	struct ipu_mem2mem_vdic_ctx *ctx =3D fh_to_ctx(fh);
+> > > +	struct ipu_mem2mem_vdic_priv *priv =3D ctx->priv;
+> > > +	struct v4l2_pix_format *fmt, *infmt, *outfmt;
+> > > +	struct vb2_queue *vq;
+> > > +	int ret;
+> > > +
+> > > +	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+> > > +	if (vb2_is_busy(vq)) {
+> > > +		dev_err(priv->dev, "%s queue busy\n",  __func__);
+> > > +		return -EBUSY;
+> > > +	}
+> > > +
+> > > +	ret =3D ipu_mem2mem_vdic_try_fmt(file, fh, f);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	fmt =3D ipu_mem2mem_vdic_get_format(priv, f->type);
+> > > +	*fmt =3D f->fmt.pix;
+> > > +
+> > > +	/* Propagate colorimetry to the capture queue */
+> > > +	infmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUT=
+PUT);
+> > > +	outfmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CA=
+PTURE);
+> > > +	outfmt->colorspace =3D infmt->colorspace;
+> > > +	outfmt->ycbcr_enc =3D infmt->ycbcr_enc;
+> > > +	outfmt->xfer_func =3D infmt->xfer_func;
+> > > +	outfmt->quantization =3D infmt->quantization;
+> >=20
+> > So you can do CSC conversion but not colorimetry ? We have
+> > V4L2_PIX_FMT_FLAG_SET_CSC if you can do colorimetry transforms too. I h=
+ave
+> > patches that I'll send for the csc-scaler driver.
+>=20
+> See ipu_ic_calc_csc() , that's what does the colorspace conversion in=20
+> this driver (on output from VDI).
+
+int ipu_ic_calc_csc(struct ipu_ic_csc *csc,
+                    enum v4l2_ycbcr_encoding in_enc,
+                    enum v4l2_quantization in_quant,
+                    enum ipu_color_space in_cs,
+                    enum v4l2_ycbcr_encoding out_enc,
+                    enum v4l2_quantization out_quant,
+                    enum ipu_color_space out_cs)
+
+So instead of simply overriding CSC like you do, let userspace set differen=
+t CSC
+in and out, so that IPU can handle the conversion properly with correct col=
+ors.
+That requires to flag these in the fmt_desc structure during enum format, a=
+nd to
+only read acknowledge the CSC if userspace have set V4L2_PIX_FMT_FLAG_SET_C=
+SC,
+in other condition, the information must be ignored (which you don't).
+
+Nicolas
 
