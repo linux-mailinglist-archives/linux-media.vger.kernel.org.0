@@ -1,115 +1,127 @@
-Return-Path: <linux-media+bounces-18690-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18691-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CB89882BC
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 12:44:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5459882C4
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 12:47:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9619B1C2119D
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 10:44:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0822AB22840
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 10:47:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 912D0189B88;
-	Fri, 27 Sep 2024 10:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92DC018953E;
+	Fri, 27 Sep 2024 10:47:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CFNzDfHT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YrtOi8qF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981D613698F;
-	Fri, 27 Sep 2024 10:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0271667DA;
+	Fri, 27 Sep 2024 10:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727433852; cv=none; b=BNp5LnsCfeUOFCA3ILr1QUuVP40zXMHzbXFS+M+nWjzfsrvEmUB4qi6Q/wrGFBjeKwjG03qRBFW4LIhzLKsQBw722w0/+5aptpH5OrM/32NlmeMidawKvUnAHRq2TOgU7kaFhkCaF2oxjAWCMvrok4nIVusKIyddFAyogAWKXuc=
+	t=1727434028; cv=none; b=WyKtCxzffmsoojAxl1CawvzbsmkcmUZjwG688Sy31yjBgGUB69ZvdIlUSFvZLbJp6Sv663fr5MmVd3OIkf6SzjVcT7ZfJrGdWCHujP2xYnl1ca1tV0tvZynTFFqm6ETg70x+lsl9PGH/fj0lPvLZSNYvYgSmgyjZRtzrlAgmRDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727433852; c=relaxed/simple;
-	bh=fz4ehh1bQZ2voJetS6zPYXn8bzrKSGjb88ZmDK5++9M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=se7Tm24EirUZvrAsLm6zv5oiomuxCyhPXaAFB21Z9ya2PaEeMR238j872BSIMn9hv6cGxhaPr59nLZ7HDl4B/GZZSRM26WGyKw3aqAF0cR+EAIATbPzMiC4Pr1ehaJzjaYKpX2pc2VMi3eSukUN8k1gJNw20UQFM1EYgvF2O+9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CFNzDfHT; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f75c6ed397so22146551fa.2;
-        Fri, 27 Sep 2024 03:44:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727433849; x=1728038649; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ty2QooaMm3MgyPtlbZ33W8k1ZyXnxkvNjudQ7UqFkNM=;
-        b=CFNzDfHTyIcsJ+8SsO+i00yAtPj5w/p/lOXirVJgBpgsfK3uPVxnTd57C9lxjRBdKg
-         a14usdxH4D561EdO0cjMA+KMQYJ2pLf7UkC4Of5C7Zbme1uxkYQlpvznz6FPi5V4jwMN
-         VFACsvUaiSrzTrf/QbjaFtMj6X4lZl2Qy5o7+Ljd37bN9wmSHarcT2jLEnxGZlDJpFuu
-         H2A4jHTmVTJ4m8GyVHJ5DlXpOlG3r0RlxLIv7Ibkah/6V7ZgrgTCRhPD2h3fSBdRruxY
-         U97yvsJcbOBHwSFw/aGejkYUTjJDMoHOufzDNGv2gL9zN3iYFWzPAA50EGTkmrazm4no
-         QPKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727433849; x=1728038649;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ty2QooaMm3MgyPtlbZ33W8k1ZyXnxkvNjudQ7UqFkNM=;
-        b=w9EtN0hPJiIBeLKMrYGDN89LuDa7bgwigG3yJ013Ld9VvUfmv29EXew8KTQWdxNp6e
-         tz+GVOUiBMgc9HPH3eMeSPP8CnfR1ZyaaiMMgJobPrVQ5fKyUTDNt3OP0lPvKdsFFGD9
-         izBT/et3eaQKOyZYQm39OdiEjTvOp+3pOIBnUf/1p1kdmcvpaFNdXDscyDaUvPMDfHEj
-         4Bwj7J1bkJZwCL/9r8EIsnLuA+qzaAbfKVf1yFvlye5WWZal/E6lgBFNX+bGi7CjJ9ve
-         UfyqtLngHKvVMIVG7X+bXBAN7DbXzjy17fDZnOeSXZRfYW01pD1mX4ema1qDlvo8AgA1
-         FCJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXaDVp//JCVKtQZvPCtx9ZMZdOFrJmJIaF/T4P9wTZbkPUJ8OAsnE50kklJUNLMjCUpqXOgy6odS9X/0Qs=@vger.kernel.org, AJvYcCXqssBcDaqTLG4bimSpci9gWsfbSmskbXl67gJKwqvOxNzizsTpo0AxwvQz8xZ4yMWGk35blNlgvs11fsQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7xFo4LEG1amt8NdOnhhjHMy+CR/7h96m2fbtAgOnuavv6FIYe
-	arOyEqGoI/8XMyFaVz9pTFbnnDxK8le6UdbQaa0fkL2YvmdZL5reu+yKWBGLeoPEPhWpamKBs9i
-	RVQb6+5m3/Oks6abO1Sn4HSfqgY4=
-X-Google-Smtp-Source: AGHT+IFVnUKDhHiI5ExDkrPLHRaGwU3uwx4kd6LA7qpPwEJIJZck9E7xMesSOCKsp0IAit02EvrDjtJRWN14zBw0Y9o=
-X-Received: by 2002:a05:651c:b12:b0:2f7:500c:2212 with SMTP id
- 38308e7fff4ca-2f9d3e47a58mr18319481fa.10.1727433848583; Fri, 27 Sep 2024
- 03:44:08 -0700 (PDT)
+	s=arc-20240116; t=1727434028; c=relaxed/simple;
+	bh=0MUSaW8yiXU3o8iy47Ivbo8olVGNX/3KgJYQg0nP3o8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UVv/SiesRm84LASfvZR8Mv6Qh72oogfjaN2jhr9l9rvCxxVPXgmFSloDuQPfhtM6setZK61EXBfl8hLpQHt7d1mwteL/ak1A/GtQyTJB0PJNC91LSPf18vDwelKKrBsDcGgPxV0eDakj76AY+wsZzbd4bqFu7ygpyYCNSGZfBL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YrtOi8qF; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1727434024;
+	bh=0MUSaW8yiXU3o8iy47Ivbo8olVGNX/3KgJYQg0nP3o8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=YrtOi8qFMY6nZb1gYLITuz8Po95nmgRK6QmnGSeYsyZJ3Iw+9Hf0iTCJO4RS33Ltd
+	 GUdiaAUyEw2gY0AP+Agt1N8X671QlGic61+blFtdJ5t62BzigROuVYrUD+tYVg2w02
+	 H0govE2NyucsAwsFLXQaGpA0mo0uktwo+TujmQUMA3glXVvKF6d5CwvMlCZExMlTOf
+	 Jes5kfZWOMstn0NMeeLDTWuydhOI8ttJzcWLvb8ju4+f+IpIOcQcrR/k0k8zQWbg6+
+	 Lke9uqMVLgGI+azoPkBz0DfVRzicT7YLgu2458qXtWXkgQRyT8BkhLt/JUqFplOjeH
+	 CE+HTCi5PyAuQ==
+Received: from device-68.home (2a01cb088ccA73006086F5f072C6A07A.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:8cca:7300:6086:f5f0:72c6:a07a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B58EF17E120B;
+	Fri, 27 Sep 2024 12:47:03 +0200 (CEST)
+Message-ID: <8d281bcbc504abaa9838ff666a36515cf7e57239.camel@collabora.com>
+Subject: Re: [PATCH] media: i2c: max96717: clean up on error in
+ max96717_subdev_init()
+From: Julien Massot <julien.massot@collabora.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+	 <hverkuil-cisco@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org
+Date: Fri, 27 Sep 2024 12:47:03 +0200
+In-Reply-To: <23251b8e-c148-44ef-bc9b-f39cecc4fb12@stanley.mountain>
+References: <23251b8e-c148-44ef-bc9b-f39cecc4fb12@stanley.mountain>
+Organization: Collabora Ltd.
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240927-cocci-6-12-v2-0-1c6ad931959b@chromium.org>
- <20240927-cocci-6-12-v2-1-1c6ad931959b@chromium.org> <CAHp75VeGAzU1BT5bE0BrVj4MR=TR2KEzjwhoFUnN5Q=fUanJZg@mail.gmail.com>
- <CANiDSCvF4g7H77Tuy=YUfCG5xYxcb8R8oTsvCjSt65zPAsepog@mail.gmail.com>
-In-Reply-To: <CANiDSCvF4g7H77Tuy=YUfCG5xYxcb8R8oTsvCjSt65zPAsepog@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 27 Sep 2024 13:43:31 +0300
-Message-ID: <CAHp75Vcqpn3Jtwo6V27rHvC9=a50-kwFqMx+axySxsCpYagJaw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] media: ti: cal: Use str_up_down()
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Benoit Parrot <bparrot@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy@kernel.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 27, 2024 at 1:16=E2=80=AFPM Ricardo Ribalda <ribalda@chromium.o=
-rg> wrote:
-> On Fri, 27 Sept 2024 at 12:10, Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Fri, Sep 27, 2024 at 1:02=E2=80=AFPM Ricardo Ribalda <ribalda@chromi=
-um.org> wrote:
+Hi,
+On Thu, 2024-09-12 at 11:51 +0300, Dan Carpenter wrote:
+> Call v4l2_ctrl_handler_free() to clean up from
+> v4l2_ctrl_handler_init().
+>=20
+> Fixes: 50f222455793 ("media: i2c: add MAX96717 driver")
 
-...
+The right commit to fix is:
+Fixes: 19b5e5511ca4f ("media: i2c: max96717: add test pattern ctrl")
 
-> > >         if (i =3D=3D 10)
-> > >                 phy_err(phy, "Failed to power %s complexio\n",
-> > > -                       enable ? "up" : "down");
-> > > +                       str_up_down(enable);
-> >
-> > You never tested this, do not bother to send untested material, please!
->
-> Do you mean tested in real hardware or compile test it?
+Since there was no control to free in the initial driver.
 
-Obviously both as one can't be done without the other.
+Reviewed-by: Julien Massot <julien.massot@collabora.com>
+
+Regards,
+Julien
+
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+> From static analysis.=C2=A0 Not tested.
+>=20
+> =C2=A0drivers/media/i2c/max96717.c | 6 ++++--
+> =C2=A01 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/max96717.c
+> b/drivers/media/i2c/max96717.c
+> index 4e85b8eb1e77..9259d58ba734 100644
+> --- a/drivers/media/i2c/max96717.c
+> +++ b/drivers/media/i2c/max96717.c
+> @@ -697,8 +697,10 @@ static int max96717_subdev_init(struct
+> max96717_priv *priv)
+> =C2=A0	priv->pads[MAX96717_PAD_SOURCE].flags =3D MEDIA_PAD_FL_SOURCE;
+> =C2=A0
+> =C2=A0	ret =3D media_entity_pads_init(&priv->sd.entity, 2, priv-
+> >pads);
+> -	if (ret)
+> -		return dev_err_probe(dev, ret, "Failed to init
+> pads\n");
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "Failed to init pads\n");
+> +		goto err_free_ctrl;
+> +	}
+> =C2=A0
+> =C2=A0	ret =3D v4l2_subdev_init_finalize(&priv->sd);
+> =C2=A0	if (ret) {
 
 --=20
-With Best Regards,
-Andy Shevchenko
+--=20
+Julien Massot
+Senior Software Engineer
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
 
