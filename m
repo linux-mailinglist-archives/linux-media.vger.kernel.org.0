@@ -1,239 +1,169 @@
-Return-Path: <linux-media+bounces-18727-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18728-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B07C988CFF
-	for <lists+linux-media@lfdr.de>; Sat, 28 Sep 2024 01:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C313A988DA2
+	for <lists+linux-media@lfdr.de>; Sat, 28 Sep 2024 04:54:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 54B1E1C2111F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2024 23:27:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F20441C218F4
+	for <lists+linux-media@lfdr.de>; Sat, 28 Sep 2024 02:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6A263715E;
-	Fri, 27 Sep 2024 23:27:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F288C199EAD;
+	Sat, 28 Sep 2024 02:54:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a2l+Wd1i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W5kUnnWh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44C71FB3
-	for <linux-media@vger.kernel.org>; Fri, 27 Sep 2024 23:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4FF199E81;
+	Sat, 28 Sep 2024 02:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727479656; cv=none; b=mzVt6TZ0bR/o7U++96H8P5OEuIlhp6AB3nqRculELechkRuz+PbZG3JKIPh0hwwutTCKMUD2P6NM8Wn0QRqeqVSSLedtjoeVbiFxWa7diYP40jCu6S8HnQs1rfUNK3OOoHlGO/3mtwz3iKZFhJJYOrP+DAsc98WWa46xjy9KPzQ=
+	t=1727492043; cv=none; b=qzFoA0DLOxvb+uMxKnc/8rJJpJYF2gLmNfMHXoRP/MhbyZG90QDgXBvzTn+y+M9VNHVSstyQYPwJKX/SeNG1Eeuj6Bng+HsuvmajBIhGvIYI8aE0qQlEZClzgG10D35CN7/O8YpWebispXDUNaFniPjqOcQRuDQSgaK0qwY4P40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727479656; c=relaxed/simple;
-	bh=cOY/wGPKt5CHFDj2cP7HvNJi3ZLSQcRaxXwOfdbX0Zw=;
+	s=arc-20240116; t=1727492043; c=relaxed/simple;
+	bh=BV8w8Vm2w5/mKh9u/gfHZJjU+0E/OmKnKZ/LdAM7IfM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RRB/OcoWsQpu/GxP8RnbKgc5sDZyzVpWnmcQihhr2eJRcSc4fagMnVrMMtrOs8VFGEFljbkEuRarPyPnuSa4Yz5agBrNu8qdf9Y6Vjk2ZZgj6KZqXqukRtFPewui8yG1qBv6ltggHpI0DtW1V18ukm4kll7nO6Fn+4/qrrdxMaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a2l+Wd1i; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 452B79EC;
-	Sat, 28 Sep 2024 01:26:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727479563;
-	bh=cOY/wGPKt5CHFDj2cP7HvNJi3ZLSQcRaxXwOfdbX0Zw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a2l+Wd1i9x7uPn8YUGw4++N2mNNUleTsvD+MgCPq8JowE+En+JRtkOkYuOb3fZmop
-	 ATBooyTKUcP2QJBsPCPS/72E3sJabp+hYyhiRpYWgD7mH/FHQ7DBfPw7L/bQaViW/4
-	 8wdhZuEQAhuz9xHJewSaJC6dAmE7yPHNLqJWDSSc=
-Date: Sat, 28 Sep 2024 02:27:29 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 3/4] media: platform: rzg2l-cru: Use v4l2_fill_pixfmt()
-Message-ID: <20240927232729.GR12322@pendragon.ideasonboard.com>
-References: <20240920124115.375748-1-dan.scally@ideasonboard.com>
- <20240920124115.375748-4-dan.scally@ideasonboard.com>
- <OSZPR01MB7019254D2E2BC702CE6222ACAA6B2@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=H2a+xkePj/sCqaZV1BnY2wGGTmwE0pjOkyA66gK1okQkbVlhVWrcZLfnzdWDgON1sH+2fU1dIIs4QiVKelrLCrct083uN8hHL0IKJtjbEVkD7GEooRhTcKrnz6cCvqyQKbxqcTZ7ShVQ1JAcrxtqF2tHwvqeQ1gZU4aMqTjMsNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W5kUnnWh; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727492042; x=1759028042;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BV8w8Vm2w5/mKh9u/gfHZJjU+0E/OmKnKZ/LdAM7IfM=;
+  b=W5kUnnWhI2FHO1fGLK8+rtBoaY3K7+eW8hBFaE8OUQAj3PyE/nUAMD1G
+   TaV2p4TlJIke19JjA6lsX5pHDFKwh+XsC9jXeTfOXkEZXIutAz04jNgXh
+   snsbaP3HJudchafdfkvgUmos+Z3/Au1mxWn5QL2Vx6vr26pS0wl6dGT78
+   uZkYyuhe3cqEvSBYtqbM3pi6q9DqhhZ5uYVN/RMMR6y+9fasXDXOA2crD
+   ucJ7+rbDGZvXBAxs9oYY3uVs4Sh4q3grEsg+yDd1U/jxFQ8b9mi7bStUj
+   YJRwr0ZFWMxOPclxUSvC0KGzzV/zoKPSmBtp9pTKdHZ3GO4YtUuIKrX5a
+   Q==;
+X-CSE-ConnectionGUID: 3gS4FYDATA+HPdB+WtFqaA==
+X-CSE-MsgGUID: p34t7ukOQn2FeNcKVaVILQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26779800"
+X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
+   d="scan'208";a="26779800"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 19:54:01 -0700
+X-CSE-ConnectionGUID: CJLPsEPNRPSAPDvP2YIm2w==
+X-CSE-MsgGUID: cpyZrmvCQ2i9/Vu6ukZ0wA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
+   d="scan'208";a="73513464"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 27 Sep 2024 19:53:57 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1suNal-000Mrb-0r;
+	Sat, 28 Sep 2024 02:53:55 +0000
+Date: Sat, 28 Sep 2024 10:53:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>, Benoit Parrot <bparrot@ti.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH v2 1/3] media: ti: cal: Use str_up_down()
+Message-ID: <202409281008.pouaXQCm-lkp@intel.com>
+References: <20240927-cocci-6-12-v2-1-1c6ad931959b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OSZPR01MB7019254D2E2BC702CE6222ACAA6B2@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+In-Reply-To: <20240927-cocci-6-12-v2-1-1c6ad931959b@chromium.org>
 
-On Fri, Sep 27, 2024 at 12:51:24PM +0000, Prabhakar Mahadev Lad wrote:
-> Hi Daniel,
-> 
-> Thank you for the patch.
-> 
-> 
-> > From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
-> > 
-> > Rather than open-code a calculation of the format's bytesperline and
-> > sizeimage, use the v4l2_fill_pixfmt() helper. This makes it easier to
-> > support the CRU packed pixel formats without over complicating the driver.
-> > 
-> > This change makes the .bpp member of struct rzg2l_cru_ip_format and the
-> > rzg2l_cru_ip_pix_fmt_to_bpp() function superfluous - remove them both.
-> > 
-> > Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
-> > ---
-> >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  3 ---
-> >  .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 16 --------------
-> >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 21 ++-----------------
-> >  3 files changed, 2 insertions(+), 38 deletions(-)
-> >
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> This patch doesn't apply cleanly on top of media-stage + [0]
-> 
-> [0] https://lore.kernel.org/all/20240910175357.229075-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+Hi Ricardo,
 
-Is it fine with you to wait for v3 of your series and rebase this one on
-top ?
+kernel test robot noticed the following build errors:
 
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > index dc50a5feb3de..858098b8a13f 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > @@ -68,14 +68,12 @@ struct rzg2l_cru_ip {
-> >   * @code: Media bus code
-> >   * @format: 4CC format identifier (V4L2_PIX_FMT_*)
-> >   * @datatype: MIPI CSI2 data type
-> > - * @bpp: bytes per pixel
-> >   * @icndmr: ICnDMR register value
-> >   */
-> >  struct rzg2l_cru_ip_format {
-> >  	u32 code;
-> >  	u32 format;
-> >  	u32 datatype;
-> > -	u8 bpp;
-> >  	u32 icndmr;
-> >  };
-> > 
-> > @@ -169,7 +167,6 @@ void rzg2l_cru_ip_subdev_unregister(struct
-> > rzg2l_cru_dev *cru);  struct v4l2_mbus_framefmt
-> > *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru);
-> > 
-> >  const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int
-> > code);
-> > -u8 rzg2l_cru_ip_pix_fmt_to_bpp(u32 format);  int
-> > rzg2l_cru_ip_index_to_pix_fmt(u32 index);  int
-> > rzg2l_cru_ip_pix_fmt_to_icndmr(u32 format);
-> > 
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> > index 9bb192655f25..f2fea3a63444 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> > @@ -16,35 +16,30 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
-> >  		.code = MEDIA_BUS_FMT_UYVY8_1X16,
-> >  		.format = V4L2_PIX_FMT_UYVY,
-> >  		.datatype = MIPI_CSI2_DT_YUV422_8B,
-> > -		.bpp = 2,
-> >  		.icndmr = ICnDMR_YCMODE_UYVY,
-> >  	},
-> >  	{
-> >  		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> >  		.format = V4L2_PIX_FMT_SBGGR8,
-> >  		.datatype = MIPI_CSI2_DT_RAW8,
-> > -		.bpp = 1,
-> >  		.icndmr = 0,
-> >  	},
-> >  	{
-> >  		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
-> >  		.format = V4L2_PIX_FMT_SGBRG8,
-> >  		.datatype = MIPI_CSI2_DT_RAW8,
-> > -		.bpp = 1,
-> >  		.icndmr = 0,
-> >  	},
-> >  	{
-> >  		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
-> >  		.format = V4L2_PIX_FMT_SGRBG8,
-> >  		.datatype = MIPI_CSI2_DT_RAW8,
-> > -		.bpp = 1,
-> >  		.icndmr = 0,
-> >  	},
-> >  	{
-> >  		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
-> >  		.format = V4L2_PIX_FMT_SRGGB8,
-> >  		.datatype = MIPI_CSI2_DT_RAW8,
-> > -		.bpp = 1,
-> >  		.icndmr = 0,
-> >  	},
-> >  };
-> > @@ -60,17 +55,6 @@ const struct rzg2l_cru_ip_format
-> > *rzg2l_cru_ip_code_to_fmt(unsigned int code)
-> >  	return NULL;
-> >  }
-> > 
-> > -u8 rzg2l_cru_ip_pix_fmt_to_bpp(u32 format) -{
-> > -	unsigned int i;
-> > -
-> > -	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++)
-> > -		if (rzg2l_cru_ip_formats[i].format == format)
-> > -			return rzg2l_cru_ip_formats[i].bpp;
-> > -
-> > -	return 0;
-> > -}
-> > -
-> >  int rzg2l_cru_ip_index_to_pix_fmt(u32 index)  {
-> >  	if (index >= ARRAY_SIZE(rzg2l_cru_ip_formats)) diff --git
-> > a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > index 61e2f23053ee..01b39a2395df 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > @@ -800,27 +800,11 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev
-> > *cru)
-> >   * V4L2 stuff
-> >   */
-> > 
-> > -static u32 rzg2l_cru_format_bytesperline(struct v4l2_pix_format *pix) -{
-> > -	u8 bpp;
-> > -
-> > -	bpp = rzg2l_cru_ip_pix_fmt_to_bpp(pix->pixelformat);
-> > -
-> > -	if (WARN_ON(!bpp))
-> > -		return 0;
-> > -
-> > -	return pix->width * bpp;
-> > -}
-> > -
-> > -static u32 rzg2l_cru_format_sizeimage(struct v4l2_pix_format *pix) -{
-> > -	return pix->bytesperline * pix->height;
-> > -}
-> > 
-> >  static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
-> >  				   struct v4l2_pix_format *pix)
-> >  {
-> > -	if (!rzg2l_cru_ip_pix_fmt_to_bpp(pix->pixelformat))
-> > +	if (rzg2l_cru_ip_pix_fmt_to_icndmr(pix->pixelformat) < 0)
-> >  		pix->pixelformat = RZG2L_CRU_DEFAULT_FORMAT;
-> > 
-> >  	switch (pix->field) {
-> > @@ -840,8 +824,7 @@ static void rzg2l_cru_format_align(struct
-> > rzg2l_cru_dev *cru,
-> >  	v4l_bound_align_image(&pix->width, 320, RZG2L_CRU_MAX_INPUT_WIDTH,
-> > 1,
-> >  			      &pix->height, 240, RZG2L_CRU_MAX_INPUT_HEIGHT, 2,
-> > 0);
-> > 
-> > -	pix->bytesperline = rzg2l_cru_format_bytesperline(pix);
-> > -	pix->sizeimage = rzg2l_cru_format_sizeimage(pix);
-> > +	v4l2_fill_pixfmt(pix, pix->pixelformat, pix->width, pix->height);
-> > 
-> >  	dev_dbg(cru->dev, "Format %ux%u bpl: %u size: %u\n",
-> >  		pix->width, pix->height, pix->bytesperline, pix->sizeimage);
+[auto build test ERROR on 075dbe9f6e3c21596c5245826a4ee1f1c1676eb8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-Ribalda/media-ti-cal-Use-str_up_down/20240927-180438
+base:   075dbe9f6e3c21596c5245826a4ee1f1c1676eb8
+patch link:    https://lore.kernel.org/r/20240927-cocci-6-12-v2-1-1c6ad931959b%40chromium.org
+patch subject: [PATCH v2 1/3] media: ti: cal: Use str_up_down()
+config: arc-randconfig-002-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281008.pouaXQCm-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281008.pouaXQCm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409281008.pouaXQCm-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/media/platform/ti/cal/cal-camerarx.c: In function 'cal_camerarx_power':
+>> drivers/media/platform/ti/cal/cal-camerarx.c:897:2: error: unterminated argument list invoking macro "phy_err"
+     897 | }
+         |  ^
+>> drivers/media/platform/ti/cal/cal-camerarx.c:193:17: error: 'phy_err' undeclared (first use in this function)
+     193 |                 phy_err(phy, "Failed to power %s complexio\n",
+         |                 ^~~~~~~
+   drivers/media/platform/ti/cal/cal-camerarx.c:193:17: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/media/platform/ti/cal/cal-camerarx.c:193:24: error: expected ';' at end of input
+     193 |                 phy_err(phy, "Failed to power %s complexio\n",
+         |                        ^
+         |                        ;
+   ......
+   drivers/media/platform/ti/cal/cal-camerarx.c:192:9: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
+     192 |         if (i == 10)
+         |         ^~
+   drivers/media/platform/ti/cal/cal-camerarx.c:192:9: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
+>> drivers/media/platform/ti/cal/cal-camerarx.c:193:17: error: expected declaration or statement at end of input
+     193 |                 phy_err(phy, "Failed to power %s complexio\n",
+         |                 ^~~~~~~
+   drivers/media/platform/ti/cal/cal-camerarx.c: At top level:
+>> drivers/media/platform/ti/cal/cal-camerarx.c:168:13: warning: 'cal_camerarx_power' defined but not used [-Wunused-function]
+     168 | static void cal_camerarx_power(struct cal_camerarx *phy, bool enable)
+         |             ^~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/ti/cal/cal-camerarx.c:133:13: warning: 'cal_camerarx_config' defined but not used [-Wunused-function]
+     133 | static void cal_camerarx_config(struct cal_camerarx *phy, s64 link_freq)
+         |             ^~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/ti/cal/cal-camerarx.c:108:13: warning: 'cal_camerarx_enable' defined but not used [-Wunused-function]
+     108 | static void cal_camerarx_enable(struct cal_camerarx *phy)
+         |             ^~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/ti/cal/cal-camerarx.c:80:13: warning: 'cal_camerarx_lane_config' defined but not used [-Wunused-function]
+      80 | static void cal_camerarx_lane_config(struct cal_camerarx *phy)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/ti/cal/cal-camerarx.c:48:12: warning: 'cal_camerarx_get_ext_link_freq' defined but not used [-Wunused-function]
+      48 | static s64 cal_camerarx_get_ext_link_freq(struct cal_camerarx *phy)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/phy_err +897 drivers/media/platform/ti/cal/cal-camerarx.c
+
+af30d4f36ef35d drivers/media/platform/ti-vpe/cal-camerarx.c Laurent Pinchart 2020-07-06  886  
+af30d4f36ef35d drivers/media/platform/ti-vpe/cal-camerarx.c Laurent Pinchart 2020-07-06  887  void cal_camerarx_destroy(struct cal_camerarx *phy)
+af30d4f36ef35d drivers/media/platform/ti-vpe/cal-camerarx.c Laurent Pinchart 2020-07-06  888  {
+af30d4f36ef35d drivers/media/platform/ti-vpe/cal-camerarx.c Laurent Pinchart 2020-07-06  889  	if (!phy)
+af30d4f36ef35d drivers/media/platform/ti-vpe/cal-camerarx.c Laurent Pinchart 2020-07-06  890  		return;
+af30d4f36ef35d drivers/media/platform/ti-vpe/cal-camerarx.c Laurent Pinchart 2020-07-06  891  
+5acc3e22c25359 drivers/media/platform/ti-vpe/cal-camerarx.c Laurent Pinchart 2020-12-07  892  	v4l2_device_unregister_subdev(&phy->subdev);
+e7bbe653fd9a76 drivers/media/platform/ti/cal/cal-camerarx.c Tomi Valkeinen   2023-06-19  893  	v4l2_subdev_cleanup(&phy->subdev);
+5acc3e22c25359 drivers/media/platform/ti-vpe/cal-camerarx.c Laurent Pinchart 2020-12-07  894  	media_entity_cleanup(&phy->subdev.entity);
+27f86b9bff79e1 drivers/media/platform/ti-vpe/cal-camerarx.c Tomi Valkeinen   2021-06-14  895  	of_node_put(phy->source_ep_node);
+27f86b9bff79e1 drivers/media/platform/ti-vpe/cal-camerarx.c Tomi Valkeinen   2021-06-14  896  	of_node_put(phy->source_node);
+af30d4f36ef35d drivers/media/platform/ti-vpe/cal-camerarx.c Laurent Pinchart 2020-07-06 @897  }
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
