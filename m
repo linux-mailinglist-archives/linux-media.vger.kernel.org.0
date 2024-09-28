@@ -1,48 +1,74 @@
-Return-Path: <linux-media+bounces-18730-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18731-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20398988E79
-	for <lists+linux-media@lfdr.de>; Sat, 28 Sep 2024 10:24:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC3A988F05
+	for <lists+linux-media@lfdr.de>; Sat, 28 Sep 2024 12:46:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37F0C1C20EC9
-	for <lists+linux-media@lfdr.de>; Sat, 28 Sep 2024 08:24:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC7A0281EAA
+	for <lists+linux-media@lfdr.de>; Sat, 28 Sep 2024 10:46:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E92A119E7F5;
-	Sat, 28 Sep 2024 08:24:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC65318754F;
+	Sat, 28 Sep 2024 10:46:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NHmydz7N"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q2i/naNj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C951487E2;
-	Sat, 28 Sep 2024 08:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB1812E75
+	for <linux-media@vger.kernel.org>; Sat, 28 Sep 2024 10:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727511891; cv=none; b=iZHC6WAL1T52XhpyHFVTJwIR6fRPT9XOaAirXE2oE/Gq29wplbqn4yTvRksSbv42+gROpME7KyZFk8HtFLrlZHX2OrGnrD8wErNT2uPBoFMA+D5aW5UCnrYTKzgbO3cJzGHbti5RxBVhvSOHaVz2B64AWcoI7NaO4fLRxCsLCxE=
+	t=1727520404; cv=none; b=CrUMQ6dFn7VN++pBYg+3ix/98TAADNH+ZW80YPSCa2bRmxJj3J/fPyRGHqHEZk60Go1340P0uhCYCurYe2kcyAT3aON7tXyNueFXqlBNx4jrpbhQbfkkktaQRdq0aeFaU/e6aPFCgFmGAgtt6OSg+Z3WtMc2z3v2VWlCYdunZHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727511891; c=relaxed/simple;
-	bh=3AoWX/NsRCIFfMN+GXKYr4fgXXBsLyF3Cik3z6TZLYs=;
+	s=arc-20240116; t=1727520404; c=relaxed/simple;
+	bh=Ei6/ccAdpO9+K8ToXprbjnDvfcVFhhzoN0+sWM3un3o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UvF+PyxWD/Hkwbyjg9mqiRBGl0Z2yqbKLAQ0IcHxZbRDGJhs+iMo9p/19oDG04UGUiFMQgKinRlVSWaxcRqHuFBYNmg2Kg3BXa7jidEOoBdW9QizQ1XOy0dwTtKQrCh6lv1tUA6/ORqpn0f2JOmsxwa12/euYDDoXPiSC872Zec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NHmydz7N; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3417C4CEC3;
-	Sat, 28 Sep 2024 08:24:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727511890;
-	bh=3AoWX/NsRCIFfMN+GXKYr4fgXXBsLyF3Cik3z6TZLYs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NHmydz7N3HdKjmtVUXar7+0Lg2nBLv9+5XsqCqkOUILnEuHkF/pMUNenAGqZ9OWMT
-	 EDUMwdvJP+GaiZ1383GRU7IdPe/xjwaTS81ZvbuO18y4F2nL94JKh+E7IUtoOnJAMB
-	 WhAis1Tf1/XxZCVgWVZ22gEUEFWakNfvRN1J5Il3ZcfegkDbnPQK/MqkbA1AjGrFWS
-	 oBhN6D1CuVPnbu/wI8JcTU9z0EAehHrAp1vS6UyPs4UATXLd2biLBCuAEHOjsyl0LL
-	 G7OzuNvyK0+nUsVBbDiizvvGIA4HBOwJ+MKNdst3LCZxJ2ZObYKeFi+K2n46oBR/xV
-	 6NKfdKMAhD/MA==
-Message-ID: <7d727b8e-d8d2-4c3d-a0ee-1db3f17fe5d1@kernel.org>
-Date: Sat, 28 Sep 2024 10:24:45 +0200
+	 In-Reply-To:Content-Type; b=LCAMELJZXQpCaHIT3zkjWFq+4sETFi9hcAez3D9kOfJlTSwbGOimhPoQmbx7NMuZqvFlySvsPv9EkAok1dfSVZ3Q+onNlO+xohX5a+CqrL02cgkZHaLtMb1mOJM9qBHRJmatccD1nInMtrSqs96a8GP+48dQEGFVfkFMBLgMv5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q2i/naNj; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5398f62723eso12715e87.2
+        for <linux-media@vger.kernel.org>; Sat, 28 Sep 2024 03:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727520400; x=1728125200; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TXl4k8mZsxgHoI3VWw6PVnVAQPFUA35ZT1bf6htZGpw=;
+        b=Q2i/naNjF5E89/ugKAV7A5ioLVfKbTsnt/K6+sbBksI6Kcp/4uFm3a4Mrxy0vR2UGO
+         FCNexXdm1RCaPY2NZ0Sd0UlOGi6Br4xTKcq+45Om36KAJ8VHCox/HNPCt0zdL4x+N7hl
+         4j41uORW0UzfYY6CJH+QOM4zmiVPDLJIZiiBnl8/7xQSogv9qdanValGxq1TJtqzzED+
+         w4ROtf8l60IYA58P/22jU3DBkiSztZB0X0VWjnTEhY77NFX97aiy+OLpgEziehrEwZvP
+         8kccJFFqU2MbdgpX4FrD9D090Gx8ogL3aqh07PvTVCPdVsxma55oDjx7Ewp2N6HZtFTD
+         RZMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727520400; x=1728125200;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TXl4k8mZsxgHoI3VWw6PVnVAQPFUA35ZT1bf6htZGpw=;
+        b=YLgTAt6XZrKGeZKxPoJcUFqAGRRwbN5VjawZQud1lqwXJGgB8PfGc94KbOhlnLpCc6
+         M0MVJX49OTP0rNL1Y4Uilh311nIbhnX8O+MNIqlIjauIVVDZFNDDXcnv31spsg1AKgZs
+         FXuw0ioY5PomYlpV/UDMcF7r/VKm4sXzwD8zyPPYfGI7zOt1CbiDGiQoVfCQV1+bkrwJ
+         HeIHAn81SchfPjjIf2OGNnQBYJSRM+P5BOwXGHibH+M8H+hzHDotxWIdcxZ+/gHlFCUK
+         eZrbSpCDADrEUUY2h4UYfJght+tHQZ0+uUP9mee9e+quWHuYkAlZhkwFkRIw5I/5N8gj
+         35MA==
+X-Forwarded-Encrypted: i=1; AJvYcCVOO27SRkutXcjYo5oUtHrqVnEDWMzuEoYO4Gir3Potl9BwtR6t6C4QAtRbhBLhIoTKsVaUo18nzmRgUQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiQ4MUIYQD5Zzh3rjS05VaNVEuxHaPYzJKU/TXAobSWzJdwUBL
+	YFmQ+yzRKOYzMxQhzyatMv4+8MxFwgaigtu1uK3uQIgYjMH6Rs881Ha9fK1Xznc=
+X-Google-Smtp-Source: AGHT+IGsmYsnTJi0UA9gkkFBqJigGWkiZumRwMsuVRnPqYW+9Inz7cEUrpbiw3sVbiDeWsbzm89sxQ==
+X-Received: by 2002:a05:6512:1396:b0:52c:def2:d8af with SMTP id 2adb3069b0e04-5389fc430a0mr1143476e87.4.1727520400331;
+        Sat, 28 Sep 2024 03:46:40 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-538a0458ffesm610795e87.300.2024.09.28.03.46.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 28 Sep 2024 03:46:38 -0700 (PDT)
+Message-ID: <f8d1ef2d-3bf8-4c34-914c-7c3277264751@linaro.org>
+Date: Sat, 28 Sep 2024 13:46:37 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,85 +76,146 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] media: dt-bindings: Add OmniVision OV08X40
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jason Chen <jason.z.chen@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20240926-b4-master-24-11-25-ov08x40-v1-0-e4d5fbd3b58a@linaro.org>
- <20240926-b4-master-24-11-25-ov08x40-v1-2-e4d5fbd3b58a@linaro.org>
- <ZvWDbxzm2cCgC8tP@kekkonen.localdomain>
- <86bf9cb5-a0bb-46d5-8deb-f0e8a86932e4@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v4 0/7] Add SDM670 camera subsystem
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <86bf9cb5-a0bb-46d5-8deb-f0e8a86932e4@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Andi Shyti <andi.shyti@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Loic Poulain <loic.poulain@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-media@vger.kernel.org
+References: <20240904020448.52035-9-mailingradian@gmail.com>
+ <tthbaop6bkyvebpibiyvyct4khrd5o4apdbipqdthnidxmu2cx@m726xv4ocblg>
+ <ZtpqrANbJurWNOzV@radian> <5c58b41a-7fc7-456d-979c-edb8dbe4305d@linaro.org>
+ <a27adb94-5280-4213-a532-0dcc907f80b7@linaro.org> <ZvcwbCh97WKnvarS@radian>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <ZvcwbCh97WKnvarS@radian>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 27/09/2024 01:31, Bryan O'Donoghue wrote:
-> On 26/09/2024 16:53, Sakari Ailus wrote:
->>> +      - const: xvclk
->> This seems redundant.
-> 
-> Right so you're saying you'd prefer something like this
-> 
-> drivers/media/i2c/ov8865.c
-> 
-> I can drop the dependency on "xvclk" as a dependency in this series.
+Hi Richard.
 
-Not sure what do you mean here. Drop the clock-names and
-clock-frequency. Both are redundant. You should almost never have a
-clock-frequency in your device bindings.
+On 9/28/24 01:23, Richard Acayan wrote:
+> On Fri, Sep 06, 2024 at 04:00:32PM +0300, Vladimir Zapolskiy wrote:
+>> Hi Bryan, Richard,
+>>
+>> On 9/6/24 15:19, Bryan O'Donoghue wrote:
+>>> On 06/09/2024 03:36, Richard Acayan wrote:
+>>>> On Thu, Sep 05, 2024 at 10:09:34PM +0200, Andi Shyti wrote:
+>>>>> Hi Richard,
+>>>>>
+>>>>> On Tue, Sep 03, 2024 at 10:04:49PM GMT, Richard Acayan wrote:
+>>>>>> This adds support for the camera subsystem on the Snapdragon 670.
+>>>>>>
+>>>>>> As of next-20240902, camss seems to be a bit broken, but the same series
+>>>>>> works on stable (although it is much less reliable now that the CCI clock
+>>>>>> frequency is not being assigned).
+>>>>>
+>>>>> I am not understanding this bit: is this series making it better
+>>>>> or not? Can you please clarify what is broken, what is less
+>>>>> reliable and what works?
+>>>>
+>>>> When applying this camss series and some camera sensor patches on
+>>>> linux-next, the Pixel 3a seems to hang when camera capture starts.
+>>>>
+>>>> When applying the same patches on stable, the camera does not cause the
+>>>> Pixel 3a to hang.
+>>>
+>>> Right so -next isn't stable that's not exactly a revelation.
+>>>
+>>>
+>>>> When these device tree properties from the previous series were removed:
+>>>>
+>>>> 			assigned-clocks = <&camcc CAM_CC_CCI_CLK>;
+>>>> 			assigned-clock-rates = <37500000>;
+>>>>
+>>>> the CCI would sometimes fail to probe with the error:
+>>>
+>>> Right, we don't have clk_set_rate in the cci driver.
+>>>
+>>> Maybe just leave the assigned clock for this submission and we can do a
+>>> sweep of fixes to CCI at a later stage including setting the clock
+>>> instead of having it be assigned.
+>>
+>> first of all it would be nice to confirm that the setting of a particular
+>> clock frequency is actually needed.
+>>
+>> Fortunately it's pretty trivial to check it in runtime with a temporary
+>> modification in the board dts file, namely disable CAMSS in board dts file,
+>> but keep CCI enabled, then simply scan the bus with a regular "i2cdetect"
+>> tool in runtime.
+>>
+>> If i2cdetect on the CCI bus works only for 37.5MHz clock frequency, then it
+>> is needed, otherwise (and this is my expectation) it is not needed neither
+>> in the dtsi files nor in the driver.
+>>
+>>>>
+>>>> 	[   51.572732] i2c-qcom-cci ac4a000.cci: deferred probe timeout, ignoring dependency
+>>>> 	[   51.572769] i2c-qcom-cci ac4a000.cci: probe with driver i2c-qcom-cci failed with error -110
+>>>>
+>>>> On further testing, the rate can be set to 19.2 MHz, and there would be
+>>>> no failure (or rather, it wouldn't happen often enough for me to witness
+>>>> it).
+>>>
+>>> That's expected 19.2 and 37.5 MHz are supported by CAMCC for your part.
+>>>
+>>
+>> I read it as the setting of 37.5MHz clock frequency is not needed, please
+>> correct me.
+> 
+> It is not. My test setup just needs specific EPROBE_DEFER behaviour
+> (my setup being postmarketOS with a full-disk encryption password prompt
+> and camcc-sdm845 loaded after mounting the root filesystem).
 
-Best regards,
-Krzysztof
+Good, let the assigned clock frequency be dropped from the dtsi file then.
 
+> In drivers/base/platform.c, the platform_probe() function calls
+> of_clk_set_defaults() then dev_pm_domain_attach() prior to probing the
+> driver:
+> 
+> 	static int platform_probe(struct device *_dev)
+> 	{
+> 		...
+> 		ret = of_clk_set_defaults(_dev->of_node, false);
+> 		if (ret < 0)
+> 			return ret;
+> 	
+> 		ret = dev_pm_domain_attach(_dev, true);
+> 		if (ret)
+> 			goto out;
+> 	
+> 		if (drv->probe) {
+> 			ret = drv->probe(dev);
+> 			if (ret)
+> 				dev_pm_domain_detach(_dev, true);
+> 		}
+> 		...
+> 	}
+> 
+> When handling the assigned-clock-rates property,
+> of_clk_get_hw_from_clkspec() eventually returns ERR_PTR(-EPROBE_DEFER),
+> being propagated all the way.
+> 
+> When handling the power-domains property (if not avoided by deferring
+> with the assigned clock), __genpd_dev_pm_attach() returns a value
+> returned by driver_deferred_probe_check_state(), which is immediately
+> -ETIMEDOUT.
+
+I grasp it from the problem description, thank you for the explanation.
+
+For sake of simplicity please make camcc-sdm845 as a built-in driver while
+testing, it will allow to progress with the platform CAMSS support.
+
+The issue with the observed ETIMEDOUT is generic and it's kind of unrelated
+to the CCI/CAMSS support on SDM670.
+
+--
+Best wishes,
+Vladimir
 
