@@ -1,114 +1,124 @@
-Return-Path: <linux-media+bounces-18750-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18751-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253D29897F4
-	for <lists+linux-media@lfdr.de>; Sun, 29 Sep 2024 23:35:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1B1989882
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 01:57:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F7851C20C9C
-	for <lists+linux-media@lfdr.de>; Sun, 29 Sep 2024 21:35:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C9EE1F21897
+	for <lists+linux-media@lfdr.de>; Sun, 29 Sep 2024 23:57:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6374D144D1A;
-	Sun, 29 Sep 2024 21:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91B11183088;
+	Sun, 29 Sep 2024 23:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="luRI31vA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FACA335BA
-	for <linux-media@vger.kernel.org>; Sun, 29 Sep 2024 21:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF6A17E8E2
+	for <linux-media@vger.kernel.org>; Sun, 29 Sep 2024 23:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727645704; cv=none; b=faafu+19bOL1A/ZEOVkhMpbncvNBLsZVIOHnT+npSQmMf7y3jyFA39dhl9Psz9q2sauDcQnfXMqw4635GeIM7ueQrQJBrI5far89yCUjXUZK2jSzTSPSsOqWqHHCTZ1RKxWgx76gEneuRfJ4hLkfONuR5H7ksFlvDOvq7VskbR0=
+	t=1727654262; cv=none; b=QD277Y1idc7Mh7PZliARJLbYZXBHJVBYNn/Hf+gcWHpxMpQnwN2g9DroGffBG41IxqtVGpHioQPclHIqolye35ide7NB1s9dM3jPnBZ+wVjViRWEvQcZkNYTWLtS1D56Za73gNbWEoZedCFs18zP5+vjd6Z71dmHYeNJmavJirY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727645704; c=relaxed/simple;
-	bh=J+h+d+8xPf2wvb4k5AvkKyxAi3bwsNIaIzgp8kYXeSA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=g3w9xwQW0k15KHgsq5fjx63YQMxYkey6A/Gjvdup2bOS0g91OkQNSyX97Kx15XXFno4VVlelvNOqsFYvGkxJVWOmbRNrKwCfhnjT7BiYeUUFXls2Vqj56do3lqV5Y83pn/44XTpUYlMd75gkgfKba7++4VgHRPXMmShw0htWjno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-319-AjbKKCoXMA6_8vDN9HfDvg-1; Sun, 29 Sep 2024 22:34:59 +0100
-X-MC-Unique: AjbKKCoXMA6_8vDN9HfDvg-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 29 Sep
- 2024 22:34:06 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sun, 29 Sep 2024 22:34:06 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Ricardo Ribalda' <ribalda@chromium.org>, Benoit Parrot <bparrot@ti.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, "Tianshu
- Qiu" <tian.shu.qiu@intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, "Andy
- Shevchenko" <andy@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: RE: [PATCH 3/3] media: atomisp: Use max() macros
-Thread-Topic: [PATCH 3/3] media: atomisp: Use max() macros
-Thread-Index: AQHbEMGvj02Y6GvUVk6fhB2EdPxdmrJvSzjA
-Date: Sun, 29 Sep 2024 21:34:05 +0000
-Message-ID: <c183afe8986d444a8e777ae0b9bb9189@AcuMS.aculab.com>
-References: <20240927-cocci-6-12-v1-0-a318d4e6a19d@chromium.org>
- <20240927-cocci-6-12-v1-3-a318d4e6a19d@chromium.org>
-In-Reply-To: <20240927-cocci-6-12-v1-3-a318d4e6a19d@chromium.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1727654262; c=relaxed/simple;
+	bh=HaXo0toqOF7Y+jB24eT1VlknmgOwcedF3GO+Ll48qjQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hlqeO5/cuZNc0jkWxNZnGJockpomc5ON5iqVOf9OxIYdblmPX5nV7h4Ay/JvXmyMJroBlkF6v324/uPb6bnVq2DN+JEU2vi9gjrJp5BbL4f719DpTqT4kRQ38HfhNzsQX2KHrMUhjdyQum9o56KJbXslxniyNTAjcmRqaWGdtjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=luRI31vA; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a93b2070e0cso462028066b.3
+        for <linux-media@vger.kernel.org>; Sun, 29 Sep 2024 16:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727654259; x=1728259059; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DJrt6UWom7A/xyTFs1oFeQLFFYTQTqna27U8+xF6ZSs=;
+        b=luRI31vAhd0lCTFbpvCWmlp9+0kozyYm3yf624KPVeExHxw9y03w6hNIyRa8CrTaKX
+         /QSwQssn00maDqNvcEmy4xX5ijya0Z88K1i342ymjx6WofIIYv59lNVg7/nVF4g2hdkn
+         NhzlDCw6EuxDTR1GUvfLIDxhThg6YqPOiQ7vk44YqPRGDN5066Qc3kk1F/Fe+cFJ+HNr
+         NE6jYlvxpLAz6RnqnxhSR+X7pXNlLUHcvxOsXelaihPUj4mH/D0YsEHZcJKsScytqK/6
+         tpFDa6bvyQmcfZkI9RwHW1l0UzmM7k0EgvTxECmZFcCWlnWZhhTOJPKrjimuJk6hztia
+         2MHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727654259; x=1728259059;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DJrt6UWom7A/xyTFs1oFeQLFFYTQTqna27U8+xF6ZSs=;
+        b=X/0YmMZfaMBg24m1ZVdsCDr6wv54N5YZhLnOn1s8JcJ0urmzTOWR7lbtQhB1YdQyfV
+         CIKr1wxG413JWD1erIDxA+U7706SryqRIrXOtky3zb9Wbz41c9GxZPxmTw2BeGJqCrFa
+         nekcHXaRfzhOC2vA0KpLLR1TcLilbGfXk9zVNoyPnyUuIpYTdzB0JjufNmTYVkyvOTiR
+         pq+xaLf/DsuABbhe1mKLddTjzhFoT615LYZLLtvSDxlMzXWXwLSQWHlVWKYmJKSQBL+O
+         fabo+NQhkgzXX2bMANl1tfVSeb0Mw7oqnRr909lh4Rg/UxFPM0nPqehRrs0NspUufk9P
+         MuCg==
+X-Forwarded-Encrypted: i=1; AJvYcCUfEcaaii/aWX93dtNULjxr189qxeVKW3hageusd/hl28SjSTBRuOA6qWDIMQBYiJSM/VYzJW+UwwdTjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiG+Lz9KH8vsU/Q3VOcdOKl7dmgfi1ObHgOYGylVL2A+vxlsi/
+	+prGglwQfLvDtwfplye0WFxa25VaIecsYiriZvzMJ54+4Jj3RDDvivPKPmyHxlA=
+X-Google-Smtp-Source: AGHT+IHIuAFzumpcyKBz+LueTVTgTI2SycPOicG0Iw7ZflSGBVkIXpdr88atR9QP+oiJTpCvoWA5+A==
+X-Received: by 2002:a17:906:fe04:b0:a8b:6ee7:ba29 with SMTP id a640c23a62f3a-a93c4ac9401mr1138374166b.44.1727654258502;
+        Sun, 29 Sep 2024 16:57:38 -0700 (PDT)
+Received: from [192.168.0.15] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27c593dsm444079266b.54.2024.09.29.16.57.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Sep 2024 16:57:37 -0700 (PDT)
+Message-ID: <6b702201-4418-4bbe-95b2-50039c08b4d8@linaro.org>
+Date: Mon, 30 Sep 2024 00:57:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] media: qcom: camss: Add support for VFE hardware
+ version Titan 780
+To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-14-quic_depengs@quicinc.com>
+ <6ddaa41b-86cf-44e5-a671-fd70f266642b@linaro.org>
+ <eb77972c-9c9a-48f9-b850-21e6c2df005a@quicinc.com>
+ <d842a992-e04f-4a11-abaa-da50808fea77@quicinc.com>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <d842a992-e04f-4a11-abaa-da50808fea77@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-RnJvbTogUmljYXJkbyBSaWJhbGRhDQo+IFNlbnQ6IDI3IFNlcHRlbWJlciAyMDI0IDEwOjQyDQo+
-IA0KPiBUaGUgbWF4KCkgbWFjcm8gcHJvZHVjZSBuaWNlciBjb2RlIGFuZCBhbHNvIGZpeGVzIHRo
-ZSBmb2xsb3dpbmcgY29jY2kNCj4gZXJyb3JzOg0KPiANCj4gZHJpdmVycy9zdGFnaW5nL21lZGlh
-L2F0b21pc3AvcGNpL3NoX2Nzc19mcmFjLmg6NDA6MTctMTg6IFdBUk5JTkcgb3Bwb3J0dW5pdHkg
-Zm9yIG1heCgpDQo+IGRyaXZlcnMvc3RhZ2luZy9tZWRpYS9hdG9taXNwL3BjaS9zaF9jc3NfZnJh
-Yy5oOjUwOjE3LTE4OiBXQVJOSU5HIG9wcG9ydHVuaXR5IGZvciBtYXgoKQ0KPiANCj4gU2lnbmVk
-LW9mZi1ieTogUmljYXJkbyBSaWJhbGRhIDxyaWJhbGRhQGNocm9taXVtLm9yZz4NCj4gLS0tDQo+
-ICBkcml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3NzX2ZyYWMuaCB8IDQgKyst
-LQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4g
-DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3Nz
-X2ZyYWMuaA0KPiBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9hdG9taXNwL3BjaS9zaF9jc3NfZnJh
-Yy5oDQo+IGluZGV4IDhiYTY1MTYxZjdhOS4uOTY0MjUwNmQyMzg4IDEwMDY0NA0KPiAtLS0gYS9k
-cml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3NzX2ZyYWMuaA0KPiArKysgYi9k
-cml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3NzX2ZyYWMuaA0KPiBAQCAtMzcs
-NyArMzcsNyBAQCBzdGF0aWMgaW5saW5lIGludCBzRElHSVRfRklUVElORyhpbnQgdiwgaW50IGEs
-IGludCBiKQ0KPiAgCWludCBmaXRfc2hpZnQgPSBzRlJBQ1RJT05fQklUU19GSVRUSU5HKGEpIC0g
-YjsNCj4gDQo+ICAJdiA+Pj0gc1NISUZUOw0KDQpJSVJDIHJpZ2h0IHNoaWZ0cyBvZiBzaWduZWQg
-dmFsdWVzIGFyZSB1bmRlZmluZWQuDQooQyBkb2VzIG5vdCByZXF1aXJlIGEgY3B1IHRvIGhhdmUg
-YSByaWdodCBzaGlmdCB0aGF0IHJlcGxpY2F0ZXMgdGhlDQpzaWduIGJpdC4pDQoNCj4gLQl2ID4+
-PSBmaXRfc2hpZnQgPiAwID8gZml0X3NoaWZ0IDogMDsNCj4gKwl2ID4+PSBtYXgoZml0X3NoaWZ0
-LCAwKTsNCg0KSWYgdGhlIHNoaWZ0IGlzbid0IGRvbmUgdGhlIHJldHVybiB2YWx1ZSBpcyBnYXJi
-YWdlLg0KU28gdGhlIGNvZGUgYmV0dGVyIG5vdCBsZXQgaXQgaGFwcGVuLg0KSW4gd2hpY2ggY2Fz
-ZSB5b3UgbWlnaHQgYXMgd2VsbCBsZXQgdGhlIGNwdSBnZW5lcmF0ZSBhIChkaWZmZXJlbnQpDQpy
-YW5kb20gdmFsdWUgLSBzbyBkZWxldGUgdGhlIGNvbmRpdGlvbmFsLg0KDQo+IA0KPiAgCXJldHVy
-biBjbGFtcF90KGludCwgdiwgc0lTUF9WQUxfTUlOLCBzSVNQX1ZBTF9NQVgpOw0KDQphbGwgdGhy
-ZWUgdmFsdWVzIHNlZW0gdG8gYmUgJ2ludCcgLSBzbyBubyBuZWVkIGZvciB0aGUgX3QgdmFyaWFu
-dA0KYW5kIGFsbCB0aGUgYXNzb2NpYXRlZCBjYXN0cy4NCg0KPiAgfQ0KPiBAQCAtNDcsNyArNDcs
-NyBAQCBzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGludCB1RElHSVRfRklUVElORyh1bnNpZ25lZCBp
-bnQgdiwgaW50IGEsIGludCBiKQ0KPiAgCWludCBmaXRfc2hpZnQgPSB1RlJBQ1RJT05fQklUU19G
-SVRUSU5HKGEpIC0gYjsNCj4gDQo+ICAJdiA+Pj0gdVNISUZUOw0KPiAtCXYgPj49IGZpdF9zaGlm
-dCA+IDAgPyBmaXRfc2hpZnQgOiAwOw0KPiArCXYgPj49IG1heChmaXRfc2hpZnQsIDApOw0KPiAN
-Cj4gIAlyZXR1cm4gY2xhbXBfdCh1bnNpZ25lZCBpbnQsIHYsIHVJU1BfVkFMX01JTiwgdUlTUF9W
-QUxfTUFYKTsNCg0KYXMgYWJvdmUsIGJ1dCBpdCBpcyBqdXN0IG1pbih2LCBpSVNQX1ZBTF9NQVgp
-DQoNCglEYXZpZA0KDQo+ICB9DQo+IA0KPiAtLQ0KPiAyLjQ2LjEuODI0LmdkODkyZGNkY2RkLWdv
-b2cNCj4gDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBN
-b3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAx
-Mzk3Mzg2IChXYWxlcykNCg==
+On 29/09/2024 02:28, Depeng Shao wrote:
+>>>
+>>
+>> Thanks for catching this, I forget to add the rup irq, so this logic 
+>> is also missed. I have tried it just now, the logic works good, will 
+>> add it in next version patch.
+>>
+> 
+> I go through the code again, and find we don't do the wait for 
+> completion in VFE 480 driver, this is just used in VFE gen1 driver and 
+> just during disabling port.
 
+Right but, we _should_ wait for completion there, the fact we don't is a 
+bug.
+
+One context issues a command to take an action and another context in 
+this case an ISR has to fire for that action to be complete.
+
+Therefore we _should_ wait_for_completion() in the initiating context 
+and timeout if it exceeds a reasonable timeout.
+
+Granted, we've "dropped the ball" in 480 you're right, it needs to be 
+fixed and will be but, please in your submission do the right thing.
+
+---
+bod
 
