@@ -1,139 +1,125 @@
-Return-Path: <linux-media+bounces-18880-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18881-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C45998AB12
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 19:28:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAF998AC5C
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 20:48:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2639D1C22BDD
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 17:28:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 27C2C1F2427A
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 18:48:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FF2C197A7A;
-	Mon, 30 Sep 2024 17:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB8F198850;
+	Mon, 30 Sep 2024 18:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IRFFhIqA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItBvcviS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A03F194096
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 17:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F3B5466B
+	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 18:47:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727717290; cv=none; b=OMES1BynzXg9zGFPom++Azoeve0/0GLu4lOZWiHhnwT0QZgfnkd0OvYmbsGVn4GYRuyyvjRjWymjhrcAgOjctTbGkW1GcSpZ8QMxYZwZOoIW/2Ravp/mMBPs+xVeauwaHgJX+a1eMZcoN9kWv6UcZUlz0kfJREJ0p2i3ennv3MM=
+	t=1727722079; cv=none; b=q95BhFOqZUN0EEkewNBfqrwvLPEZ1/Po73lQs+z/otN7fHiA5cTkYgDIaJqLZHJdhaJB4sTLoX8vudiLy2zA/Uw3Mr3ROhOVieFo332Rwf2NlwhVCgDFHPqt00RCN7rKceRgptklKCB1JA/3q0fs+E/TJQN0GiAm0AKR53uCV+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727717290; c=relaxed/simple;
-	bh=oKPfHNdhODSMtcanILzQeBGfBMwQEWPBNC9E8LVZUG4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mNXBdwt0lrHemhqA/yxkXdxnsZqqN1/sfGUWyw9GleNFAS3en/oD16ynRvxYahRRZ331yy5b2H7LrBDH+CdVka24rPrK9Ox6+Qhzq4wyHAimcuWZ4eahaQ20baoIqd05hX4y7wb60uPELU3yLe+de4/RXkHYHyu8wZqRvclcokQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IRFFhIqA; arc=none smtp.client-ip=209.85.160.169
+	s=arc-20240116; t=1727722079; c=relaxed/simple;
+	bh=CW2Qs0dxJJCdPYYW+pv8ycW9SC2T4rH+RgnkFTHw5t8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SuqXsJp6V8vrwRdSHX5BUxyZDdaYfMQKzFalEgH9Xn/yyhrESaEVQ9Uou3O/rY0q1hAwEVskD21BGC4ShyhFFHkwwrLAo8BsM1A6nY2/PcRPaOd7OvHWORYCCFwrPlLUAd3uvzmLG9ppGT0uZ1/gnI1CzN+Yia8mktvdoF0hCRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ItBvcviS; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-45830ff5b70so40144521cf.1
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 10:28:09 -0700 (PDT)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-206b9455460so35838565ad.0
+        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 11:47:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727717288; x=1728322088; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oKPfHNdhODSMtcanILzQeBGfBMwQEWPBNC9E8LVZUG4=;
-        b=IRFFhIqA766Q1AM/pxtZpMd8ixS719RBO3JPxL7uM4yStClAI0adKvcvf0XCbZVcZV
-         GSmlQiLus6M8953suHxIaGRDn9qsiTme1aavV71lQBPSE5g9S8gjl8RARNePtz6VkiQf
-         46zJPgZh4RL87iyWfAsNhHGTa9BYcdO8C7eZCXGeVCXbAaq05Xcieo7k04E63ARHRsW2
-         lLXwsnLSGRyhalxqfGObT7DgAeMZh9Vj0kQITVvhLh5xHsDN1kPeGmOshtRH6EBV45Ry
-         iVo1xCw6huNpV3lKP/9iGZCeGeYLx9jGFFYuDFddF+2+wQU4DagCUlzsyfLjubaxZ1r8
-         aoyA==
+        d=gmail.com; s=20230601; t=1727722077; x=1728326877; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qQf7jBTLcAGdwf3vm3YWQoR4GjIM4Ol3UFWm/Exf2nI=;
+        b=ItBvcviS1LVZ/o6Z27TOeehGzyHsILFNurNF+dUBsS/ccJ7xiGyZ9bee7YGb0megE+
+         J4n6TV9XbYCTBAa4I3rl4KIsTLYi7JawesWznQBJefMrq7JNHeEXdZJnjIcvnftZJ68Z
+         iTnidaEvmfsuyR35Exm1ZevLpR9AZqhKP42po8gHCe2pl4RRm5gdR3VmY4c3i7l3eWtz
+         Tc7SIurEbDSEL8rZoT5x1YQuT12PN9+UuAj1F6mWn1phXrAxEgCZ4jC3tJ//TWmm1jXd
+         gEd5aPu++H2kp5jTLzjcnjBLBEUKB4SNuiqevjQZW82akDV3VNkIBaLpitxRZnEJ0om2
+         Hmhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727717288; x=1728322088;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oKPfHNdhODSMtcanILzQeBGfBMwQEWPBNC9E8LVZUG4=;
-        b=EoSYv2ZkunlaBy2xAtSqf29id7bol2cTCMtCWqLI2chdk8gq+csfMqrnxlXFUMWNFI
-         uEqTPCFLR+7tAcp+mPjgOZ36941mnBHvgEE60h8JgPq7IV8ycVbS3nnmf6toH90/zC7s
-         XA3cp+rfkUPbT7RIdCLcK98P9W9OhpiM+uJwHvwXylbL82Aop9UAUUBFmwovdYTxSx/K
-         Jfrpsaliuxhs1Zb+O8ARtw1zrxAza+TbyWhkw/JPV77I8+JUrBfEKpg/mM5K/JeiBywe
-         vSe/UQAt5QF5HX2/6zDxkTzrCGcFdGBCJl71ATM/3JeB9qCtnBWnHoBl/A8wD8mSKbke
-         8rXg==
-X-Forwarded-Encrypted: i=1; AJvYcCXQuoutxd/k86O1g5t6OidE9KFnreHqIdtycATAcXMh0E6AzO7j8g3IQyUxV4zrAVf3dHSJFOyhNFJg8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbEOW+Z8qDm1FN7ETVWHiAkyUIGhnAMbVYEsMoiH6JUe1UYluO
-	5BtvF6i7E+uVq+4KMChXmY+frKdkkBYubXMozOrSRm9BZ4j2HkiIS+28kYwq3GCENtUPqXZx++x
-	EYeT96tQD6p+f9wLw6Sa0v4pquPw=
-X-Google-Smtp-Source: AGHT+IEaivfPUOTYfVdV2tGIoNvPf8knR0y9lfNA/t/FP3Fw9vIWDXQ11hZYuP9TsOcMNgyjzhZiUpku5HnBsp8PlWg=
-X-Received: by 2002:a05:622a:14a:b0:458:29fe:d254 with SMTP id
- d75a77b69052e-45c9f2c7c80mr209204261cf.59.1727717288196; Mon, 30 Sep 2024
- 10:28:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727722077; x=1728326877;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qQf7jBTLcAGdwf3vm3YWQoR4GjIM4Ol3UFWm/Exf2nI=;
+        b=GrtLqd6vpHQThxxoW14kDSTwsOpQc5NtOaqEaRovRg0A37ukP+X/yaVJvaQyXKxkDS
+         hOncGI0nJU9ZuBEFoCpHDaT1U3uPQuU7DJVkZ5+AxZcLt/KepI0ucJE/CzwfLmzTUlzC
+         8e0pJDHuzldiRpd338YvJwd49yb/kAkPuvDXS2FkZupvbSMvuxTkvA3E/a4uaRuVGhXp
+         I0QernhUygLG+lfXbstEsqP7c5p4mPXttkEMqJJG4pZ8+pgLKpj76mpbHMhOniFHzEbh
+         z9kY17Q5M6QXsRmX9yJ66QuHKc0UkLDYq5xXEQXfVEV0CvlMY+dHqtmpN+o/ryZB6Ndz
+         13GQ==
+X-Gm-Message-State: AOJu0Yzo8bKKVYfpCU8J4LNoqS2lVHogTvSYSo4v5bcifsXZwLoK9lL1
+	e/GC0FADghePHMddwB4DZ/925Pkl/ckLvAW8aHcCTcSqONl482rN
+X-Google-Smtp-Source: AGHT+IHmJ5+3VKqAWxSD7XPwzmLnAaXXII/4pmlRZvSs+iv76ge1gigeU23XnTGG+oVCzn1FoXZ8wg==
+X-Received: by 2002:a17:902:c411:b0:205:7998:3deb with SMTP id d9443c01a7336-20ba9f188f0mr8734345ad.19.1727722077271;
+        Mon, 30 Sep 2024 11:47:57 -0700 (PDT)
+Received: from aspirebook.tailbdd117.ts.net ([2409:4085:8db6:8b72:7a03:99d3:c2ad:1def])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e37168sm57158195ad.186.2024.09.30.11.47.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Sep 2024 11:47:56 -0700 (PDT)
+From: Takshak Mudgal <takshakmudgal@gmail.com>
+To: laurent.pinchart@ideasonboard.com
+Cc: linux-media@vger.kernel.org,
+	Takshak Mudgal <takshakmudgal@gmail.com>
+Subject: [PATCH] uvc: Add support for Quanta ACER HD User Facing Camera (0408:4033)
+Date: Tue,  1 Oct 2024 00:17:05 +0530
+Message-ID: <20240930184705.59508-1-takshakmudgal@gmail.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240920124115.375748-1-dan.scally@ideasonboard.com>
- <20240920124115.375748-2-dan.scally@ideasonboard.com> <OSZPR01MB701939FF3C646166076B7AD8AA6B2@OSZPR01MB7019.jpnprd01.prod.outlook.com>
- <684a8564-23aa-45d5-bed2-3026743dddd2@ideasonboard.com>
-In-Reply-To: <684a8564-23aa-45d5-bed2-3026743dddd2@ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 30 Sep 2024 18:27:41 +0100
-Message-ID: <CA+V-a8teuzy1tRP1u_DUgMwWkH8kB6y5wAhGcNbtWx0jDzhUDA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: v4l2: Add Renesas Camera Receiver Unit pixel formats
-To: Dan Scally <dan.scally@ideasonboard.com>
-Cc: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
-	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>, 
-	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>, 
-	"laurent.pinchart" <laurent.pinchart@ideasonboard.com>, 
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Dan,
+This patch adds support for the Quanta ACER HD User Facing Camera
+with USB ID 0408:4033, which is found in some Acer Nitro 5 and
+Aspire 3 series laptops. The camera is UVC 1.1 compliant but
+requires explicit enumeration to function correctly.
 
-On Mon, Sep 30, 2024 at 9:05=E2=80=AFAM Dan Scally <dan.scally@ideasonboard=
-.com> wrote:
->
-> Morning Prabhakar
->
-> On 27/09/2024 12:29, Prabhakar Mahadev Lad wrote:
-> > Hi Daniel,
-> >
-> > Thank you for the patch.
-> >
-> >> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
-> >>
-> >> The Renesas Camera Receiver Unit in the RZ/G2L and RZ/V2H SoCs can out=
-put
-> >> RAW data captured from an image sensor without conversion to an RGB/YU=
-V
-> >> format. In that case the data are packed into 64-bit blocks, with a
-> >> variable amount of padding in the most significant bits depending on t=
-he
-> >> bitdepth of the data. Add new V4L2 pixel format codes for the new form=
-ats,
-> >> along with documentation to describe them.
-> >>
-> > Which path are you referring here?
-> >
-> > In the full bypass mode, the data will be stored according to MIPI stan=
-dard so 32bit.
-> >
-> > In (non)-Image Processing case the data is packed into 256-bits.
-> >
-> > I maybe misunderstanding here can you please clarify.
->
->
-> It's not the full bypass mode, but the formats labelled RAW10/12/14 in Ta=
-ble 9.1-14 of the RZ/G2L
-> documentation. The table describes up to 256-bits, but the packing for th=
-e RAW formats seems to be
-> in 64-bit units that are repeated 4 times. As I understand it it's the sa=
-me path as for the RAW8
-> output enabled in your recent series.
->
-Thanks for the explanation, I agree with the changes.
+Signed-off-by: Takshak Mudgal <takshakmudgal@gmail.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Cheers,
-Prabhakar
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index f0febdc08..40db8a5f4 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2430,6 +2430,24 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
+  * though they are compliant.
+  */
+ static const struct usb_device_id uvc_ids[] = {
++	/**
++	   * Fix for the problem with cameras on Acer Nitro 5 Series & Acer Aspire 3 Series.
++	   * 
++	   * Fix required for the camera here
++	   * Thanks for @Giuliano69 for providing the fix
++	  */
++	/* Quanta ACER HD User Facing 4033 - Experimental !! */
++	{ .match_flags 		= USB_DEVICE_ID_MATCH_DEVICE 
++		       		| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor 		= 0x0408,
++	  .idProduct 		= 0x4033,
++	  .bInterfaceClass 	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass 	= 1,
++	  .bInterfaceProtocol 	= UVC_PC_PROTOCOL_15,
++	  .driver_info 		= (kernel_ulong_t)&(const struct uvc_device_info){
++		.uvc_version 	= 0x010a,
++	  } },
++	/* Fix end here */
+ 	/* Quanta ACER HD User Facing */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
+-- 
+2.46.2
+
 
