@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-18810-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18811-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510FE98A1A2
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:11:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF2898A1CE
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:16:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8360B1C216B1
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:11:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9F30AB24B4E
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:11:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72592199FA7;
-	Mon, 30 Sep 2024 12:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3337519A28B;
+	Mon, 30 Sep 2024 12:04:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LvA2tb1H"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jHeah8oO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AD619994B
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 12:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347E4199FBE
+	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 12:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697891; cv=none; b=kxac0hNoN4zciumbtVEYo7ZeU8L/eAR05eg9t8nqyZAJ4isjCOw0BOtqAvsMgktvgrAfrelcY6zJQgVVPgj09pY8p2hH7WsRZmCR42UoE+nxbsJNYL9ckG8oPTgZ3vQktoFZrO+ujQGhoynG5RLOmUyOP1EIDLkX+4OUo+XpEiU=
+	t=1727697894; cv=none; b=GObd6GU6feEPIvEjhQV2Qhr55F1FX0duLniSEQtJ4L1EDORzjwRXnfrvQwOzPyAHyMCnFuKChRhy20z9M0ZzOnq9ccttjTIKSWNFy23ceoUvX8hmd9hcLectnH0jqCsqgBbkwP/AnUpyOkmdc8OoJ8UzsKrNSOGuIRkFnBkk2po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697891; c=relaxed/simple;
-	bh=iATwc6ufGXARE+6lG0pR6BzacdyrfLO5QVcrh6ufzXM=;
+	s=arc-20240116; t=1727697894; c=relaxed/simple;
+	bh=gioH4bb8ZF2A2YJ3Gh5wVo7at/LilX8METihZcFwy7M=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ef58B7agHkgVWkmpNFRwfIuc4gVObl3+xfQL0gpLFlMCl8a4mBlNmwb1zRoy1Tdi1O9oHofPpM5dzc7U+pEWr1Tw7VTziTO/GMPnFAnJZTUYfcBPNz6Gd6kfiA4DuMr1LtOSOGURFnKjY55KcFp1mpapyOe/kNpSmONasi8V26M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LvA2tb1H; arc=none smtp.client-ip=209.85.219.44
+	 In-Reply-To:To:Cc; b=PbcgfQAEjdeYH8751kRtT/J0ZNDPE7IokTTRDTpdTJ7shwY+DAQLTmzDjgYSelbKL0mJU7sK584BaLrf6SzHySfJSulBh+YBpqdngu8FIWCGDef9UEvLr4HO8YXJ6v9nmT8e5c2zssTZ1ILwlN2ptBeOL/NZWZziHcKknUx/lgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jHeah8oO; arc=none smtp.client-ip=209.85.219.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6cb2e5d0104so32208766d6.3
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 05:04:50 -0700 (PDT)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6cb4c013b78so18082016d6.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 05:04:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697889; x=1728302689; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1727697892; x=1728302692; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aurzIxhre/dA6wUpFHCHveAY7utZWkXC/gGbqMcXk0s=;
-        b=LvA2tb1HIe4EJXs0G79Rn74NkQNdJWdJP+56rVBiqYVPpSSSKk+BaMlZMRCczp2yU4
-         3yv7WSaE3UVkUxxMpxyeAKyszu8XsTZ9xN1BZZ1w4C04cSlMTNtVEG8MS57Dj90YuA5P
-         uFzxyH8ewKsSpPhPvwpzbcoA3v3m/hhwNpc7g=
+        bh=fkGnsANo5NZRR329f/RKKIwKl1Ms+i/uz0ChSSNIXaI=;
+        b=jHeah8oO68kIPGWg7xm/cF1UGNNVFsKwXRjbczpMJTNy8LwDco56IQaLyiYBbYokda
+         v+FrMADNKDKvDfg3IM8SO94cteDSwU85YcWR2EJKNAWz7MQzP7DnmLiZJvmGdLUlEbf0
+         TIUPDYVv+CFvvXGz3zTB3sdMDsk7OxUj9w7FA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697889; x=1728302689;
+        d=1e100.net; s=20230601; t=1727697892; x=1728302692;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aurzIxhre/dA6wUpFHCHveAY7utZWkXC/gGbqMcXk0s=;
-        b=CMsaMlVlSm1XPsEX+jHapU8IPdkBb5r6hj69PKnysjxtfmJbDW4dxB7V+zNK0KwgiA
-         sVOGPY6cJCpb6XcrmhAhv2m6dI/VzA/LeJmM+nJXnrmL6k4g3BTEbEOdad9xjrI3TmtZ
-         1shWG7xeIvU8iSK/STq+4/SL4JyNRxzeePHn8xPYdCn34YBXb0d1wjOx6ouwP1oY/kcF
-         ha6uBDnyH1IQ88fKN/oHA17SZsT32JLPczIFfd0Zkr4Lvjn6MFcBwwKw48C8Pd0ksH4T
-         Fb40zO7aYrHdf6jQztOhhynALc8/NPsiFj5ByPNr6oLrMoCgxB/hTwreiBYk4EtQEp/2
-         niKw==
-X-Gm-Message-State: AOJu0YwO5IP99wp14g9DQO5tOJ8JXgVHuab4qapA/lmkxvAZSM3Nb1l0
-	cYrRnHN1pHz5wXp6NUOwn0iSGkqNX/Cv5OPtcvORyb0oJ54hxOgvQ3Lrd4cl+A==
-X-Google-Smtp-Source: AGHT+IGIOHdh67nNwgDel6paDE35Eb29KwEMX4XzmiYgJj7qtD9+Z/d/ZNDrc9s0mVLpMYI/GTz7DA==
-X-Received: by 2002:a05:6214:53c4:b0:6cb:27e6:393f with SMTP id 6a1803df08f44-6cb3b63d1cfmr165544066d6.36.1727697889388;
-        Mon, 30 Sep 2024 05:04:49 -0700 (PDT)
+        bh=fkGnsANo5NZRR329f/RKKIwKl1Ms+i/uz0ChSSNIXaI=;
+        b=m6KvyrsXXOjzuJM+f2RdySy7RYtd1dw8gcqyCosAq5NkxMocn1hVomvoCXPU0qfMRA
+         NN2esdEGZ/RcBNmixaIvPuIU3FUCVliS9i8M2RuvtyQLZeCznpbRZT9FOU88sHYzIBAm
+         UAJ8/X4AOniGleAWRZLvLsJ5kz4DPhsaDeeU/nUY0pk/R1/4VX8NpkYv9RbpCF78ulD7
+         s/w9Gy8/e7HgU9KNSGPHFKXhODTSGQmiJahbtB7Gh8FaSdJzN+isu/eqb1vX9nPaU/te
+         0wUEy4PGTuYVowJvzqGsLTt19YC0FSWf9YBScFUmtpA7tlB/huHzk48ffE9okgiG/58z
+         Yptg==
+X-Gm-Message-State: AOJu0YzbiiebG8EqfkblNKYGxI0kvfZ+7rCOE+auqwXUcWZz/BtUk2KB
+	/UUOpY9zeLv4QAgumpDlKLkDgR8l5fr4yxHe2qgUpN5OOMHb+vfggthb4wxI0Q==
+X-Google-Smtp-Source: AGHT+IHSrAGEQVH1G1zMvd/O9AA5MhvLH1UshVFh4gerMrNNX+7ODpeAcur/C3J29WO/FfgVZP2azA==
+X-Received: by 2002:a05:6214:33c5:b0:6cb:4def:4ce4 with SMTP id 6a1803df08f44-6cb4def4dd3mr121217066d6.32.1727697892043;
+        Mon, 30 Sep 2024 05:04:52 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.47
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:48 -0700 (PDT)
+        Mon, 30 Sep 2024 05:04:50 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:17 +0000
-Subject: [PATCH 22/45] media: aspeed: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:18 +0000
+Subject: [PATCH 23/45] media: ipu6: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-22-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-23-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -113,37 +113,27 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-aspeed@lists.ozlabs.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-The following cocci warnings are fixed:
-drivers/media/platform/aspeed/aspeed-video.c:1944:6-16: opportunity for str_on_off(v -> hq_mode)
-drivers/media/platform/aspeed/aspeed-video.c:1230:3-17: opportunity for str_on_off(video -> hq_mode)
+The following cocci warning is fixed:
+drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:247:51-57: opportunity for str_on_off(enable)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/aspeed/aspeed-video.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index fc6050e3be0d..9c4a47d7a442 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -1227,7 +1227,7 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
- 	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d)\n",
- 		 video->jpeg_quality);
- 	v4l2_dbg(1, debug, &video->v4l2_dev, "hq_mode(%s) hq_quality(%d)\n",
--		 video->hq_mode ? "on" : "off", video->jpeg_hq_quality);
-+		 str_on_off(video->hq_mode), video->jpeg_hq_quality);
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+index 051898ce53f4..522dbf52c82b 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+@@ -244,7 +244,7 @@ static int ipu6_isys_csi2_set_stream(struct v4l2_subdev *sd,
+ 	u32 mask = 0;
+ 	u32 i;
  
- 	if (video->format == VIDEO_FMT_ASPEED)
- 		aspeed_video_update(video, VE_BCD_CTRL, 0, VE_BCD_CTRL_EN_BCD);
-@@ -1941,7 +1941,7 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- 	seq_printf(s, "  %-20s:\t%d\n", "Quality", v->jpeg_quality);
- 	if (v->format == VIDEO_FMT_ASPEED) {
- 		seq_printf(s, "  %-20s:\t%s\n", "HQ Mode",
--			   v->hq_mode ? "on" : "off");
-+			   str_on_off(v->hq_mode));
- 		seq_printf(s, "  %-20s:\t%d\n", "HQ Quality",
- 			   v->hq_mode ? v->jpeg_hq_quality : 0);
- 	}
+-	dev_dbg(dev, "stream %s CSI2-%u with %u lanes\n", enable ? "on" : "off",
++	dev_dbg(dev, "stream %s CSI2-%u with %u lanes\n", str_on_off(enable),
+ 		csi2->port, nlanes);
+ 
+ 	cfg.port = csi2->port;
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
