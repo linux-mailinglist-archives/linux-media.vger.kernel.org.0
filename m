@@ -1,160 +1,151 @@
-Return-Path: <linux-media+bounces-18774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE608989CD9
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 10:33:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F487989D2B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 10:47:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73013284CFD
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 08:33:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 31E201C20F6C
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 08:47:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5487617C9A3;
-	Mon, 30 Sep 2024 08:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59A9017A5A7;
+	Mon, 30 Sep 2024 08:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gF8Xkek8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ox4HGyed"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9F511CA9
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 08:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F97584D02
+	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 08:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727685210; cv=none; b=TWQ7PeU69t5OfHjswRCFzLwgzMR9HW1oUYocGSPL30pI3bDojb2Vy7d4MpOZiaZWroZrK476Z1LG+C9fpWD15F+xnnbc6IE648UaK/IFT15l1lXCaK7kxjiD+R6c6wnud1ftZZupXerLsliZCfnUtGMlnl/65/QfN85I3UX0isk=
+	t=1727686021; cv=none; b=EUx8cprCG1pNbYmCSwCQ6zmw6/67o5BHhLOPalfXgDeIQb0Oq4/VrII0teYZ87k7AZhwVkkOGtPm+yE/7wiZ/r/kiG6P2GIVbySGmh7aciu09K8djWIUZnL7lpVj8Ok90Sc1dCJt3Vt5WhFQp9Teygucw+Zyu2UnxRyffxOuR8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727685210; c=relaxed/simple;
-	bh=c8xaMOx5eNN5h0aFA5HA05QSMBs5dlneQNGC+y/HRis=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dhgn7r4rgz81j+Wn3ojQ+rX/cz6XG+8HVCR0NI13TFGnjdDQZxSDrVrZG9iqssr+Aavn9xrdwey7FCOPAWP43zC6QWh0bSO/lNaCnMKeP2rkbT/FWkCocdB68nSnqnAH2CsN9bm0LiyuH10HT33oo6Yabxd0zP8LWyk0dkt+Its=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gF8Xkek8; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from fedora.local (unknown [95.131.45.214])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0EB6539F;
-	Mon, 30 Sep 2024 10:31:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727685115;
-	bh=c8xaMOx5eNN5h0aFA5HA05QSMBs5dlneQNGC+y/HRis=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=gF8Xkek8ulIv2naHSUdvO9w8NxS+ZgmnbOx1WL3tzsVsGQ+QMDE5pRSV9aHb+Mh2q
-	 x/9X5/TxPFpk4qCIt/GtArFH/q3mE/rACGYApIBiGJVzk3DGu0aTc5MWpU9TunMBtf
-	 x1ONB/czju0FcKMm2uqR7asDOtNHfPifCkGYKq8s=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Mon, 30 Sep 2024 10:33:00 +0200
-Subject: [PATCH v6 4/4] media: pisp_be: Fix pm_runtime underrun in probe
+	s=arc-20240116; t=1727686021; c=relaxed/simple;
+	bh=zBOaCIiplMCpZGY0jjaPb2V+UzWItcf34o6TiHwy4Xw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MpHpk3YehqYjLXbdj7Ua4Ej1LozdD8rSeYC1JMD5xNKyRYfmvQHL1NTVc4/dOrdwskN7zqDBS6nJnCYpHoBjCZeHa8IKbSqdtjikdfQZifK7MZw9PockDFxMfbi3cV1OeOjYNJLO1GAGP+g/hcMd9UVTqZ8+/i24MJmB0H3FOMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ox4HGyed; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5398bc32bd9so266002e87.3
+        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 01:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727686018; x=1728290818; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OtMzIEmSeHrSindSP0Zy7HyY0VWOBIsMj6Cl6nDXOFs=;
+        b=ox4HGyedgXHYRfLJYqEK9TThNNLbTYZWQi3L/R9XLvECCnVmiQtQnZ73Ce00j/Jiql
+         4Ab6pfsqj12TT/BSF2gAWAku2A8tkKEoHyza/xAJT1I07tuONC98qiN6A9bMthebXEv6
+         u8ypPoiZDLn7+A+CVrDu6nzz25FzXQPhezbFW7tMKBmuQrHUAU2jPRBkyoqTy0nX0yvJ
+         N0cclosyuED+5BVPe12pFtOGuKGQtr264LznXtPm8VILGN29H1QXOlZBvtSXdx24AqR4
+         UfxibCxaY2NPIdAhBk9TV+87Prc4wPQykVahNchiBeZF+MXZwFNBn1zLB6tRVMnl1jyg
+         QqwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727686018; x=1728290818;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OtMzIEmSeHrSindSP0Zy7HyY0VWOBIsMj6Cl6nDXOFs=;
+        b=Fx2y11UddwLbddAbHUb+DhzBNL413sSY6X3tZNaU4mVlypTrE+v1zPLp7QfjLgY2U5
+         XO+OjbCR5DTcyXgyL7dnrDSjPejDGsrM36zJqFTza7HZPAmFXUNOYK6emQWb9Ih4Dtq4
+         8BhE45RxfOFi9Q/JTc6ORURuT8blsF+Vf3D6Vnj4EyjlyRL7AQwxTpehL8Lp21dLrm+7
+         vWkkk6LJACinhho8S5nPKUjMGLd0nJaHYQVB4EsMChVs6Whnc47M7sC6lwst8Zxedas7
+         9ke8NhGHZtzV+6Vj69VtEYpf865h78F5YkKIka6kkWmtt1j1u2CjLiFfukHyY3fCDgc2
+         kkIg==
+X-Forwarded-Encrypted: i=1; AJvYcCVMya+zJSuM+qZjv+bRAzLTWPR+2u2Hiymmza71xgkFqybg7Hx6HfaPdNf6ZbjZv5kFQe/EjlM8CM6AKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxq/icoOKVjFu188BG5vIy9eT1EDGDrnCLvC1qo0p9Lsn+ADELX
+	6tmaSlL+8anfWxAfsjbcx9lfwBtvdnnIldIn5Z8VFKCTzL7UUCan8pt49iQ3HWs=
+X-Google-Smtp-Source: AGHT+IFD+QksQwqwWe9YMhvYeWxUxYvljx6Exd041dtgf4st8hShEVFT0rzEYhFQU/g1Q5R2XdhGfA==
+X-Received: by 2002:a05:6512:3190:b0:535:4144:f9d3 with SMTP id 2adb3069b0e04-5398c31aa74mr864994e87.11.1727686018222;
+        Mon, 30 Sep 2024 01:46:58 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-538a0439110sm1164327e87.184.2024.09.30.01.46.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Sep 2024 01:46:56 -0700 (PDT)
+Message-ID: <87419076-c355-4eb9-8bf4-a9f2064e3c0a@linaro.org>
+Date: Mon, 30 Sep 2024 11:46:55 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-pispbe-mainline-split-jobs-handling-v6-v6-4-63d60f9dd10f@ideasonboard.com>
-References: <20240930-pispbe-mainline-split-jobs-handling-v6-v6-0-63d60f9dd10f@ideasonboard.com>
-In-Reply-To: <20240930-pispbe-mainline-split-jobs-handling-v6-v6-0-63d60f9dd10f@ideasonboard.com>
-To: Naushir Patuck <naush@raspberrypi.com>, 
- Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>, 
- David Plowman <david.plowman@raspberrypi.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3170;
- i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=c8xaMOx5eNN5h0aFA5HA05QSMBs5dlneQNGC+y/HRis=;
- b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBm+mJPXfQQWeNX/+iQDi5wvde8xtVbCAIIDitYf
- WUysPkTRBOJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZvpiTwAKCRByNAaPFqFW
- PGW9D/0Q7xf8jLYTmLTsPW3NWnu3gsMVxywU/agjQ7hrra3Whiw0rJlprirCag+okDthn+OfUck
- EpOCUIVADux4rfJ4UvkuuILIAB6xdGt4UFmO8dcTU9aG+MXLf0SJLGSJrtAZ8ABqv7pECrl00Dr
- iLeqXQi0eYK/4CUaZaKy/V5ZG3RkLcJ30x491cT8PN7zLo1Ppix3tTF/ZI+Kz5m9jglXhoS/8RL
- ry3Q7FZC7I74Jbqj3EqJ1l5pcraaZlOnfcS+MzdGMf3jLrMCnRM6Oj14UcHs2ff2N7zInSq2DX/
- nOHoY9h4Xx7h2PawVwCNzVKiqv9Fd6o66veYB7O87LyUJnh3Sv4HedPiNOYXl7pp3JeMv7WFg7W
- Czaiz+yJkw94Egync2M0lSVanKP0CFI8zAapyk6CVYTqwfaEPUjbo9EhWC/D5XJdn9Bn9MExb66
- WotGYZuP7NpcDs+gFbT6N4SRa5+R9Mw81r1M4UgP6SgCRYY/8tzgo24k5ZquioJPbpEunr8nDx4
- wpkb1EjQF+vlrCXbVIR+QyZAW3XWs+7piQ8ZvbF/EFD/EEAGUj+JCOIFRIILHZpRDEIAyGJL6nQ
- umcnZjKiVUo5Oqarf9Am7frydo12plvHgyzw9pUNIjpmGy3Tj6UwOk51oQ8fCVEWxk/rjyEjr5E
- BBGZQEO9KS6nPZg==
-X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
+ binding
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-8-quic_depengs@quicinc.com>
+ <9ed92660-5f42-4a1a-9261-b8800133972a@linaro.org>
+ <ed012367-1bfd-4eef-931b-37e1ac839176@quicinc.com>
+ <65e5796a-8b8d-44f0-aef4-e420083b9d52@kernel.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <65e5796a-8b8d-44f0-aef4-e420083b9d52@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-During the probe() routine, the PiSP BE driver needs to power up the
-interface in order to identify and initialize the hardware.
+Hello Krzysztof,
 
-The driver resumes the interface by calling the
-pispbe_runtime_resume() function directly, without going
-through the pm_runtime helpers, but later suspends it by calling
-pm_runtime_put_autosuspend().
+On 9/30/24 10:16, Krzysztof Kozlowski wrote:
+> On 25/09/2024 17:13, Depeng Shao wrote:
+>> Hi Vladimir,
+>>
+>> On 9/6/2024 11:56 PM, Vladimir Zapolskiy wrote:
+>>
+>>>> +            compatible = "qcom,sm8550-camss";
+>>>> +
+>>>> +            reg = <0 0x0acb7000 0 0xd00>,
+>>>> +                  <0 0x0acb9000 0 0xd00>,
+>>>> +                  <0 0x0acbb000 0 0xd00>,
+>>>> +                  <0 0x0acca000 0 0xa00>,
+>>>> +                  <0 0x0acce000 0 0xa00>,
+>>>> +                  <0 0x0acb6000 0 0x1000>,
+>>>> +                  <0 0x0ace4000 0 0x2000>,
+>>>> +                  <0 0x0ace6000 0 0x2000>,
+>>>> +                  <0 0x0ace8000 0 0x2000>,
+>>>> +                  <0 0x0acea000 0 0x2000>,
+>>>> +                  <0 0x0acec000 0 0x2000>,
+>>>> +                  <0 0x0acee000 0 0x2000>,
+>>>> +                  <0 0x0acf0000 0 0x2000>,
+>>>> +                  <0 0x0acf2000 0 0x2000>,
+>>>> +                  <0 0x0ac62000 0 0xf000>,
+>>>> +                  <0 0x0ac71000 0 0xf000>,
+>>>> +                  <0 0x0ac80000 0 0xf000>,
+>>>> +                  <0 0x0accb000 0 0x2800>,
+>>>> +                  <0 0x0accf000 0 0x2800>;
+>>>
+>>> Please sort the list above in numerical order, this will change positions
+>>> of "vfe_lite0", "vfe_lite1" etc.
+>>>
+>>> Another note, since it's not possible to map less than a page, so I believe
+>>> it might make sense to align all sizes to 0x1000.
+>>>
+>>
+>> Sure, I previously sorted by the alphabetical order of reg_name.
+>> I will update it based on your suggestion. And will also make sure the
+>> align all sizes to 0x1000.
+> 
+> If I understood correctly, you want to change the order from existing
+> devices, so no. You are supposed to keep the same order, as much as
+> possible.
 
-This causes a PM usage count imbalance at probe time, notified by the
-runtime_pm framework with the below message in the system log:
+Please elaborate, what do you mean here by the "existing evices"?
 
- pispbe 1000880000.pisp_be: Runtime PM usage count underflow!
+The list is not sorted by reg values, I ask to sort the list by reg values.
 
-Fix this by resuming the interface using the pm runtime helpers instead
-of calling the resume function directly and use the pm_runtime framework
-in the probe() error path. While at it, remove manual suspend of the
-interface in the remove() function. The driver cannot be unloaded if in
-use, so simply disable runtime pm.
-
-To simplify the implementation, make the driver depend on PM as the
-RPI5 platform where the ISP is integrated in uses the PM framework by
-default.
-
-Fixes: 12187bd5d4f8 ("media: raspberrypi: Add support for PiSP BE")
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- drivers/media/platform/raspberrypi/pisp_be/Kconfig   | 1 +
- drivers/media/platform/raspberrypi/pisp_be/pisp_be.c | 5 ++---
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/raspberrypi/pisp_be/Kconfig b/drivers/media/platform/raspberrypi/pisp_be/Kconfig
-index 46765a2e4c4d1573757ff842f208834216e582cb..a9e51fd94aadc6add70f883bfcea0c9fa91f0c4b 100644
---- a/drivers/media/platform/raspberrypi/pisp_be/Kconfig
-+++ b/drivers/media/platform/raspberrypi/pisp_be/Kconfig
-@@ -3,6 +3,7 @@ config VIDEO_RASPBERRYPI_PISP_BE
- 	depends on V4L_PLATFORM_DRIVERS
- 	depends on VIDEO_DEV
- 	depends on ARCH_BCM2835 || COMPILE_TEST
-+	depends on PM
- 	select VIDEO_V4L2_SUBDEV_API
- 	select MEDIA_CONTROLLER
- 	select VIDEOBUF2_DMA_CONTIG
-diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-index 1c1ced2b8d7017473ded018e4badbf0792da1819..c2f062b64380d848907a28bc2672e6d70fac8909 100644
---- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-+++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-@@ -1718,7 +1718,7 @@ static int pispbe_probe(struct platform_device *pdev)
- 	pm_runtime_use_autosuspend(pispbe->dev);
- 	pm_runtime_enable(pispbe->dev);
- 
--	ret = pispbe_runtime_resume(pispbe->dev);
-+	ret = pm_runtime_resume_and_get(pispbe->dev);
- 	if (ret)
- 		goto pm_runtime_disable_err;
- 
-@@ -1740,7 +1740,7 @@ static int pispbe_probe(struct platform_device *pdev)
- disable_devs_err:
- 	pispbe_destroy_devices(pispbe);
- pm_runtime_suspend_err:
--	pispbe_runtime_suspend(pispbe->dev);
-+	pm_runtime_put(pispbe->dev);
- pm_runtime_disable_err:
- 	pm_runtime_dont_use_autosuspend(pispbe->dev);
- 	pm_runtime_disable(pispbe->dev);
-@@ -1754,7 +1754,6 @@ static void pispbe_remove(struct platform_device *pdev)
- 
- 	pispbe_destroy_devices(pispbe);
- 
--	pispbe_runtime_suspend(pispbe->dev);
- 	pm_runtime_dont_use_autosuspend(pispbe->dev);
- 	pm_runtime_disable(pispbe->dev);
- }
-
--- 
-2.46.1
-
+--
+Best wishes,
+Vladimir
 
