@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-18820-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18819-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BF798A1B9
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A7C98A1B6
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:13:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 569441C21792
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:13:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 169FC1C215CB
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:13:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B983219DF99;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48E6419DF66;
 	Mon, 30 Sep 2024 12:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iei8hRIB"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nfWGt05X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D8919D8B3
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 12:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B63F19DF44
+	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 12:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697911; cv=none; b=VsiVx/t5wFRazyYIRpAGRb8naTCScKgu4J+EFgufCP/l1wOH74fYPvm5qR79xezu3j2R0Ep3fSfd7PwYtobtARtysu9n6vuZjkuXBe5rGriVUdP6IKfk9Xmgl+zqza1Si2/rnS+Kp10O5wlMFKXsHK5DD5svbIrkIa5ySRwNl/w=
+	t=1727697910; cv=none; b=rObGCVAH+6UcK//anlmZIhs00j1L/RIrfaQ3MQCG+Kz5hP5pVS0DJhHZgVaI7e+skmRwv4mVHOZjqMXc76l3PCPEfK/eK/QwKUhoJYvr/K1nzwGEaUzo5N0n2yNxwzO+1YezBbIfXUqcswn8P+vru6vE2zwUICrYjPLFHDGj5ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697911; c=relaxed/simple;
-	bh=4z/LssQ02GJNR8bA1yxT0qSzeZ6+9fo+8Pg8B3PGX2Y=;
+	s=arc-20240116; t=1727697910; c=relaxed/simple;
+	bh=uih8QEqTTkP4DXsgDAU2UHGmO9M1hExX6/d1paS6Nuw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GpXXaJ0ODHoy+7v4kgQD09yQh+sB8RZ9/3nrQkREs0vNe7TOKAUX/6RaxoDKj9pblPjTqN2LuBEVgX8C3mxYxUyefT5AwWzj7R79lgcYQEJuFzOdvcrXo2jbfXZR5HLUhsrBqSMivPf5sZMaIDaZFFP9XQzjBYXgy7zlh+/GQFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iei8hRIB; arc=none smtp.client-ip=209.85.219.48
+	 In-Reply-To:To:Cc; b=qKPBvvkVlUEer7JvRoFt7jKXbNPCSywt7R4kCvFkdcoopMPK2P3eeWdq0r8h4bl7jY/Oh0/wWVJZWRy5varK5W0ifnnC3CW1oaFL+XIxiUQcKWqpg7n0OGYuEYiMJcPqU3HAGxYKVZEc13lZLyLg+tDJrL8qAtlLUGEvZ9gwK38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nfWGt05X; arc=none smtp.client-ip=209.85.219.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6cb2e136da3so29189776d6.1
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 05:05:08 -0700 (PDT)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6cb2dffcdbbso37873846d6.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 05:05:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697907; x=1728302707; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1727697908; x=1728302708; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yeZpI3Ra5CG7IMhE/CKrUPUz5revSFC/2gaO36DfqMw=;
-        b=iei8hRIBuqYg5AtI5xzN3CMe3vJsU/eee5asrgzGm3bYZl4xvfIUqZyJZre9wUKr3T
-         akb9WaaPgkyyS+KWzMVU8f/Zex4AuUqNPBL1/QkuzLIdyuCNv/M9f1Dv7p9tqK3aC7c3
-         kT2d06Vdz/dUMMwvS4UmTlKSTXFqNxmNOFupk=
+        bh=tASyZsxMamepS+/aqpGaV+hKbka/53sBNF0loAvAB9A=;
+        b=nfWGt05XVrSbi5lofZ33E29UOKsmcef/WH9l77vFn3M2L1O8T26mX+qN7jX7csY+ew
+         3itFAfh0AuE+N7b7lu0WM7YMQkDLNW5A/MY97MgKScezcs2bELouRtsYxEs2+2x+J7tR
+         LUJuW9CXiuDdKEkjZ2hIutYGRtJGT/MNGbg8s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697907; x=1728302707;
+        d=1e100.net; s=20230601; t=1727697908; x=1728302708;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yeZpI3Ra5CG7IMhE/CKrUPUz5revSFC/2gaO36DfqMw=;
-        b=t6FFn6wbl1fPj7G1BhOTb+v7GhH4dif0sNqsLTz1K7Flr99uhzL0qqbHPvIQx1gz38
-         /xtOM1Y67EVt/Q7A7dzpHVRk+5ypsFf5KaYwOQJub1PETmRlXTXAkxW/TrNLE0vjv08X
-         68ahbqcB3IMNEfABDbAN38cbHPuo3xQNfT3BA2QcTvEX4QhPoh4irVoMLY+PUBZ+Zn1M
-         sTgo1KhtVUCqARj/WaRUinzRqCjhg9a1tz2AFiqi7uewmlgZN7BFPb6tmLLFXYno9QSY
-         Yk8ty1WBxFgU90lPjh/MGcoo5dTF0U9T55TZYVg1T1jxZx47rWGGQdt+PW8T8LY+sqox
-         r+3g==
-X-Gm-Message-State: AOJu0Yy3+eTq9elUcRGjrzOwCkKq+l0vhf0bXLZEvn2YkRptzz8dHebB
-	lUaFX2wtRBtX6Rr/Zlb0pgaQbTZwYffX/vuI/i8aqtOO6K8sVYqsagWSOBdZ9w==
-X-Google-Smtp-Source: AGHT+IFyOtAPK8xGQ/QMRxJMYu6WDsr9USOQ8VSoGNgApI/9s4N+ulaKyT/ysJasxumVieqsjFFOrQ==
-X-Received: by 2002:a05:6214:3f84:b0:6cb:455e:da5 with SMTP id 6a1803df08f44-6cb455e0e83mr174779006d6.45.1727697907195;
-        Mon, 30 Sep 2024 05:05:07 -0700 (PDT)
+        bh=tASyZsxMamepS+/aqpGaV+hKbka/53sBNF0loAvAB9A=;
+        b=MG3fMHJD4UeOjZ8NBzhGZIgbfiZ1DFMkqGHC2GAQ1f5dkDtG09PGe8jqwDug7bwP8f
+         qDhMC/Yys1LhVsHjuAdmjlQcwbU/19FJsKKUXqSg8yPumL3JUoDr9txuKWgiRCy3psKp
+         8zwjZGnBpbwYd7EXLhMwWAivpIVJjk52jRc8Pucl9Unm7SMG76VkiT/7AvJtm6nqbNOE
+         3jY8KxiJ8PyTYsE2H4PnjRPtWchxmdZ3j8ATGIQb+AuNSdyd/OnieGhkOY7p7hUc/Bbt
+         QRFViIyy9eP8LIMVLu80KGeo8XGpdrASDjpkHRW/OPnsQoE3BjUgfERYKqMkrSWACpJt
+         3hIA==
+X-Gm-Message-State: AOJu0YynqquX01UvBb1RWyo1Wt1T1PZ2Gun09+CPnjDjtMm+4TE7RTZH
+	uHdN/zdlYzk1mivyz6Z9TrUgk7iKNr1sKa8BNna42HE1HCQi3m0yMgA6+fTxZA==
+X-Google-Smtp-Source: AGHT+IFjm/EtrgyOgYzJ6FCtv8A70AwY6h/u/nfabbLzk2VgNMjTcGoqCqNUVQwkIEHXuuvTS3xGsw==
+X-Received: by 2002:a05:6214:4881:b0:6c7:c645:df60 with SMTP id 6a1803df08f44-6cb3b686f6cmr211008966d6.41.1727697908426;
+        Mon, 30 Sep 2024 05:05:08 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.05.04
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.05.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:05:06 -0700 (PDT)
+        Mon, 30 Sep 2024 05:05:08 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:26 +0000
-Subject: [PATCH 31/45] media: i2c: vpx3220: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:27 +0000
+Subject: [PATCH 32/45] media: i2c: tvp7002: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-31-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-32-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -114,26 +114,26 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 X-Mailer: b4 0.13.0
 
 The following cocci warning is fixed:
-drivers/media/i2c/vpx3220.c:404:41-47: opportunity for str_on_off(enable)
+drivers/media/i2c/tvp7002.c:775:5-22: opportunity for str_yes_no(device -> streaming)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/vpx3220.c | 2 +-
+ drivers/media/i2c/tvp7002.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/vpx3220.c b/drivers/media/i2c/vpx3220.c
-index 5f1a22284168..c5b031dd59e7 100644
---- a/drivers/media/i2c/vpx3220.c
-+++ b/drivers/media/i2c/vpx3220.c
-@@ -401,7 +401,7 @@ static int vpx3220_s_routing(struct v4l2_subdev *sd,
+diff --git a/drivers/media/i2c/tvp7002.c b/drivers/media/i2c/tvp7002.c
+index c09a5bd71fd0..2acf93a90c34 100644
+--- a/drivers/media/i2c/tvp7002.c
++++ b/drivers/media/i2c/tvp7002.c
+@@ -772,7 +772,7 @@ static int tvp7002_log_status(struct v4l2_subdev *sd)
+ 				bt->width, bt->height);
+ 	}
+ 	v4l2_info(sd, "Streaming enabled: %s\n",
+-					device->streaming ? "yes" : "no");
++					str_yes_no(device->streaming));
  
- static int vpx3220_s_stream(struct v4l2_subdev *sd, int enable)
- {
--	v4l2_dbg(1, debug, sd, "s_stream %s\n", enable ? "on" : "off");
-+	v4l2_dbg(1, debug, sd, "s_stream %s\n", str_on_off(enable));
- 
- 	vpx3220_write(sd, 0xf2, (enable ? 0x1b : 0x00));
- 	return 0;
+ 	/* Print the current value of the gain control */
+ 	v4l2_ctrl_handler_log_status(&device->hdl, sd->name);
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
