@@ -1,159 +1,160 @@
-Return-Path: <linux-media+bounces-18769-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18770-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF89989CCF
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 10:32:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D767989CD5
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 10:33:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F6951F220EC
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 08:32:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 509201C21952
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 08:33:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D74E17BEBF;
-	Mon, 30 Sep 2024 08:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2B1517AE1C;
+	Mon, 30 Sep 2024 08:33:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NzHFNN7G"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YuIuN1jy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B5C43156
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 08:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EDF11CA9
+	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 08:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727685132; cv=none; b=pIDAFa1fvFxS1Q9eeS9NqLPpBeyh/1vNYk5vNuvjeM2J6EKf7V881kr1zfKV39urzuE7jULViVtYcsxalK2dAi1N8tJhLZD8WCZli1Kx9Pgn8AL3wWMNGUCUYRFlfMgN3xohzZxg7RN+fn8kTi0xyY339m1poNC66YsMW1LxVmg=
+	t=1727685204; cv=none; b=dxTszMnRQU/UVBM7iW+vcKn3hk4jxod2k9PcH4sucQem2NJP2azsIEf2wW8KdC3wRqQf1Z56efZacIcvDBBXmjWaL5VkAx5UPfLefXKh3XzqDYVCAPuubuK0NrRtGSWtyw/EI0uIW2Rr/iyLzljvN5As4gOFQIMyszLpYbOTepk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727685132; c=relaxed/simple;
-	bh=vjDswGq6qzpL0ELCkjz11cU+d1yIUQWLyrv7G9cBs7w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ub6oSwIf5+pG8r1h9HSpIk8i5FM/A4Fd8hyTV7kA4sUMU4YRjKjSvNncyv7bCgGwMJc+mQFadOy0bLz+HppjJFdNH58I0WA9FrHV3dmONgk17RgHvcjyLPd/iHqx3nN4Sa3U+bchjsDj7TvYs7KF1Xwr5X+EB1xd91r3UDuu6yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NzHFNN7G; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5398bc32bd9so263941e87.3
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 01:32:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727685128; x=1728289928; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bda1ujvEw2DtigO9xhXKOUzZtK+oOjtZGeAQ6Cgn92c=;
-        b=NzHFNN7GsOmIU4AyHXXROunwO6L2BEFWOJ7jw7ZSqQG7BLOYYqbdVg29kPidBT25/A
-         0rd17z6m8PbTJ7GY3P/xXk/VCNgg+EZ1BzFAviRg/JD5AvnTV1FORSQSjV/DhsyjDr5G
-         JzM6pxT//AlZj3RFyb0tKpO9IIqiO7LFRPRPaXLJBvQYgQU/lKTk1M8wpcomJxtY1o4g
-         4xpg7OLA6tz8qlklMFDpT4eqjpiC4EgGuJcIEw15kYuuWsg2cqaEtqlW5rBvFqxlhwPC
-         +pmF5YxNMY7+jJDf30kT5a2tE+Wexg96k9mB4LwSQOkBvKC5R4VuiYOOvWEtqoZR4Z9h
-         HQyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727685128; x=1728289928;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bda1ujvEw2DtigO9xhXKOUzZtK+oOjtZGeAQ6Cgn92c=;
-        b=BBmIJVSEwJwg2U1Gws5wYArTKRG3K31UXuJsGkxB5N55Kb/kilmreypDh+CV5zI/au
-         HMIno0aB1HTFBpnpeW48UcS4ZOZbvn2/cKamVvMAtTD+Y7UCGypftl8s0kNngQJtAI3K
-         2BwXzqYEiC74dGZ74Wui0RYLx0JZVpapFa8JbIqr9JegICie2/C16zmNDr5XrL0QSL30
-         0RUBwszqBqMgRdPwktMraz3cmV3Qe6i9z3QyHKKzNPAGcITwmTxao3xoZfRxJ8G2Dekp
-         s/PF+27v6pjWw7IxLZL+aITavORY4BefVx+toeg8WXTs8udC+srbatIMMmjt/l5BF/OB
-         y42A==
-X-Forwarded-Encrypted: i=1; AJvYcCXnN+w0uk9VjXh6eGXA3Wf4gdwBLAtv2bEH6T8+02wD/1EBxjrbPn3ZmFBq+uObriRpM8imvuR2nqO9Zw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx93Py0Cf5LFnOivpQcc5iCprFs3fSBsH6rbibMin2HU9QDcLp9
-	u7aNc9Vx6AxeNIhGdVqTYBIVz9vvQPC5Xzv5Uk13AMjiKO7GYTOh22TVWZhfpA0YLK1RFtg3Ld8
-	z
-X-Google-Smtp-Source: AGHT+IH0lDtASpU4Bz/yJJ+DPMxpJva/WXZEzaaUSKmBmARfPfs62pt6dBtlPHX5lCsdiTR1si7/Fg==
-X-Received: by 2002:a2e:a595:0:b0:2f1:75f4:a6a4 with SMTP id 38308e7fff4ca-2fabfc3725cmr9211601fa.3.1727685128428;
-        Mon, 30 Sep 2024 01:32:08 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-538a043b060sm1157672e87.227.2024.09.30.01.32.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Sep 2024 01:32:07 -0700 (PDT)
-Message-ID: <18fd8a2c-0563-49a0-b2a4-78f0005576e9@linaro.org>
-Date: Mon, 30 Sep 2024 11:32:05 +0300
+	s=arc-20240116; t=1727685204; c=relaxed/simple;
+	bh=88Xp6ZeRTqplgAVR2xCmkqnxt9M2uHr9gEXHiThXKl8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HgZDBTKOrznWjXPOZjoMR7FBc5SJDnrQWvE0XfebbRpbCdNpYpKtYEZFUTlyo5XNSosvhvxZS6rsjINGcq1mELlc66y8k6HfQyhdCj4Nx2ZFrs8z1XcvbyuspJNmRcWXG1XF9zktBfNOG7n7Ta7ZtkT5vpjVqBj04tYlaQ0AKfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YuIuN1jy; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from fedora.local (unknown [95.131.45.214])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63E4439F;
+	Mon, 30 Sep 2024 10:31:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1727685110;
+	bh=88Xp6ZeRTqplgAVR2xCmkqnxt9M2uHr9gEXHiThXKl8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=YuIuN1jygv2FWWAT5yQkfKrXNvVDbXzkwZnWdFdnG9OhfmRlrYTHx9a8+mRW5HzZJ
+	 9+qhMLjpNIOa5P4F6PDYvwrL78zzdA9yvGM9Kxm8e/w7O1xBAA8/U9UxSA3n9Rmajq
+	 hOGOpw5TbI2H26THafFtoKyGzsCABWX4qgXrfSNA=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [PATCH v6 0/4] media: pisp-be: Split jobs creation and scheduling
+Date: Mon, 30 Sep 2024 10:32:56 +0200
+Message-Id: <20240930-pispbe-mainline-split-jobs-handling-v6-v6-0-63d60f9dd10f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
- binding
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Depeng Shao <quic_depengs@quicinc.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, rfoss@kernel.org,
- todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
-References: <20240812144131.369378-1-quic_depengs@quicinc.com>
- <20240812144131.369378-8-quic_depengs@quicinc.com>
- <9ed92660-5f42-4a1a-9261-b8800133972a@linaro.org>
- <ed012367-1bfd-4eef-931b-37e1ac839176@quicinc.com>
- <212c880a-9a09-4433-a049-eb15a0c32322@kernel.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <212c880a-9a09-4433-a049-eb15a0c32322@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADhi+mYC/x2N0QqDMBAEf0XuuQeJ1kD7K6UP0az2io0hJ1IQ/
+ 71HH2cZdg5SVIHSvTmoYheVNRuES0PjK+YZLMmYWtde3a1zXETLAP5EyYtksJZFNn6vg7L5yba
+ Z98C+T6MP8B5dJDsrFZN8/6HH8zx/eI7lb3gAAAA=
+X-Change-ID: 20240930-pispbe-mainline-split-jobs-handling-v6-15dc16e11e3a
+To: Naushir Patuck <naush@raspberrypi.com>, 
+ Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>, 
+ David Plowman <david.plowman@raspberrypi.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+X-Mailer: b4 0.15-dev-dedf8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2762;
+ i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
+ bh=88Xp6ZeRTqplgAVR2xCmkqnxt9M2uHr9gEXHiThXKl8=;
+ b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBm+mJP+GNDOLdU+0TUKpBDU3wC7rVN4STgSh/99
+ hglrjyAkyKJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZvpiTwAKCRByNAaPFqFW
+ PJlNEAClXDOXmA+XNLXXXzPllxLT0n7dbPtRzIeap5nyR1xq8IZlfldbpcpWRibMLsxxEfRsj7g
+ A+zbSob90LSJjW+Mn0uc1tatz+9Ks8FW3WKHlh7BJoips6rwhZ3IPrPCKZJbzexPk+GahIN+42P
+ fubALe8oE8X06eQVfUbJjSBzdILLfuXN7sUOSQ9HzmteHuJdIWxeK+xc/hmRFnV/FR1o/PcRR5c
+ xDSQU5rP3F2vnqEvbf4Ccf0EiTQ27+ohJclAX8vNh4lxttHGtTfthFvKw+x7msSJdWmbUZuWxsN
+ 7pVELpBO2nNHgvhxSc34eFc5FJZ7Eiq23PZXD/bVxX7y25FKhWAYfJxPXLEfhoruYJNlUeZqp36
+ 2eoyBtRwaU3JL0RmIIC39sPqn/k1hJj6ogZpjFaflWFST6LDLI1YteU+4YgUDUbTncqPbkvqT5Q
+ HI6zRe+3Uev7np683geYMEmWv+2WfT5+EoH2A62D+RR8Q6Vvxt2lCnTLlpCuRI4w2NPNxJijZvv
+ fzrdUIfEG8eFIttuQVTbk8S9kxM+vgmEgMjdNpn2QdsIigIZ51YlABZbWbapIXtTvkFnmi7oI2/
+ wgz+QFNFsrLhjzhrJlfDQP3VLbV34bK5mccJJwRcfunLOwIKD7f6xFDmWirAoqJfV06yHTtaTox
+ feh4/DISmu88/OQ==
+X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-On 9/30/24 10:26, Krzysztof Kozlowski wrote:
-> On 25/09/2024 17:13, Depeng Shao wrote:
->> Hi Vladimir,
->>
->> On 9/6/2024 11:56 PM, Vladimir Zapolskiy wrote:
->>
->>>> +            compatible = "qcom,sm8550-camss";
->>>> +
->>>> +            reg = <0 0x0acb7000 0 0xd00>,
->>>> +                  <0 0x0acb9000 0 0xd00>,
->>>> +                  <0 0x0acbb000 0 0xd00>,
->>>> +                  <0 0x0acca000 0 0xa00>,
->>>> +                  <0 0x0acce000 0 0xa00>,
->>>> +                  <0 0x0acb6000 0 0x1000>,
->>>> +                  <0 0x0ace4000 0 0x2000>,
->>>> +                  <0 0x0ace6000 0 0x2000>,
->>>> +                  <0 0x0ace8000 0 0x2000>,
->>>> +                  <0 0x0acea000 0 0x2000>,
->>>> +                  <0 0x0acec000 0 0x2000>,
->>>> +                  <0 0x0acee000 0 0x2000>,
->>>> +                  <0 0x0acf0000 0 0x2000>,
->>>> +                  <0 0x0acf2000 0 0x2000>,
->>>> +                  <0 0x0ac62000 0 0xf000>,
->>>> +                  <0 0x0ac71000 0 0xf000>,
->>>> +                  <0 0x0ac80000 0 0xf000>,
->>>> +                  <0 0x0accb000 0 0x2800>,
->>>> +                  <0 0x0accf000 0 0x2800>;
->>>
->>> Please sort the list above in numerical order, this will change positions
->>> of "vfe_lite0", "vfe_lite1" etc.
->>>
->>> Another note, since it's not possible to map less than a page, so I believe
->>> it might make sense to align all sizes to 0x1000.
-> 
-> And if Linux behavior changes then are you going to rewrite all the DTS
-> for new size?
+v5->v6:
+- Make the driver depend on PM
+  - Simplify the probe() routine by using pm_runtime_
+  - Remove suspend call from remove()
 
-If Linux behaves properly with page size alignments today, then the selected
-page size alignment for AMBA device IO memory regions is correct, hence any
-future change from the correct IP device description to another one will be
-invalid or noop.
+v4->v5:
+- Use appropriate locking constructs:
+  - spin_lock_irq() for pispbe_prepare_job() called from non irq context
+  - spin_lock_irqsave() for pispbe_schedule() called from irq context
+  - Remove hw_lock from ready_queue accesses in stop_streaming and
+    start_streaming
+  - Fix trivial indentation mistake in 4/4
 
-There is nothing to worry about, I believe.
+v3->v4:
+- Expand commit message in 2/4 to explain why removing validation in schedule()
+  is safe
+- Drop ready_lock spinlock
+- Use non _irqsave version of safe_guard(spinlock
+- Support !CONFIG_PM in 4/4 by calling the enable/disable routines directly
+  and adjust pm_runtime usage as suggested by Laurent
 
-> No, the sizes reflect hardware register layout, not concept of pages.
-> 
+v2->v3:
+- Mark pispbe_runtime_resume() as __maybe_unused
+- Add fixes tags where appropriate
 
-Absolutely they do. It might be a coincidence that both are aligned in
-this particular case or another one.
+v1->v2:
+- Add two patches to address Laurent's comments separately
+- use scoped_guard() when possible
+- Add patch to fix runtime_pm imbalance
 
-> I don't think that we should be coming with more nitpicky ideas, one
-> month after the patch was sent and reviewed.
+Currently the 'pispbe_schedule()' function does two things:
 
-The change is not yet ready to be accepted from the technical perspective.
+1) Tries to assemble a job by inspecting all the video node queues
+   to make sure all the required buffers are available
+2) Submit the job to the hardware
 
---
-Best wishes,
-Vladimir
+The pispbe_schedule() function is called at:
+
+- video device start_streaming() time
+- video device qbuf() time
+- irq handler
+
+As assembling a job requires inspecting all queues, it is a rather
+time consuming operation which is better not run in IRQ context.
+
+To avoid executing the time consuming job creation in interrupt
+context, split the job creation and job scheduling in two distinct
+operations. When a well-formed job is created, append it to the
+newly introduced 'pispbe->job_queue' where it will be dequeued from
+by the scheduling routine.
+
+At start_streaming() and qbuf() time immediately try to schedule a job
+if one has been created as the irq handler routine is only called when
+a job has completed, and we can't solely rely on it for scheduling new
+jobs.
+
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+Jacopo Mondi (4):
+      media: pisp_be: Drop reference to non-existing function
+      media: pisp_be: Remove config validation from schedule()
+      media: pisp_be: Split jobs creation and scheduling
+      media: pisp_be: Fix pm_runtime underrun in probe
+
+ drivers/media/platform/raspberrypi/pisp_be/Kconfig |   1 +
+ .../media/platform/raspberrypi/pisp_be/pisp_be.c   | 183 ++++++++++-----------
+ 2 files changed, 88 insertions(+), 96 deletions(-)
+---
+base-commit: 81ee62e8d09ee3c7107d11c8bbfd64073ab601ad
+change-id: 20240930-pispbe-mainline-split-jobs-handling-v6-15dc16e11e3a
+
+Best regards,
+-- 
+Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
 
