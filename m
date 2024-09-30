@@ -1,121 +1,122 @@
-Return-Path: <linux-media+bounces-18885-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18886-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4CD98B0CF
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 01:25:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB0798B131
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 01:51:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 11030B20D4C
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 23:25:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B4951F24E2D
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 23:51:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EE651925B8;
-	Mon, 30 Sep 2024 23:25:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1801185B62;
+	Mon, 30 Sep 2024 23:51:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GWvbYtwE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I3+jqqhX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83359189525;
-	Mon, 30 Sep 2024 23:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A44183CD6;
+	Mon, 30 Sep 2024 23:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727738730; cv=none; b=dOVsTGRaM5Vz+Jh6/3Bf4crK/PyrTAizR3RlTQsa0iMurNhFK7nc1GxzmWl1futgagD+Ys0lqAXwPTRaF9WvLV1MA1lCiRegG1Om8divSRsTkXPAVJ/ob6XXxDmmxCCs2qIZP7IyhZGhrZZ+2IgChuUKzcsTxfSFe3UcOkMEVc4=
+	t=1727740283; cv=none; b=iwwAmZ2v+KEy5B+qzZFHR/bAySFBZXPzox63VcZZb79MT3GHthQ7WDV9S6dVM37p1qPWorV47ZS4YGqJO5JOL0D/LUMvu4elPmCKGcb/3xDeclIVbW6NeIY97XjgqlcSf+mePx9H6VtyHKh3OnKg7IlgIVxxe1F+YryGG2liM6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727738730; c=relaxed/simple;
-	bh=vdadp3w0ZndLd/AU8pPOP+RMAlcwpwoNKHgB1DPUHVE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=THCYxZ3VKt9PMEUX/ZL347cr7vzqYuinK8e45XZRGf6N2MuCWkvRhHgPh8UVaSufpirLf+8HjT8nShxmQ199e3keQjvOjVcuKfkS8qQwTdrXrxMaWvPTMqx6Jtd8359uHH5wgkqBzDWGRL89QrY9LvwTe75IMkgNc8j2lomlkHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GWvbYtwE; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20b0b5cdb57so38976405ad.1;
-        Mon, 30 Sep 2024 16:25:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727738728; x=1728343528; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b2l/INc1G6hGl42jJZMjqWTMmdh1MqpMdLpE6m9LxGY=;
-        b=GWvbYtwEJBIQeT4wEXgNxOYPQjFu205rybFTA5o7bdFlZuqhh8YN1SflGGSe+u+9il
-         5IpqpHdoKnA72M8eJkmlpKhi2SP62LIaXAJlLG9JQuEX35RY2mfC62LhGpVH1WH9RooZ
-         DjqQr56aMhcbEb5M0ex/hKNVKf1t3kaG6Pg5dYzW3JNFSrq4LSDshqxSA8ILNRDBkYpm
-         djjRn9QLUvm60qFzFVRDpyctMPax0tBpq2Oj/nxjyKWyoA+41hr4lzyjGf5gh3XD4GeZ
-         1dETVysiIjCcXjV7WgxDxsXHQe2iow08oCBw9Y1q0TsVnTYf/WjVqmKJ3iO5bB15mi51
-         njlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727738728; x=1728343528;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b2l/INc1G6hGl42jJZMjqWTMmdh1MqpMdLpE6m9LxGY=;
-        b=r1CjlLwwq3ttXj5pU5kQIthq/PBxf2Cx6QoK9/BJ6NMaPE4vtfA4JGkJbVHwJ/wZCZ
-         M4jFwosmY8Q2ygHUwqYnfUqiJxQjTXXLtKoFX77UfDp2DhdLioD1WNnnRcZMjPC4uoOu
-         r7+2yQjb7ZPqL2RuzjdDmZ/4BDuKQF65zWZ3Ft4LcTATCFdnUuSeCdgNSp6EbZT4/x//
-         yAzllx94kjIQJnbO8RhLOIBT1yNYdbE3pNBL5t76SWkNpmVdL1OModzxCUmIOpAAZzAX
-         4GUA+4bUDJknF1YYpXohewA1rUfQHlzjpbJCqTZ22GFm7zwfFqqnkuTG7eOE9hP1lGSr
-         MFjw==
-X-Forwarded-Encrypted: i=1; AJvYcCXQerbanHoU25kvhAWN3T4g0f3bbpG9CknvBo0g+tLd+0pmMM21f/8t999MCoQqAs9FZNecvCm2i/4kwu8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOMqbmNU9bqN73veqRz/YpzZg0yiglzR4/yx/1g5Yf6EHdsi9p
-	fwRRr/+x8dFALCQt8K7cChTvUUjnRnY9z23PvL2/4C+D8wdMSW14
-X-Google-Smtp-Source: AGHT+IFxQCnTkI/10QO/SwLIHejO9Ai2n1epW19WOKy3mNuQBfLgXAzzRkOLwniFyBlRx0KPlhl02g==
-X-Received: by 2002:a17:902:c403:b0:207:1845:bc48 with SMTP id d9443c01a7336-20ba9f3023emr15528665ad.30.1727738728377;
-        Mon, 30 Sep 2024 16:25:28 -0700 (PDT)
-Received: from localhost.localdomain (n203-164-232-111.bla21.nsw.optusnet.com.au. [203.164.232.111])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b50423894sm46892245ad.207.2024.09.30.16.25.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 16:25:28 -0700 (PDT)
-From: Rohan Barar <rohan.barar@gmail.com>
-To: mchehab@kernel.org,
-	hverkuil@xs4all.nl
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Rohan Barar <rohan.barar@gmail.com>
-Subject: [PATCH v2] media: cx231xx: Add support for a new 'Dexatek' device (USB ID: 1d19:6108)
-Date: Tue,  1 Oct 2024 09:25:01 +1000
-Message-ID: <20240930232500.1700330-2-rohan.barar@gmail.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20240926235048.283608-2-rohan.barar@gmail.com>
-References: <20240926235048.283608-2-rohan.barar@gmail.com>
+	s=arc-20240116; t=1727740283; c=relaxed/simple;
+	bh=/z6/vTUxGv2idn0QRnGoZ90yGBpJH5IpaGe65gUH+pQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=iUzs7veUw5ljIxRJOYQXhLJilyEzccu1wPur9IS5+vkymeDwcr//ggF69a8natGtsOUohonW4kHpzXUUew1ZuAigM1doepvsOqOWEYGjIsjub+sZw8arK06KvM3bZgyRrlOdmN2a9MeUFkBWbSV0AfkRgP63iJtoP0QrbdeSkms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I3+jqqhX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54603C4CEC7;
+	Mon, 30 Sep 2024 23:51:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727740282;
+	bh=/z6/vTUxGv2idn0QRnGoZ90yGBpJH5IpaGe65gUH+pQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=I3+jqqhXnUtqVoHJQG8oxvHcWujxHbufE823gWacYOv+i8y6ODk8Srarv/QBMqLtd
+	 3F/d/lH5SPH+EqcI+bAKPBqk5ax1Z3tC+pqD+NEcgLr/Ni9p0MXxhPpipML0jnU5Qo
+	 Xn/5fM7cYIrDKaPn2klpa6o9Fa1c8lgSl2YuxeviC4k1cYFpf10KwZTOldUKXuNA3E
+	 gzhrgw30s8wTD3YYz2K+bVaIkskHbvosQRCYi/QqBFGC5C3z53cJRFGHcWFQNTmfEx
+	 apWXRJC7dQwEsLjaeF90Qb/5aurvl0K99syGMOQDj6OTzsFrOi060bVmg6bAbY0sWS
+	 QONJm0TqAs5vg==
+From: Mark Brown <broonie@kernel.org>
+To: mchehab@kernel.org, Jonathan.Cameron@huawei.com, rmfrfs@gmail.com, 
+ vireshk@kernel.org, gregkh@linuxfoundation.org, deller@gmx.de, 
+ corbet@lwn.net, yangyingliang@huawei.com, liwei391@huawei.com, 
+ Yang Yingliang <yangyingliang@huaweicloud.com>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-spi@vger.kernel.org
+In-Reply-To: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
+References: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
+Subject: Re: [PATCH -next 0/7] spi: replace and remove
+ {devm_}spi_alloc_master/slave()
+Message-Id: <172774028009.2264837.5647279590529762644.b4-ty@kernel.org>
+Date: Tue, 01 Oct 2024 00:51:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-This patch adds support for a Dexatek Technology Ltd Video Grabber (USB ID: 1d19:6108) to the `cx231xx` driver.
+On Mon, 02 Sep 2024 20:59:40 +0800, Yang Yingliang wrote:
+> Switch to use {devm_}spi_alloc_host/target() in drivers and remove
+> {devm_}spi_alloc_master/slave() in spi driver.
+> 
+> Yang Yingliang (7):
+>   media: usb/msi2500: switch to use spi_alloc_host()
+>   media: netup_unidvb: switch to use devm_spi_alloc_host()
+>   spi: ch341: switch to use devm_spi_alloc_host()
+>   spi: slave-mt27xx: switch to use spi_alloc_target()
+>   video: fbdev: mmp: switch to use spi_alloc_host()
+>   staging: greybus: spi: switch to use spi_alloc_host()
+>   spi: remove {devm_}spi_alloc_master/slave()
+> 
+> [...]
 
-This device, sold under the name "BAUHN DVD Maker (DK8723)" by ALDI in Australia, is similar to the device with USB ID `1d19:6109`.
+Applied to
 
-The latter is already supported in the `cx231xx` driver.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-Both video and audio capture have been tested and confirmed to work after compiling, signing, and loading the patched driver.
+Thanks!
 
-For evidence of the device functioning correctly, refer to: https://github.com/KernelGhost/TapeShift
+[1/7] media: usb/msi2500: switch to use spi_alloc_host()
+      commit: 5ba92299badc4e71670269877262c8cc3b6c806f
+[2/7] media: netup_unidvb: switch to use devm_spi_alloc_host()
+      commit: ac2f5bbe80e143509cf24527a7ae021f356f8977
+[3/7] spi: ch341: switch to use devm_spi_alloc_host()
+      commit: 0191e98ae6e22bebae4e9a487ba70f90d2f8714c
+[4/7] spi: slave-mt27xx: switch to use spi_alloc_target()
+      commit: 4bca15a56edd7b1c8c8573ddd3dd67424ec15e11
+[5/7] video: fbdev: mmp: switch to use spi_alloc_host()
+      commit: 5c303090e1d8426c721709d50f0120f66bae6919
+[6/7] staging: greybus: spi: switch to use spi_alloc_host()
+      (no commit info)
+[7/7] spi: remove {devm_}spi_alloc_master/slave()
+      commit: 0809a9ccac4a2ffdfd1561bb551aec6099775545
 
-Signed-off-by: Rohan Barar <rohan.barar@gmail.com>
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
----
- drivers/media/usb/cx231xx/cx231xx-cards.c | 2 ++
- 1 file changed, 2 insertions(+)
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
-index 92efe6c1f..bda729b42 100644
---- a/drivers/media/usb/cx231xx/cx231xx-cards.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
-@@ -994,6 +994,8 @@ const unsigned int cx231xx_bcount = ARRAY_SIZE(cx231xx_boards);
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
- /* table of devices that work with this driver */
- struct usb_device_id cx231xx_id_table[] = {
-+	{USB_DEVICE(0x1D19, 0x6108),
-+	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
- 	{USB_DEVICE(0x1D19, 0x6109),
- 	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
- 	{USB_DEVICE(0x0572, 0x5A3C),
---
-2.46.1
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
