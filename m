@@ -1,159 +1,146 @@
-Return-Path: <linux-media+bounces-18786-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18787-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9301A98A131
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 13:54:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCD998A158
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:04:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B71CF1C20ABF
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 11:54:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 407C21C20FCE
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:04:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 253AB26AEC;
-	Mon, 30 Sep 2024 11:54:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31E8A18E031;
+	Mon, 30 Sep 2024 12:04:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aehP+3gq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IUmCL5lv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FF4189F35
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 11:54:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCCB21105;
+	Mon, 30 Sep 2024 12:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697245; cv=none; b=o2qSqE3Sz20568k7HeJ4T4qMXCkUQ8y72lP9qQMCMCb7Vbr+Fw4r+Uwk7CSMA/p60t1hGtEbEV+HwaBsZJgoD/uWOmuS8od3Ip6BuvLW+pQizICZO31j8nUbWK4iJP7xtorUT2Fa0jQiN/5gpnMyamyYMNuYhd4kPbFjTNxNEuM=
+	t=1727697840; cv=none; b=npWOyLshVEjO9AeD1QU7yWmOxlyrs5e1FJdm7wMRni60U0ZIlRXGT+sHBvZdez+coLhixI2Dm4LxjEYDVrR1ScZODdlgEOi+LoldsshqB+J2BEGDfprQnFnf3Wkl4jJX1cD8xHoiNxJ1u/f662msMDxXK8rQTcP1TVtshvuGxrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697245; c=relaxed/simple;
-	bh=qkLNUngCO3vVH4Yoiw8pI/xWuNpcbC03902wQmKdSRY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iDRvcPKWctaVDvYaWiCMHaKdKpbmQIrJ0Ws4zfXAUFKPgHDNzBRKka7fY1xPPvrXsRdbh1eLyJv+KfQa/gHjfsMXhOVzDYJwQGdAXNmy+MsrqUC9pGRi9ASjbiVopTOQ/UBvqn0OZ1V2dzI+f0+urLERgd2BZlK45S6O3kFpOK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aehP+3gq; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8d2b24b7a8so976914766b.1
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 04:54:03 -0700 (PDT)
+	s=arc-20240116; t=1727697840; c=relaxed/simple;
+	bh=zG4Gu/rlJhrf5Knf71hbugwnS/g3fSNxlmO9u/hpQWE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hR4F0XckSkVGT0Xh421IDGs2Sy0B3ZTv/P/O9ln3vxtz/llH4nrl8QQFM2FaiPazT1UH0OuFTbFBMjYj8ABwb9xr1Jle7mI3Q0vk6138oSB2YPTp6NQ8OuKdluqwoux7OzBDWCzDR0SpLvRJa6kc/NJmKsaIed4Oa4eCNZRxNyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IUmCL5lv; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-709339c91f9so1413185a34.0;
+        Mon, 30 Sep 2024 05:03:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727697242; x=1728302042; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YEimAb6QNu/M6q7/HcG/qwn6XiKDPC6S4Ayvzi/SkBk=;
-        b=aehP+3gqWaJULQ/vvtoMbIhicHnjlGTnF/1ekDyvgz67A8/hbi5eE+ARYI+otoYbxs
-         i+SGrdVfUnzE00hBqm8QqaOxeygz8rWRm01vLklsqUyue8m/kGnatd23N8atOCHc9cTX
-         ric11/wHXRv7AKZ6rRHJVfZUJxTFIkOV67WXCF7dccxovgIEhkhKI6xcFQ6ScrnGNByZ
-         Np7ag45VK+sIta/dfTyWFFr8O74ehxHWnXiGfBTCUFDcJgtuqZH58bMSPIoT9KwpF4ut
-         3cW4gcoZ+2DF/PdNYFj2hUQskyWxjSrFKRLQtPyEM8C6/42zqHo2GYGMivatX9/+wYQc
-         xuRg==
+        d=gmail.com; s=20230601; t=1727697838; x=1728302638; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IwP7caGLeqYlVwxEWL8tTd/ThO9zJjNgMBWaLUC6pu0=;
+        b=IUmCL5lvnfhMSD7Mx0X2XgO9UPiOjgHzH5OUFYX/iQG1mKLTrevppaSfOejjvUHMgT
+         0Y5yTSbp3hiLeTj87UYfJgyPSsxb2mIFmJyX5sX/KRq89PWKwCoOhKZxuLlCJIH8J0ee
+         hLdng2P9gfDzEWavqYk1Hff906Iws8OPxiYeQQ2zIATSLYlOSwvsnU3rYwCTEIWOXhGM
+         8Sh8uJyz7Z54rIx/YCStfqc7JubpOfCHc2gtghs4tEx+JX3bK1KUIC1UxRBZXdb3g6V/
+         KEd31xCaYWqjp+8Mf732HORUawd4zqTY9u+rzZ2GyZN2RPjqVroeX4q12rTvDRIS0drd
+         qV3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697242; x=1728302042;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YEimAb6QNu/M6q7/HcG/qwn6XiKDPC6S4Ayvzi/SkBk=;
-        b=P5WoNmySJr05YC3s93A+Q96ls3xvxQOAecaAcjW3bTANOQxPo4zo/Ymts6YUoNgac0
-         HSsXYs95O/Df4d9PiOugQVkxkefjrOejl04CGeL5RaQ7yc/m8M/BwAUuYOQlBsY3zedI
-         RvRvwArs2gwph5by72e9FGPh0Ocrgboayl7NHpVrL4ewgIt4BKzn4Xn90pDDHZS7MGjJ
-         qA5Hq+7bzGymHKtp3To/vBmovo7VxzYpjccMERiWW30c0TshEIJtea2EgkD3LCvafNn/
-         qvwFQgexYYJFRrEsXD46kTwxKR/iiSn0MVTPK69FE7mNfNaABAFRqu7bwGoRRiHgz/GO
-         PEkw==
-X-Forwarded-Encrypted: i=1; AJvYcCVjkB+fq+ckPuz4kfrKID6NArMcy4n/+Sp977zzf1RPAzdkQ8SUdjTYOb8JTJCOk84r1otDiVoieOFJlA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3sPmj+u2xtu4xrrnUO8pMer8WgLWEwBVnKq2B/06vitdIx4GK
-	6IUF+7k07HSbovkghpkDG0Msu8OZfJavWER2KagKIS9Gf00yCT4T/FZBrxBIeZA=
-X-Google-Smtp-Source: AGHT+IGgin2IoYFaSU76/H2WqaTZ8JyrgVaOMWPRHPfSW65ukzeOWOYx6iUHDJKgyZKQ7I4p0bVHKQ==
-X-Received: by 2002:a17:906:db06:b0:a8d:ee9:3888 with SMTP id a640c23a62f3a-a93b1679678mr1578907566b.32.1727697242334;
-        Mon, 30 Sep 2024 04:54:02 -0700 (PDT)
-Received: from [192.168.0.15] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2997445sm517446566b.202.2024.09.30.04.54.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Sep 2024 04:54:02 -0700 (PDT)
-Message-ID: <fc0ce5cd-e42a-432b-ad74-01de67ec0d5c@linaro.org>
-Date: Mon, 30 Sep 2024 12:54:00 +0100
+        d=1e100.net; s=20230601; t=1727697838; x=1728302638;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IwP7caGLeqYlVwxEWL8tTd/ThO9zJjNgMBWaLUC6pu0=;
+        b=SWtdvaUjsbk/7LY5zYlNdnHHtp4kcfU9Hm/nRmRJMPfF4MjiFJCOq74NeDWRUf6zXm
+         eWokZrKtqGzNkgt+UW7pLa/sXf/NnxVirsytiXbGxgpIi9JH1aozhij3g6oNMOPKiqi+
+         TJMOkpNEv/6w56gfYePvQRX8aX7bYzp8lU+SiNKyWZcgvkHa82HAbN5xrVNyeHA3aSDZ
+         kQPzTJOOm4xAF7VC8De1aRV5cprbDn1VHzvFFF8CdKX1O0fzgd0wRkvPMUS3OmDaj31S
+         EJ1/QdC2ySyP7ZxDVc1eQu/nmCPDWlo7CUpx8gJfEIm1P21oJAgtC278wg+VU9ep7t/E
+         h/Hw==
+X-Forwarded-Encrypted: i=1; AJvYcCUSsORxua8szxrPiTBzceRHdmjyf+m3/nljEjVtU/gX2b3xLUdwIs9jARxXCwPmVnEC5bYdP3rTGFYo0Wo=@vger.kernel.org, AJvYcCV0ladIvnyet819bv4y8apUeXdvcju1om4UHUyMs3QmKkVmZRxrPURrPhXBy3/BPxBGBH18+nK8iFwx/C/F9cha9fc=@vger.kernel.org, AJvYcCVWf8uzFu9sthPi0EQLqJuRk3REX0DpdKIaWKgsUnuAKXYOqLwbQcELrMd0pfUkXx1X1J1uVCiTVjkPa0M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyllpZuuD+SsW3A4dbqKaGfwcyhw50wTCKmCkZWxeWoZyT2fn5G
+	fdWd1U1xh0/vsVUDZiZ5JPrBIJhgC6NzzJqqjEChYp3nEtq03cZNNqJzR2os5sYMhBRsfFk7CB9
+	vylID/ulwK2T64SU+pLVa82rqpdo=
+X-Google-Smtp-Source: AGHT+IFtsJEe2U27M5FF1HqnDsSt21XyBhConV4H6Z9wQ//aETDC7UHhxT45tU9IxtTpeDDlT+bdRxyNIYNFtxxy1Jc=
+X-Received: by 2002:a05:6830:6a9b:b0:713:8387:9f1b with SMTP id
+ 46e09a7af769-714fbe73386mr7564727a34.6.1727697838124; Mon, 30 Sep 2024
+ 05:03:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] (no cover subject)
-To: Luca Weiss <luca.weiss@fairphone.com>,
- Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Kapatrala Syed <akapatra@quicinc.com>,
- Hariram Purushothaman <hariramp@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- cros-qcom-dts-watchers@chromium.org,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Suresh Vankadara <quic_svankada@quicinc.com>,
- Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>, stable@vger.kernel.org,
- Hariram Purushothaman <quic_hariramp@quicinc.com>
-References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
- <D4JK8TRL7XBL.3TBA1FBF32RXL@fairphone.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <D4JK8TRL7XBL.3TBA1FBF32RXL@fairphone.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240910175357.229075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240910175357.229075-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240927222620.GF12322@pendragon.ideasonboard.com>
+In-Reply-To: <20240927222620.GF12322@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 30 Sep 2024 13:03:32 +0100
+Message-ID: <CA+V-a8vnkjq-B6xabWWaZU821+KBUQzszdEXPpcqMT=fgvJ1PA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/16] media: platform: rzg2l-cru: rzg2l-csi2: Make use
+ of NR_OF_RZG2L_CSI2_PAD
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 30/09/2024 11:52, Luca Weiss wrote:
-> On Wed Sep 4, 2024 at 1:10 PM CEST, Vikram Sharma wrote:
->> SC7280 is a Qualcomm SoC. This series adds support to
->> bring up the CSIPHY, CSID, VFE/RDI interfaces in SC7280.
->>
->> SC7280 provides
->>
->> - 3 x VFE, 3 RDI per VFE
->> - 2 x VFE Lite, 4 RDI per VFE
->> - 3 x CSID
->> - 2 x CSID Lite
->> - 5 x CSI PHY
-> 
-> Hi Vikram,
-> 
-> I tried this on my QCM6490 Fairphone 5 smartphone.
-> 
-> Unfortunately I couldn't get e.g. CSID test pattern out of camss. I've
-> tested this patchset on v6.11.
-> 
-> These commands did work on an older sc7280 camss patchset (which was
-> never sent to the lists). Can you please take a look?
-> 
-> v4l2-ctl -d /dev/v4l-subdev5 -c test_pattern=1
-> media-ctl -d /dev/media0 -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-> media-ctl -d /dev/media0 -V '"msm_csid0":1[fmt:UYVY8_2X8/1920x1080 field:none],"msm_vfe0_rdi0":0[fmt:UYVY8_2X8/1920x1080 field:none]'
-> gst-launch-1.0 v4l2src device=/dev/video0 num-buffers=1 ! 'video/x-raw,format=UYVY,width=1920,height=1080' ! jpegenc ! filesink location=image01.jpg
+Hi Laurent,
 
-Here's what I have for rb5
+Thank you for the review.
 
-# CSID0 TPG RB5
-media-ctl --reset
-yavta --no-query -w '0x009f0903 2' /dev/v4l-subdev6
-yavta --list /dev/v4l-subdev6
-media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-media-ctl -d /dev/media0 -p
+On Fri, Sep 27, 2024 at 11:26=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Tue, Sep 10, 2024 at 06:53:45PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Make use of NR_OF_RZG2L_CSI2_PAD enum entry in media_entity_pads_init()
+> > instead of magic number.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/dr=
+ivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > index 2f4c87ede8bf..10b8b0c87c1f 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > @@ -804,7 +804,7 @@ static int rzg2l_csi2_probe(struct platform_device =
+*pdev)
+> >        */
+> >       csi2->pads[RZG2L_CSI2_SOURCE].flags =3D MEDIA_PAD_FL_SOURCE |
+> >                                             MEDIA_PAD_FL_MUST_CONNECT;
+> > -     ret =3D media_entity_pads_init(&csi2->subdev.entity, 2, csi2->pad=
+s);
+> > +     ret =3D media_entity_pads_init(&csi2->subdev.entity, NR_OF_RZG2L_=
+CSI2_PAD, csi2->pads);
+>
+> Better, I would use ARRAY_SIZE
+>
+>         ret =3D media_entity_pads_init(&csi2->subdev.entity, ARRAY_SIZE(c=
+si2->pads),
+>                                      csi2->pads);
+>
+> With this (and an updated commit message),
+>
+Ok, I will update the code to above suggestion and update the commit
+description.
 
-Maybe on FP5 ...
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>
+And I will add the RB tag.
 
-media-ctl --reset
-yavta --no-query -w '0x009f0903 2' /dev/v4l-subdev5
-yavta --list /dev/v4l-subdev5
-media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-media-ctl -d /dev/media0 -p
-
-?
-
----
-bod
+Cheers,
+Prabhakar
 
