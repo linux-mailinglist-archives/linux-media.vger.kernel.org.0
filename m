@@ -1,372 +1,322 @@
-Return-Path: <linux-media+bounces-18835-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18836-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1517698A24A
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:25:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 489AC98A2B9
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:37:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D65B1F2259E
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:25:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B1991B249BF
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:37:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C430118EFDC;
-	Mon, 30 Sep 2024 12:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 703E918E76D;
+	Mon, 30 Sep 2024 12:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oZoH7Y1O"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JW+nPumG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39AB218FC6B;
-	Mon, 30 Sep 2024 12:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C583F18B471;
+	Mon, 30 Sep 2024 12:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727698933; cv=none; b=mR0iiTTvzlZKeoBquwaT2IdDVbcmmsSnO2EsYU4m6SCY4D61ZvQRO2PGOQDtGWvRBU9nxZSD3z49N8x9k6Z+WuVnB1fWlNBtsvLs4VHhyqvSI7gQB0UjEhnStMrjVC0Qh70tSXH1N5x7CibFTjvl+GEyRF+701lQfxowpiArJU8=
+	t=1727699832; cv=none; b=eYHGks0thzjUmW47iK//ARN0MxcJczUXUXOsZ6CQyJgmqe5SYgXdTgXwioDoKGBCwp776MakNUPfGXTjjMR3ZwTvk8DKEc3m4Qcbl4skSB4Z2Rh2vsNJbxBiCwJ7nzLb1GB/1i4SO2lzaR3+3azEEPl5iFDsagHnWvH09HClcMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727698933; c=relaxed/simple;
-	bh=2jgDosqysovwqE/7YVnA3C8OPnu1OPOevQXcwsgX1B4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QZu6s8nK0EBVHmoNMIgNkGVKF+EgKa1Hy3Z1pePW5NzUGn2oQkEvwGSU7hKbE19FFLFPxuhalMfI6GwMZ5zPkCwCskolSC4b+v6Wk0mi9PVVkFziOmRXJrkOHpNLWI+2g0By8v1rVspw0clI5EOiaB85bELH11V0Pk891N4yATY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oZoH7Y1O; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A128232A;
-	Mon, 30 Sep 2024 14:20:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727698830;
-	bh=2jgDosqysovwqE/7YVnA3C8OPnu1OPOevQXcwsgX1B4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oZoH7Y1OOG+r2BzKoRD+qVP4/uPhGyIEqw9Ssmolpga0YEfmiPIvNuVCc4+xGAjZB
-	 NTcXGLV2kCJZfMRyWIdcilh9xjObntcn0Ry0/ucOdETJNIqTZLRtk7jf8LbUFyPrtM
-	 M90OXURe7r5dP+0qGLf3Fbx+iNhDoecNoh+lAx2g=
-Date: Mon, 30 Sep 2024 15:21:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	s=arc-20240116; t=1727699832; c=relaxed/simple;
+	bh=MJaOvXfdttvUO377io9iCjqOjrH77uQ9NNVSuKdVv38=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XU8nc8pPUMOX3DN/V3ezzXHDcLVAoz8KiTV3ZJij2DRJu4//oOvKJIzZi6iNz4MJts6P58CSO1UGaa0M4JQLmkp0qgIVFKPF9fA/b60LzVNHyM0WZiguQj2sUkm8F7LdprvomrQnJixVGd6QhqT1JTH+VYj3E32W/ZB40KpmanM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JW+nPumG; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42cba6cdf32so38164755e9.1;
+        Mon, 30 Sep 2024 05:37:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727699829; x=1728304629; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F/SrlIJXoXLKGiLt5PvQw/mV4o2zsSYJUePPb/Z+Dd8=;
+        b=JW+nPumG6NXI0/7Qqmt187JOQD9L/9ckcteZnKqYxZlWsRjGDY5rsz3G1D/2vm3C/t
+         t9k38FclDEbilr6aoB4Jtnb0kAW2hyfEVcN5xUa81HjQYgcbaUX+7STlqJ7ZbqskxrdN
+         uhReoraD2NCQbBd1iEgYK2BCy7Y9FtYfc6FZ+nVUySKfWvkgIBquuUGviEUOYT1K4NGr
+         w8KEVQqYGzJ9vm+0c2yxZ8O43U8w1yIkG9ixpIPDf0JYt97fYB7zfPncCg5HXgSE1B+t
+         e2ByfbDfB7AxMBZbWt0+jqFRhMYMtqPHYBKzvk3i0ZoxFv3VOOA8Qi3ThKlT6tJI5KyZ
+         Krbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727699829; x=1728304629;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F/SrlIJXoXLKGiLt5PvQw/mV4o2zsSYJUePPb/Z+Dd8=;
+        b=Q8D26OyWF62qJ/KMbdC62FxlgB6mmBXFqoYv8tfSkfrD4W7j7UE+GUE7WUVuEq7lTm
+         DGCM+vMxyzTxpomVB2qsT5Rro6/i2vVqI4lckOzjZonG0ypfzm1Va+QtzWy5sYTvkoA+
+         ejkRmmAhoQJw6NZfcws9m7UCROtgNM62Dw437ESHQi9fwjU+H7ekakKnsZp7RCkU/K6C
+         jVxHXNcZuCYvgBkGUGzG7BYRN+XxnSSJrQkSKLJ3qyJpDOgUmNO9Lz1U/MhmiKVjf1KI
+         6/N4xvsK2lugKdOxYgYiXgT5sFrdSay56F4OMpHkOJB+fAa/OsCrSniRyZs8Us0lDWrn
+         Ea+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUIy4REHP/nOTwX/yFkg33O6mfvcMxil0Ys02a2YXD/Z7Wr3lSFgwWmfKF9X/bBVPIPy9E0oD/gCiHrfGk=@vger.kernel.org, AJvYcCUvu4o7wmgFXOiQ+P0dy1sHNpfkG5+oyOpFatirZC5GwV3J/m8X5JD/RcutJFnV5GcsjChhdaaR+MAMHg==@vger.kernel.org, AJvYcCV/LgoDHrUWVpdQvNxrtX7Q/FIINae3xlojD69ohqPH4jAWSfvcI3T9oJj8WrpBCEuxPYQ=@vger.kernel.org, AJvYcCWI51m03v5deYDGe+WwvtK1lzcuisNsuBQfhSY58HRxS1TJiJa7tuWHlJRYbj5ekU2HbYbTkts5OvCOQBLHw3w0@vger.kernel.org, AJvYcCXVVJmqhaQQ5LfOfYti03HDpl/zXfhOiK/n4CFJaerfwo38EcDrC9CsGt+hgtY3HInKKmUJAPSuAhJR3takHg==@vger.kernel.org, AJvYcCXYDRPynMAb99FbuxYsXG9y3jdfhMkx9UfAYpmvT5KYKMPRw2aGsglJq0UxPU+NSMcaUfpaJ4DXg6920fa3@vger.kernel.org, AJvYcCXdjuCSmHDQ5cofnsGzWUSk79b/i7cNf0Q7nPKPgXx/YGEnq4jO6uFAmKMbsvSoN1MCoJQDwQOk38Ec5JH0@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyh7Si0iYu5GS3fTyiAXO/uLRgAGlorqD6BsiEGWDLuOgtbqh8C
+	06cahLJdvTc8YVKvEEf6hQpz6OUAmVxvcye5lTXm8FggBaik4CGT
+X-Google-Smtp-Source: AGHT+IF/2i/VrNcu+rhudxHU7EwUt1cUgREAQFrWqhKqroWgeyt01AtDZZ3Ml2SacGAQnu+k2Q1CzQ==
+X-Received: by 2002:a05:600c:5251:b0:42c:b8cc:205a with SMTP id 5b1f17b1804b1-42f58491029mr88602375e9.32.1727699828718;
+        Mon, 30 Sep 2024 05:37:08 -0700 (PDT)
+Received: from fedora.iskraemeco.si ([193.77.86.250])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e96a52308sm149011355e9.43.2024.09.30.05.37.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Sep 2024 05:37:07 -0700 (PDT)
+From: Uros Bizjak <ubizjak@gmail.com>
+To: x86@kernel.org,
+	linux-crypto@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-fscrypt@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org
+Cc: Uros Bizjak <ubizjak@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Mike Isely <isely@pobox.com>,
-	Olli Salonen <olli.salonen@iki.fi>,
-	Maxim Levitsky <maximlevitsky@gmail.com>,
-	Sean Young <sean@mess.org>, Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>, Jemma Denson <jdenson@gmail.com>,
-	Patrick Boettcher <patrick.boettcher@posteo.de>,
-	Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Michal Simek <michal.simek@amd.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Eddie James <eajames@linux.ibm.com>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev, openbmc@lists.ozlabs.org,
-	linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH 00/45] media: Use string_choice helpers
-Message-ID: <20240930122157.GF31662@pendragon.ideasonboard.com>
-References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Hannes Reinecke <hare@suse.de>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	Rae Moar <rmoar@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [PATCH v3 00/19] random: Resolve circular include dependency and include <linux/percpu.h> 
+Date: Mon, 30 Sep 2024 14:33:11 +0200
+Message-ID: <20240930123702.803617-1-ubizjak@gmail.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Ricardo,
+There were several attempts to resolve circular include dependency
+after the addition of percpu.h: 1c9df907da83 ("random: fix circular
+include dependency on arm64 after addition of percpu.h"), c0842fbc1b18
+("random32: move the pseudo-random 32-bit definitions to prandom.h") and
+finally d9f29deb7fe8 ("prandom: Remove unused include") that completely
+removes the inclusion of <linux/percpu.h>.
 
-On Mon, Sep 30, 2024 at 12:03:55PM +0000, Ricardo Ribalda wrote:
-> include/linux/string_choices.h contains a set of helpers that can be
-> used instead of hard coding some strings.
-> 
-> Cocci has located some places where the helpers can be used. This
-> patchset uses the diff generated by cocci, plus these changes:
+Due to legacy reasons, <linux/random.h> includes <linux/prandom.h>, but
+with the commit entry remark:
 
-Personally I think most of those helpers just hinder readability for not
-much added gain. String de-duplication is done by the linker already.
-The only value I see in the helpers is ensuring that the strings are
-consistently written, and I think we can do so through other means.
+--quote--
+A further cleanup step would be to remove this from <linux/random.h>
+entirely, and make people who use the prandom infrastructure include
+just the new header file.  That's a bit of a churn patch, but grepping
+for "prandom_" and "next_pseudo_random32" "struct rnd_state" should
+catch most users.
 
-> diff --git a/drivers/media/dvb-frontends/ascot2e.c b/drivers/media/dvb-frontends/ascot2e.c
-> index 8c3eb5d69dda..ec7a718428fc 100644
-> --- a/drivers/media/dvb-frontends/ascot2e.c
-> +++ b/drivers/media/dvb-frontends/ascot2e.c
-> @@ -104,7 +104,7 @@ static void ascot2e_i2c_debug(struct ascot2e_priv *priv,
->                               u8 reg, u8 write, const u8 *data, u32 len)
->  {
->         dev_dbg(&priv->i2c->dev, "ascot2e: I2C %s reg 0x%02x size %d\n",
-> -               str_read_write(write == 0), reg, len);
-> +               str_write_read(write), reg, len);
->         print_hex_dump_bytes("ascot2e: I2C data: ",
->                 DUMP_PREFIX_OFFSET, data, len);
->  }
-> diff --git a/drivers/media/dvb-frontends/cxd2841er.c b/drivers/media/dvb-frontends/cxd2841er.c
-> index db684f314b47..d1b84cd9c510 100644
-> --- a/drivers/media/dvb-frontends/cxd2841er.c
-> +++ b/drivers/media/dvb-frontends/cxd2841er.c
-> @@ -206,7 +206,7 @@ static void cxd2841er_i2c_debug(struct cxd2841er_priv *priv,
->  {
->         dev_dbg(&priv->i2c->dev,
->                 "cxd2841er: I2C %s addr %02x reg 0x%02x size %d data %*ph\n",
-> -               str_read_write(write == 0), addr, reg, len, len, data);
-> +               str_write_read(write), addr, reg, len, len, data);
->  }
->  
->  static int cxd2841er_write_regs(struct cxd2841er_priv *priv,
-> diff --git a/drivers/media/dvb-frontends/helene.c b/drivers/media/dvb-frontends/helene.c
-> index 52198cb49dba..b4527c141d9c 100644
-> --- a/drivers/media/dvb-frontends/helene.c
-> +++ b/drivers/media/dvb-frontends/helene.c
-> @@ -279,7 +279,7 @@ static void helene_i2c_debug(struct helene_priv *priv,
->                 u8 reg, u8 write, const u8 *data, u32 len)
->  {
->         dev_dbg(&priv->i2c->dev, "helene: I2C %s reg 0x%02x size %d\n",
-> -                       str_read_write(write == 0), reg, len);
-> +                       str_write_read(write), reg, len);
->         print_hex_dump_bytes("helene: I2C data: ",
->                         DUMP_PREFIX_OFFSET, data, len);
->  }
-> diff --git a/drivers/media/dvb-frontends/horus3a.c b/drivers/media/dvb-frontends/horus3a.c
-> index 84385079918c..10300ebf3ca0 100644
-> --- a/drivers/media/dvb-frontends/horus3a.c
-> +++ b/drivers/media/dvb-frontends/horus3a.c
-> @@ -38,7 +38,7 @@ static void horus3a_i2c_debug(struct horus3a_priv *priv,
->                               u8 reg, u8 write, const u8 *data, u32 len)
->  {
->         dev_dbg(&priv->i2c->dev, "horus3a: I2C %s reg 0x%02x size %d\n",
-> -               str_read_write(write == 0), reg, len);
-> +               str_write_read(write), reg, len);
->         print_hex_dump_bytes("horus3a: I2C data: ",
->                 DUMP_PREFIX_OFFSET, data, len);
->  }
-> diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-> index ba174aa45afa..a43479c3ff03 100644
-> --- a/drivers/media/i2c/adv7842.c
-> +++ b/drivers/media/i2c/adv7842.c
-> @@ -2763,7 +2763,7 @@ static int adv7842_cp_log_status(struct v4l2_subdev *sd)
->                           str_true_false(io_read(sd, 0x6a) & 0x10));
->         }
->         v4l2_info(sd, "CP free run: %s\n",
-> -                 str_on_off(!!(cp_read(sd, 0xff) & 0x10)));
-> +                 str_on_off(cp_read(sd, 0xff) & 0x10));
->         v4l2_info(sd, "Prim-mode = 0x%x, video std = 0x%x, v_freq = 0x%x\n",
->                   io_read(sd, 0x01) & 0x0f, io_read(sd, 0x00) & 0x3f,
->                   (io_read(sd, 0x01) & 0x70) >> 4);
-> diff --git a/drivers/media/pci/saa7134/saa7134-cards.c b/drivers/media/pci/saa7134/saa7134-cards.c
-> index 301b89e799d8..79cd61fb0205 100644
-> --- a/drivers/media/pci/saa7134/saa7134-cards.c
-> +++ b/drivers/media/pci/saa7134/saa7134-cards.c
-> @@ -7981,7 +7981,7 @@ int saa7134_board_init2(struct saa7134_dev *dev)
->                         rc = i2c_transfer(&dev->i2c_adap, &msg, 1);
->                         pr_info("%s: probe IR chip @ i2c 0x%02x: %s\n",
->                                    dev->name, msg.addr,
-> -                                  str_yes_no(1 == rc));
-> +                                  str_yes_no(rc == 1));
->                         if (rc == 1)
->                                 dev->has_remote = SAA7134_REMOTE_I2C;
->                 }
-> diff --git a/drivers/media/pci/saa7134/saa7134-input.c b/drivers/media/pci/saa7134/saa7134-input.c
-> index 90837ec6e70f..239f0b9d080a 100644
-> --- a/drivers/media/pci/saa7134/saa7134-input.c
-> +++ b/drivers/media/pci/saa7134/saa7134-input.c
-> @@ -895,7 +895,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
->                 rc = i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
->                 input_dbg("probe 0x%02x @ %s: %s\n",
->                         msg_msi.addr, dev->i2c_adap.name,
-> -                       str_yes_no(1 == rc));
-> +                       str_yes_no(rc == 1));
->                 break;
->         case SAA7134_BOARD_SNAZIO_TVPVR_PRO:
->                 dev->init_data.name = "SnaZio* TVPVR PRO";
-> @@ -931,7 +931,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
->                 rc = i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
->                 input_dbg("probe 0x%02x @ %s: %s\n",
->                         msg_msi.addr, dev->i2c_adap.name,
-> -                       str_yes_no(1 == rc));
-> +                       str_yes_no(rc == 1));
->                 break;
->         case SAA7134_BOARD_HAUPPAUGE_HVR1110:
->                 dev->init_data.name = saa7134_boards[dev->board].name;
-> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c b/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c
-> index 448c40caf363..b6c9bda214c8 100644
-> --- a/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c
-> +++ b/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c
-> @@ -521,7 +521,7 @@ int pvr2_ctrl_value_to_sym_internal(struct pvr2_ctrl *cptr,
->                 *len = scnprintf(buf,maxlen,"%d",val);
->                 ret = 0;
->         } else if (cptr->info->type == pvr2_ctl_bool) {
-> -               *len = scnprintf(buf,maxlen,"%s",str_true_false(val));
-> +               *len = scnprintf(buf, maxlen, "%s", str_true_false(val));
->                 ret = 0;
->         } else if (cptr->info->type == pvr2_ctl_enum) {
->                 const char * const *names;
-> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-> index 96d3a0045fac..761d718478ca 100644
-> --- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-> +++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-> @@ -338,7 +338,7 @@ static void trace_stbit(const char *name,int val)
->  {
->         pvr2_trace(PVR2_TRACE_STBITS,
->                    "State bit %s <-- %s",
-> -                  name,str_true_false(val));
-> +                  name, str_true_false(val));
->  }
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Ricardo Ribalda (45):
->       media: staging: ipu3: Use string_choices helpers
->       media: staging: atomisp: Use string_choices helpers
->       media: core: Use string_choices helpers
->       media: pwc-ctl: Use string_choices helpers
->       media: pvrusb2:Use string_choices helpers
->       media: em28xx: Use string_choices helpers
->       media: dvb-usb: Use string_choices helpers
->       media: dvb-usb-v2: Use string_choices helpers
->       media: cx231xx: Use string_choices helpers
->       media: tuners: Use string_choices helpers
->       media: rc: Use string_choices helpers
->       media: dvb-frontends: Use string_choices helpers
->       media: pci: cx23885: Use string_choices helpers
->       media: saa7134: Use string_choices helpers
->       media: amphion: Use string_choices helpers
->       media: pci: ivtv: Use string_choices helpers
->       media: bttv: Use string_choices helpers
->       media: xilinx: Use string_choices helpers
->       media: platform: ti: Use string_choices helpers
->       media: st: Use string_choices helpers
->       media: coda: Use string_choices helpers
->       media: aspeed: Use string_choices helpers
->       media: ipu6: Use string_choices helpers
->       media: cx18: Use string_choices helpers
->       media: cobalt: Use string_choices helpers
->       media: videobuf2: Use string_choices helpers
->       media: cec: Use string_choices helpers
->       media: b2c2: Use string_choices helpers
->       media: siano: Use string_choices helpers
->       media: i2c: cx25840: Use string_choices helpers
->       media: i2c: vpx3220: Use string_choices helpers
->       media: i2c: tvp7002: Use string_choices helpers
->       media: i2c: ths8200: Use string_choices helpers
->       media: i2c: tda1997x: Use string_choices helpers
->       media: i2c: tc358743: Use string_choices helpers
->       media: i2c: st-mipid02: Use string_choices helpers
->       media: i2c: msp3400: Use string_choices helpers
->       media: i2c: max9286: Use string_choices helpers
->       media: i2c: saa717x: Use string_choices helpers
->       media: i2c: saa7127: Use string_choices helpers
->       media: i2c: saa7115: Use string_choices helpers
->       media: i2c: saa7110: Use string_choices helpers
->       media: i2c: adv7842: Use string_choices helpers
->       media: i2c: adv76xx: Use string_choices helpers
->       media: i2c: adv7511: Use string_choices helpers
-> 
->  drivers/media/cec/platform/cec-gpio/cec-gpio.c     |  4 +-
->  drivers/media/cec/usb/pulse8/pulse8-cec.c          |  4 +-
->  drivers/media/common/b2c2/flexcop-hw-filter.c      |  4 +-
->  drivers/media/common/siano/sms-cards.c             |  3 +-
->  drivers/media/common/videobuf2/videobuf2-core.c    |  5 ++-
->  drivers/media/dvb-frontends/ascot2e.c              |  2 +-
->  drivers/media/dvb-frontends/cx24120.c              |  4 +-
->  drivers/media/dvb-frontends/cxd2841er.c            |  2 +-
->  drivers/media/dvb-frontends/drxk_hard.c            |  4 +-
->  drivers/media/dvb-frontends/helene.c               |  2 +-
->  drivers/media/dvb-frontends/horus3a.c              |  2 +-
->  drivers/media/dvb-frontends/sp2.c                  |  2 +-
->  drivers/media/i2c/adv7511-v4l2.c                   | 11 +++---
->  drivers/media/i2c/adv7604.c                        | 25 ++++++------
->  drivers/media/i2c/adv7842.c                        | 40 ++++++++++----------
->  drivers/media/i2c/cx25840/cx25840-core.c           |  4 +-
->  drivers/media/i2c/cx25840/cx25840-ir.c             | 34 ++++++++---------
->  drivers/media/i2c/max9286.c                        |  2 +-
->  drivers/media/i2c/msp3400-driver.c                 |  4 +-
->  drivers/media/i2c/saa7110.c                        |  2 +-
->  drivers/media/i2c/saa7115.c                        |  2 +-
->  drivers/media/i2c/saa7127.c                        | 15 +++++---
->  drivers/media/i2c/saa717x.c                        |  2 +-
->  drivers/media/i2c/st-mipid02.c                     |  2 +-
->  drivers/media/i2c/tc358743.c                       | 44 ++++++++++------------
->  drivers/media/i2c/tda1997x.c                       |  6 +--
->  drivers/media/i2c/ths8200.c                        |  4 +-
->  drivers/media/i2c/tvp7002.c                        |  2 +-
->  drivers/media/i2c/vpx3220.c                        |  2 +-
->  drivers/media/pci/bt8xx/bttv-cards.c               | 16 ++++----
->  drivers/media/pci/bt8xx/bttv-driver.c              |  6 +--
->  drivers/media/pci/cobalt/cobalt-driver.c           |  2 +-
->  drivers/media/pci/cx18/cx18-av-core.c              |  4 +-
->  drivers/media/pci/cx23885/altera-ci.c              |  2 +-
->  drivers/media/pci/cx23885/cimax2.c                 |  2 +-
->  drivers/media/pci/cx23885/cx23888-ir.c             | 36 +++++++++---------
->  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c      |  2 +-
->  drivers/media/pci/ivtv/ivtvfb.c                    |  4 +-
->  drivers/media/pci/saa7134/saa7134-cards.c          |  2 +-
->  drivers/media/pci/saa7134/saa7134-dvb.c            |  2 +-
->  drivers/media/pci/saa7134/saa7134-input.c          |  6 +--
->  drivers/media/pci/saa7134/saa7134-video.c          |  2 +-
->  drivers/media/platform/amphion/venc.c              |  2 +-
->  drivers/media/platform/amphion/vpu_dbg.c           |  2 +-
->  drivers/media/platform/aspeed/aspeed-video.c       |  4 +-
->  drivers/media/platform/chips-media/coda/imx-vdoa.c |  3 +-
->  drivers/media/platform/st/sti/hva/hva-debugfs.c    |  6 +--
->  drivers/media/platform/ti/omap3isp/ispstat.c       |  2 +-
->  drivers/media/platform/xilinx/xilinx-csi2rxss.c    | 18 ++++-----
->  drivers/media/rc/ene_ir.c                          |  3 +-
->  drivers/media/rc/mceusb.c                          |  3 +-
->  drivers/media/rc/serial_ir.c                       |  5 ++-
->  drivers/media/tuners/tda18250.c                    |  2 +-
->  drivers/media/tuners/tda9887.c                     | 10 ++---
->  drivers/media/usb/cx231xx/cx231xx-i2c.c            |  4 +-
->  drivers/media/usb/cx231xx/cx231xx-video.c          |  2 +-
->  drivers/media/usb/dvb-usb-v2/az6007.c              |  4 +-
->  drivers/media/usb/dvb-usb-v2/dvb_usb_core.c        |  4 +-
->  drivers/media/usb/dvb-usb/af9005-fe.c              |  4 +-
->  drivers/media/usb/dvb-usb/dvb-usb-dvb.c            |  6 +--
->  drivers/media/usb/dvb-usb/opera1.c                 |  8 ++--
->  drivers/media/usb/em28xx/em28xx-i2c.c              |  4 +-
->  drivers/media/usb/em28xx/em28xx-video.c            |  2 +-
->  drivers/media/usb/pvrusb2/pvrusb2-ctrl.c           |  2 +-
->  drivers/media/usb/pvrusb2/pvrusb2-debugifc.c       |  3 +-
->  drivers/media/usb/pvrusb2/pvrusb2-encoder.c        |  5 +--
->  drivers/media/usb/pvrusb2/pvrusb2-hdw.c            |  6 +--
->  drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c       |  3 +-
->  drivers/media/usb/pwc/pwc-ctrl.c                   |  2 +-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c          |  3 +-
->  drivers/media/v4l2-core/v4l2-fwnode.c              | 12 +++---
->  .../media/atomisp/pci/atomisp_compat_css20.c       |  2 +-
->  .../media/atomisp/pci/atomisp_csi2_bridge.c        |  2 +-
->  .../media/atomisp/pci/atomisp_gmin_platform.c      |  4 +-
->  drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |  4 +-
->  .../media/atomisp/pci/runtime/binary/src/binary.c  |  2 +-
->  drivers/staging/media/atomisp/pci/sh_css.c         |  2 +-
->  drivers/staging/media/ipu3/ipu3-v4l2.c             |  4 +-
->  78 files changed, 240 insertions(+), 239 deletions(-)
-> ---
-> base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
-> change-id: 20240930-cocci-opportunity-40bca6a17c42
+But it turns out that that nice cleanup step is fairly painful, because
+a _lot_ of code currently seems to depend on the implicit include of
+<linux/random.h>, which can currently come in a lot of ways, including
+such fairly core headfers as <linux/net.h>.
+
+So the "nice cleanup" part may or may never happen.
+--/quote--
+
+We would like to include <linux/percpu.h> in <linux/prandom.h>.
+In [1] we would like to repurpose __percpu tag as a named address space
+qualifier, where __percpu macro uses defines from <linux/percpu.h>.
+
+The major roadblock to inclusion of <linux/percpu.h> is the above
+mentioned legacy inclusion of <linux/prandom.h> in <linux/random.h> that
+causes circular include dependency that prevents <linux/percpu.h>
+inclusion.
+
+This patch series is the "nice cleanup" part that:
+
+a) Substitutes the inclusion of <linux/random.h> with the
+inclusion of <linux/prandom.h> where needed (patches 1 - 17).
+
+b) Removes legacy inclusion of <linux/prandom.h> from
+<linux/random.h> (patch 18).
+
+c) Includes <linux/percpu.h> in <linux/prandom.h> (patch 19).
+
+The whole series was tested by compiling the kernel for x86_64 allconfig
+and some popular architectures, namely arm64 defconfig, powerpc defconfig
+and loongarch defconfig.
+
+[1] https://lore.kernel.org/lkml/20240812115945.484051-4-ubizjak@gmail.com/
+
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Hannes Reinecke <hare@suse.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: John Fastabend <john.fastabend@gmail.com>
+Cc: Andrii Nakryiko <andrii@kernel.org>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>
+Cc: Eduard Zingerman <eddyz87@gmail.com>
+Cc: Song Liu <song@kernel.org>
+Cc: Yonghong Song <yonghong.song@linux.dev>
+Cc: KP Singh <kpsingh@kernel.org>
+Cc: Stanislav Fomichev <sdf@fomichev.me>
+Cc: Hao Luo <haoluo@google.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>
+Cc: David Gow <davidgow@google.com>
+Cc: Rae Moar <rmoar@google.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Stephen Hemminger <stephen@networkplumber.org>
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Cong Wang <xiyou.wangcong@gmail.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>
+---
+v2: - Reword commit messages to mention the removal of legacy inclusion
+      of <linux/prandom.h> from <linux/random.h>
+    - Add missing substitution in crypto/testmgr.c
+      (reported by kernel test robot)
+    - Add Acked-by: tags.
+v3: - Update to linux 6.12rc1.
+    - Add more Acked-by: tags.
+
+Uros Bizjak (19):
+  x86/kaslr: Include <linux/prandom.h> instead of <linux/random.h>
+  crypto: testmgr: Include <linux/prandom.h> instead of <linux/random.h>
+  drm/i915/selftests: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  drm/lib: Include <linux/prandom.h> instead of <linux/random.h>
+  media: vivid: Include <linux/prandom.h> in vivid-vid-cap.c
+  mtd: tests: Include <linux/prandom.h> instead of <linux/random.h>
+  fscrypt: Include <linux/once.h> in fs/crypto/keyring.c
+  scsi: libfcoe: Include <linux/prandom.h> instead of <linux/random.h>
+  bpf: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/interval_tree_test.c: Include <linux/prandom.h> instead of
+    <linux/random.h>
+  kunit: string-stream-test: Include <linux/prandom.h>
+  random32: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/rbtree-test: Include <linux/prandom.h> instead of <linux/random.h>
+  bpf/tests: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/test_parman: Include <linux/prandom.h> instead of <linux/random.h>
+  lib/test_scanf: Include <linux/prandom.h> instead of <linux/random.h>
+  netem: Include <linux/prandom.h> in sch_netem.c
+  random: Do not include <linux/prandom.h> in <linux/random.h>
+  prandom: Include <linux/percpu.h> in <linux/prandom.h>
+
+ arch/x86/mm/kaslr.c                              | 2 +-
+ crypto/testmgr.c                                 | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem.c        | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_random.h     | 2 +-
+ drivers/gpu/drm/i915/selftests/scatterlist.c     | 2 +-
+ drivers/gpu/drm/lib/drm_random.h                 | 2 +-
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c | 1 +
+ drivers/mtd/tests/oobtest.c                      | 2 +-
+ drivers/mtd/tests/pagetest.c                     | 2 +-
+ drivers/mtd/tests/subpagetest.c                  | 2 +-
+ fs/crypto/keyring.c                              | 1 +
+ include/linux/prandom.h                          | 1 +
+ include/linux/random.h                           | 7 -------
+ include/scsi/libfcoe.h                           | 2 +-
+ kernel/bpf/core.c                                | 2 +-
+ lib/interval_tree_test.c                         | 2 +-
+ lib/kunit/string-stream-test.c                   | 1 +
+ lib/random32.c                                   | 2 +-
+ lib/rbtree_test.c                                | 2 +-
+ lib/test_bpf.c                                   | 2 +-
+ lib/test_parman.c                                | 2 +-
+ lib/test_scanf.c                                 | 2 +-
+ net/sched/sch_netem.c                            | 1 +
+ 23 files changed, 22 insertions(+), 24 deletions(-)
 
 -- 
-Regards,
+2.46.2
 
-Laurent Pinchart
 
