@@ -1,229 +1,319 @@
-Return-Path: <linux-media+bounces-18783-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18784-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314B2989FD7
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:52:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2095098A0B5
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 13:32:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA25F1F20F88
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 10:52:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DEEA1C25A6E
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 11:32:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9725618D65C;
-	Mon, 30 Sep 2024 10:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="ALVfrWqs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DCFA18FDCD;
+	Mon, 30 Sep 2024 11:28:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC28218CBEE
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 10:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 910FF18E03C;
+	Mon, 30 Sep 2024 11:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727693545; cv=none; b=gwN19qS9XP3yQvStH20gdOGZ+FoQvwksloKKpYK07yi9etE6VnrJvrI0SRl5GOVHGe2eAxUjLpkr3EpypAm7rABKs8i/awc6Ch6QZSGePEpAIx0oW5SnuRZXrBbf9vWUjV1GZQgcX49/elNb9lxMxE5MasTALS5Fg94eJVr8rgs=
+	t=1727695714; cv=none; b=TK6HLT1EaVnHM1N0RjoOmstVD3ZYyHavKF+JW1cUbdwEWsq5zG1KWHbKmW+RqDCJysYby+JdcHoOAm0kGpZW3UpFO+f/TqBeOrICXgJwBfqAYi6Is6MA7IgJGbGnBeeCVLfhlmtESJdfdhbJZGMNynwGH5peMztN92u0UNyHHJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727693545; c=relaxed/simple;
-	bh=qgtXNHUaMC9gvm0ihmJZWKtB+fMuAqQuoPe5R0FlK4I=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=l6OsEMBjKgV9gqj6MYIqWth7F37yUj9sDLOPKHK5TUeQprXfz91RZH+zFR2K2W0tcInmDlVPw01wfyqa8/N/o8+jSL9c9EflPFEEwQJM2E1NSGJmCZIO4e+TwtCRA3xGDt/6iyXEhX07Ib/5BM8FS+tCefTVGLOJ6AYf685Jbkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=ALVfrWqs; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53991d05416so1263023e87.2
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 03:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1727693540; x=1728298340; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EzUsANdIoZzXorl2vv0C4CsPY69b8z7/pL6IfXOL+tw=;
-        b=ALVfrWqs6Exok1jgn8uhnvMe5w0KS8YXUKfqG8/WWIsJPlNb3ymlJyYjR0JXvVt5oe
-         MHP3AnkvlJza7ZymckT1i637MaotE25ra8H9S3uzV8O0sg1w//L2JK7oTDW8ByGjQsdw
-         ZZX2xO9GPzQqSrZK9VrfrRKX4HK7LzB7s3bXNm7DEiNO2/3aYene12gfiImR47c7INMY
-         wdor82ArZaeyyEwCMVG4KdDTHUNJqxxwLgCFz7JdFtgeRpkGAZYwunK7bj1q2maYhFJU
-         K8JQ+yfu5ipllmoFBaQg6ccBpxtQgn3zhkP6DlfT3za2hRQ1U+O+1K1h6nTK/L/BbtNM
-         /rog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727693540; x=1728298340;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=EzUsANdIoZzXorl2vv0C4CsPY69b8z7/pL6IfXOL+tw=;
-        b=XxjuU6c0KjAhHcP61In4ZN543wVe4qP4UnL52hjQ7tnf8sLIbC6nk4CLW4ljebaTRU
-         tIjBMRsy3CQz8f7PRv2IEwjkHdGE3AYs/6mDZUJWWwix/zc1IP4M+yHKWh5LG0m+XnEu
-         NBMIbFK9g1ek1jBcm8R15zpo/A10fNN4wIGb+bhDsGgwMYrjBNsmLVGK4dmkGxQpm2xH
-         xf0xGugh80tepyXz0qIU7r4vyVR3CS0hoVUU9pSjraS2+ZsC1zTbFHyxK143BTQToh+h
-         O64RxCIut5DA6SYwVF/mQwe1ewoVE2JrIgGtHh/Jk6xKEcgsTKBAczxVt5+h2DNQPXDd
-         sumQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW/jCfrGQy7SIgmIwn+v6aVnbPgt6/OZaPZxkGEO8ahclPIN8E1w4PqGNuVPQ9sGqxn3GPgcyf7/9we2A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxp/8sSP4JBi7m/nUJip//EswnDzwvM+6NRNYDt0JdrpaAKERKs
-	RtUh7OwprlQhfL9aKsT+ERxOpUwMjZvGYxEFakwuqQgU+3MVvq5ApyJfgmnaGWk=
-X-Google-Smtp-Source: AGHT+IGhRweJOPkFGgAuNfktksGfPKXdF/ylFGqi9MZzfaoXda6AfoM5num/meZEhH8NA2EoHz2Tyw==
-X-Received: by 2002:a05:6512:3ca0:b0:539:9767:903d with SMTP id 2adb3069b0e04-539976791e8mr1198960e87.60.1727693539700;
-        Mon, 30 Sep 2024 03:52:19 -0700 (PDT)
-Received: from localhost (dynamic-176-000-009-164.176.0.pool.telefonica.de. [176.0.9.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c299861bsm511772866b.192.2024.09.30.03.52.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Sep 2024 03:52:19 -0700 (PDT)
+	s=arc-20240116; t=1727695714; c=relaxed/simple;
+	bh=i93qFv47msjB3dJ7ItEWeVxAXtW9br2+mD4Dfu9f3yg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SZ2cJT9LGhpUUawZ37iWw5vnjYBSFEwQGV/lGe2Ckd4cj+0TsSelUix3G8UZoceMmM4p6ntA8VQbNmoke02mWkm1DBsEZva/Vzrd125CJy9nErUKhgx/0djyseGZ2UNoTPw/JhBZp2gobmDnguUGAvi4W1ejWuHaMDHelcdDkhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67F22DA7;
+	Mon, 30 Sep 2024 04:29:01 -0700 (PDT)
+Received: from [10.57.76.28] (unknown [10.57.76.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E3C73F58B;
+	Mon, 30 Sep 2024 04:28:28 -0700 (PDT)
+Message-ID: <43d92e28-1fef-4408-b4a4-efede6bed263@arm.com>
+Date: Mon, 30 Sep 2024 12:28:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
+ accounting
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <5c4d1008-261f-4c47-ab73-c527675484a4@arm.com>
+ <bq6lctwgpsxvrdaajmjo3xdjt32srmsxvjhtzyebdj6izjzoaw@6duby4axg3pf>
+ <ef799587-f7c2-472a-8550-9c40a395eccb@arm.com>
+ <jgdknf77n6vqanh4jv2yixe4n4hsbhqqhth4beued4topggwgz@wx7bumhrbpje>
+ <033f8885-9c0e-4c5a-a272-baf48807dc5d@arm.com>
+ <gxtbgvg6dihcbcwm7sihnfl7cqnfx72ekr7mgvgykeukpltwak@b3pdwok2n5p6>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <gxtbgvg6dihcbcwm7sihnfl7cqnfx72ekr7mgvgykeukpltwak@b3pdwok2n5p6>
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 30 Sep 2024 12:52:16 +0200
-Message-Id: <D4JK8TRL7XBL.3TBA1FBF32RXL@fairphone.com>
-Cc: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, "Suresh Vankadara"
- <quic_svankada@quicinc.com>, "Trishansh Bhardwaj"
- <quic_tbhardwa@quicinc.com>, <stable@vger.kernel.org>, "Hariram
- Purushothaman" <quic_hariramp@quicinc.com>
-Subject: Re: [PATCH 00/10] (no cover subject)
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Vikram Sharma" <quic_vikramsa@quicinc.com>, "Robert Foss"
- <rfoss@kernel.org>, "Todor Tomov" <todor.too@gmail.com>, "Bryan O'Donoghue"
- <bryan.odonoghue@linaro.org>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Kapatrala
- Syed" <akapatra@quicinc.com>, "Hariram Purushothaman"
- <hariramp@quicinc.com>, "Bjorn Andersson" <andersson@kernel.org>, "Konrad
- Dybcio" <konradybcio@kernel.org>, "Hans Verkuil"
- <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>, "Catalin
- Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
-In-Reply-To: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed Sep 4, 2024 at 1:10 PM CEST, Vikram Sharma wrote:
-> SC7280 is a Qualcomm SoC. This series adds support to
-> bring up the CSIPHY, CSID, VFE/RDI interfaces in SC7280.
->
-> SC7280 provides
->
-> - 3 x VFE, 3 RDI per VFE
-> - 2 x VFE Lite, 4 RDI per VFE
-> - 3 x CSID
-> - 2 x CSID Lite
-> - 5 x CSI PHY
+On 27/09/2024 15:53, Adrián Larumbe wrote:
+> On 25.09.2024 10:56, Steven Price wrote:
+>> On 23/09/2024 21:43, Adrián Larumbe wrote:
+>>> Hi Steve,
+>>>
+>>> On 23.09.2024 09:55, Steven Price wrote:
+>>>> On 20/09/2024 23:36, Adrián Larumbe wrote:
+>>>>> Hi Steve, thanks for the review.
+>>>>
+>>>> Hi Adrián,
+>>>>
+>>>>> I've applied all of your suggestions for the next patch series revision, so I'll
+>>>>> only be answering to your question about the calc_profiling_ringbuf_num_slots
+>>>>> function further down below.
+>>>>>
+>>>>
+>>>> [...]
+>>>>
+>>>>>>> @@ -3003,6 +3190,34 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
+>>>>>>>  	.free_job = queue_free_job,
+>>>>>>>  };
+>>>>>>>  
+>>>>>>> +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
+>>>>>>> +				       u32 cs_ringbuf_size)
+>>>>>>> +{
+>>>>>>> +	u32 min_profiled_job_instrs = U32_MAX;
+>>>>>>> +	u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
+>>>>>>> +
+>>>>>>> +	/*
+>>>>>>> +	 * We want to calculate the minimum size of a profiled job's CS,
+>>>>>>> +	 * because since they need additional instructions for the sampling
+>>>>>>> +	 * of performance metrics, they might take up further slots in
+>>>>>>> +	 * the queue's ringbuffer. This means we might not need as many job
+>>>>>>> +	 * slots for keeping track of their profiling information. What we
+>>>>>>> +	 * need is the maximum number of slots we should allocate to this end,
+>>>>>>> +	 * which matches the maximum number of profiled jobs we can place
+>>>>>>> +	 * simultaneously in the queue's ring buffer.
+>>>>>>> +	 * That has to be calculated separately for every single job profiling
+>>>>>>> +	 * flag, but not in the case job profiling is disabled, since unprofiled
+>>>>>>> +	 * jobs don't need to keep track of this at all.
+>>>>>>> +	 */
+>>>>>>> +	for (u32 i = 0; i < last_flag; i++) {
+>>>>>>> +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
+>>>>>>> +			min_profiled_job_instrs =
+>>>>>>> +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>> +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
+>>>>>>> +}
+>>>>>>
+>>>>>> I may be missing something, but is there a situation where this is
+>>>>>> different to calc_job_credits(0)? AFAICT the infrastructure you've added
+>>>>>> can only add extra instructions to the no-flags case - whereas this
+>>>>>> implies you're thinking that instructions may also be removed (or replaced).
+>>>>>>
+>>>>>> Steve
+>>>>>
+>>>>> Since we create a separate kernel BO to hold the profiling information slot, we
+>>>>> need one that would be able to accomodate as many slots as the maximum number of
+>>>>> profiled jobs we can insert simultaneously into the queue's ring buffer. Because
+>>>>> profiled jobs always take more instructions than unprofiled ones, then we would
+>>>>> usually need fewer slots than the number of unprofiled jobs we could insert at
+>>>>> once in the ring buffer.
+>>>>>
+>>>>> Because we represent profiling metrics with a bit mask, then we need to test the
+>>>>> size of the CS for every single metric enabled in isolation, since enabling more
+>>>>> than one will always mean a bigger CS, and therefore fewer jobs tracked at once
+>>>>> in the queue's ring buffer.
+>>>>>
+>>>>> In our case, calling calc_job_credits(0) would simply tell us the number of
+>>>>> instructions we need for a normal job with no profiled features enabled, which
+>>>>> would always requiere less instructions than profiled ones, and therefore more
+>>>>> slots in the profiling info kernel BO. But we don't need to keep track of
+>>>>> profiling numbers for unprofiled jobs, so there's no point in calculating this
+>>>>> number.
+>>>>>
+>>>>> At first I was simply allocating a profiling info kernel BO as big as the number
+>>>>> of simultaneous unprofiled job slots in the ring queue, but Boris pointed out
+>>>>> that since queue ringbuffers can be as big as 2GiB, a lot of this memory would
+>>>>> be wasted, since profiled jobs always require more slots because they hold more
+>>>>> instructions, so fewer profiling slots in said kernel BO.
+>>>>>
+>>>>> The value of this approach will eventually manifest if we decided to keep track of
+>>>>> more profiling metrics, since this code won't have to change at all, other than
+>>>>> adding new profiling flags in the panthor_device_profiling_flags enum.
+>>>>
+>>>> Thanks for the detailed explanation. I think what I was missing is that
+>>>> the loop is checking each bit flag independently and *not* checking
+>>>> calc_job_credits(0).
+>>>>
+>>>> The check for (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL) is probably what
+>>>> confused me - that should be completely redundant. Or at least we need
+>>>> something more intelligent if we have profiling bits which are not
+>>>> mutually compatible.
+>>>
+>>> I thought of an alternative that would only test bits that are actually part of
+>>> the mask:
+>>>
+>>> static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
+>>> 				       u32 cs_ringbuf_size)
+>>> {
+>>> 	u32 min_profiled_job_instrs = U32_MAX;
+>>> 	u32 profiling_mask = PANTHOR_DEVICE_PROFILING_ALL;
+>>>
+>>> 	while (profiling_mask) {
+>>> 		u32 i = ffs(profiling_mask) - 1;
+>>> 		profiling_mask &= ~BIT(i);
+>>> 		min_profiled_job_instrs =
+>>> 			min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
+>>> 	}
+>>>
+>>> 	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
+>>> }
+>>>
+>>> However, I don't think this would be more efficient, because ffs() is probably
+>>> fetching the first set bit by performing register shifts, and I guess this would
+>>> take somewhat longer than iterating over every single bit from the last one,
+>>> even if also matching them against the whole mask, just in case in future
+>>> additions of performance metrics we decide to leave some of the lower
+>>> significance bits untouched.
+>>
+>> Efficiency isn't very important here - we're not on a fast path, so it's
+>> more about ensuring the code is readable. I don't think the above is
+>> more readable then the original for loop.
+>>
+>>> Regarding your question about mutual compatibility, I don't think that is an
+>>> issue here, because we're testing bits in isolation. If in the future we find
+>>> out that some of the values we're profiling cannot be sampled at once, we can
+>>> add that logic to the sysfs knob handler, to make sure UM cannot set forbidden
+>>> profiling masks.
+>>
+>> My comment about compatibility is because in the original above you were
+>> calculating the top bit of PANTHOR_DEVICE_PROFILING_ALL:
+>>
+>>> u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
+>>
+>> then looping between 0 and that bit:
+>>
+>>> for (u32 i = 0; i < last_flag; i++) {
+>>
+>> So the test:
+>>
+>>> if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
+>>
+>> would only fail if PANTHOR_DEVICE_PROFILING_ALL had gaps in the bits
+>> that it set. The only reason I can think for that to be true in the
+>> future is if there is some sort of incompatibility - e.g. maybe there's
+>> an old and new way of doing some form of profiling with the old way
+>> being kept for backwards compatibility. But I suspect if/when that is
+>> required we'll need to revisit this function anyway. So that 'if'
+>> statement seems completely redundant (it's trivially always true).
+> 
+> I think you're right about this. Would you be fine with the rest of the patch
+> as it is in revision 8 if I also deleted this bitmask check?
 
-Hi Vikram,
+Yes the rest of it looks fine.
 
-I tried this on my QCM6490 Fairphone 5 smartphone.
+Thanks,
+Steve
 
-Unfortunately I couldn't get e.g. CSID test pattern out of camss. I've
-tested this patchset on v6.11.
-
-These commands did work on an older sc7280 camss patchset (which was
-never sent to the lists). Can you please take a look?
-
-v4l2-ctl -d /dev/v4l-subdev5 -c test_pattern=3D1
-media-ctl -d /dev/media0 -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-media-ctl -d /dev/media0 -V '"msm_csid0":1[fmt:UYVY8_2X8/1920x1080 field:no=
-ne],"msm_vfe0_rdi0":0[fmt:UYVY8_2X8/1920x1080 field:none]'
-gst-launch-1.0 v4l2src device=3D/dev/video0 num-buffers=3D1 ! 'video/x-raw,=
-format=3DUYVY,width=3D1920,height=3D1080' ! jpegenc ! filesink location=3Di=
-mage01.jpg
-
-The last command just hangs instead of producing a picture in
-image01.jpg. Can you please check if this works for you on your board?
-
-Regards
-Luca
-
-
->
-> The changes are verified on SC7280 qcs6490-rb3gen2-vision board,
-> the base dts for qcs6490-rb3gen2 is:
-> https://lore.kernel.org/all/20231103184655.23555-1-quic_kbajaj@quicinc.co=
-m/
->
-> V1 for this series: https://lore.kernel.org/linux-arm-msm/20240629-camss_=
-first_post_linux_next-v1-0-bc798edabc3a@quicinc.com/
->
-> Changes in V2:
-> 1)  Improved indentation/formatting.
-> 2)  Removed _src clocks and misleading code comments.
-> 3)  Added name fields for power domains and csid register offset in DTSI.
-> 4)  Dropped minItems field from YAML file.
-> 5)  Listed changes in alphabetical order.
-> 6)  Updated description and commit text to reflect changes
-> 7)  Changed the compatible string from imx412 to imx577.
-> 8)  Added board-specific enablement changes in the newly created vision
->      board DTSI file.
-> 9)  Fixed bug encountered during testing.
-> 10) Moved logically independent changes to a new/seprate patch.
-> 11) Removed cci0 as no sensor is on this port and MCLK2, which was a
->     copy-paste error from the RB5 board reference.
-> 12) Added power rails, referencing the RB5 board.
-> 13) Discarded Patch 5/6 completely (not required).
-> 14) Removed unused enums.
->
-> To: Robert Foss <rfoss@kernel.org>
-> To: Todor Tomov <todor.too@gmail.com>
-> To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> To: Rob Herring <robh@kernel.org>
-> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> To: Conor Dooley <conor+dt@kernel.org>
-> To: Kapatrala Syed <akapatra@quicinc.com>
-> To: Hariram Purushothaman <hariramp@quicinc.com>
-> To: Bjorn Andersson <andersson@kernel.org>
-> To: Konrad Dybcio <konradybcio@kernel.org>
-> To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> To: cros-qcom-dts-watchers@chromium.org
-> To: Catalin Marinas <catalin.marinas@arm.com>
-> To: Will Deacon <will@kernel.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
->
-> Test-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-> ---
-> Suresh Vankadara (1):
->       media: qcom: camss: Add support for camss driver on SC7280
->
-> Vikram Sharma (9):
->       media: dt-bindings: media: camss: Add qcom,sc7280-camss binding
->       media: dt-bindings: media: qcs6490-rb3gen2-vision-mezzanine: Add dt=
- bindings
->       media: qcom: camss: Fix potential crash if domain attach fails
->       media: qcom: camss: Sort CAMSS version enums and compatible strings
->       media: qcom: camss: Add camss_link_entities_v2
->       arm64: dts: qcom: sc7280: Add support for camss
->       arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine: Enable IMX577 s=
-ensor
->       arm64: dts: qcom: sc7280: Add default and suspend states for GPIO
->       arm64: defconfig: Enable camcc driver for SC7280
->
->  Documentation/devicetree/bindings/arm/qcom.yaml    |   1 +
->  .../bindings/media/qcom,sc7280-camss.yaml          | 441 +++++++++++++++=
-++++++
->  arch/arm64/boot/dts/qcom/Makefile                  |   1 +
->  .../dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dts  |  61 +++
->  arch/arm64/boot/dts/qcom/sc7280.dtsi               | 208 ++++++++++
->  arch/arm64/configs/defconfig                       |   1 +
->  drivers/media/platform/qcom/camss/camss-csid.c     |   1 -
->  .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     |  13 +-
->  drivers/media/platform/qcom/camss/camss-csiphy.c   |   5 +
->  drivers/media/platform/qcom/camss/camss-csiphy.h   |   1 +
->  drivers/media/platform/qcom/camss/camss-vfe.c      |   8 +-
->  drivers/media/platform/qcom/camss/camss.c          | 400 +++++++++++++++=
-+++-
->  drivers/media/platform/qcom/camss/camss.h          |   1 +
->  13 files changed, 1131 insertions(+), 11 deletions(-)
-> ---
-> base-commit: fdadd93817f124fd0ea6ef251d4a1068b7feceba
-> change-id: 20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-15c195fb3f1=
-2
->
-> Best regards,
+>> Steve
+>>
+>>>> I'm also not entirely sure that the amount of RAM saved is significant,
+>>>> but you've already written the code so we might as well have the saving ;)
+>>>
+>>> I think this was more evident before Boris suggested we reduce the basic slot
+>>> size to that of a single cache line, because then the minimum profiled job
+>>> might've taken twice as many ringbuffer slots as a nonprofiled one. In that
+>>> case, we would need a half as big BO for holding the sampled data (in case the
+>>> least size profiled job CS would extend over the 16 instruction boundary).
+>>> I still think this is a good idea so that in the future we don't need to worry
+>>> about adjusting the code that deals with preparing the right boilerplate CS,
+>>> since it'll only be a matter of adding new instructions inside prepare_job_instrs().
+>>>
+>>>> Thanks,
+>>>> Steve
+>>>>
+>>>>> Regards,
+>>>>> Adrian
+>>>>>
+>>>>>>> +
+>>>>>>>  static struct panthor_queue *
+>>>>>>>  group_create_queue(struct panthor_group *group,
+>>>>>>>  		   const struct drm_panthor_queue_create *args)
+>>>>>>> @@ -3056,9 +3271,35 @@ group_create_queue(struct panthor_group *group,
+>>>>>>>  		goto err_free_queue;
+>>>>>>>  	}
+>>>>>>>  
+>>>>>>> +	queue->profiling.slot_count =
+>>>>>>> +		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
+>>>>>>> +
+>>>>>>> +	queue->profiling.slots =
+>>>>>>> +		panthor_kernel_bo_create(group->ptdev, group->vm,
+>>>>>>> +					 queue->profiling.slot_count *
+>>>>>>> +					 sizeof(struct panthor_job_profiling_data),
+>>>>>>> +					 DRM_PANTHOR_BO_NO_MMAP,
+>>>>>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>>>>>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+>>>>>>> +					 PANTHOR_VM_KERNEL_AUTO_VA);
+>>>>>>> +
+>>>>>>> +	if (IS_ERR(queue->profiling.slots)) {
+>>>>>>> +		ret = PTR_ERR(queue->profiling.slots);
+>>>>>>> +		goto err_free_queue;
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>> +	ret = panthor_kernel_bo_vmap(queue->profiling.slots);
+>>>>>>> +	if (ret)
+>>>>>>> +		goto err_free_queue;
+>>>>>>> +
+>>>>>>> +	/*
+>>>>>>> +	 * Credit limit argument tells us the total number of instructions
+>>>>>>> +	 * across all CS slots in the ringbuffer, with some jobs requiring
+>>>>>>> +	 * twice as many as others, depending on their profiling status.
+>>>>>>> +	 */
+>>>>>>>  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
+>>>>>>>  			     group->ptdev->scheduler->wq, 1,
+>>>>>>> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
+>>>>>>> +			     args->ringbuf_size / sizeof(u64),
+>>>>>>>  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+>>>>>>>  			     group->ptdev->reset.wq,
+>>>>>>>  			     NULL, "panthor-queue", group->ptdev->base.dev);
+>>>>>>> @@ -3354,6 +3595,7 @@ panthor_job_create(struct panthor_file *pfile,
+>>>>>>>  {
+>>>>>>>  	struct panthor_group_pool *gpool = pfile->groups;
+>>>>>>>  	struct panthor_job *job;
+>>>>>>> +	u32 credits;
+>>>>>>>  	int ret;
+>>>>>>>  
+>>>>>>>  	if (qsubmit->pad)
+>>>>>>> @@ -3407,9 +3649,16 @@ panthor_job_create(struct panthor_file *pfile,
+>>>>>>>  		}
+>>>>>>>  	}
+>>>>>>>  
+>>>>>>> +	job->profiling.mask = pfile->ptdev->profile_mask;
+>>>>>>> +	credits = calc_job_credits(job->profiling.mask);
+>>>>>>> +	if (credits == 0) {
+>>>>>>> +		ret = -EINVAL;
+>>>>>>> +		goto err_put_job;
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>>  	ret = drm_sched_job_init(&job->base,
+>>>>>>>  				 &job->group->queues[job->queue_idx]->entity,
+>>>>>>> -				 1, job->group);
+>>>>>>> +				 credits, job->group);
+>>>>>>>  	if (ret)
+>>>>>>>  		goto err_put_job;
+>>>>>>>  
+>>>>>
 
 
