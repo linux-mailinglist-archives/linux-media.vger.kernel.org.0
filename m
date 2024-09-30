@@ -1,117 +1,147 @@
-Return-Path: <linux-media+bounces-18878-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18879-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985BA98A8E1
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 17:42:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1304598AACE
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 19:13:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73E85B292AA
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 15:41:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B72621F22BBD
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 17:13:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B0051946A9;
-	Mon, 30 Sep 2024 15:40:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85C0318C01E;
+	Mon, 30 Sep 2024 17:12:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=networkplumber-org.20230601.gappssmtp.com header.i=@networkplumber-org.20230601.gappssmtp.com header.b="csafDKve"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RsBcdVE6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB039192B60
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 15:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8D9198A0D;
+	Mon, 30 Sep 2024 17:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727710850; cv=none; b=BcyaQXLZj1ZqU71FCvivBX7JNNZaLa42ZS9Tf7BuBAoekISSvqqWS5pZ42ty6JZAvDWmwaRfSka05uazsnhfjvQ2VPYAq8ZC6rcqq7sRAo7L2+0mdKUfGpHTOXBmeRHAsYtmJx3wGM5sn3WF7oQcQ11m0qHrs22obEniklsM+cI=
+	t=1727716369; cv=none; b=uqD5+v3t9UNkdgaPzlQGgxdaWLOL1b8p659QY1MYM+Ks36BRlnGEBhwK0CIiUAKg6QkscylMqHFACCLLm+8RYW6CYGxVA/3GnngSjah7VJURvweOoF+ZpgQoSETc2QuB0PdpIl+Frln0hxjRiNxuUhjcDn0BQiXqt1OmM1w0teI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727710850; c=relaxed/simple;
-	bh=fDFumAK9igYZ+CxTHR9gCbxjlAoTzynxL/GKvBjAzsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KklpC32fPRN6HJevCw2ieAO1v8nDtJHlp+WGYWqfoh+ue+7Y8KTSx1/7zVuzqMdU3YYH1laHCTaiuz5NZc1qdoKvGJetPkr+B/rBEYzLAaO1Pi2Lnm6xYdYTgBH4/aYMNUKBzdESWY/7L0ejKHlfEBj11f4QdXHNkFafcOp4uZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org; spf=pass smtp.mailfrom=networkplumber.org; dkim=pass (2048-bit key) header.d=networkplumber-org.20230601.gappssmtp.com header.i=@networkplumber-org.20230601.gappssmtp.com header.b=csafDKve; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=networkplumber.org
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20b8be13cb1so11682235ad.1
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 08:40:48 -0700 (PDT)
+	s=arc-20240116; t=1727716369; c=relaxed/simple;
+	bh=YEzdSQNhrdBnEv5ZnZ7OwOy1E0VsRh5p70r2rRyYh8I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fFaaU/4sd/Fy+9NzqelY72oy6MR5Jw+hU93fmHSy0bUfq65qki/e0dbLhrVEun0Y8BHb60OXECX7IRsTz6SkOf7dtkrETW1YnEYxQ2Yr+P1g/1M/XRbc3hOJR3opW7lvOEqahBN5XR7OPdj5BwJmz2ninHpMdLXFgpkheBWYJDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RsBcdVE6; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-50ab5e0c482so372043e0c.1;
+        Mon, 30 Sep 2024 10:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=networkplumber-org.20230601.gappssmtp.com; s=20230601; t=1727710848; x=1728315648; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1727716367; x=1728321167; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Gk4IT+ziW7GSilMgu7AJgpoE41t4jq/Ls2rSzqW+beE=;
-        b=csafDKvefF/P8ZewMQZITH2n/3TirhLRyV+fyujN8sG/8QTfABFbl7uLHCVd3xJp8o
-         i45ZC5vAhS3FncRjCQg9sznJVAa/MzMr+8+NRoWXbcd3zT6QOVULcrStd3Rl3Rakgnsb
-         lbNgj9YssLf7SKWOxuz2exxKwC/990ZbmOz7KpSNQDosnOPDfjtqUuWKcJYsZg2LTTH8
-         2a9MHrQfG8BLSbJ0nm83tK11XHl2SLd4vXbn/KTk5e7XmrRwT9aAPk+0f2JqFSk7n6P6
-         WpmPzQdRktvTnOG8m+pn3jDkfSE3OlgQgBJhnuzuJEwjNcTj9E0Hgmm9AnfaxRJVU1Kl
-         7zYQ==
+        bh=V7i2nP7oIqIXZg+ExE2suICLJsXwuJoLSOBktdlrWHo=;
+        b=RsBcdVE6r7ZLoXtdlKldSq+hYHFtLO4oI/0bAvGxFG11nCP1hfUE/PBJAHwOZvuKWi
+         31ldxWYD4AVS6o+XEOOptvZr/8RTguZSGTsJcqtQAQveinMiCjja7ds0HOc1ijptibOr
+         P4mO9kZnSLWYvf7ud8b+AOil2tBMSVI9CxhbSnuDkhxbfBTAQWGcg3Loee6h4FSwhBk3
+         9vHXegXMCKLm9gvQOwFGRrhG5Y/BnF/9N/2YtBe98XugO3VRk9E58FH47//qeRtyd6mT
+         5YTo7jrfiSkkYy4L3JZyYzYplaR8X7YFJO0dkBDqvE4HfKRMDgFdjVINbQUcQCWPooFa
+         crsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727710848; x=1728315648;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1727716367; x=1728321167;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Gk4IT+ziW7GSilMgu7AJgpoE41t4jq/Ls2rSzqW+beE=;
-        b=pugKoOjAdXzjpbOIUfZgnZ9CUMRYXgRfMtTSPkNjOfnXiJbF3D8yA+05Q7rl1TCuJJ
-         tfyXwg1U3z+WfJ3+FWHTclIqv8cTLD7N3QhwY1pSmLwoawK0AHRiUIO0yayNtjrdgPBG
-         8fzfz8b97nPoH0kK9XLv+UoKc8mo2DdAwAbun0vmMJ81J8oGkVBLZ7kfbPkz7gJaZMsm
-         f3O/FKwpiQy5XLzUJ2M+E/k7PUGI0brudC02ZHP+g5NoJmFBVrGtTHmCdj3ZQASCO2Px
-         2wgFBkaQ4n5xUiKPrvu1HP+Kaqthx7PD6dBQe5DBXSIFEQ0dg+FqH7wj+ftZ7Urq73Jn
-         2JaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUzLYmy+CdQQTk+79YNISN3DTCUMEIcxzjZCoFWl6mj/tq51rJQLAwwlHWztxh8mcL9fp0V5ao4zeQOTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSlGI9j3z1zDd/lJo8bn4z6Ehga1n9hbVA3RLx1C2bYE9mj2ma
-	X1khGO6jcdzxRxb4I+9HShH0wJAGppp1EHsLBbLZxQ//Y6PD6GHCjtTTix3d3Wo=
-X-Google-Smtp-Source: AGHT+IEBTYKGJiVF/hvLtnqHSF6GUD7YmyDMyv0oyolLcyv9IFVLXr8V4Z3pE6cLuKRIJT4zroumAw==
-X-Received: by 2002:a17:902:f54f:b0:20b:5c94:da02 with SMTP id d9443c01a7336-20b5c94de48mr112201815ad.33.1727710848215;
-        Mon, 30 Sep 2024 08:40:48 -0700 (PDT)
-Received: from hermes.local (204-195-96-226.wavecable.com. [204.195.96.226])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e6c997sm55788515ad.307.2024.09.30.08.40.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 08:40:47 -0700 (PDT)
-Date: Mon, 30 Sep 2024 08:40:45 -0700
-From: Stephen Hemminger <stephen@networkplumber.org>
-To: Uros Bizjak <ubizjak@gmail.com>
-Cc: x86@kernel.org, linux-crypto@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org, Jamal Hadi Salim
- <jhs@mojatatu.com>, Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko
- <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>
-Subject: Re: [PATCH v3 17/19] netem: Include <linux/prandom.h> in
- sch_netem.c
-Message-ID: <20240930084045.7c0e913e@hermes.local>
-In-Reply-To: <20240930123702.803617-18-ubizjak@gmail.com>
-References: <20240930123702.803617-1-ubizjak@gmail.com>
-	<20240930123702.803617-18-ubizjak@gmail.com>
+        bh=V7i2nP7oIqIXZg+ExE2suICLJsXwuJoLSOBktdlrWHo=;
+        b=C7E+2sriWXAlyJwBX6oNaEmqzSG31o/N814ITgAsFgZC5CadEbHmYqek3P3RqOv/Ex
+         XSjg76NuRbopZzoL0FNNXMYX20bLs+e1v469tu71IXCwyvQgnomgzyVrqXXSVydGTF2B
+         jCDbq1FW1QSIAn3JfEebPQ/qtV02iZb2tnnl/hpmjkwdqpKHGYdSg2M1zMcgFcPQjcJs
+         g5HE01o1VnkDcI82LoXdvokrNF+y8Cjmkk6aojrR9++QJd6C/N8kmJWSQfGv7FMlB/9f
+         HOwbiHG5hy6nBrMOUV4besSu//MqgNVXES4DDRzx8gDSjcPVOoHq+NziO0jNYaF4v6Q8
+         G0gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBZk0xutHNrceZ63biwvrfrSpvJ7ECK0NjxuekeGqD+LA9BNYKoOYUgcaCTDWjV2UKR+UOXP6v+dM7okU=@vger.kernel.org, AJvYcCUqkSPMFfTSU9ydXxCC5M4MsgMCJL9cKr7b7++JYQLMQSSEoHa1wczM1p5sNwzfKZsYwWuC3BFTUG+65AU=@vger.kernel.org, AJvYcCWGRF32WWPJgukeoLwOGquXViANXzKt4iRRPPTJKmjEDOdSfyrJJutvGGaZTUVUWk018lufoJEZa6P12/i0L8EGGsw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5y/oW/cR3zuc235RSPYZYtwZDfbAQtqZjr+FLRX/YhWvEYc2v
+	cO1CAWVSHKKUpiVexiT954jC7rqHUnCpnBDri0PKMgJ68rKe1pRlDomMOpeGE47Hp8/q62WXpo6
+	Dei9Y8lxEiD9XiBkv+ZZ4X4p1HmA=
+X-Google-Smtp-Source: AGHT+IGsSI301dsuHnczzrL0W10qgO3yHWun+13wXZ1nYAnktHmRQHbNE9X0zyHz9auG7pkPAKGQ5fSwVbGbf4b2V3U=
+X-Received: by 2002:a05:6122:2210:b0:4f5:23e4:b7c with SMTP id
+ 71dfb90a1353d-50781517913mr8056506e0c.0.1727716366878; Mon, 30 Sep 2024
+ 10:12:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240910175357.229075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240910175357.229075-14-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240927230909.GM12322@pendragon.ideasonboard.com>
+In-Reply-To: <20240927230909.GM12322@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 30 Sep 2024 18:12:20 +0100
+Message-ID: <CA+V-a8sB2DuB8TOsoAmzNgY2c8qBbgGtumGzcCbzxj38wnGqbg@mail.gmail.com>
+Subject: Re: [PATCH v2 13/16] media: platform: rzg2l-cru: rzg2l-video: Use
+ rzg2l_cru_ip_code_to_fmt() to validate format
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 30 Sep 2024 14:33:28 +0200
-Uros Bizjak <ubizjak@gmail.com> wrote:
+Hi Laurent,
 
-> Include <linux/prandom.h> header to allow the removal of legacy
-> inclusion of <linux/prandom.h> from <linux/random.h>.
-> 
-> Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
-> Cc: Stephen Hemminger <stephen@networkplumber.org>
-> Cc: Jamal Hadi Salim <jhs@mojatatu.com>
-> Cc: Cong Wang <xiyou.wangcong@gmail.com>
-> Cc: Jiri Pirko <jiri@resnulli.us>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
+Thank you for the review.
 
-Makes sense
+On Sat, Sep 28, 2024 at 12:09=E2=80=AFAM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Tue, Sep 10, 2024 at 06:53:54PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Utilize `rzg2l_cru_ip_code_to_fmt()` in `rzg2l_cru_mc_validate_format()=
+`
+> > to validate whether the format is supported. This change removes the ne=
+ed
+> > to manually add new entries when a new format is added to the CRU drive=
+r,
+> > simplifying the validation process.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 6 +-----
+> >  1 file changed, 1 insertion(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/d=
+rivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > index 014c0ff2721b..c32608c557a3 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > @@ -201,12 +201,8 @@ static int rzg2l_cru_mc_validate_format(struct rzg=
+2l_cru_dev *cru,
+> >       if (v4l2_subdev_call_state_active(sd, pad, get_fmt, &fmt))
+> >               return -EPIPE;
+> >
+> > -     switch (fmt.format.code) {
+> > -     case MEDIA_BUS_FMT_UYVY8_1X16:
+> > -             break;
+> > -     default:
+> > +     if (!rzg2l_cru_ip_code_to_fmt(fmt.format.code))
+> >               return -EPIPE;
+> > -     }
+>
+> This looks fine, but I think you should take it one step further and
+> perform format validation in .link_validate(). See
+> https://lore.kernel.org/all/20240826124106.3823-8-laurent.pinchart+renesa=
+s@ideasonboard.com/
+>
+OK, I'll implement link_validate() and do format checking in there and
+get rid of rzg2l_cru_mc_validate_format(). Thanks for the pointer.
 
-Acked-by: Stephen Hemminger <stephen@networkplumber.org>
+Cheers,
+Prabhakar
 
