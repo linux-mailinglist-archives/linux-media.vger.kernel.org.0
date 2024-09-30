@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-18815-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18816-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A68F98A1AD
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:12:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA6298A1AF
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:13:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4343C1C21187
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:12:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D5D2284E02
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:13:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C988819CC00;
-	Mon, 30 Sep 2024 12:05:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F73919AD8C;
+	Mon, 30 Sep 2024 12:05:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PdvlWjSF"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="baLfaxYC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9176619B3C7
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 12:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880FB19C570
+	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 12:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697901; cv=none; b=FtrTIELjFt8GzWaA/ALeJjbMDx+//MmDWcxy8dS/o1XDADKgZcMDh+t9LiZBvjCJ0tvxF7DGoG6L6DsYoE6BBWpHYgjzEfwXp5ZCUigqKasgONvTeN2cR978821mtNWrrQmIiwMNmVBsyPwvlw7AUZp5MKBUcILamXwihoBkY14=
+	t=1727697903; cv=none; b=rACUdespowXEq4ZL8xM1MYd7jH9c5vYQr/kk7A1EFiF+OmRMI/7iCjIcAK6ihdkvJlZdWK049uZbBkhdToPLHVDMbl7SGtjZzGFzf2j/zl3UvsHxwBsMkJoUQEXPCHCTDAYB4RPDdGMy9fXzRYh+nAWzYxhgQ6XWe2pZa7YjwzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697901; c=relaxed/simple;
-	bh=fSPAVO9ZDOlfM+yvKGofjzMlsnwmS7DOHpFwVZfy/5M=;
+	s=arc-20240116; t=1727697903; c=relaxed/simple;
+	bh=eMOK5aR0wLanv4sEh7pDMzrsrhbN/JSAh3wt+zLwIY0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hpCKpzem5pYclZxkiKpikE8nxlX1XFYxF76u4U6DTBPowPdKcgW+JkFncuRlXSCNOEUnA9Nl9sD9In/+XHh/JeaX6PyPtCNvoi3yi2PxrVIQfWNczg8mZESkO737AkZs74vFUk9suRoLnFG8MnSSDuLu+oSRqaX/ZJpkU9Ob78k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PdvlWjSF; arc=none smtp.client-ip=209.85.210.44
+	 In-Reply-To:To:Cc; b=BpwOzD5XMdW31pnPxOHTxORr3t2qvlJEV2n7yXLJ8+dWTkMYVPNmJhMMLhr+Cnp7jWUat8Mft7Pwb7eCx081Ej15iajTylyKPDug7/F+26GsO1UffS1v/Sf/GSuiukQRPhjr8Fjac+YgZIDmkOgdS8cufCiF4uKrDOHP8ncVjJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=baLfaxYC; arc=none smtp.client-ip=209.85.219.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-710daaadd9bso2361163a34.2
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 05:04:59 -0700 (PDT)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6cb2824ddc2so34593606d6.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 05:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697898; x=1728302698; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1727697900; x=1728302700; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=w+lDXyICIHcG+x83IY7Td9H+I+izyCveuIAoXyx8Crg=;
-        b=PdvlWjSFSJNVSDkIb9GCm90Rq6o+Tr8hfTrWcM+2lwdXvtdnzW53rngmcPAy4YVhRk
-         d9kprQChY1L0X7hhs14/3rMv//62rFb7YLV9lOOGDlKa+59HFItBR+5O64sIN4vR0HDy
-         1Iwk1DANECTG2Rs1qpuGEHCsWT118O7KN9EgY=
+        bh=ZtS18Z/ph+22OpFMjBj6PDOp8BDjMiQU1mRrp+tqPao=;
+        b=baLfaxYCmqV9bOlT/i4LHX+6b51SXbHa35IqdE3o62GoQm6mPIywmevVUYOjqdsDhF
+         4SqhLrP40/WhATl8ZaZrFjCRR6hn3k98hgbDBwvKoT3f04DplgWsWTfUN6fiaRX1zEA8
+         eV1+azmqSOUERKeWqIeUml3r9wN1kHqNoHtUM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697898; x=1728302698;
+        d=1e100.net; s=20230601; t=1727697900; x=1728302700;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=w+lDXyICIHcG+x83IY7Td9H+I+izyCveuIAoXyx8Crg=;
-        b=HJLb+G1uHX8sBupHBK7ebuuqDNt18jNnIV/OYZrzrNd5SIT2WXp0eL98YDma8gkAax
-         ZRucGucM7pYVd8R157wEMKpPL5CCjiALNZ8pv035fQiuAbSYTjPN/COiBG99o+F1mh2a
-         c1LmF7lYy0xvFELmXaRR8EvGjghU1hA32IMCOn32E68PjKFiHupk2mrvpenaC34YwiC4
-         RZ3RuUBiewxid7AR4MZv4OTsBdEM04r1YefeWPcp2xde4N8Rb1QQLiDJgwric5VfnXoY
-         K3sOWAGrSSsRrByJKJRfccHYVHkuAVfd39lQRStEdIgkGAbw73NS8pLWYu+JullaIc+D
-         q1PA==
-X-Gm-Message-State: AOJu0YzHVn/unDrF/ykudCrjlsVu/0kBLnDCtgv/69Ki/ot9NQsxxqSu
-	25waUQC7g/gS1+Ifz/gGSoR871qvXW9LzcynZ+lpyNoUzNfL0I/dzMgLaluRRg==
-X-Google-Smtp-Source: AGHT+IHpSAOikj0Pw9qUy/ufav5/H94vhYgLdOZ5ZWws6VuRg45Il/9rM3D70mqQT4nS8RcavrRJ/g==
-X-Received: by 2002:a05:6358:7254:b0:1b8:322e:3db with SMTP id e5c5f4694b2df-1becbc887d8mr566945055d.14.1727697898629;
-        Mon, 30 Sep 2024 05:04:58 -0700 (PDT)
+        bh=ZtS18Z/ph+22OpFMjBj6PDOp8BDjMiQU1mRrp+tqPao=;
+        b=rYpPEvSYtVOuK3NjReYxG0GMyAZerUS0g5nKdW5KeXubE8T3pKgEbt35WBdqCegvx8
+         F/ubkmgWnWz/a204muqIAoR6F7NWhqK09DJUfyon2dQlVEJj8ArmQHmd0IWim5YPUQtS
+         0918wwOjHcxt+Hf13EgWepYcXugs93LNCXB82L5rIe79Hownk0qSBl1TXVabjm46Wb0Z
+         +L0MDYH6/TnkrM4dnQJrr8qcb5ZAvqYo1dTOCPkDlFYSxMfnzStV7iBHKv1EGOzkiszz
+         yWkSL1DoWdT+jubcrpDQYOE/PZk8ARgHbIcdrDGlTa21lMdc86heDmMQBmi0Kn0wxZa1
+         zwOQ==
+X-Gm-Message-State: AOJu0YynVMdm5o0cKG4m4VTtKbt131B0uJg8y58zScTjI34raI10du+6
+	aeaAFL4KdbcXvMFm7AgH5rBKFf3v5sc9TgeQVClWG0FqVCqiCb2NbMvbSx6dLw==
+X-Google-Smtp-Source: AGHT+IHa6kByUW3tXKJTo1om4uBb1NLh+sbjdquYal1McTRlR2Y5X69QcY3HAZ4VU5M0CeLNOC2NrA==
+X-Received: by 2002:a05:6214:448c:b0:6c4:6217:da9c with SMTP id 6a1803df08f44-6cb3b5da202mr213240066d6.17.1727697900493;
+        Mon, 30 Sep 2024 05:05:00 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.57
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:58 -0700 (PDT)
+        Mon, 30 Sep 2024 05:04:59 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:22 +0000
-Subject: [PATCH 27/45] media: cec: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:23 +0000
+Subject: [PATCH 28/45] media: b2c2: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-27-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-28-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -114,55 +114,36 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 X-Mailer: b4 0.13.0
 
 The following cocci warnings are fixed:
-drivers/media/cec/usb/pulse8/pulse8-cec.c:698:2-9: opportunity for str_on_off(data [ 0 ])
-drivers/media/cec/usb/pulse8/pulse8-cec.c:705:4-11: opportunity for str_on_off(data [ 0 ])
-drivers/media/cec/platform/cec-gpio/cec-gpio.c:138:6-22: opportunity for str_high_low(cec -> hpd_is_high)
-drivers/media/cec/platform/cec-gpio/cec-gpio.c:141:6-21: opportunity for str_high_low(cec -> v5_is_high)
+drivers/media/common/b2c2/flexcop-hw-filter.c:119:20-25: opportunity for str_on_off(onoff)
+drivers/media/common/b2c2/flexcop-hw-filter.c:12:35-40: opportunity for str_on_off(onoff)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/cec/platform/cec-gpio/cec-gpio.c | 4 ++--
- drivers/media/cec/usb/pulse8/pulse8-cec.c      | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/common/b2c2/flexcop-hw-filter.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/cec/platform/cec-gpio/cec-gpio.c b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-index 98dacb0919b6..49160a15272b 100644
---- a/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-+++ b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-@@ -135,10 +135,10 @@ static void cec_gpio_status(struct cec_adapter *adap, struct seq_file *file)
- 	seq_printf(file, "using irq: %d\n", cec->cec_irq);
- 	if (cec->hpd_gpio)
- 		seq_printf(file, "hpd: %s\n",
--			   cec->hpd_is_high ? "high" : "low");
-+			   str_high_low(cec->hpd_is_high));
- 	if (cec->v5_gpio)
- 		seq_printf(file, "5V: %s\n",
--			   cec->v5_is_high ? "high" : "low");
-+			   str_high_low(cec->v5_is_high));
+diff --git a/drivers/media/common/b2c2/flexcop-hw-filter.c b/drivers/media/common/b2c2/flexcop-hw-filter.c
+index c5a3345c99e9..d64a03452e22 100644
+--- a/drivers/media/common/b2c2/flexcop-hw-filter.c
++++ b/drivers/media/common/b2c2/flexcop-hw-filter.c
+@@ -9,7 +9,7 @@
+ static void flexcop_rcv_data_ctrl(struct flexcop_device *fc, int onoff)
+ {
+ 	flexcop_set_ibi_value(ctrl_208, Rcv_Data_sig, onoff);
+-	deb_ts("rcv_data is now: '%s'\n", onoff ? "on" : "off");
++	deb_ts("rcv_data is now: '%s'\n", str_on_off(onoff));
  }
  
- static int cec_gpio_read_hpd(struct cec_adapter *adap)
-diff --git a/drivers/media/cec/usb/pulse8/pulse8-cec.c b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-index ba67587bd43e..0167f21cb116 100644
---- a/drivers/media/cec/usb/pulse8/pulse8-cec.c
-+++ b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-@@ -695,14 +695,14 @@ static int pulse8_setup(struct pulse8 *pulse8, struct serio *serio,
- 		return err;
- 	pulse8->autonomous = data[0];
- 	dev_dbg(pulse8->dev, "Autonomous mode: %s",
--		data[0] ? "on" : "off");
-+		str_on_off(data[0]));
+ void flexcop_smc_ctrl(struct flexcop_device *fc, int onoff)
+@@ -116,7 +116,7 @@ static void flexcop_pid_control(struct flexcop_device *fc,
+ 		return;
  
- 	if (pulse8->vers >= 10) {
- 		cmd[0] = MSGCODE_GET_AUTO_POWER_ON;
- 		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
- 		if (!err)
- 			dev_dbg(pulse8->dev, "Auto Power On: %s",
--				data[0] ? "on" : "off");
-+				str_on_off(data[0]));
- 	}
+ 	deb_ts("setting pid: %5d %04x at index %d '%s'\n",
+-			pid, pid, index, onoff ? "on" : "off");
++			pid, pid, index, str_on_off(onoff));
  
- 	cmd[0] = MSGCODE_GET_DEVICE_TYPE;
+ 	/* First 6 can be buggy - skip over them if option set */
+ 	if (fc->skip_6_hw_pid_filter)
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
