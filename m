@@ -1,79 +1,75 @@
-Return-Path: <linux-media+bounces-18768-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18769-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B24D989CC2
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 10:28:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF89989CCF
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 10:32:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F88A283C68
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 08:28:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F6951F220EC
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 08:32:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8022917839C;
-	Mon, 30 Sep 2024 08:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D74E17BEBF;
+	Mon, 30 Sep 2024 08:32:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dUxsQlhC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NzHFNN7G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1AB176AC5
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 08:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B5C43156
+	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 08:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727684880; cv=none; b=Otb54F4wNLxvXnaSgEHk96lCLxI9omo1EONgHnFiQTDuA1uCPc0rlnGOqXUCiyuEkrtP/khTBxA6NoYhokVvR3NbDRdJcFzehkHbsHAU7tr/XmdNPZJjDAIg8wHacW7lnyRm6vLZgiQRngRRn/Nzuo3wPD+YrEb2xK8CrwJ9BVw=
+	t=1727685132; cv=none; b=pIDAFa1fvFxS1Q9eeS9NqLPpBeyh/1vNYk5vNuvjeM2J6EKf7V881kr1zfKV39urzuE7jULViVtYcsxalK2dAi1N8tJhLZD8WCZli1Kx9Pgn8AL3wWMNGUCUYRFlfMgN3xohzZxg7RN+fn8kTi0xyY339m1poNC66YsMW1LxVmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727684880; c=relaxed/simple;
-	bh=/KD4yic1tli4acL5VBbKB1+MQngCqbT0zGDn7ckq8Ig=;
+	s=arc-20240116; t=1727685132; c=relaxed/simple;
+	bh=vjDswGq6qzpL0ELCkjz11cU+d1yIUQWLyrv7G9cBs7w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cN7BJgYwSKO2gWNq/fGKjYfeuL27nEAyB5A+uX0hbN192Mje9V7GQd3w68HdvLH/T2uAwr/07ObaQP7U5JIabZzIv1h3zxUv41XWntuilxXzrl/72ala9oOkolf3eDaLZ84gUPXUiMQW+hri3gLr9yNs5ePMiVHu9MR/2D6YyGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dUxsQlhC; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1727684877;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sDU+RimjAAL3vNJr/8wALHfm0p2c+7kTQQWyP5C3KLU=;
-	b=dUxsQlhCynyC+4v+WfjPiKiswazxGxRLuL2OCBXiS+65Lz/bqQwqKV0jASCtQYQQ5LV0ky
-	ORzXRoRAym+Na197eWsIXX3j9zmol9p/hnXs5mZWVniTqW2TMwdQulZbvx+19nQXr85x65
-	vTG0Dq/A1fn+x3hS1pdRytOeY58l1m0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-456-LGpnI6khMUCMdEtOrae9UA-1; Mon, 30 Sep 2024 04:27:55 -0400
-X-MC-Unique: LGpnI6khMUCMdEtOrae9UA-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5c87a33e5bfso4024198a12.2
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 01:27:55 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=ub6oSwIf5+pG8r1h9HSpIk8i5FM/A4Fd8hyTV7kA4sUMU4YRjKjSvNncyv7bCgGwMJc+mQFadOy0bLz+HppjJFdNH58I0WA9FrHV3dmONgk17RgHvcjyLPd/iHqx3nN4Sa3U+bchjsDj7TvYs7KF1Xwr5X+EB1xd91r3UDuu6yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NzHFNN7G; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5398bc32bd9so263941e87.3
+        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 01:32:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727685128; x=1728289928; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bda1ujvEw2DtigO9xhXKOUzZtK+oOjtZGeAQ6Cgn92c=;
+        b=NzHFNN7GsOmIU4AyHXXROunwO6L2BEFWOJ7jw7ZSqQG7BLOYYqbdVg29kPidBT25/A
+         0rd17z6m8PbTJ7GY3P/xXk/VCNgg+EZ1BzFAviRg/JD5AvnTV1FORSQSjV/DhsyjDr5G
+         JzM6pxT//AlZj3RFyb0tKpO9IIqiO7LFRPRPaXLJBvQYgQU/lKTk1M8wpcomJxtY1o4g
+         4xpg7OLA6tz8qlklMFDpT4eqjpiC4EgGuJcIEw15kYuuWsg2cqaEtqlW5rBvFqxlhwPC
+         +pmF5YxNMY7+jJDf30kT5a2tE+Wexg96k9mB4LwSQOkBvKC5R4VuiYOOvWEtqoZR4Z9h
+         HQyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727684874; x=1728289674;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1727685128; x=1728289928;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sDU+RimjAAL3vNJr/8wALHfm0p2c+7kTQQWyP5C3KLU=;
-        b=AUFuvZBIPwRE0KT+Gy2qpQZQen8A35QmBhRZvzSFW6XX/rrx1GUv3KenbGXQqIXV5x
-         KzmmptJXoadnvi0QssQEa5uhfD83fLPIZqlO/NvIp2AayRfwzgsH1s2SzZ/AtnQLYjzl
-         eEpbVpZwFSTEUPkKYJH7dT/l0YM7myAn0gRqNORtKXTB5X+9+7cxljM4GkUyRYooOYrp
-         ECQYuH8tFVsc9ss7UDkYiCH48odHMKI9+SafFctBA2ZzMVqPfshByYkfb4nBFCZQWHNj
-         0MTaL4ILRHCGjXc7gEpzsda6qMS+WbtNXP6Epr6xb03+kYObtmmj3D8nRqNRil1P0pp1
-         YQnQ==
-X-Gm-Message-State: AOJu0YyecIbyZI6dbbgGt/JkFleQYePJVOdn6gnaTxw45GMcRJQyUxqN
-	z9uWjqKzsxS2TyCL9vcgXe+dIa/d0U14NNau0eElGJP7z+WzBXe72dq8O6dJC2EkwpKmptsBNx1
-	1bCkqAvH/QbeYYbU3j/0sCXHfOmtID0Gh8tR9jPIAXuxzP/+S69wd9ZHZRC4i
-X-Received: by 2002:a17:906:dc92:b0:a93:c2b1:738f with SMTP id a640c23a62f3a-a93c4ab15ffmr1095638166b.64.1727684874217;
-        Mon, 30 Sep 2024 01:27:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGOA2SnqaGeHXSaIOulX3uQDWKXvptoCf9oRU/ysVfNevdX1YHCxCHWYLJbVMXdwwUmeF1lig==
-X-Received: by 2002:a17:906:dc92:b0:a93:c2b1:738f with SMTP id a640c23a62f3a-a93c4ab15ffmr1095636966b.64.1727684873884;
-        Mon, 30 Sep 2024 01:27:53 -0700 (PDT)
-Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2946f78sm493359966b.110.2024.09.30.01.27.52
+        bh=bda1ujvEw2DtigO9xhXKOUzZtK+oOjtZGeAQ6Cgn92c=;
+        b=BBmIJVSEwJwg2U1Gws5wYArTKRG3K31UXuJsGkxB5N55Kb/kilmreypDh+CV5zI/au
+         HMIno0aB1HTFBpnpeW48UcS4ZOZbvn2/cKamVvMAtTD+Y7UCGypftl8s0kNngQJtAI3K
+         2BwXzqYEiC74dGZ74Wui0RYLx0JZVpapFa8JbIqr9JegICie2/C16zmNDr5XrL0QSL30
+         0RUBwszqBqMgRdPwktMraz3cmV3Qe6i9z3QyHKKzNPAGcITwmTxao3xoZfRxJ8G2Dekp
+         s/PF+27v6pjWw7IxLZL+aITavORY4BefVx+toeg8WXTs8udC+srbatIMMmjt/l5BF/OB
+         y42A==
+X-Forwarded-Encrypted: i=1; AJvYcCXnN+w0uk9VjXh6eGXA3Wf4gdwBLAtv2bEH6T8+02wD/1EBxjrbPn3ZmFBq+uObriRpM8imvuR2nqO9Zw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx93Py0Cf5LFnOivpQcc5iCprFs3fSBsH6rbibMin2HU9QDcLp9
+	u7aNc9Vx6AxeNIhGdVqTYBIVz9vvQPC5Xzv5Uk13AMjiKO7GYTOh22TVWZhfpA0YLK1RFtg3Ld8
+	z
+X-Google-Smtp-Source: AGHT+IH0lDtASpU4Bz/yJJ+DPMxpJva/WXZEzaaUSKmBmARfPfs62pt6dBtlPHX5lCsdiTR1si7/Fg==
+X-Received: by 2002:a2e:a595:0:b0:2f1:75f4:a6a4 with SMTP id 38308e7fff4ca-2fabfc3725cmr9211601fa.3.1727685128428;
+        Mon, 30 Sep 2024 01:32:08 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-538a043b060sm1157672e87.227.2024.09.30.01.32.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Sep 2024 01:27:52 -0700 (PDT)
-Message-ID: <8062d702-9426-408e-b3e5-3a33d81d2927@redhat.com>
-Date: Mon, 30 Sep 2024 10:27:51 +0200
+        Mon, 30 Sep 2024 01:32:07 -0700 (PDT)
+Message-ID: <18fd8a2c-0563-49a0-b2a4-78f0005576e9@linaro.org>
+Date: Mon, 30 Sep 2024 11:32:05 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,112 +77,83 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] media: atomisp: Use max() macros
-To: David Laight <David.Laight@ACULAB.COM>,
- 'Ricardo Ribalda' <ribalda@chromium.org>, Benoit Parrot <bparrot@ti.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andy Shevchenko <andy@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-References: <20240927-cocci-6-12-v1-0-a318d4e6a19d@chromium.org>
- <20240927-cocci-6-12-v1-3-a318d4e6a19d@chromium.org>
- <c183afe8986d444a8e777ae0b9bb9189@AcuMS.aculab.com>
+Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
+ binding
 Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <c183afe8986d444a8e777ae0b9bb9189@AcuMS.aculab.com>
-Content-Type: text/plain; charset=UTF-8
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Depeng Shao <quic_depengs@quicinc.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-8-quic_depengs@quicinc.com>
+ <9ed92660-5f42-4a1a-9261-b8800133972a@linaro.org>
+ <ed012367-1bfd-4eef-931b-37e1ac839176@quicinc.com>
+ <212c880a-9a09-4433-a049-eb15a0c32322@kernel.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <212c880a-9a09-4433-a049-eb15a0c32322@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 29-Sep-24 11:34 PM, David Laight wrote:
-> From: Ricardo Ribalda
->> Sent: 27 September 2024 10:42
+On 9/30/24 10:26, Krzysztof Kozlowski wrote:
+> On 25/09/2024 17:13, Depeng Shao wrote:
+>> Hi Vladimir,
 >>
->> The max() macro produce nicer code and also fixes the following cocci
->> errors:
+>> On 9/6/2024 11:56 PM, Vladimir Zapolskiy wrote:
 >>
->> drivers/staging/media/atomisp/pci/sh_css_frac.h:40:17-18: WARNING opportunity for max()
->> drivers/staging/media/atomisp/pci/sh_css_frac.h:50:17-18: WARNING opportunity for max()
->>
->> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->> ---
->>  drivers/staging/media/atomisp/pci/sh_css_frac.h | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/pci/sh_css_frac.h
->> b/drivers/staging/media/atomisp/pci/sh_css_frac.h
->> index 8ba65161f7a9..9642506d2388 100644
->> --- a/drivers/staging/media/atomisp/pci/sh_css_frac.h
->> +++ b/drivers/staging/media/atomisp/pci/sh_css_frac.h
->> @@ -37,7 +37,7 @@ static inline int sDIGIT_FITTING(int v, int a, int b)
->>  	int fit_shift = sFRACTION_BITS_FITTING(a) - b;
->>
->>  	v >>= sSHIFT;
+>>>> +            compatible = "qcom,sm8550-camss";
+>>>> +
+>>>> +            reg = <0 0x0acb7000 0 0xd00>,
+>>>> +                  <0 0x0acb9000 0 0xd00>,
+>>>> +                  <0 0x0acbb000 0 0xd00>,
+>>>> +                  <0 0x0acca000 0 0xa00>,
+>>>> +                  <0 0x0acce000 0 0xa00>,
+>>>> +                  <0 0x0acb6000 0 0x1000>,
+>>>> +                  <0 0x0ace4000 0 0x2000>,
+>>>> +                  <0 0x0ace6000 0 0x2000>,
+>>>> +                  <0 0x0ace8000 0 0x2000>,
+>>>> +                  <0 0x0acea000 0 0x2000>,
+>>>> +                  <0 0x0acec000 0 0x2000>,
+>>>> +                  <0 0x0acee000 0 0x2000>,
+>>>> +                  <0 0x0acf0000 0 0x2000>,
+>>>> +                  <0 0x0acf2000 0 0x2000>,
+>>>> +                  <0 0x0ac62000 0 0xf000>,
+>>>> +                  <0 0x0ac71000 0 0xf000>,
+>>>> +                  <0 0x0ac80000 0 0xf000>,
+>>>> +                  <0 0x0accb000 0 0x2800>,
+>>>> +                  <0 0x0accf000 0 0x2800>;
+>>>
+>>> Please sort the list above in numerical order, this will change positions
+>>> of "vfe_lite0", "vfe_lite1" etc.
+>>>
+>>> Another note, since it's not possible to map less than a page, so I believe
+>>> it might make sense to align all sizes to 0x1000.
 > 
-> IIRC right shifts of signed values are undefined.
-> (C does not require a cpu to have a right shift that replicates the
-> sign bit.)
+> And if Linux behavior changes then are you going to rewrite all the DTS
+> for new size?
+
+If Linux behaves properly with page size alignments today, then the selected
+page size alignment for AMBA device IO memory regions is correct, hence any
+future change from the correct IP device description to another one will be
+invalid or noop.
+
+There is nothing to worry about, I believe.
+
+> No, the sizes reflect hardware register layout, not concept of pages.
 > 
->> -	v >>= fit_shift > 0 ? fit_shift : 0;
->> +	v >>= max(fit_shift, 0);
-> 
-> If the shift isn't done the return value is garbage.
-> So the code better not let it happen.
-> In which case you might as well let the cpu generate a (different)
-> random value - so delete the conditional.
 
-Given the history of this code I would no be surprised if some
-weird corner case actually relies on the check, so NACK for
-dropping the conditional.
+Absolutely they do. It might be a coincidence that both are aligned in
+this particular case or another one.
 
-> 
->>
->>  	return clamp_t(int, v, sISP_VAL_MIN, sISP_VAL_MAX);
-> 
-> all three values seem to be 'int' - so no need for the _t variant
-> and all the associated casts.
+> I don't think that we should be coming with more nitpicky ideas, one
+> month after the patch was sent and reviewed.
 
-sDIGIT_FITTING() originally was a macro with a bunch of max() + min()
-calls nested leading to it expanding to a lot of code after running it
-through the pre-processor. When converting this to a static online to
-choice was made to with clamp_t() to avoid the overhead of the extra
-type checks in regular clamp().
+The change is not yet ready to be accepted from the technical perspective.
 
-Regards,
-
-Hans
-
-
-
-
-> 
->>  }
->> @@ -47,7 +47,7 @@ static inline unsigned int uDIGIT_FITTING(unsigned int v, int a, int b)
->>  	int fit_shift = uFRACTION_BITS_FITTING(a) - b;
->>
->>  	v >>= uSHIFT;
->> -	v >>= fit_shift > 0 ? fit_shift : 0;
->> +	v >>= max(fit_shift, 0);
->>
->>  	return clamp_t(unsigned int, v, uISP_VAL_MIN, uISP_VAL_MAX);
-> 
-> as above, but it is just min(v, iISP_VAL_MAX)
-> 
-> 	David
-> 
->>  }
->>
->> --
->> 2.46.1.824.gd892dcdcdd-goog
->>
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-
+--
+Best wishes,
+Vladimir
 
