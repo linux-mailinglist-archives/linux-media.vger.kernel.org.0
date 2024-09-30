@@ -1,126 +1,159 @@
-Return-Path: <linux-media+bounces-18785-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18786-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D142998A125
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 13:51:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9301A98A131
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 13:54:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 052031C20FBB
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 11:51:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B71CF1C20ABF
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 11:54:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC54A18E346;
-	Mon, 30 Sep 2024 11:51:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 253AB26AEC;
+	Mon, 30 Sep 2024 11:54:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtvxzVci"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aehP+3gq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C738D18E039;
-	Mon, 30 Sep 2024 11:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FF4189F35
+	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 11:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697090; cv=none; b=MGtiHiLcaJsFYi6yJ7GetiXwEQAKjuwA8npx9prYn7qB42UYXEf8B8cnuqQ+b4OC0hJ8m0jmQthP4QZCp4clOee8hsO8RhIvqIE1NFlUsvoRYLnY78BcQCBjhXNSfGZihIlNGrd9I1EtNOref8CkpCxUtplAV49Qo4KuNPLxgvI=
+	t=1727697245; cv=none; b=o2qSqE3Sz20568k7HeJ4T4qMXCkUQ8y72lP9qQMCMCb7Vbr+Fw4r+Uwk7CSMA/p60t1hGtEbEV+HwaBsZJgoD/uWOmuS8od3Ip6BuvLW+pQizICZO31j8nUbWK4iJP7xtorUT2Fa0jQiN/5gpnMyamyYMNuYhd4kPbFjTNxNEuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697090; c=relaxed/simple;
-	bh=tdV9uVts2mI3/F5PUrh9npWP04do1rqaF0hXOVll7rY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DNc6/KmrOA2VrH0AwY/uSHUaB5UT1j4gdkzkCH+w6Wqx7EDR7Az3crgK9sve4vtUWw6EYqFo7cCJkDnp97P8NVhMZXU6HRGuTVJKBgzu8IXkme5HtC37pA+t0/i7gt9/bT3jDV7UuSZnQoCRIMadbKzCPg1nsIXBTOYw/IobSt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtvxzVci; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-50958a19485so406866e0c.2;
-        Mon, 30 Sep 2024 04:51:28 -0700 (PDT)
+	s=arc-20240116; t=1727697245; c=relaxed/simple;
+	bh=qkLNUngCO3vVH4Yoiw8pI/xWuNpcbC03902wQmKdSRY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iDRvcPKWctaVDvYaWiCMHaKdKpbmQIrJ0Ws4zfXAUFKPgHDNzBRKka7fY1xPPvrXsRdbh1eLyJv+KfQa/gHjfsMXhOVzDYJwQGdAXNmy+MsrqUC9pGRi9ASjbiVopTOQ/UBvqn0OZ1V2dzI+f0+urLERgd2BZlK45S6O3kFpOK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aehP+3gq; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8d2b24b7a8so976914766b.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 04:54:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727697087; x=1728301887; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tdV9uVts2mI3/F5PUrh9npWP04do1rqaF0hXOVll7rY=;
-        b=FtvxzVciKnbUiPXyaUOXJzhTIa6iMYnU7PBiIWWO4eI8U5GB20zZZ4GorYJ5NJOU4l
-         Hlgz35pWCsloYOyWR49hni2ciftwMdEDcNl1tZIiffCpDdnQVnOAI16hOnVaQa9oX+Zz
-         t4hSZukFzPaL8ZjgcexJXE6iaViKJ6rQA2tUZLT50F6+avA7hm/L/pYdExQV2Kk1VENv
-         ns6DAvRVsjBjvogNvVjKg7wlEofUhsiJbybG4AYx3Zb7aVeYQaoFN1gysQTqV9qw8C2A
-         OyVkxtmJ3iAqgor53n6xYd0uHmcx1VD3RdDB+G6/w8HCQAQAJu36V/4psfSiOGPJ7bnK
-         HuSw==
+        d=linaro.org; s=google; t=1727697242; x=1728302042; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YEimAb6QNu/M6q7/HcG/qwn6XiKDPC6S4Ayvzi/SkBk=;
+        b=aehP+3gqWaJULQ/vvtoMbIhicHnjlGTnF/1ekDyvgz67A8/hbi5eE+ARYI+otoYbxs
+         i+SGrdVfUnzE00hBqm8QqaOxeygz8rWRm01vLklsqUyue8m/kGnatd23N8atOCHc9cTX
+         ric11/wHXRv7AKZ6rRHJVfZUJxTFIkOV67WXCF7dccxovgIEhkhKI6xcFQ6ScrnGNByZ
+         Np7ag45VK+sIta/dfTyWFFr8O74ehxHWnXiGfBTCUFDcJgtuqZH58bMSPIoT9KwpF4ut
+         3cW4gcoZ+2DF/PdNYFj2hUQskyWxjSrFKRLQtPyEM8C6/42zqHo2GYGMivatX9/+wYQc
+         xuRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697087; x=1728301887;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tdV9uVts2mI3/F5PUrh9npWP04do1rqaF0hXOVll7rY=;
-        b=AGV+3/3VkS68SBujecj0N+WNelzvQjaz7cZepIaqJNnZYPq2lk2ilagFGA3Uf8dVA4
-         uk7xASsoB6QXFLjOB7yWLoXvHKId36mt/4fAbHWA+rimVN/K+2At8hXG6HsR13SaavPv
-         amLkmaPWZx0/3AC1Qj6vWRSVuWoP/kdFIgDa0srXGGrhJKy4YBzy4e5k54GH+OW2iYNQ
-         JXSCcKJdcCFwOdwPtzNNVHMESc0w0Nr5LFq6hN5u8AVGOwWNiiTwjmSj13/QPFw3x7yO
-         fMUmN2akLh6pEVzooJvsmAJehNoGdEhOPKKKrbnlGrxI5UtGCOPoy19Qw9k2ZXfsoJjo
-         I70Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUfpx8tLswY0joE5Cp6mV06bdjqimESQbUTmH2hx7wYyNsk/5EnQCHkKc+e89qYWNnU2unGhBH16sul+fk=@vger.kernel.org, AJvYcCVyhVNIxWkTwPrylLEpndwgbKO6C7jVl+ujl2gNBHp7WyYci9J9Q0VXYtXy2wLqjAS2PI2M3bQ1SlsdJxbICFrCn0k=@vger.kernel.org, AJvYcCXt6HjC8gGCA0ZL853G9B91bacC5r0Hf0D7cm3VQZkqxUQQtyJi7qZpPCrTXjvDGesQ454uv6YFsMnFHgU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHlKRFa9/pPwQBVhJmishQcPhYjg8BT6yYBeVJKRhtTV9zLxOL
-	nSyRKDkDTK9ziDpoFLTeQ6crFBTBzIAftjDVVCq0EFGHDrV6Nk2GSlBiiYwDT3mk5cfLKKrRrZ7
-	xged3LdsrdRfzWPV/MVRkLCduD2I=
-X-Google-Smtp-Source: AGHT+IEr3HLb/CcIg/mYgqJo3eSkEV6VHqba8bGSn5TXI7VVhlA0l3O3Ei/7lzB+GuU7uh0727lyq+zaB26ullrGWdM=
-X-Received: by 2002:a05:6122:17a8:b0:4f6:b240:4af8 with SMTP id
- 71dfb90a1353d-507818cc9e7mr6876249e0c.11.1727697087426; Mon, 30 Sep 2024
- 04:51:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727697242; x=1728302042;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YEimAb6QNu/M6q7/HcG/qwn6XiKDPC6S4Ayvzi/SkBk=;
+        b=P5WoNmySJr05YC3s93A+Q96ls3xvxQOAecaAcjW3bTANOQxPo4zo/Ymts6YUoNgac0
+         HSsXYs95O/Df4d9PiOugQVkxkefjrOejl04CGeL5RaQ7yc/m8M/BwAUuYOQlBsY3zedI
+         RvRvwArs2gwph5by72e9FGPh0Ocrgboayl7NHpVrL4ewgIt4BKzn4Xn90pDDHZS7MGjJ
+         qA5Hq+7bzGymHKtp3To/vBmovo7VxzYpjccMERiWW30c0TshEIJtea2EgkD3LCvafNn/
+         qvwFQgexYYJFRrEsXD46kTwxKR/iiSn0MVTPK69FE7mNfNaABAFRqu7bwGoRRiHgz/GO
+         PEkw==
+X-Forwarded-Encrypted: i=1; AJvYcCVjkB+fq+ckPuz4kfrKID6NArMcy4n/+Sp977zzf1RPAzdkQ8SUdjTYOb8JTJCOk84r1otDiVoieOFJlA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3sPmj+u2xtu4xrrnUO8pMer8WgLWEwBVnKq2B/06vitdIx4GK
+	6IUF+7k07HSbovkghpkDG0Msu8OZfJavWER2KagKIS9Gf00yCT4T/FZBrxBIeZA=
+X-Google-Smtp-Source: AGHT+IGgin2IoYFaSU76/H2WqaTZ8JyrgVaOMWPRHPfSW65ukzeOWOYx6iUHDJKgyZKQ7I4p0bVHKQ==
+X-Received: by 2002:a17:906:db06:b0:a8d:ee9:3888 with SMTP id a640c23a62f3a-a93b1679678mr1578907566b.32.1727697242334;
+        Mon, 30 Sep 2024 04:54:02 -0700 (PDT)
+Received: from [192.168.0.15] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2997445sm517446566b.202.2024.09.30.04.54.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Sep 2024 04:54:02 -0700 (PDT)
+Message-ID: <fc0ce5cd-e42a-432b-ad74-01de67ec0d5c@linaro.org>
+Date: Mon, 30 Sep 2024 12:54:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240910175357.229075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240910175357.229075-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240927222400.GE12322@pendragon.ideasonboard.com>
-In-Reply-To: <20240927222400.GE12322@pendragon.ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 30 Sep 2024 12:51:01 +0100
-Message-ID: <CA+V-a8v=Su=FPUVXoqRqPJkhoWALT5U-7BQmTaogbTAQ4Y-xJw@mail.gmail.com>
-Subject: Re: [PATCH v2 03/16] media: platform: rzg2l-cru: rzg2l-csi2: Mark
- sink and source pad with MUST_CONNECT flag
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/10] (no cover subject)
+To: Luca Weiss <luca.weiss@fairphone.com>,
+ Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kapatrala Syed <akapatra@quicinc.com>,
+ Hariram Purushothaman <hariramp@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ cros-qcom-dts-watchers@chromium.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Suresh Vankadara <quic_svankada@quicinc.com>,
+ Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>, stable@vger.kernel.org,
+ Hariram Purushothaman <quic_hariramp@quicinc.com>
+References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
+ <D4JK8TRL7XBL.3TBA1FBF32RXL@fairphone.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <D4JK8TRL7XBL.3TBA1FBF32RXL@fairphone.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
+On 30/09/2024 11:52, Luca Weiss wrote:
+> On Wed Sep 4, 2024 at 1:10 PM CEST, Vikram Sharma wrote:
+>> SC7280 is a Qualcomm SoC. This series adds support to
+>> bring up the CSIPHY, CSID, VFE/RDI interfaces in SC7280.
+>>
+>> SC7280 provides
+>>
+>> - 3 x VFE, 3 RDI per VFE
+>> - 2 x VFE Lite, 4 RDI per VFE
+>> - 3 x CSID
+>> - 2 x CSID Lite
+>> - 5 x CSI PHY
+> 
+> Hi Vikram,
+> 
+> I tried this on my QCM6490 Fairphone 5 smartphone.
+> 
+> Unfortunately I couldn't get e.g. CSID test pattern out of camss. I've
+> tested this patchset on v6.11.
+> 
+> These commands did work on an older sc7280 camss patchset (which was
+> never sent to the lists). Can you please take a look?
+> 
+> v4l2-ctl -d /dev/v4l-subdev5 -c test_pattern=1
+> media-ctl -d /dev/media0 -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> media-ctl -d /dev/media0 -V '"msm_csid0":1[fmt:UYVY8_2X8/1920x1080 field:none],"msm_vfe0_rdi0":0[fmt:UYVY8_2X8/1920x1080 field:none]'
+> gst-launch-1.0 v4l2src device=/dev/video0 num-buffers=1 ! 'video/x-raw,format=UYVY,width=1920,height=1080' ! jpegenc ! filesink location=image01.jpg
 
-Thank you for the review.
+Here's what I have for rb5
 
-On Fri, Sep 27, 2024 at 11:24=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Tue, Sep 10, 2024 at 06:53:44PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Mark the sink and source pad with the MEDIA_PAD_FL_MUST_CONNECT flag to
-> > ensure pipeline validation fails if it is not connected.
->
-> The MUST_CONNECT flag only affects sink pads. That's not documented
-> though, and it seems that most drivers using the flag sets it on both
-> sink and source pads. That's probably a good practice, and the fact that
-> the flag is only checked for sink pads is more of an implementation
-> detail. This patch is thus fine.
->
-Agreed.
+# CSID0 TPG RB5
+media-ctl --reset
+yavta --no-query -w '0x009f0903 2' /dev/v4l-subdev6
+yavta --list /dev/v4l-subdev6
+media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+media-ctl -d /dev/media0 -p
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->
-> However, I think you should then set the flag on the source pad of the
-> IP entity in patch 02/16. You can keep my Rb.
->
-Sure, I'll add this flag in v3.
+Maybe on FP5 ...
 
-Cheers,
-Prabhakar
+media-ctl --reset
+yavta --no-query -w '0x009f0903 2' /dev/v4l-subdev5
+yavta --list /dev/v4l-subdev5
+media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+media-ctl -d /dev/media0 -p
+
+?
+
+---
+bod
 
