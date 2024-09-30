@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-18804-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18805-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D71C698A193
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:10:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C8E98A195
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 14:10:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 078401C212B9
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:10:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8381C281E2F
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 12:10:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70ACC19342A;
-	Mon, 30 Sep 2024 12:04:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B91A7198E93;
+	Mon, 30 Sep 2024 12:04:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Jn0XULH2"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nC6IaLBx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF1819882F
-	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 12:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA96198A24
+	for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 12:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697881; cv=none; b=gmkdng5sJttLK0pL+is813qkamdyjkQASBC9bsKPlfXNzC25juWCCMw+Z2J2rtS4Iy6uCAUDLPZVH+asxEFujcczwDsLTfbMZn5nepcQdyBwk733r6Y94DZt26zfY3SWOAWPLzWX+Kov+6AA6ln3bLEHpnM1KQzjpSnwBpR9N84=
+	t=1727697883; cv=none; b=qwQA51qX5j3196WXkO0L6Rh33OV3sx7NfmEI/FiYM6JHm97UVpKs6XHVRw7GpDr+zYEqD5F6dXyjWX8WaUOajk1DiYdCkO/JWk/19HRNZGMSrRNt1YKXY+yBECiX8pClI4uMEjZAn2hMp/t82UZcg1GyQlgvsle8cUaz0tIDGfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697881; c=relaxed/simple;
-	bh=dK6Sydo8sH5iuoPGo1uJmSzzE0aPjCjllccB1/DFlKU=;
+	s=arc-20240116; t=1727697883; c=relaxed/simple;
+	bh=RQIg3IKX+fZXCdaaOjZybJtj1jQ4oUee/Ev0G5kqLRc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YyNNqwWpoXv9PoAJcCmI258ElrYIo/s+d3E/ABcLdzFsRlf1DCY9LHtF+st8Ro6VGdFGlPQF0rkj4ota2t9UxPcDeOIZcChjgDcrouTfAhe54vrCRwv9VHukuEfoQ5aSO4Yi57/WxRZ9esdvw2SC56jfdeU06l7zLtyShLQAzPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Jn0XULH2; arc=none smtp.client-ip=209.85.219.50
+	 In-Reply-To:To:Cc; b=OJSWE92zwtRKSDoDJivXxsFDqu+hpYMX0BMyNvQeJ7e1v3SB0GZOdLPVR9mUWpOEoic0gj0iGsHskhlNhl8pTtL/AGR0bfmhhqHN3ZqPNkjhsta+xsvD258LX+3kkZrp+qGbTLY6Mwy1zR72eoELmb29o03LgEPWS+4tNebrhpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nC6IaLBx; arc=none smtp.client-ip=209.85.219.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6cb27e974ceso26202306d6.1
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 05:04:39 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6cb2e136da3so29186666d6.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2024 05:04:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697878; x=1728302678; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1727697880; x=1728302680; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=W54Rxedr36zEnsk929u7YgHxA5FxY+YC4oIk0CEmtoU=;
-        b=Jn0XULH2WqTJNxeZzs8TnLvKGMwgXU/v0hEz/qJKIravbAVjrH3U4QB8Q0vXGJAG8h
-         OuybWmJyDHnOS+z4tOjIklFhp7b6vtCEXP906duxVQUT9DJWP9iw44Q31/Tq/ZuZl3hD
-         c7ch8LH7ITxKjnxdhbYYuBs3WuNtvCDtMTzEw=
+        bh=qO3qqbTfvsnj8f4B9o9/p9r5ocz9pMXhz3VcGEq7myc=;
+        b=nC6IaLBxlm64XQdJ0DxyUKxhgE8sBwmj8geQ8gkM0DjtsKUEAdH+9iWyjYTlILPEk8
+         nX3l8wvrN339VUX/C55PbrkFnOQ3qJP1bfcPa4lqxIXi9Ra67CDQQuharOvF0EaTTJkd
+         D/8kdc3MGaM2U3EXzKCcWyn41tlNC5CV3GiiM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697878; x=1728302678;
+        d=1e100.net; s=20230601; t=1727697880; x=1728302680;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W54Rxedr36zEnsk929u7YgHxA5FxY+YC4oIk0CEmtoU=;
-        b=aAo/NntX1x0Jmn6LA1EjcsvVLsx265Kxb7pPNyILtZL1ZkI7GucneoyW3CQvun0u78
-         +lXviGluigwJ6VUGfGy7ndAxGhYkPEKF9prgPJcMgC/FZUcI0bIW1eDlOXtFDrsAEKEW
-         7sJR+baq1XcJb5N5ik04OuAMw5z8HkE7M5TPhKodomnOxpE1GT0goDj1yuadbxkWYNov
-         VUxDRf19ii1uFaaDuJqf7t/E5CaZJwXWuD37yyExdAgnxPj8AGF1sptruYfjAhKXUGDS
-         +c5f5JC6h8TcQKyqP/7k9AzAvArwT4/8SStA23JMAtrfc589+72i4FttPigTiMAyyE46
-         go2Q==
-X-Gm-Message-State: AOJu0YyxLm20J73D+yp5EayHNkstSL6gyGi0/DGrdzCxY9hM2zYGVdGr
-	xw5BqMwu2ikROq4xfvKHGIXNHBgEYt2M/01MFIqBwh4Q4ck/sZAnqSPXj2F61A==
-X-Google-Smtp-Source: AGHT+IGgo8OgcYFtsubdwQ48E/Z3+k42qUYOU3xS8KlzOd05WOz0ImPebYZJQvx35b0omDgntAq/gQ==
-X-Received: by 2002:ad4:580c:0:b0:6cb:3b6d:2775 with SMTP id 6a1803df08f44-6cb3b6d2d88mr154770176d6.17.1727697878145;
-        Mon, 30 Sep 2024 05:04:38 -0700 (PDT)
+        bh=qO3qqbTfvsnj8f4B9o9/p9r5ocz9pMXhz3VcGEq7myc=;
+        b=syanfTbauyeGvCpgwv3CTTZjcjgH7E0N64zyYB8icTLsEPDSDHf7FUDH9z/2DPoLLI
+         089/nWVUGYEDAV1DCxveFTXQqGgl6ro3W4r5jg85sbvgqIOVUREsL7vcGBf9QnQybRUA
+         F6sBvPXiVd5vGix/ygP62BrPmx/WcDOuCg2ozSK1Sc7BR+8Qh0be3hcdxD7GNfyK4+id
+         ZiEIt07IJ5KImaa+HD7zS1ntXqtC//y/Tw50FrYswZVHkk0YEjpUi0V9MRDwyZgy78lE
+         36PsIO4sVByLytVHIr6RvFCAycMwbzmlPiLKz/+s2t8+kyvDniVT7fmzFIB7/i12J9px
+         v8kA==
+X-Gm-Message-State: AOJu0Ywlyv7lqReZUaYWeA/5wlklYETgm5O8MypEr0rAsTf+tmwi/+X7
+	kBNU2ntB80JRcAZEf1qCt4xC9+kFiX8pNQatY6NF4zllu7mtb0E/60f43Oi4OQ==
+X-Google-Smtp-Source: AGHT+IF/X+sGDFBK/b7MOemtir5qM4qeQwBGu/ooPVVD2yNCkIbVJsvPbz9WJQ+49WCJsrC1J8x5UQ==
+X-Received: by 2002:a05:6214:4901:b0:6cb:4b47:e4a9 with SMTP id 6a1803df08f44-6cb4b47e5ffmr151055736d6.2.1727697880010;
+        Mon, 30 Sep 2024 05:04:40 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.35
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:36 -0700 (PDT)
+        Mon, 30 Sep 2024 05:04:38 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:11 +0000
-Subject: [PATCH 16/45] media: pci: ivtv: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:12 +0000
+Subject: [PATCH 17/45] media: bttv: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-16-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-17-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -114,36 +114,84 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 X-Mailer: b4 0.13.0
 
 The following cocci warnings are fixed:
-drivers/media/pci/ivtv/ivtvfb.c:809:3-57: opportunity for str_on_off(( var -> vmode & FB_VMODE_MASK ) == FB_VMODE_NONINTERLACED)
-drivers/media/pci/ivtv/ivtvfb.c:609:3-57: opportunity for str_on_off(( var -> vmode & FB_VMODE_MASK ) == FB_VMODE_NONINTERLACED)
+drivers/media/pci/bt8xx/bttv-driver.c:2988:5-31: opportunity for str_yes_no(dstat & BT848_DSTATUS_HLOC)
+drivers/media/pci/bt8xx/bttv-driver.c:2992:5-31: opportunity for str_yes_no(dstat & BT848_DSTATUS_PRES)
+drivers/media/pci/bt8xx/bttv-cards.c:3039:13-22: opportunity for str_yes_no(has_radio)
+drivers/media/pci/bt8xx/bttv-cards.c:3040:2-12: opportunity for str_yes_no(has_remote)
+drivers/media/pci/bt8xx/bttv-cards.c:3043:2-21: opportunity for str_yes_no(has_tda9820_tda9821)
+drivers/media/pci/bt8xx/bttv-cards.c:3044:2-17: opportunity for str_yes_no(is_capture_only)
+drivers/media/pci/bt8xx/bttv-cards.c:3042:13-20: opportunity for str_yes_no(is_lr90)
+drivers/media/pci/bt8xx/bttv-cards.c:4080:8-19: opportunity for str_yes_no(tuner_tv_fm)
+drivers/media/pci/bt8xx/bttv-cards.c:3140:24-38: opportunity for str_yes_no(btv -> has_radio)
+drivers/media/pci/bt8xx/bttv-cards.c:4081:8-23: opportunity for str_yes_no(btv -> has_remote)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/pci/ivtv/ivtvfb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/pci/bt8xx/bttv-cards.c  | 16 ++++++++--------
+ drivers/media/pci/bt8xx/bttv-driver.c |  6 ++----
+ 2 files changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvfb.c
-index 90c584cf97c2..bd07afc68191 100644
---- a/drivers/media/pci/ivtv/ivtvfb.c
-+++ b/drivers/media/pci/ivtv/ivtvfb.c
-@@ -606,7 +606,7 @@ static int ivtvfb_set_var(struct ivtv *itv, struct fb_var_screeninfo *var)
- 		      var->left_margin, var->upper_margin);
+diff --git a/drivers/media/pci/bt8xx/bttv-cards.c b/drivers/media/pci/bt8xx/bttv-cards.c
+index 867c1308de23..f989b5ed28fd 100644
+--- a/drivers/media/pci/bt8xx/bttv-cards.c
++++ b/drivers/media/pci/bt8xx/bttv-cards.c
+@@ -3036,12 +3036,12 @@ static void flyvideo_gpio(struct bttv *btv)
+ 		tuner_type = TUNER_ABSENT; /* No tuner present */
  
- 	IVTVFB_DEBUG_INFO("Display filter: %s\n",
--			(var->vmode & FB_VMODE_MASK) == FB_VMODE_NONINTERLACED ? "on" : "off");
-+			str_on_off((var->vmode & FB_VMODE_MASK) == FB_VMODE_NONINTERLACED));
- 	IVTVFB_DEBUG_INFO("Color space: %s\n", var->nonstd ? "YUV" : "RGB");
+ 	pr_info("%d: FlyVideo Radio=%s RemoteControl=%s Tuner=%d gpio=0x%06x\n",
+-		btv->c.nr, has_radio ? "yes" : "no",
+-		has_remote ? "yes" : "no", tuner_type, gpio);
++		btv->c.nr, str_yes_no(has_radio),
++		str_yes_no(has_remote), tuner_type, gpio);
+ 	pr_info("%d: FlyVideo  LR90=%s tda9821/tda9820=%s capture_only=%s\n",
+-		btv->c.nr, is_lr90 ? "yes" : "no",
+-		has_tda9820_tda9821 ? "yes" : "no",
+-		is_capture_only ? "yes" : "no");
++		btv->c.nr, str_yes_no(is_lr90),
++		str_yes_no(has_tda9820_tda9821),
++		str_yes_no(is_capture_only));
  
- 	return 0;
-@@ -806,7 +806,7 @@ static int _ivtvfb_check_var(struct fb_var_screeninfo *var, struct ivtv *itv)
- 		      var->left_margin, var->upper_margin);
- 
- 	IVTVFB_DEBUG_INFO("Display filter: %s\n",
--			(var->vmode & FB_VMODE_MASK) == FB_VMODE_NONINTERLACED ? "on" : "off");
-+			str_on_off((var->vmode & FB_VMODE_MASK) == FB_VMODE_NONINTERLACED));
- 	IVTVFB_DEBUG_INFO("Color space: %s\n", var->nonstd ? "YUV" : "RGB");
- 	return 0;
+ 	if (tuner_type != UNSET) /* only set if known tuner autodetected, else let insmod option through */
+ 		btv->tuner_type = tuner_type;
+@@ -3137,7 +3137,7 @@ static void miro_pinnacle_gpio(struct bttv *btv)
+ 		if (-1 != msp)
+ 			btv->c.type = BTTV_BOARD_PINNACLEPRO;
+ 		pr_info("%d: pinnacle/mt: id=%d info=\"%s\" radio=%s\n",
+-			btv->c.nr, id, info, btv->has_radio ? "yes" : "no");
++			btv->c.nr, id, info, str_yes_no(btv->has_radio));
+ 		btv->tuner_type = TUNER_MT2032;
+ 	}
  }
+@@ -4077,8 +4077,8 @@ static void avermedia_eeprom(struct bttv *btv)
+ 	} else
+ 		pr_cont("Unknown type");
+ 	pr_cont(" radio:%s remote control:%s\n",
+-	       tuner_tv_fm     ? "yes" : "no",
+-	       btv->has_remote ? "yes" : "no");
++	       str_yes_no(tuner_tv_fm),
++	       str_yes_no(btv->has_remote));
+ }
+ 
+ /*
+diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+index 511f013cc338..fdad666d3d0f 100644
+--- a/drivers/media/pci/bt8xx/bttv-driver.c
++++ b/drivers/media/pci/bt8xx/bttv-driver.c
+@@ -2985,12 +2985,10 @@ static irqreturn_t bttv_irq(int irq, void *dev_id)
+ 			bttv_print_irqbits(stat,astat);
+ 			if (stat & BT848_INT_HLOCK)
+ 				pr_cont("   HLOC => %s",
+-					dstat & BT848_DSTATUS_HLOC
+-					? "yes" : "no");
++					str_yes_no(dstat & BT848_DSTATUS_HLOC));
+ 			if (stat & BT848_INT_VPRES)
+ 				pr_cont("   PRES => %s",
+-					dstat & BT848_DSTATUS_PRES
+-					? "yes" : "no");
++					str_yes_no(dstat & BT848_DSTATUS_PRES));
+ 			if (stat & BT848_INT_FMTCHG)
+ 				pr_cont("   NUML => %s",
+ 					dstat & BT848_DSTATUS_NUML
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
