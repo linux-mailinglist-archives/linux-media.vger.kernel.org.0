@@ -1,74 +1,52 @@
-Return-Path: <linux-media+bounces-18751-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18752-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1B1989882
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 01:57:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 900079898F1
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 03:19:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C9EE1F21897
-	for <lists+linux-media@lfdr.de>; Sun, 29 Sep 2024 23:57:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 02F9B284EA4
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2024 01:19:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91B11183088;
-	Sun, 29 Sep 2024 23:57:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 442928F62;
+	Mon, 30 Sep 2024 01:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="luRI31vA"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="B+lDR0rE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF6A17E8E2
-	for <linux-media@vger.kernel.org>; Sun, 29 Sep 2024 23:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9648C137E;
+	Mon, 30 Sep 2024 01:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727654262; cv=none; b=QD277Y1idc7Mh7PZliARJLbYZXBHJVBYNn/Hf+gcWHpxMpQnwN2g9DroGffBG41IxqtVGpHioQPclHIqolye35ide7NB1s9dM3jPnBZ+wVjViRWEvQcZkNYTWLtS1D56Za73gNbWEoZedCFs18zP5+vjd6Z71dmHYeNJmavJirY=
+	t=1727659155; cv=none; b=KMwsc1190IWFRG1q/o0u3EibGGE/bUPa+6jt+z2RXl7uQZL1zwsqXru9jSARDMyhwBpstibSxNaVJjp3hSPiovVUoC+aJM/1yppa6k4/ZB0qI9Nc2W8uQt4YZcK68k3AMb2slqWRetT5ILExmvTa6esQpdhFCxKCdbc1QBxtWZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727654262; c=relaxed/simple;
-	bh=HaXo0toqOF7Y+jB24eT1VlknmgOwcedF3GO+Ll48qjQ=;
+	s=arc-20240116; t=1727659155; c=relaxed/simple;
+	bh=tZQzrKVzETh1J2Qe2bPKOKRVYDkKpapUxu/uICsTvmU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hlqeO5/cuZNc0jkWxNZnGJockpomc5ON5iqVOf9OxIYdblmPX5nV7h4Ay/JvXmyMJroBlkF6v324/uPb6bnVq2DN+JEU2vi9gjrJp5BbL4f719DpTqT4kRQ38HfhNzsQX2KHrMUhjdyQum9o56KJbXslxniyNTAjcmRqaWGdtjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=luRI31vA; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a93b2070e0cso462028066b.3
-        for <linux-media@vger.kernel.org>; Sun, 29 Sep 2024 16:57:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727654259; x=1728259059; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DJrt6UWom7A/xyTFs1oFeQLFFYTQTqna27U8+xF6ZSs=;
-        b=luRI31vAhd0lCTFbpvCWmlp9+0kozyYm3yf624KPVeExHxw9y03w6hNIyRa8CrTaKX
-         /QSwQssn00maDqNvcEmy4xX5ijya0Z88K1i342ymjx6WofIIYv59lNVg7/nVF4g2hdkn
-         NhzlDCw6EuxDTR1GUvfLIDxhThg6YqPOiQ7vk44YqPRGDN5066Qc3kk1F/Fe+cFJ+HNr
-         NE6jYlvxpLAz6RnqnxhSR+X7pXNlLUHcvxOsXelaihPUj4mH/D0YsEHZcJKsScytqK/6
-         tpFDa6bvyQmcfZkI9RwHW1l0UzmM7k0EgvTxECmZFcCWlnWZhhTOJPKrjimuJk6hztia
-         2MHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727654259; x=1728259059;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DJrt6UWom7A/xyTFs1oFeQLFFYTQTqna27U8+xF6ZSs=;
-        b=X/0YmMZfaMBg24m1ZVdsCDr6wv54N5YZhLnOn1s8JcJ0urmzTOWR7lbtQhB1YdQyfV
-         CIKr1wxG413JWD1erIDxA+U7706SryqRIrXOtky3zb9Wbz41c9GxZPxmTw2BeGJqCrFa
-         nekcHXaRfzhOC2vA0KpLLR1TcLilbGfXk9zVNoyPnyUuIpYTdzB0JjufNmTYVkyvOTiR
-         pq+xaLf/DsuABbhe1mKLddTjzhFoT615LYZLLtvSDxlMzXWXwLSQWHlVWKYmJKSQBL+O
-         fabo+NQhkgzXX2bMANl1tfVSeb0Mw7oqnRr909lh4Rg/UxFPM0nPqehRrs0NspUufk9P
-         MuCg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfEcaaii/aWX93dtNULjxr189qxeVKW3hageusd/hl28SjSTBRuOA6qWDIMQBYiJSM/VYzJW+UwwdTjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiG+Lz9KH8vsU/Q3VOcdOKl7dmgfi1ObHgOYGylVL2A+vxlsi/
-	+prGglwQfLvDtwfplye0WFxa25VaIecsYiriZvzMJ54+4Jj3RDDvivPKPmyHxlA=
-X-Google-Smtp-Source: AGHT+IHIuAFzumpcyKBz+LueTVTgTI2SycPOicG0Iw7ZflSGBVkIXpdr88atR9QP+oiJTpCvoWA5+A==
-X-Received: by 2002:a17:906:fe04:b0:a8b:6ee7:ba29 with SMTP id a640c23a62f3a-a93c4ac9401mr1138374166b.44.1727654258502;
-        Sun, 29 Sep 2024 16:57:38 -0700 (PDT)
-Received: from [192.168.0.15] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27c593dsm444079266b.54.2024.09.29.16.57.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Sep 2024 16:57:37 -0700 (PDT)
-Message-ID: <6b702201-4418-4bbe-95b2-50039c08b4d8@linaro.org>
-Date: Mon, 30 Sep 2024 00:57:36 +0100
+	 In-Reply-To:Content-Type; b=sLr8QYx6VuaikHeK7kMeOPphLWKQs+fxGHp/dhvVB/bJdEFVQWBIE9MNTZlBUJ5cYdXh0GTePfXBBZ0+q+go10MS6/kL9hlqI0V9iSN4IxdsmBVEJU4T37rkKua77QlxGpEr22kjlNKvQW216nhNxbq+4y+QJLh6ytBNc1zy3PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=B+lDR0rE; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=XVccFwntIwGBot0bIyb243qoyiqLnKzfjEB3b3z4NJw=; b=B+lDR0rEjnDvDIseihIucVxlsM
+	bEOlRLaw/MYIdBG1rFqjC1LXN9V6Xkscg6BbMcQpVpKP73Zb3y7VK6rBFkW//1b0+TatIwrtPrjIK
+	MkSyz0UT1i2Oy6uKOf9KqfQBdqCRgseAtx1mbN1D8Lb6OOzyh5uHHxVzS9CnM0ZcQgEv3c0wnXPXg
+	DHocaofjI5FWT+Dy9/ag9LCN5N3WopnyfOZ5RyRYX6PzWGkU8tmwh/oYCw+nLjskHHSNgR4JL89Xr
+	fR1LfKBjI/sTgdluZTd9M4s32CEs8Ln5fWX4bUnBQnqx8do7sPAu37i9vozhB+dXEa+zwxB4NN3Fe
+	zt8+AbMQ==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1sv53p-00000002jgO-43X8;
+	Mon, 30 Sep 2024 01:18:50 +0000
+Message-ID: <a604f707-83ba-49e0-b90a-db357f8d7cce@infradead.org>
+Date: Sun, 29 Sep 2024 18:18:40 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,49 +54,47 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] media: qcom: camss: Add support for VFE hardware
- version Titan 780
-To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
-References: <20240812144131.369378-1-quic_depengs@quicinc.com>
- <20240812144131.369378-14-quic_depengs@quicinc.com>
- <6ddaa41b-86cf-44e5-a671-fd70f266642b@linaro.org>
- <eb77972c-9c9a-48f9-b850-21e6c2df005a@quicinc.com>
- <d842a992-e04f-4a11-abaa-da50808fea77@quicinc.com>
+Subject: Re: [PATCH v2 1/6] math.h: Add macros for rounding to the closest
+ value
+To: Jiri Slaby <jirislaby@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ Devarsh Thakkar <devarsht@ti.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sebastian.fricke@collabora.com, linux-doc@vger.kernel.org, praneeth@ti.com,
+ nm@ti.com, vigneshr@ti.com, s-jain1@ti.com, r-donadkar@ti.com,
+ b-brnich@ti.com, detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+ andi.shyti@linux.intel.com, nicolas@ndufresne.ca, davidgow@google.com,
+ dlatypov@google.com, corbet@lwn.net, broonie@kernel.org,
+ nik.borisov@suse.com, Dave.Martin@arm.com
+References: <20240826150822.4057164-1-devarsht@ti.com>
+ <20240826150822.4057164-2-devarsht@ti.com>
+ <Zsy-8xXQ01-JhL0m@smile.fi.intel.com>
+ <9c41f6b7-6b06-cd5b-74bd-24873c4beaf7@ti.com> <87frqqyw9r.fsf@intel.com>
+ <0b06794b-34c5-ec0d-59c6-8412a8789eaf@ti.com> <878qwfy9cg.fsf@intel.com>
+ <8bcddd10-6699-4e76-9eaf-8768f1c1ae66@kernel.org>
 Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <d842a992-e04f-4a11-abaa-da50808fea77@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <8bcddd10-6699-4e76-9eaf-8768f1c1ae66@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 29/09/2024 02:28, Depeng Shao wrote:
->>>
+
+
+On 8/29/24 2:54 AM, Jiri Slaby wrote:
+> On 29. 08. 24, 11:19, Jani Nikula wrote:
+>> The stupid thing here is, I still don't remember which one is the
+>> generic thing, rounddown() or round_down(). I have to look it up every
+>> single time to be sure. I refuse to believe I'd be the only one.
 >>
->> Thanks for catching this, I forget to add the rup irq, so this logic 
->> is also missed. I have tried it just now, the logic works good, will 
->> add it in next version patch.
->>
+>> It's okay to accidentally use the generic version, no harm done. It's
+>> definitely not okay to accidentally use the special pow-2 version, so it
+>> should have a special name. I think _pow2() or _pow_2() is a fine
+>> suffix.
 > 
-> I go through the code again, and find we don't do the wait for 
-> completion in VFE 480 driver, this is just used in VFE gen1 driver and 
-> just during disabling port.
+> Concur.
+> 
 
-Right but, we _should_ wait for completion there, the fact we don't is a 
-bug.
+Ack here also. I prefer _pow2().
 
-One context issues a command to take an action and another context in 
-this case an ISR has to fire for that action to be complete.
-
-Therefore we _should_ wait_for_completion() in the initiating context 
-and timeout if it exceeds a reasonable timeout.
-
-Granted, we've "dropped the ball" in 480 you're right, it needs to be 
-fixed and will be but, please in your submission do the right thing.
-
----
-bod
 
