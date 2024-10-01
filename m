@@ -1,126 +1,190 @@
-Return-Path: <linux-media+bounces-18900-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18901-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84EA98B6D4
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 10:24:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3616198B6D8
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 10:24:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D8D81F22562
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 08:24:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE34F28339B
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 08:24:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C77EF38396;
-	Tue,  1 Oct 2024 08:24:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBC1219ABC5;
+	Tue,  1 Oct 2024 08:24:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iJ0Rnyb+"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="gjK9ZxBO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDAB199FB7;
-	Tue,  1 Oct 2024 08:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AC619ABAF
+	for <linux-media@vger.kernel.org>; Tue,  1 Oct 2024 08:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727771061; cv=none; b=l4o4f6hImX+d7YjSR5vuJvYPeYrY9IY05rpytt6yaWtFjGXads7MtKaK6ZWb164r8XIO/cxaUf2Zu9bU/uiUYB67YwXdeFdZGGCuSvqKlEzGxXXy73ZNrtrEikw+lNqM/4WuhIKhEl5n2kKPVRD1mKmpunyrwKSEZOyZFA3aiug=
+	t=1727771064; cv=none; b=NUcQzmWV6EQiWNI0SGs/xZDWfhrq+VrWDqRdklCeCNbSh4/z+nzpgy0/G4getvhSc+36j4CvyH2HCU5/KfgJg5FdS2eKEbE1OXYyueO2idHDQ9Bi/n27bgkt7Eq2rINDOHRatytXjA5CjBe/rDu+4dSxozQKpqE2KMLWgbX9N7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727771061; c=relaxed/simple;
-	bh=4aYeJqfVM+UBTVmgpt2L5qLuf9PzAtiqvs5TWauk3kc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Uo62lXW2gCf/bGN72z9YrPmz/9LRG3Wwj8LN3x4zQxqB2i9q+BcusGaA8gAs20aKya9As3Xol1P71NnSPnf/F4U/e/4FyAwLF+9BvRbU3AYFABeThvWsA9avlX/q1cwbYELdVqJbKEG/Na1VZ4OjMOutfi0Yf+p7MKSiKVRa2UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iJ0Rnyb+; arc=none smtp.client-ip=209.85.166.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-3a0c9ff90b1so17618965ab.0;
-        Tue, 01 Oct 2024 01:24:19 -0700 (PDT)
+	s=arc-20240116; t=1727771064; c=relaxed/simple;
+	bh=8AJMW8Z3b9wJetqkBgaR2aftrmfyvbru3456YvuWlM0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=gt0YScdfsF8sLtvCRZrTfhcclcvrPLk3vlTX8rTXDj933jZlgaMymVueq9F7nfgTtpUoxAmw+u/B0GbUZu0GUURyO4z8IM9/LRS/iwrQ5sCCIhw2jcfgeepUGFiiGwk1c4o1EuKae0bOzNDpvQjfnRpcUrXB6JNVuUmqBB9OlDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=gjK9ZxBO; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a8a6d1766a7so761159866b.3
+        for <linux-media@vger.kernel.org>; Tue, 01 Oct 2024 01:24:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727771059; x=1728375859; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=fairphone.com; s=fair; t=1727771061; x=1728375861; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6hay4qyyqvHx/zFHX2AwpWBTeYS4cuDqgVMRov7aBas=;
-        b=iJ0Rnyb+gZ8DQrt1nDskrjEcVx9b/2s33BBca5K3U7hWrYP3vHiTwkErlFSQ5J3PqG
-         S6Gg87mt3AnKTLK4WxqIqLq6QLud9hNZSXZcagqsWJkEJWMv6Q+FFp0LvU9NPC6a9emq
-         V2UMJOglumHcAG1/wp5ODAk6W3Pm+BfCRXHhufmKhg9TyZggnVA13fX6C5TaowAApkRJ
-         h1A0mVcMWUM+5r3WkNPVl2FvRXajH1ka1OsoTte5diNM/5dUscCJ5qIhSRfoYqHgejTq
-         kZudcNBk2gQVZoSm+pG4Si7AhU2Sm3vxzc1d3CDVZ6cDVsPTPcDouLQFZLSQJIW03gvi
-         E/Gg==
+        bh=8AJMW8Z3b9wJetqkBgaR2aftrmfyvbru3456YvuWlM0=;
+        b=gjK9ZxBOKt2DXyjXzXanLq52+5dfGxlBMZ6lpb1J4cmMIzHPxYlLcjqnyaNJV/p/Gb
+         ePuT/9i95AkOsdHxjggqUIo+7b7szxEriTBEeYQ54jk4fkhKrJvpVeNfwOHIVnspXUP0
+         zdMGQUYg8tWIBamq9MIR+sS0o9lo1lxG2tjJZsGyALwjwaqOvSZVuhSzI3x40XVRpBfg
+         gvokcRUs0MQgyaQI/dC/vwVHJWQo4kg1eWrCyB9yoNRpn2aDXRU6xiCu9ffAVLkInpLS
+         AF1E2KObXB34CK41ZooVGvr9wtiPMvI+bbW3t4sNEsHQNon7mNGbeAebbkhe6FKRG9oY
+         WgNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727771059; x=1728375859;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6hay4qyyqvHx/zFHX2AwpWBTeYS4cuDqgVMRov7aBas=;
-        b=Z/5kG/KTosATUVebRUZz1l6QQqKSMmULNBnpEC3kaV8+c4aMryoxQ+2ETjnjGfgmmz
-         ToehZK0qQZv5+n8O2FjMAk8QvmXmLQeXjgzzh9jKMpLufcT1nMfKhjkI4jH5fjJtYC4D
-         9X//jHPMu6TedlTsELwH3IxqK3WhZfGYeABkXNyka9WTUD7rtYj3eIDuKjUqIUz3Kg1G
-         //+CnBmAYfImmEGRAvBuuvdnT69o2zpQ00Ot1i7e1fiQa1D2ukPYeai7ivaT9wkprXY5
-         RGRgAFy0QFzQX4cF9VfTHT2g3hvNrOpeI0I71+QvtdUueWsirQRyljrxsAhegjEyxqeX
-         o5AQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUk9Vv0mvJUMLnoNk4n05ptfPU+zwf88FHIdErLJi+q6+vuLkWU78ECu5HWgVLFRWwbpqH7nerSxbcHK0w=@vger.kernel.org, AJvYcCWRV8BW/Dva/XiMYlSzG240efhFPAEQ9JCsuPnoa4zIVUZCr3z16jreZkNKpFJ/praYG6d09pC6G6rx@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6NX6Nrs+zw0wuxN5lsDamJFzDohvE9cdV3HTHccMCAWNNlpv8
-	PczA9cCgascpXg767v7bnXMoVtfPjyj1YBhr9HHit8eH9RWpK1J2pM/U96N0nvF7ZA0oz++FxPc
-	7CtqFiPDlqQigrIu2d68AalCjNJ7PMNEd
-X-Google-Smtp-Source: AGHT+IHrQCLlxQsomQIlcok+Q50oQJVpkCHGtVWam8sjavYpUbkKeVdrdFOdAWRVgOGAdYBp7uUGJs6u4obMBbLY/xA=
-X-Received: by 2002:a05:6e02:1a0a:b0:39f:36f3:1957 with SMTP id
- e9e14a558f8ab-3a345148113mr129934285ab.3.1727771058796; Tue, 01 Oct 2024
- 01:24:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727771061; x=1728375861;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8AJMW8Z3b9wJetqkBgaR2aftrmfyvbru3456YvuWlM0=;
+        b=JwT+GD6FJgYyLsZdOBB90NniwjZnGRuv6tvt19Dg50cvgWIUwpvzOrOe64B18x+g2Q
+         XrKYJyegoX0/QxHkuUlsRoTKXkOmLXKiUhFmXBIBeoG5RUaJmzArR2cx7lMxjsNyGSCu
+         hk7go4+ZcsDSPhZicIeuKuFwycGI+J0s6lDA1kDFah/z7cjqCTOHhg0gqQ6/DPZOUCOR
+         nZ2+juUDCpKgUIXl/8QMSCfJCmCNW14MLVV7heTtxF1Gg7ASXHUiBQCuu+VT1NrE1HqK
+         y9yTRnsFABEGgSfY1jvXCssEmbapHfaBfnd8sl1ZB/aptTNt708izouIyr7StJ5Cz9b2
+         JmJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWgopU8o1mhhaBhATN34phApnZ/Or1htVw6ksb0sZ+y9b36y76L+9fJUXNO8Ad72w8/FZlTObUHl235yg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxR/nbG8Cy7nxGnhzyvqJiftaPSVKRu2v/+Cwf4n78KwZETo2B
+	w7C7lhWu37vgUSrmZsaQ8WTa8TaVDQJUJMdEn0opAEAFiCdzxLDHAoIRgYkVkyg=
+X-Google-Smtp-Source: AGHT+IFdMH1/s+U1Oar448DJMRPdY0HO+iMivk6aBcjMowrJwubM44U3KXpO6X+6VBpy2DswJlUdNA==
+X-Received: by 2002:a17:907:7e85:b0:a77:f2c5:84b3 with SMTP id a640c23a62f3a-a93c491f380mr1305042666b.22.1727771060815;
+        Tue, 01 Oct 2024 01:24:20 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27758dcsm667920866b.37.2024.10.01.01.24.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Oct 2024 01:24:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240830070117.9534-1-eagle.alexander923@gmail.com> <2566e769-45d6-4b15-887b-86449181645d@ideasonboard.com>
-In-Reply-To: <2566e769-45d6-4b15-887b-86449181645d@ideasonboard.com>
-From: Alexander Shiyan <eagle.alexander923@gmail.com>
-Date: Tue, 1 Oct 2024 11:24:07 +0300
-Message-ID: <CAP1tNvTHVeTRnaBX46Fabfwm5Hd2um8WOCUShbdihZKSWewkEw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] media: dt-bindings: i2c: ds90ub960: Add DS90UB954
- chip to DS90UB960 bindings
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, devicetree@vger.kernel.org, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 01 Oct 2024 10:24:19 +0200
+Message-Id: <D4KBQ3ENKF5Y.3D2AK81PELAEZ@fairphone.com>
+Cc: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Suresh Vankadara"
+ <quic_svankada@quicinc.com>, "Trishansh Bhardwaj"
+ <quic_tbhardwa@quicinc.com>, <stable@vger.kernel.org>, "Hariram
+ Purushothaman" <quic_hariramp@quicinc.com>
+Subject: Re: [PATCH 00/10] (no cover subject)
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, "Vikram Sharma"
+ <quic_vikramsa@quicinc.com>, "Robert Foss" <rfoss@kernel.org>, "Todor
+ Tomov" <todor.too@gmail.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Kapatrala
+ Syed" <akapatra@quicinc.com>, "Hariram Purushothaman"
+ <hariramp@quicinc.com>, "Bjorn Andersson" <andersson@kernel.org>, "Konrad
+ Dybcio" <konradybcio@kernel.org>, "Hans Verkuil"
+ <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>, "Catalin
+ Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com> <D4JK8TRL7XBL.3TBA1FBF32RXL@fairphone.com> <fc0ce5cd-e42a-432b-ad74-01de67ec0d5c@linaro.org>
+In-Reply-To: <fc0ce5cd-e42a-432b-ad74-01de67ec0d5c@linaro.org>
 
-Hello Toni.
-
-I don't know how to use condition blocks for YAML format. Can You help me?
-If I understand correctly, it is necessary to create conditions here
-for ti,ds90ub954-q1:
-"link@[0-1]$" instead of "link@[0-3]$" and rewrite all port@x part.
-
-Thanks!
-
-=D0=B2=D1=82, 10 =D1=81=D0=B5=D0=BD=D1=82. 2024=E2=80=AF=D0=B3. =D0=B2 11:4=
-4, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>:
+On Mon Sep 30, 2024 at 1:54 PM CEST, Bryan O'Donoghue wrote:
+> On 30/09/2024 11:52, Luca Weiss wrote:
+> > On Wed Sep 4, 2024 at 1:10 PM CEST, Vikram Sharma wrote:
+> >> SC7280 is a Qualcomm SoC. This series adds support to
+> >> bring up the CSIPHY, CSID, VFE/RDI interfaces in SC7280.
+> >>
+> >> SC7280 provides
+> >>
+> >> - 3 x VFE, 3 RDI per VFE
+> >> - 2 x VFE Lite, 4 RDI per VFE
+> >> - 3 x CSID
+> >> - 2 x CSID Lite
+> >> - 5 x CSI PHY
+> >=20
+> > Hi Vikram,
+> >=20
+> > I tried this on my QCM6490 Fairphone 5 smartphone.
+> >=20
+> > Unfortunately I couldn't get e.g. CSID test pattern out of camss. I've
+> > tested this patchset on v6.11.
+> >=20
+> > These commands did work on an older sc7280 camss patchset (which was
+> > never sent to the lists). Can you please take a look?
+> >=20
+> > v4l2-ctl -d /dev/v4l-subdev5 -c test_pattern=3D1
+> > media-ctl -d /dev/media0 -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> > media-ctl -d /dev/media0 -V '"msm_csid0":1[fmt:UYVY8_2X8/1920x1080 fiel=
+d:none],"msm_vfe0_rdi0":0[fmt:UYVY8_2X8/1920x1080 field:none]'
+> > gst-launch-1.0 v4l2src device=3D/dev/video0 num-buffers=3D1 ! 'video/x-=
+raw,format=3DUYVY,width=3D1920,height=3D1080' ! jpegenc ! filesink location=
+=3Dimage01.jpg
 >
-> Hi,
+> Here's what I have for rb5
 >
-> On 30/08/2024 10:01, Alexander Shiyan wrote:
-> > The ds90ub960 driver can now be used for the DS90UB954 chip as it has
-> > a similar register set and configuration.
-> > Let's add an additional compatibility line to the bindings.
-> >
-> > Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
-> > ---
-> >   Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.y=
-aml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-> > index 0b71e6f911a8..86d43d949dd3 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-> > @@ -19,6 +19,7 @@ allOf:
-> >   properties:
-> >     compatible:
-> >       enum:
-> > +      - ti,ds90ub954-q1
-> >         - ti,ds90ub960-q1
-> >         - ti,ds90ub9702-q1
-> >
+> # CSID0 TPG RB5
+> media-ctl --reset
+> yavta --no-query -w '0x009f0903 2' /dev/v4l-subdev6
+> yavta --list /dev/v4l-subdev6
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> media-ctl -d /dev/media0 -p
 >
-> The binding lists 6 ports as required, but UB954 only has 3 ports.
+> Maybe on FP5 ...
+>
+> media-ctl --reset
+> yavta --no-query -w '0x009f0903 2' /dev/v4l-subdev5
+> yavta --list /dev/v4l-subdev5
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> media-ctl -d /dev/media0 -p
+
+Hi Bryan!
+
+These commands are to set up the pipeline, and what then to grab an
+image from it?
+
+I tried this, but it also just hangs:
+
+$ yavta -B capture-mplane --capture=3D3 -n 3 -f SRGGB10P -s 4056x3040 /dev/=
+video0 --file=3Dfoo-#.bin
+Device /dev/video0 opened.
+Device `Qualcomm Camera Subsystem' on `platform:acb3000.camss' (driver 'qco=
+m-camss') supports video, capture, with mplanes.
+Video format set: SRGGB10P (41415270) 4056x3040 field none, 1 planes:=20
+ * Stride 5072, buffer size 15418880
+Video format: SRGGB10P (41415270) 4056x3040 field none, 1 planes:=20
+ * Stride 5072, buffer size 15418880
+3 buffers requested.
+length: 1 offset: 3326519176 timestamp type/source: mono/EoF
+Buffer 0/0 mapped at address 0xffffa0c00000.
+length: 1 offset: 3326519176 timestamp type/source: mono/EoF
+Buffer 1/0 mapped at address 0xffff9fc08000.
+length: 1 offset: 3326519176 timestamp type/source: mono/EoF
+Buffer 2/0 mapped at address 0xffff9ec10000.
+
+Regards
+Luca
+
+
+
+>
+> ?
+>
+> ---
+> bod
+
 
