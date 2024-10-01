@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-18945-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18946-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9209098BF59
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 16:13:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B02398BF5C
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 16:14:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41039280D82
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 14:13:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA232281354
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 14:14:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6598B1CBEAE;
-	Tue,  1 Oct 2024 14:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2EAB1CC154;
+	Tue,  1 Oct 2024 14:10:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Py02r7KE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lijWMfAI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F84F1C6F66;
-	Tue,  1 Oct 2024 14:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E481CBE8A;
+	Tue,  1 Oct 2024 14:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727791798; cv=none; b=caw3iggitfcyYBymfGWxqCnl2c9rROV67l51O6+BxCgDCXQQ2uZRh4puP24J2ybtiXCGld5RBlY6Gjkt5T4fsLHMc5cKf0l9eQhh7MSMoq/L12uB32urv3Y/UHEy03UzkyotaWkH+Q0+0RJiLvhy48YxdB3gCiZqUJY12q/GJLY=
+	t=1727791800; cv=none; b=HlIEB3cZnn+QfCA9v8iH71AVAkWMSoOh07pzpyN0e8XBIye0d/gXi5/2Sj7C6VKBnVxY8ZiwwJnjZJBBkpAZPMQPhGJCDA32okhck3kIDOlJSdFHaKHci8cN05sAhurSrz/hutr/miiLm4+X0kjpzERcAYCCq42egD+l4aZEi+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727791798; c=relaxed/simple;
-	bh=DXHAPbsDj/cwzlGpSaxnBgeGyc2inqFhC5IxtJKQ9BQ=;
+	s=arc-20240116; t=1727791800; c=relaxed/simple;
+	bh=VY91vW/qC6MJTXVGzHNIgCf1mq1jUFKjewgTdlz4O8A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GJfPPtvJHCGO60pRcWO65wa6pqV0tyYM0lc2wUxJUlGDE0tCczF+bduTZaTvpWgL2eowlSVDpElsh0Txn9JmZDwfBGlTLK//nVPjIL3x/Vu56bz0sjz7QSo2wgSOreOiYeh+0MuSS6/rwRZwLtpB6/4IgVl+75xBejX594/qA9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Py02r7KE; arc=none smtp.client-ip=209.85.218.53
+	 MIME-Version; b=kfeDvUw/4MLPU/nM3+XgouwhJE0W8djDOY2olvz4LNmp9vgnpe3qJLtZnYKDU1dQIHr9RJPJUZK8eib1Ka8RVrhpom/7WJRzF7a0N87hwhvwzjWsShWYAb8OPk9SilEUmSegXBhTbl1QiE7tS2w7TUuE9Dughi6OFyqTZJbWgbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lijWMfAI; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a8b155b5e9eso24957166b.1;
-        Tue, 01 Oct 2024 07:09:56 -0700 (PDT)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a93b2070e0cso674327966b.3;
+        Tue, 01 Oct 2024 07:09:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727791795; x=1728396595; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727791797; x=1728396597; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qo8MBtYtUDbvTQNmhyCFYaBep+Kwt548CvVsfmRtKkw=;
-        b=Py02r7KEevTxd1PpB68OytPmnMfTIgCyeBar3MKwsvypNpXv6WyA492rH/VPJqwoAQ
-         7yhSpTUOXHKVY2ChSesrMizuqFd/jTj9OSAELocqyZAgN+WPladOJL7+DbpG2LaBd+b2
-         rmBzqVuCykzUZxABtXSbrmpKD2USslYGPObudnK4apLRoc1Yac+sT7+X9U0Td4RnJUCY
-         dnagwvGC0UAtiUHVPQ8+V1sp3QgPunSvv5Q+8/YjoPH33bXmtOOC5qUjXCX1N0Gc+yne
-         thhDw92sMfch35nSmF907ptwfbrJpcj/uxBfNjJJCYR4pXhKImjuuRjjSwCAVI9jwD7Y
-         bswg==
+        bh=tEOzuVCWMUdGlzBesvO8nBRO0Iupuq39zvRd6ja3B6U=;
+        b=lijWMfAI49IaTFg4HKr0uwOFrtS2CNv+fySQ5+LV9a5CfNmO3rbSoLmJ+vn5W1rCjR
+         7Mhr6Tqih5T0pYBbS+mkoOMS2R1NoN/3Pwo0Iwp2yc9YjPWmQr84ONYerHWjLfyy+JKo
+         TqflngFFTQWq2xbJhiSTRDmMbWVZvUAPJypSg30L8UY1LpLjbiYaB/zVBPwgb9VKs3d5
+         +qUc1tiD6Ly13tHt79ymlSAyoK0+PFF2FYfAjmtXDJlM+hodgwHDflr6Qnxv+elMHs99
+         Frt9tb9MmnUUowcOBfxyULdeFk2C/CXuvflmZ828mY3ddTMLo/4cHtdTzGBbFovfxQR0
+         9OAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727791795; x=1728396595;
+        d=1e100.net; s=20230601; t=1727791797; x=1728396597;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qo8MBtYtUDbvTQNmhyCFYaBep+Kwt548CvVsfmRtKkw=;
-        b=vTA/dI+GDTeAolFF+tss4wurDzq9uhGzykNoL1j5W8MM6yzEQXp+qhv/mQ8WCYNZ7n
-         xf0wk4E2Z/d0HSCJhHp3pPY/pvA8ptgEsZveszAyds6B4vGRLBBeDWNwzS94Pb5cvONS
-         z1b5zH7aBNcyxJ3smOd0Ty1NILz0VJVV6B+sZYgowBaYbMxoV73np9F5NnjZeNF+tBt2
-         NM5/CtLqVEtlOm1I0D0fZV7UDaC+YVN9KA9kQVgJnAZCD6DMaxSrwcMwYtGWyKUb8f18
-         LLC/ssII/FHVp/zrU2gaO1+wMlWQGITIoeLKLT5Zuk1HMqowQjwNr8Mt1TdFYU2pvR5h
-         Dw6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVGxzl0akri82Ji7xfpvVZtS1UKOTsdEAgmt4CEr8JP6w/jHw78XChVbeUp8U4NcE8N8yWyJqti/z4oHJg=@vger.kernel.org, AJvYcCX1Q6Whl3TYHWC7Oyd/HjjRecrPUUC6dsam6o2R6fXLf/9IHX7wS19Q1GrkqbdnokEvFBmqkVfN4xtSHPg1fLSD/UU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwL/KmAC2rQKlLhOztOFna7LmWN3V8hK+4uYDJoNDHc3z12w6ao
-	zxF7iLEUJRyAmrisP0Sny/wqwFQDNuPyjbf+3wH27BhEpZB6+qfk
-X-Google-Smtp-Source: AGHT+IEuetukOcYWO9V/MStpK5GipVWB5EOmhPOChI+zos5mMngpYLsEy2QB+wCWh9VrnoEf+YOY/A==
-X-Received: by 2002:a17:907:9341:b0:a8d:4e26:c9b9 with SMTP id a640c23a62f3a-a93c49218abmr1631032166b.17.1727791795261;
-        Tue, 01 Oct 2024 07:09:55 -0700 (PDT)
+        bh=tEOzuVCWMUdGlzBesvO8nBRO0Iupuq39zvRd6ja3B6U=;
+        b=Hwi2F7Xii9Qz7iJyzIqbVYaCh/1+6EFqg449d8xDYHEKSgS0lSpAPKBUiFfkRGmdBl
+         s7NirpvaWR34R1he8TMkQOsbkbobX2YqbAn+/ShAVuWWfSekjzXwoZ5yCT9WxUFTUMi9
+         bObdf0we8W/mGSCbL8slNPjG5oosTNxAULgtfvt4UI6ijCpeGJ6rNXXx/vkfqACJ2IQr
+         /FTQwoprSju1UIwxKNje+ScUmXivvWCQlGvsyfRgZC+we5gxCtrLwp07UfeasTKRecpI
+         aDAfaGKUIfiXXY79/qrmQ/1OJFGRy97U0pF+8KYcS5+l9HYUbNH88hHQwIo1vNlDF/KO
+         JVjw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQeLl2J56Ywo0N8s+MPb4vU9YZz5VCoqBBRLwXLrIQC/I2kmRd0P2y2XLTIgj7Jx6VtPdfHxYH71SWCoY=@vger.kernel.org, AJvYcCWHW6D0AOweOpoC+rQWC3NBOnGWCeRkJvlXLWNqrNtjkrsopHIuTRJ/BujMbrJiWD1m/mWRcB3xDt3q0sGMQRjede8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YweoggMgwz5vmy5lrE0aMMr3dU4aYv/yrRWFiAGKD+co3k5n003
+	GqpNfgzAvHiyILJW8qu0rGd5b6ise18SLc8rLEGMPlMou000WW3F
+X-Google-Smtp-Source: AGHT+IGD5XwMQGufA+hBlEEu8kdEe7bkLLmIhLCjRvsQ4yUNdPPf9Cz3ZFuNrk2j+NlI1cLmGhTnuQ==
+X-Received: by 2002:a17:907:9812:b0:a91:1634:9e92 with SMTP id a640c23a62f3a-a93c4919832mr1616220666b.21.1727791796741;
+        Tue, 01 Oct 2024 07:09:56 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2776de0sm723532966b.2.2024.10.01.07.09.54
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2776de0sm723532966b.2.2024.10.01.07.09.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 07:09:54 -0700 (PDT)
+        Tue, 01 Oct 2024 07:09:55 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
@@ -80,9 +80,9 @@ Cc: linux-media@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 16/17] media: rzg2l-cru: Add support to capture 8bit raw sRGB
-Date: Tue,  1 Oct 2024 15:09:18 +0100
-Message-ID: <20241001140919.206139-17-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 17/17] media: rzg2l-cru: Move register definitions to a separate file
+Date: Tue,  1 Oct 2024 15:09:19 +0100
+Message-ID: <20241001140919.206139-18-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241001140919.206139-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20241001140919.206139-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -96,76 +96,186 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add support to capture 8bit Bayer formats.
+Move the RZ/G2L CRU register definitions from `rzg2l-video.c` to a
+dedicated header file, `rzg2l-cru-regs.h`. Separating these definitions
+into their own file improves the readability of the code.
 
+Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
 v2->v3
-- Updated subject line
-- Collected RB tag
-
-v1->v2
-- Used the simplified version of format handling
+- New patch
 ---
- .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  4 +++
- .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 28 +++++++++++++++++++
- 2 files changed, 32 insertions(+)
+ .../renesas/rzg2l-cru/rzg2l-cru-regs.h        | 79 +++++++++++++++++++
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 69 +---------------
+ 2 files changed, 80 insertions(+), 68 deletions(-)
+ create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-index e21142d3b67d..84230926875a 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-@@ -188,6 +188,10 @@ struct rzg2l_csi2_format {
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+new file mode 100644
+index 000000000000..458f7452e5d3
+--- /dev/null
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+@@ -0,0 +1,79 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * rzg2l-cru-regs.h--RZ/G2L (and alike SoCs) CRU Registers Definitions
++ *
++ * Copyright (C) 2024 Renesas Electronics Corp.
++ */
++
++#ifndef __RZG2L_CRU_REGS_H__
++#define __RZG2L_CRU_REGS_H__
++
++/* HW CRU Registers Definition */
++
++/* CRU Control Register */
++#define CRUnCTRL			0x0
++#define CRUnCTRL_VINSEL(x)		((x) << 0)
++
++/* CRU Interrupt Enable Register */
++#define CRUnIE				0x4
++#define CRUnIE_EFE			BIT(17)
++
++/* CRU Interrupt Status Register */
++#define CRUnINTS			0x8
++#define CRUnINTS_SFS			BIT(16)
++
++/* CRU Reset Register */
++#define CRUnRST				0xc
++#define CRUnRST_VRESETN			BIT(0)
++
++/* Memory Bank Base Address (Lower) Register for CRU Image Data */
++#define AMnMBxADDRL(x)			(0x100 + ((x) * 8))
++
++/* Memory Bank Base Address (Higher) Register for CRU Image Data */
++#define AMnMBxADDRH(x)			(0x104 + ((x) * 8))
++
++/* Memory Bank Enable Register for CRU Image Data */
++#define AMnMBVALID			0x148
++#define AMnMBVALID_MBVALID(x)		GENMASK(x, 0)
++
++/* Memory Bank Status Register for CRU Image Data */
++#define AMnMBS				0x14c
++#define AMnMBS_MBSTS			0x7
++
++/* AXI Master Transfer Setting Register for CRU Image Data */
++#define AMnAXIATTR			0x158
++#define AMnAXIATTR_AXILEN_MASK		GENMASK(3, 0)
++#define AMnAXIATTR_AXILEN		(0xf)
++
++/* AXI Master FIFO Pointer Register for CRU Image Data */
++#define AMnFIFOPNTR			0x168
++#define AMnFIFOPNTR_FIFOWPNTR		GENMASK(7, 0)
++#define AMnFIFOPNTR_FIFORPNTR_Y		GENMASK(23, 16)
++
++/* AXI Master Transfer Stop Register for CRU Image Data */
++#define AMnAXISTP			0x174
++#define AMnAXISTP_AXI_STOP		BIT(0)
++
++/* AXI Master Transfer Stop Status Register for CRU Image Data */
++#define AMnAXISTPACK			0x178
++#define AMnAXISTPACK_AXI_STOP_ACK	BIT(0)
++
++/* CRU Image Processing Enable Register */
++#define ICnEN				0x200
++#define ICnEN_ICEN			BIT(0)
++
++/* CRU Image Processing Main Control Register */
++#define ICnMC				0x208
++#define ICnMC_CSCTHR			BIT(5)
++#define ICnMC_INF(x)			((x) << 16)
++#define ICnMC_VCSEL(x)			((x) << 22)
++#define ICnMC_INF_MASK			GENMASK(21, 16)
++
++/* CRU Module Status Register */
++#define ICnMS				0x254
++#define ICnMS_IA			BIT(2)
++
++/* CRU Data Output Mode Register */
++#define ICnDMR				0x26c
++
++#endif /* __RZG2L_CRU_REGS_H__ */
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+index c3d10b001b7c..d7c82c7b9044 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+@@ -20,74 +20,7 @@
+ #include <media/videobuf2-dma-contig.h>
  
- static const struct rzg2l_csi2_format rzg2l_csi2_formats[] = {
- 	{ .code = MEDIA_BUS_FMT_UYVY8_1X16, .bpp = 16 },
-+	{ .code = MEDIA_BUS_FMT_SBGGR8_1X8, .bpp = 8, },
-+	{ .code = MEDIA_BUS_FMT_SGBRG8_1X8, .bpp = 8, },
-+	{ .code = MEDIA_BUS_FMT_SGRBG8_1X8, .bpp = 8, },
-+	{ .code = MEDIA_BUS_FMT_SRGGB8_1X8, .bpp = 8, },
- };
+ #include "rzg2l-cru.h"
+-
+-/* HW CRU Registers Definition */
+-
+-/* CRU Control Register */
+-#define CRUnCTRL			0x0
+-#define CRUnCTRL_VINSEL(x)		((x) << 0)
+-
+-/* CRU Interrupt Enable Register */
+-#define CRUnIE				0x4
+-#define CRUnIE_EFE			BIT(17)
+-
+-/* CRU Interrupt Status Register */
+-#define CRUnINTS			0x8
+-#define CRUnINTS_SFS			BIT(16)
+-
+-/* CRU Reset Register */
+-#define CRUnRST				0xc
+-#define CRUnRST_VRESETN			BIT(0)
+-
+-/* Memory Bank Base Address (Lower) Register for CRU Image Data */
+-#define AMnMBxADDRL(x)			(0x100 + ((x) * 8))
+-
+-/* Memory Bank Base Address (Higher) Register for CRU Image Data */
+-#define AMnMBxADDRH(x)			(0x104 + ((x) * 8))
+-
+-/* Memory Bank Enable Register for CRU Image Data */
+-#define AMnMBVALID			0x148
+-#define AMnMBVALID_MBVALID(x)		GENMASK(x, 0)
+-
+-/* Memory Bank Status Register for CRU Image Data */
+-#define AMnMBS				0x14c
+-#define AMnMBS_MBSTS			0x7
+-
+-/* AXI Master Transfer Setting Register for CRU Image Data */
+-#define AMnAXIATTR			0x158
+-#define AMnAXIATTR_AXILEN_MASK		GENMASK(3, 0)
+-#define AMnAXIATTR_AXILEN		(0xf)
+-
+-/* AXI Master FIFO Pointer Register for CRU Image Data */
+-#define AMnFIFOPNTR			0x168
+-#define AMnFIFOPNTR_FIFOWPNTR		GENMASK(7, 0)
+-#define AMnFIFOPNTR_FIFORPNTR_Y		GENMASK(23, 16)
+-
+-/* AXI Master Transfer Stop Register for CRU Image Data */
+-#define AMnAXISTP			0x174
+-#define AMnAXISTP_AXI_STOP		BIT(0)
+-
+-/* AXI Master Transfer Stop Status Register for CRU Image Data */
+-#define AMnAXISTPACK			0x178
+-#define AMnAXISTPACK_AXI_STOP_ACK	BIT(0)
+-
+-/* CRU Image Processing Enable Register */
+-#define ICnEN				0x200
+-#define ICnEN_ICEN			BIT(0)
+-
+-/* CRU Image Processing Main Control Register */
+-#define ICnMC				0x208
+-#define ICnMC_CSCTHR			BIT(5)
+-#define ICnMC_INF(x)			((x) << 16)
+-#define ICnMC_VCSEL(x)			((x) << 22)
+-#define ICnMC_INF_MASK			GENMASK(21, 16)
+-
+-/* CRU Module Status Register */
+-#define ICnMS				0x254
+-#define ICnMS_IA			BIT(2)
+-
+-/* CRU Data Output Mode Register */
+-#define ICnDMR				0x26c
++#include "rzg2l-cru-regs.h"
  
- static inline struct rzg2l_csi2 *sd_to_csi2(struct v4l2_subdev *sd)
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-index f14ac949cc64..7e3f725eeece 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-@@ -19,6 +19,34 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.bpp = 2,
- 		.icndmr = ICnDMR_YCMODE_UYVY,
- 	},
-+	{
-+		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-+		.format = V4L2_PIX_FMT_SBGGR8,
-+		.datatype = MIPI_CSI2_DT_RAW8,
-+		.bpp = 1,
-+		.icndmr = 0,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
-+		.format = V4L2_PIX_FMT_SGBRG8,
-+		.datatype = MIPI_CSI2_DT_RAW8,
-+		.bpp = 1,
-+		.icndmr = 0,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
-+		.format = V4L2_PIX_FMT_SGRBG8,
-+		.datatype = MIPI_CSI2_DT_RAW8,
-+		.bpp = 1,
-+		.icndmr = 0,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
-+		.format = V4L2_PIX_FMT_SRGGB8,
-+		.datatype = MIPI_CSI2_DT_RAW8,
-+		.bpp = 1,
-+		.icndmr = 0,
-+	},
- };
- 
- const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
+ #define RZG2L_TIMEOUT_MS		100
+ #define RZG2L_RETRIES			10
 -- 
 2.43.0
 
