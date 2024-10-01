@@ -1,114 +1,112 @@
-Return-Path: <linux-media+bounces-18915-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18916-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F7798BBEA
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 14:18:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7199098BBFF
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 14:22:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E864C284809
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 12:18:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53EF51C21221
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 12:22:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A39EE1C2333;
-	Tue,  1 Oct 2024 12:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 154941C2428;
+	Tue,  1 Oct 2024 12:22:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="Pge7BPjP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hR1YeTdo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765F41A00D1
-	for <linux-media@vger.kernel.org>; Tue,  1 Oct 2024 12:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727785086; cv=pass; b=EUuqjLJhwjMj+OFk9LPGG+nDvdkVJBhPEEuUUphxllEOmtsogzAjQAWo/3C46rwQm07wBIB2QnCCyYrgb4E3Be8jBM4tvTYa0Hj0lzW/jymE7HaI7yikJ85ig2DmPdzY1txozIbpup96xuEoGa/kuxMJNWrzjrH6l5nIbRYZXb0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727785086; c=relaxed/simple;
-	bh=Gn2p72HHQvBpAJKnE7dSlIL6KYuzalBZSyDdBnJCta0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qttjjHliQGMsIz3CFsxTU2noQt8mHsMi0yl3D1OUPQ4SfgjF+Q3wK3o9/yUMuB1IRCOue9hS3s6L8RFdb+JTqNRG9C9lcejK2ljgS2VKg+LtqPWOb4/jUVlcZbnGNF39kuMcKwMiM0c9x6w9oeBaMG3SmAGUzcamw8GayLpqy7Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=Pge7BPjP; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1727785076; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=J3n8STfB3YylAinVTGFt4X9+1se8GBBOeEEZQMjQG1hkq3aANgiBpxSkOofD2Q2WW+L1ZcIInH7UPUF4+qRl3mHAkcz88wzXgwFq363Gacn/pR2GRVxHJlG+agmD6BBlJN0QgiOi4lleg7YooTjSUYJ53mZGS9sXaetbnyVK4vo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1727785076; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=miRreCDsUqTlF/lqctM/p4GvuSiKwccfSdJrcv4xQAA=; 
-	b=UKxyCeS/KlnWf6pGv+HI+0lBrmd7gx9lBPFxk/kafICuj1eLFLWe1HReI2+xw00oKce4X2s7UMBXw53GcrjRd/RN0d5k1lKo/jgrcGaiPMiLjRt/i3oAMRxw0JA+j0vR7oyIb4DTesy2PA28PiVJM3CaL5R2rBD40Glng5iaHjo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727785076;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=miRreCDsUqTlF/lqctM/p4GvuSiKwccfSdJrcv4xQAA=;
-	b=Pge7BPjP45S0NEnqZtIorugoRU3a6AyXAACi9ijd896ncy12+FlQxWG9bjwGAfLO
-	PQMdmUkF9jWhQAa5Kv/5ts4qL5CMJd5EK4wh4kTviFkZn//ebVucNsyVaIbcFa9QA0o
-	LPIQ7TYvhcI5rfYwpqE9ULaNIm/SDGQXMjpsh6UE=
-Received: by mx.zohomail.com with SMTPS id 172778507590366.91131628967605;
-	Tue, 1 Oct 2024 05:17:55 -0700 (PDT)
-Message-ID: <0cb9ed7d-3818-4429-9674-c5f9910f44c8@collabora.com>
-Date: Tue, 1 Oct 2024 14:17:53 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133151BFE1A
+	for <linux-media@vger.kernel.org>; Tue,  1 Oct 2024 12:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727785367; cv=none; b=Akr0k6iUXEr30zlmGqj9PEy1Mwp3BFZ2O3KUV8MLF7u7Zh7kiQ4IvttMM2o9RestaO+x/6BeF0qQFHd01BK+Ok4DdhhUlMiiEia99oCIIQANndMwDMEcpkWfxDVkKgvG/747keTedv0OAWKgYNi7KrRu81Cn9WcqXC2KW/35ikg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727785367; c=relaxed/simple;
+	bh=80AXf86tLZ11As3rL+UrJDLPxI4wQBu08RoZpTl6TFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=opWn1JYzSUIbobRrp7cQm+g1BA0tHt8spylNGodlfl01oFkjrSsTmJlmuBS+xGRHJmYmXgT5nJkxXL2P3t25UAJHizJeQqhzYpTgnFaRvtOgMZn18BzEfpoa/ehPzrXTNl4FiUWvTh2vpaBUEcFDsBKOzZY+LNmQ1jgpoY+7pcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hR1YeTdo; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727785366; x=1759321366;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=80AXf86tLZ11As3rL+UrJDLPxI4wQBu08RoZpTl6TFA=;
+  b=hR1YeTdo4cT5lCkMmQRThBFm3tKQmvUDBVU8QBPO+vEKBUtvYVPpH5Ss
+   VcK9+kS2KXp7GvPKSAYnI0eJe72Jv2OMKzRZl4dCLwdIpxp+hgTXZi/XK
+   ig87Y9tJ1wKbjWTsx7cg3+TUlSXGbEhp147aTcRA9nFiPnPlaYl5OBPOv
+   ZctPV0OZw4Dyb3nrl8j3P0gkddrW8yoUU3ebkzm8EnL8rNtFV44yUHCRr
+   p+iy61P0mUK3A5nGBYuAT9C2iECuIyVX693Emu3ElUqBDWfNCfYyQ7mnd
+   cmoRMTiHWcPk4+LTLAHo1SXhq9elxUy0TEQHMtO5ZjCGAlYh1kdAb8f7E
+   Q==;
+X-CSE-ConnectionGUID: 1qf6IcZST0uc27GAnzwUFQ==
+X-CSE-MsgGUID: crejdnR0RuqcYCKBG+TswQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27009875"
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
+   d="scan'208";a="27009875"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 05:22:45 -0700
+X-CSE-ConnectionGUID: 6CIry5doQdyAAJeSJAyrmg==
+X-CSE-MsgGUID: frYXO8TFTo61fbbrpFCHZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
+   d="scan'208";a="73264956"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 05:22:44 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1svbtp-0000000FBIw-2Xnx;
+	Tue, 01 Oct 2024 15:22:41 +0300
+Date: Tue, 1 Oct 2024 15:22:41 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com, oe-kbuild-all@lists.linux.dev,
+	bingbu.cao@linux.intel.com
+Subject: Re: [PATCH] media: ipu6: remove redundant dependency in Kconfig
+Message-ID: <ZvvpkYunInRSgOUp@smile.fi.intel.com>
+References: <20240927021613.2158020-1-bingbu.cao@intel.com>
+ <202409280345.yuxEscvz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for v6.12] media: dvb-core: add missing buffer index check
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Chenyuan Yang <chenyuan0y@gmail.com>
-References: <373c1bd7-8c1c-4cee-ae06-0b4dcaf78f9f@xs4all.nl>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <373c1bd7-8c1c-4cee-ae06-0b4dcaf78f9f@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202409280345.yuxEscvz-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+
+On Sat, Sep 28, 2024 at 03:33:21AM +0800, kernel test robot wrote:
+
+...
+
+>    drivers/media/pci/intel/ipu6/ipu6.c: In function 'ipu6_pkg_dir_configure_spc':
+> >> drivers/media/pci/intel/ipu6/ipu6.c:250:45: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+>      250 |         prog = (struct ipu6_cell_program *)((u64)isp->cpd_fw->data + pg_offset);
+>          |                                             ^
+> >> drivers/media/pci/intel/ipu6/ipu6.c:250:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+>      250 |         prog = (struct ipu6_cell_program *)((u64)isp->cpd_fw->data + pg_offset);
+>          |                ^
+
+Yes, someone should become familiar with uintptr_t.
+
+> --
+
+>    drivers/media/pci/intel/ipu6/ipu6-cpd.c:48:33: note: in expansion of macro 'GENMASK'
+>       48 | #define PKG_DIR_TYPE_MASK       GENMASK(54, 48)
+
+Somebody should learn about _ULL() variants of BIT() and GENMASK()
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Le 01/10/2024 à 14:11, Hans Verkuil a écrit :
-> dvb_vb2_expbuf() didn't check if the given buffer index was
-> for a valid buffer. Add this check.
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reported-by: Chenyuan Yang <chenyuan0y@gmail.com>
-> Fixes: 7dc866df4012 ("media: dvb-core: Use vb2_get_buffer() instead of directly access to buffers array")
-> Cc: <stable@vger.kernel.org>
-
-Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-> ---
-> Resent, noting that it is a fix for 6.12.
-> ---
->   drivers/media/dvb-core/dvb_vb2.c | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
-> index 192a8230c4aa..29edaaff7a5c 100644
-> --- a/drivers/media/dvb-core/dvb_vb2.c
-> +++ b/drivers/media/dvb-core/dvb_vb2.c
-> @@ -366,9 +366,15 @@ int dvb_vb2_querybuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
->   int dvb_vb2_expbuf(struct dvb_vb2_ctx *ctx, struct dmx_exportbuffer *exp)
->   {
->   	struct vb2_queue *q = &ctx->vb_q;
-> +	struct vb2_buffer *vb2 = vb2_get_buffer(q, exp->index);
->   	int ret;
->
-> -	ret = vb2_core_expbuf(&ctx->vb_q, &exp->fd, q->type, q->bufs[exp->index],
-> +	if (!vb2) {
-> +		dprintk(1, "[%s] invalid buffer index\n", ctx->name);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = vb2_core_expbuf(&ctx->vb_q, &exp->fd, q->type, vb2,
->   			      0, exp->flags);
->   	if (ret) {
->   		dprintk(1, "[%s] index=%d errno=%d\n", ctx->name,
 
