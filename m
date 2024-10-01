@@ -1,54 +1,74 @@
-Return-Path: <linux-media+bounces-18927-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18928-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0F098BDE6
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 15:36:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 409D098BE4A
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 15:48:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F16C1C219F5
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 13:36:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 979D0B2148A
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 13:48:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D7111C5798;
-	Tue,  1 Oct 2024 13:35:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0CF41C57B9;
+	Tue,  1 Oct 2024 13:47:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=rtie@gmx.de header.b="Uu1tE/CM"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iyXGDWZK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F5F1C462D
-	for <linux-media@vger.kernel.org>; Tue,  1 Oct 2024 13:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796E61C57A4
+	for <linux-media@vger.kernel.org>; Tue,  1 Oct 2024 13:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727789743; cv=none; b=tgHNoJlJAE/yw80kHYghb9yiTY8sTLQslNrQ8k79ujDJV0lyIhT1uHSVMMsblxidjMMJP6PHFX4oZJcH8aQfjWU8NcE4JzP8drk/VsvCwKycroYZApPgsHfhfTEiIXd8LtwUnTHlutrpPxCYno1aOrngTgbQykYX5M/ko8Jwe4o=
+	t=1727790468; cv=none; b=c2qQ75r23+InBtVnkL+EQN4g2NpBzWipRJBFzLqpImUS+W2j79wz/mmgT854EDFtVybmdq2R2Xufrhc4r63Q212RKezEB5l2zykgd3+2qhZCiHwYoErSnAKO+UvTzluoc70ZbH58oKBDs+42R1O+9Y+HU1hdXkDfrSqJww2th2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727789743; c=relaxed/simple;
-	bh=BNeFLI+09Q5tP9xqrBFztcMmDDHqJp3pe09gw2GJAIE=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=tByquqpMFx6NkLxhgApK386jp6yjNlmuLuintP5riMVIpQDGZCwJ/q7PzhE2FEn/iBeA8Dijqdc/eJ8+PpMCT4Dvs5YPCRhkBNAdmDX2mE8i2BK2bXBDZc5KV9wFkTnxpyXqdd5eyhGmqdodyFc1gdYJfWAk8C67i42dEVCtKtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=rtie@gmx.de header.b=Uu1tE/CM; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1727789739; x=1728394539; i=rtie@gmx.de;
-	bh=BNeFLI+09Q5tP9xqrBFztcMmDDHqJp3pe09gw2GJAIE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:From:Subject:
-	 Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Uu1tE/CMxMPJEgfjg305uIN/MNYxFYiax+MdRPyIO4349Ty4NEnrgK+ySFeaKIIp
-	 UeUfU3ofvpwdwlGGL8WRuVlQ/jZVaVP/ecxBkHwLBIrigmfmk4UPsbP4r+gRn2J0s
-	 ZbzNJ+kEq2fK+P6/GcnRtoOjkvgrTlwKUZmUUVcd9JEQFhy+E2/Ql+EP84oC2MvoI
-	 MuGuIAbcWIxaWnmGGyUGBiHH/If0QZme6/hfjHejMeWTkogvh62OUck/AavVZDvYn
-	 e1umOqCXcZ7huIB2xAE/0zgkYdm6xl10BzIgiYDDTFFKPaPYwIVFY0JJEYLzSXWUq
-	 4T8dXCUYpW/aCFZn/g==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.69.2] ([79.231.128.178]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MtfNf-1s2hAS0hwN-00ybUm for
- <linux-media@vger.kernel.org>; Tue, 01 Oct 2024 15:35:39 +0200
-Message-ID: <ed03debb-163f-47df-99ec-9b62785172fc@gmx.de>
-Date: Tue, 1 Oct 2024 15:35:38 +0200
+	s=arc-20240116; t=1727790468; c=relaxed/simple;
+	bh=7a8xwjon7m5Sc1PRKs5XA4FWMWfbFUdhBQa+8zL1vbs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Icl75ozu9kcj1fxKjtKIogvI1tx1uVExGd0KGYTJ6fwW4f0+vdc+RFKZ7Bv3SHxgpLBX2cNzVYYbYvmbWog5ELJ4fzzsxPRnXHRuifL7V7ZvAZ4nYYw0WSxHa4E1VTHYvROG0R3sCeVsPd83I92pReB2iwV2c17FejYapX+DLOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iyXGDWZK; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c718bb04a3so7312836a12.3
+        for <linux-media@vger.kernel.org>; Tue, 01 Oct 2024 06:47:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727790465; x=1728395265; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2hznvRVGa0+vAbTfd7hLLkz8ohJgvQx9/WOhiN6JASY=;
+        b=iyXGDWZK/c+2ZE02yaHdBxy3ukZHf0qADj00RFI5roBWw7R/f3fltlB84QOEKtX0Ps
+         wY/8BZ03aiAQeFq8Ob8N9dEZs0nBZPhSskwd+Z1Yk85x/p6t3nFMOZgMTV6Y/rdyPh3i
+         UYYPXsLyGYRWxtdBZH2ImJ8LdOpgE6ACwisCkWQIwm/yp9nGUY6WEaJ964ON/jRrabn2
+         4QI1jI17CtCi4rOuZmJ7A1irXj841Wg1IPpIvrG/CQkNquAWf1oGFuVOdyZwYdV7nq6N
+         z/3YbMS6dMVALWw5O3dmrZE0GAS0+L86FPX/KuXUnDh5LEG/WAD2kCTG6EFWCK9xHT2u
+         t7vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727790465; x=1728395265;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2hznvRVGa0+vAbTfd7hLLkz8ohJgvQx9/WOhiN6JASY=;
+        b=HIUlq7jB5L4nJG8G6kLET58CsNE8O+cPzy4TSa6ut5zUJxHRg+c7n4/cvAJ4HCSuFG
+         c6CpFk0mdp488rtI1ofgS2jjSEgGdl1km8czad+avqJuSfMjm6ynULH6bsijWNvWVNwL
+         tXFhY/e1Uvyd8w6KY5aZhA5P40Cu+f2DD2ivWkZg4M/AUDvUkzhnWO0wqrCpfTqBslET
+         0ctZ5Lt0M0LKteK8sCTt9xCStu3kke7UOhzAKirwHBufJqwoWuQ0QL1Xzu4LnD9QmCtD
+         iWKv6QaE7Z6G7Y8WQmcts3liFVbIKvYdMg1LxcGC+jwzjK+iYoYldFJeRLGBTn/BxCpL
+         +Zhg==
+X-Forwarded-Encrypted: i=1; AJvYcCVwEGgYIZND4or8VHyqfIuN+plOkIBozstlIKyRf+sRwU4zOvJgtori3lJ9uUXU3o9idUrDAgCCelSoWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3CtxeHhLNHjHrh2gTr2FWSjAMXv9j7DVjb5OKTZCwVKSWh8Xw
+	2d+TfFk8QadZvVYaIg8TAdLOBhWygUMpS47tBjo8PfCQ9Mc4FCgEFFGloBBbC6M=
+X-Google-Smtp-Source: AGHT+IEbloO9yBhCfPYYLDsu9/VylS1HFiqNsqgLhe5KNm1baA5fLjMzPkXL7SXJcHileo0F0AWScA==
+X-Received: by 2002:a05:6402:50c9:b0:5c8:8bde:a1c1 with SMTP id 4fb4d7f45d1cf-5c88bdea2bamr6843576a12.9.1727790464738;
+        Tue, 01 Oct 2024 06:47:44 -0700 (PDT)
+Received: from [192.168.0.15] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c882c7d23asm6111494a12.32.2024.10.01.06.47.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Oct 2024 06:47:44 -0700 (PDT)
+Message-ID: <95d7d695-89d2-4c1d-99f6-4f9a687f7d13@linaro.org>
+Date: Tue, 1 Oct 2024 14:47:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,55 +76,85 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US, de-DE
-To: linux-media@vger.kernel.org
-From: Robert Tiemann <rtie@gmx.de>
-Subject: Support for Si468x radio receiver
+Subject: Re: [PATCH v2 2/4] media: dt-bindings: Add OmniVision OV08X40
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jason Chen <jason.z.chen@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20241001-b4-master-24-11-25-ov08x40-v2-0-e478976b20c1@linaro.org>
+ <20241001-b4-master-24-11-25-ov08x40-v2-2-e478976b20c1@linaro.org>
+ <Zvv3kM1wWDiRCCiA@kekkonen.localdomain>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <Zvv3kM1wWDiRCCiA@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:ZB/xzQBUPztNV4P290JyCYcXweqLtufSa++GhPs9AZP8SP5A9r/
- G2IcZCkFDs1+eZioE+cTuXOV6Eu/+/GVkyk6FvbfojPrd/QErK9WqDGukpwm8N48IVTf/Jd
- 7Ms294vIflgQiO+MK4kz/JQvNcJ/VZ1qW7z9un/Wnu2DkXanFp4A8iu3EjjE+9Ey5aZEWES
- hnWWT2bDIYTwLR4jliSoA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:AZkf5KmPlkY=;A7jeGncAt1HAI6IFxDKSOXEyXyr
- muNOT59f/iX2THwnPtPs86uFG8NUFz2fEXYth4xGX0KfEYQGgQt6dCAvkM0CcvvdWL/Wg5Kli
- NJkPSes4yjyVlN0JYLxp0QoBTKVg6Eb92y+7xAf3LseAuRDMzfHyhmif8jstRF0NvXS9kjIOn
- HUub5Lm2KiOk2181dQ04Z8O+d31V8dHJ44CXsZlmQ7v7F111lCbbQgrv336+7c55LJNT6PLHV
- bucjP2H6qzwj4XzXQvB6qtmOL2uF5bfYQ9wvqIYlPq8V4lT4xfaQoojktuWDD2sX5K9gS4A2B
- wN6oHgSJb9vt4rbHkfOeB9zRHjD4Rv8HCkHuemRBNZCpmdLPsk/QV/1QrijDjgsQxha8Kctsf
- jihxv+WR2yKi2bulSpxoueRikXLvCtc+YBJje812XwhkCzuF9ON/Pog2XRSuvOG02bJp9gIGl
- PuyG2OWXu7GNwrhnu/IuRSCKnE+aksmRDYHo6bJgGd+gGR6zoF6DngUwB3/n2iGdSCk5meBMA
- +I6JEh81swl+8YzYaVHSOmybQJRaMBnM2R5xdeErLup9vN1umSXZKbqPwnsHYHh9PdptkzmBk
- J2Y64ZEhBcnH0VklmYCCUN22fGUJCVUQD0HbGJN4jm04loEOT3G8R71uYaKchExKoegWfXwe/
- P6JqR1fKDXzhfL05m78zMUZ7ME/nSNBwD7bi1axs3Efv3A3rkXcozjqtdexL9vSy+7FLKc/H0
- SuDHXCHJMvWA4OETm8FJqd9eUmZpktwOH/Q/CYK09PlBOpVGlc8WFR+7BMZ+cw5TtYFmTHz/b
- 4r1JCptsrqPDuVJjo98Rrm3A==
 
-Hi!
+On 01/10/2024 14:22, Sakari Ailus wrote:
+>> +  assigned-clocks: true
+>> +  assigned-clock-parents: true
+>> +  assigned-clock-rates: true
+> As much as I'd like to see these mandatory, there seem to be cases where
+> they can't be used. Therefore I'd leave them in the example only.
+> 
+> If that turns out to be the only change to do, I can also handle that while
+> applying.
 
-We'd like to use the Silicon Labs Si4688 FM/HD/DAB/DAB+ radio receiver
-chip in a product, but there is no kernel support for it yet. We have
-the full datasheet and Si468x Programming Guide available, so it
-should be possible to write a driver for that chip. The kernel
-supports the Si4768 already (which can do AM/FM/HD radio, but not
-DAB/DAB+), so I figured it should not be to hard to get the Si4688
-supported...
+So I took Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml 
+as the reference for this.
 
-Then I checked the kernel sources for how DAB+ radio tuners are
-supposed to be handled by V4L2, but found nothing. Seems like V4L2 is
-restricted to abstraction of analog radio tuners, and there is
-currently no way to support DAB+ receivers. Is this correct or did I
-miss something? The same seems to be true about FM HD (the
-radio-si476x driver doesn't seem to support FM HD, only AM and FM).
+Without listing "assigned-clock*" in the required: field I believe the 
+dts checkers will not require those.
 
-Now, my question is, how should the FM HD/DAB/DAB+ parts of a
-hypothetical radio-si468x driver be implemented? Since DAB is quite
-different from FM, do we need a new tuner type in addition to
-V4L2_TUNER_RADIO? Or just new V4L2_BAND_MODULATION_FM_HD and
-V4L2_BAND_MODULATION_DAB definitions? Or is V4L2 sufficient the way
-it is and I am simply failing to understand how it should work?
+So instead of saying
+assigned-clocks:
+     maxItems: 1
 
-Best regards,
-Robert
+we write
+assigned-clocks: true
+
+omit from "required:" and get the desired effect.
+
+For example this passes the checker for me.
+
+&cci1_i2c1 {
+         camera@36 {
+                 compatible = "ovti,ov08x40";
+                 reg = <0x36>;
+
+                 reset-gpios = <&tlmm 237 GPIO_ACTIVE_LOW>;
+                 pinctrl-names = "default";
+                 pinctrl-0 = <&cam_rgb_default>;
+
+                 clocks = <&camcc CAM_CC_MCLK4_CLK>;
+                 assigned-clocks = <&camcc CAM_CC_MCLK4_CLK>;
+                 assigned-clock-rates = <19200000>;
+
+                 orientation = <0>; /* front facing */
+
+                 avdd-supply = <&vreg_l7b_2p8>;
+                 dvdd-supply = <&vreg_l7b_2p8>;
+                 dovdd-supply = <&vreg_l3m_1p8>;
+
+                 port {
+                         ov08x40_ep: endpoint {
+                                 clock-lanes = <0>;
+                                 data-lanes = <1 2 3 4>;
+                                 link-frequencies = /bits/ 64 <400000000>;
+                                 remote-endpoint = <&csiphy4_ep>;
+                         };
+                 };
+         };
+};
+
+Eh.. at least that's how I think this works.
+
+Krzysztof/Rob ?
+
+---
+bod
 
