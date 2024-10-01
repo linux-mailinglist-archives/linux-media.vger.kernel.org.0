@@ -1,282 +1,194 @@
-Return-Path: <linux-media+bounces-18946-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18947-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B02398BF5C
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 16:14:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4CD298BFCB
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 16:23:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA232281354
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 14:14:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C82EC1C2279D
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 14:23:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2EAB1CC154;
-	Tue,  1 Oct 2024 14:10:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE8161C6893;
+	Tue,  1 Oct 2024 14:22:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lijWMfAI"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="1vvqlon/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E481CBE8A;
-	Tue,  1 Oct 2024 14:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924E31C68A7
+	for <linux-media@vger.kernel.org>; Tue,  1 Oct 2024 14:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727791800; cv=none; b=HlIEB3cZnn+QfCA9v8iH71AVAkWMSoOh07pzpyN0e8XBIye0d/gXi5/2Sj7C6VKBnVxY8ZiwwJnjZJBBkpAZPMQPhGJCDA32okhck3kIDOlJSdFHaKHci8cN05sAhurSrz/hutr/miiLm4+X0kjpzERcAYCCq42egD+l4aZEi+k=
+	t=1727792575; cv=none; b=Xx9h3sjB32+Ad+JZsIxxLX9x/ogyecZmuDgVL634HWLiDyGTcy4G47unBUwSaTLlcbIm5VnvsiqDJ4Uwvezjyz/Zt/1Mf16M8GvvOey/1CpZUf+fLhjLxPNKgT7bsrUMlBGoXare8nO9ou4D9dwwAAm9xgGyw1JUOkkmoMnewNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727791800; c=relaxed/simple;
-	bh=VY91vW/qC6MJTXVGzHNIgCf1mq1jUFKjewgTdlz4O8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kfeDvUw/4MLPU/nM3+XgouwhJE0W8djDOY2olvz4LNmp9vgnpe3qJLtZnYKDU1dQIHr9RJPJUZK8eib1Ka8RVrhpom/7WJRzF7a0N87hwhvwzjWsShWYAb8OPk9SilEUmSegXBhTbl1QiE7tS2w7TUuE9Dughi6OFyqTZJbWgbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lijWMfAI; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a93b2070e0cso674327966b.3;
-        Tue, 01 Oct 2024 07:09:58 -0700 (PDT)
+	s=arc-20240116; t=1727792575; c=relaxed/simple;
+	bh=yh036OuWVtZS192RdATSdM1krocVw8uCFUV8hJl9q+c=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=qADbvBAzJdbSsUbD+hwQbjIkzNwbNwwJPTyDQowmRC0eA74D0r9ftCZoV6atdnGzFn6HA/9o5BJiENSSyvBXaT/OdGUzT7uKGa7yZWPoPINymbYbjhxVC+NFoVAeRi/Jv/5i/aJ3lzd7JfpYPQMlvpeCGwbSMEjIzTz9YNACG0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=1vvqlon/; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42cbface8d6so68480275e9.3
+        for <linux-media@vger.kernel.org>; Tue, 01 Oct 2024 07:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727791797; x=1728396597; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=fairphone.com; s=fair; t=1727792572; x=1728397372; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tEOzuVCWMUdGlzBesvO8nBRO0Iupuq39zvRd6ja3B6U=;
-        b=lijWMfAI49IaTFg4HKr0uwOFrtS2CNv+fySQ5+LV9a5CfNmO3rbSoLmJ+vn5W1rCjR
-         7Mhr6Tqih5T0pYBbS+mkoOMS2R1NoN/3Pwo0Iwp2yc9YjPWmQr84ONYerHWjLfyy+JKo
-         TqflngFFTQWq2xbJhiSTRDmMbWVZvUAPJypSg30L8UY1LpLjbiYaB/zVBPwgb9VKs3d5
-         +qUc1tiD6Ly13tHt79ymlSAyoK0+PFF2FYfAjmtXDJlM+hodgwHDflr6Qnxv+elMHs99
-         Frt9tb9MmnUUowcOBfxyULdeFk2C/CXuvflmZ828mY3ddTMLo/4cHtdTzGBbFovfxQR0
-         9OAg==
+        bh=OUXzWwVynlO2farGmzjCRjampG4QkTOOiMVa306g3F4=;
+        b=1vvqlon/Wb0my+FmrnsCC6P3iwhXdkVqtiqptopuzppGeGW6ElTzwNAH15nCgJehQB
+         Z468l9a8p7mrglnuAyFtlJe37bJPs1dOR8FB8JHEVRuJbl8v+1a6EPLshDLxuDIxmVpE
+         Qw6MEF8nQRsm+73H0xcOufZF1rxKI9RMBpGEOtGwKBdzsTgpC+Pn7svs2KAWchlHx0pS
+         7ysjzFszeDImQUZDmrx/myVWmLm3zZbnhndJ86fjx81QeyP6hamTVV47wjh+n57o7sRU
+         atw7LF8h9EoZjxjmR6PfhtT8EQdYzKKXC0LzmA2HBqlbZTEXwACV1zcbpl7tjnxkeAAW
+         +rEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727791797; x=1728396597;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tEOzuVCWMUdGlzBesvO8nBRO0Iupuq39zvRd6ja3B6U=;
-        b=Hwi2F7Xii9Qz7iJyzIqbVYaCh/1+6EFqg449d8xDYHEKSgS0lSpAPKBUiFfkRGmdBl
-         s7NirpvaWR34R1he8TMkQOsbkbobX2YqbAn+/ShAVuWWfSekjzXwoZ5yCT9WxUFTUMi9
-         bObdf0we8W/mGSCbL8slNPjG5oosTNxAULgtfvt4UI6ijCpeGJ6rNXXx/vkfqACJ2IQr
-         /FTQwoprSju1UIwxKNje+ScUmXivvWCQlGvsyfRgZC+we5gxCtrLwp07UfeasTKRecpI
-         aDAfaGKUIfiXXY79/qrmQ/1OJFGRy97U0pF+8KYcS5+l9HYUbNH88hHQwIo1vNlDF/KO
-         JVjw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQeLl2J56Ywo0N8s+MPb4vU9YZz5VCoqBBRLwXLrIQC/I2kmRd0P2y2XLTIgj7Jx6VtPdfHxYH71SWCoY=@vger.kernel.org, AJvYcCWHW6D0AOweOpoC+rQWC3NBOnGWCeRkJvlXLWNqrNtjkrsopHIuTRJ/BujMbrJiWD1m/mWRcB3xDt3q0sGMQRjede8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YweoggMgwz5vmy5lrE0aMMr3dU4aYv/yrRWFiAGKD+co3k5n003
-	GqpNfgzAvHiyILJW8qu0rGd5b6ise18SLc8rLEGMPlMou000WW3F
-X-Google-Smtp-Source: AGHT+IGD5XwMQGufA+hBlEEu8kdEe7bkLLmIhLCjRvsQ4yUNdPPf9Cz3ZFuNrk2j+NlI1cLmGhTnuQ==
-X-Received: by 2002:a17:907:9812:b0:a91:1634:9e92 with SMTP id a640c23a62f3a-a93c4919832mr1616220666b.21.1727791796741;
-        Tue, 01 Oct 2024 07:09:56 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2776de0sm723532966b.2.2024.10.01.07.09.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 07:09:55 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 17/17] media: rzg2l-cru: Move register definitions to a separate file
-Date: Tue,  1 Oct 2024 15:09:19 +0100
-Message-ID: <20241001140919.206139-18-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241001140919.206139-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241001140919.206139-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1727792572; x=1728397372;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OUXzWwVynlO2farGmzjCRjampG4QkTOOiMVa306g3F4=;
+        b=ErtU2A1lfHJAcTlgX80jmW0Bv4wOPZtUBgJhCYa1LQJqmR5VICwQyOjjP4F2NJ8dTr
+         NugzG9QhtoQXXT3iv1hyogESojv5GRkBWcAN+2Wx0JLsOR+ykuKJjtaT+r3gZf4/S2/9
+         ZltVUN7LV8l8jvavepHJufIxA9B/m57bmFh2sHSyJFoCptmY3RtsHmgKKWP4yzqF5gVH
+         XhVZpL8UcE7anFGwqWpjqIpFUcpsHjxkCSBvD9pkUyrDm66IRk+sfxMXMf2FdsHw0afy
+         cnR8LvPeRQVvvv/m7//2lJQsKzU84qn+O+1OcE+dwQoujh4MDRB6skRB/HnZ0wtpPSGn
+         ngCg==
+X-Forwarded-Encrypted: i=1; AJvYcCUtTzIx2GYUonZRN3PxodDLoyERNfducR/9LCm8vWmlIwdhDqiIW76Vex5J8Dt74p5zVCaIGNPTmTVzWA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2qvXGJm5cagn/3AniCZ5mZ+5+5xr1C/19B2k5OoBsEGe/EFpu
+	sqW+Nz9/WUIWjjVly1K4dzi4LRsA3xc7F25TU1P1UxdNQaIutEMmJ2irrhpDaxc=
+X-Google-Smtp-Source: AGHT+IE1MDD/pWaftXcta30RJmYNnd36yu433BiXNnM+DOhxjOYYibckt0mh/3U0Wfvp0AGvZHCkkA==
+X-Received: by 2002:a05:600c:4ed3:b0:42c:df29:2366 with SMTP id 5b1f17b1804b1-42f584a1d68mr169077405e9.33.1727792571880;
+        Tue, 01 Oct 2024 07:22:51 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27c7184sm716888766b.83.2024.10.01.07.22.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Oct 2024 07:22:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 01 Oct 2024 16:22:50 +0200
+Message-Id: <D4KJCLCDGQ96.251XO3OG6DVB6@fairphone.com>
+Cc: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Suresh Vankadara"
+ <quic_svankada@quicinc.com>, "Trishansh Bhardwaj"
+ <quic_tbhardwa@quicinc.com>, <stable@vger.kernel.org>, "Hariram
+ Purushothaman" <quic_hariramp@quicinc.com>
+Subject: Re: [PATCH 00/10] (no cover subject)
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, "Vikram Sharma"
+ <quic_vikramsa@quicinc.com>, "Robert Foss" <rfoss@kernel.org>, "Todor
+ Tomov" <todor.too@gmail.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Kapatrala
+ Syed" <akapatra@quicinc.com>, "Hariram Purushothaman"
+ <hariramp@quicinc.com>, "Bjorn Andersson" <andersson@kernel.org>, "Konrad
+ Dybcio" <konradybcio@kernel.org>, "Hans Verkuil"
+ <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>, "Catalin
+ Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>,
+ =?utf-8?q?Matti_Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com> <D4JK8TRL7XBL.3TBA1FBF32RXL@fairphone.com> <fc0ce5cd-e42a-432b-ad74-01de67ec0d5c@linaro.org> <D4KBQ3ENKF5Y.3D2AK81PELAEZ@fairphone.com> <e7cc5f91-a0a8-48fc-9eb6-b9c46b22dfeb@linaro.org> <D4KFVNV1A4KG.CFLT81CFBDTM@fairphone.com> <c912f2da-519c-4bdc-a5cb-e19c3aa63ea8@linaro.org>
+In-Reply-To: <c912f2da-519c-4bdc-a5cb-e19c3aa63ea8@linaro.org>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue Oct 1, 2024 at 2:49 PM CEST, Bryan O'Donoghue wrote:
+> On 01/10/2024 12:39, Luca Weiss wrote:
+>
+> > And v4l-subdev5 is msm_csid0 on my device.
+>
+> <snip>
+>
+> >=20
+> > - entity 16: msm_csid0 (5 pads, 22 links, 0 routes)
+> >               type V4L2 subdev subtype Unknown flags 0
+> >               device node name /dev/v4l-subdev5
+> >          pad0: Sink
+> >                  [stream:0 fmt:SRGGB10_1X10/4056x3040 field:none colors=
+pace:srgb]
+> >                  <- "msm_csiphy0":1 []
+> >                  <- "msm_csiphy1":1 []
+> >                  <- "msm_csiphy2":1 []
+> >                  <- "msm_csiphy3":1 []
+> >                  <- "msm_csiphy4":1 []
+> >          pad1: Source
+> >                  [stream:0 fmt:SRGGB10_1X10/4056x3040 field:none colors=
+pace:srgb]
+> >                  -> "msm_vfe0_rdi0":0 [ENABLED]
+> >                  -> "msm_vfe1_rdi0":0 []
+> >                  -> "msm_vfe2_rdi0":0 []
+> >                  -> "msm_vfe3_rdi0":0 []
+> >                  -> "msm_vfe4_rdi0":0 []
+>
+> <snip>
+>
+> media-ctl --reset
+> yavta --no-query -w '0x009f0903 2' /dev/v4l-subdev5
+> yavta --list /dev/v4l-subdev5
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> media-ctl -d /dev/media0 -p
+>
+> That command list and this
+>
+> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video=
+0
+>
+> should work.
 
-Move the RZ/G2L CRU register definitions from `rzg2l-video.c` to a
-dedicated header file, `rzg2l-cru-regs.h`. Separating these definitions
-into their own file improves the readability of the code.
+Yeah, unfortunately this is still hanging... Let's also see what Vikram
+sees on their board.
 
-Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v2->v3
-- New patch
----
- .../renesas/rzg2l-cru/rzg2l-cru-regs.h        | 79 +++++++++++++++++++
- .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 69 +---------------
- 2 files changed, 80 insertions(+), 68 deletions(-)
- create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+fairphone-fp5:~$ yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x304=
+0 -F /dev/video0
+Device /dev/video0 opened.
+Device `Qualcomm Camera Subsystem' on `platform:acb3000.camss' (driver 'qco=
+m-camss') supports video, capture, with mplanes.
+Video format set: SRGGB10P (41415270) 4056x3040 field none, 1 planes:=20
+ * Stride 5072, buffer size 15418880
+Video format: SRGGB10P (41415270) 4056x3040 field none, 1 planes:=20
+ * Stride 5072, buffer size 15418880
+5 buffers requested.
+length: 1 offset: 3442938648 timestamp type/source: mono/EoF
+Buffer 0/0 mapped at address 0xffff85e00000.
+length: 1 offset: 3442938648 timestamp type/source: mono/EoF
+Buffer 1/0 mapped at address 0xffff84e08000.
+length: 1 offset: 3442938648 timestamp type/source: mono/EoF
+Buffer 2/0 mapped at address 0xffff83e10000.
+length: 1 offset: 3442938648 timestamp type/source: mono/EoF
+Buffer 3/0 mapped at address 0xffff82e18000.
+length: 1 offset: 3442938648 timestamp type/source: mono/EoF
+Buffer 4/0 mapped at address 0xffff81e20000.
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
-new file mode 100644
-index 000000000000..458f7452e5d3
---- /dev/null
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
-@@ -0,0 +1,79 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * rzg2l-cru-regs.h--RZ/G2L (and alike SoCs) CRU Registers Definitions
-+ *
-+ * Copyright (C) 2024 Renesas Electronics Corp.
-+ */
-+
-+#ifndef __RZG2L_CRU_REGS_H__
-+#define __RZG2L_CRU_REGS_H__
-+
-+/* HW CRU Registers Definition */
-+
-+/* CRU Control Register */
-+#define CRUnCTRL			0x0
-+#define CRUnCTRL_VINSEL(x)		((x) << 0)
-+
-+/* CRU Interrupt Enable Register */
-+#define CRUnIE				0x4
-+#define CRUnIE_EFE			BIT(17)
-+
-+/* CRU Interrupt Status Register */
-+#define CRUnINTS			0x8
-+#define CRUnINTS_SFS			BIT(16)
-+
-+/* CRU Reset Register */
-+#define CRUnRST				0xc
-+#define CRUnRST_VRESETN			BIT(0)
-+
-+/* Memory Bank Base Address (Lower) Register for CRU Image Data */
-+#define AMnMBxADDRL(x)			(0x100 + ((x) * 8))
-+
-+/* Memory Bank Base Address (Higher) Register for CRU Image Data */
-+#define AMnMBxADDRH(x)			(0x104 + ((x) * 8))
-+
-+/* Memory Bank Enable Register for CRU Image Data */
-+#define AMnMBVALID			0x148
-+#define AMnMBVALID_MBVALID(x)		GENMASK(x, 0)
-+
-+/* Memory Bank Status Register for CRU Image Data */
-+#define AMnMBS				0x14c
-+#define AMnMBS_MBSTS			0x7
-+
-+/* AXI Master Transfer Setting Register for CRU Image Data */
-+#define AMnAXIATTR			0x158
-+#define AMnAXIATTR_AXILEN_MASK		GENMASK(3, 0)
-+#define AMnAXIATTR_AXILEN		(0xf)
-+
-+/* AXI Master FIFO Pointer Register for CRU Image Data */
-+#define AMnFIFOPNTR			0x168
-+#define AMnFIFOPNTR_FIFOWPNTR		GENMASK(7, 0)
-+#define AMnFIFOPNTR_FIFORPNTR_Y		GENMASK(23, 16)
-+
-+/* AXI Master Transfer Stop Register for CRU Image Data */
-+#define AMnAXISTP			0x174
-+#define AMnAXISTP_AXI_STOP		BIT(0)
-+
-+/* AXI Master Transfer Stop Status Register for CRU Image Data */
-+#define AMnAXISTPACK			0x178
-+#define AMnAXISTPACK_AXI_STOP_ACK	BIT(0)
-+
-+/* CRU Image Processing Enable Register */
-+#define ICnEN				0x200
-+#define ICnEN_ICEN			BIT(0)
-+
-+/* CRU Image Processing Main Control Register */
-+#define ICnMC				0x208
-+#define ICnMC_CSCTHR			BIT(5)
-+#define ICnMC_INF(x)			((x) << 16)
-+#define ICnMC_VCSEL(x)			((x) << 22)
-+#define ICnMC_INF_MASK			GENMASK(21, 16)
-+
-+/* CRU Module Status Register */
-+#define ICnMS				0x254
-+#define ICnMS_IA			BIT(2)
-+
-+/* CRU Data Output Mode Register */
-+#define ICnDMR				0x26c
-+
-+#endif /* __RZG2L_CRU_REGS_H__ */
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index c3d10b001b7c..d7c82c7b9044 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -20,74 +20,7 @@
- #include <media/videobuf2-dma-contig.h>
- 
- #include "rzg2l-cru.h"
--
--/* HW CRU Registers Definition */
--
--/* CRU Control Register */
--#define CRUnCTRL			0x0
--#define CRUnCTRL_VINSEL(x)		((x) << 0)
--
--/* CRU Interrupt Enable Register */
--#define CRUnIE				0x4
--#define CRUnIE_EFE			BIT(17)
--
--/* CRU Interrupt Status Register */
--#define CRUnINTS			0x8
--#define CRUnINTS_SFS			BIT(16)
--
--/* CRU Reset Register */
--#define CRUnRST				0xc
--#define CRUnRST_VRESETN			BIT(0)
--
--/* Memory Bank Base Address (Lower) Register for CRU Image Data */
--#define AMnMBxADDRL(x)			(0x100 + ((x) * 8))
--
--/* Memory Bank Base Address (Higher) Register for CRU Image Data */
--#define AMnMBxADDRH(x)			(0x104 + ((x) * 8))
--
--/* Memory Bank Enable Register for CRU Image Data */
--#define AMnMBVALID			0x148
--#define AMnMBVALID_MBVALID(x)		GENMASK(x, 0)
--
--/* Memory Bank Status Register for CRU Image Data */
--#define AMnMBS				0x14c
--#define AMnMBS_MBSTS			0x7
--
--/* AXI Master Transfer Setting Register for CRU Image Data */
--#define AMnAXIATTR			0x158
--#define AMnAXIATTR_AXILEN_MASK		GENMASK(3, 0)
--#define AMnAXIATTR_AXILEN		(0xf)
--
--/* AXI Master FIFO Pointer Register for CRU Image Data */
--#define AMnFIFOPNTR			0x168
--#define AMnFIFOPNTR_FIFOWPNTR		GENMASK(7, 0)
--#define AMnFIFOPNTR_FIFORPNTR_Y		GENMASK(23, 16)
--
--/* AXI Master Transfer Stop Register for CRU Image Data */
--#define AMnAXISTP			0x174
--#define AMnAXISTP_AXI_STOP		BIT(0)
--
--/* AXI Master Transfer Stop Status Register for CRU Image Data */
--#define AMnAXISTPACK			0x178
--#define AMnAXISTPACK_AXI_STOP_ACK	BIT(0)
--
--/* CRU Image Processing Enable Register */
--#define ICnEN				0x200
--#define ICnEN_ICEN			BIT(0)
--
--/* CRU Image Processing Main Control Register */
--#define ICnMC				0x208
--#define ICnMC_CSCTHR			BIT(5)
--#define ICnMC_INF(x)			((x) << 16)
--#define ICnMC_VCSEL(x)			((x) << 22)
--#define ICnMC_INF_MASK			GENMASK(21, 16)
--
--/* CRU Module Status Register */
--#define ICnMS				0x254
--#define ICnMS_IA			BIT(2)
--
--/* CRU Data Output Mode Register */
--#define ICnDMR				0x26c
-+#include "rzg2l-cru-regs.h"
- 
- #define RZG2L_TIMEOUT_MS		100
- #define RZG2L_RETRIES			10
--- 
-2.43.0
+> I have to test Vladimir's two patches. I'll verify rb5 TPG while I'm at=
+=20
+> it, perhaps the error is not sdm670 specific.
+
+FWIW this is not sdm670 but sc7280/qcm6490 here :) But I didn't follow
+the sdm670 thread so maybe you mean something there.
+
+>
+> That said last time I tested it, it worked and no changes have gone in,=
+=20
+> in the meantime.
+
+I also had the test pattern working on a 6.8-based kernel on this device
+with camss patches from Matti Lehtim=C3=A4ki.
+
+Regards
+Luca
+
+>
+> ---
+> bod
 
 
