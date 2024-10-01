@@ -1,194 +1,110 @@
-Return-Path: <linux-media+bounces-18926-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18927-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E63498BDDB
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 15:35:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0F098BDE6
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 15:36:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D89EE282A94
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 13:35:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F16C1C219F5
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 13:36:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A82DC1C460E;
-	Tue,  1 Oct 2024 13:35:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D7111C5798;
+	Tue,  1 Oct 2024 13:35:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="pqpUOwlB"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=rtie@gmx.de header.b="Uu1tE/CM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2060.outbound.protection.outlook.com [40.107.94.60])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9174B4A21;
-	Tue,  1 Oct 2024 13:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727789714; cv=fail; b=jDSUwtkDkojQBOYQGfnFMiOWJjiLX7Y5MJKIbhE1rQfM8SYgPeteQMSqMMcMZKv7/nryB0zAezLDtIAmMlDqTBDDshkYvBFXT0e0OshG4mEC4XdDAAAWaBP/Glppbfys4IzmnTzqGypJQScQEmJNA9Pzjj/MDCzo0ukWaxMq8Pk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727789714; c=relaxed/simple;
-	bh=3BfSi8sYF6fnO1DBVGVvwHrKde4l1oWHLpXlXOujMwA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ofLaG4QYBWCpzyKs3bQbGIUv/t39HwhZkkS/wPq+uSEv+3hhsP7ZYgP+ySqp50mUgZRHaW5wZGT0d/DZiSoZy667Jn+wdK88mSrY9jNfjkVwwzP/OuhChoD1ENVuIRfn3tYDVi3McySc5Vr5JC6/dpCA1ESoZ82Qgowq0aNAxxE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=pqpUOwlB; arc=fail smtp.client-ip=40.107.94.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LCn7E5brprPMPJlY+rVwP+OQxyLb8Vqr/boV6EYuk/TNqvHpxGBr247uzi+zre52qEYqZjkb5lrQjRhlzn1VykTwKGgz1Bbq8lZ8jT3RJ+PLfVMk6nlmXu0AbIF9OwM0yV1aM7BrcFnEVVhA3rw4UQf3bdgoRbz2H3N4M7CP3bbZaZrsBxbPbvnJA0pPy2QTikCbiUn66P2A8ptBC8zXgid27hcTm69ddp1DJ6CNL52/UtCfJ7MsSoAZoqRKJeQITTIs1knsWCBgCFYEJn3B/U9PFRYa8diJu9Pibm7BLsTPR2tppDJERtN8MqyLsPaYfzbknLjOh9QsdcLjZWw6sQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cb7L+Qv4DGYYD0ynApDR9xQXL2GMLEgZeRFS6KDH5Js=;
- b=tYowGm2cJprI9Wrhf8N/1pkkGMY7rt7MzqOJtdqAkhSkPGAO+QBgVjw5p/RNcIQVA2zmhXujTMKwB6qfUu4PNbwjgngUKtqZxg5kcg797t5Hgbw15lH3Ispa+3A+zso4qD+EsviB55vqQBIY7OgI1/4gytdKM2kTtZJUh3bnBzQ13pn7jaZRQlFumnHuPfN5RyZcng8NfixW1HFRkHSgsO+BhTA4fLGKrxAINrnHCofIihT6A9y4EOO9av4exREMYASkLH3MAOPfg4Lt0m1iUMvNuEDvDSlxzs5odWZEx2yw8wa43jOS6wEDdmn5CkzNVsyYZBLm6gDJ7ah0Ss3HLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cb7L+Qv4DGYYD0ynApDR9xQXL2GMLEgZeRFS6KDH5Js=;
- b=pqpUOwlB+KJCPiFp3fCOdfZekaayyg900xs4bwnmak8+C4Qq98LraWUP3FUUXXOVYeeD9sGKnJ9zLQLS5BUCpmTTS++MwaylV45CdEM12lBUWjBZ/9n7Y2J1Tokknh6/LNsyjrr/GycqfkXv1a4WaoWUsfV57lC2+fKnRaxtPdy08K0NJp6tDqyI/WUaq0Xfk5GPOOVKsGG+yPvQfUDdnIPWhMabX66zK79Ej7AprnzjLqbxw8OcvxWdl6V4tHzuGvWTD8XhAxxT4K9U+4NjStfy7x3xhytK5zkwTA2EjXnXH1XIiGxpFswXwXEw6Hi5KE6iSwNwNU9tNBq9KHa8GQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by SA1PR12MB6870.namprd12.prod.outlook.com (2603:10b6:806:25e::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.15; Tue, 1 Oct
- 2024 13:35:09 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8005.026; Tue, 1 Oct 2024
- 13:35:09 +0000
-Date: Tue, 1 Oct 2024 10:35:08 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Karol Herbst <kherbst@redhat.com>,
-	Danilo Krummrich <dakr@redhat.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Kevin Tian <kevin.tian@intel.com>, dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] drm/nouveau/tegra: Use iommu_paging_domain_alloc()
-Message-ID: <20241001133508.GA1867007@nvidia.com>
-References: <20240902014700.66095-1-baolu.lu@linux.intel.com>
- <20240902014700.66095-2-baolu.lu@linux.intel.com>
- <a43c31da6a6989874eb0998dc937d7a611ec542c.camel@redhat.com>
- <20240905132459.GG1909087@ziepe.ca>
- <243808ad949823a0d64cd785ed05a375ccdba096.camel@redhat.com>
- <20240915140806.GE869260@ziepe.ca>
- <eaed20244ced28e17795532967ab444a22c509c2.camel@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eaed20244ced28e17795532967ab444a22c509c2.camel@redhat.com>
-X-ClientProxiedBy: BL1PR13CA0256.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::21) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F5F1C462D
+	for <linux-media@vger.kernel.org>; Tue,  1 Oct 2024 13:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727789743; cv=none; b=tgHNoJlJAE/yw80kHYghb9yiTY8sTLQslNrQ8k79ujDJV0lyIhT1uHSVMMsblxidjMMJP6PHFX4oZJcH8aQfjWU8NcE4JzP8drk/VsvCwKycroYZApPgsHfhfTEiIXd8LtwUnTHlutrpPxCYno1aOrngTgbQykYX5M/ko8Jwe4o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727789743; c=relaxed/simple;
+	bh=BNeFLI+09Q5tP9xqrBFztcMmDDHqJp3pe09gw2GJAIE=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=tByquqpMFx6NkLxhgApK386jp6yjNlmuLuintP5riMVIpQDGZCwJ/q7PzhE2FEn/iBeA8Dijqdc/eJ8+PpMCT4Dvs5YPCRhkBNAdmDX2mE8i2BK2bXBDZc5KV9wFkTnxpyXqdd5eyhGmqdodyFc1gdYJfWAk8C67i42dEVCtKtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=rtie@gmx.de header.b=Uu1tE/CM; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1727789739; x=1728394539; i=rtie@gmx.de;
+	bh=BNeFLI+09Q5tP9xqrBFztcMmDDHqJp3pe09gw2GJAIE=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:From:Subject:
+	 Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Uu1tE/CMxMPJEgfjg305uIN/MNYxFYiax+MdRPyIO4349Ty4NEnrgK+ySFeaKIIp
+	 UeUfU3ofvpwdwlGGL8WRuVlQ/jZVaVP/ecxBkHwLBIrigmfmk4UPsbP4r+gRn2J0s
+	 ZbzNJ+kEq2fK+P6/GcnRtoOjkvgrTlwKUZmUUVcd9JEQFhy+E2/Ql+EP84oC2MvoI
+	 MuGuIAbcWIxaWnmGGyUGBiHH/If0QZme6/hfjHejMeWTkogvh62OUck/AavVZDvYn
+	 e1umOqCXcZ7huIB2xAE/0zgkYdm6xl10BzIgiYDDTFFKPaPYwIVFY0JJEYLzSXWUq
+	 4T8dXCUYpW/aCFZn/g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.69.2] ([79.231.128.178]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MtfNf-1s2hAS0hwN-00ybUm for
+ <linux-media@vger.kernel.org>; Tue, 01 Oct 2024 15:35:39 +0200
+Message-ID: <ed03debb-163f-47df-99ec-9b62785172fc@gmx.de>
+Date: Tue, 1 Oct 2024 15:35:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SA1PR12MB6870:EE_
-X-MS-Office365-Filtering-Correlation-Id: acfed832-8a8b-4c4e-e4cc-08dce21dde64
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?s5/i21SUVZ/xAGd2CwRkzU+1xtLOJmlha6y16D4PRQLbFHWZR2vJuGa6s3V5?=
- =?us-ascii?Q?WNFTLzKOct8fLGeFe7AH+PMhABVRFo/Is4P5t8XWT5SBk5NI72on3mzHSeJM?=
- =?us-ascii?Q?9zln5em09rwyWQ+T7R2GsupVBb191nC4p3M2gZjVRCaTJSpnTxYFs0S6xs/h?=
- =?us-ascii?Q?tUK/3fVHqk2A5+oEH2RUJLl6vmGmgMt8AMb38bs0f5b2G5nHUIMiF2K5zPYz?=
- =?us-ascii?Q?04UlI0xDtRitK6tHJZ5IC8uEtyabxM79wi79sLEghCln65JuXBwlx0oAIiDG?=
- =?us-ascii?Q?O2lDY6qAbdfwg3GCacnqOP5pawfi7Xb0ld3PZc0ujnM/uizUOhwfydZpiuwe?=
- =?us-ascii?Q?gNy5Ruowci6KYKqh93yQQ31IXPud3lSZ+G5U6ZxxvdMPPWw7XyPjR9lX3IhM?=
- =?us-ascii?Q?wtj1QYKlH1wBiSCVhoRWuqi5yHRi36a8GloAloS6Yq2rDb68ERFsfboioo3o?=
- =?us-ascii?Q?Nje2iecp/IR3C5uEHz/C2tgK/PP50i4hXVAD4AeQbrwvqWioqPdeXkql0o9a?=
- =?us-ascii?Q?c+NLKNN3xGg4cwZJ/EmNJtrv7i7PAJW92fmJkPOvigihSd0gI7nhRXIKe74F?=
- =?us-ascii?Q?pObM6wIQR3Xm/BsPtvqgeQApdGyHuPjVjN7LcnwGhd7GTe4aS4bvK4t0G386?=
- =?us-ascii?Q?3Pfx31BVvevLRV6F5qY5yapwVTW5MkWNRYk7tX9OQJtzHeQNA8CXCvxpXtav?=
- =?us-ascii?Q?sbvBnwXdXXeWx+mg+aIjTP3D22GZmagQwksnv36D1Wz7uI/Dz3Erufv4r5aA?=
- =?us-ascii?Q?Hay997jMxmVxZA/4ZJg9gq0eT5rEokurlGewwH254relZtmrpt90Rm1ojhsM?=
- =?us-ascii?Q?XdLUqVHYB/BXrLJ6TBrn3mrCqU1cAEQqylngVGRNUlhpr4Pw9IpuB0bgtMH8?=
- =?us-ascii?Q?p8CTem4ZF6c3QWkIJbM+p3RJ0mLgL7hXTSSWbMzwTz60Ytjbjc/Btyl98faN?=
- =?us-ascii?Q?MouJFY+L3OyO8Lbx3ZP/wadDpkmjB3Kvygy37EXy9r1G65Ky8XFFBdhW9K+c?=
- =?us-ascii?Q?SIuxnltQCcaSREHp2KHmsksCQYt50OZo3Qny+4cCy80fkmFT1YLJwP88HWKB?=
- =?us-ascii?Q?Sg+6zO+E3TMEk4/3m241ysQYCRj1vB/ZFgcYWmxXiCGeA6ht7KdIrgDpEuvy?=
- =?us-ascii?Q?3NtINVXVNzLbId5/0+2TutDB4cUiON1ljr4w+46cx5u+GyVg2oEDIeSPeCGp?=
- =?us-ascii?Q?K+hb3yisIkXZHFe0b6ZZK5UeWJXolH4UR33CQoWKbSJDBEoDRCXJG80Ua3n0?=
- =?us-ascii?Q?DAC7AMI9SIlZv9K6+k/9DiYr0RN6mrNXzMyOfp2RZebm4lUeuvMnaHmLm+3m?=
- =?us-ascii?Q?mcVeDUgilEw4BBd6qG0kXQ0AV0x9WxruoTl22xkNVvl+nw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?DRB4aO7Vt88e638aA6yqb3SdzbY6SJkPh2n6eXVrcECdrWGa5UjDCxX6obBo?=
- =?us-ascii?Q?JpSOJ2RzLTDgzz5eJkrj/aKv4nqyqo2pGA/k1RuFBa9Pkm8dWLd3FRAl6GYs?=
- =?us-ascii?Q?/Da5GeS1QXxg+j2WQVw1DFPreyub0J5u8W24WbL89Vv3vf/H0Q3NderYy95G?=
- =?us-ascii?Q?tLdexf31ylopOvy2rA5ATabUUp+DlcmKHP34LMs/qLbRr7X8n/jW4iaHpipy?=
- =?us-ascii?Q?WdLUaUN6VEliW/A5x+CoO4qfLgMNkazlCDPZC0eJuldt4oViA8GpFCkrti/W?=
- =?us-ascii?Q?uAMu8UK2EPlG7y3e4tqLSqHDk+VE2mY8XgI7eDGZNrtFikJH68LHL3U6yfh7?=
- =?us-ascii?Q?YGWn6ZmKzhcBX3AMvZEsn6RZwjoB48w8a2t2qGBo04cDGujyit4Tnu5BP1fa?=
- =?us-ascii?Q?fiz8Zt4NRrlFB9Nd+y1PnnU1tPFQ4zK0rd6Zt7BD1gcd+M6oI7BiWuvL1PGh?=
- =?us-ascii?Q?yhUPcmYJAm66xgYubgxtZLBhFpC3gPFnhaOOlT/9HOosMELd6kaKdko6GKLH?=
- =?us-ascii?Q?b5fYoSVynKRDKPkOmDS4b0D2CViZx2+DWXHfR3i+pgIvWwnKbkQqfeFQI5x9?=
- =?us-ascii?Q?3OqHev7oIlbnM87GBTO3ypW36pFIdX7l0ZFUSg26yvwR7MsdsO553tmymDlZ?=
- =?us-ascii?Q?r4RlYHkAT4JDwdwEvtZD5NzGMlyFaeH3XW+d4pKoJHpdYHmjTEF8Zzl4vR/g?=
- =?us-ascii?Q?JIh0kW31jxC/PjTxEPdmQ8FjFH4e07lRGq9Ma0nCbr5zZzQ7yog+e+AF/dtQ?=
- =?us-ascii?Q?fmP47aigxxoPNh/N59WlWvqCacdV5E0K62/qD8pWstsP2+Hep2s0Fs0M0QOU?=
- =?us-ascii?Q?hL5kaKaHqEcqqy6O5a8Od6wzyMBesxx5DkdjYGnhksAhtPgTjT2L8C4m1Cn0?=
- =?us-ascii?Q?XLohtOM7j+KRSz/VhieYrZvoLgMdJcFaRelpCcAxD7jmXHDGSkKqnto0GfmC?=
- =?us-ascii?Q?rByqDN3l3lSf6s/NSt/P6D4HIoQdVezw0AZkSPn5UujFV5CqV6TdNUoauLJK?=
- =?us-ascii?Q?z04jfn15xhe55AAZYmoXa2hf9j0c9bFjL+6vq5T7s9EriaaS1Y7RNzREFB8+?=
- =?us-ascii?Q?4N2zroDF3uUViZ+cv+kdb/906ydo4Ym48oyNvfA1hroYMLPbQAmIzhSg7lNz?=
- =?us-ascii?Q?CXYspATMkjKU0O+bv7hAU8Ve4Y14KBJyIfUmoQ2PGciuHM8+1h6In4JEqJo2?=
- =?us-ascii?Q?O49YN0Cex3YqzQYPPAjw/n/GLNAws4OXYZLES6GJHkjICU3DuendsJMGk2K8?=
- =?us-ascii?Q?EMJoiK79nYZbPtVU1S3psdV+MQ5fGQfiLcLeT1OT4Aws1/8P81nZC0FbNqKB?=
- =?us-ascii?Q?aqgmPL/svqPf4YbsiPJ8bkZ57egmztEAMyvgoVTzz2xZKZUVJvHo1IRNK8fH?=
- =?us-ascii?Q?abZ7XJKKsAOXn0nn8IJjKxgM3K3BrZS6HUDxR7X7ii8XNqaBnBuA3KzQMQ/d?=
- =?us-ascii?Q?mulwJnZ6t4jIu5DmtH6AvZU6MiWEdcWLwSCX92zp63rtlQxK2Vbll0yvbaO7?=
- =?us-ascii?Q?hTx/o4Eh/d0h+jhD2O6Ny8+vQvgMhmSRMpADrNwCyUHGFVu+sARIF+Wp/FLz?=
- =?us-ascii?Q?Ck2OnNiih30xZRAlQas=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acfed832-8a8b-4c4e-e4cc-08dce21dde64
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2024 13:35:09.4643
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: haSYGZMrnC6iQtjVUQC3cCCnN/eMPwD+6hErfMJDCLZHE6+qwEjARxlEp8SXtnsh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6870
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, de-DE
+To: linux-media@vger.kernel.org
+From: Robert Tiemann <rtie@gmx.de>
+Subject: Support for Si468x radio receiver
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:ZB/xzQBUPztNV4P290JyCYcXweqLtufSa++GhPs9AZP8SP5A9r/
+ G2IcZCkFDs1+eZioE+cTuXOV6Eu/+/GVkyk6FvbfojPrd/QErK9WqDGukpwm8N48IVTf/Jd
+ 7Ms294vIflgQiO+MK4kz/JQvNcJ/VZ1qW7z9un/Wnu2DkXanFp4A8iu3EjjE+9Ey5aZEWES
+ hnWWT2bDIYTwLR4jliSoA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:AZkf5KmPlkY=;A7jeGncAt1HAI6IFxDKSOXEyXyr
+ muNOT59f/iX2THwnPtPs86uFG8NUFz2fEXYth4xGX0KfEYQGgQt6dCAvkM0CcvvdWL/Wg5Kli
+ NJkPSes4yjyVlN0JYLxp0QoBTKVg6Eb92y+7xAf3LseAuRDMzfHyhmif8jstRF0NvXS9kjIOn
+ HUub5Lm2KiOk2181dQ04Z8O+d31V8dHJ44CXsZlmQ7v7F111lCbbQgrv336+7c55LJNT6PLHV
+ bucjP2H6qzwj4XzXQvB6qtmOL2uF5bfYQ9wvqIYlPq8V4lT4xfaQoojktuWDD2sX5K9gS4A2B
+ wN6oHgSJb9vt4rbHkfOeB9zRHjD4Rv8HCkHuemRBNZCpmdLPsk/QV/1QrijDjgsQxha8Kctsf
+ jihxv+WR2yKi2bulSpxoueRikXLvCtc+YBJje812XwhkCzuF9ON/Pog2XRSuvOG02bJp9gIGl
+ PuyG2OWXu7GNwrhnu/IuRSCKnE+aksmRDYHo6bJgGd+gGR6zoF6DngUwB3/n2iGdSCk5meBMA
+ +I6JEh81swl+8YzYaVHSOmybQJRaMBnM2R5xdeErLup9vN1umSXZKbqPwnsHYHh9PdptkzmBk
+ J2Y64ZEhBcnH0VklmYCCUN22fGUJCVUQD0HbGJN4jm04loEOT3G8R71uYaKchExKoegWfXwe/
+ P6JqR1fKDXzhfL05m78zMUZ7ME/nSNBwD7bi1axs3Efv3A3rkXcozjqtdexL9vSy+7FLKc/H0
+ SuDHXCHJMvWA4OETm8FJqd9eUmZpktwOH/Q/CYK09PlBOpVGlc8WFR+7BMZ+cw5TtYFmTHz/b
+ 4r1JCptsrqPDuVJjo98Rrm3A==
 
-On Mon, Sep 16, 2024 at 04:42:33PM -0400, Lyude Paul wrote:
-> Sigh. Took me a minute but I think I know what happened - I meant to push the
-> entire series to drm-misc-next and not drm-misc-fixes, but I must have misread
-> or typo'd the branch name and pushed the second half of patches to drm-misc-
-> fixes by mistake. So the nouveau commit is present in drm-misc-next, but
-> presumably drm-misc-fixes got pulled first.
-> 
-> Sorry about that - I have no idea how I managed that mistake.
+Hi!
 
-Three didn't make it to rc1, including this one:
+We'd like to use the Silicon Labs Si4688 FM/HD/DAB/DAB+ radio receiver
+chip in a product, but there is no kernel support for it yet. We have
+the full datasheet and Si468x Programming Guide available, so it
+should be possible to write a driver for that chip. The kernel
+supports the Si4768 already (which can do AM/FM/HD radio, but not
+DAB/DAB+), so I figured it should not be to hard to get the Si4688
+supported...
 
-drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c:             tdev->iommu.domain = iommu_domain_alloc(&platform_bus_type>
-drivers/media/platform/nvidia/tegra-vde/iommu.c:        vde->domain = iommu_domain_alloc(&platform_bus_type);
-drivers/remoteproc/remoteproc_core.c:   domain = iommu_domain_alloc(dev->bus);
+Then I checked the kernel sources for how DAB+ radio tuners are
+supposed to be handled by V4L2, but found nothing. Seems like V4L2 is
+restricted to abstraction of analog radio tuners, and there is
+currently no way to support DAB+ receivers. Is this correct or did I
+miss something? The same seems to be true about FM HD (the
+radio-si476x driver doesn't seem to support FM HD, only AM and FM).
 
-I prefer we send these through the iommu tree now so we can make
-progress.
+Now, my question is, how should the FM HD/DAB/DAB+ parts of a
+hypothetical radio-si468x driver be implemented? Since DAB is quite
+different from FM, do we need a new tuner type in addition to
+V4L2_TUNER_RADIO? Or just new V4L2_BAND_MODULATION_FM_HD and
+V4L2_BAND_MODULATION_DAB definitions? Or is V4L2 sufficient the way
+it is and I am simply failing to understand how it should work?
 
-Jason
+Best regards,
+Robert
 
