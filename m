@@ -1,134 +1,125 @@
-Return-Path: <linux-media+bounces-18948-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18949-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D79598C0DE
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 16:56:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DD698C0E8
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 16:58:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3116C283D23
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 14:56:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC3BFB224E5
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2024 14:58:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EEA11C9B76;
-	Tue,  1 Oct 2024 14:56:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C96F3199381;
+	Tue,  1 Oct 2024 14:58:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nY/Ih0bO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF861C1AD9
-	for <linux-media@vger.kernel.org>; Tue,  1 Oct 2024 14:56:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6F31C9B74
+	for <linux-media@vger.kernel.org>; Tue,  1 Oct 2024 14:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727794587; cv=none; b=AjXrPS0rzhH/hq9K1aXMwqetWrudJGurKRCscIZbjJGBucnequVcraPA7SL+SSKU134kTPQAxUotDCrTmAObwcl8aw94BfNxQfaUV1x2InYf1fVD452HgD+cBjLPRl66v4fOcyi36pEWkTCSZBGJl1BQMjJUIdc3HUOK2ueYnzg=
+	t=1727794712; cv=none; b=VvBzYpJuRqMz7T4P/DjffpEAM8mT2Jl1UltZ5tJDgqWCZFAwRrrq+NnVB9/05SsOX8voFJav0yu6+lnktQE7OdxKhnr27PwNwYRGomMhHqeaBV2Ofaj1Ekvl3Ck8qIJwkyev76JiqMm2KOiNqAA43KUbVfwBlDHlFDiuZsMP4js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727794587; c=relaxed/simple;
-	bh=M5EcbSIw8ruyAOhnFIgFERUx8sLg2DPvF2xRseh0iQY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a2GINxhSEBn8uOCREp5c3hRe7foGsqSFIUJcbd7Ki78WTZf4j4Vt1aPsKzHDmIaPVCYrSpo7d8pMgNKpLWUimizJQ+NCPMfTvTl6DGWUaNfRmFckIiPq6uTIt+rrSQ7bNY/ny0vC6EPl42ZhtCCYQxfT479jA2FjClcAW3oit6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1sveIa-0007rr-0G; Tue, 01 Oct 2024 16:56:24 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1sveIZ-002tkQ-JH; Tue, 01 Oct 2024 16:56:23 +0200
-Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1sveIZ-004zkJ-1f;
-	Tue, 01 Oct 2024 16:56:23 +0200
-Date: Tue, 1 Oct 2024 16:56:23 +0200
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Marek Vasut <marex@denx.de>
-Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [PATCH 1/3] media: i2c: isl7998x: Enable VACTIVE and HDELAY
- shadow registers
-Message-ID: <ZvwNlwSJyJ52I9Mp@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-	Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-References: <20240713154242.107903-1-marex@denx.de>
+	s=arc-20240116; t=1727794712; c=relaxed/simple;
+	bh=ki5RbNjIw7Pi9Rc4YGtFdCe3E6LBQZZeHpBl3kZtLJI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d21/NXcxIe3vp95RqozJIGxPeGT1LDf/SL4HUEct9hZrW4zHBi/Cc3K9+NjiJIjuKld+MI6tBvMrKAbZqfPoMHDzQlDVz9t+AitGscmG8e9xyj/Thf1uDk3hxMgqRtK+iKF6XKv31EaKHKFTjGs9IG4d2L596pQtgomUVcl4dSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nY/Ih0bO; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a8b155b5e9eso33303566b.1
+        for <linux-media@vger.kernel.org>; Tue, 01 Oct 2024 07:58:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727794709; x=1728399509; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ki5RbNjIw7Pi9Rc4YGtFdCe3E6LBQZZeHpBl3kZtLJI=;
+        b=nY/Ih0bOnhmxV3CU1IjWfab5VjChP9ZVLXhn77J+71udQe8rKKFYN2RVpomTwNh6tB
+         DDp68RB6M1ciTduP+6lRsnLGwmfPIMgJVecEGXr9zAOi2+gcuJXG9l+OSURT/GjL9tmg
+         eMIkJLrVoa0RxnlWZgY5/inX+9Y+uCTfP+nky//PN5QzqsgrgDjr7zOkYt/jIvH9u9mK
+         ITfcyUI5nhOTGyTadwGPBVUlo/QNUA75AUn42gvSESmUkkAbqbHYkxMo2nCpGsKvWruJ
+         AORlxzQFtJE7X9bLmz3wGlKoEM3EfQ5awdUVc7O2OeNCoE/5wQoBlFaF8YFcZZkceoUF
+         0gTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727794709; x=1728399509;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ki5RbNjIw7Pi9Rc4YGtFdCe3E6LBQZZeHpBl3kZtLJI=;
+        b=NPK2doWjU1gy/p95aLgQdIK3KW6Y/153zea+ZSYURr9AvUz0VIhQZrcLk4GB9OnESt
+         MWyBKr+zXABqRSLnUwOPk6GBfivLMrkJnEZf7HLTVspcJNYhzqtY86xgjW/s3+j1aPZC
+         C0A39uiSXcxOClmH5V1dhQTY9qLyoJpYgb8/GQm86pkt1Q/2NfFJP7yl2T7Y+Q8SCeYH
+         VtClQgFb0TKATdP7g8m6uefZkHCPvpd3EnE2+PvMHmGeMPKJQcovoktsABUpHTFaE60o
+         z5cG8gqOTzP6J1tWo6B21cUqmLt6tEwi4hgbzPRVn4o7E/cDXHFTRPePmhSa8RJnEfnr
+         U/jg==
+X-Forwarded-Encrypted: i=1; AJvYcCWHzS/eMh2ibtRW1Ne01ykRLCHZ9eh1+nbluBcGWyNtME2RBen8atF9eQPEIP7Gn1KUm8A9C8UOmhzNDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZe994KlkJI016ywg9iDBWIgXH8jh7e8P8iMIhmCUVdL0PKTxa
+	vYzo/W1GH0XXBfmnytRw67jcLrx7aucBdKWDeQtkQRkswMUlE7CYGE9zQ+OtSRU=
+X-Google-Smtp-Source: AGHT+IFAyFo8ETKEQUuaL04WBD0//wzdOPx62FMtDHu5Rfe9onkvznMdkthblJ+RbgyPLO/VNA1Azg==
+X-Received: by 2002:a17:907:1c88:b0:a8d:2a46:606f with SMTP id a640c23a62f3a-a93c4970730mr1573861266b.38.1727794709025;
+        Tue, 01 Oct 2024 07:58:29 -0700 (PDT)
+Received: from [192.168.0.15] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27c5954sm724193666b.61.2024.10.01.07.58.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Oct 2024 07:58:28 -0700 (PDT)
+Message-ID: <7d8949e1-446f-480b-aabb-46c99951a452@linaro.org>
+Date: Tue, 1 Oct 2024 15:58:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240713154242.107903-1-marex@denx.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/10] (no cover subject)
+To: Luca Weiss <luca.weiss@fairphone.com>,
+ Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kapatrala Syed <akapatra@quicinc.com>,
+ Hariram Purushothaman <hariramp@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ cros-qcom-dts-watchers@chromium.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ =?UTF-8?Q?Matti_Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Suresh Vankadara <quic_svankada@quicinc.com>,
+ Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>, stable@vger.kernel.org,
+ Hariram Purushothaman <quic_hariramp@quicinc.com>
+References: <20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com>
+ <D4JK8TRL7XBL.3TBA1FBF32RXL@fairphone.com>
+ <fc0ce5cd-e42a-432b-ad74-01de67ec0d5c@linaro.org>
+ <D4KBQ3ENKF5Y.3D2AK81PELAEZ@fairphone.com>
+ <e7cc5f91-a0a8-48fc-9eb6-b9c46b22dfeb@linaro.org>
+ <D4KFVNV1A4KG.CFLT81CFBDTM@fairphone.com>
+ <c912f2da-519c-4bdc-a5cb-e19c3aa63ea8@linaro.org>
+ <D4KJCLCDGQ96.251XO3OG6DVB6@fairphone.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <D4KJCLCDGQ96.251XO3OG6DVB6@fairphone.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, 13 Jul 2024 17:41:54 +0200, Marek Vasut wrote:
-> The VACTIVE and HDELAY shadow registers must be enabled for per channel
-> NTSC/PAL detection to work, enable them.
+On 01/10/2024 15:22, Luca Weiss wrote:
+>> I have to test Vladimir's two patches. I'll verify rb5 TPG while I'm at
+>> it, perhaps the error is not sdm670 specific.
+> FWIW this is not sdm670 but sc7280/qcm6490 here 🙂 But I didn't follow
+> the sdm670 thread so maybe you mean something there.
 
-I think the description is wrong as the change doesn't affect the
-VACTIVE and HDELAY registers. The change sets the standard selection
-register to auto detection to always trigger a standard detection during
-initialization instead of defaulting to NTSC. querystd explicitly
-triggers this behavior.
+Yes I sc7280/sm8250.
 
-If the driver always runs standard detection during init, the driver
-should also wait for the detection to be finished and update
-isl7998x->norm accordingly, because otherwise the standard will be reset
-to NTSC.
+Freudian slip, when you type one thing but you mean your mother.
 
-Maybe we can also get rid of this part from the init sequence and run
-the standard detection during the initialization in code?
-
-Michael
-
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Michael Tretter <m.tretter@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: linux-media@vger.kernel.org
-> ---
->  drivers/media/i2c/isl7998x.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/isl7998x.c b/drivers/media/i2c/isl7998x.c
-> index c7089035bbc10..5f8f11f7a2c1c 100644
-> --- a/drivers/media/i2c/isl7998x.c
-> +++ b/drivers/media/i2c/isl7998x.c
-> @@ -312,13 +312,13 @@
->  
->  static const struct reg_sequence isl7998x_init_seq_1[] = {
->  	{ ISL7998X_REG_P0_SHORT_DIAG_IRQ_EN, 0xff },
-> -	{ ISL7998X_REG_PX_DEC_SDT(0x1), 0x00 },
-> +	{ ISL7998X_REG_PX_DEC_SDT(0x1), 0x07 },
->  	{ ISL7998X_REG_PX_DEC_SHORT_DET_CTL_1(0x1), 0x03 },
-> -	{ ISL7998X_REG_PX_DEC_SDT(0x2), 0x00 },
-> +	{ ISL7998X_REG_PX_DEC_SDT(0x2), 0x07 },
->  	{ ISL7998X_REG_PX_DEC_SHORT_DET_CTL_1(0x2), 0x03 },
-> -	{ ISL7998X_REG_PX_DEC_SDT(0x3), 0x00 },
-> +	{ ISL7998X_REG_PX_DEC_SDT(0x3), 0x07 },
->  	{ ISL7998X_REG_PX_DEC_SHORT_DET_CTL_1(0x3), 0x03 },
-> -	{ ISL7998X_REG_PX_DEC_SDT(0x4), 0x00 },
-> +	{ ISL7998X_REG_PX_DEC_SDT(0x4), 0x07 },
->  	{ ISL7998X_REG_PX_DEC_SHORT_DET_CTL_1(0x4), 0x03 },
->  	{ ISL7998X_REG_P5_LI_ENGINE_CTL, 0x00 },
->  	{ ISL7998X_REG_P0_SW_RESET_CTL, 0x1f, 10 },
-> -- 
-> 2.43.0
-> 
-> 
+---
+bod
 
