@@ -1,89 +1,94 @@
-Return-Path: <linux-media+bounces-18957-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18958-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D54398CBBF
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 05:54:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1191C98CD02
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 08:16:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D30591F25416
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 03:54:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C59F22856AD
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 06:16:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E047E17996;
-	Wed,  2 Oct 2024 03:53:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7399584D12;
+	Wed,  2 Oct 2024 06:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U7Gut7Ip"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQuUGJeR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7692C18039;
-	Wed,  2 Oct 2024 03:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CB35464E;
+	Wed,  2 Oct 2024 06:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727841235; cv=none; b=ojIyCP3BBOvsm2jlJryeoY+W8GouS4106Wg3xMbUTmhg+gPErefShWmn3DptP07gQYvU2NCVYDMD2snKH7taQBp1CY/p8X0sJSu4kl5VJQ5cK7j72DUU3GbWIPQ2TxGn/6c8ciu8TJTgBRDEnceKU1TPb6grHNtyPbzjV0ROvLY=
+	t=1727849781; cv=none; b=m7G6yZBtM4laI3XADlXK8BBot8sZl3lrGd9EFgT6/IDtfeKY6KMMAyVPuKcaVxuZT85EFHvs+Ic+JrK1QqktfrQ6fZlE6QusFsiF8E7sD1KId7rrBlmR9c+UMiY37EIvBlzUdSa1AfuzBFr9NWLyImsBQiShZjoTXXurO24hRlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727841235; c=relaxed/simple;
-	bh=c723xCJwYwzUPaFKF2NSuCK0UT1uyVPEV/c+UsmC0JM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jAykhcoL5wbrH3EbgsuOxz65j1hqyMYybc8cWonPIqvY4L8TLS9zxFXWTiK0wpFDgr3Jfa7/g/PpGbpJofoQGUPLP4ZVLQtiAL5fICqfdGZo0fOj0ayUq/WdaF3qpoqOJseGrnrBQMkSVwoybhRisSogSnldObwGMImAXvSKAX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=U7Gut7Ip; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FA495A5;
-	Wed,  2 Oct 2024 05:52:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727841133;
-	bh=c723xCJwYwzUPaFKF2NSuCK0UT1uyVPEV/c+UsmC0JM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=U7Gut7IpSHuudR30tfGx8upghFzRJQD0cuy6pMi4jQXJUabTJUeUGX4XwyENLFIAe
-	 xmg76AcE4kJeGLYO8fDa6w62w6xK6gVHdJaF5FO8qxS607B/BHlK+X3NxJX3u3lYfu
-	 ahSx0jrFJZcKh75QpnMc/D0wMo+zgk5EAxAfHXtI=
-Message-ID: <8411984d-2475-4d65-a66f-dc7076fa0ca0@ideasonboard.com>
-Date: Wed, 2 Oct 2024 09:23:40 +0530
+	s=arc-20240116; t=1727849781; c=relaxed/simple;
+	bh=5onFaWDsfjRqVLFgmX8TYa5l4emUjeqXUisKazGF7oo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E/a810b3gUzAquvmxMoae958GHfGJw5seMwyDb1E/tLa2hDmcIdorwNLZfRMBonSwG8fMbo5FRhF2MHqLboJVDMAXJ0QFD1ITUh+dZmfZr3YoFaKQjjUA4Au5zOMsK7KB174HoVqu9UFbLeroXRggUUU3+F5+7y8r44Ff8TpS40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQuUGJeR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B51C4CEC5;
+	Wed,  2 Oct 2024 06:16:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727849781;
+	bh=5onFaWDsfjRqVLFgmX8TYa5l4emUjeqXUisKazGF7oo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AQuUGJeROPqlnHPNwY9eeBEp5vQ3ueIGDxa8kZKc5BQOfWYhXK+CIqQzjzwACM0AV
+	 PxbkpoLhl35J/bH5DNCoY9pUldZF61JuJOdcA8TfeK5bFCHZHXniQ0fD8eLsTwRZSs
+	 f7PR8BTIlxeT45c8oekmOUp9lP1LDapZo9CrBHkvjyIGbZD7VYS0iuMbJ0F3y6MRnx
+	 p38DGVnboFz3KHgIIL3TBhm5i0ZSQiqjRn7vQVV68dDDPrxGeHQvgD/EqDpzLPlBzN
+	 jH7FpId3iAw9/XTSUVDQFDSNMOe5Cq/68jvF6XyB/8B/EGW/bG0ywZS4VuFMHhP/eO
+	 9hlbqWrxnyOHA==
+Date: Wed, 2 Oct 2024 08:16:18 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Fei Shao <fshao@chromium.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Bin Liu <bin.liu@mediatek.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Xia Jiang <xia.jiang@mediatek.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 3/8] dt-bindings: media: mediatek,jpeg: Relax IOMMU
+ max item count
+Message-ID: <r22z7eehmuprvq67gxekqwsah2mcobfsyhn7xzyyh2gdtjegve@zl32uljxrilx>
+References: <20241001113052.3124869-1-fshao@chromium.org>
+ <20241001113052.3124869-4-fshao@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] media: imx335: Support vertical flip
-To: linux-media@vger.kernel.org
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240830062639.72947-1-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20240830062639.72947-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241001113052.3124869-4-fshao@chromium.org>
 
-Hello all,
+On Tue, Oct 01, 2024 at 07:27:21PM +0800, Fei Shao wrote:
+> On MediaTek platforms with Multimedia MMU (M4U), a multimedia hardware
+> can be assigned with a local arbiter (LARB) which has a maximum of 32
+> ports for MediaTek's IOMMU infrastructure. That means there can be at
+> most 32 items in the iommus property in theory.
+> 
+> Instead of relaxing the max item count every time a newly introduced
+> device tree hits the limit, bump the number to 32 as an one-time effort.
+> 
+> On the other hand, all existing and foreseeable JPEG decoder nodes at
+> this point have at least 2 IOMMUs, so set minItems to 2 accordingly.
+> 
+> Signed-off-by: Fei Shao <fshao@chromium.org>
+> ---
+> It's not in the upstream tree yet, but the upcoming MT8188 DT will have
+> 6 IOMMUs in its JPEG decoder. This patch is to pave the way for that.
+> 
+> Changes in v2:
+> New patch.
+> 
 
-Can this be collected ?
+I do not see any user of this in this patchset.
 
-Thank you!
-
-On 30/08/24 11:56 am, Umang Jain wrote:
-> Hi all,
->
-> This work intends to supprt vertical flipping for IMX335 driver.
-> 1/2 contains a small drive by fix, to rename the mode struct name
-> 2/2 introduces the support for vertical flip for the mode.
->
-> changes in v2:
-> - None, just a resend over latest media-stage
->
-> Umang Jain (2):
->    media: imx335: Rectify name of mode struct
->    media: imx335: Support vertical flip
->
->   drivers/media/i2c/imx335.c | 77 +++++++++++++++++++++++++++++++++++---
->   1 file changed, 72 insertions(+), 5 deletions(-)
->
+Best regards,
+Krzysztof
 
 
