@@ -1,161 +1,283 @@
-Return-Path: <linux-media+bounces-19011-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19012-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621E898E45D
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 22:46:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E051498E4A1
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 23:11:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 92A0D1C23549
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 20:46:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3E5E2847F1
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 21:11:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A681217317;
-	Wed,  2 Oct 2024 20:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C447D217325;
+	Wed,  2 Oct 2024 21:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="kSVJYgQC"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="mk4aj1Cq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from msa.smtpout.orange.fr (smtp-76.smtpout.orange.fr [80.12.242.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE488F5B;
-	Wed,  2 Oct 2024 20:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62C91D1E60;
+	Wed,  2 Oct 2024 21:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727901982; cv=none; b=aXDZyLgqyoTlaGIfsxuMc4SIWOtA9a1JrSVOq0KrYpGRuFRHodVWnofkci2xN1Zb11gzOXtu7d/tfaggvjOWrLa8tqZsKUY0EJzxnM2ZCFFCgO+FqzXokuXlD4aHyg2mOt9YQzJJHf7greXt5Gvzp41nLQXjo7rsMlf5JXg00/s=
+	t=1727903500; cv=none; b=kBT9TQ2tt/UIY8kgBnC8gv8bCYvjTosFWEiw7LBjtOyBkbaT9del9hLLzvZqvwYdVoMK6vZ73g3afpC3IM4RYCmrFyGlQDIWGHoM+zXS1HoDQ07eMJAiIjNlm4vKG+fTaOv3Raw56T4LiPQTAW6+aOyqW9AfmiZI9rXtw40s+X4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727901982; c=relaxed/simple;
-	bh=67QpdFC+L1rRGZlRfeTtF9Y8U1xxe0dN9xmw86SLqeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GlFQYfAf/MkGRVu6mZpgOvZVaF6weeFYeA+TcxEkuhP+s3o7KMu46VFooFfx+hVaig1gDeDMTsVEGWN+Kzw/DKdgBCOrzwIKoQJuVkxXJBK8Sr6Ss9J3f68+tmfn0O0RFqzStYTil+9x/GGjUc4hbpEzQoQ7SCA5Dusxy8raGRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=kSVJYgQC; arc=none smtp.client-ip=88.97.38.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1727901977; bh=67QpdFC+L1rRGZlRfeTtF9Y8U1xxe0dN9xmw86SLqeU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kSVJYgQCdSzkNJA24L/VSkK9XGmE6A2DBchAPhL77x+q5EiOts6m/suZl95rSxE2l
-	 cAOgE4BOVxU0wT+t/LM1akCRyolpJjljmZWpF7juRz25HdpUe18BATvwtRbTXsQ35/
-	 9qmcvdv5NnLTcKmziMP289HI987WqkSMczzIOuwhCDCbl9v44S2zS1uQ6OqaJET7IU
-	 DTluvLNpxjaSPYPd0NmtHzBVcXwpX9p9RZM1RbQsz1hNcJLtvvnyaJcAl2d7E0BbQf
-	 idXRcDpuDGMVi6vvK2dusaMM3sGfgznno2C5Npx3IJkAx9GbacxTQdufxCy6OT9Vlj
-	 opyG+QwY8xUjA==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id B600C1003B9; Wed,  2 Oct 2024 21:46:17 +0100 (BST)
-Date: Wed, 2 Oct 2024 21:46:17 +0100
-From: Sean Young <sean@mess.org>
-To: Shen Lichuan <shenlichuan@vivo.com>
-Cc: mchehab@kernel.org, huanglipeng@vivo.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-Subject: Re: [PATCH v1] media: rc-core: Modify the timeout waiting time for
- the infrared remote control.
-Message-ID: <Zv2xGbdhm8kXgDFe@gofer.mess.org>
-References: <20240927105808.9284-1-shenlichuan@vivo.com>
+	s=arc-20240116; t=1727903500; c=relaxed/simple;
+	bh=ODrkKLWW+1CH8eytpVUn+kbZrjm4ceGi6o1ypPfRANM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SUU9WIzF6q278p00uxaIw9kn5Gk7O5D5pdjoL38k7q2Yr88enAgXdkM/crl9XTScMvmgKgtsUReJTEVoY8rMRCntDK8dJH88BBtXDZkxwkGlCPLY3lHUDdpp4dcA4DQcFkT71wIJgaXgmlmks8/as4WnBlahcKrzxKfz8paqnCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=mk4aj1Cq; arc=none smtp.client-ip=80.12.242.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id w6UKs3HhhMzKhw6ULsAje6; Wed, 02 Oct 2024 23:02:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1727902945;
+	bh=t4ZBx5hKu9sTpVPK0QmTA3pavI/sLog2ygjT/yZILXw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=mk4aj1CqMRIej62TrcbQxaxD7yc7VV1xoIZgTIk3SzjkewBYPMfqApUIXStQfFlZu
+	 TMjW/wwLZ7yz+5GQ0MLhoZYbq+Ah1JnSzCDTPd00po0SR9/2/wbRA7m6l4K7/XUI7w
+	 0S93BgY9a7MXVW0bZ8SFaw/AEBEN0rEgfZgRB0vRI3P6t+V2LfeF4sl2JgCbdmHsaS
+	 yHpyV7h+48SMR6dkvAJkcExZ+GcCoZySwmQOyF55UHssPUaGjmGCHUYuQWNfs7mMqS
+	 /oPMZe6Zw3PFay8qjwW18MmBfmPg7to1Kr6KrYd8cc1m+7hwk7ts9xLWX3Xk8LNpF2
+	 4JoFxUl5KzhFQ==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Wed, 02 Oct 2024 23:02:25 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <70231d35-a114-4b26-92c7-d33fec01d2b5@wanadoo.fr>
+Date: Wed, 2 Oct 2024 23:02:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927105808.9284-1-shenlichuan@vivo.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: Add t4ka3 camera sensor driver
+To: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241002093037.50875-1-hpa@redhat.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20241002093037.50875-1-hpa@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 27, 2024 at 06:58:08PM +0800, Shen Lichuan wrote:
-> When transmitting codes from certain infrared remote controls, the kernel
-> occasionally fails to receive them due to a timeout during transmission.
+Le 02/10/2024 à 11:30, Kate Hsuan a écrit :
+> Add the t4ka3 driver from:
+> https://github.com/kitakar5525/surface3-atomisp-cameras.git
 > 
-> This issue arises specifically in instances where the duration of the 
-> signal exceeds the predefined limit (`IR_MAX_DURATION`) in the code
-> handling logic located within `lirc_dev.c`:
+> With many cleanups / changes (almost a full rewrite) to make it suitable
+> for upstream:
 > 
-> if (txbuf[i] > IR_MAX_DURATION - duration || !txbuf[i]) {
-> 	pr_err("lirc_transmit duration out range[%d] txbuf:%d duration:%d\n",
-> 		i, txbuf[i], duration);
-> 	ret = -EINVAL;
-> 	goto out_kfree;
-> }
+> * Remove the VCM and VCM-OTP support, the mainline kernel models VCMs and
+>    calibration data eeproms as separate v4l2-subdev-s.
 > 
-> The error manifests as an `EINVAL` (error number 22) being returned when
-> attempting to send infrared signals whose individual elements exceed the
-> maximum allowed duration (`xbuf[i] > IR_MAX_DURATION - duration`).
+> * Remove the integration-factor t4ka3_get_intg_factor() support and IOCTL,
+>    this provided info to userspace through an atomisp private IOCTL.
 > 
-> As evidenced by logs, attempts to send commands with extended durations,
-> such as those associated with the "Power" button on a Skyworth TV remote,
-> fail with this error.
+> * Turn atomisp specific exposure/gain IOCTL into standard v4l2 controls.
 > 
-> To rectify this and ensure compatibility with a broader range of infrared
-> remote controls, particularly those with lengthy code sequences, this patch
-> proposes to increase the value of `IR_MAX_DURATION`. 
-
-IR_MAX_DURATION is already half second; can you elaborate on the signal
-that the "Power" button on a Skyworth TV remote looks like? I doubt that
-a signal button press would produce more than 500ms of IR; that would be
-a lot IR for a single button, and would also have terrible latency for the
-user.
-
-My guess is that the signal is repeating, and you're trying to send
-the signals with the repeats in one go. It would be nice to hear what
-protocol this is and what it looks like encoded.
-
-If the signal contains large gaps/spaces, then the signal can be split
-up into multiple sends. For example, if you have this signal
-
-+100 -150000 +150
-
-You can also send this like so (pseudo code):
-
-int fd = open("/dev/lirc0", O_RW);
-write(fd, [100], 1);
-usleep(150000);
-write(fd, [100], 1);
-close(fd);
-
-This overcomes the limitation of the IR_MAX_DURATION, and also makes it
-possible to send on much larger variety of infrared hardware, lots of them
-do not support sending large gaps or long signals.
-
-> This adjustment will allow for successful transmission of these extended
-> codes, thereby enhancing overall device compatibility and ensuring proper
-> functionality of remotes with long duration signals.
+> * Use normal ACPI power-management in combination with runtime-pm support
+>    instead of atomisp specific GMIN power-management code.
 > 
-> Example log entries highlighting the issue:
-> 	D ConsumerIrHal: IRTX: Send to driver <268>
-> 	E ConsumerIrHal: irtx write fail, errno=22 <269>
-> 	D ConsumerIrHal: Done, Turn OFF IRTX <270>
-
-What software is this, anything you can share about it?
-
-> Modifying the maximum timeout time in this area can solve this issue.
-
-We hold various locks during the transmit, and keeping it to a minimum
-is much nicer. The gpio-ir-tx driver disables interrupts for this duration,
-and many other drivers hold the rcdev mutex.
-
-Thanks,
-
-Sean
-
+> * Turn into a standard V4L2 sensor driver using
+>    v4l2_async_register_subdev_sensor().
 > 
-> Signed-off-by: Huang Lipeng <huanglipeng@vivo.com>
-> Signed-off-by: Shen Lichuan <shenlichuan@vivo.com>
+> * Add vblank, hblank, and link-freq controls; drop get_frame_interval().
+> 
+> * Use CCI register helpers.
+> 
+> * Calculate values for modes instead of using fixed register-value lists,
+>    allowing arbritrary modes.
+> 
+> * Add get_selection() and set_selection() support
+> 
+> * Add a CSI2 bus configuration check
+> 
+> This been tested on a Xiaomi Mipad2 tablet which has a T4KA3 sensor with
+> DW9761 VCM as back sensor.
+> 
+> Co-developed-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
 > ---
->  include/media/rc-core.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/media/rc-core.h b/include/media/rc-core.h
-> index d095908073ef..2f575c18b6b6 100644
-> --- a/include/media/rc-core.h
-> +++ b/include/media/rc-core.h
-> @@ -303,7 +303,7 @@ struct ir_raw_event {
->  
->  #define US_TO_NS(usec)		((usec) * 1000)
->  #define MS_TO_US(msec)		((msec) * 1000)
-> -#define IR_MAX_DURATION		MS_TO_US(500)
-> +#define IR_MAX_DURATION		MS_TO_US(1000)
->  #define IR_DEFAULT_TIMEOUT	MS_TO_US(125)
->  #define IR_MAX_TIMEOUT		LIRC_VALUE_MASK
->  
-> -- 
-> 2.17.1
+
+Hi,
+
+a few comments, should it help.
+
+> +static int t4ka3_s_stream(struct v4l2_subdev *sd, int enable)
+> +{
+> +	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
+> +	int ret;
+> +
+> +	mutex_lock(&sensor->lock);
+> +
+> +	if (sensor->streaming == enable) {
+> +		dev_warn(sensor->dev, "Stream already %s\n", enable ? "started" : "stopped");
+> +		goto error_unlock;
+> +	}
+> +
+> +	if (enable) {
+> +		ret = pm_runtime_get_sync(sensor->sd.dev);
+> +		if (ret) {
+> +			dev_err(sensor->dev, "power-up err.\n");
+> +			goto error_unlock;
+> +		}
+> +
+> +		cci_multi_reg_write(sensor->regmap, t4ka3_init_config,
+> +				    ARRAY_SIZE(t4ka3_init_config), &ret);
+> +		/* enable group hold */
+> +		cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 1, &ret);
+> +		cci_multi_reg_write(sensor->regmap, t4ka3_pre_mode_set_regs,
+> +				    ARRAY_SIZE(t4ka3_pre_mode_set_regs), &ret);
+> +		if (ret)
+> +			goto error_powerdown;
+> +
+> +		ret = t4ka3_set_mode(sensor);
+> +		if (ret)
+> +			goto error_powerdown;
+> +
+> +		ret = cci_multi_reg_write(sensor->regmap, t4ka3_post_mode_set_regs,
+> +					  ARRAY_SIZE(t4ka3_post_mode_set_regs), NULL);
+> +		if (ret)
+> +			goto error_powerdown;
+> +
+> +		/* Restore value of all ctrls */
+> +		ret = __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
+> +		if (ret)
+> +			goto error_powerdown;
+> +
+> +		/* disable group hold */
+> +		cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 0, &ret);
+> +		cci_write(sensor->regmap, T4KA3_REG_STREAM, 1, &ret);
+> +		if (ret)
+> +			goto error_powerdown;
+> +
+> +		sensor->streaming = 1;
+> +	} else {
+> +		ret = cci_write(sensor->regmap, T4KA3_REG_STREAM, 0, NULL);
+> +		if (ret)
+> +			goto error_powerdown;
+> +
+> +		ret = pm_runtime_put(sensor->sd.dev);
+> +		if (ret)
+> +			goto error_unlock;
+> +
+> +		sensor->streaming = 0;
+> +	}
+> +
+> +	mutex_unlock(&sensor->lock);
+> +	return ret;
+> +
+> +error_powerdown:
+> +	ret = pm_runtime_put(sensor->sd.dev);
+
+I think that the "ret = " should be removed here.
+
+> +error_unlock:
+> +	mutex_unlock(&sensor->lock);
+> +	return ret;
+> +}
+
+...
+
+> +static int t4ka3_probe(struct i2c_client *client)
+> +{
+> +	struct t4ka3_data *sensor;
+> +	int ret;
+> +
+> +	/* allocate sensor device & init sub device */
+> +	sensor = devm_kzalloc(&client->dev, sizeof(*sensor), GFP_KERNEL);
+> +	if (!sensor)
+> +		return -ENOMEM;
+> +
+> +	sensor->dev = &client->dev;
+> +
+> +	ret = t4ka3_check_hwcfg(sensor);
+> +	if (ret)
+> +		return ret;
+> +
+> +	mutex_init(&sensor->lock);
+> +
+> +	sensor->link_freq[0] = T4KA3_LINK_FREQ;
+> +	sensor->mode.crop = t4ka3_default_crop;
+> +	t4ka3_fill_format(sensor, &sensor->mode.fmt, T4KA3_ACTIVE_WIDTH, T4KA3_ACTIVE_HEIGHT);
+> +	t4ka3_calc_mode(sensor);
+> +
+> +	v4l2_i2c_subdev_init(&(sensor->sd), client, &t4ka3_ops);
+> +	sensor->sd.internal_ops = &t4ka3_internal_ops;
+> +
+> +	sensor->powerdown_gpio = devm_gpiod_get(&client->dev, "powerdown",
+> +						GPIOD_OUT_HIGH);
+> +	if (IS_ERR(sensor->powerdown_gpio))
+> +		return dev_err_probe(&client->dev, PTR_ERR(sensor->powerdown_gpio),
+> +				     "getting powerdown GPIO\n");
+> +
+> +	sensor->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
+> +						     GPIOD_OUT_HIGH);
+> +	if (IS_ERR(sensor->reset_gpio))
+> +		return dev_err_probe(&client->dev, PTR_ERR(sensor->reset_gpio),
+> +				     "getting reset GPIO\n");
+> +
+> +	pm_runtime_set_suspended(&client->dev);
+> +	pm_runtime_enable(&client->dev);
+> +	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+> +	pm_runtime_use_autosuspend(&client->dev);
+> +
+> +	sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
+> +	if (IS_ERR(sensor->regmap))
+> +		return PTR_ERR(sensor->regmap);
+
+I thing this should goto err_pm_runtime;
+
+> +
+> +	ret = t4ka3_s_config(&sensor->sd);
+> +	if (ret)
+> +		goto err_pm_runtime;
+> +
+> +	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +
+> +	ret = t4ka3_init_controls(sensor);
+> +	if (ret)
+> +		goto err_controls;
+> +
+> +	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
+> +	if (ret)
+> +		goto err_controls;
+> +
+> +	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
+> +	if (ret)
+> +		goto err_media_entity;
+> +
+> +	return 0;
+> +
+> +err_media_entity:
+> +	media_entity_cleanup(&sensor->sd.entity);
+> +err_controls:
+> +	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+> +err_pm_runtime:
+> +	pm_runtime_disable(&client->dev);
+> +	return ret;
+> +}
+> +
+> +static struct acpi_device_id t4ka3_acpi_match[] = {
+> +	{ "XMCC0003" },
+> +	{},
+
+No need for ending comma after terminator.
+
+> +};
+
+...
+
+CJ
 
