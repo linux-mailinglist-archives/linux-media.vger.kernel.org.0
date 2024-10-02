@@ -1,61 +1,59 @@
-Return-Path: <linux-media+bounces-18959-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18960-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF8C98CD06
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 08:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB5898CD0E
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 08:21:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 616F31F247FA
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 06:17:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72B471F24934
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 06:21:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA49384A52;
-	Wed,  2 Oct 2024 06:17:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3A3E84E0A;
+	Wed,  2 Oct 2024 06:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iLyXMNbv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QRYY1Rbq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4042581;
-	Wed,  2 Oct 2024 06:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52ED22581;
+	Wed,  2 Oct 2024 06:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727849821; cv=none; b=IP8jWZcggncFcl5a6jLDXWG9/0yHHQAJxzazhu2NusL+WEHlichXzCnMxDjbc8TeOReMQL7rtmpeOa+2VrIuK4KTexVD8+MnKN+J9vZSI2xSJVhDpk1+QO3vNOcRLT4NEhTub/s10by2+w3eJjWt3TIvgk1ZsJWtmSURev5lFSU=
+	t=1727850063; cv=none; b=CkWCJXYFMwWIFO/Pg39m5rmpDFMgJ6imwzLuBu6nuteKAhJTK9v/TrZ90p2t5V25nq5wb1ECU40earWYDpIZq+OoI1rCaFOiWDjMyHAnh6vOk9BEmoe9oZh20gYx9iW+91vrLn7Y1kuhlVmMPGDDPj2TbAcJjbMIzzO9GgwFmC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727849821; c=relaxed/simple;
-	bh=OFVg8fIX+xvAe6Xup+mksgw/mFNgnlC3BvGhOzQyrDI=;
+	s=arc-20240116; t=1727850063; c=relaxed/simple;
+	bh=GE0pdpKu84/xL8wqM1SJMevuDSgPdzEabdtB/ufiyDg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jKHlzMGKAHu9vdJIaCmOKdj4vxhtyrfcPgIzkRQbr9PbTx1rSfUFrLouNMC8JliOSlaJTbZbHgg5FSzhzY4LIwErNgubBBgVhMil1zoinasGlTSDBwWVCtgafXaKtJP8vW8lS06cT/TjsofGiabEUBcHAGL62VAMsHu/EGceEcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iLyXMNbv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0984DC4CEC5;
-	Wed,  2 Oct 2024 06:16:59 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=SSjojAzeCPjB/ukX8oIpkRhG99KBridQozvloy7si6ln0TZPQUF3PMNpQ+cCRazP3yOT4SVKXP0iianWOYqTF+LxBSYg8IP+08yRodVSVn1swALJKfAehZegSff7yObQF6DrDBbTBPaEJ3nbP7ho0EhRV9yU5289kmNfY8FYd7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QRYY1Rbq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE5F4C4CEC5;
+	Wed,  2 Oct 2024 06:21:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727849820;
-	bh=OFVg8fIX+xvAe6Xup+mksgw/mFNgnlC3BvGhOzQyrDI=;
+	s=k20201202; t=1727850062;
+	bh=GE0pdpKu84/xL8wqM1SJMevuDSgPdzEabdtB/ufiyDg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iLyXMNbv1KT7bPzjbpXv4QMhO1w1rXIDUdkZhmuUlQsWKLDCvm+7BtxCx9RoHw47s
-	 74T1n1xcvfYY+EthltWB+a5O/q4YbFNkxppfWbeOOCBTtwmIHtcibRVKp+vwSfFPOV
-	 P3uZQC7JbvZHYiiysotmf9pc+XMBu1pNwzLDAnnp+fkdS5CBXLzSvWR3JAkdmqEBRv
-	 xWRwz9Ga5NFNGF/7AkQbzJEe1ILSYjO2IyhFF4zjrZQtz2KCt5KsiFJ0wjdR1yWAl6
-	 8SKCXIgWWh+SBuPeXOIae/26j7w7XHF9OoI/eA4ygW5Gss4z097KiKcXpaHLw/3Izn
-	 6AFCoKc7UD5rQ==
-Date: Wed, 2 Oct 2024 08:16:57 +0200
+	b=QRYY1Rbq1h9A/DJuUDhdwPqR7crCogGrTfYyA/J6mk9EhANNzRuR3VGmL2/yBhQjs
+	 IZ3harlEHEK2DbEvGd4WfZ7x6F+JW1CDcDG2KVF7xLWk0TM0bBuP5mJ4qU//dWBLQQ
+	 8zjTvDN8MpNLiYkTt2tVVEcZaMH1QVxnkpABA2PFWT9/n4XFlKXvq6EZWcClewj7/x
+	 5cSPKuf9m2d7Mg5U3rZCt7Dn8EerAuxgW+8gaNhFJarJXLPHemDid388+X0HszRAaZ
+	 2IpLpJU0Z9ajYpePMcrMWAUk7DrD39qnDh0HhlDUkON2KOspRi5BRhp9URL+bs0vVG
+	 xY02aaW8xcL/g==
+Date: Wed, 2 Oct 2024 08:20:58 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Fei Shao <fshao@chromium.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Tiffany Lin <tiffany.lin@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 4/8] dt-bindings: media: mediatek,vcodec: Revise
- description
-Message-ID: <sl5rrmqh3zwhaz4dfbcworgmluc5albeov2f4qmka4ih4phfhf@g7vs2bwhhd6l>
-References: <20241001113052.3124869-1-fshao@chromium.org>
- <20241001113052.3124869-5-fshao@chromium.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Jason Chen <jason.z.chen@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] media: dt-bindings: Add OmniVision OV08X40
+Message-ID: <lbfppnit7d4mkstrlbxgtemjhdu7yno3kjwb7pyfaees6y7v4v@imoqfze6i36r>
+References: <20241001-b4-master-24-11-25-ov08x40-v2-0-e478976b20c1@linaro.org>
+ <20241001-b4-master-24-11-25-ov08x40-v2-2-e478976b20c1@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,28 +62,78 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241001113052.3124869-5-fshao@chromium.org>
+In-Reply-To: <20241001-b4-master-24-11-25-ov08x40-v2-2-e478976b20c1@linaro.org>
 
-On Tue, Oct 01, 2024 at 07:27:22PM +0800, Fei Shao wrote:
-> Revise the description of MediaTek video decoder to improve wording, fix
-> typos, simplify diagram, and extend the pipeline architecture used in
-> newer MediaTek SoCs (MT8186 and MT8188).
+On Tue, Oct 01, 2024 at 02:15:50PM +0100, Bryan O'Donoghue wrote:
+> Add bindings for the already upstream OV08X40 to enable usage of this
+> sensor on DT based systems.
 > 
-> Signed-off-by: Fei Shao <fshao@chromium.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
-> Feedback are welcome.
-> I've tried my best to organize the existing information with some
-> educated guesses, but there might be inaccuracies or gaps still.
-> Please let me know if you have anything to add so we can make this more
-> comprehensive. Thanks!
-> 
-> Changes in v2:
-> New patch.
-> 
->  .../media/mediatek,vcodec-subdev-decoder.yaml | 100 +++++++++++-------
->  1 file changed, 59 insertions(+), 41 deletions(-)
+>  .../bindings/media/i2c/ovti,ov08x40.yaml           | 120 +++++++++++++++++++++
+>  1 file changed, 120 insertions(+)
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+...
+
+> +properties:
+> +  compatible:
+> +    const: ovti,ov08x40
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  assigned-clocks: true
+> +  assigned-clock-parents: true
+> +  assigned-clock-rates: true
+
+Drop all three, redundant.
+
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  avdd-supply:
+> +    description: Analogue circuit voltage supply.
+> +
+> +  dovdd-supply:
+> +    description: I/O circuit voltage supply.
+> +
+> +  dvdd-supply:
+> +    description: Digital circuit voltage supply.
+> +
+> +  reset-gpios:
+> +    description: Active low GPIO connected to XSHUTDOWN pad of the sensor.
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            oneOf:
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +
+> +          link-frequencies: true
+
+Drop, also redundant, unless you provide here constraints from
+datasheet.
+
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
 
 Best regards,
 Krzysztof
