@@ -1,111 +1,100 @@
-Return-Path: <linux-media+bounces-18982-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-18983-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4E298D03A
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 11:33:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C1298D064
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 11:46:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F1411F22151
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 09:33:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF86A28325D
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2024 09:46:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24BC61E0B6B;
-	Wed,  2 Oct 2024 09:33:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7B4B1E1A36;
+	Wed,  2 Oct 2024 09:46:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Qk7LgcV+"
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="gWh1EN9i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00BA14F9F1;
-	Wed,  2 Oct 2024 09:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F70012C49C
+	for <linux-media@vger.kernel.org>; Wed,  2 Oct 2024 09:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727861611; cv=none; b=rV+d+U6nT6PUvvHsJd9JUPuaF8x/Gd71FEJQc6gzeO8T11a3PiyjW/gQcCHzl+IctddFT2OZ0aAl6wNVzaUPpDxockDSJG2h29mFK5hTHorpL7jIxMXOo1oEod5BrWeH0sk/vmXsE0rUSYS/lckjmfZlh+YidTKyyDyn0LwbHZw=
+	t=1727862377; cv=none; b=oCmg0D+e8opXYG9D1XV0nBrPXkcIqvESwbJeCkWrXxRu87D5U/Ml0RIT0SFttrG8+pMFzV6WXtg21MLOIKQybc07/YL8pKbG5W4bQtptcuuvYnpenB8wmuFFlke/QS01SkXLztopWcwiAgJAuZHggPnsP5e3lac1/TlrNrhX3Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727861611; c=relaxed/simple;
-	bh=Nq9kP7p2LUwPE7XTmkw3W7IZnvP6w4fKaT6mxZ9wZbM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ihtp4zekTCBrLJ2Ag3h8YxEXUs30x/FcmpWzEKTMsBCRT9bJya7COPNE6podr9QFTxV1fkBPfbFRlH9jUjAmxDXx+rVVfaaMV9F7+M6LOxkZ1woFmsio9x2n6Lm36I+VcIdqDg2WYB5ekZRwqOxuIvAgRppFCepMhTEcuz+f7hM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Qk7LgcV+; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1727861607;
-	bh=Nq9kP7p2LUwPE7XTmkw3W7IZnvP6w4fKaT6mxZ9wZbM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Qk7LgcV+pW9t3qtRm5COEeLA9ch6WtSAb+ZcgFbZGRt2ddvzO2NbhOjvkWigZ6Vl+
-	 ZXb6qfsXrbEcixpUbKZuGgbOifEIWxdnFXn1b28H1AiA1rIHncT/l74gjZ9Fud9+M8
-	 mq1FlUBf/Sh56oxviFwCXtEULXt2s+u4YW1S9tb1R3gA3u5ubmQeY0rYbp0zobJ1xA
-	 2Dqh8k1fwRHQtXD2oQ4/t1qxU8ZuTfWLaJXbvknO9MS6tVD8D8ks0Scmm+4GCcPznW
-	 JKMLkAPhWb5KVqes7ikdEMvxuoRIv1bRiV0UePgn+Fc6mOlPCaAzo2bfl/kx7HCKXR
-	 sDO2hVr8wREDw==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id C7E5A17E1201;
-	Wed,  2 Oct 2024 11:33:26 +0200 (CEST)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: Fei Shao <fshao@chromium.org>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
- Bin Liu <bin.liu@mediatek.com>, Bjorn Helgaas <bhelgaas@google.com>, 
- Conor Dooley <conor+dt@kernel.org>, Fabien Parent <fparent@baylibre.com>, 
- Jianjun Wang <jianjun.wang@mediatek.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Lorenzo Bianconi <lorenzo@kernel.org>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- MandyJH Liu <mandyjh.liu@mediatek.com>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Ryder Lee <ryder.lee@mediatek.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
- Ulf Hansson <ulf.hansson@linaro.org>, Xia Jiang <xia.jiang@mediatek.com>, 
- Yunfei Dong <yunfei.dong@mediatek.com>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-pci@vger.kernel.org
-In-Reply-To: <20241001113052.3124869-1-fshao@chromium.org>
-References: <20241001113052.3124869-1-fshao@chromium.org>
-Subject: Re: (subset) [PATCH v2 0/8] MT8188 DT and binding fixes
-Message-Id: <172786160676.39477.16621812934064031504.b4-ty@collabora.com>
-Date: Wed, 02 Oct 2024 11:33:26 +0200
+	s=arc-20240116; t=1727862377; c=relaxed/simple;
+	bh=FMKD6TAIrduufHtyUXrANtbgIEWTy5mEtfsTnegbdtw=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=B1kmCDEcE1xSHja4Vk8nWtSLId65O5dNWrapLiSTDS1eiiLH+OEdRJsuxxkfwVgLeYeEUCAMFZeDCaoED2GEfB+UHdwBryOOrs0fOBtANAgDmkK2EIy/Dwo0tkNdrNAfBfYqFxWMQbF6LAu+vcZ3uyGbmQ+1/c45YUAJ2Crtt1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=gWh1EN9i; arc=none smtp.client-ip=195.121.94.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+X-KPN-MessageId: 27eb2c85-80a3-11ef-87be-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 27eb2c85-80a3-11ef-87be-005056abbe64;
+	Wed, 02 Oct 2024 11:46:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:subject:from:to:mime-version:date:message-id;
+	bh=OZpXNqL5NTa+z1y8Sp2LRFlFCKiuuHcwwDQfQIarZLo=;
+	b=gWh1EN9iG9P/MsoqjgiuVklxp9GWSDV1+Igr9xm0KzC8xW+tj14/gyp/YGLXCHTjPUTGdehMsFeAT
+	 1SohWAE+FrEa6DqdHpbYoc/GHGUB2eeIoGy91u5zNc8umreBsRHc8+T5fjaQd3kc9cM+IKzTqEOVQr
+	 4lwPj2E8aCswxXDiCJUBF9ygbK6smtKAVJ2l0UJ8afjR3DjNy/ZKfKDqUvlfYMg5mTFIXud0AX9Dj/
+	 BdpNXu9jI7kPRvJVLMwpEQzHG4ySFlisHcVuw1zY0uxD0ycmIFQV96UFIOitDK/k03XsRatJdqsfzT
+	 YNARKC3/fVvjGKX+VS2I+FfJtf54yIw==
+X-KPN-MID: 33|9diL3lxycrSdm3J10XgH4nXOWdfvZvzDYFrqQdPG2Vk44K0TTJju20V26OjsK6E
+ 0LH3+ld1TpI59NKs8XyRydEf1X/s9x1YNzGDael6R64E=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|AFaEc2bTTqfkdeCVjSzW4xr7lbFF9DEAF0VA5wlMiT/8c1MPR8O2OoLdcZcKM1/
+ xy/kq46Lpcv6fhuP7pYBkPg==
+Received: from [10.47.75.249] (unknown [173.38.220.33])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 27f0414f-80a3-11ef-98f1-005056ab1411;
+	Wed, 02 Oct 2024 11:46:11 +0200 (CEST)
+Message-ID: <215237b3-0e88-4bb2-8a7d-84a2d0c2093f@xs4all.nl>
+Date: Wed, 2 Oct 2024 11:46:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [GIT FIXES FOR v6.12] media: dvb-core: add missing buffer index check
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
 
-On Tue, 01 Oct 2024 19:27:18 +0800, Fei Shao wrote:
-> This series is split from a previous series[*] to focus on few fixes and
-> improvements around MediaTek MT8188 device tree and associated bindings,
-> and addressed comments and carried tags from the previous series.
-> 
-> [*]: https://lore.kernel.org/all/20240909111535.528624-1-fshao@chromium.org/
-> [v1]: https://lore.kernel.org/all/20240925110044.3678055-1-fshao@chromium.org/
-> 
-> [...]
+If there are no objections, then I'll push this to the fixes branch on
+Friday.
 
-Applied to v6.12-next/dts64, thanks!
+Regards,
 
-[5/8] arm64: dts: mediatek: mt8188: Add missing dma-ranges to soc node
-      https://git.kernel.org/mediatek/c/ad9d9e15
-[6/8] arm64: dts: mediatek: mt8188: Update vppsys node names to syscon
-      https://git.kernel.org/mediatek/c/c1134cbf
-[7/8] arm64: dts: mediatek: mt8188: Move vdec1 power domain under vdec0
-      https://git.kernel.org/mediatek/c/66c466da
-[8/8] arm64: dts: mediatek: mt8188: Move SPI NOR *-cells properties
-      https://git.kernel.org/mediatek/c/08ea5de5
+	Hans
 
-Cheers,
-Angelo
+The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
 
+  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
 
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/fix-v6.12a
+
+for you to fetch changes up to fbd5c1630f464fb4b7135d9bb07776dd969f750c:
+
+  media: dvb-core: add missing buffer index check (2024-10-02 11:42:25 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      media: dvb-core: add missing buffer index check
+
+ drivers/media/dvb-core/dvb_vb2.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
