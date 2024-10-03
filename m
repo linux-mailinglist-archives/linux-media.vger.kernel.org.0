@@ -1,145 +1,129 @@
-Return-Path: <linux-media+bounces-19024-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19025-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5284B98EBC6
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 10:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B2898EC63
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 11:41:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC9461F243EE
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 08:38:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E1E01F23686
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 09:41:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4784913B2B4;
-	Thu,  3 Oct 2024 08:38:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C89E1474A2;
+	Thu,  3 Oct 2024 09:41:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PKVxRR/G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jx6d1uVV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B24513D245
-	for <linux-media@vger.kernel.org>; Thu,  3 Oct 2024 08:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A599F7F48C;
+	Thu,  3 Oct 2024 09:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727944690; cv=none; b=qOZ7XkRuY+L8bgjOebs787TIKGE5y4AMc38jRLibnBoJ7kinvFA6slkI13K1fvw1nsjR9EO+vhcYY6br2U45weh8GUJp1HvBXuE9ThbATTeu5xJD++OuMbU2Cy7GJwEcvgjD60yuAcgB2jhZbjb67zF9dK032GjgN6En5uuGHQU=
+	t=1727948497; cv=none; b=qxN0kcmMf1SpgGpyINjJltyu1b2HmtKX4SPk0gaOjyzx7B8Em4q+nL/bWV8nMrTvUm0lu1pMIg1kJwuceQGPOvEBeoB0/AKMl2m0VqweQZ8xsjsIBivfskq2ctHc49rM7vcO8FkJLiEJOkaCuRScVN8h+ajpUYwo+NGzn+WGBu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727944690; c=relaxed/simple;
-	bh=4ua2maflkVRqMc2LZtuqDFH1fI3chW0M0xmBlZRER0s=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bkUlXF9aLQIMrJS/OfhtN/Hy5l/NIMFckcRQ09E08/KcHb+VvUg8uAQL0nhZjToMHwlhn1KPIgPBZncQgUr7Xx5f1eqAc6xMaauyZ80/mu46/vv3pZVd4hAHx4dCx2AhCMqoJBRzuE3tE8RkTg/7Bdkj+4NzqhJAGcBu0bPs5dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PKVxRR/G; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5c8844f0ccaso831316a12.0
-        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2024 01:38:08 -0700 (PDT)
+	s=arc-20240116; t=1727948497; c=relaxed/simple;
+	bh=KwdiU7e6jwQOUK4JMjIqWgd/iGKoH3nUSss+p9So8YE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hKEEJDs+z5FAy1huot14t3QR7oGMEd6w19UTOcZx6irIWYzGW++GApvxD9ggV/ZTM2nfJ+gBSxrEAgdyAFz3dY8oIs+21ZeKsEvPwTF8SkOSnHfIESBeKqmydsA10t2aNHNMnBjz8ZzX1Jcy3O89kbUDQ5FJIPtdjAMD+7re1Wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jx6d1uVV; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7db174f9050so158356a12.3;
+        Thu, 03 Oct 2024 02:41:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727944687; x=1728549487; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AI95hdAo0L197vsF1rDqCX/UBH8QpXiLJGBbpmWlwYs=;
-        b=PKVxRR/GPeqYE0BPqAOeoqHbiPKdBn1JL+shVzXW8QHbMhTBPXt396ktVHnceTPI5q
-         B2gyeoAO8LvJqWjLqD10Vs/SR9byy6ApiXv2isXDqrTOrrVizSEcAWsETU3Imc/pK2Ns
-         qaINMeywuDyhMjLP7qWdWNILeX539lzpvB/hkSm3jJI5qOtCUpB02JesGTpFNeOr1M7V
-         XB+XDKau8Er3HJq4+rSso24d2eBGhS1GvjCYNKkaaeJmwyLIZXm6Eq9f7J4GRB3CX2Fv
-         vR2pHF46S7yiflHlBLxeGGCzSGoBy+eQDm6+Vj0pMWYzAboYZ5qwcxxgYhSPINX04VJ/
-         kopQ==
+        d=gmail.com; s=20230601; t=1727948495; x=1728553295; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LaAziZ5BzdqeZgTYUzIk4JiJJBELIKK3NVIKrTIoSy0=;
+        b=Jx6d1uVVXA1gVOPIllzZ1jv45pT0nAiFUo5nyLy94gFTjWucLyyZOY8DMNffo/bVLz
+         wZcY6xZqW0F3BZloNSxli+DFGF9S6vz5COjg2tpy+7Wy7pStxggl7AECjEjCuFEgyp31
+         nuET3TRGS9gm6NgNszxyQwUgKp5Rm2kaH9ZwjAgJxpLiOns/pWJpgaeluay9teM5TsTC
+         Y00MoIL8dT2hiplQWggj5/qrbxzUk/5tPfe8Clr9y7pirNwPJXnRVZsY5UMeXLaXl5X8
+         +2QEOY0/yzs3d3eXygc7OGJfDbfsnGtnFAxdChPcXC1bluqd6g7wKgNYIPbJc00tYguB
+         tapw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727944687; x=1728549487;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AI95hdAo0L197vsF1rDqCX/UBH8QpXiLJGBbpmWlwYs=;
-        b=Rp2IHKHW0G60UtCIR2SoODQRCOC0+n49nZ04Xw+oMrzNR/S+b8dQ8mrPhO7QtB2ns0
-         TWtzl2JwTezw0I7y6HoZe5rU/9MSsAJSW0WDDy+QHSwENxGB7UxaKCa+oU4Szl7AWeJY
-         CLNMp57h2wPbmhnvdId51htz2P4Zfm9z5kDan64XpagfY5Y8O5bV87K35j6w9bo+gTb3
-         tKPBLInpbKDePrcqmT2b+PqxMeMW4WKH3NYtNbqldNOeRvoCPNr6qdjcY032zJjovP53
-         rIPpHuj+ragSBnABkMz238RjnwhLWeEmh/ydtzeQPZ6lTPSi/r0Hf2PqK9aLzzxTcJqr
-         RLQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFlKi0rX0lP1F7+EepD0PP/57oWkaIWrB414sQfoWVxwAQGbQELMwDm1kgefmVYpD7w2QMmzDsX8ddOA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSdKcQ5z/p3dQp83zQRdD8i+Qpzd70s+QC83gMf+sf69gkCrOV
-	uRZ3xdUBRWTHXVcpTwQtoF/H2CBlrw0Wlke5zPLI5frSuYXgkyDiDgy55E2s/rU=
-X-Google-Smtp-Source: AGHT+IFJtQ5Q6vU9bV3iUsDqKrnaXd3wQlCvpuKx4mdOk/dlYDndw7FIUWSdSe2S/QZdI82/p+L1qQ==
-X-Received: by 2002:a05:6402:280e:b0:5c8:83f1:2531 with SMTP id 4fb4d7f45d1cf-5c8b1b7d282mr7308984a12.28.1727944687275;
-        Thu, 03 Oct 2024 01:38:07 -0700 (PDT)
-Received: from [192.168.0.15] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c8ca3bcee4sm464438a12.8.2024.10.03.01.38.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Oct 2024 01:38:06 -0700 (PDT)
-Message-ID: <8554d372-18cb-4351-a5ab-894be09c613b@linaro.org>
-Date: Thu, 3 Oct 2024 09:38:05 +0100
+        d=1e100.net; s=20230601; t=1727948495; x=1728553295;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LaAziZ5BzdqeZgTYUzIk4JiJJBELIKK3NVIKrTIoSy0=;
+        b=H8+dMameAGbeLRZdkjHBXZrvlTh/SKI7TgiCa1wN3fk0XpaTte1xr/UZhPwl3uOrVR
+         O9iPz/Oo2yiCzq/60iI9hI2wS+CQQ8WtPoxnY0senFOwJm5YciX6j66XT9gbk1ivIHRZ
+         zCOvK5Rf1p7Zi4czimViCpYeI+TUyJo+dXE5oUejl7tKXIorINTlhmNK2CMwx6W7qLFV
+         NUtCUOzPcCB+4nHVPaFupoU2vsdLzCXv0YhxWgYNS9/FYBHpmbaFmNJU02m7dy/NFEJi
+         11qdFQ2ct3llG4pzu3F2FepayU6EKvI808T3saX+sQ4t11tBW5fTkoMzApm7y7D/i7sy
+         6Kkw==
+X-Forwarded-Encrypted: i=1; AJvYcCXWJIlAv2KQtV2jfOSK/tEL44Bzi+nWZKCePR/mQ8K2DtUcItyCxgR8JzP0uBn/m/FD6Z52Mv/buMXcQJw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwO3W/NYNmpNk9HimymnAk7Xg1g/kAF4YNxs6IT8q8ZG3DuNDHc
+	PMfMbkWB1qDny2gP3R3BAGBbOGEFx4H9/WbMjvwG8M2FdA1hzuKb
+X-Google-Smtp-Source: AGHT+IHzp87d8RlBHgGq6QEtWCw9cP0+SIVZM0Si98O7W13b6emrK07fZOu0Jjc9/Oy55CFtXXJjoA==
+X-Received: by 2002:a17:90b:4b4e:b0:2e0:944b:9524 with SMTP id 98e67ed59e1d1-2e1846c9f16mr7147308a91.22.1727948494799;
+        Thu, 03 Oct 2024 02:41:34 -0700 (PDT)
+Received: from localhost.localdomain (n203-164-232-111.bla21.nsw.optusnet.com.au. [203.164.232.111])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e1bfd2a08asm1084624a91.46.2024.10.03.02.41.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2024 02:41:34 -0700 (PDT)
+From: Rohan Barar <rohan.barar@gmail.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Rohan Barar <rohan.barar@gmail.com>
+Subject: [PATCH v3] media: cx231xx: Add support for Dexatek USB Video Grabber 1d19:6108
+Date: Thu,  3 Oct 2024 19:40:40 +1000
+Message-ID: <20241003094039.2893301-2-rohan.barar@gmail.com>
+X-Mailer: git-send-email 2.46.2
+In-Reply-To: <20240930232500.1700330-2-rohan.barar@gmail.com>
+References: <20240930232500.1700330-2-rohan.barar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] media: dt-bindings: Add OmniVision OV08X40
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Jason Chen <jason.z.chen@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20241002-b4-master-24-11-25-ov08x40-v3-0-483bcdcf8886@linaro.org>
- <20241002-b4-master-24-11-25-ov08x40-v3-2-483bcdcf8886@linaro.org>
- <t4fajppdqagkl7wr2krcucsga4zocz6liar64odk2mnasdyfms@5fp7bfwalson>
- <a86d05c3-5151-4161-8612-58894b1d0203@linaro.org>
-Content-Language: en-US
-In-Reply-To: <a86d05c3-5151-4161-8612-58894b1d0203@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 03/10/2024 09:33, Bryan O'Donoghue wrote:
-> On 03/10/2024 09:29, Krzysztof Kozlowski wrote:
->> On Wed, Oct 02, 2024 at 02:58:44PM +0100, Bryan O'Donoghue wrote:
->>> +        properties:
->>> +          data-lanes:
->>> +            oneOf:
->>> +              - items:
->>> +                  - const: 1
->>> +                  - const: 2
->>> +              - items:
->>> +                  - const: 1
->>> +                  - const: 2
->>> +                  - const: 3
->>> +                  - const: 4
->>> +
->>> +          link-frequencies: true
->>
->> Not much changed here and you did not continued discussion about it.
->>
->> Best regards,
->> Krzysztof
->>
-> 
-> Ah my mistake, I didn't read the bit at the bottom of your email
+Add Dexatek Technology Ltd USB Video Grabber 1d19:6108 to the cx231xx
+driver. This device is sold under the name "BAUHN DVD Maker (DK8723)" by
+ALDI in Australia.
 
-I'll do this
+This device is similar to 1d19:6109, which is already included in cx231xx.
 
-Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
+Both video and audio capture function correctly after installing the
+patched cx231xx driver.
 
-           data-lanes:
-             description:
-               This property is for lane reordering between the THP7312
-               and the SoC. The sensor supports either two-lane, or
-               four-lane operation.
-               If this property is omitted four-lane operation is
-               assumed. For two-lane operation the property must be
-               set to <1 2>.
-             minItems: 2
-             maxItems: 4
-             items:
-               maximum: 4
+Patch Changelog
+v1:
+ - Initial submission.
+v2:
+ - Fix SoB + Improve subject.
+v3:
+ - Rephrase message to not exceed 75 characters per line.
+ - Removed reference to external GitHub URL.
 
-This captures what I'm after.
+Signed-off-by: Rohan Barar <rohan.barar@gmail.com>
 
 ---
-bod
+ drivers/media/usb/cx231xx/cx231xx-cards.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
+index 92efe6c1f..bda729b42 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-cards.c
++++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
+@@ -994,6 +994,8 @@ const unsigned int cx231xx_bcount = ARRAY_SIZE(cx231xx_boards);
+
+ /* table of devices that work with this driver */
+ struct usb_device_id cx231xx_id_table[] = {
++	{USB_DEVICE(0x1D19, 0x6108),
++	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
+ 	{USB_DEVICE(0x1D19, 0x6109),
+ 	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
+ 	{USB_DEVICE(0x0572, 0x5A3C),
+--
+2.46.1
 
