@@ -1,100 +1,163 @@
-Return-Path: <linux-media+bounces-19037-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19038-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3FA98EE22
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 13:30:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB1198EE8D
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 13:54:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 40897B2300F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 11:30:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0A841F23079
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 11:54:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8FCC1547ED;
-	Thu,  3 Oct 2024 11:30:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B517154C17;
+	Thu,  3 Oct 2024 11:54:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ribalda-com.20230601.gappssmtp.com header.i=@ribalda-com.20230601.gappssmtp.com header.b="V8ABRIB8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mfNVqqxo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7722310E0
-	for <linux-media@vger.kernel.org>; Thu,  3 Oct 2024 11:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5C51547C6
+	for <linux-media@vger.kernel.org>; Thu,  3 Oct 2024 11:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727955015; cv=none; b=l/t1qFVR/qqsMI0fSCbB32mxZyWXHlPoJNY1R3svG0kgn8wDO+kC7ne0zOInryNjEktuO0hD+itUKuJSD9ke1Jxp8+86zO5W6nZ74qEQmwJNhjtOUE0zyPiTP/AaYmwNwcx6Bsup3WW9Qk5ccp9l7A5RaqaGS3+89X3RyZ8sfio=
+	t=1727956486; cv=none; b=jDieNEO5Ixxl1rpcioxmphwPRoQAtEFTxENqBsnECVUZVypp1S7V+OtdN1OKQcfbbUbAs4Igu+EH3SM+MPqlMEVPqWQr+/aPz653erGJy7Nn6VZiG0g6hdmmD8lxgpoIUQ5FsLbYHJFRbK4oTXEgF1e2QIo6GparAXMcAgbRp84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727955015; c=relaxed/simple;
-	bh=9/h0WYX1d5VnmBKt83pSP+z1QiT36uKU3Gk5NVfc+wY=;
-	h=Message-ID:Date:Subject:From:To:Cc:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZDNFoKYGv2X84vdMt62t6uVdeTJBV5ZjVXc1HQTtzeSPLH7tklrly9XjtwKyvsBrOfGVEnHOxHX+A0xNbkyQfG8pUKQBwmFq+tIscbslzDMqsDeGVVvNodt73o/eQXnJB/GEigBt7DTFL3V9oORuEL19kBinqxbEetZcHjDdiWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=media-ci.org; spf=none smtp.mailfrom=ribalda.com; dkim=pass (2048-bit key) header.d=ribalda-com.20230601.gappssmtp.com header.i=@ribalda-com.20230601.gappssmtp.com header.b=V8ABRIB8; arc=none smtp.client-ip=209.85.166.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=media-ci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ribalda.com
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-82cf3286261so37104139f.0
-        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2024 04:30:13 -0700 (PDT)
+	s=arc-20240116; t=1727956486; c=relaxed/simple;
+	bh=f/05BBH/eq7K2tyheyBY4GE/gcawtUMwmppbh+Qh1zg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sblckedmFFC5d0oxNith/jTDdVnLQ7A0QiKBltihsRCtmXQxu28Vts1egpsxsTA85jlHIYJbMjFtu7+JoJg+4bab39H05xNE/j3ISIKHfwBoG3r9HI+BbwUeO0J7OppHYa2kWtX1UYmN8rGyzzFEfQe5UhpoqBAlsOuDlmyOEiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mfNVqqxo; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5c876ed9c93so1009687a12.2
+        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2024 04:54:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ribalda-com.20230601.gappssmtp.com; s=20230601; t=1727955012; x=1728559812; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:cc:to
-         :from:subject:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9/h0WYX1d5VnmBKt83pSP+z1QiT36uKU3Gk5NVfc+wY=;
-        b=V8ABRIB8lDB7ASUK1SkGo2mIs6YLXQ0AmoAj+qg9PHl+vUGcDfz/DrnGQbnZdFBrzW
-         E/g/sToZ60Jmq9DzdntfkabMe+21KC3dEQd8p+oRbNpgI88Sofisu3d8PRokGlC8Mx9d
-         KZjWKjR0pXHP+sc7zbaGG7PWNVnSCuQDC7qmT+t4W2dWsRb4VA8meVwJ7k7XiS1VIj4D
-         Nm7GchFmwIJUcWZwm4kibXPIgJLjOvCk0kTBbcHyU8v3UPVjRjiOU7k6ZDKX+uD9qbmL
-         nfLSW0ytOZ0biTzSalUDCMWEM63XMgB+SFMiVFTDIogI7NTnoZ6kGxqtQ/NuPpqpUmsa
-         GQqQ==
+        d=linaro.org; s=google; t=1727956483; x=1728561283; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uV4EBqFF6t4IrEQzVLz2juLY0QACwQNhZubENKYeW5E=;
+        b=mfNVqqxoi33Fa7whZP4dtqea0E7WjtN3vYoegwwwhk9w9Yrr6OSchfEFzuZ6jl9HMR
+         jPpTiRdFcf3QDKaUYJrXStSdYThtzh2hoHtkj3Yt8S5Zz2sIYj3/hZAuysr+DLRIQ86h
+         tMr21cgNOyXPW6z7gfQG2Miqpc2Ewg7Hk8EPLGcwMXCq6AJcpCJf+6vXPXS9/r+M+CBq
+         2m/ITNUWxOW0DSOhPSc2eR5wb3F/nAeo+nwLySV68aakVgLIJ0Z8fUK2PntFtjBvZlzY
+         qnbLnK0eU0l9Kbx1F3iWNH8YdmQVd0vVhlte2NpaPUBxMkyDgLfb9ZdDqXcg27Dx3wN6
+         PJFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727955012; x=1728559812;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:cc:to
-         :from:subject:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9/h0WYX1d5VnmBKt83pSP+z1QiT36uKU3Gk5NVfc+wY=;
-        b=S2ySR7XJuGvSAo+Kiau2rG+Sg7rcAMJvgykUvuxJHamhtp7e/5aK9SJzmJloL6TLsC
-         mRcAB4EJyaMSPJ4BoUvmb2QHHd2szErj5nWubHWLw4MwwO7UzvSs/Gm0vLs+SM2pPGb6
-         tlZii4rdx2pjNsu2B+S5QM3h7mXIqT0VuGqmcoTL68h2GvbYDp3STfQPgS5xJYJME+GY
-         1/OojQhKyyL60LD5hG2SiZrIdccA158fiqdU9PlJgoCJhjyK+N06E493lr2SKDH1mk0/
-         n5nMvd1lBFCS5ZBbS0Z1u99T3ELi38ezWNGYEs8s9mJw04mHZyNgxjzRFKByOSSOMZYT
-         YcDQ==
-X-Gm-Message-State: AOJu0YzPEd/m8jSLRYdz+Jzf/JlxsXxmcV2zrJ4Xfr+UMJ+97zRVRPva
-	H3TnWW/bo33N5gjAQ4nkYEQ+N5I+BELpuRVHklndK97/owFO3aO7AhIwgZL6DxrM1PQgBhG6NpK
-	s1caUaniw
-X-Google-Smtp-Source: AGHT+IHZe72LNMWHuiEoyjw++mcLZk8XE33RNCsyJDh9av07G+a/OdPp4n5eA05v37GJwoxYJ+l4jQ==
-X-Received: by 2002:a05:6602:634e:b0:806:31ee:132 with SMTP id ca18e2360f4ac-834d83f7467mr617106439f.4.1727955012428;
-        Thu, 03 Oct 2024 04:30:12 -0700 (PDT)
-Received: from gitlab-scheduler.us-central1-a.c.linux-media-ci.internal (35.232.27.34.bc.googleusercontent.com. [34.27.232.35])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4db55a6404csm222790173.99.2024.10.03.04.30.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2024 04:30:11 -0700 (PDT)
-Message-ID: <66fe8043.050a0220.f9c46.044a@mx.google.com>
-Date: Thu, 03 Oct 2024 04:30:11 -0700 (PDT)
-Subject:
- re: [v6,1/4] media: uapi: Add meta formats for PiSP FE config and stats
-From: patchwork@media-ci.org
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <20241003-rp1-cfe-v6-1-d6762edd98a8@ideasonboard.com>
-References: <20241003-rp1-cfe-v6-1-d6762edd98a8@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20230601; t=1727956483; x=1728561283;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uV4EBqFF6t4IrEQzVLz2juLY0QACwQNhZubENKYeW5E=;
+        b=fIkiIumLufnsaraB8m8XmzutdOqkfSPhYdi1eFO4FOaMcM20jTEMb9I9aYwCUoau5E
+         6WmhUqO/KDcXjBpF4Ifyb0uz7eC1UvV+OfnYhnyfwnpYaadaxzad5qjOy+48FAECFngU
+         rgTcfqC/aMdwNXEKQZnqRTgHY/50y4Grm6+nouG0rz5DtyyxpQu3SS5CW0Xhfl+nB6pQ
+         WKO+xFptePPAKvEYjMNcP/zg8Xg23qZBjcPncZoPuRYc1TVJOGbwRmZFJbBOTxQCt2Fu
+         yxbUVz/WhDuBSqErVdjrvRzZScJuTE+JAQCdjKMeuOEOLV5mn52IwNx/atJcZmPNLrSw
+         GbFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW7+KjEVNQwHXtsnxn4BtOQU1bNFujHSf1vBAejkhQidCHFp/hCoUQyC91pqrEDTAVXnHJqFL8MYR41/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrJutJQvv850EnbGnHWX6EL8+pdOKTePbRDsDpVl4820GITEmO
+	zXSAGiaU6adUgh54cdt1nUmdT3HoOCRwcBlZJx3eEFZPnRl80TInvS57ThlUNtU=
+X-Google-Smtp-Source: AGHT+IGNvEXLDy3+c7JoQtrUl/REfu3GgusWXRqO6Qr7rOxgPVJ7UVvkXIucc0P+f1n7YyddpKen/A==
+X-Received: by 2002:a17:907:1c04:b0:a8a:83e9:43e2 with SMTP id a640c23a62f3a-a98f8207ac4mr617082766b.12.1727956483122;
+        Thu, 03 Oct 2024 04:54:43 -0700 (PDT)
+Received: from [192.168.0.15] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9910472ba1sm75272866b.161.2024.10.03.04.54.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Oct 2024 04:54:42 -0700 (PDT)
+Message-ID: <c86f695f-28e2-406d-9f46-c291fca282e4@linaro.org>
+Date: Thu, 3 Oct 2024 12:54:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] media: dt-bindings: Add OmniVision OV08X40
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jason Chen <jason.z.chen@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20241002-b4-master-24-11-25-ov08x40-v3-0-483bcdcf8886@linaro.org>
+ <20241002-b4-master-24-11-25-ov08x40-v3-2-483bcdcf8886@linaro.org>
+ <t4fajppdqagkl7wr2krcucsga4zocz6liar64odk2mnasdyfms@5fp7bfwalson>
+ <a86d05c3-5151-4161-8612-58894b1d0203@linaro.org>
+ <8554d372-18cb-4351-a5ab-894be09c613b@linaro.org>
+ <e8142566-aef5-498e-9d2d-8ac187ce8524@kernel.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <e8142566-aef5-498e-9d2d-8ac187ce8524@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Dear Tomi Valkeinen:
+On 03/10/2024 11:17, Krzysztof Kozlowski wrote:
+> On 03/10/2024 10:38, Bryan O'Donoghue wrote:
+>> On 03/10/2024 09:33, Bryan O'Donoghue wrote:
+>>> On 03/10/2024 09:29, Krzysztof Kozlowski wrote:
+>>>> On Wed, Oct 02, 2024 at 02:58:44PM +0100, Bryan O'Donoghue wrote:
+>>>>> +        properties:
+>>>>> +          data-lanes:
+>>>>> +            oneOf:
+>>>>> +              - items:
+>>>>> +                  - const: 1
+>>>>> +                  - const: 2
+>>>>> +              - items:
+>>>>> +                  - const: 1
+>>>>> +                  - const: 2
+>>>>> +                  - const: 3
+>>>>> +                  - const: 4
+>>>>> +
+>>>>> +          link-frequencies: true
+>>>>
+>>>> Not much changed here and you did not continued discussion about it.
+>>>>
+>>>> Best regards,
+>>>> Krzysztof
+>>>>
+>>>
+>>> Ah my mistake, I didn't read the bit at the bottom of your email
+>>
+>> I'll do this
+>>
+>> Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
+>>
+>>             data-lanes:
+>>               description:
+>>                 This property is for lane reordering between the THP7312
+>>                 and the SoC. The sensor supports either two-lane, or
+>>                 four-lane operation.
+>>                 If this property is omitted four-lane operation is
+>>                 assumed. For two-lane operation the property must be
+>>                 set to <1 2>.
+>>               minItems: 2
+>>               maxItems: 4
+>>               items:
+>>                 maximum: 4
+>>
+>> This captures what I'm after.
+> 
+> I commented on link-frequencies.
+> 
+> Best regards,
+> Krzysztof
+> 
 
-The unreliable Media-CI system has found some issues with your series.
-Check the report at: https://linux-media.pages.freedesktop.org/-/users/patchw=
-ork/-/jobs/64591858/artifacts/report.htm
+Ah I understand you.
 
-Please fix your series, and upload a new version. If you have a patchwork
-account, do not forget to mark the current series as Superseded.
+You're saying the link-frequencies we have in 
+Documentation/devicetree/bindings/media/i2c/* are redundant absent 
+hardware specific link frequencies being enumerated.
 
-If you believe that the CI is wrong, kindly reply-all to this email.
+I'll either enumerate the acceptable set or drop this.
 
-Best regards!
+---
+bod
 
