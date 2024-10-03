@@ -1,111 +1,95 @@
-Return-Path: <linux-media+bounces-19074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19075-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8B798F869
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 23:02:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB9E98F8D5
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 23:22:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8A061C21D95
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 21:02:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D50C91F218A6
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 21:22:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CB351B85D6;
-	Thu,  3 Oct 2024 21:02:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 262901AC429;
+	Thu,  3 Oct 2024 21:22:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=rtie@gmx.de header.b="h5pnUgNI"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="m3blYp0e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59861AAE39
-	for <linux-media@vger.kernel.org>; Thu,  3 Oct 2024 21:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A693D1ABEA7
+	for <linux-media@vger.kernel.org>; Thu,  3 Oct 2024 21:22:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727989346; cv=none; b=Urgvvsf8ZZrZq6fLUQatYDtimIfV+jmClm3GuO69ISPhX1IuzLo1Vo/S9AWVhfSFkfqwrJlYeu1AtH/0nsye/Hrs41zwIJPlsxsecGD7AKNH2eHshyqX98OhUlC1Oy6sb6ySk097UQToA2N06ZjoTM9h6zolQ78nMh0ziPLYr4M=
+	t=1727990559; cv=none; b=Cx3b+tlSiG3GQmgVj275Oj860m2V/Ve7A+kULgUXIQUuQi05ahhtYD3rI6DJgFuzwCHXJI76q0sriCcB9MqpywlQwjgVK13a06Wg9NypW++RFJaqlWd9kOcdxbVHibuz/b/x2TQlK2vsk8u8hS953/onZ8Q25Wr8sQYW6mp8Jkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727989346; c=relaxed/simple;
-	bh=GbPPSRwe9RJ4VZP2H9C9Gf3gLpQhNBLzhN7pFLCZ81U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r8OumRTKBascU1F3P78f43ZPeDQt3t1F1OW9CjtTw9lyFba307agYZHnbo/A0LU2nZZ8kmzodbhCBMHoCwifsr/Zvq1Swwm7NSkkgetfLxsqGi11g6726B1NwhKrf0BEf9mb63yrLPiXk4QfClz2WlfzWe5Vjnah8lJVf2e6bK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=rtie@gmx.de header.b=h5pnUgNI; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1727989315; x=1728594115; i=rtie@gmx.de;
-	bh=GbPPSRwe9RJ4VZP2H9C9Gf3gLpQhNBLzhN7pFLCZ81U=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=h5pnUgNIyY+YZc01kDldQ7AFASnN9ENRJT/vsq7K3vN/WzMYUaWhv/r0RfNEfSbH
-	 QcJu+cjFqY2XFdDvhVQrhWSC6Fii0cvtPu+IEjgu8pVs0KImFI1LqkdOsK+PBONb6
-	 4lLqsqV6TPSYiyRx2v9NE89suOFT+oIi3XKmlGZreuBM2XaYdEiwqcZbmIiDGy73L
-	 HsUgJF/bVtd8ytjUcL2NUttacNG5PKFKqpX28bTxbwSAb0J/Sm2b02Mp7b154ODEk
-	 lJdwjyHk7oJvmC/21j2N8FLzdFO/E6gHmiRan6GzTYdcu0sAsms5Dk4cbLAWjo4xd
-	 tbjIbiVMw/FaBi2zgQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.69.6] ([79.231.128.178]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M26vB-1su07O1LiL-007KOs; Thu, 03
- Oct 2024 23:01:55 +0200
-Message-ID: <a351ed66-c7c2-4adb-b74a-83a1e4636556@gmx.de>
-Date: Thu, 3 Oct 2024 23:01:54 +0200
+	s=arc-20240116; t=1727990559; c=relaxed/simple;
+	bh=hATJKXLhc4G2bgabc37GzfjYl3WMF9XD7Sb3ATw/1jo=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pO2sYqPBeWRb2yclKBB0li/Z7mwr40tPYlIbrtg4hfhx0TOnB3aGfe0mZblD8w1hP6N0CANMcN0w4tNb8vL9fTZy+0wd2Jfg482tWQSs5l8eopF4DBy/BNJW8Zzdr49lAMwFyIKijnvE/6d9DlLrCJrAT+Sfe6c+StX3v6y+c1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=m3blYp0e; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1727990550; bh=hATJKXLhc4G2bgabc37GzfjYl3WMF9XD7Sb3ATw/1jo=;
+	h=Date:From:To:Subject:From;
+	b=m3blYp0e5DKWhvZMvYVyripOWyV4AfbA+1DimcaJrLv0ECglfrtDqrqcZ7E+SJkfr
+	 Co5X+ufUcJoJBJefONyolwqLmVC1lXwJTDxoEv2uQ1VhPRrRcakiRl+2o9aIW+wq/h
+	 HzVMh+uiQOpg0Br+sdxvB713r2gawW3zIsvbnqxkh8sXKixEHotXFu11peX+SmbXah
+	 mDpenXtJA2Q2SzLUPA10aKH0qR4PExDsXOOjvcMajIL6V3Ws2jUKlTaQ6ecwwNRbZf
+	 lgRbaAfIYlqBweTTYkoOkLNAKHIJKY6Cl0KGVOtyaHSw50zo+CDnWTeE00lkogwy8O
+	 h9UZegj6T6MTg==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 3EEC31003B9; Thu,  3 Oct 2024 22:22:30 +0100 (BST)
+Date: Thu, 3 Oct 2024 22:22:30 +0100
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org
+Subject: {GIT PULL FOR v6.13] rc changes
+Message-ID: <Zv8LFpk9MBuEYOlQ@gofer.mess.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Support for Si468x radio receiver
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <ed03debb-163f-47df-99ec-9b62785172fc@gmx.de>
- <ed8c3d5f-2988-4aaf-a374-1d68805e87e5@xs4all.nl>
- <20241002115316.416f2324@foz.lan>
-Content-Language: en-US, de-DE
-From: Robert Tiemann <rtie@gmx.de>
-In-Reply-To: <20241002115316.416f2324@foz.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:gHmDMRo15UdQ+zxzPjyT+MNUH/7RH0YcYhkS9FvNzG7MgqVaCtA
- jMfjN5H+PGAjfrN9fBQybsl2MAx0VOlLM91917EXP4NIhcYfS7XaO41ZPjKgxtX1GmjRgk6
- Yj+/6yjul2v8NaZFLipBbChA3NxLmLpHppvXSE2rdfcINlvmLpRFYo31aEWHjxs2k9m5hSY
- ARYqoVJ4XxPjzBXMbf1Pg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Vx5IRTj7AjI=;zeYaoqWiYrLMNJWreM9AX+UAJ0W
- w9128J7ktOb9zqBti6zAfIQV8maz988Zkt9wYOjC50irw/ybpNngAeVV1YCFL+4RJKlaT4Dae
- lAfHajVDldhXNM3qWRDsi4u4Q48eR5XL1bzky5HJ3iiJMqHRGHsXvZoQaD0bcw/510FrfWXb9
- f9OxIZVm8VYUlfK1Ib9aheBF1fKwAWh0MVQmb3FuqFG/A0Mf5IDqyrPrlBnDDTUj6hQXUJQnW
- w0CkeQ0TZAmpTjyIN+tortjLugMSFGWavUxM3m7sSpHdVIYVgiQWxUR+7vqt1uEUNk6p1EJDF
- seYVbtmB7cayNutdWQwRTTF278dLJFB8EOEA/AcAB80pd7I/VF3e7GH7JKB8qFVJKCoa4Ymr3
- 03cswDtihtDIuoMaytOKGAgYgJEehZN/ZovmS69OsvYgjwMQiptprbgpQ+hXpRwU0qpI8cYbN
- gAJ2UTDCKApDHWScayci3+rCDKNzWhsqGIAjjEl9bBKinpF2LJ/QekoXyV+xrtf8T7d1ovrOA
- yu+8yd32Y4hYfgBJc3mcNmk7o0kF6VukUWTJLFAAjhT8hCByNLb/qWXyD+DnKKPNWbRT9dft/
- Kaz9m7pNCxkjvem9nW4tov3FZpQUr5xYfBjygxEr4HRb4N7ZVv+cC+8JX4kR+z1uqVmGGBppg
- MDzAzpZM+qHnrlGVjgCQTvfuQKqBenoEgOisrho87OJeLNIXffv2M6lPArfZvhTUJSLQzo82J
- LsPOjMrx0HvuWcGnUg8QS/aOPXWfsvSnkl6XxkEXjV4DWsqvUi+oecYDAlStWi/tWdEVnlvaS
- iJb0e0WsQ3oECp8SYdhWDOA3fbl+/QwJbOWlbQNC06gt4=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi!
+Hi Hans, Mauro,
 
-On 10/2/24 11:53 AM, Mauro Carvalho Chehab wrote:
+Some minor changes. I've confirmed that with PREEMPT_RT, gpio-ir-tx works
+fine but causes huge latency spikes, and pwm-ir-tx does not.
 
-> Yeah, the best is to implement DAB support using DVB API. There are some
-> media drivers that support both V4L2 and DVB API, but, as we don't have
-> currently any driver using SYS_DAB, we'll probably need to add some
-> properties to handle it at the DVB frontend API.
+Thanks,
 
-Seems like someone has to take the first step, I guess. I'll dive a bit
-into the API to see how it works.
+Sean
 
-Many thanks to you both!
+The following changes since commit 81ee62e8d09ee3c7107d11c8bbfd64073ab601ad:
 
-> Thanks,
-> Mauro
+  media: atomisp: Use clamp() in ia_css_eed1_8_vmem_encode() (2024-09-10 07:30:36 +0200)
 
-Cheers,
-Robert
+are available in the Git repository at:
+
+  git://linuxtv.org/syoung/media_tree.git tags/v6.12b
+
+for you to fetch changes up to 5603349e451fb558f101b46892cb97f3e8d0d63b:
+
+  docs: fix misspelling in lirc-set-send-duty-cycle (2024-10-03 07:23:00 +0100)
+
+----------------------------------------------------------------
+v6.12b
+
+----------------------------------------------------------------
+Kendra Moore (1):
+      docs: fix misspelling in lirc-set-send-duty-cycle
+
+Sean Young (2):
+      media: gpio-ir-tx: Driver does not behave with PREEMPT_RT
+      media: gpio-ir-tx: Remove redundant call to local_irq_disable()
+
+ Documentation/userspace-api/media/rc/lirc-set-send-duty-cycle.rst | 2 +-
+ drivers/media/rc/Kconfig                                          | 1 +
+ drivers/media/rc/gpio-ir-tx.c                                     | 4 ----
+ 3 files changed, 2 insertions(+), 5 deletions(-)
 
