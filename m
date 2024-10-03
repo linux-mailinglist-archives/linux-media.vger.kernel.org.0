@@ -1,144 +1,99 @@
-Return-Path: <linux-media+bounces-19063-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19064-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BF598F468
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 18:47:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B0298F4D4
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 19:07:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 432B428215D
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 16:47:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B5BA6B21A66
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 17:07:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD0D1A704D;
-	Thu,  3 Oct 2024 16:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A4021A727F;
+	Thu,  3 Oct 2024 17:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KXMzyV1m"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PpMdRYKR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6331527B4;
-	Thu,  3 Oct 2024 16:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF5A2747B;
+	Thu,  3 Oct 2024 17:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727974058; cv=none; b=FXXx/+XyUaY+JZuOeGhFyKEnGLJhm7ItWiR1E7JxFhgIMw1HlqG70gm21bVBZyiTnXB8bUo2EdZkj3uG9cGUjiHXY2GfoCsHBeM+e6mwMRarYMeA8XEOWYUkWAj4cQXjijC2qGm7c00EeXDiVJOOVSzG4jpRqkQgRXa8DKDg8Xg=
+	t=1727975255; cv=none; b=rKtJN6X3o83auJhjoVLtYReE9o1hDlb186+7DVw5x8k+3GPp5Hclm0lFRR4u6wjlj94igEP3LEy7OdanbON1p2YqfkBP0uCQ1hyYCqGQBRAqxEqLQS9nsKaZR8APxjl5Is+0PDW2B/kVKzhruotgWCeFymAwWPIMkdF4e+2wLik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727974058; c=relaxed/simple;
-	bh=SQdnVgiNWl8DyoVYZQVhOY68PuDDCJZ7vrWQquscuk4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=olVG0Dk7YobAC83Jzx0qafuTb94Dxwje3h4rpi9Yxsh9ZrgHXpviXp4YutrGaGJTsv8jJhig8OopBuZ3l8rjAzWCCfogNV7R7QWSv8D50jnLK2Y7plGFJVLl2Zgs1OqnbRtciB+iudP11HEbXSxgeLPd36qsGKN+L01+h5RSArs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KXMzyV1m; arc=none smtp.client-ip=209.85.208.179
+	s=arc-20240116; t=1727975255; c=relaxed/simple;
+	bh=dkfu7OpedYFMW4blTd8tKYx1+2gfV7GpFrrUeC40tik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bed1QWaQD9v3AXPpwjmzrQPkCQVcf2vRLbw0byT+UgX4PGT8e9KShCQKGLfCrZ2RHI+5Q5t6koZPOzFjsXUS4I7/OJHtrXpXqSXvVgbRCQntfQ6BCA3pd2EUuJsr3BCQ9xO2GkU/579zHL6tXFmvfnb5ZZ3kbCoVtKBp1zxAUSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PpMdRYKR; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2fad6de2590so21174021fa.0;
-        Thu, 03 Oct 2024 09:47:36 -0700 (PDT)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20b78ee6298so7549505ad.2;
+        Thu, 03 Oct 2024 10:07:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727974055; x=1728578855; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=psqXgVYQxh+Nqc0Py7UigoY7uptpL1QNQzj4fqHhGjU=;
-        b=KXMzyV1mrMXXNeK0nZAr+ZLifPPuqjlDLA9+wNeEZRpGhSAnnTS6Vs9NsI/C9+FEQp
-         PYKKhPihrOtrn8SIEHgLl3Fi1FYYDZaOu/KcOz5b93L7do3UbUpNgixeVozCWHtSHGd5
-         p26loWOx/1IOjRCvLRjI/V/67LXSL+2k8OHFtt4V7xWUEMYNQq8oLw84zZG/wszU6iyc
-         yLDh8T32nH+nLVvN+/ddYIpQr+Im0J8PMnvi8sGrEmPP0YMvC5L8EW3xTbP+/PfDbp+D
-         7brFjyIMFvuZoofVs0t/DVSWgxZNokYPc2CrKrxfZY9ruNIc15aSGZ/OFkAh/mVBlsAp
-         5aAw==
+        d=gmail.com; s=20230601; t=1727975254; x=1728580054; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dkfu7OpedYFMW4blTd8tKYx1+2gfV7GpFrrUeC40tik=;
+        b=PpMdRYKRklciDe6KMX91lXTILtYql0gqadH5w+A/qPCQvZhWVfcAjyfMwjMySJq2Ka
+         fNqCFrySUQHRaxnVVw6q+fAIV6yRAPh1h4lCXXTmQxzUF44LBVKBCCMQrWm4r+sAu6ny
+         3+fjeBzWfvHEB4pJJ+qpg9NogNTIpnNvlJQju3V1wLDJcIivleRME7Z+my2qEQjlzYQ+
+         Hjni0Q6m1K+Q3Bzg9kCqG4J7jNZn1nV/RBfdmI4VFW4FKHjUKb47lO+bKOndsHsftQo4
+         7tz98GFaEkhmPNz2Q2LbqdrwIIJrTf05pf3V9qM1crrO9HzLuOHQfmwgbJWbYh5WiYpE
+         3WWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727974055; x=1728578855;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=psqXgVYQxh+Nqc0Py7UigoY7uptpL1QNQzj4fqHhGjU=;
-        b=IBdpZZDg+l+C8lRbqKXgg1QQY/jls2TQ1CdVCz0ae8OYNpXB6JscD4MYivj2ddcr4T
-         MMhU9BlrfM/9EmopkiiJjlwOGPbpmWXrbmtoIjvSIjBn8riZCBB2DB9a5iM50zwoNZFy
-         cJR43GgII5bTdFEWCy0xruZqZ+hD/FjuMkd66S23shH3E6u3lRLc56oDWV8+q5EFpE9h
-         Rknb4bkRapkhROoXeDGM+owZob/vcJgFYOdp65wmqF56eIcMhZl120iea1KBX+S9wuLI
-         AFjMIbo3Ca4xICJQsY3oCNgprDPBC82ZhI/C4oNQU1a5vbyThnUSqlKzOP7rXpb9Iwib
-         c41g==
-X-Forwarded-Encrypted: i=1; AJvYcCVjAn0MZ5h/D/TlWokkIkcP7i56dPVlF+HkwPBeyV8mzLaOt05A0UbaVc0jmGhFK2ie6a7CxQmmQFkAV40=@vger.kernel.org, AJvYcCWeVKY5rEgcQTRKGzX3nRpOg4Ys6bsnarbLgl9z/NqHrinKMpoCqo5TOyrIsMovXd1mj2zuIDLfFP3WhiM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLgsMQJasJCeh/BmHv1j+utJau/u0jP8dNq1m1BP7Zf8Yv4qWE
-	ZEhP/ogrc2JYmWpntxPNKFXsBlz2tcVMRF3/PJdCky7T5msf5oYaG6574g2vttq/agLU8+Bcrrc
-	QHYvQAt1xtn/aEa5NeJqMsPhMrek=
-X-Google-Smtp-Source: AGHT+IGPSZ3E9O5gAxhRq5O9LqntfK9B6JDHzw+kooRnu6f4cg5nHyGVMnGw5PmESsxX1yJS8iK6tHj52Q6zsyKi2nE=
-X-Received: by 2002:a2e:b8c1:0:b0:2fa:c455:23c with SMTP id
- 38308e7fff4ca-2fae10b4c0emr73735201fa.42.1727974054298; Thu, 03 Oct 2024
- 09:47:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727975254; x=1728580054;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dkfu7OpedYFMW4blTd8tKYx1+2gfV7GpFrrUeC40tik=;
+        b=ntwRemNjpuIRWmlEClry1lRsJsXuqH4AYPGzuI+GlA0vKy2ROWxBemmCctpMhS60FL
+         U7yLE0DfBRhcJNQ+t1fJ7lchBWXB//vUfWl+eif2uRbm7p5oxuZoCsiSPRQDZdjeERCT
+         ZUWkWKPunx2fg3zw5JLzP2BrCuksKcmTCWB1pAa5e1dPznv2D5BYSoGubhTVI+qjJR1b
+         TzedgXc7Vy+z6bEG1GQcE9RaAIzgvD3CW33mfmW1TlP1Duao2YwkhsSUtGpScZqcBQCB
+         rlaGF564ltFcuYKFwMrGCDyxM842JkNpxf7dhJuWH0cb0ICy7A4nqhz1EiDxj9r91/kR
+         NCkw==
+X-Forwarded-Encrypted: i=1; AJvYcCUX7gklky82i4CVccyMy/t7p9xk2X6G22SbJKSEPBdm/kbs7CK7LSBgGy8AsT56guk0H4ktVoGoZ381B2M=@vger.kernel.org, AJvYcCUb98QqSce+uhpe/YrFU4fedhfXLCK76hT5az9ldeBtWvchlQaDg7YwOjCzlk2kwflUOeUM4rb44QLGSmpt@vger.kernel.org, AJvYcCWiKm2OldPQ3wBpoufdEeRuLYMDZCJ0wnWExrO7VTLUpFuiz+E4JmZHVWh9naPiWzOPwg5TNTtviK62Axnx2UU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzovEbPDeCZCdgKzopA6m1K4Xp+Vrh6WBl/HVKOBlsjN4SeD//U
+	8rvCfgGSd1lo5ZSlLxNhVa+VNU/QA89kAfwhUXn6HVGbZZHSjYgz
+X-Google-Smtp-Source: AGHT+IH+lcuitFr2y68/zPm6sfKZoMgOMMWy0G+pLPaWzpY6VYabxGZJbcedKcdXA6Lu5Ya866DR4w==
+X-Received: by 2002:a17:903:1c6:b0:206:9519:1821 with SMTP id d9443c01a7336-20bc5a0a184mr110302725ad.14.1727975253702;
+        Thu, 03 Oct 2024 10:07:33 -0700 (PDT)
+Received: from Hridesh-ArchLinux ([175.184.253.10])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20beead252esm11348835ad.43.2024.10.03.10.07.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2024 10:07:33 -0700 (PDT)
+Date: Thu, 3 Oct 2024 22:37:26 +0530
+From: Hridesh MG <hridesh699@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+	Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v2] staging: media: fix spelling mistakes
+Message-ID: <hd3n62efwrurrjrp7annnwufgiggmmszjmrqaryibf67dt53sr@mazbztoqrkdi>
+References: <20241002152231.8828-1-hridesh699@gmail.com>
+ <2163bf83-dd55-4f79-b0ea-834fa7b1f561@xs4all.nl>
+ <Zv5XsJd965xdNI3j@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241001174611.12155-1-quic_pintu@quicinc.com> <CAO_48GFPg=R4JaSZtgTKjh0TLKTrw24AF0nRMvFRXxwYCP28fg@mail.gmail.com>
-In-Reply-To: <CAO_48GFPg=R4JaSZtgTKjh0TLKTrw24AF0nRMvFRXxwYCP28fg@mail.gmail.com>
-From: Pintu Agarwal <pintu.ping@gmail.com>
-Date: Thu, 3 Oct 2024 22:17:22 +0530
-Message-ID: <CAOuPNLg1=YCUFXW-76A_gZm_PE1MFSugNvg3dEdkfujXV_5Zfw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dma-buf: replace symbolic permission S_IRUGO with
- octal 0444
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Pintu Kumar <quic_pintu@quicinc.com>, christian.koenig@amd.com, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, joe@perches.com, 
-	skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <Zv5XsJd965xdNI3j@kekkonen.localdomain>
 
-Hi Sumit,
+On 24/10/03 08:37AM, Sakari Ailus wrote:
+>I can fix that while applying, no need for v3...
+>
+>Hridesh: it's a good idea to check which subject prefix is used for a
+>driver in the commit log, too.
 
-On Thu, 3 Oct 2024 at 12:27, Sumit Semwal <sumit.semwal@linaro.org> wrote:
->
-> Hello Pintu,
->
-> On Tue, 1 Oct 2024 at 23:16, Pintu Kumar <quic_pintu@quicinc.com> wrote:
-> >
-> > Symbolic permissions are not preferred, instead use the octal.
-> > Also, fix other warnings/errors as well for cleanup.
-> >
-> > WARNING: Block comments use * on subsequent lines
-> > +       /* only support discovering the end of the buffer,
-> > +          but also allow SEEK_SET to maintain the idiomatic
-> >
-> > WARNING: Block comments use a trailing */ on a separate line
-> > +          SEEK_END(0), SEEK_CUR(0) pattern */
-> >
-> > WARNING: Block comments use a trailing */ on a separate line
-> > +        * before passing the sgt back to the exporter. */
-> >
-> > ERROR: "foo * bar" should be "foo *bar"
-> > +static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
-> >
-> > WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
-> > +       d = debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir,
-> >
-> > total: 1 errors, 4 warnings, 1746 lines checked
-> >
-> > Signed-off-by: Pintu Kumar <quic_pintu@quicinc.com>
->
-> Thanks for this patch - could you please also mention in the commit
-> log how did you find this? It looks like you ran checkpatch, but it's
-> not clear from the commit log.
->
-Thanks for your review.
-Sure. Yes, it was found while using the checkpatch.
-I tried to put "checkpatch fixes" in the commit header but the tool
-did not allow me.
-So, I removed it.
-But I think I can add that in the commit log.
-
-> Since this patch does multiple things related to checkpatch warnings
-> (change S_IRUGO to 0444, comments correction, function declaration
-> correction), can I please ask you to change the commit title to also
-> reflect that?
->
-ok sure. Last time I tried to mention "fix checkpatch warnings" in a
-general way,
-but the tool itself catches it and throws another warning.
-So, I chose the major fix as the commit header and combined others, instead
-of raising 3 different patches.
-Let me try to put the same as you mentioned above.
-
-I will correct these and send v2 in a different mail.
-
-Thanks.
+Will do, thanks!
 
