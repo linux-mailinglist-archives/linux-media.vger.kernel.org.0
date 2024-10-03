@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-19067-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19068-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE45A98F60A
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 20:28:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6079398F60C
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 20:28:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DA0A1C20A6B
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 18:28:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 91AC81C2129A
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 18:28:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD3CA1AB6D8;
-	Thu,  3 Oct 2024 18:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D171AB6EB;
+	Thu,  3 Oct 2024 18:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="ioVYB19M"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="mriC0vtC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400C21AAE3F;
-	Thu,  3 Oct 2024 18:28:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2031A7AF7
+	for <linux-media@vger.kernel.org>; Thu,  3 Oct 2024 18:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727980091; cv=none; b=X7lXxW6mzbalO7WrIJk0Ol29U/e3nx7CoyJoIXQ2h7fKVxdcom33f81uVJJD/6K6kE1VxqAfWDDjk6Yl/CfusuP9TiV9pTLVgfNYrfCTLJQHF9rluRg7AvGgcArko98RQC83q/SGXEGh3iM+KEMbLU9XrnnhSuDhXjrcmWojKhQ=
+	t=1727980091; cv=none; b=KxleA+UX3YY0E7/oQVpcigleUd9HIIP3ESqbhH/8ZgZCZW2XbtvCQHyT5uKHXYb961nRhez5DTN5Mom192iUxqJanZ6uqDUwNJTP4HYIj4RZaJ2WjAhLKRvrxP89RoHTAYJ+VqLxtTXMnJe+OVgOtLg9Uz5u+z6TqwIRRtqRFu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727980091; c=relaxed/simple;
-	bh=kMI3ny3xTTry7krKwKpYFO5Doupq64RFSit0H86k+ts=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HaLppllg7vyl2vpOMLI1gqv0c4iYs7UPKUjemDc3p0SRNE0QpvcrorEAWelsvGRC4zh7Jc6ieHNmKQKqgPy2tjWbYjx0e2IRoit6js2sUC2Yt3FOX9zR37beQ5l+f3nGWVE/K+g0Hmp0M1tk8NWX54sebxTwQ3yDUlCgQTs8164=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=ioVYB19M; arc=none smtp.client-ip=85.214.62.61
+	bh=FDRx/Hsgjjg8F2a5fUE1ZV8UCVSlPb2t1pC6sc6KDtA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=caFQRm2kzuIfFxmZ3ph7TVuKtnfRSOpTSot8goQOLwx6sYZISANFDxNtM1gCCI05pNf6sbJAaIHQygJ9fqElKo7xPtBxIuHfbqqWm0ZvoNVpRs4ARWzli9Vy+jNcgQZY+JYJ2fUoKA6avLp5JmQanGaTpUoD5KmuVwWf8zMzcIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=mriC0vtC; arc=none smtp.client-ip=85.214.62.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 4F54688E65;
-	Thu,  3 Oct 2024 20:28:06 +0200 (CEST)
+	by phobos.denx.de (Postfix) with ESMTPSA id AE1E188E6C;
+	Thu,  3 Oct 2024 20:28:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1727980087;
-	bh=afyXWxj3lWWLB446UwVB7q7EVGBBZgtq+4WnIjUxE9s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ioVYB19M3ux3BUexbm9xZ6oIpnLfgHad/2M5t8r/ItjfaQOABimZxNXQM7W89Exn8
-	 weu0LigmMSFgnCG5X0aGb4WJF5p5cAIRIrxgvVvWgaSXzHdYcXOysWz6oPtJ6bu58J
-	 njvTjP4/76Bk4CRIWgJOOMkTQS4DxPrj4W0+2dnY9Apf3hFreDb7triwdjhaqq/zC1
-	 xunP94CvcbSbKOZd9k/cOG83uFys3X9QW5kHxy0ZRIfxGHDFLOsRPzAxMRY1xGy1QV
-	 5Xn0brSxLbQqAUuICfcTvAoSK1Pcm0RZrLZ4qzI3j7pUXhjUdltHM2Nz1HCZCruryL
-	 WZJ89YcEpHxoA==
-Message-ID: <9b7f8d96-e86b-4eb0-855a-8c74fc96d3c8@denx.de>
-Date: Thu, 3 Oct 2024 17:11:44 +0200
+	s=phobos-20191101; t=1727980088;
+	bh=SYJioxRwBWMIIoiiEGds8K69V07MoZDKpAXV5ReILRg=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=mriC0vtC/71MsMMtsNfpGi4KEFvxofWpUKe+kQF+9uPkyAt4XmNAURhtP+kxYYndQ
+	 dF9tNCaAf01n51c3idSj1M5RImZpJiEb4mn/97euUMk9ZYcNUUIDerjtszLErKUkTg
+	 qVrXRuVY8KBaH2hWi7mOFSoYmmBpPX3Hs4ApoN/aenkqzwk9ywXTiEwoBUFwHdB8F3
+	 /2F3/9wT0KN4ykFkWksWVqhFO89AkWARR+DTGmvD9241lW2XJrjM8qX0dL++oNzNmB
+	 o820UsD84Zs+1qdn1dLzdww5CCAW6/LXTMkTVOMuMjszsCPOrg0kJggW453Eb415Qx
+	 haoIOzvAcVHmg==
+Message-ID: <d613da4d-cd63-452f-b14b-a509f89698b6@denx.de>
+Date: Thu, 3 Oct 2024 18:03:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,215 +56,42 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-To: Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
- <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
- <f894eb3fd132a214ddbf2fa3ed405d065e629398.camel@pengutronix.de>
- <a7b7acff-e710-4c50-97b8-1bce557eadde@denx.de>
- <c09a325a5166cf31b9a7fd09ed8266a2b19afcd2.camel@pengutronix.de>
+Subject: Re: [PATCH 1/3] media: i2c: isl7998x: Enable VACTIVE and HDELAY
+ shadow registers
+To: Michael Tretter <m.tretter@pengutronix.de>, linux-media@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
+References: <20240713154242.107903-1-marex@denx.de>
+ <ZvwNlwSJyJ52I9Mp@pengutronix.de>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <c09a325a5166cf31b9a7fd09ed8266a2b19afcd2.camel@pengutronix.de>
+In-Reply-To: <ZvwNlwSJyJ52I9Mp@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
 X-Virus-Status: Clean
 
-On 9/26/24 1:14 PM, Philipp Zabel wrote:
-> Hi,
+On 10/1/24 4:56 PM, Michael Tretter wrote:
+> On Sat, 13 Jul 2024 17:41:54 +0200, Marek Vasut wrote:
+>> The VACTIVE and HDELAY shadow registers must be enabled for per channel
+>> NTSC/PAL detection to work, enable them.
+> 
+> I think the description is wrong as the change doesn't affect the
+> VACTIVE and HDELAY registers. The change sets the standard selection
+> register to auto detection to always trigger a standard detection during
+> initialization instead of defaulting to NTSC. querystd explicitly
+> triggers this behavior.
 
-Hi,
+It does, commit message fixed.
 
-> On Mi, 2024-09-25 at 22:14 +0200, Marek Vasut wrote:
->> The userspace could distribute the frames between the two devices in an
->> alternating manner, can it not ?
+> If the driver always runs standard detection during init, the driver
+> should also wait for the detection to be finished and update
+> isl7998x->norm accordingly, because otherwise the standard will be reset
+> to NTSC.
 > 
-> This doesn't help with latency, or when converting a single large
-> frame.
-> 
-> For the deinterlacer, this can't be done with the motion-aware
-> temporally filtering modes. Those need a field from the previous frame.
-
-It is up to the userspace to pass the correct frames to the deinterlacer.
-
->> Would the 1280x360 field be split into two tiles vertically and each
->> tile (newly 1280/2 x 360) be enqueued on each VDIC ? I don't think that
->> works, because you wouldn't be able to stitch those tiles back together
->> nicely after the deinterlacing, would you? I would expect to see some
->> sort of an artifact exactly where the two tiles got stitched back
->> together, because the VDICs are unaware of each other and how each
->> deinterlaced the tile.
-> 
-> I was thinking horizontally, two 640x720 tiles side by side. 1280 is
-> larger than the 968 pixel maximum horizontal resolution of the VDIC.
-> 
-> As you say, splitting vertically (which would be required for 1080i)
-> should cause artifacts at the seam due to the 4-tap vertical filter.
-
-Can the userspace set some sort of offset/stride in each buffer and 
-distribute the task between the two VDIs then ?
-
-> [...]
->>>
->>> With the rigid V4L2 model though, where memory handling, parameter
->>> calculation, and job scheduling of tiles in a single frame all have to
->>> be hidden behind the V4L2 API, I don't think requiring userspace to
->>> combine multiple mem2mem video devices to work together on a single
->>> frame is feasible.
->>
->> If your concern is throughput (from what I gathered from the text
->> above), userspace could schedule frames on either VDIC in alternating
->> manner.
-> 
-> Both throughput and latency.
-> 
-> Yes, alternating to different devices would help with throughput where
-> possible, but it's worse for frame pacing, a hassle to implement
-> generically in userspace, and it's straight up impossible with temporal
-> filtering.
-
-See above, userspace should be able to pass the correct frames to m2m 
-device.
-
->> I think this is much better and actually generic approach than trying to
->> combine two independent devices on kernel level and introduce some sort
->> of scheduler into kernel driver to distribute jobs between the two
->> devices. Generic, because this approach works even if either of the two
->> devices is not VDIC. Independent devices, because yes, the MX6Q IPUs are
->> two independent blocks, it is only the current design of the IPUv3
->> driver that makes them look kind-of like they are one single big device,
->> I am not happy about that design, but rewriting the IPUv3 driver is way
->> out of scope here. (*)
-> 
-> The IPUs are glued together at the capture and output paths, so yes,
-> they are independent blocks, but also work together as a big device.
-> 
->>> Is limiting different users to the different deinterlacer hardware
->>> units a real usecase? I saw the two ICs, when used as mem2mem devices,
->>> as interchangeable resources.
->>
->> I do not have that use case, but I can imagine it could come up.
->> In my case, I schedule different cameras to different VDICs from
->> userspace as needed.
-> 
-> Is this just because a single VDIC does not have enough throughput to
-> serve all cameras, or is there some reason for a fixed assignment
-> between cameras and VDICs?
-
-I want to be able to distribute the bandwidth utilization between the 
-two IPUs .
-
->>>>> To be fair, we never implemented that for the CSC/scaler mem2mem device
->>>>> either.
->>>>
->>>> I don't think that is actually a good idea. Instead, it would be better
->>>> to have two scaler nodes in userspace.
->>>
->>> See above, that would make it impossible (or rather unreasonably
->>> complicated) to distribute work on a single frame to both IPUs.
->>
->> Is your concern latency instead of throughput ? See my comment in
->> paragraph (*) .
-> 
-> Either, depending on the use case.
-> 
-> [...]
->>>>>
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/staging/media/imx/imx-media-vdic.c#n207
->>>
->>> That code is unused. The direct hardware path doesn't use
->>> IPUV3_CHANNEL_MEM_VDI_PREV/CUR/NEXT, but is has a similar effect, half
->>> of the incoming fields are dropped. The setup is vdic_setup_direct().
->>
->> All right, let's drop that unused code then, I'll prepare a patch.
-> 
-> Thanks!
-> 
->> But it seems the bottom line is, the VDI direct mode does not act as a
->> frame-rate doubler ?
-> 
-> Yes, it can't. In direct mode, VDIC only receives half of the fields.
-> 
-> [...]
->>>>
->> Why would adding the (configurable) frame-rate doubling mode break
->> userspace if this is not the default ?
-> 
-> I'm not sure it would. Maybe there should be a deinterlacer control to
-> choose between full and half field rate output (aka frame doubling and
-> 1:1 input to output frame rate).
-> 
-> Also, my initial assumption was that currently there is 1:1 input
-> frames to output frames. But with temporal filtering enabled there's
-> already one input frame (the first one) that doesn't produce any
-> output.
-
-Hum, ok.
-
->>>>> If we don't start with that supported, I fear userspace will make
->>>>> assumptions and be surprised when a full rate mode is added later.
->>>>
->>>> I'm afraid that since the current VDI already does retain input frame
->>>> rate instead of doubling it, the userspace already makes an assumption,
->>>> so that ship has sailed.
->>>
->>> No, this is about the deinterlacer mem2mem device, which doesn't exist
->>> before this series.
->>
->> I am not convinced it is OK if the direct VDI path and mem2mem VDI
->> behave differently, that would be surprising to me as a user ?
-> 
-> Is this still about the frame rate doubling? Surely supporting it in
-> the mem2mem device and not in the capture path is ok. I'm not arguing
-> that frame doubling should be enabled by default.
-
-My understanding was that your concern was -- frame doubling should be 
-the default because it not being the default would break userspace . 
-Maybe that's not the case ?
-
->>> The CSI capture path already has configurable framedrops (in the CSI).
->>
->> What am I looking for ? git grep doesn't give me any hits ? (**)
-> 
-> That's configured by the set_frame_interval pad op of the CSI subdevice
-> - on the IDMAC output pad. See csi_find_best_skip().
-> 
->>>> But I think we can make the frame doubling configurable ?
->>>
->>> That would be good. Specifically, there must be no guarantee that one
->>> input frame with two fields only produces one deinterlaced output
->>> frame, and userspace should somehow be able to understand this.
->>
->> See my question (**) , where is this configurable framedrops thing ?
-> 
-> This would have to be done differently, though. Here we don't have
-> subdev set_frame_interval configuration, and while VIDIOC_S_PARM /
-> v4l2_captureparm were used to configure frame dropping on capture
-> devices, that's not really applicable to mem2mem deinterlacers.
-
-V4L2_CID_DEINTERLACING_MODE should probably work.
-
->>> I'd rather not default to the setting that throws away half of the
->>> input data. Not using frame doubling by default is sensible, but now
->>> that using all three input fields to calculate the output frame is
->>> possible, why not make that the default.
->>
->> To save memory bandwidth on the MX6, that's my main concern.
-> 
-> What userspace are you using to exercise this driver? Maybe we can back
-> this concern with a few numbers (or mine with pictures).
-Custom one, but with gstreamer 1.22 and 1.24 driving the media pipeline.
+> Maybe we can also get rid of this part from the init sequence and run
+> the standard detection during the initialization in code?
+Maybe the init sequence is OK as-is and this and the follow up patches 
+should be discarded ? Users can run QUERYSTD to trigger the standard 
+detection when needed ?
 
