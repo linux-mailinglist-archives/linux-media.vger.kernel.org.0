@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-19069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4856E98F60E
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 20:28:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C5998F727
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 21:46:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 620411C20C34
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 18:28:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BA27283B74
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 19:46:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40C221ABEAB;
-	Thu,  3 Oct 2024 18:28:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 488B01AC89A;
+	Thu,  3 Oct 2024 19:46:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="xxRB4ytO"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="IKudsbmm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8431AB6DD;
-	Thu,  3 Oct 2024 18:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859B217BA3;
+	Thu,  3 Oct 2024 19:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727980093; cv=none; b=jdm9zS8iQ49Sejx2HgwrzMWWsFQKWd2t2bD5q1V8J42PLUvU9TuMnAL9W9fSJnm52tX9cXrs+9SEk8k+bLJRoeLTpukFOzE24aIs6fyyU95Qwx74E+ppA9rnBEIHEQ2YOJqynbTeoLsAaaI+JiGIxWRsmow2Ii+RKp3kQIBTJWg=
+	t=1727984797; cv=none; b=uTsR5aW4FXb/0bqLYufPZST3y3M0w2fV5n9nI1N8Ucy+8NAjiX0OESh/zEJofU2zDp5eUcLKkpp7xMu5QxCmZjHHmh+ySaFfnDsivB/Kl1I1uPpGKKthdAXtDHItVweDfArIxvmZr5bYPaS1ULmT0v9+1uRXIgnTR1Q0rprEBqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727980093; c=relaxed/simple;
-	bh=a9yx+rprI515KivzNF1/hNUyce0BLXDKl20T1s57+UM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M/3jPY6hqyFaRaWLFTXE932Fj0sI8uM2coBl3fotE2U3QIcyA77ZpfsMI1pfwsB5Bgt9ny1RSyjK7LNf98eXgphIcWDTnl39Ku8CYYCXlQ5SoUf7/v2YQO9n1L/0/sFvthcrHtYP903NYkHBVD8xng5XrzvHKfN8MARdqO/SZIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=xxRB4ytO; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id E5C7088A24;
-	Thu,  3 Oct 2024 20:28:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1727980090;
-	bh=faYbxPEN6YGmMvqnzy2uL/Tt+yyjSeCCd5lEptEMVRc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=xxRB4ytOkc6Vv1VH6rsKDSeN00aFVCafvnSNKlb/8KIvj3EXbvodAYGnQ+cu5M/AY
-	 KS7m9F2QT59CYaYSEdLLeHakPaBahOPgjAcMbNQLDqJsN1clRo3GTaZTMUB/nbCAdh
-	 TXScmeYcmcpn2Q8ZiwohhZAMW8jP+vrRo3rEDXcW0lcEMgnCwcmDIZNk+X+aIPjF/i
-	 pd+sTqrA88SI6nirocgCfT2qIVS/uIwBKePE73/I28K6fU+paoc903tnmAvrPfOePw
-	 WbFW0LjbY6vs5MftIbm86biFfOgFtFNddCWHT7iloI5Ax/045Ppo8igAg3q5BOLAnz
-	 5Jn6AYlUvJeNg==
-Message-ID: <0c49d362-da0c-432e-90d9-69b02cdf3e64@denx.de>
-Date: Thu, 3 Oct 2024 19:13:34 +0200
+	s=arc-20240116; t=1727984797; c=relaxed/simple;
+	bh=TxNq7yKENx0RQYMf6U6CxOgo/kf/71+/J4musxwjxSk=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=t3mr4AJ1OOzdszYxpz+d28xpdv6d3GNdKEv0/AUuejkRkAhhkflRDU6d73cofiVoNoG4R5zV2swPEhqqKCB/ntLMR2eCK5kqVygX75+0Gw1V7dMbger7nCRzSaUFxwrYzpUSrfmfkBJFtTIw0n6Mz5wmagVVjLgaBIXoojj95Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=IKudsbmm; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1727984774; x=1728589574; i=markus.elfring@web.de;
+	bh=qipckro8MFXQMfGeASx2ZE5o/HlRn/yLZ/gSQctrKHA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=IKudsbmmvYhm/VOAVoopRoImnUezHkZ5IXOHZJNEeT7399KFUXGd68wNct/IRgyP
+	 6pWglNhShfsW+BpZHevVF6hZUKSW+hM54NVGH0odTAB0vnsCCNvwkPtLHVFHxpFHf
+	 n9q8bjOiO0UNft+HMSigcAuEp5qo3YUwIL2hRWtCRWnqMi4CmXNDLxNRVANnVo8er
+	 hc0D6MLR50lcL8ThQdydKg9WEqRlNO+iIudnwj8ooMAEZ6uhFXv+a7X3N9FpIeEit
+	 9cZV8L5SaQxQol8Ix9WixKYTn4u/yJYysWAv8GQoXl3G2hUVw5Fzn0Rv5iIZxcJnK
+	 OWwqfbRCMrIubXQcbw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.87.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N0Igv-1rzeQT2GRT-00xw47; Thu, 03
+ Oct 2024 21:46:14 +0200
+Message-ID: <e3b1fa29-71ff-4f40-a265-9ebdcc6d50f9@web.de>
+Date: Thu, 3 Oct 2024 21:46:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,208 +56,71 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
- <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
- <386f4e12fd835b18c3f618f2c94cbd426bd6cf28.camel@ndufresne.ca>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <386f4e12fd835b18c3f618f2c94cbd426bd6cf28.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+To: linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tim Harvey <tharvey@gateworks.com>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] media: i2c: tda1997x: Call of_node_put(ep) only once in
+ tda1997x_parse_dt()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:qeoEpUkKh4u7pXj9k0DQkbVyzYCjn9jtnD5gMrPRjs18O/9eY6A
+ 4N2xhIp10JSw3BnD7qQ1nH3l+Rmm+edjPIIAcqNcCUD8YLzlo2epUXAHAa3SXS3pjHHYVeZ
+ w2BuWu8NqiOn0CoTmAbaG32GWnV28k7o1kjlRNXjlkdPaD4SscVzIqNXXFOWWbbrgoLVBbs
+ +NwzGy2k0VndktAQzjeGw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ipiIdAq5gUA=;Z5JmRxrIC5eqAQvnufcwBWKQUJX
+ 4rxjENFTwSJEtbPXPq4IChNu1yzDc/mDVuclUM/3WWvLpPvhvZ3pcvC63tw1/DIiasWfZvnY1
+ 7Dmab2xseVSu9IFuY83RTiN39kK34L4wVjg0Hj5fnIW3ZrVw021NZlID0UG4oNPzq3Tps8Q5u
+ fKDP+K+akhdfoIjVV8XzbwCvwSJGWLo/gEx5KeYhgxN6SqPANUYgJ92H7tZ1VEOkNjki1CPYr
+ /6bduv031ELnwt56PUKUY6axlw2dvPHhRuxoG91GthuOkY0lZ1DTT2ozyUQYLNaGWmEHDbiDx
+ gXu2FELh8siJcWjqPKddGULW9R3mrmQYb6BQOI1B2Fm3p1Z+6VxA5HmC6f4y6sllkIA/fos62
+ 4nL1WcbUzfYyWrBrEwSr5Q6A4Vym1xYZakogpsivO8gSRBOHr6vCx/OiK86O2ioQ7K5uJeIPc
+ EZfu9Yx6DPC1uyNqd+TSx2A0xmO+Kh0nFGCt9WbtrFjhF9bjtlGCp9Qgrkvc8QTVIycSMnIjC
+ se00OL1y7MmDujgWX8ENk3EMfDyKJHhLXuczvmuYK2w+4Yh5zRtM5YncgLNN++ksjcRgFeO4b
+ Zs6hUW5cmTxRED1Gt2bcfIazCZ4hguJrfgJZ7XTQhZnbGDSOy4jogAQxdGLYR3+go0411kACO
+ ebAxxIYjIXswS62OD1vGZDKLEL5zdsHMDKDjeaRfaYOevRpsjO4NAoo2aRpsqa3Jl850t3VUf
+ EO+46jsURtx+kBPP475e2Dpsc+rr6KkqqfbDBIb7sdX/0+QwNUNyH/A1WUalNYIWnyHHjUlu5
+ 3bxVPoAK2eHnvwrjG5FKQw1g==
 
-On 9/27/24 9:33 PM, Nicolas Dufresne wrote:
-> Le mercredi 25 septembre 2024 à 22:45 +0200, Marek Vasut a écrit :
->> On 9/25/24 7:58 PM, Nicolas Dufresne wrote:
->>
->>
-> 
-> [...]
-> 
->>
->>>> +static irqreturn_t ipu_mem2mem_vdic_nfb4eof_interrupt(int irq, void *dev_id)
->>>> +{
->>>> +	struct ipu_mem2mem_vdic_priv *priv = dev_id;
->>>> +
->>>> +	/* That is about all we can do about it, report it. */
->>>> +	dev_warn_ratelimited(priv->dev, "NFB4EOF error interrupt occurred\n");
->>>
->>> Not sure this is right. If that means ipu_mem2mem_vdic_eof_interrupt won't fire,
->>> then it means streamoff/close after that will hang forever, leaving a zombie
->>> process behind.
->>>
->>> Perhaps mark the buffers as ERROR, and finish the job.
->>
->> The NFB4EOF interrupt is generated when the VDIC didn't write (all of)
->> output frame . I think it stands for "New Frame Before EOF" or some
->> such. Basically the currently written frame will be corrupted and the
->> next frame(s) are likely going to be OK again.
-> 
-> So the other IRQ will be triggered ? After this one ? Is so, perhaps take a
-> moment to mark the frames as ERROR (which means corrupted).
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Thu, 3 Oct 2024 21:38:45 +0200
 
-OK, fixed in V3.
+An of_node_put(ep) call was immediately used after a return value check
+for a v4l2_fwnode_endpoint_parse() call in this function implementation.
+Thus call such a function only once instead directly before the check.
 
-> [...]
-> 
->>>
->>> The driver is not taking ownership of prev_buf, only curr_buf is guaranteed to
->>> exist until v4l2_m2m_job_finish() is called. Usespace could streamoff, allocate
->>> new buffers, and then an old freed buffer may endup being used.
->>
->> So, what should I do about this ? Is there some way to ref the buffer to
->> keep it around ?
->>
->>> Its also unclear to me how userspace can avoid this ugly warning, how can you
->>> have curr_buf set the first time ? (I might be missing something you this one
->>> though).
->>
->> The warning happens when streaming starts and there is only one input
->> frame available for the VDIC, which needs three fields to work
->> correctly. So, if there in only one input frame, VDI uses the input
->> frame bottom field as PREV field for the prediction, and input frame top
->> and bottom fields as CURR and NEXT fields for the prediction, the result
->> may be one sub-optimal deinterlaced output frame (the first one). Once
->> another input frame gets enqueued, the VDIC uses the previous frame
->> bottom field as PREV and the newly enqueued frame top and bottom fields
->> as CURR and NEXT and the prediction works correctly from that point on.
-> 
-> Warnings by default are not acceptable.
+This issue was transformed by using the Coccinelle software.
 
-This is a workaround so that older gstreamer versions would work, what 
-else can I do here ?
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/media/i2c/tda1997x.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
->>> Perhaps what you want is a custom job_ready() callback, that ensure you have 2
->>> buffers in the OUTPUT queue ? You also need to ajust the CID
->>> MIN_BUFFERS_FOR_OUTPUT accordingly.
->>
->> I had that before, but gstreamer didn't enqueue the two frames for me,
->> so I got back to this variant for maximum compatibility.
-> 
-> Its well known that GStreamer v4l2convert element have no support for
-> detinterlacing and need to be improved to support any deinterlace drivers out
-> there.
+diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
+index 3b7e5ff5b010..959590afc80f 100644
+=2D-- a/drivers/media/i2c/tda1997x.c
++++ b/drivers/media/i2c/tda1997x.c
+@@ -2315,11 +2315,10 @@ static int tda1997x_parse_dt(struct tda1997x_state=
+ *state)
+ 		return -EINVAL;
 
-It seems v4l2convert disable-passthrough=true works with deinterlacers 
-just fine , except for this one reused frame at stream start ?
+ 	ret =3D v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
+-	if (ret) {
+-		of_node_put(ep);
+-		return ret;
+-	}
+ 	of_node_put(ep);
++	if (ret)
++		return ret;
++
+ 	pdata->vidout_bus_type =3D bus_cfg.bus_type;
 
-> Other drivers will simply holds on output buffers until it has enough to produce
-> the first valid picture. Holding meaning not marking them done, which keeps then
-> in the ACTIVE state, which is being tracked by the core for your.
+ 	/* polarity of HS/VS/DE */
+=2D-
+2.46.1
 
-As far as I understand this, when the EOF interrupt happens, 
-v4l2_m2m_src_buf_remove() pulls the oldest input buffer from the queue 
-and that buffer is then marked as DONE (or ERROR in v3), that is the 
-->prev buffer, isn't it ?
-
-Once the next frame deinterlacing starts, the (new) current frame and 
-the prev frame are both active, the deinterlacing happens and then in 
-the EOF interrupt, the ->prev frame gets marked as DONE again.
-
-What am I missing here ?
-
-> [...]
-> 
->>>> +
->>>> +	if (ipu_mem2mem_vdic_format_is_yuv420(f->fmt.pix.pixelformat))
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 3 / 2;
->>>> +	else if (ipu_mem2mem_vdic_format_is_yuv422(f->fmt.pix.pixelformat))
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
->>>> +	else if (ipu_mem2mem_vdic_format_is_rgb16(f->fmt.pix.pixelformat))
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
->>>> +	else if (ipu_mem2mem_vdic_format_is_rgb24(f->fmt.pix.pixelformat))
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 3;
->>>> +	else if (ipu_mem2mem_vdic_format_is_rgb32(f->fmt.pix.pixelformat))
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 4;
->>>> +	else
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width;
->>>> +
->>>> +	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
->>>
->>> And use v4l2-common ?
->>
->> I don't really understand, there is nothing in v4l2-common.c that would
->> be really useful replacement for this ?
-> 
-> Not sure I get your response, v4l2-common is used in many drivers already, and
-> we intent to keep improving it so that all driver uses it in the long term. It
-> been created because folks believed they can calculate bytesperline and
-> sizeimage, but as the number of format grows, it always endup wrong, causing the
-> HW to overflow and break the system at a larger scale.
-
-Do you want me to introduce some new generic helper ? Because I don't 
-see an existing generic one.
-
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int ipu_mem2mem_vdic_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
->>>> +{
->>>> +	struct ipu_mem2mem_vdic_ctx *ctx = fh_to_ctx(fh);
->>>> +	struct ipu_mem2mem_vdic_priv *priv = ctx->priv;
->>>> +	struct v4l2_pix_format *fmt, *infmt, *outfmt;
->>>> +	struct vb2_queue *vq;
->>>> +	int ret;
->>>> +
->>>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
->>>> +	if (vb2_is_busy(vq)) {
->>>> +		dev_err(priv->dev, "%s queue busy\n",  __func__);
->>>> +		return -EBUSY;
->>>> +	}
->>>> +
->>>> +	ret = ipu_mem2mem_vdic_try_fmt(file, fh, f);
->>>> +	if (ret < 0)
->>>> +		return ret;
->>>> +
->>>> +	fmt = ipu_mem2mem_vdic_get_format(priv, f->type);
->>>> +	*fmt = f->fmt.pix;
->>>> +
->>>> +	/* Propagate colorimetry to the capture queue */
->>>> +	infmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT);
->>>> +	outfmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CAPTURE);
->>>> +	outfmt->colorspace = infmt->colorspace;
->>>> +	outfmt->ycbcr_enc = infmt->ycbcr_enc;
->>>> +	outfmt->xfer_func = infmt->xfer_func;
->>>> +	outfmt->quantization = infmt->quantization;
->>>
->>> So you can do CSC conversion but not colorimetry ? We have
->>> V4L2_PIX_FMT_FLAG_SET_CSC if you can do colorimetry transforms too. I have
->>> patches that I'll send for the csc-scaler driver.
->>
->> See ipu_ic_calc_csc() , that's what does the colorspace conversion in
->> this driver (on output from VDI).
-> 
-> int ipu_ic_calc_csc(struct ipu_ic_csc *csc,
->                      enum v4l2_ycbcr_encoding in_enc,
->                      enum v4l2_quantization in_quant,
->                      enum ipu_color_space in_cs,
->                      enum v4l2_ycbcr_encoding out_enc,
->                      enum v4l2_quantization out_quant,
->                      enum ipu_color_space out_cs)
-> 
-> So instead of simply overriding CSC like you do, let userspace set different CSC
-> in and out, so that IPU can handle the conversion properly with correct colors.
-> That requires to flag these in the fmt_desc structure during enum format, and to
-> only read acknowledge the CSC if userspace have set V4L2_PIX_FMT_FLAG_SET_CSC,
-> in other condition, the information must be ignored (which you don't).
-The input is from the VDI and that always has to be YUV. Can you maybe 
-just CC me on the CSC-scaler patches ? Then I'll see what can be done here.
-
-Thanks
 
