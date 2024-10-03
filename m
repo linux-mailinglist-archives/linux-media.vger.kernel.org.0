@@ -1,164 +1,163 @@
-Return-Path: <linux-media+bounces-19057-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19059-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9895098F23F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 17:14:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FF598F2C8
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 17:41:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA3001C211B3
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 15:14:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D84411F220BD
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 15:41:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5C501A0BD6;
-	Thu,  3 Oct 2024 15:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D46FD1A4F3B;
+	Thu,  3 Oct 2024 15:41:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VOIUspi6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z821fF6W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB2B1A01BC;
-	Thu,  3 Oct 2024 15:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5199E1A4E9E
+	for <linux-media@vger.kernel.org>; Thu,  3 Oct 2024 15:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727968436; cv=none; b=MEIRz/tQX3fvldXGCUcnoZCS5ubeRHiwURAjj5gQQgM/3fdhltSe7bwaUHt79B1+QQf/OJzN7ZAlwMp6kIrZrLgd4G6YieRRkTrKzE38SBWPs0op3APT86XZdTRR+D78jboxZo/eo4fSCeK75PZ3xOrXrUivMzDAwvoYJJFs9M4=
+	t=1727970092; cv=none; b=OALaN8NMVkLhLhOsI7Nb2PBPFGKV/sbDKYfEtj/pRmCcqpjiDKe61Fu2sam7l5IBjXXvAljY8GCctlslqdGftoRtyTwYlcu7zENKcTAohEIfBgQdPCGS+Rrtn0Cm4Eqm9cMgsscHP6BtStFZDv1Wtx/nt5km2pDrc0bDUN4SG58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727968436; c=relaxed/simple;
-	bh=f/vMsRMQF4DP5vs+pa5InfZpJ0GIZVb4L2/Q82hBRzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UH0/PTnGGS976237lBxSRZ+vCEfFKgjc84y/hYKRDLMasFHBTHhrcYZzXMevZ6YJbsUoB6MIt6o2kTy7x87GjXKdn2hsln65qxLR4Zws0kdg4INJEbo/atYBClBLI32xMAnA5+GTleDz7yvIjLRq2aJJCrTUNcKEcbkyFT8+ps4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VOIUspi6; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727968434; x=1759504434;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f/vMsRMQF4DP5vs+pa5InfZpJ0GIZVb4L2/Q82hBRzE=;
-  b=VOIUspi6ug6jX9/ZHdq1bOKJNuDLxoUgnayqiu6aSJZT5rnPX64Tx+Ee
-   AhJk4Hc58rAa4VakI9BwExw2vxaIBYjKMgmfSweZyjoM73BM2J+pVEYkh
-   wgESnhbfhWq6SEirN3Bgr5g9gcTt17G/QTnyZv9/4f/y5wLmwcqynxLZu
-   bcfpJC9Pxf/YZbuyfYdwa8aTSDc+KKY45hrJ6qks4KUzjYtJxqAJxEDLs
-   CxIJOkg47hUo7tviwyXi/Uow/QDNG2qRG2823LrufVWMmn0QKOJQ7DCUV
-   HlsOiy/SvuW84dUWtFxkmXBkkuc1hxY5A/7QPBSz9D84ilCOf9yV3U5Co
-   w==;
-X-CSE-ConnectionGUID: 9RFU3jicTYalhtr2yfTJYw==
-X-CSE-MsgGUID: R9KjX12yQrWtl3925/yZmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27297995"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="27297995"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:13:53 -0700
-X-CSE-ConnectionGUID: g1yVx1EeS0yqLvTQckaNTQ==
-X-CSE-MsgGUID: ce2dxXTVSruPny3mMWSgcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="74488618"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:13:51 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 80E4411F855;
-	Thu,  3 Oct 2024 18:13:48 +0300 (EEST)
-Date: Thu, 3 Oct 2024 15:13:48 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Colin Ian King <colin.i.king@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] media: i2c: ds90ub960: Fix missing return check on
- ub960_rxport_read call
-Message-ID: <Zv60rJo_ucdxHQk3@kekkonen.localdomain>
-References: <20241002165329.957739-1-colin.i.king@gmail.com>
- <Zv40EQSR__JDN_0M@kekkonen.localdomain>
- <f1e973fd-9933-49ed-8f9c-71b8283e6fb8@ideasonboard.com>
- <Zv6Z6P0cjYCkyJh9@kekkonen.localdomain>
- <ea1c37b3-0430-4bce-9228-5d761ff94425@ideasonboard.com>
+	s=arc-20240116; t=1727970092; c=relaxed/simple;
+	bh=pcjyTEmLvTLN7mCVpCsjGf04ORjVzGFNtci6FstvOro=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fTrmZbz3jLafoWZjHydZ5/7Uund4t1m7YynGGMBs+LUkOD23I7CT+vk3JXVnSfZy2lsGDlXX+HNRB0vPKw+WSybO1UVYv6tfK3iroUFdpA1I0aOKXWCyQBBPSgUn0/WFiTqs2A/7rVOrW+D+8+/YaTazFWcL6EdvJ8adv+9Atjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z821fF6W; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a93c1cc74fdso191898966b.3
+        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2024 08:41:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727970087; x=1728574887; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HYGpz43nPbByYXovI0HrcPnvOdOH3ZAX7U7tj2PnV9Y=;
+        b=Z821fF6WBbCA/pikwCZTmM/say9+VyRKv2QujE7db8wQJbKBjLhYIwDNbfQ3fn79F3
+         xIHbKf5BO7Y5Z1bS1ra68hKwFjELqrSH6ZvtjlEESMVLqSfGjj11CB4SHRmq9yO8Neya
+         vmPvWiwP0zNTXsnMF3U8cHdn3AyjWdTh3Fj8YvdEOH9zu7i18WUwVN6RqjM0d5QR3GxS
+         FYV4Cx19sbmfySvG8w8JxmxspPZVIJdfYmjJR5XAQHEC+AXomDc8p+Yjvk0t1LPhvX+o
+         DzAPu9Yrl3C1l9MJv7WCEZs8PFY0SrcV3TAy8LpJsiKzBhYl+tiVTmSi++vVZ8CiCeVG
+         +qOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727970087; x=1728574887;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HYGpz43nPbByYXovI0HrcPnvOdOH3ZAX7U7tj2PnV9Y=;
+        b=gF5KdL4EimQLAvg0KOoAtcelKDNhF067hLgHdWJySlpdadnF1fHLYdi6QHwbWKgUY2
+         1EJ6IJdc2CZAV4nv44BrEau447rk2fFSZGiCFuiakM7vEWmDh1sUHC+fU9BZrmGfkO2X
+         woQ4JvwiqnjQTR7lKMcS5Rf3zuY0NmDikMKe8Zc6C1NqEMmX/OCLjvG5lJBDXcUHrziF
+         sdUJTYhqcSZsdjxKDfw5Vh/mqe/9mfCBRrKnONRMTqjx9zmvCb7T7JCyB0zwABTaf4ud
+         HMcJJwn9dIpmZ0Tb9veLGyQGzxHf9bbCL+IYAq0NZe71jLBM1sEKbIssrLUv+v+ow67M
+         Y2+g==
+X-Gm-Message-State: AOJu0YyZhOaEkiNwMtQ+6t1pX72bLZUbpMzIec3Xa1+SglQ5pC4QC66O
+	NGoWLibNHFEcgtlaTv2Ih6qrgk9uXT18UthUPHbmnT8zTLlfRJtkr/X/K34wipw=
+X-Google-Smtp-Source: AGHT+IG+LU6Y4ngetxRy+mZULOUURuqVF1BgSNl0H63IzML5pQS1xBtYN+8pvhLeWEbdKorJTVAhAQ==
+X-Received: by 2002:a17:906:f582:b0:a89:f1b9:d391 with SMTP id a640c23a62f3a-a98f824e3a2mr705785966b.14.1727970087536;
+        Thu, 03 Oct 2024 08:41:27 -0700 (PDT)
+Received: from [127.0.0.1] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99104c4f3fsm98492866b.200.2024.10.03.08.41.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2024 08:41:27 -0700 (PDT)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v4 0/4] ov08x40: Enable use of ov08x40 on Qualcomm X1E80100
+ CRD
+Date: Thu, 03 Oct 2024 16:41:24 +0100
+Message-Id: <20241003-b4-master-24-11-25-ov08x40-v4-0-7ee2c45fdc8c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ea1c37b3-0430-4bce-9228-5d761ff94425@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACW7/mYC/43NQQ7CIBCF4asY1o6B6ZSiK+9hXAClSqLFQENqm
+ t5d7MJoTIzL/y2+N7HkoneJ7VYTiy775ENfgtYrZs+6PznwbWmGHIlvUYIhuOo0uAhIIARgDSF
+ zNRIHKztqGq211MQKcIuu8+OCH46lzz4NId6Xryye619sFsDBUVt3pq1MrfT+4nsdwybEE3u6G
+ V+W4Fz8tHCxGrVtpEFuxZdVvVv406qKRaoytrWdUkp+WPM8PwBx2LkVXQEAAA==
+X-Change-ID: 20240926-b4-master-24-11-25-ov08x40-c6f477aaa6a4
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Jason Chen <jason.z.chen@intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.15-dev-dedf8
 
-Moi,
+Changes in v4:
+- Drops link-frequencies from properties: as discussed here:
+  https://lore.kernel.org/r/Zv6STSKeNNlT83ux@kekkonen.localdomain
+- Link to v3: https://lore.kernel.org/r/20241002-b4-master-24-11-25-ov08x40-v3-0-483bcdcf8886@linaro.org
 
-On Thu, Oct 03, 2024 at 04:33:54PM +0300, Tomi Valkeinen wrote:
-> On 03/10/2024 16:19, Sakari Ailus wrote:
-> > Moi,
-> > 
-> > On Thu, Oct 03, 2024 at 03:52:17PM +0300, Tomi Valkeinen wrote:
-> > > Hi,
-> > > 
-> > > On 03/10/2024 09:05, Sakari Ailus wrote:
-> > > > Hi Colin,
-> > > > 
-> > > > On Wed, Oct 02, 2024 at 05:53:29PM +0100, Colin Ian King wrote:
-> > > > > The function ub960_rxport_read is being called and afterwards ret is
-> > > > > being checked for any failures, however ret is not being assigned to
-> > > > > the return of the function call. Fix this by assigning ret to the
-> > > > > return of the call which appears to be missing.
-> > > > > 
-> > > > > Fixes: afe267f2d368 ("media: i2c: add DS90UB960 driver")
-> > > > > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> > > > > ---
-> > > > >    drivers/media/i2c/ds90ub960.c | 2 +-
-> > > > >    1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> > > > > index ffe5f25f8647..58424d8f72af 100644
-> > > > > --- a/drivers/media/i2c/ds90ub960.c
-> > > > > +++ b/drivers/media/i2c/ds90ub960.c
-> > > > > @@ -1286,7 +1286,7 @@ static int ub960_rxport_get_strobe_pos(struct ub960_data *priv,
-> > > > >    	clk_delay += v & UB960_IR_RX_ANA_STROBE_SET_CLK_DELAY_MASK;
-> > > > > -	ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_1, &v);
-> > > > > +	ret = ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_1, &v);
-> > > > >    	if (ret)
-> > > > >    		return ret;
-> > > > 
-> > > > There seems to be a similar issues all around the driver. It'd be good to
-> > > > fix them at the same time.
-> > > 
-> > > With similar issues, do you mean the code not checking the return value at
-> > > all for i2c reads and writes?
-> > > 
-> > > In this particular case the code already checks the return value, but
-> > > setting the return value was missing. With a quick browse, I didn't see
-> > > other like this.
-> > 
-> > See e.g. ub960_clear_rx_errors(), ub960_log_status(),
-> > ub960_rxport_set_strobe_pos() and ub960_rxport_set_strobe_range.
-> 
-> Right, those don't check the return value. So they're not the same as the
-> one fixed in this patch.
-> 
-> I'm not arguing against adding error checks, but that's a big work and I
-> think this patch is a different kind of fix which should be applied whether
-> the additional error checks are added or not.
+Changes in v3:
+- Drops assigned-clock-* from description retains in example - Sakari,
+  Krzysztof
+- Updates example fake clock names to ov08x40_* instead of copy/paste
+  ov9282_clk -> ov08x40_clk, ov9282_clk_parent -> ov08x40_clk_parent - bod
+- Link to v2: https://lore.kernel.org/r/20241001-b4-master-24-11-25-ov08x40-v2-0-e478976b20c1@linaro.org
 
-How much of work that is really? It seems trivial, albeit there are a
-number of locations that need to be fixed.
+Changes in v2:
+- Drops "-" in ovti,ov08x40.yaml after description: - Rob
+- Adds ":" after first line of description text - Rob
+- dts -> DT in commit log - Rob
+- Removes dependency on 'xvclk' as a name in yaml
+  and driver - Sakari
+- Uses assigned-clock, assigned-clock-parents and assigned-clock-rates -
+  Sakari
+- Drops clock-frequency - Sakarai, Krzysztof
+- Drops dovdd-supply, avdd-supply, dvdd-supply and reset-gpios
+  as required, its perfectly possible not to have the reset GPIO or the
+  power rails under control of the SoC. - bod
 
-I'm fine with applying this but it'd be nice to add at least a FIXME:
-comment to the code while at it.
+- Link to v1: https://lore.kernel.org/r/20240926-b4-master-24-11-25-ov08x40-v1-0-e4d5fbd3b58a@linaro.org
 
-> 
-> Also, while still not arguing against adding the checks, it looks quite
-> common to not check the returns values. E.g. it's not just a few errors I
-> see if I add __must_check to cci functions.
+V1:
+This series brings fixes and updates to ov08x40 which allows for use of
+this sensor on the Qualcomm x1e80100 CRD but also on any other dts based
+system.
 
-I haven't seen this being as widespread in pretty much any other (upstream)
-driver.
+Firstly there's a fix for the pseudo burst mode code that was added in
+8f667d202384 ("media: ov08x40: Reduce start streaming time"). Not every I2C
+controller can handle an arbitrary sized write, this is the case on
+Qualcomm CAMSS/CCI I2C sensor interfaces which limit the transaction size
+and communicate this limit via I2C quirks. A simple fix to optionally break
+up the large submitted burst into chunks not exceeding adapter->quirk size
+fixes.
 
+Secondly then is addition of a yaml description for the ov08x40 and
+extension of the driver to support OF probe and powering on of the power
+rails from the driver instead of from ACPI.
+
+Once done the sensor works without further modification on the Qualcomm
+x1e80100 CRD.
+
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Bryan O'Donoghue (4):
+      media: ov08x40: Fix burst write sequence
+      media: dt-bindings: Add OmniVision OV08X40
+      media: ov08x40: Rename ext_clk to xvclk
+      media: ov08x40: Add OF probe support
+
+ .../bindings/media/i2c/ovti,ov08x40.yaml           | 114 +++++++++++++
+ drivers/media/i2c/ov08x40.c                        | 179 ++++++++++++++++++---
+ 2 files changed, 270 insertions(+), 23 deletions(-)
+---
+base-commit: 2b7275670032a98cba266bd1b8905f755b3e650f
+change-id: 20240926-b4-master-24-11-25-ov08x40-c6f477aaa6a4
+
+Best regards,
 -- 
-Terveisin,
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Sakari Ailus
 
