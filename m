@@ -1,149 +1,174 @@
-Return-Path: <linux-media+bounces-19017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19018-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D259A98E9D0
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 08:52:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6F498E9EC
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 08:58:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79FC21F21200
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 06:52:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5C691C21E98
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 06:58:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73681823C3;
-	Thu,  3 Oct 2024 06:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9C91824BB;
+	Thu,  3 Oct 2024 06:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PETeABPv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6B8BA49;
-	Thu,  3 Oct 2024 06:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F7A7F7DB
+	for <linux-media@vger.kernel.org>; Thu,  3 Oct 2024 06:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727938327; cv=none; b=fMW+xJEbhDkgdSJZindPiu72UdE9zxu8hqr2Fq4I3XW3TyuFicroXTMbllcjD/8PcuySH0a3orowXEIB2GHDilta8oWJxvhDKwh6N8nntE84UOimrrN4QMtyaUnxqcchbBf3KVW83yBnNS8WIsPlBt9Snm7Wfx5Qzzh38uAAahA=
+	t=1727938669; cv=none; b=pojMaKvnL/Y8sg7NqlxdzEMOf6MbcSwkb7/s3St/ExpbG+W9gaCrBQwFz+A3EuXn0V2MVEN3QSB9kZshM2SCuXrfY9CEDLqS4L0azBnAi9hYPpHUTY2YIpiM0qnjuJ91cM+0oKeK0/yhogzWTpn6rpL4Qfy9rHTmcY6eoxQX/oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727938327; c=relaxed/simple;
-	bh=fZ77VAKouYMlmYebU5IpEx6QQ4WLigvMLqgzwBq6w90=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ah/qlIrgMdamNUgPOzUNqaRCOXjHx/XcfiGDESNDGV+adVTDl2kaAnS3RvQj5VLXpA10H1wcssRYu+00ExMl0Vm1Gb65Q8CCcHQSa1AueG5BM2JSYuST1fv7Du/2FdAKzc1xNrA6wkHE0Vj5BrTKWoXdtIQ2vqgjBJmZ4upwdNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2E6C4CEC7;
-	Thu,  3 Oct 2024 06:52:04 +0000 (UTC)
-Message-ID: <2163bf83-dd55-4f79-b0ea-834fa7b1f561@xs4all.nl>
-Date: Thu, 3 Oct 2024 08:52:02 +0200
+	s=arc-20240116; t=1727938669; c=relaxed/simple;
+	bh=oHxgNAg/d8qsRPxwf4s+VaLr3kQe3rroRD1BDVg+gM0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bcm7J9RysfH6m9NUlC6YO/N+OG8ZzIex+4FNGZV258g/8jfjm5c3v+ZUcAws0ACmnVrdOiddy9OISDUfw0VQOCw0Ddc8ZTjwUQlLoWDKegijuvyv+JJFWDfw5130d4k/d/kBeJc44NV/2wKJvu66mO2CHFRxBxvos6w4ToqLE7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PETeABPv; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5c8967dd2c7so626586a12.1
+        for <linux-media@vger.kernel.org>; Wed, 02 Oct 2024 23:57:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727938666; x=1728543466; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JGecQKR7ZoIYH4vaHNJNV/6/ajVJtBZfvfEOkIG81WE=;
+        b=PETeABPvE02tj48SuqgWrYaiojzo1ZoaLLa8gUQmbyS++Ncc6XQTo5OxSBr1Wq0SIq
+         3sDpIT8clE0/WTqGFmlvPAnNlwOMf4xT8alBV2HPXzk2SM8dGiw+18N8Qw+ABY0RNB4s
+         3ZxsiUXS5LzN+kEG9B7trSuGosFg1XVKNYgoLKXs1H/01uD6ePF/2xeS/yCCcJbu4tOx
+         C7xyp6HSzQ9FaJzcXG2js60v84ed3k7luEoGl8iq8CMtIZnL347GzYfmJHxHKD/rk7+k
+         PK58/dMl/epdpv18BqrgMfUhLndx0UUXtjML/gZcxQYPjIww4BW60owM/ifDrLhTVSvZ
+         3Y7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727938666; x=1728543466;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JGecQKR7ZoIYH4vaHNJNV/6/ajVJtBZfvfEOkIG81WE=;
+        b=r8mbcjcAF2ytTbKEdESOJu394cr90ccvduUh9/t6HOa6col94snI1THHgMJjn3NC7V
+         iGZ2+/YQMeKmINfAcZIn8q1MokgG/YO7Wgww41zWAdyWYJnB9WtUMZb6OGmHcCWh8nz+
+         +9uG4fN7zZ+sAJs/0FOOpjCD/rPUlMUoJPlLfAvbiNJZM/xdMqqE9KWLiZu/aLKQFdhQ
+         aDEnMOzQqhLUDCKhIWW8huevANBQN583Y/wb7lfSYNOBrCK3DFMlyih6mj3dSd04Pian
+         0J//dtHP0R1sCSE6nYxuyx1aaltB6ADh2SvMLeVChEYUBMCQ2j0LzzlLElGQXBqL84N2
+         6BsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWkBrBgXbzPSmG/IuU+v/DUeGDG5L2GVgI1GpMtX8Dppgwt2pg2SygkwoS1YKUGQE/Wq6etW//h2MoyNg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDCFR1m6oGHHU3h0QqyWrYGYb6cp5AGCRtyVC6npTZmOnOJQ8b
+	b1YHVaekFtK1qMdu5LCl4XvNgrldpwZ/eMtExcBexVyKzhTP5IDWWpNrolP+icGo7v3ylNAgzwJ
+	gTuH6jlNpcyhNaon/ZB1YlkEcBbxKK2VtH39sFQ==
+X-Google-Smtp-Source: AGHT+IH4QGNNGP1NJcTcHJDWHlXA92zW2AJIpIf/rMuRfbu+fTqO/rDiEJy3cDA2artuxJKreIShbOnY5J0XVGAbl6I=
+X-Received: by 2002:a05:6402:5108:b0:5c2:4cbe:ac1c with SMTP id
+ 4fb4d7f45d1cf-5c8b18eed8fmr3645435a12.4.1727938665602; Wed, 02 Oct 2024
+ 23:57:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: media: fix spelling mistakes
-To: Hridesh MG <hridesh699@gmail.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20241002152231.8828-1-hridesh699@gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241002152231.8828-1-hridesh699@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241001174611.12155-1-quic_pintu@quicinc.com>
+In-Reply-To: <20241001174611.12155-1-quic_pintu@quicinc.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Thu, 3 Oct 2024 12:27:34 +0530
+Message-ID: <CAO_48GFPg=R4JaSZtgTKjh0TLKTrw24AF0nRMvFRXxwYCP28fg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dma-buf: replace symbolic permission S_IRUGO with
+ octal 0444
+To: Pintu Kumar <quic_pintu@quicinc.com>
+Cc: christian.koenig@amd.com, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, joe@perches.com, skhan@linuxfoundation.org, 
+	pintu.ping@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 02/10/2024 17:22, Hridesh MG wrote:
-> Fix three minor spelling/grammar issues:
-> 	chunck -> chunk
-> 	procotol -> protocol
-> 	follow -> following
-> 
-> Signed-off-by: Hridesh MG <hridesh699@gmail.com>
+Hello Pintu,
 
-Please always include the driver name in the Subject:
+On Tue, 1 Oct 2024 at 23:16, Pintu Kumar <quic_pintu@quicinc.com> wrote:
+>
+> Symbolic permissions are not preferred, instead use the octal.
+> Also, fix other warnings/errors as well for cleanup.
+>
+> WARNING: Block comments use * on subsequent lines
+> +       /* only support discovering the end of the buffer,
+> +          but also allow SEEK_SET to maintain the idiomatic
+>
+> WARNING: Block comments use a trailing */ on a separate line
+> +          SEEK_END(0), SEEK_CUR(0) pattern */
+>
+> WARNING: Block comments use a trailing */ on a separate line
+> +        * before passing the sgt back to the exporter. */
+>
+> ERROR: "foo * bar" should be "foo *bar"
+> +static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
+>
+> WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
+> +       d = debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir,
+>
+> total: 1 errors, 4 warnings, 1746 lines checked
+>
+> Signed-off-by: Pintu Kumar <quic_pintu@quicinc.com>
 
-staging: media: ipu3:
+Thanks for this patch - could you please also mention in the commit
+log how did you find this? It looks like you ran checkpatch, but it's
+not clear from the commit log.
 
-That way the ipu3 maintainer will notice the patch.
-
-Regards,
-
-	Hans
-
+Since this patch does multiple things related to checkpatch warnings
+(change S_IRUGO to 0444, comments correction, function declaration
+correction), can I please ask you to change the commit title to also
+reflect that?
 > ---
-> Changelog
-> 	v1 -> v2: Move the changes from meta notes to commit
-> 	message.
-> ---
->  drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-> index 34f574b0b521..af4205f4b038 100644
-> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
-> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-> @@ -639,7 +639,7 @@ static int imgu_css_osys_calc_frame_and_stripe_params(
->  				/*
->  				 * FW workaround for a HW bug: if the first
->  				 * chroma pixel is generated exactly at the end
-> -				 * of chunck scaler HW may not output the pixel
-> +				 * of chunk scaler HW may not output the pixel
->  				 * for downscale factors smaller than 1.5
->  				 * (timing issue).
->  				 */
-> @@ -1416,7 +1416,7 @@ imgu_css_shd_ops_calc(struct imgu_abi_shd_intra_frame_operations_data *ops,
+>  drivers/dma-buf/dma-buf.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 8892bc701a66..2e63d50e46d3 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -176,8 +176,9 @@ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
+>         dmabuf = file->private_data;
+>
+>         /* only support discovering the end of the buffer,
+> -          but also allow SEEK_SET to maintain the idiomatic
+> -          SEEK_END(0), SEEK_CUR(0) pattern */
+> +        * but also allow SEEK_SET to maintain the idiomatic
+> +        * SEEK_END(0), SEEK_CUR(0) pattern.
+> +        */
+>         if (whence == SEEK_END)
+>                 base = dmabuf->size;
+>         else if (whence == SEEK_SET)
+> @@ -782,13 +783,14 @@ static void mangle_sg_table(struct sg_table *sg_table)
+>         /* To catch abuse of the underlying struct page by importers mix
+>          * up the bits, but take care to preserve the low SG_ bits to
+>          * not corrupt the sgt. The mixing is undone in __unmap_dma_buf
+> -        * before passing the sgt back to the exporter. */
+> +        * before passing the sgt back to the exporter.
+> +        */
+>         for_each_sgtable_sg(sg_table, sg, i)
+>                 sg->page_link ^= ~0xffUL;
+>  #endif
+>
 >  }
->  
->  /*
-> - * The follow handshake procotol is the same for AF, AWB and AWB FR.
-> + * The following handshake protocol is the same for AF, AWB and AWB FR.
->   *
->   * for n sets of meta-data, the flow is:
->   * --> init
+> -static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
+> +static struct sg_table *__map_dma_buf(struct dma_buf_attachment *attach,
+>                                        enum dma_data_direction direction)
+>  {
+>         struct sg_table *sg_table;
+> @@ -1694,7 +1696,7 @@ static int dma_buf_init_debugfs(void)
+>
+>         dma_buf_debugfs_dir = d;
+>
+> -       d = debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir,
+> +       d = debugfs_create_file("bufinfo", 0444, dma_buf_debugfs_dir,
+>                                 NULL, &dma_buf_debug_fops);
+>         if (IS_ERR(d)) {
+>                 pr_debug("dma_buf: debugfs: failed to create node bufinfo\n");
+> --
+> 2.17.1
+>
 
+Best,
+Sumit.
 
