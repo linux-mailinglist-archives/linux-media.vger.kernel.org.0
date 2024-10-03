@@ -1,172 +1,353 @@
-Return-Path: <linux-media+bounces-19052-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19053-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA5998F07B
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 15:34:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB6F98F157
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 16:26:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42B29283E43
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 13:34:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1025CB22791
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 14:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7966C19C57F;
-	Thu,  3 Oct 2024 13:34:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3456D19E98A;
+	Thu,  3 Oct 2024 14:25:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hrJLXP5w"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ssKRajTp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293201386BF;
-	Thu,  3 Oct 2024 13:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AB012EBDB;
+	Thu,  3 Oct 2024 14:25:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727962441; cv=none; b=DOv8mD7EIut3EDglcnjvrL562GYhPKp70qitcXWWgsra9wzRYjbwEQZaeLm/7ktO3pKbn5wwtnoUA5UCtkU9bRXCp7DXETrNEboDV/roJ51snjmVHOjs+o1JlTfF7QRfKU/f5YG283pZULeHilXM4X4dg/96yHdBNlbMxCubc4E=
+	t=1727965556; cv=none; b=uN6sV8Xe0UUoPdIzTMFADWalUqhh+mn0OrjWqJD2SRPM2YcHDOZG1/gdtjAjg4L/oqcCtI3x8thhrfszixoAm4sFEeqAoaYFSv8t+EWpqU6CGUVxWhOAQfLdJh4049r/JLvrnzQACmGr5jTLOpW/SXGRE5KjETkaBDCaeyRUgl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727962441; c=relaxed/simple;
-	bh=kDkGldLwAsOfUsEBIxIpYsOMwP0o3rK3yuOfGjV0TQI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oqr+UgMAi9luunR5OG1Mb2mXTSLQZ0nXfU5GeYkD8orIXauQXlfjqA2HafbW1lMs4pTXZ14DmwiIKqX7ZJXR0ZuEyI9xz+8M+z2Ns3vbj23G1njlhtgGQiOFksoAKBUvhi/JlPXEx7ByA9anbqyJ9g4bD/rsFf+bNGuLzlRUG7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hrJLXP5w; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1727965556; c=relaxed/simple;
+	bh=LI3v4Gzw7fu82Mr1OMw10wv6EB32YRESYvSBRVGN5mA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NZfJ7BFo6NZ98DE0CwGVCL6wo9kHu04gHCJ6MtsmbG4loGp15FgseZlL2BtsHKfrOlEg79wH2TFXB+xWBFjJhYZ+d49zYWSh1owTgoowzfA4yGGR91KDUyQm9D3c9DrdyRU9d2pqKndyn2oL7fik6uj+oYAluFH45QwkZC4lKNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ssKRajTp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E9F99593;
-	Thu,  3 Oct 2024 15:32:24 +0200 (CEST)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56F5818D;
+	Thu,  3 Oct 2024 16:24:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727962345;
-	bh=kDkGldLwAsOfUsEBIxIpYsOMwP0o3rK3yuOfGjV0TQI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hrJLXP5wCQq2DNql2od5FbYFC+bszF2kWVzOzc0V/EL1/Uk9aIaM+oaloAKvL6NoD
-	 R+b6be7U0yR/Vfib2NOV7Wz56xyj64tx4fCH1zBmWVEPWfnypw4eSGZmDjw5uXZF4u
-	 xwlQsTOR/WxMeIwrlDiK9qrLaWf+8abI5RbhbHfc=
-Message-ID: <ea1c37b3-0430-4bce-9228-5d761ff94425@ideasonboard.com>
-Date: Thu, 3 Oct 2024 16:33:54 +0300
+	s=mail; t=1727965459;
+	bh=LI3v4Gzw7fu82Mr1OMw10wv6EB32YRESYvSBRVGN5mA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ssKRajTpi+XFvCU4OH/HagSv7Qu6aU2MvPxXRrT0gLbMpIVmlN0Lo+cf3V5kmhQrX
+	 92qmKspP/NgUmF47B7x6np0HXJWUd3Ftvfos0GA23ahUalp1yWdJjnuR34FwvNpuVj
+	 ljzOd86kUW9i92Ej3iubqwbH/i46shN5b3EC7E+U=
+Date: Thu, 3 Oct 2024 17:25:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 10/17] media: rzg2l-cru: Simplify handling of
+ supported formats
+Message-ID: <20241003142549.GC5468@pendragon.ideasonboard.com>
+References: <20241001140919.206139-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241001140919.206139-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] media: i2c: ds90ub960: Fix missing return check on
- ub960_rxport_read call
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Colin Ian King <colin.i.king@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241002165329.957739-1-colin.i.king@gmail.com>
- <Zv40EQSR__JDN_0M@kekkonen.localdomain>
- <f1e973fd-9933-49ed-8f9c-71b8283e6fb8@ideasonboard.com>
- <Zv6Z6P0cjYCkyJh9@kekkonen.localdomain>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <Zv6Z6P0cjYCkyJh9@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241001140919.206139-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On 03/10/2024 16:19, Sakari Ailus wrote:
-> Moi,
+Hi Prabhakar,
+
+Thank you for the patch.
+
+Just one minor comment below.
+
+On Tue, Oct 01, 2024 at 03:09:12PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> On Thu, Oct 03, 2024 at 03:52:17PM +0300, Tomi Valkeinen wrote:
->> Hi,
->>
->> On 03/10/2024 09:05, Sakari Ailus wrote:
->>> Hi Colin,
->>>
->>> On Wed, Oct 02, 2024 at 05:53:29PM +0100, Colin Ian King wrote:
->>>> The function ub960_rxport_read is being called and afterwards ret is
->>>> being checked for any failures, however ret is not being assigned to
->>>> the return of the function call. Fix this by assigning ret to the
->>>> return of the call which appears to be missing.
->>>>
->>>> Fixes: afe267f2d368 ("media: i2c: add DS90UB960 driver")
->>>> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
->>>> ---
->>>>    drivers/media/i2c/ds90ub960.c | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
->>>> index ffe5f25f8647..58424d8f72af 100644
->>>> --- a/drivers/media/i2c/ds90ub960.c
->>>> +++ b/drivers/media/i2c/ds90ub960.c
->>>> @@ -1286,7 +1286,7 @@ static int ub960_rxport_get_strobe_pos(struct ub960_data *priv,
->>>>    	clk_delay += v & UB960_IR_RX_ANA_STROBE_SET_CLK_DELAY_MASK;
->>>> -	ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_1, &v);
->>>> +	ret = ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_1, &v);
->>>>    	if (ret)
->>>>    		return ret;
->>>
->>> There seems to be a similar issues all around the driver. It'd be good to
->>> fix them at the same time.
->>
->> With similar issues, do you mean the code not checking the return value at
->> all for i2c reads and writes?
->>
->> In this particular case the code already checks the return value, but
->> setting the return value was missing. With a quick browse, I didn't see
->> other like this.
+> Refactor the handling of supported formats in the RZ/G2L CRU driver by
+> moving the `rzg2l_cru_ip_format` struct to the common header to allow
+> reuse across multiple files and adding pixelformat and bpp members to it.
+> This change centralizes format handling, making it easier to manage and
+> extend.
 > 
-> See e.g. ub960_clear_rx_errors(), ub960_log_status(),
-> ub960_rxport_set_strobe_pos() and ub960_rxport_set_strobe_range.
+> - Moved the `rzg2l_cru_ip_format` struct to `rzg2l-cru.h` for better
+>   accessibility.
+> - Added format, datatype and bpp members to `rzg2l_cru_ip_format` struct
+> - Dropped rzg2l_cru_formats
+> - Introduced helper functions `rzg2l_cru_ip_code_to_fmt()`,
+>   `rzg2l_cru_ip_format_to_fmt()`, and
+>   `rzg2l_cru_ip_index_to_fmt()` to streamline format lookups.
+> - Refactored the `rzg2l_cru_csi2_setup` and format alignment functions
+>   to utilize the new helpers.
+> 
+> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3
+> - Updated subject line and commit message
+> - Implemented rzg2l_cru_ip_format_to_fmt() and rzg2l_cru_ip_index_to_fmt()
+> - Dropped checking fmt in rzg2l_cru_initialize_image_conv()
+> 
+> v1->v2
+> - New patch
+> ---
+>  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 20 +++++-
+>  .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 35 ++++++++--
+>  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 67 ++++++-------------
+>  3 files changed, 68 insertions(+), 54 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> index 4fe24bdde5b2..39296a59b3da 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> @@ -62,6 +62,20 @@ struct rzg2l_cru_ip {
+>  	struct v4l2_subdev *remote;
+>  };
+>  
+> +/**
+> + * struct rzg2l_cru_ip_format - CRU IP format
+> + * @code: Media bus code
+> + * @format: 4CC format identifier (V4L2_PIX_FMT_*)
+> + * @datatype: MIPI CSI2 data type
+> + * @bpp: bytes per pixel
+> + */
+> +struct rzg2l_cru_ip_format {
+> +	u32 code;
+> +	u32 format;
+> +	u32 datatype;
+> +	u8 bpp;
+> +};
+> +
+>  /**
+>   * struct rzg2l_cru_dev - Renesas CRU device structure
+>   * @dev:		(OF) device
+> @@ -144,10 +158,12 @@ int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru);
+>  void rzg2l_cru_video_unregister(struct rzg2l_cru_dev *cru);
+>  irqreturn_t rzg2l_cru_irq(int irq, void *data);
+>  
+> -const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format);
+> -
+>  int rzg2l_cru_ip_subdev_register(struct rzg2l_cru_dev *cru);
+>  void rzg2l_cru_ip_subdev_unregister(struct rzg2l_cru_dev *cru);
+>  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru);
+>  
+> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code);
+> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 format);
+> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index);
+> +
+>  #endif
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> index 7b006a0bfaae..12aac9d6cb4b 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> @@ -6,17 +6,21 @@
+>   */
+>  
+>  #include <linux/delay.h>
+> -#include "rzg2l-cru.h"
+>  
+> -struct rzg2l_cru_ip_format {
+> -	u32 code;
+> -};
+> +#include <media/mipi-csi2.h>
+> +
+> +#include "rzg2l-cru.h"
+>  
+>  static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+> -	{ .code = MEDIA_BUS_FMT_UYVY8_1X16, },
+> +	{
+> +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
+> +		.format = V4L2_PIX_FMT_UYVY,
+> +		.datatype = MIPI_CSI2_DT_YUV422_8B,
+> +		.bpp = 2,
+> +	},
+>  };
+>  
+> -static const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
+> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
+>  {
+>  	unsigned int i;
+>  
+> @@ -27,6 +31,25 @@ static const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int c
+>  	return NULL;
+>  }
+>  
+> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 format)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++)
+> +		if (rzg2l_cru_ip_formats[i].format == format)
+> +			return &rzg2l_cru_ip_formats[i];
 
-Right, those don't check the return value. So they're not the same as 
-the one fixed in this patch.
+	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
+		if (rzg2l_cru_ip_formats[i].format == format)
+			return &rzg2l_cru_ip_formats[i];
+	}
 
-I'm not arguing against adding error checks, but that's a big work and I 
-think this patch is a different kind of fix which should be applied 
-whether the additional error checks are added or not.
+Sakari can probably handle this when applying the series to his tree.
 
-Also, while still not arguing against adding the checks, it looks quite 
-common to not check the returns values. E.g. it's not just a few errors 
-I see if I add __must_check to cci functions.
+> +
+> +	return NULL;
+> +}
+> +
+> +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index)
+> +{
+> +	if (index >= ARRAY_SIZE(rzg2l_cru_ip_formats))
+> +		return NULL;
+> +
+> +	return &rzg2l_cru_ip_formats[index];
+> +}
+> +
+>  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru)
+>  {
+>  	struct v4l2_subdev_state *state;
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index de88c0fab961..ceb9012c9d70 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -300,21 +300,10 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
+>  	rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
+>  }
+>  
+> -static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *input_is_yuv,
+> -				 struct v4l2_mbus_framefmt *ip_sd_fmt, u8 csi_vc)
+> +static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, u8 csi_vc,
+> +				 u32 csi2_datatype)
+>  {
+> -	u32 icnmc;
+> -
+> -	switch (ip_sd_fmt->code) {
+> -	case MEDIA_BUS_FMT_UYVY8_1X16:
+> -		icnmc = ICnMC_INF(MIPI_CSI2_DT_YUV422_8B);
+> -		*input_is_yuv = true;
+> -		break;
+> -	default:
+> -		*input_is_yuv = false;
+> -		icnmc = ICnMC_INF(MIPI_CSI2_DT_USER_DEFINED(0));
+> -		break;
+> -	}
+> +	u32 icnmc = ICnMC_INF(csi2_datatype);
+>  
+>  	icnmc |= (rzg2l_cru_read(cru, ICnMC) & ~ICnMC_INF_MASK);
+>  
+> @@ -328,17 +317,20 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+>  					   struct v4l2_mbus_framefmt *ip_sd_fmt,
+>  					   u8 csi_vc)
+>  {
+> -	bool output_is_yuv = false;
+> -	bool input_is_yuv = false;
+> +	const struct v4l2_format_info *src_finfo, *dst_finfo;
+> +	const struct rzg2l_cru_ip_format *cru_ip_fmt;
+>  	u32 icndmr;
+>  
+> -	rzg2l_cru_csi2_setup(cru, &input_is_yuv, ip_sd_fmt, csi_vc);
+> +	cru_ip_fmt = rzg2l_cru_ip_code_to_fmt(ip_sd_fmt->code);
+> +	rzg2l_cru_csi2_setup(cru, csi_vc, cru_ip_fmt->datatype);
+> +
+> +	src_finfo = v4l2_format_info(cru_ip_fmt->format);
+> +	dst_finfo = v4l2_format_info(cru->format.pixelformat);
+>  
+>  	/* Output format */
+>  	switch (cru->format.pixelformat) {
+>  	case V4L2_PIX_FMT_UYVY:
+>  		icndmr = ICnDMR_YCMODE_UYVY;
+> -		output_is_yuv = true;
+>  		break;
+>  	default:
+>  		dev_err(cru->dev, "Invalid pixelformat (0x%x)\n",
+> @@ -347,7 +339,7 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+>  	}
+>  
+>  	/* If input and output use same colorspace, do bypass mode */
+> -	if (output_is_yuv == input_is_yuv)
+> +	if (v4l2_is_format_yuv(src_finfo) && v4l2_is_format_yuv(dst_finfo))
+>  		rzg2l_cru_write(cru, ICnMC,
+>  				rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR);
+>  	else
+> @@ -810,35 +802,15 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev *cru)
+>  /* -----------------------------------------------------------------------------
+>   * V4L2 stuff
+>   */
+> -
+> -static const struct v4l2_format_info rzg2l_cru_formats[] = {
+> -	{
+> -		.format = V4L2_PIX_FMT_UYVY,
+> -		.bpp[0] = 2,
+> -	},
+> -};
+> -
+> -const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format)
+> -{
+> -	unsigned int i;
+> -
+> -	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_formats); i++)
+> -		if (rzg2l_cru_formats[i].format == format)
+> -			return rzg2l_cru_formats + i;
+> -
+> -	return NULL;
+> -}
+> -
+>  static u32 rzg2l_cru_format_bytesperline(struct v4l2_pix_format *pix)
+>  {
+> -	const struct v4l2_format_info *fmt;
+> -
+> -	fmt = rzg2l_cru_format_from_pixel(pix->pixelformat);
+> +	const struct rzg2l_cru_ip_format *fmt;
+>  
+> +	fmt = rzg2l_cru_ip_format_to_fmt(pix->pixelformat);
+>  	if (WARN_ON(!fmt))
+> -		return -EINVAL;
+> +		return 0;
+>  
+> -	return pix->width * fmt->bpp[0];
+> +	return pix->width * fmt->bpp;
+>  }
+>  
+>  static u32 rzg2l_cru_format_sizeimage(struct v4l2_pix_format *pix)
+> @@ -849,7 +821,7 @@ static u32 rzg2l_cru_format_sizeimage(struct v4l2_pix_format *pix)
+>  static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
+>  				   struct v4l2_pix_format *pix)
+>  {
+> -	if (!rzg2l_cru_format_from_pixel(pix->pixelformat))
+> +	if (!rzg2l_cru_ip_format_to_fmt(pix->pixelformat))
+>  		pix->pixelformat = RZG2L_CRU_DEFAULT_FORMAT;
+>  
+>  	switch (pix->field) {
+> @@ -941,10 +913,13 @@ static int rzg2l_cru_g_fmt_vid_cap(struct file *file, void *priv,
+>  static int rzg2l_cru_enum_fmt_vid_cap(struct file *file, void *priv,
+>  				      struct v4l2_fmtdesc *f)
+>  {
+> -	if (f->index >= ARRAY_SIZE(rzg2l_cru_formats))
+> +	const struct rzg2l_cru_ip_format *fmt;
+> +
+> +	fmt = rzg2l_cru_ip_index_to_fmt(f->index);
+> +	if (!fmt)
+>  		return -EINVAL;
+>  
+> -	f->pixelformat = rzg2l_cru_formats[f->index].format;
+> +	f->pixelformat = fmt->format;
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.43.0
+> 
 
-  Tomi
+-- 
+Regards,
 
+Laurent Pinchart
 
