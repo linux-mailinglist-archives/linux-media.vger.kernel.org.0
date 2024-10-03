@@ -1,351 +1,144 @@
-Return-Path: <linux-media+bounces-19062-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19063-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5179798F2D2
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 17:42:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BF598F468
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 18:47:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5E4B1F224E2
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 15:42:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 432B428215D
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 16:47:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC4B01A76C8;
-	Thu,  3 Oct 2024 15:41:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD0D1A704D;
+	Thu,  3 Oct 2024 16:47:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AULHDCDe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KXMzyV1m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3838B1A4E9E
-	for <linux-media@vger.kernel.org>; Thu,  3 Oct 2024 15:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6331527B4;
+	Thu,  3 Oct 2024 16:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727970096; cv=none; b=UCJjhhILuucCwnu9x0fnLGdcJcZx99AcO1F9+Fl52t/pL5SQrer70tMUQurP8kte2P3/0y6SU55oX2EIdIai5Qntw+e7MocL8IrPW0rLfw0/r9o4A7LQIPBEiur+JvfuojTD624IjvlZ8h0eW2XrXwXG9RFf6fGA0aHPjy0lZgs=
+	t=1727974058; cv=none; b=FXXx/+XyUaY+JZuOeGhFyKEnGLJhm7ItWiR1E7JxFhgIMw1HlqG70gm21bVBZyiTnXB8bUo2EdZkj3uG9cGUjiHXY2GfoCsHBeM+e6mwMRarYMeA8XEOWYUkWAj4cQXjijC2qGm7c00EeXDiVJOOVSzG4jpRqkQgRXa8DKDg8Xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727970096; c=relaxed/simple;
-	bh=LL6t0/fJmZI9eHhzlG/ZhWayuHRs6YWaQKrP0a5lAkU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kGwFYiUSEn1KacL08ONqqVliy8xfb7Byo8vkhnVP6Q8BVdFks/1wY4WKSsJKDSfQzXHwy7BknOOcHodIZ20LCYb8SQMgUN/MmrAcZnyQP5EzVQobAU7FHSUMxum+L6KqHzmpSiZeLisv2vG1Xe3sI781kABMUJAkQnCzVorYtB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AULHDCDe; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a8a7b1c2f2bso171965066b.0
-        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2024 08:41:33 -0700 (PDT)
+	s=arc-20240116; t=1727974058; c=relaxed/simple;
+	bh=SQdnVgiNWl8DyoVYZQVhOY68PuDDCJZ7vrWQquscuk4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=olVG0Dk7YobAC83Jzx0qafuTb94Dxwje3h4rpi9Yxsh9ZrgHXpviXp4YutrGaGJTsv8jJhig8OopBuZ3l8rjAzWCCfogNV7R7QWSv8D50jnLK2Y7plGFJVLl2Zgs1OqnbRtciB+iudP11HEbXSxgeLPd36qsGKN+L01+h5RSArs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KXMzyV1m; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2fad6de2590so21174021fa.0;
+        Thu, 03 Oct 2024 09:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727970092; x=1728574892; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F1exe6gHY7SXzDJNE6ebEB1h7PVHhMSJMUSH5bL4x90=;
-        b=AULHDCDeVFZuvfo0jbUCKoonkzNuv6xN49f68C6QSlPtxsu2mbvfBSkqwI9uom/+ib
-         9ARchGIYSJzLXSfwHftyEmQpQLdTQOfuQ91o+C1NDoP93VTIOXcm1TLQGtsTqUsHYguq
-         RFi9JtW6AjpzFrQ6xJCelyKvQ9mPKYxn6cN9A1zNp+6mNIG1ks405PG4dcJzPo9ejXpx
-         r+kFtJ0A+NsJKrgjACjg2y4nbgO/vZlIQBKdhjZhkwopznSdkygMlzWJIzQKHnISEQr0
-         k9hLjcEjlxH2LQAWeiEsb+7I8ntNkYcjDFXvxSolYX/c6fTcMACsmb2J9j+bz8lI8uDx
-         aUeQ==
+        d=gmail.com; s=20230601; t=1727974055; x=1728578855; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=psqXgVYQxh+Nqc0Py7UigoY7uptpL1QNQzj4fqHhGjU=;
+        b=KXMzyV1mrMXXNeK0nZAr+ZLifPPuqjlDLA9+wNeEZRpGhSAnnTS6Vs9NsI/C9+FEQp
+         PYKKhPihrOtrn8SIEHgLl3Fi1FYYDZaOu/KcOz5b93L7do3UbUpNgixeVozCWHtSHGd5
+         p26loWOx/1IOjRCvLRjI/V/67LXSL+2k8OHFtt4V7xWUEMYNQq8oLw84zZG/wszU6iyc
+         yLDh8T32nH+nLVvN+/ddYIpQr+Im0J8PMnvi8sGrEmPP0YMvC5L8EW3xTbP+/PfDbp+D
+         7brFjyIMFvuZoofVs0t/DVSWgxZNokYPc2CrKrxfZY9ruNIc15aSGZ/OFkAh/mVBlsAp
+         5aAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727970092; x=1728574892;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F1exe6gHY7SXzDJNE6ebEB1h7PVHhMSJMUSH5bL4x90=;
-        b=PR3uaQJ/ULB7Zmj0dDWy0kc+z5pdltc2cbgaOHnZr6KhChltsebl1j6x0HtzaPU9sk
-         vrY8InnwIP3Xcuh3AV+XGSjOmWJJ1wAJIOr9ZHIYKaX2pvJDYc2B0gS4gsYa3lAWZRxd
-         yIqf+dfFZbHp3ZDcOca1PzcIMQAG4s/tITiUpK2uUnrIy1Djrb3niAGdbvY3IiIOH2HJ
-         vHspdgj7hezYgIRfSGGGC0wEL57/N4krygLefCwLpAl9nqJOtNSnBqJb20Wd2D4Zj1T6
-         jd2AssIYkQm9MGoF35JMTnpFmvhEmWS/83RhE1V3q9p34m9CELlqXDMt9jelxi9KVFeV
-         OOKg==
-X-Gm-Message-State: AOJu0Yxkj4SgKeOkSczhrJ2YxLtNI8JJQsAX1+mBWdTLA276yp1bxabV
-	TB5EWigLKPd31fox963PW8nl8ajLhcueCAY/6w8hyCcPv9x2m7tx1jDgYjl6QW0=
-X-Google-Smtp-Source: AGHT+IGaTmS3HxLqj56kTxvcBANO+K5RJiinJjG0Zr6ehiUcEzeOO4XRy+qR6pDcxufcx322/Da00Q==
-X-Received: by 2002:a17:907:74e:b0:a86:97e5:8d4e with SMTP id a640c23a62f3a-a98f822518amr669510366b.23.1727970091510;
-        Thu, 03 Oct 2024 08:41:31 -0700 (PDT)
-Received: from [127.0.0.1] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99104c4f3fsm98492866b.200.2024.10.03.08.41.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2024 08:41:31 -0700 (PDT)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Thu, 03 Oct 2024 16:41:28 +0100
-Subject: [PATCH v4 4/4] media: ov08x40: Add OF probe support
+        d=1e100.net; s=20230601; t=1727974055; x=1728578855;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=psqXgVYQxh+Nqc0Py7UigoY7uptpL1QNQzj4fqHhGjU=;
+        b=IBdpZZDg+l+C8lRbqKXgg1QQY/jls2TQ1CdVCz0ae8OYNpXB6JscD4MYivj2ddcr4T
+         MMhU9BlrfM/9EmopkiiJjlwOGPbpmWXrbmtoIjvSIjBn8riZCBB2DB9a5iM50zwoNZFy
+         cJR43GgII5bTdFEWCy0xruZqZ+hD/FjuMkd66S23shH3E6u3lRLc56oDWV8+q5EFpE9h
+         Rknb4bkRapkhROoXeDGM+owZob/vcJgFYOdp65wmqF56eIcMhZl120iea1KBX+S9wuLI
+         AFjMIbo3Ca4xICJQsY3oCNgprDPBC82ZhI/C4oNQU1a5vbyThnUSqlKzOP7rXpb9Iwib
+         c41g==
+X-Forwarded-Encrypted: i=1; AJvYcCVjAn0MZ5h/D/TlWokkIkcP7i56dPVlF+HkwPBeyV8mzLaOt05A0UbaVc0jmGhFK2ie6a7CxQmmQFkAV40=@vger.kernel.org, AJvYcCWeVKY5rEgcQTRKGzX3nRpOg4Ys6bsnarbLgl9z/NqHrinKMpoCqo5TOyrIsMovXd1mj2zuIDLfFP3WhiM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLgsMQJasJCeh/BmHv1j+utJau/u0jP8dNq1m1BP7Zf8Yv4qWE
+	ZEhP/ogrc2JYmWpntxPNKFXsBlz2tcVMRF3/PJdCky7T5msf5oYaG6574g2vttq/agLU8+Bcrrc
+	QHYvQAt1xtn/aEa5NeJqMsPhMrek=
+X-Google-Smtp-Source: AGHT+IGPSZ3E9O5gAxhRq5O9LqntfK9B6JDHzw+kooRnu6f4cg5nHyGVMnGw5PmESsxX1yJS8iK6tHj52Q6zsyKi2nE=
+X-Received: by 2002:a2e:b8c1:0:b0:2fa:c455:23c with SMTP id
+ 38308e7fff4ca-2fae10b4c0emr73735201fa.42.1727974054298; Thu, 03 Oct 2024
+ 09:47:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241003-b4-master-24-11-25-ov08x40-v4-4-7ee2c45fdc8c@linaro.org>
-References: <20241003-b4-master-24-11-25-ov08x40-v4-0-7ee2c45fdc8c@linaro.org>
-In-Reply-To: <20241003-b4-master-24-11-25-ov08x40-v4-0-7ee2c45fdc8c@linaro.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Jason Chen <jason.z.chen@intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-X-Mailer: b4 0.15-dev-dedf8
+References: <20241001174611.12155-1-quic_pintu@quicinc.com> <CAO_48GFPg=R4JaSZtgTKjh0TLKTrw24AF0nRMvFRXxwYCP28fg@mail.gmail.com>
+In-Reply-To: <CAO_48GFPg=R4JaSZtgTKjh0TLKTrw24AF0nRMvFRXxwYCP28fg@mail.gmail.com>
+From: Pintu Agarwal <pintu.ping@gmail.com>
+Date: Thu, 3 Oct 2024 22:17:22 +0530
+Message-ID: <CAOuPNLg1=YCUFXW-76A_gZm_PE1MFSugNvg3dEdkfujXV_5Zfw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dma-buf: replace symbolic permission S_IRUGO with
+ octal 0444
+To: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Pintu Kumar <quic_pintu@quicinc.com>, christian.koenig@amd.com, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, joe@perches.com, 
+	skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-The ACPI version of this driver "just works" on dts based systems with a
-few extensions to facilitate.
+Hi Sumit,
 
-- Add support for DT based probing
-- Add support for taking the part out of reset via a GPIO reset pin
-- Add in regulator bulk on/off logic for the power rails.
+On Thu, 3 Oct 2024 at 12:27, Sumit Semwal <sumit.semwal@linaro.org> wrote:
+>
+> Hello Pintu,
+>
+> On Tue, 1 Oct 2024 at 23:16, Pintu Kumar <quic_pintu@quicinc.com> wrote:
+> >
+> > Symbolic permissions are not preferred, instead use the octal.
+> > Also, fix other warnings/errors as well for cleanup.
+> >
+> > WARNING: Block comments use * on subsequent lines
+> > +       /* only support discovering the end of the buffer,
+> > +          but also allow SEEK_SET to maintain the idiomatic
+> >
+> > WARNING: Block comments use a trailing */ on a separate line
+> > +          SEEK_END(0), SEEK_CUR(0) pattern */
+> >
+> > WARNING: Block comments use a trailing */ on a separate line
+> > +        * before passing the sgt back to the exporter. */
+> >
+> > ERROR: "foo * bar" should be "foo *bar"
+> > +static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
+> >
+> > WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
+> > +       d = debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir,
+> >
+> > total: 1 errors, 4 warnings, 1746 lines checked
+> >
+> > Signed-off-by: Pintu Kumar <quic_pintu@quicinc.com>
+>
+> Thanks for this patch - could you please also mention in the commit
+> log how did you find this? It looks like you ran checkpatch, but it's
+> not clear from the commit log.
+>
+Thanks for your review.
+Sure. Yes, it was found while using the checkpatch.
+I tried to put "checkpatch fixes" in the commit header but the tool
+did not allow me.
+So, I removed it.
+But I think I can add that in the commit log.
 
-Once done this sensor works nicely on a Qualcomm X1E80100 CRD.
+> Since this patch does multiple things related to checkpatch warnings
+> (change S_IRUGO to 0444, comments correction, function declaration
+> correction), can I please ask you to change the commit title to also
+> reflect that?
+>
+ok sure. Last time I tried to mention "fix checkpatch warnings" in a
+general way,
+but the tool itself catches it and throws another warning.
+So, I chose the major fix as the commit header and combined others, instead
+of raising 3 different patches.
+Let me try to put the same as you mentioned above.
 
-Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> # x1e80100-crd
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/i2c/ov08x40.c | 138 +++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 124 insertions(+), 14 deletions(-)
+I will correct these and send v2 in a different mail.
 
-diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-index 3ab8b51df157af78fcccc1aaef73aedb2ae759c9..821102287580acecd544402254cfe0fb5c8dc299 100644
---- a/drivers/media/i2c/ov08x40.c
-+++ b/drivers/media/i2c/ov08x40.c
-@@ -3,10 +3,13 @@
- 
- #include <asm-generic/unaligned.h>
- #include <linux/acpi.h>
-+#include <linux/clk.h>
- #include <linux/i2c.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/module.h>
- #include <linux/delay.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-@@ -1279,6 +1282,12 @@ static const struct ov08x40_mode supported_modes[] = {
- 	},
- };
- 
-+static const char * const ov08x40_supply_names[] = {
-+	"dovdd",	/* Digital I/O power */
-+	"avdd",		/* Analog power */
-+	"dvdd",		/* Digital core power */
-+};
-+
- struct ov08x40 {
- 	struct v4l2_subdev sd;
- 	struct media_pad pad;
-@@ -1291,6 +1300,10 @@ struct ov08x40 {
- 	struct v4l2_ctrl *hblank;
- 	struct v4l2_ctrl *exposure;
- 
-+	struct clk		*xvclk;
-+	struct gpio_desc	*reset_gpio;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(ov08x40_supply_names)];
-+
- 	/* Current mode */
- 	const struct ov08x40_mode *cur_mode;
- 
-@@ -1303,6 +1316,61 @@ struct ov08x40 {
- 
- #define to_ov08x40(_sd)	container_of(_sd, struct ov08x40, sd)
- 
-+static int ov08x40_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov08x40 *ov08x = to_ov08x40(sd);
-+	int ret;
-+
-+	if (is_acpi_node(dev_fwnode(dev)))
-+		return 0;
-+
-+	ret = clk_prepare_enable(ov08x->xvclk);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable xvclk\n");
-+		return ret;
-+	}
-+
-+	if (ov08x->reset_gpio) {
-+		gpiod_set_value_cansleep(ov08x->reset_gpio, 1);
-+		usleep_range(1000, 2000);
-+	}
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ov08x40_supply_names),
-+				    ov08x->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable regulators\n");
-+		goto disable_clk;
-+	}
-+
-+	gpiod_set_value_cansleep(ov08x->reset_gpio, 0);
-+	usleep_range(1500, 1800);
-+
-+	return 0;
-+
-+disable_clk:
-+	gpiod_set_value_cansleep(ov08x->reset_gpio, 1);
-+	clk_disable_unprepare(ov08x->xvclk);
-+
-+	return ret;
-+}
-+
-+static int ov08x40_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov08x40 *ov08x = to_ov08x40(sd);
-+
-+	if (is_acpi_node(dev_fwnode(dev)))
-+		return 0;
-+
-+	gpiod_set_value_cansleep(ov08x->reset_gpio, 1);
-+	regulator_bulk_disable(ARRAY_SIZE(ov08x40_supply_names),
-+			       ov08x->supplies);
-+	clk_disable_unprepare(ov08x->xvclk);
-+
-+	return 0;
-+}
-+
- /* Read registers up to 4 at a time */
- static int ov08x40_read_reg(struct ov08x40 *ov08x,
- 			    u16 reg, u32 len, u32 *val)
-@@ -2072,7 +2140,7 @@ static void ov08x40_free_controls(struct ov08x40 *ov08x)
- 	mutex_destroy(&ov08x->mutex);
- }
- 
--static int ov08x40_check_hwcfg(struct device *dev)
-+static int ov08x40_check_hwcfg(struct ov08x40 *ov08x, struct device *dev)
- {
- 	struct v4l2_fwnode_endpoint bus_cfg = {
- 		.bus_type = V4L2_MBUS_CSI2_DPHY
-@@ -2086,11 +2154,36 @@ static int ov08x40_check_hwcfg(struct device *dev)
- 	if (!fwnode)
- 		return -ENXIO;
- 
--	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
--				       &xvclk_rate);
--	if (ret) {
--		dev_err(dev, "can't get clock frequency");
--		return ret;
-+	if (!is_acpi_node(fwnode)) {
-+		ov08x->xvclk = devm_clk_get(dev, NULL);
-+		if (IS_ERR(ov08x->xvclk)) {
-+			dev_err(dev, "could not get xvclk clock (%pe)\n",
-+				ov08x->xvclk);
-+			return PTR_ERR(ov08x->xvclk);
-+		}
-+
-+		xvclk_rate = clk_get_rate(ov08x->xvclk);
-+
-+		ov08x->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-+							    GPIOD_OUT_LOW);
-+		if (IS_ERR(ov08x->reset_gpio))
-+			return PTR_ERR(ov08x->reset_gpio);
-+
-+		for (i = 0; i < ARRAY_SIZE(ov08x40_supply_names); i++)
-+			ov08x->supplies[i].supply = ov08x40_supply_names[i];
-+
-+		ret = devm_regulator_bulk_get(dev,
-+					      ARRAY_SIZE(ov08x40_supply_names),
-+					      ov08x->supplies);
-+		if (ret)
-+			return ret;
-+	} else {
-+		ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
-+					       &xvclk_rate);
-+		if (ret) {
-+			dev_err(dev, "can't get clock frequency");
-+			return ret;
-+		}
- 	}
- 
- 	if (xvclk_rate != OV08X40_XVCLK) {
-@@ -2143,32 +2236,37 @@ static int ov08x40_check_hwcfg(struct device *dev)
- }
- 
- static int ov08x40_probe(struct i2c_client *client)
--{
--	struct ov08x40 *ov08x;
-+{	struct ov08x40 *ov08x;
- 	int ret;
- 	bool full_power;
- 
-+	ov08x = devm_kzalloc(&client->dev, sizeof(*ov08x), GFP_KERNEL);
-+	if (!ov08x)
-+		return -ENOMEM;
-+
- 	/* Check HW config */
--	ret = ov08x40_check_hwcfg(&client->dev);
-+	ret = ov08x40_check_hwcfg(ov08x, &client->dev);
- 	if (ret) {
- 		dev_err(&client->dev, "failed to check hwcfg: %d", ret);
- 		return ret;
- 	}
- 
--	ov08x = devm_kzalloc(&client->dev, sizeof(*ov08x), GFP_KERNEL);
--	if (!ov08x)
--		return -ENOMEM;
--
- 	/* Initialize subdev */
- 	v4l2_i2c_subdev_init(&ov08x->sd, client, &ov08x40_subdev_ops);
- 
- 	full_power = acpi_dev_state_d0(&client->dev);
- 	if (full_power) {
-+		ret = ov08x40_power_on(&client->dev);
-+		if (ret) {
-+			dev_err(&client->dev, "failed to power on\n");
-+			return ret;
-+		}
-+
- 		/* Check module identity */
- 		ret = ov08x40_identify_module(ov08x);
- 		if (ret) {
- 			dev_err(&client->dev, "failed to find sensor: %d\n", ret);
--			return ret;
-+			goto probe_power_off;
- 		}
- 	}
- 
-@@ -2210,6 +2308,9 @@ static int ov08x40_probe(struct i2c_client *client)
- error_handler_free:
- 	ov08x40_free_controls(ov08x);
- 
-+probe_power_off:
-+	ov08x40_power_off(&client->dev);
-+
- 	return ret;
- }
- 
-@@ -2224,6 +2325,8 @@ static void ov08x40_remove(struct i2c_client *client)
- 
- 	pm_runtime_disable(&client->dev);
- 	pm_runtime_set_suspended(&client->dev);
-+
-+	ov08x40_power_off(&client->dev);
- }
- 
- #ifdef CONFIG_ACPI
-@@ -2235,10 +2338,17 @@ static const struct acpi_device_id ov08x40_acpi_ids[] = {
- MODULE_DEVICE_TABLE(acpi, ov08x40_acpi_ids);
- #endif
- 
-+static const struct of_device_id ov08x40_of_match[] = {
-+	{ .compatible = "ovti,ov08x40" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ov08x40_of_match);
-+
- static struct i2c_driver ov08x40_i2c_driver = {
- 	.driver = {
- 		.name = "ov08x40",
- 		.acpi_match_table = ACPI_PTR(ov08x40_acpi_ids),
-+		.of_match_table = ov08x40_of_match,
- 	},
- 	.probe = ov08x40_probe,
- 	.remove = ov08x40_remove,
-
--- 
-2.46.2
-
+Thanks.
 
