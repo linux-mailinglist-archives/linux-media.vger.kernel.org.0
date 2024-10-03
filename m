@@ -1,245 +1,164 @@
-Return-Path: <linux-media+bounces-19056-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19057-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B03E98F1DC
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 16:51:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9895098F23F
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 17:14:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 423451F223BD
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 14:51:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA3001C211B3
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 15:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC1181A01BC;
-	Thu,  3 Oct 2024 14:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5C501A0BD6;
+	Thu,  3 Oct 2024 15:13:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cs3GY/pw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VOIUspi6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866EF19F428;
-	Thu,  3 Oct 2024 14:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB2B1A01BC;
+	Thu,  3 Oct 2024 15:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727967079; cv=none; b=Vbuw17UFRTOvL9owbaQmYn9TOqxkw7TG6uAe+OqjtpPciae+acSiq/52VawcppMLQDrKorNvtjsgLkU2G4SpOM/bdCK1l3BOCZxpeQbKJDSCbDDmqk65/YDB2jhmq1z7F8xi95bZ0UUtUy6wwfnSeCBjmaB+hePdxmPMD0abSOw=
+	t=1727968436; cv=none; b=MEIRz/tQX3fvldXGCUcnoZCS5ubeRHiwURAjj5gQQgM/3fdhltSe7bwaUHt79B1+QQf/OJzN7ZAlwMp6kIrZrLgd4G6YieRRkTrKzE38SBWPs0op3APT86XZdTRR+D78jboxZo/eo4fSCeK75PZ3xOrXrUivMzDAwvoYJJFs9M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727967079; c=relaxed/simple;
-	bh=MVQuBuKhF39e/IyRt9k1crldXIDeyH9xoxELjFnJh5s=;
+	s=arc-20240116; t=1727968436; c=relaxed/simple;
+	bh=f/vMsRMQF4DP5vs+pa5InfZpJ0GIZVb4L2/Q82hBRzE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LQ+pshoUZ+pK4z/eLcGHz7FSEkJsQfT0/u6dpRsNaMp32SThwOBZ55OnQew6KM9P7WmR1jrzChjKq8ckRwBWY8IKTtlJvnhB2VjTPimcJngD9OXJGyB/8Dq6vTR2ZcFFj4tEk72iZKif/N//IGs303wmXcdyaVfXaLz3mwKCAKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cs3GY/pw; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A531118D;
-	Thu,  3 Oct 2024 16:49:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1727966982;
-	bh=MVQuBuKhF39e/IyRt9k1crldXIDeyH9xoxELjFnJh5s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cs3GY/pwE+KFCKGdwGpD7drNRu/YcsfptEKsr80estgj4FnJmlRRHuppqdc/t+TV7
-	 Ec8Icc1zELaqvDvrgHmHzDLMqU4NaKgnGc3t8bQg/9jYyA0aG+KeAwXCsaX0wgmXmD
-	 C7c6DXRxp+Jp1WfX7Y+rFSh+Z/0WmjVjcZ+GMrrg=
-Date: Thu, 3 Oct 2024 17:51:12 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=UH0/PTnGGS976237lBxSRZ+vCEfFKgjc84y/hYKRDLMasFHBTHhrcYZzXMevZ6YJbsUoB6MIt6o2kTy7x87GjXKdn2hsln65qxLR4Zws0kdg4INJEbo/atYBClBLI32xMAnA5+GTleDz7yvIjLRq2aJJCrTUNcKEcbkyFT8+ps4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VOIUspi6; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727968434; x=1759504434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=f/vMsRMQF4DP5vs+pa5InfZpJ0GIZVb4L2/Q82hBRzE=;
+  b=VOIUspi6ug6jX9/ZHdq1bOKJNuDLxoUgnayqiu6aSJZT5rnPX64Tx+Ee
+   AhJk4Hc58rAa4VakI9BwExw2vxaIBYjKMgmfSweZyjoM73BM2J+pVEYkh
+   wgESnhbfhWq6SEirN3Bgr5g9gcTt17G/QTnyZv9/4f/y5wLmwcqynxLZu
+   bcfpJC9Pxf/YZbuyfYdwa8aTSDc+KKY45hrJ6qks4KUzjYtJxqAJxEDLs
+   CxIJOkg47hUo7tviwyXi/Uow/QDNG2qRG2823LrufVWMmn0QKOJQ7DCUV
+   HlsOiy/SvuW84dUWtFxkmXBkkuc1hxY5A/7QPBSz9D84ilCOf9yV3U5Co
+   w==;
+X-CSE-ConnectionGUID: 9RFU3jicTYalhtr2yfTJYw==
+X-CSE-MsgGUID: R9KjX12yQrWtl3925/yZmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27297995"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
+   d="scan'208";a="27297995"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:13:53 -0700
+X-CSE-ConnectionGUID: g1yVx1EeS0yqLvTQckaNTQ==
+X-CSE-MsgGUID: ce2dxXTVSruPny3mMWSgcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
+   d="scan'208";a="74488618"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:13:51 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 80E4411F855;
+	Thu,  3 Oct 2024 18:13:48 +0300 (EEST)
+Date: Thu, 3 Oct 2024 15:13:48 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Colin Ian King <colin.i.king@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 13/17] media: rzg2l-cru: video: Implement
- .link_validate() callback
-Message-ID: <20241003145112.GE5468@pendragon.ideasonboard.com>
-References: <20241001140919.206139-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241001140919.206139-14-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] media: i2c: ds90ub960: Fix missing return check on
+ ub960_rxport_read call
+Message-ID: <Zv60rJo_ucdxHQk3@kekkonen.localdomain>
+References: <20241002165329.957739-1-colin.i.king@gmail.com>
+ <Zv40EQSR__JDN_0M@kekkonen.localdomain>
+ <f1e973fd-9933-49ed-8f9c-71b8283e6fb8@ideasonboard.com>
+ <Zv6Z6P0cjYCkyJh9@kekkonen.localdomain>
+ <ea1c37b3-0430-4bce-9228-5d761ff94425@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241001140919.206139-14-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <ea1c37b3-0430-4bce-9228-5d761ff94425@ideasonboard.com>
 
-Hi Prabhakar,
+Moi,
 
-Thank you for the patch.
-
-On Tue, Oct 01, 2024 at 03:09:15PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Oct 03, 2024 at 04:33:54PM +0300, Tomi Valkeinen wrote:
+> On 03/10/2024 16:19, Sakari Ailus wrote:
+> > Moi,
+> > 
+> > On Thu, Oct 03, 2024 at 03:52:17PM +0300, Tomi Valkeinen wrote:
+> > > Hi,
+> > > 
+> > > On 03/10/2024 09:05, Sakari Ailus wrote:
+> > > > Hi Colin,
+> > > > 
+> > > > On Wed, Oct 02, 2024 at 05:53:29PM +0100, Colin Ian King wrote:
+> > > > > The function ub960_rxport_read is being called and afterwards ret is
+> > > > > being checked for any failures, however ret is not being assigned to
+> > > > > the return of the function call. Fix this by assigning ret to the
+> > > > > return of the call which appears to be missing.
+> > > > > 
+> > > > > Fixes: afe267f2d368 ("media: i2c: add DS90UB960 driver")
+> > > > > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> > > > > ---
+> > > > >    drivers/media/i2c/ds90ub960.c | 2 +-
+> > > > >    1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
+> > > > > index ffe5f25f8647..58424d8f72af 100644
+> > > > > --- a/drivers/media/i2c/ds90ub960.c
+> > > > > +++ b/drivers/media/i2c/ds90ub960.c
+> > > > > @@ -1286,7 +1286,7 @@ static int ub960_rxport_get_strobe_pos(struct ub960_data *priv,
+> > > > >    	clk_delay += v & UB960_IR_RX_ANA_STROBE_SET_CLK_DELAY_MASK;
+> > > > > -	ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_1, &v);
+> > > > > +	ret = ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_1, &v);
+> > > > >    	if (ret)
+> > > > >    		return ret;
+> > > > 
+> > > > There seems to be a similar issues all around the driver. It'd be good to
+> > > > fix them at the same time.
+> > > 
+> > > With similar issues, do you mean the code not checking the return value at
+> > > all for i2c reads and writes?
+> > > 
+> > > In this particular case the code already checks the return value, but
+> > > setting the return value was missing. With a quick browse, I didn't see
+> > > other like this.
+> > 
+> > See e.g. ub960_clear_rx_errors(), ub960_log_status(),
+> > ub960_rxport_set_strobe_pos() and ub960_rxport_set_strobe_range.
 > 
-> Implement the `.link_validate()` callback for the video node and move the
-> format checking into this function. This change allows the removal of
-> `rzg2l_cru_mc_validate_format()`.
+> Right, those don't check the return value. So they're not the same as the
+> one fixed in this patch.
 > 
-> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->v3
-> - New patch
-> ---
->  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 99 ++++++++++---------
->  1 file changed, 55 insertions(+), 44 deletions(-)
+> I'm not arguing against adding error checks, but that's a big work and I
+> think this patch is a different kind of fix which should be applied whether
+> the additional error checks are added or not.
+
+How much of work that is really? It seems trivial, albeit there are a
+number of locations that need to be fixed.
+
+I'm fine with applying this but it'd be nice to add at least a FIXME:
+comment to the code while at it.
+
 > 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index ceb9012c9d70..c6c82b9b130a 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -189,46 +189,6 @@ static void rzg2l_cru_buffer_queue(struct vb2_buffer *vb)
->  	spin_unlock_irqrestore(&cru->qlock, flags);
->  }
->  
-> -static int rzg2l_cru_mc_validate_format(struct rzg2l_cru_dev *cru,
-> -					struct v4l2_subdev *sd,
-> -					struct media_pad *pad)
-> -{
-> -	struct v4l2_subdev_format fmt = {
-> -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> -	};
-> -
-> -	fmt.pad = pad->index;
-> -	if (v4l2_subdev_call_state_active(sd, pad, get_fmt, &fmt))
-> -		return -EPIPE;
-> -
-> -	switch (fmt.format.code) {
-> -	case MEDIA_BUS_FMT_UYVY8_1X16:
-> -		break;
-> -	default:
-> -		return -EPIPE;
-> -	}
-> -
-> -	switch (fmt.format.field) {
-> -	case V4L2_FIELD_TOP:
-> -	case V4L2_FIELD_BOTTOM:
-> -	case V4L2_FIELD_NONE:
-> -	case V4L2_FIELD_INTERLACED_TB:
-> -	case V4L2_FIELD_INTERLACED_BT:
-> -	case V4L2_FIELD_INTERLACED:
-> -	case V4L2_FIELD_SEQ_TB:
-> -	case V4L2_FIELD_SEQ_BT:
-> -		break;
-> -	default:
-> -		return -EPIPE;
-> -	}
-> -
-> -	if (fmt.format.width != cru->format.width ||
-> -	    fmt.format.height != cru->format.height)
-> -		return -EPIPE;
-> -
-> -	return 0;
-> -}
-> -
->  static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
->  				    int slot, dma_addr_t addr)
->  {
-> @@ -531,10 +491,6 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
->  		return stream_off_ret;
->  	}
->  
-> -	ret = rzg2l_cru_mc_validate_format(cru, sd, pad);
-> -	if (ret)
-> -		return ret;
-> -
->  	pipe = media_entity_pipeline(&sd->entity) ? : &cru->vdev.pipe;
->  	ret = video_device_pipeline_start(&cru->vdev, pipe);
->  	if (ret)
-> @@ -995,6 +951,60 @@ static const struct v4l2_file_operations rzg2l_cru_fops = {
->  	.read		= vb2_fop_read,
->  };
->  
-> +/* -----------------------------------------------------------------------------
-> + * Media entity operations
-> + */
-> +
-> +static int rzg2l_cru_video_link_validate(struct media_link *link)
-> +{
-> +	struct v4l2_subdev_format fmt = {
-> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> +	};
-> +	struct v4l2_subdev *subdev;
-> +	struct media_entity *entity;
-> +	struct rzg2l_cru_dev *cru;
-> +	struct media_pad *remote;
-> +	int ret;
-> +
-> +	entity = link->sink->entity;
-> +	remote = link->source;
-> +
-> +	subdev = media_entity_to_v4l2_subdev(remote->entity);
-> +	fmt.pad = remote->index;
-> +	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
-> +	if (ret < 0)
-> +		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
-> +
-> +	if (!rzg2l_cru_ip_code_to_fmt(fmt.format.code))
-> +		return -EPIPE;
+> Also, while still not arguing against adding the checks, it looks quite
+> common to not check the returns values. E.g. it's not just a few errors I
+> see if I add __must_check to cci functions.
 
-Here you should check that the format on the subdev matches the format
-on the video device.
-
-> +
-> +	switch (fmt.format.field) {
-> +	case V4L2_FIELD_TOP:
-> +	case V4L2_FIELD_BOTTOM:
-> +	case V4L2_FIELD_NONE:
-> +	case V4L2_FIELD_INTERLACED_TB:
-> +	case V4L2_FIELD_INTERLACED_BT:
-> +	case V4L2_FIELD_INTERLACED:
-> +	case V4L2_FIELD_SEQ_TB:
-> +	case V4L2_FIELD_SEQ_BT:
-> +		break;
-> +	default:
-> +		return -EPIPE;
-> +	}
-
-Instead of checking the field here, shouldn't it be forced to a valid
-value in the subdev .set_fmt() function ? The link validation handler is
-responsible for validating that the configuration of the two sides of
-the link (IP subdev and video device) match. The driver shouldn't allow
-setting formats that can't be supported.
-
-What you should check here is that the field of the subdev and the
-field of the video device match.
-
-> +
-> +	cru = container_of(media_entity_to_video_device(entity),
-
-You can drop the local entity variable and write
-
-	cru = container_of(media_entity_to_video_device(link->sink->entity),
-
-> +			   struct rzg2l_cru_dev, vdev);
-> +	if (fmt.format.width != cru->format.width ||
-> +	    fmt.format.height != cru->format.height)
-> +		return -EPIPE;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct media_entity_operations rzg2l_cru_video_media_ops = {
-> +	.link_validate = rzg2l_cru_video_link_validate,
-> +};
-> +
->  static void rzg2l_cru_v4l2_init(struct rzg2l_cru_dev *cru)
->  {
->  	struct video_device *vdev = &cru->vdev;
-> @@ -1006,6 +1016,7 @@ static void rzg2l_cru_v4l2_init(struct rzg2l_cru_dev *cru)
->  	vdev->lock = &cru->lock;
->  	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
->  	vdev->device_caps |= V4L2_CAP_IO_MC;
-> +	vdev->entity.ops = &rzg2l_cru_video_media_ops;
->  	vdev->fops = &rzg2l_cru_fops;
->  	vdev->ioctl_ops = &rzg2l_cru_ioctl_ops;
->  
+I haven't seen this being as widespread in pretty much any other (upstream)
+driver.
 
 -- 
-Regards,
+Terveisin,
 
-Laurent Pinchart
+Sakari Ailus
 
