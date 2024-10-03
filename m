@@ -1,113 +1,145 @@
-Return-Path: <linux-media+bounces-19023-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19024-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9534098EBBF
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 10:37:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5284B98EBC6
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 10:38:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51CB72839FA
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 08:37:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC9461F243EE
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 08:38:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2327013CFB8;
-	Thu,  3 Oct 2024 08:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4784913B2B4;
+	Thu,  3 Oct 2024 08:38:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFoqQpwc"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PKVxRR/G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B8813B280;
-	Thu,  3 Oct 2024 08:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B24513D245
+	for <linux-media@vger.kernel.org>; Thu,  3 Oct 2024 08:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727944633; cv=none; b=deJqmtQGWJAuDg+nY7I+GaXauvE52U6rVSHwVIOWm8eo3sVJFBg0ZIqCCem6DU13cxJfDmOao5zF1RIWE6B19tlJhJdSZBFwkjvmb0Qos+pxcjeUEzVJaIdqRe2c60b03xNn9k5NDOOGX4vU/l4Mm22VbCVTlYq6huZVt0Ik21Y=
+	t=1727944690; cv=none; b=qOZ7XkRuY+L8bgjOebs787TIKGE5y4AMc38jRLibnBoJ7kinvFA6slkI13K1fvw1nsjR9EO+vhcYY6br2U45weh8GUJp1HvBXuE9ThbATTeu5xJD++OuMbU2Cy7GJwEcvgjD60yuAcgB2jhZbjb67zF9dK032GjgN6En5uuGHQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727944633; c=relaxed/simple;
-	bh=/J1Mq3LUjuws8ZS8jbgSSX0fkiVGHMXLXkitxD54E9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a4VgFNtSjlZUFZszgfgknvnBHrn1yyhToeYcL0iZCcRBbgeg8XlBqpfY0tjolHs8aoA1MdUPiTyyo7hVrTs9ceYzHYsgXHAQrnm+Ws74mxmnvBSKE0xuCcc0cBAHx8VRRLx8bVxjU3xGZX2kchuxh/dBtqlo6qVhuHhOI69W9Xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFoqQpwc; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727944631; x=1759480631;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/J1Mq3LUjuws8ZS8jbgSSX0fkiVGHMXLXkitxD54E9E=;
-  b=WFoqQpwcWZMDGlyzXtxzCwZXhkQB5btPBTVby9Bj32ynCzqo63iZ0Gzg
-   mPmXbJV72ZHjFKO8CmsDr+Wv8Qk/YpCwNlEwfwwgRnJ7MmUcx2kaT1TOx
-   McOePYjvWanF4p4/+0f5icaW8CEeuOvNoJBlGy7D6IsjgCNlU5/NObdjo
-   5fVmpKXW024IRYHIamaJY3zMsN6vRMXr33XOL5pKiTnTa8k1XK+Hq8jaP
-   0NzeNYdrYQpDmdUAksZWWpi3EX2Fou0d3f0DCUYOZ0zg8vSkfhmAeBqb7
-   trhhtIt3yEXy+p3JwgqIBmTHDyTpoE3cqpOh1ePd6HXlZB8DPUBKAfGR5
-   g==;
-X-CSE-ConnectionGUID: cY01qer1TmGavdyeU+10Yw==
-X-CSE-MsgGUID: zalWWt5/Q/yTx42/GdX9ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="44656914"
-X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="44656914"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 01:37:10 -0700
-X-CSE-ConnectionGUID: p3hrlGxKRUqxgl9a8avMSQ==
-X-CSE-MsgGUID: gwEo7SiZTui3zH9FbnOqQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="73865629"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 01:37:07 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A97FB11F83B;
-	Thu,  3 Oct 2024 11:37:04 +0300 (EEST)
-Date: Thu, 3 Oct 2024 08:37:04 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Hridesh MG <hridesh699@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2] staging: media: fix spelling mistakes
-Message-ID: <Zv5XsJd965xdNI3j@kekkonen.localdomain>
-References: <20241002152231.8828-1-hridesh699@gmail.com>
- <2163bf83-dd55-4f79-b0ea-834fa7b1f561@xs4all.nl>
+	s=arc-20240116; t=1727944690; c=relaxed/simple;
+	bh=4ua2maflkVRqMc2LZtuqDFH1fI3chW0M0xmBlZRER0s=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bkUlXF9aLQIMrJS/OfhtN/Hy5l/NIMFckcRQ09E08/KcHb+VvUg8uAQL0nhZjToMHwlhn1KPIgPBZncQgUr7Xx5f1eqAc6xMaauyZ80/mu46/vv3pZVd4hAHx4dCx2AhCMqoJBRzuE3tE8RkTg/7Bdkj+4NzqhJAGcBu0bPs5dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PKVxRR/G; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5c8844f0ccaso831316a12.0
+        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2024 01:38:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727944687; x=1728549487; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=AI95hdAo0L197vsF1rDqCX/UBH8QpXiLJGBbpmWlwYs=;
+        b=PKVxRR/GPeqYE0BPqAOeoqHbiPKdBn1JL+shVzXW8QHbMhTBPXt396ktVHnceTPI5q
+         B2gyeoAO8LvJqWjLqD10Vs/SR9byy6ApiXv2isXDqrTOrrVizSEcAWsETU3Imc/pK2Ns
+         qaINMeywuDyhMjLP7qWdWNILeX539lzpvB/hkSm3jJI5qOtCUpB02JesGTpFNeOr1M7V
+         XB+XDKau8Er3HJq4+rSso24d2eBGhS1GvjCYNKkaaeJmwyLIZXm6Eq9f7J4GRB3CX2Fv
+         vR2pHF46S7yiflHlBLxeGGCzSGoBy+eQDm6+Vj0pMWYzAboYZ5qwcxxgYhSPINX04VJ/
+         kopQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727944687; x=1728549487;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AI95hdAo0L197vsF1rDqCX/UBH8QpXiLJGBbpmWlwYs=;
+        b=Rp2IHKHW0G60UtCIR2SoODQRCOC0+n49nZ04Xw+oMrzNR/S+b8dQ8mrPhO7QtB2ns0
+         TWtzl2JwTezw0I7y6HoZe5rU/9MSsAJSW0WDDy+QHSwENxGB7UxaKCa+oU4Szl7AWeJY
+         CLNMp57h2wPbmhnvdId51htz2P4Zfm9z5kDan64XpagfY5Y8O5bV87K35j6w9bo+gTb3
+         tKPBLInpbKDePrcqmT2b+PqxMeMW4WKH3NYtNbqldNOeRvoCPNr6qdjcY032zJjovP53
+         rIPpHuj+ragSBnABkMz238RjnwhLWeEmh/ydtzeQPZ6lTPSi/r0Hf2PqK9aLzzxTcJqr
+         RLQA==
+X-Forwarded-Encrypted: i=1; AJvYcCVFlKi0rX0lP1F7+EepD0PP/57oWkaIWrB414sQfoWVxwAQGbQELMwDm1kgefmVYpD7w2QMmzDsX8ddOA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSdKcQ5z/p3dQp83zQRdD8i+Qpzd70s+QC83gMf+sf69gkCrOV
+	uRZ3xdUBRWTHXVcpTwQtoF/H2CBlrw0Wlke5zPLI5frSuYXgkyDiDgy55E2s/rU=
+X-Google-Smtp-Source: AGHT+IFJtQ5Q6vU9bV3iUsDqKrnaXd3wQlCvpuKx4mdOk/dlYDndw7FIUWSdSe2S/QZdI82/p+L1qQ==
+X-Received: by 2002:a05:6402:280e:b0:5c8:83f1:2531 with SMTP id 4fb4d7f45d1cf-5c8b1b7d282mr7308984a12.28.1727944687275;
+        Thu, 03 Oct 2024 01:38:07 -0700 (PDT)
+Received: from [192.168.0.15] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c8ca3bcee4sm464438a12.8.2024.10.03.01.38.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Oct 2024 01:38:06 -0700 (PDT)
+Message-ID: <8554d372-18cb-4351-a5ab-894be09c613b@linaro.org>
+Date: Thu, 3 Oct 2024 09:38:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2163bf83-dd55-4f79-b0ea-834fa7b1f561@xs4all.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] media: dt-bindings: Add OmniVision OV08X40
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jason Chen <jason.z.chen@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20241002-b4-master-24-11-25-ov08x40-v3-0-483bcdcf8886@linaro.org>
+ <20241002-b4-master-24-11-25-ov08x40-v3-2-483bcdcf8886@linaro.org>
+ <t4fajppdqagkl7wr2krcucsga4zocz6liar64odk2mnasdyfms@5fp7bfwalson>
+ <a86d05c3-5151-4161-8612-58894b1d0203@linaro.org>
+Content-Language: en-US
+In-Reply-To: <a86d05c3-5151-4161-8612-58894b1d0203@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 03, 2024 at 08:52:02AM +0200, Hans Verkuil wrote:
-> On 02/10/2024 17:22, Hridesh MG wrote:
-> > Fix three minor spelling/grammar issues:
-> > 	chunck -> chunk
-> > 	procotol -> protocol
-> > 	follow -> following
-> > 
-> > Signed-off-by: Hridesh MG <hridesh699@gmail.com>
+On 03/10/2024 09:33, Bryan O'Donoghue wrote:
+> On 03/10/2024 09:29, Krzysztof Kozlowski wrote:
+>> On Wed, Oct 02, 2024 at 02:58:44PM +0100, Bryan O'Donoghue wrote:
+>>> +        properties:
+>>> +          data-lanes:
+>>> +            oneOf:
+>>> +              - items:
+>>> +                  - const: 1
+>>> +                  - const: 2
+>>> +              - items:
+>>> +                  - const: 1
+>>> +                  - const: 2
+>>> +                  - const: 3
+>>> +                  - const: 4
+>>> +
+>>> +          link-frequencies: true
+>>
+>> Not much changed here and you did not continued discussion about it.
+>>
+>> Best regards,
+>> Krzysztof
+>>
 > 
-> Please always include the driver name in the Subject:
-> 
-> staging: media: ipu3:
-> 
-> That way the ipu3 maintainer will notice the patch.
+> Ah my mistake, I didn't read the bit at the bottom of your email
 
-Well I was cc'd. ;)
+I'll do this
 
-I can fix that while applying, no need for v3...
+Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
 
-Hridesh: it's a good idea to check which subject prefix is used for a
-driver in the commit log, too.
+           data-lanes:
+             description:
+               This property is for lane reordering between the THP7312
+               and the SoC. The sensor supports either two-lane, or
+               four-lane operation.
+               If this property is omitted four-lane operation is
+               assumed. For two-lane operation the property must be
+               set to <1 2>.
+             minItems: 2
+             maxItems: 4
+             items:
+               maximum: 4
 
--- 
-Sakari Ailus
+This captures what I'm after.
+
+---
+bod
 
