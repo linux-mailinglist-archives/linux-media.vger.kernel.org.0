@@ -1,168 +1,194 @@
-Return-Path: <linux-media+bounces-19041-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19042-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E66A98EF3B
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 14:28:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 860E398EF44
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 14:31:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B214E1C21E7D
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 12:28:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 38D371F22D0A
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 12:31:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2959F183CA2;
-	Thu,  3 Oct 2024 12:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41D8B186E3A;
+	Thu,  3 Oct 2024 12:31:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="FP3tqZ5K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BhorNhrS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C32E174EFC;
-	Thu,  3 Oct 2024 12:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD5B17B50F;
+	Thu,  3 Oct 2024 12:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727958508; cv=none; b=fQh3wFZ9+CZHz75hg/uvoyfE7Hv1HvNyXUZV0p0gjcccwxm/U6RFyoqCqecK+c403YkhbeUZKFgRjdMPt3CWpK/TJDFpiZGukKjfUvMQLQ3SIVxHNBxAD7PIsFT79M/6aAxNc/YhWoHQbJYcD7rhyV8rK2TzJTMF0D/rBwQaZkg=
+	t=1727958683; cv=none; b=OO8UDyW8OMVzqmtqG2lZ4+MyVlkaY6//uA62GnOVrJPsQN2k2htPoKWb7TPKnh+Y1VUy703ib4z4RUzQJ0/ZWu9J/DdtlUKULXRFR4OqRqffxERXvZ2nv6iazAP38vuOuwj/yivhXnWbEwiwr7i2vOh1spWvcbgZx9mQk3BxaRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727958508; c=relaxed/simple;
-	bh=RCuPHUTcu5fp2dUKq693o0lcKV73plIhbtpzkEnTVo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TdRCKxb/ya1RneA/u6R1LTJaM7yIVwMq+JWC3WyXTqk6B44owWMSRMzZp72bx6UXR9SDgFUJzF20l9Tgu9MhBidk9p3XulW/FF+vpCF3uuDAcUFyoqS/KjkoJwquGD4+KICI3nfs2gWWuP7J0EHVTXRpDSBFTYJuoCKMGYD/VAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=FP3tqZ5K; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 6156E88B11;
-	Thu,  3 Oct 2024 14:28:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1727958504;
-	bh=zoIAJLEiK4YmLoPXQRr6ovZoiJ26IaJ89TksduxipBE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FP3tqZ5KKqK3sTPPMjdxCUyZl85xnj9/m+h21CpJOnhIOAe+fnoixlPji958R3JUl
-	 AGGnCgqTOKWrFEpJD5O0R/QNKnSJREMhv033IvijcGa/fYdoKj18ShcQpGiB5UhCUy
-	 zRSz6fbkJpbPPalHm1h0mxv+wkdLFboj2/dH1+X5PIoPHYoXk9T6SVYOCR6dPjqj1w
-	 yPWRjZJmbOIPTBGIKMNzHGmvwkQalPJNSC/QINJNaAKZ2n4xnA6nI2w964s+hGpYcx
-	 CiXwd+RjYhx4sm7yywjmON5/P4xtXjSqeG0w3axQrzZtNTRllXxX0265/lPhbu5NmQ
-	 9H//+hcDkGSkg==
-From: Marek Vasut <marex@denx.de>
-To: linux-media@vger.kernel.org
-Cc: Marek Vasut <marex@denx.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] gpu: ipu-v3: vdic: Drop unused prepare_vdi_in_buffers()
-Date: Thu,  3 Oct 2024 14:27:30 +0200
-Message-ID: <20241003122813.44746-1-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1727958683; c=relaxed/simple;
+	bh=sBx43VYE9QJ8TXOR3GfhsMFFV3mHcQGwhJaH6FV7LO4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X4uoFwn56po42rk3kEKQi/dPNaxb6ZA3AAEumUGVnBJG6pndmYOfPy6jNoXM7U2U4sglvJz5CTzvSAbU7I4uFnZGr5hw2IszonY+u3qlljfFQUOLS3EV1StSavLhLdxCXno9zDOJISeHDwHLcOrWizfMIiu0yuzQJRUB9b9TnXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BhorNhrS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8848AC4CECE;
+	Thu,  3 Oct 2024 12:31:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727958683;
+	bh=sBx43VYE9QJ8TXOR3GfhsMFFV3mHcQGwhJaH6FV7LO4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BhorNhrSIRLNF7NHkfPCsrafjVomnhEPRKwZEppSEk/wNzV2+4J5xfpD/GI6gYG/3
+	 hse2HBCl4qGIdIBztHE432fhNKuk6C8ZpFfyOeTQoGUe1WzrtwIuPf92XGgJU7N0+O
+	 ulznWTyZoNReY2pPunSdo2KH5nbi4enqcE6xEzb0SRgUanIPcZb42hmllCpr4C0zdH
+	 vVstLeSyW4hkVhgYuzNlygm4xHmga+QIi4Qea9NYV1pryn7de8FJeJUCVbibfcf8ej
+	 K7cpqKiSoG/7FejDX6GCoNr31XP8P+xJNFwgy33jhzek7gtWKIAfVrFpq9W+nfAowk
+	 hTz/4MORa1FRg==
+Message-ID: <1a4e5aa6-2308-41de-94e7-0077cb265b6d@kernel.org>
+Date: Thu, 3 Oct 2024 14:31:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] media: dt-bindings: Add OmniVision OV08X40
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Jason Chen <jason.z.chen@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20241002-b4-master-24-11-25-ov08x40-v3-0-483bcdcf8886@linaro.org>
+ <20241002-b4-master-24-11-25-ov08x40-v3-2-483bcdcf8886@linaro.org>
+ <t4fajppdqagkl7wr2krcucsga4zocz6liar64odk2mnasdyfms@5fp7bfwalson>
+ <a86d05c3-5151-4161-8612-58894b1d0203@linaro.org>
+ <8554d372-18cb-4351-a5ab-894be09c613b@linaro.org>
+ <e8142566-aef5-498e-9d2d-8ac187ce8524@kernel.org>
+ <c86f695f-28e2-406d-9f46-c291fca282e4@linaro.org>
+ <Zv6LQ0q2XVHgUohh@kekkonen.localdomain>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <Zv6LQ0q2XVHgUohh@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 
-This function is unused and unlikely to be used in the near future.
-Remove it.
+On 03/10/2024 14:17, Sakari Ailus wrote:
+> Hi Bryan, Krzysztof,
+> 
+> On Thu, Oct 03, 2024 at 12:54:41PM +0100, Bryan O'Donoghue wrote:
+>> On 03/10/2024 11:17, Krzysztof Kozlowski wrote:
+>>> On 03/10/2024 10:38, Bryan O'Donoghue wrote:
+>>>> On 03/10/2024 09:33, Bryan O'Donoghue wrote:
+>>>>> On 03/10/2024 09:29, Krzysztof Kozlowski wrote:
+>>>>>> On Wed, Oct 02, 2024 at 02:58:44PM +0100, Bryan O'Donoghue wrote:
+>>>>>>> +        properties:
+>>>>>>> +          data-lanes:
+>>>>>>> +            oneOf:
+>>>>>>> +              - items:
+>>>>>>> +                  - const: 1
+>>>>>>> +                  - const: 2
+>>>>>>> +              - items:
+>>>>>>> +                  - const: 1
+>>>>>>> +                  - const: 2
+>>>>>>> +                  - const: 3
+>>>>>>> +                  - const: 4
+>>>>>>> +
+>>>>>>> +          link-frequencies: true
+>>>>>>
+>>>>>> Not much changed here and you did not continued discussion about it.
+>>>>>>
+>>>>>> Best regards,
+>>>>>> Krzysztof
+>>>>>>
+>>>>>
+>>>>> Ah my mistake, I didn't read the bit at the bottom of your email
+>>>>
+>>>> I'll do this
+>>>>
+>>>> Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
+>>>>
+>>>>             data-lanes:
+>>>>               description:
+>>>>                 This property is for lane reordering between the THP7312
+>>>>                 and the SoC. The sensor supports either two-lane, or
+>>>>                 four-lane operation.
+>>>>                 If this property is omitted four-lane operation is
+>>>>                 assumed. For two-lane operation the property must be
+>>>>                 set to <1 2>.
+>>>>               minItems: 2
+>>>>               maxItems: 4
+>>>>               items:
+>>>>                 maximum: 4
+>>>>
+>>>> This captures what I'm after.
+>>>
+>>> I commented on link-frequencies.
+>>>
+>>> Best regards,
+>>> Krzysztof
+>>>
+>>
+>> Ah I understand you.
+>>
+>> You're saying the link-frequencies we have in
+>> Documentation/devicetree/bindings/media/i2c/* are redundant absent hardware
+>> specific link frequencies being enumerated.
+>>
+>> I'll either enumerate the acceptable set or drop this.
+> 
+> link-frequencies should remain mandatory in bindings, whether there are
+> hardware specific limits in bindings or not.
+> <URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#handling-clocks>
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>
-Cc: imx@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: linux-staging@lists.linux.dev
----
- drivers/staging/media/imx/imx-media-vdic.c | 54 ----------------------
- 1 file changed, 54 deletions(-)
+Yep and my comment was not under required field. Why all this discussion
+is taken out of context? No wonder everyone interprets it differently.
 
-diff --git a/drivers/staging/media/imx/imx-media-vdic.c b/drivers/staging/media/imx/imx-media-vdic.c
-index 09da4103a8dbe..86f2b30cb06cb 100644
---- a/drivers/staging/media/imx/imx-media-vdic.c
-+++ b/drivers/staging/media/imx/imx-media-vdic.c
-@@ -180,60 +180,6 @@ static int vdic_get_ipu_resources(struct vdic_priv *priv)
- 	return ret;
- }
- 
--/*
-- * This function is currently unused, but will be called when the
-- * output/mem2mem device at the IDMAC input pad sends us a new
-- * buffer. It kicks off the IDMAC read channels to bring in the
-- * buffer fields from memory and begin the conversions.
-- */
--static void __maybe_unused prepare_vdi_in_buffers(struct vdic_priv *priv,
--						  struct imx_media_buffer *curr)
--{
--	dma_addr_t prev_phys, curr_phys, next_phys;
--	struct imx_media_buffer *prev;
--	struct vb2_buffer *curr_vb, *prev_vb;
--	u32 fs = priv->field_size;
--	u32 is = priv->in_stride;
--
--	/* current input buffer is now previous */
--	priv->prev_in_buf = priv->curr_in_buf;
--	priv->curr_in_buf = curr;
--	prev = priv->prev_in_buf ? priv->prev_in_buf : curr;
--
--	prev_vb = &prev->vbuf.vb2_buf;
--	curr_vb = &curr->vbuf.vb2_buf;
--
--	switch (priv->fieldtype) {
--	case V4L2_FIELD_SEQ_TB:
--	case V4L2_FIELD_SEQ_BT:
--		prev_phys = vb2_dma_contig_plane_dma_addr(prev_vb, 0) + fs;
--		curr_phys = vb2_dma_contig_plane_dma_addr(curr_vb, 0);
--		next_phys = vb2_dma_contig_plane_dma_addr(curr_vb, 0) + fs;
--		break;
--	case V4L2_FIELD_INTERLACED_TB:
--	case V4L2_FIELD_INTERLACED_BT:
--	case V4L2_FIELD_INTERLACED:
--		prev_phys = vb2_dma_contig_plane_dma_addr(prev_vb, 0) + is;
--		curr_phys = vb2_dma_contig_plane_dma_addr(curr_vb, 0);
--		next_phys = vb2_dma_contig_plane_dma_addr(curr_vb, 0) + is;
--		break;
--	default:
--		/*
--		 * can't get here, priv->fieldtype can only be one of
--		 * the above. This is to quiet smatch errors.
--		 */
--		return;
--	}
--
--	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
--	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
--	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, next_phys);
--
--	ipu_idmac_select_buffer(priv->vdi_in_ch_p, 0);
--	ipu_idmac_select_buffer(priv->vdi_in_ch, 0);
--	ipu_idmac_select_buffer(priv->vdi_in_ch_n, 0);
--}
--
- static int setup_vdi_channel(struct vdic_priv *priv,
- 			     struct ipuv3_channel *channel,
- 			     dma_addr_t phys0, dma_addr_t phys1)
--- 
-2.45.2
+Best regards,
+Krzysztof
 
 
