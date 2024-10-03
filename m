@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-19016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19017-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448E898E9CC
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 08:50:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D259A98E9D0
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 08:52:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04AF528359E
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 06:50:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79FC21F21200
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2024 06:52:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6060781ACA;
-	Thu,  3 Oct 2024 06:50:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73681823C3;
+	Thu,  3 Oct 2024 06:52:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B5A80BFC;
-	Thu,  3 Oct 2024 06:50:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6B8BA49;
+	Thu,  3 Oct 2024 06:52:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727938213; cv=none; b=qfhUBkXe27iBKtdVe1dbc4egHLWb2vxsR5vPg4YYVE6gxehYDs97oJIO3Ej+afGVzwYNYgWxeHX6OA8xssE74S1WuGjzB2bcQh8A7Ozl5M3GIqYSLCFfmNf5+UgTTHmXzEJ45nd01ZMgvCe1RzuR8IJQrUhQ1xFZzCe5r48Nnzw=
+	t=1727938327; cv=none; b=fMW+xJEbhDkgdSJZindPiu72UdE9zxu8hqr2Fq4I3XW3TyuFicroXTMbllcjD/8PcuySH0a3orowXEIB2GHDilta8oWJxvhDKwh6N8nntE84UOimrrN4QMtyaUnxqcchbBf3KVW83yBnNS8WIsPlBt9Snm7Wfx5Qzzh38uAAahA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727938213; c=relaxed/simple;
-	bh=26TCnndwUddTO5F6gNalyXPOB3tygHYz1oO0ZFKYbyY=;
+	s=arc-20240116; t=1727938327; c=relaxed/simple;
+	bh=fZ77VAKouYMlmYebU5IpEx6QQ4WLigvMLqgzwBq6w90=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BN6Dq7nPqlm339HyAQs2uJmspAit3VpA+A8D9upid6fAyhxpww47pXPgsqAAeClN7yd8jMTsPUrvMLlWoIVg/iDcNym3Er5Gt3kA3V28lWns1+V+jP1xCVvMFJdwtbnsIEw3zcFaAukF44GIX+ydpe/Nu4BAubUKbQcmljZ2CBU=
+	 In-Reply-To:Content-Type; b=ah/qlIrgMdamNUgPOzUNqaRCOXjHx/XcfiGDESNDGV+adVTDl2kaAnS3RvQj5VLXpA10H1wcssRYu+00ExMl0Vm1Gb65Q8CCcHQSa1AueG5BM2JSYuST1fv7Du/2FdAKzc1xNrA6wkHE0Vj5BrTKWoXdtIQ2vqgjBJmZ4upwdNI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 590B0C4CEC7;
-	Thu,  3 Oct 2024 06:50:11 +0000 (UTC)
-Message-ID: <c6b148d6-a6e5-458c-97ed-28b64eb7b238@xs4all.nl>
-Date: Thu, 3 Oct 2024 08:50:09 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2E6C4CEC7;
+	Thu,  3 Oct 2024 06:52:04 +0000 (UTC)
+Message-ID: <2163bf83-dd55-4f79-b0ea-834fa7b1f561@xs4all.nl>
+Date: Thu, 3 Oct 2024 08:52:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,12 +38,16 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: platform: fix a typo
-To: Andrew Kreimer <algonell@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+Subject: Re: [PATCH v2] staging: media: fix spelling mistakes
+To: Hridesh MG <hridesh699@gmail.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
  kernel-janitors@vger.kernel.org
-References: <20241002212602.11601-1-algonell@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20241002152231.8828-1-hridesh699@gmail.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -89,42 +93,57 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20241002212602.11601-1-algonell@gmail.com>
+In-Reply-To: <20241002152231.8828-1-hridesh699@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Andrew,
+On 02/10/2024 17:22, Hridesh MG wrote:
+> Fix three minor spelling/grammar issues:
+> 	chunck -> chunk
+> 	procotol -> protocol
+> 	follow -> following
+> 
+> Signed-off-by: Hridesh MG <hridesh699@gmail.com>
 
-Please always include the driver name in the subject:
+Please always include the driver name in the Subject:
 
-media: platform: ti: omap: fix a typo
+staging: media: ipu3:
 
-That way whoever maintains the driver will trigger on this patch.
+That way the ipu3 maintainer will notice the patch.
 
 Regards,
 
 	Hans
 
-On 02/10/2024 23:26, Andrew Kreimer wrote:
-> Fix a typo in comments.
-> 
-> Signed-off-by: Andrew Kreimer <algonell@gmail.com>
 > ---
->  drivers/media/platform/ti/omap/omap_voutdef.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Changelog
+> 	v1 -> v2: Move the changes from meta notes to commit
+> 	message.
+> ---
+>  drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/ti/omap/omap_voutdef.h b/drivers/media/platform/ti/omap/omap_voutdef.h
-> index b586193341d2..159e5e670d91 100644
-> --- a/drivers/media/platform/ti/omap/omap_voutdef.h
-> +++ b/drivers/media/platform/ti/omap/omap_voutdef.h
-> @@ -48,7 +48,7 @@
->  #define VRFB_TX_TIMEOUT         1000
->  #define VRFB_NUM_BUFS		4
+> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+> index 34f574b0b521..af4205f4b038 100644
+> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
+> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+> @@ -639,7 +639,7 @@ static int imgu_css_osys_calc_frame_and_stripe_params(
+>  				/*
+>  				 * FW workaround for a HW bug: if the first
+>  				 * chroma pixel is generated exactly at the end
+> -				 * of chunck scaler HW may not output the pixel
+> +				 * of chunk scaler HW may not output the pixel
+>  				 * for downscale factors smaller than 1.5
+>  				 * (timing issue).
+>  				 */
+> @@ -1416,7 +1416,7 @@ imgu_css_shd_ops_calc(struct imgu_abi_shd_intra_frame_operations_data *ops,
+>  }
 >  
-> -/* Max buffer size tobe allocated during init */
-> +/* Max buffer size to be allocated during init */
->  #define OMAP_VOUT_MAX_BUF_SIZE (VID_MAX_WIDTH*VID_MAX_HEIGHT*4)
->  
->  enum dma_channel_state {
+>  /*
+> - * The follow handshake procotol is the same for AF, AWB and AWB FR.
+> + * The following handshake protocol is the same for AF, AWB and AWB FR.
+>   *
+>   * for n sets of meta-data, the flow is:
+>   * --> init
 
 
