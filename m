@@ -1,113 +1,80 @@
-Return-Path: <linux-media+bounces-19083-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19084-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D22E990009
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 11:42:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3833D990013
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 11:43:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5184F1F24271
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 09:42:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B7661C238F3
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 09:43:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C23614D29B;
-	Fri,  4 Oct 2024 09:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BFA1154C04;
+	Fri,  4 Oct 2024 09:41:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZN5fD5Uv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kZl82bcC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B9014A0A3;
-	Fri,  4 Oct 2024 09:41:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2A71547DA
+	for <linux-media@vger.kernel.org>; Fri,  4 Oct 2024 09:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728034885; cv=none; b=RAUcai5gPnq38btMKvCT9YN8aBq78ChsPUa8oy7R9OOIwzYcHlykLvqh4fE5i6SKGNamEDGVlpgBCZl8vOQeuTA3JrGdJypOHNU6o6MXO6vhLx20Hkfif98xK1hogKuO0DUHbaLxSqheIoGkpRuyc7jbUaqTX0fXeFtiIPyD5tc=
+	t=1728034898; cv=none; b=e9vKu/jjtL8JkmdkBsa8jamtyTGxsifk+KoCQ99ccmkheOmOWWrNoE37hyNWAaSkYHsJ76urIuFjUzs92QUCFdKsSAP79K04nFDAkQcUX2uiXaOHfkrkJCOUUCWBjh7Hm1wiR3OGQNvHf4079axDYmUJL8FL5/6Yb7fl+qUf2No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728034885; c=relaxed/simple;
-	bh=9JBueVhaBkpgkhF1OcfvWQoSNbiQ3qimPgMmeqj0X2s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DCbniYXiFz5Guxk2gSAN4uwIIC1IDJBD248Jlnnx+FqnQrxU6IBWFjuJadpkdyi7R9pT++/fpu9xaCRjxAE0LSFrBq2mBPrbyVgEkFCsxmHdu1633+FSDQtLLelpjzxctDxVQoD4jIjmTTqkRLosBCZW1x2WfObBIiL8yztmww4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZN5fD5Uv; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1728034898; c=relaxed/simple;
+	bh=PO5fFYDbovpXTEjKTX6CHzcLG4aVaOQ+4hPrHvruW1w=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=lW/+KvugRMooYviAx3vzE788qJjhg8S4c0s/t1X03SYIYa8L2jSYPm1LM6S6zaKHzEggGTyn2kFKD0eDX3uPwv68ZtzaLujWCYrc5V3uNh0WP+Nfbjfy2mIAf+D02Zes1ES6pHit+jeQ1Ajzpay3yttA+o5x1boLLK/HtqGNQyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kZl82bcC; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728034883; x=1759570883;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9JBueVhaBkpgkhF1OcfvWQoSNbiQ3qimPgMmeqj0X2s=;
-  b=ZN5fD5UvofC92t4L7UgTccFeBnkHKA4gW+QJZKHaDL/Ano8dChLMzHj8
-   DkF/dN2Vj+x+qzuau8Tuho/fonOPuXsa252J14m4t8xs5u4sI783CfUDp
-   RmkjsUvf6KOyaOMd3ISD5i7SWqDoVtj+sLtkmluGnn1JFKCkQVy7vpdUu
-   teXDzmbZGzQ0QQzu/2zQWTPky/ApW9GD7Pbtzb3CDQUm/T3ZxB4YuG9L5
-   e/6pa+axnl1/QnKp0fVDyqPMAeRYzyyBzIX0rzoY9eBjq0xROoVFXGgSt
-   x4HvLJkT2uDXvchyE/FJ+pNclyTQJgv5fCJ4j6rRzprudioXlowxQl28i
+  t=1728034897; x=1759570897;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=PO5fFYDbovpXTEjKTX6CHzcLG4aVaOQ+4hPrHvruW1w=;
+  b=kZl82bcCnKjJl+7MWRnMVS3FsPNyxptoUOuYl+ItgEyLXe0TYI8uifbq
+   i/UjCt5CUZb78Z0Y6j4I7J6xG+yv/Eu1SeKZ7mIItA6lWzDGK8R+ZDirq
+   qML7Cc0I9Wjya2OG3trJd6kB0bnKk9rC93bOmzG818+vRWsneH486KezF
+   oQVoGo/BKTPah6XDeJ7kWEd0BOMnARyYL3GaXbpMT0PdpcEPqiVCs5LN9
+   51BMObER9Re2MvLZWuPMokEnkf7pp0WUZwBTdIpnVS6yGdOVHWWJ4nja+
+   Bw7kwEznZYC2JvPphjXCCDcEMRNU4cgLgQwM+QTV32PX6sxuLP6KrLgdS
    Q==;
-X-CSE-ConnectionGUID: oGm5s0bRQC6abTGVTAGACw==
-X-CSE-MsgGUID: L2lEVHpdQzSt00kWYMSdkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="37856206"
+X-CSE-ConnectionGUID: VmqeDzgaQzGzk0C6w8Nu/g==
+X-CSE-MsgGUID: 919IvGh0TQSWnJNLeFxWYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="37856308"
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="37856206"
+   d="scan'208";a="37856308"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 02:41:22 -0700
-X-CSE-ConnectionGUID: 6TVz6s3zSQ+n/m4bpUPilQ==
-X-CSE-MsgGUID: Q02umchTRxeaAG2zUQHmEA==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 02:41:36 -0700
+X-CSE-ConnectionGUID: S8Nqz9uNSG2h4zr8gOEFuA==
+X-CSE-MsgGUID: 1kny5o+0SgGLqU3ngBd9BA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
-   d="scan'208";a="74331918"
+   d="scan'208";a="74331954"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 02:41:13 -0700
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 02:41:35 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 7CFEE11F727;
-	Fri,  4 Oct 2024 12:41:11 +0300 (EEST)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 87BDE11F727;
+	Fri,  4 Oct 2024 12:41:33 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1sweoB-000TUP-1R;
-	Fri, 04 Oct 2024 12:41:11 +0300
+	id 1sweoX-000TbK-1g;
+	Fri, 04 Oct 2024 12:41:33 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-i2c@vger.kernel.org,
-	linux-i3c@lists.infradead.org,
-	linux-iio@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	iommu@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-mediatek@lists.infradead.org,
-	linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-pwm@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	asahi@lists.linux.dev
-Cc: laurent.pinchart@ideasonboard.com,
-	rafael@kernel.org,
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-Date: Fri,  4 Oct 2024 12:41:01 +0300
-Message-Id: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Subject: [PATCH 25/51] media: Switch to __pm_runtime_put_autosuspend()
+Date: Fri,  4 Oct 2024 12:41:23 +0300
+Message-Id: <20241004094123.113776-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
+References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -116,463 +83,811 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello everyone,
+pm_runtime_put_autosuspend() will soon be changed to include a call to
+pm_runtime_mark_last_busy(). This patch switches the current users to
+__pm_runtime_put_autosuspend() which will continue to have the
+functionality of old pm_runtime_put_autosuspend().
 
-This set will switch the users of pm_runtime_put_autosuspend() to
-__pm_runtime_put_autosuspend() while the former will soon be re-purposed
-to include a call to pm_runtime_mark_last_busy(). The two are almost
-always used together, apart from bugs which are likely common. Going
-forward, most new users should be using pm_runtime_put_autosuspend().
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/i2c/alvium-csi2.c                      |  2 +-
+ drivers/media/i2c/ccs/ccs-core.c                     | 10 +++++-----
+ drivers/media/i2c/dw9719.c                           |  2 +-
+ drivers/media/i2c/gc0308.c                           |  6 +++---
+ drivers/media/i2c/gc2145.c                           |  8 ++++----
+ drivers/media/i2c/imx283.c                           |  6 +++---
+ drivers/media/i2c/imx290.c                           |  6 +++---
+ drivers/media/i2c/imx296.c                           |  4 ++--
+ drivers/media/i2c/imx415.c                           |  4 ++--
+ drivers/media/i2c/mt9m114.c                          | 12 ++++++------
+ drivers/media/i2c/ov2680.c                           |  2 +-
+ drivers/media/i2c/ov4689.c                           |  6 +++---
+ drivers/media/i2c/ov5640.c                           |  8 ++++----
+ drivers/media/i2c/ov5645.c                           |  6 +++---
+ drivers/media/i2c/ov5693.c                           |  2 +-
+ drivers/media/i2c/ov64a40.c                          |  8 ++++----
+ drivers/media/i2c/ov7251.c                           |  2 +-
+ drivers/media/i2c/ov8858.c                           |  4 ++--
+ drivers/media/i2c/thp7312.c                          |  8 ++++----
+ drivers/media/i2c/video-i2c.c                        |  8 ++++----
+ drivers/media/platform/nvidia/tegra-vde/h264.c       |  4 ++--
+ drivers/media/platform/qcom/venus/vdec.c             |  4 ++--
+ drivers/media/platform/qcom/venus/venc.c             |  4 ++--
+ drivers/media/platform/raspberrypi/pisp_be/pisp_be.c |  4 ++--
+ drivers/media/platform/st/sti/delta/delta-v4l2.c     |  4 ++--
+ drivers/media/platform/st/sti/hva/hva-hw.c           |  8 ++++----
+ drivers/media/platform/verisilicon/hantro_drv.c      |  2 +-
+ drivers/media/rc/gpio-ir-recv.c                      |  2 +-
+ 28 files changed, 73 insertions(+), 73 deletions(-)
 
-Once this conversion is done and pm_runtime_put_autosuspend() re-purposed,
-I'll post another set to merge the calls to __pm_runtime_put_autosuspend()
-and pm_runtime_mark_last_busy().
-
-The diff in these patches have been generated using the following
-Coccinelle script (besides a manual change in
-drivers/iio/magnetometer/af8133j.c):
-
-----------8<-------------------
-@@
-expression E1;
-
-@@
-
-- pm_runtime_put_autosuspend(E1)
-+ __pm_runtime_put_autosuspend(E1)
-----------8<-------------------
-
-These patches are on top of today's linux-next (i.e. next-20241004).
-
-Sakari Ailus (51):
-  accel/ivpu: Switch to __pm_runtime_put_autosuspend()
-  bluetooth: Switch to __pm_runtime_put_autosuspend()
-  bus: sunxi-rsb: Switch to __pm_runtime_put_autosuspend()
-  hwrng: Switch to __pm_runtime_put_autosuspend()
-  clk: Switch to __pm_runtime_put_autosuspend()
-  crypto: Switch to __pm_runtime_put_autosuspend()
-  dmaengine: Switch to __pm_runtime_put_autosuspend()
-  gpio: Switch to __pm_runtime_put_autosuspend()
-  drm/amd: Switch to __pm_runtime_put_autosuspend()
-  drm/nouveau: Switch to __pm_runtime_put_autosuspend()
-  drm/radeon: Switch to __pm_runtime_put_autosuspend()
-  drm/panfrost: Switch to __pm_runtime_put_autosuspend()
-  drivers: drm: Switch to __pm_runtime_put_autosuspend()
-  HSI: omap_ssi_port: Switch to __pm_runtime_put_autosuspend()
-  stm class: Switch to __pm_runtime_put_autosuspend()
-  i2c: Switch to __pm_runtime_put_autosuspend()
-  i3c: master: svc: Switch to __pm_runtime_put_autosuspend()
-  i3c: dw: Switch to __pm_runtime_put_autosuspend()
-  iio: Switch to __pm_runtime_put_autosuspend()
-  Input: omap4-keypad: Switch to __pm_runtime_put_autosuspend()
-  Input: cs40l50: Switch to __pm_runtime_put_autosuspend()
-  iommu/arm-smmu: Switch to __pm_runtime_put_autosuspend()
-  irqchip/imx-irqsteer: Switch to __pm_runtime_put_autosuspend()
-  mailbox: mtk-cmdq-mailbox: Switch to __pm_runtime_put_autosuspend()
-  media: Switch to __pm_runtime_put_autosuspend()
-  mfd: Switch to __pm_runtime_put_autosuspend()
-  mei: Switch to __pm_runtime_put_autosuspend()
-  mmc: Switch to __pm_runtime_put_autosuspend()
-  mtd: rawnand: gpmi: Switch to __pm_runtime_put_autosuspend()
-  net: Switch to __pm_runtime_put_autosuspend()
-  nfc: trf7970a: Switch to __pm_runtime_put_autosuspend()
-  PCI/portdrv: Switch to __pm_runtime_put_autosuspend()
-  phy: motorola: phy-mapphone-mdm6600: Switch to
-    __pm_runtime_put_autosuspend()
-  phy: ti: phy-twl4030-usb: Switch to __pm_runtime_put_autosuspend()
-  power: Switch to __pm_runtime_put_autosuspend()
-  pwm: img: Switch to __pm_runtime_put_autosuspend()
-  regulator: stm32-vrefbuf: Switch to __pm_runtime_put_autosuspend()
-  remoteproc: omap: Switch to __pm_runtime_put_autosuspend()
-  slimbus: Switch to __pm_runtime_put_autosuspend()
-  soundwire: Switch to __pm_runtime_put_autosuspend()
-  spi: Switch to __pm_runtime_put_autosuspend()
-  staging: Switch to __pm_runtime_put_autosuspend()
-  thunderbolt: Switch to __pm_runtime_put_autosuspend()
-  serial: Switch to __pm_runtime_put_autosuspend()
-  usb: Switch to __pm_runtime_put_autosuspend()
-  w1: omap-hdq: Switch to __pm_runtime_put_autosuspend()
-  staging: greybus: Switch to __pm_runtime_put_autosuspend()
-  ALSA: hda: Switch to __pm_runtime_put_autosuspend()
-  ASoC: Switch to __pm_runtime_put_autosuspend()
-  ALSA: intel_hdmi: Switch to __pm_runtime_put_autosuspend()
-  soc: apple: mailbox: Switch to __pm_runtime_put_autosuspend()
-
- drivers/accel/ivpu/ivpu_drv.c                 |   2 +-
- drivers/accel/ivpu/ivpu_pm.c                  |   8 +-
- drivers/bluetooth/btmtksdio.c                 |   2 +-
- drivers/bluetooth/hci_bcm.c                   |   6 +-
- drivers/bluetooth/hci_h5.c                    |   4 +-
- drivers/bluetooth/hci_intel.c                 |   6 +-
- drivers/bus/sunxi-rsb.c                       |   4 +-
- drivers/char/hw_random/cctrng.c               |   2 +-
- drivers/char/hw_random/omap3-rom-rng.c        |   2 +-
- drivers/clk/imx/clk-imx8qxp-lpcg.c            |   2 +-
- drivers/clk/imx/clk-scu.c                     |   2 +-
- drivers/clk/qcom/lpassaudiocc-sc7280.c        |   4 +-
- drivers/clk/qcom/lpasscorecc-sc7180.c         |   4 +-
- drivers/crypto/ccree/cc_pm.c                  |   2 +-
- drivers/crypto/hisilicon/qm.c                 |   2 +-
- drivers/crypto/omap-aes-gcm.c                 |   2 +-
- drivers/crypto/omap-aes.c                     |   2 +-
- drivers/crypto/omap-des.c                     |   2 +-
- drivers/crypto/omap-sham.c                    |   2 +-
- drivers/crypto/rockchip/rk3288_crypto_ahash.c |   2 +-
- .../crypto/rockchip/rk3288_crypto_skcipher.c  |   2 +-
- drivers/crypto/stm32/stm32-crc32.c            |   4 +-
- drivers/crypto/stm32/stm32-cryp.c             |   2 +-
- drivers/crypto/stm32/stm32-hash.c             |   2 +-
- drivers/dma/at_xdmac.c                        |  24 +--
- drivers/dma/pl330.c                           |  14 +-
- drivers/dma/qcom/bam_dma.c                    |  10 +-
- drivers/dma/qcom/hidma.c                      |  18 +-
- drivers/dma/qcom/hidma_dbg.c                  |   2 +-
- drivers/dma/qcom/hidma_mgmt.c                 |   4 +-
- drivers/dma/ste_dma40.c                       |  16 +-
- drivers/dma/ti/cppi41.c                       |  10 +-
- drivers/dma/xilinx/zynqmp_dma.c               |   2 +-
- drivers/gpio/gpio-arizona.c                   |  10 +-
- drivers/gpio/gpio-mxc.c                       |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c      |   2 +-
- .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |  16 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   | 120 ++++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c     |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c       |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_rap.c       |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       |   2 +-
- .../gpu/drm/amd/amdgpu/amdgpu_securedisplay.c |   4 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c      |   4 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   2 +-
- drivers/gpu/drm/amd/pm/amdgpu_pm.c            | 178 +++++++++---------
- .../drm/bridge/analogix/analogix_dp_core.c    |   2 +-
- drivers/gpu/drm/bridge/analogix/anx7625.c     |   4 +-
- drivers/gpu/drm/bridge/parade-ps8640.c        |   4 +-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c         |  14 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  12 +-
- drivers/gpu/drm/exynos/exynos_drm_fimc.c      |   4 +-
- drivers/gpu/drm/exynos/exynos_drm_g2d.c       |   4 +-
- drivers/gpu/drm/exynos/exynos_drm_gsc.c       |   6 +-
- drivers/gpu/drm/exynos/exynos_drm_rotator.c   |   2 +-
- drivers/gpu/drm/exynos/exynos_drm_scaler.c    |   2 +-
- drivers/gpu/drm/i915/intel_runtime_pm.c       |   4 +-
- drivers/gpu/drm/imx/dcss/dcss-crtc.c          |   2 +-
- drivers/gpu/drm/lima/lima_sched.c             |   2 +-
- drivers/gpu/drm/msm/adreno/adreno_device.c    |   2 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   2 +-
- drivers/gpu/drm/msm/msm_gpu.c                 |   2 +-
- drivers/gpu/drm/msm/msm_iommu.c               |   4 +-
- drivers/gpu/drm/msm/msm_submitqueue.c         |   2 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c       |  10 +-
- drivers/gpu/drm/nouveau/nouveau_connector.c   |   4 +-
- drivers/gpu/drm/nouveau/nouveau_debugfs.c     |   8 +-
- drivers/gpu/drm/nouveau/nouveau_display.c     |   4 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c         |  10 +-
- drivers/gpu/drm/nouveau/nouveau_gem.c         |  10 +-
- drivers/gpu/drm/panel/panel-edp.c             |   8 +-
- .../gpu/drm/panel/panel-samsung-atna33xc20.c  |   6 +-
- drivers/gpu/drm/panel/panel-simple.c          |   6 +-
- drivers/gpu/drm/panfrost/panfrost_job.c       |   4 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c       |   4 +-
- drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |   4 +-
- drivers/gpu/drm/panthor/panthor_device.c      |   2 +-
- drivers/gpu/drm/panthor/panthor_sched.c       |   6 +-
- drivers/gpu/drm/radeon/radeon_acpi.c          |   2 +-
- drivers/gpu/drm/radeon/radeon_connectors.c    |  20 +-
- drivers/gpu/drm/radeon/radeon_display.c       |   6 +-
- drivers/gpu/drm/radeon/radeon_drv.c           |   4 +-
- drivers/gpu/drm/radeon/radeon_fbdev.c         |   4 +-
- drivers/gpu/drm/radeon/radeon_kms.c           |  10 +-
- drivers/gpu/drm/tegra/submit.c                |   2 +-
- drivers/gpu/drm/tidss/tidss_drv.c             |   2 +-
- drivers/gpu/drm/vc4/vc4_v3d.c                 |   2 +-
- drivers/hsi/controllers/omap_ssi_port.c       |  42 ++---
- drivers/hwtracing/stm/core.c                  |   8 +-
- drivers/i2c/busses/i2c-amd-mp2-pci.c          |   2 +-
- drivers/i2c/busses/i2c-amd-mp2.h              |   2 +-
- drivers/i2c/busses/i2c-at91-master.c          |   2 +-
- drivers/i2c/busses/i2c-cadence.c              |   2 +-
- drivers/i2c/busses/i2c-davinci.c              |   4 +-
- drivers/i2c/busses/i2c-designware-master.c    |   2 +-
- drivers/i2c/busses/i2c-designware-pcidrv.c    |   2 +-
- drivers/i2c/busses/i2c-hix5hd2.c              |   2 +-
- drivers/i2c/busses/i2c-i801.c                 |   4 +-
- drivers/i2c/busses/i2c-img-scb.c              |   6 +-
- drivers/i2c/busses/i2c-imx-lpi2c.c            |   6 +-
- drivers/i2c/busses/i2c-imx.c                  |   4 +-
- drivers/i2c/busses/i2c-mv64xxx.c              |   2 +-
- drivers/i2c/busses/i2c-nvidia-gpu.c           |   4 +-
- drivers/i2c/busses/i2c-omap.c                 |   6 +-
- drivers/i2c/busses/i2c-qcom-cci.c             |   2 +-
- drivers/i2c/busses/i2c-qcom-geni.c            |   2 +-
- drivers/i2c/busses/i2c-qup.c                  |   4 +-
- drivers/i2c/busses/i2c-riic.c                 |   4 +-
- drivers/i2c/busses/i2c-rzv2m.c                |   2 +-
- drivers/i2c/busses/i2c-sprd.c                 |   4 +-
- drivers/i2c/busses/i2c-stm32f7.c              |  10 +-
- drivers/i2c/busses/i2c-xiic.c                 |   2 +-
- drivers/i3c/master/dw-i3c-master.c            |  16 +-
- drivers/i3c/master/svc-i3c-master.c           |  16 +-
- drivers/iio/accel/bmc150-accel-core.c         |   2 +-
- drivers/iio/accel/bmi088-accel-core.c         |   6 +-
- drivers/iio/accel/fxls8962af-core.c           |   2 +-
- drivers/iio/accel/kxcjk-1013.c                |   2 +-
- drivers/iio/accel/kxsd9.c                     |   6 +-
- drivers/iio/accel/mma8452.c                   |   2 +-
- drivers/iio/accel/mma9551_core.c              |   2 +-
- drivers/iio/accel/msa311.c                    |  12 +-
- drivers/iio/adc/ab8500-gpadc.c                |   2 +-
- drivers/iio/adc/at91-sama5d2_adc.c            |  20 +-
- drivers/iio/adc/rcar-gyroadc.c                |   2 +-
- drivers/iio/adc/stm32-adc-core.c              |   2 +-
- drivers/iio/adc/stm32-adc.c                   |  12 +-
- drivers/iio/adc/sun4i-gpadc-iio.c             |   4 +-
- drivers/iio/adc/ti-ads1015.c                  |   2 +-
- drivers/iio/adc/ti-ads1100.c                  |   2 +-
- drivers/iio/adc/ti-ads1119.c                  |   4 +-
- drivers/iio/chemical/atlas-sensor.c           |   4 +-
- .../common/hid-sensors/hid-sensor-trigger.c   |   2 +-
- drivers/iio/dac/stm32-dac.c                   |   6 +-
- drivers/iio/gyro/bmg160_core.c                |   2 +-
- drivers/iio/gyro/fxas21002c_core.c            |   2 +-
- drivers/iio/gyro/mpu3050-core.c               |   6 +-
- drivers/iio/gyro/mpu3050-i2c.c                |   2 +-
- .../iio/imu/inv_icm42600/inv_icm42600_accel.c |  10 +-
- .../imu/inv_icm42600/inv_icm42600_buffer.c    |   2 +-
- .../iio/imu/inv_icm42600/inv_icm42600_gyro.c  |  10 +-
- .../iio/imu/inv_icm42600/inv_icm42600_temp.c  |   2 +-
- drivers/iio/imu/inv_mpu6050/inv_mpu_core.c    |  14 +-
- drivers/iio/imu/inv_mpu6050/inv_mpu_trigger.c |   4 +-
- drivers/iio/imu/kmx61.c                       |   2 +-
- drivers/iio/light/apds9306.c                  |   6 +-
- drivers/iio/light/apds9960.c                  |   4 +-
- drivers/iio/light/bh1780.c                    |   2 +-
- drivers/iio/light/gp2ap002.c                  |   4 +-
- drivers/iio/light/isl29028.c                  |   2 +-
- drivers/iio/light/ltrf216a.c                  |   2 +-
- drivers/iio/light/pa12203001.c                |   2 +-
- drivers/iio/light/rpr0521.c                   |   2 +-
- drivers/iio/light/tsl2583.c                   |   2 +-
- drivers/iio/light/tsl2591.c                   |   4 +-
- drivers/iio/light/us5182d.c                   |   2 +-
- drivers/iio/light/vcnl4000.c                  |   2 +-
- drivers/iio/light/vcnl4035.c                  |   2 +-
- drivers/iio/magnetometer/af8133j.c            |   4 +-
- drivers/iio/magnetometer/ak8974.c             |   4 +-
- drivers/iio/magnetometer/ak8975.c             |   2 +-
- drivers/iio/magnetometer/bmc150_magn.c        |   2 +-
- drivers/iio/magnetometer/tmag5273.c           |   4 +-
- drivers/iio/magnetometer/yamaha-yas530.c      |   4 +-
- drivers/iio/pressure/bmp280-core.c            |  10 +-
- drivers/iio/pressure/icp10100.c               |   2 +-
- drivers/iio/pressure/mpl115.c                 |   4 +-
- drivers/iio/pressure/zpa2326.c                |   4 +-
- .../iio/proximity/pulsedlight-lidar-lite-v2.c |   2 +-
- drivers/iio/proximity/srf04.c                 |   2 +-
- drivers/iio/temperature/mlx90614.c            |   4 +-
- drivers/iio/temperature/mlx90632.c            |   4 +-
- drivers/iio/temperature/mlx90635.c            |   4 +-
- drivers/input/keyboard/omap4-keypad.c         |   8 +-
- drivers/input/misc/cs40l50-vibra.c            |   8 +-
- drivers/iommu/arm/arm-smmu/arm-smmu.c         |   2 +-
- drivers/irqchip/irq-imx-irqsteer.c            |   2 +-
- drivers/mailbox/mtk-cmdq-mailbox.c            |  10 +-
- drivers/media/i2c/alvium-csi2.c               |   2 +-
- drivers/media/i2c/ccs/ccs-core.c              |  10 +-
- drivers/media/i2c/dw9719.c                    |   2 +-
- drivers/media/i2c/gc0308.c                    |   6 +-
- drivers/media/i2c/gc2145.c                    |   8 +-
- drivers/media/i2c/imx283.c                    |   6 +-
- drivers/media/i2c/imx290.c                    |   6 +-
- drivers/media/i2c/imx296.c                    |   4 +-
- drivers/media/i2c/imx415.c                    |   4 +-
- drivers/media/i2c/mt9m114.c                   |  12 +-
- drivers/media/i2c/ov2680.c                    |   2 +-
- drivers/media/i2c/ov4689.c                    |   6 +-
- drivers/media/i2c/ov5640.c                    |   8 +-
- drivers/media/i2c/ov5645.c                    |   6 +-
- drivers/media/i2c/ov5693.c                    |   2 +-
- drivers/media/i2c/ov64a40.c                   |   8 +-
- drivers/media/i2c/ov7251.c                    |   2 +-
- drivers/media/i2c/ov8858.c                    |   4 +-
- drivers/media/i2c/thp7312.c                   |   8 +-
- drivers/media/i2c/video-i2c.c                 |   8 +-
- .../media/platform/nvidia/tegra-vde/h264.c    |   4 +-
- drivers/media/platform/qcom/venus/vdec.c      |   4 +-
- drivers/media/platform/qcom/venus/venc.c      |   4 +-
- .../platform/raspberrypi/pisp_be/pisp_be.c    |   4 +-
- .../media/platform/st/sti/delta/delta-v4l2.c  |   4 +-
- drivers/media/platform/st/sti/hva/hva-hw.c    |   8 +-
- .../media/platform/verisilicon/hantro_drv.c   |   2 +-
- drivers/media/rc/gpio-ir-recv.c               |   2 +-
- drivers/mfd/arizona-irq.c                     |   2 +-
- drivers/mfd/cs40l50-core.c                    |   2 +-
- drivers/mfd/cs42l43.c                         |   2 +-
- drivers/misc/mei/client.c                     |  14 +-
- drivers/mmc/core/core.c                       |   4 +-
- drivers/mmc/host/atmel-mci.c                  |   4 +-
- drivers/mmc/host/dw_mmc-rockchip.c            |   2 +-
- drivers/mmc/host/dw_mmc.c                     |   2 +-
- drivers/mmc/host/mmci.c                       |   2 +-
- drivers/mmc/host/omap_hsmmc.c                 |   6 +-
- drivers/mmc/host/sdhci-msm.c                  |   2 +-
- drivers/mmc/host/sdhci-of-at91.c              |   2 +-
- drivers/mmc/host/sdhci-omap.c                 |   4 +-
- drivers/mmc/host/sdhci-pci-core.c             |   2 +-
- drivers/mmc/host/sdhci-pxav3.c                |   6 +-
- drivers/mmc/host/sdhci-sprd.c                 |   2 +-
- drivers/mmc/host/sdhci-xenon.c                |   2 +-
- drivers/mmc/host/sdhci_am654.c                |   2 +-
- drivers/mmc/host/tmio_mmc_core.c              |   2 +-
- drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c    |  10 +-
- drivers/net/ethernet/cadence/macb_main.c      |  10 +-
- drivers/net/ethernet/freescale/fec_main.c     |  16 +-
- drivers/net/ethernet/renesas/ravb_main.c      |   8 +-
- drivers/net/ethernet/ti/davinci_mdio.c        |  14 +-
- drivers/net/ipa/ipa_interrupt.c               |   2 +-
- drivers/net/ipa/ipa_main.c                    |   2 +-
- drivers/net/ipa/ipa_modem.c                   |   8 +-
- drivers/net/ipa/ipa_smp2p.c                   |   4 +-
- drivers/net/ipa/ipa_uc.c                      |   4 +-
- drivers/net/wireless/ath/wil6210/pm.c         |   2 +-
- drivers/net/wireless/ti/wl18xx/debugfs.c      |   6 +-
- drivers/net/wireless/ti/wlcore/cmd.c          |   2 +-
- drivers/net/wireless/ti/wlcore/debugfs.c      |  22 +--
- drivers/net/wireless/ti/wlcore/main.c         |  72 +++----
- drivers/net/wireless/ti/wlcore/scan.c         |   2 +-
- drivers/net/wireless/ti/wlcore/sysfs.c        |   2 +-
- drivers/net/wireless/ti/wlcore/testmode.c     |   4 +-
- drivers/net/wireless/ti/wlcore/tx.c           |   2 +-
- drivers/net/wireless/ti/wlcore/vendor_cmd.c   |   6 +-
- drivers/net/wwan/qcom_bam_dmux.c              |   4 +-
- drivers/net/wwan/t7xx/t7xx_hif_cldma.c        |   6 +-
- drivers/net/wwan/t7xx/t7xx_hif_dpmaif_rx.c    |   6 +-
- drivers/net/wwan/t7xx/t7xx_hif_dpmaif_tx.c    |   4 +-
- drivers/nfc/trf7970a.c                        |   2 +-
- drivers/pci/pcie/portdrv.c                    |   2 +-
- drivers/phy/motorola/phy-mapphone-mdm6600.c   |   4 +-
- drivers/phy/ti/phy-twl4030-usb.c              |   8 +-
- drivers/power/supply/bq24190_charger.c        |  28 +--
- drivers/power/supply/twl4030_charger.c        |   2 +-
- drivers/pwm/pwm-img.c                         |   4 +-
- drivers/regulator/stm32-vrefbuf.c             |  12 +-
- drivers/remoteproc/omap_remoteproc.c          |   6 +-
- drivers/slimbus/core.c                        |   2 +-
- drivers/slimbus/messaging.c                   |   4 +-
- drivers/soc/apple/mailbox.c                   |   2 +-
- drivers/soundwire/bus.c                       |   2 +-
- drivers/soundwire/cadence_master.c            |   2 +-
- drivers/soundwire/qcom.c                      |   6 +-
- drivers/spi/atmel-quadspi.c                   |  10 +-
- drivers/spi/spi-cadence-quadspi.c             |   4 +-
- drivers/spi/spi-cadence.c                     |   2 +-
- drivers/spi/spi-dw-pci.c                      |   2 +-
- drivers/spi/spi-fsl-espi.c                    |   4 +-
- drivers/spi/spi-fsl-lpspi.c                   |   4 +-
- drivers/spi/spi-imx.c                         |   6 +-
- drivers/spi/spi-mtk-nor.c                     |   2 +-
- drivers/spi/spi-omap2-mcspi.c                 |   6 +-
- drivers/spi/spi-pxa2xx-pci.c                  |   2 +-
- drivers/spi/spi-s3c64xx.c                     |   6 +-
- drivers/spi/spi-sprd.c                        |   2 +-
- drivers/spi/spi-stm32-qspi.c                  |  14 +-
- drivers/spi/spi-stm32.c                       |   4 +-
- drivers/spi/spi-ti-qspi.c                     |   4 +-
- drivers/spi/spi-zynqmp-gqspi.c                |   2 +-
- drivers/spi/spi.c                             |   6 +-
- drivers/staging/greybus/gbphy.h               |   2 +-
- drivers/staging/media/rkvdec/rkvdec.c         |   2 +-
- drivers/thunderbolt/debugfs.c                 |  22 +--
- drivers/thunderbolt/domain.c                  |   4 +-
- drivers/thunderbolt/icm.c                     |  14 +-
- drivers/thunderbolt/nhi.c                     |   2 +-
- drivers/thunderbolt/retimer.c                 |   4 +-
- drivers/thunderbolt/switch.c                  |   6 +-
- drivers/thunderbolt/tb.c                      |  18 +-
- drivers/thunderbolt/usb4_port.c               |   4 +-
- drivers/tty/serial/8250/8250_omap.c           |  18 +-
- drivers/tty/serial/8250/8250_port.c           |   4 +-
- drivers/tty/serial/fsl_lpuart.c               |   2 +-
- drivers/tty/serial/serial_core.c              |   2 +-
- drivers/tty/serial/uartlite.c                 |   4 +-
- drivers/tty/serial/xilinx_uartps.c            |   2 +-
- drivers/usb/cdns3/cdns3-gadget.c              |   2 +-
- drivers/usb/cdns3/cdnsp-gadget.c              |   2 +-
- drivers/usb/chipidea/core.c                   |   2 +-
- drivers/usb/chipidea/otg_fsm.c                |   2 +-
- drivers/usb/dwc3/core.c                       |   2 +-
- drivers/usb/dwc3/dwc3-am62.c                  |   2 +-
- drivers/usb/dwc3/dwc3-imx8mp.c                |   2 +-
- drivers/usb/gadget/udc/cdns2/cdns2-gadget.c   |   2 +-
- drivers/usb/host/xhci-mtk.c                   |   2 +-
- drivers/usb/misc/apple-mfi-fastcharge.c       |   2 +-
- drivers/usb/mtu3/mtu3_plat.c                  |   2 +-
- drivers/usb/musb/musb_core.c                  |  10 +-
- drivers/usb/musb/musb_debugfs.c               |  10 +-
- drivers/usb/musb/musb_dsps.c                  |   2 +-
- drivers/usb/musb/musb_gadget.c                |   8 +-
- drivers/usb/musb/omap2430.c                   |   2 +-
- drivers/w1/masters/omap_hdq.c                 |  10 +-
- include/linux/greybus/bundle.h                |   2 +-
- sound/hda/hdac_device.c                       |   2 +-
- sound/pci/hda/cs35l41_hda.c                   |   8 +-
- sound/pci/hda/cs35l56_hda.c                   |   2 +-
- sound/pci/hda/hda_intel.c                     |   2 +-
- sound/pci/hda/tas2781_hda_i2c.c               |   6 +-
- sound/soc/atmel/mchp-spdifrx.c                |  12 +-
- sound/soc/codecs/arizona-jack.c               |  12 +-
- sound/soc/codecs/arizona.c                    |   2 +-
- sound/soc/codecs/cs35l41.c                    |   4 +-
- sound/soc/codecs/cs35l45.c                    |   2 +-
- sound/soc/codecs/cs35l56-sdw.c                |   4 +-
- sound/soc/codecs/cs35l56-shared.c             |   2 +-
- sound/soc/codecs/cs35l56.c                    |   2 +-
- sound/soc/codecs/cs42l42-sdw.c                |   2 +-
- sound/soc/codecs/cs42l42.c                    |   4 +-
- sound/soc/codecs/cs42l43-jack.c               |  10 +-
- sound/soc/codecs/cs42l43.c                    |   4 +-
- sound/soc/codecs/hda.c                        |   6 +-
- sound/soc/codecs/madera.c                     |   6 +-
- sound/soc/codecs/max98363.c                   |   2 +-
- sound/soc/codecs/max98373-sdw.c               |   2 +-
- sound/soc/codecs/rt1017-sdca-sdw.c            |   2 +-
- sound/soc/codecs/rt1308-sdw.c                 |   2 +-
- sound/soc/codecs/rt1316-sdw.c                 |   2 +-
- sound/soc/codecs/rt1318-sdw.c                 |   2 +-
- sound/soc/codecs/rt1320-sdw.c                 |   2 +-
- sound/soc/codecs/rt5682-sdw.c                 |   2 +-
- sound/soc/codecs/rt700.c                      |   4 +-
- sound/soc/codecs/rt711-sdca.c                 |   4 +-
- sound/soc/codecs/rt711.c                      |   4 +-
- sound/soc/codecs/rt712-sdca-dmic.c            |   2 +-
- sound/soc/codecs/rt712-sdca.c                 |   4 +-
- sound/soc/codecs/rt715-sdca.c                 |   2 +-
- sound/soc/codecs/rt715.c                      |   2 +-
- sound/soc/codecs/rt722-sdca.c                 |   4 +-
- sound/soc/codecs/wcd-mbhc-v2.c                |   4 +-
- sound/soc/codecs/wsa881x.c                    |   2 +-
- sound/soc/codecs/wsa884x.c                    |   2 +-
- sound/soc/intel/atom/sst/sst_pvt.c            |   2 +-
- sound/soc/intel/avs/core.c                    |   2 +-
- sound/soc/intel/avs/debugfs.c                 |   4 +-
- sound/soc/intel/avs/pcm.c                     |   2 +-
- sound/soc/intel/catpt/pcm.c                   |  12 +-
- sound/soc/intel/catpt/sysfs.c                 |   2 +-
- sound/soc/soc-component.c                     |   2 +-
- sound/soc/sof/control.c                       |   2 +-
- sound/soc/sof/debug.c                         |   2 +-
- sound/soc/sof/ipc3-dtrace.c                   |   2 +-
- sound/soc/sof/ipc4-loader.c                   |   2 +-
- sound/soc/sof/pcm.c                           |   2 +-
- sound/soc/sof/sof-client-ipc-flood-test.c     |   2 +-
- .../soc/sof/sof-client-ipc-kernel-injector.c  |   2 +-
- sound/soc/sof/sof-client-ipc-msg-injector.c   |   2 +-
- sound/soc/sof/sof-client-probes.c             |   6 +-
- sound/x86/intel_hdmi_audio.c                  |   6 +-
- 373 files changed, 1076 insertions(+), 1076 deletions(-)
-
+diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+index 5ddfd3dcb188..bdd1e531911f 100644
+--- a/drivers/media/i2c/alvium-csi2.c
++++ b/drivers/media/i2c/alvium-csi2.c
+@@ -1843,7 +1843,7 @@ static int alvium_s_stream(struct v4l2_subdev *sd, int enable)
+ 	} else {
+ 		alvium_set_stream_mipi(alvium, enable);
+ 		pm_runtime_mark_last_busy(&client->dev);
+-		pm_runtime_put_autosuspend(&client->dev);
++		__pm_runtime_put_autosuspend(&client->dev);
+ 	}
+ 
+ 	alvium->streaming = !!enable;
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index e1ae0f9fad43..f7d4fb522473 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -789,7 +789,7 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
+ 
+ 	if (pm_status > 0) {
+ 		pm_runtime_mark_last_busy(&client->dev);
+-		pm_runtime_put_autosuspend(&client->dev);
++		__pm_runtime_put_autosuspend(&client->dev);
+ 	}
+ 
+ 	return rval;
+@@ -1919,7 +1919,7 @@ static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
+ 		ccs_stop_streaming(sensor);
+ 		sensor->streaming = false;
+ 		pm_runtime_mark_last_busy(&client->dev);
+-		pm_runtime_put_autosuspend(&client->dev);
++		__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 		return 0;
+ 	}
+@@ -1934,7 +1934,7 @@ static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
+ 	if (rval < 0) {
+ 		sensor->streaming = false;
+ 		pm_runtime_mark_last_busy(&client->dev);
+-		pm_runtime_put_autosuspend(&client->dev);
++		__pm_runtime_put_autosuspend(&client->dev);
+ 	}
+ 
+ 	return rval;
+@@ -2682,7 +2682,7 @@ nvm_show(struct device *dev, struct device_attribute *attr, char *buf)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 	/*
+ 	 * NVM is still way below a PAGE_SIZE, so we can safely
+@@ -3555,7 +3555,7 @@ static int ccs_probe(struct i2c_client *client)
+ 
+ 	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+ 	pm_runtime_use_autosuspend(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
+index c626ed845928..36116c428a93 100644
+--- a/drivers/media/i2c/dw9719.c
++++ b/drivers/media/i2c/dw9719.c
+@@ -292,7 +292,7 @@ static int dw9719_probe(struct i2c_client *client)
+ 
+ 	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+ 	pm_runtime_use_autosuspend(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 	return ret;
+ 
+diff --git a/drivers/media/i2c/gc0308.c b/drivers/media/i2c/gc0308.c
+index fa754a8a39a6..5814eeb6d2e1 100644
+--- a/drivers/media/i2c/gc0308.c
++++ b/drivers/media/i2c/gc0308.c
+@@ -976,7 +976,7 @@ static int gc0308_s_ctrl(struct v4l2_ctrl *ctrl)
+ 		dev_err(gc0308->dev, "failed to set control: %d\n", ret);
+ 
+ 	pm_runtime_mark_last_busy(gc0308->dev);
+-	pm_runtime_put_autosuspend(gc0308->dev);
++	__pm_runtime_put_autosuspend(gc0308->dev);
+ 
+ 	return ret;
+ }
+@@ -1161,14 +1161,14 @@ static int gc0308_start_stream(struct gc0308 *gc0308)
+ 
+ disable_pm:
+ 	pm_runtime_mark_last_busy(gc0308->dev);
+-	pm_runtime_put_autosuspend(gc0308->dev);
++	__pm_runtime_put_autosuspend(gc0308->dev);
+ 	return ret;
+ }
+ 
+ static int gc0308_stop_stream(struct gc0308 *gc0308)
+ {
+ 	pm_runtime_mark_last_busy(gc0308->dev);
+-	pm_runtime_put_autosuspend(gc0308->dev);
++	__pm_runtime_put_autosuspend(gc0308->dev);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/media/i2c/gc2145.c b/drivers/media/i2c/gc2145.c
+index 667bb756d056..086436d823f7 100644
+--- a/drivers/media/i2c/gc2145.c
++++ b/drivers/media/i2c/gc2145.c
+@@ -963,7 +963,7 @@ static int gc2145_start_streaming(struct gc2145 *gc2145,
+ 
+ err_rpm_put:
+ 	pm_runtime_mark_last_busy(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 	return ret;
+ }
+ 
+@@ -982,7 +982,7 @@ static void gc2145_stop_streaming(struct gc2145 *gc2145)
+ 		dev_err(&client->dev, "%s failed to write regs\n", __func__);
+ 
+ 	pm_runtime_mark_last_busy(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ }
+ 
+ static int gc2145_set_stream(struct v4l2_subdev *sd, int enable)
+@@ -1210,7 +1210,7 @@ static int gc2145_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 	return ret;
+ }
+@@ -1434,7 +1434,7 @@ static int gc2145_probe(struct i2c_client *client)
+ 
+ 	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+ 	pm_runtime_use_autosuspend(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 	ret = v4l2_async_register_subdev_sensor(&gc2145->sd);
+ 	if (ret < 0) {
+diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
+index 94276f4f2d83..f6558251649c 100644
+--- a/drivers/media/i2c/imx283.c
++++ b/drivers/media/i2c/imx283.c
+@@ -1145,7 +1145,7 @@ static int imx283_enable_streams(struct v4l2_subdev *sd,
+ 
+ err_rpm_put:
+ 	pm_runtime_mark_last_busy(imx283->dev);
+-	pm_runtime_put_autosuspend(imx283->dev);
++	__pm_runtime_put_autosuspend(imx283->dev);
+ 
+ 	return ret;
+ }
+@@ -1165,7 +1165,7 @@ static int imx283_disable_streams(struct v4l2_subdev *sd,
+ 		dev_err(imx283->dev, "Failed to stop stream\n");
+ 
+ 	pm_runtime_mark_last_busy(imx283->dev);
+-	pm_runtime_put_autosuspend(imx283->dev);
++	__pm_runtime_put_autosuspend(imx283->dev);
+ 
+ 	return ret;
+ }
+@@ -1580,7 +1580,7 @@ static int imx283_probe(struct i2c_client *client)
+ 	 * autosuspend delay, turning the power off.
+ 	 */
+ 	pm_runtime_mark_last_busy(imx283->dev);
+-	pm_runtime_put_autosuspend(imx283->dev);
++	__pm_runtime_put_autosuspend(imx283->dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+index 458905dfb3e1..f1f42bec211a 100644
+--- a/drivers/media/i2c/imx290.c
++++ b/drivers/media/i2c/imx290.c
+@@ -824,7 +824,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(imx290->dev);
+-	pm_runtime_put_autosuspend(imx290->dev);
++	__pm_runtime_put_autosuspend(imx290->dev);
+ 
+ 	return ret;
+ }
+@@ -1058,7 +1058,7 @@ static int imx290_set_stream(struct v4l2_subdev *sd, int enable)
+ 	} else {
+ 		imx290_stop_streaming(imx290);
+ 		pm_runtime_mark_last_busy(imx290->dev);
+-		pm_runtime_put_autosuspend(imx290->dev);
++		__pm_runtime_put_autosuspend(imx290->dev);
+ 	}
+ 
+ 	/*
+@@ -1604,7 +1604,7 @@ static int imx290_probe(struct i2c_client *client)
+ 	 * autosuspend delay, turning the power off.
+ 	 */
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/imx296.c b/drivers/media/i2c/imx296.c
+index 83149fa729c4..4003e224412b 100644
+--- a/drivers/media/i2c/imx296.c
++++ b/drivers/media/i2c/imx296.c
+@@ -605,7 +605,7 @@ static int imx296_s_stream(struct v4l2_subdev *sd, int enable)
+ 		ret = imx296_stream_off(sensor);
+ 
+ 		pm_runtime_mark_last_busy(sensor->dev);
+-		pm_runtime_put_autosuspend(sensor->dev);
++		__pm_runtime_put_autosuspend(sensor->dev);
+ 
+ 		goto unlock;
+ 	}
+@@ -1102,7 +1102,7 @@ static int imx296_probe(struct i2c_client *client)
+ 	 */
+ 	pm_runtime_set_autosuspend_delay(sensor->dev, 1000);
+ 	pm_runtime_use_autosuspend(sensor->dev);
+-	pm_runtime_put_autosuspend(sensor->dev);
++	__pm_runtime_put_autosuspend(sensor->dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
+index a20b0db330d3..1681b06cdaa8 100644
+--- a/drivers/media/i2c/imx415.c
++++ b/drivers/media/i2c/imx415.c
+@@ -957,7 +957,7 @@ static int imx415_s_stream(struct v4l2_subdev *sd, int enable)
+ 		ret = imx415_stream_off(sensor);
+ 
+ 		pm_runtime_mark_last_busy(sensor->dev);
+-		pm_runtime_put_autosuspend(sensor->dev);
++		__pm_runtime_put_autosuspend(sensor->dev);
+ 
+ 		goto unlock;
+ 	}
+@@ -1399,7 +1399,7 @@ static int imx415_probe(struct i2c_client *client)
+ 	 */
+ 	pm_runtime_set_autosuspend_delay(sensor->dev, 1000);
+ 	pm_runtime_use_autosuspend(sensor->dev);
+-	pm_runtime_put_autosuspend(sensor->dev);
++	__pm_runtime_put_autosuspend(sensor->dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+index 5f0b0ad8f885..a78800f96fdb 100644
+--- a/drivers/media/i2c/mt9m114.c
++++ b/drivers/media/i2c/mt9m114.c
+@@ -955,7 +955,7 @@ static int mt9m114_start_streaming(struct mt9m114 *sensor,
+ 
+ error:
+ 	pm_runtime_mark_last_busy(&sensor->client->dev);
+-	pm_runtime_put_autosuspend(&sensor->client->dev);
++	__pm_runtime_put_autosuspend(&sensor->client->dev);
+ 
+ 	return ret;
+ }
+@@ -969,7 +969,7 @@ static int mt9m114_stop_streaming(struct mt9m114 *sensor)
+ 	ret = mt9m114_set_state(sensor, MT9M114_SYS_STATE_ENTER_SUSPEND);
+ 
+ 	pm_runtime_mark_last_busy(&sensor->client->dev);
+-	pm_runtime_put_autosuspend(&sensor->client->dev);
++	__pm_runtime_put_autosuspend(&sensor->client->dev);
+ 
+ 	return ret;
+ }
+@@ -1027,7 +1027,7 @@ static int mt9m114_pa_g_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(&sensor->client->dev);
+-	pm_runtime_put_autosuspend(&sensor->client->dev);
++	__pm_runtime_put_autosuspend(&sensor->client->dev);
+ 
+ 	return ret;
+ }
+@@ -1094,7 +1094,7 @@ static int mt9m114_pa_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(&sensor->client->dev);
+-	pm_runtime_put_autosuspend(&sensor->client->dev);
++	__pm_runtime_put_autosuspend(&sensor->client->dev);
+ 
+ 	return ret;
+ }
+@@ -1546,7 +1546,7 @@ static int mt9m114_ifp_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(&sensor->client->dev);
+-	pm_runtime_put_autosuspend(&sensor->client->dev);
++	__pm_runtime_put_autosuspend(&sensor->client->dev);
+ 
+ 	return ret;
+ }
+@@ -2438,7 +2438,7 @@ static int mt9m114_probe(struct i2c_client *client)
+ 	 * autosuspend delay, turning the power off.
+ 	 */
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+index 7237fb27ecd0..c4766c0d09f4 100644
+--- a/drivers/media/i2c/ov2680.c
++++ b/drivers/media/i2c/ov2680.c
+@@ -1245,7 +1245,7 @@ static int ov2680_probe(struct i2c_client *client)
+ 
+ 	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+ 	pm_runtime_use_autosuspend(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
+index 1c3a449f9354..25139204fb76 100644
+--- a/drivers/media/i2c/ov4689.c
++++ b/drivers/media/i2c/ov4689.c
+@@ -498,7 +498,7 @@ static int ov4689_s_stream(struct v4l2_subdev *sd, int on)
+ 		cci_write(ov4689->regmap, OV4689_REG_CTRL_MODE,
+ 			  OV4689_MODE_SW_STANDBY, NULL);
+ 		pm_runtime_mark_last_busy(dev);
+-		pm_runtime_put_autosuspend(dev);
++		__pm_runtime_put_autosuspend(dev);
+ 	}
+ 
+ unlock_and_return:
+@@ -703,7 +703,7 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ 	return ret;
+ }
+@@ -1000,7 +1000,7 @@ static int ov4689_probe(struct i2c_client *client)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index c1d3fce4a7d3..66c272f0eb06 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -3341,7 +3341,7 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
+-	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
++	__pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
+ 
+ 	return 0;
+ }
+@@ -3417,7 +3417,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
+-	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
++	__pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
+ 
+ 	return ret;
+ }
+@@ -3754,7 +3754,7 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+ 
+ 	if (!enable || ret) {
+ 		pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
+-		pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
++		__pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
+ 	}
+ 
+ 	return ret;
+@@ -3965,7 +3965,7 @@ static int ov5640_probe(struct i2c_client *client)
+ 	pm_runtime_set_autosuspend_delay(dev, 1000);
+ 	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+index 0c32bd2940ec..15846490f88a 100644
+--- a/drivers/media/i2c/ov5645.c
++++ b/drivers/media/i2c/ov5645.c
+@@ -815,7 +815,7 @@ static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(ov5645->dev);
+-	pm_runtime_put_autosuspend(ov5645->dev);
++	__pm_runtime_put_autosuspend(ov5645->dev);
+ 	mutex_unlock(&ov5645->power_lock);
+ 
+ 	return ret;
+@@ -1026,7 +1026,7 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+ 
+ stream_off_rpm_put:
+ 	pm_runtime_mark_last_busy(ov5645->dev);
+-	pm_runtime_put_autosuspend(ov5645->dev);
++	__pm_runtime_put_autosuspend(ov5645->dev);
+ 	return ret;
+ }
+ 
+@@ -1247,7 +1247,7 @@ static int ov5645_probe(struct i2c_client *client)
+ 	pm_runtime_set_autosuspend_delay(dev, 1000);
+ 	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+index 46b9ce111676..7a19d654b1a1 100644
+--- a/drivers/media/i2c/ov5693.c
++++ b/drivers/media/i2c/ov5693.c
+@@ -1360,7 +1360,7 @@ static int ov5693_probe(struct i2c_client *client)
+ 
+ 	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+ 	pm_runtime_use_autosuspend(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 	return ret;
+ 
+diff --git a/drivers/media/i2c/ov64a40.c b/drivers/media/i2c/ov64a40.c
+index 541bf74581d2..cfa01880bda2 100644
+--- a/drivers/media/i2c/ov64a40.c
++++ b/drivers/media/i2c/ov64a40.c
+@@ -2992,7 +2992,7 @@ static int ov64a40_start_streaming(struct ov64a40 *ov64a40,
+ 
+ error_power_off:
+ 	pm_runtime_mark_last_busy(ov64a40->dev);
+-	pm_runtime_put_autosuspend(ov64a40->dev);
++	__pm_runtime_put_autosuspend(ov64a40->dev);
+ 
+ 	return ret;
+ }
+@@ -3002,7 +3002,7 @@ static int ov64a40_stop_streaming(struct ov64a40 *ov64a40,
+ {
+ 	cci_update_bits(ov64a40->cci, OV64A40_REG_SMIA, BIT(0), 0, NULL);
+ 	pm_runtime_mark_last_busy(ov64a40->dev);
+-	pm_runtime_put_autosuspend(ov64a40->dev);
++	__pm_runtime_put_autosuspend(ov64a40->dev);
+ 
+ 	__v4l2_ctrl_grab(ov64a40->link_freq, false);
+ 	__v4l2_ctrl_grab(ov64a40->vflip, false);
+@@ -3338,7 +3338,7 @@ static int ov64a40_set_ctrl(struct v4l2_ctrl *ctrl)
+ 
+ 	if (pm_status > 0) {
+ 		pm_runtime_mark_last_busy(ov64a40->dev);
+-		pm_runtime_put_autosuspend(ov64a40->dev);
++		__pm_runtime_put_autosuspend(ov64a40->dev);
+ 	}
+ 
+ 	return ret;
+@@ -3631,7 +3631,7 @@ static int ov64a40_probe(struct i2c_client *client)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
+index 30f61e04ecaf..09baaf19a0f7 100644
+--- a/drivers/media/i2c/ov7251.c
++++ b/drivers/media/i2c/ov7251.c
+@@ -1762,7 +1762,7 @@ static int ov7251_probe(struct i2c_client *client)
+ 
+ 	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+ 	pm_runtime_use_autosuspend(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 	ret = v4l2_async_register_subdev(&ov7251->sd);
+ 	if (ret < 0) {
+diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
+index 326f50a5ab51..ead116e7c0d8 100644
+--- a/drivers/media/i2c/ov8858.c
++++ b/drivers/media/i2c/ov8858.c
+@@ -1393,7 +1393,7 @@ static int ov8858_s_stream(struct v4l2_subdev *sd, int on)
+ 	} else {
+ 		ov8858_stop_stream(ov8858);
+ 		pm_runtime_mark_last_busy(&client->dev);
+-		pm_runtime_put_autosuspend(&client->dev);
++		__pm_runtime_put_autosuspend(&client->dev);
+ 	}
+ 
+ unlock_and_return:
+@@ -1953,7 +1953,7 @@ static int ov8858_probe(struct i2c_client *client)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
+index c77440ff098c..662dfa841e8b 100644
+--- a/drivers/media/i2c/thp7312.c
++++ b/drivers/media/i2c/thp7312.c
+@@ -810,7 +810,7 @@ static int thp7312_s_stream(struct v4l2_subdev *sd, int enable)
+ 		thp7312_stream_enable(thp7312, false);
+ 
+ 		pm_runtime_mark_last_busy(thp7312->dev);
+-		pm_runtime_put_autosuspend(thp7312->dev);
++		__pm_runtime_put_autosuspend(thp7312->dev);
+ 
+ 		v4l2_subdev_unlock_state(sd_state);
+ 
+@@ -841,7 +841,7 @@ static int thp7312_s_stream(struct v4l2_subdev *sd, int enable)
+ 
+ finish_pm:
+ 	pm_runtime_mark_last_busy(thp7312->dev);
+-	pm_runtime_put_autosuspend(thp7312->dev);
++	__pm_runtime_put_autosuspend(thp7312->dev);
+ finish_unlock:
+ 	v4l2_subdev_unlock_state(sd_state);
+ 
+@@ -1151,7 +1151,7 @@ static int thp7312_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(thp7312->dev);
+-	pm_runtime_put_autosuspend(thp7312->dev);
++	__pm_runtime_put_autosuspend(thp7312->dev);
+ 
+ 	return ret;
+ }
+@@ -2187,7 +2187,7 @@ static int thp7312_probe(struct i2c_client *client)
+ 	 * autosuspend delay, turning the power off.
+ 	 */
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ 	dev_info(dev, "THP7312 firmware version %02u.%02u\n",
+ 		 THP7312_FW_VERSION_MAJOR(thp7312->fw_version),
+diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
+index 56dbe07a1c99..0edbc48c5f28 100644
+--- a/drivers/media/i2c/video-i2c.c
++++ b/drivers/media/i2c/video-i2c.c
+@@ -299,7 +299,7 @@ static int amg88xx_read(struct device *dev, enum hwmon_sensor_types type,
+ 
+ 	tmp = regmap_bulk_read(data->regmap, AMG88XX_REG_TTHL, &buf, 2);
+ 	pm_runtime_mark_last_busy(regmap_get_device(data->regmap));
+-	pm_runtime_put_autosuspend(regmap_get_device(data->regmap));
++	__pm_runtime_put_autosuspend(regmap_get_device(data->regmap));
+ 	if (tmp)
+ 		return tmp;
+ 
+@@ -538,7 +538,7 @@ static int start_streaming(struct vb2_queue *vq, unsigned int count)
+ 
+ error_rpm_put:
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ error_del_list:
+ 	video_i2c_del_list(vq, VB2_BUF_STATE_QUEUED);
+ 
+@@ -555,7 +555,7 @@ static void stop_streaming(struct vb2_queue *vq)
+ 	kthread_stop(data->kthread_vid_cap);
+ 	data->kthread_vid_cap = NULL;
+ 	pm_runtime_mark_last_busy(regmap_get_device(data->regmap));
+-	pm_runtime_put_autosuspend(regmap_get_device(data->regmap));
++	__pm_runtime_put_autosuspend(regmap_get_device(data->regmap));
+ 
+ 	video_i2c_del_list(vq, VB2_BUF_STATE_ERROR);
+ }
+@@ -866,7 +866,7 @@ static int video_i2c_probe(struct i2c_client *client)
+ 		goto error_pm_disable;
+ 
+ 	pm_runtime_mark_last_busy(&client->dev);
+-	pm_runtime_put_autosuspend(&client->dev);
++	__pm_runtime_put_autosuspend(&client->dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/platform/nvidia/tegra-vde/h264.c b/drivers/media/platform/nvidia/tegra-vde/h264.c
+index 0e56a4331b0d..2cab9def0cf8 100644
+--- a/drivers/media/platform/nvidia/tegra-vde/h264.c
++++ b/drivers/media/platform/nvidia/tegra-vde/h264.c
+@@ -586,7 +586,7 @@ static int tegra_vde_decode_begin(struct tegra_vde *vde,
+ 
+ put_runtime_pm:
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ unlock:
+ 	mutex_unlock(&vde->lock);
+@@ -613,7 +613,7 @@ static void tegra_vde_decode_abort(struct tegra_vde *vde)
+ 		dev_err(dev, "DEC end: Failed to assert HW reset: %d\n", err);
+ 
+ 	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ 	mutex_unlock(&vde->lock);
+ }
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index d12089370d91..3cd9ec3cac70 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -644,7 +644,7 @@ static int vdec_pm_put(struct venus_inst *inst, bool autosuspend)
+ 	mutex_lock(&core->pm_lock);
+ 
+ 	if (autosuspend)
+-		ret = pm_runtime_put_autosuspend(dev);
++		ret = __pm_runtime_put_autosuspend(dev);
+ 	else
+ 		ret = pm_runtime_put_sync(dev);
+ 
+@@ -666,7 +666,7 @@ static int vdec_pm_get_put(struct venus_inst *inst)
+ 		if (ret < 0)
+ 			goto error;
+ 
+-		ret = pm_runtime_put_autosuspend(dev);
++		ret = __pm_runtime_put_autosuspend(dev);
+ 	}
+ 
+ error:
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index 3ec2fb8d9fab..b429ad401f34 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -623,7 +623,7 @@ static int venc_pm_put(struct venus_inst *inst, bool autosuspend)
+ 	mutex_lock(&core->pm_lock);
+ 
+ 	if (autosuspend)
+-		ret = pm_runtime_put_autosuspend(dev);
++		ret = __pm_runtime_put_autosuspend(dev);
+ 	else
+ 		ret = pm_runtime_put_sync(dev);
+ 
+@@ -645,7 +645,7 @@ static int venc_pm_get_put(struct venus_inst *inst)
+ 		if (ret < 0)
+ 			goto error;
+ 
+-		ret = pm_runtime_put_autosuspend(dev);
++		ret = __pm_runtime_put_autosuspend(dev);
+ 	}
+ 
+ error:
+diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+index 65ff2382cffe..f5b16ee27620 100644
+--- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
++++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+@@ -952,7 +952,7 @@ static void pispbe_node_stop_streaming(struct vb2_queue *q)
+ 	spin_unlock_irqrestore(&pispbe->hw_lock, flags);
+ 
+ 	pm_runtime_mark_last_busy(pispbe->dev);
+-	pm_runtime_put_autosuspend(pispbe->dev);
++	__pm_runtime_put_autosuspend(pispbe->dev);
+ 
+ 	dev_dbg(pispbe->dev, "Nodes streaming now 0x%x\n",
+ 		pispbe->streaming_map);
+@@ -1741,7 +1741,7 @@ static int pispbe_probe(struct platform_device *pdev)
+ 		goto disable_devs_err;
+ 
+ 	pm_runtime_mark_last_busy(pispbe->dev);
+-	pm_runtime_put_autosuspend(pispbe->dev);
++	__pm_runtime_put_autosuspend(pispbe->dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/platform/st/sti/delta/delta-v4l2.c b/drivers/media/platform/st/sti/delta/delta-v4l2.c
+index da402d1e9171..667acbd674a6 100644
+--- a/drivers/media/platform/st/sti/delta/delta-v4l2.c
++++ b/drivers/media/platform/st/sti/delta/delta-v4l2.c
+@@ -1288,7 +1288,7 @@ void delta_put_autosuspend(struct delta_ctx *ctx)
+ {
+ 	struct delta_dev *delta = ctx->dev;
+ 
+-	pm_runtime_put_autosuspend(delta->dev);
++	__pm_runtime_put_autosuspend(delta->dev);
+ }
+ 
+ static void delta_vb2_au_queue(struct vb2_buffer *vb)
+@@ -1910,7 +1910,7 @@ static void delta_remove(struct platform_device *pdev)
+ 
+ 	destroy_workqueue(delta->work_queue);
+ 
+-	pm_runtime_put_autosuspend(delta->dev);
++	__pm_runtime_put_autosuspend(delta->dev);
+ 	pm_runtime_disable(delta->dev);
+ 
+ 	v4l2_device_unregister(&delta->v4l2_dev);
+diff --git a/drivers/media/platform/st/sti/hva/hva-hw.c b/drivers/media/platform/st/sti/hva/hva-hw.c
+index fcb18fb52fdd..00ab1fafb78a 100644
+--- a/drivers/media/platform/st/sti/hva/hva-hw.c
++++ b/drivers/media/platform/st/sti/hva/hva-hw.c
+@@ -278,7 +278,7 @@ static unsigned long int hva_hw_get_ip_version(struct hva_dev *hva)
+ 	version = readl_relaxed(hva->regs + HVA_HIF_REG_VERSION) &
+ 				VERSION_ID_MASK;
+ 
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 
+ 	switch (version) {
+ 	case HVA_VERSION_V400:
+@@ -418,7 +418,7 @@ void hva_hw_remove(struct hva_dev *hva)
+ 	disable_irq(hva->irq_its);
+ 	disable_irq(hva->irq_err);
+ 
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 	pm_runtime_disable(dev);
+ }
+ 
+@@ -537,7 +537,7 @@ int hva_hw_execute_task(struct hva_ctx *ctx, enum hva_hw_cmd_type cmd,
+ 	}
+ 
+ 	if (got_pm)
+-		pm_runtime_put_autosuspend(dev);
++		__pm_runtime_put_autosuspend(dev);
+ 	mutex_unlock(&hva->protect_mutex);
+ 
+ 	return ret;
+@@ -578,7 +578,7 @@ void hva_hw_dump_regs(struct hva_dev *hva, struct seq_file *s)
+ 	DUMP(HVA_HIF_REG_CLK_GATING);
+ 	DUMP(HVA_HIF_REG_VERSION);
+ 
+-	pm_runtime_put_autosuspend(dev);
++	__pm_runtime_put_autosuspend(dev);
+ 	mutex_unlock(&hva->protect_mutex);
+ }
+ #endif
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 05bbac853c4f..238c31cef990 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -90,7 +90,7 @@ static void hantro_job_finish(struct hantro_dev *vpu,
+ 			      enum vb2_buffer_state result)
+ {
+ 	pm_runtime_mark_last_busy(vpu->dev);
+-	pm_runtime_put_autosuspend(vpu->dev);
++	__pm_runtime_put_autosuspend(vpu->dev);
+ 
+ 	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
+ 
+diff --git a/drivers/media/rc/gpio-ir-recv.c b/drivers/media/rc/gpio-ir-recv.c
+index b29a1a9f381d..2316759a768a 100644
+--- a/drivers/media/rc/gpio-ir-recv.c
++++ b/drivers/media/rc/gpio-ir-recv.c
+@@ -50,7 +50,7 @@ static irqreturn_t gpio_ir_recv_irq(int irq, void *dev_id)
+ 
+ 	if (pmdev) {
+ 		pm_runtime_mark_last_busy(pmdev);
+-		pm_runtime_put_autosuspend(pmdev);
++		__pm_runtime_put_autosuspend(pmdev);
+ 	}
+ 
+ 	return IRQ_HANDLED;
 -- 
 2.39.5
 
