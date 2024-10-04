@@ -1,190 +1,140 @@
-Return-Path: <linux-media+bounces-19103-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19104-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18079906D3
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 16:55:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC68C990732
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 17:12:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DAA14B247AE
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 14:55:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54A15283D89
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 15:12:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 152481CACDD;
-	Fri,  4 Oct 2024 14:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46D311AA7A2;
+	Fri,  4 Oct 2024 15:12:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PFHTP/PH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="egPB2xr1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2A21C877F;
-	Fri,  4 Oct 2024 14:47:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A43148850;
+	Fri,  4 Oct 2024 15:11:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728053259; cv=none; b=Bw04srtsD3tdVBBA4xLH/VQkzNzwo/bWlf1o5+ZBjWsdOKOx+QPa0KNZ6AxbO5ON7G9oO1khE33csGs9GwKcSCTkW2Z+hntKbjgLviQIZB79qurDsDo7VHEBR6S52DWxLbkOfALxxsiNrDdl3nngSEw9LPAZbxLSo0zlgDJ82CQ=
+	t=1728054720; cv=none; b=oOsyd6iehfsI5XK4DpXtchUIrZnhY+HeVNNZW8qO8dt3xIW7TZKr++qN1cVQgw02umbr2efVW3q8yaA3F63zWE2mTe6VIzBW0uqEgcy/WvNJA1JWnm6gAeLRaoMiMHm7r2r+KVhBits4ZnmjGspTmoLfx5mvg0O4Y/M4wUjgNS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728053259; c=relaxed/simple;
-	bh=h/Wucr0WK1pNJOQNFzwHPdnYZcspI5Mizs3II33asmI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lIJcdVeAs0xuEsyOOja7g/0irhWMGq4MNAbfyhe0hgIHn8CVpvTdvR9pc83jFMM+p4ttmNtkeTBO5qPBs1KlmjXlycgCeSBL1EtLyyFWB8oaOeCDEnFJwb/dSLf0FcmaXESpL+wQR4irrN/o/ZKVQ5EG8BK1OwlZfkWOH0acuOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PFHTP/PH; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1728054720; c=relaxed/simple;
+	bh=CLWnlP8rnWkR6yIYWkgDpws4xIuU7PnB1nIDotcwABQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CgxihqbQ7iOZFbm11lPzoLQ/0fKEw3kBrC+QxkFzU+ZysY3THIybGPGzy5Gi/KnRY/D8gQ38ygvgyzuKnLC5O0GyvUJf/SNQX7cWdslrrD8naBDqqA1HJvv4JXUNd8Ja2CuT0G8leNSTOdlEkXlrnUFeh/SJySgLVEoNE89XwcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=egPB2xr1; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 007CB182C;
-	Fri,  4 Oct 2024 16:45:46 +0200 (CEST)
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5AF734C9;
+	Fri,  4 Oct 2024 17:10:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1728053147;
-	bh=h/Wucr0WK1pNJOQNFzwHPdnYZcspI5Mizs3II33asmI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=PFHTP/PHEIvwRYoNQV12iADtZoOr6b59TbPIT6LrTw4tr9qhZ/qHJKF9HZmrv8pxH
-	 VFNnD2PojyCLwh+Y8a8UiGSAERAEYq0sVfHmXZIeE2R2Yy91xKZuwgY1wB7KjpfUa8
-	 M2+rU7o9cyvHEXThYDLEUEHvXeZ1Cf9obqxuaIV8=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 04 Oct 2024 17:46:44 +0300
-Subject: [PATCH 13/13] media: i2c: ds90ub953: Add error handling for i2c
- reads/writes
+	s=mail; t=1728054623;
+	bh=CLWnlP8rnWkR6yIYWkgDpws4xIuU7PnB1nIDotcwABQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=egPB2xr1abE8xQZkP4PC8rJ1PG7HpPH66Skljt9/w4yy1/UEKfR0CTTscQeE4tmtO
+	 r9CntmlWoYNYhntYStiA3xZ5lfKZI6Vcv5c1tKf8nqyaGpT3SHHsXCpiPUI/YxeHZ+
+	 Jr7U/21weXCCeAs3VDqVxKTdajUVBwDH1kGVMXJY=
+Message-ID: <5b608532-1e35-4614-813b-8ca9e6305a86@ideasonboard.com>
+Date: Fri, 4 Oct 2024 18:11:54 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] media: i2c: ds90ub960: Fix missing return check on
+ ub960_rxport_read call
+To: Colin Ian King <colin.i.king@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241002165329.957739-1-colin.i.king@gmail.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20241002165329.957739-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241004-ub9xx-fixes-v1-13-e30a4633c786@ideasonboard.com>
-References: <20241004-ub9xx-fixes-v1-0-e30a4633c786@ideasonboard.com>
-In-Reply-To: <20241004-ub9xx-fixes-v1-0-e30a4633c786@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jai Luthra <jai.luthra@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3421;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=h/Wucr0WK1pNJOQNFzwHPdnYZcspI5Mizs3II33asmI=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBm///w/p5A9tBK89OCs4dP21pfQLBqO7ah1tMbp
- 0zPmu/HoCSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZv//8AAKCRD6PaqMvJYe
- 9bGgD/0VLLRgDAwwiOXAdxs/0NTOI5qUPxEAL+0mQy2F2F+4UrrNG+rbJqZMncYtkJWUHvKuZt2
- ut0sn/J6hTDxHU/gbI4KaVtnvmaUSioH72cTZlYSfp1hY2GH36sRYcAS6k62QA+B7Mvpfyzdx3m
- u2ZRodhIQX4H7CMGxPjROpoKrHKOXD4KHFzkjQfLJn582F+MU5mv9oUzIRErj86MSeiBC2CzFdc
- d7P/fUDtyW+yyyOjlwlvnTI/0V4IjReJ4/1NB9/v3S31BAqgCzB+V8JmXUkeiWrx6fZY0Zh/PjK
- nNm8DBQOVYQY7wt2sIspAGY5f+KK6NQZuhOIgcD8iPVBjTLwxyamuevwuyoEvdS4DhYGbIBmDve
- uR8GuDuybUCwct+KqINvKJhy5/Yv9VsEKDfygzWoqAt1AAZB6IoI/jV0XkrIkWuUOzBB8JmNS6h
- sk2GPqZ2dfMXSpohBqPnneQTTSOYpRI8LIGvFbknhqWY8yaa6sy64wI4HwCWFEFIC+NebpPZP2F
- 2vb7RmK+KTEssPS+OrjiwkYa0prZ2J/BPJwShQGyyaY1g53edB0Zw8BnRjKW9bJhWnjSp4dG1kp
- bDRTULpyLtusd78RoGNZKwy2i/W26BUKmCMnZlQWe1xK52ms9Wr/3MNwNENZlBWDiRTC8JzFXdl
- imnI9PYA7R3VLmg==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Add error handling for i2c reads/writes in various places.
+On 02/10/2024 19:53, Colin Ian King wrote:
+> The function ub960_rxport_read is being called and afterwards ret is
+> being checked for any failures, however ret is not being assigned to
+> the return of the function call. Fix this by assigning ret to the
+> return of the call which appears to be missing.
+> 
+> Fixes: afe267f2d368 ("media: i2c: add DS90UB960 driver")
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>   drivers/media/i2c/ds90ub960.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
+> index ffe5f25f8647..58424d8f72af 100644
+> --- a/drivers/media/i2c/ds90ub960.c
+> +++ b/drivers/media/i2c/ds90ub960.c
+> @@ -1286,7 +1286,7 @@ static int ub960_rxport_get_strobe_pos(struct ub960_data *priv,
+>   
+>   	clk_delay += v & UB960_IR_RX_ANA_STROBE_SET_CLK_DELAY_MASK;
+>   
+> -	ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_1, &v);
+> +	ret = ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_1, &v);
+>   	if (ret)
+>   		return ret;
+>   
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/i2c/ds90ub953.c | 46 ++++++++++++++++++++++++++++++-------------
- 1 file changed, 32 insertions(+), 14 deletions(-)
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
-index b6451811f906..f8f3e31f0077 100644
---- a/drivers/media/i2c/ds90ub953.c
-+++ b/drivers/media/i2c/ds90ub953.c
-@@ -401,8 +401,13 @@ static int ub953_gpiochip_probe(struct ub953_data *priv)
- 	int ret;
- 
- 	/* Set all GPIOs to local input mode */
--	ub953_write(priv, UB953_REG_LOCAL_GPIO_DATA, 0);
--	ub953_write(priv, UB953_REG_GPIO_INPUT_CTRL, 0xf);
-+	ret = ub953_write(priv, UB953_REG_LOCAL_GPIO_DATA, 0);
-+	if (ret)
-+		return ret;
-+
-+	ret = ub953_write(priv, UB953_REG_GPIO_INPUT_CTRL, 0xf);
-+	if (ret)
-+		return ret;
- 
- 	gc->label = dev_name(dev);
- 	gc->parent = dev;
-@@ -970,10 +975,11 @@ static void ub953_calc_clkout_params(struct ub953_data *priv,
- 	clkout_data->rate = clkout_rate;
- }
- 
--static void ub953_write_clkout_regs(struct ub953_data *priv,
--				    const struct ub953_clkout_data *clkout_data)
-+static int ub953_write_clkout_regs(struct ub953_data *priv,
-+				   const struct ub953_clkout_data *clkout_data)
- {
- 	u8 clkout_ctrl0, clkout_ctrl1;
-+	int ret;
- 
- 	if (priv->hw_data->is_ub971)
- 		clkout_ctrl0 = clkout_data->m;
-@@ -983,8 +989,15 @@ static void ub953_write_clkout_regs(struct ub953_data *priv,
- 
- 	clkout_ctrl1 = clkout_data->n;
- 
--	ub953_write(priv, UB953_REG_CLKOUT_CTRL0, clkout_ctrl0);
--	ub953_write(priv, UB953_REG_CLKOUT_CTRL1, clkout_ctrl1);
-+	ret = ub953_write(priv, UB953_REG_CLKOUT_CTRL0, clkout_ctrl0);
-+	if (ret)
-+		return ret;
-+
-+	ret = ub953_write(priv, UB953_REG_CLKOUT_CTRL1, clkout_ctrl1);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
- }
- 
- static unsigned long ub953_clkout_recalc_rate(struct clk_hw *hw,
-@@ -1064,9 +1077,7 @@ static int ub953_clkout_set_rate(struct clk_hw *hw, unsigned long rate,
- 	dev_dbg(&priv->client->dev, "%s %lu (requested %lu)\n", __func__,
- 		clkout_data.rate, rate);
- 
--	ub953_write_clkout_regs(priv, &clkout_data);
--
--	return 0;
-+	return ub953_write_clkout_regs(priv, &clkout_data);
- }
- 
- static const struct clk_ops ub953_clkout_ops = {
-@@ -1091,7 +1102,9 @@ static int ub953_register_clkout(struct ub953_data *priv)
- 
- 	/* Initialize clkout to 25MHz by default */
- 	ub953_calc_clkout_params(priv, UB953_DEFAULT_CLKOUT_RATE, &clkout_data);
--	ub953_write_clkout_regs(priv, &clkout_data);
-+	ret = ub953_write_clkout_regs(priv, &clkout_data);
-+	if (ret)
-+		return ret;
- 
- 	priv->clkout_clk_hw.init = &init;
- 
-@@ -1238,10 +1251,15 @@ static int ub953_hw_init(struct ub953_data *priv)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "i2c init failed\n");
- 
--	ub953_write(priv, UB953_REG_GENERAL_CFG,
--		    (priv->non_continous_clk ? 0 : UB953_REG_GENERAL_CFG_CONT_CLK) |
--		    ((priv->num_data_lanes - 1) << UB953_REG_GENERAL_CFG_CSI_LANE_SEL_SHIFT) |
--		    UB953_REG_GENERAL_CFG_CRC_TX_GEN_ENABLE);
-+	v = 0;
-+	v |= priv->non_continous_clk ? 0 : UB953_REG_GENERAL_CFG_CONT_CLK;
-+	v |= (priv->num_data_lanes - 1) <<
-+		UB953_REG_GENERAL_CFG_CSI_LANE_SEL_SHIFT;
-+	v |= UB953_REG_GENERAL_CFG_CRC_TX_GEN_ENABLE;
-+
-+	ret = ub953_write(priv, UB953_REG_GENERAL_CFG, v);
-+	if (ret)
-+		return ret;
- 
- 	return 0;
- }
-
--- 
-2.43.0
+  Tomi
 
 
