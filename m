@@ -1,121 +1,127 @@
-Return-Path: <linux-media+bounces-19087-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19088-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87E99902EA
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 14:29:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E5A99050D
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 15:59:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 718B3B219D7
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 12:29:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3C09284D9D
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2024 13:59:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E7F15C13C;
-	Fri,  4 Oct 2024 12:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7B20215F57;
+	Fri,  4 Oct 2024 13:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b="ekA5OcXY"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="COdlk9UB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EEB158531;
-	Fri,  4 Oct 2024 12:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.19.76.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBA92139C6;
+	Fri,  4 Oct 2024 13:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728044980; cv=none; b=OPWQxfxFccqFc1zBxDNYJGDe6XRYYeVMCMO7lxhVBsCd94e3yd4fG11HEV2mez3fplFQ5HzkZ5vkRGg7SHWi/3XoNXvgHTWnbN9odL1HzTIBewpZZPg3Wc32xA7a1+3Yl/fSPqkD4DjGSCVfNzPtfH2QdYWGU8rxG1Nt08X+6EM=
+	t=1728050236; cv=none; b=OE8mp12gCC6SPZhx2P1ID2Ii7yhEX/Oo6WHJviSijuoCr6CEwwVwTrmttAJPbwQgdQNEYUn8UNNaPq4rmUGIIjZBRdAsUmdw0cYJNU2Uc6HvYvwWTZzA5YHuWGNMdWyEp3Oc+KAU6J06cnVq4vUFlYIUh+2O4szfCey+kUJRAwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728044980; c=relaxed/simple;
-	bh=46ISaL87Qj/CLd/EuZAh5nF+7OcwodOqwQ3MvCCopTo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C7GOxRbuHP+FTssZP7k6lfJtiqie9pRCxSRay6Vizf+XSB5IfREnfnluH71QraohBoE4JS5R2dp7Nl/CYOSo2QmpzZ3WXHLLOBuSe3WFGwWLYAFV0RSmmelh2rkxpyh3vl4drVw/zlbSKS8W/6AHq20I4L1xTUITb3ujFzFf5Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru; spf=pass smtp.mailfrom=rosalinux.ru; dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b=ekA5OcXY; arc=none smtp.client-ip=195.19.76.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosalinux.ru
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id 7553CE0CAD189;
-	Fri,  4 Oct 2024 15:20:51 +0300 (MSK)
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id hBGE4r2AaEG7; Fri,  4 Oct 2024 15:20:51 +0300 (MSK)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id 482A7E0CAD188;
-	Fri,  4 Oct 2024 15:20:51 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru 482A7E0CAD188
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
-	s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1728044451;
-	bh=+F2jk/I9UsR3rvWH/wxbEEejvzp/NM78JprJo3q0ibM=;
-	h=From:To:Date:Message-ID:MIME-Version;
-	b=ekA5OcXYgn0uUoWGWxq8cAT0R22Vu0DNC+Ajqbl58Yfv9OE4KvxodbBnE8uwW+sBp
-	 bsmyqM+a8tjIw+yx18s7EGHX/XvSffaRDL128d/d0wnBqNiFtlJ74HasFC8z5jtGRG
-	 mzYT69GtTnPlwhWPyqKAHCTC/ZDjXo7hixHXKYG2904ikqXyFjs0D/vETiK+2Ng/y4
-	 /9H/KxHu2+XCIX82y8lqmZbvzfpBWT3d1w3nNIBY8kKnzxMZFYH5e6r1uJl+rUFi/f
-	 4EoYDouwHnDola5RTwbC4HGSAG9KzM2Yi1ktTgkwtTtAJWbnuKrjUKFSp4DtAHkW4S
-	 gLHCYIj/bYgnw==
-X-Virus-Scanned: amavisd-new at rosalinux.ru
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id QoSCg64-IbUl; Fri,  4 Oct 2024 15:20:51 +0300 (MSK)
-Received: from localhost.localdomain (unknown [89.169.48.235])
-	by mail.rosalinux.ru (Postfix) with ESMTPSA id E615DE0CAD184;
-	Fri,  4 Oct 2024 15:20:50 +0300 (MSK)
-From: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Aleksandr Burakov <a.burakov@rosalinux.ru>
-Subject: [PATCH v2] V4L/DVB (13661): rj54n1cb0c: possible integer overflow fix
-Date: Fri,  4 Oct 2024 08:19:21 -0400
-Message-ID: <20241004121924.27174-1-m.lobanov@rosalinux.ru>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1728050236; c=relaxed/simple;
+	bh=7Hwq9uEJINWh6lbq0eDSkjI/LwWpxKdFjo1dFmCmg70=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Lh0oChPKuqovZUeT+au20NctxE5QzgTBIAYLCV6uhwAS6bw7UnMz57YnHjNJnD7hSJbfx/Q+mMV0RDknzDlAeItcYkLfQxiW11Q0MgMYFQtCIicqSaT2PDNZeSqX8t0XDvP3Y8z+jkqQaV7gCqCVb1FqxWZH9ID/rFkplpUWVCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=COdlk9UB; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1728050209; x=1728655009; i=markus.elfring@web.de;
+	bh=l5sBalEVeHVqU+tztsDZkdHezcT8/Y4LuI15YAud/Os=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=COdlk9UBKuCaUvN8clv+FF4S1THVbAJVqWB2QPda56DLfiExkrEEV3YXwSBlszS8
+	 cyvkQjedLlpKoTRmW5jNCcuYvapidFV3QR63Ie6xHybvmVh61mHIjkP6oGgAPZYVt
+	 9c9x9KuTBrgITV4twZSTlEsZzwLIowJVSDnkIlCgKngpdsJ3KBjkRoH4706QriDe5
+	 CrePkqpy4471HXcIzvv+q5vzvbIymU4ay7aWsLDMtITNc4VVtwudGk1pHSUNL6+99
+	 1ACB5JD3eSIKk9ySyUJgBkkCshQk7Evi8cly/P0cbISptAlAzi76DCah5i1JG8TD3
+	 SzfFny4QSQkyCRbIxQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.84.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MKuKF-1sbU7g1DCv-00JJaN; Fri, 04
+ Oct 2024 15:56:49 +0200
+Message-ID: <5d8222c5-d564-4e27-9a85-ec4a526e84f8@web.de>
+Date: Fri, 4 Oct 2024 15:56:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Patrice Chotard <patrice.chotard@foss.st.com>,
+ Peter Griffin <peter.griffin@linaro.org>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] media: c8sectpfe: Call of_node_put(i2c_bus) only once in
+ c8sectpfe_probe()
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+QCmwZmgCaEV2v9LZCjjGJaghSVTSAFn4GQRGdBCM9HPGmzrnAE
+ Lcb0ITz5R+EmIIdpN813CxVRkg9rEs4rJj5QfVKUDzyVC0xUoeTpb5ZUmPFowDwCD86gcQN
+ 3D+EVcUyEqJ1jyRRdS9PmFc6wvHSUAQjGc2K1KSm9HFjwekFdsQxZqBjMvd4DZn9mew7iOX
+ tuPcpy+p7rU5mGdoyxx9g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:29mHHnh0jhA=;z6wggkJyybQu1vD86KEzN9mdlr8
+ XjiZLv7SDj+hTW2IAtItSG0mfxETpxsAF/fPdld+Lnv/Kr7Gdp340FB7Q/Co9oUYRNmgvZndJ
+ WhWZq8ICA5j+QUrXL1Qm5AMV82ETLRV7aZ9SRNrm4tcQ3CqcmVT8KM2aqky+3VuG2mhbwa1mj
+ d9BxiVsmTyzGrUoam8ZbwFIBaFRuOuz+TP4BZu0ERcEAZWpwhr0V4DTTr+JJPl6kDdpueGmb2
+ 2B3Fmb0Rcb3CoNg7FegMIROggaKA5HybxuPryDiz2d+d6W6sGUMBQAdGtHXCL1sLu6VYRhshU
+ G8xjxkOjJILfCNP6u6uIE1HZRjNZP7sLV4WbKEIL/ahrrxRRG05YLi/zKA/W4VRDC/gGf7B3k
+ uGdYm/JOF3a36aUYzUCaWvnmnLncr8SUl4UIze9OPSYan8ZL1C3sSoik63Hi82/IMxAkyM+LB
+ laPtlpzek5cm23EZ+3A/FfjqSuTbUaDrovRgWLydEXFrocKHOp8YBXRcG5YNlHb6MW/nZmxju
+ yDvK7YyPV8BSX4szIs9sgh5aDbszp66CohurHr4BZV507rwlVJtqg3aRTYHDH8wQdjqxENdoX
+ XpdDQr2wugfyCHIQChrUJFSdBG90tBzukuZH37+2g+Mh3iAUE++MVUG43J/bzMNhfgufX7/Jy
+ d/3sZJxObfIL07opdp1mNivSu7Jo8jiq05PQunXjaNr9LHe8AjHQmB8fDIOGVUw8AyK8tFkin
+ jbrbWHP/ceV24LF+P6nWU5e2LgDBkyJop6oJ0gsOaByJ2uSvI+vKMnVit5TnDuqXbir+tzorf
+ aWhhbgXbpWa4szLljX4G17ng==
 
-An integer overflow may occur due to arithmetic operation
-(multiplication) between value '314572800' and variable 'resize',
-where the value comes from '12 * RJ54N1_MAX_WIDTH * (1 << 14)'
-and when 'resize' is equal to 16319.
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Fri, 4 Oct 2024 15:50:15 +0200
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+An of_node_put(i2c_bus) call was immediately used after a pointer check
+for an of_find_i2c_adapter_by_node() call in this function implementation.
+Thus call such a function only once instead directly before the check.
 
-Fixes: a6b5f2008a3d ("V4L/DVB (13661): rj54n1cb0c: Add cropping, auto whi=
-te balance, restrict sizes, add platform data")
-Signed-off-by: Aleksandr Burakov <a.burakov@rosalinux.ru>
-Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
----
-v1->v2: updated multiplication operation to use shorthand assignment for =
-improved code readability
-link to v1: https://lore.kernel.org/lkml/20240917140454.7880-1-a.burakov@=
-rosalinux.ru/
- drivers/media/i2c/rj54n1cb0c.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This issue was transformed by using the Coccinelle software.
 
-diff --git a/drivers/media/i2c/rj54n1cb0c.c b/drivers/media/i2c/rj54n1cb0=
-c.c
-index a59db10153cd..a612ec1e7157 100644
---- a/drivers/media/i2c/rj54n1cb0c.c
-+++ b/drivers/media/i2c/rj54n1cb0c.c
-@@ -776,8 +776,8 @@ static int rj54n1_sensor_scale(struct v4l2_subdev *sd=
-, s32 *in_w, s32 *in_h,
- 	}
-=20
- 	/* Antiflicker */
--	peak =3D 12 * RJ54N1_MAX_WIDTH * (1 << 14) * resize / rj54n1->tgclk_mhz=
- /
--		10000;
-+	peak =3D 12 * RJ54N1_MAX_WIDTH * resize / rj54n1->tgclk_mhz / 10000;
-+	peak *=3D 1 << 14;
- 	peak_50 =3D peak / 6;
- 	peak_60 =3D peak / 5;
-=20
---=20
-2.25.1
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/dr=
+ivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+index 67d3d6e50d2e..ed3a107965cc 100644
+=2D-- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
++++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+@@ -797,13 +797,12 @@ static int c8sectpfe_probe(struct platform_device *p=
+dev)
+ 		}
+ 		tsin->i2c_adapter =3D
+ 			of_find_i2c_adapter_by_node(i2c_bus);
++		of_node_put(i2c_bus);
+ 		if (!tsin->i2c_adapter) {
+ 			dev_err(&pdev->dev, "No i2c adapter found\n");
+-			of_node_put(i2c_bus);
+ 			ret =3D -ENODEV;
+ 			goto err_node_put;
+ 		}
+-		of_node_put(i2c_bus);
+
+ 		/* Acquire reset GPIO and activate it */
+ 		tsin->rst_gpio =3D devm_fwnode_gpiod_get(dev,
+=2D-
+2.46.1
 
 
