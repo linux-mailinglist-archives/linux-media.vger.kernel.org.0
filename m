@@ -1,378 +1,129 @@
-Return-Path: <linux-media+bounces-19122-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19123-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115AB991601
-	for <lists+linux-media@lfdr.de>; Sat,  5 Oct 2024 12:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88437991696
+	for <lists+linux-media@lfdr.de>; Sat,  5 Oct 2024 14:00:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 353AD1C21BBA
-	for <lists+linux-media@lfdr.de>; Sat,  5 Oct 2024 10:32:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9FDAD1C21B29
+	for <lists+linux-media@lfdr.de>; Sat,  5 Oct 2024 12:00:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84EE61537DA;
-	Sat,  5 Oct 2024 10:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BC4014C5AE;
+	Sat,  5 Oct 2024 12:00:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ensFfRQa"
+	dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b="EgnoNtMA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F171B14BFA2
-	for <linux-media@vger.kernel.org>; Sat,  5 Oct 2024 10:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D0314F9D5;
+	Sat,  5 Oct 2024 12:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.19.76.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728124277; cv=none; b=WsWQSarshcpQob/l1kAXk5x6Y6Z/BcmoGG8imQonyX1PE+s4NBWVX0xRw2+2Xv4K3VoUFzR2OGlA2whP4bo3xN+bnuBW8khfRGdtbEM++2viAH4vqTv7M08Dwt2GUK25WWyVwFKqILmbDMNHrv/hK0GqzQJEEAsKS/5Gub3IKuA=
+	t=1728129612; cv=none; b=VdqKhW624RENGWASf+IV8377EA4hmArFzWiRPdD9HcuvbqlXZ7udfKX+2kdnoIk2lcgpHKAXHuZAXIfrbFIVS5IDrEfTfv5ZPPBqNSxcZmU/u47ggUXtefk2cQq1h0emg5eqg6ncDWb62LTqenx/PuU0Tjhqup6O35ULtobJWak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728124277; c=relaxed/simple;
-	bh=MZdA/sRLAsmvUPZP3TphhP3dJzkLom00eAxDcabblxk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qTK0YX3gyVBCujV+or0RN5Z1jb6RAqShpwsAAyD3978yxDrmMKVs2rSbSy4ZSeJNBHDbpMQKXN+M6tNPG1j3yXfuwH5hIDBZdPWhx2dh8W7ajT/DbaAtL6agG7KSdDRAu3wcrgWUxvBfTVFPHThgVLq+A0/WTyY/zMQKXOhrwNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ensFfRQa; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a9943897c07so10536566b.3
-        for <linux-media@vger.kernel.org>; Sat, 05 Oct 2024 03:31:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728124273; x=1728729073; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pseR3SnwJF/ltwSCthgN9v3QXyD9/cz3sKkOTqoReDs=;
-        b=ensFfRQa3eqA32dNxca6TT/6FIAnSIpIS9vBe7YwVSFb9Po2PUZ1kYIvkrwCsy3gDu
-         ZSBIv2ky6rSV/fobclDah8S1f82MbND5I8VPxlJpVGt1OqDkx6UWNlgnmAua7OQLJam7
-         6yDiIreYhL57xtE06sOhpplXISQD0OIQg7l/sfGtBCj6ctS5fy3PNYVXzSCaEH9C2of6
-         NSgIqlF9yBXfCum2tvT+YyynVF3J7iRRWAx/wPi1WvaUvohMlodvKsAB4u24UI94pF6F
-         tmbgeUmeRbrLZs8moZHxLQ90SpTpU7XRQeYRFN5Vpg8rFz/DgCeQ4NTCnExbBYeurSFY
-         YE5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728124273; x=1728729073;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pseR3SnwJF/ltwSCthgN9v3QXyD9/cz3sKkOTqoReDs=;
-        b=QefabneSnAzx7u6BDBIuNBYoU2H2mBziNEL6c1D8eIfMcqdqJEGuhl6YaNztOISJ6k
-         x7sqnc7uVOBuSOgfsSRDrXKzx8Kfh4nX3fpv25lJZkQvzTmurAt/GjEZL+1k2b8ZIgAX
-         61U6LDb5f7Qt3MDJbd/b+ZpdorMXISa47Ri0cC7aEZh6AJpvRiYVcwzqzKgQQmkKiez4
-         aM26ylxP0StcKvIcLdHqKnt+vjDYXfBIpU4gSBrcNO1H6MOgYqlO2JiscZhqno/0zvz4
-         YRrpXNp22dCs84i2JWgJDDJ/kOi+bSljBdRK/DnQ54ZweTJMsnoC4yTXBckrb3pSP6KP
-         ZHtA==
-X-Gm-Message-State: AOJu0YzNY9hstNzNhKXUcHWaw18L2e28ZqIpubehyYqJAfZFifR+hAUr
-	flQHiwiYOsIeWy27bLuMWJOhJqyGBCCc1WpoMoHsjr4OgayInhiGAXfU1Krak9RK25HNJDN1A3p
-	73zk=
-X-Google-Smtp-Source: AGHT+IGnpJbRkaeEp++fKU34EvopNpr/tyBn+AeOlnfao3/er+hs2WZEx+AXO2rdZ+yVQjSYpLNcaA==
-X-Received: by 2002:a17:907:36c4:b0:a8d:1303:2283 with SMTP id a640c23a62f3a-a991bd7a123mr567894066b.30.1728124273102;
-        Sat, 05 Oct 2024 03:31:13 -0700 (PDT)
-Received: from [127.0.0.1] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a992e7856bfsm116315566b.138.2024.10.05.03.31.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Oct 2024 03:31:12 -0700 (PDT)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Sat, 05 Oct 2024 11:31:06 +0100
-Subject: [PATCH v5 4/4] media: ov08x40: Add OF probe support
+	s=arc-20240116; t=1728129612; c=relaxed/simple;
+	bh=lgjjzW8JhomFfhqNJl60GVevaG2TRoCJ1RUSqhu+/PI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VGUTu1Cr14Zp747Z3fCAVGiQf/rxkFNxdRzF8SbiQWO5rhvg2khUJGmV3E5GTbqZA6LH2GKVBxnCRCfNk0wFgQYgzTKf3t0xlCsTlSM0HcxGMTZjvSqnFbwl/fHMIupTNQwtIxekneJw2VhRGt0lOABAHSRNwnY59GONGIabZpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru; spf=pass smtp.mailfrom=rosalinux.ru; dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b=EgnoNtMA; arc=none smtp.client-ip=195.19.76.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosalinux.ru
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rosalinux.ru (Postfix) with ESMTP id 20E6BDB761279;
+	Sat,  5 Oct 2024 15:00:05 +0300 (MSK)
+Received: from mail.rosalinux.ru ([127.0.0.1])
+	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id eoG0vcNe2Ldw; Sat,  5 Oct 2024 15:00:05 +0300 (MSK)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rosalinux.ru (Postfix) with ESMTP id DA1A3E2D87380;
+	Sat,  5 Oct 2024 15:00:04 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru DA1A3E2D87380
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
+	s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1728129604;
+	bh=r1ZRAdOPsZ6V3qrG7zP/y2ZKnPDaC4zWXBpyCVEL9mo=;
+	h=From:To:Date:Message-ID:MIME-Version;
+	b=EgnoNtMANl7XTY6tSlxGbZN1cnfhlgvS1f2uqP5enUOSoAybdLk9BGw59EN/UAXRu
+	 ClV9zWaSjT7zlC3ohOYPBg81EJG/1afnY8ZNyOZOQoV7fHfA0cPDx5Z3uP/BOLookF
+	 1GKRa6V8CIPl61pHhuLdvhd1DyAIv9HtGBzpbj1aE2Op4jB0vRHxOl/SUkgWrV5flO
+	 E+hsaXFDT67M/10U5TqjoQj5gqm1WfMqVk8MXaisWKu8eCHeuFSHt8TLtFMij1d+Rl
+	 jCsuasG1R7ZlaUThKuNS5DNiLRaQLHku3FdG0tWY5pzdXzBZxmkBnCVGjiLaaqi66s
+	 cqlHH88kQkajg==
+X-Virus-Scanned: amavisd-new at rosalinux.ru
+Received: from mail.rosalinux.ru ([127.0.0.1])
+	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id jvuZZ7dH1Y9h; Sat,  5 Oct 2024 15:00:04 +0300 (MSK)
+Received: from localhost.localdomain (unknown [213.87.162.215])
+	by mail.rosalinux.ru (Postfix) with ESMTPSA id CE044DB761279;
+	Sat,  5 Oct 2024 15:00:03 +0300 (MSK)
+From: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+To: Jacopo Mondi <jacopo@jmondi.org>
+Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	Aleksandr Burakov <a.burakov@rosalinux.ru>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: [PATCH v3] media: rj54n1cb0c: possible integer overflow fix
+Date: Sat,  5 Oct 2024 07:58:57 -0400
+Message-ID: <20241005115859.13273-1-m.lobanov@rosalinux.ru>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241005-b4-master-24-11-25-ov08x40-v5-4-5f1eb2e11036@linaro.org>
-References: <20241005-b4-master-24-11-25-ov08x40-v5-0-5f1eb2e11036@linaro.org>
-In-Reply-To: <20241005-b4-master-24-11-25-ov08x40-v5-0-5f1eb2e11036@linaro.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Jason Chen <jason.z.chen@intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7427;
- i=bryan.odonoghue@linaro.org; h=from:subject:message-id;
- bh=MZdA/sRLAsmvUPZP3TphhP3dJzkLom00eAxDcabblxk=;
- b=owEBbQKS/ZANAwAIASJxO7Ohjcg6AcsmYgBnARVqi35DN6gUi+5keNREXE36RVNzvmSK5VLjs
- 2TziUE2nCOJAjMEAAEIAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCZwEVagAKCRAicTuzoY3I
- OkdrD/4jdS4d6RhXojZ416uinCFqyvFUj5cpzuo4DlDXoY/1Nz6azwXPh95o1T1PkVuFGgoSCOs
- YSQWGGnw9G9o48NdyDr/xzI0h1d4EoSL6LjhxMGtlF6IJv/rabmp/F1xNR3yK1grurvlwLQbmtK
- /jwkYznAN2F7XDmvcPbnsPXxojP5loPJI/mNl9tpJujm+OEimW15qfikNXZD/9JFBJPNBEaHbTG
- goBm7fgleoveZZjkV1Y/3csyg6+rergqZ3Vm96mxnaXMR/Eo/qtalOOm/L/WGtjXqyZNW+FL2q8
- akyJqfada7b0VrAuZjhjVzUQg+4+ENcoLdinozxfTdU1J7CPTPYCaWbRDVNE3Qby/fbD7kYM/j1
- kfDNAS4fRG9WiV/bNFR+y341m2i/pO3M6Dfq1aUo1yYdAdhLESTrERrTQhI4IDa6Usxk5qEvnD/
- eHrDxJHlFeTaNi8sjyDJb3moKNZPMM8P1X/vEUMEYv18q2Rp8L3UnH6MWpQnJHsl+YO/NP7KDta
- phphJ2FP5Hg2xSe0R+hqUhdq2/1KjwvF4UmrflSqa4NW8Fdpodv4pm07lvnI2UkIoELDIi+h3Jk
- YlR+EbZEYxMRrTKqNofm600ZrpyaazuWo6wfaCcgyYxNU8IhUcM6B6LNrKdxg4bypOAHIQAM6oh
- N2899CZzi1+AL/w==
-X-Developer-Key: i=bryan.odonoghue@linaro.org; a=openpgp;
- fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
+Content-Transfer-Encoding: quoted-printable
 
-The ACPI version of this driver "just works" on dts based systems with a
-few extensions to facilitate.
+An integer overflow may occur due to arithmetic operation
+(multiplication) between value '314572800' and variable 'resize',
+where the value comes from '12 * RJ54N1_MAX_WIDTH * (1 << 14)'
+and when 'resize' is equal to 16319.
 
-- Add support for DT based probing
-- Add support for taking the part out of reset via a GPIO reset pin
-- Add in regulator bulk on/off logic for the power rails.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Once done this sensor works nicely on a Qualcomm X1E80100 CRD.
-
-Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> # x1e80100-crd
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Fixes: a6b5f2008a3d ("V4L/DVB (13661): rj54n1cb0c: Add cropping, auto whi=
+te balance, restrict sizes, add platform data")
+Signed-off-by: Aleksandr Burakov <a.burakov@rosalinux.ru>
+Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/media/i2c/ov08x40.c | 140 +++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 125 insertions(+), 15 deletions(-)
+v1->v2: updated multiplication operation to use shorthand assignment for =
+improved code readability
+link to v1: https://lore.kernel.org/lkml/20240917140454.7880-1-a.burakov@=
+rosalinux.ru/
+v2->v3: the subsystem prefix has been updated to 'media: rj54n1cb0c:'.
+link to v2: https://lore.kernel.org/lkml/20241004121924.27174-1-m.lobanov=
+@rosalinux.ru/
+ drivers/media/i2c/rj54n1cb0c.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-index 3ab8b51df157af78fcccc1aaef73aedb2ae759c9..ff17e09a1f96175d598c395bcae0cdf01d68a79f 100644
---- a/drivers/media/i2c/ov08x40.c
-+++ b/drivers/media/i2c/ov08x40.c
-@@ -3,10 +3,13 @@
- 
- #include <asm-generic/unaligned.h>
- #include <linux/acpi.h>
-+#include <linux/clk.h>
- #include <linux/i2c.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/module.h>
- #include <linux/delay.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-@@ -1279,6 +1282,12 @@ static const struct ov08x40_mode supported_modes[] = {
- 	},
- };
- 
-+static const char * const ov08x40_supply_names[] = {
-+	"dovdd",	/* Digital I/O power */
-+	"avdd",		/* Analog power */
-+	"dvdd",		/* Digital core power */
-+};
-+
- struct ov08x40 {
- 	struct v4l2_subdev sd;
- 	struct media_pad pad;
-@@ -1291,6 +1300,10 @@ struct ov08x40 {
- 	struct v4l2_ctrl *hblank;
- 	struct v4l2_ctrl *exposure;
- 
-+	struct clk		*xvclk;
-+	struct gpio_desc	*reset_gpio;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(ov08x40_supply_names)];
-+
- 	/* Current mode */
- 	const struct ov08x40_mode *cur_mode;
- 
-@@ -1303,6 +1316,61 @@ struct ov08x40 {
- 
- #define to_ov08x40(_sd)	container_of(_sd, struct ov08x40, sd)
- 
-+static int ov08x40_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov08x40 *ov08x = to_ov08x40(sd);
-+	int ret;
-+
-+	if (is_acpi_node(dev_fwnode(dev)))
-+		return 0;
-+
-+	ret = clk_prepare_enable(ov08x->xvclk);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable xvclk\n");
-+		return ret;
-+	}
-+
-+	if (ov08x->reset_gpio) {
-+		gpiod_set_value_cansleep(ov08x->reset_gpio, 1);
-+		usleep_range(1000, 2000);
-+	}
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ov08x40_supply_names),
-+				    ov08x->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable regulators\n");
-+		goto disable_clk;
-+	}
-+
-+	gpiod_set_value_cansleep(ov08x->reset_gpio, 0);
-+	usleep_range(1500, 1800);
-+
-+	return 0;
-+
-+disable_clk:
-+	gpiod_set_value_cansleep(ov08x->reset_gpio, 1);
-+	clk_disable_unprepare(ov08x->xvclk);
-+
-+	return ret;
-+}
-+
-+static int ov08x40_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov08x40 *ov08x = to_ov08x40(sd);
-+
-+	if (is_acpi_node(dev_fwnode(dev)))
-+		return 0;
-+
-+	gpiod_set_value_cansleep(ov08x->reset_gpio, 1);
-+	regulator_bulk_disable(ARRAY_SIZE(ov08x40_supply_names),
-+			       ov08x->supplies);
-+	clk_disable_unprepare(ov08x->xvclk);
-+
-+	return 0;
-+}
-+
- /* Read registers up to 4 at a time */
- static int ov08x40_read_reg(struct ov08x40 *ov08x,
- 			    u16 reg, u32 len, u32 *val)
-@@ -2072,7 +2140,7 @@ static void ov08x40_free_controls(struct ov08x40 *ov08x)
- 	mutex_destroy(&ov08x->mutex);
- }
- 
--static int ov08x40_check_hwcfg(struct device *dev)
-+static int ov08x40_check_hwcfg(struct ov08x40 *ov08x, struct device *dev)
- {
- 	struct v4l2_fwnode_endpoint bus_cfg = {
- 		.bus_type = V4L2_MBUS_CSI2_DPHY
-@@ -2086,11 +2154,36 @@ static int ov08x40_check_hwcfg(struct device *dev)
- 	if (!fwnode)
- 		return -ENXIO;
- 
--	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
--				       &xvclk_rate);
--	if (ret) {
--		dev_err(dev, "can't get clock frequency");
--		return ret;
-+	if (!is_acpi_node(fwnode)) {
-+		ov08x->xvclk = devm_clk_get(dev, NULL);
-+		if (IS_ERR(ov08x->xvclk)) {
-+			dev_err(dev, "could not get xvclk clock (%pe)\n",
-+				ov08x->xvclk);
-+			return PTR_ERR(ov08x->xvclk);
-+		}
-+
-+		xvclk_rate = clk_get_rate(ov08x->xvclk);
-+
-+		ov08x->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-+							    GPIOD_OUT_LOW);
-+		if (IS_ERR(ov08x->reset_gpio))
-+			return PTR_ERR(ov08x->reset_gpio);
-+
-+		for (i = 0; i < ARRAY_SIZE(ov08x40_supply_names); i++)
-+			ov08x->supplies[i].supply = ov08x40_supply_names[i];
-+
-+		ret = devm_regulator_bulk_get(dev,
-+					      ARRAY_SIZE(ov08x40_supply_names),
-+					      ov08x->supplies);
-+		if (ret)
-+			return ret;
-+	} else {
-+		ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
-+					       &xvclk_rate);
-+		if (ret) {
-+			dev_err(dev, "can't get clock frequency");
-+			return ret;
-+		}
+diff --git a/drivers/media/i2c/rj54n1cb0c.c b/drivers/media/i2c/rj54n1cb0=
+c.c
+index a59db10153cd..a612ec1e7157 100644
+--- a/drivers/media/i2c/rj54n1cb0c.c
++++ b/drivers/media/i2c/rj54n1cb0c.c
+@@ -776,8 +776,8 @@ static int rj54n1_sensor_scale(struct v4l2_subdev *sd=
+, s32 *in_w, s32 *in_h,
  	}
- 
- 	if (xvclk_rate != OV08X40_XVCLK) {
-@@ -2143,32 +2236,37 @@ static int ov08x40_check_hwcfg(struct device *dev)
- }
- 
- static int ov08x40_probe(struct i2c_client *client)
--{
--	struct ov08x40 *ov08x;
-+{	struct ov08x40 *ov08x;
- 	int ret;
- 	bool full_power;
- 
-+	ov08x = devm_kzalloc(&client->dev, sizeof(*ov08x), GFP_KERNEL);
-+	if (!ov08x)
-+		return -ENOMEM;
-+
- 	/* Check HW config */
--	ret = ov08x40_check_hwcfg(&client->dev);
-+	ret = ov08x40_check_hwcfg(ov08x, &client->dev);
- 	if (ret) {
- 		dev_err(&client->dev, "failed to check hwcfg: %d", ret);
- 		return ret;
- 	}
- 
--	ov08x = devm_kzalloc(&client->dev, sizeof(*ov08x), GFP_KERNEL);
--	if (!ov08x)
--		return -ENOMEM;
--
- 	/* Initialize subdev */
- 	v4l2_i2c_subdev_init(&ov08x->sd, client, &ov08x40_subdev_ops);
- 
- 	full_power = acpi_dev_state_d0(&client->dev);
- 	if (full_power) {
-+		ret = ov08x40_power_on(&client->dev);
-+		if (ret) {
-+			dev_err(&client->dev, "failed to power on\n");
-+			return ret;
-+		}
-+
- 		/* Check module identity */
- 		ret = ov08x40_identify_module(ov08x);
- 		if (ret) {
- 			dev_err(&client->dev, "failed to find sensor: %d\n", ret);
--			return ret;
-+			goto probe_power_off;
- 		}
- 	}
- 
-@@ -2177,7 +2275,7 @@ static int ov08x40_probe(struct i2c_client *client)
- 
- 	ret = ov08x40_init_controls(ov08x);
- 	if (ret)
--		return ret;
-+		goto probe_power_off;
- 
- 	/* Initialize subdev */
- 	ov08x->sd.internal_ops = &ov08x40_internal_ops;
-@@ -2210,6 +2308,9 @@ static int ov08x40_probe(struct i2c_client *client)
- error_handler_free:
- 	ov08x40_free_controls(ov08x);
- 
-+probe_power_off:
-+	ov08x40_power_off(&client->dev);
-+
- 	return ret;
- }
- 
-@@ -2224,6 +2325,8 @@ static void ov08x40_remove(struct i2c_client *client)
- 
- 	pm_runtime_disable(&client->dev);
- 	pm_runtime_set_suspended(&client->dev);
-+
-+	ov08x40_power_off(&client->dev);
- }
- 
- #ifdef CONFIG_ACPI
-@@ -2235,10 +2338,17 @@ static const struct acpi_device_id ov08x40_acpi_ids[] = {
- MODULE_DEVICE_TABLE(acpi, ov08x40_acpi_ids);
- #endif
- 
-+static const struct of_device_id ov08x40_of_match[] = {
-+	{ .compatible = "ovti,ov08x40" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ov08x40_of_match);
-+
- static struct i2c_driver ov08x40_i2c_driver = {
- 	.driver = {
- 		.name = "ov08x40",
- 		.acpi_match_table = ACPI_PTR(ov08x40_acpi_ids),
-+		.of_match_table = ov08x40_of_match,
- 	},
- 	.probe = ov08x40_probe,
- 	.remove = ov08x40_remove,
-
--- 
-2.46.2
+=20
+ 	/* Antiflicker */
+-	peak =3D 12 * RJ54N1_MAX_WIDTH * (1 << 14) * resize / rj54n1->tgclk_mhz=
+ /
+-		10000;
++	peak =3D 12 * RJ54N1_MAX_WIDTH * resize / rj54n1->tgclk_mhz / 10000;
++	peak *=3D 1 << 14;
+ 	peak_50 =3D peak / 6;
+ 	peak_60 =3D peak / 5;
+=20
+--=20
+2.25.1
 
 
