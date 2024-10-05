@@ -1,168 +1,171 @@
-Return-Path: <linux-media+bounces-19129-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19130-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DACC991951
-	for <lists+linux-media@lfdr.de>; Sat,  5 Oct 2024 20:10:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4130E991B78
+	for <lists+linux-media@lfdr.de>; Sun,  6 Oct 2024 02:00:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0C521F22C5E
-	for <lists+linux-media@lfdr.de>; Sat,  5 Oct 2024 18:10:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 795E61C2130E
+	for <lists+linux-media@lfdr.de>; Sun,  6 Oct 2024 00:00:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BD9E1591FC;
-	Sat,  5 Oct 2024 18:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2442016191E;
+	Sun,  6 Oct 2024 00:00:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Zv/Z+UDM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a7Q9W/NJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EF6157A59;
-	Sat,  5 Oct 2024 18:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7544714A4C7;
+	Sun,  6 Oct 2024 00:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728151851; cv=none; b=ixMyiv07iL2PH5xcBJojn2vXdGnOem6ZIVOfaWF+jbup8cVf8+1WAFRnKgAzWfiCYjUBoAcRMHyFhk6yf1ugPtOXls0faDaTT+By0hJkzqHPvDberjX9ZDHzpabA94jwsM7+soavv5Qms6X3pjJL2Gys98EFyz0pIQJ6YDIqcX0=
+	t=1728172836; cv=none; b=WCocqcaS+aMS+nvWNA7d9cLHECeZV2+/debmYzryLA8lk19VWngKpIZNRnedBGPGwJkWgnJRYtP+biiwyfE4qCKE1x2F1AhoelrWBcFuxPxvK1uens2arX8gqsi08eJZWyTWTstJ2Gdd3ITYYBFdYA2YJDbOMRzJY2mhJCnaHOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728151851; c=relaxed/simple;
-	bh=vYhHSu8a2wL6m1DT57/LS6UyaEW1S+3V57c0sxgaZBQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sHCYo5WLvDP8hjtU7zqs8OfY9zwY6H0xQsPKI2ggOXTk8cV3CN97iEKwj1srXPmYttD6n8P1v1ZXg268Dcb+dDdzfiUBTLsg920t8mpfY0cVQbxwD/B0+XOeDpUjKp1+VXDvNZXATHKZbivr0/bT7UaBwinbIeBjPT6QLoKFZq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Zv/Z+UDM; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 495FP1HJ015331;
-	Sat, 5 Oct 2024 18:10:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-type:date:from:message-id:mime-version:subject:to; s=
-	qcppdkim1; bh=y1AI6Ybprvocd2qzWabOJfmmPMvHCkyW5WFymyIkuK0=; b=Zv
-	/Z+UDMuJs+fwXY3Cy7ZsPKz6B/QQWOh6ZWb9uXCKxop92djJz3oCZ43m07EmYl9v
-	aST7w6RGU0Aw5/FS6j8p1i4orvEguRCDtwE1e4E+jKROem6tdtQcZuvpAwlpKiRJ
-	2j45RQeYqeJZ5SdJBERBqEEdlT9WofL+19VUS9rAF09uY3En+UOJG6Wzbnc0E7wO
-	va+NFf/4jzzMLrTcM4io5e8SxC69LW8s7CBUlAcGhfDYE8qys7cTojdJRKhawC19
-	WdbSf0DYj8XpMHFhfuCkrI5b+Xpg1FC7hRFy5wUQc3DQ7OuSa0R8zzJ5TBeMTAET
-	ecH9a/tE45PAuKgLgVAw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 422xv88w9p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 05 Oct 2024 18:10:23 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 495IAMYe012621
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 5 Oct 2024 18:10:22 GMT
-Received: from hu-pintu-blr.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sat, 5 Oct 2024 11:10:18 -0700
-From: Pintu Kumar <quic_pintu@quicinc.com>
-To: <sumit.semwal@linaro.org>, <benjamin.gaignard@collabora.com>,
-        <Brian.Starkey@arm.com>, <jstultz@google.com>, <tjmercier@google.com>,
-        <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-        <linux-kernel@vger.kernel.org>
-CC: <joe@perches.com>, <skhan@linuxfoundation.org>, <pintu.ping@gmail.com>,
-        Pintu Kumar <quic_pintu@quicinc.com>
-Subject: [PATCH v2] dma-buf: fix S_IRUGO to 0444, block comments, func declaration
-Date: Sat, 5 Oct 2024 23:39:55 +0530
-Message-ID: <20241005180955.6523-1-quic_pintu@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1728172836; c=relaxed/simple;
+	bh=Ft3LL+wdKU04UatgGFJbXK4DYo5bqn4YMXzhNK3e5Vs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RM/J93miRjND6gNwwKWF9Xqe3XoxBJGwfmun4z0bQI+b/R0JwWfKvFvgDWBVBocyHoqID1HeaZ7mWICEEoTbgW2n2ekQ1Dc3h3gzFjajyQ1zvFDNKHqO4ILQQM/h6iv7wz9lQIfPvYZbsBrh7ck5VHEGVoQNFvClJIvDIJqedsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a7Q9W/NJ; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728172834; x=1759708834;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ft3LL+wdKU04UatgGFJbXK4DYo5bqn4YMXzhNK3e5Vs=;
+  b=a7Q9W/NJTUcCdPowC4PMWVp72oX8UcXXVH+KVF0zAFFZTfxZ4LSkDep4
+   C0R3QD4er+DW7Bgw7pb5PPg4Qns01WcyUPG6GPVL3nTqJS+jQsQNcIovL
+   ofl4H4EUS4vvzCs/ArL+qz/igf9ij/RS7qZCWPMqPR9Wi34apT1fAUvLw
+   g2mRM+muVwNI9XVeNbaicKa/4NdrEFTojPVS+/8dUUgoPIINO+yg7g/0j
+   YuFSgBL1GpUCDm37G1W8GkxOE1YZqoPFUerY+LYIQ8DJBVgz4oXDLvD/k
+   Dz6rUP/JG3UbLhXlPOMb5Y8eAP0Z8/j/Ql0HDz07jPuIn8y4/bm9jj6aF
+   w==;
+X-CSE-ConnectionGUID: 06X+ql1oTHioTJhN7Ef+Jw==
+X-CSE-MsgGUID: 6gG5nMniSMyJS34RVBfOdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="26823621"
+X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
+   d="scan'208";a="26823621"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 17:00:34 -0700
+X-CSE-ConnectionGUID: oKwqKvbfTzWlDrwYog1H5Q==
+X-CSE-MsgGUID: 1HmDh7qfRPqoe5LgdGtmmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
+   d="scan'208";a="74657740"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 05 Oct 2024 17:00:31 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sxEhI-0003T0-2a;
+	Sun, 06 Oct 2024 00:00:28 +0000
+Date: Sun, 6 Oct 2024 07:59:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] v4l2-subdev: Return -EOPNOTSUPP for unsupported pad type
+ in call_get_frame_desc()
+Message-ID: <202410060640.ykY9JvqZ-lkp@intel.com>
+References: <20240930074602.500968-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: YRla0X3yiQaJF3lejNKaRIlBtVmAQ3CI
-X-Proofpoint-GUID: YRla0X3yiQaJF3lejNKaRIlBtVmAQ3CI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- impostorscore=0 phishscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- spamscore=0 mlxlogscore=999 adultscore=0 clxscore=1015 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410050133
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240930074602.500968-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-These warnings/errors are reported by checkpatch.
-Fix them with minor changes to make it clean.
-No other functional changes.
+Hi Prabhakar,
 
-WARNING: Block comments use * on subsequent lines
-+       /* only support discovering the end of the buffer,
-+          but also allow SEEK_SET to maintain the idiomatic
+kernel test robot noticed the following build errors:
 
-WARNING: Block comments use a trailing */ on a separate line
-+          SEEK_END(0), SEEK_CUR(0) pattern */
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on sailus-media-tree/master linus/master v6.12-rc1 next-20241004]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-WARNING: Block comments use a trailing */ on a separate line
-+        * before passing the sgt back to the exporter. */
+url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/v4l2-subdev-Return-EOPNOTSUPP-for-unsupported-pad-type-in-call_get_frame_desc/20240930-154811
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240930074602.500968-1-prabhakar.mahadev-lad.rj%40bp.renesas.com
+patch subject: [PATCH] v4l2-subdev: Return -EOPNOTSUPP for unsupported pad type in call_get_frame_desc()
+config: x86_64-randconfig-003-20241002 (https://download.01.org/0day-ci/archive/20241006/202410060640.ykY9JvqZ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241006/202410060640.ykY9JvqZ-lkp@intel.com/reproduce)
 
-ERROR: "foo * bar" should be "foo *bar"
-+static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410060640.ykY9JvqZ-lkp@intel.com/
 
-WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
-+       d = debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir,
+All errors (new ones prefixed by >>):
 
-total: 1 errors, 4 warnings, 1746 lines checked
+>> drivers/media/v4l2-core/v4l2-subdev.c:337:12: error: no member named 'entity' in 'struct v4l2_subdev'
+     337 |         if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
+         |               ~~  ^
+   1 error generated.
 
-Signed-off-by: Pintu Kumar <quic_pintu@quicinc.com>
 
----
-Changes in V1 suggested by Sumit Semwal:
-Change commit title, and mention exact reason of fix in commit log.
-V1: https://lore.kernel.org/all/CAOuPNLg1=YCUFXW-76A_gZm_PE1MFSugNvg3dEdkfujXV_5Zfw@mail.gmail.com/
----
- drivers/dma-buf/dma-buf.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+vim +337 drivers/media/v4l2-core/v4l2-subdev.c
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8892bc701a66..2e63d50e46d3 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -176,8 +176,9 @@ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
- 	dmabuf = file->private_data;
- 
- 	/* only support discovering the end of the buffer,
--	   but also allow SEEK_SET to maintain the idiomatic
--	   SEEK_END(0), SEEK_CUR(0) pattern */
-+	 * but also allow SEEK_SET to maintain the idiomatic
-+	 * SEEK_END(0), SEEK_CUR(0) pattern.
-+	 */
- 	if (whence == SEEK_END)
- 		base = dmabuf->size;
- 	else if (whence == SEEK_SET)
-@@ -782,13 +783,14 @@ static void mangle_sg_table(struct sg_table *sg_table)
- 	/* To catch abuse of the underlying struct page by importers mix
- 	 * up the bits, but take care to preserve the low SG_ bits to
- 	 * not corrupt the sgt. The mixing is undone in __unmap_dma_buf
--	 * before passing the sgt back to the exporter. */
-+	 * before passing the sgt back to the exporter.
-+	 */
- 	for_each_sgtable_sg(sg_table, sg, i)
- 		sg->page_link ^= ~0xffUL;
- #endif
- 
- }
--static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
-+static struct sg_table *__map_dma_buf(struct dma_buf_attachment *attach,
- 				       enum dma_data_direction direction)
- {
- 	struct sg_table *sg_table;
-@@ -1694,7 +1696,7 @@ static int dma_buf_init_debugfs(void)
- 
- 	dma_buf_debugfs_dir = d;
- 
--	d = debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir,
-+	d = debugfs_create_file("bufinfo", 0444, dma_buf_debugfs_dir,
- 				NULL, &dma_buf_debug_fops);
- 	if (IS_ERR(d)) {
- 		pr_debug("dma_buf: debugfs: failed to create node bufinfo\n");
+   330	
+   331	static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+   332				       struct v4l2_mbus_frame_desc *fd)
+   333	{
+   334		unsigned int i;
+   335		int ret;
+   336	
+ > 337		if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
+   338			return -EOPNOTSUPP;
+   339	
+   340		memset(fd, 0, sizeof(*fd));
+   341	
+   342		ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
+   343		if (ret)
+   344			return ret;
+   345	
+   346		dev_dbg(sd->dev, "Frame descriptor on pad %u, type %s\n", pad,
+   347			fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
+   348			fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
+   349			"unknown");
+   350	
+   351		for (i = 0; i < fd->num_entries; i++) {
+   352			struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
+   353			char buf[20] = "";
+   354	
+   355			if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+   356				WARN_ON(snprintf(buf, sizeof(buf),
+   357						 ", vc %u, dt 0x%02x",
+   358						 entry->bus.csi2.vc,
+   359						 entry->bus.csi2.dt) >= sizeof(buf));
+   360	
+   361			dev_dbg(sd->dev,
+   362				"\tstream %u, code 0x%04x, length %u, flags 0x%04x%s\n",
+   363				entry->stream, entry->pixelcode, entry->length,
+   364				entry->flags, buf);
+   365		}
+   366	
+   367		return 0;
+   368	}
+   369	
+
 -- 
-2.17.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
