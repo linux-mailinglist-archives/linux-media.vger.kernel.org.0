@@ -1,160 +1,167 @@
-Return-Path: <linux-media+bounces-19134-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19135-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23A0991DF8
-	for <lists+linux-media@lfdr.de>; Sun,  6 Oct 2024 12:50:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A04DB991FB5
+	for <lists+linux-media@lfdr.de>; Sun,  6 Oct 2024 18:47:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 65D84B2105D
-	for <lists+linux-media@lfdr.de>; Sun,  6 Oct 2024 10:50:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AAE0281F29
+	for <lists+linux-media@lfdr.de>; Sun,  6 Oct 2024 16:47:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B81C61741F0;
-	Sun,  6 Oct 2024 10:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8D30189B85;
+	Sun,  6 Oct 2024 16:46:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfVOqNfu"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bWfdxAIu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998E94C91;
-	Sun,  6 Oct 2024 10:50:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F8A189913
+	for <linux-media@vger.kernel.org>; Sun,  6 Oct 2024 16:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728211843; cv=none; b=t7hUcA1UvtryIFkiY+OGuQvMcLts1yEfXgwKyNcR5tfdvf2Mossw7x9JSjrpIo4xipQW9WlGnhvz9L0PvNNXn21+XAfmufi/ffT5lj7b2vGJZ9vJ/RDsZTypUrNEu/mSM8F5KyfOfbQVerxsHmeuXixBOIC8TtXjq+L/XrvNul4=
+	t=1728233211; cv=none; b=qVKD4Ro09RP8G7JEWZsdn5JJF++sSanA7FmlmcVweWfmWLj9inJoskqQXx6EXfvfMco1Tw2quWtMXMW1AvN5Mwre3+1ZdEy4Wp8ut4gVJ2deDTOU+MN5TSE2FFlntUeLhb5kVhRXkRJTpS7VTD3B59BUzBp8Ucqmxfad7z+wTdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728211843; c=relaxed/simple;
-	bh=XG8y5FNGAgW+kSkrfVcvbuP7OLkRpyxIDekKAKJNXGQ=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=MnTvSftCoz8CLDdJYtBcQqbxIi28et7Uw7BpUHiO3xmZtj1KBzMggcz0ib4j2L2QC1x0PZRqBOGQx2jP/nwXo0Oq3Za4SHV64IqNhcRoFc/OVx03RwNnFqu9TKjW/htGe6aEpfh9F1pSj1prkNM0eSyyGuMgVboPG3YiV2jkO8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XfVOqNfu; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42e82f7f36aso29241005e9.0;
-        Sun, 06 Oct 2024 03:50:41 -0700 (PDT)
+	s=arc-20240116; t=1728233211; c=relaxed/simple;
+	bh=uY7HvmO31wS8btb8XYVjlRLPqrYljxar4akr/+JgmGI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BkCMSRt2XUaBT/VLOVE+uw9dn29kqp/i+muKoz6aEju0ASQ7tOpSKFFsllYmOf82H/PG86X9o5KCs7nxEGNaPZza6G6Y+vh3lM1Ua4DLVWyNpkmn8ZUiAKj4/wcognzNQDK4+R3DVo4d7HXm0ftcgIN0MSLQGQh2Gvo17VOmKYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bWfdxAIu; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53992157528so3883863e87.2
+        for <linux-media@vger.kernel.org>; Sun, 06 Oct 2024 09:46:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728211840; x=1728816640; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gIyOrN2gQ72dK3NGr3DACHMSZ2HkmBOjHKgddsw4tbo=;
-        b=XfVOqNfutVnN1IixuBdi8wZZwI+7plzx7D/V7SpdVw0+C6bwClDeWD1+i8ctflwZh2
-         NwwABeh9TFK6yvNHwLPnRcQ/u3UsEucJwMpaLOPk80tnx1q18HzOMC1Jy3dq6b4PX8Ik
-         3LR7MlfE5NbGMjIAUfmuI2fjFoI952h0HwuxZD8yytz3KBwnk4MsgwsRpvcMhf61MmTA
-         27nuhWDX2u0I2hk8qfTNz8iguriQARJnSWGh6Y2yTpBhZg0FlEV95j2RoIQBgSwx/be8
-         07k+uH9GOmHcu+YhAL0lDoGGJlYOzB854WkQCkOS8pduiGZQqPvjQGlGL3e5tGmhiyuy
-         mbOw==
+        d=linaro.org; s=google; t=1728233207; x=1728838007; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=akAXIFAX2hq/JQ/5/aAwojcmLWEHNHqXoq1KohLf+CA=;
+        b=bWfdxAIu+MCaXP/n7T4hhFVPVtGgElvdbMB3WCjKWCY2DAgTzwo/uyyqHucPg6bzjv
+         Xaluqq73J67/2MxuVIdXa2Vcp2UwFEfqZcgsLftd+EhPL9/Rh+lSzx9z6bsaHtwtWf6B
+         I42A6/HnoBOTwlejgLJrMiJ+01PEHMSB+JT7+G3SeF28CvcdXLQINzlX6DUC64Jm2mzD
+         lGH4UG0lZFnZQAVa/sa1XnVp0OkCyQ+vKHLqy1JC5XVzFPmT2F8+7pH6pvcjIieZgdYP
+         rnW2piZpJW9gVORlHpFhf/D9LWvFCx0LWpFsw7YU1QI3s/Jr65x5Zsvby9YOEt3yIvpC
+         qfmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728211840; x=1728816640;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gIyOrN2gQ72dK3NGr3DACHMSZ2HkmBOjHKgddsw4tbo=;
-        b=YsmY8oulNV+1+aXeqehXqyPHvyo74yfM/VSrT8VLZPh7kigeQJ//HWRhWBsgXKreU/
-         2tOk3cq76CfHHlb5rkkz6mq3X+i1vBOoboX90fGVlxrj+zviFq0ruzpClmIWpy5HMg8l
-         ijwS9YiAsWMClHLq5FvBj+m1CXRfyU/0sXaDo6XEijKYG/IGjj0NfOljH7pEgveRY+M8
-         F8b1m4n/K+OI+pjdRYZXbO+UFCt4PwqYkesGgxYYS0K1KgvYIHC6IXBARFaQYl2FpZwQ
-         FxB47US4HnnlffQPnrLhVhoEuQNxNTaMkxS5Rk7Y7Ronte3Hg1UlgGS1CqolRf8WQ60Y
-         jDUw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/S2je/HtpSOi4bF6mGxmx6Ab2JTy8fdMMsQYQpn7hyfo5rpLCAHG9TsWGpUB5vgTJecKHjaBXE1xMMKY=@vger.kernel.org, AJvYcCVDOdRsm+IL4ucQd31EifwKz4EYMsNdgagE8sJjpB4CX70B1C8zsKxzkVrhvIGZ6cg4YEhIihXh7LhkQAQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDPoDKWCpTLLs+Kh7XUogv0FXqn/oSevKFuv997W76KduZKZ58
-	inT4r7IaWF1cCJc/1iekKUSHb1H+MXgOlleCZIEnJXPB5xW2a9RKw6AsFH3dll/Eu00EQdwtRl3
-	448I93tLckwhwdcEraHc33eRezJo=
-X-Google-Smtp-Source: AGHT+IGQTc4XX8OGd7V9Sg4UasH0H0mpXnZ6exmpCi9FwjtNQPh35SoCNtlyI5IqDIQDnmK42xYfi7ao2i+v4rTH+KM=
-X-Received: by 2002:adf:8b14:0:b0:37c:ca21:bc5d with SMTP id
- ffacd0b85a97d-37d0e7388b4mr4692965f8f.17.1728211839711; Sun, 06 Oct 2024
- 03:50:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728233207; x=1728838007;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=akAXIFAX2hq/JQ/5/aAwojcmLWEHNHqXoq1KohLf+CA=;
+        b=MKxNQexspmdW7K3eg05Ns4OUOX+slMZCzyU2NxhmoU2wnqAUSfc6d8/ld1vA0VDNJE
+         iqdxGgP2y+yKHRfJVTAzGvXW0tcJwBsvs88QSZGhuHG3u9i8NEuMgiLR3QGgCyDTXL2d
+         CUMSt7aoxxN2Ii5ykswQa3NaNp9of98LDzIyFOzXyA5fScJwCH7d6+RfxIDGKp1fmUcp
+         B6lTOB6tbOe1gtkW/3Bf0e3zOHifbg8Blz0XRuOxxEiz+v67Nr7R8G4JtQ7UUeJi5iOw
+         +pEbdpNrUIRGOeCz94uj3/AgqckcONSHNnXGGqkQOuHhVRwWT4oJMDx/xOKWQ4H1iKcR
+         d8AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXq2d2e3ujcAvpjOqTKebtfQedYJytzxGRya/QfFs5ZgINMRHxRW2Qtpmhq41AaQO16v5xIREoOvF3knA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkrqJcusMUWQL339ROePB/cbs0a7x6eCjwpSs8jk0oz1VaLj92
+	GO/Y3t9sk1wfAhJuwPQEWQdp1GdQgAqmnNwG8VzCh73VIPZbQTCJI+4vl92lBoQ=
+X-Google-Smtp-Source: AGHT+IFPBkuzzGcWuEx0VbwpLEzF0XozY9XwwEwQyKHqc3jL8Hkus+AG7GZGZ6DPG2BFb8+QYH9saA==
+X-Received: by 2002:a05:6512:10d3:b0:52e:e3c3:643f with SMTP id 2adb3069b0e04-539ab859ee0mr3506576e87.2.1728233207434;
+        Sun, 06 Oct 2024 09:46:47 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00-89ea-67f6-92cd-b49.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:89ea:67f6:92cd:b49])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539aff28034sm567156e87.250.2024.10.06.09.46.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Oct 2024 09:46:45 -0700 (PDT)
+Date: Sun, 6 Oct 2024 19:46:44 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vedang Nagar <quic_vnagar@quicinc.com>
+Cc: quic_dikshita@quicinc.com, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 16/29] media: iris: implement iris v4l2_ctrl_ops and
+ prepare capabilities
+Message-ID: <jk4n5upp5vw4s5yl5vw7iyri3wfxpsl35isxxggysd52eqecpk@tlmf5w2ncagz>
+References: <20240827-iris_v3-v3-0-c5fdbbe65e70@quicinc.com>
+ <20240827-iris_v3-v3-16-c5fdbbe65e70@quicinc.com>
+ <gehwgofhviqcnopaughxfcpsqmbbiaayid2scgat4xnd5ngwmo@ylawfiup2tqc>
+ <15703542-1b70-4042-86b9-7b3f3a675e3e@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Ulrich Drepper <drepper@gmail.com>
-Date: Sun, 6 Oct 2024 12:50:28 +0200
-Message-ID: <CAOPLpQdP_=UZbOfAdzH9Nn_ZJADxJGLOT2nowTtRATwNYSGkFw@mail.gmail.com>
-Subject: PROBLEM: WARN_ON triggers in v4l_querycap with BlackMagic atem
- console connected via USB
-To: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com, 
-	laurent.pinchart@ideasonboard.com, jacopo.mondi@ideasonboard.com, 
-	naush@raspberrypi.com, benjamin.gaignard@collabora.com, 
-	jeanmichel.hautbois@ideasonboard.com, linux-media@vger.kernel.org, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <15703542-1b70-4042-86b9-7b3f3a675e3e@quicinc.com>
 
-I cannot really say when this problem started but I know that perhaps
-six months back (or a bit more) I used the console successfully as a
-video source device (webcam).  This is a ATEM Mini Pro which has a
-large number of USB interfaces.  What trips up is videodev.  Various
-userlevel programs (uvcdynctrl, chromium) notice the device being
-added and use ioctl(), triggering the problem.
+On Tue, Oct 01, 2024 at 06:31:16PM GMT, Vedang Nagar wrote:
+> Hi Dmitry,
+> 
+> On 8/29/2024 3:03 PM, Dmitry Baryshkov wrote:
+> > On Tue, Aug 27, 2024 at 03:35:41PM GMT, Dikshita Agarwal via B4 Relay wrote:
+> >> From: Vedang Nagar <quic_vnagar@quicinc.com>
+> >>
+> >> Implement s_ctrl and g_volatile_ctrl ctrl ops.
+> >> Introduce platform specific driver and firmware capabilities.
+> >> Capabilities are set of video specifications
+> >> and features supported by a specific platform (SOC).
+> >> Each capability is defined with min, max, range, default
+> >> value and corresponding HFI.
+> >>
+> >> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
+> >> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> >> ---
+> >>  drivers/media/platform/qcom/iris/Makefile          |   1 +
+> >>  drivers/media/platform/qcom/iris/iris_buffer.c     |   3 +-
+> >>  drivers/media/platform/qcom/iris/iris_core.h       |   2 +
+> >>  drivers/media/platform/qcom/iris/iris_ctrls.c      | 194 +++++++++++++++++++++
+> >>  drivers/media/platform/qcom/iris/iris_ctrls.h      |  15 ++
+> >>  .../platform/qcom/iris/iris_hfi_gen1_defines.h     |   4 +
+> >>  .../platform/qcom/iris/iris_hfi_gen2_command.c     |   1 +
+> >>  .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   9 +
+> >>  drivers/media/platform/qcom/iris/iris_instance.h   |   6 +
+> >>  .../platform/qcom/iris/iris_platform_common.h      |  71 ++++++++
+> >>  .../platform/qcom/iris/iris_platform_sm8250.c      |  56 ++++++
+> >>  .../platform/qcom/iris/iris_platform_sm8550.c      | 138 +++++++++++++++
+> >>  drivers/media/platform/qcom/iris/iris_probe.c      |   7 +
+> >>  drivers/media/platform/qcom/iris/iris_vdec.c       |  24 ++-
+> >>  drivers/media/platform/qcom/iris/iris_vdec.h       |   2 +-
+> >>  drivers/media/platform/qcom/iris/iris_vidc.c       |  16 +-
+> >>  16 files changed, 536 insertions(+), 13 deletions(-)
+> 
+> [Skipped]
+> 
+> >> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> >> index a74114b0761a..6ad2ca7be0f0 100644
+> >> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> >> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> >> @@ -108,6 +108,7 @@ static int iris_hfi_gen2_session_set_default_header(struct iris_inst *inst)
+> >>  	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
+> >>  	u32 default_header = false;
+> >>  
+> >> +	default_header = inst->fw_cap[DEFAULT_HEADER].value;
+> > 
+> > This isn't related to the s_ctrl and g_volatile_ctrl. Please split this
+> > commit into the chunk that is actually related to that API and the rest
+> > of the changes.
+> Could you please help to provide more details on how are you expecting the
+> split of the patches?
+> 
+> Do you expect to split V4L2 ctrls_init/s_ctrl/g_ctrl in one patch and the
+> introduction of all the capabilities into another patch? We are not finding
+> it feasible to split the patch that way as in ctrl_init we read the
+> capability from platform data to initialize the respective control.
 
-This is with the current Fedora x86_64 kernel (6.10.12) but a) it
-happens for a while now and b) as far as I can see this is just the
-upstream code, no local changes.
+Please split all caps and all the structs that are not related to the
+V4L2 ctrls implementation. In this patch please keep only those defines,
+structs and fields that are required to implement V4L2 ctrl API.
 
-The call trace is:
+> > 
+> >>  	iris_hfi_gen2_packet_session_property(inst,
+> >>  					      HFI_PROP_DEC_DEFAULT_HEADER,
+> >>  					      HFI_HOST_FLAGS_NONE,
+> > 
+> > 
 
-Call Trace:
- <TASK>
- ? v4l_querycap+0x119/0x140 [videodev]
- ? __warn.cold+0x8e/0xe8
- ? v4l_querycap+0x119/0x140 [videodev]
- ? report_bug+0xff/0x140
- ? handle_bug+0x3c/0x80
- ? exc_invalid_op+0x17/0x70
- ? asm_exc_invalid_op+0x1a/0x20
- ? v4l_querycap+0x119/0x140 [videodev]
- __video_do_ioctl+0x518/0x630 [videodev]
- video_usercopy+0x1f1/0x7a0 [videodev]
-
-I traced the offending code to an 'ud2' instruction (makes sense,
-undefined) which is reached from this code in
-drivers/media/v4l2-core/v4l2-ioctl.c (v4l_querycap):
-
-WARN_ON((cap->capabilities &
-      (vfd->device_caps | V4L2_CAP_DEVICE_CAPS)) !=
-      (vfd->device_caps | V4L2_CAP_DEVICE_CAPS));
-
-The asm code is:
-
-    747e:       8b 73 54                mov    0x54(%rbx),%esi
-    7481:       81 ca 00 00 00 80       or     $0x80000000,%edx
-    7487:       48 b9 00 00 20 00 00    movabs $0x20000000200000,%rcx
-    748e:       00 20 00
-    7491:       48 0b 4b 54             or     0x54(%rbx),%rcx
-    7495:       21 d6                   and    %edx,%esi
-    7497:       39 f2                   cmp    %esi,%edx
-    7499:       75 6e                   jne    7509 <v4l_querycap+0x119>
-
-where 7509 is the address of the ud2 instruction.
-
-The register dump shows
-
-RDX: 0000000085008003 RSI: 0000000085008002
-
-which, if I'm right, means that cap->capabilities has the extra bit
-
-#define V4L2_CAP_VIDEO_CAPTURE          0x00000001  /* Is a video
-capture device */
-
-set.
-
-I don't know what 'ops' points to in the code.  It seems to me that
-the bit is set in the
-
-ops->vidioc_querycap(file, fh, cap);
-
-call just preceding the test.
-
-Just going by the name of the capability, it seems that the bit should
-be set as this device is used as a camera as well so maybe the
-information which comes from the call the
-
-struct video_device *vfd = video_devdata(file);
-
-is incomplete?  Or the test WARN_ON condition is actually incorrect?
-
-
-Any idea?  I can try to run more tests if someone can tell me how to proceed.
-
-Thanks.
+-- 
+With best wishes
+Dmitry
 
