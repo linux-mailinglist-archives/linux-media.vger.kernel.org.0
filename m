@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-19139-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19140-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD92992556
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 09:04:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBAE99263A
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 09:46:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E0B3B226F2
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 07:04:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C9CE01F22A90
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 07:46:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F094E17624D;
-	Mon,  7 Oct 2024 07:03:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7530817C9FA;
+	Mon,  7 Oct 2024 07:46:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9361C6FC5;
-	Mon,  7 Oct 2024 07:03:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A089BA42;
+	Mon,  7 Oct 2024 07:46:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728284625; cv=none; b=IqHY6uQgLLK0fSK+ANtl8yUzCwUbWAhoWPtqwgs8lkMtJnwS55Wsu5ii5ZRgIg0LziCDZGInPynARrESW5D03JQO9K0AWbXzGMVrjc63SI6+Om2Zo6mpOVwHyclNYe/7ogl9qEujQdcGlqo73WLySwyj4i422xVMdGBD9LEWzsE=
+	t=1728287211; cv=none; b=jXe7ienud6gATKyoqZgTgi5v09+VgS6Ke/2l7Mkn6jlpP/ShbhZgF3wTZhPa+QEQQeQxcbJlQMakGercFtV9Gl0ADpXGhT756xgmXRnHpfVWoA6WQHrFjEKoClEMwfqsOpBXYa7yOr/g02pR6vJLZ0TEn5sv5zQhDYaqW47ZuEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728284625; c=relaxed/simple;
-	bh=V7Mq9T/uHbq/T6W91yAEF8OSSVeryB8qdqE8YqEUB6M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=L+Po1rMhI3ZK0f8agYoRgJ7twmaN4RKWq7RHMztx2gtzcSO13iG9n+3ixUkmLraXcecOFDNebTyfD+uh5m/WHTdiG+TAhTYWHGGqI3Y73KpDyV9DkqoBT/X0qiieyZxJ+rZkk4zClOgU69dHForRW2wt7EU26m4CuVgrE5hd/Jg=
+	s=arc-20240116; t=1728287211; c=relaxed/simple;
+	bh=DgmQnrMJ3UuU94bHoTJ27S7OhPY5uHlC9S45OelBgg4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mt3xFAOdyMf2lsDwR0VyugPYQzK2N3QWkJFex3ktxh6Vo4YGww4LBTO0KqH3+MdmydZx38Vv97rksNHXn/bj0IidJZ99EJV706hTD+GyVv2OUbBj1Ov8TDYucRzvHmCU23izTtkukK97KcYIWvkSc+9Z6E5VvN5NIPy5bZfKjWI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E282C4CEC6;
-	Mon,  7 Oct 2024 07:03:43 +0000 (UTC)
-Message-ID: <382ba4d3-4928-43eb-9bd9-f219e8dfc6ae@xs4all.nl>
-Date: Mon, 7 Oct 2024 09:03:41 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C719C4CEC6;
+	Mon,  7 Oct 2024 07:46:49 +0000 (UTC)
+Message-ID: <80f800c8-46e0-47bb-8a7b-1566e5eed91a@xs4all.nl>
+Date: Mon, 7 Oct 2024 09:46:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,111 +38,117 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: PROBLEM: WARN_ON triggers in v4l_querycap with BlackMagic atem
- console connected via USB
-To: Ulrich Drepper <drepper@gmail.com>, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
- jacopo.mondi@ideasonboard.com, naush@raspberrypi.com,
- benjamin.gaignard@collabora.com, jeanmichel.hautbois@ideasonboard.com,
- linux-media@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <CAOPLpQdP_=UZbOfAdzH9Nn_ZJADxJGLOT2nowTtRATwNYSGkFw@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Stop stream during unregister
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240926-uvc_stop_streaming-v1-1-038180fafe5f@chromium.org>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAOPLpQdP_=UZbOfAdzH9Nn_ZJADxJGLOT2nowTtRATwNYSGkFw@mail.gmail.com>
+In-Reply-To: <20240926-uvc_stop_streaming-v1-1-038180fafe5f@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Ulrich,
+Hi Laurent,
 
-What is the output of 'v4l2-ctl -D -d/dev/videoX' of the video device that causes
-the WARN_ON to appear? I can't tell what driver is used.
+Just a reminder: I have extensively reviewed this patch here:
 
-The WARN_ON just checks if the capabilities field is a superset of the device_caps
-field. If not, then that's a driver bug. If this is an out-of-tree driver, then
-it has to be addressed there. Note that that WARN_ON has been there since mid-2019.
+https://lore.kernel.org/linux-media/f4c49ccf-9dc9-475a-8fc9-4ef4c85a729a@xs4all.nl/
+
+and here (specifically checking for mmap() races):
+
+https://lore.kernel.org/linux-media/1a10530f-b4bb-4244-84ff-1f2365ae9b23@xs4all.nl/
+
+To the best of my ability I believe this patch is correct.
+
+Unless you have any additional concerns I plan to take this patch as a fix for
+v6.12 on Monday next week.
+
+Alternatively, you can make a PR for 6.12 with this patch that I can pull from.
 
 Regards,
 
 	Hans
 
-On 06/10/2024 12:50, Ulrich Drepper wrote:
-> I cannot really say when this problem started but I know that perhaps
-> six months back (or a bit more) I used the console successfully as a
-> video source device (webcam).  This is a ATEM Mini Pro which has a
-> large number of USB interfaces.  What trips up is videodev.  Various
-> userlevel programs (uvcdynctrl, chromium) notice the device being
-> added and use ioctl(), triggering the problem.
+On 26/09/2024 07:59, Ricardo Ribalda wrote:
+> uvc_unregister_video() can be called asynchronously from
+> uvc_disconnect(). If the device is still streaming when that happens, a
+> plethora of race conditions can occur.
 > 
-> This is with the current Fedora x86_64 kernel (6.10.12) but a) it
-> happens for a while now and b) as far as I can see this is just the
-> upstream code, no local changes.
+> Make sure that the device has stopped streaming before exiting this
+> function.
 > 
-> The call trace is:
+> If the user still holds handles to the driver's file descriptors, any
+> ioctl will return -ENODEV from the v4l2 core.
 > 
-> Call Trace:
->  <TASK>
->  ? v4l_querycap+0x119/0x140 [videodev]
->  ? __warn.cold+0x8e/0xe8
->  ? v4l_querycap+0x119/0x140 [videodev]
->  ? report_bug+0xff/0x140
->  ? handle_bug+0x3c/0x80
->  ? exc_invalid_op+0x17/0x70
->  ? asm_exc_invalid_op+0x1a/0x20
->  ? v4l_querycap+0x119/0x140 [videodev]
->  __video_do_ioctl+0x518/0x630 [videodev]
->  video_usercopy+0x1f1/0x7a0 [videodev]
+> This change makes uvc more consistent with the rest of the v4l2 drivers
+> using the vb2_fop_* and vb2_ioctl_* helpers.
 > 
-> I traced the offending code to an 'ud2' instruction (makes sense,
-> undefined) which is reached from this code in
-> drivers/media/v4l2-core/v4l2-ioctl.c (v4l_querycap):
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> This patch was part of the series:
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=13064
 > 
-> WARN_ON((cap->capabilities &
->       (vfd->device_caps | V4L2_CAP_DEVICE_CAPS)) !=
->       (vfd->device_caps | V4L2_CAP_DEVICE_CAPS));
+> Moved out from it to ease the review.
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 32 +++++++++++++++++++++++++++++++-
+>  1 file changed, 31 insertions(+), 1 deletion(-)
 > 
-> The asm code is:
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index f0febdc08c2d..bee150b852e4 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1919,11 +1919,41 @@ static void uvc_unregister_video(struct uvc_device *dev)
+>  	struct uvc_streaming *stream;
+>  
+>  	list_for_each_entry(stream, &dev->streams, list) {
+> +		/* Nothing to do here, continue. */
+>  		if (!video_is_registered(&stream->vdev))
+>  			continue;
+>  
+> +		/*
+> +		 * For stream->vdev we follow the same logic as:
+> +		 * vb2_video_unregister_device().
+> +		 */
+> +
+> +		/* 1. Take a reference to vdev */
+> +		get_device(&stream->vdev.dev);
+> +
+> +		/* 2. Ensure that no new ioctls can be called. */
+>  		video_unregister_device(&stream->vdev);
+> -		video_unregister_device(&stream->meta.vdev);
+> +
+> +		/* 3. Wait for old ioctls to finish. */
+> +		mutex_lock(&stream->mutex);
+> +
+> +		/* 4. Stop streaming. */
+> +		uvc_queue_release(&stream->queue);
+> +
+> +		mutex_unlock(&stream->mutex);
+> +
+> +		put_device(&stream->vdev.dev);
+> +
+> +		/*
+> +		 * For stream->meta.vdev we can directly call:
+> +		 * vb2_video_unregister_device().
+> +		 */
+> +		vb2_video_unregister_device(&stream->meta.vdev);
+> +
+> +		/*
+> +		 * Now both vdevs are not streaming and all the ioctls will
+> +		 * return -ENODEV.
+> +		 */
+>  
+>  		uvc_debugfs_cleanup_stream(stream);
+>  	}
 > 
->     747e:       8b 73 54                mov    0x54(%rbx),%esi
->     7481:       81 ca 00 00 00 80       or     $0x80000000,%edx
->     7487:       48 b9 00 00 20 00 00    movabs $0x20000000200000,%rcx
->     748e:       00 20 00
->     7491:       48 0b 4b 54             or     0x54(%rbx),%rcx
->     7495:       21 d6                   and    %edx,%esi
->     7497:       39 f2                   cmp    %esi,%edx
->     7499:       75 6e                   jne    7509 <v4l_querycap+0x119>
+> ---
+> base-commit: 81ee62e8d09ee3c7107d11c8bbfd64073ab601ad
+> change-id: 20240926-uvc_stop_streaming-6e9fd20e97bc
 > 
-> where 7509 is the address of the ud2 instruction.
-> 
-> The register dump shows
-> 
-> RDX: 0000000085008003 RSI: 0000000085008002
-> 
-> which, if I'm right, means that cap->capabilities has the extra bit
-> 
-> #define V4L2_CAP_VIDEO_CAPTURE          0x00000001  /* Is a video
-> capture device */
-> 
-> set.
-> 
-> I don't know what 'ops' points to in the code.  It seems to me that
-> the bit is set in the
-> 
-> ops->vidioc_querycap(file, fh, cap);
-> 
-> call just preceding the test.
-> 
-> Just going by the name of the capability, it seems that the bit should
-> be set as this device is used as a camera as well so maybe the
-> information which comes from the call the
-> 
-> struct video_device *vfd = video_devdata(file);
-> 
-> is incomplete?  Or the test WARN_ON condition is actually incorrect?
-> 
-> 
-> Any idea?  I can try to run more tests if someone can tell me how to proceed.
-> 
-> Thanks.
+> Best regards,
 
 
