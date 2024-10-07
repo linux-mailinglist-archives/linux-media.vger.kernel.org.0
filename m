@@ -1,169 +1,130 @@
-Return-Path: <linux-media+bounces-19149-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19151-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614F9992BC4
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 14:30:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C695992C37
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 14:44:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F3FB4B2530B
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 12:30:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D82B5B25663
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 12:44:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E12271D279F;
-	Mon,  7 Oct 2024 12:30:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C3DE1D31BB;
+	Mon,  7 Oct 2024 12:41:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="WjaDVqs7";
-	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="/ppHk7zE"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="DTCrIOnA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.165])
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6031D14FA;
-	Mon,  7 Oct 2024 12:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.165
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728304241; cv=pass; b=Jb4Rj4KBFB6qU5yvaFldwiRP601a9nRht8unvKgeDMEMWktRrIgfuSYb2pze5ddmLVhQIx3snJHX6KMwHfRHkTQTojlbsrtchByVAwK5HkkZMK72y7cfDfDQxF6Vz7HBrZg5EVyTnFeB6r9DYDmxnpYVZ19GPJpoCCcbzYgCKa8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728304241; c=relaxed/simple;
-	bh=1PWo9tctrQWE2WTrs2JbpKaiILAYSvQ0hceshNyq6uo=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=N7C3skGVOlTgIh2s4qTur9tnPeO3niB0+aXQcqHi3ZrvX0fVwbo8crGg9c/bKKmAeAp5pnfB1lTRPkG2rmRHwxK4rdYS/EyHSTH+YzvA3Jzj4/Zqtbyd3D9WhxXDeSFdg6gG5lRnLrj9lpQ66//j7XMLlUpKBbgm+o4Gp/3lMLs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goldelico.com; spf=pass smtp.mailfrom=goldelico.com; dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=WjaDVqs7; dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=/ppHk7zE; arc=pass smtp.client-ip=81.169.146.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goldelico.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
-ARC-Seal: i=1; a=rsa-sha256; t=1728304217; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=SsluR/XVS90n1+sgIHlpTwq1c4ITLtEEyw0KaZXVXHAfT4Avtgnoqexj7FPsqKdOz1
-    YR+GES4tsvOkdYn0Ev0DWqVGYfKumvvUaM83q6GJ36VIXtpLG6hyLoT+eYH7PHTc2gOc
-    r/73p6FvtfJQatHpQ4tS4RCHOcm0foccscEUarTsUmu7klr8lUrfDP0Ik2WBRNpriiS7
-    jocV7VCnqxLqM86FiCOcLrUi2hGRpphtPGWB9TdzqKSEEr35haD1Plwi1JhKiuosZzqs
-    DPI5pWD8EMRyDFKnzTmd1Gl2V/i2VgIcYlyEtoWWoztTs5ivKV7xlImhUi2pjAqFxTOy
-    srgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1728304217;
-    s=strato-dkim-0002; d=strato.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=375XtLOU9mHCVgSPS3tKHJvslztan0SSxd6+J7FYLms=;
-    b=q3Zn5aRTDhKPAtUZcdN/y9sgDazo3YK5iAfqYu/NEeOlWSv3ILYmr5ct0/s0utOzsP
-    y7FymXBQHRJkCdihcSh1JK88MtpzhFvqxb1p5jbtFGKyqsbUr1gCR0j+uNl6fztaQY7S
-    BX7eSDzs+nbVTHAkE0AT4j1DLx86KBCdZx5YAFjSHCAJ9Z86+OOa9AgiZ6dVWb5Qab6s
-    kbjppR7t16kLKG/sDvZ/b67oWs4SoHlQcd+DFWexfz+iEmbsS/9s0Ez/1QE2ySXlMr3P
-    NyuSjER7kajmENGZb4XViRIeQ4i/Dw3CkpL6LbU+Idjb+uTy4cOG8I3HKtDlWLitnMqH
-    v3Og==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1728304217;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=375XtLOU9mHCVgSPS3tKHJvslztan0SSxd6+J7FYLms=;
-    b=WjaDVqs7d/GM6ldq11sgTU4xUjT1SUoM9zhDZ+2JS5SEs+IFYBMEhcLrJ6xeVAhLbb
-    28GBjOiRQvtVXSgtWRnXaoRUNB2OaDXWmm65jtyyY+7lOgsfTwliyOCvyelSa91Yxenh
-    JMUbNv0usLtqYjeFfm+34s13i64YDtRRWcDbh4fvz1yPz+BY3Os/kljvqIXLZPhUkLiN
-    SSNXC3lmM+0Bt8VfaY4ftze0qU81QF34JQiEMDqoW02PYZFekr4Xc0XgZvZ6gYf8gC4Z
-    QKGlj/FZ0+l38dvStkOdQOVIy1w2Z4O2I1pQERwiDPRfqbzMw0FqwXXmsOcndqx9Q0ww
-    h6zg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1728304217;
-    s=strato-dkim-0003; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=375XtLOU9mHCVgSPS3tKHJvslztan0SSxd6+J7FYLms=;
-    b=/ppHk7zEgJnCv2CZU6B81xPTNUqL86pXmWBUB06308ksbtt+K2xbf3ZTmLy0YRrTpl
-    Hd4C3CAUOhmYRd7YBsCA==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lFzL1yeTgZ"
-Received: from smtpclient.apple
-    by smtp.strato.de (RZmta 51.2.7 DYNA|AUTH)
-    with ESMTPSA id Qd0dc2097CUGSMB
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Mon, 7 Oct 2024 14:30:16 +0200 (CEST)
-Content-Type: text/plain;
-	charset=us-ascii
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FA31D2785;
+	Mon,  7 Oct 2024 12:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728304881; cv=none; b=QWaio821UNZYQ2SIqZ0Jut2hRMQTNlQq3UDY1vlNCbaxG1ZaoMifWdtHV+JeWw1ue2lZPcwzHMm2/gpOR2mQA4SJ5Ox0Xys8qc+AGLmUm34QBn32G1kUWKdTkhXSyS8QD+E3n8d19zWgQRwSxt10cbGJWVa6GaPcNTtBtUTVdTQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728304881; c=relaxed/simple;
+	bh=PVq36IESnKw/X3bf3UpaGBcKE2tXoKWFgdQEXARI4bI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=fkU47ylPGD7xV28efi6WQpdMFbyxF4qFn83v1tRi6sUjakswrBDOcqBvDB+foh0Mtp1pjCUyTaLPrWBCjkrTJYR4GfxqNQUfcNFSfrC2JJlWpuq6EpKNSDGKfhCfAx7jTNITgpJM44fUnWGeVNW4c7KheWQJtebrU9IxEAId1i4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=DTCrIOnA; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 497BPTlL022185;
+	Mon, 7 Oct 2024 14:40:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	o5R6EmDj13EYvGXoR7n55gK22/+2Cz7sf7mbsQlwMfU=; b=DTCrIOnAgidUQ5DS
+	Fbo49eAV/6/eiy3ChBOXqHakNLQ2oH//W2BrmDUYJCzHzLhRYAPtvVKUPONhDfE2
+	rL8nmEHrNoBspUv3f9PdA4is4M3yOI+dDBH9AUhQ/sRxUqml3uYoIKXqc6NA/zbv
+	mNK8m7FDHGHtLYcpmn+RJ23FC8silVme9YB3QtPIa5g6em/PMM+1U5Ru42hLy3QN
+	AT5u23H6bZArnJY47P0Qy77gKdx4bf+yGfIERe0ZgLuP7clhnnR2BwQHm6JPlVuP
+	ddyOIlO/xHPvyUK65XDiF2Aub6bka2DUBDwD3OPazNvqe6nT+0NVnEIdkXXsdAfi
+	d10gkQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 423gdmdvbn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Oct 2024 14:40:52 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 0566F4009A;
+	Mon,  7 Oct 2024 14:39:28 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 041E72764E1;
+	Mon,  7 Oct 2024 14:37:11 +0200 (CEST)
+Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 7 Oct
+ 2024 14:37:10 +0200
+Message-ID: <c00e8977-ee68-489f-89b1-5ba78bb238df@foss.st.com>
+Date: Mon, 7 Oct 2024 14:36:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
-Subject: Re: BUG: "iommu: Retire bus ops" breaks omap-iommu and omap3isp
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20241007121543.GM1365916@nvidia.com>
-Date: Mon, 7 Oct 2024 14:30:06 +0200
-Cc: Robin Murphy <robin.murphy@arm.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Lu Baolu <baolu.lu@linux.intel.com>,
- Jerry Snitselaar <jsnitsel@redhat.com>,
- Joerg Roedel <jroedel@suse.de>,
- tony Lindgren <tony@atomide.com>,
- Andreas Kemnade <andreas@kemnade.info>,
- Linux-OMAP <linux-omap@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-media@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <ED01709A-1A43-480F-A951-7367DA9748AE@goldelico.com>
-References: <A7C284A9-33A5-4E21-9B57-9C4C213CC13F@goldelico.com>
- <20241007121543.GM1365916@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-X-Mailer: Apple Mail (2.3776.700.51.11.1)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: i2c: vgxy61: Fix an error handling path in
+ vgxy61_detect()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Sylvain Petinot
+	<sylvain.petinot@foss.st.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Julien Massot
+	<julien.massot@collabora.com>
+CC: <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+References: <666ac169157f0af1c2e1d47926b68870cb39d587.1727977974.git.christophe.jaillet@wanadoo.fr>
+Content-Language: en-US
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <666ac169157f0af1c2e1d47926b68870cb39d587.1727977974.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Hi Jason,
+Hi Christophe,
 
-> Am 07.10.2024 um 14:15 schrieb Jason Gunthorpe <jgg@nvidia.com>:
->=20
-> On Sun, Oct 06, 2024 at 09:40:00AM +0200, H. Nikolaus Schaller wrote:
->> Hi,
->>=20
->> I found that the camera on our OMAP3 based system (GTA04) stopped =
-working with v6.8-rc1.
->> There was no bug in the camera driver but the OMAP3 ISP (image signal =
-processor) emits
->>=20
->> [   14.963684] omap3isp 480bc000.isp: failed to create ARM IOMMU =
-mapping
->> [   15.010192] omap3isp 480bc000.isp: unable to attach to IOMMU
->> [   15.023376] omap3isp 480bc000.isp: isp_xclk_set_rate: cam_xclka =
-set to 24685714 Hz (div 7)
->> [   15.065399] omap3isp: probe of 480bc000.isp failed with error -12
->>=20
->> Deeper analyses lead to this patch breaking operation. It is not =
-fixed up to v6.12-rc1.
->>=20
->> What seems to happen (in 6.8-rc1 code):
->>=20
->> - omap_iommu_probe() passes &omap_iommu_ops to =
-iommu_device_register()
->> - iommu_device_register() stores the ops in iommu->ops (only)
->> - __iommu_probe_device tries to read the ops from some fw_spec but =
-not iommu->ops
->=20
-> Maybe like this?
->=20
-> @@ -1233,6 +1233,12 @@ static int omap_iommu_probe(struct =
-platform_device *pdev)
->                err =3D iommu_device_register(&obj->iommu, =
-&omap_iommu_ops, &pdev->dev);
->                if (err)
->                        goto out_sysfs;
-> +               /*
-> +                * omap has a DT reprensetation but can't use the =
-common DT
-> +                * code. Setting fwnode to NULL causes probe to be =
-called for
-> +                * every device.
-> +                */
-> +               obj->iommu.fwnode =3D NULL;
->                obj->has_iommu_driver =3D true;
->        }
+Thank you for your patch.
 
-I'll give it a try asap and report back.
+On 10/3/24 19:53, Christophe JAILLET wrote:
+> If cci_read() fails, 'st' is set to 0 in cci_read(), so we return success,
+> instead of the expected error code.
+> 
+> Fix it and return the expected error.
+> 
+> Fixes: 9a6d7f2ba2b9 ("media: i2c: st-vgxy61: Convert to CCI register access helpers")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-BR and thanks,
-Nikolaus
+Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
+> ---
+>  drivers/media/i2c/vgxy61.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/vgxy61.c b/drivers/media/i2c/vgxy61.c
+> index 30378e962016..8034e21051be 100644
+> --- a/drivers/media/i2c/vgxy61.c
+> +++ b/drivers/media/i2c/vgxy61.c
+> @@ -1617,7 +1617,7 @@ static int vgxy61_detect(struct vgxy61_dev *sensor)
+>  
+>  	ret = cci_read(sensor->regmap, VGXY61_REG_NVM, &st, NULL);
+>  	if (ret < 0)
+> -		return st;
+> +		return ret;
+>  	if (st != VGXY61_NVM_OK)
+>  		dev_warn(&client->dev, "Bad nvm state got %u\n", (u8)st);
+>  
+
+-- 
+Regards,
+
+Benjamin
 
