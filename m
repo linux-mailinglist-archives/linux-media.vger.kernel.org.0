@@ -1,93 +1,110 @@
-Return-Path: <linux-media+bounces-19158-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19159-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4183992E75
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 16:11:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CAC992EDA
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 16:20:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C2661F21212
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 14:11:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5475D1C21CC0
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 14:20:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC9C1D61AA;
-	Mon,  7 Oct 2024 14:10:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC7AE1D8A1C;
+	Mon,  7 Oct 2024 14:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VNQGl7fA"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="BtQfY2m0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199121D47D2;
-	Mon,  7 Oct 2024 14:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728310235; cv=none; b=dy7KshfTN3GsEkS+UPYLy15qOz/7r5JfPU5wwh0CNKGSVYVid0P/WnFZzYsSk7HFBjohAgT8YUGp8f0Aijq8hedaeEN/+VpVB/r5dqSRJ+czThum2IG0nSc6T5/ZuL1KpL7Mple9Fse5eGhJYyhxNi3Xa3woI8mo8qTb7W4yY5c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728310235; c=relaxed/simple;
-	bh=QGzOjF9PxrjI3CTGdHCkN+j0y9KtztCCivI4iFUWuT0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZswFP171JbGHy2uHwiJgEq0UHYw/StEvB7cit1EVd/ufVL/itKTA2ltzXTxqGKP4vAds7doOHXSagnSLg7GQHSIS+5oL5tl6rYGAk7YL8Tz1zs9UjHCjtN40XcaKh6WM1es8CDb+zZLsMlIF34/kZGH2ABgq+8GEWek0+Y2DZ1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VNQGl7fA; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 260896000E;
-	Mon,  7 Oct 2024 14:10:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1728310228;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QM3e6qzQDy2C99cSqo9Yp5PCA7Kk8OlSQ1p1wJmlJ0I=;
-	b=VNQGl7fA6cKQkXXBFMm3vRPJoW/xthQQ5sd+4SZaP1Wxnx9rwhA7fW/jIMP55B5sOYB6m6
-	FZQ695yF4qq1jExLgOxiWIL0pSI7AtAwiHje8AQGsb7YPVlxboNHfRI+MPkBCIHcPmyzDN
-	lb+mC5pqoCjZPZih+5gIqo2UErqA0jhyBcN3Xtm4fydYMbOnqs4dUrM8kIIcScZ2JaGeDK
-	ENqZlBXL+nfiLJGiMT1qydUHCxs3z5FJNg4GyguFi/A8Z1HcJvE7t+NbtSlyeDBxxFCrAG
-	s1Y3UwBbZcgbQGlwDNt8O2ZKSuyuQkpNjjMjluYgRfE6UIwakJD2xeDFl/YgGw==
-Date: Mon, 7 Oct 2024 16:10:27 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Keguang Zhang via B4 Relay <devnull+keguang.zhang.gmail.com@kernel.org>
-Cc: keguang.zhang@gmail.com, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org, Krzysztof
- Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v10 1/2] dt-bindings: mtd: Add Loongson-1 NAND
- Controller
-Message-ID: <20241007161027.386e7409@xps-13>
-In-Reply-To: <20241002-loongson1-nand-v10-1-17162eff80e2@gmail.com>
-References: <20241002-loongson1-nand-v10-0-17162eff80e2@gmail.com>
-	<20241002-loongson1-nand-v10-1-17162eff80e2@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830641D54D4
+	for <linux-media@vger.kernel.org>; Mon,  7 Oct 2024 14:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728310772; cv=pass; b=VtiPdF7nfTZTg6c1Wa43bVSZ7PSzW1i7BQRKDYpG0uvQeP24wEkJLKl5CVxqj87IWY3GT4pwoEp5XauSfuSpWhbnsV0D4swfCepd5oqgJNf9MZMrIO8BQPkhtxCF4uABFvUp3viC5m6LFFLOWW3ZUwCEDkZJjIDgRkRhehz04Nk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728310772; c=relaxed/simple;
+	bh=56scXZhUCXdxmvb9GWJYRxFM5h0Y+XNpuEhbEpZELB0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tHYDdirrC91wg35NbYtFSTwNxQdupKgvcvuFEqGvE/ait47SI1nVwqOvBrroO8mrlhSKCETs3y3Gpbx3guAZ6t5swvPNruDd2dUBHxSQZ0d0LciSbsZLtTJQU+WAoanT6mMcJasa16HIsvXFPP2kbnvlmJ8rej4ATjz8BO+jeV0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=BtQfY2m0; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1728310768; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=F2r8DWkXcrHDUenuMuPi7VHibniX0QBhSkdtN00bV3cVWRxQoxARDxTqU+oBWVsobnM498t44q604YXyF8IdVXWhMoia4chVhzSCk0lRgJxQekf3H8BejEOB1taG2Ou6anI8+zfULKRzuwt7Gi2KNX8oyf6wyg6veytIgmd6/gg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1728310768; h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=8fTluUSKBR++8j2mAAvXXvyOSj7qs9Ns8UP+ilIGs70=; 
+	b=btUoN9IQi8T0wRzNgFOR9ig9mHJJuusEHSt8chkvcATkCvICN78xsG4gubRSdm25Czlo8+IhcBnZLTF5Mel/4fexfrRp6KOnxF4f9YcnxYU7gytyse1ji9A472k+TUSmol86JXEOevAni0Qne/Sp1887qj/i+wAhOiPc0Y1SkNU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728310768;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Subject:Subject:Message-ID:MIME-Version:Content-Type:Message-Id:Reply-To:Cc;
+	bh=8fTluUSKBR++8j2mAAvXXvyOSj7qs9Ns8UP+ilIGs70=;
+	b=BtQfY2m03F3xo/GnbRGyi3lhVHysYyb7BMlC6cgfVcUSJX/FrT8VDtuXNPN6vovg
+	CVSwsG6V4H89NWoRTMWsDGbm0L4A5S4YmaDSuUMAPYUambHAv0j9FsN/hTR/couFm8X
+	LKGKwSgHL9ZSoyK0kBvpSM14XTZrmuVgLhuw1bUM=
+Received: by mx.zohomail.com with SMTPS id 172831076708837.16483881473721;
+	Mon, 7 Oct 2024 07:19:27 -0700 (PDT)
+Date: Mon, 7 Oct 2024 16:19:24 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.13] Wave5 features
+Message-ID: <20241007141924.dmw5xhdpnhpzgs74@basti-XPS-13-9310>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+X-ZohoMailClient: External
 
-Hi Keguang,
+Hey Hans & Mauro,
 
-> +patternProperties:
-> +  "^nand@[0-3]$":
-> +    type: object
-> +    $ref: raw-nand-chip.yaml
-> +
-> +    required:
-> +      - nand-use-soft-ecc-engine
-> +      - nand-ecc-algo
+please pull the following changes.
 
-Actually I told you a mistake. The no-ecc-engine case should remain
-valid, so we cannot require these properties in the bindings.
+The following changes since commit 81ee62e8d09ee3c7107d11c8bbfd64073ab601ad:
 
-My fault, sorry about that.
+   media: atomisp: Use clamp() in ia_css_eed1_8_vmem_encode() (2024-09-10 07:30:36 +0200)
 
-Thanks,
-Miqu=C3=A8l
+are available in the Git repository at:
+
+   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.13-wave5-features
+
+for you to fetch changes up to ff47f042e9931e7b638bd05b7bc4863fc22142d5:
+
+   media: chips-media: wave5: Support YUV422 raw pixel-formats on the encoder. (2024-10-01 01:34:03 +0200)
+
+----------------------------------------------------------------
+Various features for the Wave5 driver
+
+----------------------------------------------------------------
+Jackson.lee (4):
+       media: chips-media: wave5: Support SPS/PPS generation for each IDR
+       media: chips-media: wave5: Support runtime suspend/resume
+       media: chips-media: wave5: Use helpers to calculate bytesperline and sizeimage.
+       media: chips-media: wave5: Support YUV422 raw pixel-formats on the encoder.
+
+  .../platform/chips-media/wave5/wave5-helper.c      |  37 ++-
+  .../platform/chips-media/wave5/wave5-helper.h      |   5 +
+  .../media/platform/chips-media/wave5/wave5-hw.c    |  30 +-
+  .../platform/chips-media/wave5/wave5-vpu-dec.c     | 321 ++++++++-------------
+  .../platform/chips-media/wave5/wave5-vpu-enc.c     | 313 +++++++++++---------
+  .../media/platform/chips-media/wave5/wave5-vpu.c   |  50 ++++
+  .../media/platform/chips-media/wave5/wave5-vpu.h   |   5 +-
+  .../platform/chips-media/wave5/wave5-vpuapi.c      |  33 ++-
+  .../platform/chips-media/wave5/wave5-vpuapi.h      |   1 +
+  .../platform/chips-media/wave5/wave5-vpuconfig.h   |  27 +-
+  drivers/media/platform/chips-media/wave5/wave5.h   |   3 +
+  11 files changed, 460 insertions(+), 365 deletions(-)
+
+Regards,
+Sebastian Fricke
 
