@@ -1,130 +1,132 @@
-Return-Path: <linux-media+bounces-19151-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19150-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C695992C37
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 14:44:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC15992BE4
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 14:38:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D82B5B25663
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 12:44:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E0981C22033
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2024 12:38:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C3DE1D31BB;
-	Mon,  7 Oct 2024 12:41:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD4FE1D2B2F;
+	Mon,  7 Oct 2024 12:38:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="DTCrIOnA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e8gZ398J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FA31D2785;
-	Mon,  7 Oct 2024 12:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12D41E519;
+	Mon,  7 Oct 2024 12:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728304881; cv=none; b=QWaio821UNZYQ2SIqZ0Jut2hRMQTNlQq3UDY1vlNCbaxG1ZaoMifWdtHV+JeWw1ue2lZPcwzHMm2/gpOR2mQA4SJ5Ox0Xys8qc+AGLmUm34QBn32G1kUWKdTkhXSyS8QD+E3n8d19zWgQRwSxt10cbGJWVa6GaPcNTtBtUTVdTQ=
+	t=1728304707; cv=none; b=OAGsqms9z2/n/syuy4TEkrFnXp5YzGpTE0nio69ZioZLpFYho49lrzrFFz/IhSECLWrX2siqie5yAgeYOvEwfkSstwHnjWzeUwdpDVLSzlTScZbJqo6fBvXk/AI+0XavP6A9JzU6IdyPc3Mkuhp94rFZtq+XgDA415vQI4OafqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728304881; c=relaxed/simple;
-	bh=PVq36IESnKw/X3bf3UpaGBcKE2tXoKWFgdQEXARI4bI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=fkU47ylPGD7xV28efi6WQpdMFbyxF4qFn83v1tRi6sUjakswrBDOcqBvDB+foh0Mtp1pjCUyTaLPrWBCjkrTJYR4GfxqNQUfcNFSfrC2JJlWpuq6EpKNSDGKfhCfAx7jTNITgpJM44fUnWGeVNW4c7KheWQJtebrU9IxEAId1i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=DTCrIOnA; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 497BPTlL022185;
-	Mon, 7 Oct 2024 14:40:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	o5R6EmDj13EYvGXoR7n55gK22/+2Cz7sf7mbsQlwMfU=; b=DTCrIOnAgidUQ5DS
-	Fbo49eAV/6/eiy3ChBOXqHakNLQ2oH//W2BrmDUYJCzHzLhRYAPtvVKUPONhDfE2
-	rL8nmEHrNoBspUv3f9PdA4is4M3yOI+dDBH9AUhQ/sRxUqml3uYoIKXqc6NA/zbv
-	mNK8m7FDHGHtLYcpmn+RJ23FC8silVme9YB3QtPIa5g6em/PMM+1U5Ru42hLy3QN
-	AT5u23H6bZArnJY47P0Qy77gKdx4bf+yGfIERe0ZgLuP7clhnnR2BwQHm6JPlVuP
-	ddyOIlO/xHPvyUK65XDiF2Aub6bka2DUBDwD3OPazNvqe6nT+0NVnEIdkXXsdAfi
-	d10gkQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 423gdmdvbn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 07 Oct 2024 14:40:52 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 0566F4009A;
-	Mon,  7 Oct 2024 14:39:28 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 041E72764E1;
-	Mon,  7 Oct 2024 14:37:11 +0200 (CEST)
-Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 7 Oct
- 2024 14:37:10 +0200
-Message-ID: <c00e8977-ee68-489f-89b1-5ba78bb238df@foss.st.com>
-Date: Mon, 7 Oct 2024 14:36:57 +0200
+	s=arc-20240116; t=1728304707; c=relaxed/simple;
+	bh=odAPpBT/zYedTl3X7UH5eVT95wTIKt/IubVvFrMiNPs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hB8hexEGpVuaKu/FWtCd/CNAI1xsVWansEbqzqd79C8VIB67vngAI0UrUYVsqk2sVU2vmb2p40MTSjzUTyIfuJT5iRwZQdbi1O+Jpi90muG/ES4e9Oe7ITk49NstO+oNbk7aTYgkDlJ5YF738MXmiDt5pGXTpF24V8pb/KYm1RA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e8gZ398J; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fabe5c8c26so38673151fa.2;
+        Mon, 07 Oct 2024 05:38:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728304704; x=1728909504; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L4N4WRwWKnBCjI4J9wKZ7MwHF7s+GuSiaI5NgEKRFt8=;
+        b=e8gZ398J0naskfY1XtWkHxuIonUIaxxQiR8xqDdIecVEhFsas6rnpmrMxU4U2DB5k4
+         WNmKrKmBLPCE0bT8obZkL28xcgfidtIrXlC0V/qatQcb6s2ls3wBFb/dlcR2uh6+scnj
+         vqZ48Z94RDzA3MUkpiHBxQLEGCdgZGkgN6LXCfwy6IjvPpePSEMYxJeAerScc40YS408
+         VE81PteS/3kAguuwoPui60YiP0i3PYc9/EQYOUVPpSvUtFwLX1EoGgAj7kZ+5QGoHksa
+         zno7R1weco0KQ2hu68+LUI5+I/9a23711A2afjw2TQOK+EAYIzmAmDlMAxEIj6yc77KX
+         uHuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728304704; x=1728909504;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L4N4WRwWKnBCjI4J9wKZ7MwHF7s+GuSiaI5NgEKRFt8=;
+        b=VDBhT6zz0nxBSvWInVH+xT1PgYrFR4kpHWnUo/bhBaThlFre24MWmA3ftUFayiCHNH
+         kJ0LLiN799N7wWdOQjn6Y4z+PtTJ1EXvi589TzBd6TaVA0uBO722GqMcY+P6QQsIyrcX
+         G2zIOfHR4UsVkgryT5fX+bwnGdVnEIVX75stx2XxFdP0QHl1tD00wwBh9m6hPF+9YFMF
+         D8mt4SWQF2E1vqwOR3k92Q2zxSQ+akPygZ4ccACM+4qo6SdXzkXUC/uZ5w3tnlnZvucH
+         wMSTREI5RyzUxNvhjADdJHTTMbgKEO0frcaIkGOV3xBOUUi6HnVjnyW9FU179Z4sS1mn
+         FAyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVaGGcOovkGuNs+0Dirrg0ALCR6sKnR18bfZ6DUJSxHfQy+BTHaA6UtVXNA44TXFmKxXH/NX1aOj9ezQM0=@vger.kernel.org, AJvYcCWBxAJ8X+7tOs8iELG24eetI5V6vJkaracXPErPYuipc7Ectynxg77gPNbolUngFcJoJAibtyi3lTSx7kvlUpXvcSI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4DNj2EYeptDyCCCy3R0H/v0Fn6tORhhQaC5A1RXbkCchoM7Jt
+	DrBEwrFH92G7lt8hhxVsnGbfqJ4d19rDGkLjojOqknYvG0+0/HU+MOiiBQ==
+X-Google-Smtp-Source: AGHT+IEJw8zFkm6MmMyZHv/FNQY64b9MViKfx6FjnuRizVpR3z3M6sT9SzV6/x+wDGcXGET87hh57w==
+X-Received: by 2002:a05:651c:2210:b0:2f4:5d9:e8e3 with SMTP id 38308e7fff4ca-2faf3c14096mr61429301fa.7.1728304703395;
+        Mon, 07 Oct 2024 05:38:23 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:f429:642d:d66a:1085])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c8e05ac2casm3153143a12.34.2024.10.07.05.38.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 05:38:22 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2] v4l2-subdev: Return -EOPNOTSUPP for unsupported pad type in call_get_frame_desc()
+Date: Mon,  7 Oct 2024 13:38:09 +0100
+Message-ID: <20241007123809.89281-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: vgxy61: Fix an error handling path in
- vgxy61_detect()
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Sylvain Petinot
-	<sylvain.petinot@foss.st.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Julien Massot
-	<julien.massot@collabora.com>
-CC: <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-References: <666ac169157f0af1c2e1d47926b68870cb39d587.1727977974.git.christophe.jaillet@wanadoo.fr>
-Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <666ac169157f0af1c2e1d47926b68870cb39d587.1727977974.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Content-Transfer-Encoding: 8bit
 
-Hi Christophe,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you for your patch.
+The `get_frame_desc()` operation should always be called on a source pad,
+which is indicated by the `MEDIA_PAD_FL_SOURCE` flag. This patch adds a
+check in `call_get_frame_desc()` to ensure that the `MEDIA_PAD_FL_SOURCE`
+flag is set for the pad before invoking `get_frame_desc()`. If the pad is
+not a source pad, the function will return an `-EOPNOTSUPP` error,
+signaling that the operation is not supported on non-source pads.
 
-On 10/3/24 19:53, Christophe JAILLET wrote:
-> If cci_read() fails, 'st' is set to 0 in cci_read(), so we return success,
-> instead of the expected error code.
-> 
-> Fix it and return the expected error.
-> 
-> Fixes: 9a6d7f2ba2b9 ("media: i2c: st-vgxy61: Convert to CCI register access helpers")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+v1->v2
+- Added a check for CONFIG_MEDIA_CONTROLLER, as the `entity` member in 
+  `struct v4l2_subdev` is only available when CONFIG_MEDIA_CONTROLLER
+  is enabled.
+---
+ drivers/media/v4l2-core/v4l2-subdev.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-
-> ---
->  drivers/media/i2c/vgxy61.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/vgxy61.c b/drivers/media/i2c/vgxy61.c
-> index 30378e962016..8034e21051be 100644
-> --- a/drivers/media/i2c/vgxy61.c
-> +++ b/drivers/media/i2c/vgxy61.c
-> @@ -1617,7 +1617,7 @@ static int vgxy61_detect(struct vgxy61_dev *sensor)
->  
->  	ret = cci_read(sensor->regmap, VGXY61_REG_NVM, &st, NULL);
->  	if (ret < 0)
-> -		return st;
-> +		return ret;
->  	if (st != VGXY61_NVM_OK)
->  		dev_warn(&client->dev, "Bad nvm state got %u\n", (u8)st);
->  
-
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index de9ac67574bb..446fbc3805c7 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -325,6 +325,11 @@ static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+ 	unsigned int i;
+ 	int ret;
+ 
++#if defined(CONFIG_MEDIA_CONTROLLER)
++	if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
++		return -EOPNOTSUPP;
++#endif
++
+ 	memset(fd, 0, sizeof(*fd));
+ 
+ 	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
 -- 
-Regards,
+2.43.0
 
-Benjamin
 
