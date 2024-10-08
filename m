@@ -1,227 +1,261 @@
-Return-Path: <linux-media+bounces-19252-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19253-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC3999486C
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 14:13:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96513994938
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 14:21:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5A371F26B59
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 12:13:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50B682825D8
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 12:21:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE24C1DE8BD;
-	Tue,  8 Oct 2024 12:12:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD62A1DE89A;
+	Tue,  8 Oct 2024 12:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AQe2tRxY"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dH4tfhBP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2047.outbound.protection.outlook.com [40.107.223.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86861DE88F;
-	Tue,  8 Oct 2024 12:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728389557; cv=fail; b=mp2MR9FPHhDpZETsJ2vO3FTlKbHvWu8+N4p3jLotjOe59aYUSQAX8HlzmUfXycsD8DN0m7+1YlEaykwXfFj3VohEhuCFXav4f5uFyse7oj4FXWnHvRioE975GKUsblmmHxFk+DjTUHYHXv07CXAcw0l8LnSBe1kRrh1FDWHOZGs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728389557; c=relaxed/simple;
-	bh=tNpsqqb1RjameF+sBEsygT1scOW1/j29d7NBKC14StY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=RoDCskivRXaPqm19ytmRGU+tIOMVQ47mPSAexg6I1m33aLx/RhNHHRaGpnOZ6DoRe1eSpredPKw/t5cGXB4lt1ObOY107WPW1jJSJYRrvu/zrzt7mBXOiiGNOhjSTH2yRUZ1F2vHf5OE35zwc5/UmbOHBpKZqfjrM/Znfu/lCSU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AQe2tRxY; arc=fail smtp.client-ip=40.107.223.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eZ3P64kLM0UxO8Q20RT0uMEEG0tIS5TxTM2HjLljvtYzM8agLPeu66LwlXVMCMN+afMtfOhLd3TF/hmHYxSrttVzp1ptSSJJuhWk1WoFon9b4PX9ec9Mte7Gu92VvkJwVPtK7F/FxTN34dRopbZYDAdzLUuqST8DB3/L6tGhN28tfbLUwuTmDG/qBmdtWndirjioLV9U3izYjnzhKBUnaUPZ4DH09+9iW1FflABgdao5XOeeHsU0p6BPYLS5cybCc5zIvu7EuyEs49OtF+SGViwKfz84kAWNHWh7GyABcXmCxDOBYQ4XacATW9MXuFanXrGwAM3MfuC+yz9zmDkoSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7JGxZWFz+xIaC6uNNlq2Uzt4mmXsrAKVHcjS2C3DWAM=;
- b=HvfNNMO0NLB1PCJErkT91hxL6cx9ROc3RvY0EYfHsxTBgLDjxLc0XOEhhDy9c75lPBy8q7+bsNR4423DASLHoYlUGyiTb2viEIIxOU++i/IRr944+jQ9FIsD9VOhITnoQLG0BpM+DJeQgtQfCDk1ga9sy7OU08zuoY6s8Y+8bysWc5odWwYPHugTvXLvMmJ1AVTvw6PfLheYy8lbvFVZN+QMu5DorRfMOhBfGrryOzypAboXotaYNWsuxLXZA7DPprbEOhYxkcCRHK9oDs++NnWJnl2MDD3BDIq9nitvR/rI4kXNMzv7t0e3jXPagIuQ35RiMJkr0YISuj/z+49EHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7JGxZWFz+xIaC6uNNlq2Uzt4mmXsrAKVHcjS2C3DWAM=;
- b=AQe2tRxYPtKuiED3ZVrNf9pmGiRcsmD92OKPeTt8AOfYrESX8YTgtz1A65VQMMzFthwHPKX8+v/VHG+mSJQgy+Q9ta6RiA8NDnq9jv+tnWIjp/KJ8yBUa6yBp19O4Z+n3dGGbkeqhAxQUITzDtI0r6/ZxmOlIbd7m/sB+81wa67CRB2SSzTt50es4H5Gju+/xx8yMjxXs2J1v0cOrdZhszMaBgECbTmdiZ4aa3vPmpwGEPHzul0mf72eZvC0efc4LGjnh11SVJLolKmNL0bLIVE3R9/1DE+LPAVojZ6cG/GHmJjMggwLw3iSOdp8r+EUW23I7g2RJOozEcsdk/VDjQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by PH7PR12MB7940.namprd12.prod.outlook.com (2603:10b6:510:275::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.19; Tue, 8 Oct
- 2024 12:12:32 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8026.020; Tue, 8 Oct 2024
- 12:12:32 +0000
-Date: Tue, 8 Oct 2024 09:12:31 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Robin Murphy <robin.murphy@arm.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Jerry Snitselaar <jsnitsel@redhat.com>,
-	Joerg Roedel <jroedel@suse.de>, tony Lindgren <tony@atomide.com>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Linux-OMAP <linux-omap@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: BUG: "iommu: Retire bus ops" breaks omap-iommu and omap3isp
-Message-ID: <20241008121231.GF1365916@nvidia.com>
-References: <A7C284A9-33A5-4E21-9B57-9C4C213CC13F@goldelico.com>
- <20241007121543.GM1365916@nvidia.com>
- <66572BFA-4501-4087-8B2D-83DB30247CFC@goldelico.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <66572BFA-4501-4087-8B2D-83DB30247CFC@goldelico.com>
-X-ClientProxiedBy: BN9PR03CA0675.namprd03.prod.outlook.com
- (2603:10b6:408:10e::20) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0801DEFF3
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 12:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728390035; cv=none; b=Gj8w9SKvc/LQBAYQBNccI6Bmcq/fhZngahyOskE7UAWgkj1oQjT6K6JLq60xdKI+51/dw0Bu/aOMgViHB7nlSIqSv2XXYjYPu6aak9jaZmpzpGPYI4zLY3bdBhCybAAttpcAovA13DmnJGvXKAl21z8hSvhi6lHcn7b4KCERIwc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728390035; c=relaxed/simple;
+	bh=5y/cz5R08rOxJCHK0Aj/mnQ+ztZX2npGMkE7PNgHu6w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oYpt96kY6yLt7cOLZaEPeAex3x4qnphycem3clwHzmi34DKcZmlsCWi3tbRb6/U4X5svvJimr3ChbIeGZTJkAXRMf8uq4dP4FDIp+nWyTdpHYrLSGGDuh9VDMqUzOzoZS1+rJUIojVpaX5qGsSlbuMyglDVoXpMk2Nn0iKwyh3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dH4tfhBP; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5398bc32bd9so620115e87.3
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2024 05:20:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728390031; x=1728994831; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=o4ywl6VI0bSfSJ7uxcOzTs5VABfElpBNGL9ce9UraIM=;
+        b=dH4tfhBPben+Puc0RDD0jKQlOfzZBZmmb/HWJjFkqDBYodP3CC+f2C68UWC1JrL5cB
+         BC58omwn3t9BbVlWwnClBuL3/7Ig+PV2GaqDebGYn2sIHFqFIZCAeYMfB9R3C/yKynL/
+         L2Pe+oYk0OkS8kuOfMsf7s0n0xJpJrh/X3KbZAB75DD+uPg3Jc/GRzRmBHrIGoLR1J76
+         oVWpLvfjwHyp1v1Z7zIGxFiQ1SnNQMn7TnM/7BQd1TElQXmeBBab8uNg3NaZeOxCd82K
+         hy/UhmQXlKzWUGTVWcppjRRbAuOjTuAU9qjejT5N+aWUKfNOfkuYUgo80hOsEMK6pOa2
+         eSPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728390031; x=1728994831;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o4ywl6VI0bSfSJ7uxcOzTs5VABfElpBNGL9ce9UraIM=;
+        b=nphye2aB3axU7ijyB4uRpelJEWmd5Xq+tKIz1tq70Xdyn6JkimGyrfJZimf/hUFbQC
+         7NnRpoHxfvsVG4bLknsajlgAhiLA7u0GfBb6mypI1d/Ee+uwnJ76RUYwV/z0EVQRrlNV
+         MkS9Y+HQ1BcCwU3OQdGvCo64mIzhgZjm5jKRYbViuTsrjFOaiIE6RAgfale4cOZEMuSd
+         sajAc7aG6FJpGzwRkZDwiIAKRY7hrfrJH0Ac8kzULrSpf/9OZbV+w6S6Hfjo9iJv/miG
+         yQgN7agZlEMlqfTQtK+nySs0jA2CbOYO1EgNJFMVm8MvhxgC/mI0Rh579mGaHYZPKy7k
+         sulw==
+X-Forwarded-Encrypted: i=1; AJvYcCWjafT+phURCNuTKqqWtEbVtJtsaN6XDOIOiv7g0GbfOeW1mdC+Elx4KP+3ZLuiI3P2JuRC8ZNgb7fBmQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz54M7SR76S4NTtrXjQ1IwTYce97G1TV70aFvlTFIy4aByDKAK1
+	z2BC8isxC+VX/Wo70Cx+lEiPEkx8t1SYENwlne9DXbrqAoN5bAFARzjuiFaX5AQ=
+X-Google-Smtp-Source: AGHT+IGymtG1stGaLIEddofyRWh4PDJDMQ6v/DjXHnxk8nnHcuv85Ktp65IIT7bGYpbTHQbYBWdcbg==
+X-Received: by 2002:a05:6512:3190:b0:536:55a9:4b62 with SMTP id 2adb3069b0e04-539ab866580mr1980570e87.3.1728390031057;
+        Tue, 08 Oct 2024 05:20:31 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539afec1187sm1185026e87.32.2024.10.08.05.20.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2024 05:20:29 -0700 (PDT)
+Message-ID: <f446c493-17d5-41ec-9848-8c8e31702fc4@linaro.org>
+Date: Tue, 8 Oct 2024 15:20:28 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB7940:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83632482-97b7-4ab1-afbd-08dce7927c78
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?IjLexM7hvLHgCb2Si5SS7I043jztlVz4kIqD6FW14IlOHDBlghCDskU/1k2d?=
- =?us-ascii?Q?qt6lgDGjz662eebQiZ7awnAzNLhMXLTY6AVVDsD8uKVbCOfFGdz7lkB33O2H?=
- =?us-ascii?Q?Wof3TW/2KoCR3S0zot3Xt4VtNjjoHsP/SF/B8z7NLl1uZimnl5s7VTqKN7HA?=
- =?us-ascii?Q?7xXU4CWYja6kObO45ceEgxnLOHDwUSRyvwZpAj7BwNq8of9ry9UQ729ArcNg?=
- =?us-ascii?Q?nOTSSmzGOA7YhMBUXyH2Vx403quF2qaDM0V0v9CjFumD2AkawBUu1RJqBiDq?=
- =?us-ascii?Q?rVRdf712mRA3ZNf5VLjeP5KH8vcpNIp3ygV/sDbf5nRhax6byCPcdz+2w0Vc?=
- =?us-ascii?Q?exYhmVLfI37xEwbWaDd9pOljRLjaZxU4XqiyACThVyC1T1kuMsi5bMUK+In1?=
- =?us-ascii?Q?MFJZcmk7bIoG7UwgV9T0kZyaTjEGOt2sIqDsDXgP0WI7P6VIEhX5B3OJZ4v7?=
- =?us-ascii?Q?hpJpbC33Z24JNPPSeZLzAYYP+51lXy6fItSL+lJUWvjbh4aClAzdcKjfHD6t?=
- =?us-ascii?Q?6LYBSjzCnPE4Qp1RlXRRRvB/Mvl3ko6qqDZEOz1CNVlwzSVxOxR3AIVmvJ9q?=
- =?us-ascii?Q?0dDp9kSNYPtolumtfe1ANi/b0L6UX6r9W6OhqYw7tD4+GwnWIN0oEUyJ7KLb?=
- =?us-ascii?Q?h/41VxPRQS5cnk7XnrNgWZtbHLQ9uF9NfM80vMDTzOrzvGJMf7sj9Ai4cllb?=
- =?us-ascii?Q?Frm4Qp6UW0TlzYb6DdebK7OsTK6GiWz0LwrCqvQxhwdX2NyJdOZtb4YQkg5K?=
- =?us-ascii?Q?zeAstP4+sLShp+kd5R3FbkFuDF+ujQYjEUqVDUAlb1zsj1Qcj/5v9EhZbhXe?=
- =?us-ascii?Q?dsNKaH0g0gFWoin2jIyN6tBcqy8CICjc1nydYUlq43+uqOndhkpjR1eV2gor?=
- =?us-ascii?Q?gUjpy5OQZnvaOjvHyto7k33ebiInY38GBl7a4oUP0fsfDf8JwBsrz+e46HX1?=
- =?us-ascii?Q?psOfAYZemSzPre7CVCVsXE7Z0LIFlRX9VHM8XoXLIq9/+3IXh31p0prHhpie?=
- =?us-ascii?Q?kdrlHuGIv+sGAgxqpf9GEQtR9TmWR4eleE1LV1iAPooLtqp5a9hqgeQkIStv?=
- =?us-ascii?Q?4ShWovFNHgSmlsvXAd2nybHK3bzrUp5gmf3O+tzxWwzCbdChUWPL9A7OaVxJ?=
- =?us-ascii?Q?Ia8C/r0uTFDk19tkxmg0yOu0MR2DCkHG21Fq0hrEPhc90FLiEyvaw9xFMhvq?=
- =?us-ascii?Q?BPVW0nU7+dtVCL301e2famNtH2w5+ushBLMDxv4eyetihIXApV/BtHuT5hGi?=
- =?us-ascii?Q?RgXJ2x+vG/o5CnOGSYVDPEWnP82xXsb2NcRAfhi97w=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7F9/21EfB1pKioWNzSbVe6XMgyi/4ORz3BRLcJ9KmANVKcXagdrhwR4PZ8M4?=
- =?us-ascii?Q?uXG1bY8tFh4ujvQu72qZ87peBjqTZrr6s1N542wAQZrXJwTkOsCkd4DgLvQ+?=
- =?us-ascii?Q?gOxebjG9zgB57RjfMg19uSbZtYi6//H4PVWM5GtAecboFTzZKqxhV6Amp6s7?=
- =?us-ascii?Q?Q2qNHNbPx6gPBfs/OJ+HswYl34DFXUkkPiz8EZ5qsU+udWjfAvsGnhwkBlYF?=
- =?us-ascii?Q?cJqW4BAQTk84QfNZN5XEDe6QaMmn2UiT2noTb0EyDPImMVyLp+8wR5P46BnT?=
- =?us-ascii?Q?HS+F7LfQnVIL15ZMaT6gCyx6D7RsxWkWzq4W90wv9quegrelFHLGo5AhFm3G?=
- =?us-ascii?Q?B2+9fmdLh0UpFyf6kfPheZ769UALxr3hM+YMPXLpKB3h5/neFo5/DiFoOK7N?=
- =?us-ascii?Q?hIdMzgWnr03MXhiHrRK9KDaFVbQV7NvWwK8AFLfEDjWqxxF8ZA1Q8B+6cHzN?=
- =?us-ascii?Q?ci8omjoxN+IvrfYD6KE6SmGbGLVC72v556KuKbSJJqDV5up/dz20CxCLUpEL?=
- =?us-ascii?Q?Z41br/6R2jQHraFpaUR+TAAsmAoiwhONILAdCgPVqRyW49Sk+ChmyCxOr9jQ?=
- =?us-ascii?Q?+32jXYpJTdvcK9uohkoPTZ4QnPJ1HrrjFFPIHzGXkFaAzgYMrc1gqaBSEEcp?=
- =?us-ascii?Q?b2/NH4PRivsahWavy6p41/5WEBtWXAnWuOF86/hGx3XhBVZobK4HYP8cPBC0?=
- =?us-ascii?Q?TR/kBKDWXQCn8Fv+rdBMDobUUqKAZMgWp76zDmV973+BiKohzLEAP6nWZO91?=
- =?us-ascii?Q?Iea5/qb8322/YhNzpTLaegqeuOkRYBDKV64+XPRS3nvGX0upu9wR7hnoMAcI?=
- =?us-ascii?Q?ia5h/HfLKs7JAgrSJ4ctVMmYxDTVvUoJnD5lhIdsWzkQsPNhtuujygLoHBVu?=
- =?us-ascii?Q?bOmoqvm4QUfQtQOpNf2d6iaiFgZSgE1fkIYi2jyElI7BS4y8mDJBb1n0DapH?=
- =?us-ascii?Q?oX1UG9ULh0nWkynLt9hUFkxXkzTW/BSr1FRTBeM1ZIlN2J3j/NCQa5HsPXI5?=
- =?us-ascii?Q?t8Z6s09PzcHtkN6vXFjwKxF/owIQCiqHKRG23ekRKJzAi6gpkfRtbk9buOBE?=
- =?us-ascii?Q?UdHMJ9+Duldk5NmaEBeOK4lvZ1iS+xPgHQ7M0Wy/TulReXxhlqyJhdNKJm3U?=
- =?us-ascii?Q?JoSAgpej+bHpokn0cuKOnCze+66ksSe8kMQED5cBDIjGiwKKkXB8EVfGdUYL?=
- =?us-ascii?Q?BYDKAk7dhBZ9jah1m7lrw6y4HB9k0mlRo9EcR4RW7vvXwv+Uc5gi/Nfopq/J?=
- =?us-ascii?Q?JWH2UmvJkgmDCLNvaw/GU/VW+6l6ZosyGjaUo16+aPVE4BeSitykC4y72oHP?=
- =?us-ascii?Q?v00gk2eQKmx/pR1dXs0l2zLhQILunzJCz6e6mWewoXv8PptVLtF326J55VeN?=
- =?us-ascii?Q?d5o6XlERjJVlFsE3VIOXLJF+IbvWq3NIevJWAYR+Yi5hywPszRpbTE9onICa?=
- =?us-ascii?Q?IctfdNUdOnhfp/p9ICSnpAU5177KERmd2549QmKq+UKCpALWhcxIenwZMF6Q?=
- =?us-ascii?Q?W71bcU832cI6Hm96i0rhXRyRPgsNRHS4Sk9h/TPUFpiFzwEKxmU7OYOigLIM?=
- =?us-ascii?Q?KOYr1yANojVoLZ7FsGQ=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83632482-97b7-4ab1-afbd-08dce7927c78
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2024 12:12:32.0403
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5bbUC64XUNhd+iaPXoqR1WjajFwdbPV3J2MnNKuAiLjGCsUnFWDPNVRCLuOycv1w
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7940
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] dt-bindings: media: qcom,sc8280xp-camss: Fix
+ interrupt types
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20240923072827.3772504-1-vladimir.zapolskiy@linaro.org>
+ <20240923072827.3772504-2-vladimir.zapolskiy@linaro.org>
+ <datahu33nmsser2p4fb2hyncsujtkwaca377ivwmpc6yj2naut@2sjsbebfm3gf>
+ <3f87e855-8779-4df3-8f26-e3d2b611d3e9@linaro.org>
+ <313667a6-afcd-44cb-a6f6-0d550e8f68a0@linaro.org>
+ <4bf490cb-228d-4f01-a956-cacbafa94e2a@linaro.org>
+ <5ea36051-1e1b-44ca-b5ef-d6305079201b@linaro.org>
+ <80744e19-71f8-4ae7-b2e8-1dc14e55385c@linaro.org>
+ <268d0dd0-a65f-4eaa-a317-fe9fcc06e718@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <268d0dd0-a65f-4eaa-a317-fe9fcc06e718@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 08, 2024 at 10:08:27AM +0200, H. Nikolaus Schaller wrote:
-> Hi Jason,
+On 10/8/24 15:06, Krzysztof Kozlowski wrote:
+> On 08/10/2024 14:03, Vladimir Zapolskiy wrote:
+>>
+>>
+>> On 10/8/24 14:45, Krzysztof Kozlowski wrote:
+>>> On 08/10/2024 13:37, Vladimir Zapolskiy wrote:
+>>>> Hi Krzysztof.
+>>>>
+>>>> On 10/8/24 14:15, Krzysztof Kozlowski wrote:
+>>>>> On 08/10/2024 12:02, Vladimir Zapolskiy wrote:
+>>>>>> Hi Bjorn,
+>>>>>>
+>>>>>> On 10/6/24 05:36, Bjorn Andersson wrote:
+>>>>>>> On Mon, Sep 23, 2024 at 10:28:22AM GMT, Vladimir Zapolskiy wrote:
+>>>>>>>> The expected type of all CAMSS interrupts is edge rising, fix it in
+>>>>>>>> the documented example from CAMSS device tree bindings for sc8280xp.
+>>>>>>>>
+>>>>>>>
+>>>>>>> Who/what expects them to be RISING?
+>>>>>>
+>>>>>> I've checked CAMSS device tree bindings in a number of downstream kernels,
+>>>>>> all of them describe interrupt types as edge rising.
+>>>>>>
+>>>>>> $ grep -Hn IRQF_TRIGGER drivers/media/platform/qcom/camss/*
+>>>>>> drivers/media/platform/qcom/camss/camss-csid.c:619:			       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
+>>>>>> drivers/media/platform/qcom/camss/camss-csiphy.c:605:			       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
+>>>>>> drivers/media/platform/qcom/camss/camss-ispif.c:1164:			       IRQF_TRIGGER_RISING, ispif->irq_name, ispif);
+>>>>>> drivers/media/platform/qcom/camss/camss-ispif.c:1168:			       IRQF_TRIGGER_RISING, ispif->irq_name, ispif);
+>>>>>> drivers/media/platform/qcom/camss/camss-vfe.c:1327:			       IRQF_TRIGGER_RISING, vfe->irq_name, vfe);
+>>>>>
+>>>>> Downstream has a lot of bad code, so I am not sure how good argument
+>>>>> this is.
+>>>>>
+>>>>> I acked the patch because I assumed you *checked in hardware*.
+>>>>>
+>>>>>>
+>>>>>>     From runtime point of view it's more important to get re-probed camss
+>>>>>> driver, see an absolutely similar and previously discussed case (in the
+>>>>>> cover letter):
+>>>>>>
+>>>>>> https://lore.kernel.org/lkml/20220530080842.37024-4-manivannan.sadhasivam@linaro.org/
+>>>>>>
+>>>>>> Now in runtime I get this error, it's easy to check by unbinding/binding any
+>>>>>> camss device:
+>>>>>>
+>>>>>> irq: type mismatch, failed to map hwirq-509 for interrupt-controller@17a00000!
+>>>>>>
+>>>>>> Basically camss devices can not be bound on the second time on the
+>>>>>> number of platforms touched by this changeset.
+>>>>>
+>>>>> This is solveable different way and I do not understand this rationale.
+>>>>> The driver should not request trigger type but use what DTS is
+>>>>> providing, unless of course only one valid trigger is possible.
+>>>>
+>>>> Right at the moment the driver uses rising edge type of interrupts, and
+>>>> it works properly.
+>>>>
+>>>>> But so
+>>>>> far you did not provide any arguments for this. Downstream crappy code?
+>>>>
+>>>> Downstream code works, that's the argument to support the change.
+>>>
+>>> That is not acceptable argument. If downstream has a bug, but somehow
+>>> works, you will implement the same bug upstream?
+>>>
+>>> Downstream is well known of shortcuts, incomplete solutions and crappy
+>>> code, which passes some tests but might not be really correct.
+>>>
+>>> I understand that downstream can be a supportive case, but not for level
+>>> of interrupts! People, not only downstream but it's even worse there, do
+>>> not see the difference between level and edge, between GPIO ACTIVE_HIGH
+>>> and ACTIVE_LOW.
+>>>
+>>>>
+>>>>> Nope. Existing driver? Same.
+>>>>
+>>>> The existing driver works, that's the argument to support the change.
+>>>
+>>> We are not going to get into such discussions. Code might be incorrect,
+>>> but mostly works because race issues are very tricky to spot, yet you
+>>> use that code as argument to say hardware is like that.
+>>>
+>>> No. Hardware is not because driver is written that way.
+>>>
+>>>
+>>>>
+>>>>> Was anything here actually checked with datasheets/hardware?
+>>>>
+>>>> The initially open question is unanswered, why sc8280xp CAMSS does
+>>>
+>>> This is about all CAMSS, not only sc8280xp.
+>>>
+>>>> specify interrupts as level high type, was it actually checked with
+>>>> datasheets/hardware, as you say it? It has never been tested by anyone
+>>>> and anywhere, downstream or upstream wise, only rising edge interrupts
+>>>> were tested, and they do work.
+>>>
+>>> I did not ask about testing. I ask how the manual, hardware engineers
+>>> designed it.
+>>>
+>>>>
+>>>> I don't have access to datasheets or hardware of sc8280xp powered board,
+>>>> someone may either verify, if CAMSS level high type interrupts are> supported/working at all or not (obviously its current presence in dts is
+>>>> insufficient), or check the SoC datasheet.
+>>>>
+>>>> To sum up, the intention of this change:
+>>>> 1) fix the unpleasant runtime issue with no regressions (it's been tested),
+>>>
+>>> Did you test races and all the tricky issues arising when you use
+>>> incorrectly edged interrupts? Or you just checked that "interrupt works"?
+>>
+>> Right from the beginning and any other day CAMSS interrupts are tested as
+>> rising edge interrupts. So, I don't undestand your point here, please
+>> elaborate.
 > 
-> > Am 07.10.2024 um 14:15 schrieb Jason Gunthorpe <jgg@nvidia.com>:
-> > 
-> > On Sun, Oct 06, 2024 at 09:40:00AM +0200, H. Nikolaus Schaller wrote:
-> >> Hi,
-> >> 
-> >> I found that the camera on our OMAP3 based system (GTA04) stopped working with v6.8-rc1.
-> >> There was no bug in the camera driver but the OMAP3 ISP (image signal processor) emits
-> >> 
-> >> [   14.963684] omap3isp 480bc000.isp: failed to create ARM IOMMU mapping
-> >> [   15.010192] omap3isp 480bc000.isp: unable to attach to IOMMU
-> >> [   15.023376] omap3isp 480bc000.isp: isp_xclk_set_rate: cam_xclka set to 24685714 Hz (div 7)
-> >> [   15.065399] omap3isp: probe of 480bc000.isp failed with error -12
-> >> 
-> >> Deeper analyses lead to this patch breaking operation. It is not fixed up to v6.12-rc1.
-> >> 
-> >> What seems to happen (in 6.8-rc1 code):
-> >> 
-> >> - omap_iommu_probe() passes &omap_iommu_ops to iommu_device_register()
-> >> - iommu_device_register() stores the ops in iommu->ops (only)
-> >> - __iommu_probe_device tries to read the ops from some fw_spec but not iommu->ops
-> > 
-> > Maybe like this?
-> > 
-> > @@ -1233,6 +1233,12 @@ static int omap_iommu_probe(struct platform_device *pdev)
-> >               err = iommu_device_register(&obj->iommu, &omap_iommu_ops, &pdev->dev);
-> >               if (err)
-> >                       goto out_sysfs;
-> > +               /*
-> > +                * omap has a DT reprensetation but can't use the common DT
-> > +                * code. Setting fwnode to NULL causes probe to be called for
-> > +                * every device.
-> > +                */
-> > +               obj->iommu.fwnode = NULL;
-> >               obj->has_iommu_driver = true;
-> >       }
+> So you did not test whether these are correct interrupt types. What to
+> elaborate more? You have very tricky race condition, for example, so you
+> test that it is not possible.
+
+Krzysztof, we are going rounds...
+
+Every single user of CAMSS test only rising edge type of interrupts of
+the IP. What are the races you are talking about? I kindly ask to read
+the cover letter, it describes the problem fixed by the changeset.
+
+>>>> 2) align CAMSS device description in firmware with known to work well
+>>>> IP hardware configuration.
+>>>
+>>> Where is this description in firmware? Where is this IP hardware
+>>> configuration? You just said it is purely on downstream driver.
+>>
+>> CAMSS IP configuration, in particular interrupt type, is done by the
+>> upstream driver, note that the fixes in this changeset is also sent
+>> against the upstream driver, tested on the upstream driver etc.
 > 
-> Doesn't seem to solve the problems:
+> What does it even mean? You said "device description in firmware" and
+
+"Device description in firmware" is DTB.
+
+> "IP hardware configuration", but now speak about drivers.
 > 
-> root@letux:~# uname -a
-> Linux letux 6.8.0-rc1-letux+ #19506 SMP PREEMPT Tue Oct  8 08:48:26 CEST 2024 armv7l GNU/Linux
-> root@letux:~# dmesg|fgrep iommu
-> [    0.402862] iommu: Default domain type: Translated
-> [    0.402893] iommu: DMA domain TLB invalidation policy: strict mode
-> [    0.405303] omap-iommu 480bd400.mmu: 480bd400.mmu registered
-> [    0.405944] platform 480bc000.isp: Adding to iommu group 0
 
-This seems like the isp device was bound to the iommu if the group was
-create and the device attached to it? Does that mean it got past this problem:
+"IP hardware configuration" is done by the driver, this terminology does
+not cause any surprises or ambiguity, I hope.
 
-	ops = iommu_fwspec_ops(dev_iommu_fwspec_get(dev));
-	if (!ops)
-		return -ENODEV;
-?
+It's been always that "IP hardware configuration" of CAMSS interrupt types
+completely ignores "device description in firmware" of CAMSS interrupt types.
 
-> [   24.829071] omap3isp 480bc000.isp: iommu configuration for device failed with -ETIMEDOUT
+By design due to endless problems with firmware like the one under discussion
+interrupt types derived from firmware are ignored, and their correction in DTS
+is problematic for whatever reason.
 
-This is strange? It is not upstream? Seems worth investigating what
-this is..
-
-Jason
+--
+Best wishes,
+Vladimir
 
