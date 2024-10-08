@@ -1,93 +1,150 @@
-Return-Path: <linux-media+bounces-19206-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19207-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038D39941D5
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 10:31:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 261AF99422F
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 10:38:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 386A7B24F2E
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 08:31:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D8BF1C2274F
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 08:38:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1163120ADFD;
-	Tue,  8 Oct 2024 07:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VPtCcfUV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76FD71DFD81;
+	Tue,  8 Oct 2024 08:05:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725B820ADED
-	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 07:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F19213C80C
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 08:05:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728374119; cv=none; b=JnzHfpaw4l/NwxLDU0zNJlN3ttVM7rX7fxe5brN+ld41bkS+qBAsJ+6fYhWk/O5hrW5Qa+xE62lHhfxKZiCoKYhZQ8tl6b3ewwCXSu9e7E9rmDtTTRKPUkoA3uIkk1hmXgT/wGKun15NGf7CIL7RF062UHvY4rGxU9n8xqQ2IHM=
+	t=1728374745; cv=none; b=ijPbZLXZvThVList0gYFIYolmdUrrc4U1qKk0LIV4oxn+Rc6wIrjFs0EGvP14Rb29rj4wObLZEDv4eXBzU0L97x5p0p+6bto0TBpUt/6FBEBQ9Tkyn0wewiCm6cVoGAx4vJJMGHqXYYAFlPrqpUGHG9wBoR6JSaSG1mek8ZHvDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728374119; c=relaxed/simple;
-	bh=rscZMgz/Mijcjy/sEyqugMew5TKHnYLU8Tt2nkTIfMQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p6tTa3nc4DVjYaCkoYptvn2DyhYe7PgXdre5SoJYDSv85JdEOOPLDqtn1EIOFm9m3FX0H1zD45dulAh5lJg13FjrdtwVbSHj9sYdk9OEmbp53x+KlAA5AcBmwwCtd5AkXsfU821e6UULdTiVj/uoHhuaL7xdnZa0qOrYCq+aU5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VPtCcfUV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBE39C4CED2;
-	Tue,  8 Oct 2024 07:55:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728374118;
-	bh=rscZMgz/Mijcjy/sEyqugMew5TKHnYLU8Tt2nkTIfMQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=VPtCcfUVO/9VXBdQ2Z8LQ0eYs/nJIyijVhY8TypcoKKJ0X8KsQ7l9gz7K8Nv05lxX
-	 9cX1V98uOkvWsdClC/YpBFfs8dQhzYwqe2PnBzOYaobGCK4gwlNrSmTRD4qKR84uVU
-	 ogtaej75WvR7oZr3poCjpCWqU2o+HAdSQSfNY1eTIgoJDvD5s03xkOIpaT8ZNP4NFz
-	 SPAXHaFi63/D5HCSxycmojE3CBoDZjm+JvPMVz5Qw3Nl36mFwg7Yj5PAm4FlON12kV
-	 qMetkyNGDWELjpe0amTWSp5N4z3CYkLMb78xPwFyxzF7ZEXsQlDOU7Jqn/Eym1E6L7
-	 H+0ImkVwua3Mw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1sy53s-0000000Dqc7-00LT;
-	Tue, 08 Oct 2024 09:55:16 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH BROKEN] BAD PATCH
-Date: Tue,  8 Oct 2024 09:53:24 +0200
-Message-ID: <20241008075511.3295642-1-mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.46.2
+	s=arc-20240116; t=1728374745; c=relaxed/simple;
+	bh=wgdG1jta3iN/SR8PaU7tyb+DCCKiEwICGWitKjsyrac=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=u6/S+11WYaWchWKC6eY95QxZLnL2/1UuoVLnMhkkmJPi4Dk8L1NhEmG8lGgN8pFZFoxh7Nmtr+Tm6Ao/PvivBf6ihFfbaZ3rnT5gQtPTCzZbYnxal0JQ9wtIVJgVijXuHhQ9Gyc1IwVLMJ2BKds0T8pdPkEN+M01mgiN498NQNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F5C6C4CED1
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 08:05:44 +0000 (UTC)
+Message-ID: <f03553f5-59f1-4d67-aa44-ebc873843b7a@xs4all.nl>
+Date: Tue, 8 Oct 2024 10:05:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.13] media: add support for exporting HDMI InfoFrames
+ to debugfs
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This patch is meant to crash compilation. Its only goal is to test media-ci
-reply e-mail. Never apply this one!!!
+This PR contains this patch series:
 
-Expected errors:
-- missing SoB;
-- Compilation failures
-- C99 comments
+https://patchwork.linuxtv.org/project/linux-media/list/?series=13480
 
----
+minus the tda1997x patch, since I have no hardware to test that one. I'll
+try to find someone to test that for the next kernel cycle.
 
- drivers/media/usb/em28xx/em28xx-core.c | 3 +++
- 1 file changed, 3 insertions(+)
+Maxime added support for exporting InfoFrames to debugfs for drm,
+and this series does the same for the media subsystem.
 
-diff --git a/drivers/media/usb/em28xx/em28xx-core.c b/drivers/media/usb/em28xx/em28xx-core.c
-index 29a7f3f19b56..d4cd1a7037c4 100644
---- a/drivers/media/usb/em28xx/em28xx-core.c
-+++ b/drivers/media/usb/em28xx/em28xx-core.c
-@@ -1159,6 +1159,9 @@ int em28xx_resume_extension(struct em28xx *dev)
- {
- 	const struct em28xx_ops *ops = NULL;
- 
-+	// HACK just to check the media-ci reports
-+	foo()
-+
- 	dev_info(&dev->intf->dev, "Resuming extensions\n");
- 	mutex_lock(&em28xx_devlist_mutex);
- 	list_for_each_entry(ops, &em28xx_extension_devlist, next) {
--- 
-2.46.2
+I used the same names for the InfoFrames as the drm implementation
+does, and the format is the same as well. And edid-decode can be
+used to parse the InfoFrames and do conformity checking.
 
+The first two patches add helpers for this to the core framework,
+and the next 4 patches add support for this to the HDMI drivers.
+
+I tested the three adv drivers, and Dave Stevenson tested the tc358743
+driver.
+
+This is very useful for debugging received InfoFrames.
+
+Regards,
+
+	Hans
+
+The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
+
+  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.13c
+
+for you to fetch changes up to d719fecdc2d6daf342942bba2f13afb7804eaa24:
+
+  media: i2c: tc358743: export InfoFrames to debugfs (2024-10-02 12:01:22 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (6):
+      media: v4l2-core: add v4l2_debugfs_root()
+      media: v4l2-core: add v4l2_debugfs_if_alloc/free()
+      media: i2c: adv7511-v4l2: export InfoFrames to debugfs
+      media: i2c: adv7604: export InfoFrames to debugfs
+      media: i2c: adv7842: export InfoFrames to debugfs
+      media: i2c: tc358743: export InfoFrames to debugfs
+
+ drivers/media/i2c/adv7511-v4l2.c          |  91 +++++++++++++++++++++++++++++++++++++++++++-----------
+ drivers/media/i2c/adv7604.c               |  90 ++++++++++++++++++++++++++++++++++++++++++------------
+ drivers/media/i2c/adv7842.c               | 120 +++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------
+ drivers/media/i2c/tc358743.c              |  36 +++++++++++++++++++++-
+ drivers/media/v4l2-core/v4l2-dev.c        |  14 +++++++++
+ drivers/media/v4l2-core/v4l2-dv-timings.c |  67 ++++++++++++++++++++++++++++++++++++++++
+ include/media/v4l2-dev.h                  |  15 +++++++++
+ include/media/v4l2-dv-timings.h           |  48 +++++++++++++++++++++++++++++
+ 8 files changed, 411 insertions(+), 70 deletions(-)
 
