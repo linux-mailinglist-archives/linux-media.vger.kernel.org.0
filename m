@@ -1,161 +1,116 @@
-Return-Path: <linux-media+bounces-19271-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19272-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9979995293
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 16:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E8D9952C4
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 17:01:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 889D31F26123
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 14:57:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 61B091F23503
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 15:01:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02D131E049E;
-	Tue,  8 Oct 2024 14:56:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1F461E0E11;
+	Tue,  8 Oct 2024 15:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZBEHlQs"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="K0UpnBBZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573171E00A6;
-	Tue,  8 Oct 2024 14:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D2C1E0E12
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 15:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728399404; cv=none; b=mtatXvkMLI++PkMFtIU88WLJmqyFlPLUwZG8hSclT090CDOsuRLyDB3jAXtenkAA81xTJRoy/Ha0WxdXq2eb2DHAP2BM2dixENtzGMacKeu3ecrVOdTj1nsbRps4iGc2ClXmDJTlDgHH/ZySqXaP+L7vl0Sjyg5WkJiZbwiK8mQ=
+	t=1728399612; cv=none; b=cKgMfyj5Cm+uNkWgMHgmojHSZVnVtS5OsYXECTA31lQpOmMlN97Y/3pIjjwqa1G5YA/dO7690db3aCk4IW0bZzZ5/r0HY4S96oB6YZtahBV7eUpvCMN7YMCCMBs6UQpOlAg2RnRLHDZ7SNqSEBDkp8uiy1YbflvkMB3bswJIok4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728399404; c=relaxed/simple;
-	bh=zfXMLHZZ4S156l8d/BbkONRVgFIUqnsGeh1jRe6xziE=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=R4bppGEiZ2DWYTN4AhQRE58KODkPqUnT928OIRtG1+TWo01gNafvq3ynujHGi/CYg64GFHdo4O0SyzhSmY3HaMvCLn5rK28KHx6bswf5WYoCX79VpzclmleWp2QFMBJzgYHoNUw7CGptktonpRk1WhzU6JM5hfI81zQW/0YW6cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZBEHlQs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0F54C4CECD;
-	Tue,  8 Oct 2024 14:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728399403;
-	bh=zfXMLHZZ4S156l8d/BbkONRVgFIUqnsGeh1jRe6xziE=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=PZBEHlQsW4A017AUdoosNcNDTEVEVKg7sFv9ZPvJqtObOuKcRbsJTqEUndR26Go9l
-	 cGaKRikGLQoTaWBVGf3UZ6oaKfNTs0EQvZXGukSR8i+k5aWc4Wvtz9hnkjV8JiDZ/z
-	 zU3lP0MsqAchXGYcBSzpp0ct9DykYHRBhfcliYzpi/tYNBYtHI8Xm56nwP9/DV2QCw
-	 gPQaw60gJwZLJoftVTQ1skIPucFxAPawQIC+eSjtHswiQ1YXB/75VbjhaoWbIGsKyw
-	 D4VNHdg0oiyZliBwLB250Y0tCxESDEQDGqLZ7rGJcVIAffZIu6nh5dTorUZams0v6d
-	 V6lw8CpmHMyRQ==
-Date: Tue, 08 Oct 2024 09:56:43 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1728399612; c=relaxed/simple;
+	bh=fB8wPdyHy0ruFXLPdPg1YMrsIEXSnFE6R8nK/u6IlDU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uw+GEmiLsgLbyQqpbGQUDw9MvvhH4eeS4feyWNMdjEad3EI27naS7kRkAGKs2y4wQttRK9NAHffAbYsO8ccPjEhnSktaVfMkGBnc6dIQgst2ByBYCTTKvcANUHruA6m5d9MpQ3pltjIQCdpQ5o9ugFAmYrRKkjCkr/Ss3PBc7QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=K0UpnBBZ; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7a99e4417c3so472895485a.1
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2024 08:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1728399609; x=1729004409; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F8e25TBg3r/kV0lKd0SznJNEmKH9RSBCdHNOg8ma+Ik=;
+        b=K0UpnBBZQWEQpfVEDBQEqC+94GQrHO0iVY14rIKVEzATU6/q3BOnUitznNefC3nBeS
+         0XiC07TVzo/3n3TZQyZTAv75Jc/GVAOeJJ1cLyzK8TL//2oZRwDMAhYu5U3TF711gMWe
+         bOkQ8bUPgVryxzsWJxDENVMjr01ICifej4atM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728399609; x=1729004409;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F8e25TBg3r/kV0lKd0SznJNEmKH9RSBCdHNOg8ma+Ik=;
+        b=LmwAuv4Gg8Mps0OjkA/zrwat+DC8B52xThvEOOnWt2geBnL5NHID4nnwfMYRqe0dCf
+         LEy9LKVEiQ57y66ru5wWvSG/yx0tQgkrg6YBni+FL7GRr/f+1WcVs6o8N+XCR4CKuLq/
+         nLnHaufHr1KxMoFrL6Nr49ihZzv5tBiM4xyIIOOIkK9Cu3WEs9LF9ZL70KIJy1s/R7M2
+         t0jRbJlWfsVcg6GhlJIqA87jYHfiBfMkm/1SsHj4hv/LeGkDgdWGJdIX7c9OjPDYGxNk
+         yTn8CltT/vJOSC0zdnPmn1ECSGdK+QQrsU7oMeyilAViMpp4xR/W/vm/qyAxTQ1kOnyN
+         27kw==
+X-Gm-Message-State: AOJu0YxahfqNlfu8Xaj+DqzgzBi70zz+AfgEaLINL5iwwU0H0A2POYM4
+	T13zxN9m7vmH7bxiv8EtWxYHtq3Hk1T5qWYYN4VR2hCb7Ts53dW/tuGOhU3cdqSndmS/j08Cx8g
+	=
+X-Google-Smtp-Source: AGHT+IHXENak+TMDoF00Og9xFSrFvlDH1rXWX5ywyh1MscQhuH3y3sDASJnCumrz7mMpx1Y76cc7Mw==
+X-Received: by 2002:a05:620a:2494:b0:792:f429:9e9 with SMTP id af79cd13be357-7ae6f43a81dmr2449319585a.22.1728399609268;
+        Tue, 08 Oct 2024 08:00:09 -0700 (PDT)
+Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae75762a36sm360886085a.124.2024.10.08.08.00.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 08:00:08 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2 0/2] media: uvcvideo: Support partial control reads and
+ minor changes
+Date: Tue, 08 Oct 2024 15:00:06 +0000
+Message-Id: <20241008-uvc-readless-v2-0-04d9d51aee56@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Alain Volmat <alain.volmat@foss.st.com>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- linux-media@vger.kernel.org, Hugues Fruchet <hugues.fruchet@foss.st.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- linux-stm32@st-md-mailman.stormreply.com, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, devicetree@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20241008-csi_dcmipp_mp25-v1-0-e3fd0ed54b31@foss.st.com>
-References: <20241008-csi_dcmipp_mp25-v1-0-e3fd0ed54b31@foss.st.com>
-Message-Id: <172839929145.1375728.3090731448199694318.robh@kernel.org>
-Subject: Re: [PATCH 00/15] media: stm32: introduction of CSI / DCMIPP for
- STM32MP25
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPZIBWcC/3XMQQ7CIBCF4as0sxYDFBN05T2aLiidlklsMYMlm
+ oa7i927/F/yvh0SMmGCW7MDY6ZEca2hTw344NYZBY21QUttlJRWbNkLRjc+MCWh2+k6WO9GObR
+ QL0/Gid4H1/W1A6VX5M+hZ/Vb/0BZCSmk0c6bi1WTMXcfOC60LefIM/SllC/pl/3hqwAAAA==
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, stable@vger.kernel.org
+X-Mailer: b4 0.13.0
 
+Some cameras do not return all the bytes requested from a control
+if it can fit in less bytes. Eg: returning 0xab instead of 0x00ab.
+Support these devices.
 
-On Tue, 08 Oct 2024 13:18:02 +0200, Alain Volmat wrote:
-> This series introduces the camera pipeline support for the
-> STM32MP25 SOC.  The STM32MP25 has 3 pipelines, fed from a
-> single camera input which can be either parallel or csi.
-> 
-> This series adds the basic support for the 1st pipe (dump)
-> which, in term of features is same as the one featured on
-> the STM32MP13 SOC.  It focuses on introduction of the
-> CSI input stage for the DCMIPP, and the CSI specific new
-> control code for the DCMIPP.
-> One of the subdev of the DCMIPP, dcmipp_parallel is now
-> renamed as dcmipp_input since it allows to not only control
-> the parallel but also the csi interface.
-> 
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> ---
-> Alain Volmat (15):
->       media: stm32: dcmipp: correct dma_set_mask_and_coherent mask value
->       dt-bindings: media: addition of stm32 csi driver description
->       media: stm32: csi: addition of the STM32 CSI driver
->       media: stm32: dcmipp: use v4l2_subdev_is_streaming
->       media: stm32: dcmipp: replace s_stream with enable/disable_streams
->       media: stm32: dcmipp: rename dcmipp_parallel into dcmipp_input
->       media: stm32: dcmipp: add support for csi input into dcmipp-input
->       media: stm32: dcmipp: add bayer 10~14 bits formats
->       media: stm32: dcmipp: add 1X16 RGB / YUV formats support
->       media: stm32: dcmipp: avoid duplicated format on enum in bytecap
->       media: stm32: dcmipp: fill media ctl hw_revision field
->       dt-bindings: media: addition of stm32mp25 compatible of DCMIPP
->       media: stm32: dcmipp: add core support for the stm32mp25
->       arm64: dts: st: add csi & dcmipp node in stm32mp25
->       arm64: dts: st: enable imx335/csi/dcmipp pipeline on stm32mp257f-ev1
-> 
->  .../devicetree/bindings/media/st,stm32-csi.yaml    |  129 +++
->  .../devicetree/bindings/media/st,stm32-dcmipp.yaml |   53 +-
->  MAINTAINERS                                        |    8 +
->  arch/arm64/boot/dts/st/stm32mp251.dtsi             |   23 +
->  arch/arm64/boot/dts/st/stm32mp257f-ev1.dts         |   87 ++
->  drivers/media/platform/st/stm32/Kconfig            |   14 +
->  drivers/media/platform/st/stm32/Makefile           |    1 +
->  drivers/media/platform/st/stm32/stm32-csi.c        | 1150 ++++++++++++++++++++
->  .../media/platform/st/stm32/stm32-dcmipp/Makefile  |    2 +-
->  .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c         |  128 ++-
->  .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c        |  119 +-
->  .../platform/st/stm32/stm32-dcmipp/dcmipp-common.h |    4 +-
->  .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   |  116 +-
->  .../platform/st/stm32/stm32-dcmipp/dcmipp-input.c  |  540 +++++++++
->  .../st/stm32/stm32-dcmipp/dcmipp-parallel.c        |  440 --------
->  15 files changed, 2238 insertions(+), 576 deletions(-)
-> ---
-> base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
-> change-id: 20241007-csi_dcmipp_mp25-7779601f57da
-> 
-> Best regards,
-> --
-> Alain Volmat <alain.volmat@foss.st.com>
-> 
-> 
-> 
+Also, now that we are at it, improve uvc_query_ctrl() logging.
 
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2:
+- Rewrite error handling (Thanks Sakari)
+- Discard 2/3. It is not needed after rewriting the error handling.
+- Link to v1: https://lore.kernel.org/r/20241008-uvc-readless-v1-0-042ac4581f44@chromium.org
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+---
+Ricardo Ribalda (2):
+      media: uvcvideo: Support partial control reads
+      media: uvcvideo: Add more logging to uvc_query_ctrl()
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+ drivers/media/usb/uvc/uvc_video.c | 27 +++++++++++++++++++++++----
+ 1 file changed, 23 insertions(+), 4 deletions(-)
+---
+base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
+change-id: 20241008-uvc-readless-23f9b8cad0b3
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y st/stm32mp257f-ev1.dtb' for 20241008-csi_dcmipp_mp25-v1-0-e3fd0ed54b31@foss.st.com:
-
-arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: imx335@1a: 'powerdown-gpios' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/media/i2c/sony,imx335.yaml#
-arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: csi@48020000: ports:port@0:endpoint:data-lanes:0: 0 is not of type 'array'
-	from schema $id: http://devicetree.org/schemas/media/st,stm32-csi.yaml#
-arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: csi@48020000: ports:port@0:endpoint:data-lanes:1: 1 is not of type 'array'
-	from schema $id: http://devicetree.org/schemas/media/st,stm32-csi.yaml#
-
-
-
-
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
 
