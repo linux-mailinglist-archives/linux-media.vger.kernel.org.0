@@ -1,76 +1,75 @@
-Return-Path: <linux-media+bounces-19216-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19217-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE8D994658
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:15:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8139994665
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:17:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B16471F26967
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 11:15:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61DB628A4F2
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 11:17:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26AC718C90B;
-	Tue,  8 Oct 2024 11:15:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F34C1C9B77;
+	Tue,  8 Oct 2024 11:17:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oMRAtK9y"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OEk8k9J6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C847718C937
-	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 11:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4291C3301
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 11:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728386147; cv=none; b=KHMLlznho0a2bGHkJE74uG8a0hYRes/H7OaIxWdnYbmMljiNIZkzA+0h1/VtOZLrmPG3ALvJtHbH4lm+E6Y5OsHymIXD8/sMD1LZMfabo8KwFj/HbeiOXpfnM9eAD39FohYKfa4IRLL/FHluiLYQXhXMXX5ozZ+he91PEssTmeQ=
+	t=1728386239; cv=none; b=pRWqzI3fdbjfJ+FMP+LIeWnbCVR8fDsFXMMYWLwD691p8xdIow2I3idCuHQwxCZvYk9n3JfdV4yroZKS0lkEHDMgp4rahfRaDu+PvA84qBZSullpSQBZGYvTTcNPl9G5u09T/l2byeVabdeYxE6zO222uLFbXJ33XH7xmKbWQbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728386147; c=relaxed/simple;
-	bh=nhRUMJIxaeyZtHV7iu/V9tkiqUxIY1nIKnNlo6HRydU=;
+	s=arc-20240116; t=1728386239; c=relaxed/simple;
+	bh=JciPD3Kds7CPkAVP6VNzM1EEeODN/Rh825zly+fAF84=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SuA22h9PgFFm1zR8H67tHXWMSF9v9nu7oy2homGr7Xn0c0mNYfVjiOHfkfDpD/BvQ5OAU4PtAIrIVAyDG1YZtsHI88SJFVgQR2Rxe51hgpEVzZbSSwXVWAywjKIz/a69NTFkQSjPvQCejxJR2JQd3iQCKR+u0iENApTvjEDwddc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oMRAtK9y; arc=none smtp.client-ip=209.85.128.51
+	 In-Reply-To:Content-Type; b=jYqLEv92/F17tBeJpP2hbkPGyxEQSwGG05WpMozjMYgIH0Qa2cCy5tFEaIoR7euqGO3Y0XqBeJ97AL9c423XZtkDbzyEGav+ORFZ4SxKf6iD9i7xSa9+LVh5eXvEIYkZH5+IE/n6pOcOTMPxNsdERGaMzJMxzqHxykU397YKsOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OEk8k9J6; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-430549e65a4so540485e9.0
-        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2024 04:15:45 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42e6dbc8c7dso9076145e9.1
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2024 04:17:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728386144; x=1728990944; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=BulJtl4VFPjg5oQYf7/T8ZH6KDf7+5XGRszaWne0aAQ=;
-        b=oMRAtK9yZW0b65Cwo90l7boafPjW5znGr5Inz23DxhgoxN18owd+SGy+xj13J3UWoY
-         u8CpFfio3uzQl/IXAN4PEtultFpz/RJYNDyga9esco3DZ1/X4A88zFyeZjX481UM5zS2
-         p9cwPbMpY1i4gopo7EV0FLZbwf7AwfFENlaUwUHN7ENnH65EzkFSatdBoDnTenjY64UG
-         wojC3vRK1JGYipWAPKq5/D5W54z4JZ4kbibJgEFMvPwclgZEFw9ATt7Cci/WFz8epBTV
-         +680ME8siukmndm5KC4L0E7GUvD3t7Y/08YEXvwDdlS6ALCUA0oldw+MQ1M07mmOl1pl
-         t0ng==
+        d=linaro.org; s=google; t=1728386236; x=1728991036; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=JciPD3Kds7CPkAVP6VNzM1EEeODN/Rh825zly+fAF84=;
+        b=OEk8k9J6BdsLKJrsTuwsp0Uqbwc8wv/FWzRP+yvVjPPCr1EkXqtS5mxN54Ov8AHvv0
+         bWmpq6POfYu/P29iDgth8P84yoPs+8m9aUEEL01DJzj4vi/okbzBQRkzlswYflLECBq9
+         fwNF0GMPdQIkxkzAFQLEoiVYyep240uAmNq7myOdk0eBERH41ks7D3Sl1QyUCqoTlut5
+         vDkDemQTO8ciWIUKk2XvJqLUJDXzGmaz4q9XG+/tFAjOx92alXDg+SuxXovtoXR39x+a
+         R+R4OsDxJ3MFdgxhOWs0Oqzh2roAhjXxDR+hedYUtvgaaOn1QpfR/HnNeojmOyBPzPlZ
+         8Zsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728386144; x=1728990944;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BulJtl4VFPjg5oQYf7/T8ZH6KDf7+5XGRszaWne0aAQ=;
-        b=kg4cSe/oBFZgUb+gvlcnKTsx/nUVXpcsmpiwOZrz8xJdVbK/RmkeFyhsaNLrTLllXv
-         ausaqwtEXGWFOkZ5Aoisu3xukV9q1pkgMQSbkD8xlk4rLAGhNxYSkvxEuvLTmOD8UwiQ
-         03s/m4G583vH+vw2Aeu0sv7SAc1scfk9NYYVZgiXttwd7aH5KkB6G6fxvUwHI3hV97wV
-         pla297ck5tYO5pqT5DdFCn/Qx8Jrq4nIyj7kpMXWX8E1Zo6jrpv5QDNcM9jShVh87mz4
-         eC+YC7Yk1N0DYgtBgeCUePCoA+ZqakMDAWnYVLUKn+Bbkp9WBYkZ+3zfOkV2vJn3CSvm
-         FXxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLbLCq5L2GuvptGdU5f+IQ2oZP6lB3fdHo6uLIKogZUZBjKyfJgVwrUnDhBx0fxXXaQ2vGWpN9UWh0WQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2G71C0FLDz9NfOyUVa1wpPr/lpbO2CjlkdnW7ZQ9XqYkDhx8r
-	iKeQbu2sqzRhqpc5BTOMG1RMQbf66QXhxbKXsZRo37eFceoc25NcoFPW0iK/mXSLQgVo7Oql3Ej
-	g
-X-Google-Smtp-Source: AGHT+IHna7boyy8mgFf0qSzbxoq+xkVUaDqWJAhLT1vakdvNENJhGkjFhWLH7zjqPB/cw7NBmPFwqw==
-X-Received: by 2002:a05:600c:3b1a:b0:42c:c082:fafb with SMTP id 5b1f17b1804b1-42f85af0d3amr53697735e9.6.1728386144169;
-        Tue, 08 Oct 2024 04:15:44 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728386236; x=1728991036;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JciPD3Kds7CPkAVP6VNzM1EEeODN/Rh825zly+fAF84=;
+        b=FMFkql+mi3A0gSNbcT5pkTJP6/ZGw7kiZ4Yx+mCv4g5eLjbohyIGazAeYzmEconK8r
+         8TPbOfbe+t77ulA+xaLnQnUi9O+OYC8FxIFhXwmh8Fi4ISho+/FBghFjDwlY1wugw0Qz
+         aO5Fh3xk/ik7YdFLeHBmfMYnoylplra2I8fl2N0NVwNntV8X4kdmrOAjAkLT+DGykxNf
+         3aUNBCetUk3g0aohGry1FIz8pUI15wJAwqCDSwERi5ukR9jhN5FPCp/9v4rDoZLDEbJ/
+         ciDzn8ZSliOp6v83HUmatcZwrjyai/I3vasZy+blS+SKDcQaoMM0LvaLcQaj+eoZVBbD
+         Su1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVLybVqQWDr4tYHHxeBkMK5QVOWMRXA+7oYl/PIbswVDxtshNMVU2BTSVh+SSAgeNfS57KBAW4/rJBViw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4JUqpz8jnDztOqFGG6q8FnvVHlo0r8oS67zNzP/dBluhMg46t
+	BOE1INkoUQ434EoJqncC7EhIamz49MDbpupY4N/CN1vc4rrH/XfcGk5BlLJHfR0=
+X-Google-Smtp-Source: AGHT+IEAFSTz5clJF/IkCMELN4GqRyE/D0UXIDSHPlX2c7AW19xZoI1TFNw/XfTjQpRGOTp4fbfP1A==
+X-Received: by 2002:a05:600c:590b:b0:430:52ec:1e2a with SMTP id 5b1f17b1804b1-43052ec1fb3mr5626555e9.7.1728386236532;
+        Tue, 08 Oct 2024 04:17:16 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.211.167])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f89ed9667sm106123185e9.47.2024.10.08.04.15.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4305254ff6bsm15704655e9.18.2024.10.08.04.17.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 04:15:43 -0700 (PDT)
-Message-ID: <313667a6-afcd-44cb-a6f6-0d550e8f68a0@linaro.org>
-Date: Tue, 8 Oct 2024 13:15:41 +0200
+        Tue, 08 Oct 2024 04:17:15 -0700 (PDT)
+Message-ID: <e5561ad1-5ee8-4e2a-89fe-e5c78cd29136@linaro.org>
+Date: Tue, 8 Oct 2024 13:17:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,21 +80,19 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/6] dt-bindings: media: qcom,sc8280xp-camss: Fix
  interrupt types
 To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
  linux-media@vger.kernel.org, devicetree@vger.kernel.org
 References: <20240923072827.3772504-1-vladimir.zapolskiy@linaro.org>
  <20240923072827.3772504-2-vladimir.zapolskiy@linaro.org>
- <datahu33nmsser2p4fb2hyncsujtkwaca377ivwmpc6yj2naut@2sjsbebfm3gf>
- <3f87e855-8779-4df3-8f26-e3d2b611d3e9@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -140,58 +137,19 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <3f87e855-8779-4df3-8f26-e3d2b611d3e9@linaro.org>
+In-Reply-To: <20240923072827.3772504-2-vladimir.zapolskiy@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 08/10/2024 12:02, Vladimir Zapolskiy wrote:
-> Hi Bjorn,
-> 
-> On 10/6/24 05:36, Bjorn Andersson wrote:
->> On Mon, Sep 23, 2024 at 10:28:22AM GMT, Vladimir Zapolskiy wrote:
->>> The expected type of all CAMSS interrupts is edge rising, fix it in
->>> the documented example from CAMSS device tree bindings for sc8280xp.
->>>
->>
->> Who/what expects them to be RISING?
-> 
-> I've checked CAMSS device tree bindings in a number of downstream kernels,
-> all of them describe interrupt types as edge rising.
-> 
-> $ grep -Hn IRQF_TRIGGER drivers/media/platform/qcom/camss/*
-> drivers/media/platform/qcom/camss/camss-csid.c:619:			       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
-> drivers/media/platform/qcom/camss/camss-csiphy.c:605:			       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
-> drivers/media/platform/qcom/camss/camss-ispif.c:1164:			       IRQF_TRIGGER_RISING, ispif->irq_name, ispif);
-> drivers/media/platform/qcom/camss/camss-ispif.c:1168:			       IRQF_TRIGGER_RISING, ispif->irq_name, ispif);
-> drivers/media/platform/qcom/camss/camss-vfe.c:1327:			       IRQF_TRIGGER_RISING, vfe->irq_name, vfe);
+On 23/09/2024 09:28, Vladimir Zapolskiy wrote:
+> The expected type of all CAMSS interrupts is edge rising, fix it in
 
-Downstream has a lot of bad code, so I am not sure how good argument
-this is.
+Please re-phrase the commit msg to explain who expects it ("expected
+type"). Further discussion lead to feeling that you based it on drivers,
+which is obviously not enough.
 
-I acked the patch because I assumed you *checked in hardware*.
+> the documented example from CAMSS device tree bindings for sc8280xp
 
-> 
->  From runtime point of view it's more important to get re-probed camss
-> driver, see an absolutely similar and previously discussed case (in the
-> cover letter):
-> 
-> https://lore.kernel.org/lkml/20220530080842.37024-4-manivannan.sadhasivam@linaro.org/
-> 
-> Now in runtime I get this error, it's easy to check by unbinding/binding any
-> camss device:
-> 
-> irq: type mismatch, failed to map hwirq-509 for interrupt-controller@17a00000!
-> 
-> Basically camss devices can not be bound on the second time on the
-> number of platforms touched by this changeset.
-
-This is solveable different way and I do not understand this rationale.
-The driver should not request trigger type but use what DTS is
-providing, unless of course only one valid trigger is possible. But so
-far you did not provide any arguments for this. Downstream crappy code?
-Nope. Existing driver? Same.
-
-Was anything here actually checked with datasheets/hardware?
 
 Best regards,
 Krzysztof
