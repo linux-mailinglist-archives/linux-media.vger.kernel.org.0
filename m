@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-19263-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19264-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F361995077
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 15:42:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC7299507A
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 15:42:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E9F84B230AE
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:42:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2893F1C24D1F
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:42:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 776921DF278;
-	Tue,  8 Oct 2024 13:42:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B1FD1DF27A;
+	Tue,  8 Oct 2024 13:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B8BWrc0H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aA4B8JW1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDD31D362B;
-	Tue,  8 Oct 2024 13:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CF61D362B;
+	Tue,  8 Oct 2024 13:42:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728394922; cv=none; b=gSDVz4IIZxlmE5MGQ5Y2QvNdkr/yrKQlCZ6dclcszCNzuhu8y5oGzl5oxNdj5uG6m1k505P1GwCfenV+00qxI6rjCBbXbwh9H0Sc3FG4bF0Vp6p9I2Cy+hw7pMfJTBZFBaVw8AmH/CTpvTxpD9etU8P6T1zYq13xc/RTJMJd3E4=
+	t=1728394965; cv=none; b=H0ALcLSbNd6rfNfpAxxXUyClTq5emn5ZVysLpW0OysS2rjzyd6aMLnRMhWTyfpRtTAyCqzkG6q1NEbSf00kUU58Wu0w0wclNIJbE+euMuL8RQEANV5rjRHU3udfsVGAH/Xc+xzVgUswfc9WSgKBAmFKQqu5Ms1ZBWBhVwxkw720=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728394922; c=relaxed/simple;
-	bh=PLTW4wEi44inD24SGOxcygZQ8NsHLs+KSu6NJQ0Niyo=;
+	s=arc-20240116; t=1728394965; c=relaxed/simple;
+	bh=CrrE8VhPKL8JLO/ea83GTqyPPT8hwwbopSCwHs9vxzQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bv8u3WT7HcNvOCxTHAnaM1ZoHPBtKpYDfMYSVB3fJOF6RLEPTHtQoMjUHkqTqlRTb07EzBkREStU5FZBFQSySqeNiI4bHp1xM9HmvZV+ba/ioTJYf7G2ejJ9Q2RN6tx4K3Om+QkOq6DXqKctvMCbO13FFCP1GoW756GskHVGXAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B8BWrc0H; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B46B5C4CEC7;
-	Tue,  8 Oct 2024 13:42:01 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=sXI9Yepkj5ST3aslVeDVGV57+WToRriazYfb+g62KewXykkI6d1x0q6AjlwEEEOfc3lQrPK9kX4814JsK1+w8pi0Xs7g0J66cpfmATvsPcqenaTkT0ovpcIJLvPLWQb/dMpD5eFEJ8DiR9QeqDhJKi/0mWs455NpHo3FbldI60I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aA4B8JW1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAF92C4CEC7;
+	Tue,  8 Oct 2024 13:42:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728394922;
-	bh=PLTW4wEi44inD24SGOxcygZQ8NsHLs+KSu6NJQ0Niyo=;
+	s=k20201202; t=1728394964;
+	bh=CrrE8VhPKL8JLO/ea83GTqyPPT8hwwbopSCwHs9vxzQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B8BWrc0HIy0mUEVmvruHx9Wg4rdjAjooMw9gKa0BsYGeyQPy5nVG/mJO19OAeqUTr
-	 RZvlalK+CCdOUrzeF2LVsqGJPps2pF7umzScMSogqyAoM0EPgrgRCbLooKirBI9dA+
-	 WUp/WqunEg2rmMr+l96oVjppKcokvacmlF5oGdm97YycsNq9uW5JZ2ji6VDRoEOmgl
-	 Gr6mo9tJmksNFGKD3Ip4xD9gEeuOuhJPa+WOlsKgC6pR+o2tXGw5UMSz+wW9TkNqgQ
-	 eb67xO/bt1HeuBx3rqMtsbVhVw+3yWpZxs2qGW0Z9ZctlAjM3oFjWTv898DG7Ha0f/
-	 YAbv5AFYnQ29g==
-Date: Tue, 8 Oct 2024 15:41:59 +0200
+	b=aA4B8JW1TDPbtmvDjxpLHDPhNay/cJbOTqMzrqPmFxo35B23hYxkQdcC0kiELZ5n2
+	 6DZvGz1YhyQSYOg8B23J6HMO/bwJI7VbZ73XZUogLZdaWws3v+OK7yGQXCLwDNMvL7
+	 F/egj1n4KJdSXlFM4Nv2Mql59sNzjM8qH4IXw62S87aI9ULalK3JQ6k4tcNMaNoKe2
+	 mgkhSyKye8Tg/wMvKjPCSawfFX/TyN5iARrZOOSzZQvr6lqiNnm1530h8X8/B0fJ2v
+	 e1ZB5XRUk/wbwf+i24sJp6K3jQ9guCD/vyd9ljsPw+VioAB++t8Ax6nVJQ+xIenI9m
+	 gstNnky+HOHOQ==
+Date: Tue, 8 Oct 2024 15:42:42 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Alain Volmat <alain.volmat@foss.st.com>
 Cc: Hugues Fruchet <hugues.fruchet@foss.st.com>, 
@@ -52,11 +52,11 @@ Cc: Hugues Fruchet <hugues.fruchet@foss.st.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org, 
 	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 12/15] dt-bindings: media: addition of stm32mp25
- compatible of DCMIPP
-Message-ID: <lu252oltrh6bftg2e4hpthazd4r3lwbd75mboezhz7f4bbfdip@w5k4jx6oyyzx>
+Subject: Re: [PATCH 15/15] arm64: dts: st: enable imx335/csi/dcmipp pipeline
+ on stm32mp257f-ev1
+Message-ID: <fgxjk5tikvd5vihlzslovhlpy5xbbgnr3kywkvkd62ppx6ttm7@2rbaqvllyb25>
 References: <20241008-csi_dcmipp_mp25-v1-0-e3fd0ed54b31@foss.st.com>
- <20241008-csi_dcmipp_mp25-v1-12-e3fd0ed54b31@foss.st.com>
+ <20241008-csi_dcmipp_mp25-v1-15-e3fd0ed54b31@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,46 +65,128 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241008-csi_dcmipp_mp25-v1-12-e3fd0ed54b31@foss.st.com>
+In-Reply-To: <20241008-csi_dcmipp_mp25-v1-15-e3fd0ed54b31@foss.st.com>
 
-On Tue, Oct 08, 2024 at 01:18:14PM +0200, Alain Volmat wrote:
-> Addition of the stm32mp25 compatible for the DCMIPP.
-
-"Add"
-See submitting patches.
-
-> The stm32mp25 distinguish with the stm32mp13 by the fact that:
->  - supports also csi inputs in addition to parallel inputs
->  - requires an addition csi clock to be present
-> 
-> The commit also adds access-controllers, an optional property that
-
-"Add", see submitting patches.
-
-> allows a peripheral to refer to one or more domain access controller(s).
+On Tue, Oct 08, 2024 at 01:18:17PM +0200, Alain Volmat wrote:
+> Enable the camera pipeline with a imx335 sensor connected to the
+> dcmipp via the csi interface.
 > 
 > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
 > ---
->  .../devicetree/bindings/media/st,stm32-dcmipp.yaml | 53 +++++++++++++++++++---
->  1 file changed, 47 insertions(+), 6 deletions(-)
+>  arch/arm64/boot/dts/st/stm32mp257f-ev1.dts | 87 ++++++++++++++++++++++++++++++
+>  1 file changed, 87 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml b/Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
-> index 87731f3ce7bd..bda28fef0b78 100644
-> --- a/Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
-> +++ b/Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
-> @@ -10,9 +10,40 @@ maintainers:
->    - Hugues Fruchet <hugues.fruchet@foss.st.com>
->    - Alain Volmat <alain.volmat@foss.st.com>
+> diff --git a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
+> index 214191a8322b..599af4801d82 100644
+> --- a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
+> +++ b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
+> @@ -27,6 +27,38 @@ chosen {
+>  		stdout-path = "serial0:115200n8";
+>  	};
 >  
-> +allOf:
+> +	clocks {
+> +		clk_ext_camera: clk-ext-camera {
+> +			#clock-cells = <0>;
+> +			compatible = "fixed-clock";
+> +			clock-frequency = <24000000>;
+> +		};
+> +	};
+> +
+> +	imx335_2v9: imx335-2v9 {
 
-Please put allOf: like in example schema, so after required:.
+Please use name for all fixed regulators which matches current format
+recommendation: 'regulator-[0-9]v[0-9]'
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/regulator/fixed-regulator.yaml?h=v6.11-rc1#n46
 
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "imx335-avdd";
+> +		regulator-min-microvolt = <2900000>;
+> +		regulator-max-microvolt = <2900000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	imx335_1v8: imx335-1v8 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "imx335-ovdd";
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	imx335_1v2: imx335-1v2 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "imx335-dvdd";
+> +		regulator-min-microvolt = <1200000>;
+> +		regulator-max-microvolt = <1200000>;
+> +		regulator-always-on;
+> +	};
+> +
+>  	memory@80000000 {
+>  		device_type = "memory";
+>  		reg = <0x0 0x80000000 0x1 0x0>;
+> @@ -50,6 +82,40 @@ &arm_wdt {
+>  	status = "okay";
+>  };
+>  
+> +&csi {
+> +	vdd-supply =  <&scmi_vddcore>;
+> +	vdda18-supply = <&scmi_v1v8>;
+> +	status = "okay";
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		port@0 {
+> +			reg = <0>;
+> +			csi_sink: endpoint {
+> +				remote-endpoint = <&imx335_ep>;
+> +				data-lanes = <0 1>;
+> +				bus-type = <4>;
+> +			};
+> +		};
+> +		port@1 {
+> +			reg = <1>;
+> +			csi_source: endpoint {
+> +				remote-endpoint = <&dcmipp_0>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&dcmipp {
+> +	status = "okay";
+> +	port {
+> +		dcmipp_0: endpoint {
+> +			remote-endpoint = <&csi_source>;
+> +			bus-type = <4>;
+> +		};
+> +	};
+> +};
+> +
+>  &ethernet2 {
+>  	pinctrl-names = "default", "sleep";
+>  	pinctrl-0 = <&eth2_rgmii_pins_a>;
+> @@ -81,6 +147,27 @@ &i2c2 {
+>  	i2c-scl-falling-time-ns = <13>;
+>  	clock-frequency = <400000>;
+>  	status = "okay";
+> +
+> +	imx335: imx335@1a {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+> +		compatible = "sony,imx335";
+> +		reg = <0x1a>;
+> +		clocks = <&clk_ext_camera>;
+> +		avdd-supply = <&imx335_2v9>;
+> +		ovdd-supply = <&imx335_1v8>;
+> +		dvdd-supply = <&imx335_1v2>;
+> +		reset-gpios = <&gpioi 7 (GPIO_ACTIVE_HIGH | GPIO_PUSH_PULL)>;
+> +		powerdown-gpios = <&gpioi 0 (GPIO_ACTIVE_HIGH | GPIO_PUSH_PULL)>;
+> +		status = "okay";
+
+Why? Didi you disable it anywhere?
 
 Best regards,
 Krzysztof
