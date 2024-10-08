@@ -1,110 +1,107 @@
-Return-Path: <linux-media+bounces-19254-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19255-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1E2994AC3
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 14:36:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC6B994D5E
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 15:04:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0B641C24CFE
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 12:36:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 176641F2417E
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:04:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F57C1DE4CB;
-	Tue,  8 Oct 2024 12:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 358991DED6F;
+	Tue,  8 Oct 2024 13:04:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EEUgVJEv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Otmsx2rr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9232C192594;
-	Tue,  8 Oct 2024 12:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC8B1DE8A0;
+	Tue,  8 Oct 2024 13:04:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728390973; cv=none; b=ID4pZ29Sjwq6CUCgwTRydR+O+xiB7fLxgYb3auDdYmjHFZtfHd4QNpNwcUtMQiY0J0g6LmSB5X+1oVGsdQcyorVJU4IwScUWuYQkE9hcGsuIaTuOv1vZKOQpPhA88Tmeu/X4HhxoTrcsEdz/wVjptdoanAHuQqvfGiPcjFY1R+s=
+	t=1728392681; cv=none; b=RDXxCTnOt3Bri6OstvgNTPiZKKjA7hswksrIMJtHo7DxoRz/uFVkrJyr9a7n/GjUthGIi+Tkl2t+0aBXiXGecH4PwMVtgc6i9po/K6kBTwRyxdjgrN87/bgkpP3v2vzvI7QYf2oLtXAGTI2dodQYFXNe8w+b9QLOEpJ99t282L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728390973; c=relaxed/simple;
-	bh=pxWhGhOhEA0Z8p6MyMieIv6wZHVqWy909W+j2KODUww=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=E4xe1A3lbrIA6FQGFcqAnBU5LWpMVzHTqKnI/7lUXUkZMno8UvuLckL5u+XT1UfMxjd111Xy2J9ta1s8SeofrcFpzsn6FxI/CcT0xUbjbz0RP/TKtGXfoa41fkFoX+2amOezzRmdlN4+n8LZzK5l5yb5H6VzeYksUhCa+DcbXNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EEUgVJEv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A324C4CEC7;
-	Tue,  8 Oct 2024 12:36:13 +0000 (UTC)
+	s=arc-20240116; t=1728392681; c=relaxed/simple;
+	bh=CiHFkYMfmlhH7C61SxzU1s41M8D5uRdtrYwZ3UI1/nQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CM1EHD0oaZvE2yNhikdrKLP+l7m4R5eOaa20ggGmbHxxQ9vESHXXRBSBZ/rlidyVV6niXftWbZ+04hcb1aESocuDy8iSxVwHMBFqzsSp4tCWq8JUfBM0pmlxtfTKEG/skMMTRnUSJA3v2Cpcp0Ur+THqtf4z0Yz3/J1sh9uKAOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Otmsx2rr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 153D2C4CECC;
+	Tue,  8 Oct 2024 13:04:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728390973;
-	bh=pxWhGhOhEA0Z8p6MyMieIv6wZHVqWy909W+j2KODUww=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=EEUgVJEvy1Yapyc4wpkIvBcJ7KsMJfONvFvlmBLhufZQwOmcbQVvqvJrCr6D9DrR5
-	 /d31pNJoeJlRgk7wFrqQhaAxJpR45umiGX+Y2oAgHLqBjliB4IBpaD2C+GNsyt6on7
-	 KxKj+dIiPt5Z5MUZjhnDzkQ51yruicl7zKBKERMOfJG3limfIb4oUtNjc6uLzOhQdB
-	 XcdsibAYp895YHcb8wDWhzWfdwYG46osAvM9/qyn/mv1RZZmV6oSoiUEAcI5GiFx4C
-	 hcaHNoetKvn3r+f+orbqjPX0aIsX499WV8rUIxYRyVHteaR1fNGxAxlfXpksavoxJw
-	 AbOJdA8RUA69w==
-Date: Tue, 08 Oct 2024 07:36:12 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1728392681;
+	bh=CiHFkYMfmlhH7C61SxzU1s41M8D5uRdtrYwZ3UI1/nQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Otmsx2rrnevrNJz4cLf+Z+32OY2h9DjQBorQoXCcf6lSUhC69whxs27/7VaNcxKNL
+	 AaoirpV4LLKVHGxjAn2x57uW1MRbG57TudgY2BNrquGlkdVt0LNLcfzAD4qlin78Hh
+	 YIeC3z0165JBStl/rD4zo/dKDqZjXAOUuYolq++WUeSBbfYXVMDmAJQUhlMKrekPf4
+	 /aUR+lVLP+H4wURm1VOCkSyBWrfadgbdrn3Ec4g1JhENfW7X4p/1DLudFetk9pMqHZ
+	 j1COlC8q+ltFHaUSBCxGFaaL2UxjYnhaNsn3jCEJiclSyUiGEPYPyMupVBjgs/r/Hy
+	 zmvDqrk1A2Lxw==
+Date: Tue, 8 Oct 2024 09:04:39 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Lijo Lazar <lijo.lazar@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>, Xinhui.Pan@amd.com,
+	airlied@gmail.com, daniel@ffwll.ch, sumit.semwal@linaro.org,
+	mario.limonciello@amd.com, Hawking.Zhang@amd.com, le.ma@amd.com,
+	hamza.mahfooz@amd.com, andrealmeid@igalia.com,
+	victorchengchi.lu@amd.com, sunil.khatri@amd.com,
+	chenxb_99091@126.com, victor.skvortsov@amd.com, Jun.Ma2@amd.com,
+	Yunxiang.Li@amd.com, Felix.Kuehling@amd.com,
+	Arunpravin.PaneerSelvam@amd.com, tvrtko.ursulin@igalia.com,
+	pierre-eric.pelloux-prayer@amd.com, Wang.Beyond@amd.com,
+	shashank.sharma@amd.com, zhenguo.yin@amd.com, jesse.zhang@amd.com,
+	Philip.Yang@amd.com, rajneesh.bhardwaj@amd.com, Tim.Huang@amd.com,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH AUTOSEL 6.11 72/76] drm/amdgpu: nuke the VM PD/PT shadow
+ handling
+Message-ID: <ZwUt5zNpjTMzweM9@sashalap>
+References: <20241004181828.3669209-1-sashal@kernel.org>
+ <20241004181828.3669209-72-sashal@kernel.org>
+ <bc1f6bc0-6512-48e0-9f97-c607b34e9ab1@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Alain Volmat <alain.volmat@foss.st.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Hugues Fruchet <hugues.fruchet@foss.st.com>, linux-kernel@vger.kernel.org, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- linux-arm-kernel@lists.infradead.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-In-Reply-To: <20241008-csi_dcmipp_mp25-v1-2-e3fd0ed54b31@foss.st.com>
-References: <20241008-csi_dcmipp_mp25-v1-0-e3fd0ed54b31@foss.st.com>
- <20241008-csi_dcmipp_mp25-v1-2-e3fd0ed54b31@foss.st.com>
-Message-Id: <172839097255.1123420.12436577400755634663.robh@kernel.org>
-Subject: Re: [PATCH 02/15] dt-bindings: media: addition of stm32 csi driver
- description
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bc1f6bc0-6512-48e0-9f97-c607b34e9ab1@amd.com>
 
+On Tue, Oct 08, 2024 at 08:46:01AM +0200, Christian König wrote:
+>Hi Sasha,
+>
+>Am 04.10.24 um 20:17 schrieb Sasha Levin:
+>>From: Christian König <christian.koenig@amd.com>
+>>
+>>[ Upstream commit 7181faaa4703705939580abffaf9cb5d6b50dbb7 ]
+>>
+>>This was only used as workaround for recovering the page tables after
+>>VRAM was lost and is no longer necessary after the function
+>>amdgpu_vm_bo_reset_state_machine() started to do the same.
+>>
+>>Compute never used shadows either, so the only proplematic case left is
+>>SVM and that is most likely not recoverable in any way when VRAM is
+>>lost.
+>
+>why is that backported to older kernels? It's basically just removing 
+>an old and now unused feature.
+>
+>Lijo pointed out a related bug fixed by removing the feature, but that 
+>only happens extremely rarely and in my view doesn't really justify a 
+>backport.
 
-On Tue, 08 Oct 2024 13:18:04 +0200, Alain Volmat wrote:
-> Addition of the stm32 csi controller driver
-> 
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> ---
->  .../devicetree/bindings/media/st,stm32-csi.yaml    | 129 +++++++++++++++++++++
->  1 file changed, 129 insertions(+)
-> 
+I'll drop it then, thanks!
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/st,stm32-csi.example.dtb: csi@48020000: ports:port@0:endpoint:data-lanes:0: 0 is not of type 'array'
-	from schema $id: http://devicetree.org/schemas/media/st,stm32-csi.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/st,stm32-csi.example.dtb: csi@48020000: ports:port@0:endpoint:data-lanes:1: 1 is not of type 'array'
-	from schema $id: http://devicetree.org/schemas/media/st,stm32-csi.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241008-csi_dcmipp_mp25-v1-2-e3fd0ed54b31@foss.st.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+Thanks,
+Sasha
 
