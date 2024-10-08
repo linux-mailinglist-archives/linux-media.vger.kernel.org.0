@@ -1,163 +1,123 @@
-Return-Path: <linux-media+bounces-19245-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19243-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3304F9947ED
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 14:01:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA929947CC
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:55:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE0C2B24D12
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 12:01:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1AEB91F247A6
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 11:55:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15B661DE3A2;
-	Tue,  8 Oct 2024 12:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45D3C1D6DD4;
+	Tue,  8 Oct 2024 11:55:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="RYURahtC";
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="Ib9new5v"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="wZLHUznO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C041DDA36;
-	Tue,  8 Oct 2024 12:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728388863; cv=fail; b=aR2S5eR3tY4UjEG0bD1GHoF4ALRV00Y5VFRF+PZjbriwZa8MZm7FvgUozu/2+IYvDyq3j1dH8bu7gD0oEAAOs8hQGoWOY/epgqjrFhaTAQR1rvpt+R5/0J+34zpHs7INxGNxLsRhQZLvbcEpDnn7SKzvqq1Fxd4Rv6ndsoqdm0E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728388863; c=relaxed/simple;
-	bh=b1P3DJk/6hfkSCnVQuxHt+Ux8LUCWKKpIGVzlcmNA0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vd+551GbIcuuamXnuu0sI93a2LaCYUqxUbYu5N1sJI4sFhBR+VLCigLI0tsb9nFjTKVQ9jUvyxYB94xu0xn19f0qgDdEhKvZcP951Qwy7ccfRlL0+QewnlSRKFSB0xzgmzDsIusSgH1tWbAMxt/wRY3c2mfkCi+YtEscbQ3+KK4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=RYURahtC; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=Ib9new5v; arc=fail smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4XNDsL1G9Mz49Pwl;
-	Tue,  8 Oct 2024 14:52:22 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1728388342;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U/1XjZ8pkIPE3lI97nZZnbcpCWTZVXjxc7zkc/9HM1M=;
-	b=RYURahtCmVnySZmKapolw8ViCcq5lJ2BkQEMp1UpemEG/ODBqu8kgoHn9QFLVBC9UTKl6L
-	W0d0KeqPHxGOWnTv0W0g/6QdT/7sgc4gNT+u5HH9ZmaH/y+eb7CF59Ign9nP4sca3u2a5Z
-	HVwY+vIDWDCpKsnaK/UqbmTGtLXMk+UYpYwJywUQZ9q6OHUdizAQ3oQTN5BqOiIOMPChf5
-	l799kqxzipMalW4w3cvCzxfGtdBeHTMHFnRASfuBMcSv+8dTon54JEiNCHddCruTWWH8ad
-	ron9fiylHeNGvBg+l99iWGSVC+kJsCBAHMvEDuWsaxS0mPPWRs3SWMGarJa2AA==
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4XNDs97169zyRx;
-	Tue,  8 Oct 2024 14:52:13 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1728388334;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U/1XjZ8pkIPE3lI97nZZnbcpCWTZVXjxc7zkc/9HM1M=;
-	b=Ib9new5vglA0JYX/xJisWGgvH6vzKC0ctR1J7NBeUt2OrolKwqRTtzd4iHb2NuN7AOBqjJ
-	/9upfe9aJwRJE17j8av5ehstbNt+0DF0t5IcZuiasmhWuL1kUhSV0hP4yHdk2mKMuGPlQ3
-	0APdLgpVdHKI5YTMaJ4RnI7Jp2OsPso=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1728388334;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U/1XjZ8pkIPE3lI97nZZnbcpCWTZVXjxc7zkc/9HM1M=;
-	b=xdSSDQROEFpeWY85dTW3FKy8Uks27Ql3uWRoSRDKrB1G/UY3BHZR665BCc1j9QoQyqTei8
-	m5J2CFLStaw26wK7R2B6vyV4JB//q1NNhm60NEi+8WeWc4YvJRJrgLAXUZddXYQryfIq11
-	T9XP87nVEsq1xNEiNWEtnnUPoBTJF6g=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1728388334; a=rsa-sha256; cv=none;
-	b=xu6Ltj/i7Bvwjg+t1+v6vrZODN6IHByVP50vkI+HUGAjff99SMjtp6rlQrQVj1PtIEJJm2
-	CahD/42SYXNKKRJRh+CrfTeANoW4sgkerkxLub/cKIwvsf1N4iQK+WFeVsAzsbLcBLtd06
-	FqnN2Mk0Jpl4ABKPRCDwqsy9dlMqf7A=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7D29E634CBD;
-	Tue,  8 Oct 2024 14:52:11 +0300 (EEST)
-Date: Tue, 8 Oct 2024 11:52:11 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: uvcvideo: Support partial control reads
-Message-ID: <ZwUc6-hbqDgBiqRl@valkosipuli.retiisi.eu>
-References: <20241008-uvc-readless-v1-0-042ac4581f44@chromium.org>
- <20241008-uvc-readless-v1-1-042ac4581f44@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC7B7603F;
+	Tue,  8 Oct 2024 11:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728388534; cv=none; b=tYQO7i/VQffluKzrTGuq1CuBLk7wMtd5DUsmXvAEWZP85STzgWMJt7sPR8Wnd0/jyxVDZ43hDqk2DYeFDFTJ7qZ693lA818G7Pg8dbXFxY2nz4BJM/SEePUQgbjFDvj5owZC1n+UEDKuBdCE7lqfz3bcW1qdSCra7A997Y40ql0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728388534; c=relaxed/simple;
+	bh=3OCQxvup2AMr6WZ7I+5yA6H1i+P+6X9ndx6UAPQlhd0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JFo2q0dO65JWC+LMNJ6GsBgGVmk87t4mwfkIGlt9tyMY5iQQkFnqHs45ISiY35DpJA5fUkKUtYKc0OtHiUBBRRINKxVWivxgDT72WXFwV5eXqC0PbPnPzQ9fe3oC9j5CWoDUa9qRDp6FtRR4bGtabfm2EBAIYx7peTgZPwvjfkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=wZLHUznO; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 498A7JAW022075;
+	Tue, 8 Oct 2024 13:55:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	r1DaIo5foOHFEMChIot5/wHw4xGLgo2eu0sEviXqgsw=; b=wZLHUznOjmm5Xo8g
+	zv/VuOfk+OFSwu+MSnSke2fKse6q1sX5rLDboLAuhF0Ko0es8ZRF46kXWj1/F1/w
+	4UKLeEaYhyhs0caFsV1Eibb4XZvhYi/MNMYbyk94eBGWM8kNolWixkEEZixk4qet
+	szmDZYuSSIdUcOx5qgbS6y2DLIOU8VosAYC84CJvOMfjx1hYK7kXS9soio/Aqp3T
+	mMY/1jgEPoec7v7z4+2PA4gxt+i3AqWXECANRXh6WX6uwvH8H2Pr2fya6OaHcPAO
+	ncmM8yFpWL1CxwSgXOJdqnnfIRSW4TYWqrKLnBjfqnpEYvegmtD2oMI1rxNepXaj
+	9K/UJQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 423f10uds3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 08 Oct 2024 13:55:27 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 559B840053;
+	Tue,  8 Oct 2024 13:54:35 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 47DB5279E69;
+	Tue,  8 Oct 2024 13:52:41 +0200 (CEST)
+Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 8 Oct
+ 2024 13:52:40 +0200
+Message-ID: <b8def568-e575-4ea3-8c3c-4ca9715802ce@foss.st.com>
+Date: Tue, 8 Oct 2024 13:52:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241008-uvc-readless-v1-1-042ac4581f44@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] media: i2c: st-mipid02: fixes & enhancements
+To: Alain Volmat <alain.volmat@foss.st.com>,
+        Sylvain Petinot
+	<sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20241008-st-mipid02-streams-v1-0-775c2d25cef9@foss.st.com>
+Content-Language: en-US
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20241008-st-mipid02-streams-v1-0-775c2d25cef9@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Hi Ricardo,
+Hi Alain,
 
-On Tue, Oct 08, 2024 at 07:06:14AM +0000, Ricardo Ribalda wrote:
-> Some cameras, like the ELMO MX-P3, do not return all the bytes
-> requested from a control if it can fit in less bytes.
-> Eg: Returning 0xab instead of 0x00ab.
-> usb 3-9: Failed to query (GET_DEF) UVC control 3 on unit 2: 1 (exp. 2).
+Thank you for your patches.
+
+On 10/8/24 13:46, Alain Volmat wrote:
+> This serie includes a fix within the error handling when enable
+> streaming and another one regarding supported formats.
+> It also update the driver to use the streams pad ops
+> instead of the s_stream.
+> pm_runtime is added to be able to control the supplies & clock.
 > 
-> Extend the returned value from the camera and return it.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: a763b9fb58be ("media: uvcvideo: Do not return positive errors in uvc_query_ctrl()")
-
-Is this really the patch that introduced the problem?
-
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
 > ---
->  drivers/media/usb/uvc/uvc_video.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index cd9c29532fb0..853dfb7b5f7b 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -79,11 +79,16 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
->  	if (likely(ret == size))
->  		return 0;
->  
-> +	if (ret > 0 && ret < size) {
-> +		memset(data + ret, 0, size - ret);
 
-It'd be nice to have a comment in the code why this is being done
-(including it's little endian).
+For the whole serie:
+Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
-> +		return 0;
-> +	}
-> +
->  	if (ret != -EPIPE) {
->  		dev_err(&dev->udev->dev,
->  			"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
->  			uvc_query_name(query), cs, unit, ret, size);
-> -		return ret < 0 ? ret : -EPIPE;
-> +		return ret ? ret : -EPIPE;
->  	}
->  
->  	/* Reuse data[0] to request the error code. */
+> Alain Volmat (4):
+>       media: i2c: st-mipid02: fix mipid02_stream_enable error handling
+>       media: i2c: st-mipid02: use enable/disable_streams pad ops
+>       media: i2c: st-mipid02: add pm_runtime handling
+>       media: i2c: st-mipid02: remove parallel mbus format on sink pad
 > 
+>  drivers/media/i2c/st-mipid02.c | 117 +++++++++++++++++++++++------------------
+>  1 file changed, 66 insertions(+), 51 deletions(-)
+> ---
+> base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
+> change-id: 20241007-st-mipid02-streams-2188cc8b6fda
+> 
+> Best regards,
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Benjamin
 
