@@ -1,65 +1,74 @@
-Return-Path: <linux-media+bounces-19243-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19244-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA929947CC
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:55:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C597A9947E5
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 14:00:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1AEB91F247A6
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 11:55:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03D231C240FE
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 12:00:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45D3C1D6DD4;
-	Tue,  8 Oct 2024 11:55:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B9901D618C;
+	Tue,  8 Oct 2024 12:00:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="wZLHUznO"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QZp6ciEE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC7B7603F;
-	Tue,  8 Oct 2024 11:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB0E1D6DA3
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 12:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728388534; cv=none; b=tYQO7i/VQffluKzrTGuq1CuBLk7wMtd5DUsmXvAEWZP85STzgWMJt7sPR8Wnd0/jyxVDZ43hDqk2DYeFDFTJ7qZ693lA818G7Pg8dbXFxY2nz4BJM/SEePUQgbjFDvj5owZC1n+UEDKuBdCE7lqfz3bcW1qdSCra7A997Y40ql0=
+	t=1728388839; cv=none; b=dF6qngypxqG6YvuwvAw3VUju80tSMTu6EWvYZE31i03p9uO43qbRznVUFi0HYQqK4uW2v4c8BrlqFZ6ezSoPBIO8ApLhvGyI/cCmvS9VOr0P/8kctO12XIpTOAGOxFOt+TmvQtlLsddKFLulOlgSZOgBfY6tnaaApsqxwYi0fjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728388534; c=relaxed/simple;
-	bh=3OCQxvup2AMr6WZ7I+5yA6H1i+P+6X9ndx6UAPQlhd0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JFo2q0dO65JWC+LMNJ6GsBgGVmk87t4mwfkIGlt9tyMY5iQQkFnqHs45ISiY35DpJA5fUkKUtYKc0OtHiUBBRRINKxVWivxgDT72WXFwV5eXqC0PbPnPzQ9fe3oC9j5CWoDUa9qRDp6FtRR4bGtabfm2EBAIYx7peTgZPwvjfkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=wZLHUznO; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 498A7JAW022075;
-	Tue, 8 Oct 2024 13:55:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	r1DaIo5foOHFEMChIot5/wHw4xGLgo2eu0sEviXqgsw=; b=wZLHUznOjmm5Xo8g
-	zv/VuOfk+OFSwu+MSnSke2fKse6q1sX5rLDboLAuhF0Ko0es8ZRF46kXWj1/F1/w
-	4UKLeEaYhyhs0caFsV1Eibb4XZvhYi/MNMYbyk94eBGWM8kNolWixkEEZixk4qet
-	szmDZYuSSIdUcOx5qgbS6y2DLIOU8VosAYC84CJvOMfjx1hYK7kXS9soio/Aqp3T
-	mMY/1jgEPoec7v7z4+2PA4gxt+i3AqWXECANRXh6WX6uwvH8H2Pr2fya6OaHcPAO
-	ncmM8yFpWL1CxwSgXOJdqnnfIRSW4TYWqrKLnBjfqnpEYvegmtD2oMI1rxNepXaj
-	9K/UJQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 423f10uds3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Oct 2024 13:55:27 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 559B840053;
-	Tue,  8 Oct 2024 13:54:35 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 47DB5279E69;
-	Tue,  8 Oct 2024 13:52:41 +0200 (CEST)
-Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 8 Oct
- 2024 13:52:40 +0200
-Message-ID: <b8def568-e575-4ea3-8c3c-4ca9715802ce@foss.st.com>
-Date: Tue, 8 Oct 2024 13:52:40 +0200
+	s=arc-20240116; t=1728388839; c=relaxed/simple;
+	bh=HGcC7+VY91jM9PbU/jtXNCSHPq24Ef2KCeukkznljEU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FkklP/JPgZFspAGXnrbuil4L9kGl3p+MuN9Y0bC0gE9NiWcY4bzC68LtOIdbZmbtsDoM+56OgNl1Bze2e4E5y3Ji+gm/RjEzuFg5q+EWP3Ezb5FNYON4mogywm8qSr3/Nv/zeoDDqhXWXT0WHyDKpTNmfmsd2Ih5UjHfmHK9CtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QZp6ciEE; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f75d529b49so2891541fa.1
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2024 05:00:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728388836; x=1728993636; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Wy3ZB9kP2gzcnlBFACJDVgdVUyuV83Cv1jwMAxXcqpA=;
+        b=QZp6ciEE7DQght2FUAydelFM2EF2c6kG51XcrHjpCvNI62tNVv8k9qTz+GJDrSQGF1
+         IvoyGoYnTEguArmA8vGw7w75vy/GureuPrq+ADKNyJqy1e56BvNYnrHkxBmXS7iVsq8E
+         cjeF2nesoYtWB1aYdtNah21LxCxJ6URIhYOLs8sYCo80ufEvPAs+pSZhmuRW7YJCs2EK
+         Wit8fEsjU4TMV95DnSs4EXKS+NEf/rzsrmvdAlx83sa09aTIT02Fdw0ELVWh8v9KQ/F/
+         uPgvBYnZQwny+YKgXqboBN6FXX7aDXlQKyhYBqsvCWF7N1FC8kIAlF0joCg/4N3moycl
+         qPqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728388836; x=1728993636;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wy3ZB9kP2gzcnlBFACJDVgdVUyuV83Cv1jwMAxXcqpA=;
+        b=JzW4pw4VmSBtfiXaoTn/Qt0/EwZaAUf7apPzqJKa2CIFPj9NCuIvYmAuS8UgeyFAhj
+         qx1Nt06e34JmpmZ7A+CJ3dHWc58itEJtoOnA7gLIzGib/bwGwg+QnuaAbBq/TAzOLTHt
+         ZqyqUtf8kysK55A7Yf/cpkkn4jQ2PNZZtVJ82Lou3K2mQFH/rTWR3iR3f8TgyAYoB5WJ
+         HHo5flyEUmA0RBsMJnAsW5RQ96yRZKP2G6WHX4Hv0XFrOK4MiskZaMpi0/SZubNNhb+9
+         zQQinjoV/oQMql7C4tMspEh1PG0eFLqoUW+oRR+pWys9DZuUWDk/w2h8V4QGAIsc4H7K
+         l1Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCVkH5NUsFVL47QmXMpxAvyYmm7TvCKe2z/cJw8tE8cUL3iVt1t0LcKhG8Z7f2eW16kosfpXXZ0qDzqysA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy72LZuL2d+hnDL2pnsFrx1KZN1RHShDCeBpp1avjgW/GuIIbvp
+	jpRB7A8yJ7QdoRF9gSk8m4/4mhOTlwr8rBf5pyHiHBriiBsAF2nhhXYc6vHL2wQ=
+X-Google-Smtp-Source: AGHT+IFu5Dr2I7al/DxAhjX9t4A2v1hWE9wdfRqfKCp15yXf/s2VQgi5jVFxvuIB4EgUK++HDAqY5A==
+X-Received: by 2002:a05:6512:b29:b0:535:6986:9806 with SMTP id 2adb3069b0e04-539ab856991mr2131126e87.3.1728388835774;
+        Tue, 08 Oct 2024 05:00:35 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539aff283a6sm1180276e87.287.2024.10.08.05.00.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2024 05:00:33 -0700 (PDT)
+Message-ID: <c18a92f0-5824-417c-94b2-ed10f4580cfd@linaro.org>
+Date: Tue, 8 Oct 2024 15:00:32 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,57 +76,68 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] media: i2c: st-mipid02: fixes & enhancements
-To: Alain Volmat <alain.volmat@foss.st.com>,
-        Sylvain Petinot
-	<sylvain.petinot@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20241008-st-mipid02-streams-v1-0-775c2d25cef9@foss.st.com>
+Subject: Re: [PATCH v2 1/6] dt-bindings: media: qcom,sc8280xp-camss: Fix
+ interrupt types
 Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <20241008-st-mipid02-streams-v1-0-775c2d25cef9@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20240923072827.3772504-1-vladimir.zapolskiy@linaro.org>
+ <20240923072827.3772504-2-vladimir.zapolskiy@linaro.org>
+ <datahu33nmsser2p4fb2hyncsujtkwaca377ivwmpc6yj2naut@2sjsbebfm3gf>
+ <3f87e855-8779-4df3-8f26-e3d2b611d3e9@linaro.org>
+ <313667a6-afcd-44cb-a6f6-0d550e8f68a0@linaro.org>
+ <4bf490cb-228d-4f01-a956-cacbafa94e2a@linaro.org>
+ <27f39cda-932c-4b79-84d4-be78d266ebdf@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <27f39cda-932c-4b79-84d4-be78d266ebdf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Hi Alain,
+Hi Bryan,
 
-Thank you for your patches.
-
-On 10/8/24 13:46, Alain Volmat wrote:
-> This serie includes a fix within the error handling when enable
-> streaming and another one regarding supported formats.
-> It also update the driver to use the streams pad ops
-> instead of the s_stream.
-> pm_runtime is added to be able to control the supplies & clock.
+On 10/8/24 14:50, Bryan O'Donoghue wrote:
+> On 08/10/2024 12:37, Vladimir Zapolskiy wrote:
+>>
+>> I don't have access to datasheets or hardware of sc8280xp powered board,
+>> someone may either verify, if CAMSS level high type interrupts are
+>> supported/working at all or not (obviously its current presence in dts is
+>> insufficient), or check the SoC datasheet.
 > 
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> ---
+> I've tested both as was submitted and your change.
 
-For the whole serie:
-Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+let me give you a correction, whatever is found in the CAMSS device tree
+node is ignored - unless you meet the problem fixed by this changeset.
 
-> Alain Volmat (4):
->       media: i2c: st-mipid02: fix mipid02_stream_enable error handling
->       media: i2c: st-mipid02: use enable/disable_streams pad ops
->       media: i2c: st-mipid02: add pm_runtime handling
->       media: i2c: st-mipid02: remove parallel mbus format on sink pad
+All what you see and on any variant of CAMSS device tree node is
+rising edge interrupt, this is the type requested by the driver, and
+I believe you've tested the driver.
+
+> I _always_ test my patches. I'm not sure there's a datasheet which
+> spells this out to be honest.
 > 
->  drivers/media/i2c/st-mipid02.c | 117 +++++++++++++++++++++++------------------
->  1 file changed, 66 insertions(+), 51 deletions(-)
-> ---
-> base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
-> change-id: 20241007-st-mipid02-streams-2188cc8b6fda
+> Rising or High can both be justified, its really down to how your
+> interrupt controller latches the state change. However I personally am
+> fine with the change you've provided because I trust it fixes an error
+> for you.
+
+Please share the change to the driver, which you've used to test
+high level type of interrupts, shall it be send for upstream inclusion?
+
+Such a change has never been a subject of discussion.
+
+> I didn't try loading and unloading that module but, since you did I'm
+> happy to Ack the change and trust your work.
 > 
-> Best regards,
 
--- 
-Regards,
-
-Benjamin
+--
+Best wishes,
+Vladimir
 
