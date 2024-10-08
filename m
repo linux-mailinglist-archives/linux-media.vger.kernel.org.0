@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-19220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19227-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B453199468D
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:21:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8137F9946A5
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:23:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7CB132820BA
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 11:21:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A59C31C23B01
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 11:23:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE6E1D362B;
-	Tue,  8 Oct 2024 11:21:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 672B91DEFF8;
+	Tue,  8 Oct 2024 11:21:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="3XALsD9n"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="nqAOptdJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25EB1CFEBE;
-	Tue,  8 Oct 2024 11:21:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B521DED6F;
+	Tue,  8 Oct 2024 11:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728386482; cv=none; b=TZDOwLKh13Y9XI2FS2ynx9dU3XqH8LJth+Ym18UiWhoXhRNtUutU9pFVI6urEqzJ29weEjslqq1H24WatX+eNVRx/BmWScmkT1JhYQPjFDonAH5NDjtzHh3PdQPrboX4WstedE+RTLYT3mmB+YRXNTbZFL0OYt+WwrMQjnzL9nw=
+	t=1728386501; cv=none; b=q7Xg3yoh4hVKRDA6xy/XaP561DGfK2BMbEGfvHDt9v6bEF+Wu1VhstDpvnV8aVeof6F/8RZFn+7Q1jZzuQaBw5/UccJitH6hUIdtD71OUEjpwA7pf496BdBw49nQ608z0trro5l16xEaSbsxaAX60/TJ/7CH/uMTpInQdp2iXyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728386482; c=relaxed/simple;
-	bh=3N4LQzTbZUG0JjdslNdVNie/np0+4yZKEFBfVCpHALo=;
+	s=arc-20240116; t=1728386501; c=relaxed/simple;
+	bh=bDZ1nmPh76at+OcvI4UXTjHlWHiTN34mOgxwnYsozA4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=L9VuLiO2K/tskKAhVhnbptDeM1pnSlDlJa/YTwr/ypc1UiiuOkWxVnGhbnZ9qRfAQ4dKeXY+NKOtyOr62lHgC6CosHdDac9zS0vwcsBMtFEzDX+7kA6g5TI6D7TOVC/+HN8iWd9cEhL3BM9URmbVmVx1WZ8ZQLZLrG2qitkoIK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=3XALsD9n; arc=none smtp.client-ip=185.132.182.106
+	 In-Reply-To:To:CC; b=b7xedxs7hCi1oWsE6GQiCHygo7CpKfWnn1ZWwqAkg8JcKUYj1NUob6xa/hde2xhAkibAAkLluQjxB3EBzuOqnZfl4hupLsHXGqhXmoaRVmRoKJaKdle1DPrmsl3sD0EuhBfTZNCXpGC36cHU7zM3YGMU7NsVZfF3qc7JZoQuu+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=nqAOptdJ; arc=none smtp.client-ip=185.132.182.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 498AZQdP004331;
-	Tue, 8 Oct 2024 13:21:05 +0200
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4989xKYQ010445;
+	Tue, 8 Oct 2024 13:21:26 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	5/UQpxO8gCyIC+pWGZhq9XwxqNvxkSoNhhrrLOxHR9g=; b=3XALsD9nNVwqbuG0
-	kEjT13ftlQRg5Kn5tUODkJu40nq7Y8Ott7Lch139EqOQUXa9/c60OTK5y91XNPEb
-	jq1rPhNQzVPIskR/GN6tXq/xfAUVszDb2Gug5td670puudmremXLiKSWuly0ytoH
-	1NoisZn2pG5d/Vz5SQRW2YzUTh3RDMKFMhKCaMdUEiUv78JSov3OHqlhN4QxeKoo
-	hr9ocfnSIyDVWVxQ4yVUpuOuhEiA13pFzhA/WsXT1Q1fiK5RoNeP5yyfsvsUTBU/
-	Ov82rBwZNapjqmFALI+ntR/5nUkJ08NpXL8wNy+IU3KTN5qJVlyAsmTcyLnnz2Zr
-	omRhQQ==
+	kiqzWHEBgnNYNgdh+Exj40v+YEhGxybZPtFdvBV6hu4=; b=nqAOptdJRBi4dFTT
+	0QfU9K772LTxMs3WZPyfle7J20aD/O5BIm4+ERlSP9yS6xPPV4Rq/nYz03uyyuw3
+	dmkdxo/CMLS1dkYse7bnrQRgHNwM85Ud85lGI2DceBexlAUbIU6Vf2rN8yFFEmBH
+	6/OA/vrwTVllKIK4qh4wVrZVgcLyq1pl6UIWRcnCUzkgFQGGxrZ5W8N6J7qtkwhl
+	ga7SmdDIoH2DU4X9MnGewe7o9IaqywA0awal9LCb/GQ+2TsGW/zxl78Z/cQ6QJIJ
+	xy41f1HHVcJO0Yy+5tYv3kzgexzjljQJ6oniDbrDr6oQdEABLQ/Ehvz9LUjQG00t
+	aPYWog==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 422xv760p0-1
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 422xv760qt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Oct 2024 13:21:05 +0200 (MEST)
+	Tue, 08 Oct 2024 13:21:26 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id D1A224004B;
-	Tue,  8 Oct 2024 13:19:59 +0200 (CEST)
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 549FE40055;
+	Tue,  8 Oct 2024 13:20:12 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6AD93285188;
-	Tue,  8 Oct 2024 13:18:14 +0200 (CEST)
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0A25128518A;
+	Tue,  8 Oct 2024 13:18:15 +0200 (CEST)
 Received: from localhost (10.129.178.213) by SHFDAG1NODE1.st.com
  (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 8 Oct
  2024 13:18:14 +0200
 From: Alain Volmat <alain.volmat@foss.st.com>
-Date: Tue, 8 Oct 2024 13:18:03 +0200
-Subject: [PATCH 01/15] media: stm32: dcmipp: correct
- dma_set_mask_and_coherent mask value
+Date: Tue, 8 Oct 2024 13:18:04 +0200
+Subject: [PATCH 02/15] dt-bindings: media: addition of stm32 csi driver
+ description
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241008-csi_dcmipp_mp25-v1-1-e3fd0ed54b31@foss.st.com>
+Message-ID: <20241008-csi_dcmipp_mp25-v1-2-e3fd0ed54b31@foss.st.com>
 References: <20241008-csi_dcmipp_mp25-v1-0-e3fd0ed54b31@foss.st.com>
 In-Reply-To: <20241008-csi_dcmipp_mp25-v1-0-e3fd0ed54b31@foss.st.com>
 To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
@@ -90,8 +90,7 @@ To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
         Philipp Zabel <p.zabel@pengutronix.de>
 CC: <linux-media@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
         <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Alain Volmat <alain.volmat@foss.st.com>,
-        <stable@vger.kernel.org>
+        <devicetree@vger.kernel.org>, Alain Volmat <alain.volmat@foss.st.com>
 X-Mailer: b4 0.14.0
 X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
  (10.75.129.69)
@@ -99,29 +98,148 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Correct the call to dma_set_mask_and_coherent which should be set
-to DMA_BIT_MASK(32).
+Addition of the stm32 csi controller driver
 
-Fixes: 28e0f3772296 ("media: stm32-dcmipp: STM32 DCMIPP camera interface driver")
-Cc: stable@vger.kernel.org
 Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
 ---
- drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../devicetree/bindings/media/st,stm32-csi.yaml    | 129 +++++++++++++++++++++
+ 1 file changed, 129 insertions(+)
 
-diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-index 9f768f011fa2..0f6918f4db38 100644
---- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-+++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-@@ -893,7 +893,7 @@ struct dcmipp_ent_device *dcmipp_bytecap_ent_init(struct device *dev,
- 	q->dev = dev;
- 
- 	/* DCMIPP requires 16 bytes aligned buffers */
--	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32) & ~0x0f);
-+	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
- 	if (ret) {
- 		dev_err(dev, "Failed to set DMA mask\n");
- 		goto err_mutex_destroy;
+diff --git a/Documentation/devicetree/bindings/media/st,stm32-csi.yaml b/Documentation/devicetree/bindings/media/st,stm32-csi.yaml
+new file mode 100644
+index 000000000000..71e7c51be58c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/st,stm32-csi.yaml
+@@ -0,0 +1,129 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/st,stm32-csi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: STMicroelectronics STM32 CSI controller
++
++description:
++  The STM32 CSI controller allows connecting a CSI based
++  camera to the DCMIPP camera pipeline.
++
++maintainers:
++  - Alain Volmat <alain.volmat@foss.st.com>
++
++properties:
++  compatible:
++    enum:
++      - st,stm32mp25-csi
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 3
++
++  clock-names:
++    items:
++      - const: pclk
++      - const: txesc
++      - const: csi2phy
++
++  resets:
++    maxItems: 1
++
++  vdd-supply:
++    description: Digital core power supply (0.91V)
++
++  vdda18-supply:
++    description: System analog power supply (1.8V)
++
++  access-controllers:
++    minItems: 1
++    maxItems: 2
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Input port node
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                description:
++                  Indicate the number of data-lanes and their mapping.
++
++                items:
++                  minItems: 1
++                  items:
++                    - const: 1
++                    - const: 2
++
++            required:
++              - data-lanes
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Output port node
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/st,stm32mp25-rcc.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/media/video-interfaces.h>
++    #include <dt-bindings/reset/st,stm32mp25-rcc.h>
++    csi@48020000 {
++        compatible = "st,stm32mp25-csi";
++        reg = <0x48020000 0x2000>;
++        interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>;
++        resets = <&rcc CSI_R>;
++        clocks = <&rcc CK_KER_CSI>, <&rcc CK_KER_CSITXESC>, <&rcc CK_KER_CSIPHY>;
++        clock-names = "pclk", "txesc", "csi2phy";
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            port@0 {
++                reg = <0>;
++                endpoint {
++                    remote-endpoint = <&imx335_ep>;
++                    data-lanes = <0 1>;
++                    bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++                endpoint {
++                    remote-endpoint = <&dcmipp_0>;
++                };
++            };
++        };
++    };
++
++...
 
 -- 
 2.25.1
