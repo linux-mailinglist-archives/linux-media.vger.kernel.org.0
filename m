@@ -1,184 +1,230 @@
-Return-Path: <linux-media+bounces-19247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19248-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC4A9947F2
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 14:01:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0159947FC
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 14:04:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 036021C244D8
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 12:01:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 647E2281F3E
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 12:04:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EB731D8E1F;
-	Tue,  8 Oct 2024 12:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 238DB1DD867;
+	Tue,  8 Oct 2024 12:04:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="iXVETm9W"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LYFHIeOd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A939E18C916;
-	Tue,  8 Oct 2024 12:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728388884; cv=fail; b=Rg+JSGB641GzqTxEMKRzR1jAW5TT6giTNfCU7C6QEsCG9wuWqhchojcA7VhEmn4/O9+3Sg0yC4HvBc33aW0OoOg5iRtT30lOBvlDioi5yA8/YDT911zAICwk8fbFU/kahd1PYYgehNanRoK728wpkcq3RZhXTABjrbEoaAm9nH0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728388884; c=relaxed/simple;
-	bh=+d0eLXInjvHlTjxaMdjW4cbRjM5yhIeUeOjYqZre0y4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QH/AEkjomnGucbxOu47SQcPYa1Hj3T6JaTfsqMqYwnqWfGTayHW7sninBUM+jewU8si/ve2J8xw9zG6gPgriYsq0RNKauqpVXapF1CHW2RNMh1s3iyIeE/WwoeiWw8nmooYm5EOMVxmsvI1Jf0NxQcp+b2jsjDlrKZ1r71PN05o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=iXVETm9W; arc=fail smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4XNF3g4bYYzyVQ;
-	Tue,  8 Oct 2024 15:01:19 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1728388879;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O4ko4aMiR/8zA/ySgAtjzjh0LCYvBYOIbNPGaV1Gw/o=;
-	b=iXVETm9WTSRhmSIUCak+x/OnBlPHfpLwHFNA6X52CjNg+tTEyu9s/l+YuJjbOqcZGdMEAN
-	s8vuj0Ggdt6yHAsmAq3cOSqoD4KDQ3mwnWJyDDVugSscLsw3TwXQuqcnMayXYcEzT6fZO7
-	+3aSOaZCWE9XQa6qtK5GiASqLWl6yag=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1728388879;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O4ko4aMiR/8zA/ySgAtjzjh0LCYvBYOIbNPGaV1Gw/o=;
-	b=jIC6YZGAwI+DzH2WQHOPuFKex4/K1tNUg2tXRK7VMG8vVqo+lpYBBzc3feQUpjUM49SaFd
-	E2EFZuJkPnrMvHMpPo6I5RJvDrdkrpU8K2bCsrmZc93wZvyUB05utwAl9cBk9g5o5K3oym
-	eESSzpYynrupBOee1VaqfNK3aM5v0kE=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1728388879; a=rsa-sha256; cv=none;
-	b=OCT4Vb//1vd0uFyrU8Uk+ZMJiBRNtSwndVHx7PfokpxNXOsa0YSjHuY43haZxbzyq5Xpbn
-	ty/yodmJtqkMUZJI4b9gFK3PuICFeTtMhpG2UhLXkP7dTNU5B4JoncqsA7ckt++CIv3eCX
-	IKgeEZoI5sEo/8HHT9klfyCGhTaXvsM=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2D5F5634CBD;
-	Tue,  8 Oct 2024 15:01:19 +0300 (EEST)
-Date: Tue, 8 Oct 2024 12:01:19 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: uvcvideo: Refactor uvc_query_ctrl
-Message-ID: <ZwUfD5Kfzv93-46f@valkosipuli.retiisi.eu>
-References: <20241008-uvc-readless-v1-0-042ac4581f44@chromium.org>
- <20241008-uvc-readless-v1-2-042ac4581f44@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E9B1D6DA3
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 12:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728389040; cv=none; b=QLuRRk2Oky5rlLC9b0BayNvB6Yy+BY0d13pLwuQAIsrT2/M5VymODnAXylRYsXq+jHfHKbU4yL0DrVZGkQHlqelxmzmvWPWaZvGU55xN5kTzjYhzS5Uh2vMhPOHLh66p0LurfJVbv2f/0bjhMOv1AkRvFVf7wHajbFTneisLzA4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728389040; c=relaxed/simple;
+	bh=85lAxkbS8xbg0YNXfWOKqL4WqLN/8Bi+ATrvVTJlxhI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cG9ov0J46BsMNjEWRb16HfMQ1+bnnuFVFc53jLvCyV47v2FoI0w629VbdvCIFAl3bI975MUcC7rry8jqM+06yoUZWrUqVrkkOkEA5im0g1jqf7FXxZB77TlxqxRzJnjqKeWgEjDjHH6hkrOjC4dBKQaP5ewyc7SW143PgnkgYes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LYFHIeOd; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5398d424b0cso670425e87.3
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2024 05:03:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728389037; x=1728993837; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nAQf1RwfX9fvboGB1fihooukV4EYODxstQDe/1FsuVM=;
+        b=LYFHIeOdXDxmuPBZcnEGbymzIT5Dv4ntituzXyIfssksVJkS5zhDeQT76hDkJ/xQ1M
+         dEx7N8zJ3uoG+puPdkUXThk0xseszvgEaQossX19OjiZeSuWTbh9mX3NVQwc26GKtKYs
+         rCh1rLA5x8URl5X4O+DX2edAI2ekrg/mW/kzINVzsJtugP8sTRxsc/SCsDYneXVZTvRf
+         yhH9TZ+YAPHoFI2clTnuTJPBwZ9IFeCtnlm534Unh+ajpUk1LP+nO1jaxNJAEOv8TbGL
+         Tl1MKZlDtN+hCsfK6g5aoARIFMbePHPIlN6WZgJjBCdG9is7/vMrDayC+i33BY8Baofv
+         DJEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728389037; x=1728993837;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nAQf1RwfX9fvboGB1fihooukV4EYODxstQDe/1FsuVM=;
+        b=vvWVgX8qfeLcu4kAe/oA21ZbkuHdXlda6Rq8uVCf1mX6+CUqxN3Ho43IcJ4BhF2XlL
+         xpsohbiqeWJlcSYkhrnWoBeN0OQnhZdE73nPk7rVoUCwsl1BbYrJfGXkbwo3nypqbp9I
+         r0trd4Qy6rIOWFpN5OnP4UPorlv4khDuaO3xCTFY0rk+VeN1GQX7ofmrVxd7kLxkAGi0
+         MVvBalwu7/il4pRCciTufgLClaKHcNuPuELMgYTS/VJzMV5mGGJw2uEDe9HSgQ8jzDBw
+         r4CTKcvIWW72vxbjVMCHA+LFgtuOYijoGOL1VIafS3anfCzxzg/NP6lF8CfvGrV3N5XD
+         4HlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXqsqd/zZ65zihrw2cikNw9cu620FDxWgYc3gVZ+0xNmZZoVsZ/A73jBD8p6Y9Yal/CY+ACyd3aktWd+w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz66m65PT6dObwW3u6tcOghYtEm/Fj1x7YYATWdLMUb0mdmQmn4
+	NcgP0XjGhASqvAj8Pmn2TXLWm5iry+iZNZ5Si7Pl6IAULQL2QX3oCq3y7HpI/SA=
+X-Google-Smtp-Source: AGHT+IHiqT/frXMNV4/pOLqA30mhBxVW1WxZ88DYASmxpZ7kJNqvQyDYDxhzNYNHWr9VtnJK/yUqCQ==
+X-Received: by 2002:a05:6512:3190:b0:52f:413:30de with SMTP id 2adb3069b0e04-539ab9e885bmr2125790e87.7.1728389036782;
+        Tue, 08 Oct 2024 05:03:56 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539aff23334sm1171893e87.184.2024.10.08.05.03.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2024 05:03:55 -0700 (PDT)
+Message-ID: <80744e19-71f8-4ae7-b2e8-1dc14e55385c@linaro.org>
+Date: Tue, 8 Oct 2024 15:03:54 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241008-uvc-readless-v1-2-042ac4581f44@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] dt-bindings: media: qcom,sc8280xp-camss: Fix
+ interrupt types
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20240923072827.3772504-1-vladimir.zapolskiy@linaro.org>
+ <20240923072827.3772504-2-vladimir.zapolskiy@linaro.org>
+ <datahu33nmsser2p4fb2hyncsujtkwaca377ivwmpc6yj2naut@2sjsbebfm3gf>
+ <3f87e855-8779-4df3-8f26-e3d2b611d3e9@linaro.org>
+ <313667a6-afcd-44cb-a6f6-0d550e8f68a0@linaro.org>
+ <4bf490cb-228d-4f01-a956-cacbafa94e2a@linaro.org>
+ <5ea36051-1e1b-44ca-b5ef-d6305079201b@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <5ea36051-1e1b-44ca-b5ef-d6305079201b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ricardo,
 
-On Tue, Oct 08, 2024 at 07:06:15AM +0000, Ricardo Ribalda wrote:
-> Move the query control error logic to its own function.
-> There is no functional change introduced by this patch.
+
+On 10/8/24 14:45, Krzysztof Kozlowski wrote:
+> On 08/10/2024 13:37, Vladimir Zapolskiy wrote:
+>> Hi Krzysztof.
+>>
+>> On 10/8/24 14:15, Krzysztof Kozlowski wrote:
+>>> On 08/10/2024 12:02, Vladimir Zapolskiy wrote:
+>>>> Hi Bjorn,
+>>>>
+>>>> On 10/6/24 05:36, Bjorn Andersson wrote:
+>>>>> On Mon, Sep 23, 2024 at 10:28:22AM GMT, Vladimir Zapolskiy wrote:
+>>>>>> The expected type of all CAMSS interrupts is edge rising, fix it in
+>>>>>> the documented example from CAMSS device tree bindings for sc8280xp.
+>>>>>>
+>>>>>
+>>>>> Who/what expects them to be RISING?
+>>>>
+>>>> I've checked CAMSS device tree bindings in a number of downstream kernels,
+>>>> all of them describe interrupt types as edge rising.
+>>>>
+>>>> $ grep -Hn IRQF_TRIGGER drivers/media/platform/qcom/camss/*
+>>>> drivers/media/platform/qcom/camss/camss-csid.c:619:			       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
+>>>> drivers/media/platform/qcom/camss/camss-csiphy.c:605:			       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
+>>>> drivers/media/platform/qcom/camss/camss-ispif.c:1164:			       IRQF_TRIGGER_RISING, ispif->irq_name, ispif);
+>>>> drivers/media/platform/qcom/camss/camss-ispif.c:1168:			       IRQF_TRIGGER_RISING, ispif->irq_name, ispif);
+>>>> drivers/media/platform/qcom/camss/camss-vfe.c:1327:			       IRQF_TRIGGER_RISING, vfe->irq_name, vfe);
+>>>
+>>> Downstream has a lot of bad code, so I am not sure how good argument
+>>> this is.
+>>>
+>>> I acked the patch because I assumed you *checked in hardware*.
+>>>
+>>>>
+>>>>    From runtime point of view it's more important to get re-probed camss
+>>>> driver, see an absolutely similar and previously discussed case (in the
+>>>> cover letter):
+>>>>
+>>>> https://lore.kernel.org/lkml/20220530080842.37024-4-manivannan.sadhasivam@linaro.org/
+>>>>
+>>>> Now in runtime I get this error, it's easy to check by unbinding/binding any
+>>>> camss device:
+>>>>
+>>>> irq: type mismatch, failed to map hwirq-509 for interrupt-controller@17a00000!
+>>>>
+>>>> Basically camss devices can not be bound on the second time on the
+>>>> number of platforms touched by this changeset.
+>>>
+>>> This is solveable different way and I do not understand this rationale.
+>>> The driver should not request trigger type but use what DTS is
+>>> providing, unless of course only one valid trigger is possible.
+>>
+>> Right at the moment the driver uses rising edge type of interrupts, and
+>> it works properly.
+>>
+>>> But so
+>>> far you did not provide any arguments for this. Downstream crappy code?
+>>
+>> Downstream code works, that's the argument to support the change.
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 45 ++++++++++++++++++++++-----------------
->  1 file changed, 26 insertions(+), 19 deletions(-)
+> That is not acceptable argument. If downstream has a bug, but somehow
+> works, you will implement the same bug upstream?
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 853dfb7b5f7b..a57272a2c9e1 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -67,30 +67,12 @@ static const char *uvc_query_name(u8 query)
->  	}
->  }
->  
-> -int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
-> -			u8 intfnum, u8 cs, void *data, u16 size)
-> +static int uvc_query_ctrl_error(struct uvc_device *dev, u8 intfnum, void *data)
->  {
->  	int ret;
->  	u8 error;
->  	u8 tmp;
->  
-> -	ret = __uvc_query_ctrl(dev, query, unit, intfnum, cs, data, size,
-> -				UVC_CTRL_CONTROL_TIMEOUT);
-> -	if (likely(ret == size))
-> -		return 0;
-> -
-> -	if (ret > 0 && ret < size) {
-> -		memset(data + ret, 0, size - ret);
-> -		return 0;
-> -	}
-> -
-> -	if (ret != -EPIPE) {
-> -		dev_err(&dev->udev->dev,
-> -			"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
-> -			uvc_query_name(query), cs, unit, ret, size);
-> -		return ret ? ret : -EPIPE;
-> -	}
-> -
->  	/* Reuse data[0] to request the error code. */
->  	tmp = *(u8 *)data;
->  
-> @@ -135,6 +117,31 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
->  	return -EPIPE;
->  }
->  
-> +int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
-> +		   u8 intfnum, u8 cs, void *data, u16 size)
-> +{
-> +	int ret;
-> +
-> +	ret = __uvc_query_ctrl(dev, query, unit, intfnum, cs, data, size,
-> +			       UVC_CTRL_CONTROL_TIMEOUT);
-> +	if (likely(ret == size))
-> +		return 0;
-> +
-> +	if (ret == -EPIPE)
-> +		return uvc_query_ctrl_error(dev, intfnum, data);
-> +
-> +	dev_err(&dev->udev->dev,
-> +		"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
-> +		uvc_query_name(query), cs, unit, ret, size);
-
-This message should probably be printed after the check below.
-
-I'd actually move the below check before the ret == -EPIPE check as it's a
-successful case (and changing the condition to <= would make the ret ==
-size check redundant).
-
-> +
-> +	if (ret > 0 && ret < size) {
-> +		memset(data + ret, 0, size - ret);
-> +		return 0;
-> +	}
-> +
-> +	return ret ? ret : -EPIPE;
-> +}
-> +
->  static const struct usb_device_id elgato_cam_link_4k = {
->  	USB_DEVICE(0x0fd9, 0x0066)
->  };
+> Downstream is well known of shortcuts, incomplete solutions and crappy
+> code, which passes some tests but might not be really correct.
 > 
+> I understand that downstream can be a supportive case, but not for level
+> of interrupts! People, not only downstream but it's even worse there, do
+> not see the difference between level and edge, between GPIO ACTIVE_HIGH
+> and ACTIVE_LOW.
+> 
+>>
+>>> Nope. Existing driver? Same.
+>>
+>> The existing driver works, that's the argument to support the change.
+> 
+> We are not going to get into such discussions. Code might be incorrect,
+> but mostly works because race issues are very tricky to spot, yet you
+> use that code as argument to say hardware is like that.
+> 
+> No. Hardware is not because driver is written that way.
+> 
+> 
+>>
+>>> Was anything here actually checked with datasheets/hardware?
+>>
+>> The initially open question is unanswered, why sc8280xp CAMSS does
+> 
+> This is about all CAMSS, not only sc8280xp.
+> 
+>> specify interrupts as level high type, was it actually checked with
+>> datasheets/hardware, as you say it? It has never been tested by anyone
+>> and anywhere, downstream or upstream wise, only rising edge interrupts
+>> were tested, and they do work.
+> 
+> I did not ask about testing. I ask how the manual, hardware engineers
+> designed it.
+> 
+>>
+>> I don't have access to datasheets or hardware of sc8280xp powered board,
+>> someone may either verify, if CAMSS level high type interrupts are> supported/working at all or not (obviously its current presence in dts is
+>> insufficient), or check the SoC datasheet.
+>>
+>> To sum up, the intention of this change:
+>> 1) fix the unpleasant runtime issue with no regressions (it's been tested),
+> 
+> Did you test races and all the tricky issues arising when you use
+> incorrectly edged interrupts? Or you just checked that "interrupt works"?
 
--- 
-Kind regards,
+Right from the beginning and any other day CAMSS interrupts are tested as
+rising edge interrupts. So, I don't undestand your point here, please
+elaborate.
 
-Sakari Ailus
+>> 2) align CAMSS device description in firmware with known to work well
+>> IP hardware configuration.
+> 
+> Where is this description in firmware? Where is this IP hardware
+> configuration? You just said it is purely on downstream driver.
+
+CAMSS IP configuration, in particular interrupt type, is done by the
+upstream driver, note that the fixes in this changeset is also sent
+against the upstream driver, tested on the upstream driver etc.
+
+--
+Best wishes,
+Vladimir
 
