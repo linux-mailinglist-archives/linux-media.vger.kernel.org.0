@@ -1,194 +1,109 @@
-Return-Path: <linux-media+bounces-19201-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19202-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B611C993F6F
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 09:34:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3B999404D
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 10:01:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9E571C20FB3
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 07:34:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 007281F22456
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 08:01:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DB361C1728;
-	Tue,  8 Oct 2024 06:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC5851F9434;
+	Tue,  8 Oct 2024 07:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="VshPRbej"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BaGPzpUi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AC319306A
-	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 06:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728370208; cv=pass; b=Wx0mWXa2fv2H35zxTuMkYCPL2Q1+uuBL67RTyICXMPWFLYBuM3lU3m14oQfxRSz5Q3ys/64oEiYm2KNTfJF1/0oY3AsA1aQkCj5n+OHyj8KiRVBNHxCnWqG9yqxyP7mSDIWBADcMZRkEu4+H2+jUs75n5AmGU+RwCHmbg00roWw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728370208; c=relaxed/simple;
-	bh=7dR209TQMLxk9EEMPn3/FLyRxcy720HVI4Bx3YJG4oU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P5Nux1WfS2O9Ym+gyt35RAV29+sJg+Q/8qAsoFktphF/HkHMcGLhcQxMPriFsdzrcZpE11lufcOsz91VHGgdaMgJ+zxFUisPoOl6m4EZ7Ai7emeGCJRDART6fmauwO3Cj6r7mexc5Pyv0HpbelkCpB2tY/RSli8q//SRKKoQsRw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=VshPRbej; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1728370189; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=bh4HNIbg5Fcq8eNLAOLMSl9RI+4o3/aV8idOB/6ywBAC4RSeiOgrAsmMlaP4iV0VDbczycu8R4r8njSfcpE22s/sBqCiTrZuA5oE/EY62FLUxuUaSdZUpCW8SdZHbahyO/2W3RwifjanU/amOEa2Nqlr7hBhADPP6XBH/9XIYFU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1728370189; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=sCEoyT5KMorDTp8QnrHsYU3ukuwRrLXO2vus/h9d2nU=; 
-	b=BWR4hpkEV4dPjGSE69Ea9aMOSesXZzPO+NSHnqkreYknLLo20Y40OLk/kzPOQxhFarxLqOcaSlHnxvq23bQxTUXytrst5j+ziJzY1yJMZ9f6uIiiic575HE2fPMgWrd7+m0yXt2ecJ+apY18Lf9v46vIAlsUUBoz9AsWiCjAmUg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728370189;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=sCEoyT5KMorDTp8QnrHsYU3ukuwRrLXO2vus/h9d2nU=;
-	b=VshPRbejuP69vzee1z69RyBFWoP/Hcd0V7sbWeIA5knyCQJzWV7keHfk3Zu1fp0b
-	NAO4rxzBm9X2yL4xhpfC2wR2Qu4hftoRVrwDsBjAJ/0Eg8TLD/aD5EW4LJDL/L0MzWf
-	F4FaKnVPt+b+VEANn6bx3CmVPUTxvbbRaEQ2Pvsg=
-Received: by mx.zohomail.com with SMTPS id 1728370187989804.6563168192596;
-	Mon, 7 Oct 2024 23:49:47 -0700 (PDT)
-Date: Tue, 8 Oct 2024 08:49:44 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>,
-	Adam Pigg <adam@piggz.co.uk>
-Subject: Re: [PATCH] media: rkisp1: Reduce min_queued_buffers to 1
-Message-ID: <20241008064944.ymiwk7mrowfnvltj@basti-XPS-13-9310>
-References: <20241007124225.63463-1-jacopo.mondi@ideasonboard.com>
- <20241007125730.yn6xinehhm73yqob@basti-XPS-13-9310>
- <20241007134734.GA7439@pendragon.ideasonboard.com>
- <20241007140501.2rvqu6rrgy26uwl5@basti-XPS-13-9310>
- <g75gbejsguk5jk46ppbfrfmul6ynp4ixo2tqv27445bwcyuagm@vjcoagkjj6pg>
- <20241007194939.GJ14766@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7699157E9F
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 07:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728371179; cv=none; b=XYhC7417CuF2dsARKjnjjfGDhXtxd7Xh3so5rPZmfTcPxZBo2dxwrOckMRjBswsZswW29yCaGUD31l2vBA6eSH5KIsJ9z3L6db0NfnwPDJsi7Apx2Z6ge3QcAcv0JQtJ6E2FuFc+p0uz1wz43WZPa4Iv9wSCQxlH1Vd47D0flGA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728371179; c=relaxed/simple;
+	bh=H+geuf57kVocWSPbWf92D4pkiMUajwoEqTqIsmSA53c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RjhdWRrMs5mw9Md8/ukrs1KWMr6UIj4S4QHKH1SxheX0MsY1eetU3+YsyMY8iaCFfp8SQOJ0ETb+y5EQcLDGdrPlBXJ5culo1fKoVE/s7nwitVv7gK1DkoeAUsAm6ioozgtYA77v1czmaOHKi34llVM8JOTzBQ8lRgUcajQIKOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BaGPzpUi; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4581e7f31eeso46436521cf.0
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2024 00:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1728371177; x=1728975977; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TsZBFSwMT7x1FLd0qN3fP1nAhawS9beuZBZhTUuWxl0=;
+        b=BaGPzpUi/oIMI4+Qs213dlM0XfqbzPknBBk6MFB97qvb064Y8RM8p7oe2bnjcgiJg9
+         kdjPRTkXGYavnfTdy3f/Ok8KsbQtv5ZP+3m8pk5q0BrMXjns6stRitjvSNhq7+aSk/Sy
+         cJIE8RwXsOJNxaBwJbQTbt/4PAEiWRnroPLZc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728371177; x=1728975977;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TsZBFSwMT7x1FLd0qN3fP1nAhawS9beuZBZhTUuWxl0=;
+        b=QNBD7ZlAc/Xrf5CbFTBFyK4/H1cQ7c3sjxV6ZDrXRYjfxrrOCbIupv5W/FeDtFpwFx
+         EZXKIobRhx30Ob6ncxWTgEdPBdYO/o9NQP7BQRsqxikeIK+CL4qp8UbWNBZZCUp0wdbC
+         xKxcgjZF6aTLD+kkSx0h4peiqiqu5zIf7sbHO/tyYpnNVRzOwhvVfAXARGTU+O0PFTqw
+         09Eyd/F9KGpJObZVgjxdp14wscR9AwmCm9DtoK+ekjGug5o8d0+/uLV7MWpLcHvEOeX9
+         eY1zpKOeLBKYg8pMD2Cj/pILEDwu3Z+Cr+VVVq4+wnO381EliGV/BZfroYVhcNrx2nKN
+         RceA==
+X-Gm-Message-State: AOJu0YyZBHZAwBsyhCKRDawDSg++/x+6+gBBr6YueXK1mQ7TiZvf/kwM
+	L4RO7ZJwGWTogqI25olmL2FWUd52lu25LwPL826IjYqjJgdDmBcV8CxDQiLPZw==
+X-Google-Smtp-Source: AGHT+IHx9p9tIVNfNz7+zbY6K/yGm0H8IQgkQooFDPYNa5377HZYiurQcINypBPsFkW86cXRYwoTvg==
+X-Received: by 2002:a05:622a:124e:b0:458:3cb6:13cb with SMTP id d75a77b69052e-45d9bb47d37mr245733751cf.56.1728371176699;
+        Tue, 08 Oct 2024 00:06:16 -0700 (PDT)
+Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45da764043esm33801921cf.88.2024.10.08.00.06.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 00:06:15 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/3] media: uvcvideo: Support partial control reads and
+ minor changes
+Date: Tue, 08 Oct 2024 07:06:13 +0000
+Message-Id: <20241008-uvc-readless-v1-0-042ac4581f44@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20241007194939.GJ14766@pendragon.ideasonboard.com>
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOXZBGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDAwML3dKyZN2i1MSUnNTiYl0j4zTLJIvkxBSDJGMloJaCotS0zAqwcdG
+ xtbUA3vPO/l4AAAA=
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org
+X-Mailer: b4 0.13.0
 
-On 07.10.2024 22:49, Laurent Pinchart wrote:
->On Mon, Oct 07, 2024 at 09:35:49PM +0200, Jacopo Mondi wrote:
->> Hi Sebastian,
->>
->> On Mon, Oct 07, 2024 at 04:05:01PM GMT, Sebastian Fricke wrote:
->> > On 07.10.2024 16:47, Laurent Pinchart wrote:
->> > > On Mon, Oct 07, 2024 at 02:57:30PM +0200, Sebastian Fricke wrote:
->> > > > Hey Jacopo,
->> > > >
->> > > > On 07.10.2024 14:42, Jacopo Mondi wrote:
->> > > > > There apparently is no reason to require 3 queued buffers to call
->> > > > > streamon() for the RkISP1 as the driver operates with a scratch buffer
->> > > > > where frames can be directed to if there's no available buffer provided
->> > > > > by userspace.
->> > > > >
->> > > > > Reduce the number of required buffers to 1 to allow applications to
->> > > > > operate with a single queued buffer.
->> > > > >
->> > > > > Tested with libcamera, by operating with a single capture a request. The
->> > > > > same request (and associated capture buffer) gets recycled once
->> > > > > completed. This of course causes a frame rate drop but doesn't hinder
->> > > > > operations.
->> > > > >
->> > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->> > > > > ---
->> > > > >
->> > > > > Adam,
->> > > > >    a few months ago you were exercizing your pinhole app with a single capture
->> > > > > request for StillCapture operations and you got the video device to hang because
->> > > > > no enough buffers where provided.
->> > > > >
->> > > > > This small change should be enough to unblock you. Could you maybe give it a
->> > > > > spin if you're still working on this ?
->> > > > >
->> > > > > Thanks
->> > > > >    j
->> > > > > ---
->> > > > >
->> > > > >  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 4 +---
->> > > > >  1 file changed, 1 insertion(+), 3 deletions(-)
->> > > > >
->> > > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> > > > > index 2bddb4fa8a5c..34adaecdee54 100644
->> > > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> > > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> > > > > @@ -35,8 +35,6 @@
->> > > > >  #define RKISP1_SP_DEV_NAME	RKISP1_DRIVER_NAME "_selfpath"
->> > > > >  #define RKISP1_MP_DEV_NAME	RKISP1_DRIVER_NAME "_mainpath"
->> > > > >
->> > > > > -#define RKISP1_MIN_BUFFERS_NEEDED 3
->> > > > > -
->> > > > >  enum rkisp1_plane {
->> > > > >  	RKISP1_PLANE_Y	= 0,
->> > > > >  	RKISP1_PLANE_CB	= 1,
->> > > > > @@ -1563,7 +1561,7 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
->> > > > >  	q->ops = &rkisp1_vb2_ops;
->> > > > >  	q->mem_ops = &vb2_dma_contig_memops;
->> > > > >  	q->buf_struct_size = sizeof(struct rkisp1_buffer);
->> > > > > -	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
->> > > >
->> > > > It looks like RKISP1_MIN_BUFFERS_NEEDED is used only here, so can you
->> > > > remove the define as well?
->> > >
->> > > Isn't that exactly what this patch is doing ?
->> >
->> > Oh *facepalm* ... I missed that please disregard ...
->> >
->> > but my question below remains whether to not just change the value.
->>
->> Do you mean
->>
->> -#define RKISP1_MIN_BUFFERS_NEEDED 3
->> +#define RKISP1_MIN_BUFFERS_NEEDED 1
->>
->> ?
->>
->> I would rather avoid defining a value used in a single place. If it
->> was some magic number a macro name would maybe help giving come
->> context, but considering this is assigned to min_queued_buffers it's
->> imho clear enough ?
->
->I find it clear enough, I prefer dropping the macro as you do in this
->patch.
+Some cameras do not return all the bytes requested from a control
+if it can fit in less bytes. Eg: returning 0xab instead of 0x00ab.
+Support these devices.
 
-Sounds good.
+Also, now that we are at it, improve uvc_query_ctrl().
 
->
->> > > > rg 'RKISP1_MIN_BUFFERS_NEEDED'
->> > > > drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> > > > 38:#define RKISP1_MIN_BUFFERS_NEEDED 3
->> > > > 1566:	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
->> > > >
->> > > > Or maybe just change the value, but I am not sure whether this can be
->> > > > considered a magic value.
->> > > >
->> > > > > +	q->min_queued_buffers = 1;
->> > > > >  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->> > > > >  	q->lock = &node->vlock;
->> > > > >  	q->dev = cap->rkisp1->dev;
->
->-- 
->Regards,
->
->Laurent Pinchart
->
-Sebastian Fricke
-Consultant Software Engineer
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Ricardo Ribalda (3):
+      media: uvcvideo: Support partial control reads
+      media: uvcvideo: Refactor uvc_query_ctrl
+      media: uvcvideo: Add more logging to uvc_query_ctrl_error()
 
-Collabora Ltd
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales no 5513718.
+ drivers/media/usb/uvc/uvc_video.c | 44 +++++++++++++++++++++++++--------------
+ 1 file changed, 28 insertions(+), 16 deletions(-)
+---
+base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
+change-id: 20241008-uvc-readless-23f9b8cad0b3
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
+
 
