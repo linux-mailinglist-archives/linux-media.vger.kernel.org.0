@@ -1,413 +1,263 @@
-Return-Path: <linux-media+bounces-19235-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19236-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3461F994786
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:43:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B7E994791
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 13:46:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 56C90B29389
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 11:43:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D999B25F95
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 11:46:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D72221DE3A2;
-	Tue,  8 Oct 2024 11:43:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D543D17E46E;
+	Tue,  8 Oct 2024 11:45:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZptZMtV2"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i06OnlFX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E38D1D1757;
-	Tue,  8 Oct 2024 11:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836F618EFE4
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 11:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728387784; cv=none; b=rDixLAKNg/ZS7xxMLUzQ+jFaZnr7TbX2ykkwncPoN0cycnD+DMpgSCXbJjoMAqvJD/sqApt+PH+MCmKrBxG4CZ65w5QDxT/1J1U5L5F2Ffpru0/IL7iZVtIKVFtboFbfUctdVgCFtbqWI0AuEFDEk0JSQJ8iwZifAQ/31fn3loI=
+	t=1728387953; cv=none; b=Phv6/JF0AT+Ds0djO/T9HAN5ZG7n9YuR60sBQ0ftBUXCHIY05/CKN+jY+nLIyjAQaT3XMeO9KefHd14H88y0bRfXp6DK9PL01z8Y1TrMfEY91h+xBtu0wDPyntRyRPmJ5JqtzvilnqYr9sDqjkwEVDBCxoAvgvcw3m5+4rAExtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728387784; c=relaxed/simple;
-	bh=0elVgKqRhFsVKBsPu9083FGtCApHiUaSuzP/nHJLHRQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ubrTGeAiHlAGr9I067O2+ggJFJO67atEpNY+99w2eVeKLMGBjN2ZtnVWFfzamXav+tOOUe4v9qv4Kb9On7dmcx843kh+WBWMIHc9smHtym0Se9rAF/rJDH3UV7SxGEEnBEnRPuY1ZC7deYaxnNdfDXelwYT0TtOFxzNU8Yo/5co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZptZMtV2; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-50792ed3ad9so1640035e0c.3;
-        Tue, 08 Oct 2024 04:43:02 -0700 (PDT)
+	s=arc-20240116; t=1728387953; c=relaxed/simple;
+	bh=8ZVnT2OtTeMMxV0QGDXs/7XsZVZZtrtfOABGbww2SzY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U8pyRXfzPKf9F4uzXwkKWfro+wrZW5NwIYhXBa5ain82lQazHFHwLfMjLhbz5Sf3uxNR44ErVbT6fD9ZxuuhzONkMvSv+eoV34Qoa5pmmB2Du7S8k7q4omgueYftRsxz/9/s9mgw4gIeLWyjjJKA9qDKnTBqpDE5k0GbG9GShZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=i06OnlFX; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4305493bc6dso788915e9.2
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2024 04:45:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728387781; x=1728992581; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HDuZQevw0MOR5xTDiOihfOGLpC9wy/PdUZmugq87unA=;
-        b=ZptZMtV2iiSs+NLQ7zX+CkU+xAbLWe5I2ImwMj4E5tySTa7nbyoloTTWy/eO0smE+H
-         pP4yKs5il8aX9cEz7nK245x/bJ9Z6Zezm6orFyydEGwFGU0oLmVff/nR7jmFKEN30bDw
-         EHdbDT3GVvY8kPo9eCv0R1k7KFf+butLSK+WoJ5a6TNkxpBRHxJ+gCtUoHeFS8HwCUv9
-         g5wRU6pg5JCBxelnPxtf/3YV5gNTvidYh+o/YBSyAaUY23w9iA6Sh27VPxKgXCz34S2B
-         wReNrZQLEcr0+aToX7ZvlRBkzBmCE3H9+2fpDXlUWUJJ/Dg37vFfkJbXYeBYY7M24gSh
-         3c7w==
+        d=linaro.org; s=google; t=1728387950; x=1728992750; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=sCj4i8C7iMTOvXgnuLFLg4vM6jQkCpieVVidXSxulNA=;
+        b=i06OnlFX9zjOhWhdaZoHJ2hHXiJ7XUmoFDAQMHzp1dz4cfg0FFCK55HHo8ep5iBzS3
+         cJhQWy4/7njQVMVTwGIRYLBx27/ECzslaQUmicn9K6modmsj7keBEY2kxSo+pcv7dQK4
+         NgKWiEo+aVg9yKj93jXQnWMpNRn+zcZjuPhxpTK7Qhk3p9OHXCq9qhTFiqXcRm/3NyzT
+         ctVe/z55cU9sfJ3bgJpKmzjfv+vqlzCymG8iLQKfIbgNjx/1RU/t44koN05vhKhVYzwZ
+         vk2zfAZOdLdeRZ0eQkbLoByaW/BMPX9a95axtcX2FyJxGJ7GX+FMM4xh6ZS2YDWvNIJl
+         jZ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728387781; x=1728992581;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HDuZQevw0MOR5xTDiOihfOGLpC9wy/PdUZmugq87unA=;
-        b=wi4xvfaYsW9nqC3HB47sQ3HCdTm/4Ni3s5/tOHPoA37H3joyum/qjAh0CE5dQ1af4J
-         vn1H6/xdfjXm6VpE3Z/BJiEk1NJp7CLfuKvIsctQSVyfX78BqzLGwtonv2N6w9NK4zPt
-         THdxKYzuACxVXL7O9EeoUUhCiJYksHgsw73cJ5RSBQXrNeZCr0XE1xmHxwMG+5IC8xIA
-         tWHWon4bX02Tp6vrsqW3wWILtOoYt1oT9FQDH5KQCKecp4OZwU290uF5R8GfJqc/qYFI
-         eYB77MfJw5BNAXwsMN2jLbsI9dmHIbDePkHi4hKOql6JwtT5mJ94v995bv1f6uhmRDb2
-         kCdA==
-X-Forwarded-Encrypted: i=1; AJvYcCUWer28u534Fef7TvI+Mnu/6bpewRUEs72d/GNivR8Mez7HEy+uVIUFJxHgRHtBqA4ighIJgV9EFZry6wQ=@vger.kernel.org, AJvYcCUYjB07N3K7T8k+5Rtpy9JqA1/0Gq3CvJP1ohy8vBD5BrUssktBtctuo8LMmnOQkYL486AZI29zpMC3skQ=@vger.kernel.org, AJvYcCWuk+sBNmWSzzoVaBbsEcu0ih4siMrIcpe/NjTHJIGWEZwHERPLr3zUwPyc5ILpOUmQC9RYbXzNmJR9kfbjC3S/csg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBGXg4SjiaiskETSesBYyYhe7hI/hmmWF2hqwKsLhremNAzWNQ
-	84SHOhEUVOaID8Ef2YcobeGYIYzZH+JBSgktRxu838/Ny3unLBSDqZ7zqJekQODBRQT55KHEpFy
-	VF6WIC6x043hhEeIghejqjFMJ7jGyvw==
-X-Google-Smtp-Source: AGHT+IGiM+QZ1IzvpkH+Ft3l9J1hattVJoqEA+6OoPB9OiGqLtsnDU7az/RMhuTpegkyGf0sWYOxFycY8PG7SXsP3RU=
-X-Received: by 2002:a05:6122:3198:b0:4f2:ea44:fd2b with SMTP id
- 71dfb90a1353d-50c852eef61mr10804054e0c.0.1728387780987; Tue, 08 Oct 2024
- 04:43:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728387950; x=1728992750;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sCj4i8C7iMTOvXgnuLFLg4vM6jQkCpieVVidXSxulNA=;
+        b=h4gpYVyzhIXyPmJc3F95ZfXqgWDgNaMz3MGexyD5D5dwH0NSynuapycOlF6PSXRAa9
+         N3fVwDlHkgaurQzPSo5NQDvyrQ1C4vxRPGBHdv1M7UREd/7a7a9OZt3b+neKibIq45qm
+         b5Kqcht1tq/rhY5hzM+M97myIoHbncYJZgkcGpqg8n2OncUH3DyTNH334SDW250pMIYZ
+         laWbFdOH5mfHJBZ6AJnKtT3XnYS797gr81UFEH9LMv5RmDhbZKyy/gQ6VqwXPwDgsfgR
+         5p9C9Bi/gGNi2aMsnrzuPqoil02a9D23XWhtnzThQLdnVpU/OHMRWXn+XmZnoJkFGwDL
+         NUbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW+FBKes/yZsRN3YeTzF+H+TERaHlgFfO65SLmkTOSQq8G3ChxvJ8P3oUaWv7soXtxoM/k+Fp+jlOqe3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW2xRIZdK0GGqAV3TyTpj0Tzlx1JTBjW4IYz3jOGaZQ0N+clVa
+	ugUWGG8MGwshVrp+92DnqbeN8o8fOR1yuQvLKnYSuT5ZnnQe1UHai+OSx+66am4=
+X-Google-Smtp-Source: AGHT+IFMnayJdfokunrqKjegiRIm6QbX4he6fWvJUr1QOewr3vPc4S1Y794Rn2J2gKLHpdPM8B35QA==
+X-Received: by 2002:a5d:64e7:0:b0:37a:3a34:a680 with SMTP id ffacd0b85a97d-37d0e4e8623mr4334784f8f.0.1728387949791;
+        Tue, 08 Oct 2024 04:45:49 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.211.167])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d1695e8b6sm7997580f8f.71.2024.10.08.04.45.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2024 04:45:49 -0700 (PDT)
+Message-ID: <5ea36051-1e1b-44ca-b5ef-d6305079201b@linaro.org>
+Date: Tue, 8 Oct 2024 13:45:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241007184839.190519-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241007184839.190519-11-prabhakar.mahadev-lad.rj@bp.renesas.com> <20241007202137.GK14766@pendragon.ideasonboard.com>
-In-Reply-To: <20241007202137.GK14766@pendragon.ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 8 Oct 2024 12:42:34 +0100
-Message-ID: <CA+V-a8trD-td-zRGvMtfxry+VZ3fAVM9464aqSiBpkNiuBz_EQ@mail.gmail.com>
-Subject: Re: [PATCH v4 10/17] media: rzg2l-cru: Simplify handling of supported formats
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] dt-bindings: media: qcom,sc8280xp-camss: Fix
+ interrupt types
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20240923072827.3772504-1-vladimir.zapolskiy@linaro.org>
+ <20240923072827.3772504-2-vladimir.zapolskiy@linaro.org>
+ <datahu33nmsser2p4fb2hyncsujtkwaca377ivwmpc6yj2naut@2sjsbebfm3gf>
+ <3f87e855-8779-4df3-8f26-e3d2b611d3e9@linaro.org>
+ <313667a6-afcd-44cb-a6f6-0d550e8f68a0@linaro.org>
+ <4bf490cb-228d-4f01-a956-cacbafa94e2a@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <4bf490cb-228d-4f01-a956-cacbafa94e2a@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
+On 08/10/2024 13:37, Vladimir Zapolskiy wrote:
+> Hi Krzysztof.
+> 
+> On 10/8/24 14:15, Krzysztof Kozlowski wrote:
+>> On 08/10/2024 12:02, Vladimir Zapolskiy wrote:
+>>> Hi Bjorn,
+>>>
+>>> On 10/6/24 05:36, Bjorn Andersson wrote:
+>>>> On Mon, Sep 23, 2024 at 10:28:22AM GMT, Vladimir Zapolskiy wrote:
+>>>>> The expected type of all CAMSS interrupts is edge rising, fix it in
+>>>>> the documented example from CAMSS device tree bindings for sc8280xp.
+>>>>>
+>>>>
+>>>> Who/what expects them to be RISING?
+>>>
+>>> I've checked CAMSS device tree bindings in a number of downstream kernels,
+>>> all of them describe interrupt types as edge rising.
+>>>
+>>> $ grep -Hn IRQF_TRIGGER drivers/media/platform/qcom/camss/*
+>>> drivers/media/platform/qcom/camss/camss-csid.c:619:			       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
+>>> drivers/media/platform/qcom/camss/camss-csiphy.c:605:			       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
+>>> drivers/media/platform/qcom/camss/camss-ispif.c:1164:			       IRQF_TRIGGER_RISING, ispif->irq_name, ispif);
+>>> drivers/media/platform/qcom/camss/camss-ispif.c:1168:			       IRQF_TRIGGER_RISING, ispif->irq_name, ispif);
+>>> drivers/media/platform/qcom/camss/camss-vfe.c:1327:			       IRQF_TRIGGER_RISING, vfe->irq_name, vfe);
+>>
+>> Downstream has a lot of bad code, so I am not sure how good argument
+>> this is.
+>>
+>> I acked the patch because I assumed you *checked in hardware*.
+>>
+>>>
+>>>   From runtime point of view it's more important to get re-probed camss
+>>> driver, see an absolutely similar and previously discussed case (in the
+>>> cover letter):
+>>>
+>>> https://lore.kernel.org/lkml/20220530080842.37024-4-manivannan.sadhasivam@linaro.org/
+>>>
+>>> Now in runtime I get this error, it's easy to check by unbinding/binding any
+>>> camss device:
+>>>
+>>> irq: type mismatch, failed to map hwirq-509 for interrupt-controller@17a00000!
+>>>
+>>> Basically camss devices can not be bound on the second time on the
+>>> number of platforms touched by this changeset.
+>>
+>> This is solveable different way and I do not understand this rationale.
+>> The driver should not request trigger type but use what DTS is
+>> providing, unless of course only one valid trigger is possible.
+> 
+> Right at the moment the driver uses rising edge type of interrupts, and
+> it works properly.
+> 
+>> But so
+>> far you did not provide any arguments for this. Downstream crappy code?
+> 
+> Downstream code works, that's the argument to support the change.
 
-Thank you for the review.
+That is not acceptable argument. If downstream has a bug, but somehow
+works, you will implement the same bug upstream?
 
-On Mon, Oct 7, 2024 at 9:21=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Mon, Oct 07, 2024 at 07:48:32PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Refactor the handling of supported formats in the RZ/G2L CRU driver by
-> > moving the `rzg2l_cru_ip_format` struct to the common header to allow
-> > reuse across multiple files and adding pixelformat and bpp members to i=
-t.
-> > This change centralizes format handling, making it easier to manage and
-> > extend.
-> >
-> > - Moved the `rzg2l_cru_ip_format` struct to `rzg2l-cru.h` for better
-> >   accessibility.
-> > - Added format, datatype and bpp members to `rzg2l_cru_ip_format` struc=
-t
-> > - Dropped rzg2l_cru_formats
-> > - Introduced helper functions `rzg2l_cru_ip_code_to_fmt()`,
-> >   `rzg2l_cru_ip_format_to_fmt()`, and
-> >   `rzg2l_cru_ip_index_to_fmt()` to streamline format lookups.
-> > - Refactored the `rzg2l_cru_csi2_setup` and format alignment functions
-> >   to utilize the new helpers.
->
-> The general rule is once change, one patch. Bundling multiple changes
-> together makes review more difficult. A bullet list of changes in a
-> commit message is a sign you're bundling too many changed together.
->
-Agreed, I will henceforth take care.
+Downstream is well known of shortcuts, incomplete solutions and crappy
+code, which passes some tests but might not be really correct.
 
-> You can still group related changes together when it makes sensor. For
-> instance moving rzg2l_cru_ip_format to rzg2l-cru.h and adding the
-> rzg2l_cru_ip_code_to_fmt() & co helper functions can be one patch.
->
-Agreed, I will split this up.
+I understand that downstream can be a supportive case, but not for level
+of interrupts! People, not only downstream but it's even worse there, do
+not see the difference between level and edge, between GPIO ACTIVE_HIGH
+and ACTIVE_LOW.
 
-> > Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.c=
-om>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 20 +++++-
-> >  .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 36 ++++++++--
-> >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 67 ++++++-------------
-> >  3 files changed, 69 insertions(+), 54 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/dri=
-vers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > index 4fe24bdde5b2..39296a59b3da 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > @@ -62,6 +62,20 @@ struct rzg2l_cru_ip {
-> >       struct v4l2_subdev *remote;
-> >  };
-> >
-> > +/**
-> > + * struct rzg2l_cru_ip_format - CRU IP format
-> > + * @code: Media bus code
-> > + * @format: 4CC format identifier (V4L2_PIX_FMT_*)
-> > + * @datatype: MIPI CSI2 data type
-> > + * @bpp: bytes per pixel
-> > + */
-> > +struct rzg2l_cru_ip_format {
-> > +     u32 code;
-> > +     u32 format;
-> > +     u32 datatype;
-> > +     u8 bpp;
-> > +};
-> > +
-> >  /**
-> >   * struct rzg2l_cru_dev - Renesas CRU device structure
-> >   * @dev:             (OF) device
-> > @@ -144,10 +158,12 @@ int rzg2l_cru_video_register(struct rzg2l_cru_dev=
- *cru);
-> >  void rzg2l_cru_video_unregister(struct rzg2l_cru_dev *cru);
-> >  irqreturn_t rzg2l_cru_irq(int irq, void *data);
-> >
-> > -const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format)=
-;
-> > -
-> >  int rzg2l_cru_ip_subdev_register(struct rzg2l_cru_dev *cru);
-> >  void rzg2l_cru_ip_subdev_unregister(struct rzg2l_cru_dev *cru);
-> >  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_d=
-ev *cru);
-> >
-> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned in=
-t code);
-> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 forma=
-t);
-> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index)=
-;
-> > +
-> >  #endif
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/driv=
-ers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> > index 7b006a0bfaae..fde6f4781cfb 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> > @@ -6,17 +6,21 @@
-> >   */
-> >
-> >  #include <linux/delay.h>
-> > -#include "rzg2l-cru.h"
-> >
-> > -struct rzg2l_cru_ip_format {
-> > -     u32 code;
-> > -};
-> > +#include <media/mipi-csi2.h>
-> > +
-> > +#include "rzg2l-cru.h"
-> >
-> >  static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] =3D {
-> > -     { .code =3D MEDIA_BUS_FMT_UYVY8_1X16, },
-> > +     {
-> > +             .code =3D MEDIA_BUS_FMT_UYVY8_1X16,
-> > +             .format =3D V4L2_PIX_FMT_UYVY,
-> > +             .datatype =3D MIPI_CSI2_DT_YUV422_8B,
-> > +             .bpp =3D 2,
-> > +     },
-> >  };
-> >
-> > -static const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsi=
-gned int code)
-> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned in=
-t code)
-> >  {
-> >       unsigned int i;
-> >
-> > @@ -27,6 +31,26 @@ static const struct rzg2l_cru_ip_format *rzg2l_cru_i=
-p_code_to_fmt(unsigned int c
-> >       return NULL;
-> >  }
-> >
-> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 forma=
-t)
-> > +{
-> > +     unsigned int i;
-> > +
-> > +     for (i =3D 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
-> > +             if (rzg2l_cru_ip_formats[i].format =3D=3D format)
-> > +                     return &rzg2l_cru_ip_formats[i];
-> > +     }
-> > +
-> > +     return NULL;
-> > +}
-> > +
-> > +const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index)
-> > +{
-> > +     if (index >=3D ARRAY_SIZE(rzg2l_cru_ip_formats))
-> > +             return NULL;
-> > +
-> > +     return &rzg2l_cru_ip_formats[index];
-> > +}
-> > +
-> >  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_d=
-ev *cru)
-> >  {
-> >       struct v4l2_subdev_state *state;
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/d=
-rivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > index de88c0fab961..ceb9012c9d70 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > @@ -300,21 +300,10 @@ static void rzg2l_cru_initialize_axi(struct rzg2l=
-_cru_dev *cru)
-> >       rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
-> >  }
-> >
-> > -static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *inpu=
-t_is_yuv,
-> > -                              struct v4l2_mbus_framefmt *ip_sd_fmt, u8=
- csi_vc)
-> > +static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, u8 csi_vc,
-> > +                              u32 csi2_datatype)
->
-> I would pass the rzg2l_cru_ip_format pointer (make it const) to this
-> function instead of csi2_datatype.
->
-OK.
+> 
+>> Nope. Existing driver? Same.
+> 
+> The existing driver works, that's the argument to support the change.
 
-> >  {
-> > -     u32 icnmc;
-> > -
-> > -     switch (ip_sd_fmt->code) {
-> > -     case MEDIA_BUS_FMT_UYVY8_1X16:
-> > -             icnmc =3D ICnMC_INF(MIPI_CSI2_DT_YUV422_8B);
-> > -             *input_is_yuv =3D true;
-> > -             break;
-> > -     default:
-> > -             *input_is_yuv =3D false;
-> > -             icnmc =3D ICnMC_INF(MIPI_CSI2_DT_USER_DEFINED(0));
-> > -             break;
-> > -     }
-> > +     u32 icnmc =3D ICnMC_INF(csi2_datatype);
-> >
-> >       icnmc |=3D (rzg2l_cru_read(cru, ICnMC) & ~ICnMC_INF_MASK);
-> >
-> > @@ -328,17 +317,20 @@ static int rzg2l_cru_initialize_image_conv(struct=
- rzg2l_cru_dev *cru,
-> >                                          struct v4l2_mbus_framefmt *ip_=
-sd_fmt,
-> >                                          u8 csi_vc)
-> >  {
-> > -     bool output_is_yuv =3D false;
-> > -     bool input_is_yuv =3D false;
-> > +     const struct v4l2_format_info *src_finfo, *dst_finfo;
-> > +     const struct rzg2l_cru_ip_format *cru_ip_fmt;
-> >       u32 icndmr;
-> >
-> > -     rzg2l_cru_csi2_setup(cru, &input_is_yuv, ip_sd_fmt, csi_vc);
-> > +     cru_ip_fmt =3D rzg2l_cru_ip_code_to_fmt(ip_sd_fmt->code);
-> > +     rzg2l_cru_csi2_setup(cru, csi_vc, cru_ip_fmt->datatype);
-> > +
-> > +     src_finfo =3D v4l2_format_info(cru_ip_fmt->format);
-> > +     dst_finfo =3D v4l2_format_info(cru->format.pixelformat);
-> >
-> >       /* Output format */
-> >       switch (cru->format.pixelformat) {
-> >       case V4L2_PIX_FMT_UYVY:
-> >               icndmr =3D ICnDMR_YCMODE_UYVY;
-> > -             output_is_yuv =3D true;
-> >               break;
-> >       default:
-> >               dev_err(cru->dev, "Invalid pixelformat (0x%x)\n",
-> > @@ -347,7 +339,7 @@ static int rzg2l_cru_initialize_image_conv(struct r=
-zg2l_cru_dev *cru,
-> >       }
-> >
-> >       /* If input and output use same colorspace, do bypass mode */
-> > -     if (output_is_yuv =3D=3D input_is_yuv)
-> > +     if (v4l2_is_format_yuv(src_finfo) && v4l2_is_format_yuv(dst_finfo=
-))
->
-> I think this should be
->
->         if (v4l2_is_format_yuv(src_finfo) =3D=3D v4l2_is_format_yuv(dst_f=
-info))
->
-Agreed.
+We are not going to get into such discussions. Code might be incorrect,
+but mostly works because race issues are very tricky to spot, yet you
+use that code as argument to say hardware is like that.
 
-> >               rzg2l_cru_write(cru, ICnMC,
-> >                               rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR=
-);
-> >       else
-> > @@ -810,35 +802,15 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev *=
-cru)
-> >  /* -------------------------------------------------------------------=
-----------
-> >   * V4L2 stuff
-> >   */
-> > -
-> > -static const struct v4l2_format_info rzg2l_cru_formats[] =3D {
-> > -     {
-> > -             .format =3D V4L2_PIX_FMT_UYVY,
-> > -             .bpp[0] =3D 2,
-> > -     },
-> > -};
-> > -
-> > -const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format)
-> > -{
-> > -     unsigned int i;
-> > -
-> > -     for (i =3D 0; i < ARRAY_SIZE(rzg2l_cru_formats); i++)
-> > -             if (rzg2l_cru_formats[i].format =3D=3D format)
-> > -                     return rzg2l_cru_formats + i;
-> > -
-> > -     return NULL;
-> > -}
-> > -
-> >  static u32 rzg2l_cru_format_bytesperline(struct v4l2_pix_format *pix)
-> >  {
-> > -     const struct v4l2_format_info *fmt;
-> > -
-> > -     fmt =3D rzg2l_cru_format_from_pixel(pix->pixelformat);
-> > +     const struct rzg2l_cru_ip_format *fmt;
-> >
-> > +     fmt =3D rzg2l_cru_ip_format_to_fmt(pix->pixelformat);
-> >       if (WARN_ON(!fmt))
-> > -             return -EINVAL;
-> > +             return 0;
->
-> This change isn't described in the commit message.
->
-I'll make this as a separate patch.
+No. Hardware is not because driver is written that way.
 
-> >
-> > -     return pix->width * fmt->bpp[0];
-> > +     return pix->width * fmt->bpp;
-> >  }
-> >
-> >  static u32 rzg2l_cru_format_sizeimage(struct v4l2_pix_format *pix)
-> > @@ -849,7 +821,7 @@ static u32 rzg2l_cru_format_sizeimage(struct v4l2_p=
-ix_format *pix)
-> >  static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
-> >                                  struct v4l2_pix_format *pix)
-> >  {
-> > -     if (!rzg2l_cru_format_from_pixel(pix->pixelformat))
-> > +     if (!rzg2l_cru_ip_format_to_fmt(pix->pixelformat))
->
-> Here you're calling rzg2l_cru_ip_format_to_fmt(), and just below the
-> function calls rzg2l_cru_format_bytesperline(), which calls
-> rzg2l_cru_format_from_pixel() again. Store the pointer here, drop the
-> rzg2l_cru_format_bytesperline() function, and just write
->
->         pix->bytesperline =3D pix->width * fmt->bpp;
->
-Agreed, I'll update it as mentioned above.
 
-> below. I would also inline rzg2l_cru_format_sizeimage() in this function
-> as there's a single caller.
->
-OK, I'll update it as above.
+> 
+>> Was anything here actually checked with datasheets/hardware?
+> 
+> The initially open question is unanswered, why sc8280xp CAMSS does
 
-Cheers,
-Prabhakar
+This is about all CAMSS, not only sc8280xp.
+
+> specify interrupts as level high type, was it actually checked with
+> datasheets/hardware, as you say it? It has never been tested by anyone
+> and anywhere, downstream or upstream wise, only rising edge interrupts
+> were tested, and they do work.
+
+I did not ask about testing. I ask how the manual, hardware engineers
+designed it.
+
+> 
+> I don't have access to datasheets or hardware of sc8280xp powered board,
+> someone may either verify, if CAMSS level high type interrupts are> supported/working at all or not (obviously its current presence in dts is
+> insufficient), or check the SoC datasheet.
+> 
+> To sum up, the intention of this change:
+> 1) fix the unpleasant runtime issue with no regressions (it's been tested),
+
+Did you test races and all the tricky issues arising when you use
+incorrectly edged interrupts? Or you just checked that "interrupt works"?
+
+> 2) align CAMSS device description in firmware with known to work well
+> IP hardware configuration.
+
+Where is this description in firmware? Where is this IP hardware
+configuration? You just said it is purely on downstream driver.
+
+Best regards,
+Krzysztof
+
 
