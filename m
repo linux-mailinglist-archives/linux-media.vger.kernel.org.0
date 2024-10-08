@@ -1,120 +1,93 @@
-Return-Path: <linux-media+bounces-19205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19206-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3517D99406E
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 10:04:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 038D39941D5
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 10:31:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD6CF287AE7
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 08:04:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 386A7B24F2E
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 08:31:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C69E1FAC42;
-	Tue,  8 Oct 2024 07:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1163120ADFD;
+	Tue,  8 Oct 2024 07:55:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iqVKYuuq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VPtCcfUV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482BC1FA255
-	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 07:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725B820ADED
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 07:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728371186; cv=none; b=Ae2Z/m8szWVWcSYraZFtVqyDnUhYy7iTjO4XS15kf0SgPPEs6rTQy1Mwg3gvFZjDJIVQ1vCNwDJndyvZ2b18Qt/GM1brwyPC70Hx0ecVHTc7V79jyGdQoEQcTdhKOiEu+2xasbIUsQkmDLUN3OotmrYav3yV6MPCoIBnymmiAXY=
+	t=1728374119; cv=none; b=JnzHfpaw4l/NwxLDU0zNJlN3ttVM7rX7fxe5brN+ld41bkS+qBAsJ+6fYhWk/O5hrW5Qa+xE62lHhfxKZiCoKYhZQ8tl6b3ewwCXSu9e7E9rmDtTTRKPUkoA3uIkk1hmXgT/wGKun15NGf7CIL7RF062UHvY4rGxU9n8xqQ2IHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728371186; c=relaxed/simple;
-	bh=d5b7dVLR3ZR74qnhfrQJ5ldkhIB/k3f0HhwHYi75Hio=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iUarFjMtVLxcJTySNyLbKRPX5zVn2zxFEtyUX07JOvwLSketG2/WhouuPzGAyMNouHJC2B4bUSr0dd/LJqlOlGhSPMjUETRYlncYMWTzXlihNzVssK51FaVcc6DzeffYsAG/mynOi49AT9jyy7Nie1ZaGb7zUQ6cQRry4TuQWlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iqVKYuuq; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-45816db2939so36853201cf.3
-        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2024 00:06:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1728371184; x=1728975984; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jDX1gk9WLS0lOp3uclg0B3j1XeJVdEOnGdjwzsvJlzE=;
-        b=iqVKYuuq909fG5Ig77lAqHozDxJB1cJlQ9q5+vZ4vkDwKEaoA2JhEtiSKIPF+6uYbL
-         mXkBXarILRptzv4eSYN34Rvewbuo/246OXafNEE1RUlmfw0n4Ts/kVpp8Ww4sJC+xykf
-         uOvgwt/X+s0HP3Ac+E1reHbBFqVMFoNJ9uGRE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728371184; x=1728975984;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jDX1gk9WLS0lOp3uclg0B3j1XeJVdEOnGdjwzsvJlzE=;
-        b=XuwZeKIZfgJOxzZvkvHGaim56n0pvxjLXyCJyntSXjiVbaY/k2DCC8c1X4CerUtlJW
-         PsYamY8WD8saHiuDvb378hApqLC3hxZiqXT08NM7u4DNPcPxPNxWBP8tHBljXDLxO531
-         AwsrQikb5RiDUfxaWRsHMv1WzJkOmwSdOdDCPL7y0NSbpMyUYC2LpFNGTGDD2G4Jg3NL
-         SIK/zyjsKM/hHKDolhxURbq3WfYlD45632mgckRztC6+LaD9/fKcx3XU+mgQTZ6wDhUq
-         kOfxod5I+tWqBroh42S3BUFaacmPwYi5oPS5w9h3vpNwwY2ZY33jB1+ptj3pfmFLA6ZY
-         4NNQ==
-X-Gm-Message-State: AOJu0Yyz4TumbBG/L3atl/OjKy/OItpD02Tj2w6JjjGflOoOrMtSBHgn
-	aS91bCDAh0G6yLTVPGxGYSKY0MiH6v+WEg3rM8KjCo+NjYKJNx59dLfogJFrLars9BWh+I3nnJE
-	=
-X-Google-Smtp-Source: AGHT+IG39BBoTTcIAWGA9WiMjv/rkPGoXXlsuN2UqZIeIx/T7ZMNueHs9O13LRs8lKx5eIeZ5zSWSw==
-X-Received: by 2002:ac8:7fd0:0:b0:44f:f287:c9b4 with SMTP id d75a77b69052e-45d9bb5b04bmr203085781cf.44.1728371184187;
-        Tue, 08 Oct 2024 00:06:24 -0700 (PDT)
-Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45da764043esm33801921cf.88.2024.10.08.00.06.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 00:06:22 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 08 Oct 2024 07:06:16 +0000
-Subject: [PATCH 3/3] media: uvcvideo: Add more logging to
- uvc_query_ctrl_error()
+	s=arc-20240116; t=1728374119; c=relaxed/simple;
+	bh=rscZMgz/Mijcjy/sEyqugMew5TKHnYLU8Tt2nkTIfMQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p6tTa3nc4DVjYaCkoYptvn2DyhYe7PgXdre5SoJYDSv85JdEOOPLDqtn1EIOFm9m3FX0H1zD45dulAh5lJg13FjrdtwVbSHj9sYdk9OEmbp53x+KlAA5AcBmwwCtd5AkXsfU821e6UULdTiVj/uoHhuaL7xdnZa0qOrYCq+aU5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VPtCcfUV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBE39C4CED2;
+	Tue,  8 Oct 2024 07:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728374118;
+	bh=rscZMgz/Mijcjy/sEyqugMew5TKHnYLU8Tt2nkTIfMQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VPtCcfUVO/9VXBdQ2Z8LQ0eYs/nJIyijVhY8TypcoKKJ0X8KsQ7l9gz7K8Nv05lxX
+	 9cX1V98uOkvWsdClC/YpBFfs8dQhzYwqe2PnBzOYaobGCK4gwlNrSmTRD4qKR84uVU
+	 ogtaej75WvR7oZr3poCjpCWqU2o+HAdSQSfNY1eTIgoJDvD5s03xkOIpaT8ZNP4NFz
+	 SPAXHaFi63/D5HCSxycmojE3CBoDZjm+JvPMVz5Qw3Nl36mFwg7Yj5PAm4FlON12kV
+	 qMetkyNGDWELjpe0amTWSp5N4z3CYkLMb78xPwFyxzF7ZEXsQlDOU7Jqn/Eym1E6L7
+	 H+0ImkVwua3Mw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1sy53s-0000000Dqc7-00LT;
+	Tue, 08 Oct 2024 09:55:16 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH BROKEN] BAD PATCH
+Date: Tue,  8 Oct 2024 09:53:24 +0200
+Message-ID: <20241008075511.3295642-1-mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241008-uvc-readless-v1-3-042ac4581f44@chromium.org>
-References: <20241008-uvc-readless-v1-0-042ac4581f44@chromium.org>
-In-Reply-To: <20241008-uvc-readless-v1-0-042ac4581f44@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-If we fail to query the ctrl error there is no information on dmesg or
-in uvc_dbg, which makes it difficult to debug
+This patch is meant to crash compilation. Its only goal is to test media-ci
+reply e-mail. Never apply this one!!!
 
-Reorder the log position to fix this.
+Expected errors:
+- missing SoB;
+- Compilation failures
+- C99 comments
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_video.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index a57272a2c9e1..bdc3f545a15e 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -83,11 +83,11 @@ static int uvc_query_ctrl_error(struct uvc_device *dev, u8 intfnum, void *data)
- 	error = *(u8 *)data;
- 	*(u8 *)data = tmp;
+ drivers/media/usb/em28xx/em28xx-core.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/media/usb/em28xx/em28xx-core.c b/drivers/media/usb/em28xx/em28xx-core.c
+index 29a7f3f19b56..d4cd1a7037c4 100644
+--- a/drivers/media/usb/em28xx/em28xx-core.c
++++ b/drivers/media/usb/em28xx/em28xx-core.c
+@@ -1159,6 +1159,9 @@ int em28xx_resume_extension(struct em28xx *dev)
+ {
+ 	const struct em28xx_ops *ops = NULL;
  
-+	uvc_dbg(dev, CONTROL, "Control error %u, ret %d\n", error, ret);
++	// HACK just to check the media-ci reports
++	foo()
 +
- 	if (ret != 1)
- 		return ret < 0 ? ret : -EPIPE;
- 
--	uvc_dbg(dev, CONTROL, "Control error %u\n", error);
--
- 	switch (error) {
- 	case 0:
- 		/* Cannot happen - we received a STALL */
-
+ 	dev_info(&dev->intf->dev, "Resuming extensions\n");
+ 	mutex_lock(&em28xx_devlist_mutex);
+ 	list_for_each_entry(ops, &em28xx_extension_devlist, next) {
 -- 
-2.47.0.rc0.187.ge670bccf7e-goog
+2.46.2
 
 
