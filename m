@@ -1,150 +1,202 @@
-Return-Path: <linux-media+bounces-19207-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19208-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261AF99422F
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 10:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F085F99423F
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 10:40:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D8BF1C2274F
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 08:38:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18D111C21100
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 08:40:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76FD71DFD81;
-	Tue,  8 Oct 2024 08:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FC2A1F4FA8;
+	Tue,  8 Oct 2024 08:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="obtu8m6B";
+	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="SQuWrrNc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F19213C80C
-	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 08:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728374745; cv=none; b=ijPbZLXZvThVList0gYFIYolmdUrrc4U1qKk0LIV4oxn+Rc6wIrjFs0EGvP14Rb29rj4wObLZEDv4eXBzU0L97x5p0p+6bto0TBpUt/6FBEBQ9Tkyn0wewiCm6cVoGAx4vJJMGHqXYYAFlPrqpUGHG9wBoR6JSaSG1mek8ZHvDE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728374745; c=relaxed/simple;
-	bh=wgdG1jta3iN/SR8PaU7tyb+DCCKiEwICGWitKjsyrac=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=u6/S+11WYaWchWKC6eY95QxZLnL2/1UuoVLnMhkkmJPi4Dk8L1NhEmG8lGgN8pFZFoxh7Nmtr+Tm6Ao/PvivBf6ihFfbaZ3rnT5gQtPTCzZbYnxal0JQ9wtIVJgVijXuHhQ9Gyc1IwVLMJ2BKds0T8pdPkEN+M01mgiN498NQNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F5C6C4CED1
-	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 08:05:44 +0000 (UTC)
-Message-ID: <f03553f5-59f1-4d67-aa44-ebc873843b7a@xs4all.nl>
-Date: Tue, 8 Oct 2024 10:05:42 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890841F4724;
+	Tue,  8 Oct 2024 08:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.82
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728375117; cv=pass; b=YYPLgwCc8RII+qOfx2ikcPK9pn+4UQVtihVrbBcizmirlT9ykWWgA5tCB8gsJSZpgUMtrKevqJZIZBr9KQy0EjoWTz3fn+KjzhAMrnTL0ISZnzBzGt+jYS03OMdZwIhRnHg09YPreFcYw0xA3PtHd5dWh+OLFfwvQc/TWzbsDLU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728375117; c=relaxed/simple;
+	bh=h9i0o/1q0Gf4jw4N1lgAM4ETvwOBlfdJyKqa7KZdD8A=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=PyPAIPDjc0CsZ/li3VR8SlxuSFAi3e+RHrm/T5Fe1WVkb4zXd0cZ8X2wjIK2TOrsSyWy+ot+zBiUXQzeEPW0NHlYj7Fgs+B0xCbDtzqpia7D4pJhttGJ7hZR2lGlrkWe/vM+E3WShG2MsrycqBD2ZUjuiigqAgJoDCe/DmvDJGk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goldelico.com; spf=pass smtp.mailfrom=goldelico.com; dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=obtu8m6B; dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=SQuWrrNc; arc=pass smtp.client-ip=85.215.255.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goldelico.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
+ARC-Seal: i=1; a=rsa-sha256; t=1728374918; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=bm0fcqklE/r1IgDmhc0hOwQBIvQT++428OZtvcJVD7E/l717XzpwtzYZGqbSmABO0P
+    P8+y4T4JumnPwCNo4pzUCMO9BDF3Wf9IhoxYJnb97UpyPjL/JgrePS1HN9cXVPIiaJb+
+    VlfSI6ZvmeoDEaJbUXYoBfEEFMnXlmw6ySa4rKkr7KZ1kuAguCkeg0qrafYdJI7n1SIP
+    XZDOgJUUAupHjfdb/DcXUj+yIjLQtEIfQ9t2iSuf/xtFJAcGATOuneGJBzugnXI7kBz6
+    Psh5ROedv9y898QM1Fu2wd8VemT6q6uSi+a6n4Fi0Y2aT0gGQuwrvPkD3GMOrc5cWfG4
+    Vzlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1728374918;
+    s=strato-dkim-0002; d=strato.com;
+    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=yKl5OWSMF42JLcdBC+gk/wIRhgqjVkOOCGpY66MSD24=;
+    b=T2cyx6JfBYhM9xpkXyUKKGz1sRGa/pQ4r2nQXABvtAIvfWsVCdo9mI9Kbu0axixk+I
+    nAtPNPlGuaupijyurFFz596O1g1FqBNfM171nnm7fDRcwR9Bsj9b2P8O4H2vG2NANAWk
+    eT+ti3V+LABSpwjMnMAKAh8kM3CHUKVXx4ORNL3g3aABPjlmZVtd1CuIagV/fg8/rXIT
+    oY4U1Eyhl8etNDVdAvElc6j22EoIRdtoJY6zzXmqkux8VchfpGPVc7Z1aOKSWfUk3JOG
+    n2V9THO2ly9zwfqKXGQldcxXRpkHPOfivEumHe2tmBppesubt3D9I4zj/bl+zTILR0RQ
+    OQ3A==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1728374918;
+    s=strato-dkim-0002; d=goldelico.com;
+    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=yKl5OWSMF42JLcdBC+gk/wIRhgqjVkOOCGpY66MSD24=;
+    b=obtu8m6BlrjbH7r7tE4+p43IuVstZ8OtkfKft4j+27uV97mlnwVZ5+ib5tWP4Cbgup
+    JYZei2sWmvHz3ufiMmrJ2po86MZH8Oc8g0yh0dTeHfMnz1tCrKuiTKMKEWTLJ6XM/RXQ
+    Gd0mEmzoBs//pErxhuuMJ3PoGvrbpTJyGC0POq+Ib4xAw8wQnDuMITeQZBgbvpt8+yjR
+    r+7s3z34s2vgQb82wawcLMU6KjS46nXxRiqvQ5Zs5jfOTT4+Bq+36piSYmlcKACCsHDg
+    CKisjTWmaLSgcBsu3uZM6YuUk7xwWQgbatTEpObqY4MmJVnWJfY3g4kQefwXeU6xnj+U
+    8iaQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1728374918;
+    s=strato-dkim-0003; d=goldelico.com;
+    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=yKl5OWSMF42JLcdBC+gk/wIRhgqjVkOOCGpY66MSD24=;
+    b=SQuWrrNc1LHH7eQ7O52JWEyqERGeO7Cajj6O7Rb5qZO6jGgt5ZBuZuh/zceIkKsEx6
+    bhTobvldIELt8ZwS9rAA==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lFzL1yfzkZ"
+Received: from smtpclient.apple
+    by smtp.strato.de (RZmta 51.2.7 DYNA|AUTH)
+    with ESMTPSA id Qd0dc209888bWCN
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+	(Client did not present a certificate);
+    Tue, 8 Oct 2024 10:08:37 +0200 (CEST)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.13] media: add support for exporting HDMI InfoFrames
- to debugfs
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
+Subject: Re: BUG: "iommu: Retire bus ops" breaks omap-iommu and omap3isp
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <20241007121543.GM1365916@nvidia.com>
+Date: Tue, 8 Oct 2024 10:08:27 +0200
+Cc: Robin Murphy <robin.murphy@arm.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>,
+ Jerry Snitselaar <jsnitsel@redhat.com>,
+ Joerg Roedel <jroedel@suse.de>,
+ tony Lindgren <tony@atomide.com>,
+ Andreas Kemnade <andreas@kemnade.info>,
+ Linux-OMAP <linux-omap@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-media@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <66572BFA-4501-4087-8B2D-83DB30247CFC@goldelico.com>
+References: <A7C284A9-33A5-4E21-9B57-9C4C213CC13F@goldelico.com>
+ <20241007121543.GM1365916@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+X-Mailer: Apple Mail (2.3776.700.51.11.1)
 
-This PR contains this patch series:
+Hi Jason,
 
-https://patchwork.linuxtv.org/project/linux-media/list/?series=13480
+> Am 07.10.2024 um 14:15 schrieb Jason Gunthorpe <jgg@nvidia.com>:
+>=20
+> On Sun, Oct 06, 2024 at 09:40:00AM +0200, H. Nikolaus Schaller wrote:
+>> Hi,
+>>=20
+>> I found that the camera on our OMAP3 based system (GTA04) stopped =
+working with v6.8-rc1.
+>> There was no bug in the camera driver but the OMAP3 ISP (image signal =
+processor) emits
+>>=20
+>> [   14.963684] omap3isp 480bc000.isp: failed to create ARM IOMMU =
+mapping
+>> [   15.010192] omap3isp 480bc000.isp: unable to attach to IOMMU
+>> [   15.023376] omap3isp 480bc000.isp: isp_xclk_set_rate: cam_xclka =
+set to 24685714 Hz (div 7)
+>> [   15.065399] omap3isp: probe of 480bc000.isp failed with error -12
+>>=20
+>> Deeper analyses lead to this patch breaking operation. It is not =
+fixed up to v6.12-rc1.
+>>=20
+>> What seems to happen (in 6.8-rc1 code):
+>>=20
+>> - omap_iommu_probe() passes &omap_iommu_ops to =
+iommu_device_register()
+>> - iommu_device_register() stores the ops in iommu->ops (only)
+>> - __iommu_probe_device tries to read the ops from some fw_spec but =
+not iommu->ops
+>=20
+> Maybe like this?
+>=20
+> @@ -1233,6 +1233,12 @@ static int omap_iommu_probe(struct =
+platform_device *pdev)
+>               err =3D iommu_device_register(&obj->iommu, =
+&omap_iommu_ops, &pdev->dev);
+>               if (err)
+>                       goto out_sysfs;
+> +               /*
+> +                * omap has a DT reprensetation but can't use the =
+common DT
+> +                * code. Setting fwnode to NULL causes probe to be =
+called for
+> +                * every device.
+> +                */
+> +               obj->iommu.fwnode =3D NULL;
+>               obj->has_iommu_driver =3D true;
+>       }
 
-minus the tda1997x patch, since I have no hardware to test that one. I'll
-try to find someone to test that for the next kernel cycle.
+Doesn't seem to solve the problems:
 
-Maxime added support for exporting InfoFrames to debugfs for drm,
-and this series does the same for the media subsystem.
+root@letux:~# uname -a
+Linux letux 6.8.0-rc1-letux+ #19506 SMP PREEMPT Tue Oct  8 08:48:26 CEST =
+2024 armv7l GNU/Linux
+root@letux:~# dmesg|fgrep iommu
+[    0.402862] iommu: Default domain type: Translated
+[    0.402893] iommu: DMA domain TLB invalidation policy: strict mode
+[    0.405303] omap-iommu 480bd400.mmu: 480bd400.mmu registered
+[    0.405944] platform 480bc000.isp: Adding to iommu group 0
+[   24.829071] omap3isp 480bc000.isp: iommu configuration for device =
+failed with -ETIMEDOUT
+[   24.880920] omap-iommu 480bd400.mmu: 480bd400.mmu: version 1.1
+root@letux:~# dmesg|fgrep isp
+[    0.000000] OMAP3630/DM3730 ES1.2 (l2cache iva sgx neon isp =
+192mhz_clk)
+[    0.405944] platform 480bc000.isp: Adding to iommu group 0
+[   12.349334] omapdss_dss 48050000.dss: bound 48050400.dispc (ops =
+dsi_vc_flush_receive_data [omapdrm])
+[   24.821441] omap3isp 480bc000.isp: deferred probe timeout, ignoring =
+dependency
+[   24.829071] omap3isp 480bc000.isp: iommu configuration for device =
+failed with -ETIMEDOUT
+[   24.887329] omap3isp 480bc000.isp: supply vdd-csiphy1 not found, =
+using dummy regulator
+[   24.928680] omap3isp 480bc000.isp: supply vdd-csiphy2 not found, =
+using dummy regulator
+[   24.951904] omap3isp 480bc000.isp: Revision 15.0 found
+[   24.958160] omap3isp 480bc000.isp: failed to attach device to VA =
+mapping
+[   24.994232] omap3isp 480bc000.isp: unable to attach to IOMMU
+[   25.013671] omap3isp: probe of 480bc000.isp failed with error -16
+root@letux:~#
 
-I used the same names for the InfoFrames as the drm implementation
-does, and the format is the same as well. And edid-decode can be
-used to parse the InfoFrames and do conformity checking.
+I'll dig deeper.
 
-The first two patches add helpers for this to the core framework,
-and the next 4 patches add support for this to the HDMI drivers.
-
-I tested the three adv drivers, and Dave Stevenson tested the tc358743
-driver.
-
-This is very useful for debugging received InfoFrames.
-
-Regards,
-
-	Hans
-
-The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
-
-  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.13c
-
-for you to fetch changes up to d719fecdc2d6daf342942bba2f13afb7804eaa24:
-
-  media: i2c: tc358743: export InfoFrames to debugfs (2024-10-02 12:01:22 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (6):
-      media: v4l2-core: add v4l2_debugfs_root()
-      media: v4l2-core: add v4l2_debugfs_if_alloc/free()
-      media: i2c: adv7511-v4l2: export InfoFrames to debugfs
-      media: i2c: adv7604: export InfoFrames to debugfs
-      media: i2c: adv7842: export InfoFrames to debugfs
-      media: i2c: tc358743: export InfoFrames to debugfs
-
- drivers/media/i2c/adv7511-v4l2.c          |  91 +++++++++++++++++++++++++++++++++++++++++++-----------
- drivers/media/i2c/adv7604.c               |  90 ++++++++++++++++++++++++++++++++++++++++++------------
- drivers/media/i2c/adv7842.c               | 120 +++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------
- drivers/media/i2c/tc358743.c              |  36 +++++++++++++++++++++-
- drivers/media/v4l2-core/v4l2-dev.c        |  14 +++++++++
- drivers/media/v4l2-core/v4l2-dv-timings.c |  67 ++++++++++++++++++++++++++++++++++++++++
- include/media/v4l2-dev.h                  |  15 +++++++++
- include/media/v4l2-dv-timings.h           |  48 +++++++++++++++++++++++++++++
- 8 files changed, 411 insertions(+), 70 deletions(-)
+BR and thanks,
+Nikolaus=
 
