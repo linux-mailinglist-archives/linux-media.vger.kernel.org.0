@@ -1,122 +1,157 @@
-Return-Path: <linux-media+bounces-19274-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19275-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8AF995302
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 17:11:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D32AC995353
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 17:24:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B6A82B2E235
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 15:02:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B09D1F2793D
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 15:24:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF9F91E1048;
-	Tue,  8 Oct 2024 15:00:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF7A1DFE2D;
+	Tue,  8 Oct 2024 15:24:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fcz2s1hy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DjvRNQ9V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67751E0E1F
-	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 15:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9EC4C97
+	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 15:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728399614; cv=none; b=KXS6o3TZj2JaDVCZjveJc9PS/rUPUY6laSQA4zxlFhIApqtBTd7UR0+DGQlT6PMJyjaB39DLan7yIFhPy5bJlAqqFAkp0xvp9wbCUU4ueTLqaF8Jmf+pdwQdCnNGFk80LRAnGsgesI+/+W1vMczR+IXSZ/wzXkcrRHtwpDdMbqU=
+	t=1728401045; cv=none; b=HxECPyIippnXNEFQqBgv1zctTjkUq/I52+I0AhqQJiX+Jz7ukBz2xs9obPF/VwrQK/pWtWKlju3xm0DZkrZ6ogoGZg2/LIlL+bnWETEkwg4Z3DzMSUBC2K0DwTOa1oQMj8krekVjloqlQY1S9kPYlzeoiSC56hT3RDinVoHZIAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728399614; c=relaxed/simple;
-	bh=pvyPWsToTZtRlgvmX7LMTSxDbnGxM8D+iYsUDPJR3zI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YymUB6kLyrz51MZsKN3SYRwGFUxwpnhNdxuvkHGyHwSEipP9EoKCO4viXz2NJVojfSHxbprbDeXSBuherbx7ddOxarCrwVIAxZjOeW5YujNRPLZlICXWRoDgUzXX27x5WwPhmU6yBjZelHOYI3tmwQhK0Q1YseheEbVTCUoHV8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fcz2s1hy; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7a99fdf2e1aso796606385a.2
-        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2024 08:00:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1728399611; x=1729004411; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uCWa9i1F2c8oRuwsqOTxWxy2qXb4GIjxtma/YuRpfzQ=;
-        b=fcz2s1hy66U4WVHN6J4+dFtg0LyAw46ZZ+oJgxpLstkeMnqTC937ed20jLqrYuud6z
-         oHQowi57h7/V5kUtW4me9b4CMbqXmFNeMb1caUJ3l/6HGMOSiZY+1Tz9EBrWFaBpCCO8
-         0bFh5SMRVFDhfRohOk7yFKq4gUaaLcFu8lqWg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728399611; x=1729004411;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uCWa9i1F2c8oRuwsqOTxWxy2qXb4GIjxtma/YuRpfzQ=;
-        b=ISU4IJdKQEnwNPqkK3tozz2uOsW9xelw9ljcOogsa9Ug8rTBPuHLrxUGaTgZsvUkBq
-         FwyjhllSRVHnxeB4iTO6ov5N+B8w1umYvA+N4BFswyAu7N3ASRZBPi+8+ouDj4aQS4we
-         QuoR/zsXqxAhT2tkyJyFEJy5DeUIO40G/RhnYPCK5wNbdlpKsutIUYXCZcU6DxsFYCc2
-         t150bRCICSEUWcrDlH7cN97zoqNoeRwkdBfiQ8BnLRnZS9t8ITHdb9gTa6YNTEfyq2Bs
-         Dmy05ynGoWRbHLoQ5TuoTRN6u16Nwr8VC7evKv5aZrWBq1tJBUYbcwmoyDCw9eZDGAOj
-         PVbw==
-X-Gm-Message-State: AOJu0YyEh9w+cXCKs7xxoDaTL0x0C2qlht5GPZGfEV53B+A9lcfyal2E
-	utS2I36EZCp/06hOuZZyN1h6jVCE7izTiunoIjQtrLK4fLZtjKSBpoo8zUSlug==
-X-Google-Smtp-Source: AGHT+IG5PsXIAlrZHuvZt4cgIpu7/vve2DpwC1FBFLl1/3rpAI6lcB69ZNNqDPmjs3XOrOpvCATW1Q==
-X-Received: by 2002:a05:620a:2952:b0:7ac:e869:b073 with SMTP id af79cd13be357-7ae6f49f5e8mr2806863885a.63.1728399611473;
-        Tue, 08 Oct 2024 08:00:11 -0700 (PDT)
-Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae75762a36sm360886085a.124.2024.10.08.08.00.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 08:00:10 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 08 Oct 2024 15:00:08 +0000
-Subject: [PATCH v2 2/2] media: uvcvideo: Add more logging to
- uvc_query_ctrl()
+	s=arc-20240116; t=1728401045; c=relaxed/simple;
+	bh=HmQ1nwTUfPPFNXrjeBs48ugjdw5IXs/znwIlEThMSig=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tYJ3ZmoDu1CwLQPzbjxFm/LnsQT4gmgySN1lPpf48dPItFYAA5FN1YBJtlHhZJswCERt47cp3Qr8FTCXmgpev4IHFkvw7RrY0fRVlGEzpBqsAdSbj2nQnBdBcM6ZID+cM1jj7dQPq3Cq6HoFZdT8Avb120zU1hio6/BprGpOUHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DjvRNQ9V; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728401044; x=1759937044;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HmQ1nwTUfPPFNXrjeBs48ugjdw5IXs/znwIlEThMSig=;
+  b=DjvRNQ9VFEKt8QkoxazyQq4Y0hQiBhddFWnENeOTYSNsHXhy+dyNs7K4
+   o3g2LV231sYKdJyHtrI5SFeAxquScMMjRybDkhlj+2740nnCx1YMZFEMx
+   C59dQo4zk7cwB4L+/Zp6MDx9keW3Bzq2KuBWqa19Lkb9Isn1q3Q9UckcT
+   OQXF3lA+7EjONZ+WKKjLfSmTM6vhlAxe1sJ4OQ7Lk/PHlcDF6P3hfIZ6e
+   0v/eAYFGmHETJRGeKdW6pzWRelj2hQd2JN8Wsp138uxzOb/7pCYfA5+P1
+   fSSxK7+iWx6gMojvnKyGsJLn7EYcM6zwWZuTBCPpw6oUw0O1OWcqLzYq1
+   A==;
+X-CSE-ConnectionGUID: OamTE4TmQ8KFX6nixBztKA==
+X-CSE-MsgGUID: OiT5k2RERuiORVuhnVMuog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="27492681"
+X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; 
+   d="scan'208";a="27492681"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 08:23:59 -0700
+X-CSE-ConnectionGUID: Y5m73LopRnCbRK6jk5/R0g==
+X-CSE-MsgGUID: iLsiktKjQxuih8PVQ7bsVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; 
+   d="scan'208";a="75549890"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 08:23:57 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1syC43-00000000jlv-1DnY;
+	Tue, 08 Oct 2024 18:23:55 +0300
+Date: Tue, 8 Oct 2024 18:23:54 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: bingbu.cao@intel.com
+Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+	bingbu.cao@linux.intel.com
+Subject: Re: [PATCH 1/2] media: ipu6: fix the wrong type cast and 64-bit
+ division
+Message-ID: <ZwVOiq0RCJu9ECcr@smile.fi.intel.com>
+References: <20241008061916.313517-1-bingbu.cao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241008-uvc-readless-v2-2-04d9d51aee56@chromium.org>
-References: <20241008-uvc-readless-v2-0-04d9d51aee56@chromium.org>
-In-Reply-To: <20241008-uvc-readless-v2-0-04d9d51aee56@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241008061916.313517-1-bingbu.cao@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-If we fail to query the ctrl error code there is no information on dmesg
-or in uvc_dbg. This makes difficult to debug the issue.
+On Tue, Oct 08, 2024 at 02:19:15PM +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+> 
+> This patch fixes the build errors with `i386-allmodconfig`, the
+> errors are caused by wrong type cast and 64-bit division.
 
-Print a proper error message when we cannot retrieve the error code from
-the device.
+Thanks for the change, my comments below.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_video.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+...
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index f125b3ba50f2..6efbfa609059 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -111,8 +111,12 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
- 	error = *(u8 *)data;
- 	*(u8 *)data = tmp;
- 
--	if (ret != 1)
--		return ret < 0 ? ret : -EPIPE;
-+	if (ret != 1) {
-+		dev_err(&dev->udev->dev,
-+			"Failed to query (%s) UVC error code control %u on unit %u: %d (exp. 1).\n",
-+			uvc_query_name(query), cs, unit, ret);
-+		return ret ? ret : -EPIPE;
-+	}
- 
- 	uvc_dbg(dev, CONTROL, "Control error %u\n", error);
- 
+>  /* Shared structure between driver and FW - do not modify */
+>  struct ipu6_fw_sys_queue {
+> -	u64 host_address;
+> +	uintptr_t host_address;
+
+Okay, in the given semantic this probably should be phys_addr_t.
+BUT, is this address somehow is going to be used by IPU6 hardware?
+If "yes", the type shall not be changed.
+
+Looking at types used I hope the answer is "no", otherwise the types
+in the structures should be  properly choose WRT endianess (and what
+__packed is doing here? Is it part of the protocol?).
+
+>  	u32 vied_address;
+>  	u32 size;
+>  	u32 token_size;
+> @@ -40,7 +40,7 @@ struct ipu6_fw_sys_queue {
+>  } __packed;
+>  
+>  struct ipu6_fw_sys_queue_res {
+> -	u64 host_address;
+> +	uintptr_t host_address;
+
+Ditto.
+
+>  	u32 vied_address;
+>  	u32 reg;
+>  } __packed;
+
+...
+
+> -	dev_dbg(dev, "write: reg 0x%lx = data 0x%x", base + addr - isys_base,
+> -		data);
+> +	dev_dbg(dev, "write: reg 0x%lx = data 0x%x",
+> +		(ulong)(base + addr - isys_base), data);
+
+No, one should use proper specifiers for this. And what the heck 'ulong' is?
+Where is it being defined?
+
+...
+
+> -	dev_dbg(dev, "read: reg 0x%lx = data 0x%x", base + addr - isys_base,
+> -		data);
+> +	dev_dbg(dev, "read: reg 0x%lx = data 0x%x",
+> +		(ulong)(base + addr - isys_base), data);
+
+Ditto.
+
+...
+
+>  	pg_offset = server_fw_addr - dma_addr;
+> -	prog = (struct ipu6_cell_program *)((u64)isp->cpd_fw->data + pg_offset);
+> +	prog = (struct ipu6_cell_program *)((uintptr_t)isp->cpd_fw->data +
+> +					    pg_offset);
+
+Side Q: What are the alignment requirements for the prog pointer?
 
 -- 
-2.47.0.rc0.187.ge670bccf7e-goog
+With Best Regards,
+Andy Shevchenko
+
 
 
