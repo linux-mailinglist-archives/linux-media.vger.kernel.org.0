@@ -1,245 +1,248 @@
-Return-Path: <linux-media+bounces-19308-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19309-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E9399674F
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 12:28:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5B3996835
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 13:16:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 49FBFB23797
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 10:28:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A293D1C20CC4
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 11:16:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98D4C19066B;
-	Wed,  9 Oct 2024 10:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CBA1191F66;
+	Wed,  9 Oct 2024 11:16:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R/IUZLiG"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="HSOPaN3S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1138718E764
-	for <linux-media@vger.kernel.org>; Wed,  9 Oct 2024 10:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C189F1C6BE;
+	Wed,  9 Oct 2024 11:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728469707; cv=none; b=YuE9X27lnGiON80fkF0saacpfBMJzpMUQa1G8y15S8tfrNAFZVRAHZqLf8+Hv4wLxBh/48dfcrqePlsUWMDqN6vCoZF9DAuOawZwK8M1Br1y2aOqgeSdZU9BZyvhaxEXU1G5ALZaiu1Ao3SSWebqYi7AF7S5zU0b3JwdQzu436I=
+	t=1728472571; cv=none; b=ggKgipN/IzDeMFoqG7/LTc2ZJDWX7yT4Jwl1KoKuNlj0ex7UDLK9to6vTqSn8C6c7zmRHq5uMl9eJC5XVRwBDznxgLNirLY2i6B1hubcWnqri3SG1j7SLR72Y+dWQJ3GIsQUrsHm9wHZ2s1QEYeY3Xy/LMCN1ObXnEboawWfmhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728469707; c=relaxed/simple;
-	bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IRh0UBG88Scv+SwafzgW5HWUz3U5In4DPrl6E+4ue6Kqw9IfUlGMC6nvWSRAHuCly+UgV2aX+IUW38/HacrxrHZUz5Xa86GPR6/O49n18i/otno1hh42YQUT2XLpqTRUUF469eZ5SouO0ElcdfuUZaka42zdlA/W3UgfyOmcwmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R/IUZLiG; arc=none smtp.client-ip=209.85.219.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e28fe3b02ffso699576276.3
-        for <linux-media@vger.kernel.org>; Wed, 09 Oct 2024 03:28:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728469702; x=1729074502; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
-        b=R/IUZLiGTVMjm+vz/itDZc9wmAPVMljxmRitpZEJud1G0u3w5i1YUFXS5nVV3WYoz8
-         ubvhh9K122Gjzldf8MIilxZWJIq+pHQJNBlZFum0GVuFc1MEaHETL5T008QXAFwPq1ot
-         kitLFU3/SkC2aWezlO4OguLTOZSf+tA1tyYrfik4ykoNQkvXAj6c52HeG1Ysmw2AI238
-         HsY2f3tX4OKHncsdhEvf1LEfHqNJ6jQgUxWv1stM9PG3qos2FQm71ynZckctR1C4pJwx
-         vtDImDcHsDnvehucXFysFeu2BI8sfq7nFQW1sE+ns0FrP0/6loH6Z+NZH4YNYSRSMgNb
-         7/VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728469702; x=1729074502;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
-        b=Aei6L+RTWLOje/OStA1iiskeCSQtUKW1YTKCV7wAEptTGy7nLPuZmG3bh/r20aNrgV
-         mwXmmoB0ISBiQXv2Xw4o+7EXnn92hFDs3EnkD0qpOtiDD7n5upp8gdBoEMqQBedKSGJC
-         7VnpYTw5lkR5A4bgja56qj8SMLxFXuaRC7oyxq8vNPutsg+8JFpVpKPz0q8i24KaLsFi
-         L2PZPHIGUqYm6u28BpB6TqxYTSi3FVzNli9JEFPcdWFuM34Au6OHS0lVIhqpkgVl+NqN
-         MgqRibWYiN91duTVqStdjHYCbRAQkiLufgksSBVY/h2I79OaMS37jdCpUVufYPXXZ7Wd
-         b+Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCWHKSTVf9Eg3MbRWoDjZExj0Ccm9BqNjKbfnb+eufjrdhq9zz//3hzePJVJM1I/lHmXD3WAOSZct2ROCA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHJKwyOtLrC2jmYWKDJpjvqr6+SBtliCDiz4e5ann3p2eC++sQ
-	RhC2+PLE86y0qImGp+QiQdKYuWNcBltxumqPrFBVIjW6+KRRjhY28v2c2i8tdJboSb5lQQ0kXkY
-	G0UGYULcg04qkNqUtZd5FD2fPRTJvsDktSss5vfYr1SbBtOhhBMM=
-X-Google-Smtp-Source: AGHT+IHNaU3Z3+DDKTWwqyhccdWy6KGvX0jRFFJtFda2WTvGLlJcpHA53hhWZp12VBznxD4kUpVSZMoh/Lgesk7avnk=
-X-Received: by 2002:a25:eb02:0:b0:e25:96a4:1706 with SMTP id
- 3f1490d57ef6-e28fe43f3d1mr1744852276.19.1728469701975; Wed, 09 Oct 2024
- 03:28:21 -0700 (PDT)
+	s=arc-20240116; t=1728472571; c=relaxed/simple;
+	bh=5ynCkb7KI8rVXQ1EVFqvg+XEXi0qpuDi3gDPzXlm50I=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RP3/auE09WfiAUCTAbUv37p7UyAipdnDWwtteIXAYXyp1BwJ5AaLK4RG6lbWcSSqXYDs1Ai/TX+RL8s7ytuHMDAU8bPhFfd/jiVe0RCTztfyilQEYY52BMr8e+3ILJZCAtqLBGWE+MLR+VBcj2aQI2hXbFhkObEdTa93PH0fBXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=HSOPaN3S; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: de15759a862f11ef88ecadb115cee93b-20241009
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=WDQk23QF8GeWnYzaw3f6RwMziRHPmdE4gatkybBRKwQ=;
+	b=HSOPaN3SFs1YZO/73Ww4v2lBtRPJx+4YdOJjjH4an8Op2MLDjSFoCQpLfkjYfzU9HSYcCKX2C6PY2DQvEstRopeDm6Oi8ivHYGfdffKjo/iv9koE19jGfRaR3kCmFeDdQcxZlT1fEqucHWBkVRd4PfBzA9OPBWGZOkY61X24TzM=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:14c99a62-7d1c-4dfd-b57c-8794b384e1d7,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:6dc6a47,CLOUDID:b7a48926-5902-4533-af4f-d0904aa89b3c,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: de15759a862f11ef88ecadb115cee93b-20241009
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+	(envelope-from <shu-hsiang.yang@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1338231174; Wed, 09 Oct 2024 19:16:01 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 9 Oct 2024 19:15:59 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 9 Oct 2024 19:15:59 +0800
+From: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Sumit Semwal
+	<sumit.semwal@linaro.org>, Christian Konig <christian.koenig@amd.com>
+CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <dri-devel@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<yaya.chang@mediatek.com>, <teddy.chen@mediatek.com>,
+	<hidenorik@chromium.org>, <yunkec@chromium.org>, <shun-yi.wang@mediatek.com>,
+	Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>
+Subject: [PATCH v1 00/10] Add MediaTek ISP7 camera system driver
+Date: Wed, 9 Oct 2024 19:15:41 +0800
+Message-ID: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
- <20241007184924.GH14766@pendragon.ideasonboard.com> <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
- <20241007222502.GG30699@pendragon.ideasonboard.com> <CAPDyKFrGNwna6Y2pqSRaBbRYHKRaD2ayqQHLtoqLPOu9Et7qTg@mail.gmail.com>
- <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 9 Oct 2024 12:27:45 +0200
-Message-ID: <CAPDyKFqh_BS=6eN4tQzZ20sWCHL3kdnrY=1Mgd7B9gfBamm8bw@mail.gmail.com>
-Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
-	linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org, 
-	linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
-	iommu@lists.linux.dev, imx@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, 
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
-	linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
-	asahi@lists.linux.dev, Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--6.819300-8.000000
+X-TMASE-MatchedRID: /6tHgHEL3iGAaBshbPhdTBWCVBr+Ay98vhf/zJ92tsPdyIjG+fPOFe5n
+	np6b8PTveXq1+k2LDlqtCrdXtF3Jjy4UUq9htJ320C5BWPk1/EG0GxL+/GCnQ1wpnAAvAwazxca
+	mCHrGUIj+ZF6Oacqo2yQP4QGuRJMzRbwaQX0OEahH+PTjR9EWkl+iEcKpKdpuNSweOixQAJJHdE
+	c8dOyw1Vl+Hk3Iw2bEgDLqnrRlXrZ8nn9tnqel2MprJP8FBOIaqdk2nO+ebu9vQfhO+XsKpRGKW
+	WkeCBsRDfaaTTjjxxjC7y1r1oW8QA==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--6.819300-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: A293CE762DBA9DA2202B574D5BDF1F45F28941944CEBC2497E35940D4614489A2000:8
 
-On Tue, 8 Oct 2024 at 20:25, Rafael J. Wysocki <rafael@kernel.org> wrote:
->
-> On Tue, Oct 8, 2024 at 12:35=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.o=
-rg> wrote:
-> >
-> > On Tue, 8 Oct 2024 at 00:25, Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> > > Hi Ulf,
-> > >
-> > > On Tue, Oct 08, 2024 at 12:08:24AM +0200, Ulf Hansson wrote:
-> > > > On Mon, 7 Oct 2024 at 20:49, Laurent Pinchart wrote:
-> > > > > On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
-> > > > > > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus wrote:
-> > > > > > >
-> > > > > > > Hello everyone,
-> > > > > > >
-> > > > > > > This set will switch the users of pm_runtime_put_autosuspend(=
-) to
-> > > > > > > __pm_runtime_put_autosuspend() while the former will soon be =
-re-purposed
-> > > > > > > to include a call to pm_runtime_mark_last_busy(). The two are=
- almost
-> > > > > > > always used together, apart from bugs which are likely common=
-. Going
-> > > > > > > forward, most new users should be using pm_runtime_put_autosu=
-spend().
-> > > > > > >
-> > > > > > > Once this conversion is done and pm_runtime_put_autosuspend()=
- re-purposed,
-> > > > > > > I'll post another set to merge the calls to __pm_runtime_put_=
-autosuspend()
-> > > > > > > and pm_runtime_mark_last_busy().
-> > > > > >
-> > > > > > That sounds like it could cause a lot of churns.
-> > > > > >
-> > > > > > Why not add a new helper function that does the
-> > > > > > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy(=
-)
-> > > > > > things? Then we can start moving users over to this new interfa=
-ce,
-> > > > > > rather than having this intermediate step?
-> > > > >
-> > > > > I think the API would be nicer if we used the shortest and simple=
-st
-> > > > > function names for the most common use cases. Following
-> > > > > pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is =
-that
-> > > > > most common use case. That's why I like Sakari's approach of repu=
-rposing
-> > > > > pm_runtime_put_autosuspend(), and introducing
-> > > > > __pm_runtime_put_autosuspend() for the odd cases where
-> > > > > pm_runtime_mark_last_busy() shouldn't be called.
-> > > >
-> > > > Okay, so the reason for this approach is because we couldn't find a
-> > > > short and descriptive name that could be used in favor of
-> > > > pm_runtime_put_autosuspend(). Let me throw some ideas at it and may=
-be
-> > > > you like it - or not. :-)
-> > >
-> > > I like the idea at least :-)
-> > >
-> > > > I don't know what options you guys discussed, but to me the entire
-> > > > "autosuspend"-suffix isn't really that necessary in my opinion. The=
-re
-> > > > are more ways than calling pm_runtime_put_autosuspend() that trigge=
-rs
-> > > > us to use the RPM_AUTO flag for rpm_suspend(). For example, just
-> > > > calling pm_runtime_put() has the similar effect.
-> > >
-> > > To be honest, I'm lost there. pm_runtime_put() calls
-> > > __pm_runtime_idle(RPM_GET_PUT | RPM_ASYNC), while
-> > > pm_runtime_put_autosuspend() calls __pm_runtime_suspend(RPM_GET_PUT |
-> > > RPM_ASYNC | RPM_AUTO).
-> >
-> > __pm_runtime_idle() ends up calling rpm_idle(), which may call
-> > rpm_suspend() - if it succeeds to idle the device. In that case, it
-> > tags on the RPM_AUTO flag in the call to rpm_suspend(). Quite similar
-> > to what is happening when calling pm_runtime_put_autosuspend().
->
-> Right.
->
-> For almost everybody, except for a small bunch of drivers that
-> actually have a .runtime_idle() callback, pm_runtime_put() is
-> literally equivalent to pm_runtime_put_autosuspend().
->
-> So really the question is why anyone who doesn't provide a
-> .runtime_idle() callback bothers with using this special
-> pm_runtime_put_autosuspend() thing, which really means "do a
-> runtime_put(), but skip my .runtime_idle() callback".
+Based on linux-next/master, tag: next-20241008
 
-My guess is that it's in most cases a legacy pattern that is being
-followed. Also note that rpm_idle() didn't "always" tag on the
-RPM_AUTO flag, even if it's quite a while ago (2013) since we added
-it.
+The patch set adds the MediaTek ISP7.x camera system hardware driver.
 
-Unless there is some actual optimization involved, as it also allows
-us to skip calling rpm_idle() and go directly for rpm_suspend().
+This driver sets up ISP hardware, handles interrupts, and initializes
+V4L2 device nodes and functions. Moreover, implement V4L2 standard
+video driver that utilizes media framework APIs. It also connects
+the sensors and ISP, bridging with the seninf interface. Communicate
+with SCP co-processor to compose ISP registers in the firmware.
 
->
-> > >
-> > > >
-> > > > Moreover, it's similar for pm_runtime_mark_last_busy(), it's called
-> > > > during rpm_resume() too, for example. So why bother about having
-> > > > "mark_last_busy" in the new name too.
-> > > >
-> > > > That said, my suggestion is simply "pm_runtime_put_suspend".
-> > >
-> > > Can we do even better, and make pm_runtime_put() to handle autosuspen=
-d
-> > > automatically when autosuspend is enabled ?
-> >
-> > As stated above, this is already the case.
->
-> What really is needed appears to be a combination of
-> pm_runtime_mark_last_busy() with pm_runtime_put().
+These patches include CSI received data from sensors, sensor interface
+bridge, raw/YUV image pre-processing, ISP utility and ISP control parts.
 
-This makes sense to me too, but I don't think we should limit it to this.
+Thank you for reviewing these patches.
 
-Making pm_runtime_put_autosuspend (or if the name
-"pm_runtime_put_suspend" is better?) to do the similar thing, is
-probably a good idea too. At least in my opinion.
+Shu-hsiang Yang (10):
+  dt-bindings: media: mediatek: add camsys device
+  media: platform: mediatek: add seninf controller
+  media: platform: mediatek: add isp_7x seninf unit
+  media: platform: mediatek: add isp_7x cam-raw unit
+  media: platform: mediatek: add isp_7x camsys unit
+  media: platform: mediatek: add isp_7x utility
+  media: platform: mediatek: add isp_7x video ops
+  media: platform: mediatek: add isp_7x state ctrl
+  media: platform: mediatek: add isp_7x build config
+  uapi: linux: add mediatek isp_7x camsys user api
 
->
-> Granted, pm_runtime_put() could do the pm_runtime_mark_last_busy()
-> thing automatically if autosuspend is enabled and the only consequence
-> of it might be delaying a suspend of the device until its autosuspend
-> timer expires, which should not be a problem in the vast majority of
-> cases.
+ .../media/mediatek/mediatek,cam-raw.yaml      |  169 +
+ .../media/mediatek/mediatek,cam-yuv.yaml      |  148 +
+ .../media/mediatek/mediatek,camisp.yaml       |   71 +
+ .../media/mediatek/mediatek,seninf-core.yaml  |  106 +
+ .../media/mediatek/mediatek,seninf.yaml       |   88 +
+ drivers/media/platform/mediatek/Kconfig       |    1 +
+ drivers/media/platform/mediatek/Makefile      |    2 +
+ drivers/media/platform/mediatek/isp/Kconfig   |   21 +
+ .../platform/mediatek/isp/isp_7x/Makefile     |    7 +
+ .../mediatek/isp/isp_7x/camsys/Makefile       |   16 +
+ .../isp_7x/camsys/kd_imgsensor_define_v4l2.h  |   87 +
+ .../mediatek/isp/isp_7x/camsys/mtk_cam-ctrl.c | 1797 ++++++
+ .../mediatek/isp/isp_7x/camsys/mtk_cam-ctrl.h |  140 +
+ .../isp/isp_7x/camsys/mtk_cam-debug.c         | 1271 ++++
+ .../isp/isp_7x/camsys/mtk_cam-debug.h         |  273 +
+ .../mediatek/isp/isp_7x/camsys/mtk_cam-defs.h |  168 +
+ .../isp/isp_7x/camsys/mtk_cam-dmadbg.h        |  721 +++
+ .../isp/isp_7x/camsys/mtk_cam-feature.c       |   40 +
+ .../isp/isp_7x/camsys/mtk_cam-feature.h       |   26 +
+ .../mediatek/isp/isp_7x/camsys/mtk_cam-fmt.h  |   87 +
+ .../mediatek/isp/isp_7x/camsys/mtk_cam-ipi.h  |  233 +
+ .../isp/isp_7x/camsys/mtk_cam-meta-mt8188.h   | 2436 ++++++++
+ .../isp/isp_7x/camsys/mtk_cam-plat-util.c     |  207 +
+ .../isp/isp_7x/camsys/mtk_cam-plat-util.h     |   16 +
+ .../mediatek/isp/isp_7x/camsys/mtk_cam-pool.c |  393 ++
+ .../mediatek/isp/isp_7x/camsys/mtk_cam-pool.h |   28 +
+ .../mediatek/isp/isp_7x/camsys/mtk_cam-raw.c  | 5359 +++++++++++++++++
+ .../mediatek/isp/isp_7x/camsys/mtk_cam-raw.h  |  325 +
+ .../isp/isp_7x/camsys/mtk_cam-raw_debug.c     |  403 ++
+ .../isp/isp_7x/camsys/mtk_cam-raw_debug.h     |   39 +
+ .../isp/isp_7x/camsys/mtk_cam-regs-mt8188.h   |  382 ++
+ .../isp/isp_7x/camsys/mtk_cam-seninf-def.h    |  193 +
+ .../isp/isp_7x/camsys/mtk_cam-seninf-drv.c    | 1741 ++++++
+ .../isp/isp_7x/camsys/mtk_cam-seninf-drv.h    |   16 +
+ .../isp/isp_7x/camsys/mtk_cam-seninf-hw.h     |  120 +
+ .../isp/isp_7x/camsys/mtk_cam-seninf-if.h     |   28 +
+ .../isp/isp_7x/camsys/mtk_cam-seninf-regs.h   |   40 +
+ .../isp/isp_7x/camsys/mtk_cam-seninf-route.c  |  356 ++
+ .../isp/isp_7x/camsys/mtk_cam-seninf-route.h  |   23 +
+ .../isp/isp_7x/camsys/mtk_cam-seninf.h        |  170 +
+ .../isp/isp_7x/camsys/mtk_cam-timesync.c      |  125 +
+ .../isp/isp_7x/camsys/mtk_cam-timesync.h      |   12 +
+ .../isp/isp_7x/camsys/mtk_cam-ufbc-def.h      |   59 +
+ .../isp/isp_7x/camsys/mtk_cam-video.c         | 1817 ++++++
+ .../isp/isp_7x/camsys/mtk_cam-video.h         |  224 +
+ .../mediatek/isp/isp_7x/camsys/mtk_cam.c      | 4168 +++++++++++++
+ .../mediatek/isp/isp_7x/camsys/mtk_cam.h      |  733 +++
+ .../isp_7x/camsys/mtk_camera-v4l2-controls.h  |   65 +
+ .../isp_7x/camsys/mtk_csi_phy_2_0/Makefile    |    5 +
+ .../mtk_csi_phy_2_0/mtk_cam-seninf-cammux.h   |  911 +++
+ .../mtk_cam-seninf-csi0-cphy.h                |   69 +
+ .../mtk_cam-seninf-csi0-dphy.h                |  139 +
+ .../mtk_cam-seninf-hw_phy_2_0.c               | 2879 +++++++++
+ .../mtk_cam-seninf-mipi-rx-ana-cdphy-csi0a.h  |  257 +
+ .../mtk_cam-seninf-seninf1-csi2.h             |  415 ++
+ .../mtk_cam-seninf-seninf1-mux.h              |  147 +
+ .../mtk_csi_phy_2_0/mtk_cam-seninf-seninf1.h  |   47 +
+ .../mtk_csi_phy_2_0/mtk_cam-seninf-tg1.h      |   49 +
+ .../mtk_csi_phy_2_0/mtk_cam-seninf-top-ctrl.h |   99 +
+ include/uapi/linux/mtkisp_camsys.h            |  227 +
+ 60 files changed, 30194 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,camisp.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,seninf-core.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,seninf.yaml
+ create mode 100644 drivers/media/platform/mediatek/isp/Kconfig
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/Makefile
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/Makefile
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/kd_imgsensor_define_v4l2.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-ctrl.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-ctrl.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-debug.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-debug.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-defs.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-dmadbg.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-feature.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-feature.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-fmt.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-ipi.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-meta-mt8188.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-plat-util.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-plat-util.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-pool.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-pool.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw_debug.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw_debug.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-regs-mt8188.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-seninf-def.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-seninf-drv.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-seninf-drv.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-seninf-hw.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-seninf-if.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-seninf-regs.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-seninf-route.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-seninf-route.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-seninf.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-timesync.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-timesync.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-ufbc-def.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-video.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-video.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_camera-v4l2-controls.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/Makefile
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/mtk_cam-seninf-cammux.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/mtk_cam-seninf-csi0-cphy.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/mtk_cam-seninf-csi0-dphy.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/mtk_cam-seninf-hw_phy_2_0.c
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/mtk_cam-seninf-mipi-rx-ana-cdphy-csi0a.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/mtk_cam-seninf-seninf1-csi2.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/mtk_cam-seninf-seninf1-mux.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/mtk_cam-seninf-seninf1.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/mtk_cam-seninf-tg1.h
+ create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_csi_phy_2_0/mtk_cam-seninf-top-ctrl.h
+ create mode 100644 include/uapi/linux/mtkisp_camsys.h
 
-Right.
+-- 
+2.18.0
 
-I guess we should expect the *sync* variants to be used, if the timer
-really needs to be overridden.
-
-Kind regards
-Uffe
 
