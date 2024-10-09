@@ -1,174 +1,275 @@
-Return-Path: <linux-media+bounces-19285-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19286-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CDC99594E
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 23:35:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DA0995CF2
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 03:28:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DEB81F24506
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2024 21:35:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28A5B2840C3
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 01:28:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58F75212D24;
-	Tue,  8 Oct 2024 21:35:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6A8B28399;
+	Wed,  9 Oct 2024 01:28:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3TG9eon"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="i9msE94f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455632AEFE
-	for <linux-media@vger.kernel.org>; Tue,  8 Oct 2024 21:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E11D364AE;
+	Wed,  9 Oct 2024 01:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728423332; cv=none; b=YMtTftHd9+DlF0wOsmLrnRPlnOeWghCQ+twbs/oyoj1Lwr6tB/KTq6fRAFHDTjYocYitL/1+ao4kKMPp4O8qm9xG3579RUif4LUvF3xE1CzKDs/27c8ZsZzm799mJPwlICQ60SkkbdfVlc/wY9fXZR48LiWUXfIkVKWulBS1JcI=
+	t=1728437305; cv=none; b=fhDBoiyIZamFlaLj1MagNJpo+izNoRvscOxK4LNViGUmYXWU8hCf7c2wz/HxBvr4ki+D8uKK0HyljjxIeVmePGCOK48zhP0ornfCiQ16FJWls0qwVGdapRuFHgqser1cuf9K7sLBOtT99qkLi68eRVx0Y3Wq0jwQZToSVWjAY6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728423332; c=relaxed/simple;
-	bh=P6UFb6ikMKjcxTireXUZUVEAV9ckdhZjoAgM8IxugF0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ua/CmPOEp6BIAx5U9fG33AjMlxW2jP1bxTCCWTzRTsH+/k0KN5L6a5dznVUzjxA35jqvgUKqM/tDe1jhPm7LHejvzmXO6W9o9m0/xyp5PFqlutturbm6+0v4fBDolVl3ZdyiVF8Gx4sDCL+3TOsjg5596aoKNoHladRvp+/ItnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a3TG9eon; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728423331; x=1759959331;
-  h=date:from:to:cc:subject:message-id;
-  bh=P6UFb6ikMKjcxTireXUZUVEAV9ckdhZjoAgM8IxugF0=;
-  b=a3TG9eonBYhOf+0UkzrQEu7lo6OOpuqt9F8JGbdVLp/byndaOUEpd60U
-   LjNtTVTr0ok9XzUu9crHrW7YF8TJQwkggHjxkWga1ohJsJAQRucF8YQji
-   Hm7k7FNxdc2tqlV2pBLQlMmDSpSK+vFCWHwFI0buQSdwkHzQLFhaRpZRO
-   /Z84pETaEDysEpP4pJrQrF8olMP7HrBRgPRIRxJzREOoaPVNcZYYWeVKB
-   P1B3FtxQnyaqA1KosRlFKMPde4Nl4+cTrL1DYqNt1TyTR4CPMKpMbwuZq
-   d/5ya70gCZGMZHv4YDGjs/SicUIEawc6psvr1olDseIl8oAIJ2awX7P6f
-   g==;
-X-CSE-ConnectionGUID: DksFSwIKR/iQWRPyFjT3nQ==
-X-CSE-MsgGUID: 8++UI95kSu+zuRaAUH+VJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="27120971"
-X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
-   d="scan'208";a="27120971"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 14:35:11 -0700
-X-CSE-ConnectionGUID: Ey31gA56TwGalyHeA+1Mlg==
-X-CSE-MsgGUID: 3SzdrN/VTyudEEwWYKhwVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,188,1725346800"; 
-   d="scan'208";a="75995539"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Oct 2024 14:35:10 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1syHrI-0008Ou-1s;
-	Tue, 08 Oct 2024 21:35:08 +0000
-Date: Wed, 09 Oct 2024 05:34:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- 67cefecf2a039b9ed0030b9213ceafcd45e6f9e3
-Message-ID: <202410090524.vjAy2Hgv-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1728437305; c=relaxed/simple;
+	bh=oKrWsj0O/Nlo4rrHs/iCycL28wO1QB8vzihNMhgc2eY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TNDs+z3SUer8yuLPTsHUfHZmGYpMh8FIi7xyNuzueMn/FYUAS3OGNJ+wNErBs1DILmceXuFdvkE0oCYua5HxCkSqkM/aqYpMZHvz8Zw8ORaTsOyFwR0R++oMnxR1UOjab93TLIyD6Z6tIF/XlOiwEnoE791Puyo1DAo1fJBnX2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=i9msE94f; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 498H3xpr022606;
+	Wed, 9 Oct 2024 01:28:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=T1ngBHzXAUC6PWjMk0KSVS
+	3Ni9BJwLovX98Row3Sw2U=; b=i9msE94fGKR3E8tCE22GUnndM0FLV17REh4cMP
+	9x5Pel0qo5a+0xuncIdvn8k3hbcAg8MS9Rj4EAZtuyHjPIsQ6O3z2ivJGjME8ulH
+	DENmaL+aRlsGz9ySKZhZVQ0SkH6qPpLhnaNj2BUsqfCDcOjm/444wbGUn4MdtnsV
+	GNcp+sn5yoNmRP5aZhgUFZ8WhNx7na4Bk7QWQK44RQP1QzpOCu7xKXSHGgEUgU+M
+	bjYTLMWva7NkxgsSKjv0kU6VQrdxVn1eGyXtEgWK2YbaOwVCFSBJWdA8MTaUd+Cu
+	TxwJNtdESdD2PlpVlMD9fu6C8CF9KEwTbEefBMNOb4Ovu+QQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 424kaevey6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 09 Oct 2024 01:28:17 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4991SGKN024884
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 9 Oct 2024 01:28:16 GMT
+Received: from Z2-SFF-G9-MQ.ap.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 8 Oct 2024 18:28:14 -0700
+From: Miaoqing Pan <quic_miaoqing@quicinc.com>
+To: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <konrad.dybcio@linaro.org>,
+        <mchehab@kernel.org>, <quic_vgarodia@quicinc.com>,
+        <stanimir.k.varbanov@gmail.com>,
+        Miaoqing Pan <quic_miaoqing@quicinc.com>
+Subject: [PATCH v3] arm64: dts: qcom: sa8775p-ride: add WiFi/BT nodes
+Date: Wed, 9 Oct 2024 09:27:38 +0800
+Message-ID: <20241009012738.2840558-1-quic_miaoqing@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: R2rx9bkmIcoL0smXS9fJdr1jD0_maAgj
+X-Proofpoint-GUID: R2rx9bkmIcoL0smXS9fJdr1jD0_maAgj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ adultscore=0 spamscore=0 clxscore=1011 lowpriorityscore=0 phishscore=0
+ impostorscore=0 priorityscore=1501 mlxlogscore=999 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410090008
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: 67cefecf2a039b9ed0030b9213ceafcd45e6f9e3  mailmap: add entries for Hans Verkuil
+Add a node for the PMU module of the WCN6855 present on the sa8775p-ride
+board. Assign its LDO power outputs to the existing WiFi/Bluetooth module.
 
-elapsed time: 751m
+Signed-off-by: Miaoqing Pan <quic_miaoqing@quicinc.com>
+---
+v2:
+  - fix wcn6855-pmu compatible to "qcom,wcn6855-pmu".
+  - relocate pcieport0 node in alphabetical order.
+v3:
+  - add 'qcom,ath11k-calibration-variant = "SA8775P"'.
 
-configs tested: 81
-configs skipped: 3
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 121 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi      |   2 +-
+ 2 files changed, 122 insertions(+), 1 deletion(-)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+index 0c1b21def4b6..2546e9b86555 100644
+--- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
++++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+@@ -27,6 +27,83 @@ aliases {
+ 	chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
++
++	vreg_conn_1p8: vreg_conn_1p8 {
++		compatible = "regulator-fixed";
++		regulator-name = "vreg_conn_1p8";
++		startup-delay-us = <4000>;
++		enable-active-high;
++		gpio = <&pmm8654au_1_gpios 4 GPIO_ACTIVE_HIGH>;
++	};
++
++	vreg_conn_pa: vreg_conn_pa {
++		compatible = "regulator-fixed";
++		regulator-name = "vreg_conn_pa";
++		startup-delay-us = <4000>;
++		enable-active-high;
++		gpio = <&pmm8654au_1_gpios 6 GPIO_ACTIVE_HIGH>;
++	};
++
++	wcn6855-pmu {
++		compatible = "qcom,wcn6855-pmu";
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&bt_en_state>, <&wlan_en_state>;
++
++		vddio-supply = <&vreg_conn_pa>;
++		vddaon-supply = <&vreg_l2c>;
++		vddpmu-supply = <&vreg_conn_1p8>;
++		vddrfa0p95-supply = <&vreg_l2c>;
++		vddrfa1p3-supply = <&vreg_l6e>;
++		vddrfa1p9-supply = <&vreg_s5a>;
++		vddpcie1p3-supply = <&vreg_l6e>;
++		vddpcie1p9-supply = <&vreg_s5a>;
++
++		bt-enable-gpios = <&pmm8654au_1_gpios 8 GPIO_ACTIVE_HIGH>;
++		wlan-enable-gpios = <&pmm8654au_1_gpios 7 GPIO_ACTIVE_HIGH>;
++
++		regulators {
++			vreg_pmu_rfa_cmn: ldo0 {
++				regulator-name = "vreg_pmu_rfa_cmn";
++			};
++
++			vreg_pmu_aon_0p59: ldo1 {
++				regulator-name = "vreg_pmu_aon_0p59";
++			};
++
++			vreg_pmu_wlcx_0p8: ldo2 {
++				regulator-name = "vreg_pmu_wlcx_0p8";
++			};
++
++			vreg_pmu_wlmx_0p85: ldo3 {
++				regulator-name = "vreg_pmu_wlmx_0p85";
++			};
++
++			vreg_pmu_btcmx_0p85: ldo4 {
++				regulator-name = "vreg_pmu_btcmx_0p85";
++			};
++
++			vreg_pmu_rfa_0p8: ldo5 {
++				regulator-name = "vreg_pmu_rfa_0p8";
++			};
++
++			vreg_pmu_rfa_1p2: ldo6 {
++				regulator-name = "vreg_pmu_rfa_1p2";
++			};
++
++			vreg_pmu_rfa_1p7: ldo7 {
++				regulator-name = "vreg_pmu_rfa_1p7";
++			};
++
++			vreg_pmu_pcie_0p9: ldo8 {
++				regulator-name = "vreg_pmu_pcie_0p9";
++			};
++
++			vreg_pmu_pcie_1p8: ldo9 {
++				regulator-name = "vreg_pmu_pcie_1p8";
++			};
++		};
++	};
+ };
+ 
+ &apps_rsc {
+@@ -453,6 +530,20 @@ &pmm8654au_1_gpios {
+ 			  "USB2_PWR_EN",
+ 			  "USB2_FAULT";
+ 
++	wlan_en_state: wlan-en-state {
++		pins = "gpio7";
++		function = "normal";
++		output-low;
++		bias-pull-down;
++	};
++
++	bt_en_state: bt-en-state {
++		pins = "gpio8";
++		function = "normal";
++		output-low;
++		bias-pull-down;
++	};
++
+ 	usb2_en_state: usb2-en-state {
+ 		pins = "gpio9";
+ 		function = "normal";
+@@ -702,6 +793,25 @@ &pcie1_phy {
+ 	status = "okay";
+ };
+ 
++&pcieport0 {
++	wifi@0 {
++		compatible = "pci17cb,1101";
++		reg = <0x10000 0x0 0x0 0x0 0x0>;
++
++		qcom,ath11k-calibration-variant = "SA8775P";
++
++		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
++		vddaon-supply = <&vreg_pmu_aon_0p59>;
++		vddwlcx-supply = <&vreg_pmu_wlcx_0p8>;
++		vddwlmx-supply = <&vreg_pmu_wlmx_0p85>;
++		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
++		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
++		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
++		vddpcie0p9-supply = <&vreg_pmu_pcie_0p9>;
++		vddpcie1p8-supply = <&vreg_pmu_pcie_1p8>;
++	};
++};
++
+ &remoteproc_adsp {
+ 	firmware-name = "qcom/sa8775p/adsp.mbn";
+ 	status = "okay";
+@@ -744,6 +854,17 @@ &uart17 {
+ 	pinctrl-0 = <&qup_uart17_default>;
+ 	pinctrl-names = "default";
+ 	status = "okay";
++
++	bluetooth {
++		compatible = "qcom,wcn6855-bt";
++
++		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
++		vddaon-supply = <&vreg_pmu_aon_0p59>;
++		vddbtcmx-supply = <&vreg_pmu_btcmx_0p85>;
++		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
++		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
++		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
++	};
+ };
+ 
+ &ufs_mem_hc {
+diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+index e8dbc8d820a6..8d42b5e9c7d6 100644
+--- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
++++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+@@ -5570,7 +5570,7 @@ pcie0: pcie@1c00000 {
+ 
+ 		status = "disabled";
+ 
+-		pcie@0 {
++		pcieport0: pcie@0 {
+ 			device_type = "pci";
+ 			reg = <0x0 0x0 0x0 0x0 0x0>;
+ 			bus-range = <0x01 0xff>;
+-- 
+2.25.1
 
-tested configs:
-alpha            allnoconfig    gcc-14.1.0
-alpha           allyesconfig    clang-20
-alpha              defconfig    gcc-14.1.0
-arc             allmodconfig    clang-20
-arc              allnoconfig    gcc-14.1.0
-arc             allyesconfig    clang-20
-arc                defconfig    gcc-14.1.0
-arm             allmodconfig    clang-20
-arm              allnoconfig    gcc-14.1.0
-arm             allyesconfig    clang-20
-arm                defconfig    gcc-14.1.0
-arm64           allmodconfig    clang-20
-arm64            allnoconfig    gcc-14.1.0
-arm64              defconfig    gcc-14.1.0
-csky             allnoconfig    gcc-14.1.0
-csky               defconfig    gcc-14.1.0
-hexagon         allmodconfig    clang-20
-hexagon          allnoconfig    gcc-14.1.0
-hexagon         allyesconfig    clang-20
-hexagon            defconfig    gcc-14.1.0
-i386            allmodconfig    clang-18
-i386             allnoconfig    clang-18
-i386            allyesconfig    clang-18
-i386               defconfig    clang-18
-loongarch       allmodconfig    gcc-14.1.0
-loongarch        allnoconfig    gcc-14.1.0
-loongarch          defconfig    gcc-14.1.0
-m68k            allmodconfig    gcc-14.1.0
-m68k             allnoconfig    gcc-14.1.0
-m68k            allyesconfig    gcc-14.1.0
-m68k               defconfig    gcc-14.1.0
-microblaze      allmodconfig    gcc-14.1.0
-microblaze       allnoconfig    gcc-14.1.0
-microblaze      allyesconfig    gcc-14.1.0
-microblaze         defconfig    gcc-14.1.0
-mips             allnoconfig    gcc-14.1.0
-nios2            allnoconfig    gcc-14.1.0
-nios2              defconfig    gcc-14.1.0
-openrisc         allnoconfig    clang-20
-openrisc         allnoconfig    gcc-14.1.0
-openrisc        allyesconfig    gcc-14.1.0
-openrisc           defconfig    gcc-12
-parisc          allmodconfig    gcc-14.1.0
-parisc           allnoconfig    clang-20
-parisc           allnoconfig    gcc-14.1.0
-parisc          allyesconfig    gcc-14.1.0
-parisc             defconfig    gcc-12
-parisc64           defconfig    gcc-14.1.0
-powerpc         allmodconfig    gcc-14.1.0
-powerpc          allnoconfig    clang-20
-powerpc          allnoconfig    gcc-14.1.0
-powerpc         allyesconfig    gcc-14.1.0
-riscv           allmodconfig    gcc-14.1.0
-riscv            allnoconfig    clang-20
-riscv            allnoconfig    gcc-14.1.0
-riscv           allyesconfig    gcc-14.1.0
-riscv              defconfig    gcc-12
-s390            allmodconfig    gcc-14.1.0
-s390             allnoconfig    clang-20
-s390            allyesconfig    gcc-14.1.0
-s390               defconfig    gcc-12
-sh              allmodconfig    gcc-14.1.0
-sh               allnoconfig    gcc-14.1.0
-sh              allyesconfig    gcc-14.1.0
-sh                 defconfig    gcc-12
-sparc           allmodconfig    gcc-14.1.0
-sparc64            defconfig    gcc-12
-um              allmodconfig    clang-20
-um               allnoconfig    clang-17
-um               allnoconfig    clang-20
-um              allyesconfig    clang-20
-um                 defconfig    gcc-12
-um            i386_defconfig    gcc-12
-um          x86_64_defconfig    gcc-12
-x86_64           allnoconfig    clang-18
-x86_64          allyesconfig    clang-18
-x86_64             defconfig    clang-18
-x86_64                 kexec    gcc-12
-x86_64              rhel-8.3    gcc-12
-x86_64         rhel-8.3-rust    clang-18
-xtensa           allnoconfig    gcc-14.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
