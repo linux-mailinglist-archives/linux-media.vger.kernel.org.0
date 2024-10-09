@@ -1,149 +1,158 @@
-Return-Path: <linux-media+bounces-19300-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19301-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BED3995F59
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 08:02:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 425D6995F6F
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 08:06:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 000CCB24371
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 06:02:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0E9E2832D5
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 06:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A2D216BE20;
-	Wed,  9 Oct 2024 06:01:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87B05175D4C;
+	Wed,  9 Oct 2024 06:06:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aQqXzOJX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WWLUctv2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13FC4A3F;
-	Wed,  9 Oct 2024 06:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316BB157A5C;
+	Wed,  9 Oct 2024 06:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728453713; cv=none; b=rYQeR7mSd16mn6sfXqilLNzLXeME407kIyOHp0+XS28A5ccNvabPVWNAY6tjtzGwDzwBlvbKGSBe9yuriCwc2ajiFWPsil3biCIDLHlwsAlEHp8jztnpnud5wjIkkSfu5mftP5AzE2gqmHxSHBoEAzWuaEWLhqbhpA8Wwpbt+FA=
+	t=1728453973; cv=none; b=tWxYYKFXnPLyr63gZLG8NJg3JoJlb2Cke5ZAxHO28tZm5s8zipQ8mymKPb1mkLYoj9E3Adu2j8ZYYO+i3F680Igd5pKOZ6zjHbK4MW8B6zbL07Ug1hbSIrbBYaih+t/vD1hJ8sZWekOwOMhjJ04KDGt3wNgLP2vqOC7ImNipkF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728453713; c=relaxed/simple;
-	bh=mYR/iz/uQadaFyZ0VIZKdCNT+eZ0L87m2kP4syS1bd0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WtsntF7B9HSfYX2SXmHmBwbG2u3aciyULdK2ZKesm+3/VWm06O7saljE+zLkelHb6bwSV4Vn/2pKqLmAwkCBYUGOE45dvLCZhqiZuR3oYW3hbYFuaDBhqkSi2jzz6bkcY+SOKnF05Ooz68eTkJDb0y2uZQig6hpFnTNzsM7+7jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aQqXzOJX; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728453712; x=1759989712;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mYR/iz/uQadaFyZ0VIZKdCNT+eZ0L87m2kP4syS1bd0=;
-  b=aQqXzOJXVJhQOnmDcnXE7Lkmy7So4bvpzJQcsLSxl/MHshUkBQPOcok8
-   4OQuZfQShEJ0AdJTobj9eV2zG6xVQWrSG3CXtuZATo6KoMXKeVK9EY+n+
-   GSBNo7cuAA5boIUP7BpAMS6zXrNhSC4NLxU02CnKieL+JMQKTufgzN7AY
-   BdSUiHZZ+FZZ3e6n6vuBcgT2mQzv0kJG0f18qBmNZ6pZhNYPd5QVPCFD2
-   bcA9Ffevxj6zo9wssFZdiNbPx5r3PH1jzFVDJ2Doq1qgYHqYqUeCVH1r0
-   0E3ilH7GOelgNzQTmcRKqH7WDIuzGbZkM0YdM/nIOgCvpZKq7s4gw6jhd
-   w==;
-X-CSE-ConnectionGUID: 9gLPYes7Sv6dYHglR+hHBA==
-X-CSE-MsgGUID: t6pDzzOyT3yQUI+Vlebl+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="31621534"
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="31621534"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 23:01:51 -0700
-X-CSE-ConnectionGUID: ArXbDQ8oQTKsiOArIZe8bA==
-X-CSE-MsgGUID: z93e8qWzTniQ+s9BvtsiyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="113619784"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 23:01:49 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 3B06C11F855;
-	Wed,  9 Oct 2024 09:01:45 +0300 (EEST)
-Date: Wed, 9 Oct 2024 06:01:45 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>,
+	s=arc-20240116; t=1728453973; c=relaxed/simple;
+	bh=A+xgCzVhGo/udPZxNaHb/fMOubRLtL6QRPJeZZjNXAA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=dmK8FaZNc508pIFDLtuN0LXklDgDa2LcQHNcX7af8+luqL+l8h2bU5HfyXF5nVORr80zGIEipqpi+HFH8UqFUaUHd8Otco891OgYXcesae3mTtq9qmql5ywlm+vH5gT9OypiNNXFjQBful6VxLM/V/rWeVgJKuwlK+2izw6a7XQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WWLUctv2; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2fabe5c8c26so58119381fa.2;
+        Tue, 08 Oct 2024 23:06:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728453968; x=1729058768; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BmtqIzicJp8fLfYVFFWV2vaF+yNi/Ge252b9z/JaofU=;
+        b=WWLUctv225ICXDA3x1w6cxyOZ9f085ipZDdl2x+GaYRDA0GtAOLKAYS5jx99SDSF6c
+         fr4gmb49eXs93FbP0P4PUlO6VrDHAKrryURHPmVHd4C4mdj7DF0FH1cPiDt6mPUj3bVf
+         YTDuoyQuzak29lk/IrVtzt7y/81eYNpA/QOTjUvJ/tUIJI1/Djy7ryExwP84fixxXN3Y
+         CsCoCTLhDXGHhmQujqacQcVuYZVYVx3QeQsy6F46OMH6MdzgYIkRVX6D5rqjtLNh6d0G
+         ef8pRC9re/G7ZuQAE7BH5woeSN1R+7GxyaBW8k4jguWt3Hij/hjgMdZ4VIETb3FxDEO1
+         +SxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728453968; x=1729058768;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BmtqIzicJp8fLfYVFFWV2vaF+yNi/Ge252b9z/JaofU=;
+        b=EX7qaYVVMmFqkY0uzPh/HPRNljkx17q1gfRQ6p7nLdoRMUonDwATJCbhmG4Iphd4rK
+         AYijWn9cfrZ2BzH4liMtEflM1s++On8NAcfh79tXNYMxCwLsQXdOpDoa3ZEMDZW0SMiV
+         bzp4DzAvwcwpmQxh55wje902P8e7hbuR+8B9qmXw0PcnNCYydehQhXyFZEyooxgnRNxO
+         Dwd03GJ9nOETB2qixCprstZaDoyu7pBxs2dFWzlYxX/7IRuIUp6Mk5UIIOfVg1PAzbq+
+         DXqvHPnrF4pdVsTP4fKk03LnDetrtH76e1heZxuw4CfQJ2N0j4D94ffO8CCSxZsVt7Da
+         IlJg==
+X-Forwarded-Encrypted: i=1; AJvYcCW8twDfiaMghYm19WXZvGW7WoCbv3RLeaDLQufbVK6PqWKCdUTUqAY3hKYR9dpYiwKNY0d0Gb8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmsSNPjuVfvGbiFQdhQ7eO47GxfCwWREia1BNzUpbokYZKuXZc
+	u6wivedEhHGM/Di6RdvVdbL8oxJa/Uifi4VGlo60T2euDt1A9WQZ+j7TGmg0
+X-Google-Smtp-Source: AGHT+IEw982+TEx0fP70rrR5FbpdNW0aBPmVZEPGx54iBl7GLqzvyvhDzrxGHsH/H66oP/hPMhZayg==
+X-Received: by 2002:a2e:a985:0:b0:2f5:806:5d00 with SMTP id 38308e7fff4ca-2fb187be78bmr6546841fa.32.1728453968083;
+        Tue, 08 Oct 2024 23:06:08 -0700 (PDT)
+Received: from localhost.localdomain ([188.243.23.53])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2faf9b249cfsm13705541fa.80.2024.10.08.23.06.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 23:06:06 -0700 (PDT)
+From: Alexander Shiyan <eagle.alexander923@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2] v4l2-subdev: Return -EOPNOTSUPP for unsupported pad
- type in call_get_frame_desc()
-Message-ID: <ZwYcSZyEFtyl8QpQ@kekkonen.localdomain>
-References: <20241007123809.89281-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241007181654.GD14766@pendragon.ideasonboard.com>
+	Dave Stevenson <dave.stevenson@raspberrypi.org>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] media: i2c: tc358743: Fix crash in the probe error path when using polling
+Date: Wed,  9 Oct 2024 09:05:44 +0300
+Message-Id: <20241009060544.4675-1-eagle.alexander923@gmail.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007181654.GD14766@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent,
+If an error occurs in the probe() function, we should remove the polling
+timer that was alarmed earlier, otherwise the timer is called with
+arguments that are already freed, which results in a crash.
 
-On Mon, Oct 07, 2024 at 09:16:54PM +0300, Laurent Pinchart wrote:
-> Hi Prabhakar,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Oct 07, 2024 at 01:38:09PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > 
-> > The `get_frame_desc()` operation should always be called on a source pad,
-> > which is indicated by the `MEDIA_PAD_FL_SOURCE` flag. This patch adds a
-> > check in `call_get_frame_desc()` to ensure that the `MEDIA_PAD_FL_SOURCE`
-> > flag is set for the pad before invoking `get_frame_desc()`. If the pad is
-> > not a source pad, the function will return an `-EOPNOTSUPP` error,
-> > signaling that the operation is not supported on non-source pads.
-> > 
-> > Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v1->v2
-> > - Added a check for CONFIG_MEDIA_CONTROLLER, as the `entity` member in 
-> >   `struct v4l2_subdev` is only available when CONFIG_MEDIA_CONTROLLER
-> >   is enabled.
-> > ---
-> >  drivers/media/v4l2-core/v4l2-subdev.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > index de9ac67574bb..446fbc3805c7 100644
-> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > @@ -325,6 +325,11 @@ static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> >  	unsigned int i;
-> >  	int ret;
-> >  
-> > +#if defined(CONFIG_MEDIA_CONTROLLER)
-> > +	if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
-> 
-> As this should really not happen, I wonder if we shouldn't be more
-> vocal:
-> 
-> 	if (WARN_ON(!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE)))
-> 
-> Sakari, what do you think ? Either way,
+------------[ cut here ]------------
+WARNING: CPU: 3 PID: 0 at kernel/time/timer.c:1830 __run_timers+0x244/0x268
+Modules linked in:
+CPU: 3 UID: 0 PID: 0 Comm: swapper/3 Not tainted 6.11.0 #226
+Hardware name: Diasom DS-RK3568-SOM-EVB (DT)
+pstate: 804000c9 (Nzcv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : __run_timers+0x244/0x268
+lr : __run_timers+0x1d4/0x268
+sp : ffffff80eff2baf0
+x29: ffffff80eff2bb50 x28: 7fffffffffffffff x27: ffffff80eff2bb00
+x26: ffffffc080f669c0 x25: ffffff80efef6bf0 x24: ffffff80eff2bb00
+x23: 0000000000000000 x22: dead000000000122 x21: 0000000000000000
+x20: ffffff80efef6b80 x19: ffffff80041c8bf8 x18: ffffffffffffffff
+x17: ffffffc06f146000 x16: ffffff80eff27dc0 x15: 000000000000003e
+x14: 0000000000000000 x13: 00000000000054da x12: 0000000000000000
+x11: 00000000000639c0 x10: 000000000000000c x9 : 0000000000000009
+x8 : ffffff80eff2cb40 x7 : ffffff80eff2cb40 x6 : ffffff8002bee480
+x5 : ffffffc080cb2220 x4 : ffffffc080cb2150 x3 : 00000000000f4240
+x2 : 0000000000000102 x1 : ffffff80eff2bb00 x0 : ffffff80041c8bf0
+Call trace:
+ __run_timers+0x244/0x268
+ timer_expire_remote+0x50/0x68
+ tmigr_handle_remote+0x388/0x39c
+ run_timer_softirq+0x38/0x44
+ handle_softirqs+0x138/0x298
+ __do_softirq+0x14/0x20
+ ____do_softirq+0x10/0x1c
+ call_on_irq_stack+0x24/0x4c
+ do_softirq_own_stack+0x1c/0x2c
+ irq_exit_rcu+0x9c/0xcc
+ el1_interrupt+0x48/0xc0
+ el1h_64_irq_handler+0x18/0x24
+ el1h_64_irq+0x7c/0x80
+ default_idle_call+0x34/0x68
+ do_idle+0x23c/0x294
+ cpu_startup_entry+0x38/0x3c
+ secondary_start_kernel+0x128/0x160
+ __secondary_switched+0xb8/0xbc
+---[ end trace 0000000000000000 ]---
 
-I wouldn't as this is probably going to be user-triggerable. The problem
-shouldn't be too hard to find out either.
+Fixes: 4e66a52a2e4c ("[media] tc358743: Add support for platforms without IRQ line")
+Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/media/i2c/tc358743.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Thanks!
-
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index 65d58ddf0287..344a670e732f 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -2168,8 +2168,10 @@ static int tc358743_probe(struct i2c_client *client)
+ 
+ err_work_queues:
+ 	cec_unregister_adapter(state->cec_adap);
+-	if (!state->i2c_client->irq)
++	if (!state->i2c_client->irq) {
++		del_timer(&state->timer);
+ 		flush_work(&state->work_i2c_poll);
++	}
+ 	cancel_delayed_work(&state->delayed_work_enable_hotplug);
+ 	mutex_destroy(&state->confctl_mutex);
+ err_hdl:
 -- 
-Kind regards,
+2.39.1
 
-Sakari Ailus
 
