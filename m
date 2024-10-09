@@ -1,310 +1,1327 @@
-Return-Path: <linux-media+bounces-19303-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19305-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599E79962EA
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 10:36:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF0799639C
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 10:48:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 793451C21FB3
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 08:36:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1B5A1C25110
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2024 08:48:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE393185923;
-	Wed,  9 Oct 2024 08:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BE5718E028;
+	Wed,  9 Oct 2024 08:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="rET0QKNb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VEVo1WS2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011038.outbound.protection.outlook.com [52.101.70.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EA018785C;
-	Wed,  9 Oct 2024 08:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.38
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728462651; cv=fail; b=bEZ6cbLiRkmx/uQFZHJRmv8Kw+HJnGDD39djnsI3+K6N2F6p1/EKvumvPc02XF0HXV+xKjXGcy4tldJmcWgLaz37kA9abWXF/uAa3sEjBtgQ9EOqJ5p4EXkVZevgqCknNZQbXdI21FCbkXPoue8vzKFNMOx5oaMOwXSS+uAlt7Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728462651; c=relaxed/simple;
-	bh=ActlAKbguGpqwe8Lr3QK8YbZZv8q3VJTNUL9M37hafU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=PKmJXUfUJaruNbbdPPon4xtdqVd3wE14ni4QsTZP/6wfhxnuk3HKHK3X3cL9yMuoYhALuhpv6KmE67NcfiEFEBToAzGoxUeMbYUeP2z69++oDdjLrddo4DRgxETbrMD8LahQN/2j0Z619eVi69zh141tUAex/S76eIbPCnKVLoQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=rET0QKNb; arc=fail smtp.client-ip=52.101.70.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DRXqcLHrX09MTSPZYnoXishjXGiRm5gfECrUAcZgU227V7z+ZvS6Wz2LgRelxV/qOlwdf+gMjXseDXf7+hkxWV0uPh6ianybkx2XF9638B4LEsn1DXHFd/m2Tp7qoHjBD/dhJgMi3qto2dymPKXK67Vf+rUN0nAAJEVG7PX2r3lQ/7EIq/DnweZJvCWAEzK065dwxqF0EDD6Thu3azkc+71r+Rok/mW1AZ5DFFDfZVQeBnFYXDWz1OrfvzWzq/l/UU5HISslyccWBVmba/nid1aLeA8wDFNXVP/R8TiLwHD/OSB3Stw+0mTrzFsJdAjVqY+fNAye3l2s9IFFuO5aKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ActlAKbguGpqwe8Lr3QK8YbZZv8q3VJTNUL9M37hafU=;
- b=kmO3XXg56ajZI2CqXRrSReEVv5NkS3aLnrMKgoojSgr8PGOXqLGgQrBKF3BjyfZIX5LXbmRHOJsk5jinZqONlrop2wSU1QCFk5Cw17lEYd3hAUEnvQjcKjj4gsiZXFdFbmi9xuuiBcihlmjk5lJ3bnyzFJU/0caxi6TMMyWPDEBmSrw9G6rX093rPewgVCLmiJpOT4AYDOaBN8RtdDkkHYBpAim5aAUSCs/+hdAlNCXvS2HlWyp06Ca/EUfEfZvY7s1b62dzPXwBxCPcZGK2vam3gRwcmbza8jzsaX3eqfimjbSgXb1eGFVL01rJYPG1gEBGvx2bz2jdGFzI1+2cfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ActlAKbguGpqwe8Lr3QK8YbZZv8q3VJTNUL9M37hafU=;
- b=rET0QKNbzXyByT54iowPJkydyNh5CO82Bo9ixwvflaANSPyBhdqsJCSEsRHI+0+QfgEWlqC847kVQp/iRlvzdwpam3pv10GJIyJ9c8/ivN7F+EfjB5xsSGqH/zqNYhTDwpbktKPctqF7/2CRVRkg0IeZB8jmrdd9biWwLdNwrP7G8Iht1SdH/reqmM/fBAPiMFbT4KcCOIA8ywZtzWQ0vi9UC4XWWsXsFvTsn8WJWBjaJa3KMmmmiDQrC9K4pl5PnETkQrr83LTvVK8aYe2Vn63fT+taycu6JXp96/2xgsiQQmTsL0fFTYgDiOVSJv0PfcSFTl4bn/hZLvg3T3Yz7g==
-Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
- by AM8PR04MB7203.eurprd04.prod.outlook.com (2603:10a6:20b:1d5::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.16; Wed, 9 Oct
- 2024 08:30:44 +0000
-Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
- ([fe80::93bd:316b:682f:5e59]) by AS8PR04MB9080.eurprd04.prod.outlook.com
- ([fe80::93bd:316b:682f:5e59%6]) with mapi id 15.20.8026.020; Wed, 9 Oct 2024
- 08:30:44 +0000
-From: "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "G.N. Zhou (OSS)"
-	<guoniu.zhou@oss.nxp.com>
-CC: "rmfrfs@gmail.com" <rmfrfs@gmail.com>, "martink@posteo.de"
-	<martink@posteo.de>, "kernel@puri.sm" <kernel@puri.sm>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "shawnguo@kernel.org" <shawnguo@kernel.org>,
-	"s.hauer@pengutronix.de" <s.hauer@pengutronix.de>, "kernel@pengutronix.de"
-	<kernel@pengutronix.de>, "festevam@gmail.com" <festevam@gmail.com>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 0/3] media: imx8mq-mipi-csi2: Simplify power management
- handling
-Thread-Topic: [PATCH 0/3] media: imx8mq-mipi-csi2: Simplify power management
- handling
-Thread-Index: AQHbEnWjWQbBoFwBjkOAXS+Cpks20bJv48vQgAAKH4CAAAb/oIAL6iGAgAJAbKA=
-Date: Wed, 9 Oct 2024 08:30:44 +0000
-Message-ID:
- <AS8PR04MB9080E11C730639A09FB90E4BFA7F2@AS8PR04MB9080.eurprd04.prod.outlook.com>
-References: <20240929134354.20735-1-laurent.pinchart@ideasonboard.com>
- <AS8PR04MB9080211FC5A0FFCB255C3247FA762@AS8PR04MB9080.eurprd04.prod.outlook.com>
- <20240930072151.GC31662@pendragon.ideasonboard.com>
- <AS8PR04MB9080AF5E451A74FA0C0B03C0FA762@AS8PR04MB9080.eurprd04.prod.outlook.com>
- <20241007214343.GB30699@pendragon.ideasonboard.com>
-In-Reply-To: <20241007214343.GB30699@pendragon.ideasonboard.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR04MB9080:EE_|AM8PR04MB7203:EE_
-x-ms-office365-filtering-correlation-id: 8aba7aca-4d2c-43ff-12e5-08dce83cab20
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|1800799024|7416014|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?S2J0VDduZE5WN2VPM1lzREcvMlF0eUE1UHNXd0xhQjNUN21wMGs0dE5FL1dW?=
- =?utf-8?B?K2RNYmVxTVFhVjNBTTlQMzlsVFdzUER6TVVpWnhBNVVYMGpSeU5XOTRwNXFx?=
- =?utf-8?B?akNsWGMvbFBKRzY3b01ZR0tIamVBYjlnSGVZaG9EcllMSnNuMzZLTXJGTWV5?=
- =?utf-8?B?Wk1iWmZWOEMxYTR3a0l3MTBjaTR1RXh0S1YvNE9QZ0VLUGFISUFlVWRUcnlz?=
- =?utf-8?B?TlNZUll3QzREQXhqekh1MnlmRVp4VjFhZk5Ca1habWlMWWdyMC9KK1N3di9l?=
- =?utf-8?B?THowMFhwN2JrVU9RY1FaNkxRd2RkM0J0Y0JLeVcvdk5oY1U2VDVLNE8weUVZ?=
- =?utf-8?B?ZndSZ0pOamFsMDQ4VHQzYkNuanNzVHdtUUZEMjBPaXdpYVpWaFkxT0VZdGJY?=
- =?utf-8?B?bklWaFp1UmFhbGNMYmZ3K2VDVXUzME1KTTBtMGdMdjlJK3h1dS8yd0FpVjBD?=
- =?utf-8?B?MmZ6bWRYS2xCdlNMQm9odWZTMFdrd0Nlcy9NcVkwOWRWNmw4d3hFc01FNllD?=
- =?utf-8?B?ZFlTTTFCb08xMmZ4WHFjWkozZkNNaVhkNGcrdW1SVFV1RXJtbVI2RU1YSkxm?=
- =?utf-8?B?N1UzK0tPdTVEblFpamUwQ1dud2NLM3JkY1dvZ1pySXlRalhLQ0NxRU85a09Z?=
- =?utf-8?B?eWUvOHNaZkdKNTA5TXpLZ25iemtNYld3NlpSOWE4TTM3R1k2OEplVnJ3SW0r?=
- =?utf-8?B?eEppNURSWFBPUVZtaTAvVmZ4M0FUbWZnWnJubWhxelhxeitsOG5JWXFWUXRv?=
- =?utf-8?B?MHRVa3dwVkRnbkpDZFRWTkxhU3ZIblRKUngvNnRDb1E4VGlEWjZnblpoNGVj?=
- =?utf-8?B?aExHRm5SanJxUVJuNm44bTl1YktkaXR6bmxLWmlXTGF5NHdzSDZOU1FoZ3dh?=
- =?utf-8?B?R1pYaVhMUXNJcFBadSt3eVg1Wi9YVko5ZG5zSHBkb0dPemtyRitESzhIZDBx?=
- =?utf-8?B?QTVaUjdTREFZNHVMeFZwdVRZR1RVMzdlNW8yRjFTbGdWV0k3Y3J0eFZFczYz?=
- =?utf-8?B?b2F2RVA1TkhlWW5zOFdhYXZXSG03OU9CTmRLWHp0YmxSVy9ERUZlVVdtWWt6?=
- =?utf-8?B?VHE0SFVBUDRETk03a21ZMm84dDA0S1JwTWJRK3l1OUpQVFBxb3hVL1k3dkIz?=
- =?utf-8?B?bmNqU0VxRzA4RllpRFJBYXdZcFByL3Vka2crRUxNUUNWOVNtQWRIYW5SN0tz?=
- =?utf-8?B?ZFQ2R2lCM3p6dWhENU9PTnJUSklpUUNEZDByaU95OTJaeDNyQXM0LzlOa3Uv?=
- =?utf-8?B?MGtMS3d2d1VqenFXcHQ5UWh1Mm9ieGNXNUlXRVhKRmZldWtXT09YdVQ4c3JM?=
- =?utf-8?B?T3VLSGlGNW8rWDdHUTZtdmhnWDVRMlpRT3JQV1BNMXpzZk9nNC9MeFVUUFNq?=
- =?utf-8?B?S1JoekIxdnFuaGIwclI0d3cyWDQ2bDArankyTWxoM2V6anZ5RzJ1YU5WQWY5?=
- =?utf-8?B?eGVxeWpEQjVJZDJVQ0FaUnNyUjViajQ2NjRmbGFhMlFzaGUzenRpbWlrL3FO?=
- =?utf-8?B?WTRaQ3paKy9PY0ZvUldha1czTGw4ajNvM1J1VFZVaDg2aUYxZW5mVTV2Q0pI?=
- =?utf-8?B?amVCS3lDVjV2dnZ6Q2Q3TWxaVmNuWGF5UytSYW9wWVNFUUkrZ1VBWWRicWVJ?=
- =?utf-8?B?VWZDVCtxMXlWSFA0bjhndGdPZjJTZVZLUmNwd1h0YTZoVWZwaEMvZnJxMHlK?=
- =?utf-8?B?Zk1iNXVXTGNxYkRZSFdOM1dVc1NIcUZYeWx0cmNCWTRJa01kUVRST2Z4WjRz?=
- =?utf-8?B?UnZuK1VSemlVZTlTQUFDZWV1MFcrNnREb29uc21HNFBjZ1N0VC9nQVFseUJm?=
- =?utf-8?B?UjJLODV5Z3ZybnMzTFBnQT09?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?UUhuSDc0bmZDWUhmaENhakZHYktIYzgyT1MxcDltMlZMNEJXdXFoVXYzWk1E?=
- =?utf-8?B?L0JnM09JTUtySjFBVHE2am54RW5tem8zcnNVZWFpcFV5enF3ZU9hOXl2K2VL?=
- =?utf-8?B?a1B3S1JENjRZbFphZ0IrTUUyYTN0eUtDYWFWWFM5Rlc1N3VLbUh5NUwySC9o?=
- =?utf-8?B?U3NsdnBsdGU5UC9BSGdreTFnU242SGljWisrKzJYaVEzc3JpRGFiRGFDZkNu?=
- =?utf-8?B?amRKUlF5SXlFQVVaclprblIweGd4K01yYkxzV1hnZUtKckMxemZ4WXU3SVB1?=
- =?utf-8?B?SlFEbkxwcW9UbzVOQUpZUml1WDRRVkg3UFpHQjNWSUFWUS9PZ3puYzA3YkN2?=
- =?utf-8?B?cVlkZDFNUzdNK2k3TXdjOHlyVEdEcFRTaFpKT1ZZR3J1TFdINlh6RW9IbFR5?=
- =?utf-8?B?ZC9VcjM0QUFCeWVtQlZBeUZrSm1INGRLUGJxMStKWG5jL1dUQnVFVDA0S0ZD?=
- =?utf-8?B?Z0FMNUIwN2NPdGszTkl5bDlvOFBwZVJUZm9pbHc3TDgvUitnSURXRURjVjdM?=
- =?utf-8?B?Ni84ZnJUbVUwcUJUSG5hRXQzeUhEMWxIU0s5TWtrV3dnaHY0emVhZzdLMGJK?=
- =?utf-8?B?cWZ0YmN5L0cveHZJdmlSODdHbHVVTHA4M1RGQ2NiSkhzdll6aXJsS2xXLzJI?=
- =?utf-8?B?MzRjZk1LNUtPRGJxelM1c2NoRXpxeWdYSUdWRVVlZ0xOUWdiczB2S0EveC9a?=
- =?utf-8?B?a0s3QkFyRjBSRkoyVHBWQ1Juc25OUXNoQWQ0R1V0YkNTRGxLYkRXMmpiYkh0?=
- =?utf-8?B?OXhqSit5bzAzLzQzTGN4YnFYNzlVTmRGWlk2Z3ZGR2lqSnBZQVMwbXg5ZjRk?=
- =?utf-8?B?WlJxbEEwa3BLTmU0eEFLT1M0WktRZTI0Z2VOdUR5OXVDWDJRKys0V0pQVC9v?=
- =?utf-8?B?dXhHczU3dU1zTlpaUW41QWNxNlY2WklWcXJuZi9BbnpjMnlqNlBFY0tibmFF?=
- =?utf-8?B?bVh4blpiNHViUDM5ME5mZTlZU2lpU210OExwUTRJTVZYRVF5S2NXbDBDenpj?=
- =?utf-8?B?Mm9YczE5STU4Vm56UXhmTGFGUEtiYnBHSDdNZXRhUEtkbk8xYU1abE9HME5S?=
- =?utf-8?B?NC91eEJZb0lBTzJOc0pITFNwR3ZIOGxOSWZqdTJvVUJLc1Z4YngrL1d3ZGxQ?=
- =?utf-8?B?NExTWEsyQ3VLTTlaVDUyYlJ6WFNFOGU1L2gzZkxDRHZSYWRBS3FKMkJhc3NX?=
- =?utf-8?B?TjBkZGd1SS93VjJvTW84cWhJcGoxdlRpQXRmWDZHUnViUHNhOFo4SWE4VHJo?=
- =?utf-8?B?QkpSN1RRZmJlQW9PcklUSllUM0x5c3lHZXZFZHRMVzNQV1RaalFoQ2haZE1M?=
- =?utf-8?B?ZFoxMHRHYlcyNnZTNDRCb2lsczNMTEkrcStxSElyVUdUNms5KzNxcVFlM21Q?=
- =?utf-8?B?MHJxM3ZMQ3hlRms4NWVhSXZoakE1TnBKbE4zMmlveWhobE5aYXlRcC83ckw0?=
- =?utf-8?B?UjZHVVJTc0ZBT1hRQjVTdlVRa1NUZG5rNUt2R1ZIVGRnV1d1OVgvaktYbis1?=
- =?utf-8?B?dmVIU2VxdGR3YWFaQkQ5UzdQY3N3bEU4KzY5L2JycmpoaVdrdks0RFVyY3pv?=
- =?utf-8?B?YVFZL3NhYzFhUUFkVTJiMGVzL3F4ejlvZzNjQytJWHJTMGtYTGhYS2k1ZmNt?=
- =?utf-8?B?ODV4aFBkNm1hRENjcVBXbWxkQzFza2xPQTFWQTRVZjRON3NpcDN5YVBMNmd0?=
- =?utf-8?B?dSttU0VvamNiemVndDlGWXdCS2xwUVdPeXBuYitUVlo2YjAzWlQ1OWVSelBR?=
- =?utf-8?B?eEI4dENrWmd6emt5N1JoeFdlYlBLNG9TazZQang3c1BFanNsN1JLZ2lIaGxk?=
- =?utf-8?B?MDNKUG1EN1NMNjNsNHk1SHRiTHk5bFovTmZvUEdkcU10c3RKUVYvbFQwaXF3?=
- =?utf-8?B?bmZuM1FpS0czdkZlN2MwR1NUL0F6R2F4UkJBWnUvWXZuaE4wN3BPTXJDNE9i?=
- =?utf-8?B?SVkzMkh0QllHVWwwK24zblUrbzBoR29QMEFJS29UWUsyTU1ONVk0Zkk2d3J2?=
- =?utf-8?B?SGVRRUNQZTNWMmNEK0JvcUhZdmRNb01lbWx4aC96ZXpqTmtWZk9KVzYxTG9T?=
- =?utf-8?B?MDRzSDBSWkR2cDlFdmxPQS96WWpSMGdpRjAvTjFTVjhPOUJ0VkpQKzJUWWN5?=
- =?utf-8?Q?b+IzkrlF5LpXRCuBzVqNgqm8V?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601BE18CC05;
+	Wed,  9 Oct 2024 08:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728463411; cv=none; b=sneLamX38S8e/QVYrlyWznLjtJKUJPZQOWyDsXMzyYyTF9NjIprxBHr7HUsBU5FH1Wj4DQC86/KooFWr/t4k569jSJ90R11T2gkWJON/quwT0m6CgPzQ/X06pk9DxxTCfERw1bqE77Qmi7CwE/FdJdsXgmcAAQfqHKHovOV9xSM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728463411; c=relaxed/simple;
+	bh=Dy0v/z4SBjasJXqU149Dx19Ne4J4V1i3IZHnUssuhdM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Sdwi6xUK7A8eTepIk/GngdSuADF2OHgvQCIlCGwZ3UPdhSstfvA+efKKK4huP8A+/Wf9cA+kkjHll2pvhG3VC0xo2fnv00ZrfigYvQCF1MZjpHN9HkyYLOT2ai0pQjknE1FKtD7mpRVbr7sK5k4sd80PWe5xHAV1wdKIBYcLaBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VEVo1WS2; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5398939d29eso8069446e87.0;
+        Wed, 09 Oct 2024 01:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728463404; x=1729068204; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ej5ZbfD4uzKpyX2dehP8JvsjaP1la9ONJ+X5+Wy8Z5o=;
+        b=VEVo1WS2FdznNmW+x4xzDQKkrRtgApLX09u9OsAK7GGExb7uRHv9LbMRTlJDrJuzMf
+         3fwCQ45zHcIL7c3CAlQ6gllX7ObWgZ4ooC+heSO9OIdI3u47SAX7H3KT5yMYP+oSNMYo
+         liWz7cYULRLD9mXgM5Z2Qvf7WSRZTDPK9fX9/MkzO9MmTeo18q6usf9shJfNgd5hMIfr
+         OOo4gQIOuXTZMd/UmUzyFAgEPAXA1liI0JSHLQl03gaWTLlW0hoclDIihK+1a1lfCMPs
+         lKnutpPeBhHli/n6cHZekMIs5YGVxCuwix7+TgtRGi3//pkHaqh5sQ4xZEFYcs7zli/v
+         x5CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728463404; x=1729068204;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ej5ZbfD4uzKpyX2dehP8JvsjaP1la9ONJ+X5+Wy8Z5o=;
+        b=NGgy0wsfvDEHEBAvCw4OUKSWE174ZKLZMx3/MGTUY8s10sGvy+RCJ+W84TqwWSR8xL
+         kgCxubGuVhHyqMzebeIirJZA92dWD2WaG8U+dWHwlz4N/RLHHHxcqAopAPRKbDbb/z8H
+         YlOq12VdHCHuo62EYb1ZVQVubcXInD9OYgKPQA9+l4KHV4Vv5PbLvhe7osBbR6xKV/hX
+         WbZ5S8kuMMKU/23ue0Q9mSll80fmT/zlCmE3Ie13xC5VJk441kGvP4UbsKmff1sREsZO
+         wpOytNvJfsVloOPDKjluIb8GF1Izu85ncuzOoM2IDnu2yPv9Fk2HUoP2Nge2HfnOMZ/D
+         cxuA==
+X-Forwarded-Encrypted: i=1; AJvYcCVLed9UjDQW5bAftX+bXKrK91uT/fb+P5eQN5+i5OxMzOHNLwBsZsAHJtmECBHOh+3P53SsPUa1kutv@vger.kernel.org
+X-Gm-Message-State: AOJu0YykoeHSPCBgzZCBcG97JmEpEqHQyZ15vUj9sa2+/fOz7nIyVUhT
+	sO0Gdd40GJmnAljH0MTsMbdw3A4NeGIWHBtJVt1T/1ncsqCiu3Lag8j8jUFp
+X-Google-Smtp-Source: AGHT+IFghPUrK9F/pQxiRXzzB3C9NrvjB1zvEWV1EymzUM0reRobLoUeuLC5QK+Dzb/wqXXLkwbcgQ==
+X-Received: by 2002:a05:6512:b98:b0:535:69ee:9717 with SMTP id 2adb3069b0e04-539c488a956mr996155e87.3.1728463403131;
+        Wed, 09 Oct 2024 01:43:23 -0700 (PDT)
+Received: from localhost.localdomain ([188.243.23.53])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539aff23c6csm1439507e87.187.2024.10.09.01.43.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2024 01:43:22 -0700 (PDT)
+From: Alexander Shiyan <eagle.alexander923@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	devicetree@vger.kernel.org,
+	Alexander Shiyan <eagle.alexander923@gmail.com>
+Subject: [PATCH 1/2] media: i2c: Add AR0233 camera sensor driver
+Date: Wed,  9 Oct 2024 11:43:03 +0300
+Message-Id: <20241009084304.14143-1-eagle.alexander923@gmail.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9080.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8aba7aca-4d2c-43ff-12e5-08dce83cab20
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2024 08:30:44.6244
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: d+tcKkzSnYiC4v9C0MfQaUsyhFM91UUietVxWnlLeKKRZa/K20xKJ+oegTjjCTjyelYYZyZNHl8kqg5IA9jb/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7203
+Content-Transfer-Encoding: 8bit
 
-SGkgTGFydWVudCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMYXVy
-ZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6
-IFR1ZXNkYXksIE9jdG9iZXIgOCwgMjAyNCA1OjQ0IEFNDQo+IFRvOiBHLk4uIFpob3UgKE9TUykg
-PGd1b25pdS56aG91QG9zcy5ueHAuY29tPg0KPiBDYzogcm1mcmZzQGdtYWlsLmNvbTsgbWFydGlu
-a0Bwb3N0ZW8uZGU7IGtlcm5lbEBwdXJpLnNtOw0KPiBtY2hlaGFiQGtlcm5lbC5vcmc7IHNoYXdu
-Z3VvQGtlcm5lbC5vcmc7IHMuaGF1ZXJAcGVuZ3V0cm9uaXguZGU7DQo+IGtlcm5lbEBwZW5ndXRy
-b25peC5kZTsgZmVzdGV2YW1AZ21haWwuY29tOyBpbXhAbGlzdHMubGludXguZGV2OyBsaW51eC0N
-Cj4gbWVkaWFAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVh
-ZC5vcmc7IGxpbnV4LQ0KPiBrZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggMC8zXSBtZWRpYTogaW14OG1xLW1pcGktY3NpMjogU2ltcGxpZnkgcG93ZXINCj4gbWFu
-YWdlbWVudCBoYW5kbGluZw0KPiANCj4gSGkgR3VvLA0KPiANCj4gT24gTW9uLCBTZXAgMzAsIDIw
-MjQgYXQgMDc6NTE6NDVBTSArMDAwMCwgRy5OLiBaaG91IChPU1MpIHdyb3RlOg0KPiA+IE9uIE1v
-bmRheSwgU2VwdGVtYmVyIDMwLCAyMDI0IDM6MjIgUE0sIExhdXJlbnQgUGluY2hhcnQgd3JvdGU6
-DQo+ID4gPiBPbiBNb24sIFNlcCAzMCwgMjAyNCBhdCAwNzowODowOUFNICswMDAwLCBHLk4uIFpo
-b3UgKE9TUykgd3JvdGU6DQo+ID4gPiA+IE9uIFN1bmRheSwgU2VwdGVtYmVyIDI5LCAyMDI0IDk6
-NDQgUE0sIExhdXJlbnQgUGluY2hhcnQgd3JvdGU6DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBIZWxs
-bywNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IFRoaXMgc21hbGwgcGF0Y2ggc2VyaWVzIGlzIGEgcmVh
-Y3Rpb24gdG8gIltQQVRDSF0gbWVkaWE6IG54cDoNCj4gPiA+ID4gPiBpbXg4bXEtbWlwaS1jc2ky
-OiBGaXggQ1NJIGNsb2NrcyBhbHdheXMgZW5hYmxlZCBpc3N1ZSIgKFsxXSkuDQo+ID4gPiA+ID4g
-SW5zdGVhZCBvZiBtYWtpbmcgdGhlIFBNIGhhbmRsaW5nIG1vcmUgY29tcGxleCwgSSB0aGluayBp
-dCBjYW4gYmUNCj4gZ3JlYXRseSBzaW1wbGlmaWVkLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gSSBo
-YXZlIG9ubHkgY29tcGlsZS10ZXN0ZWQgdGhlIHBhdGNoZXMuIEd1b25pdSwgY291bGQgeW91IGdp
-dmUgdGhpcyBhDQo+IHRyeSA/DQo+ID4gPiA+DQo+ID4gPiA+IEFmdGVyIGFwcGx5aW5nIHRoZSBw
-YXRjaGVzIGFuZCB0ZXN0IGJvdGggb24gaU1YOFVMUC4NCj4gPiA+ID4NCj4gPiA+ID4gRm9yIGlN
-WDhVTFAsIGl0IHdpbGwgY2F1c2Uga2VybmVsIGR1bXAgd2hlbiBhY2Nlc3MgQ1NJIHJlZ2lzdGVy
-cw0KPiA+ID4gPiBhbmQgc3lzdGVtIGhhbmcgZHVyaW5nIGRvIHN1c3BlbmQvcmVzdW1lIHdoaWxl
-IHN0cmVhbWluZyBOZWVkIHRvDQo+ID4gPiA+IGFkZCBzeXN0ZW0gc3VzcGVuZC9yZXN1bWUgaGFu
-ZGxlcnMgYW5kIGNhbGwNCj4gPiA+ID4gcG1fcnVudGltZV9mb3JjZV9zdXNwZW5kL3Jlc3VtZSBp
-biB0aGUgaGFuZGxlcnMuDQo+ID4gPiA+DQo+ID4gPiA+IEkgdHJpZWQgdG8gZGVidWcgdGhpcyBp
-c3N1ZSBhbmQgZm91bmQgcG0gcnVudGltZSBjYWxsYmFjayB3b24ndCBiZQ0KPiA+ID4gPiBjYWxs
-ZWQgd2hlbiBzeXN0ZW0gcmVzdW1lLiBUaGUgc3RhdGUgb2YgcG93ZXIgZG9tYWluIHdvbid0IGVu
-YWJsZWQuDQo+ID4gPg0KPiA+ID4gVGhhbmsgeW91IGZvciB0ZXN0aW5nLg0KPiA+ID4NCj4gPiA+
-IEkgd29uZGVyIGlmIHRoaXMgY291bGQgYmUgY2F1c2VkIGJ5IHRoZSBDU0kgYnJpZGdlIGJlaW5n
-IHJlc3VtZWQNCj4gPiA+IGZyb20gc3lzdGVtIHNsZWVwIGJlZm9yZSB0aGUgQ1NJLTIgcmVjZWl2
-ZXIuIENvdWxkIHlvdSBjaGVjayBpZg0KPiA+ID4gdGhhdCdzIHRoZSBjYXNlID8gSWYgc28sIGRv
-ZXMgdGhlIGZvbGxvd2luZyBjaGFuZ2UgZml4IHRoZSBpc3N1ZSA/DQo+ID4NCj4gPiBJIHRlc3Rl
-ZCBvbiBpTVg4VUxQIHdoaWNoIGRvbid0IHVzZSBDU0kgYnJpZGdlIGJ1dCBJU0ksIG5vdCBpTVg4
-TVEuIEluDQo+ID4gSVNJIGRyaXZlciwgSSBub3RpY2UgdGhhdCBpdCBhbHJlYWR5IGhhbmRsZXIg
-dGhlIGRldmljZSByZWxhdGlvbnNoaXAgd2hlbiBzdWJkZXYNCj4gYm91bmQgbGlrZSBiZWxsb3c6
-DQo+ID4NCj4gPiBsaW5rID0gZGV2aWNlX2xpbmtfYWRkKGlzaS0+ZGV2LCBzZC0+ZGV2LCBETF9G
-TEFHX1NUQVRFTEVTUyk7IGlmDQo+ID4gKCFsaW5rKSB7DQo+ID4gICAgICAgICBkZXZfZXJyKGlz
-aS0+ZGV2LA0KPiA+ICAgICAgICAgICAgICAgICAiRmFpbGVkIHRvIGNyZWF0ZSBkZXZpY2UgbGlu
-ayB0byBzb3VyY2UgJXNcbiIsIHNkLT5uYW1lKTsNCj4gPiAgICAgICAgIHJldHVybiAtRUlOVkFM
-Ow0KPiA+IH0NCj4gDQo+IEFoIHllcyBpbmRlZWQgd2l0aCB0aGUgSVNJIGl0IHNob3VsZCBhbHJl
-YWR5IGJlIGhhbmRsZWQuDQo+IA0KPiBJIGNhbid0IHRlc3QgdGhpcyBvbiBoYXJkd2FyZSBub3cg
-YXMgSSdtIHRyYXZlbGxpbmcuIElzIHRoZSBzeXN0ZW0gaGFuZyBoYXBwZW5pbmcNCj4gYXQgc3Vz
-cGVuZCBvciByZXN1bWUgdGltZSA/IFdoYXQgaXMgdGhlIG9yZGVyIG9mIHRoZSBzdXNwZW5kL3Jl
-c3VtZSBoYW5kbGVycw0KPiBjYWxscyBmb3IgdGhlIGlteDgtaXNpIGRyaXZlciBhbmQgdGhlDQo+
-IGlteDhtcS1taXBpLWNzaTIgZHJpdmVyID8NCg0KIzEpIElzIHRoZSBzeXN0ZW0gaGFuZyBoYXBw
-ZW5pbmcgYXQgc3VzcGVuZCBvciByZXN1bWUgdGltZSA/DQogICAgICAgQWZ0ZXIgYXBwbHlpbmcg
-eW91ciBwYXRjaGVzLCBzeXN0ZW0gaGFuZyB3aWxsIGhhcHBlbmVkIGF0IHJlc3VtZSB0aW1lLiBB
-ZGRpbmcNCiAgICAgICBsb2cgYW5kIGVuYWJsZSBub19jb25zb2xlX3N1c3BlbmQsIEkgY2FuIGtu
-b3cgdGhlIHRoZSBwb2ludCBvZiBjYXVzaW5nIGlzc3VlIGlzDQogICAgICAgYWNjZXNzaW5nIENT
-SSByZWdpc3RlcnMgd2hlbiB0b3AtbGV2ZWwoSVNJKSBkZXZpY2UgdHJ5IHRvIGVuYWJsZSBzdHJl
-YW0gZnJvbSBDU0kgaW4NCiAgICAgICBJU0kgcmVzdW1lIGNhbGxiYWNrIGxpa2UgYmVsbG93Og0K
-ICAgICAgIG14Y19pc2lfcG1fcmVzdW1lKGRldikNCiAgICAgICAgICAgbXhjX2lzaV92aWRlb19y
-ZXN1bWUocGlwZSkNCiAgICAgICAgICAgICAgIG14Y19pc2lfcGlwZV9lbmFibGUocGlwZSkNCiAg
-ICAgICAgICAgICAgICAgICB2NGwyX3N1YmRldl9lbmFibGVfc3RyZWFtcyguLi4pICAgICAgIA0K
-ICAgICAgICAgICAgICAgICAgICAgICAgbXg4bXFfbWlwaV9jc2lfc19zdHJlYW0oKQ0KICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGlteDhtcV9taXBpX2NzaV9zdGFydF9zdHJlYW0oKQ0KICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbXg4bXFfbWlwaV9jc2lfc2V0X3BhcmFtcyhz
-dGF0ZSkNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlteDhtcV9taXBpX2Nz
-aV93cml0ZShzdGF0ZSwgQ1NJMlJYX0NGR19OVU1fTEFORVMsIGxhbmVzIC0gMSk7ICAgICAgPC0t
-LSAgIGNhdXNpbmcga2VybmVsIHBhbmljIGFuZCBzeXN0ZW0gZG9uJ3QgaGF2ZSBhbnkgcmVzcG9u
-c2UNCg0KIzIpIFdoYXQgaXMgdGhlIG9yZGVyIG9mIHRoZSBzdXNwZW5kL3Jlc3VtZSBoYW5kbGVy
-cyBjYWxscyBmb3IgdGhlIGlteDgtaXNpIGRyaXZlciBhbmQgdGhlDQogICAgICAgaW14OG1xLW1p
-cGktY3NpMiBkcml2ZXIgPw0KICAgICAgIFN1c3BlbmQ6IElTSSAtPiBDU0kNCiAgICAgICBSZXN1
-bWU6IENTSSAtPiBJU0kNCg0KT25lIG1vcmUgdGhpbmcgd2hlbiBJIGRlYnVnZ2luZyB0aGlzIGlz
-c3VlIHRoYXQgdGhlIHZhbHVlIG9mIENTSSBkZXZpY2UgInBvd2VyLnVzYWdlX2NvdW50IiBpbiB0
-d28gY2FzZXMNCg0KQ2FzZSAxOiBEb24ndCBkbyBzeXN0ZW0gc3VzcGVuZC9yZXN1bWUgYW5kIG9u
-bHkgcnVuIGNhbWVyYSB0ZXN0Lg0KICAgICAgICAgICAgICBUb3AtbGV2ZWwgZGV2aWNlKElTSSkg
-Y2FuIGNhbGwgQ1NJIHNfc3RyZWFtIHdoZW4gc3RhcnQvc3RvcCBjYXB0dXJlIGFuZCBDU0kgcnVu
-dGltZV9zdXNwZW5kL3Jlc3VtZSB3aWxsDQogICAgICAgICAgICAgIGJlIGNhbGxlZCBpbiB0aGlz
-IGNhc2Ugc2luY2UgdGhlIHZhbHVlIG9mIENTSSBkZXZpY2UgcG93ZXIudXNhZ2VfY291bnQgaXMg
-MQ0KDQpDYXNlIDI6IFJ1biBjYW1lcmEgdGVzdCBmaXJzdCBhbmQga2VlcCBpdCBydW4gaW4gYmFj
-a2VuZCwgdGhlbiBydW4gc3lzdGVtIHN1c3BlbmQvcmVzdW1lLg0KICAgICAgICAgICAgICBUb3At
-bGV2ZWwgZGV2aWNlKElTSSkgd2lsbCBDU0kgc19zdHJlYW0oKSB0byBzdGFydCBjYXB0dXJlIHdo
-ZW4gcnVuIGNhbWVyYSB0ZXN0IGFuZCB0aGVuLCBJU0kgc3lzdGVtIHN1c3BlbmQNCiAgICAgICAg
-ICAgICAgY2FsbGJhY2sgd2lsbCBkaXNhYmxlIHN0cmVhbSBmcm9tIENTSSBieSBjYWxsaW5nIHNf
-c3RyZWFtKCksIHRoZSBwbV9ydW50aW1lX3B1dChkZXYpIGRvZXNuJ3QgY2FsbCBDU0kgcnVudGlt
-ZQ0KICAgICAgICAgICAgICBzdXNwZW5kIGNhbGxiYWNrIHNpbmNlIHRoZSB2YWx1ZSBvZiBDU0kg
-ZGV2aWNlIHBvd2VyLnVzYWdlX2NvdW50IGlzIDIuDQoNCkknbSBub3Qgc3VyZSBpZiBpdCdzIGhl
-bHBmdWxsLCBqdXN0IGZvciB5b3VyIHJlZmVyZW5jZS4gICAgICAgDQoNCj4gDQo+ID4gRm9yIGlN
-WDhNUSwgSSdtIHRyeWluZyB0byBlbmFibGUgaXQsIGJ1dCBtZWV0IHNvbWUgcHJvYmxlbXMsIHNv
-IGNhbid0DQo+ID4gZ2l2ZSB5b3UgdGhlIHJlc3VsdHMgaW4gc2hvcnQgdGltZS4NCj4gPg0KPiA+
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbnhwL2lteDctbWVkaWEtY3Np
-LmMNCj4gPiA+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14Ny1tZWRpYS1jc2kuYw0K
-PiA+ID4gaW5kZXggOTU2NmZmNzM4ODE4Li5jNjZiMDYyMWUzOTUgMTAwNjQ0DQo+ID4gPiAtLS0g
-YS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXg3LW1lZGlhLWNzaS5jDQo+ID4gPiArKysg
-Yi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXg3LW1lZGlhLWNzaS5jDQo+ID4gPiBAQCAt
-MjA1Nyw5ICsyMDU3LDIyIEBAIHN0YXRpYyBpbnQgaW14N19jc2lfbm90aWZ5X2JvdW5kKHN0cnVj
-dA0KPiA+ID4gdjRsMl9hc3luY19ub3RpZmllciAqbm90aWZpZXIsICB7DQo+ID4gPiAgCXN0cnVj
-dCBpbXg3X2NzaSAqY3NpID0gaW14N19jc2lfbm90aWZpZXJfdG9fZGV2KG5vdGlmaWVyKTsNCj4g
-PiA+ICAJc3RydWN0IG1lZGlhX3BhZCAqc2luayA9ICZjc2ktPnNkLmVudGl0eS5wYWRzW0lNWDdf
-Q1NJX1BBRF9TSU5LXTsNCj4gPiA+ICsJc3RydWN0IGRldmljZV9saW5rICpsaW5rOw0KPiA+ID4N
-Cj4gPiA+ICAJY3NpLT5zcmNfc2QgPSBzZDsNCj4gPiA+DQo+ID4gPiArCS8qDQo+ID4gPiArCSAq
-IEVuZm9yY2Ugc3VzcGVuZC9yZXN1bWUgb3JkZXJpbmcgYmV0d2VlbiB0aGUgc291cmNlIChzdXBw
-bGllcikgYW5kDQo+ID4gPiArCSAqIHRoZSBDU0kgKGNvbnN1bWVyKS4gVGhlIHNvdXJjZSB3aWxs
-IGJlIHN1c3BlbmRlZCBiZWZvcmUgYW5kIHJlc3VtZQ0KPiA+ID4gKwkgKiBhZnRlciB0aGUgQ1NJ
-Lg0KPiA+ID4gKwkgKi8NCj4gPiA+ICsJbGluayA9IGRldmljZV9saW5rX2FkZChjc2ktPmRldiwg
-c2QtPmRldiwgRExfRkxBR19TVEFURUxFU1MpOw0KPiA+ID4gKwlpZiAoIWxpbmspIHsNCj4gPiA+
-ICsJCWRldl9lcnIoY3NpLT5kZXYsDQo+ID4gPiArCQkJIkZhaWxlZCB0byBjcmVhdGUgZGV2aWNl
-IGxpbmsgdG8gc291cmNlICVzXG4iLCBzZC0NCj4gPm5hbWUpOw0KPiA+ID4gKwkJcmV0dXJuIC1F
-SU5WQUw7DQo+ID4gPiArCX0NCj4gPiA+ICsNCj4gPiA+ICAJcmV0dXJuIHY0bDJfY3JlYXRlX2Z3
-bm9kZV9saW5rc190b19wYWQoc2QsIHNpbmssDQo+IE1FRElBX0xOS19GTF9FTkFCTEVEIHwNCj4g
-PiA+ICAJCQkJCSAgICAgICBNRURJQV9MTktfRkxfSU1NVVRBQkxFKTsgIH0NCj4gPiA+DQo+ID4g
-PiA+ID4gWzFdDQo+ID4gPiA+ID4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDI0MDkyOTEw
-MTYzNS4xNjQ4MjM0LTEtZ3Vvbml1Lnpob3VAbw0KPiA+ID4gPiA+IHNzLm54cC5jb20NCj4gPiA+
-ID4gPg0KPiA+ID4gPiA+IExhdXJlbnQgUGluY2hhcnQgKDMpOg0KPiA+ID4gPiA+ICAgbWVkaWE6
-IGlteDhtcS1taXBpLWNzaTI6IERyb3Agc3RyZWFtIHN0b3AvcmVzdGFydCBhdCBzdXNwZW5kL3Jl
-c3VtZQ0KPiB0aW1lDQo+ID4gPiA+ID4gICBtZWRpYTogaW14OG1xLW1pcGktY3NpMjogRHJvcCBT
-VF9TVVNQRU5ERUQgZ3VhcmQNCj4gPiA+ID4gPiAgIG1lZGlhOiBpbXg4bXEtbWlwaS1jc2kyOiBE
-cm9wIHN5c3RlbSBzdXNwZW5kL3Jlc3VtZSBoYW5kbGVycw0KPiA+ID4gPiA+DQo+ID4gPiA+ID4g
-IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbnhwL2lteDhtcS1taXBpLWNzaTIuYyB8IDExMw0KPiA+
-ID4gPiA+ICsrLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTAg
-aW5zZXJ0aW9ucygrKSwgMTAzIGRlbGV0aW9ucygtKQ0KPiA+ID4gPiA+DQo+ID4gPiA+ID4NCj4g
-PiA+ID4gPiBiYXNlLWNvbW1pdDogODFlZTYyZThkMDllZTNjNzEwN2QxMWM4YmJmZDY0MDczYWI2
-MDFhZA0KPiANCj4gLS0NCj4gUmVnYXJkcywNCj4gDQo+IExhdXJlbnQgUGluY2hhcnQNCg==
+This is a new driver for the AR0233 1/2.5" CMOS digital image sensor
+from ON Semiconductor.
+
+The initial version of the driver supports 12-bit output format and
+provides controls that cover common camera sensor use cases.
+
+This been tested on Rockchip RK3568 ISP with DS90UB953 serializer
+and DS90UB954 deserializer.
+
+Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
+---
+ drivers/media/i2c/Kconfig  |   11 +
+ drivers/media/i2c/Makefile |    1 +
+ drivers/media/i2c/ar0233.c | 1178 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 1190 insertions(+)
+ create mode 100644 drivers/media/i2c/ar0233.c
+
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 8ba096b8ebca..327e68b5fe0b 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -51,6 +51,17 @@ config VIDEO_ALVIUM_CSI2
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called alvium-csi2.
+ 
++config VIDEO_AR0233
++	tristate "onsemi AR0233 sensor support"
++	depends on OF || COMPILE_TEST
++	select V4L2_CCI_I2C
++	help
++	  This is a Video4Linux2 sensor driver for the onsemi AR0233 camera
++	  sensor.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called ar0233.
++
+ config VIDEO_AR0521
+ 	tristate "ON Semiconductor AR0521 sensor support"
+ 	help
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index fbb988bd067a..055123335a28 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -19,6 +19,7 @@ obj-$(CONFIG_VIDEO_AK7375) += ak7375.o
+ obj-$(CONFIG_VIDEO_AK881X) += ak881x.o
+ obj-$(CONFIG_VIDEO_ALVIUM_CSI2) += alvium-csi2.o
+ obj-$(CONFIG_VIDEO_APTINA_PLL) += aptina-pll.o
++obj-$(CONFIG_VIDEO_AR0233) += ar0233.o
+ obj-$(CONFIG_VIDEO_AR0521) += ar0521.o
+ obj-$(CONFIG_VIDEO_BT819) += bt819.o
+ obj-$(CONFIG_VIDEO_BT856) += bt856.o
+diff --git a/drivers/media/i2c/ar0233.c b/drivers/media/i2c/ar0233.c
+new file mode 100644
+index 000000000000..98c68dde2eef
+--- /dev/null
++++ b/drivers/media/i2c/ar0233.c
+@@ -0,0 +1,1178 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Driver for the AR0233 camera sensor from ON Semiconductor
++ *
++ * Written by Alexander Shiyan <eagle.alexander923@gmail.com>
++ *
++ * Some parts of code taken from ar0144.c by:
++ * Copyright (C) 2024 Ideas on Board Oy
++ * Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++ *
++ * Some parts of code taken from imx335.c by:
++ * Copyright (C) 2021 Intel Corporation
++ */
++
++#include <linux/clk.h>
++#include <linux/i2c.h>
++#include <linux/pm_runtime.h>
++#include <linux/regmap.h>
++#include <linux/gpio/consumer.h>
++#include <linux/regulator/consumer.h>
++#include <media/mipi-csi2.h>
++#include <media/v4l2-cci.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-fwnode.h>
++#include <media/v4l2-subdev.h>
++
++#define AR0233_FRAME_STATUS					CCI_REG16(0x2008)
++#	define AR0233_FRAME_STATUS_STANDBY			BIT(1)
++#define AR0233_CHIP_VERSION_REG					CCI_REG16(0x3000)
++#	define AR0233_CHIP_VERSION_AR0233			(0x0956)
++#define AR0233_Y_ADDR_START					CCI_REG16(0x3002)
++#define AR0233_X_ADDR_START					CCI_REG16(0x3004)
++#define AR0233_Y_ADDR_END					CCI_REG16(0x3006)
++#define AR0233_X_ADDR_END					CCI_REG16(0x3008)
++#define AR0233_FRAME_LENGTH_LINES				CCI_REG16(0x300a)
++#	define AR0233_MIN_FRAME_LENGTH_LINES			(40)
++#	define AR0233_MAX_FRAME_LENGTH_LINES			(65535)
++#define AR0233_LINE_LENGTH_PCK					CCI_REG16(0x300c)
++#	define AR0233_MIN_LINE_LENGTH_PCK			(1840)
++#	define AR0233_MAX_LINE_LENGTH_PCK			(65534)
++#define AR0233_REVISION_NUMBER					CCI_REG16(0x300e)
++#define AR0233_COARSE_INTEGRATION_TIME				CCI_REG16(0x3012)
++#define AR0233_RESET_REGISTER					CCI_REG16(0x301a)
++#	define AR0233_RESET_LPF_ENABLE				BIT(13)
++#	define AR0233_RESET_REGISTER_SMIA_SERIALIZER_DIS	BIT(12)
++#	define AR0233_RESET_REGISTER_MASK_BAD			BIT(9)
++#	define AR0233_RESET_REGISTER_STANDBY_EOF		BIT(4)
++#	define AR0233_RESET_REGISTER_LOCK_REG			BIT(3)
++#	define AR0233_RESET_REGISTER_STREAM			BIT(2)
++#define	AR0233_MODE_SELECT					CCI_REG8(0x301c)
++#define AR0233_IMAGE_ORIENTATION				CCI_REG8(0x301d)
++#	define AR0233_ORIENTATION_VERT_FLIP			BIT(1)
++#	define AR0233_ORIENTATION_HORIZ_MIRROR			BIT(0)
++#define AR0233_SOFTWARE_RESET					CCI_REG8(0x3021)
++#	define AR0233_RESET					BIT(0)
++#define AR0233_GROUPED_PARAMETER_HOLD				CCI_REG8(0x3022)
++#	define AR0233_RESET_REGISTER_GROUPED_PARAMETER_HOLD	BIT(0)
++#define AR0233_VT_PIX_CLK_DIV					CCI_REG16(0x302a)
++#define AR0233_VT_SYS_CLK_DIV					CCI_REG16(0x302c)
++#	define FASTER_CLK_DIV(x)				((x) << 8)
++#define AR0233_PRE_PLL_CLK_DIV					CCI_REG16(0x302e)
++#define AR0233_PLL_MULTIPLIER					CCI_REG16(0x3030)
++#define AR0233_OP_PIX_CLK_DIV					CCI_REG16(0x3036)
++#define AR0233_OP_SYS_CLK_DIV					CCI_REG16(0x3038)
++#define AR0233_GLOBAL_GAIN					CCI_REG16(0x305e)
++#define AR0233_TEST_PATTERN_MODE				CCI_REG16(0x3070)
++#	define AR0233_TEST_PATTERN_NONE				(0)
++#	define AR0233_TEST_PATTERN_SOLID			(1)
++#	define AR0233_TEST_PATTERN_BARS				(2)
++#	define AR0233_TEST_PATTERN_BARS_FADE			(3)
++#	define AR0233_TEST_PATTERN_WALKING_1S			(256)
++#define AR0233_TEST_DATA_RED					CCI_REG16(0x3072)
++#define AR0233_TEST_DATA_GREENR					CCI_REG16(0x3074)
++#define AR0233_TEST_DATA_BLUE					CCI_REG16(0x3076)
++#define AR0233_TEST_DATA_GREENB					CCI_REG16(0x3078)
++#define AR0233_DATA_FORMAT_BITS					CCI_REG16(0x31ac)
++#	define AR0233_DATA_FORMAT_RAW(x)			((x) << 8)
++#	define AR0233_DATA_FORMAT_OUTPUT(x)			((x) << 0)
++#define AR0233_SERIAL_FORMAT					CCI_REG16(0x31ae)
++#	define AR0233_SERIAL_FORMAT_TYPE_MIPI			(2 << 8)
++#	define AR0233_SERIAL_FORMAT_LANES(x)			((x) << 0)
++#define AR0233_CUSTOMER_REV					CCI_REG16(0x31fe)
++#define AR0233_MIPI_F1_PDT_EDT					CCI_REG16(0x3342)
++#	define AR0233_MIPI_Fx_EDT(x)				((x) << 8)
++#	define AR0233_MIPI_Fx_PDT(x)				((x) << 0)
++#define AR0233_MIPI_F1_VDT_VC					CCI_REG16(0x3344)
++#	define AR0233_MIPI_Fx_VC(x)				((x) << 8)
++#	define AR0233_MIPI_Fx_VDT(x)				((x) << 0)
++#define AR0233_MIPI_F2_PDT_EDT					CCI_REG16(0x3346)
++#define AR0233_MIPI_F2_VDT_VC					CCI_REG16(0x3348)
++#define AR0233_MIPI_F3_PDT_EDT					CCI_REG16(0x334a)
++#define AR0233_MIPI_F3_VDT_VC					CCI_REG16(0x334c)
++#define AR0233_MIPI_F4_PDT_EDT					CCI_REG16(0x334e)
++#define AR0233_MIPI_F4_VDT_VC					CCI_REG16(0x3350)
++#define AR0233_ANALOG_GAIN					CCI_REG16(0x3366)
++
++#define AR0233_MIN_HBLANK			(400)
++#define AR0233_MIN_VBLANK			(AR0233_MIN_FRAME_LENGTH_LINES)
++#define AR0233_ACT_WIDTH			(2048)
++#define AR0233_ACT_HEIGHT			(1280)
++#define AR0233_MIN_WIDTH			(32)
++#define AR0233_MIN_HEIGHT			(32)
++#define AR0233_DEF_WIDTH			(1920)
++#define AR0233_DEF_HEIGHT			(1080)
++
++/* Offsets to sensor optical center */
++#define AR0233_X_OFFSET				((2064 - AR0233_ACT_WIDTH) / 2)
++#define AR0233_Y_OFFSET				((1288 - AR0233_ACT_HEIGHT) / 2)
++
++struct ar0233_format_info {
++	u32 format;
++	u16 bpp_input;	/* Legal values are 12, 14, 16, 18, 20, 24 */
++	u16 bpp_output;	/* Legal values are 10, 12, 14, 16, 20, 24 */
++	u16 datatype;
++};
++
++static const struct ar0233_format_info ar0233_formats[] = {
++	{
++		.format = MEDIA_BUS_FMT_SGRBG12_1X12,
++		.bpp_input = 14,
++		.bpp_output = 12,
++		.datatype = MIPI_CSI2_DT_RAW12,
++	},
++};
++
++static const char * const ar0233_supplies[] = {
++	"vaa",		/* Analog supply */
++	"vaapix",	/* Pixel supply */
++	"vddio",	/* I/O Digital supply */
++	"vddphy",	/* PHY Digital supply */
++	"vdd",		/* Core Digital supply */
++};
++
++struct ar0233 {
++	struct device *dev;
++
++	u16 customer_rev;
++
++	struct regmap *cci;
++	struct clk *clk;
++	struct gpio_desc *reset_gpio;
++	struct regulator_bulk_data supplies[ARRAY_SIZE(ar0233_supplies)];
++
++	u64 pixel_rate;
++
++	u16 pll_div;
++	u16 pll_mul;
++	u16 vt_pix_clk_div;
++	u16 vt_sys_clk_div;
++	u16 op_pix_clk_div;
++	u16 op_sys_clk_div;
++
++	struct v4l2_fwnode_endpoint bus_cfg;
++
++	struct v4l2_subdev sd;
++	struct media_pad pad;
++
++	struct v4l2_ctrl_handler ctrls;
++	struct v4l2_ctrl *rate;
++	struct v4l2_ctrl *hblank;
++	struct v4l2_ctrl *vblank;
++	struct v4l2_ctrl *exposure;
++	struct v4l2_ctrl *test_data[4];
++	struct {
++		struct v4l2_ctrl *hflip;
++		struct v4l2_ctrl *vflip;
++	};
++};
++
++static inline struct ar0233 *to_ar0233(struct v4l2_subdev *sd)
++{
++	return container_of(sd, struct ar0233, sd);
++}
++
++static const struct ar0233_format_info *
++	ar0233_format_info(struct ar0233 *sensor, u32 code, bool use_def)
++{
++	const struct ar0233_format_info *def = NULL;
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(ar0233_formats); ++i) {
++		const struct ar0233_format_info *info = &ar0233_formats[i];
++
++		if (info->format == code)
++			return info;
++
++		if (!def)
++			def = info;
++	}
++
++	return use_def ? def : NULL;
++}
++
++static int ar0233_configure_pll(struct ar0233 *sensor)
++{
++	int ret = 0;
++
++	if (sensor->pll_mul & 1)
++		dev_warn_once(sensor->dev,
++			"Odd PLL multiplier, Link frequency will not be exact\n");
++
++	cci_write(sensor->cci, AR0233_PRE_PLL_CLK_DIV,
++		  sensor->pll_div, &ret);
++	cci_write(sensor->cci, AR0233_PLL_MULTIPLIER,
++		  sensor->pll_mul, &ret);
++	cci_write(sensor->cci, AR0233_VT_PIX_CLK_DIV,
++		  sensor->vt_pix_clk_div, &ret);
++	cci_write(sensor->cci, AR0233_VT_SYS_CLK_DIV,
++		  FASTER_CLK_DIV(7) | sensor->vt_sys_clk_div, &ret);
++	cci_write(sensor->cci, AR0233_OP_PIX_CLK_DIV,
++		  sensor->op_pix_clk_div, &ret);
++	cci_write(sensor->cci, AR0233_OP_SYS_CLK_DIV,
++		  sensor->op_sys_clk_div, &ret);
++
++	/* Wait 1ms for the PLL to lock */
++	fsleep(1000);
++
++	return ret;
++}
++
++static int ar0233_configure_mipi(struct ar0233 *sensor,
++				 const struct ar0233_format_info *info)
++{
++	const u32 edt = AR0233_MIPI_Fx_EDT(MIPI_CSI2_DT_EMBEDDED_8B);
++	const u32 pdt = AR0233_MIPI_Fx_PDT(info->datatype);
++	const u32 vdt = AR0233_MIPI_Fx_VDT(MIPI_CSI2_DT_BLANKING);
++	unsigned int num_lanes = sensor->bus_cfg.bus.mipi_csi2.num_data_lanes;
++	int ret = 0;
++
++	cci_write(sensor->cci, AR0233_SERIAL_FORMAT,
++		  AR0233_SERIAL_FORMAT_TYPE_MIPI |
++		  AR0233_SERIAL_FORMAT_LANES(num_lanes), &ret);
++
++	cci_write(sensor->cci, AR0233_MIPI_F1_PDT_EDT, edt | pdt, &ret);
++	cci_write(sensor->cci, AR0233_MIPI_F1_VDT_VC,
++		  AR0233_MIPI_Fx_VC(0) | vdt, &ret);
++	cci_write(sensor->cci, AR0233_MIPI_F2_PDT_EDT, edt | pdt, &ret);
++	cci_write(sensor->cci, AR0233_MIPI_F2_VDT_VC,
++		  AR0233_MIPI_Fx_VC(0) | vdt, &ret);
++	cci_write(sensor->cci, AR0233_MIPI_F3_PDT_EDT, edt | pdt, &ret);
++	cci_write(sensor->cci, AR0233_MIPI_F3_VDT_VC,
++		  AR0233_MIPI_Fx_VC(0) | vdt, &ret);
++	cci_write(sensor->cci, AR0233_MIPI_F4_PDT_EDT, edt | pdt, &ret);
++	cci_write(sensor->cci, AR0233_MIPI_F4_VDT_VC,
++		  AR0233_MIPI_Fx_VC(0) | vdt, &ret);
++
++	return ret;
++}
++
++static int ar0233_start_streaming(struct ar0233 *sensor,
++				  const struct v4l2_subdev_state *state)
++{
++	const struct v4l2_mbus_framefmt *format;
++	const struct ar0233_format_info *info;
++	const struct v4l2_rect *crop;
++	int ret;
++	u16 val;
++
++	format = v4l2_subdev_state_get_format(state, 0);
++	crop = v4l2_subdev_state_get_crop(state, 0);
++	info = ar0233_format_info(sensor, format->code, true);
++
++	/* For REV1, 24 bit is not operational (OUTPUT) */
++	if ((sensor->customer_rev < 2) && (info->bpp_output == 24)) {
++		dev_err(sensor->dev, "The sensor does not support 24bpp.\n");
++		return -EINVAL;
++	}
++
++	ret = ar0233_configure_pll(sensor);
++	if (ret)
++		return ret;
++
++	cci_write(sensor->cci, AR0233_DATA_FORMAT_BITS,
++		  AR0233_DATA_FORMAT_RAW(info->bpp_input) |
++		  AR0233_DATA_FORMAT_OUTPUT(info->bpp_output), &ret);
++
++	cci_write(sensor->cci, AR0233_X_ADDR_START,
++		  crop->left + AR0233_X_OFFSET, &ret);
++	cci_write(sensor->cci, AR0233_Y_ADDR_START,
++		  crop->top + AR0233_Y_OFFSET, &ret);
++	cci_write(sensor->cci, AR0233_X_ADDR_END,
++		  crop->left + crop->width + AR0233_X_OFFSET - 1, &ret);
++	cci_write(sensor->cci, AR0233_Y_ADDR_END,
++		  crop->top + crop->height + AR0233_Y_OFFSET - 1, &ret);
++
++	if (ret)
++		return ret;
++
++	ret = __v4l2_ctrl_handler_setup(&sensor->ctrls);
++	if (ret)
++		return ret;
++
++	ret = ar0233_configure_mipi(sensor, info);
++
++	val = AR0233_RESET_LPF_ENABLE;
++	val |= AR0233_RESET_REGISTER_MASK_BAD;
++	val |= AR0233_RESET_REGISTER_STANDBY_EOF;
++	val |= AR0233_RESET_REGISTER_LOCK_REG;
++	val |= AR0233_RESET_REGISTER_STREAM;
++	cci_write(sensor->cci, AR0233_RESET_REGISTER, val, &ret);
++
++	return ret;
++}
++
++#define ar0233_read_poll_timeout(sensor, addr, bit)			\
++({									\
++	int __ret, __err = 0;						\
++	u64 __val = 0;							\
++									\
++	__ret = read_poll_timeout(cci_read, __err,			\
++				  __err || (__val & (bit)), 200,	\
++				  2000000, false, (sensor)->cci,	\
++				  addr,	&__val, NULL);			\
++									\
++	__ret ? : __err;						\
++})
++
++static int ar0233_stop_streaming(struct ar0233 *sensor)
++{
++	int ret = 0;
++
++	/* Initiate the transition to standby by clearing the STREAM bit */
++	if (cci_write(sensor->cci, AR0233_MODE_SELECT, 0, &ret))
++		return ret;
++
++	ret = ar0233_read_poll_timeout(sensor, AR0233_FRAME_STATUS,
++				       AR0233_FRAME_STATUS_STANDBY);
++	if (ret)
++		dev_warn(sensor->dev, "%s while trying to enter standby (%d)\n",
++			 (ret == -ETIMEDOUT) ? "timeout" : "error", ret);
++
++	/* Standby state reached, disable the output interface */
++	return cci_write(sensor->cci, AR0233_RESET_REGISTER,
++			 AR0233_RESET_REGISTER_SMIA_SERIALIZER_DIS, NULL);
++}
++
++static int ar0233_pll_calculate(struct ar0233 *sensor, unsigned int bpp)
++{
++	u64 link_freq = sensor->bus_cfg.link_frequencies[0] * 2;
++	u16 num_lanes = sensor->bus_cfg.bus.mipi_csi2.num_data_lanes;
++	u16 bpp_div = bpp / 2;
++
++	sensor->pixel_rate = DIV_ROUND_CLOSEST_ULL(link_freq, bpp_div);
++
++	if ((sensor->pixel_rate < 4000000ULL) ||
++	    (sensor->pixel_rate > 125000000ULL)) {
++		dev_err(sensor->dev, "Link frequency out of bounds\n");
++		return -EINVAL;
++	}
++
++	sensor->vt_pix_clk_div = bpp_div;
++	sensor->vt_sys_clk_div = 1 << (2 - __fls(num_lanes));
++	sensor->op_pix_clk_div = bpp_div;
++	sensor->op_sys_clk_div = 2;
++
++	for (sensor->pll_div = 1; sensor->pll_div < 64; sensor->pll_div++) {
++		u64 rate = DIV_ROUND_CLOSEST_ULL(clk_get_rate(sensor->clk),
++						 sensor->pll_div);
++		sensor->pll_mul = DIV_ROUND_DOWN_ULL(link_freq, rate);
++		if ((rate * sensor->pll_mul) == link_freq)
++			return 0;
++	}
++
++	return -EINVAL;
++}
++
++static int ar0233_pll_update(struct ar0233 *sensor,
++			     const struct ar0233_format_info *info)
++{
++	int ret;
++
++	ret = ar0233_pll_calculate(sensor, info->bpp_output);
++	if (ret)
++		dev_err(sensor->dev, "PLL calculations failed: %d\n", ret);
++	else
++		__v4l2_ctrl_s_ctrl_int64(sensor->rate, sensor->pixel_rate);
++
++	return ret;
++}
++
++static const char * const ar0233_test_pattern_menu[] = {
++	"Disabled",
++	"Solid color",
++	"Full Color Bars",
++	"Fade to Gray Color Bars",
++	"Walking 1",
++};
++
++static const u32 ar0233_test_pattern_values[] = {
++	AR0233_TEST_PATTERN_NONE,
++	AR0233_TEST_PATTERN_SOLID,
++	AR0233_TEST_PATTERN_BARS,
++	AR0233_TEST_PATTERN_BARS_FADE,
++	AR0233_TEST_PATTERN_WALKING_1S,
++};
++
++static int ar0233_update_exposure(struct ar0233 *sensor,
++				  const struct v4l2_rect *crop)
++{
++	const unsigned int max = crop->height + sensor->vblank->val - 1;
++
++	return __v4l2_ctrl_modify_range(sensor->exposure, 1, max, 1, max);
++}
++
++static void ar0233_update_blanking(struct ar0233 *sensor,
++				   const struct v4l2_subdev_state *state)
++{
++	const struct v4l2_rect *crop;
++	unsigned int min, max;
++
++	crop = v4l2_subdev_state_get_crop(state, 0);
++
++	min = AR0233_MIN_HBLANK;
++	max = AR0233_MAX_LINE_LENGTH_PCK - crop->width;
++	__v4l2_ctrl_modify_range(sensor->hblank, min, max, 2, min);
++
++	min = AR0233_MIN_VBLANK;
++	max = AR0233_MAX_FRAME_LENGTH_LINES - crop->height;
++	__v4l2_ctrl_modify_range(sensor->vblank, min, max, 1, min);
++
++	ar0233_update_exposure(sensor, crop);
++}
++
++static int ar0233_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct ar0233 *sensor = container_of(ctrl->handler, struct ar0233, ctrls);
++	const struct v4l2_subdev_state *state;
++	const struct v4l2_mbus_framefmt *format;
++	const struct v4l2_rect *crop;
++	int ret = 0;
++	u16 reg;
++
++	/*
++	 * Return immediately for controls that don't need to be applied to the
++	 * device.
++	 */
++	if (ctrl->flags & (V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_GRABBED))
++		return 0;
++
++	state = v4l2_subdev_get_locked_active_state(&sensor->sd);
++	format = v4l2_subdev_state_get_format(state, 0);
++	crop = v4l2_subdev_state_get_crop(state, 0);
++
++	switch (ctrl->id) {
++	case V4L2_CID_VBLANK:
++		ret = ar0233_update_exposure(sensor, crop);
++		break;
++	default:
++		break;
++	}
++
++	if (ret)
++		return ret;
++
++	if (!pm_runtime_get_if_in_use(sensor->dev))
++		return 0;
++
++	switch (ctrl->id) {
++	case V4L2_CID_ANALOGUE_GAIN:
++		reg = ctrl->val << 12;
++		reg |= ctrl->val << 8;
++		reg |= ctrl->val << 4;
++		reg |= ctrl->val << 0;
++		cci_write(sensor->cci, AR0233_ANALOG_GAIN, reg, &ret);
++		break;
++	case V4L2_CID_DIGITAL_GAIN:
++		cci_write(sensor->cci, AR0233_GLOBAL_GAIN, ctrl->val, &ret);
++		break;
++	case V4L2_CID_EXPOSURE:
++		cci_write(sensor->cci, AR0233_COARSE_INTEGRATION_TIME,
++			  ctrl->val, &ret);
++		break;
++	case V4L2_CID_HBLANK:
++		cci_write(sensor->cci, AR0233_LINE_LENGTH_PCK,
++			  crop->width + ctrl->val, &ret);
++		break;
++	case V4L2_CID_VBLANK:
++		cci_write(sensor->cci, AR0233_FRAME_LENGTH_LINES,
++			  crop->height + ctrl->val, &ret);
++		break;
++	case V4L2_CID_TEST_PATTERN:
++		cci_write(sensor->cci, AR0233_TEST_PATTERN_MODE,
++			  ar0233_test_pattern_values[ctrl->val], &ret);
++		break;
++	case V4L2_CID_TEST_PATTERN_RED:
++	case V4L2_CID_TEST_PATTERN_GREENR:
++	case V4L2_CID_TEST_PATTERN_BLUE:
++	case V4L2_CID_TEST_PATTERN_GREENB:
++		cci_write(sensor->cci, AR0233_GROUPED_PARAMETER_HOLD,
++			  AR0233_RESET_REGISTER_GROUPED_PARAMETER_HOLD, &ret);
++
++		cci_write(sensor->cci, AR0233_TEST_DATA_RED,
++			  sensor->test_data[0]->val, &ret);
++		cci_write(sensor->cci, AR0233_TEST_DATA_GREENR,
++			  sensor->test_data[1]->val, &ret);
++		cci_write(sensor->cci, AR0233_TEST_DATA_BLUE,
++			  sensor->test_data[2]->val, &ret);
++		cci_write(sensor->cci, AR0233_TEST_DATA_GREENB,
++			  sensor->test_data[3]->val, &ret);
++
++		cci_write(sensor->cci, AR0233_GROUPED_PARAMETER_HOLD,
++			  0, &ret);
++		break;
++	case V4L2_CID_HFLIP:
++	case V4L2_CID_VFLIP:
++		reg = sensor->hflip->val ? AR0233_ORIENTATION_HORIZ_MIRROR : 0;
++		reg |= sensor->vflip->val ? AR0233_ORIENTATION_VERT_FLIP : 0;
++
++		cci_write(sensor->cci, AR0233_IMAGE_ORIENTATION, reg, &ret);
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	pm_runtime_put(sensor->dev);
++
++	return ret;
++}
++
++static const struct v4l2_ctrl_ops ar0233_ctrl_ops = {
++	.s_ctrl = ar0233_s_ctrl,
++};
++
++static const u32 test_pattern_ctrls[] = {
++	V4L2_CID_TEST_PATTERN_RED,
++	V4L2_CID_TEST_PATTERN_GREENR,
++	V4L2_CID_TEST_PATTERN_BLUE,
++	V4L2_CID_TEST_PATTERN_GREENB,
++};
++
++static int ar0233_init_ctrls(struct ar0233 *sensor)
++{
++	struct v4l2_fwnode_device_properties props;
++	unsigned int i;
++	int ret;
++
++	ret = v4l2_fwnode_device_parse(sensor->dev, &props);
++	if (ret < 0)
++		return ret;
++
++	v4l2_ctrl_handler_init(&sensor->ctrls, 13);
++
++	v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ar0233_ctrl_ops,
++					&props);
++
++	sensor->rate = v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
++					 V4L2_CID_PIXEL_RATE, 1, INT_MAX, 1, 1);
++
++	sensor->hblank =
++		v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
++				  V4L2_CID_HBLANK, AR0233_MIN_HBLANK,
++				  AR0233_MIN_HBLANK, 2, AR0233_MIN_HBLANK);
++
++	sensor->vblank =
++		v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
++				  V4L2_CID_VBLANK, AR0233_MIN_VBLANK,
++				  AR0233_MIN_VBLANK, 1, AR0233_MIN_VBLANK);
++
++	sensor->exposure =
++		v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
++				  V4L2_CID_EXPOSURE, 1,
++				  AR0233_MAX_FRAME_LENGTH_LINES - 1, 1,
++				  AR0233_DEF_HEIGHT + AR0233_MIN_VBLANK - 1);
++
++	v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
++			  V4L2_CID_ANALOGUE_GAIN, 0, 5, 1, 2);
++
++	v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
++			  V4L2_CID_DIGITAL_GAIN, 0, 0x7ff, 1, 0x080);
++
++	v4l2_ctrl_new_std_menu_items(&sensor->ctrls, &ar0233_ctrl_ops,
++				     V4L2_CID_TEST_PATTERN,
++				     ARRAY_SIZE(ar0233_test_pattern_menu) - 1,
++				     0, 0, ar0233_test_pattern_menu);
++
++	for (i = 0; i < ARRAY_SIZE(test_pattern_ctrls); ++i)
++		sensor->test_data[i] =
++			v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
++					  test_pattern_ctrls[i], 0, 4095, 1, 0);
++
++	sensor->hflip = v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
++					  V4L2_CID_HFLIP, 0, 1, 1, 0);
++
++	sensor->vflip = v4l2_ctrl_new_std(&sensor->ctrls, &ar0233_ctrl_ops,
++					  V4L2_CID_VFLIP, 0, 1, 1, 0);
++
++	if (sensor->ctrls.error) {
++		ret = sensor->ctrls.error;
++		v4l2_ctrl_handler_free(&sensor->ctrls);
++		return ret;
++	}
++
++	v4l2_ctrl_cluster(4, sensor->test_data);
++	v4l2_ctrl_cluster(2, &sensor->hflip);
++
++	sensor->sd.ctrl_handler = &sensor->ctrls;
++
++	return 0;
++}
++
++static int ar0233_enum_mbus_code(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *state,
++				 struct v4l2_subdev_mbus_code_enum *code)
++{
++	if (code->index >= ARRAY_SIZE(ar0233_formats))
++		return -EINVAL;
++
++	code->code = ar0233_formats[code->index].format;
++
++	return 0;
++}
++
++static int ar0233_enum_frame_size(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *state,
++				  struct v4l2_subdev_frame_size_enum *fse)
++{
++	struct ar0233 *sensor = to_ar0233(sd);
++	const struct ar0233_format_info *info;
++
++	info = ar0233_format_info(sensor, fse->code, false);
++	if (!info)
++		return -EINVAL;
++
++	if (fse->index >= ARRAY_SIZE(ar0233_formats))
++		return -EINVAL;
++
++	fse->min_width = AR0233_MIN_WIDTH;
++	fse->max_width = AR0233_ACT_WIDTH;
++	fse->min_height = AR0233_MIN_HEIGHT;
++	fse->max_height = AR0233_ACT_HEIGHT;
++
++	return 0;
++}
++
++static int ar0233_set_fmt(struct v4l2_subdev *sd,
++			  struct v4l2_subdev_state *state,
++			  struct v4l2_subdev_format *format)
++{
++	struct ar0233 *sensor = to_ar0233(sd);
++	const struct ar0233_format_info *info;
++	struct v4l2_mbus_framefmt *fmt;
++	const struct v4l2_rect *crop;
++
++	if (v4l2_subdev_is_streaming(sd) &&
++	    (format->which == V4L2_SUBDEV_FORMAT_ACTIVE))
++		return -EBUSY;
++
++	fmt = v4l2_subdev_state_get_format(state, format->pad);
++	crop = v4l2_subdev_state_get_crop(state, format->pad);
++	info = ar0233_format_info(sensor, format->format.code, true);
++	fmt->code = info->format;
++
++	fmt->width = clamp(format->format.width, 1U, crop->width);
++	fmt->height = clamp(format->format.height, 1U, crop->height);
++
++	format->format = *fmt;
++
++	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
++		ar0233_pll_update(sensor, info);
++
++	return 0;
++}
++
++static int ar0233_get_selection(struct v4l2_subdev *sd,
++				struct v4l2_subdev_state *state,
++				struct v4l2_subdev_selection *sel)
++{
++	switch (sel->target) {
++	case V4L2_SEL_TGT_CROP:
++		sel->r = *v4l2_subdev_state_get_crop(state, sel->pad);
++		break;
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++		sel->r.left = (AR0233_ACT_WIDTH - AR0233_DEF_WIDTH) / 2;
++		sel->r.top = (AR0233_ACT_HEIGHT - AR0233_DEF_HEIGHT) / 2;
++		sel->r.width = AR0233_DEF_WIDTH;
++		sel->r.height = AR0233_DEF_HEIGHT;
++		break;
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++		sel->r.left = 0;
++		sel->r.top = 0;
++		sel->r.width = AR0233_ACT_WIDTH;
++		sel->r.height = AR0233_ACT_HEIGHT;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int ar0233_set_selection(struct v4l2_subdev *sd,
++				struct v4l2_subdev_state *state,
++				struct v4l2_subdev_selection *sel)
++{
++	struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_rect *crop;
++
++	if (v4l2_subdev_is_streaming(sd) &&
++	    (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE))
++		return -EBUSY;
++
++	if (sel->target != V4L2_SEL_TGT_CROP)
++		return -EINVAL;
++
++	crop = v4l2_subdev_state_get_crop(state, 0);
++	fmt = v4l2_subdev_state_get_format(state, 0);
++
++	crop->left = min_t(unsigned int, ALIGN(sel->r.left, 2),
++			   AR0233_ACT_WIDTH - AR0233_MIN_WIDTH);
++	crop->top = min_t(unsigned int, ALIGN(sel->r.top, 2),
++			  AR0233_ACT_HEIGHT - AR0233_MIN_HEIGHT);
++	crop->width = clamp(sel->r.width, AR0233_MIN_WIDTH,
++			    AR0233_ACT_WIDTH - crop->left);
++	crop->height = clamp(sel->r.height, AR0233_MIN_HEIGHT,
++			     AR0233_ACT_HEIGHT - crop->top);
++
++	sel->r = *crop;
++
++	fmt->width = crop->width;
++	fmt->height = crop->height;
++
++	return 0;
++}
++
++static int ar0233_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
++				 struct v4l2_mbus_frame_desc *fd)
++{
++	struct ar0233 *sensor = to_ar0233(sd);
++	const struct ar0233_format_info *info;
++	const struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_subdev_state *state;
++	u32 code;
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	fmt = v4l2_subdev_state_get_format(state, 0);
++	code = fmt->code;
++	v4l2_subdev_unlock_state(state);
++
++	info = ar0233_format_info(sensor, code, true);
++
++	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
++	fd->num_entries = 1;
++
++	fd->entry[0].pixelcode = code;
++	fd->entry[0].stream = 0;
++	fd->entry[0].bus.csi2.vc = 0;
++	fd->entry[0].bus.csi2.dt = info->datatype;
++
++	return 0;
++}
++
++static int ar0233_enable_streams(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *state, u32 pad,
++				 u64 streams_mask)
++{
++	struct ar0233 *sensor = to_ar0233(sd);
++	int ret;
++
++	ret = pm_runtime_resume_and_get(sensor->dev);
++	if (ret)
++		return ret;
++
++	ret = ar0233_start_streaming(sensor, state);
++	if (ret) {
++		dev_err(sensor->dev, "Failed to start streaming: %d\n", ret);
++		pm_runtime_put_sync(sensor->dev);
++	}
++
++	return ret;
++}
++
++static int ar0233_disable_streams(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *state, u32 pad,
++				  u64 streams_mask)
++{
++	struct ar0233 *sensor = to_ar0233(sd);
++
++	ar0233_stop_streaming(sensor);
++	pm_runtime_put(sensor->dev);
++
++	return 0;
++}
++
++static int ar0233_entity_init_state(struct v4l2_subdev *sd,
++				    struct v4l2_subdev_state *state)
++{
++	const struct ar0233_format_info *info;
++	struct ar0233 *sensor = to_ar0233(sd);
++	struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_rect *crop;
++
++	info = ar0233_format_info(sensor, 0, true);
++
++	fmt = v4l2_subdev_state_get_format(state, 0);
++	fmt->width = AR0233_DEF_WIDTH;
++	fmt->height = AR0233_DEF_HEIGHT;
++	fmt->code = info->format;
++	fmt->field = V4L2_FIELD_NONE;
++	fmt->colorspace = V4L2_COLORSPACE_SRGB;
++	fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
++	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
++	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
++
++	crop = v4l2_subdev_state_get_crop(state, 0);
++	crop->left = 0;
++	crop->top = 0;
++	crop->width = AR0233_DEF_WIDTH;
++	crop->height = AR0233_DEF_HEIGHT;
++
++	return 0;
++}
++
++static const struct v4l2_subdev_pad_ops ar0233_subdev_pad_ops = {
++	.enum_mbus_code = ar0233_enum_mbus_code,
++	.enum_frame_size = ar0233_enum_frame_size,
++	.get_fmt = v4l2_subdev_get_fmt,
++	.set_fmt = ar0233_set_fmt,
++	.get_selection = ar0233_get_selection,
++	.set_selection = ar0233_set_selection,
++	.get_frame_desc = ar0233_get_frame_desc,
++	.enable_streams = ar0233_enable_streams,
++	.disable_streams = ar0233_disable_streams,
++};
++
++static const struct v4l2_subdev_ops ar0233_subdev_ops = {
++	.pad = &ar0233_subdev_pad_ops,
++};
++
++static const struct v4l2_subdev_internal_ops ar0233_subdev_internal_ops = {
++	.init_state = ar0233_entity_init_state,
++};
++
++static const struct media_entity_operations ar0233_entity_ops = {
++	.link_validate = v4l2_subdev_link_validate,
++};
++
++static int ar0233_init_subdev(struct ar0233 *sensor)
++{
++	struct i2c_client *client = to_i2c_client(sensor->dev);
++	struct v4l2_subdev *sd = &sensor->sd;
++	const struct v4l2_mbus_framefmt *format;
++	const struct ar0233_format_info *info;
++	struct v4l2_subdev_state *state;
++	int ret;
++
++	v4l2_i2c_subdev_init(sd, client, &ar0233_subdev_ops);
++
++	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	sd->internal_ops = &ar0233_subdev_internal_ops;
++	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
++	sd->entity.ops = &ar0233_entity_ops;
++
++	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
++
++	ret = media_entity_pads_init(&sd->entity, 1, &sensor->pad);
++	if (ret)
++		return ret;
++
++	ret = ar0233_init_ctrls(sensor);
++	if (ret)
++		goto err_entity;
++
++	sensor->sd.state_lock = sensor->ctrls.lock;
++	ret = v4l2_subdev_init_finalize(&sensor->sd);
++	if (ret)
++		goto err_ctrls;
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	format = v4l2_subdev_state_get_format(state, 0);
++	info = ar0233_format_info(sensor, format->code, true);
++
++	ar0233_pll_update(sensor, info);
++	ar0233_update_blanking(sensor, state);
++
++	v4l2_subdev_unlock_state(state);
++
++	return 0;
++
++err_ctrls:
++	v4l2_ctrl_handler_free(&sensor->ctrls);
++
++err_entity:
++	media_entity_cleanup(&sd->entity);
++
++	return ret;
++}
++
++static void ar0233_cleanup_subdev(struct ar0233 *sensor)
++{
++	v4l2_subdev_cleanup(&sensor->sd);
++	v4l2_ctrl_handler_free(&sensor->ctrls);
++	media_entity_cleanup(&sensor->sd.entity);
++}
++
++static int ar0233_detect(struct ar0233 *sensor)
++{
++	int ret = 0;
++	u64 val;
++
++	if (cci_read(sensor->cci, AR0233_CHIP_VERSION_REG, &val, &ret)) {
++		dev_err(sensor->dev, "Failed to read Chip ID: %d\n", ret);
++		return ret;
++	}
++
++	if (val != AR0233_CHIP_VERSION_AR0233) {
++		dev_err(sensor->dev, "Wrong Chip ID: 0x%04x\n", (u16)val);
++		return -ENXIO;
++	}
++
++	if (!cci_read(sensor->cci, AR0233_CUSTOMER_REV, &val, &ret))
++		sensor->customer_rev = val & 0xf;
++
++	if (!cci_read(sensor->cci, AR0233_REVISION_NUMBER, &val, &ret))
++		dev_info(sensor->dev,
++			 "Found AR0233 chip, revision %d, customer rev %d\n",
++			 (u16)val, sensor->customer_rev);
++
++	return ret;
++}
++
++static int ar0233_power_on(struct ar0233 *sensor)
++{
++	unsigned long clk_rate;
++	int ret;
++
++	ret = regulator_bulk_enable(ARRAY_SIZE(ar0233_supplies),
++				    sensor->supplies);
++	if (ret) {
++		dev_err(sensor->dev, "Failed to enable regulators\n");
++		return ret;
++	}
++
++	ret = clk_prepare_enable(sensor->clk);
++	if (ret) {
++		dev_err(sensor->dev, "Failed to enable clock\n");
++		regulator_bulk_disable(ARRAY_SIZE(ar0233_supplies),
++				       sensor->supplies);
++		return ret;
++	}
++
++	clk_rate = clk_get_rate(sensor->clk);
++	if ((clk_rate < 6000000) || (clk_rate > 64000000)) {
++		dev_err(sensor->dev, "Clock frequency out of bounds\n");
++		clk_disable_unprepare(sensor->clk);
++		regulator_bulk_disable(ARRAY_SIZE(ar0233_supplies),
++				       sensor->supplies);
++		return -EINVAL;
++	}
++
++	fsleep(1000);
++
++	if (sensor->reset_gpio)
++		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
++	else
++		cci_write(sensor->cci, AR0233_SOFTWARE_RESET, AR0233_RESET,
++			  &ret);
++
++	/* The typical internal initialization time is 236K Ext clk cycles */
++	fsleep(DIV_ROUND_UP_ULL(236000ULL * USEC_PER_SEC, clk_rate));
++
++	return ret;
++}
++
++static void ar0233_power_off(struct ar0233 *sensor)
++{
++	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
++	clk_disable_unprepare(sensor->clk);
++	regulator_bulk_disable(ARRAY_SIZE(ar0233_supplies), sensor->supplies);
++}
++
++static int ar0233_parse_dt(struct ar0233 *sensor)
++{
++	struct v4l2_fwnode_endpoint *ep = &sensor->bus_cfg;
++	struct fwnode_handle *endpoint;
++	unsigned int i;
++	int ret;
++
++	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(sensor->dev), NULL);
++	if (!endpoint) {
++		dev_err(sensor->dev, "Endpoint node not found\n");
++		return -EINVAL;
++	}
++
++	ep->bus_type = V4L2_MBUS_UNKNOWN;
++	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, ep);
++	fwnode_handle_put(endpoint);
++	if (ret) {
++		dev_err(sensor->dev, "Parsing endpoint node failed\n");
++		goto ep_free;
++	}
++
++	switch (ep->bus_type) {
++	case V4L2_MBUS_CSI2_DPHY:
++		switch (ep->bus.mipi_csi2.num_data_lanes) {
++		case 1:
++		case 2:
++		case 4:
++			break;
++		default:
++			dev_err(sensor->dev, "Invalid data lanes count: %d\n",
++				ep->bus.mipi_csi2.num_data_lanes);
++			ret = -EINVAL;
++			goto ep_free;
++		}
++		break;
++
++	default:
++		dev_err(sensor->dev, "Unsupported bus type %u\n", ep->bus_type);
++		ret = -EINVAL;
++		goto ep_free;
++	}
++
++	if (!ep->nr_of_link_frequencies) {
++		dev_err(sensor->dev, "link-frequency property not found\n");
++		ret = -EINVAL;
++		goto ep_free;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(ar0233_formats); i++) {
++		const struct ar0233_format_info *info = &ar0233_formats[i];
++
++		ret = ar0233_pll_calculate(sensor, info->bpp_output);
++		if (ret) {
++			dev_err(sensor->dev,
++				"Link frequency %llu not valid for %u bpp\n",
++				ep->link_frequencies[0], info->bpp_output);
++			goto ep_free;
++		}
++	}
++
++	return 0;
++
++ep_free:
++	v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
++
++	return ret;
++}
++
++static int ar0233_probe(struct i2c_client *client)
++{
++	struct ar0233 *sensor;
++	unsigned int i;
++	int ret;
++
++	sensor = devm_kzalloc(&client->dev, sizeof(*sensor), GFP_KERNEL);
++	if (!sensor)
++		return -ENOMEM;
++
++	sensor->dev = &client->dev;
++
++	sensor->cci = devm_cci_regmap_init_i2c(client, 16);
++	if (IS_ERR(sensor->cci))
++		return dev_err_probe(sensor->dev, PTR_ERR(sensor->cci),
++				     "Unable to initialize I2C\n");
++
++	sensor->clk = devm_clk_get(sensor->dev, NULL);
++	if (IS_ERR(sensor->clk))
++		return dev_err_probe(sensor->dev, PTR_ERR(sensor->clk),
++				     "Cannot get clock\n");
++
++	sensor->reset_gpio = devm_gpiod_get_optional(sensor->dev, "reset",
++						     GPIOD_OUT_LOW);
++	if (IS_ERR(sensor->reset_gpio))
++		return dev_err_probe(sensor->dev, PTR_ERR(sensor->reset_gpio),
++				     "Cannot get reset gpio\n");
++
++	for (i = 0; i < ARRAY_SIZE(ar0233_supplies); i++)
++		sensor->supplies[i].supply = ar0233_supplies[i];
++
++	ret = devm_regulator_bulk_get(sensor->dev, ARRAY_SIZE(ar0233_supplies),
++				      sensor->supplies);
++	if (ret)
++		return dev_err_probe(sensor->dev, ret, "Cannot get supplies\n");
++
++	ret = ar0233_parse_dt(sensor);
++	if (ret)
++		return ret;
++
++	ret = ar0233_power_on(sensor);
++	if (ret) {
++		dev_err_probe(sensor->dev, ret,
++			      "Could not power on the device\n");
++		goto err_dt;
++	}
++
++	ret = ar0233_detect(sensor);
++	if (ret)
++		goto err_power;
++
++	ret = ar0233_init_subdev(sensor);
++	if (ret) {
++		dev_err(sensor->dev, "Subdev initialization error %d\n", ret);
++		goto err_power;
++	}
++
++	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
++	if (ret) {
++		dev_err(sensor->dev, "Could not register V4L2 subdevice\n");
++		goto err_subdev;
++	}
++
++	pm_runtime_set_active(sensor->dev);
++	pm_runtime_enable(sensor->dev);
++	pm_runtime_idle(sensor->dev);
++
++	return 0;
++
++err_subdev:
++	ar0233_cleanup_subdev(sensor);
++
++err_power:
++	ar0233_power_off(sensor);
++
++err_dt:
++	v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
++
++	return ret;
++}
++
++static void ar0233_remove(struct i2c_client *client)
++{
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct ar0233 *sensor = to_ar0233(sd);
++
++	v4l2_async_unregister_subdev(&sensor->sd);
++	ar0233_cleanup_subdev(sensor);
++	v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
++
++	pm_runtime_disable(sensor->dev);
++	if (!pm_runtime_status_suspended(sensor->dev))
++		ar0233_power_off(sensor);
++	pm_runtime_set_suspended(sensor->dev);
++}
++
++static int __maybe_unused ar0233_runtime_resume(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct ar0233 *sensor = to_ar0233(sd);
++
++	return ar0233_power_on(sensor);
++}
++
++static int __maybe_unused ar0233_runtime_suspend(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct ar0233 *sensor = to_ar0233(sd);
++
++	ar0233_power_off(sensor);
++
++	return 0;
++}
++
++static const struct dev_pm_ops __maybe_unused ar0233_pm_ops = {
++	RUNTIME_PM_OPS(ar0233_runtime_suspend, ar0233_runtime_resume, NULL)
++};
++
++static const struct of_device_id ar0233_of_match[] = {
++	{ .compatible = "onnn,ar0233" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, ar0233_of_match);
++
++static struct i2c_driver ar0233_i2c_driver = {
++	.driver = {
++		.name = "ar0233",
++		.of_match_table = of_match_ptr(ar0233_of_match),
++		.pm = pm_ptr(&ar0233_pm_ops),
++	},
++	.probe = ar0233_probe,
++	.remove = ar0233_remove,
++};
++module_i2c_driver(ar0233_i2c_driver);
++
++MODULE_DESCRIPTION("Onsemi AR0233 Camera Sensor Driver");
++MODULE_AUTHOR("Alexander Shiyan <eagle.alexander923@gmail.com>");
++MODULE_LICENSE("GPL");
+-- 
+2.39.1
+
 
