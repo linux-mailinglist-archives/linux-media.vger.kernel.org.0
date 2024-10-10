@@ -1,172 +1,145 @@
-Return-Path: <linux-media+bounces-19343-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19344-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFD9998699
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 14:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50EC79986A7
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 14:52:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8FDC51C238D1
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 12:49:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 736701C23AFF
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 12:52:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AD221C6F4B;
-	Thu, 10 Oct 2024 12:49:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C601C6F58;
+	Thu, 10 Oct 2024 12:52:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oz1mEWob"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dk3NdRHO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165C61C3F26;
-	Thu, 10 Oct 2024 12:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EC31C461F
+	for <linux-media@vger.kernel.org>; Thu, 10 Oct 2024 12:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728564564; cv=none; b=ZrChTgdTpoyK4cyRI779H4WHx5fHLdQjGTrForGKI1seiKgXckz8yqmp6qJ9f/p81hpjOquQVEvV4k7ZCjREAx2V90yPIt2wBbx6VYpNaeiD8WPTZMpNWXPCAs0JzJR7ivFFx2LpNHxDO67d0+8KP3U+RsIhxaCOtqapr28KehA=
+	t=1728564733; cv=none; b=mtOe5SE9UbFcEDxzVuUBiSfIDpN2igqesYHJuh9Xck0sPKR2MYquXtr4s1S0H4ZrM3PD9ezgJ5JHXWI/JuBXruOoHA3MO85xOClSSPzFfH10krHip8PbZs+kVL5v3GxM2PohAc3LhXaUt5G4yAnjFJM7Y3ZzhUJ2rh9CX5N+9go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728564564; c=relaxed/simple;
-	bh=peJCajT9JrXEyFW7QG0r6H6LQ1MBhLze2K+6buEL3xw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J+o58NTSaWiK1A7PbQyB97jHcOMIOvRo30IUQ/tNrNmSmSq1EMSokXnfGocKpxk5czt9tbKcBdP4WQlItOfz9gXMCGVViYdQXC439nramoLAdE5hWiF3GEXlDuUolqpjV/MCNML4wdSk6DcneKbXXTSfwd9cmXcC9GoXCLoFRgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=oz1mEWob; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1728564560;
-	bh=peJCajT9JrXEyFW7QG0r6H6LQ1MBhLze2K+6buEL3xw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oz1mEWob0bLo3tFj/UZ1xluxr6hYvEq4h1UspMdA6+l+A/m1HNWUQmfOSVlR6ttGy
-	 J3KCM9lroR2SFR+3TRZIFhBXmr9xEU+BNp7FZCwQQcI+dsB5AlPRSzna/Ke6ZrOZGT
-	 N1nSislJSTMtsj0d9UjBkvkWaaIdXhgSzWfQ2UGfmuWe6TWU0cmeJ3w7PI9K6JoOEh
-	 AqYzvkgywv4D4j1thdPHBA2OL8UlI1H0iXXsZGdhNxdxGuA2wGqRJL/l+Eaw4uCGTe
-	 U05rr0cvsUZk/TUARKVnMyn4W8DqOOwQ72WkeMgJ7KGAmAf3YVDlU3Yv37WOjhKHF9
-	 mN+/9pAZy5EFA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7C6F217E35EA;
-	Thu, 10 Oct 2024 14:49:19 +0200 (CEST)
-Message-ID: <93234ce4-e831-41aa-9485-53997b5cacaf@collabora.com>
-Date: Thu, 10 Oct 2024 14:49:19 +0200
+	s=arc-20240116; t=1728564733; c=relaxed/simple;
+	bh=EwmZ5/Z+UThPK21bqO00znJM+uCq1XTHwYWQ1A/6uZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KByhBQLViFoh+3BHcdKhvWkUuS1mnpNMWjsanTf3w7STPFmey6j2KeaLTVEKqTuA1vSzGa2WS4gxHhSp/Er+y8q+fFDkm43wSbX7Tbye2bAZkZZRA4Tgu5mUrcjjVX0zalNWr59bFkatDBMve2DF9bLwsejcHoRFcF01ccXqQeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dk3NdRHO; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2facf40737eso9361631fa.0
+        for <linux-media@vger.kernel.org>; Thu, 10 Oct 2024 05:52:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728564729; x=1729169529; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gbPdTZYOr9+jukOclQOWDxW0Bv1v/+wCabMme/SKc0A=;
+        b=dk3NdRHO8XtT4a9GWtRoI+c+n8hgrtcQJRVmHzHxZCTAV1zL2ZQ/hsICbK8TP8yaX3
+         lyzNAYBnOolt8DJyiTKnrIFFsD6ERQ+GNleHXy+NWt1McW0ppyKddEBFidR9UQcRA08g
+         aC1TVBxMcosxGqHau8SG0VTLieDbw/iFJovTLnZxdJaUacN2/z9i6v+ZsnBOWSIc31Vt
+         8vbTEY+UOJdn3zj9rhvY2Ava5/WMXZjC/fx2C4/RQS5usex0hu9jFtAU3fB9caN728tU
+         Q6sK843AXSXWyvTe3QqhqE6An8VuIAnqR1DliClAzSdC0/u8ySbJP2w+C/i2ToL83J12
+         Owrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728564729; x=1729169529;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gbPdTZYOr9+jukOclQOWDxW0Bv1v/+wCabMme/SKc0A=;
+        b=mLZS0NfJ1Ats3YtvUhika8AhYyecwkbBODqvzt68AXKBK7SJ/UyZGCOYLUaJXChy/t
+         HIG8g4qoMMRPEhD8n9D6jKthR4cMxZAdrhoyj1LFzXgEnsWcZtH+JnFEQ5uF264toyZL
+         EkuCwjDLR/cp35F6D+hUSEgG5VwvjZIfu1feZeVyazKjviqs3mBcDVdUPbUrTEWpfKel
+         u5lgngYQUPlfw35rCYlRskwH69iWiddQEeAHjj7p06Eiuu5BDHiUPJ4erFA3eyzRB7mM
+         UPRkD74evIJVgcYXI5d4+nqpVtwhl8uq3XDjB0M98mloYRe9cCgO0zb+X71ox4zxHjzk
+         WUGA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJsFJQQqU5Jrk8SY+nFu3DQByef9Mwz9fTQxtavw0TqR2Qn3TQSUOBrw5URtSZc/jphIzOYAZ9Tc1rlQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywv3orYyDQUc9A9y5A6czghgm6OkLVwgBC4YGgv1gwfAvbhRzU9
+	YR2bZnJoQOBokBQJkA5zIsjLOWew9yBg5G88b6Q6R+rrQ1/TnAlq1NE8p/T3nro=
+X-Google-Smtp-Source: AGHT+IEEUTMX/pk5a4HSxBwIZWeBdAoCHQB/aKBVK7puY4U8VBsgKnZURDJmHJIdHOxBWR82hPQ6ug==
+X-Received: by 2002:a05:651c:2126:b0:2fa:c9ad:3d36 with SMTP id 38308e7fff4ca-2fb1872bd83mr41533031fa.7.1728564729444;
+        Thu, 10 Oct 2024 05:52:09 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb24707028sm1944381fa.80.2024.10.10.05.52.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 05:52:08 -0700 (PDT)
+Date: Thu, 10 Oct 2024 15:52:05 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Miaoqing Pan <quic_miaoqing@quicinc.com>, 
+	Kalle Valo <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+	agross@kernel.org, andersson@kernel.org, linux-kernel@vger.kernel.org, 
+	konrad.dybcio@linaro.org, mchehab@kernel.org, quic_vgarodia@quicinc.com, 
+	stanimir.k.varbanov@gmail.com, ath11k@lists.infradead.org
+Subject: Re: [PATCH v3] arm64: dts: qcom: sa8775p-ride: add WiFi/BT nodes
+Message-ID: <qf3wwrluqsytrlwclnp6limdnrsqs3odbk3cg67hyk6fad6zcf@yujf46ltsaad>
+References: <20241009012738.2840558-1-quic_miaoqing@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 04/10] media: platform: mediatek: add isp_7x cam-raw
- unit
-To: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Konig <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, yaya.chang@mediatek.com,
- teddy.chen@mediatek.com, hidenorik@chromium.org, yunkec@chromium.org,
- shun-yi.wang@mediatek.com
-References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
- <20241009111551.27052-5-Shu-hsiang.Yang@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20241009111551.27052-5-Shu-hsiang.Yang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009012738.2840558-1-quic_miaoqing@quicinc.com>
 
-Il 09/10/24 13:15, Shu-hsiang Yang ha scritto:
-> Introduces the ISP pipeline driver for the MediaTek ISP raw and yuv
-> modules. Key functionalities include data processing, V4L2 integration,
-> resource management, debug support, and various control operations.
-> Additionally, IRQ handling, platform device management, and MediaTek
-> ISP DMA format support are also included.
+On Wed, Oct 09, 2024 at 09:27:38AM GMT, Miaoqing Pan wrote:
+> Add a node for the PMU module of the WCN6855 present on the sa8775p-ride
+> board. Assign its LDO power outputs to the existing WiFi/Bluetooth module.
 > 
-> Signed-off-by: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>
+> Signed-off-by: Miaoqing Pan <quic_miaoqing@quicinc.com>
 > ---
->   .../mediatek/isp/isp_7x/camsys/mtk_cam-raw.c  | 5359 +++++++++++++++++
->   .../mediatek/isp/isp_7x/camsys/mtk_cam-raw.h  |  325 +
->   .../isp/isp_7x/camsys/mtk_cam-raw_debug.c     |  403 ++
->   .../isp/isp_7x/camsys/mtk_cam-raw_debug.h     |   39 +
->   .../isp_7x/camsys/mtk_camera-v4l2-controls.h  |   65 +
->   5 files changed, 6191 insertions(+)
->   create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c
->   create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.h
->   create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw_debug.c
->   create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw_debug.h
->   create mode 100644 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_camera-v4l2-controls.h
+> v2:
+>   - fix wcn6855-pmu compatible to "qcom,wcn6855-pmu".
+>   - relocate pcieport0 node in alphabetical order.
+> v3:
+>   - add 'qcom,ath11k-calibration-variant = "SA8775P"'.
 > 
-> diff --git a/drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c b/drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c
-> new file mode 100644
-> index 000000000000..c025f53c952d
-> --- /dev/null
-> +++ b/drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam-raw.c
-> @@ -0,0 +1,5359 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +//
-> +// Copyright (c) 2022 MediaTek Inc.
-> +
-> +#include <linux/clk.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/vmalloc.h>
-> +#include <linux/videodev2.h>
-> +#include <linux/suspend.h>
-> +#include <linux/rtc.h>
-> +
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-ioctl.h>
-> +#include <media/v4l2-subdev.h>
-> +
-> +#include <soc/mediatek/smi.h>
-> +
-> +#include "mtk_cam.h"
-> +#include "mtk_cam-feature.h"
-> +#include "mtk_cam-raw.h"
-> +
-> +#include "mtk_cam-regs-mt8188.h"
-> +
-> +#include "mtk_cam-video.h"
-> +#include "mtk_cam-seninf-if.h"
-> +#include "mtk_camera-v4l2-controls.h"
-> +
-> +#include "mtk_cam-dmadbg.h"
-> +#include "mtk_cam-raw_debug.h"
-> +
-> +static unsigned int debug_raw;
-> +module_param(debug_raw, uint, 0644);
-> +MODULE_PARM_DESC(debug_raw, "activates debug info");
-> +
-> +static int debug_raw_num = -1;
-> +module_param(debug_raw_num, int, 0644);
-> +MODULE_PARM_DESC(debug_raw_num, "debug: num of used raw devices");
-> +
-> +static int debug_pixel_mode = -1;
-> +module_param(debug_pixel_mode, int, 0644);
-> +MODULE_PARM_DESC(debug_pixel_mode, "debug: pixel mode");
-> +
-> +static int debug_clk_idx = -1;
-> +module_param(debug_clk_idx, int, 0644);
-> +MODULE_PARM_DESC(debug_clk_idx, "debug: clk idx");
-> +
-> +static int debug_dump_fbc;
-> +module_param(debug_dump_fbc, int, 0644);
-> +MODULE_PARM_DESC(debug_dump_fbc, "debug: dump fbc");
-> +
-In addition to the first review that I gave you on patch [02/10]: please drop
-all those module parameters. If you want debug switches, use debugfs instead.
+>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 121 +++++++++++++++++++++
+>  arch/arm64/boot/dts/qcom/sa8775p.dtsi      |   2 +-
+>  2 files changed, 122 insertions(+), 1 deletion(-)
+> 
 
-Regards,
-Angelo
+[...]
+
+> @@ -702,6 +793,25 @@ &pcie1_phy {
+>  	status = "okay";
+>  };
+>  
+> +&pcieport0 {
+> +	wifi@0 {
+> +		compatible = "pci17cb,1101";
+> +		reg = <0x10000 0x0 0x0 0x0 0x0>;
+> +
+> +		qcom,ath11k-calibration-variant = "SA8775P";
+
+SA8775P what? Is it going to be the only device using SA8775P?  Please
+take a look around how other calibration variants are defined.
+
+Also please cc Kalle, Jeff and ath11k ML in future submissions
+
+> +
+> +		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
+> +		vddaon-supply = <&vreg_pmu_aon_0p59>;
+> +		vddwlcx-supply = <&vreg_pmu_wlcx_0p8>;
+> +		vddwlmx-supply = <&vreg_pmu_wlmx_0p85>;
+> +		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
+> +		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
+> +		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
+> +		vddpcie0p9-supply = <&vreg_pmu_pcie_0p9>;
+> +		vddpcie1p8-supply = <&vreg_pmu_pcie_1p8>;
+> +	};
+> +};
+> +
+>  &remoteproc_adsp {
+>  	firmware-name = "qcom/sa8775p/adsp.mbn";
+>  	status = "okay";
+
+-- 
+With best wishes
+Dmitry
 
