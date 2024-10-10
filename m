@@ -1,80 +1,84 @@
-Return-Path: <linux-media+bounces-19355-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19356-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F029988C6
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 16:07:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E42998A75
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 16:55:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 333A41C23ECA
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 14:07:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 480AF1F262D4
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 14:55:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B1B11CB515;
-	Thu, 10 Oct 2024 14:07:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81FDE1D1F79;
+	Thu, 10 Oct 2024 14:40:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LA4TS5az"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IBrfrGOO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F0B1CB326;
-	Thu, 10 Oct 2024 14:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F971CF7B7
+	for <linux-media@vger.kernel.org>; Thu, 10 Oct 2024 14:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728569225; cv=none; b=n/Zc/dyEStLP3tJByw/12tk7p8rI0H7K5c8r13RXQjlmGcY/wmiw88g8DZRuUGQLDicoCy6+LmbKQf92r2zc3uOeoFU6rYdg1lYmyrqMuKcrNDuDUs8i7uAdDMXXdeDbCDsbru+RGtD7y4WtRRCvhTzzk/gJHt4vzmtMlKYcunM=
+	t=1728571256; cv=none; b=qSEnmFi+VL0XOTahj2e5z0Nrby+SQ9nO15+8z6Q8HHnlmCSLv62PL7xlgFKESnvhLUoe0vwLj+5dbY7Q9lKrgwinvJWRoyYICS8w57C3ve/6QhuNelPnYbX2Du5xt5PKsa3L7kFF0B/3NrcEYwERdZlea5/5SHPrnp1PpislW8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728569225; c=relaxed/simple;
-	bh=+VIJR/jRN35W8TUo7LIlgUYGvs9YkZvUmGdSwGjTx2c=;
+	s=arc-20240116; t=1728571256; c=relaxed/simple;
+	bh=fHaTG50T+XNNagn5TCtb74sk7q6Zn6Tnl5l5AASz3rw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=htSQ2eViRtHtqmeL41U1VHLUqO/Scq8ikh8g0/bsD2H1lTPDe7BnkAheH5UztsfTDMe5vxMoBZUNxWKL30x5h+C+xCw06GBwMJkVTkeNRitskmsf2ZTf/7QSWWy2NSxnOh/pk+o2/bKdoDqDO0G/rMRUC77kp2gwhSOCUg3jKXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LA4TS5az; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728569225; x=1760105225;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+VIJR/jRN35W8TUo7LIlgUYGvs9YkZvUmGdSwGjTx2c=;
-  b=LA4TS5azzqR+ul5DWMEgjz0ZyCg5+ArZdlL9jJiaoMlwJanOibYPBfH5
-   izTxQ1W9xAPmRLfyBdcrz7tG2shcWVtvJblzte3QtB20MPYEcWQY98sVQ
-   BXoiRzOxqTICtCsuj8mxjum3/RByhV46gEBQT90iGd+X4nQozocMnwjAB
-   mIn8D0tYe7CjTLCjTW9/ahcrHIO6B3dv/LKUd/9uOE6HdqXnQK4fp24K0
-   JZwGQraorH1tHl8bM1SPkZYMaWi9nwOxfN6C0/ranuStxOsOgcwrKwcvS
-   bsfsU/uJ9LeKfTcldYKsfJqmcjP1bX/id4MdxeNtHykgmZeC0UjyH0Uc0
-   Q==;
-X-CSE-ConnectionGUID: 9weIRhmVSeKRiwCScBH6VA==
-X-CSE-MsgGUID: kp+87TyFR5G1yedn5GB5OQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="28065196"
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
-   d="scan'208";a="28065196"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 07:06:47 -0700
-X-CSE-ConnectionGUID: silB9qaRRry0dLuH+nGr2w==
-X-CSE-MsgGUID: LhyR3bcRSFOB7iqNiCs7IQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
-   d="scan'208";a="81184419"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 07:06:45 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sytoQ-00000001YYZ-3o2I;
-	Thu, 10 Oct 2024 17:06:42 +0300
-Date: Thu, 10 Oct 2024 17:06:42 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: Re: [PATCH 13/13] media: i2c: ds90ub953: Add error handling for i2c
- reads/writes
-Message-ID: <ZwffcuhmpndoCXrD@smile.fi.intel.com>
-References: <20241004-ub9xx-fixes-v1-0-e30a4633c786@ideasonboard.com>
- <20241004-ub9xx-fixes-v1-13-e30a4633c786@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GCA3DI/c3LM00QPRfO3m3GT0vLZLPKLNW9RJbPIt72oGFnVHr3+JO3UW/OaxML1iXEGtpYdNCEXxAhY6oNycPFzJgvxWz4g5jwKZAEr74+Tl1GCRExHfytwNYfpAV4NZG5mXrSwnGfeKvYVoOyf088Gmh5+rNB4zqNY5JlETTEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IBrfrGOO; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5398e4ae9efso1354323e87.1
+        for <linux-media@vger.kernel.org>; Thu, 10 Oct 2024 07:40:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728571252; x=1729176052; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1mtk3swPKSpsu2qGiM0596EX3cWtxyHnGiYTHhFIO7M=;
+        b=IBrfrGOOn6WYdK8I0pcRITxvW73FhdwJN9XxPwuEJtqQVhfMw6y1vq66Jg2Z9dqlNV
+         Cd2NXlLfkDlYcyvaVnuPWGWVLK61Nc5897p6eBGzmoNQeEyaApSYOX1zF6P19hoiLVkX
+         eBzR8oMgCwxch4J5DSP23+8NopHr5yBV+RlvlmwcDHscL6pl+5y07s5cyVcwjoSD+eSM
+         n1qAKQz9Q+OFcBKTue6VBwPM1nfWTpNCSvLlt+xgVVsH1uvYrUE5sDVkxTutELtPVCZ8
+         Fph5tk/T9bDI80Xyxm5UEJg4ySOrtyHMZZ7BY5nUNxc11MA8RJ4Nd+Aqv8IlZq6iYp3F
+         BfBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728571252; x=1729176052;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1mtk3swPKSpsu2qGiM0596EX3cWtxyHnGiYTHhFIO7M=;
+        b=mMjyHjGuxx/q0YGAO5V2GopWdU39OLgeiRelt8f/PqVcPHD90xbdfixAx6cFSbem9w
+         PE2VljyjiFvJDvDJz1cLOxpJsZA7WUDT+FcWIQAotZFaSZTuNX+6k1YvzGPIv7p9JDM8
+         c8gWvHkTViyqinT3BbMRZJymPTw4uMuKSfKSq/Jl2z+wtoTlHriZvO0BOa/uDf+gkFKu
+         o2SvzUAdXH7gIdV5SjgUHSN+d8jS9oXoKZFCdPZ+APCOVSiI/9V99WMDVYeOoFxKcoNQ
+         aXIN779K2Dh0RShPmFiiYf46/xIWWXesGUiGnIvEF/j9YnJbw4ND/q5fP0mjBKPiuQJr
+         z8CA==
+X-Forwarded-Encrypted: i=1; AJvYcCXvaqUbXhq5Dvi1fmaC7cVfMybsd89/k3jI5Kas8xp+iQ2rpz2W9qoS80u8Inhx9H1qtTk98LruVMj98w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3m28uQA0zFhBvwdlIWV6funOHm4Aq/zz7wE8l5SCrMNJtITrb
+	GD72CHLoXr2amTs3xA905YmWOYUjtaDo5LkeCE0+/mihQnp/BiBM50uhipFT/AY=
+X-Google-Smtp-Source: AGHT+IFUFKq0lYxlNzsXXq0fVnKrrxCKW8Nx3h/E3Xc0xNLj22cjL5q4txAh0aZwNXPW20/Wr1C2qg==
+X-Received: by 2002:a05:6512:2348:b0:52e:9b9e:a6cb with SMTP id 2adb3069b0e04-539c4899755mr4276741e87.15.1728571252194;
+        Thu, 10 Oct 2024 07:40:52 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539cb6c8a54sm273302e87.115.2024.10.10.07.40.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 07:40:49 -0700 (PDT)
+Date: Thu, 10 Oct 2024 17:40:47 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Miaoqing Pan <quic_miaoqing@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+	agross@kernel.org, andersson@kernel.org, linux-kernel@vger.kernel.org, 
+	konrad.dybcio@linaro.org, mchehab@kernel.org, quic_vgarodia@quicinc.com, 
+	stanimir.k.varbanov@gmail.com, kvalo@kernel.org, quic_jjohnson@quicinc.com, 
+	ath11k@lists.infradead.org
+Subject: Re: [PATCH v4] arm64: dts: qcom: sa8775p-ride: add WiFi/BT nodes
+Message-ID: <3giotvkrwailt75gndhup7xhqvlc3vdowdoypi5vaeebuojp45@vkqxbtjsbksf>
+References: <20241010132902.2882939-1-quic_miaoqing@quicinc.com>
+ <asvhh4kzq6s6yz3wrqfmuolcnlonoobogoh45pnq4zdr44lpxs@zgarzpduk2sk>
+ <cc8358b1-2442-4a40-8eb3-0912423db554@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,36 +87,57 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241004-ub9xx-fixes-v1-13-e30a4633c786@ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <cc8358b1-2442-4a40-8eb3-0912423db554@quicinc.com>
 
-On Fri, Oct 04, 2024 at 05:46:44PM +0300, Tomi Valkeinen wrote:
-> Add error handling for i2c reads/writes in various places.
+On Thu, Oct 10, 2024 at 09:59:11PM GMT, Miaoqing Pan wrote:
+> 
+> 
+> On 10/10/2024 9:47 PM, Dmitry Baryshkov wrote:
+> > On Thu, Oct 10, 2024 at 09:29:02PM GMT, Miaoqing Pan wrote:
+> > > Add a node for the PMU module of the WCN6855 present on the sa8775p-ride
+> > > board. Assign its LDO power outputs to the existing WiFi/Bluetooth module.
+> > > 
+> > > Signed-off-by: Miaoqing Pan <quic_miaoqing@quicinc.com>
+> > > ---
+> > > v2:
+> > >    - fix wcn6855-pmu compatible to "qcom,wcn6855-pmu".
+> > >    - relocate pcieport0 node in alphabetical order.
+> > > v3:
+> > >    - add 'qcom,ath11k-calibration-variant = "SA8775P"'.
+> > > v4:
+> > >    - update 'ath11k-calibration-variant' to "Ride".
+> > 
+> > What exactly is Ride? Is there just one Ride board? I thought it's a
+> > board family name.
+> 
+> I just follow the existing boards, 'Ride' is a board name. Both 'Ride' and
+> 'Ride r3' boards are attached with WCN6855 WLAN chip.
+> 
+> arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts:1112:
+> qcom,ath11k-calibration-variant = "Fairphone_5";
+> arch/arm64/boot/dts/qcom/qcm6490-shift-otter.dts:958:
+> qcom,ath11k-calibration-variant = "SHIFTphone_8";
+> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts:879:	
+> qcom,ath11k-calibration-variant = "LE_X13S";
 
-...
+There definitely are other Ride boards. I see patches related to
+qcs8300-ride. Does that board use the same BDF file?  If not,
+Qualcomm_SA8775P_Ride or QC_SA8775P_Ride sounds like a better approach.
 
-> +	ret = ub953_write(priv, UB953_REG_CLKOUT_CTRL1, clkout_ctrl1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
+> > 
+> > Also, could you please extend the commit message with messages from the
+> > ath11k driver, showing the chip_id / board_id ?
+> 
+> The board-id is non 0xff, do you still think we need to add
+> 'qcom,ath11k-calibration-variant', following is the WLAN chip board data
+> info,
+> 
+> bus=pci,vendor=17cb,device=1103,subsystem-vendor=17cb,subsystem-device=0108,qmi-chip-id=2,qmi-board-id=519.bin
 
-This is just a more verbose version of
-
-	return ub953_write(priv, UB953_REG_CLKOUT_CTRL1, clkout_ctrl1);
-
-...
-
-> -	ub953_write_clkout_regs(priv, &clkout_data);
-> -
-> -	return 0;
-> +	return ub953_write_clkout_regs(priv, &clkout_data);
-
-...and seems you use that pattern.
+I'd ask Kalle / Jeff to answer this question. Are we sure that this
+board-id won't be reused by any else device?
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+With best wishes
+Dmitry
 
