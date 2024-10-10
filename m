@@ -1,140 +1,121 @@
-Return-Path: <linux-media+bounces-19349-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19350-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85817998885
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 15:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E2A99888B
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 16:00:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B62F01C23494
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 13:59:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 809A81C234D7
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2024 14:00:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F7391CB301;
-	Thu, 10 Oct 2024 13:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3D161CB527;
+	Thu, 10 Oct 2024 13:59:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="B1QPmk0X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dAZfvjN/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F227E1C9DE9;
-	Thu, 10 Oct 2024 13:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C216A1C9DFC;
+	Thu, 10 Oct 2024 13:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728568769; cv=none; b=kNpQ/nBTPP8OjgnyTJVtaAkXKhCLmd9sA7oiRx0Xp2n3N7UjancsNdDvOXuAXtcbVNXXOEoegRTwiV3Fne60hqrjOH665VVJ6ZXIJxYR28akwh7fgeZsSy0i2flKmfz+ceHOSELP+WIneejfUICbBTvsW5RcuIA8mSGa9dxJ36U=
+	t=1728568777; cv=none; b=X+AwF8HQMqmy3t9/Rjv1AM+nU9cNKqlghBsxkKQi35NaCi+Cyfi+SWMymZjnKI8tRTtHShZMspfQmMqLGZmy3jJEyq3xajSmMdqH5zKTvgIGMBw6t5lN8NoRpfRDmStZu2JlqJuyRX4zQx/pGqAaz56vbo2yj1EIZKyElGTpPD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728568769; c=relaxed/simple;
-	bh=b5RJJ/2p4DswbtFozsrCP+8KWDRP+JMa+yKKq1M8a1E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=YzW4G+bgy1yDBiP4dwy7FkHFOtLSX1OCw5tPlUKVFDzSxhglcBKfxB6RiLUi190bW3SOFWKD2jZkXnypMHiwh9283C0+6MUYNCDHluXtNILkpxNYvWFZS2hHzdbH8lUVfXE2dkYGxH6c2Ue0mgm0wgWbWkUigCwxO2DgW669ob0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=B1QPmk0X; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49AD97w5027261;
-	Thu, 10 Oct 2024 13:59:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	RGCbsWz8gy5tgRPuE2BxLsuuYVUl/Jo8Eu25qDm/xJc=; b=B1QPmk0XDQiTgZ8z
-	5GYTXpB4H9UZ4Nbuvz/pVw98DICT5BtOb024T65OLLirC4FoIIj9AZUtg3nuKg+a
-	v8nBnAjAicHUj+2eV6u3KH/1Hp6SVwP4WqDQ1Sv9+axOfD7D+tKE2A+iV7zZqExD
-	QK0fhRkTE7OaFTMnpe8QfzLL1qFnVk/7nWDYeqv+rc0wqV7+d4EhVCzUiAZrNLwh
-	KMUmn4V/x2dWc46cgYYI/SYntNI84BioVIkt3uPhFQhP25tL4FuXz4kdD7ckca2M
-	saWAPJGWJhIPZyQbXpTHDb7WKRK/q7uF5MbcADCNdfhFq0stxZwQ+UpFonUyNKWW
-	zdyfoQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 426fj6r3y2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Oct 2024 13:59:19 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49ADxH3b011696
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Oct 2024 13:59:17 GMT
-Received: from [10.253.78.250] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 10 Oct
- 2024 06:59:14 -0700
-Message-ID: <cc8358b1-2442-4a40-8eb3-0912423db554@quicinc.com>
-Date: Thu, 10 Oct 2024 21:59:11 +0800
+	s=arc-20240116; t=1728568777; c=relaxed/simple;
+	bh=z241OsGhzwd4gLOzx2Fbf6xuPo9cZjnBqKUvmZf8G8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LGZQNH5nEo6vlAXXr7uVpBfClYCGNK5in5UhxMdZ/JFKiCrfxF5ixv2Zc+ZS+6eqF0yI0/ly72RmrcnBKSzbxZkecudimsNHygkn8fckL9j24HHWUnuJVk7ezQSJoi0rpdGj/DloIeGzutq+y+CBFpdSZnnhnBgQ0lfDA7cfIPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dAZfvjN/; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728568776; x=1760104776;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=z241OsGhzwd4gLOzx2Fbf6xuPo9cZjnBqKUvmZf8G8s=;
+  b=dAZfvjN/Yodi6T35aDrERABbVNylcDt52lAyGNuwZesj7L57/rWTJuct
+   vC2xuwvyGo6qPkWFJmTedNKSsuixGgwi0Vkpt/5MSIHG6zSUldRI9fJWQ
+   qXfu+DXOIfLgxY4dLkwY2tMd4eorrJolp4NWejDqy0+0wfmHzgdwoNuSQ
+   PhPa8E15IVmozxZivLll9xJnhRbbKcRXrfhLB64J4lc3+uFVbToj/u/ro
+   4+mTXlDZ6WSWgPA/iKrB9Li/w8MOfq91HkQxIrxAjHH8tZ8BzYgBcDb/Q
+   Wk4QQ3zWw12X2BivO/Hz6LjD836ZqybHXzd5SUd/suGmZoIFQbY8KfjAx
+   w==;
+X-CSE-ConnectionGUID: axJt2bThQf6viN1cxhjfoQ==
+X-CSE-MsgGUID: SNdL+9YEQEGwBCA0MHsq1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="28081251"
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="28081251"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 06:59:35 -0700
+X-CSE-ConnectionGUID: lwOEzoBZSNOMIIyOI8PGdA==
+X-CSE-MsgGUID: QwlwpABySz+PQGyqiq7Q2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="80599789"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 06:59:33 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sythT-00000001YS0-05kD;
+	Thu, 10 Oct 2024 16:59:31 +0300
+Date: Thu, 10 Oct 2024 16:59:30 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: Re: [PATCH 06/13] media: i2c: ds90ub960: Add support for I2C_RX_ID
+Message-ID: <Zwfdwn1J9DDSrHjc@smile.fi.intel.com>
+References: <20241004-ub9xx-fixes-v1-0-e30a4633c786@ideasonboard.com>
+ <20241004-ub9xx-fixes-v1-6-e30a4633c786@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] arm64: dts: qcom: sa8775p-ride: add WiFi/BT nodes
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <konrad.dybcio@linaro.org>,
-        <mchehab@kernel.org>, <quic_vgarodia@quicinc.com>,
-        <stanimir.k.varbanov@gmail.com>, <kvalo@kernel.org>,
-        <quic_jjohnson@quicinc.com>, <ath11k@lists.infradead.org>
-References: <20241010132902.2882939-1-quic_miaoqing@quicinc.com>
- <asvhh4kzq6s6yz3wrqfmuolcnlonoobogoh45pnq4zdr44lpxs@zgarzpduk2sk>
-Content-Language: en-US
-From: Miaoqing Pan <quic_miaoqing@quicinc.com>
-In-Reply-To: <asvhh4kzq6s6yz3wrqfmuolcnlonoobogoh45pnq4zdr44lpxs@zgarzpduk2sk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: WBP-2xQxWo_SKbY-ADLvmGaXaqApDdrQ
-X-Proofpoint-ORIG-GUID: WBP-2xQxWo_SKbY-ADLvmGaXaqApDdrQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 malwarescore=0 adultscore=0 suspectscore=0
- clxscore=1015 mlxscore=0 impostorscore=0 priorityscore=1501 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410100093
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241004-ub9xx-fixes-v1-6-e30a4633c786@ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-
-
-On 10/10/2024 9:47 PM, Dmitry Baryshkov wrote:
-> On Thu, Oct 10, 2024 at 09:29:02PM GMT, Miaoqing Pan wrote:
->> Add a node for the PMU module of the WCN6855 present on the sa8775p-ride
->> board. Assign its LDO power outputs to the existing WiFi/Bluetooth module.
->>
->> Signed-off-by: Miaoqing Pan <quic_miaoqing@quicinc.com>
->> ---
->> v2:
->>    - fix wcn6855-pmu compatible to "qcom,wcn6855-pmu".
->>    - relocate pcieport0 node in alphabetical order.
->> v3:
->>    - add 'qcom,ath11k-calibration-variant = "SA8775P"'.
->> v4:
->>    - update 'ath11k-calibration-variant' to "Ride".
+On Fri, Oct 04, 2024 at 05:46:37PM +0300, Tomi Valkeinen wrote:
+> Normally the driver accesses both the RX and the TX port registers via a
+> paging mechanism: one register is used to select the page (i.e. the
+> port), which dictates the port used when accessing the port specific
+> registers.
 > 
-> What exactly is Ride? Is there just one Ride board? I thought it's a
-> board family name.
-
-I just follow the existing boards, 'Ride' is a board name. Both 'Ride' 
-and 'Ride r3' boards are attached with WCN6855 WLAN chip.
-
-arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts:1112: 
-qcom,ath11k-calibration-variant = "Fairphone_5";
-arch/arm64/boot/dts/qcom/qcm6490-shift-otter.dts:958: 
-qcom,ath11k-calibration-variant = "SHIFTphone_8";
-arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts:879:	 
-qcom,ath11k-calibration-variant = "LE_X13S";
-
+> The downside to this is that while debugging it's almost impossible to
+> access the port specific registers from the userspace, as the driver can
+> change the page at any moment.
 > 
-> Also, could you please extend the commit message with messages from the
-> ath11k driver, showing the chip_id / board_id ?
+> The hardware supports another access mechanism: using the I2C_RX_ID
+> registers (one for each RX port), i2c addresses can be chosen which,
+> when accessed, will always use the specific port's registers, skipping
+> the paging mechanism.
+> 
+> The support is only for the RX port, but it has proven very handy while
+> debugging and testing. So let's add the code for this, but hide it
+> behind a disabled define.
 
-The board-id is non 0xff, do you still think we need to add 
-'qcom,ath11k-calibration-variant', following is the WLAN chip board data 
-info,
+...
 
-bus=pci,vendor=17cb,device=1103,subsystem-vendor=17cb,subsystem-device=0108,qmi-chip-id=2,qmi-board-id=519.bin
+> +	for (unsigned int i = 0; i < 4; ++i)
 
+Why pre-increment?
+
+> +		ub960_write(priv, UB960_SR_I2C_RX_ID(i),
+> +			    (UB960_DEBUG_I2C_RX_ID + i) << 1);
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
 
