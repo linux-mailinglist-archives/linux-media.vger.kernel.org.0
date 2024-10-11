@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-19431-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19432-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD6599A627
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 16:19:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8D899A630
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 16:21:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1BD27B21654
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 14:19:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08FB32858BD
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 14:21:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 242FC21949A;
-	Fri, 11 Oct 2024 14:19:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95203219CB3;
+	Fri, 11 Oct 2024 14:21:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rixYPlW5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MRac+aNI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF53184;
-	Fri, 11 Oct 2024 14:19:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0874219C94;
+	Fri, 11 Oct 2024 14:21:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728656359; cv=none; b=HpK559sj6iEqs8v9oEARgQC7Lw6XLSM3B8HIv95kwM0/vV4p4R2Hc3EWGjNCycf2N3i5ADYe6cjqx+IlgpZZtbVCdcLUe0S98sDO1DIs5/cyQurdtGa27QWOKxmfTu/dMj6wvrR+FAfgCvrohCT5byJ/MpgR+3k2Jg6HoPTCKXs=
+	t=1728656490; cv=none; b=LF56xnzuMN2Oo6/2G42iimYr7D+0JJuCIau4SwDylKb750v1/WA00gWGRongXRJmDmFsxpzHTu5nvUUgKzz1UJobiNti7JaY5BIDnXIO3npoB3ngAMVqoBiN0Oz4ALDGRRGyoGPvvsyMr0TFGADV2NVmjblUnGIwOdkEtYk9cfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728656359; c=relaxed/simple;
-	bh=fOtfbSb6mqzXBJ5C/KZ0HPYyW7bqP3gj8kx88BmpEuU=;
+	s=arc-20240116; t=1728656490; c=relaxed/simple;
+	bh=37MtFp99OIt7vNoiuAnY53uiK3IjAbyhbAdFTFwG0U0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W+iPtvVMeSycan9XYiQWpllhFdgZbMhXMI9NaoRWRYFRO/XYLSWNwm1zZ/6xSbhCqw1YXoNrTa/6o4np3n1WyoZ/X9GpuLSlYZgWxM/TTmzxAtAX7xFNqzi5gHpGTaDrAxvjX0nvfCJdngKScSJwJuPlwjNQOgNNN93+zOfGxGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rixYPlW5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 117B3C4CEC3;
-	Fri, 11 Oct 2024 14:19:17 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=I2sNXOpxnE2SK7Z/s2VYuQTpekyQvb07Idie86wcQz2EwWOUswMzbxHCQDsPk3tAK1f1m/wLr/GG+H6+yL4Hty94lM08vbkBxLj93CFD5Kc4hdeIGrM81yINDgZldogM+3iqUMpG2oBdncxC60tInEM9gOFmJrnUSub/6KZXeoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MRac+aNI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A80F7C4CEC3;
+	Fri, 11 Oct 2024 14:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728656359;
-	bh=fOtfbSb6mqzXBJ5C/KZ0HPYyW7bqP3gj8kx88BmpEuU=;
+	s=k20201202; t=1728656490;
+	bh=37MtFp99OIt7vNoiuAnY53uiK3IjAbyhbAdFTFwG0U0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rixYPlW5qgCf+J4b0zHbEMWiXflJKTLzQFs/TMLjWmes5HlUO9JJ2gGE744vSLO+h
-	 oDkNY6AYDqSfT6Bhzq6u/jRsxOEHQlw6TW8SdT8Oe0QCXDPEm51LkxJKrsjcUmZCsf
-	 ZQzqm0AURQiJcECA2pdvaznkvQ9su3v/BqsBHWqv7jE7kVwCfd9DYEaioxvayY2FJV
-	 zuYhMSW2yDuZtvIJsxVEWLCq5v0Q8djj0spfn97WslmjP+7GPj9iUAbjotRt0k7XQB
-	 Oxpzao0GPabV8fl8cnujsm9VM1EPGzDzRjyVkRd4goVs6tsJYaS/K6Ue5eENHoXeiG
-	 1HXE/9nkY/1Mw==
-Date: Fri, 11 Oct 2024 16:19:15 +0200
+	b=MRac+aNIsKGINHCEeI6SJEZL8ZPvfU5wjYFMaO040rmiup8j5b9pcSPmEjmqsKfY8
+	 WUrLgUl/RRX+FRwGSIUrOxA1apLvqpF6gFe7xn7msby+rkRQch57IEQ2v1vWv88T1Q
+	 HIgWKhR89/r4JM1GtuGXxLvOS7JunYJpsuVPhew/qEhgv+9iR5WY1UqVkThxZPXh71
+	 JLjtPqjqdtUgmRGyLgjk3I8aiMNoFLqR0RrerZDAif23yjg1zVIeeAe2xo+v3NOuGs
+	 62jGt4dPH2sjJVnJk9rQNdY0BD9AiTWEqr7EVLBa3QIkbi0g8nTfSvseBtlC1x9JJi
+	 bpkDQIfGgkb0Q==
+Date: Fri, 11 Oct 2024 16:21:26 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -51,7 +51,7 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	devicetree@vger.kernel.org
 Subject: Re: [PATCH v6 2/4] media: dt-bindings: Add OmniVision OV08X40
-Message-ID: <iw5jsp5id5mrnoieouxs64algzz4v25wrneajd2fevbcunuhai@es5jqsv45qz3>
+Message-ID: <4plzz64zfeozca7prwgffvsx62eh4ez5g3eo4hdp3wq65d6ibu@qxmt2hmvewcp>
 References: <20241010-b4-master-24-11-25-ov08x40-v6-0-cf966e34e685@linaro.org>
  <20241010-b4-master-24-11-25-ov08x40-v6-2-cf966e34e685@linaro.org>
 Precedence: bulk
@@ -70,24 +70,12 @@ On Thu, Oct 10, 2024 at 01:33:18PM +0100, Bryan O'Donoghue wrote:
 > 
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
+>  .../bindings/media/i2c/ovti,ov08x40.yaml           | 120 +++++++++++++++++++++
+>  1 file changed, 120 insertions(+)
 
-<form letter>
-This is a friendly reminder during the review process.
+I found the reason in cover letter.
 
-It looks like you received a tag and forgot to add it.
-
-If you do not know the process, here is a short explanation: Please add
-Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
-or above your Signed-off-by tag. Tag is "received", when provided
-in a message replied to you on the mailing list. Tools like b4 can help
-here. However, there's no need to repost patches *only* to add the tags.
-The upstream maintainer will do that for tags received on the version
-they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-
-If a tag was not added on purpose, please state why and what changed.
-</form letter>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
