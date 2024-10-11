@@ -1,325 +1,381 @@
-Return-Path: <linux-media+bounces-19398-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19399-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04A6999E19
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 09:39:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 031B9999E68
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 09:48:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5785D28A70F
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 07:39:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 702331F24D7D
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 07:48:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70911209F4D;
-	Fri, 11 Oct 2024 07:39:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9956A20A5FC;
+	Fri, 11 Oct 2024 07:47:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jULN4X2w"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="c/b/FXQ3";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="KQ5a9EaP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C2320897F
-	for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 07:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728632365; cv=none; b=s1MGwQHxZ/7eg3/aXxu3Y2kHVv9CfVjvfXtnhmEMM5p62XuTf93VHXz2RJQNgrYEOPIJsODOE3/tNZAPGTOBG7BP5twd+3SuaHFkWjdrfs+y5WLz8B7xOMdL/afryEZfTq3hNl5kdIHoMv+ILPhEMe8jikD22qQIgNKYzWj7XBM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728632365; c=relaxed/simple;
-	bh=N9s6vNcBLYhsQ9mk13y5mdF6jh9wzSBntT55M4D5yGQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JAmWuBn4L1Emj81yKRfbLRhb9qyv+TRMAAJm73Sy9c81Y9ttx8MOz6g0WwU1bJWGjJLFXqq3zAuvw6j4k2mkjeOqZo6A/UmhvJQYdRBgLGIn1pCUTfeMcfrge3XPBg9Z38VxEu1dULsNgddRVb4z7FIhROqOPnH6jxgx5FhR76c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jULN4X2w; arc=none smtp.client-ip=209.85.161.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5e5d0a80db4so890459eaf.3
-        for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 00:39:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA59E194C8B;
+	Fri, 11 Oct 2024 07:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=210.61.82.184
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728632857; cv=fail; b=AQXuTbf2woIOVpEyhTGSJLgEpw56yvQT+73YrYApMAMCDpQf5qx/TwVugBFoA5PmWhVQF+ecT29ZFfU9/iKFh8fK+4AjRfI8onH5rqSi0+kSfc1tX3LXm5GM4l37E93seaUX2Jm8wsX7hZVUiueT1kvS0vBstrH5vvHcgd2VJm8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728632857; c=relaxed/simple;
+	bh=Edgf4cNjp+ZyVOegamnTkBafcR1SK8ITL77Vf0ZHq4U=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=edNfgyXt1m+eslzUbM63KMfGQom/K3Kp4UI9onGw4e0GXyfhzbCwi8r0h4b2+EKePWkwr3lKJ26ROYHyBbfC70tss/0gYgYppvHpdx13nPfexzz0IEJobygzqGM3fsyKhYk1cMlCjNyiW4O6TuAVEp07if400DtwvIUN0KcMEvg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=c/b/FXQ3; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=KQ5a9EaP; arc=fail smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 10b93a5687a511ef8b96093e013ec31c-20241011
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=Edgf4cNjp+ZyVOegamnTkBafcR1SK8ITL77Vf0ZHq4U=;
+	b=c/b/FXQ3xwKhgZMRzytNcIqgmfsNkN0XzqkhVrbL05I6sU1NPOlJkHV0a1TRgwaXLaJuRN+GNqEvRM4s/8KyxQUA0DzUNKohoT6reuz/+xumEgCteWYA5PKYZkFkbKG+Su8ZPNLA8rLgnXMBJTY/fqKwAGSqFVMmZ23vxJVYH6c=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:61bc1ae0-d17a-4306-94b6-5dd4c22b5bf0,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:a9261841-8751-41b2-98dd-475503d45150,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 10b93a5687a511ef8b96093e013ec31c-20241011
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
+	(envelope-from <ck.hu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1673647631; Fri, 11 Oct 2024 15:47:29 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 11 Oct 2024 15:47:26 +0800
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 11 Oct 2024 15:47:26 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MYXZMkRD8JsYK4jIrIEdvTpfydKxtSDdK0W7CCt1QJCQso20P20utKy1s6OAgF/XUBHLW4Byg40XcxXHAOny79drVS0w689PAo5i8BhrdWWzCUfsGy/b980wBO05ii5B+R6kKzO089rcgV0bE1ttPrPhPeExpbT4EBg//yIj6d3YrZ5fsWrg5i4QucbAg+UrrJT7WrmcfijYCkQWtAdrYRiXyVYb4fVDIl7mNsUNJlYziNgsThgLYqFVJ83AGm5CKb+7SvA5IsmWplyP9HUNTxoeExsIxv/vEZGy8QktDsXgNmW11tFXFBBMdw2aoldWYZmavIYsyyBbuW35ztXs8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Edgf4cNjp+ZyVOegamnTkBafcR1SK8ITL77Vf0ZHq4U=;
+ b=TfD9tl7Gx81gB1NF6hWg2uMHIkvE/z0WB3w2o7I+Uhq4+U7FMvwFpMfxNpQWOp4rACJlkE3j/YR4iCsFonXeL8rjz4gA5F+5jFm3XPPaHxBBayD98OZjYDqza/yYFTI9MkL0V7g3wLSA+mPTHVLACH+8deL3EQJ5dxy15Zh6PvDDHLr1pCH2tWHkWAo/yix6PmOX76ieU2ZpjtdyGpm+L5x1Ivzc1icmOmN1aN/buHTklLH/CdnedcVZImT1ieWdbsEMaS1LrUN3cJkbd28EHQD8N1sz2WM4QrEzu4yC0LngrZfNzobCVuhBTwjsIgPAOp7NtW/jISYVuPZKmNUpIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728632363; x=1729237163; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3QGK0KqvaLrNRtQBZUwM76VFtn49u1FVoQQ16dvotBs=;
-        b=jULN4X2w2jvERVl2d8fIFEPfcRdQX08iR5Cm8UW//GJHa279xmL1AG53Uuz31OgIid
-         e19IpCNiY4hLwVPiCpqUw1G6pdWNbFLilVMNQMLghu0xvhd3WWIvJDIhPBL0AZ38BJIo
-         YVstQUrwNJefIoWTxnB0gdymKPX7YSCzHRhO34qehCYacPZN/Nx1CUEs8WH2+G34i0dF
-         cu4bDdSIcMZsLxrbHdvXal4pnuapBq0IudrEr2M2a0Y4QiFdlJ7sMRLDYvt0YtskEnAM
-         pk1+OQoq9R5g90Bz7ooGFuPtXYxApj3dKg41wDz+/VzKol+jiLWu3lPYTXwHpZso7p3N
-         NNAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728632363; x=1729237163;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3QGK0KqvaLrNRtQBZUwM76VFtn49u1FVoQQ16dvotBs=;
-        b=IAxWvlrRX5QCG3nRScsyWX56QX+oNIqnBSSyBEC0ooGnb95JGBotOCK60Oa7BcVRhb
-         jgIt2/0Y3Yn8NcwAnFAZ09jx8m7P9TOucOkR3ja51ZX22watat2GcwEORriBDBH6qAxL
-         R1p9IEgQp/HeJrtHCs8eCOwHo/KgTnWpVCaCePCdzGkcUWZl+XYsAldjL0YvIXeH5MTd
-         L2DwhdB/53iv7Oc+7L9IouVfZvfUXY2IPJ+vL/RTpbVq4om9kTDOeaGMCMx0ywXr+h+J
-         PVexrV1wCTMfd9ReTEYLUIdv9dmoJOesP8nkBa4CPJ+6ZI26e30h93vWFA6F/wPZqFJ+
-         IUOA==
-X-Forwarded-Encrypted: i=1; AJvYcCUKlPnskPQg5wVdyR2qDyRzJXaWyBpdw/WzWJgwWAuMVm5/PQlA0Xd+mxKZeQ5G3HiCCRLRB/DiwcuFiA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz74K0tDP3Kh0Ypp8vuLlfWFHqX8Xj2u9A7uNOpZpCF2pZUe+bw
-	WoyFYZZ9uCZynJTXwmlUau2FTTorXVYb+Se+n6l4VBA19L36iCrr0gFxGGa4q26jGt4Fj9Dreow
-	DAFcGcIPTsOFeDOjgdHVrdvVii/Kkspe0
-X-Google-Smtp-Source: AGHT+IE1t9Ei50hg/i1YSMReXAgWgf7hQjjDupnWYLI7NNv3Yj5U/S4pr2SF7rL6OPhMmyYf4p+sqOtZ7rgdX4OOLCI=
-X-Received: by 2002:a05:6870:700e:b0:277:caf7:3631 with SMTP id
- 586e51a60fabf-2886dced4a6mr1502321fac.5.1728632363000; Fri, 11 Oct 2024
- 00:39:23 -0700 (PDT)
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Edgf4cNjp+ZyVOegamnTkBafcR1SK8ITL77Vf0ZHq4U=;
+ b=KQ5a9EaPzSMhudTKimzvbcPQANtLyL3w5NDLted6QIk2b1DgJkxK9bKossvmGtB8QyvapmA9XTfUO1G3pMiXP8077QATpG/7UC7Kl7BygdPuVFZf3i+YG1oqLQ3REty1NHu6iQmikK2ARTLeNW3AF4JLmHpHwPIEq8UPMjd90o4=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by SEYPR03MB7337.apcprd03.prod.outlook.com (2603:1096:101:147::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.16; Fri, 11 Oct
+ 2024 07:47:22 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%7]) with mapi id 15.20.8048.017; Fri, 11 Oct 2024
+ 07:47:22 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	=?utf-8?B?U2h1LWhzaWFuZyBZYW5nICjmpYroiJLnv5Qp?=
+	<Shu-hsiang.Yang@mediatek.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"yunkec@chromium.org" <yunkec@chromium.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, =?utf-8?B?WWF5YSBDaGFuZyAo5by16ZuF5riFKQ==?=
+	<Yaya.Chang@mediatek.com>, Project_Global_Chrome_Upstream_Group
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	=?utf-8?B?VGVkZHkgQ2hlbiAo6Zmz5Lm+5YWDKQ==?= <Teddy.Chen@mediatek.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "hidenorik@chromium.org"
+	<hidenorik@chromium.org>, =?utf-8?B?U2h1bi1ZaSBXYW5nICjnjovpoIblhIQp?=
+	<Shun-Yi.Wang@mediatek.com>
+Subject: Re: [PATCH v1 10/10] uapi: linux: add mediatek isp_7x camsys user api
+Thread-Topic: [PATCH v1 10/10] uapi: linux: add mediatek isp_7x camsys user
+ api
+Thread-Index: AQHbGj2oNs0v9TyLkkuXYBAr3amqdLKBLx+A
+Date: Fri, 11 Oct 2024 07:47:22 +0000
+Message-ID: <d75bd5e143793e97a8773df8edb1312d87b6efa8.camel@mediatek.com>
+References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
+	 <20241009111551.27052-11-Shu-hsiang.Yang@mediatek.com>
+In-Reply-To: <20241009111551.27052-11-Shu-hsiang.Yang@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SEYPR03MB7337:EE_
+x-ms-office365-filtering-correlation-id: ffac0093-9828-4289-134c-08dce9c8f0bf
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?eE1MTjdmUlpURkdEYlpYcUpSTmFXUW53cEVzRXpNelBjdC9ISktKWk1nM0Fp?=
+ =?utf-8?B?TUVPajcrQ1VjVFhrY2ZvdmNreityeTVoZVZJeHBVeTNSd2FkZWFjZjFIQkZs?=
+ =?utf-8?B?Uk9iL0NLR0o1RGRSZjVSS0UvTWE3U29zeEJzVEFtYlBFcTFueVp6QkpodGVu?=
+ =?utf-8?B?eUhGMDJiVzQrakJkMTIwaHQwUkhzQTZ5Uy9SL1dXYjBHY3pZb2RmRVo4ODZ1?=
+ =?utf-8?B?Y05nd3ExRDVuaWJvYlZxQksrNWt0YUhreDh3OHh2T0ZOU0Q1ZURKaVRyVXlU?=
+ =?utf-8?B?b2hOSVhXZUFUUGtjTUhSbTF0cWtiNUhWNVZBNktZcGpQQ29QMGxSUUhsUytH?=
+ =?utf-8?B?VnRJOWl0cGkzTDhiS0lnUUswQjU3TUx1bFg5YjQ4ZUlFTkcxcWJzejhldDBp?=
+ =?utf-8?B?L2cvSE83V0NCL25neVFLMzRHUXVaNkd2NzdjbjhvcERPSTNnd0MzZjRZV3Yr?=
+ =?utf-8?B?Wmpib1d2SE45aTFWYnlJNTc3YW8rRkNqWE5FbWFrRm56KzhQNGc4ODVWc1dD?=
+ =?utf-8?B?d3ZPbEIzYnJ2TUYzSVJjUzRtREMxMGFzU0M1QkhwTGRPT0dzWWFCRXhIdlpm?=
+ =?utf-8?B?Njg3VWY2KzRSVVpSL29Qc0RnUTVEa0dMNkNmSm1EKzJqK1VKMGlYVjdnQUlN?=
+ =?utf-8?B?MkhJYnNqdjdPNTNlSk41MUhDK1AybDg4cGxEVmx0ZWQ4MlZka3ZoUzAxRjRF?=
+ =?utf-8?B?ZGlRU0dLUXdlVEZpS1V5a0Q4NkpScVltTHdTeXE1OXdQeHI2YXkvQUl6cjY0?=
+ =?utf-8?B?VGQ3VXo2aVNPSTJTN0JpeVE1eHg4QUE3bkhCYW9teWNhZTVqZU9BU1JJbFhT?=
+ =?utf-8?B?eHlPRFh0OWYzUEZXL1ZLeGo0bnpDSjVFVDBYUEVGUDl0bDNpQmhGY3NFZFhS?=
+ =?utf-8?B?L0VWbVk3NkFyZ0FhZjgyVVBPWnNhT0RaaUhIWk54MWtOSUNJdTFLM1F3aEow?=
+ =?utf-8?B?WEFlbHlZOHB4eVlBNFRtU2w5a3dDM3NCR3ZHZjl1V3dITzhoRXkrZERaeldz?=
+ =?utf-8?B?alBhUVdmVVVkeitBbS9MaDVvelkzQVJBWFR1UGtQVzhGTEZuWEV1QlR0SzJn?=
+ =?utf-8?B?Si9zU01BOWkvcGdJK21uN2plTUlmclZNVkUxUDlOUEh3N1JjUTFwUzlVeTJ5?=
+ =?utf-8?B?QkVtVlI4VFkvTkNSWnlEZFJuM3FOWWxqTnh3NExROGlFaE5aZGZmOW5YSUFs?=
+ =?utf-8?B?a2o0U1Mwdy9lR045Rmo5M1BVd0ZEeW9haTh0WEJDZWxabjMyamlielF4Q3h6?=
+ =?utf-8?B?UDNzR21NVUt6Sk1Qc2lCMllZV0tSVUF1T1dWQ2llV2pTZlg4czlHSzQyZ01X?=
+ =?utf-8?B?UzExZG5FN0Z0dm9JUXNXYkxURFh5UitvMjdJd1p2elJ6RjJtU0hueUVPREF4?=
+ =?utf-8?B?QUUzNzdLakZNMkRGU0hla2hyemRweFAwdUtGd1EvOW4xcmV3VGgvSmx0TmI2?=
+ =?utf-8?B?MEZMN2VmcVBVZ0Y2amJtMEp6Zzd4RzFaQnRYS2xTUm13VFNNOEpBTHY1c3BO?=
+ =?utf-8?B?WGNwcHNmOUQrNlJWTGd2dDBZNVFoUm9oOW9zbFRuSVhrTnJlZ25kYjNoTUtt?=
+ =?utf-8?B?aFFWT0Fub29GZHlVTnVuWTloWDYzczZGSnB1TEhTM2dZekE1UUtZMHU4bmwr?=
+ =?utf-8?B?R2lWN3ZHTE9TMHNHeldVUUtTcnNPWE1zOHc1ZFBuOWZKQi93Y2p6K0Z5SmJH?=
+ =?utf-8?B?V2M0b1l6QkFnUDdld2Q4M0pDajV5elNRZVlkUndRRHJxajZFVE5ob0dLQzVn?=
+ =?utf-8?B?dkFvVHhOVGlzL2UyenA5Z1FDNi8yanBGM0oreHl5aVlZTGhNWkJvYURZWVZ5?=
+ =?utf-8?B?ZXBsZTQvclV5NGRYUmw1QT09?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB6624.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R09ub20rQkFCMWRORkg3SkdiK2pCa0dmTHVHcFZ4aFNBazNoUEtib0xUc3Ji?=
+ =?utf-8?B?bEFza0VtVURIeWZKeTlrZGsrTkpQc2tydzc0NFNRZUtSc3JFQkpUT0ExRHBz?=
+ =?utf-8?B?T0JBOFVQZ01ZNjV5c1hITHBIa1o5STZZdUxXVG5OcDhxTXBjWEJ0ajdreFNR?=
+ =?utf-8?B?V0lMMHNqVGJKTE40d0FYbnJKYUp3QzFaU25IQjAwRi9RRXcwK1lucWx0Qng4?=
+ =?utf-8?B?K2V4cU5YZysxbWJmcTBGbXRkb01iZ2IvMXZIQlB4Z0NrV2JLbXlIRXpZMFow?=
+ =?utf-8?B?aVd4RFd6b3pSZVQrUDM2VXpPSkVSM1FsMCs2SkJUN0xmblhxeWlqSTROM2hY?=
+ =?utf-8?B?Ry9zcDRYWFNzbDJwQzRNQU03OXRWMkVqT0xISUZMOWlCSHRVeUpxYktVVEFR?=
+ =?utf-8?B?V0ZoWkVINVQxUmdYV2dicnRiN0d2TWRrWFgxRTJmc1FJaDhaNG1sVk5keXRk?=
+ =?utf-8?B?blNDWEVUOGFWejEvbGdrc0poSEZzSFVZVFJzMGppc1RNSnVtYWtaMFZrd0U3?=
+ =?utf-8?B?bTAxdWk2Y3RmU2ZVeXVJR05QMmpzTUwvNnozZDE4WnAxNTVLK1J5KytGN0hx?=
+ =?utf-8?B?K1VmTDErczhveHpmSXhKR2RxTDJvMjUrbUhGbDV6REt2VjJFNzJpZ21KOXRS?=
+ =?utf-8?B?TkdvbTN6dm9JMkM5L2hKRWs5QVplTlJDWkh1aCtrZ1JhcTBuUFMvcmlBSVhJ?=
+ =?utf-8?B?c0VIc2FRck9UaE9aY3I1TDFyRVEzK1RoL0lDWmJnRmorTDhGVmh4UGlYT0xl?=
+ =?utf-8?B?dU10SkFhUXV4NDJqTXZNSXRnV3V3NmxYYzlFZ0dKUmJMWnFYK1d4eEFjSjND?=
+ =?utf-8?B?V1hWeWc3TG81SVZPQ0syRERXdFB3NUlFZTVCV3ByZmp5ZDJWd21iY1d2UDlT?=
+ =?utf-8?B?c2VGa2Y0aHc3R0wxdll5WVdyTzAzU3NyYWh0eXY5dzA5cGQ4Sk1SZWxFc3hF?=
+ =?utf-8?B?M3d6K280RmhiTVVhbXB5WEQvMmlnRmxyVCtXN3lLd290Y0ZPRW16VWw4ZUJm?=
+ =?utf-8?B?Qnp3ZjQwVitNM2lYSW11dFpvMXVzaEV5ODNSYjY4cXUzcFhMRld2TzVjQVYx?=
+ =?utf-8?B?eWcvaU1WZUNhS0pnam5lTUZKanQrTVRETVRaTFplQkNXeDlaeUN5ZThzOC9x?=
+ =?utf-8?B?c21IaldSTzVvcE9zbVJ3UlFjaElYV0JNQkpqdFRzNUhCd0NHYkM4RU5heVhQ?=
+ =?utf-8?B?VlVXVE9NZWlmV2lncldrNXFiUDgyWWZaMUNUNjNJRG5DemY4ejg4RTNjLzNS?=
+ =?utf-8?B?UnlYL0JxRVF1MEFDMlZyUXJ0aC9MRjBpRTBSSW56VEpObVhVUG1McFZYWk0z?=
+ =?utf-8?B?amRoQWRkN3NTWmZuUGFnU05wRU9PcTVQRHBnNnZrM290RDR3Nkw0azZ3YnBU?=
+ =?utf-8?B?WVFlQ3ZaN3k2bHQyUDdiUjBRV2RjZFdSRVFhNWpMNnBjQmlnMTg3YWdSWTJk?=
+ =?utf-8?B?TFNsdWdIT2tveGhlNG9pT0R2SUxZL25EOXpncDVJcC9CcklWcG1RVEsrVlA3?=
+ =?utf-8?B?ZERiQ3BkSExwUnZqZlFZaEhCRzROcHRhNU45MG8ydWFIaGlNWHRwYWlRN1NH?=
+ =?utf-8?B?MkNGeWZJNGpUL0tETmVScHpmQ2pRZ0tSOEx5aUx2alVQa1hLVGh0Tzl3b21i?=
+ =?utf-8?B?WUluc3pUUlp0SkcvYXYveTM1Vjl0UXJNN1IwY2Z4Rk51a2xuQXNzQmdUZG5F?=
+ =?utf-8?B?ZmlCcW1JcGhXWHY0d1VTMGVlMXVZMHcrNEZVSW1kOE9mM1lLdW43ZlRKQnpV?=
+ =?utf-8?B?a3ZKaWEwa0k0SGNTQ2gzb2tjM3dKS1BOdExzNHZYOG1KSURISk9LZS9Paklz?=
+ =?utf-8?B?Rm05dzRXc08yazJKMjBoem1HWUw1Umd2OUJKbXRJZFZucjZWcmtsZ0NHaEpB?=
+ =?utf-8?B?dS9aNktlSUJNTEl6V2ZpWFZBUUlNR3B3VXZnQ2xpdG9OTXlSWk9CZ1JiaHZZ?=
+ =?utf-8?B?Uk94OHBkY0NPNGpHdWNQVUJqaGFWSlU3RmFJdE5kSUloejRlVUMzUGtIQmxq?=
+ =?utf-8?B?MDBqZ2NyS2RBKy83b29zUVV5NWEvSnlET05BdVlqVk5ycWhvZ2tKSmdURklp?=
+ =?utf-8?B?RjNJZ0FPdDB6Q1dGdUxCWGFQaGhYQXVaYnRLa1hxSHBHaFJGdlJjbXFEUWhn?=
+ =?utf-8?Q?CsqP0KdUaC9pRk0hhP7F91YHB?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A2008AF48F7F1740BFE9981C4E35C700@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241011070828.851449-2-u.kleine-koenig@baylibre.com>
-In-Reply-To: <20241011070828.851449-2-u.kleine-koenig@baylibre.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Fri, 11 Oct 2024 09:39:09 +0200
-Message-ID: <CAMhs-H8-8wmg_OqxQrO93ZV1Mrh-2GKowoWpvdk5qkvQbQ-F=A@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: media: Switch back to struct platform_driver::remove()
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffac0093-9828-4289-134c-08dce9c8f0bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2024 07:47:22.1023
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1WU9K11rQ/cHhO13J69+bkM/wHbeCT9GbYAy3b+B6h1wZ3xOc39NNnh1A9Ex8l9zq5cldV8dbm3E8n2QYCGIpA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB7337
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--7.319400-8.000000
+X-TMASE-MatchedRID: cgbqQT5W8hdm6oeM5+OJFCaix8JZpk78jLOy13Cgb4+qvcIF1TcLYJgC
+	Mlq+sZ+fP4UK2jG+TwGJBh7KINf2n8Ydp1pG4A6/XbTfocfAWb9+tO36GYDlstchlMhSt6FeNyd
+	6ynRfHVHAw5Su4AXqlsNNmRo2tcL/uafWgMhNYLnBVprK8rvWX0wr+fGcfUiamyiLZetSf8n5kv
+	mj69FXvKEwgORH8p/AjaPj0W1qn0TGVuWouVipcoH9W+pq/t3vJyM8elFYs/ij843BCNOCoPofv
+	DkekCfQA6F6IA/Hye2ZhCpHscKn2dpVo8A/nQq2zBwrz1TOIwGPz6veAK0M9lr/VRGx0IR2+Uo4
+	vXq+qmzIizeCsI6wA0LUmjyL3DZSc+aWLqiwUqk=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--7.319400-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	8C11D4CF355D4918315C77743B6791FC39B1B62474570304E282B944DF6FF9F92000:8
 
-Hi Uwe,
-
-On Fri, Oct 11, 2024 at 9:09=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-> return void") .remove() is (again) the right callback to implement for
-> platform drivers.
->
-> Convert all platform drivers below drivers/staging/media/ to use
-> .remove(), with the eventual goal to drop struct
-> platform_driver::remove_new(). As .remove() and .remove_new() have the
-> same prototypes, conversion is done by just changing the structure
-> member name in the driver initializer.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
-> ---
-> Hello,
->
-> just rebase to
-> https://gitlab.freedesktop.org/linux-media/media-committers.git next
-> to make the CI happy. The only change is that the adaption for
-> drivers/staging/media/omap4iss/iss.c is dropped from v2 as this file was
-> deleted in above branch (since yesterday's next).
->
-> v1 available at https://lore.kernel.org/linux-media/20241011055540.844629=
--2-u.kleine-koenig@baylibre.com
->
-> Best regards
-> Uwe
->
->  drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c | 2 +-
->  drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c | 2 +-
->  drivers/staging/media/imx/imx-media-csi.c                  | 2 +-
->  drivers/staging/media/imx/imx-media-dev.c                  | 2 +-
->  drivers/staging/media/imx/imx6-mipi-csi2.c                 | 2 +-
->  drivers/staging/media/meson/vdec/vdec.c                    | 2 +-
->  drivers/staging/media/rkvdec/rkvdec.c                      | 2 +-
->  drivers/staging/media/starfive/camss/stf-camss.c           | 2 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c                | 2 +-
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c          | 2 +-
->  drivers/staging/media/tegra-video/csi.c                    | 2 +-
->  drivers/staging/media/tegra-video/vi.c                     | 2 +-
->  drivers/staging/media/tegra-video/vip.c                    | 2 +-
->  13 files changed, 13 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c b=
-/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-> index 712f916f0935..bc360875516c 100644
-> --- a/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-> +++ b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-> @@ -629,7 +629,7 @@ MODULE_DEVICE_TABLE(of, atmel_isc_of_match);
->
->  static struct platform_driver atmel_isc_driver =3D {
->         .probe  =3D atmel_isc_probe,
-> -       .remove_new =3D atmel_isc_remove,
-> +       .remove =3D atmel_isc_remove,
->         .driver =3D {
->                 .name           =3D "atmel-sama5d2-isc",
->                 .pm             =3D &atmel_isc_dev_pm_ops,
-> diff --git a/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c b=
-/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-> index 9485167d5b7d..c62985e502e4 100644
-> --- a/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-> +++ b/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-> @@ -592,7 +592,7 @@ MODULE_DEVICE_TABLE(of, microchip_xisc_of_match);
->
->  static struct platform_driver microchip_xisc_driver =3D {
->         .probe  =3D microchip_xisc_probe,
-> -       .remove_new =3D microchip_xisc_remove,
-> +       .remove =3D microchip_xisc_remove,
->         .driver =3D {
->                 .name           =3D "microchip-sama7g5-xisc",
->                 .pm             =3D &microchip_xisc_dev_pm_ops,
-> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/=
-media/imx/imx-media-csi.c
-> index 785aac881922..3edbc57be2ca 100644
-> --- a/drivers/staging/media/imx/imx-media-csi.c
-> +++ b/drivers/staging/media/imx/imx-media-csi.c
-> @@ -2076,7 +2076,7 @@ MODULE_DEVICE_TABLE(platform, imx_csi_ids);
->
->  static struct platform_driver imx_csi_driver =3D {
->         .probe =3D imx_csi_probe,
-> -       .remove_new =3D imx_csi_remove,
-> +       .remove =3D imx_csi_remove,
->         .id_table =3D imx_csi_ids,
->         .driver =3D {
->                 .name =3D "imx-ipuv3-csi",
-> diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/staging/=
-media/imx/imx-media-dev.c
-> index be54dca11465..a08389b99d14 100644
-> --- a/drivers/staging/media/imx/imx-media-dev.c
-> +++ b/drivers/staging/media/imx/imx-media-dev.c
-> @@ -129,7 +129,7 @@ MODULE_DEVICE_TABLE(of, imx_media_dt_ids);
->
->  static struct platform_driver imx_media_pdrv =3D {
->         .probe          =3D imx_media_probe,
-> -       .remove_new     =3D imx_media_remove,
-> +       .remove         =3D imx_media_remove,
->         .driver         =3D {
->                 .name   =3D "imx-media",
->                 .of_match_table =3D imx_media_dt_ids,
-> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging=
-/media/imx/imx6-mipi-csi2.c
-> index 0d8b42061623..dd8c7b3233bc 100644
-> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> @@ -836,7 +836,7 @@ static struct platform_driver csi2_driver =3D {
->                 .of_match_table =3D csi2_dt_ids,
->         },
->         .probe =3D csi2_probe,
-> -       .remove_new =3D csi2_remove,
-> +       .remove =3D csi2_remove,
->  };
->
->  module_platform_driver(csi2_driver);
-> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/me=
-dia/meson/vdec/vdec.c
-> index 5e5b296f93ba..6bf7ade0c6a1 100644
-> --- a/drivers/staging/media/meson/vdec/vdec.c
-> +++ b/drivers/staging/media/meson/vdec/vdec.c
-> @@ -1119,7 +1119,7 @@ static void vdec_remove(struct platform_device *pde=
-v)
->
->  static struct platform_driver meson_vdec_driver =3D {
->         .probe =3D vdec_probe,
-> -       .remove_new =3D vdec_remove,
-> +       .remove =3D vdec_remove,
->         .driver =3D {
->                 .name =3D "meson-vdec",
->                 .of_match_table =3D vdec_dt_match,
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/medi=
-a/rkvdec/rkvdec.c
-> index ac398b5a9736..433df4778c95 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -1103,7 +1103,7 @@ static const struct dev_pm_ops rkvdec_pm_ops =3D {
->
->  static struct platform_driver rkvdec_driver =3D {
->         .probe =3D rkvdec_probe,
-> -       .remove_new =3D rkvdec_remove,
-> +       .remove =3D rkvdec_remove,
->         .driver =3D {
->                    .name =3D "rkvdec",
->                    .of_match_table =3D of_rkvdec_match,
-> diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/s=
-taging/media/starfive/camss/stf-camss.c
-> index b6d34145bc19..259aaad010d2 100644
-> --- a/drivers/staging/media/starfive/camss/stf-camss.c
-> +++ b/drivers/staging/media/starfive/camss/stf-camss.c
-> @@ -422,7 +422,7 @@ static const struct dev_pm_ops stfcamss_pm_ops =3D {
->
->  static struct platform_driver stfcamss_driver =3D {
->         .probe =3D stfcamss_probe,
-> -       .remove_new =3D stfcamss_remove,
-> +       .remove =3D stfcamss_remove,
->         .driver =3D {
->                 .name =3D "starfive-camss",
->                 .pm =3D &stfcamss_pm_ops,
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index f52df6836045..52a9588462ce 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -705,7 +705,7 @@ static const struct dev_pm_ops cedrus_dev_pm_ops =3D =
-{
->
->  static struct platform_driver cedrus_driver =3D {
->         .probe          =3D cedrus_probe,
-> -       .remove_new     =3D cedrus_remove,
-> +       .remove         =3D cedrus_remove,
->         .driver         =3D {
->                 .name           =3D CEDRUS_NAME,
->                 .of_match_table =3D cedrus_dt_match,
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/=
-staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> index 58f8ae92320d..f087643ea2cb 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> @@ -536,7 +536,7 @@ MODULE_DEVICE_TABLE(of, sun6i_isp_of_match);
->
->  static struct platform_driver sun6i_isp_platform_driver =3D {
->         .probe  =3D sun6i_isp_probe,
-> -       .remove_new =3D sun6i_isp_remove,
-> +       .remove =3D sun6i_isp_remove,
->         .driver =3D {
->                 .name           =3D SUN6I_ISP_NAME,
->                 .of_match_table =3D sun6i_isp_of_match,
-> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/me=
-dia/tegra-video/csi.c
-> index 255cccd0c5fd..604185c00a1a 100644
-> --- a/drivers/staging/media/tegra-video/csi.c
-> +++ b/drivers/staging/media/tegra-video/csi.c
-> @@ -858,5 +858,5 @@ struct platform_driver tegra_csi_driver =3D {
->                 .pm             =3D &tegra_csi_pm_ops,
->         },
->         .probe                  =3D tegra_csi_probe,
-> -       .remove_new             =3D tegra_csi_remove,
-> +       .remove                 =3D tegra_csi_remove,
->  };
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/med=
-ia/tegra-video/vi.c
-> index 57a856a21e90..c068dfedd97a 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -1979,5 +1979,5 @@ struct platform_driver tegra_vi_driver =3D {
->                 .pm =3D &tegra_vi_pm_ops,
->         },
->         .probe =3D tegra_vi_probe,
-> -       .remove_new =3D tegra_vi_remove,
-> +       .remove =3D tegra_vi_remove,
->  };
-> diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/me=
-dia/tegra-video/vip.c
-> index 8504b9ea9cea..5ec717f3afd5 100644
-> --- a/drivers/staging/media/tegra-video/vip.c
-> +++ b/drivers/staging/media/tegra-video/vip.c
-> @@ -281,5 +281,5 @@ struct platform_driver tegra_vip_driver =3D {
->                 .of_match_table =3D tegra_vip_of_id_table,
->         },
->         .probe                  =3D tegra_vip_probe,
-> -       .remove_new             =3D tegra_vip_remove,
-> +       .remove                 =3D tegra_vip_remove,
->  };
->
-> base-commit: 4115edeff98f2ce9f821a8bddcd7a646cfdde77a
-> --
-> 2.45.2
->
->
-
-I sent a patch the other day to convert all staging drivers to use
-remove which was applied yesterday.
-
-See: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/com=
-mit/?h=3Dstaging-next&id=3Dc1a5060ec80020ce879fa5b2a16875bd9a5ab930
-
-Thanks,
-    Sergio Paracuellos
+SGksIFNodS1oc2lhbmc6DQoNCk9uIFdlZCwgMjAyNC0xMC0wOSBhdCAxOToxNSArMDgwMCwgU2h1
+LWhzaWFuZyBZYW5nIHdyb3RlOg0KPiBBZGQgVUFQSSBmb3IgTWVkaWFUZWsgSVNQIHBsYXRmb3Jt
+LCBwcm92aWRpbmcgdXNlci1zcGFjZQ0KPiBpbnRlcmZhY2VzIGZvciB0aGUgbmV3IGNhbXN5cyBk
+cml2ZXIuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBTaHUtaHNpYW5nIFlhbmcgPFNodS1oc2lhbmcu
+WWFuZ0BtZWRpYXRlay5jb20+DQo+IC0tLQ0KDQpbc25pcF0NCg0KPiArDQo+ICsvKiBMdW1pbmFu
+Y2UrQ2hyb21pbmFuY2UgZm9ybWF0cyAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfWVVZVjEw
+ICB2NGwyX2ZvdXJjYygnWScsICdVJywgJ1knLCAnQScpIC8qIDE2ICBZVVYgNDoyOjIgMTAtYml0
+ICovDQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9ZVllVMTAgIHY0bDJfZm91cmNjKCdZJywgJ1Yn
+LCAnWScsICdBJykgLyogMTYgIFlVViA0OjI6MiAxMC1iaXQgKi8NCj4gKyNkZWZpbmUgVjRMMl9Q
+SVhfRk1UX1VZVlkxMCAgdjRsMl9mb3VyY2MoJ1UnLCAnWScsICdWJywgJ0EnKSAvKiAxNiAgWVVW
+IDQ6MjoyIDEwLWJpdCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfVllVWTEwICB2NGwyX2Zv
+dXJjYygnVicsICdZJywgJ1UnLCAnQScpIC8qIDE2ICBZVVYgNDoyOjIgMTAtYml0ICovDQo+ICsj
+ZGVmaW5lIFY0TDJfUElYX0ZNVF9ZVVlWMTIgIHY0bDJfZm91cmNjKCdZJywgJ1UnLCAnWScsICdD
+JykgLyogMTYgIFlVViA0OjI6MiAxMi1iaXQgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX1lW
+WVUxMiAgdjRsMl9mb3VyY2MoJ1knLCAnVicsICdZJywgJ0MnKSAvKiAxNiAgWVVWIDQ6MjoyIDEy
+LWJpdCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfVVlWWTEyICB2NGwyX2ZvdXJjYygnVScs
+ICdZJywgJ1YnLCAnQycpIC8qIDE2ICBZVVYgNDoyOjIgMTItYml0ICovDQo+ICsjZGVmaW5lIFY0
+TDJfUElYX0ZNVF9WWVVZMTIgIHY0bDJfZm91cmNjKCdWJywgJ1knLCAnVScsICdDJykgLyogMTYg
+IFlVViA0OjI6MiAxMi1iaXQgKi8NCj4gKw0KPiArLyogdHdvIHBsYW5lcyAtLSBvbmUgWSwgb25l
+IENyICsgQ2IgaW50ZXJsZWF2ZWQgICovDQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9OVjEyXzEw
+IHY0bDJfZm91cmNjKCcxJywgJzInLCAnQScsICdVJykgLyogMTIgIFkvQ2JDciA0OjI6MCAxMCBi
+aXRzIHVuLXBhY2tlZCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTlYyMV8xMCB2NGwyX2Zv
+dXJjYygnMicsICcxJywgJ0EnLCAnVScpIC8qIDEyICBZL0NyQ2IgNDoyOjAgMTAgYml0cyB1bi1w
+YWNrZWQgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX05WMTZfMTAgdjRsMl9mb3VyY2MoJzEn
+LCAnNicsICdBJywgJ1UnKSAvKiAxNiAgWS9DYkNyIDQ6MjoyIDEwIGJpdHMgdW4tcGFja2VkICov
+DQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9OVjYxXzEwIHY0bDJfZm91cmNjKCc2JywgJzEnLCAn
+QScsICdVJykgLyogMTYgIFkvQ3JDYiA0OjI6MiAxMCBiaXRzIHVuLXBhY2tlZCAqLw0KPiArI2Rl
+ZmluZSBWNEwyX1BJWF9GTVRfTlYxMl8xMiB2NGwyX2ZvdXJjYygnMScsICcyJywgJ0MnLCAnVScp
+IC8qIDEyICBZL0NiQ3IgNDoyOjAgMTIgYml0cyB1bi1wYWNrZWQgKi8NCj4gKyNkZWZpbmUgVjRM
+Ml9QSVhfRk1UX05WMjFfMTIgdjRsMl9mb3VyY2MoJzInLCAnMScsICdDJywgJ1UnKSAvKiAxMiAg
+WS9DckNiIDQ6MjowIDEyIGJpdHMgdW4tcGFja2VkICovDQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZN
+VF9OVjE2XzEyIHY0bDJfZm91cmNjKCcxJywgJzYnLCAnQycsICdVJykgLyogMTYgIFkvQ2JDciA0
+OjI6MiAxMiBiaXRzIHVuLXBhY2tlZCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTlY2MV8x
+MiB2NGwyX2ZvdXJjYygnNicsICcxJywgJ0MnLCAnVScpIC8qIDE2ICBZL0NyQ2IgNDoyOjIgMTIg
+Yml0cyB1bi1wYWNrZWQgKi8NCj4gKw0KPiArLyogVmVuZG9yIHNwZWNpZmljIC0gTWVkaWFUZWsg
+SVNQIGJheWVyIGZvcm1hdHMgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1NCR0dS
+OCAgIHY0bDJfZm91cmNjKCdNJywgJ0InLCAnQicsICc4JykgLyogIFBhY2tlZCAgOC1iaXQgICov
+DQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9TR0JSRzggICB2NGwyX2ZvdXJjYygnTScs
+ICdCJywgJ0cnLCAnOCcpIC8qICBQYWNrZWQgIDgtYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJ
+WF9GTVRfTVRJU1BfU0dSQkc4ICAgdjRsMl9mb3VyY2MoJ00nLCAnQicsICdnJywgJzgnKSAvKiAg
+UGFja2VkICA4LWJpdCAgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1NSR0dCOCAg
+IHY0bDJfZm91cmNjKCdNJywgJ0InLCAnUicsICc4JykgLyogIFBhY2tlZCAgOC1iaXQgICovDQo+
+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9TQkdHUjEwICB2NGwyX2ZvdXJjYygnTScsICdC
+JywgJ0InLCAnQScpIC8qICBQYWNrZWQgMTAtYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9G
+TVRfTVRJU1BfU0dCUkcxMCAgdjRsMl9mb3VyY2MoJ00nLCAnQicsICdHJywgJ0EnKSAvKiAgUGFj
+a2VkIDEwLWJpdCAgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1NHUkJHMTAgIHY0
+bDJfZm91cmNjKCdNJywgJ0InLCAnZycsICdBJykgLyogIFBhY2tlZCAxMC1iaXQgICovDQo+ICsj
+ZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9TUkdHQjEwICB2NGwyX2ZvdXJjYygnTScsICdCJywg
+J1InLCAnQScpIC8qICBQYWNrZWQgMTAtYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRf
+TVRJU1BfU0JHR1IxMiAgdjRsMl9mb3VyY2MoJ00nLCAnQicsICdCJywgJ0MnKSAvKiAgUGFja2Vk
+IDEyLWJpdCAgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1NHQlJHMTIgIHY0bDJf
+Zm91cmNjKCdNJywgJ0InLCAnRycsICdDJykgLyogIFBhY2tlZCAxMi1iaXQgICovDQo+ICsjZGVm
+aW5lIFY0TDJfUElYX0ZNVF9NVElTUF9TR1JCRzEyICB2NGwyX2ZvdXJjYygnTScsICdCJywgJ2cn
+LCAnQycpIC8qICBQYWNrZWQgMTItYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJ
+U1BfU1JHR0IxMiAgdjRsMl9mb3VyY2MoJ00nLCAnQicsICdSJywgJ0MnKSAvKiAgUGFja2VkIDEy
+LWJpdCAgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1NCR0dSMTQgIHY0bDJfZm91
+cmNjKCdNJywgJ0InLCAnQicsICdFJykgLyogIFBhY2tlZCAxNC1iaXQgICovDQo+ICsjZGVmaW5l
+IFY0TDJfUElYX0ZNVF9NVElTUF9TR0JSRzE0ICB2NGwyX2ZvdXJjYygnTScsICdCJywgJ0cnLCAn
+RScpIC8qICBQYWNrZWQgMTQtYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1Bf
+U0dSQkcxNCAgdjRsMl9mb3VyY2MoJ00nLCAnQicsICdnJywgJ0UnKSAvKiAgUGFja2VkIDE0LWJp
+dCAgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1NSR0dCMTQgIHY0bDJfZm91cmNj
+KCdNJywgJ0InLCAnUicsICdFJykgLyogIFBhY2tlZCAxNC1iaXQgICovDQo+ICsjZGVmaW5lIFY0
+TDJfUElYX0ZNVF9NVElTUF9TQkdHUjhGICB2NGwyX2ZvdXJjYygnTScsICdGJywgJ0InLCAnOCcp
+IC8qICBGdWxsLUcgIDgtYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfU0dC
+Ukc4RiAgdjRsMl9mb3VyY2MoJ00nLCAnRicsICdHJywgJzgnKSAvKiAgRnVsbC1HICA4LWJpdCAg
+Ki8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1NHUkJHOEYgIHY0bDJfZm91cmNjKCdN
+JywgJ0YnLCAnZycsICc4JykgLyogIEZ1bGwtRyAgOC1iaXQgICovDQo+ICsjZGVmaW5lIFY0TDJf
+UElYX0ZNVF9NVElTUF9TUkdHQjhGICB2NGwyX2ZvdXJjYygnTScsICdGJywgJ1InLCAnOCcpIC8q
+ICBGdWxsLUcgIDgtYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfU0JHR1Ix
+MEYgIHY0bDJfZm91cmNjKCdNJywgJ0YnLCAnQicsICdBJykgLyogIEZ1bGwtRyAxMC1iaXQgICov
+DQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9TR0JSRzEwRiAgdjRsMl9mb3VyY2MoJ00n
+LCAnRicsICdHJywgJ0EnKSAvKiAgRnVsbC1HIDEwLWJpdCAgKi8NCj4gKyNkZWZpbmUgVjRMMl9Q
+SVhfRk1UX01USVNQX1NHUkJHMTBGICB2NGwyX2ZvdXJjYygnTScsICdGJywgJ2cnLCAnQScpIC8q
+ICBGdWxsLUcgMTAtYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfU1JHR0Ix
+MEYgIHY0bDJfZm91cmNjKCdNJywgJ0YnLCAnUicsICdBJykgLyogIEZ1bGwtRyAxMC1iaXQgICov
+DQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9TQkdHUjEyRiAgdjRsMl9mb3VyY2MoJ00n
+LCAnRicsICdCJywgJ0MnKSAvKiAgRnVsbC1HIDEyLWJpdCAgKi8NCj4gKyNkZWZpbmUgVjRMMl9Q
+SVhfRk1UX01USVNQX1NHQlJHMTJGICB2NGwyX2ZvdXJjYygnTScsICdGJywgJ0cnLCAnQycpIC8q
+ICBGdWxsLUcgMTItYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfU0dSQkcx
+MkYgIHY0bDJfZm91cmNjKCdNJywgJ0YnLCAnZycsICdDJykgLyogIEZ1bGwtRyAxMi1iaXQgICov
+DQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9TUkdHQjEyRiAgdjRsMl9mb3VyY2MoJ00n
+LCAnRicsICdSJywgJ0MnKSAvKiAgRnVsbC1HIDEyLWJpdCAgKi8NCj4gKyNkZWZpbmUgVjRMMl9Q
+SVhfRk1UX01USVNQX1NCR0dSMTRGICB2NGwyX2ZvdXJjYygnTScsICdGJywgJ0InLCAnRScpIC8q
+ICBGdWxsLUcgMTQtYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfU0dCUkcx
+NEYgIHY0bDJfZm91cmNjKCdNJywgJ0YnLCAnRycsICdFJykgLyogIEZ1bGwtRyAxNC1iaXQgICov
+DQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9TR1JCRzE0RiAgdjRsMl9mb3VyY2MoJ00n
+LCAnRicsICdnJywgJ0UnKSAvKiAgRnVsbC1HIDE0LWJpdCAgKi8NCj4gKyNkZWZpbmUgVjRMMl9Q
+SVhfRk1UX01USVNQX1NSR0dCMTRGICB2NGwyX2ZvdXJjYygnTScsICdGJywgJ1InLCAnRScpIC8q
+ICBGdWxsLUcgMTQtYml0ICAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfU0dSQjhG
+ICB2NGwyX2ZvdXJjYygnTScsICdGJywgJzgnLCAnUCcpIC8qIHRocmVlIHBsYW5lcyBGdWxsLUcg
+OC1iaXQgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1NHUkIxMEYgIHY0bDJfZm91
+cmNjKCdNJywgJ0YnLCAnQScsICdQJykgLyogdGhyZWUgcGxhbmVzIEZ1bGwtRyAxMC1iaXQgKi8N
+Cj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1NHUkIxMkYgIHY0bDJfZm91cmNjKCdNJywg
+J0YnLCAnQycsICdQJykgLyogdGhyZWUgcGxhbmVzIEZ1bGwtRyAxMi1iaXQgKi8NCj4gKw0KPiAr
+LyogVmVuZG9yIHNwZWNpZmljIC0gTWVkaWFUZWsgTHVtaW5hbmNlK0Nocm9taW5hbmNlIGZvcm1h
+dHMgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1lVWVYxMFAgdjRsMl9mb3VyY2Mo
+J1knLCAnVScsICdBJywgJ1AnKSAvKiBZVVYgNDoyOjIgMTAtYml0IHBhY2tlZCAqLw0KPiArI2Rl
+ZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfWVZZVTEwUCB2NGwyX2ZvdXJjYygnWScsICdWJywgJ0En
+LCAnUCcpIC8qIFlVViA0OjI6MiAxMC1iaXQgcGFja2VkICovDQo+ICsjZGVmaW5lIFY0TDJfUElY
+X0ZNVF9NVElTUF9VWVZZMTBQIHY0bDJfZm91cmNjKCdVJywgJ1knLCAnQScsICdQJykgLyogWVVW
+IDQ6MjoyIDEwLWJpdCBwYWNrZWQgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1ZZ
+VVkxMFAgdjRsMl9mb3VyY2MoJ1YnLCAnWScsICdBJywgJ1AnKSAvKiBZVVYgNDoyOjIgMTAtYml0
+IHBhY2tlZCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfTlYxMl8xMFAgdjRsMl9m
+b3VyY2MoJzEnLCAnMicsICdBJywgJ1AnKSAvKiBZL0NiQ3IgNDoyOjAgMTAgYml0cyBwYWNrZWQg
+Ki8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX05WMjFfMTBQIHY0bDJfZm91cmNjKCcy
+JywgJzEnLCAnQScsICdQJykgLyogWS9DckNiIDQ6MjowIDEwIGJpdHMgcGFja2VkICovDQo+ICsj
+ZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9OVjE2XzEwUCB2NGwyX2ZvdXJjYygnMScsICc2Jywg
+J0EnLCAnUCcpIC8qIFkvQ2JDciA0OjI6MiAxMCBiaXRzIHBhY2tlZCAqLw0KPiArI2RlZmluZSBW
+NEwyX1BJWF9GTVRfTVRJU1BfTlY2MV8xMFAgdjRsMl9mb3VyY2MoJzYnLCAnMScsICdBJywgJ1An
+KSAvKiBZL0NyQ2IgNDoyOjIgMTAgYml0cyBwYWNrZWQgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhf
+Rk1UX01USVNQX1lVWVYxMlAgdjRsMl9mb3VyY2MoJ1knLCAnVScsICdDJywgJ1AnKSAvKiBZVVYg
+NDoyOjIgMTItYml0IHBhY2tlZCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfWVZZ
+VTEyUCB2NGwyX2ZvdXJjYygnWScsICdWJywgJ0MnLCAnUCcpIC8qIFlVViA0OjI6MiAxMi1iaXQg
+cGFja2VkICovDQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9VWVZZMTJQIHY0bDJfZm91
+cmNjKCdVJywgJ1knLCAnQycsICdQJykgLyogWVVWIDQ6MjoyIDEyLWJpdCBwYWNrZWQgKi8NCj4g
+KyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX1ZZVVkxMlAgdjRsMl9mb3VyY2MoJ1YnLCAnWScs
+ICdDJywgJ1AnKSAvKiBZVVYgNDoyOjIgMTItYml0IHBhY2tlZCAqLw0KPiArI2RlZmluZSBWNEwy
+X1BJWF9GTVRfTVRJU1BfTlYxMl8xMlAgdjRsMl9mb3VyY2MoJzEnLCAnMicsICdDJywgJ1AnKSAv
+KiBZL0NiQ3IgNDoyOjAgMTIgYml0cyBwYWNrZWQgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1U
+X01USVNQX05WMjFfMTJQIHY0bDJfZm91cmNjKCcyJywgJzEnLCAnQycsICdQJykgLyogWS9DckNi
+IDQ6MjowIDEyIGJpdHMgcGFja2VkICovDQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9O
+VjE2XzEyUCB2NGwyX2ZvdXJjYygnMScsICc2JywgJ0MnLCAnUCcpIC8qIFkvQ2JDciA0OjI6MiAx
+MiBiaXRzIHBhY2tlZCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfTlY2MV8xMlAg
+djRsMl9mb3VyY2MoJzYnLCAnMScsICdDJywgJ1AnKSAvKiBZL0NyQ2IgNDoyOjIgMTIgYml0cyBw
+YWNrZWQgKi8NCj4gKw0KPiArLyogVmVuZG9yIHNwZWNpZmljIC0gTWVkaWFUZWsgc3BlY2lmaWVk
+IGNvbXByZXNzZWQgZm9ybWF0ICovDQo+ICsjZGVmaW5lIFY0TDJfUElYX0ZNVF9NVElTUF9OVjEy
+X1VGQkMgdjRsMl9mb3VyY2MoJzEnLCAnMicsICc4JywgJ0YnKSAvKiBZL0NiQ3IgNDoyOjAgOCBi
+aXRzIGNvbXByZXNzZWQgKi8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX05WMjFfVUZC
+QyB2NGwyX2ZvdXJjYygnMicsICcxJywgJzgnLCAnRicpIC8qIFkvQ3JDYiA0OjI6MCA4IGJpdHMg
+Y29tcHJlc3NlZCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfTlYxMl8xMF9VRkJD
+IHY0bDJfZm91cmNjKCcxJywgJzInLCAnQScsICdGJykgLyogWS9DYkNyIDQ6MjowIDEwIGJpdHMg
+Y29tcHJlc3NlZCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfTlYyMV8xMF9VRkJD
+IHY0bDJfZm91cmNjKCcyJywgJzEnLCAnQScsICdGJykgLyogWS9DckNiIDQ6MjowIDEwIGJpdHMg
+Y29tcHJlc3NlZCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfTlYxMl8xMl9VRkJD
+IHY0bDJfZm91cmNjKCcxJywgJzInLCAnQycsICdGJykgLyogWS9DYkNyIDQ6MjowIDEyIGJpdHMg
+Y29tcHJlc3NlZCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfTlYyMV8xMl9VRkJD
+IHY0bDJfZm91cmNjKCcyJywgJzEnLCAnQycsICdGJykgLyogWS9DckNiIDQ6MjowIDEyIGJpdHMg
+Y29tcHJlc3NlZCAqLw0KPiArI2RlZmluZSBWNEwyX1BJWF9GTVRfTVRJU1BfQkFZRVI4X1VGQkMg
+djRsMl9mb3VyY2MoJ00nLCAnQicsICc4JywgJ1UnKSAvKiBSYXcgOCBiaXRzIGNvbXByZXNzZWQg
+Ki8NCj4gKyNkZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX0JBWUVSMTBfVUZCQyB2NGwyX2ZvdXJj
+YygnTScsICdCJywgJ0EnLCAnVScpIC8qIFJhdyAxMCBiaXRzIGNvbXByZXNzZWQgKi8NCj4gKyNk
+ZWZpbmUgVjRMMl9QSVhfRk1UX01USVNQX0JBWUVSMTJfVUZCQyB2NGwyX2ZvdXJjYygnTScsICdC
+JywgJ0MnLCAnVScpIC8qIFJhdyAxMiBiaXRzIGNvbXByZXNzZWQgKi8NCj4gKyNkZWZpbmUgVjRM
+Ml9QSVhfRk1UX01USVNQX0JBWUVSMTRfVUZCQyB2NGwyX2ZvdXJjYygnTScsICdCJywgJ0UnLCAn
+VScpIC8qIFJhdyAxNCBiaXRzIGNvbXByZXNzZWQgKi8NCj4gKw0KDQpJIHRoaW5rIHRoZSBWNEwy
+IHBpeGVsIGZvcm1hdCBzaG91bGQgYmUgZGVmaW5lZCBpbiBpbmNsdWRlL3VhcGkvbGludXgvdmlk
+ZW9kZXYyLmgNCg0KUmVnYXJkcywNCkNLDQoNCg==
 
