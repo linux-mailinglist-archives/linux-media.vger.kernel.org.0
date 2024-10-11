@@ -1,285 +1,229 @@
-Return-Path: <linux-media+bounces-19383-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19384-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321FD999B96
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 06:20:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DF3999BA3
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 06:28:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C273F28431F
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 04:20:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73AF71F24056
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 04:28:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6784D1F4733;
-	Fri, 11 Oct 2024 04:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61B6E1F472C;
+	Fri, 11 Oct 2024 04:28:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FIytLTbR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uyeInPa3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64271922C4;
-	Fri, 11 Oct 2024 04:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42721A0704
+	for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 04:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728620407; cv=none; b=ZPO95QIY07vN9bJMPPqUALuVPIV1CgVyCj0PGlCKqIQskoTGKB360BPP1qwWWwylzsxDRrJByBCxofwhmoHlZIy2MECOSTnOmbu7EE5/DYRf0UddshvWUgVEBUzAoFtUk/9apyYL366f/o1G+s5fhHNNJdDCQBW8g2bMpBDcP+I=
+	t=1728620914; cv=none; b=bHDv01o9I5GeRg1RASjS+VsoZelvq6mbz4Verd0/qhY2GHvA4MFbmd5Y8ooO/JxHPmHDN7zjNEZHnwkWsnbg/LPEQnJipcIhr9YmY1MLN0etOqWMMl7pOxAzNRPvu64qFZdOJy3NJpC4xAplDpWM0KjhAI03yWko7HHnFwFh+Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728620407; c=relaxed/simple;
-	bh=etMo2Djl1Gqh4dXuGFLnlVjhLIuJZslB1buBgnKsCKU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=O2FFNIVngbnedWqrc/pT8hR5aQ7kwiTRMWnp6V9xxnGZt+G7cPLU9PCdM06IBSOcYPvtEibQlfRTwNeZgS7smYR29qFyM2JeHYQ85rhajtuW8rkZIm0E+KorICuNQrXDJWLHAUWIj9WjYnTtw/zB04D62nxmfgnw/8ykQd68ruY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FIytLTbR; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49AD8kST027038;
-	Fri, 11 Oct 2024 04:19:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=lzQ0ZGJzWIBkUvd+V01ET8
-	BEJiVcXr067zuonqJreI4=; b=FIytLTbRTW3pkqGSBXpT+SBC2/8uEDCgALe8He
-	ZXxrv5ais0lUmsqA+FpcidlNhsy7QnCmry1U/pmD6WF7COxbr7s9LZhsetkjLZvm
-	GlLrXl3pda2WCEZ5VXy8GjZ1TSi/hM1cWnAI5E7lllHWm3FXY8XmeUGXl1CyuJeV
-	FAdKHJ/D1fdedQMl4EjSfTdKAaJXL9JKN95hQwip2/y9vdeqqu8jK7vwJJkPmBnW
-	oWIUdfG0SFIh1SaiRcew5Io38eYaOb5RzWOXwZrsmcK/qKsmyQPLXe7IUxxzlr0E
-	P1UtqhWQXaFNBiUc6pBg3yGHMgdV0L3BBOd+WjDpEBWkSqVQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 426fj6sysv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Oct 2024 04:19:57 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B4JuCD015893
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Oct 2024 04:19:56 GMT
-Received: from Z2-SFF-G9-MQ.ap.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 10 Oct 2024 21:19:52 -0700
-From: Miaoqing Pan <quic_miaoqing@quicinc.com>
-To: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <agross@kernel.org>, <andersson@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <konrad.dybcio@linaro.org>,
-        <mchehab@kernel.org>, <quic_vgarodia@quicinc.com>,
-        <stanimir.k.varbanov@gmail.com>, <kvalo@kernel.org>,
-        <quic_jjohnson@quicinc.com>, <ath11k@lists.infradead.org>,
-        <dmitry.baryshkov@linaro.org>,
-        Miaoqing Pan <quic_miaoqing@quicinc.com>
-Subject: [PATCH v7] arm64: dts: qcom: sa8775p-ride: add WiFi/BT nodes
-Date: Fri, 11 Oct 2024 12:19:39 +0800
-Message-ID: <20241011041939.2916179-1-quic_miaoqing@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1728620914; c=relaxed/simple;
+	bh=CEMTTPbNJIwtk3QdU2Ih2e2FkEg+rJ5KIq+7w0rO7LM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o2AFl9KdlCae84pcCMgh2+AJWnTB3RSP9oBKyQ+VEGz5awDl/H0xc/D44gRob4Arkhbqk12tjgfYYm8t7Gc3jRiTw3JbDugbWQAj8fGL4o5w1do1OrBgqUh8oPOKyEjUeB/AvfU63c4dNnt7TjrI55HU7+jU8EO+NapBChzWlWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uyeInPa3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DD74C4CEC3;
+	Fri, 11 Oct 2024 04:28:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728620914;
+	bh=CEMTTPbNJIwtk3QdU2Ih2e2FkEg+rJ5KIq+7w0rO7LM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uyeInPa30123EY6KqplStYUxU7y6a2T6/duyq/IFRJDQ2s4ydgatnGmftDQP3lDqu
+	 LhDMdKDbSNwaxy//OdZmXeAkZVPLDJQ1Pu9Bp/IcHbr/eArCoNVMtT3L5HZb+D5Dvc
+	 9vHHuEr/+CMACWfo0xWI6W11dOedm03JJRdq12ELwBvYB3NwlPvdp+aQR2Wm3fAcSj
+	 i+BjMYsyIoLXewBZKxkY5CP1QxMHJcF6J969BhARYyFK9pbVsnk4Ee1gxeJpKkftOm
+	 n+O9t43toAjOubS84Ea/Gaw85IT/lBz0/HvuYxqd3rWNXy6aTgbLTuNuXLUgemU10i
+	 tqsFYIZutjtNQ==
+Date: Fri, 11 Oct 2024 06:28:29 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Chenyuan Yang <chenyuan0y@gmail.com>
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
+ syzkaller@googlegroups.com, Zijie Zhao <zzjas98@gmail.com>
+Subject: Re: [drivers/media/dvb-core] WARNING in vb2_core_reqbufs
+Message-ID: <20241011062814.50094a03@foz.lan>
+In-Reply-To: <CALGdzuopL9-zNbhsaz71Ndi8WY0HLH+vTHnyJULHRu9mqeXG=Q@mail.gmail.com>
+References: <CALGdzuopL9-zNbhsaz71Ndi8WY0HLH+vTHnyJULHRu9mqeXG=Q@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _ViuUgzEGnVsU-SbQ4xJ4yildsZawutT
-X-Proofpoint-ORIG-GUID: _ViuUgzEGnVsU-SbQ4xJ4yildsZawutT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 malwarescore=0 adultscore=0 suspectscore=0
- clxscore=1015 mlxscore=0 impostorscore=0 priorityscore=1501 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410110025
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add a node for the PMU module of the WCN6855 present on the sa8775p-ride
-board. Assign its LDO power outputs to the existing WiFi/Bluetooth module.
+Em Thu, 10 Oct 2024 11:08:25 -0500
+Chenyuan Yang <chenyuan0y@gmail.com> escreveu:
 
-Signed-off-by: Miaoqing Pan <quic_miaoqing@quicinc.com>
----
-v2:
-  - fix wcn6855-pmu compatible to "qcom,wcn6855-pmu".
-  - relocate pcieport0 node in alphabetical order.
-v3:
-  - add 'qcom,ath11k-calibration-variant = "SA8775P"'.
-v4:
-  - update 'ath11k-calibration-variant' to "Ride".
-v5:
-  - update 'Ride' to 'QC_SA8775P_Ride'.
-v6:
-  - no code change, fix patch version.
-v7:
-  - update 'Ride' to 'QC_SA8775P_Ride'.
----
- arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 121 +++++++++++++++++++++
- arch/arm64/boot/dts/qcom/sa8775p.dtsi      |   2 +-
- 2 files changed, 122 insertions(+), 1 deletion(-)
+> Dear Linux Developers for DVB,
+> 
+> We encountered "WARNING in vb2_core_reqbufs" when testing the
+> DVB driver with Syzkaller and our generated specifications.
+> 
+> It seems that when invoking `ioctl$DMX_REQBUFS`, it will fail the
+> following WARN_ON in
+> https://elixir.bootlin.com/linux/v6.12-rc2/source/drivers/media/common/videobuf2/videobuf2-core.c#L956
+> 
+> ```
+> for (i = 0; i < num_planes; i++)
+> if (WARN_ON(!plane_sizes[i])) {
+> ret = -EINVAL;
+> goto error;
+> }
+> ```
 
-diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-index 0c1b21def4b6..3fc62e123689 100644
---- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
-@@ -27,6 +27,83 @@ aliases {
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
-+
-+	vreg_conn_1p8: vreg_conn_1p8 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vreg_conn_1p8";
-+		startup-delay-us = <4000>;
-+		enable-active-high;
-+		gpio = <&pmm8654au_1_gpios 4 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	vreg_conn_pa: vreg_conn_pa {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vreg_conn_pa";
-+		startup-delay-us = <4000>;
-+		enable-active-high;
-+		gpio = <&pmm8654au_1_gpios 6 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	wcn6855-pmu {
-+		compatible = "qcom,wcn6855-pmu";
-+
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&bt_en_state>, <&wlan_en_state>;
-+
-+		vddio-supply = <&vreg_conn_pa>;
-+		vddaon-supply = <&vreg_l2c>;
-+		vddpmu-supply = <&vreg_conn_1p8>;
-+		vddrfa0p95-supply = <&vreg_l2c>;
-+		vddrfa1p3-supply = <&vreg_l6e>;
-+		vddrfa1p9-supply = <&vreg_s5a>;
-+		vddpcie1p3-supply = <&vreg_l6e>;
-+		vddpcie1p9-supply = <&vreg_s5a>;
-+
-+		bt-enable-gpios = <&pmm8654au_1_gpios 8 GPIO_ACTIVE_HIGH>;
-+		wlan-enable-gpios = <&pmm8654au_1_gpios 7 GPIO_ACTIVE_HIGH>;
-+
-+		regulators {
-+			vreg_pmu_rfa_cmn: ldo0 {
-+				regulator-name = "vreg_pmu_rfa_cmn";
-+			};
-+
-+			vreg_pmu_aon_0p59: ldo1 {
-+				regulator-name = "vreg_pmu_aon_0p59";
-+			};
-+
-+			vreg_pmu_wlcx_0p8: ldo2 {
-+				regulator-name = "vreg_pmu_wlcx_0p8";
-+			};
-+
-+			vreg_pmu_wlmx_0p85: ldo3 {
-+				regulator-name = "vreg_pmu_wlmx_0p85";
-+			};
-+
-+			vreg_pmu_btcmx_0p85: ldo4 {
-+				regulator-name = "vreg_pmu_btcmx_0p85";
-+			};
-+
-+			vreg_pmu_rfa_0p8: ldo5 {
-+				regulator-name = "vreg_pmu_rfa_0p8";
-+			};
-+
-+			vreg_pmu_rfa_1p2: ldo6 {
-+				regulator-name = "vreg_pmu_rfa_1p2";
-+			};
-+
-+			vreg_pmu_rfa_1p7: ldo7 {
-+				regulator-name = "vreg_pmu_rfa_1p7";
-+			};
-+
-+			vreg_pmu_pcie_0p9: ldo8 {
-+				regulator-name = "vreg_pmu_pcie_0p9";
-+			};
-+
-+			vreg_pmu_pcie_1p8: ldo9 {
-+				regulator-name = "vreg_pmu_pcie_1p8";
-+			};
-+		};
-+	};
- };
- 
- &apps_rsc {
-@@ -453,6 +530,20 @@ &pmm8654au_1_gpios {
- 			  "USB2_PWR_EN",
- 			  "USB2_FAULT";
- 
-+	wlan_en_state: wlan-en-state {
-+		pins = "gpio7";
-+		function = "normal";
-+		output-low;
-+		bias-pull-down;
-+	};
-+
-+	bt_en_state: bt-en-state {
-+		pins = "gpio8";
-+		function = "normal";
-+		output-low;
-+		bias-pull-down;
-+	};
-+
- 	usb2_en_state: usb2-en-state {
- 		pins = "gpio9";
- 		function = "normal";
-@@ -702,6 +793,25 @@ &pcie1_phy {
- 	status = "okay";
- };
- 
-+&pcieport0 {
-+	wifi@0 {
-+		compatible = "pci17cb,1101";
-+		reg = <0x10000 0x0 0x0 0x0 0x0>;
-+
-+		qcom,ath11k-calibration-variant = "QC_SA8775P_Ride";
-+
-+		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
-+		vddaon-supply = <&vreg_pmu_aon_0p59>;
-+		vddwlcx-supply = <&vreg_pmu_wlcx_0p8>;
-+		vddwlmx-supply = <&vreg_pmu_wlmx_0p85>;
-+		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
-+		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
-+		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
-+		vddpcie0p9-supply = <&vreg_pmu_pcie_0p9>;
-+		vddpcie1p8-supply = <&vreg_pmu_pcie_1p8>;
-+	};
-+};
-+
- &remoteproc_adsp {
- 	firmware-name = "qcom/sa8775p/adsp.mbn";
- 	status = "okay";
-@@ -744,6 +854,17 @@ &uart17 {
- 	pinctrl-0 = <&qup_uart17_default>;
- 	pinctrl-names = "default";
- 	status = "okay";
-+
-+	bluetooth {
-+		compatible = "qcom,wcn6855-bt";
-+
-+		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
-+		vddaon-supply = <&vreg_pmu_aon_0p59>;
-+		vddbtcmx-supply = <&vreg_pmu_btcmx_0p85>;
-+		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
-+		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
-+		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
-+	};
- };
- 
- &ufs_mem_hc {
-diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-index e8dbc8d820a6..8d42b5e9c7d6 100644
---- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-@@ -5570,7 +5570,7 @@ pcie0: pcie@1c00000 {
- 
- 		status = "disabled";
- 
--		pcie@0 {
-+		pcieport0: pcie@0 {
- 			device_type = "pci";
- 			reg = <0x0 0x0 0x0 0x0 0x0>;
- 			bus-range = <0x01 0xff>;
--- 
-2.25.1
+This is by purpose. This is part of mmap user interface. There is an
+specific sequence for such ioctls to be called, together with the need
+of memory-mapped buffers.
 
+> 
+> Linux version: Linux 6.12-rc2 (8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b)
+> Configuration is attached (with `CONFIG_DVB_MMAP=y`)
+> Syz and C reproducers are as below:
+> 
+> ```
+> Syzkaller hit 'WARNING in vb2_core_reqbufs' bug.
+> 
+> ------------[ cut here ]------------
+> WARNING: CPU: 0 PID: 10407 at
+> drivers/media/common/videobuf2/videobuf2-core.c:957
+> vb2_core_reqbufs+0x128d/0x17a0
+> drivers/media/common/videobuf2/videobuf2-core.c:957
+> Modules linked in:
+> CPU: 0 UID: 0 PID: 10407 Comm: syz-executor171 Not tainted
+> 6.12.0-rc2-g8cf0b93919e1 #2
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+> RIP: 0010:vb2_core_reqbufs+0x128d/0x17a0
+> drivers/media/common/videobuf2/videobuf2-core.c:957
+> Code: 49 8d b6 28 02 00 00 48 c7 c7 a0 5a 04 8e 48 c7 c2 9d 12 4d 8f
+> e8 03 81 d7 03 4c 8b 7c 24 28 e9 02 f5 ff ff e8 b4 87 db f8 90 <0f> 0b
+> 90 41 bd ea ff ff ff 49 bc 00 00 00 00 00 fc ff df 4c 8b 7c
+> RSP: 0018:ffffc9000e7f7b40 EFLAGS: 00010293
+> RAX: ffffffff88bedbbc RBX: 0000000000000000 RCX: ffff8880463d0000
+> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+> RBP: ffffc9000e7f7ce8 R08: ffffffff88bed5e0 R09: 1ffff92001cfef58
+> R10: dffffc0000000000 R11: ffffffff88b4fd00 R12: 0000000000000000
+> R13: ffffc9000e7f7c20 R14: ffffc9000652c260 R15: ffffc9000e7f7c40
+> FS:  0000555565e823c0(0000) GS:ffff88802c200000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000020000098 CR3: 0000000020696000 CR4: 0000000000752ef0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+> PKRU: 55555554
+> Call Trace:
+>  <TASK>
+>  dvb_vb2_reqbufs+0xfe/0x3c0 drivers/media/dvb-core/dvb_vb2.c:338
+>  dvb_demux_do_ioctl+0x5f9/0x760 drivers/media/dvb-core/dmxdev.c:1132
+>  dvb_usercopy+0x170/0x270 drivers/media/dvb-core/dvbdev.c:993
+>  dvb_demux_ioctl+0x2e/0x40 drivers/media/dvb-core/dmxdev.c:1185
+>  vfs_ioctl fs/ioctl.c:51 [inline]
+>  __do_sys_ioctl fs/ioctl.c:907 [inline]
+>  __se_sys_ioctl+0xfa/0x170 fs/ioctl.c:893
+>  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+>  do_syscall_64+0xf9/0x280 arch/x86/entry/common.c:83
+>  entry_SYSCALL_64_after_hwframe+0x67/0x6f
+> RIP: 0033:0x7f54a9a8ba8d
+> Code: 28 c3 e8 46 1e 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48
+> 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d
+> 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007ffd57732608 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 00007ffd57732808 RCX: 00007f54a9a8ba8d
+> RDX: 0000000020000280 RSI: 00000000c0086f3c RDI: 0000000000000003
+> RBP: 0000000000000001 R08: 0000000000000000 R09: 00007ffd57732808
+> R10: 000000000000000f R11: 0000000000000246 R12: 0000000000000001
+> R13: 00007ffd577327f8 R14: 00007f54a9b09530 R15: 0000000000000001
+>  </TASK>
+> 
+> 
+> Syzkaller reproducer:
+> # {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1
+> Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false
+> NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false
+> KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false
+> Wifi:false IEEE802154:false Sysctl:false Swap:false UseTmpDir:false
+> HandleSegv:false Repro:false Trace:false LegacyOptions:{Collide:false
+> Fault:false FaultCall:0 FaultNth:0}}
+> r0 = syz_open_dev$KGPT_dvb_demux_syzkalm(&(0x7f0000000080), 0x0, 0x60200)
+> ioctl$KGPT_DMX_REQBUFS_0_dup(r0, 0xc0086f3c, &(0x7f0000000280)={0x1ff})
+> 
+> 
+> C reproducer:
+> // autogenerated by syzkaller (https://github.com/google/syzkaller)
+> 
+> #define _GNU_SOURCE
+> 
+> #include <endian.h>
+> #include <fcntl.h>
+> #include <stdint.h>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <string.h>
+> #include <sys/stat.h>
+> #include <sys/syscall.h>
+> #include <sys/types.h>
+> #include <unistd.h>
+> 
+> static long syz_open_dev(volatile long a0, volatile long a1, volatile long a2)
+> {
+>   if (a0 == 0xc || a0 == 0xb) {
+>     char buf[128];
+>     sprintf(buf, "/dev/%s/%d:%d", a0 == 0xc ? "char" : "block", (uint8_t)a1,
+>             (uint8_t)a2);
+>     return open(buf, O_RDWR, 0);
+>   } else {
+>     char buf[1024];
+>     char* hash;
+>     strncpy(buf, (char*)a0, sizeof(buf) - 1);
+>     buf[sizeof(buf) - 1] = 0;
+>     while ((hash = strchr(buf, '#'))) {
+>       *hash = '0' + (char)(a1 % 10);
+>       a1 /= 10;
+>     }
+>     return open(buf, a2, 0);
+>   }
+> }
+> 
+> uint64_t r[1] = {0xffffffffffffffff};
+> 
+> int main(void)
+> {
+>   syscall(__NR_mmap, /*addr=*/0x1ffff000ul, /*len=*/0x1000ul, /*prot=*/0ul,
+>           /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
+>   syscall(__NR_mmap, /*addr=*/0x20000000ul, /*len=*/0x1000000ul, /*prot=*/7ul,
+>           /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
+>   syscall(__NR_mmap, /*addr=*/0x21000000ul, /*len=*/0x1000ul, /*prot=*/0ul,
+>           /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
+>   intptr_t res = 0;
+>   memcpy((void*)0x20000080, "/dev/dvb/adapter#/demux#\000", 25);
+>   res = -1;
+>   res = syz_open_dev(/*dev=*/0x20000080, /*id=*/0, /*flags=*/0x60200);
+>   if (res != -1)
+>     r[0] = res;
+>   *(uint32_t*)0x20000280 = 0x1ff;
+>   *(uint32_t*)0x20000284 = 0;
+>   syscall(__NR_ioctl, /*fd=*/r[0], /*cmd=*/0xc0086f3c, /*arg=*/0x20000280ul);
+>   return 0;
+> }
+> ```
+> 
+> If you have any questions or require more information, please feel
+> free to contact us.
+> 
+> Reported-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> 
+> Best,
+> Chenyuan
+
+
+
+Thanks,
+Mauro
 
