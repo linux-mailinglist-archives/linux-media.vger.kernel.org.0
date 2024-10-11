@@ -1,65 +1,66 @@
-Return-Path: <linux-media+bounces-19400-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19401-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCA9999E95
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 09:55:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 845DB999E96
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 09:55:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 739B8B21E32
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 07:55:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 134FFB22CAA
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 07:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A645320A5FA;
-	Fri, 11 Oct 2024 07:55:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A39820ADC0;
+	Fri, 11 Oct 2024 07:55:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cOj5Ub6L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HO814w6e"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09941207217
-	for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 07:55:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1CE20A5F4
+	for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 07:55:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728633347; cv=none; b=gTFxxPKBYBKdPxPYDTHyGa4BI2vX2RN2gcte9lB3f0s5BZeD1UDf+AxZhkm8VBXRvTsCNOf2DCgp9y2QFAzNXp8VSHNjPNA2/r27gSUZshOPEN/DgWZIiCDyBKmxHwm2JNj75CywuigPqXFsPtchT/XsP8yspjzrTLBGj0f1q/g=
+	t=1728633349; cv=none; b=eUSFEv4oPZlbE+53pGBRh191O+zUm8sHmglODUW9e8I/5AAwCPCV2i0PBm5hpeY199riVtXyy1Z8NNm81yOMKar6jWGvysWdc45Lo8DZeNTJr7xy4IzEa3XKOSl9sGDGOw0KWlcJzPUNt02lSGUT+yqdBpHtCPHQtpZni2m+CLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728633347; c=relaxed/simple;
-	bh=65+QkQAXt0+VnQdL4XI20igxUcqJH4Ka/R0oxqybTAQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sfRc9wAs4L1N+jyEcjpGG4Gd2HACFLgsSRzBblHuzEFnICs/vQPw9YZfyuGqkJQKXqNJkhv5Ka/arbUI0fmgwMM3LlMlOZlMIwaCgWzNG93MgdbyqaLRmpq9hgWn/EXClmzNHoEv5SpinNBFtLcKD9KBd48XxoBk+suTTRZJQk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cOj5Ub6L; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1728633349; c=relaxed/simple;
+	bh=dk6Nsb90lQagWOQfcKpxDbQ2aUfSv6xoZJNuHo3BDtY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=uuMx/3eIptEHubpAhEo3UAo8zsV518Ya6vSnGPRqJnbFDYanjrynQjHiAM78typjDsyD5s/3D3ZxmlrS7OSG51ycA96JDIvbnyfMiV4yCWfE3DpKuVqBQ+l93VsPqmfzSLR2g1xL3IPvGHEo5Y36roSN9yqYd15xNBvt5rpOHQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HO814w6e; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728633345; x=1760169345;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=65+QkQAXt0+VnQdL4XI20igxUcqJH4Ka/R0oxqybTAQ=;
-  b=cOj5Ub6Lzkt1O2biI9TtLtnRnZ8pjEwygrs1TB4+VdgAMbbNey27gY7c
-   flsIYNCSrfcIE+f5DolHHRmS0y/CLkuxi7RLZzQJJVkpgqLmLLArU1HzD
-   AZsVyoYceK3z7tkBzefPp/Hj/0P2LSO+ThS8VwMSVilBknAntaQW7qLeJ
-   8qTzhCb9S1+zLhX3JevJCmwBybCPoVV4+JL0iUcoxxeuf+oY4bm5o3UZk
-   AjFbhEdRruxGvSrrflTfLTK4r18KZavjqBuEq5PlH2at9SGRlJV35HEiN
-   5C2QX2yzOYwdCBDP24h3caVvAzNExHJ7dhEltEGVuAqfXs7xSj6OUtSGv
+  t=1728633348; x=1760169348;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=dk6Nsb90lQagWOQfcKpxDbQ2aUfSv6xoZJNuHo3BDtY=;
+  b=HO814w6egcSOCgrLet+OLkLT5MKr9hgYhgjyv6Ch0ecUIyVUgEZrsD3J
+   vb0xcQM/0L2g843u6SaMeaaEFt/8RiQYHPjVLLDQL5EhYifBW91ifcXyr
+   0k0853rSxc6Q89ZAyUjjGvBCGAbSOUhL2fUP7qP/S7TqjvUmCp0HySuF7
+   kHm/hBohSa6qJSXP7UnfdCgPTY5p36mq+LT3uymVuM/z0U3vgKTPOO3pT
+   61dsjF+yXzNGY5sS2m0RLAXSriyc/z3qqbBAdZe/LOAt25dv0aDNqszIa
+   xwjeKU5KWMtSHBzmi0b+Eg/93YFtklYYkP28tKyN54YNbcmTFYyQnh/6s
    Q==;
-X-CSE-ConnectionGUID: WndjXcoCRfOMfVE9POlfyg==
-X-CSE-MsgGUID: wf2N+jaPQcWBobm3N5QKwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="30898375"
+X-CSE-ConnectionGUID: TquawCNiSyOY/nw37RPbHg==
+X-CSE-MsgGUID: wleGMBNbQNu/VUhSPmdnXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="30898382"
 X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
-   d="scan'208";a="30898375"
+   d="scan'208";a="30898382"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 00:55:44 -0700
-X-CSE-ConnectionGUID: MHMJedvtRQChl1j7cM19nQ==
-X-CSE-MsgGUID: 4QqPrd0QTVGXVKwFHDYJIg==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 00:55:47 -0700
+X-CSE-ConnectionGUID: N126rubASpmF1BCYzp+YyQ==
+X-CSE-MsgGUID: pR9zdzXeSUWhBtJvUh29Dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
-   d="scan'208";a="81826875"
+   d="scan'208";a="81826879"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 00:55:41 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 00:55:44 -0700
 Received: from svinhufvud.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 1E13D11F855;
-	Fri, 11 Oct 2024 10:55:35 +0300 (EEST)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 7AF2711F984;
+	Fri, 11 Oct 2024 10:55:38 +0300 (EEST)
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
@@ -77,10 +78,12 @@ Cc: hverkuil@xs4all.nl,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	Julien Massot <julien.massot@collabora.com>,
 	Naushir Patuck <naush@raspberrypi.com>
-Subject: [RFC 0/4] Sub-device configuration models
-Date: Fri, 11 Oct 2024 10:55:31 +0300
-Message-Id: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
+Subject: [RFC 1/4] media: Documentation: Rework embedded data documentation
+Date: Fri, 11 Oct 2024 10:55:32 +0300
+Message-Id: <20241011075535.588140-2-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
+References: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,62 +92,39 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello everyone,
+Rework embedded data documentation by removing the reference to the pixel
+data stream. The specific documentation of the embedded data interface
+will be elsewhere.
 
-I've been recently working (with others) on sub-device streams support as
-well as on internal pads. The two can be used to make sub-device
-configuration more versatile.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ .../userspace-api/media/drivers/camera-sensor.rst   | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-At the same time, the added interfaces are much more useful if we require
-specific semantics of those interfaces, so that the user space knows
-exactly what e.g. a given selection target signifies. However, as the same
-selection rectangle could be used for a different purpose on a non-raw
-sensor device, we need a way to tell how should the user space determine
-how to use a given interface.
-
-I'm proposing to solve this problem by introducing sub-device
-configuration models, and by the common raw sensor model, also present in
-this patchset, in particular.
-
-This has been (and will, for some time, continue to be) the reason why I
-have reviewed few sensor driver related patches lately. As we're
-introducing a new interface, it's beneficial to be able to use that
-interface right from the start, rather than trying to later on offer
-compatibility support, which is almost always a fair amount of work with
-less than desirable results in the driver.
-
-With this solved, I believe we can enable the use of the streams UAPI.
-
-Comments are welcome.
-
-The compiled documentation can be found in
-<URL:https://www.retiisi.eu/~sailus/v4l2/tmp/meta-format/output/userspace-api/media/v4l/dev-subdev.html#sub-device-configuration-models>
-and the patches here
-<URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata>, i.e.
-they're on top of the metadata set.
-
-Sakari Ailus (4):
-  media: Documentation: Rework embedded data documentation
-  media: Documentation: Reword split of sensor driver to two classes
-  media: Documentation: Add subdev configuration models, raw sensor
-    model
-  media: v4l: ctrl: Add V4L2_CID_CONFIG_MODEL control
-
- .../media/drivers/camera-sensor.rst           |  28 +-
- .../media/v4l/common-raw-sensor.dia           | 441 ++++++++++++++++++
- .../media/v4l/common-raw-sensor.svg           | 134 ++++++
- .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
- .../media/v4l/ext-ctrls-image-process.rst     |   4 +
- .../media/v4l/subdev-config-model.rst         | 182 ++++++++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   5 +
- include/uapi/linux/v4l2-controls.h            |   3 +
- 8 files changed, 788 insertions(+), 11 deletions(-)
- create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.dia
- create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.svg
- create mode 100644 Documentation/userspace-api/media/v4l/subdev-config-model.rst
-
-
-base-commit: 8e1285c798e1c1838a1ba68497849b2f57969fbc
+diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+index dc415b8f6c8e..d82cd803e337 100644
+--- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
++++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+@@ -111,13 +111,12 @@ the sensor configuration for the captured frame back to the host. While CSI-2 is
+ the most common data interface used by such sensors, embedded data can be
+ available on other interfaces as well.
+ 
+-Such sensors expose two internal sink pads (pads that have both the
+-``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and ``MEDIA_PAD_FL_INTERNAL
+-<MEDIA-PAD-FL-INTERNAL>`` flags set) to model the source of the image and
+-embedded data streams. Both of these pads produces a single stream, and the
+-sub-device routes those streams to the external (source) pad. If the sub-device
+-driver supports disabling embedded data, this can be done by disabling the
+-embedded data route via the ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
++Embedded data support is indicated by an internal sink pad (pad that has both
++the ``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and ``MEDIA_PAD_FL_INTERNAL
++<MEDIA-PAD-FL-INTERNAL>`` flags set) with a metadata format to model the
++embedded data stream. If the sub-device driver supports disabling embedded data,
++this can be done by disabling the embedded data route via the
++``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
+ 
+ In general, changing the embedded data format from the driver-configured values
+ is not supported. The height of the metadata is device-specific and the width
 -- 
 2.39.5
 
