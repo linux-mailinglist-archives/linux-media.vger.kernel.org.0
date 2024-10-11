@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-19454-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19455-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7645C99AA24
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 19:33:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4867B99AA27
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 19:33:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE95C1F27420
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 17:33:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 664741C25BDD
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 17:33:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5400A1D04BE;
-	Fri, 11 Oct 2024 17:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8595C1D07AE;
+	Fri, 11 Oct 2024 17:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AwuYw6Ps"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T5GnP08O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AEA1D0406;
-	Fri, 11 Oct 2024 17:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D851D0485;
+	Fri, 11 Oct 2024 17:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728667868; cv=none; b=R4qI92J5Y8EjJZWmL8/EuD/mDkMqYNmbHca3QQnA8W7z4kdd4regHVeSkkIQLoZYyNoFBnOjgqaReGkfZBX0h4geGCHcSn7kCx/Zmb+si+swe+FPpV09mXVF8I71LGiXKt7B+65nPFIiZrepREI/FN3HzbnufQjlaxIHVmboEY4=
+	t=1728667870; cv=none; b=KLjpx+n2CJ9KizXaQkYWnbUU5efapq1D/hUpHe9DaGukw13SJx3NSr02gzEKfyjT3Lc7DiS/TGHS3QWqgtWjhV28bKZ4zqv9CsyEtzmlXq2WDB2/PKco2HcX+v8qPOZyVS+WnHnRXZ3EnDSmxLbWvCv2DMQP6ntkd3AVaI26LkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728667868; c=relaxed/simple;
-	bh=riQB/ps7KNocNV/AUMqu2fP1J1RbHtnimUeTAOvwnFI=;
+	s=arc-20240116; t=1728667870; c=relaxed/simple;
+	bh=R4slbuQbnwLyRfm3Uh78TiH/6+iHc6Vpb7lHlAzHkVw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wdw430E1LKUEJtvGLOZMxYkOyOcyUrmhHewfzmqIgmGW5c9uUzjuGmVH+mxhdF599N6Jw6qsorcIymygWoj6ydR0Rveh/coD558pKmP5KDe6HBGqtBrNad3fec9CwDGDhvSDU5OxgEBQHOeCQ9jCSWTdInZbD5a98FnZAKXxTas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AwuYw6Ps; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=OB6HnRZbdKrfVpWGx9XOj/+oXFkAkOn3rgyKnoF/+dZ4S6oInrPD4LxXZTVl6bZMALaIc76tv03aKQ3K0IdBWXSI0XvR6XYzJcAQ6+f6/URIlYP5wVT5TlWJ7rmEmzeFsFPrrpahyDhnlvjGCUET0prsgHmyLsChtwCbO6rN9Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T5GnP08O; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d518f9abcso913432f8f.2;
-        Fri, 11 Oct 2024 10:31:06 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42cae4eb026so20696915e9.0;
+        Fri, 11 Oct 2024 10:31:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728667865; x=1729272665; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728667866; x=1729272666; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZPJcAbqbEoGBWHFkHsMcRX6T1qK9wGSCrUFWEpC9TBk=;
-        b=AwuYw6PszX4ppDS+/V1MDZ6kxxmNi8d42x+dvvrnBm9Y1HDci8w5JI5n2AEANOhrSH
-         Jx3mIkwIOhSgU7pAgL2Von/0ToatIzyWSaytw99Mx/1k7fG7YS9t8kvMt6GIraPJZmpL
-         xIZFC74erkH8wQhExnJDzwbSeUP+A5mM4us6+lWJrvcvuEIpPPoz1tLiDXGuoPS5SaZT
-         KQiUTvf3D+OU09LPVb4bUUtH7KnQCMUqTtS+zHVIpDVbG3OHh3X+sBhbTZYCGaLUngdU
-         gkdgL07BSYu8RxQgjO8NLH0cU/4G6zcS+E5DFvBipMQU9eNeYKLpmQ0S7JoXK9UJ/CnL
-         ykDQ==
+        bh=WDiX1yG/K2ux0bWDrdd88+XgQUgVwzcRTQU+c6loKrM=;
+        b=T5GnP08O/73wX+xzVa+J1GpRpTJ3FtRgBZMDzzKgnKmo/nO454BmC5cNgxw18RFqB+
+         5I8ekAlXAbXK/5Jg82UWW78SWQz2AtNOGLX0S6uAwp53UdFc1brBKqqrShGG1ftCeY+N
+         j2FVyjOvy881Iq5YNdD1ZLLuD5r3AYH9JpipHy0fH0eTfMMfWJruHH/E7xfcyBbV4A4O
+         QJwvuWoNe2XXWxlpet1JJs52ee+FIwUBsK36rM2pYMGOG42hTZvRJ0Z2vD+9Eeo3v7SN
+         +pRMOEjgjpdj5o3kcBBaJJKCtSs/UTdHL/Od572Q5amAK64jSrIwSy4Dv4n9zGQ7Dger
+         9//g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728667865; x=1729272665;
+        d=1e100.net; s=20230601; t=1728667866; x=1729272666;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZPJcAbqbEoGBWHFkHsMcRX6T1qK9wGSCrUFWEpC9TBk=;
-        b=c+FmreIEt6x42HSnq8mNlk4wtKgxJLlIM0QR1VoQa4qYsgRZJMgY1XLGFGYvzD40GR
-         499bdfiX+xKzD96MA0pT6tqniNmE3ybOCiaRTp5UKX+BkNviZPMpb9NcDLIy55mtI4wk
-         Gf+imjr9jndWM1jBj9ZBy6uCAvJMFFG2KQbK0v3H/2UpOyxMYH6Kht3p82OUXsLbeUug
-         s3eu5YxX1viBvZsK5VHG68AN+kx6zS/Z6ZEKXAnU6V2EIlZrMOVJfRa3Zw0OpBalaYOK
-         qQmn77qAd0ycnk4yy7/5Ls99im0EDXdVQ/ga43tLA9L8ShJrSsOjtyS81tAXM/lKQuc1
-         xRRw==
-X-Forwarded-Encrypted: i=1; AJvYcCV0X7D7lUpPyWyAdHZ8pwlY4HxF7Tk8Hml3X9rjNzT6npThyg7surEDfA9zVnocCpZDauzoVjnTnOd4L+M=@vger.kernel.org, AJvYcCXlckh6kX78L5QIeV1ZU+HwRB5T1UiztLaVYgSR08NOArQ0hg4vFYKfr6FvHI3deh+T3igAVHPKygMSYWqR+hAhvWY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoNgsvNXkqJnx/FOIxKr1q511451lRmlaDVm+HPU7W3+xmnbHB
-	jCDUTTxr7z4d4Yl0FU3h+kx/Fe2MP+Bmy4S8wYQCnR+v5jp7SsQ/HI0WEQ==
-X-Google-Smtp-Source: AGHT+IG/ZWyxCOxL5jWFjBZFw3Xi0B+eX8Vh3VD1mw4fyQxCP9Tg9haDep7QcMgW40dKps2sJomTGQ==
-X-Received: by 2002:a05:6000:b10:b0:37d:4846:42c3 with SMTP id ffacd0b85a97d-37d551b6ee1mr1992624f8f.22.1728667865102;
-        Fri, 11 Oct 2024 10:31:05 -0700 (PDT)
+        bh=WDiX1yG/K2ux0bWDrdd88+XgQUgVwzcRTQU+c6loKrM=;
+        b=tekQhKhtZVYQyYRICuVfAQ1jhN25r3aTspk6CVz4mh/UKSsIILSHgAp0rx3jGMZcnx
+         r8MGTti2bCuYlxLpFhhOuj8w2eXA41WAIQKpGRqLtZX8i3/ZV1UwKs5zOnxZwqHz1MdV
+         HyUQyTsCvXULVQb05SGDvgArcioOaIAHhTJr4W+0en8FllY1+eBLljfQXatUsk2LfxvB
+         Dfev3XkN4ThcHYyohxhEPd2tFJDHcbJ0Im7XRkYopp27QNbPaaBMOe5K8y4TrGF2aP5h
+         +J9vvJXpIDwbK+7riULTtZKTgzHcNO+HTV784NOfriAU/KW/pKri0kodKJWNhbx/vsBJ
+         VpjA==
+X-Forwarded-Encrypted: i=1; AJvYcCW+JLQQSkt9N6ADiQfCXh5J1mxC3ZYqUZ6tRoQCfPQDRuqk3HF3qQJJWOUwKuGOe1jLgrtYJBbJJ4Zwk/c=@vger.kernel.org, AJvYcCXXGUX17Pc9M2JO3ZNTjtKpzpnoBKNWd7lIE5rTffETmsK4PGPpANL0uLPUtsTpJN0KMrbKidXzjs/A/YLIXBOMjp4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFgLhK0GkSaqffLV2Eonyy0lS9U8cVw59gW52bwweUGaTgDGLq
+	Z3uGyznvlL3PSAgh+L97gg9Pr5Ll9vPK4SzOuv2k+KpkRtacvE2l
+X-Google-Smtp-Source: AGHT+IFyeWXUnEjKsNs2TEJWFOSpiKdRXIZdD+wp3OsMh5rnvvhrHwzXaAEwTgOCEZINTWtzeQEg6Q==
+X-Received: by 2002:a5d:63d1:0:b0:37d:4ebe:163e with SMTP id ffacd0b85a97d-37d552cccb6mr2688302f8f.53.1728667866417;
+        Fri, 11 Oct 2024 10:31:06 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b79fa0asm4396516f8f.83.2024.10.11.10.31.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b79fa0asm4396516f8f.83.2024.10.11.10.31.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 10:31:04 -0700 (PDT)
+        Fri, 11 Oct 2024 10:31:05 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
@@ -79,11 +79,10 @@ Cc: linux-media@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v5 06/22] media: rzg2l-cru: Retrieve virtual channel information
-Date: Fri, 11 Oct 2024 18:30:36 +0100
-Message-ID: <20241011173052.1088341-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v5 07/22] media: rzg2l-cru: Remove `channel` member from `struct rzg2l_cru_csi`
+Date: Fri, 11 Oct 2024 18:30:37 +0100
+Message-ID: <20241011173052.1088341-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241011173052.1088341-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20241011173052.1088341-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -97,102 +96,104 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The RZ/G2L CRU needs to configure the ICnMC.VCSEL bits to specify which
-virtual channel should be processed from the four available VCs. To
-retrieve this information from the connected subdevice, the
-.get_frame_desc() function is called.
+Remove the CSI virtual channel number from `struct rzg2l_cru_csi`.
+Instead, pass the CSI virtual channel number as an argument to
+`rzg2l_cru_csi2_setup()`.
 
+Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  5 +++
- .../platform/renesas/rzg2l-cru/rzg2l-ip.c     |  5 ---
- .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 34 +++++++++++++++++++
- 3 files changed, 39 insertions(+), 5 deletions(-)
+ .../media/platform/renesas/rzg2l-cru/rzg2l-core.c  |  1 -
+ .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |  1 -
+ .../media/platform/renesas/rzg2l-cru/rzg2l-video.c | 14 ++++++++------
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+index 69cd45b26951..b21a66e2ce5c 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+@@ -72,7 +72,6 @@ static int rzg2l_cru_group_notify_complete(struct v4l2_async_notifier *notifier)
+ 			source->name, sink->name);
+ 		return ret;
+ 	}
+-	cru->csi.channel = 0;
+ 	cru->ip.remote = cru->csi.subdev;
+ 
+ 	/* Create media device link between CRU IP <-> CRU OUTPUT */
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-index 174760239548..8fbd45c43763 100644
+index 8fbd45c43763..4fe24bdde5b2 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-@@ -31,6 +31,11 @@
- #define RZG2L_CRU_MIN_INPUT_HEIGHT	240
- #define RZG2L_CRU_MAX_INPUT_HEIGHT	4095
- 
-+enum rzg2l_csi2_pads {
-+	RZG2L_CRU_IP_SINK = 0,
-+	RZG2L_CRU_IP_SOURCE,
-+};
-+
- /**
-  * enum rzg2l_cru_dma_state - DMA states
-  * @RZG2L_CRU_DMA_STOPPED:   No operation in progress
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-index 700d8b704689..aee7d4ba70b0 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-@@ -18,11 +18,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 	{ .code = MEDIA_BUS_FMT_UYVY8_1X16,	.datatype = 0x1e, .bpp = 16 },
+@@ -53,7 +53,6 @@ enum rzg2l_cru_dma_state {
+ struct rzg2l_cru_csi {
+ 	struct v4l2_async_connection *asd;
+ 	struct v4l2_subdev *subdev;
+-	u32 channel;
  };
  
--enum rzg2l_csi2_pads {
--	RZG2L_CRU_IP_SINK = 0,
--	RZG2L_CRU_IP_SOURCE,
--};
--
- static const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
- {
- 	unsigned int i;
+ struct rzg2l_cru_ip {
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index bbf4674f888d..7cd33eb1939c 100644
+index 7cd33eb1939c..9ab7ef33c9da 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -433,12 +433,46 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
- 	spin_unlock_irqrestore(&cru->qlock, flags);
+@@ -301,7 +301,7 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
  }
  
-+static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
-+{
-+	struct v4l2_mbus_frame_desc fd = { };
-+	struct media_pad *remote_pad;
-+	int ret;
-+
-+	remote_pad = media_pad_remote_pad_unique(&cru->ip.pads[RZG2L_CRU_IP_SINK]);
-+	ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc, remote_pad->index, &fd);
-+	if (ret < 0 && ret != -ENOIOCTLCMD) {
-+		dev_err(cru->dev, "get_frame_desc failed on IP remote subdev\n");
-+		return ret;
-+	}
-+	/* If remote subdev does not implement .get_frame_desc default to VC0. */
-+	if (ret == -ENOIOCTLCMD)
-+		return 0;
-+
-+	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
-+		dev_err(cru->dev, "get_frame_desc returned invalid bus type %d\n", fd.type);
-+		return -EINVAL;
-+	}
-+
-+	if (!fd.num_entries) {
-+		dev_err(cru->dev, "get_frame_desc returned zero entries\n");
-+		return -EINVAL;
-+	}
-+
-+	return fd.entry[0].bus.csi2.vc;
-+}
-+
- int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
+ static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *input_is_yuv,
+-				 struct v4l2_mbus_framefmt *ip_sd_fmt)
++				 struct v4l2_mbus_framefmt *ip_sd_fmt, u8 csi_vc)
+ {
+ 	u32 icnmc;
+ 
+@@ -319,19 +319,20 @@ static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *input_is_yuv,
+ 	icnmc |= (rzg2l_cru_read(cru, ICnMC) & ~ICnMC_INF_MASK);
+ 
+ 	/* Set virtual channel CSI2 */
+-	icnmc |= ICnMC_VCSEL(cru->csi.channel);
++	icnmc |= ICnMC_VCSEL(csi_vc);
+ 
+ 	rzg2l_cru_write(cru, ICnMC, icnmc);
+ }
+ 
+ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+-					   struct v4l2_mbus_framefmt *ip_sd_fmt)
++					   struct v4l2_mbus_framefmt *ip_sd_fmt,
++					   u8 csi_vc)
+ {
+ 	bool output_is_yuv = false;
+ 	bool input_is_yuv = false;
+ 	u32 icndmr;
+ 
+-	rzg2l_cru_csi2_setup(cru, &input_is_yuv, ip_sd_fmt);
++	rzg2l_cru_csi2_setup(cru, &input_is_yuv, ip_sd_fmt, csi_vc);
+ 
+ 	/* Output format */
+ 	switch (cru->format.pixelformat) {
+@@ -466,12 +467,13 @@ int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
  {
  	struct v4l2_mbus_framefmt *fmt = rzg2l_cru_ip_get_src_fmt(cru);
  	unsigned long flags;
++	u8 csi_vc;
  	int ret;
  
-+	ret = rzg2l_cru_get_virtual_channel(cru);
-+	if (ret < 0)
-+		return ret;
-+	cru->csi.channel = ret;
-+
+ 	ret = rzg2l_cru_get_virtual_channel(cru);
+ 	if (ret < 0)
+ 		return ret;
+-	cru->csi.channel = ret;
++	csi_vc = ret;
+ 
  	spin_lock_irqsave(&cru->qlock, flags);
  
- 	/* Select a video input */
+@@ -489,7 +491,7 @@ int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
+ 	rzg2l_cru_initialize_axi(cru);
+ 
+ 	/* Initialize image convert */
+-	ret = rzg2l_cru_initialize_image_conv(cru, fmt);
++	ret = rzg2l_cru_initialize_image_conv(cru, fmt, csi_vc);
+ 	if (ret) {
+ 		spin_unlock_irqrestore(&cru->qlock, flags);
+ 		return ret;
 -- 
 2.43.0
 
