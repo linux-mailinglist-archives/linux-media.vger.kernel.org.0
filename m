@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-19418-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19419-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F55B99A29A
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 13:21:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E6E99A42B
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 14:47:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 271461F249C0
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 11:21:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AE2728531A
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 12:47:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBDE9215F75;
-	Fri, 11 Oct 2024 11:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EE4D218588;
+	Fri, 11 Oct 2024 12:46:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0EC2141C5;
-	Fri, 11 Oct 2024 11:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5D716426;
+	Fri, 11 Oct 2024 12:46:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728645699; cv=none; b=BmTCPNIUFV2nnKLNFw0mI57zqduZF2w9pyJOuSsXOiBDdMoiB9+lcb2icmegsoq46Itbie8BROZA4dJ9MWPhPOFo3d1fVPNZ6g5ojlHm8C08vYJotskyBaAJPvlib8xg90rjp4loBfKWfcIWS+ZT0U+DSReArmSM2EMbmPUq2sg=
+	t=1728650816; cv=none; b=K+xmIopsr/djmj57Q/sd2WDdWDKfOPjmN6p4MxU/+/eejzWoY6/efMiqTfxEdpA7gzCEJadfIPwfVxOimqeZ8Z04tbjSxjNObuzK/OzuG6UFpf3dO0YJeWF9VOYY0oZlYYhjA1sYQUyJkBFFQKGfhKB1TJJujc3nByn+P2PenZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728645699; c=relaxed/simple;
-	bh=vKGwbz9Bno83M1Il4z/LGsCjRoFE2MwdHl7PnUu4kWE=;
+	s=arc-20240116; t=1728650816; c=relaxed/simple;
+	bh=i0ed9CtLCsNM06hRXOqootR9nu6z6R79XY2MRKNYTLk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VWsZ/UhhfQJzKOtZ72UCXQXQw6vo+KnSTYMXPNDZ6PJ2jr0T67p3FdZ1p8h4knA0esec6LPcwYs907a1qwMmnlqWhw930KhPBiI/UzsHckoFZVu5wzdOcQQBS89e6NdPZj83S+gTHfw6CXZgjBC45RKjwH637Ypy1kHaHD3Z9s0=
+	 In-Reply-To:Content-Type; b=fwFvDtAfmip+PYkm8ouZCC/vBBwkBawAT9MZ6+imUv3ZAtpulGLdrKsG4AekjmXnzSwkVRwlNBEI3HcDwGr1eR/dc+HyPVuBIhS/f94+yDO40LzHzIGVAW2NrL7FjW1N+Q97pihRrPl8pAg0cySTySqMrlxXoR5zpAFvCyUIYyE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F4B5C4CEC3;
-	Fri, 11 Oct 2024 11:21:37 +0000 (UTC)
-Message-ID: <b4bb440e-3998-41df-93dd-d69012ca8a08@xs4all.nl>
-Date: Fri, 11 Oct 2024 13:21:35 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E18D9C4CEC3;
+	Fri, 11 Oct 2024 12:46:53 +0000 (UTC)
+Message-ID: <c09e7819-a7d9-432f-baab-732e81b3f489@xs4all.nl>
+Date: Fri, 11 Oct 2024 14:46:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,82 +38,95 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next v3 1/2] media: cec: remove redundant null pointer
- checks in cec_devnode_init()
-To: Li Zetao <lizetao1@huawei.com>, mchehab@kernel.org,
- gregkh@linuxfoundation.org, ricardo@marliere.net, ruanjinjie@huawei.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240910154803.736951-1-lizetao1@huawei.com>
+Subject: Re: [PATCH] media: s5p-mfc: Corrected NV12M/NV21M plane-sizes
+To: Aakarsh Jain <aakarsh.jain@samsung.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, linux-samsung-soc@vger.kernel.org,
+ gost.dev@samsung.com, aswani.reddy@samsung.com, pankaj.dubey@samsung.com
+References: <CGME20240806120911epcas5p1b0defc027a7f03ee9bf5f21036d3ae5e@epcas5p1.samsung.com>
+ <20240806115714.29828-1-aakarsh.jain@samsung.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240910154803.736951-1-lizetao1@huawei.com>
+In-Reply-To: <20240806115714.29828-1-aakarsh.jain@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/09/2024 17:48, Li Zetao wrote:
-> Since the debugfs_create_dir() never returns a null pointer, checking
-> the return value for a null pointer is redundant. Remove this check
-> since debugfs_create_file can handle IS_ERR pointers. At the same time,
-> debugfs_create_dir returns ERR_PTR (-ENODEV) by default when
-> CONFIG_DEBUG_FS=N, so there is no need for CONFIG_DEBUG_FS macro
-> isolation.
+On 06/08/2024 13:57, Aakarsh Jain wrote:
+> There is a possibility of getting page fault if the overall
+> buffer size is not aligned to 256bytes. Since MFC does read
+> operation only and it won't corrupt the data values even if
+> it reads the extra bytes.
+> Corrected luma and chroma plane sizes for V4L2_PIX_FMT_NV12M
+> and V4L2_PIX_FMT_NV21M pixel format.
 > 
-> Signed-off-by: Li Zetao <lizetao1@huawei.com>
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
 > ---
-> v2 -> v3: Drop the null pointer check for top_cec_dir
-> v2: https://lore.kernel.org/all/20240907034400.3693797-1-lizetao1@huawei.com/
-> v1 -> v2: Remove this check since debugfs_create_file can handle IS_ERR
-> pointers. And drop the ifdef CONFIG_DEBUG_FS statement.
-> v1: https://lore.kernel.org/all/20240903143607.2004802-1-lizetao1@huawei.com/
+>  .../media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c    | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
->  drivers/media/cec/core/cec-core.c | 11 -----------
->  1 file changed, 11 deletions(-)
-> 
-> diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
-> index e0756826d629..2897283ebe72 100644
-> --- a/drivers/media/cec/core/cec-core.c
-> +++ b/drivers/media/cec/core/cec-core.c
-> @@ -374,10 +374,6 @@ int cec_register_adapter(struct cec_adapter *adap,
->  	}
->  
->  	dev_set_drvdata(&adap->devnode.dev, adap);
-> -#ifdef CONFIG_DEBUG_FS
-> -	if (!top_cec_dir)
-> -		return 0;
-> -
->  	adap->cec_dir = debugfs_create_dir(dev_name(&adap->devnode.dev),
->  					   top_cec_dir);
->  
-> @@ -388,7 +384,6 @@ int cec_register_adapter(struct cec_adapter *adap,
->  		return 0;
->  	debugfs_create_file("error-inj", 0644, adap->cec_dir, adap,
->  			    &cec_error_inj_fops);
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
+> index 73f7af674c01..03c957221fc4 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
+> @@ -498,8 +498,8 @@ static void s5p_mfc_dec_calc_dpb_size_v6(struct s5p_mfc_ctx *ctx)
+>  	case V4L2_PIX_FMT_NV21M:
+>  		ctx->stride[0] = ALIGN(ctx->img_width, S5P_FIMV_NV12MT_HALIGN_V6);
+>  		ctx->stride[1] = ALIGN(ctx->img_width, S5P_FIMV_NV12MT_HALIGN_V6);
+> -		ctx->luma_size = calc_plane(ctx->stride[0], ctx->img_height);
+> -		ctx->chroma_size = calc_plane(ctx->stride[1], (ctx->img_height / 2));
+> +		ctx->luma_size = calc_plane(ctx->img_width, ctx->img_height);
+> +		ctx->chroma_size = calc_plane(ctx->img_width, (ctx->img_height >> 1));
 
-This still has to remain under #ifdef CONFIG_DEBUG_FS, otherwise cec_error_inj_fops
-is not defined. You can probably move the #ifdef to just before the debugfs_create_file
-call above.
+I don't really understand why this is changed. Looking at the implementation of
+calc_plane and the various #define values that are used here and in calc_plane,
+the number should be the same.
+
+I think the original code makes more sense.
+
+If I missed something, let me know.
+
+>  		break;
+>  	case V4L2_PIX_FMT_YUV420M:
+>  	case V4L2_PIX_FMT_YVU420M:
+> @@ -539,9 +539,11 @@ static void s5p_mfc_dec_calc_dpb_size_v6(struct s5p_mfc_ctx *ctx)
+>  static void s5p_mfc_enc_calc_src_size_v6(struct s5p_mfc_ctx *ctx)
+>  {
+>  	unsigned int mb_width, mb_height;
+> +	unsigned int default_size;
+>  
+>  	mb_width = MB_WIDTH(ctx->img_width);
+>  	mb_height = MB_HEIGHT(ctx->img_height);
+> +	default_size = (mb_width * mb_height) * 256;
+>  
+>  	if (IS_MFCV12(ctx->dev)) {
+>  		switch (ctx->src_fmt->fourcc) {
+> @@ -549,8 +551,8 @@ static void s5p_mfc_enc_calc_src_size_v6(struct s5p_mfc_ctx *ctx)
+>  		case V4L2_PIX_FMT_NV21M:
+>  			ctx->stride[0] = ALIGN(ctx->img_width, S5P_FIMV_NV12M_HALIGN_V6);
+>  			ctx->stride[1] = ALIGN(ctx->img_width, S5P_FIMV_NV12M_HALIGN_V6);
+> -			ctx->luma_size = ctx->stride[0] * ALIGN(ctx->img_height, 16);
+> -			ctx->chroma_size =  ctx->stride[0] * ALIGN(ctx->img_height / 2, 16);
+> +			ctx->luma_size = ALIGN(default_size, 256);
+> +			ctx->chroma_size = ALIGN(default_size / 2, 256);
+
+Isn't this effectively the same as doing:
+
+			ctx->luma_size = ALIGN(ctx->luma_size, 256);
+			ctx->chroma_size = ALIGN(ctx->chroma_size, 256);
+
+I.e., the bug is that these sizes are not rounded up to a multiple of 256,
+so just add that, rather than changing code elsewhere.
+
+I might be wrong, but this seems a much simpler solution.
 
 Regards,
 
 	Hans
 
-> -#endif
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(cec_register_adapter);
-> @@ -439,13 +434,7 @@ static int __init cec_devnode_init(void)
->  		return ret;
->  	}
->  
-> -#ifdef CONFIG_DEBUG_FS
->  	top_cec_dir = debugfs_create_dir("cec", NULL);
-> -	if (IS_ERR_OR_NULL(top_cec_dir)) {
-> -		pr_warn("cec: Failed to create debugfs cec dir\n");
-> -		top_cec_dir = NULL;
-> -	}
-> -#endif
->  
->  	ret = bus_register(&cec_bus_type);
->  	if (ret < 0) {
+>  			break;
+>  		case V4L2_PIX_FMT_YUV420M:
+>  		case V4L2_PIX_FMT_YVU420M:
 
 
