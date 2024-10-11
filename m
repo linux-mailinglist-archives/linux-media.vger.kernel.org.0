@@ -1,103 +1,285 @@
-Return-Path: <linux-media+bounces-19382-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19383-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D15999B3D
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 05:42:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 321FD999B96
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 06:20:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFCC11C22BD0
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 03:42:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C273F28431F
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 04:20:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 407EC1F4726;
-	Fri, 11 Oct 2024 03:42:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6784D1F4733;
+	Fri, 11 Oct 2024 04:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h+VCt4bt"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FIytLTbR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48132804
-	for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 03:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64271922C4;
+	Fri, 11 Oct 2024 04:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728618143; cv=none; b=EgL1Bef1U71+qdqORgou/cPiRi1Gq92pp50nqKe2KPGq6aTl47DeVwxmpRdqEEtvAaOoms3tHhfShsNLYsnFOXf/wHrBtw1AK0svoCMyKnMRj2138i5AKqH25QAyNia4cC0pcdnpqmBo9AFG++4jbQLqMCI162EMWrXUPnkjH+Y=
+	t=1728620407; cv=none; b=ZPO95QIY07vN9bJMPPqUALuVPIV1CgVyCj0PGlCKqIQskoTGKB360BPP1qwWWwylzsxDRrJByBCxofwhmoHlZIy2MECOSTnOmbu7EE5/DYRf0UddshvWUgVEBUzAoFtUk/9apyYL366f/o1G+s5fhHNNJdDCQBW8g2bMpBDcP+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728618143; c=relaxed/simple;
-	bh=0VtCi9/GPr03UacaMXpLzJfova+e3y7PnQFLcTc3jIA=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mtnmVP4dLP/v2m+zSN75KhKeqZa2GpOg52XI44wuHRfrmkVWOLCvUD1K1YtrPBpllmVfYXA5CtQkIjk9jaPBV+C5elEbhv9/SrmUweyLtsKjklfn/FzCTkJU/CsdzLEMrFzUVOj3+YA5JAWNloWVQBWVOLLCt6BPmcmIYJnydbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h+VCt4bt; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4603ee602a0so12926811cf.2
-        for <linux-media@vger.kernel.org>; Thu, 10 Oct 2024 20:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728618140; x=1729222940; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ozv1B8tUuB48HAjAJD6TasPxZxNFiXSHofJ84PWMkrw=;
-        b=h+VCt4btuOA3DAtetXX315Vx6Es3GLy2FdTSIUl+y7Qf2gwTHtFcp7IqOY/lIsL/Hu
-         Steh7aYhw6oL7eHyzxyCFcuO+0gDZTBjhouVg8mrzy15qYcQ9mgW5++yt/dI2a3QkNA6
-         L+WB7vTsRV4qK8Nnhf5plMdxC5Y3efuQUsIuDFVKds/MtQI8YPIl4eHYeFnXxFKzFMB2
-         T4VjAVgZql6Z0VVGTBaganrGSE21sRwM188p4UCoeu14K5wTRBkL20ReajDh0JdXeE9h
-         HKymCrCUjZGXzi+rbOvb40PtTJw0sO5mX/+nom5Ub+h/JtsnUx9fuvoPfzl70cqoxvmr
-         7THA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728618140; x=1729222940;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ozv1B8tUuB48HAjAJD6TasPxZxNFiXSHofJ84PWMkrw=;
-        b=si8GYD8Gl8P3PFg1AH11WsyzgE/HOLDl6JEWPekxjXUleN5B0bQxTHD0QnpN3TS8FZ
-         hcq9HQy+cbm5Ohf9Q6iALxlswZehUREtuP9r5qXkuk12fRDQVsI4Lr9WQl0ceD8nQnEn
-         H+LjhiUG6jVPJc/57jZJmbfkPyZ+Xz8xg4IHN0fsiNcRWnoYnokqvdCHY1WR4kkom7ND
-         7lWyvTu93nCbhI8Xz7yFT+Z33+UsQxpNwz0niW8xqSP/k1qQM8wO79ae1t+lkHTqFuur
-         1UH89McrJyIYh0RapMdQZLWGDnnBU9UseXqjUuCXLfTL6ktJ46M7XMwJEgV5+umXR5dk
-         jOKA==
-X-Gm-Message-State: AOJu0YyFgOqruFNiaE6BnL6B+bojJgPhO7oheYZLl7NzC4adcGB1bIYM
-	5Jqs6lTEmlYbByI793q7PpwB911f0RbLD4g6WXzFoNxnl2nRcnymlj4n3IY+
-X-Google-Smtp-Source: AGHT+IFubBPTry63OpDNQH96Zeudngo4/yeSOCPCFgzcBnK35T56+t+WXMhKeyEyS02E7EKDQyYnQw==
-X-Received: by 2002:a05:622a:5293:b0:460:50c0:c484 with SMTP id d75a77b69052e-46050c0c641mr2670671cf.6.1728618140166;
-        Thu, 10 Oct 2024 20:42:20 -0700 (PDT)
-Received: from localhost ([2607:fea8:52a3:d200::786d])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-460427d5178sm11558091cf.25.2024.10.10.20.42.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 20:42:19 -0700 (PDT)
-Date: Thu, 10 Oct 2024 23:42:16 -0400
-From: Richard Acayan <mailingradian@gmail.com>
-To: Linux-Media ML <linux-media@vger.kernel.org>,
-	Patchwork Integration <patchwork@media-ci.org>
-Subject: Re: [v6,0/5] Add SDM670 camera subsystem
-Message-ID: <ZwiemHNML7St9T9R@radian>
-References: <20241011023724.614584-7-mailingradian@gmail.com>
- <67089532.050a0220.29f00b.1905@mx.google.com>
+	s=arc-20240116; t=1728620407; c=relaxed/simple;
+	bh=etMo2Djl1Gqh4dXuGFLnlVjhLIuJZslB1buBgnKsCKU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=O2FFNIVngbnedWqrc/pT8hR5aQ7kwiTRMWnp6V9xxnGZt+G7cPLU9PCdM06IBSOcYPvtEibQlfRTwNeZgS7smYR29qFyM2JeHYQ85rhajtuW8rkZIm0E+KorICuNQrXDJWLHAUWIj9WjYnTtw/zB04D62nxmfgnw/8ykQd68ruY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FIytLTbR; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49AD8kST027038;
+	Fri, 11 Oct 2024 04:19:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=lzQ0ZGJzWIBkUvd+V01ET8
+	BEJiVcXr067zuonqJreI4=; b=FIytLTbRTW3pkqGSBXpT+SBC2/8uEDCgALe8He
+	ZXxrv5ais0lUmsqA+FpcidlNhsy7QnCmry1U/pmD6WF7COxbr7s9LZhsetkjLZvm
+	GlLrXl3pda2WCEZ5VXy8GjZ1TSi/hM1cWnAI5E7lllHWm3FXY8XmeUGXl1CyuJeV
+	FAdKHJ/D1fdedQMl4EjSfTdKAaJXL9JKN95hQwip2/y9vdeqqu8jK7vwJJkPmBnW
+	oWIUdfG0SFIh1SaiRcew5Io38eYaOb5RzWOXwZrsmcK/qKsmyQPLXe7IUxxzlr0E
+	P1UtqhWQXaFNBiUc6pBg3yGHMgdV0L3BBOd+WjDpEBWkSqVQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 426fj6sysv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Oct 2024 04:19:57 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B4JuCD015893
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Oct 2024 04:19:56 GMT
+Received: from Z2-SFF-G9-MQ.ap.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 10 Oct 2024 21:19:52 -0700
+From: Miaoqing Pan <quic_miaoqing@quicinc.com>
+To: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <konrad.dybcio@linaro.org>,
+        <mchehab@kernel.org>, <quic_vgarodia@quicinc.com>,
+        <stanimir.k.varbanov@gmail.com>, <kvalo@kernel.org>,
+        <quic_jjohnson@quicinc.com>, <ath11k@lists.infradead.org>,
+        <dmitry.baryshkov@linaro.org>,
+        Miaoqing Pan <quic_miaoqing@quicinc.com>
+Subject: [PATCH v7] arm64: dts: qcom: sa8775p-ride: add WiFi/BT nodes
+Date: Fri, 11 Oct 2024 12:19:39 +0800
+Message-ID: <20241011041939.2916179-1-quic_miaoqing@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67089532.050a0220.29f00b.1905@mx.google.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: _ViuUgzEGnVsU-SbQ4xJ4yildsZawutT
+X-Proofpoint-ORIG-GUID: _ViuUgzEGnVsU-SbQ4xJ4yildsZawutT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 malwarescore=0 adultscore=0 suspectscore=0
+ clxscore=1015 mlxscore=0 impostorscore=0 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2410110025
 
-On Thu, Oct 10, 2024 at 08:02:10PM -0700, Patchwork Integration wrote:
-> Dear Richard Acayan:
-> 
-> The unreliable Media-CI system has found some issues with your series.
-> Check the report at: https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/64934232/artifacts/report.htm
+Add a node for the PMU module of the WCN6855 present on the sa8775p-ride
+board. Assign its LDO power outputs to the existing WiFi/Bluetooth module.
 
-Ah, this patch (5/5) depends on commit 7f58b336f3e0 ("dt-bindings: i2c:
-qcom-cci: Document SDM670 compatible") for `make CHECK_DTBS=y` to
-succeed.
+Signed-off-by: Miaoqing Pan <quic_miaoqing@quicinc.com>
+---
+v2:
+  - fix wcn6855-pmu compatible to "qcom,wcn6855-pmu".
+  - relocate pcieport0 node in alphabetical order.
+v3:
+  - add 'qcom,ath11k-calibration-variant = "SA8775P"'.
+v4:
+  - update 'ath11k-calibration-variant' to "Ride".
+v5:
+  - update 'Ride' to 'QC_SA8775P_Ride'.
+v6:
+  - no code change, fix patch version.
+v7:
+  - update 'Ride' to 'QC_SA8775P_Ride'.
+---
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 121 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi      |   2 +-
+ 2 files changed, 122 insertions(+), 1 deletion(-)
 
-> Please fix your series, and upload a new version. If you have a patchwork
-> account, do not forget to mark the current series as Superseded.
-> 
-> If you believe that the CI is wrong, kindly reply-all to this email.
+diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+index 0c1b21def4b6..3fc62e123689 100644
+--- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
++++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+@@ -27,6 +27,83 @@ aliases {
+ 	chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
++
++	vreg_conn_1p8: vreg_conn_1p8 {
++		compatible = "regulator-fixed";
++		regulator-name = "vreg_conn_1p8";
++		startup-delay-us = <4000>;
++		enable-active-high;
++		gpio = <&pmm8654au_1_gpios 4 GPIO_ACTIVE_HIGH>;
++	};
++
++	vreg_conn_pa: vreg_conn_pa {
++		compatible = "regulator-fixed";
++		regulator-name = "vreg_conn_pa";
++		startup-delay-us = <4000>;
++		enable-active-high;
++		gpio = <&pmm8654au_1_gpios 6 GPIO_ACTIVE_HIGH>;
++	};
++
++	wcn6855-pmu {
++		compatible = "qcom,wcn6855-pmu";
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&bt_en_state>, <&wlan_en_state>;
++
++		vddio-supply = <&vreg_conn_pa>;
++		vddaon-supply = <&vreg_l2c>;
++		vddpmu-supply = <&vreg_conn_1p8>;
++		vddrfa0p95-supply = <&vreg_l2c>;
++		vddrfa1p3-supply = <&vreg_l6e>;
++		vddrfa1p9-supply = <&vreg_s5a>;
++		vddpcie1p3-supply = <&vreg_l6e>;
++		vddpcie1p9-supply = <&vreg_s5a>;
++
++		bt-enable-gpios = <&pmm8654au_1_gpios 8 GPIO_ACTIVE_HIGH>;
++		wlan-enable-gpios = <&pmm8654au_1_gpios 7 GPIO_ACTIVE_HIGH>;
++
++		regulators {
++			vreg_pmu_rfa_cmn: ldo0 {
++				regulator-name = "vreg_pmu_rfa_cmn";
++			};
++
++			vreg_pmu_aon_0p59: ldo1 {
++				regulator-name = "vreg_pmu_aon_0p59";
++			};
++
++			vreg_pmu_wlcx_0p8: ldo2 {
++				regulator-name = "vreg_pmu_wlcx_0p8";
++			};
++
++			vreg_pmu_wlmx_0p85: ldo3 {
++				regulator-name = "vreg_pmu_wlmx_0p85";
++			};
++
++			vreg_pmu_btcmx_0p85: ldo4 {
++				regulator-name = "vreg_pmu_btcmx_0p85";
++			};
++
++			vreg_pmu_rfa_0p8: ldo5 {
++				regulator-name = "vreg_pmu_rfa_0p8";
++			};
++
++			vreg_pmu_rfa_1p2: ldo6 {
++				regulator-name = "vreg_pmu_rfa_1p2";
++			};
++
++			vreg_pmu_rfa_1p7: ldo7 {
++				regulator-name = "vreg_pmu_rfa_1p7";
++			};
++
++			vreg_pmu_pcie_0p9: ldo8 {
++				regulator-name = "vreg_pmu_pcie_0p9";
++			};
++
++			vreg_pmu_pcie_1p8: ldo9 {
++				regulator-name = "vreg_pmu_pcie_1p8";
++			};
++		};
++	};
+ };
+ 
+ &apps_rsc {
+@@ -453,6 +530,20 @@ &pmm8654au_1_gpios {
+ 			  "USB2_PWR_EN",
+ 			  "USB2_FAULT";
+ 
++	wlan_en_state: wlan-en-state {
++		pins = "gpio7";
++		function = "normal";
++		output-low;
++		bias-pull-down;
++	};
++
++	bt_en_state: bt-en-state {
++		pins = "gpio8";
++		function = "normal";
++		output-low;
++		bias-pull-down;
++	};
++
+ 	usb2_en_state: usb2-en-state {
+ 		pins = "gpio9";
+ 		function = "normal";
+@@ -702,6 +793,25 @@ &pcie1_phy {
+ 	status = "okay";
+ };
+ 
++&pcieport0 {
++	wifi@0 {
++		compatible = "pci17cb,1101";
++		reg = <0x10000 0x0 0x0 0x0 0x0>;
++
++		qcom,ath11k-calibration-variant = "QC_SA8775P_Ride";
++
++		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
++		vddaon-supply = <&vreg_pmu_aon_0p59>;
++		vddwlcx-supply = <&vreg_pmu_wlcx_0p8>;
++		vddwlmx-supply = <&vreg_pmu_wlmx_0p85>;
++		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
++		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
++		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
++		vddpcie0p9-supply = <&vreg_pmu_pcie_0p9>;
++		vddpcie1p8-supply = <&vreg_pmu_pcie_1p8>;
++	};
++};
++
+ &remoteproc_adsp {
+ 	firmware-name = "qcom/sa8775p/adsp.mbn";
+ 	status = "okay";
+@@ -744,6 +854,17 @@ &uart17 {
+ 	pinctrl-0 = <&qup_uart17_default>;
+ 	pinctrl-names = "default";
+ 	status = "okay";
++
++	bluetooth {
++		compatible = "qcom,wcn6855-bt";
++
++		vddrfacmn-supply = <&vreg_pmu_rfa_cmn>;
++		vddaon-supply = <&vreg_pmu_aon_0p59>;
++		vddbtcmx-supply = <&vreg_pmu_btcmx_0p85>;
++		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
++		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
++		vddrfa1p7-supply = <&vreg_pmu_rfa_1p7>;
++	};
+ };
+ 
+ &ufs_mem_hc {
+diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+index e8dbc8d820a6..8d42b5e9c7d6 100644
+--- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
++++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+@@ -5570,7 +5570,7 @@ pcie0: pcie@1c00000 {
+ 
+ 		status = "disabled";
+ 
+-		pcie@0 {
++		pcieport0: pcie@0 {
+ 			device_type = "pci";
+ 			reg = <0x0 0x0 0x0 0x0 0x0>;
+ 			bus-range = <0x01 0xff>;
+-- 
+2.25.1
 
-The CI isn't wrong, it's just easier to state the dependency in a reply
-without sending a new version.
 
