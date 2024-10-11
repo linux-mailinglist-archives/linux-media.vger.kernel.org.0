@@ -1,135 +1,121 @@
-Return-Path: <linux-media+bounces-19411-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19412-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A674F99A04C
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 11:41:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB7B99A081
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 11:56:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D44B11C2107A
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 09:41:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17A9D1C22F89
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 09:56:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C82920FA91;
-	Fri, 11 Oct 2024 09:41:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D67642141B1;
+	Fri, 11 Oct 2024 09:54:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kK/SpNBV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tF5r1vt2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6215E20B216
-	for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 09:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F7E1F9415;
+	Fri, 11 Oct 2024 09:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728639695; cv=none; b=Tc5l6dgbHTL7m0DfR1vnMw+Z15zZHzgbpDpaviPucJaALhknd8x0EeMZ+Eo7tdq9OeNn/wLr8wYYBBu0bjc+KomBsEohJFSMdLFKkAqspZ+HCyRRQvELAXYENIp8nrwnJfeuZZTsF5ZUiMKZLDDvg4wfKugXX72t6GRLuQzL53g=
+	t=1728640485; cv=none; b=jKySVIICw/2l7KnmWIHwstKnaG2YPcvMJTr6NMVM6AFg1GYZIxH+b03UU1ud5n8VvKoA0PI9+OmBcftEC5gHSJ9wAJ+ArHBMxMjxlqGOABZpvxtoulT+A+nfs46aRn8KfjcNzzJ8AoOL353ycj2zEy6h71M8V8C9Hnm30zzboao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728639695; c=relaxed/simple;
-	bh=LB/cH7x2pzJ5VQbbrLYaY3EItf/Da6k4gcFzSYfv/e4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AyPdGh8GP4++tz2QPG72wsY2snbdAL0GpucVSp/FdffOwzmf+xSONPuVb429Di6o9ynPRFfRZTp3xXjJg9keGjEPZ0Iq/e6Jh/wL8IxHuR03PQZnd+Aw9VbhJ/nOTUn+CvwQPETZ0imCxKZJhkvNPrksx0WnNtWhnVR2OPtFG7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kK/SpNBV; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c9388a00cfso1892927a12.3
-        for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 02:41:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728639692; x=1729244492; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eFkvV2tZLZ/lndmyybryC8gPmrkbcqQYe/2yy1vWRjI=;
-        b=kK/SpNBVJL9rjb04xMzY1+kVp5QqktPjWtjYEeYfOSGsW62AeRQFzqKsM7CXWovk1E
-         q4msfv76Svs9LBH+PnfKHB/V2xRt0Va0umQSgmEgw69+HVvpt9ktL2HyY9NvCrxRspS0
-         JPScdQmsgGEccAMCDG6kJrcnjhERlkeBm5AjOP6+x8qSkemiJZygFXYFYsRxUVWzcseT
-         LSDVkq/wZQOs4UkMsxtKch//izFEigmWkIw23p9Y9JUGz3oQsdwWY6kArN/d0IIEo24B
-         DQWvu+xjOVBn0OnRt37oCjSUoI00Y7Lij60bXdJtn9jNzF2s67dNRVsXwDK0Fw1Dw+W8
-         iQJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728639692; x=1729244492;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eFkvV2tZLZ/lndmyybryC8gPmrkbcqQYe/2yy1vWRjI=;
-        b=GlD0WIzMo4tOIuBlkYMInNVvYuDRQ5n/olV1Iyp837m4eA/0BLmves1wQ3YgubGekx
-         ezbfTwFTwaNjY1s5GjMAObo9l6PNMwF2YvATJ6a1cCde1FB9lU1PajyQTuu9pGFwzWMz
-         ir3LPh021Wh4RafhNkzAMO0ehEuYdgZy9fV0uorEowCM8rj5DzglE8HjWys/deMmiEx8
-         1BvfosS6xoCmaZGCVlq4q2jKJANFVnlbIoj4lyeNp0DUef1Kf/a8QW0NHB0DVBjusRt7
-         afEBzcuLdeZKOoNyuVusgh+m2FCGyqz4EQHsnc2sLKgjq+x3hPFA4ibms4YIno557++p
-         rT4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUoO8bFwHzIua9rVFiY44eUGrfp6PwMOoZUo/iHuuC4m8YvBAaKnQIrj7GL5pdEOqivTSJsCFVQjpuIAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxZyV2Ejl75DnuBYBz4261YvHEGpwzTRwArcn00G7pdWQ/A+Ea
-	CVWZvIZO32skkEJZZVuVJiwR6+R0eTeMaO4EuVotDAawVKNw7jusKUbtsUxERx8=
-X-Google-Smtp-Source: AGHT+IHV0FWz8LaMOoLNl/WDkD1DXo5etIuNQysLEeSCJN2NProFBfMgBdzY2Dvu325k2nHOpuwjZw==
-X-Received: by 2002:a17:907:e6df:b0:a8a:91d1:5262 with SMTP id a640c23a62f3a-a99b957fdd6mr177786666b.28.1728639691710;
-        Fri, 11 Oct 2024 02:41:31 -0700 (PDT)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99a80c0723sm191604066b.135.2024.10.11.02.41.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Oct 2024 02:41:31 -0700 (PDT)
-Message-ID: <d394fb33-2fe4-4a5a-b6fa-7f5598aede9b@linaro.org>
-Date: Fri, 11 Oct 2024 10:41:30 +0100
+	s=arc-20240116; t=1728640485; c=relaxed/simple;
+	bh=2yzsA2kRa2zo2Cn1nrydw7a45oeTg8jRlG9l+3Lnrg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sXjPu+OQAry7XRQAksobwDxcvSmWhCGn1i02cQI7150/UhJSch13WL2ZlJxvT7Azjro5TW3QGR16045gR4AHEdOiYic7Zh84gf08Wn41dD0MjcgtBxYWIXrhE7SBedpANVH/fzPuarypoE0fhi7MyWNPZSTU6J3OUG/sCv+HD/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tF5r1vt2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2CB0C4CEC3;
+	Fri, 11 Oct 2024 09:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728640484;
+	bh=2yzsA2kRa2zo2Cn1nrydw7a45oeTg8jRlG9l+3Lnrg8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tF5r1vt2su0vXxMcyDcyDnVwc+UsUya2qLP0ekw8jvaJrZgai8eeKary/RGfvVvyu
+	 ZAfA8Pk3pRONxVGf2zFcBevpyCEEIVdXKNrezJXMZrdNvo6n9n00N7RTIxY0AAWM07
+	 PVjb0GFbsaREptWAgkdTwAowPVKmZ0PkHCGNipvhdY3UQdy4Ihu0rxTTDv1j0Q5Skx
+	 JlSQf00NdTg8jDj7cQV0nY8NnAhal1/w65Z4tpOvuF70UkhcZ0Bhl7PBluq5Wur+N/
+	 NxVY0R1mZTxd6DIAtgn/aKvD6NILyqOICmG9C1BoqgHK7ui9sNNq3KotiGtkR+qWDS
+	 c7gCuCjBh4XoQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1szCME-000000005Qx-3UaV;
+	Fri, 11 Oct 2024 11:54:50 +0200
+Date: Fri, 11 Oct 2024 11:54:50 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: camss NULL-deref on power on with 6.12-rc2
+Message-ID: <Zwj16uJxNGoPoVe-@hovoldconsulting.com>
+References: <Zwjw6XfVWcufMlqM@hovoldconsulting.com>
+ <d394fb33-2fe4-4a5a-b6fa-7f5598aede9b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: camss NULL-deref on power on with 6.12-rc2
-To: Johan Hovold <johan@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <Zwjw6XfVWcufMlqM@hovoldconsulting.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <Zwjw6XfVWcufMlqM@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d394fb33-2fe4-4a5a-b6fa-7f5598aede9b@linaro.org>
 
-On 11/10/2024 10:33, Johan Hovold wrote:
-> Hi,
+On Fri, Oct 11, 2024 at 10:41:30AM +0100, Bryan O'Donoghue wrote:
+> On 11/10/2024 10:33, Johan Hovold wrote:
+
+> > This morning I hit the below NULL-deref in camss when booting a 6.12-rc2
+> > kernel on the Lenovo ThinkPad X13s.
+> > 
+> > I booted the same kernel another 50 times without hitting it again it so
+> > it may not be a regression, but simply an older, hard to hit bug.
+> > 
+> > Hopefully you can figure out what went wrong from just staring at the
+> > oops and code.
+
+> > [    5.657860] ov5675 24-0010: failed to get HW configuration: -517
 > 
-> This morning I hit the below NULL-deref in camss when booting a 6.12-rc2
-> kernel on the Lenovo ThinkPad X13s.
+> So this caused it, I guess the sensor failed to power up.
+
+The probe deferral may be involved, but we see this deferral all the
+time without things blowing up (and the driver should be able to handle
+that).
+
+> You've booted 50 times in a row and hit a corner case where the sensor 
+> didn't power up leading to a NULL deference.
 > 
-> I booted the same kernel another 50 times without hitting it again it so
-> it may not be a regression, but simply an older, hard to hit bug.
+> So, two bugs I'd say.
 > 
-> Hopefully you can figure out what went wrong from just staring at the
-> oops and code.
+> - What is the cirumcstance where the sensor doesn't power up
+
+Not sure what is causing it, but I have seen boots where this message
+shows up 5-6 times, which may indeed indicate that something is off. If
+this was just a provider not having probed yet, driver core should
+generally prevent the sensor from from probing until the resources (e.g.
+clocks) are available.
+
+> - What's the NULL either entity * or entity->pad I'd say.
 > 
-> Johan
+> <snip>
+> > [    6.594915] Call trace:
+> > [    6.594915]  camss_find_sensor+0x20/0x74 [qcom_camss]
+> Hmm, not sure looking at what we have.
 > 
+>                  pad = &entity->pads[0];
+>                  if (!(pad->flags & MEDIA_PAD_FL_SINK))
+>                          return NULL;
 > 
-> [    5.657860] ov5675 24-0010: failed to get HW configuration: -517
+> Is pad guaranteed after entity->pads[0] ?
+> We dereference it like its guaranteed.
+> 
+> Anyway thanks for the report, should be enough start digging.
 
-So this caused it, I guess the sensor failed to power up.
+Thanks.
 
-You've booted 50 times in a row and hit a corner case where the sensor 
-didn't power up leading to a NULL deference.
-
-So, two bugs I'd say.
-
-- What is the cirumcstance where the sensor doesn't power up
-- What's the NULL either entity * or entity->pad I'd say.
-
-<snip>
-> [    6.594915] Call trace:
-> [    6.594915]  camss_find_sensor+0x20/0x74 [qcom_camss]
-Hmm, not sure looking at what we have.
-
-                 pad = &entity->pads[0];
-                 if (!(pad->flags & MEDIA_PAD_FL_SINK))
-                         return NULL;
-
-Is pad guaranteed after entity->pads[0] ?
-We dereference it like its guaranteed.
-
-Anyway thanks for the report, should be enough start digging.
-
----
-bod
+Johan
 
