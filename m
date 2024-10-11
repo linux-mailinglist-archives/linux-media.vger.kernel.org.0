@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-19433-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19434-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E838099A655
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 16:29:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC5799A666
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 16:35:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 058321C21570
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 14:29:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 921431F22F33
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 14:35:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 135FF219C8C;
-	Fri, 11 Oct 2024 14:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DED152E62B;
+	Fri, 11 Oct 2024 14:34:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZqTtpDhM"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="hAT1AtGa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DDC218D91;
-	Fri, 11 Oct 2024 14:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDB8168B1;
+	Fri, 11 Oct 2024 14:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728656950; cv=none; b=j153wpbkT2YfnAq9u4uf35lFsGpkSuIeLgGVmLzpb2Lg8x0a6rXUMArM+w/uAsVpWi1Gfu0kmSOWZi7S+G5tNqxeHWpt9GTq1g65YhpCu4IDTz14j+wAQqjumNat18SoZ5oz2NU+ZPr2m330EMLPivYvrFx+xmHpIIlVGMBOJKw=
+	t=1728657294; cv=none; b=qiodrzx7BtptGdCJPCDdNJPqdsr0+J9obME1Jhs0rZaaRhhlZ0KHBHK48/mc+nPS93ieh/5gG84QV4QJN4Cx+JosyE4+iQSdFaHdENJwN8XL7Atm1U20AGmTjxHjyuw+xMa5VoMVucvoBatzT8XvaRxqv6S/gvUpeEi2oKeNH3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728656950; c=relaxed/simple;
-	bh=x5Yh9ZARIV2G6G4vrTtYlC45ZD0pTEf6aj3oEJa4hpU=;
+	s=arc-20240116; t=1728657294; c=relaxed/simple;
+	bh=YPSyOg6r5kJPVJRZNZIHpCvnsPhYT1Yh8TXomgcKLL4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ABiuCRrVZWOGKIkVUyrYL/rFrWpFj/Hs/CWvXNIp4fHa1phk8NZRCpM008NZ9ZQiLvyechWVH17MQxzcZuNVoHPHY6Czjtd4o52vwFi5zYUD3dgCnXh84y470sn9Ltg0v+JcI9r4J4IKimuJ2ecFD4yIVbrZwo3kQt0ps0OUXiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZqTtpDhM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5565BC4CEC3;
-	Fri, 11 Oct 2024 14:29:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728656949;
-	bh=x5Yh9ZARIV2G6G4vrTtYlC45ZD0pTEf6aj3oEJa4hpU=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=lkpmNNtaTluGsxkSk1FK6l6o9C877RX2T68qUTZGJXadxYh/4lXbCk8cAdqVV3u9qmCfzPPyovk37o6rv3C64y5nn6piS+S5C3719a+SRHkFXSVNI5YjqQR7/p2WXgYOeCvgwS03j6vyzuRayDJSr2UEuXNxptvqOjfX5PSZDdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=hAT1AtGa; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1728657283; bh=YPSyOg6r5kJPVJRZNZIHpCvnsPhYT1Yh8TXomgcKLL4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZqTtpDhMudcNfXn4+2AIzGFl4B+hCGFhOLfi1nrZI9dX93RK3f1hctLn4rE8+JYB5
-	 18QUPCmMRKpB1BNdFm4J4ZD4bTiTnta1UrYWSTn1otbOWhDAyBUKLSxK2YWr4b5niF
-	 AQfR/MQmf4yx3HsEX+EXRMojWlPIMXS6XMbLQjHHjmAFnqwa2SJ9I87ICIeGF9Bm6u
-	 b9jfYVkmpDn09GyXvZiNGLLeQc8rxgizne3UlhedWoxTKFacJZ5Ov4JGC1QHjh2lmH
-	 d6RFRbawDIGxMyOkdtUnRKFYMJNo6rAFrn0vrpnu2Y5S5TQcQ+D09yHT0q8fAWpQZ4
-	 motq+D6upjrtg==
-Date: Fri, 11 Oct 2024 16:29:06 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Richard Acayan <mailingradian@gmail.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v6 2/5] dt-bindings: media: camss: Add qcom,sdm670-camss
-Message-ID: <jcqgsgp4ivbokn545sy2rvfllm3vnygfpbufxagotuicacfmgd@v2hlnohlwzdf>
-References: <20241011023724.614584-7-mailingradian@gmail.com>
- <20241011023724.614584-9-mailingradian@gmail.com>
- <785c82d5-549d-454b-86bf-a00a39e6f521@linaro.org>
+	b=hAT1AtGaEOoKGUJbfc+NwXuneyBJWF4jKIjHtCfJ1xgsYTnEKW8UJYxV5AHhfUlrd
+	 XEDE+z13yUbQfbBc8ThJejL9giYd52yCSYtfu21zt8hbTraxt7xaA6HfhjPC5qRlzN
+	 z4JSF6NmzOFQFLcfNidy5V3zLftysyaz781BoP6nMIIP877BuNbxJuN0X7vMMzS/9s
+	 ItYmFGcPyIsD1t0h4lfN9wXovLX2j52PBhDL1iMTRXZ3nCXs2cUCmibgVusmk1W0pF
+	 8PTRogVt4hJfvmqtNT2whBtw1abe45PM6vdZuHmpYpRpJ9pthsTT7Qx+1ekWCYp6Tn
+	 cl0ntoBy437NA==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 6478D1002BF; Fri, 11 Oct 2024 15:34:43 +0100 (BST)
+Date: Fri, 11 Oct 2024 15:34:43 +0100
+From: Sean Young <sean@mess.org>
+To: =?utf-8?B?6YeR6LaFLei9r+S7tumhueebrumDqA==?= <jinchao@vivo.com>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>,
+	=?utf-8?B?6buE55CG6bmP?= <huanglipeng@vivo.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjFdIG1l?=
+ =?utf-8?Q?dia=3A_rc-core=3A_Modif?= =?utf-8?Q?y?= the timeout waiting time
+ for the infrared remote control.
+Message-ID: <Zwk3g-B6dJWgqE41@gofer.mess.org>
+References: <20240927105808.9284-1-shenlichuan@vivo.com>
+ <Zv2xGbdhm8kXgDFe@gofer.mess.org>
+ <TYZPR06MB6895415657AFF1C1723F9020DF7E2@TYZPR06MB6895.apcprd06.prod.outlook.com>
+ <KL1PR0601MB445295795E1DBE993238FB17DB7F2@KL1PR0601MB4452.apcprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,49 +65,78 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <785c82d5-549d-454b-86bf-a00a39e6f521@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <KL1PR0601MB445295795E1DBE993238FB17DB7F2@KL1PR0601MB4452.apcprd06.prod.outlook.com>
 
-On Fri, Oct 11, 2024 at 10:14:49AM +0300, Vladimir Zapolskiy wrote:
-> > +    soc {
-> > +        #address-cells = <2>;
-> > +        #size-cells = <2>;
-> > +
-> > +        camss@ac65000 {
-> > +            compatible = "qcom,sdm670-camss";
-> > +
-> > +            reg = <0 0x0acb3000 0 0x1000>,
+Hi,
+
+On Wed, Oct 09, 2024 at 07:03:57AM +0000, 金超-软件项目部 wrote:
+> NORMAL: The kukong apk control remote control sends codes for other buttons
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[0]: 4500, 4500, 560, 560, 560, 1680, 560, 1680
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[8]: 560, 1680, 560, 560, 560, 560, 560, 560
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[16]: 560, 560, 560, 560, 560, 1680, 560, 1680
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[24]: 560, 1680, 560, 560, 560, 560, 560, 560
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[32]: 560, 560, 560, 1680, 560, 560, 560, 1680
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[40]: 560, 1680, 560, 560, 560, 560, 560, 560
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[48]: 560, 560, 560, 560, 560, 1680, 560, 560
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[56]: 560, 560, 560, 1680, 560, 1680, 560, 1680
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[64]: 560, 1680, 560, 46920, 4500, 4500, 560, 1680
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: 0x560,
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: 0x96200,
+
+If I sum all these lengths, I get 216000 microseconds. That's well clear
+of IR_MAX_DURATION (500ms).
+
+Note that the last two values 0x560 and 0x96200 look really weird, they are
+not hex values are all, and there is no "pattern[...]: " prefix.
+
+> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal:
+> 10-09 11:20:18.220  1023  1023 D ConsumerIrHal: IRTX: Send to driver
+> 10-09 11:20:18.469  1023  1023 D ConsumerIrHal: Done, Turn OFF IRTX
 > 
-> This is immediately wrong, unit address shall be the same as the address of the
-> first value of reg property.
-> 
-> I still object to the sorting order of reg values dictated by reg-names property.
-> 
-> There are a few recently added CAMSS device tree binding descriptions, where
-> reg values are sorted by address values without a connection to another property
-> values, and I believe this is the correct way to go.
-> 
-> Two most recently added CAMSS IP descriptions (qcom,sm8250-camss.yaml and
-> qcom,sc8280xp-camss.yaml) do implement sorting by reg values, I believe from now on
-> it should be assumed that all subsequently added CAMSS IP descriptions to follow
-> the same established policy.
+> SPECIAL :Sending the power button on the remote control of the kukong app may result in additional lines of coding, leading to transmission failure (72-88 extra)
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[0]: 4500, 4500, 560, 560, 560, 1680, 560, 1680
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[8]: 560, 1680, 560, 560, 560, 560, 560, 560
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[16]: 560, 560, 560, 560, 560, 1680, 560, 1680
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[24]: 560, 1680, 560, 560, 560, 560, 560, 560
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[32]: 560, 560, 560, 560, 560, 560, 560, 1680
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[40]: 560, 1680, 560, 560, 560, 560, 560, 560
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[48]: 560, 560, 560, 1680, 560, 1680, 560, 560
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[56]: 560, 560, 560, 1680, 560, 1680, 560, 1680
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[64]: 560, 1680, 560, 46920, 4500, 4500, 560, 1680
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[72]: 560, 96200, 4500, 4500, 560, 1680, 560, 96200
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[80]: 4500, 4500, 560, 1680, 560, 96200, 4500, 4500
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[88]: 560, 1680, 560, 96200, 4500, 4500, 560, 1680
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: 0x560,
+> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: 0x96200,
 
-Heh, sc8280xp introduced entirely different sorting also in interrupt-names.
+If I sum all these lengths I get 648000 microseconds, so quit a bit more
+than IR_MAX_DURATION, which is why the send fails. Again the last two values
+are printed like garbage.
 
-Just look at interrupts of sm8250 and sc8280xp. Luckily clocks are still
-keeping style.
+The signal looks like NECx1: http://hifi-remote.com/wiki/index.php/NECx1
 
-Can you start keeping consistency? All bindings from the same family of
-devices, especially if they share something, should have similar order
-in lists.
+So there is the main signal, follow by a bunch of repeats. Each repeat
+looks like +4500 -4500 +560 -1680 +560 -96200; the -96200 is the trailing
+gap. To avoid going over IR_MAX_DURATION, don't include the -96200 gap
+but replaced with a usleep(96200), i.e. in psuedo code:
 
-How do you imagine writing drivers and request items by order (not by
-name) if the order is different in each flavor?
+        int i, fd = open("/dev/lirc0", O_RDWR);
+        write(fd, [4500 4500 560 560 560 1680 560 1680 560 1680 560 560 560 560 560 560 560 560 560 560 560 1680 560 1680 560 1680 560 560 560 560 560 560 560 560 560 560 560 560 560 1680 560 1680 560 560 560 560 560 560 560 560 560 1680 560 1680 560 560 560 560 560 1680 560 1680 560 1680 560 1680 560]);
+        usleep(46920);
+        for (i=0; i<4; i++) {
+                write(fd, [4500 4500 560 1680 560]);
+                usleep(96200);
+        }
 
-And such change to randomness in style - sometimes reg sorted that way,
-sometimes other, interrupts sometimes like this or like that - should
-not come from Linaro.
+Note that this what the lirc daemon also does for transmits; it's a well
+established way of sending. The write() to a lirc chardev won't return until
+the transmit has been successful. It might be interruptted by a signal, so
+you should disable signals during write (I don't think lirc daemon bothers
+though).
 
-Best regards,
-Krzysztof
 
+Hope this helps
+
+Sean
 
