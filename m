@@ -1,55 +1,57 @@
-Return-Path: <linux-media+bounces-19384-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19385-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7DF3999BA3
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 06:28:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5264F999BEA
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 06:57:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73AF71F24056
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 04:28:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67B6BB223C8
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 04:57:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61B6E1F472C;
-	Fri, 11 Oct 2024 04:28:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD5E71F706D;
+	Fri, 11 Oct 2024 04:57:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uyeInPa3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RZbNbNPP"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42721A0704
-	for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 04:28:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D4E1C7B6A;
+	Fri, 11 Oct 2024 04:57:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728620914; cv=none; b=bHDv01o9I5GeRg1RASjS+VsoZelvq6mbz4Verd0/qhY2GHvA4MFbmd5Y8ooO/JxHPmHDN7zjNEZHnwkWsnbg/LPEQnJipcIhr9YmY1MLN0etOqWMMl7pOxAzNRPvu64qFZdOJy3NJpC4xAplDpWM0KjhAI03yWko7HHnFwFh+Zc=
+	t=1728622660; cv=none; b=VJ4c3oTWdvFM2m9DA0vrXJWiLLnQ24IXJWE0hd/sL/uCAzTlWfnNV1h3P518cudlY5i0K7ZbABPKmJzK2zmqF1vv30lJmrzzchBzlzKOAYJ/aY65lE2/CFo/NXyBZ0OO7RkG0HdprXUmg9op9XOJ/M9iBpqC9xWxtaAvFyAUnt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728620914; c=relaxed/simple;
-	bh=CEMTTPbNJIwtk3QdU2Ih2e2FkEg+rJ5KIq+7w0rO7LM=;
+	s=arc-20240116; t=1728622660; c=relaxed/simple;
+	bh=wU9z6zG8MJ4bNscO9Zr9B6be3qjNhU53wWPhZe3xAx4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o2AFl9KdlCae84pcCMgh2+AJWnTB3RSP9oBKyQ+VEGz5awDl/H0xc/D44gRob4Arkhbqk12tjgfYYm8t7Gc3jRiTw3JbDugbWQAj8fGL4o5w1do1OrBgqUh8oPOKyEjUeB/AvfU63c4dNnt7TjrI55HU7+jU8EO+NapBChzWlWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uyeInPa3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DD74C4CEC3;
-	Fri, 11 Oct 2024 04:28:32 +0000 (UTC)
+	 MIME-Version:Content-Type; b=lkeqno5xB7b0ZGXY4I195A238hY4J6bAztF9AoIyv4In5PNQtOTAjqQtLsqtOOJsXWFiuHcq6QFEmuH79w5bIPUG/nM/54spSPtvYZ1gihlgeHr8cLMYf38PE0JGuyYtGK+OlhEKE226qqXCN52v4SklYNckvy6YvlvsQBiHmQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RZbNbNPP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24516C4CEC3;
+	Fri, 11 Oct 2024 04:57:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728620914;
-	bh=CEMTTPbNJIwtk3QdU2Ih2e2FkEg+rJ5KIq+7w0rO7LM=;
+	s=k20201202; t=1728622659;
+	bh=wU9z6zG8MJ4bNscO9Zr9B6be3qjNhU53wWPhZe3xAx4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uyeInPa30123EY6KqplStYUxU7y6a2T6/duyq/IFRJDQ2s4ydgatnGmftDQP3lDqu
-	 LhDMdKDbSNwaxy//OdZmXeAkZVPLDJQ1Pu9Bp/IcHbr/eArCoNVMtT3L5HZb+D5Dvc
-	 9vHHuEr/+CMACWfo0xWI6W11dOedm03JJRdq12ELwBvYB3NwlPvdp+aQR2Wm3fAcSj
-	 i+BjMYsyIoLXewBZKxkY5CP1QxMHJcF6J969BhARYyFK9pbVsnk4Ee1gxeJpKkftOm
-	 n+O9t43toAjOubS84Ea/Gaw85IT/lBz0/HvuYxqd3rWNXy6aTgbLTuNuXLUgemU10i
-	 tqsFYIZutjtNQ==
-Date: Fri, 11 Oct 2024 06:28:29 +0200
+	b=RZbNbNPP4uADn1ohcBi+TmIpNXpiJv7zG9kBt7v7pkhULOieADggi9tvmfKbNFcIz
+	 tOtC7EjsQYSj9COzwPKOQbzcjFHV8F7p4y/EZHIBZOlEQ5hoKfRLT8zrMKNMsGNwD2
+	 NupT66dE/Vg4g8AN0VI8N5rdL38kupNcJF64sNLJwFI+xD1i579xqJrcnuXjq4E/z9
+	 WMx5kmCdt7aVdMRPuavctfXoaMXJhE/lxGl4dWzShRAvXpX7I+VfoJHEC+BdnEJg6b
+	 QujdslgczNf+cxjfW/zQ+87KJLcN3gTfnMGYbXQHFhrSmf3wAOsB5m7xnJe6/JSrnj
+	 rp1yaN8/NVKhw==
+Date: Fri, 11 Oct 2024 06:57:34 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Chenyuan Yang <chenyuan0y@gmail.com>
 Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
- syzkaller@googlegroups.com, Zijie Zhao <zzjas98@gmail.com>
-Subject: Re: [drivers/media/dvb-core] WARNING in vb2_core_reqbufs
-Message-ID: <20241011062814.50094a03@foz.lan>
-In-Reply-To: <CALGdzuopL9-zNbhsaz71Ndi8WY0HLH+vTHnyJULHRu9mqeXG=Q@mail.gmail.com>
-References: <CALGdzuopL9-zNbhsaz71Ndi8WY0HLH+vTHnyJULHRu9mqeXG=Q@mail.gmail.com>
+ linux-kernel@vger.kernel.org, syzkaller@googlegroups.com, Zijie Zhao
+ <zzjas98@gmail.com>
+Subject: Re: [Linux Kernel Bug] memory leak in dvb_dmxdev_add_pid
+Message-ID: <20241011065734.471f3774@foz.lan>
+In-Reply-To: <CALGdzur5uoqM-8H_MfPJNdPNL1nMhRbttN95kNWi2q-p3-n9hg@mail.gmail.com>
+References: <CALGdzuqAiWA4zEqUEiTMLRjrhCyh+EL311Gen16YnyNSk75Yaw@mail.gmail.com>
+	<CALGdzur5uoqM-8H_MfPJNdPNL1nMhRbttN95kNWi2q-p3-n9hg@mail.gmail.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -57,170 +59,141 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Em Thu, 10 Oct 2024 11:08:25 -0500
+Em Thu, 10 Oct 2024 20:06:29 -0500
 Chenyuan Yang <chenyuan0y@gmail.com> escreveu:
 
 > Dear Linux Developers for DVB,
-> 
-> We encountered "WARNING in vb2_core_reqbufs" when testing the
-> DVB driver with Syzkaller and our generated specifications.
-> 
-> It seems that when invoking `ioctl$DMX_REQBUFS`, it will fail the
-> following WARN_ON in
-> https://elixir.bootlin.com/linux/v6.12-rc2/source/drivers/media/common/videobuf2/videobuf2-core.c#L956
-> 
-> ```
-> for (i = 0; i < num_planes; i++)
-> if (WARN_ON(!plane_sizes[i])) {
-> ret = -EINVAL;
-> goto error;
-> }
-> ```
+>=20
+> I am writing to inquire if there have been any updates regarding the
+> memory leak issue. The issue remains reproducible on the latest stable
+> Linux version (6.12-rc2, commit
+> 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b).
 
-This is by purpose. This is part of mmap user interface. There is an
-specific sequence for such ioctls to be called, together with the need
-of memory-mapped buffers.
+The DVB demux has internally a state machine to filter MPEG-TS streams. It
+needs to allocate data and buffers when setting such filters. So, the ioctls
+described at https://www.kernel.org/doc/html/v4.10/media/uapi/dvb/dmx_fcall=
+s.html
+work together.
 
-> 
-> Linux version: Linux 6.12-rc2 (8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b)
-> Configuration is attached (with `CONFIG_DVB_MMAP=y`)
-> Syz and C reproducers are as below:
-> 
-> ```
-> Syzkaller hit 'WARNING in vb2_core_reqbufs' bug.
-> 
-> ------------[ cut here ]------------
-> WARNING: CPU: 0 PID: 10407 at
-> drivers/media/common/videobuf2/videobuf2-core.c:957
-> vb2_core_reqbufs+0x128d/0x17a0
-> drivers/media/common/videobuf2/videobuf2-core.c:957
-> Modules linked in:
-> CPU: 0 UID: 0 PID: 10407 Comm: syz-executor171 Not tainted
-> 6.12.0-rc2-g8cf0b93919e1 #2
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-> RIP: 0010:vb2_core_reqbufs+0x128d/0x17a0
-> drivers/media/common/videobuf2/videobuf2-core.c:957
-> Code: 49 8d b6 28 02 00 00 48 c7 c7 a0 5a 04 8e 48 c7 c2 9d 12 4d 8f
-> e8 03 81 d7 03 4c 8b 7c 24 28 e9 02 f5 ff ff e8 b4 87 db f8 90 <0f> 0b
-> 90 41 bd ea ff ff ff 49 bc 00 00 00 00 00 fc ff df 4c 8b 7c
-> RSP: 0018:ffffc9000e7f7b40 EFLAGS: 00010293
-> RAX: ffffffff88bedbbc RBX: 0000000000000000 RCX: ffff8880463d0000
-> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-> RBP: ffffc9000e7f7ce8 R08: ffffffff88bed5e0 R09: 1ffff92001cfef58
-> R10: dffffc0000000000 R11: ffffffff88b4fd00 R12: 0000000000000000
-> R13: ffffc9000e7f7c20 R14: ffffc9000652c260 R15: ffffc9000e7f7c40
-> FS:  0000555565e823c0(0000) GS:ffff88802c200000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000020000098 CR3: 0000000020696000 CR4: 0000000000752ef0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
-> PKRU: 55555554
-> Call Trace:
->  <TASK>
->  dvb_vb2_reqbufs+0xfe/0x3c0 drivers/media/dvb-core/dvb_vb2.c:338
->  dvb_demux_do_ioctl+0x5f9/0x760 drivers/media/dvb-core/dmxdev.c:1132
->  dvb_usercopy+0x170/0x270 drivers/media/dvb-core/dvbdev.c:993
->  dvb_demux_ioctl+0x2e/0x40 drivers/media/dvb-core/dmxdev.c:1185
->  vfs_ioctl fs/ioctl.c:51 [inline]
->  __do_sys_ioctl fs/ioctl.c:907 [inline]
->  __se_sys_ioctl+0xfa/0x170 fs/ioctl.c:893
->  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->  do_syscall_64+0xf9/0x280 arch/x86/entry/common.c:83
->  entry_SYSCALL_64_after_hwframe+0x67/0x6f
-> RIP: 0033:0x7f54a9a8ba8d
-> Code: 28 c3 e8 46 1e 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48
-> 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d
-> 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007ffd57732608 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 00007ffd57732808 RCX: 00007f54a9a8ba8d
-> RDX: 0000000020000280 RSI: 00000000c0086f3c RDI: 0000000000000003
-> RBP: 0000000000000001 R08: 0000000000000000 R09: 00007ffd57732808
-> R10: 000000000000000f R11: 0000000000000246 R12: 0000000000000001
-> R13: 00007ffd577327f8 R14: 00007f54a9b09530 R15: 0000000000000001
->  </TASK>
-> 
-> 
-> Syzkaller reproducer:
-> # {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1
-> Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false
-> NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false
-> KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false
-> Wifi:false IEEE802154:false Sysctl:false Swap:false UseTmpDir:false
-> HandleSegv:false Repro:false Trace:false LegacyOptions:{Collide:false
-> Fault:false FaultCall:0 FaultNth:0}}
-> r0 = syz_open_dev$KGPT_dvb_demux_syzkalm(&(0x7f0000000080), 0x0, 0x60200)
-> ioctl$KGPT_DMX_REQBUFS_0_dup(r0, 0xc0086f3c, &(0x7f0000000280)={0x1ff})
-> 
-> 
-> C reproducer:
-> // autogenerated by syzkaller (https://github.com/google/syzkaller)
-> 
-> #define _GNU_SOURCE
-> 
-> #include <endian.h>
-> #include <fcntl.h>
-> #include <stdint.h>
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <string.h>
-> #include <sys/stat.h>
-> #include <sys/syscall.h>
-> #include <sys/types.h>
-> #include <unistd.h>
-> 
-> static long syz_open_dev(volatile long a0, volatile long a1, volatile long a2)
-> {
->   if (a0 == 0xc || a0 == 0xb) {
->     char buf[128];
->     sprintf(buf, "/dev/%s/%d:%d", a0 == 0xc ? "char" : "block", (uint8_t)a1,
->             (uint8_t)a2);
->     return open(buf, O_RDWR, 0);
->   } else {
->     char buf[1024];
->     char* hash;
->     strncpy(buf, (char*)a0, sizeof(buf) - 1);
->     buf[sizeof(buf) - 1] = 0;
->     while ((hash = strchr(buf, '#'))) {
->       *hash = '0' + (char)(a1 % 10);
->       a1 /= 10;
->     }
->     return open(buf, a2, 0);
->   }
-> }
-> 
-> uint64_t r[1] = {0xffffffffffffffff};
-> 
-> int main(void)
-> {
->   syscall(__NR_mmap, /*addr=*/0x1ffff000ul, /*len=*/0x1000ul, /*prot=*/0ul,
->           /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
->   syscall(__NR_mmap, /*addr=*/0x20000000ul, /*len=*/0x1000000ul, /*prot=*/7ul,
->           /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
->   syscall(__NR_mmap, /*addr=*/0x21000000ul, /*len=*/0x1000ul, /*prot=*/0ul,
->           /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
->   intptr_t res = 0;
->   memcpy((void*)0x20000080, "/dev/dvb/adapter#/demux#\000", 25);
->   res = -1;
->   res = syz_open_dev(/*dev=*/0x20000080, /*id=*/0, /*flags=*/0x60200);
->   if (res != -1)
->     r[0] = res;
->   *(uint32_t*)0x20000280 = 0x1ff;
->   *(uint32_t*)0x20000284 = 0;
->   syscall(__NR_ioctl, /*fd=*/r[0], /*cmd=*/0xc0086f3c, /*arg=*/0x20000280ul);
->   return 0;
-> }
-> ```
-> 
-> If you have any questions or require more information, please feel
-> free to contact us.
-> 
-> Reported-by: Chenyuan Yang <chenyuan0y@gmail.com>
-> 
+Having a report that calling DMX functions on a fuzz testing result on
+memory keeping allocated sounds a normal behavior to me, as such filters
+are meant to be persistent.=20
+
+I need to double-check, but I'm almost sure this is persistent even after
+device close(). So, de-allocation should happen when the device driver is
+removed or when a new set of filters is set. In the last case, the old=20
+buffers will be freed and a new set of buffers will be allocated.
+
+>=20
+> Thank you for your attention to this matter.
+>=20
 > Best,
 > Chenyuan
+>=20
+> On Sat, Mar 2, 2024 at 3:12=E2=80=AFPM Chenyuan Yang <chenyuan0y@gmail.co=
+m> wrote:
+> >
+> > Dear Linux Developers for DVB,
+> >
+> > We encountered "memory leak in dvb_dmxdev_add_pid" when testing the
+> > DVB driver with Syzkaller and our generated specifications.
+> >
+> > The C reproducer and the config for the kernel are attached.
+> >
+> > The memory leak originates from the allocated dmxdev_feed structure,
+> > as referenced in the code at
+> > [https://elixir.bootlin.com/linux/latest/source/drivers/media/dvb-core/=
+dmxdev.c#L881].
+> > This structure fails to be freed upon entering the code branch found
+> > at [https://elixir.bootlin.com/linux/latest/source/drivers/media/dvb-co=
+re/dmxdev.c#L891].
+> >
+> > ```
+> > ioctl$KGPT_DMX_START(r0, 0x6f29, 0x0)
+> > BUG: memory leak
+> > unreferenced object 0xffff88802e9ae7e0 (size 32):
+> >   comm "syz-executor.0", pid 27777, jiffies 4295115050 (age 15.550s)
+> >   hex dump (first 32 bytes):
+> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >     08 c0 6a 05 00 c9 ff ff 08 c0 6a 05 00 c9 ff ff  ..j.......j.....
+> >   backtrace:
+> >     [<ffffffff8169126f>] kmemleak_alloc_recursive
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/./include/linux/kmemleak.h:42
+> > [inline]
+> >     [<ffffffff8169126f>] slab_post_alloc_hook
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/mm/slab.h:766
+> > [inline]
+> >     [<ffffffff8169126f>] slab_alloc_node
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/mm/slub.c:3478
+> > [inline]
+> >     [<ffffffff8169126f>] __kmem_cache_alloc_node+0x2ff/0x3e0
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/mm/slub.c:3517
+> >     [<ffffffff815d9da9>] kmalloc_trace+0x29/0x90
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/mm/slab_common.c:1098
+> >     [<ffffffff83db2e09>] kmalloc
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/./include/linux/slab.h:600
+> > [inline]
+> >     [<ffffffff83db2e09>] kzalloc
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/./include/linux/slab.h:721
+> > [inline]
+> >     [<ffffffff83db2e09>] dvb_dmxdev_add_pid+0xa9/0x160
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/drivers/media/dvb-core/dmxdev.c:881
+> >     [<ffffffff83db48de>] dvb_dmxdev_pes_filter_set
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/drivers/media/dvb-core/dmxdev.c:956
+> > [inline]
+> >     [<ffffffff83db48de>] dvb_demux_do_ioctl+0x67e/0xa80
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/drivers/media/dvb-core/dmxdev.c:1076
+> >     [<ffffffff83db1252>] dvb_usercopy+0x82/0x220
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/drivers/media/dvb-core/dvbdev.c:986
+> >     [<ffffffff83db1b51>] dvb_demux_ioctl+0x31/0x40
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/drivers/media/dvb-core/dmxdev.c:1185
+> >     [<ffffffff8171ca88>] vfs_ioctl
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/fs/ioctl.c:51
+> > [inline]
+> >     [<ffffffff8171ca88>] __do_sys_ioctl
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/fs/ioctl.c:871
+> > [inline]
+> >     [<ffffffff8171ca88>] __se_sys_ioctl
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/fs/ioctl.c:857
+> > [inline]
+> >     [<ffffffff8171ca88>] __x64_sys_ioctl+0x108/0x150
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/fs/ioctl.c:857
+> >     [<ffffffff8540b150>] do_syscall_x64
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/arch/x86/entry/common.c:51
+> > [inline]
+> >     [<ffffffff8540b150>] do_syscall_64+0x40/0x110
+> > scratch/zijie-data/LLM-Kernel/spec-eval/shared_linux_builds/syzbot-leak=
+-more_631373bc9e824969/arch/x86/entry/common.c:82
+> >     [<ffffffff8560008b>] entry_SYSCALL_64_after_hwframe+0x63/0x6b
+> > ```
+> >
+> > If you have any questions or require more information, please feel
+> > free to contact us.
+> >
+> > Reported-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> >
+> > Best,
+> > Chenyuan =20
 
 
 
