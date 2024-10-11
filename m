@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-19456-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19457-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D63B99AA2A
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 19:34:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB19F99AA2F
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 19:34:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DBA51F2776B
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 17:33:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75558B235E2
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 17:34:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1D0A1D096B;
-	Fri, 11 Oct 2024 17:31:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05DA31D0BB6;
+	Fri, 11 Oct 2024 17:31:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/eZNimj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQY424bT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E23C1D0784;
-	Fri, 11 Oct 2024 17:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B466F1D07BB;
+	Fri, 11 Oct 2024 17:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728667871; cv=none; b=UcEGSDPSIbajmu3BiFw7p88q1GoJ+Xj3xR3kvV4i6d7filRMjt3heALqTIZz205hW9vHPSMDFVZ2JDQxCg7mV/UKmgMgQKyD3JReJXXYrBZXJ002QwidlLC0OiIIBFrK9APv+dgr/m9+NDg8/8JtjbThogkDAGPnh5yWcIRXWow=
+	t=1728667872; cv=none; b=Hs6PgQtKQYR+eP1Eo/ge9rhCotn40gRw8fb7dMKee6vVBFjPBBeA+UacULVHjj2mgdADabERNnhfDDdEoX81pr9uAa2zuG4Z60ylJDlU6Kn1POVR+pQ5A6aBh1icO8IRREqCx4/pAqp47HN6F47kJj5MvdOsPd38oHtjijT8cJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728667871; c=relaxed/simple;
-	bh=C1qUYYuRnWzN0Zz7CliMFvIfZZC42AzyLPIVnw9T4s4=;
+	s=arc-20240116; t=1728667872; c=relaxed/simple;
+	bh=jjKhdL2ZlFvCxK6TQCDrMqBP3ZWyNv7UnbEcwC/zyfU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=utAZv64B8Ra+vsodh51AQ2Kq7DS725/1NqokHMF7OkXUcFmtPvj6ZmqSbBtfvvRQ09VQ27P55k3A75fJP3FW09XTb+qSd3I87GDeisWz340jR2vd9xbdAKKOf+6BFrzvpOnVduh3eSy7BiO51lCBa5YbJIUWpDLe5X73o3ZIWlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/eZNimj; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version; b=iF0oT3jgLv+NJqXENVZ4k7Dv+iRoPi0eAyy1hKn9wSrBScJCKNGgl98c/VsbBo94gfuzoQZWfXCyIpnPPMQjqcLXvZOYy9q0jK9uM3y1/eZzpBS4jEnq4TTHmHF8ikHpUx7kmg6147A7KsIjzTpziJWDqfIwjBGc+gD+06u07bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQY424bT; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d47b38336so1297956f8f.3;
-        Fri, 11 Oct 2024 10:31:09 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-431195c3538so14084385e9.3;
+        Fri, 11 Oct 2024 10:31:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728667868; x=1729272668; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728667869; x=1729272669; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WL+Bmul59N0MJqBB8bgrzNdSKYlWKVm6sYmTP9eyLfQ=;
-        b=a/eZNimjGIHSEDraZFSojXe47UlndxgFq/12pCdK3cEI8n1EdV6T6AKyALmmS0dg90
-         bjt0GnrsXTvVyE4U2fjn6Dc63D+WhQ+3slGyl6POBrwts8gw16WZUkogkBlkqCzSmIvY
-         yL9/WZtSMGjjIrc2lOrfT3+//zxx+XUmn+S5KpvirAKVAeubC3fYvnLFyekJ0fQgh8u/
-         p5M0cfzc/oreuPgKaysUAZo9Aaj46dyEzpDhFI5E6/2uT+TOGz3QNdUY4xWqIlWm70rK
-         0x2BjtQf1aV1ptHBv9CsGDQUUvbhqDylWaqXL/icOHDRVuefqYrRKuX4ErZXuX7DhZvY
-         t7GQ==
+        bh=LOA5rh/i3sB2aiZsIVyQZqxDqnBUHZOsMDWgLcJkZqo=;
+        b=SQY424bTcM86j6QlrvQCSbY9j6+TNiKBmnS9oOSEdAMQnis+JGSv0aozmPUB8PXE3l
+         Qco5ZWpVXcq2TFFrzax+RBJEDBz3o7cfXiacjb5xQISRY0s/3aUTKdIUUuNhacGJkfmY
+         rLOadcV+g+916RDsfBrizOUepOiDrCaUxGtgXZRSFDpH2yZSGwuzZkc79xFI5n0qfPnn
+         ZNR338gZlOVA8OMxKpTMnQopvOMtCOirWjFpZC2FIgGDDg8sglyCOJHPQ5XHvj+j8tj1
+         EOiZVgx2MRXzrkj+TMnbqikda6F6aKt2eY8N81BnKqqcP00HjZ7qSduff/IHtOCDbihS
+         3yCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728667868; x=1729272668;
+        d=1e100.net; s=20230601; t=1728667869; x=1729272669;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WL+Bmul59N0MJqBB8bgrzNdSKYlWKVm6sYmTP9eyLfQ=;
-        b=clBhvlBz3pP4lwMU4jWo6dr24sYUakOjGx4WF6XnteAd4G4ss5ZpepWKC0lSQSrVw/
-         yTCg1sJE2qD+vQeSR0wZhBAerYyX+XAQGDXAlaeBzhzMoAXHg+u3qKEEchKIeKKkNr7g
-         v8BcNAGB3et+eLkG+I1gd3b4NUNJDX4fCf3NjhzMjJ2gDK0Kr27XQkA4R2he4j4lyToc
-         gjFnbRsTKSsnsW2v9Q0iD+Djo1G5GINRlyVXAPhYSzi5DJQRbjNtyTed31FYEJTKBi+G
-         nBk/aWuzMS6XSOu1f0i63wea0dOh6/FKISg7iHoNXPkg6rgQfszUbSD569zp7yIv/1sA
-         bCkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVFaZIKkGgQZABpMlwF5qoJZfGnbbfULZLLkrh9sVBzgzlOXGvwODvgc/H1W/OTNU+4PsEvFPXHtLzt5wM=@vger.kernel.org, AJvYcCXP9fnj47eNqRf4RafzduK4foV0pMg2XuzfIr6y8xSaMRzsypVjJZWH3DjZ2NDpNsWGvaW8B5EG5gDn7tPSACQ59ZQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys+N0ymlSRf//NHfB1A6bKw0zU4Fc0o5xSSL1g2CFiFnByhkQu
-	6mdbvBx23h0xcjDAbGVwN3lvVIVhJwnyNVrwZlqHDKE1unpY9zof
-X-Google-Smtp-Source: AGHT+IFztpNTjDwWyqlddWZsTSa+MgMCE+EdK4jeW57kb8jDEWOo2Q/3AbOS/9Rbz/eUNsI97rTmsw==
-X-Received: by 2002:a5d:4e0c:0:b0:37d:4ebe:164f with SMTP id ffacd0b85a97d-37d552fe3f2mr2209975f8f.46.1728667867628;
-        Fri, 11 Oct 2024 10:31:07 -0700 (PDT)
+        bh=LOA5rh/i3sB2aiZsIVyQZqxDqnBUHZOsMDWgLcJkZqo=;
+        b=mfAG1LKDDPSp+ZQYxLoewI1XoPMkl3yjXkchDX9xapQ1FCzBHpEcAGGCDxC9RWCaBb
+         mEac5z1xEjxulqjUwVyuyvsesQ4ZNtkH1/BKqJlmPVoT4YkCxwgRTlvlVjNvgoSy5uRL
+         /RWIZPuemVVTKClaAEJte4HqR8IGlSt34zEFBANkYV1riMX2LmhyAP8rpR6t6bT9Js2m
+         LiQv/bzWp5rtNROMoGkbW+jQSNWuF50Z/fLFMj7HmnT0gyy3X0nbMXfnfZAOArHK2Nbb
+         1iPDOMiWATmqTObIQIjf5waIQIGP9HiYEb+8Mlx1Ijiy6r0WgALLjfXfV9aXBGCvomFV
+         AZng==
+X-Forwarded-Encrypted: i=1; AJvYcCWNc7MjIMpfVuimbdjYf5eaNJvpze7gW80Tzm7+GStLIAmQyf+ftpnTVnw5BUMIkMrVTZ2DEAiSZXJU5oYBI5sGQOA=@vger.kernel.org, AJvYcCX3TTnBHi7n0vmxZw68VtDfgyjAL3eCr1zaQSwNd259WCpqsKW/J10mfgHiRq6RnUav+ZLFzGiOOSikXT0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywr/rs4GYNF2USLJAZwH5XXc1zuhmWBP8NTJY4TiI6nEZGRDgKp
+	P8X/LZD649ubKYkazj3dwe0+Qysc8DL+y3fo00m+UCvlMoPec7LU
+X-Google-Smtp-Source: AGHT+IFGAO6T+onA77JYp1uDBIPc/erkj9W6nZlMCZgpZO1/soFy7ZTiRigXkOUPAYEeAXmGevGkDg==
+X-Received: by 2002:a5d:460a:0:b0:37d:34f6:92a with SMTP id ffacd0b85a97d-37d5531b1b1mr1671628f8f.51.1728667868956;
+        Fri, 11 Oct 2024 10:31:08 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b79fa0asm4396516f8f.83.2024.10.11.10.31.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b79fa0asm4396516f8f.83.2024.10.11.10.31.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 10:31:06 -0700 (PDT)
+        Fri, 11 Oct 2024 10:31:08 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
@@ -80,9 +80,9 @@ Cc: linux-media@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 08/22] media: rzg2l-cru: Use MIPI CSI-2 data types for ICnMC_INF definitions
-Date: Fri, 11 Oct 2024 18:30:38 +0100
-Message-ID: <20241011173052.1088341-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v5 09/22] media: rzg2l-cru: Remove unused fields from rzg2l_cru_ip_format struct
+Date: Fri, 11 Oct 2024 18:30:39 +0100
+Message-ID: <20241011173052.1088341-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241011173052.1088341-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20241011173052.1088341-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -96,55 +96,33 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The INF field in the ICnMC register accepts data type codes as specified
-in the MIPI CSI-2 v2.1 specification. This patch introduces the
-`ICnMC_INF()` macro to use the MIPI CSI-2 data types, which are available
-in the `media/mipi-csi2.h` header.
+Simplified the `rzg2l_cru_ip_format` struct by removing the unused
+`datatype` and `bpp` fields from the structure in `rzg2l-ip.c`.
 
-Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 9ab7ef33c9da..de88c0fab961 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -15,6 +15,7 @@
- #include <linux/delay.h>
- #include <linux/pm_runtime.h>
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+index aee7d4ba70b0..7b006a0bfaae 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+@@ -10,12 +10,10 @@
  
-+#include <media/mipi-csi2.h>
- #include <media/v4l2-ioctl.h>
- #include <media/videobuf2-dma-contig.h>
+ struct rzg2l_cru_ip_format {
+ 	u32 code;
+-	unsigned int datatype;
+-	unsigned int bpp;
+ };
  
-@@ -77,8 +78,7 @@
- /* CRU Image Processing Main Control Register */
- #define ICnMC				0x208
- #define ICnMC_CSCTHR			BIT(5)
--#define ICnMC_INF_YUV8_422		(0x1e << 16)
--#define ICnMC_INF_USER			(0x30 << 16)
-+#define ICnMC_INF(x)			((x) << 16)
- #define ICnMC_VCSEL(x)			((x) << 22)
- #define ICnMC_INF_MASK			GENMASK(21, 16)
+ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+-	{ .code = MEDIA_BUS_FMT_UYVY8_1X16,	.datatype = 0x1e, .bpp = 16 },
++	{ .code = MEDIA_BUS_FMT_UYVY8_1X16, },
+ };
  
-@@ -307,12 +307,12 @@ static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *input_is_yuv,
- 
- 	switch (ip_sd_fmt->code) {
- 	case MEDIA_BUS_FMT_UYVY8_1X16:
--		icnmc = ICnMC_INF_YUV8_422;
-+		icnmc = ICnMC_INF(MIPI_CSI2_DT_YUV422_8B);
- 		*input_is_yuv = true;
- 		break;
- 	default:
- 		*input_is_yuv = false;
--		icnmc = ICnMC_INF_USER;
-+		icnmc = ICnMC_INF(MIPI_CSI2_DT_USER_DEFINED(0));
- 		break;
- 	}
- 
+ static const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
 -- 
 2.43.0
 
