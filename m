@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-19379-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19380-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A7B999AD6
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 05:03:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27925999AE5
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 05:08:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B77F31C21FAB
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 03:03:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9EBE01F2498D
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 03:08:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D5CB1F4735;
-	Fri, 11 Oct 2024 03:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EC961F4FC8;
+	Fri, 11 Oct 2024 03:08:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MqdB9Jo9"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LzmBBDBd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A90FEBE;
-	Fri, 11 Oct 2024 03:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DDA1F4706;
+	Fri, 11 Oct 2024 03:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728615796; cv=none; b=sO6lOZLVZMJ1NFx4aCGXLE8LloL7eFBkXVLUT6LsFVCcq5gSSE9Hn4l63uTtq6rVm59RToivE96v9QMFBaud4oxetLD68aemNkQ9CxfH3lP9WtatTPr08ogUAQMmbQiNKnJAQzo7pBxQyGfAhH7ILLQ53huOLoPdaGJmFPawza4=
+	t=1728616089; cv=none; b=qNcAleIiOhtPpvDi5XyftDodK89HhkP09ATRsjYftPx0TtsU/zWehaawUJ3Kb6+1QvTH3QvnBXRKAywRD2pcNENV/FDjq1PojZGyklCc8cp53FsUS8bpyQYcaZmTrPTVg0r98tjVEGrqgeHx75yMYd43sb0OAc/TFmK8k8n3cQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728615796; c=relaxed/simple;
-	bh=P3TSos/91W1lViiaVUcSn2jpJ+gJDjpOvwBp2Pw/FE4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=A0om1vNUark1YmmnSImhYdFwtZ/EcvAC2G9NHAY6UQ6mQEzyQI5+Wf6BkAlVAcAK4ExVNipkRMasRlaCjwYRR/qeQnlOxFPVRotjQ9U9h+1zuhUPlpzdhCS6ix/C4Ueuqq2ZlmiKtrmN0jTunX5shzmPYxcOvKVNvW6UPtCUTSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=MqdB9Jo9; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1728616089; c=relaxed/simple;
+	bh=ep44fxEvvsd26YIiQtzYV+4X9mE5DwAn+rEAQ9V2Mh4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W5OAG20qRu/cyCeZWA5cOan1oxQGyR3bzf1wt9OUUaq3Kz6Ar8N95cU0H5qJlOQJztsF4EbpfZ2Wh7TMGoSrFPNRFCtdrAoV5CNzNIjw9Ale6gYGzr8tu0BT9a2tNqgzNEcbVtSfcWFLNhLymrQFWPU+gUwgg9juXGBf9Eylcnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LzmBBDBd; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ACSQX0011418;
-	Fri, 11 Oct 2024 03:03:08 GMT
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49B2eeUU028022;
+	Fri, 11 Oct 2024 03:07:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=6f3uHrKBFZE0TezqG7rTj2
-	3m1ABTyz8fgG6j+UM3RIY=; b=MqdB9Jo9sUkxOLHvK7QpNrh+ZOX2wEIKzUEicu
-	MT6514d7zJI4z6BNgiXMhhfc06ViRBOvVO0Nj2XcshACaWwMyjCmvrxqP3WTD2vm
-	DumIX8DgJ1Pbg88hx/r6Zqztut+7Ak6TrHwseWlF+VmWND2TFKdDilI5hggCHJQL
-	a5oahs1LPsdOT7Tk0SfjH2PuzosRBpRwLhwhA5NpghDiRqx5MNrxQwBUDKIudCPC
-	0TWZRJmHmBcwR37Ows4PWYmPt54kZsjxyR9LwNwDG/XJA9eqQHmcfgKxV+QLK8Hx
-	77t9ael0fHBj6EgLG8bNfGt7O+3RzNMFQmX9CAJQav3Td6Sw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 425xthvcfa-1
+	:mime-version:subject:to; s=qcppdkim1; bh=dRboePwXKGLUTBGbWr5cuf
+	VJ4O8k6LsI8p1I57NNJyw=; b=LzmBBDBdcg+/Qvmk4Ni/ruTxnG28pHWh+WY9hf
+	M9A5O2mZaeVtwWYyoQYoUPB7GwX8e30qROR78j/HSXHPGxFVUvr7/A3A++E3TjvZ
+	+Cc9+t5jdduyEdmHsxXJ8WfdY7MN+Z5XMKJilEWOYXCICtAb8lyW0SJFI686+g1S
+	d/r45YAkmSGQrgQd6OZD9iRSNSTqyrWkds7UMUxd74l0PCvalRzYKw/Fb9SmXS8y
+	d0v1fNb4tzeC0S3WqraFzXiUbVBFf+cIVsgGIf5IODPPt6hQMv0/4v28td6sHdeZ
+	D8k2rrQgZwbc32u9jibwGM1ArhaZXHwnT8fVmvdIi1TR5usA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 425c8qyrk3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Oct 2024 03:03:07 +0000 (GMT)
+	Fri, 11 Oct 2024 03:07:58 +0000 (GMT)
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B336f6003325
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B37vaG021192
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Oct 2024 03:03:07 GMT
+	Fri, 11 Oct 2024 03:07:57 GMT
 Received: from Z2-SFF-G9-MQ.ap.qualcomm.com (10.80.80.8) by
  nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 10 Oct 2024 20:03:03 -0700
+ 15.2.1544.9; Thu, 10 Oct 2024 20:07:53 -0700
 From: Miaoqing Pan <quic_miaoqing@quicinc.com>
 To: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
         <agross@kernel.org>, <andersson@kernel.org>
@@ -63,9 +63,9 @@ CC: <linux-kernel@vger.kernel.org>, <konrad.dybcio@linaro.org>,
         <quic_jjohnson@quicinc.com>, <ath11k@lists.infradead.org>,
         <dmitry.baryshkov@linaro.org>,
         Miaoqing Pan <quic_miaoqing@quicinc.com>
-Subject: [PATCH v4] arm64: dts: qcom: sa8775p-ride: add WiFi/BT nodes
-Date: Fri, 11 Oct 2024 11:02:54 +0800
-Message-ID: <20241011030254.2915173-1-quic_miaoqing@quicinc.com>
+Subject: [PATCH v6] arm64: dts: qcom: sa8775p-ride: add WiFi/BT nodes
+Date: Fri, 11 Oct 2024 11:07:33 +0800
+Message-ID: <20241011030733.2915321-1-quic_miaoqing@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -79,16 +79,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01c.na.qualcomm.com (10.47.97.35)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: uSvkxu_kZc3dlzv4VtXSbwQNcn3-QWQD
-X-Proofpoint-GUID: uSvkxu_kZc3dlzv4VtXSbwQNcn3-QWQD
+X-Proofpoint-GUID: s_NgsNilO_Mgr8-wi4w8wJ4Fa2TZb-Kx
+X-Proofpoint-ORIG-GUID: s_NgsNilO_Mgr8-wi4w8wJ4Fa2TZb-Kx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- malwarescore=0 suspectscore=0 spamscore=0 priorityscore=1501 bulkscore=0
- phishscore=0 clxscore=1015 mlxlogscore=999 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410110017
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
+ priorityscore=1501 mlxscore=0 spamscore=0 phishscore=0 clxscore=1015
+ bulkscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2409260000 definitions=main-2410110017
 
 Add a node for the PMU module of the WCN6855 present on the sa8775p-ride
 board. Assign its LDO power outputs to the existing WiFi/Bluetooth module.
@@ -104,6 +104,8 @@ v4:
   - update 'ath11k-calibration-variant' to "Ride".
 v5:
   - update 'Ride' to 'QC_SA8775P_Ride'.
+v6:
+  - no code change, fix patch version.
 ---
  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 121 +++++++++++++++++++++
  arch/arm64/boot/dts/qcom/sa8775p.dtsi      |   2 +-
