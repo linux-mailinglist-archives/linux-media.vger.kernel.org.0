@@ -1,104 +1,249 @@
-Return-Path: <linux-media+bounces-19435-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19436-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3A999A69F
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 16:41:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B113599A6D7
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 16:50:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76ED22859DB
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 14:41:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AF9F1F225AC
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 14:50:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1FD4839E4;
-	Fri, 11 Oct 2024 14:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4EBA19415D;
+	Fri, 11 Oct 2024 14:49:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cqh9cYii"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nMTfrFYu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10168405FB;
-	Fri, 11 Oct 2024 14:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C9615252D;
+	Fri, 11 Oct 2024 14:49:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728657691; cv=none; b=lMZ4yBdePkEBUr4RguirOIn9l9uqIIsVRzxHdgb1p7XZouNvFAcLdyBqexxRid5dCq8SwfWlTSCVnu70KLlnTY7zodhpISPCCoKmg3znWuWJQ3pUlLmD/lW/NPT0KYBI+2Z9Vcgbl7qAzCEBf4Ul8GXVTzsXMHEBtDBmrin2iS4=
+	t=1728658160; cv=none; b=Znab166OtmMioNhKICOC8n9be3WaDIBXIxn1mr42B7lL66mL7ossr64Oihk6g+hiGnESSMo/mfLI9D0CmygANf3IgF52cpy/SC7ilZJngV8bKZh2zsfeR1wPmKPfhMg1o+rIISO4GFLyDjAAmBgD1B5u3Qi8yl7tKVBrhrIK9fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728657691; c=relaxed/simple;
-	bh=Y0MK6Ir1naH6KdRmkyIQkGi5RdptzjZfItnSwsoMv00=;
+	s=arc-20240116; t=1728658160; c=relaxed/simple;
+	bh=RjYgyZ44THuAQGuVEDjAJZed+5wFrxBFRaSeQQ6Exv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qUC7z8P4VX/vFi3rYM7wfXTw0cktt0cfSvuKjnoXl+z0vLm5cmRDGs6hPMeBcae6Jeo7oyTmagpQrd+RhSBGBoLTtUEDNIHhqXPzY4fBKTq3/ELurqFK5OrXtZCAO3nASsFE72fK8xr1UzNjVaEviiaUzITVF34vxxjwF1IGfvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cqh9cYii; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC59AC4CEC3;
-	Fri, 11 Oct 2024 14:41:30 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=XGdwBcGH8L44nq0KP13EgkeRRibGJIJoFvDlxyxXD8UvzUj56SvSGQjw6M0kM8KNL3v5HZXxxXCXGHe4aPWwCLJJTrpFC3U6biJ7Sz9BHYCOSKeQ3gtY8DJcGzICNRuA/9zvAZnQvqkweRA6aF7YsFHdmYMrykfjdPB/tO8rl8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nMTfrFYu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C54EDC4CECF;
+	Fri, 11 Oct 2024 14:49:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728657690;
-	bh=Y0MK6Ir1naH6KdRmkyIQkGi5RdptzjZfItnSwsoMv00=;
+	s=k20201202; t=1728658159;
+	bh=RjYgyZ44THuAQGuVEDjAJZed+5wFrxBFRaSeQQ6Exv4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Cqh9cYii9B4DdEJVX9zLDAdWcG/3VUNSV92Z8y2h+dbshUodjcbwa3d6Q8EXKbLf/
-	 xy/oxBQz+dGGfq5YldPJ6H9X94o2sSmVvMPmv180t1A6jfarVwdsDM8jSY7+2sgF37
-	 h8wTe4tw+oTMFdRalSTxe9gKcrN7zi3xHQkSKD7yWofbStn4JuCNXQgcuZLYvIhKG+
-	 grhTFMMyNQWPKhLM/ZiiamT/j2utVRg1oB1xhuguPsp+V0mk7uuf9kOWvDNRRh2jLH
-	 ufSAxTXZhBD4c39cHqtOBjX2/1tE6e/jU2w/GiUkeg+pv727iITE8/i35yOZ2cL8mR
-	 /216e8mi8SdmQ==
-Date: Fri, 11 Oct 2024 09:41:29 -0500
-From: Rob Herring <robh@kernel.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Richard Acayan <mailingradian@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v6 2/5] dt-bindings: media: camss: Add qcom,sdm670-camss
-Message-ID: <20241011144129.GA2295617-robh@kernel.org>
-References: <20241011023724.614584-7-mailingradian@gmail.com>
- <20241011023724.614584-9-mailingradian@gmail.com>
- <785c82d5-549d-454b-86bf-a00a39e6f521@linaro.org>
- <a230de8f-a11d-41c1-9bc6-7e06e850b51d@linaro.org>
+	b=nMTfrFYu+g54px9K4gkvB+d4NBedupfc5G13PZUpUKQA7lJaIa5XOTYNNYwWU1Yhe
+	 vQBCWwzaLtMPfJrK/qTGElpNaUfhhx5sq0vPDYL8EZz10WmHSnh7rnJ1fvSHZnUIbG
+	 nN66qQl80+FfxlvvdezvEkPjthYnN1jupALrkXaAmI6l2coHz34f4wTY6v7FbRySZr
+	 4EF/WdiSpxkBtKZyJQMfYQcjWdNMX17D0H+bYucsYPOD83vVyX49sHZwMewC936FHV
+	 aeuiMx9TurY4HhaTZyB+kbW1yDlJwo/ELnSJHPqa0Fb6unVW0jNSBRVDPfjZeb41GE
+	 S57PKHj5dg84w==
+Date: Fri, 11 Oct 2024 16:49:15 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org, 
+	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org, 
+	konradybcio@kernel.org, hverkuil-cisco@xs4all.nl, cros-qcom-dts-watchers@chromium.org, 
+	catalin.marinas@arm.com, will@kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel@quicinc.com
+Subject: Re: [PATCH v3 1/8] media: dt-bindings: media: camss: Add
+ qcom,sc7280-camss binding
+Message-ID: <q63w23zeoteagtw3px4sk3il4567plydgdhckmvpiksm6qc5i2@3rcdrr5uribq>
+References: <20241011140932.1744124-1-quic_vikramsa@quicinc.com>
+ <20241011140932.1744124-2-quic_vikramsa@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <a230de8f-a11d-41c1-9bc6-7e06e850b51d@linaro.org>
+In-Reply-To: <20241011140932.1744124-2-quic_vikramsa@quicinc.com>
 
-On Fri, Oct 11, 2024 at 09:31:06AM +0100, Bryan O'Donoghue wrote:
-> On 11/10/2024 08:14, Vladimir Zapolskiy wrote:
-> > 
-> > Two most recently added CAMSS IP descriptions (qcom,sm8250-camss.yaml and
-> > qcom,sc8280xp-camss.yaml) do implement sorting by reg values, I believe
-> > from now on
-> > it should be assumed that all subsequently added CAMSS IP descriptions
-> > to follow
-> > the same established policy.
-> 
-> My preference is sort by address not sort by name => we sort the device
-> nodes themselves by address so it seems more consistent to sort by address
-> inside of the devices too.
+On Fri, Oct 11, 2024 at 07:39:25PM +0530, Vikram Sharma wrote:
+> @@ -0,0 +1,440 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +
 
-Strictly speaking, the values of addresses are unknown to the binding, 
-so you can't sort by address. However, if something is truly a single 
-block, then the offsets are probably fixed in order by offset makes 
-sense. But when a block is changed, any rule on sorting may go out 
-the window since we add new regions on the end.
+Drop blank line (that's a new finding, I would not complain except that
+I expect new version, see further).
 
-This one in particular I have to wonder why csiphy is not a separate 
-node.
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        camss: camss@acaf000 {
+> +            compatible = "qcom,sc7280-camss";
+> +
+> +            clocks = <&clock_camcc CAM_CC_CAMNOC_AXI_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_0_CSID_CLK>,
 
-> 
-> Which means sorting reg by address and irq too.
+Alignment did not improve. Please carefully read DTS coding style.
 
-IRQs make little sense to sort IMO.
+> +                <&clock_camcc CAM_CC_IFE_1_CSID_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_2_CSID_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_LITE_0_CSID_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_LITE_1_CSID_CLK>,
+> +                <&clock_camcc CAM_CC_CSIPHY0_CLK>,
+> +                <&clock_camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> +                <&clock_camcc CAM_CC_CSIPHY1_CLK>,
+> +                <&clock_camcc CAM_CC_CSI1PHYTIMER_CLK>,
+> +                <&clock_camcc CAM_CC_CSIPHY2_CLK>,
+> +                <&clock_camcc CAM_CC_CSI2PHYTIMER_CLK>,
+> +                <&clock_camcc CAM_CC_CSIPHY3_CLK>,
+> +                <&clock_camcc CAM_CC_CSI3PHYTIMER_CLK>,
+> +                <&clock_camcc CAM_CC_CSIPHY4_CLK>,
+> +                <&clock_camcc CAM_CC_CSI4PHYTIMER_CLK>,
+> +                <&gcc GCC_CAMERA_AHB_CLK>,
+> +                <&gcc GCC_CAMERA_HF_AXI_CLK>,
+> +                <&clock_camcc CAM_CC_CPAS_AHB_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_0_AXI_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_0_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_0_CPHY_RX_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_1_AXI_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_1_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_1_CPHY_RX_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_2_AXI_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_2_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_2_CPHY_RX_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_LITE_0_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_LITE_0_CPHY_RX_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_LITE_1_CLK>,
+> +                <&clock_camcc CAM_CC_IFE_LITE_1_CPHY_RX_CLK>;
+> +
+> +            clock-names = "camnoc_axi",
+> +                "csi0",
 
-Rob
+Alignment did not improve. Please carefully read DTS coding style.
+
+> +                "csi1",
+> +                "csi2",
+> +                "csi3",
+> +                "csi4",
+> +                "csiphy0",
+> +                "csiphy0_timer",
+> +                "csiphy1",
+> +                "csiphy1_timer",
+> +                "csiphy2",
+> +                "csiphy2_timer",
+> +                "csiphy3",
+> +                "csiphy3_timer",
+> +                "csiphy4",
+> +                "csiphy4_timer",
+> +                "gcc_camera_ahb",
+> +                "gcc_camera_axi",
+> +                "soc_ahb",
+> +                "vfe0_axi",
+> +                "vfe0",
+> +                "vfe0_cphy_rx",
+> +                "vfe1_axi",
+> +                "vfe1",
+> +                "vfe1_cphy_rx",
+> +                "vfe2_axi",
+> +                "vfe2",
+> +                "vfe2_cphy_rx",
+> +                "vfe0_lite",
+> +                "vfe0_lite_cphy_rx",
+> +                "vfe1_lite",
+> +                "vfe1_lite_cphy_rx";
+> +
+> +            interconnects = <&gem_noc MASTER_APPSS_PROC 0 &cnoc2 SLAVE_CAMERA_CFG 0>,
+> +                <&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI1 0>;
+
+Alignment did not improve. Please carefully read DTS coding style.
+
+> +
+> +            interconnect-names = "ahb", "hf_0";
+> +
+> +            interrupts = <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
+
+Alignment did not improve. Please carefully read DTS coding style.
+
+> +                <GIC_SPI 640 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 641 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 360 IRQ_TYPE_EDGE_RISING>;
+> +
+> +            interrupt-names = "csid0",
+> +                "csid1",
+> +                "csid2",
+> +                "csid_lite0",
+
+Alignment did not improve. Please carefully read DTS coding style.
+
+> +                "csid_lite1",
+> +                "csiphy0",
+> +                "csiphy1",
+> +                "csiphy2",
+> +                "csiphy3",
+> +                "csiphy4",
+> +                "vfe0",
+> +                "vfe1",
+> +                "vfe2",
+> +                "vfe_lite0",
+> +                "vfe_lite1";
+> +
+> +            iommus = <&apps_smmu 0x800 0x4e0>;
+> +
+> +            power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
+> +                <&camcc CAM_CC_IFE_1_GDSC>,
+
+Alignment did not improve. Please carefully read DTS coding style.
+
+> +                <&camcc CAM_CC_IFE_2_GDSC>,
+> +                <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +            power-domains-names = "ife0", "ife1", "ife2", "top";
+> +
+> +            reg = <0x0 0x0acb3000 0x0 0x1000>,
+> +                <0x0 0x0acba000 0x0 0x1000>,
+> +                <0x0 0x0acc1000 0x0 0x1000>,
+
+Alignment did not improve. Please carefully read DTS coding style.
+
+> +                <0x0 0x0acc8000 0x0 0x1000>,
+> +                <0x0 0x0accf000 0x0 0x1000>,
+> +                <0x0 0x0ace0000 0x0 0x2000>,
+> +                <0x0 0x0ace2000 0x0 0x2000>,
+> +                <0x0 0x0ace4000 0x0 0x2000>,
+> +                <0x0 0x0ace6000 0x0 0x2000>,
+> +                <0x0 0x0ace8000 0x0 0x2000>,
+> +                <0x0 0x0acaf000 0x0 0x4000>,
+> +                <0x0 0x0acb6000 0x0 0x4000>,
+> +                <0x0 0x0acbd000 0x0 0x4000>,
+> +                <0x0 0x0acc4000 0x0 0x4000>,
+> +                <0x0 0x0accb000 0x0 0x4000>;
+> +
+> +            reg-names = "csid0",
+> +                "csid1",
+> +                "csid2",
+> +                "csid_lite0",
+
+Alignment did not improve. Please carefully read DTS coding style.
+
+> +                "csid_lite1",
+> +                "csiphy0",
+> +                "csiphy1",
+> +                "csiphy2",
+
+Best regards,
+Krzysztof
+
 
