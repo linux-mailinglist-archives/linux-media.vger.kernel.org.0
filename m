@@ -1,117 +1,142 @@
-Return-Path: <linux-media+bounces-19495-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19496-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6C999B55F
-	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 16:14:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B6C99B59B
+	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 16:42:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AEC11F22986
-	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 14:14:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 077FB283B70
+	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 14:42:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 437E1198E6D;
-	Sat, 12 Oct 2024 14:14:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 685BD197A8B;
+	Sat, 12 Oct 2024 14:40:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EUI9uz9A"
+	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="0T1zPl0Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A544194A6F;
-	Sat, 12 Oct 2024 14:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5860E1E526
+	for <linux-media@vger.kernel.org>; Sat, 12 Oct 2024 14:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728742449; cv=none; b=mewTq1Tz7WRzpZIsYkvEfB8On8A8yRQUfDmTArrVj/tKqZ/6SCkitaUr3bkAUJtW7lxCUpEPe9C8LjEc8ySlGNQv5LiHVnf+bw+ztTo3P+j3qLM1w8nj1Tjcbi/R7ntxZTHU2v6/ZwrMFiVOvvCucQ+P7YtNDpaD4ezU9K5LFAA=
+	t=1728744055; cv=none; b=tKFBXdFtFRsGrK+h4MBCOQ6eR0D6plM9MVn/ZuLZGrH+lRp8MDvPyunFBseTs//uFqvmyI6KPZtdU437rAArcU6aipYZrNuIwSDTSezBVYrcBjIzvqss2wVqyC0KQ1vXYel85nheNe1FSiTOGYVw3JOEp9JyWXUdPYCks6ttwiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728742449; c=relaxed/simple;
-	bh=QpvuA0tXrIusrPG8LAQQ4pQs4s+4SgLc+0UwE7FI/E4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=XjNJ8oG9OWH2XNNtiU38P64aaAtsxYGqVRaZjUvaQsvbUZWBY9UjJiMl+L3p72C6xkX3RYkIMTzJ9fgu7Ry0wGR8fhau+QdoB+h1apOs41D0k3R1TpTQoftnfI/rA8OMDiNz+1lHiOdM7dQ+uiwsY+SnRk03ke5VZjNS4vlI5Xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EUI9uz9A; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a99f1fd20c4so57141466b.0;
-        Sat, 12 Oct 2024 07:14:07 -0700 (PDT)
+	s=arc-20240116; t=1728744055; c=relaxed/simple;
+	bh=sRLZ9CLpowLsGcWu/gYPl0EC8fbwZ2Qq5z1488P+nUQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hrf8PSOLsxcO/uy1pi5dMZWSL4rpzeAIavGgrUoWs2uYEH8F3c1kR3iCkz7hp7SwR78pP9taH+z31KnMPm4VL4eqq/Z0TC+fhjuVh6t845hHbociu0jvuAhLl1zCi9eCnjN/b4TNBwIcdYvP6wBjHPCK5J9AVHWqy+hPELuUQAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie; spf=none smtp.mailfrom=nexus-software.ie; dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b=0T1zPl0Q; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a9952ea05c5so448640766b.2
+        for <linux-media@vger.kernel.org>; Sat, 12 Oct 2024 07:40:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728742446; x=1729347246; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tuv25M7qfPhkVq2rdwgDLlN4egguVJCUL8w07O0WP/s=;
-        b=EUI9uz9ADpFJFSXU/7S7jtFxWrW6Qr6A/ZEpAPBFhBu1lHYO7uU7/pgHYtsMB1Kuqm
-         xtCt60gHoRkAWTlljsRlarw8M4DclZNnvD3GHJn/kalSaq7PeGlmxhSLrm3+bnDMDvfL
-         t3iePG41SPsKoDCgGx+UhNX9U0uK7yMtLl7W5zZTIuR1+Coh/n3A92Mq6xIoSMylzT+4
-         bZUuOyiW9NEACvpbyI7B1isF6TF69Tt+ao4FZ/3+Bm5CwkU6hu9qUg0IoEKgSAuUPCf+
-         NGRkBaGyRAvon9K1ziy7ya8j3EmlR3wH84fBBGceOFIEvpmmcLsElD5ahtFpef55iP9j
-         nthw==
+        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1728744051; x=1729348851; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6XN65SUyVYJarZTA2v6ST6nDCX277X4NXgiJQlfeeqM=;
+        b=0T1zPl0QXEIg5Li13IFtYx6haZ2QBEu7TZAj3+Kv6weFxcagPIgvSD9u8zo7lKQjXG
+         tk9tFbBOZe5ch/QOb/vCVxB4onMm+xFyh4n7gvcnLkL614yw6UElAcwA35NHxs2wDfqS
+         z0j7b8QV8DzrYLlYBKbvE4HXTWM0IwUYGO46oqa/TDEfzZiI9La0RlJL2dxpn/Y7XYU9
+         b5huIJjD6wTxYT4J0XrMT4o0L+46Svkv6w9Q4fhjbQjpIyNDqLQZ6WgKCV53p8vjhakc
+         MiC7YQlh80eNOssKg6bWs5AGqDAhkhSneJOYpBU61j1qtxdqnrgYfDkd2j0dg9d3fQxS
+         vLqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728742446; x=1729347246;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tuv25M7qfPhkVq2rdwgDLlN4egguVJCUL8w07O0WP/s=;
-        b=dEfN5EcJ84TyX83lr7idJEwsmpHpfStpnG3Fr60Vv17DOIMWE6Hpyys1IkF+CHrJBI
-         kA98esudSXHL0DyRijNgGQHC6rRAARkoGcMrSf9Ab2PiAy+agx1IJK/MAyRCirqi15aV
-         qQqWIpVhJTJBAAKgteUQyuF1Kxl4FNFrO0pHtbneZ8QRgR5W0DNHHHxDU76atmzfhz9v
-         FLscVXuFiA2Zj5/VnPmMH/0ORfa0XCEVOkqVzRaJVLzI7EV7LCP3kcJeBePBI6EhgFPy
-         q7zruv3HWssR+h9Deu/+diEwoGIt8mKuy4XblPqy3GoO35srIxtGy+5EZ0DITfg/N9lM
-         u+0A==
-X-Forwarded-Encrypted: i=1; AJvYcCUekEjmcikQH+TjBs8dY9HCrDeTeswdEZzooW6jx4XYEzykX9etYYvBqtDOs0VbQFcfGDaDnO4JDYWXfVM=@vger.kernel.org, AJvYcCUfdmNMsm+fKO8BCdrydUAjwAjLioVJL56O/K7uqBTpCO5m6CD/S3VuxfWx7ZuyRPfpc50ju2brvaOm/Q0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxxwaw4cINNmpE4Kx7bklVO8f7MMnWcp3ZuolURuZ2OeNZ5QtZk
-	hJmjq85fQ8LzIjYTk0KvDiU4yLjAB2Qg0aqKMX5Oqj5H35vB9nqP
-X-Google-Smtp-Source: AGHT+IG0B8W6nRGV5gDheoL2qJhnCrgP/hIARfPGbcFt0uINpwOjZ3efVzmhEbB+wWW7eVXLEVLSMg==
-X-Received: by 2002:a17:907:7ea1:b0:a8d:250a:52a8 with SMTP id a640c23a62f3a-a99b93a8506mr426443966b.3.1728742446066;
-        Sat, 12 Oct 2024 07:14:06 -0700 (PDT)
-Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99fa0cc7d4sm12707566b.104.2024.10.12.07.14.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Oct 2024 07:14:04 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] media: atomisp: remove redundant re-checking of err
-Date: Sat, 12 Oct 2024 15:14:03 +0100
-Message-Id: <20241012141403.1558513-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1728744051; x=1729348851;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6XN65SUyVYJarZTA2v6ST6nDCX277X4NXgiJQlfeeqM=;
+        b=jF2iaPm6xAxQ4EbHDa3QBywY6GnIbqBNYl20z6yUuaw5lT2QuTjvWI3o3BwHu3xV9b
+         k2u0Rer4XBZV4SyeCBGdZolmnv5bTRLU+65IenOzEgVfw5LTtDOTSwuEvMoLlhjh7Z9u
+         2V+T9zi79yoOnChQdXIL5ElhDNd2/+VZqZ9aDnJNq2ewgltdtCuKRz8oeWta6H7Bmv1L
+         Zq4BalPTreSkekPSjwSK6gL7SvNE0DvWyEvT4HGXr+m5HcpgQdjUaqASsNrdM+6R1jOU
+         jrssJkN+9XvLbPfFjxYpgUWh4SMDHHq0loA4Qs3K4HRu6NncAp2G0B3Sdb3pComlePvA
+         JTWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVSGdobE1Y73wTFBWir7VWplMKfTeQV3/9FjtI2AbFAH1V8qOqCXi/fO8MXNtRUoD1Hv8auu4/QczUJ6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzu7i1gYxCLqV1YY4uuuIzmo34OQz9bIV8tLu7DPTUv3HgWDWVH
+	P1bML3zydqJzbfJoxSN+6Su01SuaF8OcuJ6C4cYb4mvnswuSvLt8h4v9FA51jPc=
+X-Google-Smtp-Source: AGHT+IGgR90NqXsCm1d02CggGS8G6PBK4FoveREGXZ6fO+s016flFkbQkEBREEyPRZqcr5SWlQ1Z5Q==
+X-Received: by 2002:a17:907:f19f:b0:a8c:78a5:8fb7 with SMTP id a640c23a62f3a-a99b9630cb2mr565251066b.45.1728744050930;
+        Sat, 12 Oct 2024 07:40:50 -0700 (PDT)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99a7f5d0b6sm328057466b.97.2024.10.12.07.40.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Oct 2024 07:40:50 -0700 (PDT)
+Message-ID: <c95ad051-78c7-43cc-ade1-298b1200cfd9@nexus-software.ie>
+Date: Sat, 12 Oct 2024 15:40:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: ov08x40: Add missing '\n' to
+ ov08x40_check_hwcfg() error messages
+To: Hans de Goede <hdegoede@redhat.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jason Chen <jason.z.chen@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <20241012115236.53998-1-hdegoede@redhat.com>
+ <20241012115236.53998-2-hdegoede@redhat.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
+In-Reply-To: <20241012115236.53998-2-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The check to see if err is non-zero is always false because err has
-been previously checked on whenever err has been assigned in previous
-code paths. The check is redundant and can be removed.
-
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/staging/media/atomisp/pci/sh_css.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index ca97ea082cf4..7cee4dc35427 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -6308,9 +6308,6 @@ load_yuvpp_binaries(struct ia_css_pipe *pipe)
- 		}
- 	}
- 
--	if (err)
--		goto ERR;
--
- ERR:
- 	if (need_scaler)
- 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
--- 
-2.39.5
-
+On 12/10/2024 12:52, Hans de Goede wrote:
+> Add '\n' to the dev_err() error messages printed on ov08x40_check_hwcfg()
+> errors.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>   drivers/media/i2c/ov08x40.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
+> index c0dc918edc3c..610fb3ef46c4 100644
+> --- a/drivers/media/i2c/ov08x40.c
+> +++ b/drivers/media/i2c/ov08x40.c
+> @@ -2087,14 +2087,14 @@ static int ov08x40_check_hwcfg(struct device *dev)
+>   	}
+>   
+>   	if (bus_cfg.bus.mipi_csi2.num_data_lanes != OV08X40_DATA_LANES) {
+> -		dev_err(dev, "number of CSI2 data lanes %d is not supported",
+> +		dev_err(dev, "number of CSI2 data lanes %d is not supported\n",
+>   			bus_cfg.bus.mipi_csi2.num_data_lanes);
+>   		ret = -EINVAL;
+>   		goto out_err;
+>   	}
+>   
+>   	if (!bus_cfg.nr_of_link_frequencies) {
+> -		dev_err(dev, "no link frequencies defined");
+> +		dev_err(dev, "no link frequencies defined\n");
+>   		ret = -EINVAL;
+>   		goto out_err;
+>   	}
+> @@ -2107,7 +2107,7 @@ static int ov08x40_check_hwcfg(struct device *dev)
+>   		}
+>   
+>   		if (j == bus_cfg.nr_of_link_frequencies) {
+> -			dev_err(dev, "no link frequency %lld supported",
+> +			dev_err(dev, "no link frequency %lld supported\n",
+>   				link_freq_menu_items[i]);
+>   			ret = -EINVAL;
+>   			goto out_err;
+> @@ -2129,7 +2129,7 @@ static int ov08x40_probe(struct i2c_client *client)
+>   	/* Check HW config */
+>   	ret = ov08x40_check_hwcfg(&client->dev);
+>   	if (ret) {
+> -		dev_err(&client->dev, "failed to check hwcfg: %d", ret);
+> +		dev_err(&client->dev, "failed to check hwcfg: %d\n", ret);
+>   		return ret;
+>   	}
+>   
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
