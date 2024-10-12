@@ -1,128 +1,118 @@
-Return-Path: <linux-media+bounces-19501-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19502-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F26A699B5DB
-	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 17:27:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E9E99B608
+	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 18:08:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 958F31F227D5
-	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 15:27:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D4941F21EBF
+	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 16:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F225A199B9;
-	Sat, 12 Oct 2024 15:27:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37FFF3C488;
+	Sat, 12 Oct 2024 16:08:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bSoNuYsE"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IfpJ6GCb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0298A17C9B
-	for <linux-media@vger.kernel.org>; Sat, 12 Oct 2024 15:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63103FE55
+	for <linux-media@vger.kernel.org>; Sat, 12 Oct 2024 16:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728746852; cv=none; b=uD30YdDHmPQn/TjDV1iKZFIJ/are3ZB/poZR2TfmYBbCiqdSGISmcmAN68wm3eOYlL+6aeL8Lk3Ei7Cj+5T2N+PLPT0gcpSyy+0cwFptQcMbX6tE0FEf797kfyu/53UhXXD2t6VPIuYZFMnEUMGvSWSOv/miJ9fHMmUD5/x0AwQ=
+	t=1728749300; cv=none; b=oyWEx0ZNbAtxQcv67Q9Oi7gGrhOmOeNYDhz3JBhPUftfDUJjeRLwWeH/7yi4Y0YEpw4ml/xwtbH5kDAvJij6947skaH3sn2GeY+GpfsCxZaZxwADJgGJQbJxOGBfV1nSmHEN/mpC6CrWRQ5R/+USRP54Uz15BeuEgVDqcFbkb04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728746852; c=relaxed/simple;
-	bh=kNKvb0rNVp6vzyaGUwTGZygx9ZxekG8yqQEp4jqXF1k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N8h8T2XkCKIUpDIzbgNcVXB9Itdgu9ZiWX6nkXoyt0onJxunKZbYfQ0gIRTmFNm3+w/jzX4k0b39Em4djOTwNe7a4FnS3cLHX7L4ZXLFFfOHSPfihzkF4Z5XGxA53MMmHnFaT76nKp3MLtO1VEoMVeeF6ZgxnEjwfRZfegnu+SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bSoNuYsE; arc=none smtp.client-ip=209.85.161.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5e988c5813eso1448087eaf.2
-        for <linux-media@vger.kernel.org>; Sat, 12 Oct 2024 08:27:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728746850; x=1729351650; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jrZ2z4OAc7My1Ph9G3EUZe1keZZllltflrTof5pqzsk=;
-        b=bSoNuYsECvAto2sgZ4AZgWYfzZR4eO/02s+dgJMazZgWRhtYG5CCGJRzsIg39PxZr4
-         Fpa7MbvWRcuaWbc1JoMndDZKy0kPdG1B4To6GPwlV9ea5d8kq60+vyMmY75OXMZa4Ots
-         23At5J79ldQqsFzyz2ToQIMspOR0h1ZCj8at8KmPAmq7YxKidgt0hj8WlUDxU5pIXOhf
-         L3TUBBvMmEuuGtDhgSyjY1VtF95gSnzr2EUjlZs2xk/brcDtdzqUF36o7q7uonoyUFjD
-         IeDiBEHYK03so9pCIn3tzcaWv6Y29SE4ZT2QC53q2N54arAtZUinrmzb0QA+afyKueyz
-         52Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728746850; x=1729351650;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jrZ2z4OAc7My1Ph9G3EUZe1keZZllltflrTof5pqzsk=;
-        b=Oqme+fEFg+AnySoY2eI8CA31nmwfg/rxFwmMAntRimJfyHmZczPT5FlBLvO7OFSjZG
-         3pOtjr+JA+IosFyKSXqRFdnkqY/T0s05wcyR1VyUno2o4ySrM9orHK2nSYwVqtxgyqR8
-         6wY1Mn7o/jN8xdKB0HsD0vU5H1JiROK56RG77QrWtfPjnw55v7R6i4QnWtsdtVBRTuU+
-         irZrlmBWE7eIXIJnqlPc7WcQbcBjaFBTK+9MM364r8uOQdw8kOq4ll0ivCs5mric/cTe
-         TcCInmHxRVpxn1GOyU4DmhskvPiEkX5tjYOfyzXLvoQxMUqBD+RYmOap/nAhOw58ZDl9
-         whhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWtdW6241mK08CpmB/NEiCdFp/3ZDcoBm+m1c7kQC1zd3qgukwNn8AXnZhO4AgMwfPbK4X7IyzqsHucPQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFNqCzWDeAGSQrKW3lkMcd/0uhuYGr9Rx1BQ7wT54yVtj/5WRg
-	0/sT/X4WpfRM4M19qazVQlMl4pbhhx0hghD4oeqwKVaLPhRjRrefWaJPTBfHB5jLVvG2OXCliXg
-	UK8BqAQMGIclHIY+U3vmc2iVZJOygmQ==
-X-Google-Smtp-Source: AGHT+IH3neqkdOpTr7uWA4n6mK3DF46/N7yEwf/kYso7EVeWqFHV1bhL0Dh+3fdbylsFLcWiO/O4Cnuhjp3DRDrCGdA=
-X-Received: by 2002:a05:6870:9f85:b0:27b:583b:bfc2 with SMTP id
- 586e51a60fabf-2886d9e7649mr4973605fac.0.1728746849998; Sat, 12 Oct 2024
- 08:27:29 -0700 (PDT)
+	s=arc-20240116; t=1728749300; c=relaxed/simple;
+	bh=jVL9NDyAZosG+TJtEtuhrsMzeQvdojMyWds1vh4eqOA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cKYYQ6RrpYd3gK6kun/aYfRRnUw1k4+Cm//hm5qW1F8ekD7GAo6YXDNCGydzcNYyJuC8+J/4zRPsdWlcqulnVbujfJiruAIlxOuG1PpQ8rIhiZZvRQ72ldb7Lnn2VzqVig3u1v6Q/bYVGUO24J5QuPUromWpFmJ1nhl/KAYl4Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IfpJ6GCb; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728749297;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5YO9qp6s86ZmgZj+SdmgoRJkqh7tgp5aeNN+KID1+WA=;
+	b=IfpJ6GCbmRlKNT5VsnSHecrKQ87Glih/p5GNeS57saGp61BqQMmwDzO7SXCIKMvxOb5ZV6
+	WOtWOR+p4GjcZ6HPUc38AFQr4PXmMuu/bH2E4kriQB7lT1vQLBclyKq4SoTc/E6u0JV8Dk
+	iKbiXuPp6pqQ+teQZQLKWCPPKmb7Zo8=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-149-QQKZjbFPOy6bWV-kvHzNHQ-1; Sat,
+ 12 Oct 2024 12:08:15 -0400
+X-MC-Unique: QQKZjbFPOy6bWV-kvHzNHQ-1
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0969D195608A;
+	Sat, 12 Oct 2024 16:08:14 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.20])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0DF4F3000198;
+	Sat, 12 Oct 2024 16:08:11 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: ov2740: Don't log ov2740_check_hwcfg() errors twice
+Date: Sat, 12 Oct 2024 18:08:03 +0200
+Message-ID: <20241012160803.75939-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241011070828.851449-2-u.kleine-koenig@baylibre.com>
- <CAMhs-H8-8wmg_OqxQrO93ZV1Mrh-2GKowoWpvdk5qkvQbQ-F=A@mail.gmail.com> <m5ezhgxp5kwup65cieicws5fviwdapqmwm6ldiojic53pgs5tj@iu5u4wf74fzk>
-In-Reply-To: <m5ezhgxp5kwup65cieicws5fviwdapqmwm6ldiojic53pgs5tj@iu5u4wf74fzk>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Sat, 12 Oct 2024 17:27:19 +0200
-Message-ID: <CAMhs-H8ziPqHPSyk0Hfjy9DWvMTHH035jeoanqxCW9K22rY9fA@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: media: Switch back to struct platform_driver::remove()
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Fri, Oct 11, 2024 at 11:46=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> Hello Sergio,
->
-> On Fri, Oct 11, 2024 at 09:39:09AM +0200, Sergio Paracuellos wrote:
-> > On Fri, Oct 11, 2024 at 9:09=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> > <u.kleine-koenig@baylibre.com> wrote:
-> > >
-> > > After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-> > > return void") .remove() is (again) the right callback to implement fo=
-r
-> > > platform drivers.
-> > >
-> > > Convert all platform drivers below drivers/staging/media/ to use
-> > > .remove(), with the eventual goal to drop struct
-> > > platform_driver::remove_new(). As .remove() and .remove_new() have th=
-e
-> > > same prototypes, conversion is done by just changing the structure
-> > > member name in the driver initializer.
-> > >
-> > > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
-> >
-> > I sent a patch the other day to convert all staging drivers to use
-> > remove which was applied yesterday.
-> >
-> > See: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git=
-/commit/?h=3Dstaging-next&id=3Dc1a5060ec80020ce879fa5b2a16875bd9a5ab930
->
-> If you really must grab this quest from me, please coordinate, or at
-> least Cc: me on your patches.
+All ov2740_check_hwcfg() error-exit paths already log a detailed reason,
+logging a second generic "failed to check HW configuration" error is
+not useful, drop this.
 
-I did not know you already have patches for staging and only sent this
-to the staging list itself. Sorry for that. If you already have
-patches for remaining stuff I stop sending patches about this. Sorry
-for the inconvenience and let me know if you need my help in any way.
+The one exception is the -EPROBE_DEFER exit on
+fwnode_graph_get_next_endpoint() returning NULL.
 
-Best regards,
-    Sergio Paracuellos
->
-> Uwe
+Call dev_err_probe() there to register the reason for deferring the probe,
+this is used if the endpoint is still not there after 30 seconds, e.g. :
+
+ i2c-INT3474:00: deferred probe pending: waiting for fwnode graph endpoint
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/media/i2c/ov2740.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+index bd0b2f0f0d45..387c529d9736 100644
+--- a/drivers/media/i2c/ov2740.c
++++ b/drivers/media/i2c/ov2740.c
+@@ -1132,7 +1132,8 @@ static int ov2740_check_hwcfg(struct device *dev)
+ 	 */
+ 	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+ 	if (!ep)
+-		return -EPROBE_DEFER;
++		return dev_err_probe(dev, -EPROBE_DEFER,
++				     "waiting for fwnode graph endpoint\n");
+ 
+ 	ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
+ 	if (ret) {
+@@ -1330,7 +1331,7 @@ static int ov2740_probe(struct i2c_client *client)
+ 
+ 	ret = ov2740_check_hwcfg(dev);
+ 	if (ret)
+-		return dev_err_probe(dev, ret, "failed to check HW configuration\n");
++		return ret;
+ 
+ 	ov2740->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(ov2740->reset_gpio)) {
+-- 
+2.47.0
+
 
