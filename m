@@ -1,128 +1,121 @@
-Return-Path: <linux-media+bounces-19478-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19479-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA0699AEF1
-	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 00:56:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 197F199AFC8
+	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 02:53:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF6E5286B86
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2024 22:56:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 87CE01F245FD
+	for <lists+linux-media@lfdr.de>; Sat, 12 Oct 2024 00:53:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6BFF1E130F;
-	Fri, 11 Oct 2024 22:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2112AD2FF;
+	Sat, 12 Oct 2024 00:53:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eXBndlKu"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IJdxsXHz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CF31D3561
-	for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 22:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4789454
+	for <linux-media@vger.kernel.org>; Sat, 12 Oct 2024 00:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728687409; cv=none; b=pL84xVuviXwTqdlR9RZ4MhrhEi0foXJD7mv4gKW0ZitX6vnN1N0+6LqYvAi4wWRZPQTdONQW77HCPg7IoOoyfLvAsURVGcO8iOwO5Z33gHRkyhOqP4hhujsvyBPSPzhtoyHr/nsHbTm0g0Titkzg2gd2jVBK/7AL0M4CP5wdOM4=
+	t=1728694392; cv=none; b=EMNDY/hnvVFU0cWYGg1eT16GJ2995LVnyNK5cZDpVKCoB2MkM+fBddxFpJZbECoTi0GxfNP1xt5iM9QQ1WWwzEujkyPqYbd31crvxzJjK8ZHBsk/hr8mCAIhDhvqx97QnCaeN4+JslyL27l0/y5MWVYBwpZiRqAFpvA9FSks8og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728687409; c=relaxed/simple;
-	bh=03SBgk4Acgy5RrkFgQiec+w2DkXjv2/TpQ+UGBqYSAM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TdlTHnh5NIUJ9Ug7Wvgf0DLR0S8G/t0BSKWELoHFq0lz6JWVSru7/3i84mIBTGtnIGhT1xusmm0YR6orMZt8iVNLlIeyRUQcOwWO7ahoNDKughhGiNZZ8DXY3mjrrXigujBdeOoX+/vXwPTbRcta8O8LcYKQ5LoQMisu8WeOIIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eXBndlKu; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3a3b4663e40so7190865ab.2
-        for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 15:56:47 -0700 (PDT)
+	s=arc-20240116; t=1728694392; c=relaxed/simple;
+	bh=VfzxJcYIuN/+o0Q6JREd/kmtpwVtgnQZC798v/gUM1E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FaQa4SdZVU6qbtQbbmTF5g1Om05JONfizawMSbWkqjB7HdnNRJ/K7I3y6XvoO1697MEZH1CmyxzK4Vy/nPAVf2T3AkqRX7Jsx101x6SUfzOF0GRIA9uvrpxUmovMb/6Ac9rPPDm4wtV9M2PXqkuCt1SqTDImiVUBIgR+pVOdlxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IJdxsXHz; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a997736106fso330641366b.3
+        for <linux-media@vger.kernel.org>; Fri, 11 Oct 2024 17:53:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1728687407; x=1729292207; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fecPSP4imHn/3Lq7aqXyFaI6Z5YiKskvsTOzt0YlWWI=;
-        b=eXBndlKuc0ozL5o4Il987JVXyTh/z+dHBRw3145YikYamm3w/eLGsbqI1miO/fpODL
-         KdWE26n0peALVbSVVgLKB+OlRyhBvSW6gp3aUkXijbyX84lofuH6vhZZWwpQ1bMWW0jx
-         B0qne0nHiS9maqKkps//azLj+7dHuD4MhMVyo=
+        d=google.com; s=20230601; t=1728694388; x=1729299188; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fX8qbIl6yI0pe7Z7Ey3xMlNXl8QKMUUNG2vGHvdrAqQ=;
+        b=IJdxsXHz59zzmtXWusVLQgiG7ttlMyeuLh/fNq977bXWYp9k8hRx4Xo22PPXtONPPG
+         vO2dB2nIb9BIh7dcIqoujB4wcxVnC+KpTVR0ZqLfIIWkZvPeeIL1tTPkeFVx4gU0WBut
+         CoLcv+bv3RWFSDFC/ST4pCOjk2YNvMsWWOk+60ivZG9bXBZ0v0HaPT5Zxrj/gfEtzkCa
+         uDFSSDCQsV9MNuZCemWeq4FXB7q6E1OuW1ddD/vFIyKVvu4hd9jm4yU1JJxY5jgK74SA
+         zl9XmctJQ/ILjy0vQNRyZMdFOtlopHT4oseAhkxFz5VwelQBVOyOhWLdKkJVxnGuu8Pm
+         psrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728687407; x=1729292207;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fecPSP4imHn/3Lq7aqXyFaI6Z5YiKskvsTOzt0YlWWI=;
-        b=QK+8iISXf+JXQ6TJfBt9tiTTSBZwM+y+xJvCtOhLyXWxDxm9ZlKkvBZvwltbcd3sDR
-         UChrlwD9eCqVEQHwMAQ3aPKGymNepCHe48UUzg3btnqo2MTrpfgjhUeVij0XQvI0w9S6
-         WtUr+oa9whgGg2hzoJt0i9V0AlkWGpQoJ0kZY/xjflceWJIvLyZax5Z/C/5ocOEB496j
-         c//fZNkyEt8S9DMMV/Aoih8/x9v9gJn8PKpr37uqB9Xqp/IZ4MKhF3y7qfN+6UXuGyJ9
-         XF6E249z/sXTQbTA1JZ5aNbBI+bjJpCqvsRsMk53hRsgZg0OeXrApZr37Xag/As/fR1q
-         5v/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV5fSoJw103m2LOTSJaoBMkZc/t7ONsJXEuN4bVfAG9bfTSHgUkZX8NIWnWo/gAEH4XiyZe84nxwKAOiA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCzmY7578hWNhwIkAXJEizUJjq79F93z+trhZ9cyJChQ6+dQr6
-	sY7c6hc8lXnYNWbV0J/Iwth8Vs20ijDsyntAAriPfbqhVE04xFNEsDHmUEHz+jc=
-X-Google-Smtp-Source: AGHT+IGWKB1g6eSFMvM4k/RDicTKzJkE5AX41eZe6aVsTG9bxxLqIf7DF6rnC5Y88QJPK3aKbElNEw==
-X-Received: by 2002:a05:6e02:1ca3:b0:3a3:a7bf:7f83 with SMTP id e9e14a558f8ab-3a3bcdaa883mr7111675ab.2.1728687406709;
-        Fri, 11 Oct 2024 15:56:46 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4dbadaeb6d4sm826486173.172.2024.10.11.15.56.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Oct 2024 15:56:46 -0700 (PDT)
-Message-ID: <f7d4a151-81ff-4367-aa2e-b39c30db3d31@linuxfoundation.org>
-Date: Fri, 11 Oct 2024 16:56:45 -0600
+        d=1e100.net; s=20230601; t=1728694388; x=1729299188;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fX8qbIl6yI0pe7Z7Ey3xMlNXl8QKMUUNG2vGHvdrAqQ=;
+        b=u8kwFw14IYmWtp94hzQk1J19r4v9jfSFddFDw5CmY35WvFpGu8iFC1vzM0P94grxKx
+         1YZixtH9h/TPnEVvc05CWNHk8A5GyZ6xZJwdMxMbLx+rs/itOhtVPMFNnoVAzM6wA1qM
+         JcmQkSv8unqVYYKKN3P7rqdgW3qda5m8kDoVnIn6Qu7S1YWdYUgoWAMZuW/m2cCI2j8D
+         OTM48/5HthInNHkjyoSN+z/KokhfFV31z72yoEwLCs55hamwiSW/tIFB39uiD84vg0fr
+         p6crjgPpb0TIuzlL7i6jid8174/DMPhjsHfdbyJDlqejw/8fs/qHqqpDPoJPipUM1kKM
+         tPZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWbwmuteM05Jg+SCGMDq9hCj9rRPSwx5WZrWpd4qG6B3I5cZoj4PP4PFlQd8HCKyt4UmRClAv4yRC7Pw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuwLdW1ZikYYpPREqEB/VPKUNLm989xOko/l5D9LU9LiBPzqjl
+	Tq/MARI+WZRMBnmvmukbs+31Rbj8qQPRlJwuCx38h+hxAEIcXhOAjGdGHUuor6UaG2B4WZ199FF
+	yUQM2Ftf6kL0OC78chs4hZqcCAx+byyu5yfw=
+X-Google-Smtp-Source: AGHT+IHcGOMyjbUnqPtl1UM87h3YL87dZ2gYOIUO6wGlw/CCJ1mjQPIwZZ9PoqGjsv+QiY4iVj7yxWbnA0AL382mrFA=
+X-Received: by 2002:a17:907:ea3:b0:a99:4e8c:e5c9 with SMTP id
+ a640c23a62f3a-a99b937b7famr358020366b.20.1728694388307; Fri, 11 Oct 2024
+ 17:53:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [drivers/usb/usbip] BUG: corrupted list in vep_queue
-To: Chenyuan Yang <chenyuan0y@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
-Cc: valentina.manea.m@gmail.com, shuah@kernel.org, i@zenithal.me,
- linux-usb@vger.kernel.org, Zijie Zhao <zzjas98@gmail.com>,
- syzkaller@googlegroups.com, linux-media@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <CALGdzuq9qr5wBpJFg1eNbv0NoMSDM=umusZF6r5T5_i=Foxdiw@mail.gmail.com>
- <2024101107-pry-reflex-8bc2@gregkh>
- <CALGdzuooWHVS54xOFj7n=MPohy6xMEALet3Q_9EGZ6fRk6Z+_A@mail.gmail.com>
- <73247327-5bc2-4390-a60d-a73e5683f0a6@linuxfoundation.org>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <73247327-5bc2-4390-a60d-a73e5683f0a6@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20241005180955.6523-1-quic_pintu@quicinc.com>
+In-Reply-To: <20241005180955.6523-1-quic_pintu@quicinc.com>
+From: John Stultz <jstultz@google.com>
+Date: Fri, 11 Oct 2024 17:52:56 -0700
+Message-ID: <CANDhNCpeJFn9NMQYwWT04x=HL2bUi71V6YpQG7Gg5PVVCbRfXw@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: fix S_IRUGO to 0444, block comments, func declaration
+To: Pintu Kumar <quic_pintu@quicinc.com>
+Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, 
+	Brian.Starkey@arm.com, tjmercier@google.com, christian.koenig@amd.com, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, joe@perches.com, 
+	skhan@linuxfoundation.org, pintu.ping@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/11/24 11:05, Shuah Khan wrote:
-> On 10/11/24 10:21, Chenyuan Yang wrote:
->> Hi Greg,
->>
->> I'm curious about the best approach to fix this issue. I'm unsure if
->> adding a spinlock or mutex around the code would be good to ensure
->> that only one thread can modify the list at a time (then fix this
->> issue).
->>
->> Alternatively, we could check if the entry is already in the list
->> within the vep_queue function:
->> ```
->> if (!list_empty(&new_entry->list)) {
->>      // Entry is already in the list, handle it (e.g., log an error or ignore)
->>      return -EEXIST; // Or another appropriate error code
->> }
->>
-> 
-> vep_queue() function is holding udc lock when it updates
-> the status and calls list_add_tail(). vep_dequeue() does
-> the same.
-> 
-> vep_free_request() doesn't see to hold the udc lock. I will
-> tale a look at this a bit more and get back to you on the
-> best approach. My guess is that the fix will be in another
-> function such as vep_free_request() - at the moment - that
-> routine is the one I suspect.
-> 
-> 
+On Sat, Oct 5, 2024 at 11:10=E2=80=AFAM Pintu Kumar <quic_pintu@quicinc.com=
+> wrote:
+>
+> These warnings/errors are reported by checkpatch.
+> Fix them with minor changes to make it clean.
+> No other functional changes.
+>
+> WARNING: Block comments use * on subsequent lines
+> +       /* only support discovering the end of the buffer,
+> +          but also allow SEEK_SET to maintain the idiomatic
+>
+> WARNING: Block comments use a trailing */ on a separate line
+> +          SEEK_END(0), SEEK_CUR(0) pattern */
+>
+> WARNING: Block comments use a trailing */ on a separate line
+> +        * before passing the sgt back to the exporter. */
+>
+> ERROR: "foo * bar" should be "foo *bar"
+> +static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach=
+,
+>
+> WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using=
+ octal permissions '0444'.
+> +       d =3D debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir=
+,
+>
+> total: 1 errors, 4 warnings, 1746 lines checked
+>
+> Signed-off-by: Pintu Kumar <quic_pintu@quicinc.com>
 
-Can you try adding udc lock hold in vep_free_request() and see
-if the problem persists?
-
-thanks,
--- Shuah
-
+Looks ok to me. Thanks for sending these cleanups!
+Acked-by: John Stultz <jstultz@google.com>
 
