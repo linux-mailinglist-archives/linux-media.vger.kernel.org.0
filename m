@@ -1,127 +1,146 @@
-Return-Path: <linux-media+bounces-19510-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19511-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D120C99B917
-	for <lists+linux-media@lfdr.de>; Sun, 13 Oct 2024 12:44:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7B499BA21
+	for <lists+linux-media@lfdr.de>; Sun, 13 Oct 2024 17:41:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C61B1C20ADD
-	for <lists+linux-media@lfdr.de>; Sun, 13 Oct 2024 10:44:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E7B91C20ADD
+	for <lists+linux-media@lfdr.de>; Sun, 13 Oct 2024 15:41:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B92E13C67C;
-	Sun, 13 Oct 2024 10:44:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB3511474B9;
+	Sun, 13 Oct 2024 15:41:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m/3WvY/U"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hNyeuVnO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A59139D0B
-	for <linux-media@vger.kernel.org>; Sun, 13 Oct 2024 10:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12E8146D6A
+	for <linux-media@vger.kernel.org>; Sun, 13 Oct 2024 15:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728816270; cv=none; b=W2xg0XVxSphOg+Q8NhNDLk+4aov8re2+OpU42Y3Ijv4b7HA+ICmDSnfROT/mAQjHAXWSZRZEVOifuedlnV2nAJ320UdNB6IFRrD2HDfof1uqQjU4U5L6/ryjJUfSHGMFJXABt3MJ2z2LUs7/94QdO1tTFixgrc/L0nb8/0bTtLc=
+	t=1728834068; cv=none; b=Ou9OCfXnYrZybzdh1mSD2sjyH22rebIeWhjvXurY29rbbeWNu7fd8WsxXw7o9fWrtWV2q7f0vPrW27OqVM0Oeg69iXQa+QE4T/ZXFDCHDQt7czunoASNdhs0bVWbx/tc8DKvuYH6cydt5u01sK1P8tBL+Hz4etbd3+eTlm0y2PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728816270; c=relaxed/simple;
-	bh=X/WzFSNG9UXVDe5ObTkY2Z9LAkPpAaQBZa/87PdOLYE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ki9F+ETEI9s/MiKIsDaCcUmLIoTPmKE11KQhDwLaSC/CxT/McbHAWJ09thQarEbLbD9IItAHv0iHEXuRm6QJ8FCVvL6Yqnq1MOV0pi1lnDMp4sm67uc2mJAADJ3eEX+OLcjyZlZe8/1OSlrx+eXdj1IJdqkl3QgpC3esHSZWsBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m/3WvY/U; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5c942815197so2145314a12.1
-        for <linux-media@vger.kernel.org>; Sun, 13 Oct 2024 03:44:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728816268; x=1729421068; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ts1R90nEHJoQVeK5SWtRBNEDE+lrpIhze62//d5StiQ=;
-        b=m/3WvY/U3e1yH8+HXzdih45aEZclBSn2ZxMJwaWEwR7kqo3cTPTt4S93bpaBZNyiov
-         rdAgqySW/7s+a4E81NDlWyqz3KZgLbyCo4Eq8ArE7z1z7Fo0Q8GiWXYdVEwKGNC0j1/Q
-         /+Zh3JiFUbPx5SYunAO5NPYxX3I5F/5Mc1Z2aoZhe2yjZpsLIxVcvwe+tNlJBH4VYjEr
-         QNAq2mJByL1zqtConkbqyp/zebQdlLwdpb0UCRO4GYv/MM7FrC4xasY6aJe1OyRwHJ/S
-         L9W9tIcxqWZSUqNcd4flaYltP0Ym7k1C/nZarSBNB4HvWGUTZYvzbyctlZRTt2ZBrpda
-         9AbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728816268; x=1729421068;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ts1R90nEHJoQVeK5SWtRBNEDE+lrpIhze62//d5StiQ=;
-        b=ewBDYQXBceObcPHIqj2kDdq0OilUfqcMTFxD94R+/Gcanwk7AI5nwqXW6Fr3KcpN8L
-         cJ/3c1Lu2Cj5hGSxjhpuImjoCtsztWS+h0t3fF86YO2uNj/ztQFBCDjrDaOR8mmpLIXd
-         Upv3IMlV9Kt0VexqXC2uS51e9mB6FpKZcanQrYilDm7Su0QxH8bKoPfLh337aTmZhb87
-         ElqI/nJirwDYKxx5fSEL58mIqsaIDltBZrp09NksE9eRmOeRg0JPIu+yyJUMQRfeZ9ra
-         8g98Q80ViAx0Ao8+1+ZGmuV2qPV3Y8PINjvPrpIPMZ8J5hU6qhELK4vqz2hoxiWt37KP
-         7dAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4/GtFaISmQIhXsXMNzPNyzpQRoIkrDc7euYohSrRrd0SVrRfVBV+cb2bmyC032DXluedqoZdV+ZyreQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrPTy5DVL8jju/IzZpZCPUJswNIDP76iYVPmSE9tzA2MoaFQW/
-	lI4ilWJTachTE/fHBldzznbfF6YgRewpQR/XX21oMeVlXTN90wcvFrXQHF/UqHw=
-X-Google-Smtp-Source: AGHT+IFiRsrwKX/5PtJcK4cGmlJ2UJ7yOCgzC+qEpTHb5ZJ+6wBKnUiuR8gg5WwUrpxesrYe7fLvbQ==
-X-Received: by 2002:a05:6402:c41:b0:5c5:b7fd:170a with SMTP id 4fb4d7f45d1cf-5c95ac50794mr8118037a12.28.1728816267533;
-        Sun, 13 Oct 2024 03:44:27 -0700 (PDT)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99f8dbd6d0sm122556866b.200.2024.10.13.03.44.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 13 Oct 2024 03:44:27 -0700 (PDT)
-Message-ID: <aa140a74-b473-408c-8529-e12f0e285759@linaro.org>
-Date: Sun, 13 Oct 2024 11:44:24 +0100
+	s=arc-20240116; t=1728834068; c=relaxed/simple;
+	bh=zVTuHMZQP3KbQj4Ww3QguRrmp2kgziWgJKdaJ4MFaIM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rW97MUP9mm2PFpVEXGEbMLL62LkA1ojkIDPHQ/yPKRF5bSQ3FWPN72DA5bKYyrXkQQis2mYErVTGPIidzaaZNsUCAeRBKe9QCBN1NYEb3sLKL6Gy7BBc+W6x65CwPnrCumbxwri5j+B+vGDp/v8H4SCYDp8nRXLlOUkQfGVKxU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hNyeuVnO; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728834063;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oZIaPCQtLGHZndrLTFUOA2Mc9Rom1ioAkSUU56owIRQ=;
+	b=hNyeuVnOFi+kmFen1dhc/NmzTqIaa1GZkkLrOCICdZP4iBQ2m5nOxXeM5ZqCOruQNb9UJO
+	SCynfMTfXCAhSksUqYaVv16ZFtnik05Mk9UUK/eaEJek+T1Ymc7zXVRGv+kSSS1kI54gIC
+	POeoEM1Vr/P4hqd0G5Q805sYyRIYzPs=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-151-xgIj2i2BOmWFDK_F8ZKecA-1; Sun,
+ 13 Oct 2024 11:41:02 -0400
+X-MC-Unique: xgIj2i2BOmWFDK_F8ZKecA-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B47DB19560A2;
+	Sun, 13 Oct 2024 15:41:00 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.70])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 82EAE19560AA;
+	Sun, 13 Oct 2024 15:40:57 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kate Hsuan <hpa@redhat.com>,
+	Robert Mast <rn.mast@zonnet.nl>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 0/4] media: atomisp: mt9m114: Make it work on Asus T100TA
+Date: Sun, 13 Oct 2024 17:40:52 +0200
+Message-ID: <20241013154056.12532-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: dt-bindings: Use additionalProperties: false
- for endpoint: properties:
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Martin Kepplinger <martink@posteo.de>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "Paul J. Murphy" <paul.j.murphy@intel.com>,
- Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Martin Hecht <martin.hecht@avnet.eu>, Zhi Mao <zhi.mao@mediatek.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Mikhail Rudenko <mike.rudenko@gmail.com>,
- Ricardo Ribalda <ribalda@kernel.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Dongchun Zhu <dongchun.zhu@mediatek.com>,
- Quentin Schulz <quentin.schulz@theobroma-systems.com>,
- Todor Tomov <todor.too@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-0-a2bb12a1796d@linaro.org>
- <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-2-a2bb12a1796d@linaro.org>
- <20241012180935.GC5212@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20241012180935.GC5212@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-On 12/10/2024 19:09, Laurent Pinchart wrote:
->> +          clock-lanes: true
-> This shouldn't be needed, as the sensor doesn't support clock lane
-> remapping. Could we drop the clock-lanes property from upstream device
-> tree sources instead ?
+Hi All,
 
-Yes probably.
+Since there is some interest in getting the mt9m114 camera to work on
+the Asus T100TA:
 
----
-bod
+https://github.com/jfwells/linux-asus-t100ta/issues/4
+https://lore.kernel.org/platform-driver-x86/e0c8c98f-64ec-4297-bbc8-de489414515c@zonnet.nl/
+
+I have spend some time this weekend poking at this resulting in this
+series which makes things work somewhat.
+
+Note that for now this will only work if you modify the BIOS settings
+to change the ISP to be listed as a PCI device in lspci:
+
+00:03.0 Multimedia controller: Intel Corporation Atom Processor Z36xxx/Z37xxx Series Camera ISP (rev 09)
+
+If you do not have this in lspci then things will not work. The BIOS
+does not allow changing this setting from its menu, so we need to
+use the grub setup_var_3 command form a patched grub.
+
+Note this requires your Asus T100TA to be at the latest v314 BIOS version,
+this has not been tested with other versions!
+
+Download grubia32.efi from here:
+
+https://fedorapeople.org/~jwrdegoede/grub-efi-setup_var/grubia32.efi
+
+Boot this once and then run:
+
+setup_var_3 6f
+
+If the ISP is not visible in lspci this should show 01 as value
+for the 0x6f offset.
+
+Now change this to 2:
+
+setup_var_3 6f 02
+
+and then reboot. After this the ISP should be visible in lspci.
+
+For more details on how this works see:
+https://hansdegoede.dreamwidth.org/25589.html
+
+Note this series is just a quick hack, the proper fix would be to get
+the new drivers/media/i2c/mt9m114 standard v4l2 driver to work and
+atomisp does support standard v4l2 drivers for a while now.
+
+I plan to take a shot at this as time permits, hopefully sometime
+within a month but no promises.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (4):
+  media: atomisp: Fix WARN_ON() in vb2_start_streaming() triggering
+  media: atomisp: mt9m114: Disable V4L2_CID_3A_LOCK control
+  media: atomisp: mt9m114: Add missing mutex_init() call
+  media: atomisp: mt9m114: Fix fmt->code not getting set on try_fmt
+
+ drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 13 +++++++++----
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c   |  5 ++++-
+ 2 files changed, 13 insertions(+), 5 deletions(-)
+
+-- 
+2.47.0
+
 
