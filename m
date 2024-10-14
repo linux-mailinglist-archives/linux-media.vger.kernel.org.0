@@ -1,38 +1,38 @@
-Return-Path: <linux-media+bounces-19611-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19612-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C8999D0C5
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 17:07:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A9899D0CC
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 17:07:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95D6E287B69
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 15:07:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFE2A1F22BAE
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 15:07:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1368E19F43B;
-	Mon, 14 Oct 2024 15:07:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C6ED55896;
+	Mon, 14 Oct 2024 15:07:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EC81BDC3
-	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 15:06:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A983A1B6
+	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 15:07:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728918419; cv=none; b=a2I3vs3+/FylUVTnqL+yuE+tBgS+X0G6bC6mQu4qeevrQGEwBQ74UjEpIkkSC1fevOVfmn8lVsItAUjPReJZlwbCw51jPWqVqaOI7zL4Bfs4GqH0J07rvf0fi2tuQnkkcq72JnrqAh+6IierNHitYGejiBBkfMDS01cozWtYcL4=
+	t=1728918437; cv=none; b=E0wymqwFrUAzdhuJx0jvHdKzvmKDB9bsvghiQg2d+jV1dM+oieP2sNhZXzz1wKCBi9nIQhCnCBg4fLfVwcTK4zXrZn90gmSCFN7wg/0JrumZ6+/9Vo/f17yPfxwHMzw0RtVENpFf5lU5sIERyEogaPjs437BoMFs8GmJmUNJnF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728918419; c=relaxed/simple;
-	bh=287D1h3A4y5wl5ryi33huXOhd31/ZFejhPocIxSiy7I=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ohsoi7CglElhEQRLknL8O/FlLSX1mIn5qFB4Ez/ugvb5TsAeDH5xPA/Trco9U2Xd1AMJy8CM11N3RDAryBkKAbSIIu9dS+MJV6kb3q5iFf7/Say0LMju6ha3tGlxS/lAEer5I2oOB5FRnrvBtcDYO8fYKKJwI5oF3UwZaG3Zo9g=
+	s=arc-20240116; t=1728918437; c=relaxed/simple;
+	bh=vC8JWUB+3F49BudkbmUNr+1BbGlkTjbaRH3/yy0o2bE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=dpGZa2WVltVX9VLlkF0RwaEr8iQ44DtLRFMiIeS7DWRSmrJdt8rE8mAA9KkzZtCeTPCdPXDZeonMjezjxeDaNvRmV3ak9mMR11gzh8FPycyxsPC/+Jdn7Uj5HljEY1UaVWOz7LGVFuCKJeEkSi29QdHxSY2YJgNp1UUy6BZCya0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDBA9C4CEC3;
-	Mon, 14 Oct 2024 15:06:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91531C4CED3;
+	Mon, 14 Oct 2024 15:06:59 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH 00/10] media: start work to remove wait_prepare/finish
- callbacks
-Date: Mon, 14 Oct 2024 17:06:27 +0200
-Message-Id: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
+Date: Mon, 14 Oct 2024 17:06:28 +0200
+Subject: [PATCH 01/10] media: videobuf2-core: update vb2_thread if
+ wait_finish/prepare are NULL
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -41,10 +41,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHMzDWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDA0MT3bIkI93yxMwSXRMT00ST1MQUg2STNCWg8oKi1LTMCrBR0bG1tQD
- pE/QlWgAAAA==
-X-Change-ID: 20241014-vb2-wait-445a4ead0c4f
+Message-Id: <20241014-vb2-wait-v1-1-8c3ee25c618c@xs4all.nl>
+References: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
+In-Reply-To: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
 To: Tomasz Figa <tfiga@chromium.org>, 
  Marek Szyprowski <m.szyprowski@samsung.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -137,203 +136,64 @@ To: Tomasz Figa <tfiga@chromium.org>,
 Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
 X-Mailer: b4 0.14.2
 
-This patch series makes one change to videobuf2-core.c in vb2_thread()
-where wait_prepare/finish was also called. That was missed in the
-previous commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
-are NULL"), but that is needed before we can start removing the
-vb2_ops_wait_prepare/finish callbacks from drivers.
+For read/write support the vb2_thread is used. This will queue and
+dequeue buffers automatically to provide the read() or write() feature.
 
-The next 9 patches drop the vb2_ops_wait_prepare/finish callbacks
-from the various drivers in the media subsystem.
+It calls wait_finish/prepare around vb2_core_dqbuf() and vb2_core_qbuf(),
+but that assumes all drivers have these ops set. But that will change
+due to commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
+are NULL").
 
-After this there are some V4L2 drivers in other subsystems (gadget,
-input, staging) that need this change as well, but I'll start on that
-when this series is merged.
+So instead check if the callback is available, and if not, use q->lock,
+just as __vb2_wait_for_done_vb() does.
 
-There are also a few drivers that set the wait_prepare/finish callbacks
-to their own implementation. Those need work as well.
-
-Since this series touches on almost all V4L2 drivers, it is sent to
-a lot of people.
-
-Regards,
-
-	Hans
+It was also used around vb2_core_qbuf(), but VIDIOC_QBUF doesn't
+need this since it doesn't do a blocking wait, so just drop the
+wait_finish/prepare callbacks around vb2_core_qbuf().
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
-Hans Verkuil (10):
-      media: videobuf2-core: update vb2_thread if wait_finish/prepare are NULL
-      media: test-drivers: drop vb2_ops_wait_prepare/finish
-      media: pci: drop vb2_ops_wait_prepare/finish
-      media: usb: drop vb2_ops_wait_prepare/finish
-      media: video-i2c: drop vb2_ops_wait_prepare/finish
-      media: rtl2832_sdr: drop vb2_ops_wait_prepare/finish
-      media: platform: drop vb2_ops_wait_prepare/finish
-      media: common: saa7146: drop vb2_ops_wait_prepare/finish
-      staging: media: drop vb2_ops_wait_prepare/finish
-      media: samples: v4l2-pci-skeleton.c: drop vb2_ops_wait_prepare/finish
+ drivers/media/common/videobuf2/videobuf2-core.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
- drivers/media/common/saa7146/saa7146_vbi.c                   |  2 --
- drivers/media/common/saa7146/saa7146_video.c                 |  2 --
- drivers/media/common/videobuf2/videobuf2-core.c              | 12 ++++++++----
- drivers/media/dvb-frontends/rtl2832_sdr.c                    |  2 --
- drivers/media/i2c/video-i2c.c                                |  2 --
- drivers/media/pci/bt8xx/bttv-driver.c                        |  2 --
- drivers/media/pci/bt8xx/bttv-vbi.c                           |  2 --
- drivers/media/pci/cobalt/cobalt-v4l2.c                       |  2 --
- drivers/media/pci/cx18/cx18-streams.c                        |  2 --
- drivers/media/pci/cx23885/cx23885-417.c                      |  2 --
- drivers/media/pci/cx23885/cx23885-dvb.c                      |  2 --
- drivers/media/pci/cx23885/cx23885-vbi.c                      |  2 --
- drivers/media/pci/cx23885/cx23885-video.c                    |  2 --
- drivers/media/pci/cx25821/cx25821-video.c                    |  2 --
- drivers/media/pci/cx88/cx88-blackbird.c                      |  2 --
- drivers/media/pci/cx88/cx88-dvb.c                            |  2 --
- drivers/media/pci/cx88/cx88-vbi.c                            |  2 --
- drivers/media/pci/cx88/cx88-video.c                          |  2 --
- drivers/media/pci/dt3155/dt3155.c                            |  2 --
- drivers/media/pci/intel/ipu3/ipu3-cio2.c                     |  2 --
- drivers/media/pci/intel/ipu6/ipu6-isys-queue.c               |  2 --
- drivers/media/pci/mgb4/mgb4_vin.c                            |  2 --
- drivers/media/pci/mgb4/mgb4_vout.c                           |  2 --
- drivers/media/pci/saa7134/saa7134-empress.c                  |  2 --
- drivers/media/pci/saa7134/saa7134-ts.c                       |  2 --
- drivers/media/pci/saa7134/saa7134-vbi.c                      |  2 --
- drivers/media/pci/saa7134/saa7134-video.c                    |  2 --
- drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c               |  2 --
- drivers/media/pci/solo6x10/solo6x10-v4l2.c                   |  2 --
- drivers/media/pci/sta2x11/sta2x11_vip.c                      |  2 --
- drivers/media/pci/tw5864/tw5864-video.c                      |  2 --
- drivers/media/pci/tw68/tw68-video.c                          |  2 --
- drivers/media/pci/tw686x/tw686x-video.c                      |  2 --
- drivers/media/pci/zoran/zoran_driver.c                       |  2 --
- drivers/media/platform/allegro-dvt/allegro-core.c            |  2 --
- drivers/media/platform/amlogic/meson-ge2d/ge2d.c             |  2 --
- drivers/media/platform/amphion/vpu_v4l2.c                    |  2 --
- drivers/media/platform/aspeed/aspeed-video.c                 |  2 --
- drivers/media/platform/atmel/atmel-isi.c                     |  2 --
- drivers/media/platform/broadcom/bcm2835-unicam.c             |  2 --
- drivers/media/platform/chips-media/coda/coda-common.c        |  2 --
- drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c     |  2 --
- drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c     |  2 --
- drivers/media/platform/imagination/e5010-jpeg-enc.c          |  2 --
- drivers/media/platform/intel/pxa_camera.c                    |  2 --
- drivers/media/platform/m2m-deinterlace.c                     |  2 --
- drivers/media/platform/marvell/mcam-core.c                   |  4 ----
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c         |  4 ----
- drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c            |  2 --
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c          |  2 --
- .../mediatek/vcodec/decoder/mtk_vcodec_dec_stateful.c        |  2 --
- .../mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c       |  2 --
- .../media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c  |  2 --
- drivers/media/platform/microchip/microchip-isc-base.c        |  2 --
- drivers/media/platform/nuvoton/npcm-video.c                  |  2 --
- drivers/media/platform/nvidia/tegra-vde/v4l2.c               |  2 --
- drivers/media/platform/nxp/dw100/dw100.c                     |  2 --
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c               |  2 --
- drivers/media/platform/nxp/imx-pxp.c                         |  2 --
- drivers/media/platform/nxp/imx7-media-csi.c                  |  2 --
- drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c           |  2 --
- drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c         |  2 --
- drivers/media/platform/nxp/mx2_emmaprp.c                     |  2 --
- drivers/media/platform/qcom/camss/camss-video.c              |  2 --
- drivers/media/platform/qcom/venus/vdec.c                     |  2 --
- drivers/media/platform/qcom/venus/venc.c                     |  2 --
- drivers/media/platform/raspberrypi/pisp_be/pisp_be.c         |  2 --
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c           |  2 --
- drivers/media/platform/renesas/rcar_drif.c                   |  2 --
- drivers/media/platform/renesas/rcar_fdp1.c                   |  2 --
- drivers/media/platform/renesas/rcar_jpu.c                    |  2 --
- drivers/media/platform/renesas/renesas-ceu.c                 |  2 --
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c       |  2 --
- drivers/media/platform/renesas/sh_vou.c                      |  2 --
- drivers/media/platform/renesas/vsp1/vsp1_histo.c             |  2 --
- drivers/media/platform/renesas/vsp1/vsp1_video.c             |  2 --
- drivers/media/platform/rockchip/rga/rga-buf.c                |  2 --
- drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c      |  2 --
- drivers/media/platform/rockchip/rkisp1/rkisp1-params.c       |  2 --
- drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c        |  2 --
- drivers/media/platform/samsung/exynos-gsc/gsc-m2m.c          |  2 --
- drivers/media/platform/samsung/exynos4-is/fimc-capture.c     |  2 --
- drivers/media/platform/samsung/exynos4-is/fimc-isp-video.c   |  2 --
- drivers/media/platform/samsung/exynos4-is/fimc-lite.c        |  2 --
- drivers/media/platform/samsung/exynos4-is/fimc-m2m.c         |  2 --
- drivers/media/platform/samsung/s3c-camif/camif-capture.c     |  2 --
- drivers/media/platform/samsung/s5p-g2d/g2d.c                 |  2 --
- drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c          |  2 --
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c         |  2 --
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c         |  2 --
- drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c             |  2 --
- drivers/media/platform/st/sti/delta/delta-v4l2.c             |  4 ----
- drivers/media/platform/st/sti/hva/hva-v4l2.c                 |  2 --
- drivers/media/platform/st/stm32/dma2d/dma2d.c                |  2 --
- drivers/media/platform/st/stm32/stm32-dcmi.c                 |  2 --
- .../media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c    |  6 ------
- drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c           |  2 --
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c   |  2 --
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c             |  2 --
- drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c     |  2 --
- drivers/media/platform/ti/am437x/am437x-vpfe.c               |  2 --
- drivers/media/platform/ti/cal/cal-video.c                    |  2 --
- drivers/media/platform/ti/davinci/vpif_capture.c             |  2 --
- drivers/media/platform/ti/davinci/vpif_display.c             |  2 --
- drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c        |  2 --
- drivers/media/platform/ti/omap/omap_vout.c                   |  2 --
- drivers/media/platform/ti/vpe/vpe.c                          |  2 --
- drivers/media/platform/verisilicon/hantro_v4l2.c             |  2 --
- drivers/media/platform/via/via-camera.c                      |  2 --
- drivers/media/platform/xilinx/xilinx-dma.c                   |  2 --
- drivers/media/test-drivers/vicodec/vicodec-core.c            |  2 --
- drivers/media/test-drivers/vim2m.c                           |  2 --
- drivers/media/test-drivers/vimc/vimc-capture.c               |  6 ------
- drivers/media/test-drivers/visl/visl-video.c                 |  2 --
- drivers/media/test-drivers/vivid/vivid-meta-cap.c            |  2 --
- drivers/media/test-drivers/vivid/vivid-meta-out.c            |  2 --
- drivers/media/test-drivers/vivid/vivid-sdr-cap.c             |  2 --
- drivers/media/test-drivers/vivid/vivid-touch-cap.c           |  2 --
- drivers/media/test-drivers/vivid/vivid-vbi-cap.c             |  2 --
- drivers/media/test-drivers/vivid/vivid-vbi-out.c             |  2 --
- drivers/media/test-drivers/vivid/vivid-vid-cap.c             |  2 --
- drivers/media/test-drivers/vivid/vivid-vid-out.c             |  2 --
- drivers/media/usb/airspy/airspy.c                            |  2 --
- drivers/media/usb/au0828/au0828-vbi.c                        |  2 --
- drivers/media/usb/au0828/au0828-video.c                      |  2 --
- drivers/media/usb/cx231xx/cx231xx-417.c                      |  2 --
- drivers/media/usb/cx231xx/cx231xx-vbi.c                      |  2 --
- drivers/media/usb/cx231xx/cx231xx-video.c                    |  2 --
- drivers/media/usb/dvb-usb/cxusb-analog.c                     |  2 --
- drivers/media/usb/em28xx/em28xx-vbi.c                        |  2 --
- drivers/media/usb/em28xx/em28xx-video.c                      |  2 --
- drivers/media/usb/go7007/go7007-v4l2.c                       |  2 --
- drivers/media/usb/gspca/gspca.c                              |  2 --
- drivers/media/usb/hackrf/hackrf.c                            |  2 --
- drivers/media/usb/msi2500/msi2500.c                          |  2 --
- drivers/media/usb/pwc/pwc-if.c                               |  2 --
- drivers/media/usb/s2255/s2255drv.c                           |  2 --
- drivers/media/usb/stk1160/stk1160-v4l.c                      |  2 --
- drivers/media/usb/usbtv/usbtv-video.c                        |  2 --
- drivers/media/usb/uvc/uvc_queue.c                            |  4 ----
- drivers/staging/media/atomisp/pci/atomisp_fops.c             |  2 --
- drivers/staging/media/deprecated/atmel/atmel-isc-base.c      |  2 --
- drivers/staging/media/imx/imx-media-capture.c                |  2 --
- drivers/staging/media/imx/imx-media-csc-scaler.c             |  2 --
- drivers/staging/media/ipu3/ipu3-v4l2.c                       |  2 --
- drivers/staging/media/meson/vdec/vdec.c                      |  2 --
- drivers/staging/media/rkvdec/rkvdec.c                        |  2 --
- drivers/staging/media/starfive/camss/stf-video.c             |  2 --
- drivers/staging/media/sunxi/cedrus/cedrus_video.c            |  2 --
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c    |  2 --
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c     |  2 --
- drivers/staging/media/tegra-video/vi.c                       |  2 --
- samples/v4l/v4l2-pci-skeleton.c                              |  6 +-----
- 153 files changed, 9 insertions(+), 327 deletions(-)
----
-base-commit: bcd4f091cf1ea7184d813afc115af82ac9326b25
-change-id: 20241014-vb2-wait-445a4ead0c4f
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index d064e0664851b26b2da71e0a374c49a2d2c5e217..e9c1d9e3222323be50b3039eb463384a3d558239 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -3218,10 +3218,16 @@ static int vb2_thread(void *data)
+ 				continue;
+ 			prequeue--;
+ 		} else {
+-			call_void_qop(q, wait_finish, q);
++			if (q->ops->wait_finish)
++				call_void_qop(q, wait_finish, q);
++			else if (q->lock)
++				mutex_lock(q->lock);
+ 			if (!threadio->stop)
+ 				ret = vb2_core_dqbuf(q, &index, NULL, 0);
+-			call_void_qop(q, wait_prepare, q);
++			if (q->ops->wait_prepare)
++				call_void_qop(q, wait_prepare, q);
++			else if (q->lock)
++				mutex_unlock(q->lock);
+ 			dprintk(q, 5, "file io: vb2_dqbuf result: %d\n", ret);
+ 			if (!ret)
+ 				vb = vb2_get_buffer(q, index);
+@@ -3233,12 +3239,10 @@ static int vb2_thread(void *data)
+ 		if (vb->state != VB2_BUF_STATE_ERROR)
+ 			if (threadio->fnc(vb, threadio->priv))
+ 				break;
+-		call_void_qop(q, wait_finish, q);
+ 		if (copy_timestamp)
+ 			vb->timestamp = ktime_get_ns();
+ 		if (!threadio->stop)
+ 			ret = vb2_core_qbuf(q, vb, NULL, NULL);
+-		call_void_qop(q, wait_prepare, q);
+ 		if (ret || threadio->stop)
+ 			break;
+ 	}
 
-Best regards,
 -- 
-Hans Verkuil <hverkuil@xs4all.nl>
+2.45.2
 
 
