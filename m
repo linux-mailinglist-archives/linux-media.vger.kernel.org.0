@@ -1,59 +1,61 @@
-Return-Path: <linux-media+bounces-19547-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19548-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0162499C2FF
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 10:23:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A590D99C310
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 10:25:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 24E4E1C22882
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 08:23:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B1DD1F262EF
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 08:25:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 073BA15535B;
-	Mon, 14 Oct 2024 08:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CC1517ADFA;
+	Mon, 14 Oct 2024 08:22:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KFExR3Z0";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="slvvGPaA"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sTMTFJFG";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YiXTsO3q"
 X-Original-To: linux-media@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6509212C54B;
-	Mon, 14 Oct 2024 08:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4251158558;
+	Mon, 14 Oct 2024 08:22:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728894167; cv=none; b=fWWxn82eszQFuckO1FwMP4L8UdehI/8dH5QW5Hej5H+VL3CGCNVHXRYds8L71MdFNg7KU1UVZAe76vt+qzpOJECPvHpySpFs+nXycYTdYqGwO6lVrQ3qMJ+9SO3wzatoV1trt17je6+ArcdskJVl77kiwVH/z3+UdIxSPO1a1PI=
+	t=1728894174; cv=none; b=VeDxXFnY/g1RtXQh1ruTKp0zTyblqlLgP6i0TXPCRbuO0XTlnRxS3V3wbqzPngHX5GulkhDbsDJQcsC2jjl3cxU3wYuMn77XCaS5tgvp7zVcG5jUi/N4tvwln/6N3NYh00bFI/A25GJ6u9Nc3rn8qsqJmvhxmtpdriJitHreSCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728894167; c=relaxed/simple;
-	bh=dGqCqRwAyi62E3GAk8CVKrqzGtDT7u4rKx7rTPZQFko=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ihe/xUc3owLcuGkDQgS88GmHQl3AsxGgLkEtpE7GNVTWVspRymU/OEoWRxL19XM3Y4oqmez0cr/mZsfuzJV66n1spafByBWMOfAz/cemPmOEV+KyFInH8mU+KGnNA+VDQVdL2WZCcHw69ug2iGuD+OCgAqc/3qUxHI4g5xJdoYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KFExR3Z0; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=slvvGPaA; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1728894174; c=relaxed/simple;
+	bh=bzBoPBXvgGgBceKCBKqe7YKjn85sRsKmpKifY22AX2A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=BVLMmM7TY5epvz6OunAVuQTZ4vVxHgRLqYXSXHO8UTCy2blbyDGbklhlEq+3naR7v/fIqUMNdQtRY8BQNSRMssJ2jcGG6SPt0AYdaZ+wdaWZ7iUzO7jNa9svuFuQOAOirj0iFNaldowkL+PjVQvr7Qadqnk97ySA7EfozjhUXss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sTMTFJFG; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YiXTsO3q; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 From: Anna-Maria Behnsen <anna-maria@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1728894163;
+	s=2020; t=1728894170;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=6HOwNsVm5tP1AF7YCvIKWbMDqeHpS3lPwmHnkUywq/Y=;
-	b=KFExR3Z0ch2CGjb8uZF385NycoNtXWJ52MR/i19uWkoHR73ejXuX4GOFPDZJchSNKxN0YH
-	9H09dQgIFLN0XYA0sRa7f+Jg744VoU+FWRipA2zenwRVFWf0noRuToPCIoq/ePHjxWarJ9
-	SqjMIQ2OJJIQc/JlGoQcr7qn+Ztcb5Wog63TpXuR+uMIcDwA7z6B2gog9Q3SVmAY2bikFt
-	mRj2dJa9yDAlHsRKp62fLCoRoJ4uho0BgHGrPNhLu+s/+D79MQkDsckRZ1I3/nd5V/0BHs
-	FuKX3H4yatjIlK09dEr8+nGf1DKjJ0qQxyhRK9NozUQLqHSQ76Lx7voiR0M2tA==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kNRLICfcMX53Pl818PecpUhWq4UAyd0n3QQSNiHMS0Q=;
+	b=sTMTFJFGvylVpObZzdv1qmknTg52pZ48YWiroJTZicX+jQy1Mlt0Nwy4njse3ScvsitBPN
+	AarLq6u0hB7vf/sWLsDpPRUwWhPjaaUfsKuxH4QzSlaIYa2GRhvZ8jn7lX9m0aadfwvU4/
+	r/swaKR5jNTOAIjSbgs2jtN8WnxgN51MlifUV8KxK0Sf+2qxEOIiABHiYuqRWNqNoFXcpJ
+	5FbJ0AXPMhESnvenWqkAtuZ+/XiP4TvWNm24LGiK4v7SFBWPjXkoMFT80ibjuPZpjjNx3S
+	990cpnZFVbHZmQZJpWxuwnUePpRA0XkSpRYeXyu2gyUhOoYw2pgWgfACEt8fQA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1728894163;
+	s=2020e; t=1728894170;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=6HOwNsVm5tP1AF7YCvIKWbMDqeHpS3lPwmHnkUywq/Y=;
-	b=slvvGPaAqPFHoRdnXnb5CSGotI1RmGRgBCGz97ighCehiyEF+E9aEDo3bB0d+pbkk/R91i
-	aaXfQVNhvqPTH6BA==
-Subject: [PATCH v3 00/16] timers: Cleanup delay/sleep related mess
-Date: Mon, 14 Oct 2024 10:22:17 +0200
-Message-Id: <20241014-devel-anna-maria-b4-timers-flseep-v3-0-dc8b907cb62f@linutronix.de>
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kNRLICfcMX53Pl818PecpUhWq4UAyd0n3QQSNiHMS0Q=;
+	b=YiXTsO3qLxn3vTSHXPfgV/b1ytZOM/RZ2M/bSg5i6/5WqHxHq3X2mwyl7+SxU5Ckqvkxyg
+	waDWkAxliFM0VODQ==
+Date: Mon, 14 Oct 2024 10:22:31 +0200
+Subject: [PATCH v3 14/16] media: anysee: Fix and remove outdated comment
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,10 +64,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALnUDGcC/5XNSw6CMBSF4a2Qjr2mD1515D6MgwIXuQkU0mKDI
- ezdwsjEiQ7/M/jOyjw6Qs8uycocBvI02hjqlLC6M/aBQE1sJrlMueYpNBiwB2OtgcE4MlClMNO
- AzkPbe8QJSlVmWshK57pk0ZkctrQcH7d77I78PLrXcRnEvv6jBwEcUJdFzmWWq4Jfe7LP2Y2Wl
- nODbH8I8kMV4hdVRrXijWqVqusWv9Rt295y1hsLLAEAAA==
+Message-Id: <20241014-devel-anna-maria-b4-timers-flseep-v3-14-dc8b907cb62f@linutronix.de>
+References: <20241014-devel-anna-maria-b4-timers-flseep-v3-0-dc8b907cb62f@linutronix.de>
+In-Reply-To: <20241014-devel-anna-maria-b4-timers-flseep-v3-0-dc8b907cb62f@linutronix.de>
 To: Frederic Weisbecker <frederic@kernel.org>, 
  Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>
 Cc: linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>, 
@@ -73,106 +74,64 @@ Cc: linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
  Alice Ryhl <aliceryhl@google.com>, 
  FUJITA Tomonori <fujita.tomonori@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
  Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Miguel Ojeda <ojeda@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
- damon@lists.linux.dev, linux-mm@kvack.org, SeongJae Park <sj@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org, 
- Heiner Kallweit <hkallweit1@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Andy Whitcroft <apw@canonical.com>, 
- Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- netdev@vger.kernel.org, linux-sound@vger.kernel.org, 
- Michael Ellerman <mpe@ellerman.id.au>, Nathan Lynch <nathanl@linux.ibm.com>, 
- linuxppc-dev@lists.ozlabs.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
  linux-media@vger.kernel.org, 
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Hi,
+anysee driver was transformed to use usbv2 years ago. The comments in
+anysee_ctrl_msg() still are referencing the old interfaces where msleep()
+was used. The v2 interfaces also changed over the years and with commit
+1162c7b383a6 ("[media] dvb_usb_v2: refactor dvb_usbv2_generic_rw()") the
+usage of msleep() was gone anyway.
 
-a question about which sleeping function should be used in acpi_os_sleep()
-started a discussion and examination about the existing documentation and
-implementation of functions which insert a sleep/delay.
+Remove FIXME comment and update also comment before call to
+dvb_usbv2_generic_rw_locked().
 
-The result of the discussion was, that the documentation is outdated and
-the implemented fsleep() reflects the outdated documentation but doesn't
-help to reflect reality which in turns leads to the queue which covers the
-following things:
-
-- Split out all timeout and sleep related functions from hrtimer.c and timer.c
-  into a separate file
-
-- Update function descriptions of sleep related functions
-
-- Change fsleep() to reflect reality
-
-- Rework all comments or users which obviously rely on the outdated
-  documentation as they reference "Documentation/timers/timers-howto.rst"
-
-- Update the outdated documentation and move it into a file with a self
-  explaining file name (as there are no more references)
-
-- Remove checkpatch checks which also rely on the outdated documentation
-
-The queue is available here:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/anna-maria/linux-devel.git timers/misc
-
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
 Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
-Changes in v3:
-- Add review remarks
-- Split checkpatch patch: 1. Remove links to outdated documentation,
-  2. Remove checks in checkpatch which rely on outdated documentation
-- Link to v2: https://lore.kernel.org/r/20240911-devel-anna-maria-b4-timers-flseep-v2-0-b0d3f33ccfe0@linutronix.de
-
-Changes in v2:
-- change udelay() and ndelay() as suggested by Thomas
-- Update some formatting in the new sleep_timeout.c file
-- minor typo changes and other small review remarks
-
-Thanks,
-
-        Anna-Maria
-
+v3: Remove FIXME comment completely
 ---
-Anna-Maria Behnsen (16):
-      MAINTAINERS: Add missing file include/linux/delay.h
-      timers: Move *sleep*() and timeout functions into a separate file
-      timers: Update schedule_[hr]timeout*() related function descriptions
-      timers: Rename usleep_idle_range() to usleep_range_idle()
-      timers: Update function descriptions of sleep/delay related functions
-      delay: Rework udelay and ndelay
-      timers: Adjust flseep() to reflect reality
-      mm/damon/core: Use generic upper bound recommondation for usleep_range()
-      timers: Add a warning to usleep_range_state() for wrong order of arguments
-      checkpatch: Remove links to outdated documentation
-      regulator: core: Use fsleep() to get best sleep mechanism
-      iopoll/regmap/phy/snd: Fix comment referencing outdated timer documentation
-      powerpc/rtas: Use fsleep() to minimize additional sleep duration
-      media: anysee: Fix and remove outdated comment
-      timers/Documentation: Cleanup delay/sleep documentation
-      checkpatch: Remove broken sleep/delay related checks
+ drivers/media/usb/dvb-usb-v2/anysee.c | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
- Documentation/dev-tools/checkpatch.rst         |   6 -
- Documentation/timers/delay_sleep_functions.rst | 121 ++++++++
- Documentation/timers/index.rst                 |   2 +-
- Documentation/timers/timers-howto.rst          | 115 --------
- MAINTAINERS                                    |   2 +
- arch/powerpc/kernel/rtas.c                     |  21 +-
- drivers/media/usb/dvb-usb-v2/anysee.c          |  17 +-
- drivers/regulator/core.c                       |  47 +--
- include/asm-generic/delay.h                    |  96 +++++--
- include/linux/delay.h                          |  79 ++++--
- include/linux/iopoll.h                         |  52 ++--
- include/linux/phy.h                            |   9 +-
- include/linux/regmap.h                         |  38 +--
- kernel/time/Makefile                           |   2 +-
- kernel/time/hrtimer.c                          | 120 --------
- kernel/time/sleep_timeout.c                    | 377 +++++++++++++++++++++++++
- kernel/time/timer.c                            | 192 -------------
- mm/damon/core.c                                |   5 +-
- scripts/checkpatch.pl                          |  38 ---
- sound/soc/sof/ops.h                            |   8 +-
- 20 files changed, 704 insertions(+), 643 deletions(-)
+diff --git a/drivers/media/usb/dvb-usb-v2/anysee.c b/drivers/media/usb/dvb-usb-v2/anysee.c
+index 8699846eb416..bea12cdc85e8 100644
+--- a/drivers/media/usb/dvb-usb-v2/anysee.c
++++ b/drivers/media/usb/dvb-usb-v2/anysee.c
+@@ -46,24 +46,15 @@ static int anysee_ctrl_msg(struct dvb_usb_device *d,
+ 
+ 	dev_dbg(&d->udev->dev, "%s: >>> %*ph\n", __func__, slen, state->buf);
+ 
+-	/* We need receive one message more after dvb_usb_generic_rw due
+-	   to weird transaction flow, which is 1 x send + 2 x receive. */
++	/*
++	 * We need receive one message more after dvb_usbv2_generic_rw_locked()
++	 * due to weird transaction flow, which is 1 x send + 2 x receive.
++	 */
+ 	ret = dvb_usbv2_generic_rw_locked(d, state->buf, sizeof(state->buf),
+ 			state->buf, sizeof(state->buf));
+ 	if (ret)
+ 		goto error_unlock;
+ 
+-	/* TODO FIXME: dvb_usb_generic_rw() fails rarely with error code -32
+-	 * (EPIPE, Broken pipe). Function supports currently msleep() as a
+-	 * parameter but I would not like to use it, since according to
+-	 * Documentation/timers/timers-howto.rst it should not be used such
+-	 * short, under < 20ms, sleeps. Repeating failed message would be
+-	 * better choice as not to add unwanted delays...
+-	 * Fixing that correctly is one of those or both;
+-	 * 1) use repeat if possible
+-	 * 2) add suitable delay
+-	 */
+-
+ 	/* get answer, retry few times if error returned */
+ 	for (i = 0; i < 3; i++) {
+ 		/* receive 2nd answer */
+
+-- 
+2.39.5
 
 
