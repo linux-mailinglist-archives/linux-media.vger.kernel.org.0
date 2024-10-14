@@ -1,36 +1,38 @@
-Return-Path: <linux-media+bounces-19610-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19611-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC90599CF93
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 16:56:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C8999D0C5
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 17:07:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D320B24320
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 14:56:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95D6E287B69
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 15:07:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 323491C2DA1;
-	Mon, 14 Oct 2024 14:53:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1368E19F43B;
+	Mon, 14 Oct 2024 15:07:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A581BD01F;
-	Mon, 14 Oct 2024 14:53:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EC81BDC3
+	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 15:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728917593; cv=none; b=DTT8yAB3l1k4yYNPJlWntGfcuImf+TNudt2yFewz1AUjk3OpJdA1OX35UFck9vH0g0U/jO5OKbd0FnTkUXR+TVRoAwgmrleE74858TM2PDpQKOnipxkODN8rDEqWbsH/oAqL5W4afZyGYzeuApTQCRI1RvXecw31JUNCcWuKbYc=
+	t=1728918419; cv=none; b=a2I3vs3+/FylUVTnqL+yuE+tBgS+X0G6bC6mQu4qeevrQGEwBQ74UjEpIkkSC1fevOVfmn8lVsItAUjPReJZlwbCw51jPWqVqaOI7zL4Bfs4GqH0J07rvf0fi2tuQnkkcq72JnrqAh+6IierNHitYGejiBBkfMDS01cozWtYcL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728917593; c=relaxed/simple;
-	bh=4WN5+kUXjbscC490H4bkuCDvJ0XVi5fXOk7laSU9qks=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sSxlnulMKPiGOJHBTZhBY9cY01eZs9Cy/64RCHRPgHQA9W0E6kW+Z2gne+XbxQyjBQf4MGBDs7VAgjbVWPX5rRY+bEPkNjpkJRVkr5J7g/x61w0KETgV+zCLtzbGbNirgFhHk96QsGyV8XVsk75aPzVrz3h875DZSEOCAPLTJLg=
+	s=arc-20240116; t=1728918419; c=relaxed/simple;
+	bh=287D1h3A4y5wl5ryi33huXOhd31/ZFejhPocIxSiy7I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ohsoi7CglElhEQRLknL8O/FlLSX1mIn5qFB4Ez/ugvb5TsAeDH5xPA/Trco9U2Xd1AMJy8CM11N3RDAryBkKAbSIIu9dS+MJV6kb3q5iFf7/Say0LMju6ha3tGlxS/lAEer5I2oOB5FRnrvBtcDYO8fYKKJwI5oF3UwZaG3Zo9g=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A3BC4CEC7;
-	Mon, 14 Oct 2024 14:53:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDBA9C4CEC3;
+	Mon, 14 Oct 2024 15:06:41 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Date: Mon, 14 Oct 2024 16:52:41 +0200
-Subject: [PATCH v2] media: v4l2-core: v4l2-dv-timings: check cvt/gtf result
+Subject: [PATCH 00/10] media: start work to remove wait_prepare/finish
+ callbacks
+Date: Mon, 14 Oct 2024 17:06:27 +0200
+Message-Id: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -39,392 +41,296 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241014-timings-v2-1-8af779113b03@xs4all.nl>
-X-B4-Tracking: v=1; b=H4sIADgwDWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
- vPSU3UzU4B8JSMDIxNDA0MT3ZLM3My89GJdi1QjI8NEY2MTc9NkJaDqgqLUtMwKsEnRsbW1AII
- Erx5ZAAAA
-X-Change-ID: 20241014-timings-8e221a33475c
-To: linux-media@vger.kernel.org
-Cc: stable@vger.kernel.org, 
- syzbot+a828133770f62293563e@syzkaller.appspotmail.com
+X-B4-Tracking: v=1; b=H4sIAHMzDWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDA0MT3bIkI93yxMwSXRMT00ST1MQUg2STNCWg8oKi1LTMCrBR0bG1tQD
+ pE/QlWgAAAA==
+X-Change-ID: 20241014-vb2-wait-445a4ead0c4f
+To: Tomasz Figa <tfiga@chromium.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Andy Walls <awalls@md.metrocast.net>, Yong Zhi <yong.zhi@intel.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bingbu Cao <bingbu.cao@intel.com>, Dan Scally <djrscally@gmail.com>, 
+ Tianshu Qiu <tian.shu.qiu@intel.com>, 
+ Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+ Bluecherry Maintainers <maintainers@bluecherrydvr.com>, 
+ Andrey Utkin <andrey_utkin@fastmail.com>, 
+ Ismael Luceno <ismael@iodev.co.uk>, 
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Corentin Labbe <clabbe@baylibre.com>, Michael Krufky <mkrufky@linuxtv.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Matt Ranostay <matt@ranostay.sg>, 
+ Michael Tretter <m.tretter@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>, 
+ Eddie James <eajames@linux.ibm.com>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Eugen Hristev <eugen.hristev@collabora.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Nas Chung <nas.chung@chipsnmedia.com>, 
+ Jackson Lee <jackson.lee@chipsnmedia.com>, 
+ Devarsh Thakkar <devarsht@ti.com>, Bin Liu <bin.liu@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>, 
+ Houlong Wei <houlong.wei@mediatek.com>, 
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+ Tiffany Lin <tiffany.lin@mediatek.com>, 
+ Yunfei Dong <yunfei.dong@mediatek.com>, Joseph Liu <kwliu@nuvoton.com>, 
+ Marvin Lin <kflin@nuvoton.com>, Dmitry Osipenko <digetx@gmail.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Xavier Roumegue <xavier.roumegue@oss.nxp.com>, 
+ Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+ Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>, 
+ Purism Kernel Team <kernel@puri.sm>, Robert Foss <rfoss@kernel.org>, 
+ Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+ Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>, 
+ Jacob Chen <jacob-chen@iotwrt.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Dafna Hirschfeld <dafna@fastmail.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ =?utf-8?q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>, 
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>, 
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Fabien Dessenne <fabien.dessenne@foss.st.com>, 
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, Maxime Ripard <mripard@kernel.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Yong Deng <yong.deng@magewell.com>, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+ Benoit Parrot <bparrot@ti.com>, Jai Luthra <jai.luthra@linux.dev>, 
+ Michal Simek <michal.simek@amd.com>, Andy Shevchenko <andy@kernel.org>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Steve Longerbeam <slongerbeam@gmail.com>, 
+ Jack Zhu <jack.zhu@starfivetech.com>, 
+ Changhuang Liang <changhuang.liang@starfivetech.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
 X-Mailer: b4 0.14.2
 
-The v4l2_detect_cvt/gtf functions should check the result against the
-timing capabilities: these functions calculate the timings, so if they
-are out of bounds, they should be rejected.
+This patch series makes one change to videobuf2-core.c in vb2_thread()
+where wait_prepare/finish was also called. That was missed in the
+previous commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
+are NULL"), but that is needed before we can start removing the
+vb2_ops_wait_prepare/finish callbacks from drivers.
 
-To do this, add the struct v4l2_dv_timings_cap as argument to those
-functions.
+The next 9 patches drop the vb2_ops_wait_prepare/finish callbacks
+from the various drivers in the media subsystem.
 
-This required updates to the adv7604 and adv7842 drivers since the
-prototype of these functions has now changed. The timings struct
-that is passed to v4l2_detect_cvt/gtf in those two drivers is filled
-with the timings detected by the hardware.
+After this there are some V4L2 drivers in other subsystems (gadget,
+input, staging) that need this change as well, but I'll start on that
+when this series is merged.
 
-The vivid driver was also updated, but an additional check was added:
-the width and height specified by VIDIOC_S_DV_TIMINGS has to match the
-calculated result, otherwise something went wrong. Note that vivid
-*emulates* hardware, so all the values passed to the v4l2_detect_cvt/gtf
-functions came from the timings struct that was filled by userspace
-and passed on to the driver via VIDIOC_S_DV_TIMINGS. So these fields
-can contain random data. Both the constraints check via
-struct v4l2_dv_timings_cap and the additional width/height check
-ensure that the resulting timings are sane and not messed up by the
-v4l2_detect_cvt/gtf calculations.
+There are also a few drivers that set the wait_prepare/finish callbacks
+to their own implementation. Those need work as well.
+
+Since this series touches on almost all V4L2 drivers, it is sent to
+a lot of people.
+
+Regards,
+
+	Hans
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Fixes: 2576415846bc ("[media] v4l2: move dv-timings related code to v4l2-dv-timings.c")
-Cc: stable@vger.kernel.org
-Reported-by: syzbot+a828133770f62293563e@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/linux-media/000000000000013050062127830a@google.com/
 ---
-Changes since v1:
-- Improve the commit message
-- Drop a spurious newline change
----
- drivers/media/i2c/adv7604.c                      |   5 +-
- drivers/media/i2c/adv7842.c                      |  13 +--
- drivers/media/test-drivers/vivid/vivid-vid-cap.c |  15 ++-
- drivers/media/v4l2-core/v4l2-dv-timings.c        | 132 ++++++++++++-----------
- include/media/v4l2-dv-timings.h                  |  18 ++--
- 5 files changed, 107 insertions(+), 76 deletions(-)
+Hans Verkuil (10):
+      media: videobuf2-core: update vb2_thread if wait_finish/prepare are NULL
+      media: test-drivers: drop vb2_ops_wait_prepare/finish
+      media: pci: drop vb2_ops_wait_prepare/finish
+      media: usb: drop vb2_ops_wait_prepare/finish
+      media: video-i2c: drop vb2_ops_wait_prepare/finish
+      media: rtl2832_sdr: drop vb2_ops_wait_prepare/finish
+      media: platform: drop vb2_ops_wait_prepare/finish
+      media: common: saa7146: drop vb2_ops_wait_prepare/finish
+      staging: media: drop vb2_ops_wait_prepare/finish
+      media: samples: v4l2-pci-skeleton.c: drop vb2_ops_wait_prepare/finish
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 3184a2fa15322caa2a8eb415bea14312690b839c..4504909d95bce5f242e66b00be50ecb3ef2b896c 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -1408,12 +1408,13 @@ static int stdi2dv_timings(struct v4l2_subdev *sd,
- 	if (v4l2_detect_cvt(stdi->lcf + 1, hfreq, stdi->lcvs, 0,
- 			(stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
- 			(stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
--			false, timings))
-+			false, adv76xx_get_dv_timings_cap(sd, -1), timings))
- 		return 0;
- 	if (v4l2_detect_gtf(stdi->lcf + 1, hfreq, stdi->lcvs,
- 			(stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
- 			(stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
--			false, state->aspect_ratio, timings))
-+			false, state->aspect_ratio,
-+			adv76xx_get_dv_timings_cap(sd, -1), timings))
- 		return 0;
- 
- 	v4l2_dbg(2, debug, sd,
-diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-index e445699da85b70b711edda79ba4bbcea0161914f..3c9e613af0ceba4062c854581ee981e1fc2d0b6a 100644
---- a/drivers/media/i2c/adv7842.c
-+++ b/drivers/media/i2c/adv7842.c
-@@ -1434,14 +1434,15 @@ static int stdi2dv_timings(struct v4l2_subdev *sd,
- 	}
- 
- 	if (v4l2_detect_cvt(stdi->lcf + 1, hfreq, stdi->lcvs, 0,
--			(stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
--			(stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
--			false, timings))
-+			    (stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
-+			    (stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
-+			    false, adv7842_get_dv_timings_cap(sd), timings))
- 		return 0;
- 	if (v4l2_detect_gtf(stdi->lcf + 1, hfreq, stdi->lcvs,
--			(stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
--			(stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
--			false, state->aspect_ratio, timings))
-+			    (stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
-+			    (stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
-+			    false, state->aspect_ratio,
-+			    adv7842_get_dv_timings_cap(sd), timings))
- 		return 0;
- 
- 	v4l2_dbg(2, debug, sd,
-diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-index 69620e0a35a02fb210529a1d652abf915b4445af..68318af9f0d0a97335307cef22476b8651a98891 100644
---- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-@@ -1459,12 +1459,19 @@ static bool valid_cvt_gtf_timings(struct v4l2_dv_timings *timings)
- 	h_freq = (u32)bt->pixelclock / total_h_pixel;
- 
- 	if (bt->standards == 0 || (bt->standards & V4L2_DV_BT_STD_CVT)) {
-+		struct v4l2_dv_timings cvt = {};
-+
- 		if (v4l2_detect_cvt(total_v_lines, h_freq, bt->vsync, bt->width,
--				    bt->polarities, bt->interlaced, timings))
-+				    bt->polarities, bt->interlaced,
-+				    &vivid_dv_timings_cap, &cvt) &&
-+		    cvt.bt.width == bt->width && cvt.bt.height == bt->height) {
-+			*timings = cvt;
- 			return true;
-+		}
- 	}
- 
- 	if (bt->standards == 0 || (bt->standards & V4L2_DV_BT_STD_GTF)) {
-+		struct v4l2_dv_timings gtf = {};
- 		struct v4l2_fract aspect_ratio;
- 
- 		find_aspect_ratio(bt->width, bt->height,
-@@ -1472,8 +1479,12 @@ static bool valid_cvt_gtf_timings(struct v4l2_dv_timings *timings)
- 				  &aspect_ratio.denominator);
- 		if (v4l2_detect_gtf(total_v_lines, h_freq, bt->vsync,
- 				    bt->polarities, bt->interlaced,
--				    aspect_ratio, timings))
-+				    aspect_ratio, &vivid_dv_timings_cap,
-+				    &gtf) &&
-+		    gtf.bt.width == bt->width && gtf.bt.height == bt->height) {
-+			*timings = gtf;
- 			return true;
-+		}
- 	}
- 	return false;
- }
-diff --git a/drivers/media/v4l2-core/v4l2-dv-timings.c b/drivers/media/v4l2-core/v4l2-dv-timings.c
-index 39b5fc1807c409a4cc7421edc6b7ed2b5c1452e1..d26edf157e640001569a5779ee24abffa8be09b7 100644
---- a/drivers/media/v4l2-core/v4l2-dv-timings.c
-+++ b/drivers/media/v4l2-core/v4l2-dv-timings.c
-@@ -481,25 +481,28 @@ EXPORT_SYMBOL_GPL(v4l2_calc_timeperframe);
-  * @polarities - the horizontal and vertical polarities (same as struct
-  *		v4l2_bt_timings polarities).
-  * @interlaced - if this flag is true, it indicates interlaced format
-- * @fmt - the resulting timings.
-+ * @cap - the v4l2_dv_timings_cap capabilities.
-+ * @timings - the resulting timings.
-  *
-  * This function will attempt to detect if the given values correspond to a
-  * valid CVT format. If so, then it will return true, and fmt will be filled
-  * in with the found CVT timings.
-  */
--bool v4l2_detect_cvt(unsigned frame_height,
--		     unsigned hfreq,
--		     unsigned vsync,
--		     unsigned active_width,
-+bool v4l2_detect_cvt(unsigned int frame_height,
-+		     unsigned int hfreq,
-+		     unsigned int vsync,
-+		     unsigned int active_width,
- 		     u32 polarities,
- 		     bool interlaced,
--		     struct v4l2_dv_timings *fmt)
-+		     const struct v4l2_dv_timings_cap *cap,
-+		     struct v4l2_dv_timings *timings)
- {
--	int  v_fp, v_bp, h_fp, h_bp, hsync;
--	int  frame_width, image_height, image_width;
-+	struct v4l2_dv_timings t = {};
-+	int v_fp, v_bp, h_fp, h_bp, hsync;
-+	int frame_width, image_height, image_width;
- 	bool reduced_blanking;
- 	bool rb_v2 = false;
--	unsigned pix_clk;
-+	unsigned int pix_clk;
- 
- 	if (vsync < 4 || vsync > 8)
- 		return false;
-@@ -625,36 +628,39 @@ bool v4l2_detect_cvt(unsigned frame_height,
- 		h_fp = h_blank - hsync - h_bp;
- 	}
- 
--	fmt->type = V4L2_DV_BT_656_1120;
--	fmt->bt.polarities = polarities;
--	fmt->bt.width = image_width;
--	fmt->bt.height = image_height;
--	fmt->bt.hfrontporch = h_fp;
--	fmt->bt.vfrontporch = v_fp;
--	fmt->bt.hsync = hsync;
--	fmt->bt.vsync = vsync;
--	fmt->bt.hbackporch = frame_width - image_width - h_fp - hsync;
-+	t.type = V4L2_DV_BT_656_1120;
-+	t.bt.polarities = polarities;
-+	t.bt.width = image_width;
-+	t.bt.height = image_height;
-+	t.bt.hfrontporch = h_fp;
-+	t.bt.vfrontporch = v_fp;
-+	t.bt.hsync = hsync;
-+	t.bt.vsync = vsync;
-+	t.bt.hbackporch = frame_width - image_width - h_fp - hsync;
- 
- 	if (!interlaced) {
--		fmt->bt.vbackporch = frame_height - image_height - v_fp - vsync;
--		fmt->bt.interlaced = V4L2_DV_PROGRESSIVE;
-+		t.bt.vbackporch = frame_height - image_height - v_fp - vsync;
-+		t.bt.interlaced = V4L2_DV_PROGRESSIVE;
- 	} else {
--		fmt->bt.vbackporch = (frame_height - image_height - 2 * v_fp -
-+		t.bt.vbackporch = (frame_height - image_height - 2 * v_fp -
- 				      2 * vsync) / 2;
--		fmt->bt.il_vbackporch = frame_height - image_height - 2 * v_fp -
--					2 * vsync - fmt->bt.vbackporch;
--		fmt->bt.il_vfrontporch = v_fp;
--		fmt->bt.il_vsync = vsync;
--		fmt->bt.flags |= V4L2_DV_FL_HALF_LINE;
--		fmt->bt.interlaced = V4L2_DV_INTERLACED;
-+		t.bt.il_vbackporch = frame_height - image_height - 2 * v_fp -
-+					2 * vsync - t.bt.vbackporch;
-+		t.bt.il_vfrontporch = v_fp;
-+		t.bt.il_vsync = vsync;
-+		t.bt.flags |= V4L2_DV_FL_HALF_LINE;
-+		t.bt.interlaced = V4L2_DV_INTERLACED;
- 	}
- 
--	fmt->bt.pixelclock = pix_clk;
--	fmt->bt.standards = V4L2_DV_BT_STD_CVT;
-+	t.bt.pixelclock = pix_clk;
-+	t.bt.standards = V4L2_DV_BT_STD_CVT;
- 
- 	if (reduced_blanking)
--		fmt->bt.flags |= V4L2_DV_FL_REDUCED_BLANKING;
-+		t.bt.flags |= V4L2_DV_FL_REDUCED_BLANKING;
- 
-+	if (!v4l2_valid_dv_timings(&t, cap, NULL, NULL))
-+		return false;
-+	*timings = t;
- 	return true;
- }
- EXPORT_SYMBOL_GPL(v4l2_detect_cvt);
-@@ -699,22 +705,25 @@ EXPORT_SYMBOL_GPL(v4l2_detect_cvt);
-  *		image height, so it has to be passed explicitly. Usually
-  *		the native screen aspect ratio is used for this. If it
-  *		is not filled in correctly, then 16:9 will be assumed.
-- * @fmt - the resulting timings.
-+ * @cap - the v4l2_dv_timings_cap capabilities.
-+ * @timings - the resulting timings.
-  *
-  * This function will attempt to detect if the given values correspond to a
-  * valid GTF format. If so, then it will return true, and fmt will be filled
-  * in with the found GTF timings.
-  */
--bool v4l2_detect_gtf(unsigned frame_height,
--		unsigned hfreq,
--		unsigned vsync,
--		u32 polarities,
--		bool interlaced,
--		struct v4l2_fract aspect,
--		struct v4l2_dv_timings *fmt)
-+bool v4l2_detect_gtf(unsigned int frame_height,
-+		     unsigned int hfreq,
-+		     unsigned int vsync,
-+		     u32 polarities,
-+		     bool interlaced,
-+		     struct v4l2_fract aspect,
-+		     const struct v4l2_dv_timings_cap *cap,
-+		     struct v4l2_dv_timings *timings)
- {
-+	struct v4l2_dv_timings t = {};
- 	int pix_clk;
--	int  v_fp, v_bp, h_fp, hsync;
-+	int v_fp, v_bp, h_fp, hsync;
- 	int frame_width, image_height, image_width;
- 	bool default_gtf;
- 	int h_blank;
-@@ -783,36 +792,39 @@ bool v4l2_detect_gtf(unsigned frame_height,
- 
- 	h_fp = h_blank / 2 - hsync;
- 
--	fmt->type = V4L2_DV_BT_656_1120;
--	fmt->bt.polarities = polarities;
--	fmt->bt.width = image_width;
--	fmt->bt.height = image_height;
--	fmt->bt.hfrontporch = h_fp;
--	fmt->bt.vfrontporch = v_fp;
--	fmt->bt.hsync = hsync;
--	fmt->bt.vsync = vsync;
--	fmt->bt.hbackporch = frame_width - image_width - h_fp - hsync;
-+	t.type = V4L2_DV_BT_656_1120;
-+	t.bt.polarities = polarities;
-+	t.bt.width = image_width;
-+	t.bt.height = image_height;
-+	t.bt.hfrontporch = h_fp;
-+	t.bt.vfrontporch = v_fp;
-+	t.bt.hsync = hsync;
-+	t.bt.vsync = vsync;
-+	t.bt.hbackporch = frame_width - image_width - h_fp - hsync;
- 
- 	if (!interlaced) {
--		fmt->bt.vbackporch = frame_height - image_height - v_fp - vsync;
--		fmt->bt.interlaced = V4L2_DV_PROGRESSIVE;
-+		t.bt.vbackporch = frame_height - image_height - v_fp - vsync;
-+		t.bt.interlaced = V4L2_DV_PROGRESSIVE;
- 	} else {
--		fmt->bt.vbackporch = (frame_height - image_height - 2 * v_fp -
-+		t.bt.vbackporch = (frame_height - image_height - 2 * v_fp -
- 				      2 * vsync) / 2;
--		fmt->bt.il_vbackporch = frame_height - image_height - 2 * v_fp -
--					2 * vsync - fmt->bt.vbackporch;
--		fmt->bt.il_vfrontporch = v_fp;
--		fmt->bt.il_vsync = vsync;
--		fmt->bt.flags |= V4L2_DV_FL_HALF_LINE;
--		fmt->bt.interlaced = V4L2_DV_INTERLACED;
-+		t.bt.il_vbackporch = frame_height - image_height - 2 * v_fp -
-+					2 * vsync - t.bt.vbackporch;
-+		t.bt.il_vfrontporch = v_fp;
-+		t.bt.il_vsync = vsync;
-+		t.bt.flags |= V4L2_DV_FL_HALF_LINE;
-+		t.bt.interlaced = V4L2_DV_INTERLACED;
- 	}
- 
--	fmt->bt.pixelclock = pix_clk;
--	fmt->bt.standards = V4L2_DV_BT_STD_GTF;
-+	t.bt.pixelclock = pix_clk;
-+	t.bt.standards = V4L2_DV_BT_STD_GTF;
- 
- 	if (!default_gtf)
--		fmt->bt.flags |= V4L2_DV_FL_REDUCED_BLANKING;
-+		t.bt.flags |= V4L2_DV_FL_REDUCED_BLANKING;
- 
-+	if (!v4l2_valid_dv_timings(&t, cap, NULL, NULL))
-+		return false;
-+	*timings = t;
- 	return true;
- }
- EXPORT_SYMBOL_GPL(v4l2_detect_gtf);
-diff --git a/include/media/v4l2-dv-timings.h b/include/media/v4l2-dv-timings.h
-index 13830411bd6c486e863b01a2ae3ebf91235c5f67..ff07dc6b103c6bfff4bb600e466d70b3d8fad578 100644
---- a/include/media/v4l2-dv-timings.h
-+++ b/include/media/v4l2-dv-timings.h
-@@ -147,15 +147,18 @@ void v4l2_print_dv_timings(const char *dev_prefix, const char *prefix,
-  * @polarities: the horizontal and vertical polarities (same as struct
-  *		v4l2_bt_timings polarities).
-  * @interlaced: if this flag is true, it indicates interlaced format
-+ * @cap: the v4l2_dv_timings_cap capabilities.
-  * @fmt: the resulting timings.
-  *
-  * This function will attempt to detect if the given values correspond to a
-  * valid CVT format. If so, then it will return true, and fmt will be filled
-  * in with the found CVT timings.
-  */
--bool v4l2_detect_cvt(unsigned frame_height, unsigned hfreq, unsigned vsync,
--		unsigned active_width, u32 polarities, bool interlaced,
--		struct v4l2_dv_timings *fmt);
-+bool v4l2_detect_cvt(unsigned int frame_height, unsigned int hfreq,
-+		     unsigned int vsync, unsigned int active_width,
-+		     u32 polarities, bool interlaced,
-+		     const struct v4l2_dv_timings_cap *cap,
-+		     struct v4l2_dv_timings *fmt);
- 
- /**
-  * v4l2_detect_gtf - detect if the given timings follow the GTF standard
-@@ -171,15 +174,18 @@ bool v4l2_detect_cvt(unsigned frame_height, unsigned hfreq, unsigned vsync,
-  *		image height, so it has to be passed explicitly. Usually
-  *		the native screen aspect ratio is used for this. If it
-  *		is not filled in correctly, then 16:9 will be assumed.
-+ * @cap: the v4l2_dv_timings_cap capabilities.
-  * @fmt: the resulting timings.
-  *
-  * This function will attempt to detect if the given values correspond to a
-  * valid GTF format. If so, then it will return true, and fmt will be filled
-  * in with the found GTF timings.
-  */
--bool v4l2_detect_gtf(unsigned frame_height, unsigned hfreq, unsigned vsync,
--		u32 polarities, bool interlaced, struct v4l2_fract aspect,
--		struct v4l2_dv_timings *fmt);
-+bool v4l2_detect_gtf(unsigned int frame_height, unsigned int hfreq,
-+		     unsigned int vsync, u32 polarities, bool interlaced,
-+		     struct v4l2_fract aspect,
-+		     const struct v4l2_dv_timings_cap *cap,
-+		     struct v4l2_dv_timings *fmt);
- 
- /**
-  * v4l2_calc_aspect_ratio - calculate the aspect ratio based on bytes
-
+ drivers/media/common/saa7146/saa7146_vbi.c                   |  2 --
+ drivers/media/common/saa7146/saa7146_video.c                 |  2 --
+ drivers/media/common/videobuf2/videobuf2-core.c              | 12 ++++++++----
+ drivers/media/dvb-frontends/rtl2832_sdr.c                    |  2 --
+ drivers/media/i2c/video-i2c.c                                |  2 --
+ drivers/media/pci/bt8xx/bttv-driver.c                        |  2 --
+ drivers/media/pci/bt8xx/bttv-vbi.c                           |  2 --
+ drivers/media/pci/cobalt/cobalt-v4l2.c                       |  2 --
+ drivers/media/pci/cx18/cx18-streams.c                        |  2 --
+ drivers/media/pci/cx23885/cx23885-417.c                      |  2 --
+ drivers/media/pci/cx23885/cx23885-dvb.c                      |  2 --
+ drivers/media/pci/cx23885/cx23885-vbi.c                      |  2 --
+ drivers/media/pci/cx23885/cx23885-video.c                    |  2 --
+ drivers/media/pci/cx25821/cx25821-video.c                    |  2 --
+ drivers/media/pci/cx88/cx88-blackbird.c                      |  2 --
+ drivers/media/pci/cx88/cx88-dvb.c                            |  2 --
+ drivers/media/pci/cx88/cx88-vbi.c                            |  2 --
+ drivers/media/pci/cx88/cx88-video.c                          |  2 --
+ drivers/media/pci/dt3155/dt3155.c                            |  2 --
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c                     |  2 --
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c               |  2 --
+ drivers/media/pci/mgb4/mgb4_vin.c                            |  2 --
+ drivers/media/pci/mgb4/mgb4_vout.c                           |  2 --
+ drivers/media/pci/saa7134/saa7134-empress.c                  |  2 --
+ drivers/media/pci/saa7134/saa7134-ts.c                       |  2 --
+ drivers/media/pci/saa7134/saa7134-vbi.c                      |  2 --
+ drivers/media/pci/saa7134/saa7134-video.c                    |  2 --
+ drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c               |  2 --
+ drivers/media/pci/solo6x10/solo6x10-v4l2.c                   |  2 --
+ drivers/media/pci/sta2x11/sta2x11_vip.c                      |  2 --
+ drivers/media/pci/tw5864/tw5864-video.c                      |  2 --
+ drivers/media/pci/tw68/tw68-video.c                          |  2 --
+ drivers/media/pci/tw686x/tw686x-video.c                      |  2 --
+ drivers/media/pci/zoran/zoran_driver.c                       |  2 --
+ drivers/media/platform/allegro-dvt/allegro-core.c            |  2 --
+ drivers/media/platform/amlogic/meson-ge2d/ge2d.c             |  2 --
+ drivers/media/platform/amphion/vpu_v4l2.c                    |  2 --
+ drivers/media/platform/aspeed/aspeed-video.c                 |  2 --
+ drivers/media/platform/atmel/atmel-isi.c                     |  2 --
+ drivers/media/platform/broadcom/bcm2835-unicam.c             |  2 --
+ drivers/media/platform/chips-media/coda/coda-common.c        |  2 --
+ drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c     |  2 --
+ drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c     |  2 --
+ drivers/media/platform/imagination/e5010-jpeg-enc.c          |  2 --
+ drivers/media/platform/intel/pxa_camera.c                    |  2 --
+ drivers/media/platform/m2m-deinterlace.c                     |  2 --
+ drivers/media/platform/marvell/mcam-core.c                   |  4 ----
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c         |  4 ----
+ drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c            |  2 --
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c          |  2 --
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_stateful.c        |  2 --
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c       |  2 --
+ .../media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c  |  2 --
+ drivers/media/platform/microchip/microchip-isc-base.c        |  2 --
+ drivers/media/platform/nuvoton/npcm-video.c                  |  2 --
+ drivers/media/platform/nvidia/tegra-vde/v4l2.c               |  2 --
+ drivers/media/platform/nxp/dw100/dw100.c                     |  2 --
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c               |  2 --
+ drivers/media/platform/nxp/imx-pxp.c                         |  2 --
+ drivers/media/platform/nxp/imx7-media-csi.c                  |  2 --
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c           |  2 --
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c         |  2 --
+ drivers/media/platform/nxp/mx2_emmaprp.c                     |  2 --
+ drivers/media/platform/qcom/camss/camss-video.c              |  2 --
+ drivers/media/platform/qcom/venus/vdec.c                     |  2 --
+ drivers/media/platform/qcom/venus/venc.c                     |  2 --
+ drivers/media/platform/raspberrypi/pisp_be/pisp_be.c         |  2 --
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c           |  2 --
+ drivers/media/platform/renesas/rcar_drif.c                   |  2 --
+ drivers/media/platform/renesas/rcar_fdp1.c                   |  2 --
+ drivers/media/platform/renesas/rcar_jpu.c                    |  2 --
+ drivers/media/platform/renesas/renesas-ceu.c                 |  2 --
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c       |  2 --
+ drivers/media/platform/renesas/sh_vou.c                      |  2 --
+ drivers/media/platform/renesas/vsp1/vsp1_histo.c             |  2 --
+ drivers/media/platform/renesas/vsp1/vsp1_video.c             |  2 --
+ drivers/media/platform/rockchip/rga/rga-buf.c                |  2 --
+ drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c      |  2 --
+ drivers/media/platform/rockchip/rkisp1/rkisp1-params.c       |  2 --
+ drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c        |  2 --
+ drivers/media/platform/samsung/exynos-gsc/gsc-m2m.c          |  2 --
+ drivers/media/platform/samsung/exynos4-is/fimc-capture.c     |  2 --
+ drivers/media/platform/samsung/exynos4-is/fimc-isp-video.c   |  2 --
+ drivers/media/platform/samsung/exynos4-is/fimc-lite.c        |  2 --
+ drivers/media/platform/samsung/exynos4-is/fimc-m2m.c         |  2 --
+ drivers/media/platform/samsung/s3c-camif/camif-capture.c     |  2 --
+ drivers/media/platform/samsung/s5p-g2d/g2d.c                 |  2 --
+ drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c          |  2 --
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c         |  2 --
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c         |  2 --
+ drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c             |  2 --
+ drivers/media/platform/st/sti/delta/delta-v4l2.c             |  4 ----
+ drivers/media/platform/st/sti/hva/hva-v4l2.c                 |  2 --
+ drivers/media/platform/st/stm32/dma2d/dma2d.c                |  2 --
+ drivers/media/platform/st/stm32/stm32-dcmi.c                 |  2 --
+ .../media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c    |  6 ------
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c           |  2 --
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c   |  2 --
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c             |  2 --
+ drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c     |  2 --
+ drivers/media/platform/ti/am437x/am437x-vpfe.c               |  2 --
+ drivers/media/platform/ti/cal/cal-video.c                    |  2 --
+ drivers/media/platform/ti/davinci/vpif_capture.c             |  2 --
+ drivers/media/platform/ti/davinci/vpif_display.c             |  2 --
+ drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c        |  2 --
+ drivers/media/platform/ti/omap/omap_vout.c                   |  2 --
+ drivers/media/platform/ti/vpe/vpe.c                          |  2 --
+ drivers/media/platform/verisilicon/hantro_v4l2.c             |  2 --
+ drivers/media/platform/via/via-camera.c                      |  2 --
+ drivers/media/platform/xilinx/xilinx-dma.c                   |  2 --
+ drivers/media/test-drivers/vicodec/vicodec-core.c            |  2 --
+ drivers/media/test-drivers/vim2m.c                           |  2 --
+ drivers/media/test-drivers/vimc/vimc-capture.c               |  6 ------
+ drivers/media/test-drivers/visl/visl-video.c                 |  2 --
+ drivers/media/test-drivers/vivid/vivid-meta-cap.c            |  2 --
+ drivers/media/test-drivers/vivid/vivid-meta-out.c            |  2 --
+ drivers/media/test-drivers/vivid/vivid-sdr-cap.c             |  2 --
+ drivers/media/test-drivers/vivid/vivid-touch-cap.c           |  2 --
+ drivers/media/test-drivers/vivid/vivid-vbi-cap.c             |  2 --
+ drivers/media/test-drivers/vivid/vivid-vbi-out.c             |  2 --
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c             |  2 --
+ drivers/media/test-drivers/vivid/vivid-vid-out.c             |  2 --
+ drivers/media/usb/airspy/airspy.c                            |  2 --
+ drivers/media/usb/au0828/au0828-vbi.c                        |  2 --
+ drivers/media/usb/au0828/au0828-video.c                      |  2 --
+ drivers/media/usb/cx231xx/cx231xx-417.c                      |  2 --
+ drivers/media/usb/cx231xx/cx231xx-vbi.c                      |  2 --
+ drivers/media/usb/cx231xx/cx231xx-video.c                    |  2 --
+ drivers/media/usb/dvb-usb/cxusb-analog.c                     |  2 --
+ drivers/media/usb/em28xx/em28xx-vbi.c                        |  2 --
+ drivers/media/usb/em28xx/em28xx-video.c                      |  2 --
+ drivers/media/usb/go7007/go7007-v4l2.c                       |  2 --
+ drivers/media/usb/gspca/gspca.c                              |  2 --
+ drivers/media/usb/hackrf/hackrf.c                            |  2 --
+ drivers/media/usb/msi2500/msi2500.c                          |  2 --
+ drivers/media/usb/pwc/pwc-if.c                               |  2 --
+ drivers/media/usb/s2255/s2255drv.c                           |  2 --
+ drivers/media/usb/stk1160/stk1160-v4l.c                      |  2 --
+ drivers/media/usb/usbtv/usbtv-video.c                        |  2 --
+ drivers/media/usb/uvc/uvc_queue.c                            |  4 ----
+ drivers/staging/media/atomisp/pci/atomisp_fops.c             |  2 --
+ drivers/staging/media/deprecated/atmel/atmel-isc-base.c      |  2 --
+ drivers/staging/media/imx/imx-media-capture.c                |  2 --
+ drivers/staging/media/imx/imx-media-csc-scaler.c             |  2 --
+ drivers/staging/media/ipu3/ipu3-v4l2.c                       |  2 --
+ drivers/staging/media/meson/vdec/vdec.c                      |  2 --
+ drivers/staging/media/rkvdec/rkvdec.c                        |  2 --
+ drivers/staging/media/starfive/camss/stf-video.c             |  2 --
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c            |  2 --
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c    |  2 --
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c     |  2 --
+ drivers/staging/media/tegra-video/vi.c                       |  2 --
+ samples/v4l/v4l2-pci-skeleton.c                              |  6 +-----
+ 153 files changed, 9 insertions(+), 327 deletions(-)
 ---
 base-commit: bcd4f091cf1ea7184d813afc115af82ac9326b25
-change-id: 20241014-timings-8e221a33475c
+change-id: 20241014-vb2-wait-445a4ead0c4f
 
 Best regards,
 -- 
