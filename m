@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-19553-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19554-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E05399C3D4
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 10:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47AA99C3FB
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 10:48:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F699282033
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 08:44:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FDD5281F22
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 08:48:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1A11531E3;
-	Mon, 14 Oct 2024 08:44:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28F80156C5F;
+	Mon, 14 Oct 2024 08:47:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AclnMZCX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JwbimzvP"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE7613D2BC;
-	Mon, 14 Oct 2024 08:44:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DD2155300;
+	Mon, 14 Oct 2024 08:47:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728895485; cv=none; b=uRLmvrpRCmWDa1L3uUcn2z7TsKJIO+9FVk05+H2KLakuZs3i6/XP6XoLSUpbZW/sWpsy0ZnOe0m+OKbs/NOjlV+XODN3tauLh+iFOMjBOzQxi0+gnKYiDNmqPuNZxQfM1rLNI75+z+0EkZKOeNX84QOQHB9bvPSg3Sdsp4HOi2E=
+	t=1728895661; cv=none; b=u/D+hLSTLJDSgG536HSla6/aRtsxxxYc1nseB24Xr2gWnXO04N6fgGmFdk1e+ANiYaU87fbcyM2/p1bwnwYFD9iyvbNPcGnhRwgz6v5KZDJMDRame0QxYUGwHI7iS3PZY7liM0e9ZjWkUuGJS1fH149MMd4ED7fQ8mMQC8Zm//M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728895485; c=relaxed/simple;
-	bh=+hiZJ6ViZVrrCbGD1Zljv6vYyLTzRXS9e5j++9Nfet4=;
+	s=arc-20240116; t=1728895661; c=relaxed/simple;
+	bh=zrvtMHe1s04dHvmkw1UtZtAB96rdOnmBrzsn6WfJtjE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l+qjCFPDhbdRq4/R0C3W0ph0pd04XC17SHm6XficaYuZ7FBAtFnijmBjCOE/wZrwIbzYzo6R78Ye4xXriqHVHDjVSV+n7eH1vyyH4IqRzKR0MwnoC0395g5RhsEZjepTvVKpwkG1bNoGR186LmkmwCEY9X9UHDzkgJipyNTRX38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AclnMZCX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD8ACC4CEC3;
-	Mon, 14 Oct 2024 08:44:37 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=anmUppYgA1ziTeJZZgYmM4w116CcwLqS0k/Qgp0vlCanzTWdn+LUW2Eth+swVUwyUDHQlZjUeiS8gSH8p45+loabdqkaXpNPhwFh8n/YJmTecjtFygnlA4OaAk5qU0rzr2VrA5Lt8bwsLw9t7hnRK4dmYIfjRNSbuXPtrWmAekc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JwbimzvP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32CC9C4CEC3;
+	Mon, 14 Oct 2024 08:47:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728895484;
-	bh=+hiZJ6ViZVrrCbGD1Zljv6vYyLTzRXS9e5j++9Nfet4=;
+	s=k20201202; t=1728895661;
+	bh=zrvtMHe1s04dHvmkw1UtZtAB96rdOnmBrzsn6WfJtjE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AclnMZCXzd7FcrFkjpiBB2datnBK6kHxCQUT+sdGOZBwh2aQaU5gU8Cp9eddbhfM+
-	 j1z0eBHVqS+kY3OmPlxAaG+5D4NNJoDN003VP305NDwTmtSBUC5znBul+WCc81xcgf
-	 1Z0vS/vFCnzZUoaWvDuLkRVKEMH3cBPJYKzRkj3f1B1i2GCv1hEoNuRzTgHzCCyHYH
-	 eFFdGzGWcmy8/cS0qEn+1mjvGJiIKyVv1SEhaFbACiFbMigtdDTCwF5+PIyF79dBov
-	 1XED0pHIqnG4dAgUpNhDk35hB0UFv+AcmRVoq8/qEa0k7dq+tvqlKKPcd2i9xR326d
-	 sDnFgtlqFZNYw==
-Message-ID: <9e3d86b4-fad7-4467-af7c-9195855cd318@kernel.org>
-Date: Mon, 14 Oct 2024 10:44:35 +0200
+	b=JwbimzvPPcmHg5xlEngFWLV6jGmcmcTw0K6OZ3IXR8hT2tqENO4JY7EgO4WHbDAS1
+	 z5rftYaPloX1HdMBqdTS/x6EmZuUdRbaQddn/Xl7Z0INvyykWixERkWnGldWl3XI1q
+	 RddN2G53A7pYvNeD4GvGVSNLomAv4utC98lqUG9V2R+0lCkcOt0XOEunTknyQGFnnJ
+	 WkC0GcmbiX554BsvQ4q+fHjupOO/Fb111Wz1owK4FF45wfi7dkNJLOr5UvDYlQB9FM
+	 4hAUVP9tOoCmftiQtvgPtJhZ0QOqUivb+/4Te8sFdvnnMhL7Xpg9Tix5LEwoQtviwa
+	 PwgcnTwVn16eQ==
+Message-ID: <9510b546-28fa-4fb4-b06e-0af5f9fd3bbb@kernel.org>
+Date: Mon, 14 Oct 2024 10:47:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: dt-bindings: Remove assigned-clock-* from
- various schema
+Subject: Re: [PATCH 2/2] media: dt-bindings: Use additionalProperties: false
+ for endpoint: properties:
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
  <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -81,9 +81,9 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
  linux-kernel@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
 References: <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-0-a2bb12a1796d@linaro.org>
- <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-1-a2bb12a1796d@linaro.org>
- <w4ta26svh34gojqpakrgp5cpsempedkewkmbllyvs5z5fm274z@jqs3tvunxq2s>
- <ca48de1b-b45e-4b27-a186-3bb7eb5859fa@linaro.org>
+ <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-2-a2bb12a1796d@linaro.org>
+ <7ecxjoa7aije46cxmkyfd6ihxnqw4wleqkioddomxbwlu7qtrc@4dkfitppeksu>
+ <6f461cb3-3a41-4a3d-b9b2-71b1c6be77f7@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -129,26 +129,36 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <ca48de1b-b45e-4b27-a186-3bb7eb5859fa@linaro.org>
+In-Reply-To: <6f461cb3-3a41-4a3d-b9b2-71b1c6be77f7@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 14/10/2024 10:29, Bryan O'Donoghue wrote:
-> On 14/10/2024 08:43, Krzysztof Kozlowski wrote:
->>> -  - assigned-clocks
->>> -  - assigned-clock-rates
->> That's not extraneous, but has a meaning that without assigned-clocks
->> this device or driver will not operate.
->>
->> File should rather stay as is.
+On 14/10/2024 10:31, Bryan O'Donoghue wrote:
+> On 14/10/2024 08:45, Krzysztof Kozlowski wrote:
+>> I do not understand the reasoning behind this change at all. I don't
+>> think DT maintainers ever suggested it (in fact, rather opposite:
+>> suggested using unevaluatedProps) and I think is not a consensus of any
+>> talks.
 > 
-> Hmm, I've obviously missed a trick here.
+> No there is not but then, how do you give consistent feedback except 
+> proposing something to be a baseline.
 > 
-> I'll check it out.
+> On the one hand you have upstream additionalProperties: false and 
+> unevaluatedProperites: false - it'd be better to have a consistent 
+> message on which is to be used.
 
-My response was probably not complete: this still might be extraneous,
-because maybe the driver/device do not care. But in general requiring
-assigned-clocks could have a meaning.
+Well, I am afraid that push towards additionalProps will lead to grow
+common schema (video-interface-devices or video-interfaces) into huge
+one-fit-all binding. And that's not good.
+
+If a common binding for a group of devices encourages you to list its
+subset, then it is not that common.
+
+Solution is to fix that, e.g. split it per classes of devices.
+
+Or don't care and use unevaluatedProps because it makes people's life
+easier and is still correct. If it is not correct, then this should be
+used as an argument.
 
 Best regards,
 Krzysztof
