@@ -1,787 +1,1289 @@
-Return-Path: <linux-media+bounces-19545-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19546-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E2ED99C2C0
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 10:15:02 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A66299C2CE
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 10:17:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60D001C25491
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 08:15:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA765B20F5E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 08:17:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B79BE14B946;
-	Mon, 14 Oct 2024 08:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D418D14B946;
+	Mon, 14 Oct 2024 08:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCoNIYFh"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EuGf46fA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0C314A098
-	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 08:14:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A457613D537
+	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 08:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728893679; cv=none; b=gHWbjK0f1uLCOaP9/2uJ4sCd6HFITH7UdPMjPrPtaZgBPDrU+NkYr4knYcnw3n2L2HXfMxADqTqz/M2hgKy9CKIRd/8K4ZEO9sV01KXVn28YTdXol3oo3rkTZas1cK81otdexxnfkT2hljWCDJ/bnf/Q+bDqzbcHUqbt257w0y4=
+	t=1728893824; cv=none; b=hU1ICln66pY3GtLhZbPc/zg3n5xqgD4mW9IcS5rfkP9jzzvmyp1oNtkDW1SOEYvHrcNr8XahXRZEtQf1oo5RlcMZ26/8gAMMwqZ/zY8zFiF583UwGk/2q9VebwMxprUyWsBlA8q23ha7fN5ZiFUtkBxwfOFO3yQzR/mY0v0h+pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728893679; c=relaxed/simple;
-	bh=PEdwBNhXvaeOPdxPRi5olgxtu8c/+444xDJ0dNPU4Po=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=fNdgyRqozm3nb5UVBnukW95cj7txR+XQIoRICyzHXTkCfL/Q6uihLIdn6Ipttx7IXHh0Y5Wwc1mT5s2tuWdTCoCLE3WwRCODPoULSO1/BLReYGjUme20S/wdYC0DXuDDBvEI6foR7HyTtoqVl45ZzaJ9eEPy9RgBpsF2ecc5yqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCoNIYFh; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728893677; x=1760429677;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=PEdwBNhXvaeOPdxPRi5olgxtu8c/+444xDJ0dNPU4Po=;
-  b=PCoNIYFhJQuxzQoR/i365UNZiAFKqluzyhzmzhz1TDEO7VYTvEG4/D//
-   XgKhXyCK+1T+4JggAtqrVQk3QHejER1ilM62VPdcMawzqijsRSGoTv1rP
-   EZLpNe98VP4grLg4R6TvvmxOnn1kmZS+GQo+VPO1XcSkfqCDjrcTfRvzX
-   EFL9qRVFS4aGdjCoviJNvH9/P7NOMD9znwGBU4WOmxQwcDZfBD7n1MS7l
-   hCFI4zWEN39GxRLtbLmUNvF2pwKnv4pvx7DYEEOBXKnUlXoemwIyiNKmS
-   MFp9xKc5nFZyda2eRq1v5JOVvc4h8WZ/aaBt92/i58DGXnJbPNL+zLXUa
-   w==;
-X-CSE-ConnectionGUID: bdrgEkCfQ/aZ04iR4q1XRg==
-X-CSE-MsgGUID: zZPBrATmRHGPAhx7AGyHjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31926315"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31926315"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 01:14:35 -0700
-X-CSE-ConnectionGUID: zpdmn9NgS1+PRlt8Wsv7+Q==
-X-CSE-MsgGUID: 1e2eKRquT2GzUQjZSjYahg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="77434373"
-Received: from bjledic266.bj.intel.com ([172.16.127.175])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 01:14:33 -0700
-From: Dongcheng Yan <dongcheng.yan@intel.com>
-To: linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com
-Cc: tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com,
-	daxing.li@intel.com,
-	hao.yao@intel.com,
-	dongcheng.yan@linux.intel.com
-Subject: [PATCH v2] media: i2c: add lt6911uxe hdmi bridge driver
-Date: Mon, 14 Oct 2024 16:14:23 +0800
-Message-Id: <20241014081423.2183673-1-dongcheng.yan@intel.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1728893824; c=relaxed/simple;
+	bh=T4T+aIyRHe93wGXXP5W9Tx7tNrHq0A/Sa3cKwvWPTwM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CiOThdt/WTmiz+nh8zzipffadnWbgR+u+1lshhc2CO83I7J8/pz3SuSAnEnlzV987Iinci3ez458BtsU23/ca5fOJtIs3REhSkasGyjqR/rp+DrV1HyFjlcnG0I5IX2x7d1ta1KbRHEiWPXqMRtid5Ep1yiMQXqLjTPSHadEpd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EuGf46fA; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728893820;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=a2o9truen2qtT1+AKBcDlSLmwF8ENP2MuRqEhUJiKms=;
+	b=EuGf46fAyCgAncznBvg/XEIJUrTOsJzC82aO7TZsiGYbwAnegqaRlCIA3AGg2SgKPfFOrQ
+	4RxnjffAfrOENXSxv9UqKlwUthCM2TyyYiFda6X22dNOPdn5q8C2qJdgbaHOjiWyqS/THS
+	zsYb49z0O+cYwzWRUaGUqVyEqDnjt1A=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-325-hpfDB_gIOniy0bfzkuZthA-1; Mon,
+ 14 Oct 2024 04:16:58 -0400
+X-MC-Unique: hpfDB_gIOniy0bfzkuZthA-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3D8221956088;
+	Mon, 14 Oct 2024 08:16:57 +0000 (UTC)
+Received: from kate-fedora.redhat.com (unknown [10.39.193.121])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A685E19560AA;
+	Mon, 14 Oct 2024 08:16:52 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v3] media: Add t4ka3 camera sensor driver
+Date: Mon, 14 Oct 2024 16:16:39 +0800
+Message-ID: <20241014081639.642601-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-Lontium LT9611UXE is a HDMI to MIPI CSI-2 bridge,
-It supports modes up to 4k60fps, switches current mode when
-plugging HDMI or changing the source active signal mode.
+Add the t4ka3 driver from:
+https://github.com/kitakar5525/surface3-atomisp-cameras.git
 
-Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
+With many cleanups / changes (almost a full rewrite) to make it suitable
+for upstream:
+
+* Remove the VCM and VCM-OTP support, the mainline kernel models VCMs and
+  calibration data eeproms as separate v4l2-subdev-s.
+
+* Remove the integration-factor t4ka3_get_intg_factor() support and IOCTL,
+  this provided info to userspace through an atomisp private IOCTL.
+
+* Turn atomisp specific exposure/gain IOCTL into standard v4l2 controls.
+
+* Use normal ACPI power-management in combination with runtime-pm support
+  instead of atomisp specific GMIN power-management code.
+
+* Turn into a standard V4L2 sensor driver using
+  v4l2_async_register_subdev_sensor().
+
+* Add vblank, hblank, and link-freq controls; drop get_frame_interval().
+
+* Use CCI register helpers.
+
+* Calculate values for modes instead of using fixed register-value lists,
+  allowing arbritrary modes.
+
+* Add get_selection() and set_selection() support
+
+* Add a CSI2 bus configuration check
+
+This been tested on a Xiaomi Mipad2 tablet which has a T4KA3 sensor with
+DW9761 VCM as back sensor.
+
+Co-developed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Kate Hsuan <hpa@redhat.com>
 ---
-v1 -> v2: replaced mutex with state_lock
+Changes in v3:
+1. Fix the issues reported by the CI system.
 
+Changes in v2:
+1. The regmap information was obtained before configuring runtime PM so
+   probe() can return without disabling runtime PM.
+2. In t4ka3_s_stream(), return -EBUSY when the streaming is enabled.
 ---
- drivers/media/i2c/Kconfig     |  12 +
- drivers/media/i2c/Makefile    |   1 +
- drivers/media/i2c/lt6911uxe.c | 644 ++++++++++++++++++++++++++++++++++
- 3 files changed, 657 insertions(+)
- create mode 100644 drivers/media/i2c/lt6911uxe.c
+ drivers/media/i2c/Kconfig  |    9 +
+ drivers/media/i2c/Makefile |    1 +
+ drivers/media/i2c/t4ka3.c  | 1120 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 1130 insertions(+)
+ create mode 100644 drivers/media/i2c/t4ka3.c
 
 diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index c6d3ee472d81..abd7faaae305 100644
+index 8ba096b8ebca..38aba3624669 100644
 --- a/drivers/media/i2c/Kconfig
 +++ b/drivers/media/i2c/Kconfig
-@@ -1494,6 +1494,18 @@ config VIDEO_I2C
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called video-i2c
+@@ -690,6 +690,15 @@ config VIDEO_S5K6A3
+ 	  This is a V4L2 sensor driver for Samsung S5K6A3 raw
+ 	  camera sensor.
  
-+config VIDEO_LT6911UXE
-+        tristate "Lontium LT6911UXE decoder"
-+        depends on ACPI && VIDEO_DEV
-+        select V4L2_FWNODE
-+        select V4L2_CCI_I2C
-+        help
-+          This is a Video4Linux2 sensor-level driver for the Lontium
-+          LT6911UXE HDMI to MIPI CSI-2 bridge.
++config VIDEO_T4KA3
++	tristate "Toshiba T4KA3 sensor support"
++	depends on ACPI || COMPILE_TEST
++	depends on GPIOLIB
++	select V4L2_CCI_I2C
++	help
++	  This is a Video4Linux2 sensor driver for the Toshiba T4KA3 8 MP
++	  camera sensor.
 +
-+          To compile this driver as a module, choose M here: the
-+          module will be called lt6911uxe.
-+
- config VIDEO_M52790
- 	tristate "Mitsubishi M52790 A/V switch"
- 	depends on VIDEO_DEV && I2C
+ config VIDEO_VGXY61
+ 	tristate "ST VGXY61 sensor support"
+ 	select V4L2_CCI_I2C
 diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index dfbe6448b549..87005dafa079 100644
+index fbb988bd067a..ad67ea33ce37 100644
 --- a/drivers/media/i2c/Makefile
 +++ b/drivers/media/i2c/Makefile
-@@ -61,6 +61,7 @@ obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
- obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
- obj-$(CONFIG_VIDEO_LM3560) += lm3560.o
- obj-$(CONFIG_VIDEO_LM3646) += lm3646.o
-+obj-$(CONFIG_VIDEO_LT6911UXE) += lt6911uxe.o
- obj-$(CONFIG_VIDEO_M52790) += m52790.o
- obj-$(CONFIG_VIDEO_MAX9271_LIB) += max9271.o
- obj-$(CONFIG_VIDEO_MAX9286) += max9286.o
-diff --git a/drivers/media/i2c/lt6911uxe.c b/drivers/media/i2c/lt6911uxe.c
+@@ -129,6 +129,7 @@ obj-$(CONFIG_VIDEO_SAA717X) += saa717x.o
+ obj-$(CONFIG_VIDEO_SAA7185) += saa7185.o
+ obj-$(CONFIG_VIDEO_SONY_BTF_MPX) += sony-btf-mpx.o
+ obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
++obj-$(CONFIG_VIDEO_T4KA3) += t4ka3.o
+ obj-$(CONFIG_VIDEO_TC358743) += tc358743.o
+ obj-$(CONFIG_VIDEO_TC358746) += tc358746.o
+ obj-$(CONFIG_VIDEO_TDA1997X) += tda1997x.o
+diff --git a/drivers/media/i2c/t4ka3.c b/drivers/media/i2c/t4ka3.c
 new file mode 100644
-index 000000000000..2a855793c61c
+index 000000000000..20dde6e90484
 --- /dev/null
-+++ b/drivers/media/i2c/lt6911uxe.c
-@@ -0,0 +1,644 @@
++++ b/drivers/media/i2c/t4ka3.c
+@@ -0,0 +1,1120 @@
 +// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2023 - 2024 Intel Corporation.
++/*
++ * Support for T4KA3 8M camera sensor.
++ *
++ * Copyright (C) 2015 Intel Corporation. All Rights Reserved.
++ * Copyright (C) 2016 XiaoMi, Inc.
++ * Copyright (C) 2024 Hans de Goede <hansg@kernel.org>
++ */
 +
 +#include <linux/acpi.h>
++#include <linux/bits.h>
 +#include <linux/delay.h>
++#include <linux/dev_printk.h>
++#include <linux/device.h>
++#include <linux/err.h>
++#include <linux/errno.h>
 +#include <linux/gpio/consumer.h>
 +#include <linux/i2c.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
++#include <linux/mod_devicetable.h>
++#include <linux/mutex.h>
 +#include <linux/pm_runtime.h>
 +#include <linux/regmap.h>
++#include <linux/types.h>
++
++#include <media/media-entity.h>
++#include <media/v4l2-async.h>
 +#include <media/v4l2-cci.h>
++#include <media/v4l2-common.h>
 +#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-event.h>
 +#include <media/v4l2-fwnode.h>
++#include <media/v4l2-subdev.h>
 +
-+#define LT6911UXE_CHIP_ID		0x2102
-+#define REG_CHIP_ID			CCI_REG16(0xe100)
++#define T4KA3_NATIVE_WIDTH			3280
++#define T4KA3_NATIVE_HEIGHT			2464
++#define T4KA3_NATIVE_START_LEFT			0
++#define T4KA3_NATIVE_START_TOP			0
++#define T4KA3_ACTIVE_WIDTH			3280
++#define T4KA3_ACTIVE_HEIGHT			2460
++#define T4KA3_ACTIVE_START_LEFT			0
++#define T4KA3_ACTIVE_START_TOP			2
++#define T4KA3_MIN_CROP_WIDTH			2
++#define T4KA3_MIN_CROP_HEIGHT			2
 +
-+#define REG_ENABLE_I2C			CCI_REG8(0xe0ee)
-+#define REG_PIX_CLK			CCI_REG24(0xe085)
-+#define REG_BYTE_CLK			CCI_REG24(0xe092)
-+#define REG_H_TOTAL			CCI_REG16(0xe088)
-+#define REG_V_TOTAL			CCI_REG16(0xe08a)
-+#define REG_HALF_H_ACTIVE		CCI_REG16(0xe08c)
-+#define REG_V_ACTIVE			CCI_REG16(0xe08e)
-+#define REG_MIPI_FORMAT			CCI_REG8(0xe096)
-+#define REG_MIPI_TX_CTRL		CCI_REG8(0xe0b0)
++#define T4KA3_PIXELS_PER_LINE			3440
++#define T4KA3_LINES_PER_FRAME_30FPS		2492
++#define T4KA3_FPS				30
++#define T4KA3_PIXEL_RATE \
++	(T4KA3_PIXELS_PER_LINE * T4KA3_LINES_PER_FRAME_30FPS * T4KA3_FPS)
 +
-+/* Interrupts */
-+#define REG_INT_HDMI			CCI_REG8(0xe084)
-+#define INT_VIDEO_DISAPPEAR		0x0
-+#define INT_VIDEO_READY			0x1
++/*
++ * TODO this really should be derived from the 19.2 MHz xvclk combined
++ * with the PLL settings. But without a datasheet this is the closest
++ * approximation possible.
++ *
++ * link-freq = pixel_rate * bpp / (lanes * 2)
++ * (lanes * 2) because CSI lanes use double-data-rate (DDR) signalling.
++ * bpp = 10 and lanes = 4
++ */
++#define T4KA3_LINK_FREQ				((u64)T4KA3_PIXEL_RATE * 10 / 8)
 +
-+#define LT6911UXE_DEFAULT_WIDTH		3840
-+#define LT6911UXE_DEFAULT_HEIGHT	2160
-+#define LT6911UXE_DEFAULT_LANES		4
-+#define LT6911UXE_DEFAULT_FPS		30
-+#define LT6911UXE_MAX_LINK_FREQ		297000000
-+#define LT9611_PAGE_CONTROL		0xff
-+#define YUV422_8_BIT			0x7
++/* For enum_frame_size() full-size + binned-/quarter-size */
++#define T4KA3_FRAME_SIZES			2
 +
-+static const struct regmap_range_cfg lt9611uxe_ranges[] = {
-+	{
-+		.name = "register_range",
-+		.range_min =  0,
-+		.range_max = 0xffff,
-+		.selector_reg = LT9611_PAGE_CONTROL,
-+		.selector_mask = 0xff,
-+		.selector_shift = 0,
-+		.window_start = 0,
-+		.window_len = 0x100,
-+	},
++#define T4KA3_REG_PRODUCT_ID_HIGH		CCI_REG8(0x0000)
++#define T4KA3_REG_PRODUCT_ID_LOW		CCI_REG8(0x0001)
++#define T4KA3_PRODUCT_ID			0x1490
++
++#define T4KA3_REG_STREAM			CCI_REG8(0x0100)
++#define T4KA3_REG_IMG_ORIENTATION		CCI_REG8(0x0101)
++#define T4KA3_HFLIP_BIT				BIT(0)
++#define T4KA3_VFLIP_BIT				BIT(1)
++#define T4KA3_REG_PARAM_HOLD			CCI_REG8(0x0104)
++#define T4KA3_REG_COARSE_INTEGRATION_TIME	CCI_REG16(0x0202)
++#define T4KA3_COARSE_INTEGRATION_TIME_MARGIN	6
++#define T4KA3_REG_DIGGAIN_GREEN_R		CCI_REG16(0x020e)
++#define T4KA3_REG_DIGGAIN_RED			CCI_REG16(0x0210)
++#define T4KA3_REG_DIGGAIN_BLUE			CCI_REG16(0x0212)
++#define T4KA3_REG_DIGGAIN_GREEN_B		CCI_REG16(0x0214)
++#define T4KA3_REG_GLOBAL_GAIN			CCI_REG16(0x0234)
++#define T4KA3_MIN_GLOBAL_GAIN_SUPPORTED		0x0080
++#define T4KA3_MAX_GLOBAL_GAIN_SUPPORTED		0x07ff
++#define T4KA3_REG_FRAME_LENGTH_LINES		CCI_REG16(0x0340) /* aka VTS */
++/* FIXME: need a datasheet to verify the min + max vblank values */
++#define T4KA3_MIN_VBLANK			4
++#define T4KA3_MAX_VBLANK			0xffff
++#define T4KA3_REG_PIXELS_PER_LINE		CCI_REG16(0x0342) /* aka HTS */
++/* These 2 being horz/vert start is a guess (no datasheet), always 0 */
++#define T4KA3_REG_HORZ_START			CCI_REG16(0x0344)
++#define T4KA3_REG_VERT_START			CCI_REG16(0x0346)
++/* Always 3279 (T4KA3_NATIVE_WIDTH - 1, window is used to crop */
++#define T4KA3_REG_HORZ_END			CCI_REG16(0x0348)
++/* Always 2463 (T4KA3_NATIVE_HEIGHT - 1, window is used to crop */
++#define T4KA3_REG_VERT_END			CCI_REG16(0x034a)
++/* Output size (after cropping/window) */
++#define T4KA3_REG_HORZ_OUTPUT_SIZE		CCI_REG16(0x034c)
++#define T4KA3_REG_VERT_OUTPUT_SIZE		CCI_REG16(0x034e)
++/* Window/crop start + size *after* binning */
++#define T4KA3_REG_WIN_START_X			CCI_REG16(0x0408)
++#define T4KA3_REG_WIN_START_Y			CCI_REG16(0x040a)
++#define T4KA3_REG_WIN_WIDTH			CCI_REG16(0x040c)
++#define T4KA3_REG_WIN_HEIGHT			CCI_REG16(0x040e)
++#define T4KA3_REG_TEST_PATTERN_MODE		CCI_REG8(0x0601)
++/* Unknown register at address 0x0900 */
++#define T4KA3_REG_0900				CCI_REG8(0x0900)
++#define T4KA3_REG_BINNING			CCI_REG8(0x0901)
++#define T4KA3_BINNING_VAL(_b) \
++	({ typeof(_b) (b) = (_b); \
++	((b) << 4) | (b); })
++
++struct t4ka3_ctrls {
++	struct v4l2_ctrl_handler handler;
++	struct v4l2_ctrl *hflip;
++	struct v4l2_ctrl *vflip;
++	struct v4l2_ctrl *vblank;
++	struct v4l2_ctrl *hblank;
++	struct v4l2_ctrl *exposure;
++	struct v4l2_ctrl *test_pattern;
++	struct v4l2_ctrl *link_freq;
++	struct v4l2_ctrl *gain;
 +};
 +
-+static const struct regmap_config lt9611uxe_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0xffff,
-+	.ranges = lt9611uxe_ranges,
-+	.num_ranges = ARRAY_SIZE(lt9611uxe_ranges),
++struct t4ka3_mode {
++	struct v4l2_rect		crop;
++	struct v4l2_mbus_framefmt	fmt;
++	int				binning;
++	u16				win_x;
++	u16				win_y;
 +};
 +
-+struct lt6911uxe_mode {
-+	u32 width;
-+	u32 height;
-+	u32 code;
-+	u32 fps;
-+	u32 lanes;
-+	s64 link_freq;
-+};
-+
-+struct lt6911uxe {
++struct t4ka3_data {
 +	struct v4l2_subdev sd;
 +	struct media_pad pad;
-+	struct v4l2_ctrl_handler ctrl_handler;
-+	struct v4l2_ctrl *pixel_rate;
-+	struct v4l2_ctrl *link_freq;
-+
-+	struct lt6911uxe_mode cur_mode;
++	struct mutex lock; /* serialize sensor's ioctl */
++	struct t4ka3_ctrls ctrls;
++	struct t4ka3_mode mode;
++	struct device *dev;
 +	struct regmap *regmap;
-+	unsigned int irq_pin_flags;
++	struct gpio_desc *powerdown_gpio;
 +	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *irq_gpio;
++	s64 link_freq[1];
++	int streaming;
 +};
 +
-+static const struct v4l2_event lt6911uxe_ev_source_change = {
-+	.type = V4L2_EVENT_SOURCE_CHANGE,
-+	.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
++/* init settings */
++static const struct cci_reg_sequence t4ka3_init_config[] = {
++	{CCI_REG8(0x4136), 0x13},
++	{CCI_REG8(0x4137), 0x33},
++	{CCI_REG8(0x3094), 0x01},
++	{CCI_REG8(0x0233), 0x01},
++	{CCI_REG8(0x4B06), 0x01},
++	{CCI_REG8(0x4B07), 0x01},
++	{CCI_REG8(0x3028), 0x01},
++	{CCI_REG8(0x3032), 0x14},
++	{CCI_REG8(0x305C), 0x0C},
++	{CCI_REG8(0x306D), 0x0A},
++	{CCI_REG8(0x3071), 0xFA},
++	{CCI_REG8(0x307E), 0x0A},
++	{CCI_REG8(0x307F), 0xFC},
++	{CCI_REG8(0x3091), 0x04},
++	{CCI_REG8(0x3092), 0x60},
++	{CCI_REG8(0x3096), 0xC0},
++	{CCI_REG8(0x3100), 0x07},
++	{CCI_REG8(0x3101), 0x4C},
++	{CCI_REG8(0x3118), 0xCC},
++	{CCI_REG8(0x3139), 0x06},
++	{CCI_REG8(0x313A), 0x06},
++	{CCI_REG8(0x313B), 0x04},
++	{CCI_REG8(0x3143), 0x02},
++	{CCI_REG8(0x314F), 0x0E},
++	{CCI_REG8(0x3169), 0x99},
++	{CCI_REG8(0x316A), 0x99},
++	{CCI_REG8(0x3171), 0x05},
++	{CCI_REG8(0x31A1), 0xA7},
++	{CCI_REG8(0x31A2), 0x9C},
++	{CCI_REG8(0x31A3), 0x8F},
++	{CCI_REG8(0x31A4), 0x75},
++	{CCI_REG8(0x31A5), 0xEE},
++	{CCI_REG8(0x31A6), 0xEA},
++	{CCI_REG8(0x31A7), 0xE4},
++	{CCI_REG8(0x31A8), 0xE4},
++	{CCI_REG8(0x31DF), 0x05},
++	{CCI_REG8(0x31EC), 0x1B},
++	{CCI_REG8(0x31ED), 0x1B},
++	{CCI_REG8(0x31EE), 0x1B},
++	{CCI_REG8(0x31F0), 0x1B},
++	{CCI_REG8(0x31F1), 0x1B},
++	{CCI_REG8(0x31F2), 0x1B},
++	{CCI_REG8(0x3204), 0x3F},
++	{CCI_REG8(0x3205), 0x03},
++	{CCI_REG8(0x3210), 0x01},
++	{CCI_REG8(0x3216), 0x68},
++	{CCI_REG8(0x3217), 0x58},
++	{CCI_REG8(0x3218), 0x58},
++	{CCI_REG8(0x321A), 0x68},
++	{CCI_REG8(0x321B), 0x60},
++	{CCI_REG8(0x3238), 0x03},
++	{CCI_REG8(0x3239), 0x03},
++	{CCI_REG8(0x323A), 0x05},
++	{CCI_REG8(0x323B), 0x06},
++	{CCI_REG8(0x3243), 0x03},
++	{CCI_REG8(0x3244), 0x08},
++	{CCI_REG8(0x3245), 0x01},
++	{CCI_REG8(0x3307), 0x19},
++	{CCI_REG8(0x3308), 0x19},
++	{CCI_REG8(0x3320), 0x01},
++	{CCI_REG8(0x3326), 0x15},
++	{CCI_REG8(0x3327), 0x0D},
++	{CCI_REG8(0x3328), 0x01},
++	{CCI_REG8(0x3380), 0x01},
++	{CCI_REG8(0x339E), 0x07},
++	{CCI_REG8(0x3424), 0x00},
++	{CCI_REG8(0x343C), 0x01},
++	{CCI_REG8(0x3398), 0x04},
++	{CCI_REG8(0x343A), 0x10},
++	{CCI_REG8(0x339A), 0x22},
++	{CCI_REG8(0x33B4), 0x00},
++	{CCI_REG8(0x3393), 0x01},
++	{CCI_REG8(0x33B3), 0x6E},
++	{CCI_REG8(0x3433), 0x06},
++	{CCI_REG8(0x3433), 0x00},
++	{CCI_REG8(0x33B3), 0x00},
++	{CCI_REG8(0x3393), 0x03},
++	{CCI_REG8(0x33B4), 0x03},
++	{CCI_REG8(0x343A), 0x00},
++	{CCI_REG8(0x339A), 0x00},
++	{CCI_REG8(0x3398), 0x00}
 +};
 +
-+static const struct v4l2_event lt6911uxe_ev_stream_end = {
-+	.type = V4L2_EVENT_EOS,
++static const struct cci_reg_sequence t4ka3_pre_mode_set_regs[] = {
++	{CCI_REG8(0x0112), 0x0A},
++	{CCI_REG8(0x0113), 0x0A},
++	{CCI_REG8(0x0114), 0x03},
++	{CCI_REG8(0x4136), 0x13},
++	{CCI_REG8(0x4137), 0x33},
++	{CCI_REG8(0x0820), 0x0A},
++	{CCI_REG8(0x0821), 0x0D},
++	{CCI_REG8(0x0822), 0x00},
++	{CCI_REG8(0x0823), 0x00},
++	{CCI_REG8(0x0301), 0x0A},
++	{CCI_REG8(0x0303), 0x01},
++	{CCI_REG8(0x0305), 0x04},
++	{CCI_REG8(0x0306), 0x02},
++	{CCI_REG8(0x0307), 0x18},
++	{CCI_REG8(0x030B), 0x01},
 +};
 +
-+static inline struct lt6911uxe *to_lt6911uxe(struct v4l2_subdev *sd)
++static const struct cci_reg_sequence t4ka3_post_mode_set_regs[] = {
++	{CCI_REG8(0x0902), 0x00},
++	{CCI_REG8(0x4220), 0x00},
++	{CCI_REG8(0x4222), 0x01},
++	{CCI_REG8(0x3380), 0x01},
++	{CCI_REG8(0x3090), 0x88},
++	{CCI_REG8(0x3394), 0x20},
++	{CCI_REG8(0x3090), 0x08},
++	{CCI_REG8(0x3394), 0x10}
++};
++
++static inline struct t4ka3_data *to_t4ka3_sensor(struct v4l2_subdev *sd)
 +{
-+	return container_of(sd, struct lt6911uxe, sd);
++	return container_of(sd, struct t4ka3_data, sd);
 +}
 +
-+static const struct lt6911uxe_mode default_mode = {
-+	.width = LT6911UXE_DEFAULT_WIDTH,
-+	.height = LT6911UXE_DEFAULT_HEIGHT,
-+	.code = MEDIA_BUS_FMT_UYVY8_1X16,
-+	.fps = LT6911UXE_DEFAULT_FPS,
-+	.lanes = LT6911UXE_DEFAULT_LANES,
-+	.link_freq = LT6911UXE_MAX_LINK_FREQ,
-+};
-+
-+static s64 get_pixel_rate(struct lt6911uxe *lt6911uxe)
++static inline struct t4ka3_data *ctrl_to_t4ka3(struct v4l2_ctrl *ctrl)
 +{
-+	s64 pixel_rate;
-+
-+	pixel_rate = (s64)lt6911uxe->cur_mode.width *
-+		     lt6911uxe->cur_mode.height *
-+		     lt6911uxe->cur_mode.fps * 16;
-+	do_div(pixel_rate, lt6911uxe->cur_mode.lanes);
-+
-+	return pixel_rate;
++	return container_of(ctrl->handler, struct t4ka3_data, ctrls.handler);
 +}
 +
-+static int lt6911uxe_status_update(struct lt6911uxe *lt6911uxe)
++/* T4KA3 default GRBG */
++static const int t4ka3_hv_flip_bayer_order[] = {
++	MEDIA_BUS_FMT_SGRBG10_1X10,
++	MEDIA_BUS_FMT_SBGGR10_1X10,
++	MEDIA_BUS_FMT_SRGGB10_1X10,
++	MEDIA_BUS_FMT_SGBRG10_1X10,
++};
++
++static const struct v4l2_rect t4ka3_default_crop = {
++	.left = T4KA3_ACTIVE_START_LEFT,
++	.top = T4KA3_ACTIVE_START_TOP,
++	.width = T4KA3_ACTIVE_WIDTH,
++	.height = T4KA3_ACTIVE_HEIGHT,
++};
++
++static int t4ka3_detect(struct t4ka3_data *sensor, u16 *id);
++
++static void t4ka3_set_bayer_order(struct t4ka3_data *sensor,
++				  struct v4l2_mbus_framefmt *fmt)
 +{
-+	struct i2c_client *client = v4l2_get_subdevdata(&lt6911uxe->sd);
-+	u64 int_event;
-+	u64 byte_clk, pixel_clk, fps, format;
-+	u64 htotal, vtotal, half_width, height;
++	int hv_flip = 0;
++
++	if (sensor->ctrls.vflip && sensor->ctrls.vflip->val)
++		hv_flip += 1;
++
++	if (sensor->ctrls.hflip && sensor->ctrls.hflip->val)
++		hv_flip += 2;
++
++	fmt->code = t4ka3_hv_flip_bayer_order[hv_flip];
++}
++
++static int t4ka3_update_exposure_range(struct t4ka3_data *sensor)
++{
++	int exp_max = sensor->mode.fmt.height + sensor->ctrls.vblank->val -
++		      T4KA3_COARSE_INTEGRATION_TIME_MARGIN;
++
++	return __v4l2_ctrl_modify_range(sensor->ctrls.exposure, 0, exp_max,
++					1, exp_max);
++}
++
++static struct v4l2_rect *
++__t4ka3_get_pad_crop(struct t4ka3_data *sensor,
++		     struct v4l2_subdev_state *state,
++		     unsigned int pad,
++		     enum v4l2_subdev_format_whence which)
++{
++	if (which == V4L2_SUBDEV_FORMAT_TRY)
++		return v4l2_subdev_state_get_crop(state, pad);
++
++	return &sensor->mode.crop;
++}
++
++static struct v4l2_mbus_framefmt *
++__t4ka3_get_pad_format(struct t4ka3_data *sensor,
++		       struct v4l2_subdev_state *sd_state, unsigned int pad,
++		       enum v4l2_subdev_format_whence which)
++{
++	if (which == V4L2_SUBDEV_FORMAT_TRY)
++		return v4l2_subdev_state_get_format(sd_state, pad);
++
++	return &sensor->mode.fmt;
++}
++
++static void t4ka3_fill_format(struct t4ka3_data *sensor,
++			      struct v4l2_mbus_framefmt *fmt,
++			      unsigned int width, unsigned int height)
++{
++	memset(fmt, 0, sizeof(*fmt));
++	fmt->width = width;
++	fmt->height = height;
++	fmt->field = V4L2_FIELD_NONE;
++	fmt->colorspace = V4L2_COLORSPACE_SRGB;
++	t4ka3_set_bayer_order(sensor, fmt);
++}
++
++static void t4ka3_calc_mode(struct t4ka3_data *sensor)
++{
++	int width = sensor->mode.fmt.width;
++	int height = sensor->mode.fmt.height;
++	int binning;
++
++	if (width  <= (sensor->mode.crop.width / 2) &&
++	    height <= (sensor->mode.crop.height / 2))
++		binning = 2;
++	else
++		binning = 1;
++
++	width *= binning;
++	height *= binning;
++
++	sensor->mode.binning = binning;
++	sensor->mode.win_x = (sensor->mode.crop.left +
++				(sensor->mode.crop.width - width) / 2) & ~1;
++	sensor->mode.win_y = (sensor->mode.crop.top +
++				(sensor->mode.crop.height - height) / 2) & ~1;
++	/*
++	 * t4ka's window is done after binning, but must still be a multiple of 2 ?
++	 * Round up to avoid top 2 black lines in 1640x1230 (quarter res) case.
++	 */
++	sensor->mode.win_x = DIV_ROUND_UP(sensor->mode.win_x, binning);
++	sensor->mode.win_y = DIV_ROUND_UP(sensor->mode.win_y, binning);
++}
++
++static void t4ka3_get_vblank_limits(struct t4ka3_data *sensor, int *min, int *max, int *def)
++{
++	*min = T4KA3_MIN_VBLANK + (sensor->mode.binning - 1) * sensor->mode.fmt.height;
++	*max = T4KA3_MAX_VBLANK - sensor->mode.fmt.height;
++	*def = T4KA3_LINES_PER_FRAME_30FPS - sensor->mode.fmt.height;
++}
++
++static int t4ka3_set_pad_format(struct v4l2_subdev *sd,
++				struct v4l2_subdev_state *sd_state,
++				struct v4l2_subdev_format *format)
++{
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
++	struct v4l2_mbus_framefmt *try_fmt;
++	const struct v4l2_rect *crop;
++	unsigned int width, height;
++	int min, max, def, ret = 0;
++
++	crop = __t4ka3_get_pad_crop(sensor, sd_state, format->pad, format->which);
++
++	/* Limit set_fmt max size to crop width / height */
++	width = clamp_val(ALIGN(format->format.width, 2),
++			  T4KA3_MIN_CROP_WIDTH, crop->width);
++	height = clamp_val(ALIGN(format->format.height, 2),
++			   T4KA3_MIN_CROP_HEIGHT, crop->height);
++	t4ka3_fill_format(sensor, &format->format, width, height);
++
++	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
++		try_fmt = v4l2_subdev_state_get_format(sd_state, 0);
++		*try_fmt = format->format;
++		return 0;
++	}
++
++	mutex_lock(&sensor->lock);
++
++	if (sensor->streaming) {
++		ret = -EBUSY;
++		goto unlock;
++	}
++
++	sensor->mode.fmt = format->format;
++	t4ka3_calc_mode(sensor);
++
++	/* vblank range is height dependent adjust and reset to default */
++	t4ka3_get_vblank_limits(sensor, &min, &max, &def);
++	ret = __v4l2_ctrl_modify_range(sensor->ctrls.vblank, min, max, 1, def);
++	if (ret)
++		goto unlock;
++
++	ret = __v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, def);
++	if (ret)
++		goto unlock;
++
++	def = T4KA3_ACTIVE_WIDTH - sensor->mode.fmt.width;
++	ret = __v4l2_ctrl_modify_range(sensor->ctrls.hblank, def, def, 1, def);
++	if (ret)
++		goto unlock;
++	ret = __v4l2_ctrl_s_ctrl(sensor->ctrls.hblank, def);
++	if (ret)
++		goto unlock;
++
++	/* exposure range depends on vts which may have changed */
++	ret = t4ka3_update_exposure_range(sensor);
++	if (ret)
++		goto unlock;
++
++unlock:
++	mutex_unlock(&sensor->lock);
++	return ret;
++}
++
++/* Horizontal flip the image. */
++static int t4ka3_t_hflip(struct v4l2_subdev *sd, int value)
++{
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
++	int ret;
++	u64 val;
++
++	if (sensor->streaming)
++		return -EBUSY;
++
++	val = value ? T4KA3_HFLIP_BIT : 0;
++
++	ret = cci_update_bits(sensor->regmap, T4KA3_REG_IMG_ORIENTATION,
++			      T4KA3_HFLIP_BIT, val, NULL);
++	if (ret)
++		return ret;
++
++	t4ka3_set_bayer_order(sensor, &sensor->mode.fmt);
++	return 0;
++}
++
++/* Vertically flip the image */
++static int t4ka3_t_vflip(struct v4l2_subdev *sd, int value)
++{
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
++	int ret;
++	u64 val;
++
++	if (sensor->streaming)
++		return -EBUSY;
++
++	val = value ? T4KA3_VFLIP_BIT : 0;
++
++	ret = cci_update_bits(sensor->regmap, T4KA3_REG_IMG_ORIENTATION,
++			      T4KA3_VFLIP_BIT, val, NULL);
++	if (ret)
++		return ret;
++
++	t4ka3_set_bayer_order(sensor, &sensor->mode.fmt);
++	return 0;
++}
++
++static int t4ka3_test_pattern(struct t4ka3_data *sensor, s32 value)
++{
++	return cci_write(sensor->regmap, T4KA3_REG_TEST_PATTERN_MODE, value, NULL);
++}
++
++static int t4ka3_detect(struct t4ka3_data *sensor, u16 *id)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
++	struct i2c_adapter *adapter = client->adapter;
++	u64 high, low;
 +	int ret = 0;
 +
-+	/* Read interrupt event */
-+	cci_read(lt6911uxe->regmap, REG_INT_HDMI, &int_event, &ret);
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret,
-+				     "failed to read interrupt event\n");
++	/* i2c check */
++	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C))
++		return -ENODEV;
 +
-+	switch (int_event) {
-+	case INT_VIDEO_READY:
-+		cci_read(lt6911uxe->regmap, REG_BYTE_CLK, &byte_clk, &ret);
-+		byte_clk *= 1000;
-+		cci_read(lt6911uxe->regmap, REG_PIX_CLK, &pixel_clk, &ret);
-+		pixel_clk *= 1000;
-+
-+		if (ret || byte_clk == 0 || pixel_clk == 0) {
-+			dev_err(&client->dev,
-+				"invalid ByteClock or PixelClock\n");
-+			return -EINVAL;
-+		}
-+
-+		cci_read(lt6911uxe->regmap, REG_H_TOTAL, &htotal, &ret);
-+		cci_read(lt6911uxe->regmap, REG_V_TOTAL, &vtotal, &ret);
-+		if (ret || htotal == 0 || vtotal == 0) {
-+			dev_err(&client->dev, "invalid htotal or vtotal\n");
-+			return -EINVAL;
-+		}
-+
-+		fps = div_u64(pixel_clk, htotal * vtotal);
-+		if (fps > 60) {
-+			dev_err(&client->dev,
-+				"max fps is 60, current fps: %llu\n", fps);
-+			return -EINVAL;
-+		}
-+
-+		cci_read(lt6911uxe->regmap, REG_HALF_H_ACTIVE,
-+			 &half_width, &ret);
-+		cci_read(lt6911uxe->regmap, REG_V_ACTIVE, &height, &ret);
-+		if (ret || half_width == 0 || half_width * 2 > 3840 ||
-+		    height == 0 || height > 2160) {
-+			dev_err(&client->dev, "invalid width or height\n");
-+			return -EINVAL;
-+		}
-+
-+		/*
-+		 * Get MIPI format, YUV422_8_BIT is expected in lt6911uxe
-+		 */
-+		cci_read(lt6911uxe->regmap, REG_MIPI_FORMAT, &format, &ret);
-+		if (format != YUV422_8_BIT) {
-+			dev_err(&client->dev, "invalid MIPI format\n");
-+			return -EINVAL;
-+		}
-+
-+		lt6911uxe->cur_mode.height = height;
-+		lt6911uxe->cur_mode.width = half_width * 2;
-+		lt6911uxe->cur_mode.fps = fps;
-+		/* MIPI Clock Rate = ByteClock × 4, defined in lt6911uxe spec */
-+		lt6911uxe->cur_mode.link_freq = byte_clk * 4;
-+		v4l2_subdev_notify_event(&lt6911uxe->sd,
-+					 &lt6911uxe_ev_source_change);
-+		break;
-+
-+	case INT_VIDEO_DISAPPEAR:
-+		cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x0, NULL);
-+		lt6911uxe->cur_mode.height = 0;
-+		lt6911uxe->cur_mode.width = 0;
-+		lt6911uxe->cur_mode.fps = 0;
-+		lt6911uxe->cur_mode.link_freq = 0;
-+		v4l2_subdev_notify_event(&lt6911uxe->sd,
-+					 &lt6911uxe_ev_stream_end);
-+		break;
-+
-+	default:
-+		return  -ENOLINK;
-+	}
-+
-+	return ret;
-+}
-+
-+static int lt6911uxe_init_controls(struct lt6911uxe *lt6911uxe)
-+{
-+	struct v4l2_ctrl_handler *ctrl_hdlr;
-+	s64 pixel_rate;
-+	int ret;
-+
-+	ctrl_hdlr = &lt6911uxe->ctrl_handler;
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
++	/* check sensor chip ID	 */
++	cci_read(sensor->regmap, T4KA3_REG_PRODUCT_ID_HIGH, &high, &ret);
++	cci_read(sensor->regmap, T4KA3_REG_PRODUCT_ID_LOW, &low, &ret);
 +	if (ret)
 +		return ret;
 +
-+	lt6911uxe->link_freq = v4l2_ctrl_new_std(ctrl_hdlr, NULL,
-+						 V4L2_CID_CUR_LINK_FREQ, 0,
-+						 LT6911UXE_MAX_LINK_FREQ, 1,
-+						 lt6911uxe->cur_mode.link_freq);
-+
-+	pixel_rate = get_pixel_rate(lt6911uxe);
-+	lt6911uxe->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, NULL,
-+						  V4L2_CID_PIXEL_RATE,
-+						  pixel_rate, pixel_rate, 1,
-+						  pixel_rate);
-+
-+	if (ctrl_hdlr->error) {
-+		ret = ctrl_hdlr->error;
-+		goto hdlr_free;
++	*id = (((u8)high) << 8) | (u8)low;
++	if (*id != T4KA3_PRODUCT_ID) {
++		dev_err(sensor->dev, "main sensor t4ka3 ID error\n");
++		return -ENODEV;
 +	}
-+	lt6911uxe->sd.ctrl_handler = ctrl_hdlr;
 +
 +	return 0;
-+
-+hdlr_free:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+	return ret;
 +}
 +
-+static void lt6911uxe_update_pad_format(const struct lt6911uxe_mode *mode,
-+					struct v4l2_mbus_framefmt *fmt)
++static int
++t4ka3_s_config(struct v4l2_subdev *sd)
 +{
-+	fmt->width = mode->width;
-+	fmt->height = mode->height;
-+	fmt->code = mode->code;
-+	fmt->field = V4L2_FIELD_NONE;
-+}
-+
-+static int lt6911uxe_start_streaming(struct lt6911uxe *lt6911uxe)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&lt6911uxe->sd);
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
++	u16 sensor_id;
 +	int ret;
 +
-+	ret = pm_runtime_resume_and_get(&client->dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x1, &ret);
++	ret = pm_runtime_get_sync(sensor->sd.dev);
 +	if (ret) {
-+		dev_err(&client->dev, "failed to start stream\n");
-+		goto err_rpm_put;
++		dev_err(sensor->dev, "t4ka3 power-up err");
++		return ret;
++	}
++
++	ret = t4ka3_detect(sensor, &sensor_id);
++	if (ret) {
++		dev_err(sensor->dev, "Failed to detect sensor.\n");
++		goto fail_detect;
++	}
++
++fail_detect:
++	pm_runtime_put(sensor->sd.dev);
++	return ret;
++}
++
++static int t4ka3_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct t4ka3_data *sensor = ctrl_to_t4ka3(ctrl);
++	int ret;
++
++	/* Update exposure range on vblank changes */
++	if (ctrl->id == V4L2_CID_VBLANK) {
++		ret = t4ka3_update_exposure_range(sensor);
++		if (ret)
++			return ret;
++	}
++
++	/* Only apply changes to the controls if the device is powered up */
++	if (!pm_runtime_get_if_in_use(sensor->sd.dev)) {
++		t4ka3_set_bayer_order(sensor, &sensor->mode.fmt);
++		return 0;
++	}
++
++	switch (ctrl->id) {
++	case V4L2_CID_TEST_PATTERN:
++		ret = t4ka3_test_pattern(sensor, ctrl->val);
++		break;
++	case V4L2_CID_VFLIP:
++		ret = t4ka3_t_vflip(&sensor->sd, ctrl->val);
++		break;
++	case V4L2_CID_HFLIP:
++		ret = t4ka3_t_hflip(&sensor->sd, ctrl->val);
++		break;
++	case V4L2_CID_VBLANK:
++		ret = cci_write(sensor->regmap, T4KA3_REG_FRAME_LENGTH_LINES,
++				sensor->mode.fmt.height + ctrl->val, NULL);
++		break;
++	case V4L2_CID_EXPOSURE:
++		ret = cci_write(sensor->regmap, T4KA3_REG_COARSE_INTEGRATION_TIME,
++				ctrl->val, NULL);
++		break;
++	case V4L2_CID_ANALOGUE_GAIN:
++		ret = cci_write(sensor->regmap, T4KA3_REG_GLOBAL_GAIN,
++				ctrl->val, NULL);
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	pm_runtime_put(sensor->sd.dev);
++	return ret;
++}
++
++/* Window/crop start + size *after* binning */
++#define T4KA3_REG_WIN_START_X			CCI_REG16(0x0408)
++#define T4KA3_REG_WIN_START_Y			CCI_REG16(0x040a)
++#define T4KA3_REG_WIN_WIDTH			CCI_REG16(0x040c)
++#define T4KA3_REG_WIN_HEIGHT			CCI_REG16(0x040e)
++#define T4KA3_REG_TEST_PATTERN_MODE		CCI_REG8(0x0601)
++/* Unknown register at address 0x0900 */
++#define T4KA3_REG_0900				CCI_REG8(0x0900)
++static int t4ka3_set_mode(struct t4ka3_data *sensor)
++{
++	int ret = 0;
++
++	cci_write(sensor->regmap, T4KA3_REG_HORZ_OUTPUT_SIZE, sensor->mode.fmt.width, &ret);
++	/* Write mode-height - 2 otherwise things don't work, hw-bug ? */
++	cci_write(sensor->regmap, T4KA3_REG_VERT_OUTPUT_SIZE, sensor->mode.fmt.height - 2, &ret);
++	/* Note overwritten by __v4l2_ctrl_handler_setup() based on vblank ctrl */
++	cci_write(sensor->regmap, T4KA3_REG_FRAME_LENGTH_LINES, T4KA3_LINES_PER_FRAME_30FPS, &ret);
++	cci_write(sensor->regmap, T4KA3_REG_PIXELS_PER_LINE, T4KA3_PIXELS_PER_LINE, &ret);
++	/* Always use the full sensor, using window to crop */
++	cci_write(sensor->regmap, T4KA3_REG_HORZ_START, 0, &ret);
++	cci_write(sensor->regmap, T4KA3_REG_VERT_START, 0, &ret);
++	cci_write(sensor->regmap, T4KA3_REG_HORZ_END, T4KA3_NATIVE_WIDTH - 1, &ret);
++	cci_write(sensor->regmap, T4KA3_REG_VERT_END, T4KA3_NATIVE_HEIGHT - 1, &ret);
++	/* Set window */
++	cci_write(sensor->regmap, T4KA3_REG_WIN_START_X, sensor->mode.win_x, &ret);
++	cci_write(sensor->regmap, T4KA3_REG_WIN_START_Y, sensor->mode.win_y, &ret);
++	cci_write(sensor->regmap, T4KA3_REG_WIN_WIDTH, sensor->mode.fmt.width, &ret);
++	cci_write(sensor->regmap, T4KA3_REG_WIN_HEIGHT, sensor->mode.fmt.height, &ret);
++	/* Write 1 to unknown register 0x0900 */
++	cci_write(sensor->regmap, T4KA3_REG_0900, 1, &ret);
++	cci_write(sensor->regmap, T4KA3_REG_BINNING, T4KA3_BINNING_VAL(sensor->mode.binning), &ret);
++
++	return ret;
++}
++
++static int t4ka3_s_stream(struct v4l2_subdev *sd, int enable)
++{
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
++	int ret;
++
++	mutex_lock(&sensor->lock);
++
++	if (sensor->streaming == enable) {
++		dev_warn(sensor->dev, "Stream already %s\n", enable ? "started" : "stopped");
++		ret = -EBUSY;
++		goto error_unlock;
++	}
++
++	if (enable) {
++		ret = pm_runtime_get_sync(sensor->sd.dev);
++		if (ret) {
++			dev_err(sensor->dev, "power-up err.\n");
++			goto error_unlock;
++		}
++
++		cci_multi_reg_write(sensor->regmap, t4ka3_init_config,
++				    ARRAY_SIZE(t4ka3_init_config), &ret);
++		/* enable group hold */
++		cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 1, &ret);
++		cci_multi_reg_write(sensor->regmap, t4ka3_pre_mode_set_regs,
++				    ARRAY_SIZE(t4ka3_pre_mode_set_regs), &ret);
++		if (ret)
++			goto error_powerdown;
++
++		ret = t4ka3_set_mode(sensor);
++		if (ret)
++			goto error_powerdown;
++
++		ret = cci_multi_reg_write(sensor->regmap, t4ka3_post_mode_set_regs,
++					  ARRAY_SIZE(t4ka3_post_mode_set_regs), NULL);
++		if (ret)
++			goto error_powerdown;
++
++		/* Restore value of all ctrls */
++		ret = __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
++		if (ret)
++			goto error_powerdown;
++
++		/* disable group hold */
++		cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 0, &ret);
++		cci_write(sensor->regmap, T4KA3_REG_STREAM, 1, &ret);
++		if (ret)
++			goto error_powerdown;
++
++		sensor->streaming = 1;
++	} else {
++		ret = cci_write(sensor->regmap, T4KA3_REG_STREAM, 0, NULL);
++		if (ret)
++			goto error_powerdown;
++
++		ret = pm_runtime_put(sensor->sd.dev);
++		if (ret)
++			goto error_unlock;
++
++		sensor->streaming = 0;
++	}
++
++	mutex_unlock(&sensor->lock);
++	return ret;
++
++error_powerdown:
++	pm_runtime_put(sensor->sd.dev);
++error_unlock:
++	mutex_unlock(&sensor->lock);
++	return ret;
++}
++
++static int t4ka3_get_selection(struct v4l2_subdev *sd,
++			       struct v4l2_subdev_state *state,
++			       struct v4l2_subdev_selection *sel)
++{
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
++
++	switch (sel->target) {
++	case V4L2_SEL_TGT_CROP:
++		mutex_lock(&sensor->lock);
++		sel->r = *__t4ka3_get_pad_crop(sensor, state, sel->pad,
++					       sel->which);
++		mutex_unlock(&sensor->lock);
++		break;
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++		sel->r.top = 0;
++		sel->r.left = 0;
++		sel->r.width = T4KA3_NATIVE_WIDTH;
++		sel->r.height = T4KA3_NATIVE_HEIGHT;
++		break;
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++		sel->r = t4ka3_default_crop;
++		break;
++	default:
++		return -EINVAL;
 +	}
 +
 +	return 0;
-+
-+err_rpm_put:
-+	pm_runtime_put(&client->dev);
-+	return ret;
 +}
 +
-+static int lt6911uxe_enable_streams(struct v4l2_subdev *sd,
-+				    struct v4l2_subdev_state *state,
-+				    u32 pad, u64 streams_mask)
++static int t4ka3_set_selection(struct v4l2_subdev *sd,
++			       struct v4l2_subdev_state *state,
++			       struct v4l2_subdev_selection *sel)
 +{
-+	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-+	int ret;
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
++	struct v4l2_mbus_framefmt *format;
++	struct v4l2_rect *crop;
++	struct v4l2_rect rect;
 +
-+	ret = lt6911uxe_start_streaming(lt6911uxe);
++	if (sel->target != V4L2_SEL_TGT_CROP)
++		return -EINVAL;
 +
-+	return ret;
-+}
++	/*
++	 * Clamp the boundaries of the crop rectangle to the size of the sensor
++	 * pixel array. Align to multiples of 2 to ensure Bayer pattern isn't
++	 * disrupted.
++	 */
++	rect.left = clamp_val(ALIGN(sel->r.left, 2),
++			      T4KA3_NATIVE_START_LEFT, T4KA3_NATIVE_WIDTH);
++	rect.top = clamp_val(ALIGN(sel->r.top, 2),
++			     T4KA3_NATIVE_START_TOP, T4KA3_NATIVE_HEIGHT);
++	rect.width = clamp_val(ALIGN(sel->r.width, 2),
++			       T4KA3_MIN_CROP_WIDTH, T4KA3_NATIVE_WIDTH);
++	rect.height = clamp_val(ALIGN(sel->r.height, 2),
++				T4KA3_MIN_CROP_HEIGHT, T4KA3_NATIVE_HEIGHT);
 +
-+static int lt6911uxe_disable_streams(struct v4l2_subdev *sd,
-+				     struct v4l2_subdev_state *state,
-+				     u32 pad, u64 streams_mask)
-+{
-+	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-+	struct i2c_client *client = v4l2_get_subdevdata(&lt6911uxe->sd);
-+	int ret;
++	/* Make sure the crop rectangle isn't outside the bounds of the array */
++	rect.width = min_t(unsigned int, rect.width,
++			   T4KA3_NATIVE_WIDTH - rect.left);
++	rect.height = min_t(unsigned int, rect.height,
++			    T4KA3_NATIVE_HEIGHT - rect.top);
 +
-+	ret = cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x0, NULL);
-+	if (ret)
-+		dev_err(&client->dev, "failed to stop stream\n");
++	crop = __t4ka3_get_pad_crop(sensor, state, sel->pad, sel->which);
 +
-+	return ret;
-+}
++	mutex_lock(&sensor->lock);
 +
-+static int lt6911uxe_set_format(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_format *fmt)
-+{
-+	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-+	u64 pixel_rate;
++	*crop = rect;
 +
-+	lt6911uxe_update_pad_format(&lt6911uxe->cur_mode, &fmt->format);
-+	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-+		return 0;
++	if (rect.width != crop->width || rect.height != crop->height) {
++		/*
++		 * Reset the output image size if the crop rectangle size has
++		 * been modified.
++		 */
++		format = __t4ka3_get_pad_format(sensor, state, sel->pad,
++						sel->which);
++		format->width = rect.width;
++		format->height = rect.height;
++		if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
++			t4ka3_calc_mode(sensor);
++	}
 +
-+	pixel_rate = get_pixel_rate(lt6911uxe);
-+	__v4l2_ctrl_modify_range(lt6911uxe->pixel_rate, pixel_rate,
-+				 pixel_rate, 1, pixel_rate);
++	mutex_unlock(&sensor->lock);
++
++	sel->r = rect;
 +
 +	return 0;
 +}
 +
-+static int lt6911uxe_enum_mbus_code(struct v4l2_subdev *sd,
-+				    struct v4l2_subdev_state *sd_state,
-+				    struct v4l2_subdev_mbus_code_enum *code)
++static int
++t4ka3_enum_mbus_code(struct v4l2_subdev *sd,
++		     struct v4l2_subdev_state *sd_state,
++		     struct v4l2_subdev_mbus_code_enum *code)
 +{
-+	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-+
 +	if (code->index)
 +		return -EINVAL;
 +
-+	code->code = lt6911uxe->cur_mode.code;
-+
++	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
 +	return 0;
 +}
 +
-+static int lt6911uxe_enum_frame_size(struct v4l2_subdev *sd,
-+				     struct v4l2_subdev_state *sd_state,
-+				     struct v4l2_subdev_frame_size_enum *fse)
++static int t4ka3_enum_frame_size(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *sd_state,
++				 struct v4l2_subdev_frame_size_enum *fse)
 +{
-+	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
++	struct v4l2_rect *crop;
 +
-+	if (fse->index != 0)
++	if (fse->index >= T4KA3_FRAME_SIZES)
 +		return -EINVAL;
 +
-+	if (fse->code != MEDIA_BUS_FMT_UYVY8_1X16)
++	crop = __t4ka3_get_pad_crop(sensor, sd_state, fse->pad, fse->which);
++	if (!crop)
 +		return -EINVAL;
 +
-+	fse->min_width = lt6911uxe->cur_mode.width;
++	fse->min_width = crop->width / (fse->index + 1);
++	fse->min_height = crop->height / (fse->index + 1);
 +	fse->max_width = fse->min_width;
-+	fse->min_height = lt6911uxe->cur_mode.height;
 +	fse->max_height = fse->min_height;
 +
 +	return 0;
 +}
 +
-+static int lt6911uxe_enum_frame_interval(struct v4l2_subdev *sd,
-+		struct v4l2_subdev_state *sd_state,
-+		struct v4l2_subdev_frame_interval_enum *fie)
++static int
++t4ka3_get_pad_format(struct v4l2_subdev *sd,
++		     struct v4l2_subdev_state *sd_state,
++		     struct v4l2_subdev_format *fmt)
 +{
-+	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
++	struct v4l2_mbus_framefmt *format =
++		__t4ka3_get_pad_format(sensor, sd_state, fmt->pad, fmt->which);
 +
-+	if (fie->index != 0)
-+		return -EINVAL;
-+
-+	fie->interval.numerator = 1;
-+	fie->interval.denominator = lt6911uxe->cur_mode.fps;
-+
++	fmt->format = *format;
 +	return 0;
 +}
 +
-+static int lt6911uxe_init_state(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state)
++static int t4ka3_check_hwcfg(struct t4ka3_data *sensor)
 +{
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_TRY,
-+		.pad = 0,
-+		.format = {
-+			.code = MEDIA_BUS_FMT_UYVY8_1X16,
-+			.width = LT6911UXE_DEFAULT_WIDTH,
-+			.height = LT6911UXE_DEFAULT_HEIGHT,
-+		},
-+	};
-+
-+	return lt6911uxe_set_format(sd, sd_state, &fmt);
-+}
-+
-+static const struct v4l2_subdev_video_ops lt6911uxe_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
-+};
-+
-+static const struct v4l2_subdev_pad_ops lt6911uxe_pad_ops = {
-+	.set_fmt = lt6911uxe_set_format,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.enable_streams = lt6911uxe_enable_streams,
-+	.disable_streams = lt6911uxe_disable_streams,
-+	.enum_mbus_code = lt6911uxe_enum_mbus_code,
-+	.enum_frame_size = lt6911uxe_enum_frame_size,
-+	.enum_frame_interval = lt6911uxe_enum_frame_interval,
-+};
-+
-+static const struct v4l2_subdev_core_ops lt6911uxe_subdev_core_ops = {
-+	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
-+static const struct v4l2_subdev_ops lt6911uxe_subdev_ops = {
-+	.core = &lt6911uxe_subdev_core_ops,
-+	.video = &lt6911uxe_video_ops,
-+	.pad = &lt6911uxe_pad_ops,
-+};
-+
-+static const struct media_entity_operations lt6911uxe_subdev_entity_ops = {
-+	.link_validate = v4l2_subdev_link_validate,
-+};
-+
-+static const struct v4l2_subdev_internal_ops lt6911uxe_internal_ops = {
-+	.init_state = lt6911uxe_init_state,
-+};
-+
-+static int lt6911uxe_fwnode_parse(struct lt6911uxe *lt6911uxe,
-+				  struct device *dev)
-+{
-+	struct fwnode_handle *endpoint;
++	struct fwnode_handle *fwnode = dev_fwnode(sensor->dev);
 +	struct v4l2_fwnode_endpoint bus_cfg = {
 +		.bus_type = V4L2_MBUS_CSI2_DPHY,
 +	};
++	struct fwnode_handle *endpoint;
++	unsigned int i;
 +	int ret;
 +
-+	endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
-+						   FWNODE_GRAPH_ENDPOINT_NEXT);
-+	if (!endpoint) {
-+		dev_err(dev, "endpoint node not found\n");
-+		return -EPROBE_DEFER;
-+	}
-+
-+	ret = v4l2_fwnode_endpoint_parse(endpoint, &bus_cfg);
-+	if (ret) {
-+		dev_err(dev, "failed to parse endpoint node\n");
-+		goto out_err;
-+	}
-+
 +	/*
-+	 * Check the number of MIPI CSI2 data lanes,
-+	 * lt6911uxe only support 4 lanes.
++	 * Sometimes the fwnode graph is initialized by the bridge driver.
++	 * Bridge drivers doing this may also add GPIO mappings, wait for this.
 +	 */
-+	if (bus_cfg.bus.mipi_csi2.num_data_lanes != LT6911UXE_DEFAULT_LANES) {
-+		dev_err(dev, "only 4 data lanes are currently supported\n");
-+		goto out_err;
++	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
++	if (!endpoint)
++		return dev_err_probe(sensor->dev, -EPROBE_DEFER,
++				     "waiting for fwnode graph endpoint\n");
++
++	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &bus_cfg);
++	fwnode_handle_put(endpoint);
++	if (ret)
++		return ret;
++
++	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
++		dev_err(sensor->dev, "only a 4-lane CSI2 config is supported");
++		ret = -EINVAL;
++		goto out_free_bus_cfg;
 +	}
 +
-+	return 0;
++	if (!bus_cfg.nr_of_link_frequencies) {
++		dev_err(sensor->dev, "no link frequencies defined\n");
++		ret = -EINVAL;
++		goto out_free_bus_cfg;
++	}
 +
-+out_err:
++	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
++		if (bus_cfg.link_frequencies[i] == T4KA3_LINK_FREQ)
++			break;
++	}
++
++	if (i == bus_cfg.nr_of_link_frequencies) {
++		dev_err(sensor->dev, "supported link freq %llu not found\n",
++			T4KA3_LINK_FREQ);
++		ret = -EINVAL;
++		goto out_free_bus_cfg;
++	}
++
++out_free_bus_cfg:
 +	v4l2_fwnode_endpoint_free(&bus_cfg);
-+	fwnode_handle_put(endpoint);
++
 +	return ret;
 +}
 +
-+static int lt6911uxe_identify_module(struct lt6911uxe *lt6911uxe,
-+				     struct device *dev)
++static int t4ka3_init_state(struct v4l2_subdev *sd,
++			    struct v4l2_subdev_state *sd_state)
 +{
-+	u64 val;
-+	int ret = 0;
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
 +
-+	/* Chip ID should be confirmed when the I2C slave is active */
-+	cci_write(lt6911uxe->regmap, REG_ENABLE_I2C, 0x1, &ret);
-+	cci_read(lt6911uxe->regmap, REG_CHIP_ID, &val, &ret);
-+	cci_write(lt6911uxe->regmap, REG_ENABLE_I2C, 0x0, &ret);
-+	if (ret) {
-+		dev_err(dev, "fail to read chip id\n");
-+		return ret;
-+	}
++	*v4l2_subdev_state_get_crop(sd_state, 0) = t4ka3_default_crop;
 +
-+	if (val != LT6911UXE_CHIP_ID) {
-+		dev_err(dev, "chip id mismatch: %x!=%x\n",
-+			LT6911UXE_CHIP_ID, (u16)val);
-+		return -ENXIO;
-+	}
-+
++	t4ka3_fill_format(sensor, v4l2_subdev_state_get_format(sd_state, 0),
++			  T4KA3_ACTIVE_WIDTH, T4KA3_ACTIVE_HEIGHT);
 +	return 0;
 +}
 +
-+static int lt6911uxe_parse_gpio(struct lt6911uxe *lt6911uxe, struct device *dev)
-+{
-+	lt6911uxe->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_IN);
-+	if (IS_ERR(lt6911uxe->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(lt6911uxe->reset_gpio),
-+				     "failed to get reset gpio\n");
++static const struct v4l2_ctrl_ops t4ka3_ctrl_ops = {
++	.s_ctrl = t4ka3_s_ctrl,
++};
 +
-+	lt6911uxe->irq_gpio = devm_gpiod_get(dev, "readystat", GPIOD_IN);
-+	if (IS_ERR(lt6911uxe->irq_gpio))
-+		return dev_err_probe(dev, PTR_ERR(lt6911uxe->irq_gpio),
-+				     "failed to get ready_stat gpio\n");
++static const struct v4l2_subdev_video_ops t4ka3_video_ops = {
++	.s_stream = t4ka3_s_stream,
++};
 +
-+	return 0;
-+}
++static const struct v4l2_subdev_pad_ops t4ka3_pad_ops = {
++	.enum_mbus_code = t4ka3_enum_mbus_code,
++	.enum_frame_size = t4ka3_enum_frame_size,
++	.get_fmt = t4ka3_get_pad_format,
++	.set_fmt = t4ka3_set_pad_format,
++	.get_selection = t4ka3_get_selection,
++	.set_selection = t4ka3_set_selection,
++};
 +
-+static irqreturn_t lt6911uxe_threaded_irq_fn(int irq, void *dev_id)
-+{
-+	struct v4l2_subdev *sd = dev_id;
-+	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-+	struct v4l2_subdev_state *state;
++static const struct v4l2_subdev_ops t4ka3_ops = {
++	.video = &t4ka3_video_ops,
++	.pad = &t4ka3_pad_ops,
++};
 +
-+	state = v4l2_subdev_lock_and_get_active_state(sd);
-+	lt6911uxe_status_update(lt6911uxe);
-+	v4l2_subdev_unlock_state(state);
++static const struct v4l2_subdev_internal_ops t4ka3_internal_ops = {
++	.init_state = t4ka3_init_state,
++};
 +
-+	return IRQ_HANDLED;
-+}
-+
-+static void lt6911uxe_remove(struct i2c_client *client)
++static void t4ka3_remove(struct i2c_client *client)
 +{
 +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
++	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
 +
-+	free_irq(gpiod_to_irq(lt6911uxe->irq_gpio), lt6911uxe);
-+	v4l2_async_unregister_subdev(&lt6911uxe->sd);
-+	v4l2_subdev_cleanup(sd);
-+	media_entity_cleanup(&lt6911uxe->sd.entity);
-+	v4l2_ctrl_handler_free(&lt6911uxe->ctrl_handler);
++	v4l2_async_unregister_subdev(&sensor->sd);
++	media_entity_cleanup(&sensor->sd.entity);
++	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
 +	pm_runtime_disable(&client->dev);
-+	pm_runtime_set_suspended(&client->dev);
 +}
 +
-+static int lt6911uxe_probe(struct i2c_client *client)
++static int t4ka3_init_controls(struct t4ka3_data *sensor)
 +{
-+	struct lt6911uxe *lt6911uxe;
++	const struct v4l2_ctrl_ops *ops = &t4ka3_ctrl_ops;
++	struct t4ka3_ctrls *ctrls = &sensor->ctrls;
++	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
++	int min, max, def;
++	static const char * const test_pattern_menu[] = {
++		"Disabled",
++		"Solid White",
++		"Color Bars",
++		"Gradient",
++		"Random Data",
++	};
++
++	v4l2_ctrl_handler_init(hdl, 4);
++
++	hdl->lock = &sensor->lock;
++
++	ctrls->vflip = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
++	ctrls->hflip = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
++
++	ctrls->test_pattern = v4l2_ctrl_new_std_menu_items(hdl, ops,
++							   V4L2_CID_TEST_PATTERN,
++							   ARRAY_SIZE(test_pattern_menu) - 1,
++							   0, 0, test_pattern_menu);
++	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, NULL, V4L2_CID_LINK_FREQ,
++						  0, 0, sensor->link_freq);
++
++	t4ka3_get_vblank_limits(sensor, &min, &max, &def);
++	ctrls->vblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK, min, max, 1, def);
++
++	def = T4KA3_PIXELS_PER_LINE - sensor->mode.fmt.width;
++	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK,
++					  def, def, 1, def);
++
++	max = T4KA3_LINES_PER_FRAME_30FPS - T4KA3_COARSE_INTEGRATION_TIME_MARGIN;
++	ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE,
++					    0, max, 1, max);
++
++	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
++					T4KA3_MIN_GLOBAL_GAIN_SUPPORTED,
++					T4KA3_MAX_GLOBAL_GAIN_SUPPORTED,
++					1, T4KA3_MIN_GLOBAL_GAIN_SUPPORTED);
++
++	if (hdl->error)
++		return hdl->error;
++
++	ctrls->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
++	ctrls->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
++	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++	ctrls->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	sensor->sd.ctrl_handler = hdl;
++	return 0;
++}
++
++static int t4ka3_pm_suspend(struct device *dev)
++{
++	struct t4ka3_data *sensor = dev_get_drvdata(dev);
++
++	gpiod_set_value_cansleep(sensor->powerdown_gpio, 1);
++	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
++
++	return 0;
++}
++
++static int t4ka3_pm_resume(struct device *dev)
++{
++	struct t4ka3_data *sensor = dev_get_drvdata(dev);
++	u16 sensor_id;
 +	int ret;
 +
-+	lt6911uxe = devm_kzalloc(&client->dev, sizeof(*lt6911uxe), GFP_KERNEL);
-+	if (!lt6911uxe)
-+		return -ENOMEM;
++	usleep_range(5000, 6000);
 +
-+	/* define default mode: 4k@60fps, changed when interrupt occurs. */
-+	lt6911uxe->cur_mode = default_mode;
++	gpiod_set_value_cansleep(sensor->powerdown_gpio, 0);
++	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
 +
-+	lt6911uxe->regmap = devm_regmap_init_i2c(client,
-+						 &lt9611uxe_regmap_config);
-+	if (IS_ERR(lt6911uxe->regmap))
-+		return dev_err_probe(&client->dev, PTR_ERR(lt6911uxe->regmap),
-+				     "failed to init CCI\n");
++	/* waiting for the sensor after powering up */
++	msleep(20);
 +
-+	v4l2_i2c_subdev_init(&lt6911uxe->sd, client, &lt6911uxe_subdev_ops);
-+
-+	ret = lt6911uxe_parse_gpio(lt6911uxe, &client->dev);
-+	if (ret)
++	ret = t4ka3_detect(sensor, &sensor_id);
++	if (ret) {
++		dev_err(sensor->dev, "sensor detect failed\n");
 +		return ret;
-+
-+	ret = lt6911uxe_fwnode_parse(lt6911uxe, &client->dev);
-+	if (ret)
-+		return ret;
-+
-+	usleep_range(10000, 10500);
-+
-+	ret = lt6911uxe_identify_module(lt6911uxe, &client->dev);
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret,
-+				     "failed to find chip\n");
-+
-+	ret = lt6911uxe_init_controls(lt6911uxe);
-+	if (ret) {
-+		dev_info(&client->dev, "failed to init control: %d\n", ret);
-+		goto probe_error_v4l2_ctrl_handler_free;
-+	}
-+
-+	lt6911uxe->sd.dev = &client->dev;
-+	lt6911uxe->sd.internal_ops = &lt6911uxe_internal_ops;
-+	lt6911uxe->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-+			       V4L2_SUBDEV_FL_HAS_EVENTS;
-+	lt6911uxe->sd.entity.ops = &lt6911uxe_subdev_entity_ops;
-+	lt6911uxe->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+	lt6911uxe->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	ret = media_entity_pads_init(&lt6911uxe->sd.entity, 1, &lt6911uxe->pad);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to init entity pads: %d\n", ret);
-+		goto probe_error_v4l2_ctrl_handler_free;
-+	}
-+
-+	/*
-+	 * Device is already turned on by i2c-core with ACPI domain PM.
-+	 * Enable runtime PM and turn off the device.
-+	 */
-+	pm_runtime_set_active(&client->dev);
-+	pm_runtime_enable(&client->dev);
-+	pm_runtime_idle(&client->dev);
-+
-+	ret = v4l2_subdev_init_finalize(&lt6911uxe->sd);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "failed to init v4l2 subdev: %d\n", ret);
-+		goto probe_error_media_entity_cleanup;
-+	}
-+
-+	/* Setting irq */
-+	lt6911uxe->irq_pin_flags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
-+				   IRQF_ONESHOT;
-+
-+	ret = request_threaded_irq(gpiod_to_irq(lt6911uxe->irq_gpio), NULL,
-+				   lt6911uxe_threaded_irq_fn,
-+				   lt6911uxe->irq_pin_flags, NULL, lt6911uxe);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to request IRQ\n");
-+		free_irq(gpiod_to_irq(lt6911uxe->irq_gpio), lt6911uxe);
-+		goto rpm;
-+	}
-+
-+	ret = v4l2_async_register_subdev_sensor(&lt6911uxe->sd);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "failed to register V4L2 subdev: %d\n",
-+			ret);
-+		goto rpm;
 +	}
 +
 +	return 0;
++}
 +
-+rpm:
++static DEFINE_RUNTIME_DEV_PM_OPS(t4ka3_pm_ops, t4ka3_pm_suspend, t4ka3_pm_resume, NULL);
++
++static int t4ka3_probe(struct i2c_client *client)
++{
++	struct t4ka3_data *sensor;
++	int ret;
++
++	/* allocate sensor device & init sub device */
++	sensor = devm_kzalloc(&client->dev, sizeof(*sensor), GFP_KERNEL);
++	if (!sensor)
++		return -ENOMEM;
++
++	sensor->dev = &client->dev;
++
++	ret = t4ka3_check_hwcfg(sensor);
++	if (ret)
++		return ret;
++
++	mutex_init(&sensor->lock);
++
++	sensor->link_freq[0] = T4KA3_LINK_FREQ;
++	sensor->mode.crop = t4ka3_default_crop;
++	t4ka3_fill_format(sensor, &sensor->mode.fmt, T4KA3_ACTIVE_WIDTH, T4KA3_ACTIVE_HEIGHT);
++	t4ka3_calc_mode(sensor);
++
++	v4l2_i2c_subdev_init(&sensor->sd, client, &t4ka3_ops);
++	sensor->sd.internal_ops = &t4ka3_internal_ops;
++
++	sensor->powerdown_gpio = devm_gpiod_get(&client->dev, "powerdown",
++						GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->powerdown_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(sensor->powerdown_gpio),
++				     "getting powerdown GPIO\n");
++
++	sensor->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
++						     GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->reset_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(sensor->reset_gpio),
++				     "getting reset GPIO\n");
++
++	sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
++	if (IS_ERR(sensor->regmap))
++		return PTR_ERR(sensor->regmap);
++
++	pm_runtime_set_suspended(&client->dev);
++	pm_runtime_enable(&client->dev);
++	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
++	pm_runtime_use_autosuspend(&client->dev);
++
++	ret = t4ka3_s_config(&sensor->sd);
++	if (ret)
++		goto err_pm_runtime;
++
++	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
++	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
++
++	ret = t4ka3_init_controls(sensor);
++	if (ret)
++		goto err_controls;
++
++	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
++	if (ret)
++		goto err_controls;
++
++	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
++	if (ret)
++		goto err_media_entity;
++
++	return 0;
++
++err_media_entity:
++	media_entity_cleanup(&sensor->sd.entity);
++err_controls:
++	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
++err_pm_runtime:
 +	pm_runtime_disable(&client->dev);
-+	v4l2_subdev_cleanup(&lt6911uxe->sd);
-+
-+probe_error_media_entity_cleanup:
-+	media_entity_cleanup(&lt6911uxe->sd.entity);
-+
-+probe_error_v4l2_ctrl_handler_free:
-+	v4l2_ctrl_handler_free(lt6911uxe->sd.ctrl_handler);
 +	return ret;
 +}
 +
-+static const struct acpi_device_id lt6911uxe_acpi_ids[] = {
-+	{ "INTC10C5" },
++static struct acpi_device_id t4ka3_acpi_match[] = {
++	{ "XMCC0003" },
 +	{}
 +};
-+MODULE_DEVICE_TABLE(acpi, lt6911uxe_acpi_ids);
++MODULE_DEVICE_TABLE(acpi, t4ka3_acpi_match);
 +
-+static struct i2c_driver lt6911uxe_i2c_driver = {
++static struct i2c_driver t4ka3_driver = {
 +	.driver = {
-+		.name = "lt6911uxe",
-+		.acpi_match_table = ACPI_PTR(lt6911uxe_acpi_ids),
++		.name = "t4ka3",
++		.acpi_match_table = ACPI_PTR(t4ka3_acpi_match),
++		.pm = pm_sleep_ptr(&t4ka3_pm_ops),
 +	},
-+	.probe = lt6911uxe_probe,
-+	.remove = lt6911uxe_remove,
++	.probe = t4ka3_probe,
++	.remove = t4ka3_remove,
 +};
++module_i2c_driver(t4ka3_driver)
 +
-+module_i2c_driver(lt6911uxe_i2c_driver);
-+
-+MODULE_AUTHOR("Yan Dongcheng <dongcheng.yan@intel.com>");
-+MODULE_DESCRIPTION("Lontium lt6911uxe HDMI to MIPI Bridge Driver");
++MODULE_DESCRIPTION("A low-level driver for T4KA3 sensor");
++MODULE_AUTHOR("HARVEY LV <harvey.lv@intel.com>");
 +MODULE_LICENSE("GPL");
-
-base-commit: 6ba59ff4227927d3a8530fc2973b80e94b54d58f
 -- 
-2.34.1
+2.46.2
 
 
