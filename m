@@ -1,38 +1,37 @@
-Return-Path: <linux-media+bounces-19613-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19614-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076B899D0D2
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 17:07:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D0399D0DB
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 17:08:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 824211F22FD8
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 15:07:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B912FB231AB
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 15:07:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE22619F40B;
-	Mon, 14 Oct 2024 15:07:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 809D91A4F20;
+	Mon, 14 Oct 2024 15:07:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954F91BDC3
-	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 15:07:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2655249659
+	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 15:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728918454; cv=none; b=ovUd+hzDzY/SZWoaumHoRy4hQXdfHyUyAJfWIBdZm0v0eascpM5hIuJQufZ6y6RdTrazGj0yRohPGVwkA2ssAmo79QdoomxoGTm8y5z8IoU9iWd3ls2htvnoydo8leqghm5t+8LjymqG8QWYo7lFQxJE/rzHmdgIYSFkq9++MMw=
+	t=1728918472; cv=none; b=ALYQxr4RSZu3Jw7pgiyrySL1yzI54w4lMxUAFSkh8x8cTu+uYvsKeinZjpXewcg9arDZGDujN3CRambS7OdEJxZm0Cm6pkjq8m7HtZ04ZXnsCSo5/8i49juC/mCmcIwg7k0HIyBsEuj1Kmr4Et4UP6aLtOHTpaohXeYWpKCFVa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728918454; c=relaxed/simple;
-	bh=C7VVp5DYu1O564w3anXHODJMz6LlrNNbJ5SAsmxKk0U=;
+	s=arc-20240116; t=1728918472; c=relaxed/simple;
+	bh=AaNhr1MYchMG1KocrUsuE6X7Qr86Usot8pXAs+mSYSI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=scO2pBwlqzQ1GVFjUwTK76GOY6SE/j8xq/rYbeYgPnoEPdpFGx3GZwTdPjPOv4RZWmdgjiJA2GCcn5tO9N3WQbRxqx/Pm6/xTvDvCTpSxDQhKVnEHe5iVBLwy5PSjX8irvBEf7SSp5aV702FfvLnh6WxTSN6bSmsT53wtfkyNDY=
+	 In-Reply-To:To:Cc; b=pBRJ54yh30DhVjTKomFIUogM4oq1PLOrpMtxSo/Eji7k/aiIuVEjaxhlMiVbg6bQyTxxNVAJATcAdW1H+vBUgCSGPBtQ0tzEfT2nNrtEPkIh2BP2/c2QOWItdDsiZKCzXokU7ZZysur4r7n/6fNuMyY9R9XN7g+2U1v9b03+CzI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 332CBC4CEC3;
-	Mon, 14 Oct 2024 15:07:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6853C4CED0;
+	Mon, 14 Oct 2024 15:07:34 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Date: Mon, 14 Oct 2024 17:06:29 +0200
-Subject: [PATCH 02/10] media: test-drivers: drop
- vb2_ops_wait_prepare/finish
+Date: Mon, 14 Oct 2024 17:06:30 +0200
+Subject: [PATCH 03/10] media: pci: drop vb2_ops_wait_prepare/finish
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241014-vb2-wait-v1-2-8c3ee25c618c@xs4all.nl>
+Message-Id: <20241014-vb2-wait-v1-3-8c3ee25c618c@xs4all.nl>
 References: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
 In-Reply-To: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
 To: Tomasz Figa <tfiga@chromium.org>, 
@@ -148,180 +147,414 @@ these callbacks.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- drivers/media/test-drivers/vicodec/vicodec-core.c  | 2 --
- drivers/media/test-drivers/vim2m.c                 | 2 --
- drivers/media/test-drivers/vimc/vimc-capture.c     | 6 ------
- drivers/media/test-drivers/visl/visl-video.c       | 2 --
- drivers/media/test-drivers/vivid/vivid-meta-cap.c  | 2 --
- drivers/media/test-drivers/vivid/vivid-meta-out.c  | 2 --
- drivers/media/test-drivers/vivid/vivid-sdr-cap.c   | 2 --
- drivers/media/test-drivers/vivid/vivid-touch-cap.c | 2 --
- drivers/media/test-drivers/vivid/vivid-vbi-cap.c   | 2 --
- drivers/media/test-drivers/vivid/vivid-vbi-out.c   | 2 --
- drivers/media/test-drivers/vivid/vivid-vid-cap.c   | 2 --
- drivers/media/test-drivers/vivid/vivid-vid-out.c   | 2 --
- 12 files changed, 28 deletions(-)
+ drivers/media/pci/bt8xx/bttv-driver.c          | 2 --
+ drivers/media/pci/bt8xx/bttv-vbi.c             | 2 --
+ drivers/media/pci/cobalt/cobalt-v4l2.c         | 2 --
+ drivers/media/pci/cx18/cx18-streams.c          | 2 --
+ drivers/media/pci/cx23885/cx23885-417.c        | 2 --
+ drivers/media/pci/cx23885/cx23885-dvb.c        | 2 --
+ drivers/media/pci/cx23885/cx23885-vbi.c        | 2 --
+ drivers/media/pci/cx23885/cx23885-video.c      | 2 --
+ drivers/media/pci/cx25821/cx25821-video.c      | 2 --
+ drivers/media/pci/cx88/cx88-blackbird.c        | 2 --
+ drivers/media/pci/cx88/cx88-dvb.c              | 2 --
+ drivers/media/pci/cx88/cx88-vbi.c              | 2 --
+ drivers/media/pci/cx88/cx88-video.c            | 2 --
+ drivers/media/pci/dt3155/dt3155.c              | 2 --
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c       | 2 --
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 2 --
+ drivers/media/pci/mgb4/mgb4_vin.c              | 2 --
+ drivers/media/pci/mgb4/mgb4_vout.c             | 2 --
+ drivers/media/pci/saa7134/saa7134-empress.c    | 2 --
+ drivers/media/pci/saa7134/saa7134-ts.c         | 2 --
+ drivers/media/pci/saa7134/saa7134-vbi.c        | 2 --
+ drivers/media/pci/saa7134/saa7134-video.c      | 2 --
+ drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c | 2 --
+ drivers/media/pci/solo6x10/solo6x10-v4l2.c     | 2 --
+ drivers/media/pci/sta2x11/sta2x11_vip.c        | 2 --
+ drivers/media/pci/tw5864/tw5864-video.c        | 2 --
+ drivers/media/pci/tw68/tw68-video.c            | 2 --
+ drivers/media/pci/tw686x/tw686x-video.c        | 2 --
+ drivers/media/pci/zoran/zoran_driver.c         | 2 --
+ 29 files changed, 58 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-index 1e6e3b7140a9403f3e3de1f67bd210998fac5236..00c84a06f343cf361dd453a4780827defb17f4a9 100644
---- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-+++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-@@ -1688,8 +1688,6 @@ static const struct vb2_ops vicodec_qops = {
- 	.buf_request_complete	= vicodec_buf_request_complete,
- 	.start_streaming	= vicodec_start_streaming,
- 	.stop_streaming		= vicodec_stop_streaming,
+diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+index 511f013cc33873ecc0a5ee4adfa4eb0727f38022..2782832f5eb8f272cf9acf29d7b4c31620c99227 100644
+--- a/drivers/media/pci/bt8xx/bttv-driver.c
++++ b/drivers/media/pci/bt8xx/bttv-driver.c
+@@ -1584,8 +1584,6 @@ static const struct vb2_ops bttv_video_qops = {
+ 	.buf_cleanup    = buf_cleanup,
+ 	.start_streaming = start_streaming,
+ 	.stop_streaming = stop_streaming,
+-	.wait_prepare   = vb2_ops_wait_prepare,
+-	.wait_finish    = vb2_ops_wait_finish,
+ };
+ 
+ static void radio_enable(struct bttv *btv)
+diff --git a/drivers/media/pci/bt8xx/bttv-vbi.c b/drivers/media/pci/bt8xx/bttv-vbi.c
+index e489a3acb4b98afa17036c3a85514c40031f40e5..a71440611e46eccfc442a7f9100f803d9d875201 100644
+--- a/drivers/media/pci/bt8xx/bttv-vbi.c
++++ b/drivers/media/pci/bt8xx/bttv-vbi.c
+@@ -170,8 +170,6 @@ const struct vb2_ops bttv_vbi_qops = {
+ 	.buf_cleanup	= buf_cleanup_vbi,
+ 	.start_streaming = start_streaming_vbi,
+ 	.stop_streaming = stop_streaming_vbi,
+-	.wait_prepare   = vb2_ops_wait_prepare,
+-	.wait_finish    = vb2_ops_wait_finish,
+ };
+ 
+ /* ----------------------------------------------------------------------- */
+diff --git a/drivers/media/pci/cobalt/cobalt-v4l2.c b/drivers/media/pci/cobalt/cobalt-v4l2.c
+index d4d7b264c965a3a6a7c76e23567b0c18deb742d3..ae82427e3479bb316dc310bb11837aad05ffaf9c 100644
+--- a/drivers/media/pci/cobalt/cobalt-v4l2.c
++++ b/drivers/media/pci/cobalt/cobalt-v4l2.c
+@@ -424,8 +424,6 @@ static const struct vb2_ops cobalt_qops = {
+ 	.buf_queue = cobalt_buf_queue,
+ 	.start_streaming = cobalt_start_streaming,
+ 	.stop_streaming = cobalt_stop_streaming,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ };
+ 
+ /* V4L2 ioctls */
+diff --git a/drivers/media/pci/cx18/cx18-streams.c b/drivers/media/pci/cx18/cx18-streams.c
+index acc6418db4254ab00eb1b70ebdce30799e85e503..42d6f7b90ede3045b9c5612a35ce8dbee2551282 100644
+--- a/drivers/media/pci/cx18/cx18-streams.c
++++ b/drivers/media/pci/cx18/cx18-streams.c
+@@ -229,8 +229,6 @@ static const struct vb2_ops cx18_vb2_qops = {
+ 	.buf_prepare		= cx18_buf_prepare,
+ 	.start_streaming	= cx18_start_streaming,
+ 	.stop_streaming		= cx18_stop_streaming,
 -	.wait_prepare		= vb2_ops_wait_prepare,
 -	.wait_finish		= vb2_ops_wait_finish,
  };
  
- static int queue_init(void *priv, struct vb2_queue *src_vq,
-diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index d4e27279dd0c94b2be152f5ca4902dcc013faeac..6c24dcf27eb078ae2e121b81bc32ef46b34fb415 100644
---- a/drivers/media/test-drivers/vim2m.c
-+++ b/drivers/media/test-drivers/vim2m.c
-@@ -1100,8 +1100,6 @@ static const struct vb2_ops vim2m_qops = {
- 	.buf_queue	 = vim2m_buf_queue,
- 	.start_streaming = vim2m_start_streaming,
- 	.stop_streaming  = vim2m_stop_streaming,
--	.wait_prepare	 = vb2_ops_wait_prepare,
--	.wait_finish	 = vb2_ops_wait_finish,
- 	.buf_request_complete = vim2m_buf_request_complete,
+ static int cx18_stream_init(struct cx18 *cx, int type)
+diff --git a/drivers/media/pci/cx23885/cx23885-417.c b/drivers/media/pci/cx23885/cx23885-417.c
+index fdb96f80c03649f9ce1f5acac8f4b9b3e54b9df1..219937a153b3aed206091579fffbd07840ca0c3a 100644
+--- a/drivers/media/pci/cx23885/cx23885-417.c
++++ b/drivers/media/pci/cx23885/cx23885-417.c
+@@ -1210,8 +1210,6 @@ static const struct vb2_ops cx23885_qops = {
+ 	.buf_prepare  = buffer_prepare,
+ 	.buf_finish = buffer_finish,
+ 	.buf_queue    = buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.start_streaming = cx23885_start_streaming,
+ 	.stop_streaming = cx23885_stop_streaming,
+ };
+diff --git a/drivers/media/pci/cx23885/cx23885-dvb.c b/drivers/media/pci/cx23885/cx23885-dvb.c
+index 3d01cdc4c7f3d7d379a63d9fde4d2ded73d41972..05a7859cbe5795bdb7d54510fe617f48ab486986 100644
+--- a/drivers/media/pci/cx23885/cx23885-dvb.c
++++ b/drivers/media/pci/cx23885/cx23885-dvb.c
+@@ -170,8 +170,6 @@ static const struct vb2_ops dvb_qops = {
+ 	.buf_prepare  = buffer_prepare,
+ 	.buf_finish = buffer_finish,
+ 	.buf_queue    = buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.start_streaming = cx23885_start_streaming,
+ 	.stop_streaming = cx23885_stop_streaming,
+ };
+diff --git a/drivers/media/pci/cx23885/cx23885-vbi.c b/drivers/media/pci/cx23885/cx23885-vbi.c
+index 4bdd2bea3713e1dc0fd630dedf345d87c9a8632f..40817cc52fc1ee256be86319638d0d26116e51c0 100644
+--- a/drivers/media/pci/cx23885/cx23885-vbi.c
++++ b/drivers/media/pci/cx23885/cx23885-vbi.c
+@@ -249,8 +249,6 @@ const struct vb2_ops cx23885_vbi_qops = {
+ 	.buf_prepare  = buffer_prepare,
+ 	.buf_finish = buffer_finish,
+ 	.buf_queue    = buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.start_streaming = cx23885_start_streaming,
+ 	.stop_streaming = cx23885_stop_streaming,
+ };
+diff --git a/drivers/media/pci/cx23885/cx23885-video.c b/drivers/media/pci/cx23885/cx23885-video.c
+index 7d4a409c433e2a8c909323542e6f917bd27cfb64..35d58328db563992fa1332e3e96427749eaf7ed8 100644
+--- a/drivers/media/pci/cx23885/cx23885-video.c
++++ b/drivers/media/pci/cx23885/cx23885-video.c
+@@ -519,8 +519,6 @@ static const struct vb2_ops cx23885_video_qops = {
+ 	.buf_prepare  = buffer_prepare,
+ 	.buf_finish = buffer_finish,
+ 	.buf_queue    = buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.start_streaming = cx23885_start_streaming,
+ 	.stop_streaming = cx23885_stop_streaming,
+ };
+diff --git a/drivers/media/pci/cx25821/cx25821-video.c b/drivers/media/pci/cx25821/cx25821-video.c
+index 0bee4b728a6014817d74fe243dbf9ef3c2da1524..84aa1209e7171ecc541a764fea064e031ce2bb6e 100644
+--- a/drivers/media/pci/cx25821/cx25821-video.c
++++ b/drivers/media/pci/cx25821/cx25821-video.c
+@@ -295,8 +295,6 @@ static const struct vb2_ops cx25821_video_qops = {
+ 	.buf_prepare  = cx25821_buffer_prepare,
+ 	.buf_finish = cx25821_buffer_finish,
+ 	.buf_queue    = cx25821_buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.start_streaming = cx25821_start_streaming,
+ 	.stop_streaming = cx25821_stop_streaming,
+ };
+diff --git a/drivers/media/pci/cx88/cx88-blackbird.c b/drivers/media/pci/cx88/cx88-blackbird.c
+index d55df8fdb3b604400495021033b3e57406f982e1..13b8cc46835b2cb5a84405cdb7fa21d35675f552 100644
+--- a/drivers/media/pci/cx88/cx88-blackbird.c
++++ b/drivers/media/pci/cx88/cx88-blackbird.c
+@@ -781,8 +781,6 @@ static const struct vb2_ops blackbird_qops = {
+ 	.buf_prepare  = buffer_prepare,
+ 	.buf_finish = buffer_finish,
+ 	.buf_queue    = buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.start_streaming = start_streaming,
+ 	.stop_streaming = stop_streaming,
+ };
+diff --git a/drivers/media/pci/cx88/cx88-dvb.c b/drivers/media/pci/cx88/cx88-dvb.c
+index b33b3a5e32ec6479d96af4558d200be6122572f9..c9cfceed2f1b42fc5a9c2c97900b7e1d638226c8 100644
+--- a/drivers/media/pci/cx88/cx88-dvb.c
++++ b/drivers/media/pci/cx88/cx88-dvb.c
+@@ -152,8 +152,6 @@ static const struct vb2_ops dvb_qops = {
+ 	.buf_prepare  = buffer_prepare,
+ 	.buf_finish = buffer_finish,
+ 	.buf_queue    = buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.start_streaming = start_streaming,
+ 	.stop_streaming = stop_streaming,
+ };
+diff --git a/drivers/media/pci/cx88/cx88-vbi.c b/drivers/media/pci/cx88/cx88-vbi.c
+index 469aeaa725ad9259122f407edf71006f5e324b4d..e3e379e6f6207b6ebf08327263d7087f5122d236 100644
+--- a/drivers/media/pci/cx88/cx88-vbi.c
++++ b/drivers/media/pci/cx88/cx88-vbi.c
+@@ -228,8 +228,6 @@ const struct vb2_ops cx8800_vbi_qops = {
+ 	.buf_prepare  = buffer_prepare,
+ 	.buf_finish = buffer_finish,
+ 	.buf_queue    = buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.start_streaming = start_streaming,
+ 	.stop_streaming = stop_streaming,
+ };
+diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx88/cx88-video.c
+index cefb6b25e92172b188b9f4f699492eaa31cf2b0b..0c87327689d3f669241bfc11ca07f7210f603a36 100644
+--- a/drivers/media/pci/cx88/cx88-video.c
++++ b/drivers/media/pci/cx88/cx88-video.c
+@@ -562,8 +562,6 @@ static const struct vb2_ops cx8800_video_qops = {
+ 	.buf_prepare  = buffer_prepare,
+ 	.buf_finish = buffer_finish,
+ 	.buf_queue    = buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.start_streaming = start_streaming,
+ 	.stop_streaming = stop_streaming,
+ };
+diff --git a/drivers/media/pci/dt3155/dt3155.c b/drivers/media/pci/dt3155/dt3155.c
+index dff853e73fdc8ef66f18cd7f27e017346850c6d8..7bddcbba4cf1ba2998afbfe1e961ad89a303f1c2 100644
+--- a/drivers/media/pci/dt3155/dt3155.c
++++ b/drivers/media/pci/dt3155/dt3155.c
+@@ -222,8 +222,6 @@ static void dt3155_buf_queue(struct vb2_buffer *vb)
+ 
+ static const struct vb2_ops q_ops = {
+ 	.queue_setup = dt3155_queue_setup,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.buf_prepare = dt3155_buf_prepare,
+ 	.start_streaming = dt3155_start_streaming,
+ 	.stop_streaming = dt3155_stop_streaming,
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+index 81ec8630453b7a1240528f1d36182d0928aded09..4e98f432ed557393c83dbbe404b6d5e6d87fd106 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+@@ -1045,8 +1045,6 @@ static const struct vb2_ops cio2_vb2_ops = {
+ 	.queue_setup = cio2_vb2_queue_setup,
+ 	.start_streaming = cio2_vb2_start_streaming,
+ 	.stop_streaming = cio2_vb2_stop_streaming,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
  };
  
-diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-index 89506ae009016779807768159e78711dc53fd721..10df039278e701ca4fa36774a8bc4d09893ac80d 100644
---- a/drivers/media/test-drivers/vimc/vimc-capture.c
-+++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-@@ -326,12 +326,6 @@ static const struct vb2_ops vimc_capture_qops = {
- 	.buf_queue		= vimc_capture_buf_queue,
- 	.queue_setup		= vimc_capture_queue_setup,
- 	.buf_prepare		= vimc_capture_buffer_prepare,
--	/*
--	 * Since q->lock is set we can use the standard
--	 * vb2_ops_wait_prepare/finish helper functions.
--	 */
+ /**************** V4L2 interface ****************/
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+index 03dbb0e0ea7957970667cef31f668a807b30455a..4e15dd75cf865559893eea55360e8224f78fbc7c 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+@@ -767,8 +767,6 @@ void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
+ 
+ static const struct vb2_ops ipu6_isys_queue_ops = {
+ 	.queue_setup = queue_setup,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.buf_prepare = ipu6_isys_buf_prepare,
+ 	.start_streaming = start_streaming,
+ 	.stop_streaming = stop_streaming,
+diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
+index 185fb28226b60c3253f64d78e945172c6321ac33..e34d02d1e943db98578765562e99d79776fe52a0 100644
+--- a/drivers/media/pci/mgb4/mgb4_vin.c
++++ b/drivers/media/pci/mgb4/mgb4_vin.c
+@@ -304,8 +304,6 @@ static const struct vb2_ops queue_ops = {
+ 	.buf_queue = buffer_queue,
+ 	.start_streaming = start_streaming,
+ 	.stop_streaming = stop_streaming,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish
+ };
+ 
+ static int fh_open(struct file *file)
+diff --git a/drivers/media/pci/mgb4/mgb4_vout.c b/drivers/media/pci/mgb4/mgb4_vout.c
+index 133110aac68808fa956ae7da8cb2e6bd27cf7447..6b2791e29de15e5124c5a05ed5bf1a9e2668f6d5 100644
+--- a/drivers/media/pci/mgb4/mgb4_vout.c
++++ b/drivers/media/pci/mgb4/mgb4_vout.c
+@@ -230,8 +230,6 @@ static const struct vb2_ops queue_ops = {
+ 	.buf_queue = buffer_queue,
+ 	.start_streaming = start_streaming,
+ 	.stop_streaming = stop_streaming,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish
+ };
+ 
+ static int vidioc_querycap(struct file *file, void *priv,
+diff --git a/drivers/media/pci/saa7134/saa7134-empress.c b/drivers/media/pci/saa7134/saa7134-empress.c
+index bbf480ab31ca7728934821faf33b734d894b9a8c..8c4f70e4177d1836ad685be851df63b234674c40 100644
+--- a/drivers/media/pci/saa7134/saa7134-empress.c
++++ b/drivers/media/pci/saa7134/saa7134-empress.c
+@@ -78,8 +78,6 @@ static const struct vb2_ops saa7134_empress_qops = {
+ 	.buf_init	= saa7134_ts_buffer_init,
+ 	.buf_prepare	= saa7134_ts_buffer_prepare,
+ 	.buf_queue	= saa7134_vb2_buffer_queue,
+-	.wait_prepare	= vb2_ops_wait_prepare,
+-	.wait_finish	= vb2_ops_wait_finish,
+ 	.start_streaming = start_streaming,
+ 	.stop_streaming = stop_streaming,
+ };
+diff --git a/drivers/media/pci/saa7134/saa7134-ts.c b/drivers/media/pci/saa7134/saa7134-ts.c
+index 437dbe5e75e2975a370a99f14f9aeb9fb5658b96..ec699ea14799427a8c0d0b6318fa30d94dc061ea 100644
+--- a/drivers/media/pci/saa7134/saa7134-ts.c
++++ b/drivers/media/pci/saa7134/saa7134-ts.c
+@@ -166,8 +166,6 @@ struct vb2_ops saa7134_ts_qops = {
+ 	.buf_init	= saa7134_ts_buffer_init,
+ 	.buf_prepare	= saa7134_ts_buffer_prepare,
+ 	.buf_queue	= saa7134_vb2_buffer_queue,
+-	.wait_prepare	= vb2_ops_wait_prepare,
+-	.wait_finish	= vb2_ops_wait_finish,
+ 	.stop_streaming = saa7134_ts_stop_streaming,
+ };
+ EXPORT_SYMBOL_GPL(saa7134_ts_qops);
+diff --git a/drivers/media/pci/saa7134/saa7134-vbi.c b/drivers/media/pci/saa7134/saa7134-vbi.c
+index 3e773690468bdb935d0a2ada46ef9a7f9da23e8d..efa6e4fa423aa9cfed5556bb7f19832fa18811e2 100644
+--- a/drivers/media/pci/saa7134/saa7134-vbi.c
++++ b/drivers/media/pci/saa7134/saa7134-vbi.c
+@@ -161,8 +161,6 @@ const struct vb2_ops saa7134_vbi_qops = {
+ 	.buf_init	= buffer_init,
+ 	.buf_prepare	= buffer_prepare,
+ 	.buf_queue	= saa7134_vb2_buffer_queue,
+-	.wait_prepare	= vb2_ops_wait_prepare,
+-	.wait_finish	= vb2_ops_wait_finish,
+ 	.start_streaming = saa7134_vb2_start_streaming,
+ 	.stop_streaming = saa7134_vb2_stop_streaming,
+ };
+diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
+index 56b4481a40e6125fa8534a85e56031186a190e8e..43e7b006eb596740771cf893d8fda39df0e4aff4 100644
+--- a/drivers/media/pci/saa7134/saa7134-video.c
++++ b/drivers/media/pci/saa7134/saa7134-video.c
+@@ -844,8 +844,6 @@ static const struct vb2_ops vb2_qops = {
+ 	.buf_init	= buffer_init,
+ 	.buf_prepare	= buffer_prepare,
+ 	.buf_queue	= saa7134_vb2_buffer_queue,
+-	.wait_prepare	= vb2_ops_wait_prepare,
+-	.wait_finish	= vb2_ops_wait_finish,
+ 	.start_streaming = saa7134_vb2_start_streaming,
+ 	.stop_streaming = saa7134_vb2_stop_streaming,
+ };
+diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
+index 0adf3d80f248ed3511509e5a571f1226cac62866..5ee59b3844cc3dc4ae42c255a0ea3e624c605a1d 100644
+--- a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
++++ b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
+@@ -756,8 +756,6 @@ static const struct vb2_ops solo_enc_video_qops = {
+ 	.buf_finish	= solo_enc_buf_finish,
+ 	.start_streaming = solo_enc_start_streaming,
+ 	.stop_streaming = solo_enc_stop_streaming,
+-	.wait_prepare	= vb2_ops_wait_prepare,
+-	.wait_finish	= vb2_ops_wait_finish,
+ };
+ 
+ static int solo_enc_querycap(struct file *file, void  *priv,
+diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2.c b/drivers/media/pci/solo6x10/solo6x10-v4l2.c
+index e18cc41fca83b2b5293dc4d654c96a5ee86a6993..35715b21dbdffc80de68990b88836700816e7cb6 100644
+--- a/drivers/media/pci/solo6x10/solo6x10-v4l2.c
++++ b/drivers/media/pci/solo6x10/solo6x10-v4l2.c
+@@ -365,8 +365,6 @@ static const struct vb2_ops solo_video_qops = {
+ 	.buf_queue	= solo_buf_queue,
+ 	.start_streaming = solo_start_streaming,
+ 	.stop_streaming = solo_stop_streaming,
+-	.wait_prepare	= vb2_ops_wait_prepare,
+-	.wait_finish	= vb2_ops_wait_finish,
+ };
+ 
+ static int solo_querycap(struct file *file, void  *priv,
+diff --git a/drivers/media/pci/sta2x11/sta2x11_vip.c b/drivers/media/pci/sta2x11/sta2x11_vip.c
+index 364ce9e5701827de4d7b92cac104fa9d0fcb8869..3049bad20f142dbfdf6bbd47699c50f75cb10f72 100644
+--- a/drivers/media/pci/sta2x11/sta2x11_vip.c
++++ b/drivers/media/pci/sta2x11/sta2x11_vip.c
+@@ -372,8 +372,6 @@ static const struct vb2_ops vip_video_qops = {
+ 	.buf_queue		= buffer_queue,
+ 	.start_streaming	= start_streaming,
+ 	.stop_streaming		= stop_streaming,
 -	.wait_prepare		= vb2_ops_wait_prepare,
 -	.wait_finish		= vb2_ops_wait_finish,
  };
  
- static const struct media_entity_operations vimc_capture_mops = {
-diff --git a/drivers/media/test-drivers/visl/visl-video.c b/drivers/media/test-drivers/visl/visl-video.c
-index 677a8564de03c5db5999c2e71dd4d847ce0c0631..8be505d8908c98bb50118dfa2f491d5ac68772ec 100644
---- a/drivers/media/test-drivers/visl/visl-video.c
-+++ b/drivers/media/test-drivers/visl/visl-video.c
-@@ -732,8 +732,6 @@ static const struct vb2_ops visl_qops = {
- 	.buf_queue            = visl_buf_queue,
- 	.start_streaming      = visl_start_streaming,
- 	.stop_streaming       = visl_stop_streaming,
--	.wait_prepare         = vb2_ops_wait_prepare,
--	.wait_finish          = vb2_ops_wait_finish,
- 	.buf_request_complete = visl_buf_request_complete,
+ 
+diff --git a/drivers/media/pci/tw5864/tw5864-video.c b/drivers/media/pci/tw5864/tw5864-video.c
+index 4f35c159efe5a39be8c674a8d21b4e58437849f9..0a08708e52b08283074db66611969312762182a8 100644
+--- a/drivers/media/pci/tw5864/tw5864-video.c
++++ b/drivers/media/pci/tw5864/tw5864-video.c
+@@ -471,8 +471,6 @@ static const struct vb2_ops tw5864_video_qops = {
+ 	.buf_queue = tw5864_buf_queue,
+ 	.start_streaming = tw5864_start_streaming,
+ 	.stop_streaming = tw5864_stop_streaming,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
  };
  
-diff --git a/drivers/media/test-drivers/vivid/vivid-meta-cap.c b/drivers/media/test-drivers/vivid/vivid-meta-cap.c
-index 0a718d037e5944439f3c882d8a2661ec500318d7..c7aaecc0b5a24726639a253accfc50383a84e846 100644
---- a/drivers/media/test-drivers/vivid/vivid-meta-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-meta-cap.c
-@@ -122,8 +122,6 @@ const struct vb2_ops vivid_meta_cap_qops = {
- 	.start_streaming	= meta_cap_start_streaming,
- 	.stop_streaming		= meta_cap_stop_streaming,
- 	.buf_request_complete	= meta_cap_buf_request_complete,
+ static int tw5864_s_ctrl(struct v4l2_ctrl *ctrl)
+diff --git a/drivers/media/pci/tw68/tw68-video.c b/drivers/media/pci/tw68/tw68-video.c
+index cdf5d733b863e46186e3a02f9f3e489ba1b62c5f..77773dec48b83ac997fcbbb4dc83e55861a899eb 100644
+--- a/drivers/media/pci/tw68/tw68-video.c
++++ b/drivers/media/pci/tw68/tw68-video.c
+@@ -524,8 +524,6 @@ static const struct vb2_ops tw68_video_qops = {
+ 	.buf_finish	= tw68_buf_finish,
+ 	.start_streaming = tw68_start_streaming,
+ 	.stop_streaming = tw68_stop_streaming,
+-	.wait_prepare	= vb2_ops_wait_prepare,
+-	.wait_finish	= vb2_ops_wait_finish,
+ };
+ 
+ /* ------------------------------------------------------------------ */
+diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
+index 63be95fce83d132718ed94a20865fc337b701cc7..785dd797d921b515ead7b500edd01a4ac0618e6d 100644
+--- a/drivers/media/pci/tw686x/tw686x-video.c
++++ b/drivers/media/pci/tw686x/tw686x-video.c
+@@ -579,8 +579,6 @@ static const struct vb2_ops tw686x_video_qops = {
+ 	.buf_prepare		= tw686x_buf_prepare,
+ 	.start_streaming	= tw686x_start_streaming,
+ 	.stop_streaming		= tw686x_stop_streaming,
 -	.wait_prepare		= vb2_ops_wait_prepare,
 -	.wait_finish		= vb2_ops_wait_finish,
  };
  
- int vidioc_enum_fmt_meta_cap(struct file *file, void  *priv,
-diff --git a/drivers/media/test-drivers/vivid/vivid-meta-out.c b/drivers/media/test-drivers/vivid/vivid-meta-out.c
-index 82ab3b26914e6d47533dc9b109383e95d3ccdd04..55e5e5dec2f2ab1bdc01a2d1d479a6f1eb758299 100644
---- a/drivers/media/test-drivers/vivid/vivid-meta-out.c
-+++ b/drivers/media/test-drivers/vivid/vivid-meta-out.c
-@@ -122,8 +122,6 @@ const struct vb2_ops vivid_meta_out_qops = {
- 	.start_streaming        = meta_out_start_streaming,
- 	.stop_streaming         = meta_out_stop_streaming,
- 	.buf_request_complete   = meta_out_buf_request_complete,
+ static int tw686x_s_ctrl(struct v4l2_ctrl *ctrl)
+diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
+index 5c05e64c71a905a2900b3e7feeea50672394881a..f42f596d3e6295e31e3b33cd83c5f7243911bd30 100644
+--- a/drivers/media/pci/zoran/zoran_driver.c
++++ b/drivers/media/pci/zoran/zoran_driver.c
+@@ -950,8 +950,6 @@ static const struct vb2_ops zr_video_qops = {
+ 	.buf_prepare            = zr_vb2_prepare,
+ 	.start_streaming        = zr_vb2_start_streaming,
+ 	.stop_streaming         = zr_vb2_stop_streaming,
 -	.wait_prepare           = vb2_ops_wait_prepare,
 -	.wait_finish            = vb2_ops_wait_finish,
  };
  
- int vidioc_enum_fmt_meta_out(struct file *file, void  *priv,
-diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-index 38cda33dffb2aba68b2ce1187448a291d57a64ee..74a91d28c8be936b2c4cb0cc297625d91d7a27a7 100644
---- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-@@ -337,8 +337,6 @@ const struct vb2_ops vivid_sdr_cap_qops = {
- 	.start_streaming	= sdr_cap_start_streaming,
- 	.stop_streaming		= sdr_cap_stop_streaming,
- 	.buf_request_complete	= sdr_cap_buf_request_complete,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
- };
- 
- int vivid_sdr_enum_freq_bands(struct file *file, void *fh,
-diff --git a/drivers/media/test-drivers/vivid/vivid-touch-cap.c b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-index 3600b084bca53eb22a10a7d17152c5d0c39705c5..36a781fa17bc3daaf1d949a7f1c94ebb9aecb7c0 100644
---- a/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-@@ -110,8 +110,6 @@ const struct vb2_ops vivid_touch_cap_qops = {
- 	.start_streaming	= touch_cap_start_streaming,
- 	.stop_streaming		= touch_cap_stop_streaming,
- 	.buf_request_complete	= touch_cap_buf_request_complete,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
- };
- 
- int vivid_enum_fmt_tch(struct file *file, void  *priv, struct v4l2_fmtdesc *f)
-diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-index 99138f63585c7146cb3289c4e9ac8180ed66966d..a09f62c66c33d143d56c58fa90fc25e687118662 100644
---- a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-@@ -230,8 +230,6 @@ const struct vb2_ops vivid_vbi_cap_qops = {
- 	.start_streaming	= vbi_cap_start_streaming,
- 	.stop_streaming		= vbi_cap_stop_streaming,
- 	.buf_request_complete	= vbi_cap_buf_request_complete,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
- };
- 
- int vidioc_g_fmt_vbi_cap(struct file *file, void *priv,
-diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-out.c b/drivers/media/test-drivers/vivid/vivid-vbi-out.c
-index 871a56d934254a198648835c38a65a33d3c8c85d..b7a09d2f394e43e4e78256d4a34d1db9898acea7 100644
---- a/drivers/media/test-drivers/vivid/vivid-vbi-out.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vbi-out.c
-@@ -128,8 +128,6 @@ const struct vb2_ops vivid_vbi_out_qops = {
- 	.start_streaming	= vbi_out_start_streaming,
- 	.stop_streaming		= vbi_out_stop_streaming,
- 	.buf_request_complete	= vbi_out_buf_request_complete,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
- };
- 
- int vidioc_g_fmt_vbi_out(struct file *file, void *priv,
-diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-index 69620e0a35a02fb210529a1d652abf915b4445af..e74d73d370e0a8f092401e280de4a55135ae10df 100644
---- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-@@ -257,8 +257,6 @@ const struct vb2_ops vivid_vid_cap_qops = {
- 	.start_streaming	= vid_cap_start_streaming,
- 	.stop_streaming		= vid_cap_stop_streaming,
- 	.buf_request_complete	= vid_cap_buf_request_complete,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
- };
- 
- /*
-diff --git a/drivers/media/test-drivers/vivid/vivid-vid-out.c b/drivers/media/test-drivers/vivid/vivid-vid-out.c
-index 60327f3612af40f7ebd6dedf8e23a113d8d6ac43..5ec84db934d6b0fd9f659298f80cd59a25983a2c 100644
---- a/drivers/media/test-drivers/vivid/vivid-vid-out.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vid-out.c
-@@ -201,8 +201,6 @@ const struct vb2_ops vivid_vid_out_qops = {
- 	.start_streaming	= vid_out_start_streaming,
- 	.stop_streaming		= vid_out_stop_streaming,
- 	.buf_request_complete	= vid_out_buf_request_complete,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
- };
- 
- /*
+ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir)
 
 -- 
 2.45.2
