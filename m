@@ -1,64 +1,65 @@
-Return-Path: <linux-media+bounces-19561-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19562-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E7D99C4DA
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 11:09:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8575C99C4E0
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 11:10:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 244241C2138D
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 09:09:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7EC31C2213E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 09:10:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 181831684B0;
-	Mon, 14 Oct 2024 09:08:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C51F175D2D;
+	Mon, 14 Oct 2024 09:08:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bog4iNOY"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GqYezhyP"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8243915C15F;
-	Mon, 14 Oct 2024 09:07:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A95156F3A;
+	Mon, 14 Oct 2024 09:08:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728896881; cv=none; b=QK35FILQu5FqREMxKjEeiZycVXjTwhJassuDOFtkbhP1/PQQk34w2iRGWBaLVeeoRYi7o9gEZJ48QZhvjbwTewTwzViJ+ELKhRfLPXIKcCcaoqgrpx0ebJM3T6g4+9dfsdVPVqmvFQT1XZ6eF7qSxAWnbGj6qPxyAYYKPKjTzkI=
+	t=1728896889; cv=none; b=M486qsxLBSUVn0N0a9lH+/5ToCp0QxUFP6hJszCJWwE+98krGrQ914eAz3YHppSow/+kP2+Sm5gztRCSTWdrP9WZlIVWaqLt7EAzl55kBkmeongpr7CF1hO/KQ8vBolyo5dVIzZtVkWVJk/QgF+wEtUfXidyeP4YemGOA2MxpHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728896881; c=relaxed/simple;
-	bh=Lbo+m0ZUTHVYI68bgFI36KKlY24Js3WxY3bC9GizDnY=;
+	s=arc-20240116; t=1728896889; c=relaxed/simple;
+	bh=IVrRFfBPcQxD3kk/7rHMotSXRCQxJu6PkSSZ4qp7LVE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=ljl39/Nn/HIDWbGC7/ZUXCQE61BEQzmJEWUG2l5NW3YL5Gq+paGArI7302z9ftEWaftFMWfW/L/YIir2IIihW1oc2i5qBkOHI3cV837Y0p5+ecrjJmvNQYOi+WA3dCVGHq8jwbpnfM3f0eQh7rhGkETrpOo2kSYOJ0Spo9WOMdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bog4iNOY; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:CC; b=ZfnBVPH0MXaLS98mz+Sn1fGhRyvNQtBymKKZ1EibuzMhsDtvNPKy/lm+8GAa37mxcsMN3zBEsipj4ApZGjSm6YosgZKCPbowmB3CZUMUKN2srWOQVOi59nXo1EEd7NRkJreRpnF/0EjRR/ckgSp/M4v04X1p+bFqP5VEM0P9jbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=GqYezhyP; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49DMx75A017312;
-	Mon, 14 Oct 2024 09:07:53 GMT
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49DJ67ji031967;
+	Mon, 14 Oct 2024 09:07:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	MJZz5W+AaoPIdnYE8X7sojo3KaWhn69wbBWHiojVWDg=; b=bog4iNOYhSTVnt2k
-	vepsPLuvMAAzjdk2tKpanIX0RRSGfSqABZzblhoxJme/IdivYDCR50L25kJCT8Ng
-	265uUXvr2fxqt9DgKhfcBE4DmpHtF3ZoMvloGEw08/eiaQnzHC7YGSQC9LbQ7IVr
-	HURJLFMo1lHB/oIH09gLnxHeYAt2TcutglyaWdUOg5zcL5mF8vSTu1JCYNyoDUNI
-	13kRHZmjtQVEbsTfYDUrPze6/cDCjAhtnIxvSK9obAkR4xFA95FXWa76+S1LDE10
-	69T5VUBW8AYlmoZtYe9I/RnlMSkfp3zxFMbMHmFwVaA1//r4d4XfZi4j6kIJJa3q
-	svG++A==
+	QvdDT5Eacjc/67kcI83ezFVyGfynm0yB0PPDy0HrQeE=; b=GqYezhyPe712nv/x
+	+BsE1/tkX1AheNku+hnsh1X6TapTIUJZyTu70VYhRMnUoLhapm8KSpDE/0ovIZRc
+	UkQqs1CrA55/k2XnMbzWm8uQNC3slBqy8tzx1uqXA91Moqw29TYNKmBAh794Bq6L
+	ciH8s81URr9ss1hIGnk2aaJAS02K8jwlUijzXMVn3zUS64FD+tYepNTNjpp1ZsEh
+	8+/c9LFyED1K4ct62tg5zWmmWWuMc7LMeUmwxroOp51eZLP/MQLoBoKKh10z1ry6
+	M3BiwHRExsTMjknzM4B3Nq/wgftOSSX+UHOTWDuzNUox4EqOQfSfOXq/EDkM3zTC
+	pXcTRg==
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 427hvfut98-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 427etec258-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Oct 2024 09:07:53 +0000 (GMT)
+	Mon, 14 Oct 2024 09:07:58 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49E97qQw001866
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49E97viM001913
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Oct 2024 09:07:52 GMT
+	Mon, 14 Oct 2024 09:07:57 GMT
 Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 14 Oct 2024 02:07:47 -0700
+ 15.2.1544.9; Mon, 14 Oct 2024 02:07:52 -0700
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Date: Mon, 14 Oct 2024 14:37:24 +0530
-Subject: [PATCH v4 03/28] media: iris: implement iris v4l2 file ops
+Date: Mon, 14 Oct 2024 14:37:25 +0530
+Subject: [PATCH v4 04/28] media: iris: introduce iris core state management
+ with shared queues
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241014-qcom-video-iris-v4-v4-3-c5eaa4e9ab9e@quicinc.com>
+Message-ID: <20241014-qcom-video-iris-v4-v4-4-c5eaa4e9ab9e@quicinc.com>
 References: <20241014-qcom-video-iris-v4-v4-0-c5eaa4e9ab9e@quicinc.com>
 In-Reply-To: <20241014-qcom-video-iris-v4-v4-0-c5eaa4e9ab9e@quicinc.com>
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
@@ -87,452 +88,639 @@ CC: Hans Verkuil <hverkuil@xs4all.nl>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Dikshita Agarwal <quic_dikshita@quicinc.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728896853; l=13743;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728896853; l=20935;
  i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
- bh=Lbo+m0ZUTHVYI68bgFI36KKlY24Js3WxY3bC9GizDnY=;
- b=5CSkwdi7CvGF/kisqnYhqu0AW4Blx3EiDLEhPgBqSl4hszRMV6N9ufVwZkul2gzq7Jbl+A8l5
- wdHihiFGyRNAp8PHbzZ95+dilaLlPKCrqwtPMKcJh865OEpbgvLgGno
+ bh=IVrRFfBPcQxD3kk/7rHMotSXRCQxJu6PkSSZ4qp7LVE=;
+ b=V69n0sfHD7Mj8f+EJwjvAeAXE6Nh6xenXfpzgHVXm6ImKriGuoL9+F8BKopYVZWHqqJS3rsHP
+ lLF7qXvclQeDQ/RhndMvHH0v1Yl0fxCmI7koDQ4CfVTLulN41N9D0Ul
 X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
  pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: MYtPnek4wl0k4YI2OAnOrc3jlDgEotEl
-X-Proofpoint-ORIG-GUID: MYtPnek4wl0k4YI2OAnOrc3jlDgEotEl
+X-Proofpoint-ORIG-GUID: W_Bi21OQFvsRH4xIXjBlXuJPuIhFS3nW
+X-Proofpoint-GUID: W_Bi21OQFvsRH4xIXjBlXuJPuIhFS3nW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
- clxscore=1015 adultscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410140066
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 spamscore=0 malwarescore=0
+ impostorscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2409260000 definitions=main-2410140066
 
-Implement open, close and poll ops.
+Introduce core state management for iris driver with
+necessary queues needed for host firmware communication.
 
-Open:
-Configure the vb2 queue and v4l2 file handler. Allocate
-a video instance and add the instance to core instance list.
+There are 3 types of queues:
+Command queue - driver to write any command to firmware.
+Message queue - firmware to send any response to driver.
+Debug queue - firmware to write debug messages.
+Initialize and configire shared queues during probe.
 
-Close:
-Free the instance and remove it from core instance list.
+Different states for core:
+IRIS_CORE_DEINIT - default state.
+IRIS_CORE_INIT - core state with core initialized. FW loaded and
+HW brought out of reset, shared queues established between host
+driver and firmware.
+IRIS_CORE_ERROR - error state.
+      -----------
+           |
+           V
+       -----------
+       | DEINIT  |
+       -----------
+           ^
+          / \
+         /   \
+        /     \
+       /       \
+      v         v
+ -----------   ----------.
+ |  INIT  |-->|  ERROR  |
+ -----------   ----------.
 
 Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
- drivers/media/platform/qcom/iris/Kconfig           |   1 +
- drivers/media/platform/qcom/iris/Makefile          |   5 +-
- drivers/media/platform/qcom/iris/iris_core.h       |   2 +
- drivers/media/platform/qcom/iris/iris_hfi_gen1.h   |  13 ++
- .../platform/qcom/iris/iris_hfi_gen1_command.c     |  12 ++
- drivers/media/platform/qcom/iris/iris_hfi_gen2.h   |  22 +++
- .../platform/qcom/iris/iris_hfi_gen2_command.c     |  11 ++
- drivers/media/platform/qcom/iris/iris_instance.h   |  31 +++++
+ drivers/media/platform/qcom/iris/Makefile          |   4 +-
+ drivers/media/platform/qcom/iris/iris_core.c       |  46 ++++++
+ drivers/media/platform/qcom/iris/iris_core.h       |  23 +++
+ drivers/media/platform/qcom/iris/iris_hfi_queue.c  | 123 +++++++++++++++
+ drivers/media/platform/qcom/iris/iris_hfi_queue.h  | 175 +++++++++++++++++++++
  .../platform/qcom/iris/iris_platform_common.h      |   1 +
- .../platform/qcom/iris/iris_platform_sm8550.c      |   2 +
- drivers/media/platform/qcom/iris/iris_probe.c      |   3 +
- drivers/media/platform/qcom/iris/iris_vidc.c       | 147 +++++++++++++++++++++
- drivers/media/platform/qcom/iris/iris_vidc.h       |  15 +++
- 13 files changed, 264 insertions(+), 1 deletion(-)
+ .../platform/qcom/iris/iris_platform_sm8550.c      |   1 +
+ drivers/media/platform/qcom/iris/iris_probe.c      |  20 +++
+ drivers/media/platform/qcom/iris/iris_state.h      |  41 +++++
+ drivers/media/platform/qcom/iris/iris_vidc.c       |   6 +
+ 10 files changed, 439 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/iris/Kconfig b/drivers/media/platform/qcom/iris/Kconfig
-index 34a2f81c5db3..8debddec87a5 100644
---- a/drivers/media/platform/qcom/iris/Kconfig
-+++ b/drivers/media/platform/qcom/iris/Kconfig
-@@ -2,6 +2,7 @@ config VIDEO_QCOM_IRIS
-         tristate "Qualcomm iris V4L2 decoder driver"
-         depends on VIDEO_DEV
-         depends on ARCH_QCOM || COMPILE_TEST
-+        select V4L2_MEM2MEM_DEV
-         help
-           This is a V4L2 driver for Qualcomm iris video accelerator
-           hardware. It accelerates decoding operations on various
 diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
-index 7e701361492e..6de584090a3a 100644
+index 6de584090a3a..93711f108a77 100644
 --- a/drivers/media/platform/qcom/iris/Makefile
 +++ b/drivers/media/platform/qcom/iris/Makefile
-@@ -1,4 +1,7 @@
--iris-objs += iris_platform_sm8550.o \
-+iris-objs += iris_hfi_gen1_command.o \
-+             iris_hfi_gen2_command.o \
-+             iris_platform_sm8550.o \
+@@ -1,5 +1,7 @@
+-iris-objs += iris_hfi_gen1_command.o \
++iris-objs += iris_core.o \
++             iris_hfi_gen1_command.o \
+              iris_hfi_gen2_command.o \
++             iris_hfi_queue.o \
+              iris_platform_sm8550.o \
               iris_probe.o \
-+             iris_vidc.o \
- 
- obj-$(CONFIG_VIDEO_QCOM_IRIS) += iris.o
-diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
-index dd0e2650641a..73c835bb6589 100644
---- a/drivers/media/platform/qcom/iris/iris_core.h
-+++ b/drivers/media/platform/qcom/iris/iris_core.h
-@@ -25,6 +25,7 @@ struct icc_info {
-  * @irq: iris irq
-  * @v4l2_dev: a holder for v4l2 device structure
-  * @vdev_dec: iris video device structure for decoder
-+ * @iris_v4l2_file_ops: iris v4l2 file ops
-  * @icc_tbl: table of iris interconnects
-  * @icc_count: count of iris interconnects
-  * @pmdomain_tbl: table of iris power domains
-@@ -41,6 +42,7 @@ struct iris_core {
- 	int					irq;
- 	struct v4l2_device			v4l2_dev;
- 	struct video_device			*vdev_dec;
-+	const struct v4l2_file_operations	*iris_v4l2_file_ops;
- 	struct icc_bulk_data			*icc_tbl;
- 	u32					icc_count;
- 	struct dev_pm_domain_list		*pmdomain_tbl;
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1.h b/drivers/media/platform/qcom/iris/iris_hfi_gen1.h
+              iris_vidc.o \
+diff --git a/drivers/media/platform/qcom/iris/iris_core.c b/drivers/media/platform/qcom/iris/iris_core.c
 new file mode 100644
-index 000000000000..b02f629a9cdc
+index 000000000000..360a54909ef6
 --- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#ifndef _IRIS_HFI_GEN1_H_
-+#define _IRIS_HFI_GEN1_H_
-+
-+struct iris_inst;
-+
-+struct iris_inst *iris_hfi_gen1_get_instance(void);
-+
-+#endif
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-new file mode 100644
-index 000000000000..20c68f4ffb72
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-@@ -0,0 +1,12 @@
++++ b/drivers/media/platform/qcom/iris/iris_core.c
+@@ -0,0 +1,46 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
-+
-+#include "iris_hfi_gen1.h"
-+#include "iris_instance.h"
-+
-+struct iris_inst *iris_hfi_gen1_get_instance(void)
-+{
-+	return kzalloc(sizeof(struct iris_inst), GFP_KERNEL);
-+}
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2.h
-new file mode 100644
-index 000000000000..4f9748cbe0e3
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2.h
-@@ -0,0 +1,22 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#ifndef _IRIS_HFI_GEN2_H_
-+#define _IRIS_HFI_GEN2_H_
-+
-+#include "iris_instance.h"
-+
-+/**
-+ * struct iris_inst_hfi_gen2 - holds per video instance parameters for hfi_gen2
-+ *
-+ * @inst: pointer to iris_instance structure
-+ */
-+struct iris_inst_hfi_gen2 {
-+	struct iris_inst		inst;
-+};
-+
-+struct iris_inst *iris_hfi_gen2_get_instance(void);
-+
-+#endif
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-new file mode 100644
-index 000000000000..3ee33c8befae
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-@@ -0,0 +1,11 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#include "iris_hfi_gen2.h"
-+
-+struct iris_inst *iris_hfi_gen2_get_instance(void)
-+{
-+	return kzalloc(sizeof(struct iris_inst_hfi_gen2), GFP_KERNEL);
-+}
-diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
-new file mode 100644
-index 000000000000..63cb9d70166f
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_instance.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#ifndef _IRIS_INSTANCE_H_
-+#define _IRIS_INSTANCE_H_
 +
 +#include "iris_core.h"
++#include "iris_state.h"
 +
-+/**
-+ * struct iris_inst - holds per video instance parameters
-+ *
-+ * @core: pointer to core structure
-+ * @ctx_q_lock: lock to serialize queues related ioctls
-+ * @lock: lock to seralise forward and reverse threads
-+ * @fh: reference of v4l2 file handler
-+ * @m2m_dev:	a reference to m2m device structure
-+ * @m2m_ctx:	a reference to m2m context structure
-+ */
-+
-+struct iris_inst {
-+	struct iris_core		*core;
-+	struct mutex			ctx_q_lock;/* lock to serialize queues related ioctls */
-+	struct mutex			lock; /* lock to serialize forward and reverse threads */
-+	struct v4l2_fh			fh;
-+	struct v4l2_m2m_dev		*m2m_dev;
-+	struct v4l2_m2m_ctx		*m2m_ctx;
-+};
-+
-+#endif
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-index 68fd2d874231..b3a2903698ff 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-+++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-@@ -20,6 +20,7 @@ struct platform_clk_data {
- };
- 
- struct iris_platform_data {
-+	struct iris_inst *(*get_instance)(void);
- 	const struct icc_info *icc_tbl;
- 	unsigned int icc_tbl_size;
- 	const char * const *pmdomain_tbl;
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-index 3dd91523d783..dba8d3c22ce5 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-+++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include "iris_core.h"
-+#include "iris_hfi_gen2.h"
- #include "iris_platform_common.h"
- 
- static const struct icc_info sm8550_icc_table[] = {
-@@ -24,6 +25,7 @@ static const struct platform_clk_data sm8550_clk_table[] = {
- };
- 
- struct iris_platform_data sm8550_data = {
-+	.get_instance = iris_hfi_gen2_get_instance,
- 	.icc_tbl = sm8550_icc_table,
- 	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
- 	.clk_rst_tbl = sm8550_clk_reset_table,
-diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-index 207ac4bd37ce..99113522ee0c 100644
---- a/drivers/media/platform/qcom/iris/iris_probe.c
-+++ b/drivers/media/platform/qcom/iris/iris_probe.c
-@@ -11,6 +11,7 @@
- #include <linux/reset.h>
- 
- #include "iris_core.h"
-+#include "iris_vidc.h"
- 
- static int iris_init_icc(struct iris_core *core)
- {
-@@ -139,6 +140,7 @@ static int iris_register_video_device(struct iris_core *core)
- 
- 	strscpy(vdev->name, "qcom-iris-decoder", sizeof(vdev->name));
- 	vdev->release = video_device_release;
-+	vdev->fops = core->iris_v4l2_file_ops;
- 	vdev->vfl_dir = VFL_DIR_M2M;
- 	vdev->v4l2_dev = &core->v4l2_dev;
- 	vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
-@@ -192,6 +194,7 @@ static int iris_probe(struct platform_device *pdev)
- 
- 	core->iris_platform_data = of_device_get_match_data(core->dev);
- 
-+	iris_init_ops(core);
- 	ret = iris_init_resources(core);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
-new file mode 100644
-index 000000000000..e91d661c6280
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_vidc.c
-@@ -0,0 +1,147 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#include <media/v4l2-ioctl.h>
-+#include <media/v4l2-mem2mem.h>
-+
-+#include "iris_vidc.h"
-+#include "iris_instance.h"
-+#include "iris_platform_common.h"
-+
-+#define IRIS_DRV_NAME "iris_driver"
-+#define IRIS_BUS_NAME "platform:iris_icc"
-+#define STEP_WIDTH 1
-+#define STEP_HEIGHT 1
-+
-+static void iris_v4l2_fh_init(struct iris_inst *inst)
++void iris_core_deinit(struct iris_core *core)
 +{
-+	v4l2_fh_init(&inst->fh, inst->core->vdev_dec);
-+	v4l2_fh_add(&inst->fh);
++	mutex_lock(&core->lock);
++	iris_hfi_queues_deinit(core);
++	core->state = IRIS_CORE_DEINIT;
++	mutex_unlock(&core->lock);
 +}
 +
-+static void iris_v4l2_fh_deinit(struct iris_inst *inst)
++int iris_core_init(struct iris_core *core)
 +{
-+	v4l2_fh_del(&inst->fh);
-+	v4l2_fh_exit(&inst->fh);
-+}
-+
-+static inline struct iris_inst *iris_get_inst(struct file *filp, void *fh)
-+{
-+	return container_of(filp->private_data, struct iris_inst, fh);
-+}
-+
-+static void iris_m2m_device_run(void *priv)
-+{
-+}
-+
-+static void iris_m2m_job_abort(void *priv)
-+{
-+	struct iris_inst *inst = priv;
-+	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
-+
-+	v4l2_m2m_job_finish(inst->m2m_dev, m2m_ctx);
-+}
-+
-+static const struct v4l2_m2m_ops iris_m2m_ops = {
-+	.device_run = iris_m2m_device_run,
-+	.job_abort = iris_m2m_job_abort,
-+};
-+
-+static int
-+iris_m2m_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
-+{
-+	struct iris_inst *inst = priv;
 +	int ret;
 +
-+	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-+	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-+	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-+	src_vq->drv_priv = inst;
-+	src_vq->dev = inst->core->dev;
-+	src_vq->lock = &inst->ctx_q_lock;
-+	ret = vb2_queue_init(src_vq);
++	mutex_lock(&core->lock);
++	if (core->state == IRIS_CORE_INIT) {
++		ret = 0;
++		goto exit;
++	} else if (core->state == IRIS_CORE_ERROR) {
++		ret = -EINVAL;
++		goto error;
++	}
++
++	core->state = IRIS_CORE_INIT;
++
++	ret = iris_hfi_queues_init(core);
 +	if (ret)
-+		return ret;
++		goto error;
 +
-+	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-+	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-+	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-+	dst_vq->drv_priv = inst;
-+	dst_vq->dev = inst->core->dev;
-+	dst_vq->lock = &inst->ctx_q_lock;
-+
-+	return vb2_queue_init(dst_vq);
-+}
-+
-+int iris_open(struct file *filp)
-+{
-+	struct iris_core *core = video_drvdata(filp);
-+	struct iris_inst *inst;
-+	int ret;
-+
-+	inst = core->iris_platform_data->get_instance();
-+	if (!inst)
-+		return -ENOMEM;
-+
-+	inst->core = core;
-+
-+	mutex_init(&inst->ctx_q_lock);
-+
-+	iris_v4l2_fh_init(inst);
-+
-+	inst->m2m_dev = v4l2_m2m_init(&iris_m2m_ops);
-+	if (IS_ERR_OR_NULL(inst->m2m_dev)) {
-+		ret = -EINVAL;
-+		goto fail_v4l2_fh_deinit;
-+	}
-+
-+	inst->m2m_ctx = v4l2_m2m_ctx_init(inst->m2m_dev, inst, iris_m2m_queue_init);
-+	if (IS_ERR_OR_NULL(inst->m2m_ctx)) {
-+		ret = -EINVAL;
-+		goto fail_m2m_release;
-+	}
-+
-+	inst->fh.m2m_ctx = inst->m2m_ctx;
-+	filp->private_data = &inst->fh;
++	mutex_unlock(&core->lock);
 +
 +	return 0;
 +
-+fail_m2m_release:
-+	v4l2_m2m_release(inst->m2m_dev);
-+fail_v4l2_fh_deinit:
-+	iris_v4l2_fh_deinit(inst);
-+	mutex_destroy(&inst->ctx_q_lock);
-+	kfree(inst);
++error:
++	core->state = IRIS_CORE_DEINIT;
++exit:
++	mutex_unlock(&core->lock);
 +
 +	return ret;
 +}
+diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
+index 73c835bb6589..5fd11c3f99c5 100644
+--- a/drivers/media/platform/qcom/iris/iris_core.h
++++ b/drivers/media/platform/qcom/iris/iris_core.h
+@@ -9,7 +9,9 @@
+ #include <linux/types.h>
+ #include <media/v4l2-device.h>
+ 
++#include "iris_hfi_queue.h"
+ #include "iris_platform_common.h"
++#include "iris_state.h"
+ 
+ struct icc_info {
+ 	const char		*name;
+@@ -34,6 +36,15 @@ struct icc_info {
+  * @clk_count: count of iris clocks
+  * @resets: table of iris reset clocks
+  * @iris_platform_data: a structure for platform data
++ * @state: current state of core
++ * @iface_q_table_daddr: device address for interface queue table memory
++ * @sfr_daddr: device address for SFR (Sub System Failure Reason) register memory
++ * @iface_q_table_vaddr: virtual address for interface queue table memory
++ * @sfr_vaddr: virtual address for SFR (Sub System Failure Reason) register memory
++ * @command_queue: shared interface queue to send commands to firmware
++ * @message_queue: shared interface queue to receive responses from firmware
++ * @debug_queue: shared interface queue to receive debug info from firmware
++ * @lock: a lock for this strucure
+  */
+ 
+ struct iris_core {
+@@ -51,6 +62,18 @@ struct iris_core {
+ 	u32					clk_count;
+ 	struct reset_control_bulk_data		*resets;
+ 	const struct iris_platform_data		*iris_platform_data;
++	enum iris_core_state			state;
++	dma_addr_t				iface_q_table_daddr;
++	dma_addr_t				sfr_daddr;
++	void					*iface_q_table_vaddr;
++	void					*sfr_vaddr;
++	struct iris_iface_q_info		command_queue;
++	struct iris_iface_q_info		message_queue;
++	struct iris_iface_q_info		debug_queue;
++	struct mutex				lock; /* lock for core related operations */
+ };
+ 
++int iris_core_init(struct iris_core *core);
++void iris_core_deinit(struct iris_core *core);
 +
-+int iris_close(struct file *filp)
+ #endif
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_queue.c b/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+new file mode 100644
+index 000000000000..bb7e0d747f0f
+--- /dev/null
++++ b/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+@@ -0,0 +1,123 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#include "iris_core.h"
++#include "iris_hfi_queue.h"
++
++static void iris_hfi_queue_set_header(struct iris_core *core, u32 queue_id,
++				      struct iris_iface_q_info *iface_q)
 +{
-+	struct iris_inst *inst = iris_get_inst(filp, NULL);
++	iface_q->qhdr->status = 0x1;
++	iface_q->qhdr->start_addr = iface_q->device_addr;
++	iface_q->qhdr->header_type = IFACEQ_DFLT_QHDR;
++	iface_q->qhdr->queue_type = queue_id;
++	iface_q->qhdr->q_size = IFACEQ_QUEUE_SIZE / sizeof(u32);
++	iface_q->qhdr->pkt_size = 0; /* variable packet size */
++	iface_q->qhdr->rx_wm = 0x1;
++	iface_q->qhdr->tx_wm = 0x1;
++	iface_q->qhdr->rx_req = 0x1;
++	iface_q->qhdr->tx_req = 0x0;
++	iface_q->qhdr->rx_irq_status = 0x0;
++	iface_q->qhdr->tx_irq_status = 0x0;
++	iface_q->qhdr->read_idx = 0x0;
++	iface_q->qhdr->write_idx = 0x0;
 +
-+	v4l2_m2m_ctx_release(inst->m2m_ctx);
-+	v4l2_m2m_release(inst->m2m_dev);
-+	iris_v4l2_fh_deinit(inst);
-+	mutex_destroy(&inst->ctx_q_lock);
-+	kfree(inst);
-+	filp->private_data = NULL;
++	/*
++	 * Set receive request to zero on debug queue as there is no
++	 * need of interrupt from video hardware for debug messages
++	 */
++	if (queue_id == IFACEQ_DBGQ_ID)
++		iface_q->qhdr->rx_req = 0;
++}
++
++static void
++iris_hfi_queue_init(struct iris_core *core, u32 queue_id, struct iris_iface_q_info *iface_q)
++{
++	struct iris_hfi_queue_table_header *q_tbl_hdr = core->iface_q_table_vaddr;
++	u32 offset = sizeof(*q_tbl_hdr) + (queue_id * IFACEQ_QUEUE_SIZE);
++
++	iface_q->device_addr = core->iface_q_table_daddr + offset;
++	iface_q->kernel_vaddr =
++			(void *)((char *)core->iface_q_table_vaddr + offset);
++	iface_q->qhdr = &q_tbl_hdr->q_hdr[queue_id];
++
++	iris_hfi_queue_set_header(core, queue_id, iface_q);
++}
++
++static void iris_hfi_queue_deinit(struct iris_iface_q_info *iface_q)
++{
++	iface_q->qhdr = NULL;
++	iface_q->kernel_vaddr = NULL;
++	iface_q->device_addr = 0;
++}
++
++int iris_hfi_queues_init(struct iris_core *core)
++{
++	struct iris_hfi_queue_table_header *q_tbl_hdr;
++	u32 queue_size;
++
++	/* Iris hardware requires 4K queue alignment */
++	queue_size = ALIGN((sizeof(*q_tbl_hdr) + (IFACEQ_QUEUE_SIZE * IFACEQ_NUMQ)), SZ_4K);
++	core->iface_q_table_vaddr = dma_alloc_attrs(core->dev, queue_size,
++						    &core->iface_q_table_daddr,
++						    GFP_KERNEL, DMA_ATTR_WRITE_COMBINE);
++	if (!core->iface_q_table_vaddr) {
++		dev_err(core->dev, "queues alloc and map failed\n");
++		return -ENOMEM;
++	}
++
++	core->sfr_vaddr = dma_alloc_attrs(core->dev, SFR_SIZE,
++					  &core->sfr_daddr,
++					  GFP_KERNEL, DMA_ATTR_WRITE_COMBINE);
++	if (!core->sfr_vaddr) {
++		dev_err(core->dev, "sfr alloc and map failed\n");
++		dma_free_attrs(core->dev, sizeof(*q_tbl_hdr), core->iface_q_table_vaddr,
++			       core->iface_q_table_daddr, DMA_ATTR_WRITE_COMBINE);
++		return -ENOMEM;
++	}
++
++	iris_hfi_queue_init(core, IFACEQ_CMDQ_ID, &core->command_queue);
++	iris_hfi_queue_init(core, IFACEQ_MSGQ_ID, &core->message_queue);
++	iris_hfi_queue_init(core, IFACEQ_DBGQ_ID, &core->debug_queue);
++
++	q_tbl_hdr = (struct iris_hfi_queue_table_header *)core->iface_q_table_vaddr;
++	q_tbl_hdr->version = 0;
++	q_tbl_hdr->device_addr = (void *)core;
++	strscpy(q_tbl_hdr->name, "iris-hfi-queues", sizeof(q_tbl_hdr->name));
++	q_tbl_hdr->size = sizeof(*q_tbl_hdr);
++	q_tbl_hdr->qhdr0_offset = sizeof(*q_tbl_hdr) -
++		(IFACEQ_NUMQ * sizeof(struct iris_hfi_queue_header));
++	q_tbl_hdr->qhdr_size = sizeof(q_tbl_hdr->q_hdr[0]);
++	q_tbl_hdr->num_q = IFACEQ_NUMQ;
++	q_tbl_hdr->num_active_q = IFACEQ_NUMQ;
++
++	 /* Write sfr size in first word to be used by firmware */
++	*((u32 *)core->sfr_vaddr) = SFR_SIZE;
 +
 +	return 0;
 +}
 +
-+static struct v4l2_file_operations iris_v4l2_file_ops = {
-+	.owner                          = THIS_MODULE,
-+	.open                           = iris_open,
-+	.release                        = iris_close,
-+	.unlocked_ioctl                 = video_ioctl2,
-+	.poll                           = v4l2_m2m_fop_poll,
-+	.mmap                           = v4l2_m2m_fop_mmap,
-+};
-+
-+void iris_init_ops(struct iris_core *core)
++void iris_hfi_queues_deinit(struct iris_core *core)
 +{
-+	core->iris_v4l2_file_ops = &iris_v4l2_file_ops;
++	if (!core->iface_q_table_vaddr)
++		return;
++
++	iris_hfi_queue_deinit(&core->debug_queue);
++	iris_hfi_queue_deinit(&core->message_queue);
++	iris_hfi_queue_deinit(&core->command_queue);
++
++	dma_free_attrs(core->dev, SFR_SIZE, core->sfr_vaddr,
++		       core->sfr_daddr, DMA_ATTR_WRITE_COMBINE);
++
++	core->sfr_vaddr = NULL;
++	core->sfr_daddr = 0;
++
++	dma_free_attrs(core->dev, sizeof(struct iris_hfi_queue_table_header),
++		       core->iface_q_table_vaddr, core->iface_q_table_daddr,
++		       DMA_ATTR_WRITE_COMBINE);
++
++	core->iface_q_table_vaddr = NULL;
++	core->iface_q_table_daddr = 0;
 +}
-diff --git a/drivers/media/platform/qcom/iris/iris_vidc.h b/drivers/media/platform/qcom/iris/iris_vidc.h
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_queue.h b/drivers/media/platform/qcom/iris/iris_hfi_queue.h
 new file mode 100644
-index 000000000000..f09862e6199c
+index 000000000000..54994bb776f1
 --- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_vidc.h
-@@ -0,0 +1,15 @@
++++ b/drivers/media/platform/qcom/iris/iris_hfi_queue.h
+@@ -0,0 +1,175 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#ifndef _IRIS_VIDC_H_
-+#define _IRIS_VIDC_H_
++#ifndef _IRIS_HFI_QUEUE_H_
++#define _IRIS_HFI_QUEUE_H_
 +
 +struct iris_core;
 +
-+void iris_init_ops(struct iris_core *core);
-+int iris_open(struct file *filp);
-+int iris_close(struct file *filp);
++/*
++ * Maximum number of buffers which queue can hold until
++ * hardware stops responding and driver times out.
++ */
++#define IFACEQ_MAX_BUF_COUNT		50
++/*
++ * Max session supported are 16.
++ * this value is used to calcualte the size of
++ * individual shared queue.
++ */
++#define IFACE_MAX_PARALLEL_SESSIONS	16
++#define IFACEQ_DFLT_QHDR		0x0101
++#define IFACEQ_MAX_PKT_SIZE		1024 /* Maximum size of a packet in the queue */
++
++/*
++ * SFR: Subsystem Failure Reason
++ * when hardware goes into bad state/failure, firmware fills this memory
++ * and driver will get to know the actual failure reason from this SFR buffer.
++ */
++#define SFR_SIZE			SZ_4K /* Iris hardware requires 4K queue alignment */
++
++#define IFACEQ_QUEUE_SIZE		(IFACEQ_MAX_PKT_SIZE * \
++					 IFACEQ_MAX_BUF_COUNT * IFACE_MAX_PARALLEL_SESSIONS)
++
++/*
++ * Memory layout of the shared queues:
++ *
++ *   ||=================||  ^        ^         ^
++ *   ||                 ||  |        |         |
++ *   ||    Queue Table  || 288 Bytes |         |
++ *   ||      Header     ||  |        |         |
++ *   ||                 ||  |        |         |
++ *   ||-----------------||  V        |         |
++ *   ||-----------------||  ^        |         |
++ *   ||                 ||  |        |         |
++ *   ||  Command Queue  || 56 Bytes  |         |
++ *   ||     Header      ||  |        |         |
++ *   ||                 ||  |        |         |
++ *   ||-----------------||  V       456 Bytes  |
++ *   ||-----------------||  ^        |         |
++ *   ||                 ||  |        |         |
++ *   ||  Message Queue  || 56 Bytes  |         |
++ *   ||     Header      ||  |        |         |
++ *   ||                 ||  |        |         |
++ *   ||-----------------||  V        |         Buffer size aligned to 4k
++ *   ||-----------------||  ^        |         Overall Queue Size = 2,404 KB
++ *   ||                 ||  |        |         |
++ *   ||   Debug Queue   || 56 Bytes  |         |
++ *   ||     Header      ||  |        |         |
++ *   ||                 ||  |        |         |
++ *   ||=================||  V        V         |
++ *   ||=================||           ^         |
++ *   ||                 ||           |         |
++ *   ||     Command     ||         800 KB      |
++ *   ||      Queue      ||           |         |
++ *   ||                 ||           |         |
++ *   ||=================||           V         |
++ *   ||=================||           ^         |
++ *   ||                 ||           |         |
++ *   ||     Message     ||         800 KB      |
++ *   ||      Queue      ||           |         |
++ *   ||                 ||           |         |
++ *   ||=================||           V         |
++ *   ||=================||           ^         |
++ *   ||                 ||           |         |
++ *   ||      Debug      ||         800 KB      |
++ *   ||      Queue      ||           |         |
++ *   ||                 ||           |         |
++ *   ||=================||           V         |
++ *   ||                 ||                     |
++ *   ||=================||                     V
++ */
++
++/*
++ * Shared queues are used for communication between driver and firmware.
++ * There are 3 types of queues:
++ * Command queue - driver to write any command to firmware.
++ * Message queue - firmware to send any response to driver.
++ * Debug queue - firmware to write debug message.
++ */
++
++/* Host-firmware shared queue ids */
++enum iris_iface_queue {
++	IFACEQ_CMDQ_ID,
++	IFACEQ_MSGQ_ID,
++	IFACEQ_DBGQ_ID,
++	IFACEQ_NUMQ, /* not an index */
++};
++
++/**
++ * struct iris_hfi_queue_header
++ *
++ * @status: Queue status, qhdr_state define possible status
++ * @start_addr: Queue start address in non cached memory
++ * @type: qhdr_tx, qhdr_rx, qhdr_q_id and priority defines qhdr type
++ * @q_size: Queue size
++ *		Number of queue packets if pkt_size is non-zero
++ *		Queue size in bytes if pkt_size is zero
++ * @pkt_size: Size of queue packet entries
++ *		0x0: variable queue packet size
++ *		non zero: size of queue packet entry, fixed
++ * @pkt_drop_cnt: Number of packets dropped by sender
++ * @rx_wm: Receiver watermark, applicable in event driven mode
++ * @tx_wm: Sender watermark, applicable in event driven mode
++ * @rx_req: Receiver sets this bit if queue is empty
++ * @tx_req: Sender sets this bit if queue is full
++ * @rx_irq_status: Receiver sets this bit and triggers an interrupt to
++ *		the sender after packets are dequeued. Sender clears this bit
++ * @tx_irq_status: Sender sets this bit and triggers an interrupt to
++ *		the receiver after packets are queued. Receiver clears this bit
++ * @read_idx: Index till where receiver has consumed the packets from the queue.
++ * @write_idx: Index till where sender has written the packets into the queue.
++ */
++struct iris_hfi_queue_header {
++	u32 status;
++	u32 start_addr;
++	u16 queue_type;
++	u16 header_type;
++	u32 q_size;
++	u32 pkt_size;
++	u32 pkt_drop_cnt;
++	u32 rx_wm;
++	u32 tx_wm;
++	u32 rx_req;
++	u32 tx_req;
++	u32 rx_irq_status;
++	u32 tx_irq_status;
++	u32 read_idx;
++	u32 write_idx;
++};
++
++/**
++ * struct iris_hfi_queue_table_header
++ *
++ * @version: Queue table version number
++ * @size: Queue table size from version to last parametr in qhdr entry
++ * @qhdr0_offset: Offset to the start of first qhdr
++ * @qhdr_size: Queue header size in bytes
++ * @num_q: Total number of queues in Queue table
++ * @num_active_q: Total number of active queues
++ * @device_addr: Device address of the queue
++ * @name: Queue name in characters
++ */
++struct iris_hfi_queue_table_header {
++	u32 version;
++	u32 size;
++	u32 qhdr0_offset;
++	u32 qhdr_size;
++	u32 num_q;
++	u32 num_active_q;
++	void *device_addr;
++	char name[256]; /* NUL-terminated array of characters */
++	struct iris_hfi_queue_header q_hdr[IFACEQ_NUMQ];
++};
++
++struct iris_iface_q_info {
++	struct iris_hfi_queue_header *qhdr;
++	dma_addr_t	device_addr;
++	void		*kernel_vaddr;
++};
++
++int iris_hfi_queues_init(struct iris_core *core);
++void iris_hfi_queues_deinit(struct iris_core *core);
 +
 +#endif
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+index b3a2903698ff..dac64ec4bf03 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_common.h
++++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+@@ -31,6 +31,7 @@ struct iris_platform_data {
+ 	unsigned int clk_tbl_size;
+ 	const char * const *clk_rst_tbl;
+ 	unsigned int clk_rst_tbl_size;
++	u64 dma_mask;
+ };
+ 
+ #endif
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+index dba8d3c22ce5..9b305b8e2110 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
++++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+@@ -36,4 +36,5 @@ struct iris_platform_data sm8550_data = {
+ 	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
+ 	.clk_tbl = sm8550_clk_table,
+ 	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
++	.dma_mask = GENMASK(31, 29) - 1,
+ };
+diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+index 99113522ee0c..81400034f3da 100644
+--- a/drivers/media/platform/qcom/iris/iris_probe.c
++++ b/drivers/media/platform/qcom/iris/iris_probe.c
+@@ -168,15 +168,21 @@ static void iris_remove(struct platform_device *pdev)
+ 	if (!core)
+ 		return;
+ 
++	iris_core_deinit(core);
++
+ 	video_unregister_device(core->vdev_dec);
+ 
+ 	v4l2_device_unregister(&core->v4l2_dev);
++
++	mutex_destroy(&core->lock);
++	core->state = IRIS_CORE_DEINIT;
+ }
+ 
+ static int iris_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct iris_core *core;
++	u64 dma_mask;
+ 	int ret;
+ 
+ 	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
+@@ -184,6 +190,9 @@ static int iris_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 	core->dev = dev;
+ 
++	core->state = IRIS_CORE_DEINIT;
++	mutex_init(&core->lock);
++
+ 	core->reg_base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(core->reg_base))
+ 		return PTR_ERR(core->reg_base);
+@@ -209,8 +218,19 @@ static int iris_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, core);
+ 
++	dma_mask = core->iris_platform_data->dma_mask;
++
++	ret = dma_set_mask_and_coherent(dev, dma_mask);
++	if (ret)
++		goto err_vdev_unreg;
++
++	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
++	dma_set_seg_boundary(&pdev->dev, DMA_BIT_MASK(32));
++
+ 	return 0;
+ 
++err_vdev_unreg:
++	video_unregister_device(core->vdev_dec);
+ err_v4l2_unreg:
+ 	v4l2_device_unregister(&core->v4l2_dev);
+ 
+diff --git a/drivers/media/platform/qcom/iris/iris_state.h b/drivers/media/platform/qcom/iris/iris_state.h
+new file mode 100644
+index 000000000000..a0bfee98578a
+--- /dev/null
++++ b/drivers/media/platform/qcom/iris/iris_state.h
+@@ -0,0 +1,41 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#ifndef _IRIS_STATE_H_
++#define _IRIS_STATE_H_
++
++/**
++ * enum iris_core_state
++ *
++ * IRIS_CORE_DEINIT: default state.
++ * IRIS_CORE_INIT:   core state with core initialized. FW loaded and
++ *                   HW brought out of reset, shared queues established
++ *                   between host driver and firmware.
++ * IRIS_CORE_ERROR:  error state.
++ *
++ *        -----------
++ *             |
++ *             V
++ *        -----------
++ *   +--->| DEINIT  |<---+
++ *   |   -----------    |
++ *   |         |        |
++ *   |         v        |
++ *   |   -----------    |
++ *   |     /     \      |
++ *   |    /       \     |
++ *   |   /         \    |
++ *   |  v           v   v
++ * -----------    -----------
++ * |  INIT  |--->|  ERROR  |
++ * -----------    -----------
++ */
++enum iris_core_state {
++	IRIS_CORE_DEINIT,
++	IRIS_CORE_INIT,
++	IRIS_CORE_ERROR,
++};
++
++#endif
+diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+index e91d661c6280..5dd0ccbaa2fb 100644
+--- a/drivers/media/platform/qcom/iris/iris_vidc.c
++++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+@@ -81,6 +81,12 @@ int iris_open(struct file *filp)
+ 	struct iris_inst *inst;
+ 	int ret;
+ 
++	ret = iris_core_init(core);
++	if (ret) {
++		dev_err(core->dev, "core init failed\n");
++		return ret;
++	}
++
+ 	inst = core->iris_platform_data->get_instance();
+ 	if (!inst)
+ 		return -ENOMEM;
 
 -- 
 2.34.1
