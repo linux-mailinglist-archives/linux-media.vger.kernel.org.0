@@ -1,144 +1,177 @@
-Return-Path: <linux-media+bounces-19531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19532-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A2199C072
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 08:55:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B041A99C0BB
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 09:07:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 50CB01F21DB1
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 06:55:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB4F31C22227
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 07:07:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07A8B145346;
-	Mon, 14 Oct 2024 06:55:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0599146000;
+	Mon, 14 Oct 2024 07:07:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CMO6wETw"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="iiraORVc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD9536B
-	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 06:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728888907; cv=none; b=Ri0J8ejv2n45eHleLEbFS9yNvF0d3R+INgfpeY3fS0WgM5SGk6mHZiVwuGTv+TMelPH64wlVoy3wYzKpUCIriE5Dt5D6iIF/E8NQk6TeYZEvNI4pWfXei+LmRJuImx0zDwyVORj5a54+8iIRGzF06chTecKhzDA0qimxCxO57X0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728888907; c=relaxed/simple;
-	bh=s8EiQV68LwK5V0F28nOhH3hJCVtwb1CHvQ6YMO4LtLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YkWfQK8Aj8KsdzXJpzpQ2G1JxB1TIOake+6E8tbhCpdtoWEnUNZqv4LyPre4aIjLwC/cXG96FUC+mqc8k7B26RFBFHU4z9RdPbytpkogY+DJXPetS1tnNkDw5btjwmOIeInd57Jlqyy9S3hbK52/KUG/MjkC7TgjErI26zSd1tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CMO6wETw; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [5.77.95.224])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 646C78BE;
-	Mon, 14 Oct 2024 08:53:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1728888803;
-	bh=s8EiQV68LwK5V0F28nOhH3hJCVtwb1CHvQ6YMO4LtLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CMO6wETwPHyAf4FcXO9ZgitTlJyOsS84nUjwoCwS/nUnW/Q8Bv65FYyr83O14zPcG
-	 xAroqBhW8pm5vpMOEBQU0qPQIR3i+hfS6s+qi/goOaZHopaon+YkAlL4yQCynZ1mJd
-	 3+zfmX348Hl+xavN72L3/RJKbRYCmpxsrbgCWZvo=
-Date: Mon, 14 Oct 2024 08:55:00 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Naushir Patuck <naush@raspberrypi.com>, 
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>, David Plowman <david.plowman@raspberrypi.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v6 0/4] media: pisp-be: Split jobs creation and scheduling
-Message-ID: <vzfp4rjxes3k7cnu532elmcb5yevfylhwx4vgjg7exa6vw5b6u@tvgfntlurtdx>
-References: <20240930-pispbe-mainline-split-jobs-handling-v6-v6-0-63d60f9dd10f@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7004113FD83;
+	Mon, 14 Oct 2024 07:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728889650; cv=pass; b=W605tuOz+jDkw37tcGE+YIhGzVn+BrgmRhXYzTMh908nJ5Ow0c9wnXrtBN9sIjE113pH3QRfHTnxQhBr9/EqGykvKf2CnPjk+N7PT1CJGWNJxJAQRWyrN+ODdzEwD49BnoNmCZUOsSWAOrXMBTU8elI/5nLJs/OSch/pY2ArYpA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728889650; c=relaxed/simple;
+	bh=QmwV6ZRlTh3j+kOjLLxeD1k5Sgj8QIfovSHn2ug6unU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ggh0zcOHuzDjDBHfowKywXPyexuDwOXbjQmjnZWnyte6m2+j+shf5dhaz/IZt6TEfnWh6G8pU9MJPZFq5XFcDAjXIlCrBipsn2wN4AUyCbu867URUqzG82K5SNSlMtVCHxSFc9vale4Esr7uV1S1eQSPTCS8osdK7fa5QSZO/VA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=iiraORVc; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1728889626; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=cnJQxBq2HoeZytIXgUdcyu7x9YJjdBWyDbit5LrOpybi/jEO98/XRBNp4wx2IJQcPnaK8YPn04E/0B9NKpaxdVvIADU7Cb0qtl7AQel4+X9D0bXfiwt731C1/LcWNBucPWOuV6NTog9MoP7ucJjF5Xgm9rslGWgQr7nO8Yu/bZ0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1728889626; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=0A9IsFta4OZE0agwgaaWd+5WVs3WNNoO0kjYMJq+9Dc=; 
+	b=IkBl4/p7QP0bFJKd004aHiKvd5PfhAzMVu6PPG6y69kyxHH7bebPK6zrgT4vLVfOSTsaQSt9ztDPpVBwPivAz97RWVvw3LRErGbBhGRhx8ENi5kI/hEv6LMwOM+lruDS777EZH1KF5vC3KwBiTPpR2SbQnr+v01GMU7B11TXiDk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
+	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728889626;
+	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=0A9IsFta4OZE0agwgaaWd+5WVs3WNNoO0kjYMJq+9Dc=;
+	b=iiraORVctYQj1JgJt4vSz1J8gD+Gz/slYEGQcSr5UzsWQAC54ezG4PjtCB5x4XDe
+	QZybkGSEw6sXeKwWTWoPsjcilMSZWfLpAFlMWtKLbodqP6u1KpSRJnLNH119b/wyCtq
+	dEiCw4dBJOBusf5fCwxh0FfoHQdcdNsFwaWQC4e0=
+Received: by mx.zohomail.com with SMTPS id 1728889625542850.7313795427783;
+	Mon, 14 Oct 2024 00:07:05 -0700 (PDT)
+Message-ID: <3017b1e4-ffa6-4601-b844-0e6f7d95a475@collabora.com>
+Date: Mon, 14 Oct 2024 09:07:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240930-pispbe-mainline-split-jobs-handling-v6-v6-0-63d60f9dd10f@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/3] media: videodev2: Add flag to unconditionally
+ enumerate pixel formats
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+ ezequiel@vanguardiasur.com.ar
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, kernel@collabora.com
+References: <20240826172407.140538-1-benjamin.gaignard@collabora.com>
+ <010201918fb77141-93148d3e-6899-4b09-bff3-5d4f146f1449-000000@eu-west-1.amazonses.com>
+ <250bf825-7e64-4132-9c70-fa25c5976ed3@xs4all.nl>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <250bf825-7e64-4132-9c70-fa25c5976ed3@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
-  gentle ping as I wish this to go in for v6.13
 
-On Mon, Sep 30, 2024 at 10:32:56AM GMT, Jacopo Mondi wrote:
-> v5->v6:
-> - Make the driver depend on PM
->   - Simplify the probe() routine by using pm_runtime_
->   - Remove suspend call from remove()
+Le 11/10/2024 à 15:29, Hans Verkuil a écrit :
+> Hi Benjamin,
 >
-> v4->v5:
-> - Use appropriate locking constructs:
->   - spin_lock_irq() for pispbe_prepare_job() called from non irq context
->   - spin_lock_irqsave() for pispbe_schedule() called from irq context
->   - Remove hw_lock from ready_queue accesses in stop_streaming and
->     start_streaming
->   - Fix trivial indentation mistake in 4/4
+> On 26/08/2024 19:24, Benjamin Gaignard wrote:
+>> When the index is ORed with V4L2_FMTDESC_FLAG_ENUM_ALL the
+>> driver clears the flag and enumerate all the possible formats,
+>> ignoring any limitations from the current configuration.
+>> Drivers which do not support this flag yet always return an EINVAL.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> change in version 7:
+>> - Rework documentation about which drivers should use the flag
+>>
+>>   .../media/v4l/vidioc-enum-fmt.rst              | 18 +++++++++++++++++-
+>>   .../media/videodev2.h.rst.exceptions           |  1 +
+>>   include/uapi/linux/videodev2.h                 |  3 +++
+>>   3 files changed, 21 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+>> index 3adb3d205531..e39c87bcbfc3 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+>> @@ -85,7 +85,17 @@ the ``mbus_code`` field is handled differently:
+>>       * - __u32
+>>         - ``index``
+>>         - Number of the format in the enumeration, set by the application.
+>> -	This is in no way related to the ``pixelformat`` field.
+>> +        This is in no way related to the ``pixelformat`` field.
+>> +        When the index is ORed with ``V4L2_FMTDESC_FLAG_ENUM_ALL`` the
+>> +        driver clears the flag and enumerates all the possible formats,
+>> +        ignoring any limitations from the current configuration. Drivers
+>> +        which do not support this flag always return an ``EINVAL``
+>> +        error code.
+> I would like to add: " without clearing this flag."
 >
-> v3->v4:
-> - Expand commit message in 2/4 to explain why removing validation in schedule()
->   is safe
-> - Drop ready_lock spinlock
-> - Use non _irqsave version of safe_guard(spinlock
-> - Support !CONFIG_PM in 4/4 by calling the enable/disable routines directly
->   and adjust pm_runtime usage as suggested by Laurent
+>> +        Formats enumerated when using ``V4L2_FMTDESC_FLAG_ENUM_ALL`` flag
+>> +        shouldn't be used when calling :c:func:`VIDIOC_ENUM_FRAMESIZES`
+>> +        or :c:func:`VIDIOC_ENUM_FRAMEINTERVALS`.
+>> +        ``V4L2_FMTDESC_FLAG_ENUM_ALL`` should only be used by drivers that
+>> +        can return different format list depending on this flag.
+>>       * - __u32
+>>         - ``type``
+>>         - Type of the data stream, set by the application. Only these types
+>> @@ -234,6 +244,12 @@ the ``mbus_code`` field is handled differently:
+>>   	valid. The buffer consists of ``height`` lines, each having ``width``
+>>   	Data Units of data and the offset (in bytes) between the beginning of
+>>   	each two consecutive lines is ``bytesperline``.
+>> +    * - ``V4L2_FMTDESC_FLAG_ENUM_ALL``
+>> +      - 0x80000000
+>> +      - When the applications ORs ``index`` with ``V4L2_FMTDESC_FLAG_ENUM_ALL`` flag
+>> +        the driver enumerates all the possible pixel formats without taking care
+>> +        of any already set configuration. Drivers which do not support this flag,
+>> +        always return ``EINVAL``.
+> Ditto.
 >
-> v2->v3:
-> - Mark pispbe_runtime_resume() as __maybe_unused
-> - Add fixes tags where appropriate
+> If you agree, then I can make that change myself, no need to post a new version.
+
+Of I agree :-)
+
+Thanks a lot.
+Benjamin
+
 >
-> v1->v2:
-> - Add two patches to address Laurent's comments separately
-> - use scoped_guard() when possible
-> - Add patch to fix runtime_pm imbalance
+> Regards,
 >
-> Currently the 'pispbe_schedule()' function does two things:
+> 	Hans
 >
-> 1) Tries to assemble a job by inspecting all the video node queues
->    to make sure all the required buffers are available
-> 2) Submit the job to the hardware
->
-> The pispbe_schedule() function is called at:
->
-> - video device start_streaming() time
-> - video device qbuf() time
-> - irq handler
->
-> As assembling a job requires inspecting all queues, it is a rather
-> time consuming operation which is better not run in IRQ context.
->
-> To avoid executing the time consuming job creation in interrupt
-> context, split the job creation and job scheduling in two distinct
-> operations. When a well-formed job is created, append it to the
-> newly introduced 'pispbe->job_queue' where it will be dequeued from
-> by the scheduling routine.
->
-> At start_streaming() and qbuf() time immediately try to schedule a job
-> if one has been created as the irq handler routine is only called when
-> a job has completed, and we can't solely rely on it for scheduling new
-> jobs.
->
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
-> Jacopo Mondi (4):
->       media: pisp_be: Drop reference to non-existing function
->       media: pisp_be: Remove config validation from schedule()
->       media: pisp_be: Split jobs creation and scheduling
->       media: pisp_be: Fix pm_runtime underrun in probe
->
->  drivers/media/platform/raspberrypi/pisp_be/Kconfig |   1 +
->  .../media/platform/raspberrypi/pisp_be/pisp_be.c   | 183 ++++++++++-----------
->  2 files changed, 88 insertions(+), 96 deletions(-)
-> ---
-> base-commit: 81ee62e8d09ee3c7107d11c8bbfd64073ab601ad
-> change-id: 20240930-pispbe-mainline-split-jobs-handling-v6-15dc16e11e3a
->
-> Best regards,
-> --
-> Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->
+>>   
+>>   Return Value
+>>   ============
+>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> index bdc628e8c1d6..0a9ea9686c24 100644
+>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> @@ -216,6 +216,7 @@ replace define V4L2_FMT_FLAG_CSC_YCBCR_ENC fmtdesc-flags
+>>   replace define V4L2_FMT_FLAG_CSC_HSV_ENC fmtdesc-flags
+>>   replace define V4L2_FMT_FLAG_CSC_QUANTIZATION fmtdesc-flags
+>>   replace define V4L2_FMT_FLAG_META_LINE_BASED fmtdesc-flags
+>> +replace define V4L2_FMTDESC_FLAG_ENUM_ALL fmtdesc-flags
+>>   
+>>   # V4L2 timecode types
+>>   replace define V4L2_TC_TYPE_24FPS timecode-type
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index 4e91362da6da..421a30cb0c51 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -904,6 +904,9 @@ struct v4l2_fmtdesc {
+>>   #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
+>>   #define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
+>>   
+>> +/*  Format description flag, to be ORed with the index */
+>> +#define V4L2_FMTDESC_FLAG_ENUM_ALL		0x80000000
+>> +
+>>   	/* Frame Size and frame rate enumeration */
+>>   /*
+>>    *	F R A M E   S I Z E   E N U M E R A T I O N
 >
 
