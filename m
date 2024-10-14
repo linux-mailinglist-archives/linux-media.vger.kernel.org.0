@@ -1,38 +1,37 @@
-Return-Path: <linux-media+bounces-19619-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19620-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5079299D0FE
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 17:09:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6800F99D101
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 17:09:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C34F2B23E4E
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 15:09:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC0C81F23A7D
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 15:09:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD6F31AB534;
-	Mon, 14 Oct 2024 15:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A08971AB6E2;
+	Mon, 14 Oct 2024 15:09:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769BA45C1C
-	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 15:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467651AAE27
+	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 15:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728918560; cv=none; b=f/EQlqF1lmKS0jhyrwgJEBSeS4O6xZW+7TJAzdFBHSid7IduylmxC4ygWQtPfSrbUqwEqL+Ta8CDBji8LWFzixmoikCx867Z1Kg5Az06YY4RudFOGJDWI+P0t+MT957M7496PlZ+u9S/lh8PB9r7WPYFmIwGK0q52puJ8oyJW+Y=
+	t=1728918578; cv=none; b=mblNyDfY0ygnRnzevxonYNQHuXWeNutNY4k2hTcdCBcRFBJsrrurqr2Rua404ejKlBs2jChC65hG+C8IbT8n79DN+9XAhsdUIj6nMCNTOXA8K6cLdiZkAFmWyDNUSJmS7beoiBkCKLwyuNq96h6M9kRRucL28nfBWDcAInoR4yM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728918560; c=relaxed/simple;
-	bh=0Bx+iji4cqg3XpXI87sy4I7u6g5Qnu7YUlzAGkSkOwA=;
+	s=arc-20240116; t=1728918578; c=relaxed/simple;
+	bh=zpbwigixApS+GWpV4p2ifg4BigntloHSRwRz67mkRuk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uSYiYa60cqz9qlY9TA3rxiQFYS6wHiP8jR6rS5IbeMPn+iBluVAobUulF0dicalUx/lmigMQ2KS27VqP/IqbKQMUREssQjeGZOvoUdW1MHUGPIDNwgnvl8paNNn4wwgmSSejmeN0SBqHCQHHpT0DlDflnsqYW0dRw1KQ2BpUJVA=
+	 In-Reply-To:To:Cc; b=Yr2W12nRDKB7MRwzJYpl+PWRGYJrNYLV/2r3hDV8pLcw1F5oGIIJSI1u83vRqtgR6au6g6V5ezllmk0/c1XpC1O5ILHkteBK3pF5LRVPbMtPbflpkMp+ct0LtUGeglvFLHsq5+/ODWDIQTC+4EtIxQSSG+l3KmxVSn3RKIHMfiY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BF4FC4CEC7;
-	Mon, 14 Oct 2024 15:09:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3772C4CEC3;
+	Mon, 14 Oct 2024 15:09:20 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Date: Mon, 14 Oct 2024 17:06:35 +0200
-Subject: [PATCH 08/10] media: common: saa7146: drop
- vb2_ops_wait_prepare/finish
+Date: Mon, 14 Oct 2024 17:06:36 +0200
+Subject: [PATCH 09/10] staging: media: drop vb2_ops_wait_prepare/finish
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241014-vb2-wait-v1-8-8c3ee25c618c@xs4all.nl>
+Message-Id: <20241014-vb2-wait-v1-9-8c3ee25c618c@xs4all.nl>
 References: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
 In-Reply-To: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
 To: Tomasz Figa <tfiga@chromium.org>, 
@@ -148,36 +147,176 @@ these callbacks.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- drivers/media/common/saa7146/saa7146_vbi.c   | 2 --
- drivers/media/common/saa7146/saa7146_video.c | 2 --
- 2 files changed, 4 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_fops.c          | 2 --
+ drivers/staging/media/deprecated/atmel/atmel-isc-base.c   | 2 --
+ drivers/staging/media/imx/imx-media-capture.c             | 2 --
+ drivers/staging/media/imx/imx-media-csc-scaler.c          | 2 --
+ drivers/staging/media/ipu3/ipu3-v4l2.c                    | 2 --
+ drivers/staging/media/meson/vdec/vdec.c                   | 2 --
+ drivers/staging/media/rkvdec/rkvdec.c                     | 2 --
+ drivers/staging/media/starfive/camss/stf-video.c          | 2 --
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c         | 2 --
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c | 2 --
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c  | 2 --
+ drivers/staging/media/tegra-video/vi.c                    | 2 --
+ 12 files changed, 24 deletions(-)
 
-diff --git a/drivers/media/common/saa7146/saa7146_vbi.c b/drivers/media/common/saa7146/saa7146_vbi.c
-index bb7d81f7eba624d5baf25b218f9171eb6ae7a5ef..a1854b3dd004b90c3f449df085c28b336bc3abbb 100644
---- a/drivers/media/common/saa7146/saa7146_vbi.c
-+++ b/drivers/media/common/saa7146/saa7146_vbi.c
-@@ -407,8 +407,6 @@ const struct vb2_ops vbi_qops = {
- 	.buf_cleanup	= buf_cleanup,
- 	.start_streaming = start_streaming,
- 	.stop_streaming = stop_streaming,
--	.wait_prepare	= vb2_ops_wait_prepare,
--	.wait_finish	= vb2_ops_wait_finish,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index b180fcbea9b1e6909cf3b6c2cf165684c6cf8667..50c4123ba006648db38c1e310bed4697d49615e0 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -441,8 +441,6 @@ const struct vb2_ops atomisp_vb2_ops = {
+ 	.buf_queue		= atomisp_buf_queue,
+ 	.start_streaming	= atomisp_start_streaming,
+ 	.stop_streaming		= atomisp_stop_streaming,
+-	.wait_prepare		= vb2_ops_wait_prepare,
+-	.wait_finish		= vb2_ops_wait_finish,
  };
  
- /* ------------------------------------------------------------------ */
-diff --git a/drivers/media/common/saa7146/saa7146_video.c b/drivers/media/common/saa7146/saa7146_video.c
-index 040489e15ea0c32c2646f8c77db83e3ebae10ae5..94e1cd4eaedbf1ed84f30975d0f2505117feac47 100644
---- a/drivers/media/common/saa7146/saa7146_video.c
-+++ b/drivers/media/common/saa7146/saa7146_video.c
-@@ -681,8 +681,6 @@ const struct vb2_ops video_qops = {
- 	.buf_cleanup	= buf_cleanup,
- 	.start_streaming = start_streaming,
- 	.stop_streaming = stop_streaming,
--	.wait_prepare	= vb2_ops_wait_prepare,
--	.wait_finish	= vb2_ops_wait_finish,
+ static void atomisp_dev_init_struct(struct atomisp_device *isp)
+diff --git a/drivers/staging/media/deprecated/atmel/atmel-isc-base.c b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
+index 305b103153d7edbf0cdae70fcbb0b6c14432a975..fb9ee8547392b4ee768b39ce08f52488323bb6f9 100644
+--- a/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
++++ b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
+@@ -477,8 +477,6 @@ static struct isc_format *find_format_by_fourcc(struct isc_device *isc,
+ 
+ static const struct vb2_ops isc_vb2_ops = {
+ 	.queue_setup		= isc_queue_setup,
+-	.wait_prepare		= vb2_ops_wait_prepare,
+-	.wait_finish		= vb2_ops_wait_finish,
+ 	.buf_prepare		= isc_buffer_prepare,
+ 	.start_streaming	= isc_start_streaming,
+ 	.stop_streaming		= isc_stop_streaming,
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index efa7623b5cee1bbfa77654ad2604758d929a2045..e9cef7af000a91674aa2cfe750a399cae40ff9d6 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -768,8 +768,6 @@ static const struct vb2_ops capture_qops = {
+ 	.buf_init        = capture_buf_init,
+ 	.buf_prepare	 = capture_buf_prepare,
+ 	.buf_queue	 = capture_buf_queue,
+-	.wait_prepare	 = vb2_ops_wait_prepare,
+-	.wait_finish	 = vb2_ops_wait_finish,
+ 	.start_streaming = capture_start_streaming,
+ 	.stop_streaming  = capture_stop_streaming,
+ };
+diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
+index 95cca281e8a378c6244bd25d5b81c392712361aa..e5e08c6f79f222a86fbe528d84d5e9644fbbb63a 100644
+--- a/drivers/staging/media/imx/imx-media-csc-scaler.c
++++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+@@ -572,8 +572,6 @@ static const struct vb2_ops ipu_csc_scaler_qops = {
+ 	.queue_setup		= ipu_csc_scaler_queue_setup,
+ 	.buf_prepare		= ipu_csc_scaler_buf_prepare,
+ 	.buf_queue		= ipu_csc_scaler_buf_queue,
+-	.wait_prepare		= vb2_ops_wait_prepare,
+-	.wait_finish		= vb2_ops_wait_finish,
+ 	.start_streaming	= ipu_csc_scaler_start_streaming,
+ 	.stop_streaming		= ipu_csc_scaler_stop_streaming,
+ };
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index e7aee7e3db5bbdb8c0cb555e5d2a5c2e4ae0c161..ad6095bf717db6d3fc1cd19112884248a6b04fce 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -937,8 +937,6 @@ static const struct vb2_ops imgu_vb2_ops = {
+ 	.queue_setup = imgu_vb2_queue_setup,
+ 	.start_streaming = imgu_vb2_start_streaming,
+ 	.stop_streaming = imgu_vb2_stop_streaming,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
  };
  
- /********************************************************************************/
+ /****************** v4l2_file_operations *****************/
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index 5e5b296f93bab4faf01f1e4238057e072e540680..52185090129ba5a5c5f3d7747f7d00268375aa33 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -450,8 +450,6 @@ static const struct vb2_ops vdec_vb2_ops = {
+ 	.stop_streaming = vdec_stop_streaming,
+ 	.buf_queue = vdec_vb2_buf_queue,
+ 	.buf_prepare = vdec_vb2_buf_prepare,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ };
+ 
+ static int
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index ac398b5a97360446672a8a5c40ea05bcf222f557..f468af64bbef1c7e9019352508f95f5e2d2a083a 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -617,8 +617,6 @@ static const struct vb2_ops rkvdec_queue_ops = {
+ 	.buf_request_complete = rkvdec_buf_request_complete,
+ 	.start_streaming = rkvdec_start_streaming,
+ 	.stop_streaming = rkvdec_stop_streaming,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ };
+ 
+ static int rkvdec_request_validate(struct media_request *req)
+diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
+index 989b5e82bae98fdbcec7b2b28f4a93bc7a8334f3..a0420eb6a0aa034fb0b1468951d84c8fe7bb1b56 100644
+--- a/drivers/staging/media/starfive/camss/stf-video.c
++++ b/drivers/staging/media/starfive/camss/stf-video.c
+@@ -321,8 +321,6 @@ static void video_stop_streaming(struct vb2_queue *q)
+ 
+ static const struct vb2_ops stf_video_vb2_q_ops = {
+ 	.queue_setup     = video_queue_setup,
+-	.wait_prepare    = vb2_ops_wait_prepare,
+-	.wait_finish     = vb2_ops_wait_finish,
+ 	.buf_init        = video_buf_init,
+ 	.buf_prepare     = video_buf_prepare,
+ 	.buf_queue       = video_buf_queue,
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+index b00feaf4072c995b4e54ffa6c67bffe039be1f49..77f78266f406288cfd5aa666dd5e3409b5a770cf 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -570,8 +570,6 @@ static const struct vb2_ops cedrus_qops = {
+ 	.buf_request_complete	= cedrus_buf_request_complete,
+ 	.start_streaming	= cedrus_start_streaming,
+ 	.stop_streaming		= cedrus_stop_streaming,
+-	.wait_prepare		= vb2_ops_wait_prepare,
+-	.wait_finish		= vb2_ops_wait_finish,
+ };
+ 
+ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
+diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+index 0eea4c2c3627188cbe0de74839e37835fdfdbc35..24899f41dc1c12dbbe43b01d176b4ec9ce287f06 100644
+--- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
++++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+@@ -368,8 +368,6 @@ static const struct vb2_ops sun6i_isp_capture_queue_ops = {
+ 	.buf_queue		= sun6i_isp_capture_buffer_queue,
+ 	.start_streaming	= sun6i_isp_capture_start_streaming,
+ 	.stop_streaming		= sun6i_isp_capture_stop_streaming,
+-	.wait_prepare		= vb2_ops_wait_prepare,
+-	.wait_finish		= vb2_ops_wait_finish,
+ };
+ 
+ /* Video Device */
+diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+index 53d05e8a364bb7ed060a957034ef28ef91209fd1..3d95ed0b023e314ae189d20747868b962278b14e 100644
+--- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
++++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+@@ -379,8 +379,6 @@ static const struct vb2_ops sun6i_isp_params_queue_ops = {
+ 	.buf_queue		= sun6i_isp_params_buffer_queue,
+ 	.start_streaming	= sun6i_isp_params_start_streaming,
+ 	.stop_streaming		= sun6i_isp_params_stop_streaming,
+-	.wait_prepare		= vb2_ops_wait_prepare,
+-	.wait_finish		= vb2_ops_wait_finish,
+ };
+ 
+ /* Video Device */
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 57a856a21e9013e5b179e45e42a4512ff466de0a..ad481b35e618a0b0e85af7276d84342440b82e64 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -287,8 +287,6 @@ static const struct vb2_ops tegra_channel_queue_qops = {
+ 	.queue_setup = tegra_channel_queue_setup,
+ 	.buf_prepare = tegra_channel_buffer_prepare,
+ 	.buf_queue = tegra_channel_buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ 	.start_streaming = tegra_channel_start_streaming,
+ 	.stop_streaming = tegra_channel_stop_streaming,
+ };
 
 -- 
 2.45.2
