@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-19554-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19555-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47AA99C3FB
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 10:48:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B08B99C402
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 10:50:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FDD5281F22
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 08:48:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F9431F21B66
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 08:50:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28F80156C5F;
-	Mon, 14 Oct 2024 08:47:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 795A21531C2;
+	Mon, 14 Oct 2024 08:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JwbimzvP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rXjYC3LO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DD2155300;
-	Mon, 14 Oct 2024 08:47:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8D0146D7E;
+	Mon, 14 Oct 2024 08:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728895661; cv=none; b=u/D+hLSTLJDSgG536HSla6/aRtsxxxYc1nseB24Xr2gWnXO04N6fgGmFdk1e+ANiYaU87fbcyM2/p1bwnwYFD9iyvbNPcGnhRwgz6v5KZDJMDRame0QxYUGwHI7iS3PZY7liM0e9ZjWkUuGJS1fH149MMd4ED7fQ8mMQC8Zm//M=
+	t=1728895797; cv=none; b=tKI2HdlcWgIIEnyN2BoMeDF4VVcFiBp54YfaLC/hg2oiGDK+/WjrGlMg1V27PnzInrlOKdCcrfxGxhqhO5Z5Yicdz0tc0tmF3uuxh7/iSntKGeVubioI8XlkUOIY5Z7fVf1n1RE8TLMARThwwurqNq8JVIbddE1uVE+UD2LIURg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728895661; c=relaxed/simple;
-	bh=zrvtMHe1s04dHvmkw1UtZtAB96rdOnmBrzsn6WfJtjE=;
+	s=arc-20240116; t=1728895797; c=relaxed/simple;
+	bh=/zP27CHtjzASn2CnvnzRpnhDuGEEyOCRDoG2uMCkmqM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=anmUppYgA1ziTeJZZgYmM4w116CcwLqS0k/Qgp0vlCanzTWdn+LUW2Eth+swVUwyUDHQlZjUeiS8gSH8p45+loabdqkaXpNPhwFh8n/YJmTecjtFygnlA4OaAk5qU0rzr2VrA5Lt8bwsLw9t7hnRK4dmYIfjRNSbuXPtrWmAekc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JwbimzvP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32CC9C4CEC3;
-	Mon, 14 Oct 2024 08:47:34 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=kwcc6kg6MouO2cBoIzvBmLIin5H8AdUru0zo0DqDQ7XVhk3q1niAjmEv7+ih5QPGn74PaT6fSciJ+CgkCbQu/8NaFRkmV8irZS4pVgDrK9nXWDYiWSTsAgxR/ZFrgaAUZ9bpXhy538phwhFQqWGenFRB0JDu2m8LsFzfAoB5mQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rXjYC3LO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13586C4CEC3;
+	Mon, 14 Oct 2024 08:49:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728895661;
-	bh=zrvtMHe1s04dHvmkw1UtZtAB96rdOnmBrzsn6WfJtjE=;
+	s=k20201202; t=1728895797;
+	bh=/zP27CHtjzASn2CnvnzRpnhDuGEEyOCRDoG2uMCkmqM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JwbimzvPPcmHg5xlEngFWLV6jGmcmcTw0K6OZ3IXR8hT2tqENO4JY7EgO4WHbDAS1
-	 z5rftYaPloX1HdMBqdTS/x6EmZuUdRbaQddn/Xl7Z0INvyykWixERkWnGldWl3XI1q
-	 RddN2G53A7pYvNeD4GvGVSNLomAv4utC98lqUG9V2R+0lCkcOt0XOEunTknyQGFnnJ
-	 WkC0GcmbiX554BsvQ4q+fHjupOO/Fb111Wz1owK4FF45wfi7dkNJLOr5UvDYlQB9FM
-	 4hAUVP9tOoCmftiQtvgPtJhZ0QOqUivb+/4Te8sFdvnnMhL7Xpg9Tix5LEwoQtviwa
-	 PwgcnTwVn16eQ==
-Message-ID: <9510b546-28fa-4fb4-b06e-0af5f9fd3bbb@kernel.org>
-Date: Mon, 14 Oct 2024 10:47:31 +0200
+	b=rXjYC3LOehxHqBzx3vY57W2jo/2p2xG1p9UxWzKHbquVsHN9dwpUMV9PHg2YM01dh
+	 JqfcNy1xm+J5aykQ8MFgexXg+gLt8RWUIxW3pbWTKd+71yyr3TdobNMY4nYjZLzxKm
+	 ZbIV3AJPs8oJWvvYvga6xCOfjsgGgp3xLMzQysgTJGcm0ChLsN28mFweTuy7wTmE5h
+	 24eruTbuV7b3uRgLLdczN65Ee7aDok6TxNKVEjwyzg8QZrE3qNc8j18jP5fPUqAsx1
+	 coCDaQP8Lal4Z/napoaqDd9M7GRVgjc73jgrTYVJHcj2SqzbrmMuJUjNgLKX7RIreq
+	 f3pIBYLOnCwag==
+Message-ID: <05091a06-e42d-4340-b576-b09551d2f833@kernel.org>
+Date: Mon, 14 Oct 2024 10:49:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,40 +50,26 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: dt-bindings: Use additionalProperties: false
- for endpoint: properties:
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Martin Kepplinger <martink@posteo.de>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "Paul J. Murphy" <paul.j.murphy@intel.com>,
- Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Martin Hecht <martin.hecht@avnet.eu>, Zhi Mao <zhi.mao@mediatek.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Mikhail Rudenko <mike.rudenko@gmail.com>,
- Ricardo Ribalda <ribalda@kernel.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Dongchun Zhu <dongchun.zhu@mediatek.com>,
- Quentin Schulz <quentin.schulz@theobroma-systems.com>,
- Todor Tomov <todor.too@gmail.com>,
+Subject: Re: [PATCH v2 2/2] dt-bindings: media: nxp,imx8-isi: Add i.MX8ULP ISI
+ compatible string
+To: "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-0-a2bb12a1796d@linaro.org>
- <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-2-a2bb12a1796d@linaro.org>
- <7ecxjoa7aije46cxmkyfd6ihxnqw4wleqkioddomxbwlu7qtrc@4dkfitppeksu>
- <6f461cb3-3a41-4a3d-b9b2-71b1c6be77f7@linaro.org>
+ "jacopo@jmondi.org" <jacopo@jmondi.org>,
+ "mchehab@kernel.org" <mchehab@kernel.org>, "robh@kernel.org"
+ <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "kernel@pengutronix.d" <kernel@pengutronix.d>,
+ "festevam@gmail.com" <festevam@gmail.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20241012084732.1036652-1-guoniu.zhou@oss.nxp.com>
+ <20241012084732.1036652-3-guoniu.zhou@oss.nxp.com>
+ <6skgxfgvnd5f7zx5gcobcvp7krjskupo52c4op25i4qmmgti5w@3tn3hkmh3e2l>
+ <AS8PR04MB9080EB24C4F1CFB6ED2B1C0EFA442@AS8PR04MB9080.eurprd04.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -129,36 +115,41 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <6f461cb3-3a41-4a3d-b9b2-71b1c6be77f7@linaro.org>
+In-Reply-To: <AS8PR04MB9080EB24C4F1CFB6ED2B1C0EFA442@AS8PR04MB9080.eurprd04.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 14/10/2024 10:31, Bryan O'Donoghue wrote:
-> On 14/10/2024 08:45, Krzysztof Kozlowski wrote:
->> I do not understand the reasoning behind this change at all. I don't
->> think DT maintainers ever suggested it (in fact, rather opposite:
->> suggested using unevaluatedProps) and I think is not a consensus of any
->> talks.
+On 14/10/2024 10:27, G.N. Zhou (OSS) wrote:
+> Hi Krzsztof,
 > 
-> No there is not but then, how do you give consistent feedback except 
-> proposing something to be a baseline.
+> Thanks for your replying.
 > 
-> On the one hand you have upstream additionalProperties: false and 
-> unevaluatedProperites: false - it'd be better to have a consistent 
-> message on which is to be used.
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzk@kernel.org>
+>> Sent: Monday, October 14, 2024 3:31 PM
+>> To: G.N. Zhou (OSS) <guoniu.zhou@oss.nxp.com>
+>> Cc: linux-media@vger.kernel.org; Laurent Pinchart
+>> <laurent.pinchart@ideasonboard.com>; jacopo@jmondi.org;
+>> mchehab@kernel.org; robh@kernel.org; krzk+dt@kernel.org;
+>> conor+dt@kernel.org; shawnguo@kernel.org; s.hauer@pengutronix.de;
+>> kernel@pengutronix.d; festevam@gmail.com; devicetree@vger.kernel.org;
+>> imx@lists.linux.dev; linux-kernel@vger.kernel.org
+>> Subject: Re: [PATCH v2 2/2] dt-bindings: media: nxp,imx8-isi: Add i.MX8ULP ISI
+>> compatible string
+>>
+>> On Sat, Oct 12, 2024 at 04:47:35PM +0800, guoniu.zhou@oss.nxp.com wrote:
+>>> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
+>>
+>> Are you sure your name includes the dot? Or you just use login as full name?
+> 
+> Do you mean the dot in "Guoniu.zhou". If yes, it's not a part of my but to distinguish family name and given name.
 
-Well, I am afraid that push towards additionalProps will lead to grow
-common schema (video-interface-devices or video-interfaces) into huge
-one-fit-all binding. And that's not good.
+I am not familiar with rules of transliteration/translation of your
+family name into English, however I think usually a space is used to
+distinguish the family and given name, e.g. "Guoniu Zhou"
 
-If a common binding for a group of devices encourages you to list its
-subset, then it is not that common.
 
-Solution is to fix that, e.g. split it per classes of devices.
 
-Or don't care and use unevaluatedProps because it makes people's life
-easier and is still correct. If it is not correct, then this should be
-used as an argument.
 
 Best regards,
 Krzysztof
