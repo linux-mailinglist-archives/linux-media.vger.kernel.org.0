@@ -1,131 +1,433 @@
-Return-Path: <linux-media+bounces-19609-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19610-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7664A99CC64
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 16:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC90599CF93
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 16:56:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0FE3B20F04
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 14:09:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D320B24320
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 14:56:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 751741AAE33;
-	Mon, 14 Oct 2024 14:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T8G5airz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 323491C2DA1;
+	Mon, 14 Oct 2024 14:53:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4E51A76AC
-	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 14:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A581BD01F;
+	Mon, 14 Oct 2024 14:53:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728914944; cv=none; b=gwjCHVlC++aMlnh5mRawgJMYrY6pS2gha/D7FYo75yFVPQ4eH4O8cHt2+I+kwmHrj6q/eDyPFi4EgVEis8pRq57J3qxmEFLkpubW3OZAIhWnvpjMrQrEDHxmQBCzsylfZNh9suRNRYGVyn2GmZxpX/4ccl6R0f4GMKTrxFJDM8k=
+	t=1728917593; cv=none; b=DTT8yAB3l1k4yYNPJlWntGfcuImf+TNudt2yFewz1AUjk3OpJdA1OX35UFck9vH0g0U/jO5OKbd0FnTkUXR+TVRoAwgmrleE74858TM2PDpQKOnipxkODN8rDEqWbsH/oAqL5W4afZyGYzeuApTQCRI1RvXecw31JUNCcWuKbYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728914944; c=relaxed/simple;
-	bh=096XcezsKIhNQbiuhcWjPx2NJjm/QlTds+fuC3x2q2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WPVAe2aCFlgeVKNAUCKhJBQEOSKPYPmyTDMk12KHitR34f2G3Rt4WPZua05zYnhGbx29RqmEPb0fPJ7tGcpRYDDE7XuC0UYhLorFH28cSs2S1WHI8B8/gQQ8cxyNFNZ65DlEltqAmVeBozmQblfl9CBSQSKcLNZ7PdLPJqDm1+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T8G5airz; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5398ec2f3c3so5070588e87.1
-        for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 07:09:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728914941; x=1729519741; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nkTfeSKVH/igcH5ZriHsNKyR0CJ+YrUmZw3kxQGcYG4=;
-        b=T8G5airzS0rKPMefGc+R0ND3wCAHsXcDorqxHIQrXpy06LpDqut4KlpBvbk+wFHNKG
-         QwfoEigZkfRj19CoffnDheZyG5npPWv7uxFSmkfYg49MwmdxJfmzclQ852SOn49d/fBe
-         +8rhCqUMdMkZXHig7g3yDLbso4LQbncxiZe5+MnEa0qYwj1UHvN2pmZASt5ajb+ClwTP
-         RXGRhGXAM4x4e0ttN+yZvEZcY/UWJ+fmhtw4s+HPidRPR1Fucvxw/oRqWjsdV9d87xED
-         tZfyZgA7CNOeXfm+Zh3iSxr2/Qlg6HYnMdQrO60Lesw1lmBgcEHYgeBUQGMjalur854J
-         GSfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728914941; x=1729519741;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nkTfeSKVH/igcH5ZriHsNKyR0CJ+YrUmZw3kxQGcYG4=;
-        b=DfwP8oJEqgLW8EB/fjTniWDKU9PvVeg4QlAzqH4Fuehtef917GZDuL7Fm3EtGuX4wZ
-         +O5DhOU7R14GrXPs0cLOpftlmqjEijCOf8nk1myVEjLisXAoB+bLCzoj+JUmkxyDAV4H
-         ltKt175KCcQre/aVKQG5ZRE9n/TZxbPZ17bC4I+63PqwqP4rHUJY7m4e8zlf8pQmFyz8
-         QJqBFlCoM0fYnBNVIVcvgVcR+dqaIxb1Le8PlcD3RUxgeozVn0QW6nGwpc1hJYUBfxxR
-         3I6ZIRyJYEVOmyJD2IgD28iJZiAok118T3il1o0B9lshBmb+5jHy5XXb8GkhiUnwgDHh
-         3BaA==
-X-Forwarded-Encrypted: i=1; AJvYcCWxXglckPnWQZ7h8SqARbTB/5HryWbujdRFQRn1APUMt04jndlfzrefPGysDySLN2fKmuITMi/rvFmUng==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzgqX3jCqmR/me572A8MxzfC5QRIsLagcy1r7vbma70zUNp/ao
-	49q9cNc4t5Gk3U3d2loD5bzR/m9cWDDqe38JEnj4TPCSkWZPXTnC7szd4LtVsL8=
-X-Google-Smtp-Source: AGHT+IFaNV+gPEt3QJTDCvRINUz+1tvBKw2CJneHcD66w+NG/nUTfSgQyfrwPGJ3FNaKyTTlJR6Ucg==
-X-Received: by 2002:a05:6512:1048:b0:536:a50a:3c25 with SMTP id 2adb3069b0e04-539e54d7979mr2852605e87.12.1728914941171;
-        Mon, 14 Oct 2024 07:09:01 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539e3c3e0d6sm1089090e87.161.2024.10.14.07.09.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 07:09:00 -0700 (PDT)
-Date: Mon, 14 Oct 2024 17:08:59 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jianhua Lu <lujianhua000@gmail.com>
-Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 27/28] media: iris: enable video driver probe of
- SM8250 SoC
-Message-ID: <7vmxx5qtbvhyfcdeariqiult27j5rmykxrefl2qmkhqnrw5wi5@6ugxtx643bmq>
-References: <20241014-qcom-video-iris-v4-v4-0-c5eaa4e9ab9e@quicinc.com>
- <20241014-qcom-video-iris-v4-v4-27-c5eaa4e9ab9e@quicinc.com>
- <Zw0j9UeJmC1MZ3Xt@localhost.localdomain>
+	s=arc-20240116; t=1728917593; c=relaxed/simple;
+	bh=4WN5+kUXjbscC490H4bkuCDvJ0XVi5fXOk7laSU9qks=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sSxlnulMKPiGOJHBTZhBY9cY01eZs9Cy/64RCHRPgHQA9W0E6kW+Z2gne+XbxQyjBQf4MGBDs7VAgjbVWPX5rRY+bEPkNjpkJRVkr5J7g/x61w0KETgV+zCLtzbGbNirgFhHk96QsGyV8XVsk75aPzVrz3h875DZSEOCAPLTJLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A3BC4CEC7;
+	Mon, 14 Oct 2024 14:53:12 +0000 (UTC)
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Date: Mon, 14 Oct 2024 16:52:41 +0200
+Subject: [PATCH v2] media: v4l2-core: v4l2-dv-timings: check cvt/gtf result
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zw0j9UeJmC1MZ3Xt@localhost.localdomain>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241014-timings-v2-1-8af779113b03@xs4all.nl>
+X-B4-Tracking: v=1; b=H4sIADgwDWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
+ vPSU3UzU4B8JSMDIxNDA0MT3ZLM3My89GJdi1QjI8NEY2MTc9NkJaDqgqLUtMwKsEnRsbW1AII
+ Erx5ZAAAA
+X-Change-ID: 20241014-timings-8e221a33475c
+To: linux-media@vger.kernel.org
+Cc: stable@vger.kernel.org, 
+ syzbot+a828133770f62293563e@syzkaller.appspotmail.com
+X-Mailer: b4 0.14.2
 
-On Mon, Oct 14, 2024 at 10:00:21PM +0800, Jianhua Lu wrote:
-> On Mon, Oct 14, 2024 at 02:37:48PM +0530, Dikshita Agarwal wrote:
-> > Initialize the platform data and enable video driver
-> > probe of SM8250 SoC.
-> > 
-> > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> > ---
-> [..] 
-> > diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-> > index 86ef2e5c488e..a2aadd48926f 100644
-> > --- a/drivers/media/platform/qcom/iris/iris_probe.c
-> > +++ b/drivers/media/platform/qcom/iris/iris_probe.c
-> > @@ -325,6 +325,10 @@ static const struct of_device_id iris_dt_match[] = {
-> >  		.compatible = "qcom,sm8550-iris",
-> >  		.data = &sm8550_data,
-> >  	},
-> > +	{
-> > +		.compatible = "qcom,sm8250-venus",
-> > +		.data = &sm8250_data,
-> > +	},
-> >  	{ },
-> >  };
-> >  MODULE_DEVICE_TABLE(of, iris_dt_match);
-> 
-> qcom-venus driver has already supported sm8250 soc, I think you should add
-> an extra patch to drop sm8250 releated code from qcom-venus driver if you
-> tend to add support for sm8250 in qcom-iris driver.
+The v4l2_detect_cvt/gtf functions should check the result against the
+timing capabilities: these functions calculate the timings, so if they
+are out of bounds, they should be rejected.
 
-Iris driver did not feature parity with the venus driver, so it is
-expected that two drivers will exist side by side for some time.
-Nevertheless ideally we should have a way to specify which driver should
-be used for sm8250 (and other platforms being migrated).
+To do this, add the struct v4l2_dv_timings_cap as argument to those
+functions.
 
+This required updates to the adv7604 and adv7842 drivers since the
+prototype of these functions has now changed. The timings struct
+that is passed to v4l2_detect_cvt/gtf in those two drivers is filled
+with the timings detected by the hardware.
+
+The vivid driver was also updated, but an additional check was added:
+the width and height specified by VIDIOC_S_DV_TIMINGS has to match the
+calculated result, otherwise something went wrong. Note that vivid
+*emulates* hardware, so all the values passed to the v4l2_detect_cvt/gtf
+functions came from the timings struct that was filled by userspace
+and passed on to the driver via VIDIOC_S_DV_TIMINGS. So these fields
+can contain random data. Both the constraints check via
+struct v4l2_dv_timings_cap and the additional width/height check
+ensure that the resulting timings are sane and not messed up by the
+v4l2_detect_cvt/gtf calculations.
+
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Fixes: 2576415846bc ("[media] v4l2: move dv-timings related code to v4l2-dv-timings.c")
+Cc: stable@vger.kernel.org
+Reported-by: syzbot+a828133770f62293563e@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/linux-media/000000000000013050062127830a@google.com/
+---
+Changes since v1:
+- Improve the commit message
+- Drop a spurious newline change
+---
+ drivers/media/i2c/adv7604.c                      |   5 +-
+ drivers/media/i2c/adv7842.c                      |  13 +--
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c |  15 ++-
+ drivers/media/v4l2-core/v4l2-dv-timings.c        | 132 ++++++++++++-----------
+ include/media/v4l2-dv-timings.h                  |  18 ++--
+ 5 files changed, 107 insertions(+), 76 deletions(-)
+
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index 3184a2fa15322caa2a8eb415bea14312690b839c..4504909d95bce5f242e66b00be50ecb3ef2b896c 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -1408,12 +1408,13 @@ static int stdi2dv_timings(struct v4l2_subdev *sd,
+ 	if (v4l2_detect_cvt(stdi->lcf + 1, hfreq, stdi->lcvs, 0,
+ 			(stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
+ 			(stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
+-			false, timings))
++			false, adv76xx_get_dv_timings_cap(sd, -1), timings))
+ 		return 0;
+ 	if (v4l2_detect_gtf(stdi->lcf + 1, hfreq, stdi->lcvs,
+ 			(stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
+ 			(stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
+-			false, state->aspect_ratio, timings))
++			false, state->aspect_ratio,
++			adv76xx_get_dv_timings_cap(sd, -1), timings))
+ 		return 0;
+ 
+ 	v4l2_dbg(2, debug, sd,
+diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
+index e445699da85b70b711edda79ba4bbcea0161914f..3c9e613af0ceba4062c854581ee981e1fc2d0b6a 100644
+--- a/drivers/media/i2c/adv7842.c
++++ b/drivers/media/i2c/adv7842.c
+@@ -1434,14 +1434,15 @@ static int stdi2dv_timings(struct v4l2_subdev *sd,
+ 	}
+ 
+ 	if (v4l2_detect_cvt(stdi->lcf + 1, hfreq, stdi->lcvs, 0,
+-			(stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
+-			(stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
+-			false, timings))
++			    (stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
++			    (stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
++			    false, adv7842_get_dv_timings_cap(sd), timings))
+ 		return 0;
+ 	if (v4l2_detect_gtf(stdi->lcf + 1, hfreq, stdi->lcvs,
+-			(stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
+-			(stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
+-			false, state->aspect_ratio, timings))
++			    (stdi->hs_pol == '+' ? V4L2_DV_HSYNC_POS_POL : 0) |
++			    (stdi->vs_pol == '+' ? V4L2_DV_VSYNC_POS_POL : 0),
++			    false, state->aspect_ratio,
++			    adv7842_get_dv_timings_cap(sd), timings))
+ 		return 0;
+ 
+ 	v4l2_dbg(2, debug, sd,
+diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+index 69620e0a35a02fb210529a1d652abf915b4445af..68318af9f0d0a97335307cef22476b8651a98891 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+@@ -1459,12 +1459,19 @@ static bool valid_cvt_gtf_timings(struct v4l2_dv_timings *timings)
+ 	h_freq = (u32)bt->pixelclock / total_h_pixel;
+ 
+ 	if (bt->standards == 0 || (bt->standards & V4L2_DV_BT_STD_CVT)) {
++		struct v4l2_dv_timings cvt = {};
++
+ 		if (v4l2_detect_cvt(total_v_lines, h_freq, bt->vsync, bt->width,
+-				    bt->polarities, bt->interlaced, timings))
++				    bt->polarities, bt->interlaced,
++				    &vivid_dv_timings_cap, &cvt) &&
++		    cvt.bt.width == bt->width && cvt.bt.height == bt->height) {
++			*timings = cvt;
+ 			return true;
++		}
+ 	}
+ 
+ 	if (bt->standards == 0 || (bt->standards & V4L2_DV_BT_STD_GTF)) {
++		struct v4l2_dv_timings gtf = {};
+ 		struct v4l2_fract aspect_ratio;
+ 
+ 		find_aspect_ratio(bt->width, bt->height,
+@@ -1472,8 +1479,12 @@ static bool valid_cvt_gtf_timings(struct v4l2_dv_timings *timings)
+ 				  &aspect_ratio.denominator);
+ 		if (v4l2_detect_gtf(total_v_lines, h_freq, bt->vsync,
+ 				    bt->polarities, bt->interlaced,
+-				    aspect_ratio, timings))
++				    aspect_ratio, &vivid_dv_timings_cap,
++				    &gtf) &&
++		    gtf.bt.width == bt->width && gtf.bt.height == bt->height) {
++			*timings = gtf;
+ 			return true;
++		}
+ 	}
+ 	return false;
+ }
+diff --git a/drivers/media/v4l2-core/v4l2-dv-timings.c b/drivers/media/v4l2-core/v4l2-dv-timings.c
+index 39b5fc1807c409a4cc7421edc6b7ed2b5c1452e1..d26edf157e640001569a5779ee24abffa8be09b7 100644
+--- a/drivers/media/v4l2-core/v4l2-dv-timings.c
++++ b/drivers/media/v4l2-core/v4l2-dv-timings.c
+@@ -481,25 +481,28 @@ EXPORT_SYMBOL_GPL(v4l2_calc_timeperframe);
+  * @polarities - the horizontal and vertical polarities (same as struct
+  *		v4l2_bt_timings polarities).
+  * @interlaced - if this flag is true, it indicates interlaced format
+- * @fmt - the resulting timings.
++ * @cap - the v4l2_dv_timings_cap capabilities.
++ * @timings - the resulting timings.
+  *
+  * This function will attempt to detect if the given values correspond to a
+  * valid CVT format. If so, then it will return true, and fmt will be filled
+  * in with the found CVT timings.
+  */
+-bool v4l2_detect_cvt(unsigned frame_height,
+-		     unsigned hfreq,
+-		     unsigned vsync,
+-		     unsigned active_width,
++bool v4l2_detect_cvt(unsigned int frame_height,
++		     unsigned int hfreq,
++		     unsigned int vsync,
++		     unsigned int active_width,
+ 		     u32 polarities,
+ 		     bool interlaced,
+-		     struct v4l2_dv_timings *fmt)
++		     const struct v4l2_dv_timings_cap *cap,
++		     struct v4l2_dv_timings *timings)
+ {
+-	int  v_fp, v_bp, h_fp, h_bp, hsync;
+-	int  frame_width, image_height, image_width;
++	struct v4l2_dv_timings t = {};
++	int v_fp, v_bp, h_fp, h_bp, hsync;
++	int frame_width, image_height, image_width;
+ 	bool reduced_blanking;
+ 	bool rb_v2 = false;
+-	unsigned pix_clk;
++	unsigned int pix_clk;
+ 
+ 	if (vsync < 4 || vsync > 8)
+ 		return false;
+@@ -625,36 +628,39 @@ bool v4l2_detect_cvt(unsigned frame_height,
+ 		h_fp = h_blank - hsync - h_bp;
+ 	}
+ 
+-	fmt->type = V4L2_DV_BT_656_1120;
+-	fmt->bt.polarities = polarities;
+-	fmt->bt.width = image_width;
+-	fmt->bt.height = image_height;
+-	fmt->bt.hfrontporch = h_fp;
+-	fmt->bt.vfrontporch = v_fp;
+-	fmt->bt.hsync = hsync;
+-	fmt->bt.vsync = vsync;
+-	fmt->bt.hbackporch = frame_width - image_width - h_fp - hsync;
++	t.type = V4L2_DV_BT_656_1120;
++	t.bt.polarities = polarities;
++	t.bt.width = image_width;
++	t.bt.height = image_height;
++	t.bt.hfrontporch = h_fp;
++	t.bt.vfrontporch = v_fp;
++	t.bt.hsync = hsync;
++	t.bt.vsync = vsync;
++	t.bt.hbackporch = frame_width - image_width - h_fp - hsync;
+ 
+ 	if (!interlaced) {
+-		fmt->bt.vbackporch = frame_height - image_height - v_fp - vsync;
+-		fmt->bt.interlaced = V4L2_DV_PROGRESSIVE;
++		t.bt.vbackporch = frame_height - image_height - v_fp - vsync;
++		t.bt.interlaced = V4L2_DV_PROGRESSIVE;
+ 	} else {
+-		fmt->bt.vbackporch = (frame_height - image_height - 2 * v_fp -
++		t.bt.vbackporch = (frame_height - image_height - 2 * v_fp -
+ 				      2 * vsync) / 2;
+-		fmt->bt.il_vbackporch = frame_height - image_height - 2 * v_fp -
+-					2 * vsync - fmt->bt.vbackporch;
+-		fmt->bt.il_vfrontporch = v_fp;
+-		fmt->bt.il_vsync = vsync;
+-		fmt->bt.flags |= V4L2_DV_FL_HALF_LINE;
+-		fmt->bt.interlaced = V4L2_DV_INTERLACED;
++		t.bt.il_vbackporch = frame_height - image_height - 2 * v_fp -
++					2 * vsync - t.bt.vbackporch;
++		t.bt.il_vfrontporch = v_fp;
++		t.bt.il_vsync = vsync;
++		t.bt.flags |= V4L2_DV_FL_HALF_LINE;
++		t.bt.interlaced = V4L2_DV_INTERLACED;
+ 	}
+ 
+-	fmt->bt.pixelclock = pix_clk;
+-	fmt->bt.standards = V4L2_DV_BT_STD_CVT;
++	t.bt.pixelclock = pix_clk;
++	t.bt.standards = V4L2_DV_BT_STD_CVT;
+ 
+ 	if (reduced_blanking)
+-		fmt->bt.flags |= V4L2_DV_FL_REDUCED_BLANKING;
++		t.bt.flags |= V4L2_DV_FL_REDUCED_BLANKING;
+ 
++	if (!v4l2_valid_dv_timings(&t, cap, NULL, NULL))
++		return false;
++	*timings = t;
+ 	return true;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_detect_cvt);
+@@ -699,22 +705,25 @@ EXPORT_SYMBOL_GPL(v4l2_detect_cvt);
+  *		image height, so it has to be passed explicitly. Usually
+  *		the native screen aspect ratio is used for this. If it
+  *		is not filled in correctly, then 16:9 will be assumed.
+- * @fmt - the resulting timings.
++ * @cap - the v4l2_dv_timings_cap capabilities.
++ * @timings - the resulting timings.
+  *
+  * This function will attempt to detect if the given values correspond to a
+  * valid GTF format. If so, then it will return true, and fmt will be filled
+  * in with the found GTF timings.
+  */
+-bool v4l2_detect_gtf(unsigned frame_height,
+-		unsigned hfreq,
+-		unsigned vsync,
+-		u32 polarities,
+-		bool interlaced,
+-		struct v4l2_fract aspect,
+-		struct v4l2_dv_timings *fmt)
++bool v4l2_detect_gtf(unsigned int frame_height,
++		     unsigned int hfreq,
++		     unsigned int vsync,
++		     u32 polarities,
++		     bool interlaced,
++		     struct v4l2_fract aspect,
++		     const struct v4l2_dv_timings_cap *cap,
++		     struct v4l2_dv_timings *timings)
+ {
++	struct v4l2_dv_timings t = {};
+ 	int pix_clk;
+-	int  v_fp, v_bp, h_fp, hsync;
++	int v_fp, v_bp, h_fp, hsync;
+ 	int frame_width, image_height, image_width;
+ 	bool default_gtf;
+ 	int h_blank;
+@@ -783,36 +792,39 @@ bool v4l2_detect_gtf(unsigned frame_height,
+ 
+ 	h_fp = h_blank / 2 - hsync;
+ 
+-	fmt->type = V4L2_DV_BT_656_1120;
+-	fmt->bt.polarities = polarities;
+-	fmt->bt.width = image_width;
+-	fmt->bt.height = image_height;
+-	fmt->bt.hfrontporch = h_fp;
+-	fmt->bt.vfrontporch = v_fp;
+-	fmt->bt.hsync = hsync;
+-	fmt->bt.vsync = vsync;
+-	fmt->bt.hbackporch = frame_width - image_width - h_fp - hsync;
++	t.type = V4L2_DV_BT_656_1120;
++	t.bt.polarities = polarities;
++	t.bt.width = image_width;
++	t.bt.height = image_height;
++	t.bt.hfrontporch = h_fp;
++	t.bt.vfrontporch = v_fp;
++	t.bt.hsync = hsync;
++	t.bt.vsync = vsync;
++	t.bt.hbackporch = frame_width - image_width - h_fp - hsync;
+ 
+ 	if (!interlaced) {
+-		fmt->bt.vbackporch = frame_height - image_height - v_fp - vsync;
+-		fmt->bt.interlaced = V4L2_DV_PROGRESSIVE;
++		t.bt.vbackporch = frame_height - image_height - v_fp - vsync;
++		t.bt.interlaced = V4L2_DV_PROGRESSIVE;
+ 	} else {
+-		fmt->bt.vbackporch = (frame_height - image_height - 2 * v_fp -
++		t.bt.vbackporch = (frame_height - image_height - 2 * v_fp -
+ 				      2 * vsync) / 2;
+-		fmt->bt.il_vbackporch = frame_height - image_height - 2 * v_fp -
+-					2 * vsync - fmt->bt.vbackporch;
+-		fmt->bt.il_vfrontporch = v_fp;
+-		fmt->bt.il_vsync = vsync;
+-		fmt->bt.flags |= V4L2_DV_FL_HALF_LINE;
+-		fmt->bt.interlaced = V4L2_DV_INTERLACED;
++		t.bt.il_vbackporch = frame_height - image_height - 2 * v_fp -
++					2 * vsync - t.bt.vbackporch;
++		t.bt.il_vfrontporch = v_fp;
++		t.bt.il_vsync = vsync;
++		t.bt.flags |= V4L2_DV_FL_HALF_LINE;
++		t.bt.interlaced = V4L2_DV_INTERLACED;
+ 	}
+ 
+-	fmt->bt.pixelclock = pix_clk;
+-	fmt->bt.standards = V4L2_DV_BT_STD_GTF;
++	t.bt.pixelclock = pix_clk;
++	t.bt.standards = V4L2_DV_BT_STD_GTF;
+ 
+ 	if (!default_gtf)
+-		fmt->bt.flags |= V4L2_DV_FL_REDUCED_BLANKING;
++		t.bt.flags |= V4L2_DV_FL_REDUCED_BLANKING;
+ 
++	if (!v4l2_valid_dv_timings(&t, cap, NULL, NULL))
++		return false;
++	*timings = t;
+ 	return true;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_detect_gtf);
+diff --git a/include/media/v4l2-dv-timings.h b/include/media/v4l2-dv-timings.h
+index 13830411bd6c486e863b01a2ae3ebf91235c5f67..ff07dc6b103c6bfff4bb600e466d70b3d8fad578 100644
+--- a/include/media/v4l2-dv-timings.h
++++ b/include/media/v4l2-dv-timings.h
+@@ -147,15 +147,18 @@ void v4l2_print_dv_timings(const char *dev_prefix, const char *prefix,
+  * @polarities: the horizontal and vertical polarities (same as struct
+  *		v4l2_bt_timings polarities).
+  * @interlaced: if this flag is true, it indicates interlaced format
++ * @cap: the v4l2_dv_timings_cap capabilities.
+  * @fmt: the resulting timings.
+  *
+  * This function will attempt to detect if the given values correspond to a
+  * valid CVT format. If so, then it will return true, and fmt will be filled
+  * in with the found CVT timings.
+  */
+-bool v4l2_detect_cvt(unsigned frame_height, unsigned hfreq, unsigned vsync,
+-		unsigned active_width, u32 polarities, bool interlaced,
+-		struct v4l2_dv_timings *fmt);
++bool v4l2_detect_cvt(unsigned int frame_height, unsigned int hfreq,
++		     unsigned int vsync, unsigned int active_width,
++		     u32 polarities, bool interlaced,
++		     const struct v4l2_dv_timings_cap *cap,
++		     struct v4l2_dv_timings *fmt);
+ 
+ /**
+  * v4l2_detect_gtf - detect if the given timings follow the GTF standard
+@@ -171,15 +174,18 @@ bool v4l2_detect_cvt(unsigned frame_height, unsigned hfreq, unsigned vsync,
+  *		image height, so it has to be passed explicitly. Usually
+  *		the native screen aspect ratio is used for this. If it
+  *		is not filled in correctly, then 16:9 will be assumed.
++ * @cap: the v4l2_dv_timings_cap capabilities.
+  * @fmt: the resulting timings.
+  *
+  * This function will attempt to detect if the given values correspond to a
+  * valid GTF format. If so, then it will return true, and fmt will be filled
+  * in with the found GTF timings.
+  */
+-bool v4l2_detect_gtf(unsigned frame_height, unsigned hfreq, unsigned vsync,
+-		u32 polarities, bool interlaced, struct v4l2_fract aspect,
+-		struct v4l2_dv_timings *fmt);
++bool v4l2_detect_gtf(unsigned int frame_height, unsigned int hfreq,
++		     unsigned int vsync, u32 polarities, bool interlaced,
++		     struct v4l2_fract aspect,
++		     const struct v4l2_dv_timings_cap *cap,
++		     struct v4l2_dv_timings *fmt);
+ 
+ /**
+  * v4l2_calc_aspect_ratio - calculate the aspect ratio based on bytes
+
+---
+base-commit: bcd4f091cf1ea7184d813afc115af82ac9326b25
+change-id: 20241014-timings-8e221a33475c
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Hans Verkuil <hverkuil@xs4all.nl>
+
 
