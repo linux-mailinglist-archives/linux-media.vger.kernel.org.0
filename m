@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-19596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19597-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DE999C73B
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 12:35:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D712799C743
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 12:37:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C39E1F23709
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 10:35:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D304283F60
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 10:37:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546EF175D2D;
-	Mon, 14 Oct 2024 10:35:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22FA517C7BD;
+	Mon, 14 Oct 2024 10:37:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s7L+b9ZO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pxRP8Iyv"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CD01684A0;
-	Mon, 14 Oct 2024 10:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E2F170A2E;
+	Mon, 14 Oct 2024 10:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728902105; cv=none; b=ClTKenKNvEs5LdBVsCv/LDSD+RAwYt7u++4YJlYmDd3OxlzAqHk2Dmx0eLyGUKolBq3K78FcVv0yhj5Cd849cH5bJQMqznMvgvRpnyB98psREUiYNuWzVHJ3BdWAmkF8kEN6XDqI5F+zkRBEr2jaXyBrhPMXe22q+fDjGmVF974=
+	t=1728902248; cv=none; b=IRGJ/eHloqgyhX3Pa3wWp9pepeueUXPEo6ST2g0GInMKnAUGI3G9ix0M7W1+ixemEXzJGR3SxzBFmqpUyzU8UlH4rwlAqaBp5jOP7UzHaRb0FXXtQrncRDhZuzXBiXO5sH0CwLU8whCjhONoa0HMCOg3motOS6K8L6SgkrHErHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728902105; c=relaxed/simple;
-	bh=Juy0LiL/8aCgy7ZGK4zawyVXk9EwxHkZAq6gRNZkT78=;
+	s=arc-20240116; t=1728902248; c=relaxed/simple;
+	bh=2S8MdpHGWCkhqffBqigt/hdFiAI0DAJfTBodnIv2uxU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IgTDRWU7K6e0HdDA7WQeNmkKQJoP+i30xzVIrcsESv1KFycKWFo3nz/Rz8B4wvHgpLZgQ2zN+JKnPyxbhoYUON00VRxHJRdRWfTsZJTT5E/wMHCS5szjTFljLDBqSKJGZmdkus2ftC3I6Hfpbmpzrjdiur1YX6e2APWdtjowhFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s7L+b9ZO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CED9C4CEC3;
-	Mon, 14 Oct 2024 10:34:54 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=NUkGr/xLDtk0HGf/byteC7rW8Ufi2Oq18Y49/IUWY6bufPO2bd+i8V15qkJDapnIlOWgmxhoYMU0sGqQDq8UV8VvzX6l0VJ380PIWA/VZU81ks87/eDagPnIz/OnG4by5z2ox65aTeqiPBEdpceTXRHwPAlxJQGKy7SHyYBi3Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pxRP8Iyv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71A84C4CEC3;
+	Mon, 14 Oct 2024 10:37:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728902105;
-	bh=Juy0LiL/8aCgy7ZGK4zawyVXk9EwxHkZAq6gRNZkT78=;
+	s=k20201202; t=1728902246;
+	bh=2S8MdpHGWCkhqffBqigt/hdFiAI0DAJfTBodnIv2uxU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=s7L+b9ZOyUll/AbXR0FMnqen3LCiQL2/8C7KFSv3HecK0sTPBpuHMAcJxbDwDzfZc
-	 NwqzwVsPObe5a/yjhRVtnZJRa2LEL/794ohtfXiCUlNAc98HUY7A0P30xMAeGNEjFD
-	 pdNpw62cybMZWROZkMxVksqP4lRGLTqJ+/uhZKHYU9oPvb7bGog3hJH3kYkMdRROVC
-	 ue97Xj673eUqEj062twSIRGo9sRZ11zvvduw+52LOop1jOZkSoedxr8aJHyvYJPsoW
-	 /VdnxOyB1s9MuVrKvsEPguJkBcBfgpmTkwp5O1ZTPCiooC/Qk1kEJz90FQf19makF8
-	 gGld0Kaw9JL0g==
-Message-ID: <6ab163df-baec-4fbc-9612-fbff9b092cb5@kernel.org>
-Date: Mon, 14 Oct 2024 12:34:51 +0200
+	b=pxRP8Iyv9YM5zwk0QiU4NQ0m8Sbkj2qL5WdAdI9LBVRCx9+5vYPCNFKwrRkOmlUaI
+	 3j1kxQ6LMTy6tJgkkUXQ0wldfhISA5gVK3IyftG3Z+yMI15refNOixEB4POa7aHr7s
+	 H8UQIN4RlBeHWkDEeKtGWaLAiFKMornnR5tEBuZipLAMkpPY7KFuSSejMyHLx9dk43
+	 JK7TkRLlms7tC4XooddEaG6hyBr7U/fY3GwLqHuyKyCVZVLz8Z89n8zMcvBjifiO8y
+	 b5kCxitT07UoY0cbC6K5ckREMU9nKHdAzMNlu9Fa2p4zrPJhBYgir1mvpw9iDxv8Hk
+	 56jjpY+6WqC5A==
+Message-ID: <9525ac5c-5cae-4e4f-baf5-f81e4ffd4dbd@kernel.org>
+Date: Mon, 14 Oct 2024 12:37:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,14 +50,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: dt-bindings: Remove assigned-clock-* from
- various schema
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+Subject: Re: [PATCH 2/2] media: dt-bindings: Use additionalProperties: false
+ for endpoint: properties:
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Fabio Estevam <festevam@gmail.com>, Martin Kepplinger <martink@posteo.de>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
@@ -80,9 +81,11 @@ Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  linux-kernel@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
 References: <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-0-a2bb12a1796d@linaro.org>
- <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-1-a2bb12a1796d@linaro.org>
- <w4ta26svh34gojqpakrgp5cpsempedkewkmbllyvs5z5fm274z@jqs3tvunxq2s>
- <ZwzwgkBQzUZJWMvi@kekkonen.localdomain>
+ <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-2-a2bb12a1796d@linaro.org>
+ <7ecxjoa7aije46cxmkyfd6ihxnqw4wleqkioddomxbwlu7qtrc@4dkfitppeksu>
+ <6f461cb3-3a41-4a3d-b9b2-71b1c6be77f7@linaro.org>
+ <9510b546-28fa-4fb4-b06e-0af5f9fd3bbb@kernel.org>
+ <2afe4f3c-e2ce-4cc0-88ac-348e6f3f7e26@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -128,68 +131,59 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <ZwzwgkBQzUZJWMvi@kekkonen.localdomain>
+In-Reply-To: <2afe4f3c-e2ce-4cc0-88ac-348e6f3f7e26@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 14/10/2024 12:20, Sakari Ailus wrote:
-> Hi Krzysztof,
-> 
-> On Mon, Oct 14, 2024 at 09:43:07AM +0200, Krzysztof Kozlowski wrote:
->> On Sat, Oct 12, 2024 at 04:02:50PM +0100, Bryan O'Donoghue wrote:
->>> diff --git a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
->>> index 60f19e1152b33128cf3baa15b8c70a874ca6d52e..d18ead8f7fc43bfacc291aed85b5ca9166c46edb 100644
->>> --- a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
->>> +++ b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
->>> @@ -28,12 +28,6 @@ properties:
->>>      items:
->>>        - description: Reference to the mclk clock.
->>>  
->>> -  assigned-clocks:
->>> -    maxItems: 1
->>> -
->>> -  assigned-clock-rates:
->>> -    maxItems: 1
->>> -
->>>    reset-gpios:
->>>      description: Reference to the GPIO connected to the RESETB pin. Active low.
->>>      maxItems: 1
->>> @@ -82,8 +76,6 @@ required:
->>>    - compatible
->>>    - reg
->>>    - clocks
->>> -  - assigned-clocks
->>> -  - assigned-clock-rates
+On 14/10/2024 11:03, Bryan O'Donoghue wrote:
+> On 14/10/2024 09:47, Krzysztof Kozlowski wrote:
+>> If a common binding for a group of devices encourages you to list its
+>> subset, then it is not that common.
 >>
->> That's not extraneous, but has a meaning that without assigned-clocks
->> this device or driver will not operate.
->>
->> File should rather stay as is.
+>> Solution is to fix that, e.g. split it per classes of devices.
 > 
-> ...
+> It might be possible to have
 > 
->>> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
->>> index c978abc0cdb35cfe2b85069946cf1be435a58cb8..f0f9726a2add89492b8c56e17ed607841baa3a0d 100644
->>> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
->>> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
->>> @@ -24,10 +24,6 @@ properties:
->>>        - sony,imx258
->>>        - sony,imx258-pdaf
->>>  
->>> -  assigned-clocks: true
->>> -  assigned-clock-parents: true
->>> -  assigned-clock-rates: true
->>> -
->>
->> This is ok.
+>           $ref: /schemas/media/video-interfaces-endpoint-defaults.yaml#
 > 
-> Basically the clock related requirements for these devices are the same:
-> they all need a clock configured at a board specific frequency. Shouldn't
-> we treat them the same way?
+> which declares the typical list ->
+> 
+> $ref: /schemas/media/video-interfaces.yaml#
+> additonalProperties:false
 
-I don't know these devices, but binding did not express such
-requirement, so according to current binding the properties are 100%
-redundant.
+I meant something else - define common schema matching this class of
+devices. Not a schema for some defaults. This is supposed to reflect how
+we look at hardware, not some library of schemas or library of functions.
+
+> 
+> properties:
+>      data-lanes: true
+>      link-frequencies: true
+>      remote-endpoints: true
+
+and I still don't like all these. I rather expect people to list the
+hardware constraints or just drop it. I mentioned it some time ago in
+the first patch you sent, which I think started this entire discussion.
+
+> 
+> required:
+>      data-lanes
+>      link-frequencies
+>      remote-endpoints
+> 
+> and then if you need say clock-noncontinuous you'd just include
+> 
+> $ref: /schemas/media/video-interfaces.yaml#
+> unevaluatedProperties: false
+> 
+> and then list whatever you need
+> 
+>> Or don't care and use unevaluatedProps because it makes people's life
+>> easier and is still correct. If it is not correct, then this should be
+>> used as an argument.
+> 
+> I'll wait to see what people think before progressing this patch further.
+
 
 Best regards,
 Krzysztof
