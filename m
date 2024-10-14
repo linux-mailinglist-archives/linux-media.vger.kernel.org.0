@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-19616-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19617-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE65299D0E8
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 17:08:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A73C199D0F1
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 17:08:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D608284333
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 15:08:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67C54283089
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 15:08:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F401AB6DC;
-	Mon, 14 Oct 2024 15:08:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 722F21AB6FD;
+	Mon, 14 Oct 2024 15:08:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA961AB517
-	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 15:08:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9421AB517
+	for <linux-media@vger.kernel.org>; Mon, 14 Oct 2024 15:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728918507; cv=none; b=u4N/OOZTPB8U++xU+ViPnS2/hc3ZjTEuXtkstxq5kCAljwjjJ/HzaMPIsvSqNzeo1gBXvO+5/HAxdjfuMXvRHVgsJ8Vw35xzUBIcBKEsfPSIoWdhVDHR0X9I8SAhrjx3lTUMAFW5S25lJCLBshuzC49BIbjhq2Gmnt3c3k/buSs=
+	t=1728918525; cv=none; b=Xbea762DGCCahw45Qqf9bxScrHnkk3j63z2kOaSDBaVZh/OxZf/wx2lkD06oWvlyLFPBQuidXfRsHRxJPd8UhLMu8TUxYJrwWIZckeQmnOzQ5im4D6ipxpnwC0OUVNd8DeQVV3goPHDir3xNZ2jV5WpE3WRLU3YjrJ1UZgKztCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728918507; c=relaxed/simple;
-	bh=BFvhEYoIEtA/A5iE0k2gxA74MPt1ghtz4Mmt6VsCLoo=;
+	s=arc-20240116; t=1728918525; c=relaxed/simple;
+	bh=E+8pKaev9/H/KJA5iepiEY7v51VimAnb3hueA3uDgH8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ramp0Fg8jEaXQ80qa5tMz28BawIJuJpwXU3UvDE+v+Nf7wrbFR7jQUGGdHaSWW4qHb+xAXkK9slD8bDCoctBHteyeggE8PTF2KPzZYmWwPPa4yVYcBxCHq0q2RHw5HGJLi4fIn6e4aQU70HfSrpMaAadUNZD14MAOjPSnwLfxPs=
+	 In-Reply-To:To:Cc; b=YP8a0co10DqE2GQ6ELp7NNWK8ko53o4gYdOaBZ//T1hMOe6su/391x0S2EWMRsLhKRqoTzN3TmS0z+wfdBSKdBLi7FmBy/POYUJnWYPjEoM9IUoFk2L4ik1+eA+AnBWbP8wVMj4MRWkZJZJgQZxubzxe060b3Y+aNQ8Se1RfNMQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A81BC4CED0;
-	Mon, 14 Oct 2024 15:08:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2DDBC4CEC3;
+	Mon, 14 Oct 2024 15:08:27 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Date: Mon, 14 Oct 2024 17:06:32 +0200
-Subject: [PATCH 05/10] media: video-i2c: drop vb2_ops_wait_prepare/finish
+Date: Mon, 14 Oct 2024 17:06:33 +0200
+Subject: [PATCH 06/10] media: rtl2832_sdr: drop vb2_ops_wait_prepare/finish
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241014-vb2-wait-v1-5-8c3ee25c618c@xs4all.nl>
+Message-Id: <20241014-vb2-wait-v1-6-8c3ee25c618c@xs4all.nl>
 References: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
 In-Reply-To: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
 To: Tomasz Figa <tfiga@chromium.org>, 
@@ -147,22 +147,22 @@ these callbacks.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- drivers/media/i2c/video-i2c.c | 2 --
+ drivers/media/dvb-frontends/rtl2832_sdr.c | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-index ffb3d9d61a749146d0ffc27710689984f3d801ce..036a6375627a95a7ad17a07d883e033324ad471c 100644
---- a/drivers/media/i2c/video-i2c.c
-+++ b/drivers/media/i2c/video-i2c.c
-@@ -566,8 +566,6 @@ static const struct vb2_ops video_i2c_video_qops = {
- 	.buf_queue		= buffer_queue,
- 	.start_streaming	= start_streaming,
- 	.stop_streaming		= stop_streaming,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
+diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dvb-frontends/rtl2832_sdr.c
+index 922c1662f1f038bebeb8abb3a7892e30ee1a0140..05254d8717db85a66b098fa66ce7388e9589d3c3 100644
+--- a/drivers/media/dvb-frontends/rtl2832_sdr.c
++++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
+@@ -947,8 +947,6 @@ static const struct vb2_ops rtl2832_sdr_vb2_ops = {
+ 	.buf_queue              = rtl2832_sdr_buf_queue,
+ 	.start_streaming        = rtl2832_sdr_start_streaming,
+ 	.stop_streaming         = rtl2832_sdr_stop_streaming,
+-	.wait_prepare           = vb2_ops_wait_prepare,
+-	.wait_finish            = vb2_ops_wait_finish,
  };
  
- static int video_i2c_querycap(struct file *file, void  *priv,
+ static int rtl2832_sdr_g_tuner(struct file *file, void *priv,
 
 -- 
 2.45.2
