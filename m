@@ -1,118 +1,92 @@
-Return-Path: <linux-media+bounces-19633-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19634-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3CF99DA3D
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 01:40:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7889499DBCF
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 03:42:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE53A283D0E
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2024 23:40:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29A501F23781
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 01:42:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83AD91DAC97;
-	Mon, 14 Oct 2024 23:39:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="k8FYe19t"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90C2C155336;
+	Tue, 15 Oct 2024 01:42:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777961D9A7E;
-	Mon, 14 Oct 2024 23:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728949143; cv=pass; b=oQnqpxFIuFwCVbwJo+suSugmLFC54EpbbGBkhYjthRfLF36X6PEqeaN3Ok+KqWcCglmB2ll4mmBneI///FC0rwYlA2/NxB/xfCsHbHoeb+PMTFPAIpEyOjOXYjyEzsbFekbZlYOxCsa+pQ5vF3sxz+k0jinLFGrxoKGCfYSkU2M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728949143; c=relaxed/simple;
-	bh=DAVwNBoWB5puyBcadu/tEp5EWEZjWbq780G0YxYfTYw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TQ8THwtBGXqo0w/2fktRW2AggffOC17dj6kGGwGQ1wzjPiPooAq1ekTVkE5tiVCZEF+yWjtBQR9Q+K9NRjDfnOKggqXXQTgXxXnUZI9RO3F2mfAa5h4K5VsjGSerPQweSLryXViivwVFiZ/ULnhVR8Ia1sWP34LGAk1Wa8nICHc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=k8FYe19t; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1728949122; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Trc2Idtro993SdRiJRRsUWAruhN7ksIL40EcnC6SDLrSpXBqDVOeorjuq2bG1I7FDfKiaxdpHUsy535a5f3dDtd3NX4j6xhEn2pjj7iW52ahmk1fD6l5qRzH8yOxjYWfc/HLr+nzESWBKb6R6otmTh4iNsxgTQb6VJgFvEJUXh8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1728949122; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=mCtIoUK67xJwWEiLaC1u8aGeTl4l8YjZQ3chLiNR3Jk=; 
-	b=eoeQYuz+/MLbddeSpUJvWELHMBc8o/owJoyIElRyWZyP3q8fRGeq8vo9BRz15vqZcN/kWELrGR8dQQ6k1J7kaW/NocYiBAKHeYSNS5TZytnP2Y3qpfxb66LpP8zNj2nUbl+8efxm0rAfH2uCOrko5aYMvO+XSuRc7uOYNnqGRKA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728949122;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=mCtIoUK67xJwWEiLaC1u8aGeTl4l8YjZQ3chLiNR3Jk=;
-	b=k8FYe19tXvTaMmdqF2Cm7Vc1qG3gHI1JOzT2F69SJlhaZZg2uR6JiB2Ag7YpqnIU
-	n7m+2evjCR2d+IWsX65RZnZ2EYeoKmuC8m1P9abWRkREPGVgfxLDkKEv0T3MlAYabR+
-	SNa62h98ReFoe2t26sELg9HFj1keh72dfL8mR9ng=
-Received: by mx.zohomail.com with SMTPS id 1728949121244283.00947506086504;
-	Mon, 14 Oct 2024 16:38:41 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: kernel@collabora.com,
-	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 9/9] drm/panfrost: Explicitly clean up panfrost fence
-Date: Tue, 15 Oct 2024 00:31:44 +0100
-Message-ID: <20241014233758.994861-9-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241014233758.994861-1-adrian.larumbe@collabora.com>
-References: <20241014233758.994861-1-adrian.larumbe@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0243231C83;
+	Tue, 15 Oct 2024 01:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728956555; cv=none; b=pwKQkdNNm76nEduzx8GgVtFilIuAN1soz/FGCRTyCcVZ16tyOdoq2dRfZNte5aVFaTypKdaRNLa6P/OO80xTgRykuSRGoC1igt7p7NHVE6z37YJeIscgOJi7YbWTs8nN38InNy8+qDg/oIS+yuXwf5+fMsuYE4TJ8+IwTHV2kmQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728956555; c=relaxed/simple;
+	bh=4JSQUriljyvh23qQwYuuRmuTN4NwLKLToX4bqCC1j7I=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G/4PpWzt5QprjG5c+OQQyJp/S0Xw9zb3YA5jwkmMyhbBFH7JyLrecj+Gxvw/yiCj/2fVsapegpFd1v/spJ+ucYbe/G11BylB0EEOldlv57o9ULVJPcH5ZdA8fwPSM3vjQdt7zJSa5GXBhCq0BUP8vy0PVnKCbf6mf+uxLw5fnas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XSGxV33VbzfdCN;
+	Tue, 15 Oct 2024 09:39:58 +0800 (CST)
+Received: from dggpemf100006.china.huawei.com (unknown [7.185.36.228])
+	by mail.maildlp.com (Postfix) with ESMTPS id CFB4C1400D5;
+	Tue, 15 Oct 2024 09:42:24 +0800 (CST)
+Received: from thunder-town.china.huawei.com (10.174.178.55) by
+ dggpemf100006.china.huawei.com (7.185.36.228) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 15 Oct 2024 09:42:24 +0800
+From: Zhen Lei <thunder.leizhen@huawei.com>
+To: Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+	<hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+	<openbmc@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+CC: Zhen Lei <thunder.leizhen@huawei.com>
+Subject: [PATCH 1/1] media: nuvoton: Fix an error check in npcm_video_ece_init()
+Date: Tue, 15 Oct 2024 09:40:53 +0800
+Message-ID: <20241015014053.669-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.37.3.windows.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemf100006.china.huawei.com (7.185.36.228)
 
-Doesn't make any functional difference because generic dma_fence is the
-first panfrost_fence structure member, but I guess it doesn't hurt either.
+When function of_find_device_by_node() fails, it returns NULL instead of
+an error code. So the corresponding error check logic should be modified
+to check whether the return value is NULL and set the error code to be
+returned as -ENODEV.
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Fixes: 46c15a4ff1f4 ("media: nuvoton: Add driver for NPCM video capture and encoding engine")
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_job.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/media/platform/nuvoton/npcm-video.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 5d83c6a148ec..fa219f719bdc 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -85,9 +85,15 @@ static const char *panfrost_fence_get_timeline_name(struct dma_fence *fence)
- 	}
- }
+diff --git a/drivers/media/platform/nuvoton/npcm-video.c b/drivers/media/platform/nuvoton/npcm-video.c
+index 60fbb91400355c2..db454c9d2641f8f 100644
+--- a/drivers/media/platform/nuvoton/npcm-video.c
++++ b/drivers/media/platform/nuvoton/npcm-video.c
+@@ -1667,9 +1667,9 @@ static int npcm_video_ece_init(struct npcm_video *video)
+ 		dev_info(dev, "Support HEXTILE pixel format\n");
  
-+static void panfrost_fence_release(struct dma_fence *fence)
-+{
-+	kfree(to_panfrost_fence(fence));
-+}
-+
- static const struct dma_fence_ops panfrost_fence_ops = {
- 	.get_driver_name = panfrost_fence_get_driver_name,
- 	.get_timeline_name = panfrost_fence_get_timeline_name,
-+	.release = panfrost_fence_release,
- };
+ 		ece_pdev = of_find_device_by_node(ece_node);
+-		if (IS_ERR(ece_pdev)) {
++		if (!ece_pdev) {
+ 			dev_err(dev, "Failed to find ECE device\n");
+-			return PTR_ERR(ece_pdev);
++			return -ENODEV;
+ 		}
+ 		of_node_put(ece_node);
  
- static struct dma_fence *panfrost_fence_create(struct panfrost_device *pfdev, int js_num)
 -- 
-2.46.2
+2.34.1
 
 
