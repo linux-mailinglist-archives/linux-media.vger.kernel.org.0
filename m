@@ -1,179 +1,273 @@
-Return-Path: <linux-media+bounces-19641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6519699DE0B
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 08:16:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF7E99DEDB
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 08:57:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7ACB1F22DD0
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 06:16:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E60A91F246FF
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 06:57:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8164318991B;
-	Tue, 15 Oct 2024 06:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JT9y5awk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8CAB18BC21;
+	Tue, 15 Oct 2024 06:56:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DA01591EA;
-	Tue, 15 Oct 2024 06:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60818172BCE
+	for <linux-media@vger.kernel.org>; Tue, 15 Oct 2024 06:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728972983; cv=none; b=Ey9SHiq+RSfAEX8H+RaqK43oGTqi5JFVAzdF7RVP6iGenFIeSmWNDxGP6mpp1KHTW6pCUlXWxOsTb7CXbS/+o2VP7F5guNEj4Y7lGXAPnTFoB4zdiEgYDiZQ255eOugpkmSJGYoZEiJ+C2dWZ56Zc0mqjqNAbDsxQ9hRLmOShvA=
+	t=1728975410; cv=none; b=Sf6tGp6UGDVPT+23rnaPBmWBEsevwclmBDW9a6h1qHDS/bF5iRZ2CdGTP+jS1BpymvJPehAzcwIhu2aN2T6OEo8JiU38NFNB+KNcCGGhBey6v+yi5+LsAZyzyLiJ/ThLL0nIEcVGL10y88F5bpEVxyP2DKZJegpH42xKRqdjkR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728972983; c=relaxed/simple;
-	bh=ZlHhCGlulVeT/IfhfpRes5ZYNQIIDk4AdvMXoih0ql4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sZu7fwu/VhF9SLGQE2wW73noFB1IJvNnutxh6VlaFeBOnEJh0Eynr+UssR8qkCqYQlpqswUWSonM3iYKZHrsSdEL26QX6XctEVnRvRrWA3JS2MAWbK4tinoY+H4HpYIiHrAFFHlWLXhG+AUIqnL1sKt/QJY2Z6bvr1J1y9f8NrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JT9y5awk; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d461162b8so3293469f8f.1;
-        Mon, 14 Oct 2024 23:16:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728972976; x=1729577776; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jbF6lZf6Y3cFo/FJEKPYC02XHoVdgFNRcp1kazpDm0U=;
-        b=JT9y5awk8JmyQnSAFdUvx/ZYrpB6I/GmB+RONCdBSB/V4TRXmCWYZHI6PTRow/vKbo
-         r61Mb8Pm+YPwl3AZG7IzdKgN19UYK2eEFbEdnj56i2SMRVCqfgbBmbECTEsBCTaPNlKZ
-         9FHyT0G1ALAbf3/t/NDqmhEsXArcGGrHICE39/72ePqzqMnTzvWR7LSZIZ2Rkeic0Hbb
-         k7xQqi2LWyqCW2CutcEeaJq38XA1Sj0lDSsRbcIcruCer+ZSOVmAQFF6S21JvDzrBpCw
-         gtYds8OKRR0eyUGTp+bNDJlF4dEcgdNkw252DxDLKBT27AWQd7RETjQKZxz2jjMBo81z
-         5cKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728972976; x=1729577776;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jbF6lZf6Y3cFo/FJEKPYC02XHoVdgFNRcp1kazpDm0U=;
-        b=d6Ztt2DJwcC/uMR4gqbR0F7KLbues7C4+H8sC8mI7szRA8LSD5L5UHjDCBdnsD4VBl
-         aaH9lf6b6TSo4v7P3OqVbZWvMsrUTG2ynbeBTh6O9zR0erEAVyWrgtTyw3e/XZ0gdSuK
-         8hOEiejXyK8XJbDHcTTNEuiB0cvEc9iyqh+iMadaxSoDgRifoPYNVAX7DYYKzeNfBeCr
-         E2PmSLfNGhZQWBzuOTUIXaim++9XufeRx36lbKFi29QO3jChQaS5XsWH4E62d8DluiuT
-         zvQibr2APlFXXhbjMSXad8KQQyrUIPd3h9H2VkiOeF5aIVdPL3zbVxWoJGwx2YuoehzP
-         1meQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUu1VhFTqG4sR7NF3A6LvMaiDBm8sYvfiwHadffjCNrzcpCk6ITF4lvM3+mRnWz22lVkv1DhBvi7wh2Bc0=@vger.kernel.org, AJvYcCW3VGP6ftSGunavg0UCeklJCYfammgMFVlODAwY1rQksgubqgJZ088mAkRa399QI3AgRCoISu6v/3Ual3A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcYLx5wW+CYbsrmidZdFQt6EdGov3xyP1SIA34VN5l8tHxYWUE
-	cU4/AGAXV55HgpXT6dSNQCm6OtbIewGMLQE2FkVTz5m+UFVLcDLF
-X-Google-Smtp-Source: AGHT+IHtffj4kVB4CU+gpKVz68ja5fHOozQcjDr/J/MrRREyVkAKol011obQVXY72TaTGZUGL8+Etg==
-X-Received: by 2002:a05:6000:118c:b0:37d:2ceb:ef92 with SMTP id ffacd0b85a97d-37d5fedbb12mr7547393f8f.27.1728972976285;
-        Mon, 14 Oct 2024 23:16:16 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-51-176.cust.vodafonedsl.it. [188.217.51.176])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa87bd7sm684919f8f.35.2024.10.14.23.16.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 23:16:15 -0700 (PDT)
-Date: Tue, 15 Oct 2024 08:16:13 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: sakari.ailus@linux.intel.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: ov5645: add HAS_EVENTS support
-Message-ID: <Zw4IrU8bOOtq26Gx@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20241014173840.412695-1-tomm.merciai@gmail.com>
- <20241014175452.GB13238@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1728975410; c=relaxed/simple;
+	bh=6BcG3LfDDRy6NeYHFGrj/rlw0aQaa+KECbXSXz6ZYU4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OW0qNy6l/qlskMl1hRaBRWDETZ9y+TG4izv++Y590vs+1qx86Ok9RG8OoAfGkRBxOY5rP57Ez2VFQhW9ML2cuVKaSIyplU2Ypn6usuSWvakZ6CVn8DOwQWrCGIuRtCvNTaqX0XRFFUrI32kdKfF39S9KDSLIODZUBzf9ZDRBwk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E80E9C4CEC7;
+	Tue, 15 Oct 2024 06:56:31 +0000 (UTC)
+Message-ID: <ff498f0a-7f04-4376-8d98-50fa0cfa2b9b@xs4all.nl>
+Date: Tue, 15 Oct 2024 08:56:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014175452.GB13238@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/10] media: videobuf2-core: update vb2_thread if
+ wait_finish/prepare are NULL
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Andy Walls <awalls@md.metrocast.net>, Yong Zhi <yong.zhi@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, Dan Scally <djrscally@gmail.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+ Andrey Utkin <andrey_utkin@fastmail.com>, Ismael Luceno
+ <ismael@iodev.co.uk>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Corentin Labbe <clabbe@baylibre.com>, Michael Krufky <mkrufky@linuxtv.org>,
+ Matt Ranostay <matt@ranostay.sg>, Michael Tretter
+ <m.tretter@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>,
+ Eddie James <eajames@linux.ibm.com>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Eugen Hristev <eugen.hristev@collabora.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Nas Chung <nas.chung@chipsnmedia.com>,
+ Jackson Lee <jackson.lee@chipsnmedia.com>, Devarsh Thakkar
+ <devarsht@ti.com>, Bin Liu <bin.liu@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Houlong Wei <houlong.wei@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>, Joseph Liu <kwliu@nuvoton.com>,
+ Marvin Lin <kflin@nuvoton.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>,
+ Purism Kernel Team <kernel@puri.sm>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+ Jacob Chen <jacob-chen@iotwrt.com>, Heiko Stuebner <heiko@sntech.de>,
+ Dafna Hirschfeld <dafna@fastmail.com>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Fabien Dessenne <fabien.dessenne@foss.st.com>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Alain Volmat <alain.volmat@foss.st.com>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Yong Deng <yong.deng@magewell.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Benoit Parrot <bparrot@ti.com>, Jai Luthra <jai.luthra@linux.dev>,
+ Michal Simek <michal.simek@amd.com>, Andy Shevchenko <andy@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>,
+ Jack Zhu <jack.zhu@starfivetech.com>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-media@vger.kernel.org
+References: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
+ <20241014-vb2-wait-v1-1-8c3ee25c618c@xs4all.nl>
+ <20241014191549.GB5522@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20241014191549.GB5522@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
-Thanks for your review.
-
-On Mon, Oct 14, 2024 at 08:54:52PM +0300, Laurent Pinchart wrote:
-> Hi Tommaso,
+On 14/10/2024 21:15, Laurent Pinchart wrote:
+> Hi Hans,
 > 
 > Thank you for the patch.
 > 
-> On Mon, Oct 14, 2024 at 07:38:40PM +0200, Tommaso Merciai wrote:
-> > Controls can be exposed to userspace via a v4l-subdevX device, and
-> > userspace has to be able to subscribe to control events so that it is
-> > notified when the control changes value.
-> > Add missing HAS_EVENTS support: flag and .(un)subscribe_event().
-> > 
-> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > ---
-> >  drivers/media/i2c/ov5645.c | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> > index 0c32bd2940ec..2c5145d5c616 100644
-> > --- a/drivers/media/i2c/ov5645.c
-> > +++ b/drivers/media/i2c/ov5645.c
-> > @@ -29,6 +29,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/types.h>
-> >  #include <media/v4l2-ctrls.h>
-> > +#include <media/v4l2-event.h>
-> >  #include <media/v4l2-fwnode.h>
-> >  #include <media/v4l2-subdev.h>
-> >  
-> > @@ -1034,6 +1035,11 @@ static const struct v4l2_subdev_video_ops ov5645_video_ops = {
-> >  	.s_stream = ov5645_s_stream,
-> >  };
-> >  
-> > +static const struct v4l2_subdev_core_ops ov5645_subdev_core_ops = {
-> > +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> > +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> > +};
-> > +
-> >  static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
-> >  	.enum_mbus_code = ov5645_enum_mbus_code,
-> >  	.enum_frame_size = ov5645_enum_frame_size,
-> > @@ -1043,6 +1049,7 @@ static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
-> >  };
-> >  
-> >  static const struct v4l2_subdev_ops ov5645_subdev_ops = {
-> > +	.core = &ov5645_subdev_core_ops,
-> >  	.video = &ov5645_video_ops,
-> >  	.pad = &ov5645_subdev_pad_ops,
-> >  };
-> > @@ -1178,7 +1185,8 @@ static int ov5645_probe(struct i2c_client *client)
-> >  
-> >  	v4l2_i2c_subdev_init(&ov5645->sd, client, &ov5645_subdev_ops);
-> >  	ov5645->sd.internal_ops = &ov5645_internal_ops;
-> > -	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > +	ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> > +			    V4L2_SUBDEV_FL_HAS_EVENTS;
+> On Mon, Oct 14, 2024 at 05:06:28PM +0200, Hans Verkuil wrote:
+>> For read/write support the vb2_thread is used. This will queue and
+>> dequeue buffers automatically to provide the read() or write() feature.
+>>
+>> It calls wait_finish/prepare around vb2_core_dqbuf() and vb2_core_qbuf(),
+>> but that assumes all drivers have these ops set. But that will change
+>> due to commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
+>> are NULL").
+>>
+>> So instead check if the callback is available, and if not, use q->lock,
+>> just as __vb2_wait_for_done_vb() does.
+>>
+>> It was also used around vb2_core_qbuf(), but VIDIOC_QBUF doesn't
+>> need this since it doesn't do a blocking wait, so just drop the
+>> wait_finish/prepare callbacks around vb2_core_qbuf().
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+>> ---
+>>  drivers/media/common/videobuf2/videobuf2-core.c | 12 ++++++++----
+>>  1 file changed, 8 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+>> index d064e0664851b26b2da71e0a374c49a2d2c5e217..e9c1d9e3222323be50b3039eb463384a3d558239 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>> @@ -3218,10 +3218,16 @@ static int vb2_thread(void *data)
+>>  				continue;
+>>  			prequeue--;
+>>  		} else {
+>> -			call_void_qop(q, wait_finish, q);
+>> +			if (q->ops->wait_finish)
+>> +				call_void_qop(q, wait_finish, q);
+>> +			else if (q->lock)
+>> +				mutex_lock(q->lock);
 > 
-> Instead of patching every subdev driver, should we handle all of this in
-> the subdev core ? If a control handler is set for the subdev, we could
-> set the HAS_EVENTS flag automatically, and default to
-> v4l2_ctrl_subdev_subscribe_event() and v4l2_event_subdev_unsubscribe()
-> if there are no control operations.
+> I would still prefer moving vb2_ops_wait_prepare() and
+> vb2_ops_wait_finish() to videobuf2-core.c and calling the functions
+> here, instead of locking the mutex directly. I think it would make the
+> code more readable. I won't block the patch for this, but I think it
+> would be better.
 
-Well :)
-Not every subdev drivers, but only the ones I'm testing.
+The whole point of this series is to prepare for the removal of the
+wait_finish/prepare callbacks. So this patch is just a temporary change.
 
-Yesterday I was playing with ov5645 :) And I got:
-
-v4l2-compliance -d /dev/v4l-subdev1
-
-test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-fail: v4l2-test-controls.cpp(1108): subscribe event for control 'User Controls' failed
-
-Joke apart fully agree and thanks for your hint!
-I will take  a look :)
+Eventually this code will change to just a mutex_lock.
 
 > 
-> >  	ov5645->pad.flags = MEDIA_PAD_FL_SOURCE;
-> >  	ov5645->sd.dev = &client->dev;
-> >  	ov5645->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+> Also, should we check at queue init time that drivers either set a queue
+> lock or provide the .wait_prepare() and .wait_finish() operations ?
 
-Thanks & Regards,
-Tommaso
+It does that already, from videobuf2-core.c, vb2_core_queue_init():
+
+        /* Warn if q->lock is NULL and no custom wait_prepare is provided */
+        if (WARN_ON(!q->lock && !q->ops->wait_prepare))
+                return -EINVAL;
+
+Regards,
+
+	Hans
+
+> 
+>>  			if (!threadio->stop)
+>>  				ret = vb2_core_dqbuf(q, &index, NULL, 0);
+>> -			call_void_qop(q, wait_prepare, q);
+>> +			if (q->ops->wait_prepare)
+>> +				call_void_qop(q, wait_prepare, q);
+>> +			else if (q->lock)
+>> +				mutex_unlock(q->lock);
+>>  			dprintk(q, 5, "file io: vb2_dqbuf result: %d\n", ret);
+>>  			if (!ret)
+>>  				vb = vb2_get_buffer(q, index);
+>> @@ -3233,12 +3239,10 @@ static int vb2_thread(void *data)
+>>  		if (vb->state != VB2_BUF_STATE_ERROR)
+>>  			if (threadio->fnc(vb, threadio->priv))
+>>  				break;
+>> -		call_void_qop(q, wait_finish, q);
+>>  		if (copy_timestamp)
+>>  			vb->timestamp = ktime_get_ns();
+>>  		if (!threadio->stop)
+>>  			ret = vb2_core_qbuf(q, vb, NULL, NULL);
+>> -		call_void_qop(q, wait_prepare, q);
+>>  		if (ret || threadio->stop)
+>>  			break;
+>>  	}
+>>
+> 
+
 
