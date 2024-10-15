@@ -1,165 +1,140 @@
-Return-Path: <linux-media+bounces-19669-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19670-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16EB99E8A3
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 14:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864F199E8AB
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 14:08:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9CC96282D71
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 12:08:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AB9E281D66
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 12:08:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B97641EBA1F;
-	Tue, 15 Oct 2024 12:08:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 311EE1EF08F;
+	Tue, 15 Oct 2024 12:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hF6TsX5T"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="baSMsM2m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CBC1D4154;
-	Tue, 15 Oct 2024 12:08:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062D01D4154;
+	Tue, 15 Oct 2024 12:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728994092; cv=none; b=bV64tb8gx1d4MhSXVZn5+8xm3f3dvTeiNt9PfzKVZ6geasMuxeagjxC4/PAP0SPSPlXUU8Ijiy1ImAfCAOAMpvn60fg3FEV++MvlCUMyBKY+6gkCRQ31XjcgZ5Q3xZyU5/292P/i9oKaKxuUt9msQAIybIvpPJQvvxeL32515SI=
+	t=1728994101; cv=none; b=GbnHmG+XVbMhB+j801+qGdbKNsCPZ6DKOAH3LSvt+Y+CzETZZWs2+cqwyIQ8MfzOmwmkGqBPRU7Cs5Qhnb3KwiGsvDMmgL8KmeecpAplr1RHVXdp1BcnVwPyt+1AYq627fVreCdl7Dn6NgEuv8mQAcOJvo2xBOCCz2CXaXifY9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728994092; c=relaxed/simple;
-	bh=prcWaevsNJkB7b1NJvXK8hYUAEJ/OhWYpq8lsaV3Gvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CQylgJSGglfdKNzILX4RyNaTDUeIJgQ1w8P9cgYUt8DNonvPL3u4U+ur4KarOuo7dBweaUz2WVjhmKemeOvEBuR3r/Ge2ufymD3B53kpOHrQPw3qhOMOQVaXu+mrC3e4bnVjrmVH11v907v3vynQP6ZSLEX70U0s7UsiOXWKarQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hF6TsX5T; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728994091; x=1760530091;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=prcWaevsNJkB7b1NJvXK8hYUAEJ/OhWYpq8lsaV3Gvw=;
-  b=hF6TsX5T7QoPw1DBMJKhqqkvMkO1Zt7Hn6J0j7ebuQmmIN8Ps4PWE/Z+
-   nKDLO3CVBi6ZTL0aBjLDV50eE7XVtC7q4oWxsJTUfRXihvGDeWs+vPLh4
-   DNzJXd8JuXi51V4QT2g3Yr3F/NNqQip4kv3CCa455wXizB8804VhCF/MZ
-   fwnl8KH4wy8qHhTSX/fOp00ZERRBSezCsHrITLEtTt/iD2JYRGrpT5o5X
-   sUceeQ5db6vBNZ/u8I5Ec04NjCtSfhOB1rCdVjsNdW7sxhgHuLcLqzaMu
-   1qnlyqmEaKXz4XTLnZHTiTEZztECV5EmuYe/BRSlEUPdzj41fKjccR/6n
-   Q==;
-X-CSE-ConnectionGUID: MVfpoHxnRvSPRiax096THw==
-X-CSE-MsgGUID: 61SaygMBQiyYroaW/0MjTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28172402"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28172402"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 05:08:10 -0700
-X-CSE-ConnectionGUID: NyU+83L1TIG+d/TFC7lO8Q==
-X-CSE-MsgGUID: pePk9I4fS3yWDCgNVJ+rYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
-   d="scan'208";a="82663378"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Oct 2024 05:08:06 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t0gLL-000Idh-28;
-	Tue, 15 Oct 2024 12:08:03 +0000
-Date: Tue, 15 Oct 2024 20:07:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: Re: [PATCH v4 08/28] media: iris: implement power management
-Message-ID: <202410151938.Q3kFJFnO-lkp@intel.com>
-References: <20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e@quicinc.com>
+	s=arc-20240116; t=1728994101; c=relaxed/simple;
+	bh=m5786o8hDirP/0X352phnGyaNCXxjkqXYh0KZhUayf4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hkKF3bjIdIpUA6nWYIfQ5AHAe6S43lCY2c7JAC6KkufxyyfrD88gf0FSi82La58XkRVIwPJ/fZsDEnZ5fuD0EX9T9dtDXyLLltTL+ckmqIeYDMwtduotbtn/kCs9PnSmFNhv65pgDkmJ7A8ZCzXZu3FrcHTJiE3eXDMpvhJlN2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=baSMsM2m; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49F1fBeq028132;
+	Tue, 15 Oct 2024 12:08:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:message-id:mime-version:subject:to; s=
+	qcppdkim1; bh=cOb2D1xZISSQDWqXPYO06kPKB8aeAQW4UEJymP8ZKWw=; b=ba
+	SMsM2mBlE2+tsZkyLadIT1tkucf4FDqQA9dmzdH3qZ1inQ8nMvwpqM1Dx8NnrX2Z
+	kS4HnU5aQJpp9fLE1e9GiLrnFOuCUYZs0UotbQO/kXnKxVORAxHrPMfk9wlyMz/W
+	4YUcdpfd/dVxD2e++IoTb/bQNXP+rX/BbrXHN8pmPxMcoJzPQ5R+UUwE3CTXDJ4K
+	ex9z9PF1ySxreW9l3/en2iosQl775q9JLD9nxrcBV9WR9CDF9LMvWuSoM1cUGfg2
+	Ep3jvsagujg/a7hJzpUQltDqj+CR5lyYlitR6aamaUNVtw1bsxuOZ3vcsRWi7th/
+	52qJF/X/jsxAtPR3Q+3A==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 429exw1ce0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 12:08:11 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49FC8ABS025421
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 12:08:10 GMT
+Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 15 Oct 2024 05:08:05 -0700
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+To: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+        "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "Bjorn
+ Andersson" <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+CC: <cros-qcom-dts-watchers@chromium.org>, <linux-arm-msm@vger.kernel.org>,
+        <dmaengine@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
+        <quic_vtanuku@quicinc.com>
+Subject: [PATCH v1 0/5] Add Block event interrupt support for I2C protocol
+Date: Tue, 15 Oct 2024 17:37:45 +0530
+Message-ID: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e@quicinc.com>
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: kn6zcNgNnPYCCNO7GWlDuduX0UPko3Lj
+X-Proofpoint-GUID: kn6zcNgNnPYCCNO7GWlDuduX0UPko3Lj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 malwarescore=0 spamscore=0 impostorscore=0 mlxscore=0
+ clxscore=1011 adultscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410150083
 
-Hi Dikshita,
+The I2C driver gets an interrupt upon transfer completion.
+For multiple messages in a single transfer, N interrupts will be
+received for N messages, leading to significant software interrupt
+latency. To mitigate this latency, utilize Block Event Interrupt (BEI)
+only when an interrupt is necessary. This means large transfers can be
+split into multiple chunks of 64 messages internally, without expecting
+interrupts for the first 63 transfers, only the last one will trigger
+an interrupt indicating 64 transfers completed.
 
-kernel test robot noticed the following build warnings:
+By implementing BEI, multi-message transfers can be divided into
+chunks of 64 messages, improving overall transfer time.
+This optimization reduces transfer time from 168 ms to 48 ms for a
+series of 200 I2C write messages in a single transfer, with a
+clock frequency support of 100 kHz.
 
-[auto build test WARNING on 67cefecf2a039b9ed0030b9213ceafcd45e6f9e3]
+BEI optimizations are currently implemented for I2C write transfers only,
+as there is no use case for multiple I2C read messages in a single transfer
+at this time.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dikshita-Agarwal/dt-bindings-media-Add-video-support-for-QCOM-SM8550-SoC/20241014-171950
-base:   67cefecf2a039b9ed0030b9213ceafcd45e6f9e3
-patch link:    https://lore.kernel.org/r/20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e%40quicinc.com
-patch subject: [PATCH v4 08/28] media: iris: implement power management
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241015/202410151938.Q3kFJFnO-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151938.Q3kFJFnO-lkp@intel.com/reproduce)
+Jyothi Kumar Seerapu (5):
+  dt-bindings: dmaengine: qcom: gpi: Add additional arg to dma-cell
+    property
+  arm64: dts: qcom: Add support for configuring channel TRE size
+  dmaengine: qcom: gpi: Add provision to support TRE size as the fourth
+    argument of dma-cells property
+  dmaengine: qcom: gpi: Add GPI Block event interrupt support
+  i2c: i2c-qcom-geni: Add Block event interrupt support
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410151938.Q3kFJFnO-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/qcom/iris/iris_probe.c:281:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     281 |         if (core->state != IRIS_CORE_INIT)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/iris/iris_probe.c:289:9: note: uninitialized use occurs here
-     289 |         return ret;
-         |                ^~~
-   drivers/media/platform/qcom/iris/iris_probe.c:281:2: note: remove the 'if' if its condition is always false
-     281 |         if (core->state != IRIS_CORE_INIT)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     282 |                 goto exit;
-         |                 ~~~~~~~~~
-   drivers/media/platform/qcom/iris/iris_probe.c:276:9: note: initialize the variable 'ret' to silence this warning
-     276 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+ .../devicetree/bindings/dma/qcom,gpi.yaml     |   6 +-
+ arch/arm64/boot/dts/qcom/sc7280.dtsi          | 132 +++++------
+ drivers/dma/qcom/gpi.c                        |  74 ++++++-
+ drivers/i2c/busses/i2c-qcom-geni.c            | 205 ++++++++++++++++--
+ include/linux/dma/qcom-gpi-dma.h              |  37 ++++
+ 5 files changed, 355 insertions(+), 99 deletions(-)
 
 
-vim +281 drivers/media/platform/qcom/iris/iris_probe.c
-
-   272	
-   273	static int iris_pm_suspend(struct device *dev)
-   274	{
-   275		struct iris_core *core;
-   276		int ret;
-   277	
-   278		core = dev_get_drvdata(dev);
-   279	
-   280		mutex_lock(&core->lock);
- > 281		if (core->state != IRIS_CORE_INIT)
-   282			goto exit;
-   283	
-   284		ret = iris_hfi_pm_suspend(core);
-   285	
-   286	exit:
-   287		mutex_unlock(&core->lock);
-   288	
-   289		return ret;
-   290	}
-   291	
-
+base-commit: 55bcd2e0d04c1171d382badef1def1fd04ef66c5
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.17.1
+
 
