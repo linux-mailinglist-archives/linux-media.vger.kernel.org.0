@@ -1,128 +1,87 @@
-Return-Path: <linux-media+bounces-19680-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19681-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E48F99EE8E
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 16:01:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4F799EF05
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 16:13:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D33A8B20A90
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 14:01:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03EC01F21505
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 14:13:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FF3D1B219B;
-	Tue, 15 Oct 2024 14:01:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94BCE1DD0D7;
+	Tue, 15 Oct 2024 14:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9Tie2A9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r5jXg0rL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40B437160;
-	Tue, 15 Oct 2024 14:01:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67B31AF0DF;
+	Tue, 15 Oct 2024 14:11:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729000872; cv=none; b=WUKsVDJYKO+/qf4U+LjMBMkBNPQqEhfvQaHWwBQMfN2pH3dk8cjJS06JMp1csndFGIvVyzyae4igSOzye65tEPH/wQCNZuFBfTqhsFLc8T2R48y/+EXwjDjk4fL3phVcJx4PvlwW4OU7sFVE+o13seuzRrdKvnlNZTdNdQfIN68=
+	t=1729001499; cv=none; b=S0MO71O8RONZt7NcbeFBacc9dRWQt7q7/+RRydCH/SnvOrW/6RhbmRHkCkn50hyWmH7lkJCW1fKuyDlfZEWhyrKfrLZZo6XBHout5VBRS85CamuRoMlwtv8hWM4zk459Xt4ff59/pb4AKG3dgDOqQVrD0ABmRVH0ILn0TsvoYmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729000872; c=relaxed/simple;
-	bh=Hpil3qyQcxL9gsLtmpPaNlPIYSn4ilHSo8PamVfpP08=;
+	s=arc-20240116; t=1729001499; c=relaxed/simple;
+	bh=3vBwi+Pr6hzgjIe2HmL1b25HddRXemUMiSA16ZJQljY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fBHloO/r/dA0pyxVu0LpmdXj+SK2qAEppxyS9FqdSfkRSoDDSZZIwXj1QnDpLLoks0D3+akUwJIrCyqgq++EBRBDuRBdALzGYAegTdo+Hlja5Eu7Z7bxaXx+qgM8i40/DFSjCIIBs2W/ceF6EsUbPnhgio9zNxPhxDdxKt/CBbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V9Tie2A9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58FACC4CEC6;
-	Tue, 15 Oct 2024 14:01:11 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=bXjchS7XEu74isDuPAfKYz0m6TMEND4p9adBxYuxE0huLMJkes+Belav8aZgYfgUWiowGDvmP8ZUr4y1hAP+I3edezlQt1vD4206ZH01BxwyLa7ugERmoEFdz/M5omtaYqQEUqWvZORAQPahZLPOuYXJzyFtxipxNHpjQaQN/iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r5jXg0rL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22DFAC4CEC6;
+	Tue, 15 Oct 2024 14:11:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729000872;
-	bh=Hpil3qyQcxL9gsLtmpPaNlPIYSn4ilHSo8PamVfpP08=;
+	s=k20201202; t=1729001498;
+	bh=3vBwi+Pr6hzgjIe2HmL1b25HddRXemUMiSA16ZJQljY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V9Tie2A9vA28PhwfDTXNKAcPnNGLrT3HXxaEyaWy2os+EaFKTTanPL5kiJ4APiYGR
-	 tWaHsYJdBf8ACz5Vk+gnHz161+dD+aTlYk6EZeUslnvgUk5CZHWZIMn9memCtOKOPL
-	 DksBb6zZw00dbCJMqFIEOVbY18wxPYUn/oCxY6DCar20yBEVGqx2MXIV7J8LyIkQdY
-	 sIGxramwOtYWD195TWOJsrQ/80wkInxupx3sBvWTm1g7y1PwUT+Tq8NZ9ocUQ2HL+e
-	 qCywX612tyM1dK2+7Q+UFVaQXDLWI/F2oa1PPJUX6ql+9v+uEODDOAYA4V82Hlwmou
-	 IBBdcDHmtv2GA==
-Date: Tue, 15 Oct 2024 09:01:08 -0500
-From: Rob Herring <robh@kernel.org>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
-	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, quic_msavaliy@quicinc.com,
-	quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v1 1/5] dt-bindings: dmaengine: qcom: gpi: Add additional
- arg to dma-cell property
-Message-ID: <20241015140108.GA620512-robh@kernel.org>
-References: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
- <20241015120750.21217-2-quic_jseerapu@quicinc.com>
+	b=r5jXg0rLtQ+/C4ovQVfofe/AEEPcX/NKdF4LTE9iVuIk5l+S2GipFgSXSIeJ/ZXM3
+	 MbbZOedjrahcQ6twK7Sl3P154+YkVEABhOZ6Z9g9cA+AMBLgH+BxQtiu7S13XjxvHv
+	 6ft2dkEnv3i5bFzt6Fk1Es8WoCCxyUM48k10pwXNxmC15Su3DVmCph+1X+VWp+hlLc
+	 N7Cf2qYnXSEH8zAxGyl9iSnXFgN7se7r8YNGcd/u8yUSSzLzTpt9LsQ0z52XDkD5Yj
+	 IMwGy4oCrmgi0lU8bmm45gYi1t26vL/rIKnOoG249/bsrXgj4eMWsidzMxVKg6Xkfz
+	 RIS3IDoNzaMSg==
+Date: Tue, 15 Oct 2024 16:11:35 +0200
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	rust-for-linux@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>, Miguel Ojeda <ojeda@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH v3 14/16] media: anysee: Fix and remove outdated comment
+Message-ID: <Zw54FyNlLFRnakXB@localhost.localdomain>
+References: <20241014-devel-anna-maria-b4-timers-flseep-v3-0-dc8b907cb62f@linutronix.de>
+ <20241014-devel-anna-maria-b4-timers-flseep-v3-14-dc8b907cb62f@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241015120750.21217-2-quic_jseerapu@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241014-devel-anna-maria-b4-timers-flseep-v3-14-dc8b907cb62f@linutronix.de>
 
-On Tue, Oct 15, 2024 at 05:37:46PM +0530, Jyothi Kumar Seerapu wrote:
-> When high performance with multiple i2c messages in a single transfer
-> is required, employ Block Event Interrupt (BEI) to trigger interrupts
-> after specific messages transfer and the last message transfer,
-> thereby reducing interrupts.
+Le Mon, Oct 14, 2024 at 10:22:31AM +0200, Anna-Maria Behnsen a écrit :
+> anysee driver was transformed to use usbv2 years ago. The comments in
+> anysee_ctrl_msg() still are referencing the old interfaces where msleep()
+> was used. The v2 interfaces also changed over the years and with commit
+> 1162c7b383a6 ("[media] dvb_usb_v2: refactor dvb_usbv2_generic_rw()") the
+> usage of msleep() was gone anyway.
 > 
-> For each i2c message transfer, a series of Transfer Request Elements(TREs)
-> must be programmed, including config tre for frequency configuration,
-> go tre for holding i2c address and dma tre for holding dma buffer address,
-> length as per the hardware programming guide. For transfer using BEI,
-> multiple I2C messages may necessitate the preparation of config, go,
-> and tx DMA TREs. However, a channel TRE size of 64 is often insufficient,
-> potentially leading to failures due to inadequate memory space.
+> Remove FIXME comment and update also comment before call to
+> dvb_usbv2_generic_rw_locked().
 > 
-> Add additional argument to dma-cell property for channel TRE size.
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
+> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-No such property 'dma-cell'
-
-> With this, adjust the channel TRE size via the device tree.
-> The default size is 64, but clients can modify this value based on
-> their specific requirements.
-> 
-> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-> ---
->  Documentation/devicetree/bindings/dma/qcom,gpi.yaml | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/dma/qcom,gpi.yaml b/Documentation/devicetree/bindings/dma/qcom,gpi.yaml
-> index 4df4e61895d2..002495921643 100644
-> --- a/Documentation/devicetree/bindings/dma/qcom,gpi.yaml
-> +++ b/Documentation/devicetree/bindings/dma/qcom,gpi.yaml
-> @@ -54,14 +54,16 @@ properties:
->      maxItems: 13
->  
->    "#dma-cells":
-> -    const: 3
-> +    minItems: 3
-> +    maxItems: 4
->      description: >
->        DMA clients must use the format described in dma.txt, giving a phandle
-> -      to the DMA controller plus the following 3 integer cells:
-> +      to the DMA controller plus the following 4 integer cells:
->        - channel: if set to 0xffffffff, any available channel will be allocated
->          for the client. Otherwise, the exact channel specified will be used.
->        - seid: serial id of the client as defined in the SoC documentation.
->        - client: type of the client as defined in dt-bindings/dma/qcom-gpi.h
-> +      - channel-tre-size: size of the channel TRE (transfer ring element)
->  
->    iommus:
->      maxItems: 1
-> -- 
-> 2.17.1
-> 
+Acked-by: Frederic Weisbecker <frederic@kernel.org>
 
