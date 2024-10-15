@@ -1,216 +1,170 @@
-Return-Path: <linux-media+bounces-19699-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19700-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD6F99F6A0
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 20:59:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 787A199F76E
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 21:44:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 440A21C20EF9
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 18:59:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 086B31F251BC
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 19:44:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 663581F81AF;
-	Tue, 15 Oct 2024 18:55:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40C0D1DD891;
+	Tue, 15 Oct 2024 19:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="nGjlF9Cd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/R7nQR3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33A61F80CB;
-	Tue, 15 Oct 2024 18:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5E61F80A9;
+	Tue, 15 Oct 2024 19:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729018515; cv=none; b=Sv/ezGFxt5o4Gmu5m8yqD0cmyA4jRXq8oGeoXiO3av2ZZvL9j9neMMG3egb/T+8h1v9MbK8Az7llTvK0heX/BgmTpv87tvUHBJTXTCPQ3lRt4rq4HD0okm2EmKBPh45tiK3AVpUKlNwn/5bvp/NMRhbwHySUMXO09A5eiU42sbE=
+	t=1729021460; cv=none; b=Ql0p1BavyqbiNPaaMWlqK9ftGmBzDQL6H35aVwduE+FcdOXinqiZB/8wquPx5EJQTnUpWJ3+KSxB6DjJ7BHkGjDvhPfRzmlBohfRdznnYN5cApuGpOKo3rpptZRY5NX73+hlcDzBI1bLUOaMIlEXZJbGVAKCrm+p4gtlrQhRweY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729018515; c=relaxed/simple;
-	bh=pc1Z8EfWvBxP85WS0wzh/1bQju0KE7F9jhLaLeVkEwQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=km6ixRjAVyb+4I7AZYnCF4nqI6dJx+mbNbwveZU9+ANJH5mMT4AQNdkSY7I4DgKIqi+SDW7W4KhGNAo1isVDn7Ow0FMYTT922FqQfBaugZn2Kt0pdiiIVLhmJNKrf/A60vDCB4f+GdEkJvwXn6A7ZgThnBFYwhp1oIrUoZ9O3SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b=nGjlF9Cd; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1729018474; x=1729623274; i=deller@gmx.de;
-	bh=91lKyLXYNbffBLJOzGVYrJfP7I4FaiD9ad6tG5KIXl4=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=nGjlF9CdtAG0c98YK/ciOgKpebINerQcE3LXXTTea8ZejCdSyl/1Bv4CvxYs+xPM
-	 cwaj0jR1/ci4SMrMa9d6lknUwm5FMmEg3K7MiDlRR2yTdZ9282mynazKMh598tviQ
-	 tj6pdL0SiFVFiaQ6nUTAcXfTwb+blIAxv7DY5EgzRPaFrFO3Wmb7OY+eI5xzXuUp3
-	 mGA8Jlr7QTBuDn8Cz7qE+F/dvCMIlBsJXF48Rccq26CB6Db+Bo5Vdyq+5hgzVB0sm
-	 C1O0cPfyELC0IdMiC/cc+4DKb/Ts6iGEvvVCbZGr2vA3tAMOvZgVWlVHaLNJ9crx/
-	 D3iPwIRAADAgXAkF2Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPog5-1tMYfZ2qN1-00I7Hx; Tue, 15
- Oct 2024 20:54:34 +0200
-Message-ID: <5225783c-dd8f-40fd-b2de-03950303cf69@gmx.de>
-Date: Tue, 15 Oct 2024 20:54:32 +0200
+	s=arc-20240116; t=1729021460; c=relaxed/simple;
+	bh=piAVYRm8bQi755vcZJ4BbIo9LCMHinq9/pmQKh/ZVp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=juoZHZvFCoir/tebR8gBrPmkTl5YrBeiVAdgxpkX6A1zs9YspbSDdqbA1IrQJM1tZ7Mwhrig6/zXv8ZcnxHCbbvE2/L6djSOJirkeIK10vDR6GbuX8FXOWUjag9qwvFi6PSV02YNt4waaHNSna8zKIkrUjf/DUJYcy5n6V9KRdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O/R7nQR3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2DFBC4CEC6;
+	Tue, 15 Oct 2024 19:44:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729021460;
+	bh=piAVYRm8bQi755vcZJ4BbIo9LCMHinq9/pmQKh/ZVp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O/R7nQR3vScA8jS/82vAp70niVvfHBYlEpyAfdFiNIVzE+Hx2bE1oJ2VY2RBHnHcu
+	 y41wPg/eOcw3jPK/rM9IySa2QMOXmNanZX3LJSaPHtZCTBpdwg3l75UusJp3uDkSq2
+	 WVQaccl2SVainU4h64TMeE+ho2udLmOPK7L4LXOtWX/rA86egCBDYeEFdAc5lrwnUg
+	 xRP8xx9CySn2DW3fUsn0ER3XJcQthnUk/YuN4P6zgks8I+jtlCyc5c/yHkvPAjrJSf
+	 8Qi+QX4e08W/7agYajwG5kU4YO7mCHOT6WZVBIyx+z9UhdlXdAT9Nc7ExVctOGrN1O
+	 nDfTuJA0kRKhA==
+Date: Tue, 15 Oct 2024 14:44:18 -0500
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	"Paul J. Murphy" <paul.j.murphy@intel.com>,
+	Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Martin Hecht <martin.hecht@avnet.eu>,
+	Zhi Mao <zhi.mao@mediatek.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>,
+	Ricardo Ribalda <ribalda@kernel.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Dongchun Zhu <dongchun.zhu@mediatek.com>,
+	Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+	Todor Tomov <todor.too@gmail.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/2] media: dt-bindings: Use additionalProperties: false
+ for endpoint: properties:
+Message-ID: <20241015194418.GA1244454-robh@kernel.org>
+References: <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-0-a2bb12a1796d@linaro.org>
+ <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-2-a2bb12a1796d@linaro.org>
+ <7ecxjoa7aije46cxmkyfd6ihxnqw4wleqkioddomxbwlu7qtrc@4dkfitppeksu>
+ <6f461cb3-3a41-4a3d-b9b2-71b1c6be77f7@linaro.org>
+ <9510b546-28fa-4fb4-b06e-0af5f9fd3bbb@kernel.org>
+ <20241014202920.GE5522@pendragon.ideasonboard.com>
+ <f265576c-7d83-40cb-b857-7ec54ef9ab46@kernel.org>
+ <20241015112806.GA2712@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/9] of: property: add
- of_graph_get_next_port/port_endpoint()
-To: Rob Herring <robh@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-References: <87wmiirqwy.wl-kuninori.morimoto.gx@renesas.com>
- <20241015154912.GA1152221-robh@kernel.org>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20241015154912.GA1152221-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GJiBUxtzYl2oqmHV1d9isoAr9PnsJlZ8OkBgA62GkofDv5+Ijl/
- xilD91oGq42yO3+wq5saZ8tKGwOdDI/qUjLyk4C7kreQ+AND1b82W8c7o6tp6AyeT0T6KW6
- nKJNfyrpFHZnAEepEaqXM5z88v7T+EtGBnHq7nVAR6o6q8unsPkLYsxBrL6pBNo0skxIt0P
- uZWGFU82Nu+R41bpoCcdg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:keeA0EklhAU=;h2mjlKCsFABIuU2aK1/aBwRZbxC
- IC28uf6WtuK7YC0U+ZszY34hB8rIT4BQAWq9wkS9KSnBf26hSyRFMtApi2BcSx6dAZe/FBKIN
- 2zjCBrMtetsVBhjpOMXtWvIbHAbMTNp1vJdheeTylcK4a2XphAqNJz6441x0Umxf31nWtwtu+
- 4zs8ckYo0h6GPnMi1h0fFjQgXgcxqrCPA+HpNJ/+Ir0OixR1WosWBDWV+mI0Fiw+CaIeFPqy8
- MJNQDdpaMx0oeGEmxmhvCKkiW77nK5u/q2trXFE/isjJ52iyi4QqudGKDUv3V9894BYoAoRHC
- K7iDQl9SLBfJeo97fm+uYxO9MxztGkpzupied7+QzS6TwdHdpWqTLnNIxz2iE/0hxu2T3UPOx
- F7I8qbq7jf6e3RnhzA8UXMjFRJB2nUawchKLM2DAoUapYZz+JLo40Eh/cVR0PKODKLZMOssfG
- jf/NzXXlv9BiLXE6k+FoTEQouWOqZ99KXW6saKhRFGQCwfItw8ev4uKzSdarEEEkhXuQYX6y4
- RMq0RmIOEgKxDfrowwL7eKUgP3rAUhyOYkuQjnqrCmw1ulXeXa9HmbqVQl5YpucYwEdcj9JHC
- fe9fCKdAL7sAtoNvNn4z3G4RWbUMxnTq+PdtDG2owMHgEUtsas5ljAj2cHw6GtJFryExs5JU8
- NDmDCkCL+LYiTGcevmpFHxH1a5MSNDb+gLqTMRzzY5UxPVuFbX2ShgcC7hl52QKtb3umaFNCD
- i458Qzp4dj/236ItE8T5kBKTRVtiSj5hL2kS7V9XeZo5iKwtGUi3nghyyozdOd6ZShSRkMQ+Q
- iM6mlWHl2NpA7GcgrdaQprdA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241015112806.GA2712@pendragon.ideasonboard.com>
 
-On 10/15/24 17:49, Rob Herring wrote:
-> On Wed, Oct 09, 2024 at 01:44:30AM +0000, Kuninori Morimoto wrote:
->>
->> Hi Rob, Saravana, Tomi, Laurent, Sakari, Mark
->>
->> This is v7 patch-set
->>
->> Current Of-graph has "endpoint base" for loop, but doesn't have
->> "port base" loop. "endpoint base" loop only is not enough.
->> This patch-set add new "port base" for loop, and use it.
->>
->> v6 -> v7
->> 	- based on latest linus/master branch
->> 	- remove "ports" base functions
->> 	- use "port" base function on "endpoint" function ([3/9])
->> 	- tidyup [1/9] explanation
->>
->> v5 -> v6
->> 	- based on latest linus/master branch
->> 	- [9/9]: fixed compile warrning
->>
->> v4 -> v5
->> 	- tidyup comments
->> 	- [8/9]: parent NULL check was removed
->> 	- [9/9]: use for_each_of_graph_port()
->>
->> v3 -> v4
->> 	- new for_each loop includes __free()
->> 	 - comment indicates to use return_ptr() or no_free_ptr() if
->> 	   it need to continue to use node
->> 	 - each driver based on it
->> 	- care "prev" leak on of_graph_get_next_ports()
->> 	- of_graph_get_next_port_endpoint() indicates WARN() if port
->> 	  has non-endpoint node
->> 	- tidyup each git-log
->>
->> v2 -> v3
->> 	- return NULL if it it doesn't have ports / port
->> 	- add visible comment on of_graph_get_next_ports()
->>
->> v1 -> v2
->> 	- add each Reviewed-by / Acked-by
->> 	- tidyup/update Kernel Docs
->> 	- use prev as parameter
->> 	- update git-log explanation
->> 	- remove extra changes
->>
->> Kuninori Morimoto (9):
->>    of: property: add of_graph_get_next_port()
->>    of: property: add of_graph_get_next_port_endpoint()
->>    of: property: use new of_graph functions
->>    ASoC: test-component: use new of_graph functions
->>    ASoC: audio-graph-card: use new of_graph functions
->>    ASoC: audio-graph-card2: use new of_graph functions
->>    gpu: drm: omapdrm: use new of_graph functions
->>    fbdev: omapfb: use new of_graph functions
->>    media: xilinx-tpg: use new of_graph functions
->
-> The DT parts look fine to me now. I see Mark acked this so he's not
-> expecting to take it. I can take it,
+On Tue, Oct 15, 2024 at 02:28:06PM +0300, Laurent Pinchart wrote:
+> Hi Krzysztof,
+> 
+> On Tue, Oct 15, 2024 at 08:11:18AM +0200, Krzysztof Kozlowski wrote:
+> > On 14/10/2024 22:29, Laurent Pinchart wrote:
+> > > On Mon, Oct 14, 2024 at 10:47:31AM +0200, Krzysztof Kozlowski wrote:
+> > >> On 14/10/2024 10:31, Bryan O'Donoghue wrote:
+> > >>> On 14/10/2024 08:45, Krzysztof Kozlowski wrote:
+> > >>>> I do not understand the reasoning behind this change at all. I don't
+> > >>>> think DT maintainers ever suggested it (in fact, rather opposite:
+> > >>>> suggested using unevaluatedProps) and I think is not a consensus of any
+> > >>>> talks.
+> > >>>
+> > >>> No there is not but then, how do you give consistent feedback except 
+> > >>> proposing something to be a baseline.
+> > >>>
+> > >>> On the one hand you have upstream additionalProperties: false and 
+> > >>> unevaluatedProperites: false - it'd be better to have a consistent 
+> > >>> message on which is to be used.
 
-Speaking for fbdev, I'd be happy if you take them.
+There are 3 options:
 
-> but need acks on the fbdev and media patches.
+- no $ref => additionalProperties
+- has a $ref:
+    - additionalProperties and list ref-ed properties
+    - unevaluatedProperties and don't list ref-ed properties
 
-I just sent Ack for fbdev/drm.
+I do debate (with myself) that that is too complicated as many don't 
+understand the difference. We could go back to always using 
+additionalProperties which is what we had before unevaluatedProperties 
+was added. The other option is always use unevaluatedProperties. 2 
+things have stopped me from going that route. I don't care to fix 
+'additionalProperties' treewide which would be necessary to implement a 
+meta-schema or check that unevaluatedProperties is used. It's not 
+something I want to manually check in reviews. The other reason is just 
+to not change what the rules are again.
 
-Helge
+> > >>
+> > >> Well, I am afraid that push towards additionalProps will lead to grow
+> > >> common schema (video-interface-devices or video-interfaces) into huge
+> > >> one-fit-all binding. And that's not good.
+> > >>
+> > >> If a common binding for a group of devices encourages you to list its
+> > >> subset, then it is not that common.
+> > >>
+> > >> Solution is to fix that, e.g. split it per classes of devices.
+> > > 
+> > > I think splitting large schemas per class is a good idea, but the
+> > > problem will still exist. For instance, if we were to move the
+> > > CSI-2-specific properties to a separate schema, that schema would define
+> > > clock-lanes, data-lanes and clock-noncontinuous. The clock-lanes and
+> > > clock-noncontinuous properties do not apply to every device, how would
+> > > we then handle that ? I see three options:
+> > 
+> > Why is this a problem? Why is this a problem here, but not in other
+> > subsystems having exactly the same case?
+> 
+> I won't talk for other subsystems, but I can say I see value in
+> explicitly expressing what properties are valid for a device in DT
+> bindings both to inform DT authors and to perform validation on DT
+> sources. That's the whole point of YAML schemas, and I can't see a good
+> reason not to use the tooling we have developed when it has an easy way
+> to do the job.
+
+This topic is just one piece of validation. A property being used that's 
+defined, but meaningless for a device is low on the list of what I care 
+about validating. I can't see how it would cause an actual problem? A 
+driver is going to read the property and do what with it? Could it be an 
+ABI issue ever? I can't see how other than a driver failing for some 
+reason if it finds the property, but that seems a bit far fetched.
+
+Rob
 
