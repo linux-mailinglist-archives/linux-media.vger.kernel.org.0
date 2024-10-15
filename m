@@ -1,454 +1,139 @@
-Return-Path: <linux-media+bounces-19675-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19676-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B06899E8D7
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 14:10:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1D699E9D2
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 14:28:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0DC4C1F21DEB
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 12:10:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CAD31C21569
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 12:28:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 206B51F8EF6;
-	Tue, 15 Oct 2024 12:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 184F320B204;
+	Tue, 15 Oct 2024 12:27:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UQ8nc6OV"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xEj+LFmd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE941F8EE0;
-	Tue, 15 Oct 2024 12:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A7720FA98
+	for <linux-media@vger.kernel.org>; Tue, 15 Oct 2024 12:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728994130; cv=none; b=KGpRAwNFdG7Ni28brTjRGGJNZHkBgXwSZALwgD/rr3KwtSsiv8cd1cG+vZ02qtR51FK/f+oCVdzwqpBcYR+OfMiTy0lV/Aecg9v7nOATgMTtx4nSNNLabejhgWNLnq3a5fe+7uvwh25qPkBHRwLqKe24I+bKVY4jPJ6m073HqW0=
+	t=1728995227; cv=none; b=Cie+fcKzFz9eaGsBY6M6q1YC0KK9ftHAhO3Z/jt0HK3zIoP59GbP79NpqfYC/2L8ykpm3jO3vyKxVrkdFqY/Ozj7v+YsXw0JUmu1MnFAyf8MVqrJY4J66hMfgvOMo0+rpv/GZBGZ3enN/TJMWm7zZGxjPflBpUd3agxrHRdHqpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728994130; c=relaxed/simple;
-	bh=PB7ITYqeJHSWN7dDeshEQNuJtkk65I1VUnMHSCBdzG0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dwCD9EGpHzCjBdMlEqrLxXBnu+7er217YEdXnY6FMGCCUJ5+7TV9FciXoI3cFTD+k6O7e6TcN8ldda9lwZ7IvCFqw28amXDCXPGHWF3gwizuNFyQ1/RVjQt5Q2zKE95WXZdx8sjdq1GERCHm7Uf3H3+cRwJsP1Sv2AYK/qstkEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UQ8nc6OV; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49FBVKeL028539;
-	Tue, 15 Oct 2024 12:08:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=0o+CFFxLvBXPtKGJfpW0Lc+u
-	4Hdpi4klAbpdj7dOxbo=; b=UQ8nc6OVoj2T1cUFmbiFhoDzX1VPgK2JurHgv3CV
-	2xWxpnx7o3xe7q7gMEXPWTb51sCwhJOog74LEaE6w0C6x/myR6wWkvmgkSV8l0UW
-	9wrhgn9culQTSVYb89NVrDnkN/Y45fE0G2Z7FCgIPZErAXhV8kyWCoyPrxnAR87c
-	4e2KjBY5IlegTpkQ1b0y7jRYDy9lqot7t5asdpzuPUdrZusbiTUOtMgxTr+nVrsd
-	INGt1FFpqOsghmUtTTms3zrzhEtBAQD5PsVm83/c3fxJs8yjSC5NRton/W/holIl
-	YNh0K5yeiTfzr0zuANdfJE9ubzh2bobm1hE/WDP8EcALyg==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4292evk69c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Oct 2024 12:08:39 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49FC8c79011440
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Oct 2024 12:08:38 GMT
-Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 15 Oct 2024 05:08:33 -0700
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-To: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-        "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "Bjorn
- Andersson" <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-CC: <cros-qcom-dts-watchers@chromium.org>, <linux-arm-msm@vger.kernel.org>,
-        <dmaengine@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
-        <quic_vtanuku@quicinc.com>
-Subject: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt support
-Date: Tue, 15 Oct 2024 17:37:50 +0530
-Message-ID: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
-References: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
+	s=arc-20240116; t=1728995227; c=relaxed/simple;
+	bh=IJlYtQFeLG0i9bPxCxcljLBDzVvz3Kvv8tvwApj9vmk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VOh36iGJFitqp1oFfWC8Hzd6eX8J1HMKKRO7L6wvNAmqLl3m36z/CxLxejMMuYxDSuoC7SpGibPTNGOyeyYWEQ9odWLFZFQkUj7RGT+9f2Jjp8hmhh6OttlH+CQe/nVzjn4OB6Nrt7Dy6jmEukGEhe8kIsK/Ptweuuw7iKsFhPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xEj+LFmd; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6e2e41bd08bso54923537b3.2
+        for <linux-media@vger.kernel.org>; Tue, 15 Oct 2024 05:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728995223; x=1729600023; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ks6Ykml+AXF/SLAnbRT+RNH2STdD8HOXdreQb6f0egQ=;
+        b=xEj+LFmdYVHPzl3DWJcKIhao6TMusleO/pV7XcxKxG1Dy95RWHZrrq+KWDTPQWOMNz
+         1pKSwBXnuziqxns6Z18jZZ7yP3uWn8eUCg4L/2Om43l70dNbLoNZgOU7Enqh7n9NslXf
+         Z45xAZsIMK+b1tbWOhN5Ks8iwUThF4Bs7VqnKYrLhYXuWsrfPAuZxnRqdU/3b/GSLZlW
+         U50kZ2JkdUm0NuJUSt2X8/e2UzDWF2AV2QOHOXLKU69IZFDz0cpqZyCcd/siisdP1Rur
+         VY1UsoztlP5lrrPT6pB4m1A3tXEwEylGqakexw2zg6FN2W3gbWwdKka+XIz3ZoNsniGX
+         3nLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728995223; x=1729600023;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ks6Ykml+AXF/SLAnbRT+RNH2STdD8HOXdreQb6f0egQ=;
+        b=wWoe67Rb/WZaGJhBAMHPAtzlso+OkTnMfYpfI9e/Y3n87MsUss4XUSAAYCfsoQRhOT
+         uGNzpAMzgHoaJ9O2XxFS1DQlFFjCfQisXWubqgjD5M78g+Rast2e3UqQlRhWbOKRnGil
+         NrbM66ZtrAXwQk9kQeJGtmeX/Dk00ZbHeIoPi7AsSK6z8Hflu9HnLaYVyGy17cuCqTWL
+         05uB6ckbT5dN4lO3sTiNa9ngs3upWuJ7X5RdTJuZH0XhwcRxuT+/y/+NTzwotnKroGUE
+         3FHd+vEFELoxomt/f7XZkRwsmRozGfh5or06tpdT0JAh7Jfw3d6EIvRBGhoa/TAz/Ccx
+         8ouA==
+X-Forwarded-Encrypted: i=1; AJvYcCVAQTu1qDszBrrNYLM1650UFZrryg+rKOJds4+V6qNPn38A3CTbSB9xwe8fYj690iYFewVZffY4v5DdKA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaisahXw54GW7pDBjz2jufTxMOmiACITjDcjhkTn478hjanCZB
+	bE6o4dM47Xn6iPfp8i+s2WLg1tPBLyAYKZReGpZ/g1UTv1eVHpupNvimrt0UZWOiTDo4Y/m80je
+	LPqIZTWCCOxNbVaRQ7o1E6KCIo6hNaXeID8uDCA==
+X-Google-Smtp-Source: AGHT+IF9cEyFlB4rJ2xvEcXHUWgmUWBXAAmvE4lzHc02ikckmMbCT8jufBaw4HpfIgnp6G5dxrvwmFVSxwc5Xo0DWgQ=
+X-Received: by 2002:a05:690c:d96:b0:6e2:b263:1051 with SMTP id
+ 00721157ae682-6e3640f5282mr82517567b3.7.1728995223277; Tue, 15 Oct 2024
+ 05:27:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: igqfXn0az7sxVPtrNFgXme81UVCGm5Qq
-X-Proofpoint-ORIG-GUID: igqfXn0az7sxVPtrNFgXme81UVCGm5Qq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
- phishscore=0 adultscore=0 bulkscore=0 mlxscore=0 impostorscore=0
- suspectscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410150083
+References: <20241014-qcom-video-iris-v4-v4-0-c5eaa4e9ab9e@quicinc.com>
+ <20241014-qcom-video-iris-v4-v4-27-c5eaa4e9ab9e@quicinc.com>
+ <Zw0j9UeJmC1MZ3Xt@localhost.localdomain> <7vmxx5qtbvhyfcdeariqiult27j5rmykxrefl2qmkhqnrw5wi5@6ugxtx643bmq>
+ <48f0e7a1-f5d4-62ec-ec4b-f5bf2ca9caa5@quicinc.com>
+In-Reply-To: <48f0e7a1-f5d4-62ec-ec4b-f5bf2ca9caa5@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 15 Oct 2024 15:26:58 +0300
+Message-ID: <CAA8EJpq6Q80fcUZfP-DRmo8LHLHrwnkFd5FQ4Mrs0hiwPUyuSw@mail.gmail.com>
+Subject: Re: [PATCH v4 27/28] media: iris: enable video driver probe of SM8250 SoC
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: Jianhua Lu <lujianhua000@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, linux-arm-msm@vger.kernel.org, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The I2C driver gets an interrupt upon transfer completion.
-For multiple messages in a single transfer, N interrupts will be
-received for N messages, leading to significant software interrupt
-latency. To mitigate this latency, utilize Block Event Interrupt (BEI)
-only when an interrupt is necessary. This means large transfers can be
-split into multiple chunks of 64 messages internally, without expecting
-interrupts for the first 63 transfers, only the last one will trigger
-an interrupt indicating 64 transfers completed.
+On Tue, 15 Oct 2024 at 12:22, Dikshita Agarwal
+<quic_dikshita@quicinc.com> wrote:
+>
+>
+>
+> On 10/14/2024 7:38 PM, Dmitry Baryshkov wrote:
+> > On Mon, Oct 14, 2024 at 10:00:21PM +0800, Jianhua Lu wrote:
+> >> On Mon, Oct 14, 2024 at 02:37:48PM +0530, Dikshita Agarwal wrote:
+> >>> Initialize the platform data and enable video driver
+> >>> probe of SM8250 SoC.
+> >>>
+> >>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> >>> ---
+> >> [..]
+> >>> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> >>> index 86ef2e5c488e..a2aadd48926f 100644
+> >>> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> >>> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> >>> @@ -325,6 +325,10 @@ static const struct of_device_id iris_dt_match[] = {
+> >>>             .compatible = "qcom,sm8550-iris",
+> >>>             .data = &sm8550_data,
+> >>>     },
+> >>> +   {
+> >>> +           .compatible = "qcom,sm8250-venus",
+> >>> +           .data = &sm8250_data,
+> >>> +   },
+> >>>     { },
+> >>>  };
+> >>>  MODULE_DEVICE_TABLE(of, iris_dt_match);
+> >>
+> >> qcom-venus driver has already supported sm8250 soc, I think you should add
+> >> an extra patch to drop sm8250 releated code from qcom-venus driver if you
+> >> tend to add support for sm8250 in qcom-iris driver.
+> >
+> > Iris driver did not feature parity with the venus driver, so it is
+> > expected that two drivers will exist side by side for some time.
+> > Nevertheless ideally we should have a way to specify which driver should
+> > be used for sm8250 (and other platforms being migrated).
+> >
+> Agree, we should have a way to specify this. Any suggestions to achieve
+> this are welcomed.
 
-By implementing BEI, multi-message transfers can be divided into
-chunks of 64 messages, improving overall transfer time.
-This optimization reduces transfer time from 168 ms to 48 ms for a
-series of 200 I2C write messages in a single transfer, with a
-clock frequency support of 100 kHz.
+See how this is handled for the drm/msm/mdp5 vs dpu drivers.
 
-BEI optimizations are currently implemented for I2C write transfers only,
-as there is no use case for multiple I2C read messages in a single transfer
-at this time.
-
-Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
----
- drivers/i2c/busses/i2c-qcom-geni.c | 205 +++++++++++++++++++++++++----
- 1 file changed, 181 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index 212336f724a6..a73dc1738a62 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -99,6 +99,10 @@ struct geni_i2c_dev {
- 	struct dma_chan *rx_c;
- 	bool gpi_mode;
- 	bool abort_done;
-+	bool is_tx_multi_xfer;
-+	u32 num_msgs;
-+	u32 tx_irq_cnt;
-+	struct gpi_i2c_config *gpi_config;
- };
- 
- struct geni_i2c_desc {
-@@ -485,6 +489,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
- {
- 	struct geni_i2c_dev *gi2c = cb;
-+	struct gpi_multi_xfer *tx_multi_xfer;
- 
- 	if (result->result != DMA_TRANS_NOERROR) {
- 		dev_err(gi2c->se.dev, "DMA txn failed:%d\n", result->result);
-@@ -493,7 +498,21 @@ static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
- 		dev_dbg(gi2c->se.dev, "DMA xfer has pending: %d\n", result->residue);
- 	}
- 
--	complete(&gi2c->done);
-+	if (gi2c->is_tx_multi_xfer) {
-+		tx_multi_xfer = &gi2c->gpi_config->multi_xfer;
-+
-+		/*
-+		 * Send Completion for last message or multiple of NUM_MSGS_PER_IRQ.
-+		 */
-+		if ((tx_multi_xfer->irq_msg_cnt == gi2c->num_msgs - 1) ||
-+		    (!((tx_multi_xfer->irq_msg_cnt + 1) % NUM_MSGS_PER_IRQ))) {
-+			tx_multi_xfer->irq_cnt++;
-+			complete(&gi2c->done);
-+		}
-+		tx_multi_xfer->irq_msg_cnt++;
-+	} else {
-+		complete(&gi2c->done);
-+	}
- }
- 
- static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-@@ -511,7 +530,41 @@ static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	}
- }
- 
--static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-+/**
-+ * gpi_i2c_multi_desc_unmap() - unmaps the buffers post multi message TX transfers
-+ * @dev: pointer to the corresponding dev node
-+ * @gi2c: i2c dev handle
-+ * @msgs: i2c messages array
-+ * @peripheral: pointer to the gpi_i2c_config
-+ */
-+static void gpi_i2c_multi_desc_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
-+				     struct gpi_i2c_config *peripheral)
-+{
-+	u32 msg_xfer_cnt, wr_idx = 0;
-+	struct gpi_multi_xfer *tx_multi_xfer = &peripheral->multi_xfer;
-+
-+	/*
-+	 * In error case, need to unmap all messages based on the msg_idx_cnt.
-+	 * Non-error case unmap all the processed messages.
-+	 */
-+	if (gi2c->err)
-+		msg_xfer_cnt = tx_multi_xfer->msg_idx_cnt;
-+	else
-+		msg_xfer_cnt = tx_multi_xfer->irq_cnt * NUM_MSGS_PER_IRQ;
-+
-+	/* Unmap the processed DMA buffers based on the received interrupt count */
-+	for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; tx_multi_xfer->unmap_msg_cnt++) {
-+		if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs)
-+			break;
-+		wr_idx = tx_multi_xfer->unmap_msg_cnt % QCOM_GPI_MAX_NUM_MSGS;
-+		geni_i2c_gpi_unmap(gi2c, &msgs[tx_multi_xfer->unmap_msg_cnt],
-+				   tx_multi_xfer->dma_buf[wr_idx],
-+				   tx_multi_xfer->dma_addr[wr_idx], NULL, NULL);
-+		tx_multi_xfer->freed_msg_cnt++;
-+	}
-+}
-+
-+static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], int cur_msg_idx,
- 			struct dma_slave_config *config, dma_addr_t *dma_addr_p,
- 			void **buf, unsigned int op, struct dma_chan *dma_chan)
- {
-@@ -523,26 +576,49 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	enum dma_transfer_direction dma_dirn;
- 	struct dma_async_tx_descriptor *desc;
- 	int ret;
-+	struct gpi_multi_xfer *gi2c_gpi_xfer;
-+	dma_cookie_t cookie;
- 
- 	peripheral = config->peripheral_config;
--
--	dma_buf = i2c_get_dma_safe_msg_buf(msg, 1);
--	if (!dma_buf)
-+	gi2c_gpi_xfer = &peripheral->multi_xfer;
-+	gi2c_gpi_xfer->msg_idx_cnt = cur_msg_idx;
-+	dma_buf = gi2c_gpi_xfer->dma_buf[gi2c_gpi_xfer->buf_idx];
-+	addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
-+
-+	dma_buf = i2c_get_dma_safe_msg_buf(&msgs[gi2c_gpi_xfer->msg_idx_cnt], 1);
-+	if (!dma_buf) {
-+		gi2c->err = -ENOMEM;
- 		return -ENOMEM;
-+	}
- 
- 	if (op == I2C_WRITE)
- 		map_dirn = DMA_TO_DEVICE;
- 	else
- 		map_dirn = DMA_FROM_DEVICE;
- 
--	addr = dma_map_single(gi2c->se.dev->parent, dma_buf, msg->len, map_dirn);
-+	addr = dma_map_single(gi2c->se.dev->parent,
-+			      dma_buf, msgs[gi2c_gpi_xfer->msg_idx_cnt].len,
-+			      map_dirn);
- 	if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
--		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-+		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[gi2c_gpi_xfer->msg_idx_cnt],
-+					 false);
-+		gi2c->err = -ENOMEM;
- 		return -ENOMEM;
- 	}
- 
-+	if (gi2c->is_tx_multi_xfer) {
-+		if (((gi2c_gpi_xfer->msg_idx_cnt + 1) % NUM_MSGS_PER_IRQ))
-+			peripheral->flags |= QCOM_GPI_BLOCK_EVENT_IRQ;
-+		else
-+			peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
-+
-+		/* BEI bit to be cleared for last TRE */
-+		if (gi2c_gpi_xfer->msg_idx_cnt == gi2c->num_msgs - 1)
-+			peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
-+	}
-+
- 	/* set the length as message for rx txn */
--	peripheral->rx_len = msg->len;
-+	peripheral->rx_len = msgs[gi2c_gpi_xfer->msg_idx_cnt].len;
- 	peripheral->op = op;
- 
- 	ret = dmaengine_slave_config(dma_chan, config);
-@@ -560,25 +636,56 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	else
- 		dma_dirn = DMA_DEV_TO_MEM;
- 
--	desc = dmaengine_prep_slave_single(dma_chan, addr, msg->len, dma_dirn, flags);
-+	desc = dmaengine_prep_slave_single(dma_chan, addr,
-+					   msgs[gi2c_gpi_xfer->msg_idx_cnt].len,
-+					   dma_dirn, flags);
- 	if (!desc) {
- 		dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
--		ret = -EIO;
-+		gi2c->err = -EIO;
- 		goto err_config;
- 	}
- 
- 	desc->callback_result = i2c_gpi_cb_result;
- 	desc->callback_param = gi2c;
- 
--	dmaengine_submit(desc);
--	*buf = dma_buf;
--	*dma_addr_p = addr;
-+	if (!((msgs[cur_msg_idx].flags & I2C_M_RD) && op == I2C_WRITE)) {
-+		gi2c_gpi_xfer->msg_idx_cnt++;
-+		gi2c_gpi_xfer->buf_idx = (cur_msg_idx + 1) % QCOM_GPI_MAX_NUM_MSGS;
-+	}
-+	cookie = dmaengine_submit(desc);
-+	if (dma_submit_error(cookie)) {
-+		dev_err(gi2c->se.dev,
-+			"%s: dmaengine_submit failed (%d)\n", __func__, cookie);
-+		return -EINVAL;
-+	}
- 
-+	if (gi2c->is_tx_multi_xfer) {
-+		dma_async_issue_pending(gi2c->tx_c);
-+		if ((cur_msg_idx == (gi2c->num_msgs - 1)) ||
-+		    (gi2c_gpi_xfer->msg_idx_cnt >=
-+		     QCOM_GPI_MAX_NUM_MSGS + gi2c_gpi_xfer->freed_msg_cnt)) {
-+			ret = gpi_multi_desc_process(gi2c->se.dev, gi2c_gpi_xfer,
-+						     gi2c->num_msgs, XFER_TIMEOUT,
-+						     &gi2c->done);
-+			if (ret) {
-+				dev_dbg(gi2c->se.dev,
-+					"I2C multi write msg transfer timeout: %d\n",
-+					ret);
-+				gi2c->err = -ETIMEDOUT;
-+				goto err_config;
-+			}
-+		}
-+	} else {
-+		/* Non multi descriptor message transfer */
-+		*buf = dma_buf;
-+		*dma_addr_p = addr;
-+	}
- 	return 0;
- 
- err_config:
--	dma_unmap_single(gi2c->se.dev->parent, addr, msg->len, map_dirn);
--	i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-+	dma_unmap_single(gi2c->se.dev->parent, addr,
-+			 msgs[cur_msg_idx].len, map_dirn);
-+	i2c_put_dma_safe_msg_buf(dma_buf, &msgs[cur_msg_idx], false);
- 	return ret;
- }
- 
-@@ -590,6 +697,7 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	unsigned long time_left;
- 	dma_addr_t tx_addr, rx_addr;
- 	void *tx_buf = NULL, *rx_buf = NULL;
-+	struct gpi_multi_xfer *tx_multi_xfer;
- 	const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
- 
- 	config.peripheral_config = &peripheral;
-@@ -603,6 +711,39 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	peripheral.set_config = 1;
- 	peripheral.multi_msg = false;
- 
-+	gi2c->gpi_config = &peripheral;
-+	gi2c->num_msgs = num;
-+	gi2c->is_tx_multi_xfer = false;
-+	gi2c->tx_irq_cnt = 0;
-+
-+	tx_multi_xfer = &peripheral.multi_xfer;
-+	tx_multi_xfer->msg_idx_cnt = 0;
-+	tx_multi_xfer->buf_idx = 0;
-+	tx_multi_xfer->unmap_msg_cnt = 0;
-+	tx_multi_xfer->freed_msg_cnt = 0;
-+	tx_multi_xfer->irq_msg_cnt = 0;
-+	tx_multi_xfer->irq_cnt = 0;
-+
-+	/*
-+	 * If number of write messages are four and higher then
-+	 * configure hardware for multi descriptor transfers with BEI.
-+	 */
-+	if (num >= MIN_NUM_OF_MSGS_MULTI_DESC) {
-+		gi2c->is_tx_multi_xfer = true;
-+		for (i = 0; i < num; i++) {
-+			if (msgs[i].flags & I2C_M_RD) {
-+				/*
-+				 * Multi descriptor transfer with BEI
-+				 * support is enabled for write transfers.
-+				 * Add BEI optimization support for read
-+				 * transfers later.
-+				 */
-+				gi2c->is_tx_multi_xfer = false;
-+				break;
-+			}
-+		}
-+	}
-+
- 	for (i = 0; i < num; i++) {
- 		gi2c->cur = &msgs[i];
- 		gi2c->err = 0;
-@@ -613,14 +754,16 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 			peripheral.stretch = 1;
- 
- 		peripheral.addr = msgs[i].addr;
-+		if (i > 0 && (!(msgs[i].flags & I2C_M_RD)))
-+			peripheral.multi_msg = false;
- 
--		ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-+		ret =  geni_i2c_gpi(gi2c, msgs, i, &config,
- 				    &tx_addr, &tx_buf, I2C_WRITE, gi2c->tx_c);
- 		if (ret)
- 			goto err;
- 
- 		if (msgs[i].flags & I2C_M_RD) {
--			ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-+			ret =  geni_i2c_gpi(gi2c, msgs, i, &config,
- 					    &rx_addr, &rx_buf, I2C_READ, gi2c->rx_c);
- 			if (ret)
- 				goto err;
-@@ -628,18 +771,28 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 			dma_async_issue_pending(gi2c->rx_c);
- 		}
- 
--		dma_async_issue_pending(gi2c->tx_c);
--
--		time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
--		if (!time_left)
--			gi2c->err = -ETIMEDOUT;
-+		if (!gi2c->is_tx_multi_xfer) {
-+			dma_async_issue_pending(gi2c->tx_c);
-+			time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-+			if (!time_left) {
-+				dev_err(gi2c->se.dev, "%s:I2C timeout\n", __func__);
-+				gi2c->err = -ETIMEDOUT;
-+			}
-+		}
- 
- 		if (gi2c->err) {
- 			ret = gi2c->err;
- 			goto err;
- 		}
- 
--		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+		if (!gi2c->is_tx_multi_xfer) {
-+			geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+		} else {
-+			if (gi2c->tx_irq_cnt != tx_multi_xfer->irq_cnt) {
-+				gi2c->tx_irq_cnt = tx_multi_xfer->irq_cnt;
-+				gpi_i2c_multi_desc_unmap(gi2c, msgs, &peripheral);
-+			}
-+		}
- 	}
- 
- 	return num;
-@@ -648,7 +801,11 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	dev_err(gi2c->se.dev, "GPI transfer failed: %d\n", ret);
- 	dmaengine_terminate_sync(gi2c->rx_c);
- 	dmaengine_terminate_sync(gi2c->tx_c);
--	geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+	if (gi2c->is_tx_multi_xfer)
-+		gpi_i2c_multi_desc_unmap(gi2c, msgs, &peripheral);
-+	else
-+		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+
- 	return ret;
- }
- 
 -- 
-2.17.1
-
+With best wishes
+Dmitry
 
