@@ -1,124 +1,152 @@
-Return-Path: <linux-media+bounces-19651-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19652-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E7799E068
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 10:08:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2DA799E2B3
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 11:23:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA231B24F35
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 08:08:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6717828326F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 09:23:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1B371AC450;
-	Tue, 15 Oct 2024 08:08:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89B5F1DF255;
+	Tue, 15 Oct 2024 09:23:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NqWoB1p2"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BMZmDK9Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848921C8FC6;
-	Tue, 15 Oct 2024 08:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD091BE854;
+	Tue, 15 Oct 2024 09:23:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728979697; cv=none; b=J+NqV/tJVg7XjsTtwHNRV6YtBM3w1AmaXB5QoGuqtN8Cb3MkwrPmm+1XkIuiMbZ49CtW2835SUzJDKoUnCqay/05rtiRM8QGp86ZyRbAE+yC25E1+hFBUVOF1dhisN5j8FZQp1RpKLn0qFtiT9rI0wd8xNaMotvAxMakXC1mgJw=
+	t=1728984182; cv=none; b=ieehkgHLmrncYY6wXDv2LZj75pv1OD5t0bOohWF3keA5zCl643zYlejEtUiWUzHJRJh2nEfAMWLX3tQcXZLi8sgzIEB8VmbWuYNJ1aRHrFCZrF8nF0Ak8pSxEHlEy1wG9D4G6VRsIKlPw5gy52/OUCMRcn5XlmvqI3nVyLnHT/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728979697; c=relaxed/simple;
-	bh=u5iK7N1sGDGQGeNVgL/RzdIODVfZqJiLClLx6saPxzA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mswGmhCguoDYTvH/4giA26JeK1MwZp1JWO9RedvC9u9r1ZXSGmGGxue5JOucqqs3s4Jnl6DEK2TIaB51NICdq7EnBjpAYdBkRBFu89S+iFm2z4tOqQhEp8NK0OXKePYesQcwUhPvmfi3LvaqsQI+etF34pf54rfexLreJDslvnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NqWoB1p2; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-539e4b7409fso2839341e87.0;
-        Tue, 15 Oct 2024 01:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728979693; x=1729584493; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LSvltiDJsHK24aMx8hk7NkxBylZL/vFqXqk0X+fc2aU=;
-        b=NqWoB1p26P1otG4UwI36QiB0DcG5Yv6Fsi0gLDkkoLPLY1O3AEvT9CyusDsYR3EVvo
-         l8W2P6p58v8wk51fHlaxIO4E/Y7kYFSejw4Rt5ZETK1Md01gL2M6+woATIK86cmt4fxc
-         nMJ2GlNk6TAMk1cPCjrgr2zjmqGokliqCcoNKJDLq3ZL8OKjFvmzCnAbjtskj1OdKF3M
-         yQTfcpkDYa4QhkmpVaIWQywVf+sIh/fAVzjOsCl+dX60CLFG2b5KJcNmvIGd77eqSeDc
-         qFgQ3HaJ9slblAlFcymOaez+1Vqhr/KA2bsgX4u9qOzbiJafYsTdN4cWHxo6CQDW814J
-         WlbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728979693; x=1729584493;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LSvltiDJsHK24aMx8hk7NkxBylZL/vFqXqk0X+fc2aU=;
-        b=mKcBRdRJJ2MZoeo0LLyGBThf0vtjytdmvwNlUH2vnZqEn+2YiH5rK4iFn8eFCL9Ywq
-         2PZVnlmU5YbBw4onJnXizi2UdePMZuuYgkAaKrMsSvSDdEsl7MRn8loRB8TA+REtkkVu
-         bvEVYWF48ATRnDnOdvRfcD/Hysz2LSO3E1Vh1vqi2qung+bZcCPtylymHsDUzlpeeHnV
-         Y4n5pjeJJ+W8uHcUzO4q4fM2OuWNpLsYlyn0flwrsNHNUxmS8LhzEXQq/boaw4/0hTVp
-         ur0VOlCx9RgPieFU52WtvQo5f1/KutbzBWe6bzBdORrA8IPSkBUO0S7NMa0zma414T1v
-         iUpg==
-X-Gm-Message-State: AOJu0YykJfO9ZlhMonbOKJ6MfdFDTbRc9SSxcjRI40j7ngq/0ZrxpbjC
-	j//N7Br3X8SfSLwP7ChSyFLd4tSXkjapQ6+XBGslkWEiU5VRTuj9gDbhoweKzDk=
-X-Google-Smtp-Source: AGHT+IGRSgYUjdksRCpoex8/NdvF1yocrNTsMzsNDmIplJ3Y2qHfwlS+XQf1aRXxBuW0Cgf/u0y6Gw==
-X-Received: by 2002:a05:6512:3b13:b0:539:fde9:4bca with SMTP id 2adb3069b0e04-539fde94fcemr736812e87.29.1728979692675;
-        Tue, 15 Oct 2024 01:08:12 -0700 (PDT)
-Received: from localhost.localdomain ([188.243.23.53])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539ffff3ddfsm94736e87.149.2024.10.15.01.08.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 01:08:10 -0700 (PDT)
-From: Alexander Shiyan <eagle.alexander923@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: devicetree@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v3 3/3] media: dt-bindings: i2c: ds90ub960: Add DS90UB954 support
-Date: Tue, 15 Oct 2024 11:07:37 +0300
-Message-Id: <20241015080737.16272-3-eagle.alexander923@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20241015080737.16272-1-eagle.alexander923@gmail.com>
-References: <20241015080737.16272-1-eagle.alexander923@gmail.com>
+	s=arc-20240116; t=1728984182; c=relaxed/simple;
+	bh=8/Wat0AXZ4Tmd5k7TUnKT8b5DBXzVYICqJKK1fttoU8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DRDyrJJLPe4AOoo65Fes/1XZZ+qvWALPmD/s14tl+8qytn4krFKqD39CDWAgHfDYyRHFlJH3hqJxQAKOwViR7WwQ5K+Yknqh7K5ia0/JyTaKQQBvkpHJWVzpPrqHXFpD+IG1Nn8fVb00feB1vR8vkHvJ3g8Sqk9bJMnYQIhtZYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BMZmDK9Z; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49F1fgJh028587;
+	Tue, 15 Oct 2024 09:22:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	zWi+0lylKH9kWhVPcyDH/IDcG6li7yETfPftN2qsCmM=; b=BMZmDK9ZcW2gv8SG
+	nqp0WZpplBfKywpdcSMTTbxZ2zG2hP3Tu6pfUf5d2Zik7gkZAC8eJZfaCR4PJRFI
+	d4WHaCipNKCV46j/BUWiMeC+uD8akZ1I8ay01+uQV4ObKpeFVHf472CSCkaC3544
+	p76ExmphJYFCwfRO6rQGaD4jAVkxMaUgj2Ou0a6SWh9XOJuBcIeXNyGTq8rGM4Bu
+	HO8Lf0i1/uHjEnl7iBFkKiAPzT5mJZ5S4DYmIqAlNrRziO0Wex1M+51Y96e6/ffw
+	w2GEZSMtz8+s8sto8KiXpTEEBbpQM4wZz97eneCPAid1dhriK1m69K1+fpHAAE8K
+	OVg3zA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 429exw0yss-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 09:22:50 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49F9MnWs026335
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 09:22:49 GMT
+Received: from [10.204.101.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 15 Oct
+ 2024 02:22:44 -0700
+Message-ID: <48f0e7a1-f5d4-62ec-ec4b-f5bf2ca9caa5@quicinc.com>
+Date: Tue, 15 Oct 2024 14:52:41 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 27/28] media: iris: enable video driver probe of SM8250
+ SoC
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jianhua Lu
+	<lujianhua000@gmail.com>
+CC: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Hans
+ Verkuil" <hverkuil@xs4all.nl>,
+        Sebastian Fricke
+	<sebastian.fricke@collabora.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20241014-qcom-video-iris-v4-v4-0-c5eaa4e9ab9e@quicinc.com>
+ <20241014-qcom-video-iris-v4-v4-27-c5eaa4e9ab9e@quicinc.com>
+ <Zw0j9UeJmC1MZ3Xt@localhost.localdomain>
+ <7vmxx5qtbvhyfcdeariqiult27j5rmykxrefl2qmkhqnrw5wi5@6ugxtx643bmq>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <7vmxx5qtbvhyfcdeariqiult27j5rmykxrefl2qmkhqnrw5wi5@6ugxtx643bmq>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: K9oaYEshCCs1zm1gXNyo0JP2y6FX-cAX
+X-Proofpoint-GUID: K9oaYEshCCs1zm1gXNyo0JP2y6FX-cAX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 malwarescore=0 spamscore=0 impostorscore=0 mlxscore=0
+ clxscore=1011 adultscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410150063
 
-The ds90ub960 driver can now be used for the DS90UB954 chip as it has
-a similar register set and configuration.
-Let's add an additional compatibility line to the bindings.
 
-Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
----
-v2: No changes
-v3: Change patch description, no functional changes
----
- Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-index 0b71e6f911a8..86d43d949dd3 100644
---- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-@@ -19,6 +19,7 @@ allOf:
- properties:
-   compatible:
-     enum:
-+      - ti,ds90ub954-q1
-       - ti,ds90ub960-q1
-       - ti,ds90ub9702-q1
- 
--- 
-2.39.1
-
+On 10/14/2024 7:38 PM, Dmitry Baryshkov wrote:
+> On Mon, Oct 14, 2024 at 10:00:21PM +0800, Jianhua Lu wrote:
+>> On Mon, Oct 14, 2024 at 02:37:48PM +0530, Dikshita Agarwal wrote:
+>>> Initialize the platform data and enable video driver
+>>> probe of SM8250 SoC.
+>>>
+>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>> ---
+>> [..] 
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+>>> index 86ef2e5c488e..a2aadd48926f 100644
+>>> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+>>> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+>>> @@ -325,6 +325,10 @@ static const struct of_device_id iris_dt_match[] = {
+>>>  		.compatible = "qcom,sm8550-iris",
+>>>  		.data = &sm8550_data,
+>>>  	},
+>>> +	{
+>>> +		.compatible = "qcom,sm8250-venus",
+>>> +		.data = &sm8250_data,
+>>> +	},
+>>>  	{ },
+>>>  };
+>>>  MODULE_DEVICE_TABLE(of, iris_dt_match);
+>>
+>> qcom-venus driver has already supported sm8250 soc, I think you should add
+>> an extra patch to drop sm8250 releated code from qcom-venus driver if you
+>> tend to add support for sm8250 in qcom-iris driver.
+> 
+> Iris driver did not feature parity with the venus driver, so it is
+> expected that two drivers will exist side by side for some time.
+> Nevertheless ideally we should have a way to specify which driver should
+> be used for sm8250 (and other platforms being migrated).
+> 
+Agree, we should have a way to specify this. Any suggestions to achieve
+this are welcomed.
 
