@@ -1,273 +1,160 @@
-Return-Path: <linux-media+bounces-19642-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19643-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF7E99DEDB
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 08:57:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C19E99DF42
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 09:27:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E60A91F246FF
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 06:57:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E3F51C213EF
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 07:27:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8CAB18BC21;
-	Tue, 15 Oct 2024 06:56:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD15F19F104;
+	Tue, 15 Oct 2024 07:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GQdc9DVF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60818172BCE
-	for <linux-media@vger.kernel.org>; Tue, 15 Oct 2024 06:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE719474;
+	Tue, 15 Oct 2024 07:26:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728975410; cv=none; b=Sf6tGp6UGDVPT+23rnaPBmWBEsevwclmBDW9a6h1qHDS/bF5iRZ2CdGTP+jS1BpymvJPehAzcwIhu2aN2T6OEo8JiU38NFNB+KNcCGGhBey6v+yi5+LsAZyzyLiJ/ThLL0nIEcVGL10y88F5bpEVxyP2DKZJegpH42xKRqdjkR4=
+	t=1728977211; cv=none; b=FXkYfJkdi75rFLdhdXF7RY3bAmnX1ZfyDuDHI7RxY43XvMypbNNTUaud/P0tWhWFDTyIUsbXsW4oItR1mPRgRghLlP7VtlVtWsmiPamXYD4iLxLQWvLhWxDTbL8IDi7u/zInWPo5lmZSmfkhsCqKqoSmgxFfmJajx+bm2XjKulY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728975410; c=relaxed/simple;
-	bh=6BcG3LfDDRy6NeYHFGrj/rlw0aQaa+KECbXSXz6ZYU4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OW0qNy6l/qlskMl1hRaBRWDETZ9y+TG4izv++Y590vs+1qx86Ok9RG8OoAfGkRBxOY5rP57Ez2VFQhW9ML2cuVKaSIyplU2Ypn6usuSWvakZ6CVn8DOwQWrCGIuRtCvNTaqX0XRFFUrI32kdKfF39S9KDSLIODZUBzf9ZDRBwk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E80E9C4CEC7;
-	Tue, 15 Oct 2024 06:56:31 +0000 (UTC)
-Message-ID: <ff498f0a-7f04-4376-8d98-50fa0cfa2b9b@xs4all.nl>
-Date: Tue, 15 Oct 2024 08:56:30 +0200
+	s=arc-20240116; t=1728977211; c=relaxed/simple;
+	bh=AFwOLTJBM7YSONnnjQ8PrBR6mSkmXeYFl9Z1iatT4Vc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=QeEWRUi3NLGuSbCZDbmeDWJAQ2i3/aRHuEKi4UJXAV4Aznfr4ZVesOd+wIAr23omM3x35gtFdKv+kLlUQyavpr7pK/w6OW4Il5Udp0kLH14fCUHLkfI0LWa69WVkqlb4NbD6JFw/+aWoALP9KHl01dC10IYfDnwrSk/ARh+otwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=GQdc9DVF; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49F0l0KZ011535;
+	Tue, 15 Oct 2024 07:26:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Q526+r0Dcxm3qRY0GFP4GetrV21kKQI4ls6mq6CHL6w=; b=GQdc9DVFk8PN8GUS
+	5RHr19x5Ruoc/tMxM9VValt5R8ZURrju0GflIkHimqVS6wCP+cac58UF2AThebGs
+	vARlrt4QRFg6g1Lf+t1RGsnmrWLlEAPuk4YKW8qGzGr4eM08HFXwnBQalUnlYGa/
+	SvYZRtPsxNFAsG1fPQ64ZS5rOW1F/7c7HE9e3X1U9FwDGUzKDS5xv/LBVDvbV49B
+	LY//cyD2snH+mIl5zu19aGhAzBK//JvkBEwAfIb8u6BLsKaZK3pGhxySg3Zd7J2q
+	UaggEYW54SN0UkgfXJPmJ7esldj+eOl0bHYeX83lFG7qOM+jqOhwsCcR5ZbPJpBJ
+	7ugwJQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 429e5g0s8a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 07:26:42 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49F7Qfce007232
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Oct 2024 07:26:41 GMT
+Received: from [10.204.101.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 15 Oct
+ 2024 00:26:36 -0700
+Message-ID: <ba4620df-7933-3730-eb9a-ffdd5cd98adb@quicinc.com>
+Date: Tue, 15 Oct 2024 12:56:34 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/10] media: videobuf2-core: update vb2_thread if
- wait_finish/prepare are NULL
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Andy Walls <awalls@md.metrocast.net>, Yong Zhi <yong.zhi@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Dan Scally <djrscally@gmail.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
- Andrey Utkin <andrey_utkin@fastmail.com>, Ismael Luceno
- <ismael@iodev.co.uk>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Corentin Labbe <clabbe@baylibre.com>, Michael Krufky <mkrufky@linuxtv.org>,
- Matt Ranostay <matt@ranostay.sg>, Michael Tretter
- <m.tretter@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>,
- Eddie James <eajames@linux.ibm.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Eugen Hristev <eugen.hristev@collabora.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, Nas Chung <nas.chung@chipsnmedia.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>, Devarsh Thakkar
- <devarsht@ti.com>, Bin Liu <bin.liu@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>, Joseph Liu <kwliu@nuvoton.com>,
- Marvin Lin <kflin@nuvoton.com>, Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>,
- Purism Kernel Team <kernel@puri.sm>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- Jacob Chen <jacob-chen@iotwrt.com>, Heiko Stuebner <heiko@sntech.de>,
- Dafna Hirschfeld <dafna@fastmail.com>, Krzysztof Kozlowski
- <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Fabien Dessenne <fabien.dessenne@foss.st.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Yong Deng <yong.deng@magewell.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Benoit Parrot <bparrot@ti.com>, Jai Luthra <jai.luthra@linux.dev>,
- Michal Simek <michal.simek@amd.com>, Andy Shevchenko <andy@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Steve Longerbeam <slongerbeam@gmail.com>,
- Jack Zhu <jack.zhu@starfivetech.com>,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-media@vger.kernel.org
-References: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
- <20241014-vb2-wait-v1-1-8c3ee25c618c@xs4all.nl>
- <20241014191549.GB5522@pendragon.ideasonboard.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241014191549.GB5522@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 00/28] Qualcomm iris video decoder driver
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: Hans Verkuil <hverkuil@xs4all.nl>,
+        Sebastian Fricke
+	<sebastian.fricke@collabora.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Vedang Nagar <quic_vnagar@quicinc.com>
+References: <20241014-qcom-video-iris-v4-v4-0-c5eaa4e9ab9e@quicinc.com>
+ <e954a3b7-296f-4dbf-8325-b5993d11da92@kernel.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <e954a3b7-296f-4dbf-8325-b5993d11da92@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 3FJMYedsetfFeeXfYQEGnrlFEi1Ss1a5
+X-Proofpoint-ORIG-GUID: 3FJMYedsetfFeeXfYQEGnrlFEi1Ss1a5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 malwarescore=0
+ adultscore=0 impostorscore=0 mlxscore=0 priorityscore=1501 suspectscore=0
+ bulkscore=0 phishscore=0 spamscore=0 mlxlogscore=880 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2410150049
 
-On 14/10/2024 21:15, Laurent Pinchart wrote:
-> Hi Hans,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Oct 14, 2024 at 05:06:28PM +0200, Hans Verkuil wrote:
->> For read/write support the vb2_thread is used. This will queue and
->> dequeue buffers automatically to provide the read() or write() feature.
+
+
+On 10/14/2024 5:24 PM, Krzysztof Kozlowski wrote:
+> On 14/10/2024 11:07, Dikshita Agarwal wrote:
+>> Introduce support for Qualcomm new video acceleration hardware i.e.
+>> iris, used for video stream decoding.
 >>
->> It calls wait_finish/prepare around vb2_core_dqbuf() and vb2_core_qbuf(),
->> but that assumes all drivers have these ops set. But that will change
->> due to commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
->> are NULL").
+>> Iris is a multi pipe based hardware that offloads video stream decoding
+>> from the application processor (AP). It supports H.264 decoding.
+>> The AP communicates with hardware through a well defined protocol,
+>> called as host firmware interface (HFI), which provides fine-grained
+>> and asynchronous control over individual hardware features.
 >>
->> So instead check if the callback is available, and if not, use q->lock,
->> just as __vb2_wait_for_done_vb() does.
+>> This driver implements upgraded HFI gen2 to communicate with firmware.
+>> It supports SM8550 which is based out of HFI gen 2. It also supports
+>> SM8250 which is based out of HFI gen1.
 >>
->> It was also used around vb2_core_qbuf(), but VIDIOC_QBUF doesn't
->> need this since it doesn't do a blocking wait, so just drop the
->> wait_finish/prepare callbacks around vb2_core_qbuf().
+>> This driver comes with below capabilities:
+>> - V4L2 complaint video driver with M2M and STREAMING capability.
+>> - Supports H264 decoder.
 >>
->> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
->> ---
->>  drivers/media/common/videobuf2/videobuf2-core.c | 12 ++++++++----
->>  1 file changed, 8 insertions(+), 4 deletions(-)
+>> This driver comes with below features:
+>> - Centralized resource management.
+>> - Centralized management of core and instance states.
+>> - Defines platform specific capabilities and features. As a results, it
+>>   provides a single point of control to enable/disable a given feature
+>>   depending on specific platform capabilities.
+>> - Handles various video recommended sequences, like DRC, Drain, Seek,
+>>   EOS.
+>> - Implements asynchronous communication with hardware to achieve better
+>>   experience in low latency usecases.
+>> - Output and capture planes are controlled independently. Thereby
+>>   providing a way to reconfigure individual plane.
+>> - Native hardware support of LAST flag which is mandatory to align with
+>>   port reconfiguration and DRAIN sequence as per V4L guidelines.
 >>
->> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->> index d064e0664851b26b2da71e0a374c49a2d2c5e217..e9c1d9e3222323be50b3039eb463384a3d558239 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->> @@ -3218,10 +3218,16 @@ static int vb2_thread(void *data)
->>  				continue;
->>  			prequeue--;
->>  		} else {
->> -			call_void_qop(q, wait_finish, q);
->> +			if (q->ops->wait_finish)
->> +				call_void_qop(q, wait_finish, q);
->> +			else if (q->lock)
->> +				mutex_lock(q->lock);
+>> Changes since v3:
 > 
-> I would still prefer moving vb2_ops_wait_prepare() and
-> vb2_ops_wait_finish() to videobuf2-core.c and calling the functions
-> here, instead of locking the mutex directly. I think it would make the
-> code more readable. I won't block the patch for this, but I think it
-> would be better.
-
-The whole point of this series is to prepare for the removal of the
-wait_finish/prepare callbacks. So this patch is just a temporary change.
-
-Eventually this code will change to just a mutex_lock.
-
+> You send the patches with b4, so why do you strip the link to previous
+> series? It makes out life just more difficult. Include the link, how the
+> b4 instructs you.
 > 
-> Also, should we check at queue init time that drivers either set a queue
-> lock or provide the .wait_prepare() and .wait_finish() operations ?
+Sure, Noted.
 
-It does that already, from videobuf2-core.c, vb2_core_queue_init():
+Link to v3 -
+https://lore.kernel.org/linux-media/9b116753-9a21-4f9c-b86f-dded20713b53@linaro.org/
 
-        /* Warn if q->lock is NULL and no custom wait_prepare is provided */
-        if (WARN_ON(!q->lock && !q->ops->wait_prepare))
-                return -EINVAL;
+Thanks,
+Dikshita
 
-Regards,
-
-	Hans
-
+> Best regards,
+> Krzysztof
 > 
->>  			if (!threadio->stop)
->>  				ret = vb2_core_dqbuf(q, &index, NULL, 0);
->> -			call_void_qop(q, wait_prepare, q);
->> +			if (q->ops->wait_prepare)
->> +				call_void_qop(q, wait_prepare, q);
->> +			else if (q->lock)
->> +				mutex_unlock(q->lock);
->>  			dprintk(q, 5, "file io: vb2_dqbuf result: %d\n", ret);
->>  			if (!ret)
->>  				vb = vb2_get_buffer(q, index);
->> @@ -3233,12 +3239,10 @@ static int vb2_thread(void *data)
->>  		if (vb->state != VB2_BUF_STATE_ERROR)
->>  			if (threadio->fnc(vb, threadio->priv))
->>  				break;
->> -		call_void_qop(q, wait_finish, q);
->>  		if (copy_timestamp)
->>  			vb->timestamp = ktime_get_ns();
->>  		if (!threadio->stop)
->>  			ret = vb2_core_qbuf(q, vb, NULL, NULL);
->> -		call_void_qop(q, wait_prepare, q);
->>  		if (ret || threadio->stop)
->>  			break;
->>  	}
->>
-> 
-
 
