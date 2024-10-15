@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-19639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19640-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08E999DDF6
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 08:11:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC2199DE01
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 08:13:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 244871F22A4A
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 06:11:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 421921C20DB5
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 06:13:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F35189909;
-	Tue, 15 Oct 2024 06:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88CC1189917;
+	Tue, 15 Oct 2024 06:13:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ARF1yu3S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fuEFHgQO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35431185920;
-	Tue, 15 Oct 2024 06:11:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E6A178368;
+	Tue, 15 Oct 2024 06:13:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728972694; cv=none; b=d6j2az8RErqxS2mMw/jefJTDLkrglhNYGGJsc4LIXMIILRVdmrjJOsPkiQ8nfjJ79juRwInNdCQ8PFWJmI3T9UELwbtUR3PykAJimWKj8u5M6hA0zFWtbqHRqxpQQjbaPwZxzYGRKdVIAuAHjQrEWzUqVPtptYgCKefC+1N9KIU=
+	t=1728972814; cv=none; b=hI3Ph8Myoh6DOmgQlWyQswoM2hGZ5+7iK1GcX0HnBS2NXd3ha26NkkCjaky2G9tFYZhm35EH1P7tVJHuD3gxYflLUfjDIInX6DAjxrU2FDG8IxRp+J2HhRvp/QukkiislBnwq5zqN9TBa3a+16ogr47ewjZZ+dUaRuGvEt/evYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728972694; c=relaxed/simple;
-	bh=9NKbHyMUPkDv34hvsYlt9gQsZvtT3TEIpct0QrrspAM=;
+	s=arc-20240116; t=1728972814; c=relaxed/simple;
+	bh=nMcb720BCAExfKB6LJEWqVG38e41Du2Roz3F2hdHex8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Aud7TA7F+wI3yYENWfQ7bwEFSjHubByPBIKZsd8MGRMoYsbuJ6xQTz9wXHjYSAE5PVoAQg837Nbr4qra3RWE3jHHHsqQ+uDptI72ax5JfC9jsLIp4HglTyZBOO2qh/NXRUpY7nGnYCfaQAZ7CrdwozyOvaM4jujteO5YaSmR1bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ARF1yu3S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EA58C4CEC7;
-	Tue, 15 Oct 2024 06:11:20 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ThGHlEHbXyPe3bvveZF8++bc7so/tFZQOtSY6EQa5Y3ZSKcMHdTg9LA2IVNzk0dmgQLahEfbayRvU4zM3ZnIB8+oniegoUtMqX00qbhK39UN5r9yDUDiEjisQut3RdoM8G7dktri7KUZ5qUb66aC/H7khcGigrRbff99Ow/4nU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fuEFHgQO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F0C5C4CEC7;
+	Tue, 15 Oct 2024 06:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728972693;
-	bh=9NKbHyMUPkDv34hvsYlt9gQsZvtT3TEIpct0QrrspAM=;
+	s=k20201202; t=1728972813;
+	bh=nMcb720BCAExfKB6LJEWqVG38e41Du2Roz3F2hdHex8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ARF1yu3Soe+NXwbaegRSGpwUnweAlUmucKPcf57QpvE9ZnT/JJwUsDvpxiewbn7K5
-	 PwpIK8tbBHOuti4dQEcJXtJLTK6bUn2lj3x9bFJ1W0lTsyiT9MZr17mkifhC0XZCSs
-	 MIZrugqHSY9Axkue3aUCIjiMcURtaxIGD9sHqCB2GjUERiJIVtnJZ5jVui4E4clmQA
-	 0LojFG7qfvh8t6DqEMnlYfor//Ql2zFCsZnrpPQA65hSOcJPzcO7sgZ9WAoOS9coS7
-	 o/6BwalOLykFSQIOsWttJFSgNWSFO+FacyfO8A62HFXrmTjD/PcIHgPjJDm9wP51kO
-	 ZHEwHQZPJOhaA==
-Message-ID: <f265576c-7d83-40cb-b857-7ec54ef9ab46@kernel.org>
-Date: Tue, 15 Oct 2024 08:11:18 +0200
+	b=fuEFHgQOTV95eYjoJ7Ypx+GID3EqJW0Ax/pS92IxGPTaK/08XHc5M6pxH66wpDbjT
+	 jfpMkimI9ipSxxfVASThA3nWwTRx9JFuh6teI4NRX6vFzDpmsZYdcyquTADMg1nfVx
+	 txz+x4wxegS5eOCv6GoxPAW8xkH0NY2ykATT34LVfBqbBfIQ0KI/4IG0+fwa4izHDy
+	 dGNHUvRDcmSOy0ODfaHobDLALOl9n5p0U0t5w2SopdpUsaU6CSrgWmr6aCg7cE6MWE
+	 ga0RC8Vd7v8+81c8YbCf3a6txcENixKqlbILc43hO5r0gMzjiRaFQrzrWPpVGOyirZ
+	 ZggOTfo2GPUHQ==
+Message-ID: <b0154e75-370e-4a5f-9309-6a3ae5d85b5c@kernel.org>
+Date: Tue, 15 Oct 2024 08:13:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: dt-bindings: Use additionalProperties: false
- for endpoint: properties:
+Subject: Re: [PATCH 1/2] media: dt-bindings: Remove assigned-clock-* from
+ various schema
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -79,11 +79,9 @@ Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 References: <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-0-a2bb12a1796d@linaro.org>
- <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-2-a2bb12a1796d@linaro.org>
- <7ecxjoa7aije46cxmkyfd6ihxnqw4wleqkioddomxbwlu7qtrc@4dkfitppeksu>
- <6f461cb3-3a41-4a3d-b9b2-71b1c6be77f7@linaro.org>
- <9510b546-28fa-4fb4-b06e-0af5f9fd3bbb@kernel.org>
- <20241014202920.GE5522@pendragon.ideasonboard.com>
+ <20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-1-a2bb12a1796d@linaro.org>
+ <w4ta26svh34gojqpakrgp5cpsempedkewkmbllyvs5z5fm274z@jqs3tvunxq2s>
+ <20241014203441.GF5522@pendragon.ideasonboard.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -129,44 +127,73 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241014202920.GE5522@pendragon.ideasonboard.com>
+In-Reply-To: <20241014203441.GF5522@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 14/10/2024 22:29, Laurent Pinchart wrote:
-> On Mon, Oct 14, 2024 at 10:47:31AM +0200, Krzysztof Kozlowski wrote:
->> On 14/10/2024 10:31, Bryan O'Donoghue wrote:
->>> On 14/10/2024 08:45, Krzysztof Kozlowski wrote:
->>>> I do not understand the reasoning behind this change at all. I don't
->>>> think DT maintainers ever suggested it (in fact, rather opposite:
->>>> suggested using unevaluatedProps) and I think is not a consensus of any
->>>> talks.
+On 14/10/2024 22:34, Laurent Pinchart wrote:
+> On Mon, Oct 14, 2024 at 09:43:07AM +0200, Krzysztof Kozlowski wrote:
+>> On Sat, Oct 12, 2024 at 04:02:50PM +0100, Bryan O'Donoghue wrote:
+>>> Remove extraneous assigned-clock* from media/i2c/* schemas, retain in the
+>>> relevant examples.
 >>>
->>> No there is not but then, how do you give consistent feedback except 
->>> proposing something to be a baseline.
+>>> Link: https://lore.kernel.org/linux-media/j7kgz2lyxnler5qwd7yiazdq6fmsv77kyozdrxf33h54ydakjz@uqjhwhoyv6re
+>>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>> ---
+>>>  Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml | 8 --------
+>>>  Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml | 8 --------
+>>>  Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml | 8 --------
+>>>  Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml | 4 ----
+>>>  Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml | 4 ----
+>>>  Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml | 4 ----
+>>>  Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml | 4 ----
+>>>  Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml | 4 ----
+>>>  8 files changed, 44 deletions(-)
 >>>
->>> On the one hand you have upstream additionalProperties: false and 
->>> unevaluatedProperites: false - it'd be better to have a consistent 
->>> message on which is to be used.
+>>> diff --git a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+>>> index 60f19e1152b33128cf3baa15b8c70a874ca6d52e..d18ead8f7fc43bfacc291aed85b5ca9166c46edb 100644
+>>> --- a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+>>> @@ -28,12 +28,6 @@ properties:
+>>>      items:
+>>>        - description: Reference to the mclk clock.
+>>>  
+>>> -  assigned-clocks:
+>>> -    maxItems: 1
+>>> -
+>>> -  assigned-clock-rates:
+>>> -    maxItems: 1
+>>> -
+>>>    reset-gpios:
+>>>      description: Reference to the GPIO connected to the RESETB pin. Active low.
+>>>      maxItems: 1
+>>> @@ -82,8 +76,6 @@ required:
+>>>    - compatible
+>>>    - reg
+>>>    - clocks
+>>> -  - assigned-clocks
+>>> -  - assigned-clock-rates
 >>
->> Well, I am afraid that push towards additionalProps will lead to grow
->> common schema (video-interface-devices or video-interfaces) into huge
->> one-fit-all binding. And that's not good.
->>
->> If a common binding for a group of devices encourages you to list its
->> subset, then it is not that common.
->>
->> Solution is to fix that, e.g. split it per classes of devices.
+>> That's not extraneous, but has a meaning that without assigned-clocks
+>> this device or driver will not operate.
 > 
-> I think splitting large schemas per class is a good idea, but the
-> problem will still exist. For instance, if we were to move the
-> CSI-2-specific properties to a separate schema, that schema would define
-> clock-lanes, data-lanes and clock-noncontinuous. The clock-lanes and
-> clock-noncontinuous properties do not apply to every device, how would
-> we then handle that ? I see three options:
+> How so ? Even if we assume that the device requires a specific clock
+> frequency (which is often not the case for camera sensors, the
+> limitation usually comes from drivers, so the constraint shouldn't be
+> expressed in the bindings in that case), there is no overall requirement
+> to assign a clock rate as in many cases the clock will come from a
+> fixed-frequency oscillator. This seems to be a constraint that is
+> outside of the scope of DT bindings. It is similar to regulators, where
+> the regulator consumer doesn't have a way to express supported voltages
+> in its DT bindings.
 
-Why is this a problem? Why is this a problem here, but not in other
-subsystems having exactly the same case?
+This property does not say it comes from a fixed-frequency oscillator,
+so I do not understand why you think it is unreasonable constraint. I
+have no clue what the author wanted to say here, so I just explained
+that there is a meaning behind requiring such properties. If you claim
+device or implementations do not have such requirement, after
+investigating each case, feel free to drop this. I think I also stated
+this already in other reply.
 
 Best regards,
 Krzysztof
