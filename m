@@ -1,411 +1,302 @@
-Return-Path: <linux-media+bounces-19684-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19685-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CEB799F105
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 17:24:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296A199F1A7
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 17:43:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0D961F230AA
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 15:24:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A394A1F2884D
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 15:43:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 645291B3942;
-	Tue, 15 Oct 2024 15:24:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D29E1F6665;
+	Tue, 15 Oct 2024 15:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="QWo1CmNG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3BF1CB9F0
-	for <linux-media@vger.kernel.org>; Tue, 15 Oct 2024 15:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729005842; cv=none; b=tsz5r8E1KvcAidfNnEyZcRQQs0qBEbk1owTs8sKSQ88FdvZq4dBjgL+UuLbujIXfGFOHEQwjIbHsOSzxC0yDiVJ8YYBzRXY7WwC7v0ORQBs8rhgXm5JO2xyr/gDOwRTddrHhLWJVKR09u3vIrXhbLazPporfVGRd1GI5z8JoKp0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729005842; c=relaxed/simple;
-	bh=JhgtpjomIgUyv54OyG8xJHZFLxauSsPWlpYJbLcuWzs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rI8hHpcYAJp6cWhpBAAtkYavWedaYAcO0lSvcblbLj7ob1YngreHiHuM7PaS1XH6t/gKtli8KiCIXaFNUNvBIewg4HNfgma3CYlNfavIGmUqYRoCLnK3Jdt3Ut/i2kJOKjiE5+zrbWgZvqg0uG/Av0l7NL0tfPYXJXArQYy55SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16245C4CED0;
-	Tue, 15 Oct 2024 15:23:42 +0000 (UTC)
-Message-ID: <b09eb7b6-6fac-47b5-8022-89fb87c2ba1f@xs4all.nl>
-Date: Tue, 15 Oct 2024 17:23:41 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4F91D9580
+	for <linux-media@vger.kernel.org>; Tue, 15 Oct 2024 15:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729006955; cv=fail; b=rq6gkLp7NbzXwI7o0zh03X8HGh2JHqAugspYuDNRRIvhtinjIfGCnRqZIfFmAcKH2l5F00DTAQ+46deHAkKdgmRJ4sCOll4lBSE0Ynkc1QEusp0UkMziPyi8M0anp4O5CnuM0Bsrh2ylEXaZdeMo77yj0ueRWcUHCNaGeQRZYDI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729006955; c=relaxed/simple;
+	bh=fFYCYLvlbaGPP+RYM+47elyvFOk1Ydp14+PoX/mq7rw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Nd2/5OVFurjkVeoXWFaTEUUUYfh540xrP71gaEhDPerWD/inZ3YAI5lkhlZPR2xlPbeNpWeFv88EbmjGwkFoEEH+9Z1k/aBmoyqvjfCPBbK4EURTNVm7BRLPHMTsyGMW/bmuCr+/C3OUX2NDLbQfZZgdkhaxFLNMxxNP+Qz+cXE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=QWo1CmNG; arc=fail smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4XSddX0rkRz49Q6m;
+	Tue, 15 Oct 2024 18:42:23 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1729006944;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=fu4KwJDsf10jFX1YsTWWiIWPoREXUatIf9j47QnxEEI=;
+	b=QWo1CmNGBjMhQT+W43LBnBdepOnifZOJ5eJEB73eE52or0iNOHE0SsD7Ct11wp7rfkCvZp
+	rg2NUdyUZWe0+ok5NyS099PedKy6lJ25EsLbma5Jwnk2MAB9k0m0Icb39nEr+Kc6WIQKLT
+	SiAddIh94TEc2pwzJaw32E13h8fwlIXGZ5/kGRQavSjCL0elpyniek3w+kC1AHaqWks9ho
+	22byFBSe3QOpgMQ0iv5D5xNVQMrXz9ZjmEEdb1dJVk7+T6y8e0EmlMXzWqbf5yvSzDgkac
+	eidM5v++Txzl3s3vS7DrScCR7z9B0nRPyCYkcvlFKqv2LDApTReWsBoBlZUhiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1729006944;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=fu4KwJDsf10jFX1YsTWWiIWPoREXUatIf9j47QnxEEI=;
+	b=jjxxURAoQ+2X4/uNSGltkXfRxXyTROwKP063t98npma6FIPc2gU7E8jTeWBgpwf3XXRE1X
+	NqZqB0GOHFuaGlec12p3lX0mn78nfPEV1+P9LKcHuENkRqyFyrQ+CxJ4t0Q9jgnTyO5JiN
+	cQZR58Pm87uSPy+MGZoMTUepfgT3JsRVzpLl2atGOw6qD01WxDrpx9ILUy8Kzl/9UeZnd+
+	VN3/5x1vFcs2/v50jefQpxiEOt7c3qT0ZE9jXInhRbo0n/2e354bL5YzyNNeinOnAwo872
+	qB+VYuIUvwn+3PcMq013kBZuedZrZsSWszrgFEEJRVFl1TW9feUwitmgookzVQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1729006944; a=rsa-sha256;
+	cv=none;
+	b=BPKkwM3I2uS+bGyY0HEalT5Qfy7HugLw/zuTX5jkuzYjIMjqp05GPj9+i1pF6uAgC4pZHh
+	4mj+3hyE6vReEg4NSZl56Kt87F+orS3jJelkhzno5YIyZ6scZ8qVXpZorpMh8iyv5QsaCS
+	7wisIUnrDPJv+wSU6pmA1dYxNH1lOZZ3YsCOH9eGxjilqBgCfKowKaMzCTKL5VA/JqV2c4
+	9XhYLI3s8o+g3xvfQYL28WdSCk8n6e2p3lBI2YVHjBgx8kZIfH8WtVTYxNIhYgAJ70V969
+	n19W6vCqDO7l3Jqc2QMVXyz2WWHkIlr5SrDZqbel1p/F5fjYvn9Zn41qxnnOQQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 718C6634C99;
+	Tue, 15 Oct 2024 18:42:23 +0300 (EEST)
+Date: Tue, 15 Oct 2024 15:42:23 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL v2 FOR 6.13] Mostly camera sensor patches
+Message-ID: <Zw6NXzWiKsQccI32@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] media: start work to remove wait_prepare/finish
- callbacks
-To: Shuah <shuah@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Andy Walls <awalls@md.metrocast.net>, Yong Zhi <yong.zhi@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Dan Scally <djrscally@gmail.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
- Andrey Utkin <andrey_utkin@fastmail.com>, Ismael Luceno
- <ismael@iodev.co.uk>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Corentin Labbe <clabbe@baylibre.com>, Michael Krufky <mkrufky@linuxtv.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Matt Ranostay <matt@ranostay.sg>, Michael Tretter
- <m.tretter@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>,
- Eddie James <eajames@linux.ibm.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Eugen Hristev <eugen.hristev@collabora.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, Nas Chung <nas.chung@chipsnmedia.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>, Devarsh Thakkar
- <devarsht@ti.com>, Bin Liu <bin.liu@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>, Joseph Liu <kwliu@nuvoton.com>,
- Marvin Lin <kflin@nuvoton.com>, Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>,
- Purism Kernel Team <kernel@puri.sm>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- Jacob Chen <jacob-chen@iotwrt.com>, Heiko Stuebner <heiko@sntech.de>,
- Dafna Hirschfeld <dafna@fastmail.com>, Krzysztof Kozlowski
- <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Fabien Dessenne <fabien.dessenne@foss.st.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Yong Deng <yong.deng@magewell.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Benoit Parrot <bparrot@ti.com>, Jai Luthra <jai.luthra@linux.dev>,
- Michal Simek <michal.simek@amd.com>, Andy Shevchenko <andy@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Steve Longerbeam <slongerbeam@gmail.com>,
- Jack Zhu <jack.zhu@starfivetech.com>,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: linux-media@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20241014-vb2-wait-v1-0-8c3ee25c618c@xs4all.nl>
- <33b98fdd-c74f-4c78-858a-c415aa45a71f@kernel.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <33b98fdd-c74f-4c78-858a-c415aa45a71f@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On 15/10/2024 17:13, Shuah wrote:
-> On 10/14/24 09:06, Hans Verkuil wrote:
->> This patch series makes one change to videobuf2-core.c in vb2_thread()
->> where wait_prepare/finish was also called. That was missed in the
->> previous commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
->> are NULL"), but that is needed before we can start removing the
->> vb2_ops_wait_prepare/finish callbacks from drivers.
->>
->> The next 9 patches drop the vb2_ops_wait_prepare/finish callbacks
->> from the various drivers in the media subsystem.
->>
->> After this there are some V4L2 drivers in other subsystems (gadget,
->> input, staging) that need this change as well, but I'll start on that
->> when this series is merged.
->>
->> There are also a few drivers that set the wait_prepare/finish callbacks
->> to their own implementation. Those need work as well.
->>
->> Since this series touches on almost all V4L2 drivers, it is sent to
->> a lot of people.
->>
->> Regards,
->>
->>     Hans
->>
->> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
->> ---
->> Hans Verkuil (10):
->>        media: videobuf2-core: update vb2_thread if wait_finish/prepare are NULL
->>        media: test-drivers: drop vb2_ops_wait_prepare/finish
->>        media: pci: drop vb2_ops_wait_prepare/finish
->>        media: usb: drop vb2_ops_wait_prepare/finish
->>        media: video-i2c: drop vb2_ops_wait_prepare/finish
->>        media: rtl2832_sdr: drop vb2_ops_wait_prepare/finish
->>        media: platform: drop vb2_ops_wait_prepare/finish
->>        media: common: saa7146: drop vb2_ops_wait_prepare/finish
->>        staging: media: drop vb2_ops_wait_prepare/finish
->>        media: samples: v4l2-pci-skeleton.c: drop vb2_ops_wait_prepare/finish
->>
->>   drivers/media/common/saa7146/saa7146_vbi.c                   |  2 --
->>   drivers/media/common/saa7146/saa7146_video.c                 |  2 --
->>   drivers/media/common/videobuf2/videobuf2-core.c              | 12 ++++++++----
->>   drivers/media/dvb-frontends/rtl2832_sdr.c                    |  2 --
->>   drivers/media/i2c/video-i2c.c                                |  2 --
->>   drivers/media/pci/bt8xx/bttv-driver.c                        |  2 --
->>   drivers/media/pci/bt8xx/bttv-vbi.c                           |  2 --
->>   drivers/media/pci/cobalt/cobalt-v4l2.c                       |  2 --
->>   drivers/media/pci/cx18/cx18-streams.c                        |  2 --
->>   drivers/media/pci/cx23885/cx23885-417.c                      |  2 --
->>   drivers/media/pci/cx23885/cx23885-dvb.c                      |  2 --
->>   drivers/media/pci/cx23885/cx23885-vbi.c                      |  2 --
->>   drivers/media/pci/cx23885/cx23885-video.c                    |  2 --
->>   drivers/media/pci/cx25821/cx25821-video.c                    |  2 --
->>   drivers/media/pci/cx88/cx88-blackbird.c                      |  2 --
->>   drivers/media/pci/cx88/cx88-dvb.c                            |  2 --
->>   drivers/media/pci/cx88/cx88-vbi.c                            |  2 --
->>   drivers/media/pci/cx88/cx88-video.c                          |  2 --
->>   drivers/media/pci/dt3155/dt3155.c                            |  2 --
->>   drivers/media/pci/intel/ipu3/ipu3-cio2.c                     |  2 --
->>   drivers/media/pci/intel/ipu6/ipu6-isys-queue.c               |  2 --
->>   drivers/media/pci/mgb4/mgb4_vin.c                            |  2 --
->>   drivers/media/pci/mgb4/mgb4_vout.c                           |  2 --
->>   drivers/media/pci/saa7134/saa7134-empress.c                  |  2 --
->>   drivers/media/pci/saa7134/saa7134-ts.c                       |  2 --
->>   drivers/media/pci/saa7134/saa7134-vbi.c                      |  2 --
->>   drivers/media/pci/saa7134/saa7134-video.c                    |  2 --
->>   drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c               |  2 --
->>   drivers/media/pci/solo6x10/solo6x10-v4l2.c                   |  2 --
->>   drivers/media/pci/sta2x11/sta2x11_vip.c                      |  2 --
->>   drivers/media/pci/tw5864/tw5864-video.c                      |  2 --
->>   drivers/media/pci/tw68/tw68-video.c                          |  2 --
->>   drivers/media/pci/tw686x/tw686x-video.c                      |  2 --
->>   drivers/media/pci/zoran/zoran_driver.c                       |  2 --
->>   drivers/media/platform/allegro-dvt/allegro-core.c            |  2 --
->>   drivers/media/platform/amlogic/meson-ge2d/ge2d.c             |  2 --
->>   drivers/media/platform/amphion/vpu_v4l2.c                    |  2 --
->>   drivers/media/platform/aspeed/aspeed-video.c                 |  2 --
->>   drivers/media/platform/atmel/atmel-isi.c                     |  2 --
->>   drivers/media/platform/broadcom/bcm2835-unicam.c             |  2 --
->>   drivers/media/platform/chips-media/coda/coda-common.c        |  2 --
->>   drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c     |  2 --
->>   drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c     |  2 --
->>   drivers/media/platform/imagination/e5010-jpeg-enc.c          |  2 --
->>   drivers/media/platform/intel/pxa_camera.c                    |  2 --
->>   drivers/media/platform/m2m-deinterlace.c                     |  2 --
->>   drivers/media/platform/marvell/mcam-core.c                   |  4 ----
->>   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c         |  4 ----
->>   drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c            |  2 --
->>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c          |  2 --
->>   .../mediatek/vcodec/decoder/mtk_vcodec_dec_stateful.c        |  2 --
->>   .../mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c       |  2 --
->>   .../media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c  |  2 --
->>   drivers/media/platform/microchip/microchip-isc-base.c        |  2 --
->>   drivers/media/platform/nuvoton/npcm-video.c                  |  2 --
->>   drivers/media/platform/nvidia/tegra-vde/v4l2.c               |  2 --
->>   drivers/media/platform/nxp/dw100/dw100.c                     |  2 --
->>   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c               |  2 --
->>   drivers/media/platform/nxp/imx-pxp.c                         |  2 --
->>   drivers/media/platform/nxp/imx7-media-csi.c                  |  2 --
->>   drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c           |  2 --
->>   drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c         |  2 --
->>   drivers/media/platform/nxp/mx2_emmaprp.c                     |  2 --
->>   drivers/media/platform/qcom/camss/camss-video.c              |  2 --
->>   drivers/media/platform/qcom/venus/vdec.c                     |  2 --
->>   drivers/media/platform/qcom/venus/venc.c                     |  2 --
->>   drivers/media/platform/raspberrypi/pisp_be/pisp_be.c         |  2 --
->>   drivers/media/platform/renesas/rcar-vin/rcar-dma.c           |  2 --
->>   drivers/media/platform/renesas/rcar_drif.c                   |  2 --
->>   drivers/media/platform/renesas/rcar_fdp1.c                   |  2 --
->>   drivers/media/platform/renesas/rcar_jpu.c                    |  2 --
->>   drivers/media/platform/renesas/renesas-ceu.c                 |  2 --
->>   drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c       |  2 --
->>   drivers/media/platform/renesas/sh_vou.c                      |  2 --
->>   drivers/media/platform/renesas/vsp1/vsp1_histo.c             |  2 --
->>   drivers/media/platform/renesas/vsp1/vsp1_video.c             |  2 --
->>   drivers/media/platform/rockchip/rga/rga-buf.c                |  2 --
->>   drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c      |  2 --
->>   drivers/media/platform/rockchip/rkisp1/rkisp1-params.c       |  2 --
->>   drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c        |  2 --
->>   drivers/media/platform/samsung/exynos-gsc/gsc-m2m.c          |  2 --
->>   drivers/media/platform/samsung/exynos4-is/fimc-capture.c     |  2 --
->>   drivers/media/platform/samsung/exynos4-is/fimc-isp-video.c   |  2 --
->>   drivers/media/platform/samsung/exynos4-is/fimc-lite.c        |  2 --
->>   drivers/media/platform/samsung/exynos4-is/fimc-m2m.c         |  2 --
->>   drivers/media/platform/samsung/s3c-camif/camif-capture.c     |  2 --
->>   drivers/media/platform/samsung/s5p-g2d/g2d.c                 |  2 --
->>   drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c          |  2 --
->>   drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c         |  2 --
->>   drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c         |  2 --
->>   drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c             |  2 --
->>   drivers/media/platform/st/sti/delta/delta-v4l2.c             |  4 ----
->>   drivers/media/platform/st/sti/hva/hva-v4l2.c                 |  2 --
->>   drivers/media/platform/st/stm32/dma2d/dma2d.c                |  2 --
->>   drivers/media/platform/st/stm32/stm32-dcmi.c                 |  2 --
->>   .../media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c    |  6 ------
->>   drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c           |  2 --
->>   drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c   |  2 --
->>   drivers/media/platform/sunxi/sun8i-di/sun8i-di.c             |  2 --
->>   drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c     |  2 --
->>   drivers/media/platform/ti/am437x/am437x-vpfe.c               |  2 --
->>   drivers/media/platform/ti/cal/cal-video.c                    |  2 --
->>   drivers/media/platform/ti/davinci/vpif_capture.c             |  2 --
->>   drivers/media/platform/ti/davinci/vpif_display.c             |  2 --
->>   drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c        |  2 --
->>   drivers/media/platform/ti/omap/omap_vout.c                   |  2 --
->>   drivers/media/platform/ti/vpe/vpe.c                          |  2 --
->>   drivers/media/platform/verisilicon/hantro_v4l2.c             |  2 --
->>   drivers/media/platform/via/via-camera.c                      |  2 --
->>   drivers/media/platform/xilinx/xilinx-dma.c                   |  2 --
->>   drivers/media/test-drivers/vicodec/vicodec-core.c            |  2 --
->>   drivers/media/test-drivers/vim2m.c                           |  2 --
->>   drivers/media/test-drivers/vimc/vimc-capture.c               |  6 ------
->>   drivers/media/test-drivers/visl/visl-video.c                 |  2 --
->>   drivers/media/test-drivers/vivid/vivid-meta-cap.c            |  2 --
->>   drivers/media/test-drivers/vivid/vivid-meta-out.c            |  2 --
->>   drivers/media/test-drivers/vivid/vivid-sdr-cap.c             |  2 --
->>   drivers/media/test-drivers/vivid/vivid-touch-cap.c           |  2 --
->>   drivers/media/test-drivers/vivid/vivid-vbi-cap.c             |  2 --
->>   drivers/media/test-drivers/vivid/vivid-vbi-out.c             |  2 --
->>   drivers/media/test-drivers/vivid/vivid-vid-cap.c             |  2 --
->>   drivers/media/test-drivers/vivid/vivid-vid-out.c             |  2 --
->>   drivers/media/usb/airspy/airspy.c                            |  2 --
->>   drivers/media/usb/au0828/au0828-vbi.c                        |  2 --
->>   drivers/media/usb/au0828/au0828-video.c                      |  2 --
->>   drivers/media/usb/cx231xx/cx231xx-417.c                      |  2 --
->>   drivers/media/usb/cx231xx/cx231xx-vbi.c                      |  2 --
->>   drivers/media/usb/cx231xx/cx231xx-video.c                    |  2 --
->>   drivers/media/usb/dvb-usb/cxusb-analog.c                     |  2 --
->>   drivers/media/usb/em28xx/em28xx-vbi.c                        |  2 --
->>   drivers/media/usb/em28xx/em28xx-video.c                      |  2 --
->>   drivers/media/usb/go7007/go7007-v4l2.c                       |  2 --
->>   drivers/media/usb/gspca/gspca.c                              |  2 --
->>   drivers/media/usb/hackrf/hackrf.c                            |  2 --
->>   drivers/media/usb/msi2500/msi2500.c                          |  2 --
->>   drivers/media/usb/pwc/pwc-if.c                               |  2 --
->>   drivers/media/usb/s2255/s2255drv.c                           |  2 --
->>   drivers/media/usb/stk1160/stk1160-v4l.c                      |  2 --
->>   drivers/media/usb/usbtv/usbtv-video.c                        |  2 --
->>   drivers/media/usb/uvc/uvc_queue.c                            |  4 ----
->>   drivers/staging/media/atomisp/pci/atomisp_fops.c             |  2 --
->>   drivers/staging/media/deprecated/atmel/atmel-isc-base.c      |  2 --
->>   drivers/staging/media/imx/imx-media-capture.c                |  2 --
->>   drivers/staging/media/imx/imx-media-csc-scaler.c             |  2 --
->>   drivers/staging/media/ipu3/ipu3-v4l2.c                       |  2 --
->>   drivers/staging/media/meson/vdec/vdec.c                      |  2 --
->>   drivers/staging/media/rkvdec/rkvdec.c                        |  2 --
->>   drivers/staging/media/starfive/camss/stf-video.c             |  2 --
->>   drivers/staging/media/sunxi/cedrus/cedrus_video.c            |  2 --
->>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c    |  2 --
->>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c     |  2 --
->>   drivers/staging/media/tegra-video/vi.c                       |  2 --
->>   samples/v4l/v4l2-pci-skeleton.c                              |  6 +-----
->>   153 files changed, 9 insertions(+), 327 deletions(-)
->> ---
->> base-commit: bcd4f091cf1ea7184d813afc115af82ac9326b25
->> change-id: 20241014-vb2-wait-445a4ead0c4f
->>
->> Best regards,
-> 
-> That is a long list :)
-> 
-> I am seeing the following drivers that use .wait_prepare
-> and .wait_finish in Linux 6.12-rc3 - should they be included
-> in this series.
-> 
-> input drivers:
-> drivers/input/rmi4/rmi_f54.c
-> drivers/input/touchscreen/atmel_mxt_ts.c
-> drivers/input/touchscreen/sur40.c
-> 
-> staging drivers:
-> drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+Hi Hans, Mauro,
 
-I'll do those separately, let's start with the main bulk in the media
-subsystem :-)
+Here's again a big, big PR with lots of various patches -- hopefully we can
+transition to the new process soon!
 
-If you're curious, the remainder is here:
+Noteworthy additions are the PiSP FE driver, additional hardware support
+for rcar-csi2 and max96712 drivers. The rest are mostly small fixes in
+drivers here and there. Prabhakar's get_frame_desc caller improvements and
+a few streaming documentation updates are included, too.
 
-https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=vb2_wait
+Please pull.
 
-But it needs a bit more work, since there are some complications around
-a DVB driver that I don't fully understand yet.
+since v1:
 
-Regards,
+- Address Coccinelle and checkpatch.pl warnings.
 
-	Hans
+- Pick a ov2740 cleanup by Hans de Goede.
 
-> 
-> thanks,
-> -- Shuah
 
+The following changes since commit bcd4f091cf1ea7184d813afc115af82ac9326b25:
+
+  media: verisilicon: Use V4L2_FMTDESC_FLAG_ENUM_ALL flag (2024-10-12 19:56:16 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.13-1.1-signed
+
+for you to fetch changes up to 13db34be662982993ef9b870d50e2206b51f9b29:
+
+  media: ov2740: Don't log ov2740_check_hwcfg() errors twice (2024-10-15 13:16:52 +0300)
+
+----------------------------------------------------------------
+V4L2 patches fpr 6.13
+
+----------------------------------------------------------------
+Benjamin Bara (3):
+      media: i2c: imx290: Remove CHIP_ID reg definition
+      media: i2c: imx290: Avoid communication during probe()
+      media: i2c: imx290: Check for availability in probe()
+
+Biju Das (1):
+      media: platform: rzg2l-cru: rzg2l-video: Move request_irq() to probe()
+
+Bingbu Cao (2):
+      media: ipu6: fix the wrong type casting and 64-bit division
+      media: ipu6: remove redundant dependency in Kconfig
+
+Chen Ni (1):
+      media: ti: j721e-csi2rx: Convert comma to semicolon
+
+Christophe JAILLET (1):
+      media: i2c: vgxy61: Fix an error handling path in vgxy61_detect()
+
+Colin Ian King (1):
+      media: i2c: ds90ub960: Fix missing return check on ub960_rxport_read call
+
+Dan Carpenter (1):
+      media: i2c: max96717: clean up on error in max96717_subdev_init()
+
+Hans de Goede (1):
+      media: ov2740: Don't log ov2740_check_hwcfg() errors twice
+
+Hridesh MG (1):
+      staging: media: ipu3: fix spelling mistakes
+
+Lad Prabhakar (1):
+      media: v4l2-subdev: Return -EOPNOTSUPP for unsupported pad type in call_get_frame_desc()
+
+Niklas S�derlund (17):
+      dt-bindings: media: renesas,csi2: Add binding for V4M
+      media: rcar-csi2: Correct field size for PHTW writes
+      media: rcar-csi2: Allow writing any code and data value to PHTW
+      media: rcar-csi2: Abstract PHTW and PHYPLL register offsets
+      media: rcar-csi2: Add helper to lookup mbps settings
+      media: rcar-csi2: Move PHTW write helpers
+      media: rcar-csi2: Add documentation for PHY_EN and PHY_MODE registers
+      media: rcar-csi2: Add support for R-Car V4M
+      dt-bindings: i2c: maxim,max96712: Add compatible for MAX96724
+      media: staging: max96712: Remove device id check
+      media: staging: max96712: Move link frequency setting to device struct
+      media: staging: max96712: Document the DEBUG_EXTRA register
+      media: staging: max96712: Add support for MAX96724
+      dt-bindings: media: renesas,isp: Add Gen4 family fallback
+      media: rcar-isp: Add family compatible for R-Car Gen4 family
+      dt-bindings: media: renesas,isp: Add binding for V4M
+      media: rcar-vin: Add support for RAW10
+
+Paul Elder (1):
+      media: platform: video-mux: Fix mutex locking
+
+Ricardo Ribalda (1):
+      media: atomisp: Replace ternary operator with if
+
+Sakari Ailus (3):
+      media: Documentation: Deprecate s_stream video op, update docs
+      media: Documentation: Update {enable,disable}_streams documentation
+      media: Documentation: Improve v4l2_subdev_{en,dis}able_streams documentation
+
+Shen Lichuan (1):
+      media: staging/intel-ipu3: css: Convert comma to semicolon
+
+Tomi Valkeinen (4):
+      media: uapi: Add meta formats for PiSP FE config and stats
+      dt-bindings: media: Add bindings for raspberrypi,rp1-cfe
+      media: raspberrypi: Add support for RP1-CFE
+      media: admin-guide: Document the Raspberry Pi CFE (rp1-cfe)
+
+Tommaso Merciai (2):
+      media: i2c: max96714: add HAS_EVENTS support
+      media: i2c: max96717: add HAS_EVENTS support
+
+Yu Jiaoliang (1):
+      media: i2c: Fix typos in comments across various files
+
+ .../admin-guide/media/raspberrypi-rp1-cfe.dot      |   27 +
+ .../admin-guide/media/raspberrypi-rp1-cfe.rst      |   78 +
+ Documentation/admin-guide/media/v4l-drivers.rst    |    1 +
+ .../bindings/media/i2c/maxim,max96712.yaml         |    5 +-
+ .../bindings/media/raspberrypi,rp1-cfe.yaml        |   93 +
+ .../devicetree/bindings/media/renesas,csi2.yaml    |    1 +
+ .../devicetree/bindings/media/renesas,isp.yaml     |    4 +-
+ Documentation/driver-api/media/camera-sensor.rst   |    8 +-
+ Documentation/driver-api/media/tx-rx.rst           |   13 +-
+ .../userspace-api/media/v4l/meta-formats.rst       |    1 +
+ .../userspace-api/media/v4l/metafmt-pisp-fe.rst    |   39 +
+ MAINTAINERS                                        |    7 +
+ drivers/media/i2c/ds90ub960.c                      |    2 +-
+ drivers/media/i2c/hi556.c                          |    2 +-
+ drivers/media/i2c/imx290.c                         |   30 +-
+ drivers/media/i2c/max96714.c                       |    6 +-
+ drivers/media/i2c/max96717.c                       |   12 +-
+ drivers/media/i2c/ov2740.c                         |    7 +-
+ drivers/media/i2c/ov5640.c                         |    2 +-
+ drivers/media/i2c/ov5670.c                         |    2 +-
+ drivers/media/i2c/ov5675.c                         |    4 +-
+ drivers/media/i2c/ov772x.c                         |    2 +-
+ drivers/media/i2c/ov7740.c                         |    2 +-
+ drivers/media/i2c/ov8856.c                         |    2 +-
+ drivers/media/i2c/ov9650.c                         |    2 +-
+ drivers/media/i2c/ov9734.c                         |    2 +-
+ drivers/media/i2c/vgxy61.c                         |    2 +-
+ drivers/media/pci/intel/ipu6/Kconfig               |    2 +-
+ drivers/media/pci/intel/ipu6/ipu6-cpd.c            |    6 +-
+ drivers/media/pci/intel/ipu6/ipu6-fw-com.c         |    8 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c   |    4 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c     |    6 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys.c           |    6 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys.h           |    2 +-
+ drivers/media/pci/intel/ipu6/ipu6.c                |    3 +-
+ drivers/media/platform/raspberrypi/Kconfig         |    1 +
+ drivers/media/platform/raspberrypi/Makefile        |    1 +
+ drivers/media/platform/raspberrypi/rp1-cfe/Kconfig |   15 +
+ .../media/platform/raspberrypi/rp1-cfe/Makefile    |    6 +
+ .../media/platform/raspberrypi/rp1-cfe/cfe-fmts.h  |  332 +++
+ .../media/platform/raspberrypi/rp1-cfe/cfe-trace.h |  202 ++
+ drivers/media/platform/raspberrypi/rp1-cfe/cfe.c   | 2503 ++++++++++++++++++++
+ drivers/media/platform/raspberrypi/rp1-cfe/cfe.h   |   43 +
+ drivers/media/platform/raspberrypi/rp1-cfe/csi2.c  |  586 +++++
+ drivers/media/platform/raspberrypi/rp1-cfe/csi2.h  |   89 +
+ drivers/media/platform/raspberrypi/rp1-cfe/dphy.c  |  181 ++
+ drivers/media/platform/raspberrypi/rp1-cfe/dphy.h  |   27 +
+ .../media/platform/raspberrypi/rp1-cfe/pisp-fe.c   |  605 +++++
+ .../media/platform/raspberrypi/rp1-cfe/pisp-fe.h   |   53 +
+ drivers/media/platform/renesas/rcar-csi2.c         |  518 +++-
+ drivers/media/platform/renesas/rcar-isp.c          |    4 +-
+ .../media/platform/renesas/rcar-vin/rcar-core.c    |    1 +
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c |   30 +
+ .../media/platform/renesas/rcar-vin/rcar-v4l2.c    |   43 +
+ drivers/media/platform/renesas/rcar-vin/rcar-vin.h |    4 +-
+ .../media/platform/renesas/rzg2l-cru/rzg2l-core.c  |   13 +-
+ .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |    6 +-
+ .../media/platform/renesas/rzg2l-cru/rzg2l-video.c |   15 +-
+ .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  |    6 +-
+ drivers/media/platform/video-mux.c                 |    6 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c               |    2 +
+ drivers/media/v4l2-core/v4l2-subdev.c              |    5 +
+ drivers/staging/media/atomisp/pci/sh_css_frac.h    |    6 +-
+ drivers/staging/media/ipu3/ipu3-css-params.c       |    6 +-
+ drivers/staging/media/max96712/max96712.c          |   56 +-
+ include/media/v4l2-subdev.h                        |   17 +-
+ .../uapi/linux/media/raspberrypi/pisp_fe_config.h  |  273 +++
+ .../linux/media/raspberrypi/pisp_fe_statistics.h   |   64 +
+ include/uapi/linux/videodev2.h                     |    2 +
+ 69 files changed, 5895 insertions(+), 219 deletions(-)
+ create mode 100644 Documentation/admin-guide/media/raspberrypi-rp1-cfe.dot
+ create mode 100644 Documentation/admin-guide/media/raspberrypi-rp1-cfe.rst
+ create mode 100644 Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-pisp-fe.rst
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/Kconfig
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/Makefile
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/cfe-fmts.h
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/cfe-trace.h
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/cfe.h
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/csi2.c
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/csi2.h
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/dphy.c
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/dphy.h
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/pisp-fe.c
+ create mode 100644 drivers/media/platform/raspberrypi/rp1-cfe/pisp-fe.h
+ create mode 100644 include/uapi/linux/media/raspberrypi/pisp_fe_config.h
+ create mode 100644 include/uapi/linux/media/raspberrypi/pisp_fe_statistics.h
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
