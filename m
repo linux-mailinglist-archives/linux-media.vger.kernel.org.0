@@ -1,214 +1,169 @@
-Return-Path: <linux-media+bounces-19664-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19665-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09FB99E424
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 12:36:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6313099E598
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 13:27:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AE481F231AC
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 10:36:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10AE71F24B2F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 11:27:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 722D41EF0AD;
-	Tue, 15 Oct 2024 10:33:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D4FF174ED0;
+	Tue, 15 Oct 2024 11:27:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oR45qBQ9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gF4Jiud4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DD71EF084;
-	Tue, 15 Oct 2024 10:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4151D89F8;
+	Tue, 15 Oct 2024 11:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728988432; cv=none; b=kl5r6rw5WlcEJbjrJEH2rDiu0cpRKq5J0KpI3LbzYziPC4hWYkpfljEXhNGH3xJUJU71roM33in8RXCUT9MT7fUQBpRBGPe/hB2gP1oi0xg1OW86/UwNU+zzLGXGlvy6vczXth5b0c0QA6zFZJxfLssbpL/g8vDy0KZovCA6Zrk=
+	t=1728991623; cv=none; b=cUR6siFRF8TsBT7Op1Resi0VICNxglsZ8xex8knXmIpKBeY3un44Cr9cglpYnLVShYE/mF4pR7u+yUhFeAgbVd+WnSHirvU4bOxIe4cVcc7pzaBpV2gOkTJCG6IOqw7lXV4uAG1hOe6uErgBUzQ84ezc26ILwhyxAPLDzcBCV9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728988432; c=relaxed/simple;
-	bh=HL/jnE1WqweHPGzwcCPIQU5c+Ncx9S2AY76RTDl/6C4=;
+	s=arc-20240116; t=1728991623; c=relaxed/simple;
+	bh=CU5Ivy8Z00Cv051dEKbRz2VOtggkLM1An6ezy/8TD6I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KBsxNzUJbXn7K8gWHlRoyuMdo2f+uAK+w3+CYwHf5O5epDDxSH9tG2fHj1ax9la5o9pPYeIKilqEYlsPY3AgsoJVeLbF+AVfY/5wvCD64vp6ODNiepfeK8t8jyyNjhw4ENGJBcc5uwOdc+vvOWHROtCD2RKd8DdJY1LJCq7OnM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oR45qBQ9; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [185.143.39.11])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A5A9A34;
-	Tue, 15 Oct 2024 12:32:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1728988328;
-	bh=HL/jnE1WqweHPGzwcCPIQU5c+Ncx9S2AY76RTDl/6C4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oR45qBQ9FMNqA1s5f4U7pH5PHCwPDpPi2ewSXhzFUnLlwFm2PCAALuMgYBB7yz8bv
-	 arHGUXNLbyqiZkGaRxJqyHMQwfXvEig/EiWLQf9JXuZ3ZeuWp0veQyDbN/rmofo7a3
-	 LHJ3wG6ga2v62BNaIWEg6cwCMbtB2w4Mcv4yddXI=
-Date: Tue, 15 Oct 2024 13:33:46 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v5 18/22] media: rzg2l-cru: video: Implement
- .link_validate() callback
-Message-ID: <20241015103346.GL5682@pendragon.ideasonboard.com>
-References: <20241011173052.1088341-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241011173052.1088341-19-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KWYFPdnvKGyqlSXjfh5/AT4y9ZVcUi+mx9bCrtkVpnvOvFSn/ScMGw39btM41GOy7nEBfIJdYPbxnJjdR7UXlRV8evcMT4vaaaP9YA9xJZaZjD5H/lBOoZ6dBrnrYbkH51r/gquTiAX1f4Mwp3jzHR3+U72Nhwx19HYndQCiM14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gF4Jiud4; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728991620; x=1760527620;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CU5Ivy8Z00Cv051dEKbRz2VOtggkLM1An6ezy/8TD6I=;
+  b=gF4Jiud4EQ0nGn6RHyKTMukoiLfxymkgNV3AeP0bO0FqMvvRCH8F60V2
+   uUqo/yeAZqsB9FBt+D3EJTfpqq3gOZ6R9hgKahKkgSGk+FU1Hg0tDSIaz
+   bHcO33iBckEfscz1QvGrYOhTI5Q4EE8uywyaPG7q+SYqcEMIaUcE07CnL
+   Pzyd3l3kf2FYC/dJewKgRAe9Afc3xBCfScvUcdeBtI5NzpQXnbVIbm4Dt
+   ufOWpQktQ7d6GfMZhY4OmpHjaC4lA+fERRls0EUqir8cwMi7G58AF2tmn
+   85tMpIUoprxveCgP2VZzyE9jXwfCUReQmJYyxWxgHBW3Dhr3C8w9vQ4tw
+   w==;
+X-CSE-ConnectionGUID: pB1IadCmQimfQZ/ElAHqTQ==
+X-CSE-MsgGUID: CD1fs7D+Ti+wnhZ1yheFJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39768517"
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="39768517"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 04:26:54 -0700
+X-CSE-ConnectionGUID: SVYhPXiBT5SLyftBMZcMKA==
+X-CSE-MsgGUID: ncKQkyxCRaeSGbYGnAeclg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="108592278"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Oct 2024 04:26:49 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t0fhP-000I2R-08;
+	Tue, 15 Oct 2024 11:26:47 +0000
+Date: Tue, 15 Oct 2024 19:25:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: Re: [PATCH v4 08/28] media: iris: implement power management
+Message-ID: <202410151929.iJzD1Wez-lkp@intel.com>
+References: <20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241011173052.1088341-19-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e@quicinc.com>
 
-Hi Prabhakar,
+Hi Dikshita,
 
-Thank you for the patch.
+kernel test robot noticed the following build warnings:
 
-On Fri, Oct 11, 2024 at 06:30:48PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Implement the `.link_validate()` callback for the video node and move the
-> format checking into this function. This change allows the removal of
-> `rzg2l_cru_mc_validate_format()`.
+[auto build test WARNING on 67cefecf2a039b9ed0030b9213ceafcd45e6f9e3]
 
-I would add here that the fmt.format.code and fmt.format.field checks
-can be dropped as the subdev .set_fmt() handler ensures that those
-fields always hold valid values.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dikshita-Agarwal/dt-bindings-media-Add-video-support-for-QCOM-SM8550-SoC/20241014-171950
+base:   67cefecf2a039b9ed0030b9213ceafcd45e6f9e3
+patch link:    https://lore.kernel.org/r/20241014-qcom-video-iris-v4-v4-8-c5eaa4e9ab9e%40quicinc.com
+patch subject: [PATCH v4 08/28] media: iris: implement power management
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241015/202410151929.iJzD1Wez-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151929.iJzD1Wez-lkp@intel.com/reproduce)
 
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410151929.iJzD1Wez-lkp@intel.com/
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+All warnings (new ones prefixed by >>):
 
-> ---
->  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 82 +++++++++----------
->  1 file changed, 38 insertions(+), 44 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index 0cc69a7440bf..df6114cbe5c7 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -189,46 +189,6 @@ static void rzg2l_cru_buffer_queue(struct vb2_buffer *vb)
->  	spin_unlock_irqrestore(&cru->qlock, flags);
->  }
->  
-> -static int rzg2l_cru_mc_validate_format(struct rzg2l_cru_dev *cru,
-> -					struct v4l2_subdev *sd,
-> -					struct media_pad *pad)
-> -{
-> -	struct v4l2_subdev_format fmt = {
-> -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> -	};
-> -
-> -	fmt.pad = pad->index;
-> -	if (v4l2_subdev_call_state_active(sd, pad, get_fmt, &fmt))
-> -		return -EPIPE;
-> -
-> -	switch (fmt.format.code) {
-> -	case MEDIA_BUS_FMT_UYVY8_1X16:
-> -		break;
-> -	default:
-> -		return -EPIPE;
-> -	}
-> -
-> -	switch (fmt.format.field) {
-> -	case V4L2_FIELD_TOP:
-> -	case V4L2_FIELD_BOTTOM:
-> -	case V4L2_FIELD_NONE:
-> -	case V4L2_FIELD_INTERLACED_TB:
-> -	case V4L2_FIELD_INTERLACED_BT:
-> -	case V4L2_FIELD_INTERLACED:
-> -	case V4L2_FIELD_SEQ_TB:
-> -	case V4L2_FIELD_SEQ_BT:
-> -		break;
-> -	default:
-> -		return -EPIPE;
-> -	}
-> -
-> -	if (fmt.format.width != cru->format.width ||
-> -	    fmt.format.height != cru->format.height)
-> -		return -EPIPE;
-> -
-> -	return 0;
-> -}
-> -
->  static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
->  				    int slot, dma_addr_t addr)
->  {
-> @@ -532,10 +492,6 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
->  		return stream_off_ret;
->  	}
->  
-> -	ret = rzg2l_cru_mc_validate_format(cru, sd, pad);
-> -	if (ret)
-> -		return ret;
-> -
->  	pipe = media_entity_pipeline(&sd->entity) ? : &cru->vdev.pipe;
->  	ret = video_device_pipeline_start(&cru->vdev, pipe);
->  	if (ret)
-> @@ -986,6 +942,43 @@ static const struct v4l2_file_operations rzg2l_cru_fops = {
->  	.read		= vb2_fop_read,
->  };
->  
-> +/* -----------------------------------------------------------------------------
-> + * Media entity operations
-> + */
-> +
-> +static int rzg2l_cru_video_link_validate(struct media_link *link)
-> +{
-> +	struct v4l2_subdev_format fmt = {
-> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> +	};
-> +	const struct rzg2l_cru_ip_format *video_fmt;
-> +	struct v4l2_subdev *subdev;
-> +	struct rzg2l_cru_dev *cru;
-> +	int ret;
-> +
-> +	subdev = media_entity_to_v4l2_subdev(link->source->entity);
-> +	fmt.pad = link->source->index;
-> +	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
-> +	if (ret < 0)
-> +		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
-> +
-> +	cru = container_of(media_entity_to_video_device(link->sink->entity),
-> +			   struct rzg2l_cru_dev, vdev);
-> +	video_fmt = rzg2l_cru_ip_format_to_fmt(cru->format.pixelformat);
-> +
-> +	if (fmt.format.width != cru->format.width ||
-> +	    fmt.format.height != cru->format.height ||
-> +	    fmt.format.field != cru->format.field ||
-> +	    video_fmt->code != fmt.format.code)
-> +		return -EPIPE;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct media_entity_operations rzg2l_cru_video_media_ops = {
-> +	.link_validate = rzg2l_cru_video_link_validate,
-> +};
-> +
->  static void rzg2l_cru_v4l2_init(struct rzg2l_cru_dev *cru)
->  {
->  	struct video_device *vdev = &cru->vdev;
-> @@ -997,6 +990,7 @@ static void rzg2l_cru_v4l2_init(struct rzg2l_cru_dev *cru)
->  	vdev->lock = &cru->lock;
->  	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
->  	vdev->device_caps |= V4L2_CAP_IO_MC;
-> +	vdev->entity.ops = &rzg2l_cru_video_media_ops;
->  	vdev->fops = &rzg2l_cru_fops;
->  	vdev->ioctl_ops = &rzg2l_cru_ioctl_ops;
->  
+>> drivers/media/platform/qcom/iris/iris_probe.c:292:12: warning: 'iris_pm_resume' defined but not used [-Wunused-function]
+     292 | static int iris_pm_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~
+>> drivers/media/platform/qcom/iris/iris_probe.c:273:12: warning: 'iris_pm_suspend' defined but not used [-Wunused-function]
+     273 | static int iris_pm_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~
+
+
+vim +/iris_pm_resume +292 drivers/media/platform/qcom/iris/iris_probe.c
+
+   272	
+ > 273	static int iris_pm_suspend(struct device *dev)
+   274	{
+   275		struct iris_core *core;
+   276		int ret;
+   277	
+   278		core = dev_get_drvdata(dev);
+   279	
+   280		mutex_lock(&core->lock);
+   281		if (core->state != IRIS_CORE_INIT)
+   282			goto exit;
+   283	
+   284		ret = iris_hfi_pm_suspend(core);
+   285	
+   286	exit:
+   287		mutex_unlock(&core->lock);
+   288	
+   289		return ret;
+   290	}
+   291	
+ > 292	static int iris_pm_resume(struct device *dev)
+   293	{
+   294		struct iris_core *core;
+   295		int ret = 0;
+   296	
+   297		core = dev_get_drvdata(dev);
+   298	
+   299		mutex_lock(&core->lock);
+   300		if (core->state != IRIS_CORE_INIT)
+   301			goto exit;
+   302	
+   303		ret = iris_hfi_pm_resume(core);
+   304		pm_runtime_mark_last_busy(core->dev);
+   305	
+   306	exit:
+   307		mutex_unlock(&core->lock);
+   308	
+   309		return ret;
+   310	}
+   311	
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
