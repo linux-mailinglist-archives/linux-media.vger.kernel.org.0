@@ -1,140 +1,85 @@
-Return-Path: <linux-media+bounces-19687-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19688-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7F899F1E8
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 17:49:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A5B99F2CB
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 18:34:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 57A891F21313
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 15:49:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E13A228145F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2024 16:34:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FBFD1EB9E6;
-	Tue, 15 Oct 2024 15:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GmB4dJ1E"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 783131F6683;
+	Tue, 15 Oct 2024 16:34:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE3F170A19;
-	Tue, 15 Oct 2024 15:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992B1158DB9
+	for <linux-media@vger.kernel.org>; Tue, 15 Oct 2024 16:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729007354; cv=none; b=mRyfExr9o1afBoSQOVxFkK9pLzDBx3sFsJrscq88zcpm5UHnKb1qmen2xgJ6I87vfcpPCAggkY/mTh0K6ECZotrwJ4FLT1L8003sIAdMMew2/GiK/83sGygKic+ni0KBjsgubM+eAXhw8LoFeVXA9siCsIJCgQwSvOz9GJnfRiA=
+	t=1729010084; cv=none; b=bH3msn47oTMvhtBfz497hrxsi2vvhpJSTsF8v0JP+DJ6aQ1MMO+251AzPxxBaVpvALOrROVxFt3jIBxhkB29WXaA+RMCY0EE+AqmovYOK0qVCPdToCdxiZhjaSe4ZLBnXUzEGNVc2WOoTeCY8yFsKSbjRNvKoRGobNcaxU5FL8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729007354; c=relaxed/simple;
-	bh=8rs5FX8euimoaM+3TEF5t4bWzdqlREeZB9JxJ8XE8xM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=myDG40b5hioxGETLKbqLuaENTioeC8eawigIGy8yrSenqzcT7VMIiWE0JJQGh2xRiQcZoCWrFpBnIjW7BKFWA0VpYdYxm06FhBeXF3Sm8TYUSUdjom+0J/mV/q+j1FXJuiD3q8m4hat141eLQ11Tcoxc0+oqzzBSnxAZbOCEeFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GmB4dJ1E; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A2CEC4CEC6;
-	Tue, 15 Oct 2024 15:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729007354;
-	bh=8rs5FX8euimoaM+3TEF5t4bWzdqlREeZB9JxJ8XE8xM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GmB4dJ1EdYGO/ZUli8Icg0bDOLS/0AUWPsg/90a/xeHWFCI7amjMB6XsK9a0MT3hj
-	 p4lF7AKbO6OIIg6f1FbAfYokBk7rGOFWBopSlm4fwr3yCnCq87JzoShYWAF1vXDdn0
-	 pYg5PVf4V0zXkIzdl6zQk0+o8lqu4ac7jI+qRzvV+MD/RyKl4UbyMWCgacoQubTBc5
-	 2ARx5JvudAYmFhS3WJ/AzMLSRlbO7DQgpnSOucWZdeT6tZVbTgu9g4pEzhYuJy6Zz+
-	 IsyCW49MFuG3635ZcmrN1AurDeoiGWu5A/PO3mvr5GPkm0h5+sKN49KNcBkcncETIQ
-	 b11D/Z6vhhsxg==
-Date: Tue, 15 Oct 2024 10:49:12 -0500
-From: Rob Herring <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v7 0/9] of: property: add
- of_graph_get_next_port/port_endpoint()
-Message-ID: <20241015154912.GA1152221-robh@kernel.org>
-References: <87wmiirqwy.wl-kuninori.morimoto.gx@renesas.com>
+	s=arc-20240116; t=1729010084; c=relaxed/simple;
+	bh=IfLrCvWpbQE/k+AHgxXf1KwIOhWtrBSu783k4Lh1IQw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=KpDrWSKxKvUSCcy4x2ZrVNJl0xzbIkGsT82lB3qpbblNMJdwZ3xsDjRcgKuCNzkIdmP+/vZJUoUvTlYEa5TnhQDF3UUL4zHNBRNIihuLCTZ9pa8I1zX5h/9Jpch9tk1zTwymASydH3ya8FBlwHXns0dxphueFYhLew+pkZf61u0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1t0kVN-0002iu-1G;
+	Tue, 15 Oct 2024 16:34:41 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+	by slave0 with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1t0kVM-000JZ8-0Y;
+	Tue, 15 Oct 2024 16:34:40 +0000
+From: Jenkins <jenkins@linuxtv.org>
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@iki.fi>
+Cc: builder@linuxtv.org
+Subject: Re: [GIT PULL v2 FOR 6.13] Mostly camera sensor patches (#104778)
+Date: Tue, 15 Oct 2024 16:34:37 +0000
+Message-Id: <20241015163437.75201-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <Zw6NXzWiKsQccI32@valkosipuli.retiisi.eu>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87wmiirqwy.wl-kuninori.morimoto.gx@renesas.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 09, 2024 at 01:44:30AM +0000, Kuninori Morimoto wrote:
-> 
-> Hi Rob, Saravana, Tomi, Laurent, Sakari, Mark
-> 
-> This is v7 patch-set
-> 
-> Current Of-graph has "endpoint base" for loop, but doesn't have
-> "port base" loop. "endpoint base" loop only is not enough.
-> This patch-set add new "port base" for loop, and use it.
-> 
-> v6 -> v7
-> 	- based on latest linus/master branch
-> 	- remove "ports" base functions
-> 	- use "port" base function on "endpoint" function ([3/9])
-> 	- tidyup [1/9] explanation
-> 
-> v5 -> v6
-> 	- based on latest linus/master branch
-> 	- [9/9]: fixed compile warrning
-> 
-> v4 -> v5
-> 	- tidyup comments
-> 	- [8/9]: parent NULL check was removed
-> 	- [9/9]: use for_each_of_graph_port()
-> 
-> v3 -> v4
-> 	- new for_each loop includes __free()
-> 	 - comment indicates to use return_ptr() or no_free_ptr() if
-> 	   it need to continue to use node
-> 	 - each driver based on it
-> 	- care "prev" leak on of_graph_get_next_ports()
-> 	- of_graph_get_next_port_endpoint() indicates WARN() if port
-> 	  has non-endpoint node
-> 	- tidyup each git-log
-> 
-> v2 -> v3
-> 	- return NULL if it it doesn't have ports / port
-> 	- add visible comment on of_graph_get_next_ports()
-> 
-> v1 -> v2
-> 	- add each Reviewed-by / Acked-by
-> 	- tidyup/update Kernel Docs
-> 	- use prev as parameter
-> 	- update git-log explanation
-> 	- remove extra changes
-> 
-> Kuninori Morimoto (9):
->   of: property: add of_graph_get_next_port()
->   of: property: add of_graph_get_next_port_endpoint()
->   of: property: use new of_graph functions
->   ASoC: test-component: use new of_graph functions
->   ASoC: audio-graph-card: use new of_graph functions
->   ASoC: audio-graph-card2: use new of_graph functions
->   gpu: drm: omapdrm: use new of_graph functions
->   fbdev: omapfb: use new of_graph functions
->   media: xilinx-tpg: use new of_graph functions
+From: builder@linuxtv.org
 
-The DT parts look fine to me now. I see Mark acked this so he's not 
-expecting to take it. I can take it, but need acks on the fbdev and 
-media patches.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/Zw6NXzWiKsQccI32@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/390756/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/Zw6NXzWiKsQccI32@valkosipuli.retiisi.eu
 
-Rob
+gpg: Signature made Tue 15 Oct 2024 03:15:35 PM UTC
+gpg:                using EDDSA key 5873A1DBBB1EBB81535A470C7A13323D00AE6FDB
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+gpg:                 aka "Sakari Ailus <sakari.ailus@iki.fi>" [full]
+gpg: cannot open '/dev/tty': No such device or address
+
+
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0042-media-atomisp-Replace-ternary-operator-with-if.patch doesn't apply:
+Applying patch patches/0042-media-atomisp-Replace-ternary-operator-with-if.patch
+patching file drivers/staging/media/atomisp/pci/sh_css_frac.h
+Hunk #1 FAILED at 37.
+Hunk #2 FAILED at 47.
+2 out of 2 hunks FAILED -- rejects in file drivers/staging/media/atomisp/pci/sh_css_frac.h
+Patch patches/0042-media-atomisp-Replace-ternary-operator-with-if.patch does not apply (enforce with -f)
+
 
