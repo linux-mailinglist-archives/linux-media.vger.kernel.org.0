@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-19751-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19752-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794739A07BC
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 12:49:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3419A07E6
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 12:56:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9016B1C22276
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 10:49:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9293FB26DE7
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 10:56:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A13B2207206;
-	Wed, 16 Oct 2024 10:49:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8926A2076B0;
+	Wed, 16 Oct 2024 10:56:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8A01CACDB;
-	Wed, 16 Oct 2024 10:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCD6207204;
+	Wed, 16 Oct 2024 10:56:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729075757; cv=none; b=BGWSWrttwyNnXdL8+xddUXHnargJcJVaEpaK6v9umIvc9i/7TFAaFan19q80fwvBnbyy0kcLvxrROcAugdQCUVsVZFRHyR+eRh/Rvw+XEU6KmDmA6mKC27zj13GRG+zUSQjcWBz7hrJ/g1fzEJIZOfWBeiMbg2jwKXqFj5dTe78=
+	t=1729076165; cv=none; b=j5IC9o4aMCvq6HyRzkOg/cpVEaykNRnIqIO5nUEB570/9Hqw4sxQ6K+5gtl2CQImrRDA4oysAGynIM24OVQhwOh9FTxxLvj2o1dkpbvrSzGfAM4wqFeRNRgkK/v3iz0XprWItdgi/zLLKiW0t3L6egfgQZNtiJz7A5KsaWGf/II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729075757; c=relaxed/simple;
-	bh=Of+KC8iAHIEaZajNpEuiGIfgEX87fKBFGGV1Zqnik38=;
+	s=arc-20240116; t=1729076165; c=relaxed/simple;
+	bh=uO/FLVjQm0aP9k0+5tJzAAwwzeXFoUGespn4lDhPlTE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vGDOfE2NOyicCLWfO80t3vT9TgZG04s+G27NJRc3I5EyhH7d1mHL/3N0zrDm23cP7Snnv5aCPhRlmTPwOQS2mCK3kORwwRDMjYLWP8qABQGsVRGd6mTGhMxW3CU2ENXcFlha0xaIayHkYOiN+zBTyUI4jTeYUoU65rbn9hlsSAU=
+	 In-Reply-To:Content-Type; b=DxuruPufrHKNNa1VEtfPRqxCv5lbB37XTI+c/8ArtUEYsNkTmhOCEQAnebTbjyK6aS5QvmygBYwZhnbxmLfRQnQTo+vMLKBI23ezD8KNA8RGNa7jbaGWVfNPG6X+692RXmdStCy0OMM2TP4nXXHxDKbRDEmaJMA7r9i++166pEM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3397C4CECF;
-	Wed, 16 Oct 2024 10:49:15 +0000 (UTC)
-Message-ID: <2bffad36-efc1-44a2-861a-5d6afb7e5b38@xs4all.nl>
-Date: Wed, 16 Oct 2024 12:49:14 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09314C4CECF;
+	Wed, 16 Oct 2024 10:56:03 +0000 (UTC)
+Message-ID: <dcb89d4c-72e0-42a3-8923-51cd18e05968@xs4all.nl>
+Date: Wed, 16 Oct 2024 12:56:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,13 +38,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/13] media: v4l2-tpg: prevent the risk of a division by
- zero
+Subject: Re: [PATCH 01/13] media: v4l2-ctrls-api: fix error handling for
+ v4l2_g_ctrl()
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Zhipeng Lu <alexious@zju.edu.cn>, linux-kernel@vger.kernel.org,
+Cc: Ricardo Ribalda <ribalda@chromium.org>, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, stable@vger.kernel.org
 References: <cover.1729074076.git.mchehab+huawei@kernel.org>
- <953ea061a4fbe43b10f15308aa8d792afb493e44.1729074076.git.mchehab+huawei@kernel.org>
+ <f7cff5c05f950ab28532f71d5ac7a4a8efed38fb.1729074076.git.mchehab+huawei@kernel.org>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -90,50 +90,64 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <953ea061a4fbe43b10f15308aa8d792afb493e44.1729074076.git.mchehab+huawei@kernel.org>
+In-Reply-To: <f7cff5c05f950ab28532f71d5ac7a4a8efed38fb.1729074076.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 16/10/2024 12:22, Mauro Carvalho Chehab wrote:
-> The logic at tpg_precalculate_line() blindly rescales the
-> buffer even when scaled_witdh is equal to zero. If this ever
-
-scaled_witdh -> scaled_width
-
-> happens, this will cause a division by zero.
+> The error check logic at get_ctrl() is broken: if ptr_to_user()
+> fails to fill a control due to an error, no errors are returned
+> and v4l2_g_ctrl() returns success on a failed operation, which
+> may cause applications to fail.
 > 
-> Instead, add a WARN_ON() to trigger such cases and return
-> without doing any precalculation.
+> Add an error check at get_ctrl() and ensure that it will
+> be returned to userspace without filling the control value if
+> get_ctrl() fails.
 > 
-> Fixes: 63881df94d3e ("[media] vivid: add the Test Pattern Generator")
+> Fixes: 71c689dc2e73 ("media: v4l2-ctrls: split up into four source files")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-> index c86343a4d0bf..a22f31515d7e 100644
-> --- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-> +++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-> @@ -1795,6 +1795,9 @@ static void tpg_precalculate_line(struct tpg_data *tpg)
->  	unsigned p;
->  	unsigned x;
->  
-> +	if (WARN_ON(tpg->src_width == 0))
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> index e5a364efd5e6..be32dccf9830 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> @@ -753,9 +753,10 @@ static int get_ctrl(struct v4l2_ctrl *ctrl, struct v4l2_ext_control *c)
+>  		for (i = 0; i < master->ncontrols; i++)
+>  			cur_to_new(master->cluster[i]);
+>  		ret = call_op(master, g_volatile_ctrl);
+> -		new_to_user(c, ctrl);
+> +		if (!ret)
+> +			ret = new_to_user(c, ctrl);
+>  	} else {
+> -		cur_to_user(c, ctrl);
+> +		ret = cur_to_user(c, ctrl);
+>  	}
+>  	v4l2_ctrl_unlock(master);
+>  	return ret;
+> @@ -770,7 +771,10 @@ int v4l2_g_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_control *control)
+>  	if (!ctrl || !ctrl->is_int)
+>  		return -EINVAL;
+>  	ret = get_ctrl(ctrl, &c);
+> -	control->value = c.value;
+> +
+> +	if (!ret)
+> +		control->value = c.value;
+> +
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(v4l2_g_ctrl);
 
-You need to check for both src_width and scaled_width.
+Yeah, that's better.
 
-Also replace this by WARN_ON_ONCE.
+There are also unchecked calls to cur_to_user() and user_to_new() in set_ctrl_lock().
+
+Can you fix that as well?
 
 Regards,
 
 	Hans
-
-> +		return;
-> +
->  	switch (tpg->pattern) {
->  	case TPG_PAT_GREEN:
->  		contrast = TPG_COLOR_100_RED;
-
 
