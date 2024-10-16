@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-19752-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19753-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3419A07E6
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 12:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E87B9A07E8
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 12:58:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9293FB26DE7
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 10:56:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C196AB21CBC
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 10:58:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8926A2076B0;
-	Wed, 16 Oct 2024 10:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CB19207209;
+	Wed, 16 Oct 2024 10:57:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCD6207204;
-	Wed, 16 Oct 2024 10:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05631CC14C;
+	Wed, 16 Oct 2024 10:57:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729076165; cv=none; b=j5IC9o4aMCvq6HyRzkOg/cpVEaykNRnIqIO5nUEB570/9Hqw4sxQ6K+5gtl2CQImrRDA4oysAGynIM24OVQhwOh9FTxxLvj2o1dkpbvrSzGfAM4wqFeRNRgkK/v3iz0XprWItdgi/zLLKiW0t3L6egfgQZNtiJz7A5KsaWGf/II=
+	t=1729076276; cv=none; b=ghp7FB+i/kSrbKQ/dlpUeZWyMTCXbE9oMt9DVJlD8UEB2JYcKqTdaxraEIKRh5s+aW+S4SKkP6LcKWgENpCftF5nK2hrn+CQCJ7nSpfw0IpvF9XnyALJoU85uq2OZ226FDS1tAGwPkLwR3TyHVXEsIQsTmw++68+j/cxJ1Bzkcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729076165; c=relaxed/simple;
-	bh=uO/FLVjQm0aP9k0+5tJzAAwwzeXFoUGespn4lDhPlTE=;
+	s=arc-20240116; t=1729076276; c=relaxed/simple;
+	bh=k9e4fjda90o5EA5Z0Af+v/eRFcfzY6lzhbhsuWf7++Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DxuruPufrHKNNa1VEtfPRqxCv5lbB37XTI+c/8ArtUEYsNkTmhOCEQAnebTbjyK6aS5QvmygBYwZhnbxmLfRQnQTo+vMLKBI23ezD8KNA8RGNa7jbaGWVfNPG6X+692RXmdStCy0OMM2TP4nXXHxDKbRDEmaJMA7r9i++166pEM=
+	 In-Reply-To:Content-Type; b=KOTtP0opcsa1dSjebUb7E1PXIhi+u1jCgQbFm3hj4o44pX4jJIpEzoxxFsFC04a4wcxnIJ1rCZHGiH4SWh6LO/w5OzIGMRsW84MMg6LMCQDKuB0PhcgIWykawQFrAj00Q90qSqhKsdhJB077I67b5ewzyxVORghh87VAb2xaHQo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09314C4CECF;
-	Wed, 16 Oct 2024 10:56:03 +0000 (UTC)
-Message-ID: <dcb89d4c-72e0-42a3-8923-51cd18e05968@xs4all.nl>
-Date: Wed, 16 Oct 2024 12:56:02 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82B95C4CECD;
+	Wed, 16 Oct 2024 10:57:55 +0000 (UTC)
+Message-ID: <e591ffa7-4214-4ec0-91f3-65c809aedce9@xs4all.nl>
+Date: Wed, 16 Oct 2024 12:57:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,13 +38,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/13] media: v4l2-ctrls-api: fix error handling for
- v4l2_g_ctrl()
+Subject: Re: [PATCH 10/13] media: adv7604 prevent underflow condition when
+ reporting colorspace
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Ricardo Ribalda <ribalda@chromium.org>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, stable@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ stable@vger.kernel.org
 References: <cover.1729074076.git.mchehab+huawei@kernel.org>
- <f7cff5c05f950ab28532f71d5ac7a4a8efed38fb.1729074076.git.mchehab+huawei@kernel.org>
+ <41d12c1afd6571f9cc56c1b920df6ba558d0b927.1729074076.git.mchehab+huawei@kernel.org>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -90,64 +90,82 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <f7cff5c05f950ab28532f71d5ac7a4a8efed38fb.1729074076.git.mchehab+huawei@kernel.org>
+In-Reply-To: <41d12c1afd6571f9cc56c1b920df6ba558d0b927.1729074076.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 16/10/2024 12:22, Mauro Carvalho Chehab wrote:
-> The error check logic at get_ctrl() is broken: if ptr_to_user()
-> fails to fill a control due to an error, no errors are returned
-> and v4l2_g_ctrl() returns success on a failed operation, which
-> may cause applications to fail.
+> Currently, adv76xx_log_status() reads some date using
+> io_read() which may return negative values. The current logi
+> doesn't check such errors, causing colorspace to be reported
+> on a wrong way at adv76xx_log_status().
 > 
-> Add an error check at get_ctrl() and ensure that it will
-> be returned to userspace without filling the control value if
-> get_ctrl() fails.
+> If I/O error happens there, print a different message, instead
+> of reporting bogus messages to userspace.
 > 
-> Fixes: 71c689dc2e73 ("media: v4l2-ctrls: split up into four source files")
+> Fixes: 54450f591c99 ("[media] adv7604: driver for the Analog Devices ADV7604 video decoder")
 > Cc: stable@vger.kernel.org
+
+Not really a fix since this would just affect logging for debugging
+purposes. I would personally just drop the Fixes and Cc tag.
+
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls-api.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> index e5a364efd5e6..be32dccf9830 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> @@ -753,9 +753,10 @@ static int get_ctrl(struct v4l2_ctrl *ctrl, struct v4l2_ext_control *c)
->  		for (i = 0; i < master->ncontrols; i++)
->  			cur_to_new(master->cluster[i]);
->  		ret = call_op(master, g_volatile_ctrl);
-> -		new_to_user(c, ctrl);
-> +		if (!ret)
-> +			ret = new_to_user(c, ctrl);
->  	} else {
-> -		cur_to_user(c, ctrl);
-> +		ret = cur_to_user(c, ctrl);
->  	}
->  	v4l2_ctrl_unlock(master);
->  	return ret;
-> @@ -770,7 +771,10 @@ int v4l2_g_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_control *control)
->  	if (!ctrl || !ctrl->is_int)
->  		return -EINVAL;
->  	ret = get_ctrl(ctrl, &c);
-> -	control->value = c.value;
-> +
-> +	if (!ret)
-> +		control->value = c.value;
-> +
->  	return ret;
->  }
->  EXPORT_SYMBOL(v4l2_g_ctrl);
 
-Yeah, that's better.
-
-There are also unchecked calls to cur_to_user() and user_to_new() in set_ctrl_lock().
-
-Can you fix that as well?
+Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
 
 Regards,
 
 	Hans
+
+> ---
+>  drivers/media/i2c/adv7604.c | 26 +++++++++++++++++---------
+>  1 file changed, 17 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+> index 48230d5109f0..272945a878b3 100644
+> --- a/drivers/media/i2c/adv7604.c
+> +++ b/drivers/media/i2c/adv7604.c
+> @@ -2519,10 +2519,10 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
+>  	const struct adv76xx_chip_info *info = state->info;
+>  	struct v4l2_dv_timings timings;
+>  	struct stdi_readback stdi;
+> -	u8 reg_io_0x02 = io_read(sd, 0x02);
+> +	int ret;
+> +	u8 reg_io_0x02;
+>  	u8 edid_enabled;
+>  	u8 cable_det;
+> -
+>  	static const char * const csc_coeff_sel_rb[16] = {
+>  		"bypassed", "YPbPr601 -> RGB", "reserved", "YPbPr709 -> RGB",
+>  		"reserved", "RGB -> YPbPr601", "reserved", "RGB -> YPbPr709",
+> @@ -2621,13 +2621,21 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
+>  	v4l2_info(sd, "-----Color space-----\n");
+>  	v4l2_info(sd, "RGB quantization range ctrl: %s\n",
+>  			rgb_quantization_range_txt[state->rgb_quantization_range]);
+> -	v4l2_info(sd, "Input color space: %s\n",
+> -			input_color_space_txt[reg_io_0x02 >> 4]);
+> -	v4l2_info(sd, "Output color space: %s %s, alt-gamma %s\n",
+> -			(reg_io_0x02 & 0x02) ? "RGB" : "YCbCr",
+> -			(((reg_io_0x02 >> 2) & 0x01) ^ (reg_io_0x02 & 0x01)) ?
+> -				"(16-235)" : "(0-255)",
+> -			(reg_io_0x02 & 0x08) ? "enabled" : "disabled");
+> +
+> +	ret = io_read(sd, 0x02);
+> +	if (ret < 0) {
+> +		v4l2_info(sd, "Can't read Input/Output color space\n");
+> +	} else {
+> +		reg_io_0x02 = ret;
+> +
+> +		v4l2_info(sd, "Input color space: %s\n",
+> +				input_color_space_txt[reg_io_0x02 >> 4]);
+> +		v4l2_info(sd, "Output color space: %s %s, alt-gamma %s\n",
+> +				(reg_io_0x02 & 0x02) ? "RGB" : "YCbCr",
+> +				(((reg_io_0x02 >> 2) & 0x01) ^ (reg_io_0x02 & 0x01)) ?
+> +					"(16-235)" : "(0-255)",
+> +				(reg_io_0x02 & 0x08) ? "enabled" : "disabled");
+> +	}
+>  	v4l2_info(sd, "Color space conversion: %s\n",
+>  			csc_coeff_sel_rb[cp_read(sd, info->cp_csc) >> 4]);
+>  
+
 
