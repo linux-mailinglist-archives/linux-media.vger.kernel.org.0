@@ -1,65 +1,62 @@
-Return-Path: <linux-media+bounces-19737-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19744-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2569A0720
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 12:24:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99D0A9A072A
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 12:24:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 927821C223A7
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 10:23:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06C661F2828B
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 10:24:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 065F22076D3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4C23208D64;
 	Wed, 16 Oct 2024 10:22:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vRiOwBdO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tqetwn/j"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D199206E95;
-	Wed, 16 Oct 2024 10:22:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D612071F6;
+	Wed, 16 Oct 2024 10:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729074158; cv=none; b=lRcEdOxCr7rPjgc7hm0UrG2QI1HDbHZ52ETGD3WiSmaKTIw51vWatcwvhD3GoMxyDQ9v0gm//F6gSavT1KjtPGHJiMVmCyobxSl3feIBb7wUzHDVXKMyhvQ+Rl72AOh84hD3yoa35mXWVuQA+S6BgVV4lWgFuh3T9YRmiZQoBL4=
+	t=1729074158; cv=none; b=MZk0g0gm4zoAJGSk9YyNrG5Q/x1AJCEU1TZ09XcQLiSkWHL/bv9ixJ2aYDO3iAiLEfRQKJrzagAaHErMOuXyVPgkZwjnkF6SY2PgGpyLLUMXRImig0rbTep5aXYybkcq01UkrlATFaVX0X26CvFTi9qG3ceaS8Lu8typnjyTNpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729074158; c=relaxed/simple;
-	bh=OwZ5oRre6Qvryx1HKm59rgRRdHOV74pHCRQsrCjAiZo=;
+	bh=vq7QJpYiMutw0B1hm8O24dEVpiMZEcoq2f2zZUsJPKk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KOgD0uu98kPSVgO85WS/HLy1o9rgpsOq19brQM9zdd/Xa1sy2c9h1Q2+Vsbbb2RBxiGYTGIlfBOuAOYG+/0N74IMGsW4voHuAYPzLuRUmofkDd1mfaLC02JxmdV2O2XoqaVXHj6/Th2ohHuoibmpim+B1Q0C4FNt80qGFYHtBak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vRiOwBdO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1FBAC4CED1;
+	 MIME-Version; b=ogPno82wIrTFns9B7mE0AWGU4JbsiH4Z6roIVESAnTu4ZoKyxVnBDfYLFQv9o1eCN7S51KCzxsZ4xpkiDVVj8FOrXZQEkv0Dd/0KX3cJM1W0S8x/34SmfU+KXogTIxhiqozq6pUT8QOD0z6h0fFfjsgs15rWUA+NM2IwTfhT79Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tqetwn/j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFFBAC4CED8;
 	Wed, 16 Oct 2024 10:22:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1729074157;
-	bh=OwZ5oRre6Qvryx1HKm59rgRRdHOV74pHCRQsrCjAiZo=;
+	bh=vq7QJpYiMutw0B1hm8O24dEVpiMZEcoq2f2zZUsJPKk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vRiOwBdOQnR56E9IFo6vSYnI0BAQADVHdAG+nZ55R50yOOJiOYxtPEO61tQWOONLr
-	 fC8QtBvHVTVp+1occ1ZxIjDqoTgF+/J0wB/d37FaWstaGML4TLH52bXR9RQioKWcam
-	 h8KiQuoy5fMKc1P/1xc6nz2ZYS3DCGufIrlh73lCR7X1WQSuWJQYQAOINtdT06uYV+
-	 o6rzFAzbfbtFamw+NROgiSYqim+BvQtJEjXcM1Kcp51MlQzvs/cr4Cl69ee4kIC89J
-	 I8x9zvuDY41PchLrTph0FSAgOFmcPC0aoKU0QFat6bnByYy3NL2tYT/qeKuLw1TXTl
-	 zWxJZVm+VL38w==
+	b=Tqetwn/juQJdGucRqIq2PBHKkF6EhDe0jorxR1wAuGRT8x4mtvPN7XbotVG9V6Zas
+	 SDr1HPBnZtzyBTAfPvF6dzNlnlOUQeNR0QY7eTVU9dX6B6bxJL/o/QNNofN5shoixS
+	 NuD1fCyAGjZqaeaabqW7arDwj2rDYrF+cRr26k6aa4oWL/SYAgYwyR3HqSNPH9T+Z/
+	 4ERp9I5ylUvFxFLLXi0yR0nqLIIk6xGOv8zeW0mdcTd3/46kyg8jMvVduR4jbDYU7J
+	 rucX1GHCD7hafdpkKQFfigEkirt+8Z3apXboak1SqQJfOh18mvxcWcDRtqC0K3JPmb
+	 q8Z1SBAdukJMA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1t11Ap-00000004Ymp-2SnT;
+	id 1t11Ap-00000004Ymt-2ZRN;
 	Wed, 16 Oct 2024 12:22:35 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	=?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	linux-arm-kernel@lists.infradead.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH 07/13] media: s5p-jpeg: prevent buffer overflows
-Date: Wed, 16 Oct 2024 12:22:23 +0200
-Message-ID: <16ccf3d588665a5a0dda91cbb04374d6aea99ca6.1729074076.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 08/13] media: ar0521: don't overflow when checking PLL values
+Date: Wed, 16 Oct 2024 12:22:24 +0200
+Message-ID: <39b23d468eea2714a24a94cb6c20aef5aff492e6.1729074076.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <cover.1729074076.git.mchehab+huawei@kernel.org>
 References: <cover.1729074076.git.mchehab+huawei@kernel.org>
@@ -72,83 +69,36 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The current logic allows word to be less than 2. If this happens,
-there will be buffer overflows. Add extra checks to prevent it.
+The PLL checks are comparing 64 bit integers with 32 bit
+ones. Depending on the values of the variables, this may
+underflow.
 
-While here, remove an unused word = 0 assignment.
+Fix it ensuring that both sides of the expression are u64.
 
-Fixes: 6c96dbbc2aa9 ("[media] s5p-jpeg: add support for 5433")
+Fixes: 852b50aeed15 ("media: On Semi AR0521 sensor driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/platform/samsung/s5p-jpeg/jpeg-core.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ drivers/media/i2c/ar0521.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-index d2c4a0178b3c..1db4609b3557 100644
---- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-+++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-@@ -775,11 +775,14 @@ static void exynos4_jpeg_parse_decode_h_tbl(struct s5p_jpeg_ctx *ctx)
- 		(unsigned long)vb2_plane_vaddr(&vb->vb2_buf, 0) + ctx->out_q.sos + 2;
- 	jpeg_buffer.curr = 0;
- 
--	word = 0;
--
- 	if (get_word_be(&jpeg_buffer, &word))
- 		return;
--	jpeg_buffer.size = (long)word - 2;
-+
-+	if (word < 2)
-+		jpeg_buffer.size = 0;
-+	else
-+		jpeg_buffer.size = (long)word - 2;
-+
- 	jpeg_buffer.data += 2;
- 	jpeg_buffer.curr = 0;
- 
-@@ -1058,6 +1061,7 @@ static int get_word_be(struct s5p_jpeg_buffer *buf, unsigned int *word)
- 	if (byte == -1)
- 		return -1;
- 	*word = (unsigned int)byte | temp;
-+
- 	return 0;
- }
- 
-@@ -1145,7 +1149,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
- 			if (get_word_be(&jpeg_buffer, &word))
- 				break;
- 			length = (long)word - 2;
--			if (!length)
-+			if (length <= 0)
- 				return false;
- 			sof = jpeg_buffer.curr; /* after 0xffc0 */
- 			sof_len = length;
-@@ -1176,7 +1180,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
- 			if (get_word_be(&jpeg_buffer, &word))
- 				break;
- 			length = (long)word - 2;
--			if (!length)
-+			if (length <= 0)
- 				return false;
- 			if (n_dqt >= S5P_JPEG_MAX_MARKER)
- 				return false;
-@@ -1189,7 +1193,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
- 			if (get_word_be(&jpeg_buffer, &word))
- 				break;
- 			length = (long)word - 2;
--			if (!length)
-+			if (length <= 0)
- 				return false;
- 			if (n_dht >= S5P_JPEG_MAX_MARKER)
- 				return false;
-@@ -1214,6 +1218,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
- 			if (get_word_be(&jpeg_buffer, &word))
- 				break;
- 			length = (long)word - 2;
-+			/* No need to check underflows as skip() does it  */
- 			skip(&jpeg_buffer, length);
- 			break;
- 		}
+diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+index fc27238dd4d3..24873149096c 100644
+--- a/drivers/media/i2c/ar0521.c
++++ b/drivers/media/i2c/ar0521.c
+@@ -255,10 +255,10 @@ static u32 calc_pll(struct ar0521_dev *sensor, u32 freq, u16 *pre_ptr, u16 *mult
+ 			continue; /* Minimum value */
+ 		if (new_mult > 254)
+ 			break; /* Maximum, larger pre won't work either */
+-		if (sensor->extclk_freq * (u64)new_mult < AR0521_PLL_MIN *
++		if (sensor->extclk_freq * (u64)new_mult < (u64)AR0521_PLL_MIN *
+ 		    new_pre)
+ 			continue;
+-		if (sensor->extclk_freq * (u64)new_mult > AR0521_PLL_MAX *
++		if (sensor->extclk_freq * (u64)new_mult > (u64)AR0521_PLL_MAX *
+ 		    new_pre)
+ 			break; /* Larger pre won't work either */
+ 		new_pll = div64_round_up(sensor->extclk_freq * (u64)new_mult,
 -- 
 2.47.0
 
