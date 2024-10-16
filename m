@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-19745-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19743-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D11E9A072C
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 12:24:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BF29A0729
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 12:24:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 168FE1F28A5C
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 10:24:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 34CBB1F28942
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 10:24:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1899208D76;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2846208D71;
 	Wed, 16 Oct 2024 10:22:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqqBdHIf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aawmd90C"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D842071F7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570AB2071E9;
 	Wed, 16 Oct 2024 10:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729074158; cv=none; b=kRYF7+b3ouISpDfXa0+rWA36bXjegs7DxEijQFoWt2KteM+nqT/Q+FZ1tTPL5XNvrV77WeWleDfwx6KZMUJUNuXtML9d0Ta83GGQLFxIASkqWKhk4GMx1RFYvLCGFrpGwZTUaa+Mqi+QSZMJzAxqo4M1kLrHXtYxRAaUfhRptWQ=
+	t=1729074158; cv=none; b=mzFh+D1Y1RPQ4n+Kut9m+DB98Y0r4AlYgY3uIsXXJuC1mN6JDxBFRWerv20t7BQ5+H4b4d98lzu7VetdRPs6RX/GvdZdCVr0QozvtmwPJbNWdei4fV8HYnhAqkBsa7Ym/S8HWG8EyE12O+E/Ug1V9Izmh0Vd5RSBx+OuxAM9P5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729074158; c=relaxed/simple;
-	bh=6DCqyEDP1eYPPtQ1JbTV1frxNx/jykhPfGF62FWOYy0=;
+	bh=SLmUaXbraeATMVHmFTi+JPax/3jn/YG3CdMafhTLceU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=crGuyUg9ubv5+Yx/1PLyHmUXSfY3dZdfrwHAuoURhqh5oW2NWLcyFoXOZxcdRM7fBaT1sfT/k8261K2cbAa4ZzVdsUCJ7uVLM6/aEiWDr97ndiJY3ESTFaXOYzI1/fHrX57V1BxM46xWfwGEP/J+1MVOtxKilr+U7hqVNSbCAh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqqBdHIf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1CF9C4CED7;
+	 MIME-Version; b=IY+CIudelpi265KmbbMusYN6Fxsx+XRDOF1RdttwkzmnJaKfRUttMc6UG9jgJTSi1HvRUHJsosPQKboqv5v8u/FgTMF1KKuBrEYvilg8LtEDOYYGd4329ztRocLEPbdtgU+9UIEeL9va8DN96ztXNcrQwfLVUuoadXDBwyxC5jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aawmd90C; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4352C4CED9;
 	Wed, 16 Oct 2024 10:22:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1729074157;
-	bh=6DCqyEDP1eYPPtQ1JbTV1frxNx/jykhPfGF62FWOYy0=;
+	bh=SLmUaXbraeATMVHmFTi+JPax/3jn/YG3CdMafhTLceU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DqqBdHIfFic7shVPcz1idQtvB8DJggll64d52dgmZn2SepvdNI4jr8U7fu9NBv+bn
-	 rIbDjT2IcQ9PN4X1IWdhey7gPKjAZ6KkjqC4L+OnPrY9NECYpVE5pW1qmg06QL1+Vr
-	 gZM7SISvdS0JDFJ+8bHytsTgMO9hVKC9axmYzVbmXi7Cwe9yR+O7mYcY3T/mgvC/HE
-	 MnU2q98OODBs0ay7Mhiot93GzOZAyzuEarVgWp2QKXsX4e/oFtdvlMxvXt5ow515Of
-	 PFq/A7YqZo8BnsvvYxM8rPOI03yY4uQkiMrqFjU1Ha3yMSCQntJQgcZhTJpl1tC22Z
-	 mAPMvnhpfywKg==
+	b=Aawmd90CzbQ6C/1SR6xMZAaWhZyacmr2jSouZGOf7tSmToo121gHJ9LVzRkiqP5a5
+	 sZYPuSJdWeTgDS8KR6BEPfayb62Bp4EZvKYZZQ9ekG8J1qpY6V+WALl4+OEHB0+Cwm
+	 yvbkPo1Rd7itxpOBZFAMJ0d5/kXDm9n7uNn0qUJwaJHfPq6uTxVxv29yvczp7ivEDI
+	 4QOBJMwujxLiroX9CiSRhyLFZB6p6RnmUv2esEvTe7+b5vDWHs+rYvLHfsjPx2UNKu
+	 TzDuZXxHLY3ls4obSxzm41vqpbBsZovGwHw9MRh+63HUJZu7St+1hxhQCQV+CRqTRT
+	 lRAaynNYT9d6A==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1t11Ap-00000004Yn1-2mf4;
+	id 1t11Ap-00000004Yn7-2tGA;
 	Wed, 16 Oct 2024 12:22:35 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
+	Manu Abraham <abraham.manu@gmail.com>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH 10/13] media: adv7604 prevent underflow condition when reporting colorspace
-Date: Wed, 16 Oct 2024 12:22:26 +0200
-Message-ID: <41d12c1afd6571f9cc56c1b920df6ba558d0b927.1729074076.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 11/13] media: stb0899_algo: initialize cfr before using it
+Date: Wed, 16 Oct 2024 12:22:27 +0200
+Message-ID: <cb84bd8b0a224b7976d91051b5c1e22a93fac928.1729074076.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <cover.1729074076.git.mchehab+huawei@kernel.org>
 References: <cover.1729074076.git.mchehab+huawei@kernel.org>
@@ -68,67 +68,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Currently, adv76xx_log_status() reads some date using
-io_read() which may return negative values. The current logi
-doesn't check such errors, causing colorspace to be reported
-on a wrong way at adv76xx_log_status().
+The loop at stb0899_search_carrier() starts with a random
+value for cfr. Initialize it to zero, just like
+stb0899_dvbs_algo() to ensure that carrier search won't
+bail out.
 
-If I/O error happens there, print a different message, instead
-of reporting bogus messages to userspace.
-
-Fixes: 54450f591c99 ("[media] adv7604: driver for the Analog Devices ADV7604 video decoder")
+Fixes: 8bd135bab91f ("V4L/DVB (9375): Add STB0899 support")
 Cc: stable@vger.kernel.org
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/adv7604.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+ drivers/media/dvb-frontends/stb0899_algo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 48230d5109f0..272945a878b3 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -2519,10 +2519,10 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 	const struct adv76xx_chip_info *info = state->info;
- 	struct v4l2_dv_timings timings;
- 	struct stdi_readback stdi;
--	u8 reg_io_0x02 = io_read(sd, 0x02);
-+	int ret;
-+	u8 reg_io_0x02;
- 	u8 edid_enabled;
- 	u8 cable_det;
--
- 	static const char * const csc_coeff_sel_rb[16] = {
- 		"bypassed", "YPbPr601 -> RGB", "reserved", "YPbPr709 -> RGB",
- 		"reserved", "RGB -> YPbPr601", "reserved", "RGB -> YPbPr709",
-@@ -2621,13 +2621,21 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 	v4l2_info(sd, "-----Color space-----\n");
- 	v4l2_info(sd, "RGB quantization range ctrl: %s\n",
- 			rgb_quantization_range_txt[state->rgb_quantization_range]);
--	v4l2_info(sd, "Input color space: %s\n",
--			input_color_space_txt[reg_io_0x02 >> 4]);
--	v4l2_info(sd, "Output color space: %s %s, alt-gamma %s\n",
--			(reg_io_0x02 & 0x02) ? "RGB" : "YCbCr",
--			(((reg_io_0x02 >> 2) & 0x01) ^ (reg_io_0x02 & 0x01)) ?
--				"(16-235)" : "(0-255)",
--			(reg_io_0x02 & 0x08) ? "enabled" : "disabled");
-+
-+	ret = io_read(sd, 0x02);
-+	if (ret < 0) {
-+		v4l2_info(sd, "Can't read Input/Output color space\n");
-+	} else {
-+		reg_io_0x02 = ret;
-+
-+		v4l2_info(sd, "Input color space: %s\n",
-+				input_color_space_txt[reg_io_0x02 >> 4]);
-+		v4l2_info(sd, "Output color space: %s %s, alt-gamma %s\n",
-+				(reg_io_0x02 & 0x02) ? "RGB" : "YCbCr",
-+				(((reg_io_0x02 >> 2) & 0x01) ^ (reg_io_0x02 & 0x01)) ?
-+					"(16-235)" : "(0-255)",
-+				(reg_io_0x02 & 0x08) ? "enabled" : "disabled");
-+	}
- 	v4l2_info(sd, "Color space conversion: %s\n",
- 			csc_coeff_sel_rb[cp_read(sd, info->cp_csc) >> 4]);
+diff --git a/drivers/media/dvb-frontends/stb0899_algo.c b/drivers/media/dvb-frontends/stb0899_algo.c
+index df89c33dac23..40537c4ccb0d 100644
+--- a/drivers/media/dvb-frontends/stb0899_algo.c
++++ b/drivers/media/dvb-frontends/stb0899_algo.c
+@@ -269,7 +269,7 @@ static enum stb0899_status stb0899_search_carrier(struct stb0899_state *state)
  
+ 	short int derot_freq = 0, last_derot_freq = 0, derot_limit, next_loop = 3;
+ 	int index = 0;
+-	u8 cfr[2];
++	u8 cfr[2] = {0};
+ 	u8 reg;
+ 
+ 	internal->status = NOCARRIER;
 -- 
 2.47.0
 
