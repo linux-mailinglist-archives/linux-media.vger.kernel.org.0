@@ -1,126 +1,264 @@
-Return-Path: <linux-media+bounces-19755-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19756-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A519A0895
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 13:40:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF749A08E8
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 13:58:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8EF328AD92
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 11:40:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05165B281B8
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 11:58:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D264207A09;
-	Wed, 16 Oct 2024 11:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FDE7207A23;
+	Wed, 16 Oct 2024 11:58:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VIR5Tbfv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eF8He/ZI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2FA1DAC9C;
-	Wed, 16 Oct 2024 11:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB64206979;
+	Wed, 16 Oct 2024 11:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729078718; cv=none; b=MhJjsruDxldldujd63FB6iAc7QanVdahzxJivNxAuJ0+6PGUG5kkqmMtL0MwvyU2c5FpJmLCeLRw6VSy0OQmpMlOLe8MCq04l6jr8aotnmQ1ykQ3gqEQK1bNc/UJHOYH2jlEOdlL8yW5PCvmG2PZHyUMEhCa6bjXkpgPdgDlex4=
+	t=1729079920; cv=none; b=hHkTl4odaFEJu3VibZIhp2M97zLi5h81xh3Crdd+0LIjbqp1YjY2GobeDYkkbIKi0q7QP3FABjiSwH9Q9jFL0SSEElw9Q4ugB3URlP2+GhsFJauSzhEn4DMasLdPDqqIVV6T8vfgF8UaKyoh09LQKWlvyuN6PQpDzeRnltqJepc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729078718; c=relaxed/simple;
-	bh=gV17pod08Wg5drrD6kGvzxvg7qLdWPcvL82rFOe5sRk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nnvqCc7agk3Bnyttw7AYg8zGRcZoK48ri8oAMhtqbBEs01i9aE36dG4zPN0wbZTflVuwnKWDLPBgh46VBPNSiwsTvfnTJVOLcJrSunlLKYwWyZKT9OaRJswDmrKi8ce/0SDC7jI1ZpMPFDHhZteruBGP7oeQRmp9Cj17dOKfUmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VIR5Tbfv; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7e9fd82f1a5so4282787a12.1;
-        Wed, 16 Oct 2024 04:38:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729078716; x=1729683516; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=leMIz+S2hdMoCIQxXqMQsph8MlFS4sT6v52ga1WkYdE=;
-        b=VIR5TbfvkDKcqr12/OvQaLlAYK1cZCfJPQvkujujyCvVvhcG8X6kBD6rrgoQRJ/DJv
-         xE7cnYDtC0AS5bSZSzU7krHaPVC/SxpHoLQCK2p+Dm//9q6tHYlNkDyWqNyZsTcMGwx7
-         j6KJH6ceSXgaxvKNkENK7iqLErJ8YHlUtS9weWrji687dUvTBMPMnXZMrJBhnWV92Ndf
-         GnLnKjhoMSLQQacWN14Izj24AO1rM2HUcOqZyw6fUlJKCn6UYLk/AULJ/IYcxA9F7M7Z
-         NTctKQDAS9bIidod8hEO3Vfwfku+afO5rRCegcnDmOX4Hg5v10+eLl7bBP+6NQnlsb12
-         rIcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729078716; x=1729683516;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=leMIz+S2hdMoCIQxXqMQsph8MlFS4sT6v52ga1WkYdE=;
-        b=o4qOkRUo9NhAqYUJCSh1OdFir6Wz5/oxdBIFTj6RWm4/SdyMUzMM4TfTJqfHrzNgQO
-         k1gfuoUL+1u6PpDuhrkLVVW0TPFa7dOHjPCckdL64CRkwcwfPS7Vy96YDTN4lk84ZEMm
-         ek3mQcWInj8VSMJvnr27/9+A9a0TgCX0kHDLJBdp2ELsDggsZJhnyKuSbNSdX2hw4yuh
-         EHvO05x/A4UcTYzmnaJWWiqJnLqo4uAu00zNb/9egUEXFk+ai7ccFncDoHdJkx1l2XO9
-         FBgpui/pcap3nWpXyWCstLxy4WSPmlghUKfcvZ5ALB1OvGbsToovrNtnr8OcKNvXVYYK
-         kkNw==
-X-Forwarded-Encrypted: i=1; AJvYcCVEgdwsBDtvGUhlEEekCZUkmdq9gx2pimy03sAOsIuUdqNxh4oKWC/V4O1tyw0lJTHuxfbrKz2jc6Z+cPw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeedKOo+MUdVB6CUikEYPX63ELkSw+SzM2i6xSF4drA89wbC/v
-	nGeIWSXs/D1DJcaSVUH+5gYnatM5vFAMgD+7J5zcgtvg5lSHwo/5IhGDFxYz
-X-Google-Smtp-Source: AGHT+IFlTJEDuRawJmNHK9InnAgh+iHuDxeBCY8ZpQR+u0AgCari149kEVX4ecjZSxAciJY7lw309Q==
-X-Received: by 2002:a05:6a20:e94:b0:1d9:ee1:3bfe with SMTP id adf61e73a8af0-1d90ee13cecmr2012870637.13.1729078715892;
-        Wed, 16 Oct 2024 04:38:35 -0700 (PDT)
-Received: from archlinux.. ([2405:201:e00c:517f:5e87:9cff:fe63:6000])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71e77518a76sm2883040b3a.220.2024.10.16.04.38.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 04:38:35 -0700 (PDT)
-From: Mohammed Anees <pvmohammedanees2003@gmail.com>
-To: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Moudy Ho <moudy.ho@mediatek.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Mohammed Anees <pvmohammedanees2003@gmail.com>
-Subject: [PATCH] media: platform: mtk-mdp3: Remove unwanted else in mdp-cmdp-prepare()
-Date: Wed, 16 Oct 2024 17:08:08 +0530
-Message-ID: <20241016113808.4311-1-pvmohammedanees2003@gmail.com>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1729079920; c=relaxed/simple;
+	bh=29ovtOc0RitatdpSSFjl1CzXXX5nOX9JNLZZTNBkXSw=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=daM1pq2m37mVRnSECqL9CLKnGabAfeh2GZjgPmArxBFfxQZBVxIKQKYe3jHwA8h6Up6DNFJPqP8v2408XIxIZrHYFh15MhYton9vSZd8XEwL/7zfNrxhAJY8Jqc1oC1F1C3bMkhZ3t1qf8T+eI2b+tSv/C9SWiFvwJceMsUdYyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eF8He/ZI; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729079918; x=1760615918;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=29ovtOc0RitatdpSSFjl1CzXXX5nOX9JNLZZTNBkXSw=;
+  b=eF8He/ZI9s9YAzaF1JajQLIsNXamdhCUuPBpeP1izXXjQR2KgS37J1GF
+   1YwhYfZeRQfoy/MlT4nVqkNEl5YuVVdGhQ0m2ei1qBfkiG6k9ygaRkt5q
+   wSyAWMZKaWoeIHDW3wqPsAPhyN7r6NrKCX0NEWPdLUVnm6uJxn2STify+
+   HzF2ggpNDU4jVBdqWGooGq+YV8tWGBX+K4YGsM3QDeHL5pfzaxeFDxcw2
+   fIVR42z6fLPIfFc/Cc+Tsa2hyQFq5fN2RX42KR6AMygFHAB54SDU/YwuS
+   cLd9i+qbkght/zt0yTPrMwqpKAmSiD5amY2YZW9FfScFZSDcwnBPDpGhk
+   A==;
+X-CSE-ConnectionGUID: lM6sbtZvQ1qWm7m/soYCKA==
+X-CSE-MsgGUID: hCv0BajFQ2iF9mEn9s8/9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="53936865"
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="53936865"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 04:58:31 -0700
+X-CSE-ConnectionGUID: HCbvZrMMQcOLFHbda+4DaA==
+X-CSE-MsgGUID: hyltfGc8RTOIvO/V/sJ4dQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="82168928"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.221])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 04:58:28 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 16 Oct 2024 14:58:25 +0300 (EEST)
+To: Daniel Scally <dan.scally@ideasonboard.com>
+cc: linux-media@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+    anders.ruke@gmail.com, sakari.ailus@linux.intel.com, 
+    Hans de Goede <hdegoede@redhat.com>, hverkuil-cisco@xs4all.nl
+Subject: Re: [PATCH 2/3] platform/x86: int3472: Add board data for Dell
+ 7212
+In-Reply-To: <20241015211958.1465909-3-dan.scally@ideasonboard.com>
+Message-ID: <fcb92c2d-f422-ef97-721e-f59b5e026474@linux.intel.com>
+References: <20241015211958.1465909-1-dan.scally@ideasonboard.com> <20241015211958.1465909-3-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Since platform compatibility is already verified, the
-additional else branch is unnecessary and will never
-be executed. To fix, remove this else condition.
+On Tue, 15 Oct 2024, Daniel Scally wrote:
 
-Signed-off-by: Mohammed Anees <pvmohammedanees2003@gmail.com>
----
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+> The Dell 7212 Rugged Extreme Tablet pairs an OV5670 sensor with the
+> Intel IPU3 ISP. The sensor is powered by a TPS68470 PMIC, and so we
+> need some board data to describe how to configure the GPIOs and
+> regulators to run the sensor.
+> 
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+>  .../x86/intel/int3472/tps68470_board_data.c   | 128 ++++++++++++++++++
+>  1 file changed, 128 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> index 322237e056f3..d28053733bd2 100644
+> --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> @@ -129,6 +129,109 @@ static const struct tps68470_regulator_platform_data surface_go_tps68470_pdata =
+>  	},
+>  };
+>  
+> +/* Settings for Dell 7212 Tablet */
+> +
+> +static struct regulator_consumer_supply int3479_vsio_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("avdd", "i2c-INT3479:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply int3479_aux1_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dvdd", "i2c-INT3479:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply int3479_aux2_consumer_supplies[] = {
+> +	REGULATOR_SUPPLY("dovdd", "i2c-INT3479:00"),
+> +};
+> +
+> +static const struct regulator_init_data dell_7212_tps68470_core_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1200000,
+> +		.max_uV = 1200000,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = 0,
+> +	.consumer_supplies = NULL
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-index ea2ea119dd2a..168beed4155a 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-@@ -624,14 +624,11 @@ static struct mdp_cmdq_cmd *mdp_cmdq_prepare(struct mdp_dev *mdp,
- 	if (ret)
- 		goto err_free_cmd;
- 
--	if (CFG_CHECK(MT8183, p_id)) {
-+	if (CFG_CHECK(MT8183, p_id))
- 		num_comp = CFG_GET(MT8183, param->config, num_components);
--	} else if (CFG_CHECK(MT8195, p_id)) {
-+	else if (CFG_CHECK(MT8195, p_id))
- 		num_comp = CFG_GET(MT8195, param->config, num_components);
--	} else {
--		ret = -EINVAL;
--		goto err_destroy_pkt;
--	}
-+
- 	comps = kcalloc(num_comp, sizeof(*comps), GFP_KERNEL);
- 	if (!comps) {
- 		ret = -ENOMEM;
+Add comma to any non-terminator entry.
+
+> +};
+> +
+> +static const struct regulator_init_data dell_7212_tps68470_ana_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 2815200,
+> +		.max_uV = 2815200,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = 0,
+> +	.consumer_supplies = NULL
+> +};
+> +
+> +static const struct regulator_init_data dell_7212_tps68470_vcm_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 2815200,
+> +		.max_uV = 2815200,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = 0,
+> +	.consumer_supplies = NULL
+> +};
+
+This looks exactly identical to dell_7212_tps68470_ana_reg_init_data.
+
+> +static const struct regulator_init_data dell_7212_tps68470_vio_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1800600,
+> +		.max_uV = 1800600,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = 0,
+> +	.consumer_supplies = NULL,
+> +};
+> +
+> +static const struct regulator_init_data dell_7212_tps68470_vsio_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1800600,
+> +		.max_uV = 1800600,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(int3479_vsio_consumer_supplies),
+> +	.consumer_supplies = int3479_vsio_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data dell_7212_tps68470_aux1_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1213200,
+> +		.max_uV = 1213200,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(int3479_aux1_consumer_supplies),
+> +	.consumer_supplies = int3479_aux1_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data dell_7212_tps68470_aux2_reg_init_data = {
+> +	.constraints = {
+> +		.min_uV = 1800600,
+> +		.max_uV = 1800600,
+> +		.apply_uV = 1,
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +	.num_consumer_supplies = ARRAY_SIZE(int3479_aux2_consumer_supplies),
+> +	.consumer_supplies = int3479_aux2_consumer_supplies,
+> +};
+> +
+> +static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata = {
+> +	.reg_init_data = {
+> +		[TPS68470_CORE] = &dell_7212_tps68470_core_reg_init_data,
+> +		[TPS68470_ANA]  = &dell_7212_tps68470_ana_reg_init_data,
+> +		[TPS68470_VCM]  = &dell_7212_tps68470_vcm_reg_init_data,
+> +		[TPS68470_VIO] = &dell_7212_tps68470_vio_reg_init_data,
+
+Inconsistent spaces.
+
 -- 
-2.47.0
+ i.
 
+> +		[TPS68470_VSIO] = &dell_7212_tps68470_vsio_reg_init_data,
+> +		[TPS68470_AUX1] = &dell_7212_tps68470_aux1_reg_init_data,
+> +		[TPS68470_AUX2] = &dell_7212_tps68470_aux2_reg_init_data,
+> +	},
+> +};
+> +
+>  static struct gpiod_lookup_table surface_go_int347a_gpios = {
+>  	.dev_id = "i2c-INT347A:00",
+>  	.table = {
+> @@ -146,6 +249,15 @@ static struct gpiod_lookup_table surface_go_int347e_gpios = {
+>  	}
+>  };
+>  
+> +static struct gpiod_lookup_table dell_7212_int3479_gpios = {
+> +	.dev_id = "i2c-INT3479:00",
+> +	.table = {
+> +		GPIO_LOOKUP("tps68470-gpio", 3, "reset", GPIO_ACTIVE_LOW),
+> +		GPIO_LOOKUP("tps68470-gpio", 4, "powerdown", GPIO_ACTIVE_LOW),
+> +		{ }
+> +	}
+> +};
+> +
+>  static const struct int3472_tps68470_board_data surface_go_tps68470_board_data = {
+>  	.dev_name = "i2c-INT3472:05",
+>  	.tps68470_regulator_pdata = &surface_go_tps68470_pdata,
+> @@ -166,6 +278,15 @@ static const struct int3472_tps68470_board_data surface_go3_tps68470_board_data
+>  	},
+>  };
+>  
+> +static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data = {
+> +	.dev_name = "i2c-INT3472:05",
+> +	.tps68470_regulator_pdata = &dell_7212_tps68470_pdata,
+> +	.n_gpiod_lookups = 1,
+> +	.tps68470_gpio_lookup_tables = {
+> +		&dell_7212_int3479_gpios,
+> +	},
+> +};
+> +
+>  static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+>  	{
+>  		.matches = {
+> @@ -188,6 +309,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+>  		},
+>  		.driver_data = (void *)&surface_go3_tps68470_board_data,
+>  	},
+> +	{
+> +		.matches = {
+> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Latitude 7212 Rugged Extreme Tablet"),
+> +		},
+> +		.driver_data = (void *)&dell_7212_tps68470_board_data,
+> +	},
+>  	{ }
+>  };
+>  
+> 
 
