@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-19749-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19750-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD0F9A0783
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 12:36:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90BB69A0798
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 12:40:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8F0A287316
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 10:36:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E48BB25EFF
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2024 10:40:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE066206E91;
-	Wed, 16 Oct 2024 10:36:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FD5A207200;
+	Wed, 16 Oct 2024 10:40:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865EE1F81A9;
-	Wed, 16 Oct 2024 10:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2621C9DC8;
+	Wed, 16 Oct 2024 10:40:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729074988; cv=none; b=ZYHwnUymNpYTG9RVsGnCT+k7z7udDCdWcFjXX1G3OArE/zhKXMR4RwnpJbLDQYlS9ymwI0S2xcl0FMhTwFupH6Suxzlfz9ObpyF3rjXIYAPdQfUpSnIdyRFSkBcagiAoDh/6WCGkUUQMvTO3rPYpoFwyIsHTZptlhOKfammyHvQ=
+	t=1729075210; cv=none; b=HMUIK895KPm8jw2FGtoF4zm7yoNCWlOZNhDUisVOV0wXdkvkzazycQx2ENRFpcpg/JAkkpoWXGPwcRMq2oLch6Dzv/u7YC1xxJpNtF3mEqdyKbbxtLqtGIvsmpzH1/FhE9hyH+TGLW7rcWQLjYUW1exbEmjadNcpARC19lcH/MA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729074988; c=relaxed/simple;
-	bh=WMetuwb8pAhfZt/JLmdZ6+4RKdpGwXb3KBOAjuHpmyY=;
+	s=arc-20240116; t=1729075210; c=relaxed/simple;
+	bh=j8sRzyXajqjtNMQPb/OiDHGp54Yx9GZzd8mn+XoLYpA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tU6SDkHau7myjCXLdESoIqAQtrCNRP39t10hGJUJ9QdNSjMPWy0P89m0Bh7M/MkMUNetTAXkM0qmLTnrZAuUqxOFYnCaKexzYPev3YgK6a4EYCD4fyjMpq0CkYmEdc908ztw58oN7MqRqTm2qnD5kDdREzACd4C27JkCuljB2Ng=
+	 In-Reply-To:Content-Type; b=CqAQsgkCFKuOX0nLzNz4DkHDoHicf/IBrktLUXtpAJbrYGxQ5WckWK+mcUJLGrI+YCzlk6k1sEM4ljLuGIfGPBVZ1ZH7KwnsrRuARzHTanq6+WzyQLq6a5qF3+objKN437wvcE5D3u4kFSFvqlpVXF2cdKSUQqFH42TJL+gjIjo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 627F2C4CEC5;
-	Wed, 16 Oct 2024 10:36:26 +0000 (UTC)
-Message-ID: <6df9ffa7-a55e-4ae4-a863-eb64834aef48@xs4all.nl>
-Date: Wed, 16 Oct 2024 12:36:24 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBB41C4CEC5;
+	Wed, 16 Oct 2024 10:40:08 +0000 (UTC)
+Message-ID: <a08cd653-2b2b-4b50-a1eb-0e13be4c946f@xs4all.nl>
+Date: Wed, 16 Oct 2024 12:40:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,13 +38,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/13] media: cec: extron-da-hd-4k-plus: don't use -1 as
- an error code
+Subject: Re: [PATCH 13/13] media: pulse8-cec: fix data timestamp at
+ pulse8_setup()
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  stable@vger.kernel.org
 References: <cover.1729074076.git.mchehab+huawei@kernel.org>
- <21a4b368b49aaa46e9d78cccd855bb11b49ab39c.1729074076.git.mchehab+huawei@kernel.org>
+ <8d5dfc87d297a92d5ccc750c5c002bbc4226d3ad.1729074076.git.mchehab+huawei@kernel.org>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -90,28 +90,47 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <21a4b368b49aaa46e9d78cccd855bb11b49ab39c.1729074076.git.mchehab+huawei@kernel.org>
+In-Reply-To: <8d5dfc87d297a92d5ccc750c5c002bbc4226d3ad.1729074076.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 16/10/2024 12:22, Mauro Carvalho Chehab wrote:
-> The logic at get_edid_tag_location() returns either an offset
-> or an error condition. However, the error condition uses a
-> non-standard "-1" value.
+> There is a hidden overflow condition there. As date is signed
+> and u8 is unsigned, doing:
 > 
-> Use instead -ENOENT to indicate that the tag was not found.
+> 	date = (data[0] << 24)
 > 
-> Fixes: 056f2821b631 ("media: cec: extron-da-hd-4k-plus: add the Extron DA HD 4K Plus CEC driver")
-
-Not a fix, since it isn't broken. It is returning an offset, and -1 is used if it isn't
-found. It's fine to change it to -ENOENT since the code calling it just checks if the
-result > 0.
-
-So it is a slight improvement of the code, but not a fix.
-
+> With a value bigger than 07f will make all upper bits of date
+> 0xffffffff. This can be demonstrated with this small code:
+> 
+> <code>
+> 
+> typedef int64_t time64_t;
+> typedef uint8_t u8;
+> 
+> int main(void)
+> {
+> 	u8 data[] = { 0xde ,0xad , 0xbe, 0xef };
+> 	time64_t date;
+> 
+> 	date = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+> 	printf("Invalid data = 0x%08lx\n", date);
+> 
+> 	date = ((unsigned)data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+> 	printf("Expected data = 0x%08lx\n", date);
+> 
+> 	return 0;
+> }
+> </code>
+> 
+> Fix it by converting the upper bit calculation to unsigned.
+> 
+> Fixes: cea28e7a55e7 ("media: pulse8-cec: reorganize function order")
 > Cc: stable@vger.kernel.org
 
-So this isn't needed either.
+Not a fix either, just an improvement. The worst that can happen is that in 2038
+the wrong date is shown, provided they release new firmware for this device in
+that year :-)
 
 Regards,
 
@@ -119,36 +138,21 @@ Regards,
 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  .../cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c     | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/media/cec/usb/pulse8/pulse8-cec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> index a526464af88c..7d03a36df5cf 100644
-> --- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> +++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> @@ -348,12 +348,12 @@ static int get_edid_tag_location(const u8 *edid, unsigned int size,
+> diff --git a/drivers/media/cec/usb/pulse8/pulse8-cec.c b/drivers/media/cec/usb/pulse8/pulse8-cec.c
+> index ba67587bd43e..171366fe3544 100644
+> --- a/drivers/media/cec/usb/pulse8/pulse8-cec.c
+> +++ b/drivers/media/cec/usb/pulse8/pulse8-cec.c
+> @@ -685,7 +685,7 @@ static int pulse8_setup(struct pulse8 *pulse8, struct serio *serio,
+>  	err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 4);
+>  	if (err)
+>  		return err;
+> -	date = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+> +	date = ((unsigned)data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+>  	dev_info(pulse8->dev, "Firmware build date %ptT\n", &date);
 >  
->  	/* Return if not a CTA-861 extension block */
->  	if (size < 256 || edid[0] != 0x02 || edid[1] != 0x03)
-> -		return -1;
-> +		return -ENOENT;
->  
->  	/* search tag */
->  	d = edid[0x02] & 0x7f;
->  	if (d <= 4)
-> -		return -1;
-> +		return -ENOENT;
->  
->  	i = 0x04;
->  	end = 0x00 + d;
-> @@ -371,7 +371,7 @@ static int get_edid_tag_location(const u8 *edid, unsigned int size,
->  			return offset + i;
->  		i += len + 1;
->  	} while (i < end);
-> -	return -1;
-> +	return -ENOENT;
->  }
->  
->  static void extron_edid_crc(u8 *edid)
+>  	dev_dbg(pulse8->dev, "Persistent config:\n");
 
 
