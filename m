@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-19783-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19784-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13A39A1E20
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 11:21:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6989A1E23
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 11:21:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F008284FEB
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 09:21:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8FD41C20CC4
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 09:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CEBF1D966A;
-	Thu, 17 Oct 2024 09:20:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 236361DA0E0;
+	Thu, 17 Oct 2024 09:20:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Gj2PO2N+"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="M9SllDs4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2085.outbound.protection.outlook.com [40.107.21.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0CA1D8A0B;
-	Thu, 17 Oct 2024 09:20:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6C01D95B3;
+	Thu, 17 Oct 2024 09:20:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.85
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729156836; cv=fail; b=rejmTweBD0iaE0VN+keCtA7bpXWVcdMtN4D2y5AUXTNOuY5L/gXGzJtiUwKnkOCnQjrAgF7T18XB2NFvbtSyN/r/ltXvTDXg0dX3z6lDppiQ7lujGhGo7JQ6Eot3+NHupWDs9Qfu7etXB+8rlca4N9amybvQD1oLgtolbXLhtSk=
+	t=1729156842; cv=fail; b=n1s6kxZqJJIajlkwqqJBfYFGtmVOqcBe9mTYHgj3DM6CifB9mfLDkj5jp+7Jchkvz6Ltyoorgb+MHZwX0C5EGVI5MvO8y/PUreWi62gTZTroOhsRJEbprzbox/47mWXrJpJLGxMwAqb8ujgNZsWAxyScAHeBuop7UGWjO+RoH6k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729156836; c=relaxed/simple;
-	bh=eEIY+eIg/YSUi/78YoKXcW1GY61OT8DPIdwv0d0IZYs=;
+	s=arc-20240116; t=1729156842; c=relaxed/simple;
+	bh=V9uQS5qYmiXssOXx3/jo+h9bUk3tmEJA4+u5KYczP+0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=J09nOf6epHT3xM5aCHA1/MRGn4VunS9kTQ4P4y48fxkfiDcadJ/H6jbfZCi3Tdk+Lfr3ypeZth3K+Cmc+uQPPrH+Qf7gfg5rK+4zudyTWr8MoBN8DTvTOUlL4A9VdHLFr7YObqlkPcF5zoWY2PFtlwkfwEY6YLKXUAebiQpnI4A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Gj2PO2N+; arc=fail smtp.client-ip=40.107.21.85
+	 Content-Type:MIME-Version; b=IALCzAqSRcrmElYBiWpBX4zP7hfRsRsSwlJ7PYY9y4zIKOJONSZ2Xlzkjb6KvhO6paeMGaRxFRtgRR2eoxEzH1MrMByVFaobhH+imNp1byTED7US9o+HhyYwIilRT9ISGxviA6t+yKiC3TVrY5cMZ04ohor+XTAGeZNuq/rNPjw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=M9SllDs4; arc=fail smtp.client-ip=40.107.21.85
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K7EGl6PMsf1cXcUpG6q5wvNPUXBRoWcnzuBbSy4bvrE5D5U7MYZS4gTyxXxPuT9dHSXurFfR1iZT7Uv5tcNBh3XQ+7mo9lkGgI4yputiRFI7xtfaA0w8T8KA3djf1TwI1oDpZYVGE76JTj2IlLQITBgxb/yLXzcfwcWXEYE2Da2IXRf7LUquWJvSZDVftEgrttDfDUgJg4N3AHYuyFaWz5kGhkstKNw3H6rPxa0eqCsuBiZvEE6s/u1r8lpPvwo9P6XcwlBSqcI0MdpqaxhmHmBxccUFN9kffbbmUewuTrn+dKcvBAXP6sw139B12bbzKrQsh3MBzVK2d1gFAe0GNA==
+ b=e64ppHKrKlyOIV+iAZ7XfDq3DSdbWay27dD4DuhLSLbluGt3rElJ2c3sgX4dTqk12u9D6+g2sPhagD0Z4SJEvfn7n8Jl24y7Bvo++IArkWQmgwn+T5A1bPD3sz5oAuSjdUIgbqIoec8jszXIrl8cl5YdD62LWiGb/fVdeFqW2EI8KbO9wzWgZvRo/0M4KXPnCbFFsa0GQu4dT8X3kKoXAFPWiAhPUKVQ244O41v/AkjjqccU0YmYKomHljIBvFm4F1g/PMJCyl11jYx6kvzFvBRN7ub5+/Co355k8BFgzUAqRWqpkBxPtDavSmn1/NpAjqDEFBOCb6Wpd8CfR8cQ+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kAK5fhxZzM/TuoFldoTn4hT+Xpwz+9b4vQrEcZaryiI=;
- b=DtBJ/sLT5QjG+WThbfqZEzI5qmTPZVKAAVO+eATXjFsp+WHmZFQEScH/lpuvcLWDo/MDIsmYzsM9QjdK/6VOOLmmhppoGr5HL9BD4S6w+unIzp+brGsNhYteKHmiTRv11CKPOz7U5lYb/TT4z4ygwVvVVoUNDsdYPKGHzej+Jb4sZbhneHZPuSo6GiKWavvEj+kTp4PfikCW3Pj9JDnCV++RKpQPKsSqGwE7tRV/wLULtH75WfywhspECgAt/VdtUF2D+xAPtef4GmvdDgUzDU7nAGU9HsOYhX8ApQLNzxXQRidqD093DqLXTixMletM3y068N8x4LMlckq3kFyCRw==
+ bh=z3oKuxRFkA9yHb1hrfi99zYa7fO58IZs40h8sxAWj0U=;
+ b=MWhytjmWIPHDXU5LysnP6O4H6p01ViKKFMnbeQXQKJflYgn+8ZgQCfPlF+3CTWBnSuiXM6habcZO0R52Yit9XusNhv7HtCl7IHQ/CDRVVQynTONW77dMWLS9dHBmvg3J3/pRST7f+E1otCaC9EO7UvRxeXE+UjSNwIrcZx53Uj7DnL3LN87VJVrU+Hmo/GfMhK4dqZtW6JXiRqLJzXcRYucX/jRYlKbbM7+5YEIJoQaTG5fH7Cjcn7sqeDjz7Cmi+yDD2EwfwohupkwBgtucCcJaRu1lw7/kgwXBabwetClTS41xHjYmLL2eS9k5+BUtdaCLke85O82Si3hgyvYoXg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kAK5fhxZzM/TuoFldoTn4hT+Xpwz+9b4vQrEcZaryiI=;
- b=Gj2PO2N+TobfghE+90d9YaU6KQ63yaGRqjrw+SlwUZry6tt4BCdyUNE3Ji42bsrFc3jdg7sFMLar2m4oNvpfeGRRyn+8HyRNkZn4FX6EpVpJdnkYdyZmA+5ZGCOrR2+zAEuET74HFE0d7qq8o3L0r0HkcHtxlvpohJ9GWLe88lXOMEOv0rEA+Vl0b+7Az3Kes5nEuFEhHQpi8wnfNCSRRq7VisGeTqKVsX1nXobVVhEN9pxuEFp1B3eM80cqexVTayMW7TQq3Rsfts62hocKVzznVTPjZluzeCXZqkTWlbP/cIWbOTaD0JdhhSerZarsu+M3VwQ3uHnNEqJfL5Tk6g==
+ bh=z3oKuxRFkA9yHb1hrfi99zYa7fO58IZs40h8sxAWj0U=;
+ b=M9SllDs4VJY7zqyGbKI+sghP/RvIr2UksIwBHmLTdb+/2BnklPlNfoma4drPWYM4RrRgu7l5LVfobvJz/4iXZ8+Y8k5T4UzgrnUZY+AAAcRrqTm0QEMRLqIbkrBDcMBFBwzuKu47pf3P6PvmTHKBsI2I2nkqZtw+pkaIuzCyL9nyT0cTyLR0nDU/eXGLsbsmNj6Gj9EDkTrqSafl8EA3Zuew5CDUKLOhltk1ldD76sz40d5H3o/YWm+HQIl+vncdrYRkj3afmvnHj/Ib6flj1JhW4sM/D0lgpx24t8g7SEzu2mSo0Pb21iL8AZs22rr1+VxecMtJLd2nkVUt6g/umQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
  by AS8PR04MB9061.eurprd04.prod.outlook.com (2603:10a6:20b:444::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18; Thu, 17 Oct
- 2024 09:20:30 +0000
+ 2024 09:20:35 +0000
 Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
  ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
  ([fe80::2755:55ac:5d6f:4f87%6]) with mapi id 15.20.8069.016; Thu, 17 Oct 2024
- 09:20:30 +0000
+ 09:20:35 +0000
 From: Ming Qian <ming.qian@nxp.com>
 To: mchehab@kernel.org,
 	hverkuil-cisco@xs4all.nl
@@ -73,9 +73,9 @@ Cc: yunkec@google.com,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [RFC 1/6] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
-Date: Thu, 17 Oct 2024 18:19:46 +0900
-Message-ID: <20241017091951.2160314-2-ming.qian@nxp.com>
+Subject: [RFC 2/6] media: vivid: Add an rectangle control
+Date: Thu, 17 Oct 2024 18:19:47 +0900
+Message-ID: <20241017091951.2160314-3-ming.qian@nxp.com>
 X-Mailer: git-send-email 2.43.0-rc1
 In-Reply-To: <20241017091951.2160314-1-ming.qian@nxp.com>
 References: <20241017091951.2160314-1-ming.qian@nxp.com>
@@ -92,232 +92,149 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|AS8PR04MB9061:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ad53861-29be-4c69-c672-08dcee8cf1f8
+X-MS-Office365-Filtering-Correlation-Id: d05e3b88-eb36-4c3a-c98f-08dcee8cf4cc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|7416014|376014|52116014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?UpcgBlpKoVGE7bVU4knx7cpOaZ17X89UZ88eRmjERdCLUSPN69rLmWmZKDfr?=
- =?us-ascii?Q?pZoyXYr5yPXUl7BBRyubPbR8C9nEstRRwFj1JBp1hRWgSMQAQTSFXcgC7u4G?=
- =?us-ascii?Q?GvPasI0ACLNEnmZPJn7/ND30gpHwnQOt2HNkv+E8Z8R/TB8CdP0hOH37Zab0?=
- =?us-ascii?Q?KuIoKsbqJzXpmfIeiM5cLtRFRUNjgD3hbbcdG1hK3TjLBfMHeJPCGSMFlg46?=
- =?us-ascii?Q?0g24CauS5HtnybRMxbtq2j4BG9cpn9+F7F6GjomZ5QhEDueSYipk1RWArNA4?=
- =?us-ascii?Q?ueTqmAAU19KexTCHmnLFGYsdJrd/eNKlzaVDp1jnXiymJE/aVAL9JA2Wdk3a?=
- =?us-ascii?Q?jdilojeKj2UbhuU64Nu+A61aTIM7d+fNKJtC9L9TGBA5Td3jB23bxmTR1uO/?=
- =?us-ascii?Q?x0VCOVPM74Le/Nvrm2iUEAiGDWZ/Gr2GBxKFtZFyXr8PzQcifEwIYaKHIvrm?=
- =?us-ascii?Q?cy9k+JrLjoYfaJmDeoOub7q/FKVOn34TrLLr9PM0YhvH4ogwEDS04EZSM7zE?=
- =?us-ascii?Q?vwkD1LgkKGiB9zRyX//LCM+Urew/h0z3Pr1RBepPVcoYn5/qz9aeW7tUFodd?=
- =?us-ascii?Q?y3mjO0YG5KhqVNtnhPg3PLM+CPjJU+J6ktWSYTxom5SqUtVu3N252MduOh/D?=
- =?us-ascii?Q?hoTpxt1tm1hxtwN/yJ/oYHuNlCEmxFqfavdoedqVEnLpDwBp9iysLuCAvqsw?=
- =?us-ascii?Q?+D7JBC3MVsYhmVcxDn4+0Q6QdF5j1OIVSOwtAVV6bxKs4X+IOJPGGwx3HH6X?=
- =?us-ascii?Q?8vH8eAu3zO6wGBCljFV5ZzkyRQTGR89mOyRMj1pAg5dMQvrwY2cMlBtXBICk?=
- =?us-ascii?Q?DWCU9U9LQeIaCpEAhEPyKouoaxwlX1HPRz7Sa2HXWE+QZ5qriPI49WUD4C2E?=
- =?us-ascii?Q?UbJXOHY57ofcOzghUw1kcDTVbpfHY0fpIbx+/mTeQxA1OViiXkq2TcabKKaA?=
- =?us-ascii?Q?ElijNjdu/PzN3MG5DGAwXzTNcxKBJs+qwTYjnu/dPvYHsFiyBou//MxWnwf1?=
- =?us-ascii?Q?6LWUxzn3P7w1EP7oEo1ZIWRfxcvwTSuxJIC8Md2O5mbIaSbAB+SLnv+4fXZ/?=
- =?us-ascii?Q?0I9J3HFfzST4YYxqalLixn7IHcgFP2DWMqQCX7FHJXvPFqL6YDrt75zV9h6h?=
- =?us-ascii?Q?aplNlz1XSMbgeNQC9r7pTMc92jHKRz0cxbDejrI9/SWiM4kNL+18NTXqSvrT?=
- =?us-ascii?Q?p/uWXBAIfCzMbexiUSnnUMD0YIP+26MmqC8fdqlkrZZTGwG52HNJO0u6b3U4?=
- =?us-ascii?Q?8s0BhOqVVboSDJYh1+MECHgDcdwWTztlnlmHFn+oqlyiw/HGzK+AxMfq27ss?=
- =?us-ascii?Q?e3B5RABPBA3LyIJ5DuDUlYTsDVQ/dv+xe4efxz2O16DlfsGIojYbxa9b+bD6?=
- =?us-ascii?Q?o+Qq8+k=3D?=
+	=?us-ascii?Q?ngBTSlgCZs+hrHL0CEfxET8XV5G9iggIlzaQwNOkz1NWkUcNArFP0kbxBlsa?=
+ =?us-ascii?Q?RLvVb8GNrNRMkZSoEyjMe7Ez5109nqKPdgk2zDgueJEdguEx+iPMSmNQ6pdx?=
+ =?us-ascii?Q?2lmqfde2ps0Dp3M9muX0CSXC9wR8L/1aZEsRfvtuAifyRvnx9HTdgQtAfQzy?=
+ =?us-ascii?Q?Y9KIepGh9fYvxOl4dAWk1kZuyIzvIS6nw41Rf/eM8eEOO/TzD5MymSje3l/F?=
+ =?us-ascii?Q?fjwxPgpQ4lPpf0DN77kNR6Dwfe7R0QG21RR0YW3xpKoJNWhuwPDyW4q4zIgE?=
+ =?us-ascii?Q?xW4D5i03wblg1ZSxoidE5FLL2x7VX14NUp4ESfUnrduGNut3nfyM8EQ5N1ya?=
+ =?us-ascii?Q?pKc0kduAf//YDhri/EL0CPn3nlcMDF1Gml1ljqI4qfPiWYcwYkGKNmyz4WfN?=
+ =?us-ascii?Q?gTlc8sElpFK5oR2XyzVulH3rshOCIgX32sLoK24bSPNoASP1v0NkugvZPWSq?=
+ =?us-ascii?Q?aZXDLR5R74ngQIbHXev40+M26lOjYlMGYwTgqwVRfAyePyjsYdM57zcZjo0K?=
+ =?us-ascii?Q?xTfD2Br38kGD+bR92C67OrZuHAkNw9lC1WxnqGWTpRwc9GdGqqQfHbvA1OPb?=
+ =?us-ascii?Q?jqt8NzMGW5jT8KfOtSRyelSoXnLi9H22SNCRbHYCvnGMlCUIpsBjlz4SeVI3?=
+ =?us-ascii?Q?CGziPssnloBVTqgeaJpFsvAahj3nrcwzHHfhZcuCr2pBtIO+uh1BhGPpG6OV?=
+ =?us-ascii?Q?Mpwj2zSyQgS614UY38TkuVgxrxkyBkxACABFs2ou+fyeF7kcNDZx8AZ50U4x?=
+ =?us-ascii?Q?DkXJguFJ56UZj95SU3nVjzzoR3lKjzF75AwlDqV6NlFen8UGrmoLFp/PafUW?=
+ =?us-ascii?Q?oGsyr3SzVYUEQpVm7dTeDKG7Od5aNGDeWU+OEerUWoGu/uiCvOasZ4wW9vzb?=
+ =?us-ascii?Q?MtKLEpyX55vmu1QpuYooUZ5/DiFKVyEu8Uej1uNoxOiJQEOpXqi0+MYi9DV5?=
+ =?us-ascii?Q?Kyhzcmlww2DlkKGsIjKXxPCxaPAX40lqSNcPDRkjy409MPtgkl9Z3jB/HDgd?=
+ =?us-ascii?Q?1nC/ac4kW3Mew7lWD/jBdPWPjIMUwppLvkUXLN+dOFtBdDTSiDkWYpRYc4q9?=
+ =?us-ascii?Q?fcHhOAVZQXGIaTGzEitGfB7UdTQ5dZF5REInc0iU0q/JSMNxmlA7baRkMNP8?=
+ =?us-ascii?Q?cNlYzzEDTfqvmmZCP6jH75T4KO/g0aPrtcshG7HMBKd8oU3BYZ7GTAaJii8/?=
+ =?us-ascii?Q?Xs3J4MYPiTF80Xx57SG7RfzZHDRYO6UAYlSEU4P9U74COM02A3Mf+QWjWE57?=
+ =?us-ascii?Q?oN9N6tlRXvcXp+IZwgyH7Ze1Hi79EAr1D4JGfbwUr2NH6H9ZXMlrVZepr1Zk?=
+ =?us-ascii?Q?GmAUQKC847Yx9nQAl40vtKg2+BKgQe8o/N6DAM/58fyAlH8G36C9YUzTWwok?=
+ =?us-ascii?Q?MSfk6aQ=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Vvu/aPvKHqZFcQI38notR7o2q/aCU1b/tBeA4sGD2EGk+nJPIyAhkbIFwwck?=
- =?us-ascii?Q?CWxF3FNDZhuddCYeqBp4/rSlV+2hj+Tz360YUN7W12yAjX2Gs8okZDlAHliA?=
- =?us-ascii?Q?HuOgvP8nN18Kywb1nVAke5EvU35YSaoJqqAUaYUFLYOLKNk0LYyRWJ60CEvk?=
- =?us-ascii?Q?lu5m9ZM26md+4cPEnvgNyigDTUkN3MipRlUQ0lgh3PLUPSxJ35RTBOfHACqc?=
- =?us-ascii?Q?WfH0hvAGHhQvcvaKuo2z3BhJ7jTsua0wE8nMprqt+5GRawicgVFJDECBytgG?=
- =?us-ascii?Q?EFSycXxFWxf1WDuMt46Ict2Dy46jmFvYemWLkPiXmkaiXz70ArGrGlK8Zany?=
- =?us-ascii?Q?Lr2jtW7/LSvLg294XG5PL4RgvA4oqEfPdHWJOf6aJ8LK7sGN1NRyEnuDgTr1?=
- =?us-ascii?Q?SWdLZekJ7OFE5mQ7xMbmY8lYjMnRq/VJ9NRaFGRvseTxzOfKIyM21rajKG8+?=
- =?us-ascii?Q?BAeFff0+R9OqeIo+F+nq5/LpZu8K8ZpfBIwNB1+GWSpzaFpLObFBDoe2CWbi?=
- =?us-ascii?Q?AOblIjSAcA+3tsIgmp5eSqllTaGOYct7dcbRqBkK7jenjlfXsRiN6xP9Qbky?=
- =?us-ascii?Q?s1mLyHXgk5BEWGlrUjHZw/pwHmaY/9T4ZCi00f2kKYe1B7oCv4VCwSagmgCD?=
- =?us-ascii?Q?L6HZamiEh30331JNMBlWfxjf4Ql3xJ2oAy/qwksUj3oXE0UNelgRhW64lKze?=
- =?us-ascii?Q?ldVkuDmsYNOHUyN+dl7vQMgH2AatCiSScCOKVoSczc9JhKscsFnePQ/6zC5e?=
- =?us-ascii?Q?suqgyhIupcTRpsJ9ftWerpWWGS28RbiPubE4aOxvyqql04WsdN4Gd59kBoXn?=
- =?us-ascii?Q?yhCUqwunhJPjeNpzsVK/B/LdUvkTOgABU5XVoapaehAzRh+9hDORoCBXu8PF?=
- =?us-ascii?Q?oVjUmNKwYb31zPX1AQP1Lo3OeEJfPDNIh4G73cMg0CCMvfHd5Eq2XvqE3tGu?=
- =?us-ascii?Q?Bti68Zzxq7svv3o7IzaWeHvWeA5cR0VD1jgxB1mGIJH5iNlM8wDiAsQ1ABUS?=
- =?us-ascii?Q?4zbFPz005LIzntY7hSCD6keOF9oI8BWiOlqsGIy+32w6CSsc1stu7g+a5Ap1?=
- =?us-ascii?Q?JcDt6qcqb7caHiagPVC+tsvNZC7RQoYdn20Ki5hrHcVLR6WUwltCR0Cbdt2z?=
- =?us-ascii?Q?84S5H8qZ176VXViZDUbGTYCzuhsqbM/Uzw+yFJOiPc8+r3A4tTxFwJQKKppi?=
- =?us-ascii?Q?0PEP1S4N6/YAZyp41Zrom8iw2eeE3p0xwpGfJ9hI/MQXRugnvsOVK5zm3lys?=
- =?us-ascii?Q?fsk43ERJPztIt7ZxLGbYKGspg8fb9yVTgJqA3ZeXezaCPtv2YuHWZe+DN7xg?=
- =?us-ascii?Q?CDiX5v4k6MegtSb4sd2eiXAgZgyROC7L8j7gVIQYi/Mzfk6uKfemeuzct2bY?=
- =?us-ascii?Q?NB/FuPKEC0hZJwq8+Jbiz9z+WQfv1s3dLgy0nmA7WKLh3liJwcqC1N1s7zHD?=
- =?us-ascii?Q?mzDPZ3dKK+smmfUgMbwoFcyecMfHcf22IyutL9e/31Lguj4ZpVMCgjP/hUwS?=
- =?us-ascii?Q?mJBQsY1GMJDAO9Ou0fYRbRoT7k5AZJYe5+jbM16MY5cLBAwc/+TMVAX3L80v?=
- =?us-ascii?Q?rtj0V4hZlvT+brlo2Wi5gD3rbR7YHtQX/qooodN/?=
+	=?us-ascii?Q?SGLzGu4G/vb/aR0QSAOjHHcJ+MGQra6kmMAZw1xzV0LWp1laphoU4XKLvfWY?=
+ =?us-ascii?Q?ufCNfrUd5goMaaB8H/7VErYB9QzMAN2x3BjfheHQ59wVxQtzVY9UZn2Br2R/?=
+ =?us-ascii?Q?SSy/CD/XNggeX2LwEzSlhBzTMn4jb2V5r4/cLvrEbwjnJAPRVyYaXdAkcY8G?=
+ =?us-ascii?Q?k+FrOYUb2B4+0RefXsjSQ2ZsySRNi2GKpBxXq6siuTKigdLsC8xsoVjJTFUI?=
+ =?us-ascii?Q?swqtJjM1GagsfEU3wnvEpeJq113GeN0QpdYfgaEHREip1tMkrirYymCbgdji?=
+ =?us-ascii?Q?8H2eJUCMR+UabvfVwoINPP+V2I3r1MIa/0Svhb39X2B4DOSLQ3pkVVQgmALP?=
+ =?us-ascii?Q?XQ4BMX0zw4481AolGx/tooukH6O5dTj9CrPj5m9B9WCkrE+ZaGqI/BxQp9ZC?=
+ =?us-ascii?Q?+RM1U92pKQG5949z6OFnhDwTeE912f46E1A+gb9TXW+Z+a0d9u2b/VsCpUvA?=
+ =?us-ascii?Q?05gQAvrK0zQyXlFmz6BaEFt4VYAKChzNV1QpSEfuiIiuYK7WlhQ5QZhCL9b+?=
+ =?us-ascii?Q?ShVUuHaJYnmVIxHb4VSLOaJq3sUL+caU4cuXnivknCusxBtaTCGUSIX/45yx?=
+ =?us-ascii?Q?jpdphQ3Tc/21IkPdu9ac9lbKBWyPvv9hZESMRkNmgVR7Qm2vjiCwYrtmNUWL?=
+ =?us-ascii?Q?RUM5n4aqQDhEVNIAbrD1BoAPNj0kkHgqrSUD/IEwWrDdjAJhTHZ34DMOONT5?=
+ =?us-ascii?Q?wB0GuVrU0b1SEr8UPFCqpI13QIF4g02uy12aSnNBT22KriZiNN9E0F4OnVLu?=
+ =?us-ascii?Q?438I49LXT5oYXQ5nwL/O0BVu3N0LIe2vol8TvR7t2lWeJVIxMQhz5nNC7tAz?=
+ =?us-ascii?Q?SMiA4xNwPKIylRQEI3KGzzi3dgzy7RX4eThxMJaGZJWFruUqpucKe0J5Ww7x?=
+ =?us-ascii?Q?biX+nhyaKW8eV+8cw+FxwmWaqseLmsRAGlCOBjhwra+Zx6AZNfjCpmxI0taI?=
+ =?us-ascii?Q?3tj8i2pSGURd/kt1zRVWBrv0x5R5GPZgg7Rvz7K1bMlrKiuP98nj5XyzciKF?=
+ =?us-ascii?Q?XeeE4bgru8ixk2CAcRGyCnPrraV5t+knH4xtvmthsyigBb5g5ZOTfr1ALIhS?=
+ =?us-ascii?Q?B29pJqW3LsFR7zgRWc/55oL/WQeHiD0mECQL5QF3EL7LZ07qdxw25qBwq6Wo?=
+ =?us-ascii?Q?7jMn/4wl7IUwI5HleHT9A4CugfVLUquxosfyQUnG+w/9qqLFoawlV999+Tzs?=
+ =?us-ascii?Q?65Lu+8ZIXjDcYNdII716YGeXaefr+xciXDI2PUp0pZAtUoD+arjdaQFh6pLa?=
+ =?us-ascii?Q?bRVGrdIFj4GyRkhcbu0IMZEmI1a9Fv8G9mfov4prLZ6WYJ4wyhUP1Q4ZLwu1?=
+ =?us-ascii?Q?JFnyOQDIEOw5+q0QSFzOA+dzKCKmM+paAr9j/zqnBSdevoimardSKVdR1CE+?=
+ =?us-ascii?Q?Cj1S/Sf1J1etEmD6uemCblfKRV98sVRoAY7NI4r+Mp6VEZH6RHBN0rRqQuzp?=
+ =?us-ascii?Q?oRqmCcsQTKRymlH3ww8CEZZc1hPQMXdMXbdcnufQ7qEomDWxLoOyNP7sSO5/?=
+ =?us-ascii?Q?F+GRsnJOsQYPo7yVcJb37DhWZVK47BKs0u3yKfrbN+9o/osPGF17JZFM0oRC?=
+ =?us-ascii?Q?EVtWrM84Kh7CqjCudxc/Y7by1JY7Odr0ep/+R/2B?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ad53861-29be-4c69-c672-08dcee8cf1f8
+X-MS-Exchange-CrossTenant-Network-Message-Id: d05e3b88-eb36-4c3a-c98f-08dcee8cf4cc
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 09:20:30.5209
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 09:20:35.1503
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LcECwHSCUL3jBnr+o2yqLCCyR02jO9U6fU4qA6r/mXfZcvEHFS1bYwkxLPZ/FVDWDUVlhaGCd+lYveF15MUdSg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: SMzgxNs9oMpG831hNkXgqt3fT9uTViIcqwgEL5C26y1eU+yvQ9P1Fc1H/XAsCxvYns68Q12ocwlg9LnUb9MYnQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9061
 
 From: Yunke Cao <yunkec@google.com>
 
-Add p_rect to struct v4l2_ext_control with basic support in
-v4l2-ctrls.
+This control represents a generic read/write rectangle.
+It supports V4L2_CTRL_WHICH_MIN/MAX_VAL.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 Signed-off-by: Yunke Cao <yunkec@google.com>
 Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- .../media/v4l/vidioc-g-ext-ctrls.rst             |  4 ++++
- .../userspace-api/media/v4l/vidioc-queryctrl.rst |  7 +++++++
- .../media/videodev2.h.rst.exceptions             |  1 +
- drivers/media/v4l2-core/v4l2-ctrls-core.c        | 16 +++++++++++++++-
- include/media/v4l2-ctrls.h                       |  2 ++
- include/uapi/linux/videodev2.h                   |  2 ++
- 6 files changed, 31 insertions(+), 1 deletion(-)
+ .../media/test-drivers/vivid/vivid-ctrls.c    | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-index 4d56c0528ad7..b74a74ac06fc 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-@@ -199,6 +199,10 @@ still cause this situation.
-       - ``p_area``
-       - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
-         of type ``V4L2_CTRL_TYPE_AREA``.
-+    * - struct :c:type:`v4l2_rect` *
-+      - ``p_rect``
-+      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_RECT``.
-     * - struct :c:type:`v4l2_ctrl_h264_sps` *
-       - ``p_h264_sps``
-       - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index 4d38acafe8e1..56d5c8b0b88b 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -441,6 +441,13 @@ See also the examples in :ref:`control`.
-       - n/a
-       - A struct :c:type:`v4l2_area`, containing the width and the height
-         of a rectangular area. Units depend on the use case.
-+    * - ``V4L2_CTRL_TYPE_RECT``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_rect`, containing a rectangle described by
-+	the position of its top-left corner, the width and the height. Units
-+	depend on the use case.
-     * - ``V4L2_CTRL_TYPE_H264_SPS``
-       - n/a
-       - n/a
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-index 429b5cdf05c3..3cf1380b52b0 100644
---- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-@@ -150,6 +150,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index eeab6a5eb7ba..4c8744c8cd96 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -370,7 +370,11 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
- 	case V4L2_CTRL_TYPE_AV1_FILM_GRAIN:
- 		pr_cont("AV1_FILM_GRAIN");
- 		break;
--
-+	case V4L2_CTRL_TYPE_RECT:
-+		pr_cont("%ux%u@%dx%d",
-+			ptr.p_rect->width, ptr.p_rect->height,
-+			ptr.p_rect->left, ptr.p_rect->top);
-+		break;
- 	default:
- 		pr_cont("unknown type %d", ctrl->type);
- 		break;
-@@ -815,6 +819,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
- 	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
- 	struct v4l2_area *area;
-+	struct v4l2_rect *rect;
- 	void *p = ptr.p + idx * ctrl->elem_size;
- 	unsigned int i;
+diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+index 8bb38bc7b8cc..bed5f4fb0c69 100644
+--- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
++++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+@@ -37,6 +37,7 @@
+ #define VIVID_CID_U8_PIXEL_ARRAY	(VIVID_CID_CUSTOM_BASE + 14)
+ #define VIVID_CID_S32_ARRAY		(VIVID_CID_CUSTOM_BASE + 15)
+ #define VIVID_CID_S64_ARRAY		(VIVID_CID_CUSTOM_BASE + 16)
++#define VIVID_CID_RECT			(VIVID_CID_CUSTOM_BASE + 17)
  
-@@ -1172,6 +1177,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 			return -EINVAL;
- 		break;
- 
-+	case V4L2_CTRL_TYPE_RECT:
-+		rect = p;
-+		if (!rect->width || !rect->height)
-+			return -EINVAL;
-+		break;
-+
- 	default:
- 		return -EINVAL;
- 	}
-@@ -1872,6 +1883,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	case V4L2_CTRL_TYPE_AREA:
- 		elem_size = sizeof(struct v4l2_area);
- 		break;
-+	case V4L2_CTRL_TYPE_RECT:
-+		elem_size = sizeof(struct v4l2_rect);
-+		break;
- 	default:
- 		if (type < V4L2_CTRL_COMPOUND_TYPES)
- 			elem_size = sizeof(s32);
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index 59679a42b3e7..b0db167a3ac4 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -56,6 +56,7 @@ struct video_device;
-  * @p_av1_tile_group_entry:	Pointer to an AV1 tile group entry structure.
-  * @p_av1_frame:		Pointer to an AV1 frame structure.
-  * @p_av1_film_grain:		Pointer to an AV1 film grain structure.
-+ * @p_rect:			Pointer to a rectangle.
-  * @p:				Pointer to a compound value.
-  * @p_const:			Pointer to a constant compound value.
-  */
-@@ -89,6 +90,7 @@ union v4l2_ctrl_ptr {
- 	struct v4l2_ctrl_av1_tile_group_entry *p_av1_tile_group_entry;
- 	struct v4l2_ctrl_av1_frame *p_av1_frame;
- 	struct v4l2_ctrl_av1_film_grain *p_av1_film_grain;
-+	struct v4l2_rect *p_rect;
- 	void *p;
- 	const void *p_const;
+ #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
+ #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
+@@ -360,6 +361,38 @@ static const struct v4l2_ctrl_config vivid_ctrl_ro_int32 = {
+ 	.step = 1,
  };
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index ded023edac70..4b12322be592 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1857,6 +1857,7 @@ struct v4l2_ext_control {
- 		__s32 __user *p_s32;
- 		__s64 __user *p_s64;
- 		struct v4l2_area __user *p_area;
-+		struct v4l2_rect __user *p_rect;
- 		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
- 		struct v4l2_ctrl_h264_pps __user *p_h264_pps;
- 		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
-@@ -1927,6 +1928,7 @@ enum v4l2_ctrl_type {
- 	V4L2_CTRL_TYPE_U16	     = 0x0101,
- 	V4L2_CTRL_TYPE_U32	     = 0x0102,
- 	V4L2_CTRL_TYPE_AREA          = 0x0106,
-+	V4L2_CTRL_TYPE_RECT	     = 0x0107,
  
- 	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
- 	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
++static const struct v4l2_rect rect_def = {
++	.top = 100,
++	.left = 200,
++	.width = 300,
++	.height = 400,
++};
++
++static const struct v4l2_rect rect_min = {
++	.top = 0,
++	.left = 0,
++	.width = 1,
++	.height = 1,
++};
++
++static const struct v4l2_rect rect_max = {
++	.top = 0,
++	.left = 0,
++	.width = 1000,
++	.height = 2000,
++};
++
++static const struct v4l2_ctrl_config vivid_ctrl_rect = {
++	.ops = &vivid_user_gen_ctrl_ops,
++	.id = VIVID_CID_RECT,
++	.name = "Rect",
++	.type = V4L2_CTRL_TYPE_RECT,
++	.flags = V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX,
++	.p_def.p_const = &rect_def,
++	.p_min.p_const = &rect_min,
++	.p_max.p_const = &rect_max,
++};
++
+ /* Framebuffer Controls */
+ 
+ static int vivid_fb_s_ctrl(struct v4l2_ctrl *ctrl)
+@@ -1685,6 +1718,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 	dev->int_menu = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_int_menu, NULL);
+ 	dev->ro_int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_ro_int32, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
++	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_rect, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_dyn_array, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
 -- 
 2.43.0-rc1
 
