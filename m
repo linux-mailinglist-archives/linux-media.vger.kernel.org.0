@@ -1,183 +1,206 @@
-Return-Path: <linux-media+bounces-19792-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19793-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61FE9A2018
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 12:34:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA749A204B
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 12:46:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8AC411F22AAB
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 10:34:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C1D21C25041
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 10:46:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D47E51D2F61;
-	Thu, 17 Oct 2024 10:34:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B122A1DAC9D;
+	Thu, 17 Oct 2024 10:46:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fitoWWqw"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YMbFW9Qg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839441D966B;
-	Thu, 17 Oct 2024 10:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCF51D9A44
+	for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 10:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729161275; cv=none; b=cvE/e+DHwojIUBmWLnMaijEdFYQ47NAjJf+V2ue3qHAceE5CWyvbWlAOYfGXyx2Y0/wZhrAEpg3+cp9mpOOLtrGmNMDtLWde6pcj5ZOXsWBYyIwB80g68utrAfDUosuVUSmczi2zGpES3gm3wBCFVvG7cbu7oNGQy1BhFv+7MF8=
+	t=1729161997; cv=none; b=fG6y46rlfLARcQMx9OGpZL/brGjTvs9N2/rHCsP0N82wx0O62QtIatiz41hSptBLdcRiVWmPhbv71fP0BmaNQ31j0cIEAz9odMav1UwEN+Eq5x0kKajmCDM4YzT2lLEd8FSkZJLCqz1ALTaHKburUbeFKLU4APO3e2VugEZZYZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729161275; c=relaxed/simple;
-	bh=2HKS+YmD5B2Dly0sLQmjE7gavsagPyykmQJ+lhyDz5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XTrvuRdvKqrSLfKw5FnHIF/BGl1OkXl6nxcYBuGh+uFqkiv0iPnNvw3a/myBaWJWEeJq71ouOgLjf37OA95UsbvgnbHMy2toxW08QKGc6SZ5t2cuOP/DDR2IRRybKSX2ZBmWrreiFKbyoS5W4dIr8kzr7fGOGDVwZSGPpa9jris=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fitoWWqw; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a9a1b71d7ffso111795766b.1;
-        Thu, 17 Oct 2024 03:34:33 -0700 (PDT)
+	s=arc-20240116; t=1729161997; c=relaxed/simple;
+	bh=FxfJctS2+GCXh8kAlmoQ3toy0Gs0PnNzX6uu9kFmvzM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Rm9+hprQdOaOdF+DO3v8Gjy3o8GPrjgg3cSEYO2IrNBjohewWdXrDwvgzd9dfe8+3j4CZZH95HYfH8qpXDz+krTcZyZbobmjTzsNw9K98zE4JDV5CvzzxvtS382fevZcPGRZZmLY/3U5SvI4fjgMVK3I34pUGP6N8BsvTGKuhV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YMbFW9Qg; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4a47d1a62bdso219345137.0
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 03:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729161272; x=1729766072; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RI5Duu0ie0BXr5/GSCqGUartM+TPyPW+SIijWcsO3Pg=;
-        b=fitoWWqwV2dKskn7T4b+rzk4XaaruQYNJfE4+39RQRKa/xt/GTm3GkZ9RCK8Decqcq
-         GJjkLxJeD+V4fkV/wnM+x7Qf0QHFFvbJWxylW9RdfwRgpAagZluOYRz5X6MW1zYxOOxs
-         iiUX6KeLY6ro9Jg2TSlPTTJWulVmLUPFzLs8O34rDBt05ec2ZUU6KXhJpWcFfqNKqdbZ
-         zxQMGyOi1nsCueMCNChNxhlRLbnvW8/sDFzi7AxP6Q2t4GmFnd1n7q2kMfoyHVNxAB+r
-         TbMTbXLQEQugrxR2rHMvv5ImwTOWVPfG4ZnSYVP6jHWp2TahJdjxZ/2MxESJCQk6aQC0
-         xI0Q==
+        d=linaro.org; s=google; t=1729161992; x=1729766792; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5iLc9AQWQ9bPZ9PdWCnYLRDGxR6aVrX6pCcUlaC2gXg=;
+        b=YMbFW9QgdOfhYNN5VZxo3Z8L114X8Xv3RZ5In3ojo2TnrB4AwQjksAWIC2GPqp/fHc
+         Pw3y3ukFWm6gUx4B7LpTusrIxnWxHXWaFqKcKGBsVLveghrEzzNglj/ipWC7I3oR9dQt
+         xAoQICQ9pfFqjxqKmCvzzY4rbVANZpe5RufqTnQ2BZ+VxIEHpCEe1GPehXkuk8c3lcIF
+         519bCUKRDdHHXmIodCTVgFB4vI6qe//7WBk4JC7pLxZ0l9xw/M7u/ZyW9OYOgucsl28g
+         ivo/Cs6PFPaDgvaoIJ3PJ/Lenrq8PjuL1pWeEdy3EYKwwh4c+EUFUG1KJqLT1Fo+Avno
+         z++A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729161272; x=1729766072;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RI5Duu0ie0BXr5/GSCqGUartM+TPyPW+SIijWcsO3Pg=;
-        b=dGIRopKhodWDSFkRobsN3k7ZD30pG8tXO3wu9YgQPCXxTJz/8thT57df90ZNZUQSuD
-         We7aspxA7a6t8ZyG+5urvqTfz+sEUgPpWChjQaCQNCP5ENReLIdG14j/uJN2koFSmckS
-         PuUHRO91P2dHc5qc3thJ3QuY1mjr1ayno9VudIspLEeP2JDR41mqYpPYLYnBuSK4WRhK
-         nRiACt/TweBTxxe4hR+37lAfY9j7vrXqM5rzdq4DdmThopKXYvbwj3irGGJiyrMC2xW8
-         hu4UoPgawGYZOit3zOtkt65ZZfwCbFRdccvZxQUs77Tw+BWQ8zSMbSRfcIRkyHtp8fTL
-         A4XA==
-X-Forwarded-Encrypted: i=1; AJvYcCUNOBdItzJtCR8QN+dnakKlg+dNSJPf6xhPdifclGTj6qKKXoXI2krwQj5lTmJQxjV0eUoE7mVe@vger.kernel.org, AJvYcCVvr+oMhh2FiinQIJ8IUOup4pkFnrj0DVdW5Sub5ZJGz4al29JpmAsaL3BFi+2s89mdzvt2WQlQHyGEXsc=@vger.kernel.org, AJvYcCXbgYL9F2YzOI+7HuFiMWxWNf4uMbss75BVM+e+1QZdUAjgzIsSHD6vaB/C0r0z5DL6ZzeREFGTsgoUqGA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOyOFxNgLQylr4ZHJ+EobmkOkY2mbnLUEWUDjA0NNnbxLK38ba
-	HafhV64U12CtbyvJ0/QygS9QJsWducVABpbHJHAVKCCKzBShEmzV
-X-Google-Smtp-Source: AGHT+IHRVOJYobAlUFIv1wiiXYcuRBS4ZuRqxfY4PRApRdzrHhuzQvlH24VlwuZQCRC6AMhLM/PzzQ==
-X-Received: by 2002:a17:907:930d:b0:a9a:dac:2ab9 with SMTP id a640c23a62f3a-a9a0dac2ec0mr1424435566b.42.1729161271476;
-        Thu, 17 Oct 2024 03:34:31 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a29718b84sm282176466b.29.2024.10.17.03.34.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Oct 2024 03:34:30 -0700 (PDT)
-Message-ID: <48d9f9b4-8b28-f24b-c0bd-d899c59bd247@gmail.com>
-Date: Thu, 17 Oct 2024 12:34:28 +0200
+        d=1e100.net; s=20230601; t=1729161992; x=1729766792;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5iLc9AQWQ9bPZ9PdWCnYLRDGxR6aVrX6pCcUlaC2gXg=;
+        b=V9x5VNZgUlgp+I7VV1aqJ/voL8T4mD5fNKSyEPhz9HSShOiihmGNIzYWtGamlTcBzV
+         dyw3mM039cUP5W+4NsJSgZuf4brjILWSEFtl8xydl9Ikf/wXOEXTisAicE6Z5Sa4gO0L
+         wsrfprQlP3zNdDmNJbyjKMjBjVbD9RAh23uZsLWHvKoDZB4fbJWuedrsz01eLg5LDSmF
+         QMWohfXEIu0YsS8d2gvjjdR01CqrSgUfitFuVbjFkQ/RPHFit6PJKCiq/sSWDj/ArTDy
+         ddQZkm1FPIa4s87dKp6RyTx7X0xYGi0LMfX/M5jo85t2IGW/Bz/uPagg2i7ME7SeywB/
+         3KQg==
+X-Forwarded-Encrypted: i=1; AJvYcCU2+Ce8YC4YOLKv3n21mIe8T+/ZhQ4XVygCB4TGHjCQi02n1hsg8N1x5ZQJA/tITU2no7zO7J5z+CVYoQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEHdtz4el9LhYUeLt6o6ZQZTlreeRv21DmhCAEopmtJusZn6r5
+	uXjqUMyVOOpITluRQpfT9gvEadjnqKCsvJg9PWgqV0mpdT3u0u0q2PGfEf9UC+sIogE4ZbgIvjv
+	z59VnYJtefThSlQQRypFhGDYHPE+J3atShFrYmA==
+X-Google-Smtp-Source: AGHT+IEhuubEp1XFMcAt1Qdpoup5VxogAcu1pC1JHif0I5jEeCDESB436aTA1yUdhOINM3pMJD6rd6T5GIpOG8DyYOM=
+X-Received: by 2002:a05:6102:26c2:b0:4a4:8ef0:25ba with SMTP id
+ ada2fe7eead31-4a5b5a3f858mr5284146137.21.1729161991842; Thu, 17 Oct 2024
+ 03:46:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 07/13] media: s5p-jpeg: prevent buffer overflows
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Hans Verkuil <hans.verkuil@cisco.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, stable@vger.kernel.org
-References: <cover.1729074076.git.mchehab+huawei@kernel.org>
- <16ccf3d588665a5a0dda91cbb04374d6aea99ca6.1729074076.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <16ccf3d588665a5a0dda91cbb04374d6aea99ca6.1729074076.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241015101716.740829-1-jens.wiklander@linaro.org>
+In-Reply-To: <20241015101716.740829-1-jens.wiklander@linaro.org>
+From: Sumit Garg <sumit.garg@linaro.org>
+Date: Thu, 17 Oct 2024 16:16:20 +0530
+Message-ID: <CAFA6WYOCDf6RqHr7E9nN7DQdoq+ZDwFO=Y0yB+fzit2GwzDkGg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/2] TEE subsystem for restricted dma-buf allocations
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Mauro,
+Hi Jens,
 
-On 10/16/24 12:22, Mauro Carvalho Chehab wrote:
-> The current logic allows word to be less than 2. If this happens,
-> there will be buffer overflows. Add extra checks to prevent it.
-> 
-> While here, remove an unused word = 0 assignment.
-> 
-> Fixes: 6c96dbbc2aa9 ("[media] s5p-jpeg: add support for 5433")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   .../media/platform/samsung/s5p-jpeg/jpeg-core.c | 17 +++++++++++------
->   1 file changed, 11 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-> index d2c4a0178b3c..1db4609b3557 100644
-> --- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-> @@ -775,11 +775,14 @@ static void exynos4_jpeg_parse_decode_h_tbl(struct s5p_jpeg_ctx *ctx)
->   		(unsigned long)vb2_plane_vaddr(&vb->vb2_buf, 0) + ctx->out_q.sos + 2;
->   	jpeg_buffer.curr = 0;
->   
-> -	word = 0;
-> -
->   	if (get_word_be(&jpeg_buffer, &word))
->   		return;
-> -	jpeg_buffer.size = (long)word - 2;
-> +
-> +	if (word < 2)
-> +		jpeg_buffer.size = 0;
-> +	else
-> +		jpeg_buffer.size = (long)word - 2;
-> +
->   	jpeg_buffer.data += 2;
->   	jpeg_buffer.curr = 0;
->   
-> @@ -1058,6 +1061,7 @@ static int get_word_be(struct s5p_jpeg_buffer *buf, unsigned int *word)
->   	if (byte == -1)
->   		return -1;
->   	*word = (unsigned int)byte | temp;
-> +
->   	return 0;
->   }
->   
-> @@ -1145,7 +1149,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
->   			if (get_word_be(&jpeg_buffer, &word))
->   				break;
->   			length = (long)word - 2;
-> -			if (!length)
-> +			if (length <= 0)
->   				return false;
->   			sof = jpeg_buffer.curr; /* after 0xffc0 */
->   			sof_len = length;
-> @@ -1176,7 +1180,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
->   			if (get_word_be(&jpeg_buffer, &word))
->   				break;
->   			length = (long)word - 2;
-> -			if (!length)
-> +			if (length <= 0)
->   				return false;
->   			if (n_dqt >= S5P_JPEG_MAX_MARKER)
->   				return false;
-> @@ -1189,7 +1193,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
->   			if (get_word_be(&jpeg_buffer, &word))
->   				break;
->   			length = (long)word - 2;
-> -			if (!length)
-> +			if (length <= 0)
->   				return false;
->   			if (n_dht >= S5P_JPEG_MAX_MARKER)
->   				return false;
-> @@ -1214,6 +1218,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
->   			if (get_word_be(&jpeg_buffer, &word))
->   				break;
->   			length = (long)word - 2;
-> +			/* No need to check underflows as skip() does it  */
->   			skip(&jpeg_buffer, length);
->   			break;
->   		}
+On Tue, 15 Oct 2024 at 15:47, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+>
+> Hi,
+>
+> This patch set allocates the restricted DMA-bufs via the TEE subsystem.
+> This a complete rewrite compared to the previous patch set [1], and other
+> earlier proposals [2] and [3] with a separate restricted heap.
+>
+> The TEE subsystem handles the DMA-buf allocations since it is the TEE
+> (OP-TEE, AMD-TEE, TS-TEE, or a future QTEE) which sets up the restrictions
+> for the memory used for the DMA-bufs.
 
-Seems reasonable.
+Thanks for proposing this interface. IMHO, this solution will address
+many concerns raised for the prior vendor specific DMA heaps approach
+[1] as follows:
 
-Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+1. User-space interacting with the TEE subsystem for restricted memory
+allocation makes it obvious that the returned DMA buf can't be
+directly mapped by the CPU.
 
--- 
-Best regards,
-Jacek Anaszewski
+2. All the low level platform details gets abstracted out for
+user-space regarding how the platform specific memory restriction
+comes into play.
+
+3. User-space doesn't have to deal with holding 2 DMA buffer
+references, one after allocation from DMA heap and other for
+communication with the TEE subsystem.
+
+4. Allows for better co-ordination with other kernel subsystems
+dealing with restricted DMA-bufs.
+
+[1] https://lore.kernel.org/linux-arm-kernel/20240515112308.10171-1-yong.wu@mediatek.com/
+
+>
+> I've added a new IOCTL, TEE_IOC_RSTMEM_ALLOC, to allocate the restricted
+> DMA-bufs. This new IOCTL reaches the backend TEE driver, allowing it to
+> choose how to allocate the restricted physical memory.
+>
+> TEE_IOC_RSTMEM_ALLOC is quite similar to TEE_IOC_SHM_ALLOC so it's tempting
+> to extend TEE_IOC_SHM_ALLOC with two new flags
+> TEE_IOC_SHM_FLAG_SECURE_VIDEO and TEE_IOC_SHM_FLAG_SECURE_TRUSTED_UI for
+> the same feature. However, it might be a bit confusing since
+> TEE_IOC_SHM_ALLOC only returns an anonymous file descriptor, but
+> TEE_IOC_SHM_FLAG_SECURE_VIDEO and TEE_IOC_SHM_FLAG_SECURE_TRUSTED_UI would
+> return a DMA-buf file descriptor instead. What do others think?
+
+I think it's better to keep it as a separate IOCTL given the primary
+objective of buffer allocation and it's usage.
+
+-Sumit
+
+>
+> This can be tested on QEMU with the following steps:
+> repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
+>         -b prototype/sdp-v2
+> repo sync -j8
+> cd build
+> make toolchains -j4
+> make all -j$(nproc)
+> make run-only
+> # login and at the prompt:
+> xtest --sdp-basic
+>
+> https://optee.readthedocs.io/en/latest/building/prerequisites.html
+> list dependencies needed to build the above.
+>
+> The tests are pretty basic, mostly checking that a Trusted Application in
+> the secure world can access and manipulate the memory. There are also some
+> negative tests for out of bounds buffers etc.
+>
+> Thanks,
+> Jens
+>
+> [1] https://lore.kernel.org/lkml/20240830070351.2855919-1-jens.wiklander@linaro.org/
+> [2] https://lore.kernel.org/dri-devel/20240515112308.10171-1-yong.wu@mediatek.com/
+> [3] https://lore.kernel.org/lkml/20220805135330.970-1-olivier.masse@nxp.com/
+>
+> Changes since the V1 RFC:
+> * Based on v6.11
+> * Complete rewrite, replacing the restricted heap with TEE_IOC_RSTMEM_ALLOC
+>
+> Changes since Olivier's post [2]:
+> * Based on Yong Wu's post [1] where much of dma-buf handling is done in
+>   the generic restricted heap
+> * Simplifications and cleanup
+> * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf heap
+>   support"
+> * Replaced the word "secure" with "restricted" where applicable
+>
+> Jens Wiklander (2):
+>   tee: add restricted memory allocation
+>   optee: support restricted memory allocation
+>
+>  drivers/tee/Makefile              |   1 +
+>  drivers/tee/optee/core.c          |  21 ++++
+>  drivers/tee/optee/optee_private.h |   6 +
+>  drivers/tee/optee/optee_smc.h     |  35 ++++++
+>  drivers/tee/optee/smc_abi.c       |  45 ++++++-
+>  drivers/tee/tee_core.c            |  33 ++++-
+>  drivers/tee/tee_private.h         |   2 +
+>  drivers/tee/tee_rstmem.c          | 200 ++++++++++++++++++++++++++++++
+>  drivers/tee/tee_shm.c             |   2 +
+>  drivers/tee/tee_shm_pool.c        |  69 ++++++++++-
+>  include/linux/tee_core.h          |   6 +
+>  include/linux/tee_drv.h           |   9 ++
+>  include/uapi/linux/tee.h          |  33 ++++-
+>  13 files changed, 455 insertions(+), 7 deletions(-)
+>  create mode 100644 drivers/tee/tee_rstmem.c
+>
+> --
+> 2.43.0
+>
 
