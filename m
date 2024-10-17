@@ -1,260 +1,230 @@
-Return-Path: <linux-media+bounces-19789-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19790-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B2B9A1E39
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 11:25:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 630C59A1E4F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 11:27:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D7E2B24DBA
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 09:25:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E81171F2243F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 09:27:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F66A1D89FE;
-	Thu, 17 Oct 2024 09:25:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 296AF1D90D9;
+	Thu, 17 Oct 2024 09:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2TYB6CUG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2070.outbound.protection.outlook.com [40.107.244.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAACB1D6DB6
-	for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 09:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729157110; cv=none; b=k6rDikP8XUREjSiFNwFEHikaeE0lbGEcF5jB4SxAJrsh3a+hrHZAuYc+QpIN1Qmwuo4Q4SUuBII/GaodMVpPW4dyMxF2ogN4LPzCmQF2LutihUTSQycvfO8PpIgFOLEQIwIfP8QEZCleHAfidoLOnUS2KJQYfnyoAf6HUYOvr44=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729157110; c=relaxed/simple;
-	bh=uDNIKAsVb/+2cA1V2M0xLYaK2BBi39+w5O2jxw2r+Qc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=kSUFjv62dxCL+VAhwgiq1/pJnEreHhUTHpUzxenTnytw9pwK0I35m8TFj2LH18UP35XwuurjuToTQFMgKZyJnnaxf1MNVc1ZWGu5NE/HUpJhLH8YwIMfKbPyucgY5hfz1eNixINTCCdZkhEzxiTj0L52P4O1Go0AN1fYNSUAluQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C144DC4CEC3;
-	Thu, 17 Oct 2024 09:25:09 +0000 (UTC)
-Message-ID: <69d2363e-49bb-4c7f-9c91-6a22b0c6e9e3@xs4all.nl>
-Date: Thu, 17 Oct 2024 11:25:08 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6401D8E12;
+	Thu, 17 Oct 2024 09:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729157252; cv=fail; b=Rn4YW7GJCD/6HtsXwSfSZTw3eFy/qIisfp+CO1PSSVwHlZQk+L6+JT5Tn5PFgqbTSooNtwBJ6JLuxtMNTY9c3htr60cALEGr9IPC+jA2vm6g6jgeapAVLOgi+6vFoDV7Ln+refubBMwq/USn0arSHqd5RmRWAi0jcYDArxP7XZM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729157252; c=relaxed/simple;
+	bh=uhTES66Lbqndf0/WemB/eZPwrYjO07EDTQ8zB62oe+w=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DEMvRL/8aJ/fVPErRdZ/bqA5HEpoGPQVIZqkuS42w+e6Dds7GFoXfInpA0Csh9X06UQ35Isi7C/bWTDEHwO0fQV8yFJUwpPpMMKbYTWf1goNs6Nr5kVoNRF0qXZEi3UdAKJa36EOOQ6umUYb/p/Vpkq3MIpS95njttad/TBqc4Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2TYB6CUG; arc=fail smtp.client-ip=40.107.244.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QajYG7Tti5ArtpLOKOXBq/ymgHIcOVFCd1RkHqYISLSxM/zxU//6EcJ6/sASsLQ5NUgtIiKUxLOi0vsDiQFYvi1rOVZXonQQB/SdbUadIMhiZUHaByklRNzuVCQEsdrxew7cQcSfjiHG66oker+4fU4/ANq8eOQ7c0eDyqU0F+FwN7unR6V+qkqGbLNOTrDtr9HKAhhhGgfvyFMI76vObtuC7XdbVE8h+XSpmh5dyCBQ3PXqeCiCw4H48eyC4MRJgvYZI2tnJdwja4OJRZ85wuj8nvn203fPL5XxsGjyhO5YCn2yh05TzzQU998dZes/bHDfQoHTjRX4CCwOjH0nUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=moRSRK7DAnTH+lLWca7IiYnpG+qE45XwHDiIBTjr1F4=;
+ b=EVwk3fz61ueDPHDcVX7Oks6rP9pwKwxnWcbOS/mRlAtf4FtbUk8XGhvgtOBWsd895+Ln2nUmoM5bXmvvuLQdEuOS5loerM/10cO6wU23tfE5pUlHJa7VOGAlP/7YDVeC4jXtbrZhx0HzRKxF2Nrw1sRLzcc93YBpk2SRR/axp3GZVkEKL2BllK2cR7vX+O762Ztj+Ya1GLuBY62FnX04+P6UYmMvATK7wChYO9wZKrWdhrRsQG7E0QYzF9roP2yEBpvy8NL6Y924I8PeDJiE3UrWLlpFMibs/scAGk2O6/XTQxtts/DMHVyMwbPuEHgZZ1n6ZrBNYrbCIt7XjEUdhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=moRSRK7DAnTH+lLWca7IiYnpG+qE45XwHDiIBTjr1F4=;
+ b=2TYB6CUGwwaQriYRNWShFTHrCJK/EuCPiSuT2G0LH9Nx+JC5esvZQMIJKJbhCSWkOcq7QIfRys3s/8o5K+VSJlQe7zpXF/5PgITKizaBMv1nuQjkN25y3HQl41gcuJ++5oeO1UGaxiZrhJzoMg72WgBkG1pM0w0yPubadc+DV0Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB7794.namprd12.prod.outlook.com (2603:10b6:510:276::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.25; Thu, 17 Oct
+ 2024 09:27:27 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.8069.020; Thu, 17 Oct 2024
+ 09:27:26 +0000
+Message-ID: <51315b7a-02a7-415f-b69b-3a7919e921f6@amd.com>
+Date: Thu, 17 Oct 2024 11:27:08 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 9/9] drm/panfrost: Explicitly clean up panfrost fence
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20241014233758.994861-1-adrian.larumbe@collabora.com>
+ <20241014233758.994861-9-adrian.larumbe@collabora.com>
+ <94be6c2a-47fd-4157-b5d8-307040eaa3b7@amd.com>
+ <3mkdo37kvulmticy7g5siwk3skvbg33fnrioolcgofgbakbnph@3dyq77kiotig>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <3mkdo37kvulmticy7g5siwk3skvbg33fnrioolcgofgbakbnph@3dyq77kiotig>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0007.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::6) To SJ0PR12MB5673.namprd12.prod.outlook.com
+ (2603:10b6:a03:42b::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [RFC PATCH] media: uvc: ensure video device entities have a unique
- name
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB7794:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4de4565-19f4-4b3c-bd50-08dcee8de9de
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RG0vWHlPYVFSdjRscmpBb2djaTN4UWI1MTR3RnBaVnpodC9mbUJ0WFdMaEx5?=
+ =?utf-8?B?Zk5yYW9HT041UmtSN1JTQjdMM2praXRyZ055N1BuTHNac0hieVVEQ1FmRTg0?=
+ =?utf-8?B?VjcyYk5OUjN5dGZJWVczODBNTDNGQmxIODJ1eWY1UVZxN2FDWGV1OHVWNkVq?=
+ =?utf-8?B?VDU0MFNlOEZKdjNTdVFQVUJBRGhPQk14am1EZHZpOG5JZERmUFhneFRBOHpn?=
+ =?utf-8?B?bVpZSFNudUVSeGtWenlCdWVQSmFFbkZEOExIbUtmWFJ4L2lydjluUXZlSHhV?=
+ =?utf-8?B?aTE4L1pIREV1bUU3K0xQS2tNWGR2YTR5MnV4b2dMMHpTWlYrTzc2VnlpM0du?=
+ =?utf-8?B?SWZKR3dIUm5WMm9uQWcyU1VuMnJFdWJtdmRGYXhTMGVqTyt6Mk9xUThsN2ht?=
+ =?utf-8?B?a0NacWNCaEFUNWwxbCtPY2dFdC80TitORGNzV2MxTTR1c25pUEdjMS85YkZD?=
+ =?utf-8?B?ZzQxR3JmOTVINzNDNG9FVEx5emQ1QmhHZUd5ZkNGMG42cjZSN085Q0ZtWTM4?=
+ =?utf-8?B?WFUzTEJ1TzlKMHB3TnladUZoRlVJTW05am1TdmtOenErZEwvRVNzTFpaVGpQ?=
+ =?utf-8?B?YzlQTmpKdFVYMVFUVmxJSGc0b1lUWnNnc3dGMVlqOFprbkYrUEZicmF6R0ty?=
+ =?utf-8?B?WmlZdW1JNXhFYlJPL1VXL2o4a2czWWlBMnRXeUJDZTREcnRlY3dIL1YyWEE4?=
+ =?utf-8?B?NnRGaE01UGdvWS85dy9od2dvbWxIWGRPelVrUVBuQXI0MGE1VHZ2T3pZZGNj?=
+ =?utf-8?B?MW5DQ0pDQlZKUjVsQzYyekE4UGtMcG5RUXpQcjVEMXR4TmhGQjlGWVcyVGpm?=
+ =?utf-8?B?aUpZR0FOZUFYdjZxc0JCb2djMlMzbitpOTZnUHlBUXVBemY5T1o0VU8zaWV3?=
+ =?utf-8?B?RmI1LzVvaUZSSWxyM1h4ZlppMW9Gekhka2haZ3UyTDdrYlpqTTFDaVd3VTlO?=
+ =?utf-8?B?Sk1oWVpNeE95bCthK3ltUThQRE51SlpvYmVqUFpTWHlDYWNKMHZHSHZaa0dr?=
+ =?utf-8?B?aWRML0k2VkdYRXdvdDE1L085MVg2Zk9ZVDBYdFlaNzRQeXRKWFdyVUFDL0Ju?=
+ =?utf-8?B?SFNaUSt0dytKVXh6TmFHb1VNUlNDYWk3SHFNN1IreWtjTURPTHpxN08wOGJN?=
+ =?utf-8?B?VjFHb1d5eWt5SVE2eHA4dTdwTzlpZzVpNWhTV3ZnZFlGRHhvTUlCa2VSL0Zy?=
+ =?utf-8?B?T2hIN1RYTk5VVjlpakFQZlBPMXM0NFNiTjZzS0YweG4xbGp2N0ZaR3JUaXo1?=
+ =?utf-8?B?NmlKMDNrMWQxcDJIQjRVdnkxelA2Y05rOWJBY3p3dElmVktZV3VQOXJGU0tU?=
+ =?utf-8?B?ZmxQWVJIeTZLQlFNY2tKdFU1MGtxWEN0RnFldncwK2pzYnBGSytlWll3V2Y3?=
+ =?utf-8?B?YkpEQXpmdDJSMDBlcnZkUkRGckJVc21NL0tGNzZ6VHoreTRFMS9mdDFYa0Z6?=
+ =?utf-8?B?ZS83V1V2Ri9qelQwZXVPV1JIL2puanNxZE1EM1Y4LzFRWWk1UzlaVisxaXVE?=
+ =?utf-8?B?eUZsMUlDWGpVV3MzbVNpU0t3R0xoOGdaOHU4ZHNPWDdmcU5lcTh1eFRITDds?=
+ =?utf-8?B?ZTd6SlBIZXlQTE1iSWllaWovTFVDd2RTRy9RWlErd1BZMW9LcjVjS3dMTy9Q?=
+ =?utf-8?B?QkFhcXhrdHpmQm9md2NSMlNrZTFXa25HYUJCaDNSZnJvMjB4VldPeUd1MzMv?=
+ =?utf-8?B?UkpyYm9rak1jKythVUw1YklhTytMREZDb2w3MFkrQzVSb2djK2JwLzhhZnJ5?=
+ =?utf-8?Q?aqe7CExUcaztguAFkw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?czJUZDRBeDNORDg3N2ovRFBsY1JpZVAwTkdSVU1pWUMzN2tRdjdwRStQRkpl?=
+ =?utf-8?B?SmdTeCtHd3lucFJSWjBhd1FldXd2ejhDek1NWUJpZjYvdTZWcDlwdTMzVXFo?=
+ =?utf-8?B?N0pzMU5ZazlGWHJvcE9PUTRMUE9BeDdYTHpRZVBqc0JJN0E0elZXTCt0bW0r?=
+ =?utf-8?B?ekhwaGhRUVBnMG84K3Z5Z0c2K2tEbTN3RXQ4RXdrZnE0VWNSV09Vb0lsT1JZ?=
+ =?utf-8?B?SzBWLytMNlRSTkhrK3M1Q3JRdk5NOHhOdFlFcmg1VWp1dDhRL2lsT0QvUHA3?=
+ =?utf-8?B?NnNuYkVkNGZpQXV1czYyNjcrSFBoRHNIdk9JNjYrQzRaSHNPYWdWVVdlWU50?=
+ =?utf-8?B?aWZYd2toRi9tRWdpNUJlMG5wcEdVS0NRdHdteEl2bTZudTlUQmZ1UHNXTFI0?=
+ =?utf-8?B?ZThLWW1ZRjhBaFFaQUovM3dSdkJKRmNoWVEwYm5KbWlmUnVRZW1ldEFkaEtu?=
+ =?utf-8?B?LzJQSjM2dXUyRzczdHR6NFBBZEVYVjdnRHlqUWRoTndMZWRXSUJUdjR5SUhm?=
+ =?utf-8?B?cW1kc1NHR3hvNFpVaGVGby9lTEdWZ1dWRzVNVGtVNkhIUUM4Ynp0MTNFMW1V?=
+ =?utf-8?B?bVY2cnQ0MmJVZzhtaUJtS3NRZ2lXSHJ2OExQWWdrRGk3M0tFcTZLa3JURXps?=
+ =?utf-8?B?c3hMdmxpYkVab2RVZFQ5ei9rcDJYaWNubWZIeGZVVGdLWXB0ZDg4K0VSSmRV?=
+ =?utf-8?B?MCtFMytCOFg1dGZDcWZHYUxRZkhrdERRblA3bENnMkl6WWczcnNRc3lncVRQ?=
+ =?utf-8?B?Z1EvcHVwYlVpdkJsZDBWdG5qT0ZxNXdDQlVMUmdjY1B5NEdQTDNqNTJFdjBE?=
+ =?utf-8?B?RHhsOHpTcFE5dHdGc3VxeTY0bksyMmR3ZXJjRlZiS1RlRU56d3Q3T3ZxY1ZR?=
+ =?utf-8?B?VVB1UWd6TC9kaGdKWXVYaGtXU2VTb1pDK1RSUDN3LzhxK1JuUDF3V056dWZS?=
+ =?utf-8?B?VCsxNzFqRlJkM0lhRG9QTmd5a0R3d1ZWN2RwZUlLWnRRazJzajE1Ukh6bmVV?=
+ =?utf-8?B?d1lFVW9CRXRjMXZTTVU5OXM5ZnNCOHRHck9rRUJVc3lNVnNLQ3pNb3dsazEz?=
+ =?utf-8?B?WDBXcGRsbVNYbVZlSW52ZGI0RlBsQk1xekl6YkdkcGlZK1JtWkM2OXVjOGkx?=
+ =?utf-8?B?akZ4Zlh4Q0x0ZEFSTGdSeTYzc1ZtZEdEa1YyekoyZlN0MHRqTVc4NDhtODNz?=
+ =?utf-8?B?OEZiWTQvejM1ZExQZEN6U0ZGOHA5V054aUxkZXZhZEVzQ3FxZE1Edzg1ZDR0?=
+ =?utf-8?B?cWdSWTBDejZNdmRwNEZJY0tiRDBsQ1JsWWVxZHRyYUZ0ejV6SCtQeEllWXFn?=
+ =?utf-8?B?ZEpqelR3RkdYSXROdGdVRmJmbDBjOW5oRTZOK0dGMll5RDZiS2lQNUE5WmlK?=
+ =?utf-8?B?WGNvclY2TWJlbWNSa3RMWjFhMXpWU3pzdVV0L0VIRDZBZEYydjJEVFlsLzJI?=
+ =?utf-8?B?a3Qxa2FueWx1LzYrUXF0N3FXY0pKV1kvVlc3eTdhc0NBSHVQZTVGVVp2K09C?=
+ =?utf-8?B?MU9UbTFBSjJDN1R4aWFPSXhUMXFadjVtODlBQy9SRkVtRXR3SmVBQ3orY0RL?=
+ =?utf-8?B?RmZhMFhuYmFMc3h6S2JNMlhZcFZQR0RrRVNadWxhNnVsMDhEcUw3eWYzL1JO?=
+ =?utf-8?B?ZDZjbWlyOEZrMWxMaVZscjRHbDdyNUt5cmI0NWN6YWV6UGJtZXE2K0xSdGky?=
+ =?utf-8?B?Z05wUTlmUHJWRDg5Nk52bXpWR1ZsVHFxalRadjdTVnRvdEZJMWxUcGVNbDFR?=
+ =?utf-8?B?MGpBc2YrYldmNiszd3ZPMVZrMGVkNVZ6VHZnRVFWc3Qxa1UzSGpESUpCOFZv?=
+ =?utf-8?B?L0J6VEg1Z05QVks4eSswV2orVkRuOXZ5Nk02Qi82OWs1WVU3allYRG5GbGg2?=
+ =?utf-8?B?ZmltNGN5VDBUQW15VG9ROCt0R2V0RCtHaTllVkF2OXFRL1hIc1RQSituTFl1?=
+ =?utf-8?B?b2EvYzBJT0JqSlZOVDMvWjZxZVAzWFdqSU15L0xqZ0c1TXdDWVlvbVg4dGJN?=
+ =?utf-8?B?M2FUdUh0MUR1WCtvcnRXL1cxMTFseWErSHJYUFJQVklVRWYvdEZwaDdxVFRH?=
+ =?utf-8?B?KzZEa09FZDRLYnJyVkVEWkJObis3YzErTUVXUmQzMGZHYjhCakViT2Z6RWZp?=
+ =?utf-8?Q?8b3M6dtp1fmyxP3WUmCDO55+H?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4de4565-19f4-4b3c-bd50-08dcee8de9de
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 09:27:26.6648
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /98wCsnHT7coiXiu+9ecX29Yxg+kNH9any02MKj6WVwtzio/D9hgfMtmVMt4qakA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7794
 
-The video device names (also used as entity names) are identical
-for the video capture and metadata capture devices.
+Am 16.10.24 um 18:43 schrieb Adrián Larumbe:
+> On 16.10.2024 15:12, Christian König wrote:
+>> Am 15.10.24 um 01:31 schrieb Adrián Larumbe:
+>>> Doesn't make any functional difference because generic dma_fence is the
+>>> first panfrost_fence structure member, but I guess it doesn't hurt either.
+>> As discussed with Sima we want to push into the exactly opposite direction
+>> because that requires that the panfrost module stays loaded as long as fences
+>> are around.
+> Does that mean in future commits the struct dma_fence_ops' .release pointer will be
+> done with altogether?
 
-This series ensures that the video device names are unique.
+Yes, exactly that's the idea.
 
-It also fixes a bug where a metadata device would be created
-for video output devices, but that's for video capture devices
-only.
+As a first step I'm preparing patches right now to enforce using kmalloc 
+instead of driver brewed approaches for dma_fence handling.
 
-This fixes a compliance failure when running
-'v4l2-compliance -M /dev/mediaX'.
+Regards,
+Christian.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-RFC for now.
-
-Based on the code I assume one UVC device can have multiple
-capture and/or output devices, so I added an instance index.
-
-But I may be wrong about that.
-
-I also assume that there is no metadata for UVC video outputs.
-
-It might also be safer to drop the 'Cap0 ' prefix if inst == 0,
-just in case someone relies on the name.
----
- drivers/media/usb/uvc/uvc_driver.c   | 34 +++++++++++++++++++---------
- drivers/media/usb/uvc/uvc_metadata.c |  4 ++--
- drivers/media/usb/uvc/uvcvideo.h     |  3 ++-
- 3 files changed, 27 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index ab9cdb50e74e..59e5769166f2 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -1956,6 +1956,7 @@ static void uvc_unregister_video(struct uvc_device *dev)
-
- int uvc_register_video_device(struct uvc_device *dev,
- 			      struct uvc_streaming *stream,
-+			      unsigned int inst,
- 			      struct video_device *vdev,
- 			      struct uvc_video_queue *queue,
- 			      enum v4l2_buf_type type,
-@@ -1990,17 +1991,18 @@ int uvc_register_video_device(struct uvc_device *dev,
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
- 	default:
- 		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-+		snprintf(vdev->name, sizeof(vdev->name), "Cap%u %s", inst, dev->name);
- 		break;
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
- 		vdev->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
-+		snprintf(vdev->name, sizeof(vdev->name), "Out%u %s", inst, dev->name);
- 		break;
- 	case V4L2_BUF_TYPE_META_CAPTURE:
- 		vdev->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
-+		snprintf(vdev->name, sizeof(vdev->name), "Meta%u %s", inst, dev->name);
- 		break;
- 	}
-
--	strscpy(vdev->name, dev->name, sizeof(vdev->name));
--
- 	/*
- 	 * Set the driver data before calling video_register_device, otherwise
- 	 * the file open() handler might race us.
-@@ -2020,7 +2022,7 @@ int uvc_register_video_device(struct uvc_device *dev,
- }
-
- static int uvc_register_video(struct uvc_device *dev,
--		struct uvc_streaming *stream)
-+		struct uvc_streaming *stream, unsigned int inst)
- {
- 	int ret;
-
-@@ -2041,7 +2043,7 @@ static int uvc_register_video(struct uvc_device *dev,
- 	uvc_debugfs_init_stream(stream);
-
- 	/* Register the device with V4L. */
--	return uvc_register_video_device(dev, stream, &stream->vdev,
-+	return uvc_register_video_device(dev, stream, inst, &stream->vdev,
- 					 &stream->queue, stream->type,
- 					 &uvc_fops, &uvc_ioctl_ops);
- }
-@@ -2054,9 +2056,13 @@ static int uvc_register_terms(struct uvc_device *dev,
- {
- 	struct uvc_streaming *stream;
- 	struct uvc_entity *term;
-+	unsigned int inst_cap = 0;
-+	unsigned int inst_out = 0;
- 	int ret;
-
- 	list_for_each_entry(term, &chain->entities, chain) {
-+		bool is_capture;
-+
- 		if (UVC_ENTITY_TYPE(term) != UVC_TT_STREAMING)
- 			continue;
-
-@@ -2069,16 +2075,22 @@ static int uvc_register_terms(struct uvc_device *dev,
- 		}
-
- 		stream->chain = chain;
--		ret = uvc_register_video(dev, stream);
-+		is_capture = stream->type == V4L2_BUF_TYPE_VIDEO_CAPTURE;
-+		ret = uvc_register_video(dev, stream,
-+					 is_capture ? inst_cap : inst_out);
- 		if (ret < 0)
- 			return ret;
-
--		/*
--		 * Register a metadata node, but ignore a possible failure,
--		 * complete registration of video nodes anyway.
--		 */
--		uvc_meta_register(stream);
--
-+		if (is_capture) {
-+			/*
-+			 * Register a metadata node, but ignore a possible failure,
-+			 * complete registration of video nodes anyway.
-+			 */
-+			uvc_meta_register(stream, inst_cap);
-+			inst_cap++;
-+		} else {
-+			inst_out++;
-+		}
- 		term->vdev = &stream->vdev;
- 	}
-
-diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
-index 82de7781f5b6..685182302602 100644
---- a/drivers/media/usb/uvc/uvc_metadata.c
-+++ b/drivers/media/usb/uvc/uvc_metadata.c
-@@ -156,7 +156,7 @@ static const struct v4l2_file_operations uvc_meta_fops = {
- 	.mmap = vb2_fop_mmap,
- };
-
--int uvc_meta_register(struct uvc_streaming *stream)
-+int uvc_meta_register(struct uvc_streaming *stream, unsigned int inst)
- {
- 	struct uvc_device *dev = stream->dev;
- 	struct video_device *vdev = &stream->meta.vdev;
-@@ -170,7 +170,7 @@ int uvc_meta_register(struct uvc_streaming *stream)
- 	 */
- 	vdev->queue = &queue->queue;
-
--	return uvc_register_video_device(dev, stream, vdev, queue,
-+	return uvc_register_video_device(dev, stream, inst, vdev, queue,
- 					 V4L2_BUF_TYPE_META_CAPTURE,
- 					 &uvc_meta_fops, &uvc_meta_ioctl_ops);
- }
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 07f9921d83f2..92c72ef6ea49 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -738,10 +738,11 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
- void uvc_video_clock_update(struct uvc_streaming *stream,
- 			    struct vb2_v4l2_buffer *vbuf,
- 			    struct uvc_buffer *buf);
--int uvc_meta_register(struct uvc_streaming *stream);
-+int uvc_meta_register(struct uvc_streaming *stream, unsigned int inst);
-
- int uvc_register_video_device(struct uvc_device *dev,
- 			      struct uvc_streaming *stream,
-+			      unsigned int inst,
- 			      struct video_device *vdev,
- 			      struct uvc_video_queue *queue,
- 			      enum v4l2_buf_type type,
--- 
-2.43.0
+>
+>> So clearly a NAK to this one here. Rather document on the structure that the
+>> dma_fence structure must be the first member.
+>>
+>> Regards,
+>> Christian.
+>>
+>>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+>>> ---
+>>>    drivers/gpu/drm/panfrost/panfrost_job.c | 6 ++++++
+>>>    1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> index 5d83c6a148ec..fa219f719bdc 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> @@ -85,9 +85,15 @@ static const char *panfrost_fence_get_timeline_name(struct dma_fence *fence)
+>>>    	}
+>>>    }
+>>> +static void panfrost_fence_release(struct dma_fence *fence)
+>>> +{
+>>> +	kfree(to_panfrost_fence(fence));
+>>> +}
+>>> +
+>>>    static const struct dma_fence_ops panfrost_fence_ops = {
+>>>    	.get_driver_name = panfrost_fence_get_driver_name,
+>>>    	.get_timeline_name = panfrost_fence_get_timeline_name,
+>>> +	.release = panfrost_fence_release,
+>>>    };
+>>>    static struct dma_fence *panfrost_fence_create(struct panfrost_device *pfdev, int js_num)
 
 
