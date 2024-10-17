@@ -1,348 +1,162 @@
-Return-Path: <linux-media+bounces-19807-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19808-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FE69A2E36
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 22:05:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D68B19A2E4E
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 22:19:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6B159B214C9
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 20:05:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73D1C1F23145
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 20:19:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD9B2229111;
-	Thu, 17 Oct 2024 20:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 849D51D130F;
+	Thu, 17 Oct 2024 20:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="R0298k++"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XoZl81wB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68BE227B84
-	for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 20:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98798144D21;
+	Thu, 17 Oct 2024 20:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729195497; cv=none; b=heTGL81JAn05xLb+PxFZje81Iw9jcboADfnFOD9Nje3zzV/C4PqlLIPQF1UaWim9zCxdkJo+Nkwdo/s7j93Q7OYeq4mxJl6ZHsjntDeRFfvvGcRM0zy38HmznMZM8udLEdTgLawmc6c37Uh87Fc8p7GzbsgDD/NrYCz/r/f/P5s=
+	t=1729196349; cv=none; b=jD0CYX1cFmu0pTzQZSqmWjkVA60XR9vYiR7IQGsN+m4Ry/rar4P47FVm2ySbyPL1jUamZN7jwX0mIFZmZ0hBFJQHFCLOeFvA/FkAGv9SmCDFNbKSfzrP2c6zZYYhANha/3ieG/NaiQq6UFCJBS6yIg9p+B5siTa6o4s/A9m74WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729195497; c=relaxed/simple;
-	bh=12O16X5m6L4TMZ4PbeKs96jQJ/iS228yoW4rZ8SI9eo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oV6tbog7oK9oGcdFSkfIxTPIVCu1ASTueXyRqjNboSPuAFk6Gt1/v1XLfQqt2K65BLuBLlg9KWGP9QA/DHM78mEODI8nENXGnUOFeC97PNkQi2Q/QOeqdUxgjgPNpUwdPy1rMhx5oFTTUcKbIUkP35fDxYOTpGOOL8dviwgi7E4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=R0298k++; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2e2eb9dde40so1100727a91.0
-        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 13:04:52 -0700 (PDT)
+	s=arc-20240116; t=1729196349; c=relaxed/simple;
+	bh=s4LtUi5qDb8ZUZ23MjLKciF1AK1q2vZlh9Dvnsh8y7Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eIOQPDLgM95Tov9tSXqflIq++8cWUP8v+2fmo89RVaHGGSFxVroKPBEOB6hm8KjPte/OQ4Ek4FuBhAIQezjDnvv8oaMRaBh1fk9LyADxDdwkE2N3hPYGCzHr3n1Tw3E0Qal0f43masRGcGmqzxjvegR1/s+EXjwJV8b0emIoa00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XoZl81wB; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2e34a089cd3so1202299a91.3;
+        Thu, 17 Oct 2024 13:19:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729195492; x=1729800292; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=78oVIU4gxI+xMIbzD9bO4K9p/Czsp4tG3FVUEj/GjcI=;
-        b=R0298k++0FHoo2UOvZVzr5AsEhHQ0s5j1IvL9aIx+x5RdX0jeLajxu2rG1PwOD0kF3
-         /NSvDM7dES+3i7lvkt0I2edsYQtoHzRY+RbpR5xOFcvzbBziC0+C67TSEi3vgcc20Cwo
-         +cSFs3wMIhFj/3828zatub1BbK8xRIZPNevW8=
+        d=gmail.com; s=20230601; t=1729196346; x=1729801146; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pLuLB8ZqbIpBpx1ND1vbb+62qdXEaSB4nVeZdMJrGZc=;
+        b=XoZl81wBV5dk2pU37hsB6qrKQWMC8ba8I+BRcxq5UsiJt4rEVnk1MLF9rb/9qFmbKg
+         OaREMbit76kOg1bfQbO88Kf9p3b1HYORjqnypF8Puesw8YBFhWJpsIj5g+WKG8vs2qji
+         /8vKC9vqwGci1aj+U88lDaKe5Mz/obVj5OfWnXpMJ3o3A634AksiElQ0nKghev8k529S
+         vCN+i+Q8zrgM38uSeilbXVLumBrwdRfyvTr6sfzoDwst4m8tJs1Q8JavqcBTZJUhx7w9
+         QNlu1AF/pr7tQEkp8Optp4OYiyBVZveAjAulSrmyUpYGzUU/3wDS6G052iQCy/ZQbQPE
+         8BBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729195492; x=1729800292;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=78oVIU4gxI+xMIbzD9bO4K9p/Czsp4tG3FVUEj/GjcI=;
-        b=wt8GjQxuDRLEs74EczYUfSldKbHfZMwQh0DXbDfDf4oLlc3nQvoAwPaAgBsHwRy4BL
-         rZBU4EjwqyxyKy57814MZ4g0U8s5yo6PIJVJwqu/Xq/SUSWUwKGUKo+/qpE0RC42aaL7
-         z8mYL2tw5ZU8ehDaaEm3uqAGM9dbDDEcdVqebiv7ILPr6eu76/DDlLyloXeuoqdHeHvU
-         f4V9q0a00MpfiURHoaacL8NH8IUM7lxy7NQPAOQTt1wiMVB865bsnnNImCpTP9WIS4yN
-         hZo/Myw6lKOQNG7EDlaVxt0vgzvbduMzsUfMOPfrXrs9yF8/A+WMbLCM6+yZXIxxwimP
-         se2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVdPPOIpaGf+Vs32giJ3KK549mN8Wz/AQcQ7Z/oe6NKtTfKAViVqiw1ddBnXKXOD57/vV6YGDat5BBcIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4VhSHzRAfVFI+zw8edocHvBTrXiwsaLVK36FzMi9e7nIxzwsw
-	s8lGzgnV+50vvqNF1N5XqHxczPnXRAny8n46k7idEZFS6Jj3vdU3yo96f58pXA==
-X-Google-Smtp-Source: AGHT+IHzPeXhgWDyIXpmlQORpJn8DNHSXWCs0phXrOp91LeLuJepEHcJ4i/UFxzjfJ7MobSc0wiMhg==
-X-Received: by 2002:a17:90b:2785:b0:2e0:a77e:82ff with SMTP id 98e67ed59e1d1-2e561a168d1mr158327a91.33.1729195492077;
-        Thu, 17 Oct 2024 13:04:52 -0700 (PDT)
-Received: from zipper.pdx.corp.google.com ([2a00:79e0:2e13:6:ab92:55d4:ae5d:528a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e56129dccesm110088a91.38.2024.10.17.13.04.51
+        d=1e100.net; s=20230601; t=1729196346; x=1729801146;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pLuLB8ZqbIpBpx1ND1vbb+62qdXEaSB4nVeZdMJrGZc=;
+        b=SdR6/TlOXed3Ye2pM7jtL4vHaPMUH4uBNN8AcVgnQ7j420pve9nAD5n6IlnBPjwojv
+         jPLu2j1mRAz1sng4SVk2bCIHugc/gkI0a5uETrW7IZBj90OBzZcfLSZtmuYZRLiJPddo
+         GGoJ58kXZwVfYbF5VYe1AfbunFRaLnaLH/abehg2JOS8Z7qg9UE2/bG1XTGxqtR+c2z7
+         e7SY0xFl/mALW3XKQaG85IDCgJzVz3GG7XGePO2CCX3+UplScH94BZcOeDeruWcuY043
+         dpTX/zA9ww5Jqzvl2JyeQYFozfDyPEuoHJX6orhsTr6mUzVxOJ2Ni8SCplGTvk7VKsVY
+         1KQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX9JAeONcUvhSLLjIZo8c8HLSt6p482RmO2iDTe5LMpcYfeUKnGEmy+qJ7EDg9QgjY24AEITirdBPC/JNw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKss0pzhjTX0sF3doyQgzgZUqZc6dbovCgzpm07lE17SMUjjuh
+	pnblAa+1C5dVtHnq9cnTpMs+N3WWlydj/0bFOgLQx8uW5DD/Pn4lz6vZ0O9B
+X-Google-Smtp-Source: AGHT+IHAshLs1c4PMHir3QhIZHAZUUg/NgBSZeGahxS7a6BaavGEOXnUpiPvqGX4ruCodcMKaJ/XpA==
+X-Received: by 2002:a17:90a:dd93:b0:2e2:bb32:73eb with SMTP id 98e67ed59e1d1-2e561a012camr226188a91.31.1729196346330;
+        Thu, 17 Oct 2024 13:19:06 -0700 (PDT)
+Received: from archlinux.. ([2405:201:e00c:517f:5e87:9cff:fe63:6000])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2e5610b59b0sm133201a91.7.2024.10.17.13.19.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 13:04:51 -0700 (PDT)
-From: Fritz Koenig <frkoenig@chromium.org>
-Date: Thu, 17 Oct 2024 13:04:31 -0700
-Subject: [PATCH v4 2/2] media: venus: Enable h.264 hierarchical coding
+        Thu, 17 Oct 2024 13:19:05 -0700 (PDT)
+From: Mohammed Anees <pvmohammedanees2003@gmail.com>
+To: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Moudy Ho <moudy.ho@mediatek.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Mohammed Anees <pvmohammedanees2003@gmail.com>
+Subject: [PATCH] media: platform: mtk-mdp3: cmdq: Remove duplicated platforms checks
+Date: Fri, 18 Oct 2024 01:46:12 +0530
+Message-ID: <20241017201612.2607-1-pvmohammedanees2003@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241017-submit-v4-2-d852bc7f7fdc@chromium.org>
-References: <20241017-submit-v4-0-d852bc7f7fdc@chromium.org>
-In-Reply-To: <20241017-submit-v4-0-d852bc7f7fdc@chromium.org>
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
- Vikash Garodia <quic_vgarodia@quicinc.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Nathan Hebert <nhebert@chromium.org>, linux-media@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Fritz Koenig <frkoenig@chromium.org>
-X-Mailer: b4 0.15-dev-37811
+Content-Transfer-Encoding: 8bit
 
-HFI supports hierarchical P encoding and the ability to specify the
-bitrate for the different layers.
+The platform compatibility checks for MT8183 and
+MT8195 in mdp_cmdq_prepare() are redundant as they are
+done in __get_config_offset() itself. Furthermore
+there are two if-else branch in __get_config_offset()
+which have similar conditions and are redundant.
+To address this, remove the check in mdp_cmdq_prepare()
+and combine the two if-else branch into one in
+__get_config_offset().
 
-Connect the controls that V4L2 provides and HFI supports.
-
-Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
+Signed-off-by: Mohammed Anees <pvmohammedanees2003@gmail.com>
 ---
- drivers/media/platform/qcom/venus/core.h       |  4 ++
- drivers/media/platform/qcom/venus/venc.c       | 73 +++++++++++++-------
- drivers/media/platform/qcom/venus/venc_ctrls.c | 92 ++++++++++++++++++++++++++
- 3 files changed, 145 insertions(+), 24 deletions(-)
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 24 ++++++-------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 55202b89e1b9..fd46a7778d8c 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -26,6 +26,7 @@
- #define VIDC_CLKS_NUM_MAX		4
- #define VIDC_VCODEC_CLKS_NUM_MAX	2
- #define VIDC_RESETS_NUM_MAX		2
-+#define VIDC_MAX_HIER_CODING_LAYER 6
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+index ea2ea119dd2a..6eb5affb0366 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+@@ -114,19 +114,15 @@ static struct img_config *__get_config_offset(struct mdp_dev *mdp,
+ 	if (pp_idx >= mdp->mdp_data->pp_used)
+ 		goto err_param;
  
- extern int venus_fw_debug;
- 
-@@ -255,6 +256,7 @@ struct venc_controls {
- 	u32 rc_enable;
- 	u32 const_quality;
- 	u32 frame_skip_mode;
-+	u32 layer_bitrate;
- 
- 	u32 h264_i_period;
- 	u32 h264_entropy_mode;
-@@ -273,6 +275,8 @@ struct venc_controls {
- 	s32 h264_loop_filter_alpha;
- 	s32 h264_loop_filter_beta;
- 	u32 h264_8x8_transform;
-+	u32 h264_hier_layers;
-+	u32 h264_hier_layer_bitrate[VIDC_MAX_HIER_CODING_LAYER];
- 
- 	u32 hevc_i_qp;
- 	u32 hevc_p_qp;
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 3ec2fb8d9fab..d717e5dd6a39 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -734,6 +734,29 @@ static int venc_set_properties(struct venus_inst *inst)
- 		if (ret)
- 			return ret;
- 
-+		if (ctr->layer_bitrate) {
-+			unsigned int i;
-+
-+			ptype = HFI_PROPERTY_PARAM_VENC_HIER_P_MAX_NUM_ENH_LAYER;
-+			ret = hfi_session_set_property(inst, ptype, &ctr->h264_hier_layers);
-+			if (ret)
-+				return ret;
-+
-+			ptype = HFI_PROPERTY_CONFIG_VENC_HIER_P_ENH_LAYER;
-+			ret = hfi_session_set_property(inst, ptype, &ctr->layer_bitrate);
-+			if (ret)
-+				return ret;
-+
-+			for (i = 0; i < ctr->h264_hier_layers; ++i) {
-+				ptype = HFI_PROPERTY_CONFIG_VENC_TARGET_BITRATE;
-+				brate.bitrate = ctr->h264_hier_layer_bitrate[i];
-+				brate.layer_id = i;
-+
-+				ret = hfi_session_set_property(inst, ptype, &brate);
-+				if (ret)
-+					return ret;
-+			}
-+		}
- 	}
- 
- 	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
-@@ -823,21 +846,36 @@ static int venc_set_properties(struct venus_inst *inst)
- 			return ret;
- 	}
- 
--	if (!ctr->bitrate)
--		bitrate = 64000;
+-	if (CFG_CHECK(MT8183, p_id))
++	if (CFG_CHECK(MT8183, p_id)) {
+ 		cfg_c = CFG_OFST(MT8183, param->config, pp_idx);
+-	else if (CFG_CHECK(MT8195, p_id))
+-		cfg_c = CFG_OFST(MT8195, param->config, pp_idx);
 -	else
--		bitrate = ctr->bitrate;
-+	if (!ctr->layer_bitrate) {
-+		if (!ctr->bitrate)
-+			bitrate = 64000;
-+		else
-+			bitrate = ctr->bitrate;
- 
--	ptype = HFI_PROPERTY_CONFIG_VENC_TARGET_BITRATE;
--	brate.bitrate = bitrate;
--	brate.layer_id = 0;
-+		ptype = HFI_PROPERTY_CONFIG_VENC_TARGET_BITRATE;
-+		brate.bitrate = bitrate;
-+		brate.layer_id = 0;
- 
--	ret = hfi_session_set_property(inst, ptype, &brate);
--	if (ret)
--		return ret;
-+		ret = hfi_session_set_property(inst, ptype, &brate);
-+		if (ret)
-+			return ret;
-+
-+		if (!ctr->bitrate_peak)
-+			bitrate *= 2;
-+		else
-+			bitrate = ctr->bitrate_peak;
-+
-+		ptype = HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE;
-+		brate.bitrate = bitrate;
-+		brate.layer_id = 0;
-+
-+		ret = hfi_session_set_property(inst, ptype, &brate);
-+		if (ret)
-+			return ret;
+-		goto err_param;
+-
+-	if (CFG_CHECK(MT8183, p_id))
+ 		cfg_n = CFG_OFST(MT8183, param->config, pp_idx + 1);
+-	else if (CFG_CHECK(MT8195, p_id))
++	} else if (CFG_CHECK(MT8195, p_id)) {
++		cfg_c = CFG_OFST(MT8195, param->config, pp_idx);
+ 		cfg_n = CFG_OFST(MT8195, param->config, pp_idx + 1);
+-	else
++	} else {
+ 		goto err_param;
 +	}
  
- 	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
--	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+			inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
- 		ptype = HFI_PROPERTY_CONFIG_VENC_SYNC_FRAME_SEQUENCE_HEADER;
- 		if (ctr->header_mode == V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE)
- 			en.enable = 0;
-@@ -849,19 +887,6 @@ static int venc_set_properties(struct venus_inst *inst)
- 			return ret;
+ 	if ((long)cfg_n - (long)mdp->vpu.config > bound) {
+ 		dev_err(dev, "config offset %ld OOB %ld\n", (long)cfg_n, bound);
+@@ -607,13 +603,6 @@ static struct mdp_cmdq_cmd *mdp_cmdq_prepare(struct mdp_dev *mdp,
+ 		goto err_uninit;
  	}
  
--	if (!ctr->bitrate_peak)
--		bitrate *= 2;
+-	if (CFG_CHECK(MT8183, p_id))
+-		num_comp = CFG_GET(MT8183, config, num_components);
+-	else if (CFG_CHECK(MT8195, p_id))
+-		num_comp = CFG_GET(MT8195, config, num_components);
 -	else
--		bitrate = ctr->bitrate_peak;
+-		goto err_uninit;
 -
--	ptype = HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE;
--	brate.bitrate = bitrate;
--	brate.layer_id = 0;
--
--	ret = hfi_session_set_property(inst, ptype, &brate);
--	if (ret)
--		return ret;
--
- 	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP;
- 	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
- 		quant.qp_i = ctr->hevc_i_qp;
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index 3e1f6f26eddf..e340783a4ef2 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -346,6 +346,55 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 
- 		ctr->h264_8x8_transform = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_TYPE:
-+		if (ctrl->val != V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P)
-+			return -EINVAL;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING:
-+		ctr->layer_bitrate = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER:
-+		if (ctrl->val > VIDC_MAX_HIER_CODING_LAYER)
-+			return -EINVAL;
-+		ctr->h264_hier_layers = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0_BR:
-+		ctr->h264_hier_layer_bitrate[0] = ctrl->val;
-+		ret = dynamic_bitrate_update(inst, ctr->h264_hier_layer_bitrate[0], 0);
-+		if (ret)
-+			return ret;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L1_BR:
-+		ctr->h264_hier_layer_bitrate[1] = ctrl->val;
-+		ret = dynamic_bitrate_update(inst, ctr->h264_hier_layer_bitrate[1], 1);
-+		if (ret)
-+			return ret;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L2_BR:
-+		ctr->h264_hier_layer_bitrate[2] = ctrl->val;
-+		ret = dynamic_bitrate_update(inst, ctr->h264_hier_layer_bitrate[2], 2);
-+		if (ret)
-+			return ret;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L3_BR:
-+		ctr->h264_hier_layer_bitrate[3] = ctrl->val;
-+		ret = dynamic_bitrate_update(inst, ctr->h264_hier_layer_bitrate[3], 3);
-+		if (ret)
-+			return ret;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4_BR:
-+		ctr->h264_hier_layer_bitrate[4] = ctrl->val;
-+		ret = dynamic_bitrate_update(inst, ctr->h264_hier_layer_bitrate[4], 4);
-+		if (ret)
-+			return ret;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5_BR:
-+		ctr->h264_hier_layer_bitrate[5] = ctrl->val;
-+		ret = dynamic_bitrate_update(inst, ctr->h264_hier_layer_bitrate[5], 5);
-+		if (ret)
-+			return ret;
-+		break;
-+
- 	default:
- 		return -EINVAL;
- 	}
-@@ -628,6 +677,49 @@ int venc_ctrl_init(struct venus_inst *inst)
- 			  V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD, 0,
- 			  ((4096 * 2304) >> 8), 1, 0);
- 
-+	if (IS_V4(inst->core) || IS_V6(inst->core)) {
-+		v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
-+				       V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_TYPE,
-+				       V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P,
-+				       1, V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P);
-+
-+		v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+				  V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING, 0, 1, 1, 0);
-+
-+		v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+				  V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER, 0,
-+				  VIDC_MAX_HIER_CODING_LAYER, 1, 0);
-+
-+		v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+				  V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0_BR,
-+				  BITRATE_MIN, BITRATE_MAX, BITRATE_STEP, BITRATE_DEFAULT);
-+
-+		v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+				  V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L1_BR,
-+				  BITRATE_MIN, BITRATE_MAX,
-+				  BITRATE_STEP, BITRATE_DEFAULT);
-+
-+		v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+				  V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L2_BR,
-+				  BITRATE_MIN, BITRATE_MAX,
-+				  BITRATE_STEP, BITRATE_DEFAULT);
-+
-+		v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+				  V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L3_BR,
-+				  BITRATE_MIN, BITRATE_MAX,
-+				  BITRATE_STEP, BITRATE_DEFAULT);
-+
-+		v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+				  V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4_BR,
-+				  BITRATE_MIN, BITRATE_MAX,
-+				  BITRATE_STEP, BITRATE_DEFAULT);
-+
-+		v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+				  V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5_BR,
-+				  BITRATE_MIN, BITRATE_MAX,
-+				  BITRATE_STEP, BITRATE_DEFAULT);
+ 	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
+ 	if (!cmd) {
+ 		ret = -ENOMEM;
+@@ -631,7 +620,8 @@ static struct mdp_cmdq_cmd *mdp_cmdq_prepare(struct mdp_dev *mdp,
+ 	} else {
+ 		ret = -EINVAL;
+ 		goto err_destroy_pkt;
+-	}
 +	}
 +
- 	ret = inst->ctrl_handler.error;
- 	if (ret)
- 		goto err;
-
+ 	comps = kcalloc(num_comp, sizeof(*comps), GFP_KERNEL);
+ 	if (!comps) {
+ 		ret = -ENOMEM;
 -- 
-2.47.0.rc1.288.g06298d1525-goog
+2.47.0
 
 
