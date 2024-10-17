@@ -1,113 +1,217 @@
-Return-Path: <linux-media+bounces-19780-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19781-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6DA9A1BD9
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 09:41:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2129A1C1E
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 09:57:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A31E1B22305
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 07:41:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 616BF1C213F5
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 07:57:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7270D1D07B0;
-	Thu, 17 Oct 2024 07:41:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB0DF1D043A;
+	Thu, 17 Oct 2024 07:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="WuvrDnzx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF3D1C1ADA
-	for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 07:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0DE157E9F;
+	Thu, 17 Oct 2024 07:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729150887; cv=none; b=sboIRxvHBlMmD2OFdXaDhQrv3MmNkLYCNEbfzb8jgYdcS9LBaKd+v8gglCKMvX8yZso6P7nus15MkajH2MPaiVmW6MTcmziVjLL5291tvN3i6MGoJyIBSZ2mIMVmFzXKhkGa4TjYyXaDUG59LtxXpjs13wQe9eJBdk1uCbtrI6w=
+	t=1729151862; cv=none; b=NI3B1JHYUKo3kTZ/8lMZqMoWcf9ITmu94qnrhOxknJ76IuTERvg7O8c5blCXPNsogXtT/JtUa6fZOoUTNFqj9NcpSxgfsv5uebD+EFTnrvrmecO639w9arBMFVtUDFF2OsxPeXgVXQD+EdT2LWfx4Uiy7rp32df3dRVeTgfG7g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729150887; c=relaxed/simple;
-	bh=vfx4/HAzvUz+bd6CCHfuiF+FNeKLK/7spJgmBVkfSGQ=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=l9wg+WT2dZtkQd2wyiNhoyMwYXybhZCfxm/m9xfI7quvzGpu1rIc9G83fb85p+ybgapBb/PmTeoVKz0J1NfLcUbaNzUAwRQnDJTUperGzTsB9Ej04fc6kcpBceCtKQusE/d1uILIN9XlMnA0/+QU+AlEetKdSP2bcY6bSK6PLuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-83aaca0efc6so72616739f.0
-        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 00:41:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729150883; x=1729755683;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JZylQjTiOxGDwIxztHGJIN7yk4iil+pEqDzlvCCLlco=;
-        b=gO0xD2jOh/BbcPd7EvJooDzWt9S93NNdXDV9KwWcoZ4EDcb0RpkbudTa5DD3lcO465
-         3l1avP8KAedi7oRmMvEHqHEGuIKdDfVaRwIa70DI2MuCeZpZ9agv6a2p1STXxx0PgmvL
-         cCRCkp5F9Z8OUfynZEv9WwIv0PaFMsrtpMwF+TqSqy2JtI78zeNiU3zBao8T9SkrA5zS
-         y7eVMZ060CKVuKgeymmp6bzbMZYkkaA9dkBKIZiWVHu2VVXrv0TFyBdocZcy04D8UIZD
-         STqSWrXHDsJ+mlXztk9sclrPsGdOe5HQ3wFaAoyJpNWvYbvEdsxhR2L9H61uAnbd+boB
-         HJvA==
-X-Forwarded-Encrypted: i=1; AJvYcCWRgGuV04OUj7wRITdeabZGwQjxKXqi1E5H25QQQ2dFQjLcy2Wp0HMMVWsxnt3372RabAqqtKc4ZQ7HXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxusatJXZlDnWzNMTOY2dL2ceRW2SeMJp+JgdsfhuVOxW5WclR+
-	4/p7Hel1ry7Yoqdy2KSB6ONZs7zLAIQejkdr/9bfhSy75cACJ7OmRGPIIHE7N4N1ailbKPzmpbK
-	SrSb7sMiOcwJ0/3HBhozVuPjdphMRPP4KKe6l4px8BvG85tHncHe8vCw=
-X-Google-Smtp-Source: AGHT+IGuuixLw2y2VwGx9is8GPOWOJklws8URI8WqBJFfw2w66j/TfXDjFE2msQwfSuagZpIX2e1tJKCg3jzLuA4Jg+JFHP6VGRu
+	s=arc-20240116; t=1729151862; c=relaxed/simple;
+	bh=oqhvVOn5AN1n4xr/+1Vp012sPZnLeJmBzpFwLBpmLPk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=glMoS0oHOO+i9pJNGEeROZwydHSWZQasgYUzTX/6gK72+tLsCDD/HXqv37sdbyHhCVuvFmohTwtt3odkDxpHqPpCAYkRb6BSDlHbnQ5AFlZPQiCWbb+CS4dF9Gif/fwiuW1ILBt+v2th8kMnzZZ4Ye/kzhu8a9r6O7UEJacLwvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=WuvrDnzx; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1729151856; bh=oqhvVOn5AN1n4xr/+1Vp012sPZnLeJmBzpFwLBpmLPk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WuvrDnzx33mdNViIqXTsRypsosaI1FwR2a7AYdGM1Lo8/Q/1y4VZXuXbXOSseFGBH
+	 Hin59wSDiXJVDiUsjA1T8r+D+dEDn80AJUyULP9fcEGW7l8UM4tT+KkLH76HAEM5kz
+	 miyueTCJX6kwDmBUDM7QdeB4BBBdUmVNmBNxl6zzD05jdXleomZNd8Ru4WT8hKcbeI
+	 L83laKq+G/emvD9/4R84dgXgK9pQbEgHKr7Bxd7cKzw9sSDLDenG43nBvadzofsMZM
+	 cL2W5Wqrg3HT/asjTa+XjFL29H7+hrXOthLjV8jSNp/ZSrfY+d2hJdPfnfjM8vrryv
+	 uMKZHXEHh3aHQ==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id EA5941002B3; Thu, 17 Oct 2024 08:57:36 +0100 (BST)
+Date: Thu, 17 Oct 2024 08:57:36 +0100
+From: Sean Young <sean@mess.org>
+To: =?utf-8?B?6YeR6LaFLei9r+S7tumhueebrumDqA==?= <jinchao@vivo.com>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>,
+	=?utf-8?B?6buE55CG6bmP?= <huanglipeng@vivo.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1] media: rc-core: Modify the timeout waiting time for
+ the infrared remote control.
+Message-ID: <ZxDDcHcNQLBP69Fy@gofer.mess.org>
+References: <20240927105808.9284-1-shenlichuan@vivo.com>
+ <Zv2xGbdhm8kXgDFe@gofer.mess.org>
+ <TYZPR06MB6895415657AFF1C1723F9020DF7E2@TYZPR06MB6895.apcprd06.prod.outlook.com>
+ <KL1PR0601MB445295795E1DBE993238FB17DB7F2@KL1PR0601MB4452.apcprd06.prod.outlook.com>
+ <Zwk3g-B6dJWgqE41@gofer.mess.org>
+ <1a2149bb-9ac5-4cb0-9361-c292b66c214b@vivo.com>
+ <bf2d51c1-54de-45cf-aeef-06db1a047c2c@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:13cf:b0:835:3884:77a3 with SMTP id
- ca18e2360f4ac-83a947117d5mr796531539f.13.1729150883437; Thu, 17 Oct 2024
- 00:41:23 -0700 (PDT)
-Date: Thu, 17 Oct 2024 00:41:23 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6710bfa3.050a0220.d9b66.0185.GAE@google.com>
-Subject: [syzbot] Monthly media report (Oct 2024)
-From: syzbot <syzbot+list354438eb692b8a2f8c97@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bf2d51c1-54de-45cf-aeef-06db1a047c2c@vivo.com>
 
-Hello media maintainers/developers,
+Hi,
 
-This is a 31-day syzbot report for the media subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/media
+On Thu, Oct 17, 2024 at 07:15:21AM +0000, 金超-软件项目部 wrote:
+> 
+> Hi
+> May I ask if there has been any progress on this issue? It affects the
+> user experience and could you please take a look as soon as possible?
+> Thank you
+> 
+> 
+> 在 2024/10/12 11:09, quqiwanzi 写道:
+> > Hi
+> >
+> > 在 2024/10/11 22:34, Sean Young 写道:
+> >> On Wed, Oct 09, 2024 at 07:03:57AM +0000, 金超-软件项目部 wrote:
+> >>> NORMAL: The kukong apk control remote control sends codes for other
+> >>> buttons
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[0]: 4500,
+> >>> 4500, 560, 560, 560, 1680, 560, 1680
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[8]: 560,
+> >>> 1680, 560, 560, 560, 560, 560, 560
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[16]: 560,
+> >>> 560, 560, 560, 560, 1680, 560, 1680
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[24]: 560,
+> >>> 1680, 560, 560, 560, 560, 560, 560
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[32]: 560,
+> >>> 560, 560, 1680, 560, 560, 560, 1680
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[40]: 560,
+> >>> 1680, 560, 560, 560, 560, 560, 560
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[48]: 560,
+> >>> 560, 560, 560, 560, 1680, 560, 560
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[56]: 560,
+> >>> 560, 560, 1680, 560, 1680, 560, 1680
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: pattern[64]: 560,
+> >>> 1680, 560, 46920, 4500, 4500, 560, 1680
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: 0x560,
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: 0x96200,
+> >> If I sum all these lengths, I get 216000 microseconds. That's well clear
+> >> of IR_MAX_DURATION (500ms).
+> >>
+> >> Note that the last two values 0x560 and 0x96200 look really weird,
+> >> they are
+> >> not hex values are all, and there is no "pattern[...]: " prefix.
+> > This is to iterate through the remaining parts that are less than
+> > eight digits and print them out.
 
-During the period, 2 new issues were detected and 0 were fixed.
-In total, 19 issues are still open and 85 have been fixed so far.
+So why print the decimal value 560 as 0x560?
 
-Some of the still happening issues:
+> > 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: 0x560,
+> > 10-09 11:20:18.219  1023  1023 D ConsumerIrHal: 0x96200,
+> >
+> >>> 10-09 11:20:18.219  1023  1023 D ConsumerIrHal:
+> >>> 10-09 11:20:18.220  1023  1023 D ConsumerIrHal: IRTX: Send to driver
+> >>> 10-09 11:20:18.469  1023  1023 D ConsumerIrHal: Done, Turn OFF IRTX
+> >>>
+> >>> SPECIAL :Sending the power button on the remote control of the
+> >>> kukong app may result in additional lines of coding, leading to
+> >>> transmission failure (72-88 extra)
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[0]: 4500,
+> >>> 4500, 560, 560, 560, 1680, 560, 1680
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[8]: 560,
+> >>> 1680, 560, 560, 560, 560, 560, 560
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[16]: 560,
+> >>> 560, 560, 560, 560, 1680, 560, 1680
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[24]: 560,
+> >>> 1680, 560, 560, 560, 560, 560, 560
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[32]: 560,
+> >>> 560, 560, 560, 560, 560, 560, 1680
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[40]: 560,
+> >>> 1680, 560, 560, 560, 560, 560, 560
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[48]: 560,
+> >>> 560, 560, 1680, 560, 1680, 560, 560
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[56]: 560,
+> >>> 560, 560, 1680, 560, 1680, 560, 1680
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[64]: 560,
+> >>> 1680, 560, 46920, 4500, 4500, 560, 1680
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[72]: 560,
+> >>> 96200, 4500, 4500, 560, 1680, 560, 96200
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[80]: 4500,
+> >>> 4500, 560, 1680, 560, 96200, 4500, 4500
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: pattern[88]: 560,
+> >>> 1680, 560, 96200, 4500, 4500, 560, 1680
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: 0x560,
+> >>> 10-09 11:19:53.973  1023  1023 D ConsumerIrHal: 0x96200,
+> >> If I sum all these lengths I get 648000 microseconds, so quit a bit more
+> >> than IR_MAX_DURATION, which is why the send fails. Again the last two
+> >> values
+> >> are printed like garbage.
+> >>
+> >> The signal looks like NECx1:
+> >> http://hifi-remote.com/wiki/index.php/NECx1
+> >>
+> >> So there is the main signal, follow by a bunch of repeats. Each repeat
+> >> looks like +4500 -4500 +560 -1680 +560 -96200; the -96200 is the
+> >> trailing
+> >> gap. To avoid going over IR_MAX_DURATION, don't include the -96200 gap
+> >> but replaced with a usleep(96200), i.e. in psuedo code:
+> >>
+> >>          int i, fd = open("/dev/lirc0", O_RDWR);
+> >>          write(fd, [4500 4500 560 560 560 1680 560 1680 560 1680 560
+> >> 560 560 560 560 560 560 560 560 560 560 1680 560 1680 560 1680 560
+> >> 560 560 560 560 560 560 560 560 560 560 560 560 1680 560 1680 560 560
+> >> 560 560 560 560 560 560 560 1680 560 1680 560 560 560 560 560 1680
+> >> 560 1680 560 1680 560 1680 560]);
+> >>          usleep(46920);
+> >>          for (i=0; i<4; i++) {
+> >>                  write(fd, [4500 4500 560 1680 560]);
+> >>                  usleep(96200);
+> >>          }
+> >
+> > Thank you for your suggestion. The infrared code here is the power key
+> > code sent through the Kukong remote control, and there may be other
+> > infrared codes that exceed IR-MAX_DURATION.
 
-Ref  Crashes Repro Title
-<1>  874     Yes   general protection fault in ir_raw_event_store_with_filter
-                   https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
-<2>  663     Yes   KASAN: use-after-free Read in v4l2_fh_init
-                   https://syzkaller.appspot.com/bug?extid=c025d34b8eaa54c571b8
-<3>  287     Yes   KASAN: use-after-free Read in v4l2_fh_open
-                   https://syzkaller.appspot.com/bug?extid=b2391895514ed9ef4a8e
-<4>  236     Yes   WARNING in usb_free_urb
-                   https://syzkaller.appspot.com/bug?extid=b466336413a1fba398a5
-<5>  225     No    INFO: rcu detected stall in dvb_usb_read_remote_control (2)
-                   https://syzkaller.appspot.com/bug?extid=01926e7756f51c12b6a3
-<6>  105     Yes   WARNING in smsusb_init_device/usb_submit_urb
-                   https://syzkaller.appspot.com/bug?extid=85e3ddbf0ddbfbc85f1e
-<7>  101     Yes   WARNING in smsusb_start_streaming/usb_submit_urb
-                   https://syzkaller.appspot.com/bug?extid=12002a39b8c60510f8fb
-<8>  68      Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
-                   https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
-<9>  31      No    WARNING in call_s_stream
-                   https://syzkaller.appspot.com/bug?extid=5bcd7c809d365e14c4df
-<10> 23      No    KASAN: slab-use-after-free Read in em28xx_release_resources
-                   https://syzkaller.appspot.com/bug?extid=16062f26c6480975e5ed
+1) If you send repeats separately then no known protocol exceeds 0.5 seconds 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+2) There are databases of protocols, and no protocol here exceeds 0.5 seconds
+   (or even comes near).
+	http://hifi-remote.com/wiki/index.php/DecodeIR
+	https://github.com/bengtmartensson/IrpTransmogrifier/blob/master/src/main/resources/IrpProtocols.xml
+   The longest protocols I know of are for air conditioning units and I've
+   never seen one longer than 0.5 seconds.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+3) If a button press on a remote would take more than 0.5 seconds the latency
+   would be awful, so no manufacturer would do this. Also, the chance of
+   signal being corrupted during transmit would be quite high.
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+4) Some of the IR transmit hardware cannot handle such long transmits, e.g. 
+   mceusb, iguanair, redrat3 have limits on what can be sent due to usb
+   packet limits. That means your software will never work with such hardware.
 
-You may send multiple commands in a single email message.
+5) This limit has existed since the dawn of time in infrared. What has changed?
+
+> > In order to ensure the
+> > universality of the code and adapt to different situations, it would
+> > be better to directly modify IR-MAX_DURATION.
+
+I get the feeling you are trying to avoid the problem that you are sending
+the IR signal with the key repeats all at once. 
+
+What driver are you using for transmit?
+
+
+Sean
 
