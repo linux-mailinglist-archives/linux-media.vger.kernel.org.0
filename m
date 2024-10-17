@@ -1,132 +1,142 @@
-Return-Path: <linux-media+bounces-19804-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19806-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB609A2DF0
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 21:40:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C052A9A2E35
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 22:05:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 013A41F2482E
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 19:40:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E4C4284280
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2024 20:05:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BBCD227B9B;
-	Thu, 17 Oct 2024 19:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D75C1791ED;
+	Thu, 17 Oct 2024 20:04:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x6v4QXbK"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="O4Ag2ZD7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7AC219CB7
-	for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 19:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB7E17BB32
+	for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 20:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729194019; cv=none; b=kooOp71wx66YPkS3+3GEJM+/6QmEWoWVBc2gScXiSx2jAyqtHqkqy0YXlRePf2CkvlEbdlQRCqlcIPM987cGjX3yCv/o/JnjrsnqaEurQn3opIbPkedEHyZUXaebeHnhMI+BQammbkRlGkInr7u2NC2Mc6dLG84uKirNuVJhfBU=
+	t=1729195497; cv=none; b=m7ylyvUVrh60c6uUVDhgpaM7BoYQNZq0wdufH/boIlVFzhLsF10tUAo7TOjWUR5+79nRtp4aU9rkD5zv4eFfJKTm8GW/6E8Avni4Rq2M6d5v7n0S0G4C2IOwjbNRnR8KiJ8xiqIVXgFU1s+LOhTTfLDvNlEMohTOoXDwdyInvyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729194019; c=relaxed/simple;
-	bh=3cjJavFR6NC/HCRHI9EPOyrqnyNGb2dE/RAZTMIh2Bk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q5dnC4hJdpNO8R+v+bfDapqXHtbufhgHJOHEV48JZFJUJdQE9jUbRA7Q6j8hgSfao/gB6aPheVib8EplzQwolhe2Ggql0QLDdkHQXBsEb/20vSnkuty+dCKPs8COal3L2YI3x68hN1K2chHH7UUopgfZacTOFx1o56TdHZ7qnc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x6v4QXbK; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9a0ef5179dso169751066b.1
-        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 12:40:13 -0700 (PDT)
+	s=arc-20240116; t=1729195497; c=relaxed/simple;
+	bh=Qm1GMCj9s7ZVm/rHBsoEHDxu99TWbXF0jSckjQod4qQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=G7tgQjbDkHEq90YgX+NuEOI4PKXhdmoC3bmOY8Rl8R85JpZPhSWdACJ30mp36CCCtwBMcvy5vz9dAMNYw1YCXgUDabsS8ccnK/GaZ2YWQMUbuOgjmI6us7jM6OUgf0L/4i/ofhy+puwnEgUOqo0VsxWMnDvVVekrNtt3xbj6nZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=O4Ag2ZD7; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7e6cbf6cd1dso931269a12.3
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2024 13:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729194011; x=1729798811; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QZpms9R5kWODAqigQeGsxMS1uylrcIOwy5W+fcCCNgo=;
-        b=x6v4QXbKoA5p/Qg+ZWFTjQ2TBO7yBb8zMc3BLC0JA3KlC5i3HzOZhpdJuHJlVHLBBd
-         Wtgg+94A+u0Wr88PUAMmjQ/UstZW4GOq+qFqNljO+jXLMt52OC4pAvz7A/9eAnwBeyXF
-         QWaf8WGwqH35H5XidZjcPaOOGPC/D90ldKQ0iAuIHBprBcRmilb2Qra3nKT5lltcZnw/
-         nHmlNaZwRcv0/fgY93uEK0ovWKA83+qVqy6QKtOPfVBmtvO/xwGRwrDXTZ+uWos5KRab
-         vkCQpY47rz4C5lGJ7tTKizwXzQP0SFbcJXKifaLQ6gO8QN3CnGWVP5J2GnnWSwCsJr1U
-         /DQA==
+        d=chromium.org; s=google; t=1729195490; x=1729800290; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eDj09dc2QEIl6UR3qLj9hDrktF4mFMWl9OGSbmf86hk=;
+        b=O4Ag2ZD7D7Yf1F6Z8GOvbMde1aumRzULrbrAhWYK7rO4XoG6FXiJBpWpraXFBPYWLY
+         iOtxc0q4KiLN51uN7jkqH3v9968wv8nxvJBJNFF8MVtsW9VazYXd3zZ2GSwUl4lO9+SM
+         DdXTqCLHVAwvdr5w4/SYe45CUpzsLjeSNtgPk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729194011; x=1729798811;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QZpms9R5kWODAqigQeGsxMS1uylrcIOwy5W+fcCCNgo=;
-        b=sETdRftGo1k35NfS6wkJxmCK6zUCJw6kx6474DX5wOpW1H3rOEVSChLFl0LiuAINYC
-         iNW9rAUUotHE7y28ZrLnX63s2U0/Nnyjq0aSv/PsdSEY5PZ1Ao1qq1+XkFLKxL2DrNtp
-         QLtQiiroApedzLfp9+3JwxKRONiVBiE4iGaDZKRglEyzSEHjyPnPSIDiZk17j0EBI68n
-         SzEi83OyKNv/RARHQu/BP+Ney/CayNbxITL3qyr2euHsNKc4qCXT3F+0xfzImInAZU4X
-         ZTgz5GZ2b6j6EfcYu3n+XHZQSIFNIz1pKhRKhZvH3MpYRpP4bSpZNimtHo1T1WVz++AQ
-         HGJA==
-X-Forwarded-Encrypted: i=1; AJvYcCWeQxmF3xB7D7RQlq1JjQ7fj1R+f5U7JGUGrZdlWfMYpXCt52bT2+4H2I3qhhtvUnryL8JnbpWGwlDILg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNqNhywIzapSe4bzfnKX6ldT2V/yv7MprqCbjTp5aefUwDZG/0
-	2mwYH4hiKgdEZU4IqnaahkQTcsb1j2Na6l7n4MThCYwWA6Mcutuaz9MNxBsyiwk=
-X-Google-Smtp-Source: AGHT+IGxstbOFapOUqQjp3ZRs6n1QMqDvHLOM3P/WHoCxTXHHg04lmOTKj0g3pfWvKqi+rO1wTNiWw==
-X-Received: by 2002:a17:906:bc23:b0:a99:368d:dad3 with SMTP id a640c23a62f3a-a9a34d078d5mr696337266b.30.1729194011492;
-        Thu, 17 Oct 2024 12:40:11 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a68bf7037sm2959166b.183.2024.10.17.12.40.09
+        d=1e100.net; s=20230601; t=1729195490; x=1729800290;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eDj09dc2QEIl6UR3qLj9hDrktF4mFMWl9OGSbmf86hk=;
+        b=aon54WArbXv8p3Dz+HEZRcVPTOpQgetd+Ms2bAZJqFLx4OzltN+nm9VIFuXncIYmMr
+         6BpOnv8X+u/K693IFmIC/5nnAv0o2wl+iAseiQRjEVOa4effORzwXCmSWbMmaOr6Q+XK
+         0BNRa8VYLIFBTla/3Ot4xo1LWraCIfPR4/B/8+ImgWSTJcvanUSSfjOa+4jTND5HaYFP
+         w61TVz7qX3b7dPorpJ25ULHaJGgfFntYsMQmJOoAqbH1tRlVu7/DQrJNvGw9wy81XqXO
+         zirARl1V3IqZwv0I8ILovPLQcdbSY4lRT9ixGjouLDEuIA9K8pGzff9E7UBCY+FeNVg2
+         VOEg==
+X-Forwarded-Encrypted: i=1; AJvYcCXUGIa8ECFl+GqwmOp3Amhu/Z0TLZtMfDM2K31Z7zuvbc1OtQ7cI35C1E6kp46WpZH/6thwL/ZkTP5ugQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsSVV4AG0tpfIJoDBkU/nS49O1PDQf0IxKOzl5LaTxcPrO2j9E
+	QAk5hLo9wPAUvuztNgmSCzJwwdYdg7ifAECuySAd+2IntBRAM/5kvtHvnHMTlQ==
+X-Google-Smtp-Source: AGHT+IF6lVclQ4oXNY5WbZFpvFSBm9cqx/5zVposFBtyP7/LO00BgnrvSt/oAOgZRyinmAwy13hnxA==
+X-Received: by 2002:a17:90a:8d14:b0:2e2:c00c:cb79 with SMTP id 98e67ed59e1d1-2e5616db842mr175745a91.3.1729195490619;
+        Thu, 17 Oct 2024 13:04:50 -0700 (PDT)
+Received: from zipper.pdx.corp.google.com ([2a00:79e0:2e13:6:ab92:55d4:ae5d:528a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e56129dccesm110088a91.38.2024.10.17.13.04.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 12:40:10 -0700 (PDT)
-Date: Thu, 17 Oct 2024 22:40:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ming Qian <ming.qian@nxp.com>
-Cc: Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, TaoJiang <tao.jiang_2@nxp.com>,
-	imx@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH next] media: imx-jpeg: Fix potential error pointer
- dereference in detach_pm()
-Message-ID: <ee0eac36-3bb7-4bc9-8062-1305d5679580@stanley.mountain>
+        Thu, 17 Oct 2024 13:04:50 -0700 (PDT)
+From: Fritz Koenig <frkoenig@chromium.org>
+Subject: [PATCH v4 0/2] media: venus: Add hierarchical h.264 controls
+Date: Thu, 17 Oct 2024 13:04:29 -0700
+Message-Id: <20241017-submit-v4-0-d852bc7f7fdc@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM5tEWcC/2XMQQ7CIBCF4as0sxYzFhDiynuYLmo7LbOgGGiJp
+ uHuYrcu/5eXb4dEkSnBrdkhUubEYamhTg0Mrl9mEjzWhhZbhfaiRNqenleB2lrs0ShpDNTzK9L
+ E7wN6dLUdpzXEz+Fm+Vv/iCwFismMqEmS1Ve8Dy4Gz5s/hzhDV0r5Apvr8FyfAAAA
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+ Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: Nathan Hebert <nhebert@chromium.org>, linux-media@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Fritz Koenig <frkoenig@chromium.org>
+X-Mailer: b4 0.15-dev-37811
 
-The proble is on the first line:
+v4:
+- addressed feedback from Dikshita
+- included reviewed by for patch 1
+- Link to v3: https://lore.kernel.org/r/20240814-submit-v3-0-f7d05e3e8560@chromium.org
 
-	if (jpeg->pd_dev[i] && !pm_runtime_suspended(jpeg->pd_dev[i]))
+v3:
+- dropped reordering patch
+- updated cover letter
 
-If jpeg->pd_dev[i] is an error pointer, then passing it to
-pm_runtime_suspended() will lead to an Oops.  The other conditions
-check for both error pointers and NULL, but it would be more clear to
-use the IS_ERR_OR_NULL() check for that.
+v2:
+- cover letter
+- testing methodology
+- Signed-off-by
 
-Fixes: fd0af4cd35da ("media: imx-jpeg: Ensure power suppliers be suspended before detach them")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+V4L2 has support for encoding with hierarchical frames using the
+V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING* controls. This allows for
+specifing frame references needed for temporal scalability. Encoding a
+single stream with a single layer allows for the layer to be dropped and
+the stream to be decoded without artifacts.
+
+ChromeOS is planning to use this feature for the L1T2 web standard[1].
+This allows video conferencing apps to encode once for a clients with
+different performance/bandwidth capabilities. As the application is a
+real time encoder only P frame support is added.
+
+The ChromeOS test framework ("tast") was used to verify that no
+regressions are present. This was done on SC7180 ("trogdor"). These
+patches were also run on SC7280, but not with as an extensive test set.
+
+Verification of the added controls was done with a bitstream analyser to
+make sure that reference frame management is correct.
+
+[1]: https://www.w3.org/TR/webrtc-svc/#L1T2*
+
+Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
 ---
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Fritz Koenig (2):
+      media: venus: Helper function for dynamically updating bitrate
+      media: venus: Enable h.264 hierarchical coding
 
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-index d8e946aebba2..918ab12edc9e 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-@@ -2679,11 +2679,12 @@ static void mxc_jpeg_detach_pm_domains(struct mxc_jpeg_dev *jpeg)
- 	int i;
- 
- 	for (i = 0; i < jpeg->num_domains; i++) {
--		if (jpeg->pd_dev[i] && !pm_runtime_suspended(jpeg->pd_dev[i]))
-+		if (!IS_ERR_OR_NULL(jpeg->pd_dev[i]) &&
-+		    !pm_runtime_suspended(jpeg->pd_dev[i]))
- 			pm_runtime_force_suspend(jpeg->pd_dev[i]);
--		if (jpeg->pd_link[i] && !IS_ERR(jpeg->pd_link[i]))
-+		if (!IS_ERR_OR_NULL(jpeg->pd_link[i]))
- 			device_link_del(jpeg->pd_link[i]);
--		if (jpeg->pd_dev[i] && !IS_ERR(jpeg->pd_dev[i]))
-+		if (!IS_ERR_OR_NULL(jpeg->pd_dev[i]))
- 			dev_pm_domain_detach(jpeg->pd_dev[i], true);
- 		jpeg->pd_dev[i] = NULL;
- 		jpeg->pd_link[i] = NULL;
+ drivers/media/platform/qcom/venus/core.h       |   4 +
+ drivers/media/platform/qcom/venus/venc.c       |  73 +++++++++-----
+ drivers/media/platform/qcom/venus/venc_ctrls.c | 126 ++++++++++++++++++++++---
+ 3 files changed, 165 insertions(+), 38 deletions(-)
+---
+base-commit: d07b43284ab356daf7ec5ae1858a16c1c7b6adab
+change-id: 20240814-submit-05880a074377
+
+Best regards,
 -- 
-2.45.2
+Fritz Koenig <frkoenig@chromium.org>
 
 
