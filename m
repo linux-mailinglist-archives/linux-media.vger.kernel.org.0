@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-19875-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19876-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C379A3FF7
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 15:39:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B4B9A3FFA
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 15:39:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20D092855F3
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 13:39:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E97F284D17
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 13:39:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFD272038DD;
-	Fri, 18 Oct 2024 13:35:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5459420409F;
+	Fri, 18 Oct 2024 13:35:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SllOVKLR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MY1A5Hgx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E1D2038CC;
-	Fri, 18 Oct 2024 13:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF039204020;
+	Fri, 18 Oct 2024 13:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729258516; cv=none; b=WEJ1XWEml1TivnrrhIs0Njq+VWb8WxGFhR2qkps8s1CAjyg/bf0t0waBkj3Jw4NwW0uzqQ9P9SM2GbIwPMBjXfi2onUZ5iK1nzZsTta+wtYymwq+GRha+mKyfCEOY4ijAmHRl1sugbxvP11Xh2fBq2bQSvtgpNFYTa+L6jn1Ba4=
+	t=1729258517; cv=none; b=Qi6hR8Xmgn4gFGNbgkjovgGDIa+BUlbzHh3LKgIHy206raL9w3sbKi3kgjg7ARfqCYolJCm9+Zwr+7os2dGHOQCbKWdbsypFpFaETYGgrxYKLkCRLRXM2vh5gMDxpiClYdcHJeTmzsRubd/6lHT2jsxyOoJJpXOWhuNVwvSPUrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729258516; c=relaxed/simple;
-	bh=+/agONk/gxEUUW3+pm9dXTEcKcgLsOsiDgSaT5pawdc=;
+	s=arc-20240116; t=1729258517; c=relaxed/simple;
+	bh=thXl2/TczZGuXsqW1hCg3NABlmoFkFxqDMk3QB443UA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fJk6G3KTdkjOlYymI5bGsPEsdLT7AK2si4YTbcpH8vSLeDh8STnrSWxf0EmRzaBAGySqT5tjNMdlW8k/zPig0Fs1xl/zeACppdxK/Jqvh7DlVXuDksbdz5LuJwL+UrBJLkFHYafAALmSPhSPeafNk66TLKX0KfLEH25q6uVdK7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SllOVKLR; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version; b=nAvj7xJmrq6eLmSjuOCSU+0eSfoFdeRx1hdmYkIymppEyM1Wf2oj5extr0vwNTuWxKtlCTVXh8npRlj6VLjsOaGj58RyYO3aI4hKxk0h2PIPxnaoYJSLaNVclTQlXK0ilev+3nMxm1LGMZ6xNcQozYxMJOAvR9dxWC3WM2l8fZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MY1A5Hgx; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4315e9e9642so13542045e9.0;
-        Fri, 18 Oct 2024 06:35:13 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-37d4ba20075so1596186f8f.0;
+        Fri, 18 Oct 2024 06:35:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729258512; x=1729863312; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729258514; x=1729863314; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bAJytwAC4eOvoaZ3IKILJd66FgvFsvwVRbpuQcJX+Mw=;
-        b=SllOVKLRs4R15oD0tKv4BZzgQOYSKMhgb0B4Ml7VAenxefU3PS+DgYHFtOFVaAxID9
-         ABVD9vqzNAu7eXEpuYIEGHxfNSOAtZE822h08WIv9E0GAwuFgoTRco3rOtjJ7A/kpnjS
-         lOpdyLTdeZtV4WK9dokv6Zjh+5yD3rbRxqw1iugqG01lxN3J0U+D4939FbX/G/d1bDtX
-         nf4iUvj2bAcTq//Cafep3zp66OkJVeNe99LpTaVR1TmUKSCaSro0Zncnm9fP3ve/AW2D
-         X0oFELx56dmMPBg4cQ0anHbkHmw31XinJltgg6b9QuA7aV6NyurkuoFUQAXA7q7FhmQp
-         rh/A==
+        bh=liSecY/iWyb1X6LpZ5dLf6/KtZZR3s29c8vcS1XDL9E=;
+        b=MY1A5HgxEArpCY6L8K2eN7LZ82tQ0MWXQQOpjaQOw0ElnypmmEh01xEXWb9B4gRQXi
+         laAxSDM/0Na4D38XPowB+SSF/IDcfife/8Fla4DfmwtXdV6hr1pr2sc19OWQPC48AmxQ
+         FsdU83YB6coKQPnTT36DwHs84BdWfkKvY3YR3Zc8yegq10jkAhHIt/cNwnsgBaIdtmnC
+         OR3zL2nX5u/WYG0x7sARPLAOmbJ7zip9COMmEg6PDwhC3Da9vKB7W+ZTrEJMDP/Z9TLx
+         VRkw6IoATnZtrSq7fm3UdpLKd10b+Gb0ZlAmWHdqsZNWstVCzl1U0jvZUvyh15gjy/gv
+         0Y5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729258512; x=1729863312;
+        d=1e100.net; s=20230601; t=1729258514; x=1729863314;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bAJytwAC4eOvoaZ3IKILJd66FgvFsvwVRbpuQcJX+Mw=;
-        b=LSrbHzZ9gS/hLyJc8k2C8yooXoWI3whRlXn6n3uhxlnItk3LyyTrIhh4F9vMNL//X+
-         n/K3pNjF/rlFaRi0ca1qZ5nPjGWfTwaid8ILWn9yiAWVaXD2jPhqdtoQJQVz1Cj59XAg
-         FkZn0305k7qSABVMoBcOWq5NshnLyB3XXc3etSMxzWM2+OKk/jUSjty+bbiAcvkccmG3
-         izd8+kqS+sDLsxKjzhOLrhO59jdQuXW1pXkUZF7ZT4q3TFQkLmGrkdHcRf237hEXt5o1
-         lzTF2x8DNtCA+KXGi679MRH/Ow8MHPD5BdjlV4LRkcZBaSRahLLC4iTgmBYRpuCRKHEE
-         ydCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUE080nPUIqJUIEhiYey1CKRDs/SY9IUVtjH8ysJlgoQL80/wrIpBynLKhT58GyU45yTAjo/FBbJOWn0z0=@vger.kernel.org, AJvYcCVFjBoRKgx+trYq83s5dzj3rod3H5Ep8tMrtRCo9sqfgEz1SGxtX1RWa8DHN4/V/zuDrsj3PBr8XGwAGAkzFJYBkw4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3BBDHPhLttielpBXkbFdPEATVgu8fDzfqCdA+jeVaFhER1Xbn
-	3D5AKwF/n6vgAkN1cELI1tpImU6emBjOLOJIcHTr02HPobS7SnvA
-X-Google-Smtp-Source: AGHT+IFGZP2mQs2KvjTIyHap0ljBlkOqrl4imncdI3Ue8VDy/svgzbzX5krude+ICdC7DpV125GbLg==
-X-Received: by 2002:a05:600c:3110:b0:431:60ec:7a96 with SMTP id 5b1f17b1804b1-4316169ac06mr19875555e9.25.1729258512104;
-        Fri, 18 Oct 2024 06:35:12 -0700 (PDT)
+        bh=liSecY/iWyb1X6LpZ5dLf6/KtZZR3s29c8vcS1XDL9E=;
+        b=ZY8ret5Ghf3RomgiHQ33XybETaLDF0Jsonyab8oWccJdrVRz1Nj+SmJ70SMROX+Id8
+         c/U7BmHlOiSHuPmF3h1DsIna2ZP+rXOySR3dWosvIqJ5PEK7136bZx3zP/j4hcc7fz1V
+         3yxrt8ZjroE6VhQ2AliZQDdKFP2js8EiyFdLVnbzujefvijBKoX0ruiwV0ES6ByT1jGK
+         2NEiVRs1VhQAVY7ESZOVdUsj9k7ZxkHgVOpY71yoYTjqXCyw13x6cUhAQ+VOyGOiywZa
+         LqUU8qfc7lY2ON2/6Qj3errwpcRGGUrIjhWP6fD6cVzT/kK54hvIJlCbGtCth3yIm4NL
+         kQdw==
+X-Forwarded-Encrypted: i=1; AJvYcCXba5PzEFnQS2qp4wTb6besfuyQtk4aBg+BorRFw7waL0BVFwHZQLl1hHfewdsiV4PT7vn+Uolow/i+mR8=@vger.kernel.org, AJvYcCXo5VeiA4q84rQS+3Ol2lv289X3HNA42aWnf0ffpbiEhVgKThjRHF34zm91qjekcZyr/V1YJjbERM2dwlW5VJkpRMU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCHns/et6uhC6Ia5rzcFSG0DR4K5+PC5W/4A0fzTT8WIG5e9P5
+	DfhSBAggX5BXmTlTncL97wfj2w7U+rICUzGD++WTPRIZdyYqd2y1
+X-Google-Smtp-Source: AGHT+IF85UNxOEJJfAsBpcXrcodNoSc9yv/7LgqHzFQ814R2FDOorlgTwf0UMegKnMZzcXQ7MbWeSg==
+X-Received: by 2002:a5d:5310:0:b0:374:c31e:9721 with SMTP id ffacd0b85a97d-37eab6e49d5mr1821339f8f.42.1729258513743;
+        Fri, 18 Oct 2024 06:35:13 -0700 (PDT)
 Received: from localhost.localdomain ([2a06:5906:61b:2d00:d416:f456:3869:adaf])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43160e0a7acsm24320475e9.22.2024.10.18.06.35.10
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43160e0a7acsm24320475e9.22.2024.10.18.06.35.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 06:35:11 -0700 (PDT)
+        Fri, 18 Oct 2024 06:35:12 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
@@ -80,9 +80,9 @@ Cc: linux-media@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v6 14/23] media: rzg2l-cru: Inline calculating bytesperline
-Date: Fri, 18 Oct 2024 14:34:37 +0100
-Message-ID: <20241018133446.223516-15-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v6 15/23] media: rzg2l-cru: Make use of v4l2_format_info() helpers
+Date: Fri, 18 Oct 2024 14:34:38 +0100
+Message-ID: <20241018133446.223516-16-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241018133446.223516-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20241018133446.223516-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -96,57 +96,77 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Remove the `rzg2l_cru_format_bytesperline()` function and inline the
-calculation of `bytesperline` directly in `rzg2l_cru_format_align()`.
-This simplifies the code by removing an unnecessary function call and
-directly multiplying the image width by the `bpp` (bytes per pixel)
-from the format structure.
+Make use of v4l2_format_info() helpers to determine the input and
+output formats.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- .../platform/renesas/rzg2l-cru/rzg2l-video.c     | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 22 ++++++-------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index a0fa4542ac43..8932fab7c656 100644
+index 8932fab7c656..0cc69a7440bf 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -812,20 +812,16 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev *cru)
-  * V4L2 stuff
-  */
+@@ -300,21 +300,12 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
+ 	rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
+ }
  
--static u32 rzg2l_cru_format_bytesperline(struct v4l2_pix_format *pix)
-+static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
-+				   struct v4l2_pix_format *pix)
+-static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru, bool *input_is_yuv,
++static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
+ 				 const struct rzg2l_cru_ip_format *ip_fmt,
+ 				 u8 csi_vc)
  {
- 	const struct rzg2l_cru_ip_format *fmt;
+ 	u32 icnmc = ICnMC_INF(ip_fmt->datatype);
  
- 	fmt = rzg2l_cru_ip_format_to_fmt(pix->pixelformat);
+-	switch (ip_fmt->code) {
+-	case MEDIA_BUS_FMT_UYVY8_1X16:
+-		*input_is_yuv = true;
+-		break;
+-	default:
+-		*input_is_yuv = false;
+-		break;
+-	}
 -
--	return pix->width * fmt->bpp;
--}
--
--static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
--				   struct v4l2_pix_format *pix)
--{
--	if (!rzg2l_cru_ip_format_to_fmt(pix->pixelformat))
-+	if (!fmt) {
- 		pix->pixelformat = RZG2L_CRU_DEFAULT_FORMAT;
-+		fmt = rzg2l_cru_ip_format_to_fmt(pix->pixelformat);
-+	}
+ 	icnmc |= (rzg2l_cru_read(cru, ICnMC) & ~ICnMC_INF_MASK);
  
- 	switch (pix->field) {
- 	case V4L2_FIELD_TOP:
-@@ -844,7 +840,7 @@ static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
- 	v4l_bound_align_image(&pix->width, 320, RZG2L_CRU_MAX_INPUT_WIDTH, 1,
- 			      &pix->height, 240, RZG2L_CRU_MAX_INPUT_HEIGHT, 2, 0);
+ 	/* Set virtual channel CSI2 */
+@@ -327,19 +318,17 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+ 					   struct v4l2_mbus_framefmt *ip_sd_fmt,
+ 					   u8 csi_vc)
+ {
++	const struct v4l2_format_info *src_finfo, *dst_finfo;
+ 	const struct rzg2l_cru_ip_format *cru_ip_fmt;
+-	bool output_is_yuv = false;
+-	bool input_is_yuv = false;
+ 	u32 icndmr;
  
--	pix->bytesperline = rzg2l_cru_format_bytesperline(pix);
-+	pix->bytesperline = pix->width * fmt->bpp;
- 	pix->sizeimage = pix->bytesperline * pix->height;
+ 	cru_ip_fmt = rzg2l_cru_ip_code_to_fmt(ip_sd_fmt->code);
+-	rzg2l_cru_csi2_setup(cru, &input_is_yuv, cru_ip_fmt, csi_vc);
++	rzg2l_cru_csi2_setup(cru, cru_ip_fmt, csi_vc);
  
- 	dev_dbg(cru->dev, "Format %ux%u bpl: %u size: %u\n",
+ 	/* Output format */
+ 	switch (cru->format.pixelformat) {
+ 	case V4L2_PIX_FMT_UYVY:
+ 		icndmr = ICnDMR_YCMODE_UYVY;
+-		output_is_yuv = true;
+ 		break;
+ 	default:
+ 		dev_err(cru->dev, "Invalid pixelformat (0x%x)\n",
+@@ -347,8 +336,11 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+ 		return -EINVAL;
+ 	}
+ 
++	src_finfo = v4l2_format_info(cru_ip_fmt->format);
++	dst_finfo = v4l2_format_info(cru->format.pixelformat);
++
+ 	/* If input and output use same colorspace, do bypass mode */
+-	if (output_is_yuv == input_is_yuv)
++	if (v4l2_is_format_yuv(src_finfo) == v4l2_is_format_yuv(dst_finfo))
+ 		rzg2l_cru_write(cru, ICnMC,
+ 				rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR);
+ 	else
 -- 
 2.43.0
 
