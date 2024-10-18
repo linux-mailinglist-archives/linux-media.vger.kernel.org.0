@@ -1,387 +1,155 @@
-Return-Path: <linux-media+bounces-19852-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19853-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B579A3C78
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 13:00:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8354D9A3D0C
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 13:14:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A0810B2921D
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 11:00:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 399841F23E8C
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 11:14:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C30F204003;
-	Fri, 18 Oct 2024 10:55:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2986D20100B;
+	Fri, 18 Oct 2024 11:13:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZpTsKZiL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mNL1I3g9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEFF2038C3;
-	Fri, 18 Oct 2024 10:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FD2200CB6;
+	Fri, 18 Oct 2024 11:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729248933; cv=none; b=SUSv8piokBTdTgxaP0p6/GbtkY7KLcr9WDo2mq0No/m8GUHfrxWEAyie52mGq9czvbMFS0DIrxh2/0lc2tXcuK8iGLDZ+P5miTJzMiQFuJa1Dtn4b84pdnr89qu4JxzPRTqpStdjdonqP92xuCPVZ7DT4A9r465ihlkg8pIQfRw=
+	t=1729250026; cv=none; b=C34ZIfg5KmfEJPRE59103GXAT/DckWyuC9phl/mXVTTXz6/dWtZH5LwYGnRVTmRxiWcWhuDkoZ5gtxMoROC3dEMfY2cA0b6aJ+dtri383rT7/fH/NqwZH6cGYVlyX6OF/8yUoW03l/EKPPDgrMp0C691f7zkwtVqn+iVVw7sfLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729248933; c=relaxed/simple;
-	bh=N1NLp09eBbopZEReduxXZXC0YaYc94v1xI+7FmQ/Go0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WCUuoPm06m8NOwLxVd8iwr9x+Gx46/mJ6NyjfEHzQIeT2OFqsWmSCd8Cf7M2SRJ0kifHSrPuggpFlAuTKlaGUK/TJtNBByJeGIdtoHI0/wjZzOD848jXb27G9H6WeDkP6SSjM/TirZDJh+wRE+562tznMKsNT4+McL23v8tbJ2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZpTsKZiL; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729248931; x=1760784931;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=N1NLp09eBbopZEReduxXZXC0YaYc94v1xI+7FmQ/Go0=;
-  b=ZpTsKZiLOsx0vWAzV9PcSDaiEbHz0nN/filRN2crkuI+qRip92E+l2zt
-   Lh9pYYgJZFeYHXp53KMM8uekD38dPVVWZj0+BLgjyBZ+fD0PSPsWlfMlv
-   cQ8wiuYim/O/N2g6zKtphNOg6TqmXxRRSivvgtCQNL9eAmGBhTsgm3oXB
-   PMtYSi558haZoEdo+0oNzmucMTXZrOC7XlAL0aIi+YUOUNeSzTVP/Pg9U
-   np44FesnJvStldC7a7s35sR4dit1+5xDgKWTmu9G81ziXAvXIwqe/6cIq
-   40rYa8Uz7rcLtlLfSf7zDX2Y/Fx31O1YAi8Q0b7pLOIDbtTF4TZKa1WEg
-   w==;
-X-CSE-ConnectionGUID: g0ZQdkTTR7KKXDtmOcnjDw==
-X-CSE-MsgGUID: rzkQiyi0T06iTfNM76/36g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28652251"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28652251"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 03:55:31 -0700
-X-CSE-ConnectionGUID: dssFa6HJQyu8W6VL1fNB2Q==
-X-CSE-MsgGUID: 8uXhMT4FTlS9RFW1CLY2jg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,213,1725346800"; 
-   d="scan'208";a="78442214"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 03:55:28 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 36361120D81;
-	Fri, 18 Oct 2024 13:55:26 +0300 (EEST)
-Date: Fri, 18 Oct 2024 10:55:26 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: ov5645: add HAS_EVENTS supporty
-Message-ID: <ZxI-nvE4G18cbS5x@kekkonen.localdomain>
-References: <20241014173840.412695-1-tomm.merciai@gmail.com>
- <20241014175452.GB13238@pendragon.ideasonboard.com>
- <Zw4IrU8bOOtq26Gx@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <Zw6aZiBvRM5hvqVn@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20241016200836.GF30496@pendragon.ideasonboard.com>
- <ZxIoR6T6V0WgDdq0@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <CA+V-a8vw=hb+RZ_8haw30QHHRO3fzGoOZyERUba-MV3bYLTxWA@mail.gmail.com>
- <ZxI153rQ/IhCQhh1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <ZxI5lI1udMkN7K-_@kekkonen.localdomain>
- <ZxI89bbErj3yazVH@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+	s=arc-20240116; t=1729250026; c=relaxed/simple;
+	bh=6fjFvPjtW49gvS3feK/6QYpKDGIrQ/9y5cATnWJJL9s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I8JTV2bmhdZMhmszRuJ2effxVD9ylnGMw0mUOOrowmUmJcx/MnJ6XYRrXKudl/t21YiQzYjYmUSIXZnYDWl58RZP9YEjhLHKDvY1urALkQuZfX94tN5dCS9vrFTzXoz3UueODZvKu3dEoe1ku0Nx+6oK8L9gbFw15wOYJoZerp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mNL1I3g9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90738C4CEC3;
+	Fri, 18 Oct 2024 11:13:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729250026;
+	bh=6fjFvPjtW49gvS3feK/6QYpKDGIrQ/9y5cATnWJJL9s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mNL1I3g9nMZEnPIzQKWMrqQvUjAHUjxChxaf01cbzXgh0qxcy4CPQFmAjb/4uHvhu
+	 o1E2qDUaWYOfAeWGoUdDuIwqgKfG8PlDbmglHJGCYvGNvkiPEswRMilo9b139QIGuY
+	 Eedsa+k+hJDXZDISmMlc3A9rl6SZB5DlXiHa5FPMgtz3yMPfQ75mS1KwWCkqZ27HUV
+	 qo4udth1+jpeFFYAdv65k26xwGVY/3FrXaEuwNbdVCjvgtMwdw67WNydWqR2VONs+T
+	 nfJEcoZQ5AIDlUxgVQt9GTqJfogDjUKrR/S9J4DhtiehcKPMHM3EETiTn5FB1HSm77
+	 7Zz1QErd4fymg==
+Date: Fri, 18 Oct 2024 13:13:41 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH] media: uvcvideo: Stop stream during unregister
+Message-ID: <20241018131341.2e95df71@foz.lan>
+In-Reply-To: <20240926-uvc_stop_streaming-v1-1-038180fafe5f@chromium.org>
+References: <20240926-uvc_stop_streaming-v1-1-038180fafe5f@chromium.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZxI89bbErj3yazVH@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Tommaso,
+Em Thu, 26 Sep 2024 05:59:06 +0000
+Ricardo Ribalda <ribalda@chromium.org> escreveu:
 
-On Fri, Oct 18, 2024 at 12:48:21PM +0200, Tommaso Merciai wrote:
-> Hi Sakari,
-> Thanks for your review.
+> uvc_unregister_video() can be called asynchronously from
+> uvc_disconnect(). If the device is still streaming when that happens, a
+> plethora of race conditions can occur.
 > 
-> On Fri, Oct 18, 2024 at 10:33:56AM +0000, Sakari Ailus wrote:
-> > Hi folks,
-> > 
-> > On Fri, Oct 18, 2024 at 12:18:15PM +0200, Tommaso Merciai wrote:
-> > > Hi Prabhakar,
-> > > Thanks for your comments.
-> > > 
-> > > On Fri, Oct 18, 2024 at 10:57:49AM +0100, Lad, Prabhakar wrote:
-> > > > Hi Tommaso,
-> > > > 
-> > > > On Fri, Oct 18, 2024 at 10:28 AM Tommaso Merciai <tomm.merciai@gmail.com> wrote:
-> > > > >
-> > > > > Hi Laurent,
-> > > > >
-> > > > > On Wed, Oct 16, 2024 at 11:08:36PM +0300, Laurent Pinchart wrote:
-> > > > > > Hi Tommaso,
-> > > > > >
-> > > > > > On Tue, Oct 15, 2024 at 06:37:58PM +0200, Tommaso Merciai wrote:
-> > > > > > > On Tue, Oct 15, 2024 at 08:16:13AM +0200, Tommaso Merciai wrote:
-> > > > > > > > On Mon, Oct 14, 2024 at 08:54:52PM +0300, Laurent Pinchart wrote:
-> > > > > > > > > On Mon, Oct 14, 2024 at 07:38:40PM +0200, Tommaso Merciai wrote:
-> > > > > > > > > > Controls can be exposed to userspace via a v4l-subdevX device, and
-> > > > > > > > > > userspace has to be able to subscribe to control events so that it is
-> > > > > > > > > > notified when the control changes value.
-> > > > > > > > > > Add missing HAS_EVENTS support: flag and .(un)subscribe_event().
-> > > > > > > > > >
-> > > > > > > > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > > > > > > > > > ---
-> > > > > > > > > >  drivers/media/i2c/ov5645.c | 10 +++++++++-
-> > > > > > > > > >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > > > > > > > > >
-> > > > > > > > > > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> > > > > > > > > > index 0c32bd2940ec..2c5145d5c616 100644
-> > > > > > > > > > --- a/drivers/media/i2c/ov5645.c
-> > > > > > > > > > +++ b/drivers/media/i2c/ov5645.c
-> > > > > > > > > > @@ -29,6 +29,7 @@
-> > > > > > > > > >  #include <linux/slab.h>
-> > > > > > > > > >  #include <linux/types.h>
-> > > > > > > > > >  #include <media/v4l2-ctrls.h>
-> > > > > > > > > > +#include <media/v4l2-event.h>
-> > > > > > > > > >  #include <media/v4l2-fwnode.h>
-> > > > > > > > > >  #include <media/v4l2-subdev.h>
-> > > > > > > > > >
-> > > > > > > > > > @@ -1034,6 +1035,11 @@ static const struct v4l2_subdev_video_ops ov5645_video_ops = {
-> > > > > > > > > >       .s_stream = ov5645_s_stream,
-> > > > > > > > > >  };
-> > > > > > > > > >
-> > > > > > > > > > +static const struct v4l2_subdev_core_ops ov5645_subdev_core_ops = {
-> > > > > > > > > > +     .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> > > > > > > > > > +     .unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> > > > > > > > > > +};
-> > > > > > > > > > +
-> > > > > > > > > >  static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
-> > > > > > > > > >       .enum_mbus_code = ov5645_enum_mbus_code,
-> > > > > > > > > >       .enum_frame_size = ov5645_enum_frame_size,
-> > > > > > > > > > @@ -1043,6 +1049,7 @@ static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
-> > > > > > > > > >  };
-> > > > > > > > > >
-> > > > > > > > > >  static const struct v4l2_subdev_ops ov5645_subdev_ops = {
-> > > > > > > > > > +     .core = &ov5645_subdev_core_ops,
-> > > > > > > > > >       .video = &ov5645_video_ops,
-> > > > > > > > > >       .pad = &ov5645_subdev_pad_ops,
-> > > > > > > > > >  };
-> > > > > > > > > > @@ -1178,7 +1185,8 @@ static int ov5645_probe(struct i2c_client *client)
-> > > > > > > > > >
-> > > > > > > > > >       v4l2_i2c_subdev_init(&ov5645->sd, client, &ov5645_subdev_ops);
-> > > > > > > > > >       ov5645->sd.internal_ops = &ov5645_internal_ops;
-> > > > > > > > > > -     ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > > > > > > > > > +     ov5645->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> > > > > > > > > > +                         V4L2_SUBDEV_FL_HAS_EVENTS;
-> > > > > > > > >
-> > > > > > > > > Instead of patching every subdev driver, should we handle all of this in
-> > > > > > > > > the subdev core ? If a control handler is set for the subdev, we could
-> > > > > > > > > set the HAS_EVENTS flag automatically, and default to
-> > > > > > > > > v4l2_ctrl_subdev_subscribe_event() and v4l2_event_subdev_unsubscribe()
-> > > > > > > > > if there are no control operations.
-> > > > > > >
-> > > > > > > Premit:
-> > > > > > >  - Don't know if I'm wrong eh.
-> > > > > >
-> > > > > > Nobody knows :-)
-> > > > > >
-> > > > > > > This can be done into:
-> > > > > > >
-> > > > > > > __v4l2_subdev_init_finalize()
-> > > > > > >
-> > > > > > > Adding:
-> > > > > > >
-> > > > > > >     if (sd->ctrl_handler)
-> > > > > > >             sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS;
-> > > > > > >
-> > > > > > > And check if there are no control operations using:
-> > > > > > >
-> > > > > > > bool has_subscribe_event;
-> > > > > > > bool has_unsubscribe_event;
-> > > > > > >
-> > > > > > >
-> > > > > > > has_subscribe_event = v4l2_subdev_has_op(sd, core, subscribe_event);
-> > > > > > > has_unsubscribe_event = v4l2_subdev_has_op(sd, core, unsubscribe_event);
-> > > > > > >
-> > > > > > > if (!has_subscribe_event)
-> > > > > > >     assign v4l2_ctrl_subdev_subscribe_event as default .subscribe ops(somehow)
-> > > > > >
-> > > > > > We can't change the ops structure as it's constant. Something like this
-> > > > > > could do:
-> > > > > >
-> > > > > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > > > > index 3a4ba08810d2..41ae18a0d41e 100644
-> > > > > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > > > > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > > > > @@ -691,10 +691,24 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> > > > > >               return v4l2_event_dequeue(vfh, arg, file->f_flags & O_NONBLOCK);
-> > > > > >
-> > > > > >       case VIDIOC_SUBSCRIBE_EVENT:
-> > > > > > -             return v4l2_subdev_call(sd, core, subscribe_event, vfh, arg);
-> > > > > > +             if (v4l2_subdev_has_op(sd, core, subscribe_event))
-> > > > > > +                     return v4l2_subdev_call(sd, core, subscribe_event, vfh,
-> > > > > > +                                             arg);
-> > > > > > +             else if ((sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS) &&
-> > > > > > +                      vfh->ctrl_handler)
-> > > > > > +                     return v4l2_ctrl_subdev_subscribe_event(sd, vfh, arg);
-> > > > > > +             else
-> > > > > > +                     return -ENOIOCTLCMD;
-> > > > > >
-> > > > > >       case VIDIOC_UNSUBSCRIBE_EVENT:
-> > > > > > -             return v4l2_subdev_call(sd, core, unsubscribe_event, vfh, arg);
-> > > > > > +             if (!(sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS))
-> > > > > > +                     return -ENOIOCTLCMD;
-> > > > > > +
-> > > > > > +             if (v4l2_subdev_has_op(sd, core, unsubscribe_event))
-> > > > > > +                     return v4l2_subdev_call(sd, core, unsubscribe_event,
-> > > > > > +                                             vfh, arg);
-> > > > > > +             else
-> > > > > +                       return v4l2_event_subdev_unsubscribe(sd, vfh, arg);
-> > > > >
-> > > > > Thanks for your "more than an hint :)"
-> > > > > I'm able to test this on ov5645:
-> > > > >
-> > > > > Adding:
-> > > > >
-> > > > > +++ b/drivers/media/i2c/ov5645.c
-> > > > > @@ -1238,6 +1238,12 @@ static int ov5645_probe(struct i2c_client *client)
-> > > > >
-> > > > >         ov5645_init_state(&ov5645->sd, NULL);
-> > > > >
-> > > > > +       ret = v4l2_subdev_init_finalize(&ov5645->sd);
-> > > > > +       if (ret < 0) {
-> > > > > +               dev_err(dev, "subdev initialization error %d\n", ret);
-> > > > > +               goto err_free_state;
-> > > > > +       }
-> > > > > +
-> > > > >         ret = v4l2_async_register_subdev(&ov5645->sd);
-> > > > >         if (ret < 0) {
-> > > > >                 dev_err(dev, "could not register v4l2 device\n");
-> > > > > @@ -1251,6 +1257,8 @@ static int ov5645_probe(struct i2c_client *client)
-> > > > >
-> > > > >         return 0;
-> > > > >
-> > > > > +err_free_state:
-> > > > > +       v4l2_subdev_cleanup(&ov5645->sd);
-> > > > >  err_pm_runtime:
-> > > > >         pm_runtime_disable(dev);
-> > > > >         pm_runtime_put_noidle(dev);
-> > > > > @@ -1272,6 +1280,7 @@ static void ov5645_remove(struct i2c_client *client)
-> > > > >
-> > > > >         v4l2_async_unregister_subdev(&ov5645->sd);
-> > > > >         media_entity_cleanup(&ov5645->sd.entity);
-> > > > > +       v4l2_subdev_cleanup(&ov5645->sd);
-> > > > >         v4l2_ctrl_handler_free(&ov5645->ctrls);
-> > > > >         pm_runtime_disable(ov5645->dev);
-> > > > >         if (!pm_runtime_status_suspended(ov5645->dev))
-> > > > >
-> > > > > Then from the compliance tool I'm getting now good results:
-> > > > >
-> > > > > Total for device /dev/v4l-subdev1: 44, Succeeded: 44, Failed: 0, Warnings: 0
-> > > > >
-> > > > > I will send these 2 patches later if you agree (1 v4l2-subdev 1 ov5645.c)
-> > > > > Thanks again.
-> > > > >
-> > > > Thank you for the patch.
-> > > > 
-> > > > I am currently working on adding support for V4L2_SUBDEV_FL_HAS_EVENTS
-> > > > and subscribe hooks[1] (and some more features [0] for ov5645 driver),
-> > > > since the patch series adds internal pad which needs rework based on
-> > > > patch series from Sakari which I will do soon and send v3 patches for
-> > > > ov5645 driver.
-> > > > 
-> > > > [0] https://lore.kernel.org/all/20240910170610.226189-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> > > > [1] https://lore.kernel.org/all/20240910170610.226189-2-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> > > 
-> > > Thanks for sharing this.
-> > > Nice! then I can drop ov5645 patch and send only v4l2-subdev patch :)
-> > > 
-> > > Plan as suggested by Laurent is:
-> > > 
-> > > "Instead of patching every subdev driver, should we handle all of this in
-> > > the subdev core ? If a control handler is set for the subdev, we could
-> > > set the HAS_EVENTS flag automatically, and default to
-> > > v4l2_ctrl_subdev_subscribe_event() and v4l2_event_subdev_unsubscribe()
-> > > if there are no control operations"
-> > > 
-> > > Using:
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > index 3a4ba08810d2..fe584998f5e6 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > @@ -691,10 +691,24 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> > >                 return v4l2_event_dequeue(vfh, arg, file->f_flags & O_NONBLOCK);
-> > > 
-> > >         case VIDIOC_SUBSCRIBE_EVENT:
-> > > -               return v4l2_subdev_call(sd, core, subscribe_event, vfh, arg);
-> > > +               if (v4l2_subdev_has_op(sd, core, subscribe_event))
-> > > +                       return v4l2_subdev_call(sd, core, subscribe_event,
-> > > +                                               vfh, arg);
-> > > +               else if ((sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS) &&
-> > 
-> > Useless use of else. Same below.
+> Make sure that the device has stopped streaming before exiting this
+> function.
 > 
-> Better:
+> If the user still holds handles to the driver's file descriptors, any
+> ioctl will return -ENODEV from the v4l2 core.
 > 
-> 	case VIDIOC_SUBSCRIBE_EVENT:
-> 		if (v4l2_subdev_has_op(sd, core, subscribe_event))
-> 			return v4l2_subdev_call(sd, core, subscribe_event,
-> 						vfh, arg);
+> This change makes uvc more consistent with the rest of the v4l2 drivers
+> using the vb2_fop_* and vb2_ioctl_* helpers.
 > 
-> 		return v4l2_ctrl_subdev_subscribe_event(sd, vfh, arg);
-> 
-> 	case VIDIOC_UNSUBSCRIBE_EVENT:
-> 		if (v4l2_subdev_has_op(sd, core, unsubscribe_event))
-> 			return v4l2_subdev_call(sd, core, unsubscribe_event,
-> 						vfh, arg);
-> 
-> 		return v4l2_event_subdev_unsubscribe(sd, vfh, arg);
-> 
-> Because V4L2_SUBDEV_FL_HAS_EVENTS and vfh->ctrl_handler are already
-> check right?
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-v4l2_ctrl_subdev_{,un}subscribe_event() does check for the presence of the
-control handler, but return -EINVAL if one doesn't exist. We should however
-return -ENOIOCTLCMD, to indicate there's no such IOCTL if the HAS_EVENTS
-flag is missing.
+I didn't test it, but the patch looks OK on my eyes.
 
-> > 
-> > > +                       vfh->ctrl_handler)
-> > > +                       return v4l2_ctrl_subdev_subscribe_event(sd, vfh, arg);
-> > > +               else
-> > > +                       return -ENOIOCTLCMD;
-> > > 
-> > >         case VIDIOC_UNSUBSCRIBE_EVENT:
-> > > -               return v4l2_subdev_call(sd, core, unsubscribe_event, vfh, arg);
-> > > +               if (!(sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS))
-> > > +                       return -ENOIOCTLCMD;
-> > > +
-> > > +               if (v4l2_subdev_has_op(sd, core, unsubscribe_event))
-> > > +                       return v4l2_subdev_call(sd, core, unsubscribe_event,
-> > > +                                               vfh, arg);
-> > > +               else
-> > > +                       return v4l2_event_subdev_unsubscribe(sd, vfh, arg);
-> > > 
-> > >  #ifdef CONFIG_VIDEO_ADV_DEBUG
-> > >         case VIDIOC_DBG_G_REGISTER:
-> > > @@ -1641,6 +1655,9 @@ int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
-> > >                 }
-> > >         }
-> > > 
-> > > +       if (sd->ctrl_handler)
-> > > +               sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS;
-> > > +
-> > >         state = __v4l2_subdev_state_alloc(sd, name, key);
-> > >         if (IS_ERR(state))
-> > >                 return PTR_ERR(state);
-> > > 
-> > > In theory v4l2_subdev_init_finalize() and subdev_do_ioctl() will handle
-> > > this.
-> > > 
-> > > Please Laurent correct me if I'm wrong.
-> > > Prabhakar what do you think?
-> > > Thanks in advance.
-> > 
-> > Looks good to me, with the above comment.
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
--- 
-Kind regards,
+> ---
+> This patch was part of the series:
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=13064
+> 
+> Moved out from it to ease the review.
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 32 +++++++++++++++++++++++++++++++-
+>  1 file changed, 31 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index f0febdc08c2d..bee150b852e4 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1919,11 +1919,41 @@ static void uvc_unregister_video(struct uvc_device *dev)
+>  	struct uvc_streaming *stream;
+>  
+>  	list_for_each_entry(stream, &dev->streams, list) {
+> +		/* Nothing to do here, continue. */
+>  		if (!video_is_registered(&stream->vdev))
+>  			continue;
+>  
+> +		/*
+> +		 * For stream->vdev we follow the same logic as:
+> +		 * vb2_video_unregister_device().
+> +		 */
+> +
+> +		/* 1. Take a reference to vdev */
+> +		get_device(&stream->vdev.dev);
+> +
+> +		/* 2. Ensure that no new ioctls can be called. */
+>  		video_unregister_device(&stream->vdev);
+> -		video_unregister_device(&stream->meta.vdev);
+> +
+> +		/* 3. Wait for old ioctls to finish. */
+> +		mutex_lock(&stream->mutex);
+> +
+> +		/* 4. Stop streaming. */
+> +		uvc_queue_release(&stream->queue);
+> +
+> +		mutex_unlock(&stream->mutex);
+> +
+> +		put_device(&stream->vdev.dev);
+> +
+> +		/*
+> +		 * For stream->meta.vdev we can directly call:
+> +		 * vb2_video_unregister_device().
+> +		 */
+> +		vb2_video_unregister_device(&stream->meta.vdev);
+> +
+> +		/*
+> +		 * Now both vdevs are not streaming and all the ioctls will
+> +		 * return -ENODEV.
+> +		 */
+>  
+>  		uvc_debugfs_cleanup_stream(stream);
+>  	}
+> 
+> ---
+> base-commit: 81ee62e8d09ee3c7107d11c8bbfd64073ab601ad
+> change-id: 20240926-uvc_stop_streaming-6e9fd20e97bc
+> 
+> Best regards,
 
-Sakari Ailus
+
+
+Thanks,
+Mauro
 
