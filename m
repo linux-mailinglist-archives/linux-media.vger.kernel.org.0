@@ -1,233 +1,112 @@
-Return-Path: <linux-media+bounces-19889-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19890-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCE49A421A
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 17:17:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 643939A4231
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 17:21:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80CB11C2364C
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 15:17:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D27A8282C4B
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 15:21:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6358200C8E;
-	Fri, 18 Oct 2024 15:16:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42401200CB8;
+	Fri, 18 Oct 2024 15:21:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mvzrp7HJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bwlbPMPm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB2F23D2
-	for <linux-media@vger.kernel.org>; Fri, 18 Oct 2024 15:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852CA23D2;
+	Fri, 18 Oct 2024 15:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729264612; cv=none; b=a0QOujsCrcGWHAfM5l/cPkjKT5P6B0CznVDHgL+qlvaFLiIPSTIPnBQrfclSbnmatm+wkH0joncArgtmc4ksEtD3n95byjfnIcRAsnnu2Q9q+xzV2S88v/Ns4E+BKWAMkiSr239Nw+YPQGM7/7V5RmERqmf8aqz7mjsgd5RrMRg=
+	t=1729264894; cv=none; b=CyRHX0xhoKwUAqHBWj2gUEdVSAi0kfBvsgoTnu7kdldtAxvTXySPZMgIhsnSApTOBU0ncKt9isuw051PgQMMDFM/x9QDD6+93eqdNeayF46vOOMLr/C8PipDj1rhE1ipKzJrpb6brMtfr4qH7hPICDysbem2jPIw7u8SSjUu74c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729264612; c=relaxed/simple;
-	bh=LygxUKJfVLMcjkQWcdeYML3V3fjbveTCoh/9SlrPUjI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mA38Iqgu+mR5DKpTgG6OOYmKX+XakeyTVKJE6g8TXESiC9yadgADjQDoW6XrrOgsqJo69GqI6E4ddEBTF63WT3EpJwn9qQFm7L9/tqtHXxriyE8KgqsBGtK1JUfR0J/Idzh0PJ3Js5IFR6rMRc7iw+vDVhXb4Mr/lT/UwCI+ycY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mvzrp7HJ; arc=none smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-2689e7a941fso1151932fac.3
-        for <linux-media@vger.kernel.org>; Fri, 18 Oct 2024 08:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729264608; x=1729869408; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jAytm+vTrrtYhXgD+UllQFjS/zTHJKwJ78TI6ibsmew=;
-        b=Mvzrp7HJ+40K1rPBczx7OxtRWToy7Wfq7rT56pZR7iB6ombfhHFbGE4fcwJ3E1SIHm
-         F7Gj6JMF1C7Gy/JW5Y2drUyqtFlUf7NbLSyHGJMlfxEZ70pIjfMejHNc2od/fdRyoFYu
-         cEezS3LEeoINjug9fc+PM8/XwFkCdX6wXjKiAnac3hrePi7xFfTlcWZ6PbrPi53PY9Co
-         2SeI2UGohFsmKdIIjrx4B/ImIFSFszMtNryEztvAxsGuVEnbQ1oWA6DFXNP/D49pEQ2j
-         woRN4xN8ndAVtjId/ksryVXjnjh4jMWcwD2yyG/wkcEFVJhnuLZnavhlq5rSHkhdspqC
-         XZog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729264608; x=1729869408;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jAytm+vTrrtYhXgD+UllQFjS/zTHJKwJ78TI6ibsmew=;
-        b=NkwqO3be65ouMEADY3YzYLPoTOHE8lDyTRtFBy3U/XfYIfbRgNWmZfThfnvqNXALI0
-         /ExCd04O7eSKu1Kt46zcNRQQ28aS6Xr5ERpnX3gldaoMpzIdEfk6aI1ASs5fidwwu1sk
-         0EXBxgkoGzZtGxU0BleoSOXAKh6oAE64/jZCsYYjvRe9hbs6N43yxImPU/lW3m9gzRWQ
-         yiD7KL/rmW5tJuIJ52RMQsBPp/06gwq9lJYO7/0zw5XCFZ4W9EW0TmW0RjEfyoClJ/zy
-         PQAMtZdXyrX55ES1G7BkN1DWPyT/ZCIAQWMcW8uqxz0urMHWfhcxtyesPkO2GDDGKKqz
-         26ZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHyT3x/lecGJ6V3Xp24t1V0q5+AkXYPyy1v+sIFL1QqEyQX9prItt//p+xq/gnXWU65UHYJ+6JWMV9og==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWWYsucAEmCp9F+Qpi+FudtTPFpWiUHZgMId1MLad6spxBEIgn
-	v7ikgN5eru0PTueTSiiNdy7ceeu8YlI7PRbpx+dxaCHPzreb3GlIeI/9XGRvq4rgZvmvhxMe7iT
-	dFyx5z4p24T64O8j7IFSHb0sW5ppiLSU3WfBc0g==
-X-Google-Smtp-Source: AGHT+IGolIsaMF++Cy6m1kdkSWxRaRgoSmJ+SJAAIuYVSNeW7g86RMg1ygCv7BHSNEhaFysoGwUOjmgwMXq354t4fEo=
-X-Received: by 2002:a05:6870:1594:b0:288:2906:6877 with SMTP id
- 586e51a60fabf-2892c5b26d6mr2532230fac.45.1729264608454; Fri, 18 Oct 2024
- 08:16:48 -0700 (PDT)
+	s=arc-20240116; t=1729264894; c=relaxed/simple;
+	bh=mx87PZ0fJUAC0aOMm3blO7HIkucZJPoFvoNzVO2DGLE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LZ8gaZZxroIGyIeMEC873QcSgNFEZwr9sLz7bn4N9aBuYs2BeoEkrda9mGFdbCUwx1bDbOPG3+ypkTnvuG2V+7Zos/HrjamC6YjqS7vFiDoUG6UOZjk3jcAl5NZpC8W7tXMQGIwTI6eRc4J9cqHwFcuDBT2rzcghyW1AvN/B8Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bwlbPMPm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28513C4CEC3;
+	Fri, 18 Oct 2024 15:21:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729264894;
+	bh=mx87PZ0fJUAC0aOMm3blO7HIkucZJPoFvoNzVO2DGLE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bwlbPMPmuPOb+/LqJ4WWncgzj2FxM9cJbcXhcNpVUBcuxbuOLQmxcIwfK2EQiaAM2
+	 wFW+zK6d9BgpayW1uV2DDKEJzHDzPGQdwW5P5SbcxxSi/WWWP8RC218y679NVZFbve
+	 Gfdf8hG7p2CdRRC4m/fW9y2L+cLdWsySOdOtalASlfjX7eu6p5RH7PmppentunxdkY
+	 nMcB7FI2w4FI/qiI18Rje10jYVIg1m/VFNst5Tj/Gyl4dagpE9Mq+pQD6ZVTlL6lUu
+	 rgE355uhVy6JVgvJFz5jlu3ThFMqgqjMIpfNaXquZ1lE9W1IiuWby/GpZjexiBoSfJ
+	 tJhIEAUL6c7Qg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Alexandre Courbot <acourbot@chromium.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Fei Shao <fshao@chromium.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] media: mtk-vcodec: venc: avoid -Wenum-compare-conditional warning
+Date: Fri, 18 Oct 2024 15:21:10 +0000
+Message-Id: <20241018152127.3958436-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241015101716.740829-1-jens.wiklander@linaro.org> <CAFA6WYOCDf6RqHr7E9nN7DQdoq+ZDwFO=Y0yB+fzit2GwzDkGg@mail.gmail.com>
-In-Reply-To: <CAFA6WYOCDf6RqHr7E9nN7DQdoq+ZDwFO=Y0yB+fzit2GwzDkGg@mail.gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Fri, 18 Oct 2024 17:16:36 +0200
-Message-ID: <CAHUa44Fonf1RdEJ-_SmBS_9+QZmhJ-O0UCi_FNm1xs655oM2Tw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/2] TEE subsystem for restricted dma-buf allocations
-To: Sumit Garg <sumit.garg@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 17, 2024 at 12:46=E2=80=AFPM Sumit Garg <sumit.garg@linaro.org>=
- wrote:
->
-> Hi Jens,
->
-> On Tue, 15 Oct 2024 at 15:47, Jens Wiklander <jens.wiklander@linaro.org> =
-wrote:
-> >
-> > Hi,
-> >
-> > This patch set allocates the restricted DMA-bufs via the TEE subsystem.
-> > This a complete rewrite compared to the previous patch set [1], and oth=
-er
-> > earlier proposals [2] and [3] with a separate restricted heap.
-> >
-> > The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> > (OP-TEE, AMD-TEE, TS-TEE, or a future QTEE) which sets up the restricti=
-ons
-> > for the memory used for the DMA-bufs.
->
-> Thanks for proposing this interface. IMHO, this solution will address
-> many concerns raised for the prior vendor specific DMA heaps approach
-> [1] as follows:
->
-> 1. User-space interacting with the TEE subsystem for restricted memory
-> allocation makes it obvious that the returned DMA buf can't be
-> directly mapped by the CPU.
->
-> 2. All the low level platform details gets abstracted out for
-> user-space regarding how the platform specific memory restriction
-> comes into play.
->
-> 3. User-space doesn't have to deal with holding 2 DMA buffer
-> references, one after allocation from DMA heap and other for
-> communication with the TEE subsystem.
->
-> 4. Allows for better co-ordination with other kernel subsystems
-> dealing with restricted DMA-bufs.
->
-> [1] https://lore.kernel.org/linux-arm-kernel/20240515112308.10171-1-yong.=
-wu@mediatek.com/
->
-> >
-> > I've added a new IOCTL, TEE_IOC_RSTMEM_ALLOC, to allocate the restricte=
-d
-> > DMA-bufs. This new IOCTL reaches the backend TEE driver, allowing it to
-> > choose how to allocate the restricted physical memory.
-> >
-> > TEE_IOC_RSTMEM_ALLOC is quite similar to TEE_IOC_SHM_ALLOC so it's temp=
-ting
-> > to extend TEE_IOC_SHM_ALLOC with two new flags
-> > TEE_IOC_SHM_FLAG_SECURE_VIDEO and TEE_IOC_SHM_FLAG_SECURE_TRUSTED_UI fo=
-r
-> > the same feature. However, it might be a bit confusing since
-> > TEE_IOC_SHM_ALLOC only returns an anonymous file descriptor, but
-> > TEE_IOC_SHM_FLAG_SECURE_VIDEO and TEE_IOC_SHM_FLAG_SECURE_TRUSTED_UI wo=
-uld
-> > return a DMA-buf file descriptor instead. What do others think?
->
-> I think it's better to keep it as a separate IOCTL given the primary
-> objective of buffer allocation and it's usage.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Agreed.
+This is one of three clang warnings about incompatible enum types
+in a conditional expression:
 
-Thanks,
-Jens
+drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c:597:29: error: conditional expression between different enumeration types ('enum scp_ipi_id' and 'enum ipi_id') [-Werror,-Wenum-compare-conditional]
+  597 |         inst->vpu_inst.id = is_ext ? SCP_IPI_VENC_H264 : IPI_VENC_H264;
+      |                                    ^ ~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~
 
->
-> -Sumit
->
-> >
-> > This can be tested on QEMU with the following steps:
-> > repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.x=
-ml \
-> >         -b prototype/sdp-v2
-> > repo sync -j8
-> > cd build
-> > make toolchains -j4
-> > make all -j$(nproc)
-> > make run-only
-> > # login and at the prompt:
-> > xtest --sdp-basic
-> >
-> > https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> > list dependencies needed to build the above.
-> >
-> > The tests are pretty basic, mostly checking that a Trusted Application =
-in
-> > the secure world can access and manipulate the memory. There are also s=
-ome
-> > negative tests for out of bounds buffers etc.
-> >
-> > Thanks,
-> > Jens
-> >
-> > [1] https://lore.kernel.org/lkml/20240830070351.2855919-1-jens.wiklande=
-r@linaro.org/
-> > [2] https://lore.kernel.org/dri-devel/20240515112308.10171-1-yong.wu@me=
-diatek.com/
-> > [3] https://lore.kernel.org/lkml/20220805135330.970-1-olivier.masse@nxp=
-.com/
-> >
-> > Changes since the V1 RFC:
-> > * Based on v6.11
-> > * Complete rewrite, replacing the restricted heap with TEE_IOC_RSTMEM_A=
-LLOC
-> >
-> > Changes since Olivier's post [2]:
-> > * Based on Yong Wu's post [1] where much of dma-buf handling is done in
-> >   the generic restricted heap
-> > * Simplifications and cleanup
-> > * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf =
-heap
-> >   support"
-> > * Replaced the word "secure" with "restricted" where applicable
-> >
-> > Jens Wiklander (2):
-> >   tee: add restricted memory allocation
-> >   optee: support restricted memory allocation
-> >
-> >  drivers/tee/Makefile              |   1 +
-> >  drivers/tee/optee/core.c          |  21 ++++
-> >  drivers/tee/optee/optee_private.h |   6 +
-> >  drivers/tee/optee/optee_smc.h     |  35 ++++++
-> >  drivers/tee/optee/smc_abi.c       |  45 ++++++-
-> >  drivers/tee/tee_core.c            |  33 ++++-
-> >  drivers/tee/tee_private.h         |   2 +
-> >  drivers/tee/tee_rstmem.c          | 200 ++++++++++++++++++++++++++++++
-> >  drivers/tee/tee_shm.c             |   2 +
-> >  drivers/tee/tee_shm_pool.c        |  69 ++++++++++-
-> >  include/linux/tee_core.h          |   6 +
-> >  include/linux/tee_drv.h           |   9 ++
-> >  include/uapi/linux/tee.h          |  33 ++++-
-> >  13 files changed, 455 insertions(+), 7 deletions(-)
-> >  create mode 100644 drivers/tee/tee_rstmem.c
-> >
-> > --
-> > 2.43.0
-> >
+The code is correct, so just rework it to avoid the warning.
+
+Fixes: 0dc4b3286125 ("media: mtk-vcodec: venc: support SCP firmware")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ .../platform/mediatek/vcodec/encoder/venc/venc_h264_if.c    | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+index f8145998fcaf..8522f71fc901 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+@@ -594,7 +594,11 @@ static int h264_enc_init(struct mtk_vcodec_enc_ctx *ctx)
+ 
+ 	inst->ctx = ctx;
+ 	inst->vpu_inst.ctx = ctx;
+-	inst->vpu_inst.id = is_ext ? SCP_IPI_VENC_H264 : IPI_VENC_H264;
++	if (is_ext)
++		inst->vpu_inst.id = SCP_IPI_VENC_H264;
++	else
++		inst->vpu_inst.id = IPI_VENC_H264;
++
+ 	inst->hw_base = mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base, VENC_SYS);
+ 
+ 	ret = vpu_enc_init(&inst->vpu_inst);
+-- 
+2.39.5
+
 
