@@ -1,157 +1,190 @@
-Return-Path: <linux-media+bounces-19910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19911-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291D09A46FF
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 21:30:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8879A48B6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 23:08:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 91832B22195
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 19:30:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 799F728305C
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 21:08:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436F1204943;
-	Fri, 18 Oct 2024 19:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A17918E37C;
+	Fri, 18 Oct 2024 21:08:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6B+5et7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iuy0Ywur"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B668820E33D;
-	Fri, 18 Oct 2024 19:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B6213541B;
+	Fri, 18 Oct 2024 21:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729279837; cv=none; b=rNdr3neBbPFnnWjARXS6Njp9AgGs0REEo3xYzSR0yrb3YVzH+q4mjCLFdxVYatGn7oQOPrazuKdkv4DuigR3b59RfWSHrzw4gMTmCYqOnz/YP5F+0kfKspAAcJt4Lx9+UlblLndJYqT048JhfAapB4r3W/tEfTb19JXUE25ItHg=
+	t=1729285718; cv=none; b=gFv1Z1sXqMq3cr3maWqbQT1o4In6L8LFH9woHz4Hv+VcXb/lbJTXjTwTNP2M2rExlZvgDcuDEYqN/+Px6xwBeBUPp4Izy2/jbRkv/bUftb7O7OpYQMvvM2li5Pb334nqR10NhE47XKnkN8wy+19BYD2NVNLm+ZhV2M8OrMbM7Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729279837; c=relaxed/simple;
-	bh=Pf211wAd6uXT3f9WYNiR63aBdshGbUFzLA1xgDWeEn0=;
+	s=arc-20240116; t=1729285718; c=relaxed/simple;
+	bh=SvKt67n2zji81Um2vUUrt/85YdAkt079QTWL93keV8g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s7MI57NzuyD7IdHVy3ALjQwVQs517y+9s/5E/PnRm2Vo+byCuQshrnZ+IRynP/Kgypx8rbKrDqg/aCLe7ePoW49kUgt6B1MaQe5MdQKCkoYcCK7TVkqYQqb5izexgfXDkNRMjE35nmCoMr+xIrx4IaV1GBEOdlXOy0vGLhWQvno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6B+5et7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729279835; x=1760815835;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Pf211wAd6uXT3f9WYNiR63aBdshGbUFzLA1xgDWeEn0=;
-  b=R6B+5et7p+qyHnaq59M99wVQmg44Q1akyzM1YqKjxEqY0K7y9UiXU9f3
-   1TVDEYEVTiMcrn84WkRmQvSE7dw5lQ0H2lZY4BHtVRMhCAZmpkB2lRybV
-   hhHJNKHmoOdBkvtfRe+rgnHHEVoYdg6GraK7H/TVAvMktMW/Peuz47rzU
-   FCp7oggBO0I5jz+6KhjkD9OsLQJhDV5a3+dk7uZbcgsTEaZ+pMuYlFaCE
-   UwvHxi72MiAtCOrgwzyW+AUCXgVRXrLEu/q5GJJr0KjWjCre0uf/BrWv/
-   DpYoIM1tZqyz4+rYtRhCu1CLFRjkQ/4REHx/X6TfqsCsqXIUCGtOSNND/
-   w==;
-X-CSE-ConnectionGUID: WFwW/OljSruKFnAsvttAcg==
-X-CSE-MsgGUID: UUnxOJcZQGCFSceFd2wBpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="54234388"
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="54234388"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 12:30:35 -0700
-X-CSE-ConnectionGUID: 352hPPzgSxey+NVSEw/EJw==
-X-CSE-MsgGUID: X+La72HmS8Cjy95DrQwtNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="102252232"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 12:30:32 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 341F611F832;
-	Fri, 18 Oct 2024 22:30:30 +0300 (EEST)
-Date: Fri, 18 Oct 2024 19:30:30 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: laurent.pinchart@ideasonboard.com, prabhakar.csengg@gmail.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	=?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-subdev: Refactor events
-Message-ID: <ZxK3VsNdFjULfRxK@kekkonen.localdomain>
-References: <20241018171104.1624426-1-tomm.merciai@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MBBOygSw3eU2VO4lCBqqPPOQLqZLfoN2VK8ITdbVjZfbpwDZ1NOk9V5sqV0Uy6Eb6w/iqqWouQqIuJXbzC8+Ycp6dP4Mro22bYhjbv8bEsliVXIvoA6YHjiBlTUyAyL4MtoUAgiUIKQMfUeS6Ks+spIuhluI0bhbyrtKoO9bQM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iuy0Ywur; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2339C268;
+	Fri, 18 Oct 2024 23:06:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1729285610;
+	bh=SvKt67n2zji81Um2vUUrt/85YdAkt079QTWL93keV8g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iuy0YwurjR5qcNZlG8GYF/Z2J8r36u0HLZ6aJx7471/9BDVtLCjcqjgzEeAxXVy+b
+	 6o8gQ6u9za+23VrEjsPYHkCY0rRHrVIwi/kXXi1Ew2EBfP4vkD/Slf5f7ymXcXZKMa
+	 53SLTdf7ijbex049MP94tKIjJqshO9A17kWCSVNw=
+Date: Sat, 19 Oct 2024 00:08:28 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v6 23/23] media: renesas: rzg2l-cru: Add 'yuv' flag to IP
+ format structure
+Message-ID: <20241018210828.GA13357@pendragon.ideasonboard.com>
+References: <20241018133446.223516-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241018133446.223516-24-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241018171104.1624426-1-tomm.merciai@gmail.com>
+In-Reply-To: <20241018133446.223516-24-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Tommaso,
+Hi Prabhakar,
 
-Thanks for working on this.
+Thank you for the patch.
 
-On Fri, Oct 18, 2024 at 07:11:03PM +0200, Tommaso Merciai wrote:
-> Controls can be exposed to userspace via a v4l-subdevX device, and
-> userspace has to be able to subscribe to control events so that it is
-> notified when the control changes value.
-> If a control handler is set for the subdev then set the HAS_EVENTS
-> flag automatically into v4l2_subdev_init_finalize() and use
-> v4l2_ctrl_subdev_subscribe_event() and v4l2_event_subdev_unsubscribe()
-> as default if subdev don't have .(un)subscribe control operations.
+On Fri, Oct 18, 2024 at 02:34:46PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> Add a 'yuv' flag to the `rzg2l_cru_ip_format` structure to indicate
+> whether a given format is YUV-based and update the `rzg2l_cru_ip_formats`
+> array with this flag appropriately. This change enables a more efficient
+> way to check if the input and output formats use the same colorspace.
+> 
+> With this change, we can eliminate the use of `v4l2_format_info()` in
+> `rzg2l_cru_initialize_image_conv()` as the necessary details for the source
+> and destination formats are already available through the `yuv` flag.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h   | 2 ++
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c    | 5 +++++
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 6 +-----
+>  3 files changed, 8 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 3a4ba08810d2..77ca829b9983 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -691,10 +691,25 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		return v4l2_event_dequeue(vfh, arg, file->f_flags & O_NONBLOCK);
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> index a83e78d9b0be..8b898ce05b84 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> @@ -69,6 +69,7 @@ struct rzg2l_cru_ip {
+>   * @format: 4CC format identifier (V4L2_PIX_FMT_*)
+>   * @icndmr: ICnDMR register value
+>   * @bpp: bytes per pixel
+> + * @yuv: Flag to indicate whether the format is YUV-based.
+>   */
+>  struct rzg2l_cru_ip_format {
+>  	u32 code;
+> @@ -76,6 +77,7 @@ struct rzg2l_cru_ip_format {
+>  	u32 format;
+>  	u32 icndmr;
+>  	u8 bpp;
+> +	bool yuv;
+>  };
 >  
->  	case VIDIOC_SUBSCRIBE_EVENT:
-> -		return v4l2_subdev_call(sd, core, subscribe_event, vfh, arg);
-> +		if (v4l2_subdev_has_op(sd, core, subscribe_event))
-> +			return v4l2_subdev_call(sd, core, subscribe_event,
-> +						vfh, arg);
-> +
-> +		if ((sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS) &&
-> +		     vfh->ctrl_handler)
-> +			return v4l2_ctrl_subdev_subscribe_event(sd, vfh, arg);
-> +
-> +		return -ENOIOCTLCMD;
-
-While this mostly does the same thing, I prefer the order of tests below.
-Could you align event subscription with unsubscription?
-
+>  /**
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> index d935d981f9d3..76a2b451f1da 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> @@ -18,6 +18,7 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  		.format = V4L2_PIX_FMT_UYVY,
+>  		.bpp = 2,
+>  		.icndmr = ICnDMR_YCMODE_UYVY,
+> +		.yuv = true,
+>  	},
+>  	{
+>  		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> @@ -25,6 +26,7 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.bpp = 1,
+>  		.icndmr = 0,
+> +		.yuv = false,
+>  	},
+>  	{
+>  		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
+> @@ -32,6 +34,7 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.bpp = 1,
+>  		.icndmr = 0,
+> +		.yuv = false,
+>  	},
+>  	{
+>  		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
+> @@ -39,6 +42,7 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.bpp = 1,
+>  		.icndmr = 0,
+> +		.yuv = false,
+>  	},
+>  	{
+>  		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
+> @@ -46,6 +50,7 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.bpp = 1,
+>  		.icndmr = 0,
+> +		.yuv = false,
+>  	},
+>  };
 >  
->  	case VIDIOC_UNSUBSCRIBE_EVENT:
-> -		return v4l2_subdev_call(sd, core, unsubscribe_event, vfh, arg);
-> +		if (!(sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS))
-> +			return -ENOIOCTLCMD;
-> +
-> +		if (v4l2_subdev_has_op(sd, core, unsubscribe_event))
-> +			return v4l2_subdev_call(sd, core, unsubscribe_event,
-> +						vfh, arg);
-> +
-> +		return v4l2_event_subdev_unsubscribe(sd, vfh, arg);
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index a4dc3689599c..e980afc32504 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -210,7 +210,6 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+>  					   struct v4l2_mbus_framefmt *ip_sd_fmt,
+>  					   u8 csi_vc)
+>  {
+> -	const struct v4l2_format_info *src_finfo, *dst_finfo;
+>  	const struct rzg2l_cru_ip_format *cru_video_fmt;
+>  	const struct rzg2l_cru_ip_format *cru_ip_fmt;
 >  
->  #ifdef CONFIG_VIDEO_ADV_DEBUG
->  	case VIDIOC_DBG_G_REGISTER:
-> @@ -1641,6 +1656,9 @@ int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
->  		}
+> @@ -225,11 +224,8 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+>  		return -EINVAL;
 >  	}
 >  
-> +	if (sd->ctrl_handler)
-> +		sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS;
-> +
->  	state = __v4l2_subdev_state_alloc(sd, name, key);
->  	if (IS_ERR(state))
->  		return PTR_ERR(state);
+> -	src_finfo = v4l2_format_info(cru_ip_fmt->format);
+> -	dst_finfo = v4l2_format_info(cru->format.pixelformat);
+> -
+>  	/* If input and output use same colorspace, do bypass mode */
+> -	if (v4l2_is_format_yuv(src_finfo) == v4l2_is_format_yuv(dst_finfo))
+> +	if (cru_ip_fmt->yuv == cru_video_fmt->yuv)
+>  		rzg2l_cru_write(cru, ICnMC,
+>  				rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR);
+>  	else
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
