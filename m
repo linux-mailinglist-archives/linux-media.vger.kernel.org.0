@@ -1,395 +1,201 @@
-Return-Path: <linux-media+bounces-19902-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19903-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74309A42DE
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 17:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFB79A4325
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 18:02:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5AD5D1F22F4E
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 15:48:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E87251F24186
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 16:02:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53A982022D7;
-	Fri, 18 Oct 2024 15:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A9B200BA7;
+	Fri, 18 Oct 2024 16:02:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Sv3ExHbI"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eB9eTOCb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F55168488
-	for <linux-media@vger.kernel.org>; Fri, 18 Oct 2024 15:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4AF13BADF
+	for <linux-media@vger.kernel.org>; Fri, 18 Oct 2024 16:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729266528; cv=none; b=qNN/kxkYL5EDJhDyDzgwg9fFWTaP76C0/t3FjzMP8bE0vbyBL9JFeUy379fpyNQx414YNdHiXkNIS/9Vu0StUF/G/F3a1rkYzOzv0HBFM3pWmx+9arULWZnlSU3wPGnEZtT3UpW+gWl+B6dJjP/qqP8itVIbTZhSePkOWCbGMU0=
+	t=1729267351; cv=none; b=DoUX2CkfC3HeJA78dJaiBj3bIxMMNahlr1xKr1quxge4QutjYBwqHmGhSw2YxFQIlYO9/jxvWLASGyErH80GVhB6umHWbeIHyOUaBnjbwspMgKsHYWic+qJaHaHvttEslbGfoNMCpRxqlxiHVKl1wnqYW3FWYpTEz6rS/zTubVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729266528; c=relaxed/simple;
-	bh=ZfMyemBH5/ojP5JSNiE0n/JGtH9ovO9hB3G42LlfGeU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TbCphOHdGrQRvTh36XtLjCGtH/Jt0dJNjapE6PlEHhzJfyevrIEjpd7tVbZVI2hEoFULWyKKnG5K+7uLAB920rNZ+A0bkvjRiZT7Hm31knth/6uNWjJq3HZ4ZSSJ43+UpJk2tFUzYj8Vb1r4hSfymyFncGImPxGSmntLnxKp7Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Sv3ExHbI; arc=none smtp.client-ip=209.85.160.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-288661760d3so1215867fac.3
-        for <linux-media@vger.kernel.org>; Fri, 18 Oct 2024 08:48:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729266525; x=1729871325; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s/oFf/kMLVlgJ0FFtDlxauZft7NM7jeJ0DH4Xii7VwQ=;
-        b=Sv3ExHbIOxuqZUiz90+bKCJuqsxA7cYwOlqmd4Pbhx3z82xR6KYtezWG3CZDE/GDl2
-         5RWSUh51bCNJRK3MBgyWi99fLlVO6lQen+4yVotXoaPKDlmkWsIhLJ0Meb+9qXWyQDh8
-         4/N5qaxm8GKpgI0ppkW0O7XQ4Fx1IrS85DlvdygQThRzVsPpsBTj/NhuoJFu9Cu1Lega
-         kNukwyIWr4Cqm40AvuXC+BdeJ5LLUSSVhm/XLgkCMI3sVE9e453bt3TadIE8L5PcofEt
-         ik2yVHepW1LH8rqGYt9mrI0yIoHuucKGR81mTDGklIAf/X44hjCKX1d/cHSL/CwOs1+3
-         hcLA==
+	s=arc-20240116; t=1729267351; c=relaxed/simple;
+	bh=OPSkAYRoP901D3yRcsJem91D9MN0fUbD+FwAftwbMO8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Ydcvx82C2dTUKx3aLLXHHG+iDZw9Hlaopw1s5w6ZAu/0+WtNrEwoAKBRzwZ6PX+wbfEGA/ljX7Di/m14tDMcKBslLbn7J7o+WAwpIBIHBN6jvZ4HIqjpIXx8S4F0krQm8SBfST2fANc2fyx+IrzV3zd+umIDTMJg56hw4dnxjrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eB9eTOCb; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729267348;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0ijCf6lKqnlQnUlCDVFFt7Jh8bQ9sTmRHD5CZvm8uUw=;
+	b=eB9eTOCbgepNBNQyNEUvyWzvUoa7iUjfnU7Z+qwEziw+Y7QRtaNYaBeaW1kiMq+Wo67Lq1
+	BOECcafeHfV0rcQxxlm1CBjkMcZ2nSSxMxbeizBu+ZqSEyFKPy67RzeFBW8kU59T3XQtRi
+	bUgMe9UpGdi9bk978atHL65JvcDscrk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-274-bJaM-lrWPOO8cMW__uPpUw-1; Fri, 18 Oct 2024 12:02:27 -0400
+X-MC-Unique: bJaM-lrWPOO8cMW__uPpUw-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-37d4854fa0eso1308396f8f.2
+        for <linux-media@vger.kernel.org>; Fri, 18 Oct 2024 09:02:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729266525; x=1729871325;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s/oFf/kMLVlgJ0FFtDlxauZft7NM7jeJ0DH4Xii7VwQ=;
-        b=MjVbHn+b6Tex7BAHI7Ntfoa/KpG6yR1Qt8narqhEmyFb4iuwwsHaTydSU3xxjqYWWB
-         BpSexvKdRlBv9iDg+EdpLYItRWRbILW2IEYKSICLnI6Pejrxx9MoXPqcgjQDv3PnwtEi
-         ZuKNH44ulThbwdyTHgTkG7yNJwxZNxWNQ1MIbLq7zeeQaLtUfu2WADC1AJ/1OkvyOAjC
-         CtT5h3hu1cpDDeJM+04uO3Xd94CXK41bKzsBkBsIOY9HfoQGiQVZ5MR039XuebZ+7xSq
-         qenrcMJgeSx52eRvhzLhQtyfbEfoGCGTJ2E7k34lyVyIG9clUhfP79n2FIr6xW2n8rYP
-         pjzg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJFXrotd7jeP5F3gEkuvNVi1J+/hdM9pXzk6m0m1WW6sBmJZ6Mrt28dIYPTCCQLilLa9g0ECuFGlQ0Fg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yws0wdiyAvO1Gl2zZ/1go62S5rOUi8vCdC8s/QWrASZYp+D1bXU
-	vwOccVMhtW8GwWaNvhxsq+OcZWr5cRqXd67Q7yPiFfkEXLKaBx6e4RgY2gI++XfxhTaUMcG31z9
-	1GiUVI37RXO2ulR0obl9aabhPQTTy6jBVQgbsOA==
-X-Google-Smtp-Source: AGHT+IEGFX+TJ21o7W2TsN9T08DevU1B9RUQALluVGZL1MO/rIaqyu7XBSObbywSk2H6T0vDAWl7wSBFO1fraKyz1+A=
-X-Received: by 2002:a05:6870:80d4:b0:277:eb79:b4fb with SMTP id
- 586e51a60fabf-2892c2678a7mr2454837fac.1.1729266524858; Fri, 18 Oct 2024
- 08:48:44 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729267345; x=1729872145;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0ijCf6lKqnlQnUlCDVFFt7Jh8bQ9sTmRHD5CZvm8uUw=;
+        b=PEB1aPnfD80m2ou+XKfflTNLNm0eCr5Qw1Z1W73jsESkL6ud71RiJKq8S/LulbXVKP
+         lR1Xie+J5bGdBpUUnZKnB78Hc8wY7Mk3plnblM3IPUbuweT4oQzKquIqiGKm6QUYendO
+         gFXO3azk+T30errc/bRoiVvtEJh7EuKX3phCiy3ehMTDCiFz66uZRzhffw/ES4E5dlKl
+         caRWBRHeh7T9ySdPu8ia1sgcGOJRIuIp23XhgX+cNb6sUeyVdnJi5x383a59cj7KyOxx
+         H7MTIRhwR5YIGS3Jl0fAHnrFwJHIyiOTFcmH5K9iLWzEGjntJBJXloOjX1qkd/IsOmug
+         mI5g==
+X-Forwarded-Encrypted: i=1; AJvYcCV1OOfZy6u0eOUOpdK/yHq66z1BGvGZHM/OkVtVazwGMCccuHnJRboBHtJdccrJQ3kBjmbBhYYqXwHbNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1Bb8UG+1W0XJ3nl9CbRE5zNf331mih1n3f4QmUYu25LCOue/w
+	cfSDqH9S6knWxZ1Bher+hWWN8vYcr89/4QxabTofmzB9mmZiUNLdK+bX9ACheNqsQUeha6W6ocZ
+	357sBoXQwktoy233XYq12bzXx+lcRt7ifKDdvy+K2RiOppjvOWPomZJG+4P8a
+X-Received: by 2002:a5d:6751:0:b0:37d:480f:9a6c with SMTP id ffacd0b85a97d-37eb4863233mr2625243f8f.25.1729267345471;
+        Fri, 18 Oct 2024 09:02:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGSs1eaxMRn30GU0vel+//Rph9VfVO9kNnZNT/e85t8OLXBDbOSYNXXsrpZww1XYw2Omx6LlQ==
+X-Received: by 2002:a5d:6751:0:b0:37d:480f:9a6c with SMTP id ffacd0b85a97d-37eb4863233mr2625180f8f.25.1729267344903;
+        Fri, 18 Oct 2024 09:02:24 -0700 (PDT)
+Received: from eisenberg.fritz.box ([2001:16b8:3dfa:6500:de04:18f8:f776:727])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ecf06d65asm2256542f8f.50.2024.10.18.09.02.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Oct 2024 09:02:24 -0700 (PDT)
+Message-ID: <4f3327b93a718352c14fb20ee2d26c9eaa3e164a.camel@redhat.com>
+Subject: Re: [PATCH v2 04/13] media: dvb_frontend: don't play tricks with
+ underflow values
+From: Philipp Stanner <pstanner@redhat.com>
+To: Kees Cook <kees@kernel.org>, Mauro Carvalho Chehab
+	 <mchehab+huawei@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Kevin Hao <haokexin@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Kees Cook
+	 <keescook@chromium.org>
+Date: Fri, 18 Oct 2024 18:02:23 +0200
+In-Reply-To: <4D0C7D12-C645-4766-B7B1-0B34B2129579@kernel.org>
+References: <cover.1729230718.git.mchehab+huawei@kernel.org>
+	 <8d6193ed8d53ce94d595cb431627bbc7783c0e4c.1729230718.git.mchehab+huawei@kernel.org>
+	 <ab51f981844c700d4e66b366c8d2abde7c5947bf.camel@redhat.com>
+	 <4D0C7D12-C645-4766-B7B1-0B34B2129579@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241015101716.740829-1-jens.wiklander@linaro.org>
- <20241015101716.740829-3-jens.wiklander@linaro.org> <CAFA6WYMFys_woiF3dzwaXjMy7Y-gTLgHE0PBZtEf6jH-mkc40g@mail.gmail.com>
-In-Reply-To: <CAFA6WYMFys_woiF3dzwaXjMy7Y-gTLgHE0PBZtEf6jH-mkc40g@mail.gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Fri, 18 Oct 2024 17:48:33 +0200
-Message-ID: <CAHUa44FtdQ8rVqu2PiQ2Ceje4wu92uO3xEYWZ18CmvuQTuoNqQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/2] optee: support restricted memory allocation
-To: Sumit Garg <sumit.garg@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Sumit,
+On Fri, 2024-10-18 at 07:37 -0700, Kees Cook wrote:
+>=20
+>=20
+> On October 18, 2024 4:44:20 AM PDT, Philipp Stanner
+> <pstanner@redhat.com> wrote:
+> > On Fri, 2024-10-18 at 07:53 +0200, Mauro Carvalho Chehab wrote:
+> > > fepriv->auto_sub_step is unsigned. Setting it to -1 is just a
+> > > trick to avoid calling continue, as reported by Coverity.
+> > >=20
+> > > It relies to have this code just afterwards:
+> > >=20
+> > > 	if (!ready) fepriv->auto_sub_step++;
+> > >=20
+> > > Simplify the code by simply setting it to zero and use
+> > > continue to return to the while loop.
+> > >=20
+> > > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> >=20
+> > Oh wow, back to the big-bang-commit ^^'
+> >=20
+> > So is this a bug or not? It seems to me that the uint underflows to
+> > UINT_MAX, and then wrapps around to 0 again through the ++..
+> >=20
+> > I take the liberty of ++CCing Kees, since I heard him talk a lot
+> > about
+> > overflowing on Plumbers.
+> >=20
+> > If it's not a bug, I would not use "Fixes". If it is a bug, it
+> > should
+> > be backported to stable, agreed?
+> >=20
+> > Plus, is there a report-link somewhere by Coverty that could be
+> > linked
+> > with "Closes: "?
+>=20
+> Yeah, this is "avoid currently harmless overflow" fix. It is just
+> avoiding depending on the wrapping behavior, which is an improvement
+> but not really a "bug fix"; more a code style that will keep future
+> work of making the kernel wrapping-safe.
 
-On Thu, Oct 17, 2024 at 1:00=E2=80=AFPM Sumit Garg <sumit.garg@linaro.org> =
-wrote:
->
-> Hi Jens,
->
-> On Tue, 15 Oct 2024 at 15:47, Jens Wiklander <jens.wiklander@linaro.org> =
-wrote:
-> >
-> > Add support in the OP-TEE backend driver for restricted memory
-> > allocation. The support is limited to only the SMC ABI and for secure
-> > video buffers.
-> >
-> > OP-TEE is probed for the range of restricted physical memory and a
-> > memory pool allocator is initialized if OP-TEE have support for such
-> > memory.
-> >
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >  drivers/tee/optee/core.c          | 21 +++++++++++++++
-> >  drivers/tee/optee/optee_private.h |  6 +++++
-> >  drivers/tee/optee/optee_smc.h     | 35 ++++++++++++++++++++++++
-> >  drivers/tee/optee/smc_abi.c       | 45 ++++++++++++++++++++++++++++---
-> >  4 files changed, 104 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-> > index 39e688d4e974..b6d5cbc6728d 100644
-> > --- a/drivers/tee/optee/core.c
-> > +++ b/drivers/tee/optee/core.c
-> > @@ -95,6 +95,25 @@ void optee_release_supp(struct tee_context *ctx)
-> >         optee_supp_release(&optee->supp);
-> >  }
-> >
-> > +int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
-> > +                      u32 flags, size_t size)
-> > +{
-> > +       struct optee *optee =3D tee_get_drvdata(ctx->teedev);
-> > +
-> > +       if (!optee->sdp_pool)
-> > +               return -EINVAL;
-> > +       if (flags !=3D TEE_IOC_FLAG_SECURE_VIDEO)
-> > +               return -EINVAL;
-> > +       return optee->sdp_pool->ops->alloc(optee->sdp_pool, shm, size, =
-0);
-> > +}
-> > +
-> > +void optee_rstmem_free(struct tee_context *ctx, struct tee_shm *shm)
-> > +{
-> > +       struct optee *optee =3D tee_get_drvdata(ctx->teedev);
-> > +
-> > +       optee->sdp_pool->ops->free(optee->sdp_pool, shm);
-> > +}
-> > +
-> >  void optee_remove_common(struct optee *optee)
-> >  {
-> >         /* Unregister OP-TEE specific client devices on TEE bus */
-> > @@ -111,6 +130,8 @@ void optee_remove_common(struct optee *optee)
-> >         tee_device_unregister(optee->teedev);
-> >
-> >         tee_shm_pool_free(optee->pool);
-> > +       if (optee->sdp_pool)
-> > +               optee->sdp_pool->ops->destroy_pool(optee->sdp_pool);
-> >         optee_supp_uninit(&optee->supp);
-> >         mutex_destroy(&optee->call_queue.mutex);
-> >  }
-> > diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/opte=
-e_private.h
-> > index 424898cdc4e9..1f6b2cc992a9 100644
-> > --- a/drivers/tee/optee/optee_private.h
-> > +++ b/drivers/tee/optee/optee_private.h
-> > @@ -200,6 +200,7 @@ struct optee_ops {
-> >   * @notif:             notification synchronization struct
-> >   * @supp:              supplicant synchronization struct for RPC to su=
-pplicant
-> >   * @pool:              shared memory pool
-> > + * @sdp_pool:          restricted memory pool for secure data path
-> >   * @rpc_param_count:   If > 0 number of RPC parameters to make room fo=
-r
-> >   * @scan_bus_done      flag if device registation was already done.
-> >   * @scan_bus_work      workq to scan optee bus and register optee driv=
-ers
-> > @@ -218,6 +219,7 @@ struct optee {
-> >         struct optee_notif notif;
-> >         struct optee_supp supp;
-> >         struct tee_shm_pool *pool;
-> > +       struct tee_shm_pool *sdp_pool;
-> >         unsigned int rpc_param_count;
-> >         bool   scan_bus_done;
-> >         struct work_struct scan_bus_work;
-> > @@ -340,6 +342,10 @@ void optee_rpc_cmd(struct tee_context *ctx, struct=
- optee *optee,
-> >  int optee_do_bottom_half(struct tee_context *ctx);
-> >  int optee_stop_async_notif(struct tee_context *ctx);
-> >
-> > +int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
-> > +                      u32 flags, size_t size);
-> > +void optee_rstmem_free(struct tee_context *ctx, struct tee_shm *shm);
-> > +
-> >  /*
-> >   * Small helpers
-> >   */
-> > diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_sm=
-c.h
-> > index 7d9fa426505b..c3b8a1c204af 100644
-> > --- a/drivers/tee/optee/optee_smc.h
-> > +++ b/drivers/tee/optee/optee_smc.h
-> > @@ -234,6 +234,39 @@ struct optee_smc_get_shm_config_result {
-> >         unsigned long settings;
-> >  };
-> >
-> > +/*
-> > + * Get Secure Data Path memory config
-> > + *
-> > + * Returns the Secure Data Path memory config.
-> > + *
-> > + * Call register usage:
-> > + * a0   SMC Function ID, OPTEE_SMC_GET_SDP_CONFIG
-> > + * a2-6 Not used, must be zero
-> > + * a7   Hypervisor Client ID register
-> > + *
-> > + * Have config return register usage:
-> > + * a0   OPTEE_SMC_RETURN_OK
-> > + * a1   Physical address of start of SDP memory
-> > + * a2   Size of SDP memory
-> > + * a3   Not used
-> > + * a4-7 Preserved
-> > + *
-> > + * Not available register usage:
-> > + * a0   OPTEE_SMC_RETURN_ENOTAVAIL
-> > + * a1-3 Not used
-> > + * a4-7 Preserved
-> > + */
-> > +#define OPTEE_SMC_FUNCID_GET_SDP_CONFIG        20
-> > +#define OPTEE_SMC_GET_SDP_CONFIG \
-> > +       OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_SDP_CONFIG)
-> > +
-> > +struct optee_smc_get_sdp_config_result {
-> > +       unsigned long status;
-> > +       unsigned long start;
-> > +       unsigned long size;
-> > +       unsigned long flags;
-> > +};
-> > +
-> >  /*
-> >   * Exchanges capabilities between normal world and secure world
-> >   *
-> > @@ -278,6 +311,8 @@ struct optee_smc_get_shm_config_result {
-> >  #define OPTEE_SMC_SEC_CAP_ASYNC_NOTIF          BIT(5)
-> >  /* Secure world supports pre-allocating RPC arg struct */
-> >  #define OPTEE_SMC_SEC_CAP_RPC_ARG              BIT(6)
-> > +/* Secure world supports Secure Data Path */
-> > +#define OPTEE_SMC_SEC_CAP_SDP                  BIT(7)
-> >
-> >  #define OPTEE_SMC_FUNCID_EXCHANGE_CAPABILITIES 9
-> >  #define OPTEE_SMC_EXCHANGE_CAPABILITIES \
-> > diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-> > index 844285d4f03c..05068c70c791 100644
-> > --- a/drivers/tee/optee/smc_abi.c
-> > +++ b/drivers/tee/optee/smc_abi.c
-> > @@ -1164,6 +1164,8 @@ static void optee_get_version(struct tee_device *=
-teedev,
-> >                 v.gen_caps |=3D TEE_GEN_CAP_REG_MEM;
-> >         if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_MEMREF_NULL)
-> >                 v.gen_caps |=3D TEE_GEN_CAP_MEMREF_NULL;
-> > +       if (optee->sdp_pool)
-> > +               v.gen_caps |=3D TEE_GEN_CAP_RSTMEM;
-> >         *vers =3D v;
-> >  }
-> >
-> > @@ -1186,6 +1188,8 @@ static const struct tee_driver_ops optee_clnt_ops=
- =3D {
-> >         .cancel_req =3D optee_cancel_req,
-> >         .shm_register =3D optee_shm_register,
-> >         .shm_unregister =3D optee_shm_unregister,
-> > +       .rstmem_alloc =3D optee_rstmem_alloc,
-> > +       .rstmem_free =3D optee_rstmem_free,
-> >  };
-> >
-> >  static const struct tee_desc optee_clnt_desc =3D {
-> > @@ -1202,6 +1206,8 @@ static const struct tee_driver_ops optee_supp_ops=
- =3D {
-> >         .supp_send =3D optee_supp_send,
-> >         .shm_register =3D optee_shm_register_supp,
-> >         .shm_unregister =3D optee_shm_unregister_supp,
-> > +       .rstmem_alloc =3D optee_rstmem_alloc,
-> > +       .rstmem_free =3D optee_rstmem_free,
-> >  };
-> >
-> >  static const struct tee_desc optee_supp_desc =3D {
-> > @@ -1582,6 +1588,32 @@ static inline int optee_load_fw(struct platform_=
-device *pdev,
-> >  }
-> >  #endif
-> >
-> > +static int optee_sdp_pool_init(struct optee *optee)
-> > +{
-> > +       struct tee_shm_pool *pool;
-> > +       union {
-> > +               struct arm_smccc_res smccc;
-> > +               struct optee_smc_get_sdp_config_result result;
-> > +       } res;
-> > +
-> > +       if (!(optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP))
-> > +               return 0;
-> > +
-> > +       optee->smc.invoke_fn(OPTEE_SMC_GET_SDP_CONFIG, 0, 0, 0, 0, 0, 0=
-, 0,
-> > +                            &res.smccc);
->
-> IMHO, to put more weight on this proposal we should also include
-> allocation from the kernel CMA pool alongside the reserved restricted
-> memory pool. The implementation would be quite similar to how we
-> support dynamic SHM based on platform specific capability:
-> OPTEE_SMC_SEC_CAP_DYNAMIC_SHM. We can have a similar capability for
-> dynamic restricted memory as: OPTEE_SMC_SEC_CAP_DYNAMIC_RSTMEM.
->
-> The major reason to support it is to allow mediatek use-case [1] of
-> restricting memory dynamically which gets allocated from the CMA pool.
-> Although, it won't be something that we can test on Qemu from a
-> hardware enforcement perspective, at least we can test it on Qemu
-> conceptually. Thoughts?
+Alright, then it shouldn't be backported, ack?
+So I'd drop "Fixes:"
 
-I don't mind adding that, but I'd appreciate some help from Mediatek.
-I have something similar in mind for the FF-A ABI, we can use the
-FFA_LEND ABI for exclusive access to OP-TEE. But it doesn't have to
-happen all in one patch set.
+>=20
+> >=20
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >=20
+> > Anyways, this in my eyes does what it's intended to do:
+> >=20
+> > Reviewed-by: Philipp Stanner <pstanner@redhat.com>
+> >=20
+> > > ---
+> > > =C2=A0drivers/media/dvb-core/dvb_frontend.c | 4 ++--
+> > > =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/drivers/media/dvb-core/dvb_frontend.c
+> > > b/drivers/media/dvb-core/dvb_frontend.c
+> > > index d48f48fda87c..c9283100332a 100644
+> > > --- a/drivers/media/dvb-core/dvb_frontend.c
+> > > +++ b/drivers/media/dvb-core/dvb_frontend.c
+> > > @@ -443,8 +443,8 @@ static int
+> > > dvb_frontend_swzigzag_autotune(struct
+> > > dvb_frontend *fe, int check_wra
+> > > =C2=A0
+> > > =C2=A0		default:
+> > > =C2=A0			fepriv->auto_step++;
+> > > -			fepriv->auto_sub_step =3D -1; /* it'll be
+> > > incremented to 0 in a moment */
+> > > -			break;
+> > > +			fepriv->auto_sub_step =3D 0;
+> > > +			continue;
+> > > =C2=A0		}
+> > > =C2=A0
+> > > =C2=A0		if (!ready) fepriv->auto_sub_step++;
+> >=20
+>=20
+> But this change seems incomplete. The above line is no longer needed.
 
-Cheers,
-Jens
+I haven't super duper intensively reviewed it, but wouldn't make that
+statement =E2=80=93 all the other branches in the switch-case reach this li=
+ne.
+And auto_sub_step might be changed above in the if-check again if
+lnb_drift has changed; and it is changed in the switch-case.
 
->
-> [1] https://lore.kernel.org/linux-arm-kernel/20240515112308.10171-9-yong.=
-wu@mediatek.com/
->
-> -Sumit
->
-> > +       if (res.result.status !=3D OPTEE_SMC_RETURN_OK) {
-> > +               pr_err("Secure Data Path service not available\n");
-> > +               return 0;
-> > +       }
-> > +
-> > +       pool =3D tee_rstmem_gen_pool_alloc(res.result.start, res.result=
-.size);
-> > +       if (IS_ERR(pool))
-> > +               return PTR_ERR(pool);
-> > +       optee->sdp_pool =3D pool;
-> > +
-> > +       return 0;
-> > +}
-> > +
-> >  static int optee_probe(struct platform_device *pdev)
-> >  {
-> >         optee_invoke_fn *invoke_fn;
-> > @@ -1677,7 +1709,7 @@ static int optee_probe(struct platform_device *pd=
-ev)
-> >         optee =3D kzalloc(sizeof(*optee), GFP_KERNEL);
-> >         if (!optee) {
-> >                 rc =3D -ENOMEM;
-> > -               goto err_free_pool;
-> > +               goto err_free_shm_pool;
-> >         }
-> >
-> >         optee->ops =3D &optee_ops;
-> > @@ -1685,10 +1717,14 @@ static int optee_probe(struct platform_device *=
-pdev)
-> >         optee->smc.sec_caps =3D sec_caps;
-> >         optee->rpc_param_count =3D rpc_param_count;
-> >
-> > +       rc =3D optee_sdp_pool_init(optee);
-> > +       if (rc)
-> > +               goto err_free_optee;
-> > +
-> >         teedev =3D tee_device_alloc(&optee_clnt_desc, NULL, pool, optee=
-);
-> >         if (IS_ERR(teedev)) {
-> >                 rc =3D PTR_ERR(teedev);
-> > -               goto err_free_optee;
-> > +               goto err_sdp_pool_uninit;
-> >         }
-> >         optee->teedev =3D teedev;
-> >
-> > @@ -1786,9 +1822,12 @@ static int optee_probe(struct platform_device *p=
-dev)
-> >         tee_device_unregister(optee->supp_teedev);
-> >  err_unreg_teedev:
-> >         tee_device_unregister(optee->teedev);
-> > +err_sdp_pool_uninit:
-> > +       if (optee->sdp_pool)
-> > +               optee->sdp_pool->ops->destroy_pool(optee->sdp_pool);
-> >  err_free_optee:
-> >         kfree(optee);
-> > -err_free_pool:
-> > +err_free_shm_pool:
-> >         tee_shm_pool_free(pool);
-> >         if (memremaped_shm)
-> >                 memunmap(memremaped_shm);
-> > --
-> > 2.43.0
-> >
+>=20
+> And I actually think this could be refractored to avoid needing
+> "ready" at all?
+
+Could be. But that'd be indeed some work to get it right without
+introducing a subtle bug, and Mauro just seems to want to fix a warning
+he encountered on the way.
+
+Thx
+P.
+
+
+>=20
+> -Kees
+>=20
+
 
