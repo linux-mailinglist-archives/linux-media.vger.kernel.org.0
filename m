@@ -1,69 +1,88 @@
-Return-Path: <linux-media+bounces-19914-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19915-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3919A49BC
-	for <lists+linux-media@lfdr.de>; Sat, 19 Oct 2024 00:45:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBD39A4B14
+	for <lists+linux-media@lfdr.de>; Sat, 19 Oct 2024 05:13:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3AB8D285B64
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2024 22:45:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6C80FB228CB
+	for <lists+linux-media@lfdr.de>; Sat, 19 Oct 2024 03:13:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 717CA19067A;
-	Fri, 18 Oct 2024 22:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B8D71D416B;
+	Sat, 19 Oct 2024 03:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DTmfFDeZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+9WOhEF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3C818FDB2;
-	Fri, 18 Oct 2024 22:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC041D0E34;
+	Sat, 19 Oct 2024 03:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729291505; cv=none; b=pYMXyzxw+B/xb9J7uSQWLjh1iPhOU6K24nR+Dhymswk4Mu388itVHqNOUYkdd66i7Vjyk8LFvLufb7PTj8EQQKH4tlJMwHXT4HISqc66vEvFSGdC8PJTutAmhOZYhdgEmUne+rDfLuIzBDkmuhq2zTsFx4YnFVADYsUZ+P2P/aM=
+	t=1729307607; cv=none; b=VyWKeJT1UPirMnzEPP6ytvOjSWgZl7blCo2ZL9AfJ7PtvzlDA03DisunEp00CV2c8PFgHhYazsYkWrcJ8LtEC991rpnc7xfxZ8ONzPwMhny2NT0dHhr+fkgRhUligAqgyh4BamLDlcvPnHULqbT6LzTtDYqlntM8J0CIfyQtf38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729291505; c=relaxed/simple;
-	bh=yucMMFbBngW7rNMpBtKpCuJNeeP2d7/ic+xFnd1C0WI=;
+	s=arc-20240116; t=1729307607; c=relaxed/simple;
+	bh=Nw3ZARuhUlLWhZ7CyTkiVyEjbUt6Fu7cg8I9r+R5VI0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hd4l9F9+c1K5ZYBD5WUg0ka1AGms+UU+ltHIa1KOVjzGofTSFkrmCXSkrlP3JkUAb5IV0CUDDcVF350ynNqOtinGDITVAHk9bgW5+6aReSkmbp3AqJoe2RR9YOoh4EQXRtZ7zpHmQ6obm3jhr4TKIcpmeIIfLcb4kjSeTKVCyew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DTmfFDeZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41383C4CEC3;
-	Fri, 18 Oct 2024 22:45:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729291505;
-	bh=yucMMFbBngW7rNMpBtKpCuJNeeP2d7/ic+xFnd1C0WI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DTmfFDeZ3bGoVHhmD9SeYLeIwNc6mET1F2a/4CpWi6yQHDZk6Fn+GGiuMwJ7lLqx0
-	 g5876ZyZpALt5xlzfdXheu4DyhQ9OsnFs1RNmXufcA5q4KVUjlDRoMN2h7+AAqxtHR
-	 O9LLAeKgJ3JwuSTXP+dCHqvdOHax32Hxt4X6uAqIe4t7W9FX5lUVEAffy2yjKHC0mm
-	 NgpNjh5D1+gJRsKo5LtsMPb8ClZNLNmfpYAYTD94G5ebJaYAK//UMsUgqUGtuTzj7A
-	 tYF2O6X4gDms7f3gc+uNUAJgXIWa4Xzcm4LLoaQk+/ogKqQDBnFxhe/pWinlJLq1GN
-	 3FCW/tfpv1oeQ==
-Date: Fri, 18 Oct 2024 15:45:02 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] media: mediatek: vcodec: mark
- vdec_vp9_slice_map_counts_eob_coef noinline
-Message-ID: <20241018224502.GC2635543@thelio-3990X>
-References: <20241018151448.3694052-1-arnd@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YjZvrRXt2n2csO6AxOesSQafKhNhah8KizF9R3nYXq0qynt6pC3AtnlU1H7DDc/xiYmmXWlX8O11WqyVtoArskonC9HG3qPds2BF0OfD2/gkfqBmMCTi+JZFX2HoKiv5xsbD4KUUtC3Z40GTVHeO5slHGNW8LW5H7AEwrpqZ6mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+9WOhEF; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729307605; x=1760843605;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Nw3ZARuhUlLWhZ7CyTkiVyEjbUt6Fu7cg8I9r+R5VI0=;
+  b=F+9WOhEF7JE9AptVUqGeoy2WJoM9Q/E2EhdyalWYxePsRv7dNNPolg9M
+   1U/PwD0i1pJJnei2+xUkEw1r9xZYU3BC5UgCe+/f9KKhuH8VqmdhakC2q
+   d/xLxhUgNcGecKdQh0nrocodg3MV7jLiv6dkThj4aokvfefAKwpu/vcVe
+   xi64ciM0DwckAeBFqjjjuIsJH5WUjmm0Mqik76xHqp+r0hdIdB7y24gsK
+   3kxFpJOH/ZyMwhUsJe/pzvQqTIbVWd5gUlbisPVG4ZmJCszwSVLIEXc37
+   aQZDiPBL7lr4q8hJo0IpT8m+Xzx2uxmq0Fvg/YS9trGRlHPsY552XYVev
+   g==;
+X-CSE-ConnectionGUID: 9/gI0+d8QACzS423nS358Q==
+X-CSE-MsgGUID: 491QVfXdSIuklZhhNPT6iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39407541"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="39407541"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 20:13:25 -0700
+X-CSE-ConnectionGUID: zU/2lXNsSzONR+XlL9WhmA==
+X-CSE-MsgGUID: Qo61ij+pQxybXMvAQ6hbMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,215,1725346800"; 
+   d="scan'208";a="83827604"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 18 Oct 2024 20:13:20 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t1zu1-000Ode-1s;
+	Sat, 19 Oct 2024 03:13:17 +0000
+Date: Sat, 19 Oct 2024 11:12:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>,
+	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, cros-qcom-dts-watchers@chromium.org,
+	linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	quic_msavaliy@quicinc.com, quic_vtanuku@quicinc.com
+Subject: Re: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt
+ support
+Message-ID: <202410191055.bi1pWTAY-lkp@intel.com>
+References: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,59 +91,42 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241018151448.3694052-1-arnd@kernel.org>
+In-Reply-To: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
 
-On Fri, Oct 18, 2024 at 03:14:42PM +0000, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> With KASAN enabled, clang fails to optimize the inline version of
-> vdec_vp9_slice_map_counts_eob_coef() properly, leading to kilobytes
-> of temporary values spilled to the stack:
-> 
-> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:1526:12: error: stack frame size (2160) exceeds limit (2048) in 'vdec_vp9_slice_update_prob' [-Werror,-Wframe-larger-than]
-> 
-> This seems to affect all versions of clang including the latest (clang-20),
-> but the degree of stack overhead is different per release.
-> 
-> Marking the function as noinline_for_stack is harmless here and avoids
-> the problem completely.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> I have not come to a conclusion on how exactly clang fails to do this
-> right, but can provide the .config and/or preprocessed source files
-> and command line if we think this should be fixed in clang.
+Hi Jyothi,
 
-I think this might be related to the issue I reported to upstream LLVM,
-as a regression within the past couple of weeks:
+kernel test robot noticed the following build errors:
 
-https://github.com/llvm/llvm-project/issues/111903
+[auto build test ERROR on 55bcd2e0d04c1171d382badef1def1fd04ef66c5]
 
-If this is a reasonable workaround, it might be worth doing but I will
-probably wait until after the LLVM Developers Meeting next week to ping
-the thread to have a better chance of visibility. If we want to work
-around this in the kernel, we should Cc stable, as this warning is
-present there too.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jyothi-Kumar-Seerapu/dt-bindings-dmaengine-qcom-gpi-Add-additional-arg-to-dma-cell-property/20241015-202637
+base:   55bcd2e0d04c1171d382badef1def1fd04ef66c5
+patch link:    https://lore.kernel.org/r/20241015120750.21217-6-quic_jseerapu%40quicinc.com
+patch subject: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt support
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241019/202410191055.bi1pWTAY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410191055.bi1pWTAY-lkp@intel.com/reproduce)
 
-> ---
->  .../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c         | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> index eea709d93820..47c302745c1d 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> @@ -1188,7 +1188,8 @@ static int vdec_vp9_slice_setup_lat(struct vdec_vp9_slice_instance *instance,
->  	return ret;
->  }
->  
-> -static
-> +/* clang stack usage explodes if this is inlined */
-> +static noinline_for_stack
->  void vdec_vp9_slice_map_counts_eob_coef(unsigned int i, unsigned int j, unsigned int k,
->  					struct vdec_vp9_slice_frame_counts *counts,
->  					struct v4l2_vp9_frame_symbol_counts *counts_helper)
-> -- 
-> 2.39.5
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410191055.bi1pWTAY-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "gpi_multi_desc_process" [drivers/i2c/busses/i2c-qcom-geni.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [m]:
+   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
