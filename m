@@ -1,132 +1,147 @@
-Return-Path: <linux-media+bounces-19915-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19916-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBD39A4B14
-	for <lists+linux-media@lfdr.de>; Sat, 19 Oct 2024 05:13:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F08099A4B95
+	for <lists+linux-media@lfdr.de>; Sat, 19 Oct 2024 08:39:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6C80FB228CB
-	for <lists+linux-media@lfdr.de>; Sat, 19 Oct 2024 03:13:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97A461F21667
+	for <lists+linux-media@lfdr.de>; Sat, 19 Oct 2024 06:39:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B8D71D416B;
-	Sat, 19 Oct 2024 03:13:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F34561DD0DE;
+	Sat, 19 Oct 2024 06:39:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+9WOhEF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfyitq0g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC041D0E34;
-	Sat, 19 Oct 2024 03:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B771D47BC;
+	Sat, 19 Oct 2024 06:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729307607; cv=none; b=VyWKeJT1UPirMnzEPP6ytvOjSWgZl7blCo2ZL9AfJ7PtvzlDA03DisunEp00CV2c8PFgHhYazsYkWrcJ8LtEC991rpnc7xfxZ8ONzPwMhny2NT0dHhr+fkgRhUligAqgyh4BamLDlcvPnHULqbT6LzTtDYqlntM8J0CIfyQtf38=
+	t=1729319959; cv=none; b=B8/0IhToHm1dX9cgpiBTJSMQa3pd1Cx73CX3xrKU6ZVoQ8DimdbiAYz7uysNF+iQ3ZiPHs0/TM3V5EY9Bzvws10H3cThCNELeTEAt+yXuVQRX5g10ldUqvssbrx64hoUY1OdLPZa0TVtcc8553mB4gZ3DGk8SblAMigmCTvRFiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729307607; c=relaxed/simple;
-	bh=Nw3ZARuhUlLWhZ7CyTkiVyEjbUt6Fu7cg8I9r+R5VI0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YjZvrRXt2n2csO6AxOesSQafKhNhah8KizF9R3nYXq0qynt6pC3AtnlU1H7DDc/xiYmmXWlX8O11WqyVtoArskonC9HG3qPds2BF0OfD2/gkfqBmMCTi+JZFX2HoKiv5xsbD4KUUtC3Z40GTVHeO5slHGNW8LW5H7AEwrpqZ6mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+9WOhEF; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729307605; x=1760843605;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Nw3ZARuhUlLWhZ7CyTkiVyEjbUt6Fu7cg8I9r+R5VI0=;
-  b=F+9WOhEF7JE9AptVUqGeoy2WJoM9Q/E2EhdyalWYxePsRv7dNNPolg9M
-   1U/PwD0i1pJJnei2+xUkEw1r9xZYU3BC5UgCe+/f9KKhuH8VqmdhakC2q
-   d/xLxhUgNcGecKdQh0nrocodg3MV7jLiv6dkThj4aokvfefAKwpu/vcVe
-   xi64ciM0DwckAeBFqjjjuIsJH5WUjmm0Mqik76xHqp+r0hdIdB7y24gsK
-   3kxFpJOH/ZyMwhUsJe/pzvQqTIbVWd5gUlbisPVG4ZmJCszwSVLIEXc37
-   aQZDiPBL7lr4q8hJo0IpT8m+Xzx2uxmq0Fvg/YS9trGRlHPsY552XYVev
-   g==;
-X-CSE-ConnectionGUID: 9/gI0+d8QACzS423nS358Q==
-X-CSE-MsgGUID: 491QVfXdSIuklZhhNPT6iw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39407541"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39407541"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 20:13:25 -0700
-X-CSE-ConnectionGUID: zU/2lXNsSzONR+XlL9WhmA==
-X-CSE-MsgGUID: Qo61ij+pQxybXMvAQ6hbMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,215,1725346800"; 
-   d="scan'208";a="83827604"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 18 Oct 2024 20:13:20 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t1zu1-000Ode-1s;
-	Sat, 19 Oct 2024 03:13:17 +0000
-Date: Sat, 19 Oct 2024 11:12:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>,
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, cros-qcom-dts-watchers@chromium.org,
-	linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	quic_msavaliy@quicinc.com, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <202410191055.bi1pWTAY-lkp@intel.com>
-References: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
+	s=arc-20240116; t=1729319959; c=relaxed/simple;
+	bh=2OMqzVV1EHVYDVSMR6YrmRol1GFScxEW2/cG43gGBZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FV9vNHFYsyTySHM01oGkLtZR8xhFuvzWX79tZmvXDxMrgtBfj2Vmxdx2vtE94rFXKRkAFGooVxJ5QBQ2U+pBOVETxqFsrl0X2cwaQHknqt9O+bdqYEpHdj/r46w/DoZQ+DePspvDN2Sua1QqfA9qwptb7H209GYNDa0/fv0DLt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfyitq0g; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CC56C4CEC5;
+	Sat, 19 Oct 2024 06:39:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729319958;
+	bh=2OMqzVV1EHVYDVSMR6YrmRol1GFScxEW2/cG43gGBZA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kfyitq0g+eNsCUvGPY8UFb64I29nqIMBVUJzAQRMaqe4govc4ekAzCVaZIM1Mm5t2
+	 De0baG0JRk5Sn7wiCQ/7DP9qIxE9IOX66phqXAbTxfGl/+xLyJWgEJnoQLqRMq9UtA
+	 8ZSCn+wnkydfst9+wfhl65xq0XV+pPhqBTLQcISZ5bFFGklAABtuxJn6FjY5NRez8p
+	 kylw+jHNRfImc7tAhWZe3CaA5LazyF31QuE+GG/l0KLwdhP1kEcE/9QD/c6ZTmJX9A
+	 sE3zys05kgQmnkOwZk+LYit6abp39oWgKhJ0U7cPpLfnyNg2K91zARhVTRMeUM0Kqo
+	 j2xHUvH03rodg==
+Date: Sat, 19 Oct 2024 08:39:13 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Philipp Stanner <pstanner@redhat.com>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Kevin Hao <haokexin@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Kees Cook
+ <keescook@chromium.org>
+Subject: Re: [PATCH v2 04/13] media: dvb_frontend: don't play tricks with
+ underflow values
+Message-ID: <20241019083913.5fb953ac@foz.lan>
+In-Reply-To: <4D0C7D12-C645-4766-B7B1-0B34B2129579@kernel.org>
+References: <cover.1729230718.git.mchehab+huawei@kernel.org>
+ <8d6193ed8d53ce94d595cb431627bbc7783c0e4c.1729230718.git.mchehab+huawei@kernel.org>
+ <ab51f981844c700d4e66b366c8d2abde7c5947bf.camel@redhat.com>
+ <4D0C7D12-C645-4766-B7B1-0B34B2129579@kernel.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jyothi,
+Em Fri, 18 Oct 2024 07:37:52 -0700
+Kees Cook <kees@kernel.org> escreveu:
 
-kernel test robot noticed the following build errors:
+> On October 18, 2024 4:44:20 AM PDT, Philipp Stanner <pstanner@redhat.com>=
+ wrote:
+> >On Fri, 2024-10-18 at 07:53 +0200, Mauro Carvalho Chehab wrote: =20
+> >> fepriv->auto_sub_step is unsigned. Setting it to -1 is just a
+> >> trick to avoid calling continue, as reported by Coverity.
+> >>=20
+> >> It relies to have this code just afterwards:
+> >>=20
+> >> 	if (!ready) fepriv->auto_sub_step++;
+> >>=20
+> >> Simplify the code by simply setting it to zero and use
+> >> continue to return to the while loop.
+> >>=20
+> >> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2") =20
+> >
+> >Oh wow, back to the big-bang-commit ^^'
+> >
+> >So is this a bug or not? It seems to me that the uint underflows to
+> >UINT_MAX, and then wrapps around to 0 again through the ++..
+> >
+> >I take the liberty of ++CCing Kees, since I heard him talk a lot about
+> >overflowing on Plumbers.
+> >
+> >If it's not a bug, I would not use "Fixes". If it is a bug, it should
+> >be backported to stable, agreed?
 
-[auto build test ERROR on 55bcd2e0d04c1171d382badef1def1fd04ef66c5]
+There is a long thread about Fixes: tag at ksummit ML.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jyothi-Kumar-Seerapu/dt-bindings-dmaengine-qcom-gpi-Add-additional-arg-to-dma-cell-property/20241015-202637
-base:   55bcd2e0d04c1171d382badef1def1fd04ef66c5
-patch link:    https://lore.kernel.org/r/20241015120750.21217-6-quic_jseerapu%40quicinc.com
-patch subject: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt support
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241019/202410191055.bi1pWTAY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410191055.bi1pWTAY-lkp@intel.com/reproduce)
+	https://lore.kernel.org/all/20240714192914.1e1d3448@gandalf.local.home/T/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410191055.bi1pWTAY-lkp@intel.com/
+My conclusions for it is that:
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+1. Fixes: !=3D Cc: stable.
+   This is even somewhat stated at
+   Documentation/process/stable-kernel-rules.rst when it defines additional
+   rules for Cc: stable;
 
->> ERROR: modpost: "gpi_multi_desc_process" [drivers/i2c/busses/i2c-qcom-geni.ko] undefined!
+2. As result of (1), all Cc: stable need fixes, but not all fixes: need=20
+   a Cc: stable. Btw, I double-checked it with a -stable maintainer
+   (Greg);
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
-   Selected by [m]:
-   - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+3. It seems that most of people at ksummit discussion (including me)=20
+   use Fixes: when the patch is not doing an improvement.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> >Plus, is there a report-link somewhere by Coverty that could be linked
+> >with "Closes: "? =20
+
+Coverity issues are not publicly visible (and IMO it shouldn't).=20
+We should not add closes: to something that only the ones with access
+to it may see.
+
+> Yeah, this is "avoid currently harmless overflow" fix. It is just avoidin=
+g depending on the wrapping behavior, which is an improvement but not reall=
+y a "bug fix"; more a code style that will keep future work of making the k=
+ernel wrapping-safe.
+
+It is a fix in the sense that it solves an issue reported by Coverity.
+
+> >> =C2=A0		if (!ready) fepriv->auto_sub_step++; =20
+> > =20
+>=20
+> But this change seems incomplete. The above line is no longer needed.
+
+Yes, this is now a dead code.
+
+> And I actually think this could be refractored to avoid needing "ready" a=
+t all?
+
+Yeah, it sounds a good idea to place the zig-zag drift calculus on a
+separate function, doing some cleanups in the process.
+
+I'll add it to my todo list.
+
+Thanks,
+Mauro
 
