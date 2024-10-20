@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-19945-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19946-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102B59A575B
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 00:33:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B245A9A575D
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 00:39:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2ACE1B21A72
-	for <lists+linux-media@lfdr.de>; Sun, 20 Oct 2024 22:33:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EBEA281B92
+	for <lists+linux-media@lfdr.de>; Sun, 20 Oct 2024 22:39:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9047A198A22;
-	Sun, 20 Oct 2024 22:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58B7E198A3B;
+	Sun, 20 Oct 2024 22:39:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YQZjGCpk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="f+7O/O+B"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FB6440C;
-	Sun, 20 Oct 2024 22:33:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC1D440C;
+	Sun, 20 Oct 2024 22:39:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729463590; cv=none; b=RFC22Nno3k2I4B0rtgAZ4w7bJTaYHGCwMinBfUwX9EuYOdunqOroxsSCl8r+KyqwIk8MpdyLre8mtCN3Wt1qS4+Kp2sqqzufBXpVZROh3JWMEeXbdQInMMW0lJ+TEUERZsxkpA6cyGhDU8rjOJH34akle8iHTANuauIXO9WRRPw=
+	t=1729463972; cv=none; b=XI27FOMxjPx6cVJOYeEAHlDxBCjaCMu0U70MjdsIrp9oPcRAfenyKImTGtE45N21pvhghYRFf3L+Xrn3JF11Ea7Y6bRfiMS8UcfT+m46IC2ZtvHU7WXuFP+L2VrkMW+zvcfmwp6W0FEHGoBuTSklqzxfpVqRlZldLLr/cJPtySo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729463590; c=relaxed/simple;
-	bh=NqL/RqKWZLPioK03xgIwuUNSNcnm0YbSBNMS3AiuEPg=;
+	s=arc-20240116; t=1729463972; c=relaxed/simple;
+	bh=B52J3Ry8R5IFVTe51jLTiTaQXxZQUXukXkVYt0r79d8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tNkyBnnm8M9O+piFwSfV+aofpJ7B5CA256/3zelOh6x4SEBwVs+UG1iAFOwaetaHAFj9oyyFi/LCR41ew5hQ7ltU4Rw9ELgphfXbK5i0jIcWlVW1dkCpIE3ruQyCN8UhFQFrQHLHlvf4bG20UJKZkLG6abhRO/D2uD8PH14hl7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YQZjGCpk; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=OW/Cijme7+EQqOhAseVqLUDmvbOLq73YUFnu/TT2Ka9B7C3Z7GlAmVGMfrzeEsu8xZiHP4iWxqfMEctt4xCK2zYw1u/j3L3cPwCfc4RU0hGoOoqpqLYBDLxj2UXZAFKzI78PKilGZBJRZHlwOoE+eYQR39tJ4+qOpG85skU7Ybo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=f+7O/O+B; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E3FC4CF;
-	Mon, 21 Oct 2024 00:31:21 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66BE74CF;
+	Mon, 21 Oct 2024 00:37:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1729463481;
-	bh=NqL/RqKWZLPioK03xgIwuUNSNcnm0YbSBNMS3AiuEPg=;
+	s=mail; t=1729463863;
+	bh=B52J3Ry8R5IFVTe51jLTiTaQXxZQUXukXkVYt0r79d8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YQZjGCpk0+i+f9MNG9LqgG6O5bI916fso0V911xafXlzCMEirR17GmA004rzUdqMl
-	 LTnGSdZMBPl8Tjh/LrbmJ3f/UmsLAygdr71o67cQQf5aU6SeluAAh30ecDBluAC6fd
-	 SgkRViZNfzfNU+MudA8/bYUCYJRfzIb9+X6HUjjo=
-Date: Mon, 21 Oct 2024 01:33:01 +0300
+	b=f+7O/O+BpUbvW66TZHPEO/MNFUlWQfYzwgWQXyESuBkJcUtJ89NxZrAC67FEIwtGf
+	 537S3Hp5x7/0ijXWtRo9J2FQXWbkT1LyfNqQH5OZXg4dBJkOdTfV8YCJnnxRGynIzz
+	 MtP+OohWwqCxGI/HHy+RzD0fXbmjCEQSyuJegjrs=
+Date: Mon, 21 Oct 2024 01:39:23 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -52,11 +52,9 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 03/10] media: i2c: ov5645: Replace dev_err with
- dev_err_probe in probe function
-Message-ID: <20241020223301.GA14328@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 00/10] media: ov5645: Add support for streams
+Message-ID: <20241020223923.GB14328@pendragon.ideasonboard.com>
 References: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241018153230.235647-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,209 +63,185 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241018153230.235647-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Hi Prabhakar,
 
-Thank you for the patch.
+Thank you for the patches.
 
-On Fri, Oct 18, 2024 at 04:32:23PM +0100, Prabhakar wrote:
+I think patch 01/10 should be dropped in favour of
+https://lore.kernel.org/r/20241020164354.GG7770@pendragon.ideasonboard.com
+("[PATCH v2] media: v4l2-subdev: Refactor events"). Patches 02/10 to
+08/10 seem ready, should we merge them without waiting for 09/10 and
+10/10 ?
+
+On Fri, Oct 18, 2024 at 04:32:20PM +0100, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Refactor error handling in the ov5645_probe() function by replacing
-> multiple dev_err() calls with dev_err_probe().
+> Hi All,
 > 
-> - Note that during this process, the error string "external clock
->   frequency %u is not supported" was replaced with "unsupported xclk
->   frequency %u" to ensure it wraps at 80 columns.
-> - Additionally, the error string for control initialization failure was
->   changed from "%s: control initialization error %d\n" to "failed to add
->   controls\n" as there is no need to print the function name and error code
->   in the string, since dev_err_probe() already provides this information.
+> This patch series aims to add the below features,
+> - Support subdev active state
+> - Support for streams
+> - Support for virtual channel
+> - Code cleanup
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
->  drivers/media/i2c/ov5645.c | 82 +++++++++++++++++---------------------
->  1 file changed, 36 insertions(+), 46 deletions(-)
+> Note, these patches are dependent on below:
+> 1] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-27-sakari.ailus@linux.intel.com/
+> 2] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-26-sakari.ailus@linux.intel.com/
 > 
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index d344d3447a95..520afd3d2aa3 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -1076,51 +1076,44 @@ static int ov5645_probe(struct i2c_client *client)
->  	ov5645->dev = dev;
->  
->  	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-> -	if (!endpoint) {
-> -		dev_err(dev, "endpoint node not found\n");
-> -		return -EINVAL;
-> -	}
-> +	if (!endpoint)
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "endpoint node not found\n");
->  
->  	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(endpoint),
->  					 &ov5645->ep);
->  
->  	of_node_put(endpoint);
->  
-> -	if (ret < 0) {
-> -		dev_err(dev, "parsing endpoint node failed\n");
-> -		return ret;
-> -	}
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret,
-> +				     "parsing endpoint node failed\n");
->  
-> -	if (ov5645->ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-> -		dev_err(dev, "invalid bus type, must be CSI2\n");
-> -		return -EINVAL;
-> -	}
-> +	if (ov5645->ep.bus_type != V4L2_MBUS_CSI2_DPHY)
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "invalid bus type, must be CSI2\n");
->  
->  	/* get system clock (xclk) */
->  	ov5645->xclk = devm_clk_get(dev, NULL);
-> -	if (IS_ERR(ov5645->xclk)) {
-> -		dev_err(dev, "could not get xclk");
-> -		return PTR_ERR(ov5645->xclk);
-> -	}
-> +	if (IS_ERR(ov5645->xclk))
-> +		return dev_err_probe(dev, PTR_ERR(ov5645->xclk),
-> +				     "could not get xclk");
->  
->  	ret = of_property_read_u32(dev->of_node, "clock-frequency", &xclk_freq);
-> -	if (ret) {
-> -		dev_err(dev, "could not get xclk frequency\n");
-> -		return ret;
-> -	}
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "could not get xclk frequency\n");
->  
->  	/* external clock must be 24MHz, allow 1% tolerance */
-> -	if (xclk_freq < 23760000 || xclk_freq > 24240000) {
-> -		dev_err(dev, "external clock frequency %u is not supported\n",
-> -			xclk_freq);
-> -		return -EINVAL;
-> -	}
-> +	if (xclk_freq < 23760000 || xclk_freq > 24240000)
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "unsupported xclk frequency %u\n",
-> +				     xclk_freq);
->  
->  	ret = clk_set_rate(ov5645->xclk, xclk_freq);
-> -	if (ret) {
-> -		dev_err(dev, "could not set xclk frequency\n");
-> -		return ret;
-> -	}
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "could not set xclk frequency\n");
->  
->  	for (i = 0; i < OV5645_NUM_SUPPLIES; i++)
->  		ov5645->supplies[i].supply = ov5645_supply_name[i];
-> @@ -1131,16 +1124,14 @@ static int ov5645_probe(struct i2c_client *client)
->  		return ret;
->  
->  	ov5645->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
-> -	if (IS_ERR(ov5645->enable_gpio)) {
-> -		dev_err(dev, "cannot get enable gpio\n");
-> -		return PTR_ERR(ov5645->enable_gpio);
-> -	}
-> +	if (IS_ERR(ov5645->enable_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(ov5645->enable_gpio),
-> +				     "cannot get enable gpio\n");
->  
->  	ov5645->rst_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> -	if (IS_ERR(ov5645->rst_gpio)) {
-> -		dev_err(dev, "cannot get reset gpio\n");
-> -		return PTR_ERR(ov5645->rst_gpio);
-> -	}
-> +	if (IS_ERR(ov5645->rst_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(ov5645->rst_gpio),
-> +				     "cannot get reset gpio\n");
->  
->  	mutex_init(&ov5645->power_lock);
->  
-> @@ -1177,9 +1168,8 @@ static int ov5645_probe(struct i2c_client *client)
->  	ov5645->sd.ctrl_handler = &ov5645->ctrls;
->  
->  	if (ov5645->ctrls.error) {
-> -		dev_err(dev, "%s: control initialization error %d\n",
-> -		       __func__, ov5645->ctrls.error);
->  		ret = ov5645->ctrls.error;
-> +		dev_err_probe(dev, ret, "failed to add controls\n");
->  		goto free_ctrl;
->  	}
->  
-> @@ -1193,7 +1183,7 @@ static int ov5645_probe(struct i2c_client *client)
->  
->  	ret = media_entity_pads_init(&ov5645->sd.entity, 1, &ov5645->pad);
->  	if (ret < 0) {
-> -		dev_err(dev, "could not register media entity\n");
-> +		dev_err_probe(dev, ret, "could not register media entity\n");
->  		goto free_ctrl;
->  	}
->  
-> @@ -1203,14 +1193,14 @@ static int ov5645_probe(struct i2c_client *client)
->  
->  	ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_high);
->  	if (ret < 0 || chip_id_high != OV5645_CHIP_ID_HIGH_BYTE) {
-> -		dev_err(dev, "could not read ID high\n");
->  		ret = -ENODEV;
-> +		dev_err_probe(dev, ret, "could not read ID high\n");
->  		goto power_down;
->  	}
->  	ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_LOW, &chip_id_low);
->  	if (ret < 0 || chip_id_low != OV5645_CHIP_ID_LOW_BYTE) {
-> -		dev_err(dev, "could not read ID low\n");
->  		ret = -ENODEV;
-> +		dev_err_probe(dev, ret, "could not read ID low\n");
->  		goto power_down;
->  	}
->  
-> @@ -1219,24 +1209,24 @@ static int ov5645_probe(struct i2c_client *client)
->  	ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
->  			      &ov5645->aec_pk_manual);
->  	if (ret < 0) {
-> -		dev_err(dev, "could not read AEC/AGC mode\n");
->  		ret = -ENODEV;
-> +		dev_err_probe(dev, ret, "could not read AEC/AGC mode\n");
->  		goto power_down;
->  	}
->  
->  	ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
->  			      &ov5645->timing_tc_reg20);
->  	if (ret < 0) {
-> -		dev_err(dev, "could not read vflip value\n");
->  		ret = -ENODEV;
-> +		dev_err_probe(dev, ret, "could not read vflip value\n");
->  		goto power_down;
->  	}
->  
->  	ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
->  			      &ov5645->timing_tc_reg21);
->  	if (ret < 0) {
-> -		dev_err(dev, "could not read hflip value\n");
->  		ret = -ENODEV;
-> +		dev_err_probe(dev, ret, "could not read hflip value\n");
->  		goto power_down;
->  	}
->  
-> @@ -1248,7 +1238,7 @@ static int ov5645_probe(struct i2c_client *client)
->  
->  	ret = v4l2_async_register_subdev(&ov5645->sd);
->  	if (ret < 0) {
-> -		dev_err(dev, "could not register v4l2 device\n");
-> +		dev_err_probe(dev, ret, "could not register v4l2 device\n");
->  		goto err_pm_runtime;
->  	}
->  
+> v2->v3
+> - Fixed review commments from Laurent
+> - Included RB tags from Laurent
+> - Dropped patch "media: i2c: ov5645: Enable runtime PM after v4l2_async_register_subdev()"
+> - Fixed checkpatch issues (ie used --max-line-length=80)
+> 
+> RFC->v2
+> - Dropped setting of VC using routes
+> - Defaulted the native format to MEDIA_BUS_FMT_SBGGR8_1X8
+> - Fixed ov5645_enum_frame_size and ov5645_enum_mbus_code
+>   for internal image pad
+> 
+> RFC patch,
+> Link: https://lore.kernel.org/all/20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> 
+> Test logs:
+> ====================================
+> root@smarc-rzg2l:~# media-ctl -p
+> ......
+> - entity 4: ov5645 0-003c (2 pads, 1 link, 1 route)
+>       type V4L2 subdev subtype Sensor flags 0
+>       device node name /dev/v4l-subdev1
+>     routes:
+>         1/0 -> 0/0 [ACTIVE]
+>     pad0: SOURCE
+>         [stream:0 fmt:UYVY8_1X16/1280x960 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range
+>         crop:(0,0)/1280x960]
+>         -> "csi-10830400.csi2":0 [ENABLED,IMMUTABLE]
+>     pad1: SINK,0x8
+>         [stream:0 fmt:SBGGR8_1X8/2592x1944 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range
+>         crop:(0,0)/1280x960]
+> ......
+> 
+> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-mbus-codes pad=0
+> ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0,stream=0)
+>     0x200f: MEDIA_BUS_FMT_UYVY8_1X16
+> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-mbus-codes pad=1
+> ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=1,stream=0)
+>     0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
+> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-framesizes pad=1,code=0x3001
+> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=1,stream=0)
+>     Size Range: 2592x1944 - 2592x1944
+> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x200f
+> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0,stream=0)
+>     Size Range: 1280x960 - 1280x960
+>     Size Range: 1920x1080 - 1920x1080
+>     Size Range: 2592x1944 - 2592x1944
+> root@smarc-rzg2l:~# v4l2-compliance -u /dev/v4l-subdev1
+> v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
+> v4l2-compliance SHA: fc15e229d9d3 2024-07-23 19:22:15
+> 
+> Compliance test for device /dev/v4l-subdev1:
+> 
+> Driver Info:
+>     Driver version  : 6.12.0
+>     Capabilities   : 0x00000002
+>         Streams Support
+>     Client Capabilities: 0x00000[ 2429.125325] ov5645 0-003c: ================= START STATUS =================
+> 00000000003
+> streams int[ 2429.134589] ov5645 0-003c: ================== END STATUS ==================
+> erval-uses-which
+> Required ioctls:
+>     test VIDIOC_SUDBEV_QUERYCAP: OK
+>     test invalid ioctls: OK
+> 
+> Allow for multiple opens:
+>     test second /dev/v4l-subdev1 open: OK
+>     test VIDIOC_SUBDEV_QUERYCAP: OK
+>     test for unlimited opens: OK
+> 
+> Debug ioctls:
+>     test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+>     test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>     test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>     test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>     test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>     test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>     test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>     Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>     test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>     test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>     test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>     test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>     test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>     Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>     test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>     test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>     test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>     test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Sub-Device routing ioctls:
+>     test Try VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+>     test Active VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+> 
+> Control ioctls:
+>     test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>     test VIDIOC_QUERYCTRL: OK
+>     test VIDIOC_G/S_CTRL: OK
+>     test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>     test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>     test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>     Standard Controls: 12 Private Controls: 0
+> 
+> Format ioctls:
+>     test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+>     test VIDIOC_G/S_PARM: OK (Not Supported)
+>     test VIDIOC_G_FBUF: OK (Not Supported)
+>     test VIDIOC_G_FMT: OK (Not Supported)
+>     test VIDIOC_TRY_FMT: OK (Not Supported)
+>     test VIDIOC_S_FMT: OK (Not Supported)
+>     test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>     test Cropping: OK (Not Supported)
+>     test Composing: OK (Not Supported)
+>     test Scaling: OK (Not Supported)
+> 
+> Codec ioctls:
+>     test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>     test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>     test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls:
+>     test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+>     test CREATE_BUFS maximum buffers: OK
+>     test VIDIOC_REMOVE_BUFS: OK
+>     test VIDIOC_EXPBUF: OK (Not Supported)
+>     test Requests: OK (Not Supported)
+> 
+> Total for device /dev/v4l-subdev1: 47, Succeeded: 47, Failed: 0, Warnings: 0
+> ------------------------------------------------------------
+> 
+> Lad Prabhakar (10):
+>   media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+>   media: i2c: ov5645: Use local `dev` pointer for subdev device
+>     assignment
+>   media: i2c: ov5645: Replace dev_err with dev_err_probe in probe
+>     function
+>   media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
+>   media: i2c: ov5645: Drop `power_lock` mutex
+>   media: i2c: ov5645: Use subdev active state
+>   media: i2c: ov5645: Switch to {enable,disable}_streams
+>   media: i2c: ov5645: Report streams using frame descriptors
+>   media: i2c: ov5645: Add internal image sink pad
+>   media: i2c: ov5645: Report internal routes to userspace
+> 
+>  drivers/media/i2c/ov5645.c | 435 +++++++++++++++++++++----------------
+>  1 file changed, 246 insertions(+), 189 deletions(-)
 
 -- 
 Regards,
