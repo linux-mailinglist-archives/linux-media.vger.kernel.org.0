@@ -1,53 +1,52 @@
-Return-Path: <linux-media+bounces-19929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF429A573C
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 00:14:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D753F9A5738
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 00:14:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1DFB4B225F5
-	for <lists+linux-media@lfdr.de>; Sun, 20 Oct 2024 22:14:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D28781C20F9F
+	for <lists+linux-media@lfdr.de>; Sun, 20 Oct 2024 22:14:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E894319923F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E78F319923C;
 	Sun, 20 Oct 2024 22:14:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZroOby9g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIQFpZyR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2030D36124;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2036B197A81;
 	Sun, 20 Oct 2024 22:14:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729462452; cv=none; b=hA3vt1NGSQTr9Bg/7E2VxxKp80333naumfIvGMcBs1KkvYB+SmHZzhBvqL2B3JA1BivQmDWAECpzH4VOM1An8mOelYd28J5LJsE3nK0pNY7W7IYqBO6bJAi8yoZ/73oy8ciCKxMKqEU11+fb07lpcGkHr7cbWAQStleJTLPR8QE=
+	t=1729462452; cv=none; b=a7RyA+ZQo3f9zbBrIwZw0cxRcmjOOASgXi+WVrQu9NDZfqMqnebklGeM84QUhVs9s1lpgh5RMjPR3Bby+5YbH6BEtZg7zCojNYPEhbAViO1FuuXcIxzwYRVDTbGPpcbmcYbFTwKFF6mGeXzL4HiJTunNJ13H45CJ9FrRE+I9v4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729462452; c=relaxed/simple;
-	bh=Gl8hfYn2T/YTDKU4HaLJgS6y5RrOxB6rv+1XIPta0Pk=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dVNqLwEMRA2heugcf92foIfoRwSVGLB0E8kV5YiVqK+EHQajaZ3MM1sB4xfeNpjER2tvvkVnu5DhhvK4IE4gczNpL1OpOOJ1ogSEDT2+l02wuscXXgfNYcC/SWEzUHMjBMC2jYQW8cLrwkSjC0WA+Uz/QnXgCR1Pkq4TBOx3YZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZroOby9g; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8FB3BC4CEC6;
+	bh=S8FfBXPNjjhlCI/HFOT2nHb83ABvho1ixjaatY2LUpc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Tt8cJ1Pf/S0lBhPZBxIXWwLlrDyUTTlN+ysj21mO40y/M++cNDDzu5RNSebD4FIbfR+c/FpT1hgXS82LXU8cIVUXtogAyfBkuWDtbV4kVgJ3lGsUcx3cEt8pbmWX312IMd1/nl1CdQrDftoR/e6jGfW6wl3Esn5se7l3vzho6d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIQFpZyR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9930AC4CECD;
 	Sun, 20 Oct 2024 22:14:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1729462451;
-	bh=Gl8hfYn2T/YTDKU4HaLJgS6y5RrOxB6rv+1XIPta0Pk=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=ZroOby9gMAdK+cbLx+HBFCplfX3HfWHV6absLsIobwtL3Vicd/pHR+iSL756miNHr
-	 82uAgLbEUlLGK3WpeM9jANS+gj7CcuTWE8jlX1oRazLRL7Y/WlX4xlsuy3HRdZE7W1
-	 i6O+H7iAF8UhqsGXucWhtmSX2dQDd1hVXxKKa/8Dw5dkMpivIMXxZuY/5XRtOt2tcz
-	 jk+7CngBPoopfMKiJv7n8D+4aKgVCBKvyyGw5YEZGlIMRr8+lyInbSA4u6iWHflVto
-	 9rYCpMdvk+fLlb7u2ANGiCFtEmheYolXGjR8cMSWAt7g+ot2WQ3YAZh0QumGPKzhU1
-	 eoaDqLpUDGXkg==
+	bh=S8FfBXPNjjhlCI/HFOT2nHb83ABvho1ixjaatY2LUpc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=TIQFpZyRPt+QsAbzdlJg+8UlTWm4iXFQeZXbWQslyh42AcsIYh/NAgTbU6z/I8x9f
+	 3UHn7/ybQEOcMj5HUTTY5XWQU0BVC2+0RmvRvVgUAH79z0FU1IxuJO26jgh72oBGhl
+	 7ZQydrFrOZre+nGobqkcVcFfj96ZZovqWwqbveP0nXy6T135OWFkMCpT4VplRPA6Dr
+	 ciXIjo2/oyA3jlcpiy0nWrGP9zYjQ2WqA9Xuss6I6WpYPHdom+7F24+8jZ4wFTm4X4
+	 3LU8sR26+5gHz/Z/Rb8lfBHqdsGm2JZkcGPcyic5adHL/uuok7NcKYvp4rwxU2jGqD
+	 xE+xxIg6db65w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 773D3D3C930;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B79D3C92D;
 	Sun, 20 Oct 2024 22:14:11 +0000 (UTC)
 From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Subject: [PATCH v2 00/13] media: i2c: imx214: Miscellaneous cleanups and
- improvements
-Date: Mon, 21 Oct 2024 00:13:20 +0200
-Message-Id: <20241021-imx214-v2-0-fbd23e99541e@apitzsch.eu>
+Date: Mon, 21 Oct 2024 00:13:21 +0200
+Subject: [PATCH v2 01/13] media: i2c: imx214: Fix link frequency
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,24 +55,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAICAFWcC/zXMQQ6CMBCF4auQWVvTDlVaV97DsCh1tLMQSIsNS
- ri7FePyf3n5FkgUmRKcqgUiZU489CVwV4EPrr+T4GtpQIlaGmUEP2ZUWpgadWO0bzoiKOcx0o3
- nDbq0pQOnaYivzc3qu/4IK/FPZCWk8PboO2eNrdXh7Eae3smHPT2hXdf1A48vnBeeAAAA
-X-Change-ID: 20240818-imx214-8324784c7bee
+Message-Id: <20241021-imx214-v2-1-fbd23e99541e@apitzsch.eu>
+References: <20241021-imx214-v2-0-fbd23e99541e@apitzsch.eu>
+In-Reply-To: <20241021-imx214-v2-0-fbd23e99541e@apitzsch.eu>
 To: Ricardo Ribalda <ribalda@kernel.org>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
- Ricardo Ribalda <ribalda@chromium.org>
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1729462449; l=2197;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729462449; l=1541;
  i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=Gl8hfYn2T/YTDKU4HaLJgS6y5RrOxB6rv+1XIPta0Pk=;
- b=Lh4y4Jql8cRhJZudqunmzS9M2VT+jXR8X11Va+js09+iFftk5tan5RJTyKBOBCLzcH1/nDj5k
- kCBUOckAF/mBdKlR/anlLsjPdAqjcCFpUA2VTtdMs7W+UW4r8SfYKfx
+ bh=NluvLjOk7zpWEGYYj4MVNV0Nec5J7Y/DcA8dZZTRiIo=;
+ b=BrgCerZaFunRpJUctNvXFFArnADMv/vNjc/D3ZpQZveBIg/+nfL1ilwXeiid0JffRzm2c8MWS
+ EaPTRw8w1xRAj+9h6jXE0GW+1fhu/BSkI4Ia6q/hZAdIl81GSvWB1sI
 X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
  pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
 X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
@@ -81,59 +78,45 @@ X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
 X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
 Reply-To: git@apitzsch.eu
 
-This patch series is a collection of miscellaneous cleanups and
-improvements to the imx214 driver.
+From: André Apitzsch <git@apitzsch.eu>
 
-The series converts the driver to the CCI helpers and adds controls
-needed to make the driver work with libcamera.
+The driver defines IMX214_DEFAULT_LINK_FREQ 480000000, and then
+IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ * 8LL) / 10),
+which works out as 384MPix/s. (The 8 is 4 lanes and DDR.)
 
-The changes are inspired by the imx219 driver.
+Parsing the PLL registers with the defined 24MHz input. We're in single
+PLL mode, so MIPI frequency is directly linked to pixel rate.  VTCK ends
+up being 1200MHz, and VTPXCK and OPPXCK both are 120MHz.  Section 5.3
+"Frame rate calculation formula" says "Pixel rate
+[pixels/s] = VTPXCK [MHz] * 4", so 120 * 4 = 480MPix/s, which basically
+agrees with my number above.
+
+3.1.4. MIPI global timing setting says "Output bitrate = OPPXCK * reg
+0x113[7:0]", so 120MHz * 10, or 1200Mbit/s. That would be a link
+frequency of 600MHz due to DDR.
+That also matches to 480MPix/s * 10bpp / 4 lanes / 2 for DDR.
 
 Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
-Changes in v2:
-- Add patch to fix link frequency
-- Don't use and remove fmt and crop from struct imx214
-- Squash patch 1/13 and 2/13
-- Only check if #lanes == 4
-- Add comment that enum_frame_interval() shouldn't be used by userspace
-- Set V4L2_CID_VBLANK step size to 2 (according to datasheet Table 4-4)
-- Increase IMX214_VBLANK_MIN to limit max frame rate of full resolution
-  to the documented 30 fps
-- As bpp is always 10, simplify setting IMX214_REG_CSI_DATA_FORMAT and
-  IMX214_REG_OPPXCK_DIV
-- Simplify imx214_get_format_code()
-- Cluster hflip and vflip
-- Remove kernel log note from 11/13, issue was fixed by a kernel update
-- Add A-b tags
-- Link to v1: https://lore.kernel.org/r/20240902-imx214-v1-0-c96cba989315@apitzsch.eu
+ drivers/media/i2c/imx214.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
----
-André Apitzsch (13):
-      media: i2c: imx214: Fix link frequency
-      media: i2c: imx214: Use subdev active state
-      media: i2c: imx214: Simplify with dev_err_probe()
-      media: i2c: imx214: Convert to CCI register access helpers
-      media: i2c: imx214: Replace register addresses with macros
-      media: i2c: imx214: Drop IMX214_REG_EXPOSURE from mode reg arrays
-      media: i2c: imx214: Check number of lanes from device tree
-      media: i2c: imx214: Add vblank and hblank controls
-      media: i2c: imx214: Extract format and crop settings
-      media: i2c: imx214: Implement vflip/hflip controls
-      media: i2c: imx214: Add analogue/digital gain control
-      media: i2c: imx214: Verify chip ID
-      media: i2c: imx214: Add test pattern control
+diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+index 4962cfe7c83d62425aeccb46a400fa93146f14ea..5d411452d342fdb177619cd1c9fd9650d31089bb 100644
+--- a/drivers/media/i2c/imx214.c
++++ b/drivers/media/i2c/imx214.c
+@@ -24,7 +24,7 @@
+ #define IMX214_MODE_STREAMING		0x01
+ 
+ #define IMX214_DEFAULT_CLK_FREQ	24000000
+-#define IMX214_DEFAULT_LINK_FREQ 480000000
++#define IMX214_DEFAULT_LINK_FREQ 600000000
+ #define IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ * 8LL) / 10)
+ #define IMX214_FPS 30
+ #define IMX214_MBUS_CODE MEDIA_BUS_FMT_SRGGB10_1X10
 
- drivers/media/i2c/Kconfig  |    1 +
- drivers/media/i2c/imx214.c | 1320 +++++++++++++++++++++++++++-----------------
- 2 files changed, 800 insertions(+), 521 deletions(-)
----
-base-commit: dc492038a748d54f9be2a31a629c44710989034c
-change-id: 20240818-imx214-8324784c7bee
-
-Best regards,
 -- 
-André Apitzsch <git@apitzsch.eu>
+2.47.0
 
 
 
