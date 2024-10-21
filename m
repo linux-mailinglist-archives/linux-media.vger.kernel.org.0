@@ -1,250 +1,151 @@
-Return-Path: <linux-media+bounces-19946-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19947-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B245A9A575D
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 00:39:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 949F39A59B8
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 07:39:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EBEA281B92
-	for <lists+linux-media@lfdr.de>; Sun, 20 Oct 2024 22:39:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DBBC41F21D77
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 05:39:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58B7E198A3B;
-	Sun, 20 Oct 2024 22:39:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50664194AFE;
+	Mon, 21 Oct 2024 05:39:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="f+7O/O+B"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LGRiOfBg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC1D440C;
-	Sun, 20 Oct 2024 22:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C00282F4
+	for <linux-media@vger.kernel.org>; Mon, 21 Oct 2024 05:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729463972; cv=none; b=XI27FOMxjPx6cVJOYeEAHlDxBCjaCMu0U70MjdsIrp9oPcRAfenyKImTGtE45N21pvhghYRFf3L+Xrn3JF11Ea7Y6bRfiMS8UcfT+m46IC2ZtvHU7WXuFP+L2VrkMW+zvcfmwp6W0FEHGoBuTSklqzxfpVqRlZldLLr/cJPtySo=
+	t=1729489144; cv=none; b=s/nLhCjxIz8fwe5HXrEAifg+ziSKZ7hWxwW2pYRWR+4+v7mM5pkPYMpwgCyz4sAZiMhkj53hPvzHVbfvciJBBVOZn+Bnwf4YoadHDAZMP10GBhOWDMOOdgGuSJqtmGpxLVvnU4/GvGoz4BT3ao+n3l5jrSdpD+l6G7atXv0xDU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729463972; c=relaxed/simple;
-	bh=B52J3Ry8R5IFVTe51jLTiTaQXxZQUXukXkVYt0r79d8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OW/Cijme7+EQqOhAseVqLUDmvbOLq73YUFnu/TT2Ka9B7C3Z7GlAmVGMfrzeEsu8xZiHP4iWxqfMEctt4xCK2zYw1u/j3L3cPwCfc4RU0hGoOoqpqLYBDLxj2UXZAFKzI78PKilGZBJRZHlwOoE+eYQR39tJ4+qOpG85skU7Ybo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=f+7O/O+B; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66BE74CF;
-	Mon, 21 Oct 2024 00:37:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1729463863;
-	bh=B52J3Ry8R5IFVTe51jLTiTaQXxZQUXukXkVYt0r79d8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f+7O/O+BpUbvW66TZHPEO/MNFUlWQfYzwgWQXyESuBkJcUtJ89NxZrAC67FEIwtGf
-	 537S3Hp5x7/0ijXWtRo9J2FQXWbkT1LyfNqQH5OZXg4dBJkOdTfV8YCJnnxRGynIzz
-	 MtP+OohWwqCxGI/HHy+RzD0fXbmjCEQSyuJegjrs=
-Date: Mon, 21 Oct 2024 01:39:23 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 00/10] media: ov5645: Add support for streams
-Message-ID: <20241020223923.GB14328@pendragon.ideasonboard.com>
-References: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1729489144; c=relaxed/simple;
+	bh=f5+ggXlq6yLXkoBxQqpQzfX/xnlrafFn3SMvSsi5wwg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t7Psp45q9vNSZJldUuLQ0cFZM1CXzC//Ydv+1Jcp71K4vNc7a0FGyB8RitZ8THhQlk4UKqJex5qQymOFS8S0yySvxHOlwmxJn8quHa1TZ4cMrlIdZidkCb1iS1Cb0uOJ6T0HI7tzxxLysAcYz6heG2yy0Z1/dFYGy852vNBHtuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LGRiOfBg; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fb50e84ec7so28797941fa.1
+        for <linux-media@vger.kernel.org>; Sun, 20 Oct 2024 22:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1729489140; x=1730093940; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M9zNYRiu9uknolFzwLlq15Mi6j/Tjr3sPHN/TktoqH0=;
+        b=LGRiOfBgvZ0IrtHNuV4aw5YTcEubha+JP6P4xMWgUvhTxDBYDQIyrc7QzrVo3pkB13
+         V31qish3fDfFVGrB1yzeawG/V+PxePQLXCtWbDn5nb6OgcsbeUCy8laDvCKNtyMFETJR
+         7fbOS5mhYHEDtenk7baqKPwCKUns7OSv5bp/I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729489140; x=1730093940;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M9zNYRiu9uknolFzwLlq15Mi6j/Tjr3sPHN/TktoqH0=;
+        b=G5NIQw0e8zrd/RA6wC0NsKZ2cBIiScJFMoptjCU1cGSWek8IoEhne5R6M+bEf34bxZ
+         /zNHeoSvGFF6v1yFcK/E+I8bm6GzrGpNt5Hw1D0lQzXnj26cjXitHGHqvOOI3STo9cLe
+         2WJX6qfp8gEEhfnKrPSR8rbNTxh736VXRN15hLVia1KMmdUROHcBekOnWmoUbx/R9Qja
+         fgjDrbjRBq5x7R7dvgnimAiy7/qCU8FgaUCZNfEpJi/q16x0I6uXdsSVIvj60dTyRZls
+         mqr6u2P2oCIAYmI02GWFubfiJlWiQmkbCemGuCyTHIDZexNkjEeOB3hE1s5Larwl7A+w
+         nzIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdRlsjN2VcOoCFL14O3GGM/9F8/F7x9qJSxQpyeBFUrSnmSeZ0rxcdJGuV/s0fSsCS4O6EAi7Qt8Cntw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNxJo/iDYmZfI2mLpD3y8QbgTcYsdBqQaQ7vHPSdpvAk+redCM
+	JI2A0PUz4RsolWeVv8ZLNgOdy16xqCSzC6YaRXPeuDG1xvSJpTP4LiCowJFnxK9vQoZ6L6Uap38
+	=
+X-Google-Smtp-Source: AGHT+IFZ01bRT5ucRo2owJyELGSWcIQGWa5zonmTcG9m38u8z7l3NRE8XDlKVngcEA5OopvqYCw0ww==
+X-Received: by 2002:a05:6512:1598:b0:539:f886:31d6 with SMTP id 2adb3069b0e04-53a1520bd09mr4284479e87.2.1729489139287;
+        Sun, 20 Oct 2024 22:38:59 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a223f0089sm391251e87.112.2024.10.20.22.38.56
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 20 Oct 2024 22:38:57 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539d9fffea1so3838203e87.2
+        for <linux-media@vger.kernel.org>; Sun, 20 Oct 2024 22:38:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUglnghAn2TrhuZZYrimMKUru0BZQ+yUHp3ENsZyO+bBcWQvouo1huFS3RM+RA3XgYDNzCfpKRfylpvpg==@vger.kernel.org
+X-Received: by 2002:a05:6512:1315:b0:52e:76d5:9504 with SMTP id
+ 2adb3069b0e04-53a1520bd38mr5443903e87.3.1729489135981; Sun, 20 Oct 2024
+ 22:38:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20241018152127.3958436-1-arnd@kernel.org>
+In-Reply-To: <20241018152127.3958436-1-arnd@kernel.org>
+From: Alexandre Courbot <acourbot@chromium.org>
+Date: Mon, 21 Oct 2024 14:38:42 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXgv1sHy+F1psxiN0wu0ryg5shX_u7orzgLz9+-hU59jA@mail.gmail.com>
+Message-ID: <CAPBb6MXgv1sHy+F1psxiN0wu0ryg5shX_u7orzgLz9+-hU59jA@mail.gmail.com>
+Subject: Re: [PATCH] media: mtk-vcodec: venc: avoid -Wenum-compare-conditional warning
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+	Yunfei Dong <yunfei.dong@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Arnd Bergmann <arnd@arndb.de>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Fei Shao <fshao@chromium.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+On Sat, Oct 19, 2024 at 12:21=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wr=
+ote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> This is one of three clang warnings about incompatible enum types
+> in a conditional expression:
+>
+> drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c:597:29=
+: error: conditional expression between different enumeration types ('enum =
+scp_ipi_id' and 'enum ipi_id') [-Werror,-Wenum-compare-conditional]
+>   597 |         inst->vpu_inst.id =3D is_ext ? SCP_IPI_VENC_H264 : IPI_VE=
+NC_H264;
+>       |                                    ^ ~~~~~~~~~~~~~~~~~   ~~~~~~~~=
+~~~~~
+>
+> The code is correct, so just rework it to avoid the warning.
+>
+> Fixes: 0dc4b3286125 ("media: mtk-vcodec: venc: support SCP firmware")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Thank you for the patches.
+Reviewed-by: Alexandre Courbot <acourbot@google.com>
 
-I think patch 01/10 should be dropped in favour of
-https://lore.kernel.org/r/20241020164354.GG7770@pendragon.ideasonboard.com
-("[PATCH v2] media: v4l2-subdev: Refactor events"). Patches 02/10 to
-08/10 seem ready, should we merge them without waiting for 09/10 and
-10/10 ?
-
-On Fri, Oct 18, 2024 at 04:32:20PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Hi All,
-> 
-> This patch series aims to add the below features,
-> - Support subdev active state
-> - Support for streams
-> - Support for virtual channel
-> - Code cleanup
-> 
-> Note, these patches are dependent on below:
-> 1] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-27-sakari.ailus@linux.intel.com/
-> 2] https://patchwork.kernel.org/project/linux-media/patch/20240416193319.778192-26-sakari.ailus@linux.intel.com/
-> 
-> v2->v3
-> - Fixed review commments from Laurent
-> - Included RB tags from Laurent
-> - Dropped patch "media: i2c: ov5645: Enable runtime PM after v4l2_async_register_subdev()"
-> - Fixed checkpatch issues (ie used --max-line-length=80)
-> 
-> RFC->v2
-> - Dropped setting of VC using routes
-> - Defaulted the native format to MEDIA_BUS_FMT_SBGGR8_1X8
-> - Fixed ov5645_enum_frame_size and ov5645_enum_mbus_code
->   for internal image pad
-> 
-> RFC patch,
-> Link: https://lore.kernel.org/all/20240904210719.52466-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> 
-> Test logs:
-> ====================================
-> root@smarc-rzg2l:~# media-ctl -p
-> ......
-> - entity 4: ov5645 0-003c (2 pads, 1 link, 1 route)
->       type V4L2 subdev subtype Sensor flags 0
->       device node name /dev/v4l-subdev1
->     routes:
->         1/0 -> 0/0 [ACTIVE]
->     pad0: SOURCE
->         [stream:0 fmt:UYVY8_1X16/1280x960 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range
->         crop:(0,0)/1280x960]
->         -> "csi-10830400.csi2":0 [ENABLED,IMMUTABLE]
->     pad1: SINK,0x8
->         [stream:0 fmt:SBGGR8_1X8/2592x1944 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range
->         crop:(0,0)/1280x960]
-> ......
-> 
-> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-mbus-codes pad=0
-> ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0,stream=0)
->     0x200f: MEDIA_BUS_FMT_UYVY8_1X16
-> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-mbus-codes pad=1
-> ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=1,stream=0)
->     0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
-> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-framesizes pad=1,code=0x3001
-> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=1,stream=0)
->     Size Range: 2592x1944 - 2592x1944
-> root@smarc-rzg2l:~# v4l2-ctl --device /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x200f
-> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0,stream=0)
->     Size Range: 1280x960 - 1280x960
->     Size Range: 1920x1080 - 1920x1080
->     Size Range: 2592x1944 - 2592x1944
-> root@smarc-rzg2l:~# v4l2-compliance -u /dev/v4l-subdev1
-> v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: fc15e229d9d3 2024-07-23 19:22:15
-> 
-> Compliance test for device /dev/v4l-subdev1:
-> 
-> Driver Info:
->     Driver version  : 6.12.0
->     Capabilities   : 0x00000002
->         Streams Support
->     Client Capabilities: 0x00000[ 2429.125325] ov5645 0-003c: ================= START STATUS =================
-> 00000000003
-> streams int[ 2429.134589] ov5645 0-003c: ================== END STATUS ==================
-> erval-uses-which
-> Required ioctls:
->     test VIDIOC_SUDBEV_QUERYCAP: OK
->     test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->     test second /dev/v4l-subdev1 open: OK
->     test VIDIOC_SUBDEV_QUERYCAP: OK
->     test for unlimited opens: OK
-> 
-> Debug ioctls:
->     test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->     test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->     test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->     test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->     test VIDIOC_ENUMAUDIO: OK (Not Supported)
->     test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->     test VIDIOC_G/S_AUDIO: OK (Not Supported)
->     Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->     test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->     test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->     test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->     test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->     test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->     Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->     test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->     test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->     test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->     test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Sub-Device routing ioctls:
->     test Try VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
->     test Active VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
-> 
-> Control ioctls:
->     test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->     test VIDIOC_QUERYCTRL: OK
->     test VIDIOC_G/S_CTRL: OK
->     test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->     test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->     test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->     Standard Controls: 12 Private Controls: 0
-> 
-> Format ioctls:
->     test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
->     test VIDIOC_G/S_PARM: OK (Not Supported)
->     test VIDIOC_G_FBUF: OK (Not Supported)
->     test VIDIOC_G_FMT: OK (Not Supported)
->     test VIDIOC_TRY_FMT: OK (Not Supported)
->     test VIDIOC_S_FMT: OK (Not Supported)
->     test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->     test Cropping: OK (Not Supported)
->     test Composing: OK (Not Supported)
->     test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->     test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->     test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->     test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->     test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
->     test CREATE_BUFS maximum buffers: OK
->     test VIDIOC_REMOVE_BUFS: OK
->     test VIDIOC_EXPBUF: OK (Not Supported)
->     test Requests: OK (Not Supported)
-> 
-> Total for device /dev/v4l-subdev1: 47, Succeeded: 47, Failed: 0, Warnings: 0
-> ------------------------------------------------------------
-> 
-> Lad Prabhakar (10):
->   media: i2c: ov5645: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
->   media: i2c: ov5645: Use local `dev` pointer for subdev device
->     assignment
->   media: i2c: ov5645: Replace dev_err with dev_err_probe in probe
->     function
->   media: i2c: ov5645: Use v4l2_async_register_subdev_sensor()
->   media: i2c: ov5645: Drop `power_lock` mutex
->   media: i2c: ov5645: Use subdev active state
->   media: i2c: ov5645: Switch to {enable,disable}_streams
->   media: i2c: ov5645: Report streams using frame descriptors
->   media: i2c: ov5645: Add internal image sink pad
->   media: i2c: ov5645: Report internal routes to userspace
-> 
->  drivers/media/i2c/ov5645.c | 435 +++++++++++++++++++++----------------
->  1 file changed, 246 insertions(+), 189 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+> ---
+>  .../platform/mediatek/vcodec/encoder/venc/venc_h264_if.c    | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h26=
+4_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+> index f8145998fcaf..8522f71fc901 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+> @@ -594,7 +594,11 @@ static int h264_enc_init(struct mtk_vcodec_enc_ctx *=
+ctx)
+>
+>         inst->ctx =3D ctx;
+>         inst->vpu_inst.ctx =3D ctx;
+> -       inst->vpu_inst.id =3D is_ext ? SCP_IPI_VENC_H264 : IPI_VENC_H264;
+> +       if (is_ext)
+> +               inst->vpu_inst.id =3D SCP_IPI_VENC_H264;
+> +       else
+> +               inst->vpu_inst.id =3D IPI_VENC_H264;
+> +
+>         inst->hw_base =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_bas=
+e, VENC_SYS);
+>
+>         ret =3D vpu_enc_init(&inst->vpu_inst);
+> --
+> 2.39.5
+>
 
