@@ -1,122 +1,282 @@
-Return-Path: <linux-media+bounces-19991-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19992-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D52F9A67BD
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 14:15:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 213DD9A6847
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 14:26:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 065491F21E71
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 12:15:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50B9A1C226C3
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 12:26:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5F41F429E;
-	Mon, 21 Oct 2024 12:15:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E538D1F8F0D;
+	Mon, 21 Oct 2024 12:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rvHHPvks"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YcnYyxUl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C061E571E
-	for <linux-media@vger.kernel.org>; Mon, 21 Oct 2024 12:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554741F4714;
+	Mon, 21 Oct 2024 12:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729512940; cv=none; b=RRwgHyCcl11aHKKSlbitwDJ0Or+qT3yW2pAGLdG/i5LU+Yn3cVEHsI53gb1z5nmfGFInQWXbzdDy+7inWZNr+HXs7y6opYKSM78WTv3tc0IsSY+x869qY4b0qXKN0pTP9yQ06j8z5W1o4tsqcxaT2k9Umhtugz/MVDsA3/tH5a0=
+	t=1729513361; cv=none; b=DnAkOc8UbCP5K6fWouhUeHrIBxhSR8FMui/6c1GXDmJAebF9966gajIZxNniTQ+g08gHbpXxCCszXzoWFnu3foKWdrBkV96gDRF3BCK2uXuvxaRtiGeYsZMzW2/yT9+gIs3yWT1GGsNXAg9SFMZuOa1/GaQzTkp+n8gNkWIRR3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729512940; c=relaxed/simple;
-	bh=ubniCwvujlyUXuESJ+QlEf9nz56jGqzEaECw2Ab5mVU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mDMsMyG2s01bAbu/ymdELxYgpm74uB8VWOyC1286k1hRimK0JRsv9KFvLkm5bMwPiNu6D1kk7gEeTOFFZFq6Bi4UvRPQDT8U9VE0Vd4K9WE7xJYsipK36SuIQduf2AnOC5z7gRtEYGBj022Q7OlrZUxzTgyEzqngDa4oOYa5KpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rvHHPvks; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2fb51e00c05so60362351fa.0
-        for <linux-media@vger.kernel.org>; Mon, 21 Oct 2024 05:15:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729512935; x=1730117735; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ixvYPjSjHOI3A6bs62BEm+orBMViEbYtWgKUxWp9vmA=;
-        b=rvHHPvkses1XqI9p3HHt+k8MomBAw29aI7JFnxRYtF3CcPzOf82nPnwY8v6ikZLZ20
-         vh9xG2kNM0YDJC/6pgW00qjYxc0oVGQihSwljavjDX2YxNV3yeBlKHKpVTBtCxQrT0Vr
-         K1PqW73E7ryxMH6KgMSGuNgCAldxjCZjnP9GzDL8pV1Cn0M0Tdkszu8n8o8PK8t/2QbY
-         4X3RspUfVdMsqS16GQ/LM4f/Sk+nFEejVi1DQtHLixbvCj4TJfctWpICTcebFEHYWHO9
-         XF1ABahq3A/0nlvMl3YhfUv7d9QL8ejPilJgZjmxkAw3KWTu3EcQjrdjSC/NCWiu87Vf
-         2F/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729512935; x=1730117735;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ixvYPjSjHOI3A6bs62BEm+orBMViEbYtWgKUxWp9vmA=;
-        b=Axxe1CXcW2JX2XtEaC5pTNcfjc2lHWWnzsvzVYSrLMQGMrCLH2yE5EYnp8sI8Sh6De
-         EU0K+XV0yOPnxPY1E9D/xefCnZH6RruyxGjJ7wqbFZ/JNAF/ZfC5ltlJUr8IJrVrszv0
-         jo6U0+wpeAl4y7Zi18OSCTz6mXHopcc79uUWFXX2Grupt+nggEIEAD7SKIyse6KajYDS
-         Qa/Q1QUlhn0NJkqRUo/fnm4eiGfDAi0ZwfjJD8k+KQuYK1U4krwwB92UlJ0HbLgTyxs5
-         fNLR2JRg9C0s/SwtKONt9scJCarAjLQTDLwPZ2McL1RCK8d12FKc1AK27J7bqqE0dkcc
-         ENqw==
-X-Forwarded-Encrypted: i=1; AJvYcCU9FAzDrZ1EYRX8yK+rWyNIQy2+Ky+f9mtqxDECjguksC6nb0TrgeQkFkHqJg4wesjelX92y41JLkpVuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxW69MgdqTWPfYlzOc244WUNmOq5xRsXdCw/OZsIpuaCNfZBu12
-	G285DwX5bwITMbqWSwZewsp8a6caQlJRWxrC8JznBEVY5SZmln1AeJB3XTukJ1M=
-X-Google-Smtp-Source: AGHT+IEkcKoatMCDEuy5jqS04CW2sFmKYlfJWSMdE2NyRaxseViNDhyaFOJIPHQ/mBlzZ4JfzX+iAA==
-X-Received: by 2002:a05:651c:2124:b0:2fa:d7ea:a219 with SMTP id 38308e7fff4ca-2fb8320f101mr78774851fa.37.1729512934612;
-        Mon, 21 Oct 2024 05:15:34 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb9ad60d95sm4785161fa.33.2024.10.21.05.15.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 05:15:33 -0700 (PDT)
-Date: Mon, 21 Oct 2024 15:15:31 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
-	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
-	jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, quic_jesszhan@quicinc.com, 
-	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
-	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, tomi.valkeinen@ideasonboard.com, 
-	quic_bjorande@quicinc.com, geert+renesas@glider.be, arnd@arndb.de, nfraprado@collabora.com, 
-	thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, 
-	marex@denx.de, biju.das.jz@bp.renesas.com
-Subject: Re: [PATCH v3 06/15] drm: of: Add
- drm_of_lvds_get_dual_link_pixel_order_sink()
-Message-ID: <zaraulehid255ij3hs7hazd463ye4l5ju6sguoos243kda6552@lztoq22vzqyk>
-References: <20241021064446.263619-1-victor.liu@nxp.com>
- <20241021064446.263619-7-victor.liu@nxp.com>
+	s=arc-20240116; t=1729513361; c=relaxed/simple;
+	bh=LknK+bmwz1HcsCHFGbTuacYGi4dNazdLQR43QwJVFHM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=fJLQnEgLG/URZPR990t/k2U0qJOE2a15o13KZrlrh5J4btKa8rrda+ybitrWQRVdRrEuelq7GUc5XeTFMO/IL9NpGi+Rp3sjCe6zW9359+Xtiv8BlNU/gEX55YShiJnqsTrIwjDhbAZ0h9xHfm2sYy5Ujn4zS3IBv9jvadxQ3t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YcnYyxUl; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49LA97ZH012545;
+	Mon, 21 Oct 2024 12:22:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YGbUV117vz4ntpz8yuZW40y8LXipHeKy2mpnqNfZXQU=; b=YcnYyxUlmzb6auXI
+	BBHfeF3ekkVIaQiACdD7yVHuymE0HapdRVEtE1LIokt8ieGO+HisGA/YSj9K9xEA
+	6WVDBwVk6R5pt9dsLzDjZnicGbf0HyvyiPtd8d2xTAbEdgq24lQDTftv8HKyI5PW
+	o8j7rFJhh7jbHjHgdTca3ZZp7tDKD2L7Uo2xnmuy3Wie/SSWa0uWRZQ5eDoD1HJU
+	snTrRdXUC7zoy/m0MNMgAn34wKJvwzvVFEjkZSg5AW5HfpUWtYIhX//aCrHYo+QN
+	QHf3T1riGocog/q3FQmw/1SCNpbbwTIGW3RUp24R0Myw8N99E8vINd7FaoaFn/qj
+	7FCOGQ==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42c6rj4nhx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Oct 2024 12:22:27 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49LCMPlS016807
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Oct 2024 12:22:25 GMT
+Received: from [10.206.106.133] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 21 Oct
+ 2024 05:22:17 -0700
+Message-ID: <e2531d90-dbcb-4ba5-b153-fb8ca2ba7734@quicinc.com>
+Date: Mon, 21 Oct 2024 17:52:14 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241021064446.263619-7-victor.liu@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/8] media: dt-bindings: media: camss: Add
+ qcom,sc7280-camss binding
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <akapatra@quicinc.com>, <hariramp@quicinc.com>,
+        <andersson@kernel.org>, <konradybcio@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>
+References: <20241011140932.1744124-1-quic_vikramsa@quicinc.com>
+ <20241011140932.1744124-2-quic_vikramsa@quicinc.com>
+ <q63w23zeoteagtw3px4sk3il4567plydgdhckmvpiksm6qc5i2@3rcdrr5uribq>
+Content-Language: en-US
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+In-Reply-To: <q63w23zeoteagtw3px4sk3il4567plydgdhckmvpiksm6qc5i2@3rcdrr5uribq>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: qWAEw5uzhWxzsU_YX5UU8K6UwinM0zt6
+X-Proofpoint-ORIG-GUID: qWAEw5uzhWxzsU_YX5UU8K6UwinM0zt6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 clxscore=1011
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2409260000 definitions=main-2410210088
 
-On Mon, Oct 21, 2024 at 02:44:37PM +0800, Liu Ying wrote:
-> drm_of_lvds_get_dual_link_pixel_order() gets LVDS dual-link source pixel
-> order.  Similar to it, add it's counterpart function
-> drm_of_lvds_get_dual_link_pixel_order_sink() to get LVDS dual-link sink
-> pixel order.
-> 
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v3:
-> * New patch.  (Dmitry)
-> 
->  drivers/gpu/drm/drm_of.c | 76 ++++++++++++++++++++++++++++++++++------
->  include/drm/drm_of.h     |  9 +++++
->  2 files changed, 74 insertions(+), 11 deletions(-)
-> 
+Hi Krzysztof,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Thanks for your review. I will address the alignment issue as per DTS 
+coding style and will submit v4 for review.
 
--- 
-With best wishes
-Dmitry
+Thanks,
+Vikram
+
+On 10/11/2024 8:19 PM, Krzysztof Kozlowski wrote:
+> On Fri, Oct 11, 2024 at 07:39:25PM +0530, Vikram Sharma wrote:
+>> @@ -0,0 +1,440 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +
+> Drop blank line (that's a new finding, I would not complain except that
+> I expect new version, see further).
+>
+>> +    soc {
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +
+>> +        camss: camss@acaf000 {
+>> +            compatible = "qcom,sc7280-camss";
+>> +
+>> +            clocks = <&clock_camcc CAM_CC_CAMNOC_AXI_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_0_CSID_CLK>,
+> Alignment did not improve. Please carefully read DTS coding style.
+>
+>> +                <&clock_camcc CAM_CC_IFE_1_CSID_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_2_CSID_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_LITE_0_CSID_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_LITE_1_CSID_CLK>,
+>> +                <&clock_camcc CAM_CC_CSIPHY0_CLK>,
+>> +                <&clock_camcc CAM_CC_CSI0PHYTIMER_CLK>,
+>> +                <&clock_camcc CAM_CC_CSIPHY1_CLK>,
+>> +                <&clock_camcc CAM_CC_CSI1PHYTIMER_CLK>,
+>> +                <&clock_camcc CAM_CC_CSIPHY2_CLK>,
+>> +                <&clock_camcc CAM_CC_CSI2PHYTIMER_CLK>,
+>> +                <&clock_camcc CAM_CC_CSIPHY3_CLK>,
+>> +                <&clock_camcc CAM_CC_CSI3PHYTIMER_CLK>,
+>> +                <&clock_camcc CAM_CC_CSIPHY4_CLK>,
+>> +                <&clock_camcc CAM_CC_CSI4PHYTIMER_CLK>,
+>> +                <&gcc GCC_CAMERA_AHB_CLK>,
+>> +                <&gcc GCC_CAMERA_HF_AXI_CLK>,
+>> +                <&clock_camcc CAM_CC_CPAS_AHB_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_0_AXI_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_0_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_0_CPHY_RX_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_1_AXI_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_1_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_1_CPHY_RX_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_2_AXI_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_2_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_2_CPHY_RX_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_LITE_0_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_LITE_0_CPHY_RX_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_LITE_1_CLK>,
+>> +                <&clock_camcc CAM_CC_IFE_LITE_1_CPHY_RX_CLK>;
+>> +
+>> +            clock-names = "camnoc_axi",
+>> +                "csi0",
+> Alignment did not improve. Please carefully read DTS coding style.
+>
+>> +                "csi1",
+>> +                "csi2",
+>> +                "csi3",
+>> +                "csi4",
+>> +                "csiphy0",
+>> +                "csiphy0_timer",
+>> +                "csiphy1",
+>> +                "csiphy1_timer",
+>> +                "csiphy2",
+>> +                "csiphy2_timer",
+>> +                "csiphy3",
+>> +                "csiphy3_timer",
+>> +                "csiphy4",
+>> +                "csiphy4_timer",
+>> +                "gcc_camera_ahb",
+>> +                "gcc_camera_axi",
+>> +                "soc_ahb",
+>> +                "vfe0_axi",
+>> +                "vfe0",
+>> +                "vfe0_cphy_rx",
+>> +                "vfe1_axi",
+>> +                "vfe1",
+>> +                "vfe1_cphy_rx",
+>> +                "vfe2_axi",
+>> +                "vfe2",
+>> +                "vfe2_cphy_rx",
+>> +                "vfe0_lite",
+>> +                "vfe0_lite_cphy_rx",
+>> +                "vfe1_lite",
+>> +                "vfe1_lite_cphy_rx";
+>> +
+>> +            interconnects = <&gem_noc MASTER_APPSS_PROC 0 &cnoc2 SLAVE_CAMERA_CFG 0>,
+>> +                <&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI1 0>;
+> Alignment did not improve. Please carefully read DTS coding style.
+>
+>> +
+>> +            interconnect-names = "ahb", "hf_0";
+>> +
+>> +            interrupts = <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
+> Alignment did not improve. Please carefully read DTS coding style.
+>
+>> +                <GIC_SPI 640 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 641 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
+>> +                <GIC_SPI 360 IRQ_TYPE_EDGE_RISING>;
+>> +
+>> +            interrupt-names = "csid0",
+>> +                "csid1",
+>> +                "csid2",
+>> +                "csid_lite0",
+> Alignment did not improve. Please carefully read DTS coding style.
+>
+>> +                "csid_lite1",
+>> +                "csiphy0",
+>> +                "csiphy1",
+>> +                "csiphy2",
+>> +                "csiphy3",
+>> +                "csiphy4",
+>> +                "vfe0",
+>> +                "vfe1",
+>> +                "vfe2",
+>> +                "vfe_lite0",
+>> +                "vfe_lite1";
+>> +
+>> +            iommus = <&apps_smmu 0x800 0x4e0>;
+>> +
+>> +            power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
+>> +                <&camcc CAM_CC_IFE_1_GDSC>,
+> Alignment did not improve. Please carefully read DTS coding style.
+>
+>> +                <&camcc CAM_CC_IFE_2_GDSC>,
+>> +                <&camcc CAM_CC_TITAN_TOP_GDSC>;
+>> +
+>> +            power-domains-names = "ife0", "ife1", "ife2", "top";
+>> +
+>> +            reg = <0x0 0x0acb3000 0x0 0x1000>,
+>> +                <0x0 0x0acba000 0x0 0x1000>,
+>> +                <0x0 0x0acc1000 0x0 0x1000>,
+> Alignment did not improve. Please carefully read DTS coding style.
+>
+>> +                <0x0 0x0acc8000 0x0 0x1000>,
+>> +                <0x0 0x0accf000 0x0 0x1000>,
+>> +                <0x0 0x0ace0000 0x0 0x2000>,
+>> +                <0x0 0x0ace2000 0x0 0x2000>,
+>> +                <0x0 0x0ace4000 0x0 0x2000>,
+>> +                <0x0 0x0ace6000 0x0 0x2000>,
+>> +                <0x0 0x0ace8000 0x0 0x2000>,
+>> +                <0x0 0x0acaf000 0x0 0x4000>,
+>> +                <0x0 0x0acb6000 0x0 0x4000>,
+>> +                <0x0 0x0acbd000 0x0 0x4000>,
+>> +                <0x0 0x0acc4000 0x0 0x4000>,
+>> +                <0x0 0x0accb000 0x0 0x4000>;
+>> +
+>> +            reg-names = "csid0",
+>> +                "csid1",
+>> +                "csid2",
+>> +                "csid_lite0",
+> Alignment did not improve. Please carefully read DTS coding style.
+>
+>> +                "csid_lite1",
+>> +                "csiphy0",
+>> +                "csiphy1",
+>> +                "csiphy2",
+> Best regards,
+> Krzysztof
+>
 
