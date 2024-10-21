@@ -1,142 +1,116 @@
-Return-Path: <linux-media+bounces-19996-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19997-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B95B9A6EB4
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 17:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1222E9A6F01
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 18:04:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5CF2A28138A
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 15:49:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5AF62842B2
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 16:04:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EB5A1CB50C;
-	Mon, 21 Oct 2024 15:49:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 181D81D0174;
+	Mon, 21 Oct 2024 16:04:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gyS1Ki4i";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="T7zmybvz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q1KtfWm4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from a7-46.smtp-out.eu-west-1.amazonses.com (a7-46.smtp-out.eu-west-1.amazonses.com [54.240.7.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2E91CB32B;
-	Mon, 21 Oct 2024 15:49:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.7.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CBE1CB535;
+	Mon, 21 Oct 2024 16:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729525778; cv=none; b=PYnRjqR++u0aQjlkaXKsTdFdOZDylAEAQWtUwQ6YSsHpIFjm9dR+pghqjpauKdgRTI5JDuOh2j+aVZ3jHHfbLKPsUSJv/WWReV0xycvmWbF/l5sD4N51nE/UpI77VE44PPfhx6Z69nshzqdza1ECnErrMN3+xLNmBbKMdsttNps=
+	t=1729526662; cv=none; b=XTmiT6wRPdVUUhtlG69UfSN9wDLKyecCs2/lAKMLydQ06iqfM0TzsE/RTgyyIYz+7guAlW1mqorzt/lVEqvD7qy8gmZ1wgR8lwWN+sOfRML7c9wlo+TedU4oIv297E+vKDxgeUvNqvEMtr8TSY44H/wScrK+jROt23L1mUdrufU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729525778; c=relaxed/simple;
-	bh=toAJwIKA7RZAQVARGMAi5K9VmZBIKCnLKPK9Q+kKBaw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PKi65x4UCx1toV0JHH0adJUwVYxUCQRTJVsbceiLZ1tIS6Ng11GPcWsY0CGKtyVV0c1zL4vLjtQMzblH6mBS1SwbShdzGebWVcKJzJL8bqB2KixdUjIXAJGKjXfI8tB9/Q2q9ckDlaGYNwkfWdUrHlNsqXVg+EMdT79C8IqZ33M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=amazonses.collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gyS1Ki4i; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=T7zmybvz; arc=none smtp.client-ip=54.240.7.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=bc7lryepznv65m6r2ewkpoafjt4fiq42; d=collabora.com; t=1729525774;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
-	bh=toAJwIKA7RZAQVARGMAi5K9VmZBIKCnLKPK9Q+kKBaw=;
-	b=gyS1Ki4ijauyhKcafflRpXHM1GhGqmaWor73rdoLbCvX+sw2LITPQPSRKqfLHX9p
-	I5x31z+sZNlGR1jxSUXGH4Yi5RSMUGC8F9Mq9+LMFoRE4ugu0gdQxhvjEyGhiv2KB4a
-	EAGtEqq9P4OjPHZ5GuJnbN1fB8xYtNnbKmLlkFNKFBFn7iQ0X/NpZgFToEvKy0npf/s
-	/hTF2Iei058gUnEpoUYuhI9hjhvucTSFDebqOvTAwYFuvDGovwB0Z/VrYLm98D1S3BV
-	EvBjVt6/sY2fyZ4RJ9ZFcqTXYqQmYHjtGY+XbvB+4ojlaT0Z8ZwqiOsnSCKHQY7zLhi
-	WAbLGzsPgA==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1729525774;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
-	bh=toAJwIKA7RZAQVARGMAi5K9VmZBIKCnLKPK9Q+kKBaw=;
-	b=T7zmybvzpyTJMJ9kK3gT+3/usua8kp7itqACqLjRldsQ8pi0mka/iED/94CqEMcK
-	gcUQi/M8pNMVT3dXVUVUd5RuZD6pCTTitLyZG/DNqzPhBQnDApVmOoBtZI5cDv2m/7z
-	hGhDxkliIL3JDF74hFnPbiDb3LOYlUXe4uK8m7DY=
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, 
-	mchehab@kernel.org, heiko@sntech.de
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kernel@collabora.com, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH] media: verisilicon: av1: Store chroma and mv offsets
-Date: Mon, 21 Oct 2024 15:49:34 +0000
-Message-ID: <01020192afc4f87b-fd9b4515-9e30-41e7-8cf9-029cf5c0c7b6-000000@eu-west-1.amazonses.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1729526662; c=relaxed/simple;
+	bh=TJh/DD/sfJgskbjJKAccoygie3yLsjjKsgBPtkfXTus=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rduFHNqO18PR4yuUNDADkFPy8PyMm6Fd8/KY09nnYD0BbExvKPYQ4rjK3LMHMuYYF04Mpl43+BMKvchwXpuo1vZ+FikEwszdRFqUKh8swy3TOLjeEyCEvixCJPMC2aHZ30aSgh64GHnv8Lk/LFxxpgSUn+Zl7kSiYMAfF0lE6e0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q1KtfWm4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F13C4CECD;
+	Mon, 21 Oct 2024 16:04:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729526660;
+	bh=TJh/DD/sfJgskbjJKAccoygie3yLsjjKsgBPtkfXTus=;
+	h=From:Date:Subject:To:Cc:From;
+	b=Q1KtfWm4+hf6dSHS8s6VVmODdTYta8dKUbMxhqfJvs/6iLyf6Yu4v87wHj9mv+Rgf
+	 d49geA3ugWnB6Wwu6bZpu69UZjTS2LAZ5fGrt2CMQNNT7HpmJwLhUeK3ryl9ndXf+N
+	 KacJTveyyl3YYRYf2N18J1KPOCkZQswnGUTr1lWjxA29yKqyZKoiOO9y8H42H18pjE
+	 ZUGJQ/5OrI+ihDaEBOwja7z7dbP+2POHTm3/BoN5p9ityxh0ijrsBhATf3Xv2byROr
+	 4Yf8qMp3ecpXPOosBhcqGSIb8BprdScRbJQwQg63R/dAGTAV1Pi67f8WfL4kRCTVZa
+	 xMIqLtu8AVkAA==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Mon, 21 Oct 2024 09:04:15 -0700
+Subject: [PATCH] media: dvbdev: Avoid using uninitialized ret in
+ dvb_register_device()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.10.21-54.240.7.46
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241021-dvbdev-fix-uninitialized-return-v1-1-a704945f20e5@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAH57FmcC/x2NwQrCMBAFf6Xs2YUmFC3+SvEQ3RddKGvZtEEs/
+ XeDx4FhZqcCVxS6djs5qhZ9W4Nw6ujxSvYEqzSm2Mch9DGw1LugctYPb6amq6ZZvxB2rJsbn5G
+ HMF4kp5yoVRZHc/+H6XYcP+05qgtxAAAA
+X-Change-ID: 20241021-dvbdev-fix-uninitialized-return-6ef4187dfafa
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, patches@lists.linux.dev, 
+ kernel test robot <lkp@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1489; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=TJh/DD/sfJgskbjJKAccoygie3yLsjjKsgBPtkfXTus=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDOli1S0/O2WXncv6+1yBjfNd0/TF3X9mCdfuZ9j5w1Di7
+ 6XLc4tnd5SyMIhxMciKKbJUP1Y9bmg45yzjjVOTYOawMoEMYeDiFICJWD1nZFh1QLOxeaKigvyX
+ vffNfpx9xvPu0tMPLqorL8+7wbbL2NKY4X/QBlWjMAPlNyl3axOeRhXtON0Q8HHpOsOdcRVLT1/
+ JXssMAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-Store chroma and motion vectors offsets for each frame so
-they can be used later when resolution change.
+When CONFIG_DVB_DYNAMIC_MINORS is not enabled, clang warns (or errors
+with CONFIG_WERROR=y):
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+  drivers/media/dvb-core/dvbdev.c:554:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+    554 |                 return ret;
+        |                        ^~~
+
+Use the return code -EINVAL directly, like the CONFIG_DVB_DYNAMIC_MINORS
+block does.
+
+Fixes: 972e63e895ab ("media: dvbdev: prevent the risk of out of memory access")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202410201717.ULWWdJv8-lkp@intel.com/
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- drivers/media/platform/verisilicon/hantro.h              | 7 +++++++
- .../platform/verisilicon/rockchip_vpu981_hw_av1_dec.c    | 9 +++++----
- 2 files changed, 12 insertions(+), 4 deletions(-)
+ drivers/media/dvb-core/dvbdev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-index 811260dc3c77..6d36371c1d13 100644
---- a/drivers/media/platform/verisilicon/hantro.h
-+++ b/drivers/media/platform/verisilicon/hantro.h
-@@ -332,12 +332,19 @@ struct hantro_vp9_decoded_buffer_info {
- 	u32 bit_depth : 4;
- };
- 
-+struct hantro_av1_decoded_buffer_info {
-+	/* Info needed when the decoded frame serves as a reference frame. */
-+	size_t chroma_offset;
-+	size_t mv_offset;
-+};
-+
- struct hantro_decoded_buffer {
- 	/* Must be the first field in this struct. */
- 	struct v4l2_m2m_buffer base;
- 
- 	union {
- 		struct hantro_vp9_decoded_buffer_info vp9;
-+		struct hantro_av1_decoded_buffer_info av1;
- 	};
- };
- 
-diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-index e54f5fac325b..69b5d9e12926 100644
---- a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-+++ b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-@@ -686,8 +686,6 @@ rockchip_vpu981_av1_dec_set_ref(struct hantro_ctx *ctx, int ref, int idx,
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct hantro_decoded_buffer *dst;
- 	dma_addr_t luma_addr, chroma_addr, mv_addr = 0;
--	size_t cr_offset = rockchip_vpu981_av1_dec_luma_size(ctx);
--	size_t mv_offset = rockchip_vpu981_av1_dec_chroma_size(ctx);
- 	int cur_width = frame->frame_width_minus_1 + 1;
- 	int cur_height = frame->frame_height_minus_1 + 1;
- 	int scale_width =
-@@ -744,8 +742,8 @@ rockchip_vpu981_av1_dec_set_ref(struct hantro_ctx *ctx, int ref, int idx,
- 
- 	dst = vb2_to_hantro_decoded_buf(&av1_dec->frame_refs[idx].vb2_ref->vb2_buf);
- 	luma_addr = hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_buf);
--	chroma_addr = luma_addr + cr_offset;
--	mv_addr = luma_addr + mv_offset;
-+	chroma_addr = luma_addr + dst->av1.chroma_offset;
-+	mv_addr = luma_addr + dst->av1.mv_offset;
- 
- 	hantro_write_addr(vpu, AV1_REFERENCE_Y(ref), luma_addr);
- 	hantro_write_addr(vpu, AV1_REFERENCE_CB(ref), chroma_addr);
-@@ -2089,6 +2087,9 @@ rockchip_vpu981_av1_dec_set_output_buffer(struct hantro_ctx *ctx)
- 	chroma_addr = luma_addr + cr_offset;
- 	mv_addr = luma_addr + mv_offset;
- 
-+	dst->av1.chroma_offset = cr_offset;
-+	dst->av1.mv_offset = mv_offset;
-+
- 	hantro_write_addr(vpu, AV1_TILE_OUT_LU, luma_addr);
- 	hantro_write_addr(vpu, AV1_TILE_OUT_CH, chroma_addr);
- 	hantro_write_addr(vpu, AV1_TILE_OUT_MV, mv_addr);
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 14f323fbada719f717fb7fe9f6f2a3ce81e609a3..5bb36be911f615afa1f3a7a13f974b67b3216edd 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -551,7 +551,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 		kfree(dvbdev);
+ 		*pdvbdev = NULL;
+ 		mutex_unlock(&dvbdev_register_lock);
+-		return ret;
++		return -EINVAL;
+ 	}
+ #endif
+ 	dvbdev->minor = minor;
+
+---
+base-commit: ba9cf6b430433e57bfc8072364e944b7c0eca2a4
+change-id: 20241021-dvbdev-fix-uninitialized-return-6ef4187dfafa
+
+Best regards,
 -- 
-2.43.0
+Nathan Chancellor <nathan@kernel.org>
 
 
