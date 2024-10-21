@@ -1,121 +1,144 @@
-Return-Path: <linux-media+bounces-19994-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19995-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D199A68A8
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 14:38:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 774909A6D64
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 16:57:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FF672889D9
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 12:38:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 981251C220BF
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 14:57:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D54981F1314;
-	Mon, 21 Oct 2024 12:38:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ACA11EABDC;
+	Mon, 21 Oct 2024 14:57:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VonpcpMg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iJmsENef"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3381E884E;
-	Mon, 21 Oct 2024 12:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855EA1FA256
+	for <linux-media@vger.kernel.org>; Mon, 21 Oct 2024 14:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729514301; cv=none; b=aFe/aPVpvVr1k20U1OahAFu6G/7Zi2fOiVT4Ou7FMboZYOVAeQP9KKKTXYsBfbips71wxzVmzGTE3F4zEeMEvdrUPCd4B5vk0gZl+hIJgTo8ab8pClhZw61r5NTVAYs/JuoW/8euvKhdduBb3ntpzyTCopkcC2hslkfIBPUD4gM=
+	t=1729522635; cv=none; b=tCOUuO396emm/eDusKh+ZgWyVXsB0LvtSqUBAtSKbP2uM2dhaAqn56tHDb81JRMefjmKPAPImMJI6zUtzRrXLyqIzXUJ4P8t0EPyHMU2DUWmT/zJKmRTjJdfRxXuiC8ovbHAgfRk9QcQDZOMiovogXF3iMIFxlRX22aAi4XxYQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729514301; c=relaxed/simple;
-	bh=2J+07wvQjZOgFJnkevC6f3EOi3G04Q/DuL8EMvWJL1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LvGGruQEGNR3zW9f1YeUvy3HlzyMFRjKZU+JsFRoTjU0q9gUoI+X9jdZL6D/bT5T7+21RtzF/SfgswVhRJSrEndGWIVgTBD1Bmt19EDP1zCIxGtWbKh2raDvuKPVjfC4PqUUtqIEttQGtYteqTNP8TOOVmVQh5YWziqJNk5vxEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VonpcpMg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1895AC4CEE4;
-	Mon, 21 Oct 2024 12:38:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729514299;
-	bh=2J+07wvQjZOgFJnkevC6f3EOi3G04Q/DuL8EMvWJL1s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VonpcpMgNhRcVhIrW/Yx7oUPWvjjtoRpomAzGY7xssSXrU1AMS/fG0d6xRgCoSk0s
-	 pSMGZSDmw2fpLFYf3NUYwqgLahSP9iY4mMJ5B3RvBAxOiM11+mVEy6uLNrNlPndVsF
-	 xXjDlZlTQuIATZdfdiPIdr/+cmsLOzmUPgdw94bhw1N0BGKXcpDXEGuaNeXV4GWYIp
-	 g8SoDJut/USi3Zi+Qk0MGUV0UoK31Nz+wW06batq5cAIkzH0QnQg4sVHGy7rEtjvPd
-	 WsEaqjGpSupDFJSQJtgWHNBYnzeHqGdpXZOGw76LSoEyZFN/JEoRLLprjKjZXn1D1h
-	 hRPjF9uEwfAjg==
-Date: Mon, 21 Oct 2024 14:38:16 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
-	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
-	jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch, 
-	maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, quic_jesszhan@quicinc.com, mchehab@kernel.org, 
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
-	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, tomi.valkeinen@ideasonboard.com, 
-	quic_bjorande@quicinc.com, geert+renesas@glider.be, dmitry.baryshkov@linaro.org, 
-	arnd@arndb.de, nfraprado@collabora.com, thierry.reding@gmail.com, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com
-Subject: Re: [PATCH v3 12/15] drm/bridge: Add ITE IT6263 LVDS to HDMI
- converter
-Message-ID: <20241021-thick-cockle-of-popularity-c5e28c@houat>
-References: <20241021064446.263619-1-victor.liu@nxp.com>
- <20241021064446.263619-13-victor.liu@nxp.com>
+	s=arc-20240116; t=1729522635; c=relaxed/simple;
+	bh=BXHn0860JPCVWd8O7hdisae8Uk0Bt4aGT8/0Q2FdgIU=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=pOzIiWr5w+2SVHpn1QiU9v0OZF0tpHlS2u/XGf9Iv7J9jFQNnktJfHID8v25GD9VYh44m6QIVTtPJjlQ1pdY89I9vMlN+nzH9jIRZDjBbNrCT/76bopJH2lc6NScOMqFGsmfZ9ZGRJLytVirBnm4Uh2+8NWegGYh86LuJEE8RHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iJmsENef; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-539e63c8678so5478318e87.0
+        for <linux-media@vger.kernel.org>; Mon, 21 Oct 2024 07:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729522630; x=1730127430; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=BXHn0860JPCVWd8O7hdisae8Uk0Bt4aGT8/0Q2FdgIU=;
+        b=iJmsENefaIz22jFIAHT7GvqAl14bGezLksOpbsevebB/VG9iR3SVwRMCnaUE5EoC0R
+         Cvhk8k+rRW7YlPkl8WJiMjbMyXVrTDYasqJG3WYzPwqdh8eyEpZoVI8m+7bp+N9Q0nZ5
+         RQNg7/tt0dzWXBLmu5YLj6WQgNuSVlwLPaK4rxnhIsIk82eG3em8JyAfvkuuiL92muIx
+         kk+xYvyhlSTYm3PMnHCzYyqm1RTaPs8BHd9JQP8tjpRdEgPWMo03UWqTw1A1Ud+z6J2l
+         U3KzzCI2+vOH5lTsltER7l/uJCWqwnKbRio7awpEeyTJyyY1ncl31EMlZVvlodK8rhq0
+         I5FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729522630; x=1730127430;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BXHn0860JPCVWd8O7hdisae8Uk0Bt4aGT8/0Q2FdgIU=;
+        b=jijzpqx/cPPKUSWwZuOCViSueRE1WeMYBeAf8H/8i3hyp2p3JR5CDnB/d9zf3+/Pn3
+         jKrUp1nyNJlNibA1yniW9s1A7PzKMizatFUCDwLuRNbdV71sp95ooKrTVJ5qcQL6+JlB
+         wJ7mdPMCTPOve4BGeC26nAMPWhCRyj6Fc2z/Yldym7WJBB4Gza6BGvadYUJWwUiB4Uu1
+         IArNxk7n+lYkw7ovJb571AwWJQdG7TdsPD0Ibo+gjoC3X328aQd5rY0l6I9CYYBy525g
+         dhjaeC88QBm9M/GqSgDzjVfW76QSxNlx0D9z3DSMNevrEN4vkzGGfJY3QSg2RIP1RzXq
+         4idQ==
+X-Gm-Message-State: AOJu0YyrnKGRxOnvqEz1qOEg+YdQLqpEVO2Q1jxDdH41zaI+Fdk28U3V
+	7UmjIO+2sxo9h6XeLUDg63jShJvaet9F5aFSN0QurQa9oBSR9AHQ
+X-Google-Smtp-Source: AGHT+IFi+V9+sl2yeEmMm1OzhdR6R7NAwWkbVgOxv66Ambz/rq1s7dxKMyy1zrID4gQb+u7zlMCRkQ==
+X-Received: by 2002:a05:6512:3c8c:b0:536:a695:9429 with SMTP id 2adb3069b0e04-53a15441f87mr5940429e87.10.1729522630108;
+        Mon, 21 Oct 2024 07:57:10 -0700 (PDT)
+Received: from razdolb (static.40.223.216.95.clients.your-server.de. [95.216.223.40])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a2243158fsm501690e87.220.2024.10.21.07.57.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 07:57:09 -0700 (PDT)
+References: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
+User-agent: mu4e 1.10.8; emacs 29.4.50
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+ laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>,
+ Kate Hsuan <hpa@redhat.com>, Alexander Shiyan
+ <eagle.alexander923@gmail.com>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Tommaso Merciai
+ <tomm.merciai@gmail.com>, Umang Jain <umang.jain@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot
+ <sylvain.petinot@foss.st.com>, Christophe JAILLET
+ <christophe.jaillet@wanadoo.fr>, Julien Massot
+ <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>
+Subject: Re: [RFC 0/4] Sub-device configuration models
+Date: Mon, 21 Oct 2024 17:29:33 +0300
+In-reply-to: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
+Message-ID: <87ed497bcs.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="kmrz3bsduvk5ir7q"
-Content-Disposition: inline
-In-Reply-To: <20241021064446.263619-13-victor.liu@nxp.com>
+Content-Type: text/plain
 
 
---kmrz3bsduvk5ir7q
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v3 12/15] drm/bridge: Add ITE IT6263 LVDS to HDMI
- converter
-MIME-Version: 1.0
+Hi, Sakari!
 
-On Mon, Oct 21, 2024 at 02:44:43PM +0800, Liu Ying wrote:
-> +static int it6263_bridge_atomic_check(struct drm_bridge *bridge,
-> +				      struct drm_bridge_state *bridge_state,
-> +				      struct drm_crtc_state *crtc_state,
-> +				      struct drm_connector_state *conn_state)
-> +{
-> +	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-> +	int ret;
-> +
-> +	ret = drm_atomic_helper_connector_hdmi_check(conn_state->connector,
-> +						     conn_state->state);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return mode->clock > MAX_PIXEL_CLOCK_KHZ ? -EINVAL : 0;
+On 2024-10-11 at 10:55 +03, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
 
-drm_atomic_helper_connector_hdmi_check will already make that check, so
-it's redundant.
+> Hello everyone,
+>
+> I've been recently working (with others) on sub-device streams support as
+> well as on internal pads. The two can be used to make sub-device
+> configuration more versatile.
+>
+> At the same time, the added interfaces are much more useful if we require
+> specific semantics of those interfaces, so that the user space knows
+> exactly what e.g. a given selection target signifies. However, as the same
+> selection rectangle could be used for a different purpose on a non-raw
+> sensor device, we need a way to tell how should the user space determine
+> how to use a given interface.
+>
+> I'm proposing to solve this problem by introducing sub-device
+> configuration models, and by the common raw sensor model, also present in
+> this patchset, in particular.
+>
+> This has been (and will, for some time, continue to be) the reason why I
+> have reviewed few sensor driver related patches lately. As we're
+> introducing a new interface, it's beneficial to be able to use that
+> interface right from the start, rather than trying to later on offer
+> compatibility support, which is almost always a fair amount of work with
+> less than desirable results in the driver.
+>
+> With this solved, I believe we can enable the use of the streams UAPI.
+>
+> Comments are welcome.
+>
+> The compiled documentation can be found in
+> <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/meta-format/output/userspace-api/media/v4l/dev-subdev.html#sub-device-configuration-models>
+> and the patches here
+> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata>, i.e.
+> they're on top of the metadata set.
 
-Once fixed
-Acked-by: Maxime Ripard <mripard@kernel.org>
+I've read the updated documentation you shared, and have a question
+concerning binning configuration. IIUC binning should be configured via
+set_selection(V4L2_SEL_TGT_COMPOSE). But I also see some existing
+drivers configure binning via set_fmt() (imx296) or both set_fmt() and
+set_selection(V4L2_SEL_TGT_COMPOSE) (imx274). What will be the right way
+to add binning support to a driver I care about (ov4689), which
+presently does not implement any binning configuration at all?
 
-Maxime
-
---kmrz3bsduvk5ir7q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxZLLwAKCRAnX84Zoj2+
-dtH1AYDoumgWufeRw1BkoGW9C53DdxLpldr4/TQiGq7uSIf8bhYZzvs8c3r3m56h
-+Kq5KswBfiUhEIWcIVbwOObPeX6/Pg7dtPWXJxzBOlLR3QjbpksXkTsjQ2FUPqoW
-4HbKb64I9A==
-=sEdL
------END PGP SIGNATURE-----
-
---kmrz3bsduvk5ir7q--
+--
+Best regards,
+Mikhail
 
