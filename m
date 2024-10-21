@@ -1,199 +1,354 @@
-Return-Path: <linux-media+bounces-19949-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19950-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0369A5A79
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 08:36:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED8E9A5AA2
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 08:45:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A0048B227F0
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 06:36:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 018E4B225DA
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 06:45:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 304631D04BB;
-	Mon, 21 Oct 2024 06:36:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 269D21D07BF;
+	Mon, 21 Oct 2024 06:45:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="glccYX24"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="l6ZT3RVM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2060.outbound.protection.outlook.com [40.107.249.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1C119925B;
-	Mon, 21 Oct 2024 06:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729492560; cv=none; b=li31XaYBdCW6FVOb94kZ73JfaemK4rtaH5M5Y9aQDwgshjoCfaHzR657tZnPKI9OLUQ3rFy2oqlD1kOP3vOeS9lepWZhfChvC5jMsw3uuD3okMYeWN0T89zMonXxmszqi6cjx+OSZme+xyzFnIm4ZBhpZdaaJpQVFsdX+XlVxr4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729492560; c=relaxed/simple;
-	bh=OPJG7Ecza/KsVBHcd9BJsZuQlbRTDX5i78on73TbsTI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R0WgaRtUYzF9MbnDolJCRtlxM9ZLEzvpe6fY+uyySpLmdeCX2a7Fcd6VZRK78VztJmmqBGVljOoY3c7AWaJ7OMi/0v/mdwJLlNN94VBmKrEEnt/yc9iQOz2RevQkHovHcfKGL89H81P/UWFN8fEb6TT7Ye20+GBdBF0ks7rvDa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=glccYX24; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539fb49c64aso5529721e87.0;
-        Sun, 20 Oct 2024 23:35:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729492556; x=1730097356; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W1pfGKavCZbHtdE4vu7K5bxv48Yu8nyPCZ1bbJN5rx0=;
-        b=glccYX24LMc95uXB1nXJzhrBRlImOhxaIHyjNO90Eq37N4jWYXbBxyl4vW8vxE+fCc
-         45yfM8jvKuT/QMRtrQSA1Z+Hr0cpr82bEjE30zrgYCepUvw16MPzAm8lxfiI9WB3BObW
-         2X2whAXeJ/KxRHCkKMZmeoeNpV0b1h+2RF7pGskeDpC5yms62JZ9IibzFB5jiVzR96JB
-         mk88ctomaySgiaxE/0wOqKglzweEte/fvn20HKx8l2NzMe9BiJMBEzhUQa8u288noOGR
-         o1M6SiH4OvZassYETPANPF1FaBtmKiplSsoQvUUAA4LrzOI+FVeeEvW4pAuUSXrWgKfL
-         M3Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729492556; x=1730097356;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W1pfGKavCZbHtdE4vu7K5bxv48Yu8nyPCZ1bbJN5rx0=;
-        b=Q/AHeZPku33g6q1arbQCyaAcH2Xcgj+TP4BioA/kpgTl2htH8DJQMAOopmSrzCEwj0
-         XTV+fsfr5Yq8ruhMWK0c54ga2zv1xPmDe6B3CrhEnLhdKWJ174VLe7M+Y0U6fr/I9r1r
-         uDpDe0xqYzPS8DyGpHuGXaJ1dGv5fV9jy5NLqYGR2mLStRQpzRbKR1BZe1bZakxkbBhT
-         7jLAl7j9wUVS0We245U3diRNVUOnqU2qV6mkrqqlpv3dFj+sW9Of47OPw/AfJLxUAcps
-         JiPE8uwRFC3eaJcGrqsWmbC3YDB5wdykP5mhKz+j75CoH3b9q9tomqZVkzqsHReiWYKE
-         ZCJw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4Ytc1RJbDpjtUTozKVglN6bpNZj8pzrLkE9CF2e+38pvT/9J5Cf+Huuj497tMpGXvcqnUcpI3crsnRTw=@vger.kernel.org, AJvYcCXVyLbBMTaw/RZUgzdRWxC7XMiPlpMSZ0xJU2lMmHcTeBFrtHc7pkY+njlDBm5UrEc3Pf7JaSX/em8e/ks=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5oQYYJgjLuw0EWY5BY+8fB0VLNSXZM8B0Vs4kYXKCqBNImYMb
-	5Udke2hRlnxvJbKiPzwArN0uNVuojn5uYUKCqyBN7juDg7Jj+NUQ
-X-Google-Smtp-Source: AGHT+IG6vdlYxit/AdljTLepLeieV1E+odEU9nyRzPGkOJwrmOuaIKNo4TjVxmBjwH+2E3FU2wNTEQ==
-X-Received: by 2002:a05:6512:1091:b0:539:94f5:bf with SMTP id 2adb3069b0e04-53a154eb367mr7864174e87.59.1729492556104;
-        Sun, 20 Oct 2024 23:35:56 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-51-176.cust.vodafonedsl.it. [188.217.51.176])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a915a114asm164164466b.222.2024.10.20.23.35.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Oct 2024 23:35:55 -0700 (PDT)
-Date: Mon, 21 Oct 2024 08:35:53 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: sakari.ailus@linux.intel.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	=?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: v4l2-subdev: Refactor events
-Message-ID: <ZxX2SVl/p0i7Nemi@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20241020163534.1720297-1-tomm.merciai@gmail.com>
- <20241020164354.GG7770@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C4615575F;
+	Mon, 21 Oct 2024 06:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729493124; cv=fail; b=HlghorVsYQsM+Q+85ViPM7/MrqU7GwuWISqManmMwO9qjbwLvic/sJz0jLb84zcwEpc9FlGgL9vVKV1zW1YaAhBqISkwrD/wzOScJwPX9RoVFq/a0K2lkACi/6ns20XY8cAG8AuZTf2ILQwyDZ4VgyWgokuzcGgjKlV2jvWZOXY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729493124; c=relaxed/simple;
+	bh=6u9dFQlBuW04YDfo49JmDbHewaIAolouQUZGvTRtMg8=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=iADk/ehplp755Su2iBtuIuofqVis9LDcMo7f9jzK3ifCoPZwmi0PG2OBrOv7U/7TVPXp8AACUv7JMAr4/cu/tLwoOXMqDpbekVeDrR00G+aEAVuMseRv5qvz9rfQnebXvHcyHtjbigKBSouM2BlHWQMS+cx62SFOd4GX0Gk2gZE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=l6ZT3RVM; arc=fail smtp.client-ip=40.107.249.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X5x9yKY8uVylWs9uni2MpIup1q8pnZGEGWa7YWoxliQkauFjVjtxhuxpiiJ3/KQiLIxKTLXd2CNezgf9EiMrtcxId2DPC8xYY769RH3T6GvV8plU25E7ZcG5VdZevsQ4sQ1W2piHYAccV9vd6KZpyiZ23Ds5ThQKS4j4GFYoN0GpLgzwhzuJrusQ8tPlWsGs9GFzSmA7PYKE0XxWxWg2a00EEQVC996GTBeaU7z0WGAQ98kQw6fxs/pQnTmXOA6qnYF/b+tWzxK3Kk8r8/vKppOZOsr9KQvwtfpjHDmCRsQKw1A/PzP0Bze90jjipzWWLFlz/TbPTLi6ZjQPzFWBMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WAfBL0l33Dq84zoaNWNXyTfrvxRZ8jzvmch1quz4PSM=;
+ b=vxOnFxUaAf5Bd1sDOaGcad+uyaNUkHiNH8mef7cIhiMVeICsahHayGX9XCOVYXi/dqo34+LM1kCqjbs3vxs4IZmh/ouxu2QYTRURciKqL3mSha1eNC8zAAXd2ICfoQJdAIWGxXO4ygrP4+c/b1c3t5Gslf657cSd3wzFEkVWqOLQsC6KWswEkRAZ22OqLNywZBLcuJlvFIRygoklg+Ic4G+vTbRhBMVsSTEhIIZ4YPlTKRq1U4MozKnuXpEHasj0G+VcasMsior9mdBvWBui9oPz1uzb3MbHeUXTSjFBFw1dEwsFNGy3+FAq5F2V0bTtnMxxeHczCiJ6D58VLR1oOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WAfBL0l33Dq84zoaNWNXyTfrvxRZ8jzvmch1quz4PSM=;
+ b=l6ZT3RVMSUd9Wq2UZ0k4as0mnGuCLY+FUnYqNm7+sPAVQ9CiI1bqScGpYlOCqmm1E52M9NGE151epUF/QODBrhLr7ohuacgrPQEOrbIdEAOrLEJyXu+7mZTJHy1oS8sSFdvoJASr4PW5mMZS2dhChJ+sOve2gUiarQnhjWhEuDouPi5YWCvOVLPRFxBuJC378s7Y8j9DFCogZbjuR/4xbDXZdDJPzHkIIMMIfNecYKEPZrF7y3SvIgrUO4Cd1d/VIQF4u+xMFLkwJ+SzX8qjbOPvCqOHS6LQgShkHxddrAvdIDoGMLD874c0f0AmiC/B7CRgDkneRXCDESiKM/2RVg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AM9PR04MB8440.eurprd04.prod.outlook.com (2603:10a6:20b:3df::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.21; Mon, 21 Oct
+ 2024 06:45:18 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8069.027; Mon, 21 Oct 2024
+ 06:45:18 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Cc: andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org,
+	rfoss@kernel.org,
+	Laurent.pinchart@ideasonboard.com,
+	jonas@kwiboo.se,
+	jernej.skrabec@gmail.com,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	quic_jesszhan@quicinc.com,
+	mchehab@kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	sakari.ailus@linux.intel.com,
+	hverkuil@xs4all.nl,
+	tomi.valkeinen@ideasonboard.com,
+	quic_bjorande@quicinc.com,
+	geert+renesas@glider.be,
+	dmitry.baryshkov@linaro.org,
+	arnd@arndb.de,
+	nfraprado@collabora.com,
+	thierry.reding@gmail.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	sam@ravnborg.org,
+	marex@denx.de,
+	biju.das.jz@bp.renesas.com
+Subject: [PATCH v3 00/15] Add ITE IT6263 LVDS to HDMI converter support
+Date: Mon, 21 Oct 2024 14:44:31 +0800
+Message-Id: <20241021064446.263619-1-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR03CA0111.apcprd03.prod.outlook.com
+ (2603:1096:4:91::15) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241020164354.GG7770@pendragon.ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM9PR04MB8440:EE_
+X-MS-Office365-Filtering-Correlation-Id: cae83db9-a753-4fb6-1fa6-08dcf19becf3
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|376014|52116014|1800799024|366016|7416014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?6tBjzE6myQHLQPTCYY+VVzvo+WWackGQwERFHkS7zkY92E8ZhgGawwUlxsKp?=
+ =?us-ascii?Q?SHwgOCHi+o9Bn9HZblBAQ87OifWaTRRXBi7xi2p6j+QM2v+/ZtVbBVRMtuKj?=
+ =?us-ascii?Q?t0y1kuZsuizQJniA+0F96lfqnsEth1dZjvK2wgZZRQWMarTG9mVo1b40HuPd?=
+ =?us-ascii?Q?87jAlhaC61hxfhx4D7kSmqWDTylyt6bx8T5A0kafJtuKhUMXvG7lfftGXayJ?=
+ =?us-ascii?Q?Fj1v4llJUXGbG/b931GmuNOKrgPvI7AQHpBxZSRoaT/D0NTkA2/Qs9wWVdJO?=
+ =?us-ascii?Q?X9JhqS8PtXBNeZXDzvtHEZyRmiNIiou55XUPi0WqTgP9kx8dugWv7kO5JURg?=
+ =?us-ascii?Q?u+MZWLANMq0X2Mpmi3w+RAtdfJmrt9A5NjK2UC0RbhfX4dIay7PSQPfH5bsp?=
+ =?us-ascii?Q?s16gxo+bN3BqHcZGw0Tc+wkmcFb2fkz/dJjayRR+nftHwazJixJxLmwj/FZS?=
+ =?us-ascii?Q?Heot3Q3cPZFGbF0A2oy/LhEIl7O+HGQENqTNWLM7fLKOWjYSMfGQHqZmFtTI?=
+ =?us-ascii?Q?jVx7g//iNpMfXaFp0TvFNadEdLfo1weZUpmPB6A0bnMtTZGWVGEr3X0Vz2OM?=
+ =?us-ascii?Q?nEpFZX6P2OVagnicbYq4tgU2wfQogWR6c/DgycAZxNi5iNdp47F/vRoaBPae?=
+ =?us-ascii?Q?aTchPg6npgYHdJ7KN/+3UbM/82RmJZO7ziXTHi2H9aGKiEwmSV9zB0rD7n2/?=
+ =?us-ascii?Q?Ogzv9hlGaRgrEQQbU14YTcHxIgedBGC/plVIc37lc1yNTcDnqyfQcpW5IgLt?=
+ =?us-ascii?Q?FhaVoPiYrVVA9kXP+66gPtY0pMr4/h1TO91vjflfB01D24If1SHLUMIT/R7H?=
+ =?us-ascii?Q?ZWOclyWldXitfSYFKgc5aCkuSY8rKM7UZvnsonUneO/SPuicJ8CbKM1rqXPm?=
+ =?us-ascii?Q?4mjsANZrc7xmH+ryNIuU79+/h3t9DYT4QDsIawWytDo9hmm6BPlVenjkJIwS?=
+ =?us-ascii?Q?dpb4o8BTPgYxOsnOZqsU9HadabSXwA5qFc/pw3BA+qsjKO7c02LVa3h6lRfB?=
+ =?us-ascii?Q?3zLVf0Dk7GFGTqynLQgMVKfKdwVZwmj78UWDNIgUqct6deofZ/HaKBbJD5CF?=
+ =?us-ascii?Q?L7ahwkiLxDctxHFh8Zy1FGXH67lVIniVYni+qPvQjksM0ZHnO+tS2+6AjFvx?=
+ =?us-ascii?Q?JgQG2dJqZrX/5AQ0/mbBmXyVxQ764JIaRL3GzwuBtPVVHw3LMJESWoR+Px3H?=
+ =?us-ascii?Q?vTAJMojCafdx3BVicF5MMnP4eUIZ1wxKB/wJAmWd8vwqeiHVuEyaON9M2MgW?=
+ =?us-ascii?Q?ucF/FQ9gtKBCPxtD4M2m778oP8CDdtONDQ3bHvlLQWZgASosbuDi1rr8J/6u?=
+ =?us-ascii?Q?wqp1jxLDk047FQbeORabIoDENlyZOTuqrBbGFVsKWDtLYs9joxfIZXiwJLJx?=
+ =?us-ascii?Q?L/pXfm09uGWTkQ7SYEEzhJJYwly/?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7046.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(7416014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?74AyLm/d6y6uOwqpycSBOOZeawkZzJU9D/dv2lL96H4ECCuIkkYuPAONUK5i?=
+ =?us-ascii?Q?zBJNcXrj3LByYHfL4BzHEZuPNeayXnxAZ5V5QRRUBkzCbbUPsYsUB2TrnpK3?=
+ =?us-ascii?Q?Qdjk0Mz7pSSaqo73uGDrkfhlpKUnAqzyyiVyP1Jt44cN4WLz/fftoKvS+0Pl?=
+ =?us-ascii?Q?xT67mUjdqJKbDYsRDL3QvnYYRBjsQ2Re/wRtJdzNEd5jlEXPiaGJ4wrd8e/6?=
+ =?us-ascii?Q?W2E87L0IGkJ0xRjBCOXW7gWGGg5lEsmOrUI0HSEf8tvp1ZniBb4Go/DD8D8S?=
+ =?us-ascii?Q?hbM6EB4kwh92CKssrXNXxcZxkBG1OKivmxKa3cHI3Zavow9QZyksjmhDwSbd?=
+ =?us-ascii?Q?Mi7KcNMJERR/1gpkZEHM7lfB0SA9EcJo4/KjrKJqtJEAWH4fleaFPUkTq8jE?=
+ =?us-ascii?Q?sVr8KmoZKfJ8DNtrcpcSl8875xvplD1zGN7ox79m5WZiT1I+/fmeIO3BwaiF?=
+ =?us-ascii?Q?zzocqRN7TqckZ+5Et6/IKevqgCiPuch58b74LOBCwwc4N68lOzkd17RTd+af?=
+ =?us-ascii?Q?D4nZVZL1LAPU7zH6NS8yrwZCLH9U9aneFd978tuBgSc4Ubx7WP7BbFcgjubM?=
+ =?us-ascii?Q?m0CA7ZZFCsibNQPkD6Ixl3f3p0gtDj174MP5vfasdMDwp9Ahurf0oqeUK4OG?=
+ =?us-ascii?Q?kxq42mGvGG90vVGrBcBD+FetH6ujjhh/7siVabiZfnavuM5k464HOV7yDmtQ?=
+ =?us-ascii?Q?yqFVBeXo7DtsS8v+ZgmTOFUYzk7NKw92PqB+STXsi/P9NLzhy0SWlkAji7Fc?=
+ =?us-ascii?Q?8Y+B0WXAOG3dNfJiYbDDi+eYd/h5rxhMCzvNJ9e7c1nnIDc+hAQd6wm7UGkG?=
+ =?us-ascii?Q?QXj8NhLyrw7G99N5jvPdn9wTD7NmcAkIUCPXEMsw40jExb3y+e5fH64tLgRQ?=
+ =?us-ascii?Q?BkCZ3ZjmtJp8iAHPYKFWlJKnvHtF/sjPLXozcei5Ct6yBQBvLED8cFmt3pao?=
+ =?us-ascii?Q?ifM3AgGEEot1YlQHm3TNMEa5eMIh6+CP7Aqq6ycgf4sc8jalkjFsCD18nnc+?=
+ =?us-ascii?Q?g2leiZ0AG37DPKSGsjSyhhLrgTv6dhaiGCYemeP1QbkzbUKBojTnE5lQgz0Q?=
+ =?us-ascii?Q?R6luR7GEFsjmBTiURrXm3beJ7nMDRj/oswFrBMXW6kekwOawSV4hEuIMQqJw?=
+ =?us-ascii?Q?apWHDo6PFUbQHVjktoww6/op+WrTj7mP8N4rFbR3v317tlIAsiQWDVy/T8wx?=
+ =?us-ascii?Q?GfSWeNu1DhYlxG6AFRJZNW2dezanyoOmC5/BB3wziryO2LDNwcFO2kIpZ93O?=
+ =?us-ascii?Q?t4kuJroJLSdGyrBnNnGa+dT+2C8HGyKF2mfwpAIcLJ6iugP6dsnpOoQe22Et?=
+ =?us-ascii?Q?i8FjswdNlJ8deM1OvRl+GPXk6S7UxCSfkcPXVOJDy8SnQ+qeVrzkh1oDhkJS?=
+ =?us-ascii?Q?h/gO37pkxR36nSvl3jGI9AMUf85LIrVoTOPJnv30w+FJBhbI/d/V+mQqpWKu?=
+ =?us-ascii?Q?lopDTljcGzMXFgEUxrmtOsY+23BD3/HBkQnAKWMUOWBjo82yToGd/A/12jK5?=
+ =?us-ascii?Q?pdsTREAxKH1AVrDMMWgy/L70OClgatcMpc3irVgU+JRzKU0sZ2G3OwNaTnLY?=
+ =?us-ascii?Q?nulk7zNxeAfiqTKXNVwJV12r3eJ2kh1elQrD761B?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cae83db9-a753-4fb6-1fa6-08dcf19becf3
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 06:45:18.0171
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DeIMYyOBRHdOeEPi6X/N1/tIr6gKPEWIZfZsrypSorDLETReCj3PEoELoKRatBwinLOg7/D5Vk/7vMPk41GenA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8440
 
-Hi Laurent,
-Thanks for your review.
+Hi,
 
-On Sun, Oct 20, 2024 at 07:43:54PM +0300, Laurent Pinchart wrote:
-> Hi Tommaso,
-> 
-> Thank you for the patch.
-> 
-> On Sun, Oct 20, 2024 at 06:35:32PM +0200, Tommaso Merciai wrote:
-> > Controls can be exposed to userspace via a v4l-subdevX device, and
-> > userspace has to be able to subscribe to control events so that it is
-> > notified when the control changes value.
-> > If a control handler is set for the subdev then set the HAS_EVENTS
-> > flag automatically into v4l2_subdev_init_finalize() and use
-> > v4l2_ctrl_subdev_subscribe_event() and v4l2_event_subdev_unsubscribe()
-> > as default if subdev don't have .(un)subscribe control operations.
-> 
-> I would add here
-> 
-> This simplifies subdev drivers by avoiding the need to set the
-> V4L2_SUBDEV_FL_HAS_EVENTS flag and plug the event handlers, and ensures
-> consistency of the API exposed to userspace.
-> 
-> And you can also add
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+This patch series aims to add ITE IT6263 LVDS to HDMI converter on
+i.MX8MP EVK.  Combined with LVDS receiver and HDMI 1.4a transmitter,
+the IT6263 supports LVDS input and HDMI 1.4 output by conversion
+function.  IT6263 product link can be found at [1].
 
-Oks, Thanks again.
+Patch 1 is a preparation patch to allow display mode of an existing
+panel to pass the added mode validation logic in patch 3.
 
-> 
-> Now, can we simplify sensor drivers to drop the event handlers and the
-> flag ? :-)
+Patch 2 allows i.MX8MP LVDS Display Bridge(LDB) bridge driver to find
+the next non-panel bridge, that is the IT6263 in this case.
 
-Yep, plan is add all to support v4l2_subdev_init_finalize()
-Removing:
+Patch 3 adds mode validation logic to i.MX8MP LDB bridge driver against
+"ldb" clock so that it can filter out unsupported display modes read
+from EDID.
 
- .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
- .unsubscribe_event = v4l2_event_subdev_unsubscribe,
+Patch 4 adds MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG,JEIDA} support, as they
+are supported by IT6263(with LVDS data bit reversed order).
 
-if are used. And ofc V4L2_SUBDEV_FL_HAS_EVENTS.
+Patch 5 makes drm_of.c use MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA,SPWG}.
 
-Meanwhile I think I will send v3 with your
-suggestions. :)
+Patch 6 supports getting dual-link LVDS pixel order for the sink side as
+needed by IT6263 driver.
 
-Thanks & Regards,
-Tommaso
+Patch 7 documents jeida-30 and vesa-30 data mappings in lvds-data-mapping.yaml,
+as needed by IT6263 DT binding.
 
-> 
-> > ---
-> > Changes since v1:
-> >  - Aligned event subscription with unsubscription as suggested by LPinchart,
-> >    SAilus
-> > 
-> >  drivers/media/v4l2-core/v4l2-subdev.c | 22 ++++++++++++++++++++--
-> >  1 file changed, 20 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > index 3a4ba08810d2..fad8fa1f63e8 100644
-> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > @@ -691,10 +691,25 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> >  		return v4l2_event_dequeue(vfh, arg, file->f_flags & O_NONBLOCK);
-> >  
-> >  	case VIDIOC_SUBSCRIBE_EVENT:
-> > -		return v4l2_subdev_call(sd, core, subscribe_event, vfh, arg);
-> > +		if (v4l2_subdev_has_op(sd, core, subscribe_event))
-> > +			return v4l2_subdev_call(sd, core, subscribe_event,
-> > +						vfh, arg);
-> > +
-> > +		if ((sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS) &&
-> > +		    vfh->ctrl_handler)
-> > +			return v4l2_ctrl_subdev_subscribe_event(sd, vfh, arg);
-> > +
-> > +		return -ENOIOCTLCMD;
-> >  
-> >  	case VIDIOC_UNSUBSCRIBE_EVENT:
-> > -		return v4l2_subdev_call(sd, core, unsubscribe_event, vfh, arg);
-> > +		if (v4l2_subdev_has_op(sd, core, unsubscribe_event))
-> > +			return v4l2_subdev_call(sd, core, unsubscribe_event,
-> > +						vfh, arg);
-> > +
-> > +		if (sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS)
-> > +			return v4l2_event_subdev_unsubscribe(sd, vfh, arg);
-> > +
-> > +		return -ENOIOCTLCMD;
-> >  
-> >  #ifdef CONFIG_VIDEO_ADV_DEBUG
-> >  	case VIDIOC_DBG_G_REGISTER:
-> > @@ -1641,6 +1656,9 @@ int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
-> >  		}
-> >  	}
-> >  
-> > +	if (sd->ctrl_handler)
-> > +		sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS;
-> > +
-> >  	state = __v4l2_subdev_state_alloc(sd, name, key);
-> >  	if (IS_ERR(state))
-> >  		return PTR_ERR(state);
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+Patch 8-10 extract common dual-link LVDS display properties into new
+lvds-dual-ports.yaml so that IT6263 DT binding can reference it.
+
+Patch 11 adds DT binding for IT6263.
+
+Patch 12 adds IT6263 bridge driver.  Only video output is supported.
+
+Patch 13 adds DT overlays to support NXP adapter cards[2][3] with IT6263
+populated.
+
+Patch 14 enables the IT6263 bridge driver in defconfig.
+
+Patch 15 updates MAINTAINERS to add maintainer for IT6263 driver.
+
+Note that patch 3 depends on an in-flight patch[4].
+
+[1] https://www.ite.com.tw/en/product/cate1/IT6263
+[2] https://www.nxp.com/part/IMX-LVDS-HDMI
+[3] https://www.nxp.com/part/IMX-DLVDS-HDMI
+[4] https://patchwork.kernel.org/project/linux-arm-kernel/patch/20241017031146.157996-1-marex@denx.de/
+
+v3:
+* Use assigned-clock-rates DT property to set pixel clock rate for
+  "multi-inno,mi1010ait-1cp" LVDS panel in patch 1 instead of using
+  panel-timing node.  (Marek)
+* Drop the patch for fixing pixel clock rate for "edt,etml1010g3dra"
+  LVDS panel because there is already another better patch[4].
+* Collect Dmitry's R-b tag for patch 2.
+* Define MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG,JEIDA} in patch 4.
+* Use MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA,SPWG} in drm_of.c in patch 5.
+* Add drm_of_lvds_get_dual_link_pixel_order_sink() in patch 6.  (Dmitry)
+* Document jeida-30 and vesa-30 in lvds-data-mapping.yaml in patch 7.
+* Extract dual-link LVDS display common properties(patch 8-10).  (Dmitry)
+* Reference lvds-dual-ports.yaml in ite,it6263.yaml in patch 11.  (Dmitry)
+* Add data-mapping DT property in ite,it6263.yaml in patch 11.  (Dmitry, Biju)
+* Allow data-mirror in ite,it6263.yaml in patch 11.
+* Drop ite,lvds-link-num-data-lanes DT property from ite,it6263.yaml
+  in patch 11.  (Dmitry, Biju)
+* Use HDMI connector framework in IT6263 driver in patch 12.  (Maxime)
+* Control the missing HDMI_REG_AVI_INFOFRM_CTRL register in IT6263 driver
+  in patch 12.
+* Validate the maximal HDMI TMDS character rate in IT6263 driver in patch 12.
+  (Dmitry)
+* Get LVDS data mapping from data-mapping DT property in IT6263 driver
+  in patch 12.  (Dmitry, Biju)
+* Validate 30bit LVDS data bit order by checking data-mirror DT property
+  in IT6263 driver in patch 12.
+* Use drm_of_lvds_get_dual_link_pixel_order_sink() in IT6263 driver
+  in patch 12.  (Dmitry)
+* Initialize a bridge connector instead of open coding in IT6263 driver
+  in patch 12.  (Dmitry)
+* Add a comment that IT6263 chip has no HPD IRQ support in IT6263 driver
+  in patch 12.  (Dmitry)
+* Use devm_drm_bridge_add() instead of drm_bridge_add() in IT6263 driver
+  in patch 12.  (Dmitry)
+* Fix a minor build warning reported by kernel test robot in IT6263 driver
+  in patch 12.
+* Use data-mapping DT property instead of ite,lvds-link-num-data-lanes
+  in i.MX8MP evk DT files in patch 13.  (Dmitry, Biju)
+
+v2:
+* Add more comments in fsl-ldb.c and commit message about pixel clock
+  rate validation for patch 4.  (Maxime)
+* Document number of LVDS link data lanes in patch 5.  (Biju)
+* Simplify ports property by dropping "oneOf" in patch 5.  (Rob)
+* Add AVI inforframe support in patch 6.  (Maxime)
+* Add DRM_MODE_CONNECTOR_HDMIA in patch 6.  (Biju)
+* Rename it6263_reset() to it6263_hw_reset() in patch 6.  (Biju)
+* Check number of LVDS link data lanes in patch 6.  (Biju)
+* Add ite,lvds-link-num-data-lanes properties in patch 7.
+* Update MAINTAINERS.  (Maxime)
+
+Liu Ying (15):
+  arm64: dts: imx8mp-skov-revb-mi1010ait-1cp1: Set "media_disp2_pix"
+    clock rate to 70MHz
+  drm/bridge: fsl-ldb: Get the next non-panel bridge
+  drm/bridge: fsl-ldb: Use clk_round_rate() to validate "ldb" clock rate
+  media: uapi: Add MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG,JEIDA}
+  drm: of: Get MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA,SPWG} LVDS data
+    mappings
+  drm: of: Add drm_of_lvds_get_dual_link_pixel_order_sink()
+  dt-bindings: display: lvds-data-mapping: Add 30-bit RGB pixel data
+    mappings
+  dt-bindings: display: Document dual-link LVDS display common
+    properties
+  dt-bindings: display: panel-simple-lvds-dual-ports: Reference
+    lvds-dual-ports.yaml
+  dt-bindings: display: advantech,idk-2121wr: Reference
+    lvds-dual-ports.yaml
+  dt-bindings: display: bridge: Add ITE IT6263 LVDS to HDMI converter
+  drm/bridge: Add ITE IT6263 LVDS to HDMI converter
+  arm64: dts: imx8mp-evk: Add NXP LVDS to HDMI adapter cards
+  arm64: defconfig: Enable ITE IT6263 driver
+  MAINTAINERS: Add maintainer for ITE IT6263 driver
+
+ .../bindings/display/bridge/ite,it6263.yaml   | 249 +++++
+ .../bindings/display/lvds-data-mapping.yaml   |  31 +
+ .../bindings/display/lvds-dual-ports.yaml     |  76 ++
+ .../display/panel/advantech,idk-2121wr.yaml   |  14 +-
+ .../panel/panel-simple-lvds-dual-ports.yaml   |  20 +-
+ .../media/v4l/subdev-formats.rst              | 156 ++-
+ MAINTAINERS                                   |   8 +
+ arch/arm64/boot/dts/freescale/Makefile        |   8 +
+ .../imx8mp-evk-imx-lvds-hdmi-common.dtsi      |  29 +
+ ...8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtso |  44 +
+ ...imx8mp-evk-lvds0-imx-lvds-hdmi-common.dtsi |  43 +
+ .../imx8mp-evk-lvds0-imx-lvds-hdmi.dtso       |  28 +
+ ...8mp-evk-lvds1-imx-dlvds-hdmi-channel0.dtso |  44 +
+ ...imx8mp-evk-lvds1-imx-lvds-hdmi-common.dtsi |  43 +
+ .../imx8mp-evk-lvds1-imx-lvds-hdmi.dtso       |  28 +
+ arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   6 +
+ .../imx8mp-skov-revb-mi1010ait-1cp1.dts       |   8 +-
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/gpu/drm/bridge/Kconfig                |  11 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/fsl-ldb.c              |  55 +-
+ drivers/gpu/drm/bridge/ite-it6263.c           | 906 ++++++++++++++++++
+ drivers/gpu/drm/drm_of.c                      |  82 +-
+ include/drm/drm_of.h                          |   9 +
+ include/uapi/linux/media-bus-format.h         |   4 +-
+ 25 files changed, 1834 insertions(+), 70 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-imx-lvds-hdmi-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtso
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-lvds-hdmi-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-lvds-hdmi.dtso
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-dlvds-hdmi-channel0.dtso
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-lvds-hdmi-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-lvds-hdmi.dtso
+ create mode 100644 drivers/gpu/drm/bridge/ite-it6263.c
+
+-- 
+2.34.1
+
 
