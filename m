@@ -1,105 +1,121 @@
-Return-Path: <linux-media+bounces-19993-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19994-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2439A688F
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 14:33:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D199A68A8
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 14:38:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7179FB28D71
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 12:30:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FF672889D9
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 12:38:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A131EABBF;
-	Mon, 21 Oct 2024 12:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D54981F1314;
+	Mon, 21 Oct 2024 12:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="h3dM2UN3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VonpcpMg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782671E573C;
-	Mon, 21 Oct 2024 12:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3381E884E;
+	Mon, 21 Oct 2024 12:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729513825; cv=none; b=mx3+YLit/bmYjz1QOiH5IMH2GzvqNvlNX4sURUuPnnSXnQes6eqxIKeBxLDhuzYLcA4Ta6wqqZazcdKB12WC5z0eaYofJaMOB1qBJ6wyrpmazvjAD9UF/RfnNswPafIi0DCi5S3XmHPe247Bt1/BfY9bXxuA73g1p2mcST3bz+0=
+	t=1729514301; cv=none; b=aFe/aPVpvVr1k20U1OahAFu6G/7Zi2fOiVT4Ou7FMboZYOVAeQP9KKKTXYsBfbips71wxzVmzGTE3F4zEeMEvdrUPCd4B5vk0gZl+hIJgTo8ab8pClhZw61r5NTVAYs/JuoW/8euvKhdduBb3ntpzyTCopkcC2hslkfIBPUD4gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729513825; c=relaxed/simple;
-	bh=KmPP3ODrgm6S4oV5Bx8ZJrii0qhuvczppRYWff07974=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fNBDNtg7T5vzGGk7YmfFgzPnSw9Gl6ZedP3CJjA3oDIin1JBoa2/v9apYZi1mmY7IqnyvO3M9AK84b7dkOB1y7Lz3fFgwU7A7BNzqw2YiV3ILhcXlZtviDtde6dAhUI+eLZ/Esys5Or2oY2xXdsg4qyIBsZ+3EcSmoV7jucz0IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=h3dM2UN3; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1729513821;
-	bh=KmPP3ODrgm6S4oV5Bx8ZJrii0qhuvczppRYWff07974=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h3dM2UN3KXOOPD4dEZnVVQPxHoe/wCjYFs84Sonpkk3+f9NjgkkL/oKVeWYvfwzc5
-	 x3PW2/yumjsP7rurbYu5tO1tXZaEoyPZw+8YHx5rJs0gP7DTzP06tTZ8n7QfgkOcRE
-	 fXJx7w6IZcj243nbAzcqIB2NbjNR0eDz3rSCM4ycCf/nlRTEn4VrUWFBFMI4YxvNFA
-	 AQZRfidxXc4lxuzA2Op2tDXvQKCt3T6wWDCHl+oyv4GMbuJGjPUiaQZLx9xa7hpiEf
-	 X3KtSrOjfARHm1ck3oVzJ+eFl5HbUfu6jjlmDN3zlTuLrY0R9lSoRGU63yeZrTHO4u
-	 tkVbCZUGCagfA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3BA4517E3600;
-	Mon, 21 Oct 2024 14:30:21 +0200 (CEST)
-Message-ID: <427feed3-f51b-40d1-8609-4534a2815fc1@collabora.com>
-Date: Mon, 21 Oct 2024 14:30:20 +0200
+	s=arc-20240116; t=1729514301; c=relaxed/simple;
+	bh=2J+07wvQjZOgFJnkevC6f3EOi3G04Q/DuL8EMvWJL1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LvGGruQEGNR3zW9f1YeUvy3HlzyMFRjKZU+JsFRoTjU0q9gUoI+X9jdZL6D/bT5T7+21RtzF/SfgswVhRJSrEndGWIVgTBD1Bmt19EDP1zCIxGtWbKh2raDvuKPVjfC4PqUUtqIEttQGtYteqTNP8TOOVmVQh5YWziqJNk5vxEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VonpcpMg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1895AC4CEE4;
+	Mon, 21 Oct 2024 12:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729514299;
+	bh=2J+07wvQjZOgFJnkevC6f3EOi3G04Q/DuL8EMvWJL1s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VonpcpMgNhRcVhIrW/Yx7oUPWvjjtoRpomAzGY7xssSXrU1AMS/fG0d6xRgCoSk0s
+	 pSMGZSDmw2fpLFYf3NUYwqgLahSP9iY4mMJ5B3RvBAxOiM11+mVEy6uLNrNlPndVsF
+	 xXjDlZlTQuIATZdfdiPIdr/+cmsLOzmUPgdw94bhw1N0BGKXcpDXEGuaNeXV4GWYIp
+	 g8SoDJut/USi3Zi+Qk0MGUV0UoK31Nz+wW06batq5cAIkzH0QnQg4sVHGy7rEtjvPd
+	 WsEaqjGpSupDFJSQJtgWHNBYnzeHqGdpXZOGw76LSoEyZFN/JEoRLLprjKjZXn1D1h
+	 hRPjF9uEwfAjg==
+Date: Mon, 21 Oct 2024 14:38:16 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
+	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
+	jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch, 
+	maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, quic_jesszhan@quicinc.com, mchehab@kernel.org, 
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
+	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, tomi.valkeinen@ideasonboard.com, 
+	quic_bjorande@quicinc.com, geert+renesas@glider.be, dmitry.baryshkov@linaro.org, 
+	arnd@arndb.de, nfraprado@collabora.com, thierry.reding@gmail.com, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com
+Subject: Re: [PATCH v3 12/15] drm/bridge: Add ITE IT6263 LVDS to HDMI
+ converter
+Message-ID: <20241021-thick-cockle-of-popularity-c5e28c@houat>
+References: <20241021064446.263619-1-victor.liu@nxp.com>
+ <20241021064446.263619-13-victor.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: platform: mtk-mdp3: cmdq: Remove duplicated
- platforms checks
-To: Mohammed Anees <pvmohammedanees2003@gmail.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Moudy Ho <moudy.ho@mediatek.com>, Ricardo Ribalda <ribalda@chromium.org>
-References: <20241017201612.2607-1-pvmohammedanees2003@gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20241017201612.2607-1-pvmohammedanees2003@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="kmrz3bsduvk5ir7q"
+Content-Disposition: inline
+In-Reply-To: <20241021064446.263619-13-victor.liu@nxp.com>
 
-Il 17/10/24 22:16, Mohammed Anees ha scritto:
-> The platform compatibility checks for MT8183 and
-> MT8195 in mdp_cmdq_prepare() are redundant as they are
-> done in __get_config_offset() itself. Furthermore
-> there are two if-else branch in __get_config_offset()
-> which have similar conditions and are redundant.
-> To address this, remove the check in mdp_cmdq_prepare()
-> and combine the two if-else branch into one in
-> __get_config_offset().
-> 
-> Signed-off-by: Mohammed Anees <pvmohammedanees2003@gmail.com>
 
-This should've been [PATCH v2], because this *is* a version 2: even if you
-have changed the title a bit, it's still "the same" patch ;-)
+--kmrz3bsduvk5ir7q
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v3 12/15] drm/bridge: Add ITE IT6263 LVDS to HDMI
+ converter
+MIME-Version: 1.0
 
-Next time, please version your patches correctly.
+On Mon, Oct 21, 2024 at 02:44:43PM +0800, Liu Ying wrote:
+> +static int it6263_bridge_atomic_check(struct drm_bridge *bridge,
+> +				      struct drm_bridge_state *bridge_state,
+> +				      struct drm_crtc_state *crtc_state,
+> +				      struct drm_connector_state *conn_state)
+> +{
+> +	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+> +	int ret;
+> +
+> +	ret = drm_atomic_helper_connector_hdmi_check(conn_state->connector,
+> +						     conn_state->state);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return mode->clock > MAX_PIXEL_CLOCK_KHZ ? -EINVAL : 0;
 
-Anyway, apart from this not being declared as v2, this time I'll let you
-get my
+drm_atomic_helper_connector_hdmi_check will already make that check, so
+it's redundant.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Once fixed
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-...because the patch is good, and because it's only the first time that I warn
-you about this :-)
+Maxime
 
-Keep up the good work!
+--kmrz3bsduvk5ir7q
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Cheers,
-Angelo
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxZLLwAKCRAnX84Zoj2+
+dtH1AYDoumgWufeRw1BkoGW9C53DdxLpldr4/TQiGq7uSIf8bhYZzvs8c3r3m56h
++Kq5KswBfiUhEIWcIVbwOObPeX6/Pg7dtPWXJxzBOlLR3QjbpksXkTsjQ2FUPqoW
+4HbKb64I9A==
+=sEdL
+-----END PGP SIGNATURE-----
+
+--kmrz3bsduvk5ir7q--
 
