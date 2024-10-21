@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-19972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19973-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5790D9A5D58
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 09:43:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A00A9A5D5D
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 09:43:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18A3F281BAD
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 07:43:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 035A81F20FEF
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 07:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B81C11E0E03;
-	Mon, 21 Oct 2024 07:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 263221E0DEB;
+	Mon, 21 Oct 2024 07:43:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l/aQdz1b"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LB912OwV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3661E0DCE;
-	Mon, 21 Oct 2024 07:42:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D44440C;
+	Mon, 21 Oct 2024 07:43:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729496577; cv=none; b=IziiRIQrCmWj1NKkZeWI2/tfHBkBvDy/rYoBJDO9WGjCDewTWW0rP04Vq5ZnZPAO3efA88/1yxovGWSxxm8nTd2wzn/4FsCkqji4OMlfWL9jne41TT+E9f8An7YAr1ITEzFspNvXjj4yNz4IFwiYxqeYnAa6x0R8XqoQNwTyUdM=
+	t=1729496614; cv=none; b=nJtl6kQN63c2luMDCSHMf08JSkf7PdLktj0ehMsTs8/A9Jy7g34qlURaCja9EwncQ4rBYjb9/2of7z5H3KvV+MMqoWrWPnTsO0DBP7ZySKp7eO5HDvJkZbdU7Vu69XYwAMH6i5apYtNQyHvI47I9Bv5yrC8tYzSSySi1/tsOZpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729496577; c=relaxed/simple;
-	bh=ApqwmB7DQ5PPTRaBJTXoXsgPgMvSEcAFElebawzKHa0=;
+	s=arc-20240116; t=1729496614; c=relaxed/simple;
+	bh=NH5HPey058GB0TD3/kCCLHNV5gW+T94GSK3qrZ1VWiY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WthEpWt9Bzn3ocxpENelBH9qKKEzs0OPjhR+FCUch65p43iELmnlIStGqy88uX2gl9qbThkEOLjU02Au7v1YzrxEj7F2h78z3QvrnSXw9OrmlYi7uuQerK4bmY95kl3k4vLhdWzf2ja04Y7Im6z8cA6/pb+eZUUnION9ekIhQi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l/aQdz1b; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6668C4CEC3;
-	Mon, 21 Oct 2024 07:42:55 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=YlPKj5AuQMW82QTeKgVmUiizzjiyRPM5TpKQJ1T4jPVFlApKff55dGjq7fEo4GNshcXTCGhw7j0nROkKR0gzkLoWW5uizvz3YtqICllldKr5Nc/Nje/S4MdkFdeaiqqidKG8UyjANVR6IiPk/+w6P9XMM+iSYjBg4hJJpO+VA5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LB912OwV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC73CC4CEC3;
+	Mon, 21 Oct 2024 07:43:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729496576;
-	bh=ApqwmB7DQ5PPTRaBJTXoXsgPgMvSEcAFElebawzKHa0=;
+	s=k20201202; t=1729496614;
+	bh=NH5HPey058GB0TD3/kCCLHNV5gW+T94GSK3qrZ1VWiY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l/aQdz1b6a1b5M0AGzZmsZsjDcJv5G4peieTIxabEOz9GwCBn+QvAtrft1tPGi/62
-	 Xn9NGcr8Sf49RqsAr+DcT7Rw4LeaIZTyBG32z6hKGw+Yp0Q/lVO7gVJVE6f0ddBJGO
-	 osv01D5hnfm29ch95ShbtTjnR87qpTDNkpY871ki4t+nhk0F8D0Rq6dssEuQJOYQdx
-	 se1dk89om8Bs9ONh8wwZHVsOPH/HCiGaMAP7lRKrDcrQvXLAHTDSs9+EcCeMjjKkVy
-	 g5WiBmqJJyk1/q0CXhHXb3UqYjBrnjYsh511r5ClNl3JyFGHYK/+a/ngVKKMt4khrk
-	 E4jVoV8NrT8eg==
-Date: Mon, 21 Oct 2024 09:42:52 +0200
+	b=LB912OwVWVQBbCAUgaq4D1R/4Og6UCpREUBV4dKCf+HA9Zj1HV8KK0m4R4hcz7jJT
+	 K2DNo2u9RJOAMvm8oGHCeIjoGOc82wg+Z/uAMrQF59mRFlxLrw/Dvtusk+/XPgHAbG
+	 RwLfXTRZ8inyMo7QDAGkTp+Dl7LRT2sq8HZFZAyC/KHUw+3NxIc7+0N5f5fnHOPiYA
+	 JpntmH9LClGKULiEDJwj1TkRzVY4R7wUl3i92nI205HTbxF3n2HVNy8GCQqdtHNXo0
+	 aK46AjjWGwMFbpvJyvMWjlIdRfUwNt4W4wF1axsJUEV95dtWi6NYIoSBaoE0PD6Mhv
+	 qL42rpN3KVVAA==
+Date: Mon, 21 Oct 2024 09:43:30 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Liu Ying <victor.liu@nxp.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
@@ -57,11 +57,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
 	quic_bjorande@quicinc.com, geert+renesas@glider.be, dmitry.baryshkov@linaro.org, 
 	arnd@arndb.de, nfraprado@collabora.com, thierry.reding@gmail.com, 
 	prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com
-Subject: Re: [PATCH v3 08/15] dt-bindings: display: Document dual-link LVDS
- display common properties
-Message-ID: <y6xpffdtpd4baczoatbotghhes3owh44tzdqvdgv3id4jj6jhj@nrqjn6d3wndx>
+Subject: Re: [PATCH v3 09/15] dt-bindings: display:
+ panel-simple-lvds-dual-ports: Reference lvds-dual-ports.yaml
+Message-ID: <3qrtknxsgxzyhwivd7d4eqqg7v6twgtczxotg7rhkdumjkl3p7@u2fso5hexiu4>
 References: <20241021064446.263619-1-victor.liu@nxp.com>
- <20241021064446.263619-9-victor.liu@nxp.com>
+ <20241021064446.263619-10-victor.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,15 +70,12 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241021064446.263619-9-victor.liu@nxp.com>
+In-Reply-To: <20241021064446.263619-10-victor.liu@nxp.com>
 
-On Mon, Oct 21, 2024 at 02:44:39PM +0800, Liu Ying wrote:
-> Dual-link LVDS displays receive odd pixels and even pixels separately from
-> dual LVDS links.  One link receives odd pixels and the other receives even
-> pixels.  Some of those displays may also use only one LVDS link to receive
-> all pixels, being odd and even agnostic.  Document common properties for
-> those displays by extending LVDS display common properties defined in
-> lvds.yaml.
+On Mon, Oct 21, 2024 at 02:44:40PM +0800, Liu Ying wrote:
+> This schema documents LVDS panels with dual links.  lvds-dual-ports.yaml
+> documents dual-link LVDS display common properties.  Reference the ports
+> property defined in lvds-dual-ports.yaml to save lines.
 > 
 > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
@@ -86,35 +83,22 @@ On Mon, Oct 21, 2024 at 02:44:39PM +0800, Liu Ying wrote:
 > v3:
 > * New patch.  (Dmitry)
 > 
->  .../bindings/display/lvds-dual-ports.yaml     | 76 +++++++++++++++++++
->  1 file changed, 76 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
+>  .../panel/panel-simple-lvds-dual-ports.yaml   | 20 +------------------
+>  1 file changed, 1 insertion(+), 19 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
-> new file mode 100644
-> index 000000000000..0ac4c06d0a17
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
-> @@ -0,0 +1,76 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/lvds-dual-ports.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Dual-link LVDS Display Common Properties
-> +
-> +maintainers:
-> +  - Liu Ying <victor.liu@nxp.com>
-> +
-> +description: |
-> +  This binding documents common properties for LVDS displays with dual LVDS
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+> index 10ed4b57232b..e80fc7006984 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+> @@ -22,6 +22,7 @@ description: |
+>    If the panel is more advanced a dedicated binding file is required.
+>  
+>  allOf:
+> +  - $ref: /schemas/display/lvds-dual-ports.yaml#
+>    - $ref: panel-common.yaml#
 
-s/This binding documents//
-
-But anyway there is a binding for common properties used in dual-link
-panels: panel-common-dual. How is it different? Why this is not suitable
-there? Why entirely different file name?
+So dual link panels common binding does not fit here? sorry, this is
+just introducing mess and confusion.
 
 Best regards,
 Krzysztof
