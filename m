@@ -1,106 +1,111 @@
-Return-Path: <linux-media+bounces-19973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-19974-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A00A9A5D5D
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 09:43:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6AC9A5E15
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 10:07:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 035A81F20FEF
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 07:43:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE951280E68
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2024 08:07:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 263221E0DEB;
-	Mon, 21 Oct 2024 07:43:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0491E1A37;
+	Mon, 21 Oct 2024 08:07:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LB912OwV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hQHlQojE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D44440C;
-	Mon, 21 Oct 2024 07:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE0D4C70;
+	Mon, 21 Oct 2024 08:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729496614; cv=none; b=nJtl6kQN63c2luMDCSHMf08JSkf7PdLktj0ehMsTs8/A9Jy7g34qlURaCja9EwncQ4rBYjb9/2of7z5H3KvV+MMqoWrWPnTsO0DBP7ZySKp7eO5HDvJkZbdU7Vu69XYwAMH6i5apYtNQyHvI47I9Bv5yrC8tYzSSySi1/tsOZpk=
+	t=1729498024; cv=none; b=fbcodlHEO0SVFT75560eAkvxnUD/7WE6USBJa87lpICpl2/56yRM/gS28pykaxAjUQU23XQGg+5bR868i9Yo2sIxCHaLTheKsx93urAgfSdXY+FCdzjS9+hGn029Lhw6ykuCsynUTExoW9uFLxR4KBDl6K2yY3La6BLLhYUiOK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729496614; c=relaxed/simple;
-	bh=NH5HPey058GB0TD3/kCCLHNV5gW+T94GSK3qrZ1VWiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YlPKj5AuQMW82QTeKgVmUiizzjiyRPM5TpKQJ1T4jPVFlApKff55dGjq7fEo4GNshcXTCGhw7j0nROkKR0gzkLoWW5uizvz3YtqICllldKr5Nc/Nje/S4MdkFdeaiqqidKG8UyjANVR6IiPk/+w6P9XMM+iSYjBg4hJJpO+VA5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LB912OwV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC73CC4CEC3;
-	Mon, 21 Oct 2024 07:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729496614;
-	bh=NH5HPey058GB0TD3/kCCLHNV5gW+T94GSK3qrZ1VWiY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LB912OwVWVQBbCAUgaq4D1R/4Og6UCpREUBV4dKCf+HA9Zj1HV8KK0m4R4hcz7jJT
-	 K2DNo2u9RJOAMvm8oGHCeIjoGOc82wg+Z/uAMrQF59mRFlxLrw/Dvtusk+/XPgHAbG
-	 RwLfXTRZ8inyMo7QDAGkTp+Dl7LRT2sq8HZFZAyC/KHUw+3NxIc7+0N5f5fnHOPiYA
-	 JpntmH9LClGKULiEDJwj1TkRzVY4R7wUl3i92nI205HTbxF3n2HVNy8GCQqdtHNXo0
-	 aK46AjjWGwMFbpvJyvMWjlIdRfUwNt4W4wF1axsJUEV95dtWi6NYIoSBaoE0PD6Mhv
-	 qL42rpN3KVVAA==
-Date: Mon, 21 Oct 2024 09:43:30 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
-	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
-	jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, quic_jesszhan@quicinc.com, 
-	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
-	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, tomi.valkeinen@ideasonboard.com, 
-	quic_bjorande@quicinc.com, geert+renesas@glider.be, dmitry.baryshkov@linaro.org, 
-	arnd@arndb.de, nfraprado@collabora.com, thierry.reding@gmail.com, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com
-Subject: Re: [PATCH v3 09/15] dt-bindings: display:
- panel-simple-lvds-dual-ports: Reference lvds-dual-ports.yaml
-Message-ID: <3qrtknxsgxzyhwivd7d4eqqg7v6twgtczxotg7rhkdumjkl3p7@u2fso5hexiu4>
-References: <20241021064446.263619-1-victor.liu@nxp.com>
- <20241021064446.263619-10-victor.liu@nxp.com>
+	s=arc-20240116; t=1729498024; c=relaxed/simple;
+	bh=TPm28GAIFRdziprN+o6a/t85D5DRSJVU8jos66AGzzg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TZEqZibCsDPY8z6hcf8F2JMjEjfQb+43V8qAt9F2cSLWUW53WKL160flhpe6ZCb8HrYFtLknVxtvO57ENl7aH5rWhctf0eemU4O3f4eCFtR2PdXAvuyl01uSyc7Jvj7AB2+oyGh/c6pwbhjZ/FfKeJlDS8JjsJfUOQxJ3tx2ook=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hQHlQojE; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-50d24099415so1081679e0c.3;
+        Mon, 21 Oct 2024 01:07:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729498022; x=1730102822; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TPm28GAIFRdziprN+o6a/t85D5DRSJVU8jos66AGzzg=;
+        b=hQHlQojEY6/1FO4WClnT4Pp+Sd4gZ+maEkKsp54Hhn5AFpEVOkG2jjaD/2PKjlGhWp
+         b6KipS8plxm1LtxPziONHl7mDOUGidZT9gZb/uNURR6P1t8QaNkgfNTJCCP7Ivv1WWck
+         ackXRF+6rTe8325fO+hMwpAJEccWMDbHS1by/csm3oOvAJChi/JDoUPFb+nH0pvZJLJt
+         a/8RSDnpQa+0VPwULaVjIYurl7fwYkBbcqU0po8rNriXvF6D+t53YYdyF6JPiuOn2rzD
+         QKyiY1u11ILn+05nVD9GbkIV95/CkBJoIh2+l00jQ2H0cs0v1hyZwMNg1VgAuxpQkhP6
+         wTww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729498022; x=1730102822;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TPm28GAIFRdziprN+o6a/t85D5DRSJVU8jos66AGzzg=;
+        b=afjwpQk2j0rQ6CtwEEFGUa49NM9KdKR509ev7pmAXY5p1D2DlTz3gDX0+wgZSBbtLM
+         0u0Ex3ktDZLNA7nS3hQXnQV1v2UiG1Jq6VrJrU8bcYVCOIb668SHUnun7IRCKO1KVniW
+         qISe8CMzw1xmqxdaq+lLHJz++U2IAc9I8zZHnyH1q3bLlxSJ69VbRfCvIdV00Fs/aXah
+         zZRi2Qgokk+9BIeyPWhUpVliSTJzPOUYZ4WMF7VAEVSQztL+seMfDkPaVnJPVVVBgvOF
+         /ngGoUaPZ0IixglmdvQY2b7E9ArMROZwLO9k1Dv8MawpMtwXBq7vB4cLp8g1vM/UzpfW
+         2g+w==
+X-Forwarded-Encrypted: i=1; AJvYcCUHY+SNMJpsPAiJoeTo0G/9NEuiFDAknr9X/p+6/j7Sbb077rPszLAMHLH6RPNQoScq0tMA2nVbLxvafOpbSBvfyW0=@vger.kernel.org, AJvYcCWRtYVDmSJyyIelG07hG7CVgJ4BahAeI3kTCadh9d96VTWt+tGUbnMXvU2R+s9q9s2djJ/3j8WrJ5O5OwA=@vger.kernel.org, AJvYcCXzeYaHPSI76+0MT2IKdAeuklHc3LzZMxup0bOdtrhnItEptR/wYu5MpzxgUxbFutxHIUZZ79fUvKg48gE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3MkOQjrQ5pFgvCT9JreE0S0T2q5F32j34hCFf5RvJk/meHw6J
+	Qh2G4HxvXLK1zG5TERVbNFIwz6qeMiDd2SP4Kv5Qgagi+4MXvSEfJ3NdXXZyB/9S3zMKj31/5Pe
+	8pnY8UHeNxwBp+2BIzecbr9qTxkQ=
+X-Google-Smtp-Source: AGHT+IHqPL6P6zIC4MNtte/Cng6GwpBgDEuZTV7YY1PBTGFtNg5vhQrj1+ytR4Hzq4iCbwKhypvOUP0pbmCT6HrIz/0=
+X-Received: by 2002:a05:6122:d8f:b0:509:e278:c28a with SMTP id
+ 71dfb90a1353d-50dda1afa79mr7320734e0c.7.1729498020608; Mon, 21 Oct 2024
+ 01:07:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241021064446.263619-10-victor.liu@nxp.com>
+References: <20241018153230.235647-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20241020223923.GB14328@pendragon.ideasonboard.com>
+In-Reply-To: <20241020223923.GB14328@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 21 Oct 2024 09:06:34 +0100
+Message-ID: <CA+V-a8uwWb982N71vRarPZ1VyeuY58=cWpSREmVc2cFccKzZaw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/10] media: ov5645: Add support for streams
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 21, 2024 at 02:44:40PM +0800, Liu Ying wrote:
-> This schema documents LVDS panels with dual links.  lvds-dual-ports.yaml
-> documents dual-link LVDS display common properties.  Reference the ports
-> property defined in lvds-dual-ports.yaml to save lines.
-> 
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v3:
-> * New patch.  (Dmitry)
-> 
->  .../panel/panel-simple-lvds-dual-ports.yaml   | 20 +------------------
->  1 file changed, 1 insertion(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-> index 10ed4b57232b..e80fc7006984 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-> @@ -22,6 +22,7 @@ description: |
->    If the panel is more advanced a dedicated binding file is required.
->  
->  allOf:
-> +  - $ref: /schemas/display/lvds-dual-ports.yaml#
->    - $ref: panel-common.yaml#
+Hi Laurent,
 
-So dual link panels common binding does not fit here? sorry, this is
-just introducing mess and confusion.
+On Sun, Oct 20, 2024 at 11:39=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patches.
+>
+> I think patch 01/10 should be dropped in favour of
+> https://lore.kernel.org/r/20241020164354.GG7770@pendragon.ideasonboard.co=
+m
+> ("[PATCH v2] media: v4l2-subdev: Refactor events"). Patches 02/10 to
+> 08/10 seem ready, should we merge them without waiting for 09/10 and
+> 10/10 ?
+>
+Agreed, for patch 9/10 and 10/10 I'll give a nudge when the
+appropriate core patches have been merged in.
 
-Best regards,
-Krzysztof
-
+Cheers,
+Prabhakar
 
