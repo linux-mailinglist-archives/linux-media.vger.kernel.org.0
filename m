@@ -1,159 +1,107 @@
-Return-Path: <linux-media+bounces-20060-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20061-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC639AB71D
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 21:44:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F6F9AB7EC
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 22:47:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B0E2CB243A8
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 19:43:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B79E1F23B9A
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 20:47:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E63671CCEC7;
-	Tue, 22 Oct 2024 19:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B72B1CCECB;
+	Tue, 22 Oct 2024 20:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Rv2AAJN6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FoQvUNkg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C111CCB4C
-	for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 19:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541B11C9ED6;
+	Tue, 22 Oct 2024 20:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729626183; cv=none; b=MDhwLjyxPJFV60flc6YRiFJaxTQiqKWVxckz4F015oif0ZSMIbVtO1Ea8EZltJb+Oax2QqzFk5O9L4yJoEB0Bn5vQRaxd07+C7xvelLNjK6W5Ug3obdKGPaD79w2DlKoTevmq+h/i2UientDXthZnWPVeZLekpo9TnhMTy5nxO0=
+	t=1729630014; cv=none; b=od9VTBsWwN0+PufRYrSxtE9wCeL4wCYOsPQ+IU0DIqeiF69DDja6bBZqgivzluZOINciv1mXdKvLIE4zRYqrQHYQDXbBOjo/UB2HwKR7wucEugekg087PaITh9gq1+IfLqS2AOYCQSRAj+b6E9Ske7rM5KXgjOz/+3peGu6ydpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729626183; c=relaxed/simple;
-	bh=jm22gRQ6G23h5NMqR1iDDxjje1KNS7jqDdEHq5dXzFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KPNpzvtBcWigUWzmGUZMLS6Q8xxAqb2N7Gh1X38jTcbniZ+8brFKhZigaVVkjjEReDpRbqIuLL7MZIqdbT520veWTqVNT2kiGtPZG6enGgHwWz8yks59YKRFdz6pV66Wsj/xJUctfjdpEzme0bP0AtwTd6Ql9gNgPGCzk6qqK+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Rv2AAJN6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15B1EA47;
-	Tue, 22 Oct 2024 21:41:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1729626073;
-	bh=jm22gRQ6G23h5NMqR1iDDxjje1KNS7jqDdEHq5dXzFA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rv2AAJN6nQhwsjtbE55OEPztw0AUft8A7RTsOWlVdDP5nU86wLXChyKq0JXABYk3l
-	 A1T6gRNkHi5rlJYAVewl5ud6nHdUEIQhLqjlHKUBtFu5GoznI4JsyEh9ynq662CAzz
-	 l+k4VCyDavDtEBOE5dO6ytgdztV9OZYH3uRbyeco=
-Date: Tue, 22 Oct 2024 22:42:53 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>
-Subject: Re: [RFC 4/4] media: v4l: ctrl: Add V4L2_CID_CONFIG_MODEL control
-Message-ID: <20241022194253.GE9497@pendragon.ideasonboard.com>
-References: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
- <20241011075535.588140-5-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1729630014; c=relaxed/simple;
+	bh=Zn3g/rsmjAnDQhjuWlSialZd2N8hudka0aK2MD88RIg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kHLuVUN+PHAEG8t623G1tGnknG/CSFQ5WxmIJCrta3uwFh6T/IJdGuPNm3gckgt0TV0JiMV6tbV+TKkLKxWWRrVGQReuEz8WUT6nCgzdSt5WPrE38Knrc//vkKtgrAe8yGVrhXTX5G+xqC4Pew2yG/W0qgaNFhSd0pni5PJw/O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FoQvUNkg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7513C4CEC7;
+	Tue, 22 Oct 2024 20:46:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729630013;
+	bh=Zn3g/rsmjAnDQhjuWlSialZd2N8hudka0aK2MD88RIg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=FoQvUNkgYJcOW5aPFEgdSrDVeXvX5QcUiGgnKevOhRdl3cNmPrn8ubp46XbOvqgfY
+	 QjWYO88wvIF3OgeYOej7ecpGDpjy7WQYJ2lvkxRz6lQgCE59gcF/ge/hm8ljPYMfZG
+	 v7XqG8cT3Ls/cbgeBTHnVXQzkrflXBIBnNq0DG8CL3jgtuXx23Q9zz/ytvSjuGqoAQ
+	 IWa1fhVHoidaozPgTKOI+v+vP81b6lJ1CipGte11Ybl+WqSWYxAkJ8MTChZQj1+1bt
+	 Q+VWPk4QEYqc8/V6YFBoDfXQqtJ4+gy8KmNpU0ng224ha7fZuAmH7tywyI1s3BHxju
+	 kfx2+Fq2MT/ag==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539f0f9ee49so6646839e87.1;
+        Tue, 22 Oct 2024 13:46:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUbRuLP37VMhVERUiWt5oSroqsH64ocxcyNDz9Hpl1Qqgo0JE0CxT7KD4DdR/27ICdznPJFtu0oc5O/@vger.kernel.org, AJvYcCUwg63QGyNDHgdCVqDY1TO4S1BFGvjyRyngtsQEFCUAsmFjgYyYf9x5dJCsxfVa8EZaJUfXHBenBYgFM3I=@vger.kernel.org, AJvYcCV8X+sso+g7uFk3wt90y7kYJMgBBN3NkI5/QCULw2KjxK6nsrbUzYXV0gidjcwx1SSTzKzR/C61+kVrFHQUEA==@vger.kernel.org, AJvYcCVKArYRELoVRJOWeDItt9EPd/fONZcYkTXCh+sqLxBGzGXYQCf+xMYzEIDgBDRNP1HhUnRvkRKhlwC3@vger.kernel.org, AJvYcCWldbjeKtzMV8SIJg8micS/MAzVu/shDoooDC071SQpZoJ2PMUfMUQ6fJaCeor2yR6zCIc7GgMeDyjg@vger.kernel.org, AJvYcCXnH271UrCHmvQb/ce3LtSkUhFngm39QdrfL36iC8/X9Qm88h0PrlHqm4cLyRydRCliTMFd0Gn/yaeoARJj@vger.kernel.org, AJvYcCXtdn3jg+2K1jxPV2hFXSnQCctA76746pWJWfRpoU4xD/oLjAmO1OuSHuH96LWwz7/hShpVElvBqAvcEME9/OH3mII=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+LYsU/6cVRS+IZSoazOWJGsW0F50Ecm2MfLBOD7zdwCBHQrkK
+	RjbGxl1cDJ01uB6jPRbQTFwTPnTFvFQWh/kRMVvTyOltbdgkUsWbgdZ2LEYuzgLfFY/zauoBYGE
+	1wmZxJ0b93avkLyjVP2wa5baYWA==
+X-Google-Smtp-Source: AGHT+IEO+TmoJNpkBRko2njnTuoGDOOp8xk5cA0fj0xWt4Uui7DHRbRD3cGMhGi7Qb+vFtNs4gUNwWTLEMBa9HTb5QA=
+X-Received: by 2002:a05:6512:1109:b0:539:9524:92bc with SMTP id
+ 2adb3069b0e04-53b1a37ce3fmr102061e87.55.1729630012208; Tue, 22 Oct 2024
+ 13:46:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241011075535.588140-5-sakari.ailus@linux.intel.com>
+References: <20240925232409.2208515-1-robh@kernel.org> <172957518656.489113.4975806367588166309.b4-ty@kernel.org>
+In-Reply-To: <172957518656.489113.4975806367588166309.b4-ty@kernel.org>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 22 Oct 2024 15:46:39 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+=_9prwcGvM4-sKKNgq6QSsJ=bqfKcVqnbepj1i_2q4w@mail.gmail.com>
+Message-ID: <CAL_Jsq+=_9prwcGvM4-sKKNgq6QSsJ=bqfKcVqnbepj1i_2q4w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Fix array property constraints
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Conor Dooley <conor@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Paul Elder <paul.elder@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Jim Quinlan <jim2101024@gmail.com>, 
+	Nicolas Saenz Julienne <nsaenz@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Andy Gross <agross@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Jim Quinlan <james.quinlan@broadcom.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
+On Tue, Oct 22, 2024 at 12:33=E2=80=AFAM Vinod Koul <vkoul@kernel.org> wrot=
+e:
+>
+>
+> On Wed, 25 Sep 2024 18:24:06 -0500, Rob Herring (Arm) wrote:
+> > Schemas for array properties should only have 1 level of array
+> > constraints (e.g. items, maxItems, minItems). Sometimes the old
+> > encoding of all properties into a matrix leaked into the schema, and
+> > didn't matter for validation. Now the inner constraints are just
+> > silently ignored as json-schema array keywords are ignored on scalar
+> > values.
+> >
+> > [...]
+>
+> Applied, thanks!
+>
+> [1/1] dt-bindings: Fix array property constraints
+>       commit: 72c65390c61fc96cebfb91c300ca774925565383
 
-Thank you for the patch.
+Why? It is already in my tree and not just dma bindings.
 
-On Fri, Oct 11, 2024 at 10:55:35AM +0300, Sakari Ailus wrote:
-> Add the V4L2_CID_CONFIG_MODEL control for the configuration model.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 4 ++++
->  .../userspace-api/media/v4l/subdev-config-model.rst          | 2 ++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c                    | 5 +++++
->  include/uapi/linux/v4l2-controls.h                           | 3 +++
->  4 files changed, 14 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> index 27803dca8d3e..928e8e3eed7f 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> @@ -55,3 +55,7 @@ Image Process Control IDs
->      control value divided by e.g. 0x100, meaning that to get no
->      digital gain the control value needs to be 0x100. The no-gain
->      configuration is also typically the default.
-> +
-> +``V4L2_CID_CONFIG_MODEL (bitmask)``
-> +    Which configuration models the sub-device supports. Please see
-> +    :ref:`media_subdev_config_model`.
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> index 8ec801998f5f..d4ae921b69c8 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> @@ -1,5 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
->  
-> +.. _media_subdev_config_model:
-> +
-
-This could be moved to 3/4.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  Sub-device configuration models
->  ===============================
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 6b9188a4a220..378657a52cd5 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1167,6 +1167,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_TEST_PATTERN:		return "Test Pattern";
->  	case V4L2_CID_DEINTERLACING_MODE:	return "Deinterlacing Mode";
->  	case V4L2_CID_DIGITAL_GAIN:		return "Digital Gain";
-> +	case V4L2_CID_CONFIG_MODEL:		return "Sub-device configuration model";
->  
->  	/* DV controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> @@ -1489,6 +1490,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_DV_RX_POWER_PRESENT:
->  		*type = V4L2_CTRL_TYPE_BITMASK;
->  		break;
-> +	case V4L2_CID_CONFIG_MODEL:
-> +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +		*type = V4L2_CTRL_TYPE_BITMASK;
-> +		break;
->  	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
->  	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
->  		*type = V4L2_CTRL_TYPE_INTEGER;
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 974fd254e573..0152240229ab 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1225,6 +1225,9 @@ enum v4l2_jpeg_chroma_subsampling {
->  #define V4L2_CID_TEST_PATTERN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 3)
->  #define V4L2_CID_DEINTERLACING_MODE		(V4L2_CID_IMAGE_PROC_CLASS_BASE + 4)
->  #define V4L2_CID_DIGITAL_GAIN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 5)
-> +#define V4L2_CID_CONFIG_MODEL			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 6)
-> +
-> +#define V4L2_CID_CONFIG_MODEL_COMMON_RAW	(1ULL << 0)
->  
->  /*  DV-class control IDs defined by V4L2 */
->  #define V4L2_CID_DV_CLASS_BASE			(V4L2_CTRL_CLASS_DV | 0x900)
-
--- 
-Regards,
-
-Laurent Pinchart
+Rob
 
