@@ -1,204 +1,194 @@
-Return-Path: <linux-media+bounces-20005-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20006-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0059A9535
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 02:53:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B69709A975A
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 05:58:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38AC5281F9F
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 00:53:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF25AB22956
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 03:58:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AC84811E2;
-	Tue, 22 Oct 2024 00:53:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEF2C2BB09;
+	Tue, 22 Oct 2024 03:58:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="GzPDasW2"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JuP6I6RA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010047.outbound.protection.outlook.com [52.101.228.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E2AC2C8;
-	Tue, 22 Oct 2024 00:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729558413; cv=fail; b=L55xpSIszUSNkqP17oQLeKdDicQ71lo08lF2jMw/KJj0jwRNtmdt1bTqqZ1/GyYIsY7tHivAP4ykbSFsBlfd+NTFJWzjAmZZ+PmkTX5aEyVWIrlRd5+4xLeKZKejCvkLYfSB7tsTndnMza+LRbubJnOMkUUxa5qMPg0TAbHqaL4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729558413; c=relaxed/simple;
-	bh=A1Sxs2wRNnIYbnay0QH1JlgeEAtomnMMyj6IxmBzblU=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=F5Pyg5SjO2v+Z3eQjFQAP/05MZ1CGzM6m6JUq7cfo9Fm/vYRGgCPkSMAaPgd7/UY5Jpjh7JpV2Tm+xl2roPrGAHPd70y4iherwOEz7YtO9cmtPiqrL9h6Ix049o/xszTjYzAygOp+KhnUYbW8D6zdwX/AnFIyEgFTPDaQpywn7Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=GzPDasW2; arc=fail smtp.client-ip=52.101.228.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nNWmMCbLyFn+ryrsWOLSm277Jx/jNBmrc39ug2XwdnQ37+VyNgz+71yF/ZmHIkPQuKgthCx/XpUL4HFwxtqO6d2RtcBhMw/KZnmjI9zqNpxDHWY2R+Q7wc8c7eDT1Shz6fLH+3BiWLSD5Gnaih3I1VvWmsbVibmUWBHOtc527LfToRdWvoKXgsycBWekq8Y0B5jrkkHkfoNUhalQHqkmtim9whsMJ50pg2iBD2yj3yRJY0zGx9qoItYUyv1x4kdhzvuwl/rZT8quWOGomJ0wk/Pf4udVLo9GcbjJdSUEVJswrd9aOVn7cCWGtrUbTgWxcdeiGA8DMvpx82v5NqSIdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8QAbNwFxbMGZ+CBBAvHztvOlsBI20cI+mO2/lSVIfMQ=;
- b=VbEGZpx2ZuD3RE+2hemkIpFe7vD5wQ1yc5gllO+4IOWnZj5vQZy1LwZTX4mwRVF+crsDbaVYwu576LmarUIg3VwaodfnHK8qGeXg3mwQqTJdj7dALeWrmFiOTQkE+RliNwkoc5Z2iqJMXzBNoFv8TgrAPy77+lJlhEdTgsnUs8Go7sbNvgA8XZOav37vmKxmHPVi5TJCgGDe2lcYBkR6qMGpiQG90c0VQw9+ygdj+r6xTj9+bz4TCndbaGMO9dD42iSXQhaEC4IsohKapdXn/n7A9N8ihSeyli7i9mUNmGh/sKjtiFfFCc5yqO0zrQStts2oTfGTKnq7sJDrMppjWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8QAbNwFxbMGZ+CBBAvHztvOlsBI20cI+mO2/lSVIfMQ=;
- b=GzPDasW2hk/5EDdoJNqRV+MzZFBJu3erOasJH8PV3/w7iHqvCmu4zrnMONFa35kCnea9LawjlulmGPhATipQth65ddR7aXwGalhlJ8aIZY601AbLeFyoZTDyYnXPge3FSJBcRmVBE3mUigrTKX8vrkmv0wtZLBSwjFj8uNQiH6g=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS3PR01MB5863.jpnprd01.prod.outlook.com
- (2603:1096:604:c6::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.27; Tue, 22 Oct
- 2024 00:53:27 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8069.027; Tue, 22 Oct 2024
- 00:53:27 +0000
-Message-ID: <87a5exot4p.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v7 1/9] of: property: add of_graph_get_next_port()
-In-Reply-To: <ZxYiD5CCzcrwbD1o@valkosipuli.retiisi.eu>
-References: <87wmiirqwy.wl-kuninori.morimoto.gx@renesas.com>
-	<87v7y2rqwf.wl-kuninori.morimoto.gx@renesas.com>
-	<ZxYiD5CCzcrwbD1o@valkosipuli.retiisi.eu>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 22 Oct 2024 00:53:26 +0000
-X-ClientProxiedBy: TYCP286CA0262.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:455::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F20B17C9B
+	for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 03:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729569522; cv=none; b=Upgihn0T1KyNNJl7Sfw67bqdBvMWn4E2Iadl+wyLNxa3Hjj6c2+d0jQbWINxEQK5jmtYDr+MaRakbrXK/YC5esQXg4Y0MAt98orbvdnhQ4Eeunh8PDVIsHjabJa335+SUoL7mK9khKywqL1jNLYl0c2dwrz8eDecZWaK4n8g2q4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729569522; c=relaxed/simple;
+	bh=TiMQ7lkL1xNr+uvD19954tJMEprwzK6hHSvWx8JjLCA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lfvo4S5XB3I3Ld9HvluJ5l5MQV/QnCOvR+bkrvOJTDPg25LGbbO7+aGTAXwD4LhKe8D4JoqN+SekGVtUgshmN9/Idn8rHXsreKse4HADOAyCymaCw9R10MLZz8LgirNqTXEXLWZzNqt7+aydijr+GTB1f24TyoqqorFqd6XI1HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JuP6I6RA; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2fb51f39394so53775471fa.2
+        for <linux-media@vger.kernel.org>; Mon, 21 Oct 2024 20:58:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1729569518; x=1730174318; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=26QZsdFfjNaf2R0pL13dD/w4NeLPSwhQ9nw1ajQqK40=;
+        b=JuP6I6RAWMzIyT/DT8//Od0BNDiiT1AblZFdPDbHPaykOgMZs+t1rq+aroMxQgkykJ
+         z4tRL4oQ4ctsmzdRRNascoyU+ejebJgNppCJpMrSkQMwCDBhIb//sbmNtQenoIBDDYWs
+         rNs5Or6UfostgTC46m+txRhMoaAJdZJkHb9C4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729569518; x=1730174318;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=26QZsdFfjNaf2R0pL13dD/w4NeLPSwhQ9nw1ajQqK40=;
+        b=FLUPuHe96svLDaVWjguxzPSU/AutU5d8s+W+mCVeIrbX4ALsAtgL5XWOto0H2sRZXP
+         0S0gRB0ulh4GylAXvKAC2aqSm41flwicFMkCwrXQ21wkE+czSRQGCR5bzwf8Xo0cewc2
+         uiw+gN8/AlHNErKzgB+LMQo18wMDRs/S740TrwaQ5T7C37VyZ2yHoSYt1DBBx5lJ8vd+
+         AqtJT1oFR1BUfHbudJp/gwbqyyU5JXXtP4cB3T6e4Z7yGZu5ba/zDgrhlAMf9aefdyJL
+         m9LnUAmlwZcjmZ+omcFsbIDiO0jCbTrF3I7+vEPYt7gh3K3KVQO0yRmomiQuS1D+jCgr
+         6ybg==
+X-Forwarded-Encrypted: i=1; AJvYcCWCnnzH9hIJKthZXWdH2X+6TYXcYkXgKE1YJuc1uL9CYRvw6AHHUd5hSFSlbUl56/V8/SECPVcj+flifA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXs9OUFu4bmsmAaa7G1rVDjih+FnuQdTwjoW1Go7wLCnl+4KZH
+	HR8qg2+GLuRxC476GSCBzY27d7C1N0+pea0pow/MaMUg5qxSl6eqx3BXUoeAKN99D6nV9HiDhHf
+	OCnwSn+bL3n1AfWvq8aHxtWbwhj8u4IdZotwP
+X-Google-Smtp-Source: AGHT+IFqMhHSx8Ip59Ca3lTQjk0rTWzLpRf1LICtZkUGARVmXCcNDbvtoO7vAUrk/aZyUBhNLkQE7MFo/l8i4R5X7hA=
+X-Received: by 2002:a2e:bc08:0:b0:2fb:51e0:91b with SMTP id
+ 38308e7fff4ca-2fb832285d4mr68651001fa.43.1729569517643; Mon, 21 Oct 2024
+ 20:58:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB5863:EE_
-X-MS-Office365-Filtering-Correlation-Id: f15389b9-47bf-4161-680d-08dcf233f04c
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|52116014|376014|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?9rB2HBjn+6FBvWkqOO3uDP9bdUKNcH4enaPubUyJ5iWZcZm47JhCiSoCSV3C?=
- =?us-ascii?Q?2JjcVrfTRgNs2ApACGrIZQXJdqv0bPAlvpeStghyhHkcklFQD8HnSKuF6Q4A?=
- =?us-ascii?Q?hcOYCbEWxvakwZWO01jp73cBxklxXLAGU90umkF7cUArkt0y/7nqrrtMeAcQ?=
- =?us-ascii?Q?79TiW+cb4o9OgBdPCefNhvA3WgIh88e0NbFeYDAjVkFORc1U7YCaT0GHWtBY?=
- =?us-ascii?Q?3k3d+ZlFo0O1KUToDqmdrQucOSBx1Kba0svksqIl4MluRwQ7ZGZFLMvC+oCx?=
- =?us-ascii?Q?wdkNyGOP2Ti3ds2K5ocm3cW8NUPgns6WNpzWdGo3XzlmA9JkgaOmPrM57Gk5?=
- =?us-ascii?Q?NP1rmTfrXluHdCBsS1kvzHJ7mCe2BoCdQQwB/u5qfvTCzxbBvE1OlcQ/OuzF?=
- =?us-ascii?Q?ceFa/7Jjt1PVpat4Tjpq2ww7Ept6d/FNS4tVs1GZ2CvQ1sjUroD6Zdf/3aH6?=
- =?us-ascii?Q?AYuxCmTe6qvpicyg9adzNj6ItoZ+uekvWOergNyNj2dSmTlQcu979XiRYnJB?=
- =?us-ascii?Q?iWwP8HhEUYhiwofr/bm3vSt0fN04t/qBkaIXx6n+q8eFCayOdJx/RnlvmFD0?=
- =?us-ascii?Q?D3wEiKVPJ7nF7jyO4XHguYjKz3qezu2Ku/xUcbSQkPiVBSnsAWBQ4GpmJ1ka?=
- =?us-ascii?Q?H4RCRE7uUl3AjoIFgWrAwdqgkfCHnyKRMBG22eEKxVRR4CO2T+oLA3wxrBgg?=
- =?us-ascii?Q?USBw3QA6srTdQZF+nPHjhMBNrY6HVcmtMx2DZMEYw4LzlnLRfjnMtDJThkip?=
- =?us-ascii?Q?CeJFBvU52Uq8KW7V499INLS+sBIcXv8DD2cPPq4zt7q2grVe4Zw/V4DtLeas?=
- =?us-ascii?Q?fJIVedCxuYbX2RsTTiYKx4S6Ko5PhkWIGHM609vYHda51deLuGYtxlVzaRbA?=
- =?us-ascii?Q?xtUZdiB88pncuV8AFiGd1cOhxoo0ASRyEl17nalWvZV4mFmgFs5qUtg1wyn9?=
- =?us-ascii?Q?248GCFK6IKY1yvZvhwNqcABggki72IZT/Kc7xx+NdvNVfYaV7+6QqlNTWM7j?=
- =?us-ascii?Q?vxGxjWvNViQn7SNBSih/8NudBajXAnNIz18qcXa9YReEHb+0MAuoFnfTa7Ug?=
- =?us-ascii?Q?r7LackEz3d1LZcyrTH1vlSRcZ480gYqUF+vYop+KBWCcstpXcDBueQdm/Mmh?=
- =?us-ascii?Q?4MspU8P+wliH5RrTprYtwqb8CkXs+6E0WComfmntRedazUbg8iy6X0Qljo0d?=
- =?us-ascii?Q?gdIO+SGT/oL0We1Dcx/hBjUceIO6zh2fpAke04UO8jHaLSwwArQb8PdzkZaE?=
- =?us-ascii?Q?8T4ugpklExejzBjOX0aJQhrWPp+FqAbmlKU+3KbBDRz0/Bd6sx+f6X5+5KP1?=
- =?us-ascii?Q?GNoM1B2hghCBePpmcBKErYKZyZCzJuf9e4lLL0VX5YgTTmF4s5QcMmcdZzQq?=
- =?us-ascii?Q?/u8/NFA=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(7416014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?9jlFSqdW39FGTQHpJrXbkJ5IZ7AMiwM2wRqDqSO6e3ib/4wETJB66hxr01wh?=
- =?us-ascii?Q?gEk99WwQAscbWYn+WURLZ7beUsjk9vDUcViGyZziUydTxkbhrO0UFEr5Rwgs?=
- =?us-ascii?Q?rPBradNZWqlFUI99LKyvSh9e8OMPEcPShWaR5WRhtNG4fxFgDSvdQB3Cd41p?=
- =?us-ascii?Q?50ISXeiFnR230aeXmbD6SriYR6LwJeZadPzGs/SVBtwHXPzUjd8HbrMwTiCb?=
- =?us-ascii?Q?tZ2zZlFLBsvEROCdOYsM6KLiCZETad+SLB2QOcm2VQ8hNabwSZlWbU9i57N0?=
- =?us-ascii?Q?IuxaRcAfMmChub5qBmWKh/Bj5VCbDN4x+nO4pf5K2Zr/ahxdc32ocKKkkfAm?=
- =?us-ascii?Q?yPWVNzbEW7WtKqUXJGAo0tNTRQuJXtdQBiyhKxRWrVC7MxfkxspiIqVEkdSa?=
- =?us-ascii?Q?EsSRXJTY8gZS/dPWovlcvWRXie5x45P/LXvwepCSrFXUH3vXzY9J2lgU40oi?=
- =?us-ascii?Q?7/HdCS+dxY7vCaXWA2NuH/CTi37aZxIXFZ4TaXP06UZAJZ+JYAEbDEOt7c88?=
- =?us-ascii?Q?7xwfyczRGYuMXdHrinI1FCKX/5c0J+Y0ZAd89GDE3XbDLWomVa5fWWsqqMrs?=
- =?us-ascii?Q?J42UIZMNLbRCgajMUaxMxnWPVC4YvT8zfLITvCK8kuk/blMJpbT+o0KuC2yp?=
- =?us-ascii?Q?bElJGkYyhEdR9QMDe5pvuP33Pn+YicRAoDVZb1sYPBSaTGo+C1IzlaOyEWRQ?=
- =?us-ascii?Q?aNsBDPInYVnrAjnd3aKGDK8Dp6Kr+EFwPftrqXwFXsJgcogq/ZWYqZdfg+Fm?=
- =?us-ascii?Q?K5upsW3Ni8RyYZwI5M6fs4UY5SPBp5O9etjBz7rQcOujzUjrLhohKHhOTdFt?=
- =?us-ascii?Q?O+sVZO4xBkdTOgnwg2ppKBX5qcBqIB071JkeKPUpCo3G+9XpHhT92eOeawWX?=
- =?us-ascii?Q?40twM7sFB2nVVlwx73dO6ykJwXPPLxY7sG+XWfc3KBJ+Us3lZO6ejxwu+Old?=
- =?us-ascii?Q?/AxAmB3sUYuMCcNcfmddn2cqdK34Q9oXeYK9zZqur/alWvaeBI18RIV6ZbwQ?=
- =?us-ascii?Q?QujXTBmYjcg6dRylJ6hk/QOsmwAFd4Wu2t54F8uWsHBOLFpPbLJBzOCylhhf?=
- =?us-ascii?Q?m/S5T0qCauWfTPah67p8zWsHnIzATd8qT9QDZA4OW+yhqAO62Rs6Z2f/36f7?=
- =?us-ascii?Q?Rla2gjM+Rci9Szq57ZQslTXe7F0BhG5j6T9TZtAq3Nn46jJXpvVmNo8MiKNz?=
- =?us-ascii?Q?78+t/zSl2+2xdXX+rGtv0zkDYd8px0VJTbxPLmKb9LxU5LGq+ClXyr6ftVXZ?=
- =?us-ascii?Q?cN47nXSmhykx/qp+QbPtzzlTL8aP5Rrkuc90LHw2XCb7D3bAbA14bYHI2mCz?=
- =?us-ascii?Q?9O9vTHj/+vBdFubH7HqC2aU3SvD9l6q7IEk7AxYoER+NhNnsDqZohQjvzmaQ?=
- =?us-ascii?Q?rqITR7slT+OAaDiGPoXW9QOL9EhPKBhpIPHFIluvNI0l1FLwVLmUwx+EtsI5?=
- =?us-ascii?Q?790VjG3c6IYYq1sioG0qaeL+MxB//AtZK9l9TjGXt5Ke300H98QJ+LZjWPsm?=
- =?us-ascii?Q?N1lkK5kScBGtnoWONGSv+bKa5ayKUOoHvuoiFn5N05xSpNEomvw1oHfLtdpo?=
- =?us-ascii?Q?Te/oSF4NF8ZDJyYhcfU5xftd4ZjN5BsE5DWU4QOl2DJ9pMVGN4HQo7h1j81C?=
- =?us-ascii?Q?IVrdCmc36wQ/yze+/uLOgFU=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f15389b9-47bf-4161-680d-08dcf233f04c
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 00:53:26.9870
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EJVDK6hVNTAhrkmFLC+EZC6kW4xe3xcPOFoy7cTLy/S0OoMAr1lKfACV/dyJeoPf860y/JNWoy9SXOXaoN3nzKy1PMIaoqJUhhYvMkJ9ZrwMybReuZrdadE8F40789yF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5863
+References: <20241016034927.8181-1-yunfei.dong@mediatek.com> <20241016034927.8181-2-yunfei.dong@mediatek.com>
+In-Reply-To: <20241016034927.8181-2-yunfei.dong@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 22 Oct 2024 11:58:26 +0800
+Message-ID: <CAGXv+5GMisONhxu5nnRdLvkav4ttwtrupft26-J01P8ACDx=9A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] media: mediatek: vcodec: remove vsi operation in
+ common interface
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+	Fritz Koenig <frkoenig@chromium.org>, Daniel Vetter <daniel@ffwll.ch>, 
+	Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Oct 16, 2024 at 11:49=E2=80=AFAM Yunfei Dong <yunfei.dong@mediatek.=
+com> wrote:
+>
+> Remove vsi related operation in common interface to make sure the
+> interface can be called by different architecture at the same time.
 
-Hi Sakari, Rob
+Nit: it would be nice to provide more context here. You could mention
+that a new extended interface with a different shared memory layout (vsi)
+will be introduced in later patches.
 
-> > +/**
-> > + * of_graph_get_next_port() - get next port node.
-> > + * @parent: pointer to the parent device node, or parent ports node
-> > + * @prev: previous port node, or NULL to get first
-> > + *
-> > + * Parent device node can be used as @parent whether device node has ports node or not.
-> 
-> This line should be wrapped, no reason to have it longer than 80 chars.
-> 
-> Maybe this could be done while applying?
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../decoder/vdec/vdec_h264_req_multi_if.c     | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h26=
+4_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec=
+_h264_req_multi_if.c
+> index 732d78f63e5a..57c85af5ffb4 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_m=
+ulti_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_m=
+ulti_if.c
+> @@ -171,9 +171,9 @@ struct vdec_h264_slice_inst {
+>  };
+>
+>  static int vdec_h264_slice_fill_decode_parameters(struct vdec_h264_slice=
+_inst *inst,
+> -                                                 struct vdec_h264_slice_=
+share_info *share_info)
+> +                                                 struct vdec_h264_slice_=
+share_info *share_info,
+> +                                                 struct vdec_h264_slice_=
+lat_dec_param *slice_data)
 
-Thank you for pointing it, Sakari.
+Nit: you could just name this new parameter |slice_param| and avoid the
+changes in the next bit.
 
-Rob, I think it is under your queue already (?)
-I can post v8 patch-set, but what is the best way for you ?
+>  {
+> -       struct vdec_h264_slice_lat_dec_param *slice_param =3D &inst->vsi-=
+>h264_slice_params;
+>         const struct v4l2_ctrl_h264_decode_params *dec_params;
+>         const struct v4l2_ctrl_h264_scaling_matrix *src_matrix;
+>         const struct v4l2_ctrl_h264_sps *sps;
+> @@ -203,9 +203,9 @@ static int vdec_h264_slice_fill_decode_parameters(str=
+uct vdec_h264_slice_inst *i
+>                 return -EINVAL;
+>         }
+>
+> -       mtk_vdec_h264_copy_sps_params(&slice_param->sps, sps);
+> -       mtk_vdec_h264_copy_pps_params(&slice_param->pps, pps);
+> -       mtk_vdec_h264_copy_scaling_matrix(&slice_param->scaling_matrix, s=
+rc_matrix);
+> +       mtk_vdec_h264_copy_sps_params(&slice_data->sps, sps);
+> +       mtk_vdec_h264_copy_pps_params(&slice_data->pps, pps);
+> +       mtk_vdec_h264_copy_scaling_matrix(&slice_data->scaling_matrix, sr=
+c_matrix);
+>
+>         memcpy(&share_info->sps, sps, sizeof(*sps));
+>         memcpy(&share_info->dec_params, dec_params, sizeof(*dec_params));
+> @@ -266,9 +266,6 @@ static int get_vdec_sig_decode_parameters(struct vdec=
+_h264_slice_inst *inst)
+>         mtk_vdec_h264_get_ref_list(b0_reflist, v4l2_b0_reflist, reflist_b=
+uilder.num_valid);
+>         mtk_vdec_h264_get_ref_list(b1_reflist, v4l2_b1_reflist, reflist_b=
+uilder.num_valid);
+>
+> -       memcpy(&inst->vsi_ctx.h264_slice_params, slice_param,
+> -              sizeof(inst->vsi_ctx.h264_slice_params));
+> -
+>         return 0;
+>  }
+>
+> @@ -608,7 +605,8 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, s=
+truct mtk_vcodec_mem *bs,
+>         lat_buf->vb2_v4l2_src =3D &src_buf_info->m2m_buf.vb;
+>         v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->t=
+s_info, true);
+>
+> -       err =3D vdec_h264_slice_fill_decode_parameters(inst, share_info);
+> +       err =3D vdec_h264_slice_fill_decode_parameters(inst, share_info,
+> +                                                    &inst->vsi->h264_sli=
+ce_params);
+>         if (err)
+>                 goto err_free_fb_out;
+>
+> @@ -749,6 +747,9 @@ static int vdec_h264_slice_single_decode(void *h_vdec=
+, struct mtk_vcodec_mem *bs
+>         if (err)
+>                 goto err_free_fb_out;
+>
+> +       memcpy(&inst->vsi_ctx.h264_slice_params, &inst->h264_slice_param,
+> +              sizeof(inst->vsi_ctx.h264_slice_params));
+> +
+>         buf =3D (unsigned char *)bs->va;
+>         nal_start_idx =3D mtk_vdec_h264_find_start_code(buf, bs->size);
+>         if (nal_start_idx < 0) {
 
-Thank you for your help !!
+Code wise this patch seems fine.
 
-Best regards
----
-Kuninori Morimoto
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
