@@ -1,179 +1,147 @@
-Return-Path: <linux-media+bounces-20056-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20057-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FD39AB554
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 19:41:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459F49AB5A3
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 19:59:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB6FF286382
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 17:41:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 050A82827BC
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 17:59:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C5BD1BE853;
-	Tue, 22 Oct 2024 17:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26F051C9EA6;
+	Tue, 22 Oct 2024 17:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EdyfSH1t"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="NzUTKapk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C2C1BE858
-	for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 17:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAD41C8FA2
+	for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 17:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729618906; cv=none; b=dKammVrIRCDG8w7FDnnsGvwvy3tDO/qw+cknqaoWPGZvSsuKtR4vR/TKYWsW/uJmIj+oSIhOheKna+9DUHV0586hqRYG7ljchGWkVbgYQX1sbQPz3aXxBQb/1LRYOwZA/d4AQMQ5fofYSAtDBLs9iOxvOeX76247o0EL37JBVhY=
+	t=1729619931; cv=none; b=TYNOrweFDoHuSiKZ12xMV1QypxGTM0Kh3VTXd/cayyKKBuMsfKy+0NCKogn1DrqJIsxwJ0Oa9UPLPflCX895lzLhkZ3FGSK3iT7W9zLoDdmqs8J2gZjg9tbk8meSqO5zhLfYk1Og+o9qNnykHBxJ2V6uyQD1JB8L6V1ws/4rw3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729618906; c=relaxed/simple;
-	bh=4h5FbxO06YSXLKw5w2HZX+RAjAYaY+r6ovK222uafC8=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=CwS2LgM33B8RaFUwXtYNYbMGWZWnDJBAPLEOcVmpS1P/l8gJZSYafo2jccA7uKPfjTpD3d+YZjX+1uwuK55VPUrNbgDSnephHy666ODz0jvLpdHabXdGB+JxMEMNhqY/Q07UZESo5spisOSI451q8EMLjLyCGrBqDmlZZkwaCB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EdyfSH1t; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5366fd6fdf1so7913433e87.0
-        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 10:41:44 -0700 (PDT)
+	s=arc-20240116; t=1729619931; c=relaxed/simple;
+	bh=bzWd8rKalKLnCDEJXyAj/PFeqHxExSaBmYI1WaZdk80=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=oaJPKxs+JPM3kC8Eyln5SYpdh5sAIvBfI4yix9LCGRPCJkbM2BKugtP2wboQSs3pSfyHTul4DP4XqRytdWqEMlm45uc6zEi021CSWzw9QFk/7yvn1r0zFBdTnEam5eW9FNcZ9iFPIzTUeNzuZ6BC4p5md4WJxPfQuj6hup0MWgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=NzUTKapk; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7b15467f383so378892385a.3
+        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 10:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729618903; x=1730223703; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=BWxaapEgSZUcz8iA0jFHRpvUJ8VMcN9JlKBoDeApRrM=;
-        b=EdyfSH1t5d8PBwSpKuAvr3kSUplKRv9PJBSdVCuVeLoQIGV7H6djDmA7rix1IF7B5U
-         xS4obGn6bvffRW3U6pAiv4+AfH9jkKjIA0DC559CmZFN/0/Otz0rFD7cDBQvfondqXYi
-         NN/RvivWyBj1InjKieq4XRpeu0Jzy757qhMImMLXgM0qlVNT3e6zgeAS7VNbWmWDVa9X
-         nXvYTAWKBI8J/dbuFZ4BUtvHnTnSvCPIavoi4FkHOvsNLRmxv38/tAg/Nfy4Eg8O8Eua
-         QDNboEfSPxUJCekdCvIU4vrVygVzCBFfETS+FkXLEwPKdZAgPBMfNAJZ0iVr06OeuXc3
-         gzkg==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1729619929; x=1730224729; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bzWd8rKalKLnCDEJXyAj/PFeqHxExSaBmYI1WaZdk80=;
+        b=NzUTKapkmGYBrvJAuyTdg00GeIUINpWtujuL8VgJnW87iKpzrT22j3YO8vYIEdUuAv
+         iDhMLEvMMyIt5gD1PcSVE4eX6x7tLm+JAhwIfUC5jN8ir0Vcsfil6FI69a4UtZxlIrCb
+         wBl0L9xO7vIDLeX6ROx4AFf62eEVesqZO+TwiRATmCwS8JwD1YAxy2ZCs2O2GtrXyUcv
+         2mSzfkcDz0kl9CZciKkiWCG/V/eMoIAbqjaGhfiX+ZdVKOrONQhRRQO2JibHfjaz3T8r
+         cmze/ECPhOr3mKoPiOaMsXwSrd28+ulMGIsf7lnWepWVat8lTgEyZvdzmbtVs4mHFWoC
+         R0Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729618903; x=1730223703;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BWxaapEgSZUcz8iA0jFHRpvUJ8VMcN9JlKBoDeApRrM=;
-        b=ArpPHhVf976L8uXVYfQhsNRajwg6IlVSVousk0Asn/65X+ajOL6jkpyhGbhHYRL13s
-         9y/lkizIfmvgRC8v0jI8CODTcyZ9j1l+fkejPBrCEXaGJNTHFBOVnlNpDCaiD6b7COEA
-         UfjeqjK8ix7u3aQYfVsxCtpwPSeK4qBehQIZFiHl99W8G55VAG6ILV55SOiE0lw5H7uR
-         0i7wdZWxaPfL9FjDp9fF4ElOoDl+Ryyc9hElN+M/YPFNMvGWhN82xrgOUUtkqThbupXa
-         q+GVu19TPKN+haXBHa00cdl8mrlvSjtBc6ilH2aABLB/gkgZuQkIXm90IgThxuoH/ppP
-         vTWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXYPLCso2mMjkRzNHYGH2yjHPNkxCZU3kjVkPu98yJEDn1MMr7fsH7sVAseJpnHqhP0JzSSGlY6VnnQbA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCkGVSdOOocVkkbDnchbrmCTQEifRoYg8rg+oHyTXeLP6RbBIH
-	g/N4aAjrjDyk+MkIJftuCTxLol5CcB7YeMA1NXO57B983IHdz1mU
-X-Google-Smtp-Source: AGHT+IF4t311d+gpj1bLGlJT1EEQpJH/pogHgFXEcoAbrZuokNWD5geK6sJvW8XfVtuDEzyhwaKaTw==
-X-Received: by 2002:a05:6512:3da6:b0:539:fcf9:6332 with SMTP id 2adb3069b0e04-53a15494ea6mr8283986e87.33.1729618902499;
-        Tue, 22 Oct 2024 10:41:42 -0700 (PDT)
-Received: from razdolb (static.40.223.216.95.clients.your-server.de. [95.216.223.40])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a2243ed9bsm825424e87.255.2024.10.22.10.41.40
+        d=1e100.net; s=20230601; t=1729619929; x=1730224729;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bzWd8rKalKLnCDEJXyAj/PFeqHxExSaBmYI1WaZdk80=;
+        b=PI6qsFKNIqYcrKXzFQyau7V8Gg8zJ9PxisnG5tRzhrEraarXJ5WkZg962rPX20PmB6
+         stvBxgSd9rDwmtXU/jQzimiW4GWDkw3UgSWDZtbYerSAnxIiZicC/F8IUyjHiLcFvaTQ
+         w2eGVtPdS1zRu7ohA0uNESsIv0kR5oYS7FMfr23g9xwIGiu49MrANnNNKrPXUdttmwAj
+         FMX0D8jRSuBqfYsvexFrHAbP0b62DwuSniudPS1jMJm1ze444+jJ9VRyzC/UFM5L1LXB
+         d9E79Jn2EJ0wLbORJrfChD9a6gIvxuw+FOHFAf5ZtsWZ/cJN90lK06zYSv4l/PIHkqU0
+         Nijg==
+X-Forwarded-Encrypted: i=1; AJvYcCXmJoWfZ+WD7aUUBXZfecpue2r1zBvwXvlXDDIS09Ic1VsUdCWXurM4VOG8/KXmH5+cfSkcDvHxlzwcag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwovW48Sn0pgGHwCxZ9zz3wZ4sMPf+Wt9hPfFqAYtA0xo8ulkbA
+	XHcrNkRwsMQtRm/eM1g7zfVBmEk6rqva2ECvWoOSNMQCtRK5HzSOn6/rBtZ3O8E=
+X-Google-Smtp-Source: AGHT+IFdA/p619PkELXaREfuUW3E6V0uE6dktYYNp3frR0HpWhrRRTYooq1Sbx8ODU8q4H36RgRX0g==
+X-Received: by 2002:a05:6214:3991:b0:6ce:305e:324f with SMTP id 6a1803df08f44-6ce305e3471mr15960826d6.23.1729619928754;
+        Tue, 22 Oct 2024 10:58:48 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:15:862e::7a9])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ce009996e0sm30984706d6.82.2024.10.22.10.58.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 10:41:41 -0700 (PDT)
-References: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
- <87ed497bcs.fsf@gmail.com>
- <mye7inyopwlumstqhycuyk2iuldlsp5axlndyjyxy3j4zqonym@rtfz7ap2e66s>
-User-agent: mu4e 1.10.8; emacs 29.4.50
-From: Mikhail Rudenko <mike.rudenko@gmail.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- linux-media@vger.kernel.org, hverkuil@xs4all.nl,
- laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>,
- Kate Hsuan <hpa@redhat.com>, Alexander Shiyan
- <eagle.alexander923@gmail.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Tommaso Merciai
- <tomm.merciai@gmail.com>, Umang Jain <umang.jain@ideasonboard.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot
- <sylvain.petinot@foss.st.com>, Christophe JAILLET
- <christophe.jaillet@wanadoo.fr>, Julien Massot
- <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>
-Subject: Re: [RFC 0/4] Sub-device configuration models
-Date: Tue, 22 Oct 2024 20:40:46 +0300
-In-reply-to: <mye7inyopwlumstqhycuyk2iuldlsp5axlndyjyxy3j4zqonym@rtfz7ap2e66s>
-Message-ID: <87seso592k.fsf@gmail.com>
+        Tue, 22 Oct 2024 10:58:48 -0700 (PDT)
+Message-ID: <f8831b4e658b19a1df4cc02449bb74d730908de6.camel@ndufresne.ca>
+Subject: Re: Requirements to merge new heaps in the kernel
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: John Stultz <jstultz@google.com>, Maxime Ripard <mripard@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,  linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+Date: Tue, 22 Oct 2024 13:58:47 -0400
+In-Reply-To: <CANDhNCoLgzy=CPBWjBKLiJzRdnf=SS3AgtFJNB-CBYAo=UEQJA@mail.gmail.com>
+References: <20241022-macaw-of-spectacular-joy-8dcefa@houat>
+	 <CANDhNCoLgzy=CPBWjBKLiJzRdnf=SS3AgtFJNB-CBYAo=UEQJA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
 
+Hi,
 
-On 2024-10-22 at 18:05 +02, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
+Le mardi 22 octobre 2024 =C3=A0 09:19 -0700, John Stultz a =C3=A9crit=C2=A0=
+:
+> On Tue, Oct 22, 2024 at 1:38=E2=80=AFAM Maxime Ripard <mripard@redhat.com=
+> wrote:
+> >=20
+> > I wanted to follow-up on the discussion we had at Plumbers with John an=
+d
+> > T.J. about (among other things) adding new heaps to the kernel.
+> >=20
+> > I'm still interested in merging a carve-out driver[1], since it seems t=
+o be
+> > in every vendor BSP and got asked again last week.
+> >=20
+> > I remember from our discussion that for new heap types to be merged, we
+> > needed a kernel use-case. Looking back, I'm not entirely sure how one
+> > can provide that given that heaps are essentially facilities for
+> > user-space.
+> >=20
+> > Am I misremembering or missing something? What are the requirements for
+> > you to consider adding a new heap driver?
+>=20
+> It's basically the same as the DRM subsystem rules.
+> https://docs.kernel.org/gpu/drm-uapi.html#open-source-userspace-requireme=
+nts
+> ie: There has to be opensource user for it, and the user has to be
+> more significant than a "toy" implementation (which can be a bit
+> subjective and contentious when trying to get out of a chicken and egg
+> loop).
 
-> Hi Mikhail
->
-> On Mon, Oct 21, 2024 at 05:29:33PM +0300, Mikhail Rudenko wrote:
->>
->> Hi, Sakari!
->>
->> On 2024-10-11 at 10:55 +03, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
->>
->> > Hello everyone,
->> >
->> > I've been recently working (with others) on sub-device streams support as
->> > well as on internal pads. The two can be used to make sub-device
->> > configuration more versatile.
->> >
->> > At the same time, the added interfaces are much more useful if we require
->> > specific semantics of those interfaces, so that the user space knows
->> > exactly what e.g. a given selection target signifies. However, as the same
->> > selection rectangle could be used for a different purpose on a non-raw
->> > sensor device, we need a way to tell how should the user space determine
->> > how to use a given interface.
->> >
->> > I'm proposing to solve this problem by introducing sub-device
->> > configuration models, and by the common raw sensor model, also present in
->> > this patchset, in particular.
->> >
->> > This has been (and will, for some time, continue to be) the reason why I
->> > have reviewed few sensor driver related patches lately. As we're
->> > introducing a new interface, it's beneficial to be able to use that
->> > interface right from the start, rather than trying to later on offer
->> > compatibility support, which is almost always a fair amount of work with
->> > less than desirable results in the driver.
->> >
->> > With this solved, I believe we can enable the use of the streams UAPI.
->> >
->> > Comments are welcome.
->> >
->> > The compiled documentation can be found in
->> > <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/meta-format/output/userspace-api/media/v4l/dev-subdev.html#sub-device-configuration-models>
->> > and the patches here
->> > <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata>, i.e.
->> > they're on top of the metadata set.
->>
->> I've read the updated documentation you shared, and have a question
->> concerning binning configuration. IIUC binning should be configured via
->> set_selection(V4L2_SEL_TGT_COMPOSE). But I also see some existing
->
-> set_selection(V4L2_SEL_TGT_COMPOSE) on the internal image pad, stream
-> #0
->
->> drivers configure binning via set_fmt() (imx296) or both set_fmt() and
->> set_selection(V4L2_SEL_TGT_COMPOSE) (imx274). What will be the right way
->
-> Existing drivers have adopted creative solutions to allow control of
-> the binning factor but all of them are somewhat non-compliant with the
-> specs (we went in great lenght in looking at these in the media summit
-> 2 years ago). We didn't have internal pads at the time.
->
->> to add binning support to a driver I care about (ov4689), which
->> presently does not implement any binning configuration at all?
->
-> Now that you can use internal pads, I would follow what is described
-> in patch 3/4 of this series.
+If there is a generic logic to decide to use a carve-out when using some
+specific device on specific platform, it would not be a problem to make
+userspace for it. I'm happy to take DMABuf patches in GStreamer notably (wh=
+ich
+could greatly help ensuring zero-copy path).
 
-Will do so, thanks!
+But so far, all the proposals was just a base allocator, no way to know whe=
+n to
+use it and for which device. The actual mapping of heaps and device was lef=
+t to
+userspace, which to be honest would only work with a userspace Linux Alloca=
+tor
+library, with userspace drivers, or inside mesa if the devices are GPUs/NPU=
+s.
+This is a project Laurent Pinchard have hosted a workshop about during XDC.
 
-> Thanks
->   j
->
->>
->> --
->> Best regards,
->> Mikhail
->>
+Nicolas
 
-
---
-Best regards,
-Mikhail
+p.s. libcamera have device specific knowledge, and could of course be a sho=
+rter
+term user. Note that major distro are not happy that there is no memory
+accounting for dmabuf, bypassing sandboxes and limits.
 
