@@ -1,124 +1,135 @@
-Return-Path: <linux-media+bounces-20031-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20032-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC689A9CE9
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 10:37:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EDD9A9D00
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 10:38:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4CBF1C213EF
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 08:37:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 34EB8B21287
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 08:38:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8067117BED2;
-	Tue, 22 Oct 2024 08:37:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4196718593C;
+	Tue, 22 Oct 2024 08:38:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mMqQid0v"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DEPCOMPl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0942140E38
-	for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 08:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE5E157487
+	for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 08:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729586238; cv=none; b=iF4O9U2fOpBpPof1TunL3HQuFMeweQgWgV/nM9TEFbmsQldh5CxPzFtxlbUxvY10wG6HbSMQCG3eyqaA8lMObn4rFibd24UEjYmFMWxXlHYczjwyceii2xJEWWRJTeI4GF5YgOiprOWlHHph6vo898KqHA6wz8dlOm/+40+PAZc=
+	t=1729586327; cv=none; b=uMsTSngZTBYbqfE0F4IbXOcU2H9YBnUiYBsbNA+eSnhO5xD/0LMMIRNnrtifaU3USLhecca9T7fp8dtb5qNgrwM+YGgFsc0lcZwL+XwFM0SPIz1bRaZlcbuI4vrm88o+5oN6Hs0fwPy9tD2SikocLmeQsBhpAIKHsnm/oCpJ7PU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729586238; c=relaxed/simple;
-	bh=2+tHBXLB52nrb5ur8WQTqZDtTXdTlh2/ORRFsQyeWeg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NhuOwyXQU8c+cbpLRhRus9ojs7TCvuox0O5X5Yy5BTtkFRH9/JPNhOKy9aFgkxMqjLpOXiYP7X7eIWuEbDDAhuYo42WWxP/j1sIHeOQE8TPanfHh0FByPd8BK8WUFOTb7so29B6fJxgxMK2g4BmawdC7FQI3IhJKQnZB5Gbx/3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mMqQid0v; arc=none smtp.client-ip=209.85.217.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4a4864b8f98so1406711137.2
-        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 01:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729586235; x=1730191035; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PYBU5LVKi1NBKSVbybBbkXcGxUCfltoJjMWsJSkrdSo=;
-        b=mMqQid0v8LL1ITEE8DRPl8JeIEAbBrQ67jJvl9ZPyjFIejVsI+xcZ5/GvCafAsmBUz
-         6RyHPTbdJNf1aXj3g4tDw8SGZNkUUgbZC7DvUAfxzPYX2V6YauQkzpr5oqrf2mwcsllS
-         0B4O78tGjgBFvzaOA8JWEq41dxhkAchJdhsXo=
+	s=arc-20240116; t=1729586327; c=relaxed/simple;
+	bh=OCXXwPDjBusbhR6au45ZUYnylB504NYSSRvZEaxUgj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Oskyw1nU3YHl8mCXAc1y2Z7OPzczNr9Qd6UZ5lADw29SZk5prj60PJ8rL9PVilTdQoHF/Y48r0aILhUtmLSBYT4bU2mLWcbXY8HJWHlLU0oYUc6Znhn325lpNc/76DKZG0y7527xf2f14yJpcGAF58KzkxU5M034I4w8TcoZXWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DEPCOMPl; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729586324;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=OCXXwPDjBusbhR6au45ZUYnylB504NYSSRvZEaxUgj4=;
+	b=DEPCOMPlmCv4vNp/Zk1wHemcjD2K3S2uEcIL2DHqlefIOc8EbdVuiNHU/wslgp3PAwrtcW
+	mbvan7Qz5mkv4hc6D9lfCWdGW63oscvoCi/WTQKUWc3nrBmVvq+zZy6g+i/pvmiSI3psjh
+	iPMZrUVoLSz5hD9eYw11/pEyJf6oWcE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-378-wBTOTkzyPGadM2bv9JdRQA-1; Tue, 22 Oct 2024 04:38:42 -0400
+X-MC-Unique: wBTOTkzyPGadM2bv9JdRQA-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4315eaa3189so42871515e9.1
+        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 01:38:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729586235; x=1730191035;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PYBU5LVKi1NBKSVbybBbkXcGxUCfltoJjMWsJSkrdSo=;
-        b=hNPFUCmhN5U2FrclZnlu4vdKIKpbcVHSSH8Qi6/3IID6r4J+4BVHgdhHdIdVNKqq95
-         bVa+vKvotVkkPg+So15hvjqlQqRDDrXGcD1BO8U2h5SB1kwkJz4wtjBcnIjDCLILp+D2
-         2ksYlWfhUx8eghplPCt4OY/O9oQEMePs7ZOb+Sz6yvQKIs0UFdBkO0GvsBDMTC1Ljpwv
-         7xNjK3Q/5NLEG8xMJMnVokHfQSDYCy6A+WqDXSRRzOeMoNjx/TZtq7DnU0yPVJGlojkJ
-         McI3cESt59sSbUeKcyIfrOYZgeSHFi9cziuOaJmsLWHBld7S+kti5RawBYmQz/ZXLew3
-         IT1Q==
-X-Gm-Message-State: AOJu0YyY2Pad0wgSmcHLNVL52VTiauoLbYRaNcvOpU/EVauhytymvrrf
-	e+rgapI302gs74cSqUa5EXRxsBjtG8QR5+IHm1Fvnzl8k26KecMBh4Hx5ZeRug==
-X-Google-Smtp-Source: AGHT+IHmy8BIavT1N3KqQl/mbI9rUUbK3P3RCOywFOoBOEnGDDkVRqT1bLldV/imxr6JYpZUT/3qSQ==
-X-Received: by 2002:a05:6102:5092:b0:4a3:aa99:5ef1 with SMTP id ada2fe7eead31-4a5d6bd71d2mr10940099137.25.1729586235669;
-        Tue, 22 Oct 2024 01:37:15 -0700 (PDT)
-Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-460d3c95aafsm27324541cf.40.2024.10.22.01.37.14
+        d=1e100.net; s=20230601; t=1729586321; x=1730191121;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OCXXwPDjBusbhR6au45ZUYnylB504NYSSRvZEaxUgj4=;
+        b=YBoj8iipbLby4XSvpozc52zJoTaK/fY7WVGI62xQ4vLXIMOJxQc27sqFjP9IRbbRt/
+         i1Xuhw1lYnLwdmM1wQkrdhdASdlnPincZ7D33sc5fxGo8W9vCP9gorQLzz2v05equnVu
+         p8IE7BkwIZ9ysUmLckERqGFT+xe+oMwKY1YtBKs+hA5HR5vDN50fxUmBPK5SVP39ziaC
+         9Ny/+gsf9Ffsdjzi0nKOqduNGA824kEXxIbpiwb/XmpKCEjikr38BMu+Q4WTx0aLvo+q
+         83GGny6l6Zw/CMRkuu2XfKbjGX2m14gXyXusjbd6P/wne0tdCRf0n6a4XRRyB3bWC9Qe
+         i5zQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVCgbRd5TMBch3lL/aQBmLGnCWK7SDBUEYEmCSgR4IelGZzDzsHnaZpui4dZdPpgucbdQR7RM+js8Pm9g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzTJ1AFA1uxgpFBqOHQ/7ykJ/oprrtmEoy0vEw2G2KXzWVWaLG
+	GybFW1u7dUEI63bwa15U/1RIZ7zobs0Uhn/+ta32NSqE5ri7neP56H1UA5AGwXQBiDtxGal+q2b
+	oSX5SSh4tkmAW+2QZ2o3ygMAwE4RlFkdTef4bNzz/Tp/AtR56H0HPRFAAH19b
+X-Received: by 2002:a05:600c:4e12:b0:431:4a5a:f08f with SMTP id 5b1f17b1804b1-4316161ee27mr124495615e9.4.1729586321178;
+        Tue, 22 Oct 2024 01:38:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGbBWOU2Nx4vFSYQiZrLPFEBJcR3dEePc/jhzMJIAF2UjsfwsYkjsK7i1T0LhglK0o3pCuU0w==
+X-Received: by 2002:a05:600c:4e12:b0:431:4a5a:f08f with SMTP id 5b1f17b1804b1-4316161ee27mr124495345e9.4.1729586320618;
+        Tue, 22 Oct 2024 01:38:40 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f58f0efsm82150545e9.26.2024.10.22.01.38.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 01:37:14 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 22 Oct 2024 08:37:13 +0000
-Subject: [PATCH] media: uvcvideo: Reorder uvc_status_init()
+        Tue, 22 Oct 2024 01:38:40 -0700 (PDT)
+Date: Tue, 22 Oct 2024 10:38:39 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org
+Subject: Requirements to merge new heaps in the kernel
+Message-ID: <20241022-macaw-of-spectacular-joy-8dcefa@houat>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241022-order_status-v1-1-3904fafca340@chromium.org>
-X-B4-Tracking: v=1; b=H4sIADhkF2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDAyMj3fyilNSi+OKSxJLSYt0kwxRLC9M0cxMj42QloJaCotS0zAqwcdG
- xtbUALdUpDF4AAAA=
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="hsjf2vnvcet2h2ku"
+Content-Disposition: inline
 
-Only initialize the input device if the interrupt endpoint has been
-properly initialized.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_status.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--hsjf2vnvcet2h2ku
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Requirements to merge new heaps in the kernel
+MIME-Version: 1.0
 
-diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-index 06c867510c8f..02c90acf6964 100644
---- a/drivers/media/usb/uvc/uvc_status.c
-+++ b/drivers/media/usb/uvc/uvc_status.c
-@@ -262,8 +262,6 @@ int uvc_status_init(struct uvc_device *dev)
- 	if (ep == NULL)
- 		return 0;
- 
--	uvc_input_init(dev);
--
- 	dev->status = kzalloc(sizeof(*dev->status), GFP_KERNEL);
- 	if (!dev->status)
- 		return -ENOMEM;
-@@ -289,6 +287,8 @@ int uvc_status_init(struct uvc_device *dev)
- 		dev->status, sizeof(*dev->status), uvc_status_complete,
- 		dev, interval);
- 
-+	uvc_input_init(dev);
-+
- 	return 0;
- }
- 
+Hi Sumit,
 
----
-base-commit: 698b6e3163bafd61e1b7d13572e2c42974ac85ec
-change-id: 20241022-order_status-b1d985f7423c
+I wanted to follow-up on the discussion we had at Plumbers with John and
+T.J. about (among other things) adding new heaps to the kernel.
 
-Best regards,
--- 
-Ricardo Ribalda <ribalda@chromium.org>
+I'm still interested in merging a carve-out driver[1], since it seems to be
+in every vendor BSP and got asked again last week.
+
+I remember from our discussion that for new heap types to be merged, we
+needed a kernel use-case. Looking back, I'm not entirely sure how one
+can provide that given that heaps are essentially facilities for
+user-space.
+
+Am I misremembering or missing something? What are the requirements for
+you to consider adding a new heap driver?
+
+Thanks!
+Maxime
+
+1: https://lore.kernel.org/dri-devel/20240515-dma-buf-ecc-heap-v1-1-54cbbd049511@kernel.org/
+
+--hsjf2vnvcet2h2ku
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxdkjwAKCRAnX84Zoj2+
+djCtAYC0rCU2tqFwwMRRkdC0+X4UkE+T1TaC7DwuQMpeIzJA4HKzDz2v6n9TItr0
+LTH6SysBgI3OFvgyXDR/NxKo6lihPc9mfEb0LLL+suXmLUnK3QO9N/TS9HFxj7JH
+hI9UPHPo0A==
+=ZRbj
+-----END PGP SIGNATURE-----
+
+--hsjf2vnvcet2h2ku--
 
 
