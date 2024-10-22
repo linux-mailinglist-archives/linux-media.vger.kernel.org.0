@@ -1,177 +1,381 @@
-Return-Path: <linux-media+bounces-20049-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20050-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016239AB1E7
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 17:23:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 035849AB353
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 18:06:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA043B210FB
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 15:23:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DD241C22A13
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 16:06:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E05331A302E;
-	Tue, 22 Oct 2024 15:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36B191BD513;
+	Tue, 22 Oct 2024 16:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="B1pkcf8i"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NqwOPpWy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCA48121F;
-	Tue, 22 Oct 2024 15:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729610621; cv=pass; b=Ffgs7Zt1WbLBGnVnXRWUEFkEv6iZbQVDbGz+Ly0DRgVUXlVADvBfrIjsup3rcVA5DS7pa8lq25oVyR2DxzmIEEK6jaLO3MKk2FxpXySAhD1CdBXCha0q3xM/eZeDKpN2+s8u/avK6APEoOXRO31sHH4gTXnWBV2vxJLFTOyeagI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729610621; c=relaxed/simple;
-	bh=YdjLWbKV6I+Jq5DwSZ100ofxFGPLo6oN9au1GsIzN2Q=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AD91A0BE5
+	for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 16:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729612959; cv=none; b=WLdMrIsUon2KO/Aezm3Bh7bUaaV+3oCM81GcbNJFBKHELg/LQ/YJERTt5rtMIuKmX1yuqxce1D3Xgr1uPxtQ/ZTSsFKy1ngC9Bb5DSB6VQYAQpHNyHV5Ojg8r3BZm8U1tGJxO02fRaC4uxUbwfckEwKtk7dKZLyH4n3bQPNRcus=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729612959; c=relaxed/simple;
+	bh=L32KRJwVVLgyhgfKzeHdVHeZfi3C/stpJ5ORHs5UyRA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H1jGCOdM7BlOU7416OAfoYe/vu5vG+XN6q2/w/FUAl2D75SYuLOju5MewrDMqpEXllJ588SNdAEGZ5evHOptmdsAki6wZZuktlIGu2GqinQZVUm6EZ03YDfwWgNpPN0Vx43Q7F1bS4IKp/K7VJ8culTItpLLe5FWJkEtYjqsc/c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=B1pkcf8i; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1729610603; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=StekWfTfZqx+zUD7EmEEa1Oa+AfvWNhXyRcLAWXvg0LbwdxI5jaaqUxlUMMNtQC+CGw65wRu45EL9HoZGYLe1k52pmUTfJehyyYmtLBppto6+Nihbzi7oP1TtUzqVYsc21QBsPQKlC9P9whF/Nbo92zsff7gJeehum/cDs9FyTA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1729610603; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=OiXhH5JbEf6ptxs9TkpnJmV08ydgDOpc5CR9nLX3LM0=; 
-	b=R2JPAKAKBdrfZck+5V7iRqBcFlh17/bpZLQ/X3QaUWn233PJSGtJf5Hyy7uzYwzhCfYnxB/sHJBGN+Jfx/omYnowOjoZjYizgcndnLw5PZE+uzkZ3gBV/SMAk7oaRx3W+c83633uHHblBHgEVLhzO8MmO1S4nUcFpCJzlE2z4i0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1729610603;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=OiXhH5JbEf6ptxs9TkpnJmV08ydgDOpc5CR9nLX3LM0=;
-	b=B1pkcf8iV5xfj56fNwcnly4dA7sX+/IFK+eirPdHsQa3cSMakz41BVOtDGQLJQrF
-	/vPlYrQXqaLa+GzL5jAMHi+imtwUBP+lg3pERSJjfKFyagDRrkxsxmCNo9yorgfi+3H
-	K/UGCy1+Epl6r+S0C2Z+Poxy+7bpig8UpXtKhOGY=
-Received: by mx.zohomail.com with SMTPS id 1729610600942358.02892702066595;
-	Tue, 22 Oct 2024 08:23:20 -0700 (PDT)
-Date: Tue, 22 Oct 2024 17:23:16 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	hverkuil-cisco@xs4all.nl, mauro.chehab@linux.intel.com,
-	kernel@collabora.com, bob.beckett@collabora.com,
-	nicolas.dufresne@collabora.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH RFC v2 0/3] Documentation: Debugging guide
-Message-ID: <20241022152316.yr6jpjtcwidxytpe@basti-XPS-13-9310>
-References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GI7HiiWvbbUnHEUWdOeigd8BP0rvB16d7QcAzXIZzuqMkEvcWdhL3TVW/tmqNsRf8ehy4ZbzNIACTjPHE1Xf+TDFw5TZFYBTnkZawC0Ak9ZGH8seAoEZM1OzFbjI75M7Wf1GuUtQZrXSlXrpbBKT4wQDBe2d0dmZ6Il26xKjjG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NqwOPpWy; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1AD6480;
+	Tue, 22 Oct 2024 18:00:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1729612848;
+	bh=L32KRJwVVLgyhgfKzeHdVHeZfi3C/stpJ5ORHs5UyRA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NqwOPpWysBlAxk83buSZMgBEAFbbh3qFXMRRQsD9D5NkdSa/rGmcIp/oWgvUUHxSz
+	 6AAg3TP88rx40KIOgXFq5SoToFmoAttxzJ0uMcXr+DLOxWssB8Y4LBIkfPRu1vX63X
+	 /y2TA+YmYF9PJjlXGjjPnxYeH6LmltHvsQK76wQM=
+Date: Tue, 22 Oct 2024 18:02:32 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Mikhail Rudenko <mike.rudenko@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tommaso Merciai <tomm.merciai@gmail.com>, Umang Jain <umang.jain@ideasonboard.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
+	Naushir Patuck <naush@raspberrypi.com>
+Subject: Re: [RFC 3/4] media: Documentation: Add subdev configuration models,
+ raw sensor model
+Message-ID: <o3vd3xnxjdfoitipoehoef4nycxmv6bvzjcq427gz3aqn2h5ku@yhspyjdngj73>
+References: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
+ <20241011075535.588140-4-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
-X-ZohoMailClient: External
+In-Reply-To: <20241011075535.588140-4-sakari.ailus@linux.intel.com>
 
-(CC: Grep KH)
+Hi Sakari
 
-Hello,
+On Fri, Oct 11, 2024 at 10:55:34AM +0300, Sakari Ailus wrote:
+> Sub-device configuration models define what V4L2 API elements are
+> available on a compliant sub-device and how do they behave.
+>
+> The patch also adds a model for common raw sensors.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  .../media/drivers/camera-sensor.rst           |   5 +
+>  .../media/v4l/common-raw-sensor.dia           | 441 ++++++++++++++++++
+>  .../media/v4l/common-raw-sensor.svg           | 134 ++++++
+>  .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
+>  .../media/v4l/subdev-config-model.rst         | 180 +++++++
+>  5 files changed, 762 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+>  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+>  create mode 100644 Documentation/userspace-api/media/v4l/subdev-config-model.rst
+>
+> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> index ad4049ff7eec..727cc12bc624 100644
+> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> @@ -18,6 +18,9 @@ binning functionality. The sensor drivers belong to two distinct classes, freely
+>  configurable and register list based drivers, depending on how the driver
+>  configures this functionality.
+>
+> +Also see
+> +:ref:`media_subdev_config_model_common_raw_sensor`.
+> +
+>  Freely configurable camera sensor drivers
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> @@ -105,6 +108,8 @@ values programmed by the register sequences. The default values of these
+>  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+>  independently of the sensor's mounting rotation.
+>
+> +.. _media_using_camera_sensor_drivers_embedded_data:
+> +
+>  Embedded data
+>  -------------
+>
 
-On 24.09.2024 10:45, Sebastian Fricke wrote:
->The RFC contains:
->- a general debugging guide split into debugging for driver developers and
->  debugging from userspace
->- a new summary page for all media related documentation. This is inspired by
->  other subsystems, which first of all allows a user to find the subsystem
->  under the subsystems page and secondly eases general navigation through the
->  documentation that is sprinkled onto multiple places.
->- a guide on how to debug code in the media subsystem, which points to the
->  parts of the general documentation and adds own routines.
+[snip images]
 
-I wanted to give this a little push, so far I have received a lot of
-good feedback but none from the core and documentation folks. What do
-you think about this?
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> index dcfcbd52490d..4d145bd3bd09 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -838,3 +838,5 @@ stream while it may be possible to enable and disable the embedded data stream.
+>
+>  The embedded data format does not need to be configured on the sensor's pads as
+>  the format is dictated by the pixel data format in this case.
+> +
+> +.. include:: subdev-config-model.rst
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> new file mode 100644
+> index 000000000000..8ec801998f5f
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> @@ -0,0 +1,180 @@
+> +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
+> +
+> +Sub-device configuration models
+> +===============================
+> +
+> +A sub-device configuration model specifies in detail what the user space can
+> +expect from a sub-device in terms of V4L2 sub-device interface support,
+> +including semantics specific to a given configuration model.
+> +
+> +A sub-device may implement more than one configuration model at the same
+> +time. The implemented configuration models can be obtained from the sub-device's
+> +``V4L2_CID_CONFIG_MODEL`` control.
 
-Regards,
-Sebastian
+Isn't a control an overkill ? Isn't enough to identify that a sensor produces
+RAW images and has an internal pad to the below description ?
 
->
->WHY do we need this?
->--------------------
->
->For anyone without years of experience in the Linux kernel, knowing which tool
->to use or even which tools are available is not as straightforward as some
->senior developers might perceive.
->We realized that there is a general need for a kind of "start page", that
->allows especially beginners to get up-to-speed with the codebase and the
->documentation. The documentation in particular is currently quite hard to navigate
->as you mostly have to know what you are searching for to find it.
->
->WHAT do we cover?
->-----------------
->
->The document is structured into two sections:
->
->1. A problem-focused approach: This means, a developer facing an issue matching
->one of the given examples, will find suggestions for how to approach that
->problem (e.g. which tool to use) in this section
->2. A tool-focused approach: This sections highlights the available tools, with
->comparisions between the tools if sensible. The goal of this work is
->**duplicate as little as possible** from the existing documentation and
->instead provide a rough overview that provides:
->    - A link to the actual documentation
->    - A minimal example for how it can be used (from a media perspective,
->      if the usage isn't absolutely trivial like printk)
->    - A rational for why it should be used
->
->To: Jonathan Corbet <corbet@lwn.net>
->Cc: linux-doc@vger.kernel.org
->Cc: linux-kernel@vger.kernel.org
->Cc: linux-media@vger.kernel.org
->Cc: laurent.pinchart@ideasonboard.com
->Cc: hverkuil-cisco@xs4all.nl
->Cc: mauro.chehab@linux.intel.com
->Cc: kernel@collabora.com
->Cc: bob.beckett@collabora.com
->Cc: nicolas.dufresne@collabora.com
->Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->
->---
->Changes in v2:
->- Split the media debugging guide into a general and a media specific guide,
->  which contains mostly references to the general guide and a few media
->  specific aspects.
->- Fill out TBD sections
->- Add device coredump section
->
->---
->Sebastian Fricke (3):
->      docs: media: Create separate documentation folder for media
->      docs: Add guides section for debugging
->      docs: media: Debugging guide for the media subsystem
->
-> .../driver_development_debugging_guide.rst         | 193 +++++++++++++++
-> Documentation/debugging/index.rst                  |  66 +++++
-> .../debugging/userspace_debugging_guide.rst        | 269 +++++++++++++++++++++
-> Documentation/index.rst                            |   2 +
-> Documentation/media/guides/debugging_issues.rst    | 174 +++++++++++++
-> Documentation/media/guides/index.rst               |  11 +
-> Documentation/media/index.rst                      |  20 ++
-> Documentation/subsystem-apis.rst                   |   1 +
-> 8 files changed, 736 insertions(+)
->---
->base-commit: 68a72104cbcf38ad16500216e213fa4eb21c4be2
->change-id: 20240529-b4-media_docs_improve-79ea2d480483
->
->Best regards,
->-- 
->Sebastian Fricke <sebastian.fricke@collabora.com>
->
-Sebastian Fricke
-Consultant Software Engineer
+Also, would it be the single sensor driver that has to correctly
+populate the control ?
 
-Collabora Ltd
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales no 5513718.
+> +
+> +.. _media_subdev_config_model_common_raw_sensor:
+> +
+> +Common raw camera sensor model
+> +------------------------------
+> +
+> +The common raw camera sensor model defines the configurability of a superset
+> +that covers the vast majority of raw camera sensors. Not all of the
+> +configuration and enumeration interfaces are offered by all drivers.
+> +
+> +A sub-device complies with the common raw sensor model if the
+> +``V4L2_CONFIG_MODEL_COMMON_RAW`` bit is set in the ``V4L2_CID_CONFIG_MODEL``
+> +control of the sub-device.
+> +
+> +The common raw camera sensor model is aligned with
+> +:ref:`media_using_camera_sensor_drivers`. Please refer to that regarding aspects
+> +not specified here.
+> +
+> +Each camera sensor implementing the common raw sensor model exposes a single
+> +V4L2 sub-device. The sub-device contains a single source pad (0) and two or more
+> +internal pads: an image data internal pad (1) and optionally an embedded data
+> +pad (2). Additionally, further internal pads may be supported for other
+> +features, in which case they are documented separately for the given device.
+
+That's pretty easy to identify from userspace without a control, isn't
+it ?
+
+> +
+> +This is show in :ref:`media_subdev_config_model_common_raw_sensor_subdev`.
+> +
+> +.. _media_subdev_config_model_common_raw_sensor_subdev:
+> +
+> +.. kernel-figure:: common-raw-sensor.svg
+> +    :alt:    common-raw-sensor.svg
+> +    :align:  center
+> +
+> +    **Common raw sensor sub-device**
+> +
+> +Routes
+> +^^^^^^
+> +
+> +A sub-device conforming to common raw camera sensor model implements the
+> +following routes.
+> +
+> +.. flat-table:: Routes
+> +    :header-rows: 1
+> +
+> +    * - Sink pad/stream
+> +      - Source pad/stream
+> +      - Static (X/M(aybe)/-)
+
+afaiu either the route is Static (cannot be changed) or it is not.
+What does Maybe means here ?
+
+> +      - Mandatory (X/-)
+> +      - Synopsis
+> +    * - 1/0
+> +      - 0/0
+> +      - X
+> +      - X
+> +      - Image data
+> +    * - 2/0
+> +      - 0/1
+> +      - M
+> +      - -
+> +      - Embedded data
+> +
+> +Some devices may support enabling and disabling the embedded data stream. Others
+> +may not support it at all, in which case the embedded data route does not exist.
+
+Does the driver need to expose a routing table at all if it has a
+single, immutable image data stream ?
+
+> +
+> +Sensor pixel array size, cropping and binning
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+
+This is not something I was expecting here. We teach how to compute
+framerates for RAW sensors in camera-sensor.rst ("Using camera sensor
+drivers") specifying which controls a sensor driver should register and
+the expected controls units. It seems to me we define part of the expected
+interface exposed by a raw camera sensor there and part here. I wonder
+if camera-sensor.rst makes any sense at all if we define the "models"
+here.
+
+> +The sensor's pixel array is divided into one or more areas. The areas around the
+> +edge of the pixel array, usually one one or more sides, may contain optical
+> +black pixels, dummy pixels and other non-image pixels.
+> +
+> +A rectangle within the pixel area contains the visible pixels. Capturing the
+> +non-visible pixels may be supported by the sensor.
+
+This is a bit of simplification, as I presume there might be
+rectangles of visible pixels which overlap in the most advanced use
+cases.
+https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/property_ids_core.yaml#n594
+
+> +
+> +The sensor can perform three operations that affect the output image size. First
+> +comes analogue crop. This configuration limits parts of the pixel array which
+> +the sensor will read, affecting sensor timing as well. The granularity of the
+> +analogue crop configuration varies greatly across sensors: some sensors support
+> +a few different analogue crop configurations whereas others may support anything
+> +divisible by a given number of pixels.
+> +
+> +The default analogue crop rectangle corresponds to the visible pixel area if
+> +supported by the hardware.
+
+In what sense "if supported by the hardware" ? Is this referring to
+the "visibile pixel area" ?
+
+> +
+> +In the next step, binning is performed on the image data read from camera
+> +sensor's pixel array. This will effectively result in an image smaller than the
+> +original by given proportions horizontally and vertically. Typical values are
+
+s/proportions/scaling factors/ ?
+
+> +1/2 and 1/3 but others may well be supported by the hardware as well.
+> +
+> +The combination of the analogue crop and binning operations may result in an
+> +image size that may be larger than desirable. For this purpose, a digital crop
+
+This is highly optional it seems.
+
+> +operation may be performed on the binned image. The resulting image size is
+> +further outputted by the sensor.
+> +
+> +.. flat-table:: Selection targets on pads
+> +    :header-rows: 1
+> +
+> +    * - Pad/Stream
+> +      - Selection target/format
+> +      - Mandatory (X/-)
+> +      - Synopsis
+
+What about an R/W column ?
+
+> +    * - 1/0
+> +      - Format
+> +      - X
+> +      - Image data format. The width and height fields of this format are the
+> +        same than those for the V4L2_SEL_TGT_CROP_BOUNDS rectangle. The media
+
+Can sizes be changed at all ?
+
+> +        bus code of this format reflects the native pixel depth of the sensor.
+> +    * - 1/0
+> +      - V4L2_SEL_TGT_NATIVE_SIZE
+> +      - X
+> +      - The full size of the pixel array, including all pixels in the pixel
+> +	array, even if they cannot be captured. This rectangle is relative to
+> +	the format on the same (pad, stream).
+> +    * - 1/0
+> +      - V4L2_SEL_TGT_CROP_BOUNDS
+> +      - X
+> +      - The crop rectangle bounds. No pixels outside this area can be
+
+I would describe it as "the readable part of the full pixel array
+area" instead of repeating "crop rectangle bounds"
+
+> +        captured. This rectangle is relative to the V4L2_SEL_TGT_NATIVE_SIZE
+
+> +    * - 1/0
+> +      - V4L2_SEL_TGT_CROP_DEFAULT
+> +      - X
+> +      - The visible pixel area. This rectangle is relative to the
+
+Isn't this the default analogue crop rectangle ?
+
+> +        V4L2_SEL_TGT_NATIVE_SIZE rectangle on the same (pad, stream).
+> +    * - 1/0
+> +      - V4L2_SEL_TGT_CROP
+> +      - \-
+> +      - Analogue crop. Analogue crop typically has a coarse granularity. This
+> +        rectangle is relative to the V4L2_SEL_TGT_NATIVE_SIZE rectangle on the
+> +        same (pad, stream).
+> +    * - 1/0
+> +      - V4L2_SEL_TGT_COMPOSE
+> +      - \-
+> +      - Binning. This rectangle is relative to the V4L2_SEL_TGT_CROP
+> +        rectangle on the same (pad, stream).
+
+The size ratio between the V4L2_SEL_TGT_CROP and V4L2_SEL_TGT_COMPOSE
+rectangles selects the desired binning factor.
+
+> +    * - 2/0
+> +      - Format
+> +      - X
+> +      - Embedded data format.
+> +    * - 0/0
+> +      - V4L2_SEL_TGT_CROP
+> +      - \-
+> +      - Digital crop. This rectangle is relative to the V4L2_SEL_TGT_COMPOSE
+> +        rectangle on (pad, stream) pair 1/0.
+> +    * - 0/0
+> +      - Format
+> +      - X
+> +      - Image data source format. The width and height fields of the format are
+> +        the same than for the V4L2_SEL_TGT crop rectangle on (pad, stream) pair
+> +        0/0 where as the media bus code reflects the pixel data output of the
+
+s/where as/and ?
+Or maybe I didn't get what you mean
+
+> +        sensor.
+> +    * - 0/1
+> +      - Format
+> +      - X
+> +      - Embedded data source format.
+> +
+> +Embedded data
+> +^^^^^^^^^^^^^
+> +
+> +The embedded data stream is produced by the sensor when the corresponding route
+> +is enabled. The embedded data route may also be immutable or not exist at all,
+> +in case the sensor (or the driver) does not support it.
+> +
+> +Generally the sensor embedded data width is determined by the width of the image
+> +data whereas the number of lines are constant for the embedded data. The user
+> +space may obtain the size of the embedded data once the image data size on the
+> +source pad has been configured.
+> +
+> +Also see :ref:`media_using_camera_sensor_drivers_embedded_data`.
+> +
+> --
+> 2.39.5
+>
+>
 
