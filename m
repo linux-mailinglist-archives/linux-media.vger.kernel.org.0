@@ -1,115 +1,138 @@
-Return-Path: <linux-media+bounces-20038-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20039-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794CD9A9D39
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 10:42:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CDD9A9E47
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 11:18:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 233B41F2437D
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 08:42:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 260C32841EA
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2024 09:18:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9A5A187864;
-	Tue, 22 Oct 2024 08:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A2C719939E;
+	Tue, 22 Oct 2024 09:17:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QKT8a2e9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OmhBFV+S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB22617B51B
-	for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 08:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081C919925F;
+	Tue, 22 Oct 2024 09:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729586530; cv=none; b=VEKAvMkZVI3ymaBpce1mbFcqnWwAi0JmBztaspx/mUtw8CuWHebbqcD5+le1uaA62GxSCJ2+dRzaTjUVrqFttVukxYWRvuW0w5MQ00ZXtx2LLQfhC5QhIVo6pqM6oNXronQeSJR+aweq2F/lNyFh+jksBwYbvzvxOzyMA+CGY78=
+	t=1729588674; cv=none; b=LnqTP5O/kTqZ2ejkoRGXN98yvg7To57xoNgk8Gvnze42cE6VrjdWf8FRKAkZgHSgKeWv0iKs1HaBSWtU0rFcQ7SVafkArewx7HkMPyTdkTGdSSDsAXRLvTxaBBY7vC69g+Y+INb92Z7pQlt0m/oO4o/M23gUH4oskYjQUaaTHDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729586530; c=relaxed/simple;
-	bh=c0NMTTR5JL1Di73BNEWR805V2eCvwQdiqw0CWy0WIXY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=reO5B6r8Vd5CDYq4++mD3JZ4crhc/ZgTJUSAO3PlEHIz1cWxcEU7k8FDEwEAgMT122OKFLzfClIImmNc172mAsGegBkfH/FP11Dh7HHHa1RIFWGAnE1Iy18O6RKaebFzOMBt0Dy/P5MiiwytjgllRzScg6/dXemw8SDp+/jS6Fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QKT8a2e9; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20cb47387ceso47689455ad.1
-        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 01:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729586528; x=1730191328; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8i0a7jvEXBZjJllrGzrgyCiwD9G/M2/DO+l81c5UZVc=;
-        b=QKT8a2e9KyoEkR4obPOgDRhgghUWltKWJawLuqSc/3t5j9i6m2IjQ9ya3u/ai4w1zu
-         2OBR6afaqL4KqcHKuoW6Ww4yYpRD70VCsH8yW6lJavqW6LVh1kxuHgaFadL4TZo1lrpG
-         mLW6Em4nICYkPLBy+3qqqz7p65qYp55LHrxuY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729586528; x=1730191328;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8i0a7jvEXBZjJllrGzrgyCiwD9G/M2/DO+l81c5UZVc=;
-        b=KtZ43OTh2q43J/UkWWAJaQPxIO194SYhU8AW+wzTWZFavCwFuN7iIi+MQSaZnFtg3k
-         fmvXuiqFf+MP3dRfJeEgqycf9qtKbfn5wImMVVqvGaBOj9b9EJ1f68e8Zw+ym3i7GdDY
-         UIvxKqd0q1AjgZ8hM85+oyK0vUwA76l10Lx8dh3nzOBopOy7fXo01LiiSoyXM/CKqq6N
-         f1MMWM0cx/rbtqA8rbYO7IEEq/wdWN7uXzi4DjchbwzPis2wfm+itJXxEOtw0y745ieG
-         LOl2mqdSJMhFyA5WunEuwlT8d9rzDT2pZC6/jvvee4Un/EloByjej0RPBi8F46ygMXCV
-         HAMw==
-X-Forwarded-Encrypted: i=1; AJvYcCWifXo0oK12Hm+IfO62wYlgp7RWsz8mUyCcpONWTa1fr0JttcfIDaKiEkVdGuCeMgx2eArYsZhgLyOA0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxK02AqLS3lh76Y3NVvs5MlTsJZUzDWKNDVhvraklCnIrGjnaF2
-	OIAxvonEkw/ljar3oVz0VfyZJ4L+1Hpz3AB0p4ntlFy2ysU0uM/D5uapE6TFvz7vAr8Cp4fxYtg
-	=
-X-Google-Smtp-Source: AGHT+IHn/PBQCx9domyBSbuGD7UQQe6Xtw5nhvr4WZmkl8ZtHIDjn2yqg9Xnu/PLS1eHu/misqIzNw==
-X-Received: by 2002:a17:902:d4ca:b0:20c:f0dd:c408 with SMTP id d9443c01a7336-20e5a77401dmr214655765ad.20.1729586528013;
-        Tue, 22 Oct 2024 01:42:08 -0700 (PDT)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com. [209.85.216.42])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0db915sm38107905ad.199.2024.10.22.01.42.06
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Oct 2024 01:42:06 -0700 (PDT)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2e3d523a24dso3936601a91.0
-        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2024 01:42:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWJ3g7JPvDQB7QdwoAZ4kFbg50Grdb4U9gW2855z+VtLCkLSENxX53NHQN/XMfUJncIYFbeJ1TSnpDD/w==@vger.kernel.org
-X-Received: by 2002:a17:90a:3dc2:b0:2e2:991c:d796 with SMTP id
- 98e67ed59e1d1-2e561602e2bmr15745613a91.9.1729586525467; Tue, 22 Oct 2024
- 01:42:05 -0700 (PDT)
+	s=arc-20240116; t=1729588674; c=relaxed/simple;
+	bh=GUxS0JTPC+06cepyvKTyHw8qhBhBUqlDHxlOCDBrUic=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J+S3KaWM1vBJDcRt4JgJs+/GF1oGklxeDlHzm11koZEmrbdu/fq7yzEbWCS4/FtAwBWw55nCe0fhY0M37fit1qmG5qTBN8Zz4LpcVlWUESKZMXNX5a339vCI4oRkx29Hl3kJ1UFtWMiPjoYJhxfp73tNFU6qpUTzP4zNJEyJdPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OmhBFV+S; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51D55D52;
+	Tue, 22 Oct 2024 11:16:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1729588563;
+	bh=GUxS0JTPC+06cepyvKTyHw8qhBhBUqlDHxlOCDBrUic=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OmhBFV+SfAtOCQs2jkQboGSPacB1AyfGQtIQll9yr1nj++RmG7S6XD4GvloCcorXX
+	 Lbj564hNbkv72uwyRVqvOvDgOO1BA3QUBd8+z8Zp7xthxzWZp9OQYqPn8k090/y1VA
+	 2sTEedORVfXIFTn48q7ntm0uj5ocKM8TlcOGf/dk=
+Message-ID: <485f9ce3-4e8f-4434-b090-24e67c79940a@ideasonboard.com>
+Date: Tue, 22 Oct 2024 12:17:46 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6714a6cc.050a0220.10f4f4.002b.GAE@google.com> <20241020160249.GD7770@pendragon.ideasonboard.com>
-In-Reply-To: <20241020160249.GD7770@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 22 Oct 2024 10:41:48 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsMAiEPhDLx+1aSHUsuYrFrC0vGn9q76nYOGwX=1pGjwA@mail.gmail.com>
-Message-ID: <CANiDSCsMAiEPhDLx+1aSHUsuYrFrC0vGn9q76nYOGwX=1pGjwA@mail.gmail.com>
-Subject: Re: [syzbot] [media?] WARNING in uvc_status_unregister
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: syzbot <syzbot+9446d5e0d25571e6a212@syzkaller.appspotmail.com>, 
-	hverkuil-cisco@xs4all.nl, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, mchehab@kernel.org, senozhatsky@chromium.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] media: raspberrypi: rp1-cfe: Fix spelling mistake
+ "Orphanded" -> "Orphaned"
+To: Colin Ian King <colin.i.king@gmail.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, linux-media@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241021082207.733506-1-colin.i.king@gmail.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20241021082207.733506-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent
+On 21/10/2024 11:22, Colin Ian King wrote:
+> There is a spelling mistake in a WARN message. Fix it.
+> 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>   drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> index 045910de6c57..da9e1a1e4d0d 100644
+> --- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> +++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> @@ -641,7 +641,7 @@ static void cfe_sof_isr(struct cfe_node *node)
+>   	 * Unfortunately, there is not enough hardware state to tell if this
+>   	 * may have occurred.
+>   	 */
+> -	if (WARN(node->cur_frm, "%s: [%s] Orphanded frame at seq %u\n",
+> +	if (WARN(node->cur_frm, "%s: [%s] Orphaned frame at seq %u\n",
+>   		 __func__, node_desc[node->id].name, node->fs_count))
+>   		cfe_process_buffer_complete(node, VB2_BUF_STATE_ERROR);
+>   
 
-On Sun, 20 Oct 2024 at 18:03, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-> >     media: uvcvideo: Avoid race condition during unregister
->
-> It looks like the issue comes from the fact that uvc_status_unregister()
-> gets called from the error path in uvc_probe() through
-> uvc_unregister_video(), likely for errors occuring before
-> uvc_status_init() is called. uvc_status_unregister() should return
-> immediately in that case. Ricardo, do you plan to look at that?
->
-Just sent  https://lore.kernel.org/linux-media/20241022-race-unreg-v1-1-2212f364d9de@chromium.org/T/#u
-to fix this issue
+  Tomi
 
-We probably want to queue:
-https://lore.kernel.org/linux-media/20241022-order_status-v1-1-3904fafca340@chromium.org/T/#u
-at the same time
-
-But I am not sure if I should also mark the second patch as Fixes
 
