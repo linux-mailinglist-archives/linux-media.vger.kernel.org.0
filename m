@@ -1,142 +1,94 @@
-Return-Path: <linux-media+bounces-20072-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20073-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293EA9ABF6F
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 08:57:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CEC09AC017
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 09:20:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A32E51F24A8F
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 06:57:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA34E1C225AC
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 07:20:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 814DC14C5BD;
-	Wed, 23 Oct 2024 06:57:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4453F153BED;
+	Wed, 23 Oct 2024 07:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lsy/4TzI"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sg/k6Sfu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933FB22318;
-	Wed, 23 Oct 2024 06:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E9213DB9F;
+	Wed, 23 Oct 2024 07:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729666635; cv=none; b=IVcueVnDzAAQi2HOm0P8v73DXh0iAeNYgwoVUPOUXFeMRFXLHfMLkRcNn/GUBZMu05R/fEOkTUMUIVW5rF9k9qGdCLVdJhoNFAB9SMdItPs6Nz5KxGg1GwkLLiPjjHLqW+lZLrIeB0VIDV/HLZEnFsypY2lJl/S5yAr1pC5+5eI=
+	t=1729668040; cv=none; b=SFBOTjF0rpzgZHK9bx8EY7IUGVOz7exmz9H8AbzNOUWR0B1LRdW2rAosBKVrb6MUjtlX5arWUjy/Maq+9m1kSLa9MDvAeG9bXno1WX91UJff58QNhUP6WywwKPbanYu20Lc/VzJE64tRYzORpPpvzkm+xhxEHLgKsjYLn7uW9GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729666635; c=relaxed/simple;
-	bh=VmCtvk6V8OmkJ5K/HWEg0c66PD8WlfznLpqAXnbKgG0=;
+	s=arc-20240116; t=1729668040; c=relaxed/simple;
+	bh=EYSCT3GpLwpgWQjmPjVqWCwYz6V61945ajYy0Xe+6iI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gx5E5oQxmC/UcKP8Zmjx0XFC3BS4OQU0bzLl723LDFU19U9vqQ7ZoeIwjbOlwXDMjAC5KKSL6lls0M7o4g9zycK4SLDmOzZACTMDgNBkkogb3IsaBekBL9uNxFoVMS2OzjN6FV7WffdBiLlBjDKli4z7KS9mjVROZUvT/wA1Tc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lsy/4TzI; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71e93d551a3so4595678b3a.1;
-        Tue, 22 Oct 2024 23:57:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729666634; x=1730271434; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OTIVgmSCTxAjeufxAhXv87pU0k2+WfMQxkIbDxZyExg=;
-        b=lsy/4TzIqO0IUO/PEKWBsOcfKKEwQn+sZpiCh8NsOKfCalkMLsHbRVXT2zZ2IL2kEG
-         9B7kwquTuado61+lJHdb4JqG30njsLVx8EdJbCkeno1JhVZ2m5hzIHfZ39jYDCLmclZj
-         vMpNTzKhbxHalEq/ALfyQrkFPkO8bHlNgqYH+nJosfTsnopo33kOnRmF5YnYfSVWkcWL
-         KiGorZtuY2UpnuCvJBFTOQfNcRnaOwjMp2ZFpqKXE+VxJ82ctrzw05tXwW3tV8qAeedB
-         rP64sVFoCCbSXCFw25UYrFSObu4ZkUbW3oMaTBXFDRQdsILQoUZTk9i48nYrhpuQo1Dy
-         ZAVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729666634; x=1730271434;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OTIVgmSCTxAjeufxAhXv87pU0k2+WfMQxkIbDxZyExg=;
-        b=V/GP2MQirUajNjQVQm0O3TnoH6Po0DRzrjioj1D9TmIPrYXSEDb312mj9eCk+swKZT
-         MbL2O/uaGAtM3t7uPNnkPLjF43WaLEhPUU7J/M9DhzH0KtZwh+w8kwodd9PJzz3rioPj
-         KoOkyi/uZwyGC+PGLtAObmPD11UoIgLJBD29jhOSvKSrhxldQvnGvHIoKfgPmrj29FIF
-         1zJ+aPX3Tshfl45r0CX4DYlW3p71y/2uc0ab8Ofu1T+aCNMYw4GXXlTyXYJN1VajG8qf
-         OATSl6cvidOqCNuSWmAJJzEZqyUu77XA+sxwVwnH4kfkBGJ4Lf3120tmtB5XfbprtOgX
-         K+7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW0aTZagB/w/AFktKjn2536sQBMG/Q+jUOFMtfrNRdrb5pIqdycEI/nOzBbSk/z8Chj2/CKBt1FlAsrUxk=@vger.kernel.org, AJvYcCWa+lZVwLB2UdQL//O+syUjLkd6J44IEL8hQurXAXdCS6ImjRDCPQV417RkDKVdHa9oFzMr5rIub90WCOU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxEDMkfalsum0IW5fF4eN4KAYzqm4IkO6NmBmhObcR2Qqmv5tQ
-	Fym7a4i0MNTk3iKeF2x7Z6HBbTZqF/Y8Ef1Rp0GXL+pSRrZ1AWjY
-X-Google-Smtp-Source: AGHT+IFIDWh7p+QxP4vOovIpqinmoWSh3kYTxqjFxl6iJptJMHcOZpQbK6c8z/jqu8AvDF6b6nI6/g==
-X-Received: by 2002:a05:6a21:10a:b0:1d9:13ba:3eef with SMTP id adf61e73a8af0-1d978b3dd0fmr2004330637.26.1729666633734;
-        Tue, 22 Oct 2024 23:57:13 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec13ea279sm5683088b3a.168.2024.10.22.23.57.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 23:57:12 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id E58F64396281; Wed, 23 Oct 2024 13:57:08 +0700 (WIB)
-Date: Wed, 23 Oct 2024 13:57:08 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	hverkuil-cisco@xs4all.nl, mauro.chehab@linux.intel.com,
-	kernel@collabora.com, bob.beckett@collabora.com,
-	nicolas.dufresne@collabora.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH RFC v2 0/3] Documentation: Debugging guide
-Message-ID: <ZxieRCN8rFfgZGS8@archie.me>
-References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
- <20241022152316.yr6jpjtcwidxytpe@basti-XPS-13-9310>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZcUbm3iZJetno49wTtBX+PCYUK+0tdN6ywaVZWfWpoS2cmvDkpMGw42YXFLDsZMFGjCJKxjIV54qr2D36VnILIT6V/OJRVdOhjaIu9Gvo0W+RJIpDfiE0+KKv7+T4DIjAnZo+XjL2qh9IlH6ZqYLmq/aVlVRaOj1FQ7T7R4FISM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sg/k6Sfu; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=w+90h7H5AVOlUGCT6jpiVo75HoG20ZQ36MbBIWzDKCk=; b=sg/k6Sfu33Iw5/CiNpoYqkyf4X
+	ElBBSIB+U1NJ6KBwX7CC1QLsj5/W7jRqgkVLS/Q1t55vyPeXoDDFWS8o6/u7JhoeDWfyv34O0lhQj
+	NtSUWkELXMp3MDvKLwNwpQtsB85FtrY2ZsBiXxWGnjvrddxbNyryGmNOy5H3tYl3+U4EkspGvnqe9
+	+ukocsux5Q+eNjr3i0AEtuBcufLP0hheAujRayp+4/YL9wtVn+h05KQ3rYQsvBnRkSJJCchy8W8Gs
+	mRgTASenNL3AI7px863NvEkEOGfQgoYHm4P+ArsmPt1xZ+0/48UzWn1h2Ek//qM33/l7ceMPCS37s
+	vllZB6xw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1t3Vfa-0000000DMaT-0Hry;
+	Wed, 23 Oct 2024 07:20:38 +0000
+Date: Wed, 23 Oct 2024 00:20:38 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: David Wei <dw@davidwei.uk>
+Cc: io-uring@vger.kernel.org, netdev@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Mina Almasry <almasrymina@google.com>,
+	Stanislav Fomichev <stfomichev@gmail.com>,
+	Joe Damato <jdamato@fastly.com>,
+	Pedro Tammela <pctammela@mojatatu.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v6 02/15] net: generalise net_iov chunk owners
+Message-ID: <ZxijxiqNGONin3IY@infradead.org>
+References: <20241016185252.3746190-1-dw@davidwei.uk>
+ <20241016185252.3746190-3-dw@davidwei.uk>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="M6STrdpKMW46XULc"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241022152316.yr6jpjtcwidxytpe@basti-XPS-13-9310>
+In-Reply-To: <20241016185252.3746190-3-dw@davidwei.uk>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+On Wed, Oct 16, 2024 at 11:52:39AM -0700, David Wei wrote:
+> From: Pavel Begunkov <asml.silence@gmail.com>
+> 
+> Currently net_iov stores a pointer to struct dmabuf_genpool_chunk_owner,
+> which serves as a useful abstraction to share data and provide a
+> context. However, it's too devmem specific, and we want to reuse it for
+> other memory providers, and for that we need to decouple net_iov from
+> devmem. Make net_iov to point to a new base structure called
+> net_iov_area, which dmabuf_genpool_chunk_owner extends.
 
---M6STrdpKMW46XULc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 22, 2024 at 05:23:16PM +0200, Sebastian Fricke wrote:
-> On 24.09.2024 10:45, Sebastian Fricke wrote:
-> > The RFC contains:
-> > - a general debugging guide split into debugging for driver developers =
-and
-> >  debugging from userspace
-> > - a new summary page for all media related documentation. This is inspi=
-red by
-> >  other subsystems, which first of all allows a user to find the subsyst=
-em
-> >  under the subsystems page and secondly eases general navigation throug=
-h the
-> >  documentation that is sprinkled onto multiple places.
-> > - a guide on how to debug code in the media subsystem, which points to =
-the
-> >  parts of the general documentation and adds own routines.
->=20
-> I wanted to give this a little push, so far I have received a lot of
-> good feedback but none from the core and documentation folks. What do
-> you think about this?
-
-Address all reviews then reroll (maybe as non-RFC series).
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---M6STrdpKMW46XULc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZxiePQAKCRD2uYlJVVFO
-o3JqAQDJhBM5el/ZJxxkzFRi3Wb1thDGSpEp9V1vfmhkehIdbAD+K3avvP1asWGs
-zGg0qt5pEq8BYK0c0l3mpm2F3E3lkAA=
-=W4Be
------END PGP SIGNATURE-----
-
---M6STrdpKMW46XULc--
+We've been there before.  Instead of reinventing your own memory
+provider please enhance dmabufs for your use case.  We don't really
+need to build memory buffer abstraction over memory buffer abstraction.
 
