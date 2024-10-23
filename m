@@ -1,169 +1,157 @@
-Return-Path: <linux-media+bounces-20075-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20076-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB979AC06A
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 09:36:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA64B9AC076
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 09:38:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDE121C23664
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 07:36:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 175221C235A8
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 07:38:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CF55154BFF;
-	Wed, 23 Oct 2024 07:36:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82FD5155725;
+	Wed, 23 Oct 2024 07:38:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QdKbNsg8"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="JY4IPgUU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F110154457
-	for <linux-media@vger.kernel.org>; Wed, 23 Oct 2024 07:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729668968; cv=none; b=cpnlx8G8UnUMpjvvrlt7+AlCjVm1+SyZMiZB8xvhFuE/LEx9Mhf9nJMcaCuaMuzoKXPjx288N8yEgN1PtgEc8t8o+a/grlI+nv7LJKEvOp+bTY+Psu6EVQljH4hShnDI80ahAQKs/6HDfbRO1xd2oSHJxgHOsKTzkAMnsdoMgNg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729668968; c=relaxed/simple;
-	bh=EjKi21UlXmMoJawi/R1H43YxPDSl+Snbc+3DmCaSRaU=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2DB154BFF;
+	Wed, 23 Oct 2024 07:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729669125; cv=pass; b=X9g4rPRcToFa76bN43kaYWuCMtcU825NPxM+no6mJpM5T8C1+PvCESufIinrNlBOBOH8xullTAIro8p3j9niaH6ykLMVC5DMEQ7YU47Rmorq+Nmw9k8NWxyFC3slNTE4KQr8Qwehi87csVJIbIuAi8zMWLkL4GR6Q4xEJuGiWgQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729669125; c=relaxed/simple;
+	bh=NrzpukXh6P7IisrDPAmM5wk0qWZ9z3zuvZ8moxfUkxk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E7ExEOsmn2gShxiOlrHKo3Csau9DdrOPFEU+IMV3HnWW5z0i4kirwUSmoOISz0xUMnJXMTcTAL1XRHqMp7VIRXJdxtGmN3HNAln/XpcMxgu2gEgc/HlwM82WXZu13I28CJ9nAvgnneYNBZ7U4DaaExUTd/TJwSDFkxMIb3gZm3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QdKbNsg8; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D96C039F;
-	Wed, 23 Oct 2024 09:34:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1729668852;
-	bh=EjKi21UlXmMoJawi/R1H43YxPDSl+Snbc+3DmCaSRaU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QdKbNsg8sjX18IrP5lI3RXzpK2etJPWemaHCto8sSSI7UVzsbv9Y8HfZ35Q35tW3C
-	 l5CuX+5PmHsTmvQzoLnTi1OnwjcgKc/x/d5wgpOUYj53BwAmYKjdWO0OOavuIEoHyS
-	 LVJPuwDhvauM6pSWEoXGa/zBK4zmdVdZ1yhmYpjc=
-Date: Wed, 23 Oct 2024 09:35:55 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com, 
-	hongju.wang@intel.com, hverkuil@xs4all.nl, 
-	Andrey Konovalov <andrey.konovalov@linaro.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Dmitry Perchanov <dmitry.perchanov@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v9 27/46] media: uapi: ccs: Add media bus code for MIPI
- CCS embedded data
-Message-ID: <hpm5l6yyms3dttdlaxxf6svqyezzzhtpz4p7mwmonfqpurc33u@bege2uxgljtc>
-References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
- <20240416193319.778192-28-sakari.ailus@linux.intel.com>
- <20240420081050.GP6414@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pRoY9gt2X54wWhe+uYNfJNu+8GTA2urtW4grsRBt4NA/zhJMT6elxnfviommLbpSGoYIJCkqBRXd0lwzfOnwTA2n3Yfu6DMSDSFNl4FKuOmRMUiBU7VfzIyXwxOKJloCd2rmtVeV0+1NJnrtGkQXaGvmcQ3ETJCOB43R8p6xwlM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=JY4IPgUU; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4XYLWf5yY6z49QG8;
+	Wed, 23 Oct 2024 10:38:38 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1729669120;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1h+F/u7tVRldbNXsJpUJj1dGS4Jj3sN0KCmaRER52UA=;
+	b=JY4IPgUUebTOP68hAyVqLDne1vVPZTrNDzB7jAtDtVNYt3IqdjdGY3nb7NWUb1Ak4cmssz
+	wEuHxiFPisnqTlhH226i2kq74xvqK0vShaxg1KoDTYP1QZyCdoLfWQUfo2URcJBZUPrveI
+	giMrKdFIS+8wuTGm3ydFGpyYEZiWFQAyvhShlkuzJ3iDe4Irmb14RyVcloVJBgFp75qMvM
+	MZWr/0uAYxgR+HQefP0Th7dRyCRNJv1MiHoYDjNCjaXdxSMSaC6LPO0tW3cBmgikaTUacl
+	j67M/RxZ6vHPbK6+mgixdLEgfyOIzT5m87t863zfc8KwCtaQ4/CS9omSESZ3BQ==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1729669120; a=rsa-sha256;
+	cv=none;
+	b=FvfpxZPPmgr9hTE7bsNVnfE+TfCOBlj0mDd/nFOWogNn/0jz28Yl8iUV8KJcVZ1oNPVK6P
+	xmXME5c2wgvTpFZOWL8cKSaYpooYMPbxInmzGez0mZdauQIjjcgq3TtULPC+rDuENlc/TZ
+	PojAXNqwA2smd+Uflbnpr91Ag5dkOlwQKr7EuoPboOZkzUIUOzuCRavvxzbG5Jv764DHtr
+	veULu9SdmGdJJX8SQ3ZjDS8mIqWY12u1ZK5yZoaTNawBI4VonOBiFCK1VU78WmdbtPJFiW
+	9vF4uU/EWjs+i4VcbWYM9QfbpW+WvWnMD5xWwEcUao2nwlnThXPMlfExc919aQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1729669120;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1h+F/u7tVRldbNXsJpUJj1dGS4Jj3sN0KCmaRER52UA=;
+	b=h1RgPKM0i5vhy0NAvI3YP9focSGtw0oHdw30Pq7UljFoAXWEiNXjVkgOu8Dm35/2kJWHs6
+	HIl0HMv9iEZ9gJgw9/hEfKz25xAFilvPNxUeyj7EYYEoemOHClh0G8dyV+cs/CdYxzcFwq
+	D6VpRkKPSLnZD4+K8Q3NLyQzTAmrIraMq8VPGySpvMDP8nqtuSKd3X30U3jN7FBep9K0Cn
+	Go/eHa6urAYA1NWZC2jE1xZNZabuk4P9DijkfMOcQoPnJvg5nS9GzIGWt/L70fGlu4qGH2
+	8HQv8MG3qRMQEyFh7vvWLS6PxiRaxVpAGvFkg09xiSMP6FGSk3s3Vl451pYZKw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C563F634C94;
+	Wed, 23 Oct 2024 10:38:36 +0300 (EEST)
+Date: Wed, 23 Oct 2024 07:38:36 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v7 1/9] of: property: add of_graph_get_next_port()
+Message-ID: <Zxin_DeoTPjZ0enu@valkosipuli.retiisi.eu>
+References: <87wmiirqwy.wl-kuninori.morimoto.gx@renesas.com>
+ <87v7y2rqwf.wl-kuninori.morimoto.gx@renesas.com>
+ <ZxYiD5CCzcrwbD1o@valkosipuli.retiisi.eu>
+ <87y12fwhwy.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240420081050.GP6414@pendragon.ideasonboard.com>
+In-Reply-To: <87y12fwhwy.wl-kuninori.morimoto.gx@renesas.com>
 
-Hi Sakari
+Dear Morimoto-san,
 
-On Sat, Apr 20, 2024 at 11:10:50AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
->
-> Thank you for the patch.
->
-> On Tue, Apr 16, 2024 at 10:33:00PM +0300, Sakari Ailus wrote:
-> > Add new MIPI CCS embedded data media bus code
-> > (MEDIA_BUS_FMT_CCS_EMBEDDED).
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Julien Massot <julien.massot@collabora.com>
->
-> There's still an open question on how to document embedded data formats
-> for sensors compatible with level 2 only. The discussion is ongoing and
-> may affect this patch, but the changes can be implemented later, so
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> > ---
-> >  .../media/v4l/subdev-formats.rst              | 32 +++++++++++++++++++
-> >  include/uapi/linux/media-bus-format.h         |  3 ++
-> >  2 files changed, 35 insertions(+)
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > index 0547f2733ee3..fa181ce8f48c 100644
-> > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > @@ -8316,6 +8316,10 @@ content is more or less device specific but the data is transmitted and received
-> >  by multiple devices that do not process the data in any way, simply writing
-> >  it to system memory for processing in software at the end of the pipeline.
-> >
-> > +The exact format of the data generated by the device is reported on the internal
-> > +source pad of the originating sub-device, using one of the more specific
+On Wed, Oct 23, 2024 at 04:40:45AM +0000, Kuninori Morimoto wrote:
+> 
+> Hi Sakari, again
+> 
+> > > diff --git a/drivers/of/property.c b/drivers/of/property.c
+> > > index 11b922fde7af..6a5d27dd0c64 100644
+> > > --- a/drivers/of/property.c
+> > > +++ b/drivers/of/property.c
+> > > @@ -630,6 +630,43 @@ struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
+> > >  }
+> > >  EXPORT_SYMBOL(of_graph_get_port_by_id);
+> > >  
+> > > +/**
+> > > + * of_graph_get_next_port() - get next port node.
+> > > + * @parent: pointer to the parent device node, or parent ports node
+> > > + * @prev: previous port node, or NULL to get first
+> > > + *
+> > > + * Parent device node can be used as @parent whether device node has ports node or not.
+> > 
+> > This line should be wrapped, no reason to have it longer than 80 chars.
+> 
+> We can use 100 char now on upstream ?
+> 
+> 	commit bdc48fa11e46f867ea4d75fa59ee87a7f48be144
+> 	("checkpatch/coding-style: deprecate 80-column warning")
 
-Do you mean "sink pad" ?
+It's the checkpatch.pl warning that's gone, not the preference to have
+lines shorter than that. This is reflected in
+Documentation/process/coding-style.rst as well as the commit message of the
+patch removing the warning.
 
-If I got this right:
-SOURCE_PAD#0,stream#1 -> Generic metadata format
-SINK_PAD#2,stream#0 -> Device specific metadata format
+> 
+> Thank you for your help !!
 
-Thanks
-  j
+You're welcome!
 
-> > +metadata formats such as MEDIA_BUS_FMT_CCS_EMBEDDED.
-> > +
-> >  "b" in an array cell signifies a byte of data, followed by the number of the bit
-> >  and finally the bit number in subscript. "x" indicates a padding bit.
-> >
-> > @@ -8562,3 +8566,31 @@ and finally the bit number in subscript. "x" indicates a padding bit.
-> >        - x
-> >        - x
-> >        - x
-> > +
-> > +.. _MEDIA-BUS-FMT-CCS-EMBEDDED:
-> > +
-> > +MIPI CCS Embedded Data Formats
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +`MIPI CCS <https://www.mipi.org/specifications/camera-command-set>`_ defines a
-> > +metadata format for sensor embedded data, which is used to store the register
-> > +configuration used for capturing a given frame. The format is defined in the CCS
-> > +specification. The media bus code for this format is
-> > +``MEDIA_BUS_FMT_CCS_EMBEDDED``.
-> > +
-> > +The CCS embedded data format definition includes three levels:
-> > +
-> > +1. Padding within CSI-2 bus :ref:`Data Unit <media-glossary-data-unit>` as
-> > +   documented in the MIPI CCS specification.
-> > +
-> > +2. The tagged data format as documented in the MIPI CCS specification.
-> > +
-> > +3. Register addresses and register documentation as documented in the MIPI CCS
-> > +   specification.
-> > +
-> > +The format definition shall be used only by devices that fulfill all three
-> > +levels above.
-> > +
-> > +This mbus code are only used for "2-byte simplified tagged data format" (code
-> > +0xa) but their use may be extended further in the future, to cover other CCS
-> > +embedded data format codes.
-> > diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> > index d4c1d991014b..03f7e9ab517b 100644
-> > --- a/include/uapi/linux/media-bus-format.h
-> > +++ b/include/uapi/linux/media-bus-format.h
-> > @@ -183,4 +183,7 @@
-> >  #define MEDIA_BUS_FMT_META_20			0x8006
-> >  #define MEDIA_BUS_FMT_META_24			0x8007
-> >
-> > +/* Specific metadata formats. Next is 0x9002. */
-> > +#define MEDIA_BUS_FMT_CCS_EMBEDDED		0x9001
-> > +
-> >  #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
+-- 
+Kind regards,
+
+Sakari Ailus
 
