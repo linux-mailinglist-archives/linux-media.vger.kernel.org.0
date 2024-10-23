@@ -1,509 +1,498 @@
-Return-Path: <linux-media+bounces-20087-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20088-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64E89AC2D6
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 11:05:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE739AC2F6
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 11:08:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9213428498F
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 09:05:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0798B22BC5
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 09:08:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFE76194ACD;
-	Wed, 23 Oct 2024 09:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="PnO7S3xM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F30216C69F;
+	Wed, 23 Oct 2024 09:08:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CAF15B551;
-	Wed, 23 Oct 2024 09:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.241.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8852381BA
+	for <linux-media@vger.kernel.org>; Wed, 23 Oct 2024 09:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729674276; cv=none; b=JIdZ5bTlDJ6pn+MSRBoHiMA6KJpDlfsvLt8XoLTsVMVgkYJpbfJ9wS9uTD31+AncH03ufIXeDGK83djfA0HVZqlgy4pDt9V6VVBlIwnhc7LZFxOLybWWIn7vtvT8P0jeMC2X5n0iLfXJTKBOyV4DLJLA+yUZwjvLoUTyEuvHt9c=
+	t=1729674479; cv=none; b=ecousrUwjFls56Rn5lY+zfylYf6rRGL45+vu9nejUVx18aAQaD8ZSuG1gTbwMLd1jIXbxHfk0rBILlJykaRn3cgj3P1JNViMCwOi5kkB3xmCygp2J2K7zJx9R9EAs33CHofYfJAvhQQXhVxcpqMY5Zzo5gdLlXjS7MVElO5ZVao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729674276; c=relaxed/simple;
-	bh=KRH+Wl52D5Se1qa1mBsQTE3qJ+LnEYK393f7kHZ0rBg=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=pOcBLqhmj4uYUS/tpo3nGQlt7qHumieW11pR0iiICQAu93j+HAmAukq9zDoy+JjCA013h/0sVUCg4SBAB9EscOQnFwOK7WUT8Pe1AJD2uOz23Uw9eOg25ow0lOtz/+pXZF9tPCxvzmDvTZ+8zPG4lspdqCI2SGylLn5xC2C8N9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=PnO7S3xM; arc=none smtp.client-ip=159.100.241.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
-Received: from relay3.mymailcheap.com (relay3.mymailcheap.com [217.182.66.161])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id 57D442000E;
-	Wed, 23 Oct 2024 09:04:30 +0000 (UTC)
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay3.mymailcheap.com (Postfix) with ESMTPS id AF7373E8D7;
-	Wed, 23 Oct 2024 11:04:20 +0200 (CEST)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id 9C053400EA;
-	Wed, 23 Oct 2024 09:04:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1729674258; bh=KRH+Wl52D5Se1qa1mBsQTE3qJ+LnEYK393f7kHZ0rBg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PnO7S3xMn22qLyZm7rRpCdsAd3U2EBWBtP/TkEIFCYSb6w2FGbpAjwDOSd2r7lO5k
-	 urUvcYeje33rgl7t8xsL2sBDQIkDrsMJTMx2ir2WRle14QvH89rBRsOsAyWmy+fYfu
-	 sKK6nqdr/QZhgUFS3N6vGJZHayfb5MO45tK2IncA=
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id F1573407D9;
-	Wed, 23 Oct 2024 09:04:17 +0000 (UTC)
+	s=arc-20240116; t=1729674479; c=relaxed/simple;
+	bh=0/RqOuedNfGxhS5oixAV1c3dLDDXdg8q0HQVnNJZhRI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=TaK6aM4jIU4PhoebxpPr8FI3WtoIodv4OjHjCXuXYaIEP/EanKO0qWGBnkSF6bDQq/nTzF6znYTyJVg66rMsCjMrufiSju0vXqK620XJ/oYjFBvNVAEFkbXIsdpPE7WvB14B6fumzKNo+GgP4B79CLNUV0TAR6ueWRDs4K5Qjq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85C9AC4CEC6;
+	Wed, 23 Oct 2024 09:07:54 +0000 (UTC)
+Message-ID: <45e4f5d4-f6c4-4f0b-96b5-f5e1125b0845@xs4all.nl>
+Date: Wed, 23 Oct 2024 11:07:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 23 Oct 2024 17:04:17 +0800
-From: Mingcong Bai <jeffbai@aosc.io>
-To: Kexy Biscuit <kexybiscuit@aosc.io>
-Cc: gregkh@linuxfoundation.org, wangyuli@uniontech.com,
- torvalds@linux-foundation.org, aospan@netup.ru, conor.dooley@microchip.com,
- ddrokosov@sberdevices.ru, dmaengine@vger.kernel.org, dushistov@mail.ru,
- fancer.lancer@gmail.com, geert@linux-m68k.org, hoan@os.amperecomputing.com,
- ink@jurassic.park.msu.ru, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-fpga@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
- manivannan.sadhasivam@linaro.org, mattst88@gmail.com,
- netdev@vger.kernel.org, nikita@trvn.ru, ntb@lists.linux.dev,
- patches@lists.linux.dev, richard.henderson@linaro.org, s.shtylyov@omp.ru,
- serjk@netup.ru, shc_work@mail.ru, tsbogend@alpha.franken.de,
- v.georgiev@metrotek.ru, wsa+renesas@sang-engineering.com, xeb@mail.ru
-Subject: Re: [PATCH] Revert "MAINTAINERS: Remove some entries due to various
- compliance requirements."
-In-Reply-To: <20241023080935.2945-2-kexybiscuit@aosc.io>
-References: <a08dc31ab773604d8f206ba005dc4c7a@aosc.io>
- <20241023080935.2945-2-kexybiscuit@aosc.io>
-Message-ID: <ccab35ddc2edc85a41b5a46c8c5cd62c@aosc.io>
-X-Sender: jeffbai@aosc.io
-Organization: Anthon Open Source Community
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Rspamd-Queue-Id: 9C053400EA
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.60 / 10.00];
-	REPLY(-4.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_ONE(0.00)[1];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	TAGGED_RCPT(0.00)[renesas];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,uniontech.com,linux-foundation.org,netup.ru,microchip.com,sberdevices.ru,vger.kernel.org,mail.ru,gmail.com,linux-m68k.org,os.amperecomputing.com,jurassic.park.msu.ru,lists.infradead.org,linaro.org,trvn.ru,lists.linux.dev,omp.ru,alpha.franken.de,metrotek.ru,sang-engineering.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,mail.ru];
-	HAS_ORG_HEADER(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[]
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] Media Summit 2024 Report
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Greetings,
+Hi all,
 
-在 2024-10-23 16:09，Kexy Biscuit 写道：
-> This reverts commit 6e90b675cf942e50c70e8394dfb5862975c3b3b2.
-> 
-> An absolutely no-one-ever-reviewed patch, not even by the maintainers 
-> who
-> got removed themselves - at least not on the mailing list. Then the 
-> patch
-> just got slipped into an unrelated subsystem pull request, and got 
-> pulled
-> by Torvalds with not even a comment.
-> 
-> What about the next time? Who next would be removed from the 
-> MAINTAINERS
-> file, the kernel.org infrastructure? What if the compliance requires
-> another XZ backdoor to be developed without further explanation? Is the
-> kernel development process still done in public?
-> 
-> Are the "compliance requirements" documented on docs.kernel.org? Who 
-> are
-> responsible for them? Are all that are responsible employees of
-> The Linux Foundation, which is regulated by the U.S. legislature?
+Below is the report of the Media Summit 2024.
 
-Bravo.
+I fully admit that this is mostly a cleaned up version of the etherpad notes.
+In fairness, I think the etherpad notes were pretty good this time. Many thanks
+to all who kept etherpad up to date during the discussions!
 
-> 
-> Fixes: 6e90b675cf94 ("MAINTAINERS: Remove some entries due to various 
-> compliance requirements.")
-> Signed-off-by: Kexy Biscuit <kexybiscuit@aosc.io>
-> ---
-> Please keep all discussions on at least one of the mailing lists.
-> 
->  MAINTAINERS | 178 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 178 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e9659a5a7fb3..501aa5c0887e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -258,6 +258,12 @@ L:	linux-acenic@sunsite.dk
->  S:	Maintained
->  F:	drivers/net/ethernet/alteon/acenic*
-> 
-> +ACER ASPIRE 1 EMBEDDED CONTROLLER DRIVER
-> +M:	Nikita Travkin <nikita@trvn.ru>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/platform/acer,aspire1-ec.yaml
-> +F:	drivers/platform/arm64/acer-aspire1-ec.c
-> +
->  ACER ASPIRE ONE TEMPERATURE AND FAN DRIVER
->  M:	Peter Kaestle <peter@piie.net>
->  L:	platform-driver-x86@vger.kernel.org
-> @@ -882,6 +888,7 @@ F:	drivers/staging/media/sunxi/cedrus/
-> 
->  ALPHA PORT
->  M:	Richard Henderson <richard.henderson@linaro.org>
-> +M:	Ivan Kokshaysky <ink@jurassic.park.msu.ru>
->  M:	Matt Turner <mattst88@gmail.com>
->  L:	linux-alpha@vger.kernel.org
->  S:	Odd Fixes
-> @@ -2256,6 +2263,12 @@ L:	linux-arm-kernel@lists.infradead.org 
-> (moderated for non-subscribers)
->  S:	Maintained
->  F:	arch/arm/mach-ep93xx/ts72xx.c
-> 
-> +ARM/CIRRUS LOGIC CLPS711X ARM ARCHITECTURE
-> +M:	Alexander Shiyan <shc_work@mail.ru>
-> +L:	linux-arm-kernel@lists.infradead.org (moderated for 
-> non-subscribers)
-> +S:	Odd Fixes
-> +N:	clps711x
-> +
->  ARM/CIRRUS LOGIC EP93XX ARM ARCHITECTURE
->  M:	Hartley Sweeten <hsweeten@visionengravers.com>
->  M:	Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> @@ -3802,6 +3815,14 @@ F:	drivers/video/backlight/
->  F:	include/linux/backlight.h
->  F:	include/linux/pwm_backlight.h
-> 
-> +BAIKAL-T1 PVT HARDWARE MONITOR DRIVER
-> +M:	Serge Semin <fancer.lancer@gmail.com>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/hwmon/baikal,bt1-pvt.yaml
-> +F:	Documentation/hwmon/bt1-pvt.rst
-> +F:	drivers/hwmon/bt1-pvt.[ch]
-> +
->  BARCO P50 GPIO DRIVER
->  M:	Santosh Kumar Yadav <santoshkumar.yadav@barco.com>
->  M:	Peter Korsgaard <peter.korsgaard@barco.com>
-> @@ -6455,6 +6476,7 @@ F:	drivers/mtd/nand/raw/denali*
-> 
->  DESIGNWARE EDMA CORE IP DRIVER
->  M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> +R:	Serge Semin <fancer.lancer@gmail.com>
->  L:	dmaengine@vger.kernel.org
->  S:	Maintained
->  F:	drivers/dma/dw-edma/
-> @@ -9737,6 +9759,14 @@ F:	drivers/gpio/gpiolib-cdev.c
->  F:	include/uapi/linux/gpio.h
->  F:	tools/gpio/
-> 
-> +GRE DEMULTIPLEXER DRIVER
-> +M:	Dmitry Kozlov <xeb@mail.ru>
-> +L:	netdev@vger.kernel.org
-> +S:	Maintained
-> +F:	include/net/gre.h
-> +F:	net/ipv4/gre_demux.c
-> +F:	net/ipv4/gre_offload.c
-> +
->  GRETH 10/100/1G Ethernet MAC device driver
->  M:	Andreas Larsson <andreas@gaisler.com>
->  L:	netdev@vger.kernel.org
-> @@ -12929,6 +12959,12 @@ S:	Maintained
->  F:	drivers/ata/pata_arasan_cf.c
->  F:	include/linux/pata_arasan_cf_data.h
-> 
-> +LIBATA PATA DRIVERS
-> +R:	Sergey Shtylyov <s.shtylyov@omp.ru>
-> +L:	linux-ide@vger.kernel.org
-> +F:	drivers/ata/ata_*.c
-> +F:	drivers/ata/pata_*.c
-> +
->  LIBATA PATA FARADAY FTIDE010 AND GEMINI SATA BRIDGE DRIVERS
->  M:	Linus Walleij <linus.walleij@linaro.org>
->  L:	linux-ide@vger.kernel.org
-> @@ -12945,6 +12981,15 @@ F:	drivers/ata/ahci_platform.c
->  F:	drivers/ata/libahci_platform.c
->  F:	include/linux/ahci_platform.h
-> 
-> +LIBATA SATA AHCI SYNOPSYS DWC CONTROLLER DRIVER
-> +M:	Serge Semin <fancer.lancer@gmail.com>
-> +L:	linux-ide@vger.kernel.org
-> +S:	Maintained
-> +T:	git 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git
-> +F:	Documentation/devicetree/bindings/ata/baikal,bt1-ahci.yaml
-> +F:	Documentation/devicetree/bindings/ata/snps,dwc-ahci.yaml
-> +F:	drivers/ata/ahci_dwc.c
-> +
->  LIBATA SATA PROMISE TX2/TX4 CONTROLLER DRIVER
->  M:	Mikael Pettersson <mikpelinux@gmail.com>
->  L:	linux-ide@vger.kernel.org
-> @@ -14140,6 +14185,16 @@ S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
->  F:	drivers/media/platform/nxp/imx-pxp.[ch]
-> 
-> +MEDIA DRIVERS FOR ASCOT2E
-> +M:	Sergey Kozlov <serjk@netup.ru>
-> +M:	Abylay Ospan <aospan@netup.ru>
-> +L:	linux-media@vger.kernel.org
-> +S:	Supported
-> +W:	https://linuxtv.org
-> +W:	http://netup.tv/
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	drivers/media/dvb-frontends/ascot2e*
-> +
->  MEDIA DRIVERS FOR CXD2099AR CI CONTROLLERS
->  M:	Jasmin Jessich <jasmin@anw.at>
->  L:	linux-media@vger.kernel.org
-> @@ -14148,6 +14203,16 @@ W:	https://linuxtv.org
->  T:	git git://linuxtv.org/media_tree.git
->  F:	drivers/media/dvb-frontends/cxd2099*
-> 
-> +MEDIA DRIVERS FOR CXD2841ER
-> +M:	Sergey Kozlov <serjk@netup.ru>
-> +M:	Abylay Ospan <aospan@netup.ru>
-> +L:	linux-media@vger.kernel.org
-> +S:	Supported
-> +W:	https://linuxtv.org
-> +W:	http://netup.tv/
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	drivers/media/dvb-frontends/cxd2841er*
-> +
->  MEDIA DRIVERS FOR CXD2880
->  M:	Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
->  L:	linux-media@vger.kernel.org
-> @@ -14192,6 +14257,35 @@ F:	drivers/media/platform/nxp/imx-mipi-csis.c
->  F:	drivers/media/platform/nxp/imx7-media-csi.c
->  F:	drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> 
-> +MEDIA DRIVERS FOR HELENE
-> +M:	Abylay Ospan <aospan@netup.ru>
-> +L:	linux-media@vger.kernel.org
-> +S:	Supported
-> +W:	https://linuxtv.org
-> +W:	http://netup.tv/
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	drivers/media/dvb-frontends/helene*
-> +
-> +MEDIA DRIVERS FOR HORUS3A
-> +M:	Sergey Kozlov <serjk@netup.ru>
-> +M:	Abylay Ospan <aospan@netup.ru>
-> +L:	linux-media@vger.kernel.org
-> +S:	Supported
-> +W:	https://linuxtv.org
-> +W:	http://netup.tv/
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	drivers/media/dvb-frontends/horus3a*
-> +
-> +MEDIA DRIVERS FOR LNBH25
-> +M:	Sergey Kozlov <serjk@netup.ru>
-> +M:	Abylay Ospan <aospan@netup.ru>
-> +L:	linux-media@vger.kernel.org
-> +S:	Supported
-> +W:	https://linuxtv.org
-> +W:	http://netup.tv/
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	drivers/media/dvb-frontends/lnbh25*
-> +
->  MEDIA DRIVERS FOR MXL5XX TUNER DEMODULATORS
->  L:	linux-media@vger.kernel.org
->  S:	Orphan
-> @@ -14199,6 +14293,16 @@ W:	https://linuxtv.org
->  T:	git git://linuxtv.org/media_tree.git
->  F:	drivers/media/dvb-frontends/mxl5xx*
-> 
-> +MEDIA DRIVERS FOR NETUP PCI UNIVERSAL DVB devices
-> +M:	Sergey Kozlov <serjk@netup.ru>
-> +M:	Abylay Ospan <aospan@netup.ru>
-> +L:	linux-media@vger.kernel.org
-> +S:	Supported
-> +W:	https://linuxtv.org
-> +W:	http://netup.tv/
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	drivers/media/pci/netup_unidvb/*
-> +
->  MEDIA DRIVERS FOR NVIDIA TEGRA - VDE
->  M:	Dmitry Osipenko <digetx@gmail.com>
->  L:	linux-media@vger.kernel.org
-> @@ -14842,6 +14946,13 @@ F:	drivers/mtd/
->  F:	include/linux/mtd/
->  F:	include/uapi/mtd/
-> 
-> +MEMSENSING MICROSYSTEMS MSA311 DRIVER
-> +M:	Dmitry Rokosov <ddrokosov@sberdevices.ru>
-> +L:	linux-iio@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/iio/accel/memsensing,msa311.yaml
-> +F:	drivers/iio/accel/msa311.c
-> +
->  MEN A21 WATCHDOG DRIVER
->  M:	Johannes Thumshirn <morbidrsa@gmail.com>
->  L:	linux-watchdog@vger.kernel.org
-> @@ -15175,6 +15286,7 @@ F:	drivers/tty/serial/8250/8250_pci1xxxx.c
-> 
->  MICROCHIP POLARFIRE FPGA DRIVERS
->  M:	Conor Dooley <conor.dooley@microchip.com>
-> +R:	Vladimir Georgiev <v.georgiev@metrotek.ru>
->  L:	linux-fpga@vger.kernel.org
->  S:	Supported
->  
-> F:	Documentation/devicetree/bindings/fpga/microchip,mpf-spi-fpga-mgr.yaml
-> @@ -15429,6 +15541,17 @@ F:	arch/mips/
->  F:	drivers/platform/mips/
->  F:	include/dt-bindings/mips/
-> 
-> +MIPS BAIKAL-T1 PLATFORM
-> +M:	Serge Semin <fancer.lancer@gmail.com>
-> +L:	linux-mips@vger.kernel.org
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/bus/baikal,bt1-*.yaml
-> +F:	Documentation/devicetree/bindings/clock/baikal,bt1-*.yaml
-> +F:	drivers/bus/bt1-*.c
-> +F:	drivers/clk/baikal-t1/
-> +F:	drivers/memory/bt1-l2-ctl.c
-> +F:	drivers/mtd/maps/physmap-bt1-rom.[ch]
-> +
->  MIPS BOSTON DEVELOPMENT BOARD
->  M:	Paul Burton <paulburton@kernel.org>
->  L:	linux-mips@vger.kernel.org
-> @@ -15441,6 +15564,7 @@ F:	include/dt-bindings/clock/boston-clock.h
-> 
->  MIPS CORE DRIVERS
->  M:	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> +M:	Serge Semin <fancer.lancer@gmail.com>
->  L:	linux-mips@vger.kernel.org
->  S:	Supported
->  F:	drivers/bus/mips_cdmm.c
-> @@ -16408,6 +16532,12 @@ F:	include/linux/ntb.h
->  F:	include/linux/ntb_transport.h
->  F:	tools/testing/selftests/ntb/
-> 
-> +NTB IDT DRIVER
-> +M:	Serge Semin <fancer.lancer@gmail.com>
-> +L:	ntb@lists.linux.dev
-> +S:	Supported
-> +F:	drivers/ntb/hw/idt/
-> +
->  NTB INTEL DRIVER
->  M:	Dave Jiang <dave.jiang@intel.com>
->  L:	ntb@lists.linux.dev
-> @@ -18428,6 +18558,13 @@ F:	drivers/pps/
->  F:	include/linux/pps*.h
->  F:	include/uapi/linux/pps.h
-> 
-> +PPTP DRIVER
-> +M:	Dmitry Kozlov <xeb@mail.ru>
-> +L:	netdev@vger.kernel.org
-> +S:	Maintained
-> +W:	http://sourceforge.net/projects/accel-pptp
-> +F:	drivers/net/ppp/pptp.c
-> +
->  PRESSURE STALL INFORMATION (PSI)
->  M:	Johannes Weiner <hannes@cmpxchg.org>
->  M:	Suren Baghdasaryan <surenb@google.com>
-> @@ -19518,6 +19655,15 @@ S:	Supported
->  F:	Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
->  F:	drivers/i2c/busses/i2c-emev2.c
-> 
-> +RENESAS ETHERNET AVB DRIVER
-> +R:	Sergey Shtylyov <s.shtylyov@omp.ru>
-> +L:	netdev@vger.kernel.org
-> +L:	linux-renesas-soc@vger.kernel.org
-> +F:	Documentation/devicetree/bindings/net/renesas,etheravb.yaml
-> +F:	drivers/net/ethernet/renesas/Kconfig
-> +F:	drivers/net/ethernet/renesas/Makefile
-> +F:	drivers/net/ethernet/renesas/ravb*
-> +
->  RENESAS ETHERNET SWITCH DRIVER
->  R:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->  L:	netdev@vger.kernel.org
-> @@ -19567,6 +19713,14 @@ 
-> F:	Documentation/devicetree/bindings/i2c/renesas,rmobile-iic.yaml
->  F:	drivers/i2c/busses/i2c-rcar.c
->  F:	drivers/i2c/busses/i2c-sh_mobile.c
-> 
-> +RENESAS R-CAR SATA DRIVER
-> +R:	Sergey Shtylyov <s.shtylyov@omp.ru>
-> +L:	linux-ide@vger.kernel.org
-> +L:	linux-renesas-soc@vger.kernel.org
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
-> +F:	drivers/ata/sata_rcar.c
-> +
->  RENESAS R-CAR THERMAL DRIVERS
->  M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
->  L:	linux-renesas-soc@vger.kernel.org
-> @@ -19642,6 +19796,16 @@ S:	Supported
->  F:	Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
->  F:	drivers/i2c/busses/i2c-rzv2m.c
-> 
-> +RENESAS SUPERH ETHERNET DRIVER
-> +R:	Sergey Shtylyov <s.shtylyov@omp.ru>
-> +L:	netdev@vger.kernel.org
-> +L:	linux-renesas-soc@vger.kernel.org
-> +F:	Documentation/devicetree/bindings/net/renesas,ether.yaml
-> +F:	drivers/net/ethernet/renesas/Kconfig
-> +F:	drivers/net/ethernet/renesas/Makefile
-> +F:	drivers/net/ethernet/renesas/sh_eth*
-> +F:	include/linux/sh_eth.h
-> +
->  RENESAS USB PHY DRIVER
->  M:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->  L:	linux-renesas-soc@vger.kernel.org
-> @@ -22295,11 +22459,19 @@ F:	drivers/tty/serial/8250/8250_lpss.c
-> 
->  SYNOPSYS DESIGNWARE APB GPIO DRIVER
->  M:	Hoan Tran <hoan@os.amperecomputing.com>
-> +M:	Serge Semin <fancer.lancer@gmail.com>
->  L:	linux-gpio@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
->  F:	drivers/gpio/gpio-dwapb.c
-> 
-> +SYNOPSYS DESIGNWARE APB SSI DRIVER
-> +M:	Serge Semin <fancer.lancer@gmail.com>
-> +L:	linux-spi@vger.kernel.org
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> +F:	drivers/spi/spi-dw*
-> +
->  SYNOPSYS DESIGNWARE AXI DMAC DRIVER
->  M:	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
->  S:	Maintained
-> @@ -23609,6 +23781,12 @@ L:	linux-input@vger.kernel.org
->  S:	Maintained
->  F:	drivers/hid/hid-udraw-ps3.c
-> 
-> +UFS FILESYSTEM
-> +M:	Evgeniy Dushistov <dushistov@mail.ru>
-> +S:	Maintained
-> +F:	Documentation/admin-guide/ufs.rst
-> +F:	fs/ufs/
-> +
->  UHID USERSPACE HID IO DRIVER
->  M:	David Rheinsberg <david@readahead.eu>
->  L:	linux-input@vger.kernel.org
+Regards,
 
-Acked-by: Mingcong Bai <jeffbai@aosc.io>
+	Hans
 
-Best Regards,
-Mingcong Bai
+===========================================================
+
+Report of the Linux Media Summit Vienna, 16 September 2024
+
+Present in person:
+	Sakari Ailus (Intel)
+	Daniel Almeida (Collabora)
+	Salahaldeen Altous (Leica Camera AG)
+	Mauro Carvalho Chehab (Huawei, Media Kernel Maintainer)
+	Steve Cho (Google)
+	Sebastian Fricke (Collabora)
+	Martin Hecht (Avnet)
+	Tommaso Merciai (Avnet)
+	Jacopo Mondi (Ideas On Board)
+	Benjamin Mugnier (ST Electronics)
+	Laurent Pinchart (Ideas On Board)
+	Ricardo Ribalda (Google)
+	Michael Tretter (Pengutronix)
+	Suresh Vankadara (Qualcomm)
+	Hans Verkuil (Cisco Systems Norway)
+	Alain Volmat (ST Electronics)
+	Sean Young
+	Jerry W Hu (Intel)
+
+Present remotely:
+	Kieran Bingham (Ideas on Board)
+	Mehdi Djait (Intel)
+	Rishikesh Donadkar (TI)
+	Nicolas Dufresne (Collabora)
+	Paul Elder (Ideas on Board)
+	Tomasz Figa (Google)
+	Stefan Klug (Ideas on Board)
+	Hidenori Kobayashi (Google)
+	Dave Stevenson (Raspberry Pi)
+	Devarsh Thakkar (TI)
+
+Many thanks to Avnet for hosting this meeting in their office, and for
+Cisco and Ideas on Board for sponsoring the lunch.
+
+--------------------------------------------------------------------------
+
+Topic: Multi-committer model using gitlab
+Presenter: Ricardo Ribalda
+Presentation: https://hverkuil.home.xs4all.nl/summit2024/MS2024-Multi-Committer.pdf
+
+We now have a shiny new Media CI in place, so we can start the next phase:
+introducing a multi-committer model.
+
+The media CI just implemented the patchwork integration as well: patch series
+are automatically compiled in media CI and the results are added to patchwork.
+No opt-in/opt-out for automatic test via patchwork bot planned for now.
+
+Initially, the plan is to close the committer tree between rc6 and rc1 for now,
+that might change later.
+
+- Hierarchy for committers planned:
+  - Subsystem maintainers (Merge branches directly, accept userspace ABI changes,
+    review changes to the tests, send to Linus, promote/demote committers, handle
+    whitelist/blacklist, allowed to by-pass CI)
+  - Core committers (committer that can change media core frameworks but not userspace ABI)
+  - Committers (prepares MRs, create tooling for the process, add to allowlist,
+    fix warnings, monthly committer meeting, keep patchwork up-to-date, cannot
+    send patches to change core files, cannot send fixes for the current rcX, add
+    link to commits from b4, patches have to be reviewed by at least one other
+    committer, if any committer disapproves the patch then the patch must go through
+    a higher hierarchy (only subsystem maintainers?))
+  - Contributors (normal user posting to mailing list, allowed to use the tree: e.g.
+    test their patches in advance allowing them to increase the test-scope in
+    comparison to the tests done by the patchwork bot)
+
+- All committers shall update patchwork status. Automation may help, but the
+  responsibility is for committers to keep it updated.
+- Concern by Laurent having a requirement of at least 2 committers makes merging
+  to the tree very hard. Jacopo: what if there are not even two committers for a
+  part of the subsystem?
+  - Reaction by others: Should push motivation for better review
+  - Two committers required includes the author.
+
+- Concern by Mauro: Security issue by overloading the CI? Reserving 50% for
+  subsystem-wide checks
+  - Suresh Vankadara: To avoid overload CI system, if there is a possibility to
+    run these test patches in advance at local systems it reduces load to post
+    multiple patches based on results and also these will be addressed ahead of time.
+
+- Fixes are currently not planned to go through the multi-committer tree
+  - Laurent has fixes and next and current in the same tree to have a better overview
+    for the user
+
+- Process of becoming a committer: has to be proposed by another, good contribution record,
+  must have been met in person, key signed by another committer, sign the committer agreement
+  (with GPG key? Laurent: that doesn't improve trust requirement), send welcome message to ML
+  and add name to committers.txt
+- Subsystem maintainers can demote any committer at any time, people can demote themselves
+  if they feel pressured or if they retire (Laurent: people should notify us first privately
+  if under pressure), after about 1 year without commits a notification is sent to the committer
+  before disabling commit rights.
+
+- Question by Jacopo: Is there a way to prepare the cover letter by the CI system with
+  the v4l2-compliance output? Hans: decide later, not a problem for now
+- Suggestion by Mauro: run tests on hardware via KernelCI. To be discussed offline with
+  interested parties to sponsor it. AVnet suggestion to provide access to their hardware.
+
+TODO:
+- Change CSS for patchwork test result report to make it more readable
+- Send mail to the author when the automatic test run (over patchwork bot) has been completed
+- Send automatic patches to maintainers for specific paths (suggestion by Hans)
+  (Comment by Laurent: Use lei for that?)
+- Laurent: Write part about lei for the report of the event
+- Define committers agreement (as soon as possible, but we may start with core maintainers
+  without that)
+  - Mauro: if we start without agreements, committers/core-committers need to be aware
+    that, once the agreement is defined, they'll need to formally accept them if they want
+    to keep commit rights.
+- Add Stanimir and Hans de Goede to committer list
+- Bot to validate the committer list to notify the subsystem maintainers when someone hasn't
+  done anything for a long time
+- media-share.git / media-committers.git / media.git as name for the tree (it became
+  media-committers)
+
+--------------------------------------------------------------------------
+
+Topic: Multi-context support in V4L2
+Presenter: Jacopo Mondi
+Presentation: https://hverkuil.home.xs4all.nl/summit2024/MS2024-Multi-Context.pdf
+
+- RFC sent to ML:
+  https://lore.kernel.org/linux-media/20240913214657.1502838-1-jacopo.mondi@ideasonboard.com/
+- Background: some ISPs are time-multiplexed devices, some just process tiles instead
+  of handling camera streams, multiplex different outputs from cameras after one another
+- Introducing contexts, generalized version of v4l2-m2m contexts, isolated at the process
+  level (media entity context (stores list of media entities and is refcounted), media device
+  context (containing the topology), video device context, v4l2 subdev context)
+- BIND_CONTEXT IOCTL to bind a context to a video file handle
+- Adding context identifier to IOCTL? Mauro: Need error code if you try to bind to many contexts
+- Multi context already available for codecs which are bound to the video device, which becomes
+  ambiguous to this
+- Multiplexing means moving the videobuf2 queue to the device context from the device
+- Suresh Vankadara: considering priority among context in UAPI helps for drivers to prioritize.
+- Nicolas: For codecs the multi context model needs to implicitly create multiple contexts
+- Suresh Vankadara: is there a possibility to have 3 processes (2 follows multi context model
+  and another in older model)? Yes, legacy will automatically use the default context
+
+TODO:
+- Write tests to make sure that an arbitrary order of opening media and video devices work
+- Subdevs need to be made context aware
+
+--------------------------------------------------------------------------
+
+Current state of videobuf2, its limitations and the paths forward
+Presenter: Tomasz Figa
+Presentation: https://hverkuil.home.xs4all.nl/summit2024/MS2024-VB2.pdf
+
+- 32 buffer limit fixed by Benjamin
+- REMOVE_BUFS IOCTL was added by Benjamin, allows to delete a range of buffers which
+  are in the DEQUEUED state. Primary use-case is for decoders and dynamic resolution
+  changes where you may want to change the size of the buffers by allocating new ones
+  and deleting the old buffers.
+- Reuse private memory between planes that import the same DMA buffer
+- Limitations:
+  - Sharing buffer between CPU and DMA. Hans has a 9 year old local branch which nearly
+    solved this: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=vb2-cpu-access
+  - Page allocation in vb2-dma-sg (Sakari: provide compatibility helper)
+  - DMA buffer mapping lifetime. Laurent: should be handled at core instead
+    of in drivers, Nicolas: What if we allow buffers to be active in the DEQUEUED state?
+    Hans: Have handles like in DRM?
+  - Duplicate DMA mappings (queuing the same dma buffer on different indices of the
+    same queue (solve this on the API level by comparing the buffers?)
+- Simplify locking, 7 different types of locking available
+- Add documentation for VB2 locking
+- Remove .wait_prepare/.finish. Hans: They can probably be removed, work in progress
+
+
+TODO:
+- vb2_queue_busy and vb2_queue_is_busy sound very similar but are different to be
+  renamed for less confusion
+- Tomasz send RFC (many different RFCs to send!)
+- Do a careful analysis of buffers used as reference frames: how to hold on to
+  those without mappings disappearing.
+
+--------------------------------------------------------------------------
+
+Topic: Subdev state, and usage of the media controller device to submit requests
+Presenter: Laurent Pinchart
+Presentation: https://hverkuil.home.xs4all.nl/summit2024/MS2024-Subdev-State.pdf
+
+- V4L2 subdev state: introduced a few releases ago, stores config of a subdev
+  and remove boilerplate code from drivers by unifying try/active semantic
+- All subdev fops receive a subdev_state
+- Helpers in the core to simplify drivers implementation
+  - format/selection rectangles are stored in the subdev_state
+
+Missing pieces/TODO:
+- Support for controls: a configuration cannot be TRYed if there's a dependency
+  between formats/controls/selection-rectangles
+- v4l2_subdev_state should be sub-classable
+- Replace .get/.set with .check/.apply
+  - get/set apply either to TRY/ACTIVE states
+  - Drivers API:
+    - check() tests and adjust a configuration
+    - apply() applies settings to HW
+  - From userspace nothing changes, only drivers should be ported to check/apply
+  - The core already stores the format in the state, only set_fmt needs to be
+    implemented on check/apply
+  - Mauro: support for get() in the core should be optional ?
+    - Laurent: for format it shouldn't be necessary, for selection rectangles it
+      might be (decouple the crop bounds from set_selection())
+    - Sakari: we can start without get() and if needed can be made optional
+- Ricardo: some controls might affect the size of the image;
+- Laurent: very few controls interact with the format, if there are we need to move
+  controls to the state as well
+
+Video device state (TODO)
+- Apply the same concepts to video devices
+- Implement try/get/set in the core
+- As state handling is handled by the core we can drop the mutex
+- Hans: locking for video devices is already there (vb2_queue)
+- Hans: lot of legacy, pretty unpredictable
+- Mauro: in DVB sometimes the get() implementation does something
+
+Requests
+2016: The request API was presented
+- Requests have been implemented but the "state" was missing
+- The idea was to replace all IOCTLs with a single one that applies all
+  configurations to the media device (a' la' "DRM Atomic API")
+
+Hans: how does this relates to contexts?
+Laurent: contexts are layers on top vertically stacked on a media graph.
+States are points in time that represents the configuration of the media graph
+horizontally.
+
+Steps to get there:
+
+- Video device state
+- Design the atomic uAPI
+- Map requests to states
+
+Get inspirations from KMS
+
+Hans: keep track of which drivers have been converted (or are in the process of)
+and which ones will never be converted. Laurent: conversion is in progress, but
+new drivers should be required to use new features.
+Mauro: profiles on userspace, when we add states we need to do things in a
+certain sequence for them to not fail, document to implement for the different
+scenarios correctly. Hans: v4l2-compliance is closest to that as it tests based
+on what sort of device it is.
+
+Suresh: with the request API all settings will be set in one go. Is it mandatory
+for drivers to apply them all in one go (ie sensor delays). Laurent: we disallow
+setting parameters that could compromise streaming. Setting everything in one go
+when you're not streaming (Jacopo: sensor delays should be handled by userspace)
+
+--------------------------------------------------------------------------
+
+Topic: New tooling for infrared
+Presenter: Sean Young
+Presentation: https://hverkuil.home.xs4all.nl/summit2024/MS2024-IR-Tools.pdf
+
+lirc: userspace daemon that sends keystrokes through infrared. 3 userspace drivers,
+merged in one kernel HID driver. Only works for a limited number of protocols, the
+rest of the others need a userspace daemon. Tooling for userspace and kernel side
+are different.
+
+Hans: Where is the tooling? Sean: On sourceforge
+Hans: Should lirc be moved to linuxtv ? Sean: I would rather like to see it go away
+
+- IRP
+  - IR protocols are decoded in the kernel (notations RC5 & NEC),
+
+- BPF
+  - Decoding with BPF programs, merged 2019, not used very much
+
+- cir
+  - Consumer infraRed converts the conf files and keymaps to IRP notation, can be
+    used to transmit or decode or to configure a keymap
+  - To replace the current IR tools in v4l-utils
+
+TODO:
+- Move cir to a differrent location? -> yes, To our gitlab folder
+- Remove existing ir tools from v4l-utils? (Ricardo: it makes sense to have the
+  tools in different locations from a distro point of view, Hans: for synchronisation
+  it makes sense to have it in v4l-utils)
+- Move v4l-utils to a different location (like GitLab)? (Mauro: nothing against it just
+  never thought about it) (Ricardo offered to build CI for it, Hans: don't move it yet,
+  there needs to be a better reason before deciding to move)
+- Mauro: removing IR tools from v4l-utils is problematic, as we can't
+  have aliases supporting the old binary name. He suggested looking
+  into multi-packaging support on Fedora and to have multiple deb
+  packages pointing to the same repository, each one with a different
+  debian ruleset tar file (like v4l-utils-1.28.1-1.debian.tar.xz,
+  at https://packages.debian.org/de/sid/v4l-utils). We can have
+  another package with ir-tools.debian.tar.gz on it.
+
+--------------------------------------------------------------------------
+
+Topic: Rust in the media subsystem
+Presenter: Daniel Almeida
+Presentation: https://hverkuil.home.xs4all.nl/summit2024/MS2024-Rust.pdf
+
+- Approach changed, no driver anymore, which would have been a separate layer, new
+  approach no bindings anymore
+- Example writing vulnerabilities with H264 (H26Forge), which could cause a variety
+  of critical issues throughout different platforms
+- Problems from the last year: maintenance, slow down c development, overworked community
+- New strategy: only convert a few functions at a time, which are generated to be called
+  from C directly
+- Jacopo: in this case we move from unsafe to rust, do we have any guarantees for the
+  parameters? Daniel: After validation, the procedure is safe
+- problem with this it can quickly out of sync, solution: cbindgen (Mauro: does cbindgen
+  work on all architectures? Daniel: Have to come back on this)
+- Use-case: vp9 library in v4l2 because the proof of concept works best on self-contained
+  components
+  - Rework done, implemented for 2 drivers, implemented a testing tool and got the same score
+  - Doesn't use any "obscure" rust features. mostly limited to sized arrays,
+    bound checks, references and iterators
+- Mauro: Why change something that works? Nicolas: This is more to implement the
+  basic stuff that is needed to build upon, when the tooling is there it makes it
+  easier to contribute -> getting cbindgen into the toolbox (which removes a barrier),
+  Jacopo: if we don't start small we don't get to a point where it can add value
+- Martin: Prove that your implementation fixes something
+- Ricardo: roadmap, if we want that to happen, we need tooling for integration, CI for Rust
+- Sakari: Who maintains? Hans reviews, Daniel maintains
+- Hans: Not convinced that Rust in Linux is a good thing at all (why 2 languages in the codebase)
+- Hans: you need a statement from Linus, I see a lot of problems
+
+TODO:
+- Daniel: Research whether cbindgen works on all architectures and report to Mauro
+- Daniel: Bring up an example with a malicious bitstream to show that the Rust change fixes a problem
+- Hans: Review RFC from Daniel, CI required for merge
+
+--------------------------------------------------------------------------
+
+Topic: UVC maintenance
+Presenter: Hans Verkuil
+
+- UVC most used driver, maintainer (Laurent) overloaded, current situation doesn't work,
+  either assign a co-maintainer or step down and let someone else take over
+- Laurent: friction due to a discussion and due to delays
+- Ricardo: hard to sell UVC changes when it takes up to 3 years to merge not complex changes
+- Mauro: We need at least one co-maintainer
+- Ricardo would volunteer for co-maintainer
+- Laurent: Proposal add Ricardo as co-maintainer, but also have Hans send PRs to
+  Linus to have a full co-subsystem maintainer
+- Sakari: Willing to help out with reviews
+- Ricardo: what do we do on conflicts? (Hans: Hans and Mauro can mediate)
+- Ricardo: Distros are forced to use down-stream patches for UVC
+- Laurent: if big companies pushing for changes, but the maintainer isn't paid,
+  the maintainer shouldn't be obliged to be stressed (?)
+- Mauro: for the common areas we need someone with more time than Laurent
+- Hans: Why isn't anything happening when everyone says that it is so easy to solve?
+- Laurent: Flooded with patches, Ricardo: willing to help with the reviews
+
+TODO:
+- Post state to ML
+
+--------------------------------------------------------------------------
+
+Topic: V4L2 testing on Chromium using virtual video decode driver (visl)
+Presenter: Steve Cho
+Presentation: https://hverkuil.home.xs4all.nl/summit2024/MS2024-Better-Decode-Testing.pdf
+
+- How can we do more testing without the actual HW?
+- Decoding doesn't happen but the main setup can be done for verification
+- Runs with QEMU on x86 ARM
+- Currently does VP8 and VP9 tests
+- Plan do this for pre-merge testing
+- Hans: would it be possible to do decodes with the visl driver? Daniel: That should be doable
+
+--------------------------------------------------------------------------
+
+Topic: V4L2 video decoding testing with KernelCI
+Presenter: Steve Cho
+Presentation: https://hverkuil.home.xs4all.nl/summit2024/MS2024-Better-Decode-Testing.pdf
+
+- KernelCI reduces cost for ChromeOS, helps with upstream first, etc
+- Running video decode tests on the latest linux kernel upstream for Linux and on
+  Chrome OS with latest LTS versions
+- New KernelCI UI available now
+
+TODO:
+- Mauro: Have CI test malicious streams (looking at the Rust proposal)
+
+--------------------------------------------------------------------------
+
+Topic: Should media drivers depend on CONFIG_PM?
+Presenter: Laurent Pinchart
+Presentation: https://hverkuil.home.xs4all.nl/summit2024/MS2024-CONFIG_PM.pdf
+
+- Most developers will not think that CONFIG_PM could be disabled
+- It is possible to write the pm functions into the driver in a manner that doesn't
+  break without CONFIG_PM
+- Mauro mentioned that mt9v011 sensor driver doesn't implement PM and it is used by
+  em28xx USB driver
+- It is very unlikely that devices are used on architectures without PM support
+- Adding helpers for PM management? (Sakari has already started to work on something)
+- Jacopo: Should we require autosuspend support? Laurent: I think we should.
+
 
