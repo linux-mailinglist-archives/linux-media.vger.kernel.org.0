@@ -1,70 +1,72 @@
-Return-Path: <linux-media+bounces-20121-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20122-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B5A9ACD96
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 16:56:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC659ACD98
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 16:57:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D4BBD1F21378
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 14:56:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F2DBAB266CD
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 14:57:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E5A51CC8A1;
-	Wed, 23 Oct 2024 14:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CFFB1E7C16;
+	Wed, 23 Oct 2024 14:42:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UH5zhiMQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FqX7g682"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5179A1E2828;
-	Wed, 23 Oct 2024 14:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282571E47B3;
+	Wed, 23 Oct 2024 14:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729694540; cv=none; b=KmKQFPR+k+6TMWo9oml8rGmRLyXjz17RfUCO9EbB/2h9IsqHtDda0YuxfFdUmtb7VkWRrTL+n2QfNxqYso/5N5SY6HadrVgWr+9Jk+DKCorznpBBvqRr5eOr36288W+yjNHc6dTg2KC21Q9CpqCTZ0PmofXvMHCCTUVnyl5+4Sw=
+	t=1729694544; cv=none; b=Ck8kFW+2vDY0qMUyC/D3//2AbHgj4GzfFbkXQBBS1oJJflJC1Q4vqYpzEmdBwp7C2auWvy3stRMCpXqBZYdcXmsShHdJLve+2fqvLj2H+Lq3mFX1/pGaLeKsq2RqnX1n4ygR0L3WM5wypThJqQgSdkmGCsYPnIEnyNT4h05ImEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729694540; c=relaxed/simple;
-	bh=e4RmPryBG5qlhhvr/oYSobk0OjYStFjvhCmAXDT3sOk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YV9taTbsmVbS3AYxGkqEuz6u30N55RSA1/ipbE9Rrh1EKHl8YLogGby6EHyVDCbvUSDCrz/Trm46ANVcnvrV4yGAtnZVfZVIEMtUz+WrJrd1yQDCBkUmkBRfIZlU+lMUXCoAOJxZaWMFWztajln+7A3xriRT4HM88vbeCZQECUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UH5zhiMQ; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1729694544; c=relaxed/simple;
+	bh=BhiW6CeRG3/1Tl7nXzS2upHElx3PwSbc6S0h6rOfBio=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=gYLiG9YZFkYfw3kKUjqi7+loNfzczDgTvLhz0Kxc365jxZUfEgaBQc91g7SB5lreAoqI/ufvboGY6fLgVOPIuOYfhaWJT4Shu58QHXdTdQcRKjZL3UhiVe0tF1ugHkmCDKB6Yu7gcmGs7QUNgHbuQqBiudJ+Gz7oAKDoyNKA/hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FqX7g682; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20ca1b6a80aso66898285ad.2;
-        Wed, 23 Oct 2024 07:42:19 -0700 (PDT)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20ce65c8e13so58909025ad.1;
+        Wed, 23 Oct 2024 07:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729694539; x=1730299339; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YfCfY0e08fQets56CZIoi6Rt+juLarU3s4v7RWevgfI=;
-        b=UH5zhiMQb80SsGArshbeL+R+XQJnDqfe/Tt5Ug7nO+nMhFduOe8CjqWIzy3y+a8mz5
-         Lft9tWAjS+WAwzyhifkn7Cc+pTtqB4Jd/zFmVcQ1dKcAqv80XxH49e4poyPVdlDyJwez
-         snD3+IoTbPky019nXYjb/zJxQUFtNoHv0Wr6nvhinoWdXjGBDfacW3twoVrYwhofNNFw
-         54r/rl9Upx/5vNXK9o0+MS0rJk71pe0g3sU7whh+nAADDkm5EsdNUrDwuq5t67k69NMO
-         /+wZWoJqVyBUJn4oK5PS4b5OUdns8b2I8y06tG7tzr1qre7NkLSZbxDzCEoeNSO+2NXC
-         knyw==
+        d=gmail.com; s=20230601; t=1729694542; x=1730299342; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pAZtW9NjaJRCd02uPiUXqi3LhoLZg99JQlzHPisrjt4=;
+        b=FqX7g682va0ER0Apw6PWkq6wUYzxvVKb358W2MPMwqWR71Lx8dAuDDe59T0hg4/K37
+         Xx7mW1akCLXruJhUfn5Le0OsgP95xXuqbt6UrT5qo1cLrQbS6GC2jPlyjkHNQup5bZ//
+         6GXOZjt4XZ7nigkkYKDMbmy1Xs1Xhozf1DeVv00moLSJenr8da/l9DrAj67+wBBnL+NT
+         G3SvBC+W0KJOn146OMcZURNyBwAqDR5nJoG7dxyTkzbBQlYe3NuYPy7xrXvI8xmbuVjb
+         nvwxxUEWH2hqoTRid2AtQ4d4MI/FOhOc5L47vvt+ygj91Ql3JzGtjIx3cDTIlcdGpES6
+         txgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729694539; x=1730299339;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YfCfY0e08fQets56CZIoi6Rt+juLarU3s4v7RWevgfI=;
-        b=pu2GrVD/sbR6EO+j0lqiPHbmyr/63m0pMO1/YYj22lMiqxUk3uZnOdw1DCsdSCpj77
-         LCmiePHOToCAl+lHsLnbrc46gpL6m5NSQv+mzWyl4kVE348jlT3vGrTOX/ai4UBf/hZQ
-         aNZoPuGd3/MiVGFY0bZNPd2fM12oAaaIgK/9bmrL3q8HS5oZBfMHfvxbUCjNjs+Fi1do
-         99ClK8WY2uA24Tt+KDuu5pNsvfyU8dXSZMV83qgNAAa1GVxKPWES1VyQgmboBwF6ijvH
-         jNETe+nco5V6rFo/WhXsG88LIYP0Wlc65RGjN85z2ARGQYrwLFHwPa9v8wPG5GQEus/W
-         e2RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWOsT/P8Jvs70wgEV3Mo6zmJzja2dF1gfmUOjSYVxNSZFCN/kU+soT8+uph6FqWFxFHysVeMC/AzI7ZAk4=@vger.kernel.org, AJvYcCWe+MuYm3aNxRd04AAjnrYL5Xbhr6sSLD5q8qRZFo2T8rMfb1wkUFOYX9kB+LtGeP4xNRM74/3nntRR@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaiFxW9vPO81BR3X5qcExLb1joH7p5EOfVq3az5LHftxnAoMiL
-	OOexfnOreeQ1gwwxIFgNPO5yNTwU+RVflkRLY+rkmE6Szl65zIEj
-X-Google-Smtp-Source: AGHT+IFB17hqHfuiufxeK4p878goN3oqjHEpwzkM7x70GkUyk90bBzpvra7dZniR9vA6LGkZjhYwug==
-X-Received: by 2002:a17:902:d507:b0:20b:5ea2:e06 with SMTP id d9443c01a7336-20fab31f644mr43620755ad.56.1729694538576;
-        Wed, 23 Oct 2024 07:42:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729694542; x=1730299342;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pAZtW9NjaJRCd02uPiUXqi3LhoLZg99JQlzHPisrjt4=;
+        b=EYTMElitte1bMzcLcr400ef9Wld1Rcjs/L3Z8IvLEHvGSiChpOp4+XFGBdH4frwl42
+         DiWUtmZsxOq3pJcsE5B9+QG/AA0ww8um5Xtm/YPApx8Vej3GahIvEla8iJBxjzLP9FXX
+         Yd95zpKAiqBMAGUQEnSgw8neSWpqlXa52cVy29/O/JXZSCNqsN+fEm8Emm5qYyckrbKM
+         bIdHw2yKZ9FglmD4a6h6+0S575VLi9F8JBSK04Fc8YMoDAzYM+jxuAw5V/6qUDe0aaKg
+         2yyfDE+3HPz1yVZt6xhYRENz/1rEDiebmb/v3tkOP/83AeqaeggwDYm38L8MZwpCS+/x
+         d7Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/DNLnS8dnvgRp9pG5reJynpLXREZBR87VNc7mLa9xXK/ERR/TTRRTuWMWo7faRvJk2q+dg5UvweG0@vger.kernel.org, AJvYcCVv76iWaQf3Zhw6DWjpEDG6nxWgf1DHhcjeRX1wHyzquX0PX6B59aYBTmNlP6qgRI/Tq4/YeT8bJC1+9HY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyy8+4BQELD/UPRkyTh5IHL0iVyxLjQNCnGstQHAybTgfCKZSJs
+	sKXj7GSoFwaSfmRG9jmnuj1B3GHzV+Krx++fFmgegxO2DterDrza
+X-Google-Smtp-Source: AGHT+IHtFI+W2uEX9Bpbgk8Y/oO1hucjnLHdsZzQdADv9NyLsS84aIUvZDstLfDUxYK/QEtVQbGdYA==
+X-Received: by 2002:a17:903:1c2:b0:20c:7898:a8f5 with SMTP id d9443c01a7336-20fa9e5c43cmr29315235ad.28.1729694542344;
+        Wed, 23 Oct 2024 07:42:22 -0700 (PDT)
 Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:3468:366c:e529:6d8e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f109c5asm58573725ad.305.2024.10.23.07.42.15
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f109c5asm58573725ad.305.2024.10.23.07.42.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 07:42:17 -0700 (PDT)
+        Wed, 23 Oct 2024 07:42:21 -0700 (PDT)
 From: Fabio Estevam <festevam@gmail.com>
 To: hverkuil-cisco@xs4all.nl
 Cc: lars@metafoo.de,
@@ -78,10 +80,12 @@ Cc: lars@metafoo.de,
 	francesco.dolcini@toradex.com,
 	linux-arm-kernel@lists.infradead.org,
 	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH 1/3] media: dt-bindings: adv7180: Document 'adi,force-bt656-4'
-Date: Wed, 23 Oct 2024 11:42:04 -0300
-Message-Id: <20241023144206.1099622-1-festevam@gmail.com>
+Subject: [PATCH 2/3] media: adv7180: Also check for "adi,force-bt656-4"
+Date: Wed, 23 Oct 2024 11:42:05 -0300
+Message-Id: <20241023144206.1099622-2-festevam@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241023144206.1099622-1-festevam@gmail.com>
+References: <20241023144206.1099622-1-festevam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -92,39 +96,31 @@ Content-Transfer-Encoding: 8bit
 
 From: Fabio Estevam <festevam@denx.de>
 
-The "adv,force-bt656-4" compatible string causes several dt-schema
-warnings because 'adv' is not a valid vendor prefix defined in
-vendor-prefixes.yaml:
+According to adv7180.yaml, the correct property name is
+"adi,force-bt656-4".
 
-adv7280@21: 'adv,force-bt656-4' does not match any of the regexes: '^#.*'...
-
-The correct vendor prefix for Analog Devices is 'adi', so change
-the property name to 'adi,force-bt656-4'.
-
-Keep the old property for old DTB compatibility and mark it as deprecated.
+Expand the check to also test against the "adi,force-bt656-4" compatible
+string.
 
 Signed-off-by: Fabio Estevam <festevam@denx.de>
 ---
- Documentation/devicetree/bindings/media/i2c/adv7180.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/media/i2c/adv7180.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
-index c8d887eee3bb..4371a0ef2761 100644
---- a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
-@@ -39,6 +39,12 @@ properties:
-     maxItems: 1
+diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+index 819ff9f7c90f..ff7dfa0278a7 100644
+--- a/drivers/media/i2c/adv7180.c
++++ b/drivers/media/i2c/adv7180.c
+@@ -1440,7 +1440,8 @@ static int adv7180_probe(struct i2c_client *client)
+ 		return ret;
+ 	}
  
-   adv,force-bt656-4:
-+    deprecated: true
-+    description:
-+      Indicates that the output is a BT.656-4 compatible stream.
-+    type: boolean
-+
-+  adi,force-bt656-4:
-     description:
-       Indicates that the output is a BT.656-4 compatible stream.
-     type: boolean
+-	if (of_property_read_bool(np, "adv,force-bt656-4"))
++	if (of_property_read_bool(np, "adv,force-bt656-4") ||
++	    of_property_read_bool(np, "adi,force-bt656-4"))
+ 		state->force_bt656_4 = true;
+ 
+ 	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
 -- 
 2.34.1
 
