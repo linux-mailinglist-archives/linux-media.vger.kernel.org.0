@@ -1,124 +1,131 @@
-Return-Path: <linux-media+bounces-20120-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20121-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D9A9ACD6E
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 16:53:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B5A9ACD96
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 16:56:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BC531F24792
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 14:53:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D4BBD1F21378
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 14:56:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9042A1CF7DF;
-	Wed, 23 Oct 2024 14:34:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E5A51CC8A1;
+	Wed, 23 Oct 2024 14:42:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PUU3mIP6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UH5zhiMQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3701C75E6;
-	Wed, 23 Oct 2024 14:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5179A1E2828;
+	Wed, 23 Oct 2024 14:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729694062; cv=none; b=awYwtEovgsy2YfC/ZZt+odpCxbgRHUiWmpF1CpUSH1QW/iPtTAmIBVbTUg+sXBLN/fcamT+rovY2gHo+CN5Dn1BFDmKyCqbVgbtCoFlGzIjYVN7HnpdhcLk7S6g3BxPKzg4QbcXxw636rebzT2bJHyJz0MXVPQF9q4IH71So4BY=
+	t=1729694540; cv=none; b=KmKQFPR+k+6TMWo9oml8rGmRLyXjz17RfUCO9EbB/2h9IsqHtDda0YuxfFdUmtb7VkWRrTL+n2QfNxqYso/5N5SY6HadrVgWr+9Jk+DKCorznpBBvqRr5eOr36288W+yjNHc6dTg2KC21Q9CpqCTZ0PmofXvMHCCTUVnyl5+4Sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729694062; c=relaxed/simple;
-	bh=845TFphQ2gJiHgmIyDRpM83se8Q0trST6dSfs+lNT8A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lkYV8auk5Cb/2kIkEB7HhXmTxS8X/McSTLRYkHDJx1CwT+38QlLdMKCukUtZLWDkoVV1yQg7JhYyoZaaX1cFJuDjii+trIV4x8WuTV1kFHMjY1zuQ7PJei7xPviJc0qLY/GOMaowVi7VbDNPXx6OR/ZKnh/EMl8e79IiUFncZ48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PUU3mIP6; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1729694540; c=relaxed/simple;
+	bh=e4RmPryBG5qlhhvr/oYSobk0OjYStFjvhCmAXDT3sOk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YV9taTbsmVbS3AYxGkqEuz6u30N55RSA1/ipbE9Rrh1EKHl8YLogGby6EHyVDCbvUSDCrz/Trm46ANVcnvrV4yGAtnZVfZVIEMtUz+WrJrd1yQDCBkUmkBRfIZlU+lMUXCoAOJxZaWMFWztajln+7A3xriRT4HM88vbeCZQECUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UH5zhiMQ; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a99cc265e0aso1025772866b.3;
-        Wed, 23 Oct 2024 07:34:19 -0700 (PDT)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20ca1b6a80aso66898285ad.2;
+        Wed, 23 Oct 2024 07:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729694058; x=1730298858; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q4kJampXEx3nv7rxbRRPQLyxusFtEFCb6+hV0uyGoRA=;
-        b=PUU3mIP6tVJSy7V2TuYQEw5JcbJfhaQ0w1IxpUQxA/ibGIWO+4BS6vzFGI27+5bodr
-         Mjux9iXOVSEDyl1QzumW3jhM3ferEYKzBPj9ogM/U7Gu8WzIU8HIjhR+X1hI61TPbbnI
-         KagdoKQjI7LienNO2jXh8WvkqHb7E6pjvVZTDuGQ4oucWM3M1MSm7X5bgUlI/FBvz4LQ
-         eLFMLYaayVMmRe+cVS2dXrqoRYSVyFMOYavbL0FAUEMfExrbPXH3FTIBztaYeLfpf7/M
-         TZGujLwPzEVPfiu54WA3/4Dlqc8IitdOAbLXilIFDv3Lo/BLF5UUe03wcJ05oovMCj2G
-         OcVg==
+        d=gmail.com; s=20230601; t=1729694539; x=1730299339; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YfCfY0e08fQets56CZIoi6Rt+juLarU3s4v7RWevgfI=;
+        b=UH5zhiMQb80SsGArshbeL+R+XQJnDqfe/Tt5Ug7nO+nMhFduOe8CjqWIzy3y+a8mz5
+         Lft9tWAjS+WAwzyhifkn7Cc+pTtqB4Jd/zFmVcQ1dKcAqv80XxH49e4poyPVdlDyJwez
+         snD3+IoTbPky019nXYjb/zJxQUFtNoHv0Wr6nvhinoWdXjGBDfacW3twoVrYwhofNNFw
+         54r/rl9Upx/5vNXK9o0+MS0rJk71pe0g3sU7whh+nAADDkm5EsdNUrDwuq5t67k69NMO
+         /+wZWoJqVyBUJn4oK5PS4b5OUdns8b2I8y06tG7tzr1qre7NkLSZbxDzCEoeNSO+2NXC
+         knyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729694058; x=1730298858;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q4kJampXEx3nv7rxbRRPQLyxusFtEFCb6+hV0uyGoRA=;
-        b=n/NbSm3TYAVOw7BEpKEFHhnP5TWr1yJzwe4W29CqRqQlb2EJ9BrbMtNONVByCzSE+E
-         u8uR/7AdxYbs718RxiKPcLtVu2IEtbNbeq9q18sVE0RMep9SbdS36gOL9xc/08W/k6aO
-         qIj+ZbrUGUUlAypmVgW8hvNPAVkPMpaCyR4/VOoXdTCQwM4VkMtlHOUv/TTnZ8L4f555
-         MhSB8fMzojExm9j4K+PPx1rOG+SnWnzBbsuYlwOE48oc69QPPMXRRjSuqA6GaMZi1yGP
-         +MkQ392EqxgEdUV7vfxn7ighYoGFMF2yumGXeJ4DYHhekaqDbzAA5CHEvhFROrVjDh8l
-         KJbA==
-X-Forwarded-Encrypted: i=1; AJvYcCVSmHuXiWjpIIs2qsEqMeIRAz5+Ir1bCG4xtjFvKVUBSurrA16TJBQNpgFTYFrOlthLKiyjbn/0C4q6jQ==@vger.kernel.org, AJvYcCXysfJAvLYtqtQAaGE0o1xkMLdPH0wJ/0vI8zEapTaAcml3bPyjTeOGsjsidtrlh+okLkPdjdno@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcxzLRYn9G0eMMelR8rsyAjMjWpIhmMAY6XcZaWI15n/ICp2Zq
-	PkQWjIicFspvj/ldTBXiVnaOP++JIMn0ILrbE5xw+yYY5j0M7P3IRqrp6g==
-X-Google-Smtp-Source: AGHT+IHpnzei1u28XJ/Cb4x4LM2CIq79av1YBmoRQwGIYPDEwnobftY+MUQkzpScEWtj5S2LMvBtDQ==
-X-Received: by 2002:a17:907:960b:b0:a9a:e2b:1711 with SMTP id a640c23a62f3a-a9abf5288bdmr329808366b.0.1729694057334;
-        Wed, 23 Oct 2024 07:34:17 -0700 (PDT)
-Received: from [192.168.8.113] ([148.252.141.112])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a91573645sm479309066b.182.2024.10.23.07.34.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Oct 2024 07:34:17 -0700 (PDT)
-Message-ID: <264c8f95-2a69-4d49-8af6-d035fa890ef1@gmail.com>
-Date: Wed, 23 Oct 2024 15:34:53 +0100
+        d=1e100.net; s=20230601; t=1729694539; x=1730299339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YfCfY0e08fQets56CZIoi6Rt+juLarU3s4v7RWevgfI=;
+        b=pu2GrVD/sbR6EO+j0lqiPHbmyr/63m0pMO1/YYj22lMiqxUk3uZnOdw1DCsdSCpj77
+         LCmiePHOToCAl+lHsLnbrc46gpL6m5NSQv+mzWyl4kVE348jlT3vGrTOX/ai4UBf/hZQ
+         aNZoPuGd3/MiVGFY0bZNPd2fM12oAaaIgK/9bmrL3q8HS5oZBfMHfvxbUCjNjs+Fi1do
+         99ClK8WY2uA24Tt+KDuu5pNsvfyU8dXSZMV83qgNAAa1GVxKPWES1VyQgmboBwF6ijvH
+         jNETe+nco5V6rFo/WhXsG88LIYP0Wlc65RGjN85z2ARGQYrwLFHwPa9v8wPG5GQEus/W
+         e2RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWOsT/P8Jvs70wgEV3Mo6zmJzja2dF1gfmUOjSYVxNSZFCN/kU+soT8+uph6FqWFxFHysVeMC/AzI7ZAk4=@vger.kernel.org, AJvYcCWe+MuYm3aNxRd04AAjnrYL5Xbhr6sSLD5q8qRZFo2T8rMfb1wkUFOYX9kB+LtGeP4xNRM74/3nntRR@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaiFxW9vPO81BR3X5qcExLb1joH7p5EOfVq3az5LHftxnAoMiL
+	OOexfnOreeQ1gwwxIFgNPO5yNTwU+RVflkRLY+rkmE6Szl65zIEj
+X-Google-Smtp-Source: AGHT+IFB17hqHfuiufxeK4p878goN3oqjHEpwzkM7x70GkUyk90bBzpvra7dZniR9vA6LGkZjhYwug==
+X-Received: by 2002:a17:902:d507:b0:20b:5ea2:e06 with SMTP id d9443c01a7336-20fab31f644mr43620755ad.56.1729694538576;
+        Wed, 23 Oct 2024 07:42:18 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:3468:366c:e529:6d8e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f109c5asm58573725ad.305.2024.10.23.07.42.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 07:42:17 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: hverkuil-cisco@xs4all.nl
+Cc: lars@metafoo.de,
+	mchehab@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	shawnguo@kernel.org,
+	francesco.dolcini@toradex.com,
+	linux-arm-kernel@lists.infradead.org,
+	Fabio Estevam <festevam@denx.de>
+Subject: [PATCH 1/3] media: dt-bindings: adv7180: Document 'adi,force-bt656-4'
+Date: Wed, 23 Oct 2024 11:42:04 -0300
+Message-Id: <20241023144206.1099622-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 02/15] net: generalise net_iov chunk owners
-To: Christoph Hellwig <hch@infradead.org>, David Wei <dw@davidwei.uk>
-Cc: io-uring@vger.kernel.org, netdev@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, David Ahern <dsahern@kernel.org>,
- Mina Almasry <almasrymina@google.com>,
- Stanislav Fomichev <stfomichev@gmail.com>, Joe Damato <jdamato@fastly.com>,
- Pedro Tammela <pctammela@mojatatu.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20241016185252.3746190-1-dw@davidwei.uk>
- <20241016185252.3746190-3-dw@davidwei.uk> <ZxijxiqNGONin3IY@infradead.org>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <ZxijxiqNGONin3IY@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/23/24 08:20, Christoph Hellwig wrote:
-> On Wed, Oct 16, 2024 at 11:52:39AM -0700, David Wei wrote:
->> From: Pavel Begunkov <asml.silence@gmail.com>
->>
->> Currently net_iov stores a pointer to struct dmabuf_genpool_chunk_owner,
->> which serves as a useful abstraction to share data and provide a
->> context. However, it's too devmem specific, and we want to reuse it for
->> other memory providers, and for that we need to decouple net_iov from
->> devmem. Make net_iov to point to a new base structure called
->> net_iov_area, which dmabuf_genpool_chunk_owner extends.
-> 
-> We've been there before.  Instead of reinventing your own memory
-> provider please enhance dmabufs for your use case.  We don't really
-> need to build memory buffer abstraction over memory buffer abstraction.
+From: Fabio Estevam <festevam@denx.de>
 
-It doesn't care much what kind of memory it is, nor it's important
-for internals how it's imported, it's user addresses -> pages for
-user convenience sake. All the net_iov setup code is in the page pool
-core code. What it does, however, is implementing the user API, so
-There is no relevance with dmabufs.
+The "adv,force-bt656-4" compatible string causes several dt-schema
+warnings because 'adv' is not a valid vendor prefix defined in
+vendor-prefixes.yaml:
 
+adv7280@21: 'adv,force-bt656-4' does not match any of the regexes: '^#.*'...
+
+The correct vendor prefix for Analog Devices is 'adi', so change
+the property name to 'adi,force-bt656-4'.
+
+Keep the old property for old DTB compatibility and mark it as deprecated.
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ Documentation/devicetree/bindings/media/i2c/adv7180.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+index c8d887eee3bb..4371a0ef2761 100644
+--- a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+@@ -39,6 +39,12 @@ properties:
+     maxItems: 1
+ 
+   adv,force-bt656-4:
++    deprecated: true
++    description:
++      Indicates that the output is a BT.656-4 compatible stream.
++    type: boolean
++
++  adi,force-bt656-4:
+     description:
+       Indicates that the output is a BT.656-4 compatible stream.
+     type: boolean
 -- 
-Pavel Begunkov
+2.34.1
+
 
