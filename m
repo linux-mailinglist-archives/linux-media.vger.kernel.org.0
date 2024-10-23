@@ -1,80 +1,65 @@
-Return-Path: <linux-media+bounces-20125-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20126-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92DB9ACE26
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 17:09:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D24869ACE30
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 17:09:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA29B1C209BA
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 15:09:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F13081C208EC
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 15:09:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 528A51C830D;
-	Wed, 23 Oct 2024 15:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AA8D1CEAC4;
+	Wed, 23 Oct 2024 15:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PRLCctIl"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="LXXO91C4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3B81AC428
-	for <linux-media@vger.kernel.org>; Wed, 23 Oct 2024 15:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AAB1AC428;
+	Wed, 23 Oct 2024 15:03:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729695753; cv=none; b=WTdMjequp+ti2g+fwS5aBtJivcZEUlaot3mRB7noBzz2W32ZagcYtguUSaoTf9loPiI3oBIytbJwGWihQbzjIiPa8lmRM1bJEruuD9ZqGmpIv/7JvjzJdlIVIBWmARNSCQzsSiYKX650Qpg4rOTG3/XlMt2uVLW6mmdDSRp38F4=
+	t=1729695808; cv=none; b=B9rWqaa1slv80SpB/47rvj9/wAhV3A9CQZkzUag1GLL5BtpM5vie3ANno99LkXPhSWAcOlQZuM/8aKZgnrqJAOg+L0JBNIPMfveRX/b8NLwCyULWLBIO4LIH37PAj2VSHXq5C8qo/lNnS1ohJTwGsuOpq9L4dKQVmgqVIFUemm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729695753; c=relaxed/simple;
-	bh=OIOpONY0Z6vcMG6iBJz00KWCO35iq/nN7NAoqdZBqQY=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=WEBFRX6AqLIuosnmLmUMm/FAg57/NZ2jC34slfgWlSKylsygO5lMANamBJ2TQkP1o4jUl5vcjGsuX7x6riTiJuY+5SGhEJfgCAYv7UEDyRksWDsJ79NczSeXoWcIfSTqBV68W8u38P6y3xSLVSpq7ZImsl5k1QyUpJs1I30DKMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PRLCctIl; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729695750;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4Ev0kxkSpiSHbriY2NaV1OZqAKUBDU9EQFgepQjyDAU=;
-	b=PRLCctIlDpECyTeUEYJQQf5VlsSr0pX/2ojl+CS7N5/4YndM2WS9zNefiBl1R3UWTpLeRx
-	JlbcLiQfJYVyIv7KwOiiD42mFdvbJIqpLDIXC7Cg0g2CMjIzxsb6zzW5iC46pTVePo/7ob
-	k9m7FX8bd9/05zp4PZO8BxDxR1zOAaQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-554-hde43kp1MAuaQVU_8B0_pw-1; Wed, 23 Oct 2024 11:02:28 -0400
-X-MC-Unique: hde43kp1MAuaQVU_8B0_pw-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a99fa9f0c25so396538366b.3
-        for <linux-media@vger.kernel.org>; Wed, 23 Oct 2024 08:02:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729695748; x=1730300548;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Ev0kxkSpiSHbriY2NaV1OZqAKUBDU9EQFgepQjyDAU=;
-        b=c1NsFGqoawhL8NpGmw3B2dvkHtP1JkIv8Tydusa6UTOBfyQQFDw8gO4AHiQedAuFdn
-         iKEv1XviHKhKwvmPHMtnw1oSN8W6vT8QnML3cnucncYt9ziubcwRFs4GwD+eZgomnU6h
-         O6aFTUEJHmw5uK8BeyfdRuXGBekUromvhb8FGYLyux+d+uqPYBLX5OpIsCdLzAiLgnMw
-         RhYniluCjOocbrjAKOSFHvffIld1KAUjWdkwI6Z7SQQdScDDlXI3qQkA8Ru9mb96LVq0
-         bcid8aT0v1TEfWLFxEkUKuAb0lpXgB+HQGg0wBL1X4yqVXK+Y1JK3uqnWf0CBVdEj62D
-         WL2w==
-X-Forwarded-Encrypted: i=1; AJvYcCWKdFViZSw8J4zXAT2nRFhUwKvnLef8jxkzeeuR5+mTQ6BrWj+KoRybXTVxom53XUQv9PvTThKNjxlbog==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8jtSfwDonSeDpy0cLogHlQT6u9p32hTc2JC/T8xwKIG4Tl+C9
-	vpARB+oVquk7cIVuuwmpujmGoBL1SBWKs82oBskEbqYatO06t5nwYxr/eUing35PRrL94ggR0T5
-	bO1yzP8u6Rs6oq2vaitfnrQQvyGKD1wigMC/cq3cu+fPc42Vq/EvRNKqRv8Ki
-X-Received: by 2002:a17:907:1ca3:b0:a9a:6477:bd03 with SMTP id a640c23a62f3a-a9abf8a5023mr217067466b.38.1729695745969;
-        Wed, 23 Oct 2024 08:02:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEq1mERRIHyOWttMwqR6/mqZd8C3gCeWilsBwWbFVzPUg1ESvx4WFHWvcutQc1rxZt/GUV6OQ==
-X-Received: by 2002:a17:907:1ca3:b0:a9a:6477:bd03 with SMTP id a640c23a62f3a-a9abf8a5023mr217061366b.38.1729695745188;
-        Wed, 23 Oct 2024 08:02:25 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a915a2df1sm488994666b.225.2024.10.23.08.02.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Oct 2024 08:02:24 -0700 (PDT)
-Message-ID: <78b60848-3c28-4a9b-a002-5c2ec841e97f@redhat.com>
-Date: Wed, 23 Oct 2024 17:02:24 +0200
+	s=arc-20240116; t=1729695808; c=relaxed/simple;
+	bh=IXHJa5RQcBe9FMOfbzUii64NPCDAhUxZUns0+9xZNqE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K7nkk1BV7xPGnkqSJwezlCwBUw2N5WxBVj1C2fa+zfW9W1QDgvf4pNy0W3rOScK4cxaagOT50wc/1jNtOgboY9Ay04QT7v+RUtT70ClokHvnzM5SUgJeF75LDqmhoPS5mHWKk7j0YKB2BUQd176Q0OsyWFtZStIa2+fb/03H64k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=pass smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=LXXO91C4; arc=none smtp.client-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyyself.name
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1729695793; bh=O2vgyHc/qd9IY8tmRPayOa/IPLbcMryM1fWzEPdubOc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=LXXO91C40hYzMjKiULTDGXZTFgn39Wex6qVpAejOhoq+OShSuPU9rGopH0Qptk9/z
+	 39N2rN0XXRkpeNufAhAGWdebzftw0EASMmQSHyDqkB7RYqnCUOz6wtS9xVELTyN7Sd
+	 urvBM17UvJldQqRhCxBv6lO0iV4vSH0azEk9XeKg=
+Received: from [IPV6:2408:8207:18a1:fd20:ec7f:d727:3cc2:ded9] ([2408:8207:18a1:fd20:ec7f:d727:3cc2:ded9])
+	by newxmesmtplogicsvrsza15-1.qq.com (NewEsmtp) with SMTP
+	id C4982B3; Wed, 23 Oct 2024 23:03:04 +0800
+X-QQ-mid: xmsmtpt1729695784tknky4f7b
+Message-ID: <tencent_E5B5A91C2B70BF6346432A1A3DF9AC047709@qq.com>
+X-QQ-XMAILINFO: NNoVXaH09J17SGad50D8Zq2LBGlcfi9ovxOaekxYE+K6rbvaH0gC7kRcka2hd/
+	 +Vv3XvkKl/5NEuGvqi3HW6J6Ee1dvxvRmSB7BGw0MBKd5+nXUYgVWCA6C5AzRimjFsCReS9Fy4OB
+	 91BW+ZejIyQxEPqJVtM0F34UGWtvl1PgKtg5gh8CfvzwLoktw6ve/1WOi5tdFKtZe0vaIYleQS9Q
+	 +h34lsbAvG4GZbQKfFOhurbUC4b/ugA1qKrURsUYspoRSMB8A0XfyMcfHSrP+DCBrPQHo9gqdxBP
+	 5xc71R9TR2Nhlln4NyBoWnvdptI/yceIfoSYZRVe8iLCxV0nopMXAzrKQdSJogFyumgbva1rbDuw
+	 PBGMLaKVt3f2RtnaUz8Jb+Pauwe5dTUTkSRWBkggMANBc0mV3zgMOToc0gv6/fqpY7UpcCrEMjdJ
+	 jcYm5RLyQWziS/KVrnhQEpk1XorcUWVonMYZmT8gku8X09iO0C3uxkQkPrLm4L6sWgmv4/sQ5w74
+	 5dIgQlzwxA9saWmrV2j46MJ0P6Udk1Q8VGbnYQiME9FUAGpuTA0j1dV1Ytnd37z+JQ6ANQ65dMhp
+	 KkWi98aAhxUF4tWSWEgGx+cmiGu/zHhLo85jZDaVAJE7VzZMLVoUP1azfbDwon1bZJ5o5R/HzJC3
+	 cjP1QS6tj2kxfdJ09joUSMuqFJJRQ2R4NI/eoS0rvJ6sDcYMFdY8AKksk7EKFh1ztkJTyMNsDUhd
+	 fA7WoHYNEvA0aHyuk4p9mA8c05IZMJmNLC8rkTO9YdRvIhKpFNYfHjSZnGUdkVC6NOKBQeYXdx3z
+	 be7Mp8tvGHyyHDmvzDesE7ZX3RWBzDfho62bCvkGLAO784t+zSD1t/fn6f7BSQ6YXkPID9HnwJ0u
+	 3E+hYXSCqcc81KXH/WUcQ5C8gd6c1XvJ3hQA2hOpYzFWBimevp0pVaqTIpQGxnahVyBkXiI5GH1O
+	 +kZtGJRDoPP2RpnSzARO2m9QNSX2Xd7tTsNddPow7bhKbNYsrnWlzGmBAd5/BA0AchBcROo5Ph9o
+	 xHXwBw+Q==
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+X-OQ-MSGID: <ca446a13-76e7-4c04-bc28-070c01bb3428@cyyself.name>
+Date: Wed, 23 Oct 2024 23:03:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,309 +67,428 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: v4l: Call s_stream() on VCM when it is called
- on the associated sensor
-From: Hans de Goede <hdegoede@redhat.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20240901211834.145186-1-hdegoede@redhat.com>
- <20240901211834.145186-2-hdegoede@redhat.com>
- <20240901212829.GA25983@pendragon.ideasonboard.com>
- <92bf3d6b-018e-409c-93ae-80d4404d4d44@redhat.com>
-Content-Language: en-US, nl
-In-Reply-To: <92bf3d6b-018e-409c-93ae-80d4404d4d44@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] Revert "MAINTAINERS: Remove some entries due to various
+ compliance requirements."
+To: Kexy Biscuit <kexybiscuit@aosc.io>, jeffbai@aosc.io,
+ gregkh@linuxfoundation.org, wangyuli@uniontech.com,
+ torvalds@linux-foundation.org
+Cc: aospan@netup.ru, conor.dooley@microchip.com, ddrokosov@sberdevices.ru,
+ dmaengine@vger.kernel.org, dushistov@mail.ru, fancer.lancer@gmail.com,
+ geert@linux-m68k.org, hoan@os.amperecomputing.com, ink@jurassic.park.msu.ru,
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-spi@vger.kernel.org, manivannan.sadhasivam@linaro.org,
+ mattst88@gmail.com, netdev@vger.kernel.org, nikita@trvn.ru,
+ ntb@lists.linux.dev, patches@lists.linux.dev, richard.henderson@linaro.org,
+ s.shtylyov@omp.ru, serjk@netup.ru, shc_work@mail.ru,
+ tsbogend@alpha.franken.de, v.georgiev@metrotek.ru,
+ wsa+renesas@sang-engineering.com, xeb@mail.ru
+References: <a08dc31ab773604d8f206ba005dc4c7a@aosc.io>
+ <20241023080935.2945-2-kexybiscuit@aosc.io>
+Content-Language: en-US
+From: Yangyu Chen <cyy@cyyself.name>
+In-Reply-To: <20241023080935.2945-2-kexybiscuit@aosc.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-p.s.
 
-On 23-Oct-24 2:48 PM, Hans de Goede wrote:
-> Hi Laurent,
-> 
-> On 1-Sep-24 11:28 PM, Laurent Pinchart wrote:
->> Hi Hans,
->>
->> Thank you for the patch.
->>
->> On Sun, Sep 01, 2024 at 11:18:33PM +0200, Hans de Goede wrote:
->>> Currently VCM drivers power-up the VCM as soon as the VCM's /dev node
->>> is opened and through the runtime-pm device-link to the sensor this
->>> also powers up the sensor.
->>>
->>> Powering up the VCM and sensor when the /dev node is opened is undesirable,
->>> without a VCM sensors delay powering up until s_stream(1) is called. This
->>> allows querying / negotiating capabilities without powering things up.
->>>
->>> Sometimes a long running daemon like pipewire may keep the /dev node open
->>> all the time. The kernel should still be able to powerdown the VCM + sensor
->>> in this scenario.
->>>
->>> VCM drivers should be able to do the same as sensor drivers and only
->>> power-up the VCM when s_stream(1) is called on the VCM subdev, but this
->>> requires that s_stream() is actually called on the VCM when the sensor
->>> starts / stops streaming.
->>
->> .s_stream() doesn't conceptually make sense for VCMs. Furthermore,
->> .s_stream() is being replaced with .enable_streams() and
->> .disable_streams(), which will make even less sense. We need a different
->> API.
-> 
-> We can discuss how to call the subdev ops for this once we know
-> what the overal design for this is going to be. So lets postpone
-> the discussion about naming the subdev ops for this till later.
-> 
->>> The s_stream() call on sensor subdevs is done by CSI-receiver/ISP drivers.
->>> To avoid needing to change all these call sites to also call s_stream()
->>> on the VCM (if there is one) handle the VCM in the v4l2-core similar to how
->>> the core takes care of turning on/off the privacy LED.
->>
->> This needs to come with a design rationale, documented in
->> Documentation/. The design needs to explain the use cases. Lens motion
->> may take time, which I expect will influence how we will need to handle
->> power management.
->>
->> I'm not very comfortable handling this in v4l2-subdev.c, it seems that
->> we'll hardcode use cases. Without a clear and detailed designed
->> rationale, this patch feels we'll paint ourselves in a corner. We have
->> enough badly designed (or not designed at all) APIs for cameras, it's
->> time to do better.
-> 
-> Design wise I roughly see 3 options:
-> 
-> a. Stick with the current design of powering on on open of /dev/v4l-subdev
-> 
-> b. Add explicit calls userspace can make to power-on the device
-> 
-> c. My current proposal to automatically power-on when the sensor associated
-> with the VCM.
-> 
-> Since this patch series implements 3, I'm going to discuss that option
-> here now. But if that hits a dead end we can look at 2. too.
-> 
-> Talking about use-cases, lets simplify things by looking at use-cases
-> solely from a VCM power on/off point of view. Looking at it that way
-> I really only see 2 orthogonal groupings for all use-cases (so 4
-> possible combinations of groupings, but I think we can discuss each
-> of the 2 axis separately):
-> 
-> Grouping i: amount of sensor stream start/stops in a single "use"
-> 
-> 1. The sensor starts streaming once and then the stream stops for
-> a significant period of time; vs
-> 
-> 2. The stream is sometimes stopped to change settings and then
-> restarted within a single use-case.
-> 
-> For 1. automatically powering on the VCM on stream start is fine.
-> For 2. we do not want the VCM to turn off and then back on again
-> while changing settings. We can use auto-suspend with a long enough
-> auto-suspend delay (we could default to 1s) for this. There might
-> be some special cases where we need to change the auto-suspend delay.
-> We could add some V4L2 API (ctrl?) for this, or use the existing
-> sysfs API through e.g. a udev rule.
-> 
-> To me using autosuspend-delays here seems workable and having
-> the v4l2-subdev code manage the power has the advantage that it does
-> not break any userspace APIs. IOW things will just work while
-> saving power for existing users and things will also just work
-> for new use-cases without requiring userspace to have to do
-> extra work for this.
 
-Note that apparently even with the existing power-on on open()
-there are issues where the VCM powers-down when change modes
-and people are already submitting patch to work around this, e.g. :
+On 2024/10/23 16:09, Kexy Biscuit wrote:
+> This reverts commit 6e90b675cf942e50c70e8394dfb5862975c3b3b2.
+> 
+> An absolutely no-one-ever-reviewed patch, not even by the maintainers who
+> got removed themselves - at least not on the mailing list. Then the patch
+> just got slipped into an unrelated subsystem pull request, and got pulled
+> by Torvalds with not even a comment.
+> 
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20240831055328.22482-1-zhi.mao@mediatek.com/
+I agree.
 
-> Grouping ii: Does the VCM need to be turned on before the stream
-> starts:
+> What about the next time? Who next would be removed from the MAINTAINERS
+> file, the kernel.org infrastructure? What if the compliance requires
+> another XZ backdoor to be developed without further explanation? Is the
+> kernel development process still done in public?
 > 
-> 3. A small delay at startup for the power-on (on the first start
-> stream, not when switching modes) is fine /  having the first few
-> frames being out of focus while the lens moves is fine, they typically
-> will be anyways until the autofocus algorithm has locked; vs
+> Are the "compliance requirements" documented on docs.kernel.org? Who are
+> responsible for them? Are all that are responsible employees of
+> The Linux Foundation, which is regulated by the U.S. legislature?
 > 
-> 4. A small delay at startup for the power-on is undesirable /
-> the focus value is known beforehand and the lens must be in position
-> before capturing the first frame.
+
+Please consider how a neutral maintainer would perceive these commit
+messages; if they sign off on this commit, what does it mean?
+
+I recommend focusing on factual information rather than inciting
+emotions. Including these statements in the commit message may not
+be the best approach to gaining objective support. I suggest removing
+these two paragraphs and submitting a revised patch v2.
+
+Otherwise, it looks good to me.
+
+Reviewed-by: Yangyu Chen <cyy@cyyself.name>
+
+> Fixes: 6e90b675cf94 ("MAINTAINERS: Remove some entries due to various compliance requirements.")
+> Signed-off-by: Kexy Biscuit <kexybiscuit@aosc.io>
+> Acked-by: Nikita Travkin <nikita@trvn.ru>
+> Acked-by: WangYuli <wangyuli@uniontech.com>
+> Acked-by: Mingcong Bai <jeffbai@aosc.io>
+> Acked-by: Tonghao Zhang <xiangxia.m.yue@gmail.com>
+> Acked-by: Nikita Shubin <nikita.shubin@maquefel.me>
+> ---
+> Please keep all discussions on at least one of the mailing lists.
 > 
-> 4. will clearly not work well when the v4l2-subdev code manage
-> the power. But this seems like a rather corner case scenario; and
-> one which we could still make work by simply disabling runtime-pm
-> for the VCM through sysfs in this case.
+>   MAINTAINERS | 178 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 178 insertions(+)
 > 
-> In conclusion to me it seems that having the v4l2-subdev code
-> manage the power seems like it would work well. The only really
-> problematic scenario which I can come up with is 4. and that seems
-> a bit of a corner case. If this ever becomes a problem we could
-> can make it work by either disabling runtime-pm through sysfs or
-> by offering some API to prime the VCM which turns it on before
-> the first stream-start (and it will still get automatically turned
-> off after stream-stop + timeout).
-> 
-> We could even mix option b) and c) from the "Design wise I roughly
-> see 3 options" options above and offer explicit power-management
-> for apps which want that; while still automatically increasing
-> the power-on count on sensor streaming, with any power-on
-> count > 1 turning the VCM on.
-> 
-> This way apps/use-cases which want to make sure the VCM is on
-> early or stays on during mode switching can use the explicit APIs
-> while simpler use-cases (and existing use-cases since we cannot
-> break userspace API) can rely on the automatic powering on done
-> by the v4l2-subdev core.
-> 
-> The only downside which I can see of using a power-on counter
-> and combining explicit + automatic control is that it will be
-> impossible to turn the VCM off while streaming.
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> 
-> 
-> 
->>
->>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>> ---
->>>  drivers/media/v4l2-core/v4l2-async.c  | 20 +++++++++++++++++++
->>>  drivers/media/v4l2-core/v4l2-subdev.c | 28 +++++++++++++++++++++------
->>>  include/media/v4l2-subdev.h           |  2 ++
->>>  3 files changed, 44 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
->>> index ee884a8221fb..9b854f1d1051 100644
->>> --- a/drivers/media/v4l2-core/v4l2-async.c
->>> +++ b/drivers/media/v4l2-core/v4l2-async.c
->>> @@ -330,6 +330,11 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->>>  		return 0;
->>>  	}
->>>  
->>> +	if (sd->entity.function == MEDIA_ENT_F_LENS) {
->>> +		dev_dbg(n->sd->dev, "Using %s VCM\n", dev_name(sd->dev));
->>> +		n->sd->vcm = sd;
->>> +	}
->>> +
->>>  	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
->>>  
->>>  	return IS_ERR(link) ? PTR_ERR(link) : 0;
->>> @@ -871,6 +876,21 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
->>>  	if (!sd->async_list.next)
->>>  		return;
->>>  
->>> +#if defined(CONFIG_MEDIA_CONTROLLER)
->>> +	if (sd->entity.function == MEDIA_ENT_F_LENS && sd->v4l2_dev && sd->v4l2_dev->mdev) {
->>> +		struct media_entity *entity;
->>> +
->>> +		media_device_for_each_entity(entity, sd->v4l2_dev->mdev) {
->>> +			struct v4l2_subdev *it = media_entity_to_v4l2_subdev(entity);
->>> +
->>> +			if (it->vcm == sd) {
->>> +				dev_dbg(it->dev, "Clearing VCM\n");
->>> +				it->vcm = NULL;
->>> +			}
->>> +		}
->>> +	}
->>> +#endif
->>> +
->>>  	v4l2_subdev_put_privacy_led(sd);
->>>  
->>>  	mutex_lock(&list_lock);
->>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->>> index 7c5812d55315..24a68d90f686 100644
->>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>> @@ -148,17 +148,33 @@ static int subdev_close(struct file *file)
->>>  }
->>>  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
->>>  
->>> -static void v4l2_subdev_enable_privacy_led(struct v4l2_subdev *sd)
->>> +static void v4l2_subdev_enable_privacy_led_and_vcm(struct v4l2_subdev *sd)
->>>  {
->>>  #if IS_REACHABLE(CONFIG_LEDS_CLASS)
->>>  	if (!IS_ERR_OR_NULL(sd->privacy_led))
->>>  		led_set_brightness(sd->privacy_led,
->>>  				   sd->privacy_led->max_brightness);
->>>  #endif
->>> +
->>> +	if (sd->vcm && !sd->vcm_enabled &&
->>> +	    v4l2_subdev_has_op(sd->vcm, video, s_stream)) {
->>> +		int ret;
->>> +
->>> +		ret = v4l2_subdev_call(sd->vcm, video, s_stream, 1);
->>> +		if (ret)
->>> +			dev_err(sd->vcm->dev, "Error powering on VCM: %d\n", ret);
->>> +		else
->>> +			sd->vcm_enabled = true;
->>> +	}
->>>  }
->>>  
->>> -static void v4l2_subdev_disable_privacy_led(struct v4l2_subdev *sd)
->>> +static void v4l2_subdev_disable_privacy_led_and_vcm(struct v4l2_subdev *sd)
->>>  {
->>> +	if (sd->vcm && sd->vcm_enabled) {
->>> +		v4l2_subdev_call(sd->vcm, video, s_stream, 0);
->>> +		sd->vcm_enabled = false;
->>> +	}
->>> +
->>>  #if IS_REACHABLE(CONFIG_LEDS_CLASS)
->>>  	if (!IS_ERR_OR_NULL(sd->privacy_led))
->>>  		led_set_brightness(sd->privacy_led, 0);
->>> @@ -466,9 +482,9 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
->>>  		sd->s_stream_enabled = enable;
->>>  
->>>  		if (enable)
->>> -			v4l2_subdev_enable_privacy_led(sd);
->>> +			v4l2_subdev_enable_privacy_led_and_vcm(sd);
->>>  		else
->>> -			v4l2_subdev_disable_privacy_led(sd);
->>> +			v4l2_subdev_disable_privacy_led_and_vcm(sd);
->>>  	}
->>>  
->>>  	return ret;
->>> @@ -2289,7 +2305,7 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->>>  	 * for all cases.
->>>  	 */
->>>  	if (!use_s_stream && !already_streaming)
->>> -		v4l2_subdev_enable_privacy_led(sd);
->>> +		v4l2_subdev_enable_privacy_led_and_vcm(sd);
->>>  
->>>  done:
->>>  	if (!use_s_stream)
->>> @@ -2382,7 +2398,7 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
->>>  done:
->>>  	if (!use_s_stream) {
->>>  		if (!v4l2_subdev_is_streaming(sd))
->>> -			v4l2_subdev_disable_privacy_led(sd);
->>> +			v4l2_subdev_disable_privacy_led_and_vcm(sd);
->>>  
->>>  		v4l2_subdev_unlock_state(state);
->>>  	}
->>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->>> index bd235d325ff9..6568a0cc070b 100644
->>> --- a/include/media/v4l2-subdev.h
->>> +++ b/include/media/v4l2-subdev.h
->>> @@ -1094,6 +1094,7 @@ struct v4l2_subdev {
->>>  	 */
->>>  
->>>  	struct led_classdev *privacy_led;
->>> +	struct v4l2_subdev *vcm;
->>>  
->>>  	/*
->>>  	 * TODO: active_state should most likely be changed from a pointer to an
->>> @@ -1104,6 +1105,7 @@ struct v4l2_subdev {
->>>  	struct v4l2_subdev_state *active_state;
->>>  	u64 enabled_pads;
->>>  	bool s_stream_enabled;
->>> +	bool vcm_enabled;
->>>  };
->>>  
->>>  
->>
-> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e9659a5a7fb3..501aa5c0887e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -258,6 +258,12 @@ L:	linux-acenic@sunsite.dk
+>   S:	Maintained
+>   F:	drivers/net/ethernet/alteon/acenic*
+>   
+> +ACER ASPIRE 1 EMBEDDED CONTROLLER DRIVER
+> +M:	Nikita Travkin <nikita@trvn.ru>
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/platform/acer,aspire1-ec.yaml
+> +F:	drivers/platform/arm64/acer-aspire1-ec.c
+> +
+>   ACER ASPIRE ONE TEMPERATURE AND FAN DRIVER
+>   M:	Peter Kaestle <peter@piie.net>
+>   L:	platform-driver-x86@vger.kernel.org
+> @@ -882,6 +888,7 @@ F:	drivers/staging/media/sunxi/cedrus/
+>   
+>   ALPHA PORT
+>   M:	Richard Henderson <richard.henderson@linaro.org>
+> +M:	Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+>   M:	Matt Turner <mattst88@gmail.com>
+>   L:	linux-alpha@vger.kernel.org
+>   S:	Odd Fixes
+> @@ -2256,6 +2263,12 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>   S:	Maintained
+>   F:	arch/arm/mach-ep93xx/ts72xx.c
+>   
+> +ARM/CIRRUS LOGIC CLPS711X ARM ARCHITECTURE
+> +M:	Alexander Shiyan <shc_work@mail.ru>
+> +L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+> +S:	Odd Fixes
+> +N:	clps711x
+> +
+>   ARM/CIRRUS LOGIC EP93XX ARM ARCHITECTURE
+>   M:	Hartley Sweeten <hsweeten@visionengravers.com>
+>   M:	Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> @@ -3802,6 +3815,14 @@ F:	drivers/video/backlight/
+>   F:	include/linux/backlight.h
+>   F:	include/linux/pwm_backlight.h
+>   
+> +BAIKAL-T1 PVT HARDWARE MONITOR DRIVER
+> +M:	Serge Semin <fancer.lancer@gmail.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/hwmon/baikal,bt1-pvt.yaml
+> +F:	Documentation/hwmon/bt1-pvt.rst
+> +F:	drivers/hwmon/bt1-pvt.[ch]
+> +
+>   BARCO P50 GPIO DRIVER
+>   M:	Santosh Kumar Yadav <santoshkumar.yadav@barco.com>
+>   M:	Peter Korsgaard <peter.korsgaard@barco.com>
+> @@ -6455,6 +6476,7 @@ F:	drivers/mtd/nand/raw/denali*
+>   
+>   DESIGNWARE EDMA CORE IP DRIVER
+>   M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> +R:	Serge Semin <fancer.lancer@gmail.com>
+>   L:	dmaengine@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/dma/dw-edma/
+> @@ -9737,6 +9759,14 @@ F:	drivers/gpio/gpiolib-cdev.c
+>   F:	include/uapi/linux/gpio.h
+>   F:	tools/gpio/
+>   
+> +GRE DEMULTIPLEXER DRIVER
+> +M:	Dmitry Kozlov <xeb@mail.ru>
+> +L:	netdev@vger.kernel.org
+> +S:	Maintained
+> +F:	include/net/gre.h
+> +F:	net/ipv4/gre_demux.c
+> +F:	net/ipv4/gre_offload.c
+> +
+>   GRETH 10/100/1G Ethernet MAC device driver
+>   M:	Andreas Larsson <andreas@gaisler.com>
+>   L:	netdev@vger.kernel.org
+> @@ -12929,6 +12959,12 @@ S:	Maintained
+>   F:	drivers/ata/pata_arasan_cf.c
+>   F:	include/linux/pata_arasan_cf_data.h
+>   
+> +LIBATA PATA DRIVERS
+> +R:	Sergey Shtylyov <s.shtylyov@omp.ru>
+> +L:	linux-ide@vger.kernel.org
+> +F:	drivers/ata/ata_*.c
+> +F:	drivers/ata/pata_*.c
+> +
+>   LIBATA PATA FARADAY FTIDE010 AND GEMINI SATA BRIDGE DRIVERS
+>   M:	Linus Walleij <linus.walleij@linaro.org>
+>   L:	linux-ide@vger.kernel.org
+> @@ -12945,6 +12981,15 @@ F:	drivers/ata/ahci_platform.c
+>   F:	drivers/ata/libahci_platform.c
+>   F:	include/linux/ahci_platform.h
+>   
+> +LIBATA SATA AHCI SYNOPSYS DWC CONTROLLER DRIVER
+> +M:	Serge Semin <fancer.lancer@gmail.com>
+> +L:	linux-ide@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git
+> +F:	Documentation/devicetree/bindings/ata/baikal,bt1-ahci.yaml
+> +F:	Documentation/devicetree/bindings/ata/snps,dwc-ahci.yaml
+> +F:	drivers/ata/ahci_dwc.c
+> +
+>   LIBATA SATA PROMISE TX2/TX4 CONTROLLER DRIVER
+>   M:	Mikael Pettersson <mikpelinux@gmail.com>
+>   L:	linux-ide@vger.kernel.org
+> @@ -14140,6 +14185,16 @@ S:	Maintained
+>   T:	git git://linuxtv.org/media_tree.git
+>   F:	drivers/media/platform/nxp/imx-pxp.[ch]
+>   
+> +MEDIA DRIVERS FOR ASCOT2E
+> +M:	Sergey Kozlov <serjk@netup.ru>
+> +M:	Abylay Ospan <aospan@netup.ru>
+> +L:	linux-media@vger.kernel.org
+> +S:	Supported
+> +W:	https://linuxtv.org
+> +W:	http://netup.tv/
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	drivers/media/dvb-frontends/ascot2e*
+> +
+>   MEDIA DRIVERS FOR CXD2099AR CI CONTROLLERS
+>   M:	Jasmin Jessich <jasmin@anw.at>
+>   L:	linux-media@vger.kernel.org
+> @@ -14148,6 +14203,16 @@ W:	https://linuxtv.org
+>   T:	git git://linuxtv.org/media_tree.git
+>   F:	drivers/media/dvb-frontends/cxd2099*
+>   
+> +MEDIA DRIVERS FOR CXD2841ER
+> +M:	Sergey Kozlov <serjk@netup.ru>
+> +M:	Abylay Ospan <aospan@netup.ru>
+> +L:	linux-media@vger.kernel.org
+> +S:	Supported
+> +W:	https://linuxtv.org
+> +W:	http://netup.tv/
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	drivers/media/dvb-frontends/cxd2841er*
+> +
+>   MEDIA DRIVERS FOR CXD2880
+>   M:	Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
+>   L:	linux-media@vger.kernel.org
+> @@ -14192,6 +14257,35 @@ F:	drivers/media/platform/nxp/imx-mipi-csis.c
+>   F:	drivers/media/platform/nxp/imx7-media-csi.c
+>   F:	drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+>   
+> +MEDIA DRIVERS FOR HELENE
+> +M:	Abylay Ospan <aospan@netup.ru>
+> +L:	linux-media@vger.kernel.org
+> +S:	Supported
+> +W:	https://linuxtv.org
+> +W:	http://netup.tv/
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	drivers/media/dvb-frontends/helene*
+> +
+> +MEDIA DRIVERS FOR HORUS3A
+> +M:	Sergey Kozlov <serjk@netup.ru>
+> +M:	Abylay Ospan <aospan@netup.ru>
+> +L:	linux-media@vger.kernel.org
+> +S:	Supported
+> +W:	https://linuxtv.org
+> +W:	http://netup.tv/
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	drivers/media/dvb-frontends/horus3a*
+> +
+> +MEDIA DRIVERS FOR LNBH25
+> +M:	Sergey Kozlov <serjk@netup.ru>
+> +M:	Abylay Ospan <aospan@netup.ru>
+> +L:	linux-media@vger.kernel.org
+> +S:	Supported
+> +W:	https://linuxtv.org
+> +W:	http://netup.tv/
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	drivers/media/dvb-frontends/lnbh25*
+> +
+>   MEDIA DRIVERS FOR MXL5XX TUNER DEMODULATORS
+>   L:	linux-media@vger.kernel.org
+>   S:	Orphan
+> @@ -14199,6 +14293,16 @@ W:	https://linuxtv.org
+>   T:	git git://linuxtv.org/media_tree.git
+>   F:	drivers/media/dvb-frontends/mxl5xx*
+>   
+> +MEDIA DRIVERS FOR NETUP PCI UNIVERSAL DVB devices
+> +M:	Sergey Kozlov <serjk@netup.ru>
+> +M:	Abylay Ospan <aospan@netup.ru>
+> +L:	linux-media@vger.kernel.org
+> +S:	Supported
+> +W:	https://linuxtv.org
+> +W:	http://netup.tv/
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	drivers/media/pci/netup_unidvb/*
+> +
+>   MEDIA DRIVERS FOR NVIDIA TEGRA - VDE
+>   M:	Dmitry Osipenko <digetx@gmail.com>
+>   L:	linux-media@vger.kernel.org
+> @@ -14842,6 +14946,13 @@ F:	drivers/mtd/
+>   F:	include/linux/mtd/
+>   F:	include/uapi/mtd/
+>   
+> +MEMSENSING MICROSYSTEMS MSA311 DRIVER
+> +M:	Dmitry Rokosov <ddrokosov@sberdevices.ru>
+> +L:	linux-iio@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/iio/accel/memsensing,msa311.yaml
+> +F:	drivers/iio/accel/msa311.c
+> +
+>   MEN A21 WATCHDOG DRIVER
+>   M:	Johannes Thumshirn <morbidrsa@gmail.com>
+>   L:	linux-watchdog@vger.kernel.org
+> @@ -15175,6 +15286,7 @@ F:	drivers/tty/serial/8250/8250_pci1xxxx.c
+>   
+>   MICROCHIP POLARFIRE FPGA DRIVERS
+>   M:	Conor Dooley <conor.dooley@microchip.com>
+> +R:	Vladimir Georgiev <v.georgiev@metrotek.ru>
+>   L:	linux-fpga@vger.kernel.org
+>   S:	Supported
+>   F:	Documentation/devicetree/bindings/fpga/microchip,mpf-spi-fpga-mgr.yaml
+> @@ -15429,6 +15541,17 @@ F:	arch/mips/
+>   F:	drivers/platform/mips/
+>   F:	include/dt-bindings/mips/
+>   
+> +MIPS BAIKAL-T1 PLATFORM
+> +M:	Serge Semin <fancer.lancer@gmail.com>
+> +L:	linux-mips@vger.kernel.org
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/bus/baikal,bt1-*.yaml
+> +F:	Documentation/devicetree/bindings/clock/baikal,bt1-*.yaml
+> +F:	drivers/bus/bt1-*.c
+> +F:	drivers/clk/baikal-t1/
+> +F:	drivers/memory/bt1-l2-ctl.c
+> +F:	drivers/mtd/maps/physmap-bt1-rom.[ch]
+> +
+>   MIPS BOSTON DEVELOPMENT BOARD
+>   M:	Paul Burton <paulburton@kernel.org>
+>   L:	linux-mips@vger.kernel.org
+> @@ -15441,6 +15564,7 @@ F:	include/dt-bindings/clock/boston-clock.h
+>   
+>   MIPS CORE DRIVERS
+>   M:	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> +M:	Serge Semin <fancer.lancer@gmail.com>
+>   L:	linux-mips@vger.kernel.org
+>   S:	Supported
+>   F:	drivers/bus/mips_cdmm.c
+> @@ -16408,6 +16532,12 @@ F:	include/linux/ntb.h
+>   F:	include/linux/ntb_transport.h
+>   F:	tools/testing/selftests/ntb/
+>   
+> +NTB IDT DRIVER
+> +M:	Serge Semin <fancer.lancer@gmail.com>
+> +L:	ntb@lists.linux.dev
+> +S:	Supported
+> +F:	drivers/ntb/hw/idt/
+> +
+>   NTB INTEL DRIVER
+>   M:	Dave Jiang <dave.jiang@intel.com>
+>   L:	ntb@lists.linux.dev
+> @@ -18428,6 +18558,13 @@ F:	drivers/pps/
+>   F:	include/linux/pps*.h
+>   F:	include/uapi/linux/pps.h
+>   
+> +PPTP DRIVER
+> +M:	Dmitry Kozlov <xeb@mail.ru>
+> +L:	netdev@vger.kernel.org
+> +S:	Maintained
+> +W:	http://sourceforge.net/projects/accel-pptp
+> +F:	drivers/net/ppp/pptp.c
+> +
+>   PRESSURE STALL INFORMATION (PSI)
+>   M:	Johannes Weiner <hannes@cmpxchg.org>
+>   M:	Suren Baghdasaryan <surenb@google.com>
+> @@ -19518,6 +19655,15 @@ S:	Supported
+>   F:	Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
+>   F:	drivers/i2c/busses/i2c-emev2.c
+>   
+> +RENESAS ETHERNET AVB DRIVER
+> +R:	Sergey Shtylyov <s.shtylyov@omp.ru>
+> +L:	netdev@vger.kernel.org
+> +L:	linux-renesas-soc@vger.kernel.org
+> +F:	Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+> +F:	drivers/net/ethernet/renesas/Kconfig
+> +F:	drivers/net/ethernet/renesas/Makefile
+> +F:	drivers/net/ethernet/renesas/ravb*
+> +
+>   RENESAS ETHERNET SWITCH DRIVER
+>   R:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>   L:	netdev@vger.kernel.org
+> @@ -19567,6 +19713,14 @@ F:	Documentation/devicetree/bindings/i2c/renesas,rmobile-iic.yaml
+>   F:	drivers/i2c/busses/i2c-rcar.c
+>   F:	drivers/i2c/busses/i2c-sh_mobile.c
+>   
+> +RENESAS R-CAR SATA DRIVER
+> +R:	Sergey Shtylyov <s.shtylyov@omp.ru>
+> +L:	linux-ide@vger.kernel.org
+> +L:	linux-renesas-soc@vger.kernel.org
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+> +F:	drivers/ata/sata_rcar.c
+> +
+>   RENESAS R-CAR THERMAL DRIVERS
+>   M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
+>   L:	linux-renesas-soc@vger.kernel.org
+> @@ -19642,6 +19796,16 @@ S:	Supported
+>   F:	Documentation/devicetree/bindings/i2c/renesas,rzv2m.yaml
+>   F:	drivers/i2c/busses/i2c-rzv2m.c
+>   
+> +RENESAS SUPERH ETHERNET DRIVER
+> +R:	Sergey Shtylyov <s.shtylyov@omp.ru>
+> +L:	netdev@vger.kernel.org
+> +L:	linux-renesas-soc@vger.kernel.org
+> +F:	Documentation/devicetree/bindings/net/renesas,ether.yaml
+> +F:	drivers/net/ethernet/renesas/Kconfig
+> +F:	drivers/net/ethernet/renesas/Makefile
+> +F:	drivers/net/ethernet/renesas/sh_eth*
+> +F:	include/linux/sh_eth.h
+> +
+>   RENESAS USB PHY DRIVER
+>   M:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>   L:	linux-renesas-soc@vger.kernel.org
+> @@ -22295,11 +22459,19 @@ F:	drivers/tty/serial/8250/8250_lpss.c
+>   
+>   SYNOPSYS DESIGNWARE APB GPIO DRIVER
+>   M:	Hoan Tran <hoan@os.amperecomputing.com>
+> +M:	Serge Semin <fancer.lancer@gmail.com>
+>   L:	linux-gpio@vger.kernel.org
+>   S:	Maintained
+>   F:	Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
+>   F:	drivers/gpio/gpio-dwapb.c
+>   
+> +SYNOPSYS DESIGNWARE APB SSI DRIVER
+> +M:	Serge Semin <fancer.lancer@gmail.com>
+> +L:	linux-spi@vger.kernel.org
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+> +F:	drivers/spi/spi-dw*
+> +
+>   SYNOPSYS DESIGNWARE AXI DMAC DRIVER
+>   M:	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+>   S:	Maintained
+> @@ -23609,6 +23781,12 @@ L:	linux-input@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/hid/hid-udraw-ps3.c
+>   
+> +UFS FILESYSTEM
+> +M:	Evgeniy Dushistov <dushistov@mail.ru>
+> +S:	Maintained
+> +F:	Documentation/admin-guide/ufs.rst
+> +F:	fs/ufs/
+> +
+>   UHID USERSPACE HID IO DRIVER
+>   M:	David Rheinsberg <david@readahead.eu>
+>   L:	linux-input@vger.kernel.org
 
 
