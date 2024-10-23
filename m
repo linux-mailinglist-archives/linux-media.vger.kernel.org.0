@@ -1,94 +1,150 @@
-Return-Path: <linux-media+bounces-20073-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20074-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CEC09AC017
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 09:20:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 363409AC05B
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 09:33:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA34E1C225AC
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 07:20:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC44A2850D5
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2024 07:33:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4453F153BED;
-	Wed, 23 Oct 2024 07:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 881B515573D;
+	Wed, 23 Oct 2024 07:33:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sg/k6Sfu"
+	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="SvSqZDdq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E9213DB9F;
-	Wed, 23 Oct 2024 07:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707CC154BEC;
+	Wed, 23 Oct 2024 07:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.248.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729668040; cv=none; b=SFBOTjF0rpzgZHK9bx8EY7IUGVOz7exmz9H8AbzNOUWR0B1LRdW2rAosBKVrb6MUjtlX5arWUjy/Maq+9m1kSLa9MDvAeG9bXno1WX91UJff58QNhUP6WywwKPbanYu20Lc/VzJE64tRYzORpPpvzkm+xhxEHLgKsjYLn7uW9GM=
+	t=1729668790; cv=none; b=myYjNxo6ZwvDoLSBVIKFz9/LTLpi/665O5AldBLMM+rVsMQ67XxUbwv2/3JFcbm3CPZx0DuX8DkHtyT4ElU285gSemaJEQCcSqLptKZfXirdl7DucEKvRmx0nHn2X3K3ETuph+RX3+npPTe373iJNR2e4QpH6GkJIz3iC7ixJaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729668040; c=relaxed/simple;
-	bh=EYSCT3GpLwpgWQjmPjVqWCwYz6V61945ajYy0Xe+6iI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZcUbm3iZJetno49wTtBX+PCYUK+0tdN6ywaVZWfWpoS2cmvDkpMGw42YXFLDsZMFGjCJKxjIV54qr2D36VnILIT6V/OJRVdOhjaIu9Gvo0W+RJIpDfiE0+KKv7+T4DIjAnZo+XjL2qh9IlH6ZqYLmq/aVlVRaOj1FQ7T7R4FISM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sg/k6Sfu; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=w+90h7H5AVOlUGCT6jpiVo75HoG20ZQ36MbBIWzDKCk=; b=sg/k6Sfu33Iw5/CiNpoYqkyf4X
-	ElBBSIB+U1NJ6KBwX7CC1QLsj5/W7jRqgkVLS/Q1t55vyPeXoDDFWS8o6/u7JhoeDWfyv34O0lhQj
-	NtSUWkELXMp3MDvKLwNwpQtsB85FtrY2ZsBiXxWGnjvrddxbNyryGmNOy5H3tYl3+U4EkspGvnqe9
-	+ukocsux5Q+eNjr3i0AEtuBcufLP0hheAujRayp+4/YL9wtVn+h05KQ3rYQsvBnRkSJJCchy8W8Gs
-	mRgTASenNL3AI7px863NvEkEOGfQgoYHm4P+ArsmPt1xZ+0/48UzWn1h2Ek//qM33/l7ceMPCS37s
-	vllZB6xw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3Vfa-0000000DMaT-0Hry;
-	Wed, 23 Oct 2024 07:20:38 +0000
-Date: Wed, 23 Oct 2024 00:20:38 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: David Wei <dw@davidwei.uk>
-Cc: io-uring@vger.kernel.org, netdev@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	Mina Almasry <almasrymina@google.com>,
-	Stanislav Fomichev <stfomichev@gmail.com>,
-	Joe Damato <jdamato@fastly.com>,
-	Pedro Tammela <pctammela@mojatatu.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 02/15] net: generalise net_iov chunk owners
-Message-ID: <ZxijxiqNGONin3IY@infradead.org>
-References: <20241016185252.3746190-1-dw@davidwei.uk>
- <20241016185252.3746190-3-dw@davidwei.uk>
+	s=arc-20240116; t=1729668790; c=relaxed/simple;
+	bh=xEo0swbVCdrGjVdei/ZvZa4U5Cg1mfinNBvemiRZC+8=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=Wdl4/A3S1BPrftLGY3W44hPwg3meYg/fQAtQkoUX5/baLV58koXx87wOwXZniApTP+vbVo206zKGSA1d7K4+7vB9WUvKqlIgX8NqbhfFcmOUUUuafJTZo1KYq398PnbOeHoZtyASl9hgdnQ1mziT9yHIy4ymCpfU0PBQ/Ul6Zsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=SvSqZDdq; arc=none smtp.client-ip=159.100.248.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [144.217.248.100])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 4DC6A26761;
+	Wed, 23 Oct 2024 07:33:01 +0000 (UTC)
+Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
+	by relay1.mymailcheap.com (Postfix) with ESMTPS id 4B4033E9D6;
+	Wed, 23 Oct 2024 07:32:53 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf2.mymailcheap.com (Postfix) with ESMTPSA id F1FA140071;
+	Wed, 23 Oct 2024 07:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1729668771; bh=xEo0swbVCdrGjVdei/ZvZa4U5Cg1mfinNBvemiRZC+8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=SvSqZDdqa/ICtW2R15erWVPbVyfE4hGMXwFYFIIFJULUy5Gsz/e9Obz0kKMRpZuuP
+	 qWt7ccWb2aX9Jr1l6fU1NnihUmbwmhhq3BEauxQRazcsa4UFnWWMyVWO4yVj3b5/HO
+	 +QksPHbpOl9qNeYXOjk0WVaL2Xvcd3NvmI8bkKZM=
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 457BE407D9;
+	Wed, 23 Oct 2024 07:32:51 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241016185252.3746190-3-dw@davidwei.uk>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Date: Wed, 23 Oct 2024 15:32:50 +0800
+From: Mingcong Bai <jeffbai@aosc.io>
+To: WangYuli <wangyuli@uniontech.com>
+Cc: gregkh@linuxfoundation.org, patches@lists.linux.dev, nikita@trvn.ru,
+ ink@jurassic.park.msu.ru, shc_work@mail.ru, richard.henderson@linaro.org,
+ mattst88@gmail.com, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, fancer.lancer@gmail.com,
+ linux-hwmon@vger.kernel.org, dmaengine@vger.kernel.org, xeb@mail.ru,
+ netdev@vger.kernel.org, s.shtylyov@omp.ru, linux-ide@vger.kernel.org,
+ serjk@netup.ru, aospan@netup.ru, linux-media@vger.kernel.org,
+ ddrokosov@sberdevices.ru, linux-iio@vger.kernel.org, v.georgiev@metrotek.ru,
+ linux-mips@vger.kernel.org, ntb@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-spi@vger.kernel.org, dushistov@mail.ru,
+ manivannan.sadhasivam@linaro.org, conor.dooley@microchip.com,
+ linux-fpga@vger.kernel.org, tsbogend@alpha.franken.de,
+ hoan@os.amperecomputing.com, geert@linux-m68k.org,
+ wsa+renesas@sang-engineering.com
+Subject: Re: [PATCH] MAINTAINERS: Remove some entries due to various
+ compliance requirements.
+In-Reply-To: <A74519B4332040FA+20241023063058.223139-1-wangyuli@uniontech.com>
+References: <2024101835-tiptop-blip-09ed@gregkh>
+ <A74519B4332040FA+20241023063058.223139-1-wangyuli@uniontech.com>
+Message-ID: <a08dc31ab773604d8f206ba005dc4c7a@aosc.io>
+X-Sender: jeffbai@aosc.io
+Organization: Anthon Open Source Community
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: nf2.mymailcheap.com
+X-Rspamd-Queue-Id: F1FA140071
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [1.40 / 10.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_ONE(0.00)[1];
+	RCPT_COUNT_TWELVE(0.00)[36];
+	TAGGED_RCPT(0.00)[renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,mail.ru];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,lists.linux.dev,trvn.ru,jurassic.park.msu.ru,mail.ru,linaro.org,gmail.com,vger.kernel.org,lists.infradead.org,omp.ru,netup.ru,sberdevices.ru,metrotek.ru,microchip.com,alpha.franken.de,os.amperecomputing.com,linux-m68k.org,sang-engineering.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MISSING_XM_UA(0.00)[]
 
-On Wed, Oct 16, 2024 at 11:52:39AM -0700, David Wei wrote:
-> From: Pavel Begunkov <asml.silence@gmail.com>
+Greetings all,
+
+在 2024-10-23 14:30，WangYuli 写道：
+> Although this commit has been merged, it's still important to know the 
+> specific reason (or even an example) that triggered this change for 
+> everyone here, right?
 > 
-> Currently net_iov stores a pointer to struct dmabuf_genpool_chunk_owner,
-> which serves as a useful abstraction to share data and provide a
-> context. However, it's too devmem specific, and we want to reuse it for
-> other memory providers, and for that we need to decouple net_iov from
-> devmem. Make net_iov to point to a new base structure called
-> net_iov_area, which dmabuf_genpool_chunk_owner extends.
+> And those maintainers who have been removed should be notified.
 
-We've been there before.  Instead of reinventing your own memory
-provider please enhance dmabufs for your use case.  We don't really
-need to build memory buffer abstraction over memory buffer abstraction.
+Seconded.
+
+> It should be CC'd everyone who might need to be aware of this change, 
+> including the removed maintainers, other maintainers on the subsystem, 
+> and the subsystem's mailing list.
+> 
+> To ensure transparency.
+
+This patch is one such instance where we find ourselves questioning the 
+legitimacy and indeed, the feasibility, of an international, open, and 
+open source project. Vagueness breeds distrust.
+
+It's not difficult to deduce what the "various compliance requirements" 
+are and I'm sure Greg is aware of this. The Linux Foundation, if 
+interested in continuing their governance role over the Linux kernel, 
+should be ready to explain themselves over this decision. Greg and 
+Linus, I'm not sure if I'm ready to believe that this is supposed to be 
+a political show - but if this is the case, please leave the ground for 
+the Foundation - they should be the one responsible and receiving the 
+scrutiny (or insult, as I'm sure many - myself included - find this 
+patch insulting).
+
+So I repeat - call the decision-makers out and ask for their 
+explanation.
+
+Best Regards,
+Mingcong Bai
 
