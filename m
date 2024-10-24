@@ -1,205 +1,138 @@
-Return-Path: <linux-media+bounces-20192-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20193-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F069AE407
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 13:37:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 074DF9AE40B
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 13:38:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 293711C20DAB
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 11:37:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B64F228298A
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 11:38:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E9B21C4A35;
-	Thu, 24 Oct 2024 11:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB6F1C9EDC;
+	Thu, 24 Oct 2024 11:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OoL4mmMF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B7Krbn7K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EB114BF87
-	for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 11:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A988E1C9EAF;
+	Thu, 24 Oct 2024 11:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729769817; cv=none; b=pAYNIhcqoVUG6nGXVV8jx8aOjlr00yhJ69T7J+lY79damiiYJXApCpmqE0sKNovWzMtOd3aervxMeEU5Y3xg3lCr6UfkJZDa101oeNRDmKhRECAcSooRuCHiw4kfxZNL8I5PUn2ni+K10o1lKux+e0sSHIQNpMjsspNBpRnnji0=
+	t=1729769924; cv=none; b=Im8FPJ4njRX9quMs9IA4G95LN/sqbeMahtLk+CjlrzebWTThPU1FCl6pZpjeyu/qIMGRY2x1Ae5ceWh6oN9Pv+GrV0ZPZyyrWgIWCsjgwyjBSBdU3kwheIueChLBxL3U9W6nCLtP/xcv9vQAuXxHtsOBg4R40ahLky7vGugkMUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729769817; c=relaxed/simple;
-	bh=FkaVl/k0+c8qRoUecYusPfH2kqxtduXBV7bO4Ud8pd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fdw0tkIWCgJo5ceox+MLouS9fITSJnvGN5R8uPkOHLfaGqfeUJowAXUafG42Qx2T2XyzCz52U4thpngyWSQvbDZ/rCxeTuDsLA5Qh6EHgyBqosdEyAPhFV1OriGUxd2g48+UCaNOIqnbA1rcWBpYpKy4DC+zSca+BZFCJGla0Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OoL4mmMF; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7ea68af2f62so543878a12.3
-        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 04:36:54 -0700 (PDT)
+	s=arc-20240116; t=1729769924; c=relaxed/simple;
+	bh=dI0QkuoDX8u3vx3JnrxScO35lDK0+t73x8nSHnzmFd8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GRz1frNE26uRuyjwtZ3KP68s4tJUjv6A0+lUfSAQFOOhNFwH4xWAZQZE5FEB7GL3xTPA5lE2vOeMXowQmIhAyyTcNVPnbCpJ6OaR0Dzh6IC7vqs9qxazv+GgiH2XVbGApd08tIwfD0+X2oWcy7bI6yV+KVwJHIPs9HZ9BkB3Efo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B7Krbn7K; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7ea12e0dc7aso481447a12.3;
+        Thu, 24 Oct 2024 04:38:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729769814; x=1730374614; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6QjZNN8Y/dlyMadVzDsLnC6i1Tit1DVIZzSNzuvMe5g=;
-        b=OoL4mmMFJbGr6d3YEmpTX1/OJF7552kK4dJmfNFGPCogVQRW2zCViTdbratpKjHssW
-         Fc39KAAU17wIk+OAWRPMcIGY7AFLIVW/dhRKI2fcFsVnITq02ecnnDzfvfoCcOx+R9pJ
-         nH+8vHqpIxzpB9rez02FYSSEXe7GhsGXwvZiM=
+        d=gmail.com; s=20230601; t=1729769922; x=1730374722; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4fLacl9mFAQr08mGf7Pwj3Tmlo5Fg+y5GeLVVCqGWWQ=;
+        b=B7Krbn7K79al9g+1K/5+B04JfphJyGlSrlJ4LofWoJasObavWuAc0IgrTeWeyIrHYN
+         ZVlYjZK9y2OLF7hQIOsSIokthxnD9+hQKgxKkFYkUckZ0DFvpVU+7JSDH33lPMdqDOqU
+         DWyvavsf0x/mPhoViMSnDKSFs0bp1wWLH5OnTtmdCVqaDw0qit5V/w4fx244hxlZ5rzf
+         0WCvBkPtEMB/q7fFI7KIlYi0APeXlRgRlVaQq0i3/rlaFtrXaYRB9zYzvsrVpsEBzZ3Q
+         IK+egPXTp2rXfYx98k5BlNEujJHqJD+vqT+0Ity5fX82htlcOgTk4vYIeOxBR6IGfv/B
+         zDpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729769814; x=1730374614;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6QjZNN8Y/dlyMadVzDsLnC6i1Tit1DVIZzSNzuvMe5g=;
-        b=WeQgo32TGIuF5pYPQwg+MK201iHTUcUFN0izc5zLL7yxjUa3kmNBc3N3h7Hpnn8VWk
-         BW5651QzH1j8DnQZE3IcTPONAHsMClv32SzhWPsftoRuNgU4+GJgg8sFBhyNJXAUoekf
-         kwe/B0y1YdJBcrhEUODNEuUoQBrerIpt89EkePRFlB2VWRBzNqibi5HGhuuealtoEjLu
-         QHIh2OIU2ms3j+7r4bmXhCQI/xhiNY+DUWrWYCR2EVziNsF/+3YaOROY3jFFfCTfXfx2
-         IrLA2y+M4FIFaFA2Su7IBMms3qw05+fBkc4sLeACP3v4hOwfKJP5xydhNHa7EYibvW8x
-         j0gQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVbeVv249Ltix2WDyxsLqBQMYvsb/rnDEV1lU4O4UYoMlpib0OTroNaiVndo3SRd6oU++Wxj0H+DMJZkA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkXvkr++gizVhU5LcJC3NsSTP+c9B1AWr5byVEjrtCSjk/c9sI
-	vVoAKAYGOlU207t2DBcXq6WQuaAnzp347uJehb98pwXQrxmpNkMoia2iqyFSFw==
-X-Google-Smtp-Source: AGHT+IGkSkBjx7F5NvNj+PYlhHAmjKTRo9I0s8gGTWtZvBLnRqPxIv+n5g2t5dRP3XhBREkSho74nA==
-X-Received: by 2002:a05:6a21:a24b:b0:1d9:2bed:c7e7 with SMTP id adf61e73a8af0-1d978b9fed1mr6718362637.39.1729769814427;
-        Thu, 24 Oct 2024 04:36:54 -0700 (PDT)
-Received: from google.com ([2401:fa00:8f:203:c7f5:2aa6:333b:bb6d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec13eaa0asm7790117b3a.156.2024.10.24.04.36.52
+        d=1e100.net; s=20230601; t=1729769922; x=1730374722;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4fLacl9mFAQr08mGf7Pwj3Tmlo5Fg+y5GeLVVCqGWWQ=;
+        b=ujtVvBQM/xZ1EVGxCuY8yK46r/BitOsU4WTN5Zqz7NaPGlGuzeB7+nUHpq/5K6TbMP
+         UZ5qLu6Xnctti0edMANAVCC1YfAJgClggtgZvKrOveAaQIJzSN5jUW6gmuu86EPjRaAU
+         3nPud5EDF1+l75G3ss9WXyzKxcc4kPIAaNXGbq5c455VzX8qASZgJ8UqTHVMbneGgGtR
+         /SDOrzqj8KOE3eV+mNH0Qp7F9UCEKMSywDAI/YfnUs068orlAQEVF+nys3RRrAi1+lvw
+         dfhNE0r4PlI2WBkulaAr4xO+DvJxEogW/XxoS1ok8diRJgz3N6altzipmNTY8y5GheaO
+         4bSw==
+X-Forwarded-Encrypted: i=1; AJvYcCVbPzS6c420RGRch4VrTfydJ5bGcfEwUYDukg0tmAMQR3fspObmjO2FB5j3iJNnRbdZb3pNwS2NGjNi@vger.kernel.org, AJvYcCW4jQZ0wtQ7nBKv3RnuoECt0tIiY5Lg4v3Y3UTRqEWfqrS3tX7SshXD7JDOh68wjCAzULCP5ogzmO8UlGc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7xOxbjS0ZdYoAyYLy7wmQxz1kiVZs2dYBzh6Gzqy5iiUAtZ3a
+	nnSvcmpTFdKD9rbxDdrIYddQsOrDTzfMmCaS6zUVxcyYpKId53qP
+X-Google-Smtp-Source: AGHT+IEkqI04BxDtCvY5jcDyZMiBGcsXPoBgP8y9Xb5C63ws5LBwXPMrxU8kmjCEpifRKrC8LS8ILA==
+X-Received: by 2002:a05:6a21:1519:b0:1d9:28f8:f287 with SMTP id adf61e73a8af0-1d978bae47fmr7195483637.36.1729769921824;
+        Thu, 24 Oct 2024 04:38:41 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:248:317f:2ba9:e66c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec13d765csm7798029b3a.115.2024.10.24.04.38.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 04:36:53 -0700 (PDT)
-Date: Thu, 24 Oct 2024 20:36:49 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv2 2/2] media: venus: sync with threaded IRQ during inst
- destruction
-Message-ID: <20241024113649.GO1279924@google.com>
-References: <20241024061809.400260-1-senozhatsky@chromium.org>
- <20241024061809.400260-3-senozhatsky@chromium.org>
- <4b96f1f8-e084-4599-abe9-05039bfac569@linaro.org>
- <20241024093916.GM1279924@google.com>
- <b9a42abd-a078-4740-b070-ba5c86855e73@linaro.org>
- <20241024100857.GN1279924@google.com>
+        Thu, 24 Oct 2024 04:38:41 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: hverkuil-cisco@xs4all.nl
+Cc: lars@metafoo.de,
+	mchehab@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	shawnguo@kernel.org,
+	francesco.dolcini@toradex.com,
+	linux-arm-kernel@lists.infradead.org,
+	Fabio Estevam <festevam@denx.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 1/3] media: dt-bindings: adv7180: Document 'adi,force-bt656-4'
+Date: Thu, 24 Oct 2024 08:37:51 -0300
+Message-Id: <20241024113753.1353023-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241024100857.GN1279924@google.com>
+Content-Transfer-Encoding: 8bit
 
-On (24/10/24 19:08), Sergey Senozhatsky wrote:
-> So, we need to
-> - export a couple of symbols
-> - include vdec header in core
-[..]
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -500,6 +500,31 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
->  	return ret;
->  }
->  
-> +void venus_close_common(struct venus_inst *inst)
-> +{
-> +	/*
-> +	 * First, remove the inst from the ->instances list, so that
-> +	 * to_instance() will return NULL.
-> +	 */
-> +	hfi_session_destroy(inst);
-> +	/*
-> +	 * Second, make sure we don't have IRQ/IRQ-thread currently running
-> +	 * or pending execution, which would race with the inst destruction.
-> +	 */
-> +	synchronize_irq(inst->core->irq);
-> +
-> +	v4l2_m2m_ctx_release(inst->m2m_ctx);
-> +	v4l2_m2m_release(inst->m2m_dev);
-> +	ida_destroy(&inst->dpb_ids);
-> +	v4l2_fh_del(&inst->fh);
-> +	v4l2_fh_exit(&inst->fh);
-> +	vdec_ctrl_deinit(inst);
-> +
-> +	mutex_destroy(&inst->lock);
-> +	mutex_destroy(&inst->ctx_q_lock);
-> +}
-> +EXPORT_SYMBOL_GPL(venus_close_common);
-[..]
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -17,6 +17,7 @@
->  #include "hfi.h"
->  #include "hfi_platform.h"
->  #include "hfi_helper.h"
-> +#include "vdec.h"
->  
->  #define VDBGL	"VenusLow : "
->  #define VDBGM	"VenusMed : "
-> @@ -569,4 +570,6 @@ is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
->  		(core)->venus_ver.minor == vminor &&
->  		(core)->venus_ver.rev <= vrev);
->  }
-> +
-> +void venus_close_common(struct venus_inst *inst);
->  #endif
-[..]
-> +++ b/drivers/media/platform/qcom/venus/vdec_ctrls.c
-> @@ -192,3 +192,4 @@ void vdec_ctrl_deinit(struct venus_inst *inst)
->  {
->  	v4l2_ctrl_handler_free(&inst->ctrl_handler);
->  }
-> +EXPORT_SYMBOL_GPL(vdec_ctrl_deinit);
+From: Fabio Estevam <festevam@denx.de>
 
-Would have been entirely too simple had I compile-tested
-my patches, wouldn't it?
+The "adv,force-bt656-4" property causes several dt-schema warnings
+because 'adv' is not a valid vendor prefix defined in
+vendor-prefixes.yaml:
 
-	depmod: ERROR: Cycle detected: venus_core -> venus_dec -> venus_core
+'adv,force-bt656-4' does not match any of the regexes: '^#.*'...
 
+The correct vendor prefix for Analog Devices is 'adi', so change
+the property name to 'adi,force-bt656-4'.
 
-vdec_ctrl_deinit() is a v4l2_ctrl_handler_free() wrapper, a one-liner,
-so I turned into a static inline.
+Keep the old property for old DTB compatibility and mark it as deprecated.
 
-Compiles with the addition of:
-
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
+Changes since v1:
+- Changed compatible string -> property in the commit log. (Krzysztof)
+- Fixed checkpatch warning due to the commit log being wider than 75 chars.
+- Collected Krzysztof' Reviewed-by tag.
 
-diff --git a/drivers/media/platform/qcom/venus/vdec.h b/drivers/media/platform/qcom/venus/vdec.h
-index 6b262d0bf561..2687255b1616 100644
---- a/drivers/media/platform/qcom/venus/vdec.h
-+++ b/drivers/media/platform/qcom/venus/vdec.h
-@@ -6,9 +6,14 @@
- #ifndef __VENUS_VDEC_H__
- #define __VENUS_VDEC_H__
+ Documentation/devicetree/bindings/media/i2c/adv7180.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+index c8d887eee3bb..4371a0ef2761 100644
+--- a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+@@ -39,6 +39,12 @@ properties:
+     maxItems: 1
  
-+#include <media/v4l2-ctrls.h>
+   adv,force-bt656-4:
++    deprecated: true
++    description:
++      Indicates that the output is a BT.656-4 compatible stream.
++    type: boolean
 +
- struct venus_inst;
- 
- int vdec_ctrl_init(struct venus_inst *inst);
--void vdec_ctrl_deinit(struct venus_inst *inst);
-+static inline void vdec_ctrl_deinit(struct venus_inst *inst)
-+{
-+       v4l2_ctrl_handler_free(&inst->ctrl_handler);
-+}
- 
- #endif
-diff --git a/drivers/media/platform/qcom/venus/vdec_ctrls.c b/drivers/media/platform/qcom/venus/vdec_ctrls.c
-index 2b6b2eee619c..fa034a7fdbed 100644
---- a/drivers/media/platform/qcom/venus/vdec_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/vdec_ctrls.c
-@@ -4,7 +4,6 @@
-  * Copyright (C) 2017 Linaro Ltd.
-  */
- #include <linux/types.h>
--#include <media/v4l2-ctrls.h>
- 
- #include "core.h"
- #include "helpers.h"
-@@ -187,9 +186,3 @@ int vdec_ctrl_init(struct venus_inst *inst)
- 
-        return 0;
- }
--
--void vdec_ctrl_deinit(struct venus_inst *inst)
--{
--       v4l2_ctrl_handler_free(&inst->ctrl_handler);
--}
++  adi,force-bt656-4:
+     description:
+       Indicates that the output is a BT.656-4 compatible stream.
+     type: boolean
+-- 
+2.34.1
+
 
