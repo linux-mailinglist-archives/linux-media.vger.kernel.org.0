@@ -1,36 +1,35 @@
-Return-Path: <linux-media+bounces-20169-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20170-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3FD9ADF07
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 10:21:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8629ADF1D
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 10:31:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A82AC1F22591
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 08:21:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57C98282C5B
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 08:31:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB4FB1B2195;
-	Thu, 24 Oct 2024 08:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1E771A76AC;
+	Thu, 24 Oct 2024 08:30:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759CE1B218D;
-	Thu, 24 Oct 2024 08:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872FF16FF3B
+	for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 08:30:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729758017; cv=none; b=mznVoqko3hHPQKX0qqmCsep8NAkaSJFBUdD2uSno8+E/qYDZQVC6b5lg0s5V+NX5teIOUgu+BLpToZE7dAuzOu8EldLoIpywOflyIqDys7YLMzHr37X9uY1w3xNvWJfWZITTY6CHIwrs/BI+gl4H8ipM6gh5a1dPVv8Gov9A7Ew=
+	t=1729758654; cv=none; b=WgE8u6S3ElL7nO0hJwNhyMAmqwiG+mpDGWj53MZlnQjMKtn1rPT/hc7n2xHDr7gkIghj81aQ9NZbKmOihTsLP5gWfLESuRzbHO5Z9FH4Hatjr7BFmIwVVL25AMYe78HEkjW55uHq5LZJW+ARWgI4mhAP5bzSW60DlXeqQO4DNPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729758017; c=relaxed/simple;
-	bh=ZQ7iMwcbG2odFTxrjx2XElV786+NxUKNraz8S8vH8oI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GmAinqi1ZADLrCb1V3iJ6meWi1yu8onWI4l7wiV/c9/JipLEo0ZpQgsCertRpZmei3iiAsDzp2FMcXrEoa5VIg4Sps8Z8ztUNnsnBCKh6Pi2kVMJFey5yjTWJXpgib4iImTog3nX7LaZnVsYVYrpHN9tdE21nTOeyeWHACJEdow=
+	s=arc-20240116; t=1729758654; c=relaxed/simple;
+	bh=f3RgNnHe9tUu07ad0mTuTuMr/PpstMME1tziHK0l1K0=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=nzp/AAhlOkeve7eO+pGBY7tSObLV+8aVu/do8iTpFvjcvhsp+we7ycS1uL7NNKv2E/cYZ9q0aXN5ENHBtQVdQBHwyL79HbfwvwapNTYXbGkG5IxBMndMQU/gpR3n7/p7lMsXRN4nS3imoXcUVBgMyqTss6geRjRBfhljLTmjoKw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B75FDC4CEC7;
-	Thu, 24 Oct 2024 08:20:13 +0000 (UTC)
-Message-ID: <4d9e340e-2ae7-495b-8623-0d10398e1c3d@xs4all.nl>
-Date: Thu, 24 Oct 2024 10:20:12 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE53C4CEC7;
+	Thu, 24 Oct 2024 08:30:53 +0000 (UTC)
+Message-ID: <47f231d4-1a76-40f0-a5c3-2285cb012a29@xs4all.nl>
+Date: Thu, 24 Oct 2024 10:30:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,29 +37,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] media: raspberrypi: Add support for RP1-CFE
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Naushir Patuck
- <naush@raspberrypi.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20241003-rp1-cfe-v6-0-d6762edd98a8@ideasonboard.com>
- <20241003-rp1-cfe-v6-3-d6762edd98a8@ideasonboard.com>
 Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ bugzilla-daemon@kernel.org
 From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH for v6.12] media: vivid: fix buffer overwrite when using > 32
+ buffers
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -104,64 +87,93 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20241003-rp1-cfe-v6-3-d6762edd98a8@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Tomi,
+The maximum number of buffers that can be requested was increased to
+64 for the video capture queue. But video capture used a must_blank
+array that was still sized for 32 (VIDEO_MAX_FRAME). This caused an
+out-of-bounds write when using buffer indices >= 32.
 
-I know this driver is already merged, but while checking for drivers that use
-q->max_num_buffers I stumbled on this cfe code:
+Create a new define MAX_VID_CAP_BUFFERS that is used to access the
+must_blank array and set max_num_buffers for the video capture queue.
 
-<snip>
+This solves a crash reported by:
 
-> +/*
-> + * vb2 ops
-> + */
-> +
-> +static int cfe_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
-> +			   unsigned int *nplanes, unsigned int sizes[],
-> +			   struct device *alloc_devs[])
-> +{
-> +	struct cfe_node *node = vb2_get_drv_priv(vq);
-> +	struct cfe_device *cfe = node->cfe;
-> +	unsigned int size = is_image_node(node) ?
-> +				    node->vid_fmt.fmt.pix.sizeimage :
-> +				    node->meta_fmt.fmt.meta.buffersize;
-> +
-> +	cfe_dbg(cfe, "%s: [%s] type:%u\n", __func__, node_desc[node->id].name,
-> +		node->buffer_queue.type);
-> +
-> +	if (vq->max_num_buffers + *nbuffers < 3)
-> +		*nbuffers = 3 - vq->max_num_buffers;
+	https://bugzilla.kernel.org/show_bug.cgi?id=219258
 
-This makes no sense: max_num_buffers is 32, unless explicitly set when vb2_queue_init
-is called. So 32 + *nbuffers is never < 3.
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Fixes: cea70ed416b4 ("media: test-drivers: vivid: Increase max supported buffers for capture queues")
+Cc: stable@vger.kernel.org
+---
+ drivers/media/test-drivers/vivid/vivid-core.c    | 2 +-
+ drivers/media/test-drivers/vivid/vivid-core.h    | 4 +++-
+ drivers/media/test-drivers/vivid/vivid-ctrls.c   | 2 +-
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c | 2 +-
+ 4 files changed, 6 insertions(+), 4 deletions(-)
 
-If the idea is that at least 3 buffers should be allocated by REQBUFS, then set
-q->min_reqbufs_allocation = 3; before calling vb2_queue_init and vb2 will handle this
-for you.
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+index 8d8f60e15d1d..7477ac8cb955 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.c
++++ b/drivers/media/test-drivers/vivid/vivid-core.c
+@@ -910,7 +910,7 @@ static int vivid_create_queue(struct vivid_dev *dev,
+ 	 * videobuf2-core.c to MAX_BUFFER_INDEX.
+ 	 */
+ 	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+-		q->max_num_buffers = 64;
++		q->max_num_buffers = MAX_VID_CAP_BUFFERS;
+ 	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE)
+ 		q->max_num_buffers = 1024;
+ 	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE)
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
+index cc18a3bc6dc0..d2d52763b119 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.h
++++ b/drivers/media/test-drivers/vivid/vivid-core.h
+@@ -26,6 +26,8 @@
+ #define MAX_INPUTS 16
+ /* The maximum number of outputs */
+ #define MAX_OUTPUTS 16
++/* The maximum number of video capture buffers */
++#define MAX_VID_CAP_BUFFERS 64
+ /* The maximum up or down scaling factor is 4 */
+ #define MAX_ZOOM  4
+ /* The maximum image width/height are set to 4K DMT */
+@@ -481,7 +483,7 @@ struct vivid_dev {
+ 	/* video capture */
+ 	struct tpg_data			tpg;
+ 	unsigned			ms_vid_cap;
+-	bool				must_blank[VIDEO_MAX_FRAME];
++	bool				must_blank[MAX_VID_CAP_BUFFERS];
 
-Drivers shouldn't modify *nbuffers, except in very rare circumstances, especially
-since the code is almost always wrong.
+ 	const struct vivid_fmt		*fmt_cap;
+ 	struct v4l2_fract		timeperframe_vid_cap;
+diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+index 8bb38bc7b8cc..2b5c8fbcd0a2 100644
+--- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
++++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+@@ -553,7 +553,7 @@ static int vivid_vid_cap_s_ctrl(struct v4l2_ctrl *ctrl)
+ 		break;
+ 	case VIVID_CID_PERCENTAGE_FILL:
+ 		tpg_s_perc_fill(&dev->tpg, ctrl->val);
+-		for (i = 0; i < VIDEO_MAX_FRAME; i++)
++		for (i = 0; i < MAX_VID_CAP_BUFFERS; i++)
+ 			dev->must_blank[i] = ctrl->val < 100;
+ 		break;
+ 	case VIVID_CID_INSERT_SAV:
+diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+index 69620e0a35a0..6a790ac8cbe6 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+@@ -213,7 +213,7 @@ static int vid_cap_start_streaming(struct vb2_queue *vq, unsigned count)
 
-Regards,
-
-	Hans
-
-> +
-> +	if (*nplanes) {
-> +		if (sizes[0] < size) {
-> +			cfe_err(cfe, "sizes[0] %i < size %u\n", sizes[0], size);
-> +			return -EINVAL;
-> +		}
-> +		size = sizes[0];
-> +	}
-> +
-> +	*nplanes = 1;
-> +	sizes[0] = size;
-> +
-> +	return 0;
-> +}
+ 	dev->vid_cap_seq_count = 0;
+ 	dprintk(dev, 1, "%s\n", __func__);
+-	for (i = 0; i < VIDEO_MAX_FRAME; i++)
++	for (i = 0; i < MAX_VID_CAP_BUFFERS; i++)
+ 		dev->must_blank[i] = tpg_g_perc_fill(&dev->tpg) < 100;
+ 	if (dev->start_streaming_error) {
+ 		dev->start_streaming_error = false;
+-- 
+2.45.2
 
 
