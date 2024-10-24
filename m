@@ -1,195 +1,430 @@
-Return-Path: <linux-media+bounces-20205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20206-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A639AE543
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 14:44:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 495D59AE735
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 16:04:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B71ADB2181A
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 12:44:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7D481F23693
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 14:04:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3378B1D5ACD;
-	Thu, 24 Oct 2024 12:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fcX8ocp5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 163301D5CF1;
+	Thu, 24 Oct 2024 14:04:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.tlmp.cc (unknown [148.135.104.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A23517DFE4
-	for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 12:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65231D5ACC;
+	Thu, 24 Oct 2024 14:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.135.104.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729773843; cv=none; b=T00aF1Ece7hxXDoIu5D+ENUETdzeOcQowvbrrJV/HOg7igWPXwdU3IoM4OukuJw5nPtMUF1I0sWY4kZErqPDmf+38L8sPQHZD8aMmYK8TaB0gCZfl5w+HFKh9g5Q3rljPYbCeybtFiunno7KkFnx8hqLS+xtIrC5jQeAh/2hUH4=
+	t=1729778676; cv=none; b=YMGLx6zS2BlEzZQilTDeieUWZjqbWn4xRmnoNQUEyUJux69ytu1SZvbMjcfNfk3LIVu8eiB4N2RFg2xBIrAaF1cDotowdwNSg8Wg+fzVMZHJjYriGeSRABXqT4mvt9/MAnR375Dd4XWr8dsJB3w8RHevYaRwqrAuJY0DE3YKTOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729773843; c=relaxed/simple;
-	bh=soTVn8jOTtJo/F47kpcNgbF25y0oIJ4WelERMykKhFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CeBDD/AzG1VG/fTMEtGgVLBujw7iZTwVFhjRk+eZ95oDK/NADDj0QGjVH/3rXr+xMVB2uiybfzFM79EMTug6cPbmVMYev6KiHD24Ki3XGHGHQqhyAKwcjDnUU32kehM0gQCfQBKr4EATjgBvzWUDjkzlWA5kZZH7vrOL0dCM+wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fcX8ocp5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729773839;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=soTVn8jOTtJo/F47kpcNgbF25y0oIJ4WelERMykKhFc=;
-	b=fcX8ocp5AZuWsTyy7Jb3ssfxtlp5OQHk9F9qmUJ9chAZtyPSlWqsDeKEw4XO+yxZWR3SeF
-	gomLwvzVOoAutoxAeiuUYG2fSR7TUz5008SYs8UUZLXn4xVwi0V+QDoDF8KE0JNgPYwHYh
-	mOuSUZZbIrvzYakxoGJrQp/65tHmQCE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-306-PLa_iwK8MsCzgYfs32N7mA-1; Thu, 24 Oct 2024 08:43:57 -0400
-X-MC-Unique: PLa_iwK8MsCzgYfs32N7mA-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-37d4a211177so489974f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 05:43:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729773836; x=1730378636;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=soTVn8jOTtJo/F47kpcNgbF25y0oIJ4WelERMykKhFc=;
-        b=LZanrQk01M6ruP4y/J+vN9NZgJPUSjy6YDRGF7MYoOS8dwvakoNYe14kDAoByaSl7h
-         LSeU3Kvk5oulrMZDDrryWHHkLSxZls/5sPhOL7f/vYbpX9baDae4s4awRMHeu/QMs5Xs
-         eW5wfKoVLwbbeyomeQRyRtCVo4U9SkMdijrIZS6WSYqIwKfbvpwMoGm8MiJ1IvKazx6i
-         0ce47y5ECMFFKR3EsR/3DZGhN78pBBNKrWdv2uKY5Gpmcl+r7nCV8G38dX++PQ7BBU4/
-         17XOeYzAhFmnwUVZjzJZsH+s835GR/sMow6RuSvK0sH/7L47L5zKHZwt8SOlvofr+DC8
-         uVrw==
-X-Forwarded-Encrypted: i=1; AJvYcCUEaekX0onCKiMmqcMRi0Une438FSwQRjyAerLwf9lQuB/QAo6XIBG4K7KV1Pm/F4iRl84Z6B3rbzEjiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2Q3lsXCP4DVXdFIKFrav5T1LKRWTXDpPpfuGheBrPX2ExUlEm
-	LKrKq+1NevCiB97wtaVYp5LNpIWQw5Oz56IhLk8ISbtwNxhcD0TZ+hwitpHTEy6m29TJl8a8GE+
-	SVNgJ8YpIxo7S0+86PaPAfqUdMPW5AabXaZ2jSKtso2KNayJ0znZUvsT+6Lug
-X-Received: by 2002:a5d:4142:0:b0:37d:45c3:3459 with SMTP id ffacd0b85a97d-38045868631mr1406149f8f.21.1729773836513;
-        Thu, 24 Oct 2024 05:43:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFVbvOG1PHT58hTHz0WF2cadGoIHw+bWT3MYYe4Dm2aD5pRMmMvuOzcSo+7YMei1rplLxREbQ==
-X-Received: by 2002:a5d:4142:0:b0:37d:45c3:3459 with SMTP id ffacd0b85a97d-38045868631mr1406134f8f.21.1729773836026;
-        Thu, 24 Oct 2024 05:43:56 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a47caesm11160337f8f.28.2024.10.24.05.43.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 05:43:55 -0700 (PDT)
-Date: Thu, 24 Oct 2024 14:43:54 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: John Stultz <jstultz@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: Requirements to merge new heaps in the kernel
-Message-ID: <20241024-giraffe-of-pastoral-hail-3141a9@houat>
-References: <20241022-macaw-of-spectacular-joy-8dcefa@houat>
- <CANDhNCoLgzy=CPBWjBKLiJzRdnf=SS3AgtFJNB-CBYAo=UEQJA@mail.gmail.com>
- <f8831b4e658b19a1df4cc02449bb74d730908de6.camel@ndufresne.ca>
+	s=arc-20240116; t=1729778676; c=relaxed/simple;
+	bh=DuN4mUXGpKtjsfh4IPC3NEefzqbLB4j+vXm91RftpnE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bzADEtmqSv7xV7M7eXqdWaMZxx34u9xaHzDxF7ghl8GRg4ZuLOIyJxjoV45fqn5ERbywAT0oRUFo/TeSmIKiQ4+cjEePsiOqrNE9106lepFuY2/fsi3tAmgDn+s9/+n4NY+d36nhGRondbAdn0LdxOa1S63cICAAe79MoK3b9+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kremlin.ru; spf=fail smtp.mailfrom=kremlin.ru; arc=none smtp.client-ip=148.135.104.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kremlin.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kremlin.ru
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 72B125E5D8;
+	Thu, 24 Oct 2024 10:04:19 -0400 (EDT)
+From: Vladimir Vladimirovich Putin <vladimir_putin_rus@kremlin.ru>
+To: torvalds@linux-foundation.org
+Cc: aospan@netup.ru,
+	conor.dooley@microchip.com,
+	ddrokosov@sberdevices.ru,
+	dmaengine@vger.kernel.org,
+	dushistov@mail.ru,
+	fancer.lancer@gmail.com,
+	geert@linux-m68k.org,
+	gregkh@linuxfoundation.org,
+	hoan@os.amperecomputing.com,
+	ink@jurassic.park.msu.ru,
+	jeffbai@aosc.io,
+	kexybiscuit@aosc.io,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fpga@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	manivannan.sadhasivam@linaro.org,
+	mattst88@gmail.com,
+	netdev@vger.kernel.org,
+	nikita@trvn.ru,
+	ntb@lists.linux.dev,
+	patches@lists.linux.dev,
+	richard.henderson@linaro.org,
+	s.shtylyov@omp.ru,
+	serjk@netup.ru,
+	shc_work@mail.ru,
+	torvic9@mailbox.org,
+	tsbogend@alpha.franken.de,
+	v.georgiev@metrotek.ru,
+	wangyuli@uniontech.com,
+	wsa+renesas@sang-engineering.com,
+	xeb@mail.ru,
+	LKML <linux-kernel@vger.kernel.org>,
+	Vladimir Vladimirovich Putin <vladimir_putin_rus@kremlin.ru>
+Subject: [PATCH 1/2] MAINTAINERS: Remove Huawei due to compilance requirements.
+Date: Thu, 24 Oct 2024 22:03:52 +0800
+Message-ID: <20241024140353.384881-2-vladimir_putin_rus@kremlin.ru>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241024140353.384881-1-vladimir_putin_rus@kremlin.ru>
+References: <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
+ <20241024140353.384881-1-vladimir_putin_rus@kremlin.ru>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="v3j6hycuvpl6yppp"
-Content-Disposition: inline
-In-Reply-To: <f8831b4e658b19a1df4cc02449bb74d730908de6.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
+Huawei Corp was added to the US Entity List[1] on 08/20/2020.
 
---v3j6hycuvpl6yppp
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: Requirements to merge new heaps in the kernel
-MIME-Version: 1.0
+The Entity List is a trade restriction list published by the United
+States Department of Commerce's Bureau of Industry and Security (BIS),
+consisting of certain foreign persons, entities, or governments.
+It is published as Supplement 4 of Part 744 of the Code
+of Federal Regulations. [2]
 
-On Tue, Oct 22, 2024 at 01:58:47PM -0400, Nicolas Dufresne wrote:
-> Hi,
->=20
-> Le mardi 22 octobre 2024 =C3=A0 09:19 -0700, John Stultz a =C3=A9crit=C2=
-=A0:
-> > On Tue, Oct 22, 2024 at 1:38=E2=80=AFAM Maxime Ripard <mripard@redhat.c=
-om> wrote:
-> > >=20
-> > > I wanted to follow-up on the discussion we had at Plumbers with John =
-and
-> > > T.J. about (among other things) adding new heaps to the kernel.
-> > >=20
-> > > I'm still interested in merging a carve-out driver[1], since it seems=
- to be
-> > > in every vendor BSP and got asked again last week.
-> > >=20
-> > > I remember from our discussion that for new heap types to be merged, =
-we
-> > > needed a kernel use-case. Looking back, I'm not entirely sure how one
-> > > can provide that given that heaps are essentially facilities for
-> > > user-space.
-> > >=20
-> > > Am I misremembering or missing something? What are the requirements f=
-or
-> > > you to consider adding a new heap driver?
-> >=20
-> > It's basically the same as the DRM subsystem rules.
-> > https://docs.kernel.org/gpu/drm-uapi.html#open-source-userspace-require=
-ments
-> > ie: There has to be opensource user for it, and the user has to be
-> > more significant than a "toy" implementation (which can be a bit
-> > subjective and contentious when trying to get out of a chicken and egg
-> > loop).
->=20
-> If there is a generic logic to decide to use a carve-out when using some
-> specific device on specific platform, it would not be a problem to make
-> userspace for it. I'm happy to take DMABuf patches in GStreamer notably (=
-which
-> could greatly help ensuring zero-copy path).
+[1]: https://www.federalregister.gov/documents/2020/08/20/2020-18213/
+addition-of-huawei-non-us-affiliates-to-the-entity-list-the-removal-of
+-temporary-general-license-and
+[2]: https://en.wikipedia.org/wiki/Entity_List
 
-Yeah, that's one of the things we discussed at Plumbers too. My
-point-of-view was that userspace also had no way to tell which kind of
-buffers it would get. We settled down on the heap name providing those
-semantics, and it resulted in:
+Signed-off-by: Vladimir Vladimirovich Putin <vladimir_putin_rus@kremlin.ru>
+---
+ MAINTAINERS | 46 ----------------------------------------------
+ 1 file changed, 46 deletions(-)
 
-https://lore.kernel.org/r/20240930144057.453751-1-mripard@kernel.org
-
-> But so far, all the proposals was just a base allocator, no way to know w=
-hen to
-> use it and for which device. The actual mapping of heaps and device was l=
-eft to
-> userspace, which to be honest would only work with a userspace Linux Allo=
-cator
-> library, with userspace drivers, or inside mesa if the devices are GPUs/N=
-PUs.
-> This is a project Laurent Pinchard have hosted a workshop about during XD=
-C.
-
-Yeah, that's another issue that needs to be tackled at some point indeed.
-
-> p.s. libcamera have device specific knowledge, and could of course be a s=
-horter
-> term user. Note that major distro are not happy that there is no memory
-> accounting for dmabuf, bypassing sandboxes and limits.
-
-Meh. The same argument could be said for v4l2 or DRM/KMS, and it never
-bothered anyone.
-
-Fortunately, we're tackling that issue as well:
-https://lore.kernel.org/dri-devel/20241023075302.27194-1-maarten.lankhorst@=
-linux.intel.com/
-
-Maxime
-
---v3j6hycuvpl6yppp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxpBCgAKCRAnX84Zoj2+
-dgHXAX0SfWtyKH8RpB7e4T3vbSYwKEoZUIpBDgIWE798YzT0YS6TlcfW1VbbXaFb
-5TMwUn4Bfi40qfBijP19+Y4SSRBZfhLYDP3AtTs1/Ek/rVRaXeHPDj6OYn8LAGq3
-DBUHkmX4vQ==
-=b82R
------END PGP SIGNATURE-----
-
---v3j6hycuvpl6yppp--
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e9659a5a7fb3..725a72e17a4a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -322,7 +322,6 @@ F:	tools/power/acpi/
+ 
+ ACPI FOR ARM64 (ACPI/arm64)
+ M:	Lorenzo Pieralisi <lpieralisi@kernel.org>
+-M:	Hanjun Guo <guohanjun@huawei.com>
+ M:	Sudeep Holla <sudeep.holla@arm.com>
+ L:	linux-acpi@vger.kernel.org
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+@@ -3873,7 +3872,6 @@ F:	Documentation/filesystems/befs.rst
+ F:	fs/befs/
+ 
+ BFQ I/O SCHEDULER
+-M:	Yu Kuai <yukuai3@huawei.com>
+ L:	linux-block@vger.kernel.org
+ S:	Odd Fixes
+ F:	Documentation/block/bfq-iosched.rst
+@@ -4038,7 +4036,6 @@ BPF JIT for ARM64
+ M:	Daniel Borkmann <daniel@iogearbox.net>
+ M:	Alexei Starovoitov <ast@kernel.org>
+ M:	Puranjay Mohan <puranjay@kernel.org>
+-R:	Xu Kuohai <xukuohai@huaweicloud.com>
+ L:	bpf@vger.kernel.org
+ S:	Supported
+ F:	arch/arm64/net/
+@@ -4082,7 +4079,6 @@ X:	arch/riscv/net/bpf_jit_comp64.c
+ 
+ BPF JIT for RISC-V (64-bit)
+ M:	Björn Töpel <bjorn@kernel.org>
+-R:	Pu Lehui <pulehui@huawei.com>
+ R:	Puranjay Mohan <puranjay@kernel.org>
+ L:	bpf@vger.kernel.org
+ S:	Maintained
+@@ -5697,7 +5693,6 @@ F:	include/linux/compiler_attributes.h
+ 
+ COMPUTE EXPRESS LINK (CXL)
+ M:	Davidlohr Bueso <dave@stgolabs.net>
+-M:	Jonathan Cameron <jonathan.cameron@huawei.com>
+ M:	Dave Jiang <dave.jiang@intel.com>
+ M:	Alison Schofield <alison.schofield@intel.com>
+ M:	Vishal Verma <vishal.l.verma@intel.com>
+@@ -5712,7 +5707,6 @@ F:	include/uapi/linux/cxl_mem.h
+ F:	tools/testing/cxl/
+ 
+ COMPUTE EXPRESS LINK PMU (CPMU)
+-M:	Jonathan Cameron <jonathan.cameron@huawei.com>
+ L:	linux-cxl@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/admin-guide/perf/cxl.rst
+@@ -8525,7 +8519,6 @@ F:	include/uapi/linux/ext4.h
+ 
+ Extended Verification Module (EVM)
+ M:	Mimi Zohar <zohar@linux.ibm.com>
+-M:	Roberto Sassu <roberto.sassu@huawei.com>
+ L:	linux-integrity@vger.kernel.org
+ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git
+@@ -10189,21 +10182,17 @@ F:	net/dsa/tag_hellcreek.c
+ 
+ HISILICON DMA DRIVER
+ M:	Zhou Wang <wangzhou1@hisilicon.com>
+-M:	Jie Hai <haijie1@huawei.com>
+ L:	dmaengine@vger.kernel.org
+ S:	Maintained
+ F:	drivers/dma/hisi_dma.c
+ 
+ HISILICON GPIO DRIVER
+-M:	Jay Fang <f.fangjian@huawei.com>
+ L:	linux-gpio@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/gpio/hisilicon,ascend910-gpio.yaml
+ F:	drivers/gpio/gpio-hisi.c
+ 
+ HISILICON HIGH PERFORMANCE RSA ENGINE DRIVER (HPRE)
+-M:	Zhiqi Song <songzhiqi1@huawei.com>
+-M:	Longfang Liu <liulongfang@huawei.com>
+ L:	linux-crypto@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/ABI/testing/debugfs-hisi-hpre
+@@ -10212,7 +10201,6 @@ F:	drivers/crypto/hisilicon/hpre/hpre_crypto.c
+ F:	drivers/crypto/hisilicon/hpre/hpre_main.c
+ 
+ HISILICON HNS3 PMU DRIVER
+-M:	Jijie Shao <shaojijie@huawei.com>
+ S:	Supported
+ F:	Documentation/admin-guide/perf/hns3-pmu.rst
+ F:	drivers/perf/hisilicon/hns3_pmu.c
+@@ -10226,31 +10214,24 @@ F:	Documentation/devicetree/bindings/i2c/hisilicon,ascend910-i2c.yaml
+ F:	drivers/i2c/busses/i2c-hisi.c
+ 
+ HISILICON KUNPENG SOC HCCS DRIVER
+-M:	Huisong Li <lihuisong@huawei.com>
+ S:	Maintained
+ F:	Documentation/ABI/testing/sysfs-devices-platform-kunpeng_hccs
+ F:	drivers/soc/hisilicon/kunpeng_hccs.c
+ F:	drivers/soc/hisilicon/kunpeng_hccs.h
+ 
+ HISILICON LPC BUS DRIVER
+-M:	Jay Fang <f.fangjian@huawei.com>
+ S:	Maintained
+ W:	http://www.hisilicon.com
+ F:	Documentation/devicetree/bindings/arm/hisilicon/low-pin-count.yaml
+ F:	drivers/bus/hisi_lpc.c
+ 
+ HISILICON NETWORK SUBSYSTEM 3 DRIVER (HNS3)
+-M:	Jian Shen <shenjian15@huawei.com>
+-M:	Salil Mehta <salil.mehta@huawei.com>
+-M:	Jijie Shao <shaojijie@huawei.com>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
+ W:	http://www.hisilicon.com
+ F:	drivers/net/ethernet/hisilicon/hns3/
+ 
+ HISILICON NETWORK SUBSYSTEM DRIVER
+-M:	Jian Shen <shenjian15@huawei.com>
+-M:	Salil Mehta <salil.mehta@huawei.com>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
+ W:	http://www.hisilicon.com
+@@ -10259,7 +10240,6 @@ F:	drivers/net/ethernet/hisilicon/
+ 
+ HISILICON PMU DRIVER
+ M:	Yicong Yang <yangyicong@hisilicon.com>
+-M:	Jonathan Cameron <jonathan.cameron@huawei.com>
+ S:	Supported
+ W:	http://www.hisilicon.com
+ F:	Documentation/admin-guide/perf/hisi-pcie-pmu.rst
+@@ -10268,7 +10248,6 @@ F:	drivers/perf/hisilicon
+ 
+ HISILICON PTT DRIVER
+ M:	Yicong Yang <yangyicong@hisilicon.com>
+-M:	Jonathan Cameron <jonathan.cameron@huawei.com>
+ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/ABI/testing/sysfs-bus-event_source-devices-hisi_ptt
+@@ -10279,7 +10258,6 @@ F:	tools/perf/util/hisi-ptt*
+ F:	tools/perf/util/hisi-ptt-decoder/*
+ 
+ HISILICON QM DRIVER
+-M:	Weili Qian <qianweili@huawei.com>
+ M:	Zhou Wang <wangzhou1@hisilicon.com>
+ L:	linux-crypto@vger.kernel.org
+ S:	Maintained
+@@ -10290,7 +10268,6 @@ F:	drivers/crypto/hisilicon/sgl.c
+ F:	include/linux/hisi_acc_qm.h
+ 
+ HISILICON ROCE DRIVER
+-M:	Chengchang Tang <tangchengchang@huawei.com>
+ M:	Junxian Huang <huangjunxian6@hisilicon.com>
+ L:	linux-rdma@vger.kernel.org
+ S:	Maintained
+@@ -10298,14 +10275,12 @@ F:	Documentation/devicetree/bindings/infiniband/hisilicon-hns-roce.txt
+ F:	drivers/infiniband/hw/hns/
+ 
+ HISILICON SAS Controller
+-M:	Yihang Li <liyihang9@huawei.com>
+ S:	Supported
+ W:	http://www.hisilicon.com
+ F:	Documentation/devicetree/bindings/scsi/hisilicon-sas.txt
+ F:	drivers/scsi/hisi_sas/
+ 
+ HISILICON SECURITY ENGINE V2 DRIVER (SEC2)
+-M:	Longfang Liu <liulongfang@huawei.com>
+ L:	linux-crypto@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/ABI/testing/debugfs-hisi-sec
+@@ -10315,39 +10290,33 @@ F:	drivers/crypto/hisilicon/sec2/sec_crypto.h
+ F:	drivers/crypto/hisilicon/sec2/sec_main.c
+ 
+ HISILICON SPI Controller DRIVER FOR KUNPENG SOCS
+-M:	Jay Fang <f.fangjian@huawei.com>
+ L:	linux-spi@vger.kernel.org
+ S:	Maintained
+ W:	http://www.hisilicon.com
+ F:	drivers/spi/spi-hisi-kunpeng.c
+ 
+ HISILICON SPMI CONTROLLER DRIVER FOR HIKEY 970
+-M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
+ F:	drivers/spmi/hisi-spmi-controller.c
+ 
+ HISILICON SPMI PMIC DRIVER FOR HIKEY 6421v600
+-M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+ F:	drivers/mfd/hi6421-spmi-pmic.c
+ 
+ HISILICON TRUE RANDOM NUMBER GENERATOR V2 SUPPORT
+-M:	Weili Qian <qianweili@huawei.com>
+ S:	Maintained
+ F:	drivers/crypto/hisilicon/trng/trng.c
+ 
+ HISILICON V3XX SPI NOR FLASH Controller Driver
+-M:	Jay Fang <f.fangjian@huawei.com>
+ S:	Maintained
+ W:	http://www.hisilicon.com
+ F:	drivers/spi/spi-hisi-sfc-v3xx.c
+ 
+ HISILICON ZIP Controller DRIVER
+-M:	Yang Shen <shenyang39@huawei.com>
+ M:	Zhou Wang <wangzhou1@hisilicon.com>
+ L:	linux-crypto@vger.kernel.org
+ S:	Maintained
+@@ -10477,8 +10446,6 @@ HUAWEI ETHERNET DRIVER
+ M:	Cai Huoqing <cai.huoqing@linux.dev>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/networking/device_drivers/ethernet/huawei/hinic.rst
+-F:	drivers/net/ethernet/huawei/hinic/
+ 
+ HUGETLB SUBSYSTEM
+ M:	Muchun Song <muchun.song@linux.dev>
+@@ -10504,7 +10471,6 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	drivers/media/platform/st/sti/hva
+ 
+ HWPOISON MEMORY FAILURE HANDLING
+-M:	Miaohe Lin <linmiaohe@huawei.com>
+ R:	Naoya Horiguchi <nao.horiguchi@gmail.com>
+ L:	linux-mm@kvack.org
+ S:	Maintained
+@@ -11243,7 +11209,6 @@ F:	drivers/crypto/inside-secure/
+ 
+ INTEGRITY MEASUREMENT ARCHITECTURE (IMA)
+ M:	Mimi Zohar <zohar@linux.ibm.com>
+-M:	Roberto Sassu <roberto.sassu@huawei.com>
+ M:	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>
+ R:	Eric Snowberg <eric.snowberg@oracle.com>
+ L:	linux-integrity@vger.kernel.org
+@@ -12447,7 +12412,6 @@ M:	Marc Zyngier <maz@kernel.org>
+ M:	Oliver Upton <oliver.upton@linux.dev>
+ R:	Joey Gouly <joey.gouly@arm.com>
+ R:	Suzuki K Poulose <suzuki.poulose@arm.com>
+-R:	Zenghui Yu <yuzenghui@huawei.com>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ L:	kvmarm@lists.linux.dev
+ S:	Maintained
+@@ -20497,7 +20461,6 @@ F:	drivers/iio/chemical/ens160.h
+ 
+ SCSI LIBSAS SUBSYSTEM
+ R:	John Garry <john.g.garry@oracle.com>
+-R:	Jason Yan <yanaijie@huawei.com>
+ L:	linux-scsi@vger.kernel.org
+ S:	Supported
+ F:	Documentation/scsi/libsas.rst
+@@ -21303,7 +21266,6 @@ F:	include/linux/property.h
+ 
+ SOFTWARE RAID (Multiple Disks) SUPPORT
+ M:	Song Liu <song@kernel.org>
+-R:	Yu Kuai <yukuai3@huawei.com>
+ L:	linux-raid@vger.kernel.org
+ S:	Supported
+ Q:	https://patchwork.kernel.org/project/linux-raid/list/
+@@ -23549,7 +23511,6 @@ F:	include/uapi/misc/uacce/
+ 
+ UBI FILE SYSTEM (UBIFS)
+ M:	Richard Weinberger <richard@nod.at>
+-R:	Zhihao Cheng <chengzhihao1@huawei.com>
+ L:	linux-mtd@lists.infradead.org
+ S:	Supported
+ W:	http://www.linux-mtd.infradead.org/doc/ubifs.html
+@@ -23699,7 +23660,6 @@ F:	drivers/ufs/host/ufs-renesas.c
+ 
+ UNSORTED BLOCK IMAGES (UBI)
+ M:	Richard Weinberger <richard@nod.at>
+-R:	Zhihao Cheng <chengzhihao1@huawei.com>
+ L:	linux-mtd@lists.infradead.org
+ S:	Supported
+ W:	http://www.linux-mtd.infradead.org/
+@@ -23803,7 +23763,6 @@ S:	Maintained
+ F:	drivers/usb/roles/intel-xhci-usb-role-switch.c
+ 
+ USB IP DRIVER FOR HISILICON KIRIN 960
+-M:	Yu Chen <chenyu56@huawei.com>
+ M:	Binghui Wang <wangbinghui@hisilicon.com>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+@@ -24183,8 +24142,6 @@ S:	Orphan
+ F:	drivers/vfio/fsl-mc/
+ 
+ VFIO HISILICON PCI DRIVER
+-M:	Longfang Liu <liulongfang@huawei.com>
+-M:	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+ L:	kvm@vger.kernel.org
+ S:	Maintained
+ F:	drivers/vfio/pci/hisilicon/
+@@ -24213,7 +24170,6 @@ F:	drivers/vfio/pci/nvgrace-gpu/
+ VFIO PCI DEVICE SPECIFIC DRIVERS
+ R:	Jason Gunthorpe <jgg@nvidia.com>
+ R:	Yishai Hadas <yishaih@nvidia.com>
+-R:	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+ R:	Kevin Tian <kevin.tian@intel.com>
+ L:	kvm@vger.kernel.org
+ S:	Maintained
+@@ -24395,7 +24351,6 @@ F:	tools/virtio/
+ F:	tools/testing/selftests/drivers/net/virtio_net/
+ 
+ VIRTIO CRYPTO DRIVER
+-M:	Gonglei <arei.gonglei@huawei.com>
+ L:	virtualization@lists.linux.dev
+ L:	linux-crypto@vger.kernel.org
+ S:	Maintained
+@@ -25481,7 +25436,6 @@ F:	drivers/input/misc/yealink.*
+ 
+ Z3FOLD COMPRESSED PAGE ALLOCATOR
+ M:	Vitaly Wool <vitaly.wool@konsulko.com>
+-R:	Miaohe Lin <linmiaohe@huawei.com>
+ L:	linux-mm@kvack.org
+ S:	Maintained
+ F:	mm/z3fold.c
+-- 
+2.47.0
 
 
