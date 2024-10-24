@@ -1,74 +1,81 @@
-Return-Path: <linux-media+bounces-20173-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20174-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A129AE081
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 11:23:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 503199AE136
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 11:42:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F4E91F2446D
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 09:23:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14E4E28178D
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 09:42:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E8B91B3924;
-	Thu, 24 Oct 2024 09:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 058E71D2F59;
+	Thu, 24 Oct 2024 09:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iZx25NEm"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WxUMJwxe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3991714B0;
-	Thu, 24 Oct 2024 09:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28A63D97A
+	for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 09:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729761801; cv=none; b=ZvO8bORraDHKAeR0Gtu1ve8IelQJOkg8nohjlH2rxZRXlFtW3gmiYbM9rb1VhYIeDkGu0H114Kfo+ul0VsoC6W9pWV+8nxFG375ggt934ZHYDASX+T3RliwW2EE7DMs0n4Zu32kl3l5UnpwahB0vdjyl3dIvVb20eH83cuMJpuE=
+	t=1729762763; cv=none; b=YVLTrix1StgF/u+XmLxdL+VaD1e2kX02iQfe5iTU3qmVTa+YjPmjqWC+HJEZiEDiXQ5Z08YsdnwtjDHn8jFdvBCAaAOXegxmsf1nkd1+4r4PR9XBjZqtF9lo9i3D9qLuY4812u4m7j4ZmIpIJnCg+zMDDXqQxFSm7itzALxQ3Sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729761801; c=relaxed/simple;
-	bh=jTrNcLdri+3sW4LQC21Re0gXmzoWnYgbwbhiJJfYRxA=;
+	s=arc-20240116; t=1729762763; c=relaxed/simple;
+	bh=psIUbzYLU4wFIXrzpbnQ/vVEnWJP9SPVhMuz47ZQnSI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tapQCpiWLVyqQ9TIa/TpgpxNyXqFZvDbOjXRH1I11y5XO1gYIbyjFfpyd3EfanQxFQ9Z/FQeJuVXzKeReWGBiT2zy1ryvufV6M39Ui/AyTMXTpM/swPZftE261t9O6TG5fGQ9utDUfvrcx6SYWm9wgHUj0ZO6mAeltpDxDiP35M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iZx25NEm; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=cNG1v54GZGBbvGCSwdr00JWJ070P99babx+9AJaD/EE=; b=iZx25NEmGfWGdU9TR3Z7lOIlHN
-	860ZRDCDc6MYSxH7C5rCboTyY85io1hD4DTH0VXgePsuLBj85GxVdINRL9ppqAvtsgmMAUE7fEf64
-	EiLE1vLnrU4rtgqQQRTS04uthFrfHrUh3o9R0IG9D3r+wbQSklLnEQ6Bw5OlCkJ121+y6yVT7R6Gw
-	KMIXnizp6B2d1oEgi4CEc8K7ioDkoqgkT4clBkF9oNXaTrERX7OjPreJ0BNDBZDOgs89pEzvDOoVD
-	/PO6+d+ouDQCbsKm0+tEZn1M4l3+Kgpmf7XZn2I+JBlqidrQk5y9hpIHddEvSu0I08GukpFt0fYO6
-	ozhOLphA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3u3q-0000000HRLl-3drM;
-	Thu, 24 Oct 2024 09:23:18 +0000
-Date: Thu, 24 Oct 2024 02:23:18 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, David Wei <dw@davidwei.uk>,
-	io-uring@vger.kernel.org, netdev@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	Mina Almasry <almasrymina@google.com>,
-	Stanislav Fomichev <stfomichev@gmail.com>,
-	Joe Damato <jdamato@fastly.com>,
-	Pedro Tammela <pctammela@mojatatu.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 02/15] net: generalise net_iov chunk owners
-Message-ID: <ZxoSBhC6sMEbXQi8@infradead.org>
-References: <20241016185252.3746190-1-dw@davidwei.uk>
- <20241016185252.3746190-3-dw@davidwei.uk>
- <ZxijxiqNGONin3IY@infradead.org>
- <264c8f95-2a69-4d49-8af6-d035fa890ef1@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dwtka/OY4wglx1nypSbKc8Grm6sGmmfBYf6KkSy8BvNRQdWefTl90OnjpuZb2zoxIQOxZ+PwYeqRkeJPigZAX/g84r6sCb9WvS+5h/k0tq3XvI8/oy1gsH2ssU78nQDuZ1hk6yhfT1JBMHEYYzwCCimyXC1sCSCwUuHCHMZaICA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WxUMJwxe; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7ea7e250c54so467501a12.0
+        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 02:39:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1729762761; x=1730367561; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=psIUbzYLU4wFIXrzpbnQ/vVEnWJP9SPVhMuz47ZQnSI=;
+        b=WxUMJwxevqeDB/jkSpz8EWP7IxD/8hYPRCGf51b6WZWGdDxaCmlTPQhZP/oNyf8f36
+         OaCq+4zJlS1SYVUJCebG08o6qU+ZiARy8a8kV1jgcl0AohbnWyaAuZprGvrdt2e7ZvDU
+         JwpRCuuUCIEf4obZZyvY7IvXys5jI55Bo+64Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729762761; x=1730367561;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=psIUbzYLU4wFIXrzpbnQ/vVEnWJP9SPVhMuz47ZQnSI=;
+        b=sJVmoMBs44eIwspI4FQ8r5tG7JIX5mMhiD9G/tJDAFG7rcetf2nL1vWUHDZU/xafPf
+         HPoKPO9pDImHDh99Bz3JTJuhg76pcTOXEbPnzyZ1ufDZYbZpmIy1VuZyRabTqwEE++cg
+         x+9gAX2dq0DGhaU861DQiZ8Aq8nesE61u0JUhhfJMTRWOoyBnkUBVgDEE4uCXTWdhV1c
+         +HZm0er5tTN6RgX9MLifMD3rP/gMNEg7ofoaVqVYVAoji0UUyEnPG9eY6dV1KXHZFCv/
+         B7gauaVAedV5/zEyf60uiZPZevbHF/3T9EDPdURL39IBYRge8BqXaz/VrrCdr+dPTPca
+         CLiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVDoeKdaCNHU1Q2iXfjIjCTtuKO9YqWIajWNAh2YnDv2wyj6ukMiCS0yKJ42fh851DqI6HhFcQH/3C7eA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx06T0lBqRH461GGPwvNdRbvysIKLukVG3+6Iazpy9Vzj6OcU5i
+	E6ao8NmHQdZiigUbMk63yatE/SJbV45t2Hkc57EeB7NohCGa9O3x5iXwHE9g5A==
+X-Google-Smtp-Source: AGHT+IG/IKjjlwb1UaL7FOR7rGdqnfvfZnxV4AE1xFUVjA5gLqDjXVktzbl6HM0Z4bmYO3X6wcbh1g==
+X-Received: by 2002:a05:6a20:d492:b0:1d9:19a0:c36e with SMTP id adf61e73a8af0-1d978b98610mr5702616637.31.1729762761004;
+        Thu, 24 Oct 2024 02:39:21 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:c7f5:2aa6:333b:bb6d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0f36f3sm69432655ad.263.2024.10.24.02.39.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 02:39:20 -0700 (PDT)
+Date: Thu, 24 Oct 2024 18:39:16 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv2 2/2] media: venus: sync with threaded IRQ during inst
+ destruction
+Message-ID: <20241024093916.GM1279924@google.com>
+References: <20241024061809.400260-1-senozhatsky@chromium.org>
+ <20241024061809.400260-3-senozhatsky@chromium.org>
+ <4b96f1f8-e084-4599-abe9-05039bfac569@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,27 +84,16 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <264c8f95-2a69-4d49-8af6-d035fa890ef1@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <4b96f1f8-e084-4599-abe9-05039bfac569@linaro.org>
 
-On Wed, Oct 23, 2024 at 03:34:53PM +0100, Pavel Begunkov wrote:
-> It doesn't care much what kind of memory it is, nor it's important
-> for internals how it's imported, it's user addresses -> pages for
-> user convenience sake. All the net_iov setup code is in the page pool
-> core code. What it does, however, is implementing the user API, so
+On (24/10/24 09:59), Bryan O'Donoghue wrote:
+> This needs a Fixes: tag too.
 
-That's not what this series does.  It adds the new memory_provider_ops
-set of hooks, with once implementation for dmabufs, and one for
-io_uring zero copy.
+Ack.
 
-So you are precluding zero copy RX into anything but your magic
-io_uring buffers, and using an odd abstraction for that.
+> It also occurs to me that most of the close() operation code is shared
+> between venc_close() and vdec_close() a welcome patch for V3 would be to
+> functionally decompose the common code to a shared location.
 
-The right way would be to support zero copy RX into every
-designated dmabuf, and make io_uring work with udmabuf or if
-absolutely needed it's own kind of dmabuf.  Instead we create
-a maze of incompatible abstractions here.  The use case of e.g.
-doing zero copy receive into a NVMe CMB using PCIe P2P transactions
-is every but made up, so this does create a problem.
-
+Any preferences where that "shared location" should be?
 
