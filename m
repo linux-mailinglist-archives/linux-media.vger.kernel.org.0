@@ -1,127 +1,220 @@
-Return-Path: <linux-media+bounces-20155-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20156-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E9B9ADBA2
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 07:46:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5C39ADBB2
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 07:52:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1DC9FB21F9C
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 05:46:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0495B227B1
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 05:52:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16BFF1741D4;
-	Thu, 24 Oct 2024 05:46:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04C5B176FB6;
+	Thu, 24 Oct 2024 05:52:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I/3UFPFX"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="PSRigfJi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FD9148FE1
-	for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 05:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF0B175D47;
+	Thu, 24 Oct 2024 05:52:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729748806; cv=none; b=tiLy5fDSboW8U15kYBb0LGRoqdDKUOLleXVXJ9jXMK6BbbyalgHmOpzDn5WT5Ab0z08A91YZm+ICz48w/DlFLWQ7ixBds2Yh/H8/TVs1uQq9mBre0w36kbNhC7lBwkuqyryFIHEgKPujiSYTRvC5+eWDng0YmXvozKHuzmrLAPY=
+	t=1729749144; cv=none; b=Nx8Rd8h6JSmpUG8j2LNLinLGKTQ4gYjlOw58kxhuSQA65rhQS2VPkhYc56i4gtX8AdwD36NVQ5yX+gKj6hvZcF/9C7wfwsdFBcGvTtIzSR0fSUMgB28Db/SYul/a7rc9HM28L/GCI4HvcCLr6jBmW4UUhUfmrMN4kd7VLkQSFtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729748806; c=relaxed/simple;
-	bh=rusMx3rv69GUTAu24cAUoN7azAAz2Z8NPqw+Q/hb50w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kSgbdg1ZC/XegkxdSaxcD/gZowdz3WjAJRHNfu/8g3IdFsEcXyku+A6wdcKZXNCaIMOGwUiep1ooUWY1TYQUNDQL6jK4QFp0Pt60SnWozEVrN3j1/XME7ZTXVsknHlz1cA72gckitwKL/tQrVZEPxQzSQBe7jYuEiTa84TJAlgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=I/3UFPFX; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7163489149eso344203a12.1
-        for <linux-media@vger.kernel.org>; Wed, 23 Oct 2024 22:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729748804; x=1730353604; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Z4Bp3VJlfDl6yA0Dp3yN5Lc4CmJlrlorl9PQ2g17bc=;
-        b=I/3UFPFXE6TMA2ZPDKhbII1NezEp/8EbpTUtr+tVzPwfROuLs3FHFslR+BhPzJcWcY
-         sdY36ijvJXOu0MzGHqIZKbTC5p+r4XbEb5pNESXOYWaxF2+2xp/uRVm8BYWIqLZbL3yG
-         8hYdKPxO2ZF3MnUs6phYzWDeHBBfoVnFwGEvE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729748804; x=1730353604;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3Z4Bp3VJlfDl6yA0Dp3yN5Lc4CmJlrlorl9PQ2g17bc=;
-        b=LPl6izHf/vbhqa92u0AQc5xwsrn5iflcOP/Q9aY2a/OmmAPKR0tNx0LrlND7cBpmki
-         TZ7PNpn7tf2zX0kQmu/Pdma1JRZ+uZloYXzSRTXYtSMtHeSVfu8epWEwOx8J3ZexONb4
-         67MHY9CosRb1zSCVK8gZoBXo1Zu9XUwLocZlEI355i1rqmBbv3Jr9MbaqmDCjf4cP0bg
-         OikanpMWJZdQjwDuRJeCQNV31UP4ULIjaTWJK22+DOyhp3NLQchcRrgAb4O6UQlyy5W6
-         k+QloTWtKEczqH38GDaU51S9LXuBvZ5dDfoEcuOTnHmTjgPachBoSCl+VZocyO9mWfXJ
-         9DSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVroTNuyfdvIe2uEnqNfDJREM8awVZl2V4XIOatADQNbXw9TnAk77Ggx1X2MEQR7Ky69x0RnNIntCOT0w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUG7FRFhNWJ+Z/BuW2p28MOlp8T12dZIIHvTJa33P0sOJ2OGNR
-	8VPljoIoM4bOHkuS8YIIKTGvl/W+qSZDwwJL2lhwiXwMaQ1WK+LK33wZFXQwYg==
-X-Google-Smtp-Source: AGHT+IHl1zltUiGlFVs2woZ9mbrBA/HLUFFjqSPhf7UzFWfsEe9ZUQxZoau4aeYsxPiZf3AHqpjl8g==
-X-Received: by 2002:a05:6a21:114d:b0:1d9:2994:ca2b with SMTP id adf61e73a8af0-1d978b0d2c5mr6642211637.19.1729748803863;
-        Wed, 23 Oct 2024 22:46:43 -0700 (PDT)
-Received: from google.com ([2401:fa00:8f:203:9422:d958:f749:9a30])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0db2desm65799265ad.203.2024.10.23.22.46.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 22:46:43 -0700 (PDT)
-Date: Thu, 24 Oct 2024 14:46:39 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: venus: sync with threaded IRQ during inst
- destruction
-Message-ID: <20241024054639.GL1279924@google.com>
-References: <20241023052444.139356-1-senozhatsky@chromium.org>
- <20241023052444.139356-3-senozhatsky@chromium.org>
- <20241024045836.GJ1279924@google.com>
- <20241024051335.GK1279924@google.com>
- <CAAFQd5ACxz-3icNH_CwWxWj5OyKdg89mOkNadYKa=YTVDRYRLg@mail.gmail.com>
+	s=arc-20240116; t=1729749144; c=relaxed/simple;
+	bh=H/v2vKPXkcQ5t90AgsLCbyIR8E+ZB2BVZJQwBlliVgA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DcjShZh7PwHbei3dwewcFYMFfDlV0QdoaHh4mtCB5x4na0Yx5Q+A71Bek2cuR5g1XY5U1VcDJ7KBvXiVfFpB0bElQ5lhoefsWF2I93c0l+5Bff+quoz5isjyPdH3BaR57XhVd2yo3/r6cn7GLoL6DKmxcmGYgQwuDwEC1Ojl83c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=PSRigfJi; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49NL9gY1029454;
+	Thu, 24 Oct 2024 05:50:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BJeOHwrcBgZcKztjE3nBe45ohKy9u2fJ3xGNMkWvCLA=; b=PSRigfJi33NbqriX
+	L1rqFq62ZD2sYOpBuUVBf/MwJlG4uZLtmJHLcQQ83g3yBeeHF1uy5uemLKHm+yya
+	fvnho2mritjSD3iY0mJYeXCOCKUn0yIGxWe8dYj7re3ciPmzbZ2MVE9A/yZOQ2XZ
+	YSjXJD/oRByFTIUAjI18V6lo+IZSb26oa8fIiDxIwjEWYdFPklXiWTa1hR3EJs9F
+	3NDLjkKyDAhYyFogQubpVnlGTSCl+0ELREqNWYSFbkobDsn7Wi9Q33tqL3LxmIqh
+	S5ia2Xkc8SJwCykVFsG/jIVU9vsrugNbxUj0ZmUwD/0aFpWIduLD68p+Sfpsry7j
+	3Sbxgg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42em3w4mv8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 24 Oct 2024 05:50:18 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49O5oH18019941
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 24 Oct 2024 05:50:17 GMT
+Received: from [10.204.101.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 23 Oct
+ 2024 22:50:13 -0700
+Message-ID: <593ea165-c3d0-e247-b6fc-d9266673858b@quicinc.com>
+Date: Thu, 24 Oct 2024 11:20:10 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5ACxz-3icNH_CwWxWj5OyKdg89mOkNadYKa=YTVDRYRLg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 15/28] media: iris: implement query_cap, query_ctrl and
+ query_menu ioctls
+Content-Language: en-US
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: Sebastian Fricke <sebastian.fricke@collabora.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Vedang Nagar
+	<quic_vnagar@quicinc.com>
+References: <20241014-qcom-video-iris-v4-v4-0-c5eaa4e9ab9e@quicinc.com>
+ <20241014-qcom-video-iris-v4-v4-15-c5eaa4e9ab9e@quicinc.com>
+ <c4350128-a05c-47af-a7e7-2810171cd311@xs4all.nl>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <c4350128-a05c-47af-a7e7-2810171cd311@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: vqQSDjV-aW-yArHobwcxZhxJ71ppJbSf
+X-Proofpoint-GUID: vqQSDjV-aW-yArHobwcxZhxJ71ppJbSf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ clxscore=1015 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410240041
 
-On (24/10/24 14:18), Tomasz Figa wrote:
-> > @@ -1538,9 +1538,25 @@ static int venc_close(struct file *file)
-> >
-> >         venc_pm_get(inst);
-> >
-> > +       /*
-> > +        * First, remove the inst from the ->instances list, so that
-> > +        * to_instance() will return NULL.
-> > +        */
-> > +       hfi_session_destroy(inst);
-> > +       /*
-> > +        * Second, make sure we don't have IRQ/IRQ-thread currently running or
-> > +        * pending execution (disable_irq() calls synchronize_irq()), which
-> > +        * can race with the inst destruction.
-> > +        */
-> > +       disable_irq(inst->core->irq);
-> > +       /*
-> > +        * Lastly, inst is gone from the core->instances list and we don't
-> > +        * have running/pending IRQ/IRQ-thread, proceed with the destruction
-> > +        */
-> > +       enable_irq(inst->core->irq);
-> > +
+
+
+On 10/23/2024 4:35 PM, Hans Verkuil wrote:
+> On 14/10/2024 11:07, Dikshita Agarwal wrote:
+>> From: Vedang Nagar <quic_vnagar@quicinc.com>
+>>
+>> Implement query_cap, query_ctrl and query_menu ioctls
+>> with necessary hooks.
+>>
+>> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> ---
+>>  drivers/media/platform/qcom/iris/iris_vidc.c | 52 ++++++++++++++++++++++++++++
+>>  1 file changed, 52 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+>> index 93d2be118a81..60ee05b67f86 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+>> @@ -300,6 +300,55 @@ static int iris_enum_framesizes(struct file *filp, void *fh,
+>>  	return 0;
+>>  }
+>>  
+>> +static int iris_querycap(struct file *filp, void *fh, struct v4l2_capability *cap)
+>> +{
+>> +	strscpy(cap->driver, IRIS_DRV_NAME, sizeof(cap->driver));
+>> +	strscpy(cap->bus_info, IRIS_BUS_NAME, sizeof(cap->bus_info));
 > 
-> Thanks a lot for looking into this. Wouldn't it be enough to just call
-> synchronize_irq() at this point, since the instance was removed from
-> the list already? I guess the question is if that's the only way the
-> interrupt handler can get hold of the instance.
+> Filled in automatically, just drop this.
+Sure, will do.
+> 
+>> +	memset(cap->reserved, 0, sizeof(cap->reserved));
+> 
+> The core zeroes this already, just drop this.
+> 
+Sure, will do.
+>> +	strscpy(cap->card, "iris_decoder", sizeof(cap->card));
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int iris_queryctrl(struct file *filp, void *fh, struct v4l2_queryctrl *q_ctrl)
+>> +{
+>> +	struct v4l2_ctrl *ctrl;
+>> +	struct iris_inst *inst = iris_get_inst(filp, NULL);
+>> +
+>> +	ctrl = v4l2_ctrl_find(&inst->ctrl_handler, q_ctrl->id);
+>> +	if (!ctrl)
+>> +		return -EINVAL;
+>> +
+>> +	q_ctrl->minimum = ctrl->minimum;
+>> +	q_ctrl->maximum = ctrl->maximum;
+>> +	q_ctrl->default_value = ctrl->default_value;
+>> +	q_ctrl->flags = 0;
+>> +	q_ctrl->step = ctrl->step;
+>> +
+>> +	return 0;
+>> +}
+> 
+> Huh???
+> 
+>> +
+>> +static int iris_querymenu(struct file *filp, void *fh, struct v4l2_querymenu *qmenu)
+>> +{
+>> +	struct iris_inst *inst = iris_get_inst(filp, NULL);
+>> +	struct v4l2_ctrl *ctrl;
+>> +
+>> +	ctrl = v4l2_ctrl_find(&inst->ctrl_handler, qmenu->id);
+>> +	if (!ctrl)
+>> +		return -EINVAL;
+>> +
+>> +	if (ctrl->type != V4L2_CTRL_TYPE_MENU)
+>> +		return -EINVAL;
+>> +
+>> +	if (qmenu->index < ctrl->minimum || qmenu->index > ctrl->maximum)
+>> +		return -EINVAL;
+>> +
+>> +	if (ctrl->menu_skip_mask & (1 << qmenu->index))
+>> +		return -EINVAL;
+>> +
+>> +	return 0;
+>> +}
+> 
+> Huh??
+> 
+>> +
+>>  static int iris_g_selection(struct file *filp, void *fh, struct v4l2_selection *s)
+>>  {
+>>  	struct iris_inst *inst = iris_get_inst(filp, NULL);
+>> @@ -366,6 +415,9 @@ static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
+>>  	.vidioc_g_fmt_vid_out_mplane    = iris_g_fmt_vid_mplane,
+>>  	.vidioc_enum_framesizes         = iris_enum_framesizes,
+>>  	.vidioc_reqbufs                 = v4l2_m2m_ioctl_reqbufs,
+>> +	.vidioc_querycap                = iris_querycap,
+>> +	.vidioc_queryctrl               = iris_queryctrl,
+>> +	.vidioc_querymenu               = iris_querymenu,
+> 
+> queryctrl/menu are handled by the core if you set ctrl_handler in the v4l2_fh struct.
+> 
+> If you use the control handler, then this should never be used.Right, make sense, will remove these.
 
-Good question.
-
-synchronize_irq() waits for IRQ-threads, so if inst is accessed only from
-IRQ-thread then we are fine.  If, however, inst is also accessed from hard
-IRQ, then synchronize_irq() won't work, I guess, because it doesn't wait
-for "in flight hard IRQs".  disable_irq() OTOH "waits for completion", so
-we cover in-flight hard IRQs too.
+Thanks,
+Dikshita
+> 
+>>  	.vidioc_g_selection             = iris_g_selection,
+>>  	.vidioc_subscribe_event         = iris_subscribe_event,
+>>  	.vidioc_unsubscribe_event       = iris_unsubscribe_event,
+>>
+> 
+> Regards,
+> 
+> 	Hans
 
