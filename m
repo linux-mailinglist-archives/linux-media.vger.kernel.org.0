@@ -1,136 +1,243 @@
-Return-Path: <linux-media+bounces-20177-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20179-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9C19AE1BD
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 11:58:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 015929AE223
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 12:09:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40F5C1C2205C
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 09:58:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A814A2842E0
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 10:09:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D66BE1C4A36;
-	Thu, 24 Oct 2024 09:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00ECE1C07CD;
+	Thu, 24 Oct 2024 10:09:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kiEVDmY6"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="i3xWoBIO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076701C07CE;
-	Thu, 24 Oct 2024 09:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B0D1B85DF
+	for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 10:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729763846; cv=none; b=sykOIQQpno/Q5XS7/7/zeKNpkHROZISVLnQ/FCcFaZDr1gGUjEOpQ4kzloluq8fLZIw5UF0xw69+8knmSSWioOvcPQjxj9K5zT27NmO7XE+YtJCSjuRes7hQzJYleX20JSoEuiLQFM7J4efE5jnMyRYzz0hk260oE64HpaEb2So=
+	t=1729764545; cv=none; b=GwEh+fDy5hRxGu2tAIvuFCEKWGb3pmVxY1sq3gDN5g7U3zFWPUybpCdAtXt0PvxnSWHm3uXKe3wHx+DKN9PiLGC33ZrCH5d9Qbia7Kzc2etbFfqfxke3+pz5k8bBiHK9dNMx1vRvOmJy54tleh3xR2FT6vqlhjbEEgnfomqS1Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729763846; c=relaxed/simple;
-	bh=PVT4x+5HpkJQPwdJsjK0MwsWAxzsoTXRtb4fDO7mWLM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IOAtxiazhUUH/3Dy2nRkZL+lQ/+ha/CKEe44PyksJRpGI6be3jbG1teBSZcOzS4hMiwYLUvoJVfTg2dDhC0BHGFBP+4ZLXHKkglewEZGqRRZmCcu8GB/7XWV/ieW/uHofxbA7oj1CtDUAycsu7s/1GVVveNYNnzlft3SqSL+cXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kiEVDmY6; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-539f4d8ef66so1006001e87.1;
-        Thu, 24 Oct 2024 02:57:23 -0700 (PDT)
+	s=arc-20240116; t=1729764545; c=relaxed/simple;
+	bh=k1nBt95mDbyhDxbPCLlaIKpMahAyfs6sWuDAOOUJkK4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V2fejbOjMtBU3KR/szyOMt+iciPHul4aCxLYaPUwonN6NLNZZZNL8dcbHNSvqvRw6NFFUMuyIEOUEDkF1RFJgWBxUkcD8e8xrQPFNZRsnWKWVkZM6JojwGr+PnBZwCfpDwMmkw+X6m3tPTgEvDTupdLfsR8WhUp9G1gO25gk2ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=i3xWoBIO; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-208cf673b8dso5360315ad.3
+        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 03:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729763842; x=1730368642; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PVT4x+5HpkJQPwdJsjK0MwsWAxzsoTXRtb4fDO7mWLM=;
-        b=kiEVDmY6XwsBp4SdramVG5Th1OvRnaXVUgKmqzCQsKn0ZaVjpW3uYA85GjTZVXdKCL
-         uXv/CdtBzqL3alJbx4gthkNesguWFBqAvlr+Ol97gYsZgfN9qTvJoIvK0QNOwxyI55Kd
-         2TcXW+9Hx3NFbqtW33m7J9IuqxF4CW/BOKje+WQKdjmnZNgGPk1UaWjhDFdsqJ502nsi
-         f4j2YwdFqnKytKE4J0nXSYhzuCvtSkXhd54UChyEBNr34+T1+pT9BZ9DpUyHA+WylOng
-         mjuz9HfsJswMjL2BH8WzeFr8XyF5pmM6yEs0bYRXKR2cvSpzYizxPlcriLdPOGG7OCxU
-         UCfA==
+        d=chromium.org; s=google; t=1729764542; x=1730369342; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gURJbTxvaaJOpeAsWXo2fQU4uT2CG3ZOcVs4p24pfVc=;
+        b=i3xWoBIO1r0IIGe+me+s6FBREHfZ7aE7hf+uhcy0rD63pyZ9tovl6qJcwIWneooKNV
+         TeQGdAOufkSDxLPgdUNtJCNUlQ4SCakPWI+D20nnAnSI3n0iKPPmfFiaSoKulVeU20ut
+         gT8IFTurOwNsFTx4g28IdMXGlrtZues1U/j4k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729763842; x=1730368642;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PVT4x+5HpkJQPwdJsjK0MwsWAxzsoTXRtb4fDO7mWLM=;
-        b=Eg5pjiEc0RTnc7HzOPMSnRfRRlgkXZn1zRCSFG/wyeaYNqiXatKDMc6Py9ZGqcGYRw
-         4rP78hF9r6jXD/SGXx+8zNlWNBMH9vpZ4UpBGIXgnH03uQMaC96GqpVxEXERbAKoxDmh
-         DlgnZ/l8nHh2kuayRJ0jmtjovbxm01aR2U7FbRKuPT5tC/JmgF8adrcoSDoBDDD+8eVW
-         O17RIRoEZdBCsXmnq3rCLs3eHyumRAWN5fZPv/s7E6pUq/ibcQMNQVnvSNGnZxTOJeJ1
-         s37W3fOh3elpG2k8AAU0lYXKXL2ZQ3PFKWuWX7as6hHzintnEHOq1H0Bzi+Es4sEoG1K
-         bxNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUGYC9InPkHAvaXufWjeNdewiSgDU9boM/nO6J9jmFxnwC4A4YpPK3bxJfkaHXHkApLumJXj+TzP7S0Cg==@vger.kernel.org, AJvYcCUGwTwutEURS/rtqsP3eige9/cIZvi+Jub6S+tiyM2jCCIx1XN4uEf9GgAbmVthp6CsODWfTcvUE1DRFATTNFk0BYw=@vger.kernel.org, AJvYcCUuGRRLiNmRivBMQ1iapEmPH1/0TECfvOQZx3Z1s7aG+bYPRopDMFR5lBfCdylhzaVc5Yh+dYcjKLRzZV0=@vger.kernel.org, AJvYcCUvHagB4/WE74kMNSef7k6sXlexU9xIND7/IeV5fr55I+7lttFWG9m7RhAQYww29l16MmLFMC6kUNP4@vger.kernel.org, AJvYcCVAKhmyY4yGYrHF5P9gq0OezEgQOohwerl7/bma2hL0V0FeIe4brXSgo5h+A8/kaPWNbnn5xKXZ09dI0Ws=@vger.kernel.org, AJvYcCVdCTMV4dn4rt+YdRGkOyXnH06BfL3IOjVZPVpgT0Mt93MQD+t/jNRePYMTuhO2tsWvACNb87L0@vger.kernel.org, AJvYcCW/j4zPkninzLUtjBRVVVZz0EW64As+HWMz7bLlIerYHJeUK6zcdGDniXPlqEK2UMyiRCt7YigLESoJ@vger.kernel.org, AJvYcCWIZMPVe74T39UINNqXt8EyhmgTIvDu+zjs328fB3sQ41eqMsSFZe6qrbv3lz/vpjZ0PIQ/0ArbkW/WO64=@vger.kernel.org, AJvYcCX773FGbdp1eh1jExBQ9ifvuKPPpaGDyBAzq4uqpPfx8WOuh1YIMAwT5aXpzgZw2OEuLUkEFMYOgNsS@vger.kernel.org, AJvYcCXgfxG2ReNMukzGxN9RmIL4
- etyU5WQzpkqccC5AtgmOVQOIXOEmHtzmSCpiDlLMUf9n4NgCLe84wBqmEw==@vger.kernel.org, AJvYcCXoGXwayp1M4glgDYsE4ouGnCjw3c5LUZZmKeBZGuUuTCCRG03jhjBJMxfS02+Awbkz26DytktLmfY=@vger.kernel.org, AJvYcCXrXl/bzhyIoVi4dQs6GGNqzINaNFQQeG/Mzl2XUzlIu/MHvnZx9vLcKpw1dk3/PDjU7tVgPhPezeAtmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEad1I3k8G+8sGAnXgVyrZJd5cwed3cBkiyv/hOQuKCkniYtM3
-	76Ab2GVcJ6o24xhEiYBD/oC1tMY4O40KcAn0GtsGxc53e9ai1Oxf
-X-Google-Smtp-Source: AGHT+IEoo2Czcs+RGUiJMg6LdY8jxuXv0lNt1Zx6z+DI1lmpOeNWP3pCK2fVmcYSte0wULTaokncdw==
-X-Received: by 2002:a05:6512:a90:b0:539:e97c:cb10 with SMTP id 2adb3069b0e04-53b23e857f8mr904316e87.40.1729763841812;
-        Thu, 24 Oct 2024 02:57:21 -0700 (PDT)
-Received: from seven-swords.. ([2a03:d000:2:9006:4eed:fbff:fe72:e806])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a223e5988sm1310862e87.2.2024.10.24.02.57.17
+        d=1e100.net; s=20230601; t=1729764542; x=1730369342;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gURJbTxvaaJOpeAsWXo2fQU4uT2CG3ZOcVs4p24pfVc=;
+        b=JHR9uTUcyFCDCXLzu9UmJobezRboZNi8D28nEvdWe34vRCGCFF6HYS9ub108IzYbSw
+         8MyjRxCkVfnP1VyPKOt9ptgdhq/+NUxhZikaqw56ba/s2RcikAk1huQz9aUZKKJ26VoE
+         v/LaOP3KSDSDQU3WSvIa/DdBs7AMoYzb4/DY1+SD57YmJlAUROpPvQUSIw62UoP6CKTQ
+         AjPeqWgedUx3Ky2DD6dXi/VmEoFF6bT9fujA02CLri1BRtCwRGqrdCbP9Nlea4fn/goQ
+         iySum/15mhBVkiVJNwr8g/eapdJNHvyRz3Wb17EhmZr3kUlB6ckHecwZpTysRap0bcHw
+         Ks2w==
+X-Forwarded-Encrypted: i=1; AJvYcCW9q+uon+ITcGT0TGEOLEDKlnmORP6FBv/AckrhscN8zATy0D56e6WndwtWcFi4vqXXeVT84ES35lABCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxY53QfLvH4ENcIBrG0vjFT+S0x7cAsHNMdxHrw0rID3tfVvZII
+	1UfgwjOZC9Q8hH86lnNx+74dJ2lGLQd5uqh0ANu0d5laaPL2IFWpAGql/diOZg==
+X-Google-Smtp-Source: AGHT+IHtc6rcq2Eb1JDmXfRILd21AGwvkS2Xsm8gNi7W7PV3DUsh33c9JpHQfgKlZmJXi+AV56J0mg==
+X-Received: by 2002:a17:903:32c2:b0:20c:a7d8:e428 with SMTP id d9443c01a7336-20fb98902a4mr15880505ad.7.1729764542247;
+        Thu, 24 Oct 2024 03:09:02 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:c7f5:2aa6:333b:bb6d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7eee681fsm69715985ad.55.2024.10.24.03.09.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 02:57:19 -0700 (PDT)
-From: Ivan Epifanov <isage.dna@gmail.com>
-To: torvalds@linux-foundation.org
-Cc: aospan@netup.ru,
-	conor.dooley@microchip.com,
-	ddrokosov@sberdevices.ru,
-	dmaengine@vger.kernel.org,
-	dushistov@mail.ru,
-	fancer.lancer@gmail.com,
-	geert@linux-m68k.org,
-	gregkh@linuxfoundation.org,
-	hoan@os.amperecomputing.com,
-	ink@jurassic.park.msu.ru,
-	jeffbai@aosc.io,
-	kexybiscuit@aosc.io,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fpga@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	manivannan.sadhasivam@linaro.org,
-	mattst88@gmail.com,
-	netdev@vger.kernel.org,
-	nikita@trvn.ru,
-	ntb@lists.linux.dev,
-	patches@lists.linux.dev,
-	richard.henderson@linaro.org,
-	s.shtylyov@omp.ru,
-	serjk@netup.ru,
-	shc_work@mail.ru,
-	torvic9@mailbox.org,
-	tsbogend@alpha.franken.de,
-	v.georgiev@metrotek.ru,
-	wangyuli@uniontech.com,
-	wsa+renesas@sang-engineering.com,
-	xeb@mail.ru
-Subject: Re: [PATCH] Revert "MAINTAINERS: Remove some entries due to various compliance requirements."
-Date: Thu, 24 Oct 2024 12:57:08 +0300
-Message-ID: <20241024095708.189649-1-isage.dna@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
-References: <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
+        Thu, 24 Oct 2024 03:09:01 -0700 (PDT)
+Date: Thu, 24 Oct 2024 19:08:57 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv2 2/2] media: venus: sync with threaded IRQ during inst
+ destruction
+Message-ID: <20241024100857.GN1279924@google.com>
+References: <20241024061809.400260-1-senozhatsky@chromium.org>
+ <20241024061809.400260-3-senozhatsky@chromium.org>
+ <4b96f1f8-e084-4599-abe9-05039bfac569@linaro.org>
+ <20241024093916.GM1279924@google.com>
+ <b9a42abd-a078-4740-b070-ba5c86855e73@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b9a42abd-a078-4740-b070-ba5c86855e73@linaro.org>
 
+On (24/10/24 10:43), Bryan O'Donoghue wrote:
+> > > It also occurs to me that most of the close() operation code is shared
+> > > between venc_close() and vdec_close() a welcome patch for V3 would be to
+> > > functionally decompose the common code to a shared location.
+> > 
+> > Any preferences where that "shared location" should be?
+> 
+> Probably core.c is the only place we can jam stuff to be shared
 
-> I'm Finnish. Did you think I'd be *supporting* Russian
-> aggression? Apparently it's not just lack of real news, it's lack of
-> history knowledge too.
+Ack.
 
-As an avid history lover, you've seem to forgot, that Finland fought on Nazi side.
-So yeah, we're well aware you don't like Russians, unless they're in concentration camps.
-Which is exactly what you do now: segragate, based on nationality. Strip of credits and names.
-Once a nazi - always a nazi. So, fuck you.
+So, we need to
+- export a couple of symbols
+- include vdec header in core
 
+Does something like this look OK to you?
+
+---
+
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 31ea0982f58e..e7c69a292b3c 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -500,6 +500,31 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
+ 	return ret;
+ }
+ 
++void venus_close_common(struct venus_inst *inst)
++{
++	/*
++	 * First, remove the inst from the ->instances list, so that
++	 * to_instance() will return NULL.
++	 */
++	hfi_session_destroy(inst);
++	/*
++	 * Second, make sure we don't have IRQ/IRQ-thread currently running
++	 * or pending execution, which would race with the inst destruction.
++	 */
++	synchronize_irq(inst->core->irq);
++
++	v4l2_m2m_ctx_release(inst->m2m_ctx);
++	v4l2_m2m_release(inst->m2m_dev);
++	ida_destroy(&inst->dpb_ids);
++	v4l2_fh_del(&inst->fh);
++	v4l2_fh_exit(&inst->fh);
++	vdec_ctrl_deinit(inst);
++
++	mutex_destroy(&inst->lock);
++	mutex_destroy(&inst->ctx_q_lock);
++}
++EXPORT_SYMBOL_GPL(venus_close_common);
++
+ static __maybe_unused int venus_runtime_resume(struct device *dev)
+ {
+ 	struct venus_core *core = dev_get_drvdata(dev);
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 3748a9a74dce..75e9b29d1b01 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -17,6 +17,7 @@
+ #include "hfi.h"
+ #include "hfi_platform.h"
+ #include "hfi_helper.h"
++#include "vdec.h"
+ 
+ #define VDBGL	"VenusLow : "
+ #define VDBGM	"VenusMed : "
+@@ -569,4 +570,6 @@ is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+ 		(core)->venus_ver.minor == vminor &&
+ 		(core)->venus_ver.rev <= vrev);
+ }
++
++void venus_close_common(struct venus_inst *inst);
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index d802ece8948f..b7d4801222cb 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -1746,29 +1746,8 @@ static int vdec_close(struct file *file)
+ 	struct venus_inst *inst = to_inst(file);
+ 
+ 	vdec_pm_get(inst);
+-
+ 	cancel_work_sync(&inst->delayed_process_work);
+-	/*
+-	 * First, remove the inst from the ->instances list, so that
+-	 * to_instance() will return NULL.
+-	 */
+-	hfi_session_destroy(inst);
+-	/*
+-	 * Second, make sure we don't have IRQ/IRQ-thread currently running
+-	 * or pending execution, which would race with the inst destruction.
+-	 */
+-	synchronize_irq(inst->core->irq);
+-
+-	v4l2_m2m_ctx_release(inst->m2m_ctx);
+-	v4l2_m2m_release(inst->m2m_dev);
+-	ida_destroy(&inst->dpb_ids);
+-	v4l2_fh_del(&inst->fh);
+-	v4l2_fh_exit(&inst->fh);
+-	vdec_ctrl_deinit(inst);
+-
+-	mutex_destroy(&inst->lock);
+-	mutex_destroy(&inst->ctx_q_lock);
+-
++	venus_close_common(inst);
+ 	vdec_pm_put(inst, false);
+ 
+ 	kfree(inst);
+diff --git a/drivers/media/platform/qcom/venus/vdec_ctrls.c b/drivers/media/platform/qcom/venus/vdec_ctrls.c
+index 7e0f29bf7fae..2b6b2eee619c 100644
+--- a/drivers/media/platform/qcom/venus/vdec_ctrls.c
++++ b/drivers/media/platform/qcom/venus/vdec_ctrls.c
+@@ -192,3 +192,4 @@ void vdec_ctrl_deinit(struct venus_inst *inst)
+ {
+ 	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+ }
++EXPORT_SYMBOL_GPL(vdec_ctrl_deinit);
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index a72681de1179..55108117d085 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -1537,28 +1537,8 @@ static int venc_close(struct file *file)
+ 	struct venus_inst *inst = to_inst(file);
+ 
+ 	venc_pm_get(inst);
+-
+-	/*
+-	 * First, remove the inst from the ->instances list, so that
+-	 * to_instance() will return NULL.
+-	 */
+-	hfi_session_destroy(inst);
+-	/*
+-	 * Second, make sure we don't have IRQ/IRQ-thread currently running
+-	 * or pending execution, which would race with the inst destruction.
+-	 */
+-	synchronize_irq(inst->core->irq);
+-
+-	v4l2_m2m_ctx_release(inst->m2m_ctx);
+-	v4l2_m2m_release(inst->m2m_dev);
+-	v4l2_fh_del(&inst->fh);
+-	v4l2_fh_exit(&inst->fh);
+-	venc_ctrl_deinit(inst);
+-
++	venus_close_common(inst);
+ 	inst->enc_state = VENUS_ENC_STATE_DEINIT;
+-	mutex_destroy(&inst->lock);
+-	mutex_destroy(&inst->ctx_q_lock);
+-
+ 	venc_pm_put(inst, false);
+ 
+ 	kfree(inst);
 
