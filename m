@@ -1,77 +1,74 @@
-Return-Path: <linux-media+bounces-20215-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20216-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BBE9AEBA6
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 18:15:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3959AEC61
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 18:39:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F593B23CB9
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 16:15:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CA261C251E4
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 16:39:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 151581F80BF;
-	Thu, 24 Oct 2024 16:15:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC7BA1F81A5;
+	Thu, 24 Oct 2024 16:39:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1UGQF3y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cqb2EFEG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E7C1B0F16;
-	Thu, 24 Oct 2024 16:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA30C15A87C;
+	Thu, 24 Oct 2024 16:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729786536; cv=none; b=ggPBGZygsl9tYnbDhyokeeDyd35dbRig1i8RXCiWvwcyqcu5gvpZl2JtSYC3PdXNvR/dDCRsqtzjjlgKlHjrCPMmOleMjbvsGhHDY3WxuDAr6pPlf2qQou29fBaqOJRLZqCih3MKyf6WmJiRFBHssZN0No6i1721oOZCikW2Bt0=
+	t=1729787973; cv=none; b=Ev92wJV3edpNDry8PviHM+muqfojmG7O+znkASGXLbKRPmMRcnRPSMmNDnsexkvAW7lw2mMwGNVA8xZq5ki8DvN66YGvl2KiFSDUBf+phxD5zk40rsfsg2ck+Wyux4bjoYC+Fy5boPBCCtOwHeWXxiQi4NrJSxJ8qb3dbbry9aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729786536; c=relaxed/simple;
-	bh=7oWDYwb4uUWi5/gtvvA228E0GGepNIyw9Uc0+1GrI28=;
+	s=arc-20240116; t=1729787973; c=relaxed/simple;
+	bh=6ry637uavt5WOAjtjyuH5D5Vgw17qL4+QLHAwx2063g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CKwOamaqFWfapB3u3m03tyTZg1DWb4jKjLG0IdaNosIa7rvkO/oHMJGSOLttxwetXkcBhyW63biC43e5mwshhdHa8hR3ydSyuYFWhHiY9XKYvsFpcKB6fgnFIDyLUnENF/OZBvBizo9KlTmAPAmqPNgKeMUYhmvbwUMoGgN9SCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k1UGQF3y; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	 In-Reply-To:Content-Type; b=r6scwuV17lkeZxpvBA/tOFylAKo2B/AYLNN7QTuZ67/EmgZhQzUyaTjFZL3jY19eoN82AFZjCXfcDHn/dwULtSf50psmoC1z1AHSvngOMpkcMlNjSHet13UGHh788lvD0j9CcGchLD92N2RQEqN0eQFB3R8iY7b7gBYQv85b0SE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cqb2EFEG; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20cf6eea3c0so8843655ad.0;
-        Thu, 24 Oct 2024 09:15:34 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539f1292a9bso1474969e87.2;
+        Thu, 24 Oct 2024 09:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729786534; x=1730391334; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=DkOz8Jxgm0wsoBoSFzJGcolz7R2ukckRTZ05Koqm5kU=;
-        b=k1UGQF3yleCbYvksB8wLnaLjWNIl66NP2J/I3QANGlqaKyjjVIUF941xd5bJTNZmfa
-         /vqHoIiFSbzHXOcHYr87PmWeIGWZ80yNvsbHehTaRBjDrY6H1re1pNRxxx3G12AZRSer
-         abPWTT2MJfsOJHTL7MCNYi1ihjZ1WADzY1Bv4QXlfqlLAPB5sBLBeC/fbqIVD32tbtXf
-         SLj0RhC3zF99hhmlJw5z9YthcpfaRG7jCm7iv0ixAGo8SmloJ3C54eR6iqok/FQAUGPr
-         hDUWTqB6RZtxcFirNCFYRQPxQHuens56YSZ1nOPdF8p2kMyqeLtLGCTpGHse6M++fGiL
-         wPoA==
+        d=gmail.com; s=20230601; t=1729787969; x=1730392769; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BZaWT76KQAhb/SdvegV291/fD/GVxdusDKkbeX6aAyw=;
+        b=cqb2EFEG8AeUPc3LxFMYXT4XpM2DnxLDQzT6PwcDxBrRwJdFltHmSXL5g8rvbuhndS
+         xzHFlVnxfpk2ALREHeFnfMAB94Iuer0PHN9+BxnjEllAh/gRxsoij0gH5EuPA5QoMIM0
+         6jh1j47oLgpveJFh3zgrLpV2H3RrCPQcQCYGaQwke8ciuWPhJzdetOtWXIQKppyXOxpg
+         kUCD1z8Ais48Fkz+I87Sn/Xp2XFfqQwDL3eOGe6FFcmsZsLIC/Pn8NH6Sp7AXtawy2r8
+         2nLOP5yOY9C+lUOz7zz/4oJqJ9xgXG4sZ02uGJYfikJ2r8t1EQi9+/iCC+g2w3SoGZ2h
+         yI0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729786534; x=1730391334;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DkOz8Jxgm0wsoBoSFzJGcolz7R2ukckRTZ05Koqm5kU=;
-        b=aGxMtHhYxzUmw/7TaBJi18MFMD2SPUoMSYSBSHOypgGVFgluv2zc7f7GBgl9+ilJWB
-         f9dmzLB5IgeMy8rVu0IZ3tCYwAR340mQwMz0cPleVSegvv+C6T6dZPzDniNpF34Bb53+
-         mA4bdm1k99gv3xVZSNVTFayDyxvmgRkyZ4q8jaWSMhQX9/TEi/aQysk06gtiEXqYfefQ
-         /jtpw8Nml5QIB4yOvV4BN3alPDsRGl31ow+8LgdoZdjyJu7XOzUtv+MCPKNdeAweS5KK
-         FdMpvRIjELYX1iprfi4n61GM2EONDgD1SSH8/RPmEjRj2clo5IO0CutjtvWqZze9QJQ+
-         C0Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCUIUBOnr5G1/iNhCwxlEwWP6nzmz33s3zBc2f/jhvY/C/TbrP4j+pMdTWyqtG9M9DUZRt2A8t97EKHc6A==@vger.kernel.org, AJvYcCUPy30k20QzZMbo2wHthOx2VGt5MwvZ6AajAmGUcivNQ8wAl6AC4bN5Tpdtpwo1oorH6chcCHPq7dg=@vger.kernel.org, AJvYcCUgI/tNULD/dhsuw4O3y89pxMzBg7PJUcimeC1mMzDZQyYoT9Dp25wsYRparcjdVRpQj0CNZU/czO7IfRM=@vger.kernel.org, AJvYcCUmhpNHJBoZMpfHlGFNESzg0RVTlOzXuRSln6Nq5+/uAqkZidOkJO7TSJt0h4CLAs3by98M1JQQtbZQ@vger.kernel.org, AJvYcCVAxV/e3VKgYIxszMqzIQlDEAn53AsCqXBVqhoX7McJ6xK+/rcJmml2SN2vc0ynsUZJVgbTk99IzqMh@vger.kernel.org, AJvYcCVm9c2SDoOamWvkjiIBkdrtHPpB2mub5pyXqNhYk74qMuelluUjHRMWTHAqlseQYct95GE6D+il9cI+8UupTQ0TVR8=@vger.kernel.org, AJvYcCW053Y052HgQAwRhoIjqxdq4SAte1+Rd5IcfEfEF64vCkxSrZKlFoHM4Dkcd2UOC+eeCQ6TK+L7@vger.kernel.org, AJvYcCW2NjomPzOL9Q4sN2sv7MD+Mk1rDwnRiZuWppTLFuTX1zzcbkqoZsdAqTmX1tIW1lGRv0RizVC4QqSIVQ==@vger.kernel.org, AJvYcCWA3R+uH+KFcWy8LlDxgBocFqPUKPm/EHdJAwh8LY4+EL6qs0A1Zlh2bm1SDWDaHSz8Gf8S8B8MZOckW/w=@vger.kernel.org, AJvYcCWSPAVkzLGHa7OXt3ygWiT0
- L31i9AzY/V+kGf93IcYkX4pb8gREJ+2wcwW30m2bNQ7El+rcI4oAhMqA@vger.kernel.org, AJvYcCX8C5to8Mxzmg3hLSAjV1rw5Q3Ib8C5GKJEYGEq+Np+CnvWwQO8MVisordd2NzCVb9DbNgMey/s6+uRgg==@vger.kernel.org, AJvYcCXTb5dyV40EN8m6Q7lB79uv4jvmV3HNZXM+C3gejIWohD+YswkxQoe6USwNeYClLx7Pe/fSO43iML3tht8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1uYTPtjxxsj9S4x3ekn+tP17w8ukbisESTIVlQZGdySp2rljg
-	tEBkEJQiJMJ+OMFdzyH+1aDh09nzW+O/Jn+TatKs48OnKtuc1iRj
-X-Google-Smtp-Source: AGHT+IFheouIyfOd1dj6PbeUjc9r7YCvmEYlqOWLvj8MFqWN9hKdgbbc84zpm/qdNBMTt9Oi9KJuyg==
-X-Received: by 2002:a17:903:18b:b0:20c:7a0b:74a5 with SMTP id d9443c01a7336-20fb9aa1f88mr25585195ad.39.1729786532844;
-        Thu, 24 Oct 2024 09:15:32 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7eee62c2sm74239025ad.20.2024.10.24.09.15.29
+        d=1e100.net; s=20230601; t=1729787969; x=1730392769;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BZaWT76KQAhb/SdvegV291/fD/GVxdusDKkbeX6aAyw=;
+        b=KuVZGevo1RMLiW6Reg+/0dgfhptx1VC+ODQISJpJXFW6Sci22Y7v3Onarx6R/XFv5H
+         4zDCdoD//T7tBhALEpZMq6wvPxXFWrsuCf1E2df2Uoz8ogluG771K4WkXhQTfHQdMfku
+         HR0HT5VlMMPs2MsUenpqtQwN6E68b/L5bcbh3NoRAmu5Qm/25yaUAqHWXnrLXJLIc7kM
+         p0AxIxsyFhnjfgaJqGavTiw+KyOJ+slJVWYhuJJuvPCJJwIFRZuER50FKctI9YNHuoFk
+         RJ+9wZ4YR962G/6stEgWg48gx5yQmg4PiCSwe9JZAq26dXb5eLEXDhRtMR3w7w7C8wWJ
+         f5cw==
+X-Forwarded-Encrypted: i=1; AJvYcCWwKvG67lWj6s2CEdAsLCSg9FYD7NUrg1hTJovCI/FZE5qTN4UinWHjrzKAh+oU1NhgwaBE8F8DlFArFcs=@vger.kernel.org, AJvYcCXbjZ5symdonmTrWeIL/0NwEhVqIIRLC0kFi32zgkxJ//AVCGSsGMJPakM+elVLMWVEJoGENKzcvw==@vger.kernel.org, AJvYcCXpp1reyxNPsU1JWMAeEAL+TJhbLuqwuCHCi/Tq+hHO7VWAiLNjqXu1QCmglNybdnQn+HarRTDA@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfpcozhqTO2ifEPM/4BjyjrIcPLvlswcZByH05R7N+TYrezjLP
+	XDWmJdQtFICkofCOzj90mxwFj3lyBvb//+mzEDJYKhAGPTZXC6ym
+X-Google-Smtp-Source: AGHT+IGM2QIH1fkpvyL5zXwnzN1P9Fzl21jQNKRhYToOjYGnjYn96eDsd7Ox+gI2AzCZSLVIBZlJbw==
+X-Received: by 2002:a05:6512:281b:b0:539:dca9:19a2 with SMTP id 2adb3069b0e04-53b23e69518mr1724653e87.39.1729787968611;
+        Thu, 24 Oct 2024 09:39:28 -0700 (PDT)
+Received: from [192.168.42.27] ([85.255.233.224])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a912d638fsm645929366b.18.2024.10.24.09.39.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2024 09:15:32 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <61a622bd-7597-45e2-96d9-9cba02fba407@roeck-us.net>
-Date: Thu, 24 Oct 2024 09:15:28 -0700
+        Thu, 24 Oct 2024 09:39:28 -0700 (PDT)
+Message-ID: <de9ae678-258d-4f68-86e1-59d5eb4b70a4@gmail.com>
+Date: Thu, 24 Oct 2024 17:40:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,103 +76,107 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Revert "MAINTAINERS: Remove some entries due to various
- compliance requirements."
-To: Andy Shevchenko <andriy.shevchenko@intel.com>,
- Ivan Epifanov <isage.dna@gmail.com>
-Cc: torvalds@linux-foundation.org, aospan@netup.ru,
- conor.dooley@microchip.com, ddrokosov@sberdevices.ru,
- dmaengine@vger.kernel.org, dushistov@mail.ru, fancer.lancer@gmail.com,
- geert@linux-m68k.org, gregkh@linuxfoundation.org,
- hoan@os.amperecomputing.com, ink@jurassic.park.msu.ru, jeffbai@aosc.io,
- kexybiscuit@aosc.io, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-fpga@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
- manivannan.sadhasivam@linaro.org, mattst88@gmail.com,
- netdev@vger.kernel.org, nikita@trvn.ru, ntb@lists.linux.dev,
- patches@lists.linux.dev, richard.henderson@linaro.org, s.shtylyov@omp.ru,
- serjk@netup.ru, shc_work@mail.ru, torvic9@mailbox.org,
- tsbogend@alpha.franken.de, v.georgiev@metrotek.ru, wangyuli@uniontech.com,
- wsa+renesas@sang-engineering.com, xeb@mail.ru
-References: <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
- <20241024095708.189649-1-isage.dna@gmail.com>
- <Zxpqnf1M8rPTB4DN@black.fi.intel.com>
+Subject: Re: [PATCH v6 02/15] net: generalise net_iov chunk owners
+To: Christoph Hellwig <hch@infradead.org>
+Cc: David Wei <dw@davidwei.uk>, io-uring@vger.kernel.org,
+ netdev@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, David Ahern <dsahern@kernel.org>,
+ Mina Almasry <almasrymina@google.com>,
+ Stanislav Fomichev <stfomichev@gmail.com>, Joe Damato <jdamato@fastly.com>,
+ Pedro Tammela <pctammela@mojatatu.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20241016185252.3746190-1-dw@davidwei.uk>
+ <20241016185252.3746190-3-dw@davidwei.uk> <ZxijxiqNGONin3IY@infradead.org>
+ <264c8f95-2a69-4d49-8af6-d035fa890ef1@gmail.com>
+ <ZxoSBhC6sMEbXQi8@infradead.org>
+ <a6864bf1-dd88-4ae0-bc67-b88bb4c17b44@gmail.com>
+ <ZxpwgLRNsrTBmJEr@infradead.org>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <Zxpqnf1M8rPTB4DN@black.fi.intel.com>
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <ZxpwgLRNsrTBmJEr@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/24/24 08:41, Andy Shevchenko wrote:
-> On Thu, Oct 24, 2024 at 12:57:08PM +0300, Ivan Epifanov wrote:
+On 10/24/24 17:06, Christoph Hellwig wrote:
+> On Thu, Oct 24, 2024 at 03:23:06PM +0100, Pavel Begunkov wrote:
+>>> That's not what this series does.  It adds the new memory_provider_ops
+>>> set of hooks, with once implementation for dmabufs, and one for
+>>> io_uring zero copy.
 >>
->>> I'm Finnish. Did you think I'd be *supporting* Russian
->>> aggression? Apparently it's not just lack of real news, it's lack of
->>> history knowledge too.
+>> First, it's not a _new_ abstraction over a buffer as you called it
+>> before, the abstraction (net_iov) is already merged.
+> 
+> Umm, it is a new ops vector.
+
+I don't understand what you mean. Callback?
+
+>> Second, you mention devmem TCP, and it's not just a page pool with
+>> "dmabufs", it's a user API to use it and other memory agnostic
+>> allocation logic. And yes, dmabufs there is the least technically
+>> important part. Just having a dmabuf handle solves absolutely nothing.
+> 
+> It solves a lot, becaue it provides a proper abstraction.
+
+Then please go ahead and take a look at the patchset in question
+and see how much of dmabuf handling is there comparing to pure
+networking changes. The point that it's a new set of API and lots
+of changes not related directly to dmabufs stand. dmabufs is useful
+there as an abstraction there, but it's a very long stretch saying
+that the series is all about it.
+
+> 
+>>> So you are precluding zero copy RX into anything but your magic
+>>> io_uring buffers, and using an odd abstraction for that.
 >>
->> As an avid history lover, you've seem to forgot, that Finland fought on Nazi side.
->> So yeah, we're well aware you don't like Russians, unless they're in concentration camps.
->> Which is exactly what you do now: segragate, based on nationality. Strip of credits and names.
->> Once a nazi - always a nazi. So, fuck you.
+>> Right io_uring zero copy RX API expects transfer to happen into io_uring
+>> controlled buffers, and that's the entire idea. Buffers that are based
+>> on an existing network specific abstraction, which are not restricted to
+>> pages or anything specific in the long run, but the flow of which from
+>> net stack to user and back is controlled by io_uring. If you worry about
+>> abuse, io_uring can't even sanely initialise those buffers itself and
+>> therefore asking the page pool code to do that.
 > 
-> $ git log --author="isage.dna@gmail.com"
-> (no results given)
+> No, I worry about trying to io_uring for not good reason. This
+
+It sounds that the argument is that you just don't want any
+io_uring APIs, I don't think you'd be able to help you with
+that.
+
+> pre-cludes in-kernel uses which would be extremly useful for
+
+Uses of what? devmem TCP is merged, I'm not removing it,
+and the net_iov abstraction is in there, which can be potentially
+be reused by other in-kernel users if that'd even make sense.
+
+> network storage drivers, and it precludes device memory of all
+> kinds.
+
+You can't use page pools to allocate for a storage device, it's
+a network specific allocator. You can get a dmabuf around that
+device's memory and zero copy into it, but there is no problem
+with that. Either use devmem TCP or wait until io_uring adds
+support for dmabufs, which is, again, trivial.
+
+>> I'm even more confused how that would help. The user API has to
+>> be implemented and adding a new dmabuf gives nothing, not even
+>> mentioning it's not clear what semantics of that beast is
+>> supposed to be.
+>>
 > 
+> The dma-buf maintainers already explained to you last time
+> that there is absolutely no need to use the dmabuf UAPI, you
+> can use dma-bufs through in-kernel interfaces just fine.
 
-I really don't want to get involved, but this misinformation really goes too far.
+You can, even though it's not needed and I don't see how
+it'd be useful, but you're missing the point. A new dmabuf
+implementation doesn't implement the uapi we need nor it
+helps to talk to the net layer.
 
-https://en.wikipedia.org/wiki/Finland_in_World_War_II
-
-provides context. And it does sound familiar. Turns out the Finnish defended
-themselves against invasion from the Soviet Union. Sounds familiar ? Guess it's
-the same as those alleged Nazis in Ukraine nowadays.
-
-Guenter
-
+-- 
+Pavel Begunkov
 
