@@ -1,145 +1,420 @@
-Return-Path: <linux-media+bounces-20230-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20225-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574859AF023
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 20:55:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4209AEFDB
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 20:49:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55FED1C2210A
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 18:55:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4AC75B22391
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 18:49:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C340B215001;
-	Thu, 24 Oct 2024 18:54:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B9520102B;
+	Thu, 24 Oct 2024 18:49:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="YVhA4YLF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dIh0sCBm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dilbert.mork.no (dilbert.mork.no [65.108.154.246])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3222141D0;
-	Thu, 24 Oct 2024 18:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.108.154.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518F3200BA6;
+	Thu, 24 Oct 2024 18:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729796092; cv=none; b=FxTAxU9ITAlFA30ybAbZNKEk33ltCpxUBq3TvA1y55BX0Fg+/mvRRyrNpWvLMx5uzjNBerEdF2659Z6uw+4HC6N3ZZf9jYH4ZSd5FiOay+p87fT6y0yJ5LWf44OPC7Ob0ScMgnqgup9n8D8kMS3cfbwfFLLnSBnNaPgMozEncpM=
+	t=1729795764; cv=none; b=KjoMie4fD6vtZVi/sDzYUKdDcuYkHazbJjorrQN4EnQx2LxWVuV4WQED+OEt9airBWIzvAUGn9jl9abpRYcI9rq+F80/PzYPnCMguMF92Q9hR1gprmty05F4wjDcb/Q9haZQpwm9vxj8LBNqDyvcbpgvQh+oesilZmwd+ZiArvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729796092; c=relaxed/simple;
-	bh=vcj4Zl30hZKPQmEgDV2ndtG3//dMR+88Svx8gersokc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Ez0qGVxiWUOuYHpLrrUcWbyn3IIlOJCjz03ogREw+HhoWhWa9K4Ip+ZvpDQT3hQilqG+CKQM3ARAPUQD83I97dlz6yLrNU18TY3PuUiqxzQ7Ghe3sTFx8I9EfXpGP9EZGQxhZjcJXB3OAdjpWCoEUf94AEv6Iu1nTsdEBftgfD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mork.no; spf=pass smtp.mailfrom=miraculix.mork.no; dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b=YVhA4YLF; arc=none smtp.client-ip=65.108.154.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mork.no
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=miraculix.mork.no
-Authentication-Results: dilbert.mork.no;
-	dkim=pass (1024-bit key; secure) header.d=mork.no header.i=@mork.no header.a=rsa-sha256 header.s=b header.b=YVhA4YLF;
-	dkim-atps=neutral
-Received: from canardo.dyn.mork.no ([IPv6:2a01:799:10de:2e00:0:0:0:1])
-	(authenticated bits=0)
-	by dilbert.mork.no (8.17.1.9/8.17.1.9) with ESMTPSA id 49OIhGvY1383422
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Thu, 24 Oct 2024 19:43:17 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-	t=1729795395; bh=HAoa7xblMSKwHtp1ssQvpwrF+I1Db85YOC/jYT6LvdY=;
-	h=From:To:Cc:Subject:Date:Message-Id:From;
-	b=YVhA4YLFT5sS0545dThy+CmfLgQw1v4ec1jNDzcHagUrfrPRP32dXMC07z6w3WXOY
-	 67tHRxNRooIQCP1j/5gnHBo4dQdbVwCT3uvyStCB1pjjQMciGyQTEDI8r6uoopC2YL
-	 1yovFG2FzeIVA0s5PlkJBgzC14lzxzGadEiRNw2s=
-Received: from miraculix.mork.no ([IPv6:2a01:799:10de:2e0a:149a:2079:3a3a:3457])
-	(authenticated bits=0)
-	by canardo.dyn.mork.no (8.17.1.9/8.17.1.9) with ESMTPSA id 49OIhFmN609116
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Thu, 24 Oct 2024 20:43:15 +0200
-Received: (nullmailer pid 700022 invoked by uid 1000);
-	Thu, 24 Oct 2024 18:43:15 -0000
-From: =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-To: linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Manu Abraham <abraham.manu@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-Subject: [PATCH] media: mantis: remove orphan mantis_core.h
-Date: Thu, 24 Oct 2024 20:43:13 +0200
-Message-Id: <20241024184313.700010-1-bjorn@mork.no>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1729795764; c=relaxed/simple;
+	bh=7R8xBq4EN4NFFt2/UpW1XnLqdDNrCw7fK00BzVwqlSs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rBrxFjh6ZHlGoFbpp9XmniDhdgOyryG0hvGz+pig1P0KqDpJxhZxadqZ0Ijg+nntZczkdP575kuGfdeFB1mJIZJYPUq2zKYMsFFPYBKl06XA2ogvMbwyuG+qgmMe8q49Xj2MJIpwfH5VSS03IhtVHsNbiCdUUb2shHKzo2mB/IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dIh0sCBm; arc=none smtp.client-ip=209.85.208.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f195.google.com with SMTP id 38308e7fff4ca-2fb5be4381dso14526691fa.2;
+        Thu, 24 Oct 2024 11:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729795759; x=1730400559; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7R8xBq4EN4NFFt2/UpW1XnLqdDNrCw7fK00BzVwqlSs=;
+        b=dIh0sCBmjOmRUUjGca6f43TGGr2tufsrwBSfSo2NrNMCY8BeG9uy4LfZm9oWR2mZPf
+         5hXbXBR+8hJiXKXPNVei+qFHRwtt1xUfO4UyWlQXqDgSwn2Z1TcVHSw36wj20wzHxanP
+         qxY3zfZl6StWPNZceAwTPggZilmMrOb8eI6AjI/b5k23bLW22MnDx/pQ9oV2SITxgPFJ
+         bjU6yULqAIL/DikYVzq3axl6hWdc9cREo9QrDVBCn7sSK3r40l0LhV8CaDB8hV7Skago
+         6Po+kYW4xEaBZIU6QcUbkIZe4pXuB9Th6b/w1gZL/pV/Me3it7TVpTKvp9hEAv4BtOf+
+         H7KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729795759; x=1730400559;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7R8xBq4EN4NFFt2/UpW1XnLqdDNrCw7fK00BzVwqlSs=;
+        b=F7Dtg1H7SfOVhyflpUhu91QQaj3K8brQKUazyI9GHx8WnQwFVhoFf3jaRtgEx3CMYz
+         OzoTWcOd3mcOsI1K1ci/3oepoyaG3uZ/8OpCwY3TG/D0eNNldwYP2mMfSSMoUsM6iMZN
+         iBm9wp+ilT8TOY+Q9meWKANz0DqQPabIwMSUQfDCi6QfuyQyYDxsWLHxgpTtkMSIDvRM
+         BXVu5TB3WNjauLmpQBJKsUGD1QmS/GgJMncFI4VEbDU8pZQFXQw11IBTM9gi5m2XXi1i
+         aL9YIydhDdEvQ3iu5OGtDq9W8hPeCkQWyaJbd3oapvtEQslgapRh1gsGmxO19aGO6Kdm
+         qyFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0gjfiUCpUkSd3Ho+D05urjIBUuTSczy4FdigftEndoVT+dYv2hERq9Qfy4h1JuOEkjh0ung+omD/0@vger.kernel.org, AJvYcCUEWnjwhli9zW5FWX6Rk3r27pwms+D/h1loGrpACBcBB37hCwx6u1g1AV2LOrC0B17d150hUmWfBLp+x2jwLfz3q1U=@vger.kernel.org, AJvYcCUshD0IXeQLwa9Q9WW0tSQqdhMcPlh4V5M6GCd/yWPrT4xm1//TR021IX/3gRKSmTm0EUCZ/Xzfv5uQI9g=@vger.kernel.org, AJvYcCUwt5lzfvI2M+OxzLw1qlahwGFtgViPoyQ310HOUyAU6HqCm+ZSw6/COQUOdjH1TZDq00c+/v4D/gI=@vger.kernel.org, AJvYcCV9ra22UbXDHOZgY7N6WHSAfHrwwAjSAukuFQ/vnH4DyXtP8tJOCXZ9vKrkp6ODvZLcnvR8izpwBYrGNR8=@vger.kernel.org, AJvYcCVOi156nLOh6fkU44Wa3qlOgNI7MiM8dYpuId6cjhp7sVryUCIKedEwep+ESZnn3J6CCw0XQloAlNWIMQ==@vger.kernel.org, AJvYcCVSWFXDPRw4EsVfOheEDJpwddB2W6a2H0YzqGutBpzwvhAbpDsZMkV6Jpy9qG2yn9/h0GsdWmjA5RP+Hak=@vger.kernel.org, AJvYcCWlu3KY4mFPbZRvfVIcZEZ8CCv2Y0UaYkaCp7dYSgxU38CIc+22VIKjcRFvOsGbzdutn/vffIcn6HkT1g==@vger.kernel.org, AJvYcCX1ByrZQssE+gqs93a2eCw2n0+zlm4rnMG+ziiNSIM4ejmxrzeI83+sKEgSCoT2qRU+7bdMuqCq@vger.kernel.org, AJvYcCX2rxBewJ37NG0mNS3F
+ WsbqDVrXh23V+5i/TBQJzxOpqs6AKghS26xSK0woFuJrKZ8Ryj10ugeCsYVB@vger.kernel.org, AJvYcCXPyn8yPEWTy2iij37C94cY2A5SSLP0bbVs0ArCSoDZJU0PK/EemYt8HACokghvev9tAHxaQqZDPbwu@vger.kernel.org, AJvYcCXlzP+cQ4u3+DBA48nfusDAbq0kKmgwS02ZC29PYMKICRr8dW6dn9cu92tavs52awvLb3wItolEeLRW9Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM31WJbdEsKHnwIioTBvUohAGBnX4sgHAM+9pjPeK+zis/vCPS
+	oOixIwLmr7XeuGSIDwrDawpGAEh0V9pUul5nB9D/VNL+AcTmpEQ8
+X-Google-Smtp-Source: AGHT+IEWTwWW7ZDeqA1RQOHNghQgVSooYqHCGiQ9/SAx2xPbYknbZset1wVdP17Gh0+l4HgRp5lhhw==
+X-Received: by 2002:a2e:80a:0:b0:2fb:5168:1a0c with SMTP id 38308e7fff4ca-2fca8209c7fmr16438311fa.19.1729795759128;
+        Thu, 24 Oct 2024 11:49:19 -0700 (PDT)
+Received: from localhost.localdomain ([176.106.245.80])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb9ad907a2sm14419741fa.71.2024.10.24.11.49.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 11:49:18 -0700 (PDT)
+From: Russian Troll Factory No15872808016711155501295394132314014329123383180896101673526784107152032490028137321872772627535220808528284975537183562225013000 <vladimirputin693389@gmail.com>
+To: torvalds@linux-foundation.org
+Cc: aospan@netup.ru,
+	conor.dooley@microchip.com,
+	ddrokosov@sberdevices.ru,
+	dmaengine@vger.kernel.org,
+	dushistov@mail.ru,
+	fancer.lancer@gmail.com,
+	geert@linux-m68k.org,
+	gregkh@linuxfoundation.org,
+	hoan@os.amperecomputing.com,
+	ink@jurassic.park.msu.ru,
+	jeffbai@aosc.io,
+	kexybiscuit@aosc.io,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fpga@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	manivannan.sadhasivam@linaro.org,
+	mattst88@gmail.com,
+	netdev@vger.kernel.org,
+	nikita@trvn.ru,
+	ntb@lists.linux.dev,
+	patches@lists.linux.dev,
+	richard.henderson@linaro.org,
+	s.shtylyov@omp.ru,
+	serjk@netup.ru,
+	shc_work@mail.ru,
+	torvic9@mailbox.org,
+	tsbogend@alpha.franken.de,
+	v.georgiev@metrotek.ru,
+	wangyuli@uniontech.com,
+	wsa+renesas@sang-engineering.com,
+	xeb@mail.ru
+Subject: LINUS TORVALDS IS A DICK
+Date: Thu, 24 Oct 2024 21:49:08 +0300
+Message-ID: <20241024184908.14250-1-vladimirputin693389@gmail.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
+References: <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 1.0.5 at canardo.mork.no
-X-Virus-Status: Clean
 
-This file has been an orphan ever since commit b3b961448f70
-("V4L/DVB (13795): [Mantis/Hopper] Code overhaul, add Hopper
-devices into the PCI ID list"), having no references except
-for the orphan removed by commit 519648bed470 ("media: mantis:
-remove orphan mantis_core.c")
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
+LINUS TORVALDS IS A DICK
 
-Fixes: b3b961448f70 ("V4L/DVB (13795): [Mantis/Hopper] Code overhaul, add Hopper devices into the PCI ID list")
-Link: https://patchwork.linuxtv.org/project/linux-media/patch/1277054487-14384-1-git-send-email-bjorn@mork.no/
-Signed-off-by: Bjørn Mork <bjorn@mork.no>
----
 
-Yes, I did try to clean up this mess in 2010 already. Not sure
-why I bother, really.
-
-
- drivers/media/pci/mantis/mantis_core.h | 43 --------------------------
- 1 file changed, 43 deletions(-)
- delete mode 100644 drivers/media/pci/mantis/mantis_core.h
-
-diff --git a/drivers/media/pci/mantis/mantis_core.h b/drivers/media/pci/mantis/mantis_core.h
-deleted file mode 100644
-index 93c89a10a2c7..000000000000
---- a/drivers/media/pci/mantis/mantis_core.h
-+++ /dev/null
-@@ -1,43 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/*
--	Mantis PCI bridge driver
--
--	Copyright (C) Manu Abraham (abraham.manu@gmail.com)
--
--*/
--
--#ifndef __MANTIS_CORE_H
--#define __MANTIS_CORE_H
--
--#include "mantis_common.h"
--
--
--#define FE_TYPE_SAT	0
--#define FE_TYPE_CAB	1
--#define FE_TYPE_TER	2
--
--#define FE_TYPE_TS204	0
--#define FE_TYPE_TS188	1
--
--
--struct vendorname {
--	u8  *sub_vendor_name;
--	u32 sub_vendor_id;
--};
--
--struct devicetype {
--	u8  *sub_device_name;
--	u32 sub_device_id;
--	u8  device_type;
--	u32 type_flags;
--};
--
--
--extern int mantis_dma_init(struct mantis_pci *mantis);
--extern int mantis_dma_exit(struct mantis_pci *mantis);
--extern void mantis_dma_start(struct mantis_pci *mantis);
--extern void mantis_dma_stop(struct mantis_pci *mantis);
--extern int mantis_i2c_init(struct mantis_pci *mantis);
--extern int mantis_i2c_exit(struct mantis_pci *mantis);
--
--#endif /* __MANTIS_CORE_H */
--- 
-2.39.5
 
 
