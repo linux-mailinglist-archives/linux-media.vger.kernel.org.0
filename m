@@ -1,36 +1,35 @@
-Return-Path: <linux-media+bounces-20189-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20190-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C587E9AE3B4
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 13:22:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADF29AE3C5
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 13:24:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E91F283EDE
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 11:21:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E9012B22EF0
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 11:24:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43BBA1CF7C9;
-	Thu, 24 Oct 2024 11:21:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB25A1CEE8A;
+	Thu, 24 Oct 2024 11:24:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19D71CCED2;
-	Thu, 24 Oct 2024 11:21:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9154C1C4A2D
+	for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 11:24:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729768908; cv=none; b=rvGC7tyBeGKa+Fk+zuSoyiumYF2vEWzQ4uIakbMKEPgFiMJbl8lzAesMQMNxGckH1A/lhILaYBdlGO9DWPM7KrMvdqrbhSKAT4GnrNwvlCACOc3mXQ2ac62gmgiRc7kbU2W3MQiKgJ9VnNj6ud8SXwr2ixj6ESnPb0dCVIEvWXY=
+	t=1729769077; cv=none; b=AXNKjCjjLefuwUFODUR0cIMp7WENArVgqF/8d+YZMm6ZoFsh91NWDIscCsLi51AV4QEH6IHtxvbEal56Vd3vI8yUlowYDQIHlb7UVUFdJl8f46KkutPyFDVYhGbAzZczs6w4Fy7Wec/z+rWJbjzkpLZ3bOjb7J4L3B9Cl444xbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729768908; c=relaxed/simple;
-	bh=UIUx4Lcgb6qA8+i4Pi3lbTwP6NMlYAraBLOCzeH7Kvc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c3LNdrZvVi5Ed+KOSbnBWImUqScYNjmk55lhMnB3vxPFpbEwKjpFUd4mMAkHTpRb40pH18PihdB1M1Fe4sSvBJ+9NunnCpN1fW0qNb8vm3ysiW1qaPrxVCjgs/RxL8g+6dkVWMinFgPY6ikeIOaljOfckVQqIdDTBa7gpFqcT50=
+	s=arc-20240116; t=1729769077; c=relaxed/simple;
+	bh=N0yQ1pZb9n6ZH+46PJ3s+9ytc1jTc1UGMAPtQA5THyo=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=mCWt9Muo9/+7HZfZyFwggdFP4Y10coPOPck1okrZkB9q/mnI/hTC/YqegqaKa6ZSpAw7vRs8xvTSR9cTOX427ZcW0MWEbJx6wC8KIrPhkPul6yjpfi3xCOKDRlKE0Yxa1+ksBCeBQToNnXwQOErRLXu2a7TjERgT4bLpMnL4hSc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 252AAC4CEC7;
-	Thu, 24 Oct 2024 11:21:44 +0000 (UTC)
-Message-ID: <af1456a3-3de8-4b11-9606-79b260bda47e@xs4all.nl>
-Date: Thu, 24 Oct 2024 13:21:43 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8355C4CEC7;
+	Thu, 24 Oct 2024 11:24:36 +0000 (UTC)
+Message-ID: <5103405d-c560-425d-b307-835896943b94@xs4all.nl>
+Date: Thu, 24 Oct 2024 13:24:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,30 +37,11 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] media: raspberrypi: Add support for RP1-CFE
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Naushir Patuck <naush@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20241003-rp1-cfe-v6-0-d6762edd98a8@ideasonboard.com>
- <20241003-rp1-cfe-v6-3-d6762edd98a8@ideasonboard.com>
- <4d9e340e-2ae7-495b-8623-0d10398e1c3d@xs4all.nl>
- <b185e497-ad40-4fe3-9409-224993ed4924@ideasonboard.com>
 Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Tomasz Figa <tfiga@chromium.org>
 From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] media: vb2: fix confusing log message
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -105,87 +85,28 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <b185e497-ad40-4fe3-9409-224993ed4924@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 24/10/2024 13:08, Tomi Valkeinen wrote:
-> Hi Hans,
-> 
-> On 24/10/2024 11:20, Hans Verkuil wrote:
->> Hi Tomi,
->>
->> I know this driver is already merged, but while checking for drivers that use
->> q->max_num_buffers I stumbled on this cfe code:
->>
->> <snip>
->>
->>> +/*
->>> + * vb2 ops
->>> + */
->>> +
->>> +static int cfe_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
->>> +               unsigned int *nplanes, unsigned int sizes[],
->>> +               struct device *alloc_devs[])
->>> +{
->>> +    struct cfe_node *node = vb2_get_drv_priv(vq);
->>> +    struct cfe_device *cfe = node->cfe;
->>> +    unsigned int size = is_image_node(node) ?
->>> +                    node->vid_fmt.fmt.pix.sizeimage :
->>> +                    node->meta_fmt.fmt.meta.buffersize;
->>> +
->>> +    cfe_dbg(cfe, "%s: [%s] type:%u\n", __func__, node_desc[node->id].name,
->>> +        node->buffer_queue.type);
->>> +
->>> +    if (vq->max_num_buffers + *nbuffers < 3)
->>> +        *nbuffers = 3 - vq->max_num_buffers;
->>
->> This makes no sense: max_num_buffers is 32, unless explicitly set when vb2_queue_init
->> is called. So 32 + *nbuffers is never < 3.
->>
->> If the idea is that at least 3 buffers should be allocated by REQBUFS, then set
->> q->min_reqbufs_allocation = 3; before calling vb2_queue_init and vb2 will handle this
->> for you.
->>
->> Drivers shouldn't modify *nbuffers, except in very rare circumstances, especially
->> since the code is almost always wrong.
-> 
-> Indeed, the code doesn't make sense. I have to say I don't know what was the intent here, but I think "at least 3 buffers should be allocated by REQBUFS" is the likely explanation.
-> 
-> I think the hardware should work with even just a single buffer, so is it then fine to not set either q->min_queued_buffers nor q->min_reqbufs_allocation before calling vb2_queue_init()? This seems to
-> result in REQBUFS giving at least two buffers.
+If the number of allocated buffers is less than q->min_queued_buffers,
+then a debug message was logged saying that it needs at least that
+many queued buffers. But the test is about allocated buffers.
 
-min_queued_buffers is really HW dependent. If not set, then start_streaming can be called even if there are no buffers queued.
+Update the message to say "allocated buffers".
 
-If your hardware can handle that, then it's fine to not set it.
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+---
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index d064e0664851..26228614ddcc 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -2329,7 +2329,7 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
+ 	}
 
-Regards,
-
-	Hans
-
-> 
->  Tomi
-> 
->>
->> Regards,
->>
->>     Hans
->>
->>> +
->>> +    if (*nplanes) {
->>> +        if (sizes[0] < size) {
->>> +            cfe_err(cfe, "sizes[0] %i < size %u\n", sizes[0], size);
->>> +            return -EINVAL;
->>> +        }
->>> +        size = sizes[0];
->>> +    }
->>> +
->>> +    *nplanes = 1;
->>> +    sizes[0] = size;
->>> +
->>> +    return 0;
->>> +}
->>
-> 
-
+ 	if (q_num_bufs < q->min_queued_buffers) {
+-		dprintk(q, 1, "need at least %u queued buffers\n",
++		dprintk(q, 1, "need at least %u allocated buffers\n",
+ 			q->min_queued_buffers);
+ 		return -EINVAL;
+ 	}
 
