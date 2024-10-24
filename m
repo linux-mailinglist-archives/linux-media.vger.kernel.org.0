@@ -1,112 +1,169 @@
-Return-Path: <linux-media+bounces-20190-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20191-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADF29AE3C5
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 13:24:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C5F9AE3F6
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 13:33:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E9012B22EF0
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 11:24:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDD921C2239E
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2024 11:33:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB25A1CEE8A;
-	Thu, 24 Oct 2024 11:24:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9105F1D5169;
+	Thu, 24 Oct 2024 11:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iLWGWnyF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9154C1C4A2D
-	for <linux-media@vger.kernel.org>; Thu, 24 Oct 2024 11:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635991C726D;
+	Thu, 24 Oct 2024 11:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729769077; cv=none; b=AXNKjCjjLefuwUFODUR0cIMp7WENArVgqF/8d+YZMm6ZoFsh91NWDIscCsLi51AV4QEH6IHtxvbEal56Vd3vI8yUlowYDQIHlb7UVUFdJl8f46KkutPyFDVYhGbAzZczs6w4Fy7Wec/z+rWJbjzkpLZ3bOjb7J4L3B9Cl444xbw=
+	t=1729769580; cv=none; b=q3eesvRmosBtWG1vsB89aYMoF6ZgRCSESdyim232jqRqQgu2s1J13i5+a8n4vpd0RQ46pGmlHTOeCed/ln/htIMuozztcuD/KtWGdboTbgfcaciG2vW0sm22yHzbDzRftwUqUvfsB+SR8KO8GVWlS1FwQG2DCzDdPlILxR61zLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729769077; c=relaxed/simple;
-	bh=N0yQ1pZb9n6ZH+46PJ3s+9ytc1jTc1UGMAPtQA5THyo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=mCWt9Muo9/+7HZfZyFwggdFP4Y10coPOPck1okrZkB9q/mnI/hTC/YqegqaKa6ZSpAw7vRs8xvTSR9cTOX427ZcW0MWEbJx6wC8KIrPhkPul6yjpfi3xCOKDRlKE0Yxa1+ksBCeBQToNnXwQOErRLXu2a7TjERgT4bLpMnL4hSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8355C4CEC7;
-	Thu, 24 Oct 2024 11:24:36 +0000 (UTC)
-Message-ID: <5103405d-c560-425d-b307-835896943b94@xs4all.nl>
-Date: Thu, 24 Oct 2024 13:24:35 +0200
+	s=arc-20240116; t=1729769580; c=relaxed/simple;
+	bh=jaOLrmAOgefAgbtZ2Lh4kHXHkgV6DCOo2suKobuzSjk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IOAZy1f2QbkM9oJ2XyuQdZDNdbSftTH8DfC/kS2B3DdNXgCSjjRT5MRDZtuyc9TlXglYsmmrQKr3wDtL/XfbqjpYVNwLPWn/fHwWoJt2x8ASvyVbgdgNgqyLhbSOzC3ttp45Hx5hooE+bPFV4RQVY5YF8pUyUG1kuxjXh98xfX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iLWGWnyF; arc=none smtp.client-ip=209.85.214.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-20cdda5cfb6so6426175ad.3;
+        Thu, 24 Oct 2024 04:32:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729769577; x=1730374377; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tv6O+TghCU2f9mC++4kG9WDH4zCondacLVwevpdizzo=;
+        b=iLWGWnyFsPBsVi4R06t+mGR0ow0oKN/SOxv2hG/GR60jbOw2l7QqWbo1DVv0IPTro3
+         uWIuXEoAb6pF0hjXnnSN5uNBnbefoJXWBPSqryvo9R9pET87W1KaFVBo32JJtyCeFzsC
+         BbU6pNekE+9pkt1Su+64d9gRcFpiTfMsgX4gYP8JQNNnoEP+Y0ogwYuoXZfgEfbmy2i/
+         IiZSY4rpSDRBWzon/sN18VltdgduKKtl0rQS4WNerN/ATJ5yMgz3HBIEMdAMyQI35wJX
+         FzZy84AP4JPS9TCKcHVNZPjtm1j9RqRqQWtMlQSvaYzcr1/DrDstj5sYFd6iQJ3Uq0wM
+         ynGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729769577; x=1730374377;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tv6O+TghCU2f9mC++4kG9WDH4zCondacLVwevpdizzo=;
+        b=u/MLFD1pL6qMiLP4NMDPvnJs6oCBllZPrjXNJ5DYS8RXFyxWnYX62K3UFuXXIWmcau
+         SFme8FqqnbKAdppTWkKYdOo9qMOHMiYsq5W1dyQT/pdAiiTIB1W8GG13T1AgqTTydT1L
+         eX3CgjmvpBVqz/wxPqQ7ZJKYlFcHzGWfVuCM/0N9pG7NIjA8OHnrBgUgl98hvgH1D2uR
+         1HqDulEbAWefNT1MiiU/jjM3dr7Unhhhve4h++oXuZJt/AZ15DKE+OkNu6yUQPmTArGg
+         EBTNKg9j7Y8ONTC0Qqlcnn5yozAqcQQsuVqwPWemBl/2nIzz758M+AHFHJ3FePduUKDc
+         08RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUkWgc5gm4UiyzmY4/PLKLX8cQtKekK8FiEuvS6v+G7hINamxv7J5dM4g3BX3vczjqn6NqI7/XyFjK7JA==@vger.kernel.org, AJvYcCV+PKaWBqgSyVdy4vtZjwhCcjPbuzoiMdShSgZ+hdfKb1kx1WE4ckHsBRknAxACFs6fjNOyqp/LTBar@vger.kernel.org, AJvYcCVLwkSW60YTS0QyZvhvMYu8G4iN2tocv7D0rxiTAB5H/An6h4YdeCb1p95XHBCYAQFKd4V9DbJFkXtmsLs=@vger.kernel.org, AJvYcCVYJx3KuHEGTxXinf0Vf0Wrw5cf5jkUHFydigs/IRdiXWHwLWdw+R4oslcedUxYXOV5ZT6AP9ib@vger.kernel.org, AJvYcCVabQ1V5qOpTs9atHFd1E3ba/LlyPNiteGBNrSXJW7DMFO1e6CRaXHUM2gaTSwmv+T3l7l9nhchygkg@vger.kernel.org, AJvYcCVkFhSCc4LDtt+mF79R8IFdR7kNolg1rRKR2Z4kDjVE8u9ZucgoMl/wDJzwlRpcL6HvZXOsuYGsa80pVPg=@vger.kernel.org, AJvYcCVtU3mCAPPl07cj2YNeliKqIcxz69bDYob/OplIPn/aKail7mD9vfC0zrn5j8MTnQ+t6G0tsyMti7kc@vger.kernel.org, AJvYcCWakYHTt4t+K9TOql8I7dG1N3cF4D8c70kr+liWzVdhjxBhzky6LJpaJ010TBnUotbum/3MJf8fweVG2GgjGDCn36s=@vger.kernel.org, AJvYcCX55RlZou2yniR2m/aLR23gSxf+nkfLH4hC1KKDz+JNu0OPsox/CdtotQSop0b1En3Vbf9WOcfH28Xbxw==@vger.kernel.org, AJvYcCXHN+oh8GVE1UN53MYJouFz
+ FL4/j/VNA3ONir7/pgSZK9TnKhd3SohMF818pwdz7mpWdfZz7vnXFcY=@vger.kernel.org, AJvYcCXOX+6Moi7o0LjdeOPO+b8e7OfuURi/6ng8uyu/ZqTuBusyaOa1YVeXXrRpxQDXHpDw8poVAUjSwH/XVnc=@vger.kernel.org, AJvYcCXdrhdwIzegOpRuKQGEt69P2TkPZQ9O5qDMT3OR8Q0NeHQ2p1+100KxKaj1aSffe381DzOsdOcosn5gSA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvPP/E7DuDUsdNswickcY60EGl2fjxcPzoMmqJWKp51ZT5qYOt
+	sG/US391zNvbl0UfGkBKLysnq8/NkJPegJnwQO4anTNZp8yTj3u2
+X-Google-Smtp-Source: AGHT+IGnX8BAozTq7iV5Cfb4iMWgUhRXOngKBX3V0+lNlRioh+e/fyzPpLUXG8x8OAUIikKgPta+wg==
+X-Received: by 2002:a17:902:e80c:b0:20c:e5b5:608a with SMTP id d9443c01a7336-20fa9de92a8mr80789405ad.5.1729769576555;
+        Thu, 24 Oct 2024 04:32:56 -0700 (PDT)
+Received: from codespaces-a350b5.m2fxbej512jepnsor2itp05j3d.ix.internal.cloudapp.net ([23.97.62.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0f364bsm70916385ad.264.2024.10.24.04.32.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 04:32:56 -0700 (PDT)
+From: Jensen Huang <jensenhuangnvdia@gmail.com>
+X-Google-Original-From: Jensen Huang <JensenHuangNVDIA@gmail.com>
+To: torvalds@linux-foundation.org
+Cc: aospan@netup.ru,
+	conor.dooley@microchip.com,
+	ddrokosov@sberdevices.ru,
+	dmaengine@vger.kernel.org,
+	dushistov@mail.ru,
+	fancer.lancer@gmail.com,
+	geert@linux-m68k.org,
+	gregkh@linuxfoundation.org,
+	hoan@os.amperecomputing.com,
+	ink@jurassic.park.msu.ru,
+	jeffbai@aosc.io,
+	kexybiscuit@aosc.io,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fpga@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	manivannan.sadhasivam@linaro.org,
+	mattst88@gmail.com,
+	netdev@vger.kernel.org,
+	nikita@trvn.ru,
+	ntb@lists.linux.dev,
+	patches@lists.linux.dev,
+	richard.henderson@linaro.org,
+	s.shtylyov@omp.ru,
+	serjk@netup.ru,
+	shc_work@mail.ru,
+	torvic9@mailbox.org,
+	tsbogend@alpha.franken.de,
+	v.georgiev@metrotek.ru,
+	wangyuli@uniontech.com,
+	wsa+renesas@sang-engineering.com,
+	xeb@mail.ru,
+	Jensen Huang <JensenHuangNVDIA@gmail.com>
+Subject: [PATCH] MAINTAINERS: Remove some entries due to various compliance requirements.
+Date: Thu, 24 Oct 2024 11:32:46 +0000
+Message-ID: <20241024113246.22901-1-JensenHuangNVDIA@gmail.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Tomasz Figa <tfiga@chromium.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: vb2: fix confusing log message
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-If the number of allocated buffers is less than q->min_queued_buffers,
-then a debug message was logged saying that it needs at least that
-many queued buffers. But the test is about allocated buffers.
+Remove some entries due to various compliance requirements. They can come
+back in the future if sufficient documentation is provided.
 
-Update the message to say "allocated buffers".
+Signed-off-by: Jensen Huang <JensenHuangNVDIA@gmail.com>
 
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index d064e0664851..26228614ddcc 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -2329,7 +2329,7 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
- 	}
 
- 	if (q_num_bufs < q->min_queued_buffers) {
--		dprintk(q, 1, "need at least %u queued buffers\n",
-+		dprintk(q, 1, "need at least %u allocated buffers\n",
- 			q->min_queued_buffers);
- 		return -EINVAL;
- 	}
+Follow 6e90b67
+
+---
+
+Linus Torvalds said
+
+"I'm Finnish. Did you think I'd be supporting Russian
+aggression? Apparently it's not just lack of real news, it's lack of
+history knowledge too."
+
+So we should remove Israeli developers too, because Israel is committing aggression and genocide.
+
+Link: https://lore.kernel.org/all/CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com/
+---
+ MAINTAINERS | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e9659a5a7..9ce642d40 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2275,13 +2275,6 @@ S:	Maintained
+ T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git clkdev
+ F:	drivers/clk/clkdev.c
+ 
+-ARM/CONEXANT DIGICOLOR MACHINE SUPPORT
+-M:	Baruch Siach <baruch@tkos.co.il>
+-L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+-S:	Maintained
+-F:	arch/arm/boot/dts/cnxt/
+-N:	digicolor
+-
+ ARM/CORESIGHT FRAMEWORK AND DRIVERS
+ M:	Suzuki K Poulose <suzuki.poulose@arm.com>
+ R:	Mike Leach <mike.leach@linaro.org>
+-- 
+2.46.2
+
 
