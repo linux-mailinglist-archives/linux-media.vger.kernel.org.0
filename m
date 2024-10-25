@@ -1,67 +1,69 @@
-Return-Path: <linux-media+bounces-20318-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20319-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31CB9B0374
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 15:12:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 816FD9B0377
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 15:12:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6DE9E286722
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 13:12:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B37BD1C21433
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 13:12:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AC5B1632F8;
-	Fri, 25 Oct 2024 13:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D4531F7540;
+	Fri, 25 Oct 2024 13:12:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZOYInIud"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XsHwaYKQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACF41632E2
-	for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 13:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D72F1632E2
+	for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 13:12:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729861929; cv=none; b=ZZuwF8zSCNsn8pMXhnoEgBmhlcfghZfovWreKawidnk3b32LcwURtkgnfYN0Fj34TDtmIiGRXG1u69e/raJoyLRLWfpHHjiOSemZbmQ0pDeDv09DyKxZrwXWCrQY33Ds4ueiifcPjJR0uQuLPvf9mZWiimuH5OSULThUTGliWZA=
+	t=1729861932; cv=none; b=cT3E0gikjcpU0XyxE6pFiKUasNpF/4kcTJddUnibGE2T3idmU9rHBbI4NvDcItisOytm2EC/POv0Oioo/g4GOxp8jTJzjkqblpBjnG6s9BlYCpvbT7ThzbrmmIZCcAurLwjTd89XUWWkDmm1kg5FKlS2H8i09SSoSARMwGNqoqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729861929; c=relaxed/simple;
-	bh=W7friAtVQRffiLbA+GCXrUMmE0PLT/AOO5U7Kwjd/Dc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xx0QnCSBRQQWrb5YddRpZh43DOI0XtqyYefi0jJsEK82UYcMZcz/lWbMV/THWktnJ1FyoGWNRWBBBqrHwepvK1jyIo3ah9fVQIvqVPu7+vsdBSWoplg0FpJyzbzx1hKSz+tXa/dnzoiDUWMAeYgLc0fEMJYLKfHc3jF0a+KvX5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZOYInIud; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1729861932; c=relaxed/simple;
+	bh=RveC5jacooImmHBxMnm+SqvD0OPds08xgXiCC+fcXwY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FfWeDoXG+87nSLXbtPiShviC94FbLy9tRuqoGpEXSt85+5RFlSbDCIsG3FseWaFCxfRLnqm7kOBqm1op5sHm/1EvyKSkqIEfW4dS97lG7PVEOIwMoVJ65YODXi2YtEF5suq4R2fRzWTZnxOna21gOhOk7f8rQYzciYZj1d7mGN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XsHwaYKQ; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2bb1efe78so1339853a91.1
-        for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 06:12:06 -0700 (PDT)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2cc47f1d7so1357211a91.0
+        for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 06:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729861926; x=1730466726; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DRMnXvsHsbg1WtETmmqGXSobfWzOVAe6LmlCeFE9Ce8=;
-        b=ZOYInIud4I4ffMLGb+envW7ak13Ga+t18iIziEbnoPLzIhXPnbztaAlU+tfEkECBMX
-         WYDZnqlniAMPXjRZrscQwa78OcDKubCwTKl8MM9Kuza1qKIJdGl9i0KbqrCUz/T25yIl
-         HR8hz2Tr7NIScu55qdsGdqgcDSAQXLHotHvKg=
+        d=chromium.org; s=google; t=1729861929; x=1730466729; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8O+PQVPJ/vy+FUOPeA37d+cZZmUqt00r3pyhnqMSbPI=;
+        b=XsHwaYKQO/wOMvGlj+XHPA6dkSafH+5vYS9CoLt0fnTplYsew8r+p3lNRfJru/IQB9
+         Xh8+adatigmmq9f7bkV/UtEkeFWPrQC7riTIwKigqnzV0PIZq1fJujylA4X/ud+oKE97
+         A1uSyEZT2saEpHHod2S4xy0Ge1Y3fD3Qetn+4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729861926; x=1730466726;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DRMnXvsHsbg1WtETmmqGXSobfWzOVAe6LmlCeFE9Ce8=;
-        b=nokUobbc0VhKa37Ns3UjSfj8rrvHaxiNvzdsU+fs1U6HYdSNce3EzGGGaw2AH+A5n1
-         Z5eZHqXZIVuFdA7BW+qwT08dcxy6YwfIgm5v1TfhkfpUrOF2Lx+AjgtY2bOq2mRtOUB9
-         LM0rsBBQiFRwCIcWz6ItSi/8eXC4O4QPqwaqHtTo0f05pSKeV3g36ce9+bPH3PRGIz0n
-         tW3medU+s4jWV1IwYGUYJ/2JnPnz0HPYx9i/UgQ2SRUc5YcgC7gw8JRzyToA5Fbc4+KW
-         LqTTQ4oAKPpAs6ehsxwI0AypiRY/DOwdFGrc8uu0pcTZJGKnHOkdM+fAq2Jbp2Fg1Fjd
-         sJOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUVvTvyFH7ECHGlR1Hj6HpXv+eT/6Ph6gYD5dJFdzqa3yqbBXWxzbOjCb9eeKypB5Ph05cWL1H5YFLZSA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyfc7g+qiXxUjPZ1l9BVwvXgVIinBNdHZRX9apmb2zViwbktAwd
-	2P/D+rLcPSpm1DrPQ1rm1F3giw+GWj54izaU/R3dg/GeImd0EbROiEBSEUUZ8A==
-X-Google-Smtp-Source: AGHT+IH6fGLpM4dLLrV3AYDO24lReXJjLEFiphcBXr5XktHSLdQkl0iv0BpZ6miTQucP1s00qgHQNQ==
-X-Received: by 2002:a17:90a:604f:b0:2e2:b94c:d6a2 with SMTP id 98e67ed59e1d1-2e77e45ef43mr9071317a91.0.1729861926408;
-        Fri, 25 Oct 2024 06:12:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729861929; x=1730466729;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8O+PQVPJ/vy+FUOPeA37d+cZZmUqt00r3pyhnqMSbPI=;
+        b=IJS4h/7oU8rs9dvFc9oAYuHJkMGGK0P82iD4SH+KPzO2wWYphfP8ZjJY/Lod1rOFNp
+         07dkegpN1m9XgfOMBHCnwd6p1hEGfTPYU+MFl0UjbakmgCw6ukM1fzBgO0DVO7QWbiBT
+         Ewq+EyGPmkkQQBUznKwCOQK89jgCR1ShPPTvk7GUgtmEgaSpPWZtumNGjsYPs7uZdEe3
+         wUqwn3smS3p5tW589TPAmJzuPskZihWzrJsj9sC7T0Gsl1Sx5Vd5NbPzhN1oEf+goJJK
+         HDQxotgZE0Yv6t1IQc8J1HytXS0j5gt49vP0ueggqwH1w3I2idNCTvPdJ9Y6YL+tQ8H1
+         wR6A==
+X-Forwarded-Encrypted: i=1; AJvYcCUFkchLCaU0XDhKNYlCSgOTMWcayS/gGxhS6vdCD+ygWSO77hnjZAvhx/eaN772XflYCAj4UzH4ZNlweA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvGg9kj6dFxzCa12iXbL827JJgK0Qcgy7WEqSwo6STMBsFTIvd
+	9SqCUBBG3T5kQS+rYCOxIrIcuQZvFXRbgPEnLj7dcZtxN64nFDxytTedMpMxzw==
+X-Google-Smtp-Source: AGHT+IHb6CaPZzY4kiz1STIwYzefqAd98TECBpUtE/ewzpfQRIJG3J6EvKjfQDl89ZLKApDYRrV2LA==
+X-Received: by 2002:a17:90a:fd04:b0:2e2:b719:d582 with SMTP id 98e67ed59e1d1-2e77e6405f5mr8391434a91.14.1729861929179;
+        Fri, 25 Oct 2024 06:12:09 -0700 (PDT)
 Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:bd37:bccf:f3e:a9ef])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e8e3556517sm1364203a91.8.2024.10.25.06.12.04
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e8e3556517sm1364203a91.8.2024.10.25.06.12.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 06:12:06 -0700 (PDT)
+        Fri, 25 Oct 2024 06:12:08 -0700 (PDT)
 From: Sergey Senozhatsky <senozhatsky@chromium.org>
 To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
 	Vikash Garodia <quic_vgarodia@quicinc.com>
@@ -69,11 +71,14 @@ Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
 	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCHv5 0/3] media: venus: close() fixes
-Date: Fri, 25 Oct 2024 22:11:48 +0900
-Message-ID: <20241025131200.747889-1-senozhatsky@chromium.org>
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Tomasz Figa <tfiga@google.com>
+Subject: [PATCHv5 1/3] media: venus: fix enc/dec destruction order
+Date: Fri, 25 Oct 2024 22:11:49 +0900
+Message-ID: <20241025131200.747889-2-senozhatsky@chromium.org>
 X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
+In-Reply-To: <20241025131200.747889-1-senozhatsky@chromium.org>
+References: <20241025131200.747889-1-senozhatsky@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,27 +87,65 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A couple of fixes for venus driver close() handling
-(both enc and dec).
+We destroy mutex-es too early as they are still taken in
+v4l2_fh_exit()->v4l2_event_unsubscribe()->v4l2_ctrl_find().
 
-v4->v5:
--- also drop venc_ctrl_deinit() (Bryan, Dikshita)
+We should destroy mutex-es right before kfree().  Also
+do not vdec_ctrl_deinit() before v4l2_fh_exit().
 
-Sergey Senozhatsky (3):
-  media: venus: fix enc/dec destruction order
-  media: venus: sync with threaded IRQ during inst destruction
-  media: venus: factor out inst destruction routine
+Fixes: 7472c1c69138 ("[media] media: venus: vdec: add video decoder files")
+Suggested-by: Tomasz Figa <tfiga@google.com>
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ drivers/media/platform/qcom/venus/vdec.c | 7 ++++---
+ drivers/media/platform/qcom/venus/venc.c | 6 +++---
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
- drivers/media/platform/qcom/venus/core.c      | 25 +++++++++++++++++++
- drivers/media/platform/qcom/venus/core.h      |  2 ++
- drivers/media/platform/qcom/venus/vdec.c      | 13 ++--------
- drivers/media/platform/qcom/venus/vdec.h      |  1 -
- .../media/platform/qcom/venus/vdec_ctrls.c    |  5 ----
- drivers/media/platform/qcom/venus/venc.c      | 14 ++---------
- drivers/media/platform/qcom/venus/venc.h      |  1 -
- .../media/platform/qcom/venus/venc_ctrls.c    |  5 ----
- 8 files changed, 31 insertions(+), 35 deletions(-)
-
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 6252a6b3d4ba..0013c4704f03 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -1752,13 +1752,14 @@ static int vdec_close(struct file *file)
+ 	cancel_work_sync(&inst->delayed_process_work);
+ 	v4l2_m2m_ctx_release(inst->m2m_ctx);
+ 	v4l2_m2m_release(inst->m2m_dev);
+-	vdec_ctrl_deinit(inst);
+ 	ida_destroy(&inst->dpb_ids);
+ 	hfi_session_destroy(inst);
+-	mutex_destroy(&inst->lock);
+-	mutex_destroy(&inst->ctx_q_lock);
+ 	v4l2_fh_del(&inst->fh);
+ 	v4l2_fh_exit(&inst->fh);
++	vdec_ctrl_deinit(inst);
++
++	mutex_destroy(&inst->lock);
++	mutex_destroy(&inst->ctx_q_lock);
+ 
+ 	vdec_pm_put(inst, false);
+ 
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index 322a7737e2c7..6a26a6592424 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -1519,14 +1519,14 @@ static int venc_close(struct file *file)
+ 
+ 	v4l2_m2m_ctx_release(inst->m2m_ctx);
+ 	v4l2_m2m_release(inst->m2m_dev);
+-	venc_ctrl_deinit(inst);
+ 	hfi_session_destroy(inst);
+-	mutex_destroy(&inst->lock);
+-	mutex_destroy(&inst->ctx_q_lock);
+ 	v4l2_fh_del(&inst->fh);
+ 	v4l2_fh_exit(&inst->fh);
++	venc_ctrl_deinit(inst);
+ 
+ 	inst->enc_state = VENUS_ENC_STATE_DEINIT;
++	mutex_destroy(&inst->lock);
++	mutex_destroy(&inst->ctx_q_lock);
+ 
+ 	venc_pm_put(inst, false);
+ 
 -- 
 2.47.0.163.g1226f6d8fa-goog
 
