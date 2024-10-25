@@ -1,69 +1,70 @@
-Return-Path: <linux-media+bounces-20320-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20321-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4C19B0378
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 15:12:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 834AA9B037A
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 15:12:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A48DE1F249AF
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 13:12:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42B5D286486
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 13:12:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 152461D1F75;
-	Fri, 25 Oct 2024 13:12:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4E5F20BB22;
+	Fri, 25 Oct 2024 13:12:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SoSDaIIy"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bFHsljTY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689601632FF
-	for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 13:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8BB1C7B79
+	for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 13:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729861934; cv=none; b=oRjDmIUrRS82ewvfBXUFnSHpuBZkFfb8KbAzJ0hbiCyF1aqfCudeLbwoUcdmvt9XQ7TE0sONpbYuvhQSSE0sAMv+EcqEJABfq+vtRKr6kQ2VPIT7SNubD2au8oBYyk6tvMsTQexHH0ErIQ367d509r95J0829+zrw2WhUSugRYQ=
+	t=1729861937; cv=none; b=rjzLcpGhz3u7EEWDn0VpgGMlCecncwzTlxkMKNmpp4mxLclce/FqKI19lCp8QPTMPsPZFmH575jkLnvhSTuP0m1im/IkG391ooCBQELFl0yeyK943tc2kWpjpkn05USSQmt8uVmgJo6+9zE+KYMD1TYh/+7EPKWlb2JRs0RteWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729861934; c=relaxed/simple;
-	bh=sK3GReGrrBIZCIcruu3To61mhXqDKeErWsYmv/yiG9M=;
+	s=arc-20240116; t=1729861937; c=relaxed/simple;
+	bh=VYeq4f4Zfcb8J5pa//j7ztAifslufH54E2jl+sFOs7E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q/EPmb32nTzipKHysvcyzZGWS6+TDaE+tnq9UVVP+8uciYjcX05cBKPVmLvIc02Vh18Y4fzmW+W4or5N3sGq/PhODQDZSPSjuyAbGood1D4QWEZvX0BDfgzavtsAsMELk9SbnFlVccXUGELcFvFiaZJarCuI4HSBK1ks3rytDDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SoSDaIIy; arc=none smtp.client-ip=209.85.216.51
+	 MIME-Version; b=CYE3E+HEe23fZq0vjNWGrs1jV8qrW7TbMha5q5qTX9szh71t/gyE2VOy4x79ZAxvIsd/fZwlkTPrzd89NdPhkEuVCMrnVib21zgyZCFnuGBR4sjFBOdDOFwRBbp8Hm64/ny7NnryPiflvFOteIjzhQZNDNLrRJHB3R2F6r6Ph7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bFHsljTY; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2e2e87153a3so1439780a91.3
-        for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 06:12:12 -0700 (PDT)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7ea9739647bso1349758a12.0
+        for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 06:12:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729861932; x=1730466732; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1729861934; x=1730466734; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MZm7zndLXna2WAoQucoUjtozEIUfuaspQMegms8BWLo=;
-        b=SoSDaIIyuvaFIf5pTMg1FLsw1ztrEeNDjzJen0k/DM/o7Q8MBt6Ez3bPLtpvbRk26b
-         oprF95gouq1/QJB6Ozv2JVFHa9GD9qys7k6nfrQ0WdvzfRIax5dmI69LjfIbLVUQmWVY
-         weGooC078WXi5e7XC6qZ1CQLM9JoPa+SHhIIk=
+        bh=tVQVwxVN+EZDuJtnIkGcK8v6mX6ifpY1HBria00wQbQ=;
+        b=bFHsljTYVVGvz4zBdT9STLCQvOjuhQmwnq7eRO1E9vvO5tQRra18y4fppAJAULv0C1
+         1G7Pxw224DfIIq6Z+QA9iX7ZqC+3P3nDw9tBkDuS38CbahcoC4uoVFkbSeC4RGTclM+L
+         fTIsm5Jbpfa7AysnfWiozWhPOx7QIDlEZCFz8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729861932; x=1730466732;
+        d=1e100.net; s=20230601; t=1729861934; x=1730466734;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MZm7zndLXna2WAoQucoUjtozEIUfuaspQMegms8BWLo=;
-        b=f4JKKwq1YlItCWebQ2vZH7a/CmoeGIfvK25s1SlLqMCL/UnHSn9PcAaGqQgjw6BhKL
-         gf0xyeTWhdhcPxvDAhqyzOiLeuBv+Rbo0jpPJZvNRLb0ebIqq4Fk0HnBezmu2QYI89c3
-         uCATUlaejAp18BwIo702pWahKwrAxrLhaziUdDxSu8yclMgeyOZ40q7eMltsvG4aY/8R
-         cYbFJfH4AP1UccMMhcREPbbALbWQTfj1JVGRmDR1tPZGrrXfiKm/STfoz5vr78b5Tn/2
-         thlycH70I8Mt9j3sXahurraeZcHj2PYGMEBiZkjmOZ2lMoGWctBRIiTj3ElS9C5RWOum
-         vCWw==
-X-Forwarded-Encrypted: i=1; AJvYcCW6ChsSB9KQ8azzJ1HmZV8QAgxSxmnSscxu7iv8wOf+CTLqwuWuRnWGQPNIaOD3uD63J0+2yZyWMCz4mw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrJXlp8Hn5eJ41DJuRycM1JPmkASk7w1C8A0xSB9PzQrKJRy0L
-	tj96BwAzxPIi/L8Gu7shbOxQLRfoR4aff8rLfuZ31IQPWeLP12l9gsdQjwGnAA==
-X-Google-Smtp-Source: AGHT+IEQ2XpAY9n7QIqX0r9kvE73jPr3/aXCQVgzyfAW/wHaR3nIqmGI0xRKscd241HslAx3ryrPzQ==
-X-Received: by 2002:a17:90a:130d:b0:2e0:9a63:9017 with SMTP id 98e67ed59e1d1-2e76b60beb6mr10977290a91.23.1729861931735;
-        Fri, 25 Oct 2024 06:12:11 -0700 (PDT)
+        bh=tVQVwxVN+EZDuJtnIkGcK8v6mX6ifpY1HBria00wQbQ=;
+        b=joDxkDyUnDrCJbkIu4RWU/xSStx1cozQIFXD5T1dyc9QLzaJuCsW10c+8LY/rbKJ+C
+         sVudhkaI1Vync9WHBb0JHqWgjppievnKKg0Ilq0DC6owS0AWWugncyByqrecnWqxa1+5
+         c9lTNy/46UighVbsydggVhsJoRjYxREm2iyB3I7LGRiHaRlxAhSL6iqYXe4oBrgPWRCo
+         wGZfsNDIqhRaA2z704zoboa/SbafcLVcnaLv0G2z+FZ02TGPmEUE0gCFgp7ct4IyknbN
+         hHWDrlJwqPxMoQ7nO6lbnEwEA4SBihXvLGfbpoCI2EQLoQT+tO9psUpIW++Cuu+/8uEZ
+         mxUg==
+X-Forwarded-Encrypted: i=1; AJvYcCVvg0dCdYfBl17xdJW9z0mqSj2mlG1uPsicDJbFUiBEe4+0SXZkbVZc+9ukPtQ1dP6lWxUzE7e0RPc4og==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMXu5/fzZHEr62FIBJtvx6YzSsthXqat3B+jqSz0BkmWl3KwO2
+	/SCniERFf6QlhRquO2+55tdAVmyBKWJaOEY4KqInIWZmrJ+2EbNzw2a3GbpWQtK5xPUIjiub1/g
+	=
+X-Google-Smtp-Source: AGHT+IHiNexI/pOIVTcN7AQQcw4YyjKxCCDPkWxKz7MtymXLfrf+47z+jBLYRSGUDbFFPAQH9M8+ZQ==
+X-Received: by 2002:a17:90a:f288:b0:2c9:a3ca:cc98 with SMTP id 98e67ed59e1d1-2e77f47e9c2mr5877949a91.7.1729861934156;
+        Fri, 25 Oct 2024 06:12:14 -0700 (PDT)
 Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:bd37:bccf:f3e:a9ef])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e8e3556517sm1364203a91.8.2024.10.25.06.12.09
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e8e3556517sm1364203a91.8.2024.10.25.06.12.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 06:12:11 -0700 (PDT)
+        Fri, 25 Oct 2024 06:12:13 -0700 (PDT)
 From: Sergey Senozhatsky <senozhatsky@chromium.org>
 To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
 	Vikash Garodia <quic_vgarodia@quicinc.com>
@@ -72,9 +73,9 @@ Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCHv5 2/3] media: venus: sync with threaded IRQ during inst destruction
-Date: Fri, 25 Oct 2024 22:11:50 +0900
-Message-ID: <20241025131200.747889-3-senozhatsky@chromium.org>
+Subject: [PATCHv5 3/3] media: venus: factor out inst destruction routine
+Date: Fri, 25 Oct 2024 22:11:51 +0900
+Message-ID: <20241025131200.747889-4-senozhatsky@chromium.org>
 X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
 In-Reply-To: <20241025131200.747889-1-senozhatsky@chromium.org>
 References: <20241025131200.747889-1-senozhatsky@chromium.org>
@@ -86,118 +87,211 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When destroying an inst we should make sure that we don't race
-against threaded IRQ (or pending IRQ), otherwise we can concurrently
-kfree() inst context and inst itself.
+Factor out common instance destruction code into
+a common function.
 
-BUG: KASAN: slab-use-after-free in vb2_queue_error+0x80/0x90
-Call trace:
-dump_backtrace+0x1c4/0x1f8
-show_stack+0x38/0x60
-dump_stack_lvl+0x168/0x1f0
-print_report+0x170/0x4c8
-kasan_report+0x94/0xd0
-__asan_report_load2_noabort+0x20/0x30
-vb2_queue_error+0x80/0x90
-venus_helper_vb2_queue_error+0x54/0x78
-venc_event_notify+0xec/0x158
-hfi_event_notify+0x878/0xd20
-hfi_process_msg_packet+0x27c/0x4e0
-venus_isr_thread+0x258/0x6e8
-hfi_isr_thread+0x70/0x90
-venus_isr_thread+0x34/0x50
-irq_thread_fn+0x88/0x130
-irq_thread+0x160/0x2c0
-kthread+0x294/0x328
-ret_from_fork+0x10/0x20
-
-Allocated by task 20291:
-kasan_set_track+0x4c/0x80
-kasan_save_alloc_info+0x28/0x38
-__kasan_kmalloc+0x84/0xa0
-kmalloc_trace+0x7c/0x98
-v4l2_m2m_ctx_init+0x74/0x280
-venc_open+0x444/0x6d0
-v4l2_open+0x19c/0x2a0
-chrdev_open+0x374/0x3f0
-do_dentry_open+0x710/0x10a8
-vfs_open+0x88/0xa8
-path_openat+0x1e6c/0x2700
-do_filp_open+0x1a4/0x2e0
-do_sys_openat2+0xe8/0x508
-do_sys_open+0x15c/0x1a0
-__arm64_sys_openat+0xa8/0xc8
-invoke_syscall+0xdc/0x270
-el0_svc_common+0x1ec/0x250
-do_el0_svc+0x54/0x70
-el0_svc+0x50/0xe8
-el0t_64_sync_handler+0x48/0x120
-el0t_64_sync+0x1a8/0x1b0
-
-Rearrange inst destruction.  First remove the inst from the
-core->instances list, second synchronize IRQ/IRQ-thread to
-make sure that nothing else would see the inst while we take
-it down.
-
-Fixes: 7472c1c69138 ("[media] media: venus: vdec: add video decoder files")
+Suggested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/venus/vdec.c | 12 +++++++++++-
- drivers/media/platform/qcom/venus/venc.c | 12 +++++++++++-
- 2 files changed, 22 insertions(+), 2 deletions(-)
+ drivers/media/platform/qcom/venus/core.c      | 25 +++++++++++++++++++
+ drivers/media/platform/qcom/venus/core.h      |  2 ++
+ drivers/media/platform/qcom/venus/vdec.c      | 24 ++----------------
+ drivers/media/platform/qcom/venus/vdec.h      |  1 -
+ .../media/platform/qcom/venus/vdec_ctrls.c    |  5 ----
+ drivers/media/platform/qcom/venus/venc.c      | 24 ++----------------
+ drivers/media/platform/qcom/venus/venc.h      |  1 -
+ .../media/platform/qcom/venus/venc_ctrls.c    |  5 ----
+ 8 files changed, 31 insertions(+), 56 deletions(-)
 
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 423deb5e94dc..ee6c2051a0c4 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -19,6 +19,7 @@
+ #include <linux/pm_domain.h>
+ #include <linux/pm_runtime.h>
+ #include <media/videobuf2-v4l2.h>
++#include <media/v4l2-ctrls.h>
+ #include <media/v4l2-mem2mem.h>
+ #include <media/v4l2-ioctl.h>
+ 
+@@ -502,6 +503,30 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
+ 	return ret;
+ }
+ 
++void venus_close_common(struct venus_inst *inst)
++{
++	/*
++	 * First, remove the inst from the ->instances list, so that
++	 * to_instance() will return NULL.
++	 */
++	hfi_session_destroy(inst);
++	/*
++	 * Second, make sure we don't have IRQ/IRQ-thread currently running
++	 * or pending execution, which would race with the inst destruction.
++	 */
++	synchronize_irq(inst->core->irq);
++
++	v4l2_m2m_ctx_release(inst->m2m_ctx);
++	v4l2_m2m_release(inst->m2m_dev);
++	v4l2_fh_del(&inst->fh);
++	v4l2_fh_exit(&inst->fh);
++	v4l2_ctrl_handler_free(&inst->ctrl_handler);
++
++	mutex_destroy(&inst->lock);
++	mutex_destroy(&inst->ctx_q_lock);
++}
++EXPORT_SYMBOL_GPL(venus_close_common);
++
+ static __maybe_unused int venus_runtime_resume(struct device *dev)
+ {
+ 	struct venus_core *core = dev_get_drvdata(dev);
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 435325432922..7bb36a270e15 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -560,4 +560,6 @@ is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+ 		(core)->venus_ver.minor == vminor &&
+ 		(core)->venus_ver.rev <= vrev);
+ }
++
++void venus_close_common(struct venus_inst *inst);
+ #endif
 diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 0013c4704f03..b3192a36f388 100644
+index b3192a36f388..cba95dc492f1 100644
 --- a/drivers/media/platform/qcom/venus/vdec.c
 +++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -1750,10 +1750,20 @@ static int vdec_close(struct file *file)
- 	vdec_pm_get(inst);
+@@ -1737,7 +1737,7 @@ static int vdec_open(struct file *file)
+ err_session_destroy:
+ 	hfi_session_destroy(inst);
+ err_ctrl_deinit:
+-	vdec_ctrl_deinit(inst);
++	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+ err_free:
+ 	kfree(inst);
+ 	return ret;
+@@ -1748,29 +1748,9 @@ static int vdec_close(struct file *file)
+ 	struct venus_inst *inst = to_inst(file);
  
+ 	vdec_pm_get(inst);
+-
  	cancel_work_sync(&inst->delayed_process_work);
-+	/*
-+	 * First, remove the inst from the ->instances list, so that
-+	 * to_instance() will return NULL.
-+	 */
-+	hfi_session_destroy(inst);
-+	/*
-+	 * Second, make sure we don't have IRQ/IRQ-thread currently running
-+	 * or pending execution, which would race with the inst destruction.
-+	 */
-+	synchronize_irq(inst->core->irq);
-+
- 	v4l2_m2m_ctx_release(inst->m2m_ctx);
- 	v4l2_m2m_release(inst->m2m_dev);
- 	ida_destroy(&inst->dpb_ids);
+-	/*
+-	 * First, remove the inst from the ->instances list, so that
+-	 * to_instance() will return NULL.
+-	 */
 -	hfi_session_destroy(inst);
- 	v4l2_fh_del(&inst->fh);
- 	v4l2_fh_exit(&inst->fh);
- 	vdec_ctrl_deinit(inst);
+-	/*
+-	 * Second, make sure we don't have IRQ/IRQ-thread currently running
+-	 * or pending execution, which would race with the inst destruction.
+-	 */
+-	synchronize_irq(inst->core->irq);
+-
+-	v4l2_m2m_ctx_release(inst->m2m_ctx);
+-	v4l2_m2m_release(inst->m2m_dev);
++	venus_close_common(inst);
+ 	ida_destroy(&inst->dpb_ids);
+-	v4l2_fh_del(&inst->fh);
+-	v4l2_fh_exit(&inst->fh);
+-	vdec_ctrl_deinit(inst);
+-
+-	mutex_destroy(&inst->lock);
+-	mutex_destroy(&inst->ctx_q_lock);
+-
+ 	vdec_pm_put(inst, false);
+ 
+ 	kfree(inst);
+diff --git a/drivers/media/platform/qcom/venus/vdec.h b/drivers/media/platform/qcom/venus/vdec.h
+index 6b262d0bf561..0cf981108ff0 100644
+--- a/drivers/media/platform/qcom/venus/vdec.h
++++ b/drivers/media/platform/qcom/venus/vdec.h
+@@ -9,6 +9,5 @@
+ struct venus_inst;
+ 
+ int vdec_ctrl_init(struct venus_inst *inst);
+-void vdec_ctrl_deinit(struct venus_inst *inst);
+ 
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/vdec_ctrls.c b/drivers/media/platform/qcom/venus/vdec_ctrls.c
+index 7e0f29bf7fae..36ed955b0419 100644
+--- a/drivers/media/platform/qcom/venus/vdec_ctrls.c
++++ b/drivers/media/platform/qcom/venus/vdec_ctrls.c
+@@ -187,8 +187,3 @@ int vdec_ctrl_init(struct venus_inst *inst)
+ 
+ 	return 0;
+ }
+-
+-void vdec_ctrl_deinit(struct venus_inst *inst)
+-{
+-	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+-}
 diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 6a26a6592424..36981ce448f5 100644
+index 36981ce448f5..b9940da73772 100644
 --- a/drivers/media/platform/qcom/venus/venc.c
 +++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -1517,9 +1517,19 @@ static int venc_close(struct file *file)
+@@ -1505,7 +1505,7 @@ static int venc_open(struct file *file)
+ err_session_destroy:
+ 	hfi_session_destroy(inst);
+ err_ctrl_deinit:
+-	venc_ctrl_deinit(inst);
++	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+ err_free:
+ 	kfree(inst);
+ 	return ret;
+@@ -1516,28 +1516,8 @@ static int venc_close(struct file *file)
+ 	struct venus_inst *inst = to_inst(file);
  
  	venc_pm_get(inst);
- 
-+	/*
-+	 * First, remove the inst from the ->instances list, so that
-+	 * to_instance() will return NULL.
-+	 */
-+	hfi_session_destroy(inst);
-+	/*
-+	 * Second, make sure we don't have IRQ/IRQ-thread currently running
-+	 * or pending execution, which would race with the inst destruction.
-+	 */
-+	synchronize_irq(inst->core->irq);
-+
- 	v4l2_m2m_ctx_release(inst->m2m_ctx);
- 	v4l2_m2m_release(inst->m2m_dev);
+-
+-	/*
+-	 * First, remove the inst from the ->instances list, so that
+-	 * to_instance() will return NULL.
+-	 */
 -	hfi_session_destroy(inst);
- 	v4l2_fh_del(&inst->fh);
- 	v4l2_fh_exit(&inst->fh);
- 	venc_ctrl_deinit(inst);
+-	/*
+-	 * Second, make sure we don't have IRQ/IRQ-thread currently running
+-	 * or pending execution, which would race with the inst destruction.
+-	 */
+-	synchronize_irq(inst->core->irq);
+-
+-	v4l2_m2m_ctx_release(inst->m2m_ctx);
+-	v4l2_m2m_release(inst->m2m_dev);
+-	v4l2_fh_del(&inst->fh);
+-	v4l2_fh_exit(&inst->fh);
+-	venc_ctrl_deinit(inst);
+-
++	venus_close_common(inst);
+ 	inst->enc_state = VENUS_ENC_STATE_DEINIT;
+-	mutex_destroy(&inst->lock);
+-	mutex_destroy(&inst->ctx_q_lock);
+-
+ 	venc_pm_put(inst, false);
+ 
+ 	kfree(inst);
+diff --git a/drivers/media/platform/qcom/venus/venc.h b/drivers/media/platform/qcom/venus/venc.h
+index 4ea37fdcd9b8..719d0f73b14b 100644
+--- a/drivers/media/platform/qcom/venus/venc.h
++++ b/drivers/media/platform/qcom/venus/venc.h
+@@ -9,6 +9,5 @@
+ struct venus_inst;
+ 
+ int venc_ctrl_init(struct venus_inst *inst);
+-void venc_ctrl_deinit(struct venus_inst *inst);
+ 
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
+index d9d2a293f3ef..c6d1d3675466 100644
+--- a/drivers/media/platform/qcom/venus/venc_ctrls.c
++++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
+@@ -635,8 +635,3 @@ int venc_ctrl_init(struct venus_inst *inst)
+ 	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+ 	return ret;
+ }
+-
+-void venc_ctrl_deinit(struct venus_inst *inst)
+-{
+-	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+-}
 -- 
 2.47.0.163.g1226f6d8fa-goog
 
