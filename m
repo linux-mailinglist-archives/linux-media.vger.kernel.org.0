@@ -1,102 +1,201 @@
-Return-Path: <linux-media+bounces-20322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20323-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E219B0839
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 17:28:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A4D9B099D
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 18:17:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2C441C21234
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 15:28:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7861C1F218CF
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 16:17:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9303013B58B;
-	Fri, 25 Oct 2024 15:28:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FDB717622F;
+	Fri, 25 Oct 2024 16:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yjAbxMFe"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nMc6sihV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE1E42AA4
-	for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 15:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377437082B;
+	Fri, 25 Oct 2024 16:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729870123; cv=none; b=mKUcTMK9ZhwwPHpQMpe6PibgdyzZjuFFjCjv8bZKPhR7cANeMrtxiEF+y4WJ9GA56xNywne8PhD5LcjRxmWuNj5fsDhQhtUmU7mZxFC+Yfq6lwW+3ykAZ08wbItWZezBjCpr+vx+kRrymC0GliV2prf0yK5JkZU91ABwT/0pKck=
+	t=1729873029; cv=none; b=VHJtXMqmejBlUFg+FPJ90PMau4ThK+VXhbcOlGEkxgaIT6SfhOIXro5/gCMwF0k/BkrAexSojO1OQp87BxUMIrZD0LlW2qedInH4WunBZtEPeEea2iaPmlpAQhDOSi1YF1T1UmOCnzdgv3WaZ5xF8gerXnFFiKyL7MMfUf14+dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729870123; c=relaxed/simple;
-	bh=TPLNGREibIadmUC7AbHzKfAjrIRt1A7o5p8SIlwyePY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o5yOVZklMp4PBi2/6Bq6oQOzactDOjTRiC+GhJAmiEle46/NYqecHoATlt+JhUdibbgEJfVHucsBRt5myjv+Ijj3iebiaZnycCq+nnm4a+BzPRoC4bOaPnEBXlYz2qwx27HrfeSNsLF9aVJkpQjvXf3pMm+hsTbgsEViGgRBY1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yjAbxMFe; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4315c1c7392so21881065e9.1
-        for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 08:28:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729870119; x=1730474919; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gwi5fJapzFJHJ1EZ8CDQGKguKx6U+UJZ6uS+K0pO9KY=;
-        b=yjAbxMFezZl/o2MvLsFWhQQNJ25Aeml01DI8EG+y1NKnqAYdzL6HhoqVzW6JCKrk5x
-         NRDGQcPfrQcNydFXcT19eBvktUhHyzHbc2NWEuKcTdqa0xum8rVkrzFYXFezXM7LibIQ
-         GVrBnE03jchettE/syz1rn1cIJAQtVuzvvZ2Eu+BjbTZqodeRndU7kUlI5890SLILHfV
-         NYEsai3ADKKArLp8KbmsIXwepQGnwqTk/nIGcIlfh1nsNdS5fDEdJIWBVDX6JZYcXCIJ
-         Jsvv5juXw212RRV+uFpolziPCvQpnl46GFSIvAkPuxKyTURgEAtUE/omjfIc4z4gf90G
-         f8Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729870119; x=1730474919;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gwi5fJapzFJHJ1EZ8CDQGKguKx6U+UJZ6uS+K0pO9KY=;
-        b=GCzJgu0lntgliSAGZlT2s+wROhM06pQIcptfqI0ePoKtOu9k7fnD941gQul32UJ9Iy
-         Nt8WeZ+R8OSKbTKr8xzpfH0MxFDSqkpozQP+ox9+Rk/MwDMWkMLcXjtGE/X6qj6ZNQ1u
-         HHZ9UunB3h+I0yHcGRCdM5sf0VuzarZbXNJFHQtK70ge9M0sRirT8fLHxfTJpC3lNCoV
-         3xF1aQc34hwVpG/sTgKDKZ2zwftTH3uemwXeSQXjGq5u4zXn5H9WGPPL2ZX6akMB/o27
-         VSSSFEfPlkwd9V08wHjEX2W42H1GQzPvH8JGIR5jVk12OGQgZ1kVeghxSZOHefoMpx3c
-         2Kyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXwB9TmaC0YPj2bGb/a77F694o6Rc/9i04QNaBXelm5P5owhfJMU4syzKCokzUCBZc6nEzfOCsukeRw2A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxVAJPwBPcrcnaB066li2Rp9NvcQWcyoYKh5J0V7BWfCRLK80d
-	XRwyXR06UVHtc64Rdwhviuwgr5P3r7+RAU9vm1XxycsCeS+0NsNImrkYAQUYaH8=
-X-Google-Smtp-Source: AGHT+IHHiVTelEepIRcreU7kj3W5ReMmTDDEE1z2hoxrf5ppaSHlQGvr05Io956A+fDSJB3J67XptQ==
-X-Received: by 2002:a05:600c:584b:b0:431:9397:9ace with SMTP id 5b1f17b1804b1-43193979de0mr24191885e9.10.1729870119415;
-        Fri, 25 Oct 2024 08:28:39 -0700 (PDT)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b6f838sm1788206f8f.83.2024.10.25.08.28.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Oct 2024 08:28:39 -0700 (PDT)
-Message-ID: <ec78e336-b0c5-4d92-8716-46e435009495@linaro.org>
-Date: Fri, 25 Oct 2024 16:28:38 +0100
+	s=arc-20240116; t=1729873029; c=relaxed/simple;
+	bh=0L5xVhmjg5M5a4pa+/ZvHmwbAhngpCCSQCFhEC9nV7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q4AsHvWQcQ1yZ4TzAWq58QUresSYfiz7zA31RAbCOq1NLrmZ5rSqNwjy88EwmGUI0VrutI2WEtCHT2fOmjyRJPzRAYNIvpRmy0SV4+WWTR1MyXL7ogmkA17Y2S77X5R0EghiivrMmzDKOPE9vZPDk0v8kZkL7NfmTQQ8qWLkq08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nMc6sihV; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7235D74C;
+	Fri, 25 Oct 2024 18:15:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1729872916;
+	bh=0L5xVhmjg5M5a4pa+/ZvHmwbAhngpCCSQCFhEC9nV7Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nMc6sihVKFveNBFTRA5eK1wFB1JwZO7N2zid3aUccMpVY8n3g4NhkStPx18psvpz6
+	 1PWi6lahcOkwGbabubuxwP2lZ9BuC7kvyO62Eu6hzzXgdTYh+PyCjhq82SlkcszjTo
+	 ar0gQtaxOYqX1ON/sv4+GghYlFybAyn7HzAbDP2U=
+Date: Fri, 25 Oct 2024 19:16:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tarang Raval <tarang.raval@siliconsignals.io>
+Cc: sakari.ailus@linux.intel.com, mchehab@kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: mt9p031: Refactor format handling for different
+ sensor models
+Message-ID: <20241025161659.GD6519@pendragon.ideasonboard.com>
+References: <20241025130442.17417-1-tarang.raval@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv5 3/3] media: venus: factor out inst destruction routine
-To: Sergey Senozhatsky <senozhatsky@chromium.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241025131200.747889-1-senozhatsky@chromium.org>
- <20241025131200.747889-4-senozhatsky@chromium.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20241025131200.747889-4-senozhatsky@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241025130442.17417-1-tarang.raval@siliconsignals.io>
 
-On 25/10/2024 14:11, Sergey Senozhatsky wrote:
-> Factor out common instance destruction code into
-> a common function.
+Hi Tarang,
+
+Thank you for the patch.
+
+On Fri, Oct 25, 2024 at 06:32:17PM +0530, Tarang Raval wrote:
+> Add new structure 'mt9p031_model_info' to encapsulate format codes for
+> the mt9p031 camera sensor family. This approach enhances code clarity
+> and maintainability.
 > 
-> Suggested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
 > ---
+>  drivers/media/i2c/mt9p031.c | 28 +++++++++++++++++++---------
+>  1 file changed, 19 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+> index d8735c246e52..d4fcc692311c 100644
+> --- a/drivers/media/i2c/mt9p031.c
+> +++ b/drivers/media/i2c/mt9p031.c
+> @@ -113,6 +113,16 @@
+>  #define MT9P031_TEST_PATTERN_RED			0xa2
+>  #define MT9P031_TEST_PATTERN_BLUE			0xa3
+>  
+> +struct mt9p031_model_info {
+> +       u32 code;
+> +};
+> +
+> +static const struct mt9p031_model_info mt9p031_models[] = {
+> +	{.code = MEDIA_BUS_FMT_SGRBG12_1X12}, /* mt9p006  */
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+There should be spaces after { and before }
+
+> +	{.code = MEDIA_BUS_FMT_SGRBG12_1X12}, /* mt9p031  */
+
+You can use the same entry for both the MT9P006 and MT9P031 as they
+don't need to be deferentiated.
+
+> +	{.code = MEDIA_BUS_FMT_Y12_1X12},     /* mt9p031m */
+> +};
+> +
+>  struct mt9p031 {
+>  	struct v4l2_subdev subdev;
+>  	struct media_pad pad;
+> @@ -125,7 +135,7 @@ struct mt9p031 {
+>  	struct clk *clk;
+>  	struct regulator_bulk_data regulators[3];
+>  
+> -	u32 code;
+> +	const struct mt9p031_model_info *model;
+>  	struct aptina_pll pll;
+>  	unsigned int clk_div;
+>  	bool use_pll;
+> @@ -708,7 +718,7 @@ static int mt9p031_init_state(struct v4l2_subdev *subdev,
+>  	crop->height = MT9P031_WINDOW_HEIGHT_DEF;
+>  
+>  	format = __mt9p031_get_pad_format(mt9p031, sd_state, 0, which);
+> -	format->code = mt9p031->code;
+> +	format->code = mt9p031->model->code;
+>  	format->width = MT9P031_WINDOW_WIDTH_DEF;
+>  	format->height = MT9P031_WINDOW_HEIGHT_DEF;
+>  	format->field = V4L2_FIELD_NONE;
+> @@ -1117,7 +1127,7 @@ static int mt9p031_probe(struct i2c_client *client)
+>  	mt9p031->pdata = pdata;
+>  	mt9p031->output_control	= MT9P031_OUTPUT_CONTROL_DEF;
+>  	mt9p031->mode2 = MT9P031_READ_MODE_2_ROW_BLC;
+> -	mt9p031->code = (uintptr_t)i2c_get_match_data(client);
+> +	mt9p031->model = &mt9p031_models[(uintptr_t)i2c_get_match_data(client)];
+>  
+>  	mt9p031->regulators[0].supply = "vdd";
+>  	mt9p031->regulators[1].supply = "vdd_io";
+> @@ -1214,17 +1224,17 @@ static void mt9p031_remove(struct i2c_client *client)
+>  }
+>  
+>  static const struct i2c_device_id mt9p031_id[] = {
+> -	{ "mt9p006", MEDIA_BUS_FMT_SGRBG12_1X12 },
+> -	{ "mt9p031", MEDIA_BUS_FMT_SGRBG12_1X12 },
+> -	{ "mt9p031m", MEDIA_BUS_FMT_Y12_1X12 },
+> +	{ "mt9p006", 0 },
+> +	{ "mt9p031", 1 },
+> +	{ "mt9p031m", 2 },
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(i2c, mt9p031_id);
+
+I think we can drop mt9p031_id. I'll send a patch series to do so.
+
+>  
+>  static const struct of_device_id mt9p031_of_match[] = {
+> -	{ .compatible = "aptina,mt9p006", .data = (void *)MEDIA_BUS_FMT_SGRBG12_1X12 },
+> -	{ .compatible = "aptina,mt9p031", .data = (void *)MEDIA_BUS_FMT_SGRBG12_1X12 },
+> -	{ .compatible = "aptina,mt9p031m", .data = (void *)MEDIA_BUS_FMT_Y12_1X12 },
+> +	{ .compatible = "aptina,mt9p006", .data = (void *)0 },
+> +	{ .compatible = "aptina,mt9p031", .data = (void *)1 },
+> +	{ .compatible = "aptina,mt9p031m", .data = (void *)2 },
+
+Let's avoid magic values. You can write
+
+	{ .compatible = "aptina,mt9p006", .data = &mt9p031_models[0] },
+	{ .compatible = "aptina,mt9p031", .data = &mt9p031_models[0] },
+	{ .compatible = "aptina,mt9p031m", .data = &mt9p031_models[1] },
+
+but it may be even more readable to introduce a
+
+enum mt9p031_model {
+	MT9P031_MODEL_BAYER,
+	MT9P031_MODEL_MONO,
+};
+
+static const struct mt9p031_model_info mt9p031_models[] = {
+	[MT9P031_MODEL_BAYER] = {
+		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
+	},
+	[MT9P031_MODEL_MONO] = {
+		.code = MEDIA_BUS_FMT_Y12_1X12,
+	},
+};
+
+static const struct of_device_id mt9p031_of_match[] = {
+	{
+		.compatible = "aptina,mt9p006",
+		.data = &mt9p031_models[MT9P031_MODEL_BAYER],
+	}, {
+		.compatible = "aptina,mt9p031",
+		.data = &mt9p031_models[MT9P031_MODEL_BAYER],
+	}, {
+		.compatible = "aptina,mt9p031m",
+		.data = &mt9p031_models[MEDIA_BUS_FMT_Y12_1X12],
+	},
+	{ /* sentinel */ }
+};
+
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, mt9p031_of_match);
+
+-- 
+Regards,
+
+Laurent Pinchart
 
