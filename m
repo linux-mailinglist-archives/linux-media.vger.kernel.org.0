@@ -1,282 +1,199 @@
-Return-Path: <linux-media+bounces-20298-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20299-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F119B9AFC0E
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 10:07:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 777329AFC5D
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 10:21:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 568ABB23377
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 08:07:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A7051C21802
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 08:21:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA6DE1B6D00;
-	Fri, 25 Oct 2024 08:06:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7FAA1D0DDE;
+	Fri, 25 Oct 2024 08:21:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="V0gWmptj"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="NC3vnxa+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [207.246.76.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53E8155308;
-	Fri, 25 Oct 2024 08:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D93018CBF8
+	for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 08:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.246.76.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729843616; cv=none; b=sj/3CHvZiCJhaaRf7y2cKVqhmQZ/u3GvDm5n1YT5hCziaOAGDOiuY/sySHX8lnUb5ySqi2PU+/q4jgS2cTIUFCH8TUxL1m9eNJzufnwJ6Vd/GLJE3HxejUtxCwukh8SZ5+Ul7KuRgFQyrKghzKdQNqW9/UZQQbg/7No9vM+CzSg=
+	t=1729844469; cv=none; b=BkjSDuBASSfmFJaeOFX/w0cucX8IGv1htnCh6s0PA84DGnplKADe4Kb/7Yyri5SpLHB9o2PNinNKqZkxoGXH44tTYJrVrQe8/GtqHRZ6UIH2TWJE07swIm7xJzmOucyt9W54VfQx9PkCR100jhnriG08D98ms88EFLTQSvOZgU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729843616; c=relaxed/simple;
-	bh=6OWlj7YCfTw7N49KaYA/ckXjIgnW9QjzRptum+J60s8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=k0T0MXCDrNIpr8OIOxEXsn8sO8zr+EpKpS5neJhC8ixFlGhwHKVIn8tIDLVYKczdkaMTq4pVOcpCzoydED9a5LQKHE8u3+1xgL/t30D5uYiMpSnN5LtGEEsNNwu5+aMPjbNX3VMW48MTLB3zcfoD16pFl8Qbj8dLheZu3TOxKVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=V0gWmptj; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49OKhSk7007572;
-	Fri, 25 Oct 2024 08:06:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YC95ZwZdATrmtRFltjv/VxEOgMRwxg3+BAWxC0j1Ako=; b=V0gWmptjw5/Sfop5
-	h2rtpnCfR6uPqne6QL72D2yheQBmhSIaFxrdIxAuD9v5Tq7MD1RoV69KKU2aR10R
-	dfrgh/Zo9w/XfCIjdA50dFa50WszRaeq014DTLfGL7djVmRY8gvG5zF7S0iOj8fh
-	begehd1TpuL4ktNkf518DltF3Yv5nQmusdyIHybz49hBjAC1GbmQMVN8iNaQ64wF
-	OJRmyv9qNiMPdtsk3nwpSRYsIDivmCnkQ2kkkWLmbPnbUYfHQyeYW9hSqSohf9ZT
-	XJ9p0bUEbixsc7SjqkHEJ+fLLrEBW0MYpuC1ZGrgW7w8Dz17HJKlNNOsmceOjD59
-	Y5U99A==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42fk52k4am-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Oct 2024 08:06:50 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49P86n2j016145
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Oct 2024 08:06:49 GMT
-Received: from [10.204.101.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Oct
- 2024 01:06:47 -0700
-Message-ID: <eb8b998a-98b8-704d-8783-9a0def327424@quicinc.com>
-Date: Fri, 25 Oct 2024 13:36:44 +0530
+	s=arc-20240116; t=1729844469; c=relaxed/simple;
+	bh=G/6ckttVcaH30xmrrUOhZM99NObo8lQEa+x32+FeI14=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MWRQZ5u6o2Od/rhfkSZutRpr4F6AY+1WG9qSjBEjXaPacD5dqX/t8sqDIEFCMFTrQ1VoLFmM6NBnhQVV7Zm1gg+XxPV6rZWsCXXYDUeZTnx/sGRDuHEb4PA31In61fLlpsGEJ2diRP7Nzf7N/H+vpcvCrRI5tuv4Marj8eushug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=NC3vnxa+; arc=none smtp.client-ip=207.246.76.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1729844449;
+ bh=LkZZAR59UvfigAsheIWK4sIE2MkApoDkQ9BtG/CzxhA=;
+ b=NC3vnxa+lDaylXiMJFMcPI5QLU6Lqo63iMH+9de0Mr3oCL6PsrJhHk36Dv7+JZyjtHKJy5crt
+ 1NiLQAgRkCSRmMyzeCzYBJthJRLGSZhromlxRlIbinFA/w9z+eF+AsQc4rLRf0lxls5jCo1YKgM
+ dAWkVQNdY/unyUQr92Eb5yJ63ZTb3qkkjlH5EYXLwqEx5sk8oT9r54+3MQ4KBBJGAawq/+MUXQh
+ 9td3NIo3nMnx/3sUqvgZ3WqfskSwb2DdIr3LIgKEeEbbbEiYtogsjwCZNjohYahlkDVh/mOXWAc
+ TYz+YlXB0W+toDWMxoWMo9Mo5YsnywCbyM05JDi4V83g==
+Message-ID: <71159f58-be8b-41a4-9fed-522e09a7a564@kwiboo.se>
+Date: Fri, 25 Oct 2024 10:20:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCHv3 3/3] media: venus: factor out inst destruction routine
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2
+ profile support
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Alex Bee <knaerzche@gmail.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240909192522.1076704-1-jonas@kwiboo.se>
 Content-Language: en-US
-To: Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20241025034629.660047-1-senozhatsky@chromium.org>
- <20241025034629.660047-4-senozhatsky@chromium.org>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <20241025034629.660047-4-senozhatsky@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20240909192522.1076704-1-jonas@kwiboo.se>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: EOMCfihBHz8EmgnQmzD2aJV2Qi90lXNh
-X-Proofpoint-ORIG-GUID: EOMCfihBHz8EmgnQmzD2aJV2Qi90lXNh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
- lowpriorityscore=0 malwarescore=0 impostorscore=0 phishscore=0
- adultscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410250061
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 207.246.76.47
+X-ForwardEmail-ID: 671b54df038a5e08a321fe5c
 
+Hi Sebastian,
 
+Will you have time to look at this series any time soon?
 
-On 10/25/2024 9:16 AM, Sergey Senozhatsky wrote:
-> Factor out common instance destruction code into
-> a common function.
+Would like to send a v2 of the now one year old rkvdec hevc series but
+this series is sort of holding that back ;-)
+
+Regards,
+Jonas
+
+On 2024-09-09 21:24, Jonas Karlman wrote:
+> This series add H.264 High 10 and 4:2:2 profile support to the Rockchip
+> Video Decoder driver.
 > 
-> Suggested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> ---
->  drivers/media/platform/qcom/venus/core.c      | 25 +++++++++++++++++++
->  drivers/media/platform/qcom/venus/core.h      |  2 ++
->  drivers/media/platform/qcom/venus/vdec.c      | 22 +---------------
->  drivers/media/platform/qcom/venus/vdec.h      |  7 +++++-
->  .../media/platform/qcom/venus/vdec_ctrls.c    |  6 -----
->  drivers/media/platform/qcom/venus/venc.c      | 22 +---------------
->  6 files changed, 35 insertions(+), 49 deletions(-)
+> Patch 1 add helpers for calculating plane bytesperline and sizeimage.
+> Patch 2 add two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
 > 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 423deb5e94dc..4d90fc1c21fe 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -26,6 +26,7 @@
->  #include "firmware.h"
->  #include "pm_helpers.h"
->  #include "hfi_venus_io.h"
-> +#include "vdec.h"
->  
->  static void venus_coredump(struct venus_core *core)
->  {
-> @@ -502,6 +503,30 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
->  	return ret;
->  }
->  
-> +void venus_close_common(struct venus_inst *inst)
-> +{
-> +	/*
-> +	 * First, remove the inst from the ->instances list, so that
-> +	 * to_instance() will return NULL.
-> +	 */
-> +	hfi_session_destroy(inst);
-> +	/*
-> +	 * Second, make sure we don't have IRQ/IRQ-thread currently running
-> +	 * or pending execution, which would race with the inst destruction.
-> +	 */
-> +	synchronize_irq(inst->core->irq);
-> +
-> +	v4l2_m2m_ctx_release(inst->m2m_ctx);
-> +	v4l2_m2m_release(inst->m2m_dev);
-> +	v4l2_fh_del(&inst->fh);
-> +	v4l2_fh_exit(&inst->fh);
-> +	vdec_ctrl_deinit(inst);
-vdec specific APIs shouldn't be invoked from common API.
-Pls call v4l2_ctrl_handler_free(&inst->ctrl_handler) directly from here.
-and remove vdec/venc_ctrl_init.
-> +
-> +	mutex_destroy(&inst->lock);
-> +	mutex_destroy(&inst->ctx_q_lock);
-> +}
-> +EXPORT_SYMBOL_GPL(venus_close_common);
-> +
->  static __maybe_unused int venus_runtime_resume(struct device *dev)
->  {
->  	struct venus_core *core = dev_get_drvdata(dev);
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 435325432922..7bb36a270e15 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -560,4 +560,6 @@ is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
->  		(core)->venus_ver.minor == vminor &&
->  		(core)->venus_ver.rev <= vrev);
->  }
-> +
-> +void venus_close_common(struct venus_inst *inst);
->  #endif
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index b3192a36f388..9a680402c711 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -1748,29 +1748,9 @@ static int vdec_close(struct file *file)
->  	struct venus_inst *inst = to_inst(file);
->  
->  	vdec_pm_get(inst);
-> -
->  	cancel_work_sync(&inst->delayed_process_work);
-> -	/*
-> -	 * First, remove the inst from the ->instances list, so that
-> -	 * to_instance() will return NULL.
-> -	 */
-> -	hfi_session_destroy(inst);
-> -	/*
-> -	 * Second, make sure we don't have IRQ/IRQ-thread currently running
-> -	 * or pending execution, which would race with the inst destruction.
-> -	 */
-> -	synchronize_irq(inst->core->irq);
-> -
-> -	v4l2_m2m_ctx_release(inst->m2m_ctx);
-> -	v4l2_m2m_release(inst->m2m_dev);
-> +	venus_close_common(inst);
->  	ida_destroy(&inst->dpb_ids);
-> -	v4l2_fh_del(&inst->fh);
-> -	v4l2_fh_exit(&inst->fh);
-> -	vdec_ctrl_deinit(inst);
-> -
-> -	mutex_destroy(&inst->lock);
-> -	mutex_destroy(&inst->ctx_q_lock);
-> -
->  	vdec_pm_put(inst, false);
->  
->  	kfree(inst);
-> diff --git a/drivers/media/platform/qcom/venus/vdec.h b/drivers/media/platform/qcom/venus/vdec.h
-> index 6b262d0bf561..2687255b1616 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.h
-> +++ b/drivers/media/platform/qcom/venus/vdec.h
-> @@ -6,9 +6,14 @@
->  #ifndef __VENUS_VDEC_H__
->  #define __VENUS_VDEC_H__
->  
-> +#include <media/v4l2-ctrls.h>
-> +
->  struct venus_inst;
->  
->  int vdec_ctrl_init(struct venus_inst *inst);
-> -void vdec_ctrl_deinit(struct venus_inst *inst);
-> +static inline void vdec_ctrl_deinit(struct venus_inst *inst)
-> +{
-> +	v4l2_ctrl_handler_free(&inst->ctrl_handler);
-> +}
->  
->  #endif
-> diff --git a/drivers/media/platform/qcom/venus/vdec_ctrls.c b/drivers/media/platform/qcom/venus/vdec_ctrls.c
-> index 7e0f29bf7fae..fa034a7fdbed 100644
-> --- a/drivers/media/platform/qcom/venus/vdec_ctrls.c
-> +++ b/drivers/media/platform/qcom/venus/vdec_ctrls.c
-> @@ -4,7 +4,6 @@
->   * Copyright (C) 2017 Linaro Ltd.
->   */
->  #include <linux/types.h>
-> -#include <media/v4l2-ctrls.h>
->  
->  #include "core.h"
->  #include "helpers.h"
-> @@ -187,8 +186,3 @@ int vdec_ctrl_init(struct venus_inst *inst)
->  
->  	return 0;
->  }
-> -
-> -void vdec_ctrl_deinit(struct venus_inst *inst)
-> -{
-> -	v4l2_ctrl_handler_free(&inst->ctrl_handler);
-> -}
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index 36981ce448f5..2ae22ba156bb 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -1516,28 +1516,8 @@ static int venc_close(struct file *file)
->  	struct venus_inst *inst = to_inst(file);
->  
->  	venc_pm_get(inst);
-> -
-> -	/*
-> -	 * First, remove the inst from the ->instances list, so that
-> -	 * to_instance() will return NULL.
-> -	 */
-> -	hfi_session_destroy(inst);
-> -	/*
-> -	 * Second, make sure we don't have IRQ/IRQ-thread currently running
-> -	 * or pending execution, which would race with the inst destruction.
-> -	 */
-> -	synchronize_irq(inst->core->irq);
-> -
-> -	v4l2_m2m_ctx_release(inst->m2m_ctx);
-> -	v4l2_m2m_release(inst->m2m_dev);
-> -	v4l2_fh_del(&inst->fh);
-> -	v4l2_fh_exit(&inst->fh);
-> -	venc_ctrl_deinit(inst);
-> -
-> +	venus_close_common(inst);
->  	inst->enc_state = VENUS_ENC_STATE_DEINIT;
-> -	mutex_destroy(&inst->lock);
-> -	mutex_destroy(&inst->ctx_q_lock);
-> -
->  	venc_pm_put(inst, false);
->  
->  	kfree(inst);
+> Patch 3 change to use bytesperline and buffer height to configure strides.
+> Patch 4 change to use values from SPS/PPS control to configure the HW.
+> 
+> Patch 5-9 refactor code to support filtering of CAPUTRE formats based
+> on the image format returned from a get_image_fmt ops.
+> 
+> Patch 10 add final bits to support H.264 High 10 and 4:2:2 profiles.
+> 
+> Patch 11 add a fix for enumerated frame sizes returned to userspace.
+> 
+> Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
+> 
+>   v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
+>   ...
+>   Total for rkvdec device /dev/video1: 48, Succeeded: 48, Failed: 0, Warnings: 0
+> 
+>   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-v4l2request
+>   ...
+>   Ran 65/69 tests successfully
+> 
+>   Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-v4l2request
+>   ...
+>   Ran 129/135 tests successfully
+> 
+> Before this series:
+> 
+>   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-v4l2request
+>   ...
+>   Ran 44/69 tests successfully
+> 
+> Changes in v6:
+> - Change to use fmt_idx instead of j++ tucked inside a condition (Dan)
+> - Add patch to fix enumerated frame sizes returned to userspace (Alex)
+> - Fluster test score is same as v4 and v5, see [4] and [5]
+> Link to v5: https://lore.kernel.org/linux-media/20240618194647.742037-1-jonas@kwiboo.se/
+> 
+> Changes in v5:
+> - Drop Remove SPS validation at streaming start patch
+> - Move buffer align from rkvdec_fill_decoded_pixfmt to min/step_width
+> - Use correct profiles for V4L2_CID_MPEG_VIDEO_H264_PROFILE
+> - Collect r-b and t-b tags
+> - Fluster test score is same as v4, see [4] and [5]
+> Link to v4: https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+> 
+> Changes in v4:
+> - Fix failed v4l2-compliance tests related to CAPTURE queue
+> - Rework CAPTURE format filter anv validate to use an image format
+> - Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
+> Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
+> 
+> Changes in v3:
+> - Drop merged patches
+> - Use bpp and bpp_div instead of prior misuse of block_w/block_h
+> - New patch to use values from SPS/PPS control to configure the HW
+> - New patch to remove an unnecessary call to validate sps at streaming start
+> - Reworked pixel format validation
+> Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+> 
+> Changes in v2:
+> - Collect r-b tags
+> - SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+> - New patch to not override output buffer sizeimage
+> - Reworked pixel format validation
+> - Only align decoded buffer instead of changing frmsize step_width
+> Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
+> 
+> To fully runtime test this series you may need FFmpeg patches from [1]
+> and fluster patches from [2], this series is also available at [3].
+> 
+> [1] https://github.com/Kwiboo/FFmpeg/commits/v4l2request-2024-v2-rkvdec/
+> [2] https://github.com/Kwiboo/fluster/commits/ffmpeg-v4l2request-rkvdec/
+> [3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v6/
+> [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+> [5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+> 
+> Regards,
+> Jonas
+> 
+> Alex Bee (1):
+>   media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+> 
+> Jonas Karlman (10):
+>   media: v4l2-common: Add helpers to calculate bytesperline and
+>     sizeimage
+>   media: v4l2: Add NV15 and NV20 pixel formats
+>   media: rkvdec: h264: Use bytesperline and buffer height as virstride
+>   media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+>   media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+>   media: rkvdec: Extract decoded format enumeration into helper
+>   media: rkvdec: Add image format concept
+>   media: rkvdec: Add get_image_fmt ops
+>   media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+>   media: rkvdec: Fix enumerate frame sizes
+> 
+>  .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++
+>  drivers/media/v4l2-core/v4l2-common.c         |  80 +++---
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+>  drivers/staging/media/rkvdec/rkvdec-h264.c    |  64 +++--
+>  drivers/staging/media/rkvdec/rkvdec.c         | 239 +++++++++++++-----
+>  drivers/staging/media/rkvdec/rkvdec.h         |  18 +-
+>  include/uapi/linux/videodev2.h                |   2 +
+>  7 files changed, 410 insertions(+), 123 deletions(-)
+> 
+
 
