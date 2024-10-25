@@ -1,72 +1,71 @@
-Return-Path: <linux-media+bounces-20335-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20336-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB7B9B0C10
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 19:47:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D589B0C13
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 19:48:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E7CF9284D6C
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 17:47:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B63951C22FA1
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 17:48:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B7B618BC23;
-	Fri, 25 Oct 2024 17:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D7718C356;
+	Fri, 25 Oct 2024 17:48:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iUg44kWB"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="km/nXGHu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7716820C31F;
-	Fri, 25 Oct 2024 17:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD9920C31F;
+	Fri, 25 Oct 2024 17:48:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729878422; cv=none; b=h6XYzYBJhhniYm9kpbDb91gfkrHWX1+LaGBKU35/OeeGFOlh6f+BANhAkrMvi2D7bY8Ek9sWGDcu+VeqZVLraWR9mQXtjJPNRkX0srqpNVYscfX/cehz3WBOVqgs8wnukW3z/cTbr/ynzV5ObXJs6TsW1WXueI4Xjw743Am0c1E=
+	t=1729878485; cv=none; b=gp+borCbs4jQLaiYPni27cHqg2SoYDGeKSaqpqIzH0mlz9y4afKnBbk7nyUBo+RqiP+ovYaS59OtP3gXt+b1ab60YV9XJ3EMFClZHiFEb4Zyj6XI5PeKWrA0wTfO7+zFTM8TrFBQnDM6tZ46XTm/H2jdMtjjkmuDbBNsYQd4qt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729878422; c=relaxed/simple;
-	bh=ozBIpgyxnAgCBKNUleMXiK02jDu4q4LAhe4fTs4O04s=;
+	s=arc-20240116; t=1729878485; c=relaxed/simple;
+	bh=JEMC93gOTFEVpQhQTHlWxoYkWl6H9AItyV6mDgrZKvc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VtmVVp4rAq1MxzkhBJd36BqkYeEUBjntfb6ySFwHXIWNh1oSVdDA+Y7dQfuItgmY6XaQx7moQvWb6Ls92FCeuuVJEu0FW//hnuPIAq7n/LIh1XdkORChytzOKCup2Y2R87nJ9jMzU3UJAvLXLEkf0eIt+61l+10Yk+xk5qTd798=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iUg44kWB; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=sbVyPpngVVfUfNXZ3wyssGvjd0vPJosd6E8HVFp3aUiP5rOfzDAuvhh5gEEl3irnGFORlcm6QpeRKVbzVd4ssIrQaJJUyssKTU8DfMulQCbTJwVSiqYkECfaHDVAjPBUKNZRnQzw5hy8aOzmJ1F6MucsVJvdt+r1ikTLtgYyqmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=km/nXGHu; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1729878418;
-	bh=ozBIpgyxnAgCBKNUleMXiK02jDu4q4LAhe4fTs4O04s=;
+	s=mail; t=1729878479;
+	bh=JEMC93gOTFEVpQhQTHlWxoYkWl6H9AItyV6mDgrZKvc=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=iUg44kWBzy9MSSIzXccTiM8CT+DmPeUOKRVz7wQSt6tXpAV8XHJyQsUgsBzcJMnrl
-	 H2wUZKvZqhgtu4gEjEq5KdV9Uu1DBV6gHCy04fMhzVm1of3mNa4NMGY+2HUbDULdW9
-	 xFEXp2AoyMZUxDeTtHC4LByH0c2gdHO7XSutsFlHIRzODNIrcBNAWxjH3U1rkuwqye
-	 gujMmwRC7Ckl2G+l6HL4G9veMPSN9jM0QCowsOYc8GTEoqkKmo0RCqGQJQsuMRwLSy
-	 O1fctHQo8IOTsgglaa0sk2pQsQXhu1OaLnC0ZBS48/rbMPInMEPBB216adib9YQKFs
-	 dtLZ2T11X37QQ==
+	b=km/nXGHudisgqioUPVzEwXqToc9twh7P7zHvh2AFNeYMT7k0a3lGZ4bJox3mz8udW
+	 iVvXJLXnubsh1jagA22JlX4yoTjRUSNBPj9zxioyFTRVrupeyd/xNf0TDsIeEsyIoL
+	 kHxz9imqRGRRd9qoYotL/JSsZ8kHwhUJCUoacwxY91cEti7P/hYvN0p5rRzK/+20RT
+	 SZVL6zXoBIRjkkI481KlVef3qEPzzgGCC5yhqvH1y9gZtT2H/r1bpOX6+K/iOyTWSP
+	 9hzhD64n/3T9ZIrWYKDc6Sv2eM0dBnNQvCu1ZyTEKhrhshMAkstvAMZDGI/zOeWsw1
+	 y289FFjpJPrkg==
 Received: from nicolas-tpx395.lan (unknown [IPv6:2606:6d00:15:862e::7a9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B8C4817E36B5;
-	Fri, 25 Oct 2024 19:46:56 +0200 (CEST)
-Message-ID: <f42f85b801f9fc74e5cc1cee5984e9fc44f63ada.camel@collabora.com>
-Subject: Re: [PATCH v6 11/11] media: rkvdec: Fix enumerate frame sizes
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 07B0117E36B5;
+	Fri, 25 Oct 2024 19:47:57 +0200 (CEST)
+Message-ID: <ab14cb57f3ef22c486afad9eb4aa9abec1b33dd2.camel@collabora.com>
+Subject: Re: [PATCH v6 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2
+ profile support
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Jonas Karlman <jonas@kwiboo.se>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Boris Brezillon
- <boris.brezillon@collabora.com>
-Cc: Alex Bee <knaerzche@gmail.com>, Benjamin Gaignard
+To: Sebastian Fricke <sebastian.fricke@collabora.com>, Jonas Karlman
+	 <jonas@kwiboo.se>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Alex Bee <knaerzche@gmail.com>, Benjamin Gaignard
  <benjamin.gaignard@collabora.com>, Detlev Casanova
  <detlev.casanova@collabora.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Mauro Carvalho
- Chehab <mchehab+huawei@kernel.org>
-Date: Fri, 25 Oct 2024 13:46:55 -0400
-In-Reply-To: <20240909192522.1076704-12-jonas@kwiboo.se>
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Fri, 25 Oct 2024 13:47:57 -0400
+In-Reply-To: <07674bcb4b7650c21bbb3dbe9855b2240444d4f3.camel@collabora.com>
 References: <20240909192522.1076704-1-jonas@kwiboo.se>
-	 <20240909192522.1076704-12-jonas@kwiboo.se>
+	 <71159f58-be8b-41a4-9fed-522e09a7a564@kwiboo.se>
+	 <20241025103022.yuaepqxllwi7gghb@basti-XPS-13-9310>
+	 <07674bcb4b7650c21bbb3dbe9855b2240444d4f3.camel@collabora.com>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
@@ -78,54 +77,159 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Le lundi 09 septembre 2024 à 19:25 +0000, Jonas Karlman a écrit :
-> The VIDIOC_ENUM_FRAMESIZES ioctl should return all frame sizes (i. e.
-> width and height in pixels) that the device supports for the given pixel
-> format.
+Le vendredi 25 octobre 2024 à 08:54 -0400, Nicolas Dufresne a écrit :
+> Le vendredi 25 octobre 2024 à 12:30 +0200, Sebastian Fricke a écrit :
+> > Hey Jonas,
+> > 
+> > On 25.10.2024 10:20, Jonas Karlman wrote:
+> > > Hi Sebastian,
+> > > 
+> > > Will you have time to look at this series any time soon?
+> > > 
+> > > Would like to send a v2 of the now one year old rkvdec hevc series but
+> > > this series is sort of holding that back ;-)
+> > 
+> > Sorry for the delay we (maintainer & reviewer from Collabora) are
+> > currently a bit busy, this is on top of our review list however, so
+> > please another 1 or 2 weeks of patience :).
 > 
-> For coded format returning the frame size used to enforce HW alignment
-> requirements for CAPTURE buffers does not make fully sense.
-> 
-> Instead, signal applications what the maximum frame size that is
-> supported by the HW decoder using a frame size of continuous type.
-> 
-> Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
-> Suggested-by: Alex Bee <knaerzche@gmail.com>
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> Actually, I'll go over it today.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+I'm done, there is only cosmetic comment, if you respin quickly, I'm sure we can
+get this one in soon.
 
-> ---
-> v6:
-> - New patch
 > 
-> With this change FFmpeg V4L2 Request API hwaccels can implement a strict
-> check if frame size is supported by the video device:
-> https://ffmpeg.org/pipermail/ffmpeg-devel/2024-August/332037.html
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+> regards,
+> Nicolas
 > 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index c8c14f35ac44..9002eb3a59e5 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -334,8 +334,14 @@ static int rkvdec_enum_framesizes(struct file *file, void *priv,
->  	if (!fmt)
->  		return -EINVAL;
->  
-> -	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-> -	fsize->stepwise = fmt->frmsize;
-> +	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-> +	fsize->stepwise.min_width = 1;
-> +	fsize->stepwise.max_width = fmt->frmsize.max_width;
-> +	fsize->stepwise.step_width = 1;
-> +	fsize->stepwise.min_height = 1;
-> +	fsize->stepwise.max_height = fmt->frmsize.max_height;
-> +	fsize->stepwise.step_height = 1;
-> +
->  	return 0;
->  }
->  
+> > 
+> > > 
+> > > Regards,
+> > > Jonas
+> > 
+> > Thanks for your work and regards!
+> > Sebastian
+> > 
+> > > 
+> > > On 2024-09-09 21:24, Jonas Karlman wrote:
+> > > > This series add H.264 High 10 and 4:2:2 profile support to the Rockchip
+> > > > Video Decoder driver.
+> > > > 
+> > > > Patch 1 add helpers for calculating plane bytesperline and sizeimage.
+> > > > Patch 2 add two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
+> > > > 
+> > > > Patch 3 change to use bytesperline and buffer height to configure strides.
+> > > > Patch 4 change to use values from SPS/PPS control to configure the HW.
+> > > > 
+> > > > Patch 5-9 refactor code to support filtering of CAPUTRE formats based
+> > > > on the image format returned from a get_image_fmt ops.
+> > > > 
+> > > > Patch 10 add final bits to support H.264 High 10 and 4:2:2 profiles.
+> > > > 
+> > > > Patch 11 add a fix for enumerated frame sizes returned to userspace.
+> > > > 
+> > > > Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
+> > > > 
+> > > >   v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
+> > > >   ...
+> > > >   Total for rkvdec device /dev/video1: 48, Succeeded: 48, Failed: 0, Warnings: 0
+> > > > 
+> > > >   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-v4l2request
+> > > >   ...
+> > > >   Ran 65/69 tests successfully
+> > > > 
+> > > >   Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-v4l2request
+> > > >   ...
+> > > >   Ran 129/135 tests successfully
+> > > > 
+> > > > Before this series:
+> > > > 
+> > > >   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-v4l2request
+> > > >   ...
+> > > >   Ran 44/69 tests successfully
+> > > > 
+> > > > Changes in v6:
+> > > > - Change to use fmt_idx instead of j++ tucked inside a condition (Dan)
+> > > > - Add patch to fix enumerated frame sizes returned to userspace (Alex)
+> > > > - Fluster test score is same as v4 and v5, see [4] and [5]
+> > > > Link to v5: https://lore.kernel.org/linux-media/20240618194647.742037-1-jonas@kwiboo.se/
+> > > > 
+> > > > Changes in v5:
+> > > > - Drop Remove SPS validation at streaming start patch
+> > > > - Move buffer align from rkvdec_fill_decoded_pixfmt to min/step_width
+> > > > - Use correct profiles for V4L2_CID_MPEG_VIDEO_H264_PROFILE
+> > > > - Collect r-b and t-b tags
+> > > > - Fluster test score is same as v4, see [4] and [5]
+> > > > Link to v4: https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+> > > > 
+> > > > Changes in v4:
+> > > > - Fix failed v4l2-compliance tests related to CAPTURE queue
+> > > > - Rework CAPTURE format filter anv validate to use an image format
+> > > > - Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
+> > > > Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
+> > > > 
+> > > > Changes in v3:
+> > > > - Drop merged patches
+> > > > - Use bpp and bpp_div instead of prior misuse of block_w/block_h
+> > > > - New patch to use values from SPS/PPS control to configure the HW
+> > > > - New patch to remove an unnecessary call to validate sps at streaming start
+> > > > - Reworked pixel format validation
+> > > > Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+> > > > 
+> > > > Changes in v2:
+> > > > - Collect r-b tags
+> > > > - SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+> > > > - New patch to not override output buffer sizeimage
+> > > > - Reworked pixel format validation
+> > > > - Only align decoded buffer instead of changing frmsize step_width
+> > > > Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
+> > > > 
+> > > > To fully runtime test this series you may need FFmpeg patches from [1]
+> > > > and fluster patches from [2], this series is also available at [3].
+> > > > 
+> > > > [1] https://github.com/Kwiboo/FFmpeg/commits/v4l2request-2024-v2-rkvdec/
+> > > > [2] https://github.com/Kwiboo/fluster/commits/ffmpeg-v4l2request-rkvdec/
+> > > > [3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v6/
+> > > > [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+> > > > [5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+> > > > 
+> > > > Regards,
+> > > > Jonas
+> > > > 
+> > > > Alex Bee (1):
+> > > >   media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+> > > > 
+> > > > Jonas Karlman (10):
+> > > >   media: v4l2-common: Add helpers to calculate bytesperline and
+> > > >     sizeimage
+> > > >   media: v4l2: Add NV15 and NV20 pixel formats
+> > > >   media: rkvdec: h264: Use bytesperline and buffer height as virstride
+> > > >   media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+> > > >   media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+> > > >   media: rkvdec: Extract decoded format enumeration into helper
+> > > >   media: rkvdec: Add image format concept
+> > > >   media: rkvdec: Add get_image_fmt ops
+> > > >   media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+> > > >   media: rkvdec: Fix enumerate frame sizes
+> > > > 
+> > > >  .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++
+> > > >  drivers/media/v4l2-core/v4l2-common.c         |  80 +++---
+> > > >  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+> > > >  drivers/staging/media/rkvdec/rkvdec-h264.c    |  64 +++--
+> > > >  drivers/staging/media/rkvdec/rkvdec.c         | 239 +++++++++++++-----
+> > > >  drivers/staging/media/rkvdec/rkvdec.h         |  18 +-
+> > > >  include/uapi/linux/videodev2.h                |   2 +
+> > > >  7 files changed, 410 insertions(+), 123 deletions(-)
+> > > > 
+> > > 
+> > > 
+> > Sebastian Fricke
+> > Consultant Software Engineer
+> > 
+> > Collabora Ltd
+> > Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+> > Registered in England & Wales no 5513718.
+> 
+> 
 
 
