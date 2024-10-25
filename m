@@ -1,205 +1,168 @@
-Return-Path: <linux-media+bounces-20295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20296-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59BE9AFAB6
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 09:11:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D86B69AFAE0
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 09:21:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9D451C2221B
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 07:11:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22FB028354D
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2024 07:21:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6170F1B652B;
-	Fri, 25 Oct 2024 07:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D881B393B;
+	Fri, 25 Oct 2024 07:20:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oldum-net.20230601.gappssmtp.com header.i=@oldum-net.20230601.gappssmtp.com header.b="IwMlbUTZ"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="e9t4AggV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB5E67A0D
-	for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 07:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5101BC5C;
+	Fri, 25 Oct 2024 07:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729840297; cv=none; b=LHt3/ygNdyuFFPotGDB/FthO09uO6fklXT830MfMGsmr9q6baegU06YCqdsz4Iv7on2VQET2hKtRWrH4BH5KGPLeGp2ORi14aAHl2OK+7KZko5eIsB2QHZKTowYytN5A7eSY2pClPAHPuLow3cklrv7neial8/b6aJheLMkXfn8=
+	t=1729840854; cv=none; b=ch0jF7GLW7Ld91XduUVmOf35HWB/B+s0pttOk498/GSuvTVDXgMk0qmtTBBhLdiQ1UXd2puKFsmeyJiVmFOKedxR61CRcDW2y0KBYikHABm+efOczNEtbJFAP5av9rEi9c+AVh+Ut/Mmel64sn7CONFl99WRv9yOygu9f3mDZG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729840297; c=relaxed/simple;
-	bh=2Yot5CVMrhD1GTtMp0Szbyl+xfW+qQ/vMp2WrwCQU80=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YJaKlLkOuBn1sgSSZkYdCx8IkgmUoXX3okbdHubJpYbrhp4aTTaL9lL9I+nY+MihQCUsx+PLdi8Kg9gm7v2FiiDLje4Ai/5XQ0hit+Mc6qZu8VAfi0H4p5M6VU3BG2ME68kWXgu6oHrZ8i7tJy0n6OvmnwBa3iXT6RmddQXYx0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oldum.net; spf=pass smtp.mailfrom=oldum.net; dkim=pass (2048-bit key) header.d=oldum-net.20230601.gappssmtp.com header.i=@oldum-net.20230601.gappssmtp.com header.b=IwMlbUTZ; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=oldum.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oldum.net
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a9abe139088so240939266b.1
-        for <linux-media@vger.kernel.org>; Fri, 25 Oct 2024 00:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oldum-net.20230601.gappssmtp.com; s=20230601; t=1729840292; x=1730445092; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=2Yot5CVMrhD1GTtMp0Szbyl+xfW+qQ/vMp2WrwCQU80=;
-        b=IwMlbUTZwZ2V4lgyH/Q3JZmhuSQBx8rzI9GCTTNjvLGy2h0vZsjxX1Fws8FEjvRUSo
-         2/8pkIokWFpMNxu1NBMrO60d76GLvhEd1DdZO4Xi/lNzzyDLSi8hPRA4oMZPcWVYIh9f
-         RSHnmNk8wjdKb/vcc6ztEXWzfGuURa+B2L6RzVGtHmUXLVQrQkjGQXnUzUJEQIN+fWyj
-         JGvG/BdJMBHskchqRLCsi3YlNOHREcS3tFEn5PBhM5kwOGbm17gn5PAGjKF+WlPCVAAA
-         cyYIU/kM9ASp8sGNTlgu6rJL7f4sI2YDThYywtmGsIJ67yUgSH3QOYNKp9hjSeE2tSDX
-         OY7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729840292; x=1730445092;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2Yot5CVMrhD1GTtMp0Szbyl+xfW+qQ/vMp2WrwCQU80=;
-        b=JppIGDjBEmD5uxJzi9wjjwtDVbiH2OA1XPqsgRsdbbCKygDD72VgKa2t5JHHK9n7V/
-         QUuXyCSv9sNH+hPc6CYYiLEh21WIerv/tarjch+Mt+uZhJG8R3VJF7JPLiSGVfhIfZIW
-         o5wsimSVETT5z2T1bZ56Y6dPQzJZ4BYdosGxNbTAmK8qUHriBzBlW3V9yUk5v/f//Q+w
-         jQ2LnTU9mORVW//QFYxAjBzRW3lVC7rmohEy0wQ18zVjroeSscRNEbg9MPfyeAnhTdGQ
-         xeZXpPW5L2XD9eOlZRm1TnH1Skn84xDXae+bMKDERKz7w9VYpc45his7DzAJpRKk/eyy
-         HdOw==
-X-Forwarded-Encrypted: i=1; AJvYcCU2VUwAKvVYSwqYFTFgFYWe//IPUki1EDoa+IMekA712CssW4c63QRHFpjSDUVhfY65F3t3+68mO8DxTA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywertd0LhHzlvMtwx//7IYDruepQmDm7iUU8JynUH4GS0qEnk3e
-	2YwbOF8pdUVfdKfNiJiXHL2rM0kZ3GkcdTY+EuSffKhNRdLLfpBQk2Ia4klWmC8=
-X-Google-Smtp-Source: AGHT+IGBdf9M+MhMVkkAf67M7SvMWvUIw/h/7r8rJ3Hdx2EtRLd3htedYCpRhV8dD7bWUo1PL92GzA==
-X-Received: by 2002:a17:907:3e9f:b0:a9a:bbcc:508c with SMTP id a640c23a62f3a-a9ad2710a64mr438727766b.2.1729840291504;
-        Fri, 25 Oct 2024 00:11:31 -0700 (PDT)
-Received: from [10.1.0.200] (178-169-191-169.parvomai.ddns.bulsat.com. [178.169.191.169])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a9b1f0298e7sm35760066b.75.2024.10.25.00.11.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 00:11:31 -0700 (PDT)
-Message-ID: <3ace1329d4ef99b87780d0ef07db179d27d04d44.camel@oldum.net>
-Subject: Re: [PATCH] Revert "MAINTAINERS: Remove some entries due to various
- compliance requirements."
-From: Nikolay Kichukov <nikolay@oldum.net>
-To: Mikhail Novosyolov <m.novosyolov@rosalinux.ru>, 
-	torvalds@linux-foundation.org
-Cc: aospan@netup.ru, conor.dooley@microchip.com, ddrokosov@sberdevices.ru, 
- dmaengine@vger.kernel.org, dushistov@mail.ru, fancer.lancer@gmail.com, 
- geert@linux-m68k.org, gregkh@linuxfoundation.org,
- hoan@os.amperecomputing.com,  ink@jurassic.park.msu.ru, jeffbai@aosc.io,
- kexybiscuit@aosc.io,  linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-fpga@vger.kernel.org,
- linux-gpio@vger.kernel.org,  linux-hwmon@vger.kernel.org,
- linux-ide@vger.kernel.org,  linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org,  linux-mips@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,  linux-spi@vger.kernel.org,
- manivannan.sadhasivam@linaro.org, mattst88@gmail.com, 
- netdev@vger.kernel.org, nikita@trvn.ru, ntb@lists.linux.dev, 
- patches@lists.linux.dev, peter@typeblog.net, richard.henderson@linaro.org, 
- s.shtylyov@omp.ru, serjk@netup.ru, shc_work@mail.ru, torvic9@mailbox.org, 
- tsbogend@alpha.franken.de, v.georgiev@metrotek.ru, wangyuli@uniontech.com, 
- wsa+renesas@sang-engineering.com, xeb@mail.ru, rms@gnu.org,
- campaigns@fsf.org
-Date: Fri, 25 Oct 2024 10:11:27 +0300
-In-Reply-To: <20241024210120.4126-1-m.novosyolov@rosalinux.ru>
-References: 
-	<CAHk-=wjw0i-95S_3Wgk+rGu0TUs8r1jVyBv0L8qfsz+TJR8XTQ@mail.gmail.com>
-	 <20241024210120.4126-1-m.novosyolov@rosalinux.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 
+	s=arc-20240116; t=1729840854; c=relaxed/simple;
+	bh=xcnQdEWitE+JOZF4Lhq4NQPGksoAjZwaIOW0Tsx3TBk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Uy6GuHVHC4FBRJeVKig/byg9hqfLW/QiNQmuK2Tk8aILA66sjMiVBrJT3t4wtUnUti0vLDeOsenu5Ut+zZpbDd/YDZiOW2+WqOPCcDlZxrATu8jXUO4KDw3rEibObIhpF02Kh9rp4gSOH5ka2QIV8DFDIjVcdPKdRz+MRovj2mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=e9t4AggV; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ONNUkc027468;
+	Fri, 25 Oct 2024 07:20:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	8L/7v4Sq1tK1HoMGG9g6e83yWe2noHI95ISx4xWR/lw=; b=e9t4AggV0QfKSCfP
+	1t68Rr0DL0+Tu02MOd10UCR9chC6i6oPkg5bIYXix04Sn7pfBcst1QzWiyDEWyQk
+	4wKxoGcwPIAwz3kDJ8f+hWTDMZ3ekhN4x+r26AJy3b+oIVoxOIIWS+8xLgC3lnwZ
+	9PlPndJTaux/C4D3e9s8rkrIIak8iPPQJiN8JlRVb7TOkFv5Ilnih3Q/gujpCcJM
+	MnskABP9UzezfmpMLOnGZ3ax1Bcb1g6GANnpQWiXGgVn1WqPoh91LmBL4z6uzhE+
+	FCr5TgpeT8rHgaIR/R/msxLtYAG5tohVL3i6SDkppl9y7I3bz+lJJRYi0fh3bIQY
+	IpkLDQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42em3wr3nw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Oct 2024 07:20:47 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49P7KkVS027198
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Oct 2024 07:20:46 GMT
+Received: from [10.204.101.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Oct
+ 2024 00:20:44 -0700
+Message-ID: <9a818584-3f14-ac6e-149d-901668956233@quicinc.com>
+Date: Fri, 25 Oct 2024 12:50:41 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCHv3 1/3] media: venus: fix enc/dec destruction order
+Content-Language: en-US
+To: Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Tomasz Figa
+	<tfiga@google.com>
+References: <20241025034629.660047-1-senozhatsky@chromium.org>
+ <20241025034629.660047-2-senozhatsky@chromium.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20241025034629.660047-2-senozhatsky@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Y3UE1hpN7K1hVa8DGkt1D1XJ5yQDANeL
+X-Proofpoint-ORIG-GUID: Y3UE1hpN7K1hVa8DGkt1D1XJ5yQDANeL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
+ mlxlogscore=935 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ spamscore=0 mlxscore=0 impostorscore=0 clxscore=1011 priorityscore=1501
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410250056
 
-On Fri, 2024-10-25 at 00:01 +0300, Mikhail Novosyolov wrote:
-> Linus, Greg,
->=20
-> First of all thanks to you for taking by far not the most harmful
-> actions to achieve what your lawyers very kindly asked you to do.
->=20
-> Unfortunately, already a lot of highly qualified people have started
-> thinking that you acted very badly. Of course, there are questions
-> like why removed maintainers were not properly notified and did not
-> receive any additional explanations, but, to my mind, it is useless to
-> try to find 100% justice -- it is not possible. Overton windows has
-> been opened a bit more.
->=20
-> Usually the first contribution is much harder to make then the
-> following ones. A big problem here is that now many people even will
-> not try to contribute to the Linux kernel and other open source
-> projects: their pride for themselves, their homeland, their colleagues
-> has been severely hurt (we are ready to fight for all that).
->=20
-> It is not clear what to do with this problem. Any ideas?
->=20
-> I am sure that people from any country and of any nationality will
-> have similar feelings if you act with them or their colleagues in a
-> similar way.
->=20
-> Thanks to people who were not afraid to say something against this
-> action. Chinese, Latin American, African and other people probably
-> understand that they may be the next ones to be dropped from
-> maintainers. Hope that we will not have to form another Linux kernel
-> upstream one day...
->=20
-> I am sorry that you have to read a lot of text from people who you
-> call trolls -- it is hard to keep calm.
->=20
-> You know, you have really made it much harder to motivate people to
-> contribute into the kernel. There is such problem among developers of
-> hardware that they do not feel comfortable enough to show their code,
-> for example because they think that it is not perfect. Let=E2=80=99s take
-> Baikal Electronics. They do publish their kernel code, but in a form
-> of tarballs without git. They slowly, but constantly worked on
-> contributing support of their hardware into the upstream kernel,
-> fixing not Baikal-related bugs by the way. One day someone told them
-> that =E2=80=9Cwe are not comfortable with accepting your patches=E2=80=9D=
-. And they
-> stopped their work on upstream. Now that man has been removed from
-> maintainers of previously contributed code (code for not Russian
-> hardware, by the way).
->=20
-> What do I suggest to do? Well, I don=E2=80=99t know, but I do not see dir=
-ect
-> legal reasons why doing this was required and why patches from Baikal
-> could not be accepted (the fact that I do not see does not mean that
-> they do not exist, but please show them). Politicians and activists
-> can be shown a finger in some places, by both developers and lawyers,
-> at least to prevent them from being too ambitious, when they decide to
-> break something working next time... But maybe I do not know something
-> about truly democratic regimes :-)
->=20
-> Thanks for reading.
->=20
-Hi folks,
 
-I also do not consider what's happened here as normal. The maintainers
-removal stands against the key principles and values of our GNU/Linux
-communities and the FOSS ideology. Values and ideas most of us have been
-protecting and advocating for since we can remember!
 
-This hurt so badly! Really. This is betrial.
-
-Even if this is now reverted, or the upstream kernel is forked and a new
-upstream kernel repository is elected, the history of it will remain and
-haunt us all.
-
-Turned out our beloved and "free" as in freedom kernel has been
-compromised by compliance to a government.
-
-But this is the Linux kernel, how could this have happened?! It is used,
-improved and copied all over the world, not just one country! Why did we
-let this happen?
-
-This is a precedent that tells everybody what can come next, due to
-"compliance" reasons the kernel could receive code produced by a
-government institution that serves not the Linux community, but the
-governement.
-
-Surely it is not just me thinking towards what can change so we never
-again have to comply to a government of a country when fighting for
-freedom!
-
-FSF, any comments on this?
-
-Resist!
-
-+rms and fsf
+On 10/25/2024 9:16 AM, Sergey Senozhatsky wrote:
+> We destroy mutex-es too early as they are still taken in
+> v4l2_fh_exit()->v4l2_event_unsubscribe()->v4l2_ctrl_find().
+> 
+> We should destroy mutex-es right before kfree().  Also
+> do not vdec_ctrl_deinit() before v4l2_fh_exit().
+> 
+> Fixes: 7472c1c69138 ("[media] media: venus: vdec: add video decoder files")
+> Suggested-by: Tomasz Figa <tfiga@google.com>
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  drivers/media/platform/qcom/venus/vdec.c | 7 ++++---
+>  drivers/media/platform/qcom/venus/venc.c | 6 +++---
+>  2 files changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 6252a6b3d4ba..0013c4704f03 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -1752,13 +1752,14 @@ static int vdec_close(struct file *file)
+>  	cancel_work_sync(&inst->delayed_process_work);
+>  	v4l2_m2m_ctx_release(inst->m2m_ctx);
+>  	v4l2_m2m_release(inst->m2m_dev);
+> -	vdec_ctrl_deinit(inst);
+>  	ida_destroy(&inst->dpb_ids);
+>  	hfi_session_destroy(inst);
+> -	mutex_destroy(&inst->lock);
+> -	mutex_destroy(&inst->ctx_q_lock);
+>  	v4l2_fh_del(&inst->fh);
+>  	v4l2_fh_exit(&inst->fh);
+> +	vdec_ctrl_deinit(inst);
+Why vdec_ctrl_deinit ->v4l2_ctrl_handler_free(&inst->ctrl_handler) needs to
+be called after v4l2_fh_exit?
+Ideally it should be before v4l2_fh_exit.
 
 Thanks,
-Nikolay
+Dikshita
+> +
+> +	mutex_destroy(&inst->lock);
+> +	mutex_destroy(&inst->ctx_q_lock);
+>  
+>  	vdec_pm_put(inst, false);
+>  
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index 322a7737e2c7..6a26a6592424 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -1519,14 +1519,14 @@ static int venc_close(struct file *file)
+>  
+>  	v4l2_m2m_ctx_release(inst->m2m_ctx);
+>  	v4l2_m2m_release(inst->m2m_dev);
+> -	venc_ctrl_deinit(inst);
+>  	hfi_session_destroy(inst);
+> -	mutex_destroy(&inst->lock);
+> -	mutex_destroy(&inst->ctx_q_lock);
+>  	v4l2_fh_del(&inst->fh);
+>  	v4l2_fh_exit(&inst->fh);
+> +	venc_ctrl_deinit(inst);
+>  
+>  	inst->enc_state = VENUS_ENC_STATE_DEINIT;
+> +	mutex_destroy(&inst->lock);
+> +	mutex_destroy(&inst->ctx_q_lock);
+>  
+>  	venc_pm_put(inst, false);
+>  
 
