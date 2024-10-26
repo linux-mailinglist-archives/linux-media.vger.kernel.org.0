@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-20354-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20355-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7659B1AA2
-	for <lists+linux-media@lfdr.de>; Sat, 26 Oct 2024 21:53:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B45C9B1AA3
+	for <lists+linux-media@lfdr.de>; Sat, 26 Oct 2024 21:54:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A9509B2137C
-	for <lists+linux-media@lfdr.de>; Sat, 26 Oct 2024 19:53:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A149282325
+	for <lists+linux-media@lfdr.de>; Sat, 26 Oct 2024 19:54:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69206183CD4;
-	Sat, 26 Oct 2024 19:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAAF1184551;
+	Sat, 26 Oct 2024 19:54:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Kl04cS8o"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="QnBpuaMn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010007.outbound.protection.outlook.com [52.101.69.7])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010010.outbound.protection.outlook.com [52.101.69.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82418217F2E
-	for <linux-media@vger.kernel.org>; Sat, 26 Oct 2024 19:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B67433D0
+	for <linux-media@vger.kernel.org>; Sat, 26 Oct 2024 19:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.10
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729972374; cv=fail; b=gA1MsKHbsAengBKkrBCvYT5i2Z3BCAHmDl1sIwA39N4P2RsdMYi/0NnFTEPE90QRo3EwfamHoDXs73IqxryN8rwnVZeBEbXz98B0xWz+fh+/EriCB0hKWsqDWcawFOenMbjCK7AD5eBMeLpv7h/qHj2zV+QbfPKF9vO70G4TF1A=
+	t=1729972468; cv=fail; b=UbzTKJLyKBgQp3/Ix8hB4YUGkvoK2FGe/4uuxPuisVm4WTdLL1VDzs3n/+lxaXNSbXj76uA6i2Qu3WPwomTMCVxl4R33fefhKMaNDep8STQaoLNWA+gEkII+9zXtcqSoPWAiZmZUBEUvfLVgPxAp91FXQ4hRCTEnDrACDuChwSE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729972374; c=relaxed/simple;
-	bh=pdPxNyt5yXig3iM7WfRm1hRNk7vhb9e7YM3PjLYKpu4=;
+	s=arc-20240116; t=1729972468; c=relaxed/simple;
+	bh=pISFAIdRSApW+ljemNbitbFVoFJy5phq7uHssd7AUVM=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=huFqqW4u3JApdzXrQTpdMxJjRoXIw1fGhBhiGIIShaBDHDGxb3SrYYmzT/u+OdAVSIkt22S6xWivsFRr5qmxniLyB2W0lDaoD35iN04PwpAIiGat6az1LgphQULozGCl7fqCRtegeHPkz1CX9JpHPsEDxwpXNJd9dBdVfsR4FY4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Kl04cS8o; arc=fail smtp.client-ip=52.101.69.7
+	 Content-Type:MIME-Version; b=TEauijkqcqwvmzvOYZIucs3HcKFAyg6sr6PJhc7PRIZg5y46nSlHVXWmJW70ajJCkhHo45Iz6lhHrTBC7wWU1Iun6ZNBD1sOGzA0Bbmr8+lTsjXd89+y4hbGltDxAse6pXpazl9WCza6ORioVt+3fpTREiCKnNEEkUuNVazQzeY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=QnBpuaMn; arc=fail smtp.client-ip=52.101.69.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cXLA3QiHQJx32eycpBdSQiw+b3KhnfB8B1bF/e2t4OUalw3CT0M27ZAy1ng9awas+ucKIu60E48BqdQC5RL1SOCXR9ByYUftxehGWxCIIGd9YyO1eB/umEC7aOUHdvnoBPVORRHh57IloqkEAilo8K+J+4sqxNfdR8FsZDRUAk0F8GB6LBMwvUOqI6a3xYji3lGJhUT6H+AyhOMN+6c5O0s3XJkCXWNmcRD2XdR+V5wyI30vSnWbEngOwwlJ0RPeW63CWf3IGnQSJgrHiKhfwymBXdxj84v+o7mtr8DVnaCuRe6+snOaPbVO9D9ItxHpl4Lenhu6w1FLD3iHrXrmBg==
+ b=WlF68RRkkwMRUQhGsJtB4yhgVdLGB/ScnNvqG6H+AFxeNbaYBXqL+BEVBT2S8MlEyEXPKFoFz0qpnJVlDgS5tcJKkkQQmp1Kd0SEm00ZOzgbRQEW001UYc51H/nBDH1Z6milvSI9oGsHgHx/cIMBreZzLefH4zxtkFeqqRDQFahBPI8SKWXJ1QYyRx7I7YPLwYRXMdRA/YRVGPGIhrZF0MU5GWm9KRRbW9VNssDtnNTmVkgNGVi+ckTABHBRruPmUWqsYR3h4H41t6dxiyUwHFpLTwY2VGLpmXZa3sqGX+6a74HiLe6FexyMgHUXHzMBOBAK83ietsoSbJgbKIH6sQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J+7LWQqk+fpzZ60JJmviw3v9DZ0LzPiVv9GxdIfVps8=;
- b=LcA8s0zxRcNrEGZa4mE6E8ZWlOXSDwYVo0WVvfXVbcI9JBUIaF/3bp4g+bYwD1dwHKPrbDb1qmnbmGnjOZxZ1AGarmwlgTbT7xL9wezQamVzFaY1m3Mih/6rm8vUWhbqrb/9cev0f4HccVLVnq2+bomiLUbLp6RaZC1pCTgSuhSNXLbUv7AXq8TK5fCNrUxge4siTWTyLvxKDslBHGMmlNfxeXH4hscWDkM97I7why/ElBCZ9DP/ohZmgh06wj9sZXjcQISsDEtrT/vKS62PW+imSBjPgBk2NIPe+Y7QvQ1EBsAWvi8QOVodi2JSTaRdjOKSgDHgbLZ5+AGcNBFLPQ==
+ bh=H+IETGRuV/x3iJz1fA/hN8N1qQhaXmlp63lZuEpRNlM=;
+ b=Xz0VZKBCUdO3AniEWaew1aF05okEMvZNMq1v3kPoZmzmBymBhXDKXOt+f+dodRlenOpXQG0CqhU/bYLN3g/jySV82YSyAhfAVW+xCn5u+oE2Go7eT0LlBPv/8s/XwgEzZkAVfWrlqcAGWr1K9B8fApMIDwM2rvkB2gtiLCfukKiorlcDNbqz/DTCGDV0KFP833yZA4XaeWPlI2rvpTuV+jLYE6e93UuYUAM07TYT1uo8KumCJ1uSy731wNbtYMaNauRjeNhtWtBJWy1BimzIIQufpJkj8HheBq4+TNNekmUGTix6EcID667mV3yfhD4AKGiUPi4vkm9p8MXD36Xe1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J+7LWQqk+fpzZ60JJmviw3v9DZ0LzPiVv9GxdIfVps8=;
- b=Kl04cS8oc8MxNFnRyFHm+mtOob5pW6OgLyYRObkEOo34L0z6DzOdKe6Tr/5PwdJh1/pRhsG+WUNWFiYHXozz4tbyIaPJTgSsA9iNWTNRlnrYnOawnPCHclUAzrF4tOxrvsUG9Xi7C8E8SadJ0DmCfK3SbBFLucGzZ/sZ3+lIkVXVr3YdPR9T5CFZRXBouz4pfS1Os13wK3UndhDSEPUYb0ptKUI7WJZCcybnpugtlpVCpRMMZc+z/1hods63KKFTVCVhZkckqwfqoCq+yQg4VZLC+xt24PBWdL8gS4aldmkk+iQrggepQ9TOKnfFMIJhoi9oKz/o3bOsaIY4gbJCQw==
+ bh=H+IETGRuV/x3iJz1fA/hN8N1qQhaXmlp63lZuEpRNlM=;
+ b=QnBpuaMnlTQA3yL7iIZqamcoeaUNlUh7t2WxCpwo/dPouzTzvAqGri4gMhnmwOmAfytWyZbo3niwR6xKxMQswYZAbxrKD2HvnhfLbYltXlkGQC9qDI3c30Jv1uJht6mtw+HhwUOJd7nTiJ6FO6OrPnVx9ObYBLlt0CLWR1/bYgXEE+huisjfMzKs7CQi9LVgj4HheKcPNXYppDsq3NawbA28UmD4MP1fdBvGkoAmi1TZlxaOEqbB6YkSuejs/ata4RfO0eVxcY8uRa3fzOGT/3k9QRhhV9cE5T9rIFpW7vOVaIlLu/nnG74/IdGR/QNp2Oab90+cWzP4czBlhJUbmw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PAXPR04MB8703.eurprd04.prod.outlook.com (2603:10a6:102:21e::22)
  by AS8PR04MB7654.eurprd04.prod.outlook.com (2603:10a6:20b:290::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.23; Sat, 26 Oct
- 2024 19:52:48 +0000
+ 2024 19:54:20 +0000
 Received: from PAXPR04MB8703.eurprd04.prod.outlook.com
  ([fe80::eeac:ae8a:b567:e3b3]) by PAXPR04MB8703.eurprd04.prod.outlook.com
  ([fe80::eeac:ae8a:b567:e3b3%6]) with mapi id 15.20.8093.024; Sat, 26 Oct 2024
- 19:52:46 +0000
-Message-ID: <a73be13d-a2ed-48cd-a84e-805fb379dc09@oss.nxp.com>
-Date: Sat, 26 Oct 2024 21:52:43 +0200
+ 19:54:20 +0000
+Message-ID: <46eb025f-3b9c-412f-9425-75127c654270@oss.nxp.com>
+Date: Sat, 26 Oct 2024 21:54:19 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: dw100: Enable dynamic vertex map
+Subject: Re: [PATCH] media: dw100: Rectify rounding error
 To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Stefan Klug <stefan.klug@ideasonboard.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20241022063155.506191-1-umang.jain@ideasonboard.com>
+References: <20241025130300.227817-1-umang.jain@ideasonboard.com>
 From: "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
 Content-Language: en-US, fr
-In-Reply-To: <20241022063155.506191-1-umang.jain@ideasonboard.com>
+In-Reply-To: <20241025130300.227817-1-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR1P264CA0152.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:346::10) To PAXPR04MB8703.eurprd04.prod.outlook.com
+X-ClientProxiedBy: PR1P264CA0146.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:346::11) To PAXPR04MB8703.eurprd04.prod.outlook.com
  (2603:10a6:102:21e::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -85,303 +85,190 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR04MB8703:EE_|AS8PR04MB7654:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0de5bf7f-beb3-4aa7-4563-08dcf5f7c263
+X-MS-Office365-Filtering-Correlation-Id: 8ace1737-2f3d-433e-4473-08dcf5f7fb84
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|10070799003;
 X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?dzNRSXN6Z1pGYzczMkRveTltb0NFb0NkNkhmMUt1TWw4T1pINnJjUlp5Znlh?=
- =?utf-8?B?a0JweERiWUErRUFyMVNJT2RVSXVNb1RJOGhVNXo5U3lneVhyMlJjb1U5YThx?=
- =?utf-8?B?b0Fwc2VoT0V3dEp4a2tiWDBZWmpIQUp2WXNadlEzYWt5Uzh2NVBMMjZxYjcv?=
- =?utf-8?B?MUlSL3UwY0FMSjhwSnJob2hJeVFCR05EaENtRHM3U0RpYWJGVnEweEtRR1hs?=
- =?utf-8?B?NHNIc29mLzZaM05JWlROWU0zY1lOMWpUNFdwMVFLZElvWUx3cHU0LzFoSEFG?=
- =?utf-8?B?cGVVb1FQQzUvVlgzZmk5aHRBR1VUNGFSRE1YbEdSSjFCUFVzQmpSRnh2WjFy?=
- =?utf-8?B?emdiTHpCbVludGlhZjN0ZERYeVlvSEVuWnVSbENkek45eWVRMGltbit5eTJ1?=
- =?utf-8?B?MktwV2x5NWtUTG5YTkRwTzRkWVRiT3g3eHd6TzRkUUI5WFo5WHZEN2dJNUdZ?=
- =?utf-8?B?eGJ2eU4xZGU3UHVXN0R0azk4eCtwMEFXY3RrbWJHUk1PZnZrMlNuMkJFbXJM?=
- =?utf-8?B?a1JCNjBBMGtOMndQQXRxb1VJWGg1d1R6cTY5N3lqbGVSYjQvY2lFZDFUTU1k?=
- =?utf-8?B?cVV1S1hVRnRSeko0eVNBbDJrRjl6SitsYlpjdWVpbmtnQUdUSWxreXhIbXBi?=
- =?utf-8?B?eStrYzhRbmpXczE0cnRmTW5zYkxtTGgwZnB4MzVLajc4aEFrVmpDYTd4L3JM?=
- =?utf-8?B?aXJOUmxKSE8vb1lxOUQrdGU3amY0aEtuUDkyc21KYzRPVXlubk5ldjFJMk9K?=
- =?utf-8?B?Y2dmQVNSSzM2OWtEelBaQVA5Mmg0aElYUkNpZ1laU3drNmNaQlU1N0M2ZjZz?=
- =?utf-8?B?T2FEQm85UkNWRGNWZEovQWpqQnY5NU5taERkQTFwenRrcXlhamVOUFlGR2ZQ?=
- =?utf-8?B?TEFWbjhrazlURnBOV3MzMjdWWmNSM09qdG5hTXdHaXZwNjE0ak9YTE5OaW1G?=
- =?utf-8?B?ZjBmUnNlbDRlbnAySGh2SThzb2dpZmtZTGRtKzE5UFRZZUEwdFlHLy9LMVhK?=
- =?utf-8?B?ZEUwOFJ5QWtGNXQxRmRySDVPRWhoYjVsclRtR2ljaDRpVm5SOXNtVmlnQkM5?=
- =?utf-8?B?UFA4c2ZWa20rdVJrelZxV3ZqYmJsbHFYR1ZjejZmc0tZTElxUFNvQ2RJVVp2?=
- =?utf-8?B?ZDd1Y2VlWmY5NHBmNlBDci9RUnlNb09MeUhNVUhEK1R3b05LdExIeS8waElZ?=
- =?utf-8?B?MjI3K01jc3Y3b09RdnptNjE3OTRIWGhIeTNVSEEzT25sS09GbkVwSHNDSDgy?=
- =?utf-8?B?cWI1RGNLZjR0OGc3MFNlS01nb1pldStxVk9YNThTcU1VbnpWYkI2VTRDKzBx?=
- =?utf-8?B?VFpNckRZRWpwK2poKzRxeW5jWkJPZCt6ZnB6OFhrQWY1dEdPUkRGb2RheDg5?=
- =?utf-8?B?UUJRd2ljOG0zQWZzSHUrN3hPcmxlSWlOendWOFcwTXRoUWtuTDZFRlpvUVhN?=
- =?utf-8?B?c1NwbVdyQVVKcXd2OEdpUmtWMXFBSnF0VmVpcUVzS2prbHRtZjN3Wm5JTHlG?=
- =?utf-8?B?VXVTYTZjbFpLeXpOQWpQVkFoWjJrRjA4K2NuMnNWNURvMWplcko1K1Z4dkZq?=
- =?utf-8?B?OG1pUUZSWS84MDMySXRCY0Vpbi9oQnBHaktYbUhsK1ZIMjRKLyt2WU9DS0lX?=
- =?utf-8?B?c2lOc2hySUV1clhvOHJBc2JvbHd3c1pmQ0poK2J2L29RMnYxTUVHdnMvRkZm?=
- =?utf-8?B?UHpRVy9UTFFTa1NlUGRGaTVrbitEelVZUXQ0SHlnbElBU0dBU0t3eS9BSW1O?=
- =?utf-8?Q?h6t45UUwpS+xfejsKndnfAZQUPifA4ihZ2hjm+v?=
+ =?utf-8?B?ZjR1eGhFYjNvaEl2R0hpN0Z2RFRwMkdqL3prd1VIVjhBMVdxNndPMUxoU3NP?=
+ =?utf-8?B?bTZZMnNYMlZoYmh1cjJOZUdZWDljMlpzOEUwMkpJWEw2elc3NzlsU3FDd3pr?=
+ =?utf-8?B?NnFUaEZNaitKbFlxL0krREZxZ1R0SGgwbnBIa1lqaldyTnB1NzZsUVFKMVk4?=
+ =?utf-8?B?MWtMdU5IbDVkV0EvUXNBVUc3V1BqWEh4dUNpSE1DNW14NDlXUzRJT2hMZjJH?=
+ =?utf-8?B?ejhjS3k5SGtUUWZLWDhtL1lvQldZQ1FwUk5scmNqUjRYQjljeHF6aG81SWI1?=
+ =?utf-8?B?b3JRNkdKUDg4K0ZINWRob2JUb1lNRExmTzZhc3BxZnhua1FiVnV5N3dFdk1G?=
+ =?utf-8?B?NDRaU0h5WG0vMEwrZmVqSFhwK2ttM08rbXlEQW9DUVNUQ1VidWNUTiswUzNw?=
+ =?utf-8?B?NWJMZExlOXY1ZkloNVpRbTBadWtkODJkNzB5ZGY2dE5xQ3d4NFIwSXBwdDhI?=
+ =?utf-8?B?N3BzZUpyTGJ5UzUzL1lFcTR4RmxqZmlkY09pY1EzRmhRUEhXMzRPdk1rUEp3?=
+ =?utf-8?B?NHV0SzA1QkFZYkZHRU42Uk1OMS9mN1Q5bVZtSFl6SWM0aDJSUmxVcTNsNjdF?=
+ =?utf-8?B?c2VBMWNHc0J5bUpGWlN3NVdRWWdWemttNGlHUEpMdjJxTCt5M2lyVGVSUDl3?=
+ =?utf-8?B?RkZKTGRVdER4c1lqL05FQThQb0Rxb1AwYmJMNEc2NjVlaU45VWRNcGJGbS9L?=
+ =?utf-8?B?RTZOWTFuSDcxSkgzSDM0L2V5Tm4wcmlTemp5Vy9MQUFrb0xUbFV4K3Y0R0FE?=
+ =?utf-8?B?bXZNRnlRZy9HdUtmaWJZRXVaeS85cmdaRDVXSmdjOW9LMzZMdmFiUlhubisw?=
+ =?utf-8?B?UHlONmdjMEZkUXcwdm16WW9FcG1TajdzcXR4eW82M1ZSTzJwdXJwRUJjVTIz?=
+ =?utf-8?B?UEl1eUpaRXNTR2pXSU9UM3RVTHRpd3BUcHY1eW9sZmpQMHFid2JKd3llZWVx?=
+ =?utf-8?B?Nm5Vd21jUXZEZ0FMTEZhUlFHNlhTZUR3Tk5qbGlPUUpYQzdjWEN4VzhjUjBo?=
+ =?utf-8?B?K2h2ZnBBTVFJdkQ0REFzRC9aU1ZJanc2TXV5cnJzYW9ZazNrYSt3dldmNlIy?=
+ =?utf-8?B?dmdOOEl4RmhqQlFLTkQ0TmJNU3ZZdjFjL2x2bDNSUE9hV09ZVURGd3BvOU1U?=
+ =?utf-8?B?WDRUSmtQcUNRT0VHOE9PWnplVFpZeGxmMEhLTnpaUlFkOXFndkZZZVRYa0Zw?=
+ =?utf-8?B?Rk9TYy9IV04xZmt4czdoSmQrZ2tvaDBoSHVoWlg0d2REaGFXa2lXOXFiMVd3?=
+ =?utf-8?B?dkQ4Wnl5ZndxVXJOYXd4d1hCaEpXWGJSOEJlQWlvL0J3cFFvamJaR1dscXNU?=
+ =?utf-8?B?OXpBWkZWZnFrTWRJVU9vU2s1S1RNWGd2QkVuY0FCNUdsU291cDNtS3VSVXM1?=
+ =?utf-8?B?OW9QdlpDdE5LeUVVaFh2VzQ0QjY4aWxqTlUzSC9tcnhjMjEwMmxMa1I2Y09G?=
+ =?utf-8?B?dXByV1Mra2dPMGdNbmZ6Vmw0c1ZqdHh4Mk5tV1VSNWUzajZiVlpTSitGWmEw?=
+ =?utf-8?B?eE1xWkhIc2F6QW1tNiszTmlHcVllZDQwSGQ5QWcwcUo5N3BKdTRlRHRkNUY0?=
+ =?utf-8?B?OTJvWDROem84TU8vN25oQVQ0TkRMUnE3T2YyR24zOTFQZytWcWZtOWo2RmJj?=
+ =?utf-8?B?L2VLY2g5NlJFcFRGQXBqbnc2QnF1TndManY4Z2t3U1l5bEFwR3ZzVEJjVUkr?=
+ =?utf-8?B?ZmpOM2RxR2RLNnVmTlFEakVCb0s5U0FsR05kV3BsTUpEajNIVU5Ydlc3MWF5?=
+ =?utf-8?Q?KQz0ofbnYzCL99EorqDolFMwGJk/ugJTu9lkFet?=
 X-Forefront-Antispam-Report:
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8703.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(10070799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?Yng5WEFJR1UyYTdzTzkvWE1JQVhUUGVqbTRaR2IzZVltbGdCbzRqRTBNRWJN?=
- =?utf-8?B?V08rLzNNSU5QMmFhbU0wRXBzSm5PRU9FamRFRUtXd095YU8waS9xYUFSV2lY?=
- =?utf-8?B?Um8zclpDYWFnend3ZGFET2pQZEFsTGxMdENNRmxRRFRBTGNNZmZpbVdUUm1a?=
- =?utf-8?B?NkRjTlBaVm1nbENiVCt4SFFIVFBnUzZLVW1BM0pQWStHRCtSbmRYcGs4Mk9O?=
- =?utf-8?B?Qm1LSm9iRXJSdTR4aFJtWUtkRGFFbjhjOHBZZjJzRjE3dk1UOHhObFp6aTlo?=
- =?utf-8?B?UlBuZXZqU1VMeDdqRFk2VklTTWsrcDJ0b0EyaCtnc0phbmZlTzlIaXFVVVBu?=
- =?utf-8?B?REVYMTk1SlBpOUtiZzlTcjZCbmdtZmwxRGpLRWtOcW9YeUFuWlBrMXY3cG9R?=
- =?utf-8?B?N2dKcTY3ZTY4WFFQL3NjWlJrRGNEekFoN05PMjA0aWdHZGIvNjdlRUYwUUc2?=
- =?utf-8?B?Z2Z1bU8yN0lyMHh6ekVOdjlsZjdtSXRHVW43T1FvR00rMi8yekoyeHE0ZW5w?=
- =?utf-8?B?ZG9tbnFXOGt6eURLQ0tKQXcwVGZLdXZzN1FIK1BYUVVnbURBckdyZEZFZFBV?=
- =?utf-8?B?aFZCdVEvMUlJdHdQU3ZxMFdmK1dwc3NtYndKdm80WmVtVXUzTTdSVTNRbGdN?=
- =?utf-8?B?NDdwaFpMS1owVUZjL0ZpT0JqTU1SU2xTN0dLcFVzNDJNRERuQUlHSVJnMHpa?=
- =?utf-8?B?TTBwNjZvVU0rT1RMaEUxZWdNYzRVMnR6UFo2emQ0dUc1OC82aHJLQlNrbFU3?=
- =?utf-8?B?YmZvZWd2UTBpYXNuNWc1RkFZYnppRmFlay9UOTd5UHlRTk1RTG5kaUdFdUta?=
- =?utf-8?B?YXE5eHEzRU9OWDcvWnp2YUQ2Vkl6YWpXd2dENnF2NVNzRnVHWG56dEhNWFk1?=
- =?utf-8?B?bnRibnNnUi9TaldsUVNVclNDVUN4c0lMMDRrWFpzc2RuaGdpTXRmM3hJaVBy?=
- =?utf-8?B?OHpnZjI5dFB0dEtZbXpTNTEyYTlLbHRsMzFkYUdTZXcwWlI0YjB0UlE1OHJX?=
- =?utf-8?B?aU1sRHpKNDY0RGIrRWhiSDNWMEU3TnNGRnNDRnRMYW9GVitVM0xYQ2ZQcW8z?=
- =?utf-8?B?NXliODB6bEhOeEErV0ZiU0xaYi90czlEcTduY3Z1b2VTditGU2JtNWdwTkZo?=
- =?utf-8?B?N3R2SDN6VGx6WURPR0JsUFNOVWNJZ3ExeEZxc2lUTDlHZ3VtVkpuajh4dFo1?=
- =?utf-8?B?OUo0QWtxNy9hT05QT0tzTTVXR1hwS0UrM3BucHdiMkFKQVlXc0k1TnNnWDJy?=
- =?utf-8?B?VWkwaFBOMEtidjVjOWpFd3B0NXd1TVlmaHJjQjQ5K2NSeWJaWnBWdHFVbUFJ?=
- =?utf-8?B?QWs5cVZRbWhhVGRCT3dTR0pSYzhSNlhma2p3R0hpK0pNeGZJdzR2Q3pFOXlG?=
- =?utf-8?B?dzJxdEhIU2dYOEp3NjZiakdpcTBxM29PbWFRNmtPc0dRdDZUdTQ3ei9DOHNS?=
- =?utf-8?B?ZzBaMmhTcWZpYUV6aVgydEZOb3NZK0JSMVdmQXBRamZSalZ6cmcyOFZYRFV0?=
- =?utf-8?B?REg3UnJOT3dPZ0xCT1ZKaXJMNmtna1F4bTE1b2h2aU9aWkhOUHA3Zzh2cTEr?=
- =?utf-8?B?TWc1QlVpc04rV3JHaGtrWW53RS82eldvNmRSbEZYM1I3b29wRHVlaC9pM1Rn?=
- =?utf-8?B?eXAxY0o4eUZGWXhTeEdJM0s4cENSWXBWZHVvK3F6aXlUK1I5N20yMUY3R1hB?=
- =?utf-8?B?ZjUreVNGK0hBRWwzMzQyNTZsVVF4Q1ZocHpSY290anJIOXRYTGNjWTRMYi92?=
- =?utf-8?B?d25ydi93bUZlWmI5UFJUdUQ4UWRTOWFvd1BaZVZjWThnb3RsTEs0SDhUNTBW?=
- =?utf-8?B?U0hDS1JWdUlUT0dUb3F6QTRoMTlaM2NYZ1IxR1NhNlZwelRDZTk5dG1RQjZY?=
- =?utf-8?B?akY4Z29rSUVBakh1ZHlnem8wSk9QYkJMd3Y5STI0aytKcjQ5b2xPaC9kWjNi?=
- =?utf-8?B?MVVneENBMHhRdjFMZDNYNzdsYkpuQk5MSUFmNGNhZUlNUGIyU0JJVjBLNk5W?=
- =?utf-8?B?OGlkME1kejVHaDZpem1ERmVHSVlvZGtjaGhWUlJnQlMwZ2tqd0ZjK01FVUF1?=
- =?utf-8?B?TTNxdFhjc1UxZS92K21ldkg2TTFMaDdGK21laVQ0Ly9lUmx6cmZ3aXY3elY0?=
- =?utf-8?B?dVRwQ3ZHTFdQOEY2VTBvbG1PbEtjaGl3YXIzanQveFJGRHlkN0E4REpTcmRj?=
- =?utf-8?B?OC9aT3Q0V3gzRDlVVDZpU1dYMUQ5eHNheU1LSW10aUs2TXVxS1NlKzh3dHJH?=
- =?utf-8?B?NUVDR0drMjAxWEp2Ymx6NTdiM3VBPT0=?=
+ =?utf-8?B?UHRWbHJJNk9wU25TdERJRDk3K2FsOUVlLzgvVUhEWUpzMXBxRTc1VGkzazg3?=
+ =?utf-8?B?Q0FRQVg3bXNGU2NBZTJBL01XVm9TQnJTSk9SQ21wN1FPQjdCdjVLL29sc20x?=
+ =?utf-8?B?QVh1YnpzR2NzWjRsbm5iK0NCWUpZbVdrRDd1bENlVVFQQWx0cXFPc0NGalhk?=
+ =?utf-8?B?VVZVQk1TckFsbWFiNTFsUHEwdUZOU3ZXNlBDQWRoUUcwUnZsa1B5blo3ZHRm?=
+ =?utf-8?B?eG12TGxuWEhkUW5xUEZyR1BBRC85TmNZU2dSSWI2VXVmQWM5YUhneFJRN1hC?=
+ =?utf-8?B?d0hKRHZVK1JKb3VQdXNTTUliWFd0YUJ0RkEvWmxIMlNMVGpuM3V0aVQ4aWo1?=
+ =?utf-8?B?dXg2UFRDQ2tYUThHSldMQXNlOEhHM1JCWDd1ZHBJVm9sQlVzQjQ1NmNKL1Bi?=
+ =?utf-8?B?bFZaNldnQVdET3pwOWdFdmRBa00rOEQyTTlLVk85TkUrc2hLTVFoQm1XVitn?=
+ =?utf-8?B?ZVVVemdDc1RFb0tZSXluZUVUQnFBQW51ZjlkQ0FFRFhETHl0eEtkcnFYZmdP?=
+ =?utf-8?B?Ni84QnhLbWY0OVdENGxsQ2xwV0p2c1FzVHBwYmdINUF4UTVnaHhFZC8xamdX?=
+ =?utf-8?B?bERxUXRIMzB5a1lPRXdUUnFQa010RWtEdkZmUkR6Z2lZLzRQL3BpbFduY3Vr?=
+ =?utf-8?B?Y0pXeDVjL1dOc3dQUm5kNXM2V3VQajJvTDVETDNxM3NzNEJKaDZpNTBoZTdr?=
+ =?utf-8?B?aTdqT3VMVnRDUVU1OWROczN4VU5QVHlORlRVdTM1NjJvSzUwNDBzYlFXZngz?=
+ =?utf-8?B?MEM0dlcvK3BFN1JGTHV2YnJBTmxFM1B6V0JYaVJ6L1lkdVAxYk0wckJ3Zy9F?=
+ =?utf-8?B?amZaWHdmM0dEUkFBRWZnTW5lZExuS1RDR3Z1YVVLejRIaUdaWU5lSHNMVEh5?=
+ =?utf-8?B?YUFJQlg4WDQ1c0xWRTRZM1ZpUFJ6WlRtcHJISnZVSE1tcXhPZHlOcWQrTEwv?=
+ =?utf-8?B?ZGt5N2NRYXRpRlFBQ3ZUcjl5dTZaMU9KNmlpSlYySFl2eXpoN08raXhjR0hO?=
+ =?utf-8?B?azRlVjRrWmJyUjczNHppZ29YOGdJb0lrYVoyd3MrSUgvbExaWVBZSlBqUUx2?=
+ =?utf-8?B?SlJSTzlqL0x1NUJUSU9Sa0pJeStIS05sZjh4RVpGd0JCNVNhUmZjM01jREds?=
+ =?utf-8?B?dmlXRGNiT3BWZENlUXR1WEpwUUc3bXBFVTRiUDU5VFlvWG56cCtxaFpLcUxQ?=
+ =?utf-8?B?ZnRiUkR4Y2NGdjlGOGJENTBNK1N5NVhRSDVjOTJTRFdBdlZFaXV4WndoU291?=
+ =?utf-8?B?WXpCZVlKc2ZVZkduUmhJeHRzN1BlS0svcFVYZFhKdktxMlJkTXlHSzM4YXlR?=
+ =?utf-8?B?V2RCcWl1bDB5eC9lYjA4bGJDYXRXZ0xDWXUwQWFjQ1Vzb2xpS0JOVGk3VG1O?=
+ =?utf-8?B?WFp6Kzl1b29ydFQ1Rm9TeUJoODFwTWdVcVBZeDdLOUg2dHF1MVlJRWFUOCsz?=
+ =?utf-8?B?dldwOTBrWVY0emFzQ0ZCNjNZMkk4cGZnVHpGRkw0bit5VklFc0Ywd28wMWM2?=
+ =?utf-8?B?THJSc1VSYWZPTXFLRUN1S00vc2ZILzh2SUd2b3N2SVR2ektoYW1WU3FjYklX?=
+ =?utf-8?B?UDFHcnk1Ukw2VDFSa3Rqa2t6M1g3UjhraW1QK1ZhZjlteWVrSDJ2d1VUcUN6?=
+ =?utf-8?B?VVdOdzlUcUVmeUcwaUpYWjdVNFJnUHRDcXoySVVJRHRvYk1WQ3Z4TWlBNkN0?=
+ =?utf-8?B?UUlKZGsrT2lDd21DL25GTCsvelFyb2ljNDY0ZGdaYVE3Z1k0dElMUDhmeTc2?=
+ =?utf-8?B?Z3ErVlhNRjhraEJnNXcvRk90N0I1UUFqeDV2WTJyd2V6ZTlWcHA0aFlzZjNN?=
+ =?utf-8?B?OE03NTNBajFTbEpQaFJSOWdNakI5VVZVQml5WmJVTm1Wa0R4L24zVjhUclBh?=
+ =?utf-8?B?TStVOFF1cHcrZEVoMk1sMXROeFFqeWZUR2ZqNHJTNmhzZWVvYmZGT2pVV0U5?=
+ =?utf-8?B?eWpuRHhNWmlmaEthbG1jSzNvWFJMWE5CMFpXZ3JzVHpYd0VVQmJsR1BBekZo?=
+ =?utf-8?B?SFY1TmVDaFFHQ09hRmgvdjVPcExrU1BoZUU5K09KVGFEdjJxSWNNdnIvUVNX?=
+ =?utf-8?B?Uy9XblNxRUdBZVJIWHJNNnBJOUkvUnV5NjdERWNWVytDQlg5a3UxL3djd3Ny?=
+ =?utf-8?B?RFFLRDFJSXk5WlJzT3RXVzFZTHJ3MTczd2FQZ0NlNHg0S0tWRlA2eS9iRHpy?=
+ =?utf-8?B?OVAwN1FDckNlUVNqUUZEbmo2TGl4WDcwc1ZCcHlTcHlGL0UrdjNDVUltWWNI?=
+ =?utf-8?B?TGZnKytvVHA3SHlyaFFldDl0RGlRPT0=?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0de5bf7f-beb3-4aa7-4563-08dcf5f7c263
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ace1737-2f3d-433e-4473-08dcf5f7fb84
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8703.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2024 19:52:46.3746
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2024 19:54:20.6411
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cAj6lN57wvUwMTAVoeI9UFVRxyscgWIDfPLp5Mixe8aiwlEK2tvDiXVdpWIxJUb5PG6PDowXOtFLMX98RR6GmQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Qp6Ec2LI7qwhn1wNElu/7KCeQr6EPFOIr0iv10RiNDeFoIm7BeiG1PM4hMnKmnuI/o2R4eAoPvLrrslidM2OzA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7654
 
 Hi Umang,
 
-Thanks for the patch, this feature sounds promising.
+Thanks for the patch. Nice catch.
 
-On 10/22/24 8:31 AM, Umang Jain wrote:
-> Currently, vertex maps cannot be updated dynamically while dw100
-> is streaming. This patch enables the support to update the vertex
-> map dynamically at runtime.
+On 10/25/24 3:03 PM, Umang Jain wrote:
+> From: Stefan Klug <stefan.klug@ideasonboard.com>
 > 
-> To support this functionality, we need to allocate and track two
-> sets of DMA-allocated vertex maps, one for the currently applied map
-> and another for the updated (pending) map. Before the start of next
-> frame, if a new user-supplied vertex map is available, the hardware
-> mapping is changed to use new vertex map, thus enabling the user to
-> update the vertex map at runtime.
+> The current scaler code fails in many cases which can be validated
+> by the following python script:
 > 
-> We should ensure no race occurs when the vertex map is updated multiple
-> times when a frame is processing. Hence, vertex map is never updated to
-> the applied vertex map index in .s_ctrl(). It is always updated on the
-> pending vertex map slot, with `maps_mutex` lock held. `maps_mutex` lock
-> is also held when the pending vertex map is applied to the hardware in
-> dw100_start().
+> ```
+> error_count = 0
+> valid_count = 0
 > 
-> Ability to update the vertex map at runtime, enables abritrary rotation
-> and digital zoom features for the input frames, through the dw100
-> hardware.
+> def check_scaling_error(src_w, dst_w, add_point_five):
+>      global error_count
+>      global valid_count
 > 
+>      qscale = (dst_w << 16) // src_w
+> 
+>      if (add_point_five):
+>          delta = 1 << 15; # 0.5 in Q16.16
+>      else:
+>          delta = 0
+> 
+>      scaled_w = ((((src_w << 16) + delta) * qscale) >> 32)
+>      if dst_w != scaled_w:
+>          print(f'scale_error: src_w: {src_w} | dst_w:{dst_w} | scaled_w:{scaled_w}')
+>          error_count += 1
+>      else:
+>          valid_count += 1
+> 
+> print(f'==== Test without delta=0.5 ====\n')
+> for i in range(1000, 1920):
+>      check_scaling_error(1920, i, False)
+> print(f'Error: {error_count} | Valid: {valid_count}\n\n')
+> 
+> error_count = 0
+> print(f'==== Test with delta=0.5 ====')
+> for i in range(1000, 1920):
+>      check_scaling_error(1920, i, True)
+> print(f'Error: {error_count} | Valid: {valid_count}\n\n')
+> ```
+> 
+> Excerpt of the output is retrieved:
+> ```
+> 	==== Test without delta=0.5 ====
+> 	...
+> 	...
+> 	scale_error: src_w: 1920 | dst_w:1915 | scaled_w:1914
+> 	scale_error: src_w: 1920 | dst_w:1916 | scaled_w:1915
+> 	scale_error: src_w: 1920 | dst_w:1917 | scaled_w:1916
+> 	scale_error: src_w: 1920 | dst_w:1918 | scaled_w:1917
+> 	scale_error: src_w: 1920 | dst_w:1919 | scaled_w:1918
+> 	Error: 859 | Valid: 61
+> 
+> 	==== Test with delta=0.5 ====
+> 	Error: 0 | Valid: 981
+> ```
+> Hence, fixing the scaling rounding error by adding 0.5 to the
+> frame dimensions before applying the scale.
+> 
+> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->   drivers/media/platform/nxp/dw100/dw100.c | 73 ++++++++++++++++++------
->   1 file changed, 56 insertions(+), 17 deletions(-)
+>   drivers/media/platform/nxp/dw100/dw100.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-> index 54ebf59df682..42712ccff754 100644
+> index 42712ccff754..541706f0aec4 100644
 > --- a/drivers/media/platform/nxp/dw100/dw100.c
 > +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> @@ -83,6 +83,11 @@ struct dw100_q_data {
->   	struct v4l2_rect		crop;
->   };
+> @@ -984,6 +984,7 @@ static int dw100_s_selection(struct file *file, void *fh,
+>   	u32 qscalex, qscaley, qscale;
+>   	int x, y, w, h;
+>   	unsigned int wframe, hframe;
+> +	uint32_t zero_point_five;
 >   
-> +struct dw100_map {
-> +	unsigned int *map;
-> +	dma_addr_t map_dma;
-> +};
-> +
->   struct dw100_ctx {
->   	struct v4l2_fh			fh;
->   	struct dw100_device		*dw_dev;
-> @@ -92,12 +97,14 @@ struct dw100_ctx {
->   	struct mutex			vq_mutex;
+>   	if (sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+>   		return -EINVAL;
+> @@ -1032,8 +1033,9 @@ static int dw100_s_selection(struct file *file, void *fh,
+>   			}
+>   		}
 >   
->   	/* Look Up Table for pixel remapping */
-> -	unsigned int			*map;
-> -	dma_addr_t			map_dma;
-> +	struct dw100_map		maps[2];
-> +	unsigned int			applied_map_id;
->   	size_t				map_size;
->   	unsigned int			map_width;
->   	unsigned int			map_height;
->   	bool				user_map_is_set;
-> +	bool				user_map_is_updated;
-> +	struct mutex			maps_mutex;
->   
->   	/* Source and destination queue data */
->   	struct dw100_q_data		q_data[2];
-> @@ -308,24 +315,31 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
->   {
->   	u32 *user_map;
->   
-> -	if (ctx->map)
-> -		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> -				  ctx->map, ctx->map_dma);
-> +	for (unsigned int i = 0; i < 2; i++) {
-> +		if (ctx->maps[i].map)
-> +			dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> +					  ctx->maps[i].map, ctx->maps[i].map_dma);
->   
-> -	ctx->map = dma_alloc_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> -				      &ctx->map_dma, GFP_KERNEL);
-> +		ctx->maps[i].map = dma_alloc_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> +						      &ctx->maps[i].map_dma, GFP_KERNEL);
->   
-> -	if (!ctx->map)
-> -		return -ENOMEM;
-> +		if (!ctx->maps[i].map)
-> +			return -ENOMEM;
-> +	}
->   
->   	user_map = dw100_get_user_map(ctx);
-> -	memcpy(ctx->map, user_map, ctx->map_size);
-> +
-> +	mutex_lock(&ctx->maps_mutex);
-> +	ctx->applied_map_id = 0;
-> +	memcpy(ctx->maps[ctx->applied_map_id].map, user_map, ctx->map_size);
-> +	mutex_unlock(&ctx->maps_mutex);
->   
->   	dev_dbg(&ctx->dw_dev->pdev->dev,
->   		"%ux%u %s mapping created (d:%pad-c:%p) for stream %ux%u->%ux%u\n",
->   		ctx->map_width, ctx->map_height,
->   		ctx->user_map_is_set ? "user" : "identity",
-> -		&ctx->map_dma, ctx->map,
-> +		&ctx->maps[ctx->applied_map_id].map_dma,
-> +		ctx->maps[ctx->applied_map_id].map,
->   		ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width,
->   		ctx->q_data[DW100_QUEUE_DST].pix_fmt.height,
->   		ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width,
-> @@ -336,10 +350,12 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
->   
->   static void dw100_destroy_mapping(struct dw100_ctx *ctx)
->   {
-> -	if (ctx->map) {
-> -		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> -				  ctx->map, ctx->map_dma);
-> -		ctx->map = NULL;
-> +	for (unsigned int i = 0; i < 2; i++) {
-> +		if (ctx->maps[i].map)
-> +			dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> +					  ctx->maps[i].map, ctx->maps[i].map_dma);
-> +
-> +		ctx->maps[i].map = NULL;
->   	}
->   }
->   
-> @@ -350,6 +366,15 @@ static int dw100_s_ctrl(struct v4l2_ctrl *ctrl)
->   
->   	switch (ctrl->id) {
->   	case V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP:
-> +		u32 *user_map = ctrl->p_new.p_u32;
-A warning to fix here.
-> +		unsigned int id;
-> +
-> +		mutex_lock(&ctx->maps_mutex);
-> +		id = ctx->applied_map_id ? 0 : 1;
-> +		memcpy(ctx->maps[id].map, user_map, ctx->map_size);
-> +		ctx->user_map_is_updated = true;
-If you call the control before to start the stream, the dma mapping is 
-not yet done(dw100_create_mapping not yet called). Hence, copying the 
-user map to a NULL pointer.
-> +		mutex_unlock(&ctx->maps_mutex);
-> +
->   		ctx->user_map_is_set = true;
->   		break;
->   	}
-> @@ -655,6 +680,8 @@ static int dw100_open(struct file *file)
->   
->   	v4l2_fh_add(&ctx->fh);
->   
-> +	mutex_init(&ctx->maps_mutex);
-> +
->   	return 0;
->   
->   err:
-> @@ -675,6 +702,7 @@ static int dw100_release(struct file *file)
->   	v4l2_ctrl_handler_free(&ctx->hdl);
->   	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
->   	mutex_destroy(&ctx->vq_mutex);
-> +	mutex_destroy(&ctx->maps_mutex);
->   	kfree(ctx);
->   
->   	return 0;
-> @@ -1453,8 +1481,19 @@ static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
->   	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
->   				 ctx->q_data[DW100_QUEUE_SRC].fmt,
->   				 &out_vb->vb2_buf);
-> -	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
-> -			     ctx->map_width, ctx->map_height);
-> +
-> +
-> +	mutex_lock(&ctx->maps_mutex);
-> +	if (ctx->user_map_is_updated) {
-The hardware register must unconditionally be updated while starting a 
-new context, as a v4l2 m2m supports multi context operations. Otherwise, 
-you may be running with the user mapping used by the previous context.
+> -		w = (u32)((((u64)wframe << 16) * qscale) >> 32);
+> -		h = (u32)((((u64)hframe << 16) * qscale) >> 32);
+> +		zero_point_five = 1 << 15;
+> +		w = (u32)(((((u64)wframe << 16)+zero_point_five) * qscale) >> 32);
+> +		h = (u32)(((((u64)hframe << 16)+zero_point_five) * qscale) >> 32);
+>   		x = x + (sel->r.width  - w) / 2;
+>   		y = y + (sel->r.height  - h) / 2;
+>   		x = min(wframe - w, (unsigned int)max(0, x));
 
-Moreover, the hardware mapping will not be set in case you use the 
-driver as a simple scaler without user mapping, which causes the process 
-to hang as the run does not start and never completes.
-> +		unsigned int id = ctx->applied_map_id ? 0 : 1;
-> +
-> +		dw100_hw_set_mapping(dw_dev, ctx->maps[id].map_dma,
-> +				     ctx->map_width, ctx->map_height);
-> +		ctx->applied_map_id = id;
-> +		ctx->user_map_is_updated = false;
-> +	}
-> +	mutex_unlock(&ctx->maps_mutex);
-> +
->   	dw100_hw_enable_irq(dw_dev);
->   	dw100_hw_dewarp_start(dw_dev);
->   
+Reviewed-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
 
-It sounds as this patch requires a collaborative application for running 
-well. All my simple tests failed.
-
-You can test a simple scaler/pixfmt conversion operation with v4l2 utils:
-
-
-v4l2-ctl \
--d 0 \
---set-fmt-video-out width=640,height=480,pixelformat=NV12,field=none \
---set-fmt-video width=640,height=480,pixelformat=NV21,field=none \
---stream-out-pattern 3 \
---set-selection-output\ 
-target=crop,top=0,left=0,width=640,height=480,flags= \
---stream-count 100 \
---stream-mmap \
---stream-out-mmap
-
-Xavier
 
