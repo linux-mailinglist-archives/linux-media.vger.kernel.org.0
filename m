@@ -1,135 +1,89 @@
-Return-Path: <linux-media+bounces-20394-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20395-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1B59B29B9
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 09:05:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B22D9B29D0
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 09:07:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE76E283BED
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 08:05:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBD721F23643
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 08:07:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E82211DDA3B;
-	Mon, 28 Oct 2024 07:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BC6E190665;
+	Mon, 28 Oct 2024 08:03:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6F41917FA;
-	Mon, 28 Oct 2024 07:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5AF18D64F;
+	Mon, 28 Oct 2024 08:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730102257; cv=none; b=tV5A94/6STwpeAicyh1WbLfebJpwh44Td9+APGm4U17Z34BgD8mrmfTzIIImCEkoND2Kld/r+doiGQSoRC3B/r9gjne4BOVsoP6EA6KLs8cMiZdEL9NKPan5udcf0rfxVtyIE2KUz3Z8w1i3kYeRRiB2uHUG3hjfm8vU7F8IaWQ=
+	t=1730102613; cv=none; b=kzX9wr6drE5D2gIf8OsW/QodrTUI2OgffJOvWCTlzZJkPXc8paK+NorAY8gKv5qK8KVvh1g08CpXR2kZaLjOg5zRBRJDAyqD3xucFRPyao1oT2QP8p4rhtfaG3owh+iH1PU4IPZsDjrbccKs3zxgDGkC3GKFmrPoY//k8s8QLbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730102257; c=relaxed/simple;
-	bh=/q5iLojDhXm4Z/auFDre90JZh0Xi2xIkUxpp228HJWU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YDWCqyV9t3sYOWAfkur4nWP6RvpJaWH+Kl9TW424fxNygmblaNT/vvkKr385+gfb7BRY7Xw5Kkk0AJxCkV4e3Qy1lbLcOp5T2Je8iOodx6cY6+J0UCLBeHE7Rzvqe7txNWQ5z8kSG/oVb3P4pqwqyUJr/NbixIcmBOVGrIlCfTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7706C4CEC3;
-	Mon, 28 Oct 2024 07:57:33 +0000 (UTC)
-Message-ID: <6b8004e2-57df-4760-a59d-77a712e9ca4d@xs4all.nl>
-Date: Mon, 28 Oct 2024 08:57:32 +0100
+	s=arc-20240116; t=1730102613; c=relaxed/simple;
+	bh=qP9Kmjy8aL7ga+PxwoatJoc2KZiMKEe1PqJ2a8W9278=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OBxHEFvv0ASo+A0JSGD17hcHCLPlnV9ejKjwsgjQZpUaQ6T9ysxPgBzu8cYIJkH8oIXr7EBtu2k45yQAaPEdiVfBtag0laXyb7veyUf7r1Oa3K26i59c0Z8PwUg5usNIOHs96Wnb/p9UPR+es/xO+4bssIZc2Oprn00LGyO0Oto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.163])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4XcQr72YJyz1ynYN;
+	Mon, 28 Oct 2024 16:03:35 +0800 (CST)
+Received: from kwepemg200008.china.huawei.com (unknown [7.202.181.35])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1826B18002B;
+	Mon, 28 Oct 2024 16:03:27 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemg200008.china.huawei.com
+ (7.202.181.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 28 Oct
+ 2024 16:03:26 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <hverkuil@xs4all.nl>, <mchehab@kernel.org>, <moinejf@free.fr>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH] media: gspca: ov534-ov772x: Fix off-by-one error in set_frame_rate()
+Date: Mon, 28 Oct 2024 16:02:56 +0800
+Message-ID: <20241028080256.3537188-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v3 0/4] Add video encoder ROI ctrls
-To: Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org
-Cc: yunkec@google.com, nicolas@ndufresne.ca, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- xiahong.bao@nxp.com, ming.zhou@nxp.com, eagle.zhou@nxp.com,
- tao.jiang_2@nxp.com, ming.qian@oss.nxp.com, imx@lists.linux.dev,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20241022084040.3390878-1-ming.qian@nxp.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20241022084040.3390878-1-ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemg200008.china.huawei.com (7.202.181.35)
 
-On 22/10/2024 10:40, Ming Qian wrote:
-> Hi,
-> 
-> This patch set implements region of interest (ROI) ctrls for video
-> encoder.
-> 
-> One video encoder IP may support the following two ROI configurations or
-> one of them:
->     1. configure ROI as a rectangular region, and set a delta QP parameter.
->     2. configure ROI as a rectangular region, and set a priority parameter.
->     3. configure ROI as a QP map as an array. Each value represents the delta QP
-> of a block in raster scan order. The block size is determined by
-> the specific IP.
->     4. configure ROI as a QP map as an array. Each value represents the absolute QP
-> of a block in raster scan order. The block size is determined by
-> the specific IP.
-> 
-> To achieve this, I made the following change:
->     1. I reuse the type V4L2_CTRL_TYPE_RECT that is defined in the UVC ROI patchset
->     2. Define a ctrl V4L2_CID_MPEG_VIDEO_ROI_MODE to choose ROI configuration
->     3. Define some ctrl to configure ROI
->     4. Define a ctrl V4L2_CID_MPEG_VIDEO_ROI_BLOCK_SIZE to query block size
-> 
-> I referred the patchset "Implement UVC v1.5 ROI" (https://lwn.net/Articles/953532/)
-> and pick some patches from it.
+In set_frame_rate(), select a rate in rate_0 or rate_1 by checking
+sd->frame_rate >= r->fps in a loop, but the loop condition terminates when
+the index reaches zero, which fails to check the last elememt in rate_0 or
+rate_1.
 
-Please note that since this introduces the new TYPE_RECT and WHICH_MIN/MAX flags,
-you also need to update v4l-utils.
+Check for >= 0 so that the last one in rate_0 or rate_1 is also checked.
 
-This was done last year:
+Fixes: 189d92af707e ("V4L/DVB (13422): gspca - ov534: ov772x changes from Richard Kaswy.")
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+ drivers/media/usb/gspca/ov534.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://lore.kernel.org/linux-media/20230817072537.2837504-1-yunkec@google.com/
-
-Can you pick this up and post a v2 for these v4l-utils changes? Note that I had some
-comments at the time, so please fix those before posting v2.
-
-Regards,
-
-	Hans
-
-> 
-> changelog:
-> 
-> v3
-> - Drop the type V4L2_CTRL_TYPE_REGION
-> - Split the compound control into 2 ctrls
-> - Define 4 ROI mode
-> 
-> v2
-> - export symbol of v4l2_ctrl_type_op_minimum
-> - export symbol of v4l2_ctrl_type_op_maximum
-> 
-> Hans Verkuil (1):
->   media: v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
-> 
-> Ming Qian (1):
->   media: v4l2-ctrls: Add video encoder ROI ctrls
-> 
-> Yunke Cao (2):
->   media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
->   media: vivid: Add an rectangle control
-> 
->  .../media/v4l/ext-ctrls-codec.rst             |  95 ++++++++++
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  26 ++-
->  .../media/v4l/vidioc-queryctrl.rst            |  14 ++
->  .../media/videodev2.h.rst.exceptions          |   4 +
->  drivers/media/i2c/imx214.c                    |   4 +-
->  .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
->  .../media/test-drivers/vivid/vivid-ctrls.c    |  34 ++++
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      |  54 ++++--
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 169 +++++++++++++++---
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  46 +++++
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
->  include/media/v4l2-ctrls.h                    |  62 ++++++-
->  include/uapi/linux/v4l2-controls.h            |  16 ++
->  include/uapi/linux/videodev2.h                |   5 +
->  14 files changed, 493 insertions(+), 49 deletions(-)
-> 
+diff --git a/drivers/media/usb/gspca/ov534.c b/drivers/media/usb/gspca/ov534.c
+index 8b6a57f170d0..bdff64a29a33 100644
+--- a/drivers/media/usb/gspca/ov534.c
++++ b/drivers/media/usb/gspca/ov534.c
+@@ -847,7 +847,7 @@ static void set_frame_rate(struct gspca_dev *gspca_dev)
+ 		r = rate_1;
+ 		i = ARRAY_SIZE(rate_1);
+ 	}
+-	while (--i > 0) {
++	while (--i >= 0) {
+ 		if (sd->frame_rate >= r->fps)
+ 			break;
+ 		r++;
+-- 
+2.34.1
 
 
