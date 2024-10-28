@@ -1,214 +1,165 @@
-Return-Path: <linux-media+bounces-20408-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20409-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E45D9B2C65
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 11:11:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DEF9B2CA6
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 11:20:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A58CD1F21F52
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 10:11:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3318A1C2184E
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 10:20:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB73D1D223C;
-	Mon, 28 Oct 2024 10:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DAF51D0F56;
+	Mon, 28 Oct 2024 10:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="orc203Hr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDB018B46E;
-	Mon, 28 Oct 2024 10:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDD71D043D
+	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 10:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730110283; cv=none; b=RT+y4wWLZ6jJG/uvvscfbS9YVssTdJ4ycAeC8q/t9WJuaUDKh5jN8XWEKOJWhAKe/2B6dxQGYooDPbMhNSRLxxJhrOAt+HGavucSJOCnJCL4EhGMTA69n6VYHwkmbn+fKT3AN2O4XjTrdbmEpnUHgTeoV8hqiYQgpyE6I58Qe/M=
+	t=1730110831; cv=none; b=h6bMGZFNo7YcMl/Wzmf0aKqht6p7WUV5w1PX9ae+ZYqxecYI1qD49RhWBUOZZvlCtwoxNUECxsrBPCoNuQUO0Z3S+d0LFC1HfiaXOZOSTM5kgYrR9Y3vZekGEveqP/jmYi/RvDxwxAk+fJZ8VpdnRzm2S2AX2ybh4POTivGd/4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730110283; c=relaxed/simple;
-	bh=nzaM905Zku2L1M7nrY8HwDpXuPpzA2I6DeNK/YQ9IGA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fgp6WbVQZpb/LFbHVSOWTezFfqOLzUpAB4Yn29LFyE3MlEgotVdeZOBQ/JdmPu4siK7FR6jjd4Oq93XbBYnn+pwfip50Vf89NP3AhEv9TKteX2rVf+YN4rnNzwUd/LWS6u63b8+piTTLkBBXd61C5M3A02QVbNF8qJGBHqXuEKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0C2C4CEC3;
-	Mon, 28 Oct 2024 10:11:18 +0000 (UTC)
-Message-ID: <74286a86-51b9-4742-bb0c-583d70b1b0a7@xs4all.nl>
-Date: Mon, 28 Oct 2024 11:11:17 +0100
+	s=arc-20240116; t=1730110831; c=relaxed/simple;
+	bh=+AkYyoEAKkcOYov4gBkoQW10ALBeuyvqIJK5nNUYO8s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C89US83PVrwxPiUTCDGsbtCmvBHfmyW32SHErDTOmekQ8BDLWjDWXagy5+/CYBosP0H9uXGrY3d61kbZYuoCeCeyKfuQy8OkhhLzEKR4Zr9080sLhEkgZ2LzojBLvUhKuyTGTaPpTF1bOa4K+MOc1999Y5/LzaCIRj+K7+Y89cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=orc203Hr; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6e35bf59cf6so48486707b3.0
+        for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 03:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730110826; x=1730715626; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TU2sdGJHKvD0taxHYBsyanzPD/VqU1wUV5/5j1d0+s8=;
+        b=orc203Hr6ImrbOuohwYUFpMt1Ocb2XlZqR/UaKtjNVto062KYxpWTFsTNyrGioyy38
+         3CiWqttVzYmQhOp+vA+sTeghXjYHwiNidvPhAAIv1gMvALBeduS+nyZ1IepjCytXYF4O
+         pcqAQnUyr1EOJtnVjORO65pyR2q0d+6CA2k9Y63t6tMoe+tLQAc87ww1p2TuHtzZj7Ct
+         f9WOTjMUM+AZf8ipGJzH3XPT3sdzv5fHkY4VW0lyd2WU5rud68MGgmP4aSXi41k1XhlV
+         Cyp/NXRah+rhlstXxJzlFm4ry69WTVQg9RH8zQ6h+s8W8S0pfu2HBIplGxdA6jkaLVL6
+         1iCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730110826; x=1730715626;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TU2sdGJHKvD0taxHYBsyanzPD/VqU1wUV5/5j1d0+s8=;
+        b=fWM7aeEkOOHq6UUOnX7bXYhJI5hLJtOQuUgkkUrZGP49QCLC4yax0X4pGyE33Uszpf
+         BEDBngYG8zrCdCiGzZxTGBD20reFQAwBi1s2cLpvzAQD7ZLUNYEg4pmaJVHq+hbuf+GL
+         cIDU62dC9iJDapOgCQjJyc62Jt368zEuLjTYUY95DoFhGuJ+tsAfWBoOPJJNBokwa2wR
+         ju4Wa8AnOTizA49Up9rHVGkVsQX72N36Jp91ai6opme9Mai8Wl/xMP+SXvDMHpL9fNN+
+         Xel71Pfd/E+9/nlzhFPwyn5vC4fJrrXxaXmjZmo4xgT04SHma0Oq7luVIkaE4a70D1et
+         jatg==
+X-Forwarded-Encrypted: i=1; AJvYcCXZjkcvtf4SrMTDPOnKaBW9/n+9e1MNGPQnsoM5Ytpky0yCg7zxemf5v376fuoXeQKaqx0+UhhFTAEAZw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzF95muO/RyE6Cq25ChJ9xIfO4SBWwkXALHGATP/4JAREJauWZb
+	u8K2tZF8UkXrcy7wzUmhriMtD2ISKSAQO0O8T7FDPvaYt2UaDZPCay9XumlKcmIlHD8da/fF64Q
+	ebCGqeO/gL7NiPggwh4fU6UJBdfZzKhzBlpYxRw==
+X-Google-Smtp-Source: AGHT+IHKdCACUXqx7Rdwg/Prh7fz9WsgaRfTmIR4UCFC4hi7xMX8hmTZVx47XtOQhuApr5txecXLMxKkQJeYoI3DfdM=
+X-Received: by 2002:a05:690c:6303:b0:6e3:c92c:1d57 with SMTP id
+ 00721157ae682-6e842f91cf4mr107258157b3.2.1730110826498; Mon, 28 Oct 2024
+ 03:20:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] media: raspberrypi: Add support for RP1-CFE
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Naushir Patuck
- <naush@raspberrypi.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-References: <20241003-rp1-cfe-v6-0-d6762edd98a8@ideasonboard.com>
- <20241003-rp1-cfe-v6-3-d6762edd98a8@ideasonboard.com>
- <4d9e340e-2ae7-495b-8623-0d10398e1c3d@xs4all.nl>
- <02f05b61-08e7-45f8-8d59-f79bc20d076f@ideasonboard.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <02f05b61-08e7-45f8-8d59-f79bc20d076f@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241028023740.19732-1-victor.liu@nxp.com>
+In-Reply-To: <20241028023740.19732-1-victor.liu@nxp.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 28 Oct 2024 12:19:50 +0200
+Message-ID: <CAA8EJprFBbC_=kBHi86j-nE_K68QeG+c2OBzJCbUyNWs5zQK0Q@mail.gmail.com>
+Subject: Re: [PATCH v4 00/13] Add ITE IT6263 LVDS to HDMI converter support
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+	airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, quic_jesszhan@quicinc.com, mchehab@kernel.org, 
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
+	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, 
+	tomi.valkeinen@ideasonboard.com, quic_bjorande@quicinc.com, 
+	geert+renesas@glider.be, arnd@arndb.de, nfraprado@collabora.com, 
+	thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 28/10/2024 10:21, Tomi Valkeinen wrote:
+Hi,
+
+On Mon, 28 Oct 2024 at 04:37, Liu Ying <victor.liu@nxp.com> wrote:
+>
 > Hi,
-> 
-> On 24/10/2024 11:20, Hans Verkuil wrote:
->> Hi Tomi,
->>
->> I know this driver is already merged, but while checking for drivers that use
->> q->max_num_buffers I stumbled on this cfe code:
->>
->> <snip>
->>
->>> +/*
->>> + * vb2 ops
->>> + */
->>> +
->>> +static int cfe_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
->>> +               unsigned int *nplanes, unsigned int sizes[],
->>> +               struct device *alloc_devs[])
->>> +{
->>> +    struct cfe_node *node = vb2_get_drv_priv(vq);
->>> +    struct cfe_device *cfe = node->cfe;
->>> +    unsigned int size = is_image_node(node) ?
->>> +                    node->vid_fmt.fmt.pix.sizeimage :
->>> +                    node->meta_fmt.fmt.meta.buffersize;
->>> +
->>> +    cfe_dbg(cfe, "%s: [%s] type:%u\n", __func__, node_desc[node->id].name,
->>> +        node->buffer_queue.type);
->>> +
->>> +    if (vq->max_num_buffers + *nbuffers < 3)
->>> +        *nbuffers = 3 - vq->max_num_buffers;
->>
->> This makes no sense: max_num_buffers is 32, unless explicitly set when vb2_queue_init
->> is called. So 32 + *nbuffers is never < 3.
->>
->> If the idea is that at least 3 buffers should be allocated by REQBUFS, then set
->> q->min_reqbufs_allocation = 3; before calling vb2_queue_init and vb2 will handle this
->> for you.
->>
->> Drivers shouldn't modify *nbuffers, except in very rare circumstances, especially
->> since the code is almost always wrong.
-> 
-> Looking at this, the original code in the old BSP tree was, which somehow, along the long way, got turned into the above:
-> 
-> if (vq->num_buffers + *nbuffers < 3)
->         *nbuffers = 3 - vq->num_buffers;
-> 
-> So... I think that is the same as "q->min_reqbufs_allocation = 3"?
-> 
-> The distinction between min_queued_buffers and min_reqbufs_allocation, or rather the need for the latter, still escapes me. If the HW/SW requires N buffers to be queued, why would we require
-> allocating more than N buffers?
+>
+> This patch series aims to add ITE IT6263 LVDS to HDMI converter on
+> i.MX8MP EVK.  Combined with LVDS receiver and HDMI 1.4a transmitter,
+> the IT6263 supports LVDS input and HDMI 1.4 output by conversion
+> function.  IT6263 product link can be found at [1].
+>
+> Patch 1 is a preparation patch to allow display mode of an existing
+> panel to pass the added mode validation logic in patch 3.
+>
+> Patch 2 allows i.MX8MP LVDS Display Bridge(LDB) bridge driver to find
+> the next non-panel bridge, that is the IT6263 in this case.
+>
+> Patch 3 adds mode validation logic to i.MX8MP LDB bridge driver against
+> "ldb" clock so that it can filter out unsupported display modes read
+> from EDID.
+>
+> Patch 4 adds MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG,JEIDA} support, as they
+> are supported by IT6263(with LVDS data bit reversed order).
+>
+> Patch 5 makes drm_of.c use MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA,SPWG}.
+>
+> Patch 6 supports getting dual-link LVDS pixel order for the sink side as
+> needed by IT6263 driver.
+>
+> Patch 7 documents jeida-30 and vesa-30 data mappings in lvds-data-mapping.yaml,
+> as needed by IT6263 DT binding.
+>
+> Patch 8 extracts common dual-link LVDS display properties into new
+> lvds-dual-ports.yaml so that IT6263 DT binding can reference it.
+>
+> Patch 9 adds DT binding for IT6263.
+>
+> Patch 10 adds IT6263 bridge driver.  Only video output is supported.
+>
+> Patch 11 adds DT overlays to support NXP adapter cards[2][3] with IT6263
+> populated.
+>
+> Patch 12 enables the IT6263 bridge driver in defconfig.
+>
+> Patch 13 updates MAINTAINERS to add maintainer for IT6263 driver.
 
-min_queued_buffers is easiest to explain: that represents the requirements of the DMA
-engine, i.e. how many buffers much be queued before the DMA engine can be started.
-Typically it is 0, 1 or 2.
+This has pretty complicated structure from the merging point of view.
 
-min_reqbufs_allocation is the minimum number of buffers that will be allocated when
-calling VIDIOC_REQBUFS in order for userspace to be able to stream without blocking
-or dropping frames.
+I propose we take patches 6, 8, 9 (without 30-bit formats, they can be
+dropped while applying), 11, 12 (?) and 13 through drm-misc in one
+batch (once DT maintainers review the binding parts). This looks like
+a minimal set, having no extra dependencies.
 
-Typically this is 3 for video capture: one buffer is being DMAed, another is queued up
-and the third is being processed by userspace. But sometimes drivers have other
-requirements.
+The second set might be 4, 5 + new patch, re-adding 30-bit formats to
+IT6263 binding (no driver changes are necessary). This can go in
+separately, after an Ack from media maintainers.
 
-The reason is that some applications will just call VIDIOC_REQBUFS with count=1 and
-expect it to be rounded up to whatever makes sense. See the VIDIOC_REQBUFS doc in
-https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/vidioc-reqbufs.html
+Of course both sets can go together if linux-media maintainers reacts
+quickly and ack merging media-formats patch through drm-misc tree.
 
-"It can be smaller than the number requested, even zero, when the driver runs out of
- free memory. A larger number is also possible when the driver requires more buffers
- to function correctly."
+The rest of the patches don't have such strong dependencies and go in
+once ready / reviewed.
 
-How drivers implement this is a mess, and usually the code in the driver is wrong as
-well. In particular they often did not take VIDIOC_CREATE_BUFS into account, i.e.
-instead of 'if (vq->num_buffers + *nbuffers < 3)' they would do 'if (*nbuffers < 3)'.
+WDYT?
 
-When we worked on the support for more than 32 buffers we added min_reqbufs_allocation
-to let the core take care of this. In addition, this only applies to VIDIOC_REQBUFS,
-if you want full control over the number of allocated buffers, then use VIDIOC_CREATE_BUFS,
-with this ioctl the number of buffers will never be more than requested, although it
-may be less if you run out of memory.
-
-I really should go through all existing drivers and fix them up if they try to
-handle this in the queue_setup function, I suspect a lot of them are quite messy.
-
-One thing that is missing in the V4L2 uAPI is a way to report the minimum number of
-buffers that need to be allocated, i.e. min_queued_buffers + 1. Since if you want
-to use CREATE_BUFS you need that information so you know that you have to create
-at least that number of buffers. We have the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control,
-but it is effectively codec specific. This probably should be clarified.
-
-I wonder if it wouldn't be better to add a min_num_buffers field to
-struct v4l2_create_buffers and set it to min_queued_buffers + 1.
-
-Regards,
-
-	Hans
-
-> 
->  Tomi
-> 
-
+-- 
+With best wishes
+Dmitry
 
