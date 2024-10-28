@@ -1,78 +1,101 @@
-Return-Path: <linux-media+bounces-20418-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20419-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836659B2FE4
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 13:12:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C35E9B2FF8
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 13:19:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B58A71C244DC
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 12:12:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3040B1C20F97
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 12:19:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F2B51DA313;
-	Mon, 28 Oct 2024 12:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C4EF1D90B9;
+	Mon, 28 Oct 2024 12:19:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nbYSSs/T"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M54QznVP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDED81D959B;
-	Mon, 28 Oct 2024 12:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DE21D5CC5
+	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 12:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730117516; cv=none; b=Evru85bNOQ4D6F/95hhJGdJjSs8ZqYHd3hldYKvOzQM3xxF9zivdpTyTqIWjPzb9bnsF5U1fdvCUCncqXF7A+WO5U84NERVMAg8o7sBnIjF0NGx3UwJN4MQsjycW/EyBN9oysorP6r8mPtvNr4NeTrHMeXEOpEMkEpiSlMdMB1g=
+	t=1730117967; cv=none; b=ighwjHaxICVdYVUxrdO+B0KXJ5h1s28AIiJ1MsUgGUfoWVu7MRlfEekUBrwEv1bpx4jqFi9yyYhPcICo6GlVM38pRhNho6KEYRiyVuEVZMIJT1PCciu/Etw3uH2K/fGwofPUZac2OPHflos3rPy43jdeO3XUoP5nEz+wKw9iBlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730117516; c=relaxed/simple;
-	bh=T40pcA7zJ/qVaC7YSZjlKPz7uruyFhUd/a3SW0zAaTY=;
+	s=arc-20240116; t=1730117967; c=relaxed/simple;
+	bh=GXWGcR0pyZQhCcbI+Gc3gunB3SMdKAUS2ZKBSmfDDXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aaKOcYMUTFE3koDg90dvL3KGERosTqG/jiDlvniL43LstyjuH72uKXO7CRvAvYnRgcFf1ZG1n28z78ta+Rt6Lw8qKbNEBa6lyhdqs0/eAnOPUi5pcf5iNQDd0R1kSCXi2bf3Z7fTiQMZ506PkijeAlCOdtLjXiPUl301wuQgFEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nbYSSs/T; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=GANchaQxtsQUXPkHXZjcwxb7mo3qTTIUVflFphrpMRQ=; b=nbYSSs/TLdUtkkX49MCiEy49wQ
-	JhQCqc+9shj6l/rWgmHUh3vHb2TelgkWvfsR9RiPKwCbTJ9cyV3FGFLc3ToTBKOJK9g98c4rckiQX
-	hRSSQ0KcerCRxh+w6FDY+2FM2FkkgMlqfZitM1S7Kzqrdl6dF3iXXi78VvTpy3i7gzKON2oNwBl/g
-	bKPKa26ZTjFUTDKupOhE3BJLM1zzAGN9G7crkz4vsMfOQ01twKvtXUGBeoVWFwzAObWfEFBoM3QhG
-	6aCaKdem/ibNjvj0PlV+fK3MH6K73fRd48XjwIpj++F7ehMjqiHmOqRXaPY4OkF4b5izBQAY5/IQO
-	b/dE4d4g==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5ObB-0000000AhRn-0J2V;
-	Mon, 28 Oct 2024 12:11:53 +0000
-Date: Mon, 28 Oct 2024 05:11:53 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, David Wei <dw@davidwei.uk>,
-	io-uring@vger.kernel.org, netdev@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	Mina Almasry <almasrymina@google.com>,
-	Stanislav Fomichev <stfomichev@gmail.com>,
-	Joe Damato <jdamato@fastly.com>,
-	Pedro Tammela <pctammela@mojatatu.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 02/15] net: generalise net_iov chunk owners
-Message-ID: <Zx9_iYLVnkyE05Hh@infradead.org>
-References: <20241016185252.3746190-1-dw@davidwei.uk>
- <20241016185252.3746190-3-dw@davidwei.uk>
- <ZxijxiqNGONin3IY@infradead.org>
- <264c8f95-2a69-4d49-8af6-d035fa890ef1@gmail.com>
- <ZxoSBhC6sMEbXQi8@infradead.org>
- <a6864bf1-dd88-4ae0-bc67-b88bb4c17b44@gmail.com>
- <ZxpwgLRNsrTBmJEr@infradead.org>
- <de9ae678-258d-4f68-86e1-59d5eb4b70a4@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZR+XClYFAGHP/dlsGCykgFvclwbmulMnv8VT4HN9SWa3iC/5Wh/UUTlhUDBfxVQA1Zk4EJFJNsUgFxy56vDrd6Vux4Hl/ceD0N7Vv8scCU9fVYQ3q8QzwjUYo1mi/bgLQVJJG+1bCWlD/brPIkeLP3r3MN+Lh0Indc+cRv42hPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M54QznVP; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53b1fbb8be5so4215360e87.1
+        for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 05:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730117963; x=1730722763; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kewq0jun/sKTyFEkBiL9iXhIasxDz8VGr2qCbe0+u6U=;
+        b=M54QznVPBSqJkn7JRvwzrJIua9+HDQZtCJagYVs9YKxT/VtfJF597CQTesQgusnc2Z
+         G4/kYEQIMPJnoCL7/NIbDTi49VqI6qVRHB23e2cT/j/eQm9NirplGbLVm7n9m/xj+KRR
+         HUpM2/c/jpXZFZnPo0MVl4KSw4DgoGkpk/a0ifYOVFV54DfIhiXaxKaKlXSzUCKRassx
+         00+J5XAs1GUMJUU11FhIq1+49VETveRs1Uxpf0epokEo+1wbZVQi2qH3+twOmSpk1Tr6
+         WQV7lwcf/c/zaGlR4RTFSM72a+tN3ABJ5R7+7onyig/UilfRTLZTT3UeGJfoZx6AWM26
+         WLmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730117963; x=1730722763;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kewq0jun/sKTyFEkBiL9iXhIasxDz8VGr2qCbe0+u6U=;
+        b=l+jorlr2EiX9vJZFazlDXcbW0ndqh6URbCQ4oiVqTBIMABC6SmMSu+zVtf0CK8Ebn5
+         2s/vNAmr5Z3qmBhVLWSjsKRSu1ruzTpH+UNaWqMLF81XT+75YZ0cDLzcAimQaDW1yTkW
+         zSmgyzMcbo43tdxNmkg+2ZPSgS9HxiJR3DI+3veqpLKrLCHcG+2/Fk0b/2cizMooDdpv
+         dj4Ov4kOe7n0THppWJVCEFhnOO0ndbgCijfHM4CVygWqNfpSvFRMPH02DXelMjhaZX+U
+         EuqqJJQDhsCGEdNpjlfZFdZ8l+chJxGRRLTIIG/Gm2DTUIyMpuVXYZETvVTrUcPuZtCC
+         6vIA==
+X-Forwarded-Encrypted: i=1; AJvYcCXPkogkXb6bO3L5Pe8mZXrIV8Yy6m1+Syty6ZKd5IORxFAHI80xc6K9Fly14jnJOGrgtEnP9zs7TEfcMg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbeKzuXIeKE01SOjpu8nQ0hTT/amdHdEITJliEBDviyUpTlbSh
+	+3B2BBvw3tjZcfNe1q0s4nw+iDiqAr7y9Nz8AwamsZGDNpNEqdUvGUp0bGH2Y6g=
+X-Google-Smtp-Source: AGHT+IFcJ911YncxzDz+vUGU2wKxP//zFGp4XOAPitX3IxTT9WIuDtrsNPSJE+JGqHL6nbUCTYefbQ==
+X-Received: by 2002:a05:6512:33d5:b0:539:eb97:61d7 with SMTP id 2adb3069b0e04-53b236a6912mr4462705e87.4.1730117963369;
+        Mon, 28 Oct 2024 05:19:23 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53b2e10a7bcsm1047277e87.21.2024.10.28.05.19.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 05:19:22 -0700 (PDT)
+Date: Mon, 28 Oct 2024 14:19:21 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Liu Ying <victor.liu@nxp.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
+	"neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, "rfoss@kernel.org" <rfoss@kernel.org>, 
+	"laurent.pinchart" <laurent.pinchart@ideasonboard.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>, 
+	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, "mripard@kernel.org" <mripard@kernel.org>, 
+	"tzimmermann@suse.de" <tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>, 
+	"simona@ffwll.ch" <simona@ffwll.ch>, "robh@kernel.org" <robh@kernel.org>, 
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+	"quic_jesszhan@quicinc.com" <quic_jesszhan@quicinc.com>, "mchehab@kernel.org" <mchehab@kernel.org>, 
+	"shawnguo@kernel.org" <shawnguo@kernel.org>, "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>, 
+	"kernel@pengutronix.de" <kernel@pengutronix.de>, "festevam@gmail.com" <festevam@gmail.com>, 
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, 
+	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, 
+	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>, "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>, 
+	"geert+renesas@glider.be" <geert+renesas@glider.be>, "arnd@arndb.de" <arnd@arndb.de>, 
+	"nfraprado@collabora.com" <nfraprado@collabora.com>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, "sam@ravnborg.org" <sam@ravnborg.org>, 
+	"marex@denx.de" <marex@denx.de>
+Subject: Re: [PATCH v4 00/13] Add ITE IT6263 LVDS to HDMI converter support
+Message-ID: <5ycxltnw3vhik3iype6ncuh4nelwwtom745o5dlf32qyiqh5bv@yjj5l6kb2psm>
+References: <20241028023740.19732-1-victor.liu@nxp.com>
+ <CAA8EJprFBbC_=kBHi86j-nE_K68QeG+c2OBzJCbUyNWs5zQK0Q@mail.gmail.com>
+ <TY3PR01MB11346F956733032EC10E997AF864A2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,60 +104,89 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <de9ae678-258d-4f68-86e1-59d5eb4b70a4@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <TY3PR01MB11346F956733032EC10E997AF864A2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
-On Thu, Oct 24, 2024 at 05:40:02PM +0100, Pavel Begunkov wrote:
-> On 10/24/24 17:06, Christoph Hellwig wrote:
-> > On Thu, Oct 24, 2024 at 03:23:06PM +0100, Pavel Begunkov wrote:
-> > > > That's not what this series does.  It adds the new memory_provider_ops
-> > > > set of hooks, with once implementation for dmabufs, and one for
-> > > > io_uring zero copy.
-> > > 
-> > > First, it's not a _new_ abstraction over a buffer as you called it
-> > > before, the abstraction (net_iov) is already merged.
+On Mon, Oct 28, 2024 at 11:12:00AM +0000, Biju Das wrote:
+> Hi Dmitry, Liu,
+> 
+> > -----Original Message-----
+> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Sent: 28 October 2024 10:20
+> > Subject: Re: [PATCH v4 00/13] Add ITE IT6263 LVDS to HDMI converter support
 > > 
-> > Umm, it is a new ops vector.
-> 
-> I don't understand what you mean. Callback?
-
-struct memory_provider_ops.  It's a method table or ops vetor, no
-callbacks involved.
-
-> Then please go ahead and take a look at the patchset in question
-> and see how much of dmabuf handling is there comparing to pure
-> networking changes. The point that it's a new set of API and lots
-> of changes not related directly to dmabufs stand. dmabufs is useful
-> there as an abstraction there, but it's a very long stretch saying
-> that the series is all about it.
-
-I did take a look, that's why I replied.
-
-> > > on an existing network specific abstraction, which are not restricted to
-> > > pages or anything specific in the long run, but the flow of which from
-> > > net stack to user and back is controlled by io_uring. If you worry about
-> > > abuse, io_uring can't even sanely initialise those buffers itself and
-> > > therefore asking the page pool code to do that.
+> > Hi,
 > > 
-> > No, I worry about trying to io_uring for not good reason. This
+> > On Mon, 28 Oct 2024 at 04:37, Liu Ying <victor.liu@nxp.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > This patch series aims to add ITE IT6263 LVDS to HDMI converter on
+> > > i.MX8MP EVK.  Combined with LVDS receiver and HDMI 1.4a transmitter,
+> > > the IT6263 supports LVDS input and HDMI 1.4 output by conversion
+> > > function.  IT6263 product link can be found at [1].
+> > >
+> > > Patch 1 is a preparation patch to allow display mode of an existing
+> > > panel to pass the added mode validation logic in patch 3.
+> > >
+> > > Patch 2 allows i.MX8MP LVDS Display Bridge(LDB) bridge driver to find
+> > > the next non-panel bridge, that is the IT6263 in this case.
+> > >
+> > > Patch 3 adds mode validation logic to i.MX8MP LDB bridge driver
+> > > against "ldb" clock so that it can filter out unsupported display
+> > > modes read from EDID.
+> > >
+> > > Patch 4 adds MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG,JEIDA} support, as
+> > > they are supported by IT6263(with LVDS data bit reversed order).
+> > >
+> > > Patch 5 makes drm_of.c use MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA,SPWG}.
+> > >
+> > > Patch 6 supports getting dual-link LVDS pixel order for the sink side
+> > > as needed by IT6263 driver.
+> > >
+> > > Patch 7 documents jeida-30 and vesa-30 data mappings in
+> > > lvds-data-mapping.yaml, as needed by IT6263 DT binding.
+> > >
+> > > Patch 8 extracts common dual-link LVDS display properties into new
+> > > lvds-dual-ports.yaml so that IT6263 DT binding can reference it.
+> > >
+> > > Patch 9 adds DT binding for IT6263.
+> > >
+> > > Patch 10 adds IT6263 bridge driver.  Only video output is supported.
+> > >
+> > > Patch 11 adds DT overlays to support NXP adapter cards[2][3] with
+> > > IT6263 populated.
+> > >
+> > > Patch 12 enables the IT6263 bridge driver in defconfig.
+> > >
+> > > Patch 13 updates MAINTAINERS to add maintainer for IT6263 driver.
+> > 
+> > This has pretty complicated structure from the merging point of view.
+> > 
+> > I propose we take patches 6, 8, 9 (without 30-bit formats, they can be dropped while applying), 11, 12
+> > (?) and 13 through drm-misc in one batch (once DT maintainers review the binding parts). This looks
+> > like a minimal set, having no extra dependencies.
 > 
-> It sounds that the argument is that you just don't want any
-> io_uring APIs, I don't think you'd be able to help you with
-> that.
-
-No, that's complete misinterpreting what I'm saying.  Of course an
-io_uring API is fine.  But tying low-level implementation details to
-to is not.
-
-> > pre-cludes in-kernel uses which would be extremly useful for
+> > 
+> > The second set might be 4, 5 + new patch, re-adding 30-bit formats to
+> > IT6263 binding (no driver changes are necessary). This can go in separately, after an Ack from media
+> > maintainers.
+> > 
+> > Of course both sets can go together if linux-media maintainers reacts quickly and ack merging media-
+> > formats patch through drm-misc tree.
+> > 
+> > The rest of the patches don't have such strong dependencies and go in once ready / reviewed.
+> > 
+> > WDYT?
 > 
-> Uses of what? devmem TCP is merged, I'm not removing it,
-> and the net_iov abstraction is in there, which can be potentially
-> be reused by other in-kernel users if that'd even make sense.
+> I guess, 6,8,9(without 30-bit formats), 10, 12 and 13.
+> 
+> 11 may have dependency on 1, 2 and 3 as it is SoC specific.
 
-How when you are hardcoding io uring memory registrations instead
-of making them a generic dmabuf?  Which btw would also really help
-with pre-registering the memry with the iommu to get good performance
-in IOMMU-enabled setups.
+Yes, of course, 10, not 11.
 
+> Then 4, 5 + new patch, re-adding 30-bit formats to IT6263 binding.
+
+-- 
+With best wishes
+Dmitry
 
