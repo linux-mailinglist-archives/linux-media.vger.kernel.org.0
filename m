@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-20452-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20453-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D39D9B3A12
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 20:08:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6999B3A15
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 20:09:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1DF2C2831A5
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 19:08:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 326E3283237
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 19:09:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40E331EE00C;
-	Mon, 28 Oct 2024 19:06:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 304831EE033;
+	Mon, 28 Oct 2024 19:07:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Od0uIII9"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="PaA6bjZO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2049.outbound.protection.outlook.com [40.107.21.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A04B1E9068;
-	Mon, 28 Oct 2024 19:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C401EE009;
+	Mon, 28 Oct 2024 19:06:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730142414; cv=fail; b=EHyJVfiTFxvJmZstlaRFqtNXVQOuewAZU2m883hS5fimC02gt99gKONyZ5oO/QK21Fq6Ow+kM3nUv3KPMHKt3UaUtXle7Qb10ovoD9wE/Z6vYXaX2BmKs5cBx4Insp5Vi1XxEHMYbgHyj/wdAadG1An+OjwFQKTYNvzWM/ECIqI=
+	t=1730142421; cv=fail; b=ch7BGoHQE+yO2qcP3Z3Pmk2ZtDY0NCwrGJuL6S21wbm+VjbMeqVEtJ4Qf/8+/NaaYVMVSxd8u0JKpULSsF3kSKi0Q8/m4UxSDSY1/VAf6whSJKoq+5zinJuN97+IUpduQWt3Z972g4Mmxc0xc26IT2ikYQ80RgR7iEyhYw+FhVc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730142414; c=relaxed/simple;
-	bh=UISQP8yumYvB5+bRb+kOpouFzkbzGGRDCVsOdhDDmMI=;
+	s=arc-20240116; t=1730142421; c=relaxed/simple;
+	bh=8LHXF10U7jRQ3W1jHYtxallHz+l1XZIRBiqFML4X/Fg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VjQks+zCLFPdIObZCbcFCGQof4AIvNuE7xuGWcLMuQPgBxlkBECMdwgnumjbFYtVEmKLxFgergPIDPLi/yCeACdFeN55l21mQfVCQHGzXWyGr5RrRaHg+E253T03WqEhlRLWEC4FSIbPAccgZ6TjfGS3VRY/cqedlwlnFR2FLZA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Od0uIII9; arc=fail smtp.client-ip=40.107.21.49
+	 Content-Type:MIME-Version; b=rPKhNVsRB+GHIAFeBkI91YeXaetcXikICS+BoZ6+qCAEusqa8j3/dINMQ4rEiWphPwsK5BR63zOZicjp810mkfbuqaaS0Gkr7ER5DOxAC/rOkP91CfwQJk+NCHs22mrWSp66t5E/Ta1NbXzCE4EvIibxvfhrwZSHcYu8ho8rGUE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=PaA6bjZO; arc=fail smtp.client-ip=40.107.21.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dBfQpBlaZgOXNuaE3Z2kM4RFn0YHMVFzTFrK/3irONl+l9ekQKahzFXREyh6s+dPFcsC59TsTWyfKDigqvI999rocjEr0DFOdp7d09zQVr45VODP3kJbLYnh0HuAUFgPqEHceN/WXYzB+HBdySkr+ieYFDagQlfSLYO9Bl9lSuHhRb8b7KH1GdC52Nh0moEtxMZdicyum+EQy/0UW87nonv4p/l3daW5cjtZYry1vocF84C7svRbdENqFPy/HSaQhHeS9DIzknu9CLwdK6N8JzgtNCKSVWxbxC4NaNgtbRpyX5NemwuOYX4XU6GUtBrsjtaqB8jCxZ3VjRVoID6fNA==
+ b=DRA7VPDi0w90y0a9aBtx0xaJVaAqFrK/Jv1dLSJyTXOcI38DJbZVGp2ZWm1W8pvyhnoPLvbCdA8zxf+MUZZpipEE2y/cAvX94DVWCKUl4XnpYhO0O5auBHZhJ+33ksaAeVpcbFRlwekgSddkdgI9pCejvaEGRkMgihnn1F77FfW80b7oP8I1phim1YleuFJfd71gT0+jgtsbWTOSQBZiIhLf+y5b2sa+cCE7JeB0dMnPqZXQO0qxc/nlj2KTdjuF29sBKZiGihdWhaHqk0xbSG/Mdl8mvCcU1GQKoq5c2zjaVyt/B7DpEtT32wAY6S/o/wMltPOH9vt0hSpf6zNHAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yg8IAEZto8WeS5WhidXrVtaOc2yd7vKlTESHcHp8Zuk=;
- b=qQqbsrMsg+zbZHOoQAGndw5fvNTiDpKlUUveSRfXLcOPp78AcLNUyc6ZPsOGp8laURtCHeKGYgQ+KOqvf0nUbpAnimhi1hupvwDll2qp1mU7Cfv4hF62077D1UmzlFJ/gVHCWdyka02Fxbw3zqY7a9ehENic+apeyhcrYAto5+bBlZNp6O0WO8Sp3ASU6/XovjGAMghSrsuozMOKc/g7dw3+6f77PgucUyN5kp65E1mGUOtQrIKo3XFruB0jSXEmiTjOacDUy2uqnsebqNLL8kjdhhU/Esxkugu6Hgc9SdttFsUHkwQvcql+SuZDz2NnJYPhoKcccrQlfHk/KwPnNw==
+ bh=41dvwtKB9vJTB3ccJRhZqTOzCi22ukvVL55coBX9ACc=;
+ b=SobLxZZF+Jdt5+NBwCdXoRSg5JsxgGoa/Wu95OF6AioY6Brhw0rQfsJH2xFxUPb56Ivhhzfm3mjAAHmwiJLtz78MGe0HfHLGAEMrqVtJfypuyFWXpjlVDMV6HktZFMlOl449LVD2byZCHfL6Ol1rTKNXM+CQIDVhCcJsm3+rJTEQA0/5O5+JII4ONpxwu0fK6lTQZziwrrIUb7fR62RX+40WVpfMniL+bESMbzMjW5ajQaPpQnhfdJg98LOrCf9wxtw/LMpIZRVnU5lYXm/kdzeDpeuOz0dii7fZipOokl+JEeGB6I7m9oV2j2ykAAu/oanRSqR52Qy71MuLAs4HLg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yg8IAEZto8WeS5WhidXrVtaOc2yd7vKlTESHcHp8Zuk=;
- b=Od0uIII9/9PRPNPsiVFh2Q572CZxlVCgKqyv9vt4WVqR3hPTDudsLFL1r5U4VHRCCsEk06D5McSWDSxa7oPVJoRPwEeWNupjBITikLQCWc80gA0apVyBgaPHaYIBAW+6kAjubhwsqZrHSjev+mnDTvIAcU1LyutZHmtfL49SuB1cQiQcZ4Si8WVn4SjjGtZgpKEYUqYSL53PG7TPFeBV6j0RIHQcPBbJ+DfhKNCFCUkB8EKawYNDdJkdejHfQ7EAzIaxFC+ostPcae3rPX+pop0YsAy4oA4XWquMiy4wyozbWG5UPy3laQzL9xmZACntyIGEjRh4Jb8hx3Ik/s/h7g==
+ bh=41dvwtKB9vJTB3ccJRhZqTOzCi22ukvVL55coBX9ACc=;
+ b=PaA6bjZOO4gW5SAB9lYq9NeDVQ34g4DkHbnRPFJDb4bRLvuoKghA7CY3iIi/f5vsbffSsjfCjDsVXyklvlW/6YTuyq06PfIfpW5fgnxcmJxgcSWl6sqHBtZEH8VOVUMmwPuDBbU8TPVZi4fOoS8GJeH3GkIb1ODjsfYOnyQATtI6kllcvPnLbI/KNWfZ4QMAGHHf62i49hI86CNLn0F1P+H0ZPb5uyWd3orh/9t2W/yDG4/OKfrxyP3rn8hA9S6060LIlH6XRJ8R0n8JnYtqeNaLo1kmsurjNHvyQxBN/74xv7OJLpUnhpENCVRmXKJ24HvYrDTeUeCfvWxAcWvHTw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
  by DU0PR04MB9441.eurprd04.prod.outlook.com (2603:10a6:10:359::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.21; Mon, 28 Oct
- 2024 19:06:46 +0000
+ 2024 19:06:47 +0000
 Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
  ([fe80::7303:2cc8:d109:d7c1]) by AS4PR04MB9244.eurprd04.prod.outlook.com
  ([fe80::7303:2cc8:d109:d7c1%4]) with mapi id 15.20.8093.018; Mon, 28 Oct 2024
- 19:06:46 +0000
+ 19:06:47 +0000
 From: Mirela Rabulea <mirela.rabulea@nxp.com>
 To: mchehab@kernel.org,
 	sakari.ailus@linux.intel.com,
@@ -73,9 +73,9 @@ Cc: linux-media@vger.kernel.org,
 	alain.volmat@foss.st.com,
 	julien.vuillaumier@nxp.com,
 	alice.yuan@nxp.com
-Subject: [PATCH 1/5] dt-bindings: media: i2c: Add bindings for OX05B1S sensor driver
-Date: Mon, 28 Oct 2024 21:06:24 +0200
-Message-Id: <20241028190628.257249-2-mirela.rabulea@nxp.com>
+Subject: [PATCH 2/5] media: ox05b1s: Add omnivision OX05B1S raw sensor driver
+Date: Mon, 28 Oct 2024 21:06:25 +0200
+Message-Id: <20241028190628.257249-3-mirela.rabulea@nxp.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241028190628.257249-1-mirela.rabulea@nxp.com>
 References: <20241028190628.257249-1-mirela.rabulea@nxp.com>
@@ -92,202 +92,2280 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|DU0PR04MB9441:EE_
-X-MS-Office365-Filtering-Correlation-Id: 755320c5-7f64-418a-7aa6-08dcf783aad2
+X-MS-Office365-Filtering-Correlation-Id: fc39e0fa-23f1-4e4d-8019-08dcf783ab84
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|366016|7416014|52116014|376014|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Hx+gp2PtTKicc2nKqPc0FTdQAY0v5TeO/+eiUGfqrfDmKs/yVkLm2HBvhZW4?=
- =?us-ascii?Q?0gX1ty0QtsWEn2ghy2nC7FZ1kTJfNTcdxIl8xvtQyfLKZFNUTLZAQxmzJA3C?=
- =?us-ascii?Q?4ZQZjFZ/wyvYdpGDXIQZHR4LbX76WuQoZPqDb34j+k8+NwJ7vHzzEO3WrfV7?=
- =?us-ascii?Q?bv+CmhLyJI+bcL6p3yOefUHyTcJl9DCgWW/ieHC13uD7SU9VX22WacgIop4l?=
- =?us-ascii?Q?SD8J5UU1eY9TFbZvbBaRp/S8zCt6D+3QQJbuB3mzy9xpS95lexdmFHeqYJ30?=
- =?us-ascii?Q?+7ilt9H8GSQPzwasDAyBYHP5xTU3OSrG/QZnks8uaRfZvrKsdL+Baz/d9gDp?=
- =?us-ascii?Q?aJHB/08m20mWe+9OLUobSB6wESvzIIR0KJtF/VuWwKA8QOWrEMGLhJp0GBdb?=
- =?us-ascii?Q?c4qy53D/UBDMcZrDFU7/ePc/ax84NMzkhc8mchGgpFjqXc9x2u4IxzfSsI7O?=
- =?us-ascii?Q?H8pK/N3b9kZtjGHaDaduFnPNMA6IYzquAe67pl8N7rlv3G7svrlJs1gW9hH1?=
- =?us-ascii?Q?zMNSNFyW668f9ClPCaTqiBugxrO5wzlexf3Yzj+DDXDjAzfATIHjXnku6DHr?=
- =?us-ascii?Q?FbASNqjpJKT89Bgvg2kPXzPYDMX/bOUJpEpCr46ahYu6pqkPhvusEui6WjnI?=
- =?us-ascii?Q?CTAamCOY9hEx1KC9wDWMsBR/hOjq+PXpgugDh2Z6hCGKYtS21rOZpGisC5wb?=
- =?us-ascii?Q?dJve8cJE3MpnFkX3DvTfeXElb0ILvn1zfZ6dIjKQHFFNvuyA3ea4aDuxbIcx?=
- =?us-ascii?Q?DrS+cZmDqeCT8gepFdC3UewC7UOBWAJx7gibSjmc0SnEeAoZsamKVyxIdcez?=
- =?us-ascii?Q?sRrSTp4sK2U93jxxp91DAvY2B/PLGErAeZhgSQq8UBZwE8g4rGwGX71Nyfld?=
- =?us-ascii?Q?4/uD6Aqvd63uKok6Fpjo+lwplNr6FRRcB7AplvBVUtUoO6cJmqOMQk+w7Was?=
- =?us-ascii?Q?SPOcs7D52hGHKR3ZN0Bx/mEi8Rg/RKnk49zUdP/mS+ua8Kk+ZSAcVVSd1BSZ?=
- =?us-ascii?Q?FQ1ezuFfEgqul0MnQjLzlHb0A54nMod7g6Ke2BvHWSpYeINq6JbuIvAbNpUl?=
- =?us-ascii?Q?bysgSw87i/XLkJoqOyf4jkm0dklMPUwJLQA1+bsuvyQZ9QHLAE59fCEfdp5H?=
- =?us-ascii?Q?pmRpGA98R7eYJHCzQeowkDO69WrCkTi5OJE3e7H21EYcUsz7k0UOjDCGZUsk?=
- =?us-ascii?Q?1oio/8Z2OKzOeXiuvxl0JGw+/ygsRPgAFnMLwCAxG/pGbWPPcbXE142FDTqN?=
- =?us-ascii?Q?ThjRsDy2tfrMUKE3UZzlzumVVaYCWZp4CK7GR2EWbRfUchljwpXco+4KUmCy?=
- =?us-ascii?Q?G43ht5L4CC7SkGpIRil/zCwR?=
+	=?us-ascii?Q?ftm1aslt+p8usgxGe8L5dfik7V9fESwCH3d9lPtBwKPv6xBgx1aHeBy0Yg5d?=
+ =?us-ascii?Q?cCnn3uIGnpEbNdxXOTAUpP/Oqz44KHsg2gE3viXNV/a+wrnjlip1SFsD6YXH?=
+ =?us-ascii?Q?gaenPMGbBtGZq/AUQ3NZWUmNcnjN/L1MofZOuALfq1MDXG6CVKiNVBTNjTkO?=
+ =?us-ascii?Q?grL8YQCpkLMefLYQ61VSx4uHj6YoyeP1WOBvPzMmFWQv6YQXg0PYlPjMV1Lq?=
+ =?us-ascii?Q?wsiRBd/MHLa+Pc6MwbX3CazO4WiGzdYCeAcDD+7NC1FtqLhZHFN+FBOmGjFM?=
+ =?us-ascii?Q?z8SMzxvJHciARZ4yu+At3DKcw09BzKrjKUYjo9bqo4o8OJwk6zWT7jp/Aczt?=
+ =?us-ascii?Q?yztOGD5gxV+nF2zN+Yj5LEEN4Y102+nh+QXRhycQ85XMRKes003g5LmlW9M9?=
+ =?us-ascii?Q?q2/q20vgYXTf+68OkrvieoYmHZPxGVum3IvE07XjmqGuVw1doOtngAY1Kr40?=
+ =?us-ascii?Q?VITGl4GhM/NCR1UTZKvfKya0bZRTwjfF2UbulkKiKd1DSSK5ObF/vQRAzS7O?=
+ =?us-ascii?Q?DtZDqX+kLZTMea8FSg4o5gO4cyzl3KKwQD0Pv20Qa5ullEZJBW99lo4mjdw4?=
+ =?us-ascii?Q?awk7LBr/D06P/iQCOAo6iZ0LmtzsJMNEniPboIqTCJILEG1wE1xdsx2DTcVf?=
+ =?us-ascii?Q?RFpEiwYkabC1DkZL7yepJi93JF23AVUNxRQ9Fn8XQExhpLIAgqt7N3h2k3qF?=
+ =?us-ascii?Q?cOYc2C3GyyMB5ewnRE8gf09GlOPyDRqxgabACp9SOj2KcLPx3c4yBtypKkCg?=
+ =?us-ascii?Q?eFQT1YG8dBk5ZS2vt0CUsS5N3n7oBqrAU34rsCaPcSFChpG8O716NdTRYQmW?=
+ =?us-ascii?Q?f5v3QuR1lWmi4ltwvI4RrG+7E25vpbrVc/Y2UFTOJraKZOJqpX1OM7gQ9hN2?=
+ =?us-ascii?Q?4ef7bfQfCiWd1YafCJSNMTGlnNR4nuFPNMdNR349fhLQH+xIIBgCcpVVjUep?=
+ =?us-ascii?Q?g0xVXvC2nEUmxQMZTQ5EqfhJ8smmSCZ++wEWWnWQe1Hc2SabYsJKIXULfIp/?=
+ =?us-ascii?Q?FRAjQIqE/U5Jgqb/tdHMTnT5JWvQPcmRMtEVN11tdd41UOI2lxhTD2TZJ7x+?=
+ =?us-ascii?Q?2JcgYVFbS3Lhg/i7ygCV+HYNnXw7dqslM4PnoUOCzxz0Vak3vwT/WrDtiauF?=
+ =?us-ascii?Q?1yoUgSSf/JqWhPhkWgDptY9A/sivYUigo1jTvdLu+IWcPA51hUC6d8RQDp+q?=
+ =?us-ascii?Q?7ytkJBxpmqWb8llQJiMWvvHSZBgeZie6/+h73umRh3Ha06OfiIk34cHaHkDe?=
+ =?us-ascii?Q?QPqANrW+Nah/POy0orXq6w2Z+CrNBlh8vGD/oDp+f6YKoEw95VSFa3PBcRaA?=
+ =?us-ascii?Q?8Of2YP96rPuXcZUuQuj9XXoJy1g6E4IBuvgmtMSU+UQ49NQMNceyzmipqtZf?=
+ =?us-ascii?Q?3O6PLcw=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?qyTm6Pcmx2LU7xeEg8nMFg7BN6msSfQZdvP8FjORg8zO7EtgFrK0KerclPss?=
- =?us-ascii?Q?iS/7+TeHZ+m8RdMRv95H6crvrlIp8MeGKh12aeBkJE92PGx67DN5MF6rwqrB?=
- =?us-ascii?Q?nDOILLCavfOwa9CLlTVOKHLg+fXxhbHCDKAy2YQibm1Uc/A0UocFYzYVL/nH?=
- =?us-ascii?Q?R//gFKqy6VT9yGUXGK2kY2cormqMO+oGEfe7gf3v4xO4T9j85Mk5OtZ41PIQ?=
- =?us-ascii?Q?kLk7nZxCbEVSYqA5gcCq8PUZoLVuiGJubLILxmHJNDRFaw9p9Qqx3WctlI+S?=
- =?us-ascii?Q?oTGBq/usRE44+9C5oUug8QzcVC4Q6Ga34zMwgKl4UJqsShNLI40WfyOkYaTX?=
- =?us-ascii?Q?0OSc6LxyezoGJhH2RRmXd07uU6bEI8BBCRWsaQL6LcOujOT4jO1VxEI0+Gzx?=
- =?us-ascii?Q?HfBVZm5vzEQCdB9yB7SX10LLT1k2SqMwedbV185AEu5S0D1XDu3ol1HU++t2?=
- =?us-ascii?Q?mcXXtGBTlEFeVZLC1QLWzemLurv72CD7/VkKEveyQopC6+aI65aPnYKveCZf?=
- =?us-ascii?Q?1fDlKp4PKvHF24klyue7cypap4VSw7QLLAGgl2yM4RjAPKF6gc5N86J3dZPs?=
- =?us-ascii?Q?hR7pCgskPfof0jiAxjXVewkX9lKAOZeej5F6vpKg12OaYYJvKTm1sz8fEYtD?=
- =?us-ascii?Q?M9D8tCaMHbFAPIMkWKAEKLQQ1cbvLXmmgePfocJRDnbbOIenCzd/RXTANcAg?=
- =?us-ascii?Q?Yr0xac/FTRnivu9mzS2djIBF01uwdDKV2KbSlNH2RglKnuJ4n2tAL3UZkNw7?=
- =?us-ascii?Q?oR8w5iSNC3Hn0ih41OhDvUE7NZoPI2SJgmMjda2LH2vJESjyp88GgDuDXWXJ?=
- =?us-ascii?Q?VVIZihEcNWIqKywCWpAOk0hUpPIGRuUWJE2GFWDbTt2D3GGuIKDPeh6O2GG4?=
- =?us-ascii?Q?cCpnuR/Y/wS6zjleN4ITrvdSLGQ/GQ/SuAVJP8It4DZO4z93OvSgUuMNwXVU?=
- =?us-ascii?Q?pOdFERjC1YVi1IzBpnlGlZ5doORZ9lrrZt/WO/E+utDTmkc1iruL+svvB2Y3?=
- =?us-ascii?Q?yciFD3AK0bl0iPQxbTQSpNUSp9JDPA07AaH3VCnwbDTgaOLbtyJyy3R4Howt?=
- =?us-ascii?Q?6pgyV07HNOC9t2bjR3qKI/eozfOeJP5tYBsqG6JStZNGumTHXgHzwUnbvdqk?=
- =?us-ascii?Q?MO3fYWpXN5qIH+OGBTBNrSfrdCUZmgw1OKdRFo058SHBQJnAUsrIV6+gJc95?=
- =?us-ascii?Q?A5Cs3TbXCA27pmZmSG5a/a6BMcEJSSIoaIa9X7kZ2h+QVP11g88Iv1aEIT10?=
- =?us-ascii?Q?DW8/RfGoqnzNQUsMTpUM60ykQPXU+JqUgMlo0n91VXcWG62TRDFmXicKbipo?=
- =?us-ascii?Q?3fosAb4YbfhFMX0N/ZtzqE7Y4ho9tJwdsiZbb5zj4xclBmYz7Id5vqyeHbC0?=
- =?us-ascii?Q?3VXrcAfLdGHq/d8aSph6WDQHOE6XI2bEfvUI1Ji7DeetfNN7wu28Ti+sVQdf?=
- =?us-ascii?Q?uEn70PI1PK8HMHIJMcdHoR/f4duG9IzJucvNjPZ5IJn83D3+V6ubhJKEgtvd?=
- =?us-ascii?Q?T9tSQ2yqq7TTDnxBTXB+1uGSvzDcXPXBK2kYdlB+n6ajAp4wsSbEO9hh6Rr5?=
- =?us-ascii?Q?dAhowvW0F5rxvz6S5bqpR9z8ydr6l7lOUbBNxSxL9PZ9e0YhXcs5qqh6X5TI?=
- =?us-ascii?Q?4g=3D=3D?=
+	=?us-ascii?Q?SvezZNsIE7++RRp+sIWtz8jGl5gZUbWBB+2ccNntjaIhzohDemqpKQ2m1q0r?=
+ =?us-ascii?Q?i8y9DkIWY1GJ3aYhICqikEXt3RXnQmFY426DhSzgGR6W/eykW6HADtEXli8i?=
+ =?us-ascii?Q?I8MyhLrY6gn6vat49yXi0ED/28n7gHGRYZJehgRqBYOmiSqZkoXoBzUGZIx8?=
+ =?us-ascii?Q?FBAQvwblnNQt9+/fmhBThADkdvT9tWuyF/h7VkAIdoikrmxtGjttv0Fy/n03?=
+ =?us-ascii?Q?sOIwXVPC0GsLKvDFTTYHsmDAn6p+fcGPG2cR/Vk0M4YCg41zG4s/pdTN17fs?=
+ =?us-ascii?Q?adehc+dAhy7+xS7FiBNJh+IRRyR4pwyQ3eSrkOzNDPnEM8P7nvR0AbNZeRa+?=
+ =?us-ascii?Q?ZlXFP1wGbiepLguXzSG2qGDFpC0h7Ree+zexQ0326pYxHZxMVMzGB00Qcdfo?=
+ =?us-ascii?Q?NqprcXK909U22cuUfZ/LRi9G0/NzrXHWmI/HvBw+HdCNuUh4W9PygSOqftxp?=
+ =?us-ascii?Q?6I5lh2y0TjAy/FTA/YfrI17FK3J/lNdWY4s1cih5I6A6siUarGodLnUMwddt?=
+ =?us-ascii?Q?dWWy+e7nZmYpxcfhDPLWyimCsVUjPwnkEIDgfz5Yc7MXwDZRUjrHUekUxjNs?=
+ =?us-ascii?Q?bVhdkB3JTYUE/6KvGnkl+jl1HtYqTzUe94wdNYdBbZz4jV8mFff2VjNni1Tt?=
+ =?us-ascii?Q?zDmzdSJZXiHrOujwWdGGs9EPx9qKQL2Cg0kq/+Lvxs7rVm/FnXZuA7ZzaQqG?=
+ =?us-ascii?Q?pqYOUwE1eA9IABcI8sjTcrk/Jjcm0Tpx9mOjz3NzE/qfK22Y9dDEm/+B1S2S?=
+ =?us-ascii?Q?Sfv+afGVDp7F8IABxISxWb4fE0J4IBRAWemh9j5gNz7b/dFwITIKo+92p0Me?=
+ =?us-ascii?Q?32Q8zIA7Z3a+5wW3nofFTTqpMptqJC2qRdr514R2teujkISuTRgIyd27N9mr?=
+ =?us-ascii?Q?VazFaFfOK8qVt7CMpDKbZABTfpX1P3qkoB01np6AUdi3NADSgBoWmXiSZWIi?=
+ =?us-ascii?Q?8tnbp1dr1zS0DSzZK8qgZtuGt8ZA4PeE/OHemqDlHbDSCjYSSV+j6hSyVOpW?=
+ =?us-ascii?Q?Uc8oH5ThkkKKZbuR42ivD2VFBGrtMu0Mwub+5ZNYBP6ruIdccsc6b8lDm51G?=
+ =?us-ascii?Q?7ul5z0vkhrM1MiRme3ws6KsO0WkznVydn9c6TdVf6Rkl4lLw/IsEtQs6Wwma?=
+ =?us-ascii?Q?kEPktNj/rexeuA7mwn3JBjSOdPboXKKc/aS+gaGnMDq1/f2nwucFooh1f+9x?=
+ =?us-ascii?Q?q6WENIzoXsRluyZSzh/OmEz4xOnXQWLWrzLDr7a2m6XeeXsjPJlZCitZAEda?=
+ =?us-ascii?Q?q8veyq/QTgreYEX/DHcMBOof3WMNgxl0IicOKDeOXMG1fso0CaHlwa1fNG8G?=
+ =?us-ascii?Q?YpZhCqfAsdD6HLNdWdkzjF0bxssSK0kYs5aKqVVXqTzXbQUUaL7yA17QoxN1?=
+ =?us-ascii?Q?KkFWxEYCBDKjnyMG7LXIkFwlkIcvzx7YiiXbP9hH6jWh8RkInNczMU/JcAQn?=
+ =?us-ascii?Q?iRlPkd48OC07YgMO8gBDX7gdonw6/oo45f8zPrNcXq/k0fOovGYRiRilVsS0?=
+ =?us-ascii?Q?QDVGqquvtfvHZ/4GF5fCSeqwc0mAEE9Vs43Jj8Axt64Ef+lRHOXXmup5AHCY?=
+ =?us-ascii?Q?yco/v9vd8RJPFMbcbWsFq4NwLaN7X5yd8fxwzgSPwVoHl+PDGRJxOP00U/pG?=
+ =?us-ascii?Q?Pw=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 755320c5-7f64-418a-7aa6-08dcf783aad2
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc39e0fa-23f1-4e4d-8019-08dcf783ab84
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 19:06:45.9834
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 19:06:47.2541
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 299zluce7szu4WFnDOeROcMbzaXGHLwUYYEt4Z5qn701XgFCbj93J2tpCkzS2zdUo0+L30crmiFCTisrPyNoTA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HWe2t3VMgsdbIhhYwXF83I4Uc57kbE+EX2IIRYRWw6j6Hocv0W2/bxMwnlk67LYfJcjqIQNY6S4BiNowqNHKPQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9441
 
-Add bindings for OX05B1S sensor driver
+Add a v4l2 subdevice driver for the Omnivision OX05B1S RGB-IR sensor.
+
+The Omnivision OX05B1S is a 1/2.5-Inch CMOS image sensor with an
+active array size of 2592 x 1944.
+
+The following features are supported for OX05B1S:
+- Manual exposure an gain control support
+- vblank/hblank control support
+- Supported resolution: 2592 x 1944 @ 30fps (SGRBG10)
 
 Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 ---
- .../bindings/media/i2c/ovti,ox05b1s.yaml      | 109 ++++++++++++++++++
- 1 file changed, 109 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml
+ drivers/media/i2c/Kconfig                    |    1 +
+ drivers/media/i2c/Makefile                   |    1 +
+ drivers/media/i2c/ox05b1s/Kconfig            |   10 +
+ drivers/media/i2c/ox05b1s/Makefile           |    2 +
+ drivers/media/i2c/ox05b1s/ox05b1s_mipi.c     |  956 +++++++++++++++
+ drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h | 1160 ++++++++++++++++++
+ 6 files changed, 2130 insertions(+)
+ create mode 100644 drivers/media/i2c/ox05b1s/Kconfig
+ create mode 100644 drivers/media/i2c/ox05b1s/Makefile
+ create mode 100644 drivers/media/i2c/ox05b1s/ox05b1s_mipi.c
+ create mode 100644 drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 8ba096b8ebca..5cda062c0463 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -700,6 +700,7 @@ config VIDEO_VGXY61
+ 
+ source "drivers/media/i2c/ccs/Kconfig"
+ source "drivers/media/i2c/et8ek8/Kconfig"
++source "drivers/media/i2c/ox05b1s/Kconfig"
+ 
+ endif
+ 
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index fbb988bd067a..028eb08e648c 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -114,6 +114,7 @@ obj-$(CONFIG_VIDEO_OV9282) += ov9282.o
+ obj-$(CONFIG_VIDEO_OV9640) += ov9640.o
+ obj-$(CONFIG_VIDEO_OV9650) += ov9650.o
+ obj-$(CONFIG_VIDEO_OV9734) += ov9734.o
++obj-$(CONFIG_VIDEO_OX05B1S) += ox05b1s/
+ obj-$(CONFIG_VIDEO_RDACM20) += rdacm20.o
+ obj-$(CONFIG_VIDEO_RDACM21) += rdacm21.o
+ obj-$(CONFIG_VIDEO_RJ54N1) += rj54n1cb0c.o
+diff --git a/drivers/media/i2c/ox05b1s/Kconfig b/drivers/media/i2c/ox05b1s/Kconfig
 new file mode 100644
-index 000000000000..d47e1950f24d
+index 000000000000..48fcd04b20d5
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml
-@@ -0,0 +1,109 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+# Copyright (C) 2024, NXP
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/ovti,ox05b1s.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/media/i2c/ox05b1s/Kconfig
+@@ -0,0 +1,10 @@
++config VIDEO_OX05B1S
++	tristate "OmniVision raw sensor support OX05B1S"
++	depends on OF
++	depends on GPIOLIB
++	select REGMAP_I2C
++	help
++	  This is a Video4Linux2 sensor driver for the Omnivision OX05B1S RGB-IR sensor.
++	  This is a 1/2.5-Inch CMOS image sensor with an active array size of 2592 x 1944.
++	  It is programmable through I2C interface.
++	  The output is on MIPI CSI-2 interface.
+diff --git a/drivers/media/i2c/ox05b1s/Makefile b/drivers/media/i2c/ox05b1s/Makefile
+new file mode 100644
+index 000000000000..8b57974fd1b5
+--- /dev/null
++++ b/drivers/media/i2c/ox05b1s/Makefile
+@@ -0,0 +1,2 @@
++ox05b1s-objs := ox05b1s_mipi.o
++obj-$(CONFIG_VIDEO_OX05B1S) += ox05b1s_mipi.o
+diff --git a/drivers/media/i2c/ox05b1s/ox05b1s_mipi.c b/drivers/media/i2c/ox05b1s/ox05b1s_mipi.c
+new file mode 100644
+index 000000000000..5b9c069af19b
+--- /dev/null
++++ b/drivers/media/i2c/ox05b1s/ox05b1s_mipi.c
+@@ -0,0 +1,956 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * A V4L2 driver for Omnivision OX05B1S RGB-IR camera.
++ * Copyright (C) 2024, NXP
++ *
++ * Inspired from Sony imx219, imx290, imx214 and imx334 camera drivers
++ *
++ */
 +
-+title: Omnivision OX05B1S Image Sensor
++#include <linux/clk.h>
++#include <linux/pm_runtime.h>
++#include <linux/regmap.h>
++#include <media/mipi-csi2.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-fwnode.h>
 +
-+maintainers:
-+  - Mirela Rabulea <mirela.rabulea@nxp.com>
++#define OX05B1S_SENS_PAD_SOURCE	0
++#define OX05B1S_SENS_PADS_NUM	1
 +
-+description: |-
-+  The Omnivision OX05B1S is a 1/2.5-Inch CMOS image sensor with an active array size
-+  of 2592 x 1944. It is programmable through I2C interface.
-+  The sensor output is available via CSI-2 serial data output.
++#define OX05B1S_REG_SW_STB 0x0100
++#define OX05B1S_REG_SW_RST 0x0103
++#define OX05B1S_REG_CHIP_ID_23_16 0x300a
++#define OX05B1S_REG_CHIP_ID_15_8 0x300b
++#define OX05B1S_REG_CHIP_ID_7_0 0x300c
++#define OX05B1S_REG_TIMING_HTS_H 0x380c
++#define OX05B1S_REG_TIMING_HTS_L 0x380d
++#define OX05B1S_REG_TIMING_VTS_H 0x380e
++#define OX05B1S_REG_TIMING_VTS_L 0x380f
++#define OX05B1S_REG_EXPOSURE_H 0x3501
++#define OX05B1S_REG_EXPOSURE_L 0x3502
++#define OX05B1S_REG_GAIN_H 0x3508
++#define OX05B1S_REG_GAIN_L 0x3509
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - ovti,ox05b1s
++#define client_to_ox05b1s(client)\
++	container_of(i2c_get_clientdata(client), struct ox05b1s, subdev)
 +
-+  reg:
-+    maxItems: 1
++#define OX05B1S_MAX_SIZES 4
++struct ox05b1s_sizes {
++	u32	code;
++	u32	sizes_count;
++	u32	sizes[OX05B1S_MAX_SIZES][2];
++};
 +
-+  clocks:
-+    maxItems: 1
++struct ox05b1s_plat_data {
++	char				name[20];
++	u32				chip_id;
++	u32				native_width;
++	u32				native_height;
++	u32				active_top;
++	u32				active_left;
++	u32				active_width;
++	u32				active_height;
++	const struct ox05b1s_mode	*supported_modes;
++	u32				supported_modes_count;
++	u32				default_mode_index;
++	const struct ox05b1s_sizes	*supported_codes;
++	u32				supported_codes_count;
++};
 +
-+  clock-names:
-+    description: Input clock (24 MHz)
-+    items:
-+      - const: csi_mclk
++struct ox05b1s_ctrls {
++	struct v4l2_ctrl_handler handler;
++	struct v4l2_ctrl *link_freq;
++	struct v4l2_ctrl *pixel_rate;
++	struct v4l2_ctrl *hblank;
++	struct v4l2_ctrl *vblank;
++	struct v4l2_ctrl *gain;
++	struct v4l2_ctrl *exposure;
++};
 +
-+  assigned-clocks:
-+    maxItems: 1
++struct ox05b1s_reg {
++	u32 addr;
++	u32 data;
++};
 +
-+  assigned-clock-parents:
-+    maxItems: 1
++#include "ox05b1s_regs_5mp.h"
 +
-+  assigned-clock-rates:
-+    maxItems: 1
++struct ox05b1s_mode {
++	u32 index;
++	u32 width;
++	u32 height;
++	u32 code;
++	u32 bpp;
++	u32 vts; /* default VTS */
++	u32 hts; /* default HTS */
++	u32 exp; /* max exposure */
++	bool h_bin; /* horizontal binning */
++	u32 fps;
++	struct ox05b1s_reg *reg_data;
++	u32 reg_data_count;
++};
 +
-+  reset-gpios:
-+    description: Reference to the GPIO connected to the XSHUTDOWN pin. Active low.
-+    maxItems: 1
++struct ox05b1s {
++	struct i2c_client *i2c_client;
++	struct regmap *regmap;
++	struct gpio_desc *rst_gpio;
++	struct clk *sensor_clk;
++	const struct ox05b1s_plat_data *model;
++	struct v4l2_subdev subdev;
++	struct media_pad pads[OX05B1S_SENS_PADS_NUM];
++	const struct ox05b1s_mode *mode;
++	struct mutex lock; /* sensor lock */
++	u32 stream_status;
++	struct ox05b1s_ctrls ctrls;
++};
 +
-+  orientation: true
-+  rotation: true
++static struct ox05b1s_mode ox05b1s_supported_modes[] = {
++	{
++		.index		= 0,
++		.width		= 2592,
++		.height		= 1944,
++		.code		= MEDIA_BUS_FMT_SGRBG10_1X10,
++		.bpp		= 10,
++		.vts		= 0x850,
++		.hts		= 0x2f0,
++		.exp		= 0x850 - 8,
++		.h_bin		= false,
++		.fps		= 30,
++		.reg_data	= ovx5b_init_setting_2592x1944,
++		.reg_data_count	= ARRAY_SIZE(ovx5b_init_setting_2592x1944),
++	},
++};
 +
-+  port:
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
-+    description: MIPI CSI-2 transmitter port
++/* keep in sync with ox05b1s_supported_modes*/
++static const struct ox05b1s_sizes ox05b1s_supported_codes[] = {
++	{
++		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
++		.sizes_count = 1,
++		.sizes = { {2592, 1944} }
++	},
++};
 +
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
++static const struct regmap_config ox05b1s_regmap_config = {
++	.reg_bits = 16,
++	.val_bits = 8,
++	.cache_type = REGCACHE_RBTREE,
++};
 +
-+        properties:
-+          data-lanes:
-+            anyOf:
-+              - items:
-+                  - const: 1
-+                  - const: 2
-+              - items:
-+                  - const: 1
-+                  - const: 2
-+                  - const: 3
-+                  - const: 4
-+        required:
-+          - data-lanes
++static int ox05b1s_power_on(struct ox05b1s *sensor)
++{
++	struct device *dev = &sensor->i2c_client->dev;
++	int ret = 0;
 +
-+    required:
-+      - endpoint
++	/* get out of powerdown and reset */
++	gpiod_set_value_cansleep(sensor->rst_gpio, 0);
 +
-+required:
-+  - compatible
-+  - reg
-+  - port
++	ret = clk_prepare_enable(sensor->sensor_clk);
++	if (ret < 0)
++		dev_err(dev, "Enable sensor clk fail ret=%d\n", ret);
 +
-+additionalProperties: false
++	/* with XVCLK@24MHz, t2 = 6ms required delay for ox05b1s before first SCCB transaction */
++	fsleep(6000);
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++	return ret;
++}
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++static int ox05b1s_power_off(struct ox05b1s *sensor)
++{
++	gpiod_set_value_cansleep(sensor->rst_gpio, 1);
 +
-+        ox05b1s: ox05b1s@36 {
-+            compatible = "ovti,ox05b1s";
-+            reg = <0x36>;
-+            reset-gpios = <&i2c3_gpio_expander_20 2 GPIO_ACTIVE_LOW>;
-+            orientation = <2>;
-+            rotation = <0>;
-+            status = "okay";
++	if (!sensor->sensor_clk)
++		return 0;
 +
-+            port {
-+                ox05b1s_mipi_0_ep: endpoint {
-+                    remote-endpoint = <&mipi_csi0_ep>;
-+                    data-lanes = <1 2 3 4>;
-+                };
-+            };
-+        };
-+    };
-+...
++	/* XVCLK must be active for 512 cycles (0.34 ms at 24MHz) after last SCCB transaction */
++	fsleep(350);
++	clk_disable_unprepare(sensor->sensor_clk);
++
++	return 0;
++}
++
++static int ox05b1s_runtime_suspend(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++
++	return ox05b1s_power_off(sensor);
++}
++
++static int ox05b1s_runtime_resume(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++
++	return ox05b1s_power_on(sensor);
++}
++
++static int ox05b1s_write_reg(struct ox05b1s *sensor, u16 reg, u8 val)
++{
++	struct device *dev = &sensor->i2c_client->dev;
++	int ret = 0;
++
++	ret = regmap_write(sensor->regmap, reg, val);
++	if (ret < 0)
++		dev_err(dev, "Failed to write reg addr 0x%04x with 0x%02x\n", reg, val);
++
++	return ret;
++}
++
++static int ox05b1s_read_reg(struct ox05b1s *sensor, u16 reg, u8 *val)
++{
++	struct device *dev = &sensor->i2c_client->dev;
++	int ret = 0;
++
++	ret = regmap_raw_read(sensor->regmap, reg, val, 1);
++	if (ret)
++		dev_err(dev, "Read reg error: reg=%x, val=%x\n", reg, *val);
++
++	return ret;
++}
++
++#define OX05B1S_MAX_REG_BULK 16
++static int ox05b1s_write_reg_array(struct ox05b1s *sensor,
++				   struct ox05b1s_reg *reg_array,
++				   u32 size)
++{
++	struct device *dev = &sensor->i2c_client->dev;
++	struct ox05b1s_reg *table = reg_array;
++	u8 vals[OX05B1S_MAX_REG_BULK];
++	int i, j;
++	int ret;
++
++	for (j = 0; j < size; j++) {
++		table = &reg_array[j];
++		for (i = 0; i < OX05B1S_MAX_REG_BULK; i++) {
++			if (table[i].addr != (table[0].addr + i))
++				break;
++			vals[i] = table[i].data;
++		}
++		ret = regmap_bulk_write(sensor->regmap, table->addr, vals, i);
++		if (ret) {
++			dev_err(dev, "Failed to write reg addr=%x, count %d\n", table->addr, i);
++			return ret;
++		}
++		j += i - 1;
++	}
++
++	return 0;
++}
++
++static int ox05b1s_set_hts(struct ox05b1s *sensor, u32 hts)
++{
++	u8 values[2] = { (u8)(hts >> 8) & 0xff, (u8)(hts & 0xff) };
++
++	return regmap_bulk_write(sensor->regmap, OX05B1S_REG_TIMING_HTS_H, values, 2);
++}
++
++static int ox05b1s_set_vts(struct ox05b1s *sensor, u32 vts)
++{
++	u8 values[2] = { (u8)(vts >> 8) & 0xff, (u8)(vts & 0xff) };
++
++	return regmap_bulk_write(sensor->regmap, OX05B1S_REG_TIMING_VTS_H, values, 2);
++}
++
++static int ox05b1s_set_exp(struct ox05b1s *sensor, u32 exp)
++{
++	u8 values[2] = { (u8)(exp >> 8) & 0xff, (u8)(exp & 0xff) };
++
++	return regmap_bulk_write(sensor->regmap, OX05B1S_REG_EXPOSURE_H, values, 2);
++}
++
++static int ox05b1s_set_analog_gain(struct ox05b1s *sensor, u32 again)
++{
++	u8 values[2] = { (u8)(again >> 8) & 0xff, (u8)(again & 0xff) };
++
++	/* real gain */
++	return regmap_bulk_write(sensor->regmap, OX05B1S_REG_GAIN_H, values, 2);
++}
++
++static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
++{
++	return &container_of(ctrl->handler, struct ox05b1s,
++			     ctrls.handler)->subdev;
++}
++
++static int ox05b1s_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++	u32 w = sensor->mode->width;
++	u32 h = sensor->mode->height;
++	int ret = 0;
++
++	/* apply V4L2 controls values only if power is already up */
++	if (!pm_runtime_get_if_in_use(&client->dev))
++		return 0;
++
++	/* s_ctrl holds sensor lock */
++	switch (ctrl->id) {
++	case V4L2_CID_VBLANK:
++		ret = ox05b1s_set_vts(sensor, h + ctrl->val);
++		break;
++	case V4L2_CID_HBLANK:
++		if (sensor->mode->h_bin)
++			ret = ox05b1s_set_hts(sensor, w + ctrl->val);
++		else
++			ret = ox05b1s_set_hts(sensor, (w + ctrl->val) / 2);
++		break;
++	case V4L2_CID_PIXEL_RATE:
++		/* Read-only, but we adjust it based on mode. */
++		break;
++	case V4L2_CID_ANALOGUE_GAIN:
++		ret = ox05b1s_set_analog_gain(sensor, ctrl->val);
++		break;
++	case V4L2_CID_EXPOSURE:
++		ret = ox05b1s_set_exp(sensor, ctrl->val);
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	pm_runtime_put(&client->dev);
++
++	return ret;
++}
++
++static const struct v4l2_ctrl_ops ox05b1s_ctrl_ops = {
++	.s_ctrl = ox05b1s_s_ctrl,
++};
++
++/*
++ * MIPI CSI-2 link frequencies.
++ * link_freq = (pixel_rate * bpp) / (2 * data_lanes)
++ */
++static const s64 ox05b1s_csi2_link_freqs[] = {
++	200000000,
++};
++
++/* Link freq for default mode: 1080p RAW10, 4 data lanes 800 Mbps/lane. */
++#define OX05B1S_DEFAULT_LINK_FREQ	0
++
++static int ox05b1s_init_controls(struct ox05b1s *sensor)
++{
++	const struct v4l2_ctrl_ops *ops = &ox05b1s_ctrl_ops;
++	struct ox05b1s_ctrls *ctrls = &sensor->ctrls;
++	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
++	struct device *dev = &sensor->i2c_client->dev;
++	struct v4l2_fwnode_device_properties props;
++	int ret;
++
++	v4l2_ctrl_handler_init(hdl, 7);
++
++	/* we can use our own mutex for the ctrl lock */
++	hdl->lock = &sensor->lock;
++
++	/* Clock related controls */
++	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops,
++						  V4L2_CID_LINK_FREQ,
++						  ARRAY_SIZE(ox05b1s_csi2_link_freqs) - 1,
++						  OX05B1S_DEFAULT_LINK_FREQ,
++						  ox05b1s_csi2_link_freqs);
++
++	/* mode dependent, actual range set in ox05b1s_update_controls */
++	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
++					      0, 0, 1, 0);
++
++	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK,
++					  0, 0, 1, 0);
++
++	ctrls->vblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK,
++					  0, 0, 1, 0);
++
++	ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE,
++					    0, 0, 1, 0);
++
++	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
++					0, 0xFFFF, 1, 0x80);
++
++	if (hdl->error) {
++		ret = hdl->error;
++		goto free_ctrls;
++	}
++
++	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	ret = v4l2_fwnode_device_parse(dev, &props);
++	if (ret)
++		goto free_ctrls;
++
++	ret = v4l2_ctrl_new_fwnode_properties(hdl, ops, &props);
++	if (ret)
++		goto free_ctrls;
++
++	sensor->subdev.ctrl_handler = hdl;
++	return 0;
++
++free_ctrls:
++	dev_err(dev, "Failed to init controls\n");
++	v4l2_ctrl_handler_free(hdl);
++	return ret;
++}
++
++static int ox05b1s_apply_current_mode(struct ox05b1s *sensor);
++
++static int ox05b1s_s_stream(struct v4l2_subdev *sd, int enable)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++	int ret = 0;
++
++	if (enable) {
++		ret = pm_runtime_resume_and_get(&client->dev);
++		if (ret < 0)
++			return ret;
++		ret = ox05b1s_apply_current_mode(sensor);
++		if (!ret)
++			ret = ox05b1s_write_reg(sensor, OX05B1S_REG_SW_STB, 0x01);
++	} else {
++		ret = ox05b1s_write_reg(sensor, OX05B1S_REG_SW_STB, 0x00);
++	}
++
++	sensor->stream_status = enable;
++
++	if (!enable || ret) {
++		pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
++		pm_runtime_put_autosuspend(&client->dev);
++	}
++
++	return 0;
++}
++
++static void ox05b1s_update_pad_format(struct ox05b1s *sensor,
++				      const struct ox05b1s_mode *mode,
++				      struct v4l2_mbus_framefmt *fmt)
++{
++	fmt->code = mode->code;
++	fmt->width = mode->width;
++	fmt->height = mode->height;
++	fmt->field = V4L2_FIELD_NONE;
++	fmt->colorspace = V4L2_COLORSPACE_RAW;
++	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
++	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
++}
++
++static int ox05b1s_init_state(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_state *state)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++	struct v4l2_mbus_framefmt *format;
++
++	/* Initialize the format. */
++	format = v4l2_subdev_state_get_format(state, 0);
++	ox05b1s_update_pad_format(sensor, &sensor->model->supported_modes[0], format);
++
++	return 0;
++}
++
++static int ox05b1s_enum_mbus_code(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *state,
++				  struct v4l2_subdev_mbus_code_enum *code)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++
++	if (code->index >= sensor->model->supported_codes_count)
++		return -EINVAL;
++
++	code->code = sensor->model->supported_codes[code->index].code;
++
++	return 0;
++}
++
++static int ox05b1s_enum_frame_size(struct v4l2_subdev *sd,
++				   struct v4l2_subdev_state *sd_state,
++				   struct v4l2_subdev_frame_size_enum *fse)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++	const struct ox05b1s_sizes *frame_sizes = NULL;
++	int i;
++
++	if (fse->pad != 0)
++		return -EINVAL;
++
++	for (i = 0; i < sensor->model->supported_codes_count; i++) {
++		if (sensor->model->supported_codes[i].code == fse->code) {
++			frame_sizes = &sensor->model->supported_codes[i];
++			break;
++		}
++	}
++
++	if (!frame_sizes || fse->index >= frame_sizes->sizes_count)
++		return -EINVAL;
++
++	fse->min_width = frame_sizes->sizes[fse->index][0];
++	fse->max_width = fse->min_width;
++	fse->min_height = frame_sizes->sizes[fse->index][1];
++	fse->max_height = fse->min_height;
++
++	return 0;
++}
++
++/* Update control ranges based on current streaming mode, needs sensor lock */
++static int ox05b1s_update_controls(struct ox05b1s *sensor)
++{
++	int ret;
++	struct device *dev = &sensor->i2c_client->dev;
++	u32 hts = sensor->mode->hts;
++	u32 hblank;
++	u32 vts = sensor->mode->vts;
++	u32 vblank = vts - sensor->mode->height;
++	u32 fps = sensor->mode->fps;
++	u64 pixel_rate = (sensor->mode->h_bin) ? hts * vts * fps : 2 * hts * vts * fps;
++	u32 min_exp = 8;
++	u32 max_exp = vts - 8;
++
++	ret = __v4l2_ctrl_modify_range(sensor->ctrls.pixel_rate, pixel_rate,
++				       pixel_rate, 1, pixel_rate);
++	if (ret) {
++		dev_err(dev, "Modify range for ctrl: pixel_rate %llu-%llu failed\n",
++			pixel_rate, pixel_rate);
++		goto out;
++	}
++
++	if (sensor->mode->h_bin)
++		hblank = hts - sensor->mode->width;
++	else
++		hblank = 2 * hts - sensor->mode->width;
++
++	ret = __v4l2_ctrl_modify_range(sensor->ctrls.hblank, hblank, hblank,
++				       1, hblank);
++	if (ret) {
++		dev_err(dev, "Modify range for ctrl: hblank %u-%u failed\n",
++			hblank, hblank);
++		goto out;
++	}
++	__v4l2_ctrl_s_ctrl(sensor->ctrls.hblank, sensor->ctrls.hblank->default_value);
++
++	ret = __v4l2_ctrl_modify_range(sensor->ctrls.vblank, 0, vblank * 4,
++				       1, vblank);
++	if (ret) {
++		dev_err(dev, "Modify range for ctrl: vblank %u-%u failed\n",
++			vblank, vblank);
++		goto out;
++	}
++	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, sensor->ctrls.vblank->default_value);
++
++	ret = __v4l2_ctrl_modify_range(sensor->ctrls.exposure, min_exp, max_exp,
++				       1, max_exp / 2);
++	if (ret) {
++		dev_err(dev, "Modify range for ctrl: exposure %u-%u failed\n",
++			min_exp, max_exp);
++		goto out;
++	}
++	__v4l2_ctrl_s_ctrl(sensor->ctrls.exposure, sensor->ctrls.exposure->default_value);
++
++out:
++	return ret;
++}
++
++/* needs sensor lock and power on */
++static int ox05b1s_apply_current_mode(struct ox05b1s *sensor)
++{
++	struct device *dev = &sensor->i2c_client->dev;
++	struct ox05b1s_reg *reg_data = NULL;
++	int ret = 0;
++
++	ox05b1s_write_reg(sensor, OX05B1S_REG_SW_RST, 0x01);
++
++	reg_data = sensor->mode->reg_data;
++	ret = ox05b1s_write_reg_array(sensor, reg_data,
++				      sensor->mode->reg_data_count);
++	if (ret)
++		goto out;
++
++	/* setup handler will write actual controls into sensor registers */
++	ret =  __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
++
++out:
++	if (ret < 0)
++		dev_err(dev, "Failed to apply mode %dx%d,bpp=%d\n", sensor->mode->width,
++			sensor->mode->height, sensor->mode->bpp);
++
++	return ret;
++}
++
++/* similar with v4l2_find_nearest_size but filter for mbus code, needs sensor lock */
++static const struct ox05b1s_mode *ox05b1s_nearest_size(const struct ox05b1s_mode *supported_modes,
++						       u32 supported_modes_count,
++						       struct v4l2_subdev_format *fmt)
++{
++	u32 error, min_error = U32_MAX;
++	const struct ox05b1s_mode *best = NULL;
++	unsigned int i;
++
++	if (!supported_modes)
++		return NULL;
++
++	for (i = 0; i < supported_modes_count; i++) {
++		const u32 w = supported_modes[i].width;
++		const u32 h = supported_modes[i].height;
++
++		if (supported_modes[i].code != fmt->format.code)
++			continue;
++
++		error = abs(w - fmt->format.width) + abs(h - fmt->format.height);
++		if (error > min_error)
++			continue;
++
++		min_error = error;
++		best = &supported_modes[i];
++		if (!error)
++			break;
++	}
++
++	return best;
++}
++
++/* get a valid mbus code for the model, either the requested one or the default one */
++static u32 ox05b1s_find_code(const struct ox05b1s_plat_data *model, u32 code)
++{
++	u32 found_code = 0;
++	unsigned int i;
++
++	for (i = 0; i < model->supported_codes_count; i++) {
++		if (model->supported_codes[i].code == code) {
++			found_code = code;
++			break;
++		}
++	}
++
++	if (!found_code)
++		found_code = model->supported_codes[model->default_mode_index].code;
++
++	return found_code;
++}
++
++static int ox05b1s_set_fmt(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_state *state,
++			   struct v4l2_subdev_format *fmt)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++	struct device *dev = &sensor->i2c_client->dev;
++	struct v4l2_mbus_framefmt *format;
++	const struct ox05b1s_mode *mode;
++
++	/* if no matching mbus code is found, use the one from the default mode */
++	fmt->format.code = ox05b1s_find_code(sensor->model, fmt->format.code);
++	mode = ox05b1s_nearest_size(sensor->model->supported_modes,
++				    sensor->model->supported_modes_count, fmt);
++
++	fmt->format.width = mode->width;
++	fmt->format.height = mode->height;
++	fmt->format.field = V4L2_FIELD_NONE;
++
++	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
++		format = v4l2_subdev_state_get_format(state, 0);
++		*format = fmt->format;
++		return 0;
++	}
++
++	sensor->mode = mode;
++
++	/* update controls that depend on current mode */
++	ox05b1s_update_controls(sensor);
++
++	dev_dbg(dev, "Set mode index=%d, %d x %d, code=0x%x\n", sensor->mode->index,
++		fmt->format.width, fmt->format.height, fmt->format.code);
++
++	return 0;
++}
++
++static u8 ox05b1s_code2dt(const u32 code)
++{
++	switch (code) {
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++		return MIPI_CSI2_DT_RAW10;
++	default:
++		return MIPI_CSI2_DT_RAW10;
++	}
++}
++
++static int ox05b1s_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
++				  struct v4l2_mbus_frame_desc *fd)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++
++	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
++	fd->num_entries = 1;
++
++	/* get sensor current code*/
++	mutex_lock(&sensor->lock);
++	fd->entry[0].pixelcode = sensor->mode->code;
++	mutex_unlock(&sensor->lock);
++
++	fd->entry[0].bus.csi2.vc = 0;
++	fd->entry[0].bus.csi2.dt = ox05b1s_code2dt(fd->entry[0].pixelcode);
++
++	return 0;
++}
++
++static int ox05b1s_get_selection(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *sd_state,
++				 struct v4l2_subdev_selection *sel)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++
++	switch (sel->target) {
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++		sel->r.top = 0;
++		sel->r.left = 0;
++		sel->r.width = sensor->model->native_width;
++		sel->r.height = sensor->model->native_height;
++		return 0;
++	case V4L2_SEL_TGT_CROP:
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++		sel->r.top = sensor->model->active_top;
++		sel->r.left = sensor->model->active_left;
++		sel->r.width = sensor->model->active_width;
++		sel->r.height = sensor->model->active_height;
++		return 0;
++	}
++
++	return -EINVAL;
++}
++
++static const struct v4l2_subdev_video_ops ox05b1s_subdev_video_ops = {
++	.s_stream = ox05b1s_s_stream,
++};
++
++static const struct v4l2_subdev_pad_ops ox05b1s_subdev_pad_ops = {
++	.set_fmt		= ox05b1s_set_fmt,
++	.get_fmt		= v4l2_subdev_get_fmt,
++	.get_frame_desc		= ox05b1s_get_frame_desc,
++	.enum_mbus_code		= ox05b1s_enum_mbus_code,
++	.enum_frame_size	= ox05b1s_enum_frame_size,
++	.get_selection		= ox05b1s_get_selection,
++};
++
++static const struct v4l2_subdev_ops ox05b1s_subdev_ops = {
++	.video = &ox05b1s_subdev_video_ops,
++	.pad   = &ox05b1s_subdev_pad_ops,
++};
++
++static const struct v4l2_subdev_internal_ops ox05b1s_internal_ops = {
++	.init_state = ox05b1s_init_state,
++};
++
++static void ox05b1s_get_gpios(struct ox05b1s *sensor)
++{
++	struct device *dev = &sensor->i2c_client->dev;
++
++	sensor->rst_gpio = devm_gpiod_get_optional(dev, "reset",
++						   GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->rst_gpio))
++		dev_warn(dev, "No sensor reset pin available");
++}
++
++static int ox05b1s_read_chip_id(struct ox05b1s *sensor)
++{
++	struct device *dev = &sensor->i2c_client->dev;
++	u32 chip_id = 0;
++	u8 reg_val = 0;
++	char *camera_name;
++	int ret = 0;
++
++	ret = ox05b1s_read_reg(sensor, OX05B1S_REG_CHIP_ID_23_16, &reg_val);
++	chip_id |= reg_val << 16;
++	ret |= ox05b1s_read_reg(sensor, OX05B1S_REG_CHIP_ID_15_8, &reg_val);
++	chip_id |= reg_val << 8;
++	ret |= ox05b1s_read_reg(sensor, OX05B1S_REG_CHIP_ID_7_0, &reg_val);
++	chip_id |= reg_val;
++	if (ret) {
++		dev_err(dev, "Camera chip_id read error\n");
++		return -ENODEV;
++	}
++
++	switch (chip_id) {
++	case 0x580542:
++		camera_name = "ox05b1s";
++		break;
++	default:
++		camera_name = "unknown";
++		break;
++	}
++
++	if (chip_id == sensor->model->chip_id) {
++		dev_info(dev, "Camera %s detected, chip_id=%x\n", camera_name, chip_id);
++	} else {
++		dev_err(dev, "Detected %s camera (chip_id=%x), but expected %s (chip_id=%x)\n",
++			camera_name, chip_id, sensor->model->name, sensor->model->chip_id);
++		ret = -ENODEV;
++	}
++
++	return ret;
++}
++
++static int ox05b1s_probe(struct i2c_client *client)
++{
++	int retval;
++	struct device *dev = &client->dev;
++	struct v4l2_subdev *sd;
++	struct ox05b1s *sensor;
++
++	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
++	if (!sensor)
++		return -ENOMEM;
++
++	sensor->regmap = devm_regmap_init_i2c(client, &ox05b1s_regmap_config);
++	if (IS_ERR(sensor->regmap)) {
++		dev_err(dev, "Failed to allocate sensor register map\n");
++		return PTR_ERR(sensor->regmap);
++	}
++
++	sensor->i2c_client = client;
++
++	sensor->model = of_device_get_match_data(dev);
++
++	ox05b1s_get_gpios(sensor);
++
++	sensor->sensor_clk = devm_clk_get(dev, "csi_mclk");
++	if (IS_ERR(sensor->sensor_clk)) {
++		sensor->sensor_clk = NULL;
++		dev_warn(dev, "Sensor csi_mclk is missing, using oscillator from sensor module\n");
++	}
++
++	sd = &sensor->subdev;
++	v4l2_i2c_subdev_init(sd, client, &ox05b1s_subdev_ops);
++	sd->internal_ops = &ox05b1s_internal_ops;
++	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	sd->dev = &client->dev;
++	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
++	sensor->pads[OX05B1S_SENS_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
++	retval = media_entity_pads_init(&sd->entity, OX05B1S_SENS_PADS_NUM,
++					sensor->pads);
++	if (retval)
++		goto probe_out;
++
++	mutex_init(&sensor->lock);
++
++	retval = ox05b1s_init_controls(sensor);
++	if (retval)
++		goto probe_err_entity_cleanup;
++
++	/* power on manually */
++	retval = ox05b1s_power_on(sensor);
++	if (retval) {
++		dev_err(dev, "Failed to power on\n");
++		goto probe_err_free_ctrls;
++	}
++
++	pm_runtime_set_active(dev);
++	pm_runtime_get_noresume(dev);
++	pm_runtime_enable(dev);
++
++	retval = ox05b1s_read_chip_id(sensor);
++	if (retval)
++		goto probe_err_pm_runtime;
++
++	v4l2_i2c_subdev_set_name(sd, client, sensor->model->name, NULL);
++
++	/* Centrally managed subdev active state */
++	sd->state_lock = &sensor->lock;
++	retval = v4l2_subdev_init_finalize(sd);
++	if (retval < 0) {
++		dev_err(dev, "Subdev init error: %d\n", retval);
++		goto probe_err_pm_runtime;
++	}
++
++	retval = v4l2_async_register_subdev_sensor(sd);
++	if (retval < 0) {
++		dev_err(&client->dev, "Async register failed, ret=%d\n", retval);
++		goto probe_err_subdev_cleanup;
++	}
++
++	sensor->mode = &sensor->model->supported_modes[0];
++	ox05b1s_update_controls(sensor);
++
++	pm_runtime_set_autosuspend_delay(dev, 1000);
++	pm_runtime_use_autosuspend(dev);
++	pm_runtime_put_autosuspend(dev);
++
++	return 0;
++
++probe_err_subdev_cleanup:
++	v4l2_subdev_cleanup(sd);
++probe_err_pm_runtime:
++	pm_runtime_put_noidle(dev);
++	pm_runtime_disable(dev);
++	ox05b1s_runtime_suspend(dev);
++probe_err_free_ctrls:
++	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
++probe_err_entity_cleanup:
++	media_entity_cleanup(&sd->entity);
++probe_out:
++	return retval;
++}
++
++static void ox05b1s_remove(struct i2c_client *client)
++{
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct ox05b1s *sensor = client_to_ox05b1s(client);
++	struct device *dev = &client->dev;
++
++	pm_runtime_disable(dev);
++	if (!pm_runtime_status_suspended(dev))
++		ox05b1s_runtime_suspend(dev);
++	pm_runtime_set_suspended(dev);
++	v4l2_async_unregister_subdev(sd);
++	v4l2_subdev_cleanup(sd);
++	media_entity_cleanup(&sd->entity);
++	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
++	mutex_destroy(&sensor->lock);
++}
++
++static DEFINE_RUNTIME_DEV_PM_OPS(ox05b1s_pm_ops, ox05b1s_runtime_suspend,
++				 ox05b1s_runtime_resume, NULL);
++
++static const struct ox05b1s_plat_data ox05b1s_data = {
++	.name			= "ox05b1s",
++	.chip_id		= 0x580542,
++	.native_width		= 2608, /* 8 dummy + 2592 active pixels + 8 dummy */
++	.native_height		= 1960, /* 8 dummy + 1944 active lines + 8 dummy */
++	.active_top		= 8,
++	.active_left		= 8,
++	.active_width		= 2592,
++	.active_height		= 1944,
++	.supported_modes	= ox05b1s_supported_modes,
++	.supported_modes_count	= ARRAY_SIZE(ox05b1s_supported_modes),
++	.default_mode_index	= 0,
++	.supported_codes	= ox05b1s_supported_codes,
++	.supported_codes_count	= ARRAY_SIZE(ox05b1s_supported_codes),
++};
++
++static const struct of_device_id ox05b1s_of_match[] = {
++	{
++		.compatible = "ovti,ox05b1s",
++		.data = &ox05b1s_data,
++	},
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, ox05b1s_of_match);
++
++static struct i2c_driver ox05b1s_i2c_driver = {
++	.driver = {
++		.name  = "ox05b1s",
++		.pm = pm_ptr(&ox05b1s_pm_ops),
++		.of_match_table	= ox05b1s_of_match,
++	},
++	.probe	= ox05b1s_probe,
++	.remove = ox05b1s_remove,
++};
++
++module_i2c_driver(ox05b1s_i2c_driver);
++MODULE_DESCRIPTION("Omnivision OX05B1S MIPI Camera Subdev Driver");
++MODULE_AUTHOR("Mirela Rabulea <mirela.rabulea@nxp.com>");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h b/drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h
+new file mode 100644
+index 000000000000..3c34724c1d7e
+--- /dev/null
++++ b/drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h
+@@ -0,0 +1,1160 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * A register configuration for Omnivision OX05B1S raw camera, 2592 x 1944 @30fps BGGR10
++ * Copyright (C) 2024, NXP
++ * Copyright (C) 2024, Omnivision
++ *
++ */
++#ifndef _OX05B1S_REGS_2592x1944_H_
++#define _OX05B1S_REGS_2592x1944_H_
++
++/* 2592X1944_30FPS_FULL_RGBIr 2592 1944 */
++static struct ox05b1s_reg ovx5b_init_setting_2592x1944[] = {
++	{0x0100, 0x00},
++	{0x0107, 0x01}, /* reserved */
++	{0x0104, 0x00},
++	{0x0301, 0x1a},
++	{0x0304, 0x01},
++	{0x0305, 0xe0},
++	{0x0306, 0x04},
++	{0x0307, 0x02}, /* reset 0x01 */
++	{0x0321, 0x03},
++	{0x0324, 0x01},
++	{0x0325, 0x80},
++	{0x0341, 0x03},
++	{0x0344, 0x01},
++	{0x0345, 0xb0},
++	{0x0347, 0x07},
++	{0x034a, 0x05}, /* reset 0x03 */
++	{0x034b, 0x06},
++	{0x0360, 0x80}, /* PLL_CTRL_REG60 bit7 mipi_enable */
++	{0x0400, 0xe8},
++	{0x0401, 0x00},
++	{0x0402, 0x2b},
++	{0x0403, 0x32},
++	{0x0404, 0x3a},
++	{0x0405, 0x00},
++	{0x0406, 0x0c},
++	{0x0407, 0xe8},
++	{0x0408, 0x00},
++	{0x0409, 0x2b},
++	{0x040a, 0x32},
++	{0x040b, 0x5c}, /* reset 0x30 */
++	{0x040c, 0xcd}, /* reset 0x00 */
++	{0x040d, 0x0c},
++	{0x040e, 0xe7},
++	{0x040f, 0xff},
++	{0x0410, 0x2b},
++	{0x0411, 0x32},
++	{0x0412, 0x33},
++	{0x0413, 0x8f},
++	{0x0414, 0x0c},
++	{0x2000, 0x04},
++	{0x2805, 0xff},
++	{0x2806, 0x0f},
++	{0x3000, 0x00},
++	{0x3001, 0x00},
++	{0x3002, 0x10},
++	{0x3004, 0x00},
++	{0x3009, 0x2e},
++	{0x3010, 0x41}, /* SC_CMMN_REG10 mipi_lane_num = 4, phy_mode = 1 */
++	{0x3015, 0xf0},
++	{0x3016, 0xf0},
++	{0x3017, 0xf0},
++	{0x3018, 0xf0}, /* SC_CMMN_REG18 */
++	{0x301a, 0x78},
++	{0x301b, 0xb4},
++	{0x301f, 0xe9},
++	{0x3024, 0x80},
++	{0x3039, 0x00},
++	{0x3044, 0x70},
++	{0x3101, 0x32},
++	{0x3182, 0x10},
++	{0x3187, 0xff},
++	{0x320a, 0x00},
++	{0x320b, 0x00},
++	{0x320c, 0x00},
++	{0x320d, 0x00},
++	{0x320e, 0x00},
++	{0x320f, 0x00},
++	{0x3211, 0x61},
++	{0x3212, 0x00},
++	{0x3215, 0xcc},
++	{0x3218, 0x06},
++	{0x3219, 0x08},
++	{0x3251, 0x00},
++	{0x3252, 0xe4},
++	{0x3253, 0x00},
++	{0x3304, 0x11},
++	{0x3305, 0x00},
++	{0x3306, 0x01},
++	{0x3307, 0x00},
++	{0x3308, 0x02},
++	{0x3309, 0x00},
++	{0x330a, 0x02},
++	{0x330b, 0x00},
++	{0x330c, 0x02},
++	{0x330d, 0x00},
++	{0x330e, 0x02},
++	{0x330f, 0x00},
++	{0x3310, 0x02},
++	{0x3311, 0x00},
++	{0x3312, 0x02},
++	{0x3313, 0x00},
++	{0x3314, 0x02},
++	{0x3315, 0x00},
++	{0x3316, 0x02},
++	{0x3317, 0x11},
++	{0x3400, 0x0c},
++	{0x3421, 0x00},
++	{0x3422, 0x00},
++	{0x3423, 0x00},
++	{0x3424, 0x00},
++	{0x3425, 0x00},
++	{0x3426, 0x00},
++	{0x3427, 0x00},
++	{0x3428, 0x00},
++	{0x3429, 0x40},
++	{0x342a, 0x55},
++	{0x342b, 0x05},
++	{0x342c, 0x00},
++	{0x342d, 0x00},
++	{0x342e, 0x00},
++	{0x3500, 0x00},
++	{0x3501, 0x00},
++	{0x3502, 0x08},
++	{0x3503, 0xa8},
++	{0x3504, 0x08},
++	{0x3505, 0x00},
++	{0x3506, 0x00},
++	{0x3507, 0x00},
++	{0x3508, 0x01},
++	{0x3509, 0x00},
++	{0x350a, 0x01},
++	{0x350b, 0x00},
++	{0x350c, 0x00},
++	{0x3541, 0x00},
++	{0x3542, 0x08},
++	{0x3603, 0x65},
++	{0x3604, 0x24},
++	{0x3608, 0x08},
++	{0x3610, 0x00},
++	{0x3612, 0x00},
++	{0x3619, 0x09},
++	{0x361a, 0x27},
++	{0x3620, 0x40},
++	{0x3622, 0x15},
++	{0x3623, 0x0e},
++	{0x3624, 0x1f},
++	{0x3625, 0x1f},
++	{0x362a, 0x01}, /* ANA_REG2A mipi_pk_0 */
++	{0x362b, 0x00}, /* ANA_REG2B mipi_pk_1 */
++	{0x3633, 0x88},
++	{0x3634, 0x86},
++	{0x3636, 0x80},
++	{0x3638, 0x3b},
++	{0x363a, 0x00},
++	{0x363b, 0x22},
++	{0x363c, 0x07},
++	{0x363d, 0x11},
++	{0x363e, 0x21},
++	{0x363f, 0x24},
++	{0x3640, 0xd3},
++	{0x3641, 0x00},
++	{0x3650, 0xe4},
++	{0x3651, 0x80},
++	{0x3652, 0xff},
++	{0x3653, 0x00},
++	{0x3654, 0x05},
++	{0x3655, 0xf8},
++	{0x3656, 0x00},
++	{0x3660, 0x00},
++	{0x3664, 0x00},
++	{0x366a, 0x80},
++	{0x366b, 0x00},
++	{0x3670, 0x00},
++	{0x3674, 0x00},
++	{0x367b, 0x50},
++	{0x3684, 0x6d},
++	{0x3685, 0x6d},
++	{0x3686, 0x6d},
++	{0x3687, 0x6d},
++	{0x368c, 0x07},
++	{0x368d, 0x07},
++	{0x368e, 0x07},
++	{0x368f, 0x00},
++	{0x3690, 0x04},
++	{0x3691, 0x04},
++	{0x3692, 0x04},
++	{0x3693, 0x04},
++	{0x3698, 0x00},
++	{0x369e, 0x1f},
++	{0x369f, 0x19},
++	{0x36a0, 0x05},
++	{0x36a2, 0x16},
++	{0x36a3, 0x03},
++	{0x36a4, 0x07},
++	{0x36a5, 0x24},
++	{0x36a6, 0x00},
++	{0x36a7, 0x80},
++	{0x36e3, 0x09},
++	{0x3700, 0x07},
++	{0x3701, 0x1b},
++	{0x3702, 0x0a},
++	{0x3703, 0x21},
++	{0x3704, 0x19},
++	{0x3705, 0x07},
++	{0x3706, 0x36},
++	{0x370a, 0x1c},
++	{0x370b, 0x02},
++	{0x370c, 0x00},
++	{0x370d, 0x6e},
++	{0x370f, 0x80},
++	{0x3710, 0x10},
++	{0x3712, 0x09},
++	{0x3714, 0x42},
++	{0x3715, 0x00},
++	{0x3716, 0x02},
++	{0x3717, 0xa2},
++	{0x3718, 0x41},
++	{0x371a, 0x80},
++	{0x371b, 0x0a},
++	{0x371c, 0x0a},
++	{0x371d, 0x08},
++	{0x371e, 0x01},
++	{0x371f, 0x20},
++	{0x3720, 0x0e},
++	{0x3721, 0x22},
++	{0x3722, 0x0c},
++	{0x3727, 0x84},
++	{0x3728, 0x03},
++	{0x3729, 0x64},
++	{0x372a, 0x0c},
++	{0x372b, 0x14},
++	{0x372d, 0x50},
++	{0x372e, 0x14},
++	{0x3731, 0x11},
++	{0x3732, 0x24},
++	{0x3733, 0x00},
++	{0x3734, 0x00},
++	{0x3735, 0x12},
++	{0x3736, 0x00},
++	{0x373b, 0x0b},
++	{0x373c, 0x14},
++	{0x373f, 0x3e},
++	{0x3740, 0x12},
++	{0x3741, 0x12},
++	{0x3753, 0x80},
++	{0x3754, 0x01},
++	{0x3756, 0x11},
++	{0x375c, 0x0f},
++	{0x375d, 0x35},
++	{0x375e, 0x0f},
++	{0x375f, 0x37},
++	{0x3760, 0x0f},
++	{0x3761, 0x27},
++	{0x3762, 0x3f},
++	{0x3763, 0x5d},
++	{0x3764, 0x01},
++	{0x3765, 0x17},
++	{0x3766, 0x02},
++	{0x3768, 0x52},
++	{0x376a, 0x30},
++	{0x376b, 0x02},
++	{0x376c, 0x08},
++	{0x376d, 0x2a},
++	{0x376e, 0x00},
++	{0x376f, 0x18},
++	{0x3770, 0x2c},
++	{0x3771, 0x0c},
++	{0x3772, 0x71},
++	{0x3776, 0xc0},
++	{0x3778, 0x00},
++	{0x3779, 0x80},
++	{0x377a, 0x00},
++	{0x377d, 0x14},
++	{0x377e, 0x0c},
++	{0x379c, 0x25},
++	{0x379f, 0x00},
++	{0x37a3, 0x40},
++	{0x37a4, 0x03},
++	{0x37a5, 0x10},
++	{0x37a6, 0x02},
++	{0x37a7, 0x0e},
++	{0x37a9, 0x00},
++	{0x37aa, 0x08},
++	{0x37ab, 0x08},
++	{0x37ac, 0x36},
++	{0x37ad, 0x40},
++	{0x37b0, 0x48},
++	{0x37d0, 0x00},
++	{0x37d1, 0x0b},
++	{0x37d2, 0x0c},
++	{0x37d3, 0x10},
++	{0x37d4, 0x10},
++	{0x37d5, 0x10},
++	{0x37d8, 0x0e},
++	{0x37d9, 0x0e},
++	{0x37da, 0x3c},
++	{0x37db, 0x52},
++	{0x37dc, 0x50},
++	{0x37dd, 0x00},
++	{0x37de, 0x55},
++	{0x37df, 0x7d},
++	{0x37e5, 0x88},
++	{0x37e7, 0x68},
++	{0x37e8, 0x07},
++	{0x37f0, 0x00},
++	{0x37f1, 0x0e},
++	{0x37f2, 0x35},
++	{0x37f3, 0x14},
++	{0x37f4, 0x0c},
++	{0x37f5, 0x14},
++	{0x37f6, 0x0c},
++	{0x37f7, 0x35},
++	{0x37f8, 0x35},
++	{0x37f9, 0x37},
++	{0x37fa, 0x37},
++	{0x37fb, 0x37},
++	{0x3800, 0x00},
++	{0x3801, 0x00},
++	{0x3802, 0x00},
++	{0x3803, 0x00},
++	{0x3804, 0x0a},
++	{0x3805, 0x2f},
++	{0x3806, 0x07},
++	{0x3807, 0xa7},
++	{0x3808, 0x0a}, /* width 2592 = 0xa20 */
++	{0x3809, 0x20}, /* width */
++	{0x380a, 0x07}, /* height 1944 = 0x798 */
++	{0x380b, 0x98}, /* height */
++	{0x380c, 0x02},
++	{0x380d, 0xf0},
++	{0x380e, 0x08},
++	{0x380f, 0x50},
++	{0x3810, 0x00},
++	{0x3811, 0x08},
++	{0x3812, 0x00},
++	{0x3813, 0x08},
++	{0x3814, 0x11},
++	{0x3815, 0x11},
++	{0x3820, 0x40},
++	{0x3821, 0x04}, /* TIMING_CTRL_REG21 bit[2] = mirror */
++	{0x3822, 0x10},
++	{0x3823, 0x00},
++	{0x3826, 0x00},
++	{0x3827, 0x00},
++	{0x382b, 0x03},
++	{0x382c, 0x0c},
++	{0x382d, 0x15},
++	{0x382e, 0x01},
++	{0x3830, 0x00},
++	{0x3838, 0x00},
++	{0x383b, 0x00},
++	{0x3840, 0x00},
++	{0x384a, 0xa2},
++	{0x3858, 0x00},
++	{0x3859, 0x00},
++	{0x3860, 0x00},
++	{0x3861, 0x00},
++	{0x3866, 0x10},
++	{0x3867, 0x07},
++	{0x3868, 0x01},
++	{0x3869, 0x01},
++	{0x386a, 0x01},
++	{0x386b, 0x01},
++	{0x386c, 0x46},
++	{0x386d, 0x08},
++	{0x386e, 0x7b},
++	{0x3871, 0x01},
++	{0x3872, 0x01},
++	{0x3873, 0x01},
++	{0x3874, 0x01},
++	{0x3880, 0x00},
++	{0x3881, 0x00},
++	{0x3882, 0x00},
++	{0x3883, 0x00},
++	{0x3884, 0x00},
++	{0x3885, 0x00},
++	{0x3886, 0x00},
++	{0x3887, 0x00},
++	{0x3888, 0x00},
++	{0x3889, 0x00},
++	{0x3900, 0x13},
++	{0x3901, 0x19},
++	{0x3902, 0x05},
++	{0x3903, 0x00},
++	{0x3904, 0x00},
++	{0x3908, 0x00},
++	{0x3909, 0x18},
++	{0x390a, 0x00},
++	{0x390b, 0x11},
++	{0x390c, 0x15},
++	{0x390d, 0x84},
++	{0x390f, 0x88},
++	{0x3910, 0x00},
++	{0x3911, 0x00},
++	{0x3912, 0x03},
++	{0x3913, 0x62},
++	{0x3914, 0x00},
++	{0x3915, 0x06},
++	{0x3916, 0x0c},
++	{0x3917, 0x81},
++	{0x3918, 0xc8},
++	{0x3919, 0x94},
++	{0x391a, 0x17},
++	{0x391b, 0x05},
++	{0x391c, 0x81},
++	{0x391d, 0x05},
++	{0x391e, 0x81},
++	{0x391f, 0x05},
++	{0x3920, 0x81},
++	{0x3921, 0x14},
++	{0x3922, 0x0b},
++	{0x3929, 0x00},
++	{0x392a, 0x00},
++	{0x392b, 0xc8},
++	{0x392c, 0x81},
++	{0x392f, 0x00},
++	{0x3930, 0x00},
++	{0x3931, 0x00},
++	{0x3932, 0x00},
++	{0x3933, 0x00},
++	{0x3934, 0x1b},
++	{0x3935, 0xc0},
++	{0x3936, 0x1c},
++	{0x3937, 0x21},
++	{0x3938, 0x0d},
++	{0x3939, 0x92},
++	{0x393a, 0x85},
++	{0x393b, 0x8a},
++	{0x393c, 0x06},
++	{0x393d, 0x8b},
++	{0x393e, 0x0f},
++	{0x393f, 0x14},
++	{0x3940, 0x0f},
++	{0x3941, 0x14},
++	{0x3945, 0xc0},
++	{0x3946, 0x05},
++	{0x3947, 0xc0},
++	{0x3948, 0x01},
++	{0x3949, 0x00},
++	{0x394a, 0x00},
++	{0x394b, 0x0b},
++	{0x394c, 0x0c},
++	{0x394d, 0x0b},
++	{0x394e, 0x09},
++	{0x3951, 0xc7},
++	{0x3952, 0x0f},
++	{0x3953, 0x0f},
++	{0x3954, 0x0f},
++	{0x3955, 0x00},
++	{0x3956, 0x27},
++	{0x3957, 0x27},
++	{0x3958, 0x27},
++	{0x3959, 0x01},
++	{0x395a, 0x02},
++	{0x395b, 0x14},
++	{0x395c, 0x36},
++	{0x395e, 0xc0},
++	{0x3964, 0x55},
++	{0x3965, 0x55},
++	{0x3966, 0x88},
++	{0x3967, 0x88},
++	{0x3968, 0x66},
++	{0x3969, 0x66},
++	{0x396d, 0x80},
++	{0x396e, 0xff},
++	{0x396f, 0x10},
++	{0x3970, 0x80},
++	{0x3971, 0x80},
++	{0x3972, 0x00},
++	{0x397a, 0x55},
++	{0x397b, 0x10},
++	{0x397c, 0x10},
++	{0x397d, 0x10},
++	{0x397e, 0x10},
++	{0x3980, 0xfc},
++	{0x3981, 0xfc},
++	{0x3982, 0x66},
++	{0x3983, 0xfc},
++	{0x3984, 0xfc},
++	{0x3985, 0x66},
++	{0x3986, 0x00},
++	{0x3987, 0x00},
++	{0x3988, 0x00},
++	{0x3989, 0x00},
++	{0x398a, 0x00},
++	{0x398b, 0x00},
++	{0x398c, 0x00},
++	{0x398d, 0x00},
++	{0x398e, 0x00},
++	{0x398f, 0x00},
++	{0x3990, 0x00},
++	{0x3991, 0x00},
++	{0x3992, 0x00},
++	{0x3993, 0x00},
++	{0x3994, 0x00},
++	{0x3995, 0x00},
++	{0x3996, 0x00},
++	{0x3997, 0x0f},
++	{0x3998, 0x0c},
++	{0x3999, 0x0c},
++	{0x399a, 0x0c},
++	{0x399b, 0xf0},
++	{0x399c, 0x14},
++	{0x399d, 0x0d},
++	{0x399e, 0x00},
++	{0x399f, 0x0c},
++	{0x39a0, 0x0c},
++	{0x39a1, 0x0c},
++	{0x39a2, 0x00},
++	{0x39a3, 0x0f},
++	{0x39a4, 0x0c},
++	{0x39a5, 0x0c},
++	{0x39a6, 0x0c},
++	{0x39a7, 0x0c},
++	{0x39a8, 0x0f},
++	{0x39a9, 0xff},
++	{0x39aa, 0xbf},
++	{0x39ab, 0x3f},
++	{0x39ac, 0x7e},
++	{0x39ad, 0xff},
++	{0x39ae, 0x00},
++	{0x39af, 0x00},
++	{0x39b0, 0x00},
++	{0x39b1, 0x00},
++	{0x39b2, 0x00},
++	{0x39b3, 0x00},
++	{0x39b4, 0x00},
++	{0x39b5, 0x00},
++	{0x39b6, 0x00},
++	{0x39b7, 0x00},
++	{0x39b8, 0x00},
++	{0x39b9, 0x00},
++	{0x39ba, 0x00},
++	{0x39bb, 0x00},
++	{0x39bc, 0x00},
++	{0x39c2, 0x00},
++	{0x39c3, 0x00},
++	{0x39c4, 0x00},
++	{0x39c5, 0x00},
++	{0x39c7, 0x00},
++	{0x39c8, 0x00},
++	{0x39c9, 0x00},
++	{0x39ca, 0x01},
++	{0x39cb, 0x00},
++	{0x39cc, 0x85},
++	{0x39cd, 0x09},
++	{0x39cf, 0x04},
++	{0x39d0, 0x85},
++	{0x39d1, 0x09},
++	{0x39d2, 0x04},
++	{0x39d4, 0x02},
++	{0x39d5, 0x0e},
++	{0x39db, 0x00},
++	{0x39dc, 0x01},
++	{0x39dd, 0x0c},
++	{0x39e5, 0xff},
++	{0x39e6, 0xff},
++	{0x39fa, 0x38},
++	{0x39fb, 0x07},
++	{0x39ff, 0x00},
++	{0x3a05, 0x00},
++	{0x3a06, 0x07},
++	{0x3a07, 0x0d},
++	{0x3a08, 0x08},
++	{0x3a09, 0xb2},
++	{0x3a0a, 0x0a},
++	{0x3a0b, 0x3c},
++	{0x3a0c, 0x0b},
++	{0x3a0d, 0xe1},
++	{0x3a0e, 0x03},
++	{0x3a0f, 0x85},
++	{0x3a10, 0x0b},
++	{0x3a11, 0xff},
++	{0x3a12, 0x00},
++	{0x3a13, 0x01},
++	{0x3a14, 0x0c},
++	{0x3a15, 0x04},
++	{0x3a17, 0x09},
++	{0x3a18, 0x20},
++	{0x3a19, 0x09},
++	{0x3a1a, 0x9d},
++	{0x3a1b, 0x09},
++	{0x3a1e, 0x34},
++	{0x3a1f, 0x09},
++	{0x3a20, 0x89},
++	{0x3a21, 0x09},
++	{0x3a48, 0xbe},
++	{0x3a52, 0x00},
++	{0x3a53, 0x01},
++	{0x3a54, 0x0c},
++	{0x3a55, 0x04},
++	{0x3a58, 0x0c},
++	{0x3a59, 0x04},
++	{0x3a5a, 0x01},
++	{0x3a5b, 0x00},
++	{0x3a5c, 0x01},
++	{0x3a5d, 0xe8},
++	{0x3a62, 0x03},
++	{0x3a63, 0x86},
++	{0x3a64, 0x0b},
++	{0x3a65, 0xbe},
++	{0x3a6a, 0xdc},
++	{0x3a6b, 0x0b},
++	{0x3a6c, 0x1a},
++	{0x3a6d, 0x06},
++	{0x3a6e, 0x01},
++	{0x3a6f, 0x04},
++	{0x3a70, 0xdc},
++	{0x3a71, 0x0b},
++	{0x3a83, 0x10},
++	{0x3a84, 0x00},
++	{0x3a85, 0x08},
++	{0x3a87, 0x00},
++	{0x3a88, 0x6b},
++	{0x3a89, 0x01},
++	{0x3a8a, 0x53},
++	{0x3a8f, 0x00},
++	{0x3a90, 0x00},
++	{0x3a91, 0x00},
++	{0x3a92, 0x00},
++	{0x3a93, 0x60},
++	{0x3a94, 0xea},
++	{0x3a98, 0x00},
++	{0x3a99, 0x31},
++	{0x3a9a, 0x01},
++	{0x3a9b, 0x04},
++	{0x3a9c, 0xdc},
++	{0x3a9d, 0x0b},
++	{0x3aa4, 0x0f},
++	{0x3aad, 0x00},
++	{0x3aae, 0x3e},
++	{0x3aaf, 0x02},
++	{0x3ab0, 0x77},
++	{0x3ab2, 0x00},
++	{0x3ab3, 0x08},
++	{0x3ab6, 0x0b},
++	{0x3ab7, 0xff},
++	{0x3aba, 0x0b},
++	{0x3abb, 0xfa},
++	{0x3abd, 0x05},
++	{0x3abe, 0x09},
++	{0x3abf, 0x1e},
++	{0x3ac0, 0x00},
++	{0x3ac1, 0x63},
++	{0x3ac2, 0x01},
++	{0x3ac3, 0x55},
++	{0x3ac8, 0x00},
++	{0x3ac9, 0x2a},
++	{0x3aca, 0x01},
++	{0x3acb, 0x36},
++	{0x3acc, 0x00},
++	{0x3acd, 0x6f},
++	{0x3ad0, 0x00},
++	{0x3ad1, 0x79},
++	{0x3ad2, 0x02},
++	{0x3ad3, 0x59},
++	{0x3ad4, 0x06},
++	{0x3ad5, 0x5a},
++	{0x3ad6, 0x08},
++	{0x3ad7, 0x3a},
++	{0x3ad8, 0x00},
++	{0x3ad9, 0x79},
++	{0x3ada, 0x02},
++	{0x3adb, 0x59},
++	{0x3adc, 0x09},
++	{0x3add, 0x89},
++	{0x3ade, 0x0b},
++	{0x3adf, 0x69},
++	{0x3ae0, 0x03},
++	{0x3ae1, 0xc1},
++	{0x3ae2, 0x0b},
++	{0x3ae3, 0xaf},
++	{0x3ae4, 0x00},
++	{0x3ae5, 0x3e},
++	{0x3ae6, 0x02},
++	{0x3ae7, 0x77},
++	{0x3ae8, 0x00},
++	{0x3aea, 0x0b},
++	{0x3aeb, 0xbe},
++	{0x3aee, 0x08},
++	{0x3aef, 0x80},
++	{0x3af0, 0x09},
++	{0x3af1, 0x70},
++	{0x3af2, 0x08},
++	{0x3af3, 0x94},
++	{0x3af4, 0x09},
++	{0x3af5, 0x5c},
++	{0x3af6, 0x03},
++	{0x3af7, 0x85},
++	{0x3af8, 0x08},
++	{0x3af9, 0x80},
++	{0x3afa, 0x0b},
++	{0x3afb, 0xaf},
++	{0x3afc, 0x01},
++	{0x3afd, 0x5a},
++	{0x3b1e, 0x00},
++	{0x3b20, 0xa5},
++	{0x3b21, 0x00},
++	{0x3b22, 0x00},
++	{0x3b23, 0x00},
++	{0x3b24, 0x05},
++	{0x3b25, 0x00},
++	{0x3b26, 0x00},
++	{0x3b27, 0x00},
++	{0x3b28, 0x1a},
++	{0x3b2f, 0x40},
++	{0x3b40, 0x08},
++	{0x3b41, 0x70},
++	{0x3b42, 0x05},
++	{0x3b43, 0xf0},
++	{0x3b44, 0x01},
++	{0x3b45, 0x54},
++	{0x3b46, 0x01},
++	{0x3b47, 0x54},
++	{0x3b56, 0x08},
++	{0x3b80, 0x00},
++	{0x3b81, 0x00},
++	{0x3b82, 0x64},
++	{0x3b83, 0x00},
++	{0x3b84, 0x00},
++	{0x3b85, 0x64},
++	{0x3b9d, 0x61},
++	{0x3ba8, 0x38},
++	{0x3c11, 0x33},
++	{0x3c12, 0x3d},
++	{0x3c13, 0x00},
++	{0x3c14, 0xbe},
++	{0x3c15, 0x0b},
++	{0x3c16, 0xa8},
++	{0x3c17, 0x03},
++	{0x3c18, 0x9c},
++	{0x3c19, 0x0b},
++	{0x3c1a, 0x0f},
++	{0x3c1b, 0x97},
++	{0x3c1c, 0x00},
++	{0x3c1d, 0x3c},
++	{0x3c1e, 0x02},
++	{0x3c1f, 0x78},
++	{0x3c20, 0x06},
++	{0x3c21, 0x80},
++	{0x3c22, 0x08},
++	{0x3c23, 0x0f},
++	{0x3c24, 0x97},
++	{0x3c25, 0x00},
++	{0x3c26, 0x3c},
++	{0x3c27, 0x02},
++	{0x3c28, 0xa7},
++	{0x3c29, 0x09},
++	{0x3c2a, 0xaf},
++	{0x3c2b, 0x0b},
++	{0x3c2c, 0x38},
++	{0x3c2d, 0xf9},
++	{0x3c2e, 0x0b},
++	{0x3c2f, 0xfd},
++	{0x3c30, 0x05},
++	{0x3c35, 0x8c},
++	{0x3c3e, 0xc3},
++	{0x3c43, 0xcb},
++	{0x3c44, 0x00},
++	{0x3c45, 0xff},
++	{0x3c46, 0x0b},
++	{0x3c48, 0x3b},
++	{0x3c49, 0x40},
++	{0x3c4a, 0x00},
++	{0x3c4b, 0x5b},
++	{0x3c4c, 0x02},
++	{0x3c4d, 0x02},
++	{0x3c4e, 0x00},
++	{0x3c4f, 0x04},
++	{0x3c50, 0x0c},
++	{0x3c51, 0x00},
++	{0x3c52, 0x3b},
++	{0x3c53, 0x3a},
++	{0x3c54, 0x07},
++	{0x3c55, 0x9e},
++	{0x3c56, 0x07},
++	{0x3c57, 0x9e},
++	{0x3c58, 0x07},
++	{0x3c59, 0xe8},
++	{0x3c5a, 0x03},
++	{0x3c5b, 0x33},
++	{0x3c5c, 0xa8},
++	{0x3c5d, 0x07},
++	{0x3c5e, 0xd0},
++	{0x3c5f, 0x07},
++	{0x3c60, 0x32},
++	{0x3c61, 0x00},
++	{0x3c62, 0xd0},
++	{0x3c63, 0x07},
++	{0x3c64, 0x80},
++	{0x3c65, 0x80},
++	{0x3c66, 0x3f},
++	{0x3c67, 0x01},
++	{0x3c68, 0x00},
++	{0x3c69, 0xd0},
++	{0x3c6a, 0x07},
++	{0x3c6b, 0x01},
++	{0x3c6c, 0x00},
++	{0x3c6d, 0xcd},
++	{0x3c6e, 0x07},
++	{0x3c6f, 0xd1},
++	{0x3c70, 0x07},
++	{0x3c71, 0x01},
++	{0x3c72, 0x00},
++	{0x3c73, 0xc3},
++	{0x3c74, 0x01},
++	{0x3c75, 0x00},
++	{0x3c76, 0xcd},
++	{0x3c77, 0x07},
++	{0x3c78, 0xea},
++	{0x3c79, 0x03},
++	{0x3c7a, 0xcd},
++	{0x3c7b, 0x07},
++	{0x3c7c, 0x08},
++	{0x3c7d, 0x06},
++	{0x3c7e, 0x03},
++	{0x3c85, 0x3a},
++	{0x3c86, 0x08},
++	{0x3c87, 0x69},
++	{0x3c88, 0x0b},
++	{0x3c8f, 0xb2},
++	{0x3c90, 0x08},
++	{0x3c91, 0xe1},
++	{0x3c92, 0x0b},
++	{0x3c93, 0x06},
++	{0x3c94, 0x03},
++	{0x3c9b, 0x35},
++	{0x3c9c, 0x08},
++	{0x3c9d, 0x64},
++	{0x3c9e, 0x0b},
++	{0x3ca5, 0xb7},
++	{0x3ca6, 0x08},
++	{0x3ca7, 0xe6},
++	{0x3ca8, 0x0b},
++	{0x3ca9, 0x83},
++	{0x3caa, 0x3c},
++	{0x3cab, 0x01},
++	{0x3cac, 0x00},
++	{0x3cad, 0x9e},
++	{0x3cae, 0x07},
++	{0x3caf, 0x85},
++	{0x3cb0, 0x03},
++	{0x3cb1, 0xbc},
++	{0x3cb2, 0x0b},
++	{0x3cb7, 0x3c},
++	{0x3cb8, 0x01},
++	{0x3cb9, 0x00},
++	{0x3cba, 0xbc},
++	{0x3cbb, 0x07},
++	{0x3cbc, 0xa3},
++	{0x3cbd, 0x03},
++	{0x3cbe, 0x9e},
++	{0x3cbf, 0x0b},
++	{0x3cc4, 0x66},
++	{0x3cc5, 0xe6},
++	{0x3cc6, 0x99},
++	{0x3cc7, 0xe9},
++	{0x3cc8, 0x33},
++	{0x3cc9, 0x03},
++	{0x3cca, 0x33},
++	{0x3ccb, 0x03},
++	{0x3cce, 0x66},
++	{0x3ccf, 0x66},
++	{0x3cd0, 0x00},
++	{0x3cd1, 0x04},
++	{0x3cd2, 0xf4},
++	{0x3cd3, 0xb7},
++	{0x3cd4, 0x03},
++	{0x3cd5, 0x10},
++	{0x3cd6, 0x06},
++	{0x3cd7, 0x30},
++	{0x3cd8, 0x08},
++	{0x3cd9, 0x5f},
++	{0x3cda, 0x0b},
++	{0x3cdd, 0x88},
++	{0x3cde, 0x88},
++	{0x3cdf, 0x08},
++	{0x3ce0, 0x00},
++	{0x3ce1, 0x00},
++	{0x3ce3, 0x00},
++	{0x3ce4, 0x00},
++	{0x3ce5, 0x00},
++	{0x3ce6, 0x00},
++	{0x3ce7, 0x00},
++	{0x3ce8, 0x00},
++	{0x3ce9, 0x00},
++	{0x3cea, 0x00},
++	{0x3ceb, 0x00},
++	{0x3cec, 0x00},
++	{0x3ced, 0x00},
++	{0x3cee, 0x00},
++	{0x3cef, 0x85},
++	{0x3cf0, 0x03},
++	{0x3cf1, 0xaf},
++	{0x3cf2, 0x0b},
++	{0x3cf3, 0x03},
++	{0x3cf4, 0x2c},
++	{0x3cf5, 0x00},
++	{0x3cf6, 0x42},
++	{0x3cf7, 0x00},
++	{0x3cf8, 0x03},
++	{0x3cf9, 0x2c},
++	{0x3cfa, 0x00},
++	{0x3cfb, 0x42},
++	{0x3cfc, 0x00},
++	{0x3cfd, 0x03},
++	{0x3cfe, 0x01},
++	{0x3d81, 0x00},
++	{0x3e94, 0x0f},
++	{0x3e95, 0x5f},
++	{0x3e96, 0x02},
++	{0x3e97, 0x3c},
++	{0x3e98, 0x00},
++	{0x3e9f, 0x00},
++	{0x3f00, 0x00},
++	{0x3f05, 0x03},
++	{0x3f07, 0x01},
++	{0x3f08, 0x55},
++	{0x3f09, 0x25},
++	{0x3f0a, 0x35},
++	{0x3f0b, 0x20},
++	{0x3f11, 0x05},
++	{0x3f12, 0x05},
++	{0x3f40, 0x00},
++	{0x3f41, 0x03},
++	{0x3f43, 0x10},
++	{0x3f44, 0x02},
++	{0x3f45, 0xe6},
++	{0x4000, 0xf9},
++	{0x4001, 0x2b},
++	{0x4008, 0x04},
++	{0x4009, 0x1b},
++	{0x400a, 0x03},
++	{0x400e, 0x10},
++	{0x4010, 0x04},
++	{0x4011, 0xf7},
++	{0x4032, 0x3e},
++	{0x4033, 0x02},
++	{0x4050, 0x02},
++	{0x4051, 0x0d},
++	{0x40b0, 0x0f},
++	{0x40f9, 0x00},
++	{0x4200, 0x00},
++	{0x4204, 0x00},
++	{0x4205, 0x00},
++	{0x4206, 0x00},
++	{0x4207, 0x00},
++	{0x4208, 0x00},
++	{0x4244, 0x00},
++	{0x4300, 0x00},
++	{0x4301, 0xff},
++	{0x4302, 0xf0},
++	{0x4303, 0x00},
++	{0x4304, 0xff},
++	{0x4305, 0xf0},
++	{0x4306, 0x00},
++	{0x4307, 0x06},
++	{0x4308, 0x00},
++	{0x430a, 0x90}, /* reset 0x10 emb_dt */
++	{0x430b, 0x11},
++	{0x4310, 0x00},
++	{0x4316, 0x00},
++	{0x431c, 0x00},
++	{0x431e, 0x00},
++	{0x431f, 0x0a},
++	{0x4320, 0x20},
++	{0x4410, 0x08},
++	{0x4433, 0x08},
++	{0x4434, 0xf8},
++	{0x4508, 0x80},
++	{0x4509, 0x10},
++	{0x450b, 0x83},
++	{0x4511, 0x00},
++	{0x4580, 0x09},
++	{0x4587, 0x00},
++	{0x458c, 0x00},
++	{0x4640, 0x00},
++	{0x4641, 0xc1},
++	{0x4642, 0x00},
++	{0x4643, 0x00},
++	{0x4649, 0x00},
++	{0x4681, 0x04},
++	{0x4682, 0x10},
++	{0x4683, 0xa0},
++	{0x4698, 0x07},
++	{0x4699, 0xf0},
++	{0x4700, 0xe0},
++	{0x4710, 0x00},
++	{0x4718, 0x04},
++	{0x4802, 0x00}, /* MIPI_CORE_REG00 */
++	{0x481b, 0x3c}, /* MIPI_CORE_REG1B */
++	{0x4837, 0x19}, /* MIPI_CORE_REG37 pclk_period[7:0] */
++	{0x4860, 0x00},
++	{0x4883, 0x00},
++	{0x4884, 0x09},
++	{0x4885, 0x80},
++	{0x4886, 0x00},
++	{0x4888, 0x10},
++	{0x488b, 0x00},
++	{0x488c, 0x10},
++	{0x4980, 0x03},
++	{0x4981, 0x06},
++	{0x4984, 0x00},
++	{0x4985, 0x00},
++	{0x4a14, 0x04},
++	{0x4b01, 0x44},
++	{0x4b03, 0x80},
++	{0x4d06, 0xc8},
++	{0x4d09, 0xdf},
++	{0x4d12, 0x80},
++	{0x4d15, 0x7d},
++	{0x4d34, 0x7d},
++	{0x4d3c, 0x7d},
++	{0x4d5a, 0x14},
++	{0x4e03, 0x06},
++	{0x4e04, 0xb9},
++	{0x4e05, 0x08},
++	{0x4e06, 0x36},
++	{0x4e07, 0x04},
++	{0x4e08, 0x52},
++	{0x4e09, 0x05},
++	{0x4e0a, 0x47},
++	{0x4e0b, 0x02},
++	{0x4e0c, 0xe2},
++	{0x4e0d, 0x03},
++	{0x4e0e, 0x85},
++	{0x4e18, 0xf3},
++	{0x4e19, 0x0f},
++	{0x4e1b, 0x08},
++	{0x4e1c, 0x04},
++	{0x4f00, 0x7f},
++	{0x4f01, 0xff},
++	{0x4f03, 0x00},
++	{0x4f04, 0x18},
++	{0x4f05, 0x13},
++	{0x5000, 0x6e},
++	{0x5001, 0x00},
++	{0x500a, 0x00},
++	{0x5080, 0x00},
++	{0x5081, 0x00},
++	{0x5082, 0x00},
++	{0x5083, 0x00},
++	{0x5100, 0x00},
++	{0x5103, 0x00},
++	{0x5180, 0x70},
++	{0x5181, 0x70},
++	{0x5182, 0x73},
++	{0x5183, 0xff},
++	{0x5240, 0x73},
++	{0x5249, 0x06},
++	{0x524a, 0x44},
++	{0x524b, 0x44},
++	{0x524c, 0x44},
++	{0x524e, 0x66},
++	{0x524f, 0x06},
++	{0x5250, 0x00},
++	{0x5281, 0x18},
++	{0x5282, 0x08},
++	{0x5283, 0x08},
++	{0x5284, 0x18},
++	{0x5285, 0x18},
++	{0x5286, 0x08},
++	{0x5287, 0x08},
++	{0x5288, 0x18},
++	{0x5289, 0x2d},
++	{0x6000, 0x40},
++	{0x6001, 0x40},
++	{0x6002, 0x00},
++	{0x6003, 0x00},
++	{0x6004, 0x00},
++	{0x6005, 0x00},
++	{0x6006, 0x00},
++	{0x6007, 0x00},
++	{0x6008, 0x00},
++	{0x6009, 0x00},
++	{0x600a, 0x00},
++	{0x600b, 0x00},
++	{0x600c, 0x02},
++	{0x600d, 0x00},
++	{0x600e, 0x04},
++	{0x600f, 0x00},
++	{0x6010, 0x06},
++	{0x6011, 0x00},
++	{0x6012, 0x00},
++	{0x6013, 0x00},
++	{0x6014, 0x02},
++	{0x6015, 0x00},
++	{0x6016, 0x04},
++	{0x6017, 0x00},
++	{0x6018, 0x06},
++	{0x6019, 0x00},
++	{0x601a, 0x01},
++	{0x601b, 0x00},
++	{0x601c, 0x01},
++	{0x601d, 0x00},
++	{0x601e, 0x01},
++	{0x601f, 0x00},
++	{0x6020, 0x01},
++	{0x6021, 0x00},
++	{0x6022, 0x01},
++	{0x6023, 0x00},
++	{0x6024, 0x01},
++	{0x6025, 0x00},
++	{0x6026, 0x01},
++	{0x6027, 0x00},
++	{0x6028, 0x01},
++	{0x6029, 0x00},
++
++	{0x3501, 0x08},
++	{0x3502, 0x32},
++
++	/* PLL 6G */
++	{0x0307, 0x01}, /* pll1_divm */
++	{0x304a, 0x03},
++	{0x4837, 0x10}, /* MIPI_CORE_REG37 pclk_period[7:0] */
++
++	/* Ficosa specific */
++	{0x3503, 0xa8}, /* AEC enable */
++	{0x3501, 0x00}, /* AEC expusure time 0x3501, 0x3502 */
++	{0x3502, 0x40},
++	{0x3508, 0x01}, /* AEC gain 0x3508, 0x3509 */
++	{0x3509, 0x00},
++	{0x3002, 0x6f}, /* I/O */ /* SC_CMMN_REG02 io_pad_oen[7:0] */
++	{0x3005, 0x6a}, /* SC_CMMN_REG05 io_pad_out[7:0] */
++	{0x3008, 0x6a}, /* SC_CMMN_REG08 io_pad_sel[7:0] */
++	{0x3b20, 0xff}, /* Strobe */ /* STOBE_REG20 stobe_pattern[7:0] */
++	{0x3a9f, 0x08}, /* GLOBAL_SHUTTER_REG9F */
++	{0x3aa0, 0x00}, /* GLOBAL_SHUTTER_REGA0 */
++	{0x3aa1, 0x00}, /* GLOBAL_SHUTTER_REGA1 */
++	{0x3b21, 0x00},
++	{0x3b22, 0x00},
++	{0x3b23, 0x00},
++	{0x3b24, 0x00},
++	{0x3b25, 0x00},
++	{0x3b26, 0x00},
++	{0x3b27, 0x00},
++	{0x3b28, 0x10},
++	{0x3b2f, 0x4a},
++	{0x3b2d, 0x01},
++	{0x3b2e, 0x78},
++	{0x3b1e, 0x01},
++	{0x3b1f, 0x05},
++
++	{0x4e04, 0x06},
++	{0x4e04, 0xee},
++	{0x4e05, 0x08},
++	{0x4e06, 0x88},
++	{0x4e07, 0x04},
++	{0x4e08, 0x0d},
++	{0x4e09, 0x09},
++	{0x4e0a, 0xae},
++	{0x4e0b, 0x02},
++	{0x4e0c, 0x44},
++	{0x4e0d, 0x03},
++	{0x4e0e, 0x55},
++};
++
++#endif
 -- 
 2.25.1
 
