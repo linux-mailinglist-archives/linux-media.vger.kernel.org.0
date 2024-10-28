@@ -1,263 +1,284 @@
-Return-Path: <linux-media+bounces-20416-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20417-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E49F9B2EE9
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 12:31:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42EBF9B2F9E
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 13:04:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E9A1B21853
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 11:31:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 657811C221AC
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 12:04:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDCF31D5CEE;
-	Mon, 28 Oct 2024 11:30:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0FA41DD865;
+	Mon, 28 Oct 2024 12:02:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01on2092.outbound.protection.outlook.com [40.107.239.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEB917A58F;
-	Mon, 28 Oct 2024 11:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730115052; cv=none; b=BcUtnjH1BJNO1mC1hHTxbB3smX8Ebna9skVa/wkNKLn0zIsR2ZefnizR3wKnToY8jXbPjlgIRMIRwPyhCM42GLfYToChvRyggMy3e4CQp0k9618fkssfYxRi5VH94xWU+Nve4x7AvTXWGShlHFNxuopofenhUAYsYVPqUb+rruU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730115052; c=relaxed/simple;
-	bh=bVt+2siwCc1v02VyHDDISl8GOS+0XqVUEBHdOCaYYuk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b853Y4SHQBB4eULurUqViZC1LxwTq+3MOLsZNbKu9kmO4a9/5FbyWn+0h98oTxzW2kVfz1EJoRishQazjpmVEFiiDJ8tCHh7szzwBjn+M7GtbgdT7ZAyauoVkyFSxeblG9vVXe0v1mHsxyH3ruVEfAYXY68GMjH9FDtk/hjXGAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A86E8C4CEC3;
-	Mon, 28 Oct 2024 11:30:47 +0000 (UTC)
-Message-ID: <563347aa-4155-47e1-b71a-0107aed83eb6@xs4all.nl>
-Date: Mon, 28 Oct 2024 12:30:45 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19A31DC05D;
+	Mon, 28 Oct 2024 12:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.239.92
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730116943; cv=fail; b=t8Wbeg+tdfmDTdU+Qo3+B8DXDsSM3dH0HQTPmtbzOmKtuIeHyFmOVr7IhuyFymtoZeRoLw0oKmCt+BnNm0ARwcX4qz6oFxishEA3i83gEN20p2f+BhRATzj6ZiiZtNtX4CWFukdxsu8blAYHFaLvg216Txvt7a2dt3IrmrwB3tE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730116943; c=relaxed/simple;
+	bh=9rbCKmLPqsE1Tg3WVWu2D/TCHFXBsJ2Gcdb3fdiK+cc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=TIJcwjgfBie+mbw0SG12+eoMCyr9pkQRec6SjMcJiDBW9tylU84MzbpVoDhL8aNxue2BlGqw1/zJELMaipl3tNtyF9KspGXtWchDvC25KpE4Cq8kimbyEyXx5z1PMBYzyE039RQj5UGvKLiT4dpPNcjzpGBEl0TAwzE81EX5yuM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.239.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NCpcQIqpwe4joTqlY36wEjvEGCUBLU1aafTnW/m82nPus/KFeUPaoxT7CqcZFDP6weuGj4L4ZyICw5deUckwk+beEP3spbIzjky6tegSs3Xe9+oxtYkYRY7jO1kWSV86EUlPwWBfk9WpnZ4z8CTWYN/hmlfZ5wN2ORFfhWlBHlbGC4ADMnD7OSI5PQawusidb2+9yTR9SFU1WIzORlddh6z/ZHBtPBuc3QEE57+Xg8QzXasvbrPX4zvJ4j+RSRijfGtXAmyPAHXKGe8Vkr8ZyqNZZfiQpVRdJQBrEpmKRFpUs4u9E4kYJI7wO6Sj0Bc47Don4ym9cJqG5IvzVgckPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9rbCKmLPqsE1Tg3WVWu2D/TCHFXBsJ2Gcdb3fdiK+cc=;
+ b=y8y7LavbeDlQyqlczrIIVqQ/DT0+gBqDpTQMloWPV1CybDhQuXAuOm9JbiO8zl7ZyrWiBZs0ibMQB2pwWk4cSnK06PVaT9eSXseQxRSW5vQ8UZWyrhXny5NILrkV9FhAV0DcA4nqt1kFmt0Y7brcyUca8e5VN8fYd7rq+C25YIB/XAKbZVwkuybju7STZsjKQkZb26jn2V0EHh/3aGIRc8HmHjCxQiBmTS3vAvWJa4uWkaEiPGggbyAKJFSetBRUiXFZxvWhloSWQmmII61zQiCS0Gl5p2g0CLF9ydrhGwzzLtWLejOCeu5QZ7F6s6fAoJyipE4atJRG08mFp4hjqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
+ by MA0P287MB0482.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:c9::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Mon, 28 Oct
+ 2024 12:02:16 +0000
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::58ec:81a0:9454:689f%5]) with mapi id 15.20.8093.014; Mon, 28 Oct 2024
+ 12:02:16 +0000
+From: Tarang Raval <tarang.raval@siliconsignals.io>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] media: mt9p031: Refactor format handling for different
+ sensor models
+Thread-Topic: [PATCH v2] media: mt9p031: Refactor format handling for
+ different sensor models
+Thread-Index: AQHbJyukwG7laAek3UK4xeYoOBf/t7Kb7ZIAgAAlECc=
+Date: Mon, 28 Oct 2024 12:02:16 +0000
+Message-ID:
+ <PN3P287MB1829515AEA990C3CC437DC9C8B4A2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <20241025221638.127457-1-tarang.raval@siliconsignals.io>
+ <Zx9c8gvmy_nY5l7e@kekkonen.localdomain>
+In-Reply-To: <Zx9c8gvmy_nY5l7e@kekkonen.localdomain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3P287MB1829:EE_|MA0P287MB0482:EE_
+x-ms-office365-filtering-correlation-id: b912770c-3ec8-4e2a-2d7f-08dcf7485def
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?3M20jC8gdKD05P/DIaGg+KHlCyu1t3Jr3k6PdIEQ6EPSaBal/2ALYOJx5D?=
+ =?iso-8859-1?Q?Mso2iNnIx+TY3cZLc7d+kzc+JVEHmC7kpmksu5SLHZiy3XH57r7RkMpdRe?=
+ =?iso-8859-1?Q?rSt9a3nf8eV3zBJJJCQkXE8e64RnmcVfnVD0qI+ehk6d3KpqnOLGpJdrpL?=
+ =?iso-8859-1?Q?x2SK8mIoVKiufzH0+I788ysi36GzmyztqS35HsaujuVfoLr3XqOpGCWE27?=
+ =?iso-8859-1?Q?ziTXD+EracQhvkVO3N9BW6aQPG/VwpT27xwEvecGi8MBvBEdGTPJqLNaGg?=
+ =?iso-8859-1?Q?QhLhnSsjmCK0VpqNIRn975gZPs/ks6jBUha3rZJJyTipiSYq0impFzmo0q?=
+ =?iso-8859-1?Q?JnyW9pO2AWImRU1QpOmJDXp+d/W2hrhIizb5sO4s3Ep949ZGQuCoP+71HI?=
+ =?iso-8859-1?Q?VLxMwTQ3OnGr+SdBqtwhFCak2XkjsQrRb9X9DCskPtp3FEZ2udzGFmQwt8?=
+ =?iso-8859-1?Q?DwalRJzfcDfqEcGZJMHXpRCKJ1GdtmOt/NjUuprUkB2mWvdbxBoBUzUvQx?=
+ =?iso-8859-1?Q?RZuGIsleMCDBNoS3OFQmSas7XbLL0j6L1bXHUhZrxoQ38VT7Ft+S0E0UlM?=
+ =?iso-8859-1?Q?92BwETtMnxKOAoqDjB0lzRLol0VQHz5NUGyleiWq6Dst9c9UAJe9FKRF11?=
+ =?iso-8859-1?Q?EYZEWYP/vaQRUcd/h3MI70doIyCmKAMBgWsCS+eM/tewZeBc/HxYOKp5jY?=
+ =?iso-8859-1?Q?8I2TasbP/I70HUKkU/nXLU1MvkPXmz1rQqGI4MlFDFyGiFDdXprYO51eIZ?=
+ =?iso-8859-1?Q?S+pwdqKMKcYhxYI4vgGSDQoFlthK3qIvtScJoj3L/MIJXvkO5ePkxidS9G?=
+ =?iso-8859-1?Q?WaeRXcFqiGCg/rHfCfg1BTyM7Pb3frwyWxv0yhoRKWSthi7HHe0t9Vkgfy?=
+ =?iso-8859-1?Q?p91EpEWjezAlufgw5FGihcpAvtX33czMfe87euFzSSnOcYftHn+Flf99Mv?=
+ =?iso-8859-1?Q?Wfof/Nnq0AlO8dJ4i1lKZKNqVZ4egjiK/OD9IOqsmaPIYNg1CTcPtSoahp?=
+ =?iso-8859-1?Q?259yKDEifTnxhaXKA050T2QdVFZLkHvtBRmnONyNDY1LDdrN30Lp9Ipw7l?=
+ =?iso-8859-1?Q?8g6j5bPZ5Ncga1K8pPK5upu2w1HQL0xiVWQkgIJewCQpa8FzPrYdCs6kf3?=
+ =?iso-8859-1?Q?vi8oA+gAWwmNlfzPSFHvtiuGweCfNAceHr5IpvJ/pCaWGhGQ71ICjwF5+F?=
+ =?iso-8859-1?Q?A6NCM7LQ2SQPkpJjXjjxHY76TekHYqVhqfKULh3vj/T9zzHp6fWQj2iBpO?=
+ =?iso-8859-1?Q?SGSgLaHN99xTAf34NxX9a0p42Z+VzSdowT6BHRKO6U098KG5tfGW28o5tz?=
+ =?iso-8859-1?Q?NLp/RUmQPCszPbMfCURO9uav+vhznnbNkilvN1hZ2WE9xCOJZoAOuUiA0B?=
+ =?iso-8859-1?Q?vf2u1EBkjQNFMa8utGpUpMNe7hZUrrJNMDYlu4E3z1dccSDL4No6U=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?eHI2N/ExXGtklGW7vVxCgcmb7G6UBzYZT/kv0NadBg0PjhBjxrWqaQFCZ5?=
+ =?iso-8859-1?Q?qyQPcpISL1T7yyz5jTpTQ0EJzf/nZ0uimyRO4v3Es2vfefkxHajE8bYE+K?=
+ =?iso-8859-1?Q?Bi0DJgYnmQlu2Dt/WXb5Zg7tHKHRaxaBE/NI5RTj0UQDyvSEh3/P2QIIRC?=
+ =?iso-8859-1?Q?j8AaYZKDR7sQqgpTa+nkEegTkVeRFUDVli6pE8+2+cYW8BTldkE/mw/9fi?=
+ =?iso-8859-1?Q?ozJ7/QKwYIlsy9TuHJ9yWzv+0eb+c1NIgYKTjMXjQqQQAdwE6raltQt/pN?=
+ =?iso-8859-1?Q?NasW4lOl7b59X1lD03Gadm+HaMPpB2NH9Z9gMtFtOsYljHKOME1ll6B+UW?=
+ =?iso-8859-1?Q?CvitfWQGnlpgSeaoQBHVpf2uPi3A3Kt8XmmVh5J4xxyKbwA9JI5aYR6+df?=
+ =?iso-8859-1?Q?l3Rj5Ta0KxlU5gX7USe6bbV5omJfSazxr4KUfwQudCK5PNSn2cvJCBjLdC?=
+ =?iso-8859-1?Q?TlqheYWRlfl8l/tsicbbYpGaCzs7FDnrfdkjzHy4jtlju16cniNaFo9Baf?=
+ =?iso-8859-1?Q?PWGsbvPkrYOl9J+/qsNwaE1xiDDiiKALT/HyPM0GKx5EsG9VAag6fQrU0h?=
+ =?iso-8859-1?Q?qaZ6x/MQWKxU9ki0aQrzXrUSpUOoq0uzG8HxbZqXDqA7xtpZlVFrIZ3GWW?=
+ =?iso-8859-1?Q?Hc3c8mYXkUgIjy5jiPYuuL8yyNncDWfi+t2P0ouKEg7bI7jkhFBM/WWQka?=
+ =?iso-8859-1?Q?7EByJVPb6gDoDA/l39Yr8xsocA+Mf76HgKJJbItFJ2Kh3AzxFOIcC7XCyV?=
+ =?iso-8859-1?Q?q/btflq4st8w9lAwLAAutSU2OMWk2F2oDOtvjA4gPvKT2yxVn0kdn/Pkkk?=
+ =?iso-8859-1?Q?6dUjSopUZhIngfncn20I0lWiu6i8/mz9z6KY7DZnpqHvpyLLxukr201kWi?=
+ =?iso-8859-1?Q?TdLA0LP0iSNznqkjBWLaU0cv2C3b9vxNEqmvOT4aRNaRjq4rAp01nasTFT?=
+ =?iso-8859-1?Q?nwKFYfLXb60TXI8V7cVUcq/28RV+J85m/EtRaENwA93C/cy2/XzRa8YLZZ?=
+ =?iso-8859-1?Q?YL/muY0pHK17zr7XHAtsCo3QayLjB+r2tEqZts0f7o3/q7i6Bkr9O4t5dL?=
+ =?iso-8859-1?Q?8f6ULB8+KkhV4QBoT0k74NXL8BGpdsr3hcy1K9dbZgC2T5PiUVOhyswBoC?=
+ =?iso-8859-1?Q?Bbjn+R4i9dU6NK+xJV9Fu1ECk5pTzWJkv73nUS4JymkIiulatwgXoQEg0u?=
+ =?iso-8859-1?Q?KgU2I5cVpFz5atKl71pXsoag+FPP+qPMXXWgqtou0lPNy32yuPzFxXhBjZ?=
+ =?iso-8859-1?Q?drAubRexcv7AQYHyMSX7dItXXyVR0MeoKqSYZLAQ/IJjzovMisF0yN/59V?=
+ =?iso-8859-1?Q?DZfNa+nkmSu5tRjO3z6YRyRbY+hRSOgUT4N0/5qjNFh2edm9O9wcMfhS9C?=
+ =?iso-8859-1?Q?kRiMZnOJM2nmqVZC5kuqrR4zIpAJ0MRvwAgy0ov/PdHwubVXnm2jw13oun?=
+ =?iso-8859-1?Q?8aWxYXPXZCDMCqvtmWDdr+lOv46BAGm1EHaLzAW752Awdtx1kuokarF+CM?=
+ =?iso-8859-1?Q?EEYXBU3HA1CAuFOnCj6MPhWlsryFrNGO6fIvr8a8Tp1uZAy91I7Z/9+zm+?=
+ =?iso-8859-1?Q?Ju6SHIJgn3B0EPRf49EheumeS/73mYRVeQYeyKYuf5C88m30A+dtwzrhDQ?=
+ =?iso-8859-1?Q?79OgpT8aq4HQU0dW9YR/eFm9RJoAECQ37ebZnrc9KpVng7SFTKG8xKjA?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] media: raspberrypi: Add support for RP1-CFE
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Naushir Patuck
- <naush@raspberrypi.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-References: <20241003-rp1-cfe-v6-0-d6762edd98a8@ideasonboard.com>
- <20241003-rp1-cfe-v6-3-d6762edd98a8@ideasonboard.com>
- <4d9e340e-2ae7-495b-8623-0d10398e1c3d@xs4all.nl>
- <02f05b61-08e7-45f8-8d59-f79bc20d076f@ideasonboard.com>
- <74286a86-51b9-4742-bb0c-583d70b1b0a7@xs4all.nl>
- <505c502e-b67a-4dca-8420-eb87eae4e170@ideasonboard.com>
- <59cf95be-fb53-4a94-bc6e-f9dca322749d@xs4all.nl>
- <5832a2f9-c908-4f5a-a3ee-9cb7d23ddab4@ideasonboard.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <5832a2f9-c908-4f5a-a3ee-9cb7d23ddab4@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: b912770c-3ec8-4e2a-2d7f-08dcf7485def
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2024 12:02:16.4880
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +LdX4rrYvOgMuPTXERZOgG9a58wtMZywd9k9cd5lmdEgeOekqveEOYuRxYdQPMKjlPmjfaWJQ9VfpHRZZwXriN8uBjJln3PXjkd9auM9WzM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB0482
 
-On 28/10/2024 12:25, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 28/10/2024 13:13, Hans Verkuil wrote:
->> On 28/10/2024 12:05, Tomi Valkeinen wrote:
->>> Hi Hans,
->>>
->>> On 28/10/2024 12:11, Hans Verkuil wrote:
->>>> On 28/10/2024 10:21, Tomi Valkeinen wrote:
->>>>> Hi,
->>>>>
->>>>> On 24/10/2024 11:20, Hans Verkuil wrote:
->>>>>> Hi Tomi,
->>>>>>
->>>>>> I know this driver is already merged, but while checking for drivers that use
->>>>>> q->max_num_buffers I stumbled on this cfe code:
->>>>>>
->>>>>> <snip>
->>>>>>
->>>>>>> +/*
->>>>>>> + * vb2 ops
->>>>>>> + */
->>>>>>> +
->>>>>>> +static int cfe_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
->>>>>>> +               unsigned int *nplanes, unsigned int sizes[],
->>>>>>> +               struct device *alloc_devs[])
->>>>>>> +{
->>>>>>> +    struct cfe_node *node = vb2_get_drv_priv(vq);
->>>>>>> +    struct cfe_device *cfe = node->cfe;
->>>>>>> +    unsigned int size = is_image_node(node) ?
->>>>>>> +                    node->vid_fmt.fmt.pix.sizeimage :
->>>>>>> +                    node->meta_fmt.fmt.meta.buffersize;
->>>>>>> +
->>>>>>> +    cfe_dbg(cfe, "%s: [%s] type:%u\n", __func__, node_desc[node->id].name,
->>>>>>> +        node->buffer_queue.type);
->>>>>>> +
->>>>>>> +    if (vq->max_num_buffers + *nbuffers < 3)
->>>>>>> +        *nbuffers = 3 - vq->max_num_buffers;
->>>>>>
->>>>>> This makes no sense: max_num_buffers is 32, unless explicitly set when vb2_queue_init
->>>>>> is called. So 32 + *nbuffers is never < 3.
->>>>>>
->>>>>> If the idea is that at least 3 buffers should be allocated by REQBUFS, then set
->>>>>> q->min_reqbufs_allocation = 3; before calling vb2_queue_init and vb2 will handle this
->>>>>> for you.
->>>>>>
->>>>>> Drivers shouldn't modify *nbuffers, except in very rare circumstances, especially
->>>>>> since the code is almost always wrong.
->>>>>
->>>>> Looking at this, the original code in the old BSP tree was, which somehow, along the long way, got turned into the above:
->>>>>
->>>>> if (vq->num_buffers + *nbuffers < 3)
->>>>>           *nbuffers = 3 - vq->num_buffers;
->>>>>
->>>>> So... I think that is the same as "q->min_reqbufs_allocation = 3"?
->>>>>
->>>>> The distinction between min_queued_buffers and min_reqbufs_allocation, or rather the need for the latter, still escapes me. If the HW/SW requires N buffers to be queued, why would we require
->>>>> allocating more than N buffers?
->>>>
->>>> min_queued_buffers is easiest to explain: that represents the requirements of the DMA
->>>> engine, i.e. how many buffers much be queued before the DMA engine can be started.
->>>> Typically it is 0, 1 or 2.
->>>>
->>>> min_reqbufs_allocation is the minimum number of buffers that will be allocated when
->>>> calling VIDIOC_REQBUFS in order for userspace to be able to stream without blocking
->>>> or dropping frames.
->>>>
->>>> Typically this is 3 for video capture: one buffer is being DMAed, another is queued up
->>>> and the third is being processed by userspace. But sometimes drivers have other
->>>> requirements.
->>>>
->>>> The reason is that some applications will just call VIDIOC_REQBUFS with count=1 and
->>>> expect it to be rounded up to whatever makes sense. See the VIDIOC_REQBUFS doc in
->>>> https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/vidioc-reqbufs.html
->>>>
->>>> "It can be smaller than the number requested, even zero, when the driver runs out of
->>>>    free memory. A larger number is also possible when the driver requires more buffers
->>>>    to function correctly."
->>>>
->>>> How drivers implement this is a mess, and usually the code in the driver is wrong as
->>>> well. In particular they often did not take VIDIOC_CREATE_BUFS into account, i.e.
->>>> instead of 'if (vq->num_buffers + *nbuffers < 3)' they would do 'if (*nbuffers < 3)'.
->>>
->>> Thanks, this was educational!
->>>
->>> So. If I have a driver that has min_queued_buffers = 1, I can use VIDIOC_CREATE_BUFS to allocate a single buffer, and then capture just one buffer, right? Whereas VIDIOC_REQBUFS would give me
->>> (probably) three (or two, if the driver does not set min_reqbufs_allocation). Three buffers makes sense for full streaming, of course.
->>>
->>>> When we worked on the support for more than 32 buffers we added min_reqbufs_allocation
->>>> to let the core take care of this. In addition, this only applies to VIDIOC_REQBUFS,
->>>> if you want full control over the number of allocated buffers, then use VIDIOC_CREATE_BUFS,
->>>> with this ioctl the number of buffers will never be more than requested, although it
->>>> may be less if you run out of memory.
->>>>
->>>> I really should go through all existing drivers and fix them up if they try to
->>>> handle this in the queue_setup function, I suspect a lot of them are quite messy.
->>>>
->>>> One thing that is missing in the V4L2 uAPI is a way to report the minimum number of
->>>> buffers that need to be allocated, i.e. min_queued_buffers + 1. Since if you want
->>>
->>> Hmm, so what I wrote above is not correct? One needs min_queued_buffers + 1? Why is that?
->>
->> The DMA engine always uses min_queued_buffers, so if there are only that many buffers,
->> then it can never return a buffer to userspace! So you need one more. That's the absolute
->> minimum. For smooth capture you need two more to allow time for userspace to process the
->> buffer.
-> 
-> Hmm, ok, I see. Well, I guess my "I want to capture just a single frame" is not a very common case.
-> 
-> Can I queue one buffer, start streaming, stop streaming, and get the filled buffer? But then I guess I don't when the buffer has been filled, i.e. when to call stop streaming.
-
-Exactly. If you really want that, then the driver has to be adapted in the way that Laurent
-suggested, i.e. with one or more scratch buffers. But that is not always possible, esp. with
-older hardware without an IOMMU.
-
-Regards,
-
-	Hans
-
-> 
-> So, never mind, I don't actually have any use case for this, just wondering.
-> 
->>>
->>>> to use CREATE_BUFS you need that information so you know that you have to create
->>>> at least that number of buffers. We have the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control,
->>>> but it is effectively codec specific. This probably should be clarified.
->>>>
->>>> I wonder if it wouldn't be better to add a min_num_buffers field to
->>>> struct v4l2_create_buffers and set it to min_queued_buffers + 1.
->>>
->>> I think this makes sense (although I still don't get the +1).
->>>
->>> However, based on the experiences from adding the streams features to various ioctls, let's be very careful =). The new 'min_num_buffers' can be filled with garbage by the userspace. If we define the
->>> 'min_num_buffers' field to be always filled by the kernel, and any value provided from the userspace to be ignored, I think it should work.
->>
->> I've posted an RFC for this.
-> 
-> Thanks, I'll check it out.
-> 
-> For the original issue in this thread, I think the correct fix is to remove the lines from cfe_queue_setup(), and add "q->min_reqbufs_allocation = 3".
-> 
-> I'll send a patch for that.
-> 
->  Tomi
-> 
-
+Hi Sakari,=0A=
+=0A=
+Thanks for suggention=0A=
+=0A=
+>> +=A0=A0=A0=A0 }, {=0A=
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .compatible =3D "aptina,mt9p031",=
+=0A=
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .data =3D &mt9p031_models[MT9P031_=
+MODEL_BAYER]=0A=
+>> +=A0=A0=A0=A0 }, {=0A=
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .compatible =3D "aptina,mt9p031m",=
+=0A=
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .data =3D &mt9p031_models[MT9P031_=
+MODEL_MONO]=0A=
+>=0A=
+>Instead using an index into an array, could you add structs for describing=
+=0A=
+>both separately? See e.g. drivers/media/i2c/ccs/ccs-core.c for an example.=
+=0A=
+=0A=
+Sure, I will send v3 with the above approach.=0A=
+=0A=
+Best Regards,=0A=
+Tarang=0A=
+________________________________________=0A=
+From:=A0Sakari Ailus <sakari.ailus@linux.intel.com>=0A=
+Sent:=A0Monday, October 28, 2024 3:14 PM=0A=
+To:=A0Tarang Raval <tarang.raval@siliconsignals.io>=0A=
+Cc:=A0laurent.pinchart@ideasonboard.com <laurent.pinchart@ideasonboard.com>=
+; Mauro Carvalho Chehab <mchehab@kernel.org>; linux-media@vger.kernel.org <=
+linux-media@vger.kernel.org>; linux-kernel@vger.kernel.org <linux-kernel@vg=
+er.kernel.org>=0A=
+Subject:=A0Re: [PATCH v2] media: mt9p031: Refactor format handling for diff=
+erent sensor models=0A=
+=A0=0A=
+CAUTION: This email originated from outside the organization. Do not click =
+links or open attachments unless you recognize the sender and know the cont=
+ent is safe.=0A=
+=0A=
+Hi Tarang,=0A=
+=0A=
+On Sat, Oct 26, 2024 at 03:45:40AM +0530, Tarang Raval wrote:=0A=
+> Add new structure 'mt9p031_model_info' to encapsulate format codes for=0A=
+> the mt9p031 camera sensor family. This approach enhances code clarity=0A=
+> and maintainability.=0A=
+>=0A=
+> Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>=0A=
+> ---=0A=
+>=A0 drivers/media/i2c/mt9p031.c | 31 ++++++++++++++++++++++++++++---=0A=
+>=A0 1 file changed, 28 insertions(+), 3 deletions(-)=0A=
+>=0A=
+> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c=0A=
+> index f2f52f484044..3576d3066738 100644=0A=
+> --- a/drivers/media/i2c/mt9p031.c=0A=
+> +++ b/drivers/media/i2c/mt9p031.c=0A=
+> @@ -112,6 +112,24 @@=0A=
+>=A0 #define MT9P031_TEST_PATTERN_RED=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 0xa2=0A=
+>=A0 #define MT9P031_TEST_PATTERN_BLUE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 0xa3=0A=
+>=0A=
+> +struct mt9p031_model_info {=0A=
+> +=A0=A0=A0=A0 u32 code;=0A=
+> +};=0A=
+> +=0A=
+> +enum mt9p031_model {=0A=
+> +=A0=A0=A0=A0 MT9P031_MODEL_BAYER,=0A=
+> +=A0=A0=A0=A0 MT9P031_MODEL_MONO,=0A=
+> +};=0A=
+> +=0A=
+> +static const struct mt9p031_model_info mt9p031_models[] =3D {=0A=
+> +=A0=A0=A0=A0 [MT9P031_MODEL_BAYER] =3D {=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .code =3D MEDIA_BUS_FMT_SGRBG12_1X1=
+2,=0A=
+> +=A0=A0=A0=A0 },=0A=
+> +=A0=A0=A0=A0 [MT9P031_MODEL_MONO] =3D {=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .code =3D MEDIA_BUS_FMT_Y12_1X12,=
+=0A=
+> +=A0=A0=A0=A0 },=0A=
+> +};=0A=
+> +=0A=
+>=A0 struct mt9p031 {=0A=
+>=A0=A0=A0=A0=A0=A0 struct v4l2_subdev subdev;=0A=
+>=A0=A0=A0=A0=A0=A0 struct media_pad pad;=0A=
+> @@ -1209,9 +1227,16 @@ static void mt9p031_remove(struct i2c_client *clie=
+nt)=0A=
+>=A0 }=0A=
+>=0A=
+>=A0 static const struct of_device_id mt9p031_of_match[] =3D {=0A=
+> -=A0=A0=A0=A0 { .compatible =3D "aptina,mt9p006", .data =3D (void *)MEDIA=
+_BUS_FMT_SGRBG12_1X12 },=0A=
+> -=A0=A0=A0=A0 { .compatible =3D "aptina,mt9p031", .data =3D (void *)MEDIA=
+_BUS_FMT_SGRBG12_1X12 },=0A=
+> -=A0=A0=A0=A0 { .compatible =3D "aptina,mt9p031m", .data =3D (void *)MEDI=
+A_BUS_FMT_Y12_1X12 },=0A=
+> +=A0=A0=A0=A0 {=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .compatible =3D "aptina,mt9p006",=
+=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .data =3D &mt9p031_models[MT9P031_M=
+ODEL_BAYER]=0A=
+> +=A0=A0=A0=A0 }, {=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .compatible =3D "aptina,mt9p031",=
+=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .data =3D &mt9p031_models[MT9P031_M=
+ODEL_BAYER]=0A=
+> +=A0=A0=A0=A0 }, {=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .compatible =3D "aptina,mt9p031m",=
+=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .data =3D &mt9p031_models[MT9P031_M=
+ODEL_MONO]=0A=
+=0A=
+Instead using an index into an array, could you add structs for describing=
+=0A=
+both separately? See e.g. drivers/media/i2c/ccs/ccs-core.c for an example.=
+=0A=
+=0A=
+> +=A0=A0=A0=A0 },=0A=
+>=A0=A0=A0=A0=A0=A0 { /* sentinel */ }=0A=
+>=A0 };=0A=
+>=A0 MODULE_DEVICE_TABLE(of, mt9p031_of_match);=0A=
+=0A=
+--=0A=
+Kind regards,=0A=
+=0A=
+Sakari Ailus=
 
