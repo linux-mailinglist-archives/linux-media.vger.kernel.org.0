@@ -1,269 +1,225 @@
-Return-Path: <linux-media+bounces-20442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20443-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46759B375A
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 18:08:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 957019B37B1
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 18:32:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74212281D12
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 17:08:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7FD11C21CB5
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 17:32:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09D41DF254;
-	Mon, 28 Oct 2024 17:08:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B24B01DF27F;
+	Mon, 28 Oct 2024 17:32:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wgr/2m3G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PRi6v2AW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8228613AD11
-	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 17:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24741DF251;
+	Mon, 28 Oct 2024 17:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730135318; cv=none; b=pv67DPVaH6oGuH8TVIAg8Dtc65+FHJA3L+63ukR3oZA75hr7AVr5c+dFDvcj9UWUPlfipV2BmWRjr5ab7cBqaeAHMrsDukfj0K2tWcTJ33LEKpX++XU/ET2Io71RKbCFKwZVfNuky/3VICLhxrriCiGBDlHTv4efZJcdNhlKV7o=
+	t=1730136759; cv=none; b=tW1oioB0k7SIp+hmcB0EQbsKZPmDk0Wj3zWKy3ya4aTHIs8+bPACwxsA9kqyYpFBw2ltGhPMzKv6uCrwVf3VTHZhh3RteApoiODYQE5YjYwR/rLxoaHEYoV/sZCEsF52n9ZChqzduFh4lspmNfOp7C4Q8CBEPlY1hDKIOY15dco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730135318; c=relaxed/simple;
-	bh=RgiXDuqyaFtldGNRjqiMRXE84GdFDle3DvtKzRI/aS0=;
+	s=arc-20240116; t=1730136759; c=relaxed/simple;
+	bh=ovhTjd8e0XI25whd5UTTdMSx258AGClEYaqz4D6Ch4w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nJXJXSX05ydPaM6vzDU7P8FsQsgFbt0rT9onf9TdKkQ3w7E9TaQNNrB2kWvJBXfr0DELFLcE9N2kHK9NQ2LtRGiLyKkRZZ3VNb7KYqcWzw9cM8m7oPfjHn/Yp1HQ8mFaZ/naoPSASjPWPObgT8CMdV7C3S1UFC/Thc1Cd+1vRPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wgr/2m3G; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-59-111.net.vodafone.it [5.90.59.111])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4C3343;
-	Mon, 28 Oct 2024 18:08:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730135310;
-	bh=RgiXDuqyaFtldGNRjqiMRXE84GdFDle3DvtKzRI/aS0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wgr/2m3Gbh7VdFHvrlroEV/LH+JaAbDzKHy56cyGzIdaYtkoecTUxVUAz2wIBzmZl
-	 iycxdHKVMs5smdiFJWry2NvBuddC6TkrPvmooA75bVXJg5vl1+GgCI6tgZwctoxlu9
-	 qL9OL1H/umrsxoIHxGljXyxfeXNwaAMCtdEjQss0=
-Date: Mon, 28 Oct 2024 18:08:18 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=fQOpkNC1MFWwG+yBR/AgOtisDgk9LvL5XTSNf5HCRGyVcTyvgBzNGqum8GxRjIgehcDb9lfnK7jsluu7ht1YzTmlDDWy8w2LTySfOTCa+uuH/Vqpi4h4v64HO7jOMJGx2VCow5v0MBfQYurW99j9U/Xj6jVslUospRA+8TnTfIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PRi6v2AW; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539e13375d3so5178352e87.3;
+        Mon, 28 Oct 2024 10:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730136755; x=1730741555; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mj2liF4nx7VZnKh8QeIkwojRqh8+MN+fPrkECh/R5qw=;
+        b=PRi6v2AWKBNjfuvHKQZgSn4rwYlEBKFCsSdTVGEBbjRDKioYs6z3cAwR4q5mDt9qIJ
+         MA0EhKEP//9ZhqTsae3JIVwDoPWAnzLz0xnfXYvD8A3xz3ysXoqdjD2LBiYTGAGVs9Z7
+         P8M7nfnuZNAJ/315dDAP57AJEx1+ON3n9jCuTMaB1CmNWAbY7uuH7m4rhBmVhG9jbAET
+         eKFmIBJv7CqUo4ddpUrmNctq3vNZ52Qd1E4qL+8ZUKWUUkHQ9GHvb6a5H5PrQVMX1eCa
+         srbZlN161ZgQcS/dAmmaL7h/w35cHaXc2hmQ23KItyy5d/IXv5qrVAiCuVc4p71eLFkN
+         gzQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730136755; x=1730741555;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mj2liF4nx7VZnKh8QeIkwojRqh8+MN+fPrkECh/R5qw=;
+        b=MupSHUwCAKsbhk83UmsoxBClpD3qKChIRbcfjeqyd5Q2ALGN3r+iZgnyeMUfVG5bNe
+         NCTBSRdMEC245032EM93dUX0kw+RD9S5srBMYVxvzDMC/x+RzuSULtiuDbH69Cv4nWX0
+         L1CHyhhyEQNvflPCxTzv2MYN8TjzNIjefq1w1neycFHmgqTcIZfw2KrVvnRwcyFHIvMA
+         cDTYNv7ygsd8MbDV9aANU87RphiGJQzzrNeAbay0JVOVsbKULiRTwm4QcyJUm+mFtrV6
+         obLsTzuNL1rAAS7ZaerCfrqn3BSgLznTy9d/yZBxydPTk0+BrL/sCFx5YxZowbpUk24R
+         v6eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJFaeak237j+E4KFMMDD5BDcvlk/XTPwbrFzORQNaTk6mBzX6ymPsDJ4sXR6hj7s+7Hl3icIk8rxy2AOA=@vger.kernel.org, AJvYcCXIDLkWK4ba5x612Qp/7xWDT8SV3MvzVVkP+5w/PyFwzWH6fO0soLfaaCW/pWnkT03EZj8cs7ljpFl7LHQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6PnCER0ofGCmZAmO2c9siSfXMtTKAqDnRf6HWG0FtORvRvHcj
+	YOjyJVDIRXZmh14/8hY9WGOOdHPd05VHKC9vIPIewyph6VeV2ZTj
+X-Google-Smtp-Source: AGHT+IFV+6aSOEl6abiaqOBxdAUIdLFxGz+OaTJw++DV3keSeb3siTfJAxm04D1j03mDh3moa6Uu8g==
+X-Received: by 2002:a05:6512:1310:b0:535:d4e6:14e2 with SMTP id 2adb3069b0e04-53b348f1399mr4327085e87.36.1730136754512;
+        Mon, 28 Oct 2024 10:32:34 -0700 (PDT)
+Received: from tom-desktop (net-188-217-53-167.cust.vodafonedsl.it. [188.217.53.167])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b3bddbsm10079036f8f.27.2024.10.28.10.32.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 10:32:34 -0700 (PDT)
+Date: Mon, 28 Oct 2024 18:32:32 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Dafna Hirschfeld <dafna@fastmail.com>, 
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, 
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>, Adam Pigg <adam@piggz.co.uk>
-Subject: Re: [PATCH v2] media: rkisp1: Reduce min_queued_buffers to 0
-Message-ID: <j4va4obettev3q6t3woojmh7lknomicei7urgxm77ammnmdzdb@54zmlbbvspvd>
-References: <20241028143553.36704-1-jacopo.mondi@ideasonboard.com>
- <392682fd-3325-41ab-825d-67cb3de4c7b2@xs4all.nl>
- <ncxqnajjdty456w6wsk5sonjuk3e2uzvcse7bdmmmmk4lop5i2@73vuqxkol4nr>
- <6fcbb221-2b28-4fd2-8466-8c3aa711edb2@xs4all.nl>
- <20241028162141.GA26852@pendragon.ideasonboard.com>
+Cc: sakari.ailus@linux.intel.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	=?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: v4l2-subdev: Refactor events
+Message-ID: <Zx/KsKBtVBWfziXo@tom-desktop>
+References: <20241020163534.1720297-1-tomm.merciai@gmail.com>
+ <20241020164354.GG7770@pendragon.ideasonboard.com>
+ <ZxX2SVl/p0i7Nemi@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <20241021073034.GC14328@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241028162141.GA26852@pendragon.ideasonboard.com>
+In-Reply-To: <20241021073034.GC14328@pendragon.ideasonboard.com>
 
-Hi Laurent, Hans,
+Hi Laurent, Sakari,
 
-On Mon, Oct 28, 2024 at 06:21:41PM +0200, Laurent Pinchart wrote:
-> Hi Hans,
->
-> On Mon, Oct 28, 2024 at 04:48:55PM +0100, Hans Verkuil wrote:
-> > On 28/10/2024 16:30, Jacopo Mondi wrote:
-> > > On Mon, Oct 28, 2024 at 04:02:13PM +0100, Hans Verkuil wrote:
-> > >> On 28/10/2024 15:35, Jacopo Mondi wrote:
-> > >>> There apparently is no reason to require 3 queued buffers to call
-> > >>> streamon() for the RkISP1 as the driver operates with a scratch buffer
-> > >>> where frames can be directed to if there's no available buffer provided
-> > >>> by userspace.
-> > >>>
-> > >>> Reduce the number of required buffers to 0 to allow applications to
-> > >>> operate by queueing capture buffers on-demand.
-> > >>>
-> > >>> Tested with libcamera, by operating with a single capture request. The
-> > >>> same request (and associated capture buffer) gets recycled once
-> > >>> completed. This of course causes a frame rate drop but doesn't hinder
-> > >>> operations.
-> > >>>
-> > >>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > >>> ---
-> > >>> The first version of this patch set min_queued_buffers to 1, but setting it
-> > >>> to 0 doesn't compromise operations and it's even better as it allows application
-> > >>> to queue buffers to the capture devices on-demand. If a buffer is not provided
-> > >>> to the DMA engines, image data gets directed to the driver's internal scratch
-> > >>> buffer.
-> > >>> ---
-> > >>>  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 4 +---
-> > >>>  1 file changed, 1 insertion(+), 3 deletions(-)
-> > >>>
-> > >>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > >>> index 2bddb4fa8a5c..5fcf9731f41b 100644
-> > >>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > >>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > >>> @@ -35,8 +35,6 @@
-> > >>>  #define RKISP1_SP_DEV_NAME	RKISP1_DRIVER_NAME "_selfpath"
-> > >>>  #define RKISP1_MP_DEV_NAME	RKISP1_DRIVER_NAME "_mainpath"
-> > >>>
-> > >>> -#define RKISP1_MIN_BUFFERS_NEEDED 3
-> > >>> -
-> > >>>  enum rkisp1_plane {
-> > >>>  	RKISP1_PLANE_Y	= 0,
-> > >>>  	RKISP1_PLANE_CB	= 1,
-> > >>> @@ -1563,7 +1561,7 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
-> > >>>  	q->ops = &rkisp1_vb2_ops;
-> > >>>  	q->mem_ops = &vb2_dma_contig_memops;
-> > >>>  	q->buf_struct_size = sizeof(struct rkisp1_buffer);
-> > >>> -	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
-> > >>> +	q->min_queued_buffers = 0;
-> > >>
-> > >> You can probably just drop this since the vb2_queue struct is zeroed when it
-> > >> is allocated. So no need to set it to 0.
-> > >
-> > > I suspected so :)
-> > >
-> > >>
-> > >> And is the RKISP1_MIN_BUFFERS_NEEDED define still needed after this change?
-> > >
-> > > No, and this patch removes it in facts
-> > >
-> > >  -#define RKISP1_MIN_BUFFERS_NEEDED 3
-> > >  -
-> >
-> > I should have checked the patch :-) Sorry for the noise.
-> >
-> > >>
-> > >> Also, see my RFC I posted today:
-> > >>
-> > >> https://lore.kernel.org/linux-media/126cd76a-6224-483b-a18d-a3cc89e5ff2d@xs4all.nl/T/#u
-> > >>
-> > >> My main concern is that applications that just call VIDIOC_REQBUFS with count = 1
-> > >> and expect the driver to change that to a workable value, will, in fact, now just get
-> > >> one buffer. And streaming that will cause lots of frame drops.
-> > >>
-> > >> It makes sense to leave min_queued_buffers at 0 if a scratch buffer is available,
-> > >> but I'm unhappy with the fact that you get a poor experience when REQBUFS(1) is called.
-> > >
-> > > Yeah, I've read the discussion between you and Tomi and it seemed like
-> > > a good time to re-send this patch.
-> > >
-> > >> My RFC suggests improvements in the uAPI. With that in place you can use CREATE_BUFS in
-> > >> libcamera to get much better control over how many buffers should be allocated.
-> > >
-> > > In my understanding min_queued_buffers identifies how many buffers
-> > > should be queued before calling start_streaming, and this comes
-> > > directly from an hw/driver requirement. This doesn't mean that at
-> > > least min_queue_buffers should be queued at all the times during
-> > > streaming, at least, I don't see how and where videobuf2 enforces
-> > > this. Or does it ?
-> >
-> > It's an intrinsic property of the HW/driver: e.g. if it needs two buffers
-> > queued up for the DMA engine to work, then it really is always holding on
-> > to two buffers. The only thing the framework does is postpone calling
-> > start_streaming until that number of buffers is queued to ensure the
-> > DMA engine has what it needs to start. But after that vb2 doesn't check
-> > it.
->
-> The "driver" part of "HW/driver" is important here, as drivers can
-> influence this in multiple ways. One of them is usage of scratch
-> buffers, but even without that, a DMA engine that requires two buffers
-> can easily be operated with a single buffer by programming the DMA
-> engine with the same buffer address twice. Drivers should really do so
-> unless they really can't.
->
-> > > If the above is correct, then the number of buffers to be queued
-> > > during streaming is, in my opinion, less an hw/driver requirement but
-> > > more an application decision.
-> >
-> > No, min_queued_buffers is a HW/drivers property: the DMA engine can't
-> > start until that many buffers are queued up, and once it is started
-> > it will always hold on to that many buffers.
+Sorry for the delay.
+Back on this topic.
 
-I get it, my point was that once start_streaming has been called, even
-if min_queued_buffers=2, there is nothing preventing userspace from
-queing one buffer at the time once the first two have completed. Sure, the
-hw/driver might not like it, but while delaying start_streaming
-prevents bad things from happening, there is nothing in the core that
-prevents applications from potentially stalling the capture
-operations.
+On Mon, Oct 21, 2024 at 10:30:34AM +0300, Laurent Pinchart wrote:
+> On Mon, Oct 21, 2024 at 08:35:53AM +0200, Tommaso Merciai wrote:
+> > Hi Laurent,
+> > Thanks for your review.
+> > 
+> > On Sun, Oct 20, 2024 at 07:43:54PM +0300, Laurent Pinchart wrote:
+> > > Hi Tommaso,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > On Sun, Oct 20, 2024 at 06:35:32PM +0200, Tommaso Merciai wrote:
+> > > > Controls can be exposed to userspace via a v4l-subdevX device, and
+> > > > userspace has to be able to subscribe to control events so that it is
+> > > > notified when the control changes value.
+> > > > If a control handler is set for the subdev then set the HAS_EVENTS
+> > > > flag automatically into v4l2_subdev_init_finalize() and use
+> > > > v4l2_ctrl_subdev_subscribe_event() and v4l2_event_subdev_unsubscribe()
+> > > > as default if subdev don't have .(un)subscribe control operations.
+> > > 
+> > > I would add here
+> > > 
+> > > This simplifies subdev drivers by avoiding the need to set the
+> > > V4L2_SUBDEV_FL_HAS_EVENTS flag and plug the event handlers, and ensures
+> > > consistency of the API exposed to userspace.
+> > > 
+> > > And you can also add
+> > > 
+> > > Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > 
+> > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > > 
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > Oks, Thanks again.
+> > 
+> > > Now, can we simplify sensor drivers to drop the event handlers and the
+> > > flag ? :-)
+> > 
+> > Yep, plan is add all to support v4l2_subdev_init_finalize()
+> > Removing:
+> > 
+> >  .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> >  .unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> > 
+> > if are used. And ofc V4L2_SUBDEV_FL_HAS_EVENTS.
+> 
+> What I meant is looking at the I2C sensor drivers that currently
+> 
+> - call v4l2_subdev_init_finalize()
+> - set V4L2_SUBDEV_FL_HAS_EVENTS
+> - set the .subscribe_event() and .unsubscribe_event() handlers
+> 
+> and dropping the flag and handlers from them. Is that what you plan to
+> work on ?
 
-But I get your point, if the system needs 2 buffers to start
-streaming, it will probably need two buffers to continue producing
-frames.
+It's ok for you per/driver patch or you prefer a big single patch?
 
->
-> That's not always true. The imx7-media-csi driver, for instance, sets
-> min_queued_buffers to 2, but allocates scratch buffers and uses them at
-> runtime, so that it can return all queued buffers to userspace.
+Meanwhile I've prepared something here:
 
-That's interesting. From your mention of "scratch buffers" I get there
-actually is a need to have 2 buffers queued to the HW ? How does
-that work, after all queuing a buffer to the DMA engine usually means
-pointing its write engine to one (set of) addresses.
+https://gitlab.freedesktop.org/linux-media/users/tmerciai/-/compare/next...v6.12.0-rc1-nxp?from_project_id=22111
 
-Or is it a driver-only requirement to ask for two buffers ?
+Let me know if you prefer (un)squashed version.
+Thanks in advance. :)
 
-> Grepping for min_queued_buffers I see drivers setting it to 4
-> (rcar-dma.c, rzg2l-video.c), 6 (cxusb-analog.c) or even 9
-> (zoran_driver.c) ! I doubt the zoran driver holds on to 9 buffers at
-> runtime. Your statement is not universally true today?.
->
-> This could be considered as driver issues, and the min_queued_buffers
-> values should be fixed to match the runtime behaviour. In some cases I
-> expect it will require more work than just changing the value, as
-> drivers may implement the logic to operate with less buffers at runtime
-> but not at start time. This would be fixable, but it may also call for
-> asking if the start at runtime behaviours need to be identical.
->
-> > So the application has to know somehow how many buffers are needed to
-> > actually stream. One way is via VIDIOC_REQBUFS since that is supposed to
-> > always return a workable number of buffers, the other is by actually
-> > reporting the minimum number of buffers as per my RFC.
-> >
-> > > As you said an application should be good with> 3 buffers (one queued, one currently being written to, one to be
-> > > consumed by the application), but in very specific cases where an
-> > > application retains the buffer for longer, for whatever reason, it
-> > > might need a larger number of queued buffers to provide the DMA
-> > > engines a space where to write data without them being discarded (to
-> > > scratch buffers or discarded by the DMA engine itself, if the HW
-> > > supports that). Or maybe an application is fine to drop frames and
-> > > only queue buffers sporadically (if the HW supports that ofc).
-> > >
-> > > For libcamera, and for this specific platform in particular, we're
-> > > going to base new developments on the assumption that
-> > > min_queued_buffers == 0, and it would be more convenient for use to be
-> > > able to access its value from userspace to identify if we're running
-> > > on a kernel with or without this patch being applied.
-> >
-> > So my proposal in my RFC to expose min_num_buffers would work for libcamera?
-> > It sounds like that's what you need.
->
+Thanks & Regards,
+Tommaso
 
-My immediate need is to know if I'm running on a "legacy" version of
-this driver that still requires 3 buffers for no apparent reason, or
-on a new version. Your proposal might work, but I still feel like we
-should report the HW/driver requirement (min_queued_buffers) instead
-of trying to suggest applications how many buffers they need to
-allocate to get "smooth streaming" or similar, as the use cases
-might be different.
-
-> It may be useful, but I think we may also just require min_num_buffers
-> == 0 for a device to be supported in libcamera. We have to implement
-
-While I concur this would be ideal, how would it work for existing
-rkisp1 implementation that do not include this patch ? libcamera
-should be able to run on both, probably in two different "modes" /o\
-
-> APIs such as the Android camera HAL that has no concept of buffers being
-> kept by the device. This could possibly be handled within libcamera by
-> allocating scratch buffers in userspace, but that comes with other
-> challenges. I would like to at least try to get help from the kernel
-> until proven that it's a bad idea.
->
-> --
+> 
+> > Meanwhile I think I will send v3 with your
+> > suggestions. :)
+> > 
+> > > > ---
+> > > > Changes since v1:
+> > > >  - Aligned event subscription with unsubscription as suggested by LPinchart,
+> > > >    SAilus
+> > > > 
+> > > >  drivers/media/v4l2-core/v4l2-subdev.c | 22 ++++++++++++++++++++--
+> > > >  1 file changed, 20 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > index 3a4ba08810d2..fad8fa1f63e8 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > @@ -691,10 +691,25 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> > > >  		return v4l2_event_dequeue(vfh, arg, file->f_flags & O_NONBLOCK);
+> > > >  
+> > > >  	case VIDIOC_SUBSCRIBE_EVENT:
+> > > > -		return v4l2_subdev_call(sd, core, subscribe_event, vfh, arg);
+> > > > +		if (v4l2_subdev_has_op(sd, core, subscribe_event))
+> > > > +			return v4l2_subdev_call(sd, core, subscribe_event,
+> > > > +						vfh, arg);
+> > > > +
+> > > > +		if ((sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS) &&
+> > > > +		    vfh->ctrl_handler)
+> > > > +			return v4l2_ctrl_subdev_subscribe_event(sd, vfh, arg);
+> > > > +
+> > > > +		return -ENOIOCTLCMD;
+> > > >  
+> > > >  	case VIDIOC_UNSUBSCRIBE_EVENT:
+> > > > -		return v4l2_subdev_call(sd, core, unsubscribe_event, vfh, arg);
+> > > > +		if (v4l2_subdev_has_op(sd, core, unsubscribe_event))
+> > > > +			return v4l2_subdev_call(sd, core, unsubscribe_event,
+> > > > +						vfh, arg);
+> > > > +
+> > > > +		if (sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS)
+> > > > +			return v4l2_event_subdev_unsubscribe(sd, vfh, arg);
+> > > > +
+> > > > +		return -ENOIOCTLCMD;
+> > > >  
+> > > >  #ifdef CONFIG_VIDEO_ADV_DEBUG
+> > > >  	case VIDIOC_DBG_G_REGISTER:
+> > > > @@ -1641,6 +1656,9 @@ int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
+> > > >  		}
+> > > >  	}
+> > > >  
+> > > > +	if (sd->ctrl_handler)
+> > > > +		sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS;
+> > > > +
+> > > >  	state = __v4l2_subdev_state_alloc(sd, name, key);
+> > > >  	if (IS_ERR(state))
+> > > >  		return PTR_ERR(state);
+> 
+> -- 
 > Regards,
->
+> 
 > Laurent Pinchart
 
