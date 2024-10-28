@@ -1,63 +1,61 @@
-Return-Path: <linux-media+bounces-20441-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20442-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95AC29B36C3
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 17:39:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46759B375A
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 18:08:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54987283232
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 16:39:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74212281D12
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 17:08:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F2341DF248;
-	Mon, 28 Oct 2024 16:38:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09D41DF254;
+	Mon, 28 Oct 2024 17:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MYp3kcbv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wgr/2m3G"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431F71DEFF8
-	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 16:38:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8228613AD11
+	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 17:08:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730133527; cv=none; b=pB57srbwB5CqLNzMtWQABc6Pke6i9WgEvW6izhB+VLs0nDwOLaMutZJ2Ntmttp+cke0SXKxfqwPOPlt089ZRMYQd+CkLTcSfdYMJw2Q3szRftjD0BWEfWf6M3vpCdFE/0Jzqj+YNK9CgEOsxieOKCXBl0Buw2SPwtBwcCYsPSTg=
+	t=1730135318; cv=none; b=pv67DPVaH6oGuH8TVIAg8Dtc65+FHJA3L+63ukR3oZA75hr7AVr5c+dFDvcj9UWUPlfipV2BmWRjr5ab7cBqaeAHMrsDukfj0K2tWcTJ33LEKpX++XU/ET2Io71RKbCFKwZVfNuky/3VICLhxrriCiGBDlHTv4efZJcdNhlKV7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730133527; c=relaxed/simple;
-	bh=Tcg6C+TbIwm1FmQ+1it6iaELHwvEOs6AeIuP7p80UbU=;
+	s=arc-20240116; t=1730135318; c=relaxed/simple;
+	bh=RgiXDuqyaFtldGNRjqiMRXE84GdFDle3DvtKzRI/aS0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q/BF6pGSgt1k/m0hY8u4kvn+5jlIXK/iw2JOOyMSBMY0qUolU+C6S9xRCBSfDrF7p4Ov0nEOiCbOgJe4qlyJw7/QYQIUYcL84tDWGLwmhFGVM9yx9GVIrpof0j9oYFSZrzzSW8C/9zKs95MH/6/zTeQ9xOkB7wXyImGXVCvN95M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MYp3kcbv; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=nJXJXSX05ydPaM6vzDU7P8FsQsgFbt0rT9onf9TdKkQ3w7E9TaQNNrB2kWvJBXfr0DELFLcE9N2kHK9NQ2LtRGiLyKkRZZ3VNb7KYqcWzw9cM8m7oPfjHn/Yp1HQ8mFaZ/naoPSASjPWPObgT8CMdV7C3S1UFC/Thc1Cd+1vRPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wgr/2m3G; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58E66641;
-	Mon, 28 Oct 2024 17:38:40 +0100 (CET)
+Received: from ideasonboard.com (mob-5-90-59-111.net.vodafone.it [5.90.59.111])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4C3343;
+	Mon, 28 Oct 2024 18:08:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730133520;
-	bh=Tcg6C+TbIwm1FmQ+1it6iaELHwvEOs6AeIuP7p80UbU=;
+	s=mail; t=1730135310;
+	bh=RgiXDuqyaFtldGNRjqiMRXE84GdFDle3DvtKzRI/aS0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MYp3kcbv6LZbVwVg7cizeYQe4Ox4K4FZ2hMwp1mh9Fj07JgfK1zZPu8V08XAj3h7Q
-	 CNwTBNic7US76s0d46ytJw8vIPp6EatjYHQrueZgrJ/Moq+ww59zz3f7cfDlYE8Elt
-	 5jP2bjiCQI6jlGUJ51YORux6P5SV94FAr7w2wydM=
-Date: Mon, 28 Oct 2024 18:38:36 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>,
-	linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] media: dw100: Enable dynamic vertex map
-Message-ID: <20241028163836.GD26852@pendragon.ideasonboard.com>
-References: <20241022063155.506191-1-umang.jain@ideasonboard.com>
- <a73be13d-a2ed-48cd-a84e-805fb379dc09@oss.nxp.com>
- <20241027144040.GI6519@pendragon.ideasonboard.com>
- <22be42b3-1d55-40c5-bb92-63f99234fcbf@ideasonboard.com>
- <20241028144109.GH24052@pendragon.ideasonboard.com>
- <7b8febda-026b-4a32-8f05-0e3a3c2d8e37@ideasonboard.com>
+	b=wgr/2m3Gbh7VdFHvrlroEV/LH+JaAbDzKHy56cyGzIdaYtkoecTUxVUAz2wIBzmZl
+	 iycxdHKVMs5smdiFJWry2NvBuddC6TkrPvmooA75bVXJg5vl1+GgCI6tgZwctoxlu9
+	 qL9OL1H/umrsxoIHxGljXyxfeXNwaAMCtdEjQss0=
+Date: Mon, 28 Oct 2024 18:08:18 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Dafna Hirschfeld <dafna@fastmail.com>, 
+	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, 
+	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>, Adam Pigg <adam@piggz.co.uk>
+Subject: Re: [PATCH v2] media: rkisp1: Reduce min_queued_buffers to 0
+Message-ID: <j4va4obettev3q6t3woojmh7lknomicei7urgxm77ammnmdzdb@54zmlbbvspvd>
+References: <20241028143553.36704-1-jacopo.mondi@ideasonboard.com>
+ <392682fd-3325-41ab-825d-67cb3de4c7b2@xs4all.nl>
+ <ncxqnajjdty456w6wsk5sonjuk3e2uzvcse7bdmmmmk4lop5i2@73vuqxkol4nr>
+ <6fcbb221-2b28-4fd2-8466-8c3aa711edb2@xs4all.nl>
+ <20241028162141.GA26852@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,306 +64,206 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7b8febda-026b-4a32-8f05-0e3a3c2d8e37@ideasonboard.com>
+In-Reply-To: <20241028162141.GA26852@pendragon.ideasonboard.com>
 
-On Mon, Oct 28, 2024 at 08:32:51PM +0530, Umang Jain wrote:
-> Hi Laurent,
-> 
-> On 28/10/24 8:11 pm, Laurent Pinchart wrote:
-> > Hi Umang,
-> >
-> > On Mon, Oct 28, 2024 at 07:47:46PM +0530, Umang Jain wrote:
-> >> On 27/10/24 8:10 pm, Laurent Pinchart wrote:
-> >>> On Sat, Oct 26, 2024 at 09:52:43PM +0200, Xavier Roumegue wrote:
-> >>>> On 10/22/24 8:31 AM, Umang Jain wrote:
-> >>>>> Currently, vertex maps cannot be updated dynamically while dw100
-> >>>>> is streaming. This patch enables the support to update the vertex
-> >>>>> map dynamically at runtime.
-> >>>>>
-> >>>>> To support this functionality, we need to allocate and track two
-> >>>>> sets of DMA-allocated vertex maps, one for the currently applied map
-> >>>>> and another for the updated (pending) map. Before the start of next
-> >>>>> frame, if a new user-supplied vertex map is available, the hardware
-> >>>>> mapping is changed to use new vertex map, thus enabling the user to
-> >>>>> update the vertex map at runtime.
-> >>> How do you synchronize the new map with the jobs ? That doesn't seem to
-> >>> be supported by the patch, is it a feature that you don't need ?
-> >>>
-> >>>>> We should ensure no race occurs when the vertex map is updated multiple
-> >>>>> times when a frame is processing. Hence, vertex map is never updated to
-> >>>>> the applied vertex map index in .s_ctrl(). It is always updated on the
-> >>>>> pending vertex map slot, with `maps_mutex` lock held. `maps_mutex` lock
-> >>>>> is also held when the pending vertex map is applied to the hardware in
-> >>>>> dw100_start().
-> >>>>>
-> >>>>> Ability to update the vertex map at runtime, enables abritrary rotation
-> >>> s/abritrary/arbitrary/
-> >>>
-> >>>>> and digital zoom features for the input frames, through the dw100
-> >>>>> hardware.
-> >>>>>
-> >>>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> >>>>> ---
-> >>>>>     drivers/media/platform/nxp/dw100/dw100.c | 73 ++++++++++++++++++------
-> >>>>>     1 file changed, 56 insertions(+), 17 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-> >>>>> index 54ebf59df682..42712ccff754 100644
-> >>>>> --- a/drivers/media/platform/nxp/dw100/dw100.c
-> >>>>> +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> >>>>> @@ -83,6 +83,11 @@ struct dw100_q_data {
-> >>>>>     	struct v4l2_rect		crop;
-> >>>>>     };
-> >>>>>     
-> >>>>> +struct dw100_map {
-> >>>>> +	unsigned int *map;
-> >>>>> +	dma_addr_t map_dma;
-> >>> I would have called the field just 'dma' as it's already qualified by
-> >>> the structure name or the field name in dw100_ctx.
-> >>>
-> >>>>> +};
-> >>>>> +
-> >>>>>     struct dw100_ctx {
-> >>>>>     	struct v4l2_fh			fh;
-> >>>>>     	struct dw100_device		*dw_dev;
-> >>>>> @@ -92,12 +97,14 @@ struct dw100_ctx {
-> >>>>>     	struct mutex			vq_mutex;
-> >>>>>     
-> >>>>>     	/* Look Up Table for pixel remapping */
-> >>>>> -	unsigned int			*map;
-> >>>>> -	dma_addr_t			map_dma;
-> >>>>> +	struct dw100_map		maps[2];
-> >>>>> +	unsigned int			applied_map_id;
-> >>>>>     	size_t				map_size;
-> >>>>>     	unsigned int			map_width;
-> >>>>>     	unsigned int			map_height;
-> >>>>>     	bool				user_map_is_set;
-> >>>>> +	bool				user_map_is_updated;
-> >>>>> +	struct mutex			maps_mutex;
-> >>>>>     
-> >>>>>     	/* Source and destination queue data */
-> >>>>>     	struct dw100_q_data		q_data[2];
-> >>>>> @@ -308,24 +315,31 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
-> >>>>>     {
-> >>>>>     	u32 *user_map;
-> >>>>>     
-> >>>>> -	if (ctx->map)
-> >>>>> -		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> >>>>> -				  ctx->map, ctx->map_dma);
-> >>>>> +	for (unsigned int i = 0; i < 2; i++) {
-> >>> 	for (unsigned int i = 0; i < ARRAY_SIZE(ctx->maps); i++) {
-> >>> 		struct dw100_map *map = &ctx->maps[i];
-> >>>
-> >>> and use map below.
-> >>>
-> >>>
-> >>>>> +		if (ctx->maps[i].map)
-> >>>>> +			dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> >>>>> +					  ctx->maps[i].map, ctx->maps[i].map_dma);
-> >>>>>     
-> >>>>> -	ctx->map = dma_alloc_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> >>>>> -				      &ctx->map_dma, GFP_KERNEL);
-> >>>>> +		ctx->maps[i].map = dma_alloc_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> >>>>> +						      &ctx->maps[i].map_dma, GFP_KERNEL);
-> >>>>>     
-> >>>>> -	if (!ctx->map)
-> >>>>> -		return -ENOMEM;
-> >>>>> +		if (!ctx->maps[i].map)
-> >>>>> +			return -ENOMEM;
-> >>>>> +	}
-> >>>>>     
-> >>>>>     	user_map = dw100_get_user_map(ctx);
-> >>>>> -	memcpy(ctx->map, user_map, ctx->map_size);
-> >>>>> +
-> >>>>> +	mutex_lock(&ctx->maps_mutex);
-> >>>>> +	ctx->applied_map_id = 0;
-> >>>>> +	memcpy(ctx->maps[ctx->applied_map_id].map, user_map, ctx->map_size);
-> >>>>> +	mutex_unlock(&ctx->maps_mutex);
-> >>>>>     
-> >>>>>     	dev_dbg(&ctx->dw_dev->pdev->dev,
-> >>>>>     		"%ux%u %s mapping created (d:%pad-c:%p) for stream %ux%u->%ux%u\n",
-> >>>>>     		ctx->map_width, ctx->map_height,
-> >>>>>     		ctx->user_map_is_set ? "user" : "identity",
-> >>>>> -		&ctx->map_dma, ctx->map,
-> >>>>> +		&ctx->maps[ctx->applied_map_id].map_dma,
-> >>>>> +		ctx->maps[ctx->applied_map_id].map,
-> >>>>>     		ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width,
-> >>>>>     		ctx->q_data[DW100_QUEUE_DST].pix_fmt.height,
-> >>>>>     		ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width,
-> >>>>> @@ -336,10 +350,12 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
-> >>>>>     
-> >>>>>     static void dw100_destroy_mapping(struct dw100_ctx *ctx)
-> >>>>>     {
-> >>>>> -	if (ctx->map) {
-> >>>>> -		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> >>>>> -				  ctx->map, ctx->map_dma);
-> >>>>> -		ctx->map = NULL;
-> >>>>> +	for (unsigned int i = 0; i < 2; i++) {
-> >>> 	for (unsigned int i = 0; i < ARRAY_SIZE(ctx->maps); i++) {
-> >>> 		struct dw100_map *map = &ctx->maps[i];
-> >>>
-> >>> and use map below.
-> >>>
-> >>>>> +		if (ctx->maps[i].map)
-> >>>>> +			dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> >>>>> +					  ctx->maps[i].map, ctx->maps[i].map_dma);
-> >>>>> +
-> >>>>> +		ctx->maps[i].map = NULL;
-> >>>>>     	}
-> >>>>>     }
-> >>>>>     
-> >>>>> @@ -350,6 +366,15 @@ static int dw100_s_ctrl(struct v4l2_ctrl *ctrl)
-> >>>>>     
-> >>>>>     	switch (ctrl->id) {
-> >>>>>     	case V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP:
-> >>>>> +		u32 *user_map = ctrl->p_new.p_u32;
-> >>>> A warning to fix here.
-> >>>>
-> >>>>> +		unsigned int id;
-> >>>>> +
-> >>>>> +		mutex_lock(&ctx->maps_mutex);
-> >>>>> +		id = ctx->applied_map_id ? 0 : 1;
-> >>>>> +		memcpy(ctx->maps[id].map, user_map, ctx->map_size);
-> >>>>> +		ctx->user_map_is_updated = true;
-> >>>> If you call the control before to start the stream, the dma mapping is
-> >>>> not yet done(dw100_create_mapping not yet called). Hence, copying the
-> >>>> user map to a NULL pointer.
-> >>> The maps could be allocated in dw100_open() when creating the context.
-> >>> That would likely require moving the initialization of ctx->map_width,
-> >>> ctx->map_height and ctx->map_size as well. The handling of the identity
-> >>> map would probably need to be rewritten too.
-> >> The ctx->map_width, ctx->map_height and ctx->map_size would be updated
-> >> on s_fmt().
-> > I saw that ctx->map_width, ctx->map_height and ctx->map_size are set in
-> > dw100_ctrl_dewarping_map_init(), with
-> >
-> > 	mw = ctrl->dims[0];
-> > 	mh = ctrl->dims[1];
-> >
-> > 	[...]
-> >
-> > 	ctx->map_width = mw;
-> > 	ctx->map_height = mh;
-> > 	ctx->map_size = mh * mw * sizeof(u32);
-> >
-> > but overlooked the fact that the dimensions are set in dw100_s_fmt().
-> >
-> >> I think we can solve the NULL pointer issue by allocating when creating
-> >> the context (open()), however, it would require updating (re-allocation)
-> >> again before the map can be memcpy()ed before streaming. Because the map
-> >> dimensions would have changed.
-> > If the map dimensions change, that invalidates the map contents set by
-> > userspace. This is currently handled by dw100_ctrl_dewarping_map_init().
-> > You won't be able to just memcpy() the previous control to the new one.
-> >
-> >> See dw100_s_fmt()
-> >>
-> >> ...
-> >> dims[0] = dw100_get_n_vertices_from_length(q_data->pix_fmt.width);
-> >> dims[1] = dw100_get_n_vertices_from_length(q_data->pix_fmt.height);
-> >>
-> >> ret = v4l2_ctrl_modify_dimensions(ctrl, dims);
-> >> ```
-> >>
-> >> I checked the v4l2_ctrl_modify_dimensions definition to check if it
-> >> issues a call v4l2_ctrl_type_ops.init  (where the map dimensions are
-> >> updated for dw100) and it does.
-> >>
-> >> So, I think I will have to introduce allocations in dw100_open() so that
-> >> NULL pointer issue doesn't occur and let the dma allocation get
-> >> re-allocated with new dimensions just before stream start.
-> >
-> > That seems a bit pointless, if the map will be invalidated by a call to
-> > VIDIOC_S_FMT anyway. The only case where it would be useful is if
-> > userspace sets the control before starting streaming and doesn't call
-> > VIDIOC_S_FMT.
-> 
-> I was indeed not comfortable with the .open() dma-allocation approach 
-> and hence, I summarised it here for discussion.
-> 
-> > I'm increasingly thinking the driver should use the request API to
-> > synchronize the control with the jobs.
-> 
-> I will atleast consider and estimate how much complex it would be!
+Hi Laurent, Hans,
 
-Good idea, let's make a decision based on the need and complexity.
+On Mon, Oct 28, 2024 at 06:21:41PM +0200, Laurent Pinchart wrote:
+> Hi Hans,
+>
+> On Mon, Oct 28, 2024 at 04:48:55PM +0100, Hans Verkuil wrote:
+> > On 28/10/2024 16:30, Jacopo Mondi wrote:
+> > > On Mon, Oct 28, 2024 at 04:02:13PM +0100, Hans Verkuil wrote:
+> > >> On 28/10/2024 15:35, Jacopo Mondi wrote:
+> > >>> There apparently is no reason to require 3 queued buffers to call
+> > >>> streamon() for the RkISP1 as the driver operates with a scratch buffer
+> > >>> where frames can be directed to if there's no available buffer provided
+> > >>> by userspace.
+> > >>>
+> > >>> Reduce the number of required buffers to 0 to allow applications to
+> > >>> operate by queueing capture buffers on-demand.
+> > >>>
+> > >>> Tested with libcamera, by operating with a single capture request. The
+> > >>> same request (and associated capture buffer) gets recycled once
+> > >>> completed. This of course causes a frame rate drop but doesn't hinder
+> > >>> operations.
+> > >>>
+> > >>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > >>> ---
+> > >>> The first version of this patch set min_queued_buffers to 1, but setting it
+> > >>> to 0 doesn't compromise operations and it's even better as it allows application
+> > >>> to queue buffers to the capture devices on-demand. If a buffer is not provided
+> > >>> to the DMA engines, image data gets directed to the driver's internal scratch
+> > >>> buffer.
+> > >>> ---
+> > >>>  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 4 +---
+> > >>>  1 file changed, 1 insertion(+), 3 deletions(-)
+> > >>>
+> > >>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> > >>> index 2bddb4fa8a5c..5fcf9731f41b 100644
+> > >>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> > >>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> > >>> @@ -35,8 +35,6 @@
+> > >>>  #define RKISP1_SP_DEV_NAME	RKISP1_DRIVER_NAME "_selfpath"
+> > >>>  #define RKISP1_MP_DEV_NAME	RKISP1_DRIVER_NAME "_mainpath"
+> > >>>
+> > >>> -#define RKISP1_MIN_BUFFERS_NEEDED 3
+> > >>> -
+> > >>>  enum rkisp1_plane {
+> > >>>  	RKISP1_PLANE_Y	= 0,
+> > >>>  	RKISP1_PLANE_CB	= 1,
+> > >>> @@ -1563,7 +1561,7 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+> > >>>  	q->ops = &rkisp1_vb2_ops;
+> > >>>  	q->mem_ops = &vb2_dma_contig_memops;
+> > >>>  	q->buf_struct_size = sizeof(struct rkisp1_buffer);
+> > >>> -	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
+> > >>> +	q->min_queued_buffers = 0;
+> > >>
+> > >> You can probably just drop this since the vb2_queue struct is zeroed when it
+> > >> is allocated. So no need to set it to 0.
+> > >
+> > > I suspected so :)
+> > >
+> > >>
+> > >> And is the RKISP1_MIN_BUFFERS_NEEDED define still needed after this change?
+> > >
+> > > No, and this patch removes it in facts
+> > >
+> > >  -#define RKISP1_MIN_BUFFERS_NEEDED 3
+> > >  -
+> >
+> > I should have checked the patch :-) Sorry for the noise.
+> >
+> > >>
+> > >> Also, see my RFC I posted today:
+> > >>
+> > >> https://lore.kernel.org/linux-media/126cd76a-6224-483b-a18d-a3cc89e5ff2d@xs4all.nl/T/#u
+> > >>
+> > >> My main concern is that applications that just call VIDIOC_REQBUFS with count = 1
+> > >> and expect the driver to change that to a workable value, will, in fact, now just get
+> > >> one buffer. And streaming that will cause lots of frame drops.
+> > >>
+> > >> It makes sense to leave min_queued_buffers at 0 if a scratch buffer is available,
+> > >> but I'm unhappy with the fact that you get a poor experience when REQBUFS(1) is called.
+> > >
+> > > Yeah, I've read the discussion between you and Tomi and it seemed like
+> > > a good time to re-send this patch.
+> > >
+> > >> My RFC suggests improvements in the uAPI. With that in place you can use CREATE_BUFS in
+> > >> libcamera to get much better control over how many buffers should be allocated.
+> > >
+> > > In my understanding min_queued_buffers identifies how many buffers
+> > > should be queued before calling start_streaming, and this comes
+> > > directly from an hw/driver requirement. This doesn't mean that at
+> > > least min_queue_buffers should be queued at all the times during
+> > > streaming, at least, I don't see how and where videobuf2 enforces
+> > > this. Or does it ?
+> >
+> > It's an intrinsic property of the HW/driver: e.g. if it needs two buffers
+> > queued up for the DMA engine to work, then it really is always holding on
+> > to two buffers. The only thing the framework does is postpone calling
+> > start_streaming until that number of buffers is queued to ensure the
+> > DMA engine has what it needs to start. But after that vb2 doesn't check
+> > it.
+>
+> The "driver" part of "HW/driver" is important here, as drivers can
+> influence this in multiple ways. One of them is usage of scratch
+> buffers, but even without that, a DMA engine that requires two buffers
+> can easily be operated with a single buffer by programming the DMA
+> engine with the same buffer address twice. Drivers should really do so
+> unless they really can't.
+>
+> > > If the above is correct, then the number of buffers to be queued
+> > > during streaming is, in my opinion, less an hw/driver requirement but
+> > > more an application decision.
+> >
+> > No, min_queued_buffers is a HW/drivers property: the DMA engine can't
+> > start until that many buffers are queued up, and once it is started
+> > it will always hold on to that many buffers.
 
-> >> Also, we do not have to move the ctx->map_width, ctx->height abd
-> >> ctx->map_size inititlisation, since they are already gets initialised to
-> >> defaults, on the open() path when v4l2_ctrl_new_custom() is done.
-> >>
-> >>>>> +		mutex_unlock(&ctx->maps_mutex);
-> >>>>> +
-> >>>>>     		ctx->user_map_is_set = true;
-> >>>>>     		break;
-> >>>>>     	}
-> >>>>> @@ -655,6 +680,8 @@ static int dw100_open(struct file *file)
-> >>>>>     
-> >>>>>     	v4l2_fh_add(&ctx->fh);
-> >>>>>     
-> >>>>> +	mutex_init(&ctx->maps_mutex);
-> >>>>> +
-> >>>>>     	return 0;
-> >>>>>     
-> >>>>>     err:
-> >>>>> @@ -675,6 +702,7 @@ static int dw100_release(struct file *file)
-> >>>>>     	v4l2_ctrl_handler_free(&ctx->hdl);
-> >>>>>     	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
-> >>>>>     	mutex_destroy(&ctx->vq_mutex);
-> >>>>> +	mutex_destroy(&ctx->maps_mutex);
-> >>>>>     	kfree(ctx);
-> >>>>>     
-> >>>>>     	return 0;
-> >>>>> @@ -1453,8 +1481,19 @@ static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
-> >>>>>     	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
-> >>>>>     				 ctx->q_data[DW100_QUEUE_SRC].fmt,
-> >>>>>     				 &out_vb->vb2_buf);
-> >>>>> -	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
-> >>>>> -			     ctx->map_width, ctx->map_height);
-> >>>>> +
-> >>>>> +
-> >>>>> +	mutex_lock(&ctx->maps_mutex);
-> >>>>> +	if (ctx->user_map_is_updated) {
-> >>>> The hardware register must unconditionally be updated while starting a
-> >>>> new context, as a v4l2 m2m supports multi context operations. Otherwise,
-> >>>> you may be running with the user mapping used by the previous context.
-> >>>>
-> >>>> Moreover, the hardware mapping will not be set in case you use the
-> >>>> driver as a simple scaler without user mapping, which causes the process
-> >>>> to hang as the run does not start and never completes.
-> >>>>
-> >>>>> +		unsigned int id = ctx->applied_map_id ? 0 : 1;
-> >>>>> +
-> >>>>> +		dw100_hw_set_mapping(dw_dev, ctx->maps[id].map_dma,
-> >>>>> +				     ctx->map_width, ctx->map_height);
-> >>>>> +		ctx->applied_map_id = id;
-> >>>>> +		ctx->user_map_is_updated = false;
-> >>>>> +	}
-> >>>>> +	mutex_unlock(&ctx->maps_mutex);
-> >>>>> +
-> >>>>>     	dw100_hw_enable_irq(dw_dev);
-> >>>>>     	dw100_hw_dewarp_start(dw_dev);
-> >>>>>     
-> >>>> It sounds as this patch requires a collaborative application for running
-> >>>> well. All my simple tests failed.
-> >>>>
-> >>>> You can test a simple scaler/pixfmt conversion operation with v4l2 utils:
-> >>>>
-> >>>>
-> >>>> v4l2-ctl \
-> >>>> -d 0 \
-> >>>> --set-fmt-video-out width=640,height=480,pixelformat=NV12,field=none \
-> >>>> --set-fmt-video width=640,height=480,pixelformat=NV21,field=none \
-> >>>> --stream-out-pattern 3 \
-> >>>> --set-selection-output\
-> >>>> target=crop,top=0,left=0,width=640,height=480,flags= \
-> >>>> --stream-count 100 \
-> >>>> --stream-mmap \
-> >>>> --stream-out-mmap
+I get it, my point was that once start_streaming has been called, even
+if min_queued_buffers=2, there is nothing preventing userspace from
+queing one buffer at the time once the first two have completed. Sure, the
+hw/driver might not like it, but while delaying start_streaming
+prevents bad things from happening, there is nothing in the core that
+prevents applications from potentially stalling the capture
+operations.
 
--- 
-Regards,
+But I get your point, if the system needs 2 buffers to start
+streaming, it will probably need two buffers to continue producing
+frames.
 
-Laurent Pinchart
+>
+> That's not always true. The imx7-media-csi driver, for instance, sets
+> min_queued_buffers to 2, but allocates scratch buffers and uses them at
+> runtime, so that it can return all queued buffers to userspace.
+
+That's interesting. From your mention of "scratch buffers" I get there
+actually is a need to have 2 buffers queued to the HW ? How does
+that work, after all queuing a buffer to the DMA engine usually means
+pointing its write engine to one (set of) addresses.
+
+Or is it a driver-only requirement to ask for two buffers ?
+
+> Grepping for min_queued_buffers I see drivers setting it to 4
+> (rcar-dma.c, rzg2l-video.c), 6 (cxusb-analog.c) or even 9
+> (zoran_driver.c) ! I doubt the zoran driver holds on to 9 buffers at
+> runtime. Your statement is not universally true today?.
+>
+> This could be considered as driver issues, and the min_queued_buffers
+> values should be fixed to match the runtime behaviour. In some cases I
+> expect it will require more work than just changing the value, as
+> drivers may implement the logic to operate with less buffers at runtime
+> but not at start time. This would be fixable, but it may also call for
+> asking if the start at runtime behaviours need to be identical.
+>
+> > So the application has to know somehow how many buffers are needed to
+> > actually stream. One way is via VIDIOC_REQBUFS since that is supposed to
+> > always return a workable number of buffers, the other is by actually
+> > reporting the minimum number of buffers as per my RFC.
+> >
+> > > As you said an application should be good with> 3 buffers (one queued, one currently being written to, one to be
+> > > consumed by the application), but in very specific cases where an
+> > > application retains the buffer for longer, for whatever reason, it
+> > > might need a larger number of queued buffers to provide the DMA
+> > > engines a space where to write data without them being discarded (to
+> > > scratch buffers or discarded by the DMA engine itself, if the HW
+> > > supports that). Or maybe an application is fine to drop frames and
+> > > only queue buffers sporadically (if the HW supports that ofc).
+> > >
+> > > For libcamera, and for this specific platform in particular, we're
+> > > going to base new developments on the assumption that
+> > > min_queued_buffers == 0, and it would be more convenient for use to be
+> > > able to access its value from userspace to identify if we're running
+> > > on a kernel with or without this patch being applied.
+> >
+> > So my proposal in my RFC to expose min_num_buffers would work for libcamera?
+> > It sounds like that's what you need.
+>
+
+My immediate need is to know if I'm running on a "legacy" version of
+this driver that still requires 3 buffers for no apparent reason, or
+on a new version. Your proposal might work, but I still feel like we
+should report the HW/driver requirement (min_queued_buffers) instead
+of trying to suggest applications how many buffers they need to
+allocate to get "smooth streaming" or similar, as the use cases
+might be different.
+
+> It may be useful, but I think we may also just require min_num_buffers
+> == 0 for a device to be supported in libcamera. We have to implement
+
+While I concur this would be ideal, how would it work for existing
+rkisp1 implementation that do not include this patch ? libcamera
+should be able to run on both, probably in two different "modes" /o\
+
+> APIs such as the Android camera HAL that has no concept of buffers being
+> kept by the device. This could possibly be handled within libcamera by
+> allocating scratch buffers in userspace, but that comes with other
+> challenges. I would like to at least try to get help from the kernel
+> until proven that it's a bad idea.
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
