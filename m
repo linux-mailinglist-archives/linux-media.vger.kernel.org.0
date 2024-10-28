@@ -1,313 +1,237 @@
-Return-Path: <linux-media+bounces-20359-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20360-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602969B1EEF
-	for <lists+linux-media@lfdr.de>; Sun, 27 Oct 2024 15:42:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7539B21FE
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 02:27:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3A9B1F2180E
-	for <lists+linux-media@lfdr.de>; Sun, 27 Oct 2024 14:42:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3BC711F2123F
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 01:27:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED6F917332C;
-	Sun, 27 Oct 2024 14:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E4D813D297;
+	Mon, 28 Oct 2024 01:27:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lZYHFlfU"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="go6YMPD/";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="vTk6JLDT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD61916EB54
-	for <linux-media@vger.kernel.org>; Sun, 27 Oct 2024 14:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730040050; cv=none; b=Mvv7Gry0iV3o2U/q/9zSk1mitso/CGvJ6eXCWkeQZ0iWZW5Y2JrEollHVsUOoDLLer3dbgokdWqGZPU7X01ZPQMOvr87lP5atH725Pf3F27bdTXi8KuuJpGutyqnx+yVSV+SGC+dfQ1pEyjTHa7jRVBgBOyQ3iV3NuClGe3+nUk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730040050; c=relaxed/simple;
-	bh=EZQL8pzdla3Di6Ca3rGdhju+nOPltMQDWm215tHZJWg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fi1YRjeWQJODIuUgjAbb8lZpGeKNipPbqC+nRord0xsiTmvnGw0h/0+fvBF+dWFpzQeqUHQ9Eb6iWA3xyRkIcrAyAUDdYbekpBNOHEwsKj3q7mGvCFQ1v0x1FXbZ22DTpdleTgniUuaitsH8eU+PZGZkQVo0NgLqlh7WyN4UtGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lZYHFlfU; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 619087E4;
-	Sun, 27 Oct 2024 15:40:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730040044;
-	bh=EZQL8pzdla3Di6Ca3rGdhju+nOPltMQDWm215tHZJWg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lZYHFlfUH1i5Rs6flUq2J5J4NrMoAO9cpnsxilJt6lXhybISk6oV0XAowubfLtUTX
-	 7RKDLf+adfTk4KKCuZTYJBpCQceElvHTATN5TOGtARRp/Lb2f2tXfeH6smEgelpTzf
-	 BJdLa8RSVSbMTnTYW58nRjosAbGGYS1X4tJOAZkc=
-Date: Sun, 27 Oct 2024 16:40:40 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] media: dw100: Enable dynamic vertex map
-Message-ID: <20241027144040.GI6519@pendragon.ideasonboard.com>
-References: <20241022063155.506191-1-umang.jain@ideasonboard.com>
- <a73be13d-a2ed-48cd-a84e-805fb379dc09@oss.nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477BE2AF07;
+	Mon, 28 Oct 2024 01:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=60.244.123.138
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730078859; cv=fail; b=BD0HQHCHSduU6iSjvI5blUpPbsW5+46xN+vrChceEr0y+PUHIOTPAeSPxpcpjioMlrM108e5q9NM83oEXs3gyHvv8qNeNbtP8Gep8jKd8oIhCURN8NezA4pht9PFqBvVhJfcNxsftB9zAwg/VsAbuDacrtn9Mu0zc733wFicME0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730078859; c=relaxed/simple;
+	bh=vLd5gVO9gBFX4PX7GdwcMcrKPwWbAK6DQWa38ESk9bQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZMAcNWLQEy6QuCTIf6A/r2d+X3Xy9oqxFMY93o/mAJt6grMr0LSfsD4QzUUQ3+mJiJAU1vGCzl5NRxbLkvNXPLgOr/YjEFkQXQns2qEUtLhiBGmCaW/57VItIM83LwXr8XrZOAyQqfgpcPBOZhIiTxXr+WJ4467Zuia2dTGcXG0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=go6YMPD/; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=vTk6JLDT; arc=fail smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: c8bf9bc694cb11efb88477ffae1fc7a5-20241028
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=vLd5gVO9gBFX4PX7GdwcMcrKPwWbAK6DQWa38ESk9bQ=;
+	b=go6YMPD//ToAx+wM0ReOq1hWJ1rS5fQfnMr2pfTY/BfFMekS49I1ELXUqRIbAO2CtLGOpZc3uwG6WXmffMtki6BKciNa6r8yRh2XGtsFsXXOxCC3ANhRqmZbVRfhgDBxRfXglWpHHO4lS/Ym8Jvm8Drwol4Txt0uvJkXIMgoHQY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.42,REQID:a4fa0dca-1ae0-433a-9565-d11c80fa9c3d,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:b0fcdc3,CLOUDID:b0f8e941-8751-41b2-98dd-475503d45150,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: c8bf9bc694cb11efb88477ffae1fc7a5-20241028
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw01.mediatek.com
+	(envelope-from <ck.hu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 556575314; Mon, 28 Oct 2024 09:27:23 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 28 Oct 2024 09:27:22 +0800
+Received: from HK2PR02CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 28 Oct 2024 09:27:22 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bjEL5cHc/+WfXeafwuQ6RQeEzKvsWRGs3gROb3tF1JkoBfYJP1jDKrMQdg9EQeM2rQPk0dZQv2kFAqj2lahzythzgv9EzNpwDsGn//QhGnyEq4jqcOlyHyzVzHjbADEiYcH58bHmkYlcAXebqhI8uM02sv16/e8ixdBBd9vuLktYCQtV8DlCC02oymklTlVOcJotVJBCeI6Eu65xfr6wIqf+AqFDRA1APDalAu5J1zLav2VDuDFEHE+1XohOQ1D8JTaCkYBjH/3dphypDgAz451Cxqgv2d10cVYhpBW9DLvPvqtt6l8nliLOTVPSczRJK5Ihq2dFfDtKSmeQTyQbSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vLd5gVO9gBFX4PX7GdwcMcrKPwWbAK6DQWa38ESk9bQ=;
+ b=vljiFrW38inTWpXizzjvP6hOJO5GLr6ZNmz2CKJuYgg7o+vGODgnSG0CvM97de+CS1NJo0w85YLRv1yqffmqfU9XWd+TEgDpTQOdKYPQVKgKIMV0yewpGIIIFwZGCv+pIU5+94UrtPfRt0xag8AxzlF9drMRYnTHqXO8KhwBeMdviFcHfUnC3xjGzZEAwHfl+RIGCxASuaAiZSZ4O4NopDyRpikwCUFAo8ZTYrdoC50RPsayfzVFIwmo3Z5FokB2NCaSxGPxX/EmycRgC5Y0m1hNWN8rlj+L2HdQ05VxUBnWzw6AaDxN7pJi1u1K+e80Gt2DzdUI3/Mwa06rIqfdEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vLd5gVO9gBFX4PX7GdwcMcrKPwWbAK6DQWa38ESk9bQ=;
+ b=vTk6JLDTMzPFd9Dr0prNBD3ZDN4y3CbM0YYV+O+sfx4XJhqe0k9KuhJA+fAT1PYTM6XLsrVxfcK+bkDiGD4PsruKPNtmr1Lx7YxuHS37behtX8KZRg5lVuyD3oHjSnrM4RdaD1t7AtstJJfIZqgak9hQ2GpIMefw729bckDgkaU=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by TYUPR03MB7031.apcprd03.prod.outlook.com (2603:1096:400:35a::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Mon, 28 Oct
+ 2024 01:27:19 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%7]) with mapi id 15.20.8093.021; Mon, 28 Oct 2024
+ 01:27:19 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	=?utf-8?B?U2h1LWhzaWFuZyBZYW5nICjmpYroiJLnv5Qp?=
+	<Shu-hsiang.Yang@mediatek.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"yunkec@chromium.org" <yunkec@chromium.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, =?utf-8?B?WWF5YSBDaGFuZyAo5by16ZuF5riFKQ==?=
+	<Yaya.Chang@mediatek.com>, Project_Global_Chrome_Upstream_Group
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	=?utf-8?B?VGVkZHkgQ2hlbiAo6Zmz5Lm+5YWDKQ==?= <Teddy.Chen@mediatek.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "hidenorik@chromium.org"
+	<hidenorik@chromium.org>, =?utf-8?B?U2h1bi1ZaSBXYW5nICjnjovpoIblhIQp?=
+	<Shun-Yi.Wang@mediatek.com>
+Subject: Re: [PATCH v1 03/10] media: platform: mediatek: add isp_7x seninf
+ unit
+Thread-Topic: [PATCH v1 03/10] media: platform: mediatek: add isp_7x seninf
+ unit
+Thread-Index: AQHbGj1K7oS5BpZAxk+Yfu5zQIUxBLKbfJSA
+Date: Mon, 28 Oct 2024 01:27:19 +0000
+Message-ID: <e1af452761d6e33d54f9d77bf088997fb5d13f9a.camel@mediatek.com>
+References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
+	 <20241009111551.27052-4-Shu-hsiang.Yang@mediatek.com>
+In-Reply-To: <20241009111551.27052-4-Shu-hsiang.Yang@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYUPR03MB7031:EE_
+x-ms-office365-filtering-correlation-id: dfdd3c41-f9cf-419c-09f4-08dcf6efaa85
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?V1BYdzU1WXJXQWNMbHlaN095cG1UL3NQLzBJb0pLMThRUTJQR0NjYUw2cGV4?=
+ =?utf-8?B?VHlhSTlJV0R3dmNFYVNGa3JEbVJHSGlDL3VnL1pYUk9BVGRLY2hyWnZoQnh0?=
+ =?utf-8?B?dzd5akZpMngvL3k2Z0ZPVkIwQ01rRitKcmViSE5UTFV3aVFiNjZYbFJiaks4?=
+ =?utf-8?B?OFEzM1NxMkJIUTN3M29Ud0lOMm1iaGJ1R3p2WUF6Sm9QSUxBRmJSalQwTTZz?=
+ =?utf-8?B?bWNOZ3owWTRjMG5QbDdDWFE5MlQzQkkyQjJnN0lUNDNZUG0wRG1qend0V3RS?=
+ =?utf-8?B?UkNleG9mNGw2YzljMUhDNlFUTnNvczNmdVlvem1KQzB2VHhSdFhTK29DU3Zr?=
+ =?utf-8?B?TGVxdzUxQ0lmZkZnd0JWdkxubngzZGx1TzcvUTJyek9RSTJtVE45eE9vMjg3?=
+ =?utf-8?B?YkhDN0dpUk9EN29GUWpSbFdlaFhYZ3MyR21sdzJzT1pZcGdmbnpyNzk5QVlw?=
+ =?utf-8?B?bWNIUDRRTmhKcmFFNjlEYldBWnhNajg5T0dzYXYyZG5VUHUxNWdrYU1UaHN1?=
+ =?utf-8?B?NkhabVk1dVJlSldpVDdHTW1WQUo5cVhiTTlWd1lVbGdERHNIV1Q1NmVTWHQ3?=
+ =?utf-8?B?OHBKRUxRcVc4NldQTFdodFdFTzA0NmVTUXFiL1JGSzhjaDByNmR0NjQ1dnVY?=
+ =?utf-8?B?ZUlna0FLa0RlVktzbkVHVkhOdS9jeGl1WUd4MlJhTUsvamN5ZHYySWs0Mmsx?=
+ =?utf-8?B?U1dXU1RBZkwxYlBZUVpVL050bnl6V3JoUWc4OE94OUxJVmtwUFYrcSswZWY2?=
+ =?utf-8?B?ZUJQbDRVM2ZkSU01WFZKMUNnV01weEN2Vjh0Y0M2SXJvWFViczBndHhQVyt6?=
+ =?utf-8?B?c1ZaWG9BbDVqbmsxOC9BS0E0ZnBybTcvZGU1bzVaVEhUbGg1Y0NZWGJoMm8z?=
+ =?utf-8?B?R1JlczVDOCtkcXRtUHprSEk0Rnl6VEF2Zmg5MC9VclpHMldyVmNjNDYwUVpB?=
+ =?utf-8?B?NnlrQVZQcHF2bGVaUlAxYi9WVEpNZEhET1U5N3ZKZVM4MjBXSS9XL1Raa01h?=
+ =?utf-8?B?eUpKUnpFL0Y4aEFXR25XQjlzdkQ1cnh5a0Y2VDRkUDg4M2JYREhTWGJnU09P?=
+ =?utf-8?B?ZHZPUHRUM1VWR1MxN0VJVE5YdThYWk9mOE0xZGZEZEkvNHcwcm9WSDVJaTVW?=
+ =?utf-8?B?VHZYcG9tNTJzZTFXY3V4RUIwV2Y1OEFyVUFNY3ZiR2JrUkFQcStsTjdFTEpB?=
+ =?utf-8?B?Ly9FU3MrQ3k3ZUJ1ajk4a09qZW82ZGRVcHc3ZFFYakV5YXh1MUJHWTdGVmlh?=
+ =?utf-8?B?bmNMaFJBeDhXWkhUQysvYm9IbjBwbEpSSUVTbVRMQW5qWVBMa0ZNVTZ3RU5K?=
+ =?utf-8?B?eDZJUitXcnRzNG1ka0MzRndZSTR4Vi9EMUlIMUpnUlpiRndrdS9KL21zcHVp?=
+ =?utf-8?B?ZVVHcDVhRXhXWlZCRmcvR3dIa09RMU9rY0pPd2xZQno2eUVWQTR3RzhmV1h3?=
+ =?utf-8?B?Y3o0ZlNTa3YwSE9zTUR1VFhTVDJCcFA1RzduYTBEemFpZzhZbmdqK2pXdnRQ?=
+ =?utf-8?B?MWNRVVNQSDZnK3owQzYxd082TDVPNWVta0lLU3VrSzl3WkM2dEFyM3YwZzVC?=
+ =?utf-8?B?bTRNVU5FcjAyNnRqM21HSStIT083YUVDOHJHZnNjbDNoQUZjbUU4MmJIeEJv?=
+ =?utf-8?B?YlgvWDZ5dlRpRkd1cVRjR2hVbk56N2Jpc3VwNWRiZnUrMGRMQkIrKzBQSDVT?=
+ =?utf-8?B?Q01saktFcHN2WFZReTQwWEFvUXZYS1JVS240SC90aEFuWlhMK0xJVDlRc1ZL?=
+ =?utf-8?B?K1ZEdHh0bm84THduQ05saUQzVDFmbUdUMUl4Z3A5bzBEcW1oU01lUUEyUXRo?=
+ =?utf-8?Q?hE43V14IIvqJPYva3afMvYXO03wMt05nYDSag=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB6624.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Mi8vdWNYT3RldlRGYWM2NmgzcXdETjgrOHZDWjB6aGlZcXhFUWRWNDhTWjVI?=
+ =?utf-8?B?Z2tnWjNTTVk0SDg5S2luN3djVHNpb2FnTHg0ZlBuQ1hHZkJnT2xGb0VpYWI2?=
+ =?utf-8?B?d3RVRW5VVGJMMUhoQVNzeHVXSGlpQXVmM2JpWm1RMWpoYy9VcmJPY1NibWZ2?=
+ =?utf-8?B?Q2VxOFVpMFhWakRlTmtIQWU0eURUUkZMdnpSV1ptdG9SQ1ZJNlhvTERPT2N3?=
+ =?utf-8?B?eHVIc0hUNGJpdHN2Ni9RYUtsd3diMGh6R21obG1QVjhhL3huckFYS3d0RE1W?=
+ =?utf-8?B?VXRVNVQ2K2hZcVRmUEx1R0VDR3NBOWNVd1JPSVhoVUFWVUlmV3pYR0loN2FQ?=
+ =?utf-8?B?b1p3TnhVdW9LQ2t4ajgrenRxL0hJakljakRCdlZYM1k1MC8ycUtUQ0Y1R1Zk?=
+ =?utf-8?B?OUJrcTdQTWZzVUZzbHE1VXEzZkdIdjk0U08vUno3aE9TNkZtNDJWVGFZSkdK?=
+ =?utf-8?B?MFU0VXN4LzIxTkw4eStYTFNGYXRTb3ZOTnRvOHprUWh6enhXN1RyZ3lUbVE2?=
+ =?utf-8?B?VUF4eFp5NW5RbFFDd1JaQzhaRXlnU0VCcFc5Z3JOVnprQ2ZzUmczWlpCWlhh?=
+ =?utf-8?B?Z1R5d2lyakRQOTdIRG1RbGFtSHRxcTZlTVZoTm5EV05WR1VjTk9KSXRRUGI3?=
+ =?utf-8?B?VG94RnpTQVFLRDU5OGtWYjVXZFlncFdLc3pUNnBFc1pGZmwrdzJ4KzdxaGJw?=
+ =?utf-8?B?QlJZYm5nU01HK1JlaG5LdHFwNW5BSXJVRXlnZ2hrdWhNZkFyZTVmTzFvK21l?=
+ =?utf-8?B?cGtNb250SHF1MkVGL1dIQ2hMSzU1VHBIOWZkK1hreURDRHFZQ2xJelpJMDNk?=
+ =?utf-8?B?NmRUUWpNQ2FjcERVb2l2NG9mbDdjenlla3AyNkduMlhLampIOGFlL1hwc3po?=
+ =?utf-8?B?TVBUb0xScnExcDNzWkFoM3VzV3A0TngrYkR2R3ptcmZWUGR4TVFuZXY2dE1T?=
+ =?utf-8?B?akJXWGxCZkozQVllRVljais4QTJPUHNnN0JWelNITEt6RS9IVFErTFc3RDYx?=
+ =?utf-8?B?RnYxK0hJZ0JFQW8vWGZzaWNYb3FoZzJrcmNPYXRWTjhsUUhFSHNDTDRwODk1?=
+ =?utf-8?B?RDlUZGtneHVQdXBKY044aGdwNy9relQ3Wk4ybm5zbnVOV1UvVVNxOVZOaVVj?=
+ =?utf-8?B?U0RVbUJMVlJSaDFIcjBjTHlXcjQ2WTFyYzhNb2ppMTVYU0dTSjM5Snlkck80?=
+ =?utf-8?B?cUI3Vm8vaVpsdCt3V0xic3JscHBRMlU3dldSaTRqRS8rNHNXMlljNzZKeFQ4?=
+ =?utf-8?B?Q2xUU1BWWHIxdFhLVW9JR24rOWwzMDFGL2N0bFpubGROcUR6N3ZTeHdMWTBP?=
+ =?utf-8?B?MGlGaUJERnpYZWs4RE43T0d4K1V1VmptL3BkZ1JBaGpkaGt4UlNWd08wTVF2?=
+ =?utf-8?B?UThhL05QOTVjd0JNZlZCMm5ucG1KNWxmN3h2R0hKR3NDd25ONndRb3FSempq?=
+ =?utf-8?B?MFJSbWhLcGYxZHZMNmg1VVhtWlpDNHJTZXRzbzBKcTkrMVJmVWZIWXdmc1Rz?=
+ =?utf-8?B?RzFZd09McDNFZnhOWmVqUUh6N28ybWJFSGV4TTd5WG5mZjg2TEVzZzkyQm5v?=
+ =?utf-8?B?SU1DeUhOa3Q3bjR5eFBLVVN3N2E5TndrTEUzaFl5bEI3QXVXWWFpRjVjV2Vu?=
+ =?utf-8?B?cG9aYnRlbDIvZ09OVzEzc3crbm5xY3NEcXRHM1czQnFWZ3A1aS9tUWVXMjhN?=
+ =?utf-8?B?eUZVd1krdFZHVHNPaVROUWVXZmk3UDRLV2J1d0Q1KysvR3lUdWY0ZllyQkRT?=
+ =?utf-8?B?ZU1kaUFoUklJL1JBelZCZytzbHFuNXZMZEJpRFB4SlU1c3UreG9lWHNxM0NO?=
+ =?utf-8?B?L2VrZTFJd0ZLR0xXRkRCMHlOZWdJdHZPeVNVOUJ2RzczTys0MFhnUXdlNlFp?=
+ =?utf-8?B?Z0tJVDRkVzE2UDI4OGMxNWxSL0EyRTlvejZONGZJWVBhdGdjcGV5UlBFOHNw?=
+ =?utf-8?B?K2tpZm5CVEttbGlMR2F5WW43cnBNUWFUZlhxekUyRC90U2ZpOVplc3Q1emJZ?=
+ =?utf-8?B?N25DZC8xdm5TaVB5amlPZFZqeWJUdmFDVTZaT2YvdmpZUjJEQUd1K1VpYWYv?=
+ =?utf-8?B?dHVzTTVDR3U1Q1pNRUVESndGQjc1Ly9BWE9EMzMwOVdkb252S25OTzVKcWVp?=
+ =?utf-8?Q?8DwizWpN8hI9NsWkA+50aK8yH?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <919F22995986C6409FCCB9BEF66F61E6@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <a73be13d-a2ed-48cd-a84e-805fb379dc09@oss.nxp.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfdd3c41-f9cf-419c-09f4-08dcf6efaa85
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2024 01:27:19.7703
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g+mAB7kjkJkRD82an6H4McnfdCoVD9UNcjtd0GeoIMuDCPHAMtcTWDahP++hHkLUxONEQrgZbsUb9h6IHqH5Tg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYUPR03MB7031
 
-On Sat, Oct 26, 2024 at 09:52:43PM +0200, Xavier Roumegue wrote:
-> Hi Umang,
-> 
-> Thanks for the patch, this feature sounds promising.
-> 
-> On 10/22/24 8:31 AM, Umang Jain wrote:
-> > Currently, vertex maps cannot be updated dynamically while dw100
-> > is streaming. This patch enables the support to update the vertex
-> > map dynamically at runtime.
-> > 
-> > To support this functionality, we need to allocate and track two
-> > sets of DMA-allocated vertex maps, one for the currently applied map
-> > and another for the updated (pending) map. Before the start of next
-> > frame, if a new user-supplied vertex map is available, the hardware
-> > mapping is changed to use new vertex map, thus enabling the user to
-> > update the vertex map at runtime.
-
-How do you synchronize the new map with the jobs ? That doesn't seem to
-be supported by the patch, is it a feature that you don't need ?
-
-> > 
-> > We should ensure no race occurs when the vertex map is updated multiple
-> > times when a frame is processing. Hence, vertex map is never updated to
-> > the applied vertex map index in .s_ctrl(). It is always updated on the
-> > pending vertex map slot, with `maps_mutex` lock held. `maps_mutex` lock
-> > is also held when the pending vertex map is applied to the hardware in
-> > dw100_start().
-> > 
-> > Ability to update the vertex map at runtime, enables abritrary rotation
-
-s/abritrary/arbitrary/
-
-> > and digital zoom features for the input frames, through the dw100
-> > hardware.
-> > 
-> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > ---
-> >   drivers/media/platform/nxp/dw100/dw100.c | 73 ++++++++++++++++++------
-> >   1 file changed, 56 insertions(+), 17 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-> > index 54ebf59df682..42712ccff754 100644
-> > --- a/drivers/media/platform/nxp/dw100/dw100.c
-> > +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> > @@ -83,6 +83,11 @@ struct dw100_q_data {
-> >   	struct v4l2_rect		crop;
-> >   };
-> >   
-> > +struct dw100_map {
-> > +	unsigned int *map;
-> > +	dma_addr_t map_dma;
-
-I would have called the field just 'dma' as it's already qualified by
-the structure name or the field name in dw100_ctx.
-
-> > +};
-> > +
-> >   struct dw100_ctx {
-> >   	struct v4l2_fh			fh;
-> >   	struct dw100_device		*dw_dev;
-> > @@ -92,12 +97,14 @@ struct dw100_ctx {
-> >   	struct mutex			vq_mutex;
-> >   
-> >   	/* Look Up Table for pixel remapping */
-> > -	unsigned int			*map;
-> > -	dma_addr_t			map_dma;
-> > +	struct dw100_map		maps[2];
-> > +	unsigned int			applied_map_id;
-> >   	size_t				map_size;
-> >   	unsigned int			map_width;
-> >   	unsigned int			map_height;
-> >   	bool				user_map_is_set;
-> > +	bool				user_map_is_updated;
-> > +	struct mutex			maps_mutex;
-> >   
-> >   	/* Source and destination queue data */
-> >   	struct dw100_q_data		q_data[2];
-> > @@ -308,24 +315,31 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
-> >   {
-> >   	u32 *user_map;
-> >   
-> > -	if (ctx->map)
-> > -		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> > -				  ctx->map, ctx->map_dma);
-> > +	for (unsigned int i = 0; i < 2; i++) {
-
-	for (unsigned int i = 0; i < ARRAY_SIZE(ctx->maps); i++) {
-		struct dw100_map *map = &ctx->maps[i];
-
-and use map below.
-
-
-> > +		if (ctx->maps[i].map)
-> > +			dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> > +					  ctx->maps[i].map, ctx->maps[i].map_dma);
-> >   
-> > -	ctx->map = dma_alloc_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> > -				      &ctx->map_dma, GFP_KERNEL);
-> > +		ctx->maps[i].map = dma_alloc_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> > +						      &ctx->maps[i].map_dma, GFP_KERNEL);
-> >   
-> > -	if (!ctx->map)
-> > -		return -ENOMEM;
-> > +		if (!ctx->maps[i].map)
-> > +			return -ENOMEM;
-> > +	}
-> >   
-> >   	user_map = dw100_get_user_map(ctx);
-> > -	memcpy(ctx->map, user_map, ctx->map_size);
-> > +
-> > +	mutex_lock(&ctx->maps_mutex);
-> > +	ctx->applied_map_id = 0;
-> > +	memcpy(ctx->maps[ctx->applied_map_id].map, user_map, ctx->map_size);
-> > +	mutex_unlock(&ctx->maps_mutex);
-> >   
-> >   	dev_dbg(&ctx->dw_dev->pdev->dev,
-> >   		"%ux%u %s mapping created (d:%pad-c:%p) for stream %ux%u->%ux%u\n",
-> >   		ctx->map_width, ctx->map_height,
-> >   		ctx->user_map_is_set ? "user" : "identity",
-> > -		&ctx->map_dma, ctx->map,
-> > +		&ctx->maps[ctx->applied_map_id].map_dma,
-> > +		ctx->maps[ctx->applied_map_id].map,
-> >   		ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width,
-> >   		ctx->q_data[DW100_QUEUE_DST].pix_fmt.height,
-> >   		ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width,
-> > @@ -336,10 +350,12 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
-> >   
-> >   static void dw100_destroy_mapping(struct dw100_ctx *ctx)
-> >   {
-> > -	if (ctx->map) {
-> > -		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> > -				  ctx->map, ctx->map_dma);
-> > -		ctx->map = NULL;
-> > +	for (unsigned int i = 0; i < 2; i++) {
-
-	for (unsigned int i = 0; i < ARRAY_SIZE(ctx->maps); i++) {
-		struct dw100_map *map = &ctx->maps[i];
-
-and use map below.
-
-> > +		if (ctx->maps[i].map)
-> > +			dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
-> > +					  ctx->maps[i].map, ctx->maps[i].map_dma);
-> > +
-> > +		ctx->maps[i].map = NULL;
-> >   	}
-> >   }
-> >   
-> > @@ -350,6 +366,15 @@ static int dw100_s_ctrl(struct v4l2_ctrl *ctrl)
-> >   
-> >   	switch (ctrl->id) {
-> >   	case V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP:
-> > +		u32 *user_map = ctrl->p_new.p_u32;
->
-> A warning to fix here.
->
-> > +		unsigned int id;
-> > +
-> > +		mutex_lock(&ctx->maps_mutex);
-> > +		id = ctx->applied_map_id ? 0 : 1;
-> > +		memcpy(ctx->maps[id].map, user_map, ctx->map_size);
-> > +		ctx->user_map_is_updated = true;
->
-> If you call the control before to start the stream, the dma mapping is 
-> not yet done(dw100_create_mapping not yet called). Hence, copying the 
-> user map to a NULL pointer.
-
-The maps could be allocated in dw100_open() when creating the context.
-That would likely require moving the initialization of ctx->map_width,
-ctx->map_height and ctx->map_size as well. The handling of the identity
-map would probably need to be rewritten too.
-
-> > +		mutex_unlock(&ctx->maps_mutex);
-> > +
-> >   		ctx->user_map_is_set = true;
-> >   		break;
-> >   	}
-> > @@ -655,6 +680,8 @@ static int dw100_open(struct file *file)
-> >   
-> >   	v4l2_fh_add(&ctx->fh);
-> >   
-> > +	mutex_init(&ctx->maps_mutex);
-> > +
-> >   	return 0;
-> >   
-> >   err:
-> > @@ -675,6 +702,7 @@ static int dw100_release(struct file *file)
-> >   	v4l2_ctrl_handler_free(&ctx->hdl);
-> >   	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
-> >   	mutex_destroy(&ctx->vq_mutex);
-> > +	mutex_destroy(&ctx->maps_mutex);
-> >   	kfree(ctx);
-> >   
-> >   	return 0;
-> > @@ -1453,8 +1481,19 @@ static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
-> >   	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
-> >   				 ctx->q_data[DW100_QUEUE_SRC].fmt,
-> >   				 &out_vb->vb2_buf);
-> > -	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
-> > -			     ctx->map_width, ctx->map_height);
-> > +
-> > +
-> > +	mutex_lock(&ctx->maps_mutex);
-> > +	if (ctx->user_map_is_updated) {
->
-> The hardware register must unconditionally be updated while starting a 
-> new context, as a v4l2 m2m supports multi context operations. Otherwise, 
-> you may be running with the user mapping used by the previous context.
-> 
-> Moreover, the hardware mapping will not be set in case you use the 
-> driver as a simple scaler without user mapping, which causes the process 
-> to hang as the run does not start and never completes.
->
-> > +		unsigned int id = ctx->applied_map_id ? 0 : 1;
-> > +
-> > +		dw100_hw_set_mapping(dw_dev, ctx->maps[id].map_dma,
-> > +				     ctx->map_width, ctx->map_height);
-> > +		ctx->applied_map_id = id;
-> > +		ctx->user_map_is_updated = false;
-> > +	}
-> > +	mutex_unlock(&ctx->maps_mutex);
-> > +
-> >   	dw100_hw_enable_irq(dw_dev);
-> >   	dw100_hw_dewarp_start(dw_dev);
-> >   
-> 
-> It sounds as this patch requires a collaborative application for running 
-> well. All my simple tests failed.
-> 
-> You can test a simple scaler/pixfmt conversion operation with v4l2 utils:
-> 
-> 
-> v4l2-ctl \
-> -d 0 \
-> --set-fmt-video-out width=640,height=480,pixelformat=NV12,field=none \
-> --set-fmt-video width=640,height=480,pixelformat=NV21,field=none \
-> --stream-out-pattern 3 \
-> --set-selection-output\ 
-> target=crop,top=0,left=0,width=640,height=480,flags= \
-> --stream-count 100 \
-> --stream-mmap \
-> --stream-out-mmap
-
--- 
-Regards,
-
-Laurent Pinchart
+SGksIFNodS1oc2lhbmc6DQoNCk9uIFdlZCwgMjAyNC0xMC0wOSBhdCAxOToxNSArMDgwMCwgU2h1
+LWhzaWFuZyBZYW5nIHdyb3RlOg0KPiBJbnRyb2R1Y2VzIHRoZSBkcml2ZXIgb2YgdGhlIE1lZGlh
+VGVrIFNlbnNvciBJbnRlcmZhY2UsDQo+IGZvY3VzaW5nIG9uIGludGVncmF0aW9uIHdpdGggdGhl
+IE1lZGlhVGVrIElTUCBDQU1TWVMuIFRoZQ0KPiBzZW5pbmYgZGV2aWNlIGJyaWRnZXMgY2FtZXJh
+IHNlbnNvcnMgYW5kIHRoZSBJU1Agc3lzdGVtLA0KPiBwcm92aWRpbmcgbWFuYWdlbWVudCBmb3Ig
+c2Vuc29yIGRhdGEgcm91dGluZyBhbmQgcHJvY2Vzc2luZy4NCj4gS2V5IGZlYXR1cmVzIGluY2x1
+ZGUgVjRMMiBmcmFtZXdvcmsgY29udHJvbCwgYW5kIGR5bmFtaWMNCj4gaGFuZGxpbmcgb2Ygc3Ry
+ZWFtIGNvbmZpZ3VyYXRpb25zIGFuZCB2aXJ0dWFsIGNoYW5uZWxzLg0KPiANCj4gU2lnbmVkLW9m
+Zi1ieTogU2h1LWhzaWFuZyBZYW5nIDxTaHUtaHNpYW5nLllhbmdAbWVkaWF0ZWsuY29tPg0KPiAt
+LS0NCg0KW3NuaXBdDQoNCj4gKw0KPiArZW51bSB7DQo+ICsJQ0xLX0NBTV9TRU5JTkYgPSAwLA0K
+DQpDTEtfQ0FNX1NFTklORiBpcyB1c2VsZXNzLCBzbyBkcm9wIGl0Lg0KDQpSZWdhcmRzLA0KQ0sN
+Cg0KPiArCUNMS19UT1BfU0VOSU5GLA0KPiArCUNMS19UT1BfU0VOSU5GMSwNCj4gKwlDTEtfVE9Q
+X1NFTklORjIsDQo+ICsJQ0xLX1RPUF9TRU5JTkYzLA0KPiArCUNMS19UT1BfU0VOSU5GNCwNCj4g
+KwlDTEtfVE9QX1NFTklORjUsDQo+ICsJQ0xLX1RPUF9TRU5JTkZfRU5ELA0KPiArCUNMS19UT1Bf
+Q0FNVE0gPSBDTEtfVE9QX1NFTklORl9FTkQsDQo+ICsJQ0xLX01BWENOVCwNCj4gK307DQo+ICsN
+Cg==
 
