@@ -1,152 +1,118 @@
-Return-Path: <linux-media+bounces-20399-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20400-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3326B9B2A70
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 09:34:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E109D9B2B3B
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 10:21:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D277C1F224B2
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 08:34:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DCAE1C21A28
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 09:21:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 960C01917ED;
-	Mon, 28 Oct 2024 08:34:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8A751990CF;
+	Mon, 28 Oct 2024 09:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CSsv9zo+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC5217E00F
-	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 08:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A53190696
+	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 09:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730104482; cv=none; b=YDC2BWVXyhamImoo0GgcZ6wXo1adteb4+3KAUxE9eDMKcHPJqVj+EBI2frPQXlDXa0tPFg3MARZVKtuTV3tsBN0mfwx3ekzfIf3cLs7nvyw4QxrNCCLJqYbUO3+AztnR/QEZaeTbGRkSZOHNe9MAnF/vWoaejFE/sv+7mXYoup4=
+	t=1730107253; cv=none; b=RuQ8zcM5xwNlaLTqwmh5oEWV5Ao5ZD2Gta2/b5a1mRJI1K+eeaNjUlKbKwYVoW6ZDY7NxyEF/SkvBvGBYnaVMPL8R+xvK+P1NttXU1EDArqJgpnmCJa1vlW1RgcTyGKrcIfQg3/T+MYUDcpdYX5tDSHfUGUnZ3EDAfq+qv1B3O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730104482; c=relaxed/simple;
-	bh=w4v4WDabMN6I845iQFvE0Ge79x1kTHs/fjNboShpi4w=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=PIA0ciKnXEjRyVdk3u9nT2Xya0LC7FBqm+itDksC0bs54YsVs8IL0GqPkHeUdRjFDncobjvRhevfswFF3oz3TYazoNKTWySqMnukancGynwYL0lAgw8hqekEvn68flSZxiX9h0QZY45n2CQK4QydJHijySMXL5uwoiuIknVmTkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9320BC4CEE9
-	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 08:34:41 +0000 (UTC)
-Message-ID: <1c5dc406-2875-4c0e-8155-7766df428f49@xs4all.nl>
-Date: Mon, 28 Oct 2024 09:34:39 +0100
+	s=arc-20240116; t=1730107253; c=relaxed/simple;
+	bh=j9Yh3zrZUalX47mvMkgSXxAy2RuDtztZjtjGaLcmm+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bL+QJTS7aRn/4xmHAesC5S/pLVmXLiamg7+xg6Cn/sOC1tLWUOJOlgjYgOoY5ncsLYNv08GNc5qo+l/+mNXVcCC5MNw0KM9sgiAP5Hvms3Eb8qTPfd36bsQFKo/eo4fu8QAu3aRcTtIxxsQrxr2msoAQhTEO96VK1ELEPKOaApY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CSsv9zo+; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2fb6110c8faso35460611fa.1
+        for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 02:20:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730107249; x=1730712049; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VPBuezFB3CXtTW5/lJNTKguPGRqG+lEFtQVwqgqjd4Q=;
+        b=CSsv9zo+gjH62jHqC3592QZ17YJnAzndEYS8uph/04F3pRwA2p+oapcIwPvIAuU/Vq
+         VSWiKLahxAdQyYrAbAtpynZuKOy3b6Pl9sAadhl040qjvdjQ/bsR8dMLae1LUZjLZdgJ
+         R1G1jRv+2r5uoRn8+hf3XukCqddY3W36/hn2G6KZCZPA0yw9Dc46Rck1swcFxwquE4Jr
+         ZaDJD4S2eG3/ryRnB5GmgcBkbaD2n8ZEPcj4bgvVdoPR2OMFpTYi+Z82F2hEAt3w5LK2
+         lhNg8N3ijlkhdMC6BEIujMLWrp/oCEoLPD68vuFgSbS/IcNUOQymj+UfnDM380K7nsAK
+         OENA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730107249; x=1730712049;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VPBuezFB3CXtTW5/lJNTKguPGRqG+lEFtQVwqgqjd4Q=;
+        b=P97slP+DA8CjrLXNW8ytbWTBpQ1T7S2rmuQCe86tjm7o0+QUA5xa1i5duGE0AhkGNc
+         dSP1eSurhEVAZreOFxThFTd9YZ/51Jq3ArXVaSZXL7R3tNOmkX2k+fkyREQtzi/onJGr
+         fkIBzo0QfQDDgExstUX8Vkl00woBXVE18/UGzPEy8itNR0gE3x+tgPzt/2knQHcm5phP
+         bn5xT4c9NKubguXEl+avJW6ZzVfv4XGQumYZfNXHt+YC5MngzMSpuOp4BZ2vJXM3yJtN
+         9k4qE4rZFQ+1uJgvtcJBfl9zM9EizYMwrvff60LCbOXQaFl/+/eXdV64D2fWvYxyqd9G
+         Unsw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNk9eIeY2y2g8YCBYfa0nzVLz2j4T39BzX7YVfIokr2q8uoYxXNEjOMk6qgSlI8Atdp2NTInC61mK3mA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywv/1zeQfwsZu4W7A1cbfldY3gbh+c/6IPorAaVvVI8ziYUmVf0
+	Cc0J03z0kjzkfieJZ/WtYicyEgU9UX8huA/7eBtpnRbX2mkY7VhHljYiE/569ng=
+X-Google-Smtp-Source: AGHT+IHMzC2RrBK1gDyjb7BDtN9UQMSMyOUaimH3SDT8yHY0Jieo0+u5sTv3iUOAiXJhLKZA5AAPKQ==
+X-Received: by 2002:a2e:bea0:0:b0:2fb:5014:c941 with SMTP id 38308e7fff4ca-2fcbdf71340mr25188781fa.14.1730107249435;
+        Mon, 28 Oct 2024 02:20:49 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fcb4507c44sm11199391fa.19.2024.10.28.02.20.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 02:20:47 -0700 (PDT)
+Date: Mon, 28 Oct 2024 11:20:45 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
+	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
+	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, quic_jesszhan@quicinc.com, 
+	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
+	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, tomi.valkeinen@ideasonboard.com, 
+	quic_bjorande@quicinc.com, geert+renesas@glider.be, arnd@arndb.de, nfraprado@collabora.com, 
+	thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, 
+	marex@denx.de, biju.das.jz@bp.renesas.com
+Subject: Re: [PATCH v4 10/13] drm/bridge: Add ITE IT6263 LVDS to HDMI
+ converter
+Message-ID: <tjtbvn5ewlzs6wqkp2ffquiiebakhv2eg3vt4mzooeb6nibx4u@qhwx4hxvj6ou>
+References: <20241028023740.19732-1-victor.liu@nxp.com>
+ <20241028023740.19732-11-victor.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: v4l2-core: v4l2-ctrls: check for handler_new_ref
- misuse
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwEKAD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMB
- Ah4BAheAFiEEBSzee8IVBTtonxvKvS1hSGYUO0wFAmaU3GkFCRf7lXsACgkQvS1hSGYUO0wZ
- cw//cLMiaV+p2rCyzdpDjWon2XD6M646THYvqXLb9eVWicFlVG78kNtHrHyEWKPhN3OdWWjn
- kOzXseVR/nS6vZvqCaT3rwgh3ZMb0GvOQk1/7V8UbcIERy036AjQoZmKo5tEDIv48MSvqxjj
- H6wbKXbCyvnIwpGICLyb0xAwvvpTaJkwZjvGqeo5EL0Z+cQ8fCelfKNO5CFFP3FNd3dH8wU6
- CHRtdZE03iIVEWpgCTjsG2zwsX/CKfPx0EKcrQajW3Tc50Jm0uuRUEKCVphlYORAPtFAF1dj
- Ly8zpN1bEXH+0FDXe/SHhzbvgS4sL0J4KQCCZ/GcbKh/vsDC1VLsGS5C7fKOhAtOkUPWRjF+
- kOEEcTOROMMvSUVokO+gCdb9nA/e3WMgiTwWRumWy5eCEnCpM9+rfI2HzTeACrVgGEDkOTHW
- eaGHEy8nS9a25ejQzsBhi+T7MW53ZTIjklR7dFl/uuK+EJ6DLbDpVbwyYo2oeiwP+sf8/Rgv
- WfJv4wzfUo/JABwrsbfWfycVZwFWBzqq+TaKFkMPm017dkLdg4MzxvvTMP7nKfJxU1bQ2OOr
- xkPk5KDcz+aRYBvTqEXgYZ6OZtnOUFKD+uPlbWf68vuz/1iFbQYnNJkTxwWhiIMN7BULK74d
- Ek89MU7JlbYNSv0v21lRF+uDo0J6zyoTt0ZxSPzOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAEKACYCGwwWIQQFLN57whUFO2ifG8q9LWFIZhQ7TAUC
- ZpTcxwUJF/uV2gAKCRC9LWFIZhQ7TMlPD/9ppgrN4Z9gXta9IdS8a+0E7lj/dc0LnF9T6MMq
- aUC+CFffTiOoNDnfXh8sfsqTjAT50TsVpdlH6YyPlbU5FR8bC8wntrJ6ZRWDdHJiCDLqNA/l
- GVtIKP1YW8fA01thMcVUyQCdVUqnByMJiJQDzZYrX+E/YKUTh2RL5Ye0foAGE7SGzfZagI0D
- OZN92w59e1Jg3zBhYXQIjzBbhGIy7usBfvE882GdUbP29bKfTpcOKkJIgO6K+w82D/1d5TON
- SD146+UySmEnjYxHI8kBYaZJ4ubyYrDGgXT3jIBPq8i9iZP3JSeZ/0F9UIlX4KeMSG8ymgCR
- SqL1y9pl9R2ewCepCahEkTT7IieGUzJZz7fGUaxrSyexPE1+qNosfrUIu3yhRA6AIjhwPisl
- aSwDxLI6qWDEQeeWNQaYUSEIFQ5XkZxd/VN8JeMwGIAq17Hlym+JzjBkgkm1LV9LXw9D8MQL
- e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
- XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
- LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241028023740.19732-11-victor.liu@nxp.com>
 
-An out-of-tree driver created a control handler, added controls, then called
-v4l2_ctrl_add_handler to add references to controls from another handler, and
-finally added another control that happened to have the same control ID as one
-of the controls from that other handler.
+On Mon, Oct 28, 2024 at 10:37:37AM +0800, Liu Ying wrote:
+> Add basic HDMI video output support. Currently, only RGB888 output
+> pixel format is supported.  At the LVDS input side, the driver
+> supports single LVDS link and dual LVDS links with "jeida-24" LVDS
+> mapping.
+> 
+> Product link:
+> https://www.ite.com.tw/en/product/cate1/IT6263
+> 
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Maxime Ripard <mripard@kernel.org>
 
-This caused a NULL pointer crash when an attempt was made to use that last
-control.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Besides the fact that two out-of-tree drivers used the same control ID for
-different (private) controls, which is obviously a bug, this specific scenario
-should have been caught. The root cause is the 'duplicate ID' check in
-handler_new_ref(): it expects that drivers will first add all controls to a
-control handler before calling v4l2_ctrl_add_handler. That way the local
-controls will always override references to controls from another handler.
-
-It never considered the case where new local controls were added after calling
-v4l2_ctrl_add_handler. Add a check to handler_new_ref() to return an error in
-the case that a new local control is added with the same ID as an existing
-control reference. Also use WARN_ON since this is a driver bug.
-
-This situation can only happen when out-of-tree drivers are used or during
-driver development, since mainlined drivers all have their own control ranges
-reserved in v4l2-controls.h, thus preventing duplicate control IDs.
-
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
----
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index eeab6a5eb7ba..947a9ee1535e 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -1676,6 +1676,7 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
- 	u32 class_ctrl = V4L2_CTRL_ID2WHICH(id) | 1;
- 	int bucket = id % hdl->nr_of_buckets;	/* which bucket to use */
- 	unsigned int size_extra_req = 0;
-+	int ret = 0;
-
- 	if (ctrl_ref)
- 		*ctrl_ref = NULL;
-@@ -1722,6 +1723,13 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
- 		/* Don't add duplicates */
- 		if (ref->ctrl->id == id) {
- 			kfree(new_ref);
-+			/*
-+			 * Either the driver creates the same control twice,
-+			 * or the same control is present in an added control
-+			 * handler.
-+			 */
-+			if (WARN_ON(hdl == ctrl->handler))
-+				ret = -EEXIST;
- 			goto unlock;
- 		}
- 		list_add(&new_ref->node, ref->node.prev);
-@@ -1746,6 +1754,8 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
-
- unlock:
- 	mutex_unlock(hdl->lock);
-+	if (ret)
-+		return handler_set_err(hdl, ret);
- 	return 0;
- }
-
+-- 
+With best wishes
+Dmitry
 
