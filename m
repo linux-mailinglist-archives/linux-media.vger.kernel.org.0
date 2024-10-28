@@ -1,74 +1,48 @@
-Return-Path: <linux-media+bounces-20410-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20411-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8A29B2CF6
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 11:34:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C95C29B2E64
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 12:16:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B876D1C20F92
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 10:34:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E74C1F218D4
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 11:16:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F41052F9B;
-	Mon, 28 Oct 2024 10:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F9A31DA109;
+	Mon, 28 Oct 2024 11:05:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDEfL70P"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VUrSvW5j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8098C1D54C5
-	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 10:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437BA1DA0EB;
+	Mon, 28 Oct 2024 11:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730111657; cv=none; b=aiJOekR+fFnS2+/BJPka+2NixYgQYHtIKVf1HcdVVuIdK4mn8RUvj8hrpsRyfL/fB6D6nCSdbNomNM6HBRelF2OoMhgekqrDP+duDlEwsUn01U8QK4YeAEr3tQU18y4TlPeWvbjULGT3Rp/FJCrcdnTwBtjbDSwdyveu0XUE0VA=
+	t=1730113528; cv=none; b=BaqIGaKfNCCKXgsHkirWSNo9SAfHECXfPtqBPDgDq5iUVrsRN6tuKOob+250d/Z/IMS078CJiwfkbg3XIL0sb3yNj6iNK2ne7FINcjB+4qeBDXWwRpySJXlb2DWagK/WEqvNIOrhCxVl3UhSZbZ3hJCUBTsHWtCpt8e4Ij5lmbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730111657; c=relaxed/simple;
-	bh=LocewIdRRj+3K5CZxA+5NkOlvJR+40+Bq7QZypeh/b4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Zm/nYWIH0E+rxD24Bn3KGNWlSqi1MzDFvwipZ7WaCkQD7cW38ntBs+IBIZ9CtZicLusV9cWGZ2Pi0XZoHNqPAtAC7M3spB4PoR2SLFhb/f6duymj4SUoSax9nbdr1wfUuHa8nVfRYrPnZivS30DNY/pujzOoH4lumUJm3/fRGRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDEfL70P; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539e3f35268so4881365e87.3
-        for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 03:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730111654; x=1730716454; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=g7nrYUHUQAGlqcSF1DH4MZfbh2UDaXnpWdDb0g1xC7A=;
-        b=DDEfL70PThVo7Ds1m6pEVzmCNqVFRwqphbRdfjg+p3RKqi9AyVccAM3jynDTqS5HaK
-         07x19G8APgO5E+OecY/rVtARyQlt1aq4Sia8qavr6t8L/FzRhPZRuj6fW9VREHDYQnTE
-         2RyV/hzCkF0r4FcCmzk1EFTTY4e7jkgVQPJNRmfEhil0V8NLgIDUidRbyrrO7NdQ8/r3
-         egDD5A2TGds7bAC6r4+Yf2VGXU1mPtVJUSpr3ioofg5gSgI2OiDVtpeohL0CcwA+8ZRa
-         zNzRnjxAbDGr7EVYHRoYAXb4mg04IFtYrebJVgwOGHNFYsq/Qrfyps9psWB9BzWHvk96
-         Sxfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730111654; x=1730716454;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g7nrYUHUQAGlqcSF1DH4MZfbh2UDaXnpWdDb0g1xC7A=;
-        b=F3hwMA8GJx9QUbwj9uZI8mQhm+AOiaOSuKTrrdJVhkUkjLZJaNhHIdp4QEbHq3yxyK
-         AQR2CNZ6husaLCtLWDlKTFCrW9bKkhsyGLeEHfPMRC0wXJbeUaUJ1ATyjT7o5KNm7EOO
-         S11Ls6Bnmugm4klJoM64dj96HhFOICRX6owuxrwoFYFbXIyDRwnUjVC1tiXnV+ahRo43
-         5i5+lTdRlkPk19MSKocgMUxqdl52YOQ3YVKxUDYw/oHtqW080n298mvysyuB1hncdra0
-         EQErLcm7t4GRhH9ygYhPKQikh2Lo5newu/927yhSPb5JkECAVK+28pxmhHja3sUiVkxH
-         Oo7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWQY6+yzBtiO29XLnrymvcP9HDxZQbfSKePcswXrNSRTpLK1wziJr/HBvUlqLeD+z2vKryaHA5f3QiZ6g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0Edd3ZL6eKaAGJaL4qVbBua3HeRDi2Id/R0NQI306TUnC+63q
-	3xhdEvz9QtYG0qH3Ot7ndJVvYfah5mkx6/RirjKRowJECgDKVX+0NtFFr2BE
-X-Google-Smtp-Source: AGHT+IHoBe6oO8PYZGl3+qBTM5n53ghlUJDEj0r9DYaH/xfvybkBeP2XPFw42uN0pzrRgBB+YLIjIQ==
-X-Received: by 2002:a05:6512:23a9:b0:536:55cf:3148 with SMTP id 2adb3069b0e04-53b348deb93mr2968873e87.31.1730111653332;
-        Mon, 28 Oct 2024 03:34:13 -0700 (PDT)
-Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4318b58b7e8sm137070495e9.48.2024.10.28.03.34.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Oct 2024 03:34:12 -0700 (PDT)
-Message-ID: <6a8d4197-26ec-4d57-b5a3-98bc3008dfc2@gmail.com>
-Date: Mon, 28 Oct 2024 11:34:11 +0100
+	s=arc-20240116; t=1730113528; c=relaxed/simple;
+	bh=IkZzhbQGxGn5UP2zkNF/LVFrX4ehLInSK1KVjeXp9q0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X+SBvf69m4yDAN2VfZzjgpblI0mANsoubocjf755UxUYc1oHmlub55QKJsyU+0K5IMw20Jt45ripBmKKDkrYFFHfOgn/g9N8q8G0WaYKyDf3wnEzP7SNkjEtS4cfVX59kiFrNdhhs3myXVp1BfI8iqnj9oDOFXGoTw5H1hcBV3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VUrSvW5j; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A05461AFB;
+	Mon, 28 Oct 2024 12:05:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730113518;
+	bh=IkZzhbQGxGn5UP2zkNF/LVFrX4ehLInSK1KVjeXp9q0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VUrSvW5jYyoMpCShkwTlpb4tUgzrogwnrGPX15F+3lTxk2pWQyZgLwJUWcQq/1M+y
+	 HDgKihdPLAyC2BuVAejB3N1Qy9G7kOOJ8lyUtChoSq7dSljDt4D3MYYOAnJY6RyPT5
+	 sGHNu/8eJD+mm9+3dvv6RQROv+F/dB1oYSlOLYoY=
+Message-ID: <505c502e-b67a-4dca-8420-eb87eae4e170@ideasonboard.com>
+Date: Mon, 28 Oct 2024 13:05:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,100 +50,195 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dma-buf/dma-fence_array: use kvzalloc
-To: Tvrtko Ursulin <tursulin@ursulin.net>, friedrich.vock@gmx.de,
- Richardqi.Liang@amd.com, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20241024124159.4519-1-christian.koenig@amd.com>
- <20241024124159.4519-2-christian.koenig@amd.com>
- <8d7bab43-d561-487d-bdc6-86fc230db655@ursulin.net>
- <ca23d4c5-74ff-4d1d-ace0-72ecd51aa527@ursulin.net>
+Subject: Re: [PATCH v6 3/4] media: raspberrypi: Add support for RP1-CFE
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Naushir Patuck
+ <naush@raspberrypi.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+References: <20241003-rp1-cfe-v6-0-d6762edd98a8@ideasonboard.com>
+ <20241003-rp1-cfe-v6-3-d6762edd98a8@ideasonboard.com>
+ <4d9e340e-2ae7-495b-8623-0d10398e1c3d@xs4all.nl>
+ <02f05b61-08e7-45f8-8d59-f79bc20d076f@ideasonboard.com>
+ <74286a86-51b9-4742-bb0c-583d70b1b0a7@xs4all.nl>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <ca23d4c5-74ff-4d1d-ace0-72ecd51aa527@ursulin.net>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <74286a86-51b9-4742-bb0c-583d70b1b0a7@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Am 25.10.24 um 11:05 schrieb Tvrtko Ursulin:
->
-> On 25/10/2024 09:59, Tvrtko Ursulin wrote:
+Hi Hans,
+
+On 28/10/2024 12:11, Hans Verkuil wrote:
+> On 28/10/2024 10:21, Tomi Valkeinen wrote:
+>> Hi,
 >>
->> On 24/10/2024 13:41, Christian König wrote:
->>> Reports indicates that some userspace applications try to merge more 
->>> than
->>> 80k of fences into a single dma_fence_array leading to a warning from
->>> kzalloc() that the requested size becomes to big.
+>> On 24/10/2024 11:20, Hans Verkuil wrote:
+>>> Hi Tomi,
 >>>
->>> While that is clearly an userspace bug we should probably handle 
->>> that case
->>> gracefully in the kernel.
+>>> I know this driver is already merged, but while checking for drivers that use
+>>> q->max_num_buffers I stumbled on this cfe code:
 >>>
->>> So we can either reject requests to merge more than a reasonable 
->>> amount of
->>> fences (64k maybe?) or we can start to use kvzalloc() instead of 
->>> kzalloc().
->>> This patch here does the later.
->>
->> Rejecting would potentially be safer, otherwise there is a path for 
->> userspace to trigger a warn in kvmalloc_node (see 0829b5bcdd3b 
->> ("drm/i915: 2 GiB of relocations ought to be enough for anybody*")) 
->> and spam dmesg at will.
->
-> Actually that is a WARN_ON_*ONCE* there so maybe not so critical to 
-> invent a limit. Up for discussion I suppose.
->
-> Regards,
->
-> Tvrtko
->
->>
->> Question is what limit to set...
-
-That's one of the reasons why I opted for kvzalloc() initially.
-
-I mean we could use some nice round number like 65536, but that would be 
-totally arbitrary.
-
-Any comments on the other two patches? I need to get them upstream.
-
-Thanks,
-Christian.
-
->>
->> Regards,
->>
->> Tvrtko
->>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> CC: stable@vger.kernel.org
->>> ---
->>>   drivers/dma-buf/dma-fence-array.c | 6 +++---
->>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>> <snip>
 >>>
->>> diff --git a/drivers/dma-buf/dma-fence-array.c 
->>> b/drivers/dma-buf/dma-fence-array.c
->>> index 8a08ffde31e7..46ac42bcfac0 100644
->>> --- a/drivers/dma-buf/dma-fence-array.c
->>> +++ b/drivers/dma-buf/dma-fence-array.c
->>> @@ -119,8 +119,8 @@ static void dma_fence_array_release(struct 
->>> dma_fence *fence)
->>>       for (i = 0; i < array->num_fences; ++i)
->>>           dma_fence_put(array->fences[i]);
->>> -    kfree(array->fences);
->>> -    dma_fence_free(fence);
->>> +    kvfree(array->fences);
->>> +    kvfree_rcu(fence, rcu);
->>>   }
->>>   static void dma_fence_array_set_deadline(struct dma_fence *fence,
->>> @@ -153,7 +153,7 @@ struct dma_fence_array 
->>> *dma_fence_array_alloc(int num_fences)
->>>   {
->>>       struct dma_fence_array *array;
->>> -    return kzalloc(struct_size(array, callbacks, num_fences), 
->>> GFP_KERNEL);
->>> +    return kvzalloc(struct_size(array, callbacks, num_fences), 
->>> GFP_KERNEL);
->>>   }
->>>   EXPORT_SYMBOL(dma_fence_array_alloc);
+>>>> +/*
+>>>> + * vb2 ops
+>>>> + */
+>>>> +
+>>>> +static int cfe_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+>>>> +               unsigned int *nplanes, unsigned int sizes[],
+>>>> +               struct device *alloc_devs[])
+>>>> +{
+>>>> +    struct cfe_node *node = vb2_get_drv_priv(vq);
+>>>> +    struct cfe_device *cfe = node->cfe;
+>>>> +    unsigned int size = is_image_node(node) ?
+>>>> +                    node->vid_fmt.fmt.pix.sizeimage :
+>>>> +                    node->meta_fmt.fmt.meta.buffersize;
+>>>> +
+>>>> +    cfe_dbg(cfe, "%s: [%s] type:%u\n", __func__, node_desc[node->id].name,
+>>>> +        node->buffer_queue.type);
+>>>> +
+>>>> +    if (vq->max_num_buffers + *nbuffers < 3)
+>>>> +        *nbuffers = 3 - vq->max_num_buffers;
+>>>
+>>> This makes no sense: max_num_buffers is 32, unless explicitly set when vb2_queue_init
+>>> is called. So 32 + *nbuffers is never < 3.
+>>>
+>>> If the idea is that at least 3 buffers should be allocated by REQBUFS, then set
+>>> q->min_reqbufs_allocation = 3; before calling vb2_queue_init and vb2 will handle this
+>>> for you.
+>>>
+>>> Drivers shouldn't modify *nbuffers, except in very rare circumstances, especially
+>>> since the code is almost always wrong.
+>>
+>> Looking at this, the original code in the old BSP tree was, which somehow, along the long way, got turned into the above:
+>>
+>> if (vq->num_buffers + *nbuffers < 3)
+>>          *nbuffers = 3 - vq->num_buffers;
+>>
+>> So... I think that is the same as "q->min_reqbufs_allocation = 3"?
+>>
+>> The distinction between min_queued_buffers and min_reqbufs_allocation, or rather the need for the latter, still escapes me. If the HW/SW requires N buffers to be queued, why would we require
+>> allocating more than N buffers?
+> 
+> min_queued_buffers is easiest to explain: that represents the requirements of the DMA
+> engine, i.e. how many buffers much be queued before the DMA engine can be started.
+> Typically it is 0, 1 or 2.
+> 
+> min_reqbufs_allocation is the minimum number of buffers that will be allocated when
+> calling VIDIOC_REQBUFS in order for userspace to be able to stream without blocking
+> or dropping frames.
+> 
+> Typically this is 3 for video capture: one buffer is being DMAed, another is queued up
+> and the third is being processed by userspace. But sometimes drivers have other
+> requirements.
+> 
+> The reason is that some applications will just call VIDIOC_REQBUFS with count=1 and
+> expect it to be rounded up to whatever makes sense. See the VIDIOC_REQBUFS doc in
+> https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/vidioc-reqbufs.html
+> 
+> "It can be smaller than the number requested, even zero, when the driver runs out of
+>   free memory. A larger number is also possible when the driver requires more buffers
+>   to function correctly."
+> 
+> How drivers implement this is a mess, and usually the code in the driver is wrong as
+> well. In particular they often did not take VIDIOC_CREATE_BUFS into account, i.e.
+> instead of 'if (vq->num_buffers + *nbuffers < 3)' they would do 'if (*nbuffers < 3)'.
+
+Thanks, this was educational!
+
+So. If I have a driver that has min_queued_buffers = 1, I can use 
+VIDIOC_CREATE_BUFS to allocate a single buffer, and then capture just 
+one buffer, right? Whereas VIDIOC_REQBUFS would give me (probably) three 
+(or two, if the driver does not set min_reqbufs_allocation). Three 
+buffers makes sense for full streaming, of course.
+
+> When we worked on the support for more than 32 buffers we added min_reqbufs_allocation
+> to let the core take care of this. In addition, this only applies to VIDIOC_REQBUFS,
+> if you want full control over the number of allocated buffers, then use VIDIOC_CREATE_BUFS,
+> with this ioctl the number of buffers will never be more than requested, although it
+> may be less if you run out of memory.
+> 
+> I really should go through all existing drivers and fix them up if they try to
+> handle this in the queue_setup function, I suspect a lot of them are quite messy.
+> 
+> One thing that is missing in the V4L2 uAPI is a way to report the minimum number of
+> buffers that need to be allocated, i.e. min_queued_buffers + 1. Since if you want
+
+Hmm, so what I wrote above is not correct? One needs min_queued_buffers 
++ 1? Why is that?
+
+> to use CREATE_BUFS you need that information so you know that you have to create
+> at least that number of buffers. We have the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control,
+> but it is effectively codec specific. This probably should be clarified.
+> 
+> I wonder if it wouldn't be better to add a min_num_buffers field to
+> struct v4l2_create_buffers and set it to min_queued_buffers + 1.
+
+I think this makes sense (although I still don't get the +1).
+
+However, based on the experiences from adding the streams features to 
+various ioctls, let's be very careful =). The new 'min_num_buffers' can 
+be filled with garbage by the userspace. If we define the 
+'min_num_buffers' field to be always filled by the kernel, and any value 
+provided from the userspace to be ignored, I think it should work.
+
+  Tomi
 
 
