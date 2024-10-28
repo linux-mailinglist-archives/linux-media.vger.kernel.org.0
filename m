@@ -1,333 +1,97 @@
-Return-Path: <linux-media+bounces-20421-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20422-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936B99B3323
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 15:18:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EF59B333E
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 15:21:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12998B22AD0
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 14:18:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4AFB1C21C1A
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 14:21:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EBAB1DD54A;
-	Mon, 28 Oct 2024 14:17:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4FD71DD864;
+	Mon, 28 Oct 2024 14:21:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EgcfnLIj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O2sTa4fZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5290B1DB34E
-	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 14:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E31713D539;
+	Mon, 28 Oct 2024 14:21:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730125075; cv=none; b=QA+cOM9ZGk6UiW2WuFP4Hfxumpub6SekFZsiZ5KsAgu2Y/zOFXHaio1k97IdBXCDmvaIgmyiBT0g2epk0tI9ClsYw0NkWBztZcO9eNEoMxCV7D5qpRivS0UbpJw2hQS9xcIRXwBKibWYef3exADNown5kZ3ftU03EgA2ziSZUkg=
+	t=1730125274; cv=none; b=ogaIZIuczml7zhdvJrTGpD9QX/kov9eXpIadYm4z5/SQGu1PHtYkmohjUIZQZNMF7X+NQZeH6/zTaFl9/Z5MAtEQFrQ5VtvW39rMXHZLSVx4WPROI08hv6jbiCX3NQWcZk5wlGb+L2/gWHFSKrAjSVQ4MPUqfs5LgjWeLp2D9MQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730125075; c=relaxed/simple;
-	bh=Ou3vLzBqCRLFarun+cFMjdDnLuEquIGPnEmsxQ7I8hg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N6UV1eAneAZu54tmSLJx4vogfotzZyb/l9xKsg88aEuZ6UWu9Gc8WRbqOuUZ4pQyP5M5UelBKwGBtE8H8akH8ejG6BCStc8egiLHoqRgTDzUTptMxrZX/vnglk/AOtUGm1gAtRkDomfSG4rhrvuy3RNYbRmiIcr1e9xOzVHxGRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EgcfnLIj; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B9E99641;
-	Mon, 28 Oct 2024 15:17:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730125069;
-	bh=Ou3vLzBqCRLFarun+cFMjdDnLuEquIGPnEmsxQ7I8hg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EgcfnLIjNgT2Zt9sFgobxa4q/HzDNx5NF8ANjgnKRF8I+n8ChyrS04+4414cDQCw/
-	 Qc2xopPYkWyxg4kw3YeN5QciaRLWVAAK1qnGwhYSlhCBqvGzav4LoucJ9uIZ06jMBo
-	 FiPM65KnekLaFjoi7kyTWuwaDTG3zc2s0i1eLDIs=
-Message-ID: <22be42b3-1d55-40c5-bb92-63f99234fcbf@ideasonboard.com>
-Date: Mon, 28 Oct 2024 19:47:46 +0530
+	s=arc-20240116; t=1730125274; c=relaxed/simple;
+	bh=QhoMOA3thfyYMlJZ9ETgV6sjVHnxZtN6xzc280Q27bM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OVSCLLjlmzKAXu3izSs4EJKaozzxeQTVsBOCqw3p/b+wNST9/1t98SC4pZCytrmJcrspvjKDQDsZKeyXNcqlu5+ik2eRb6hqB/NVcbB/vqE9sV53In0KPWa61oLUAVFogdDIWwXJkcBettbcXTv7Bn75KTcQJgPW0B+A8HjM9q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O2sTa4fZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C147DC4CEC3;
+	Mon, 28 Oct 2024 14:21:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730125273;
+	bh=QhoMOA3thfyYMlJZ9ETgV6sjVHnxZtN6xzc280Q27bM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=O2sTa4fZmpqnas6xA7rb8gKMCrNDrD7WUHZOkFUSYa/tkykEawdP12GkAvHsly/Mk
+	 Oqh4a0qoeN/jEa0A4RJCGPUEUjf074pmO/0TX4i6Y6EKzZEs863WoUCREV4ZfZotlr
+	 NpEYLQwfJPx7gosnM1BZnx77re0aLfrow4H1MdMYk4zWtWqz3K7HjI5Q1dje3Z6mQd
+	 WOEZFPI+6gxVqCRIjuOIl9Zz9bG9irIrGkBZoGGQAPdpk/xib8M28e9OTPw8VP4Acz
+	 ZeGR/4/c98V/ur/B2anzTNKB8l/MyKTWQ8TfGQ95A0mIABdjFh02Pb6NdDIwaz0tWI
+	 KCIgwMOCOYCkg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Zhipeng Lu <alexious@zju.edu.cn>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: dvbdev: return -EINVAL on failure
+Date: Mon, 28 Oct 2024 14:21:03 +0000
+Message-Id: <20241028142107.737053-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: dw100: Enable dynamic vertex map
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
-Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Stefan Klug <stefan.klug@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20241022063155.506191-1-umang.jain@ideasonboard.com>
- <a73be13d-a2ed-48cd-a84e-805fb379dc09@oss.nxp.com>
- <20241027144040.GI6519@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20241027144040.GI6519@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Laurent
+From: Arnd Bergmann <arnd@arndb.de>
 
-On 27/10/24 8:10 pm, Laurent Pinchart wrote:
-> On Sat, Oct 26, 2024 at 09:52:43PM +0200, Xavier Roumegue wrote:
->> Hi Umang,
->>
->> Thanks for the patch, this feature sounds promising.
->>
->> On 10/22/24 8:31 AM, Umang Jain wrote:
->>> Currently, vertex maps cannot be updated dynamically while dw100
->>> is streaming. This patch enables the support to update the vertex
->>> map dynamically at runtime.
->>>
->>> To support this functionality, we need to allocate and track two
->>> sets of DMA-allocated vertex maps, one for the currently applied map
->>> and another for the updated (pending) map. Before the start of next
->>> frame, if a new user-supplied vertex map is available, the hardware
->>> mapping is changed to use new vertex map, thus enabling the user to
->>> update the vertex map at runtime.
-> How do you synchronize the new map with the jobs ? That doesn't seem to
-> be supported by the patch, is it a feature that you don't need ?
->
->>> We should ensure no race occurs when the vertex map is updated multiple
->>> times when a frame is processing. Hence, vertex map is never updated to
->>> the applied vertex map index in .s_ctrl(). It is always updated on the
->>> pending vertex map slot, with `maps_mutex` lock held. `maps_mutex` lock
->>> is also held when the pending vertex map is applied to the hardware in
->>> dw100_start().
->>>
->>> Ability to update the vertex map at runtime, enables abritrary rotation
-> s/abritrary/arbitrary/
->
->>> and digital zoom features for the input frames, through the dw100
->>> hardware.
->>>
->>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>> ---
->>>    drivers/media/platform/nxp/dw100/dw100.c | 73 ++++++++++++++++++------
->>>    1 file changed, 56 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
->>> index 54ebf59df682..42712ccff754 100644
->>> --- a/drivers/media/platform/nxp/dw100/dw100.c
->>> +++ b/drivers/media/platform/nxp/dw100/dw100.c
->>> @@ -83,6 +83,11 @@ struct dw100_q_data {
->>>    	struct v4l2_rect		crop;
->>>    };
->>>    
->>> +struct dw100_map {
->>> +	unsigned int *map;
->>> +	dma_addr_t map_dma;
-> I would have called the field just 'dma' as it's already qualified by
-> the structure name or the field name in dw100_ctx.
->
->>> +};
->>> +
->>>    struct dw100_ctx {
->>>    	struct v4l2_fh			fh;
->>>    	struct dw100_device		*dw_dev;
->>> @@ -92,12 +97,14 @@ struct dw100_ctx {
->>>    	struct mutex			vq_mutex;
->>>    
->>>    	/* Look Up Table for pixel remapping */
->>> -	unsigned int			*map;
->>> -	dma_addr_t			map_dma;
->>> +	struct dw100_map		maps[2];
->>> +	unsigned int			applied_map_id;
->>>    	size_t				map_size;
->>>    	unsigned int			map_width;
->>>    	unsigned int			map_height;
->>>    	bool				user_map_is_set;
->>> +	bool				user_map_is_updated;
->>> +	struct mutex			maps_mutex;
->>>    
->>>    	/* Source and destination queue data */
->>>    	struct dw100_q_data		q_data[2];
->>> @@ -308,24 +315,31 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
->>>    {
->>>    	u32 *user_map;
->>>    
->>> -	if (ctx->map)
->>> -		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
->>> -				  ctx->map, ctx->map_dma);
->>> +	for (unsigned int i = 0; i < 2; i++) {
-> 	for (unsigned int i = 0; i < ARRAY_SIZE(ctx->maps); i++) {
-> 		struct dw100_map *map = &ctx->maps[i];
->
-> and use map below.
->
->
->>> +		if (ctx->maps[i].map)
->>> +			dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
->>> +					  ctx->maps[i].map, ctx->maps[i].map_dma);
->>>    
->>> -	ctx->map = dma_alloc_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
->>> -				      &ctx->map_dma, GFP_KERNEL);
->>> +		ctx->maps[i].map = dma_alloc_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
->>> +						      &ctx->maps[i].map_dma, GFP_KERNEL);
->>>    
->>> -	if (!ctx->map)
->>> -		return -ENOMEM;
->>> +		if (!ctx->maps[i].map)
->>> +			return -ENOMEM;
->>> +	}
->>>    
->>>    	user_map = dw100_get_user_map(ctx);
->>> -	memcpy(ctx->map, user_map, ctx->map_size);
->>> +
->>> +	mutex_lock(&ctx->maps_mutex);
->>> +	ctx->applied_map_id = 0;
->>> +	memcpy(ctx->maps[ctx->applied_map_id].map, user_map, ctx->map_size);
->>> +	mutex_unlock(&ctx->maps_mutex);
->>>    
->>>    	dev_dbg(&ctx->dw_dev->pdev->dev,
->>>    		"%ux%u %s mapping created (d:%pad-c:%p) for stream %ux%u->%ux%u\n",
->>>    		ctx->map_width, ctx->map_height,
->>>    		ctx->user_map_is_set ? "user" : "identity",
->>> -		&ctx->map_dma, ctx->map,
->>> +		&ctx->maps[ctx->applied_map_id].map_dma,
->>> +		ctx->maps[ctx->applied_map_id].map,
->>>    		ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width,
->>>    		ctx->q_data[DW100_QUEUE_DST].pix_fmt.height,
->>>    		ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width,
->>> @@ -336,10 +350,12 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
->>>    
->>>    static void dw100_destroy_mapping(struct dw100_ctx *ctx)
->>>    {
->>> -	if (ctx->map) {
->>> -		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
->>> -				  ctx->map, ctx->map_dma);
->>> -		ctx->map = NULL;
->>> +	for (unsigned int i = 0; i < 2; i++) {
-> 	for (unsigned int i = 0; i < ARRAY_SIZE(ctx->maps); i++) {
-> 		struct dw100_map *map = &ctx->maps[i];
->
-> and use map below.
->
->>> +		if (ctx->maps[i].map)
->>> +			dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
->>> +					  ctx->maps[i].map, ctx->maps[i].map_dma);
->>> +
->>> +		ctx->maps[i].map = NULL;
->>>    	}
->>>    }
->>>    
->>> @@ -350,6 +366,15 @@ static int dw100_s_ctrl(struct v4l2_ctrl *ctrl)
->>>    
->>>    	switch (ctrl->id) {
->>>    	case V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP:
->>> +		u32 *user_map = ctrl->p_new.p_u32;
->> A warning to fix here.
->>
->>> +		unsigned int id;
->>> +
->>> +		mutex_lock(&ctx->maps_mutex);
->>> +		id = ctx->applied_map_id ? 0 : 1;
->>> +		memcpy(ctx->maps[id].map, user_map, ctx->map_size);
->>> +		ctx->user_map_is_updated = true;
->> If you call the control before to start the stream, the dma mapping is
->> not yet done(dw100_create_mapping not yet called). Hence, copying the
->> user map to a NULL pointer.
-> The maps could be allocated in dw100_open() when creating the context.
-> That would likely require moving the initialization of ctx->map_width,
-> ctx->map_height and ctx->map_size as well. The handling of the identity
-> map would probably need to be rewritten too.
+The dvb_register_device() function can return an uninitialized
+error code:
 
-The ctx->map_width, ctx->map_height and ctx->map_size would be updated 
-on s_fmt().
+drivers/media/dvb-core/dvbdev.c:554:10: error: variable 'ret' is uninitialized when used here [-Werror,-Wuninitialized]
+  554 |                 return ret;
+      |                        ^~~
 
-I think we can solve the NULL pointer issue by allocating when creating 
-the context (open()), however, it would require updating (re-allocation) 
-again before the map can be memcpy()ed before streaming. Because the map 
-dimensions would have changed.
+Change this to -EINVAL as in the other half of the #ifdef block.
 
-See dw100_s_fmt()
+Fixes: 972e63e895ab ("media: dvbdev: prevent the risk of out of memory access")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/media/dvb-core/dvbdev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-...
-dims[0] = dw100_get_n_vertices_from_length(q_data->pix_fmt.width);
-dims[1] = dw100_get_n_vertices_from_length(q_data->pix_fmt.height);
-
-ret = v4l2_ctrl_modify_dimensions(ctrl, dims);
-```
-
-I checked the v4l2_ctrl_modify_dimensions definition to check if it 
-issues a call v4l2_ctrl_type_ops.init  (where the map dimensions are 
-updated for dw100) and it does.
-
-So, I think I will have to introduce allocations in dw100_open() so that 
-NULL pointer issue doesn't occur and let the dma allocation get 
-re-allocated with new dimensions just before stream start.
-
-Also, we do not have to move the ctx->map_width, ctx->height abd 
-ctx->map_size inititlisation, since they are already gets initialised to 
-defaults, on the open() path when v4l2_ctrl_new_custom() is done.
-
->>> +		mutex_unlock(&ctx->maps_mutex);
->>> +
->>>    		ctx->user_map_is_set = true;
->>>    		break;
->>>    	}
->>> @@ -655,6 +680,8 @@ static int dw100_open(struct file *file)
->>>    
->>>    	v4l2_fh_add(&ctx->fh);
->>>    
->>> +	mutex_init(&ctx->maps_mutex);
->>> +
->>>    	return 0;
->>>    
->>>    err:
->>> @@ -675,6 +702,7 @@ static int dw100_release(struct file *file)
->>>    	v4l2_ctrl_handler_free(&ctx->hdl);
->>>    	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
->>>    	mutex_destroy(&ctx->vq_mutex);
->>> +	mutex_destroy(&ctx->maps_mutex);
->>>    	kfree(ctx);
->>>    
->>>    	return 0;
->>> @@ -1453,8 +1481,19 @@ static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
->>>    	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
->>>    				 ctx->q_data[DW100_QUEUE_SRC].fmt,
->>>    				 &out_vb->vb2_buf);
->>> -	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
->>> -			     ctx->map_width, ctx->map_height);
->>> +
->>> +
->>> +	mutex_lock(&ctx->maps_mutex);
->>> +	if (ctx->user_map_is_updated) {
->> The hardware register must unconditionally be updated while starting a
->> new context, as a v4l2 m2m supports multi context operations. Otherwise,
->> you may be running with the user mapping used by the previous context.
->>
->> Moreover, the hardware mapping will not be set in case you use the
->> driver as a simple scaler without user mapping, which causes the process
->> to hang as the run does not start and never completes.
->>
->>> +		unsigned int id = ctx->applied_map_id ? 0 : 1;
->>> +
->>> +		dw100_hw_set_mapping(dw_dev, ctx->maps[id].map_dma,
->>> +				     ctx->map_width, ctx->map_height);
->>> +		ctx->applied_map_id = id;
->>> +		ctx->user_map_is_updated = false;
->>> +	}
->>> +	mutex_unlock(&ctx->maps_mutex);
->>> +
->>>    	dw100_hw_enable_irq(dw_dev);
->>>    	dw100_hw_dewarp_start(dw_dev);
->>>    
->> It sounds as this patch requires a collaborative application for running
->> well. All my simple tests failed.
->>
->> You can test a simple scaler/pixfmt conversion operation with v4l2 utils:
->>
->>
->> v4l2-ctl \
->> -d 0 \
->> --set-fmt-video-out width=640,height=480,pixelformat=NV12,field=none \
->> --set-fmt-video width=640,height=480,pixelformat=NV21,field=none \
->> --stream-out-pattern 3 \
->> --set-selection-output\
->> target=crop,top=0,left=0,width=640,height=480,flags= \
->> --stream-count 100 \
->> --stream-mmap \
->> --stream-out-mmap
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 78f46cb47c84..8c8dc7bbc59b 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -551,7 +551,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 		kfree(dvbdev);
+ 		*pdvbdev = NULL;
+ 		mutex_unlock(&dvbdev_register_lock);
+-		return ret;
++		return -EINVAL;
+ 	}
+ #endif
+ 	dvbdev->minor = minor;
+-- 
+2.39.5
 
 
