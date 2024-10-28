@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-20403-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20404-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965CE9B2B51
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 10:23:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B299B2B8A
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 10:28:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0E421F20B65
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 09:23:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A9741C21CE8
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 09:28:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B91B41CCB33;
-	Mon, 28 Oct 2024 09:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D301B0F3B;
+	Mon, 28 Oct 2024 09:28:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BvVj1upO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lPgGGgsL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CB0190664;
-	Mon, 28 Oct 2024 09:22:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0031542A82;
+	Mon, 28 Oct 2024 09:28:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730107377; cv=none; b=Rysljd/tCwfGT+u5CWdXWkB/vj1zTV2ux8IjnbrSUl9wxi7osN0hrS8HN5JkMglMHBg9mW00o17PzyF7GtzWwxqgkYTB/poSeuz3kPqut2tnrhyR2XCnNdUVJirvyHRKn/nSTcpYwXEjDpiWLATSD/fBfOScRIcotEO9Jq6zPqM=
+	t=1730107703; cv=none; b=okIELvgfMrHXMRqsyCDOWzlCrAq3tIgPwtGAE/HaOdCe3hxy/JhO6G7MInTMdJDWpGHzFIeZSj8gDYr9ooCIU9hTNgdqTNqfnkgbQtL4ADlKUweS8lc2BLPXnbphm61vXwPlH5xbrCkDRCPGpoHgYj77khBDmzE7QMISINcO1y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730107377; c=relaxed/simple;
-	bh=0sjlB70XXmFa0iFe8EEWL9DEVcnBKv/jF5LDkmrHyL4=;
+	s=arc-20240116; t=1730107703; c=relaxed/simple;
+	bh=4BL2DejjDELiLEhAB40ADpi5+EGK99TWoHcY01BTeKk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bEkWypbwXhG3Pn7rLGFT4Cs96ewJcpD9h4RQSLuB2E+q3OOB4j9Yq5NATI7S5vY0r+SFzlj1FtS9WWFoMTbA6N3ZHN5sIesJlY17FyZF4s/4FkiKufbHvZBL0OL2yjhiJ/b+oaGFj672ItPUn81NrT16cb1Q3ZR5fqarIG5mXtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BvVj1upO; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=sg6rO5PCOEjps4LKUIvY9GBDzO9K43dq9RU8RR+c3xibkG3MNv29qc9aQ2qHrqC8jmWVwsrWQOMPOlKlI+G+mJV8CBluExRQdZ9fjC6L62Zz4A45fBipKfr7j6SA4S+/Uu4GFaZo1o/x9Yc00gTENuI+wo2m/o1TdYN5xpBu+bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lPgGGgsL; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB0CF594;
-	Mon, 28 Oct 2024 10:22:51 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B086641;
+	Mon, 28 Oct 2024 10:28:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730107372;
-	bh=0sjlB70XXmFa0iFe8EEWL9DEVcnBKv/jF5LDkmrHyL4=;
+	s=mail; t=1730107697;
+	bh=4BL2DejjDELiLEhAB40ADpi5+EGK99TWoHcY01BTeKk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BvVj1upOdodZz4isu4mkauaVTUzeEJcc+jYS0Ac8J8RQqf9TBLyRkXm8PmiTEkr4P
-	 cKZ/AdRIFqVbdpFKlDtAlOVMWvcyceJMMQQPIdpZNKgylokQbdAflv4FY3ls3isLYa
-	 O1UZZld6xVdB5rQYYjW1mKSkZl5+h5yY4Ily1O3s=
-Message-ID: <332e84d1-72fe-4a0c-8686-8cd838af09a0@ideasonboard.com>
-Date: Mon, 28 Oct 2024 11:22:50 +0200
+	b=lPgGGgsL3dJ3ISFWjjmRU2wQa/M+6pqqmlqU4B3cGA0aGxQDP/sHKmXGXQI/Uwi5o
+	 +LX82Xp5DDQaUizwPOwyTB0f7uXo5inaO1pqfMDlLLYfzUefGCYFWupWIx34uyitLg
+	 LSmET1L6R2LCTCyLd88rQPyKp/UJduBTUAVT+hdQ=
+Message-ID: <d8622666-cb4e-4f40-a64c-1b430994e84f@ideasonboard.com>
+Date: Mon, 28 Oct 2024 11:28:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,18 +50,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH next] media: raspberrypi: Do some cleanup in probe()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+Subject: Re: [PATCH] media: raspberrypi: Remove redundant "no IRQ" message
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Naushir Patuck <naush@raspberrypi.com>, linux-media@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <fff40b7a-20cd-4933-9534-1f72435bded8@stanley.mountain>
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20241018-rpi-irq-cocci-v1-1-b597595e98e4@chromium.org>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -107,40 +104,41 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <fff40b7a-20cd-4933-9534-1f72435bded8@stanley.mountain>
+In-Reply-To: <20241018-rpi-irq-cocci-v1-1-b597595e98e4@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 23/10/2024 11:30, Dan Carpenter wrote:
-> If devm_clk_get() fails then we need to free "cfe" before returning.
+On 18/10/2024 17:24, Ricardo Ribalda wrote:
+> platform_get_irq() already provides a error message.
 > 
-> Fixes: 6edb685abb2a ("media: raspberrypi: Add support for RP1-CFE")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> This fixes the following cocci error:
+> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c:2326:2-9: line 2326 is redundant because platform_get_irq() already prints an error
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->   drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
+>   drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 1 -
+>   1 file changed, 1 deletion(-)
 > 
 > diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-> index 045910de6c57..1da58b07c1d3 100644
+> index 045910de6c57..4e99cccd9a20 100644
 > --- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
 > +++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-> @@ -2343,9 +2343,11 @@ static int cfe_probe(struct platform_device *pdev)
+> @@ -2323,7 +2323,6 @@ static int cfe_probe(struct platform_device *pdev)
 >   
->   	/* TODO: Enable clock only when running. */
->   	cfe->clk = devm_clk_get(&pdev->dev, NULL);
-> -	if (IS_ERR(cfe->clk))
-> -		return dev_err_probe(&pdev->dev, PTR_ERR(cfe->clk),
-> -				     "clock not found\n");
-> +	if (IS_ERR(cfe->clk)) {
-> +		ret = dev_err_probe(&pdev->dev, PTR_ERR(cfe->clk),
-> +				    "clock not found\n");
-> +		goto err_cfe_put;
-> +	}
->   
->   	cfe->mdev.dev = &pdev->dev;
->   	cfe->mdev.ops = &cfe_media_device_ops;
+>   	ret = platform_get_irq(pdev, 0);
+>   	if (ret <= 0) {
+> -		dev_err(&pdev->dev, "No IRQ resource\n");
+>   		ret = -EINVAL;
+>   		goto err_cfe_put;
+>   	}
+> 
+> ---
+> base-commit: 698b6e3163bafd61e1b7d13572e2c42974ac85ec
+> change-id: 20241018-rpi-irq-cocci-878e4a82ea2c
+> 
+> Best regards,
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
