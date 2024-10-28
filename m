@@ -1,36 +1,48 @@
-Return-Path: <linux-media+bounces-20427-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20428-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E685C9B343C
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 16:02:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE4E9B3444
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 16:03:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3749281D0B
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 15:02:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE465282BAA
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2024 15:03:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20E481DE3D6;
-	Mon, 28 Oct 2024 15:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8F941DE2AB;
+	Mon, 28 Oct 2024 15:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n29Gn+gZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96931DE3AC
-	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 15:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DE11DD0DB
+	for <linux-media@vger.kernel.org>; Mon, 28 Oct 2024 15:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730127736; cv=none; b=cxx0z8u9RKBo68WYFTIlq0p7Ev5YmL00TjFdPR7gx7FzotYpCfXn2EI2CSfmE1SXzcUh6A2L4pGdgyadGkAjS2Rnb4LbApvoJ7B2NiE1fIvA6c5c33yu73l3mkL3tikQ7RKdSO/2QCg2nbxdeuI3hWko93dRmu+jTE30nQZSfqQ=
+	t=1730127780; cv=none; b=Q8/hVm80nFO6LKs73bGH7mXg4apVNolGrb4NMiBYTdNBGx+rUKXYWov2CDAStvZ59I7X/SaFIDwxs4trGY5fx8bF8bJVRn3XTbCkuMLA/yWyKDl+yNvTBdwZMP+PY440qTIf6GjYINdXLerEXSIYWyH9uFmRdlKgLNdmwQ1lw5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730127736; c=relaxed/simple;
-	bh=P2EnRNXocIL/dhUpewZoSj3rfw2YBTW3NICVqmcJecs=;
+	s=arc-20240116; t=1730127780; c=relaxed/simple;
+	bh=GvwuREVeBweQ8U7fVJNQRr/xUo85oGxATdZf379bLTM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PMF0/ZRQjvkKnlOCOM+9QxJfJCNP1IP4+OUPwJMahOA1L8jrBeoq8iBibgooeEM5D/sI8On/BBMBeXbsUhWA3JZ9F57/iDzxx9bBmDbuXDGlSXxbKSlS9yhlyoVAgSLVVYNQgDxgaKkyB5tkGzVSp7zoi+rLjvOH7anJDRk+2k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C46B4C4CEC3;
-	Mon, 28 Oct 2024 15:02:14 +0000 (UTC)
-Message-ID: <392682fd-3325-41ab-825d-67cb3de4c7b2@xs4all.nl>
-Date: Mon, 28 Oct 2024 16:02:13 +0100
+	 In-Reply-To:Content-Type; b=me3pCEmAxkBYj7JFH0WEhvnRZJ/UXVRkadilK3fSi7xQY4gjFPhg06ge2b70ymhGopSkEqPoULtXplTIuKG/VmvQek2KWX3kwAQNWOcTdvqpou3WntPNHlVjunoH1cDk/kov12zHXnIbnENHpyz1MiIK3/FhqP8d8F4q3vFCCBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n29Gn+gZ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6E1843;
+	Mon, 28 Oct 2024 16:02:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730127773;
+	bh=GvwuREVeBweQ8U7fVJNQRr/xUo85oGxATdZf379bLTM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=n29Gn+gZ41IpjudYH8FUHnNKvuxXrzJisKWRWhng+9/EBbjTtKOmfCnZkORT5dM92
+	 AMJZw8AXJm3Ga1sj18wBIDYuACX1HWunzZayMxdl90ck1l4fT0sjH6VPMakihzTOJw
+	 xzpZ3gje+gkKiY3OD/e485l+RFB5TiTQM/ELk4Jk=
+Message-ID: <7b8febda-026b-4a32-8f05-0e3a3c2d8e37@ideasonboard.com>
+Date: Mon, 28 Oct 2024 20:32:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,139 +50,316 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: rkisp1: Reduce min_queued_buffers to 0
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Dafna Hirschfeld <dafna@fastmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>,
- "open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>,
- Adam Pigg <adam@piggz.co.uk>
-References: <20241028143553.36704-1-jacopo.mondi@ideasonboard.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241028143553.36704-1-jacopo.mondi@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] media: dw100: Enable dynamic vertex map
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>,
+ linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Stefan Klug <stefan.klug@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20241022063155.506191-1-umang.jain@ideasonboard.com>
+ <a73be13d-a2ed-48cd-a84e-805fb379dc09@oss.nxp.com>
+ <20241027144040.GI6519@pendragon.ideasonboard.com>
+ <22be42b3-1d55-40c5-bb92-63f99234fcbf@ideasonboard.com>
+ <20241028144109.GH24052@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20241028144109.GH24052@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 28/10/2024 15:35, Jacopo Mondi wrote:
-> There apparently is no reason to require 3 queued buffers to call
-> streamon() for the RkISP1 as the driver operates with a scratch buffer
-> where frames can be directed to if there's no available buffer provided
-> by userspace.
-> 
-> Reduce the number of required buffers to 0 to allow applications to
-> operate by queueing capture buffers on-demand.
-> 
-> Tested with libcamera, by operating with a single capture request. The
-> same request (and associated capture buffer) gets recycled once
-> completed. This of course causes a frame rate drop but doesn't hinder
-> operations.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
-> The first version of this patch set min_queued_buffers to 1, but setting it
-> to 0 doesn't compromise operations and it's even better as it allows application
-> to queue buffers to the capture devices on-demand. If a buffer is not provided
-> to the DMA engines, image data gets directed to the driver's internal scratch
-> buffer.
-> ---
->  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index 2bddb4fa8a5c..5fcf9731f41b 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -35,8 +35,6 @@
->  #define RKISP1_SP_DEV_NAME	RKISP1_DRIVER_NAME "_selfpath"
->  #define RKISP1_MP_DEV_NAME	RKISP1_DRIVER_NAME "_mainpath"
-> 
-> -#define RKISP1_MIN_BUFFERS_NEEDED 3
-> -
->  enum rkisp1_plane {
->  	RKISP1_PLANE_Y	= 0,
->  	RKISP1_PLANE_CB	= 1,
-> @@ -1563,7 +1561,7 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
->  	q->ops = &rkisp1_vb2_ops;
->  	q->mem_ops = &vb2_dma_contig_memops;
->  	q->buf_struct_size = sizeof(struct rkisp1_buffer);
-> -	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
-> +	q->min_queued_buffers = 0;
+Hi Laurent,
 
-You can probably just drop this since the vb2_queue struct is zeroed when it
-is allocated. So no need to set it to 0.
+On 28/10/24 8:11 pm, Laurent Pinchart wrote:
+> Hi Umang,
+>
+> On Mon, Oct 28, 2024 at 07:47:46PM +0530, Umang Jain wrote:
+>> On 27/10/24 8:10 pm, Laurent Pinchart wrote:
+>>> On Sat, Oct 26, 2024 at 09:52:43PM +0200, Xavier Roumegue wrote:
+>>>> On 10/22/24 8:31 AM, Umang Jain wrote:
+>>>>> Currently, vertex maps cannot be updated dynamically while dw100
+>>>>> is streaming. This patch enables the support to update the vertex
+>>>>> map dynamically at runtime.
+>>>>>
+>>>>> To support this functionality, we need to allocate and track two
+>>>>> sets of DMA-allocated vertex maps, one for the currently applied map
+>>>>> and another for the updated (pending) map. Before the start of next
+>>>>> frame, if a new user-supplied vertex map is available, the hardware
+>>>>> mapping is changed to use new vertex map, thus enabling the user to
+>>>>> update the vertex map at runtime.
+>>> How do you synchronize the new map with the jobs ? That doesn't seem to
+>>> be supported by the patch, is it a feature that you don't need ?
+>>>
+>>>>> We should ensure no race occurs when the vertex map is updated multiple
+>>>>> times when a frame is processing. Hence, vertex map is never updated to
+>>>>> the applied vertex map index in .s_ctrl(). It is always updated on the
+>>>>> pending vertex map slot, with `maps_mutex` lock held. `maps_mutex` lock
+>>>>> is also held when the pending vertex map is applied to the hardware in
+>>>>> dw100_start().
+>>>>>
+>>>>> Ability to update the vertex map at runtime, enables abritrary rotation
+>>> s/abritrary/arbitrary/
+>>>
+>>>>> and digital zoom features for the input frames, through the dw100
+>>>>> hardware.
+>>>>>
+>>>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>>>>> ---
+>>>>>     drivers/media/platform/nxp/dw100/dw100.c | 73 ++++++++++++++++++------
+>>>>>     1 file changed, 56 insertions(+), 17 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
+>>>>> index 54ebf59df682..42712ccff754 100644
+>>>>> --- a/drivers/media/platform/nxp/dw100/dw100.c
+>>>>> +++ b/drivers/media/platform/nxp/dw100/dw100.c
+>>>>> @@ -83,6 +83,11 @@ struct dw100_q_data {
+>>>>>     	struct v4l2_rect		crop;
+>>>>>     };
+>>>>>     
+>>>>> +struct dw100_map {
+>>>>> +	unsigned int *map;
+>>>>> +	dma_addr_t map_dma;
+>>> I would have called the field just 'dma' as it's already qualified by
+>>> the structure name or the field name in dw100_ctx.
+>>>
+>>>>> +};
+>>>>> +
+>>>>>     struct dw100_ctx {
+>>>>>     	struct v4l2_fh			fh;
+>>>>>     	struct dw100_device		*dw_dev;
+>>>>> @@ -92,12 +97,14 @@ struct dw100_ctx {
+>>>>>     	struct mutex			vq_mutex;
+>>>>>     
+>>>>>     	/* Look Up Table for pixel remapping */
+>>>>> -	unsigned int			*map;
+>>>>> -	dma_addr_t			map_dma;
+>>>>> +	struct dw100_map		maps[2];
+>>>>> +	unsigned int			applied_map_id;
+>>>>>     	size_t				map_size;
+>>>>>     	unsigned int			map_width;
+>>>>>     	unsigned int			map_height;
+>>>>>     	bool				user_map_is_set;
+>>>>> +	bool				user_map_is_updated;
+>>>>> +	struct mutex			maps_mutex;
+>>>>>     
+>>>>>     	/* Source and destination queue data */
+>>>>>     	struct dw100_q_data		q_data[2];
+>>>>> @@ -308,24 +315,31 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
+>>>>>     {
+>>>>>     	u32 *user_map;
+>>>>>     
+>>>>> -	if (ctx->map)
+>>>>> -		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
+>>>>> -				  ctx->map, ctx->map_dma);
+>>>>> +	for (unsigned int i = 0; i < 2; i++) {
+>>> 	for (unsigned int i = 0; i < ARRAY_SIZE(ctx->maps); i++) {
+>>> 		struct dw100_map *map = &ctx->maps[i];
+>>>
+>>> and use map below.
+>>>
+>>>
+>>>>> +		if (ctx->maps[i].map)
+>>>>> +			dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
+>>>>> +					  ctx->maps[i].map, ctx->maps[i].map_dma);
+>>>>>     
+>>>>> -	ctx->map = dma_alloc_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
+>>>>> -				      &ctx->map_dma, GFP_KERNEL);
+>>>>> +		ctx->maps[i].map = dma_alloc_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
+>>>>> +						      &ctx->maps[i].map_dma, GFP_KERNEL);
+>>>>>     
+>>>>> -	if (!ctx->map)
+>>>>> -		return -ENOMEM;
+>>>>> +		if (!ctx->maps[i].map)
+>>>>> +			return -ENOMEM;
+>>>>> +	}
+>>>>>     
+>>>>>     	user_map = dw100_get_user_map(ctx);
+>>>>> -	memcpy(ctx->map, user_map, ctx->map_size);
+>>>>> +
+>>>>> +	mutex_lock(&ctx->maps_mutex);
+>>>>> +	ctx->applied_map_id = 0;
+>>>>> +	memcpy(ctx->maps[ctx->applied_map_id].map, user_map, ctx->map_size);
+>>>>> +	mutex_unlock(&ctx->maps_mutex);
+>>>>>     
+>>>>>     	dev_dbg(&ctx->dw_dev->pdev->dev,
+>>>>>     		"%ux%u %s mapping created (d:%pad-c:%p) for stream %ux%u->%ux%u\n",
+>>>>>     		ctx->map_width, ctx->map_height,
+>>>>>     		ctx->user_map_is_set ? "user" : "identity",
+>>>>> -		&ctx->map_dma, ctx->map,
+>>>>> +		&ctx->maps[ctx->applied_map_id].map_dma,
+>>>>> +		ctx->maps[ctx->applied_map_id].map,
+>>>>>     		ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width,
+>>>>>     		ctx->q_data[DW100_QUEUE_DST].pix_fmt.height,
+>>>>>     		ctx->q_data[DW100_QUEUE_SRC].pix_fmt.width,
+>>>>> @@ -336,10 +350,12 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
+>>>>>     
+>>>>>     static void dw100_destroy_mapping(struct dw100_ctx *ctx)
+>>>>>     {
+>>>>> -	if (ctx->map) {
+>>>>> -		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
+>>>>> -				  ctx->map, ctx->map_dma);
+>>>>> -		ctx->map = NULL;
+>>>>> +	for (unsigned int i = 0; i < 2; i++) {
+>>> 	for (unsigned int i = 0; i < ARRAY_SIZE(ctx->maps); i++) {
+>>> 		struct dw100_map *map = &ctx->maps[i];
+>>>
+>>> and use map below.
+>>>
+>>>>> +		if (ctx->maps[i].map)
+>>>>> +			dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
+>>>>> +					  ctx->maps[i].map, ctx->maps[i].map_dma);
+>>>>> +
+>>>>> +		ctx->maps[i].map = NULL;
+>>>>>     	}
+>>>>>     }
+>>>>>     
+>>>>> @@ -350,6 +366,15 @@ static int dw100_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>>>     
+>>>>>     	switch (ctrl->id) {
+>>>>>     	case V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP:
+>>>>> +		u32 *user_map = ctrl->p_new.p_u32;
+>>>> A warning to fix here.
+>>>>
+>>>>> +		unsigned int id;
+>>>>> +
+>>>>> +		mutex_lock(&ctx->maps_mutex);
+>>>>> +		id = ctx->applied_map_id ? 0 : 1;
+>>>>> +		memcpy(ctx->maps[id].map, user_map, ctx->map_size);
+>>>>> +		ctx->user_map_is_updated = true;
+>>>> If you call the control before to start the stream, the dma mapping is
+>>>> not yet done(dw100_create_mapping not yet called). Hence, copying the
+>>>> user map to a NULL pointer.
+>>> The maps could be allocated in dw100_open() when creating the context.
+>>> That would likely require moving the initialization of ctx->map_width,
+>>> ctx->map_height and ctx->map_size as well. The handling of the identity
+>>> map would probably need to be rewritten too.
+>> The ctx->map_width, ctx->map_height and ctx->map_size would be updated
+>> on s_fmt().
+> I saw that ctx->map_width, ctx->map_height and ctx->map_size are set in
+> dw100_ctrl_dewarping_map_init(), with
+>
+> 	mw = ctrl->dims[0];
+> 	mh = ctrl->dims[1];
+>
+> 	[...]
+>
+> 	ctx->map_width = mw;
+> 	ctx->map_height = mh;
+> 	ctx->map_size = mh * mw * sizeof(u32);
+>
+> but overlooked the fact that the dimensions are set in dw100_s_fmt().
+>
+>> I think we can solve the NULL pointer issue by allocating when creating
+>> the context (open()), however, it would require updating (re-allocation)
+>> again before the map can be memcpy()ed before streaming. Because the map
+>> dimensions would have changed.
+> If the map dimensions change, that invalidates the map contents set by
+> userspace. This is currently handled by dw100_ctrl_dewarping_map_init().
+> You won't be able to just memcpy() the previous control to the new one.
+>
+>> See dw100_s_fmt()
+>>
+>> ...
+>> dims[0] = dw100_get_n_vertices_from_length(q_data->pix_fmt.width);
+>> dims[1] = dw100_get_n_vertices_from_length(q_data->pix_fmt.height);
+>>
+>> ret = v4l2_ctrl_modify_dimensions(ctrl, dims);
+>> ```
+>>
+>> I checked the v4l2_ctrl_modify_dimensions definition to check if it
+>> issues a call v4l2_ctrl_type_ops.init  (where the map dimensions are
+>> updated for dw100) and it does.
+>>
+>> So, I think I will have to introduce allocations in dw100_open() so that
+>> NULL pointer issue doesn't occur and let the dma allocation get
+>> re-allocated with new dimensions just before stream start.
+> That seems a bit pointless, if the map will be invalidated by a call to
+> VIDIOC_S_FMT anyway. The only case where it would be useful is if
+> userspace sets the control before starting streaming and doesn't call
+> VIDIOC_S_FMT.
 
-And is the RKISP1_MIN_BUFFERS_NEEDED define still needed after this change?
+I was indeed not comfortable with the .open() dma-allocation approach 
+and hence, I summarised it here for discussion.
 
-Also, see my RFC I posted today:
 
-https://lore.kernel.org/linux-media/126cd76a-6224-483b-a18d-a3cc89e5ff2d@xs4all.nl/T/#u
+>
+> I'm increasingly thinking the driver should use the request API to
+> synchronize the control with the jobs.
 
-My main concern is that applications that just call VIDIOC_REQBUFS with count = 1
-and expect the driver to change that to a workable value, will, in fact, now just get
-one buffer. And streaming that will cause lots of frame drops.
+I will atleast consider and estimate how much complex it would be!
 
-It makes sense to leave min_queued_buffers at 0 if a scratch buffer is available,
-but I'm unhappy with the fact that you get a poor experience when REQBUFS(1) is called.
-
-My RFC suggests improvements in the uAPI. With that in place you can use CREATE_BUFS in
-libcamera to get much better control over how many buffers should be allocated.
-
-Regards,
-
-	Hans
-
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->  	q->lock = &node->vlock;
->  	q->dev = cap->rkisp1->dev;
-> --
-> 2.47.0
-> 
-> 
+>
+>> Also, we do not have to move the ctx->map_width, ctx->height abd
+>> ctx->map_size inititlisation, since they are already gets initialised to
+>> defaults, on the open() path when v4l2_ctrl_new_custom() is done.
+>>
+>>>>> +		mutex_unlock(&ctx->maps_mutex);
+>>>>> +
+>>>>>     		ctx->user_map_is_set = true;
+>>>>>     		break;
+>>>>>     	}
+>>>>> @@ -655,6 +680,8 @@ static int dw100_open(struct file *file)
+>>>>>     
+>>>>>     	v4l2_fh_add(&ctx->fh);
+>>>>>     
+>>>>> +	mutex_init(&ctx->maps_mutex);
+>>>>> +
+>>>>>     	return 0;
+>>>>>     
+>>>>>     err:
+>>>>> @@ -675,6 +702,7 @@ static int dw100_release(struct file *file)
+>>>>>     	v4l2_ctrl_handler_free(&ctx->hdl);
+>>>>>     	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+>>>>>     	mutex_destroy(&ctx->vq_mutex);
+>>>>> +	mutex_destroy(&ctx->maps_mutex);
+>>>>>     	kfree(ctx);
+>>>>>     
+>>>>>     	return 0;
+>>>>> @@ -1453,8 +1481,19 @@ static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
+>>>>>     	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
+>>>>>     				 ctx->q_data[DW100_QUEUE_SRC].fmt,
+>>>>>     				 &out_vb->vb2_buf);
+>>>>> -	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
+>>>>> -			     ctx->map_width, ctx->map_height);
+>>>>> +
+>>>>> +
+>>>>> +	mutex_lock(&ctx->maps_mutex);
+>>>>> +	if (ctx->user_map_is_updated) {
+>>>> The hardware register must unconditionally be updated while starting a
+>>>> new context, as a v4l2 m2m supports multi context operations. Otherwise,
+>>>> you may be running with the user mapping used by the previous context.
+>>>>
+>>>> Moreover, the hardware mapping will not be set in case you use the
+>>>> driver as a simple scaler without user mapping, which causes the process
+>>>> to hang as the run does not start and never completes.
+>>>>
+>>>>> +		unsigned int id = ctx->applied_map_id ? 0 : 1;
+>>>>> +
+>>>>> +		dw100_hw_set_mapping(dw_dev, ctx->maps[id].map_dma,
+>>>>> +				     ctx->map_width, ctx->map_height);
+>>>>> +		ctx->applied_map_id = id;
+>>>>> +		ctx->user_map_is_updated = false;
+>>>>> +	}
+>>>>> +	mutex_unlock(&ctx->maps_mutex);
+>>>>> +
+>>>>>     	dw100_hw_enable_irq(dw_dev);
+>>>>>     	dw100_hw_dewarp_start(dw_dev);
+>>>>>     
+>>>> It sounds as this patch requires a collaborative application for running
+>>>> well. All my simple tests failed.
+>>>>
+>>>> You can test a simple scaler/pixfmt conversion operation with v4l2 utils:
+>>>>
+>>>>
+>>>> v4l2-ctl \
+>>>> -d 0 \
+>>>> --set-fmt-video-out width=640,height=480,pixelformat=NV12,field=none \
+>>>> --set-fmt-video width=640,height=480,pixelformat=NV21,field=none \
+>>>> --stream-out-pattern 3 \
+>>>> --set-selection-output\
+>>>> target=crop,top=0,left=0,width=640,height=480,flags= \
+>>>> --stream-count 100 \
+>>>> --stream-mmap \
+>>>> --stream-out-mmap
 
 
