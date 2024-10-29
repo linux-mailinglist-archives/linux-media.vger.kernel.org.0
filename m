@@ -1,684 +1,196 @@
-Return-Path: <linux-media+bounces-20535-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20536-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050199B4F2A
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 17:21:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A0D9B4F69
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 17:35:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 840A51F23C8D
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 16:21:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C99C11C228FA
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 16:35:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0435F1990A8;
-	Tue, 29 Oct 2024 16:21:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE7B719DF64;
+	Tue, 29 Oct 2024 16:35:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nRIB5Wp3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dVO0ccWV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C4B196C7C;
-	Tue, 29 Oct 2024 16:21:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED95E1953BD;
+	Tue, 29 Oct 2024 16:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730218875; cv=none; b=qIy86tnKzXwddAqJauAiekbmBVI5bE6Aa4LUIM9Y49MOP+G2/72w7fVEZ8EqpRaaleFWKw7Dc/WWPPh4owJUqLKmd8xm9Z+IwVJvyHPVOIzaUjfX9Op7/6lOuTly20x1iN+hk/48Mr+uX+IX8jku6tb8uIpLK7u7VZDCT3C1Xv4=
+	t=1730219702; cv=none; b=Z3C/0KUdbBljWqu1pSC9YLYeyef4VfxNxYoGA/9ySCymwoR57Kev5x9Qdv+fg7jTXOJyA7XrkO/zYMlKjg9G+1jYcdm/tUTHrJgipB1Ud/Bk2T//pulzE/k/zdYvLep82pR1f3VoZCHVa2kgSFpms6/vAH3AVeywAdxh8PpHWzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730218875; c=relaxed/simple;
-	bh=hLjy6zAmLNGkHyAnN52pUcE40rdG/NyvpWTGIuvI/WY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CnsLSpGH26oxdspi5yNmokYJIcmyRxfgpXzGOeqbswKhvvdzezhrhxvHW2C8LFdpAWAS1dQzQJ8xa6HZK2EFElLLlK8r7i68qSaaroVTOBrSg21/4b3FYrlgvScWinm9R6AV81Znc6boASdKInK92fzYanwj+tJo3HnpvRYpqMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nRIB5Wp3; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1730219702; c=relaxed/simple;
+	bh=9UFLjkptR6QNpx3fZ3XKEoB+h3bv0CqqhrhXETuwvTY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RdMCtTEsJytmYYKr3eRAhyTQzJztKD96t7WAHAkNgA7RM1PKhNul8PGBhHWH9hMJ08xNSW3Mvyz9vPhQT1DCdvvMxweZdP6HDSGs6ZrtjRdjKo5+3Gca7H4hf2z2L7a8hUWnvTs4BFT5gHwGBLVrgQ2ow19bp/moIEMfivxY80g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dVO0ccWV; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4314fa33a35so53948585e9.1;
-        Tue, 29 Oct 2024 09:21:11 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-37d4b0943c7so3781937f8f.1;
+        Tue, 29 Oct 2024 09:34:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730218870; x=1730823670; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=E9RmhqMTqzi/Ked7hGQ+5N4rvxfm/Rck8IaMTKWakEI=;
-        b=nRIB5Wp3r1qvIfq06UzdsS2jQVXT8jiCLXr2GPYW9EutDwR2h2wCa/wJTX29glxdVh
-         CrHNDUVP6i7CQMc1Hk8UU4bdsF8Ww8V4wqWx67u1t74vvLfO0M1p7ZZueagXFI+1Q7ZG
-         Cct/dZX6KoaU2Y5nQRDgBKInppCFq16lySBUWw4UI4Cn0kObyLfqeygoxb7BHXB28Xdh
-         6O9OastY3UoIoTSmbDUDpqn6VyV7eQhK0TC0zL8VVZOcwwQkx/5uVb4yV1qDn4l3cyNa
-         X4mfxval3Eckoo798dCHQM199sicDhrVgHYpNLslhx/T38usJu8oTqsw7oaUoMLxlRJg
-         RQxg==
+        d=gmail.com; s=20230601; t=1730219698; x=1730824498; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+u5Ty9K6ARrub3VQWTBAHNUC9+t1wfrSDcH0T/9nwt8=;
+        b=dVO0ccWVEAGXEHSrJvqnraQksNIzM83IH+g+NWIMd0BRpEmaxpDNfee3CVIZfwQ8sk
+         O5xCTy99DjZ6kChIawvSGkAIIKiWgjTM52rpkDi8uaoVjrFQ0fN9/vUFJ0kvU+53ld4a
+         RKDiH7R52y4teURUiB04Jt2mtz+Z2Oc90HBULxQRe8E8uwCG9kkzrWHUf9HyGC93kw9V
+         hzcdStrhMhrXUbZkDnYaLw2L9mA9cyNzlRZGu75rDuxIaxTATPeAWa3qTxVfU569AqA+
+         +gjCop/yGdJw5F1bWzS201FbUz0ZEZGB6bL8MiPODnaHjzT1/hW0eKHlklIGUvqSxu2Y
+         dHLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730218870; x=1730823670;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E9RmhqMTqzi/Ked7hGQ+5N4rvxfm/Rck8IaMTKWakEI=;
-        b=Y6plfrPlqegCm4R88TMZy+UhuTOlagzg/SqF1K6rG1VIswbVQlwzX0w3GnUkHEHZjY
-         Z6jj30Gf4odtGck2L7xwgzlsC2SIjPwTrSOsmvLvTDvLDBF7426onBIFyKyXVcaf7gIu
-         P6wuXaj69v/Hq0XwKxgMLE2Ccm/WH6NwgwudNIh8MwMxyHRTgHh8kOX3VIsXYCjerm+b
-         VSeWw3kgnOz2F9AsVnbNll+kZENvQMFeJ/XFJfkbLGS6KoxOUWsie+mm3+SP8O8u0u9S
-         7u2XS+4RM8JEuT5L8e0thpWbzaw6lpJXK7OZ+lQia34y0RHdsh9WWG8ShrW+j7pVxQgF
-         DDYg==
-X-Forwarded-Encrypted: i=1; AJvYcCUm2XCX07pM0AIzM/qvD6uO0vkIbuLqrtVXP2OV3DKEv5D7PrcwhKjcT3MbOuKSyB3nZuWb2jbN4SlTSMQ=@vger.kernel.org, AJvYcCWvoaNnMYKt+0qo1v5NGbaP9YLQmiyqwaccnNpq9v8hw7F5OnoIMc71jtCadf3KKObrKf77B9xmio+O008=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9CTPKnzHyYpZZf8jKYysCWTUbPZHvbKPHPxfEBtW9X45pYq1E
-	xOJdrjFAT7VpK1eKaN3dapOxfzp0glvVCHPYZLAuj7k0C0hIJdJ8
-X-Google-Smtp-Source: AGHT+IG+YTOuN28TRhBwJXIVTBpYl1k1hpSa15Dwx//2gp3lAHsOxUi+o3aEVvfBQnnLFeh340gdCA==
-X-Received: by 2002:a05:600c:1c03:b0:431:51a9:e956 with SMTP id 5b1f17b1804b1-431bb9775c8mr3142005e9.1.1730218869612;
-        Tue, 29 Oct 2024 09:21:09 -0700 (PDT)
-Received: from tom-desktop.station (net-188-217-53-167.cust.vodafonedsl.it. [188.217.53.167])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43193572932sm152468385e9.1.2024.10.29.09.21.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 09:21:09 -0700 (PDT)
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: 
-Cc: sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Martin Hecht <martin.hecht@avnet.eu>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Zhi Mao <zhi.mao@mediatek.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Julien Massot <julien.massot@collabora.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] media: v4l2-subdev: Drop HAS_EVENTS and event handlers
-Date: Tue, 29 Oct 2024 17:21:05 +0100
-Message-Id: <20241029162106.3005800-1-tomm.merciai@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1730219698; x=1730824498;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+u5Ty9K6ARrub3VQWTBAHNUC9+t1wfrSDcH0T/9nwt8=;
+        b=qxm3kY6MzuLU/BMUCxFHi3+u/FcWjEyRKO5MOoAQJAkXulfWimanqxRgWQ0fdmacaa
+         pAJ2t7xUUQMLNmXbf2OT8OLa0uDRdAbX9cANgb737zkRNX5iwO1OTngAkei14+dG6yyr
+         TkO4iVCVYbG7X9JeRqM/vgIeu3nBdnWCPz9L+lzgxyC2xnwCXRWU13aDGySVz/EMVudk
+         bS22MRxKPKvUuhwkyIXGwfYQ99dZ27V8Rf2gHs+0Vja3jvHxKE2dF9OQTS+dLM2iPlXF
+         Vsi9co0+PhBqxyDLrBjCk3tQlK8Ylk2ZEm3jJwCAJSfxV2LGjO7y1Yx/EpEP1law2zsI
+         AvIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBnGe11rFEIm9L/U8ab70so3kzLqpwTsbxWOXmsnbPV7R8tnrmjH1aKzZapT2ZK9bIRF1qGHtwjQ==@vger.kernel.org, AJvYcCUVni0PYtD9YfHkIHKryy9WdrjUPgh/eYDjn4VjHjY1YBWwGfPh7T+iKv4CSzQyNsgpvElUiBPvwe/6wWk=@vger.kernel.org, AJvYcCVsRJ0NHegNHot37QH+4P5bZrPsAPKCD7NVfikpP3MAAC0uVLecmhgjnLTKhUS1kosVk10q7LHp@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfuAXMwKeUhwUBGgVJMNICIPuBhAPAsQq6hiCMAqJQJ/SGLXdi
+	8eI7vD47Hh00f16Q/XrtYO0B8gmtMFzFyyrx8UcCTLTW9tSzccS2
+X-Google-Smtp-Source: AGHT+IFGeVvWfs2GbjjZ9Xw4mTo06zaHYge/2mupAU5QXpyOurso+KUqnM1MIi7YA6r0q9wC6cUBrQ==
+X-Received: by 2002:a5d:5146:0:b0:37d:5496:290c with SMTP id ffacd0b85a97d-380610f255fmr9152980f8f.7.1730219698083;
+        Tue, 29 Oct 2024 09:34:58 -0700 (PDT)
+Received: from [192.168.42.53] ([148.252.132.209])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b7124csm13055685f8f.81.2024.10.29.09.34.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Oct 2024 09:34:57 -0700 (PDT)
+Message-ID: <9a14e132-6a13-4077-973d-b1eca417e563@gmail.com>
+Date: Tue, 29 Oct 2024 16:35:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 02/15] net: generalise net_iov chunk owners
+To: Christoph Hellwig <hch@infradead.org>
+Cc: David Wei <dw@davidwei.uk>, io-uring@vger.kernel.org,
+ netdev@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, David Ahern <dsahern@kernel.org>,
+ Mina Almasry <almasrymina@google.com>,
+ Stanislav Fomichev <stfomichev@gmail.com>, Joe Damato <jdamato@fastly.com>,
+ Pedro Tammela <pctammela@mojatatu.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20241016185252.3746190-1-dw@davidwei.uk>
+ <20241016185252.3746190-3-dw@davidwei.uk> <ZxijxiqNGONin3IY@infradead.org>
+ <264c8f95-2a69-4d49-8af6-d035fa890ef1@gmail.com>
+ <ZxoSBhC6sMEbXQi8@infradead.org>
+ <a6864bf1-dd88-4ae0-bc67-b88bb4c17b44@gmail.com>
+ <ZxpwgLRNsrTBmJEr@infradead.org>
+ <de9ae678-258d-4f68-86e1-59d5eb4b70a4@gmail.com>
+ <Zx9_iYLVnkyE05Hh@infradead.org>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <Zx9_iYLVnkyE05Hh@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-v4l2_subdev_init_finalize() already sets the HAS_EVENTS flag if a
-control handler is set, and subdev_do_ioctl() uses
-v4l2_ctrl_subdev_subscribe_event() and v4l2_event_subdev_unsubscribe()
-as defaults if the subdev doesn't have .(un)subscribe.
-Let's drop the HAS_EVENTS flag and event handlers.
+On 10/28/24 12:11, Christoph Hellwig wrote:
+> On Thu, Oct 24, 2024 at 05:40:02PM +0100, Pavel Begunkov wrote:
+>> On 10/24/24 17:06, Christoph Hellwig wrote:
+>>> On Thu, Oct 24, 2024 at 03:23:06PM +0100, Pavel Begunkov wrote:
+>>>>> That's not what this series does.  It adds the new memory_provider_ops
+>>>>> set of hooks, with once implementation for dmabufs, and one for
+>>>>> io_uring zero copy.
+>>>>
+>>>> First, it's not a _new_ abstraction over a buffer as you called it
+>>>> before, the abstraction (net_iov) is already merged.
+>>>
+>>> Umm, it is a new ops vector.
+>>
+>> I don't understand what you mean. Callback?
+> 
+> struct memory_provider_ops.  It's a method table or ops vetor, no
+> callbacks involved.
 
-Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
----
- drivers/media/i2c/alvium-csi2.c |  5 +----
- drivers/media/i2c/ds90ub953.c   |  5 +----
- drivers/media/i2c/ds90ub960.c   |  5 +----
- drivers/media/i2c/gc0308.c      |  4 ----
- drivers/media/i2c/gc05a2.c      | 10 +---------
- drivers/media/i2c/gc08a3.c      | 10 +---------
- drivers/media/i2c/gc2145.c      | 10 +---------
- drivers/media/i2c/imx219.c      | 10 +---------
- drivers/media/i2c/imx283.c      | 10 +---------
- drivers/media/i2c/imx290.c      | 10 +---------
- drivers/media/i2c/max96714.c    |  6 +-----
- drivers/media/i2c/max96717.c    |  6 +-----
- drivers/media/i2c/ov01a10.c     |  6 +-----
- drivers/media/i2c/ov64a40.c     | 10 +---------
- drivers/media/i2c/ov8858.c      |  9 +--------
- drivers/media/i2c/thp7312.c     |  5 +----
- 16 files changed, 15 insertions(+), 106 deletions(-)
+I see, the reply is about your phrase about additional memory
+abstractions:
 
-diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
-index 5c294e4ad20c..5b66bfac195a 100644
---- a/drivers/media/i2c/alvium-csi2.c
-+++ b/drivers/media/i2c/alvium-csi2.c
-@@ -16,7 +16,6 @@
- #include <media/v4l2-async.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
-@@ -2265,8 +2264,6 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
- 
- static const struct v4l2_subdev_core_ops alvium_core_ops = {
- 	.log_status = alvium_log_status,
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
- };
- 
- static const struct v4l2_subdev_video_ops alvium_video_ops = {
-@@ -2314,7 +2311,7 @@ static int alvium_subdev_init(struct alvium_dev *alvium)
- 	v4l2_i2c_subdev_init(sd, client, &alvium_subdev_ops);
- 
- 	sd->internal_ops = &alvium_internal_ops;
--	sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	alvium->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
-diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
-index 16f88db14981..8b028a84f5bc 100644
---- a/drivers/media/i2c/ds90ub953.c
-+++ b/drivers/media/i2c/ds90ub953.c
-@@ -24,7 +24,6 @@
- 
- #include <media/i2c/ds90ub9xx.h>
- #include <media/v4l2-ctrls.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-mediabus.h>
- #include <media/v4l2-subdev.h>
-@@ -717,8 +716,6 @@ static const struct v4l2_subdev_pad_ops ub953_pad_ops = {
- 
- static const struct v4l2_subdev_core_ops ub953_subdev_core_ops = {
- 	.log_status = ub953_log_status,
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
- };
- 
- static const struct v4l2_subdev_ops ub953_subdev_ops = {
-@@ -1246,7 +1243,7 @@ static int ub953_subdev_init(struct ub953_data *priv)
- 	priv->sd.internal_ops = &ub953_internal_ops;
- 
- 	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			  V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_STREAMS;
-+			  V4L2_SUBDEV_FL_STREAMS;
- 	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
- 	priv->sd.entity.ops = &ub953_entity_ops;
- 
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index 58424d8f72af..33f362a00875 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -48,7 +48,6 @@
- #include <media/i2c/ds90ub9xx.h>
- #include <media/mipi-csi2.h>
- #include <media/v4l2-ctrls.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
-@@ -3085,8 +3084,6 @@ static int ub960_log_status(struct v4l2_subdev *sd)
- 
- static const struct v4l2_subdev_core_ops ub960_subdev_core_ops = {
- 	.log_status = ub960_log_status,
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
- };
- 
- static const struct v4l2_subdev_internal_ops ub960_internal_ops = {
-@@ -3667,7 +3664,7 @@ static int ub960_create_subdev(struct ub960_data *priv)
- 	}
- 
- 	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			  V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_STREAMS;
-+			  V4L2_SUBDEV_FL_STREAMS;
- 	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
- 	priv->sd.entity.ops = &ub960_entity_ops;
- 
-diff --git a/drivers/media/i2c/gc0308.c b/drivers/media/i2c/gc0308.c
-index fa754a8a39a6..069f42785b3c 100644
---- a/drivers/media/i2c/gc0308.c
-+++ b/drivers/media/i2c/gc0308.c
-@@ -18,7 +18,6 @@
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
-@@ -987,8 +986,6 @@ static const struct v4l2_ctrl_ops gc0308_ctrl_ops = {
- 
- static const struct v4l2_subdev_core_ops gc0308_core_ops = {
- 	.log_status = v4l2_ctrl_subdev_log_status,
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
- #ifdef CONFIG_VIDEO_ADV_DEBUG
- 	.g_register	= gc0308_g_register,
- 	.s_register	= gc0308_s_register,
-@@ -1338,7 +1335,6 @@ static int gc0308_probe(struct i2c_client *client)
- 	v4l2_i2c_subdev_init(&gc0308->sd, client, &gc0308_subdev_ops);
- 	gc0308->sd.internal_ops = &gc0308_internal_ops;
- 	gc0308->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
--	gc0308->sd.flags |= V4L2_SUBDEV_FL_HAS_EVENTS;
- 
- 	ret = gc0308_init_controls(gc0308);
- 	if (ret)
-diff --git a/drivers/media/i2c/gc05a2.c b/drivers/media/i2c/gc05a2.c
-index 0413c557e594..3f7f3d5abeeb 100644
---- a/drivers/media/i2c/gc05a2.c
-+++ b/drivers/media/i2c/gc05a2.c
-@@ -24,7 +24,6 @@
- 
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
-@@ -1059,13 +1058,7 @@ static const struct v4l2_subdev_pad_ops gc05a2_subdev_pad_ops = {
- 	.get_selection = gc05a2_get_selection,
- };
- 
--static const struct v4l2_subdev_core_ops gc05a2_core_ops = {
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
--};
--
- static const struct v4l2_subdev_ops gc05a2_subdev_ops = {
--	.core = &gc05a2_core_ops,
- 	.video = &gc05a2_video_ops,
- 	.pad = &gc05a2_subdev_pad_ops,
- };
-@@ -1271,8 +1264,7 @@ static int gc05a2_probe(struct i2c_client *client)
- 		return dev_err_probe(dev, ret,
- 				     "failed to init controls\n");
- 
--	gc05a2->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			    V4L2_SUBDEV_FL_HAS_EVENTS;
-+	gc05a2->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	gc05a2->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	gc05a2->sd.dev = &client->dev;
- 	gc05a2->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-diff --git a/drivers/media/i2c/gc08a3.c b/drivers/media/i2c/gc08a3.c
-index 84de5cff958d..938709a677b6 100644
---- a/drivers/media/i2c/gc08a3.c
-+++ b/drivers/media/i2c/gc08a3.c
-@@ -24,7 +24,6 @@
- 
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
-@@ -1001,13 +1000,7 @@ static const struct v4l2_subdev_pad_ops gc08a3_subdev_pad_ops = {
- 	.get_selection = gc08a3_get_selection,
- };
- 
--static const struct v4l2_subdev_core_ops gc08a3_core_ops = {
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
--};
--
- static const struct v4l2_subdev_ops gc08a3_subdev_ops = {
--	.core = &gc08a3_core_ops,
- 	.video = &gc08a3_video_ops,
- 	.pad = &gc08a3_subdev_pad_ops,
- };
-@@ -1247,8 +1240,7 @@ static int gc08a3_probe(struct i2c_client *client)
- 		goto err_power_off;
- 	}
- 
--	gc08a3->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			    V4L2_SUBDEV_FL_HAS_EVENTS;
-+	gc08a3->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	gc08a3->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	gc08a3->sd.dev = &client->dev;
- 	gc08a3->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-diff --git a/drivers/media/i2c/gc2145.c b/drivers/media/i2c/gc2145.c
-index 667bb756d056..03d78fbe8634 100644
---- a/drivers/media/i2c/gc2145.c
-+++ b/drivers/media/i2c/gc2145.c
-@@ -21,7 +21,6 @@
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-mediabus.h>
- 
-@@ -1123,11 +1122,6 @@ static const u8 test_pattern_val[] = {
- 	GC2145_TEST_UNIFORM | GC2145_TEST_BLACK,
- };
- 
--static const struct v4l2_subdev_core_ops gc2145_core_ops = {
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
--};
--
- static const struct v4l2_subdev_video_ops gc2145_video_ops = {
- 	.s_stream = gc2145_set_stream,
- };
-@@ -1141,7 +1135,6 @@ static const struct v4l2_subdev_pad_ops gc2145_pad_ops = {
- };
- 
- static const struct v4l2_subdev_ops gc2145_subdev_ops = {
--	.core = &gc2145_core_ops,
- 	.video = &gc2145_video_ops,
- 	.pad = &gc2145_pad_ops,
- };
-@@ -1407,8 +1400,7 @@ static int gc2145_probe(struct i2c_client *client)
- 		goto error_power_off;
- 
- 	/* Initialize subdev */
--	gc2145->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			    V4L2_SUBDEV_FL_HAS_EVENTS;
-+	gc2145->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	gc2145->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
- 	/* Initialize source pad */
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index e78a80b2bb2e..2d54cea113e1 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -26,7 +26,6 @@
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-mediabus.h>
- 
-@@ -922,11 +921,6 @@ static int imx219_init_state(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
--static const struct v4l2_subdev_core_ops imx219_core_ops = {
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
--};
--
- static const struct v4l2_subdev_video_ops imx219_video_ops = {
- 	.s_stream = imx219_set_stream,
- };
-@@ -940,7 +934,6 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
- };
- 
- static const struct v4l2_subdev_ops imx219_subdev_ops = {
--	.core = &imx219_core_ops,
- 	.video = &imx219_video_ops,
- 	.pad = &imx219_pad_ops,
- };
-@@ -1166,8 +1159,7 @@ static int imx219_probe(struct i2c_client *client)
- 		goto error_power_off;
- 
- 	/* Initialize subdev */
--	imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			    V4L2_SUBDEV_FL_HAS_EVENTS;
-+	imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
- 	/* Initialize source pad */
-diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
-index 94276f4f2d83..f676faf4b301 100644
---- a/drivers/media/i2c/imx283.c
-+++ b/drivers/media/i2c/imx283.c
-@@ -32,7 +32,6 @@
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-mediabus.h>
- 
-@@ -1284,11 +1283,6 @@ static int imx283_get_selection(struct v4l2_subdev *sd,
- 	}
- }
- 
--static const struct v4l2_subdev_core_ops imx283_core_ops = {
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
--};
--
- static const struct v4l2_subdev_video_ops imx283_video_ops = {
- 	.s_stream = v4l2_subdev_s_stream_helper,
- };
-@@ -1308,7 +1302,6 @@ static const struct v4l2_subdev_internal_ops imx283_internal_ops = {
- };
- 
- static const struct v4l2_subdev_ops imx283_subdev_ops = {
--	.core = &imx283_core_ops,
- 	.video = &imx283_video_ops,
- 	.pad = &imx283_pad_ops,
- };
-@@ -1548,8 +1541,7 @@ static int imx283_probe(struct i2c_client *client)
- 		goto error_pm;
- 
- 	/* Initialize subdev */
--	imx283->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			    V4L2_SUBDEV_FL_HAS_EVENTS;
-+	imx283->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	imx283->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	imx283->sd.internal_ops = &imx283_internal_ops;
- 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 49a5bf9c17da..ee698c99001d 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -24,7 +24,6 @@
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
-@@ -1210,11 +1209,6 @@ static int imx290_entity_init_state(struct v4l2_subdev *subdev,
- 	return 0;
- }
- 
--static const struct v4l2_subdev_core_ops imx290_core_ops = {
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
--};
--
- static const struct v4l2_subdev_video_ops imx290_video_ops = {
- 	.s_stream = imx290_set_stream,
- };
-@@ -1228,7 +1222,6 @@ static const struct v4l2_subdev_pad_ops imx290_pad_ops = {
- };
- 
- static const struct v4l2_subdev_ops imx290_subdev_ops = {
--	.core = &imx290_core_ops,
- 	.video = &imx290_video_ops,
- 	.pad = &imx290_pad_ops,
- };
-@@ -1262,8 +1255,7 @@ static int imx290_subdev_init(struct imx290 *imx290)
- 	pm_runtime_put_autosuspend(imx290->dev);
- 
- 	imx290->sd.internal_ops = &imx290_internal_ops;
--	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			    V4L2_SUBDEV_FL_HAS_EVENTS;
-+	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	imx290->sd.entity.ops = &imx290_subdev_entity_ops;
- 	imx290->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
-diff --git a/drivers/media/i2c/max96714.c b/drivers/media/i2c/max96714.c
-index 2257b6b807ea..159753b13777 100644
---- a/drivers/media/i2c/max96714.c
-+++ b/drivers/media/i2c/max96714.c
-@@ -17,7 +17,6 @@
- 
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
-@@ -489,8 +488,6 @@ static int max96714_log_status(struct v4l2_subdev *sd)
- 
- static const struct v4l2_subdev_core_ops max96714_subdev_core_ops = {
- 	.log_status = max96714_log_status,
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
- };
- 
- static const struct v4l2_subdev_video_ops max96714_video_ops = {
-@@ -605,8 +602,7 @@ static int max96714_create_subdev(struct max96714_priv *priv)
- 		goto err_free_ctrl;
- 	}
- 
--	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			  V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_STREAMS;
-+	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
- 	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
- 	priv->sd.entity.ops = &max96714_entity_ops;
- 
-diff --git a/drivers/media/i2c/max96717.c b/drivers/media/i2c/max96717.c
-index 047bad30e263..9259d58ba734 100644
---- a/drivers/media/i2c/max96717.c
-+++ b/drivers/media/i2c/max96717.c
-@@ -17,7 +17,6 @@
- 
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
-@@ -577,8 +576,6 @@ static const struct v4l2_subdev_pad_ops max96717_pad_ops = {
- 
- static const struct v4l2_subdev_core_ops max96717_subdev_core_ops = {
- 	.log_status = max96717_log_status,
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
- };
- 
- static const struct v4l2_subdev_internal_ops max96717_internal_ops = {
-@@ -692,8 +689,7 @@ static int max96717_subdev_init(struct max96717_priv *priv)
- 		goto err_free_ctrl;
- 	}
- 
--	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			  V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_STREAMS;
-+	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
- 	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
- 	priv->sd.entity.ops = &max96717_entity_ops;
- 
-diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-index 5606437f37d0..a608cb51ac6e 100644
---- a/drivers/media/i2c/ov01a10.c
-+++ b/drivers/media/i2c/ov01a10.c
-@@ -13,7 +13,6 @@
- 
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- 
- #define OV01A10_LINK_FREQ_400MHZ	400000000ULL
-@@ -804,8 +803,6 @@ static int ov01a10_get_selection(struct v4l2_subdev *sd,
- 
- static const struct v4l2_subdev_core_ops ov01a10_core_ops = {
- 	.log_status = v4l2_ctrl_subdev_log_status,
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
- };
- 
- static const struct v4l2_subdev_video_ops ov01a10_video_ops = {
-@@ -892,8 +889,7 @@ static int ov01a10_probe(struct i2c_client *client)
- 	}
- 
- 	ov01a10->sd.state_lock = ov01a10->ctrl_handler.lock;
--	ov01a10->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--		V4L2_SUBDEV_FL_HAS_EVENTS;
-+	ov01a10->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	ov01a10->sd.entity.ops = &ov01a10_subdev_entity_ops;
- 	ov01a10->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ov01a10->pad.flags = MEDIA_PAD_FL_SOURCE;
-diff --git a/drivers/media/i2c/ov64a40.c b/drivers/media/i2c/ov64a40.c
-index 541bf74581d2..a5da4fe47e0b 100644
---- a/drivers/media/i2c/ov64a40.c
-+++ b/drivers/media/i2c/ov64a40.c
-@@ -18,7 +18,6 @@
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-mediabus.h>
- #include <media/v4l2-subdev.h>
-@@ -3200,13 +3199,7 @@ static const struct v4l2_subdev_pad_ops ov64a40_pad_ops = {
- 	.get_selection = ov64a40_get_selection,
- };
- 
--static const struct v4l2_subdev_core_ops ov64a40_core_ops = {
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
--};
--
- static const struct v4l2_subdev_ops ov64a40_subdev_ops = {
--	.core = &ov64a40_core_ops,
- 	.video = &ov64a40_video_ops,
- 	.pad = &ov64a40_pad_ops,
- };
-@@ -3605,8 +3598,7 @@ static int ov64a40_probe(struct i2c_client *client)
- 
- 	/* Initialize subdev */
- 	ov64a40->sd.internal_ops = &ov64a40_internal_ops;
--	ov64a40->sd.flags = V4L2_SUBDEV_FL_HAS_DEVNODE
--			  | V4L2_SUBDEV_FL_HAS_EVENTS;
-+	ov64a40->sd.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	ov64a40->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
- 	ov64a40->pad.flags = MEDIA_PAD_FL_SOURCE;
-diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
-index 174c65f76886..7dcb235d2056 100644
---- a/drivers/media/i2c/ov8858.c
-+++ b/drivers/media/i2c/ov8858.c
-@@ -24,7 +24,6 @@
- #include <media/v4l2-common.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-mediabus.h>
- #include <media/v4l2-subdev.h>
-@@ -1500,13 +1499,7 @@ static const struct v4l2_subdev_pad_ops ov8858_pad_ops = {
- 	.set_fmt = ov8858_set_fmt,
- };
- 
--static const struct v4l2_subdev_core_ops ov8858_core_ops = {
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
--};
--
- static const struct v4l2_subdev_ops ov8858_subdev_ops = {
--	.core	= &ov8858_core_ops,
- 	.video	= &ov8858_video_ops,
- 	.pad	= &ov8858_pad_ops,
- };
-@@ -1917,7 +1910,7 @@ static int ov8858_probe(struct i2c_client *client)
- 		return ret;
- 
- 	sd = &ov8858->subdev;
--	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
-+	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	ov8858->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret = media_entity_pads_init(&sd->entity, 1, &ov8858->pad);
-diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
-index 75225ff5eff6..e2679601a301 100644
---- a/drivers/media/i2c/thp7312.c
-+++ b/drivers/media/i2c/thp7312.c
-@@ -27,7 +27,6 @@
- #include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
--#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
-@@ -879,8 +878,6 @@ static int thp7312_init_state(struct v4l2_subdev *sd,
- 
- static const struct v4l2_subdev_core_ops thp7312_core_ops = {
- 	.log_status = v4l2_ctrl_subdev_log_status,
--	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
--	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
- };
- 
- static const struct v4l2_subdev_video_ops thp7312_video_ops = {
-@@ -2127,7 +2124,7 @@ static int thp7312_probe(struct i2c_client *client)
- 
- 	v4l2_i2c_subdev_init(&thp7312->sd, client, &thp7312_subdev_ops);
- 	thp7312->sd.internal_ops = &thp7312_internal_ops;
--	thp7312->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
-+	thp7312->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	thp7312->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	thp7312->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
+"... don't really need to build memory buffer abstraction over
+memory buffer abstraction."
+
+>> Then please go ahead and take a look at the patchset in question
+>> and see how much of dmabuf handling is there comparing to pure
+>> networking changes. The point that it's a new set of API and lots
+>> of changes not related directly to dmabufs stand. dmabufs is useful
+>> there as an abstraction there, but it's a very long stretch saying
+>> that the series is all about it.
+> 
+> I did take a look, that's why I replied.
+> 
+>>>> on an existing network specific abstraction, which are not restricted to
+>>>> pages or anything specific in the long run, but the flow of which from
+>>>> net stack to user and back is controlled by io_uring. If you worry about
+>>>> abuse, io_uring can't even sanely initialise those buffers itself and
+>>>> therefore asking the page pool code to do that.
+>>>
+>>> No, I worry about trying to io_uring for not good reason. This
+>>
+>> It sounds that the argument is that you just don't want any
+>> io_uring APIs, I don't think you'd be able to help you with
+>> that.
+> 
+> No, that's complete misinterpreting what I'm saying.  Of course an
+> io_uring API is fine.  But tying low-level implementation details to
+> to is not.
+
+It works with low level concepts, i.e. private NIC queues, but it does
+that through well established abstractions (page pool) already extended
+for such cases. There is no directly going into a driver / hardware and
+hard coding queue allocation, some memory injection or anything similar.
+The user api has to embrace the hardware limitations, right, there is no
+way around it without completely changing the approach and performance
+and/or applicability. And queues as first class citizens is not a new
+concept in general.
+
+>>> pre-cludes in-kernel uses which would be extremly useful for
+>>
+>> Uses of what? devmem TCP is merged, I'm not removing it,
+>> and the net_iov abstraction is in there, which can be potentially
+>> be reused by other in-kernel users if that'd even make sense.
+> 
+> How when you are hardcoding io uring memory registrations instead
+> of making them a generic dmabuf?  Which btw would also really help
+
+If you mean internals, making up a dmabuf that has never existed in the
+picture in the first place is not cleaner or easier in any way. If that
+changes, e.g. there is more code to reuse in the future, we can unify it
+then.
+
+If that's about user api, you've just mentioned before that it can be
+pages / user pointers. As to why it goes through io_uring, I explained
+it before, but in short, it gives a better api for io_uring users, we
+can avoid creating a yet another file (netlink socket) and keeping it
+around, that way we don't need to synchronise with the nl socket and/or
+trying to steal memory from it, and the devmem api is also too
+monolithic for such purposes, so even that would need to change, i.e.
+splitting queue and memory registration.
+
+> with pre-registering the memry with the iommu to get good performance
+> in IOMMU-enabled setups.
+
+The page pool already does that just like it handles the normal
+path without providers.
+
 -- 
-2.34.1
-
+Pavel Begunkov
 
