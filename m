@@ -1,309 +1,347 @@
-Return-Path: <linux-media+bounces-20495-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20496-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CEB9B44E8
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 09:52:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8783A9B44EA
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 09:52:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2CCF9B2260E
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 08:52:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 40569283B5C
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 08:52:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DF4B20400D;
-	Tue, 29 Oct 2024 08:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F53203700;
+	Tue, 29 Oct 2024 08:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="i1wtDLMD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZsNSCQjJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010058.outbound.protection.outlook.com [52.101.228.58])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0491DFE3C;
-	Tue, 29 Oct 2024 08:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730191912; cv=fail; b=Cyfl9mLJziqFXuUtfhjwaRZdimWXuSmnHBW8/jIMaDlR8/82XHDb6u3dVWlw0dbmMT3HC3jdwEAcKY2Ss6CKP58SXb9bXOK6Lv34qkjotE98X9hWwOMYKLtFchMYG8cXgeq0Rja8+yLxHAi7TxmtVdJikyRk8AEEyEDCNmokc18=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730191912; c=relaxed/simple;
-	bh=64keAG72pFrpgpzyc2TF9hwCJoCQRf0G+c8Zljx7z8s=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=W/FpwWeDPk+GdUdO5ffO5U7QxGjPRVly6L0tn8etqUnu9AYNgy+M2x/IbKjM6menzvfC6n/Dr5XJ+cTHYCZUubSfckMJDNWZhAwP8GPF8m9npptngHmK9f3okpVU57ZY9Gg2BrKXVcux8i81DpQ9x0oPvpXqOTh1sX8SeARXNto=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=i1wtDLMD; arc=fail smtp.client-ip=52.101.228.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UxKaNw7ByCUOdRdmTCFsmv9REBsfKmhKvXMLzxoC/7ycl0Djjx4QNN/4f+CADgF8bAPE+XgZN1JxC8EbB6Qdf58TX6+N9lSc55o9rSWG6zjE/eB9cIOU1rYp9FgjGCX94m/9JBrVprHvttJfiKuswJZ9i9NfgK28m/W5aUPsgyVwO8ybAf1lCo8Sj2LazKvRBm9OCtZiyO5aPg10nBiNDndk2k4owMkCxTEroS+MgKVOdL3TmWTDyQHtUv+uFT3S46qH7C8Sv9d56P5OIBElYNbYJQmdYOEwWtURJ2DbKhPXZNhUwoZk6jPMAvvcSqgie9NU5aqpglhZUs9waugrAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=64keAG72pFrpgpzyc2TF9hwCJoCQRf0G+c8Zljx7z8s=;
- b=bZdwhYHn9EyMyRnA3VAW7fqlZfdB0TsubTG47TNKu9tWqeharqeTr5sOq0/YBAZWk/3jX6Jl1/qHhAjD7cPq1pOOnsg3Oingd+ocQAmwRFe5CZockWksqh02AwL42lqS7u+a6MA2OQEkAT91w/FyM5ukmuKxeTgTCjDubRRmAmuNVEDjcxMBSHhIx1Tv59iLvuWe3u35fjlAR7DBwLwByx0hvnh9dsRV1B93aFARQ1/M0Fli9wqH1PetbiNox0q9LaRH289nZ3M7B3A9PorL43vErna0/V9G0GRXBRX9RDHeqQ+VtjLJbc0TJKjkO9GxuSbUOtyBtgQmdC4XbJLQDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=64keAG72pFrpgpzyc2TF9hwCJoCQRf0G+c8Zljx7z8s=;
- b=i1wtDLMDekazz/AW5FWLhdRPr3VqQpEirZmOG/jKwQq6NQ0j8YPNY9mDYxfsEsaDMlowO7i079Mz9IlA7xlTTertDi8B9fu92k1XM5OLuJXYDPtzYLkww9lrHg/zHQBuJL1osDOL+kdICf/xZoz1FIAjsGmPl+99jqjyMMGRN70=
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
- by OSRPR01MB11859.jpnprd01.prod.outlook.com (2603:1096:604:235::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.29; Tue, 29 Oct
- 2024 08:51:39 +0000
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::7497:30af:3081:1479]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::7497:30af:3081:1479%7]) with mapi id 15.20.8093.024; Tue, 29 Oct 2024
- 08:51:38 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Liu Ying <victor.liu@nxp.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-CC: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
-	"neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, "rfoss@kernel.org"
-	<rfoss@kernel.org>, laurent.pinchart <laurent.pinchart@ideasonboard.com>,
-	"jonas@kwiboo.se" <jonas@kwiboo.se>, "jernej.skrabec@gmail.com"
-	<jernej.skrabec@gmail.com>, "maarten.lankhorst@linux.intel.com"
-	<maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
-	<mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
-	"airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
-	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"quic_jesszhan@quicinc.com" <quic_jesszhan@quicinc.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "shawnguo@kernel.org" <shawnguo@kernel.org>,
-	"s.hauer@pengutronix.de" <s.hauer@pengutronix.de>, "kernel@pengutronix.de"
-	<kernel@pengutronix.de>, "festevam@gmail.com" <festevam@gmail.com>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org"
-	<will@kernel.org>, "sakari.ailus@linux.intel.com"
-	<sakari.ailus@linux.intel.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
-	"quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>,
-	"geert+renesas@glider.be" <geert+renesas@glider.be>,
-	"dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>, "arnd@arndb.de"
-	<arnd@arndb.de>, "nfraprado@collabora.com" <nfraprado@collabora.com>,
-	"thierry.reding@gmail.com" <thierry.reding@gmail.com>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, "sam@ravnborg.org"
-	<sam@ravnborg.org>, "marex@denx.de" <marex@denx.de>
-Subject: RE: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS
- display common properties
-Thread-Topic: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS
- display common properties
-Thread-Index: AQHbKOKZPN4b66+xp0G7h8Y65TjgzbKdVYDggAAKTwCAAA0QUA==
-Date: Tue, 29 Oct 2024 08:51:38 +0000
-Message-ID:
- <TYCPR01MB11332FF433F4E10E4D0B7FE2B864B2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-References: <20241028023740.19732-1-victor.liu@nxp.com>
- <20241028023740.19732-9-victor.liu@nxp.com>
- <TY3PR01MB11346FDF74840ADF7273A218D864B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <69cfeb75-696e-43c4-ad27-aaf9ad3c6c78@nxp.com>
-In-Reply-To: <69cfeb75-696e-43c4-ad27-aaf9ad3c6c78@nxp.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|OSRPR01MB11859:EE_
-x-ms-office365-filtering-correlation-id: 98aca624-1cd5-4b70-1aef-08dcf7f6e6e4
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?aFV1THZWMWxyNVZZNmVYQlB0Nk82ZzhlVzRtejU2SjhQSmRBOXI0M21FcXA0?=
- =?utf-8?B?dzJLeEwxUFVSNSs2SVpBUERvb0pBVWZqaHgxTVBBdHBJS1RrbFVqaWRQQ2ZB?=
- =?utf-8?B?cWRDNTVxd3dkYXpYTXNnc2VBS0R5SG0ycWpkTFFwOU5DbVlXTVJnblVmZ0hn?=
- =?utf-8?B?eU1HcVptei8yOVgwSXUrZXNkamJXY244ZHZzZ2ZGS2hrYWhDOUlIb1hrWmFE?=
- =?utf-8?B?WDIrU2hiY20xTjlidE9ZaE00UXJVTnZLUXVmRU9RS0picjVtb0t2b2k5cUlH?=
- =?utf-8?B?MjV4bFkvUDg4S1hROEhLK2RMQ0pZT0w0c2JSZHUwTTRYajFtMlpYeXNxSnFK?=
- =?utf-8?B?bGJ6eWlzeWdEOHB5cWpsZDB4UHkyaUJNcEg1Ym9jZUhUc1RubWN0dTZ1U3ls?=
- =?utf-8?B?SUwyRk9SZEVtSnRiNFJvb2FraXViYjVZbzd0S01jWXppSm8wY2xEd2NhNWNG?=
- =?utf-8?B?WDFTa05Qb0RaK2xDQTJaaXVvZzc1dlMvRmY0b0tOZWUwc1pwKzZvTWZnNDcr?=
- =?utf-8?B?Q3hxSWYrOGdHQjhoZEtkNHlTNmFIR2N4QW9OU3Y3QmFSdEZCMGttMkVrUnFz?=
- =?utf-8?B?em93dWNITExHRVJlNDQyb1YwK01IRllvTU5DVTJ5ZlZqMksyL1NJbGpRdENW?=
- =?utf-8?B?eUh1QThaTE4xOHdTdnd2TVd3USszQlR1STU1cWNzVkFFaHRTVnRzWStMcU9p?=
- =?utf-8?B?VURNYjdtbkJCdit0THQ4NjVEMjdGMjJ2MnE0WGo2Zkl5ei85WTljUS9ZUU8y?=
- =?utf-8?B?OHVYQ1psSzV5R2RjZy92UWZVKzQ3OGdObTV6cHo3NUlYeU95UlIrbEdWRVFh?=
- =?utf-8?B?SS81cFd3eGpxU2MxL0p0TGVRY3FnUXZWaWpqV00wdDdTWjlVbTVaY01tdlZn?=
- =?utf-8?B?eFo5ajVSaVBEd2JNR0dGMi9vM0hxVTFmMEtmbXJaWGduZ3QybUVzTnowMDU4?=
- =?utf-8?B?NGZuS2gzM2hlWUJnOUJFVkVGRFNqdmZ5b0xyMmFuWGl2Vk1UWklDU3VURnN6?=
- =?utf-8?B?RWdFM05zY29BTDlVRnorcWQ4WTNOR285QnA5RjVKOWRGV0JUUWJDR2l3R0M1?=
- =?utf-8?B?V09reXhlNmRSV2h2Qm1SdEZuZHBQeHA0bHkxNHNqY1M4Mk9YNTNyenNScXh0?=
- =?utf-8?B?aXBKQWZUTjlHeWFucERPNzNESGNad2NXQ012MFJJWE1zWExheVZlaUoreDQ2?=
- =?utf-8?B?WmJpNEtGL3JLaHVFd2lsQmwxS1ovTkdJaittTDZTQk5Db0VobE5sY1JuNVVV?=
- =?utf-8?B?a2ZzZURib2F3WHJ5ZHpqWk5vS29peERBVEkxYmN4SlUwMnNmQmRVbFZPeC9P?=
- =?utf-8?B?NVpVeXJZRXpkTkVPbW9EMXNYRzBmOTZ4L1A0dU42S09ETTlFU24yMkJkZmwv?=
- =?utf-8?B?WjJRUWdNcFk5RUlLVnJNUDlaQytNTlFLZ0pFbXhmd3dZSFU2dmtEdDhHYXF1?=
- =?utf-8?B?bXZ5ZEpkUE8rUWdGRkNEMEJad3l3MWhRR3VzcXRXWHRqQ2hwOGdrSXZNaVRB?=
- =?utf-8?B?cXM2OS9ETDdjWEpkNHFTVEhENHdFTnJhZlh3bHNSMndySXpaWkVJSXRHb2VH?=
- =?utf-8?B?NlBaamQ3Mnp0cGtVYjg5Qys2SUUxb0M4YjBhSnFBRSs3bVVqVWdCR1M2NHNp?=
- =?utf-8?B?bXdEWW1jajR5RFZrTUIzRm1yMzFkL3RWUk1NTW9LWDFBVWh0UlFZMHRLSzFF?=
- =?utf-8?B?R3dvQmRZL1BOMnREMEgzM0xiK1FQK1ZNMXpFbG5rV3ljVTF6SEtzdzVMVXNh?=
- =?utf-8?Q?8WiSuTAuThXVPIW/au4tMRbwwnurM5CgH/pqUC8?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?NlROVE5KalB4RWVWZkdQaXFmb1NROGZDWi9TZkYzOEpxUjF2OUpqcE1QSmZ6?=
- =?utf-8?B?ZWt1eHgwNXRpZWlFV3B0Zmc3UktaMFlObmR2bGU4L1hZTExmSWJHNEh1VGJu?=
- =?utf-8?B?SDJuNWtsa2pCRGNqeXg5M1FhMmx5MDdqOFA0VDhiTHlWaFlUOW9nOEFzaWRa?=
- =?utf-8?B?bCtUcXhmRUM3YWg0YXoyZ2tvY08vakZaL3Z2OEhUcFp5OGppOTV1aVNaSEt0?=
- =?utf-8?B?QnBCSkZmMWtia0YyQ0J2aHhBSEdVbWlFQmJGU0kyV0xXRVNvaDY0QkREa294?=
- =?utf-8?B?em5GNW1UYkQyVDhQMDlQakxLMVlDb3Q4cHo2TFgzekYwVUVzRVZxOW9uMW93?=
- =?utf-8?B?TWtwRS8yUUNIVE93c1BLV05CWFdWRDlHUjNkenNUbTBCY1ZZOHRCSEdxeUhX?=
- =?utf-8?B?M2ZqZC9wVEQ0U2VSMXord0s5UXJNZVR0NmVNNURrbUQ3UmdRaDN5UU5JR3NQ?=
- =?utf-8?B?QnFOVDBTS1Q5ejlRaGRiOXBCNkR6ZXM2UENEQzVUT1g5cjladEtvdi9ENTNV?=
- =?utf-8?B?VWlidDJOQkwrbENoTFBQeFkvMTRNOC9ac1FzVHdkTFFpRHJweDRJOHcxNHBu?=
- =?utf-8?B?cWtENXhERHpYZGZXYXVLanMwd01PQUlDR3lURFZ1N0RkN3ZiTER5S21jY0xj?=
- =?utf-8?B?MWp4YkQ1VENtZUNJZUNGbndYOUtxTGZhWGFHSDNWRHZQTHhqV0ViNi9BQkdV?=
- =?utf-8?B?WEpsVEpMaXFUamtpclJPYjZ0ZDF6cWhMUjRXc2dyd2R0RkMyR3JmVU9lUFpF?=
- =?utf-8?B?aDF3WHkxZE1XZjN4MUhoOGlDNno4OU9razVNR3g1R0psSkIyTnowNEd0SlhQ?=
- =?utf-8?B?dUdBQlNVYXU1M292V3lXSGpXOHVaWVZwdnpBdmN1QnZXSXYwL3BNTENrRGVD?=
- =?utf-8?B?TWpNM0dyTmg3K1FveFJUekRtWitBVXBtd05iUGhTeWE4Z1dkZ2RYOHozTjVt?=
- =?utf-8?B?eVRsWDhUUnVSMm1FTnpDVkVjTWpUUmZmTTBjMWlFK0RwWmJaQ28rOThwd1RP?=
- =?utf-8?B?NEhzQTdxcW05NUd5T21pVGpRSms2WklZRGpzOVU0ZE5GaDNwZmh1ZHYvSFQx?=
- =?utf-8?B?SndHSXQ3MjY5Y1FiZlRZMXBZMUpvemxLMUp5bFZDY1hVRm9rQ0ZxRkVoV1Nm?=
- =?utf-8?B?WDVMclZNQ3gxN0pxSktBZ1dPYjRSM3NLMTFJL0M5S3MrRmNLMXhsNDhSVHov?=
- =?utf-8?B?cVBIKzc2TVJRWTJ0a3lVSkcyY25wRlFjOEZhQk1DUWIyU1hCdUZKZm42NCs3?=
- =?utf-8?B?N1R3ZjBUeEVmN1JweFdxYmEyZmQ3MGNlN0NIWk9zSmZGd0xybXN5NHg1ZlFi?=
- =?utf-8?B?UkFLd3NTeFowVFVZU2NZTkNjSkdRYnlycnl1cHF0Z0FvNHgxcVZWUFVNbXcw?=
- =?utf-8?B?UXJDdVB1U2xEQTB1NlhGQVVlRkZNSjhiWkNNekZUVnhZMjFLdll4Y3d3M3RF?=
- =?utf-8?B?ZGoyeFU0YU1pSVErZm1Hc3JRREhqaC9ydEtJSElpODhnVW5oRU00eUVaam9p?=
- =?utf-8?B?aHdBUVpBNkRiMzhWd2lEYjNQSjgvRjNhNE5wb1Vockl3YVk2N0FHSXg4Y0FS?=
- =?utf-8?B?Nmx3RTdVRnB1ZXppa0oxTzhKZ3huMXRqbFF2M2xjQmh5ZlViNGxxZ3VUUVRM?=
- =?utf-8?B?TTYxQmtBV3F3Tm8rQ2J1OUF5K3FPd09DUFlhTnh1MVBLZXRCRVM4bkpNTU9E?=
- =?utf-8?B?L1J1WFFaWjlOQndxRXYyRVhBZ1Y3dGhUbmplUktHNEoyUndlRzh0TVkyelFr?=
- =?utf-8?B?N0VtdnljQVlsa1ZSYU5RSUYvejZOZHEyYzR5TlRIU1F2RGNpMEthWEk1UXJ1?=
- =?utf-8?B?NmpCQ0xaZVZPbjlPVXlHMzhDaVh4dmFIZG5FK0gyWUZUNWk2Znl3cFRubXpB?=
- =?utf-8?B?OG9rblUzNzB3Y3R4WE5Mcy8yWXJSVWJGZlMxRkZPSEFSRkJhMzdISitBaUtl?=
- =?utf-8?B?czBsNU1lTUNaUzdZdFZleU12UW8vVXJzSWFqTzZVd1hPYUtlb01GUTIwWkpI?=
- =?utf-8?B?a3haZ2lTeFpxVEtMQkpENXJnaitEZFF5ZjhnRXhGQ0tKTThTZ3IvVHhlTkUy?=
- =?utf-8?B?ZDlpNmx3UmttWnlBNVZVVUhWQ3UySVlaUGkvUThGUVk0MlpnU21FRy95M0h6?=
- =?utf-8?B?clVxVHFHbk9PR2xheVVGQUIxUkdPbGY0ZmFkUUs2eU53RitQLzBqdlhnSWc3?=
- =?utf-8?B?L2c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2CA1DFE3C
+	for <linux-media@vger.kernel.org>; Tue, 29 Oct 2024 08:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730191940; cv=none; b=UCn3fxUE85LyDOkopikV+Hl0VtNwwNCNuN1qjd7mFqDgHgt91KuUHYYDX+1hkHh1UK0ECtZ7k0Lgoih4qXBK+9QGexLhXqbeZMjCQTC7jz0dAHbNAEjXlv/PWOuAAPvMbkFQS3KeyxManVF6HO4mo02sbST4BAgL46U7ujehErs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730191940; c=relaxed/simple;
+	bh=tr1hxXJyPLpClQ8whYiCdklpwSdNa4/yIsApuDPPU6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VMDMYNdfSQ1l9Iv0XRm6LtVERt+F+it4U+lYKg7n2w9hiCHvQMQwIb9BzGy5/+vr7YKERAAtpIxMwjtavOdiXkJ+t77zL3gbQmB1eg9lzAzTNgpRolmC3VN8EWEVhxHXS+lMTFyB1CDj/vlxSNSc7SEJGWzvUSXvK3zpy2KP++M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZsNSCQjJ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-50-182.net.vodafone.it [5.90.50.182])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA1664D4;
+	Tue, 29 Oct 2024 09:52:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730191933;
+	bh=tr1hxXJyPLpClQ8whYiCdklpwSdNa4/yIsApuDPPU6A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZsNSCQjJZQXHMvz1DengVdqjbeYzBNuR0ag9YZxmECdf9jvx69+HJDOHYspSDml1u
+	 RO8xrb37/cZL+mLSI00gSa9uLhL25C994e7FGjjtcrSA2J6rN6StYwujCcXyceGSdg
+	 F/ZgngZM3wcNCw+h8OGpg0PFLj3Yd7IUqjcoR574=
+Date: Tue, 29 Oct 2024 09:52:04 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: RFC: add min_num_buffers and clarify
+ V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+Message-ID: <rwq3qbxuzfbglb5b5nczys33dhc6sezfcsoauna7r2x36uhz7k@akdq4yzjppsn>
+References: <126cd76a-6224-483b-a18d-a3cc89e5ff2d@xs4all.nl>
+ <20241028155244.GK24052@pendragon.ideasonboard.com>
+ <e9ce9b42-ba66-4908-a528-b839272c2ab6@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98aca624-1cd5-4b70-1aef-08dcf7f6e6e4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Oct 2024 08:51:38.7401
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UL3haZHSmaXfU0WRqQNJsKN7MrNkpxyca9vyizOUgIMJIJMvzii1Qfm7sg02HAgU3yiRinZrm6aGFtKyDJQSGVRT7QFfIssdXmhldDrNYkE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11859
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e9ce9b42-ba66-4908-a528-b839272c2ab6@xs4all.nl>
 
-SGkgTGl1IFlpbmcsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogZHJp
-LWRldmVsIDxkcmktZGV2ZWwtYm91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFs
-ZiBPZiBMaXUgWWluZw0KPiBTZW50OiAyOSBPY3RvYmVyIDIwMjQgMDg6MDINCj4gU3ViamVjdDog
-UmU6IFtQQVRDSCB2NCAwOC8xM10gZHQtYmluZGluZ3M6IGRpc3BsYXk6IERvY3VtZW50IGR1YWwt
-bGluayBMVkRTIGRpc3BsYXkgY29tbW9uIHByb3BlcnRpZXMNCj4gDQo+IE9uIDEwLzI5LzIwMjQs
-IEJpanUgRGFzIHdyb3RlOg0KPiA+IEhpIExpdSBZaW5nLA0KPiANCj4gSGkgQmlqdSwNCj4gDQo+
-ID4NCj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogTGl1IFlpbmcg
-PHZpY3Rvci5saXVAbnhwLmNvbT4NCj4gPj4gU2VudDogMjggT2N0b2JlciAyMDI0IDAyOjM4DQo+
-ID4+IFN1YmplY3Q6IFtQQVRDSCB2NCAwOC8xM10gZHQtYmluZGluZ3M6IGRpc3BsYXk6IERvY3Vt
-ZW50IGR1YWwtbGluaw0KPiA+PiBMVkRTIGRpc3BsYXkgY29tbW9uIHByb3BlcnRpZXMNCj4gPj4N
-Cj4gPj4gRHVhbC1saW5rIExWRFMgZGlzcGxheXMgcmVjZWl2ZSBvZGQgcGl4ZWxzIGFuZCBldmVu
-IHBpeGVscyBzZXBhcmF0ZWx5DQo+ID4+IGZyb20gZHVhbCBMVkRTIGxpbmtzLiAgT25lIGxpbmsg
-cmVjZWl2ZXMgb2RkIHBpeGVscyBhbmQgdGhlIG90aGVyDQo+ID4+IHJlY2VpdmVzIGV2ZW4gcGl4
-ZWxzLiAgU29tZSBvZiB0aG9zZSBkaXNwbGF5cyBtYXkgYWxzbyB1c2Ugb25seSBvbmUNCj4gPj4g
-TFZEUyBsaW5rIHRvIHJlY2VpdmUgYWxsIHBpeGVscywgYmVpbmcgb2RkIGFuZCBldmVuIGFnbm9z
-dGljLiAgRG9jdW1lbnQgY29tbW9uIHByb3BlcnRpZXMgZm9yIHRob3NlDQo+IGRpc3BsYXlzIGJ5
-IGV4dGVuZGluZyBMVkRTIGRpc3BsYXkgY29tbW9uIHByb3BlcnRpZXMgZGVmaW5lZCBpbiBsdmRz
-LnlhbWwuDQo+ID4+DQo+ID4+IFN1Z2dlc3RlZC1ieTogRG1pdHJ5IEJhcnlzaGtvdiA8ZG1pdHJ5
-LmJhcnlzaGtvdkBsaW5hcm8ub3JnPg0KPiA+PiBTaWduZWQtb2ZmLWJ5OiBMaXUgWWluZyA8dmlj
-dG9yLmxpdUBueHAuY29tPg0KPiA+PiAtLS0NCj4gPj4gdjQ6DQo+ID4+ICogU3F1YXNoIGNoYW5n
-ZSBmb3IgYWR2YW50ZWNoLGlkay0yMTIxd3IueWFtbCBhbmQNCj4gPj4gICBwYW5lbC1zaW1wbGUt
-bHZkcy1kdWFsLXBvcnRzLnlhbWwgd2l0aCBsdmRzLWR1YWwtcG9ydHMueWFtbC4gIChSb2IpDQo+
-ID4+ICogSW1wcm92ZSBkZXNjcmlwdGlvbiBpbiBsdmRzLWR1YWwtcG9ydHMueWFtbC4gIChLcnp5
-c3p0b2YpDQo+ID4+DQo+ID4+IHYzOg0KPiA+PiAqIE5ldyBwYXRjaC4gIChEbWl0cnkpDQo+ID4+
-DQo+ID4+ICAuLi4vYmluZGluZ3MvZGlzcGxheS9sdmRzLWR1YWwtcG9ydHMueWFtbCAgICAgfCA3
-NiArKysrKysrKysrKysrKysrKysrDQo+ID4+ICAuLi4vZGlzcGxheS9wYW5lbC9hZHZhbnRlY2gs
-aWRrLTIxMjF3ci55YW1sICAgfCAxNCArLS0tDQo+ID4+ICAuLi4vcGFuZWwvcGFuZWwtc2ltcGxl
-LWx2ZHMtZHVhbC1wb3J0cy55YW1sICAgfCAyMCArLS0tLQ0KPiA+PiAgMyBmaWxlcyBjaGFuZ2Vk
-LCA3OCBpbnNlcnRpb25zKCspLCAzMiBkZWxldGlvbnMoLSkgIGNyZWF0ZSBtb2RlDQo+ID4+IDEw
-MDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9sdmRzLWR1YWwt
-cG9ydHMueWFtbA0KPiA+Pg0KPiA+PiBkaWZmIC0tZ2l0DQo+ID4+IGEvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbHZkcy1kdWFsLXBvcnRzLnlhbWwNCj4gPj4gYi9E
-b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9sdmRzLWR1YWwtcG9ydHMu
-eWFtbA0KPiA+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+PiBpbmRleCAwMDAwMDAwMDAwMDAu
-LjVmN2EzMDY0MDQwNA0KPiA+PiAtLS0gL2Rldi9udWxsDQo+ID4+ICsrKyBiL0RvY3VtZW50YXRp
-b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2x2ZHMtZHVhbC1wb3J0cy55YW1sDQo+ID4+
-IEBAIC0wLDAgKzEsNzYgQEANCj4gPj4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwt
-Mi4wLW9ubHkgT1IgQlNELTItQ2xhdXNlKSAlWUFNTCAxLjINCj4gPj4gKy0tLQ0KPiA+PiArJGlk
-OiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9kaXNwbGF5L2x2ZHMtZHVhbC1wb3J0cy55
-YW1sIw0KPiA+PiArJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9j
-b3JlLnlhbWwjDQo+ID4+ICsNCj4gPj4gK3RpdGxlOiBEdWFsLWxpbmsgTFZEUyBEaXNwbGF5IENv
-bW1vbiBQcm9wZXJ0aWVzDQo+ID4+ICsNCj4gPj4gK21haW50YWluZXJzOg0KPiA+PiArICAtIExp
-dSBZaW5nIDx2aWN0b3IubGl1QG54cC5jb20+DQo+ID4+ICsNCj4gPj4gK2Rlc2NyaXB0aW9uOiB8
-DQo+ID4+ICsgIENvbW1vbiBwcm9wZXJ0aWVzIGZvciBMVkRTIGRpc3BsYXlzIHdpdGggZHVhbCBM
-VkRTIGxpbmtzLiBFeHRlbmQNCj4gPj4gK0xWRFMgZGlzcGxheQ0KPiA+PiArICBjb21tb24gcHJv
-cGVydGllcyBkZWZpbmVkIGluIGx2ZHMueWFtbC4NCj4gPj4gKw0KPiA+PiArICBEdWFsLWxpbmsg
-TFZEUyBkaXNwbGF5cyByZWNlaXZlIG9kZCBwaXhlbHMgYW5kIGV2ZW4gcGl4ZWxzDQo+ID4+ICsg
-c2VwYXJhdGVseSBmcm9tICB0aGUgZHVhbCBMVkRTIGxpbmtzLiBPbmUgbGluayByZWNlaXZlcyBv
-ZGQgcGl4ZWxzDQo+ID4+ICsgYW5kIHRoZSBvdGhlciByZWNlaXZlcyAgZXZlbiBwaXhlbHMuIFNv
-bWUgb2YgdGhvc2UgZGlzcGxheXMgbWF5DQo+ID4+ICsgYWxzbyB1c2Ugb25seSBvbmUgTFZEUyBs
-aW5rIHRvICByZWNlaXZlIGFsbCBwaXhlbHMsIGJlaW5nIG9kZCBhbmQgZXZlbiBhZ25vc3RpYy4N
-Cj4gPj4gKw0KPiA+PiArYWxsT2Y6DQo+ID4+ICsgIC0gJHJlZjogbHZkcy55YW1sIw0KPiA+PiAr
-DQo+ID4+ICtwcm9wZXJ0aWVzOg0KPiA+PiArICBwb3J0czoNCj4gPj4gKyAgICAkcmVmOiAvc2No
-ZW1hcy9ncmFwaC55YW1sIy9wcm9wZXJ0aWVzL3BvcnRzDQo+ID4+ICsNCj4gPj4gKyAgICBwcm9w
-ZXJ0aWVzOg0KPiA+PiArICAgICAgcG9ydEAwOg0KPiA+PiArICAgICAgICAkcmVmOiAvc2NoZW1h
-cy9ncmFwaC55YW1sIy8kZGVmcy9wb3J0LWJhc2UNCj4gPj4gKyAgICAgICAgdW5ldmFsdWF0ZWRQ
-cm9wZXJ0aWVzOiBmYWxzZQ0KPiA+PiArICAgICAgICBkZXNjcmlwdGlvbjogdGhlIGZpcnN0IExW
-RFMgaW5wdXQgbGluaw0KPiA+PiArDQo+ID4+ICsgICAgICAgIHByb3BlcnRpZXM6DQo+ID4+ICsg
-ICAgICAgICAgZHVhbC1sdmRzLW9kZC1waXhlbHM6DQo+ID4+ICsgICAgICAgICAgICB0eXBlOiBi
-b29sZWFuDQo+ID4+ICsgICAgICAgICAgICBkZXNjcmlwdGlvbjogdGhlIGZpcnN0IExWRFMgaW5w
-dXQgbGluayBmb3Igb2RkIHBpeGVscw0KPiA+PiArDQo+ID4+ICsgICAgICAgICAgZHVhbC1sdmRz
-LWV2ZW4tcGl4ZWxzOg0KPiA+PiArICAgICAgICAgICAgdHlwZTogYm9vbGVhbg0KPiA+PiArICAg
-ICAgICAgICAgZGVzY3JpcHRpb246IHRoZSBmaXJzdCBMVkRTIGlucHV0IGxpbmsgZm9yIGV2ZW4g
-cGl4ZWxzDQo+ID4NCj4gPg0KPiA+IHBvcnRAMCB3ZSBrbm93IGl0IGlzIGZpcnN0IGxpbmsNCj4g
-PiBwb3J0QDEgd2Uga25vdyBpdCBpcyBzZWNvbmQgbGluay4NCj4gPiBkdWFsLWx2ZHMtb2RkLXBp
-eGVsczogV2Uga25vdyBpdCBpcyBmb3Igb2RkIHBpeGVscy4NCj4gPiBkdWFsLWx2ZHMtZXZlbi1w
-aXhlbHM6IFdlIGtub3cgaXQgaXMgZm9yIG9kZCBwaXhlbHMuDQo+ID4NCj4gPiBOb3Qgc3VyZSwg
-d2hldGhlciB3ZSBjYW4gZ2l2ZSBjb21tb24gZGVzY3JpcHRpb24gYW5kIGF2b2lkIHRoZQ0KPiA+
-IGR1cGxpY2F0ZSBmcm9tIHBvcnRAMSA/Pw0KPiANCj4gWWVzLCBpdCdkIGJldHRlciB0byB1c2Ug
-cGF0dGVyblByb3BlcnRpZXMuIFRoYW5rcy4NCj4gDQo+IC0tODwtLQ0KPiAgICAgcGF0dGVyblBy
-b3BlcnRpZXM6DQo+ICAgICAgICdecG9ydEBbMDFdJCc6DQo+ICAgICAgICAgJHJlZjogL3NjaGVt
-YXMvZ3JhcGgueWFtbCMvJGRlZnMvcG9ydC1iYXNlDQo+ICAgICAgICAgdW5ldmFsdWF0ZWRQcm9w
-ZXJ0aWVzOiBmYWxzZQ0KPiAgICAgICAgIGRlc2NyaXB0aW9uOiB8DQo+ICAgICAgICAgICBwb3J0
-QDAgaXMgZm9yIHRoZSBmaXJzdCBMVkRTIGlucHV0IGxpbmsuDQo+ICAgICAgICAgICBwb3J0QDEg
-aXMgZm9yIHRoZSBzZWNvbmQgTFZEUyBpbnB1dCBsaW5rLg0KPiANCj4gICAgICAgICBwcm9wZXJ0
-aWVzOg0KPiAgICAgICAgICAgZHVhbC1sdmRzLW9kZC1waXhlbHM6DQo+ICAgICAgICAgICAgIHR5
-cGU6IGJvb2xlYW4NCj4gICAgICAgICAgICAgZGVzY3JpcHRpb246IExWRFMgaW5wdXQgbGluayBm
-b3Igb2RkIHBpeGVscw0KPiANCj4gICAgICAgICAgIGR1YWwtbHZkcy1ldmVuLXBpeGVsczoNCj4g
-ICAgICAgICAgICAgdHlwZTogYm9vbGVhbg0KPiAgICAgICAgICAgICBkZXNjcmlwdGlvbjogTFZE
-UyBpbnB1dCBsaW5rIGZvciBldmVuIHBpeGVscw0KPiANCj4gICAgICAgICBvbmVPZjoNCj4gICAg
-ICAgICAgIC0gcmVxdWlyZWQ6IFtkdWFsLWx2ZHMtb2RkLXBpeGVsc10NCj4gICAgICAgICAgIC0g
-cmVxdWlyZWQ6IFtkdWFsLWx2ZHMtZXZlbi1waXhlbHNdDQo+ICAgICAgICAgICAtIHByb3BlcnRp
-ZXM6DQo+ICAgICAgICAgICAgICAgZHVhbC1sdmRzLW9kZC1waXhlbHM6IGZhbHNlDQo+ICAgICAg
-ICAgICAgICAgZHVhbC1sdmRzLWV2ZW4tcGl4ZWxzOiBmYWxzZQ0KPiANCj4gICAgIGFueU9mOg0K
-PiAgICAgICAtIHJlcXVpcmVkOg0KPiAgICAgICAgICAgLSBwb3J0QDANCj4gICAgICAgLSByZXF1
-aXJlZDoNCj4gICAgICAgICAgIC0gcG9ydEAxDQo+IC0tODwtLQ0KPiANCj4gPg0KPiA+DQo+ID4+
-ICsNCj4gPj4gKyAgICAgICAgb25lT2Y6DQo+ID4+ICsgICAgICAgICAgLSByZXF1aXJlZDogW2R1
-YWwtbHZkcy1vZGQtcGl4ZWxzXQ0KPiA+PiArICAgICAgICAgIC0gcmVxdWlyZWQ6IFtkdWFsLWx2
-ZHMtZXZlbi1waXhlbHNdDQo+ID4+ICsgICAgICAgICAgLSBwcm9wZXJ0aWVzOg0KPiA+PiArICAg
-ICAgICAgICAgICBkdWFsLWx2ZHMtb2RkLXBpeGVsczogZmFsc2UNCj4gPj4gKyAgICAgICAgICAg
-ICAgZHVhbC1sdmRzLWV2ZW4tcGl4ZWxzOiBmYWxzZQ0KPiA+DQo+ID4gV2h5IHRoaXMgaXMgZmFs
-c2UgaGVyZT8gb25lT2YgaXMgbm90IHN1ZmZpY2llbnQ/DQo+IA0KPiBUaGUgJ2ZhbHNlJyBpcyB1
-c2VkIHdoZW4gdGhpcyBMVkRTIGxpbmsgd29ya3MgYWxvbmUgYXMgYSBzaW5nbGUgTFZEUyBsaW5r
-LCBiZWluZyBvZGQgYW5kIGV2ZW4NCj4gYWdub3N0aWMuDQo+IA0KPiBUaGUgJ29uZU9mJyBhbGxv
-d3MgYSBMVkRTIGxpbmsgdG8gYmUgZGVmaW5lZCBhcyBhIHNpbmdsZSBMVkRTIGxpbmsgb3Igb25l
-IGxpbmsgb2YgZHVhbCBMVkRTIGxpbmtzLg0KDQpPaywgaXQgbWFrZXMgc2Vuc2UgZm9yIHNpbmds
-ZSBMVkRTIGxpbmsuIE1heWJlIHJlbmFtZSB0aGUgZmlsZSB0byBsdmRzLWR1YWwtcG9ydHMueWFt
-bC0+bHZkcy1wb3J0cy55YW1sDQp0byBtYWtlIGl0IGNsZWFyLCBpdCBpcyBmb3IgYWxsIExWRFMg
-cG9ydHMsIGlmIGl0IGlzIGdvaW5nIHRvIGFkZHJlc3Mgc2luZ2xlIGxpbmsgY2FzZSBhc3dlbGw/
-Pw0KDQpDaGVlcnMsDQpCaWp1DQoNCg==
+Hi Hans
+
+On Tue, Oct 29, 2024 at 09:17:57AM +0100, Hans Verkuil wrote:
+> On 28/10/2024 16:52, Laurent Pinchart wrote:
+> > Hi Hans,
+> >
+> > On Mon, Oct 28, 2024 at 12:10:22PM +0100, Hans Verkuil wrote:
+> >> Hi all,
+> >>
+> >> This mail thread uncovered some corner cases around how many buffers should be allocated
+> >> if VIDIOC_REQBUFS with count = 1 is called:
+> >>
+> >> https://lore.kernel.org/linux-media/20241003-rp1-cfe-v6-0-d6762edd98a8@ideasonboard.com/T/#mc2210597d92b5a0f09fabdac2f7307128aaa9bd8
+> >
+> > I'll repeat below some comments I've made in that thread, as they're
+> > better discussed in the context of this RFC.
+> >
+> >> When it comes to the minimum number of buffers there are a number of limitations:
+> >>
+> >> 1) The DMA engine needs at least N buffers to be queued before it can start. Typically
+> >>    this is 0, 1 or 2, and a driver sets this via the vb2_queue min_queued_buffers field.
+> >>    So if min_queued_buffers = 1, then the DMA engine needs one buffer at all times to
+> >>    DMA to. Allocating just one buffer would mean the DMA engine can never return that
+> >>    buffer to userspace (it would just keep recycling the same buffer over and over), so
+> >>    the minimum must be min_queued_buffers + 1.
+> >
+> > I think you're mixing hardware and driver constraints here. Drivers can
+> > use scratch buffers to relax the hardware requirements, and allow
+> > userspace operation with less buffers than strictly required by the
+> > hardware.
+> >
+> > The cost of allocating such scratch buffers vary depending on the
+> > device. When an IOMMU is available, or when the device has a line stride
+> > that can be set to 0 and supports race-free programming of the stride
+> > and buffer addresses, the scratch buffer can be as small as a single
+> > page or a single line. In other cases, a full-frame scratch buffer is
+> > required, which is costly, and the decision on whether or not to
+> > allocate such a scratch buffer should probably be taken with userspace
+> > being involved.
+>
+> I honestly don't see why you would want to spend a lot of time on adding
+> scratch buffer support just to save a bit of memory. Is the use-case of
+> capturing just a single buffer so common? To me it seems that it only
+> makes sense to spend effort on this if you only need to capture a single
+> buffer and never need to stream more buffers.
+
+I can give you two examples I'm currently working with
+
+- A device with a "viewfinder" device node and a "still capture"
+  capture device. We want to only queue one buffer to the "still
+  capture" capture device when the user requires to (the usual "tap to
+  capture"). Adam which was in cc to my patch for RkISP1 that removes
+  min_queued_buffers was struggling to implement "tap to capture"
+  support in his application has he had to queue 3 buffers before he
+  could capture an image from the "still capture" pipe.
+
+- A resource constrained device that only capture one frame
+  sporadically because it needs to reduce memory pressure and can't
+  allocate a number of buffers that allows it to keep the queued
+  buffers queue populated to sustain high frame rates produced by the
+  sensor
+
+- In libcamera we want the image pipeline to be running even if no
+  buffers are queued to the capture devices at its end. This means
+  that we want statistics to be produced by the ISP and parameters to
+  be consumed even if the frames produced by the ISP are actually
+  discarded to the scratch buffers.
+
+  We want this because we want the algorithms to keep running even if
+  users are queuing capture buffers sporadically, to ensure a smaller as
+  possible recovery period of the 3A algorithms (ideally, there
+  shouldn't be nothing to recover from as the system is 'live' all the
+  time) so we want stats to be generated for every frame produced by
+  the sensor. And we ideally want this from frame#0 without waiting
+  for users to queue a min number buffer to start the pipeline.
+
+I'm sure in robotics/machine vision there are even more advanced use
+cases for capturing single buffers in response to events from the
+external world.
+
+>
+> Can you describe the use-case of capturing just a single buffer? Is that
+> just for testing libcamera? Or is it something that happens all the time
+> during normal libcamera operation?
+>
+> Supporting scratch buffers is a lot of effort for something that is not
+> needed for normal streaming.
+>
+> >
+> > min_queued_buffers describes how the device operates from a userspace
+> > point of view, so I don't think it should be considered or documented as
+> > being a hardware requirement, but a driver requirement.
+>
+> It's a hardware and/or driver requirement. It is absolutely not a userspace
+> requirement. Normal userspace applications that use VIDIOC_REQBUFS and just
+> stream video will never notice this.
+>
+> >
+> >> 2) Historically VIDIOC_REQBUFS is expected to increase the count value to a number that
+> >>    ensures the application can smoothly process the video stream. Typically this will
+> >>    be 3 or 4 (if min_queued_buffers == 2): min_queued_buffers are used by the DMA engine,
+> >>    one buffer is queued up in vb2, ready to be used by the DMA engine as soon as it
+> >>    returns a filled buffer to userspace, and one buffer is processed by userspace.
+> >>
+> >>    This is to support applications that call VIDIOC_REQBUFS with count = 1 and leave it
+> >>    to the driver to increment it to a workable value.
+> >
+> > Do we know what those applications are ? I'm not disputing the fact that
+> > this may need to be supported to avoid breaking old userspace, but I
+> > also think this feature should be phased out for new drivers, especially
+> > drivers that require a device-specific userspace and therefore won't
+> > work out of the box with old applications.
+>
+> xawtv is one: it will call REQBUFS with count = 2 (so this would fail for
+> any driver that sets min_queued_buffers to 2), and with count = 1 if it wants
+> to capture just a single frame.
+>
+> 'git grep min_queued_buffers|grep -v videobuf|wc' gives me 83 places where it is
+> set. Some of those are likely wrong (min_queued_buffers has been abused as a
+> replacement for min_reqbufs_allocation), but still that's quite a lot.
+>
+> Mostly these are older drivers for hardware without an IOMMU and typically for
+> SDTV capture. So memory is not a consideration for those drivers since a
+> SDTV buffer is quite small.
+>
+> >
+> >> 3) Stateful codecs in particular have additional requirements beyond the DMA engine
+> >>    limits due to the fact that they have to keep track of reference buffers and other
+> >>    codec limitations. As such more buffers are needed, and that number might also vary
+> >>    based on the specific codec used. The V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+> >>    controls are used to report that. Support for this is required by the stateful codec
+> >>    API.
+> >>
+> >>    The documentation of these controls suggest that these are generic controls, but
+> >>    as of today they are only used by stateful codec drivers.
+> >>
+> >> 4) Some corner cases (mainly/only SDR, I think) where you need more than the usual
+> >>    3 or 4 buffers since the buffers arrive at a high frequency.
+> >
+> > High frame rates is an important feature, but it's also a can of worms.
+> > V4L2 is lacking the ability to batch multiple frames, we will have to
+> > address that. Hopefully it could be decoupled from this RFC.
+>
+> It's a separate issue indeed. I just mentioned it because I know SDR drivers
+> use this. They are rarely used, though.
+>
+> >
+> >> Rather than have drivers try to correct the count value (typically incorrectly), the
+> >> vb2_queue min_reqbufs_allocation field was added to set the minimum number of
+> >> buffers that VIDIOC_REQBUFS should allocate if count is less than that.
+> >
+> > Even if I dislike this feature, I agree it's better implemented through
+> > min_reqbufs_allocation than by manual calculations in drivers.
+> >
+> >> VIDIOC_CREATE_BUFS is not affected by that: if you use CREATE_BUFS you take full control
+> >> of how many buffers you want to create. It might create fewer buffers if you run out of
+> >> memory, but never more than requested.
+> >>
+> >> But what is missing is that if you use CREATE_BUFS you need to know the value of
+> >> min_queued_buffers + 1, and that is not exposed.
+> >>
+> >> I would propose to add a min_num_buffers field to struct v4l2_create_buffers
+> >> and add a V4L2_BUF_CAP_SUPPORTS_MIN_NUM_BUFFERS flag to signal the presence of
+> >> that field. And vb2 can set it to min_queued_buffers + 1.
+> >
+> > This would require allocating a buffer first to get the value. Wouldn't
+> > a read-only control be better ?
+>
+> No. You can call CREATE_BUFS with count = 0: in that case it does nothing,
+> except filling in all those capabilities. It was designed with that in mind
+> so you have an ioctl that can return all that information.
+>
+> >
+> > Furthermore, I would rather provide the min_queued_buffers value instead
+> > of min_queued_buffers + 1. The V4L2 API should provide userspace with
+> > information it needs to make informed decisions, but not make those
+> > decisions in behalf of userspace. It's up to applications to add 1 or
+> > more buffers depending on their use case.
+>
+> I would definitely want more opinions on this. What's the point of returning
+> min_queued_buffers and then creating that many buffers and still not be able
+> to stream?
+
+There are use cases for memory constrained systems where buffers are
+only queued sporadically. It might come from the requirement of
+allocating less buffers as possible [*] or because processing frames
+takes a longer time and maintaing the buffer queue populated for sustained
+frame-rate operations would require a lot of buffers to be reserved.
+
+In general, we can't predict the use cases in which a driver will be
+used, so informing user-space about the actual requirements without
+trying to hint what they should do seems better to me,
+
+[*] I understand that allocating a full scratch buffer in the driver
+kind of goes in the opposite direction of "not wasting memory" but if
+the DMA engine does not support discarding frames in HW, a single buffer
+in kernel space avoids a larger allocation in user space
+
+>
+> Can you think of a scenario (e.g. in libcamera or elsewhere) where that makes
+> sense?
+>
+> Also, will the average V4L2 user have the knowledge to understand that? You
+> have that knowledge, but I think for anyone else it would be really confusing.
+>
+> >
+> > I think we also need to discuss policies regarding scratch buffer
+> > allocation in the context of this RFC. When the hardware supports small
+> > scratch buffers, I would like to make it mandatory for drivers to do so
+> > and support min_queued_buffers = 0.
+>
+> I would first like to know the use-case (as I mentioned above).
+>
+> For the type of drivers I mostly work with (video receivers), it would just
+> be a lot of work for no gain. But perhaps for camera pipelines it does make
+> sense?
+>
+> > When scratch buffers are expensive, do we want to still support them in
+> > the kernel, perhaps in a way controlled by userspace ? A userspace that
+> > can guarantee it will always provide min_queued_buffers + 1 buffers
+> > could indicate so and avoid scratch buffer allocation, while a userspace
+> > that can't provide that guarantee would get scratch buffers from the
+> > kernel.
+>
+> That is really the difference between using VIDIOC_REQBUFS and VIDIOC_CREATE_BUFS.
+> I.e., userspace can already choose this.
+>
+> Just to clarify the reason for this RFC: the current situation is messy. There
+> is a lot of history and a lot of older drivers do not always do the right thing.
+>
+> With this RFC I would like to get a consensus of how it should work. After that
+> I want to implement any missing bits and improve the documentation, and finally
+> go through the drivers and at least try to make them behave consistently.
+
+my2c: if CREATE_BUFFERS(0) allows to retrieve min_queued_buffers to
+allow userspace make informed decisions about how many buffers to
+allocate to at least get streaming going, I would be happy with such
+API more than with a control.
+
+When it comes to scratch buffers usage, I'm not sure we can enforce it
+as a requirement (or even try to provide some helper in the core for
+drivers) but I defintately see use cases for applicating queueing buffers
+sporadically and for driver being ready to discard frames without
+stalling or delaying the start of the capture pipeline operations.
+
+Thanks
+  j
+
+>
+> Also I want to improve v4l2-compliance to test more corner cases, especially
+> if you use CREATE_BUFS instead of REQBUFS (I already have a patch for that
+> ready).
+>
+> The work Benjamin did on increasing the max number of supported buffers and the
+> REMOVE_BUFS ioctl uncovered a lot of that messy history, and it is clear we need
+> to try and clarify how it should work.
+>
+> >> The second proposal is to explicitly document that the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+> >> are for stateful codec support only, at least for now.
+>
+> I just discovered that v4l2-compliance and v4l2-ctl do not honor these controls
+> for stateful codecs. That's something that needs to be fixed.
+>
+> There is also one other item that I would like to discuss: the vb2 queue_setup
+> callback is currently used for both REQBUFS and CREATE_BUFS, and it remains
+> confusing for drivers how to use it exactly. I am inclined to redesign that
+> part, most likely splitting it in two: either one callback for REQBUFS and one
+> for CREATE_BUFS, or alternatively, one callback when allocating buffers for
+> the first time (so REQBUFS and when CREATE_BUFS is called for the first time,
+> i.e. when no buffers are allocated yet), and one callback when adding additional
+> buffers. I would have to think about this, and probably experiment a bit.
+>
+> Regards,
+>
+> 	Hans
+>
+> >>
+> >> If this is in place, then min_reqbufs_allocation should be set to a sane number of
+> >> buffers (i.e. typically 3 or 4), and if you want precise control, use VIDIOC_CREATE_BUFS.
+> >
+>
+>
 
