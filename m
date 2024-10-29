@@ -1,402 +1,341 @@
-Return-Path: <linux-media+bounces-20501-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20502-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2639B4521
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 09:59:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D7979B4539
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 10:04:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D0212B220F0
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 08:59:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50C641C20E14
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 09:04:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 613A12040BB;
-	Tue, 29 Oct 2024 08:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uIfGsr1x"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B125F204027;
+	Tue, 29 Oct 2024 09:04:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1822040B4;
-	Tue, 29 Oct 2024 08:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576F4201013
+	for <linux-media@vger.kernel.org>; Tue, 29 Oct 2024 09:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730192332; cv=none; b=jFmfE2hAtj6/lNHsQs1EXRJvT52YnneDe5+VdbgmuZ3OXQ3umV35PPxLtZp6SrhBhROrmy0rVlSjvYjHNVNq6afp6wDabpG8nobM8l04zIbvdUv/imL/hjM17qYyX5hv9pTNg1f+xefXMPemm/5ag+EosOs+BIjJ6mlXsxscyIE=
+	t=1730192686; cv=none; b=XUWZZdUF7J1WufEUBCW+P886s6+aVZDTi2jR7YAl0ZQVyBUtF39m5hVI7iXQNz0uzxfR9UpUAnnbiuoW1TiXLJHIS7d1gPD6vN9silfu8cH/x3qFp+eZQI8eexYj9Bx47bvD3tG1Cnx8oB7AdtxxMWWDVWBPs6zcQ3XWSmT/zJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730192332; c=relaxed/simple;
-	bh=Fx+ZSitJDsRhbmKyNtCyWgmJ9SSe+CJOJv/iwxjeeLs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=snFzHg2NWt7uOcaDyCDWKzTWhvbauzeLZrLGTJkQoKqSrCo+PnQN/7uPb2nxoCVgSL9VQkOYqTLE7u2xmjR2a3w5EWyVRTcKUIV8+wvR+CSRW3D/y2nMgxZ5tEPWtTExHPpAydiSkHeuPR7fYIUzqyvCvNJjpAD4l2EqE5LzghA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uIfGsr1x; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:883a:9301:2bb5:b494:2d46:ba69])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 581D94D4;
-	Tue, 29 Oct 2024 09:58:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730192326;
-	bh=Fx+ZSitJDsRhbmKyNtCyWgmJ9SSe+CJOJv/iwxjeeLs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=uIfGsr1xBV5EPygzaYWPkejHx0MzaZdbvqsUKTnHdz/9SfIy7HhG9TAO8zxErGn3n
-	 Nz2znrYg+40uCcg20A/A4lXFJqBXKW4x+Uy4jeWh2A2/5L/PA0k+9Fw2+SZiFLUU0M
-	 UvX3KGB+KsqAG9O9fPcWRJrsKrdOmRsCpwGH5q8k=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Tue, 29 Oct 2024 14:27:37 +0530
-Subject: [PATCH 3/3] media: i2c: imx219: Scale the pixel rate for analog
- binning
+	s=arc-20240116; t=1730192686; c=relaxed/simple;
+	bh=7/jjTPFlVoLEqmLbXMeNEZv8F7o283nwFXXM/veik4E=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=lCWJ/drm0xNSdDM6Hmo6uV5wbUS9G3NIKJnx/gsp/7xtO5R52P+klk8hqlnlOFy7/E54RtOMfNKM2vQ0BoUEsaMZEcmIqqMbuk5/oKVdSvoeGAffWcJ7571mNIIiMLRVudHvTgcmuNyhn0ECDbSGsNDDE2W77apA3Ov7ZOJ3XcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47E4DC4CECD;
+	Tue, 29 Oct 2024 09:04:45 +0000 (UTC)
+Message-ID: <b7b4bf34-ab4a-4676-a279-8c8a5cd3ff42@xs4all.nl>
+Date: Tue, 29 Oct 2024 10:04:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: RFC: add min_num_buffers and clarify
+ V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <126cd76a-6224-483b-a18d-a3cc89e5ff2d@xs4all.nl>
+ <20241028155244.GK24052@pendragon.ideasonboard.com>
+ <e9ce9b42-ba66-4908-a528-b839272c2ab6@xs4all.nl>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <e9ce9b42-ba66-4908-a528-b839272c2ab6@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241029-imx219_fixes-v1-3-b45dc3658b4e@ideasonboard.com>
-References: <20241029-imx219_fixes-v1-0-b45dc3658b4e@ideasonboard.com>
-In-Reply-To: <20241029-imx219_fixes-v1-0-b45dc3658b4e@ideasonboard.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jai Luthra <jai.luthra@ideasonboard.com>, 
- Naushir Patuck <naush@raspberrypi.com>, Vinay Varma <varmavinaym@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9544;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=Fx+ZSitJDsRhbmKyNtCyWgmJ9SSe+CJOJv/iwxjeeLs=;
- b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBnIKOvxiDSE+4uk6EMl1/Qu8IrRbIUZlQ5gdoUK
- FdJnji8XouJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZyCjrwAKCRBD3pH5JJpx
- Rc4gEAC0Pth/HTrLWl3GddonDUmNiN5V6xm4gEZxU5fMIw+jYtCeJfK/JypLwml8hJqOjN/Dxcd
- un6X+Z6VhMIGPHr9mihw7dHGP49wbh+q0GqlUjU4lMuHzE2rv1UUaUMGMXwGGQiEvirxFJUS7/B
- AZAudxbNF8NodhVsGsa+XcsFFMvAC4RYJp4B7u/9FXvYEpHy0Hz14p28LH7q7mQYicx4Eai9bwK
- Pc68rt3TLGGCuM0QxFMcQSr2bSiMWeXGzviR19WlMmeI9iaYh75a82j0sOI+1mCyWM+iiAGceva
- /MDmfK24a+OkVeAQjVZWw4tbpenPNnGBqgoaziGuyDasymF0SJzruf1RAPmp+sSOBqa8llTORGX
- XATRYDaa4HhIXFXtGhqFnp6AW8CnhJu/oenHtrS+DeJI7SToVWbBpQj9SH2MKCbMEtS1k75ccVc
- sgLJ824e4JCBL8tzdgzudI1SsZXahd6eVXbtYgPuWgOSJgUFM6EBy62fr9P8hoWHElQ+7pwlsIC
- bzeU7n3SCr50y9ooRN9nEaNEaMY1USCs9hKdaSjFwQVUo36a/gJTOF6kTWMYmYs8HZT+00q5TSg
- JjO2/XN3uNJa2ek3s3kjmrwJEibwSZkb49Nva2Bj2FM91syYiTroVwAl41hj6pl2Euld8d19+Dk
- yg4hc45lPH47dCA==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-When the analog binning mode is used for high framerate operation,
-the pixel rate is effectively doubled. Account for this when setting up
-the pixel clock rate, and applying the vblank and exposure controls.
+On 29/10/2024 09:17, Hans Verkuil wrote:
+> On 28/10/2024 16:52, Laurent Pinchart wrote:
+>> Hi Hans,
+>>
+>> On Mon, Oct 28, 2024 at 12:10:22PM +0100, Hans Verkuil wrote:
+>>> Hi all,
+>>>
+>>> This mail thread uncovered some corner cases around how many buffers should be allocated
+>>> if VIDIOC_REQBUFS with count = 1 is called:
+>>>
+>>> https://lore.kernel.org/linux-media/20241003-rp1-cfe-v6-0-d6762edd98a8@ideasonboard.com/T/#mc2210597d92b5a0f09fabdac2f7307128aaa9bd8
+>>
+>> I'll repeat below some comments I've made in that thread, as they're
+>> better discussed in the context of this RFC.
+>>
+>>> When it comes to the minimum number of buffers there are a number of limitations:
+>>>
+>>> 1) The DMA engine needs at least N buffers to be queued before it can start. Typically
+>>>    this is 0, 1 or 2, and a driver sets this via the vb2_queue min_queued_buffers field.
+>>>    So if min_queued_buffers = 1, then the DMA engine needs one buffer at all times to
+>>>    DMA to. Allocating just one buffer would mean the DMA engine can never return that
+>>>    buffer to userspace (it would just keep recycling the same buffer over and over), so
+>>>    the minimum must be min_queued_buffers + 1.
+>>
+>> I think you're mixing hardware and driver constraints here. Drivers can
+>> use scratch buffers to relax the hardware requirements, and allow
+>> userspace operation with less buffers than strictly required by the
+>> hardware.
+>>
+>> The cost of allocating such scratch buffers vary depending on the
+>> device. When an IOMMU is available, or when the device has a line stride
+>> that can be set to 0 and supports race-free programming of the stride
+>> and buffer addresses, the scratch buffer can be as small as a single
+>> page or a single line. In other cases, a full-frame scratch buffer is
+>> required, which is costly, and the decision on whether or not to
+>> allocate such a scratch buffer should probably be taken with userspace
+>> being involved.
+> 
+> I honestly don't see why you would want to spend a lot of time on adding
+> scratch buffer support just to save a bit of memory. Is the use-case of
+> capturing just a single buffer so common? To me it seems that it only
+> makes sense to spend effort on this if you only need to capture a single
+> buffer and never need to stream more buffers.
+> 
+> Can you describe the use-case of capturing just a single buffer? Is that
+> just for testing libcamera? Or is it something that happens all the time
+> during normal libcamera operation?
+> 
+> Supporting scratch buffers is a lot of effort for something that is not
+> needed for normal streaming.
+> 
+>>
+>> min_queued_buffers describes how the device operates from a userspace
+>> point of view, so I don't think it should be considered or documented as
+>> being a hardware requirement, but a driver requirement.
+> 
+> It's a hardware and/or driver requirement. It is absolutely not a userspace
+> requirement. Normal userspace applications that use VIDIOC_REQBUFS and just
+> stream video will never notice this.
+> 
+>>
+>>> 2) Historically VIDIOC_REQBUFS is expected to increase the count value to a number that
+>>>    ensures the application can smoothly process the video stream. Typically this will
+>>>    be 3 or 4 (if min_queued_buffers == 2): min_queued_buffers are used by the DMA engine,
+>>>    one buffer is queued up in vb2, ready to be used by the DMA engine as soon as it
+>>>    returns a filled buffer to userspace, and one buffer is processed by userspace.
+>>>
+>>>    This is to support applications that call VIDIOC_REQBUFS with count = 1 and leave it
+>>>    to the driver to increment it to a workable value.
+>>
+>> Do we know what those applications are ? I'm not disputing the fact that
+>> this may need to be supported to avoid breaking old userspace, but I
+>> also think this feature should be phased out for new drivers, especially
+>> drivers that require a device-specific userspace and therefore won't
+>> work out of the box with old applications.
+> 
+> xawtv is one: it will call REQBUFS with count = 2 (so this would fail for
+> any driver that sets min_queued_buffers to 2), and with count = 1 if it wants
+> to capture just a single frame.
+> 
+> 'git grep min_queued_buffers|grep -v videobuf|wc' gives me 83 places where it is
+> set. Some of those are likely wrong (min_queued_buffers has been abused as a
+> replacement for min_reqbufs_allocation), but still that's quite a lot.
+> 
+> Mostly these are older drivers for hardware without an IOMMU and typically for
+> SDTV capture. So memory is not a consideration for those drivers since a
+> SDTV buffer is quite small.
+> 
+>>
+>>> 3) Stateful codecs in particular have additional requirements beyond the DMA engine
+>>>    limits due to the fact that they have to keep track of reference buffers and other
+>>>    codec limitations. As such more buffers are needed, and that number might also vary
+>>>    based on the specific codec used. The V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+>>>    controls are used to report that. Support for this is required by the stateful codec
+>>>    API.
+>>>
+>>>    The documentation of these controls suggest that these are generic controls, but
+>>>    as of today they are only used by stateful codec drivers.
+>>>
+>>> 4) Some corner cases (mainly/only SDR, I think) where you need more than the usual
+>>>    3 or 4 buffers since the buffers arrive at a high frequency.
+>>
+>> High frame rates is an important feature, but it's also a can of worms.
+>> V4L2 is lacking the ability to batch multiple frames, we will have to
+>> address that. Hopefully it could be decoupled from this RFC.
+> 
+> It's a separate issue indeed. I just mentioned it because I know SDR drivers
+> use this. They are rarely used, though.
+> 
+>>
+>>> Rather than have drivers try to correct the count value (typically incorrectly), the
+>>> vb2_queue min_reqbufs_allocation field was added to set the minimum number of
+>>> buffers that VIDIOC_REQBUFS should allocate if count is less than that.
+>>
+>> Even if I dislike this feature, I agree it's better implemented through
+>> min_reqbufs_allocation than by manual calculations in drivers.
+>>
+>>> VIDIOC_CREATE_BUFS is not affected by that: if you use CREATE_BUFS you take full control
+>>> of how many buffers you want to create. It might create fewer buffers if you run out of
+>>> memory, but never more than requested.
+>>>
+>>> But what is missing is that if you use CREATE_BUFS you need to know the value of
+>>> min_queued_buffers + 1, and that is not exposed.
+>>>
+>>> I would propose to add a min_num_buffers field to struct v4l2_create_buffers
+>>> and add a V4L2_BUF_CAP_SUPPORTS_MIN_NUM_BUFFERS flag to signal the presence of
+>>> that field. And vb2 can set it to min_queued_buffers + 1.
+>>
+>> This would require allocating a buffer first to get the value. Wouldn't
+>> a read-only control be better ?
+> 
+> No. You can call CREATE_BUFS with count = 0: in that case it does nothing,
+> except filling in all those capabilities. It was designed with that in mind
+> so you have an ioctl that can return all that information.
+> 
+>>
+>> Furthermore, I would rather provide the min_queued_buffers value instead
+>> of min_queued_buffers + 1. The V4L2 API should provide userspace with
+>> information it needs to make informed decisions, but not make those
+>> decisions in behalf of userspace. It's up to applications to add 1 or
+>> more buffers depending on their use case.
+> 
+> I would definitely want more opinions on this. What's the point of returning
+> min_queued_buffers and then creating that many buffers and still not be able
+> to stream?
+> 
+> Can you think of a scenario (e.g. in libcamera or elsewhere) where that makes
+> sense?
+> 
+> Also, will the average V4L2 user have the knowledge to understand that? You
+> have that knowledge, but I think for anyone else it would be really confusing.
+> 
+>>
+>> I think we also need to discuss policies regarding scratch buffer
+>> allocation in the context of this RFC. When the hardware supports small
+>> scratch buffers, I would like to make it mandatory for drivers to do so
+>> and support min_queued_buffers = 0.
+> 
+> I would first like to know the use-case (as I mentioned above).
+> 
+> For the type of drivers I mostly work with (video receivers), it would just
+> be a lot of work for no gain. But perhaps for camera pipelines it does make
+> sense?
+> 
+>> When scratch buffers are expensive, do we want to still support them in
+>> the kernel, perhaps in a way controlled by userspace ? A userspace that
+>> can guarantee it will always provide min_queued_buffers + 1 buffers
+>> could indicate so and avoid scratch buffer allocation, while a userspace
+>> that can't provide that guarantee would get scratch buffers from the
+>> kernel.
+> 
+> That is really the difference between using VIDIOC_REQBUFS and VIDIOC_CREATE_BUFS.
+> I.e., userspace can already choose this.
+> 
+> Just to clarify the reason for this RFC: the current situation is messy. There
+> is a lot of history and a lot of older drivers do not always do the right thing.
+> 
+> With this RFC I would like to get a consensus of how it should work. After that
+> I want to implement any missing bits and improve the documentation, and finally
+> go through the drivers and at least try to make them behave consistently.
+> 
+> Also I want to improve v4l2-compliance to test more corner cases, especially
+> if you use CREATE_BUFS instead of REQBUFS (I already have a patch for that
+> ready).
+> 
+> The work Benjamin did on increasing the max number of supported buffers and the
+> REMOVE_BUFS ioctl uncovered a lot of that messy history, and it is clear we need
+> to try and clarify how it should work.
+> 
+>>> The second proposal is to explicitly document that the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+>>> are for stateful codec support only, at least for now.
+> 
+> I just discovered that v4l2-compliance and v4l2-ctl do not honor these controls
+> for stateful codecs. That's something that needs to be fixed.
+> 
+> There is also one other item that I would like to discuss: the vb2 queue_setup
+> callback is currently used for both REQBUFS and CREATE_BUFS, and it remains
+> confusing for drivers how to use it exactly. I am inclined to redesign that
+> part, most likely splitting it in two: either one callback for REQBUFS and one
+> for CREATE_BUFS, or alternatively, one callback when allocating buffers for
+> the first time (so REQBUFS and when CREATE_BUFS is called for the first time,
+> i.e. when no buffers are allocated yet), and one callback when adding additional
+> buffers. I would have to think about this, and probably experiment a bit.
 
-The previous logic only used analog binning for 8-bit modes, but normal
-binning limits the framerate on 10-bit 480p [1]. So with this patch we
-switch to using special binning (with 2x pixel rate) for all formats of
-480p mode and 8-bit 1232p.
+Actually, this really has to be addressed since this is broken: you can call
+CREATE_BUFS as a replacement for REQBUFS, but it will act like REQBUFS and
+the requested sizes are not honored.
 
-To do this cleanly, re-introduce the book-keeping for which binning mode
-is used with which resolution/format.
+I added tests for this to v4l2-compliance (locally only), and it fails on
+everything.
 
-[1]: https://github.com/raspberrypi/linux/issues/5493
+It should not be news to anyone that I hate the CREATE_BUFS ioctl API. I posted
+an RFC for a VIDIOC_ADD_BUFS replacement earlier this year:
 
-Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
-Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-Co-developed-by: Vinay Varma <varmavinaym@gmail.com>
-Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- drivers/media/i2c/imx219.c | 149 ++++++++++++++++++++++++++++++++-------------
- 1 file changed, 106 insertions(+), 43 deletions(-)
+https://lore.kernel.org/linux-media/243a66ad-6dff-4a43-ab03-e01d1038fe8a@xs4all.nl/
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index de9230d4ad81f085640be254db9391ae7ad20773..140d958f80eb57dfb4ecf1796fcdf77081a662d7 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -149,6 +149,18 @@
- #define IMX219_PIXEL_ARRAY_WIDTH	3280U
- #define IMX219_PIXEL_ARRAY_HEIGHT	2464U
- 
-+enum binning_mode {
-+	BINNING_NONE,
-+	BINNING_X2,
-+	BINNING_ANALOG_X2,
-+};
-+
-+enum binning_bit_depths {
-+	BINNING_IDX_8_BIT,
-+	BINNING_IDX_10_BIT,
-+	BINNING_IDX_MAX
-+};
-+
- /* Mode : resolution and related config&values */
- struct imx219_mode {
- 	/* Frame width */
-@@ -158,6 +170,9 @@ struct imx219_mode {
- 
- 	/* V-timing */
- 	unsigned int vts_def;
-+
-+	/* binning mode based on format code */
-+	enum binning_mode binning[BINNING_IDX_MAX];
- };
- 
- static const struct cci_reg_sequence imx219_common_regs[] = {
-@@ -293,24 +308,40 @@ static const struct imx219_mode supported_modes[] = {
- 		.width = 3280,
- 		.height = 2464,
- 		.vts_def = 3526,
-+		.binning = {
-+			[BINNING_IDX_8_BIT] = BINNING_NONE,
-+			[BINNING_IDX_10_BIT] = BINNING_NONE,
-+		},
- 	},
- 	{
- 		/* 1080P 30fps cropped */
- 		.width = 1920,
- 		.height = 1080,
- 		.vts_def = 1763,
-+		.binning = {
-+			[BINNING_IDX_8_BIT] = BINNING_NONE,
-+			[BINNING_IDX_10_BIT] = BINNING_NONE,
-+		},
- 	},
- 	{
- 		/* 2x2 binned 30fps mode */
- 		.width = 1640,
- 		.height = 1232,
- 		.vts_def = 1763,
-+		.binning = {
-+			[BINNING_IDX_8_BIT] = BINNING_ANALOG_X2,
-+			[BINNING_IDX_10_BIT] = BINNING_X2,
-+		},
- 	},
- 	{
- 		/* 640x480 30fps mode */
- 		.width = 640,
- 		.height = 480,
- 		.vts_def = 1763,
-+		.binning = {
-+			[BINNING_IDX_8_BIT] = BINNING_ANALOG_X2,
-+			[BINNING_IDX_10_BIT] = BINNING_ANALOG_X2,
-+		},
- 	},
- };
- 
-@@ -337,6 +368,9 @@ struct imx219 {
- 
- 	/* Two or Four lanes */
- 	u8 lanes;
-+
-+	/* Binning mode */
-+	enum binning_mode binning;
- };
- 
- static inline struct imx219 *to_imx219(struct v4l2_subdev *_sd)
-@@ -362,6 +396,36 @@ static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
- 	return imx219_mbus_formats[i];
- }
- 
-+static u32 imx219_get_format_bpp(const struct v4l2_mbus_framefmt *format)
-+{
-+	switch (format->code) {
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+		return 8;
-+
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	default:
-+		return 10;
-+	}
-+}
-+
-+static int imx219_get_rate_factor(struct imx219 *imx219)
-+{
-+	switch (imx219->binning) {
-+	case BINNING_NONE:
-+	case BINNING_X2:
-+		return 1;
-+	case BINNING_ANALOG_X2:
-+		return 2;
-+	}
-+	return -EINVAL;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Controls
-  */
-@@ -373,10 +437,12 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
- 	const struct v4l2_mbus_framefmt *format;
- 	struct v4l2_subdev_state *state;
-+	int rate_factor;
- 	int ret = 0;
- 
- 	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
- 	format = v4l2_subdev_state_get_format(state, 0);
-+	rate_factor = imx219_get_rate_factor(imx219);
- 
- 	if (ctrl->id == V4L2_CID_VBLANK) {
- 		int exposure_max, exposure_def;
-@@ -405,7 +471,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_EXPOSURE:
- 		cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
--			  ctrl->val, &ret);
-+			  ctrl->val / rate_factor, &ret);
- 		break;
- 	case V4L2_CID_DIGITAL_GAIN:
- 		cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-@@ -422,7 +488,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_VBLANK:
- 		cci_write(imx219->regmap, IMX219_REG_VTS,
--			  format->height + ctrl->val, &ret);
-+			  (format->height + ctrl->val) / rate_factor, &ret);
- 		break;
- 	case V4L2_CID_HBLANK:
- 		cci_write(imx219->regmap, IMX219_REG_HTS,
-@@ -463,7 +529,8 @@ static const struct v4l2_ctrl_ops imx219_ctrl_ops = {
- 
- static unsigned long imx219_get_pixel_rate(struct imx219 *imx219)
- {
--	return (imx219->lanes == 2) ? IMX219_PIXEL_RATE : IMX219_PIXEL_RATE_4LANE;
-+	return ((imx219->lanes == 2) ? IMX219_PIXEL_RATE :
-+		IMX219_PIXEL_RATE_4LANE) * imx219_get_rate_factor(imx219);
- }
- 
- /* Initialize control handlers */
-@@ -473,7 +540,7 @@ static int imx219_init_controls(struct imx219 *imx219)
- 	const struct imx219_mode *mode = &supported_modes[0];
- 	struct v4l2_ctrl_handler *ctrl_hdlr;
- 	struct v4l2_fwnode_device_properties props;
--	int exposure_max, exposure_def, hblank;
-+	int exposure_max, exposure_def, hblank, pixel_rate;
- 	int i, ret;
- 
- 	ctrl_hdlr = &imx219->ctrl_handler;
-@@ -482,11 +549,11 @@ static int imx219_init_controls(struct imx219 *imx219)
- 		return ret;
- 
- 	/* By default, PIXEL_RATE is read only */
-+	pixel_rate = imx219_get_pixel_rate(imx219);
- 	imx219->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
- 					       V4L2_CID_PIXEL_RATE,
--					       imx219_get_pixel_rate(imx219),
--					       imx219_get_pixel_rate(imx219), 1,
--					       imx219_get_pixel_rate(imx219));
-+					       pixel_rate, pixel_rate, 1,
-+					       pixel_rate);
- 
- 	imx219->link_freq =
- 		v4l2_ctrl_new_int_menu(ctrl_hdlr, &imx219_ctrl_ops,
-@@ -593,29 +660,13 @@ static int imx219_set_framefmt(struct imx219 *imx219,
- {
- 	const struct v4l2_mbus_framefmt *format;
- 	const struct v4l2_rect *crop;
--	unsigned int bpp;
--	u64 bin_h, bin_v;
-+	u64 binning;
-+	u32 bpp;
- 	int ret = 0;
- 
- 	format = v4l2_subdev_state_get_format(state, 0);
- 	crop = v4l2_subdev_state_get_crop(state, 0);
--
--	switch (format->code) {
--	case MEDIA_BUS_FMT_SRGGB8_1X8:
--	case MEDIA_BUS_FMT_SGRBG8_1X8:
--	case MEDIA_BUS_FMT_SGBRG8_1X8:
--	case MEDIA_BUS_FMT_SBGGR8_1X8:
--		bpp = 8;
--		break;
--
--	case MEDIA_BUS_FMT_SRGGB10_1X10:
--	case MEDIA_BUS_FMT_SGRBG10_1X10:
--	case MEDIA_BUS_FMT_SGBRG10_1X10:
--	case MEDIA_BUS_FMT_SBGGR10_1X10:
--	default:
--		bpp = 10;
--		break;
--	}
-+	bpp = imx219_get_format_bpp(format);
- 
- 	cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
- 		  crop->left - IMX219_PIXEL_ARRAY_LEFT, &ret);
-@@ -626,28 +677,20 @@ static int imx219_set_framefmt(struct imx219 *imx219,
- 	cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
- 		  crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
- 
--	switch (crop->width / format->width) {
--	case 1:
--	default:
--		bin_h = IMX219_BINNING_NONE;
-+	switch (imx219->binning) {
-+	case BINNING_NONE:
-+		binning = IMX219_BINNING_NONE;
- 		break;
--	case 2:
--		bin_h = bpp == 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
--		break;
--	}
--
--	switch (crop->height / format->height) {
--	case 1:
--	default:
--		bin_v = IMX219_BINNING_NONE;
-+	case BINNING_X2:
-+		binning = IMX219_BINNING_X2;
- 		break;
--	case 2:
--		bin_v = bpp == 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
-+	case BINNING_ANALOG_X2:
-+		binning = IMX219_BINNING_X2_ANALOG;
- 		break;
- 	}
- 
--	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, bin_h, &ret);
--	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, bin_v, &ret);
-+	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, binning, &ret);
-+	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, binning, &ret);
- 
- 	cci_write(imx219->regmap, IMX219_REG_X_OUTPUT_SIZE,
- 		  format->width, &ret);
-@@ -851,6 +894,21 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 		int exposure_max;
- 		int exposure_def;
- 		int hblank;
-+		int pixel_rate;
-+
-+		/* Update binning mode based on format */
-+		switch (imx219_get_format_bpp(format)) {
-+		case 8:
-+			imx219->binning = mode->binning[BINNING_IDX_8_BIT];
-+			break;
-+
-+		case 10:
-+			imx219->binning = mode->binning[BINNING_IDX_10_BIT];
-+			break;
-+
-+		default:
-+			imx219->binning = BINNING_NONE;
-+		}
- 
- 		/* Update limits and set FPS to default */
- 		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-@@ -879,6 +937,11 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 					 IMX219_PPL_MAX - mode->width,
- 					 1, IMX219_PPL_MIN - mode->width);
- 		__v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
-+
-+		/* Scale the pixel rate based on the mode specific factor */
-+		pixel_rate = imx219_get_pixel_rate(imx219);
-+		__v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
-+					 pixel_rate, 1, pixel_rate);
- 	}
- 
- 	return 0;
+I wonder if we should restrict CREATE_BUFS to only be used after calling
+REQBUFS, and to a proper job for ADD_BUFS. Because given the vb2 design flaw
+I am not sure if it can be worked around. Or if we even want that.
 
--- 
-2.47.0
+What a mess.
+
+Looking at the kernel history, CREATE_BUFS was added back in 2011 and the first
+very simple v4l2-compliance tests were added in 2012.
+
+Moral: whenever a new uAPI is added, make sure it you make really good compliance
+tests as well.
+
+Regards,
+
+	Hans
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>>
+>>> If this is in place, then min_reqbufs_allocation should be set to a sane number of
+>>> buffers (i.e. typically 3 or 4), and if you want precise control, use VIDIOC_CREATE_BUFS.
+>>
+> 
+> 
 
 
