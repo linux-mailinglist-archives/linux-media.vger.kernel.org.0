@@ -1,74 +1,48 @@
-Return-Path: <linux-media+bounces-20536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20537-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A0D9B4F69
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 17:35:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0942B9B4FB4
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 17:46:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C99C11C228FA
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 16:35:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B05C1C22779
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 16:46:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE7B719DF64;
-	Tue, 29 Oct 2024 16:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE2AC19A2A3;
+	Tue, 29 Oct 2024 16:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dVO0ccWV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mu7wff6t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED95E1953BD;
-	Tue, 29 Oct 2024 16:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DC97DA81;
+	Tue, 29 Oct 2024 16:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730219702; cv=none; b=Z3C/0KUdbBljWqu1pSC9YLYeyef4VfxNxYoGA/9ySCymwoR57Kev5x9Qdv+fg7jTXOJyA7XrkO/zYMlKjg9G+1jYcdm/tUTHrJgipB1Ud/Bk2T//pulzE/k/zdYvLep82pR1f3VoZCHVa2kgSFpms6/vAH3AVeywAdxh8PpHWzI=
+	t=1730220390; cv=none; b=YVJemCCs5simi06J6CoS/KgeSSbVs7zD2nCOoFzrQpY0hwedx1K6KesCbSycr0/O3dhyDFZHq6CABgua3VrN80lOYsVoh9blJmbXwPnHujUzOwhmu7EI0LYCbtyZhDiAPcV71lZbnZfTthZKw/s3sSMifAoQDaM4BHtt7osvF54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730219702; c=relaxed/simple;
-	bh=9UFLjkptR6QNpx3fZ3XKEoB+h3bv0CqqhrhXETuwvTY=;
+	s=arc-20240116; t=1730220390; c=relaxed/simple;
+	bh=b41XytSw7jgGrP05qeCfH6JsjRkxNuESZWFunT0/lFs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RdMCtTEsJytmYYKr3eRAhyTQzJztKD96t7WAHAkNgA7RM1PKhNul8PGBhHWH9hMJ08xNSW3Mvyz9vPhQT1DCdvvMxweZdP6HDSGs6ZrtjRdjKo5+3Gca7H4hf2z2L7a8hUWnvTs4BFT5gHwGBLVrgQ2ow19bp/moIEMfivxY80g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dVO0ccWV; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-37d4b0943c7so3781937f8f.1;
-        Tue, 29 Oct 2024 09:34:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730219698; x=1730824498; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+u5Ty9K6ARrub3VQWTBAHNUC9+t1wfrSDcH0T/9nwt8=;
-        b=dVO0ccWVEAGXEHSrJvqnraQksNIzM83IH+g+NWIMd0BRpEmaxpDNfee3CVIZfwQ8sk
-         O5xCTy99DjZ6kChIawvSGkAIIKiWgjTM52rpkDi8uaoVjrFQ0fN9/vUFJ0kvU+53ld4a
-         RKDiH7R52y4teURUiB04Jt2mtz+Z2Oc90HBULxQRe8E8uwCG9kkzrWHUf9HyGC93kw9V
-         hzcdStrhMhrXUbZkDnYaLw2L9mA9cyNzlRZGu75rDuxIaxTATPeAWa3qTxVfU569AqA+
-         +gjCop/yGdJw5F1bWzS201FbUz0ZEZGB6bL8MiPODnaHjzT1/hW0eKHlklIGUvqSxu2Y
-         dHLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730219698; x=1730824498;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+u5Ty9K6ARrub3VQWTBAHNUC9+t1wfrSDcH0T/9nwt8=;
-        b=qxm3kY6MzuLU/BMUCxFHi3+u/FcWjEyRKO5MOoAQJAkXulfWimanqxRgWQ0fdmacaa
-         pAJ2t7xUUQMLNmXbf2OT8OLa0uDRdAbX9cANgb737zkRNX5iwO1OTngAkei14+dG6yyr
-         TkO4iVCVYbG7X9JeRqM/vgIeu3nBdnWCPz9L+lzgxyC2xnwCXRWU13aDGySVz/EMVudk
-         bS22MRxKPKvUuhwkyIXGwfYQ99dZ27V8Rf2gHs+0Vja3jvHxKE2dF9OQTS+dLM2iPlXF
-         Vsi9co0+PhBqxyDLrBjCk3tQlK8Ylk2ZEm3jJwCAJSfxV2LGjO7y1Yx/EpEP1law2zsI
-         AvIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBnGe11rFEIm9L/U8ab70so3kzLqpwTsbxWOXmsnbPV7R8tnrmjH1aKzZapT2ZK9bIRF1qGHtwjQ==@vger.kernel.org, AJvYcCUVni0PYtD9YfHkIHKryy9WdrjUPgh/eYDjn4VjHjY1YBWwGfPh7T+iKv4CSzQyNsgpvElUiBPvwe/6wWk=@vger.kernel.org, AJvYcCVsRJ0NHegNHot37QH+4P5bZrPsAPKCD7NVfikpP3MAAC0uVLecmhgjnLTKhUS1kosVk10q7LHp@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfuAXMwKeUhwUBGgVJMNICIPuBhAPAsQq6hiCMAqJQJ/SGLXdi
-	8eI7vD47Hh00f16Q/XrtYO0B8gmtMFzFyyrx8UcCTLTW9tSzccS2
-X-Google-Smtp-Source: AGHT+IFGeVvWfs2GbjjZ9Xw4mTo06zaHYge/2mupAU5QXpyOurso+KUqnM1MIi7YA6r0q9wC6cUBrQ==
-X-Received: by 2002:a5d:5146:0:b0:37d:5496:290c with SMTP id ffacd0b85a97d-380610f255fmr9152980f8f.7.1730219698083;
-        Tue, 29 Oct 2024 09:34:58 -0700 (PDT)
-Received: from [192.168.42.53] ([148.252.132.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b7124csm13055685f8f.81.2024.10.29.09.34.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Oct 2024 09:34:57 -0700 (PDT)
-Message-ID: <9a14e132-6a13-4077-973d-b1eca417e563@gmail.com>
-Date: Tue, 29 Oct 2024 16:35:16 +0000
+	 In-Reply-To:Content-Type; b=nMHZhzUqdY9qmNfEjJkahtd/hQ2tytxZ5c/lCU6vsPB94M4aWOkUfWmUb26dQdfMjlfmlyrHPsd8g/+VWoTKUiqrFc+IJerZek1XMv+vyxfElauG0Wm4ryh7e1Qi0rqjWrIamkbhOUYzbpXRvhm7Gf/DZbgvXKdgwGz17tGR5EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mu7wff6t; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 063AEC4CEE4;
+	Tue, 29 Oct 2024 16:46:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730220389;
+	bh=b41XytSw7jgGrP05qeCfH6JsjRkxNuESZWFunT0/lFs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Mu7wff6tkrBubJkvbkZi9m8nYxswKX4Wkq6cSid1VKave7nmQJPWky/782gh8+nMr
+	 9ArYWJwK3VbjOgCbiQUwZL2UXmzJ45F+G+/BE6ENOgvR6CVKVd7JPwVMnqdrnVjR4h
+	 1S5TkQWkB6+1KWUYE+HlODMZM3bx0DKYgrf7qInsby80Ht49A7xhd5I6XpV+KKB3ek
+	 EU+ZNg1nE33MAxSfJ2ZQu3y6pxjWkNNbCIuRhHaRUbgTKLR1L+PPP5eX0uMDvz0uCQ
+	 Z1uEVf/5C8ti9KPRxEv/3uyDb3nCBUEc05LdEIK1wgL3PkRvaS25mOgv0SY298QUEF
+	 lu+40Z9RRkt3g==
+Message-ID: <817ea954-0705-44f1-b2a5-a11d089f7bcd@kernel.org>
+Date: Tue, 29 Oct 2024 17:46:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,121 +50,92 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 02/15] net: generalise net_iov chunk owners
-To: Christoph Hellwig <hch@infradead.org>
-Cc: David Wei <dw@davidwei.uk>, io-uring@vger.kernel.org,
- netdev@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, David Ahern <dsahern@kernel.org>,
- Mina Almasry <almasrymina@google.com>,
- Stanislav Fomichev <stfomichev@gmail.com>, Joe Damato <jdamato@fastly.com>,
- Pedro Tammela <pctammela@mojatatu.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20241016185252.3746190-1-dw@davidwei.uk>
- <20241016185252.3746190-3-dw@davidwei.uk> <ZxijxiqNGONin3IY@infradead.org>
- <264c8f95-2a69-4d49-8af6-d035fa890ef1@gmail.com>
- <ZxoSBhC6sMEbXQi8@infradead.org>
- <a6864bf1-dd88-4ae0-bc67-b88bb4c17b44@gmail.com>
- <ZxpwgLRNsrTBmJEr@infradead.org>
- <de9ae678-258d-4f68-86e1-59d5eb4b70a4@gmail.com>
- <Zx9_iYLVnkyE05Hh@infradead.org>
+Subject: Re: [EXT] Re: [PATCH 4/5] dt-bindings: media: i2c: Update bindings
+ for OX05B1S with OS08A20
+To: Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, laurentiu.palcu@nxp.com,
+ robert.chiras@nxp.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ LnxRevLi@nxp.com, kieran.bingham@ideasonboard.com, hdegoede@redhat.com,
+ dave.stevenson@raspberrypi.com, mike.rudenko@gmail.com,
+ alain.volmat@foss.st.com, julien.vuillaumier@nxp.com, alice.yuan@nxp.com
+References: <20241028190628.257249-1-mirela.rabulea@nxp.com>
+ <20241028190628.257249-5-mirela.rabulea@nxp.com>
+ <f4155f41-7267-423f-ad23-e7f0b24c650f@kernel.org>
+ <5239f68d-ace8-4262-936a-8bf9b17680cf@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <Zx9_iYLVnkyE05Hh@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <5239f68d-ace8-4262-936a-8bf9b17680cf@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/28/24 12:11, Christoph Hellwig wrote:
-> On Thu, Oct 24, 2024 at 05:40:02PM +0100, Pavel Begunkov wrote:
->> On 10/24/24 17:06, Christoph Hellwig wrote:
->>> On Thu, Oct 24, 2024 at 03:23:06PM +0100, Pavel Begunkov wrote:
->>>>> That's not what this series does.  It adds the new memory_provider_ops
->>>>> set of hooks, with once implementation for dmabufs, and one for
->>>>> io_uring zero copy.
->>>>
->>>> First, it's not a _new_ abstraction over a buffer as you called it
->>>> before, the abstraction (net_iov) is already merged.
+On 29/10/2024 15:02, Mirela Rabulea wrote:
+> 
+> On 29.10.2024 08:17, Krzysztof Kozlowski wrote:
+>> On 28/10/2024 20:06, Mirela Rabulea wrote:
+>>> Add another compatible for OS08A20 sensor.
 >>>
->>> Umm, it is a new ops vector.
->>
->> I don't understand what you mean. Callback?
+>>> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+>>> ---
+>>>   Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml | 1 +
+>> This is part of the original binding. Submit complete binding in one patch.
 > 
-> struct memory_provider_ops.  It's a method table or ops vetor, no
-> callbacks involved.
-
-I see, the reply is about your phrase about additional memory
-abstractions:
-
-"... don't really need to build memory buffer abstraction over
-memory buffer abstraction."
-
->> Then please go ahead and take a look at the patchset in question
->> and see how much of dmabuf handling is there comparing to pure
->> networking changes. The point that it's a new set of API and lots
->> of changes not related directly to dmabufs stand. dmabufs is useful
->> there as an abstraction there, but it's a very long stretch saying
->> that the series is all about it.
+> Hi Krzysztof,
 > 
-> I did take a look, that's why I replied.
+> Should I squash this patch into #1?
+
+Yes, please. Splitting initial binding into such small chunks is not
+necessary.
+
 > 
->>>> on an existing network specific abstraction, which are not restricted to
->>>> pages or anything specific in the long run, but the flow of which from
->>>> net stack to user and back is controlled by io_uring. If you worry about
->>>> abuse, io_uring can't even sanely initialise those buffers itself and
->>>> therefore asking the page pool code to do that.
->>>
->>> No, I worry about trying to io_uring for not good reason. This
->>
->> It sounds that the argument is that you just don't want any
->> io_uring APIs, I don't think you'd be able to help you with
->> that.
-> 
-> No, that's complete misinterpreting what I'm saying.  Of course an
-> io_uring API is fine.  But tying low-level implementation details to
-> to is not.
+> I sent the patch #1, #2 and #3 for the OX05B1S sensor, and patches #4 
+> and #5 as additions for another sensor, OS08A20.
 
-It works with low level concepts, i.e. private NIC queues, but it does
-that through well established abstractions (page pool) already extended
-for such cases. There is no directly going into a driver / hardware and
-hard coding queue allocation, some memory injection or anything similar.
-The user api has to embrace the hardware limitations, right, there is no
-way around it without completely changing the approach and performance
-and/or applicability. And queues as first class citizens is not a new
-concept in general.
+Best regards,
+Krzysztof
 
->>> pre-cludes in-kernel uses which would be extremly useful for
->>
->> Uses of what? devmem TCP is merged, I'm not removing it,
->> and the net_iov abstraction is in there, which can be potentially
->> be reused by other in-kernel users if that'd even make sense.
-> 
-> How when you are hardcoding io uring memory registrations instead
-> of making them a generic dmabuf?  Which btw would also really help
-
-If you mean internals, making up a dmabuf that has never existed in the
-picture in the first place is not cleaner or easier in any way. If that
-changes, e.g. there is more code to reuse in the future, we can unify it
-then.
-
-If that's about user api, you've just mentioned before that it can be
-pages / user pointers. As to why it goes through io_uring, I explained
-it before, but in short, it gives a better api for io_uring users, we
-can avoid creating a yet another file (netlink socket) and keeping it
-around, that way we don't need to synchronise with the nl socket and/or
-trying to steal memory from it, and the devmem api is also too
-monolithic for such purposes, so even that would need to change, i.e.
-splitting queue and memory registration.
-
-> with pre-registering the memry with the iommu to get good performance
-> in IOMMU-enabled setups.
-
-The page pool already does that just like it handles the normal
-path without providers.
-
--- 
-Pavel Begunkov
 
