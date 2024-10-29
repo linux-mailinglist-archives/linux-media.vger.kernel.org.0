@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-20475-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20476-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F13E9B4244
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 07:17:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D049B4247
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 07:17:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E7F128360A
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 06:17:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2044F1C21833
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 06:17:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFA1520103B;
-	Tue, 29 Oct 2024 06:17:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C26B320102D;
+	Tue, 29 Oct 2024 06:17:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EHZxBMVb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AGIsJoG3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B9A200B86;
-	Tue, 29 Oct 2024 06:17:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D5B1FAC27;
+	Tue, 29 Oct 2024 06:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730182634; cv=none; b=dVoTFTN6s9sPvt8P7KM8a55T7Q35gntj1Ciu6UytMFy6LFyM6YwulXn0kiAQ3n7fNTmfU3bdF+8Qgz9aE/Lf1f1+BQvCjXQOFKop0b/pqjNslRSmY1NP4B3aLGlhsEimhmCxh6xuwHDKmrLi+FR7kj4MFpjsaJ42g50fIpjekbQ=
+	t=1730182669; cv=none; b=V6hCLOZBbs9sEnEWLBWLNS5eY8hjG0kXunpB0IrRU8TQMufK7aIXcEMaLdp4/ay/wpPHfLUbv6GQzWBJbp796QZ8F8jGKwNC/DS5SARdIS/FECs5hrmKqEt26SdGsgUUrEpr2b90y+bIyCLZbz04LFKPYFlZ9GQFRLtNgTi9oIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730182634; c=relaxed/simple;
-	bh=CYehLBoeRXbHeH5sFuUstCJj5i/2RXTD4+e01QgW2To=;
+	s=arc-20240116; t=1730182669; c=relaxed/simple;
+	bh=EX88BFowTyTzQK48jgUHRYAkppmwqtPniiQeRyf8GL8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rDVBIZGen4k6Nr5J1zEisjZSCpMEOst3mjPvkkwNIfwcvree9s5DxzVEIH72uZBOXiinpDfPnHPLfnwFF35KOF1l0/7jlHD4WDlqndh0nY0RgB93DVp/HBcY/+q+byZfomCgiXZ94pfh1PZC0kibMX5m3ZyisQws8CtzTjQRoUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EHZxBMVb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 855B1C4CECD;
-	Tue, 29 Oct 2024 06:17:08 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=TybQtftb65UG0pJePeRwwUBdPqx+VqfOk82YSxpUSH67eph4OrunVzz8IVGf7OxdLectNmH3QOKP/8ZN7KcnxEGtxk0TS6igEBBmigkcIPZiPjK4obN75ullAIbkMgUnP6JDpX6DWx0cR2S8EcDAWov2le8OO2r6zS76AMXCgA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AGIsJoG3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 508ABC4CECD;
+	Tue, 29 Oct 2024 06:17:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730182633;
-	bh=CYehLBoeRXbHeH5sFuUstCJj5i/2RXTD4+e01QgW2To=;
+	s=k20201202; t=1730182668;
+	bh=EX88BFowTyTzQK48jgUHRYAkppmwqtPniiQeRyf8GL8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EHZxBMVb2AjxWEz8ZWZ2LDAj5oeedux4gQc0Mr8Wy1hjO+xqLqLiTbMjH3R5S1O9v
-	 GyOkgIKyuwI44tkRh6u0XMVVTok8BgUKOFV/B6H+0wVAxM68YcsBHRqAPifAzEGWGl
-	 6RJWZbV8Q/0+6903TWuDRQrpYP51HQEgJXu3/isJBCKo7p56F+0twk20wTqK/6G5tz
-	 MnpK3xeo0rjWTL5BtCal9b+sd1AaGhb1oyNmWb05pBIM9zD4cR5kl//gxn61pfQPsR
-	 ygGeedhbCBFlkZbMxXSu8amSMb1clsPM4OAcJ5sh/j+J+DtvHNf7avk1USjw5oMdYG
-	 NAMzskYLjgmnw==
-Message-ID: <f20c0e4a-488e-4e4e-8c15-a27df312280e@kernel.org>
-Date: Tue, 29 Oct 2024 07:17:06 +0100
+	b=AGIsJoG3tLxOPrQgmyWNPa7v5KAjfv6AlmY4jxCuMmvoy0+2Bc4+AsQynrBgcE2o0
+	 PAWBCbzRxXJiDCTCg+EAxlzuXf9JUENR4DRmGK4zNIyvp1lpGZUVJpABAy7yV6vmAH
+	 fvL2M6fig9u1GIyLT3WgDhnLwOYYnzKien3k0HnGnTbLsbPDAADAufmFzXIp0lJvaP
+	 xZb+SZ9OVGVHuyXgJXmEM/f7RdSNE88nCmSfdm5FrswnAcWHQhv+fe8BsNuV4wi4Rf
+	 KqVlx8VeZ0ekflV9YmFTcVAWkMeVmsGlBGY1ks4ZLsu9o6Zg+t6wMcE79+ZbYXgV9D
+	 oyd1SciKqfB7A==
+Message-ID: <f4155f41-7267-423f-ad23-e7f0b24c650f@kernel.org>
+Date: Tue, 29 Oct 2024 07:17:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] media: ox05b1s: Add omnivision OX05B1S raw sensor
- driver
+Subject: Re: [PATCH 4/5] dt-bindings: media: i2c: Update bindings for OX05B1S
+ with OS08A20
 To: Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
  sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
  laurent.pinchart+renesas@ideasonboard.com, laurentiu.palcu@nxp.com,
@@ -61,7 +61,7 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  dave.stevenson@raspberrypi.com, mike.rudenko@gmail.com,
  alain.volmat@foss.st.com, julien.vuillaumier@nxp.com, alice.yuan@nxp.com
 References: <20241028190628.257249-1-mirela.rabulea@nxp.com>
- <20241028190628.257249-3-mirela.rabulea@nxp.com>
+ <20241028190628.257249-5-mirela.rabulea@nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,117 +107,43 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241028190628.257249-3-mirela.rabulea@nxp.com>
+In-Reply-To: <20241028190628.257249-5-mirela.rabulea@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 28/10/2024 20:06, Mirela Rabulea wrote:
-> Add a v4l2 subdevice driver for the Omnivision OX05B1S RGB-IR sensor.
+> Add another compatible for OS08A20 sensor.
 > 
-> The Omnivision OX05B1S is a 1/2.5-Inch CMOS image sensor with an
-> active array size of 2592 x 1944.
-> 
-> The following features are supported for OX05B1S:
-> - Manual exposure an gain control support
-> - vblank/hblank control support
-> - Supported resolution: 2592 x 1944 @ 30fps (SGRBG10)
+> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml | 1 +
 
-...
+This is part of the original binding. Submit complete binding in one patch.
 
-> +
-> +static const struct v4l2_subdev_ops ox05b1s_subdev_ops = {
-> +	.video = &ox05b1s_subdev_video_ops,
-> +	.pad   = &ox05b1s_subdev_pad_ops,
-> +};
-> +
-> +static const struct v4l2_subdev_internal_ops ox05b1s_internal_ops = {
-> +	.init_state = ox05b1s_init_state,
-> +};
-> +
-> +static void ox05b1s_get_gpios(struct ox05b1s *sensor)
-> +{
-> +	struct device *dev = &sensor->i2c_client->dev;
-> +
-> +	sensor->rst_gpio = devm_gpiod_get_optional(dev, "reset",
-> +						   GPIOD_OUT_HIGH);
-> +	if (IS_ERR(sensor->rst_gpio))
-> +		dev_warn(dev, "No sensor reset pin available");
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
-Same comment as for clock further.
+<form letter>
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
 
-> +}
-> +
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
 
-...
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
 
-> +static int ox05b1s_probe(struct i2c_client *client)
-> +{
-> +	int retval;
-> +	struct device *dev = &client->dev;
-> +	struct v4l2_subdev *sd;
-> +	struct ox05b1s *sensor;
-> +
-> +	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
-> +	if (!sensor)
-> +		return -ENOMEM;
-> +
-> +	sensor->regmap = devm_regmap_init_i2c(client, &ox05b1s_regmap_config);
-> +	if (IS_ERR(sensor->regmap)) {
-> +		dev_err(dev, "Failed to allocate sensor register map\n");
-
-Allocation errors never result with error msg. Unless you meant
-something else than allocation, but then syntax is return dev_err_probe.
-
-> +		return PTR_ERR(sensor->regmap);
-> +	}
-> +
-> +	sensor->i2c_client = client;
-> +
-> +	sensor->model = of_device_get_match_data(dev);
-> +
-> +	ox05b1s_get_gpios(sensor);
-> +
-> +	sensor->sensor_clk = devm_clk_get(dev, "csi_mclk");
-> +	if (IS_ERR(sensor->sensor_clk)) {
-> +		sensor->sensor_clk = NULL;
-> +		dev_warn(dev, "Sensor csi_mclk is missing, using oscillator from sensor module\n");
-
-Nope, syntax is return dev_err_probe. Why would you warn on probe deferral?
-
-> +	}
-> +
-
-
-...
-
-> +
-> +module_i2c_driver(ox05b1s_i2c_driver);
-> +MODULE_DESCRIPTION("Omnivision OX05B1S MIPI Camera Subdev Driver");
-> +MODULE_AUTHOR("Mirela Rabulea <mirela.rabulea@nxp.com>");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h b/drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h
-> new file mode 100644
-> index 000000000000..3c34724c1d7e
-> --- /dev/null
-> +++ b/drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h
-> @@ -0,0 +1,1160 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * A register configuration for Omnivision OX05B1S raw camera, 2592 x 1944 @30fps BGGR10
-> + * Copyright (C) 2024, NXP
-> + * Copyright (C) 2024, Omnivision
-> + *
-> + */
-> +#ifndef _OX05B1S_REGS_2592x1944_H_
-> +#define _OX05B1S_REGS_2592x1944_H_
-> +
-> +/* 2592X1944_30FPS_FULL_RGBIr 2592 1944 */
-> +static struct ox05b1s_reg ovx5b_init_setting_2592x1944[] = {
-
-How this could be in the header? Why do you need multiple of copies of
-it? No, move to the driver.
-
-
+Please kindly resend and include all necessary To/Cc entries.
+</form letter>
 
 Best regards,
 Krzysztof
