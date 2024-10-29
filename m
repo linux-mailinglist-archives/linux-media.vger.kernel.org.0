@@ -1,163 +1,133 @@
-Return-Path: <linux-media+bounces-20527-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20528-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E91D9B4A06
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 13:46:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D5F9B4A18
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 13:48:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B9C11F23258
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 12:46:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 019AB1C227EF
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 12:48:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C568206045;
-	Tue, 29 Oct 2024 12:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEE12206953;
+	Tue, 29 Oct 2024 12:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ucSnCxdD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TTmcaCek"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4343F1E2301;
-	Tue, 29 Oct 2024 12:46:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F809205E24;
+	Tue, 29 Oct 2024 12:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730205980; cv=none; b=pv7RVXHFu5rIjNoDSVpS5mYtisQz0CfsrWacb3u1fWF+iSNicPnAKLiQXUIFDPTKrXxbI3SKnw8r3zEubX3hENOyPblRvkOP5o7MM3d7VsKwHfa/Cl+ZM7oeFuq887iSFw3MHRhvJ6yibQJF44jcXAiiwkHFXWjBSPqM/cEv9y8=
+	t=1730206046; cv=none; b=XgsEBNTB4dZ2gb3JEi9ZszaQWMR1m0YM+cEiU1Ssju1qeWNIxgKws23xCyCTgqhVs728/f5Kk9Uay863V8mwgJI0+GJTXT8vbyggidJTi76ByS2oJb6PC7NCV32d4K2mfrqWn6CWBDEkeoc6E+vlqhEMu+iY0GaO8nRXjHt8yvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730205980; c=relaxed/simple;
-	bh=OLil04WAdDwUQiUnyBgo68CgowQVLkwEN+Pc80r2GOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MEwJsIm0SyahJPzRKrAvghnilgkKshOGSLHS+fK87iFwlObXwfHWeRhI8Pyz1be4AP04GpfV4NDEoUIOVneKXq2//hcqW93c4otx3jCrJUZwh2BwfqlKjIsxpatUVoRiuQTQvDdpDAIEGsWvvbI9WMp7m3pnC+woT+38kiQB7FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ucSnCxdD; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1730206046; c=relaxed/simple;
+	bh=b7xJkOE//Vp3vaIQy1pLV0TNulURIj4a4ZlfWYe73S0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=caI6vnUbzkz+WEjeNDAb3fkWvC4mtpSOOTeuC80Y2/mg/lI3DKWbNSNRixPTrFgZGaUbx/VzQdlw75tY9sOoO6awHL0806qkM8paDHORcI5p+BMkRzZeLQ5IKH1Le1ZSWmJkYwaHzXs/ZcGbT5UPgBWF1LbeOyCkc2K2WwdqXtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TTmcaCek; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56CAE4D4;
-	Tue, 29 Oct 2024 13:46:13 +0100 (CET)
+Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 228A8AF3;
+	Tue, 29 Oct 2024 13:47:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730205973;
-	bh=OLil04WAdDwUQiUnyBgo68CgowQVLkwEN+Pc80r2GOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ucSnCxdDdpntMwXNJ28N3XAxZ/O5S44Eheqyt0429yfbjXnt22/Vw/J70MUfahUFs
-	 hfqB0pC/Rnpl5UwEtPYILpB21BN0+8n0FI1AgZLnqlMzRNfSvvcwPpuu01TNyOcxh+
-	 O9TjDRkyZ2f3k1FodWSvjsaLDMFi6Mi+81MatNK4=
-Date: Tue, 29 Oct 2024 14:46:09 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-	laurentiu.palcu@nxp.com, robert.chiras@nxp.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	LnxRevLi@nxp.com, kieran.bingham@ideasonboard.com,
-	hdegoede@redhat.com, dave.stevenson@raspberrypi.com,
-	mike.rudenko@gmail.com, alain.volmat@foss.st.com,
-	julien.vuillaumier@nxp.com, alice.yuan@nxp.com,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/5] dt-bindings: media: i2c: Add bindings for OX05B1S
- sensor driver
-Message-ID: <20241029124609.GP22600@pendragon.ideasonboard.com>
-References: <20241028190628.257249-1-mirela.rabulea@nxp.com>
- <20241028190628.257249-2-mirela.rabulea@nxp.com>
- <216a2728-ab62-4b76-aca5-8d911687dfbe@kernel.org>
- <20241029121039.GM22600@pendragon.ideasonboard.com>
- <eeaa92c0-fed6-408b-8471-47acf0ca394d@kernel.org>
- <20241029122150.GN22600@pendragon.ideasonboard.com>
- <3ff55dc3-c6a9-40a8-8e21-2e3e43cfd614@kernel.org>
+	s=mail; t=1730206040;
+	bh=b7xJkOE//Vp3vaIQy1pLV0TNulURIj4a4ZlfWYe73S0=;
+	h=From:Date:Subject:To:Cc:From;
+	b=TTmcaCekGbWbKFStwDNEeYBf9fe1HUg6S35qvpMI+ccJdyq775g1iakGJrZV/LJ43
+	 npZ7GC8ubBdTBk21gB9tpv/+cqr0FHQ08OeLeY1aN3E3tDaiCUy5rZX3Xx66YQbjDc
+	 xv6UxJTRc//zi/r1zzQZZPF83XcQJ5xBXS/+XrvA=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Tue, 29 Oct 2024 14:47:05 +0200
+Subject: [PATCH] media: raspberrypi: cfe: Fix min_reqbufs_allocation
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3ff55dc3-c6a9-40a8-8e21-2e3e43cfd614@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241029-rp1-cfe-fixes-v1-1-49f04cc271f5@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAEjZIGcC/x3LQQqAIBBA0avIrBvQSQi7SrQQG2s2JgoRiHdPW
+ j4+v0HlIlxhVQ0KP1LlTgNmUhAun05GOYaBNFmjyWHJBkNkjPJyRU2LdjR7is7CeHLhP4xl23v
+ /AHvacJJfAAAA
+To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1770;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=b7xJkOE//Vp3vaIQy1pLV0TNulURIj4a4ZlfWYe73S0=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnINlWrR/eAjTlsUaqmJrF5eKC6qW0AqzC/UCQg
+ XmD+reWQYCJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZyDZVgAKCRD6PaqMvJYe
+ 9eBaD/4gRy1ykIiT9zE7t8pxIgj3p9RbSB0kW7jYb8iqaG/Efv769oxRw0DUVOb3mz64oPU1I7s
+ TT75twqZo3Bg+h80Pi97YSs7N8u8MMUL4zSvr814/ZHE44HWOfU6VnV1JI0JssBQTiZWt+Qwnsn
+ HGry7e2vSMRP3JpYQYtS3QVhIp6xw7j7x7Rago8rBe0BEW7qoqqI2YdN2LM/7gtd81F/lcJLn8W
+ rXH9EQfaUHj1QeW+aTDxAFTd6RRPg67QfPU3zNcZ5TWBRYN9JgC5PdcOo3DteFRayLh1M0YJAmv
+ jQDnhSh5yGpfQj/RMW5CV/ZdPyuziLlLv0lS9KtXf4VhS5SXM5WDZqd6hWmlWxO7ETMLJ9z/7xj
+ AuTeB+oQNDXq/75DUqNJfWLH7xIgPXvYYd5pdgVn4rQytg37jwIjjvGV4BXHikxuWIGNf5rn+7u
+ 4lXFi9lEgMbykzCvLDxpAxyBPKVfb266IAgB3sKE8C/28D5HT9LaulvhL13X6YanuwQ7XfwVVvl
+ qyHiHn8HAKvrlm10o5N1N79ZhnTL/x2+n6vCkc8DUbDNaSt1EqyUmR/KztM4VGe+P1bIY/JjgHR
+ 4dSRAZjiqzV9NPQN5RL+6GMDW+mpMdXFMw9T4o28AphlZ/PkKFDQV0v/UMmfGJTsv6EODLktblg
+ 3G4PmfCUk2d5cNA==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-(CC'ing the devicetree mailing list)
+The driver checks if "vq->max_num_buffers + *nbuffers < 3", but
+vq->max_num_buffers is (by default) 32, so the check is never true. Nor
+does the check make sense.
 
-On Tue, Oct 29, 2024 at 01:28:51PM +0100, Krzysztof Kozlowski wrote:
-> On 29/10/2024 13:21, Laurent Pinchart wrote:
-> > On Tue, Oct 29, 2024 at 01:15:46PM +0100, Krzysztof Kozlowski wrote:
-> >> On 29/10/2024 13:10, Laurent Pinchart wrote:
-> >>> On Tue, Oct 29, 2024 at 07:14:28AM +0100, Krzysztof Kozlowski wrote:
-> >>>> On 28/10/2024 20:06, Mirela Rabulea wrote:
-> >>>>> Add bindings for OX05B1S sensor driver
-> >>>>>
-> >>>>> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> >>>>
-> >>>> <form letter>
-> >>>> Please use scripts/get_maintainers.pl to get a list of necessary people
-> >>>> and lists to CC. It might happen, that command when run on an older
-> >>>> kernel, gives you outdated entries. Therefore please be sure you base
-> >>>> your patches on recent Linux kernel.
-> >>>>
-> >>>> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-> >>>> people, so fix your workflow. Tools might also fail if you work on some
-> >>>> ancient tree (don't, instead use mainline) or work on fork of kernel
-> >>>> (don't, instead use mainline). Just use b4 and everything should be
-> >>>> fine, although remember about `b4 prep --auto-to-cc` if you added new
-> >>>> patches to the patchset.
-> >>>>
-> >>>> You missed at least devicetree list (maybe more), so this won't be
-> >>>> tested by automated tooling. Performing review on untested code might be
-> >>>> a waste of time.
-> >>>>
-> >>>> Please kindly resend and include all necessary To/Cc entries.
-> >>>> </form letter>
-> >>>>
-> >>>> Binding also looks very different than all other devices, so re-write it
-> >>>> starting from EXISTING GOOD bindings. Not some downstream stuff.
-> >>>
-> >>> Krzysztof, please point to a good example when making this kind of
-> >>> comment.
-> >>
-> >> Anything recently added. Git log tells which files were recently added.
-> > 
-> > If the review comment is a copy&paste (given that you review lots of
-> > bindings and constantly have to repeat the same things, that would make
-> > sense), expanding it with that information for future reviews could help
-> > patch authors. Thanks for considering it, it would be much appreciated.
-> 
-> Sorry, but that's not the point. You do not take 10 yo, unmaintained
-> driver and use it as template for your new one. Instead you rather take
-> something recent or something which you know is correct. Same with bindings.
+The original code in the BSP kernel was "vq->num_buffers + *nbuffers <
+3", but got mangled along the way to upstream. The intention was to make
+sure that at least 3 buffers are allocated.
 
-I wouldn't know for sure which driver or binding was used as a starting
-point. My point was unrelated to this particular patch series. I think
-that including clear information in ready-made answers will help
-everybody. It will tell the submitters what they need to know, it will
-avoid this kind of conversation being repeated, and it could even in the
-end increase the quality of submissions. Even better, it won't cost
-anything to add it to answer templates.
+Fix this by removing the bad lines and setting q->min_reqbufs_allocation
+to three.
 
-> NXP is not a small company which does not know how to use Linux or how
-> to upstream stuff. This is not individual's contribution, where one does
-> not have colleagues or 3 billions USD of revenue behind, to be able to
-> get some internal help prior sending something downstream.
-> 
-> They can spend something out of these 3 billions of revenue or 700
-> millions of net income to hire you guys or any other open-source
-> company, if basics of upstreaming are unknown.
->
-> That's the comment I was giving about NXP since a year. Some things
-> around SoC improved, some things from this unit of NXP here did not
-> change at all.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+ drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-If I were on the receiving end of this, as an individual developer, I
-would consider it very patronizing and insulting. Treating the authors
-of contributions you don't consider as good enough in such a harsh way
-will not improve the situation, and will drive people away. You may be
-frustrated by some companies, but this kind of comment will not help.
-Please soften your tone towards individual developers, they're not
-punching balls on which to dump frustration and anger. Firm and polite
-will work better than lashing out.
+diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+index 045910de6c57..65e9c6d23416 100644
+--- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
++++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+@@ -1025,9 +1025,6 @@ static int cfe_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+ 	cfe_dbg(cfe, "%s: [%s] type:%u\n", __func__, node_desc[node->id].name,
+ 		node->buffer_queue.type);
+ 
+-	if (vq->max_num_buffers + *nbuffers < 3)
+-		*nbuffers = 3 - vq->max_num_buffers;
+-
+ 	if (*nplanes) {
+ 		if (sizes[0] < size) {
+ 			cfe_err(cfe, "sizes[0] %i < size %u\n", sizes[0], size);
+@@ -1999,6 +1996,7 @@ static int cfe_register_node(struct cfe_device *cfe, int id)
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	q->lock = &node->lock;
+ 	q->min_queued_buffers = 1;
++	q->min_reqbufs_allocation = 3;
+ 	q->dev = &cfe->pdev->dev;
+ 
+ 	ret = vb2_queue_init(q);
 
-> So again, it's not about me giving them more things. They will keep
-> ignoring it over and over, because that's how big companies sometimes
-> behave. You know, community people work for free, right?
+---
+base-commit: 698b6e3163bafd61e1b7d13572e2c42974ac85ec
+change-id: 20241029-rp1-cfe-fixes-0270923a2f94
 
+Best regards,
 -- 
-Regards,
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Laurent Pinchart
 
