@@ -1,79 +1,80 @@
-Return-Path: <linux-media+bounces-20542-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20543-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B82E9B5595
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 23:12:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C81B9B561C
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 23:56:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB9ED1F240B8
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 22:12:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B2B11C224E6
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 22:56:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5217B20A5F3;
-	Tue, 29 Oct 2024 22:12:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57CB920ADE2;
+	Tue, 29 Oct 2024 22:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gg8bZnyr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g1vIVfkP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4714DA03;
-	Tue, 29 Oct 2024 22:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBED11EE021;
+	Tue, 29 Oct 2024 22:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730239933; cv=none; b=PmeMFli7DZs/WqfHs7fH1Vu+taKJ9nle1COhM1kZLUgTpDNy07F7qWxJKygjIAzqgbJA+zZ4jbPHZXLfNMpZNBFtRUJeGtd5sGGWH/49CGPVPZjyNF6jgSDarPm0BHqTu5Qfo/eQBYaebYRJQCVtfUzFt1DlzGx01Zn1/sQuL40=
+	t=1730242598; cv=none; b=WtcIYdglSCrCOw5CADTjtYORtECzuRlEdacCDZjdq8o+U9kp6z6ME8/gyumHcGHxYvIhn8keXvTc2yhp0efb6GQ9E1msBM/Aww4A9jdfBeSR/15+ABoq9TwRuJiXWaAhuF11bADy2W0STMjd1WZz4RIZ09prMQt8SNE6w8437Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730239933; c=relaxed/simple;
-	bh=c3aGZZWMK/cHOKWA9yOCa4lAM9GBMssFkP4NL+CcNd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=osJjvM7iSQls2FidltRAXH9aX05r9EUTK4cHcYy/ataVLdfktkJoSCyc/cIgFCW8g8ZA91fYUMlCsSvT0zCoTMNbYJS2qRVE7SGsD1exgrxWy/le7KPu4OOaBfmVTpNsy4oSEXcEHbRMcIl/8q2jBOrWJ4l+7iK+jYJJg9cdBi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gg8bZnyr; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1730242598; c=relaxed/simple;
+	bh=bGGkw2scqhoN1b7J2U6LSncsGok/0dyDrcqHiVJCkO4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sJXNeyUBbkH2iAOUgpomSmjiLWqd8VQkcy3wRTRTgmrQEYOHjtJ2qDjvi73ZP/U6ocb42xfFxx+4hQWJmEUVYlx3sWq3LSKqd+DSyCXmC+FqhXBkTXkw82Xtnpy4fzmm+QfMWefEz+VEKfT4fqEXNetUyS2ym2Y7T9MK2uxvgOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g1vIVfkP; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4316f3d3c21so56235375e9.3;
-        Tue, 29 Oct 2024 15:12:11 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43167ff0f91so58354925e9.1;
+        Tue, 29 Oct 2024 15:56:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730239930; x=1730844730; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VjldDN7xlB6pZ8+AS+ylEFBMT50QFwGIKzJe3PXu4nI=;
-        b=Gg8bZnyrMCvhQqpnuTNhK8gYkBi905b7fpBXC21vLp6iYNjddqruK50q/mYSvG8SlA
-         rQJ/MsDQmndYN3Iyp2mhRJQro3OoknNbRF9yVyTtSKltMDq4ak03BAwzhWT4g56i9IUQ
-         Sy7OnLTex1R4paH9d8YbWHEJ3PWLlcLpfhLQz5zzoL4d5F6jZeOOruVbYIenEpJVjGGK
-         6/XWmXstuT2H5u4xMLG3Tzz/0ULMWi0MndCKzzVnfH7+efr/UdtNQo0ByW5io3e0cT1r
-         oPQtt+oCPYMAV6Ir4Jrd3hPcSGZWUQlyDIYeFb5EBGGLXZjKUs0JRqed8vqWUM6ZX/qL
-         DXpw==
+        d=gmail.com; s=20230601; t=1730242595; x=1730847395; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MpVn9CCk7p/nBxiNwauWMLUJbSMf+dBaAsp0z8QnPp0=;
+        b=g1vIVfkPohvz0xbmn64Uqqao1gtrz46ewoVctpX03HjSwXQHEav2zunlqMdKRorYDj
+         zJInhU1mLVEtI6+/dVPv+TSAKGgip4CrcFw+I7YGDeDg/nPOX/c0IRnGsgWl2Phu+DaX
+         ygUISm9C0rqYmudJgbCWPLN4e57ZTqc8MLPkR1ut7NnanYsw9HZ2TZA75utkQWkM8NlW
+         nqmiU/dpM5l5nEy3hFnWOXGzYcklU8I4XITXTLxRT6wCnJOPZQpsISUWn8t4pTJZkFuw
+         iNAfsxUgpo47xzMutgwMuw6XDQ/Qd+WyTeMlHVa/41COycdTwTHXaUI7OW1gCvvr2A3l
+         f6bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730239930; x=1730844730;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VjldDN7xlB6pZ8+AS+ylEFBMT50QFwGIKzJe3PXu4nI=;
-        b=prVi7VlW8X2M/54Lsps9ppeTQLu3/LoWMbVVGmBhQ7DN4+cEnuXC6FLbwkKVb/0u1w
-         HpE+hb3mYfPkQQrn7+91Tf/2nUkKKWF9+RaXlTnWfqJsiW84LcR7DSIYVhGaJKyqSGjG
-         MmsRgY9DOGf2Ci+cZMjx9KppqlZJPMZQ3aiqbgB67Lw37lpcnFTDvmIip5/vQqonZQ9v
-         rHPpYUAMXmtMIal22sH0xcC1I4x5pAmQEiNtTnwvN4JK8FTLa63Z/JbAMtFtlxA9t5mu
-         Agwi/ynKIr0AVrlKLybr2Q6eBR0UTY9oaoySFlnu9FqVBJ9lpbOVZGvofSyePrTwPTOs
-         AFdw==
-X-Forwarded-Encrypted: i=1; AJvYcCWW/6p01k12QPWemyShPv5tEiVSjRs/pLHjfJJd2XFBibryWQcExI92er5xjDcW7Pu6CeWIHhXeCShFljY=@vger.kernel.org, AJvYcCX/WB6ZkvHjjOBYDeKvKDme+LFj4NdHKY+5o0riMquTKzoP8g0bOFzn+x41TVm7ZKG373Jweanf4sKieiw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4n4cbz8I0KDbAB8crqZTEAxkzAu5FybhRQiMxZYxjMtVrPIiy
-	Vk1ZdhTE+Ipe3wIrGYNbDVpy5J7Kekh0Q+nz/P0RzQJp47HNLkvP
-X-Google-Smtp-Source: AGHT+IFmuBS4ze6yhyaB5Uff3sHGb2kaV0oX5yBXJL1k6phhewFyPQNSg6fLXKT/pxhemKrzTn/rog==
-X-Received: by 2002:a05:600c:1c03:b0:431:51a9:e956 with SMTP id 5b1f17b1804b1-431bb9775c8mr11261545e9.1.1730239929646;
-        Tue, 29 Oct 2024 15:12:09 -0700 (PDT)
-Received: from tom-desktop (net-188-217-53-167.cust.vodafonedsl.it. [188.217.53.167])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd97d620sm1970475e9.25.2024.10.29.15.12.08
+        d=1e100.net; s=20230601; t=1730242595; x=1730847395;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MpVn9CCk7p/nBxiNwauWMLUJbSMf+dBaAsp0z8QnPp0=;
+        b=qunrZ+7+ebylGYkbtCHmEayqYfj0kHCtU7SAvIhuTEYkT0tVzH3gjDQF2NHXTFmPof
+         eaSOyt3iVxGktEYppfij3y2YajkBbKx3Gw163/36EJ0nqdf7hvt7WA9pP9QY3vEqJU9l
+         RFkSIRuXUI8H+bgXU7FJBmllLdJDFifNGKewhpnYI2RidkKtNwXXbJ1rEMPLCPspsi6d
+         tjW0mKSGbiGZ5f77c3gw94dW8KpwO+QsD5/QucxgUit54AM67dPQ5JpCKN8kV30zuFxe
+         LzJiMrjU52cfm7qRrx4dWMZ3WglzDjXActpA7t7s/3edlib0xcrV8aUsKhk5QpJh9hTN
+         Yakg==
+X-Forwarded-Encrypted: i=1; AJvYcCVpFIKm12WL3kcQGrVE0QfGZ7ch5w5GmQVG3Mg25qFoB80Ww7EGbTPuLMFjoagpEpuVj1jnuY44GsYwILs=@vger.kernel.org, AJvYcCX1pX16SY1NEiRkYvM3GEVLcTuSpkTtwaxhdPuNn+A3bo3CmBxzHsHOg6hALrVX4GWt3fkBVRBkaucWA2k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdHwIBoOyGIM/zLZX4Xir/LJbSO+R7AWh63o8v2Ykz1Uj+TOFt
+	JYJxVaRpO6T4PjFS6h9E4sVHlotF+F38GUhn5lQ7VmunuLqkSrxx
+X-Google-Smtp-Source: AGHT+IGTKDJcr0ckytnE14yZ3C4fMaYK2YKNmaOC4z9MjF1zU87TmfeBVvh+pS7vhT3ugoHMVZRGQw==
+X-Received: by 2002:a05:600c:3b94:b0:42c:acb0:dda5 with SMTP id 5b1f17b1804b1-4319ac74274mr124223625e9.1.1730242594912;
+        Tue, 29 Oct 2024 15:56:34 -0700 (PDT)
+Received: from tom-desktop.station (net-188-217-53-167.cust.vodafonedsl.it. [188.217.53.167])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd9ca704sm2737165e9.41.2024.10.29.15.56.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 15:12:09 -0700 (PDT)
-Date: Tue, 29 Oct 2024 23:12:06 +0100
+        Tue, 29 Oct 2024 15:56:34 -0700 (PDT)
 From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To: 
+Cc: sakari.ailus@linux.intel.com,
+	laurent.pinchart@ideasonboard.com,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
 	Martin Hecht <martin.hecht@avnet.eu>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Sebastian Reichel <sre@kernel.org>, Zhi Mao <zhi.mao@mediatek.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Zhi Mao <zhi.mao@mediatek.com>,
 	Alain Volmat <alain.volmat@foss.st.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
@@ -84,59 +85,61 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Nicholas Roth <nicholas@rothemail.net>,
 	Paul Elder <paul.elder@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] media: v4l2-subdev: Drop HAS_EVENTS and event
- handlers
-Message-ID: <ZyFdtsSe2lSh5+TA@tom-desktop>
-References: <20241029162106.3005800-1-tomm.merciai@gmail.com>
- <20241029205849.GH6081@pendragon.ideasonboard.com>
- <ZyFQx6B6uNepUAoL@kekkonen.localdomain>
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] media: i2c: Drop HAS_EVENTS and event handlers
+Date: Tue, 29 Oct 2024 23:56:29 +0100
+Message-Id: <20241029225632.3019083-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZyFQx6B6uNepUAoL@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
-Thanks for your review.
+Hi All,
 
-On Tue, Oct 29, 2024 at 09:16:55PM +0000, Sakari Ailus wrote:
-> Hi Tommaso, Laurent,
-> 
-> On Tue, Oct 29, 2024 at 10:58:49PM +0200, Laurent Pinchart wrote:
-> > Hi Tommaso,
-> > 
-> > Thank you for the patch.
-> > 
-> > The subject should start with "media: i2c:", not "media: v4l2-subdev:".
-> > 
-> > On Tue, Oct 29, 2024 at 05:21:05PM +0100, Tommaso Merciai wrote:
-> > > v4l2_subdev_init_finalize() already sets the HAS_EVENTS flag if a
-> > > control handler is set, and subdev_do_ioctl() uses
-> > > v4l2_ctrl_subdev_subscribe_event() and v4l2_event_subdev_unsubscribe()
-> > > as defaults if the subdev doesn't have .(un)subscribe.
-> > 
-> > That will be true once patch "[PATCH v2] media: v4l2-subdev: Refactor
-> > events" gets merged. It's good practice to list dependencies, possibly
-> > below the --- line (or in a cover letter) if you don't want it to appear
-> > in the commit message. I also recommend setting the format.useAutoBase
-> > option to automate recording of the base commit in the patch.
-> 
-> There was some fuzz applying this to the Alvium driver. I've pushed the
-> result to the devel branch in my git.linuxtv.org tree.
+After the introduction of [1] v4l2_subdev_init_finalize()
+sets the HAS_EVENTS flag if a control handler is set, and
+subdev_do_ioctl() uses v4l2_ctrl_subdev_subscribe_event()
+and v4l2_event_subdev_unsubscribe() as defaults if the subdev
+doesn't have .(un)subscribe.
+Then Let's drop the HAS_EVENTS flag and event handlers.
 
-Sorry, I have some "todo" commits in my tree I will fix that in v2.
+As suggested by LPinchart imx415 imx415 sets the HAS_EVENTS
+flags but not the event operations, all is already done from
+[1] then we can drop the HAS_EVENTS.
 
-Thanks & Regards,
-Tommaso
+base-commit: 0f9eef17a2638151c56663eb909fe72a7dd4c698
 
-> 
-> -- 
-> Regards,
-> 
-> Sakari Ailus
+[1] https://git.linuxtv.org/sailus/media_tree.git/commit/?h=devel&id=0f9eef17a2638151c56663eb909fe72a7dd4c698
+
+Tommaso Merciai (2):
+  media: i2c: Drop HAS_EVENTS and event handlers
+  media: i2c: imx415: Drop HAS_EVENTS flag
+
+ drivers/media/i2c/alvium-csi2.c |  5 +----
+ drivers/media/i2c/ds90ub953.c   |  5 +----
+ drivers/media/i2c/ds90ub960.c   |  5 +----
+ drivers/media/i2c/gc0308.c      |  4 ----
+ drivers/media/i2c/gc05a2.c      | 10 +---------
+ drivers/media/i2c/gc08a3.c      | 10 +---------
+ drivers/media/i2c/gc2145.c      | 10 +---------
+ drivers/media/i2c/imx219.c      | 10 +---------
+ drivers/media/i2c/imx283.c      | 10 +---------
+ drivers/media/i2c/imx290.c      | 10 +---------
+ drivers/media/i2c/imx415.c      |  3 +--
+ drivers/media/i2c/max96714.c    |  6 +-----
+ drivers/media/i2c/max96717.c    |  6 +-----
+ drivers/media/i2c/ov01a10.c     |  6 +-----
+ drivers/media/i2c/ov64a40.c     | 10 +---------
+ drivers/media/i2c/ov8858.c      |  9 +--------
+ drivers/media/i2c/thp7312.c     |  5 +----
+ 17 files changed, 16 insertions(+), 108 deletions(-)
+
+-- 
+2.34.1
+
 
