@@ -1,237 +1,433 @@
-Return-Path: <linux-media+bounces-20531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20532-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568059B4B02
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 14:36:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3F49B4B1D
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 14:45:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79DDD1C228D4
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 13:36:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E2D51C20EA4
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 13:45:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 069BD206049;
-	Tue, 29 Oct 2024 13:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66E2F206518;
+	Tue, 29 Oct 2024 13:44:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="kziqh0gm"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tT3ZBBwD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2072.outbound.protection.outlook.com [40.107.249.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A396CBA50;
-	Tue, 29 Oct 2024 13:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730208992; cv=fail; b=Tx5qstTHvbKoREHYS7l6FHxRn7YzwR/BlgrGUn53zumJUYMF9LilnHX0TL7mkLirYgXggI7dXjWvx/RHykkseUkDSIwc+VRUK/g/a1ObCyNJnIO0cNDWtidlbXUsvZcvdpN/mZCk+5YI+Y4zJEVFVS4zpXgMmmXHUagvCawABdQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730208992; c=relaxed/simple;
-	bh=Oz9lImdsAduy+ATmth+bHLGqaHLjRqtOzdWstevYkPk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uAURoU5pU4I6c/jhXMCQ67GHlhoqySYTpzjzsEQqKnx8htXBUkBPmsKREbSamtOnu/9eRYqQy9/AT2k2VrzeBfMin4rG+VYB238c9ysKevSyQvVQxTGjuZ9zjbp8PcMEFOhUootUXrzehvKZOCzyXIaVdvk90tjUoIiwmeZN2fo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=kziqh0gm; arc=fail smtp.client-ip=40.107.249.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ADUCfPz0tEMvdHruS6ixAVFbdJq45rrYiateT8a+bM4oZdxHdpglOZJuAEbuqBNZlelGUmyAg1q7R9S0kRSbgnYmhe1JaMkUdm1hgadyveNKbjUbelrLVzvtcdc9t8XHEiBp10YvJtUtPgNbCvZ47MF3pdZUB1S6VeYdm+SkMTRY8ZAdAm+zHZ0zTvBflzaMBA0mKHrSHD9quGTHlKiQEXI4SKbfU57FgSmlidZrv+tsniYOS/ec839Kgn5r4mUz0qkbdnm2Ga8xQNmRzFSFyPzOpzEN6ks9qR2jhEKdXiQgn+z2uAk2gyBQCWu3sEHwwqMa275PLPJdhtswcdoueA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=28FDzevP0LYcmqyam3KNCT4iXp11r0MX6LSr6w6Hj80=;
- b=rrPtqFYGusDt6glecOE+MFTHka97EI1gvlHcoVNz+lqI/YnGkDJd4MeYcS5ANynCZMWY1GsYlNdbkPvEFXbc5O/MdCE0BEsSfyGSECXhlsvU8B1yLQ5tLWGYr9Z5Znm+0LdcNJVM9AeNIQNRUHzAKRZaPZo1xQf1pA7zT4gBK4Y9uxSe9YzPboYPYwB5SkglX5CC8npaWOxHssSRBJLfL2YdnJAsdrM1aaJmynnPoYp1QUT3AiEPsEStb8CE+xKWsh3tCTxAPEsEIt/PCH44HTiKnNNhKWExyS9wggu1KOCy0KmLquhY79qrOAqMXBGFTk6AukO2PG4BMvpvUZva6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=28FDzevP0LYcmqyam3KNCT4iXp11r0MX6LSr6w6Hj80=;
- b=kziqh0gmKaioGSsQmOVxMLAisbqfZPEU9YFGZfPE1E6bxhw1tuZ26I0QG848vxFXi/96KfOy2r5amK0GaJAAe+PuhjJlb5HQpDXCjQOQuV4X60AzVCSGMDVkLvmyHrOdUdwhvbIgd7JNMMGB/m9FH5qdivwASsZ7I2C2BjyHk4WxFMNgezGZQLdQEOEF1V4YKU28v9+UVeAc7G0je2XPIf5aa8hHrqgjjNhUALXYDgUJQkhRgI6X+GF8aMa7uFdqZF3iSMd11wAFWbP9RE5DCsxIOD6ieo3L/jSE1NsiVORUxC95bWjjKTGWdKtS7NW8vrOHLaxm+cgF2Cxya6JVdA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
- by PA4PR04MB9640.eurprd04.prod.outlook.com (2603:10a6:102:261::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.29; Tue, 29 Oct
- 2024 13:36:25 +0000
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::7303:2cc8:d109:d7c1]) by AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::7303:2cc8:d109:d7c1%4]) with mapi id 15.20.8093.018; Tue, 29 Oct 2024
- 13:36:24 +0000
-Message-ID: <3e2083a3-69d8-4a27-9476-f0fc1eed6324@nxp.com>
-Date: Tue, 29 Oct 2024 15:36:21 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] Re: [PATCH 1/5] dt-bindings: media: i2c: Add bindings for
- OX05B1S sensor driver
-To: Krzysztof Kozlowski <krzk@kernel.org>, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
- laurent.pinchart+renesas@ideasonboard.com, laurentiu.palcu@nxp.com,
- robert.chiras@nxp.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- LnxRevLi@nxp.com, kieran.bingham@ideasonboard.com, hdegoede@redhat.com,
- dave.stevenson@raspberrypi.com, mike.rudenko@gmail.com,
- alain.volmat@foss.st.com, julien.vuillaumier@nxp.com, alice.yuan@nxp.com
-References: <20241028190628.257249-1-mirela.rabulea@nxp.com>
- <20241028190628.257249-2-mirela.rabulea@nxp.com>
- <216a2728-ab62-4b76-aca5-8d911687dfbe@kernel.org>
-Content-Language: en-US
-From: Mirela Rabulea <mirela.rabulea@nxp.com>
-In-Reply-To: <216a2728-ab62-4b76-aca5-8d911687dfbe@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P191CA0008.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d5::19) To AS4PR04MB9244.eurprd04.prod.outlook.com
- (2603:10a6:20b:4e3::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD787205ACF
+	for <linux-media@vger.kernel.org>; Tue, 29 Oct 2024 13:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730209491; cv=none; b=i1REsHnZ4sr4/IZ1hVkOrKGAv9zH0tIBAMRoJQirJsBEYOW1uZHdVHgZF07VI24xNYuwocOb8XFh+2L7sH9QccwCAQg6oOUMr+NBGnqpuQnTmGplcWPDid/xdTW27WqfY/1khtpEwXIOvPa3xke2o+m15x3pcNVunqRhwgr/uRY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730209491; c=relaxed/simple;
+	bh=Cl6yKtIrMqwFX31VzUc3nCh1DF3ekW0wrnkOLP3ye+k=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ea6MehU7gwzxTmp69Ocf4koh3QNi0KnQQXj0mC6A6w9hJ/s3VWgCV6FOznAuLBdkBl8iSdcw/CvVdrz3/gkPnVfrKtlbq2YjNBiEqyXVKPK5zIYSlC0SPup4rTLI5btTb3JaLecRQKwKpfOHzu62bllF4j0cFlMV2CKFQYuNfb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tT3ZBBwD; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43161e7bb25so52406335e9.2
+        for <linux-media@vger.kernel.org>; Tue, 29 Oct 2024 06:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730209487; x=1730814287; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pUJkphEStzwJO4O1NIR8Po6mdkROYaBayKSF41nasT0=;
+        b=tT3ZBBwDhsYe6cdAhc1G/R3c7knaNNVT1q2o8AQg1zmXF0Ra6Jb5IqJfvH2R/SBhrI
+         AOVf1gYISknXtMQ15EmcrXnGzY4i+G2rMj8wpXs0BXQfU3dA6RGueQrzo/mV9RjJGDYa
+         xH4vMN+zIIE17XE8mXeUiMWaIPJSpc22zkkg034cmgdCrvvg7kDP/tf9QhEzrmZxHU2o
+         xM9ymCZ1yze+V08uf0nlcjGhEFObUtBIiSIhmhu4zxgKnI4msW0QuhGnXfXuRnMlk7WJ
+         2cD3S+iTulL3KkSs6iryEdDsWRe3cuU62TbYCjSBKJhnxnpNLc7KpxBtK7mH2mhFCPwx
+         iX9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730209487; x=1730814287;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pUJkphEStzwJO4O1NIR8Po6mdkROYaBayKSF41nasT0=;
+        b=HvLkICMy2xoedXbyt4osNs4k5hLDRn5pfN9gzwFowmZ4z3Nkmk+E4aOO1bc4nUMgKK
+         A91VfqFMGb8hnvpk/zoGYR3gaNwMRieUcHPxkvl2Owo2s7L1unGPUQNnsHNa3qeUriay
+         4ffLxcJgVYjYnoxd82rp/cJBLJt4kP9M/W9XTGZre+UzktC3YxErz/vlBhDpovMQNpp5
+         oYESeQJiZIm63TzUmyhH0uGKxXlnSm4vrCivduq8UBPCgrodoFFhgzJfBSeWL6lMPXF9
+         PO91mgvPWmFAZTXN0wbZtkcu790qGyWCN58Y5gcUHmUC33HqrIy/+xzHchYCmvtr/sM1
+         Ix7w==
+X-Forwarded-Encrypted: i=1; AJvYcCWwIdUcoT7+OniV3ThDMkf+2i62GK6Gaq6k8LtGVn/pmQA7epGECiu36tUc0pV72Tkg9aX0alZN9wXDmw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+CIaLvPaFTfOM1mABhQQTmgC82sfaK7kdRQdpanJ/ZP2Vo4ru
+	txe3WVrUhNpzdt/99xsaJaMsejLp81zs1bEWPwd4zUfbv+SHvnPyni8AxfoN81E=
+X-Google-Smtp-Source: AGHT+IEpQAtL43zFwgfi4A77StpEjcj+SqwLbhpPLDV4ePBgEgPNwUCUrxojCxlDLVwcaj06TFFy4Q==
+X-Received: by 2002:a05:600c:3512:b0:431:588a:4498 with SMTP id 5b1f17b1804b1-4319ac9ad1bmr117291015e9.14.1730209487142;
+        Tue, 29 Oct 2024 06:44:47 -0700 (PDT)
+Received: from [127.0.0.1] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43193594fffsm143668855e9.13.2024.10.29.06.44.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2024 06:44:46 -0700 (PDT)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Date: Tue, 29 Oct 2024 13:44:45 +0000
+Subject: [PATCH v3] media: dt-bindings: Remove assigned-clock-* from
+ various schema
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|PA4PR04MB9640:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ef7200a-b6c7-438f-ffaf-08dcf81eaeaf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?YStBK1YxaGY0bkM0TytjdTZGS0VDR1lVTkFWQy92SU4rQ2tvM3ljV0p1MEZa?=
- =?utf-8?B?cXVZaFlUSlBmZzE1L01mT1hOYVIwaHBraHVwV25wVmRybnRYanVzM2JVdEdp?=
- =?utf-8?B?V0I3L01qa0hKMUZ2OER5VUhrSXZPVm1KZit3Q2JoSGxhdUVHVUt3U0pTVzBq?=
- =?utf-8?B?WG9CMUNnZmVWQyswNzZZWDBpOHBPcUQ5aHBSaU1wODBmNzRaazJENkhFbjNG?=
- =?utf-8?B?QStSNTlkVnVaUGtCcjA4OFpsc0dwbE14U2pSUk01aWppVzFCTFNDTWZVUG10?=
- =?utf-8?B?ZGJjWm44eXZCWVpTZFU4VXFkelRxQnpuc0tVbWpxSDBHM2tGR1BsOWRNMDVW?=
- =?utf-8?B?WTRZSUpnVVdpTG9xVjd6U0x1QkpwUHVWQmZyVWgzUld6am5wSk1rZ1dWTExa?=
- =?utf-8?B?bWw3Tm9obWdLblRxSTRRYWJ1MEtXYzhjZ0tQbGxERHZyYmlHeU5CSzBLTm5v?=
- =?utf-8?B?aElsYU15Qm93Sk43dFJsTHJrN3VDVGtWWDJyS0ptYmZ1TGpOU3BYOWtMOVdp?=
- =?utf-8?B?cWVIUUxwVEJPTjMxZWZiZnV3VmxoOUZBaVZnK0JoNDJjWGRzMGZXOTVTYUV0?=
- =?utf-8?B?WDFOYjBUT1lDaWZYQkhRUXV5YVgreU16b0lQbnJKQlpFRGt0NHZnb1lmbExV?=
- =?utf-8?B?TzE0T2FBZkVWMlNqcWE4V0U0Z0V4UmxBSHl4a1FDYXJrVUJ0S1cwR3prNGpv?=
- =?utf-8?B?ai9KU1R2eDhhWVN4b0cxck9ZN1VKaE9WZk5nYTR5ZEl0UXdBdG51eDVUeGtk?=
- =?utf-8?B?SU1YbE1TdUtVYTllRlVYeUpIYXV6Tk83TkxSRjR2ZDZQZGdoS0poWjMvSHFH?=
- =?utf-8?B?NmpvNHVKcFNwN3h6MmM3a3E4SGdwaEgwdWJ5OHB5azZVTDBrdFVHS1BHeEZ1?=
- =?utf-8?B?NW5HaG4yNTh1aVRsQkxvWlRsVUhuOWVJVDd2M0RaM3doZ1ZtU2pwR01SaVlD?=
- =?utf-8?B?bWplR29tcHlvMFZmOHYxWDVvcVo4dVNCYXRvSEh5VVNHOWk2dGRCZHVlZW9F?=
- =?utf-8?B?TjVXNlNJWVByWWE4dm9tUG9MbG1pZE5HK2QvbjNENUVFQTF2UlQzaHAvaEJs?=
- =?utf-8?B?d0RVUzB1cVBkeWduK0RWaDUxR0w2cHlWR0NBaEo1RXp6RU5vMm0wUkltYm9p?=
- =?utf-8?B?Mnk4djR0cFR1NnVjSVZ1VXUvd0RWWE5sTDBCNmVJdVBraitrOEVvZDBGTW9q?=
- =?utf-8?B?ejd4V3gzWmlXM0tUVzJPWDZDOXhnYmlFeG9ZNzFMa1ZxWU9OazUzZ1ZFNEFx?=
- =?utf-8?B?Uks4SjJUQjdBLzB1Q2pPcitMRFhnbXU0WHpOUVorRFRZV1pMRGJ2N1c2SkFW?=
- =?utf-8?B?NURNdWMycGxmWDFzUEhOL1lKM3VqaHUvM3E4dElIRzBldUJCZEJ1QTZxcFBM?=
- =?utf-8?B?bFVZdzJWMnZaR3FDWFB4dlN0RmpSQzB2WkxkbVAwenp4ODQrN0cvamdqa0d3?=
- =?utf-8?B?blMzRVJVRUNxYmd0VnVPYjBZOE96a2dvTTJvMzQ2OGpZQnhXNUhUQWUrNVJG?=
- =?utf-8?B?cHFVOUtjMmJaVExPbnhCaTh2M01TRXNySFpDekxwdUROSXFzZmtHbHF2ZXdC?=
- =?utf-8?B?dXd4QVFpZkFiMk81MFQyNlVabWpuL3F2b2prYVVqQXBZMkVISzhFL1J0UmYv?=
- =?utf-8?B?dFBZM3Z1N0VkVWJuTFJXbnptNTM4WjFKSHBhZ0NHQ3JIeEtJcHI5aXd4Vklw?=
- =?utf-8?Q?dDD5sf0sBFxxOlf/WMKM?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UVcxTklkNGdQZjBVT1BUVjZucHhrRnJmVHBseSsyYzhGd09kczc0WnF5QTI3?=
- =?utf-8?B?Q01GMU5ZUjNLMjVtaEZmNWFKQjdETk9PcTJUZ1pkUzBCRFRRR0lYNERMZzFN?=
- =?utf-8?B?NGwrTGxRM0hZdUgrcW54MUpZaCtaWFU1ZWVDdVJtbnJNMFBlTkpRT1pVZWtr?=
- =?utf-8?B?bjQ0WStPblEzSlN2UkwwWDhoVzFpZzkrM0ovdkNsYW14TUl0U0dCWDZLUXJD?=
- =?utf-8?B?Uk5YVlJLSzNMMTV0VnZ0NXlQZzRBWjFpY2lYZ0JUaWZ2VldtcmdHSFF3Y01D?=
- =?utf-8?B?aE1xZHpJRnpYSi9xK3hrbkI3SzRVMWVFU1hsVmltZmhVZ0FFT2R1dk56aGc5?=
- =?utf-8?B?OGJ2cjRsMUVmWms2bGttbno5Z1I1azB2K3YySGdEcGJ1UFBSVUZTR2hEV3FG?=
- =?utf-8?B?YmVYK0d1OWt5alllR05mclpFZ0dkQTZja1VYSTlKbktIc1lKSE56R3E5VHA1?=
- =?utf-8?B?bVBXRFBnSEEySitWYlJ6c2pRMHZlNnhaTXEwWWF0cmlCTnpjdWJsVE9RcW9O?=
- =?utf-8?B?bXNGQjVxQXNHQmtSRlhhS3hEeklubCtzNHBVV0tGRXMydVZkS1NGay9FZ2Vq?=
- =?utf-8?B?b1NHYkpLTFM3N2FIclNlelFkOXBTbDlGRFlkKzdWOTlxY1BaR3o0UXMyNm4x?=
- =?utf-8?B?MnVUSktJNVJiby9DZ2RsNW1GZXV2ZTBnL0VwL1lnQUJIbVY5K2ZCMEVpMWZp?=
- =?utf-8?B?RktkRkVUd2c2RHEzcFgwVFl1bGx3dzNlNVFRV2IrWHlzNTkwbHgrNDhDUXU1?=
- =?utf-8?B?R0xiRElSZmpteDhWbmRpZHJvR3IvZUszK2FkQVhmSmxzeFdzRldxc0Q2WlRY?=
- =?utf-8?B?SWJpMnA2NExLQkdnaTFzem92azRyWlhLOTFiWjdYRW81QmsvUCtYZXp1MjV2?=
- =?utf-8?B?Yk00TUR4R1J2VXFoczN4d1d3RzdrUWRYKzJXdXBSUkpNbkJBenVmRXM5VHBE?=
- =?utf-8?B?bHh6d0U3REFybTRxTWFBQks4YzdJNjRsS2JTdkxWUlErVHZacElyNVlEeDNo?=
- =?utf-8?B?bWlGcUlKL0x4eDJlWVlLUHU4T2NkQTNicVBSTHZKcEdKb3hCSURUWCt2RFRl?=
- =?utf-8?B?K0Z3WS95YVJJdjI1aHc3N2FDU2ZRZlpwWWxRK1RHSnRoOWo4L3lWbXA0WUtv?=
- =?utf-8?B?aGtURXd2SGVWVEJCb1o1OUZzb3VYdmMzQ21KSVRPQUpDQlI2TDJmVkNJYWRn?=
- =?utf-8?B?bjdzRGQ0UnJ5a1Rva3ZqK2dXRUFWL290L09JYmEvYnBhbDBLTnFIWGYwajMz?=
- =?utf-8?B?T0h3QkdjZEp1VnFxWng0VnNGVStnRGpoRUlaOUl1MW5reFNzWXQxaWN6eW9x?=
- =?utf-8?B?c1NpQzlQajJsSm1QSHFKYkZYMGxRWGhoL1pHcWFyV0JOOW0ycHZ6ZmF1cnVI?=
- =?utf-8?B?SWkxMmIwcnB4elRhQUJSUWF6TEQ3SEE2N0o1dWtMYWpZclZmcVljeEhOaHlT?=
- =?utf-8?B?dGtkclE3MTNtSzFvR0c1bHhpbDdTMlczQllCTHlaSFNaVW9XYU45Nms2WlhG?=
- =?utf-8?B?MzZCK3pGU2dVS3BEaXhTV2hrWUM1RVBlL1RNSVBabXo5VCtVZjArU2RwM0I3?=
- =?utf-8?B?TzIxcEJ1YnMrUDF6RTBrMmZ6VmhUSmVSMCt5cTNQMmxRc0dNa3RINXpEbXdN?=
- =?utf-8?B?RWFhQU9acGxNQlgzUUNjVVdDaTY5MUgvRGpBU2NpQ2t6cStDZ3BSMFgvRVc1?=
- =?utf-8?B?Vys1eWk4MzJ2T0RuRTcybEp0d282K3hIYmxNcG5HcGlUSVVYMGM5c0l1QWFi?=
- =?utf-8?B?eWEzTjA1RHQ2Qks3KzQ5bDRpT2JlRnI0VUZFNzhPUUh6aHFOb2NxbVFZeVhl?=
- =?utf-8?B?cFdySktMZXNhUWtpVUkreUtEY1htZVo1NVJod1dFM3NFYXBGeW5SaTdkSnRy?=
- =?utf-8?B?QzRSVVJBRUVBV3FIL0c3QlpicDJEcytQVTFzeUtQS3BwOFlwTjNxWDBoQjM1?=
- =?utf-8?B?MnNQVk9sUTJOdmxHeDhLSUxXMDlZUndhU0grbklsRURibnpCaWwzRDhQaC9N?=
- =?utf-8?B?cHhmUGpTK3BDbDBYT2JVNkg4WkhWMDNsMGpkWFRtN0FSdUNVdUdrb2FBWkFF?=
- =?utf-8?B?SlRoOVVYY09mQ3Y1a0RYZmVLUkd2WGZsMTZTWXpxQStZT2t3VklPM2tHMGNY?=
- =?utf-8?B?Z0lCUXNlMDJ4clVsQVlmRTJsZlYyb1pFUUtCNStQSnVFeEtqM0lOTjg1Qmx0?=
- =?utf-8?B?Y1E9PQ==?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ef7200a-b6c7-438f-ffaf-08dcf81eaeaf
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2024 13:36:24.6155
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ddpJsHJca0aIS9ZwgG50NwOSTYNRPiWEgRaNMnbqwuTZkPHglVYEsb3nLx4+hclMkYroahqbMfez8BfznxKqoA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9640
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241029-b4-linux-next-202041004-i2c-media-yaml-fixes-v3-1-f2eb07615f30@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAMzmIGcC/5WPSw7CMAxEr1JljVHsJvxW3AOxSFMXLJUWJSVqh
+ Xp3UsQClixnrHlPfqrIQTiqQ/FUgZNE6bscylWh/NV1Fwapc1akyaDWFioDrXSPEToeB8i1Xno
+ DQh5uXIuDyd1aaGTkCI1vrNceWe9qlZH3wO9DJp7OOV8lDn2Y3vaES/sRIf0nSggaHFUVksPtf
+ lMf89aFft2Hi1pMib7o9OcbiQABK2NLi1vjrPuhz/P8AilP6M9HAQAA
+X-Change-ID: 20241005-b4-linux-next-202041004-i2c-media-yaml-fixes-fcf5c0c1e08d
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Martin Kepplinger <martink@posteo.de>, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+ "Paul J. Murphy" <paul.j.murphy@intel.com>, 
+ Daniele Alessandrelli <daniele.alessandrelli@intel.com>, 
+ Tommaso Merciai <tomm.merciai@gmail.com>, 
+ Martin Hecht <martin.hecht@avnet.eu>, Zhi Mao <zhi.mao@mediatek.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Mikhail Rudenko <mike.rudenko@gmail.com>, 
+ Ricardo Ribalda <ribalda@kernel.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Umang Jain <umang.jain@ideasonboard.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Dongchun Zhu <dongchun.zhu@mediatek.com>, 
+ Quentin Schulz <quentin.schulz@theobroma-systems.com>, 
+ Todor Tomov <todor.too@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+X-Mailer: b4 0.15-dev-dedf8
 
-Hi Krzysztof,
+Remove extraneous assigned-clock* from media/i2c/* schemas.
 
-thanks for feedback.
+assigned-clock and assigned-clock-parent assume that there is a clock that
+can be assigned and/or a clock parent that similarly can be assigned by
+firmware which may not always be the case.
 
-On 29.10.2024 08:14, Krzysztof Kozlowski wrote:
-> On 28/10/2024 20:06, Mirela Rabulea wrote:
->> Add bindings for OX05B1S sensor driver
->>
->> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> <form letter>
-> Please use scripts/get_maintainers.pl to get a list of necessary people
-> and lists to CC. It might happen, that command when run on an older
-> kernel, gives you outdated entries. Therefore please be sure you base
-> your patches on recent Linux kernel.
->
-> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-> people, so fix your workflow. Tools might also fail if you work on some
-> ancient tree (don't, instead use mainline) or work on fork of kernel
-> (don't, instead use mainline). Just use b4 and everything should be
-> fine, although remember about `b4 prep --auto-to-cc` if you added new
-> patches to the patchset.
->
-> You missed at least devicetree list (maybe more), so this won't be
-> tested by automated tooling. Performing review on untested code might be
-> a waste of time.
-My bad, I ran get_maintainer.pl on the driver, but forgot to do so for 
-the bindings. I will resend to extended audience, once I will also 
-address the feedback from all reviewers.
->
-> Please kindly resend and include all necessary To/Cc entries.
-> </form letter>
->
-> Binding also looks very different than all other devices, so re-write it
-> starting from EXISTING GOOD bindings. Not some downstream stuff.
-Would this be a good example? 
-Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
->
-> A nit, subject: drop second/last, redundant "bindings". The
-> "dt-bindings" prefix is already stating that these are bindings.
-> See also:
-> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
->
-> A nit, subject: drop second/last "driver". Bindings are for hardware,
-> not drivers.
+The sensor properties themselves should not mandate assigned-clock* as a
+result.
 
-I will rephrase it to:
+Link: https://lore.kernel.org/linux-media/j7kgz2lyxnler5qwd7yiazdq6fmsv77kyozdrxf33h54ydakjz@uqjhwhoyv6re
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Changes in v3:
+- Updates commit log with more description of why we are removing
+  assigned-clock from the properties - Laurent
+- Drops assigned-clocks from the examples too.
+  assigned-clock in examples has the example quality as status="okay" - Laurent
+- Link to v2: https://lore.kernel.org/r/20241025-b4-linux-next-202041004-i2c-media-yaml-fixes-v2-1-1b4535174a5a@linaro.org
 
-dt-bindings: media: i2c: Add OX05B1S sensor
+v2:
 
-Add bindings for OX05B1S sensor.
+- Changes series name was: media: i2c: Cleanup assigned-clocks and endpoint: properties: unevaluatedProperties: false
+  Dropping the second patch in the series means the title changes too - bod
+- Drops unevaluatedProperties -> additionalProperties change
+  There is no clear consensus on this right now.
+- Adds Reviewed-by and Acked-by as indicated to patch #1 Laurent, Krzysztof 
+- Link to v1: https://lore.kernel.org/r/20241012-b4-linux-next-202041004-i2c-media-yaml-fixes-v1-0-a2bb12a1796d@linaro.org
 
-Thanks,
+v1:
 
-Mirela
+On a recent schema submission I did what most well adjusted schema writers
+do and tried to find a base file to work from to copy/paste and forget.
 
->
-> Best regards,
-> Krzysztof
->
+Confusingly/predictably I received feedback to remove or alter several of
+the properties included in my devious copy/paste plan.
+
+The first bit of feedback was that assigned-clock-* was to be dropped.
+Removing assigned-clock-* as assigned-clock-* is a core property which
+doesn't need to be listed in a schema.
+
+The second bit of feedback landed on use of additionalProperties:false
+along with enumeration of all required endpoint properties instead of an
+implied list of valid properties from unevaluatedProperties:false.
+
+Link: https://lore.kernel.org/linux-media/20241010-b4-master-24-11-25-ov08x40-v6-0-cf966e34e685@linaro.org
+
+This series removes the assigned-clock-* from upstream sensor property
+schemas and applies additionalProperities:false to properties: endpoint:.
+
+A few missing properties: or required: are added to the schemas based on
+output of DT checkers.
+
+The one new DT complaint I didn't fix with the move to
+additionalProperties: false is:
+
+/home/deckard/Development/qualcomm/qlt-kernel-tools/qlt-kernel/build/x1e80100-crd_qlt_integration/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb: imx219@10: port:endpoint: 'remote-endpoint' is a required property
+
+Since this appears to be some sort of temporary/commented thing upstream
+which I don't know the provenance of.
+---
+ Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml | 10 ----------
+ Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml | 11 -----------
+ Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml | 10 ----------
+ Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml |  8 --------
+ Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml |  7 -------
+ Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml |  8 --------
+ Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml |  8 --------
+ Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml |  8 --------
+ 8 files changed, 70 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+index 60f19e1152b33128cf3baa15b8c70a874ca6d52e..1a57f2aa198228dff784aad25c2c0e39b6c32a9a 100644
+--- a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+@@ -28,12 +28,6 @@ properties:
+     items:
+       - description: Reference to the mclk clock.
+ 
+-  assigned-clocks:
+-    maxItems: 1
+-
+-  assigned-clock-rates:
+-    maxItems: 1
+-
+   reset-gpios:
+     description: Reference to the GPIO connected to the RESETB pin. Active low.
+     maxItems: 1
+@@ -82,8 +76,6 @@ required:
+   - compatible
+   - reg
+   - clocks
+-  - assigned-clocks
+-  - assigned-clock-rates
+   - vddio-supply
+   - vdda-supply
+   - vddd-supply
+@@ -105,8 +97,6 @@ examples:
+             pinctrl-names = "default";
+             pinctrl-0 = <&pinctrl_csi1>;
+             clocks = <&clk 0>;
+-            assigned-clocks = <&clk 0>;
+-            assigned-clock-rates = <25000000>;
+             vdda-supply = <&reg_camera_vdda>;
+             vddd-supply = <&reg_camera_vddd>;
+             vddio-supply = <&reg_camera_vddio>;
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+index 1f497679168c8395a94b3867beb49b251ef621fc..8028c8b107c46cc69ebadac637904f9917fb0f0a 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+@@ -20,12 +20,6 @@ properties:
+     items:
+       - description: XVCLK Clock
+ 
+-  assigned-clocks:
+-    maxItems: 1
+-
+-  assigned-clock-rates:
+-    maxItems: 1
+-
+   dvdd-supply:
+     description: Digital Domain Power Supply
+ 
+@@ -68,8 +62,6 @@ required:
+   - compatible
+   - reg
+   - clocks
+-  - assigned-clocks
+-  - assigned-clock-rates
+   - dvdd-supply
+   - dovdd-supply
+   - port
+@@ -93,9 +85,6 @@ examples:
+             avdd-supply = <&ov5648_avdd>;
+             dovdd-supply = <&ov5648_dovdd>;
+             clocks = <&ov5648_xvclk 0>;
+-            assigned-clocks = <&ov5648_xvclk 0>;
+-            assigned-clock-rates = <24000000>;
+-
+ 
+             ov5648_out: port {
+                 ov5648_out_mipi_csi2: endpoint {
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+index 8a70e23ba6abed67d8b61c33bd7a261089bddda2..320b9aacbb8bf08e6d06c927ee198c468def4642 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+@@ -20,12 +20,6 @@ properties:
+     items:
+       - description: EXTCLK Clock
+ 
+-  assigned-clocks:
+-    maxItems: 1
+-
+-  assigned-clock-rates:
+-    maxItems: 1
+-
+   dvdd-supply:
+     description: Digital Domain Power Supply
+ 
+@@ -68,8 +62,6 @@ required:
+   - compatible
+   - reg
+   - clocks
+-  - assigned-clocks
+-  - assigned-clock-rates
+   - dvdd-supply
+   - avdd-supply
+   - dovdd-supply
+@@ -94,8 +86,6 @@ examples:
+             pinctrl-0 = <&csi_mclk_pin>;
+ 
+             clocks = <&ccu CLK_CSI_MCLK>;
+-            assigned-clocks = <&ccu CLK_CSI_MCLK>;
+-            assigned-clock-rates = <24000000>;
+ 
+             avdd-supply = <&reg_ov8865_avdd>;
+             dovdd-supply = <&reg_ov8865_dovdd>;
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+index 79a7658f6d0547e4d6fb2267e5757eedf49fd416..401c8613f84038451b90d244021a1388f32c91da 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+@@ -27,10 +27,6 @@ properties:
+     description: I2C address
+     maxItems: 1
+ 
+-  assigned-clocks: true
+-  assigned-clock-parents: true
+-  assigned-clock-rates: true
+-
+   clocks:
+     description: Clock frequency from 6 to 27MHz
+     maxItems: 1
+@@ -87,10 +83,6 @@ examples:
+             reg = <0x60>;
+             clocks = <&ov9282_clk>;
+ 
+-            assigned-clocks = <&ov9282_clk>;
+-            assigned-clock-parents = <&ov9282_clk_parent>;
+-            assigned-clock-rates = <24000000>;
+-
+             port {
+                 ov9282: endpoint {
+                     remote-endpoint = <&cam>;
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+index c978abc0cdb35cfe2b85069946cf1be435a58cb8..975c1d77c8e5d24179e9cb8d92fe7b6798c4d2ec 100644
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+@@ -24,10 +24,6 @@ properties:
+       - sony,imx258
+       - sony,imx258-pdaf
+ 
+-  assigned-clocks: true
+-  assigned-clock-parents: true
+-  assigned-clock-rates: true
+-
+   clocks:
+     description:
+       Clock frequency from 6 to 27 MHz.
+@@ -125,9 +121,6 @@ examples:
+             reg = <0x6c>;
+             clocks = <&imx258_clk>;
+ 
+-            assigned-clocks = <&imx258_clk>;
+-            assigned-clock-rates = <19200000>;
+-
+             port {
+                 endpoint {
+                     remote-endpoint = <&csi1_ep>;
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+index bce57b22f7b63bd73f08d8831d9bb04858ef03e0..3842e5130463491e833cbadcdc3a07c55f766c27 100644
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+@@ -24,10 +24,6 @@ properties:
+     description: I2C address
+     maxItems: 1
+ 
+-  assigned-clocks: true
+-  assigned-clock-parents: true
+-  assigned-clock-rates: true
+-
+   clocks:
+     description: Clock frequency from 6 to 27 MHz, 37.125MHz, 74.25MHz
+     maxItems: 1
+@@ -74,10 +70,6 @@ examples:
+             reg = <0x1a>;
+             clocks = <&imx334_clk>;
+ 
+-            assigned-clocks = <&imx334_clk>;
+-            assigned-clock-parents = <&imx334_clk_parent>;
+-            assigned-clock-rates = <24000000>;
+-
+             port {
+                 imx334: endpoint {
+                     remote-endpoint = <&cam>;
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
+index 77bf3a4ee89db3b5d16149470c0380ef8f1aeac1..80f879b6bd01bf6ce81eb9b6c1451448509ca74e 100644
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
+@@ -24,10 +24,6 @@ properties:
+     description: I2C address
+     maxItems: 1
+ 
+-  assigned-clocks: true
+-  assigned-clock-parents: true
+-  assigned-clock-rates: true
+-
+   clocks:
+     description: Clock frequency from 6 to 27 MHz, 37.125MHz, 74.25MHz
+     maxItems: 1
+@@ -86,10 +82,6 @@ examples:
+             reg = <0x1a>;
+             clocks = <&imx335_clk>;
+ 
+-            assigned-clocks = <&imx335_clk>;
+-            assigned-clock-parents = <&imx335_clk_parent>;
+-            assigned-clock-rates = <24000000>;
+-
+             avdd-supply = <&camera_vdda_2v9>;
+             ovdd-supply = <&camera_vddo_1v8>;
+             dvdd-supply = <&camera_vddd_1v2>;
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+index d9b7815650fdb890418fc96c828acc9147dfb6e8..5447ab0768a66afaf665f155d1f5bf90210eacc6 100644
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+@@ -26,10 +26,6 @@ properties:
+     description: I2C address
+     maxItems: 1
+ 
+-  assigned-clocks: true
+-  assigned-clock-parents: true
+-  assigned-clock-rates: true
+-
+   clocks:
+     description: Clock frequency 6MHz, 12MHz, 18MHz, 24MHz or 27MHz
+     maxItems: 1
+@@ -86,10 +82,6 @@ examples:
+             reg = <0x1a>;
+             clocks = <&imx412_clk>;
+ 
+-            assigned-clocks = <&imx412_clk>;
+-            assigned-clock-parents = <&imx412_clk_parent>;
+-            assigned-clock-rates = <24000000>;
+-
+             port {
+                 imx412: endpoint {
+                     remote-endpoint = <&cam>;
+
+---
+base-commit: 58ca61c1a866bfdaa5e19fb19a2416764f847d75
+change-id: 20241005-b4-linux-next-202041004-i2c-media-yaml-fixes-fcf5c0c1e08d
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
 
