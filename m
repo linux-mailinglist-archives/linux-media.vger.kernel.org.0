@@ -1,490 +1,308 @@
-Return-Path: <linux-media+bounces-20489-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20490-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A1C9B43A1
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 09:01:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 786EF9B4400
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 09:18:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 47F35B21751
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 08:01:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C2E11C21476
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 08:18:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE7B6202F9F;
-	Tue, 29 Oct 2024 08:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="RQle4OfS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3470D201254;
+	Tue, 29 Oct 2024 08:18:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2075.outbound.protection.outlook.com [40.107.103.75])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757751DF243;
-	Tue, 29 Oct 2024 08:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730188890; cv=fail; b=oHPW8ZDikIFxMP1FxT4UMQuX6aMDRGyBMtlPjkM54maiu0RELtOJP2+CjEb+0qAlT0a7bUzut2+cq2T8D34lYgXIj0Fdbg2rnf97ETTfLDwnrSpqmy19WVNj0In/X0hBa5w4OharBNDktHFDd+af3FeDwg/EJBQrmm6k+poIQsU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730188890; c=relaxed/simple;
-	bh=PGViDPWPDjIJrUl/VMzq6vNwvSsvrpGydhPRVOi+yEA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ESCnMq0+gTLuGqmNJ8/d9kEuvGVHp6T1wpXiE74XMfaPTRErMxDZA3+iURcF90N3Y3i0xppzCXtTfwY/c0EE25Zijr8+vyJ1aAV+1VotOTsdj1vn/S6wQftYcxws72YzAV9J8UcZM8A3lWUWhbn+jlmdJ+IDztWWQqIqgTP6i7M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=RQle4OfS; arc=fail smtp.client-ip=40.107.103.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CRlVvsgXM2U0x4f2wYrlGi8caE4KvLWrI8X18vW0QOnEw/bLB2LwoEUlu06NYJSsK17t66YP7UpIIs80n7ICflte9Pj/0tbjxK97bYip9N7c5e0m22u/9BBABE2JWgtnkCTnI/7WXkrmV8z5yAzhCs8M3v+1HnH9s981MYCPPbrGOxUCfnQ+fqHu8tUwc1D1G060Bkeq1gVozy0SbQ9ZN2xPGi28mx3VAPKZtzIeQtgyjMz7OjUYzikGw0JtgHbt7vOpdcsxvdcNg5+6q3vAey1oXDaoTxYGh7d1hLcHJWzJSMBJZPMDno1T/UuLboCiXYP9oxEtTzKq95P1dvWy7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=McXZpMH3TRJYhTsAbgj2DFFlts3hrdtt9Jw3sx9KEjg=;
- b=j76kb5cbwp5L7lgdego7zi0VlhAuxefOn0fEq1/I0VvnqQEAxpAdZ1ADk28SMBCJLL3QZPMkn2MfFbxifqZwSWgf2VYlioYMxhafO82JCffdHEKgVxld4FFs+pvh1RoIcJVH9hj9C07tJG27rPSUrFJvK3UGJhbCYyLSrLuETZkw3IYM1r9/nUBQICl0z1mQVOI4tiYeyUCdUZJsGi/0L5XyXXRZ90je2Q/bT/IHP0Et5g0RI/qXrQ4Q3eLXrqbbbm+iuDCiOtWTV76RaS0n3pgobItbPEboUbxQlhAH+cbqaqzhtB9g/ZelW0DkSrID9Snv8WQDiFk1rhVZATxqdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=McXZpMH3TRJYhTsAbgj2DFFlts3hrdtt9Jw3sx9KEjg=;
- b=RQle4OfSXh2IxkAmjqxJwFXeDuV/CBXan6rahjg6A2WiymoZ0I+BQHBkR6a03gSO5AyG/Fa7ReoQOhhocJTxbJE22rpFeZ/1ALz2SAe/hKjbT/nA1uLJM/AWhKwvenXDVRZmqWZZ0eGGJZZyZnCReE1OXBiuRsKA6rbeJLtZIUXfCKR0fFsz4TH+DRg8yxJXf13rxlTBa+kwAUediBv8HAXWqrNvrQn/7hfOPx7P8Z846Inc2pI25JNey9AvslcBAh+Xs0K+pf0GLV034hpaT7rR93/FJ6+90L0LXj4vlyibPo0h7xysotDTwYJAQV+1RnwB/Tz7QOG5zEgfrSNgFg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DB9PR04MB10010.eurprd04.prod.outlook.com (2603:10a6:10:4ee::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.21; Tue, 29 Oct
- 2024 08:01:21 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8093.023; Tue, 29 Oct 2024
- 08:01:21 +0000
-Message-ID: <69cfeb75-696e-43c4-ad27-aaf9ad3c6c78@nxp.com>
-Date: Tue, 29 Oct 2024 16:01:42 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS
- display common properties
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
- <simona@ffwll.ch>, "robh@kernel.org" <robh@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "quic_jesszhan@quicinc.com" <quic_jesszhan@quicinc.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "will@kernel.org" <will@kernel.org>,
- "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
- "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
- "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
- "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "arnd@arndb.de" <arnd@arndb.de>,
- "nfraprado@collabora.com" <nfraprado@collabora.com>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>, "marex@denx.de" <marex@denx.de>
-References: <20241028023740.19732-1-victor.liu@nxp.com>
- <20241028023740.19732-9-victor.liu@nxp.com>
- <TY3PR01MB11346FDF74840ADF7273A218D864B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <TY3PR01MB11346FDF74840ADF7273A218D864B2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: SG2PR02CA0119.apcprd02.prod.outlook.com
- (2603:1096:4:92::35) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF52318A95A
+	for <linux-media@vger.kernel.org>; Tue, 29 Oct 2024 08:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730189880; cv=none; b=Z9CQjCAV6/1Rj0HlMYOFlaSCsCeeMR9C+F9DBVfszAgAUx/VLaiaiQuuXlGdyvD2mJZX4BhoR+mNqMg3ZdQMRO6hjr1EUX0PoPHTaoUbVDTQK2VQa/bQQu89YWadL73pZPQ8AnObtdrbQAFzB7ra2cOBdvDjQl3wzI2vwVnRjxo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730189880; c=relaxed/simple;
+	bh=P/DaXYmMmtgMvsRJPGuotneOmHGNfDIg33LKVnfw0iY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I1WplQREkkkFJyccDF0V1Ly7mIkWOZHKrCv1sfO9NHHaBt/FlwZApaHkMjKwk4I0Ej5CAoUpFj/o1ne1QaKS5GTmkhRAa9YvA9afts9Lxn53YCd5OC1s54i+mw1j1IXiu2vn/06iS+7luUa5FjhKO94Rua9IDmrwipABelmXMl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7D89C4CECD;
+	Tue, 29 Oct 2024 08:17:59 +0000 (UTC)
+Message-ID: <e9ce9b42-ba66-4908-a528-b839272c2ab6@xs4all.nl>
+Date: Tue, 29 Oct 2024 09:17:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DB9PR04MB10010:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c2441e7-8a55-4ae7-f605-08dcf7efe00a
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?V0w2RDlES1JMNU9XekU0N2IyTHEySHppbmpJZ1lKUUduNDRRZ2RrWFQzNWFL?=
- =?utf-8?B?cGh3SW13OGNwTFpJZFJKZG4xNWpKTVhnY2VSbmUzNEp1RTh4QkwyZ2p4UVJ3?=
- =?utf-8?B?TnZFMDBRNEtDVHRJOEFJVGhmZEp0NU16WnIxR3JxQ1dxd1lTQ3pxVTB6QXNT?=
- =?utf-8?B?Nm5jQXZXeWJmczdEb2hCdUloKzE2UkJhKzlOMi9DaU5BVWtzZXd1ZVlqaWVp?=
- =?utf-8?B?dlZYZXQ5MU5RZ1BXT3VKalhVaGtCNWwwU0dYZDNGcU9lV1J0cmhLYzBYYVlF?=
- =?utf-8?B?WGFrWHFWUWtVUVViOUFWZXk3WWo2enlLdVk1RndKT3EyL0hqcnJjMEppM3hC?=
- =?utf-8?B?RlJzMUFLVW01WldTbmJDTDIrRXZQR01tR1BVSUR1bXBQZWdPQThSTDlwWnl5?=
- =?utf-8?B?ZEtLVTRYd1lEQnZpMFFnNkhSamFSR0V1cGRsS1IyYUV6UWhyNmFocWMxWHBD?=
- =?utf-8?B?c1loSjFOZTZySDBxUUVTeDM4Z3E5SHE4WU9pZUJGckFzY1hlaXZRbTUvNEd4?=
- =?utf-8?B?dWVWNUZtbDREL29ldllDMkF5a0ZmZTFId1gycjRLQ2ozM1psZEhjQitvaEYw?=
- =?utf-8?B?UmoxbUdGMEZ4amdrM1FzRFdRNk9xcWNEUHZlckJaR0hvblMzanZDNS9USGYz?=
- =?utf-8?B?cGxUdnQ5WnRXNU9UUVBPRmFnY2NLTzczR2N6Q0VIZllXMWZHVVJWSWdVaHUx?=
- =?utf-8?B?ZXBabG1IM0dsQmlMTjR1RWRrR09NV2lVSVR3azZrcWJsZjBlUUlvaklZc2tk?=
- =?utf-8?B?d0k0KzhERVJpaEVKbXNUR0tZSVZSNEJ3a0VFWmxxZGthVGxDZmlmbHhwREZj?=
- =?utf-8?B?T1NFY3NqQVIwTFUvUXRJN0o1Q2laSUkwbEFJNFNtRGM3dTNTdnhyUmRSRFNT?=
- =?utf-8?B?Rm1kOWlhai9xRVFXOUNDVHptRWJ3K1loZzhMR2JwZkxmOEpzZm1FazhNT3NJ?=
- =?utf-8?B?ay9iTmpIK0dsakhVVlJHcG9nNVg1eE9IQWNmZng4MTh4dEJNbkhUTnBuMkFw?=
- =?utf-8?B?Znh4b3ZlbzUydWhvdFNyL2dPTDEwWk9tUWhYOU1kUHVYbFJzU2xEZGFoRTRv?=
- =?utf-8?B?NkMvSVJhdkUyUGYxRDRDVEdiai9wRjVCTEVSWkVXbjBkRlozN1l0eURETjA2?=
- =?utf-8?B?MlNyVXNQYy9MVFR3N0t2THl6bEErWUpRVUhiR1MzVVU0SnlIbFA0YUhKQTRP?=
- =?utf-8?B?YWplSUMxamI3blZQOFBPSG0zV0NRVTNzTzVQMUJzbnBCUDU2cTQycnpEa0E5?=
- =?utf-8?B?WTV0Y0E0L3R4R21UQk1vY3BtMElsVTNEdUtyZnI4N3Jndjd1NVFTV1hGZzFy?=
- =?utf-8?B?M0Y2bTBDTE1HWEora1Z2WjFvUUZnazJsT093aTYva3dBbE11VDJDaEFGMFRv?=
- =?utf-8?B?ZlFZOGZCbG85dkF4SStUaFZjeWxPaTBrblpqNEtaMm5ldTh2Y1lZYWNtNjQr?=
- =?utf-8?B?VWxTM0trV25XNXdKUWtOUjAwM3dlQjIrOThPT096Sit2MFErdk95ZS9uNEZp?=
- =?utf-8?B?S2lxbS9kNVI0UTV1aEVkdWwwaTI0dEdTNERqbXFWME1zUGZyQ01vVTI2Q21J?=
- =?utf-8?B?OUNVOGlrVEU2dW9JM3BXRE1TejJpeVJpMy9lYm9GeXpIMzJmbUNHckc0WGZ4?=
- =?utf-8?B?dDdLbDV5TFRMNlVEbXpXbHVsczBLZnZZVkw1MzhCa2ZxWWNsQ1h3dmRwclBk?=
- =?utf-8?Q?E0AdYBYvmybS9v2PPFKs?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7046.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?dU0xUWVrbmZ3dlRKT2ljUmFqZmh4eFBoWEQ1Rk9RRElQV1ZjbGtSd3ZuRkhY?=
- =?utf-8?B?L05oK1ZVaUowWmVsZmUwdkhoOFQ1K0N3cWR2RlFOdmYvN3I3dkFwZHFOdlJP?=
- =?utf-8?B?L3g5KzNTNm8wQU0ycDFVeXprcG1OcGozZkZROWRoSE9QcVJ4emVzc1d1bzFm?=
- =?utf-8?B?V0NyMFg1QWpNbk04QzIxUkZMQ1RzaXhSOVRQV3FYUEUybHRacmJSV3hIQ1E1?=
- =?utf-8?B?RHpWMzduWUdETEJ6YmdLZ0o2Ym1od3M4Q3h6c1hDSGJKaXNDays3MWc1eXg2?=
- =?utf-8?B?MzVCZlVNUVFKVU84MTFBSHQ2MEFwZGlEL3ROOUlMWmJzOUdDL0xnV2h4Yzc5?=
- =?utf-8?B?UFNqbjhFNmhzY1R3VEUwcDBjVnRMd29qVnR2YVl3UlExWjBMU1ZaVzlQMnYy?=
- =?utf-8?B?T2JjQkNxYXFIcHdET1IxVWxPT0lDSTZVZ1VuVWtmd0F4MkJvYkMxOEJpMjFR?=
- =?utf-8?B?Wm16T3FVSXpBRzFBV3dDeEVDVE9Qb21SS2hrSG0zZ1huUjlLMHRMTmdMcEpY?=
- =?utf-8?B?eG52VW90QXVmSm1yWXBEbFRBYTJFN0p0aCtNak5OVkM5RVg4RkRQckhRYTV0?=
- =?utf-8?B?UWNLL0RucElBZzU0WlRZdm0rSVdJdU1aUVBLZStLbnM2UGNEQVRGUFBYbm45?=
- =?utf-8?B?bW85WnEybTg5YXpuZ2NzZlA2aHlTK1Uxa0djekdOSzlnUnp2cTlOS3U5MHdq?=
- =?utf-8?B?MkxpUEZmZnJvakZlekpHYXd5U0Fwc2h0cG9EYzFlVlZwSjBEZUZ5eGpQLzJl?=
- =?utf-8?B?LzVyWjBuaVkrZ053NWZHRC9VWEQrS0RVVVMydTBlakp6a0dYWDRqWFVmUTQv?=
- =?utf-8?B?S2pGVXhrNVUxdlVHUjFaWGpwR2N0b0I0L0kzckpnb0JLZnJrbkttOGI5Z0Yz?=
- =?utf-8?B?aFRhMFFBZTMwZ3VqVUxWNzRxN2hDMDRoV2VHdDIyYmFrektrTEpzeHQvdWYz?=
- =?utf-8?B?OXJMY3Q2UlNUdDVTZ1hNVWNjbE4wWUUrb0gxK1dPNGhjT2JKQTZZb3dUOXNP?=
- =?utf-8?B?RDhMcGthY0NZcFhtTkFiMU9GQWo1U295YzZHVzNrVTM3MXhzTlg4NmkvSkE1?=
- =?utf-8?B?L1l0NW41aExMTkRLRENXaXUyQ1FkSkRScHlwUCtubXFleFJpZFNhbDJhMVRu?=
- =?utf-8?B?ZjdnQ2tHc0syVEkrSEJhRDdXTjVwcUkxWE9naUZNVldNN3ZUR2JLTFZBK0FJ?=
- =?utf-8?B?TzYvU3lEc1RmYmoxTEF4NGNJSHFvOElSa0xiTC8zR3FKT2tzQkN2eCtaWTFz?=
- =?utf-8?B?b05pcUZERVhUc1BnRzlQYmhPSHZLamhnc2pCV2E2Wjc3NWhuZlFiekdOdXZy?=
- =?utf-8?B?Y2daSkdDZmtIN2pPSnczZjhHMnRMNXh0S290NjNnWHFTMVJ4WFVXNlQ0V2cw?=
- =?utf-8?B?dmpiYzhnN1NBaUZFTS9HUmpsQ0ZBSDZUZldsaTI5Rk1ycUcvcUVTQ0xOK0lK?=
- =?utf-8?B?emxUQUVBN2RFbEovWUxFQ3RxdkVPTFV2czBhT3BEZnNVenVSVjdoVnUvS2hy?=
- =?utf-8?B?YTgvWWMrbm9uZmVPeS9DeUMrZVJTb0RDMkozRC9XbmVjWG5uclpqVVVnK1dh?=
- =?utf-8?B?K2JESEd4MFRWbldHNGFlRGhQRHZyZUcxSnlzczZtWE1yTUFybkVjNGFjcWN1?=
- =?utf-8?B?b3Z2S25qMlFVa0RpT0QvK0twWndnQTJ2aDI1QlpJZkhBbytUSWhFSHNkRjJN?=
- =?utf-8?B?OG03ZVlEZjV0RlRLQW1MT3N4RjRjMEtLenRPUytwOTU4VTR0eGlvbUNpWk16?=
- =?utf-8?B?d0h2MXdXTjFBRE9TUnBnb1NOWjRhbHcrcHFvYXRUYjVRSlVDQ0pkZVlTT1Zm?=
- =?utf-8?B?bmtvQll6OThYVnFMemJQTmZ4Y01xOGMydWR0aVZyNE9wNitOTktFajhhOFBJ?=
- =?utf-8?B?TjVOWjJTVEYzWDhpejFHVTJEL2czWklMSHIwNmFGS2lVemVqWG1tRDZIbDhw?=
- =?utf-8?B?ODVZZGxuRDFKUmVPSEFGZEIrTzhNWDU5NmxZZTh3UjdKSWc4dEc1bVpMVTZF?=
- =?utf-8?B?czlnaTNDRVVyWTc4UEwyR1RZamhJRURoYXZBMzNmZ25MdjlJOTUzcmNEV2xK?=
- =?utf-8?B?WGllT2JXei80dUxBbEY3S0NLZXhadWRyQWR4bHY5VmFMNmpMVkJ1VmlOTTRH?=
- =?utf-8?Q?BKytABARulDlJ+aabOt7vy4iP?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c2441e7-8a55-4ae7-f605-08dcf7efe00a
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2024 08:01:20.9489
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EbNGPoPI4kZ+q6n/nmhMLz1kXVfVhtSQuZV3BbxWRKhqh57t7RHOQiLZhb/is845h1+7NO2bv8FWRUX8lkw85Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB10010
+User-Agent: Mozilla Thunderbird
+Subject: Re: RFC: add min_num_buffers and clarify
+ V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <126cd76a-6224-483b-a18d-a3cc89e5ff2d@xs4all.nl>
+ <20241028155244.GK24052@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20241028155244.GK24052@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 10/29/2024, Biju Das wrote:
-> Hi Liu Ying,
-
-Hi Biju,
-
+On 28/10/2024 16:52, Laurent Pinchart wrote:
+> Hi Hans,
 > 
->> -----Original Message-----
->> From: Liu Ying <victor.liu@nxp.com>
->> Sent: 28 October 2024 02:38
->> Subject: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS display common properties
+> On Mon, Oct 28, 2024 at 12:10:22PM +0100, Hans Verkuil wrote:
+>> Hi all,
 >>
->> Dual-link LVDS displays receive odd pixels and even pixels separately from dual LVDS links.  One link
->> receives odd pixels and the other receives even pixels.  Some of those displays may also use only one
->> LVDS link to receive all pixels, being odd and even agnostic.  Document common properties for those
->> displays by extending LVDS display common properties defined in lvds.yaml.
+>> This mail thread uncovered some corner cases around how many buffers should be allocated
+>> if VIDIOC_REQBUFS with count = 1 is called:
 >>
->> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Signed-off-by: Liu Ying <victor.liu@nxp.com>
->> ---
->> v4:
->> * Squash change for advantech,idk-2121wr.yaml and
->>   panel-simple-lvds-dual-ports.yaml with lvds-dual-ports.yaml.  (Rob)
->> * Improve description in lvds-dual-ports.yaml.  (Krzysztof)
->>
->> v3:
->> * New patch.  (Dmitry)
->>
->>  .../bindings/display/lvds-dual-ports.yaml     | 76 +++++++++++++++++++
->>  .../display/panel/advantech,idk-2121wr.yaml   | 14 +---
->>  .../panel/panel-simple-lvds-dual-ports.yaml   | 20 +----
->>  3 files changed, 78 insertions(+), 32 deletions(-)  create mode 100644
->> Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
->> b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
->> new file mode 100644
->> index 000000000000..5f7a30640404
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
->> @@ -0,0 +1,76 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/lvds-dual-ports.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Dual-link LVDS Display Common Properties
->> +
->> +maintainers:
->> +  - Liu Ying <victor.liu@nxp.com>
->> +
->> +description: |
->> +  Common properties for LVDS displays with dual LVDS links. Extend LVDS
->> +display
->> +  common properties defined in lvds.yaml.
->> +
->> +  Dual-link LVDS displays receive odd pixels and even pixels separately
->> + from  the dual LVDS links. One link receives odd pixels and the other
->> + receives  even pixels. Some of those displays may also use only one
->> + LVDS link to  receive all pixels, being odd and even agnostic.
->> +
->> +allOf:
->> +  - $ref: lvds.yaml#
->> +
->> +properties:
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: the first LVDS input link
->> +
->> +        properties:
->> +          dual-lvds-odd-pixels:
->> +            type: boolean
->> +            description: the first LVDS input link for odd pixels
->> +
->> +          dual-lvds-even-pixels:
->> +            type: boolean
->> +            description: the first LVDS input link for even pixels
+>> https://lore.kernel.org/linux-media/20241003-rp1-cfe-v6-0-d6762edd98a8@ideasonboard.com/T/#mc2210597d92b5a0f09fabdac2f7307128aaa9bd8
 > 
+> I'll repeat below some comments I've made in that thread, as they're
+> better discussed in the context of this RFC.
 > 
-> port@0 we know it is first link
-> port@1 we know it is second link.
-> dual-lvds-odd-pixels: We know it is for odd pixels.
-> dual-lvds-even-pixels: We know it is for odd pixels.
+>> When it comes to the minimum number of buffers there are a number of limitations:
+>>
+>> 1) The DMA engine needs at least N buffers to be queued before it can start. Typically
+>>    this is 0, 1 or 2, and a driver sets this via the vb2_queue min_queued_buffers field.
+>>    So if min_queued_buffers = 1, then the DMA engine needs one buffer at all times to
+>>    DMA to. Allocating just one buffer would mean the DMA engine can never return that
+>>    buffer to userspace (it would just keep recycling the same buffer over and over), so
+>>    the minimum must be min_queued_buffers + 1.
 > 
-> Not sure, whether we can give common description and avoid the duplicate
-> from port@1 ??
+> I think you're mixing hardware and driver constraints here. Drivers can
+> use scratch buffers to relax the hardware requirements, and allow
+> userspace operation with less buffers than strictly required by the
+> hardware.
+> 
+> The cost of allocating such scratch buffers vary depending on the
+> device. When an IOMMU is available, or when the device has a line stride
+> that can be set to 0 and supports race-free programming of the stride
+> and buffer addresses, the scratch buffer can be as small as a single
+> page or a single line. In other cases, a full-frame scratch buffer is
+> required, which is costly, and the decision on whether or not to
+> allocate such a scratch buffer should probably be taken with userspace
+> being involved.
 
-Yes, it'd better to use patternProperties. Thanks.
+I honestly don't see why you would want to spend a lot of time on adding
+scratch buffer support just to save a bit of memory. Is the use-case of
+capturing just a single buffer so common? To me it seems that it only
+makes sense to spend effort on this if you only need to capture a single
+buffer and never need to stream more buffers.
 
---8<--
-    patternProperties:                                                           
-      '^port@[01]$':                                                             
-        $ref: /schemas/graph.yaml#/$defs/port-base                               
-        unevaluatedProperties: false                                             
-        description: |                                                           
-          port@0 is for the first LVDS input link.                               
-          port@1 is for the second LVDS input link.                              
-                                                                                 
-        properties:                                                              
-          dual-lvds-odd-pixels:                                                  
-            type: boolean                                                        
-            description: LVDS input link for odd pixels                          
-                                                                                 
-          dual-lvds-even-pixels:                                                 
-            type: boolean                                                        
-            description: LVDS input link for even pixels                         
-                                                                                 
-        oneOf:                                                                   
-          - required: [dual-lvds-odd-pixels]                                     
-          - required: [dual-lvds-even-pixels]                                    
-          - properties:                                                          
-              dual-lvds-odd-pixels: false                                        
-              dual-lvds-even-pixels: false                                       
-                                                                                 
-    anyOf:                                                                       
-      - required:                                                                
-          - port@0                                                               
-      - required:                                                                
-          - port@1
---8<--
+Can you describe the use-case of capturing just a single buffer? Is that
+just for testing libcamera? Or is it something that happens all the time
+during normal libcamera operation?
+
+Supporting scratch buffers is a lot of effort for something that is not
+needed for normal streaming.
 
 > 
-> 
->> +
->> +        oneOf:
->> +          - required: [dual-lvds-odd-pixels]
->> +          - required: [dual-lvds-even-pixels]
->> +          - properties:
->> +              dual-lvds-odd-pixels: false
->> +              dual-lvds-even-pixels: false
-> 
-> Why this is false here? oneOf is not sufficient?
+> min_queued_buffers describes how the device operates from a userspace
+> point of view, so I don't think it should be considered or documented as
+> being a hardware requirement, but a driver requirement.
 
-The 'false' is used when this LVDS link works alone
-as a single LVDS link, being odd and even agnostic.
-
-The 'oneOf' allows a LVDS link to be defined as a single
-LVDS link or one link of dual LVDS links.
+It's a hardware and/or driver requirement. It is absolutely not a userspace
+requirement. Normal userspace applications that use VIDIOC_REQBUFS and just
+stream video will never notice this.
 
 > 
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: the second LVDS input link
->> +
->> +        properties:
->> +          dual-lvds-odd-pixels:
->> +            type: boolean
->> +            description: the second LVDS input link for odd pixels
->> +
->> +          dual-lvds-even-pixels:
->> +            type: boolean
->> +            description: the second LVDS input link for even pixels
->> +
->> +        oneOf:
->> +          - required: [dual-lvds-odd-pixels]
->> +          - required: [dual-lvds-even-pixels]
->> +          - properties:
->> +              dual-lvds-odd-pixels: false
->> +              dual-lvds-even-pixels: false
+>> 2) Historically VIDIOC_REQBUFS is expected to increase the count value to a number that
+>>    ensures the application can smoothly process the video stream. Typically this will
+>>    be 3 or 4 (if min_queued_buffers == 2): min_queued_buffers are used by the DMA engine,
+>>    one buffer is queued up in vb2, ready to be used by the DMA engine as soon as it
+>>    returns a filled buffer to userspace, and one buffer is processed by userspace.
+>>
+>>    This is to support applications that call VIDIOC_REQBUFS with count = 1 and leave it
+>>    to the driver to increment it to a workable value.
 > 
-> Same as above??
-> 
-> Cheers,
-> Biju
-> 
->> +
->> +required:
->> +  - ports
->> +
->> +additionalProperties: true
->> +
->> +...
->> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
->> b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
->> index 2e8dbdb5a3d5..05ca3b2385f8 100644
->> --- a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
->> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121
->> +++ wr.yaml
->> @@ -20,6 +20,7 @@ description: |
->>    dual-lvds-odd-pixels or dual-lvds-even-pixels).
->>
->>  allOf:
->> +  - $ref: /schemas/display/lvds-dual-ports.yaml#
->>    - $ref: panel-common.yaml#
->>
->>  properties:
->> @@ -44,22 +45,10 @@ properties:
->>
->>      properties:
->>        port@0:
->> -        $ref: /schemas/graph.yaml#/$defs/port-base
->> -        unevaluatedProperties: false
->> -        description: The sink for odd pixels.
->> -        properties:
->> -          dual-lvds-odd-pixels: true
->> -
->>          required:
->>            - dual-lvds-odd-pixels
->>
->>        port@1:
->> -        $ref: /schemas/graph.yaml#/$defs/port-base
->> -        unevaluatedProperties: false
->> -        description: The sink for even pixels.
->> -        properties:
->> -          dual-lvds-even-pixels: true
->> -
->>          required:
->>            - dual-lvds-even-pixels
->>
->> @@ -75,7 +64,6 @@ required:
->>    - height-mm
->>    - data-mapping
->>    - panel-timing
->> -  - ports
->>
->>  examples:
->>    - |+
->> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
->> b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
->> index 10ed4b57232b..e80fc7006984 100644
->> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
->> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-
->> +++ dual-ports.yaml
->> @@ -22,6 +22,7 @@ description: |
->>    If the panel is more advanced a dedicated binding file is required.
->>
->>  allOf:
->> +  - $ref: /schemas/display/lvds-dual-ports.yaml#
->>    - $ref: panel-common.yaml#
->>
->>  properties:
->> @@ -55,28 +56,10 @@ properties:
->>
->>      properties:
->>        port@0:
->> -        $ref: /schemas/graph.yaml#/$defs/port-base
->> -        unevaluatedProperties: false
->> -        description: The first sink port.
->> -
->> -        properties:
->> -          dual-lvds-odd-pixels:
->> -            type: boolean
->> -            description: The first sink port for odd pixels.
->> -
->>          required:
->>            - dual-lvds-odd-pixels
->>
->>        port@1:
->> -        $ref: /schemas/graph.yaml#/$defs/port-base
->> -        unevaluatedProperties: false
->> -        description: The second sink port.
->> -
->> -        properties:
->> -          dual-lvds-even-pixels:
->> -            type: boolean
->> -            description: The second sink port for even pixels.
->> -
->>          required:
->>            - dual-lvds-even-pixels
->>
->> @@ -88,7 +71,6 @@ unevaluatedProperties: false
->>
->>  required:
->>    - compatible
->> -  - ports
->>    - power-supply
->>
->>  examples:
->> --
->> 2.34.1
-> 
+> Do we know what those applications are ? I'm not disputing the fact that
+> this may need to be supported to avoid breaking old userspace, but I
+> also think this feature should be phased out for new drivers, especially
+> drivers that require a device-specific userspace and therefore won't
+> work out of the box with old applications.
 
--- 
+xawtv is one: it will call REQBUFS with count = 2 (so this would fail for
+any driver that sets min_queued_buffers to 2), and with count = 1 if it wants
+to capture just a single frame.
+
+'git grep min_queued_buffers|grep -v videobuf|wc' gives me 83 places where it is
+set. Some of those are likely wrong (min_queued_buffers has been abused as a
+replacement for min_reqbufs_allocation), but still that's quite a lot.
+
+Mostly these are older drivers for hardware without an IOMMU and typically for
+SDTV capture. So memory is not a consideration for those drivers since a
+SDTV buffer is quite small.
+
+> 
+>> 3) Stateful codecs in particular have additional requirements beyond the DMA engine
+>>    limits due to the fact that they have to keep track of reference buffers and other
+>>    codec limitations. As such more buffers are needed, and that number might also vary
+>>    based on the specific codec used. The V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+>>    controls are used to report that. Support for this is required by the stateful codec
+>>    API.
+>>
+>>    The documentation of these controls suggest that these are generic controls, but
+>>    as of today they are only used by stateful codec drivers.
+>>
+>> 4) Some corner cases (mainly/only SDR, I think) where you need more than the usual
+>>    3 or 4 buffers since the buffers arrive at a high frequency.
+> 
+> High frame rates is an important feature, but it's also a can of worms.
+> V4L2 is lacking the ability to batch multiple frames, we will have to
+> address that. Hopefully it could be decoupled from this RFC.
+
+It's a separate issue indeed. I just mentioned it because I know SDR drivers
+use this. They are rarely used, though.
+
+> 
+>> Rather than have drivers try to correct the count value (typically incorrectly), the
+>> vb2_queue min_reqbufs_allocation field was added to set the minimum number of
+>> buffers that VIDIOC_REQBUFS should allocate if count is less than that.
+> 
+> Even if I dislike this feature, I agree it's better implemented through
+> min_reqbufs_allocation than by manual calculations in drivers.
+> 
+>> VIDIOC_CREATE_BUFS is not affected by that: if you use CREATE_BUFS you take full control
+>> of how many buffers you want to create. It might create fewer buffers if you run out of
+>> memory, but never more than requested.
+>>
+>> But what is missing is that if you use CREATE_BUFS you need to know the value of
+>> min_queued_buffers + 1, and that is not exposed.
+>>
+>> I would propose to add a min_num_buffers field to struct v4l2_create_buffers
+>> and add a V4L2_BUF_CAP_SUPPORTS_MIN_NUM_BUFFERS flag to signal the presence of
+>> that field. And vb2 can set it to min_queued_buffers + 1.
+> 
+> This would require allocating a buffer first to get the value. Wouldn't
+> a read-only control be better ?
+
+No. You can call CREATE_BUFS with count = 0: in that case it does nothing,
+except filling in all those capabilities. It was designed with that in mind
+so you have an ioctl that can return all that information.
+
+> 
+> Furthermore, I would rather provide the min_queued_buffers value instead
+> of min_queued_buffers + 1. The V4L2 API should provide userspace with
+> information it needs to make informed decisions, but not make those
+> decisions in behalf of userspace. It's up to applications to add 1 or
+> more buffers depending on their use case.
+
+I would definitely want more opinions on this. What's the point of returning
+min_queued_buffers and then creating that many buffers and still not be able
+to stream?
+
+Can you think of a scenario (e.g. in libcamera or elsewhere) where that makes
+sense?
+
+Also, will the average V4L2 user have the knowledge to understand that? You
+have that knowledge, but I think for anyone else it would be really confusing.
+
+> 
+> I think we also need to discuss policies regarding scratch buffer
+> allocation in the context of this RFC. When the hardware supports small
+> scratch buffers, I would like to make it mandatory for drivers to do so
+> and support min_queued_buffers = 0.
+
+I would first like to know the use-case (as I mentioned above).
+
+For the type of drivers I mostly work with (video receivers), it would just
+be a lot of work for no gain. But perhaps for camera pipelines it does make
+sense?
+
+> When scratch buffers are expensive, do we want to still support them in
+> the kernel, perhaps in a way controlled by userspace ? A userspace that
+> can guarantee it will always provide min_queued_buffers + 1 buffers
+> could indicate so and avoid scratch buffer allocation, while a userspace
+> that can't provide that guarantee would get scratch buffers from the
+> kernel.
+
+That is really the difference between using VIDIOC_REQBUFS and VIDIOC_CREATE_BUFS.
+I.e., userspace can already choose this.
+
+Just to clarify the reason for this RFC: the current situation is messy. There
+is a lot of history and a lot of older drivers do not always do the right thing.
+
+With this RFC I would like to get a consensus of how it should work. After that
+I want to implement any missing bits and improve the documentation, and finally
+go through the drivers and at least try to make them behave consistently.
+
+Also I want to improve v4l2-compliance to test more corner cases, especially
+if you use CREATE_BUFS instead of REQBUFS (I already have a patch for that
+ready).
+
+The work Benjamin did on increasing the max number of supported buffers and the
+REMOVE_BUFS ioctl uncovered a lot of that messy history, and it is clear we need
+to try and clarify how it should work.
+
+>> The second proposal is to explicitly document that the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
+>> are for stateful codec support only, at least for now.
+
+I just discovered that v4l2-compliance and v4l2-ctl do not honor these controls
+for stateful codecs. That's something that needs to be fixed.
+
+There is also one other item that I would like to discuss: the vb2 queue_setup
+callback is currently used for both REQBUFS and CREATE_BUFS, and it remains
+confusing for drivers how to use it exactly. I am inclined to redesign that
+part, most likely splitting it in two: either one callback for REQBUFS and one
+for CREATE_BUFS, or alternatively, one callback when allocating buffers for
+the first time (so REQBUFS and when CREATE_BUFS is called for the first time,
+i.e. when no buffers are allocated yet), and one callback when adding additional
+buffers. I would have to think about this, and probably experiment a bit.
+
 Regards,
-Liu Ying
+
+	Hans
+
+>>
+>> If this is in place, then min_reqbufs_allocation should be set to a sane number of
+>> buffers (i.e. typically 3 or 4), and if you want precise control, use VIDIOC_CREATE_BUFS.
+> 
 
 
