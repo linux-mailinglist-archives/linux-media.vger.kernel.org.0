@@ -1,239 +1,117 @@
-Return-Path: <linux-media+bounces-20521-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20522-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471279B48C9
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 12:58:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E40679B48D3
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 13:00:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 05CA6283C14
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 11:58:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 211261C2286F
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 12:00:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D09A7205AAD;
-	Tue, 29 Oct 2024 11:57:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0E77205AB1;
+	Tue, 29 Oct 2024 12:00:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VGSDR/IN"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FraUuCOj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2347464;
-	Tue, 29 Oct 2024 11:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD212010E0
+	for <linux-media@vger.kernel.org>; Tue, 29 Oct 2024 12:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730203078; cv=none; b=sK0JpSxq322SiEC8gQAPXRD56UIpqbc5rhLGROeKuD5zTPIxrIoet80fs1RpkpAIfnQE5lMC9AKWxP7s3yARkcEVzXy6XcX1/cpv7r5pHkJJ2WmwG5Irx7HKALjZobH0ITlIgYbz3a2IY2uC73A3mUC263nma06JBbOzxodoDcA=
+	t=1730203239; cv=none; b=U96xfI21TWR3pfzmbVacx08zF/6N/lRAEOKljdKL9bD+M/vzplWK3ajKqC3W+F8IxDrI716SBffYXDQFdul1bUPQd14ZDWBXE8eQYnrUM5GDBeE8Ugz0ghLc0ybC+ELhIXHgBFjoCzWTvxw3HzXYggfAegVQ/GDlHHogh+kT3/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730203078; c=relaxed/simple;
-	bh=2TwDGfdJRGaajj9HXuIbgGLUTQdCfSxdpZ8MwSLLNuo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TZtq6QW6YWaO4UQ1q+3PwTesUxmhasXokBwXgK8Pc74NW0IQAdZGoEm6aya7md/3fVHiLWY40pf9zQOunclxww11HlFivNeTZa/B2JymGIfKwnDxGLtnH7PgvmZ6+W+2PBRRiIXupR6kopOX57qm9nBXFf0z0ioqBB7c/Hkpm7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VGSDR/IN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 272B5AF;
-	Tue, 29 Oct 2024 12:57:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730203071;
-	bh=2TwDGfdJRGaajj9HXuIbgGLUTQdCfSxdpZ8MwSLLNuo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VGSDR/INadHaQNirHNNGf+s04/TKd2Zwp9LUMUFAEe04FLNVBr1E5w8KTK9Ro5CCR
-	 aGc8RubLrprvUaA7osa5J2gUiSCeeul9OfwmzS+aK+m/4Irs6ELkii+kM//DjCSu6W
-	 Ui4rOJZajrNwYKJX8soq/3/Q5ToXdeNZQuncC0DY=
-Date: Tue, 29 Oct 2024 13:57:47 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-	laurentiu.palcu@nxp.com, robert.chiras@nxp.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	LnxRevLi@nxp.com, kieran.bingham@ideasonboard.com,
-	hdegoede@redhat.com, dave.stevenson@raspberrypi.com,
-	mike.rudenko@gmail.com, alain.volmat@foss.st.com,
-	julien.vuillaumier@nxp.com, alice.yuan@nxp.com
-Subject: Re: [PATCH 1/5] dt-bindings: media: i2c: Add bindings for OX05B1S
- sensor driver
-Message-ID: <20241029115747.GL22600@pendragon.ideasonboard.com>
-References: <20241028190628.257249-1-mirela.rabulea@nxp.com>
- <20241028190628.257249-2-mirela.rabulea@nxp.com>
- <c32439a5-4230-4ca5-8d46-fb00d25072e5@linaro.org>
+	s=arc-20240116; t=1730203239; c=relaxed/simple;
+	bh=pv+9pjVCO4yhV1giOhiQZxDFW1VigX/FY4OQGgw4PX8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jz7TS0J/1fXVisER/a/Jtz8KU4ebSgcVgKHUNhTHjieBUcyNf/B8jSyvCdcwUJrpBjIV0Zyt12cn/JMl0PVhAlh+YW2qdpVqTPmO1kb8QsIEPTUg9ugDhsadXq2fVZ9i/yed7bX4HAKI4qfGHSOsDxiUzmU1oDYTvT9e328nYwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FraUuCOj; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4314b316495so49278975e9.2
+        for <linux-media@vger.kernel.org>; Tue, 29 Oct 2024 05:00:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730203235; x=1730808035; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kuboLlR7Ln4DJnWdMqj7oZQediUBcjGUfxubi0VCihY=;
+        b=FraUuCOjKaJF2cyu9GK+eB/+IW74jvjRc/0hHxhjjaRoh5B3cPifTDasAmL1cwjsVi
+         pxDFnQkQ/jU1jO3rkxYj36sM2n9Y9msrC0zE/Dxl9foC9obrgW4LS6sItjDlbpePZPnZ
+         Y+knwNkU2J6n8JhYErZlbWO+RUdzdbXZBxt0IyAr7C9IHOVa8aNhwqibCUbuclTFBtdd
+         XbcAxciL116awJbZbylA9mbx9uNgr+9M90m2bc14EYLWLDNDJz2QDoiEnzmhgEChV95q
+         0cdRnuC8PygUt0wR5t0vVO8vRC0zrQc9lx3MMz2oVP3/ZeuwfSgeEWrX64hndHONIe1I
+         ZthA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730203235; x=1730808035;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kuboLlR7Ln4DJnWdMqj7oZQediUBcjGUfxubi0VCihY=;
+        b=jX6Zq3elv/M+MjFyQs682BELlY7rmIU/+tHU7E4ax+d90N0rQv47JjcUtHCnrnKOSc
+         78wLOJz+0/ACJEmNm54KxIiGCPNwnghWjFKQ/rinzvgFz5CAWl8ttstJJTDRnnmQTo2F
+         Tgk9lJ8EVo39Pr3sEl5Dw/l5U9UdMHyclIEfmIHnQwWyK+sT57Zzl2QIntP06QYoiLcd
+         2I5J/nyJo86rtnvOPJPYoHxgWhyB2JQXUy1Uz5WkKUJwZeduNvUpbG0PyIs0CgOZLySn
+         p0yGvF0N1UbPDVUFx4j8nDZCHss2GnMkY4e0O8sYJRujdoYbtDdsr2m0rKF1mGl8tN+c
+         H1Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCWNA/1uqCqug+jdnr5PLS1Jfy3n9PX9po+fzenwpZeHokF79pi3NjGuZM/ZuVeuVnDsZkxqKFotv5CNvg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVsFYMx6jwMLNpEWRdyLZ0O18S3I4+JRaTr3axuRRfZdUT8atB
+	KagF70k4A0WzWJH0WC7KivtLFjo1W+USVid0S3yQJQUEVWoVGAG6XMkpCmvddlo=
+X-Google-Smtp-Source: AGHT+IG3uy6GEqVkZdtcpNz412sDdy/Ri7d0Q2JMRYAoIL/cB40gRqu7rJes6ZEOY0Wweyi8Lt6ASA==
+X-Received: by 2002:a05:600c:35cd:b0:431:5863:4240 with SMTP id 5b1f17b1804b1-4319ad0f10cmr99294165e9.24.1730203235401;
+        Tue, 29 Oct 2024 05:00:35 -0700 (PDT)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4318b579968sm173118485e9.39.2024.10.29.05.00.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Oct 2024 05:00:34 -0700 (PDT)
+Message-ID: <b5ada63e-31f5-4aec-8499-7e34f1943659@linaro.org>
+Date: Tue, 29 Oct 2024 12:00:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c32439a5-4230-4ca5-8d46-fb00d25072e5@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] dt-bindings: media: i2c: Add bindings for OX05B1S
+ sensor driver
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+ laurentiu.palcu@nxp.com, robert.chiras@nxp.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, LnxRevLi@nxp.com,
+ kieran.bingham@ideasonboard.com, hdegoede@redhat.com,
+ dave.stevenson@raspberrypi.com, mike.rudenko@gmail.com,
+ alain.volmat@foss.st.com, julien.vuillaumier@nxp.com, alice.yuan@nxp.com
+References: <20241028190628.257249-1-mirela.rabulea@nxp.com>
+ <20241028190628.257249-2-mirela.rabulea@nxp.com>
+ <c32439a5-4230-4ca5-8d46-fb00d25072e5@linaro.org>
+ <20241029115747.GL22600@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20241029115747.GL22600@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 29, 2024 at 11:44:33AM +0000, Bryan O'Donoghue wrote:
-> On 28/10/2024 19:06, Mirela Rabulea wrote:
-> > Add bindings for OX05B1S sensor driver
-> > 
-> > Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> > ---
-> >   .../bindings/media/i2c/ovti,ox05b1s.yaml      | 109 ++++++++++++++++++
-> >   1 file changed, 109 insertions(+)
-> >   create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml
-> > new file mode 100644
-> > index 000000000000..d47e1950f24d
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml
-> > @@ -0,0 +1,109 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +# Copyright (C) 2024, NXP
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/ovti,ox05b1s.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Omnivision OX05B1S Image Sensor
-> > +
-> > +maintainers:
-> > +  - Mirela Rabulea <mirela.rabulea@nxp.com>
-> > +
-> > +description: |-
-> > +  The Omnivision OX05B1S is a 1/2.5-Inch CMOS image sensor with an active array size
-
-Reflow to 80 columns.
-
-> > +  of 2592 x 1944. It is programmable through I2C interface.
-> > +  The sensor output is available via CSI-2 serial data output.
-> > +
+On 29/10/2024 11:57, Laurent Pinchart wrote:
+> Aren't they needed given that the binding ends with
 > 
-> You should add
-> 
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> 
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - ovti,ox05b1s
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  clock-names:
-> > +    description: Input clock (24 MHz)
-> > +    items:
-> > +      - const: csi_mclk
+> additionalProperties: false
 
-If there's a single clock you can drop the name.
+Yes.
 
-How about regulators ?
+Might be nice to have
 
-> > +
-> > +  assigned-clocks:
-> > +    maxItems: 1
-> > +
-> > +  assigned-clock-parents:
-> > +    maxItems: 1
-> > +
-> > +  assigned-clock-rates:
-> > +    maxItems: 1
-> > +
-> 
-> assigned-clock* should be dropped.
-> 
-> https://lore.kernel.org/all/20241025-b4-linux-next-202041004-i2c-media-yaml-fixes-v2-1-1b4535174a5a@linaro.org/
+unevaluatedProperties: false and just rely on the top level
 
-Agreed.
+$ref: /schemas/media/video-interface-devices.yaml#
 
-> > +
-> > +  orientation: true
-> > +  rotation: true
-> 
-> I think you can drop both of these too.
+Seems redundant to me to keep specifying these properties over and over 
+again.
 
-Aren't they needed given that the binding ends with
-
-additionalProperties: false
-
-?
-
-> > +
-> > +  port:
-> > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > +    additionalProperties: false
-> > +    description: MIPI CSI-2 transmitter port
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        $ref: /schemas/media/video-interfaces.yaml#
-> > +        unevaluatedProperties: false
-> > +
-> > +        properties:
-> > +          data-lanes:
-> > +            anyOf:
-> > +              - items:
-> > +                  - const: 1
-> > +                  - const: 2
-> > +              - items:
-> > +                  - const: 1
-> > +                  - const: 2
-> > +                  - const: 3
-> > +                  - const: 4
-> > +        required:
-> > +          - data-lanes
-> > +
-> > +    required:
-> > +      - endpoint
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-
-The device requires a clock, shouldn't the clocks property be required ?
-
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        ox05b1s: ox05b1s@36 {
-> > +            compatible = "ovti,ox05b1s";
-> > +            reg = <0x36>;
-> > +            reset-gpios = <&i2c3_gpio_expander_20 2 GPIO_ACTIVE_LOW>;
-
-This isn't specified in the bindings. Does the example validate ?
-
-> > +            orientation = <2>;
-> > +            rotation = <0>;
-> > +            status = "okay";
-> 
-> You should include assigned-clock* here in the example.
-
-Is that mandatory ? I'd rather omit it, I think it only adds noise.
-
-> > +
-> > +            port {
-> > +                ox05b1s_mipi_0_ep: endpoint {
-> > +                    remote-endpoint = <&mipi_csi0_ep>;
-> > +                    data-lanes = <1 2 3 4>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +...
-
--- 
-Regards,
-
-Laurent Pinchart
+---
+bod
 
