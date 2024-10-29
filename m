@@ -1,310 +1,225 @@
-Return-Path: <linux-media+bounces-20474-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20475-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B259B4240
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 07:16:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F13E9B4244
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 07:17:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A77CB1F2296F
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 06:16:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E7F128360A
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2024 06:17:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4296920103B;
-	Tue, 29 Oct 2024 06:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFA1520103B;
+	Tue, 29 Oct 2024 06:17:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Ln3Mmjjt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EHZxBMVb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2081.outbound.protection.outlook.com [40.107.20.81])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210721FAC27;
-	Tue, 29 Oct 2024 06:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730182606; cv=fail; b=scNjNQqHpZfxG9pdsK6Rn7oLQ3eBWHtvHrB9LivpMGJFXj352TKSumxZdOyfiqmeY9/56QFPKG1hQnuvJPZ/5fpJJgpxNWWRCdtx3Vtal09zShmRNxgoO12oTCZIDx9g/tPlz4Kt0fd5AQwpSY/y/Pq7D7Pra/l1rBPdIpxcGC4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730182606; c=relaxed/simple;
-	bh=CThIi9Rw7WS0gHvOKSv6PVg94WY+gHKCgxrHMoqryho=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=fdZuZ1J/nGGkIgYSdzYh/EtbjV4NGO4Oz/vnyxUCmMM/sdHqcYTHxdPHkNLL4gYudXLr337rTy+fmZ4CAN6XgdQBx0i37h29a2B1bp/R1vi8p+uUQpRSzlogDw++Vqm/l0kR/fNh1BeJ5qAS4/BvRqJUIFyEl55pIyj78/G2ddQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Ln3Mmjjt; arc=fail smtp.client-ip=40.107.20.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R8/01jds+l3CSTKQChNj+WpFfqoLZ4twDugQl21CfqD/xsLYH1omqgcuc5h+taPsebskj5GhXutpTLyGGFqAXEm/geghuSXarrZByb45jqeUJ96Uv9Pj/L4MuzvP7IHG74cvoz7Ao6lj6fJoCxsqnWDeGHm2dpyBeOMuOL9Q83lVhI8A6k60ZTcRx8xJCOnIsrF0LXfwFZs3a52VCKmKY0Ig4glz1X18vUsOu/DwBkTrD1xKb8QKBusokDvtVjj1vn8q/tjLsAu94pxB5x0Q41SQx3Ajw3PLAOLeeBr4Cq2qgn9Nb71BsrQ+ixOYiteeTstmm0oxCo19D5d8nmpQoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CJALp2IH9MXgiw37AzRb6d6KlU6QoXVtqwy4yj7dvIc=;
- b=kh4Piy0aHWJCRA47cA1ac9qvxhwkt4/74pno8RxQKwvQzATSh5Plda3l/ZBWZltFtaixi8VxnYuFXtxSkeheG6J1DbZvbDgM8+UP3XO/Ng8BQWj8nYur9OiKJZUW3NXV4JUTi8dZ4JPTV/V5SQC1AyFhzEU2TIJr8jaMPQA9Fgmsn4bqHs7fx9p3lO+vLvHZBRx8DywoGdS1O2EM1kiCRxdI8Bj7/xIhl8LMksWwPl6pZpfAZHNofirgM4sRUmuy9tlG+rcoGQ2sChT5Lmjmsci662HOaw67DW3Bbu3Bb23n6dAW/vwLL84R5pFZYFNuezmQrZn7EgtZ+gBvWDgyiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CJALp2IH9MXgiw37AzRb6d6KlU6QoXVtqwy4yj7dvIc=;
- b=Ln3MmjjtL4xomH1opGjef5BpZ53MIf9UO3n7rotuxj4b6WU11kZbbqgDbg58t3I16W2ot23B6HA6oRmilZJOODyjwT5jsHVsXPJplU9gawhQl3Ti+i5nDQ4cwKb9JSmWWT/eWGE4ReKOr6RDTVNMJ0WRT+X2kAVDf2fbjdPYeSvIo8YVUY+WT4A2Rs9ANmhATNW3yTEO4yAj4Myix4Ln/bnq2xly0CZ/IOOKGkyGXOWvpCMyYebbMA/2yA3udqH7cjo/Xoh+zUy+XT6joIGwqhkpZNkHAH3UeBdua4XkiLZqL/RYu4JarETTpfhFQZoAfc4RCpVnoeJQ9iPh3Daxrw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by VI0PR04MB10437.eurprd04.prod.outlook.com (2603:10a6:800:216::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Tue, 29 Oct
- 2024 06:16:39 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8093.023; Tue, 29 Oct 2024
- 06:16:39 +0000
-Message-ID: <01c1c4f3-1652-4b08-bd35-08b4e1c04c79@nxp.com>
-Date: Tue, 29 Oct 2024 14:16:59 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/13] dt-bindings: display: Document dual-link LVDS
- display common properties
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- quic_jesszhan@quicinc.com, mchehab@kernel.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- catalin.marinas@arm.com, will@kernel.org, sakari.ailus@linux.intel.com,
- hverkuil@xs4all.nl, tomi.valkeinen@ideasonboard.com,
- quic_bjorande@quicinc.com, geert+renesas@glider.be,
- dmitry.baryshkov@linaro.org, arnd@arndb.de, nfraprado@collabora.com,
- thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com
-References: <20241028023740.19732-1-victor.liu@nxp.com>
- <20241028023740.19732-9-victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20241028023740.19732-9-victor.liu@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR06CA0189.apcprd06.prod.outlook.com (2603:1096:4:1::21)
- To AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B9A200B86;
+	Tue, 29 Oct 2024 06:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730182634; cv=none; b=dVoTFTN6s9sPvt8P7KM8a55T7Q35gntj1Ciu6UytMFy6LFyM6YwulXn0kiAQ3n7fNTmfU3bdF+8Qgz9aE/Lf1f1+BQvCjXQOFKop0b/pqjNslRSmY1NP4B3aLGlhsEimhmCxh6xuwHDKmrLi+FR7kj4MFpjsaJ42g50fIpjekbQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730182634; c=relaxed/simple;
+	bh=CYehLBoeRXbHeH5sFuUstCJj5i/2RXTD4+e01QgW2To=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rDVBIZGen4k6Nr5J1zEisjZSCpMEOst3mjPvkkwNIfwcvree9s5DxzVEIH72uZBOXiinpDfPnHPLfnwFF35KOF1l0/7jlHD4WDlqndh0nY0RgB93DVp/HBcY/+q+byZfomCgiXZ94pfh1PZC0kibMX5m3ZyisQws8CtzTjQRoUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EHZxBMVb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 855B1C4CECD;
+	Tue, 29 Oct 2024 06:17:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730182633;
+	bh=CYehLBoeRXbHeH5sFuUstCJj5i/2RXTD4+e01QgW2To=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EHZxBMVb2AjxWEz8ZWZ2LDAj5oeedux4gQc0Mr8Wy1hjO+xqLqLiTbMjH3R5S1O9v
+	 GyOkgIKyuwI44tkRh6u0XMVVTok8BgUKOFV/B6H+0wVAxM68YcsBHRqAPifAzEGWGl
+	 6RJWZbV8Q/0+6903TWuDRQrpYP51HQEgJXu3/isJBCKo7p56F+0twk20wTqK/6G5tz
+	 MnpK3xeo0rjWTL5BtCal9b+sd1AaGhb1oyNmWb05pBIM9zD4cR5kl//gxn61pfQPsR
+	 ygGeedhbCBFlkZbMxXSu8amSMb1clsPM4OAcJ5sh/j+J+DtvHNf7avk1USjw5oMdYG
+	 NAMzskYLjgmnw==
+Message-ID: <f20c0e4a-488e-4e4e-8c15-a27df312280e@kernel.org>
+Date: Tue, 29 Oct 2024 07:17:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI0PR04MB10437:EE_
-X-MS-Office365-Filtering-Correlation-Id: 21c18a5a-110b-4679-6648-08dcf7e14000
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?NlFOcS83UWlXejJVNXJnd2hqSDdTWSttaDBieGZtTHdtQjMvakVaVGRPb29P?=
- =?utf-8?B?czdZYklGeCt0ekxERDhpbFFBRUJMa3hoeHNjS3lidjUvUWtUMFhJeG9HK1BR?=
- =?utf-8?B?NVhwekFBWCsrZWVScWdZYmE5VFFodDN6dnFQNG95TFVBR09zTXl2LzNqMW1l?=
- =?utf-8?B?YUdueXdMU0xqRUhid3hURFNDYXptZjNNNjZwUHhNR3FnL1o2YlpVNFdSU1Vv?=
- =?utf-8?B?YkYxZWMvK2VSOTN1OWNvZTlHK3VSUzVJcEhNbUpTQm9EeE40K3VkZU5kamVF?=
- =?utf-8?B?aFRxZDlpeTR3SUl2bnJTYWtnQjFyZnlhVXZRaGhWNDg0NmpVWE0xZElDK0k3?=
- =?utf-8?B?NEdyVVFQQmJXK1U4eElmV1huQmRmaGN3TFhTeEJaeTc3RHRWLzlXMExqempw?=
- =?utf-8?B?NktFY0EvRFM4WmhUVDZ2MUNBUUNhaEdhenJ4U1UxZDVXQlNDM09BTnF5YStQ?=
- =?utf-8?B?OWpad0dPWGV4c1ExNzl6Tzg0d2Z1bkpXaEYwZ3hvWFV6Z095WUVoZXRqMy9q?=
- =?utf-8?B?L3VMUjhQS3BFR0xPaGgzUTlZQkpLTDExTUNFejhaV09pOXNieExYRUJLS3RV?=
- =?utf-8?B?anNWa1dwa21lWUJpNUhqc1AxM2QvaHRpb1RRVERuMzhYN0tSUTNaVldXZ2s5?=
- =?utf-8?B?MThVOGdRWUgxcTVXbzlXUkxXM2JKOHU2MW1LVjBqMXlYM1M5MXdpRFJXa2hw?=
- =?utf-8?B?cUFoYzZXNHhjY3ZkVndHSnR3Umc1NHlIS3NEL3ZQNzRiOVZqMk5FOWhBcVlI?=
- =?utf-8?B?Tk45VEtjUG14b3paVzh2bG5IY2pZRXpxNThjWXJGcGNzZmcwYmhtOE4wWVBG?=
- =?utf-8?B?Y3owMjhRTVlmeEY3U0ZKYWpiWEVlMTNxS29qMVRleHFqOXF6TmRkOGkxL3Vn?=
- =?utf-8?B?YXp1SENjOVlZYTNsM3g5cnkyZVNOV0N0V1pBTzdEdFlWcVJ0V1R1ZU5jMENW?=
- =?utf-8?B?VWVsMHdhTDJ6Tkdia0svblFYS2t1Ym5YMUIweGh6WGdUUmEvVlFjYjEzYmdq?=
- =?utf-8?B?Q1FjSDRlT0p4VnkxcExiTEpKeVlOSVhVUEhoWE5PZlI0V2kwZjY5dFBsdEh4?=
- =?utf-8?B?d1Ftd083R25hci95RFVCMzVNdy8zUEJRVU9VNlBPek82bjZabFRoZ2NwenJU?=
- =?utf-8?B?NDBLT0EzU1RuSzBadkJETjZyU1o5aHhtOU9ZakhXUnc1T2dQTkE0REJsVUZG?=
- =?utf-8?B?SElxRFlJSkZlSmdMN2ZSY1doakNNaW5FTmovY3dUSDRmeXRSenNVZG5kSXEw?=
- =?utf-8?B?TUtITFcyMEQ4dWV6eU5lTUVyRkppRHAzcHJpbWxhQzdKcEwvYjJnVjJueFhM?=
- =?utf-8?B?VWNYWjdITkRLS1oyWGlSVXJPZGY3VzJ2YWd5L04wNTFVb3BSampyWm5kWEp2?=
- =?utf-8?B?eWNQSG9YRk8yWit0OXpYOGJzYnV3d1JuZFRUZVFJN0kwcHpaMTZ6VXNGWXE1?=
- =?utf-8?B?QXRqTnZZVG9FUCtaVnRDeGt0MWg3Rm1UZG16TWlLRy9OcXZ2K0N0RjdOQmRn?=
- =?utf-8?B?K0FGS3ptTnkxekI3N1N4M2RqUVRLMWlHeC9KTStlQkpLZWJPa0tBdUFRcHhy?=
- =?utf-8?B?akhwSjFDVk1nSDdSYkZjU29JeE9vRnpIRFdqRGt0UUFxS256cXhnOHpHOThn?=
- =?utf-8?B?UHlESlJrbWdqeTAxYlVOWmlxK0crSUc4dE50dVBmVVJRcGJ6L1A2b1BtZ0lH?=
- =?utf-8?Q?bySkWqx6vo9oeyLq4yEz?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7046.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?dkhCZzRHR0doQkZ3dTd1ckNJdTd6N21aTUxYWnQ1QVVzZG1QeW13S0RCajNO?=
- =?utf-8?B?YzdsUXRkMDJTdGovZUlWOWVoWjBqZnQ0ckxabnNGNjlHWHdXRGl0eFpJMyty?=
- =?utf-8?B?TTRRRmtrVG9lSFQ3Y2Ira01vM0lhYkFKWm40V1hZeDFaRWVERUxIRldid0tH?=
- =?utf-8?B?Ym1yRDJ5aGpPMDJuQUVuMHIyMlRSd3dyUkZHTENqSHYrWitxNmkxMWpPWlh4?=
- =?utf-8?B?Y0IxeEwzT1VhRUN1TVQ0ZytjZjBHbHVjRHdPaHAxWmF4eVdmbjA4VU9haGI1?=
- =?utf-8?B?dHczNURXWlB3ZHI5ZzR1YlI1WGtRR05iTFZ0LzQyQUhydDJQRk9BWmk4V2N3?=
- =?utf-8?B?bWh4NmNoSkJEc3RIa0Qvd05PTitMU2Z5T3lQQmJRUEg4WE9VMXBHWE05YXZM?=
- =?utf-8?B?bDRjdjVMUWRIYi9udE12MnVJd0FYbm9yWm41c3FtUlVhZVlPTWllcGI3VHVS?=
- =?utf-8?B?TUtYMGZpcEZ1bDFxZTRGQUFJa04vMjEydHVGWTluUnlDSmhuV2kxc0Y5MGNz?=
- =?utf-8?B?NTdBNFRMMFRHQzN3Zkh0WjMzeDZNZWt5RVlkR05jL0FIL05RSnFMdTFnbE5K?=
- =?utf-8?B?UWtpbndvZnNEUHZwUnpNdFlDVy8xSjJjSktLRDQ3NUE3Z0xCNzhScWVEVXpz?=
- =?utf-8?B?N0lmakZUVWhTaDNQN1lOOHQwdkk2TjNMcmJmak5aSjdSUGEvWnJKbmo2NExL?=
- =?utf-8?B?UHg1ZjMvaDR4eFBWSFFjdkxSNERFbW5Gb3krWGw5dGhUWDJNYjlhMk14cDB0?=
- =?utf-8?B?UFpzZitRK2l1VWs1N00wWGloNlRPWjRueVgxT0FJM1o0bHdhaWtFaEhsa3hM?=
- =?utf-8?B?VkhiN1B6TWFxbzFJZk13eWdYMmtISFBHOWxUclV5NUR0VUp6bU01OGZEcy92?=
- =?utf-8?B?V2VGNzc3MVJxMEJOQXBLazU1T29sell0MUFmZjlpanJ5OTFNOWFpRmNJY0sz?=
- =?utf-8?B?Vi9qOXNycEloMVVNdzNncWdIVWwySi9Da0R2RnBjUEdqalZWSzNlNElLNi9V?=
- =?utf-8?B?cWZkZWhmWFdKYk5keTJYcm1hRWdKWXAyT1JIOUN2TmZKV0QwZkFoRi9RWSsx?=
- =?utf-8?B?Zm5BcXJZbWZoNktyeEhva0FMak9pMmF3M0czRU9wRVg2OU5NTUQwSTZjRHBO?=
- =?utf-8?B?ZUFDMXdQOFRlRTkxTzZmQnVlM2VHQzZqN2hTSGF6WVZYUXN1Um52QllRSG1a?=
- =?utf-8?B?THlyZ3ZWb2RsaTNCazh5MXY4QzlpZWRUY1F4eVVCM1RvZEt3QWs4UE9XWENa?=
- =?utf-8?B?M3ozVnFKMmh0NGt3ZkJZME5aa09FSWdTSGZGd3dCSU9iUmV1TzBWQ0xyUmNJ?=
- =?utf-8?B?YTQ3UlArRGYxc1kzRUJxM3k1V21WSy8zcWhzMUZMdjYzT1Q2bFdHckpnK0tw?=
- =?utf-8?B?U3FBcVRSVUwrRVY4MDdMZitKWWRaZE5WUnlzL0pWZVhYY2gyZUlzOVM3cStI?=
- =?utf-8?B?bjU0aWpJOVBkZXkxMmRZNHJoUWNOTlJuRzFvSXFxODc2T0lqVVJNeDcrbVFC?=
- =?utf-8?B?NSs4bzlpOFdsUVl5eGlnZ3JvNjBuT3pNS2xmRTBSMjJNd0lodnY3anhIWTM1?=
- =?utf-8?B?Y2xSWC93Z3NuTGxGRCt3RXZ0TTNmT0RpQnNuSHgvWFNIcGphRDhyMDRYZ2ZE?=
- =?utf-8?B?T3VQcVhVLzZPS2s0Q3ZNOVFmbjc0T3o4MWdmRmFzbTBsWTF6K1NmNFdWbVBE?=
- =?utf-8?B?V0FFRldDK1pRaTgvc2dBZjdaYnNMMHV5K05GODZ3Vmg4djdjcWhEZ2NIVmZK?=
- =?utf-8?B?RXlFOEV0T2xucE1xd0pQZm5WcWdibHg2Q25NWVUyM0M2MTAzR1Y3N2tNdldQ?=
- =?utf-8?B?YnRoNGJtQmhRR2RTVGZxVEpNM2FyQ2VsOUxGTlNmSm5uV0xoZ0xUZXhJYmM2?=
- =?utf-8?B?enRGRHlmeVZWeGc3N3BPNjRZakZZVEgvTzZteEJwK2k0QzBxZ1VhcU9JeFdH?=
- =?utf-8?B?MzR5OW1panJld0k1eG9Hek1pTlYrcXNEZWUxMGFSOVZ2blZuSEVjeWs0cFRQ?=
- =?utf-8?B?TktTTjRvZ1FzMmk1T0UzTXA5ZjBTOFNiWjNYejY4VmI5cEFHTTM0UkJvbkJh?=
- =?utf-8?B?UGV2QzFqS1VBdVVNejFiM2xHT2N4bGlkc1RGeFpWcS9Jc1ArTk5CakdqUnFr?=
- =?utf-8?Q?P8r4fRnawXr50kHM1Fl4YFFNY?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21c18a5a-110b-4679-6648-08dcf7e14000
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2024 06:16:39.7225
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4vqxNVEzrApY8rYbSVhdv/K0SNKZB/yn7ENYGFr3UCzOWAy8eXnZL2Xcw1rNtbKonwevGi3fjO9vVoEgOMaygw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10437
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] media: ox05b1s: Add omnivision OX05B1S raw sensor
+ driver
+To: Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, laurentiu.palcu@nxp.com,
+ robert.chiras@nxp.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ LnxRevLi@nxp.com, kieran.bingham@ideasonboard.com, hdegoede@redhat.com,
+ dave.stevenson@raspberrypi.com, mike.rudenko@gmail.com,
+ alain.volmat@foss.st.com, julien.vuillaumier@nxp.com, alice.yuan@nxp.com
+References: <20241028190628.257249-1-mirela.rabulea@nxp.com>
+ <20241028190628.257249-3-mirela.rabulea@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241028190628.257249-3-mirela.rabulea@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 10/28/2024, Liu Ying wrote:
-> Dual-link LVDS displays receive odd pixels and even pixels separately from
-> dual LVDS links.  One link receives odd pixels and the other receives even
-> pixels.  Some of those displays may also use only one LVDS link to receive
-> all pixels, being odd and even agnostic.  Document common properties for
-> those displays by extending LVDS display common properties defined in
-> lvds.yaml.
+On 28/10/2024 20:06, Mirela Rabulea wrote:
+> Add a v4l2 subdevice driver for the Omnivision OX05B1S RGB-IR sensor.
 > 
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v4:
-> * Squash change for advantech,idk-2121wr.yaml and
->   panel-simple-lvds-dual-ports.yaml with lvds-dual-ports.yaml.  (Rob)
-> * Improve description in lvds-dual-ports.yaml.  (Krzysztof)
+> The Omnivision OX05B1S is a 1/2.5-Inch CMOS image sensor with an
+> active array size of 2592 x 1944.
 > 
-> v3:
-> * New patch.  (Dmitry)
-> 
->  .../bindings/display/lvds-dual-ports.yaml     | 76 +++++++++++++++++++
->  .../display/panel/advantech,idk-2121wr.yaml   | 14 +---
->  .../panel/panel-simple-lvds-dual-ports.yaml   | 20 +----
->  3 files changed, 78 insertions(+), 32 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
+> The following features are supported for OX05B1S:
+> - Manual exposure an gain control support
+> - vblank/hblank control support
+> - Supported resolution: 2592 x 1944 @ 30fps (SGRBG10)
+
+...
+
+> +
+> +static const struct v4l2_subdev_ops ox05b1s_subdev_ops = {
+> +	.video = &ox05b1s_subdev_video_ops,
+> +	.pad   = &ox05b1s_subdev_pad_ops,
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops ox05b1s_internal_ops = {
+> +	.init_state = ox05b1s_init_state,
+> +};
+> +
+> +static void ox05b1s_get_gpios(struct ox05b1s *sensor)
+> +{
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +
+> +	sensor->rst_gpio = devm_gpiod_get_optional(dev, "reset",
+> +						   GPIOD_OUT_HIGH);
+> +	if (IS_ERR(sensor->rst_gpio))
+> +		dev_warn(dev, "No sensor reset pin available");
+
+Same comment as for clock further.
+
+> +}
+> +
+
+...
+
+> +static int ox05b1s_probe(struct i2c_client *client)
+> +{
+> +	int retval;
+> +	struct device *dev = &client->dev;
+> +	struct v4l2_subdev *sd;
+> +	struct ox05b1s *sensor;
+> +
+> +	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
+> +	if (!sensor)
+> +		return -ENOMEM;
+> +
+> +	sensor->regmap = devm_regmap_init_i2c(client, &ox05b1s_regmap_config);
+> +	if (IS_ERR(sensor->regmap)) {
+> +		dev_err(dev, "Failed to allocate sensor register map\n");
+
+Allocation errors never result with error msg. Unless you meant
+something else than allocation, but then syntax is return dev_err_probe.
+
+> +		return PTR_ERR(sensor->regmap);
+> +	}
+> +
+> +	sensor->i2c_client = client;
+> +
+> +	sensor->model = of_device_get_match_data(dev);
+> +
+> +	ox05b1s_get_gpios(sensor);
+> +
+> +	sensor->sensor_clk = devm_clk_get(dev, "csi_mclk");
+> +	if (IS_ERR(sensor->sensor_clk)) {
+> +		sensor->sensor_clk = NULL;
+> +		dev_warn(dev, "Sensor csi_mclk is missing, using oscillator from sensor module\n");
+
+Nope, syntax is return dev_err_probe. Why would you warn on probe deferral?
+
+> +	}
+> +
+
+
+...
+
+> +
+> +module_i2c_driver(ox05b1s_i2c_driver);
+> +MODULE_DESCRIPTION("Omnivision OX05B1S MIPI Camera Subdev Driver");
+> +MODULE_AUTHOR("Mirela Rabulea <mirela.rabulea@nxp.com>");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h b/drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h
 > new file mode 100644
-> index 000000000000..5f7a30640404
+> index 000000000000..3c34724c1d7e
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
-> @@ -0,0 +1,76 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/lvds-dual-ports.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/media/i2c/ox05b1s/ox05b1s_regs_5mp.h
+> @@ -0,0 +1,1160 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * A register configuration for Omnivision OX05B1S raw camera, 2592 x 1944 @30fps BGGR10
+> + * Copyright (C) 2024, NXP
+> + * Copyright (C) 2024, Omnivision
+> + *
+> + */
+> +#ifndef _OX05B1S_REGS_2592x1944_H_
+> +#define _OX05B1S_REGS_2592x1944_H_
 > +
-> +title: Dual-link LVDS Display Common Properties
-> +
-> +maintainers:
-> +  - Liu Ying <victor.liu@nxp.com>
-> +
-> +description: |
-> +  Common properties for LVDS displays with dual LVDS links. Extend LVDS display
-> +  common properties defined in lvds.yaml.
-> +
-> +  Dual-link LVDS displays receive odd pixels and even pixels separately from
-> +  the dual LVDS links. One link receives odd pixels and the other receives
-> +  even pixels. Some of those displays may also use only one LVDS link to
-> +  receive all pixels, being odd and even agnostic.
-> +
-> +allOf:
-> +  - $ref: lvds.yaml#
-> +
-> +properties:
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: the first LVDS input link
-> +
-> +        properties:
-> +          dual-lvds-odd-pixels:
-> +            type: boolean
-> +            description: the first LVDS input link for odd pixels
-> +
-> +          dual-lvds-even-pixels:
-> +            type: boolean
-> +            description: the first LVDS input link for even pixels
-> +
-> +        oneOf:
-> +          - required: [dual-lvds-odd-pixels]
-> +          - required: [dual-lvds-even-pixels]
-> +          - properties:
-> +              dual-lvds-odd-pixels: false
-> +              dual-lvds-even-pixels: false
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: the second LVDS input link
-> +
-> +        properties:
-> +          dual-lvds-odd-pixels:
-> +            type: boolean
-> +            description: the second LVDS input link for odd pixels
-> +
-> +          dual-lvds-even-pixels:
-> +            type: boolean
-> +            description: the second LVDS input link for even pixels
-> +
-> +        oneOf:
-> +          - required: [dual-lvds-odd-pixels]
-> +          - required: [dual-lvds-even-pixels]
-> +          - properties:
-> +              dual-lvds-odd-pixels: false
-> +              dual-lvds-even-pixels: false
+> +/* 2592X1944_30FPS_FULL_RGBIr 2592 1944 */
+> +static struct ox05b1s_reg ovx5b_init_setting_2592x1944[] = {
 
-Hmm, I should require port@0 or port@1.
-Will wait a while for comments and add this in next version.
+How this could be in the header? Why do you need multiple of copies of
+it? No, move to the driver.
 
---8<--
-    anyOf:                                                                      
-      - required:                                                               
-          - port@0                                                              
-      - required:                                                               
-          - port@1
---8<--
 
-> +
-> +required:
-> +  - ports
-> +
-> +additionalProperties: true
-> +
-> +...
 
-[...]
-
--- 
-Regards,
-Liu Ying
+Best regards,
+Krzysztof
 
 
