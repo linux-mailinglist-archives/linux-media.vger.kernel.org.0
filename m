@@ -1,183 +1,147 @@
-Return-Path: <linux-media+bounces-20614-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20615-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B8A9B6FBD
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 23:13:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE459B70B7
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 00:50:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F4151F221D5
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 22:13:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13271282762
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 23:50:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7335A21745A;
-	Wed, 30 Oct 2024 22:13:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E4C121745E;
+	Wed, 30 Oct 2024 23:50:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CP14lJEz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HhQISddr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DE32141A3
-	for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 22:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FF91E570F;
+	Wed, 30 Oct 2024 23:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730326418; cv=none; b=gAITf1tdvvzzAnkKruivHzaa7l6LU1l2c1vOHup3ye0hLLBzxBYhNUZbKTyGrpLTEvpagQLi7F7dCIKwF4hsitBJdeyb4E8aSsYFVWid2k1/wMB7XyFQPkAChUi/5blN9VjgkuSPXsUqMHbyCay1Ek1Ul4T2yRQkWuxlnjpW/io=
+	t=1730332212; cv=none; b=k5wbpyzEkaX9ttOFNzvUQ2MQoUd/G81Muj7sQc5uX964hFSj5DmOSIEgvub/LCSCY3PZerGbUafp9rylbbEkXYVokqOMHyl3ak4qjFTpFSM2dvHGmD63pPXQM3wPyF6yioukYzF4MmIW6tCzJbwcfJNM/Iw3EPuGcEbmuxAh81A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730326418; c=relaxed/simple;
-	bh=fgwT0gHbh6JwWE2o92EklteS0EY8RyEo/1yUmC9seSo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JzLJl2Puid57nV6ttJyQiIF48r5Tk2GLWuDjH9P+SLhWPr0cI/4FJIArdTCsnSRlOGrbOSTR0YQ+FiLJyPWiMJQIjd8vAmYgsr3u/qbIn6UjvIE9xDlhAm4hWU/P+XOLe4uPtvvIkP5dyiRm558NHfd2RDK4Pj5udjGq4Dl4Z34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CP14lJEz; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539e4824917so34366e87.3
-        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 15:13:36 -0700 (PDT)
+	s=arc-20240116; t=1730332212; c=relaxed/simple;
+	bh=g2Gr6BSJI30hLHHrUt4HEWLZS4G2MgGxc9n66A9DdH0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FYqrgcYD5XtMGHWkPI5ZQ6JmR0r27BNzfIl9kx8ffuHUnBAqcAmGcc7CrHit/ThVXKViymIJoQG7IsIGN/ETyq4ssCEaKzRzvR1vDCwD/VY/fXVIqVM1jt5pVDtOMnVFMRioHHGEtIclBgjdk4wJ/yVxfVH+103WNI0KxVY8W4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HhQISddr; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7ee11ff7210so342213a12.1;
+        Wed, 30 Oct 2024 16:50:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730326415; x=1730931215; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rIOWGLPyHAbnmQC+s1hOIONGH2xKi9gafSnREwwOXk0=;
-        b=CP14lJEzZtHwrzQP1eWoWKeb6427e9BJYb3L4qb2Dv9bTtdmK5xehry+ckShi3J5to
-         E1e8BFjPq+bjlw8e5hXxlpRI0xBCjLWHf2NOdPBDy4SqIBuYBUec5c9kWLlr7XY7pXVK
-         zAeqkgFkNt48S9YQ4evdIX0Sm0NGOj2GyeeHLrzoZ/7YL0M2ByxB0GEM6g2+bO4JuzQ7
-         XDnw8suxR4Ftq5GMLu6RaRYGgegqhjXKwubWQCiULhRbN4FyStqdf+R0LQgM6Y0F/CK2
-         Ssrl0VB/NATistxYEhs5QynssZoHvbfiwMofgKeJZNVC1xqucqqZkuzsR8QXMJ0uzOsI
-         MHgA==
+        d=gmail.com; s=20230601; t=1730332209; x=1730937009; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8xITKeeCQTPMHTwhjLrB4rhB00Y72QJELP5T2ItEbVI=;
+        b=HhQISddr/HQF0FX9a7D59KrZWE0DMWBw/I5nRobvRwqD9zo5ip6bNXIz/w7T8s0QEl
+         GL7/M6vjpmNCogr7jntj5RiP6dwLR5PiYzaxTaOyTx/iAhJVj598S3cHUysQT8a6xcDT
+         Hlyv++EHyLrSlSaKFqg3pikkynxQEBUlPYDl3GSgGdEd12zVQx3WJ1RijpCZ0rnS17Nv
+         k1Fa+cCmb+jjmweH+hJJ6pUkuKJLw4pSexBwd0Wg2iRRSCjGk3bXPzQ3dhL1Ei7sFhaT
+         r/TSYli8daS9R4CCb7MGxiyY12qYgfk2/K/CkLFYj/bvbuhTPwW0V8BGYtteAFgsDyDz
+         tQzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730326415; x=1730931215;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rIOWGLPyHAbnmQC+s1hOIONGH2xKi9gafSnREwwOXk0=;
-        b=eOHfUFtt9bgEUTaiV6rlCE6VgtQP73a5JJ7DFAQgU/EXOEXQ6RHqvdKJAQuZDjtyUt
-         fi813wOuKBOFGVyAJHmOEig2r3Dd8sCF+bnGVW47TeuPFGzrf4vEdOt8naAp/w5+PrBQ
-         TeHDVd6KYQ5h2rpBuWYsQDoAFlvZUoan6bLGA0rtnYZF5oByPzCMGx2czjnMiJFixgLq
-         lN+0aYXpfYcD60VTrbel117k7WElSvOoJEqGPeGvkCfrXVtXF+Zgiz2NAAih6RkiayRL
-         zMwje/iLq0uzsWb8aW+Bq50I2BL8UGB0E3L5sjJw39P6i7ZCwnnmvH+ZkUKgqt8Nkb5x
-         4qdA==
-X-Forwarded-Encrypted: i=1; AJvYcCWKhogjJd3ziITpT1/u83CYMrhStfYTD+LIlsS0JT5al1wMwII0FCb0C02jtUqPIjQf4uw2qFkUHntP4A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpYdQ9HTjllDPU1OsxpQ11KhVPdnJvWXeJnDfzmwCsE3947l02
-	SFH0xqQFG55ijwNbtPRJjtNaCQWR4duZ1IFIky1S4FoYdKfQ5rcoZeXgmFgVJjY=
-X-Google-Smtp-Source: AGHT+IE6WL5Y9y4VUvgC3PerluD3HeORJgxPkd3sHB908ZvUW+AUqyE/4Nteboj+F28dC19tVwr78A==
-X-Received: by 2002:a05:6512:b1c:b0:52f:413:30de with SMTP id 2adb3069b0e04-53b3491ccefmr2686948e87.7.1730326414540;
-        Wed, 30 Oct 2024 15:13:34 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bdcc1cbsm16753e87.229.2024.10.30.15.13.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Oct 2024 15:13:34 -0700 (PDT)
-Message-ID: <b9a467bd-ad2f-4b6b-a0c3-0d60960023c6@linaro.org>
-Date: Thu, 31 Oct 2024 00:13:33 +0200
+        d=1e100.net; s=20230601; t=1730332209; x=1730937009;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8xITKeeCQTPMHTwhjLrB4rhB00Y72QJELP5T2ItEbVI=;
+        b=FDHnTsP+EfhBPbwOR3bgGwsC46onxx3JnfH91+tP0fmLc1+VJVGuo833G/sta6D9fB
+         OtTgXFx24MwTXdj18kRJwhi8NU/hHt6YnRGi1grhpWfI+5wdRndp60pJD7G6pbse4Kr/
+         YS4eY0r+9TIimGxrB+EdfGUmiutAx8+2g/Z11iq7MAGQCDyYH28MuQEBuNOxs2Ldx+dX
+         DOWR25euQ2lQccThvhvxwlyHLKGYIvSjft8gh6bwMhfR5qi4DKRlbnCPnMGKOXx99Y8n
+         iASKztpvKB+y0KZrI3S6nx0+oulPhWnj788WcPfb+63BS5coc3rlkKZ6YjJ0hc9HMV73
+         YDBw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9xzH1doScWX79DXFJpyjOWPL4tRiqUR4LxtaqIOgJ3f3iHzjrCBOHD3VBWgUQvQzUaaaaeHYGLafBVA==@vger.kernel.org, AJvYcCUHaxoCBqlOslcqPkbYgJMElprWjNh1OnkKcjAM9trGqgbxW4lDonJqUbjdTQnmi4jVZJLxJuyeWkEQhA==@vger.kernel.org, AJvYcCV75h9rVMNY82ipyLPdBAZ9P4nuaCWbKECgANprKb53BpSK0xYSWJSuFBL+3MamtPiw/MpjRyC/VKDKyWWmJoDA4w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YycX0SSEpPe0gF3u1YWwy1FBFmjVP0UZoGLneUOBmRYteg3k4nd
+	7JyEoegaTYv+vAzyiT71guRw2VSBAJKFQhdMJIrYKyZgF/kY+ADN+eAOYCOFV6FKOsoaONN5Q+6
+	kKWZS+M8OUSMfzyDGlofBbUkVmpI=
+X-Google-Smtp-Source: AGHT+IEGZomZ5kJjb+R1NLfXagX6H4tJArwRpGGFHsIJUp3TX6AYCJgn71SzvrzS+RXVFHlSMLywNa+CNyNDqhllWuo=
+X-Received: by 2002:a05:6a20:c854:b0:1d9:c615:944f with SMTP id
+ adf61e73a8af0-1d9c615a145mr12413848637.11.1730332209274; Wed, 30 Oct 2024
+ 16:50:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/5] dt-bindings: media: camss: Add qcom,sdm670-camss
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Richard Acayan <mailingradian@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org
-References: <20241011023724.614584-7-mailingradian@gmail.com>
- <20241011023724.614584-9-mailingradian@gmail.com>
- <785c82d5-549d-454b-86bf-a00a39e6f521@linaro.org>
- <a230de8f-a11d-41c1-9bc6-7e06e850b51d@linaro.org>
- <20241011144129.GA2295617-robh@kernel.org>
- <ca89bbae-193b-4636-b1a6-ff0c9cecae58@linaro.org>
- <CAL_JsqKwaT4q-VHqfLXAabdGtKvRtnh7SFiELpyXDGVRRpOoYQ@mail.gmail.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <CAL_JsqKwaT4q-VHqfLXAabdGtKvRtnh7SFiELpyXDGVRRpOoYQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <cover.1730136799.git.robin.murphy@arm.com> <ZyIClriScBy4s6LX@8bytes.org>
+ <515D7932-3939-4C3E-BA3E-CC3152E64749@goldelico.com> <ZyIos2Gm1nf5rejI@8bytes.org>
+ <ZyI0baBMPHVZ29-k@tp440p.steeds.sam>
+In-Reply-To: <ZyI0baBMPHVZ29-k@tp440p.steeds.sam>
+From: Adam Ford <aford173@gmail.com>
+Date: Wed, 30 Oct 2024 18:49:58 -0500
+Message-ID: <CAHCN7x+M1tfmJYhp0+qovhedMiMG=fdyaf-CnPz_hUi7abuDCQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Fix omap-iommu bitrot
+To: Sicelo <absicsz@gmail.com>
+Cc: Joerg Roedel <joro@8bytes.org>, "H. Nikolaus Schaller" <hns@goldelico.com>, 
+	Robin Murphy <robin.murphy@arm.com>, will@kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, mchehab@kernel.org, 
+	andersson@kernel.org, mathieu.poirier@linaro.org, 
+	Beleswar Padhi <b-padhi@ti.com>, Andreas Kemnade <andreas@kemnade.info>, iommu@lists.linux.dev, 
+	arm-soc <linux-arm-kernel@lists.infradead.org>, 
+	Linux-OMAP <linux-omap@vger.kernel.org>, linux-media@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/30/24 23:06, Rob Herring wrote:
-> On Wed, Oct 30, 2024 at 9:20 AM Vladimir Zapolskiy
-> <vladimir.zapolskiy@linaro.org> wrote:
->>
->> Hi Rob.
->>
->> On 10/11/24 17:41, Rob Herring wrote:
->>> On Fri, Oct 11, 2024 at 09:31:06AM +0100, Bryan O'Donoghue wrote:
->>>> On 11/10/2024 08:14, Vladimir Zapolskiy wrote:
->>>>>
->>>>> Two most recently added CAMSS IP descriptions (qcom,sm8250-camss.yaml and
->>>>> qcom,sc8280xp-camss.yaml) do implement sorting by reg values, I believe
->>>>> from now on
->>>>> it should be assumed that all subsequently added CAMSS IP descriptions
->>>>> to follow
->>>>> the same established policy.
->>>>
->>>> My preference is sort by address not sort by name => we sort the device
->>>> nodes themselves by address so it seems more consistent to sort by address
->>>> inside of the devices too.
->>>
->>> Strictly speaking, the values of addresses are unknown to the binding,
->>> so you can't sort by address. However, if something is truly a single
->>> block, then the offsets are probably fixed in order by offset makes
->>> sense. But when a block is changed, any rule on sorting may go out
->>> the window since we add new regions on the end.
->>
->> Exactly, and this is an argument why the sorting is a subject to a device
->> driver policy, kind of any sorting order is equally bad. Sorting 'reg'
->> values by addresses helps to avoid a notorious problem with unit addresses.
-> 
-> What notorious problem?
-> 
+On Wed, Oct 30, 2024 at 8:28=E2=80=AFAM Sicelo <absicsz@gmail.com> wrote:
+>
+> Hi
+>
+> On Wed, Oct 30, 2024 at 01:38:11PM +0100, Joerg Roedel wrote:
+> > On Wed, Oct 30, 2024 at 12:20:31PM +0100, H. Nikolaus Schaller wrote:
+> > > Why that? There was a discussion and everyone agreed to remove omap2,
+> > > but not omap3 and later.
+> >
+> > I raised this question to make sure the things we maintain are still
+> > relevant. Developer and maintainers time is limited and we should not
+> > spend it on stuff that nobody uses.
+> >
+> > > There are some devices besides the PandaBoard. I am aware of these wh=
+ere
+> > > this is relevant: Epson BT200, Samsung Galaxy Tab 2, Pyra Handheld
+> > > (in production) and we are currently thinking about producing a tiny =
+series
+> > > of the DM3730 based GTA04A5 with spare parts.
+> > >
+> > > And of course we want to participate from the latest and greatest ups=
+tream changes.
+> >
+> > Okay, if there are still real users for latest mainline kernels on this
+> > hardware, then the effort is justified.
+> >
+> > Regards,
+> >
+> >       Joerg
+>
+> There is also the Nokia N900 phone (OMAP3) still seeing mainline
+> activity, as well as the Motorola Droid 4 (OMAP4), to name a few. I will
+> also be testing on the N900 around the weekend.
 
-Here the problem I reference to is the problem of an incorrespondence between
-device tree node unit address and the address of the first value of 'reg'
-values.
+The Beacon Embedded / LogicPD Torpedo and SOM-LV families (OMA35 and
+DM37) are still being sold and I still run various tests on them
+periodically. There is also an AM3517 that I still periodically test.
 
-Having a sorting by addresses allows to grasp IO ranges easily, and setting
-device tree node unit addresses to some almost arbitrary chosen value from
-the middle of IP's IO range is suspicious and confusing in my opinion.
+Once Micron kills off the RAM and they run out of supply and Beacon
+cannot sell them anymore, I'll submit a patch to remove the
+unsupported / EOL boards.
 
->>
->>> This one in particular I have to wonder why csiphy is not a separate
->>> node.
->>
->> There were dicussions about it in the past, and kind of enforced outcome of
->> the discussions is to keep all CAMSS IP components together under one huge
->> plain device tree node. I personally dislike this approach, but obedience
->> is the way to get things merged.
-> 
-> Who are you saying would be in the way to get things merged? DT
-> maintainers? I feel certain I would have pushed for separate blocks,
-> but I'll defer to people that know the h/w. I can't learn the details
-> of everyone's h/w. If they get it wrong, it's their problem not mine.
+>
+> Thanks to everyone for the amazing work.
 
-I had this discussion with Qualcomm/CAMSS maintainers long time ago, it
-may be restarted, if there is a necessity.
+Thank you for all this.  I haven't been as active lately, but I have
+been following this.
 
->>>> Which means sorting reg by address and irq too.
->>>
->>> IRQs make little sense to sort IMO.
->>
->> For all non-reg properties with a present *-names property the sorting
->> order should be done by *-names property. Only 'reg' is very special.
-> 
-> No. If you had 'main' and 'error', I'd put 'main' first. If they are
-> somewhat equal (e.g. rx, tx), then sure, sort them however you like
-> (assuming no existing binding). The only real rules here are how new
-> entries should be added (on the end). Otherwise, there is no policy.
-> 
-
-Here in the proposed terms the start of an IO region is 'main', while
-some value in the middle of it (the first one in alphabetical sorting)
-is too secondary to dictate the device tree node unit address, I believe.
-
---
-Best wishes,
-Vladimir
+adam
+>
+> Sincerely
+> Sicelo
+>
 
