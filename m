@@ -1,158 +1,156 @@
-Return-Path: <linux-media+bounces-20584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20585-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E619B6156
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 12:21:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E48B09B6167
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 12:25:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E0A01F212C1
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 11:21:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 774B01C215F4
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 11:25:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4418B1E5706;
-	Wed, 30 Oct 2024 11:21:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CBB61E47D7;
+	Wed, 30 Oct 2024 11:25:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="Qn5HcpE+";
-	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="6UZADULY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ufAlKkUA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.84])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15AD4D8A7;
-	Wed, 30 Oct 2024 11:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730287262; cv=pass; b=lDI071BqCVpFXu+ckvTSxLBnJ3kOsqqe79R8iJ4+CDUOv0Buy6dlRJy0RLqcTuDhcsZeGIc9ITsmXBix5gv+QJQNfCobhlYMIkXQEPfavnXeg3bq4ohvkma/qXXGxSZupmqNTfYxUCiRp+jXlbLnNkDMnevOFcOFj3nPrqSBMU0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730287262; c=relaxed/simple;
-	bh=eqlPk3VbpPRo0CwoqYeA+mkYbzA2YumBxWU5LsG9F6I=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=LlsZvR/CWAiBovDRtnUDDjMuga9uTFspYNBEobfxXZapzAYv2iCBGTZVd98vhrMotUbX3LEcpiWxrVBF1CXJAW5pR9sekXt0aZYy0VDgHboZZfe2aGTDyHAa7EhMC7MwrzIrr4QPc0VHMP4wcN/G+l3RiQCJC6azop1OIDt4XoE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=goldelico.com; spf=pass smtp.mailfrom=goldelico.com; dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=Qn5HcpE+; dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=6UZADULY; arc=pass smtp.client-ip=85.215.255.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=goldelico.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
-ARC-Seal: i=1; a=rsa-sha256; t=1730287242; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=LmkKYPnwFayGvNkyNGGwfTRPC30WQtV7XVBUPB46vNmTh2YUIvWSJJ3KTu2oXkPWg9
-    TQbPRw+CLNAPa0Z7npruX/zRsusDgjrQcxVYqaXL1tWDY0p0sPl4NanMz6fAvfJwXe0C
-    KUTGNayfcIHxeQdwzQQNOgzJeYObE27j9ZsBWz+uD6Y2Y1SXVK6poG3pWVPb9UBS+Lpq
-    ZY6FWCXj8CRkxAPQ0hy9izvHRDQHsAbqV0qN42ks+wvHybgBmSqh/AeZMoWYtCI9Gz6G
-    1y4yrzpMopQETTqMY0Mxiz11hVl9yX1KHPVKmF5HDZjGUjVIXHIMb9XdRO9VyX2FtZiz
-    t+4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1730287242;
-    s=strato-dkim-0002; d=strato.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=eqlPk3VbpPRo0CwoqYeA+mkYbzA2YumBxWU5LsG9F6I=;
-    b=NBtam4dkLBq0eRjr70Gb2zRoQxURDptQp8EQT8w2lNfmJwaBkuPlKa3n7hWODPdPbZ
-    FnqxBLOVgQ3ShuH1k2YPGkCtQLYByn2RTQtK7jD4INLIv8sW2nZ/o3NeifENIlDSaMMx
-    d82ZPsfucbBpQqv4zpUQ1+mdVvj5fU6bzSo8QLJDeqSabiZE5eaOXZra5VEXX/o5Kyq5
-    YrYYJClbQ7ogLI90U5CJ+rv+EFiuG0n7HKNxb01XNoLtaoR3cnQmZYnsr619eMSG1xfF
-    JEUXjSPkNi2sZogTYpzoSgq2vsP57WccPFgOjkVlq3suIrdqAN9M3f5uH8pgwaBH4y2v
-    UJ6g==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1730287242;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=eqlPk3VbpPRo0CwoqYeA+mkYbzA2YumBxWU5LsG9F6I=;
-    b=Qn5HcpE+a9FbmOVJItB3kUbL0rgA+G2bddmVOCUSfLabE3qcPoE/Gr1J9tmmmwkpXP
-    v+o/GQkMBWuT8Wfq7YnXCqz4rQVVRL3f9l37pJCIvRpztlo/onzPjuxFWry40nFSRjwB
-    MhWu9ocxBgpDeJumK6dRUxer6tRSKk+W7tRKKChQahmiAp5hSGZUbTxtvmcyNzFFsmZ6
-    utC+bVhy3TrZDGsq6ycE56w+vq2vOQiD2DM4LuU3HQGsD71FT1ynBj5tOEnhe5UyM0K9
-    3x2IYcBYfJPW5VkHrWzEHhcXtB09Px13+ndbiChmRWnbGZTGHkGYV01z+qlHnRV4sbK2
-    1vyA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1730287242;
-    s=strato-dkim-0003; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=eqlPk3VbpPRo0CwoqYeA+mkYbzA2YumBxWU5LsG9F6I=;
-    b=6UZADULYg4bR6wpt3xghzPOnsSR2uVqfNG6++6FbYSlefN4k43O5NvtlftKYmzEquZ
-    b3Mh5+sSFIUqA5xMIgBg==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9qVpwcQVkPW4I1HrSiJpeyMiNH8TaiW2pBcBKxu1ib9gQlpMMsbZm"
-Received: from smtpclient.apple
-    by smtp.strato.de (RZmta 51.2.11 AUTH)
-    with ESMTPSA id Qb7e4009UBKgS5B
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Wed, 30 Oct 2024 12:20:42 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1283156F54;
+	Wed, 30 Oct 2024 11:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730287543; cv=none; b=k+7aYQWQiyXLMrI3cNIfeS+mLZOk5Wy5EitAG1edoEogD+Q4VlzHBxkCpQ33DZrISoq0qT7YKdq40+uz0IiQS0PvklpFgAcf4M5hLfQkh6r1hlE5c7HpbpHGb/0XOHvRydbbJ3YO/enZ2N6+bq0maxrQRC6d5zpNRvLRJI5r6AA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730287543; c=relaxed/simple;
+	bh=pNa+VsBVYyKIrBAGRVMBxaWvEJvSkXNDNmc5rWOx9YM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kwDY1MNcTSm2dAH6x75cIBc4GN+zpftioRWMyaPjStUhJ9Qud8imzp/g7WNV0psUQdyFItZPEOwdRXThn0EqFpNJHG0sr79UGO5vQhBtAkfdVkNhgdH3CPKsvBFNBZtYB6JMQDKotGMZtpyg/RLokDWcPC5RKVyh1pLBF/5xMEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ufAlKkUA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D551C4CEE7;
+	Wed, 30 Oct 2024 11:25:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730287543;
+	bh=pNa+VsBVYyKIrBAGRVMBxaWvEJvSkXNDNmc5rWOx9YM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ufAlKkUAhCGPj/auQF6rHYED8CFspclfKoB94a1VTC1cJGnkDFMT5ORqK1lWTv88e
+	 9Bfo/G9Q3nAb9Jm1YTxj7vB3xiaf9lxaWm1MSxQ2iVKPyPNv3z3Fg7HRhu0oPP8Snc
+	 Nm86ZopAxQki9Opnce+PwMKtlI8HHFRPAX4LyHRuA3emzRrTYMnpSj1vASCxQ/ilce
+	 UyJS8lRdMuEfhgZjZLh8eCyeXgHgwoJu39VQaexeHGLpUe9JdpCptuB/XCHiD+e2HW
+	 hgKaYwWK7v0fmg4yIOI52e5Yf9uQl3ac9miMUAodgpxmMSD0xVCUDEMqti6D3JSxes
+	 lKyHUwCbnoaeA==
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-84fd057a993so2061402241.3;
+        Wed, 30 Oct 2024 04:25:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUOizf2QYypZvFWcmBxuhRgOSD7TFIU26MkD+/tQl9G2S2AGdGlFQYU2cB3rv+prYbxsI5xupRfz2EeTwc=@vger.kernel.org, AJvYcCWBJI2qFYFV1Z6g6jnII0hICKkAsA0uDSuMK/RHCrZpYlBfUEoiJ2eCZzTinmKXzzR7Ngpw7SfpyD9Gj98=@vger.kernel.org, AJvYcCXwFrbfebpP70uvtUdq4Jd7s6KGeL4n0HREM4bstjVeQmT0efgwQSrusG+kkE6i7cKZjA7fAbhsVPovbHg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiL23V+uQ90dD4QEZeTLObjlWnpn45iUK5bHYuQ+tK9IQYVpRw
+	IJp+35w8jE1LZoq1lkKCv5qDZo2zjrVhzg8wpuTuo2LRaeXlmrtL/5JCdkS96u4CLfUthXQVfRN
+	4+30xjDI6TDmUvHq9zdPH5b+43k4=
+X-Google-Smtp-Source: AGHT+IFcj4ArYSXy6RowfeL0PKK8BGT1Y7OSex/rX6l5UUiTFAxTX0iZ0k+liK3/QVIlTGgMUBgbDIP+9OeBwQ9oGPI=
+X-Received: by 2002:a05:6102:943:b0:4a5:ba3b:665e with SMTP id
+ ada2fe7eead31-4a8cfb8287emr14789540137.13.1730287542275; Wed, 30 Oct 2024
+ 04:25:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
-Subject: Re: [PATCH 0/4] Fix omap-iommu bitrot
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <ZyIClriScBy4s6LX@8bytes.org>
-Date: Wed, 30 Oct 2024 12:20:31 +0100
-Cc: Robin Murphy <robin.murphy@arm.com>,
- will@kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- mchehab@kernel.org,
- andersson@kernel.org,
- mathieu.poirier@linaro.org,
- Beleswar Padhi <b-padhi@ti.com>,
- Andreas Kemnade <andreas@kemnade.info>,
- iommu@lists.linux.dev,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Linux-OMAP <linux-omap@vger.kernel.org>,
- linux-media@vger.kernel.org,
- linux-remoteproc@vger.kernel.org
+MIME-Version: 1.0
+References: <20241021-imx214-v2-0-fbd23e99541e@apitzsch.eu> <20241021-imx214-v2-1-fbd23e99541e@apitzsch.eu>
+In-Reply-To: <20241021-imx214-v2-1-fbd23e99541e@apitzsch.eu>
+From: Ricardo Ribalda Delgado <ribalda@kernel.org>
+Date: Wed, 30 Oct 2024 12:25:25 +0100
+X-Gmail-Original-Message-ID: <CAPybu_0o+csbkyS7bbMUjB+VSUwj2DK_STy=wubCT_frH0DzgA@mail.gmail.com>
+Message-ID: <CAPybu_0o+csbkyS7bbMUjB+VSUwj2DK_STy=wubCT_frH0DzgA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/13] media: i2c: imx214: Fix link frequency
+To: git@apitzsch.eu
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <515D7932-3939-4C3E-BA3E-CC3152E64749@goldelico.com>
-References: <cover.1730136799.git.robin.murphy@arm.com>
- <ZyIClriScBy4s6LX@8bytes.org>
-To: Joerg Roedel <joro@8bytes.org>
-X-Mailer: Apple Mail (2.3776.700.51.11.1)
+
+Hi Andre
+
+On Mon, Oct 21, 2024 at 12:14=E2=80=AFAM Andr=C3=A9 Apitzsch via B4 Relay
+<devnull+git.apitzsch.eu@kernel.org> wrote:
+>
+> From: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+>
+> The driver defines IMX214_DEFAULT_LINK_FREQ 480000000, and then
+> IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ * 8LL) / 10),
+> which works out as 384MPix/s. (The 8 is 4 lanes and DDR.)
+>
+> Parsing the PLL registers with the defined 24MHz input. We're in single
+> PLL mode, so MIPI frequency is directly linked to pixel rate.  VTCK ends
+> up being 1200MHz, and VTPXCK and OPPXCK both are 120MHz.  Section 5.3
+> "Frame rate calculation formula" says "Pixel rate
+> [pixels/s] =3D VTPXCK [MHz] * 4", so 120 * 4 =3D 480MPix/s, which basical=
+ly
+> agrees with my number above.
+>
+> 3.1.4. MIPI global timing setting says "Output bitrate =3D OPPXCK * reg
+> 0x113[7:0]", so 120MHz * 10, or 1200Mbit/s. That would be a link
+> frequency of 600MHz due to DDR.
+> That also matches to 480MPix/s * 10bpp / 4 lanes / 2 for DDR.
+>
+I think your calculations are correct and the value should be 600M...
+but if we land this change, there will be boards that will stop
+working until they update their dts.
+Not sure if we allow that.
+
+Can we move this change to the last one of the series and add something lik=
+e:
+
+diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+index 2aca3d88a0a7..8b4ded4cb5ce 100644
+--- a/drivers/media/i2c/imx214.c
++++ b/drivers/media/i2c/imx214.c
+@@ -1281,13 +1281,9 @@ static int imx214_parse_fwnode(struct device
+*dev, struct imx214 *imx214)
+                if (bus_cfg.link_frequencies[i] =3D=3D IMX214_DEFAULT_LINK_=
+FREQ)
+                        break;
+
+-       if (i =3D=3D bus_cfg.nr_of_link_frequencies) {
+-               dev_err_probe(dev, -EINVAL,
+-                             "link-frequencies %d not supported,
+Please review your DT\n",
++       if (i =3D=3D bus_cfg.nr_of_link_frequencies)
++               dev_warn(dev, "link-frequencies %d not supported,
+Please review your DT. Continuing anyway\n",
+                              IMX214_DEFAULT_LINK_FREQ);
+-               ret =3D -EINVAL;
+-               goto done;
+-       }
 
 
 
-> Am 30.10.2024 um 10:55 schrieb Joerg Roedel <joro@8bytes.org>:
->=20
-> On Mon, Oct 28, 2024 at 05:58:34PM +0000, Robin Murphy wrote:
->> It seems omap-iommu hasn't had enough mainline users to avoid =
-bitrotting
->> through the more recent evolution of the IOMMU API internals. These
->> patches attempt to bring it and its consumers sufficiently up-to-date
->> to work again, in a manner that's hopefully backportable. This is
->> largely all written by inspection, but I have managed to lightly boot
->> test patch #3 on an OMAP4 Pandaboard to confirm iommu_probe_device()
->> working again.
->=20
-> My initial reflex would have been to just wipe the omap drivers,
-
-Why that? There was a discussion and everyone agreed to remove omap2,
-but not omap3 and later.
-
-> hardware is 10+ years out of production, no? So who is still using =
-this
-> hardware with recent kernels for other purposes than kernel testing?
-
-There are some devices besides the PandaBoard. I am aware of these where
-this is relevant: Epson BT200, Samsung Galaxy Tab 2, Pyra Handheld
-(in production) and we are currently thinking about producing a tiny =
-series
-of the DM3730 based GTA04A5 with spare parts.
-
-And of course we want to participate from the latest and greatest =
-upstream changes.
-
->=20
->> This supersedes my previous patch[1]. Patches #1 and #2 are =
-functionally
->> independent, and can be applied directly to their respective trees if
->> preferred.
->=20
-> I applied patches 3 and 4 to the ti/omap branch.
-
-Thanks,
-Nikolaus
-
+> Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> ---
+>  drivers/media/i2c/imx214.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+> index 4962cfe7c83d62425aeccb46a400fa93146f14ea..5d411452d342fdb177619cd1c=
+9fd9650d31089bb 100644
+> --- a/drivers/media/i2c/imx214.c
+> +++ b/drivers/media/i2c/imx214.c
+> @@ -24,7 +24,7 @@
+>  #define IMX214_MODE_STREAMING          0x01
+>
+>  #define IMX214_DEFAULT_CLK_FREQ        24000000
+> -#define IMX214_DEFAULT_LINK_FREQ 480000000
+> +#define IMX214_DEFAULT_LINK_FREQ 600000000
+>  #define IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ * 8LL) / 10=
+)
+>  #define IMX214_FPS 30
+>  #define IMX214_MBUS_CODE MEDIA_BUS_FMT_SRGGB10_1X10
+>
+> --
+> 2.47.0
+>
+>
 
