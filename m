@@ -1,133 +1,130 @@
-Return-Path: <linux-media+bounces-20596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20597-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F132D9B63F9
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 14:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5BA9B6410
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 14:28:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED16828303C
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 13:23:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D8F2283143
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 13:28:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB95C1E47CE;
-	Wed, 30 Oct 2024 13:23:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF7611E9092;
+	Wed, 30 Oct 2024 13:28:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HlsMC1ls"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UM3oeQu9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D03161FFE
-	for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 13:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F7522315;
+	Wed, 30 Oct 2024 13:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730294596; cv=none; b=tdVWGN7A0nGG6gc6QWOZA3sX93ADKNV1jRGGe2XjRBZmamAIrudyzD5EMnqSwXASihvK2sTBBG90H/BRfc3gArxSXsS2KUAprdcpzdjH5w1DhQ0TUkudcGb/DJYObaD8wmLR3cnJKqacVKjqSJi8ADD0qnEoKO/vKcj7d0Oec7E=
+	t=1730294905; cv=none; b=HtZhIrb7302K1T9Dx2JqgOuBk5kE2WzINXzPX1JVWLkNe5xD9E2YwPCo0ZzgEwaNTY6LayevGliE/qX5iDiRGBfaMsiuGggXOSEtjXWNXakwNW0sv522VWF1QFCrcdjdi/WMD30XQqUwi5QVDYIOTl6NWOEo5G/2GI5kVZ8nRPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730294596; c=relaxed/simple;
-	bh=UZdTEXmqadkkHt28rG2dAdukNK3vdNFsyhUL7P/hmVU=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=oYCdWsDn+BlGTKgCmfNxOeOq3onO6W/UVhSRsclhjUt/uxJXaWXbi20TVZpc/YD+urNIL3gc7qH4bz7eLCoH06J/hfOSHjF7sr62hv6NI/axhMkoEK7Pd/wzxs6xRZ5QYhinZPnyknMDY3NdEQPw8tMcYqi0XJF3CudBrkdnRqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HlsMC1ls; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-50d494ac189so2033941e0c.3
-        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 06:23:13 -0700 (PDT)
+	s=arc-20240116; t=1730294905; c=relaxed/simple;
+	bh=Co0lass6VxucvBFkw1aOnXJDq+FBmwMkMSrHRfwjdoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OK3eL/zOgvY+SUviKJyfMWTR2GylaoN1JTuwzBOgpEVKS2qwPcfNLeGj1nQpjfbfrIu0FNI8vkRnrt4AY1B6HT5IwP8RoyPiw04q8cohUCLviwnCCqIzHTHvEA92S+0qKLCWOmSWy0KsskFDWlsX9G2Be/xBtHA2zXsCoZ2MLaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UM3oeQu9; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43161e7bb25so61525285e9.2;
+        Wed, 30 Oct 2024 06:28:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730294593; x=1730899393; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xqOd1GRqoUCqzf3wqicTqRcRpHE5Pp00F4b9OuTbBLs=;
-        b=HlsMC1lsRYrKs1Qbw8jceMPJP4E43C45h2G11tuWHFS86ESAY+CHiKSHpWTPgjvZ8J
-         aMKeB/oTHXSyRHB2AWPDImpb+WIoV5qHpRcXMUCtRZFyqjgLScbMI3tjXpCAn3kkJuJ2
-         su92ljB0KG6am2hplO3GWtBlpyKiX1Hi0Zt+Aa8Fylz1C6iwB28CJgzAQJ49sTVco3qN
-         kV7WSzGTgj7AevqkUQDnnuq+duA3DuLzPTHghPruxulvN73ejBfr0gz8LoI16Tn4Gkkk
-         2fQ7K94RS60jTE97uEl6W8HuReorwjUiGHaLOKNJYNEJpiE39qoV80k35kTuU+Eefn6f
-         m1bg==
+        d=gmail.com; s=20230601; t=1730294901; x=1730899701; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5bRYMDo31wli1+F5XqLgDNYu5RKLrQYurcKRy2ybtgM=;
+        b=UM3oeQu9iWtFxn8R7Wyl8ciTk2frQtsV9TAbP8IwO10/NEIkDSypLRNUt9onP/0uNK
+         YXa+BpCHZiivKH198+ZegoPIKaWMRVroGByoWbv39Ro67YSeBLzqOhFPspA507Gylx53
+         TjeL7fMyw4U4rQMEmb6ymXNZGuKGJmOhpdbSPjQk/OO9Xjt4enF4BdpOzcXZyk1fX1FY
+         q9Fsk9L8re1KmBF+7WXkQddbtyQ4wjhk/QVzWxhzNTFhkCylqKbbf/1sIh6jBhhe3nId
+         YEZTY6QnZPw/YpMDMajhOn0ISSfLyotJ+Sss4KU+Eq8dhHSCZxVx51QzG4l+qiBCdoTz
+         WXhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730294593; x=1730899393;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xqOd1GRqoUCqzf3wqicTqRcRpHE5Pp00F4b9OuTbBLs=;
-        b=wh20rXldihPe3JLNCYqH+lrjYgvzheZYZI2ZoMvDrH9266kW+1fTmUYb3xHPG6oA+6
-         8YaeIEMR+lEqIxG6GcpKsi0DhOAfze4/acKhxxc675MVDxWpU+O8QIZbZT7RlbSuGHmA
-         x5EZ+ErUx2+G1lNZqjPIkiIIHKm6wn14JixIyTx48pFY7/4FK/fEZ4+yr0JpG1U9pVF+
-         CJkBhNwJHp7nUlcEdFIUNisMmjf5h6pjAEoKFa3cYfg+tRwfslvFghytoNvuxilDZwsz
-         KemcGp6jUQroXqE1pbwChei8qc+IWiAAJJEGRUyrYtSNUXmwdAKpRVFIOnA7gxlHLzen
-         NVhw==
-X-Forwarded-Encrypted: i=1; AJvYcCXFjP/+RngHKXg5sCsgZOUca7qyT7Mc74uL6A8Rd9bjm11/gdjlBKn/WBb60rEVy9me0i5dXnTinBulXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTZvYuUQ8gi4oU/SznlXOW5yI78is+P9ntUf4uSIgzuv4riCqF
-	w6p8sgAnHYzEHD54bhoFDs1icK76SO3qMBERaCoTPgdldNPZdgjxeJHmq9kBwgs0yBOPdio+ZRY
-	qdZr4+g1enwRskqHj7husFuvtBG2s634ue5tyPg==
-X-Google-Smtp-Source: AGHT+IH+WumONmNdzunnvczfZxAebXCyl/J6gvEjlXtHtquei4NUDtL+2W3YfXhmxPl83u3TC15QF98lawvQNCJ4xU4=
-X-Received: by 2002:a05:6122:1697:b0:50d:3ec1:1534 with SMTP id
- 71dfb90a1353d-51015071471mr13246416e0c.7.1730294592926; Wed, 30 Oct 2024
- 06:23:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730294901; x=1730899701;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5bRYMDo31wli1+F5XqLgDNYu5RKLrQYurcKRy2ybtgM=;
+        b=A1wV1YQ8J7NbvaIhic6HelDA3NRyD+vmWuWgPrQTxAnE/dsSprHymYqLd5fehfdDgG
+         XLW5LZqg6h1neW779fXxzC9gwMT/DXw5tbkW91ay0yYtU1ZlIGfrryPo5QM5kViQhO2m
+         Ewc7oQFdlQR3heuysI6O+uXSu5hzioyw0xbEa5uk8wwSegAjIyYJBVMpX8522B3hewee
+         tEdjWEyItFiT3Xkn+zCtRohn/zplGKRTekMRWf2z2cXE+OcX04Y30YtVvwaxPY9erMZs
+         bgPNNQFG5ePxvYS9N9QPSk7Ce08peBI/5j7Dw7kgPBIqpR686EvCBDsLm3UMQ0dmK3eD
+         xpNA==
+X-Forwarded-Encrypted: i=1; AJvYcCUNpesNCU9Abv5JgJ2wE0CKglCPgZhOgGEWfD3yrxjMgXQJmcx7ZAlDB8r2xPFod902vfrDjgJt+hYk26MvUb8TvQ==@vger.kernel.org, AJvYcCW0ZlYD0AXZhRnob7POHa0/Rpd1VqRxUgqIjbETYbAJzV6ih6rpqlmpS6rSvZHxEMdwLWRKs65DhMJ9rw==@vger.kernel.org, AJvYcCWU0MVJ2cB25WFYowj5Tex1Tl64g94DYdTwvmLgjGtJMDiZlSPnTqDSEnTv/acbFYPDhfiSSQgLZ3fLCA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6WUhHUwZczINisTyepZAylSVNz+TV/jLJGU3MbMgBiUaVFdBh
+	OCq6CqT+hDGVj+AUn/1epq3Q2M8PgnGOfoiiDHlslu0SOodENHyS
+X-Google-Smtp-Source: AGHT+IF/oVv8150+7ro6yu0YdcKzcFPQ8lbfxvxtxQ1j2qTb6UYENnsCgQU3QxkyOYC63S92RRMIAg==
+X-Received: by 2002:adf:ec8f:0:b0:374:b35e:ea6c with SMTP id ffacd0b85a97d-381b70ed1c3mr2289041f8f.40.1730294901291;
+        Wed, 30 Oct 2024 06:28:21 -0700 (PDT)
+Received: from tp440p.steeds.sam ([69.63.64.50])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b9294dsm15353345f8f.105.2024.10.30.06.28.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2024 06:28:20 -0700 (PDT)
+Date: Wed, 30 Oct 2024 15:28:13 +0200
+From: Sicelo <absicsz@gmail.com>
+To: Joerg Roedel <joro@8bytes.org>
+Cc: "H. Nikolaus Schaller" <hns@goldelico.com>,
+	Robin Murphy <robin.murphy@arm.com>, will@kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	mchehab@kernel.org, andersson@kernel.org,
+	mathieu.poirier@linaro.org, Beleswar Padhi <b-padhi@ti.com>,
+	Andreas Kemnade <andreas@kemnade.info>, iommu@lists.linux.dev,
+	arm-soc <linux-arm-kernel@lists.infradead.org>,
+	Linux-OMAP <linux-omap@vger.kernel.org>,
+	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH 0/4] Fix omap-iommu bitrot
+Message-ID: <ZyI0baBMPHVZ29-k@tp440p.steeds.sam>
+References: <cover.1730136799.git.robin.murphy@arm.com>
+ <ZyIClriScBy4s6LX@8bytes.org>
+ <515D7932-3939-4C3E-BA3E-CC3152E64749@goldelico.com>
+ <ZyIos2Gm1nf5rejI@8bytes.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Wed, 30 Oct 2024 18:53:01 +0530
-Message-ID: <CA+G9fYvvNm-aYodLaAwwTjEGtX0YxR-1R14FOA5aHKt0sSVsYg@mail.gmail.com>
-Subject: next-20241028: gcc-8-defconfig : ERROR: modpost: "__aeabi_uldivmod"
- [drivers/media/dvb-frontends/cxd2841er.ko] undefined!
-To: Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	Linux Regressions <regressions@lists.linux.dev>, lkft-triage@lists.linaro.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	Anders Roxell <anders.roxell@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZyIos2Gm1nf5rejI@8bytes.org>
 
-The arm builds failed with gcc-8 on Linux next-20241028
-and builds pass with gcc-13.
+Hi
 
-First seen on Linux next-20241028 tag.
-  Good: next-20241025
-  Bad:  next-20241028
+On Wed, Oct 30, 2024 at 01:38:11PM +0100, Joerg Roedel wrote:
+> On Wed, Oct 30, 2024 at 12:20:31PM +0100, H. Nikolaus Schaller wrote:
+> > Why that? There was a discussion and everyone agreed to remove omap2,
+> > but not omap3 and later.
+> 
+> I raised this question to make sure the things we maintain are still
+> relevant. Developer and maintainers time is limited and we should not
+> spend it on stuff that nobody uses.
+> 
+> > There are some devices besides the PandaBoard. I am aware of these where
+> > this is relevant: Epson BT200, Samsung Galaxy Tab 2, Pyra Handheld
+> > (in production) and we are currently thinking about producing a tiny series
+> > of the DM3730 based GTA04A5 with spare parts.
+> > 
+> > And of course we want to participate from the latest and greatest upstream changes.
+> 
+> Okay, if there are still real users for latest mainline kernels on this
+> hardware, then the effort is justified.
+> 
+> Regards,
+> 
+> 	Joerg
 
-arm:
-  build:
-    * gcc-8-imx_v6_v7_defconfig
-    * gcc-8-defconfig
-    * gcc-8-omap2plus_defconfig
-    * gcc-8-davinci_all_defconfig
+There is also the Nokia N900 phone (OMAP3) still seeing mainline
+activity, as well as the Motorola Droid 4 (OMAP4), to name a few. I will
+also be testing on the N900 around the weekend.
 
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Thanks to everyone for the amazing work.
 
-Build log:
----------
-ERROR: modpost: "__aeabi_uldivmod"
-[drivers/media/dvb-frontends/cxd2841er.ko] undefined!
-make[3]: *** [/builds/linux/scripts/Makefile.modpost:145:
-Module.symvers] Error 1
-make[3]: Target '__modpost' not remade because of errors.
-
-Build image:
------------
-- https://storage.tuxsuite.com/public/linaro/lkft/builds/2o9bKKvq45ZlybLVnQ1Bl0hEVA5/
-- https://storage.tuxsuite.com/public/linaro/lkft/builds/2o9bKKvq45ZlybLVnQ1Bl0hEVA5/build.log
-
-Steps to reproduce:
-------------
-   - tuxmake --runtime podman --target-arch arm --toolchain gcc-8
---kconfig defconfig
-
-metadata:
-----
-  git describe: next-20241030
-  git repo: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-  git sha: 86e3904dcdc7e70e3257fc1de294a1b75f3d8d04
-  kernel config:
-https://storage.tuxsuite.com/public/linaro/lkft/builds/2o9bKKvq45ZlybLVnQ1Bl0hEVA5/config
-  build url: https://storage.tuxsuite.com/public/linaro/lkft/builds/2o9bKKvq45ZlybLVnQ1Bl0hEVA5/
-  toolchain: gcc-8
-  config: defconfig
-  arch: arm
-
---
-Linaro LKFT
-https://lkft.linaro.org
+Sincerely
+Sicelo
 
