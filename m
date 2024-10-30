@@ -1,56 +1,74 @@
-Return-Path: <linux-media+bounces-20582-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20583-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788B99B6131
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 12:16:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9CD9B6140
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 12:18:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 012BCB215FF
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 11:16:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 45A871F23894
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 11:18:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 720481E47CA;
-	Wed, 30 Oct 2024 11:16:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 836BC1E766D;
+	Wed, 30 Oct 2024 11:17:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=metux@gmx.de header.b="oV989kEi"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HTEIxt0r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2491CF7DE;
-	Wed, 30 Oct 2024 11:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE97E1E3DD8
+	for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 11:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730286960; cv=none; b=f+Rh1Ngfg+n7p9V7ZKmEgw3po2GBwF0dQvz5B3NfA6JptwO9z+/P5jJB3BPmEqtFq+HtLxEQH7vzM6xJR+WRx/3L+3/Hix5CeSzrxukCi4Ce6H9Bf5zukQNBKIU6Cu8/aa8rk4EftwHpuWR3jOMBQHcy/nZXaMLHTYKxAPKCW3A=
+	t=1730287062; cv=none; b=IhclbQVdhuDeSflttUzH22jgOh1PminOrS9KPy7mz95E3eArjFSZHS3+hTbbBdr1rA6VzI1V65hFhE++DcuqtmJHkTvhoCAXoeQt0W1dKL9LWNOgKqrqYT8l2kfMZcNMcqokEKUy039v/3gGPzrp0crFPrhGKVOTmx9dvJvo2UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730286960; c=relaxed/simple;
-	bh=mlDftfx0K4BOCP97UClfQEOO1aAHQKqEtrb3HZcbogc=;
+	s=arc-20240116; t=1730287062; c=relaxed/simple;
+	bh=0+ANpT2OwyxJuotxxojjjQEkhl3iqGOnYjPNdkQvZcg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LmkCoXey4bigXR36MG3VQwGt8pswRY7MRIQJgu5ApOsgloP0sL3+/zgZveCYQR6k6oMBsEdtObOnaif5a0u2ZATM78G8pWzuGIhm+aSdf45S7uK1rwPW4c6MPOP4kyA74oQ2iIuGDJUa8NI6MoV4LOEIQoDPdoEDghHhUfA5U+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=metux@gmx.de header.b=oV989kEi; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1730286945; x=1730891745; i=metux@gmx.de;
-	bh=mlDftfx0K4BOCP97UClfQEOO1aAHQKqEtrb3HZcbogc=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=oV989kEiNWeJh8gP21cTVDoFmxCiTpBKcteuNrFpD3JzsOYLqTWquNReAO7JXDVQ
-	 bkZ3MPce8pPgAhfADVFEJL9FKgxbrDc5yJ43s86N64sXLcwlq+YnaaOCjqnaTViY3
-	 kBITyvP0TEl0z4Q9D08feJUaFpsv8Yf12Fw9IXMWYeXH4u3LSwHcInzvocIuJR79v
-	 +enfEhcMlD5BKwtCntlEMyFYoFC0engUUEV8B/K78sCTexSVDh9QOEkYwOO0BA9fi
-	 EUZCCBznDJflQsg44b6oKhjb67KRqb+9kmgKo3oVp1RhZVVdtiZBz/0WsmL2dxv71
-	 vTjQhfnY+nrr5HZmHg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.178] ([95.114.207.188]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N8ob6-1ttH783dA6-010bqc; Wed, 30
- Oct 2024 12:15:45 +0100
-Message-ID: <35deac48-4220-4889-833d-1b57b417e968@gmx.de>
-Date: Wed, 30 Oct 2024 12:16:22 +0100
+	 In-Reply-To:Content-Type; b=S1daY3rmWC4eCAeD41mQHAanURNHWbemQw5ZHtbrb8ZBjcca7PtVWyk8e6KiZa/iLScrpRFdNU09PStF90q6hjIcQeKqZkBd/GCapkc/6mptPjQ6A46aAG8at1oKXw1JwRIUFcGwxZWs+MbOl/PTVNlihp42WEWER+/RlZM4+Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HTEIxt0r; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539e151d73fso867164e87.1
+        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 04:17:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730287059; x=1730891859; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=356ISyJwQrslqNkIAE5HnlpLPQYYjpzgyFzJpPVwQPo=;
+        b=HTEIxt0r9BXBs5d/AUM6yTcC/3Im3SZEnrBDMg2oCOeMdotCzLZQWpeC+WE2qGcspH
+         yadIowxjNkPX6hoffaivkBECYNsMn10UiSzxsyvZFi4lNAMFP5bA4Kc2VddZKcDauv9b
+         yxBhRdvPh4CzVfH9CMbEdIZa+/bG9GTiiRfPZYZp13v5MW7kim2lNpulsgYz5cvVIbiE
+         TQhRCbzFTrEfJosECQkyDeXS6UR3EE0wUi7yvVKQ2qOBJI++OtOGtREG31Lz1RrsPZXW
+         UqMcds5o+VqY5jIX1ZzR5TgzXUExkpVYcMLwMfYOkk+nO1dAAwYHFftrNdn9SD5hWNLT
+         4rlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730287059; x=1730891859;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=356ISyJwQrslqNkIAE5HnlpLPQYYjpzgyFzJpPVwQPo=;
+        b=qUPFiSgmb28yp4lwq4d28oB5m8dDxUJN3bai7OpGSFsXUjQJT95kcW2nCZSM3kWs2+
+         TaiVk8D1g3xBvjSniC2sLIX5h4tS0/qnrTrDreuv+1z5VOIpe32tPvYakwc+uLLDgjNy
+         YEZphqVB8MpO+Qjt/A64hsajKao8HGGVQrjysaarVCvhkyWshLdHSgQZifZyz+gisSkW
+         mluPj3jsZP5np4KBJ5M0PR0CYofgmA5BlzMYUy07b+63jnmrSRe0du+pXCDEiQvK9n7+
+         Wki+coaGwycY4gv4tKMJB6mmhQJ1PwTYX5xyIBdSaES02mv0DNeg89u7wH9X03zBIWvq
+         vKPg==
+X-Forwarded-Encrypted: i=1; AJvYcCWjhFna+Vk9wnb5IMqu4iJ50eFfvJmCNe0gWThCLKAlC2/rIPoLdYPZ54xoykDH0eusfUhum0fI0e8Mdg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJg8d9CLHEGRWT1LGil4pdBjDDNf9jnbnIAoaxlodM8opn4U2F
+	kzoSd3+3Dbyb5a6VtHJ9/5C0ZZgLK44E5k9fwKjipJGX6jaOFz3yGIFMh4s+728=
+X-Google-Smtp-Source: AGHT+IGnM+oSnQStBfWKHreFs9i4FFNZc119m+7yiPhy6glNaO5Ho0YNgrbESTHVYDwlQmgkL1c1/w==
+X-Received: by 2002:a05:6512:2255:b0:53b:1369:fcf6 with SMTP id 2adb3069b0e04-53b348b955dmr2386293e87.1.1730287058996;
+        Wed, 30 Oct 2024 04:17:38 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53bb819070bsm223221e87.5.2024.10.30.04.17.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Oct 2024 04:17:38 -0700 (PDT)
+Message-ID: <78f6bfc4-69f6-4a1f-a47d-6347910dfb46@linaro.org>
+Date: Wed, 30 Oct 2024 13:17:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,65 +76,44 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Requirements to merge new heaps in the kernel
-To: Maxime Ripard <mripard@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20241022-macaw-of-spectacular-joy-8dcefa@houat>
-Content-Language: tl
-From: metux <metux@gmx.de>
-In-Reply-To: <20241022-macaw-of-spectacular-joy-8dcefa@houat>
+Subject: Re: [PATCH v4 4/6] media: qcom: camss: Restructure
+ camss_link_entities
+Content-Language: en-US
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org,
+ konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@quicinc.com
+References: <20241030105347.2117034-1-quic_vikramsa@quicinc.com>
+ <20241030105347.2117034-5-quic_vikramsa@quicinc.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20241030105347.2117034-5-quic_vikramsa@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:OXs7H1W+UFRu0PC7wfyzXJLH0EbhAYeRDPBvuzLGrQSDhISLPnc
- 6WC52Fn3eaU5BOifJojQ5t94gaHu+qcA18UYcIpyEL8UepofSNlbxFDRp11lMQbDFgiV39Q
- Io0EklDI6cb1kgk464W+PyGSnP2NLEyYWE1Do/VIteND7LFfreTb+5i7upH9CA4v7jqqsoF
- bnawMxSDiyUs5pnwlo0RQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:H52CPmlmabM=;0t4AdGqQVW+nDR/Ok80kPjqEzjN
- QuuzM3Vi+5o+idAGY13wmHfnHzZSup/mnzbiCmHCVbO8P8Wde1B1Pz/Ua4nE2mVFt5egDIkNS
- LONeHuphdvVv3VbLQmU6Cr7NBAsRO6E7s3l41kJyE8h46n0vPAqzgIYOX5gYkfS/d0ksXfg9m
- lLNU5x3/VuYSgEc4jJNHM0nmUlLR9hukOKJvLs5exWCyYKwUZyvsl5VNAvxdFdzNp8JNhkK7H
- hw0IX+TXumArBdWNV7q3FkR9SkLTZJYVQw40MQDECd+jvVEgsUvxdU9sCYm4oOSWs7e+uBAb2
- 9kENftMqlViJiW9iWD2tr3xgb62e7CiWM3LM/VaAQXaxTvy8obzv0rycQ1mtEQDderVW8Hf92
- Svhcrdwm10FEwpHV3OmuAkcFsxIgg2gXiY7IbZH8ap/Y+7CL/Fyi92Eav3MuziyBLshiqo8gY
- lKXOJaXT5cVRzg1K6sb/OquoLR4G8tTUNB1cYOr9sreWhdH2BrRkAGuIjGW/ElF9uV5aki7T7
- RVDSf4Ab0XQ/0YmEGz9eA+W7hscr3tVrIIGiQnsITW0ayMvlYbV2sqoiMCEb7v8qj5Jgd+n5H
- DcnKjcDbRD3D8E2klbPeRzRd1j/6qYzRKDS3EVLiXB5T1JxRYQzK4y00PLfrt+LyLcVAvkQZh
- QI3ig7AFdZ+9eFqDP7YIrT9b0wTViSoxFzcU0yaC9NkPuHaqYazGZiXyK82v8+j+b/qfeR3Yi
- zSmnj0ZtTrgumeNsiCqt3SVcZq70czr5rLPpPmft3gOTrXu1mdpahcWwDT8nF2k8uNTnwA3mS
- eYjxZzA5Aq9U+UR9jGjNSd86lyeQpt0GkF53wIPhNBotw=
+Content-Transfer-Encoding: 7bit
 
-On 22.10.24 10:38, Maxime Ripard wrote:
+On 10/30/24 12:53, Vikram Sharma wrote:
+> Refactor the camss_link_entities function by breaking it down into
+> three distinct functions. Each function will handle the linking of
+> a specific entity separately, enhancing readability.
 
-Hi,
+I kindly ask to exclude this change from the series, it is unrelated to
+the support of a new platform in CAMSS driver.
 
-> I'm still interested in merging a carve-out driver[1], since it seems to=
- be
-> in every vendor BSP and got asked again last week.
->
-> I remember from our discussion that for new heap types to be merged, we
-> needed a kernel use-case. Looking back, I'm not entirely sure how one
-> can provide that given that heaps are essentially facilities for
-> user-space.
+Please send it separately and rebased on the current state of CAMSS
+source code.
 
-For those who didn't follow your work, could you please give a short
-intro what's that all about ?
+> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> ---
+>   drivers/media/platform/qcom/camss/camss.c | 159 ++++++++++++++--------
+>   1 file changed, 105 insertions(+), 54 deletions(-)
 
-If I understand you correctly, you'd like the infrastructure of
-kmalloc() et al for things / memory regions that aren't the usual heap,
-right ?
-
-What's the practical use case ? GPU memory ? Shared memory between
-nodes in a multi-CPU / cluster machine ?
-
-Is it related to NUMA ?
-
-
-thx
-=2D-mtx
+--
+Best wishes,
+Vladimir
 
