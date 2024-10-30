@@ -1,181 +1,183 @@
-Return-Path: <linux-media+bounces-20612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20614-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB0E9B6F38
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 22:40:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B8A9B6FBD
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 23:13:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 152771C224A6
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 21:40:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F4151F221D5
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 22:13:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29B9C228B68;
-	Wed, 30 Oct 2024 21:35:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7335A21745A;
+	Wed, 30 Oct 2024 22:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="Q6w5j7Ab"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CP14lJEz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C959218331
-	for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 21:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730324118; cv=pass; b=AmuJmeFj2oUlqbC+XT2TQEGDdpPmdq7jhmUci9pEw9sZdZUMOry+/l539gRLkUyglM6He6h3BCOTbS70Ig2hj/ZqsmyAPZLHFo9k+OgpjZjhmimAEV2XIpUbukopUd1/PeAgUo4jUZcBilb6Mw2oJWAv5FGY63ambd76AC/PPdA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730324118; c=relaxed/simple;
-	bh=ec/zyw2RklpzRPgI7A+gAsAowuwsPoOVehHEEaI0Uec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cZ4Gn/sFJtiECLVDWouB9Ydt3CtnzoMXriN6fk5Xv5txu+JekvMluBiIfSWOVGYYfsAny31uESnCuVk1ROxi+hAcYqnV/JTJvBZMGq0Tgt4sZWlIVMJxuhSSrgM1IoSO5btCfndwttQCAe0jua1/DfFexetvW9InUBBNrsHiYXM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=Q6w5j7Ab; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Xf0lg4JBQz49Pyc;
-	Wed, 30 Oct 2024 23:35:11 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1730324111;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nOUadWB/TNOlylcyIr/NaKzSOfHsjwF0FMQlpUOiq4Y=;
-	b=Q6w5j7Ab1AYfDK2oaRvmw0YWgndRY+2igNQVbqsE40FVNaH8AHb/HarUoMrXYXq2eoRy5q
-	LSN7SowbMfsPei1B4wNYR9sS0ITIAwgbYGSvgkfFzC6SWCBzb1+hsl4t4RFnP7zVdpjdqN
-	bOvzUr7wRvlyWvFed4gCa5tVxu6stDDiitCBSgfTNnte6o8wk06DTUf7fTH3kENhj1m3i0
-	yqMKy3WU5SRX4R1NDAzzuiwnCMZ2GnQzlF+G0ut2XT9hAuOXIQzhe4TgQCi7gidvNymgdp
-	QrpTVwby9GDdZGpUaX7oXwJRGt3w8UtbJ0yaWgqkVgogq7AT2zT9JIDSbt8TYQ==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1730324111; a=rsa-sha256;
-	cv=none;
-	b=lo356woVm3tHnDBXU1q94CmO+3LxhcECrbxnvbAaXIR5HxKlBOW6BXxIDDF2dpDo60coFh
-	m9x7xR+Dn0ya8oRE+Ox8vxrHRjjwHRwxecwjT9KmJ8zGJGM9V3a3JRAQWmnbUfTXEEYONk
-	Mvgfg7TvnrqI4SjizeEq8SnFRQbysNSCsws+f7vdfWOeI3vKVHilEic1C8OUfUofFOwil/
-	4iCpvMSD2bW9H/MKHv8dN/B+Wn71YoHY0LB/TvNm2CIXZq8Tod7MXk4W10K8L7n1hqfZy8
-	2uXXLKIdtKxkDlA5akpJiQEGPFkUGbJ2JLqauoQ/sQ8RPNnHSIWyBgOGXZTPhw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1730324111;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nOUadWB/TNOlylcyIr/NaKzSOfHsjwF0FMQlpUOiq4Y=;
-	b=ODovZatnj7wDlii2trMhTZKkTaWQuE/XWYb/eI/7Z9d75nyATvseNHNt3JPdIgI8j4d5Jk
-	MeTSEM2Kis5Z/6gXwoWya4PIbevYcEFVB02ybOmGEUYJS+BcmDMQG/OujbRo5F5G7xfLea
-	RyH/DinjsI3Yw9k56g6b5Y3lG1cVEbI8ibe83DBPkUmQsJKqbqH0RXr1xVFCVkHkXc9dBf
-	qcNfAFpxnldV9sPPvao3PjR/Q0tKiT8ZpPz6413+/NOghT/LCQXV205+BHA8zvV8n2dvPg
-	WwcYhGAFNmJUZVtpsElJVE8I2u2VxUXZlH25s0SkBkJRKBQbrQcWyIK7LqRwTQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7A5F7634C93;
-	Wed, 30 Oct 2024 23:35:10 +0200 (EET)
-Date: Wed, 30 Oct 2024 21:35:10 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Yunke Cao <yunkec@chromium.org>
-Subject: Re: UVC: Privacy gpio as subdevice
-Message-ID: <ZyKmjq0PnjwzS46z@valkosipuli.retiisi.eu>
-References: <CANiDSCuPfmV-0KLrdnvVojvtLR=OsFUzLNhnqM1m_ytvzjoNOw@mail.gmail.com>
- <ZyJB4Kxn3Gm79_MH@valkosipuli.retiisi.eu>
- <CANiDSCvGTGo+O14Z=pL=CaZo-9DrzVJ-JwD5GG0Z=cJDTcUG4w@mail.gmail.com>
- <CANiDSCvMyp-13=4DUbau-2K5F2kURy3Mgvf-ZQxSqoAJ3yU93g@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DE32141A3
+	for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 22:13:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730326418; cv=none; b=gAITf1tdvvzzAnkKruivHzaa7l6LU1l2c1vOHup3ye0hLLBzxBYhNUZbKTyGrpLTEvpagQLi7F7dCIKwF4hsitBJdeyb4E8aSsYFVWid2k1/wMB7XyFQPkAChUi/5blN9VjgkuSPXsUqMHbyCay1Ek1Ul4T2yRQkWuxlnjpW/io=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730326418; c=relaxed/simple;
+	bh=fgwT0gHbh6JwWE2o92EklteS0EY8RyEo/1yUmC9seSo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JzLJl2Puid57nV6ttJyQiIF48r5Tk2GLWuDjH9P+SLhWPr0cI/4FJIArdTCsnSRlOGrbOSTR0YQ+FiLJyPWiMJQIjd8vAmYgsr3u/qbIn6UjvIE9xDlhAm4hWU/P+XOLe4uPtvvIkP5dyiRm558NHfd2RDK4Pj5udjGq4Dl4Z34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CP14lJEz; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539e4824917so34366e87.3
+        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 15:13:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730326415; x=1730931215; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rIOWGLPyHAbnmQC+s1hOIONGH2xKi9gafSnREwwOXk0=;
+        b=CP14lJEzZtHwrzQP1eWoWKeb6427e9BJYb3L4qb2Dv9bTtdmK5xehry+ckShi3J5to
+         E1e8BFjPq+bjlw8e5hXxlpRI0xBCjLWHf2NOdPBDy4SqIBuYBUec5c9kWLlr7XY7pXVK
+         zAeqkgFkNt48S9YQ4evdIX0Sm0NGOj2GyeeHLrzoZ/7YL0M2ByxB0GEM6g2+bO4JuzQ7
+         XDnw8suxR4Ftq5GMLu6RaRYGgegqhjXKwubWQCiULhRbN4FyStqdf+R0LQgM6Y0F/CK2
+         Ssrl0VB/NATistxYEhs5QynssZoHvbfiwMofgKeJZNVC1xqucqqZkuzsR8QXMJ0uzOsI
+         MHgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730326415; x=1730931215;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rIOWGLPyHAbnmQC+s1hOIONGH2xKi9gafSnREwwOXk0=;
+        b=eOHfUFtt9bgEUTaiV6rlCE6VgtQP73a5JJ7DFAQgU/EXOEXQ6RHqvdKJAQuZDjtyUt
+         fi813wOuKBOFGVyAJHmOEig2r3Dd8sCF+bnGVW47TeuPFGzrf4vEdOt8naAp/w5+PrBQ
+         TeHDVd6KYQ5h2rpBuWYsQDoAFlvZUoan6bLGA0rtnYZF5oByPzCMGx2czjnMiJFixgLq
+         lN+0aYXpfYcD60VTrbel117k7WElSvOoJEqGPeGvkCfrXVtXF+Zgiz2NAAih6RkiayRL
+         zMwje/iLq0uzsWb8aW+Bq50I2BL8UGB0E3L5sjJw39P6i7ZCwnnmvH+ZkUKgqt8Nkb5x
+         4qdA==
+X-Forwarded-Encrypted: i=1; AJvYcCWKhogjJd3ziITpT1/u83CYMrhStfYTD+LIlsS0JT5al1wMwII0FCb0C02jtUqPIjQf4uw2qFkUHntP4A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpYdQ9HTjllDPU1OsxpQ11KhVPdnJvWXeJnDfzmwCsE3947l02
+	SFH0xqQFG55ijwNbtPRJjtNaCQWR4duZ1IFIky1S4FoYdKfQ5rcoZeXgmFgVJjY=
+X-Google-Smtp-Source: AGHT+IE6WL5Y9y4VUvgC3PerluD3HeORJgxPkd3sHB908ZvUW+AUqyE/4Nteboj+F28dC19tVwr78A==
+X-Received: by 2002:a05:6512:b1c:b0:52f:413:30de with SMTP id 2adb3069b0e04-53b3491ccefmr2686948e87.7.1730326414540;
+        Wed, 30 Oct 2024 15:13:34 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bdcc1cbsm16753e87.229.2024.10.30.15.13.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Oct 2024 15:13:34 -0700 (PDT)
+Message-ID: <b9a467bd-ad2f-4b6b-a0c3-0d60960023c6@linaro.org>
+Date: Thu, 31 Oct 2024 00:13:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiDSCvMyp-13=4DUbau-2K5F2kURy3Mgvf-ZQxSqoAJ3yU93g@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/5] dt-bindings: media: camss: Add qcom,sdm670-camss
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Richard Acayan <mailingradian@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org
+References: <20241011023724.614584-7-mailingradian@gmail.com>
+ <20241011023724.614584-9-mailingradian@gmail.com>
+ <785c82d5-549d-454b-86bf-a00a39e6f521@linaro.org>
+ <a230de8f-a11d-41c1-9bc6-7e06e850b51d@linaro.org>
+ <20241011144129.GA2295617-robh@kernel.org>
+ <ca89bbae-193b-4636-b1a6-ff0c9cecae58@linaro.org>
+ <CAL_JsqKwaT4q-VHqfLXAabdGtKvRtnh7SFiELpyXDGVRRpOoYQ@mail.gmail.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <CAL_JsqKwaT4q-VHqfLXAabdGtKvRtnh7SFiELpyXDGVRRpOoYQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Ricardo,
-
-On Wed, Oct 30, 2024 at 09:47:17PM +0100, Ricardo Ribalda wrote:
-> Hi Sakari
+On 10/30/24 23:06, Rob Herring wrote:
+> On Wed, Oct 30, 2024 at 9:20 AM Vladimir Zapolskiy
+> <vladimir.zapolskiy@linaro.org> wrote:
+>>
+>> Hi Rob.
+>>
+>> On 10/11/24 17:41, Rob Herring wrote:
+>>> On Fri, Oct 11, 2024 at 09:31:06AM +0100, Bryan O'Donoghue wrote:
+>>>> On 11/10/2024 08:14, Vladimir Zapolskiy wrote:
+>>>>>
+>>>>> Two most recently added CAMSS IP descriptions (qcom,sm8250-camss.yaml and
+>>>>> qcom,sc8280xp-camss.yaml) do implement sorting by reg values, I believe
+>>>>> from now on
+>>>>> it should be assumed that all subsequently added CAMSS IP descriptions
+>>>>> to follow
+>>>>> the same established policy.
+>>>>
+>>>> My preference is sort by address not sort by name => we sort the device
+>>>> nodes themselves by address so it seems more consistent to sort by address
+>>>> inside of the devices too.
+>>>
+>>> Strictly speaking, the values of addresses are unknown to the binding,
+>>> so you can't sort by address. However, if something is truly a single
+>>> block, then the offsets are probably fixed in order by offset makes
+>>> sense. But when a block is changed, any rule on sorting may go out
+>>> the window since we add new regions on the end.
+>>
+>> Exactly, and this is an argument why the sorting is a subject to a device
+>> driver policy, kind of any sorting order is equally bad. Sorting 'reg'
+>> values by addresses helps to avoid a notorious problem with unit addresses.
 > 
-> On Wed, 30 Oct 2024 at 16:04, Ricardo Ribalda <ribalda@chromium.org> wrote:
-> >
-> > Hi Sakari
-> >
-> > On Wed, 30 Oct 2024 at 15:25, Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> > >
-> > > Hi Ricardo,
-> > >
-> > > On Wed, Oct 30, 2024 at 02:03:18PM +0100, Ricardo Ribalda wrote:
-> > > > Hi Hans (de Goede, but others are welcome as well :) )
-> > > >
-> > > > Some notebooks have a button to disable the camera (not to be mistaken
-> > > > with the mechanical cover). This is a standard GPIO linked to the
-> > > > camera via the ACPI table.
-> > > >
-> > > > 4 years ago we added support for this button in UVC via the Privacy control.
-> > > > This has two issues:
-> > > > - If the camera has its own privacy control, it will be masked
-> > > > - We need to power-up the camera to read the privacy control gpio.
-> > > >
-> > > > We tried to fix the power-up issues implementing "granular power
-> > > > saving" but it has been more complicated than anticipated....
-> > > >
-> > > > Last year, we proposed a patchset to implement the privacy gpio as a
-> > > > subdevice https://lore.kernel.org/linux-media/20230111-uvc_privacy_subdev-v1-0-f859ac9a01e3@chromium.org/
-> > > >
-> > > > I think it is a pretty clean solution and makes sense to use a
-> > > > subdevice for something that is a sub device of the camera :).
-> > > >
-> > > > Before moving forward, Laurent and I would like to hear your opinion.
-> > >
-> > > I remember we discussed this and I wasn't very enthusiastic about the
-> > > proposal but thinking about it again, there are situations where this is
-> > > the only feasible solution, including on raw cameras with a privacy GPIO,
-> > > besides the first issue you brought up above.
-> > >
-> > > Regarding the second one, why would you need to power on the camera to get
-> > > the GPIO's value?
-> >
-> > In order to read the control, you need to open the device, and once
-> > you open the device the device is powered up:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_v4l2.c#n621
-> >
-> > In a perfect world it would only be powered up during streamon(), but
-> > uvc is a complicated monster:
-> > - We have delayed controls
-> > - We have buttons
-> > If we only power up the device during streamon those things would not
-> > work properly.
-> >
-> > I think I have a solution for delayed controls...assuming the device
-> > implements the standard properly.
-> > I have no solution to support buttons :(. Luckily not that many
-> > cameras have that today
-> >
-> > Regards!
-> >
-> >
-> > >
-> > > I'll review the set.
+> What notorious problem?
 > 
-> If you have time to review something, please take a look instead at:
-> https://gitlab.freedesktop.org/linux-media/users/ribalda/-/tree/uvc-subdevice?ref_type=heads
+
+Here the problem I reference to is the problem of an incorrespondence between
+device tree node unit address and the address of the first value of 'reg'
+values.
+
+Having a sorting by addresses allows to grasp IO ranges easily, and setting
+device tree node unit addresses to some almost arbitrary chosen value from
+the middle of IP's IO range is suspicious and confusing in my opinion.
+
+>>
+>>> This one in particular I have to wonder why csiphy is not a separate
+>>> node.
+>>
+>> There were dicussions about it in the past, and kind of enforced outcome of
+>> the discussions is to keep all CAMSS IP components together under one huge
+>> plain device tree node. I personally dislike this approach, but obedience
+>> is the way to get things merged.
 > 
-> Once I test that on real hardware is what I plan to send to the ML.
+> Who are you saying would be in the way to get things merged? DT
+> maintainers? I feel certain I would have pushed for separate blocks,
+> but I'll defer to people that know the h/w. I can't learn the details
+> of everyone's h/w. If they get it wrong, it's their problem not mine.
+
+I had this discussion with Qualcomm/CAMSS maintainers long time ago, it
+may be restarted, if there is a necessity.
+
+>>>> Which means sorting reg by address and irq too.
+>>>
+>>> IRQs make little sense to sort IMO.
+>>
+>> For all non-reg properties with a present *-names property the sorting
+>> order should be done by *-names property. Only 'reg' is very special.
 > 
-> It has support for the ancillary link and it is a bit cleaner.
+> No. If you had 'main' and 'error', I'd put 'main' first. If they are
+> somewhat equal (e.g. rx, tx), then sure, sort them however you like
+> (assuming no existing binding). The only real rules here are how new
+> entries should be added (on the end). Otherwise, there is no policy.
+> 
 
-Could you post that to the list, with a note it's not been tested?
+Here in the proposed terms the start of an IO region is 'main', while
+some value in the middle of it (the first one in alphabetical sorting)
+is too secondary to dictate the device tree node unit address, I believe.
 
--- 
-Regards,
-
-Sakari Ailus
+--
+Best wishes,
+Vladimir
 
