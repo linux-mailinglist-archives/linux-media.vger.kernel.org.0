@@ -1,115 +1,166 @@
-Return-Path: <linux-media+bounces-20602-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20603-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93519B66B0
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 15:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7DE19B66EF
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 16:04:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FF9C1F22092
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 14:58:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37A871F22201
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 15:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 268291F472B;
-	Wed, 30 Oct 2024 14:57:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79081FBCB2;
+	Wed, 30 Oct 2024 15:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OTLoqjE1"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Q5Kh91s6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB401F427D;
-	Wed, 30 Oct 2024 14:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9AD1FAC26
+	for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 15:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730300277; cv=none; b=dbHkslTiAgf7WT0W5XftOeQGHOLVFqSHjMwM2QEemqHZZzc+Hy+VhovyeAEiSEEatdoRsCt9dGdwFn0LK0B+RTr5Npco2s4XrSSAs3aROimUvznxAg2f9/9xIXM7XXwR5MkPLqCv/yQsoSbFGbxslFsohyNuA4tsQEBxeGsQvMI=
+	t=1730300664; cv=none; b=fptpEVMs899EkprmIKyOi+Y8DeOZsmvpYJopMSBrPefyFguAxSwXov5JUsMaYsprsdfaaeh4+MtP3kIRapBkFnHhK7RX9z0IBn23fQogu2FmTEZGm4fyD7MMbQVVCyUcm1Bx3F6sj1PxZGF7IFxdy1kmY1mXajzUFBvYCeFFCr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730300277; c=relaxed/simple;
-	bh=mefuM4t1ECqbl3fiXwjneiO0N0zCuMcAR7sLOr/5iEg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mYlAtRxYJq30NVk0ozr6/9tkZPtDUHXd3ePaYErdcB/k7G0aRkE5QKRny3RkLMRHSY/hRrbjCvBcK2ZQaQK60lcvsi2EwqIWR4aRBsuwkFqkL8hb/gx+2wGgPKSJk7864VrAFP0V4rKKIB5B28mKcCpQPVhi1iF+sF+4HhXKw5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OTLoqjE1; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=EOhe37wzhw7xzeIak4/ImqmXuzFb2P7wAz173iN/p4U=; b=OTLoqjE1CZqI8ShDmv6JW4Ktxv
-	hMRcPCrHHuu3B0qZfUNGiu9RW+3TpKco6Fmrg5szaBTrgFlqAQHcM4mWnn2QfL7M8uXM8F9Zhw4dB
-	SkugKclQ8gBVH2xCldCkVnlZIsbRBC9Rt5+Md/5MwEGL28yyG6znlZuObJdb3QATdExFcwJTedoeS
-	U3AJjnwNVpfZufyQ1NYkXFQmGtcN5WuSt741wtZvdZxtjWqJ/9KjRcwyUWrxbgBSuPwU0mRTGCORi
-	CkH50ekY9Ok5BwMMHY8Fc4mLDvSyGgkjsqHZdrbRnyQ2qUvzown8yZzFMp+yI8lTIwiRDhfkjmyEI
-	25loAEPw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6A8v-00000000kGb-1hC0;
-	Wed, 30 Oct 2024 14:57:53 +0000
-Date: Wed, 30 Oct 2024 07:57:53 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, David Wei <dw@davidwei.uk>,
-	io-uring@vger.kernel.org, netdev@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	Mina Almasry <almasrymina@google.com>,
-	Stanislav Fomichev <stfomichev@gmail.com>,
-	Joe Damato <jdamato@fastly.com>,
-	Pedro Tammela <pctammela@mojatatu.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 02/15] net: generalise net_iov chunk owners
-Message-ID: <ZyJJcfQ-ldDtsfLN@infradead.org>
-References: <20241016185252.3746190-1-dw@davidwei.uk>
- <20241016185252.3746190-3-dw@davidwei.uk>
- <ZxijxiqNGONin3IY@infradead.org>
- <264c8f95-2a69-4d49-8af6-d035fa890ef1@gmail.com>
- <ZxoSBhC6sMEbXQi8@infradead.org>
- <a6864bf1-dd88-4ae0-bc67-b88bb4c17b44@gmail.com>
- <ZxpwgLRNsrTBmJEr@infradead.org>
- <de9ae678-258d-4f68-86e1-59d5eb4b70a4@gmail.com>
- <Zx9_iYLVnkyE05Hh@infradead.org>
- <9a14e132-6a13-4077-973d-b1eca417e563@gmail.com>
+	s=arc-20240116; t=1730300664; c=relaxed/simple;
+	bh=o/XbwYlFhJUpxnV2RQsjnbpHbK33LnqqX+SaHgV/jQY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QchfUX7xwfefHc8C6HGDTKdfxD5f/bxFDHRvSu7FpfFuRN0kb8qhSxGrToTMh53qUOntK66WxOo99bs9SuQHw9RgRaqfp2mfpk66nCvhLWEh+RLTjcn1SQDHR9lmLp+/shN4Wacm58KkE3lNbDJChIYblZ15GssxyXzE1hwm1SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Q5Kh91s6; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7206304f93aso3826613b3a.0
+        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 08:04:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1730300661; x=1730905461; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GpQpcFBSyfon4JPQEq5TlNusivnoI5GYC4+WlZOOl+4=;
+        b=Q5Kh91s6lD8nsMiXD/2cR+spoNzGit8qR7W5IVjOW/A9mfWrTD18ieoEJsfTfKfg8O
+         DSZNr8JqB4YW1hvyWpZ/lv3BvdrfG7NY5cY7tgHOAMfyieJmdW47EeWi2fAqZY3joE2v
+         4+F8Mga+a3z6c2E8E7Wtlcs4OGv98FpbDkG8I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730300661; x=1730905461;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GpQpcFBSyfon4JPQEq5TlNusivnoI5GYC4+WlZOOl+4=;
+        b=tVZww5NL1xDwVwvMLk191oUquDvc2PEblEY/uYsYoRlIVd7/2AofyZbCs6ulB0CY8C
+         z4Q+JtJSggMcRS+iyaUVEHECWMLdGFM8fweDkj7i9RmV7X6p9ckEuHiemjofOiutnZDw
+         YMtROEzI43wl/0b/RHxpt8G5Mqg27Mn+svJFP47/6+imzSk3EDgEMA21KtwSeWxIdA0W
+         0+4tYr13uV3MnHgFvkKY/pe8U8SNaTqXrWn44ebaw/8CB9TjdPj3C8D3HWmE/g9q5h+5
+         9CpR0qwH243EL1AQ4R/VGAGfyiAO97twWP75CKvVeJHVzikRH8YsXQ3VmJ8VmZr8R7Mr
+         pumA==
+X-Forwarded-Encrypted: i=1; AJvYcCXTvzQhg95bfM7y3w2ISiLjxAhGXCoVqbRm+zONXE75Bgb1dJFv5qzFN4m2fSF1oz6z6od+iUj+AHJAKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqpuUza2GbjLY1L+/GSGQt6RumlzebiYN9DRY6KiJxgq8PKwuR
+	7tbN86YuaGjvFcBTEudzWHhnoBZaA7GKJ+mPs64qxE3CLupUxslSC98Omy/DvHc6F6H5fKHciCk
+	=
+X-Google-Smtp-Source: AGHT+IFalybjRV9VF9iEKKKySmRx7IgBCi+a8orvrAnd54bVLxr0LBPeHCOZSqU8OtL3nj5aDY9JWw==
+X-Received: by 2002:a05:6a21:394b:b0:1db:8f39:4446 with SMTP id adf61e73a8af0-1db8f395d80mr200269637.43.1730300661186;
+        Wed, 30 Oct 2024 08:04:21 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com. [209.85.216.46])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057a3f0bdsm9321196b3a.212.2024.10.30.08.04.20
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Oct 2024 08:04:20 -0700 (PDT)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e2e8c8915eso5219002a91.3
+        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 08:04:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXF7cQGaj+xDqiipAqnmGcFkmiwxgzQm3HpR1zxW9j7z0mcq34PjT621XJt6dkAvtgvPUjesQbNiHnCXQ==@vger.kernel.org
+X-Received: by 2002:a17:90a:c90b:b0:2e0:9d3e:bc2a with SMTP id
+ 98e67ed59e1d1-2e8f11a878fmr16639200a91.32.1730300659606; Wed, 30 Oct 2024
+ 08:04:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9a14e132-6a13-4077-973d-b1eca417e563@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <CANiDSCuPfmV-0KLrdnvVojvtLR=OsFUzLNhnqM1m_ytvzjoNOw@mail.gmail.com>
+ <ZyJB4Kxn3Gm79_MH@valkosipuli.retiisi.eu>
+In-Reply-To: <ZyJB4Kxn3Gm79_MH@valkosipuli.retiisi.eu>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 30 Oct 2024 16:04:06 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvGTGo+O14Z=pL=CaZo-9DrzVJ-JwD5GG0Z=cJDTcUG4w@mail.gmail.com>
+Message-ID: <CANiDSCvGTGo+O14Z=pL=CaZo-9DrzVJ-JwD5GG0Z=cJDTcUG4w@mail.gmail.com>
+Subject: Re: UVC: Privacy gpio as subdevice
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Hans de Goede <hdegoede@redhat.com>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Yunke Cao <yunkec@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 29, 2024 at 04:35:16PM +0000, Pavel Begunkov wrote:
-> I see, the reply is about your phrase about additional memory
-> abstractions:
-> 
-> "... don't really need to build memory buffer abstraction over
-> memory buffer abstraction."
+Hi Sakari
 
-Yes, over the exsting memory buffer abstraction (dma_buf).
+On Wed, 30 Oct 2024 at 15:25, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+>
+> Hi Ricardo,
+>
+> On Wed, Oct 30, 2024 at 02:03:18PM +0100, Ricardo Ribalda wrote:
+> > Hi Hans (de Goede, but others are welcome as well :) )
+> >
+> > Some notebooks have a button to disable the camera (not to be mistaken
+> > with the mechanical cover). This is a standard GPIO linked to the
+> > camera via the ACPI table.
+> >
+> > 4 years ago we added support for this button in UVC via the Privacy control.
+> > This has two issues:
+> > - If the camera has its own privacy control, it will be masked
+> > - We need to power-up the camera to read the privacy control gpio.
+> >
+> > We tried to fix the power-up issues implementing "granular power
+> > saving" but it has been more complicated than anticipated....
+> >
+> > Last year, we proposed a patchset to implement the privacy gpio as a
+> > subdevice https://lore.kernel.org/linux-media/20230111-uvc_privacy_subdev-v1-0-f859ac9a01e3@chromium.org/
+> >
+> > I think it is a pretty clean solution and makes sense to use a
+> > subdevice for something that is a sub device of the camera :).
+> >
+> > Before moving forward, Laurent and I would like to hear your opinion.
+>
+> I remember we discussed this and I wasn't very enthusiastic about the
+> proposal but thinking about it again, there are situations where this is
+> the only feasible solution, including on raw cameras with a privacy GPIO,
+> besides the first issue you brought up above.
+>
+> Regarding the second one, why would you need to power on the camera to get
+> the GPIO's value?
 
-> If you mean internals, making up a dmabuf that has never existed in the
-> picture in the first place is not cleaner or easier in any way. If that
-> changes, e.g. there is more code to reuse in the future, we can unify it
-> then.
+In order to read the control, you need to open the device, and once
+you open the device the device is powered up:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_v4l2.c#n621
 
-I'm not sure what "making up" means here, they are all made up :)
+In a perfect world it would only be powered up during streamon(), but
+uvc is a complicated monster:
+- We have delayed controls
+- We have buttons
+If we only power up the device during streamon those things would not
+work properly.
 
-> > with pre-registering the memry with the iommu to get good performance
-> > in IOMMU-enabled setups.
-> 
-> The page pool already does that just like it handles the normal
-> path without providers.
+I think I have a solution for delayed controls...assuming the device
+implements the standard properly.
+I have no solution to support buttons :(. Luckily not that many
+cameras have that today
 
-In which case is basically is a dma-buf.  If you'd expose it as such
-we could actually use to communicate between subsystems in the
-kernel.
+Regards!
 
+
+>
+> I'll review the set.
+>
+> While in the case of UVC it's fairly clear what the sub-device is related
+> to, but for the general case it'd be good to have an ancillary link there.
+>
+> --
+> Regards,
+>
+> Sakari Ailus
+
+
+
+-- 
+Ricardo Ribalda
 
