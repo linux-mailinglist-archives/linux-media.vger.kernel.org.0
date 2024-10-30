@@ -1,128 +1,113 @@
-Return-Path: <linux-media+bounces-20594-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20595-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D429B6359
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 13:50:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A46469B63A0
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 14:03:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F2ED2811A7
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 12:50:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CAFA1F2212B
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 13:03:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 223A71EABC2;
-	Wed, 30 Oct 2024 12:49:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19BEF1EB9E0;
+	Wed, 30 Oct 2024 13:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=metux@gmx.de header.b="UxbVmpXW"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BKYcogb7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8B51E9066;
-	Wed, 30 Oct 2024 12:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D89E1EABD4
+	for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 13:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730292587; cv=none; b=tTBqZdEbrR6j1L0WV7aTvrbcOhp/wn9myBG0TKQ41+VmI7zMf/vLPnnQ3SObAXUxNib8+KZSeq2WwNNb5gaW0B3EWrIXWMvnIWgYe87vsFdynU1jQkUGlhHc8rhruVblYSNNLDzGL6HN/LiSTcBAu0DPFBBKeHW1gEjswYBiS5o=
+	t=1730293416; cv=none; b=sNp1PObu7OPNehLQKYk/4RS9SyvqwMVEGViVjAFnbCVXU97TJ53it42PWcmi8vaUTtTnffzxl0LiDFIn8UBuo7E8wIevZQ8vECwA0dA/3k9ufnudEThKt9nNNwr+ePwR8eX+knQmNFWLIKEa+p3gZO/0am8P9lMDMRvizKt3h/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730292587; c=relaxed/simple;
-	bh=+YCnTpHf4kgqcsvGPEJmRwKHA8R5k5OeoiGplCCzf7Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OwPtEP3D/a3ACyOXZS2HVEF7dK4/AyQzb7VLQfdEEomhe6oS+Wz9o41KmnN58L7qj/wMkMw8u5ZvVbt358Yhv9Zw6qkgwitjzfxDke2GpKYJhYWjgfsw/BeqqrEz3yQsIn5ofkeUQig1lHEeQsLzi6uuc1Xt8nVL0jQS790QoDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=metux@gmx.de header.b=UxbVmpXW; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1730292502; x=1730897302; i=metux@gmx.de;
-	bh=+YCnTpHf4kgqcsvGPEJmRwKHA8R5k5OeoiGplCCzf7Q=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=UxbVmpXWvyWFMdu+GATuiw1ytz1oNpvm5GNdgPbapjupaP25dsmWNYV/SdmkFCpE
-	 VX+3bwgCyi7J1vZWt8hxBFNjCqYXAs/90EF5MTi5XI4T3wPAud49gsLSmSGWAgCFH
-	 L/MlMEdcnBrC3Z6I/Y0EX4qgIzoVFOZM2ueUS8NENLEQofE14R0wXa31OvlhCEm1F
-	 9lgOEB79j/9vjsYX9KbXu2T/UCUxO61Yl+VZqyc98kF/0soDrfczquDVKjoNkb+Qg
-	 C3a2MT2iG3Shr2kXGTjhv+n6z7zTnhYsIVyC7TaB+61rRJr4ZYE9Z0EHkdrRrpF0j
-	 0MTyH7Gn6TRMn1XJ3Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.178] ([95.114.207.188]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MUXpK-1tExqH3yV6-00WDT5; Wed, 30
- Oct 2024 13:48:22 +0100
-Message-ID: <d769ffcf-95e6-4db9-8f80-fe8a7dae0441@gmx.de>
-Date: Wed, 30 Oct 2024 13:48:45 +0100
+	s=arc-20240116; t=1730293416; c=relaxed/simple;
+	bh=B5ojes9vhB74WYgrxUNoE+j+8oT97rLxbH6P45F0drs=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=srdETCKX1iRrdtayBDbTSQsAFZIqbLB89PLW52PgIjJDSpdC52E5BDzynXYEsB8z1pB15UObCjXQVV+W0P0sAY/fnveRySwOPLNKlBhX8LxxZe18aCWprYfQY8LVIKF27QO2C1zR9lOAXhUiZ56eMQtJnTeSf8eis3QZWJPKQrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BKYcogb7; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20cdda5cfb6so63950275ad.3
+        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 06:03:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1730293414; x=1730898214; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wEGbBUgCkfqqHUVn5/KarKK532x0ultKtVr1u8TMffY=;
+        b=BKYcogb79K8Y7BwtZDWRbNKKCdpr94AkccMS7AjIZzYfa0s4GmqnMJgVMgRiKxxOJ9
+         pL1caUz9AFp/7WpH6ByM1k/bC2w+2nRI3251c2AiNsJwKxGO/mYMxxhom0giiK8pxxUx
+         JqfhH0tbJ88Cc+I8PQyVoGaTkoLFyTb8Fdc6c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730293414; x=1730898214;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wEGbBUgCkfqqHUVn5/KarKK532x0ultKtVr1u8TMffY=;
+        b=eo9fkzuncHCIlbPmkDK9Mm5hJ4C/NcCn1gUW/sB+y2BbuY+UFDkB6NPZ/UN2HBZXrn
+         rUUYLiW45IvHN0yDYuQHapZ25VwMUJ0mKV0u0s4of5ac4DbtrOSpoAEzfeAuz9/B5j8L
+         ryU8zRZG91PjLWlW+2e+EFezKRanPXOgYZ64kJDG1faf8PKxv9Rp8gegqIHKJHbv91lj
+         WZKriTTq50N0osk/WpoL0ioReQlMChH47c/99NLyvG0nuJOeM1b43X0bOb6/Cyf8NLh8
+         Ju8tI7cltNWpm6CzZkp276htgbRChmWpwli2GMHA52Y2X/QrkXKCDk3RNfjwGZqm+7SN
+         Quqw==
+X-Gm-Message-State: AOJu0YxMF1b1B9tfF5oa93xRDFI5SjECSZCRVH+U6qtKikbcOYgNb7/U
+	YJtNuvS0nbzg1x4fxWwQCJqWipVjBF93GSJGfB1j6Oql0Nh9dg6EA4nEsqo7OeP+ZovqCN25Uv8
+	=
+X-Google-Smtp-Source: AGHT+IFzusc4iC2t3iDE+tk/4oX4KPgoiCayhlemXds5HsOOIlg3eB4XCbNO97UrVF2p3SrOIxoMyA==
+X-Received: by 2002:a17:902:dac9:b0:20c:f3be:2f82 with SMTP id d9443c01a7336-210c6c82bb4mr185365375ad.33.1730293413519;
+        Wed, 30 Oct 2024 06:03:33 -0700 (PDT)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com. [209.85.216.41])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bbf44524sm80614545ad.25.2024.10.30.06.03.31
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Oct 2024 06:03:32 -0700 (PDT)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2e56df894d4so5267898a91.3
+        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 06:03:31 -0700 (PDT)
+X-Received: by 2002:a17:90a:9a86:b0:2da:8e9b:f37b with SMTP id
+ 98e67ed59e1d1-2e8f107c738mr17086649a91.24.1730293411128; Wed, 30 Oct 2024
+ 06:03:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: lore.kernel.org getting senile ? [WAS: [PATCH 1/2] MAINTAINERS:
- Remove Huawei due to compilance requirements.
-To: Vladimir Vladimirovich Putin <vladimir_putin_rus@kremlin.ru>,
- torvalds@linux-foundation.org
-Cc: aospan@netup.ru, conor.dooley@microchip.com, ddrokosov@sberdevices.ru,
- dmaengine@vger.kernel.org, dushistov@mail.ru, fancer.lancer@gmail.com,
- geert@linux-m68k.org, gregkh@linuxfoundation.org,
- hoan@os.amperecomputing.com, ink@jurassic.park.msu.ru, jeffbai@aosc.io,
- kexybiscuit@aosc.io, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-fpga@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
- manivannan.sadhasivam@linaro.org, mattst88@gmail.com,
- netdev@vger.kernel.org, nikita@trvn.ru, ntb@lists.linux.dev,
- patches@lists.linux.dev, richard.henderson@linaro.org, s.shtylyov@omp.ru,
- serjk@netup.ru, shc_work@mail.ru, torvic9@mailbox.org,
- tsbogend@alpha.franken.de, v.georgiev@metrotek.ru, wangyuli@uniontech.com,
- wsa+renesas@sang-engineering.com, xeb@mail.ru,
- LKML <linux-kernel@vger.kernel.org>, phoronix@phoronix.com,
- redaktion@golem.de
-References: <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
- <20241024140353.384881-1-vladimir_putin_rus@kremlin.ru>
- <20241024140353.384881-2-vladimir_putin_rus@kremlin.ru>
-Content-Language: tl
-From: metux <metux@gmx.de>
-In-Reply-To: <20241024140353.384881-2-vladimir_putin_rus@kremlin.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1/p4ha3marvAu2CXeYNmBSD+weQhVbztKCP0nISPKnffRdbsPI3
- zPctzMmHLcQZTqlh2zjZzgis1SjXx91Sovsuto7k7PtiaIGSg5OcFzLBWgRcu14kWBAZy2V
- 6iBOO6GAd+WQX6yFBtItp11ISEXll6ojoO2a1WoqxVo2LnaaL9WPMNYPLxG752dUTxTITZF
- LcInJHKfb0M4bP+h7xstA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:4vaZnIPP94U=;1c9up5UAbh4Ag/QzXUXNQvA2l0p
- 44Ceg39Q9FQgjnuFRb4ctiEQZ6+ThY3ohI4R7ghaxJvwW9GLmQklj8ELuO6HJZM3haO1kBQuj
- lPf9DjnCWUfcGZ6Ecr8v4m+aEFlTj6r1/zlhPs8EVJwnS4Pe706PuXTBJpkg5WIn7GxOQO2JW
- XajGhvRcjBrJhZNk7taO4FNBbp5dLDGkB6UepQiBXV68RMT6oTpFOwswwn3/eBeat+lHalNB/
- gw+WciTtplBXIMbtRlqxaAJboJIHQLy0eXfzWRe/U26hY4FalvSL6RW63w2giJVSyCEe63Xf2
- pnU7T294h4NAY+Lk1Uh+0usTGhMn+kqSHhbyz6XuQ9SUym/02iNMzOAUQU4B9rMEU5q6ZVIUd
- 0PZ3f2zoM/AhE/8kfql73M86UBv0ANHdx6CqwXixMw8ZaIdo+GaFI0OcAUT9fQKIyYZczFTBp
- AGABaZ971CQOkfqz9ZNcYAdXDG9laz6+7WLmruYJKXEeAyGdx7twTMJrs8FULcTe1ZOzQm3ZB
- DT9XeRboVEyBNz53wj4/qAD1UsQODVRq/XAMxGruSGXdp9S8U1GLjLvbeblVDHTp4i143RIfc
- UOHfXVzYXn7bC0uCHBJq1Wwe+j/PPMUEteRmxPqlOJxW/zJnk/+MhQ+nsjD3nQeqM4mO62C+8
- cGyUVjqqCH9JFck+CUdFeZs+muR6CcuaNof+jRlxFMXiRxLHv+44RU3hyg04PrdKE21G5zjmC
- EK9fu4IcYIpfrqOOb5TemzZQb0+1b1bsoLkyszrXyxOXZlQryGt702z9+snDKhQG4NhdmMGOd
- ZwypTOh+SvzsGp5g+0qej1rGVGE9aJPkSwI0X0drGzsuc=
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 30 Oct 2024 14:03:18 +0100
+X-Gmail-Original-Message-ID: <CANiDSCuPfmV-0KLrdnvVojvtLR=OsFUzLNhnqM1m_ytvzjoNOw@mail.gmail.com>
+Message-ID: <CANiDSCuPfmV-0KLrdnvVojvtLR=OsFUzLNhnqM1m_ytvzjoNOw@mail.gmail.com>
+Subject: UVC: Privacy gpio as subdevice
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Yunke Cao <yunkec@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 24.10.24 16:03, Vladimir Vladimirovich Putin wrote:
-> Huawei Corp was added to the US Entity List[1] on 08/20/2020.
->
-> The Entity List is a trade restriction list published by the United
-> States Department of Commerce's Bureau of Industry and Security (BIS),
-> consisting of certain foreign persons, entities, or governments.
-> It is published as Supplement 4 of Part 744 of the Code
-> of Federal Regulations. [2]
+Hi Hans (de Goede, but others are welcome as well :) )
 
-Interesting to see that this message got removed from lore.kernel.org.
+Some notebooks have a button to disable the camera (not to be mistaken
+with the mechanical cover). This is a standard GPIO linked to the
+camera via the ACPI table.
 
-Google still has it in it's index, and marc.info still has the whole threa=
-d.
+4 years ago we added support for this button in UVC via the Privacy control.
+This has two issues:
+- If the camera has its own privacy control, it will be masked
+- We need to power-up the camera to read the privacy control gpio.
 
-The internet doesn't forget.
+We tried to fix the power-up issues implementing "granular power
+saving" but it has been more complicated than anticipated....
 
+Last year, we proposed a patchset to implement the privacy gpio as a
+subdevice https://lore.kernel.org/linux-media/20230111-uvc_privacy_subdev-v1-0-f859ac9a01e3@chromium.org/
 
-=2D-mtx
+I think it is a pretty clean solution and makes sense to use a
+subdevice for something that is a sub device of the camera :).
+
+Before moving forward, Laurent and I would like to hear your opinion.
+
+Regards!
+
+-- 
+Ricardo Ribalda
 
