@@ -1,149 +1,171 @@
-Return-Path: <linux-media+bounces-20610-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20613-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7629B6E63
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 22:07:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C77719B6F8C
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 22:47:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D33FCB211B2
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 21:07:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72EC31F22804
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 21:47:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6C021500E;
-	Wed, 30 Oct 2024 21:07:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E43E521894E;
+	Wed, 30 Oct 2024 21:45:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dhaxK59A"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="qqNqGjQn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF4120E31C;
-	Wed, 30 Oct 2024 21:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E244B1CBEA1;
+	Wed, 30 Oct 2024 21:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730322427; cv=none; b=TEfUfxdFlFa/114PySXllj89WIW9m0/KlnGyqmSdleiO7zle9wRjMH3McTvysgT+vuUwvLyoObZPxUaQOz+JlfMs5RgG9bMuDHh2ZW3Ahiv+OX0QGvAXMH8/NwqGStzpFQPBeEHglBTcPrIsggHAMkzM6Kq9sAgUG081+gbPflg=
+	t=1730324758; cv=none; b=aNgFkAfPb8aMrvUe1jOQ/YvYjqfTxOWnaap0DuP6Tg71cOj42/XAakMlDl4lNTDq5qzgo3qIvRwxEw9mbLyp/VGpqpn0gnv/ePvDcY+hMYnLqSxcpSTjYiQlTf5TGznT2mECkFDb+zM93kfxScr25nOVkD8PXhubSs1wIUJSFDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730322427; c=relaxed/simple;
-	bh=eSQq1qchd0T6J0SF3pXHyDhEE1tGbRiS7s/DtBWP/wY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kvCOOUwHjwsKgIKrDqD3UQcfoMEpd5M+gg0Wx4pW/wY2/6HHZE8s7KcXDb19jIHoUdvH1hMGa7uE1pYzY6z7cVBxaFdeQUUb4zkNC0KT5MqvpTu4bLa65BQRS5CdV/xnLBtQWJO4CqOzNf+O/Z3OnnD7YGDysmJC8PN4hHlYXRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dhaxK59A; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0FD7C4CED4;
-	Wed, 30 Oct 2024 21:07:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730322426;
-	bh=eSQq1qchd0T6J0SF3pXHyDhEE1tGbRiS7s/DtBWP/wY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dhaxK59AhxUWSGE0qVqR48afMXgNELz0vVSpjGR4GGVZehhyR5hk715A+VP3KTjp7
-	 3o6AVCn1Qzv9JVgasdAkgqHmapy4Jy6S7jaZgh6BP9YRV6wPbQfFEhQMH56eRdW3hg
-	 Sn7UKbr0AT+r4iXufB5GzkatzRjPt1QcIX3prWrffX24i24m7ZM272aTFKoXDlEzIW
-	 CxMCscPM7W3tLVKcevPinFv5EBUDPSTbB9ebX0cZQfXYChhtMtMMTEno1xG3qxWT0Q
-	 jAkWBRSk15ZUpOy+iknj13JUwiczhKCCZ7FvI6pnMrrlNdT+WaSjjd5h/tvzh/8FoY
-	 S2v3Wi/YNUusQ==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-539e3f35268so348240e87.3;
-        Wed, 30 Oct 2024 14:07:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUOS3LM9i+cPlxxC0/m94Itbg/emD60TDGVVlOYPmxMU0j3q/7NnyAtjRV36QNUFUFeoxonDGGCmTUO@vger.kernel.org, AJvYcCUeBRsz0diR/s0i4O1Z56QKpFr/q29UzgAa+rqPAyS/bclMWFT4jJEB2ZLhsk9UgawDIyilgPxptnBZ@vger.kernel.org, AJvYcCUh5Go6UYxuW1MgIIAB870n1WZ1fU4Y1Z0bcMZdvfZn+CUaQbdF2X6oK+zUP0txRYaJ9wY/HtafUR5PC4M=@vger.kernel.org, AJvYcCUklqXzPjhTrifcYwoX4TVqyrjVHew+aO8UO+OjYQwKsnMtL9cVPSy9lGr6ShZjfSdwtMaHE5A5msFT9+brmw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/u1msdA/hwHfYBlWPYcCkfRIFjwu7EgwIYHKtNU1OwGALwIli
-	zsVPAmp1kfqgzTryb1/xdDZdfF6ud5X4jJvUCny/3DnTSHq1asbiKLokyRSwFnYLqNKxe83JFEt
-	CS08PevjqwN5pqflYt+wWL/sAHw==
-X-Google-Smtp-Source: AGHT+IElbE1waZq4jbLbcYT0FxbyU1JsFHf8saya3+ecSWebGEuEuDKE6Vo1Pyz/h0NPpt6XIuuCxB7ZorOOyqFcGRs=
-X-Received: by 2002:a05:6512:401a:b0:52b:de5b:1b30 with SMTP id
- 2adb3069b0e04-53b3491cb17mr7922635e87.44.1730322424999; Wed, 30 Oct 2024
- 14:07:04 -0700 (PDT)
+	s=arc-20240116; t=1730324758; c=relaxed/simple;
+	bh=NSz88WZa5x3ilnuYzu6e+i06vyANCjIXUslvd6feros=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ot3UQ7BzcVBJSmzt6hf5OzXPB9UAYxgCHSURATrzvdMKOW9WqmvTGkSGUekjwErklv8r/8rL6nOexGUwWL62ahYLS8ZPx2+vEFugPYIun4kiogHPd+xrSpg/cy8bdhYGMAK+e405sT1eCHoRq+Q4qkorc3p9X1Fp+d94+jK037M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=qqNqGjQn; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=NSz88WZa5x3ilnuYzu6e+i06vyANCjIXUslvd6feros=; b=qqNqGjQnzoM+peFuJ2SVk1ZzS5
+	mOrcT34MnObm0rA29Uzaih66jU+/nvCq2wZHZo5oEm7YAxuUonWefEWtDUBenyizJMJEbr5a4no4g
+	fApgtx70SN9+khVf/tLp9UDMbDdf/tskn6BuC5z17wELdyMA5ZG4unL/3juxlaSNLkwfAmyB4exSG
+	3sYlgwYTSBdMlFTj8J2bawEYhFWbIL/qidj0WvvmxWi3PJVNxG9CY7bwJt1+p1iqa0/HJRg6XGXjd
+	UmC1wrSdlwSYMXfg1+QUcEzT6AXmQZPX7+m+et9Xxqu/ssyhtS2DpwTlo5VFwTVSt8Fp0MD65GKoF
+	fVJtD8Dg==;
+Received: from sslproxy03.your-server.de ([88.198.220.132])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1t6G4I-000GT3-1F;
+	Wed, 30 Oct 2024 22:17:30 +0100
+Received: from [77.64.252.106] (helo=framework.lan)
+	by sslproxy03.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1t6G4I-0009Yw-1a;
+	Wed, 30 Oct 2024 22:17:30 +0100
+Message-ID: <76960282bb92e1827890712ed01e543803ceb992.camel@apitzsch.eu>
+Subject: Re: [PATCH v2 07/13] media: i2c: imx214: Check number of lanes from
+ device tree
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Ricardo Ribalda Delgado <ribalda@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus	
+ <sakari.ailus@linux.intel.com>, ~postmarketos/upstreaming@lists.sr.ht, 
+	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>
+Date: Wed, 30 Oct 2024 22:17:27 +0100
+In-Reply-To: <CAPybu_28VXjfJksVccfvytB9PU2-saNpAos8sBtQnhgt8KKz2w@mail.gmail.com>
+References: <20241021-imx214-v2-0-fbd23e99541e@apitzsch.eu>
+	 <20241021-imx214-v2-7-fbd23e99541e@apitzsch.eu>
+	 <CAPybu_28VXjfJksVccfvytB9PU2-saNpAos8sBtQnhgt8KKz2w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.54.1 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241011023724.614584-7-mailingradian@gmail.com>
- <20241011023724.614584-9-mailingradian@gmail.com> <785c82d5-549d-454b-86bf-a00a39e6f521@linaro.org>
- <a230de8f-a11d-41c1-9bc6-7e06e850b51d@linaro.org> <20241011144129.GA2295617-robh@kernel.org>
- <ca89bbae-193b-4636-b1a6-ff0c9cecae58@linaro.org>
-In-Reply-To: <ca89bbae-193b-4636-b1a6-ff0c9cecae58@linaro.org>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 30 Oct 2024 16:06:51 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKwaT4q-VHqfLXAabdGtKvRtnh7SFiELpyXDGVRRpOoYQ@mail.gmail.com>
-Message-ID: <CAL_JsqKwaT4q-VHqfLXAabdGtKvRtnh7SFiELpyXDGVRRpOoYQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/5] dt-bindings: media: camss: Add qcom,sdm670-camss
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Richard Acayan <mailingradian@gmail.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
-	Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Authenticated-Sender: andre@apitzsch.eu
+X-Virus-Scanned: Clear (ClamAV 1.0.5/27443/Wed Oct 30 09:56:29 2024)
 
-On Wed, Oct 30, 2024 at 9:20=E2=80=AFAM Vladimir Zapolskiy
-<vladimir.zapolskiy@linaro.org> wrote:
->
-> Hi Rob.
->
-> On 10/11/24 17:41, Rob Herring wrote:
-> > On Fri, Oct 11, 2024 at 09:31:06AM +0100, Bryan O'Donoghue wrote:
-> >> On 11/10/2024 08:14, Vladimir Zapolskiy wrote:
-> >>>
-> >>> Two most recently added CAMSS IP descriptions (qcom,sm8250-camss.yaml=
- and
-> >>> qcom,sc8280xp-camss.yaml) do implement sorting by reg values, I belie=
-ve
-> >>> from now on
-> >>> it should be assumed that all subsequently added CAMSS IP description=
-s
-> >>> to follow
-> >>> the same established policy.
-> >>
-> >> My preference is sort by address not sort by name =3D> we sort the dev=
-ice
-> >> nodes themselves by address so it seems more consistent to sort by add=
-ress
-> >> inside of the devices too.
-> >
-> > Strictly speaking, the values of addresses are unknown to the binding,
-> > so you can't sort by address. However, if something is truly a single
-> > block, then the offsets are probably fixed in order by offset makes
-> > sense. But when a block is changed, any rule on sorting may go out
-> > the window since we add new regions on the end.
->
-> Exactly, and this is an argument why the sorting is a subject to a device
-> driver policy, kind of any sorting order is equally bad. Sorting 'reg'
-> values by addresses helps to avoid a notorious problem with unit addresse=
-s.
+SGkgUmljYXJkbywKCkFtIE1pdHR3b2NoLCBkZW0gMzAuMTAuMjAyNCB1bSAxMjozOCArMDEwMCBz
+Y2hyaWViIFJpY2FyZG8gUmliYWxkYQpEZWxnYWRvOgo+IE9uIE1vbiwgT2N0IDIxLCAyMDI0IGF0
+IDEyOjE04oCvQU0gQW5kcsOpIEFwaXR6c2NoIHZpYSBCNCBSZWxheQo+IDxkZXZudWxsK2dpdC5h
+cGl0enNjaC5ldUBrZXJuZWwub3JnPiB3cm90ZToKPiA+IAo+ID4gRnJvbTogQW5kcsOpIEFwaXR6
+c2NoIDxnaXRAYXBpdHpzY2guZXU+Cj4gPiAKPiA+IFRoZSBpbXgyMTQgY2FtZXJhIGlzIGNhcGFi
+bGUgb2YgZWl0aGVyIHR3by1sYW5lIG9yIGZvdXItbGFuZQo+ID4gb3BlcmF0aW9uLgo+ID4gCj4g
+PiBDdXJyZW50bHkgb25seSB0aGUgZm91ci1sYW5lIG1vZGUgaXMgc3VwcG9ydGVkLCBhcyBwcm9w
+ZXIgcGl4ZWwKPiA+IHJhdGVzCj4gPiBhbmQgbGluayBmcmVxdWVuY2VzIGZvciB0aGUgdHdvLWxh
+bmUgbW9kZSBhcmUgdW5rbm93bi4KPiA+IAo+ID4gU2lnbmVkLW9mZi1ieTogQW5kcsOpIEFwaXR6
+c2NoIDxnaXRAYXBpdHpzY2guZXU+Cj4gPiAtLS0KPiA+IMKgZHJpdmVycy9tZWRpYS9pMmMvaW14
+MjE0LmMgfCAyNiArKysrKysrKysrKysrKysrKysrLS0tLS0tLQo+ID4gwqAxIGZpbGUgY2hhbmdl
+ZCwgMTkgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvbWVkaWEvaTJjL2lteDIxNC5jCj4gPiBiL2RyaXZlcnMvbWVkaWEvaTJjL2lteDIx
+NC5jCj4gPiBpbmRleAo+ID4gMGM4MzE0OWJjYzNlM2I4MzNhMDg3ZDI2MTA0ZWI3ZGZhYWZkZjkw
+NC4uNDk3YmFhZDYxNmFkNzM3NGE5MmEzZGEyYgo+ID4gN2MxMDk2YjFkNzJhMGM3IDEwMDY0NAo+
+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9pMmMvaW14MjE0LmMKPiA+ICsrKyBiL2RyaXZlcnMvbWVk
+aWEvaTJjL2lteDIxNC5jCj4gPiBAQCAtMTk5LDcgKzE5OSw2IEBAIHN0cnVjdCBpbXgyMTQgewo+
+ID4gCj4gPiDCoC8qRnJvbSBpbXgyMTRfbW9kZV90YmxzLmgqLwo+ID4gwqBzdGF0aWMgY29uc3Qg
+c3RydWN0IGNjaV9yZWdfc2VxdWVuY2UgbW9kZV80MDk2eDIzMDRbXSA9IHsKPiA+IC3CoMKgwqDC
+oMKgwqAgeyBJTVgyMTRfUkVHX0NTSV9MQU5FX01PREUsIElNWDIxNF9DU0lfNF9MQU5FX01PREUg
+fSwKPiA+IMKgwqDCoMKgwqDCoMKgIHsgSU1YMjE0X1JFR19IRFJfTU9ERSwgSU1YMjE0X0hEUl9N
+T0RFX09GRiB9LAo+ID4gwqDCoMKgwqDCoMKgwqAgeyBJTVgyMTRfUkVHX0hEUl9SRVNfUkVEVUNU
+SU9OLCBJTVgyMTRfSERSX1JFU19SRURVX1RIUk9VR0gKPiA+IH0sCj4gPiDCoMKgwqDCoMKgwqDC
+oCB7IElNWDIxNF9SRUdfRVhQT1NVUkVfUkFUSU8sIDEgfSwKPiA+IEBAIC0yNzIsNyArMjcxLDYg
+QEAgc3RhdGljIGNvbnN0IHN0cnVjdCBjY2lfcmVnX3NlcXVlbmNlCj4gPiBtb2RlXzQwOTZ4MjMw
+NFtdID0gewo+ID4gwqB9Owo+ID4gCj4gPiDCoHN0YXRpYyBjb25zdCBzdHJ1Y3QgY2NpX3JlZ19z
+ZXF1ZW5jZSBtb2RlXzE5MjB4MTA4MFtdID0gewo+ID4gLcKgwqDCoMKgwqDCoCB7IElNWDIxNF9S
+RUdfQ1NJX0xBTkVfTU9ERSwgSU1YMjE0X0NTSV80X0xBTkVfTU9ERSB9LAo+ID4gwqDCoMKgwqDC
+oMKgwqAgeyBJTVgyMTRfUkVHX0hEUl9NT0RFLCBJTVgyMTRfSERSX01PREVfT0ZGIH0sCj4gPiDC
+oMKgwqDCoMKgwqDCoCB7IElNWDIxNF9SRUdfSERSX1JFU19SRURVQ1RJT04sIElNWDIxNF9IRFJf
+UkVTX1JFRFVfVEhST1VHSAo+ID4gfSwKPiA+IMKgwqDCoMKgwqDCoMKgIHsgSU1YMjE0X1JFR19F
+WFBPU1VSRV9SQVRJTywgMSB9LAo+ID4gQEAgLTc5MSw2ICs3ODksMTMgQEAgc3RhdGljIGludCBp
+bXgyMTRfc3RhcnRfc3RyZWFtaW5nKHN0cnVjdAo+ID4gaW14MjE0ICppbXgyMTQpCj4gPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPiA+IMKgwqDCoMKgwqDCoMKg
+IH0KPiA+IAo+ID4gK8KgwqDCoMKgwqDCoCByZXQgPSBjY2lfd3JpdGUoaW14MjE0LT5yZWdtYXAs
+IElNWDIxNF9SRUdfQ1NJX0xBTkVfTU9ERSwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBJTVgyMTRfQ1NJXzRfTEFORV9NT0RFLCBOVUxMKTsKPiA+ICvC
+oMKgwqDCoMKgwqAgaWYgKHJldCkgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+ZGV2X2VycihpbXgyMTQtPmRldiwgIiVzIGZhaWxlZCB0byBjb25maWd1cmUKPiA+IGxhbmVzXG4i
+LCBfX2Z1bmNfXyk7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0
+Owo+ID4gK8KgwqDCoMKgwqDCoCB9Cj4gPiArCj4gPiDCoMKgwqDCoMKgwqDCoCByZXQgPSBjY2lf
+bXVsdGlfcmVnX3dyaXRlKGlteDIxNC0+cmVnbWFwLCBpbXgyMTQtPmN1cl9tb2RlLQo+ID4gPnJl
+Z190YWJsZSwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbXgyMTQtPmN1cl9tb2RlLT5udW1fb2ZfcmVncywKPiA+
+IE5VTEwpOwo+ID4gwqDCoMKgwqDCoMKgwqAgaWYgKHJldCA8IDApIHsKPiA+IEBAIC05MzIsNyAr
+OTM3LDcgQEAgc3RhdGljIGludCBpbXgyMTRfZ2V0X3JlZ3VsYXRvcnMoc3RydWN0IGRldmljZQo+
+ID4gKmRldiwgc3RydWN0IGlteDIxNCAqaW14MjE0KQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBp
+bXgyMTQtPnN1cHBsaWVzKTsKPiA+IMKgfQo+ID4gCj4gPiAtc3RhdGljIGludCBpbXgyMTRfcGFy
+c2VfZndub2RlKHN0cnVjdCBkZXZpY2UgKmRldikKPiA+ICtzdGF0aWMgaW50IGlteDIxNF9wYXJz
+ZV9md25vZGUoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgaW14MjE0Cj4gPiAqaW14MjE0KQo+
+IFdlIGRvbid0IHNlZW0gdG8gdXNlIGlteDIxNCBpbiB0aGUgZnVuY3Rpb24uIFlvdSBwcm9iYWJs
+eSBkbyBub3Qgd2FudAo+IHRvIGFkZCB0aGlzIGNoYW5nZS4KPiA+IMKgewo+ID4gwqDCoMKgwqDC
+oMKgwqAgc3RydWN0IGZ3bm9kZV9oYW5kbGUgKmVuZHBvaW50Owo+ID4gwqDCoMKgwqDCoMKgwqAg
+c3RydWN0IHY0bDJfZndub2RlX2VuZHBvaW50IGJ1c19jZmcgPSB7Cj4gPiBAQCAtOTUxLDYgKzk1
+NiwxMyBAQCBzdGF0aWMgaW50IGlteDIxNF9wYXJzZV9md25vZGUoc3RydWN0IGRldmljZQo+ID4g
+KmRldikKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGRvbmU7Cj4gPiDC
+oMKgwqDCoMKgwqDCoCB9Cj4gPiAKPiA+ICvCoMKgwqDCoMKgwqAgLyogQ2hlY2sgdGhlIG51bWJl
+ciBvZiBNSVBJIENTSTIgZGF0YSBsYW5lcyAqLwo+ID4gK8KgwqDCoMKgwqDCoCBpZiAoYnVzX2Nm
+Zy5idXMubWlwaV9jc2kyLm51bV9kYXRhX2xhbmVzICE9IDQpIHsKPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGRldl9lcnJfcHJvYmUoZGV2LCAtRUlOVkFMLAo+ID4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJvbmx5IDQg
+ZGF0YSBsYW5lcyBhcmUgY3VycmVudGx5Cj4gPiBzdXBwb3J0ZWRcbiIpOwo+ID4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBkb25lOwo+ID4gK8KgwqDCoMKgwqDCoCB9Cj4gPiAr
+Cj4gPiDCoMKgwqDCoMKgwqDCoCBmb3IgKGkgPSAwOyBpIDwgYnVzX2NmZy5ucl9vZl9saW5rX2Zy
+ZXF1ZW5jaWVzOyBpKyspCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGJ1
+c19jZmcubGlua19mcmVxdWVuY2llc1tpXSA9PQo+ID4gSU1YMjE0X0RFRkFVTFRfTElOS19GUkVR
+KQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBicmVh
+azsKPiA+IEBAIC05NzUsMTQgKzk4NywxNCBAQCBzdGF0aWMgaW50IGlteDIxNF9wcm9iZShzdHJ1
+Y3QgaTJjX2NsaWVudAo+ID4gKmNsaWVudCkKPiA+IMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBpbXgy
+MTQgKmlteDIxNDsKPiA+IMKgwqDCoMKgwqDCoMKgIGludCByZXQ7Cj4gPiAKPiA+IC3CoMKgwqDC
+oMKgwqAgcmV0ID0gaW14MjE0X3BhcnNlX2Z3bm9kZShkZXYpOwo+ID4gLcKgwqDCoMKgwqDCoCBp
+ZiAocmV0KQo+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPiA+
+IC0KPiA+IMKgwqDCoMKgwqDCoMKgIGlteDIxNCA9IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZigq
+aW14MjE0KSwgR0ZQX0tFUk5FTCk7Cj4gPiDCoMKgwqDCoMKgwqDCoCBpZiAoIWlteDIxNCkKPiA+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gLUVOT01FTTsKPiA+IAo+ID4g
+K8KgwqDCoMKgwqDCoCByZXQgPSBpbXgyMTRfcGFyc2VfZndub2RlKGRldiwgaW14MjE0KTsKPiA+
+ICvCoMKgwqDCoMKgwqAgaWYgKHJldCkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHJldHVybiByZXQ7Cj4gScKgIGFtIG5vdCBhZ2FpbnN0IGNoYW5naW5nIHRoZSBvcmRlci4uLiBi
+dXQgdGhlIGNvbW1pdCBtZXNzYWdlIGRvZXMKPiBub3QgbWVudGlvbiBpdC4KPiAKCkknbSBub3Qg
+c3VyZSBob3cgdG8gYXJndWUgd2h5IHRoZSBvcmRlciBzaG91bGQgYmUgY2hhbmdlZCwgbm93IHRo
+YXQgdGhlCmlteDIxNCBhcmd1bWVudCBpcyBnb25lLiBJJ2xsIHJlc3RvcmUgdGhlIG9yaWdpbmFs
+IG9yZGVyLiBJdCBjYW4gYmUKdW5kb25lLCB3aGVuIGFjdHVhbGx5IG5lZWRlZC4KCkJlc3QgcmVn
+YXJkcywKQW5kcsOpCgo+ID4gKwo+ID4gwqDCoMKgwqDCoMKgwqAgaW14MjE0LT5kZXYgPSBkZXY7
+Cj4gPiAKPiA+IMKgwqDCoMKgwqDCoMKgIGlteDIxNC0+eGNsayA9IGRldm1fY2xrX2dldChkZXYs
+IE5VTEwpOwo+ID4gCj4gPiAtLQo+ID4gMi40Ny4wCj4gPiAKPiA+IAoK
 
-What notorious problem?
-
->
-> > This one in particular I have to wonder why csiphy is not a separate
-> > node.
->
-> There were dicussions about it in the past, and kind of enforced outcome =
-of
-> the discussions is to keep all CAMSS IP components together under one hug=
-e
-> plain device tree node. I personally dislike this approach, but obedience
-> is the way to get things merged.
-
-Who are you saying would be in the way to get things merged? DT
-maintainers? I feel certain I would have pushed for separate blocks,
-but I'll defer to people that know the h/w. I can't learn the details
-of everyone's h/w. If they get it wrong, it's their problem not mine.
-
-> >> Which means sorting reg by address and irq too.
-> >
-> > IRQs make little sense to sort IMO.
->
-> For all non-reg properties with a present *-names property the sorting
-> order should be done by *-names property. Only 'reg' is very special.
-
-No. If you had 'main' and 'error', I'd put 'main' first. If they are
-somewhat equal (e.g. rx, tx), then sure, sort them however you like
-(assuming no existing binding). The only real rules here are how new
-entries should be added (on the end). Otherwise, there is no policy.
-
-Rob
 
