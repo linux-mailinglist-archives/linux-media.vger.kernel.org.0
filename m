@@ -1,56 +1,48 @@
-Return-Path: <linux-media+bounces-20605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7C09B6BBD
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 19:10:37 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 655B79B6C30
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 19:33:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F220C1F22391
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 18:10:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A2639B22812
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 18:33:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E17B91CDFA6;
-	Wed, 30 Oct 2024 18:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF6B81CCB3F;
+	Wed, 30 Oct 2024 18:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="NNwqD5Nz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ssZpHRT+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC12D1CB532
-	for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 18:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F9B1C4609;
+	Wed, 30 Oct 2024 18:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730311814; cv=none; b=ZBQw5cJdpq5jCWxmm8D+YzxJJ8iwB6kYtSk4zq++urM61QGX3j+cBaZB13xZdJYIe5aA9epP/ZikuUwx8zz7vizFwmJrlEfT2jjRqjJrQtjjtsPoi1qtkBrvRgRpaY1/tYyTkpOaOepkgcos41aA6BboazuTcuafG7TxRzHf0Gg=
+	t=1730313219; cv=none; b=kAr2PD6AyRg7fmaB68CD//SEhyieZW+lMlZ/F36gkeI2yOTa1MKypfsHTesF4KNywJvEJq49IES9grdQEbyidUdVFlHtUB1bbLNt0d6f3RAKqLHUhr+aJFmLqHn8sTAFYIu+lQhdW3S9cMqCACuMPhCYovRsTUd2cb9oB5qc9IQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730311814; c=relaxed/simple;
-	bh=/6zlx6Pzt5x5NsXzOwhh7VXKa0QKsD7l+JFKMqroCNA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=uATpLpK2TdF9LPit+MnAB+Vnq73KtFNBWjzaJtUXazNmhy1s5PR763pDQ57Lpn6yhPOG+7i/eAQHW4Y97OvNaviRaTa2VWP6XyrfenvQS7uFW9soaWwowRbtuilENvTQG+8MEDVSFpSb5zYhuGpsYTHswh/zAPmGlK3kbYVkJhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b=NNwqD5Nz; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1730311802; x=1730916602; i=friedrich.vock@gmx.de;
-	bh=LQRJj2KKQ1z1iHAN65JSqEQ+8TJ/TK08yaQxe3NrquA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=NNwqD5NzKKIMQqJY+3KJdkTlKWuf3ngvd0xvc2H8QBYkt0VvBdZUw72X8jAKbI+z
-	 COAefAdPJICEXKsAFEPkn4jp2x5GFKL2b5GIW+1+UxkwcAKhb3+KR9lu+31CHkcUG
-	 ZEdOC6CDRvJzlkzQmmIURQZkgBoZM9b1zOE5CPsENazbwCahcnBfBW8lPO00Aj5jr
-	 AS0RL8YRQrOvQcsaLQFxOuu/WHrACQkcLgO0HoDv/p5Qg1z2hyMCc41hxZBCu0ezT
-	 VUJzTFR9c0jFCMBI/URE6aqliqWjVuqvEfwu35sayMc8Brmoj0N1boQ7QFONtzvQq
-	 jgHrRMXwHAhJj7N6ZQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.3] ([109.91.201.165]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M1Ygz-1t88wr15GV-008KgA; Wed, 30
- Oct 2024 19:10:02 +0100
-Message-ID: <c93698d1-5b83-4314-bf9f-d1540d5cdf2d@gmx.de>
-Date: Wed, 30 Oct 2024 19:10:01 +0100
+	s=arc-20240116; t=1730313219; c=relaxed/simple;
+	bh=i1Vs+7snV2Whc8f6U4PmBh6VsCX0+I5O+FA19QQQ8Zc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gRqytQCv8rhM1/IxTexbUF4dqYvFxhvhHi2FigLJ4XD5/BlOybGJwGTZ46b3xAqBW6HcZsthn4ODx+S6T0vmewUPU/Prf7/EkwRYPxt86OIRFOSYS6U3vMf0rNgZG8a1rb8pbdGygJ456OTZ9LKFtL3gGAEtaAhNRA8QblqeXh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ssZpHRT+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E615C4CECE;
+	Wed, 30 Oct 2024 18:33:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730313218;
+	bh=i1Vs+7snV2Whc8f6U4PmBh6VsCX0+I5O+FA19QQQ8Zc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ssZpHRT+81QCH4z3lYknBPqPUmXyY2aCZXWUFdWHT64I0J58DNulHJbkD86LdukAQ
+	 3HpxZsV9DNKw952+G+SlBuMPZAwL/+0XvFvLsckdyPQCgP6WTLklxm0n0RMggf5BUI
+	 lybXjFuPuF/sxTA5mDTiI5BUTevioWDFUQZV9gjO/fmzlbyHcdT2begfreTLvuk7QU
+	 9cPrZn+FRQLMtvN/bFBGoiH2F9Ee1AIDFHStGcsgP4W9mCLXv6USo4R8z5bIg7uopw
+	 CODbkBitPcS8QAEEl94T9+j4dGhxd/g8oAhEtOaGicg7v48Zh5N5Yb5vLNCyKxh/bd
+	 WhwSeVN9C24aw==
+Message-ID: <e1e92a42-eb56-46e9-b26f-eb44ec9e6692@kernel.org>
+Date: Wed, 30 Oct 2024 19:33:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,180 +50,144 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dma-buf: sort fences in dma_fence_unwrap_merge
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Richardqi.Liang@amd.com, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20241024124159.4519-1-christian.koenig@amd.com>
- <20241024124159.4519-3-christian.koenig@amd.com>
+Subject: Re: [PATCH v6 2/5] dt-bindings: media: camss: Add qcom,sdm670-camss
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Richard Acayan <mailingradian@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20241011023724.614584-7-mailingradian@gmail.com>
+ <20241011023724.614584-9-mailingradian@gmail.com>
+ <785c82d5-549d-454b-86bf-a00a39e6f521@linaro.org>
+ <jcqgsgp4ivbokn545sy2rvfllm3vnygfpbufxagotuicacfmgd@v2hlnohlwzdf>
+ <955ea816-5394-4dbf-ba46-441634a97685@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Friedrich Vock <friedrich.vock@gmx.de>
-Autocrypt: addr=friedrich.vock@gmx.de; keydata=
- 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
- f7+xmX0X3AMtWz/15Y+7cPO2
-In-Reply-To: <20241024124159.4519-3-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qN3YPrQlAK5aRHZ9LZXxsA+0bm1izX4aO9+2j/kmMwuF6Xc8erm
- 5FrP0Skw6tdF/xjmD/vNdBi330aXl8Ql4YGFyvyMzfraQ2xgvzQc4RjQwECwyfbJuR5m0AJ
- DCpeQ+MGX3uAmsM4tQ8gwxN199s/m5Sglc3LreLpHmY6G+fXDWXJQGQPBYAxsqmSDaedXON
- P9qlQpYI1kKZX+UqQ4dRw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ACNDhzvFTiw=;BLcT1k6G9EsogCoPRlwBT/9JNBS
- Tf7DnAdeNJO1By49kV/LmItltycRJZwsP0S2Cmh3Tbs/7gYIbbgpXG4KqNdHxgf4JZnDZru/M
- lwLs4I2e+Jja6+dgoxBdTwP+KZ1p0FIVxq2kEa7+/U44vPWE0TskMosKJ0ilibd1N0hW9zkW/
- 2uhZVi1ZhC6BV6eni/vxOdQVIFS/CKVBCy/WuNPSgq2R4Xuf5SiK8ihtqBtzrXYEK7nLr4Kkm
- zA4cbL+1hY1dBc0JNvzHAQ7UF/bz03+x/eDgLO1Iexrnnti2XR3yt7/8mYgtWry97lxigpMAW
- QylcpElcJES6LvofZtFYqTNFr4Hv/X21m1o/E8CaBJrEtA/jHoEwUcvThpVb6/VjAVhK9K+xp
- xTB1tvY0otESOJwhAdNZvxtYC0tzENT4U8PawHE0wnMG6aPkY2QXfC3ssrSJEtbJVQkIs6E+T
- C+rYW5NpyBMs/R1JU+iofXSOSK7GehilrQFGJq1ZWLddySbQiNwJn9qeWzwBcRCy17jXQ+fXd
- t3XbGIRuV766wWVjEwFWtRBlMLxesi4b8w3uFumwJ0fZAe79NBKE2OV0C0axEDHhh4zUP5ugP
- zQDNvviEKnEF9ON8Jq41daQOHsv8DiK1Ipf/28YNZ2QMzpzN8KPI02Amx6Mgeoy3X4yEonjEG
- DBpgCuNaD4WYPGzRVScrmjvIlDZGaqR+EWc2vTXqx18QSQUA4LPhjKsz1MEkY2iJnQI13jSHp
- wCSfUqS+MdMbNj4/lh8hZyYXpp/FT0Rg04XHxMJme5OCU9kSFUBhLt2rfx+gN0YWUUpm4YRap
- IdOThysN455v2kifwaj2JTDA==
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <955ea816-5394-4dbf-ba46-441634a97685@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 24.10.24 14:41, Christian K=C3=B6nig wrote:
-> The merge function initially handled only individual fences and
-> arrays which in turn were created by the merge function. This allowed
-> to create the new array by a simple merge sort based on the fence
-> context number.
->
-> The problem is now that since the addition of timeline sync objects
-> userspace can create chain containers in basically any fence context
-> order.
->
-> If those are merged together it can happen that we create really
-> large arrays since the merge sort algorithm doesn't work any more.
->
-> So put an insert sort behind the merge sort which kicks in when the
-> input fences are not in the expected order. This isn't as efficient
-> as a heap sort, but has better properties for the most common use
-> case.
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->   drivers/dma-buf/dma-fence-unwrap.c | 39 ++++++++++++++++++++++++++----
->   1 file changed, 34 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fe=
-nce-unwrap.c
-> index 628af51c81af..d9aa280d9ff6 100644
-> --- a/drivers/dma-buf/dma-fence-unwrap.c
-> +++ b/drivers/dma-buf/dma-fence-unwrap.c
-> @@ -106,7 +106,7 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned =
-int num_fences,
->   		fences[i] =3D dma_fence_unwrap_first(fences[i], &iter[i]);
->
->   	count =3D 0;
-> -	do {
-> +	while (true) {
->   		unsigned int sel;
->
->   restart:
-> @@ -144,11 +144,40 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigne=
-d int num_fences,
->   			}
->   		}
->
-> -		if (tmp) {
-> -			array[count++] =3D dma_fence_get(tmp);
-> -			fences[sel] =3D dma_fence_unwrap_next(&iter[sel]);
-> +		if (!tmp)
-> +			break;
-> +
-> +		/*
-> +		 * We could use a binary search here, but since the assumption
-> +		 * is that the main input are already sorted dma_fence_arrays
-> +		 * just looking from end has a higher chance of finding the
-> +		 * right location on the first try
-> +		 */
-> +
-> +		for (i =3D count; i--;) {
+On 30/10/2024 15:06, Vladimir Zapolskiy wrote:
+> Hi Krzysztof,
+> 
+> On 10/11/24 17:29, Krzysztof Kozlowski wrote:
+>> On Fri, Oct 11, 2024 at 10:14:49AM +0300, Vladimir Zapolskiy wrote:
+>>>> +    soc {
+>>>> +        #address-cells = <2>;
+>>>> +        #size-cells = <2>;
+>>>> +
+>>>> +        camss@ac65000 {
+>>>> +            compatible = "qcom,sdm670-camss";
+>>>> +
+>>>> +            reg = <0 0x0acb3000 0 0x1000>,
+>>>
+>>> This is immediately wrong, unit address shall be the same as the address of the
+>>> first value of reg property.
+>>>
+>>> I still object to the sorting order of reg values dictated by reg-names property.
+>>>
+>>> There are a few recently added CAMSS device tree binding descriptions, where
+>>> reg values are sorted by address values without a connection to another property
+>>> values, and I believe this is the correct way to go.
+>>>
+>>> Two most recently added CAMSS IP descriptions (qcom,sm8250-camss.yaml and
+>>> qcom,sc8280xp-camss.yaml) do implement sorting by reg values, I believe from now on
+>>> it should be assumed that all subsequently added CAMSS IP descriptions to follow
+>>> the same established policy.
+>>
+>> Heh, sc8280xp introduced entirely different sorting also in interrupt-names.
+>>
+>> Just look at interrupts of sm8250 and sc8280xp. Luckily clocks are still
+>> keeping style.
+>>
+>> Can you start keeping consistency? All bindings from the same family of
+>> devices, especially if they share something, should have similar order
+>> in lists.
+>>
+>> How do you imagine writing drivers and request items by order (not by
+>> name) if the order is different in each flavor?
+> 
+> I don't see a problem here, and I don't remember any reports about this
+> kind of problem while adding CAMSS support in the driver to new platforms.
 
-This is broken. The first iteration of this loop will always index out
-of bounds. What you probably want here is:
+And I see problem, would create enormous probe code to handle different
+variants for clock[0] and then clock[1], etc.
 
-+		for (i =3D count - 1; count && i--;) {
+> 
+> While the problem of improper CAMSS unit address appears again and again,
+> the focus shall be on removing a chance to make a commin mistake here.
 
-This intentionally overflows for count =3D=3D 0, but the ++i after the loo=
-p
-undoes that. Maybe it would be worth a comment to point out that's
-intentional.
+This is not a problem. Tools already point it out. Order of reg-names
+also does not affect that, you can put fake unit address regardless of
+the order of reg-names items.
 
-> +			if (likely(array[i]->context < tmp->context))
-> +				break;
-> +
-> +			if (array[i]->context =3D=3D tmp->context) {
-> +				if (dma_fence_is_later(tmp, array[i])) {
-> +					dma_fence_put(array[i]);
-> +					array[i] =3D dma_fence_get(tmp);
-> +				}
-> +				fences[sel] =3D dma_fence_unwrap_next(&iter[sel]);
-> +				goto restart;
-> +			}
->   		}
-> -	} while (tmp);
-> +
-> +		++i;
-> +		/*
-> +		 * Make room for the fence, this should be a nop most of the
-> +		 * time.
-> +		 */
-> +		memcpy(&array[i + 1], &array[i], (count - i) * sizeof(*array));
+> 
+> As I've already said above, device tree bindings of CAMSS in two most
+> recently added platforms sm8250 and sc8280xp follow the numerical order
+> of addresses from reg value. This becomes the policy.
+> 
+> Sorting lists of interrupts or clocks by numerical values makes no sense,
+> thus the argument of *-names sorting becomes valid here. For clarity, reg
 
-Need memmove here, src and dst alias.
+There is no such argument, no such coding style.
 
-I took it for a spin with these things fixed and it seemed to resolve
-the issue as well. How do you want to proceed? I guess I would be
-comfortable putting a Reviewed-by and/or Tested-by on a version with
-these things fixed (with the usual caveat that I'm not a maintainer - I
-guess the process requires (at least one) reviewer to be?).
+> property is very special, also a snippet of its value goes as a unit
+> address.
 
-By the way, I guess you might've had some internal branches where this
-fix needed to go into quick or something? Usually I'm happy to make a v2
-for my patches myself, too ;)
+And order of items does not matter for above "specialness of reg".
 
-Regards,
-Friedrich
-
-> +		array[i] =3D dma_fence_get(tmp);
-> +		fences[sel] =3D dma_fence_unwrap_next(&iter[sel]);
-> +		count++;
-> +	};
->
->   	if (count =3D=3D 0) {
->   		tmp =3D dma_fence_allocate_private_stub(ktime_get());
+Best regards,
+Krzysztof
 
 
