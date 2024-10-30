@@ -1,192 +1,141 @@
-Return-Path: <linux-media+bounces-20600-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20601-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE3B9B65AD
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 15:22:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E289B65B4
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 15:25:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 400CE1C24CED
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 14:22:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67BC31F21F83
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2024 14:25:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A3C61EF94E;
-	Wed, 30 Oct 2024 14:22:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F26E1EF95E;
+	Wed, 30 Oct 2024 14:25:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dXXFb0Zs"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="j6/0HAXr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A373C13C
-	for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 14:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730298162; cv=none; b=fKrMzmUyfHeM98cIDwsX5wHBZrZu1LNqfv8Q/4azb98fb0mSHQY8ZDAK9zdwEJWruHWgm+VPQCA98nvE884keKo4yMilJGmrFOzYclajbUQJab/q7I0QW7E2HJE6ZqqGYC/XP5jT8gFk2iBUIdnDuyydOfMf3Zk6AxYkShgw0iQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730298162; c=relaxed/simple;
-	bh=XI8/azIPxXxl7fc87mBMEWTGZNwEz2ARABpyrhy0c2A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B13hDQd3cyGPs2QtnYXl4pTDhWXlrdPcAr79a4pZEz08B/1qMea8sCezb8orK2WLD3DXSqkZ4+EVpvWRUFxIprpoqCnpD/vdnqxwjz8Ruruvw2DEI6DfY5bNawszKvqbqCC2DfAEffz4WsDJtT45wgurfAz8K0iP/xsZHvNEYEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dXXFb0Zs; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539ee1acb86so6718380e87.0
-        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 07:22:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730298158; x=1730902958; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ewnGVP+QrjApj2Lvmg0PwEBD+Hc0GWAQIlAQdlFJ7d4=;
-        b=dXXFb0Zs56DhfK6sOC++4q9LusxnyYIKYRPWY6iVIZ+admj9+q1egWFzehnxak/EgP
-         ePvxRhTNPqlMT97Gvzw3gBXJS+5oBgjRXamuU1NunEfPnh/J6Xcbc5cHm33qSlfGeBjC
-         HhaTrNIAwJ5tyxbPJBYYfWKZOYFEJELRUaEL9JhdoX5XUhVVj0Y/Jo1assX/D+BaPBa7
-         BXgIS/0Vj0042KyIHjoUixnkyXfn7mqVi75g9SnKind/zZsVgC8t5r5lrRqtRXUYhp7Q
-         oRNNnhzP0+3GZ4TS+Y+3oMbLq8gafzUkp285pXnRJZ5W/qx6D0/Qcb0Y1DlIAv6fgE1f
-         eFAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730298158; x=1730902958;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ewnGVP+QrjApj2Lvmg0PwEBD+Hc0GWAQIlAQdlFJ7d4=;
-        b=W0mScnadHAd9sdHEhc1if8dtOoUCkCrJoYL2+F5CGbutQnnAkW7ExN1Azc8L4gohUC
-         ZHgr8ufG/xcVjYmAK1ZsTorLT5cyM07hWKf9hhtMYyPlR9/84SZJhb5Xw7PZTwPRL7aQ
-         CACAX8hiN9YzhK7oDnAnM7t+R7lqiwljoVSaIVslfdIdFOxxi3DLQo7P2fDrHtyyNDcz
-         e0TNT2ThwG1yZobLE0TNiVNVFsL0mWvD6kO3B6AakeoMTYie6z/S4unEqMk+xiU31zGz
-         FQrD1yZIu/fiAlEVqE2kFHAoBmE00WoseglkG7koH1YZCTKvK2OxV0nI6vy06buG8Ea8
-         6zTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWrSDbQ1mT8oLidl7ur9zvV9j8wmgBRIrqcRb7o95wAobzV9ZV1n5ZH3o/I3N3tS42TyiIIP+Oh99SYaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7JIrficzIwoMQTZmQAelVirJeEjZc1S+qd/SUESyZQTpOUIDy
-	162PU3cBDzp6U6ykUFyfILR9PugoePl2n4T6GIxON8LYasIkNs9r
-X-Google-Smtp-Source: AGHT+IFzvNeBt85cLaltZb4hURbuKvOGXkGcfFUIS8hKlUSO2SBZD/ukPEh6Gqf4BB5Op6ItWhHZGQ==
-X-Received: by 2002:a05:6512:4024:b0:539:8d9b:b624 with SMTP id 2adb3069b0e04-53b34a31f8fmr8307703e87.55.1730298158222;
-        Wed, 30 Oct 2024 07:22:38 -0700 (PDT)
-Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bb793e51sm29710995e9.1.2024.10.30.07.22.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Oct 2024 07:22:37 -0700 (PDT)
-Message-ID: <b4051b8f-a82a-4d77-80c4-09a7a4124845@gmail.com>
-Date: Wed, 30 Oct 2024 15:22:33 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4AB1E907F
+	for <linux-media@vger.kernel.org>; Wed, 30 Oct 2024 14:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730298348; cv=pass; b=mIHrmwRdmQK6OO5Wlp/EYd+YZFGlo8Bbl/brfPVqjStC8NSsjrvRIQtIlOUF4qGjo4tG1x3HyN0SUQAVxYCOavJg/v7KUToKaS+Bfx5iT3EBewfizr/mQ9bi2QIhKG4z+dYfBd0tinD+NehMaNq5pFn3Eafq+FMQYwirz1Kb3FA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730298348; c=relaxed/simple;
+	bh=Pl+cp7xhU4WWrDqLC8+Z3u14VGQYLNf2xavVyZQLUr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y/tIFWpUdAb5yPXAMXhOUqZUpf4tjyyw1qfD21Z0bIoL9yA5YzSOWZ/ASVr6zuXqu+yl9hmfrkpetZ3Zjupgv8KmVWz5GGPhn/SljrfYy4kPJAt5fWkIuAAU/JPc2LS4g+h9O3aO/YnNlqoRZ28K4x1sr+vek15CZSbHqKyEcfg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=j6/0HAXr; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4XdqD14ffqz49Pyt;
+	Wed, 30 Oct 2024 16:25:37 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1730298338;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HVwr3n2q8AZY46NgOcV0ZNqNj+d1OfQGF2snDR1ho4Q=;
+	b=j6/0HAXrBsCGZmvle3sCIjEpsEKyr4u46NYgRI62/GfcqCVKi9TqdBP2zngN9RHZRRHw36
+	g/Wbk3mfgeETRuXhU2uRXMyKLbjreXLW8a5rOMzSLlIOcBkvs8T5e1D9AZRQdMjsQ46AXX
+	VSRFQ/ElksAHAQuz6VkH3B5O713/xhy3SQ13O+HAVkF3yrEPhzaceiSPMKPLkQr1kvxSzM
+	AfSlM6S7Zn/7Vf10XmLVx+heT01EzrrAMm+l3HA2SkznHc3LOu+em9J6AkdrV4AQqy3P/F
+	QfW7mU964J/xu8Cr+92aqv3JTz5b19Fpn21rfmoUktenkMOXm5qyAJ1hSt7HBg==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1730298338; a=rsa-sha256;
+	cv=none;
+	b=mhfMmQqRUzERDryVagiCw8+tskPBbQrg7tth44FEX6P4qCmQXd0mA3UFo9P1xBBCShiiu+
+	q0h2fGfcPF5u/OVVfARQnydhrYN+qSOc7/2QNjX86oi4vIJSh678VSp66q3rxcQAuzp+k8
+	QD105xHe3VHPSFSFt3/YSqxhKCsP9XlDyVttfw+W+xNwUKF+b9lZ8TuwctS7rR9aHQmBro
+	ftLov/+ZozIzXLdiKiHxi32RKDFq8cgwcqVIjAmwSddmwHrM5pFfGFoFtQmrzi0+mjv3hJ
+	fdzgAkuqNSGVAe56aLtHw8qGHv7g414lA3cBbCrGfDO/eyD9CM352GJiKJWLXA==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1730298338;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HVwr3n2q8AZY46NgOcV0ZNqNj+d1OfQGF2snDR1ho4Q=;
+	b=BtwTl5Q803mwnKx6dt8NU5YFhsR/wsLj+MdDc4MGq9ZTV21YHMaJEPj5JbRiDK/INtyx/Z
+	f15iTzQYa8VUnV+HP+cINXoZ5yTjosbZxp0iIELTBVXNMKPJzKz5puux/lBWOO4qEI4K/y
+	wYHKs6t8yxHQnZQtjLK5F55IUktUo7rRTOeGqNSq31gh0ee2a+KgKmX0V9UT3lQzBNuzIK
+	MnaWht3kdE/p36iL+BPF33gN8fS+CXy59A5xbuhvZZvyPEQmGV4rXz8Jdbh/ohM7oZZaec
+	X6IICwtyYEeOgGqfM58+ot8ImzRAA2Y8N/Xfn4jsjT5sFBhNIqu7zbsvl7eKmA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1EFF3634C93;
+	Wed, 30 Oct 2024 16:25:37 +0200 (EET)
+Date: Wed, 30 Oct 2024 14:25:36 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Yunke Cao <yunkec@chromium.org>
+Subject: Re: UVC: Privacy gpio as subdevice
+Message-ID: <ZyJB4Kxn3Gm79_MH@valkosipuli.retiisi.eu>
+References: <CANiDSCuPfmV-0KLrdnvVojvtLR=OsFUzLNhnqM1m_ytvzjoNOw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dma-buf/dma-fence_array: use kvzalloc
-To: Friedrich Vock <friedrich.vock@gmx.de>,
- Matthew Brost <matthew.brost@intel.com>
-Cc: Richardqi.Liang@amd.com, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20241024124159.4519-1-christian.koenig@amd.com>
- <20241024124159.4519-2-christian.koenig@amd.com>
- <ZxquPRn1QtaVzydE@DUT025-TGLU.fm.intel.com>
- <1ee2453d-f661-4ea6-8b54-3f911b179420@gmx.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <1ee2453d-f661-4ea6-8b54-3f911b179420@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCuPfmV-0KLrdnvVojvtLR=OsFUzLNhnqM1m_ytvzjoNOw@mail.gmail.com>
 
-Am 25.10.24 um 08:52 schrieb Friedrich Vock:
-> On 24.10.24 22:29, Matthew Brost wrote:
->> On Thu, Oct 24, 2024 at 02:41:57PM +0200, Christian König wrote:
->>> Reports indicates that some userspace applications try to merge more 
->>> than
->>> 80k of fences into a single dma_fence_array leading to a warning from
->>
->> Really, yikes.
->
-> Not really IME. Unless Christian means some reports I don't have access
-> to, the cases where userspace applications tried to do that were really
-> just cases where the fence count exploded exponentially because
-> dma_fence_unwrap_merge failed to actually merge identical fences (see
-> patch 2). At no point have I actually seen apps trying to merge 80k+
-> unique fences.
+Hi Ricardo,
 
-While working on it I've modified our stress test tool to send the same 
-1GiB SDMA copy to 100k different contexts.
+On Wed, Oct 30, 2024 at 02:03:18PM +0100, Ricardo Ribalda wrote:
+> Hi Hans (de Goede, but others are welcome as well :) )
+> 
+> Some notebooks have a button to disable the camera (not to be mistaken
+> with the mechanical cover). This is a standard GPIO linked to the
+> camera via the ACPI table.
+> 
+> 4 years ago we added support for this button in UVC via the Privacy control.
+> This has two issues:
+> - If the camera has its own privacy control, it will be masked
+> - We need to power-up the camera to read the privacy control gpio.
+> 
+> We tried to fix the power-up issues implementing "granular power
+> saving" but it has been more complicated than anticipated....
+> 
+> Last year, we proposed a patchset to implement the privacy gpio as a
+> subdevice https://lore.kernel.org/linux-media/20230111-uvc_privacy_subdev-v1-0-f859ac9a01e3@chromium.org/
+> 
+> I think it is a pretty clean solution and makes sense to use a
+> subdevice for something that is a sub device of the camera :).
+> 
+> Before moving forward, Laurent and I would like to hear your opinion.
 
-Turned out it's perfectly possible to create so many fences, there is 
-nothing blocking userspace to do it.
+I remember we discussed this and I wasn't very enthusiastic about the
+proposal but thinking about it again, there are situations where this is
+the only feasible solution, including on raw cameras with a privacy GPIO,
+besides the first issue you brought up above.
 
-While this isn't a realistic use case the kernel should at least not 
-crash or spill a warning, but either handle or reject it gracefully.
+Regarding the second one, why would you need to power on the camera to get
+the GPIO's value?
 
-Friedrich can you confirm that patch two in this series fixes the 
-problem? I would really like to get it into drm-misc-fixes before 6.12 
-comes out.
+I'll review the set.
 
-Thanks,
-Christian.
+While in the case of UVC it's fairly clear what the sub-device is related
+to, but for the general case it'd be good to have an ancillary link there.
 
->
-> Regards,
-> Friedrich
->
->>
->>> kzalloc() that the requested size becomes to big.
->>>
->>> While that is clearly an userspace bug we should probably handle 
->>> that case
->>> gracefully in the kernel.
->>>
->>> So we can either reject requests to merge more than a reasonable 
->>> amount of
->>> fences (64k maybe?) or we can start to use kvzalloc() instead of 
->>> kzalloc().
->>> This patch here does the later.
->>>
->>
->> This patch seems reasonable to me if the above use is in fact valid.
->>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> CC: stable@vger.kernel.org
->>
->> Fixes tag?
->>
->> Patch itself LGTM:
->> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
->>
->>> ---
->>>   drivers/dma-buf/dma-fence-array.c | 6 +++---
->>>   1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/dma-fence-array.c 
->>> b/drivers/dma-buf/dma-fence-array.c
->>> index 8a08ffde31e7..46ac42bcfac0 100644
->>> --- a/drivers/dma-buf/dma-fence-array.c
->>> +++ b/drivers/dma-buf/dma-fence-array.c
->>> @@ -119,8 +119,8 @@ static void dma_fence_array_release(struct 
->>> dma_fence *fence)
->>>       for (i = 0; i < array->num_fences; ++i)
->>>           dma_fence_put(array->fences[i]);
->>>
->>> -    kfree(array->fences);
->>> -    dma_fence_free(fence);
->>> +    kvfree(array->fences);
->>> +    kvfree_rcu(fence, rcu);
->>>   }
->>>
->>>   static void dma_fence_array_set_deadline(struct dma_fence *fence,
->>> @@ -153,7 +153,7 @@ struct dma_fence_array 
->>> *dma_fence_array_alloc(int num_fences)
->>>   {
->>>       struct dma_fence_array *array;
->>>
->>> -    return kzalloc(struct_size(array, callbacks, num_fences), 
->>> GFP_KERNEL);
->>> +    return kvzalloc(struct_size(array, callbacks, num_fences), 
->>> GFP_KERNEL);
->>>   }
->>>   EXPORT_SYMBOL(dma_fence_array_alloc);
->>>
->>> -- 
->>> 2.34.1
->>>
->
+-- 
+Regards,
 
+Sakari Ailus
 
