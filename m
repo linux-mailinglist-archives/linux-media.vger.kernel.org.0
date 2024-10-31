@@ -1,117 +1,105 @@
-Return-Path: <linux-media+bounces-20640-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20641-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4299B79AA
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 12:28:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE9AE9B7AA8
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 13:36:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F01D21F23646
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 11:27:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 36075B24857
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 12:36:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C341D19ADA3;
-	Thu, 31 Oct 2024 11:27:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14B019CC26;
+	Thu, 31 Oct 2024 12:36:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hz3vh/+D"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="EmXQ1pQh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2657419ABC4
-	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 11:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6409B19C562
+	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 12:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730374071; cv=none; b=mhCDmmHDNpxBUCI/fP+UL3ShZ6rYmroSV/L5XgaxhhmdjKmujITShvpL+uldNXo+vwLCxSlBEel9XD2hGxrUhvlhshJcS+4Vv32ftK9U+4AHfSBzBQjE/lEp9WJaDUdiZhcjUmeDTc5H6v1YYVEZ5tvDlomI+2QPoEzCWjXLvnE=
+	t=1730378169; cv=none; b=HGCRIUJ7cjXOUGntapN0SKSZijmJ/J1r2JsIhT1PFna483IIld9WdY6IWqdZr7qGxvqKRVrTIv6mZmbNB7BpMc8RzhwIrQXNRbuAuofju9GQ66QoqTYstw4LQxIGEXgkX1qZE95bx0+gaU6KLOFeMPe45ajdnQblSEVBDioqL4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730374071; c=relaxed/simple;
-	bh=2/wxx2yPHeqzUl3bK4IWTgP7OiPHmrV9sMpSAgHj9dY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mSHo51qBpAoMcnOBh2DO5mXi330nqkm+o9usuyAo/Y9NGtTjxMmzwhdyGi+Onvx8LvjpcayT92eehIdQE6Aa3yAfIfjE+eLD5tmwgYW42Ve+nzMRggX/u4BAJ0MjCvto3wtQarX9lAMWhZKQAfDkouuyThZCRMrz+njTuJHsgK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hz3vh/+D; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d5689eea8so525429f8f.1
-        for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 04:27:48 -0700 (PDT)
+	s=arc-20240116; t=1730378169; c=relaxed/simple;
+	bh=4uwkVsQZvvqLQLxsIsC4lLN11JwhnBdlvKpaa8vPrLo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Gpjwlp4hrCPaW0CXy7OHOySKTVYCcGETLT7FY/Zz2LvmFOKwg5dJZSByyTdLO6TtYrWez/Hj5x3KQnUEKEz1pWZ0eps20LVQnL9o8k4s33+J/VCGIRVsGss0ed8JkLfaax8tB1IUCsT7xZD4NKvB+ievb+P43yQkDZiell1AgdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=EmXQ1pQh; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539f0f9ee49so1011283e87.1
+        for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 05:36:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730374067; x=1730978867; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Qinma5kqYmuHBjZm6H5Vna/9c51/QTVcMYek7K4+Gg=;
-        b=hz3vh/+DULH61ZS/p5Cp2thML0yxKqd7e73IBuRXFu6wKCViP6WlA2G4vqhKc23MjV
-         zqcd+UCDgVgp8ki0eeE2tYUmBYHtybT7IaeZdMIk6BnGM7z7JcLOCV8MtY2I3G6TmEYC
-         Q1DdLBCuKkV2lJXwuMugcdfFYOwxjQfy+OF3kgQskpb3T/h6Q3SDiQGe3sNr0QRCWI4l
-         YSHxCwvQJAUnTpMdyqbPeg+3lQd5Vs4hJsWl9BX+eUp7CsW3elwE6xFCt4n4KcdO8T7r
-         QBE1FboIr+l8GpyI7FcQ03hSMKOtoWo/qQ0BK2iMEdMuKpt3XEQWPpEI7ua8d4Hu2iqJ
-         oqjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730374067; x=1730978867;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1730378165; x=1730982965; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2Qinma5kqYmuHBjZm6H5Vna/9c51/QTVcMYek7K4+Gg=;
-        b=X6XAOWGF7F2SDapp5FGCHqfK0JGwcRBXa8XRLxxQPv/H9v0oo7SY3nBmcdQ+5FUuRf
-         h8m8f6LD64MSkZBNaPPE7Q3JzGyJI6LUvOmiSx43PGKK9jbIlkOKqLOGoMig+dikmsL3
-         eyjSmSWW6hjZPMHftN0kXJGRqXUzM+XDaWR48wzB6qGiHmz4ODttg5kzio0yX6PNQffw
-         iNMnlLSCfm8k9nFZ6OffapyKuQ6rgfhHESBRpfQjD34yX7SbPBcMTSHRjB77cA7aQPGd
-         r2bHhoHO3LjQn0iewTD5Gr7hDA911ZQ5JA/UsM+m3S9klQPikeEFHFDm0UqQX84rP4VH
-         WX+w==
-X-Forwarded-Encrypted: i=1; AJvYcCUfNkB3YOeMlB/8+6mg1mCSYidW4FEtjtkFLFYab2dQPUdllw/RFH8n7xalSB7uFQiXtNE6XtBghvgXPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YycL2I49pDVxdW/JgGLPtjbXYXiLRSwSCmwJUDON8JQGNCyV90E
-	N7g1hFRgx3COqY5b4WJChrfpaetPne/v7TVMLwSLL7T241Ya7CimqYRZo9x2gKk=
-X-Google-Smtp-Source: AGHT+IHMzU32/E5p1uwxhDrq7bFwkszQjYOIXlfcx9OzbVpxpXnCoF3yBkBjLJDocKcQhGQ24Jv1YQ==
-X-Received: by 2002:adf:9793:0:b0:367:9881:7d66 with SMTP id ffacd0b85a97d-380612008e6mr13984567f8f.41.1730374067469;
-        Thu, 31 Oct 2024 04:27:47 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c113e6b5sm1847280f8f.88.2024.10.31.04.27.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 04:27:46 -0700 (PDT)
-Date: Thu, 31 Oct 2024 14:27:43 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Naresh Kamboju <naresh.kamboju@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Linux Regressions <regressions@lists.linux.dev>,
-	lkft-triage@lists.linaro.org,
-	Anders Roxell <anders.roxell@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: next-20241028: gcc-8-defconfig : ERROR: modpost:
- "__aeabi_uldivmod" [drivers/media/dvb-frontends/cxd2841er.ko] undefined!
-Message-ID: <d3903c31-21ae-4ffe-9969-6faa7e430cb5@stanley.mountain>
-References: <CA+G9fYvvNm-aYodLaAwwTjEGtX0YxR-1R14FOA5aHKt0sSVsYg@mail.gmail.com>
- <456c79d2-5041-47c4-bed2-44d257524ddd@stanley.mountain>
+        bh=4uwkVsQZvvqLQLxsIsC4lLN11JwhnBdlvKpaa8vPrLo=;
+        b=EmXQ1pQhDbTJMi4oh6mk2p9N40oMLpGG0jbd4/qTaact2POtLC94Z9ajkn0fZNWVis
+         x/uhIma3ojqaqA8JtzNLE8HE6/IPNpesny9Se63VuXxt0juI0s9uem1do+dvSwhsi/c5
+         mEqeIhBIWgjSj9DQ1QHCHU/TK9w/NxCCBGwLYGdk+rpLQY0MsimszJYIPToIusz8eFrO
+         nvmnfUtxN3LYfupdkmCX7y68LnwS7HgZ3X19LO6UJ+br6jKEQgutaq9EHJz2vdwYd0ps
+         FfvR162Gq5tF+vkUu0rutz+0lWc8AyWAjW4tpn+5xiuGqWUJFCpsvxH8KZNengivOgNo
+         Y8Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730378166; x=1730982966;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4uwkVsQZvvqLQLxsIsC4lLN11JwhnBdlvKpaa8vPrLo=;
+        b=nXWR29JnJWua3j+oruVOQCl2rNA03tTb9/wXebpagKYY9RpDWPklno2YuePYtKJDuy
+         G1reYv9KbDvboQUtth4T/X09w2zExAixkJOvhvAChF4xiML4dXhze6ZtdcD9l6Y10Uov
+         NL116d7SCsE/4f+9PTmETutFSrON3YJ1lfP9mWIdWber+X0hKWtTMmgzq2d35cmKXfpn
+         iDZ3w70RBRWRuO4hkupsKicYwAmfEMADU0qJvurI3RCuC1qWtc3980Euu5Sdhj2T8W+n
+         mV3ulQ0MkR13YxpmGPaWiuZZvAECTAHOuPq3+rwaC15MgnMqFjf+UZgLGgEltRoFXKV4
+         vfVg==
+X-Gm-Message-State: AOJu0YwNOtixi0W8oJlLy4hxt7CwwxL8jbyMnX+1DmB3jZy5+HzC6KTt
+	zRDnTrbH6sbn3qos0iGQ+bBpVVPR4UW5TFkhldKowpbk+yGw1VegBdbtzUquTwbu8uvi3ey1alk
+	4Hu08in8+lYw29/XTFU9Jj0TfPi68YbpC/ym2QAs0Zpv7bmsW
+X-Google-Smtp-Source: AGHT+IHNGrsHIdVJ7b6kXn3eII7y5YvEBUfd6Ol5F2YiZyvgHAMgu5KWjMQpJ+oEkjLbS7Z07yQmFjWPUy3H2QOB0UA=
+X-Received: by 2002:a05:6512:3e26:b0:539:fbfe:418f with SMTP id
+ 2adb3069b0e04-53b348deb5fmr10872826e87.32.1730378165562; Thu, 31 Oct 2024
+ 05:36:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <456c79d2-5041-47c4-bed2-44d257524ddd@stanley.mountain>
+References: <20241018131351.70563-1-brgl@bgdev.pl> <671279a4.020a0220.206dc9.0907@mx.google.com>
+ <CAMRc=McnFLVeBOV8rcfL+A2PsF_dY0C7OP8DOhqwwgU9OpoZBg@mail.gmail.com>
+ <CANiDSCs4tzZywh9je5DfN4x4p4V5HAFkJ6zP62oOOpno-keVWg@mail.gmail.com> <CAMRc=Me5u7rc9JmWKcKUU1uYyC-Bwy99b++K3djeSnNyDmX6nw@mail.gmail.com>
+In-Reply-To: <CAMRc=Me5u7rc9JmWKcKUU1uYyC-Bwy99b++K3djeSnNyDmX6nw@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 31 Oct 2024 13:35:54 +0100
+Message-ID: <CAMRc=Mc=L_xnXgoSyeALV80qo-h2BhCya39McdZ4SOeBrUXhZw@mail.gmail.com>
+Subject: Re: media: v4l2-core: constify the class struct
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, patchwork@media-ci.org, patchwork@linuxtv.org, 
+	Ricardo Ribalda <ribalda@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Arnd, can you take a look at this?
+On Fri, Oct 25, 2024 at 10:05=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl=
+> wrote:
+>
+> On Fri, Oct 18, 2024 at 7:26=E2=80=AFPM Ricardo Ribalda <ribalda@chromium=
+.org> wrote:
+> >
+> > Hi Bartosz
+> >
+> > It is indeed. Sorry about that. We have already landed the fix.
+> >
+> > Sorry for the noise
+> >
+>
+> Can this be picked up then?
+>
+> Bart
 
-This patch fixes the build, but obviously breaks the kernel so don't apply it.
-I don't know how do_div() works or what changed though.  All this code looks
-ancient.
-
-regards,
-dan carpenter
-
-diff --git a/drivers/media/dvb-frontends/cxd2841er.c b/drivers/media/dvb-frontends/cxd2841er.c
-index d925ca24183b..e3131f5c6708 100644
---- a/drivers/media/dvb-frontends/cxd2841er.c
-+++ b/drivers/media/dvb-frontends/cxd2841er.c
-@@ -314,7 +314,7 @@ static u32 cxd2841er_calc_iffreq_xtal(enum cxd2841er_xtal xtal, u32 ifhz)
- 	u64 tmp;
- 
- 	tmp = (u64) ifhz * 16777216;
--	do_div(tmp, ((xtal == SONY_XTAL_24000) ? 48000000 : 41000000));
-+//	do_div(tmp, ((xtal == SONY_XTAL_24000) ? 48000000 : 41000000));
- 
- 	return (u32) tmp;
- }
+Ping
 
