@@ -1,214 +1,129 @@
-Return-Path: <linux-media+bounces-20638-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20639-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996F19B78A9
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 11:29:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 671589B78DE
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 11:42:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2035C1F24E6B
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 10:29:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 993A61C233DD
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 10:42:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 228BC199246;
-	Thu, 31 Oct 2024 10:28:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46AD919AA41;
+	Thu, 31 Oct 2024 10:42:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFJEtqHk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ipfmD2k9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852281991B8
-	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 10:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA16199FCD
+	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 10:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730370538; cv=none; b=ZGKa5/AH13ARlMqeUmNbaVBxbgm7kDb61sbOux5jayYalQZQD1iKSB55TOllu0dc8J9cYe/Q4q4xBxakIZQr+AasxV6YxjHcxEPng4walVl2eqN5qwMF2nRSctKXstqie5rsu9ukSHhKiDPqLq46/bHGYM8fmiokpC4vtdGdyMQ=
+	t=1730371351; cv=none; b=pdzzlaEuXVw2+T5RSc+oVjLzhbsFrnJiA2cIBaIxfQK0ZCtKYBO9hqdsuAi672/Cs3KFXDoTGwcRSUST2ublBTtTnDquuLEpuqDyFqmbWDubo2L+QtddqYtuTYIbrlg97X+/2IO1mGVVC8PoSlL08IMXwTlGQviguOScq7xWD9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730370538; c=relaxed/simple;
-	bh=A8+nj4UwAZAwwAeMyCapbbPR1xUYcqNfBMrpXHxFBHs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XPLnTPY2u20km8x1XYosLjnApU03NELHZ31VEi89/YwfJixa2pJhrrSU4FCOctaMDEysSLti0RFsryQMFZ+a4xoiTsDAomH10gEjJZAgCWAJBJFFONSuLii70dfkY4IJCdyMd0UJ9w66j0PntX0wHCogOnuajBuIh3J/2UpZzdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFJEtqHk; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730370536; x=1761906536;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=A8+nj4UwAZAwwAeMyCapbbPR1xUYcqNfBMrpXHxFBHs=;
-  b=oFJEtqHkbUmBG6XwfQADrIWl1M7IGbcQQuXY6fpB+p8LDqstXMKg4u22
-   ao7eEfBtNLdjmGJy17HerVqFLHv5+CEYFn7EeyOX8EFgrOFM6vsizHMJP
-   jShpTxsfIGlt8peQs2UpWIcoOucnIsEXHmiNCzHaskvIA0L/7LJPN/zhy
-   6+NCPwMiPBGmAuhNmSUCKzhqtzkXD6qAeVxOAL4HzQrd/mdXz2pE8AzzO
-   eSFBsBeuEmCD2oeF9KOwotJajImujeKZjLdjagNTiFgDJ8Ufpy9QybkUd
-   5i4qrrh7HWy+VMRse2K3/O9EhmdrJGmuK82xIlodDwiSr8ES15BFrUZ9E
-   w==;
-X-CSE-ConnectionGUID: D14vMRDBQQuoIswxuVtaHw==
-X-CSE-MsgGUID: uXuYrdNETzC+jh56hTjQyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29958274"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29958274"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 03:28:48 -0700
-X-CSE-ConnectionGUID: DYdKgPyaTsuNG+ec6FOfJw==
-X-CSE-MsgGUID: o4nza+JcRW648VqD+4KfQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="82510640"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.83.36])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 03:28:42 -0700
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH] media intel/ipu6: remove buttress ish structure
-Date: Thu, 31 Oct 2024 11:28:39 +0100
-Message-Id: <20241031102839.410806-1-stanislaw.gruszka@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1730371351; c=relaxed/simple;
+	bh=Tb2AAyxawFX+WuFvZpBTwXf7Ij/FAORlAwfN5kr3Z4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iSztFCOy1Mjr5i7GIcuGrnNuhZugTg61bprPTrjVuROqoX5YhGPzz7v3zOptiFSB7n2L3DmNxgql2mL2TxgSX5Wu5/AROD3CXFrqQdUSsPCSGW9nDiuBJmX206o0iutIOShYDd1rQ2jxcg2dnv3wJ4IrDQOuVNd1ejw7dt+X+dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ipfmD2k9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FB479EC;
+	Thu, 31 Oct 2024 11:42:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730371343;
+	bh=Tb2AAyxawFX+WuFvZpBTwXf7Ij/FAORlAwfN5kr3Z4Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ipfmD2k9hrw7BRVh4ParJIsL3apuOpHhsYHzT5h26zqOMlq69Hmd8D4V+jnmkUCnX
+	 Dc79/n20Mn0gYLuvIzykpO/zXxGFyGv/6rbXOXKEA4CxwtmVyU87G2DCIy8RmsRjZl
+	 7ejwEvs89/NIOZE2nMPKmnMjT6o0KZjXSo7bD0DQ=
+Date: Thu, 31 Oct 2024 12:42:19 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [PATCH] Documentation: media: improve
+ V4L2_CID_MIN_BUFFERS_FOR_*, doc
+Message-ID: <20241031104219.GF2473@pendragon.ideasonboard.com>
+References: <93d078e5-deba-4060-a32e-94bce677453c@xs4all.nl>
+ <20241031101141.GD2473@pendragon.ideasonboard.com>
+ <2a61ded3-4cea-4a1a-9d16-aa74dbb22f74@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2a61ded3-4cea-4a1a-9d16-aa74dbb22f74@xs4all.nl>
 
-The buttress ipc ish structure is not effectively used on IPU6 - data
-is nullified on init. Remove it to cleanup the code a bit.
+On Thu, Oct 31, 2024 at 11:26:47AM +0100, Hans Verkuil wrote:
+> On 10/31/24 11:11, Laurent Pinchart wrote:
+> > Hi Hans,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Thu, Oct 31, 2024 at 08:50:04AM +0100, Hans Verkuil wrote:
+> >> Clearly state that the V4L2_CID_MIN_BUFFERS_FOR_OUTPUT and
+> >> V4L2_CID_MIN_BUFFERS_FOR_CAPTURE controls are required for
+> >> stateful codecs.
+> > 
+> > Wouldn't it be better for this kind of information to be centralized in
+> > a stateful decoder document ? That would make it easier for developers
+> > to see all they need to implement. Otherwise they would need to read
+> > through the whole documentation to pick the parts of the API they need
+> > to support in their drivers.
+> 
+> It's also already mentioned in the documentation for the stateful de/encoders here:
+> 
+> https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-mem2mem.html
 
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
----
- drivers/media/pci/intel/ipu6/ipu6-buttress.c | 23 +++++---------------
- drivers/media/pci/intel/ipu6/ipu6-buttress.h |  6 -----
- 2 files changed, 6 insertions(+), 23 deletions(-)
+OK, then it's fine to have it here too I think.
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-index edaa285283a1..20dfedd6b2c8 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-@@ -214,20 +214,17 @@ static void ipu6_buttress_ipc_recv(struct ipu6_device *isp,
- }
- 
- static int ipu6_buttress_ipc_send_bulk(struct ipu6_device *isp,
--				       enum ipu6_buttress_ipc_domain ipc_domain,
- 				       struct ipu6_ipc_buttress_bulk_msg *msgs,
- 				       u32 size)
- {
- 	unsigned long tx_timeout_jiffies, rx_timeout_jiffies;
- 	unsigned int i, retry = BUTTRESS_IPC_CMD_SEND_RETRY;
- 	struct ipu6_buttress *b = &isp->buttress;
--	struct ipu6_buttress_ipc *ipc;
-+	struct ipu6_buttress_ipc *ipc = &b->cse;
- 	u32 val;
- 	int ret;
- 	int tout;
- 
--	ipc = ipc_domain == IPU6_BUTTRESS_IPC_CSE ? &b->cse : &b->ish;
--
- 	mutex_lock(&b->ipc_mutex);
- 
- 	ret = ipu6_buttress_ipc_validity_open(isp, ipc);
-@@ -305,7 +302,6 @@ static int ipu6_buttress_ipc_send_bulk(struct ipu6_device *isp,
- 
- static int
- ipu6_buttress_ipc_send(struct ipu6_device *isp,
--		       enum ipu6_buttress_ipc_domain ipc_domain,
- 		       u32 ipc_msg, u32 size, bool require_resp,
- 		       u32 expected_resp)
- {
-@@ -316,7 +312,7 @@ ipu6_buttress_ipc_send(struct ipu6_device *isp,
- 		.expected_resp = expected_resp,
- 	};
- 
--	return ipu6_buttress_ipc_send_bulk(isp, ipc_domain, &msg, 1);
-+	return ipu6_buttress_ipc_send_bulk(isp, &msg, 1);
- }
- 
- static irqreturn_t ipu6_buttress_call_isr(struct ipu6_bus_device *adev)
-@@ -386,10 +382,8 @@ irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
- 		}
- 
- 		if (irq_status & BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING) {
--			dev_dbg(&isp->pdev->dev,
-+			dev_warn(&isp->pdev->dev,
- 				"BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING\n");
--			ipu6_buttress_ipc_recv(isp, &b->ish, &b->ish.recv_data);
--			complete(&b->ish.recv_complete);
- 		}
- 
- 		if (irq_status & BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE) {
-@@ -399,9 +393,8 @@ irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
- 		}
- 
- 		if (irq_status & BUTTRESS_ISR_IPC_EXEC_DONE_BY_ISH) {
--			dev_dbg(&isp->pdev->dev,
-+			dev_warn(&isp->pdev->dev,
- 				"BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE\n");
--			complete(&b->ish.send_complete);
- 		}
- 
- 		if (irq_status & BUTTRESS_ISR_SAI_VIOLATION &&
-@@ -655,7 +648,7 @@ int ipu6_buttress_authenticate(struct ipu6_device *isp)
- 	 */
- 	dev_info(&isp->pdev->dev, "Sending BOOT_LOAD to CSE\n");
- 
--	ret = ipu6_buttress_ipc_send(isp, IPU6_BUTTRESS_IPC_CSE,
-+	ret = ipu6_buttress_ipc_send(isp,
- 				     BUTTRESS_IU2CSEDATA0_IPC_BOOT_LOAD,
- 				     1, true,
- 				     BUTTRESS_CSE2IUDATA0_IPC_BOOT_LOAD_DONE);
-@@ -697,7 +690,7 @@ int ipu6_buttress_authenticate(struct ipu6_device *isp)
- 	 * IU2CSEDB.IU2CSECMD and set IU2CSEDB.IU2CSEBUSY as
- 	 */
- 	dev_info(&isp->pdev->dev, "Sending AUTHENTICATE_RUN to CSE\n");
--	ret = ipu6_buttress_ipc_send(isp, IPU6_BUTTRESS_IPC_CSE,
-+	ret = ipu6_buttress_ipc_send(isp,
- 				     BUTTRESS_IU2CSEDATA0_IPC_AUTH_RUN,
- 				     1, true,
- 				     BUTTRESS_CSE2IUDATA0_IPC_AUTH_RUN_DONE);
-@@ -838,9 +831,7 @@ int ipu6_buttress_init(struct ipu6_device *isp)
- 	mutex_init(&b->auth_mutex);
- 	mutex_init(&b->cons_mutex);
- 	mutex_init(&b->ipc_mutex);
--	init_completion(&b->ish.send_complete);
- 	init_completion(&b->cse.send_complete);
--	init_completion(&b->ish.recv_complete);
- 	init_completion(&b->cse.recv_complete);
- 
- 	b->cse.nack = BUTTRESS_CSE2IUDATA0_IPC_NACK;
-@@ -852,8 +843,6 @@ int ipu6_buttress_init(struct ipu6_device *isp)
- 	b->cse.data0_in = BUTTRESS_REG_CSE2IUDATA0;
- 	b->cse.data0_out = BUTTRESS_REG_IU2CSEDATA0;
- 
--	/* no ISH on IPU6 */
--	memset(&b->ish, 0, sizeof(b->ish));
- 	INIT_LIST_HEAD(&b->constraints);
- 
- 	isp->secure_mode = ipu6_buttress_get_secure_mode(isp);
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.h b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-index 9b6f56958be7..482978c2a09d 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-@@ -46,18 +46,12 @@ struct ipu6_buttress_ipc {
- struct ipu6_buttress {
- 	struct mutex power_mutex, auth_mutex, cons_mutex, ipc_mutex;
- 	struct ipu6_buttress_ipc cse;
--	struct ipu6_buttress_ipc ish;
- 	struct list_head constraints;
- 	u32 wdt_cached_value;
- 	bool force_suspend;
- 	u32 ref_clk;
- };
- 
--enum ipu6_buttress_ipc_domain {
--	IPU6_BUTTRESS_IPC_CSE,
--	IPU6_BUTTRESS_IPC_ISH,
--};
--
- struct ipu6_ipc_buttress_bulk_msg {
- 	u32 cmd;
- 	u32 expected_resp;
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Also, once this vicodec patch is merged:
+> 
+> https://patchwork.linuxtv.org/project/linux-media/patch/1dd09050-40ca-4c5b-b985-819731140388@xs4all.nl/
+> 
+> I plan to push v4l2-compliance patches that explicitly test for the presence of
+> these controls and fail if they are missing (like they are now in vicodec).
+>
+> >> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> >> ---
+> >>  Documentation/userspace-api/media/v4l/control.rst | 6 ++++--
+> >>  1 file changed, 4 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+> >> index 57893814a1e5..9253cc946f02 100644
+> >> --- a/Documentation/userspace-api/media/v4l/control.rst
+> >> +++ b/Documentation/userspace-api/media/v4l/control.rst
+> >> @@ -290,13 +290,15 @@ Control IDs
+> >>      This is a read-only control that can be read by the application and
+> >>      used as a hint to determine the number of CAPTURE buffers to pass to
+> >>      REQBUFS. The value is the minimum number of CAPTURE buffers that is
+> >> -    necessary for hardware to work.
+> >> +    necessary for hardware to work. This control is required for stateful
+> >> +    decoders.
+> >>
+> >>  ``V4L2_CID_MIN_BUFFERS_FOR_OUTPUT`` ``(integer)``
+> >>      This is a read-only control that can be read by the application and
+> >>      used as a hint to determine the number of OUTPUT buffers to pass to
+> >>      REQBUFS. The value is the minimum number of OUTPUT buffers that is
+> >> -    necessary for hardware to work.
+> >> +    necessary for hardware to work. This control is required for stateful
+> >> +    encoders.
+> >>
+> >>  .. _v4l2-alpha-component:
+> >>
+
 -- 
-2.46.1
+Regards,
 
+Laurent Pinchart
 
