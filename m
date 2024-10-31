@@ -1,45 +1,48 @@
-Return-Path: <linux-media+bounces-20618-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20619-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D009B72AC
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 03:58:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0926C9B742A
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 06:37:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACB172862E0
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 02:58:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF9132860D4
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 05:37:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA97112CDBF;
-	Thu, 31 Oct 2024 02:58:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54EBA13CFA5;
+	Thu, 31 Oct 2024 05:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OKpE+t+q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2526E77112;
-	Thu, 31 Oct 2024 02:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF0728E8;
+	Thu, 31 Oct 2024 05:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730343504; cv=none; b=au8PEfLfCUsAboTnBcROI3QsK+RJKoNFZA/z0NMRYRJY+AWL5bSUl5+1nrqv8L3ewBWnT9BIJFcFx5N+ySaS3MNx7HWylfcDSyRxwfYz0D6YT1wDVYX8JFsX7Tjwn5C1OcQGi/NO9lV3eSl4QUoiOkn6vnMpym93aK6u4DaZFOI=
+	t=1730353029; cv=none; b=oXjvdrIZkGSDPCK5Vn7g/setnaUaYhErTqUlCUsCf9SxV1qVERUCWsAjcq7rjm51kHkDetdaX8J4fQx+Hu5ZLEG7IXoA8Ud1hLrc6XrEqjFtx790g//YDFjRx2PrW1ZWe7E7qZMQAV8CL5PiU3/rAPUHn4kdYdj4TdvqccyVT74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730343504; c=relaxed/simple;
-	bh=0fwWPorxaFWzsOmK7UK8zkWC9QYzifxF8yRESwfoIlQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Ea7Y7jZJZRl1hhdpAHZCVlYQbNiAH3woYcFvMMdtH5W5g6RsYg5k4KNVWF/jOpM+h8nk4PDmbIJYObDmckXIVypRtLlzEyAXUZQauNA9qxQaoWwjIHl+EUirquHOipr9QBRbA+o9kEp22wY3kL6NnlX8VOgGy503Meq3yDaOnTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4Xf7w72MQxz4f3jXT;
-	Thu, 31 Oct 2024 10:57:59 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 103161A06D7;
-	Thu, 31 Oct 2024 10:58:17 +0800 (CST)
-Received: from [10.67.109.79] (unknown [10.67.109.79])
-	by APP4 (Coremail) with SMTP id gCh0CgA3X4NI8iJnlQazAQ--.15701S2;
-	Thu, 31 Oct 2024 10:58:16 +0800 (CST)
-Message-ID: <261937bc-af3d-4328-b0f9-990e00620ed4@huaweicloud.com>
-Date: Thu, 31 Oct 2024 10:58:16 +0800
+	s=arc-20240116; t=1730353029; c=relaxed/simple;
+	bh=8ewBrgbIPlY7S598KZ4WcC1h6n5PO4F3mmIRKZ6AtM4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U3+teACfZpSMeUpizkZwXmK0rDUhNbiR/2IlkHDQL71bgWnO8mY6COhPm0iOgtiJMdWN6cMNCOhCO12hzrA7Cc9wSnaBVOItDA+Tykwjqrxy/Nx0knf/lRXBuK2E+z0iYmFX/NIG+jLHV1WFdxbvU4BThyhGnYTEI0d37jNlF+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OKpE+t+q; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [IPV6:2405:201:2015:f873:c173:4b:4a04:3a21] (unknown [IPv6:2405:201:2015:f873:c173:4b:4a04:3a21])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4574C842;
+	Thu, 31 Oct 2024 06:37:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730353021;
+	bh=8ewBrgbIPlY7S598KZ4WcC1h6n5PO4F3mmIRKZ6AtM4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OKpE+t+qPMQOYoB57FJnYTYtjRaHdMyIEI4/ljy4cx0jWoNQ1VHVpXMdqkfJkz1Er
+	 YYeXe4r7f1x4AA3BZa+JW6jYE+/o3hJXIvzhiN74lxVEOli1gT99J3Xdt1dUwBm1FQ
+	 jHKHa2L5Zi5lMTqntp980qIGnqWWknJVdMLTasbM=
+Message-ID: <04ae3f0b-c2f8-4553-9b49-302cc638c0c7@ideasonboard.com>
+Date: Thu, 31 Oct 2024 11:07:00 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -47,57 +50,64 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] media: Fix pm_runtime_set_suspended() with runtime pm
- enabled
-To: Jinjie Ruan <ruanjinjie@huawei.com>, sakari.ailus@linux.intel.com,
- mchehab@kernel.org, ming.qian@nxp.com, eagle.zhou@nxp.com,
- stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
- bryan.odonoghue@linaro.org, hans.verkuil@cisco.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20240923035115.3008900-1-ruanjinjie@huawei.com>
+Subject: Re: [PATCH] media: imx283: Report correct V4L2_SEL_TGT_CROP
+To: Stefan Klug <stefan.klug@ideasonboard.com>,
+ libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20241030163439.245035-1-stefan.klug@ideasonboard.com>
 Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <20240923035115.3008900-1-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgA3X4NI8iJnlQazAQ--.15701S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYV7kC6x804xWl14x267AKxVW8JVW5JwAF
-	c2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII
-	0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xv
-	wVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4
-	x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG
-	64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r
-	1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kI
-	c2xKxwCF04k20xvY0x0EwIxGrwCF54CYxVCY1x0262kKe7AKxVWUtVW8ZwCFx2IqxVCFs4
-	IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1r
-	MI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJV
-	WUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j
-	6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYx
-	BIdaVFxhVjvjDU0xZFpf9x07UQzVbUUUUU=
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20241030163439.245035-1-stefan.klug@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Stefan
 
+On 30/10/24 10:04 pm, Stefan Klug wrote:
+> The target crop rectangle is initialized with the crop of the default
+> sensor mode. This is incorrect when a different sensor mode gets
+> selected. Fix that by updating the crop rectangle when changing the
+> sensor mode.
+>
+> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> ---
+>   drivers/media/i2c/imx283.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
+> index 3174d5ffd2d7..c8863c9e0ccf 100644
+> --- a/drivers/media/i2c/imx283.c
+> +++ b/drivers/media/i2c/imx283.c
+> @@ -1123,6 +1123,7 @@ static int imx283_set_pad_format(struct v4l2_subdev *sd,
+>   				 struct v4l2_subdev_state *sd_state,
+>   				 struct v4l2_subdev_format *fmt)
+>   {
+> +	struct v4l2_rect *crop;
+>   	struct v4l2_mbus_framefmt *format;
+>   	const struct imx283_mode *mode;
+>   	struct imx283 *imx283 = to_imx283(sd);
+> @@ -1149,6 +1150,9 @@ static int imx283_set_pad_format(struct v4l2_subdev *sd,
+>   
+>   	*format = fmt->format;
+>   
+> +	crop = v4l2_subdev_state_get_crop(sd_state, IMAGE_PAD);
+> +	*crop = mode->crop;
+> +
 
-On 2024/9/23 11:51, Jinjie Ruan wrote:
-> Fix pm_runtime_set_suspended() with runtime pm enabled.
-> 
-> Jinjie Ruan (3):
->   media: i2c: dw9768: Fix pm_runtime_set_suspended() with runtime pm
->     enabled
->   media: amphion: Fix pm_runtime_set_suspended() with runtime pm enabled
->   media: venus: Fix pm_runtime_set_suspended() with runtime pm enabled
-> 
->  drivers/media/i2c/dw9768.c               | 6 +++---
->  drivers/media/platform/amphion/vpu_drv.c | 2 +-
->  drivers/media/platform/qcom/venus/core.c | 2 +-
->  3 files changed, 5 insertions(+), 5 deletions(-)
-> 
+One thing to note, is the crop for binning modes.
 
-LGTM.
+Do you need to report
 
-Thanks,
-Ridong
+     mode->crop.width / mode->hbin_ratio
+     mode->crop.height / mode->vbin_ratio
+
+for those modes?
+
+>   	return 0;
+>   }
+>   
 
 
