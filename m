@@ -1,145 +1,115 @@
-Return-Path: <linux-media+bounces-20636-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20637-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5E29B7891
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 11:23:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904439B78A0
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 11:26:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A23BD285AE1
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 10:23:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54951281F42
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 10:26:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F5C31991B9;
-	Thu, 31 Oct 2024 10:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtxaJA36"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F4CD199236;
+	Thu, 31 Oct 2024 10:26:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC43F1990AE
-	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 10:23:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB110198E83
+	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 10:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730370209; cv=none; b=lu67qPtW64M8dnrnioByM+F/8KH5b5bke3G/qkNIgFTR/S2Uph/SpB6uVX3DFcILvd/cuT6TAI3zXhNw52CnV9hA+iyPRWwSsdblq2GdWcQKEh40vJdocFVBspA5VqLvn3K6ah5VGSlUeclkpCWR9X1Qls1W+mGmJDPFPNVG6cc=
+	t=1730370410; cv=none; b=mBFHmokA7BSYTBJ7zC29KdqxCvuKNupMGgIrgSLg1SxBP+Qhsqb0h8AeCMKcCcin4DuG16Jm2nMIp0zUi+xX3XREsp3tpKjI/v9soZliNofMxmEMWwl5Gs1riOshct8pAgu50ycmUXyIDimAzsNCRBEECla2291xpUxnWWZpJp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730370209; c=relaxed/simple;
-	bh=Nm0sHTKe/Eni7+ITOg7T+fiif8MeD2ggs9H/15aLevQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FxOBVXzUA70Z6cqahpz7888FL7qtPEftLRh33t24GlAgy3oDdfbu8zNZr5/bPjf9o6r4VBVO5klmR5HYwgKWU1w7FFAO++EmA51Y+2OlWTPVXKX0qEFamcY5TDJm8HTn8pbZoRJwj0pVuHj5FbMbrGMhn5XmQGsV3OWxh1SITEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FtxaJA36; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730370208; x=1761906208;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Nm0sHTKe/Eni7+ITOg7T+fiif8MeD2ggs9H/15aLevQ=;
-  b=FtxaJA36+K6dOtPCkjao6Gmm/MJ+jgcv9CP3bsZa27m9RXXRbykXJKNR
-   ckhnWgHxMEBj+eYCKajz4K8uZib7B5YD+oGNF4haPR7MS1BC0Ulgzup5/
-   hJtWppMGWVYcZP3c7l1XyliRYaV9o9Sjog/vTLOqhO7bfzj3IMrkHC/8n
-   REHLfvbthUyAFjPA3MkLU0cpz1q86Jt3F5TDBrfpui7J8dJPLYiaOkfs2
-   EL+kgwR/BETiMSMEnrLPegz7TInoLblj0JTuUuxg0meA4EyvwTmKErhBj
-   YFh19aP8ZwYyxPqgXtUzpVzKE28ttbdidrnd3vbxEp4Xbmg6Nj1hkwfrv
-   Q==;
-X-CSE-ConnectionGUID: /JsTzeIwSRanUIlsujK2aA==
-X-CSE-MsgGUID: 2wUY81ZtS2yLrGLtesJfvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="33891025"
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="33891025"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 03:23:25 -0700
-X-CSE-ConnectionGUID: l3gyCzR3QcqPyVy3ih9qSw==
-X-CSE-MsgGUID: wpzoKl3IRNWyzGGVgVJ1ww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="82241339"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.83.36])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 03:23:24 -0700
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH] media: intel/ipu6: do not handle interrupts when device is disabled
-Date: Thu, 31 Oct 2024 11:23:21 +0100
-Message-Id: <20241031102321.409454-1-stanislaw.gruszka@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1730370410; c=relaxed/simple;
+	bh=ZAba+5mU6i2oeOr8zkjuGPOdhWzIyvle2G9kIRlsg5g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XlvA+O6g3v9kWy5msJaPbvQXU3f5GnXUjRZUnEM6msvkSNBNhXJZQJNBLQjmNG3rszpui35SnXZMDACM8mCEBS2y11xuCDcFvq32Xx9Q9KYejh+9/Awgm+xj8T9TWmT9HupATwhtCDPy3g5xJly7iyikHsf+hRl07HnSvNOPBdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9103AC4CEC3;
+	Thu, 31 Oct 2024 10:26:49 +0000 (UTC)
+Message-ID: <2a61ded3-4cea-4a1a-9d16-aa74dbb22f74@xs4all.nl>
+Date: Thu, 31 Oct 2024 11:26:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: media: improve V4L2_CID_MIN_BUFFERS_FOR_*,
+ doc
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <93d078e5-deba-4060-a32e-94bce677453c@xs4all.nl>
+ <20241031101141.GD2473@pendragon.ideasonboard.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20241031101141.GD2473@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Some IPU6 devices have shared interrupts. We need to handle properly
-case when interrupt is triggered from other device on shared irq line
-and IPU6 itself disabled. In such case we get 0xffffffff from
-ISR_STATUS register and handle all irq's cases, for what we are not
-not prepared and usually hang the whole system.
+On 10/31/24 11:11, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Oct 31, 2024 at 08:50:04AM +0100, Hans Verkuil wrote:
+>> Clearly state that the V4L2_CID_MIN_BUFFERS_FOR_OUTPUT and
+>> V4L2_CID_MIN_BUFFERS_FOR_CAPTURE controls are required for
+>> stateful codecs.
+> 
+> Wouldn't it be better for this kind of information to be centralized in
+> a stateful decoder document ? That would make it easier for developers
+> to see all they need to implement. Otherwise they would need to read
+> through the whole documentation to pick the parts of the API they need
+> to support in their drivers.
 
-To avoid the issue use pm_runtime_get_if_active() to check if
-the device is enabled and prevent suspending it when we handle irq
-until the end of irq. Additionally use synchronize_irq() in suspend
+It's also already mentioned in the documentation for the stateful de/encoders here:
 
-Fixes: ab29a2478e70 ("media: intel/ipu6: add IPU6 buttress interface driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
----
- drivers/media/pci/intel/ipu6/ipu6-buttress.c | 13 +++++++++----
- drivers/media/pci/intel/ipu6/ipu6.c          |  3 +++
- 2 files changed, 12 insertions(+), 4 deletions(-)
+https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-mem2mem.html
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-index e47f84c30e10..edaa285283a1 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-@@ -345,12 +345,16 @@ irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
- 	u32 disable_irqs = 0;
- 	u32 irq_status;
- 	u32 i, count = 0;
-+	int active;
- 
--	pm_runtime_get_noresume(&isp->pdev->dev);
-+	active = pm_runtime_get_if_active(&isp->pdev->dev);
-+	if (!active)
-+		return IRQ_NONE;
- 
- 	irq_status = readl(isp->base + reg_irq_sts);
--	if (!irq_status) {
--		pm_runtime_put_noidle(&isp->pdev->dev);
-+	if (irq_status == 0 || WARN_ON_ONCE(irq_status == 0xffffffffu)) {
-+		if (active > 0)
-+			pm_runtime_put_noidle(&isp->pdev->dev);
- 		return IRQ_NONE;
- 	}
- 
-@@ -426,7 +430,8 @@ irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
- 		writel(BUTTRESS_IRQS & ~disable_irqs,
- 		       isp->base + BUTTRESS_REG_ISR_ENABLE);
- 
--	pm_runtime_put(&isp->pdev->dev);
-+	if (active > 0)
-+		pm_runtime_put(&isp->pdev->dev);
- 
- 	return ret;
- }
-diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
-index 7fb707d35309..91718eabd74e 100644
---- a/drivers/media/pci/intel/ipu6/ipu6.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6.c
-@@ -752,6 +752,9 @@ static void ipu6_pci_reset_done(struct pci_dev *pdev)
-  */
- static int ipu6_suspend(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+
-+	synchronize_irq(pdev->irq);
- 	return 0;
- }
- 
--- 
-2.46.1
+Also, once this vicodec patch is merged:
+
+https://patchwork.linuxtv.org/project/linux-media/patch/1dd09050-40ca-4c5b-b985-819731140388@xs4all.nl/
+
+I plan to push v4l2-compliance patches that explicitly test for the presence of
+these controls and fail if they are missing (like they are now in vicodec).
+
+Regards,
+
+	Hans
+
+> 
+>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+>> ---
+>>  Documentation/userspace-api/media/v4l/control.rst | 6 ++++--
+>>  1 file changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+>> index 57893814a1e5..9253cc946f02 100644
+>> --- a/Documentation/userspace-api/media/v4l/control.rst
+>> +++ b/Documentation/userspace-api/media/v4l/control.rst
+>> @@ -290,13 +290,15 @@ Control IDs
+>>      This is a read-only control that can be read by the application and
+>>      used as a hint to determine the number of CAPTURE buffers to pass to
+>>      REQBUFS. The value is the minimum number of CAPTURE buffers that is
+>> -    necessary for hardware to work.
+>> +    necessary for hardware to work. This control is required for stateful
+>> +    decoders.
+>>
+>>  ``V4L2_CID_MIN_BUFFERS_FOR_OUTPUT`` ``(integer)``
+>>      This is a read-only control that can be read by the application and
+>>      used as a hint to determine the number of OUTPUT buffers to pass to
+>>      REQBUFS. The value is the minimum number of OUTPUT buffers that is
+>> -    necessary for hardware to work.
+>> +    necessary for hardware to work. This control is required for stateful
+>> +    encoders.
+>>
+>>  .. _v4l2-alpha-component:
+>>
+> 
 
 
