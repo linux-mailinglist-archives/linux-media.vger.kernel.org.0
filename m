@@ -1,43 +1,43 @@
-Return-Path: <linux-media+bounces-20624-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20625-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF829B760C
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 09:08:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1779B760D
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 09:08:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0E21B20ED1
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 08:08:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1EE68284CF5
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 08:08:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3FD2153565;
-	Thu, 31 Oct 2024 08:08:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EAE8154445;
+	Thu, 31 Oct 2024 08:08:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9921F14F102
-	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 08:08:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063E014F102
+	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 08:08:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730362121; cv=none; b=DPEP5zysBG4CUE0Bbur7rHLFOa0XEED2e67QphT982DkruDrFDxqJD4PML5BWONKiQDosqOCrIJnXbFwOLx6LMRnrHNqyZBBon5orZSLtHPMIAAaSMTHocNv/I90DmqNj/pOvv81AGOyfo5VQ6CNW4zprMR0qYZ4v7hoIvff85M=
+	t=1730362123; cv=none; b=aV1jb3p0SSColUltmQEuMUnffGQLOnP74eMHh0MvqCZmFS+8KJDF4mKW2VvAqIZX9NhijJJkbitMnIlfP5maDZTTdngwdMmrbaME0RAwomY9S4rN15lIi9pMFKcx9cA1gcJfif1V0EpnRWFiKZg+aMHU/0UXt+MQCYH9Wjm8p/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730362121; c=relaxed/simple;
-	bh=SaX/76lfcm0gL/4NsW4NOMhKVKnD0W6WwyJtMD5M/Ag=;
+	s=arc-20240116; t=1730362123; c=relaxed/simple;
+	bh=X22i+GjFTlMi31lHexlSDmI43iLGFRnBwWfsxaKKTgI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Pz/g+XuxnHbQhndCc7hHoBZBDiK9+MnZ1+4v8bMaLgSkeM2odAqw+6YzvAbUpqtrBjfXsie+zt6B4SeiayAFuf2CBwupvQL4PCaav1oO51JoRBGX3DNCdG2KEC3YZ17u9Jjp6Jldt8F1YdFWQOgYrXpzeTELQK1RijsD5VW18OI=
+	 MIME-Version; b=Ek+uFiYKtyXk9j1RQLasrhsYqJw99p9W2nJ+NRVJiuHGloBzKRbDzSaWyrZ6lDqW5pWGORDzmhnqPlyzzOELj7xSKuHsOuJJPiUC+u8A/duVdNgOa+u6l/ax6AnB9P37B5GPiOmO/qGDfR54WsexNcaRzzAzGPSIlgjLS51t++k=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFAF8C4CED0;
-	Thu, 31 Oct 2024 08:08:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E23DC4CEC3;
+	Thu, 31 Oct 2024 08:08:41 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: nicolas@ndufresne.ca,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Tomasz Figa <tfiga@chromium.org>,
 	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [RFC PATCH 1/2] media: vb2: introduce queue_info to replace queue_setup
-Date: Thu, 31 Oct 2024 08:59:26 +0100
-Message-ID: <dd5ab393232e42c3618055d0d30ada03065bb46d.1730361567.git.hverkuil@xs4all.nl>
+Subject: [RFC PATCH 2/2] media: vivid: convert queue_setup to queue_info
+Date: Thu, 31 Oct 2024 08:59:27 +0100
+Message-ID: <9e520ec9de9a8eadd2d0c5b750ac3e81c95cd212.1730361567.git.hverkuil@xs4all.nl>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <cover.1730361567.git.hverkuil@xs4all.nl>
 References: <cover.1730361567.git.hverkuil@xs4all.nl>
@@ -49,205 +49,400 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The new queue_info just returns the number of planes and
-plane sizes for the currently configured format.
+Use the new queue_info callback instead of queue_setup.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- .../media/common/videobuf2/videobuf2-core.c   | 82 ++++++++++++++-----
- include/media/videobuf2-core.h                | 10 +++
- 2 files changed, 70 insertions(+), 22 deletions(-)
+ .../media/test-drivers/vivid/vivid-meta-cap.c | 17 +++-----
+ .../media/test-drivers/vivid/vivid-meta-out.c | 27 +++++--------
+ .../media/test-drivers/vivid/vivid-sdr-cap.c  | 16 +++-----
+ .../test-drivers/vivid/vivid-touch-cap.c      | 18 +++------
+ .../media/test-drivers/vivid/vivid-vbi-cap.c  | 13 +++----
+ .../media/test-drivers/vivid/vivid-vbi-out.c  | 13 +++----
+ .../media/test-drivers/vivid/vivid-vid-cap.c  | 39 ++++++-------------
+ .../media/test-drivers/vivid/vivid-vid-out.c  | 37 +++++-------------
+ 8 files changed, 56 insertions(+), 124 deletions(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index f07dc53a9d06..3a7303a72202 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -611,9 +611,9 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int start, unsigned i
- 		if (unbalanced) {
- 			pr_info("unbalanced counters for queue %p:\n", q);
- 			if (q->cnt_start_streaming != q->cnt_stop_streaming)
--				pr_info("     setup: %u start_streaming: %u stop_streaming: %u\n",
--					q->cnt_queue_setup, q->cnt_start_streaming,
--					q->cnt_stop_streaming);
-+				pr_info("     setup: %u info: %u start_streaming: %u stop_streaming: %u\n",
-+					q->cnt_queue_setup, q->cnt_queue_info,
-+					q->cnt_start_streaming, q->cnt_stop_streaming);
- 			if (q->cnt_prepare_streaming != q->cnt_unprepare_streaming)
- 				pr_info("     prepare_streaming: %u unprepare_streaming: %u\n",
- 					q->cnt_prepare_streaming, q->cnt_unprepare_streaming);
-@@ -622,6 +622,7 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int start, unsigned i
- 					q->cnt_wait_prepare, q->cnt_wait_finish);
- 		}
- 		q->cnt_queue_setup = 0;
-+		q->cnt_queue_info = 0;
- 		q->cnt_wait_prepare = 0;
- 		q->cnt_wait_finish = 0;
- 		q->cnt_prepare_streaming = 0;
-@@ -914,7 +915,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 		q->is_busy = 0;
- 		/*
- 		 * In case of REQBUFS(0) return immediately without calling
--		 * driver's queue_setup() callback and allocating resources.
-+		 * driver's queue_setup() or queue_info() callback and
-+		 * allocating resources.
- 		 */
- 		if (*count == 0)
- 			return 0;
-@@ -928,7 +930,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
- 	/*
- 	 * Set this now to ensure that drivers see the correct q->memory value
--	 * in the queue_setup op.
-+	 * in the queue_setup/info op.
- 	 */
- 	mutex_lock(&q->mmap_lock);
- 	ret = vb2_core_allocated_buffers_storage(q);
-@@ -938,12 +940,18 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 		return ret;
- 	set_queue_coherency(q, non_coherent_mem);
+diff --git a/drivers/media/test-drivers/vivid/vivid-meta-cap.c b/drivers/media/test-drivers/vivid/vivid-meta-cap.c
+index c7aaecc0b5a2..90d3f6d74a21 100644
+--- a/drivers/media/test-drivers/vivid/vivid-meta-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-meta-cap.c
+@@ -13,24 +13,17 @@
+ #include "vivid-kthread-cap.h"
+ #include "vivid-meta-cap.h"
  
--	/*
--	 * Ask the driver how many buffers and planes per buffer it requires.
--	 * Driver also sets the size and allocator context for each plane.
--	 */
--	ret = call_qop(q, queue_setup, q, &num_buffers, &num_planes,
--		       plane_sizes, q->alloc_devs);
-+	if (q->ops->queue_info) {
-+		ret = call_qop(q, queue_info, q, &num_planes,
-+			       plane_sizes, q->alloc_devs);
-+	} else {
-+		/*
-+		 * Ask the driver how many buffers and planes per buffer it
-+		 * requires. The driver also sets the size and (optionally)
-+		 * the allocator context for each plane.
-+		 */
-+		ret = call_qop(q, queue_setup, q, &num_buffers, &num_planes,
-+			       plane_sizes, q->alloc_devs);
-+	}
- 	if (ret)
- 		goto error;
+-static int meta_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+-				unsigned int *nplanes, unsigned int sizes[],
+-				struct device *alloc_devs[])
++static int meta_cap_queue_info(struct vb2_queue *vq,
++			       unsigned int *nplanes, unsigned int sizes[],
++			       struct device *alloc_devs[])
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+-	unsigned int size =  sizeof(struct vivid_uvc_meta_buf);
  
-@@ -980,7 +988,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 	/*
- 	 * Check if driver can handle the allocated number of buffers.
- 	 */
--	if (!ret && allocated_buffers < num_buffers) {
-+	if (!ret && allocated_buffers < num_buffers && q->ops->queue_setup) {
- 		num_buffers = allocated_buffers;
- 		/*
- 		 * num_planes is set by the previous queue_setup(), but since it
-@@ -1082,17 +1090,44 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	if (!vivid_is_webcam(dev))
+ 		return -EINVAL;
  
- 	num_buffers = min(*count, q->max_num_buffers - q_num_bufs);
- 
--	if (requested_planes && requested_sizes) {
-+	if (q->ops->queue_info) {
-+		ret = call_qop(q, queue_info, q, &num_planes,
-+			       plane_sizes, q->alloc_devs);
-+
-+		if (ret)
-+			goto error;
-+
-+		/* Check that driver has set sane values */
-+		if (WARN_ON(!num_planes)) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
-+		if (num_planes != requested_planes) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
-+
-+		for (unsigned int i = 0; i < num_planes; i++) {
-+			if (WARN_ON(!plane_sizes[i])) {
-+				ret = -EINVAL;
-+				goto error;
-+			}
-+			if (plane_sizes[i] > requested_sizes[i]) {
-+				ret = -EINVAL;
-+				goto error;
-+			}
-+			plane_sizes[i] = requested_sizes[i];
-+		}
-+	} else {
- 		num_planes = requested_planes;
- 		memcpy(plane_sizes, requested_sizes, sizeof(plane_sizes));
-+		/*
-+		 * Ask the driver, whether the requested number of buffers, planes per
-+		 * buffer and their sizes are acceptable
-+		 */
-+		ret = call_qop(q, queue_setup, q, &num_buffers,
-+			       &num_planes, plane_sizes, q->alloc_devs);
- 	}
+-	if (*nplanes) {
+-		if (sizes[0] < size)
+-			return -EINVAL;
+-	} else {
+-		sizes[0] = size;
+-	}
 -
--	/*
--	 * Ask the driver, whether the requested number of buffers, planes per
--	 * buffer and their sizes are acceptable
--	 */
--	ret = call_qop(q, queue_setup, q, &num_buffers,
--		       &num_planes, plane_sizes, q->alloc_devs);
- 	if (ret)
- 		goto error;
+ 	*nplanes = 1;
++	sizes[0] = sizeof(struct vivid_uvc_meta_buf);
+ 	return 0;
+ }
  
-@@ -1108,7 +1143,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
- 	/*
- 	 * Check if driver can handle the so far allocated number of buffers.
- 	 */
--	if (allocated_buffers < num_buffers) {
-+	if (allocated_buffers < num_buffers && q->ops->queue_setup) {
- 		num_buffers = allocated_buffers;
+@@ -116,7 +109,7 @@ static void meta_cap_buf_request_complete(struct vb2_buffer *vb)
+ }
  
- 		/*
-@@ -2617,10 +2652,13 @@ int vb2_core_queue_init(struct vb2_queue *q)
- 	    WARN_ON(!q->mem_ops)	  ||
- 	    WARN_ON(!q->type)		  ||
- 	    WARN_ON(!q->io_modes)	  ||
--	    WARN_ON(!q->ops->queue_setup) ||
- 	    WARN_ON(!q->ops->buf_queue))
+ const struct vb2_ops vivid_meta_cap_qops = {
+-	.queue_setup		= meta_cap_queue_setup,
++	.queue_info		= meta_cap_queue_info,
+ 	.buf_prepare		= meta_cap_buf_prepare,
+ 	.buf_queue		= meta_cap_buf_queue,
+ 	.start_streaming	= meta_cap_start_streaming,
+diff --git a/drivers/media/test-drivers/vivid/vivid-meta-out.c b/drivers/media/test-drivers/vivid/vivid-meta-out.c
+index 55e5e5dec2f2..432b0f6317bc 100644
+--- a/drivers/media/test-drivers/vivid/vivid-meta-out.c
++++ b/drivers/media/test-drivers/vivid/vivid-meta-out.c
+@@ -13,24 +13,17 @@
+ #include "vivid-kthread-out.h"
+ #include "vivid-meta-out.h"
+ 
+-static int meta_out_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+-				unsigned int *nplanes, unsigned int sizes[],
+-				struct device *alloc_devs[])
++static int meta_out_queue_info(struct vb2_queue *vq,
++			       unsigned int *nplanes, unsigned int sizes[],
++			       struct device *alloc_devs[])
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+-	unsigned int size =  sizeof(struct vivid_meta_out_buf);
+ 
+ 	if (!vivid_is_webcam(dev))
  		return -EINVAL;
  
-+	if (WARN_ON(!q->ops->queue_setup && !q->ops->queue_info) ||
-+	    WARN_ON(q->ops->queue_setup && q->ops->queue_info))
-+		return -EINVAL;
-+
- 	if (WARN_ON(q->max_num_buffers < VB2_MAX_FRAME) ||
- 	    WARN_ON(q->min_queued_buffers > q->max_num_buffers))
- 		return -EINVAL;
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 9b02aeba4108..34b6fd6585b9 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -351,6 +351,13 @@ struct vb2_buffer {
-  *			\*num_buffers are being allocated additionally to
-  *			the buffers already allocated. If either \*num_planes
-  *			or the requested sizes are invalid callback must return %-EINVAL.
-+ * @queue_info:		called from VIDIOC_REQBUFS() and VIDIOC_CREATE_BUFS()
-+ *			handlers before memory allocation.
-+ *			The driver must return the required number of planes
-+ *			per buffer in \*num_planes, and the size of each plane
-+ *			must be set in the sizes\[\] array. Optionally set the
-+ *			per-plane allocator specific device in the
-+ *			alloc_devs\[\] array.
-  * @wait_prepare:	release any locks taken while calling vb2 functions;
-  *			it is called before an ioctl needs to wait for a new
-  *			buffer to arrive; required to avoid a deadlock in
-@@ -435,6 +442,8 @@ struct vb2_ops {
- 	int (*queue_setup)(struct vb2_queue *q,
- 			   unsigned int *num_buffers, unsigned int *num_planes,
- 			   unsigned int sizes[], struct device *alloc_devs[]);
-+	int (*queue_info)(struct vb2_queue *q, unsigned int *num_planes,
-+			  unsigned int sizes[], struct device *alloc_devs[]);
+-	if (*nplanes) {
+-		if (sizes[0] < size)
+-			return -EINVAL;
+-	} else {
+-		sizes[0] = size;
+-	}
+-
+ 	*nplanes = 1;
++	sizes[0] = sizeof(struct vivid_meta_out_buf);
+ 	return 0;
+ }
  
- 	void (*wait_prepare)(struct vb2_queue *q);
- 	void (*wait_finish)(struct vb2_queue *q);
-@@ -680,6 +689,7 @@ struct vb2_queue {
- 	 * called. Used to check for unbalanced ops.
- 	 */
- 	u32				cnt_queue_setup;
-+	u32				cnt_queue_info;
- 	u32				cnt_wait_prepare;
- 	u32				cnt_wait_finish;
- 	u32				cnt_prepare_streaming;
+@@ -116,12 +109,12 @@ static void meta_out_buf_request_complete(struct vb2_buffer *vb)
+ }
+ 
+ const struct vb2_ops vivid_meta_out_qops = {
+-	.queue_setup            = meta_out_queue_setup,
+-	.buf_prepare            = meta_out_buf_prepare,
+-	.buf_queue              = meta_out_buf_queue,
+-	.start_streaming        = meta_out_start_streaming,
+-	.stop_streaming         = meta_out_stop_streaming,
+-	.buf_request_complete   = meta_out_buf_request_complete,
++	.queue_info		= meta_out_queue_info,
++	.buf_prepare		= meta_out_buf_prepare,
++	.buf_queue		= meta_out_buf_queue,
++	.start_streaming	= meta_out_start_streaming,
++	.stop_streaming		= meta_out_stop_streaming,
++	.buf_request_complete	= meta_out_buf_request_complete,
+ };
+ 
+ int vidioc_enum_fmt_meta_out(struct file *file, void  *priv,
+diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
+index 74a91d28c8be..ee94dcfb62f2 100644
+--- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
+@@ -214,18 +214,14 @@ static int vivid_thread_sdr_cap(void *data)
+ 	return 0;
+ }
+ 
+-static int sdr_cap_queue_setup(struct vb2_queue *vq,
+-		       unsigned *nbuffers, unsigned *nplanes,
+-		       unsigned sizes[], struct device *alloc_devs[])
++static int sdr_cap_queue_info(struct vb2_queue *vq,
++			      unsigned int *nplanes, unsigned int sizes[],
++			      struct device *alloc_devs[])
+ {
+-	/* 2 = max 16-bit sample returned */
+-	u32 size = SDR_CAP_SAMPLES_PER_BUF * 2;
+-
+-	if (*nplanes)
+-		return sizes[0] < size ? -EINVAL : 0;
+ 
+ 	*nplanes = 1;
+-	sizes[0] = size;
++	/* 2 = max 16-bit sample returned */
++	sizes[0] = SDR_CAP_SAMPLES_PER_BUF * 2;
+ 	return 0;
+ }
+ 
+@@ -331,7 +327,7 @@ static void sdr_cap_buf_request_complete(struct vb2_buffer *vb)
+ }
+ 
+ const struct vb2_ops vivid_sdr_cap_qops = {
+-	.queue_setup		= sdr_cap_queue_setup,
++	.queue_info		= sdr_cap_queue_info,
+ 	.buf_prepare		= sdr_cap_buf_prepare,
+ 	.buf_queue		= sdr_cap_buf_queue,
+ 	.start_streaming	= sdr_cap_start_streaming,
+diff --git a/drivers/media/test-drivers/vivid/vivid-touch-cap.c b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
+index 36a781fa17bc..49824674d0e9 100644
+--- a/drivers/media/test-drivers/vivid/vivid-touch-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
+@@ -8,22 +8,14 @@
+ #include "vivid-vid-common.h"
+ #include "vivid-touch-cap.h"
+ 
+-static int touch_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+-				 unsigned int *nplanes, unsigned int sizes[],
+-				 struct device *alloc_devs[])
++static int touch_cap_queue_info(struct vb2_queue *vq,
++				unsigned int *nplanes, unsigned int sizes[],
++				struct device *alloc_devs[])
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+-	struct v4l2_pix_format *f = &dev->tch_format;
+-	unsigned int size = f->sizeimage;
+-
+-	if (*nplanes) {
+-		if (*nplanes != 1)
+-			return -EINVAL;
+-		return sizes[0] < size ? -EINVAL : 0;
+-	}
+ 
+ 	*nplanes = 1;
+-	sizes[0] = size;
++	sizes[0] = dev->tch_format.sizeimage;
+ 	return 0;
+ }
+ 
+@@ -104,7 +96,7 @@ static void touch_cap_buf_request_complete(struct vb2_buffer *vb)
+ }
+ 
+ const struct vb2_ops vivid_touch_cap_qops = {
+-	.queue_setup		= touch_cap_queue_setup,
++	.queue_info		= touch_cap_queue_info,
+ 	.buf_prepare		= touch_cap_buf_prepare,
+ 	.buf_queue		= touch_cap_buf_queue,
+ 	.start_streaming	= touch_cap_start_streaming,
+diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
+index a09f62c66c33..8d9696d5800a 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
+@@ -120,9 +120,9 @@ void vivid_sliced_vbi_cap_process(struct vivid_dev *dev,
+ 	}
+ }
+ 
+-static int vbi_cap_queue_setup(struct vb2_queue *vq,
+-		       unsigned *nbuffers, unsigned *nplanes,
+-		       unsigned sizes[], struct device *alloc_devs[])
++static int vbi_cap_queue_info(struct vb2_queue *vq,
++			      unsigned int *nplanes, unsigned int sizes[],
++			      struct device *alloc_devs[])
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+ 	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
+@@ -133,11 +133,8 @@ static int vbi_cap_queue_setup(struct vb2_queue *vq,
+ 	if (!vivid_is_sdtv_cap(dev))
+ 		return -EINVAL;
+ 
+-	if (*nplanes)
+-		return sizes[0] < size ? -EINVAL : 0;
+-	sizes[0] = size;
+-
+ 	*nplanes = 1;
++	sizes[0] = size;
+ 	return 0;
+ }
+ 
+@@ -224,7 +221,7 @@ static void vbi_cap_buf_request_complete(struct vb2_buffer *vb)
+ }
+ 
+ const struct vb2_ops vivid_vbi_cap_qops = {
+-	.queue_setup		= vbi_cap_queue_setup,
++	.queue_info		= vbi_cap_queue_info,
+ 	.buf_prepare		= vbi_cap_buf_prepare,
+ 	.buf_queue		= vbi_cap_buf_queue,
+ 	.start_streaming	= vbi_cap_start_streaming,
+diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-out.c b/drivers/media/test-drivers/vivid/vivid-vbi-out.c
+index b7a09d2f394e..99a5843e210a 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vbi-out.c
++++ b/drivers/media/test-drivers/vivid/vivid-vbi-out.c
+@@ -15,9 +15,9 @@
+ #include "vivid-vbi-out.h"
+ #include "vivid-vbi-cap.h"
+ 
+-static int vbi_out_queue_setup(struct vb2_queue *vq,
+-		       unsigned *nbuffers, unsigned *nplanes,
+-		       unsigned sizes[], struct device *alloc_devs[])
++static int vbi_out_queue_info(struct vb2_queue *vq,
++			      unsigned int *nplanes, unsigned int sizes[],
++			      struct device *alloc_devs[])
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+ 	bool is_60hz = dev->std_out & V4L2_STD_525_60;
+@@ -28,11 +28,8 @@ static int vbi_out_queue_setup(struct vb2_queue *vq,
+ 	if (!vivid_is_svid_out(dev))
+ 		return -EINVAL;
+ 
+-	if (*nplanes)
+-		return sizes[0] < size ? -EINVAL : 0;
+-	sizes[0] = size;
+-
+ 	*nplanes = 1;
++	sizes[0] = size;
+ 	return 0;
+ }
+ 
+@@ -122,7 +119,7 @@ static void vbi_out_buf_request_complete(struct vb2_buffer *vb)
+ }
+ 
+ const struct vb2_ops vivid_vbi_out_qops = {
+-	.queue_setup		= vbi_out_queue_setup,
++	.queue_info		= vbi_out_queue_info,
+ 	.buf_prepare		= vbi_out_buf_prepare,
+ 	.buf_queue		= vbi_out_buf_queue,
+ 	.start_streaming	= vbi_out_start_streaming,
+diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+index ecff984e521c..5e08d79618f5 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+@@ -72,12 +72,12 @@ static inline unsigned int webcam_ival_count(const struct vivid_dev *dev,
+ 	return ARRAY_SIZE(webcam_intervals);
+ }
+ 
+-static int vid_cap_queue_setup(struct vb2_queue *vq,
+-		       unsigned *nbuffers, unsigned *nplanes,
+-		       unsigned sizes[], struct device *alloc_devs[])
++static int vid_cap_queue_info(struct vb2_queue *vq,
++			      unsigned int *nplanes, unsigned int sizes[],
++			      struct device *alloc_devs[])
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+-	unsigned buffers = tpg_g_buffers(&dev->tpg);
++	unsigned planes = tpg_g_buffers(&dev->tpg);
+ 	unsigned h = dev->fmt_cap_rect.height;
+ 	unsigned p;
+ 
+@@ -98,30 +98,13 @@ static int vid_cap_queue_setup(struct vb2_queue *vq,
+ 		dev->queue_setup_error = false;
+ 		return -EINVAL;
+ 	}
+-	if (*nplanes) {
+-		/*
+-		 * Check if the number of requested planes match
+-		 * the number of buffers in the current format. You can't mix that.
+-		 */
+-		if (*nplanes != buffers)
+-			return -EINVAL;
+-		for (p = 0; p < buffers; p++) {
+-			if (sizes[p] < tpg_g_line_width(&dev->tpg, p) * h /
+-					dev->fmt_cap->vdownsampling[p] +
+-					dev->fmt_cap->data_offset[p])
+-				return -EINVAL;
+-		}
+-	} else {
+-		for (p = 0; p < buffers; p++)
+-			sizes[p] = (tpg_g_line_width(&dev->tpg, p) * h) /
+-					dev->fmt_cap->vdownsampling[p] +
+-					dev->fmt_cap->data_offset[p];
+-	}
++	*nplanes = planes;
++	for (p = 0; p < planes; p++)
++		sizes[p] = (tpg_g_line_width(&dev->tpg, p) * h) /
++			dev->fmt_cap->vdownsampling[p] +
++			dev->fmt_cap->data_offset[p];
+ 
+-	*nplanes = buffers;
+-
+-	dprintk(dev, 1, "%s: count=%d\n", __func__, *nbuffers);
+-	for (p = 0; p < buffers; p++)
++	for (p = 0; p < planes; p++)
+ 		dprintk(dev, 1, "%s: size[%u]=%u\n", __func__, p, sizes[p]);
+ 
+ 	return 0;
+@@ -250,7 +233,7 @@ static void vid_cap_buf_request_complete(struct vb2_buffer *vb)
+ }
+ 
+ const struct vb2_ops vivid_vid_cap_qops = {
+-	.queue_setup		= vid_cap_queue_setup,
++	.queue_info		= vid_cap_queue_info,
+ 	.buf_prepare		= vid_cap_buf_prepare,
+ 	.buf_finish		= vid_cap_buf_finish,
+ 	.buf_queue		= vid_cap_buf_queue,
+diff --git a/drivers/media/test-drivers/vivid/vivid-vid-out.c b/drivers/media/test-drivers/vivid/vivid-vid-out.c
+index 5ec84db934d6..b183ee1b9048 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vid-out.c
++++ b/drivers/media/test-drivers/vivid/vivid-vid-out.c
+@@ -20,9 +20,9 @@
+ #include "vivid-kthread-out.h"
+ #include "vivid-vid-out.h"
+ 
+-static int vid_out_queue_setup(struct vb2_queue *vq,
+-		       unsigned *nbuffers, unsigned *nplanes,
+-		       unsigned sizes[], struct device *alloc_devs[])
++static int vid_out_queue_info(struct vb2_queue *vq,
++			      unsigned int *nplanes, unsigned int sizes[],
++			      struct device *alloc_devs[])
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+ 	const struct vivid_fmt *vfmt = dev->fmt_out;
+@@ -53,31 +53,12 @@ static int vid_out_queue_setup(struct vb2_queue *vq,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (*nplanes) {
+-		/*
+-		 * Check if the number of requested planes match
+-		 * the number of planes in the current format. You can't mix that.
+-		 */
+-		if (*nplanes != planes)
+-			return -EINVAL;
+-		if (sizes[0] < size)
+-			return -EINVAL;
+-		for (p = 1; p < planes; p++) {
+-			if (sizes[p] < dev->bytesperline_out[p] * h /
+-					vfmt->vdownsampling[p] +
+-					vfmt->data_offset[p])
+-				return -EINVAL;
+-		}
+-	} else {
+-		for (p = 0; p < planes; p++)
+-			sizes[p] = p ? dev->bytesperline_out[p] * h /
+-					vfmt->vdownsampling[p] +
+-					vfmt->data_offset[p] : size;
+-	}
+-
+ 	*nplanes = planes;
++	for (p = 0; p < planes; p++)
++		sizes[p] = p ? dev->bytesperline_out[p] * h /
++			vfmt->vdownsampling[p] +
++			vfmt->data_offset[p] : size;
+ 
+-	dprintk(dev, 1, "%s: count=%u\n", __func__, *nbuffers);
+ 	for (p = 0; p < planes; p++)
+ 		dprintk(dev, 1, "%s: size[%u]=%u\n", __func__, p, sizes[p]);
+ 	return 0;
+@@ -194,8 +175,8 @@ static void vid_out_buf_request_complete(struct vb2_buffer *vb)
+ }
+ 
+ const struct vb2_ops vivid_vid_out_qops = {
+-	.queue_setup		= vid_out_queue_setup,
+-	.buf_out_validate		= vid_out_buf_out_validate,
++	.queue_info		= vid_out_queue_info,
++	.buf_out_validate	= vid_out_buf_out_validate,
+ 	.buf_prepare		= vid_out_buf_prepare,
+ 	.buf_queue		= vid_out_buf_queue,
+ 	.start_streaming	= vid_out_start_streaming,
 -- 
 2.45.2
 
