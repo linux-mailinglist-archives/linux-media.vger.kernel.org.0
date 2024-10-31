@@ -1,35 +1,35 @@
-Return-Path: <linux-media+bounces-20620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20621-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7729B75B6
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 08:49:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB8A9B75BC
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 08:50:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7409BB21A88
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 07:49:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E1312857DF
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 07:50:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F7C714A084;
-	Thu, 31 Oct 2024 07:49:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF0914D29D;
+	Thu, 31 Oct 2024 07:50:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3622713B592
-	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 07:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E490D13DB99
+	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 07:50:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730360943; cv=none; b=eSGC4nWcv//tiNqtzecimDX+M+D6EsRlZPC+/1YbhVhxrH+92D2A2Tk7Hir26K2cpAa6pS7gJgg80ZM/h0xqt3Zyp2cwTYVon4vTEDp+Ey1IvTZ0I1X6POCkEAI+oop4Xhef+tNUCwrhgPFXb14FmHGweKdd8LgctN42srVVTmc=
+	t=1730361006; cv=none; b=t/imGc3YFPzTmXX/a3HDKdPt2J7YCvT6L+RxBqimMEsCFp+qrYk9FXzqt3Kzdj4rUH5Hv2s8ztMDln8KGWVu4GLZBpHk9ekrfQcOls9hNdoCiI0OeySiGyFDYoQBhiUyNnYye2o9d1vcvojo4k289MxrAZ5nVuEJLkLHT6KCPFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730360943; c=relaxed/simple;
-	bh=TwIRSIxVdQvFdDBWWnGOBwaLVRzwsG5l5mw60q13epc=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=Cf6bBdOkr+kU+ZD9taOUXTok9Yh40DARBAJtjHb9F9m8SzoKkzm9gS0IXDYPpEW5J3hTlPo+i5jirCtEdyMlBzKCcBGwfBJt/mjF+vHR1FCjmB5ENUTu0IjEcGJChYYaZ6Xjz7FO+ljUV/xvEwe4fPqGyQQD0lx55+JXn+2mmIY=
+	s=arc-20240116; t=1730361006; c=relaxed/simple;
+	bh=y4YtRHCuGh+bmRavlhtwwjdgQBc8rGEz/4DDCyqzELQ=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=hdDpiTJ6H4/Hr0OdfzgO5UM/hFyY6q8ttIZV3/9mWuaf+0LyNeQjuLCmlBmJ+woaIzELZadbw6MPKw1JNHa5Q1JfdD3Xo9RHi+7rTv4VvOqmDv2Lkr3hGV2yBxdYqaufxqPjoIxzBCmoUw246xIoR/nH4hEQM6Re6nIxNjneBiA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF4FC4CEC3
-	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 07:49:02 +0000 (UTC)
-Message-ID: <1dd09050-40ca-4c5b-b985-819731140388@xs4all.nl>
-Date: Thu, 31 Oct 2024 08:49:00 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0B0FC4CEC3;
+	Thu, 31 Oct 2024 07:50:05 +0000 (UTC)
+Message-ID: <93d078e5-deba-4060-a32e-94bce677453c@xs4all.nl>
+Date: Thu, 31 Oct 2024 08:50:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -39,8 +39,10 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Content-Language: en-US, nl
 To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: vicodec: add V4L2_CID_MIN_BUFFERS_FOR_* controls
+Subject: [PATCH] Documentation: media: improve V4L2_CID_MIN_BUFFERS_FOR_*, doc
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -87,31 +89,37 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Stateful codecs must support the V4L2_CID_MIN_BUFFERS_FOR_OUTPUT
-and V4L2_CID_MIN_BUFFERS_FOR_CAPTURE controls. The vicodec driver
-was missing support for these controls. Add them.
+Clearly state that the V4L2_CID_MIN_BUFFERS_FOR_OUTPUT and
+V4L2_CID_MIN_BUFFERS_FOR_CAPTURE controls are required for
+stateful codecs.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- drivers/media/test-drivers/vicodec/vicodec-core.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ Documentation/userspace-api/media/v4l/control.rst | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-index 00c84a06f343..50c46b00d2d8 100644
---- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-+++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-@@ -1852,6 +1852,11 @@ static int vicodec_open(struct file *file)
- 			  1, 31, 1, 20);
- 	v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops, V4L2_CID_FWHT_P_FRAME_QP,
- 			  1, 31, 1, 20);
-+	if (!ctx->is_stateless)
-+		v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops, ctx->is_enc ?
-+				  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT :
-+				  V4L2_CID_MIN_BUFFERS_FOR_CAPTURE,
-+				  1, 32, 1, 2);
- 	if (ctx->is_enc)
- 		v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops,
- 				  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT, 1, 1, 1, 1);
+diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+index 57893814a1e5..9253cc946f02 100644
+--- a/Documentation/userspace-api/media/v4l/control.rst
++++ b/Documentation/userspace-api/media/v4l/control.rst
+@@ -290,13 +290,15 @@ Control IDs
+     This is a read-only control that can be read by the application and
+     used as a hint to determine the number of CAPTURE buffers to pass to
+     REQBUFS. The value is the minimum number of CAPTURE buffers that is
+-    necessary for hardware to work.
++    necessary for hardware to work. This control is required for stateful
++    decoders.
+
+ ``V4L2_CID_MIN_BUFFERS_FOR_OUTPUT`` ``(integer)``
+     This is a read-only control that can be read by the application and
+     used as a hint to determine the number of OUTPUT buffers to pass to
+     REQBUFS. The value is the minimum number of OUTPUT buffers that is
+-    necessary for hardware to work.
++    necessary for hardware to work. This control is required for stateful
++    encoders.
+
+ .. _v4l2-alpha-component:
+
 -- 
 2.45.2
 
