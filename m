@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-20630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20631-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42F29B7793
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 10:34:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EDF9B77B5
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 10:39:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A4C31C226D8
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 09:34:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B543E286B8C
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 09:39:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8C90194A7C;
-	Thu, 31 Oct 2024 09:34:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AB14195FD5;
+	Thu, 31 Oct 2024 09:39:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s52W9emS"
-X-Original-To: linux-media@vger.Kernel.org
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ESlbbYyo"
+X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F376F194C65
-	for <linux-media@vger.Kernel.org>; Thu, 31 Oct 2024 09:34:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25E42AE9A;
+	Thu, 31 Oct 2024 09:39:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730367255; cv=none; b=GNj9Cl0sv+1ORuAgYYHVkZRQsvP2QqqKfeGai9OwfyNSO9MRFswPxH/ySfILTsMqfr2eAuFI1NluGxgRn3BPrlVpJAqj5jUBNR5MIH44wT30h5BPwjO19D82baKww8GGRU8iJURMGJLZNffI9A1QqE3bUxb4V/325GXu4Al3C1c=
+	t=1730367550; cv=none; b=KNMgyPfYgtz1BxQsqzUqkV6dxk9LKPucbyqNPYTo335UuwtfRrp2IV7BiD3hcs95cRn8ZYfjgUf73zqRb84J6xZlNfwr5Az8+lFHT8GxOsXgA8k8GgFr0xw7UiW/qWk477ffG79z9+WoFd6gUjY6Mtu+dhX6WnKjPY7J1k0dryc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730367255; c=relaxed/simple;
-	bh=GfcS5213tS0F2T861daHigkHzrIAYwGRD7C+X+X1lbg=;
+	s=arc-20240116; t=1730367550; c=relaxed/simple;
+	bh=LRz1h79bJN4EYNQ1JU/SY7GS2AoN+ilnUVUKkNbp1+s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=urCNGRjrZsSxe69OvR2qCSTQJE5w4EkyuYueV5T3pXh+5qL3awacTb8twXfJHvI4PwxNhxMTFO/lBFGMBkZQqeh+VpfUI4l+tL/l9dSk+rQldwrXq9ZSHmr4gBIlNvK84sEY8bc3C4rbaGUw+lUjo6aOoXoUk0CeHukF1RUd+pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=s52W9emS; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=oC/XemZiXqe0bBtL1cpQ8p4wqoTl2Fno+9u7kCvIh2nmfJDQuXaT+yDCjF5hnuIsvnz3//gL+nNtWvCc7ptzCTvMF5+MB2fX/HiNpkZHNlBoAtDNGAM3PUHElS5Ec0N+CY/KQ63WHXtxzN5zqbPHHgYCdszaeiB/Mb2K4DpaaF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ESlbbYyo; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 23DE3842;
-	Thu, 31 Oct 2024 10:34:07 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7AE29EC;
+	Thu, 31 Oct 2024 10:39:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730367247;
-	bh=GfcS5213tS0F2T861daHigkHzrIAYwGRD7C+X+X1lbg=;
+	s=mail; t=1730367543;
+	bh=LRz1h79bJN4EYNQ1JU/SY7GS2AoN+ilnUVUKkNbp1+s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s52W9emSjhpjiqyXaDHzkWqYsYdcw8IMLvuz8V6yhdLYZY286Zp5qOqVk7OfBfEr1
-	 oiAwlrQrDCX9OUHd+lGkucUPa1jU4hMQnByT4LVB3bxA3D2LpMOAgf0E6U4qKeUYNa
-	 mkx66GQ4VZE8rCK1xsPwhQoMA0/prOuZXPubT7uo=
-Date: Thu, 31 Oct 2024 11:34:03 +0200
+	b=ESlbbYyoYhKGDZUFCQhHxFQx28YfAGaDtvJf0E5BG6Us8nDoBVE1sLhzB/C0wt8jH
+	 X8PVJ5860rPxXXg0u7kb5c8zxnMJzvogtvmhE6iGXC68+/MFjy1QJe3RzaIdJdYU3V
+	 wqFm3OheKqq96zZZCjGxny3uErcw6VWWdsj321mE=
+Date: Thu, 31 Oct 2024 11:38:59 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.Kernel.org,
-	tfiga@chromium.org, ribalda@chromium.org, yunkec@google.com,
-	xiahong.bao@nxp.com, ming.zhou@nxp.com, eagle.zhou@nxp.com,
-	tao.jiang_2@nxp.com, ming.qian@nxp.com
-Subject: Re: [PATCH v2 2/3] v4l2-ctl: Support V4L2_CTRL_TYPE_RECT
-Message-ID: <20241031093403.GA2473@pendragon.ideasonboard.com>
-References: <20241030024307.1114787-1-ming.qian@oss.nxp.com>
- <20241030024307.1114787-3-ming.qian@oss.nxp.com>
- <20241030090330.GS22600@pendragon.ideasonboard.com>
- <12913e54-9343-42ab-ab1e-a33656e640af@xs4all.nl>
- <81b3dcb1-3c3a-41bc-895b-05657191b980@oss.nxp.com>
+To: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>,
+	libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] media: imx283: Report correct V4L2_SEL_TGT_CROP
+Message-ID: <20241031093859.GB2473@pendragon.ideasonboard.com>
+References: <20241030163439.245035-1-stefan.klug@ideasonboard.com>
+ <04ae3f0b-c2f8-4553-9b49-302cc638c0c7@ideasonboard.com>
+ <nr7wzo7smtq2mbtorhw4slgtvmj6nyk3witjcymwzk7efrftlc@obgey7ky5hpp>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,90 +63,67 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <81b3dcb1-3c3a-41bc-895b-05657191b980@oss.nxp.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <nr7wzo7smtq2mbtorhw4slgtvmj6nyk3witjcymwzk7efrftlc@obgey7ky5hpp>
 
-On Thu, Oct 31, 2024 at 05:19:02PM +0800, Ming Qian(OSS) wrote:
-> On 2024/10/30 17:19, Hans Verkuil wrote:
-> > On 30/10/2024 10:03, Laurent Pinchart wrote:
-> >> On Wed, Oct 30, 2024 at 11:43:06AM +0900, ming.qian@oss.nxp.com wrote:
-> >>> From: Yunke Cao <yunkec@google.com>
-> >>>
-> >>> Tested with VIVID
-> >>>
-> >>>   ./v4l2-ctl -C rect -d 0
-> >>> rect: 300x400@200x100
-> >>>
-> >>>   ./v4l2-ctl -c rect=1000x2000@0x0
-> >>>   ./v4l2-ctl -C rect -d 0
-> >>> rect: 1000x2000@0x0
-> >>>
-> >>> Signed-off-by: Yunke Cao <yunkec@google.com>
-> >>> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-> >>> ---
-> >>>   utils/v4l2-ctl/v4l2-ctl-common.cpp | 12 ++++++++++++
-> >>>   1 file changed, 12 insertions(+)
-> >>>
-> >>> diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> >>> index 40667575fcc7..538e1951cf81 100644
-> >>> --- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> >>> +++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> >>> @@ -614,6 +614,10 @@ static void print_value(int fd, const v4l2_query_ext_ctrl &qc, const v4l2_ext_co
-> >>>   		case V4L2_CTRL_TYPE_AREA:
-> >>>   			printf("%dx%d", ctrl.p_area->width, ctrl.p_area->height);
-> >>>   			break;
-> >>> +		case V4L2_CTRL_TYPE_RECT:
-> >>> +			printf("%ux%u@%dx%d", ctrl.p_rect->width, ctrl.p_rect->height,
-> >>
-> >> I find this notation ambiguous, it's not immediately clear when reading
-> >> 10x10@20x20 if we're looking at a 10x10 rectangle positioned at (20,20)
-> >> or the other way around. media-ctl use (20,20)/10x10 which I think would
-> >> be a better notation.
+Hello,
+
+On Thu, Oct 31, 2024 at 10:13:13AM +0100, Stefan Klug wrote:
+> On Thu, Oct 31, 2024 at 11:07:00AM +0530, Umang Jain wrote:
+> > On 30/10/24 10:04 pm, Stefan Klug wrote:
+> > > The target crop rectangle is initialized with the crop of the default
+> > > sensor mode. This is incorrect when a different sensor mode gets
+> > > selected. Fix that by updating the crop rectangle when changing the
+> > > sensor mode.
+> > > 
+> > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> > > ---
+> > >   drivers/media/i2c/imx283.c | 4 ++++
+> > >   1 file changed, 4 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
+> > > index 3174d5ffd2d7..c8863c9e0ccf 100644
+> > > --- a/drivers/media/i2c/imx283.c
+> > > +++ b/drivers/media/i2c/imx283.c
+> > > @@ -1123,6 +1123,7 @@ static int imx283_set_pad_format(struct v4l2_subdev *sd,
+> > >   				 struct v4l2_subdev_state *sd_state,
+> > >   				 struct v4l2_subdev_format *fmt)
+> > >   {
+> > > +	struct v4l2_rect *crop;
+> > >   	struct v4l2_mbus_framefmt *format;
+> > >   	const struct imx283_mode *mode;
+> > >   	struct imx283 *imx283 = to_imx283(sd);
+> > > @@ -1149,6 +1150,9 @@ static int imx283_set_pad_format(struct v4l2_subdev *sd,
+> > >   	*format = fmt->format;
+> > > +	crop = v4l2_subdev_state_get_crop(sd_state, IMAGE_PAD);
+> > > +	*crop = mode->crop;
+> > > +
 > > 
-> > Good point, I agree.
+> > One thing to note, is the crop for binning modes.
 > > 
-> > Ming Qian, can you also update patch 1/4 of the kernel patch series to
-> > use the same formatting when logging the V4L2_CTRL_TYPE_RECT value?
+> > Do you need to report
 > > 
-> > Regards,
+> >     mode->crop.width / mode->hbin_ratio
+> >     mode->crop.height / mode->vbin_ratio
 > > 
-> > 	Hans
+> > for those modes?
 > 
-> There is a issue in v4l2-utils, that ',' is the ending flag in 
-> v4l_getsubopt(), then I can't set the rect control,
-> for example:
+> Good point. I was naively assuming that it has the same semantics as we
+> use for ScalerCrop in libcamera where it is explicitly stated that the
+> coordinates are in sensor pixels without binning. That has the added
+> advantage that we can deduce the binning factor from TGT_CROP and the
+> actual output size. However I couldn't find a precise specification for
+> that in the linux docs. 
 > 
-> $v4l2-ctl -d 0 -c rect="(0,0)/1000x2000"
-> control '0)/1000x2000' without '='
+> Maybe Sakari or Laurent have a definiteve answer there?
 
-The should be fixable in v4l_getsubopt().
+This is not standardized in V4L2, and different drivers implement
+different semantics. There's an ongoing effort to fix this, see
+https://lore.kernel.org/r/20241011075535.588140-1-sakari.ailus@linux.intel.com.
+Reviews are appreciated :-)
 
-> >>> +			       ctrl.p_rect->left, ctrl.p_rect->top);
-> >>> +			break;
-> >>>   		default:
-> >>>   			printf("unsupported payload type");
-> >>>   			break;
-> >>> @@ -702,6 +706,9 @@ static void print_qctrl(int fd, const v4l2_query_ext_ctrl &qc,
-> >>>   	case V4L2_CTRL_TYPE_AREA:
-> >>>   		printf("%31s %#8.8x (area)   :", s.c_str(), qc.id);
-> >>>   		break;
-> >>> +	case V4L2_CTRL_TYPE_RECT:
-> >>> +		printf("%31s %#8.8x (rect)   :", s.c_str(), qc.id);
-> >>> +		break;
-> >>>   	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
-> >>>   		printf("%31s %#8.8x (hdr10-cll-info):", s.c_str(), qc.id);
-> >>>   		break;
-> >>> @@ -1279,6 +1286,11 @@ void common_set(cv4l_fd &_fd)
-> >>>   					sscanf(set_ctrl.second.c_str(), "%ux%u",
-> >>>   					       &ctrl.p_area->width, &ctrl.p_area->height);
-> >>>   					break;
-> >>> +				case V4L2_CTRL_TYPE_RECT:
-> >>> +					sscanf(set_ctrl.second.c_str(), "%ux%u@%dx%d",
-> >>> +					       &ctrl.p_rect->width, &ctrl.p_rect->height,
-> >>> +					       &ctrl.p_rect->left, &ctrl.p_rect->top);
-> >>> +					break;
-> >>>   				default:
-> >>>   					fprintf(stderr, "%s: unsupported payload type\n",
-> >>>   							qc.name);
+> > >   	return 0;
+> > >   }
 
 -- 
 Regards,
