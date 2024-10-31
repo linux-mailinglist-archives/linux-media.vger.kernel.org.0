@@ -1,121 +1,151 @@
-Return-Path: <linux-media+bounces-20654-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20655-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95DCE9B7EB6
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 16:42:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 507979B8080
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 17:46:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B96761C21777
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 15:42:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D52251F224C2
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 16:46:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A651A01C4;
-	Thu, 31 Oct 2024 15:42:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9157D1BFDEC;
+	Thu, 31 Oct 2024 16:45:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vCYasxwU"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aBswaGvq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CAA1A0BEC
-	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 15:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63CF1465A5
+	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 16:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730389335; cv=none; b=ofTJaae3fS32v3d7H88Mte6NwGDR8FXpwbiYs/6DOTdkv/vwGRUlGVZiHZpXGdE1o6Ww6b6vDoEjEaqKRCNoQ+8j4jmQN9l4elxzekTKJIx1qEhdGsUtCUzfI+C0v1biC185+RiQlMP5/6c+UasirgH+yvYTcRWGX6PdVCx0bCc=
+	t=1730393132; cv=none; b=kl5ka7cS4Y9OD1Oh4aJsbcpeAG+NeR6PMpSGV4xkWKba5OYnXwX4X0UBW3Xdhzto+NZlEXe1KJsmGs3g+2KR8LCpy/vofNhutPSNqZGDO/aGrs+RyfoJw81r/Blh8IEwrfhE+ZiZSdWVILol8tIveh2zuTR/R6VIFbWIMvqUSgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730389335; c=relaxed/simple;
-	bh=JkgK1XkJW2hRAO/3wvVIqQgsdkjCn1te84JbhY3/XQo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CpO0siicBBSaxCzcZvsivgUT08J+1Oxo92HbhCAgChTKshbyDehuue2OG/FnrZgZPz7RoChAiUcKrJ+uPAw/tjxpol1yYzq08r1Sy7yhMZOP8gdphxydFmk72hivcD5UtbJlpjpDp5253rg0BJiXFt2DRoeyiZngWjV+8Zjc5Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vCYasxwU; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-37d5aedd177so783023f8f.1
-        for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 08:42:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730389331; x=1730994131; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VPdLvxvLtEzCHGDZQcWi4oCr/ZFs9WLInCDjjUo5WR0=;
-        b=vCYasxwUgnluJH79euxcpRTm8lfKcZwFWnqQOc0hpnTyhc7J2jzY6ob+vocoz2SOuG
-         8u2rfm/6qaE2IsvLTy7E8dF90yZVwBiyr3EMmtdZJjC/n566Sma51PVGR3kLt2f0AHcA
-         Wt/EeRgAyGQ8U9F45dUrzJROhIHUXCPMi2WLfTL8e5skNfsHPr8GXtq61heKkESFCrlT
-         4ZoYLqqf86eC3jjh8aI8B5l5qGe+j1uUgr9JmlIHEn4SPcNgDm6vnQcTH329jvE+IjVy
-         65z203gjphe8/p7ZWXycxxJIEfOQPxFHEuzxnDmy1rs4bPPrrw3c87Gt2bOY+naigyK/
-         O0jA==
+	s=arc-20240116; t=1730393132; c=relaxed/simple;
+	bh=182pqmxJKzOagD+mCIwZct3+5F1kCCVclBMGYB3B2rI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o8qu1vn0KujAVsLeMhRLjB6OAVLXjI0Y38/6amp/kZUQxDInfXYshdhpg+ipcRdCvvOvRBwBCnryRfRirZWQu1hukKGFZ1NvvLcYEsgPZ91LiRIk6RzqGk+7tZiDcCJwOjNGqsyBd2ftwSfoyzgZQ5uiTRGw3j9c5YSsqsXAxK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aBswaGvq; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730393128;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=182pqmxJKzOagD+mCIwZct3+5F1kCCVclBMGYB3B2rI=;
+	b=aBswaGvqANU5ZUKMAoBLsi86BtGX+Tz6OC0eZc9pKXrZ7WPt03Eqpb4DluQsGOD6z2ENb9
+	TU0pR7h32nxULGXUyYmViY0cB3Ht1O16J38+hF6fMtF+QDP2VE+PXuynqWVFvVylbECaPB
+	GsvUOsqf/zmXhb7TaeZO5KPrIqkkKKg=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-435-hgweYrBWOBaMpp6ff-izDQ-1; Thu, 31 Oct 2024 12:45:26 -0400
+X-MC-Unique: hgweYrBWOBaMpp6ff-izDQ-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2fb652f40f1so7039241fa.2
+        for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 09:45:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730389331; x=1730994131;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VPdLvxvLtEzCHGDZQcWi4oCr/ZFs9WLInCDjjUo5WR0=;
-        b=UEJO6suDpcmMuAec6a7fKIWe5ZO4iqs7V4RIYWrw4xLTSorkmPTOserIUOZr1K4jWH
-         LQ6E1XFxYw9aTLiozYXYrfeAJP2gRoHAKrqT9EYGZWm7DEQJh6+ndASSU0Cltvmdvsyz
-         BJjlASRBuUPmFUZP8+IayBKtcFOuvjBnVdupxx2+ALM3DwvCeKez1IUrHE5uFBISNeLV
-         DO5nnAm8yfyIMTjjreGy85ShK6f77uDx2EyN0uzlkE7wC64eezpDnrXtudqNAr09DtZa
-         MGx/ildq5hKFNoHa9I/Hpg46SG7ii1ydlkTfySYRyBlTK5TjpcPumwBZKraw+4r5zDHH
-         M5Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCV8yvZCBTfCH6CQGKyyls2B8pChf9lryAB1XD/TR1Fz+cYqNX8om29bhfDVDYRTKXigdqJvVsuj3jDkWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7HDAr+yzcWCv4F06eysup1hdQCDsrd5zOpXTU/eCCxa3BhMXq
-	owrFmEajTQBXnEV4FZthnwG4JJEwWhA/Zu7wvFcnqAMD8zccbFhrKyhJEP/MU7U=
-X-Google-Smtp-Source: AGHT+IEcjtd5WA/gsEHXNVUi1WTv2rYb/VysvkPiR/8zIUj5oeWb8lvj6Ww3iOFNkRJJFWFHNdTcqg==
-X-Received: by 2002:a5d:64a8:0:b0:37d:46e3:4e88 with SMTP id ffacd0b85a97d-381be7654c6mr3679580f8f.9.1730389331386;
-        Thu, 31 Oct 2024 08:42:11 -0700 (PDT)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c113e856sm2478023f8f.87.2024.10.31.08.42.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 08:42:10 -0700 (PDT)
-Message-ID: <b054116e-c6a4-48c3-8162-571d653788a4@linaro.org>
-Date: Thu, 31 Oct 2024 15:42:09 +0000
+        d=1e100.net; s=20230601; t=1730393125; x=1730997925;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=182pqmxJKzOagD+mCIwZct3+5F1kCCVclBMGYB3B2rI=;
+        b=A0t1xRAfPA52krtlgwLNnKjlBahWu11i5HryXZJ0qIQK0KTP+Pn4UhLqSzyCsdjzSt
+         r+aakEOr6Q21PsLB3wsCa7mBlhFeO+AD44o3oREqR1vRuUtCIvBxmRAGJC6hAjS7XSEl
+         VFfPb90DD3QiZ8UHIBe/Vw6cNvr7kR1bWJwOut/1b/vv1moXUEei5Ez8fywd4P++qoMS
+         pfOpDZoWHIfIyIA74pUFxewL3P2I4uXbvX/PP2UYJ3Wv2UL863XuTpqf14vWh04RDmaH
+         VqDciFl+4LGmd3Weu1W26aWF6VJEoiz9j8QBTJZXe8sit3IDPsLe3xvCRH8e2bDa5kQ0
+         hhFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUAEI/9mty2pGWYnewfa4CyVT6cO+OPq0OAvMzTuKcblGtws3HjhSg740+QLOahzQMojUHtEfUCOJyCwQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhMS6CHACnN35pjhhm2InEWYfCA87HsEWBdrd8BM0FLOH6jq4i
+	uX5k/FIa7er5WGXdm/LDx1fjANCPtl+yQu6/HzQZT1o5tqOufTvo17H29DUvxFuHJXTQ/v7XUsT
+	NWnYHEPQcUhyyLGR3+POOlRNwwJSelSSLnBHdHPiDFXexKdBJVZFQn+hdJWeQ
+X-Received: by 2002:a05:6512:32c8:b0:535:82eb:21d1 with SMTP id 2adb3069b0e04-53d65e1781fmr431494e87.57.1730393125213;
+        Thu, 31 Oct 2024 09:45:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHouLo3TF+7LJo+6trZy9gzmL/37JvOLD2BMFURyxuRnX3R17ZHSmy2W/qUwbYYI/LTZymFXg==
+X-Received: by 2002:a05:6512:32c8:b0:535:82eb:21d1 with SMTP id 2adb3069b0e04-53d65e1781fmr431467e87.57.1730393124704;
+        Thu, 31 Oct 2024 09:45:24 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10d4342sm2618972f8f.32.2024.10.31.09.45.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2024 09:45:24 -0700 (PDT)
+Date: Thu, 31 Oct 2024 17:45:23 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: metux <metux@gmx.de>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: Re: Requirements to merge new heaps in the kernel
+Message-ID: <20241031-bouncy-cute-shrimp-cd2530@houat>
+References: <20241022-macaw-of-spectacular-joy-8dcefa@houat>
+ <35deac48-4220-4889-833d-1b57b417e968@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/5] dt-bindings: media: camss: Add qcom,sdm670-camss
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Richard Acayan <mailingradian@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org
-References: <20241011023724.614584-7-mailingradian@gmail.com>
- <20241011023724.614584-9-mailingradian@gmail.com>
- <785c82d5-549d-454b-86bf-a00a39e6f521@linaro.org>
- <jcqgsgp4ivbokn545sy2rvfllm3vnygfpbufxagotuicacfmgd@v2hlnohlwzdf>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <jcqgsgp4ivbokn545sy2rvfllm3vnygfpbufxagotuicacfmgd@v2hlnohlwzdf>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="e7ghtd5lwxlkxgfh"
+Content-Disposition: inline
+In-Reply-To: <35deac48-4220-4889-833d-1b57b417e968@gmx.de>
 
-On 11/10/2024 15:29, Krzysztof Kozlowski wrote:
-> How do you imagine writing drivers and request items by order (not by
-> name) if the order is different in each flavor?
 
-I don't think I'd be much in favour of relying on declaration order in 
-the dts, favouring names to find resources instead, tbh.
+--e7ghtd5lwxlkxgfh
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: Requirements to merge new heaps in the kernel
+MIME-Version: 1.0
 
-The 8250 has regs that sort by address and name in the same order. For 
-8280xp we preferred sort by address and you're right the interrupt 
-sorting isn't consistent.
+On Wed, Oct 30, 2024 at 12:16:22PM +0100, metux wrote:
+> On 22.10.24 10:38, Maxime Ripard wrote:
+> > I'm still interested in merging a carve-out driver[1], since it seems t=
+o be
+> > in every vendor BSP and got asked again last week.
+> >=20
+> > I remember from our discussion that for new heap types to be merged, we
+> > needed a kernel use-case. Looking back, I'm not entirely sure how one
+> > can provide that given that heaps are essentially facilities for
+> > user-space.
+>=20
+> For those who didn't follow your work, could you please give a short
+> intro what's that all about ?
+>=20
+> If I understand you correctly, you'd like the infrastructure of
+> kmalloc() et al for things / memory regions that aren't the usual heap,
+> right ?
 
-However the latest applied dts for CAMSS is sort by address/irq not sort 
-by reg-name irq-name.
+No, not really. The discussion is about dma-buf heaps. They allow to
+allocate buffers suitable for DMA from userspace. It might or might not
+=66rom the system memory, at the heap driver discretion.
 
-Unless its a NAK from yourself and Rob, that would certainly be my 
-preference for any _new_ additions subsequent.
+> What's the practical use case ? GPU memory ? Shared memory between
+> nodes in a multi-CPU / cluster machine ?
+>=20
+> Is it related to NUMA ?
 
----
-bod
+And since it's about DMA, it doesn't have much to do with CPUs either.
+
+Maxime
+
+--e7ghtd5lwxlkxgfh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZyO0HQAKCRAnX84Zoj2+
+dsaIAYDSLs4vqC2W23GWmQw+nLt61ihhhwXON5VrB1bS7hVzaX7P2Gu1Vl0ygras
+mpk+w40Bf2OSx3W0bmcLT2VATGEiKE8QZJt+N49J3WfSZwJOPvQjXudAGBe5XxGj
+WjSuaDPXug==
+=PFmP
+-----END PGP SIGNATURE-----
+
+--e7ghtd5lwxlkxgfh--
+
 
