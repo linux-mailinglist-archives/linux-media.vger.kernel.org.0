@@ -1,105 +1,219 @@
-Return-Path: <linux-media+bounces-20641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9AE9B7AA8
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 13:36:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C90989B7B54
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 14:06:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 36075B24857
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 12:36:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 56F101F238A5
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 13:06:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14B019CC26;
-	Thu, 31 Oct 2024 12:36:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8AB919D88F;
+	Thu, 31 Oct 2024 13:06:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="EmXQ1pQh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WpnSwdY6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6409B19C562
-	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 12:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0606156236
+	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 13:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730378169; cv=none; b=HGCRIUJ7cjXOUGntapN0SKSZijmJ/J1r2JsIhT1PFna483IIld9WdY6IWqdZr7qGxvqKRVrTIv6mZmbNB7BpMc8RzhwIrQXNRbuAuofju9GQ66QoqTYstw4LQxIGEXgkX1qZE95bx0+gaU6KLOFeMPe45ajdnQblSEVBDioqL4A=
+	t=1730379994; cv=none; b=BOgbrGFpOsPwlYN7n0FuamrMOsDpnXjQb1A+gbZ9tle57KaNRjKS3snViJEBhHmY0tVlXNAI6+vRi9n/D6ecXy0Z7Bb03dV8brbtFq3pIU7pkwT+6FPb7wgGG22VMz7+tmU2ufcM8bPs6aDzaso5sDr3H0L04lO9iI9cbMbthlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730378169; c=relaxed/simple;
-	bh=4uwkVsQZvvqLQLxsIsC4lLN11JwhnBdlvKpaa8vPrLo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gpjwlp4hrCPaW0CXy7OHOySKTVYCcGETLT7FY/Zz2LvmFOKwg5dJZSByyTdLO6TtYrWez/Hj5x3KQnUEKEz1pWZ0eps20LVQnL9o8k4s33+J/VCGIRVsGss0ed8JkLfaax8tB1IUCsT7xZD4NKvB+ievb+P43yQkDZiell1AgdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=EmXQ1pQh; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539f0f9ee49so1011283e87.1
-        for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 05:36:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1730378165; x=1730982965; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4uwkVsQZvvqLQLxsIsC4lLN11JwhnBdlvKpaa8vPrLo=;
-        b=EmXQ1pQhDbTJMi4oh6mk2p9N40oMLpGG0jbd4/qTaact2POtLC94Z9ajkn0fZNWVis
-         x/uhIma3ojqaqA8JtzNLE8HE6/IPNpesny9Se63VuXxt0juI0s9uem1do+dvSwhsi/c5
-         mEqeIhBIWgjSj9DQ1QHCHU/TK9w/NxCCBGwLYGdk+rpLQY0MsimszJYIPToIusz8eFrO
-         nvmnfUtxN3LYfupdkmCX7y68LnwS7HgZ3X19LO6UJ+br6jKEQgutaq9EHJz2vdwYd0ps
-         FfvR162Gq5tF+vkUu0rutz+0lWc8AyWAjW4tpn+5xiuGqWUJFCpsvxH8KZNengivOgNo
-         Y8Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730378166; x=1730982966;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4uwkVsQZvvqLQLxsIsC4lLN11JwhnBdlvKpaa8vPrLo=;
-        b=nXWR29JnJWua3j+oruVOQCl2rNA03tTb9/wXebpagKYY9RpDWPklno2YuePYtKJDuy
-         G1reYv9KbDvboQUtth4T/X09w2zExAixkJOvhvAChF4xiML4dXhze6ZtdcD9l6Y10Uov
-         NL116d7SCsE/4f+9PTmETutFSrON3YJ1lfP9mWIdWber+X0hKWtTMmgzq2d35cmKXfpn
-         iDZ3w70RBRWRuO4hkupsKicYwAmfEMADU0qJvurI3RCuC1qWtc3980Euu5Sdhj2T8W+n
-         mV3ulQ0MkR13YxpmGPaWiuZZvAECTAHOuPq3+rwaC15MgnMqFjf+UZgLGgEltRoFXKV4
-         vfVg==
-X-Gm-Message-State: AOJu0YwNOtixi0W8oJlLy4hxt7CwwxL8jbyMnX+1DmB3jZy5+HzC6KTt
-	zRDnTrbH6sbn3qos0iGQ+bBpVVPR4UW5TFkhldKowpbk+yGw1VegBdbtzUquTwbu8uvi3ey1alk
-	4Hu08in8+lYw29/XTFU9Jj0TfPi68YbpC/ym2QAs0Zpv7bmsW
-X-Google-Smtp-Source: AGHT+IHNGrsHIdVJ7b6kXn3eII7y5YvEBUfd6Ol5F2YiZyvgHAMgu5KWjMQpJ+oEkjLbS7Z07yQmFjWPUy3H2QOB0UA=
-X-Received: by 2002:a05:6512:3e26:b0:539:fbfe:418f with SMTP id
- 2adb3069b0e04-53b348deb5fmr10872826e87.32.1730378165562; Thu, 31 Oct 2024
- 05:36:05 -0700 (PDT)
+	s=arc-20240116; t=1730379994; c=relaxed/simple;
+	bh=yWgVuBeG6DYLPRQ6VTozOtZK4ke0p98n2kBHVkS1kbI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UI11RXzC5zXpB1jiLBf1CsjRxytuvMaGnYcRMXEyomGmqZfZ0L5XKnmlh6RVXlUlBaHC/pRtTHs1ecxil2A2WlfmqqBtTBcriOyJxzyBAxnGutl+aYidaBtc7Ahx1iZSGnX1YVw5XmZreVw5ebUtohrMcAs5z8I6kSY2iC6Gskc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WpnSwdY6; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730379992; x=1761915992;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yWgVuBeG6DYLPRQ6VTozOtZK4ke0p98n2kBHVkS1kbI=;
+  b=WpnSwdY6aKWXZ1EFya8inJUsLuz+nB+zms2pP0rhdc6PJGlF7ZfF7bJ8
+   O3zunTxy9ncbHTxNP1NOXFHUyBzT4rban8YDI+ygWt9QhXYIg2RukwjwT
+   BKRmJzlIIw5hquZP3xmn7v1t1N1ZIfpuaiCxng0unwhBQ70tmuRhMoaYo
+   Bn8N/gXEpoJ6Nv4qJyZWz2jtMH4PeEpucyJlrp/rFwrgZ6MpHCX6YVdz+
+   fmulsO+bFhSXPIu/esg31PDqG8bw6O/Ea/qxiQ0oIjdDeDJfbLy2GIshp
+   +QtwlIcWS/ioJfpacG+pOebrplb0Q8C0ys4J2X1fFC6UIXoU2C/7F40q9
+   Q==;
+X-CSE-ConnectionGUID: BihYjsoYT7SS/bB4l/zTQA==
+X-CSE-MsgGUID: DzKvgzcdSA+AZStDlPP6PA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="40689792"
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="40689792"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 06:06:31 -0700
+X-CSE-ConnectionGUID: Fhney71bSzemIFcPlMsfHw==
+X-CSE-MsgGUID: hEv2MzGlT0iJTansxjgIzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="82737852"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.83.36])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 06:06:30 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>
+Subject: [PATCH v2] media: intel/ipu6: remove buttress ish structure
+Date: Thu, 31 Oct 2024 14:06:22 +0100
+Message-Id: <20241031130622.430308-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241018131351.70563-1-brgl@bgdev.pl> <671279a4.020a0220.206dc9.0907@mx.google.com>
- <CAMRc=McnFLVeBOV8rcfL+A2PsF_dY0C7OP8DOhqwwgU9OpoZBg@mail.gmail.com>
- <CANiDSCs4tzZywh9je5DfN4x4p4V5HAFkJ6zP62oOOpno-keVWg@mail.gmail.com> <CAMRc=Me5u7rc9JmWKcKUU1uYyC-Bwy99b++K3djeSnNyDmX6nw@mail.gmail.com>
-In-Reply-To: <CAMRc=Me5u7rc9JmWKcKUU1uYyC-Bwy99b++K3djeSnNyDmX6nw@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 31 Oct 2024 13:35:54 +0100
-Message-ID: <CAMRc=Mc=L_xnXgoSyeALV80qo-h2BhCya39McdZ4SOeBrUXhZw@mail.gmail.com>
-Subject: Re: media: v4l2-core: constify the class struct
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, patchwork@media-ci.org, patchwork@linuxtv.org, 
-	Ricardo Ribalda <ribalda@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 25, 2024 at 10:05=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl=
-> wrote:
->
-> On Fri, Oct 18, 2024 at 7:26=E2=80=AFPM Ricardo Ribalda <ribalda@chromium=
-.org> wrote:
-> >
-> > Hi Bartosz
-> >
-> > It is indeed. Sorry about that. We have already landed the fix.
-> >
-> > Sorry for the noise
-> >
->
-> Can this be picked up then?
->
-> Bart
+The buttress ipc ish structure is not effectively used on IPU6 - data
+is nullified on init. Remove it to cleanup the code a bit.
 
-Ping
+Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+---
+v2: fix formatting: use media: prefix in topic and white space alignment
+to match open parenthesis
+
+ drivers/media/pci/intel/ipu6/ipu6-buttress.c | 27 ++++++--------------
+ drivers/media/pci/intel/ipu6/ipu6-buttress.h |  6 -----
+ 2 files changed, 8 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
+index edaa285283a1..6644fd4c3d91 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-buttress.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
+@@ -214,20 +214,17 @@ static void ipu6_buttress_ipc_recv(struct ipu6_device *isp,
+ }
+ 
+ static int ipu6_buttress_ipc_send_bulk(struct ipu6_device *isp,
+-				       enum ipu6_buttress_ipc_domain ipc_domain,
+ 				       struct ipu6_ipc_buttress_bulk_msg *msgs,
+ 				       u32 size)
+ {
+ 	unsigned long tx_timeout_jiffies, rx_timeout_jiffies;
+ 	unsigned int i, retry = BUTTRESS_IPC_CMD_SEND_RETRY;
+ 	struct ipu6_buttress *b = &isp->buttress;
+-	struct ipu6_buttress_ipc *ipc;
++	struct ipu6_buttress_ipc *ipc = &b->cse;
+ 	u32 val;
+ 	int ret;
+ 	int tout;
+ 
+-	ipc = ipc_domain == IPU6_BUTTRESS_IPC_CSE ? &b->cse : &b->ish;
+-
+ 	mutex_lock(&b->ipc_mutex);
+ 
+ 	ret = ipu6_buttress_ipc_validity_open(isp, ipc);
+@@ -305,7 +302,6 @@ static int ipu6_buttress_ipc_send_bulk(struct ipu6_device *isp,
+ 
+ static int
+ ipu6_buttress_ipc_send(struct ipu6_device *isp,
+-		       enum ipu6_buttress_ipc_domain ipc_domain,
+ 		       u32 ipc_msg, u32 size, bool require_resp,
+ 		       u32 expected_resp)
+ {
+@@ -316,7 +312,7 @@ ipu6_buttress_ipc_send(struct ipu6_device *isp,
+ 		.expected_resp = expected_resp,
+ 	};
+ 
+-	return ipu6_buttress_ipc_send_bulk(isp, ipc_domain, &msg, 1);
++	return ipu6_buttress_ipc_send_bulk(isp, &msg, 1);
+ }
+ 
+ static irqreturn_t ipu6_buttress_call_isr(struct ipu6_bus_device *adev)
+@@ -386,10 +382,8 @@ irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
+ 		}
+ 
+ 		if (irq_status & BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING) {
+-			dev_dbg(&isp->pdev->dev,
+-				"BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING\n");
+-			ipu6_buttress_ipc_recv(isp, &b->ish, &b->ish.recv_data);
+-			complete(&b->ish.recv_complete);
++			dev_warn(&isp->pdev->dev,
++				 "BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING\n");
+ 		}
+ 
+ 		if (irq_status & BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE) {
+@@ -399,9 +393,8 @@ irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
+ 		}
+ 
+ 		if (irq_status & BUTTRESS_ISR_IPC_EXEC_DONE_BY_ISH) {
+-			dev_dbg(&isp->pdev->dev,
+-				"BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE\n");
+-			complete(&b->ish.send_complete);
++			dev_warn(&isp->pdev->dev,
++				 "BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE\n");
+ 		}
+ 
+ 		if (irq_status & BUTTRESS_ISR_SAI_VIOLATION &&
+@@ -655,7 +648,7 @@ int ipu6_buttress_authenticate(struct ipu6_device *isp)
+ 	 */
+ 	dev_info(&isp->pdev->dev, "Sending BOOT_LOAD to CSE\n");
+ 
+-	ret = ipu6_buttress_ipc_send(isp, IPU6_BUTTRESS_IPC_CSE,
++	ret = ipu6_buttress_ipc_send(isp,
+ 				     BUTTRESS_IU2CSEDATA0_IPC_BOOT_LOAD,
+ 				     1, true,
+ 				     BUTTRESS_CSE2IUDATA0_IPC_BOOT_LOAD_DONE);
+@@ -697,7 +690,7 @@ int ipu6_buttress_authenticate(struct ipu6_device *isp)
+ 	 * IU2CSEDB.IU2CSECMD and set IU2CSEDB.IU2CSEBUSY as
+ 	 */
+ 	dev_info(&isp->pdev->dev, "Sending AUTHENTICATE_RUN to CSE\n");
+-	ret = ipu6_buttress_ipc_send(isp, IPU6_BUTTRESS_IPC_CSE,
++	ret = ipu6_buttress_ipc_send(isp,
+ 				     BUTTRESS_IU2CSEDATA0_IPC_AUTH_RUN,
+ 				     1, true,
+ 				     BUTTRESS_CSE2IUDATA0_IPC_AUTH_RUN_DONE);
+@@ -838,9 +831,7 @@ int ipu6_buttress_init(struct ipu6_device *isp)
+ 	mutex_init(&b->auth_mutex);
+ 	mutex_init(&b->cons_mutex);
+ 	mutex_init(&b->ipc_mutex);
+-	init_completion(&b->ish.send_complete);
+ 	init_completion(&b->cse.send_complete);
+-	init_completion(&b->ish.recv_complete);
+ 	init_completion(&b->cse.recv_complete);
+ 
+ 	b->cse.nack = BUTTRESS_CSE2IUDATA0_IPC_NACK;
+@@ -852,8 +843,6 @@ int ipu6_buttress_init(struct ipu6_device *isp)
+ 	b->cse.data0_in = BUTTRESS_REG_CSE2IUDATA0;
+ 	b->cse.data0_out = BUTTRESS_REG_IU2CSEDATA0;
+ 
+-	/* no ISH on IPU6 */
+-	memset(&b->ish, 0, sizeof(b->ish));
+ 	INIT_LIST_HEAD(&b->constraints);
+ 
+ 	isp->secure_mode = ipu6_buttress_get_secure_mode(isp);
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.h b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
+index 9b6f56958be7..482978c2a09d 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-buttress.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
+@@ -46,18 +46,12 @@ struct ipu6_buttress_ipc {
+ struct ipu6_buttress {
+ 	struct mutex power_mutex, auth_mutex, cons_mutex, ipc_mutex;
+ 	struct ipu6_buttress_ipc cse;
+-	struct ipu6_buttress_ipc ish;
+ 	struct list_head constraints;
+ 	u32 wdt_cached_value;
+ 	bool force_suspend;
+ 	u32 ref_clk;
+ };
+ 
+-enum ipu6_buttress_ipc_domain {
+-	IPU6_BUTTRESS_IPC_CSE,
+-	IPU6_BUTTRESS_IPC_ISH,
+-};
+-
+ struct ipu6_ipc_buttress_bulk_msg {
+ 	u32 cmd;
+ 	u32 expected_resp;
+-- 
+2.34.1
+
 
