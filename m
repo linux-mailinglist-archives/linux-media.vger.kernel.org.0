@@ -1,372 +1,155 @@
-Return-Path: <linux-media+bounces-20626-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20627-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE899B7662
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 09:26:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1CE9B76E6
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 09:55:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E4698B211E4
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 08:26:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16E8AB24093
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 08:55:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B93D1552EE;
-	Thu, 31 Oct 2024 08:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F253189B8E;
+	Thu, 31 Oct 2024 08:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AI1DdBLC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A416B148832
-	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 08:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861C317BEA2
+	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 08:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730363162; cv=none; b=MUWNhf0fVdWv+LY33NQwGXDMaPAmBf5p2qbLLP5H98+lkMmwA1BFUNoxGAvGhkP9pbSNKJNgNX4szF6BCzbot1BxLh6GXqhwjxhDTiPSMZhcdmTgLPISqCjskM+/kIGZ0OMuZCq7yK/+qHVHda9gu/Atwvgi+7ZJe7CFxHDz2XY=
+	t=1730364913; cv=none; b=LzjKvY1WubkcmPgalAJG5hJESWYNdewjXGIcQescstJANVKwlAFwKrBXQr/IyoudT3wAgROQoax4LY+PmesHmH1aAe+2j7d4aYE7zaGYJjdWyKxOxu0CGO5OQOR22wJBWxjIkIM0eYsfpUI8E6uGB2rfPBZs9yt+w6wnIrCoWNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730363162; c=relaxed/simple;
-	bh=PO32peXOXkWWZj2omnZ/J3Gvj00iznwYjsE3Wonm67c=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=kpkR7JqATYGvBRQUIdlorY1+AdGcu5cBiuP7kgrBE5nEjATSP3W74CA3DIE7veVuX5ie1QwLfGTPHxtcWY8TKngl5l0hVw9k2yYJi973ppSBv/0+AFg/Ib6NQKCcUSoqr0XsFi2zO9bja05uwGqhQ84oxKxmuOe1wbAYM7I0p5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A263C4CEC3;
-	Thu, 31 Oct 2024 08:26:01 +0000 (UTC)
-Message-ID: <3810bdb1-d678-4d49-a7f2-99ee59e39094@xs4all.nl>
-Date: Thu, 31 Oct 2024 09:25:59 +0100
+	s=arc-20240116; t=1730364913; c=relaxed/simple;
+	bh=ZDySzFsnKkeFXp+VFDI9R1fVxxjBMfiPXZnrcfMngKs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t5w1NvVmJuMdU6koh6USxhmcWGooPNZUBMDkTtaO0XwC2tQgNIIteO3Md4iH5GI0EL4Ggk7Sqb+lxhrijjREIbOTk85qvAm6WufeNRMWmwGyQoz0AdMaCYEPJgAwYP9RrcXjJsxuWZljxcHhpi4ozpW0YbzFmnG9pbXz1AOVqjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AI1DdBLC; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fb4af0b6beso9860701fa.3
+        for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 01:55:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730364909; x=1730969709; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FUDcheiK8JhqH6/QyyEKBcuyjmkqcu9I4AhzOv/eO7M=;
+        b=AI1DdBLCnxJwFfXtsm5I9acHfe9NIXuhOWAcrovyxOo3b8KDiadRE9VrDd9Pw49+/S
+         0vbEL9JQPptIoXsriGdeeePyuFu1cS1dt03iUbKPnibifL/NXxS7qkBEF6pvmprF4oUz
+         o7nTcoAiz25q+C9uy7HvQPFjNVXBNIii+8KzdA0FDGcJG4yEm8SRs3vo2HNxij9bIxHw
+         g8rdh8l5p1ses2vHG4iwC9knPgkLQo80uT9ezWVIuG/a5FQsx5ZepvhP0cYKQyV6I9Qz
+         eoc/rtDv35AHE7xmhGUACJdIIHHBOoaDK7hd1NQ9DLasyRBmBPHwo7ortNPm5QzOkEmA
+         zOvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730364909; x=1730969709;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FUDcheiK8JhqH6/QyyEKBcuyjmkqcu9I4AhzOv/eO7M=;
+        b=EkditxUIamo7qWYUBfHsrnVDi2bGIUQmp8he0R8BPnPGEzkr/15RRew6haPgLsNyAm
+         skqobxkolV7qsmoBOJRy+fSFP4VzKYlyuvmviWIdjJADcAQ+Yhd0+XzWXuuO4hz6FOcf
+         NGULmDHuFNlRYf9Ca7EZLiXeu0WpsAvmndTW8gI1qNrbQHOQTHD/Y+2nyZv/uobv93jV
+         OISD6Tb228LbVzSbUQ37txiOmZKqRIIFTgvVjvLeAl1L7GFcPJJRx7YqV2nBhQh9btC1
+         ZuCzNesaA3KnvHxN1A9FnliFt8nLLfhoQHxr4FaAE9zKwGjTGRTBqqh5ovCL5Dhapgyu
+         /QAg==
+X-Forwarded-Encrypted: i=1; AJvYcCVL0nIL1kbswe5geDfHSy4drV4derU40/LCQzJdv/LeZ6PSU1/6luw8hqmp/Pnk7GjOPisa9H4y7NgY1Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyuow2oyH+7q2R1C2CzOfyG4Un7MDBcKsjMb8lrEXStU5JkkEjp
+	VRuxEYVNRxe+6giV0dSChma6PiahGE8Ham2ZAPXinjyq/lIEijPBW6QzKADPX6U=
+X-Google-Smtp-Source: AGHT+IFBFiCfVxYlwTElhQ9iaN5niEh2RqNjHdUElsmI/f4MFMMrn30OPEc0CN4b5u1SgxFe8qNHmw==
+X-Received: by 2002:a2e:a984:0:b0:2f7:7be8:fd89 with SMTP id 38308e7fff4ca-2fcbdf61db9mr168289041fa.6.1730364909453;
+        Thu, 31 Oct 2024 01:55:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c1189123sm1440859f8f.115.2024.10.31.01.55.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2024 01:55:09 -0700 (PDT)
+Date: Thu, 31 Oct 2024 11:55:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Linux Regressions <regressions@lists.linux.dev>,
+	lkft-triage@lists.linaro.org, Arnd Bergmann <arnd@arndb.de>,
+	Anders Roxell <anders.roxell@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: next-20241028: gcc-8-defconfig : ERROR: modpost:
+ "__aeabi_uldivmod" [drivers/media/dvb-frontends/cxd2841er.ko] undefined!
+Message-ID: <456c79d2-5041-47c4-bed2-44d257524ddd@stanley.mountain>
+References: <CA+G9fYvvNm-aYodLaAwwTjEGtX0YxR-1R14FOA5aHKt0sSVsYg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: RFC: add min_num_buffers and clarify
- V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Stanimir Varbanov <svarbanov@suse.de>
-References: <126cd76a-6224-483b-a18d-a3cc89e5ff2d@xs4all.nl>
- <20241028155244.GK24052@pendragon.ideasonboard.com>
- <e9ce9b42-ba66-4908-a528-b839272c2ab6@xs4all.nl>
- <b7b4bf34-ab4a-4676-a279-8c8a5cd3ff42@xs4all.nl>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <b7b4bf34-ab4a-4676-a279-8c8a5cd3ff42@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+G9fYvvNm-aYodLaAwwTjEGtX0YxR-1R14FOA5aHKt0sSVsYg@mail.gmail.com>
 
-On 29/10/2024 10:04, Hans Verkuil wrote:
-> On 29/10/2024 09:17, Hans Verkuil wrote:
->> On 28/10/2024 16:52, Laurent Pinchart wrote:
->>> Hi Hans,
->>>
->>> On Mon, Oct 28, 2024 at 12:10:22PM +0100, Hans Verkuil wrote:
->>>> Hi all,
->>>>
->>>> This mail thread uncovered some corner cases around how many buffers should be allocated
->>>> if VIDIOC_REQBUFS with count = 1 is called:
->>>>
->>>> https://lore.kernel.org/linux-media/20241003-rp1-cfe-v6-0-d6762edd98a8@ideasonboard.com/T/#mc2210597d92b5a0f09fabdac2f7307128aaa9bd8
->>>
->>> I'll repeat below some comments I've made in that thread, as they're
->>> better discussed in the context of this RFC.
->>>
->>>> When it comes to the minimum number of buffers there are a number of limitations:
->>>>
->>>> 1) The DMA engine needs at least N buffers to be queued before it can start. Typically
->>>>    this is 0, 1 or 2, and a driver sets this via the vb2_queue min_queued_buffers field.
->>>>    So if min_queued_buffers = 1, then the DMA engine needs one buffer at all times to
->>>>    DMA to. Allocating just one buffer would mean the DMA engine can never return that
->>>>    buffer to userspace (it would just keep recycling the same buffer over and over), so
->>>>    the minimum must be min_queued_buffers + 1.
->>>
->>> I think you're mixing hardware and driver constraints here. Drivers can
->>> use scratch buffers to relax the hardware requirements, and allow
->>> userspace operation with less buffers than strictly required by the
->>> hardware.
->>>
->>> The cost of allocating such scratch buffers vary depending on the
->>> device. When an IOMMU is available, or when the device has a line stride
->>> that can be set to 0 and supports race-free programming of the stride
->>> and buffer addresses, the scratch buffer can be as small as a single
->>> page or a single line. In other cases, a full-frame scratch buffer is
->>> required, which is costly, and the decision on whether or not to
->>> allocate such a scratch buffer should probably be taken with userspace
->>> being involved.
->>
->> I honestly don't see why you would want to spend a lot of time on adding
->> scratch buffer support just to save a bit of memory. Is the use-case of
->> capturing just a single buffer so common? To me it seems that it only
->> makes sense to spend effort on this if you only need to capture a single
->> buffer and never need to stream more buffers.
->>
->> Can you describe the use-case of capturing just a single buffer? Is that
->> just for testing libcamera? Or is it something that happens all the time
->> during normal libcamera operation?
->>
->> Supporting scratch buffers is a lot of effort for something that is not
->> needed for normal streaming.
->>
->>>
->>> min_queued_buffers describes how the device operates from a userspace
->>> point of view, so I don't think it should be considered or documented as
->>> being a hardware requirement, but a driver requirement.
->>
->> It's a hardware and/or driver requirement. It is absolutely not a userspace
->> requirement. Normal userspace applications that use VIDIOC_REQBUFS and just
->> stream video will never notice this.
->>
->>>
->>>> 2) Historically VIDIOC_REQBUFS is expected to increase the count value to a number that
->>>>    ensures the application can smoothly process the video stream. Typically this will
->>>>    be 3 or 4 (if min_queued_buffers == 2): min_queued_buffers are used by the DMA engine,
->>>>    one buffer is queued up in vb2, ready to be used by the DMA engine as soon as it
->>>>    returns a filled buffer to userspace, and one buffer is processed by userspace.
->>>>
->>>>    This is to support applications that call VIDIOC_REQBUFS with count = 1 and leave it
->>>>    to the driver to increment it to a workable value.
->>>
->>> Do we know what those applications are ? I'm not disputing the fact that
->>> this may need to be supported to avoid breaking old userspace, but I
->>> also think this feature should be phased out for new drivers, especially
->>> drivers that require a device-specific userspace and therefore won't
->>> work out of the box with old applications.
->>
->> xawtv is one: it will call REQBUFS with count = 2 (so this would fail for
->> any driver that sets min_queued_buffers to 2), and with count = 1 if it wants
->> to capture just a single frame.
->>
->> 'git grep min_queued_buffers|grep -v videobuf|wc' gives me 83 places where it is
->> set. Some of those are likely wrong (min_queued_buffers has been abused as a
->> replacement for min_reqbufs_allocation), but still that's quite a lot.
->>
->> Mostly these are older drivers for hardware without an IOMMU and typically for
->> SDTV capture. So memory is not a consideration for those drivers since a
->> SDTV buffer is quite small.
->>
->>>
->>>> 3) Stateful codecs in particular have additional requirements beyond the DMA engine
->>>>    limits due to the fact that they have to keep track of reference buffers and other
->>>>    codec limitations. As such more buffers are needed, and that number might also vary
->>>>    based on the specific codec used. The V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
->>>>    controls are used to report that. Support for this is required by the stateful codec
->>>>    API.
->>>>
->>>>    The documentation of these controls suggest that these are generic controls, but
->>>>    as of today they are only used by stateful codec drivers.
->>>>
->>>> 4) Some corner cases (mainly/only SDR, I think) where you need more than the usual
->>>>    3 or 4 buffers since the buffers arrive at a high frequency.
->>>
->>> High frame rates is an important feature, but it's also a can of worms.
->>> V4L2 is lacking the ability to batch multiple frames, we will have to
->>> address that. Hopefully it could be decoupled from this RFC.
->>
->> It's a separate issue indeed. I just mentioned it because I know SDR drivers
->> use this. They are rarely used, though.
->>
->>>
->>>> Rather than have drivers try to correct the count value (typically incorrectly), the
->>>> vb2_queue min_reqbufs_allocation field was added to set the minimum number of
->>>> buffers that VIDIOC_REQBUFS should allocate if count is less than that.
->>>
->>> Even if I dislike this feature, I agree it's better implemented through
->>> min_reqbufs_allocation than by manual calculations in drivers.
->>>
->>>> VIDIOC_CREATE_BUFS is not affected by that: if you use CREATE_BUFS you take full control
->>>> of how many buffers you want to create. It might create fewer buffers if you run out of
->>>> memory, but never more than requested.
->>>>
->>>> But what is missing is that if you use CREATE_BUFS you need to know the value of
->>>> min_queued_buffers + 1, and that is not exposed.
->>>>
->>>> I would propose to add a min_num_buffers field to struct v4l2_create_buffers
->>>> and add a V4L2_BUF_CAP_SUPPORTS_MIN_NUM_BUFFERS flag to signal the presence of
->>>> that field. And vb2 can set it to min_queued_buffers + 1.
->>>
->>> This would require allocating a buffer first to get the value. Wouldn't
->>> a read-only control be better ?
->>
->> No. You can call CREATE_BUFS with count = 0: in that case it does nothing,
->> except filling in all those capabilities. It was designed with that in mind
->> so you have an ioctl that can return all that information.
->>
->>>
->>> Furthermore, I would rather provide the min_queued_buffers value instead
->>> of min_queued_buffers + 1. The V4L2 API should provide userspace with
->>> information it needs to make informed decisions, but not make those
->>> decisions in behalf of userspace. It's up to applications to add 1 or
->>> more buffers depending on their use case.
->>
->> I would definitely want more opinions on this. What's the point of returning
->> min_queued_buffers and then creating that many buffers and still not be able
->> to stream?
->>
->> Can you think of a scenario (e.g. in libcamera or elsewhere) where that makes
->> sense?
->>
->> Also, will the average V4L2 user have the knowledge to understand that? You
->> have that knowledge, but I think for anyone else it would be really confusing.
->>
->>>
->>> I think we also need to discuss policies regarding scratch buffer
->>> allocation in the context of this RFC. When the hardware supports small
->>> scratch buffers, I would like to make it mandatory for drivers to do so
->>> and support min_queued_buffers = 0.
->>
->> I would first like to know the use-case (as I mentioned above).
->>
->> For the type of drivers I mostly work with (video receivers), it would just
->> be a lot of work for no gain. But perhaps for camera pipelines it does make
->> sense?
->>
->>> When scratch buffers are expensive, do we want to still support them in
->>> the kernel, perhaps in a way controlled by userspace ? A userspace that
->>> can guarantee it will always provide min_queued_buffers + 1 buffers
->>> could indicate so and avoid scratch buffer allocation, while a userspace
->>> that can't provide that guarantee would get scratch buffers from the
->>> kernel.
->>
->> That is really the difference between using VIDIOC_REQBUFS and VIDIOC_CREATE_BUFS.
->> I.e., userspace can already choose this.
->>
->> Just to clarify the reason for this RFC: the current situation is messy. There
->> is a lot of history and a lot of older drivers do not always do the right thing.
->>
->> With this RFC I would like to get a consensus of how it should work. After that
->> I want to implement any missing bits and improve the documentation, and finally
->> go through the drivers and at least try to make them behave consistently.
->>
->> Also I want to improve v4l2-compliance to test more corner cases, especially
->> if you use CREATE_BUFS instead of REQBUFS (I already have a patch for that
->> ready).
->>
->> The work Benjamin did on increasing the max number of supported buffers and the
->> REMOVE_BUFS ioctl uncovered a lot of that messy history, and it is clear we need
->> to try and clarify how it should work.
->>
->>>> The second proposal is to explicitly document that the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
->>>> are for stateful codec support only, at least for now.
->>
->> I just discovered that v4l2-compliance and v4l2-ctl do not honor these controls
->> for stateful codecs. That's something that needs to be fixed.
->>
->> There is also one other item that I would like to discuss: the vb2 queue_setup
->> callback is currently used for both REQBUFS and CREATE_BUFS, and it remains
->> confusing for drivers how to use it exactly. I am inclined to redesign that
->> part, most likely splitting it in two: either one callback for REQBUFS and one
->> for CREATE_BUFS, or alternatively, one callback when allocating buffers for
->> the first time (so REQBUFS and when CREATE_BUFS is called for the first time,
->> i.e. when no buffers are allocated yet), and one callback when adding additional
->> buffers. I would have to think about this, and probably experiment a bit.
-> 
-> Actually, this really has to be addressed since this is broken: you can call
-> CREATE_BUFS as a replacement for REQBUFS, but it will act like REQBUFS and
-> the requested sizes are not honored.
+Is it possible to tie this to a commit?
 
-After digging deeper into this I realized that it actually works correctly
-as long as the driver doesn't do anything weird in queue_setup.
+This is a u64 variable getting divided somewhere or maybe the divisor is a u64?
+But there haven't been any recent changes to the driver so probably the change
+happened in a header file?  I looked the differences between the preprocessed
+.i files from before and after and nothing jumped out at me.
 
-E.g. I am not so sure the venus driver will do this right, see
-drivers/media/platform/qcom/venus/vdec.c
+I don't have a copy of gcc-8...
 
-If *num_planes is non-zero (i.e. called from CREATE_BUFS), then it will use
-e.g. inst->input_buf_size, and that is only set if queue_setup is called with
-*num_planes set to zero (i.e. called from REQBUFS).
+regards,
+dan carpenter
 
-So I suspect that calling CREATE_BUFS instead of REQBUFS will cause problems.
-
-I'm CC-ing Stanimir and Dikshita (for the upcoming iris driver, which has the
-same issue).
-
-It is rare that drivers do something like that in queue_setup, so most drivers
-should be fine. If a driver needs to do something like that, then they should
-first call vb2_get_num_buffers() and check if this is 0: that's when you can
-do the extra code that only should be done when the first buffer is allocated.
-
-Regards,
-
-	Hans
-
+On Wed, Oct 30, 2024 at 06:53:01PM +0530, Naresh Kamboju wrote:
+> The arm builds failed with gcc-8 on Linux next-20241028
+> and builds pass with gcc-13.
 > 
-> I added tests for this to v4l2-compliance (locally only), and it fails on
-> everything.
+> First seen on Linux next-20241028 tag.
+>   Good: next-20241025
+>   Bad:  next-20241028
 > 
-> It should not be news to anyone that I hate the CREATE_BUFS ioctl API. I posted
-> an RFC for a VIDIOC_ADD_BUFS replacement earlier this year:
+> arm:
+>   build:
+>     * gcc-8-imx_v6_v7_defconfig
+>     * gcc-8-defconfig
+>     * gcc-8-omap2plus_defconfig
+>     * gcc-8-davinci_all_defconfig
 > 
-> https://lore.kernel.org/linux-media/243a66ad-6dff-4a43-ab03-e01d1038fe8a@xs4all.nl/
+> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 > 
-> I wonder if we should restrict CREATE_BUFS to only be used after calling
-> REQBUFS, and to a proper job for ADD_BUFS. Because given the vb2 design flaw
-> I am not sure if it can be worked around. Or if we even want that.
+> Build log:
+> ---------
+> ERROR: modpost: "__aeabi_uldivmod"
+> [drivers/media/dvb-frontends/cxd2841er.ko] undefined!
+> make[3]: *** [/builds/linux/scripts/Makefile.modpost:145:
+> Module.symvers] Error 1
+> make[3]: Target '__modpost' not remade because of errors.
 > 
-> What a mess.
+> Build image:
+> -----------
+> - https://storage.tuxsuite.com/public/linaro/lkft/builds/2o9bKKvq45ZlybLVnQ1Bl0hEVA5/
+> - https://storage.tuxsuite.com/public/linaro/lkft/builds/2o9bKKvq45ZlybLVnQ1Bl0hEVA5/build.log
 > 
-> Looking at the kernel history, CREATE_BUFS was added back in 2011 and the first
-> very simple v4l2-compliance tests were added in 2012.
+> Steps to reproduce:
+> ------------
+>    - tuxmake --runtime podman --target-arch arm --toolchain gcc-8
+> --kconfig defconfig
 > 
-> Moral: whenever a new uAPI is added, make sure it you make really good compliance
-> tests as well.
+> metadata:
+> ----
+>   git describe: next-20241030
+>   git repo: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>   git sha: 86e3904dcdc7e70e3257fc1de294a1b75f3d8d04
+>   kernel config:
+> https://storage.tuxsuite.com/public/linaro/lkft/builds/2o9bKKvq45ZlybLVnQ1Bl0hEVA5/config
+>   build url: https://storage.tuxsuite.com/public/linaro/lkft/builds/2o9bKKvq45ZlybLVnQ1Bl0hEVA5/
+>   toolchain: gcc-8
+>   config: defconfig
+>   arch: arm
 > 
-> Regards,
-> 
-> 	Hans
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->>>>
->>>> If this is in place, then min_reqbufs_allocation should be set to a sane number of
->>>> buffers (i.e. typically 3 or 4), and if you want precise control, use VIDIOC_CREATE_BUFS.
->>>
->>
->>
-> 
-> 
-
+> --
+> Linaro LKFT
+> https://lkft.linaro.org
 
