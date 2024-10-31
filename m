@@ -1,129 +1,117 @@
-Return-Path: <linux-media+bounces-20639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20640-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671589B78DE
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 11:42:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4299B79AA
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 12:28:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 993A61C233DD
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 10:42:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F01D21F23646
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2024 11:27:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46AD919AA41;
-	Thu, 31 Oct 2024 10:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C341D19ADA3;
+	Thu, 31 Oct 2024 11:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ipfmD2k9"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hz3vh/+D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA16199FCD
-	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 10:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2657419ABC4
+	for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 11:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730371351; cv=none; b=pdzzlaEuXVw2+T5RSc+oVjLzhbsFrnJiA2cIBaIxfQK0ZCtKYBO9hqdsuAi672/Cs3KFXDoTGwcRSUST2ublBTtTnDquuLEpuqDyFqmbWDubo2L+QtddqYtuTYIbrlg97X+/2IO1mGVVC8PoSlL08IMXwTlGQviguOScq7xWD9c=
+	t=1730374071; cv=none; b=mhCDmmHDNpxBUCI/fP+UL3ShZ6rYmroSV/L5XgaxhhmdjKmujITShvpL+uldNXo+vwLCxSlBEel9XD2hGxrUhvlhshJcS+4Vv32ftK9U+4AHfSBzBQjE/lEp9WJaDUdiZhcjUmeDTc5H6v1YYVEZ5tvDlomI+2QPoEzCWjXLvnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730371351; c=relaxed/simple;
-	bh=Tb2AAyxawFX+WuFvZpBTwXf7Ij/FAORlAwfN5kr3Z4Q=;
+	s=arc-20240116; t=1730374071; c=relaxed/simple;
+	bh=2/wxx2yPHeqzUl3bK4IWTgP7OiPHmrV9sMpSAgHj9dY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iSztFCOy1Mjr5i7GIcuGrnNuhZugTg61bprPTrjVuROqoX5YhGPzz7v3zOptiFSB7n2L3DmNxgql2mL2TxgSX5Wu5/AROD3CXFrqQdUSsPCSGW9nDiuBJmX206o0iutIOShYDd1rQ2jxcg2dnv3wJ4IrDQOuVNd1ejw7dt+X+dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ipfmD2k9; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FB479EC;
-	Thu, 31 Oct 2024 11:42:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730371343;
-	bh=Tb2AAyxawFX+WuFvZpBTwXf7Ij/FAORlAwfN5kr3Z4Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ipfmD2k9hrw7BRVh4ParJIsL3apuOpHhsYHzT5h26zqOMlq69Hmd8D4V+jnmkUCnX
-	 Dc79/n20Mn0gYLuvIzykpO/zXxGFyGv/6rbXOXKEA4CxwtmVyU87G2DCIy8RmsRjZl
-	 7ejwEvs89/NIOZE2nMPKmnMjT6o0KZjXSo7bD0DQ=
-Date: Thu, 31 Oct 2024 12:42:19 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [PATCH] Documentation: media: improve
- V4L2_CID_MIN_BUFFERS_FOR_*, doc
-Message-ID: <20241031104219.GF2473@pendragon.ideasonboard.com>
-References: <93d078e5-deba-4060-a32e-94bce677453c@xs4all.nl>
- <20241031101141.GD2473@pendragon.ideasonboard.com>
- <2a61ded3-4cea-4a1a-9d16-aa74dbb22f74@xs4all.nl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mSHo51qBpAoMcnOBh2DO5mXi330nqkm+o9usuyAo/Y9NGtTjxMmzwhdyGi+Onvx8LvjpcayT92eehIdQE6Aa3yAfIfjE+eLD5tmwgYW42Ve+nzMRggX/u4BAJ0MjCvto3wtQarX9lAMWhZKQAfDkouuyThZCRMrz+njTuJHsgK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hz3vh/+D; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d5689eea8so525429f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 31 Oct 2024 04:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730374067; x=1730978867; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Qinma5kqYmuHBjZm6H5Vna/9c51/QTVcMYek7K4+Gg=;
+        b=hz3vh/+DULH61ZS/p5Cp2thML0yxKqd7e73IBuRXFu6wKCViP6WlA2G4vqhKc23MjV
+         zqcd+UCDgVgp8ki0eeE2tYUmBYHtybT7IaeZdMIk6BnGM7z7JcLOCV8MtY2I3G6TmEYC
+         Q1DdLBCuKkV2lJXwuMugcdfFYOwxjQfy+OF3kgQskpb3T/h6Q3SDiQGe3sNr0QRCWI4l
+         YSHxCwvQJAUnTpMdyqbPeg+3lQd5Vs4hJsWl9BX+eUp7CsW3elwE6xFCt4n4KcdO8T7r
+         QBE1FboIr+l8GpyI7FcQ03hSMKOtoWo/qQ0BK2iMEdMuKpt3XEQWPpEI7ua8d4Hu2iqJ
+         oqjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730374067; x=1730978867;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Qinma5kqYmuHBjZm6H5Vna/9c51/QTVcMYek7K4+Gg=;
+        b=X6XAOWGF7F2SDapp5FGCHqfK0JGwcRBXa8XRLxxQPv/H9v0oo7SY3nBmcdQ+5FUuRf
+         h8m8f6LD64MSkZBNaPPE7Q3JzGyJI6LUvOmiSx43PGKK9jbIlkOKqLOGoMig+dikmsL3
+         eyjSmSWW6hjZPMHftN0kXJGRqXUzM+XDaWR48wzB6qGiHmz4ODttg5kzio0yX6PNQffw
+         iNMnlLSCfm8k9nFZ6OffapyKuQ6rgfhHESBRpfQjD34yX7SbPBcMTSHRjB77cA7aQPGd
+         r2bHhoHO3LjQn0iewTD5Gr7hDA911ZQ5JA/UsM+m3S9klQPikeEFHFDm0UqQX84rP4VH
+         WX+w==
+X-Forwarded-Encrypted: i=1; AJvYcCUfNkB3YOeMlB/8+6mg1mCSYidW4FEtjtkFLFYab2dQPUdllw/RFH8n7xalSB7uFQiXtNE6XtBghvgXPg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YycL2I49pDVxdW/JgGLPtjbXYXiLRSwSCmwJUDON8JQGNCyV90E
+	N7g1hFRgx3COqY5b4WJChrfpaetPne/v7TVMLwSLL7T241Ya7CimqYRZo9x2gKk=
+X-Google-Smtp-Source: AGHT+IHMzU32/E5p1uwxhDrq7bFwkszQjYOIXlfcx9OzbVpxpXnCoF3yBkBjLJDocKcQhGQ24Jv1YQ==
+X-Received: by 2002:adf:9793:0:b0:367:9881:7d66 with SMTP id ffacd0b85a97d-380612008e6mr13984567f8f.41.1730374067469;
+        Thu, 31 Oct 2024 04:27:47 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c113e6b5sm1847280f8f.88.2024.10.31.04.27.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2024 04:27:46 -0700 (PDT)
+Date: Thu, 31 Oct 2024 14:27:43 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Naresh Kamboju <naresh.kamboju@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Linux Regressions <regressions@lists.linux.dev>,
+	lkft-triage@lists.linaro.org,
+	Anders Roxell <anders.roxell@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: next-20241028: gcc-8-defconfig : ERROR: modpost:
+ "__aeabi_uldivmod" [drivers/media/dvb-frontends/cxd2841er.ko] undefined!
+Message-ID: <d3903c31-21ae-4ffe-9969-6faa7e430cb5@stanley.mountain>
+References: <CA+G9fYvvNm-aYodLaAwwTjEGtX0YxR-1R14FOA5aHKt0sSVsYg@mail.gmail.com>
+ <456c79d2-5041-47c4-bed2-44d257524ddd@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2a61ded3-4cea-4a1a-9d16-aa74dbb22f74@xs4all.nl>
+In-Reply-To: <456c79d2-5041-47c4-bed2-44d257524ddd@stanley.mountain>
 
-On Thu, Oct 31, 2024 at 11:26:47AM +0100, Hans Verkuil wrote:
-> On 10/31/24 11:11, Laurent Pinchart wrote:
-> > Hi Hans,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Thu, Oct 31, 2024 at 08:50:04AM +0100, Hans Verkuil wrote:
-> >> Clearly state that the V4L2_CID_MIN_BUFFERS_FOR_OUTPUT and
-> >> V4L2_CID_MIN_BUFFERS_FOR_CAPTURE controls are required for
-> >> stateful codecs.
-> > 
-> > Wouldn't it be better for this kind of information to be centralized in
-> > a stateful decoder document ? That would make it easier for developers
-> > to see all they need to implement. Otherwise they would need to read
-> > through the whole documentation to pick the parts of the API they need
-> > to support in their drivers.
-> 
-> It's also already mentioned in the documentation for the stateful de/encoders here:
-> 
-> https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-mem2mem.html
+Arnd, can you take a look at this?
 
-OK, then it's fine to have it here too I think.
+This patch fixes the build, but obviously breaks the kernel so don't apply it.
+I don't know how do_div() works or what changed though.  All this code looks
+ancient.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Also, once this vicodec patch is merged:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/1dd09050-40ca-4c5b-b985-819731140388@xs4all.nl/
-> 
-> I plan to push v4l2-compliance patches that explicitly test for the presence of
-> these controls and fail if they are missing (like they are now in vicodec).
->
-> >> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> >> ---
-> >>  Documentation/userspace-api/media/v4l/control.rst | 6 ++++--
-> >>  1 file changed, 4 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
-> >> index 57893814a1e5..9253cc946f02 100644
-> >> --- a/Documentation/userspace-api/media/v4l/control.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/control.rst
-> >> @@ -290,13 +290,15 @@ Control IDs
-> >>      This is a read-only control that can be read by the application and
-> >>      used as a hint to determine the number of CAPTURE buffers to pass to
-> >>      REQBUFS. The value is the minimum number of CAPTURE buffers that is
-> >> -    necessary for hardware to work.
-> >> +    necessary for hardware to work. This control is required for stateful
-> >> +    decoders.
-> >>
-> >>  ``V4L2_CID_MIN_BUFFERS_FOR_OUTPUT`` ``(integer)``
-> >>      This is a read-only control that can be read by the application and
-> >>      used as a hint to determine the number of OUTPUT buffers to pass to
-> >>      REQBUFS. The value is the minimum number of OUTPUT buffers that is
-> >> -    necessary for hardware to work.
-> >> +    necessary for hardware to work. This control is required for stateful
-> >> +    encoders.
-> >>
-> >>  .. _v4l2-alpha-component:
-> >>
+regards,
+dan carpenter
 
--- 
-Regards,
-
-Laurent Pinchart
+diff --git a/drivers/media/dvb-frontends/cxd2841er.c b/drivers/media/dvb-frontends/cxd2841er.c
+index d925ca24183b..e3131f5c6708 100644
+--- a/drivers/media/dvb-frontends/cxd2841er.c
++++ b/drivers/media/dvb-frontends/cxd2841er.c
+@@ -314,7 +314,7 @@ static u32 cxd2841er_calc_iffreq_xtal(enum cxd2841er_xtal xtal, u32 ifhz)
+ 	u64 tmp;
+ 
+ 	tmp = (u64) ifhz * 16777216;
+-	do_div(tmp, ((xtal == SONY_XTAL_24000) ? 48000000 : 41000000));
++//	do_div(tmp, ((xtal == SONY_XTAL_24000) ? 48000000 : 41000000));
+ 
+ 	return (u32) tmp;
+ }
 
