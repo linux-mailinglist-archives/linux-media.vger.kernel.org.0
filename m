@@ -1,201 +1,331 @@
-Return-Path: <linux-media+bounces-20702-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20703-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3189B9465
-	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 16:27:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B909B95FA
+	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 17:57:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E59A1F21B52
-	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 15:27:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA1AA1C211A2
+	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 16:57:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26A751C68A6;
-	Fri,  1 Nov 2024 15:27:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B15E71C9ECC;
+	Fri,  1 Nov 2024 16:56:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="3SagI3t1"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ygvqZm65"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6EA1A3031
-	for <linux-media@vger.kernel.org>; Fri,  1 Nov 2024 15:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8037E1CACC8
+	for <linux-media@vger.kernel.org>; Fri,  1 Nov 2024 16:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730474856; cv=none; b=Pr7VsF01fpQG3q6Fp2K1AX1p/cuU8fNYzVBWu6/31Oytyv0kSIukktB+hoQ9Tjd5awUWjHdtakDww0HL8GcHEoTx7mAxk8feeHE8ilPMfwgaG/6xBIyy+C1fVaXve0/dXhY+LTxQ+Vrd7qZGkks8DbORgdVykXB3XQMEY8gaW/I=
+	t=1730480218; cv=none; b=jYvkyoNtKWp5F3W8B+Sq7d2ZbaMkG101xDV38qqPfjckoBLqFSL+0KP+D2kJz0WYOqF/mbTvhFqlYLMeJRVd3Tyn47zjMjlzx5H9RPdgBz3hK095TRhIYdrRBw94oCY+3MSypwbmSmxkW7jr9M4nBEa/tm8NRprw61hq3l/RrlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730474856; c=relaxed/simple;
-	bh=v6bPRfzSENICoKf9OISSZbMLHA1bYo0mcGwtUDZpoK8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=pnC3mwL9pWj6DTbVpQVQxYFoL8woy9ePSMpm/lkR6DAT6Q2ECxWTYJTror90nLRsZnthe9Nwvo+uQyHZEq6LdiHteC8gd5kpDMOAn0ql27XAu+5IEkRJRU+u1ZQQijB/uBN8pLvsO44bP3dmeWlaUNaMP62ZGuU3PX1bewbaT6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=3SagI3t1; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5cec7c058f8so205115a12.1
-        for <linux-media@vger.kernel.org>; Fri, 01 Nov 2024 08:27:32 -0700 (PDT)
+	s=arc-20240116; t=1730480218; c=relaxed/simple;
+	bh=Hh3ePTY5eOcO+ABQ/OXH98joFD3cozVtNgiDQKTCotU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=szzd+7Y70LVeBKsR0uMAZKQxbPHe3qKq2HOQEVj87/rNIxNfmDkemc0ROYQrDFMoezwvztzUj5fdrY3RRVUapT9GCPkEMgTgs4VdtA98q95m/hqYMUdxKBbyHI+MWfq1UrhV8Yy8rZJFDdeGksmOO1qK/uhsyGPxq1fmV9sUxf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ygvqZm65; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4315eeb2601so23212865e9.2
+        for <linux-media@vger.kernel.org>; Fri, 01 Nov 2024 09:56:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1730474851; x=1731079651; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K6TkXEo4x1I5Rzwt8fjqhUP2t7jAOO31BIJtURlqSmc=;
-        b=3SagI3t1U8CH99DmXDvZmkGIbbxKeCjM9vLWKrwep4eNtJH8xc48NrzDbhtMSFPqY5
-         bfafTDTEgEuGQVgICE9QAJfYJDGPnS+vCFT4n7RLMTYYgbXFUAGCPj2REl3JccXGtNS+
-         9EjDsg08WCZB3fmetfifqWBpDlKfJTYz81m6x2wQNc6V6S08DSTr8mY0QH/XXsqeR4Tt
-         EeomETE1N7CCrBTYiqQXvTNCgTUy3cSHCawm+RPt+e6yTt6cDRDi5vBkve11eA5UzOp6
-         1IqC6UjrMUh8eivk0XvR+5YGcyCNMDiTwg0NBu9QHt8ny6SpE6vzgtDloW3aXnj2on5O
-         jf8g==
+        d=linaro.org; s=google; t=1730480214; x=1731085014; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aFhDCeB3natVan6jLDOhEB/ZUWcslmFFkqQfAi6PeEk=;
+        b=ygvqZm65v0KtwPny7+Mpu2ue3htDY+ZHtttD5TqNMSxd7mXSMOwDmjMKvY1f+wPqAM
+         QlxI+tDYY9cWehfATHzSNLoIWQSmNMABanjQZzflY/qsl9CHwu3XL56VBjbTWoowpJPC
+         GDU5JVHNKyP5oZvbNCXfncxbZ0jdPh4LqazLM+k+xqjIcPC0qhXdI0fYf9Li14NVpocp
+         KXqWDMSqASVDXSEZC9Eyn4IhFN6oHZV5/JJ9QjPH7p3uYz1oxPVb4tHpWVD5AG7Bi7x5
+         Lv4ziyfj5VSO0pvqWRqT5TU6wY0wHIiHndLK6XFCS+xt1yFpuYv0mkKVi7l+1PYyf5oK
+         ph4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730474851; x=1731079651;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=K6TkXEo4x1I5Rzwt8fjqhUP2t7jAOO31BIJtURlqSmc=;
-        b=E3OXqowUDsnSWF4WzVId8+V/SqJ/FbJk7ufnN6+SoSeF4vlnWTNg/9uSnzAA6ADjUL
-         lmWan+cjT3fbOuId/Wi5R3s8YK+KYsoORejZWE6+6dX3SjyOxsmjWMggd+KXJkILAL+X
-         FdMKbj93tUcoPYO7dzQrAOKkLVYxsCecCzW00G8uquNUCA4njL/PhUFbtkV5EU++lkzF
-         ibgyDHpC7HJN5Iioj8PUR/X4v1CoZnuUXvIS5fleYZ1f1J+L5EIL+JS5iaM32dcHGGfE
-         gr6PxOAfkpfEQ6IgzKgpxHvxOAEOprvzN0yGcfvtv3sLUSFDAZ+UTBED+djf3gZnsOYM
-         Qacw==
-X-Forwarded-Encrypted: i=1; AJvYcCUPdi2eWg25Vbtn1Am8BHASbo/TPoO367V19osW//oBrXS0RXjqekS20ZpEiDUi2nRFNFmWUTQSJ8Hlkw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaDigZZrz7ZMuC7qpXyJkEopnFMArkT4fn0qyqYo3nIev56Wm4
-	qSkNDIaoBm3uZC1WsoQxRB/TeWCSihuKLXL1RkBV5BbyI1uJoNawvnbgOs9oS5E=
-X-Google-Smtp-Source: AGHT+IHBNPcncBQHtNtb7STpigHQlaFGA7NJY+pQaXbjyeqQZ6bXscULA7A1iluv+zMZo2STz3vLvw==
-X-Received: by 2002:a05:6402:2695:b0:5c2:6d16:ad5e with SMTP id 4fb4d7f45d1cf-5ceb92a7bc4mr2823312a12.19.1730474851261;
-        Fri, 01 Nov 2024 08:27:31 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ceac5cb8fbsm1607974a12.0.2024.11.01.08.27.30
+        d=1e100.net; s=20230601; t=1730480214; x=1731085014;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aFhDCeB3natVan6jLDOhEB/ZUWcslmFFkqQfAi6PeEk=;
+        b=rW9/MwQwdUGys94QeLaZt1t5rmWUFkaNYljx3Oy/ecVFLAQEfxWyJTQtVSYpc0f8b1
+         azTZiud6Ui4dDGKfNC7eWlFaY2UM7pSNjxMjQ9AlBegkVu/K9yJnLC+qkA8BiLHk2mzk
+         8yokCK4CPHcpHMJyLeSQTXbydhCJ/y272AHHDktCPfNypD8V4AcG6+Q+qafcXwhQQ2l2
+         XaFKb00tu1kRAqMXiN+cEhS8GpV/gALljZFhvnoTXnLX2ZlIsea0g32iA/ig4TV1lmCf
+         yQXnIgpHD86f+bNAGjXGIUaSkAruybrcpv34XjJWlTGxvo2L9KCAE/kZ36hUJvnzqYfL
+         43cA==
+X-Gm-Message-State: AOJu0Yxwk39rBi4Z+mKtYX/HskHVcEtzkCGpe5j6dtnBKegEtHSC9LSW
+	xLbwyrP0Wvg3oyh3M451l++H+DbXg4D8OsBeXQMihOLtU5oVd17l5KTZnQomLrk=
+X-Google-Smtp-Source: AGHT+IGodZAjfXp4tUmW6YwVSDdFFc+bf9aUskO6cp3Cw2yMrR8Copf5ovge8NjE8dTSGJzo/GiB7Q==
+X-Received: by 2002:a05:600c:444d:b0:42f:75e0:780e with SMTP id 5b1f17b1804b1-4328324ad00mr38414295e9.10.1730480213676;
+        Fri, 01 Nov 2024 09:56:53 -0700 (PDT)
+Received: from [192.168.0.35] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd9ca6f8sm97929315e9.39.2024.11.01.09.56.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Nov 2024 08:27:30 -0700 (PDT)
+        Fri, 01 Nov 2024 09:56:53 -0700 (PDT)
+Message-ID: <9bd7753d-0f59-4ef9-ba58-93c6f6c23f5e@linaro.org>
+Date: Fri, 1 Nov 2024 16:56:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 01 Nov 2024 16:27:30 +0100
-Message-Id: <D5AY4ZK858IO.3BH1USXK7NTAD@fairphone.com>
-Cc: <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>
-Subject: Re: [PATCH v4 0/6] media: qcom: camss: Add sc7280 support
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Vikram Sharma" <quic_vikramsa@quicinc.com>, <rfoss@kernel.org>,
- <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>, <mchehab@kernel.org>,
- <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <akapatra@quicinc.com>, <hariramp@quicinc.com>, <andersson@kernel.org>,
- <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
- <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
- <will@kernel.org>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20241030105347.2117034-1-quic_vikramsa@quicinc.com>
-In-Reply-To: <20241030105347.2117034-1-quic_vikramsa@quicinc.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] media: dt-bindings: media: camss: Add
+ qcom,msm8953-camss binding
+To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20241101-camss-msm8953-v1-0-4012559fcbc2@mainlining.org>
+ <20241101-camss-msm8953-v1-2-4012559fcbc2@mainlining.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20241101-camss-msm8953-v1-2-4012559fcbc2@mainlining.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed Oct 30, 2024 at 11:53 AM CET, Vikram Sharma wrote:
-> SC7280 is a Qualcomm SoC. This series adds support to bring up the CSIPHY=
-,
-> CSID, VFE/RDI interfaces in SC7280.
->
-> SC7280 provides
->
-> - 3 x VFE, 3 RDI per VFE
-> - 2 x VFE Lite, 4 RDI per VFE
-> - 3 x CSID
-> - 2 x CSID Lite
-> - 5 x CSI PHY
->
-> The changes are verified on SC7280 qcs6490-rb3gen2 board, with attached v=
-ision mezzanine
-> the base dts for qcs6490-rb3gen2 is:
-> https://lore.kernel.org/all/20231103184655.23555-1-quic_kbajaj@quicinc.co=
-m/
+On 01/11/2024 13:47, Barnabás Czémán wrote:
+> Add bindings for qcom,msm8953-camss in order to support the camera
+> subsystem for MSM8953/SDM450/SDM632.
+> 
+> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+> ---
+>   .../bindings/media/qcom,msm8953-camss.yaml         | 320 +++++++++++++++++++++
+>   1 file changed, 320 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8953-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8953-camss.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..39b9c58e2a2ea2e1ad434aa35bf6ee128d3a0649
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,msm8953-camss.yaml
+> @@ -0,0 +1,320 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,msm8953-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm CAMSS ISP
+> +
+> +maintainers:
+> +  - Barnabas Czeman <barnabas.czeman@mainlining.org>
+> +
+> +description: |
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,msm8953-camss
+> +
+> +  clocks:
+> +    minItems: 30
+> +    maxItems: 30
+> +
+> +  clock-names:
+> +    items:
+> +      - const: top_ahb
+> +      - const: ispif_ahb
+> +      - const: micro_ahb
+> +      - const: csiphy0_timer
+> +      - const: csiphy1_timer
+> +      - const: csiphy2_timer
+> +      - const: csi0_ahb
+> +      - const: csi0
+> +      - const: csi0_phy
+> +      - const: csi0_pix
+> +      - const: csi0_rdi
+> +      - const: csi1_ahb
+> +      - const: csi1
+> +      - const: csi1_phy
+> +      - const: csi1_pix
+> +      - const: csi1_rdi
+> +      - const: csi2_ahb
+> +      - const: csi2
+> +      - const: csi2_phy
+> +      - const: csi2_pix
+> +      - const: csi2_rdi
+> +      - const: ahb
+> +      - const: vfe0
+> +      - const: csi_vfe0
+> +      - const: vfe0_ahb
+> +      - const: vfe0_axi
+> +      - const: vfe1
+> +      - const: csi_vfe1
+> +      - const: vfe1_ahb
+> +      - const: vfe1_axi
 
-Hi Vikram!
+These should be sorted alphanumerically, take sm8250-camss.yaml as the 
+reference.
 
-Two things:
+> +
+> +  interrupts:
+> +    minItems: 9
+> +    maxItems: 9
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: ispif
+> +      - const: vfe0
+> +      - const: vfe1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    items:
+> +      - description: VFE0 GDSC - Video Front End, Global Distributed Switch Controller.
+> +      - description: VFE1 GDSC - Video Front End, Global Distributed Switch Controller.
+> +
 
-You use the property "power-domains-names" in both bindings and dtsi but
-this property is never parsed in the kernel. This should be
-"power-domain-names"
+Please name your power-domains.
 
-Second, I still can't get the test pattern to work on my QCM6490-based
-phone (Fairphone 5). Could you please try if the commands as per [0]
-work on your board?
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports.
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                description:
+> +                  An array of physical data lanes indexes.
+> +                  Position of an entry determines the logical
+> +                  lane number, while the value of an entry
+> +                  indicates physical lane index. Lane swapping
+> +                  is supported. Physical lane indexes;
+> +                  0, 2, 3, 4.
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +  reg:
+> +    minItems: 13
+> +    maxItems: 13
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csiphy0
+> +      - const: csiphy0_clk_mux
+> +      - const: csiphy1
+> +      - const: csiphy1_clk_mux
+> +      - const: csiphy2
+> +      - const: csiphy2_clk_mux
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: ispif
+> +      - const: csi_clk_mux
+> +      - const: vfe0
+> +      - const: vfe1
 
-[0] https://lore.kernel.org/linux-arm-msm/c912f2da-519c-4bdc-a5cb-e19c3aa63=
-ea8@linaro.org/
+Please sort these alphanumerically too.
 
-Regards
-Luca
+> +
+> +  vdda-supply:
+> +    description:
+> +      Definition of the regulator used as analog power supply.
+> +
+> +required:
+> +  - clock-names
+> +  - clocks
+> +  - compatible
+> +  - interrupt-names
+> +  - interrupts
+> +  - iommus
+> +  - power-domains
+> +  - reg
+> +  - reg-names
+> +  - vdda-supply
 
->
-> Changes in V4:
-> - V3 had 8 patches and V4 is reduced to 6.
-> - Removed [Patch v3 2/8] as binding change is not required for dtso.
-> - Removed [Patch v3 3/8] as the fix is already taken care in latest
->   kernel tip.=20
-> - Updated alignment for dtsi and dt-bindings.
-> - Adding qcs6490-rb3gen2-vision-mezzanine as overlay.=20
-> - Link to v3: https://lore.kernel.org/linux-arm-msm/20241011140932.174412=
-4-1-quic_vikramsa@quicinc.com/
->
-> Changes in V3:
-> - Added missed subject line for cover letter of V2.
-> - Updated Alignment, indentation and properties order.
-> - edit commit text for [PATCH 02/10] and [PATCH 03/10].
-> - Refactor camss_link_entities.
-> - Removed camcc enablement changes as it already done.
-> - Link to v2: https://lore.kernel.org/linux-arm-msm/20240904-camss_on_sc7=
-280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com/
->
-> Changes in V2:
-> - Improved indentation/formatting.
-> - Removed _src clocks and misleading code comments.
-> - Added name fields for power domains and csid register offset in DTSI.
-> - Dropped minItems field from YAML file.
-> - Listed changes in alphabetical order.
-> - Updated description and commit text to reflect changes
-> - Changed the compatible string from imx412 to imx577.
-> - Added board-specific enablement changes in the newly created vision
->   board DTSI file.
-> - Fixed bug encountered during testing.
-> - Moved logically independent changes to a new/seprate patch.
-> - Removed cci0 as no sensor is on this port and MCLK2, which was a
->   copy-paste error from the RB5 board reference.
-> - Added power rails, referencing the RB5 board.
-> - Discarded Patch 5/6 completely (not required).
-> - Removed unused enums.
-> - Link to v1: https://lore.kernel.org/linux-arm-msm/20240629-camss_first_=
-post_linux_next-v1-0-bc798edabc3a@quicinc.com/
->
-> Suresh Vankadara (1):
->   media: qcom: camss: Add support for camss driver on SC7280
->
-> Vikram Sharma (5):
->   media: dt-bindings: media: camss: Add qcom,sc7280-camss binding
->   media: qcom: camss: Sort CAMSS version enums and compatible strings
->   media: qcom: camss: Restructure camss_link_entities
->   arm64: dts: qcom: sc7280: Add support for camss
->   arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine: Add vision
->     mezzanine
->
->  .../bindings/media/qcom,sc7280-camss.yaml     | 439 +++++++++++++++
->  arch/arm64/boot/dts/qcom/Makefile             |   4 +
->  .../qcs6490-rb3gen2-vision-mezzanine.dtso     |  73 +++
->  arch/arm64/boot/dts/qcom/sc7280.dtsi          | 208 ++++++++
->  .../media/platform/qcom/camss/camss-csid.c    |   1 -
->  .../qcom/camss/camss-csiphy-3ph-1-0.c         |  13 +-
->  .../media/platform/qcom/camss/camss-csiphy.c  |   5 +
->  .../media/platform/qcom/camss/camss-csiphy.h  |   1 +
->  drivers/media/platform/qcom/camss/camss-vfe.c |   8 +-
->  drivers/media/platform/qcom/camss/camss.c     | 500 ++++++++++++++++--
->  drivers/media/platform/qcom/camss/camss.h     |   1 +
->  11 files changed, 1190 insertions(+), 63 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,sc7280-c=
-amss.yaml
->  create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezza=
-nine.dtso
+These are out of order, please see:
 
+Documentation/devicetree/bindings/dts-coding-style.rst
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,gcc-msm8953.h>
+> +
+> +    camss: camss@1b00000 {
+> +
+> +      compatible = "qcom,msm8953-camss";
+> +
+> +      clocks = <&gcc GCC_CAMSS_TOP_AHB_CLK>,
+> +        <&gcc GCC_CAMSS_ISPIF_AHB_CLK>,
+
+Your example indentation is broken, likely copy/paste from your dtsi 
+without updating for characters instead of tabs.
+
+---
+bod
 
