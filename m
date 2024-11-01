@@ -1,155 +1,201 @@
-Return-Path: <linux-media+bounces-20701-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20702-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A3F89B93D5
-	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 15:59:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3189B9465
+	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 16:27:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B61421F21C37
-	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 14:59:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E59A1F21B52
+	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 15:27:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59FD61AA7A3;
-	Fri,  1 Nov 2024 14:59:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26A751C68A6;
+	Fri,  1 Nov 2024 15:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="3SagI3t1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E977819DF53;
-	Fri,  1 Nov 2024 14:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6EA1A3031
+	for <linux-media@vger.kernel.org>; Fri,  1 Nov 2024 15:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730473175; cv=none; b=NPZXrUUYREKw/6e3O4X61N9eWkppDNkgpUeVbq1ipuhEBDyDe0tnHsgaGswcLGN/u2rrf5EM77Kk08qM9CSUhwnCl7v8RtDNo4nCACLBfEIBBdubXgiMjOkDVGM/xeVe6arhbt8gcaSVDXPhKEXlTswrxwSPv2b0MzmhSksroLI=
+	t=1730474856; cv=none; b=Pr7VsF01fpQG3q6Fp2K1AX1p/cuU8fNYzVBWu6/31Oytyv0kSIukktB+hoQ9Tjd5awUWjHdtakDww0HL8GcHEoTx7mAxk8feeHE8ilPMfwgaG/6xBIyy+C1fVaXve0/dXhY+LTxQ+Vrd7qZGkks8DbORgdVykXB3XQMEY8gaW/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730473175; c=relaxed/simple;
-	bh=xL+GqfftCmenl96Zh89R5xUH+YGIzti3inJQEhu3r2M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OvHfebA/3gEICKN8J0MjUFfEI7RbJkPhJq4LIFXR03J4znnu1XDXBHFYMLlIsYHlvAT/VkQmdax0HrNP8WVIPPqHyqgKWyYWdvMXy9LPwwZGogQ2os69/kPKuqHlZV+u76LVwmqZ4+c/J8yZg+H8znVAHYwxHDMqaPvbHZ4T9/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
-Received: from mgb4.. (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id E60F2746A5;
-	Fri, 01 Nov 2024 15:59:22 +0100 (CET)
-From: tumic@gpxsee.org
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-Subject: [PATCH v2] media: mgb4: Fix inconsistent input/output alignment in loopback mode
-Date: Fri,  1 Nov 2024 15:59:11 +0100
-Message-ID: <20241101145911.3168-1-tumic@gpxsee.org>
-X-Mailer: git-send-email 2.46.2
+	s=arc-20240116; t=1730474856; c=relaxed/simple;
+	bh=v6bPRfzSENICoKf9OISSZbMLHA1bYo0mcGwtUDZpoK8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=pnC3mwL9pWj6DTbVpQVQxYFoL8woy9ePSMpm/lkR6DAT6Q2ECxWTYJTror90nLRsZnthe9Nwvo+uQyHZEq6LdiHteC8gd5kpDMOAn0ql27XAu+5IEkRJRU+u1ZQQijB/uBN8pLvsO44bP3dmeWlaUNaMP62ZGuU3PX1bewbaT6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=3SagI3t1; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5cec7c058f8so205115a12.1
+        for <linux-media@vger.kernel.org>; Fri, 01 Nov 2024 08:27:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1730474851; x=1731079651; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K6TkXEo4x1I5Rzwt8fjqhUP2t7jAOO31BIJtURlqSmc=;
+        b=3SagI3t1U8CH99DmXDvZmkGIbbxKeCjM9vLWKrwep4eNtJH8xc48NrzDbhtMSFPqY5
+         bfafTDTEgEuGQVgICE9QAJfYJDGPnS+vCFT4n7RLMTYYgbXFUAGCPj2REl3JccXGtNS+
+         9EjDsg08WCZB3fmetfifqWBpDlKfJTYz81m6x2wQNc6V6S08DSTr8mY0QH/XXsqeR4Tt
+         EeomETE1N7CCrBTYiqQXvTNCgTUy3cSHCawm+RPt+e6yTt6cDRDi5vBkve11eA5UzOp6
+         1IqC6UjrMUh8eivk0XvR+5YGcyCNMDiTwg0NBu9QHt8ny6SpE6vzgtDloW3aXnj2on5O
+         jf8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730474851; x=1731079651;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=K6TkXEo4x1I5Rzwt8fjqhUP2t7jAOO31BIJtURlqSmc=;
+        b=E3OXqowUDsnSWF4WzVId8+V/SqJ/FbJk7ufnN6+SoSeF4vlnWTNg/9uSnzAA6ADjUL
+         lmWan+cjT3fbOuId/Wi5R3s8YK+KYsoORejZWE6+6dX3SjyOxsmjWMggd+KXJkILAL+X
+         FdMKbj93tUcoPYO7dzQrAOKkLVYxsCecCzW00G8uquNUCA4njL/PhUFbtkV5EU++lkzF
+         ibgyDHpC7HJN5Iioj8PUR/X4v1CoZnuUXvIS5fleYZ1f1J+L5EIL+JS5iaM32dcHGGfE
+         gr6PxOAfkpfEQ6IgzKgpxHvxOAEOprvzN0yGcfvtv3sLUSFDAZ+UTBED+djf3gZnsOYM
+         Qacw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPdi2eWg25Vbtn1Am8BHASbo/TPoO367V19osW//oBrXS0RXjqekS20ZpEiDUi2nRFNFmWUTQSJ8Hlkw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaDigZZrz7ZMuC7qpXyJkEopnFMArkT4fn0qyqYo3nIev56Wm4
+	qSkNDIaoBm3uZC1WsoQxRB/TeWCSihuKLXL1RkBV5BbyI1uJoNawvnbgOs9oS5E=
+X-Google-Smtp-Source: AGHT+IHBNPcncBQHtNtb7STpigHQlaFGA7NJY+pQaXbjyeqQZ6bXscULA7A1iluv+zMZo2STz3vLvw==
+X-Received: by 2002:a05:6402:2695:b0:5c2:6d16:ad5e with SMTP id 4fb4d7f45d1cf-5ceb92a7bc4mr2823312a12.19.1730474851261;
+        Fri, 01 Nov 2024 08:27:31 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ceac5cb8fbsm1607974a12.0.2024.11.01.08.27.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Nov 2024 08:27:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Fri, 01 Nov 2024 16:27:30 +0100
+Message-Id: <D5AY4ZK858IO.3BH1USXK7NTAD@fairphone.com>
+Cc: <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>
+Subject: Re: [PATCH v4 0/6] media: qcom: camss: Add sc7280 support
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Vikram Sharma" <quic_vikramsa@quicinc.com>, <rfoss@kernel.org>,
+ <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>, <mchehab@kernel.org>,
+ <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+ <akapatra@quicinc.com>, <hariramp@quicinc.com>, <andersson@kernel.org>,
+ <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+ <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
+ <will@kernel.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241030105347.2117034-1-quic_vikramsa@quicinc.com>
+In-Reply-To: <20241030105347.2117034-1-quic_vikramsa@quicinc.com>
 
-From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+On Wed Oct 30, 2024 at 11:53 AM CET, Vikram Sharma wrote:
+> SC7280 is a Qualcomm SoC. This series adds support to bring up the CSIPHY=
+,
+> CSID, VFE/RDI interfaces in SC7280.
+>
+> SC7280 provides
+>
+> - 3 x VFE, 3 RDI per VFE
+> - 2 x VFE Lite, 4 RDI per VFE
+> - 3 x CSID
+> - 2 x CSID Lite
+> - 5 x CSI PHY
+>
+> The changes are verified on SC7280 qcs6490-rb3gen2 board, with attached v=
+ision mezzanine
+> the base dts for qcs6490-rb3gen2 is:
+> https://lore.kernel.org/all/20231103184655.23555-1-quic_kbajaj@quicinc.co=
+m/
 
-Fixes broken output due to different input/output alignment in loopback
-mode when the (last) input device is closed. Instead of on device close,
-do the alignment synchronisation when starting the stream (and clear
-it when streaming is stopped).
+Hi Vikram!
 
-Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
----
- drivers/media/pci/mgb4/mgb4_vin.c | 30 +++++++++---------------------
- 1 file changed, 9 insertions(+), 21 deletions(-)
+Two things:
 
-diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
-index 185fb28226b6..9375a4b5d6a7 100644
---- a/drivers/media/pci/mgb4/mgb4_vin.c
-+++ b/drivers/media/pci/mgb4/mgb4_vin.c
-@@ -260,6 +260,7 @@ static void buffer_queue(struct vb2_buffer *vb)
- static void stop_streaming(struct vb2_queue *vq)
- {
- 	struct mgb4_vin_dev *vindev = vb2_get_drv_priv(vq);
-+	struct mgb4_regs *video = &vindev->mgbdev->video;
- 	const struct mgb4_vin_config *config = vindev->config;
- 	int irq = xdma_get_user_irq(vindev->mgbdev->xdev, config->vin_irq);
- 
-@@ -273,6 +274,9 @@ static void stop_streaming(struct vb2_queue *vq)
- 		mgb4_mask_reg(&vindev->mgbdev->video, config->regs.config, 0x2,
- 			      0x0);
- 
-+	mgb4_write_reg(video, vindev->config->regs.padding, 0);
-+	set_loopback_padding(vindev, 0);
-+
- 	cancel_work_sync(&vindev->dma_work);
- 	return_all_buffers(vindev, VB2_BUF_STATE_ERROR);
- }
-@@ -280,6 +284,7 @@ static void stop_streaming(struct vb2_queue *vq)
- static int start_streaming(struct vb2_queue *vq, unsigned int count)
- {
- 	struct mgb4_vin_dev *vindev = vb2_get_drv_priv(vq);
-+	struct mgb4_regs *video = &vindev->mgbdev->video;
- 	const struct mgb4_vin_config *config = vindev->config;
- 	int irq = xdma_get_user_irq(vindev->mgbdev->xdev, config->vin_irq);
- 
-@@ -292,6 +297,9 @@ static int start_streaming(struct vb2_queue *vq, unsigned int count)
- 		mgb4_mask_reg(&vindev->mgbdev->video, config->regs.config, 0x2,
- 			      0x2);
- 
-+	mgb4_write_reg(video, vindev->config->regs.padding, vindev->padding);
-+	set_loopback_padding(vindev, vindev->padding);
-+
- 	xdma_enable_user_irq(vindev->mgbdev->xdev, irq);
- 
- 	return 0;
-@@ -324,34 +332,16 @@ static int fh_open(struct file *file)
- 
- 	if (get_timings(vindev, &vindev->timings) < 0)
- 		vindev->timings = cea1080p60;
--	set_loopback_padding(vindev, vindev->padding);
- 
- out:
- 	mutex_unlock(&vindev->lock);
- 	return rv;
- }
- 
--static int fh_release(struct file *file)
--{
--	struct mgb4_vin_dev *vindev = video_drvdata(file);
--	int rv;
--
--	mutex_lock(&vindev->lock);
--
--	if (v4l2_fh_is_singular_file(file))
--		set_loopback_padding(vindev, 0);
--
--	rv = _vb2_fop_release(file, NULL);
--
--	mutex_unlock(&vindev->lock);
--
--	return rv;
--}
--
- static const struct v4l2_file_operations video_fops = {
- 	.owner = THIS_MODULE,
- 	.open = fh_open,
--	.release = fh_release,
-+	.release = vb2_fop_release,
- 	.unlocked_ioctl = video_ioctl2,
- 	.read = vb2_fop_read,
- 	.mmap = vb2_fop_mmap,
-@@ -507,8 +497,6 @@ static int vidioc_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
- 
- 	vindev->padding = (f->fmt.pix.bytesperline - (f->fmt.pix.width
- 			   * pixelsize)) / pixelsize;
--	mgb4_write_reg(video, vindev->config->regs.padding, vindev->padding);
--	set_loopback_padding(vindev, vindev->padding);
- 
- 	return 0;
- }
+You use the property "power-domains-names" in both bindings and dtsi but
+this property is never parsed in the kernel. This should be
+"power-domain-names"
 
-base-commit: 698b6e3163bafd61e1b7d13572e2c42974ac85ec
--- 
-2.46.2
+Second, I still can't get the test pattern to work on my QCM6490-based
+phone (Fairphone 5). Could you please try if the commands as per [0]
+work on your board?
+
+[0] https://lore.kernel.org/linux-arm-msm/c912f2da-519c-4bdc-a5cb-e19c3aa63=
+ea8@linaro.org/
+
+Regards
+Luca
+
+>
+> Changes in V4:
+> - V3 had 8 patches and V4 is reduced to 6.
+> - Removed [Patch v3 2/8] as binding change is not required for dtso.
+> - Removed [Patch v3 3/8] as the fix is already taken care in latest
+>   kernel tip.=20
+> - Updated alignment for dtsi and dt-bindings.
+> - Adding qcs6490-rb3gen2-vision-mezzanine as overlay.=20
+> - Link to v3: https://lore.kernel.org/linux-arm-msm/20241011140932.174412=
+4-1-quic_vikramsa@quicinc.com/
+>
+> Changes in V3:
+> - Added missed subject line for cover letter of V2.
+> - Updated Alignment, indentation and properties order.
+> - edit commit text for [PATCH 02/10] and [PATCH 03/10].
+> - Refactor camss_link_entities.
+> - Removed camcc enablement changes as it already done.
+> - Link to v2: https://lore.kernel.org/linux-arm-msm/20240904-camss_on_sc7=
+280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com/
+>
+> Changes in V2:
+> - Improved indentation/formatting.
+> - Removed _src clocks and misleading code comments.
+> - Added name fields for power domains and csid register offset in DTSI.
+> - Dropped minItems field from YAML file.
+> - Listed changes in alphabetical order.
+> - Updated description and commit text to reflect changes
+> - Changed the compatible string from imx412 to imx577.
+> - Added board-specific enablement changes in the newly created vision
+>   board DTSI file.
+> - Fixed bug encountered during testing.
+> - Moved logically independent changes to a new/seprate patch.
+> - Removed cci0 as no sensor is on this port and MCLK2, which was a
+>   copy-paste error from the RB5 board reference.
+> - Added power rails, referencing the RB5 board.
+> - Discarded Patch 5/6 completely (not required).
+> - Removed unused enums.
+> - Link to v1: https://lore.kernel.org/linux-arm-msm/20240629-camss_first_=
+post_linux_next-v1-0-bc798edabc3a@quicinc.com/
+>
+> Suresh Vankadara (1):
+>   media: qcom: camss: Add support for camss driver on SC7280
+>
+> Vikram Sharma (5):
+>   media: dt-bindings: media: camss: Add qcom,sc7280-camss binding
+>   media: qcom: camss: Sort CAMSS version enums and compatible strings
+>   media: qcom: camss: Restructure camss_link_entities
+>   arm64: dts: qcom: sc7280: Add support for camss
+>   arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine: Add vision
+>     mezzanine
+>
+>  .../bindings/media/qcom,sc7280-camss.yaml     | 439 +++++++++++++++
+>  arch/arm64/boot/dts/qcom/Makefile             |   4 +
+>  .../qcs6490-rb3gen2-vision-mezzanine.dtso     |  73 +++
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi          | 208 ++++++++
+>  .../media/platform/qcom/camss/camss-csid.c    |   1 -
+>  .../qcom/camss/camss-csiphy-3ph-1-0.c         |  13 +-
+>  .../media/platform/qcom/camss/camss-csiphy.c  |   5 +
+>  .../media/platform/qcom/camss/camss-csiphy.h  |   1 +
+>  drivers/media/platform/qcom/camss/camss-vfe.c |   8 +-
+>  drivers/media/platform/qcom/camss/camss.c     | 500 ++++++++++++++++--
+>  drivers/media/platform/qcom/camss/camss.h     |   1 +
+>  11 files changed, 1190 insertions(+), 63 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/qcom,sc7280-c=
+amss.yaml
+>  create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezza=
+nine.dtso
 
 
