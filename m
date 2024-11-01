@@ -1,108 +1,117 @@
-Return-Path: <linux-media+bounces-20689-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20690-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E63E9B8FCB
-	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 11:55:35 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B240B9B8FE3
+	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 12:02:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6A81283E88
-	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 10:55:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D90FB21244
+	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 11:02:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D13F1922D6;
-	Fri,  1 Nov 2024 10:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA87518594A;
+	Fri,  1 Nov 2024 11:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F8STDRVf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D7418660C;
-	Fri,  1 Nov 2024 10:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDAE2A1B2;
+	Fri,  1 Nov 2024 11:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730458523; cv=none; b=uzqCEjqZO3UxMjfYqrNFDXR/zeO4XU+DhIPWiviNJodNVshYyHeTePuY8tpBISPEGDOu66M3P4VKBlmwww0shzzi+8t7yd5qdbkPw+OR/FI1PRMdjVNFE3DQwVkbpkX+sTYK+WDNMSCjO40arD/SlwhRN/+TNhPJQw+1oXe0uck=
+	t=1730458945; cv=none; b=dCVLCvkMOSXyW8ID07u0EMoGkbfSvfUeSqEyGSa7qnYtLcRUdaCBiNXFsGe9qi6Qdf2BRJW4tyak7XldAQ8c9sLEqjC+aDmtJbW7lHSSYSMDbv+UciCkmVYvFFX/Qa15SQ0KOoxOBaPKVfRh+IxLrh5T6+CZB/u5RR73diCbYkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730458523; c=relaxed/simple;
-	bh=QsUe6fSQf6mGTRUNT4acXIgf2YQM285WnECE08WtvIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qRdr2jXFVqzCjFOv00uCbl6Z0QvfPHLoh2S7sauFGk4ebaQ+zMdfCkGaBCVSRwJqS10+FcjI/u6OBxc0AlljK2J0NO2T3CZX9NL5ur8een6UkmiJAPmm53YvOJxBNq2ECBpmwJ35Yws1J/GGaWV8yaXOw4+FU/SSmRhq6z7e1aY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: r7q/n43fQ5O89q3oRuLvwQ==
-X-CSE-MsgGUID: C3KI8X0TSPqLFZa6MMCWHQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="30334171"
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="30334171"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 03:55:21 -0700
-X-CSE-ConnectionGUID: yM9fdRu8T92QKPFQQiyPqg==
-X-CSE-MsgGUID: vDnbDOEnRfilStIda7gUPQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="113716536"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 03:55:19 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andy@kernel.org>)
-	id 1t6pJD-0000000A0Cr-2X1U;
-	Fri, 01 Nov 2024 12:55:15 +0200
-Date: Fri, 1 Nov 2024 12:55:15 +0200
-From: Andy Shevchenko <andy@kernel.org>
-To: Li Huafei <lihuafei1@huawei.com>
-Cc: mchehab@kernel.org, hdegoede@redhat.com, sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: Add check for rgby_data memory
- allocation failure
-Message-ID: <ZySzkw3wJa-1Z5jw@smile.fi.intel.com>
-References: <20241101154823.3067891-1-lihuafei1@huawei.com>
- <ZySRjyrxI9jrcY1q@smile.fi.intel.com>
- <d2590a9f-7786-ca08-a705-a5b287e74ba3@huawei.com>
- <ZySqY9YX0ke64Lf-@smile.fi.intel.com>
+	s=arc-20240116; t=1730458945; c=relaxed/simple;
+	bh=TofF4oGit+kVNFhJTdorwKxx+vOtPtL+bvcmp2ULECU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O/BN7ajHxVaIwyUlC6Suj/sqIfJsWH5da6lZN3UHQvWrf9ywXTWR6pi9I+KtdQrkcOOINEKypw40GbOPZwuDeVOqU6Mt7B3fiHrUX8ERV8BRT8InNogu6B7lP1yNHs3p8AWPidw0V2h6tsZUz4KIGC6JAsZAU6XyHgzOlhFgfPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F8STDRVf; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539f0f9ee49so2184543e87.1;
+        Fri, 01 Nov 2024 04:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730458941; x=1731063741; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Kihzc34kXx/NFKsEmVBQvaMpJykR7yHUggsrDFyErHg=;
+        b=F8STDRVfZQdmi3rpC8jF744MvOIyOg2xyRwdNCmyv7cE5cbSoGfSIOTqiiW+ZldEru
+         oHPZ2PB9jzrM63/0wffmzPlmEvTxtYNe7yRJCmcmrbwWUaLvsZul+iEqROydUuKL7REp
+         wEOhgURyfhkLlannpMGRAG6pOZ9Q+ASQoUDdhYfWQLPIeRRtFnIhRkL0QomjNwYRS9q9
+         L8j2bkUH3FDtb/HP2MI03hFxmb0EJmDDnhuoypkDhpWnM0SmH2AfNUEj425S35RboKKA
+         +5evY5kd4V4FFIapWiCeoXK6aSB1Pe8kUEOh2JCnHwchSaZ/PRi90WqTwpL4bF8ZUnLA
+         m95Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730458941; x=1731063741;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kihzc34kXx/NFKsEmVBQvaMpJykR7yHUggsrDFyErHg=;
+        b=Udx2bQrk50QRTDsSxqbpA4gxELnm3v1LgQQkISMn7/X8BDNhIi8pxRAFlggA97nP5c
+         FnZpPg2PEmORyMOr6CSAZfshI30jTwkouyCgTr8FsGQFFOhyr17CXkqaRWBafFaooyb/
+         /UWDSDo+JJ1AUo8CUkO8XbCGbIRlMQxy5cjVYEMAhRyaotMTvbmg4drgt/DYf/hcnfyH
+         cpzthQeOdbjuvmRyMg7UM2acFV8FQoEbJlmczskVUA46mR5xJfUoTxqR0eG1IDW5nOnF
+         9xvLG91fdmyv9UgMa28Kyg+oORIQnOtgPtBbTnjQHhXSpW5b4THAzmbF54qYd2xKgXoK
+         rK1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUUXTWHRLA0MF/vBlTjj/91uEc3Bp+pSSlZYDh3E1r7P7hcDz6TWeOvMaACycfs9ApwJy4jf9dQdcd0Y+4=@vger.kernel.org, AJvYcCVuZtU0gzQ37yZ6s4GyDWV5SN5QMvH1nAk3mAI9hjMcGBqw5eAtT1VvVI4NBi+lo9KcE1eBbddGlmIzoFto@vger.kernel.org, AJvYcCW38eAvvGbGNS0HdTDlnzQkW6E8WJAc8zBL5zPqD2VUk3EOSZ6q5JJmIE1dPRKfCb1r5deLKSjhDpHx17Ml@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCDqnYyHLv3AyLeEP9yuk6GDJIqxYwyr/8EBTJEGXaYKP+TWiE
+	8nCwfZkc2K1UrokrBw3qJyI7iGl3P1ilUwBoknzfV0quRi2A1NaH
+X-Google-Smtp-Source: AGHT+IG7gqlfm/DA2MelrdUrZW2vdNjxw9dwV2mm8qKhoGeD/IF/bobhYVNyPgEOeew+aDvXlM1agg==
+X-Received: by 2002:a05:6512:3b2b:b0:52e:f99e:5dd1 with SMTP id 2adb3069b0e04-53b3491cd1emr11826340e87.47.1730458940826;
+        Fri, 01 Nov 2024 04:02:20 -0700 (PDT)
+Received: from [192.168.1.19] (79-100-30-28.ip.btc-net.bg. [79.100.30.28])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10d4141sm4730507f8f.28.2024.11.01.04.02.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Nov 2024 04:02:20 -0700 (PDT)
+Message-ID: <71f68515-235f-4e6d-a401-f2745763f9cc@gmail.com>
+Date: Fri, 1 Nov 2024 13:02:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZySqY9YX0ke64Lf-@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] media: venus: Fix pm_runtime_set_suspended() with
+ runtime pm enabled
+To: Jinjie Ruan <ruanjinjie@huawei.com>, sakari.ailus@linux.intel.com,
+ mchehab@kernel.org, ming.qian@nxp.com, eagle.zhou@nxp.com,
+ quic_vgarodia@quicinc.com, bryan.odonoghue@linaro.org, shijie.qin@nxp.com,
+ hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc: chenridong@huawei.com
+References: <20241101094050.2421038-1-ruanjinjie@huawei.com>
+ <20241101094050.2421038-4-ruanjinjie@huawei.com>
+Content-Language: en-US, bg-BG
+From: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+In-Reply-To: <20241101094050.2421038-4-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 01, 2024 at 12:16:03PM +0200, Andy Shevchenko wrote:
-> On Fri, Nov 01, 2024 at 05:57:36PM +0800, Li Huafei wrote:
-> > On 2024/11/1 16:30, Andy Shevchenko wrote:
-> > > On Fri, Nov 01, 2024 at 11:48:23PM +0800, Li Huafei wrote:
-> > >> In ia_css_3a_statistics_allocate(), there is no check on the allocation
-> > >> result of the rgby_data memory. If rgby_data is not successfully
-> > >> allocated, it may trigger the assert(host_stats->rgby_data) assertion in
-> > >> ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
-> > > 
-> > > Not sure if this code even run on currently supported hardware / firmware,
-> > > but fix looks okay.
-> > > 
-> > >> Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
-> > > 
-> > > No, this is an intermediate commit, you should find the original, which is
-> > > earlier in the history.
-> > 
-> > Apologies, the correct fix tag should be:
-> > 
-> > Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-> > 
-> > If this fix can be applied, do I need to send a v2, or can you help add the Fix tag?
+
+
+On 1.11.24 г. 11:40 ч., Jinjie Ruan wrote:
+> It is not valid to call pm_runtime_set_suspended() for devices
+> with runtime PM enabled because it returns -EAGAIN if it is enabled
+> already and working. So, call pm_runtime_disable() before to fix it.
 > 
-> Up to Hans, but there is another question left unanswered about SoB chain.
-> Can you clarify that?
+> Cc: stable@vger.kernel.org
+> Fixes: af2c3834c8ca ("[media] media: venus: adding core part and helper functions")
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+> v2:
+> - Add Cc stable.
+> ---
+>   drivers/media/platform/qcom/venus/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ah, sorry, I misread the From and answered to the wrong thread.
-Fixes tag seems better now.
+Acked-by: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+regards,
+Stan
 
