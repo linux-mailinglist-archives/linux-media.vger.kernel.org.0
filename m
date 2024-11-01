@@ -1,96 +1,126 @@
-Return-Path: <linux-media+bounces-20684-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20685-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CD89B8E46
-	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 10:58:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6FC59B8E79
+	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 11:01:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B39EA1F2327F
-	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 09:58:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 679F31F25A02
+	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2024 10:01:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F13B170A3D;
-	Fri,  1 Nov 2024 09:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26E251D555;
+	Fri,  1 Nov 2024 10:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FlIy/8L0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691DD15C158;
-	Fri,  1 Nov 2024 09:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A711581EE
+	for <linux-media@vger.kernel.org>; Fri,  1 Nov 2024 10:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730455063; cv=none; b=SF3GGUhTQmri2nd6oDr+bnjAtstDZxvZuqKvrF7faVmUGvUU3Gt9jGJU/lMNQ/9hAQ2m+MyzgljlY0sjs/ldf8BnlY3T5aWLHxkTNvCgRDBRs2xKuaTIZDGBnk7rzPZKnbdbJHD585VFjkdkNYVC4L5EDKMi/7pS24SP0Ig833Q=
+	t=1730455202; cv=none; b=tHJ2YVJP/70rYUTwOtDCQxRiOSseRbdgx5/v0T70rPNF3Z3ZcQp8Goog4YkWKcNMZFYTpbFWiYlIugSFJ+Je0eEUrzg2Ar/5iYJjpPccGtE6jEXc56Srk5gY8XGUjmUizP82a5gB+qm1C6YYlv1jm2pJtbvdIyHvIlxIrB9NKYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730455063; c=relaxed/simple;
-	bh=pK/WO2daHDcq6dA5/6aSgiM2yMEiHnUvcPj0ZRSJ19s=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=huTTOl1K5ZNlBypR+UKRNKHbEO+QAZfQARztC1UN44wIjr0/29mQ9rW/w92ltTYpVpRTwGReQX5RapVHFBVRsH5xNr0wnR3O3NvWzSRPFDN8APmnIdz0UquyO5znDL8NQElFX4M82WYOy/GQsn1vJzcmH4M/WIyHjwaJ1Evf294=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Xfx7J1tDTz10PFq;
-	Fri,  1 Nov 2024 17:55:24 +0800 (CST)
-Received: from kwepemf500004.china.huawei.com (unknown [7.202.181.242])
-	by mail.maildlp.com (Postfix) with ESMTPS id E85861800A5;
-	Fri,  1 Nov 2024 17:57:37 +0800 (CST)
-Received: from [10.67.110.237] (10.67.110.237) by
- kwepemf500004.china.huawei.com (7.202.181.242) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 1 Nov 2024 17:57:37 +0800
-Subject: Re: [PATCH] media: atomisp: Add check for rgby_data memory allocation
- failure
-To: Andy Shevchenko <andy@kernel.org>
-CC: <mchehab@kernel.org>, <hdegoede@redhat.com>,
-	<sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
-	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-References: <20241101154823.3067891-1-lihuafei1@huawei.com>
- <ZySRjyrxI9jrcY1q@smile.fi.intel.com>
-From: Li Huafei <lihuafei1@huawei.com>
-Message-ID: <d2590a9f-7786-ca08-a705-a5b287e74ba3@huawei.com>
-Date: Fri, 1 Nov 2024 17:57:36 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+	s=arc-20240116; t=1730455202; c=relaxed/simple;
+	bh=ZkIHuit9XH/WbkdUw4J0iAuXlse9CJHtPB9iDLM0soo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EOI91napgTL8az4u/tQGBLgXIBQz8rNv7x8MOk7N3TxXdmrMl4ey2sBRDSQqAbw3jR8wIQOOkyeZY4bVmKmjuOi57ge0SxokVSB/yx+kTWfrdsHcSpMe+cISi2S7VYdIIjUmnIYHxcwdmvrYWP/fiy1BcEl3ar4oC6QFXrbFAnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FlIy/8L0; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-37d47b38336so1369061f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 01 Nov 2024 03:00:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730455198; x=1731059998; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kCMYxsENI5KzW+rkth2c1UykDj87pqP/pFjISR1rPF0=;
+        b=FlIy/8L0sfKqvUXy3lvLzupC8nboS0ldmM0VdAMLYCYe+CkMzxceUqMuNNrifBpTDh
+         BQoW+BTg+f8Ic6KuCg6gUBqLzDO+v/krXH3Glmf6prBtauSGuN+JO0vb7kTXq5Jgxp33
+         KzUtLIie66NGhuD+1AP46+GnKaDLcr7WXLbn9X3pu6KZBeV0gkG4OnBYNPi2zb7ySjST
+         3VS4NiR1yUJjvM32Px5v2rzJjXud9z7a48wn3jMvlP8uwKUYFo688+AV+R0k6qwnGdBC
+         AmF0EBs2xzlT7r4+75AN+K9cg4ZwUOdgfCfRCMJFxeVEJOd0mW99GKr96qxzDD/HfbPj
+         ozWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730455198; x=1731059998;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kCMYxsENI5KzW+rkth2c1UykDj87pqP/pFjISR1rPF0=;
+        b=hpNTTPv427Yg9S4qITIhUTXAFwfWhVjlNdzRoZb2Xw3zELocZLCvNn+wcB34D41Tqm
+         ZbN+cAp6YwcbzYAREfPA+HXfp9+v8z9dY/RwcnR4qdvcfva0WxREqvkZ9wCgptsUx9oM
+         2nmKwWSOAsHyorVcYcTabMh5nrA5zQ9Q7UYNplWx/b463n6q8Giwu7HPwJDl9h5mkMPM
+         hISUASH+55wAFlJH9cfV13ZMMB6EGhuX31xiQKvouF2ljKrqkCTToGNit11MvsrP3CrN
+         jWhpotKef7FWVMZmKjHLN8h5ekCCTS+3Q+DffgoifylTBlmX6mUmmUBKD+KJV2DufPNz
+         xitw==
+X-Forwarded-Encrypted: i=1; AJvYcCVwsWS9rcHGoPkBzj7sz7u2elkJVrEmrQt9eYoJ2LnDDcVCfAIPpl9vzg7U+gY54Zj1W2QE2Fbj0L57Qg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3CTpfykMPCZkn8tYSQ5RfmR4rAEturzERGAwrP/gsL1z3o5NY
+	BVIDCpZISwJvLd2zKWQwBl2SJKnQyc0r+x3pk2HVpoB/9gukZBeDW6PIucyAe2k=
+X-Google-Smtp-Source: AGHT+IHPedYLVwzy/bVIibNk6iPvacu9rvmCe3Ib1wQ1oV/5dOpF8xEpg5pq4bozzuGmgbu3MZNKhw==
+X-Received: by 2002:a5d:6a51:0:b0:37d:5301:6edb with SMTP id ffacd0b85a97d-38061221e7bmr14762555f8f.57.1730455198581;
+        Fri, 01 Nov 2024 02:59:58 -0700 (PDT)
+Received: from [192.168.0.17] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c11898easm4569503f8f.117.2024.11.01.02.59.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Nov 2024 02:59:58 -0700 (PDT)
+Message-ID: <a7975bd0-8593-4ecc-91d4-cbf2113037f4@linaro.org>
+Date: Fri, 1 Nov 2024 09:59:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <ZySRjyrxI9jrcY1q@smile.fi.intel.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] media: venus: Fix pm_runtime_set_suspended() with
+ runtime pm enabled
+To: Jinjie Ruan <ruanjinjie@huawei.com>, sakari.ailus@linux.intel.com,
+ mchehab@kernel.org, ming.qian@nxp.com, eagle.zhou@nxp.com,
+ stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
+ shijie.qin@nxp.com, hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc: chenridong@huawei.com
+References: <20241101094050.2421038-1-ruanjinjie@huawei.com>
+ <20241101094050.2421038-4-ruanjinjie@huawei.com>
 Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20241101094050.2421038-4-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemf500004.china.huawei.com (7.202.181.242)
 
-
-Hi Andy,
-
-On 2024/11/1 16:30, Andy Shevchenko wrote:
-> On Fri, Nov 01, 2024 at 11:48:23PM +0800, Li Huafei wrote:
->> In ia_css_3a_statistics_allocate(), there is no check on the allocation
->> result of the rgby_data memory. If rgby_data is not successfully
->> allocated, it may trigger the assert(host_stats->rgby_data) assertion in
->> ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
+On 01/11/2024 09:40, Jinjie Ruan wrote:
+> It is not valid to call pm_runtime_set_suspended() for devices
+> with runtime PM enabled because it returns -EAGAIN if it is enabled
+> already and working. So, call pm_runtime_disable() before to fix it.
 > 
-> Not sure if this code even run on currently supported hardware / firmware,
-> but fix looks okay.
+> Cc: stable@vger.kernel.org
+> Fixes: af2c3834c8ca ("[media] media: venus: adding core part and helper functions")
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+> v2:
+> - Add Cc stable.
+> ---
+>   drivers/media/platform/qcom/venus/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->> Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
-> 
-> No, this is an intermediate commit, you should find the original, which is
-> earlier in the history.
-> 
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 84e95a46dfc9..cabcf710c046 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -412,8 +412,8 @@ static int venus_probe(struct platform_device *pdev)
+>   	of_platform_depopulate(dev);
+>   err_runtime_disable:
+>   	pm_runtime_put_noidle(dev);
+> -	pm_runtime_set_suspended(dev);
+>   	pm_runtime_disable(dev);
+> +	pm_runtime_set_suspended(dev);
+>   	hfi_destroy(core);
+>   err_core_deinit:
+>   	hfi_core_deinit(core, false);
 
-Apologies, the correct fix tag should be:
-
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-
-If this fix can be applied, do I need to send a v2, or can you help add the Fix tag?
-
-Thanks,
-Huafei
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
