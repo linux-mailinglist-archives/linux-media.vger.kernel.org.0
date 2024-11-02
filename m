@@ -1,201 +1,116 @@
-Return-Path: <linux-media+bounces-20709-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20710-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330779B9B96
-	for <lists+linux-media@lfdr.de>; Sat,  2 Nov 2024 01:39:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0502F9B9BF3
+	for <lists+linux-media@lfdr.de>; Sat,  2 Nov 2024 02:32:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B810B1F21E73
-	for <lists+linux-media@lfdr.de>; Sat,  2 Nov 2024 00:39:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9EA231F21D48
+	for <lists+linux-media@lfdr.de>; Sat,  2 Nov 2024 01:32:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62CDE1CAAC;
-	Sat,  2 Nov 2024 00:39:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 099D75FEED;
+	Sat,  2 Nov 2024 01:32:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cWcZ5QEp"
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="S6PVYOmr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01904A920
-	for <linux-media@vger.kernel.org>; Sat,  2 Nov 2024 00:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A0F4C66;
+	Sat,  2 Nov 2024 01:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730507952; cv=none; b=eJSW0xWOouCDvyP8tXFYsIk5d2jk80thPX3A23MWi3rKyb+Kcc0Y07tRiX8Ajz08h7ZPtqSIrNmDQon+ee27RNvVgyEkoBGvxHmgvYuweHFH5L84mUiot2+H4OMAYOjMlhZnEUt3CA+fkGe5/Uj9VcmJ7opTn/FblNwQrkfqb9s=
+	t=1730511157; cv=none; b=Ds1/5jODgdI2FSGGmm+Pzm8ZI+7wpGFWoUY6nQ9YsllWdj5ZZ4GTTco98w7A9Ky21+KormUnYZKANiVlBh6EW81YD613x03RoEOpBfZs5PDGIWk30hRADTJtRKlD3guSZRFqrlG/5XdPAC8yZMJYTAQdhmjvThiDp1oZ3SplfNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730507952; c=relaxed/simple;
-	bh=XuxkeI/gv4i3e7muKcCM2A4+iPF3sfMDU1QmWr4f/ug=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=C9hfeVyf3dkuMA3WQGzW32n9ttt2g/xXkgYGNNWQDjYLSsxYzM4e3EjwtQ+Jc1BeEAI4Bhqn5qvtOyErd0dIR/h/jnc8mNnKIAI7R8BFPkW3buwIuDJ0w0ryaqBgQt71eyC4mD2dTRl/3N8J6e/jP/t9krebG0AAxN3ohpogKJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cWcZ5QEp; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730507951; x=1762043951;
-  h=date:from:to:cc:subject:message-id;
-  bh=XuxkeI/gv4i3e7muKcCM2A4+iPF3sfMDU1QmWr4f/ug=;
-  b=cWcZ5QEptia5zuDad1+hQSBHLQdO1G1DTJdxXzDqbViBy1DtD4iKKkfX
-   k8sxyoTPcO+prOqIbxZ6F5geuErjOo26nbC9TXq0IWR8oCen92gKdRPdd
-   yGaCCBHL/Qq2NUoY/mpCb66WzL0Vup08Uw8ZpgPIfbBN9yDhWTL8Zjp/W
-   eUaA7D4/isreOxZmvenWjbi2B2wYlb3gFF/FnGq3wtV6jE00o1RS4SXUl
-   6AiiGhXKPaFPEPmcxldAazMbYtlePUiWZMU4Zm3j3qxgsxennfCaaVy9e
-   9geRZ6wZFmid8U1jz/yBrOnpAr0lEvprn/RIwowbepKL7vgR4LXPO3zZ4
-   w==;
-X-CSE-ConnectionGUID: 4UWxrwStQIiHR9lAVUC26w==
-X-CSE-MsgGUID: TqEEGOwISRORK0m2mxwR9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="17908446"
-X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="17908446"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 17:39:08 -0700
-X-CSE-ConnectionGUID: jnfVDTe3RMCJpDNUwRCPeQ==
-X-CSE-MsgGUID: h2mVC+iUTxiuYRTgOVLPdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="120582118"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 Nov 2024 17:39:07 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t72AS-000iEF-2l;
-	Sat, 02 Nov 2024 00:39:04 +0000
-Date: Sat, 02 Nov 2024 08:38:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- c7ccf3683ac9746b263b0502255f5ce47f64fe0a
-Message-ID: <202411020815.PZK3jXn3-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1730511157; c=relaxed/simple;
+	bh=Z8Eqi287/LRs5aQXsTLr2gMdeAdGT391y9PigMh1Vs8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Y/+qTGFknPEyMmQmm6oJfXU8fxqEV5K2Zx5hTzVP/p7BVwp4KSavdGzVMcVZMyFI4jeuwNrWcecXtgliTfcIPhBRZXf4bzpnHGsrSOfewtJCbamrxoxnEmCxMIbrhtizaCbhmND/WhpgcP7mSOfJxuweqq/y7p8oLQjDCAyNmKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=S6PVYOmr; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+Received: from [192.168.0.162] (BC24930C.dsl.pool.telekom.hu [188.36.147.12])
+	by mail.mainlining.org (Postfix) with ESMTPSA id 32851E45AB;
+	Sat,  2 Nov 2024 01:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
+	s=psm; t=1730511153;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=JDDoz4b5kdaZD2eVt/HBGWPglFBhUzUbG0grE/lXalA=;
+	b=S6PVYOmratTIK7hjisjmyCkDDqXgtqYhdSkqdgT6zXTlPT3BGtKlJPfe9ijBlH5c7GcM2K
+	b11CPvxl8v3cPmnB8K8/YeDKEz5VZlhq3ZaVURWIjyEf2rlE6+e/Yx6/Dp3e0SgS0F72U2
+	eW4jB5hmPxqxLa4tx0sMd1UQCt4dW3MGKpf512OPpo6ZpK1LTG+KxW0whKrTPPb0Xw6cBc
+	6UOM0+i7m5BunY0DUI8Snf74zS7U3BcjzxurZu46lmmsY2Qsn4+S88HmcA9CJvoMnjgVUZ
+	l1+IeAIv65Leni1QtKvMzEQDDJ20Y04wZbBU8/fEFLxEvikiHII18IL/5GM7PQ==
+From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+Subject: [PATCH v2 0/3] Add MSM8953/SDM450/SDM632 camss support
+Date: Sat, 02 Nov 2024 02:32:27 +0100
+Message-Id: <20241102-camss-msm8953-v2-0-837310e4541c@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIACuBJWcC/3XMQQ7CIBCF4as0sxYDFLR15T1MF0in7SQChjGNp
+ uHuYvcu/5e8bwPGTMhwaTbIuBJTijX0oQG/uDijoLE2aKmNUlIJ7wKzCBy63raixc5JczZ48iP
+ UzzPjRO/duw21F+JXyp+dX9Vv/SetSkhhpNLW9pO/e30NjuKDIsX5mPIMQynlC54UpFKvAAAA
+X-Change-ID: 20241101-camss-msm8953-3e8a0474e6cd
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Barnabas Czeman <barnabas.czeman@mainlining.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Vladimir Lypak <vladimir.lypak@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730511153; l=1306;
+ i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
+ bh=Z8Eqi287/LRs5aQXsTLr2gMdeAdGT391y9PigMh1Vs8=;
+ b=zEpszkI2Cf5IOc7M5HfCGBXKLBAmBy3aFX6JnMEPnu+lGiFEsmOuG7Uda5Rqv0C/Uv1YariX+
+ yfXq6wCG+qhCrD4CFH3dttYHmpuMGk+LGzNf8IuWVDDpmsKAC9Olj3j
+X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
+ pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: c7ccf3683ac9746b263b0502255f5ce47f64fe0a  media: ati_remote: don't push static constants on stack for %*ph
+Add camss support for MSM8953 based  devices.
 
-elapsed time: 753m
+This patch series was tested on Redmi Note 4 (mido).
 
-configs tested: 108
-configs skipped: 4
+Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+---
+Changes in v2:
+- Add power-domain-names and pd_name.
+- Fix style issues and orderings in schema.
+- Link to v1: https://lore.kernel.org/r/20241101-camss-msm8953-v1-0-4012559fcbc2@mainlining.org
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+---
+Barnabás Czémán (2):
+      media: camss: vfe: implement pm domain ops for v4.1
+      media: dt-bindings: media: camss: Add qcom,msm8953-camss binding
 
-tested configs:
-alpha                             allnoconfig    gcc-14.1.0
-alpha                            allyesconfig    clang-20
-alpha                               defconfig    gcc-14.1.0
-arc                              allmodconfig    clang-20
-arc                               allnoconfig    gcc-14.1.0
-arc                              allyesconfig    clang-20
-arc                                 defconfig    gcc-14.1.0
-arc                           tb10x_defconfig    gcc-14.1.0
-arm                              allmodconfig    clang-20
-arm                               allnoconfig    gcc-14.1.0
-arm                              allyesconfig    clang-20
-arm                                 defconfig    gcc-14.1.0
-arm                            dove_defconfig    gcc-14.1.0
-arm                        multi_v5_defconfig    gcc-14.1.0
-arm                           tegra_defconfig    gcc-14.1.0
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.1.0
-arm64                               defconfig    gcc-14.1.0
-csky                              allnoconfig    gcc-14.1.0
-csky                                defconfig    gcc-14.1.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.1.0
-hexagon                          allyesconfig    clang-20
-hexagon                             defconfig    gcc-14.1.0
-i386                             allmodconfig    clang-19
-i386                              allnoconfig    clang-19
-i386                             allyesconfig    clang-19
-i386        buildonly-randconfig-001-20241102    gcc-12
-i386        buildonly-randconfig-002-20241102    gcc-12
-i386        buildonly-randconfig-003-20241102    gcc-12
-i386        buildonly-randconfig-004-20241102    gcc-12
-i386        buildonly-randconfig-005-20241102    gcc-12
-i386        buildonly-randconfig-006-20241102    gcc-12
-i386                                defconfig    clang-19
-i386                  randconfig-001-20241102    gcc-12
-i386                  randconfig-002-20241102    gcc-12
-i386                  randconfig-003-20241102    gcc-12
-i386                  randconfig-004-20241102    gcc-12
-i386                  randconfig-005-20241102    gcc-12
-i386                  randconfig-006-20241102    gcc-12
-i386                  randconfig-011-20241102    gcc-12
-i386                  randconfig-012-20241102    gcc-12
-i386                  randconfig-013-20241102    gcc-12
-i386                  randconfig-014-20241102    gcc-12
-i386                  randconfig-015-20241102    gcc-12
-i386                  randconfig-016-20241102    gcc-12
-loongarch                        allmodconfig    gcc-14.1.0
-loongarch                         allnoconfig    gcc-14.1.0
-loongarch                           defconfig    gcc-14.1.0
-m68k                             allmodconfig    gcc-14.1.0
-m68k                              allnoconfig    gcc-14.1.0
-m68k                             allyesconfig    gcc-14.1.0
-m68k                                defconfig    gcc-14.1.0
-m68k                        m5307c3_defconfig    gcc-14.1.0
-m68k                        m5407c3_defconfig    gcc-14.1.0
-microblaze                       allmodconfig    gcc-14.1.0
-microblaze                        allnoconfig    gcc-14.1.0
-microblaze                       allyesconfig    gcc-14.1.0
-microblaze                          defconfig    gcc-14.1.0
-mips                              allnoconfig    gcc-14.1.0
-mips                           ip30_defconfig    gcc-14.1.0
-nios2                            alldefconfig    gcc-14.1.0
-nios2                             allnoconfig    gcc-14.1.0
-nios2                               defconfig    gcc-14.1.0
-openrisc                          allnoconfig    clang-20
-openrisc                         allyesconfig    gcc-14.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-14.1.0
-parisc                            allnoconfig    clang-20
-parisc                           allyesconfig    gcc-14.1.0
-parisc                              defconfig    gcc-12
-parisc64                            defconfig    gcc-14.1.0
-powerpc                          allmodconfig    gcc-14.1.0
-powerpc                           allnoconfig    clang-20
-powerpc                          allyesconfig    gcc-14.1.0
-powerpc                      arches_defconfig    gcc-14.1.0
-powerpc                    mvme5100_defconfig    gcc-14.1.0
-powerpc                      pasemi_defconfig    gcc-14.1.0
-riscv                            allmodconfig    gcc-14.1.0
-riscv                             allnoconfig    clang-20
-riscv                            allyesconfig    gcc-14.1.0
-riscv                               defconfig    gcc-12
-s390                             allmodconfig    gcc-14.1.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.1.0
-s390                                defconfig    gcc-12
-sh                               allmodconfig    gcc-14.1.0
-sh                                allnoconfig    gcc-14.1.0
-sh                               allyesconfig    gcc-14.1.0
-sh                                  defconfig    gcc-12
-sh                             espt_defconfig    gcc-14.1.0
-sh                        sh7785lcr_defconfig    gcc-14.1.0
-sparc                            allmodconfig    gcc-14.1.0
-sparc64                             defconfig    gcc-12
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64                              defconfig    clang-19
-x86_64                                  kexec    clang-19
-x86_64                                  kexec    gcc-12
-x86_64                               rhel-8.3    gcc-12
-xtensa                            allnoconfig    gcc-14.1.0
-xtensa                          iss_defconfig    gcc-14.1.0
+Vladimir Lypak (1):
+      media: qcom: camss: Add MSM8953 resources
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ .../bindings/media/qcom,msm8953-camss.yaml         | 323 +++++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   1 +
+ drivers/media/platform/qcom/camss/camss-ispif.c    |   5 +
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c  |  10 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c      |   1 +
+ drivers/media/platform/qcom/camss/camss.c          | 170 +++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 7 files changed, 509 insertions(+), 2 deletions(-)
+---
+base-commit: f9f24ca362a4d84dd8aeb4b8f3ec28cb6c43dd06
+change-id: 20241101-camss-msm8953-3e8a0474e6cd
+
+Best regards,
+-- 
+Barnabás Czémán <barnabas.czeman@mainlining.org>
+
 
