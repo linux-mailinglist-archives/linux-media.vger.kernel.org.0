@@ -1,127 +1,92 @@
-Return-Path: <linux-media+bounces-20726-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20727-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9229BA492
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 09:04:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE2F9BA4DF
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 10:14:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 929D4281C70
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 08:04:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F0316B219B7
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 09:14:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFD9015688C;
-	Sun,  3 Nov 2024 08:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABBB11632EA;
+	Sun,  3 Nov 2024 09:14:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CN7P8fm7"
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="VzJ11Z8E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151A9158219;
-	Sun,  3 Nov 2024 08:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4254F44C6F;
+	Sun,  3 Nov 2024 09:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730621062; cv=none; b=AaN/M5ipCU0OJbc+jJB+iOkVdkQLTqv43T0AKQ2mWgr0+A4I9oBCC4zSds6rC1RiD2GHLLkN6vWomeWycDGVjE8gdr4t+MKY4yERWv2cx/Ddj1a2nA5vYaEVrOqOB9cZ+i0azIscurYxlcGomRbKIC/Vvj5jjQn/oAeL9XzyzZM=
+	t=1730625286; cv=none; b=NgZTxZm0bXFibxvKM5/lvheTBL/anFzU2nkbWLwJRT7IyFLZTNH0jaBpN3+8gWRLVUJpvXyPbVnbn+gl/SzFoEC5PKGGVlGoywyUBMPaIoRQPJNIA+WBMIRUCFCc+OGMazpGxeOCaKcjAeLtb2NbU1tZaniKDW5PMs8c06RfIWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730621062; c=relaxed/simple;
-	bh=AMT+d5krKlf7WUq8areqSFpk3+MDvZP7APO3UhNtubU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yv4s4+GH5vD8dDrIlmH4vnTgT8J9av/0+HtY2jrrETZvzPyNJR+56LLa0hqPfc/odxiPBisbiMPZ4ceUx/0r+58Bf08nvCM36X1gVkgrq/UQJNInbpK+gDbia9mS8A3bepsO7nfJu7Fsd2VLpZts5tHtFssHxc3ogTHZgfHr5KQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CN7P8fm7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80EF4C4CECD;
-	Sun,  3 Nov 2024 08:04:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730621061;
-	bh=AMT+d5krKlf7WUq8areqSFpk3+MDvZP7APO3UhNtubU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CN7P8fm7nzY6MLXTTW8AltW+LGWB/okky+UEwj+v1fj3qUx6zXQYJW7QDwbe1wAb6
-	 v2VoC796odCf5CNRNDHHsqoE/zMulZWfPcOmemy+jJlG85Crs2q2LpnpxR/j0z1Ws1
-	 NwlcNM2gXNZELQjQqlmvD+DMu630LanGGzoYol2ElP+FjjrRNQyKEEzvpeUiIzqX+Y
-	 BsUfhUkTYXGBnmCp5bWjKHJPSxK4i9ShvIHRVrKnf5mkqObI69UA945JhCQVcJNp5J
-	 +dybRocB4y/+tecx+QYcXy+TjLJAcMHb9BPkzmMne9MV8mT9Auafdt2Bf1h/QR+ZcV
-	 sF47CI4M8NaFA==
-Message-ID: <ac3736ab-4529-4280-b897-20680ddbaf2b@kernel.org>
-Date: Sun, 3 Nov 2024 09:04:16 +0100
+	s=arc-20240116; t=1730625286; c=relaxed/simple;
+	bh=Z3YgnPEAERGAdHkzc8j/4jBp8ik+UqhN/LWk43KGe8I=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=JFz7faSagGpurnmXUv9t9xMMjfLsQP9EYtMHGx0qvaw+SamxeNdPOAzTtgnVPRZ2hPCUNkDvr+FKTqCIPzoEpmFVVvz2TlsfTGLlk6QNM5Q4SOHxFqzVJopvb9KM3iIn6I6M+tNJuwDgDVKMtgResXWM/xRNQ8Y4sGGG6eEJHw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=VzJ11Z8E; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+Received: from localhost (docker-mailserver-web-1.docker-mailserver_default [172.22.0.5])
+	by mail.mainlining.org (Postfix) with ESMTPSA id B985BE45BA;
+	Sun,  3 Nov 2024 09:14:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
+	s=psm; t=1730625281;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aMkEqJ6w2Zkn0eeuNU8cmK18lh1mkaMAulThx8pFgfo=;
+	b=VzJ11Z8EBWnqvN1vtSDFxxwGOEAE15Oj6gG1rD2bxRjBbSF5Ucn45BaKcLOuia8ZdbLB4x
+	TbQEKH5/BfVyKswpk4S7PJlkfP8/VeSy3DEMcuJu0g3ZpoRUzRKxAYJeqavv3yiACll3hT
+	EYOWXAvV7d2Io8+d4Tf2G0wO/VdUC8BFISUKLSKYyAfoYyIqxV8ZdpG8tkllAbS1u2spLB
+	z0q/KuMN1Z42Nhv17Bu6td3DFyvgoy3nznABybpUUwNr02C6yIWL2CRDHP6YzskNZiyJtT
+	31LB4guifXdHwfIF1pegJGLW9hDn6oR7FzRCBzOH7U+5LKmh4VjM5kLGb+KPnw==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/3] Add MSM8953 camss support
-To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Vladimir Lypak <vladimir.lypak@gmail.com>
+Date: Sun, 03 Nov 2024 10:14:41 +0100
+From: barnabas.czeman@mainlining.org
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, Bryan
+ O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] media: dt-bindings: media: camss: Add
+ qcom,msm8953-camss
+In-Reply-To: <5fc19470-dc8c-4c12-b3f5-822bac97f38c@kernel.org>
 References: <20241102-camss-msm8953-v3-0-7041c9fa7a58@mainlining.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241102-camss-msm8953-v3-0-7041c9fa7a58@mainlining.org>
-Content-Type: text/plain; charset=UTF-8
+ <20241102-camss-msm8953-v3-2-7041c9fa7a58@mainlining.org>
+ <5fc19470-dc8c-4c12-b3f5-822bac97f38c@kernel.org>
+Message-ID: <1e62bb64769d1cc071ed5745a0d231d2@mainlining.org>
+X-Sender: barnabas.czeman@mainlining.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 02/11/2024 23:39, Barnabás Czémán wrote:
-> Add camss support for MSM8953/SDM450/SDM632 based devices.
+On 2024-11-03 09:03, Krzysztof Kozlowski wrote:
+> On 02/11/2024 23:39, Barnabás Czémán wrote:
+>> Add bindings for qcom,msm8953-camss in order to support the camera
+>> subsystem for MSM8953.
+>> 
+>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 > 
-> This patch series was tested on Redmi Note 4 (mido).
+> Subject did not improve much. Why do you need to say twice that this is
+Because i misunderstood your previous comment, sorry for that i am going 
+to fix it.
+> a media subsystem? See DT submitting patches document:
+> https://elixir.bootlin.com/linux/v6.11-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst
 > 
-> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
-> ---
-> Changes in v3:
-> - Fix schema issues addressed by reviews.
-
-Which ones? This is not specific enough.
-
-Best regards,
-Krzysztof
-
+> Best regards,
+> Krzysztof
 
