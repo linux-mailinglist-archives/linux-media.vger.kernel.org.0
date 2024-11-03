@@ -1,53 +1,55 @@
-Return-Path: <linux-media+bounces-20728-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20729-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C9B9BA4EA
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 10:46:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2609BA4EE
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 10:46:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A911AB21957
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 09:46:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C429EB21A6F
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 09:46:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 684631632F8;
-	Sun,  3 Nov 2024 09:46:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769FB16D4EF;
+	Sun,  3 Nov 2024 09:46:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="F+wO/eWY"
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="T1s1mckS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F7533FE;
-	Sun,  3 Nov 2024 09:45:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6060E142633;
+	Sun,  3 Nov 2024 09:46:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730627160; cv=none; b=Bmhd6TlahSoQX8m+2AJN/4FK1Q2eb2SR5l4EIpqT4h0fW6TJ6C/1B5L5HGPFqrUJXrlwQM08VirI2zuwYNyzYN/4cG85yrTqXDSHf577CDlkMIzqwtVqemuFSAyUCbR+sI5NWX/YIRc1aS/aSJFrgK4xPmCCc7hiGkNXhB7px80=
+	t=1730627161; cv=none; b=gAnENhOhzZvn27YnEproso3DCdu/aMfTPOhWFdhWbjLhlbUmeRgFl6GNUKdhQIsrGT+CxnGdp+6rXLcKMmZqXf/5uqj5deH+mPMUVP5wngsKZYWDzevuJJagz+1F+2umehSd2Yc8jUxfqEWodwoM6rAbRKyge0qLhtHzrHEOuAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730627160; c=relaxed/simple;
-	bh=2ngTE+MOj7uTHuhJZT4eNswem9AMpelsYNQGt5GRREQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XIstYlmfyrWPGP8UcuvTrzKGmFFV7saG5r2RM13sDSLSGd5A1XHrOWLEpWTm+bmU1edQcc5qOw4MdkIEOVCiugRmGI0ZSR7v14d3kvb/zP/a46jMFBMBzfP4SqUASf+fU7jls1/ot6arGMcd0eMybeeN7P4P6nBt4quBPPGb8/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=F+wO/eWY; arc=none smtp.client-ip=5.75.144.95
+	s=arc-20240116; t=1730627161; c=relaxed/simple;
+	bh=bcZwjQcavw1ccUZa6lyJZyfRtl56H37sgRXQUOyswu0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=GITrgB1QGRDVxQvuKwLA96Dh2YKak2vPB3H6a+one9ppsuSY5fweNawJoFvL5hX9yIqeHf5dckzCfefnLXKR5KOWTZjLaEVte6nRO5jyXRlYr4kqijD4cO7ZlEZY2oR9Np1vplTwdHztUSC6ULqqyVvYXB7x1E1G2DP1+wAxOhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=T1s1mckS; arc=none smtp.client-ip=5.75.144.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Received: from [192.168.0.162] (254C1CEE.nat.pool.telekom.hu [37.76.28.238])
-	by mail.mainlining.org (Postfix) with ESMTPSA id 65112E45BA;
-	Sun,  3 Nov 2024 09:45:56 +0000 (UTC)
+	by mail.mainlining.org (Postfix) with ESMTPSA id 8655EE45BC;
+	Sun,  3 Nov 2024 09:45:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
-	s=psm; t=1730627156;
+	s=psm; t=1730627158;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Iha7oo8qG3jip9wuGmXANnN6j/+LdYXuxSQ7hGfH2vc=;
-	b=F+wO/eWY9SwHSuPqR4Q2TGQiUoObFXUMiSUJN5uQUfnn+yai98d+KenDan1vzNIUnu67/z
-	H5e8EPmZofr0VNkKeqPHIMUoU4Zen/2DN/D9cKZcnVtgZX3m4R+tcVoSgjNam/AqTkBSo6
-	Du2FUJ7dK+F9cHtijsWq+LTUxcuJPL2MhoGITnKd+3Ot9AMQjUSDu93Ue9GT4zkTURvH2h
-	ysZk9hw168Z6gknGJ/ObOqX9TTXN2++QZ5NNI3PsQWNlIXAiDE+m0lPT0H1VXcsZKaUqjk
-	X4yahIumbrU/L+VQKeZJsllBRI9ldD5V2I+iQXtPL6jskpgOHaYTD+tdaOKNGQ==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BTM0GqOuxYgyzxSjgXUar++pZMXdB5+ioIXljI/N+qk=;
+	b=T1s1mckSxGIFQ30b4oPnkikwmMI9MQv8u07/Tb6wSc0vTiZ24LewlytACZCRmPGjx6Vdr2
+	V8TeuTbJ15tdSrFbjpTWXQZwe9jXYA+1v9/vxe0kGwXF7Ypsfli6Jrt9TTnmoTeeA5Reyp
+	3y3SLndboUYdDH/UoDrX0zoIN9zSIJiA+AB5rx2yNlEMCdkl3U6g7eQF/xdI9GOep1G4B0
+	n7/8b6eAy7c/T1Cs0jKQLRvPrzv8lE7UpnGnMWwuNejSaGNu5fB6/jDVf5QtR8LlIXNH3D
+	EjTdRvp90Pv+gaZzh1T0Xaha3hQB6C5qn6U1RcP5P5AszB5cqTWGXLtCanFXGQ==
 From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-Subject: [PATCH v4 0/3] Add MSM8953 camss support
-Date: Sun, 03 Nov 2024 10:45:33 +0100
-Message-Id: <20241103-camss-msm8953-v4-0-48d0ec75958d@mainlining.org>
+Date: Sun, 03 Nov 2024 10:45:34 +0100
+Subject: [PATCH v4 1/3] media: qcom: camss: implement pm domain ops for VFE
+ v4.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,11 +58,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAD1GJ2cC/33MSwrCMBSF4a2UjI3kaVJH7kMcxPS2vWBSSaQop
- Xs37Uh8Df8D55tIhoSQyb6aSIIRMw6xhNpUxPcudkCxKU0EE4pzxql3IWcacrC1llSCdUwZBTv
- fkPK5JmjxvnrHU+ke821Ij5Uf+bL+kkZOGVWMC63r1p+9OASH8YIRY7cdUkcWbhSvhHgnRCGsN
- JIzUFpx/5WQfwlZCMPKt26dcdp+EPM8PwHxsgqrNQEAAA==
-X-Change-ID: 20241101-camss-msm8953-3e8a0474e6cd
+Message-Id: <20241103-camss-msm8953-v4-1-48d0ec75958d@mainlining.org>
+References: <20241103-camss-msm8953-v4-0-48d0ec75958d@mainlining.org>
+In-Reply-To: <20241103-camss-msm8953-v4-0-48d0ec75958d@mainlining.org>
 To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -68,60 +68,55 @@ To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Conor Dooley <conor+dt@kernel.org>, 
  Barnabas Czeman <barnabas.czeman@mainlining.org>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Vladimir Lypak <vladimir.lypak@gmail.com>
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730627156; l=1673;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730627156; l=1229;
  i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=2ngTE+MOj7uTHuhJZT4eNswem9AMpelsYNQGt5GRREQ=;
- b=yHRDasGy4mEausIOgsOGL/eR1OUUDwizuU2IBDysOYHu3BZstkAOmAjDZCQ/CpEDDpcmb9Vn6
- EbEGT7jPvNfAUR2dSl0yMj7x9B7Byw4AoRlXb3a/I023JhYiEzSvHcq
+ bh=bcZwjQcavw1ccUZa6lyJZyfRtl56H37sgRXQUOyswu0=;
+ b=dK/ZKPSihwxYqXPgZDxOkuEKt3d5MIOXvPU7S2oK4c9k05RV2Y0RMHWiYMZW85JXP3cqoF+OM
+ s/azMDlNCa+AxGoX0w1BoWpLO0+MIKrQLnlrCKflu/9qdRzekaj+vMe
 X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
  pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 
-Add camss support for MSM8953/SDM450/SDM632 based devices.
+MSM8917 and MSM8953 have multiple VFE power-domains they
+have to be powered on/off explicitly.
 
-This patch series was tested on Redmi Note 4 (mido).
-
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 ---
-Changes in v4:
-- Fix schema commit subject prefix.
-- Change vfe commit subject prefix.
-- Link to v3: https://lore.kernel.org/r/20241102-camss-msm8953-v3-0-7041c9fa7a58@mainlining.org
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-Changes in v3:
-- Fix schema issues addressed by reviews.
-- Fix commit messages.
-- Link to v2: https://lore.kernel.org/r/20241102-camss-msm8953-v2-0-837310e4541c@mainlining.org
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
+index 1bd3a6ef1d04d8610fd1bee0c22cdbc147c98de5..9a9007c3ff33b40f4c88cd30283f0ad42f8e8d00 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
+@@ -938,7 +938,10 @@ static irqreturn_t vfe_isr(int irq, void *dev)
+  */
+ static void vfe_4_1_pm_domain_off(struct vfe_device *vfe)
+ {
+-	/* nop */
++	if (!vfe->res->has_pd)
++		return;
++
++	vfe_pm_domain_off(vfe);
+ }
+ 
+ /*
+@@ -947,7 +950,10 @@ static void vfe_4_1_pm_domain_off(struct vfe_device *vfe)
+  */
+ static int vfe_4_1_pm_domain_on(struct vfe_device *vfe)
+ {
+-	return 0;
++	if (!vfe->res->has_pd)
++		return 0;
++
++	return vfe_pm_domain_on(vfe);
+ }
+ 
+ static const struct vfe_hw_ops_gen1 vfe_ops_gen1_4_1 = {
 
-Changes in v2:
-- Add power-domain-names and pd_name.
-- Fix style issues and orderings in schema.
-- Link to v1: https://lore.kernel.org/r/20241101-camss-msm8953-v1-0-4012559fcbc2@mainlining.org
-
----
-Barnabás Czémán (2):
-      media: qcom: camss: implement pm domain ops for VFE v4.1
-      media: dt-bindings: Add qcom,msm8953-camss
-
-Vladimir Lypak (1):
-      media: qcom: camss: Add MSM8953 resources
-
- .../bindings/media/qcom,msm8953-camss.yaml         | 322 +++++++++++++++++++++
- drivers/media/platform/qcom/camss/camss-csiphy.c   |   1 +
- drivers/media/platform/qcom/camss/camss-ispif.c    |   5 +
- drivers/media/platform/qcom/camss/camss-vfe-4-1.c  |  10 +-
- drivers/media/platform/qcom/camss/camss-vfe.c      |   1 +
- drivers/media/platform/qcom/camss/camss.c          | 170 +++++++++++
- drivers/media/platform/qcom/camss/camss.h          |   1 +
- 7 files changed, 508 insertions(+), 2 deletions(-)
----
-base-commit: f9f24ca362a4d84dd8aeb4b8f3ec28cb6c43dd06
-change-id: 20241101-camss-msm8953-3e8a0474e6cd
-
-Best regards,
 -- 
-Barnabás Czémán <barnabas.czeman@mainlining.org>
+2.47.0
 
 
