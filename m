@@ -1,128 +1,174 @@
-Return-Path: <linux-media+bounces-20732-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20733-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D7C9BA68A
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 17:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE5F9BA7A4
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 20:23:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8BE31281F5F
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 16:09:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 045002817AF
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 19:23:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A50F18787C;
-	Sun,  3 Nov 2024 16:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C23A189B95;
+	Sun,  3 Nov 2024 19:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rD9Cn5sQ"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="B1smspZu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52667081E;
-	Sun,  3 Nov 2024 16:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA2333FE;
+	Sun,  3 Nov 2024 19:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730650155; cv=none; b=G4B5bPaIaufSSplxZpEndzs55ztFirqsFDQHFoUO+QY13/0Y9yhMq8bSlRVHVAchFEGuX+EPItoB44EKDohLwsOJ6izOZL6X9Cb3Rk4SvbC0ZD93oXe4bmIPNGaGUkb3YcoJOnTYt3g/ybgQFopkXashPEKJQrQkmtJDC+YW97Q=
+	t=1730661813; cv=none; b=W0wroOznmnED9t+7C5LbPx+WzbORBeqVcb6Idu5dobulzuaZulHPYQr1HZkHCiSsjsuo0/Qrxf2TYCfsTRE+gDoVzdIicc74SEr0XqJ+6tbPCfmtY+Fcoug1NQA/zo7XWohu7pTVIg92Glz9MFn8PJYWqtDBmG2MDqgYbe9hpy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730650155; c=relaxed/simple;
-	bh=4QV2rgslp98KWjtvQhopWEdq9aYWfWejvpYMbITcxMw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EWwqhTmcUfsiB9BLJu6Vuw0n5krvty76A1fukeJ/zBkujltTBkzt/Zr2xbS1ExOq2oXbgGqrBcpVkW5qOUNZ5eBa2KiCBtmD/iU+UKSnEwjxUCI+QRDFZoPMErwt0R7ISUuJYYFhTz/Pvl/ct3GPraqY5XNCrEZ1DxbKKCjQAyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rD9Cn5sQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 013C7C4CECD;
-	Sun,  3 Nov 2024 16:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730650154;
-	bh=4QV2rgslp98KWjtvQhopWEdq9aYWfWejvpYMbITcxMw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rD9Cn5sQp59UPbbUGdTlexP3iQ5TPnA9NrGK4bpYxnUzgEoiGJrOjh0TwKfzJk7d0
-	 2jw0yRHJDeKY1aDuvMHkEQd/Bd1uF5VmFxY705HYyXq60SVraSl+OcfExKX6VNtMAL
-	 ESbfDWK2B/a/mHYTqL+614QkGYeFcQe3Ly4ULVnl4LN1vwElKIsfMuwbaQpMTkChdb
-	 xKGzNxwRbnH2Xl8oO7t5VNkXuSwYJwMpSKxcP5rIgzDfuC8e6PRVnaV00efSSWAWNk
-	 Q2Nyr4EmhvF4R7ZFRNEzurNQUXdXLcquuxnR4vVOGNoUs6zidPe8jPz1ZFMMMnA4pn
-	 XNY8qQ8VOwjXg==
-Message-ID: <aa920d1c-ab2b-4177-9b66-f8d8b45906af@kernel.org>
-Date: Sun, 3 Nov 2024 17:09:06 +0100
+	s=arc-20240116; t=1730661813; c=relaxed/simple;
+	bh=OMuyRg4bzStPqNNN3yp859gI6JRk5cF+8sCpKoD37SE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=joprAa1cY5+91VsDw+nyYCcqkoieeMx8AMKcA3xwP1eAQ//d32sGGEVOZHKL6i2MD5vEi1V3zvD0KxrAGs77nN6vmyQfkSOQy+HyTDiX/K0wSW5TGf4TnZYJb49kdURphI4xQrLWaNSE8lbm4vFwmi8zFumX01lfZgzncnZQeQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=B1smspZu; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=K2N0tDeGrz7QCmhPIrTtZDVUgTHAHsRgEUCvSiXLL6E=; b=B1smspZuOYOQR+09
+	Dol6frTZVigXzMffVPXGLhvEFqEkZ5g+NPVIVPyYqwcwLpoN5S62+kVO6RC8aN5l5INXps7CW68Ls
+	LTuz2wB4f1uDleO/QH7Wne/7u2z7bMdo6LxK8TXLHOYHj0MreDMlwHBIqnTKVaxtmAUBSOU6R9vMr
+	DdcoXUFCN4BwV/HwtL8PElHMwya00e9tOY76xEzJGXVVJym015wYWg+FaqfBtzAIpyqaMU3ShVNf7
+	kxtsX9xmggmkWgvn048GwBRBdeMEcH0Jj6kL9Refyybnftp0V3T2/OeGqjCAx7lfKiXqvEVwtGZYv
+	636O0oUm8RxrOlz3Mg==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1t7gBy-00FC9O-0T;
+	Sun, 03 Nov 2024 19:23:18 +0000
+From: linux@treblig.org
+To: andrzejtp2010@gmail.com,
+	jacek.anaszewski@gmail.com,
+	s.nawrocki@samsung.com,
+	mchehab@kernel.org,
+	krzk@kernel.org,
+	alim.akhtar@samsung.com
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] media: platform: samsung: s5p-jpeg: Remove deadcode
+Date: Sun,  3 Nov 2024 19:23:15 +0000
+Message-ID: <20241103192315.288743-1-linux@treblig.org>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] media: dt-bindings: Add qcom,msm8953-camss
-To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20241103-camss-msm8953-v4-0-48d0ec75958d@mainlining.org>
- <20241103-camss-msm8953-v4-2-48d0ec75958d@mainlining.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241103-camss-msm8953-v4-2-48d0ec75958d@mainlining.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 03/11/2024 10:45, Barnabás Czémán wrote:
-> Add bindings for qcom,msm8953-camss in order to support the camera
-> subsystem for MSM8953.
-> 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
-> ---
->  .../bindings/media/qcom,msm8953-camss.yaml         | 322 +++++++++++++++++++++
->  1 file changed, 322 insertions(+)
-> 
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+exynos3250_jpeg_operating() has been unused since it was added in 2014's
+commit 3246fdaa0ac2 ("[media] s5p-jpeg: Add support for Exynos3250 SoC")
 
-Best regards,
-Krzysztof
+exynos4_jpeg_get_fifo_status(), exynos4_jpeg_get_frame_size(), and
+exynos4_jpeg_set_timer_count() have been unused since they were added by
+commit 80529ae5c137 ("[media] s5p-jpeg:  JPEG codec")
+
+Remove them.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ .../samsung/s5p-jpeg/jpeg-hw-exynos3250.c     |  5 -----
+ .../samsung/s5p-jpeg/jpeg-hw-exynos3250.h     |  1 -
+ .../samsung/s5p-jpeg/jpeg-hw-exynos4.c        | 19 -------------------
+ .../samsung/s5p-jpeg/jpeg-hw-exynos4.h        |  4 ----
+ 4 files changed, 29 deletions(-)
+
+diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c
+index 637a5104d948..6657d294c10a 100644
+--- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c
++++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c
+@@ -427,11 +427,6 @@ void exynos3250_jpeg_clear_int_status(void __iomem *regs,
+ 	writel(value, regs + EXYNOS3250_JPGINTST);
+ }
+ 
+-unsigned int exynos3250_jpeg_operating(void __iomem *regs)
+-{
+-	return readl(regs + S5P_JPGOPR) & EXYNOS3250_JPGOPR_MASK;
+-}
+-
+ unsigned int exynos3250_jpeg_compressed_size(void __iomem *regs)
+ {
+ 	return readl(regs + EXYNOS3250_JPGCNT) & EXYNOS3250_JPGCNT_MASK;
+diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
+index 15af928fad76..709c61ae322c 100644
+--- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
++++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
+@@ -45,7 +45,6 @@ void exynos3250_jpeg_rstart(void __iomem *regs);
+ unsigned int exynos3250_jpeg_get_int_status(void __iomem *regs);
+ void exynos3250_jpeg_clear_int_status(void __iomem *regs,
+ 						unsigned int value);
+-unsigned int exynos3250_jpeg_operating(void __iomem *regs);
+ unsigned int exynos3250_jpeg_compressed_size(void __iomem *regs);
+ void exynos3250_jpeg_dec_stream_size(void __iomem *regs, unsigned int size);
+ void exynos3250_jpeg_dec_scaling_ratio(void __iomem *regs, unsigned int sratio);
+diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c
+index 0828cfa783fe..479288fc8c77 100644
+--- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c
++++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c
+@@ -185,11 +185,6 @@ unsigned int exynos4_jpeg_get_int_status(void __iomem *base)
+ 	return readl(base + EXYNOS4_INT_STATUS_REG);
+ }
+ 
+-unsigned int exynos4_jpeg_get_fifo_status(void __iomem *base)
+-{
+-	return readl(base + EXYNOS4_FIFO_STATUS_REG);
+-}
+-
+ void exynos4_jpeg_set_huf_table_enable(void __iomem *base, int value)
+ {
+ 	unsigned int	reg;
+@@ -300,22 +295,8 @@ void exynos4_jpeg_set_dec_bitstream_size(void __iomem *base, unsigned int size)
+ 	writel(size, base + EXYNOS4_BITSTREAM_SIZE_REG);
+ }
+ 
+-void exynos4_jpeg_get_frame_size(void __iomem *base,
+-			unsigned int *width, unsigned int *height)
+-{
+-	*width = (readl(base + EXYNOS4_DECODE_XY_SIZE_REG) &
+-				EXYNOS4_DECODED_SIZE_MASK);
+-	*height = (readl(base + EXYNOS4_DECODE_XY_SIZE_REG) >> 16) &
+-				EXYNOS4_DECODED_SIZE_MASK;
+-}
+-
+ unsigned int exynos4_jpeg_get_frame_fmt(void __iomem *base)
+ {
+ 	return readl(base + EXYNOS4_DECODE_IMG_FMT_REG) &
+ 				EXYNOS4_JPEG_DECODED_IMG_FMT_MASK;
+ }
+-
+-void exynos4_jpeg_set_timer_count(void __iomem *base, unsigned int size)
+-{
+-	writel(size, base + EXYNOS4_INT_TIMER_COUNT_REG);
+-}
+diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h
+index 3e2887526960..b941cc89e4ba 100644
+--- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h
++++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h
+@@ -35,10 +35,6 @@ void exynos4_jpeg_select_dec_h_tbl(void __iomem *base, char c, char x);
+ void exynos4_jpeg_set_encode_hoff_cnt(void __iomem *base, unsigned int fmt);
+ void exynos4_jpeg_set_dec_bitstream_size(void __iomem *base, unsigned int size);
+ unsigned int exynos4_jpeg_get_stream_size(void __iomem *base);
+-void exynos4_jpeg_get_frame_size(void __iomem *base,
+-			unsigned int *width, unsigned int *height);
+ unsigned int exynos4_jpeg_get_frame_fmt(void __iomem *base);
+-unsigned int exynos4_jpeg_get_fifo_status(void __iomem *base);
+-void exynos4_jpeg_set_timer_count(void __iomem *base, unsigned int size);
+ 
+ #endif /* JPEG_HW_EXYNOS4_H_ */
+-- 
+2.47.0
 
 
