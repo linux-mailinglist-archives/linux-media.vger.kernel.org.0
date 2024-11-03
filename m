@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-20725-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20726-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F719BA48F
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 09:04:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9229BA492
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 09:04:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AADB51F2179B
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 08:04:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 929D4281C70
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 08:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58D7A15B149;
-	Sun,  3 Nov 2024 08:03:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFD9015688C;
+	Sun,  3 Nov 2024 08:04:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t3ugWj83"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CN7P8fm7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949222628D;
-	Sun,  3 Nov 2024 08:03:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151A9158219;
+	Sun,  3 Nov 2024 08:04:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730621036; cv=none; b=GHMAd73aXvhZd7c4xVkuSReE59be2zEwpzoGgP4qyUQAqcEmrn0UxW84hiEeSSnAlqxD+NtzCjnKdsRPAAOxvUuA+UKek7uHP9dZwJtfOZJfKzfcXFnk5pfe4dedr8+knLDjptqVJIUcIyMKdT/Gm/ghVSctDA7hW6KrU7xXJgQ=
+	t=1730621062; cv=none; b=AaN/M5ipCU0OJbc+jJB+iOkVdkQLTqv43T0AKQ2mWgr0+A4I9oBCC4zSds6rC1RiD2GHLLkN6vWomeWycDGVjE8gdr4t+MKY4yERWv2cx/Ddj1a2nA5vYaEVrOqOB9cZ+i0azIscurYxlcGomRbKIC/Vvj5jjQn/oAeL9XzyzZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730621036; c=relaxed/simple;
-	bh=nvAf8GTIV/8JCsOU6Rof/enufImCxOjzOcAhet3YJlU=;
+	s=arc-20240116; t=1730621062; c=relaxed/simple;
+	bh=AMT+d5krKlf7WUq8areqSFpk3+MDvZP7APO3UhNtubU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i66V8juhL8p35LY1Nsan/w+NOScsGRUyPadEzM/lfq29K0OQ4r5tAWN7wd8JO90pFzSTX39NktFYHPoZthsLR44iq8itHgRPid2LZn1A7CzLYcFpTkjkpVlrBRhnaI9E91UvgkxOxn+7UA98gh8ELwttwmpvEuBsux2XAg1mH4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t3ugWj83; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62C45C4CECD;
-	Sun,  3 Nov 2024 08:03:50 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Yv4s4+GH5vD8dDrIlmH4vnTgT8J9av/0+HtY2jrrETZvzPyNJR+56LLa0hqPfc/odxiPBisbiMPZ4ceUx/0r+58Bf08nvCM36X1gVkgrq/UQJNInbpK+gDbia9mS8A3bepsO7nfJu7Fsd2VLpZts5tHtFssHxc3ogTHZgfHr5KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CN7P8fm7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80EF4C4CECD;
+	Sun,  3 Nov 2024 08:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730621036;
-	bh=nvAf8GTIV/8JCsOU6Rof/enufImCxOjzOcAhet3YJlU=;
+	s=k20201202; t=1730621061;
+	bh=AMT+d5krKlf7WUq8areqSFpk3+MDvZP7APO3UhNtubU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t3ugWj833LmFbZhaoK5hjalJvd0m2Szc3LkmIKbY+V8VW+tylIwCWI62hPof+DPNl
-	 zu379es3B6n262LmHN6P6fCJGjBrDWdtuH4xVjD0KC6JQ5znnyMxXQGpk8rA7Bfa87
-	 XWWwJHPSkD5UlL1f/lUG4vi/zdX5uJhFQ513fWMCK6Gbzhh+ZIxd3f9HgBK+c9xvGq
-	 ByfhKUBPuSBovdG6yD6CBiSd8nXLmzuYh7yxAbSqkXFiJ7kycAZwxiCJUOL6LKNgp1
-	 iAuSlhWwqHnCR3m02fSlf3x3Q8EVWHhWQa1ckuYuewSx7DB4TupxZOPrWKwkYiFfJP
-	 unO3OsipYxnhQ==
-Message-ID: <5fc19470-dc8c-4c12-b3f5-822bac97f38c@kernel.org>
-Date: Sun, 3 Nov 2024 09:03:48 +0100
+	b=CN7P8fm7nzY6MLXTTW8AltW+LGWB/okky+UEwj+v1fj3qUx6zXQYJW7QDwbe1wAb6
+	 v2VoC796odCf5CNRNDHHsqoE/zMulZWfPcOmemy+jJlG85Crs2q2LpnpxR/j0z1Ws1
+	 NwlcNM2gXNZELQjQqlmvD+DMu630LanGGzoYol2ElP+FjjrRNQyKEEzvpeUiIzqX+Y
+	 BsUfhUkTYXGBnmCp5bWjKHJPSxK4i9ShvIHRVrKnf5mkqObI69UA945JhCQVcJNp5J
+	 +dybRocB4y/+tecx+QYcXy+TjLJAcMHb9BPkzmMne9MV8mT9Auafdt2Bf1h/QR+ZcV
+	 sF47CI4M8NaFA==
+Message-ID: <ac3736ab-4529-4280-b897-20680ddbaf2b@kernel.org>
+Date: Sun, 3 Nov 2024 09:04:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,17 +50,16 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] media: dt-bindings: media: camss: Add
- qcom,msm8953-camss
+Subject: Re: [PATCH v3 0/3] Add MSM8953 camss support
 To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
  Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Vladimir Lypak <vladimir.lypak@gmail.com>
 References: <20241102-camss-msm8953-v3-0-7041c9fa7a58@mainlining.org>
- <20241102-camss-msm8953-v3-2-7041c9fa7a58@mainlining.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,20 +105,21 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241102-camss-msm8953-v3-2-7041c9fa7a58@mainlining.org>
+In-Reply-To: <20241102-camss-msm8953-v3-0-7041c9fa7a58@mainlining.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 02/11/2024 23:39, Barnabás Czémán wrote:
-> Add bindings for qcom,msm8953-camss in order to support the camera
-> subsystem for MSM8953.
+> Add camss support for MSM8953/SDM450/SDM632 based devices.
 > 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> This patch series was tested on Redmi Note 4 (mido).
+> 
 > Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+> ---
+> Changes in v3:
+> - Fix schema issues addressed by reviews.
 
-Subject did not improve much. Why do you need to say twice that this is
-a media subsystem? See DT submitting patches document:
-https://elixir.bootlin.com/linux/v6.11-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst
+Which ones? This is not specific enough.
 
 Best regards,
 Krzysztof
