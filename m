@@ -1,119 +1,127 @@
-Return-Path: <linux-media+bounces-20724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20725-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41BAF9BA342
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 01:25:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F719BA48F
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 09:04:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB63C1F21D2B
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 00:25:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AADB51F2179B
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2024 08:04:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 570DDC2FB;
-	Sun,  3 Nov 2024 00:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58D7A15B149;
+	Sun,  3 Nov 2024 08:03:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YVmPniK8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t3ugWj83"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029AE1DA26;
-	Sun,  3 Nov 2024 00:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949222628D;
+	Sun,  3 Nov 2024 08:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730593520; cv=none; b=jQr+s3P85iYpdwYOZ10GMS57Joi6w/iMZnxiX4PNdrN9gDFAD6MVFiRZBWgPCIN0zzyLUwPtfYC+DbUxSHbXR2gl3pXm88XSrI18nxHvWLTojTrQy8cQqrCn9FyCTOi4deyWIXrdyvDZCZ88JaiG+az5xlqMZjMZG72BX1TYZxc=
+	t=1730621036; cv=none; b=GHMAd73aXvhZd7c4xVkuSReE59be2zEwpzoGgP4qyUQAqcEmrn0UxW84hiEeSSnAlqxD+NtzCjnKdsRPAAOxvUuA+UKek7uHP9dZwJtfOZJfKzfcXFnk5pfe4dedr8+knLDjptqVJIUcIyMKdT/Gm/ghVSctDA7hW6KrU7xXJgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730593520; c=relaxed/simple;
-	bh=T5lY0VFW9AW0Z5PycEDmia0b3jlRK4Bvlp4nWq1UAsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SnRX7+R8iXvOygK3EQVevb77axZTjJcAZFsyufw17nQ1UB3v3rPAGBUpUeFcZbF0GOa23tlrklJF/b4AhaleY/jTkoKW20gLXWBXlj/ivKxgeGAdznOPMwnzSlRMuxqhFKcWlAIwxDChMaSgxm7J1VQIpiG3sjiQwgNKU7wI9pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YVmPniK8; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 423A555;
-	Sun,  3 Nov 2024 01:25:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730593511;
-	bh=T5lY0VFW9AW0Z5PycEDmia0b3jlRK4Bvlp4nWq1UAsw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YVmPniK86gSIGr7/pQ9PNqkrVYsdj5VhFnaGqiIKlrwgzDxW+wevmrchNXFdX0g+s
-	 1fRMSs959ipS1nVGxPHF+OpnL7cRYjqStR7CcSSOEGMSuums63e38XMv/d7eMJ1dA9
-	 LGGPW4xppKJnA5vMrvFBnsOg/DheMln2Ahc/UFzQ=
-Date: Sun, 3 Nov 2024 02:25:10 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: raspberrypi: cfe: Fix mapping of dmabuf buffers
-Message-ID: <20241103002510.GO2473@pendragon.ideasonboard.com>
-References: <20241101-rp1-cfe-fixes-seg-size-v1-1-0aacf2da56e5@ideasonboard.com>
+	s=arc-20240116; t=1730621036; c=relaxed/simple;
+	bh=nvAf8GTIV/8JCsOU6Rof/enufImCxOjzOcAhet3YJlU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i66V8juhL8p35LY1Nsan/w+NOScsGRUyPadEzM/lfq29K0OQ4r5tAWN7wd8JO90pFzSTX39NktFYHPoZthsLR44iq8itHgRPid2LZn1A7CzLYcFpTkjkpVlrBRhnaI9E91UvgkxOxn+7UA98gh8ELwttwmpvEuBsux2XAg1mH4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t3ugWj83; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62C45C4CECD;
+	Sun,  3 Nov 2024 08:03:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730621036;
+	bh=nvAf8GTIV/8JCsOU6Rof/enufImCxOjzOcAhet3YJlU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=t3ugWj833LmFbZhaoK5hjalJvd0m2Szc3LkmIKbY+V8VW+tylIwCWI62hPof+DPNl
+	 zu379es3B6n262LmHN6P6fCJGjBrDWdtuH4xVjD0KC6JQ5znnyMxXQGpk8rA7Bfa87
+	 XWWwJHPSkD5UlL1f/lUG4vi/zdX5uJhFQ513fWMCK6Gbzhh+ZIxd3f9HgBK+c9xvGq
+	 ByfhKUBPuSBovdG6yD6CBiSd8nXLmzuYh7yxAbSqkXFiJ7kycAZwxiCJUOL6LKNgp1
+	 iAuSlhWwqHnCR3m02fSlf3x3Q8EVWHhWQa1ckuYuewSx7DB4TupxZOPrWKwkYiFfJP
+	 unO3OsipYxnhQ==
+Message-ID: <5fc19470-dc8c-4c12-b3f5-822bac97f38c@kernel.org>
+Date: Sun, 3 Nov 2024 09:03:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241101-rp1-cfe-fixes-seg-size-v1-1-0aacf2da56e5@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] media: dt-bindings: media: camss: Add
+ qcom,msm8953-camss
+To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20241102-camss-msm8953-v3-0-7041c9fa7a58@mainlining.org>
+ <20241102-camss-msm8953-v3-2-7041c9fa7a58@mainlining.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241102-camss-msm8953-v3-2-7041c9fa7a58@mainlining.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Fri, Nov 01, 2024 at 01:55:15PM +0200, Tomi Valkeinen wrote:
-> When using buffers from DRM, DMA-API gives a warning about: "mapping sg
-> segment longer than device claims to support [len=307200] [max=65536]"
+On 02/11/2024 23:39, Barnabás Czémán wrote:
+> Add bindings for qcom,msm8953-camss in order to support the camera
+> subsystem for MSM8953.
 > 
-> Add a call to vb2_dma_contig_set_max_seg_size() to tell the DMA-API
-> about the supported segment size (which is UINT_MAX).
-> 
-> Fixes: 6edb685abb2a ("media: raspberrypi: Add support for RP1-CFE")
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-> index 045910de6c57..e52d8b20df40 100644
-> --- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-> +++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-> @@ -2341,6 +2341,12 @@ static int cfe_probe(struct platform_device *pdev)
->  		goto err_cfe_put;
->  	}
->  
-> +	ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, UINT_MAX);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Unable to set max_seg_size\n");
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 
-Maybe dev_err_probe() ? Or drop the error message, as
-vb2_dma_contig_set_max_seg_size() already prints an error.
+Subject did not improve much. Why do you need to say twice that this is
+a media subsystem? See DT submitting patches document:
+https://elixir.bootlin.com/linux/v6.11-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Best regards,
+Krzysztof
 
-> +		goto err_cfe_put;
-> +	}
-> +
->  	/* TODO: Enable clock only when running. */
->  	cfe->clk = devm_clk_get(&pdev->dev, NULL);
->  	if (IS_ERR(cfe->clk))
-> 
-> ---
-> base-commit: 698b6e3163bafd61e1b7d13572e2c42974ac85ec
-> change-id: 20241101-rp1-cfe-fixes-seg-size-b70309da74a2
-
--- 
-Regards,
-
-Laurent Pinchart
 
