@@ -1,117 +1,124 @@
-Return-Path: <linux-media+bounces-20797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20798-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A53E9BB4AE
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 13:31:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A39F09BB4C3
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 13:38:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA3CB1F2150B
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 12:31:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3ED58B24038
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 12:38:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1EBD1B85EB;
-	Mon,  4 Nov 2024 12:30:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A661B0F33;
+	Mon,  4 Nov 2024 12:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FY8JfEoW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FIQlqs0K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAD01B85C9;
-	Mon,  4 Nov 2024 12:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29CA1EEE6
+	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 12:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730723449; cv=none; b=KvPIoMvbP0y+BYU0LSdA1jK7L8FGROO85yibDy6wBsXR70HhZqn+fm5fXJKgVlMAS5EMQ4Id2SfZK2mQxtPKl8ZdnsryDxoAFK2NHSpM7xNouCPnBAaFGv0VJf9Nikdb61K+vePyNUBw78KRpe68ll0cO3L0D+25wT8Y0k13rYs=
+	t=1730723925; cv=none; b=KeJ9q/PDw8bloFtWOUzPa2fMkUD9ccUozLI8+QRIiVToALGCl6Gqe62uD2778PFLCjTcxvl6U54VRpjAk4OixOjRXcFb9QxHmwvhUdiD4n0xs2H0M8kjYjGrLlxDxOFRDp1ub2u9qxs1N3gFaFweMt47N17jl8MZXf5a/nfJL5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730723449; c=relaxed/simple;
-	bh=+1pwXJjkDZruvn5Q37+5AIlc7Gon+baz3RnyTJMSWMo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o82eYEwol0RL4QEGfC+J5Qf02hkCgdQ2IJL1h1VZgb3fT/g0jgwbGvFc5PXaVYAEvwpTlLr8mBm/HHkYv+WQuPtUSPnU1ukUoHoD6s0g9BmdKEzN6CpJ6j/OlLaooJt8bp63uvsgg4NIA7ZrRy+e93SJTEfRxKYCI2+U9ltsM8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FY8JfEoW; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a9a850270e2so695299766b.0;
-        Mon, 04 Nov 2024 04:30:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730723446; x=1731328246; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+1pwXJjkDZruvn5Q37+5AIlc7Gon+baz3RnyTJMSWMo=;
-        b=FY8JfEoWXrhlbiTpgEGmMsdUyyA+khxiIAOyNarP2nGd8/HssTApfRL+ON1EDZ37Iq
-         MCj8PTAoMDj5hKpVutU6InitPqDt1cbTH6nUkWjlJv+xSLoUbprqQ4yD3Kwchq2wpU0a
-         4F45raUa5yfXWiIOqfnWa3FlWznllkq8Aq9p9cQ1QeSCVlB8oVOQDxe/lYp2r1F2PbhG
-         kCXvSPdC+tRG6/H/bdLKj1OyiXNhQnLDe0fS3eo2QCJCLuFvLeXcHoBwuXQTGKe9RId9
-         bqZ2EeNXuEU8WJD8RF3JAoizOVeLjJhd4p5k2JVOoeMD7noP2rsa1GPw8bWmljOW7/oS
-         mg3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730723446; x=1731328246;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+1pwXJjkDZruvn5Q37+5AIlc7Gon+baz3RnyTJMSWMo=;
-        b=VfB/Oj3YZJohGK9nTN/92PKXMJGsU6rIvpWWbTWb3/vOYPibAMoZ3n9/7d8U4+zXO4
-         ZK94Vlmq5saDdBlGHYHsKA8E2aaPRZ6I5evOjFaX0LM5EtNK8G7noBFXOILvUHHKdrYN
-         /fLOio0DjkUErq1SHQ+4yDIk/cO8ip9O53eTZyG9DBtJylxPS3NRPJ4T6Pnn/uLJ4nqA
-         s4pKVcqCbUKuwhAnRgBH1pNTzi/Eq603xBVGL4CPbVTZWxrOZNC4w50phFnBRPJ/EVuU
-         KcK/EDYitB+vfuyGOAO50at350A2PLUu8UyFwReIpo0s4J5ro5IYm/ZX3kbmegb4p26u
-         3YWg==
-X-Forwarded-Encrypted: i=1; AJvYcCXZHxyqVnE3YOmKp9AG/KFhJkSGkoqRD4QRIh6a4KuK75iqcwHRk8+8Q5ALZCtyTco8DE9+xrsfNRpvOBA=@vger.kernel.org, AJvYcCXjTGpcHOO208y1BM4kW9v3NqlWm75vWvopIi79ORX1vdpr1je/k8GuPSBaEBhWFoHR9j7gzZGTpEPVytE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtieekJl3kQ27yjTogJLHQwgUGIWzisNaRizY3q3RXGpytYmUr
-	ZmrjhF+rxhsGUkskAM4GgXUwFh783urFwE+anUKHeDEvkgglHtNKZAo0li454sf0yh6djMwbz3q
-	vc8Hzf8wnMcDRSRRHoRzCJQwrjOY=
-X-Google-Smtp-Source: AGHT+IEShXixc8kpjb5phOvkzq0l3fuUH4YReu8ywuTqRrBUzx5Nyz7vJc+3JDwOca7Pwgn6G6QcRC4P5M36beuY5x4=
-X-Received: by 2002:a17:907:2dac:b0:a99:6791:5449 with SMTP id
- a640c23a62f3a-a9e6587df7fmr1354587266b.52.1730723445505; Mon, 04 Nov 2024
- 04:30:45 -0800 (PST)
+	s=arc-20240116; t=1730723925; c=relaxed/simple;
+	bh=kMRb9z0LlhB8JxNVhjyC70W0C4O+kyzjIdxTWZp+rDs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g3KFrRCwLp4FknivrYQtbD8e6Tf6gkFbnLNPZciaw22Lc3TuUxU5rmpZnkeRTENjRRpo3hqqUDPDLZ7BIzLHYGOa6vk0K439GieGfQex39Rul9yrImUjPRr1mrdV3/sj1hSHOBLaw/UCSR3G/eJeQ6w8G8xXiUzMzodDUDSZSoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FIQlqs0K; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730723923;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0TguugBBm63nRqzUI6ZsbECp0dH0NtKZZBhHRwBumm4=;
+	b=FIQlqs0KYlUarM64NH95eggsVv2J/AzRjC5iHAjbaJ9jTShz+UEiVzoO8UjmSRtQBuF669
+	Lpmkurc7aGHf6Itbu/oXaqmZ+y/yT0N5kUfFIpgdZKGwtPht0Nl+kIuNB32LwOwx+F0GYP
+	Mi2JM3oLAe1vSzZugTCFActe7kNNmSE=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-482-MTYynnx7O8az3bNUCNXZHg-1; Mon,
+ 04 Nov 2024 07:38:38 -0500
+X-MC-Unique: MTYynnx7O8az3bNUCNXZHg-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4E13D19560BA;
+	Mon,  4 Nov 2024 12:38:37 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.194.12])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E7D1A19560A2;
+	Mon,  4 Nov 2024 12:38:33 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: Remove gmin_platform Asus T100TA quirks
+Date: Mon,  4 Nov 2024 13:38:32 +0100
+Message-ID: <20241104123832.5539-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240923105539.3569110-1-andriy.shevchenko@linux.intel.com> <28958f62-9051-45a6-a26d-585508e2bd11@redhat.com>
-In-Reply-To: <28958f62-9051-45a6-a26d-585508e2bd11@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 4 Nov 2024 14:30:09 +0200
-Message-ID: <CAHp75VdscXFTB+mfUgKBnut3_idT88mas20ZsohSd6nrcVOnFA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] media: atomisp: Remove License information boilerplate
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Jeff Johnson <quic_jjohnson@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jonathan Bergh <bergh.jonathan@gmail.com>, Roshan Khatri <topofeverest8848@gmail.com>, 
-	Dipendra Khadka <kdipendra88@gmail.com>, 
-	Sergio de Almeida Cipriano Junior <sergiosacj@riseup.net>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	Kartik Kulkarni <kartik.koolks@gmail.com>, Kathara Sasikumar <katharasasikumar007@gmail.com>, 
-	Tchadel Icard <hello@tchadelicard.fr>, Kate Hsuan <hpa@redhat.com>, 
-	Colin Ian King <colin.i.king@gmail.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Mon, Nov 4, 2024 at 1:57=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
-> On 23-Sep-24 12:53 PM, Andy Shevchenko wrote:
-> > We have the respective SPDX identifiers that are already being applied
-> > to the files in question. Remove the License information boilerplate.
-> >
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->
-> Thank you for your patch(es).
+The Asus T100TA quirks set the same values as the defaults,
+so they are not necessary. Remove them.
 
-Thank you!
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ .../media/atomisp/pci/atomisp_gmin_platform.c   | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-There is one patch (marked rft) left in the queue. Can you, please,
-apply it locally to your branches which you use to test AtomISP with?
-I'm talking about 20240923085652.3457117-1-andriy.shevchenko@linux.intel.co=
-m.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index e176483df301..8ec990293b48 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -225,16 +225,6 @@ static struct gmin_cfg_var ffrd8_vars[] = {
+ 	{},
+ };
+ 
+-/* Cribbed from MCG defaults in the mt9m114 driver, not actually verified
+- * vs. T100 hardware
+- */
+-static struct gmin_cfg_var t100_vars[] = {
+-	{ "INT33F0:00_CsiPort",  "0" },
+-	{ "INT33F0:00_CsiLanes", "1" },
+-	{ "INT33F0:00_CamClk",   "1" },
+-	{},
+-};
+-
+ static struct gmin_cfg_var mrd7_vars[] = {
+ 	{"INT33F8:00_CamType", "1"},
+ 	{"INT33F8:00_CsiPort", "1"},
+@@ -309,13 +299,6 @@ static const struct dmi_system_id gmin_vars[] = {
+ 		},
+ 		.driver_data = ffrd8_vars,
+ 	},
+-	{
+-		.ident = "T100TA",
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_NAME, "T100TA"),
+-		},
+-		.driver_data = t100_vars,
+-	},
+ 	{
+ 		.ident = "MRD7",
+ 		.matches = {
+-- 
+2.47.0
 
---=20
-With Best Regards,
-Andy Shevchenko
 
