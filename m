@@ -1,234 +1,320 @@
-Return-Path: <linux-media+bounces-20756-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20757-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2BA9BAB7C
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 04:32:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B58D49BABAA
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 05:07:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EAAB1C21474
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 03:32:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71E69281322
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 04:07:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8711D19D062;
-	Mon,  4 Nov 2024 03:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 365B1178CEC;
+	Mon,  4 Nov 2024 04:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Yu5wrLuJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+JAKJqD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2081.outbound.protection.outlook.com [40.107.104.81])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4B51632D7;
-	Mon,  4 Nov 2024 03:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730691047; cv=fail; b=MjB4HuBP096IufyT9DLaJQBNKhLkvf2JLA6al0KOZ9akIIVKrOd3P0voMt8J0hFT47C4vPp2je+3GuqrCx3SLXB3dsy3MJLoBNEICBpknBI+p2/spCEFc8Mk/FgsZGvk/4MaN91eHCS7NrZBR7lbSmnf+5bIc6n0bi8UpxFjPE4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730691047; c=relaxed/simple;
-	bh=Is4ogdSiy1iKTraIRNwA95mKXPSWAloOPSJ2ZGG49NY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NoaNSFXtLi0MoYWTTyrsLhx1nIOnlZIHucGVtAG89vYYu4lVVAMtJ5s+4df0Q0XEPNtwKu/N/mD8aJf6HeMCYrVXtO4zf3ictR+9mXuULqZFudwpFI3mdahbQxeqQGACBu7cA4LWr4x+eTBm/0LSLva82jJsUWio9D3WuJWX8dI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Yu5wrLuJ; arc=fail smtp.client-ip=40.107.104.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F0/3Of2G+4EInXA2Nt0Uog2BcuTHuAIoGR7c1uP+hSlgJxhW+bsVG9hUZI4Wc8hz7hESkpjGme4m43GETtU7gN3amTMfPhJAyVhKZZ2xYHo65u5mxU2/xkxQocVInmjF+Z1Dtu8kq5VLUpt6nRzoTxgwpxaUlgrOKHxSxjP+drVOnJC7XVDW9jCAPPvhYlQumiVD1BJ5IV9OuICnTYFEr0W8gDpHkGXbcZOpS3LO29ZRDvsuEgGKww/9oZ51ImTfkhj0AEQSZfBbQbfOLyxV4Knz7TnTPxUWQ77X2fPPjPurDCetiS/BlkVQt/R9RoPImumJEubUPmDkpZnr3TS+UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pMf3jixDKljFvNe09UwCShlLP4xcduUdFvy9xIa7FHw=;
- b=oLQevIZGC5Jk6S85QUcoh8GS7jkeDrEi++yz5joY8y4V/fgux0ApeNRrqdWafuTPga0EM6Pdtf74idYGgX1n/uyxEBHkcUTsqPl/3sKaKiq8mVuQ7pr0o56+h4PyRogZ+2Nxrhzy48OydheW1LsbMb5dWmeEOnEPeBiSIlHsBL7pIdFayCRSkbCaC5mXCJATWYoBH3oHW6S0/0UjT7uu9EliMbx63ujbMdtmUllOas0p/Htb4g4ybN/06BnOhu2ZpvXuQYA/x+jNzmcw0xI6Jw4ROwu4t7Re1n1ccV1BDwI6wHx1Oj/umEfQ6qe4nf1n4pwOiOYGU2uRP+SIZ4Zflg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pMf3jixDKljFvNe09UwCShlLP4xcduUdFvy9xIa7FHw=;
- b=Yu5wrLuJxROEwYZWhMZLBnkvLpemX83uyivvn0BbNft2Ofit+XcuAofhTkXUQ5TTSY0Wh16ARbl4sRyVKD0xFRzDVxKz3MK5PbcIQSJbocyN0uxJfFBFN0QBkzosF2y00iTJG5J0Du3FXwnQWQQ9SxRrYdRcHCFy2d6lb4eRyZoS05QlT/8QKf8v/j5vgp6hvxgV5MbleLTLAvX0HvEPDm6pBU1TzcpvuR4YngNvZ9IteOZnsXB4ls1dNjrzvSk/NMXWaRDn4PESkZefXVN42A28vzAnDcOhvfx6sYVkpPV43vbhND4NgRlyaDnH/+fqjxT7HMTmTGCgPwp7ihSyaA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by PA1PR04MB10602.eurprd04.prod.outlook.com (2603:10a6:102:490::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Mon, 4 Nov
- 2024 03:30:43 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8114.028; Mon, 4 Nov 2024
- 03:30:43 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Cc: andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org,
-	rfoss@kernel.org,
-	Laurent.pinchart@ideasonboard.com,
-	jonas@kwiboo.se,
-	jernej.skrabec@gmail.com,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	quic_jesszhan@quicinc.com,
-	mchehab@kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	sakari.ailus@linux.intel.com,
-	hverkuil@xs4all.nl,
-	tomi.valkeinen@ideasonboard.com,
-	quic_bjorande@quicinc.com,
-	geert+renesas@glider.be,
-	dmitry.baryshkov@linaro.org,
-	arnd@arndb.de,
-	nfraprado@collabora.com,
-	thierry.reding@gmail.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	sam@ravnborg.org,
-	marex@denx.de,
-	biju.das.jz@bp.renesas.com
-Subject: [PATCH v5 13/13] MAINTAINERS: Add maintainer for ITE IT6263 driver
-Date: Mon,  4 Nov 2024 11:28:06 +0800
-Message-Id: <20241104032806.611890-14-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241104032806.611890-1-victor.liu@nxp.com>
-References: <20241104032806.611890-1-victor.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SGXP274CA0016.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::28)
- To AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913094C6C
+	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 04:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730693255; cv=none; b=GlhG0TuF/VPkHPGLNl2EgfeG4BOFs9sloK5ND7gSDU//k0ZsVi2SxTRcey2GkWjwXvZPcZ3S5pwYexmoFi/rU1omir259A7Fp8iMl9qltU3ACBWuNhbC7snAwmaozt4B1w/26DFA/XCCXRM/GFVAOZbmZLUl6y0E15oqhXe5vQA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730693255; c=relaxed/simple;
+	bh=KVXWVDaMqR5wyKOgT6bLFxo6vMpgcB8Cmxmo9oZzzFM=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=e//B1D4jrxEuvaZDhkfSZZaQtvUCLr6UKqaB7UcqTUBy3CVFc+OAh10hO4jFgWsI+lRimXIBkRM6VuR8qRUhpdsqoYsPjD2yTc++R8lOW/DLiDBnTm2GxvvBVtUTg6wLdXSzbJiFk4fFuDbEJXmlApfiPkOimWM3hQpnzGJwY3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k+JAKJqD; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730693253; x=1762229253;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=KVXWVDaMqR5wyKOgT6bLFxo6vMpgcB8Cmxmo9oZzzFM=;
+  b=k+JAKJqDafBWWMHXcyh7fd6ksUEER3et0Hdzt22FKzTalenKpDvGdwHN
+   w9TxWeHjVCgKQwUMf/IQbhi+YOMFXiZtiQWBcE3XLrDFIc5MENuNgj8q4
+   rjFpnZizTE71TVNbI8VgmQceuVWGyq7DbW15jP0EOo0I72BzPHkpYcSVR
+   tu5ELEOm7v/rxdRPCdymD6XUKJfMam/7oFpPS5WsXl0XjVzXisHMnhnRK
+   Js/KrBHHhc/SwN1YYvTnpcOXHo6iIK7qIdT71v4udDto6ty6eTxI9T22l
+   5hrqfEdHkGF/Asn4ouAmIRwGrbFQcu50y49pCBQXcmYJI630q5DvaRQ+k
+   w==;
+X-CSE-ConnectionGUID: KstfxCMzSkCtwGG2DUd8wA==
+X-CSE-MsgGUID: JNph0j/TStC++EDry9ATvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="41010212"
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="41010212"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 20:07:33 -0800
+X-CSE-ConnectionGUID: vHdTr4m+TIO02pmYGR205A==
+X-CSE-MsgGUID: ZBJy8iTyT3iWuCnNaKzBCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="84344365"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 20:07:32 -0800
+Subject: Re: [PATCH v2 2/3] media: ipu6: optimize the IPU6 MMU mapping flow
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>
+Cc: linux-media@vger.kernel.org
+References: <1729835552-14825-1-git-send-email-bingbu.cao@intel.com>
+ <1729835552-14825-2-git-send-email-bingbu.cao@intel.com>
+ <ZyTUkP-Vakj_DsOS@kekkonen.localdomain>
+From: Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <7a148e4e-04b4-d6e3-554b-20569b7fa340@linux.intel.com>
+Date: Mon, 4 Nov 2024 12:04:29 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA1PR04MB10602:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59cd2c0f-dd53-4b86-0bfd-08dcfc811033
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|7416014|376014|52116014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?PWCbGwpDiSEFJB1w90yTAGE39vV4zUFOM0cT2cueSDD9/ReJUzvhCMNp/Tjk?=
- =?us-ascii?Q?XC8J36K6CpvStUJU+YAv2CPbRA8dbIRyPy8vl0g5bemmkWggsGC8Wi2E6ijM?=
- =?us-ascii?Q?cekTvP2hN9y5iFVd5UX/bIIRijBhYbaQqr1tlVhhob60WpdJYm8ZnthyFv/H?=
- =?us-ascii?Q?ksAd8gNxG2BQ4O87BmRiULIEhRUdVFAEzy2Oop/WL89/CuZLNPF4CSSVnqH/?=
- =?us-ascii?Q?e+HwEnjZrM/lG4GiqJMqZwLRe1Ir1Jn2BIk8xcrGXahlompGygiS5CsU2bLX?=
- =?us-ascii?Q?Lxz7SYY1ihQQ6aqVd/aLa/fQu/ym5dl/whrgvy4Jr8v39ldMQs+GTNRQt62m?=
- =?us-ascii?Q?EYthbX1OfG6xYwOrq0BzU1llDZ978vGHo8wJJ5tChlTVDAx5NB6dgQeL0du7?=
- =?us-ascii?Q?520EjpAtTsFYYbCMpA+aPrjbRvK6m37Ugv65itP8lcInV1dLGmTssP6A/g6/?=
- =?us-ascii?Q?82AmI8EWtgMbrNVQbmAVBK8f17xRVx1BjTEJa+otmR5B7bum6pmjW6utYxey?=
- =?us-ascii?Q?huZi4c/sqoRiv2osRiVjhI5xCsOSHDKfWagic0ZAAU9adDfjzvkn+jjJQYCM?=
- =?us-ascii?Q?x9d0NS3Xn28H6/qF9vQxOSi36tZrHgI6aGVO9iF42lJKrAXCo1k0yoYBVUvh?=
- =?us-ascii?Q?L5BUhN1wn1v0SNABfhtzzHFJ6EzI9JnKXQ7qe+Y1Xbz3KPvOgpoN2c9ALapU?=
- =?us-ascii?Q?wGePR1Yv8/za9wM/Ofp9K27jJWWPFuQy7Go8P5hkWe+3ijePWO25OXpun4Dy?=
- =?us-ascii?Q?sdbn7+9c5bmfS2rO5vpnUwfJkFHFY/mjRxUzYedhf/Ko+mT+Fbix/NY14Zih?=
- =?us-ascii?Q?IbgnmczEG6HZiAmZEZHWjEmIGnLqXFAVZdCABoMVLiR7uYMUvY4JHqBLY3ca?=
- =?us-ascii?Q?39aSzJ+0EFcNMzj7re9Ejua91HTFKSfthaTao3CJT1y+kCTKlP8UEgrsDo+9?=
- =?us-ascii?Q?P5v+ejeaxsRpimohxu9IW52YA8v9JFx1nAnRXZM9YITrkjYz83Hla14cwD/T?=
- =?us-ascii?Q?Ot6IwTcCfjjoE4dcZeiwi96mokSDxdWjtvr9saKtWaaX0UbgpHQyDSDzZwzL?=
- =?us-ascii?Q?mJ5xgH+ahwWY/Xf2u3rcRw9pra3+x6HxsssLxoIANJZ0FRqfIRynCU5GcxTo?=
- =?us-ascii?Q?ZThqGlffQ40VN0qaDMcf3oloTXJYM49TD4eUMTyLQpD2pOX7mn2NcM2cQRcU?=
- =?us-ascii?Q?aGyPPJ7gmOSfVj/a8yPDFY1lb3C0abPzQ1ZeUoZCmfAB+6Zk/6M5Nr1BFqsj?=
- =?us-ascii?Q?Ek4t52ladcinwBmtqyohflJx9Xzes6sWBr811wnS8/pkCofnm+iESHp69jK+?=
- =?us-ascii?Q?+CEQahXvDqudMdSLfDHlvFt8?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7046.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?jJ4R+Mb7gWyMMTLMZ90yRhevTy7eEf/Wx/lXLbcv5B6hOQyfJYGXASrn6TkF?=
- =?us-ascii?Q?wOhECBq/cF9t9eq4BPItJJ7kuw2iBBDV8XTYFmLoiPpV+iM1VZbxtqQr6t3y?=
- =?us-ascii?Q?AJRzOmS/zrskYQFac9O9iouH1vH/r8NwmKoXY41/yAgzb1Zs1kwuQi35srEZ?=
- =?us-ascii?Q?1xUG4MKVpeO/BB7TJySnldNPP2Tq71xNG/iLLEteLFwEVKOn5hxWKmcl+P1Z?=
- =?us-ascii?Q?c4FSW3qDgTGBFBDxL2mmLlltm/BYmHQr46vdsYC4x1zwZM5f+gsZWKYPcPmJ?=
- =?us-ascii?Q?9Xw1UpNLh1ErniMWGGLGeMHDBUXwM25Vh280KTvyKHlhmbUbAj8jLbcfEVIC?=
- =?us-ascii?Q?vE2W+8IjjGv79pwIKCVcALiiN9GuzgB5YVuaa8MT3i1Hnb4dyeW1xsKayFyD?=
- =?us-ascii?Q?eDG2R5dP5NYlXaP/xluEJnYD0iTWCzX9EfRHN0Vj/Ip3Zf0hN1yvby29jdyX?=
- =?us-ascii?Q?fPPaJfUyD6zPK3hltbM8LgEaWAAIckB42F5hfL4AJocbnCgrdcjy5pITIUIc?=
- =?us-ascii?Q?daCwm0S91VbA4eV7DGYP6xLq/HWy4s2JTYM7jLVpi8ksz//WZ6ZZxC/WFKoN?=
- =?us-ascii?Q?JSzt3DtvaY+nxboAnsAroIN7jCqzeKPnovSBN8AFML/D4W9gtsouMwwKt2Vf?=
- =?us-ascii?Q?YRoZMUkUOprI4xY+OtPn1/ng+LmFEjv77LKXfeApejwXvDE4Fj/n+IQUf3mr?=
- =?us-ascii?Q?v9HuhKzQDszzw+rHwXRe1FKxnLZDh4xuErDdueuI3zEnG+kKHz3MV9ypc3nS?=
- =?us-ascii?Q?9V+PEpD/rjefDKsDHcU8TGDKnIoYGqJNmmYfKTLvIoyvAxQuiYlLFyH6m+pz?=
- =?us-ascii?Q?9G0ISD0KaBqu5ucY8ycpEFgNqFkUvFxJmmVIqiuqM7iXNRQPF7GA4kn2CsQC?=
- =?us-ascii?Q?uIgVo+TNPEjXSjJOHzaPocXuLnfjhLovwQAh2ggeDJ0eugwD9g6wWxDbWwsZ?=
- =?us-ascii?Q?AM1sZAk3AW0eZmbDViTz3h2yZFHfk/NXV2bbq0abyclRDb4sebGrWb9Gf/02?=
- =?us-ascii?Q?TQRs2NZE8yb/TDb/KnWQ316V7eV+kyw3omq4EG+v0Rt9He51HqZ67T5YyYjt?=
- =?us-ascii?Q?Wg08hB6KdFl/25/2p2y3kpbvGQwBAnz7Zyvrj6lp14bIPeRhdWlRdLSZTpCN?=
- =?us-ascii?Q?USHTD0BeS2bExSWX1FUwDz1zIkgKlxYWELCAFHB7RL1qRuZ6apFw+gk1QYMu?=
- =?us-ascii?Q?A2AndAEwrn2gLZ/utt5Gq5z2piYAGQNYI1p8noM0rm9/jyVf1wOtmoVV+QeT?=
- =?us-ascii?Q?gDnXAzPpW6tmVPOFgZKcqYbRq7fqD71nv7C4CqlBh5MWFweYATKtyEa+ADC7?=
- =?us-ascii?Q?2WP29fKM2Kd3osmsbzAG3RH4p/Z9Ooh2kHRMXoACBlifYG3+PFKjk0sknFsI?=
- =?us-ascii?Q?u5Ce8z3AagfDJw6Rfm7JG4qcy5UmCI3S/hsMXG6wNcNo9IR0Xm94J+22mKDI?=
- =?us-ascii?Q?BiaTilB/E+plmZPdHA1pOlOyOcS6kQNRY7cPNoO+y7wbXvzHYmB0x9fwYazX?=
- =?us-ascii?Q?4VjoDgE0bqw1hHIkQ1CPIgFe608ubDZltcHzc4Jn2UfPkzwFFJLfd5A6O35V?=
- =?us-ascii?Q?11+1MbLJ7cgNVflPiZuKymIfGqAzbRIHU/8vxru8?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59cd2c0f-dd53-4b86-0bfd-08dcfc811033
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 03:30:43.5160
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eSH9KIv0FYKS5q5H4lECaKxhMlpSbP4I3AsOnpkiDyqcWPvxRyWNhX2fHVeWyNxW85tRfH/suht/uzNOPLE1rA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10602
+In-Reply-To: <ZyTUkP-Vakj_DsOS@kekkonen.localdomain>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Add myself as the maintainer of ITE IT6263 LVDS TO HDMI BRIDGE DRIVER.
+Sakari,
 
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
-v5:
-* Add Dmitry's A-b tag.
+On 11/1/24 9:16 PM, Sakari Ailus wrote:
+> Hi Bingbu,
+> 
+> Thanks for the update.
+> 
+> On Fri, Oct 25, 2024 at 01:52:31PM +0800, Bingbu Cao wrote:
+>> ipu6_mmu_map() operated on a per-page basis, it leads frequent
+>> spin_lock/unlock() and clflush_cache_range() for each page, it
+>> will cause inefficiencies especially when handling dma-bufs
+>> with large number of pages. However, the pages are likely concentrated
+>> pages by IOMMU DMA driver, IPU MMU driver can map the concentrated
+>> pages into less entries in l1 table.
+>>
+>> This change enhances ipu6_mmu_map() with batching process multiple
+>> contiguous pages. It significantly reduces calls for spin_lock/unlock
+>> and clflush_cache_range() and improve the performance.
+>>
+>> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+>> Signed-off-by: Jianhui Dai <jianhui.j.dai@intel.com>
+>> ---
+>>  drivers/media/pci/intel/ipu6/ipu6-mmu.c | 144 +++++++++++++++-----------------
+>>  1 file changed, 69 insertions(+), 75 deletions(-)
+>>
+>> diff --git a/drivers/media/pci/intel/ipu6/ipu6-mmu.c b/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+>> index 9ea6789bca5e..e957ccb4691d 100644
+>> --- a/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+>> +++ b/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+>> @@ -295,72 +295,90 @@ static size_t l2_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+>>  static int l2_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+>>  		  phys_addr_t paddr, size_t size)
+>>  {
+>> -	u32 l1_idx = iova >> ISP_L1PT_SHIFT;
+>> -	u32 iova_start = iova;
+>> +	struct device *dev = mmu_info->dev;
+>> +	unsigned int l2_entries;
+>>  	u32 *l2_pt, *l2_virt;
+>>  	unsigned int l2_idx;
+>>  	unsigned long flags;
+>> +	size_t mapped = 0;
+>>  	dma_addr_t dma;
+>>  	u32 l1_entry;
+>> -
+>> -	dev_dbg(mmu_info->dev,
+>> -		"mapping l2 page table for l1 index %u (iova %8.8x)\n",
+>> -		l1_idx, (u32)iova);
+>> +	u32 l1_idx;
+>> +	int err = 0;
+>>  
+>>  	spin_lock_irqsave(&mmu_info->lock, flags);
+>> -	l1_entry = mmu_info->l1_pt[l1_idx];
+>> -	if (l1_entry == mmu_info->dummy_l2_pteval) {
+>> -		l2_virt = mmu_info->l2_pts[l1_idx];
+>> -		if (likely(!l2_virt)) {
+>> -			l2_virt = alloc_l2_pt(mmu_info);
+>> -			if (!l2_virt) {
+>> -				spin_unlock_irqrestore(&mmu_info->lock, flags);
+>> -				return -ENOMEM;
+>> -			}
+>> -		}
+>> -
+>> -		dma = map_single(mmu_info, l2_virt);
+>> -		if (!dma) {
+>> -			dev_err(mmu_info->dev, "Failed to map l2pt page\n");
+>> -			free_page((unsigned long)l2_virt);
+>> -			spin_unlock_irqrestore(&mmu_info->lock, flags);
+>> -			return -EINVAL;
+>> -		}
+>> -
+>> -		l1_entry = dma >> ISP_PADDR_SHIFT;
+>> -
+>> -		dev_dbg(mmu_info->dev, "page for l1_idx %u %p allocated\n",
+>> -			l1_idx, l2_virt);
+>> -		mmu_info->l1_pt[l1_idx] = l1_entry;
+>> -		mmu_info->l2_pts[l1_idx] = l2_virt;
+>> -		clflush_cache_range((void *)&mmu_info->l1_pt[l1_idx],
+>> -				    sizeof(mmu_info->l1_pt[l1_idx]));
+>> -	}
+>> -
+>> -	l2_pt = mmu_info->l2_pts[l1_idx];
+>> -
+>> -	dev_dbg(mmu_info->dev, "l2_pt at %p with dma 0x%x\n", l2_pt, l1_entry);
+>>  
+>>  	paddr = ALIGN(paddr, ISP_PAGE_SIZE);
+>> +	for (l1_idx = iova >> ISP_L1PT_SHIFT;
+>> +	     size > 0 && l1_idx < ISP_L1PT_PTES; l1_idx++) {
+>> +		dev_dbg(dev,
+>> +			"mapping l2 page table for l1 index %u (iova %8.8x)\n",
+>> +			l1_idx, (u32)iova);
+>>  
+>> -	l2_idx = (iova_start & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
+>> +		l1_entry = mmu_info->l1_pt[l1_idx];
+>> +		if (l1_entry == mmu_info->dummy_l2_pteval) {
+>> +			l2_virt = mmu_info->l2_pts[l1_idx];
+>> +			if (likely(!l2_virt)) {
+> 
+> likely() should only be used if it's really, really uncommon on a hot path.
+> I don't think that's the case here.
+> 
+> Can it even happen l2_virt is NULL here? l1_entry has been assigned while
+> the l2 PT page has been mapped so both are either dummy / NULL or valid
+> values. The l2 pages aren't unmapped in unmap, but only in
+> ipu6_mmu_destroy(). Same goes for the map_single() if l2_virt was valid
+> already, the page has been mapped, too.
+> 
+> This seems like a pre-existing problem. If there is no actual bug here but
+> just inconsistent implementation (so it would seem), I think it's fine to
+> address this on top.
+> 
+> Can you conform this?
 
-v4:
-* No change.
+I would like to address this in another patch instead of this series.
+What do you think?
 
-v3:
-* No change.
+> 
+>> +				l2_virt = alloc_l2_pt(mmu_info);
+>> +				if (!l2_virt) {
+>> +					err = -ENOMEM;
+>> +					goto error;
+>> +				}
+>> +			}
+>>  
+>> -	dev_dbg(mmu_info->dev, "l2_idx %u, phys 0x%8.8x\n", l2_idx,
+>> -		l2_pt[l2_idx]);
+>> -	if (l2_pt[l2_idx] != mmu_info->dummy_page_pteval) {
+>> -		spin_unlock_irqrestore(&mmu_info->lock, flags);
+>> -		return -EINVAL;
+>> +			dma = map_single(mmu_info, l2_virt);
+>> +			if (!dma) {
+>> +				dev_err(dev, "Failed to map l2pt page\n");
+>> +				free_page((unsigned long)l2_virt);
+>> +				err = -EINVAL;
+>> +				goto error;
+>> +			}
+>> +
+>> +			l1_entry = dma >> ISP_PADDR_SHIFT;
+>> +
+>> +			dev_dbg(dev, "page for l1_idx %u %p allocated\n",
+>> +				l1_idx, l2_virt);
+>> +			mmu_info->l1_pt[l1_idx] = l1_entry;
+>> +			mmu_info->l2_pts[l1_idx] = l2_virt;
+>> +
+>> +			clflush_cache_range(&mmu_info->l1_pt[l1_idx],
+>> +					    sizeof(mmu_info->l1_pt[l1_idx]));
+>> +		}
+>> +
+>> +		l2_pt = mmu_info->l2_pts[l1_idx];
+>> +		l2_entries = 0;
+>> +
+>> +		for (l2_idx = (iova & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
+>> +		     size > 0 && l2_idx < ISP_L2PT_PTES; l2_idx++) {
+>> +			l2_pt[l2_idx] = paddr >> ISP_PADDR_SHIFT;
+>> +
+>> +			dev_dbg(dev, "l2 index %u mapped as 0x%8.8x\n", l2_idx,
+>> +				l2_pt[l2_idx]);
+>> +
+>> +			iova += ISP_PAGE_SIZE;
+>> +			paddr += ISP_PAGE_SIZE;
+>> +			mapped += ISP_PAGE_SIZE;
+>> +			size -= ISP_PAGE_SIZE;
+>> +
+>> +			l2_entries++;
+>> +		}
+>> +
+>> +		WARN_ON_ONCE(!l2_entries);
+>> +		clflush_cache_range(&l2_pt[l2_idx - l2_entries],
+>> +				    sizeof(l2_pt[0]) * l2_entries);
+>>  	}
+>>  
+>> -	l2_pt[l2_idx] = paddr >> ISP_PADDR_SHIFT;
+>> -
+>> -	clflush_cache_range((void *)&l2_pt[l2_idx], sizeof(l2_pt[l2_idx]));
+>>  	spin_unlock_irqrestore(&mmu_info->lock, flags);
+>>  
+>> -	dev_dbg(mmu_info->dev, "l2 index %u mapped as 0x%8.8x\n", l2_idx,
+>> -		l2_pt[l2_idx]);
+>> -
+>>  	return 0;
+>> +
+>> +error:
+>> +	spin_unlock_irqrestore(&mmu_info->lock, flags);
+>> +	/* unroll mapping in case something went wrong */
+>> +	if (mapped)
+>> +		l2_unmap(mmu_info, iova - mapped, paddr - mapped, mapped);
+>> +
+>> +	return err;
+>>  }
+>>  
+>>  static int __ipu6_mmu_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+>> @@ -692,10 +710,7 @@ size_t ipu6_mmu_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+>>  int ipu6_mmu_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+>>  		 phys_addr_t paddr, size_t size)
+>>  {
+>> -	unsigned long orig_iova = iova;
+>>  	unsigned int min_pagesz;
+>> -	size_t orig_size = size;
+>> -	int ret = 0;
+>>  
+>>  	if (mmu_info->pgsize_bitmap == 0UL)
+>>  		return -ENODEV;
+>> @@ -718,28 +733,7 @@ int ipu6_mmu_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+>>  	dev_dbg(mmu_info->dev, "map: iova 0x%lx pa %pa size 0x%zx\n",
+>>  		iova, &paddr, size);
+>>  
+>> -	while (size) {
+>> -		size_t pgsize = ipu6_mmu_pgsize(mmu_info->pgsize_bitmap,
+>> -						iova | paddr, size);
+>> -
+>> -		dev_dbg(mmu_info->dev,
+>> -			"mapping: iova 0x%lx pa %pa pgsize 0x%zx\n",
+>> -			iova, &paddr, pgsize);
+>> -
+>> -		ret = __ipu6_mmu_map(mmu_info, iova, paddr, pgsize);
+>> -		if (ret)
+>> -			break;
+>> -
+>> -		iova += pgsize;
+>> -		paddr += pgsize;
+>> -		size -= pgsize;
+>> -	}
+>> -
+>> -	/* unroll mapping in case something went wrong */
+>> -	if (ret)
+>> -		ipu6_mmu_unmap(mmu_info, orig_iova, orig_size - size);
+>> -
+>> -	return ret;
+>> +	return __ipu6_mmu_map(mmu_info, iova, paddr, size);
+>>  }
+>>  
+>>  static void ipu6_mmu_destroy(struct ipu6_mmu *mmu)
+> 
 
-v2:
-* New patch.  (Maxime)
-
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5f34d168b041..63200174ee65 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12223,6 +12223,14 @@ W:	https://linuxtv.org
- Q:	http://patchwork.linuxtv.org/project/linux-media/list/
- F:	drivers/media/tuners/it913x*
- 
-+ITE IT6263 LVDS TO HDMI BRIDGE DRIVER
-+M:	Liu Ying <victor.liu@nxp.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
-+F:	drivers/gpu/drm/bridge/ite-it6263.c
-+
- ITE IT66121 HDMI BRIDGE DRIVER
- M:	Phong LE <ple@baylibre.com>
- M:	Neil Armstrong <neil.armstrong@linaro.org>
 -- 
-2.34.1
-
+Best regards,
+Bingbu Cao
 
