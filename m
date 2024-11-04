@@ -1,145 +1,135 @@
-Return-Path: <linux-media+bounces-20774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0395F9BAEBB
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 09:57:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA78E9BAF75
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 10:19:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC4A5282F76
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 08:56:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7EB832818D1
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 09:19:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D4E21AD3E4;
-	Mon,  4 Nov 2024 08:56:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F14FC1AAE39;
+	Mon,  4 Nov 2024 09:19:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qOO0eOjn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YuoB6wXU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500911AC448;
-	Mon,  4 Nov 2024 08:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F686FC5
+	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 09:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730710606; cv=none; b=CxLpkt3IyJ5nBf7sjKKCZGHnct76m2ZYvdExhpX/7adW2rdV9FHdAtvxJeQ+Pyi6noo/V7UrsU/dlTxrR4BtQm462Fc/hllprHdlMiYbRTByq7DiCg3vJD35WKsLeN4RzxprSAhs3GVAL6O/GfxHXL0Xnf6kwNUjf0ojIpHh7rY=
+	t=1730711948; cv=none; b=nOg8CPMtfgkGjXpvcrhhNXzh2HEtyotiAo7NnqLpNs4dkK5z6euCo4S6UpemHOmUsyYv5o/mmPKmL4XB4G7PRdeu0DR8CqNgC+Fd6z8y+Os0pmwJ+37kA7yOuyN51yZNK2CDF0O7Hc6lm8tHtPNRwa1XVL5tnte75LldC8wezn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730710606; c=relaxed/simple;
-	bh=+szTGwcsKaWeKFK/5HzDnnuXC33Ola+y4wswp/jEC6Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MXSR/X6dzoCH5jQKPd1Wqa4qTEKg+7Xx/peMP6/GuAsOTpVXyzfmBBLxWpIuYjCDYX2BlJ+iA4N/XXb2VZIv3i9DhSifNAZgXH4XcgVNfJ+dVoD6Q+7HF8M8yDv3FDDrFWyncmGPhDFkW49Tk0FUqrq6xNWIWsDfzrFTXHuJBOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qOO0eOjn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E3EBC4CED2;
-	Mon,  4 Nov 2024 08:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730710605;
-	bh=+szTGwcsKaWeKFK/5HzDnnuXC33Ola+y4wswp/jEC6Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qOO0eOjnj8pui672YjMmPaO7SXC49sx1aKP6qPoGDa+DC5KWalzOVaNGf+BVftprQ
-	 PvBqLLbFodfVCJVKmwYtdFShYLR4Ucttkt3DZtqB1IxpFLfeidlB4RZR6g7yvJ9oPD
-	 8cWqMZt/x3KRWi5yvGG5382oDRm5oevE+1iTWMvTK1ZwSzGluPGXM3dOycrxjsGz5U
-	 2r0AzPdaqppQyVkbPNNNB0tXxI7ewTJbStZPAyEyUlgliFDkwkxQ44IW0ba+2blcOS
-	 3Ziifeaq3p1tli4sm14zGy80ix9ptScSb1XajrgX/iG1FDswUmPzzN2RISONu6etQU
-	 Y03PfQibsZbQg==
-Message-ID: <3e62ecab-5f84-4610-b9a0-7bbdb44fc332@kernel.org>
-Date: Mon, 4 Nov 2024 09:56:39 +0100
+	s=arc-20240116; t=1730711948; c=relaxed/simple;
+	bh=TzLQvmHtYnUkxVn8nKKUpRl/JdeQlYmhfiDFINT3i0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EorZ4Ag7hCn9qJCA6uJMOjxJkezHt0vZzi3gIk5a+3SlG8N2vGPi1ayysTTv5l12D1JiEGaOlXT4WXX1o0ircttLNfl+E9rn4ChClEp5jC6Q/cT6IYnS+uxkEyT8wVhHusudenWkQO43Mn3BRvgBpqgu6VGYqQCfwE7+pdqpMaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YuoB6wXU; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730711946; x=1762247946;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TzLQvmHtYnUkxVn8nKKUpRl/JdeQlYmhfiDFINT3i0w=;
+  b=YuoB6wXUWEv/bhQSPxV0vGhO/4EylqMuVYQ5JtJ75osXYwXMJs6gBVa7
+   NTzuaonEtYSqZXHvOqMTOU14lFjgUmvgqUIJLjJELaQAXUP/Wt+5PxJna
+   uunwCeHtMAjPe9ERMDZA0X4W71kI1SQPecw2Ob+Z/oju0VtzyhRQJR6AF
+   aHPbL1S0dG/7/eXzq5Bjqil7RWPwbbgeKY7sZFOfHXHpJ3iwPVGHEyr0F
+   1mXfQ33lngLgFxcNgVE8AvcekqJdIP/luK7EOAsQ9FRdwgno4r9ovMwN0
+   Wtf4xH531D9nZijh9em1sfQP6S1Cvlhfduh0XhhsB4w+Ggp+l+Kt2sdoM
+   A==;
+X-CSE-ConnectionGUID: Cpe3rseWR8iHyXQN5ZakXA==
+X-CSE-MsgGUID: xSexX/zxTBGxnkU8PNsG5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30576012"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30576012"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 01:19:06 -0800
+X-CSE-ConnectionGUID: qNJRMdquQvaZbxDPayoRWw==
+X-CSE-MsgGUID: 59n0ZDRrR0Oyv4Gy9Q+8Sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="114381985"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.97.183])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 01:19:04 -0800
+Date: Mon, 4 Nov 2024 10:19:02 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>
+Subject: Re: [PATCH v2] media: intel/ipu6: remove buttress ish structure
+Message-ID: <ZyiRhk/LejVGSUKL@linux.intel.com>
+References: <20241031130622.430308-1-stanislaw.gruszka@linux.intel.com>
+ <f6e4a8b9-1ee5-04f2-069a-cf2541cca6bd@linux.intel.com>
+ <2251d433-ecf0-6300-3598-82438befb456@linux.intel.com>
+ <ZySHPtECRXNTSN2d@kekkonen.localdomain>
+ <34bb5ca1-8c7c-316e-5886-378c8660f7f1@linux.intel.com>
+ <ZySO_J1xDkcSY4sZ@kekkonen.localdomain>
+ <7ad30743-58c5-7004-9eed-4f1d8589c7f7@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: platform: exynos4-is: Fix memory leak in
- fimc_md_is_isp_available
-To: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>, s.nawrocki@samsung.com,
- mchehab@kernel.org, alim.akhtar@samsung.com, kyungmin.park@samsung.com,
- andrzej.hajda@intel.com
-Cc: linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-References: <20241104084529.2113302-1-joe@pf.is.s.u-tokyo.ac.jp>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241104084529.2113302-1-joe@pf.is.s.u-tokyo.ac.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7ad30743-58c5-7004-9eed-4f1d8589c7f7@linux.intel.com>
 
-On 04/11/2024 09:45, Joe Hattori wrote:
-> In fimc_md_is_isp_available(), of_get_child_by_name() is called to check
-
-Subject: We do not call it a memory leak. This is an OF node reference leak.
-
-> if FIMC-IS is available. Current code does not decrement the refcount of
-> the returned device node, which causes memory leak. Fix the bug by
-
-Same here.
-
-> calling of_node_put() at the end of the variable scope.
+On Fri, Nov 01, 2024 at 05:07:25PM +0800, Bingbu Cao wrote:
 > 
-> Fixes: e781bbe3fecf ("[media] exynos4-is: Add fimc-is subdevs registration")
-> Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-> ---
->  drivers/media/platform/samsung/exynos4-is/media-dev.h | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> On 11/1/24 4:19 PM, Sakari Ailus wrote:
+> > Hi Bingbu,
+> > 
+> > On Fri, Nov 01, 2024 at 03:47:54PM +0800, Bingbu Cao wrote:
+> >> Sakari and Stanislaw,
+> >>
+> >> On 11/1/24 3:46 PM, Sakari Ailus wrote:
+> >>>>>> @@ -386,10 +382,8 @@ irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
+> >>>>>>  		}
+> >>>>>>  
+> >>>>>>  		if (irq_status & BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING) {
+> >>>>>> -			dev_dbg(&isp->pdev->dev,
+> >>>>>> -				"BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING\n");
+> >>>>>> -			ipu6_buttress_ipc_recv(isp, &b->ish, &b->ish.recv_data);
+> >>>>>> -			complete(&b->ish.recv_complete);
+> >>>>>> +			dev_warn(&isp->pdev->dev,
+> >>>>>> +				 "BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING\n");
+> >>>>>
+> >>>>> I think this is a unrelated change, right?
+> >>>>
+> >>>> I mean the change from dev_dbg() to dev_warn().
+> >>>
+> >>> We're not handling these interrupts anymore in any way.
+> >>>
+> >>> I wonder if the ipu6_buttress_ipc_recv() call should still remain in place,
+> >>> even if we really do nothing with these. It looks like some kind of an
+> >>> acknowledgement mechanism.
+> >>
+> >> I just confirm that IPC_FROM_ISH_IS_WAITING and IPC_EXEC_DONE_BY_ISH are
+> >> not valid anymore from IPU6, I think the handling here and below could be
+> >> removed.
+> > 
+> > Do you know which IPU version still needed it?
+> > 
+> > There are folks who'd like to add IPU4 support to the driver but they can
+> > add it back if it's needed.
+> >
 > 
-> diff --git a/drivers/media/platform/samsung/exynos4-is/media-dev.h b/drivers/media/platform/samsung/exynos4-is/media-dev.h
-> index 786264cf79dc..3bbcab9eed6b 100644
-> --- a/drivers/media/platform/samsung/exynos4-is/media-dev.h
-> +++ b/drivers/media/platform/samsung/exynos4-is/media-dev.h
-> @@ -178,8 +178,9 @@ int fimc_md_set_camclk(struct v4l2_subdev *sd, bool on);
->  #ifdef CONFIG_OF
->  static inline bool fimc_md_is_isp_available(struct device_node *node)
->  {
-> -	node = of_get_child_by_name(node, FIMC_IS_OF_NODE_NAME);
-> -	return node ? of_device_is_available(node) : false;
-> +	struct device_node *fimc_is __free(device_node) =
+> I know that ISH IPC was added from IPU4, but I am not sure IPU4 really
+> need that now.
 
-The name convention is in such case 'child', not 'fimc_is' (since 'node'
-is taken).
+Ok, I think on v3, I'll remove handling of BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING
+and BUTTRESS_ISR_IPC_EXEC_DONE_BY_ISH from isr, but will keep the BIT's 
+definitions just in case.
 
-Best regards,
-Krzysztof
+Regards
+Stanislaw
 
 
