@@ -1,167 +1,485 @@
-Return-Path: <linux-media+bounces-20792-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20793-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9519BB40C
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 13:00:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECEEA9BB411
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 13:01:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B818C280ED0
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 11:59:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C9391C216AB
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 12:01:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF2B91B652B;
-	Mon,  4 Nov 2024 11:59:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4B3C1B21A0;
+	Mon,  4 Nov 2024 12:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dzIFhCcm"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KZbdBzHH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28D41B3949
-	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 11:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408131B0F02
+	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 12:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730721582; cv=none; b=F8ztQArgUXo0JpLNTG10Ja76Tsvf+F52sj7IRDWB4ux6Ubq1C/KlOl0JfZQlpQq51WoIbnGe0YayQx9KfKyJaGmqgF+v7rSCvWhmxXgroC741BEDQgqjTfTTSjdRfH4a+kB+Nw0ZSnVt/ZPIgpXaNeHm/Xo8VO1uT/CJFLomMu0=
+	t=1730721665; cv=none; b=AYU3FE/YpOJecjsuXkwcU8fKTA3miI+C5Kb/rN3peI8kQeD7Xf+2A3GEeBMp0HvGOnpL+uJfwW5DXBkLD6cCo2xgNpYsnPFg4Sn3zpPi/oosGTzqUbEPrLZzNy5nuFUdyJAoWMUvn1QCVhHoC/Mm2JkEqnrOH+D2/FQU1yuio7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730721582; c=relaxed/simple;
-	bh=53Iu2uDYfaupaWmRwwUTmlIp4bzwVBEsCf+cd1xAkdY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GdGmhOP3pCczpIMP0Nh8vPpynr/gBYhdBXuzM9HVpaAlsvlTGrxe6AKR41izyybMCu2jTTf0yyI1/B3fjqqSgBCtBsQwW2ujjtk7qSBBBeHvJIe34zHR5sv990dKO9M4n2+7pt8ewf16NlWU9hzpaYlup2uVb17hSdLoEiW6jzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dzIFhCcm; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730721578;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wNSzqvkieseTSWkYlahMzvlxfJ9ewT1DveWhCWC+ZJg=;
-	b=dzIFhCcmUFKm7RYaD7nCtjC5KUiymTDRPn4n1Kf8UbvAZUN4CUxl6hn6XYNnHZoyjVVdkO
-	fQP4GQ8iTMVraEiVFxpSifMq6Fg/ZBJ+BUbF/HgfNT5P+SWWVrEuYEaLN9K6c503q9+g39
-	HJjG2MRjWdeOUuW1e0PC8EbCu67S8eA=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-235-KQRTGLy6MRaEAv4PITt3uw-1; Mon, 04 Nov 2024 06:59:37 -0500
-X-MC-Unique: KQRTGLy6MRaEAv4PITt3uw-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a9a194d672bso313692866b.2
-        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 03:59:37 -0800 (PST)
+	s=arc-20240116; t=1730721665; c=relaxed/simple;
+	bh=0pROEED12QF42oPaeUMBW0a4uQq1rT7XDSEpbhn0euM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GvQlFweTnJHqRGURiWGBr1WI01WnoCMwi9zJn2t/gaGrqQTbjk5wJ5hEXZWb7frDX6HE9mJna3cbXwdGLmTBY9F/9Q2sbQ03iy5A9u0Fi7+Eqr2Cu6RF9HjFgK0Gr94om43xVnazvrCIdJDpiQMsWdUdeCQ/367WyAMyeFCQ7wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KZbdBzHH; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-539f7606199so1665135e87.0
+        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 04:01:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730721661; x=1731326461; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WPuhQI0lOHF+Ad4CcmmMCQ7pBg6SlbMgHJcEZYv6FAA=;
+        b=KZbdBzHHw5piZPZIj+Z869aJfo4Zg+J+D5RFBXwOG2Br2BE1x24XHsebf0iL7k/eAF
+         DPOa0OTWkRLDMUWQXqfB5EeTbygGZjMk4RhJBle76xF/IpFWHgXR2Ee5kW2/57/6rX64
+         ChpMSpAi4b+W6MScX1/fkC7iJ7HcfFavzSxVjqEKnj51XB+PGJDfkm6QiVjmNvk3OQpq
+         gp9ROmfIHW/I+hrNH3TPVeDGHsfWuMV1l5KoFRXINrj9OGwXMCSLl9QAJaBuU5YJqufc
+         W1+hC2DEFEUuMtxRUuyyt/p3Tm9BFwjBXIjZiU8cP/8wJR2bCZi7WMqZJSKWIS5IVTA5
+         cPOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730721576; x=1731326376;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wNSzqvkieseTSWkYlahMzvlxfJ9ewT1DveWhCWC+ZJg=;
-        b=nwACDqm7H5KF3URmRBSKJFbRjIFOYvEeWyYbshgIdShewFAZdUR7a0dZ7Q6wn1OHr7
-         dzFKvU2KJee3U7VJHT54zpBKKVrHjdJ9URVgW96NN+CwYK2RbfwkmuHIAzUmyynGKN+t
-         PgyC5tyyL2O79tEqSVJszdaZEbv4A+n3C8sS9hyGRI9hn+mhA7WxDiiH6nfkYe3nUOc/
-         Yo+R6yKnjtBSYP4qKeE6anxQuYkMe0stGpowOHgF5Gs1SiP2AgkzMgUpUl5tF7d4xSFk
-         ow9Ve3eZR8qsoY8Bwk06f/gM44FOk5vzF6Vet2AQGxoxaTHv+yQstIeOGtwHRmU5TdZ+
-         M4Tw==
-X-Gm-Message-State: AOJu0Yzus7zNrAllUOn5AvSNp+02LV1RGU3kHUp2CLOO+ObAelbupPzg
-	djK7gYRdZnZc7YAuOvevYtnipaDSp7aOaAM1H5PEKY90HnMifEAha4ORlZFARvc+bf6diDHL9NI
-	l12oR/v+3u2PhMzB4rRrD+XkprjNEo3rpKSIhqtJMgMI9aeJsUHMzgGm6oV2i
-X-Received: by 2002:a17:907:ea8:b0:a99:44d1:5bba with SMTP id a640c23a62f3a-a9e6587e272mr1125368366b.45.1730721576304;
-        Mon, 04 Nov 2024 03:59:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFQ5mbJ3lBgr63eRoRsJGwy/yyg8Tcgr262LkEesoFSWX7U+7p5ZpKYkK++KbkicraQkIEghg==
-X-Received: by 2002:a17:907:ea8:b0:a99:44d1:5bba with SMTP id a640c23a62f3a-a9e6587e272mr1125366066b.45.1730721575764;
-        Mon, 04 Nov 2024 03:59:35 -0800 (PST)
-Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e565df949sm544808266b.121.2024.11.04.03.59.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 03:59:35 -0800 (PST)
-Message-ID: <79fb6cc8-cca2-4e9e-9abf-087587a7056b@redhat.com>
-Date: Mon, 4 Nov 2024 12:59:34 +0100
+        d=1e100.net; s=20230601; t=1730721661; x=1731326461;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WPuhQI0lOHF+Ad4CcmmMCQ7pBg6SlbMgHJcEZYv6FAA=;
+        b=ZHcPQwhsYrytK3ITY11lQlkHUZY2OPpOtYjAQmD0m+At5mC/y7hDsOYcNGUCfaD5iY
+         JxfGDmsSM51Z9+BL5/8Knh50rYtbhon0UesHwoDRADpizwU1XGHEUyDIUAzvw2DU458P
+         N9bZOn6B4M03i+Ci3najOerYxNPGUEewozLx9PInodFHrXWTDorcnYZzW8f2OJaPKh6I
+         f8ZUSWDJOIJLn5tf6zYhuEULxEd5Rsx76Xjo7LBxVE6xwtVdnkc4KpX2DViF+xLMGj5j
+         TmHnSYpkUSqUpIGrN36h/9i/UClDnfQmzvxjVak5TPeYlKf3E4K0VnZ5VkXmdjtULM5t
+         UNXA==
+X-Forwarded-Encrypted: i=1; AJvYcCXDKemu6fyqbkyz7Uc4c66/soPDvAbnzSFTD8zg7QalB9z9JV02LBNCHIlqF+DzcE0MVgeZTq1WGXnXkA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzICsN4C+h7WOvMvTjuOdpd10bZabwCyHXmxHG/5a23HFn3g1e0
+	qyualh/XRc3kiVVN5I2VlNOzaEsuwlNtad8LKObROZdcwnZn4rPqVjUp/+htl1I=
+X-Google-Smtp-Source: AGHT+IHGDCvSZ82+pqj20lnV2RkzetR2+um5kEOcAMMqRJf6AmgTdZquemX2q3CajdcCaqZBFT9v5w==
+X-Received: by 2002:a05:6512:3d89:b0:539:ee0a:4f8f with SMTP id 2adb3069b0e04-53b7ed18669mr9298570e87.44.1730721661088;
+        Mon, 04 Nov 2024 04:01:01 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bc95957sm1671039e87.55.2024.11.04.04.00.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 04:00:59 -0800 (PST)
+Date: Mon, 4 Nov 2024 14:00:56 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Liu Ying <victor.liu@nxp.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
+	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
+	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, quic_jesszhan@quicinc.com, 
+	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
+	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, tomi.valkeinen@ideasonboard.com, 
+	quic_bjorande@quicinc.com, geert+renesas@glider.be, arnd@arndb.de, nfraprado@collabora.com, 
+	thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, 
+	marex@denx.de, biju.das.jz@bp.renesas.com
+Subject: Re: [PATCH v5 04/13] media: uapi: Add
+ MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG, JEIDA}
+Message-ID: <ixckmdku6yriieo4ezzsepg5nflltzkvqbt7ylref4mu6a4t26@crooexpf3v57>
+References: <20241104032806.611890-1-victor.liu@nxp.com>
+ <20241104032806.611890-5-victor.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: atomisp: Fix spelling errors reported by codespell
-To: "Everest K.C." <everestkc@everestkc.com.np>, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, andy@kernel.org,
- hverkuil-cisco@xs4all.nl, kieran.bingham+renesas@ideasonboard.com,
- benjamin.gaignard@collabora.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-References: <20240926222351.7116-1-everestkc@everestkc.com.np>
-Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240926222351.7116-1-everestkc@everestkc.com.np>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241104032806.611890-5-victor.liu@nxp.com>
 
-Hi,
-
-On 27-Sep-24 12:23 AM, Everest K.C. wrote:
-> Fixed spelling errors as follows:
-> 	unkonwn ==> unknown
-> 	Stablization ==> Stabilization
-> 	previouly ==> previously
-> 	acknowlede ==> acknowledge
+On Mon, Nov 04, 2024 at 11:27:57AM +0800, Liu Ying wrote:
+> Add two media bus formats that identify 30-bit RGB pixels transmitted
+> by a LVDS link with five differential data pairs, serialized into 7
+> time slots, using standard SPWG/VESA or JEIDA data mapping.
 > 
-> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
-
-Thank you for your patch(es).
-
-I have merged this/these in my media-atomisp branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
-
-And this/these will be included in my next pull-request to
-Mauro (to media subsystem maintainer)
-
-Regards,
-
-Hans
-
-
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
->  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> v5:
+> * No change.
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> index d7e8a9871522..1e42a8ca68f5 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> @@ -43,7 +43,7 @@ static const char *CARD = "ATOM ISP";	/* max size 31 */
->  
->  /*
->   * FIXME: ISP should not know beforehand all CIDs supported by sensor.
-> - * Instead, it needs to propagate to sensor unkonwn CIDs.
-> + * Instead, it needs to propagate to sensor unknown CIDs.
->   */
->  static struct v4l2_queryctrl ci_v4l2_controls[] = {
->  	{
-> @@ -112,7 +112,7 @@ static struct v4l2_queryctrl ci_v4l2_controls[] = {
->  	{
->  		.id = V4L2_CID_ATOMISP_VIDEO_STABLIZATION,
->  		.type = V4L2_CTRL_TYPE_INTEGER,
-> -		.name = "Video Stablization",
-> +		.name = "Video Stabilization",
->  		.minimum = 0,
->  		.maximum = 1,
->  		.step = 1,
-> @@ -678,7 +678,7 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
->  
->  	f->fmt.pix = pipe->pix;
->  
-> -	/* If s_fmt was issued, just return whatever is was previouly set */
-> +	/* If s_fmt was issued, just return whatever is was previously set */
->  	if (f->fmt.pix.sizeimage)
->  		return 0;
->  
-> @@ -1028,7 +1028,7 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
->  	/*
->  	 * ISP work around, need to reset ISP to allow next stream on to work.
->  	 * Streams have already been destroyed by atomisp_css_stop().
-> -	 * Disable PUNIT/ISP acknowlede/handshake - SRSE=3 and then reset.
-> +	 * Disable PUNIT/ISP acknowledge/handshake - SRSE=3 and then reset.
->  	 */
->  	pci_write_config_dword(pdev, PCI_I_CONTROL,
->  			       isp->saved_regs.i_control | MRFLD_PCI_I_CONTROL_SRSE_RESET_MASK);
+> v4:
+> * No change.
+> 
+> v3:
+> * New patch.
+> 
+>  .../media/v4l/subdev-formats.rst              | 156 +++++++++++++++++-
+>  include/uapi/linux/media-bus-format.h         |   4 +-
+>  2 files changed, 157 insertions(+), 3 deletions(-)
 
+Laurent, Hans, can we please hear your opinion on this patch?
+
+Ideally we'd like to merge it together with the rest of the series
+through drm-misc (or via an immutable tag/branch from your side).
+
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index d2a6cd2e1eb2..2a94371448dc 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -2225,7 +2225,7 @@ The following table list existing packed 48bit wide RGB formats.
+>      \endgroup
+>  
+>  On LVDS buses, usually each sample is transferred serialized in seven
+> -time slots per pixel clock, on three (18-bit) or four (24-bit)
+> +time slots per pixel clock, on three (18-bit) or four (24-bit) or five (30-bit)
+>  differential data pairs at the same time. The remaining bits are used
+>  for control signals as defined by SPWG/PSWG/VESA or JEIDA standards. The
+>  24-bit RGB format serialized in seven time slots on four lanes using
+> @@ -2246,11 +2246,12 @@ JEIDA defined bit mapping will be named
+>        - Code
+>        -
+>        -
+> -      - :cspan:`3` Data organization
+> +      - :cspan:`4` Data organization
+>      * -
+>        -
+>        - Timeslot
+>        - Lane
+> +      - 4
+>        - 3
+>        - 2
+>        - 1
+> @@ -2262,6 +2263,7 @@ JEIDA defined bit mapping will be named
+>        - 0
+>        -
+>        -
+> +      -
+>        - d
+>        - b\ :sub:`1`
+>        - g\ :sub:`0`
+> @@ -2270,6 +2272,7 @@ JEIDA defined bit mapping will be named
+>        - 1
+>        -
+>        -
+> +      -
+>        - d
+>        - b\ :sub:`0`
+>        - r\ :sub:`5`
+> @@ -2278,6 +2281,7 @@ JEIDA defined bit mapping will be named
+>        - 2
+>        -
+>        -
+> +      -
+>        - d
+>        - g\ :sub:`5`
+>        - r\ :sub:`4`
+> @@ -2286,6 +2290,7 @@ JEIDA defined bit mapping will be named
+>        - 3
+>        -
+>        -
+> +      -
+>        - b\ :sub:`5`
+>        - g\ :sub:`4`
+>        - r\ :sub:`3`
+> @@ -2294,6 +2299,7 @@ JEIDA defined bit mapping will be named
+>        - 4
+>        -
+>        -
+> +      -
+>        - b\ :sub:`4`
+>        - g\ :sub:`3`
+>        - r\ :sub:`2`
+> @@ -2302,6 +2308,7 @@ JEIDA defined bit mapping will be named
+>        - 5
+>        -
+>        -
+> +      -
+>        - b\ :sub:`3`
+>        - g\ :sub:`2`
+>        - r\ :sub:`1`
+> @@ -2310,6 +2317,7 @@ JEIDA defined bit mapping will be named
+>        - 6
+>        -
+>        -
+> +      -
+>        - b\ :sub:`2`
+>        - g\ :sub:`1`
+>        - r\ :sub:`0`
+> @@ -2319,6 +2327,7 @@ JEIDA defined bit mapping will be named
+>        - 0x1011
+>        - 0
+>        -
+> +      -
+>        - d
+>        - d
+>        - b\ :sub:`1`
+> @@ -2327,6 +2336,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 1
+>        -
+> +      -
+>        - b\ :sub:`7`
+>        - d
+>        - b\ :sub:`0`
+> @@ -2335,6 +2345,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 2
+>        -
+> +      -
+>        - b\ :sub:`6`
+>        - d
+>        - g\ :sub:`5`
+> @@ -2343,6 +2354,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 3
+>        -
+> +      -
+>        - g\ :sub:`7`
+>        - b\ :sub:`5`
+>        - g\ :sub:`4`
+> @@ -2351,6 +2363,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 4
+>        -
+> +      -
+>        - g\ :sub:`6`
+>        - b\ :sub:`4`
+>        - g\ :sub:`3`
+> @@ -2359,6 +2372,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 5
+>        -
+> +      -
+>        - r\ :sub:`7`
+>        - b\ :sub:`3`
+>        - g\ :sub:`2`
+> @@ -2367,6 +2381,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 6
+>        -
+> +      -
+>        - r\ :sub:`6`
+>        - b\ :sub:`2`
+>        - g\ :sub:`1`
+> @@ -2377,6 +2392,7 @@ JEIDA defined bit mapping will be named
+>        - 0x1012
+>        - 0
+>        -
+> +      -
+>        - d
+>        - d
+>        - b\ :sub:`3`
+> @@ -2385,6 +2401,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 1
+>        -
+> +      -
+>        - b\ :sub:`1`
+>        - d
+>        - b\ :sub:`2`
+> @@ -2393,6 +2410,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 2
+>        -
+> +      -
+>        - b\ :sub:`0`
+>        - d
+>        - g\ :sub:`7`
+> @@ -2401,6 +2419,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 3
+>        -
+> +      -
+>        - g\ :sub:`1`
+>        - b\ :sub:`7`
+>        - g\ :sub:`6`
+> @@ -2409,6 +2428,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 4
+>        -
+> +      -
+>        - g\ :sub:`0`
+>        - b\ :sub:`6`
+>        - g\ :sub:`5`
+> @@ -2417,6 +2437,7 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 5
+>        -
+> +      -
+>        - r\ :sub:`1`
+>        - b\ :sub:`5`
+>        - g\ :sub:`4`
+> @@ -2425,10 +2446,141 @@ JEIDA defined bit mapping will be named
+>        -
+>        - 6
+>        -
+> +      -
+> +      - r\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - r\ :sub:`2`
+> +    * .. _MEDIA-BUS-FMT-RGB101010-1X7X5-SPWG:
+> +
+> +      - MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG
+> +      - 0x1026
+> +      - 0
+> +      -
+> +      - d
+> +      - d
+> +      - d
+> +      - b\ :sub:`1`
+> +      - g\ :sub:`0`
+> +    * -
+> +      -
+> +      - 1
+> +      -
+> +      - b\ :sub:`9`
+> +      - b\ :sub:`7`
+> +      - d
+> +      - b\ :sub:`0`
+> +      - r\ :sub:`5`
+> +    * -
+> +      -
+> +      - 2
+> +      -
+> +      - b\ :sub:`8`
+> +      - b\ :sub:`6`
+> +      - d
+> +      - g\ :sub:`5`
+> +      - r\ :sub:`4`
+> +    * -
+> +      -
+> +      - 3
+> +      -
+> +      - g\ :sub:`9`
+> +      - g\ :sub:`7`
+> +      - b\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - r\ :sub:`3`
+> +    * -
+> +      -
+> +      - 4
+> +      -
+> +      - g\ :sub:`8`
+> +      - g\ :sub:`6`
+> +      - b\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - r\ :sub:`2`
+> +    * -
+> +      -
+> +      - 5
+> +      -
+> +      - r\ :sub:`9`
+> +      - r\ :sub:`7`
+> +      - b\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - r\ :sub:`1`
+> +    * -
+> +      -
+> +      - 6
+> +      -
+> +      - r\ :sub:`8`
+> +      - r\ :sub:`6`
+> +      - b\ :sub:`2`
+> +      - g\ :sub:`1`
+>        - r\ :sub:`0`
+> +    * .. _MEDIA-BUS-FMT-RGB101010-1X7X5-JEIDA:
+> +
+> +      - MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA
+> +      - 0x1027
+> +      - 0
+> +      -
+> +      - d
+> +      - d
+> +      - d
+> +      - b\ :sub:`5`
+> +      - g\ :sub:`4`
+> +    * -
+> +      -
+> +      - 1
+> +      -
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`3`
+> +      - d
+>        - b\ :sub:`4`
+> +      - r\ :sub:`9`
+> +    * -
+> +      -
+> +      - 2
+> +      -
+> +      - b\ :sub:`0`
+> +      - b\ :sub:`2`
+> +      - d
+> +      - g\ :sub:`9`
+> +      - r\ :sub:`8`
+> +    * -
+> +      -
+> +      - 3
+> +      -
+> +      - g\ :sub:`1`
+>        - g\ :sub:`3`
+> +      - b\ :sub:`9`
+> +      - g\ :sub:`8`
+> +      - r\ :sub:`7`
+> +    * -
+> +      -
+> +      - 4
+> +      -
+> +      - g\ :sub:`0`
+> +      - g\ :sub:`2`
+> +      - b\ :sub:`8`
+> +      - g\ :sub:`7`
+> +      - r\ :sub:`6`
+> +    * -
+> +      -
+> +      - 5
+> +      -
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`3`
+> +      - b\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - r\ :sub:`5`
+> +    * -
+> +      -
+> +      - 6
+> +      -
+> +      - r\ :sub:`0`
+>        - r\ :sub:`2`
+> +      - b\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - r\ :sub:`4`
+>  
+>  .. raw:: latex
+>  
+> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> index d4c1d991014b..ff62056feed5 100644
+> --- a/include/uapi/linux/media-bus-format.h
+> +++ b/include/uapi/linux/media-bus-format.h
+> @@ -34,7 +34,7 @@
+>  
+>  #define MEDIA_BUS_FMT_FIXED			0x0001
+>  
+> -/* RGB - next is	0x1026 */
+> +/* RGB - next is	0x1028 */
+>  #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
+>  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
+>  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
+> @@ -68,6 +68,8 @@
+>  #define MEDIA_BUS_FMT_ARGB8888_1X32		0x100d
+>  #define MEDIA_BUS_FMT_RGB888_1X32_PADHI		0x100f
+>  #define MEDIA_BUS_FMT_RGB101010_1X30		0x1018
+> +#define MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG	0x1026
+> +#define MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA	0x1027
+>  #define MEDIA_BUS_FMT_RGB666_1X36_CPADLO	0x1020
+>  #define MEDIA_BUS_FMT_RGB888_1X36_CPADLO	0x1021
+>  #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
 
