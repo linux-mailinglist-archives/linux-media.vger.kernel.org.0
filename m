@@ -1,107 +1,103 @@
-Return-Path: <linux-media+bounces-20782-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20783-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB6B9BB0A3
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 11:09:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1F89BB0C1
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 11:16:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D089281D62
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 10:09:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A12FC1C21583
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 10:16:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1DAE1B0F05;
-	Mon,  4 Nov 2024 10:09:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BBDE1B0F39;
+	Mon,  4 Nov 2024 10:16:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ic+9WT1M"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="knjvg/P1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F313B18562F
-	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 10:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6616320ED;
+	Mon,  4 Nov 2024 10:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730714983; cv=none; b=j7zQsWzHnsdnY+cIUrO7Mehog4/36GBsSxQYvm4awhCIvuwcknBmyIXPJrQctdndPy28F1cqIiZxJCRFRqI+BtV4YTvyzRlSlE0F5h+c8jKPRzjE0EgHAD4gUCeeJyeHqx3eadJrLTZSjcPe99BWqvq8cYfQLhpLnvShohBSCj8=
+	t=1730715359; cv=none; b=gHzJ5OXJ3oBXeKHcZfmPwTBmEwrg+LBx7O/NLk+uYGytj3bidohRWGdK8UZZXXsGIkHJUR1dS4kDhiLDoQfwdNwDJsLkYYPGNeOcBG1Vb6qSNJ1QwimM4MF/bxQXOjm/5jSZQcfhW+k+ms19ESQlXz5iU4vDDQJXrDF0Kc3xQ/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730714983; c=relaxed/simple;
-	bh=/mA7xwO17nfudrwhrGynT4Jz/VBstxG5McmGQTgujIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E1AWCNDikLkqv2KYybfiy4efIMMNrFd/W2DnadjIT/cFWA1FDWzcMaRCym+rE11X7eeqZ7AxQ5vEjuXQMhH55TW8Mpp4Ev0XFBhY7g+n4R2ukfIGjOC7Gv+PrKspdFjE1GvxnI9BW/apUd/z3vL/Q64T7EGYjuYjov16nJkHG6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ic+9WT1M; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-20c693b68f5so41893665ad.1
-        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 02:09:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730714981; x=1731319781; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2NTPtVJiGE7BPjeCGKQ0KHoPZRyzN7fNEfwB/yEgVkc=;
-        b=Ic+9WT1MdDZRXSb9qbdg8+dFPGxifYAIIgYH/FGAWZ21kRmTRI/M87PRIzAPP9rI5o
-         KHLpYiI0fl5lsp4s8ZOfd+y74H58dhQqlsCOlpSXo7SfWTohWfY8qvjwjTxq+J9AYqfC
-         oPwEtXelD8UKNJzv+MLctaZKBfIMF0TNrxsIU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730714981; x=1731319781;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2NTPtVJiGE7BPjeCGKQ0KHoPZRyzN7fNEfwB/yEgVkc=;
-        b=jWzFq5guKGP67C4+/j17vz89M47AOcZRzsqlpuV+Pzwt09KL87MKYXaE7HpmsKIFHU
-         imtv5qdbi3XsHsyrhVTPHXLjt2qgxNDeD8vc3MhvtzEbENoG4xuYS7bTgmvf5t2zWQfo
-         LbXb0+oVBxyaoTxa7Q69n1NMLDDLbFp/ZRqQZLG3dr9BmjCCJRVT7/vROheqdhRnSleY
-         O87/8aB9F6FCECayGYkYhCyiZW/UHMHEMioSKz9Mfyey/L1ukZTxymCcXdJ9fIhgrKL3
-         whZX1YEVwBEh21RoqbTBRfSjcBlwJikcsiVrc8VXl3i8tG/J83vdC2VqpMxh7JP1eXQs
-         lFQA==
-X-Forwarded-Encrypted: i=1; AJvYcCXTY712H5Ohbipju0Pinx0M9rnsKZz45PKLjPi8z2Ok90Z2PTCzto6/LU9ZD9Uu1Q+JLLnrDrMtq2MJcQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfgozyRzM6286EAw8bNQZOrkrRDnUIcDV7lnpcjxY5Ap2XQEnN
-	03YNsr1kMbcre50cCP7Us9B2Y7moZbJPwnJae5y8LsmrIq9XOzMeoEcHx5mG+g==
-X-Google-Smtp-Source: AGHT+IHYH3t7ESW1pbuyQj7zVT94C1I2YPmvGXz2YuPhNZlY1eftMl0pWbwj7PJh4W7mfbZkG/rDiA==
-X-Received: by 2002:a17:902:c40c:b0:20c:7d4c:64db with SMTP id d9443c01a7336-21103c7bfafmr208351825ad.49.1730714981357;
-        Mon, 04 Nov 2024 02:09:41 -0800 (PST)
-Received: from google.com ([2401:fa00:8f:203:313d:96c4:721d:a03b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211056ed969sm57814635ad.1.2024.11.04.02.09.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 02:09:40 -0800 (PST)
-Date: Mon, 4 Nov 2024 19:09:36 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Fix crash during unbind if gpio unit is
- in use
-Message-ID: <20241104100936.GZ1279924@google.com>
-References: <20241031-uvc-crashrmmod-v1-1-059fe593b1e6@chromium.org>
+	s=arc-20240116; t=1730715359; c=relaxed/simple;
+	bh=NQ1fsHIaIHmGq0j/3qRfROeTwLYWzazLpuIXXxQA82Y=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=EzhbMR7YlGsnTUOY3BOkvCxHyF7zcBt5trpceb/QpBRQ4QpbxgJd2NWAwsUJA6bGIutGmfl59LIoFpWQKby/7ae5VOyA1FL75HwXOirmvaDcNjLElABLy9FmuBUqWLs/ZZll37BYMmHm6lVaVd9Neic0d+L7RvBOpAPa/f3SErE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=knjvg/P1; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1730715323; x=1731320123; i=markus.elfring@web.de;
+	bh=NQ1fsHIaIHmGq0j/3qRfROeTwLYWzazLpuIXXxQA82Y=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=knjvg/P1ZncQoGKlgJrnrqH45eDlrZzwz1AcO/saXxx4wSIzx6zioHC9jO2DYK2z
+	 0Khw89XODrbwK8KvRL1xpYKV9VMXSb7ir3Jl207l2R978ibPyzkDzo4KQlfPZhe93
+	 OZEPddjLUy5z5NtMT9yaJQS4zFmscTCHZtMNt8fc/0TN4qLLxlwCT1CpvR9qt0JMG
+	 Nu2eYLy7Sy+Q/NQ4OWEnpgq95Dt4f8+GVLPmyPk8YD5x0bwRFkaPpXD54aCDfFtvm
+	 ZoGQVlCvLyUedHt3iqd01c8vRQgFrPUbafWedGs/t4dE1+k90+MfxmM76se7+q2xn
+	 qJvzz0MKU7ZmDlblTA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.88.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M3m9J-1t8jCC26GR-00Exdk; Mon, 04
+ Nov 2024 11:15:23 +0100
+Message-ID: <621ad79f-8a8f-460e-92df-c3164f30e46a@web.de>
+Date: Mon, 4 Nov 2024 11:15:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241031-uvc-crashrmmod-v1-1-059fe593b1e6@chromium.org>
+User-Agent: Mozilla Thunderbird
+To: Li Huafei <lihuafei1@huawei.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, Alan Cox <alan@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20241104145051.3088231-1-lihuafei1@huawei.com>
+Subject: Re: [PATCH v2] media: atomisp: Add check for rgby_data memory
+ allocation failure
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241104145051.3088231-1-lihuafei1@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:UclgB42S5V1YLaM5QUM06sXODsMAg/7CediUb9KGB8Rry+dLoNe
+ RCH/t88339qmRNLHUNJRT5c+y1rU+ET9Th8BfJTwVKAZ799NM/QGZCnL/HdF95YLX9q1CoP
+ Bn6YUZsyp/QwdAdIOSxdAFIIOz9rQ8efGNbJzNeOFBZUEV/RtbgvBygl9eN7zahA5RSKlz9
+ reJHNgBIjIE0LCtX9ON5g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:IhRTea/ZbQM=;pJv1edYOIjWdw7XWEJn8YVDuE0Z
+ /HrYUbiyH1soTe4GuIzVxRA+ECwkqxwb97wYyPJmTf8072v0F7sDWbVvwpkbXCKH+YhdSduRu
+ TJ12oQ/O8abP/22+0nhs7am/rzHAQyr8zrIQDyORRR/ZQ2qWwY2CYoogZKmREkNGxVtd0Tpu5
+ M9ukdLmBaZqtfjyovzXChcuLYA+tbLS703hLF0KKzakBY4yqqrzHNHaMcEpdWvm5cbJgqwRby
+ VSCLUpYXzbXPaWyWkracd0oluE2+nAmK6DYXaK0Q83bfm+mpWGN81PD0gxNFAQF+aIZqoC1b0
+ 4VpG1vLFv2T4Zf55XM7P4tNCXtrkXbqXaLoOqg5LucF2xAbgHkBYPRNzmPo8ICPEsHB638QUM
+ EFChZXjK7QXHFZ4sHHBTJDfcg5RbDzktpmk9x8fYNNxr5lr/X6qDOp6trCUDkVsTF6jHE73i1
+ Wv5zq5sC80FQYPHMfI4Z+sA6yolM9qu546GEV2MoZkxuBgKKQjWlgOwsY+RE+LszZ79TeTtA5
+ dHpD1TbP1S7YeJ2SG7kD72t/ueHXDNkKtDs2kAEsTG5NZ/NVMPPwTqrOxv4h5zvpaybf5yDMV
+ emae3iKK8Wd3Qx7CRMw6RsDU8F9YVXfjFKbwiOH/ejeImOs8cQDix7LOBlaXSbsZAGG6Y1z1c
+ MVBsILOI0F7SwEZ9Co4OrewVcoZguQFKrwJQ5Rz/bFN1VWIREnITXP3FaoPYE9f9gMcSD9O2N
+ B26RFPum/QFdeBOodwNoFHPExe3Tf0Y276RNxeG8KOHPwEXm+tCNJhwiI7R2Y201PpAdASlfv
+ OGiyxs7Xrj3wlCM0l16g8H5A==
 
-On (24/10/31 13:59), Ricardo Ribalda wrote:
-> We used the wrong device for the device managed functions. We used the
-> usb device, when we should be using the interface device.
-> 
-> If we unbind the driver from the usb interface, the cleanup functions
-> are never called. In our case, the IRQ is never disabled.
-> 
-> If an IRQ is triggered, it will try to access memory sections that are
-> already free, causing an OOPS.
-> 
-> Luckily this bug has small impact, as it is only affected by devices
-> with gpio units and the user has to unbind the device, a disconnect will
-> not trigger this error.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+=E2=80=A6
+> ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
 
-FWIW,
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Please choose an imperative wording for an improved change description.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.12-rc5#n94
+
+Regards,
+Markus
 
