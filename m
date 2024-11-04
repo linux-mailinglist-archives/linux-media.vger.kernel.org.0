@@ -1,123 +1,125 @@
-Return-Path: <linux-media+bounces-20808-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20809-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D2F9BBB43
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 18:16:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3AC9BBBD6
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 18:26:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA8191C20F85
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 17:16:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 073B11F22EF5
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 17:26:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B62421C57B2;
-	Mon,  4 Nov 2024 17:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MblyU2Nu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A9DF1C4A19;
+	Mon,  4 Nov 2024 17:26:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803111C2DA4
-	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 17:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BFD17583
+	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 17:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730740590; cv=none; b=MqlFzuYfdYoUMqu2t/L947Ni6MZUNHVRgEJ6H5y3rSFXskXo08/Ye92JxQcrq9N/LUcWU+3LvG4sHxWK6HSbAkWsimanRSOszHJghgxS0astuV86ybrP7HHISfLq5hqRyWi0ACir5tdn5jEGMKqYcZK8pZg/miE9f4yUWHMWz78=
+	t=1730741204; cv=none; b=bpdzeCExMxOEhUm4qe5nPyFBOkFDSy21/Dd7K0mYpTLlaWINUQ5ncAzj+sBYTyFXxyxUrt5KNQ4CRPMcJ7eyRx1js+/0yZE0r8yp/Hqe1P89UAUAFRk1MScEycPF/Pp8Sobd+TeireMnSMEgXbRc6snI8230VZV0675ZVFLeVhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730740590; c=relaxed/simple;
-	bh=oCbyiLng8gGHLNAG5imDAdJ2j5aQ/UDK+Oox/7J/Y2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B5oSWi4Ew5aHJanZMPUFzjrLcIDa/BKrSTyP/y/mwk0+EXLA45jNwywjLQxxicC4hxrNemd7pjtqGUAvOfbD2IWoW6zPpqQFN6ETyfGbdf9T+pxCBabOxIoxAiGceoztzesykfEBY+C+4rSsW9HPDo8/+HVsqEF9XtYi4v+hDUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MblyU2Nu; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4315eac969aso27170885e9.1
-        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 09:16:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730740585; x=1731345385; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=la6xj5vR8nTJ73x2ZaTngF8peM8uUMZUxIbbvjw1ql4=;
-        b=MblyU2NuR5et5Co8CUw/M252Zxk2rgeLO89bWr5qJSO6eID/08G9zbvolfF/dM04vQ
-         I7u7hijE/iUMBAZ6BgbhAEKwAej2JqdBOUicRje9V2nkk9JacfqMh+pwWSTL+b5600ay
-         utRr3fx87bPQHL3iewOPXMWK5H24eSGkitz2DWocPhydPOkFyVWI4w5/nJk/BC2Jf/UP
-         hsevU12EEBnE/cL15UNdaZ1pKwM/4RLtk7R+JuxhJBqKGzbo0iLnQlzU1CGRwLF3xjl0
-         /ysVE+wf6Sh/T8InNYQkBrDDoY/uLgzW0ddE0KHPQ9lpeGCrucSRTkZIVHEZS+7RiMp3
-         sy3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730740585; x=1731345385;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=la6xj5vR8nTJ73x2ZaTngF8peM8uUMZUxIbbvjw1ql4=;
-        b=s1PTuU3pFsMT9k6RwPfUQd4a09EW5YvguBfgP+usuQNibZrFa3wn0spF5IMR2CkI3Y
-         P+SoZSk0wekLgF/cfxdKlyuvhi4YckT4k/YXqhGX3zRPN5UFLvE2kHI80Gh+YaH04GGc
-         IoEaCogJ8ewq2lvWvBIfa8FhMbotx1ppofG4hOn28iUiTB6V6EBBbSuMVB5WeUZEBKhI
-         68noqK1W572iBg3nm5n0yInwP1+nU9WHziXVX/Ev5QNP1hJ7Ztg7pOX42YpOZAn/zWxN
-         nq4aJ+cksaDltwOWgZdD3361EwXX2w17e917HSS8VjvKAHdWyx2v2WKxaLcdWg/I24oL
-         wH8w==
-X-Forwarded-Encrypted: i=1; AJvYcCXmkYz/6i6baURO+ZnR6UIdzEGY4JWxAqDD7Q2IMCUjoTQMMZ+zRaLywVJuKzZAbaPK9XEBHSdsG6mLAQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdB3u+t9qh1uXtMlLFMILN1Cqw0IjB+o4/hg//LGjUc1WiPwfm
-	B9cddNA/d225O+wYy3qvCMvooi4AUALbOrEhpO9WyWppS61vTm6KbdQ1NBNNKjU=
-X-Google-Smtp-Source: AGHT+IExVi+NfBAt2whjsx+0Pt93IxelL6rLzuY/ubpqgPe9heWtnY82NiVFj7fqgDFJGWhQtWWPcw==
-X-Received: by 2002:a05:600c:1f92:b0:431:405a:f93b with SMTP id 5b1f17b1804b1-43283000cdcmr104416805e9.10.1730740584601;
-        Mon, 04 Nov 2024 09:16:24 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd91096asm194139975e9.13.2024.11.04.09.16.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 09:16:24 -0800 (PST)
-Date: Mon, 4 Nov 2024 20:16:19 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH next] media: xilinx-tpg: fix double put in xtpg_parse_of()
-Message-ID: <f41dfe97-6e6c-47b4-91bf-199c5938c6d0@stanley.mountain>
+	s=arc-20240116; t=1730741204; c=relaxed/simple;
+	bh=Vz/L8gBFgGZslXyZuApMGIeDeck40RcYciNJEuf3psk=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=qroeMNERRfP7r3PkJ05xqX+r6CYKa5xD2tISUYndpSfJ8sG9EHUj+Miou715+uoTj82Y0AVG/3J5qtALCp1GjhgCD1SoVgUFMFDIOueHms3A11/bR9Ho0xsiEQJQ23SRHkAje9HCbKLaJxxD1gw0LkEktz0oHf08isdxNjWuwAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80AC8C4CECE
+	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 17:26:43 +0000 (UTC)
+Message-ID: <1159d3c9-10be-4856-8d1a-09acc8d5ddbe@xs4all.nl>
+Date: Mon, 4 Nov 2024 18:26:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCHv2] media: vicodec: add V4L2_CID_MIN_BUFFERS_FOR_* controls
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This loop was recently converted to use for_each_of_graph_port() which
-automatically does __cleanup__ on the "port" iterator variable.  Delete
-the calls to of_node_put(port) to avoid a double put bug.
+Stateful codecs must support the V4L2_CID_MIN_BUFFERS_FOR_OUTPUT
+and V4L2_CID_MIN_BUFFERS_FOR_CAPTURE controls. The vicodec driver
+was missing support for these controls. Add them.
 
-Fixes: 393194cdf11e ("media: xilinx-tpg: use new of_graph functions")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- drivers/media/platform/xilinx/xilinx-tpg.c | 2 --
- 1 file changed, 2 deletions(-)
+Change since v1: V4L2_CID_MIN_BUFFERS_FOR_OUTPUT was already
+supported, so that patch led to duplicated controls. That's now
+fixed.
+---
+ drivers/media/test-drivers/vicodec/vicodec-core.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/xilinx/xilinx-tpg.c b/drivers/media/platform/xilinx/xilinx-tpg.c
-index cb93711ea3e3..7deec6e37edc 100644
---- a/drivers/media/platform/xilinx/xilinx-tpg.c
-+++ b/drivers/media/platform/xilinx/xilinx-tpg.c
-@@ -722,7 +722,6 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
- 		format = xvip_of_get_format(port);
- 		if (IS_ERR(format)) {
- 			dev_err(dev, "invalid format in DT");
--			of_node_put(port);
- 			return PTR_ERR(format);
- 		}
- 
-@@ -731,7 +730,6 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
- 			xtpg->vip_format = format;
- 		} else if (xtpg->vip_format != format) {
- 			dev_err(dev, "in/out format mismatch in DT");
--			of_node_put(port);
- 			return -EINVAL;
- 		}
- 
+diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+index 00c84a06f343..60a644dc89a1 100644
+--- a/drivers/media/test-drivers/vicodec/vicodec-core.c
++++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+@@ -1852,9 +1852,12 @@ static int vicodec_open(struct file *file)
+ 			  1, 31, 1, 20);
+ 	v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops, V4L2_CID_FWHT_P_FRAME_QP,
+ 			  1, 31, 1, 20);
+-	if (ctx->is_enc)
+-		v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops,
+-				  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT, 1, 1, 1, 1);
++	if (!ctx->is_stateless)
++		v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops, ctx->is_enc ?
++				  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT :
++				  V4L2_CID_MIN_BUFFERS_FOR_CAPTURE,
++				  2, 2, 1, 2);
++
+ 	if (ctx->is_stateless)
+ 		v4l2_ctrl_new_custom(hdl, &vicodec_ctrl_stateless_state, NULL);
+ 	if (hdl->error) {
 -- 
 2.45.2
 
