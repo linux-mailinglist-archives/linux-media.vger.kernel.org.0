@@ -1,103 +1,207 @@
-Return-Path: <linux-media+bounces-20783-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20784-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B1F89BB0C1
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 11:16:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 018629BB0DC
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 11:19:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A12FC1C21583
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 10:16:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 49F29B235F0
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 10:19:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BBDE1B0F39;
-	Mon,  4 Nov 2024 10:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A98E31B0F39;
+	Mon,  4 Nov 2024 10:19:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="knjvg/P1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQiSK7em"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6616320ED;
-	Mon,  4 Nov 2024 10:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FA61B0F27
+	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 10:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730715359; cv=none; b=gHzJ5OXJ3oBXeKHcZfmPwTBmEwrg+LBx7O/NLk+uYGytj3bidohRWGdK8UZZXXsGIkHJUR1dS4kDhiLDoQfwdNwDJsLkYYPGNeOcBG1Vb6qSNJ1QwimM4MF/bxQXOjm/5jSZQcfhW+k+ms19ESQlXz5iU4vDDQJXrDF0Kc3xQ/Q=
+	t=1730715570; cv=none; b=ZdPZDrjXkIoJIOG4VlqORuBoW+BNE9T1+/zas40vFuKq68LtAgqcteGuu54E9ZBIT3A1CknCv+N3WzmSp/7VsDvBk0xek/WCSIUj9gXv+NelfzfM7BSqxdnd2+E6lrfXBX72cDTcpMYu/6iwf/HUXZodz3LC1UjwUJWR51371Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730715359; c=relaxed/simple;
-	bh=NQ1fsHIaIHmGq0j/3qRfROeTwLYWzazLpuIXXxQA82Y=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=EzhbMR7YlGsnTUOY3BOkvCxHyF7zcBt5trpceb/QpBRQ4QpbxgJd2NWAwsUJA6bGIutGmfl59LIoFpWQKby/7ae5VOyA1FL75HwXOirmvaDcNjLElABLy9FmuBUqWLs/ZZll37BYMmHm6lVaVd9Neic0d+L7RvBOpAPa/f3SErE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=knjvg/P1; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1730715323; x=1731320123; i=markus.elfring@web.de;
-	bh=NQ1fsHIaIHmGq0j/3qRfROeTwLYWzazLpuIXXxQA82Y=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=knjvg/P1ZncQoGKlgJrnrqH45eDlrZzwz1AcO/saXxx4wSIzx6zioHC9jO2DYK2z
-	 0Khw89XODrbwK8KvRL1xpYKV9VMXSb7ir3Jl207l2R978ibPyzkDzo4KQlfPZhe93
-	 OZEPddjLUy5z5NtMT9yaJQS4zFmscTCHZtMNt8fc/0TN4qLLxlwCT1CpvR9qt0JMG
-	 Nu2eYLy7Sy+Q/NQ4OWEnpgq95Dt4f8+GVLPmyPk8YD5x0bwRFkaPpXD54aCDfFtvm
-	 ZoGQVlCvLyUedHt3iqd01c8vRQgFrPUbafWedGs/t4dE1+k90+MfxmM76se7+q2xn
-	 qJvzz0MKU7ZmDlblTA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.88.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M3m9J-1t8jCC26GR-00Exdk; Mon, 04
- Nov 2024 11:15:23 +0100
-Message-ID: <621ad79f-8a8f-460e-92df-c3164f30e46a@web.de>
-Date: Mon, 4 Nov 2024 11:15:21 +0100
+	s=arc-20240116; t=1730715570; c=relaxed/simple;
+	bh=TPTs14AXyxx/uCvatNDz9N0O2csn0m+GcPFpSkXe4dk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t+EcQ9fZo5r5wREUfqIoXidSZeKcHUX2O9HVszxTrO4IzXfwGCm78dZAsyB+BWSjo9OURyXpvdt0SCdDp7Emf+aK2a+a9riqagEiwzMaZTHlf08zHIam11E/JWMOoyb5ycgGkphuF6m9gnKoxV6TZA5KJzZOmDAKJgPOwlAbTTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQiSK7em; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730715568; x=1762251568;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TPTs14AXyxx/uCvatNDz9N0O2csn0m+GcPFpSkXe4dk=;
+  b=LQiSK7emfyUp0ArvJTVk2+hsrn0Fg9CPZGEJERophttNLsRcL600y0Xy
+   LqwAuIcOZLa4D+OyXw/cfmBCl4OsoJqA0JomtyOj3I/csKBeTbYijz3Tp
+   BEqcvkIXrNbmmvxrnMOqmGwIh21YoTBceSlj53AbeKZF2clim0LNCPsya
+   x6MWO5397NxIhd2+VdgsYsVswE/qDoQlA4t6ARjtq0u7QQnoskXfFypD4
+   LzniiayGAkoHtw80ngudb1T1lr7cAoXeqX+bAP2PDbqnj8wCHDFBBzsqB
+   bGd65QgVE7+8pViZtridqI13iiSev3dHIh276pEvUewLVO7Y0BxqkY/5P
+   Q==;
+X-CSE-ConnectionGUID: +RxpivspRiil6LyGPV/b4g==
+X-CSE-MsgGUID: /OVaM9+wTFO9mogXjMS5Dw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="29820559"
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="29820559"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 02:19:26 -0800
+X-CSE-ConnectionGUID: 09DoVe+vQN+hJvtP1RdRqw==
+X-CSE-MsgGUID: jZhT4Y2XQ62B9n6lcP2bXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="83737735"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 02:19:25 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id BAC6311F984;
+	Mon,  4 Nov 2024 12:19:21 +0200 (EET)
+Date: Mon, 4 Nov 2024 10:19:21 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc: Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] media: ipu6: optimize the IPU6 MMU mapping flow
+Message-ID: <ZyifqaEAg-LZQVVG@kekkonen.localdomain>
+References: <1729835552-14825-1-git-send-email-bingbu.cao@intel.com>
+ <1729835552-14825-2-git-send-email-bingbu.cao@intel.com>
+ <ZyTUkP-Vakj_DsOS@kekkonen.localdomain>
+ <7a148e4e-04b4-d6e3-554b-20569b7fa340@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Li Huafei <lihuafei1@huawei.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, Alan Cox <alan@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20241104145051.3088231-1-lihuafei1@huawei.com>
-Subject: Re: [PATCH v2] media: atomisp: Add check for rgby_data memory
- allocation failure
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241104145051.3088231-1-lihuafei1@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:UclgB42S5V1YLaM5QUM06sXODsMAg/7CediUb9KGB8Rry+dLoNe
- RCH/t88339qmRNLHUNJRT5c+y1rU+ET9Th8BfJTwVKAZ799NM/QGZCnL/HdF95YLX9q1CoP
- Bn6YUZsyp/QwdAdIOSxdAFIIOz9rQ8efGNbJzNeOFBZUEV/RtbgvBygl9eN7zahA5RSKlz9
- reJHNgBIjIE0LCtX9ON5g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:IhRTea/ZbQM=;pJv1edYOIjWdw7XWEJn8YVDuE0Z
- /HrYUbiyH1soTe4GuIzVxRA+ECwkqxwb97wYyPJmTf8072v0F7sDWbVvwpkbXCKH+YhdSduRu
- TJ12oQ/O8abP/22+0nhs7am/rzHAQyr8zrIQDyORRR/ZQ2qWwY2CYoogZKmREkNGxVtd0Tpu5
- M9ukdLmBaZqtfjyovzXChcuLYA+tbLS703hLF0KKzakBY4yqqrzHNHaMcEpdWvm5cbJgqwRby
- VSCLUpYXzbXPaWyWkracd0oluE2+nAmK6DYXaK0Q83bfm+mpWGN81PD0gxNFAQF+aIZqoC1b0
- 4VpG1vLFv2T4Zf55XM7P4tNCXtrkXbqXaLoOqg5LucF2xAbgHkBYPRNzmPo8ICPEsHB638QUM
- EFChZXjK7QXHFZ4sHHBTJDfcg5RbDzktpmk9x8fYNNxr5lr/X6qDOp6trCUDkVsTF6jHE73i1
- Wv5zq5sC80FQYPHMfI4Z+sA6yolM9qu546GEV2MoZkxuBgKKQjWlgOwsY+RE+LszZ79TeTtA5
- dHpD1TbP1S7YeJ2SG7kD72t/ueHXDNkKtDs2kAEsTG5NZ/NVMPPwTqrOxv4h5zvpaybf5yDMV
- emae3iKK8Wd3Qx7CRMw6RsDU8F9YVXfjFKbwiOH/ejeImOs8cQDix7LOBlaXSbsZAGG6Y1z1c
- MVBsILOI0F7SwEZ9Co4OrewVcoZguQFKrwJQ5Rz/bFN1VWIREnITXP3FaoPYE9f9gMcSD9O2N
- B26RFPum/QFdeBOodwNoFHPExe3Tf0Y276RNxeG8KOHPwEXm+tCNJhwiI7R2Y201PpAdASlfv
- OGiyxs7Xrj3wlCM0l16g8H5A==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7a148e4e-04b4-d6e3-554b-20569b7fa340@linux.intel.com>
 
-=E2=80=A6
-> ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
+Hi Bingbu,
 
-Please choose an imperative wording for an improved change description.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.12-rc5#n94
+On Mon, Nov 04, 2024 at 12:04:29PM +0800, Bingbu Cao wrote:
+> Sakari,
+> 
+> On 11/1/24 9:16 PM, Sakari Ailus wrote:
+> > Hi Bingbu,
+> > 
+> > Thanks for the update.
+> > 
+> > On Fri, Oct 25, 2024 at 01:52:31PM +0800, Bingbu Cao wrote:
+> >> ipu6_mmu_map() operated on a per-page basis, it leads frequent
+> >> spin_lock/unlock() and clflush_cache_range() for each page, it
+> >> will cause inefficiencies especially when handling dma-bufs
+> >> with large number of pages. However, the pages are likely concentrated
+> >> pages by IOMMU DMA driver, IPU MMU driver can map the concentrated
+> >> pages into less entries in l1 table.
+> >>
+> >> This change enhances ipu6_mmu_map() with batching process multiple
+> >> contiguous pages. It significantly reduces calls for spin_lock/unlock
+> >> and clflush_cache_range() and improve the performance.
+> >>
+> >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> >> Signed-off-by: Jianhui Dai <jianhui.j.dai@intel.com>
+> >> ---
+> >>  drivers/media/pci/intel/ipu6/ipu6-mmu.c | 144 +++++++++++++++-----------------
+> >>  1 file changed, 69 insertions(+), 75 deletions(-)
+> >>
+> >> diff --git a/drivers/media/pci/intel/ipu6/ipu6-mmu.c b/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+> >> index 9ea6789bca5e..e957ccb4691d 100644
+> >> --- a/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+> >> +++ b/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+> >> @@ -295,72 +295,90 @@ static size_t l2_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+> >>  static int l2_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+> >>  		  phys_addr_t paddr, size_t size)
+> >>  {
+> >> -	u32 l1_idx = iova >> ISP_L1PT_SHIFT;
+> >> -	u32 iova_start = iova;
+> >> +	struct device *dev = mmu_info->dev;
+> >> +	unsigned int l2_entries;
+> >>  	u32 *l2_pt, *l2_virt;
+> >>  	unsigned int l2_idx;
+> >>  	unsigned long flags;
+> >> +	size_t mapped = 0;
+> >>  	dma_addr_t dma;
+> >>  	u32 l1_entry;
+> >> -
+> >> -	dev_dbg(mmu_info->dev,
+> >> -		"mapping l2 page table for l1 index %u (iova %8.8x)\n",
+> >> -		l1_idx, (u32)iova);
+> >> +	u32 l1_idx;
+> >> +	int err = 0;
+> >>  
+> >>  	spin_lock_irqsave(&mmu_info->lock, flags);
+> >> -	l1_entry = mmu_info->l1_pt[l1_idx];
+> >> -	if (l1_entry == mmu_info->dummy_l2_pteval) {
+> >> -		l2_virt = mmu_info->l2_pts[l1_idx];
+> >> -		if (likely(!l2_virt)) {
+> >> -			l2_virt = alloc_l2_pt(mmu_info);
+> >> -			if (!l2_virt) {
+> >> -				spin_unlock_irqrestore(&mmu_info->lock, flags);
+> >> -				return -ENOMEM;
+> >> -			}
+> >> -		}
+> >> -
+> >> -		dma = map_single(mmu_info, l2_virt);
+> >> -		if (!dma) {
+> >> -			dev_err(mmu_info->dev, "Failed to map l2pt page\n");
+> >> -			free_page((unsigned long)l2_virt);
+> >> -			spin_unlock_irqrestore(&mmu_info->lock, flags);
+> >> -			return -EINVAL;
+> >> -		}
+> >> -
+> >> -		l1_entry = dma >> ISP_PADDR_SHIFT;
+> >> -
+> >> -		dev_dbg(mmu_info->dev, "page for l1_idx %u %p allocated\n",
+> >> -			l1_idx, l2_virt);
+> >> -		mmu_info->l1_pt[l1_idx] = l1_entry;
+> >> -		mmu_info->l2_pts[l1_idx] = l2_virt;
+> >> -		clflush_cache_range((void *)&mmu_info->l1_pt[l1_idx],
+> >> -				    sizeof(mmu_info->l1_pt[l1_idx]));
+> >> -	}
+> >> -
+> >> -	l2_pt = mmu_info->l2_pts[l1_idx];
+> >> -
+> >> -	dev_dbg(mmu_info->dev, "l2_pt at %p with dma 0x%x\n", l2_pt, l1_entry);
+> >>  
+> >>  	paddr = ALIGN(paddr, ISP_PAGE_SIZE);
+> >> +	for (l1_idx = iova >> ISP_L1PT_SHIFT;
+> >> +	     size > 0 && l1_idx < ISP_L1PT_PTES; l1_idx++) {
+> >> +		dev_dbg(dev,
+> >> +			"mapping l2 page table for l1 index %u (iova %8.8x)\n",
+> >> +			l1_idx, (u32)iova);
+> >>  
+> >> -	l2_idx = (iova_start & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
+> >> +		l1_entry = mmu_info->l1_pt[l1_idx];
+> >> +		if (l1_entry == mmu_info->dummy_l2_pteval) {
+> >> +			l2_virt = mmu_info->l2_pts[l1_idx];
+> >> +			if (likely(!l2_virt)) {
+> > 
+> > likely() should only be used if it's really, really uncommon on a hot path.
+> > I don't think that's the case here.
+> > 
+> > Can it even happen l2_virt is NULL here? l1_entry has been assigned while
+> > the l2 PT page has been mapped so both are either dummy / NULL or valid
+> > values. The l2 pages aren't unmapped in unmap, but only in
+> > ipu6_mmu_destroy(). Same goes for the map_single() if l2_virt was valid
+> > already, the page has been mapped, too.
+> > 
+> > This seems like a pre-existing problem. If there is no actual bug here but
+> > just inconsistent implementation (so it would seem), I think it's fine to
+> > address this on top.
+> > 
+> > Can you conform this?
+> 
+> I would like to address this in another patch instead of this series.
+> What do you think?
 
-Regards,
-Markus
+Works for me.
+
+-- 
+Sakari Ailus
 
