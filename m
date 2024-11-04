@@ -1,98 +1,189 @@
-Return-Path: <linux-media+bounces-20767-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20768-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB03E9BADF5
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 09:23:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EF29BADFC
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 09:24:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67CB8B21936
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 08:23:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 392831F22BA2
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 08:24:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E26E81AAE1E;
-	Mon,  4 Nov 2024 08:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21A111AA7A5;
+	Mon,  4 Nov 2024 08:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OMLzA/Oj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AAB7179956;
-	Mon,  4 Nov 2024 08:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0855D189F48
+	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 08:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730708583; cv=none; b=KGj6aNotmBWxZUxQZp+f9ELYiqkKOyB8rwpZeQpBQyNuL2mQ6lmkvPfYKHJQlMor64naHxseSQbkkOlRGkrWUgj2Is5IL3rwaAB03weyUCKv5Z2EaW2JPGV8+MU1EZi/RbL0gaKAAH4XpYWe35+MyKsdHsV7OPIabSBwdHEOrS4=
+	t=1730708677; cv=none; b=jkOHLKRWfoocJABxFl2SdLso+/ZqZCWci1RjMI2hneoH/fvPm2HG2GYlYMqRvIjfCcpK5gCuozEni0gxjGjXqrAtcM+9htFyDac3UZvzQqNZrlmEnfA0vhcAvwZ/alCXgWpdCwvgYjKSxXZJ8Iwsx5+EqJi75fiUuGAWA9P6n4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730708583; c=relaxed/simple;
-	bh=5HaADQkVXbGTf737meYf1U8wE2PbsYxiU69KbYTKBYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R864npkdwv53xWuTeuDyBbBS1nQc7+/itE0loxugorlqIgf43Ibx1GcEXJEEaJf0Rul607/ESeIkKAxiPLO2r1eDPRtEBLbzVWsoZBMmqb76sQHeKi127SzZfdLqrPR+q7F+WpbrTzH0g9+2BaaPEwYi4w36VkTu5NgB++N+Lcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: UMPdzkI7RlqmkEDeO7ahtA==
-X-CSE-MsgGUID: Ws7ErXtCR3m0PtKRjNS6BA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="34182240"
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="34182240"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:22:58 -0800
-X-CSE-ConnectionGUID: 9FWodsSYQRaV9okRow9tKw==
-X-CSE-MsgGUID: 6DtA0+6yRAKWEPHoPGXhKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="83108262"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:22:56 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andy@kernel.org>)
-	id 1t7sMP-0000000AyqD-2o4O;
-	Mon, 04 Nov 2024 10:22:53 +0200
-Date: Mon, 4 Nov 2024 10:22:53 +0200
-From: Andy Shevchenko <andy@kernel.org>
-To: Li Huafei <lihuafei1@huawei.com>
-Cc: mchehab@kernel.org, alan@linux.intel.com, hdegoede@redhat.com,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: atomisp: Add check for rgby_data memory
- allocation failure
-Message-ID: <ZyiEXYWU1Yt03UNc@smile.fi.intel.com>
-References: <20241104145051.3088231-1-lihuafei1@huawei.com>
+	s=arc-20240116; t=1730708677; c=relaxed/simple;
+	bh=lc9kLc9MyPZHbwppXpopzUSobi4oLoI2ezZ2k/zgt24=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Oop+6ZQjDfC9qt37ofUk1BQq6Afm7UM7ka0JPkcC+PSfaPzW8qE7DyPij6AMqRS1jbeQM4lsXFJVGWOACvLqYxfky/6fRkndPfROx4w8Akx4kPnVkCFI02/UVv1gUBZGNGw8Xl7o1Qia6zOMxwN2n4acXfmMBpGwI/VlMEMBInw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OMLzA/Oj; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20ca388d242so37354045ad.2
+        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 00:24:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1730708675; x=1731313475; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uRKNkWKURd1sDW8gZ3R3OM9Inh/3Ren2hd6xj5sygFQ=;
+        b=OMLzA/OjoQmBzQg1Q7FP8BQE9ZlhzMqd0wNQZ/qOWwEKomzfbKZ2ZnuAIAzZ1SsWjH
+         H+blokBstkkC54zyfo0cruw615PNrgsBCz+TmJN4VKPLuo+5ZIVQvI7LjYxFuWhUuNJl
+         Tja0E14K/njiCqAYN4uqbrwAsRRTQps2CS+LU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730708675; x=1731313475;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uRKNkWKURd1sDW8gZ3R3OM9Inh/3Ren2hd6xj5sygFQ=;
+        b=D/9hPru80ouhr0uQxigFxzp9y+eZ3Cnp/Eop0rCCCnC+Nc8E8wtzvS0lQIp81wPoM7
+         Gm03bwMoaJ5uP7pQeXg9CMaxoGvH13coHmtX7/6tHB8UnR68h8fjFewciHrdkPLH0xnh
+         MKpLsGAkKfgpCaj4jTK392tM7B6SlPl0JooLp0565Dw23GzOgvl+GOjlWWfSAvu69fmd
+         zn2D7wtSO0P2ddtOo8tvXlAHLhWtF8EUVj0nYwa9X86GeU9hegZ7kR13qkjvW9aNm6HG
+         t+JC8CnrWV4XVx3LEb90zY5BUfuEEEHUaLbWrX7OiTZqAe8EC00ZKqJL8wsCqHXei3yG
+         RV5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXOkr3AiSwjy0f9yE6vPuHBGPS1/Lxu0DbYFuPgWnF9gyqcEj+kMKLv5Ce5Ho1iUZmU4MA87HFf6gbhPQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxP0YiCqqq1J3VYAjomnV/r1xZMx4N0SbmNS19z/Suf6LPeqluq
+	6RiVlAMfODXC7EuhxstDg4tpW53Gj1rEFhsLWbA/KrpMyk6J4NA2UIRfJSSQTBZ2EhvbpgQX1qs
+	=
+X-Google-Smtp-Source: AGHT+IHjmBzOjUm/sBuMhuZbTf3WvPL765H20BllaxShztZd0ONtrijGNwww6sdvZoAZWcMOD49WHg==
+X-Received: by 2002:a17:902:e74d:b0:20c:7898:a8f4 with SMTP id d9443c01a7336-2111b0276a1mr149272375ad.60.1730708675078;
+        Mon, 04 Nov 2024 00:24:35 -0800 (PST)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com. [209.85.214.176])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057d39a2sm56937625ad.241.2024.11.04.00.24.33
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 00:24:33 -0800 (PST)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20ce5e3b116so29380615ad.1
+        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 00:24:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVPMV1drIXTuf18jIk2mxYu/h3VzMvRfzKBVbaLcxeB4OqxXL3uNQAkQaMshb+ipzI/OcjafulYoyAMEg==@vger.kernel.org
+X-Received: by 2002:a17:90b:2d84:b0:2c8:65cf:e820 with SMTP id
+ 98e67ed59e1d1-2e94c298d3dmr17254693a91.2.1730708672989; Mon, 04 Nov 2024
+ 00:24:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241104145051.3088231-1-lihuafei1@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CANiDSCuPfmV-0KLrdnvVojvtLR=OsFUzLNhnqM1m_ytvzjoNOw@mail.gmail.com>
+ <ZyJB4Kxn3Gm79_MH@valkosipuli.retiisi.eu> <CANiDSCvGTGo+O14Z=pL=CaZo-9DrzVJ-JwD5GG0Z=cJDTcUG4w@mail.gmail.com>
+ <CANiDSCvMyp-13=4DUbau-2K5F2kURy3Mgvf-ZQxSqoAJ3yU93g@mail.gmail.com> <ZyKmjq0PnjwzS46z@valkosipuli.retiisi.eu>
+In-Reply-To: <ZyKmjq0PnjwzS46z@valkosipuli.retiisi.eu>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 4 Nov 2024 09:24:21 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvfakWvnZovm=t3Kwc2GXYtzym03cEfaYdzbFuqt7qhVQ@mail.gmail.com>
+Message-ID: <CANiDSCvfakWvnZovm=t3Kwc2GXYtzym03cEfaYdzbFuqt7qhVQ@mail.gmail.com>
+Subject: Re: UVC: Privacy gpio as subdevice
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Hans de Goede <hdegoede@redhat.com>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Yunke Cao <yunkec@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 04, 2024 at 10:50:51PM +0800, Li Huafei wrote:
-> In ia_css_3a_statistics_allocate(), there is no check on the allocation
-> result of the rgby_data memory. If rgby_data is not successfully
-> allocated, it may trigger the assert(host_stats->rgby_data) assertion in
-> ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
+Hi Sakari
 
-...
+Done, posted as
+https://patchwork.linuxtv.org/project/linux-media/list/?series=13893
 
-> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> @@ -4181,6 +4181,8 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
->  		goto err;
->  	/* No weighted histogram, no structure, treat the histogram data as a byte dump in a byte array */
->  	me->rgby_data = kvmalloc(sizeof_hmem(HMEM0_ID), GFP_KERNEL);
-> +	if (!me->rgby_data)
-> +		goto err;
+and it is tested :)
 
-Which kernel version are you patching?
+On Wed, 30 Oct 2024 at 22:35, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+>
+> Hi Ricardo,
+>
+> On Wed, Oct 30, 2024 at 09:47:17PM +0100, Ricardo Ribalda wrote:
+> > Hi Sakari
+> >
+> > On Wed, 30 Oct 2024 at 16:04, Ricardo Ribalda <ribalda@chromium.org> wrote:
+> > >
+> > > Hi Sakari
+> > >
+> > > On Wed, 30 Oct 2024 at 15:25, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> > > >
+> > > > Hi Ricardo,
+> > > >
+> > > > On Wed, Oct 30, 2024 at 02:03:18PM +0100, Ricardo Ribalda wrote:
+> > > > > Hi Hans (de Goede, but others are welcome as well :) )
+> > > > >
+> > > > > Some notebooks have a button to disable the camera (not to be mistaken
+> > > > > with the mechanical cover). This is a standard GPIO linked to the
+> > > > > camera via the ACPI table.
+> > > > >
+> > > > > 4 years ago we added support for this button in UVC via the Privacy control.
+> > > > > This has two issues:
+> > > > > - If the camera has its own privacy control, it will be masked
+> > > > > - We need to power-up the camera to read the privacy control gpio.
+> > > > >
+> > > > > We tried to fix the power-up issues implementing "granular power
+> > > > > saving" but it has been more complicated than anticipated....
+> > > > >
+> > > > > Last year, we proposed a patchset to implement the privacy gpio as a
+> > > > > subdevice https://lore.kernel.org/linux-media/20230111-uvc_privacy_subdev-v1-0-f859ac9a01e3@chromium.org/
+> > > > >
+> > > > > I think it is a pretty clean solution and makes sense to use a
+> > > > > subdevice for something that is a sub device of the camera :).
+> > > > >
+> > > > > Before moving forward, Laurent and I would like to hear your opinion.
+> > > >
+> > > > I remember we discussed this and I wasn't very enthusiastic about the
+> > > > proposal but thinking about it again, there are situations where this is
+> > > > the only feasible solution, including on raw cameras with a privacy GPIO,
+> > > > besides the first issue you brought up above.
+> > > >
+> > > > Regarding the second one, why would you need to power on the camera to get
+> > > > the GPIO's value?
+> > >
+> > > In order to read the control, you need to open the device, and once
+> > > you open the device the device is powered up:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_v4l2.c#n621
+> > >
+> > > In a perfect world it would only be powered up during streamon(), but
+> > > uvc is a complicated monster:
+> > > - We have delayed controls
+> > > - We have buttons
+> > > If we only power up the device during streamon those things would not
+> > > work properly.
+> > >
+> > > I think I have a solution for delayed controls...assuming the device
+> > > implements the standard properly.
+> > > I have no solution to support buttons :(. Luckily not that many
+> > > cameras have that today
+> > >
+> > > Regards!
+> > >
+> > >
+> > > >
+> > > > I'll review the set.
+> >
+> > If you have time to review something, please take a look instead at:
+> > https://gitlab.freedesktop.org/linux-media/users/ribalda/-/tree/uvc-subdevice?ref_type=heads
+> >
+> > Once I test that on real hardware is what I plan to send to the ML.
+> >
+> > It has support for the ancillary link and it is a bit cleaner.
+>
+> Could you post that to the list, with a note it's not been tested?
+>
+> --
+> Regards,
+>
+> Sakari Ailus
 
-The problem, you have reported here was fixed ~4.5 years ago.
+
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Ricardo Ribalda
 
