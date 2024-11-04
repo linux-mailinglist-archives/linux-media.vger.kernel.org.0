@@ -1,124 +1,98 @@
-Return-Path: <linux-media+bounces-20785-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20786-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74BE59BB11D
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 11:30:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3D69BB275
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 12:10:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5B7E1C218A6
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 10:30:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 498351C21DFB
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 11:10:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C0BE1B0F0B;
-	Mon,  4 Nov 2024 10:30:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B47BC1F472D;
+	Mon,  4 Nov 2024 10:55:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c1u1nBq2"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ve4SD335"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C664616087B;
-	Mon,  4 Nov 2024 10:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87F91F427B;
+	Mon,  4 Nov 2024 10:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730716234; cv=none; b=gOQkA1rrVreoL8rhYFd10qI9eOUzU2V0S1+0+7Y2UxNXGg/yCoVqNG18z7ThKk7MqHJho86IQ6JaZL9xa0G5v3DU7XG4sInChZy3hvnWfDKfenyao7BWZAQHiX7biRAzB/3b85FsyIZka1gJrWGOcGMYpAbYVSOG2h3SLCMjCys=
+	t=1730717712; cv=none; b=SHgUFaFnQDAWPiXqWcm/cxh0a6vj3UG3bv43h9kOaIMIPFGA/LG3m7g0HufFIX4y2BcvO+l2y4MIlqhJmp+LCVyjiqBnZD+OtDg/8ShnAZaxJ3Ui0QD81Qn4h5GbJO/syDjU6VD11GVhxurlDzyk6byGqIbu6JEoDMDTtYR+8zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730716234; c=relaxed/simple;
-	bh=7BN7WialfnI0RemSi0x4OEu1r7sJDXF0yTrNE/BPW4s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=thvFVIs2ZDueCW+D/8ftnv65dOvJfoiQkDaz/Mqb05COBaWM9CshA6uDjGk9RWiMZXKMF02p3qZde9ZBpTM/hn5l37fDq5Mz/JmUByq8cZmJbsQ+3iTtesXBHALjF+PRtW3M6ZGoC8Oa2Vj8qz0H6rHDxUkZNeA5bQmPum3VDRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c1u1nBq2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E471EC4CECE;
-	Mon,  4 Nov 2024 10:30:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730716234;
-	bh=7BN7WialfnI0RemSi0x4OEu1r7sJDXF0yTrNE/BPW4s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=c1u1nBq2M/KrFCyKTlV5iLFc+kaD0IvWBAEVahTz7VCjwiYN9b1QG3xHc4lrchdZb
-	 bKWe7DYKgqgnrOulRHwv3Zw1G46F3nxilnddMZ+4DgEI7OO+EuNv1rXtW1YW79hRCW
-	 TSAHgvT4kVCxuDtyXfPrDZxhCVsLuGzOyvim/Xmn1s3o2RbgI3PY0FRGitMAMeJgdS
-	 ZkGijOOr/LWtXpAv8NBR6BhaNRlOTp2O//vWnaE/5tLndeEpUPqmxP+sJkE7WeyG75
-	 LFw1SB0UhR2ljR1XSdo7ZRSgrK+FW9Y52erjtLPDTadUK9/ixMEVpaOC//zwbX6TrG
-	 dvIabI++vddUg==
-Message-ID: <f82f43ee-bbfb-4cb6-a646-0d94a09a9901@kernel.org>
-Date: Mon, 4 Nov 2024 11:30:28 +0100
+	s=arc-20240116; t=1730717712; c=relaxed/simple;
+	bh=xXMIAfIX2Epoxbu+Ed52JjHAGo50jerj0V0oSVXTFmk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lGBNwPNRbiMALjkqagTDuuMoo/lUqspRQQTZEFBiKROWDXF648PvZNg4b79UhN17YS2TfgJttT8fmv5p3iU4vFs3sMR7MuFdoUaGy4Vgd6ZiQu8SNZGY4npr6hajJxLYrJNxlSEoFeR4pALG3YrFpEp/GBNMc/IZzvZmUCWoAk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ve4SD335; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09746C4CECE;
+	Mon,  4 Nov 2024 10:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1730717711;
+	bh=xXMIAfIX2Epoxbu+Ed52JjHAGo50jerj0V0oSVXTFmk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ve4SD335ip/cv4JsiOPII6reVBDEbb5fzAWFn5utmhv6c0FAUvNDUY/fGB4E45/HW
+	 TY08iHWrwx4qtppFKXsy2nAULA6Ay98rMu/S751o92lts8ctxOM3Ymt8ZgQJjOMfid
+	 BsGhapKziHk8yOFYj/rYpTagQcxALcwzpWwmohbc=
+Date: Mon, 4 Nov 2024 11:54:54 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Li Huafei <lihuafei1@huawei.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, Alan Cox <alan@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v2] media: atomisp: Add check for rgby_data memory
+ allocation failure
+Message-ID: <2024110448-liqueur-length-2abc@gregkh>
+References: <20241104145051.3088231-1-lihuafei1@huawei.com>
+ <621ad79f-8a8f-460e-92df-c3164f30e46a@web.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: platform: exynos4-is: Fix an OF node reference
- leak in fimc_md_is_isp_available
-To: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>, s.nawrocki@samsung.com,
- mchehab@kernel.org, alim.akhtar@samsung.com, kyungmin.park@samsung.com,
- andrzej.hajda@intel.com
-Cc: linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-References: <20241104100119.2173052-1-joe@pf.is.s.u-tokyo.ac.jp>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241104100119.2173052-1-joe@pf.is.s.u-tokyo.ac.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <621ad79f-8a8f-460e-92df-c3164f30e46a@web.de>
 
-On 04/11/2024 11:01, Joe Hattori wrote:
-> In fimc_md_is_isp_available(), of_get_child_by_name() is called to check
-> if FIMC-IS is available. Current code does not decrement the refcount of
-> the returned device node, which causes an OF node reference leak. Fix it
-> by calling of_node_put() at the end of the variable scope.
+On Mon, Nov 04, 2024 at 11:15:21AM +0100, Markus Elfring wrote:
+> …
+> > ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
 > 
-> Fixes: e781bbe3fecf ("[media] exynos4-is: Add fimc-is subdevs registration")
-> Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-> ---
+> Please choose an imperative wording for an improved change description.
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.12-rc5#n94
+> 
+> Regards,
+> Markus
+> 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hi,
 
-Best regards,
-Krzysztof
+This is the semi-friendly patch-bot of Greg Kroah-Hartman.
 
+Markus, you seem to have sent a nonsensical or otherwise pointless
+review comment to a patch submission on a Linux kernel developer mailing
+list.  I strongly suggest that you not do this anymore.  Please do not
+bother developers who are actively working to produce patches and
+features with comments that, in the end, are a waste of time.
+
+Patch submitter, please ignore Markus's suggestion; you do not need to
+follow it at all.  The person/bot/AI that sent it is being ignored by
+almost all Linux kernel maintainers for having a persistent pattern of
+behavior of producing distracting and pointless commentary, and
+inability to adapt to feedback.  Please feel free to also ignore emails
+from them.
+
+thanks,
+
+greg k-h's patch email bot
 
