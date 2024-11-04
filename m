@@ -1,80 +1,55 @@
-Return-Path: <linux-media+bounces-20800-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20801-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29D69BB513
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 13:51:55 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D399BB56D
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 14:07:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67883281E07
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 12:51:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D990EB21AF8
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 13:07:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F011B6CEA;
-	Mon,  4 Nov 2024 12:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29DA51BBBDD;
+	Mon,  4 Nov 2024 13:07:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fuu/AJfv"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="dg6wG72P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592071B21B0
-	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 12:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB09E1B6CFB;
+	Mon,  4 Nov 2024 13:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730724709; cv=none; b=icLV1e6LwASinrDsSssCRAGDmy6g4u+eoJohsV2I3xqXuikqrBykuSPUgeTHi8Pi9dj+3GsJhaTOqBApQvc6TFMzHacGZsa3wOEOxGEPA5hZRVHt6zZb0Zi50TQhIU6hq0C5FuHnoH9Pm27BVRGyD+BHLXGC/462d9Au/6X3nqI=
+	t=1730725651; cv=none; b=uOoQwQxQMm9TK+NoCAV7ithwmoC+gCK14g9FUGL6DPk8kIMECXUN4+KQ56kFdrklGSBz16JJVFPWh7UaFyWcRXLg4rh4ZiPLQHw2GHnPd7QEHMMQHAhFnMEfmuTIzRGtYEHdMxZ1YGLBruN8h2r+28h/UILvxtAvH78hUu4ti+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730724709; c=relaxed/simple;
-	bh=lnsqveZ0+ThHsdtgF8Ous643Z9X8+Nqxx3nDvOsyHnQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tETFztRrTHlOWYs0lg7sP636cIynAPVp5b8gF9H/RpcC2D672/mVMcYvHSXlLnwzSIQ9VZbmeY0aMfi9S0F+/nzLHeSFZvUSMHhCjSLmcCNyo2+dNZaqq57UeVd/EmOq7TaGrbKr7fZQkX3xNv0if47MiFjDq20MChlnj92mcLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fuu/AJfv; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730724707;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Kay/f3QkJEzZ7UZJfgDuT/JkoWB8O0jH5vqtmG6BCFY=;
-	b=fuu/AJfvR8FRcPwF2f64vuZJ7DtHsr6nbzRjtQndwFyJGQ8dYEnnUNWnfG/+fZHYBKNB8E
-	8GMjb3hha+RzvVtgEomeNcu1D6PI8DsArRofiU272CI/33qrpL7ljM8MU8BO+jfFmLpLAm
-	bLWsy0mRqcbEiQBY83pMFhLYQdt0KB0=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-201-PEzuLNw2NwCds6OAmx5Rjg-1; Mon, 04 Nov 2024 07:51:46 -0500
-X-MC-Unique: PEzuLNw2NwCds6OAmx5Rjg-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a9adb271de7so335957366b.0
-        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 04:51:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730724705; x=1731329505;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kay/f3QkJEzZ7UZJfgDuT/JkoWB8O0jH5vqtmG6BCFY=;
-        b=Kq0kl+LPQHHFwxUewgYH6qbQbd//7FgEMZeaeowcAdCg5ZvHkmFVCd8bZuJHloqDnK
-         ZmjD0nG3YBA7Tj0LUh2yQ4RATRvfEBUnhRuLuKRTOyjHmN/xgz8efqMc7R69DGgoQZCy
-         /2qjO04fIPY4DxWVcg0sG0w+UIIGSXJYxFVhdgjitBAiNKCHkd6PAdVR8cHX2TGT8dJI
-         qcq0dgUWFy49/sKBFs0rWHArGMNo1aJVWwG9Q8OzLWSujXdBJECYCKDlyzhL6eFS1Fwy
-         DlxD1bQhlqEWtFD5CdKtolQ9JwCX32KNeQMyERl8wZXC3UvMt6l2qUX0US16JerAng1m
-         VwiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVms7fxRONQyZ2YYBaIJeR4qNNHmy6vmzAPF7Su3FdS8bHa6ndFZjhpOSUDBMLbhkQf4V8XgUafFxi8pQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUdni4lfSBhk6Qo3LgNHMjGER3i6TTcOM8PkanY6nnR68bHuaJ
-	Ac5RH8sO8W7NxAGjXWDpdpRwIuz9Bf8rMkw3ihgSQDfSC3y0TZ5Se3KuhKkSX+3m10obwR40rdn
-	F/v0wjB+mLaYjBhzT5yEDeN1ulqp1J8BE1yysq/5dbC6+jBhEdY28fZ7Cw4y4
-X-Received: by 2002:a17:907:940e:b0:a9a:b70:2a92 with SMTP id a640c23a62f3a-a9de5ecc46bmr3272712266b.16.1730724704656;
-        Mon, 04 Nov 2024 04:51:44 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFqeb1LzuRpJ7Mr3jNNDRouhRr6mOiie/34XpsMMVa+S06Kid3Nvi2/6g2auX8Xxu/q/b9OzQ==
-X-Received: by 2002:a17:907:940e:b0:a9a:b70:2a92 with SMTP id a640c23a62f3a-a9de5ecc46bmr3272709166b.16.1730724704235;
-        Mon, 04 Nov 2024 04:51:44 -0800 (PST)
-Received: from [192.168.100.203] ([109.37.147.87])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e56681c1asm547886666b.213.2024.11.04.04.51.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 04:51:43 -0800 (PST)
-Message-ID: <c2dc7fa6-b455-4964-a1e7-555dd0c01916@redhat.com>
-Date: Mon, 4 Nov 2024 13:51:40 +0100
+	s=arc-20240116; t=1730725651; c=relaxed/simple;
+	bh=0n5oPcRcDR1kORlFGe5xEi5VBvf/0YL+KeYz4ezAu4Q=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=Et/wtNEc8y8r6pF9Gto88re64G6svdTsUSKZRkksOYTJfGLi3wYl89Et/z47PUe2o32Q6IojOAia5J0Fq4j9VYvd2WL+lkub3dUQYxJfk7gwjfE7VIiGQFxFjETyiEYj6P0lvQ7N+0uGNxOcKUM3MK9DwwSlhhz3wdROXd+nN/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=dg6wG72P; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1730725622; x=1731330422; i=markus.elfring@web.de;
+	bh=X/JcBLG9ZRntCDhqwrCH8dA655EdL6Qk+i6w/V5Velc=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=dg6wG72PmBCTajz3zqwq23eIktpX+4mDA7NiR/yM9gRFG4w2lO6WZiTrqnG7YI1A
+	 CPDw5TVG4ILOZe4bMIqxcBJned5HJM8dyPFWAmErKGc6danEy3DBdlWutRk0h9Aeo
+	 sQW4gC8S1XAJ5rK8Na/rck/F53KDmJcigj5Kserk2dTfLnkF4ZrlAKzIIy+0YQRVp
+	 /EjasB2ZeU/GK9Ysq0IluAY6GvAwZKQXpGIXjD2aqPsWZ6SgH5J3/FVaDpfDJE8h8
+	 wMWwCoNCM8UpJLZKF8fqPWdcPgkGhilRiIPe4WORdj48Eu+2g3CyMiW4NJd305dhO
+	 0gt/fHmKH6qIPdH86g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.88.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MECGl-1t0YOh1GC5-004TGg; Mon, 04
+ Nov 2024 14:07:02 +0100
+Message-ID: <c64a0c92-4528-4c87-ac2e-00ee2ec666ad@web.de>
+Date: Mon, 4 Nov 2024 14:06:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,66 +57,65 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] media: atomisp: Remove License information
- boilerplate
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jeff Johnson <quic_jjohnson@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jonathan Bergh <bergh.jonathan@gmail.com>,
- Roshan Khatri <topofeverest8848@gmail.com>,
- Dipendra Khadka <kdipendra88@gmail.com>,
- Sergio de Almeida Cipriano Junior <sergiosacj@riseup.net>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Kartik Kulkarni <kartik.koolks@gmail.com>,
- Kathara Sasikumar <katharasasikumar007@gmail.com>,
- Tchadel Icard <hello@tchadelicard.fr>, Kate Hsuan <hpa@redhat.com>,
- Colin Ian King <colin.i.king@gmail.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20240923105539.3569110-1-andriy.shevchenko@linux.intel.com>
- <28958f62-9051-45a6-a26d-585508e2bd11@redhat.com>
- <CAHp75VdscXFTB+mfUgKBnut3_idT88mas20ZsohSd6nrcVOnFA@mail.gmail.com>
-Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VdscXFTB+mfUgKBnut3_idT88mas20ZsohSd6nrcVOnFA@mail.gmail.com>
+To: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Hidenori Kobayashi <hidenorik@chromium.org>,
+ =?UTF-8?B?U2h1bi1ZaSBXYW5nICjnjovpoIblhIQp?= <Shun-Yi.Wang@mediatek.com>,
+ teddy.chen@mediatek.com, yaya.chang@mediatek.com,
+ Yunke Cao <yunkec@chromium.org>
+References: <20241009111551.27052-6-Shu-hsiang.Yang@mediatek.com>
+Subject: Re: [PATCH 05/10] media: platform: mediatek: add isp_7x camsys unit
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241009111551.27052-6-Shu-hsiang.Yang@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:bRyeFpZaX8wNJrlK6hdPLRc1mevh68UYevrSMj6u1GEWHCvYp0U
+ U7WMp+S6fbcCQsjvUzIRvGihCk2wnelpSPybJxv9aPgPvJH/2Q9Bp4FCbLhymk1TJdLACVY
+ tNke6VamALyDNd9theYf/QpwhLZShCQDhsO6KJzXj7Aihi1qKCJefHw1nU1/9YGR4Mh0VA4
+ 3t22eg/S+4Y5juXqsxN2w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:H3ddCuVI+08=;FuKuZdqE+LyO/ovYd7kI/LBYHH7
+ 1BquZJV7yDnZAq3QrkDvghilD4FPiEtRngTsk3KCj/omyHEfMVhKkX3zjOI6ddAMMKvJtI77U
+ v2nNOBon+Y5RKrDtdAKDwNPQpaNmnK8ZnxNzaNBDpkTrv2YLlzkH1YsNtlWAcFR0uy7nQ54c7
+ g55gmNEf7mk+GO8GM+b/VZRxtOc/ln1BBa2BE3HMRPZh0dAnffyko2z0yYuH2i7VqK8ZT96zU
+ 97OeKp0acHRETcR/WuIHP4LWNeq+TqlPa58qYIzc6SpOrAXNpZUGF6/op3zXDQQwrdkcUYABO
+ k1qPEuF455UBguUPoXaHmqwrlrrhLQgJfBphfAI/LhZwdNa1UTLafQEF7sCTt09j90rDpEwsc
+ vxVb5aQwAOudnybxQaYkHYfkO9+r2iBm7NWmR+19l8uEHJvmBEGA1Ae2jSian+hfwKmsGFfS6
+ An8akll0stTcaY3+aXRp36l5L8IgYHqpu43tlR7j6iNxZCl+4TLOmDEX8CyzSi6AwCc/hJhs/
+ cIuefjktwSXY0gol2oRmCXTd4+JPpvFoPcfsVUM6xez6Oj+mmpQ2CrmdQHAUHTIi1pueS+7Xk
+ 3q4/RUqz26ieSi1k+khwxlaJt6sCIYdkXtOPD3BikHFQtWCetvIiU8R+oZa9QGYEvGWNz8a2R
+ 9v8Ds7T9O5D8//Vnsnt+XFBUzi9f20lvfBG3HDCvxVG+5bmuR4ruvL6lkHKFL6jHUJcHZXUuG
+ j0ZN6ro3CkEghF7k9u1sjPWivH8BbyD9PgWXHFUEl7f+HaLB6FPW5F4ayuvpAns38oY6knOiB
+ TRqKsdO5ojH//9XY5JYKHO3w==
 
-Hi Andy,
+=E2=80=A6
+> +++ b/drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam.c
+> @@ -0,0 +1,4168 @@
+=E2=80=A6
+> +void mtk_cam_dev_req_try_queue(struct mtk_cam_device *cam)
+> +{
+=E2=80=A6
+> +	spin_lock(&cam->running_job_lock);
+> +	job_count =3D cam->running_job_count;
+> +	spin_unlock(&cam->running_job_lock);
+=E2=80=A6
 
-On 4-Nov-24 1:30 PM, Andy Shevchenko wrote:
-> On Mon, Nov 4, 2024 at 1:57 PM Hans de Goede <hdegoede@redhat.com> wrote:
->> On 23-Sep-24 12:53 PM, Andy Shevchenko wrote:
->>> We have the respective SPDX identifiers that are already being applied
->>> to the files in question. Remove the License information boilerplate.
->>>
->>> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->>
->> Thank you for your patch(es).
-> 
-> Thank you!
-> 
-> There is one patch (marked rft) left in the queue. Can you, please,
-> apply it locally to your branches which you use to test AtomISP with?
-> I'm talking about 20240923085652.3457117-1-andriy.shevchenko@linux.intel.com.
-
-Yes I noticed that one myself too. But atm I'm at the co-working and
-I wanted to get the pull-req for 6.13 out the door (it already is
-a bit late and I hope it will still make it).
-
-I have just added this to my personal repo and I'll try to give it
-a test spin soon.
+Under which circumstances would you become interested to apply a statement
+like =E2=80=9Cguard(spinlock)(&cam->running_job_lock);=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.12-rc6/source/include/linux/spinlock.h=
+#L559
 
 Regards,
-
-Hans
-
-
-
+Markus
 
