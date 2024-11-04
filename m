@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-20794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20795-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC8B9BB419
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 13:02:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D459BB425
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 13:04:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E4A228115D
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 12:02:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 216B81F23EFE
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 12:04:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6C281B4F3F;
-	Mon,  4 Nov 2024 12:01:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CB321B652B;
+	Mon,  4 Nov 2024 12:04:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gHRdZNpl"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SmQkt9HR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CD51B3944
-	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 12:01:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686BB1B0F02
+	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 12:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730721707; cv=none; b=NPKpFQGxgrXZHWUPqyVwhlyIqYDzTLcXB7Jpe029NE9gGJD4lntP/xc+eVEyvW1e0iDxG1xotdUWlBcguTwqlpqZHRWn0NThKDYFcTR6ZX+b1fkSxBhyJ04NDM5m6ac4N/DgdK8ZIIObDpGkXCDSrekz3S4lGGILEdTE9h2WFSQ=
+	t=1730721881; cv=none; b=Wm/JZUfvZ2zNDOlo+gU0eBFzIk+fXi8eFpsuQyQhXmwePPBKGJ3hBmCHdIxjfg1e/7oWNGSO1mNVDTqjoxZfVccQ94wr7amYE3hm03mXiJUlZEJ0xJvqA4PzZRscL8Hf2YYLB7z39AELoX+aE9rgGU7pHo2ESIh36dLSkrbgg+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730721707; c=relaxed/simple;
-	bh=qSdyZ2s9B5cARaoKsuwvCuT3hG3tvvz7d7IN6nt4dn0=;
+	s=arc-20240116; t=1730721881; c=relaxed/simple;
+	bh=bKsxPbLJOjhXS5dwvRb7gDQwbg3TLOfgDt0fz6KwnIg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B/AMYwpC/H0uloRajZNI77vzoZO7AmTbRTi6NX0jE2OchsS6atIsx3i72awCyA6pGp9YQztwuGUF4hjfwI93xT10O89L9z246jChyV90JyVmEe135li5Ahi7I/gjxl0jxXo8BPcNUhRqDQDiMK1rDJbSf/y7rfk7haIdKO617Jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gHRdZNpl; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=Smu9DjfAjlj+0wuzC+j9aFpaHGIyJfDXEqIQL09K+QAJTujztBMZuO69KV9v5ZrvljRx1WLmFkN+fK3p74b/QkpODaC4d+bqHKPaoYMluytd/v2V+yM9E3Rr1w62YZ+rqZe12pcPawhzwNRgJdYf5aNKAeSQ6ilXBQk2XqSstEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SmQkt9HR; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730721704;
+	s=mimecast20190719; t=1730721878;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kZjGJ8hV/x/q11ugCunF6S0uI4EeGKZp0XSGAnU91A0=;
-	b=gHRdZNplcxovpGvHqssH/wUlpo9BnUQaWcq3qTr1u1m2vUQZ72O8osETcEcIGnz2Jz0nf+
-	DYeF0yWADmXXpLT3h1MtcmZSzCaK/BBzMGzK3CcCoPPjuoLY3lCHwOR1DGbWuNW0DlRrDX
-	z78lNf+tPZzc+wJlEciHpkTxi7XagT8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=uRhG8emybav1jveE3I6lnpbMlJJQ1NkRHJ/vqZ/lKwM=;
+	b=SmQkt9HRWRmAberA/0yCSY2iTfJvjyAeJhjcC3VAuBgsb0IcKEj8gHpdwTJJDXIfSWlyLj
+	L8N9297LKrDIqw8Txt507TKqc1k3QifeMWDGznNOEWKH3Ib+g7Xv+jAUz2jVsCVAEkHmGP
+	GZ0ApdhrBWY6WyYT6r5wk9Vvnl4977U=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-117-IrfRFZ6DNomfztg1hwRc9Q-1; Mon, 04 Nov 2024 07:01:43 -0500
-X-MC-Unique: IrfRFZ6DNomfztg1hwRc9Q-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a9a0710ca24so299602466b.3
-        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 04:01:43 -0800 (PST)
+ us-mta-611-5eDT2-RrPgW5I_3YPlEblg-1; Mon, 04 Nov 2024 07:04:37 -0500
+X-MC-Unique: 5eDT2-RrPgW5I_3YPlEblg-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a9a0ac0e554so499302966b.1
+        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 04:04:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730721702; x=1731326502;
+        d=1e100.net; s=20230601; t=1730721876; x=1731326676;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kZjGJ8hV/x/q11ugCunF6S0uI4EeGKZp0XSGAnU91A0=;
-        b=R9HXM0zb9vxk4TMGpAmoj/XH9TtAQ/IY4qu6gqlEaaXEEDAakb1pO+P/qfTjox5FHv
-         7ra9u0qKMHB7VSDt0eR5RCfVKMfXMmN+4avPac2138l7e6bgiXZ8h1ZU+bRHjxFfszsz
-         JfTEKaGmxYWNtdsBNVyUyU3EJJ8eRjiM5Oqa98ew45FrXGep4Pk0WgAp3ho977AmEPpv
-         ct8SPAbKUGjBE5ceCekxKbElN/woqL53J3zIQoIDp+OXvDWsoyaCgOjwGUTHy+FunBYI
-         KhCqfew9dddOkzxcVDbxGQDPldUmyrsgUHNaMSFE71TKK2CUYjUMYCXyYKh9TgFSVZ5u
-         TyHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWcD744gkdfx0ZqnpPpop1Xg5MefUlknqTSaG/Eac4AKssoozVIV8pFpg0vfvkteDD8EItUQiWMITzK5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4g9fgmzs1fouUn0NGFve4qh9AjVtxWhUtP9+spG2JZ5au9ap0
-	akv0dqAMgxhvwOrgimQUDb0w+2ikn2kJFArEvzp1Mix2+/SBUV6DxSd/dQgllYViQQlUairqBIv
-	UpRCyWH7YY4RTJVETZmnMfH2ryl4YepvzX6kLtusBr53mMvmkC+SwJgFzWG3L
-X-Received: by 2002:a17:906:c14b:b0:a9a:1b32:5aa8 with SMTP id a640c23a62f3a-a9e3a5739demr2118205666b.4.1730721702154;
-        Mon, 04 Nov 2024 04:01:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEI+dMfsJ1bB1NHBzblIbjvGUdy5Hh2SEjrlZoRzKI+72rOu6N3AO1yDnXa1sfJg51HrWX1JQ==
-X-Received: by 2002:a17:906:c14b:b0:a9a:1b32:5aa8 with SMTP id a640c23a62f3a-a9e3a5739demr2118202966b.4.1730721701790;
-        Mon, 04 Nov 2024 04:01:41 -0800 (PST)
+        bh=uRhG8emybav1jveE3I6lnpbMlJJQ1NkRHJ/vqZ/lKwM=;
+        b=jhMSBIf3lbOAjOnW8a24DIEZV3aBSxQiyw3v0WLIJ3Yz0TWQKQblNY2t/BKIKkQMRm
+         Ufk411Yh+YSSfFvWMnNUdhw+JENNVMawRYUfUBu3Hne2j+JVNFoL3BeJ4EvInyvjEPiZ
+         1ChlxPk51T2li+vs47uPfsFh6XqUkE0Z03DvZS3xEB0DY9HAaM1OdGenw9vHRZAMo1si
+         8ubzMekPVEeu05CN1ChjZyAusOiOVFY62W66ma35onvH11IX3t+KKOoWz2fTXqxEeGTu
+         79xNbqN/jkE/n5ahznGrjTNHqonVaapjC3l4l/6CIMToIkXUEi0b++/1tTtVcKmjyQWV
+         khvA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8THhmeVtmq0pHtPzLkICgW8ysiBUMYiC9o0dowyjr6RPTr7GQX8GMo59RgKfIz+hRsg6eZqy5Azqa5Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrwVZPqVgpo8Ru2/Iuro4mfHTy6J1H3klHr/4Mhbjsdu1UARd4
+	TwaSozJ612GX8QAEORfqbTRmB7L7lyexqV0nDiAXDEGu+KDY1a41wV2YMsXbhuaw5doS7cIl4H8
+	5il2Q33if3YgFYR7tjwvse+VQaFneg1QofJ3PTGMrf4+2J+qi6+kmyBD3/B8lo77uC/x4
+X-Received: by 2002:aa7:d490:0:b0:5c5:c2a7:d535 with SMTP id 4fb4d7f45d1cf-5ceabf49e20mr12028241a12.16.1730721875619;
+        Mon, 04 Nov 2024 04:04:35 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGm/rpK0+UAygyYv+wvXZBfqWjdissJMQdbMV9lkyNEypi5FgacHmiCaOjPUnh7ECYxzDnZTA==
+X-Received: by 2002:aa7:d490:0:b0:5c5:c2a7:d535 with SMTP id 4fb4d7f45d1cf-5ceabf49e20mr12028221a12.16.1730721875230;
+        Mon, 04 Nov 2024 04:04:35 -0800 (PST)
 Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e566442easm542115966b.166.2024.11.04.04.01.41
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ceac77051csm4161402a12.32.2024.11.04.04.04.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 04:01:41 -0800 (PST)
-Message-ID: <c220507f-5701-4602-9627-82728dccfb33@redhat.com>
-Date: Mon, 4 Nov 2024 13:01:40 +0100
+        Mon, 04 Nov 2024 04:04:34 -0800 (PST)
+Message-ID: <24dadaaf-54ec-4f3a-9c6a-9aea755d0150@redhat.com>
+Date: Mon, 4 Nov 2024 13:04:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,29 +82,29 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: atomisp: remove redundant re-checking of err
-To: Colin Ian King <colin.i.king@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20241012141403.1558513-1-colin.i.king@gmail.com>
+Subject: Re: [PATCH v2] media: atomisp: Add check for rgby_data memory
+ allocation failure
+To: Li Huafei <lihuafei1@huawei.com>, mchehab@kernel.org, alan@linux.intel.com
+Cc: andy@kernel.org, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20241104145051.3088231-1-lihuafei1@huawei.com>
 Content-Language: en-US
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20241012141403.1558513-1-colin.i.king@gmail.com>
+In-Reply-To: <20241104145051.3088231-1-lihuafei1@huawei.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 12-Oct-24 4:14 PM, Colin Ian King wrote:
-> The check to see if err is non-zero is always false because err has
-> been previously checked on whenever err has been assigned in previous
-> code paths. The check is redundant and can be removed.
+On 4-Nov-24 3:50 PM, Li Huafei wrote:
+> In ia_css_3a_statistics_allocate(), there is no check on the allocation
+> result of the rgby_data memory. If rgby_data is not successfully
+> allocated, it may trigger the assert(host_stats->rgby_data) assertion in
+> ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
 > 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+> Signed-off-by: Li Huafei <lihuafei1@huawei.com>
 
 Thank you for your patch(es).
 
@@ -120,23 +120,26 @@ Hans
 
 
 
+
 > ---
->  drivers/staging/media/atomisp/pci/sh_css.c | 3 ---
->  1 file changed, 3 deletions(-)
+> Changes in v2:
+>  - Corrects the "Fixes" tag.
+> ---
+>  drivers/staging/media/atomisp/pci/sh_css_params.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-> index ca97ea082cf4..7cee4dc35427 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-> @@ -6308,9 +6308,6 @@ load_yuvpp_binaries(struct ia_css_pipe *pipe)
->  		}
->  	}
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> index 232744973ab8..b1feb6f6ebe8 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> @@ -4181,6 +4181,8 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
+>  		goto err;
+>  	/* No weighted histogram, no structure, treat the histogram data as a byte dump in a byte array */
+>  	me->rgby_data = kvmalloc(sizeof_hmem(HMEM0_ID), GFP_KERNEL);
+> +	if (!me->rgby_data)
+> +		goto err;
 >  
-> -	if (err)
-> -		goto ERR;
-> -
->  ERR:
->  	if (need_scaler)
->  		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
+>  	IA_CSS_LEAVE("return=%p", me);
+>  	return me;
 
 
