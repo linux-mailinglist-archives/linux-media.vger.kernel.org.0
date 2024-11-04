@@ -1,183 +1,193 @@
-Return-Path: <linux-media+bounces-20805-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20806-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880389BB63A
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 14:34:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D699BB7B0
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 15:26:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0DF361F231E1
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 13:34:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0326B1C21FA7
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 14:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29BC81BFE01;
-	Mon,  4 Nov 2024 13:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA6EB1B3939;
+	Mon,  4 Nov 2024 14:25:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MDZMqsMY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V+ZUwnRH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97FAD1BD017
-	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 13:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E504C62E;
+	Mon,  4 Nov 2024 14:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730727159; cv=none; b=GIKv6fDPtgF/0BJiwAPly0YlxbS1JZRQmyRnKvFwivAv/KsNlzz1ZVdfLhJxs5cFTqGAdu40yVGihlvGt1RQBRkyHeCx4IB9OgI8q4VJ7M21b5so5JS2Shq22VVO6SpjjOeILvtjDafeRA0kcgqkLx591yQ92HooT2TPZ+vBGsc=
+	t=1730730354; cv=none; b=SH6UFQiXkuV3orwt/fQ7g4LwalzITb66qNABPeSbxHAq+JfKRdUaC9mlx7oAjnxrGa1ODvlgaAeGcbyC1zqUEXQYzS4+ofn4ys2vLA63hx2FUvwsBjHG08+kdnekYvOteIUs+Azj8hsRpmWLUwDYO5t1pv3viqDc6Lnm6MXmblU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730727159; c=relaxed/simple;
-	bh=MySqwZ8N+ERSp37xH/lFZNAcLiB76PxySngIL+ViHF4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qltP3SiTWKfmE2Ft87fujHEFAYA6jrJ5UbD8cso6P0aNIlBd2LH/M66u3HcTddJTrCvAnxwmZHTv3HN2GGZt5EnzvRE72tshfCNeQH6Eos2vouPxwToPn8f6GDx7UinmRL2Zqzi1BJn58VfN8bq6k6PCvQTm40fOLWIKjJHIIGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MDZMqsMY; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730727155;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nmKw27p8DiPnTLIKGS53exyhQKQhknZ7zNEiDjxMm+U=;
-	b=MDZMqsMYKG6bHo3UJExNfaYTBUtXvdsV4XHiBr4KqOy6zi35fA9OFd060elAp4rJgGeVLp
-	dmisLyNPQkKqWV9dMLVBFxzjielEZLb0lCXJzRilg7Jk//o0W+GzeM4gks1rrHBfmdGFC/
-	qDbnJSZtIgBsuyVUWWO0Klx1IbpGsyE=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-231-Jc4UnHpmMzGFijHG6KHiHw-1; Mon, 04 Nov 2024 08:32:34 -0500
-X-MC-Unique: Jc4UnHpmMzGFijHG6KHiHw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a9a004bfc1cso285563866b.1
-        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 05:32:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730727153; x=1731331953;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nmKw27p8DiPnTLIKGS53exyhQKQhknZ7zNEiDjxMm+U=;
-        b=SNfcWAoWICBkL/4CBWzjK0NeUgpkInBUzmMBOreztOs2CNyIv1hoSfjWANLKkpqBxi
-         iP3yyJlrqc47awhXXIT0liPDoeD4RACPQ8GwlEvbN8JhEwbNxxDEjWRAulkBkclbJIGz
-         lvSvkhCogPKYqT67nmFl0mAAAEVE0zMhgyRdd3r5ZmB72qJZ5woWLuOqKdPSKQzz/1u+
-         lTuOEJ/yeJ8HW9fnP05alJi/Fs3JftDRXGQqSMoDBWStjqf+rThICQmcLtzVy2HcIpc0
-         vNtEungsGVdq9mUOojcgbD2NIpPdpIer7mmtnaYeb1Xlp7PcUvA1fTvwDGs/ozWPJAPQ
-         Ltnw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlDuRnLwgGEw1rCXX04bD7zubwiQbrI8/KeXcr5veVSubIUhakXh6+vAgkfS0FgL0jKtvnK+7bt3tKUQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGV4tFo4oJxMBgqHOUHBLQavXNK5eun+eyhLFuBf3Cjpu/J9ZW
-	5I9CWs5EimGZytgJSMaLYDrLI9556Nj/veGKCv1pBgZau10mXwOx1JmROHbHr99XsDLyIaz8+tM
-	kszkJu+JKZTQkJ4r+fAL0UMwmZx1Nf2t+PFT885iNfGy/F1d6DbbsMyujVEtk
-X-Received: by 2002:a17:906:f598:b0:a9a:8a4:e090 with SMTP id a640c23a62f3a-a9de61ce882mr3264094366b.50.1730727153053;
-        Mon, 04 Nov 2024 05:32:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH2nkvXSCQDu/b2PBidrjQj5Yl75m5fDlUR6Swc1B1BkA7J6Uph0/4q1MRWwaIp97ukpnZxJQ==
-X-Received: by 2002:a17:906:f598:b0:a9a:8a4:e090 with SMTP id a640c23a62f3a-a9de61ce882mr3264091566b.50.1730727152569;
-        Mon, 04 Nov 2024 05:32:32 -0800 (PST)
-Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e5667982esm554475666b.191.2024.11.04.05.32.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 05:32:32 -0800 (PST)
-Message-ID: <ddf37030-1f51-47b0-a1cc-26df72b8d14d@redhat.com>
-Date: Mon, 4 Nov 2024 14:32:31 +0100
+	s=arc-20240116; t=1730730354; c=relaxed/simple;
+	bh=sS+G9PWl/JXj24MraEyWFce8g/yj3gwYkmWyEtoo900=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kCYjJSTcgY0NKawaZ2JNIPlvlWGkFRztmyEE2M99dewcvWLLGsv2rI3/+YxZ8oDW0gex6tdCUECcDfS7XW++wAgACHtS4I/+ZcAw2yDC1g8vM16KYUqagiyRIxWKUomVSLEVwUtAObc3kiU2KWwK+DRRsvm32J1Bl+A1GcEvfec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=V+ZUwnRH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0500A526;
+	Mon,  4 Nov 2024 15:25:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730730343;
+	bh=sS+G9PWl/JXj24MraEyWFce8g/yj3gwYkmWyEtoo900=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V+ZUwnRHC/hy0Ov6BRoQoKRSvNMpcnL5GBt4RiJsvQDOMgx/0Po+U/YFDznhNAJNR
+	 OKWEMk5Pj8JoOB7rh7YprV6nSAod6XAl70Zv+fFMAUJZ0vRNAOPRX9wwu+F8SMGsPP
+	 6wOxkoK7TQLz0O5rUb+PUwYgMcNm3UxqZtbpnTWA=
+Date: Mon, 4 Nov 2024 16:25:43 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+	laurentiu.palcu@nxp.com, robert.chiras@nxp.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	LnxRevLi@nxp.com, kieran.bingham@ideasonboard.com,
+	hdegoede@redhat.com, dave.stevenson@raspberrypi.com,
+	mike.rudenko@gmail.com, alain.volmat@foss.st.com,
+	julien.vuillaumier@nxp.com, alice.yuan@nxp.com
+Subject: Re: [EXT] Re: [PATCH 1/5] dt-bindings: media: i2c: Add bindings for
+ OX05B1S sensor driver
+Message-ID: <20241104142543.GA27775@pendragon.ideasonboard.com>
+References: <20241028190628.257249-1-mirela.rabulea@nxp.com>
+ <20241028190628.257249-2-mirela.rabulea@nxp.com>
+ <c32439a5-4230-4ca5-8d46-fb00d25072e5@linaro.org>
+ <20241029115747.GL22600@pendragon.ideasonboard.com>
+ <7cee3358-bf8c-4ae5-a688-12ff18d4b7e0@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: intel/ipu6: do not handle interrupts when device
- is disabled
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>
-References: <20241031102321.409454-1-stanislaw.gruszka@linux.intel.com>
-Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20241031102321.409454-1-stanislaw.gruszka@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7cee3358-bf8c-4ae5-a688-12ff18d4b7e0@nxp.com>
 
-Hi,
+Hello Mirela,
 
-On 31-Oct-24 11:23 AM, Stanislaw Gruszka wrote:
-> Some IPU6 devices have shared interrupts. We need to handle properly
-> case when interrupt is triggered from other device on shared irq line
-> and IPU6 itself disabled. In such case we get 0xffffffff from
-> ISR_STATUS register and handle all irq's cases, for what we are not
-> not prepared and usually hang the whole system.
+On Wed, Oct 30, 2024 at 08:02:44AM +0200, Mirela Rabulea wrote:
+> On 29.10.2024 13:57, Laurent Pinchart wrote:
+> >>> +
+> >>> +  orientation: true
+> >>> +  rotation: true
+> >>
+> >> I think you can drop both of these too.
+> >
+> > Aren't they needed given that the binding ends with
+> >
+> > additionalProperties: false
+> >
+> > ?
+>
+> I added orientation & rotation properties in order to support 
+> orientation and rotation controls, libcamera warns about those (optional 
+> requirements last time I checked).
+
+The orientation and rotation properties should certainly be specified in
+DT sources. They are standardized in video-interface-devices.yaml which
+Bryan pointed out you should reference. If you're not familiar yet with
+with how the YAML schemas used for DT bindings reference core schemas,
+now would be a good time to have a look at it :-)
+
+In a nutshell, you'll find that all properties need to be properly
+defined with appropriate constraints, and properties shared by multiple
+devices have constraints defined in core schemas. Some are included
+automatically and are applied based on property names, other need a
+manual $ref. You can have a look at
+https://github.com/devicetree-org/dt-schema.git to see core schemas that
+get automatically selected, they specify "select: true". For example the
+schemas defining the reg or clocks properties don't have to be manually
+referenced.
+
+Bryan's comment about dropping the orientation and rotation properties
+was related to the fact that the video-interface-devices.yaml schema
+defines them already. With "unevaluatedProperties: false", you won't
+need to specify "orientation: true". With "additionalProperties: false",
+you will. It's a good idea to learn about the difference between those
+two and how they really work.
+
+> >>> +
+> >>> +required:
+> >>> +  - compatible
+> >>> +  - reg
+> >
+> > The device requires a clock, shouldn't the clocks property be required ?
 > 
-> To avoid the issue use pm_runtime_get_if_active() to check if
-> the device is enabled and prevent suspending it when we handle irq
-> until the end of irq. Additionally use synchronize_irq() in suspend
+> I intentionally left the clock optional, because NXP has a converter 
+> board which supports both ox05b1s and os08a20 sensor, and the converter 
+> board has an oscillator, and we are using that, not the SOC clock.
+
+That's fine, you can have a fixed clock node in DT to model that. DT
+bindings describe the intrinsic needs of a particular device. If the
+sensor requires a clock, I think it should be mandatory. If the sensor
+itself could operate without an external clock (i.e. if it had an
+internal oscillator) then the property could be optional.
+
+> Here is how the module looks like for os08a20 for imx8mp:
 > 
-> Fixes: ab29a2478e70 ("media: intel/ipu6: add IPU6 buttress interface driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> https://docs.nxp.com/bundle/AN13712/page/topics/os08a20_sensor_module.html
+> 
+> There's a newer revision for the converter board for imx95, sorry but I 
+> do not have a link for that.
+> 
+> For imx8mp, we used in the past the clock from the SOC, then switched to 
+> the external clock (from the converter board).
+> 
+> I think Omnivision has their own module.
+> 
+> So, I thought leaving the clock as optional allows for more flexibility.
+> 
+> >>> +  - port
+> >>> +
+> >>> +additionalProperties: false
+> >>> +
+> >>> +examples:
+> >>> +  - |
+> >>> +    #include <dt-bindings/gpio/gpio.h>
+> >>> +
+> >>> +    i2c {
+> >>> +        #address-cells = <1>;
+> >>> +        #size-cells = <0>;
+> >>> +
+> >>> +        ox05b1s: ox05b1s@36 {
+> >>> +            compatible = "ovti,ox05b1s";
+> >>> +            reg = <0x36>;
+> >>> +            reset-gpios = <&i2c3_gpio_expander_20 2 GPIO_ACTIVE_LOW>;
+> >
+> > This isn't specified in the bindings. Does the example validate ?
+> 
+> Apparently yes, I mean dt_binding_check passed:
+> 
+> $ rm Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.example.dtb
+> 
+> $ make dt_binding_check DT_CHECKER_FLAGS=-m 
+> DT_SCHEMA_FILES=ovti,ox05b1s.yaml
+>    DTC [C] 
+> Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.example.dtb
+> 
+> I have dtschema-2024.10.dev6+g12c3cd5.
+> 
+> 
+> The "reset-gpios" is described in this binding, as the GPIO connected to 
+> the XSHUTDOWN pin.
 
-Thanks, patch looks good to me:
+Ah sorry, Bryan dropped that part from his reply, so I didn't notice it.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> The <&i2c3_gpio_expander_20 2 GPIO_ACTIVE_LOW> is what works for imx95 
+> ("nxp,pcal6408"), for imx8mp this works:
+> 
+> reset-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
 
-I have also given this a test run on a "ThinkPad X1 Yoga Gen 8" and
-everything there works at least as well as before:
-
-Tested-by: Hans de Goede <hdegoede@redhat.com> # ThinkPad X1 Yoga Gen 8, ov2740
-
+-- 
 Regards,
 
-Hans
-
-
-> ---
->  drivers/media/pci/intel/ipu6/ipu6-buttress.c | 13 +++++++++----
->  drivers/media/pci/intel/ipu6/ipu6.c          |  3 +++
->  2 files changed, 12 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-> index e47f84c30e10..edaa285283a1 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-> @@ -345,12 +345,16 @@ irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
->  	u32 disable_irqs = 0;
->  	u32 irq_status;
->  	u32 i, count = 0;
-> +	int active;
->  
-> -	pm_runtime_get_noresume(&isp->pdev->dev);
-> +	active = pm_runtime_get_if_active(&isp->pdev->dev);
-> +	if (!active)
-> +		return IRQ_NONE;
->  
->  	irq_status = readl(isp->base + reg_irq_sts);
-> -	if (!irq_status) {
-> -		pm_runtime_put_noidle(&isp->pdev->dev);
-> +	if (irq_status == 0 || WARN_ON_ONCE(irq_status == 0xffffffffu)) {
-> +		if (active > 0)
-> +			pm_runtime_put_noidle(&isp->pdev->dev);
->  		return IRQ_NONE;
->  	}
->  
-> @@ -426,7 +430,8 @@ irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
->  		writel(BUTTRESS_IRQS & ~disable_irqs,
->  		       isp->base + BUTTRESS_REG_ISR_ENABLE);
->  
-> -	pm_runtime_put(&isp->pdev->dev);
-> +	if (active > 0)
-> +		pm_runtime_put(&isp->pdev->dev);
->  
->  	return ret;
->  }
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
-> index 7fb707d35309..91718eabd74e 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6.c
-> @@ -752,6 +752,9 @@ static void ipu6_pci_reset_done(struct pci_dev *pdev)
->   */
->  static int ipu6_suspend(struct device *dev)
->  {
-> +	struct pci_dev *pdev = to_pci_dev(dev);
-> +
-> +	synchronize_irq(pdev->irq);
->  	return 0;
->  }
->  
-
+Laurent Pinchart
 
