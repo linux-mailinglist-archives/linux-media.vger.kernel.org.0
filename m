@@ -1,131 +1,152 @@
-Return-Path: <linux-media+bounces-20763-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20764-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4EA9BAD6B
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 08:48:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CF59BAD7F
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 08:57:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40D741C2100B
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 07:48:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F5381F22452
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2024 07:57:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A4EA1917C4;
-	Mon,  4 Nov 2024 07:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C035619A297;
+	Mon,  4 Nov 2024 07:56:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BGmUGZve"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FFbvF+da"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3363E171E70;
-	Mon,  4 Nov 2024 07:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BE9189F45
+	for <linux-media@vger.kernel.org>; Mon,  4 Nov 2024 07:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730706505; cv=none; b=BIfx8mJC3PiNqx+0kcuP4cmqUv+YkWVnYfCA5CE+3EH0eohPuNqi+kIce1DLED696U2eyyM8A2nb7uNxZzT9g+9RT1+0HQV3p+X+60wCmSoj7gI7rOyopU4KYAa7Hti6ZHTORuvvdhMnLt+wBwq4pJpOHbW2qnG1bETjS+pt4IM=
+	t=1730707018; cv=none; b=cED3DP3JWYOaERJUnMAPxo/3W05wJmQIUInqqPl2JXCjLVq2OXKZjIS/wPdUmKPRSr0gDITS2m/zCXPlUwnNfIRc8xWnwQVTHqGiw/EpIuLknm5WcK12e3QxwTkLXhAX3rHHuQJPQ1ljmE8QmBFPFUV6EVeXPLzxoY6KkjE4REE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730706505; c=relaxed/simple;
-	bh=lIE2kYZAcfccRQOGzfpt1usumoHzGDS1Bwy7k9LLV+E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=r8xjUQoeMzPunTvt86KoZ54h0U4P+Si2US+E6j21Kgue0UvtmK83X6ne+ube5skA+3cWwef1FMcfgOSVFqkJelAdX3DYc8NS2g12IAgpfOfXtPAfuaBj4pKimtyf7Ae3lTVy3/+9nESvh8ckQrgJiIMRV9BnrIQd9f57RlqUg/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BGmUGZve; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5216122E;
-	Mon,  4 Nov 2024 08:48:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730706488;
-	bh=lIE2kYZAcfccRQOGzfpt1usumoHzGDS1Bwy7k9LLV+E=;
-	h=From:Date:Subject:To:Cc:From;
-	b=BGmUGZveLZQN2MpLF618g5rb5aAiPbO8bw6s4OPz3c6iYyzxCxVZj49vdBsHxe9nK
-	 /TkAEaDpajkRocAuxaZ60q+ceOtboaANMFoBTwFPt1GAZm/d8sxI4tRtg0L8I9XgQc
-	 Hyfr8vKtS6YvIsswuoR4DtMkzSruw3JoDX1rKE0s=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Mon, 04 Nov 2024 09:47:54 +0200
-Subject: [PATCH v2] media: raspberrypi: cfe: Fix mapping of dmabuf buffers
+	s=arc-20240116; t=1730707018; c=relaxed/simple;
+	bh=QI5+O8lkWZluQhn85Jj58DLHwoqBT6NblxA2qFQvcNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tM798ZA6LgxgYTWqPnq4x98WVVFiRKKisOTDNRDIiXpdF9T1sx4NzQAspmNV8MS4DyGOZs8tMkBt+nYMD9Na0SXnQv4huIOH+JUafAhDVBW29MbnEQFPxwsUtruFKVV5MY51TcmSeRGPYHwBdnq1yLIvhAzGTYOM+7OwPCoa4sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FFbvF+da; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730707017; x=1762243017;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QI5+O8lkWZluQhn85Jj58DLHwoqBT6NblxA2qFQvcNw=;
+  b=FFbvF+daVOq6O0vczp75YHZn3NEF9zXzTw46uFF/Eo5jhbmBGO/HnQLY
+   lMa8c1xBlQ1JRMYoy3bf9uovEMqOLit1j7TlJurbaNpEjBzm1QXw3Fk12
+   pm9vm1CzsbqBKE++XfKwWdkOav72d+MTGidRsELKYjz6PpjQu5+QMEumS
+   r9yNPIcn4mPj2sgrgolzk5Zr08YhDNXS4ysNTW+LiKN3t4NNWjJ8d4ekf
+   RHqh8dOEtzoLlrvGgOzYPAIdWNV1/gkIar7wxbl6s0DNCZTrKDRfMUqpO
+   zg2uEvd3TKyn39q+PAg26snAW738NV5bcZcMKsdBbN8/wofCXvqL6oggz
+   Q==;
+X-CSE-ConnectionGUID: GFPkCJoCQcWejAYJe7wTHA==
+X-CSE-MsgGUID: eSmMe1vKTZGO/6XJz1WSlg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="40973231"
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="40973231"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 23:56:55 -0800
+X-CSE-ConnectionGUID: +R8eOLZIR96pX3CZ1o22yw==
+X-CSE-MsgGUID: LAdv13B0RBm6G56WWoZu3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="88157389"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 23:56:53 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 708D011F984;
+	Mon,  4 Nov 2024 09:56:51 +0200 (EET)
+Date: Mon, 4 Nov 2024 07:56:51 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: "Wang, Hongju" <hongju.wang@intel.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	hverkuil@xs4all.nl
+Subject: Re: [PATCH] media: intel/ipu6: Set the VC of the stream as the SOF
+ event id
+Message-ID: <Zyh-Q7P2szvQxJ5z@kekkonen.localdomain>
+References: <20241024032201.3867638-1-hongju.wang@intel.com>
+ <Zxoh36bkJaDQIvME@kekkonen.localdomain>
+ <CY8PR11MB7171773036C246F09DC2756EEF512@CY8PR11MB7171.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241104-rp1-cfe-fixes-seg-size-v2-1-2afd9f6f9fac@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIACl8KGcC/4WNQQ6CMBBFr0K6dkyngkRX3sOwGNoBZiElHUNU0
- rtbuYDL9/Pf/5tRTsJqrtVmEq+iEucC7lAZP9E8MkgobJx1NaJFSAuCHxgGebGC8ggqH4a+tSd
- 7CdTW5EyRl8R7o7j3rvAk+ozpvf+s+Ev/Tq4ICJbIDy5Qc+bmJoFJ49xHSuHo48N0OecvgjVO7
- 8MAAAA=
-To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Naushir Patuck <naush@raspberrypi.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1571;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=lIE2kYZAcfccRQOGzfpt1usumoHzGDS1Bwy7k9LLV+E=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnKHw5Vu8U1vmF8yEBEzPMGHgPaEVEwdvzzIApt
- /MP+Y9gKpmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZyh8OQAKCRD6PaqMvJYe
- 9XcID/oCe7Uv2FXQrwj4bGBwcq9WWXRU9MVexVilLDXe8nzSBB73N6+QCNtpWKNSo7pRDBGush0
- a5bI/js3YbnwNwf+aEt9ZUwmcQTuR8KDycf+o+y/hUrCq8k8N1aczqcdmOYbbBncB7rS7jdF0IP
- tCOYLb4gTsgBNpq15bBFUyeCfASxt9qIa+zpq9Rrx4kJhMlR//Bls5gTZT6JWkIoENS9s/Se2j2
- tz0BQV0rwC2Q4m+xz6Wnp9zoKHwr0Y3Xy10t+Q11zu5nzqT3AlHBWsHeUKLUNQEPdnTYqhHgi55
- +hFOuG82gt/e1ved8pBqy9wp38GrihDvxrg1XWNYEtHCvDK0hRiayJtxo1rHvEd9aarTEYVMSVI
- UlluKC13oSnp3uI2wnMLqVFxzbFKORlC5dlgKoo3xBdT/AHlDqoLcU0cEH3goGsaCxCadxzNUZD
- PyUZ13WuEnux+XSRg4oCyfgAlyR/ZZxjEpvef+XPm5i16S/VeS0Fim7WyXl84Ug8DXulrSJ/NeF
- cXeNFbovzuhZaiLb04We+Q0AZmjDAiexeYY59AIFOZRb4ckPMsRs3SLo522i3GLXcsaUOewcHeJ
- YNvE25ecHZijTngKZ78tI2cc6KNDg6d9IN8q1Rj0TfieSeGXtksr4fACog+qlLys1zA64QqEtMt
- OXs3uQgsczK+47A==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CY8PR11MB7171773036C246F09DC2756EEF512@CY8PR11MB7171.namprd11.prod.outlook.com>
 
-When using buffers from DRM, DMA-API gives a warning about: "mapping sg
-segment longer than device claims to support [len=307200] [max=65536]"
+Hi Hongju,
 
-Add a call to vb2_dma_contig_set_max_seg_size() to tell the DMA-API
-about the supported segment size (which is UINT_MAX).
+On Mon, Nov 04, 2024 at 03:07:58AM +0000, Wang, Hongju wrote:
+> Hi Sakari
+> 
+> > -----Original Message-----
+> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Sent: Thursday, October 24, 2024 6:31 PM
+> > To: Wang, Hongju <hongju.wang@intel.com>
+> > Cc: linux-media@vger.kernel.org; bingbu.cao@linux.intel.com
+> > Subject: Re: [PATCH] media: intel/ipu6: Set the VC of the stream as the
+> > SOF event id
+> > 
+> > Hi Hongju,
+> > 
+> > On Thu, Oct 24, 2024 at 11:22:01AM +0800, Hongju Wang wrote:
+> > > In the virtual channel case, they should use v4l2_event.id to
+> > > distinguish SOF events of different streams. Therefore, we set the
+> > > virtual channel number of the stream as the SOF event ID. This number is
+> > unique.
+> > >
+> > > Signed-off-by: Hongju Wang <hongju.wang@intel.com>
+> > > ---
+> > >  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > > b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > > index 051898ce53f4..5ad426afa0f0 100644
+> > > --- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > > +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > > @@ -578,6 +578,7 @@ void ipu6_isys_csi2_sof_event_by_stream(struct
+> > ipu6_isys_stream *stream)
+> > >  		.type = V4L2_EVENT_FRAME_SYNC,
+> > >  	};
+> > >
+> > > +	ev.id = stream->vc;
+> > >  	ev.u.frame_sync.frame_sequence = atomic_fetch_inc(&stream->sequence);
+> > >  	v4l2_event_queue(vdev, &ev);
+> > >
+> > 
+> > The id field in struct v4l2_event isn't used for the FRAME_SYNC event and
+> > also the virtual channel isn't communicated to the user space currently.
+> 	
+>   How to use the id field? User space should use SOF to do FRAME_SYNC,
+>   but the v4l2_event doesn't distinguish different streams. Do you have
+>   any good suggestions?
 
-Fixes: 6edb685abb2a ("media: raspberrypi: Add support for RP1-CFE")
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
-Changes in v2:
-- Drop the error print, as vb2_dma_contig_set_max_seg_size() already
-  prints one.
-- Link to v1: https://lore.kernel.org/r/20241101-rp1-cfe-fixes-seg-size-v1-1-0aacf2da56e5@ideasonboard.com
----
- drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Ah, now I think I do understand the problem. The events are produced by the
+CSI-2 receiver sub-device but there are multiple streams and the event
+isn't stream-aware?
 
-diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-index da9e1a1e4d0d..e808c80cd37c 100644
---- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-+++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-@@ -2341,6 +2341,10 @@ static int cfe_probe(struct platform_device *pdev)
- 		goto err_cfe_put;
- 	}
- 
-+	ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, UINT_MAX);
-+	if (ret)
-+		goto err_cfe_put;
-+
- 	/* TODO: Enable clock only when running. */
- 	cfe->clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(cfe->clk))
+It's nice that the id field of the FRAME_SYNC event isn't in use for any
+other purpose. This should be taken into account in event subscription,
+too.
 
----
-base-commit: c7ccf3683ac9746b263b0502255f5ce47f64fe0a
-change-id: 20241101-rp1-cfe-fixes-seg-size-b70309da74a2
+I'll add a patch documenting this in the metadata series. Any thoughts?
 
-Best regards,
+Cc Laurent and Hans.
+
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Kind regards,
 
+Sakari Ailus
 
