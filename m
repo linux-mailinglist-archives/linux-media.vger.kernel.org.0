@@ -1,75 +1,50 @@
-Return-Path: <linux-media+bounces-20950-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20951-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EEB9BD2B9
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 17:45:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 966439BD304
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 17:59:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED3911F23376
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 16:45:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C49DB21A07
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 16:59:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93D671DACA8;
-	Tue,  5 Nov 2024 16:45:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B19E1DD0DF;
+	Tue,  5 Nov 2024 16:59:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g4TRtE0U"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jPHZviIt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37FB2172BD0
-	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 16:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9B410F2;
+	Tue,  5 Nov 2024 16:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730825145; cv=none; b=TGwyxSrP04A63GzVnrrn1NcBwlynVscI0sqmzShm/d8OJk7Ioqss5X5lRRv8bMpjBdCyIkGfY8yPISDaJyhyhATqmRzrIHPhDbI5jkd/1lkbvxpkSDg19ofW60Dpg+IO8qcinY2a3gW0a6ypA+W8PvTunYGx/6YDbhPb+pmhKB4=
+	t=1730825978; cv=none; b=VQE1mJz1jO7KnR3iARoZizZoDfiUnSQPEDdfVv7Anzh+SyrJwZWad1lwzjPrCyZBBmRcHDUZEWSkjYmh40/fMt9BhPZpTlGB4W6sPNwj8ESDmPz89/Hl4BH5SID+gBPqidP9KQrM00cc9euy3Nwdbond79YKGBX9jpbod7w79fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730825145; c=relaxed/simple;
-	bh=GqxkKxfCepw+WI0L9oUkhsjWH1YFkyvLJN/ydsnKHRQ=;
+	s=arc-20240116; t=1730825978; c=relaxed/simple;
+	bh=ydILT59GR8AEnvXxgxP0u5JaNtkOLQNmxYiS5gzdAA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C146E8nrX+B8QE1QhZgl7Kb7p6Kd3h4EavAbgPPgZPnrgwPisnLdBBFzjgU/wsyn1Ox0tBqu3fT8McgPKO9hnRa55iqOuDwRxnAgD9nHZvMcQmiRElf0S3lGjqiRpAi9YQh2hU2zUmKNQLq0FQ0NRu1EFKneIL/h7gtEK3FCvI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g4TRtE0U; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539f6e1f756so6028144e87.0
-        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2024 08:45:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730825141; x=1731429941; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eO2Rc2ylDy//zWsYbxaCN7+Jb/tGlO2igB2V28DpRFE=;
-        b=g4TRtE0UaQxF3cXKTIoQnEz6iL0ZsjO1SmYLbveO8wd8Z7EZLGDpB2TA8D1jjMmovA
-         fXiLo5KOZfGWgxRSNE0SBXD1sMkijhX6MTKYYF/IAt7vaFsiElaujhn9CxKqCfiZJVMA
-         oBTV7NifJEoo0GidMxUe6Zwrv7wVTWqPCuqOx+wU7zOsm+AxdehwnvXhsYV6pk0+aRsI
-         wGmlUS4M+gh+ciIJDyUp92M4rz5RnhH1bHWY7F5h3Fvl7i5nf6Ik3c5gejpvMeNJKS4G
-         zIxyeYy6seDk9XuVIRa3E6nH+EC6uMuIHYP3sqMxEO7O45PN/A7O4KBQw2HwdcCeQpwR
-         SdhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730825141; x=1731429941;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eO2Rc2ylDy//zWsYbxaCN7+Jb/tGlO2igB2V28DpRFE=;
-        b=DKq6AeHmBBDdXPawsXEafvn9oveRW2n8O2XeuojkfaPsrqzMb0legl/r47V1qoj/XL
-         zbcCHDNnkGhOYD6AJW6OlAAklEfMZIEKZH8F5Fu0AJpDKqv1Nq5Y9xBYESWJhK9h29k2
-         08n9dRCGIn2IuAUEaUnOkj9fmsbjErqinB4emiYi1FFRlQNyGGCkc+HoBnhQD6F6/JL/
-         uPhdwaIgv5BKFIX11nAHX8pVtDOWfiCL+XS2N6k7nweu7QuPHsfhjuwUkfrxTfC5qWg/
-         9Hp3FmEiHD+DfwDhQbT+LTSZ0JCzUHPgjGqmsbryTtSfbOQP3IsKPlrSANdRwouSh3sa
-         YBUw==
-X-Forwarded-Encrypted: i=1; AJvYcCVy6QxscsEI8S+BAz77Dc4KyeZIpKpsJxIk7Kl4kNmWe12R6s4fxYlTy5juTMhGYfiQ+FClwzmNHKJSQw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXISURZ2y4hmQz8DtSzFwPOmyTBwzht9eDURshY9OAQcbNoYwh
-	FXw1gou2ID9MHMJfUMWNXkDKEdVZXCRDkRe9qIVcjNu4n7qXYdcc4rNBQYoDFtU=
-X-Google-Smtp-Source: AGHT+IHbbL60OFoSRKrDaKJLcmCLmCs0FTzW4o/g/NDSmkrMXRKBjyIAqB/wjh3gYIeBgf3U9lFeTQ==
-X-Received: by 2002:a05:6512:1307:b0:539:f886:31c6 with SMTP id 2adb3069b0e04-53b34a18f24mr19234091e87.38.1730825141265;
-        Tue, 05 Nov 2024 08:45:41 -0800 (PST)
-Received: from localhost ([89.101.134.25])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d698055sm195385765e9.40.2024.11.05.08.45.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 08:45:40 -0800 (PST)
-Date: Tue, 5 Nov 2024 19:45:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=ka+yGlg0m9wIQHrwAOZrB7Zl3fN03avskXuB8fjzSjVuGFVAx4+3fMW6equPJBV/lSwdgbkikZ1zeW7PkRBcb9vTCg/XOtRnZe0FStUYgPjWXdLqQUexVi3WJdzIG9NnRQWrU5RodskrmS21C9rM8Ryk4fTAEhBj/MBVYnk4J90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jPHZviIt; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F08F73E;
+	Tue,  5 Nov 2024 17:59:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730825967;
+	bh=ydILT59GR8AEnvXxgxP0u5JaNtkOLQNmxYiS5gzdAA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jPHZviItmxp0MX6rGq+j/1nW53lOV34Hr2i2bSDsQ0xDT+W7L1Cn1RbqrHaHByBgb
+	 R3hOioTR0i9iPhHwVNTOi5gXy8qRQzEWO0LSfa+puUUioFjBfNuXLcPGq+ibrM7c6r
+	 qEtjWyQuEwpmwvXH8KLzaU2rBSMbzzmPfIcCFqVM=
+Date: Tue, 5 Nov 2024 18:59:28 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Michal Simek <michal.simek@amd.com>,
 	"Rob Herring (Arm)" <robh@kernel.org>,
@@ -78,7 +53,7 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
 Subject: Re: [PATCH next] media: xilinx-tpg: fix double put in xtpg_parse_of()
-Message-ID: <372abe0b-fd67-4498-883a-7139632ed43c@suswa.mountain>
+Message-ID: <20241105165928.GJ14276@pendragon.ideasonboard.com>
 References: <f41dfe97-6e6c-47b4-91bf-199c5938c6d0@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -86,9 +61,13 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <f41dfe97-6e6c-47b4-91bf-199c5938c6d0@stanley.mountain>
+
+Hi Dan,
+
+Thank you for the patch.
 
 On Mon, Nov 04, 2024 at 08:16:19PM +0300, Dan Carpenter wrote:
 > This loop was recently converted to use for_each_of_graph_port() which
@@ -96,12 +75,41 @@ On Mon, Nov 04, 2024 at 08:16:19PM +0300, Dan Carpenter wrote:
 > the calls to of_node_put(port) to avoid a double put bug.
 > 
 > Fixes: 393194cdf11e ("media: xilinx-tpg: use new of_graph functions")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-I guess the CI system applies this to the wrong git tree so it says
-the of_node_put() calls are necessary and it can't find the Fixes
-commit.
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-regards,
-dan carpenter
+The offending commit wasn't merged through the media tree, so we can't
+easily merge the fix there either. I'm fine merging this fix through
+Rob's tree.
 
+> ---
+>  drivers/media/platform/xilinx/xilinx-tpg.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/xilinx/xilinx-tpg.c b/drivers/media/platform/xilinx/xilinx-tpg.c
+> index cb93711ea3e3..7deec6e37edc 100644
+> --- a/drivers/media/platform/xilinx/xilinx-tpg.c
+> +++ b/drivers/media/platform/xilinx/xilinx-tpg.c
+> @@ -722,7 +722,6 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
+>  		format = xvip_of_get_format(port);
+>  		if (IS_ERR(format)) {
+>  			dev_err(dev, "invalid format in DT");
+> -			of_node_put(port);
+>  			return PTR_ERR(format);
+>  		}
+>  
+> @@ -731,7 +730,6 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
+>  			xtpg->vip_format = format;
+>  		} else if (xtpg->vip_format != format) {
+>  			dev_err(dev, "in/out format mismatch in DT");
+> -			of_node_put(port);
+>  			return -EINVAL;
+>  		}
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
 
