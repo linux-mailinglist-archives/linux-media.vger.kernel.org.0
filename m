@@ -1,167 +1,135 @@
-Return-Path: <linux-media+bounces-20906-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20907-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5948D9BCA19
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 11:15:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8456B9BCB03
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 11:51:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 112FC1F22239
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 10:15:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B22741C22705
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 10:51:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E90B41D27A6;
-	Tue,  5 Nov 2024 10:15:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1745F1D414E;
+	Tue,  5 Nov 2024 10:51:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ikfewV4C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D061CEE98
-	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 10:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34B41D31BA
+	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 10:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730801718; cv=none; b=YeVLpJZPO6UCZDwnFm7d2JPVak96qQ9txlC/ySE8Tn60GGXq+hsvkI1TUuRY3I7Sx7atcwUET3p51HLMAovIqPEM0zZ1T91UuzYgKDM5qSvaAhIoxDPqYrDTY9CRtBoC9n3Jh2c/QVNkkUHna40iVQ4LwUu77LL+d1khVZyQrsQ=
+	t=1730803889; cv=none; b=PY/tEaOroG9s7pna2aHrMQf2t6C0BZj1xzSdmBpEdMdOQv8RDnejRi3Dhe7HBQKEufEoaJ9endKJfgpRbbUUNu3T+u/RsoyD7dhhxOYGkTSY5lIfm/xipFISCEvmVdfOwBPq98BJk7KMg1J5deelWdu8ZDUjIpoYzyqJULK7KTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730801718; c=relaxed/simple;
-	bh=qaOyvLUdtRoZx5aWGtD3YPw+iGoEYAbw93GqV/vZSAk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZcKczTiqwnPanPtz+yAcGlZ7qtx3sz5BlExLy98H9FvHPeN99fV7Jp5+V+kJmS+Bu8v4ki8JqEIjwBVfPDJGATFicBvwhmpOuARgPwQ6qNdPCEIWMI+lbBYU0OplPFCP0Vp3hD4OHvt5maciy84gAVfhhxTX8NF5hdeyrTOrxCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1t8GaH-00021Q-OL; Tue, 05 Nov 2024 11:14:49 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1t8GaG-0027zm-0C;
-	Tue, 05 Nov 2024 11:14:48 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1t8GaF-0005OF-39;
-	Tue, 05 Nov 2024 11:14:47 +0100
-Message-ID: <8841158ed61b2b92a92ac6d2afcbd7cff12a6680.camel@pengutronix.de>
-Subject: Re: [PATCH v2 03/15] media: stm32: csi: addition of the STM32 CSI
- driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Alain Volmat <alain.volmat@foss.st.com>, Hugues Fruchet
- <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Date: Tue, 05 Nov 2024 11:14:47 +0100
-In-Reply-To: <20241105-csi_dcmipp_mp25-v2-3-b9fc8a7273c2@foss.st.com>
-References: <20241105-csi_dcmipp_mp25-v2-0-b9fc8a7273c2@foss.st.com>
-	 <20241105-csi_dcmipp_mp25-v2-3-b9fc8a7273c2@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1730803889; c=relaxed/simple;
+	bh=HD+BgOOVBl5mx7chCMOpk4RtL2B+f8ert3pkr1zMpqA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QxGeur5hVIjd7bXciPrZWCum8RExpEey1PEhyS0mYnIfeJBRuYccL8sYyAoF1IZ1ju3BPfZUUAJVDMW6XctSgQ/eeQNHKMGsut34cVllB9JZ75C5mHER1CjW22hkeyw5S0kMIQHuLOyg8D5TWDIKr75f7/ITPLmPDH25+afwwYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ikfewV4C; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4316cce103dso62744645e9.3
+        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2024 02:51:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730803886; x=1731408686; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8ATNs/B/w+2yp0EYeoeJF01EDXlRzVZxzeXpZEXEEfY=;
+        b=ikfewV4COefm9gwaIO0IxX3dbvV2S1d9cgPiGAJMVw2DFMm9voM9DE0lpEL+Me6AYl
+         j7akomgGodRuAvryorhtNuFXzdFfAOX4qxEdVl4vxynWy8V4QdZphz5bdDy8JKEoT8Me
+         ksWHuPDWGniPKqTT9/l2ekyjoxKwgLalxsLGfdlqAb5zNFwX+VMpVzsi/emgy9Jk+6dJ
+         7/zK+xbnfMIRTmSDPaW6sJiI7fDuTfzOUkXecz1UaQIy/JTTWeL9/ejQaG+FzJfUE8bd
+         Nfo49EWgcFAb701SbNqiUuTt2iT42xkfRk4Qy7GViIHP1q8Mls5yCRaUUlD3AR6ZPUNt
+         2Rig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730803886; x=1731408686;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8ATNs/B/w+2yp0EYeoeJF01EDXlRzVZxzeXpZEXEEfY=;
+        b=gzgqM1QpT8ogeKYnwn689JaEKeAeGeIoXb9uxgtFDjG1DHMq6HMjaL4B1/Sx/bahTz
+         4oP80IKalp6fo+TSBVYQgvl2oXFeSBbNA+B3jkWjvp1h0GAtHW91QKp2JZkgsxtpcyfT
+         ukV3dHZ12WgYvMkjVWsxTyfvJzZKdx/zuGPUb+G+GxyOQhH9QfqjzpIoTws3KCZD3fAN
+         sWGgLhac91DqdCRtSZRb1h++4xACUprbTLAJdAoBXUYeV3tDHtWR6YtQBHbQUoy9pjXY
+         ESExDvA8u5DTXOtKYV0HC8XmZegfOgymZ03/KAtsUKQDQQFnMZBxXrNMAbDYxXke4KM1
+         yi/w==
+X-Gm-Message-State: AOJu0YyDc+H7rqYiaFJojGXTLj2GQQuWlfC1TyLgczG5qDc0fiWUe0bv
+	tEsMxDk/3BWUH1iE5B9zn62BLeWahXSrZ6yVpiq0LZ9c52YKRJPJqZksJQ/5qkA=
+X-Google-Smtp-Source: AGHT+IH71ZuNZKuI+PZhGTdJo4OsIY4DbJKX5pqqVUQT1HsIyvod98087dQv/2ssVzIfDzdbe8PZUg==
+X-Received: by 2002:a05:600c:1d1e:b0:431:604d:b22 with SMTP id 5b1f17b1804b1-43283255922mr160211525e9.16.1730803884606;
+        Tue, 05 Nov 2024 02:51:24 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c116af7esm15800883f8f.103.2024.11.05.02.51.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Nov 2024 02:51:24 -0800 (PST)
+Message-ID: <640fe933-078d-4bf5-815c-7db0eb8b9de4@linaro.org>
+Date: Tue, 5 Nov 2024 10:51:22 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] media: venus: hfi_parser: add check to avoid out of
+ bound access
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
+ <20241105-venus_oob-v1-1-8d4feedfe2bb@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20241105-venus_oob-v1-1-8d4feedfe2bb@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Di, 2024-11-05 at 08:49 +0100, Alain Volmat wrote:
-> The STM32 CSI controller is tightly coupled with the DCMIPP and act as an
-> input stage to receive data coming from the sensor and transferring
-> them into the DCMIPP.
->=20
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
->=20
+On 05/11/2024 08:54, Vikash Garodia wrote:
+> There is a possibility that init_codecs is invoked multiple times during
+> manipulated payload from video firmware. In such case, if codecs_count
+> can get incremented to value more than MAX_CODEC_NUM, there can be OOB
+> access. Keep a check for max accessible memory before accessing it.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 1a73374a04e5 ("media: venus: hfi_parser: add common capability parser")
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > ---
-> v2: correct data-lanes handling, using values 1 & 2
->     update yaml filename in MAINTAINERS
-> ---
->  MAINTAINERS                                 |    8 +
->  drivers/media/platform/st/stm32/Kconfig     |   14 +
->  drivers/media/platform/st/stm32/Makefile    |    1 +
->  drivers/media/platform/st/stm32/stm32-csi.c | 1144 +++++++++++++++++++++=
-++++++
->  4 files changed, 1167 insertions(+)
->=20
-[...]
-> diff --git a/drivers/media/platform/st/stm32/stm32-csi.c b/drivers/media/=
-platform/st/stm32/stm32-csi.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..c7f47472c6b3699e94113ce0f=
-38b280a2e45ce15
-> --- /dev/null
-> +++ b/drivers/media/platform/st/stm32/stm32-csi.c
-> @@ -0,0 +1,1144 @@
-[...]
-> +static int stm32_csi_get_resources(struct stm32_csi_dev *csidev,
-> +				   struct platform_device *pdev)
-> +{
-> +	int irq, ret;
-> +
-> +	csidev->base =3D devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
-> +	if (IS_ERR(csidev->base))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(csidev->base),
-> +				     "Failed to ioremap resource\n");
-> +
-> +	csidev->pclk =3D devm_clk_get(&pdev->dev, "pclk");
-> +	if (IS_ERR(csidev->pclk))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(csidev->pclk),
-> +				     "Couldn't get pclk\n");
-> +
-> +	csidev->txesc =3D devm_clk_get(&pdev->dev, "txesc");
-> +	if (IS_ERR(csidev->txesc))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(csidev->txesc),
-> +				     "Couldn't get txesc\n");
-> +
-> +	csidev->csi2phy =3D devm_clk_get(&pdev->dev, "csi2phy");
-> +	if (IS_ERR(csidev->csi2phy))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(csidev->csi2phy),
-> +				     "Couldn't get csi2phy\n");
+>   drivers/media/platform/qcom/venus/hfi_parser.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
+> index 3df241dc3a118bcdeb2c28a6ffdb907b644d5653..27d0172294d5154f4839e8cef172f9a619dfa305 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+> @@ -23,6 +23,8 @@ static void init_codecs(struct venus_core *core)
+>   		return;
+>   
+>   	for_each_set_bit(bit, &core->dec_codecs, MAX_CODEC_NUM) {
+> +		if (core->codecs_count >= MAX_CODEC_NUM)
+> +			return;
+>   		cap = &caps[core->codecs_count++];
+>   		cap->codec = BIT(bit);
+>   		cap->domain = VIDC_SESSION_TYPE_DEC;
+> @@ -30,6 +32,8 @@ static void init_codecs(struct venus_core *core)
+>   	}
+>   
+>   	for_each_set_bit(bit, &core->enc_codecs, MAX_CODEC_NUM) {
+> +		if (core->codecs_count >= MAX_CODEC_NUM)
+> +			return;
+>   		cap = &caps[core->codecs_count++];
+>   		cap->codec = BIT(bit);
+>   		cap->domain = VIDC_SESSION_TYPE_ENC;
+> 
 
-Consider using devm_clk_bulk_get().
+I don't see how codecs_count could be greater than the control, since 
+you increment by one on each loop but >= is fine too I suppose.
 
-> +	csidev->rstc =3D devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> +	if (IS_ERR(csidev->rstc))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(csidev->rstc),
-> +				     "Couldn't get reset control\n");
-
-If this wasn't in a separate function, rstc wouldn't have to be stored
-on csidev as it's only ever used in stm32_csi_probe().
-
-> +
-> +	csidev->supplies[0].supply =3D "vdd";
-> +	csidev->supplies[1].supply =3D "vdda18";
-> +	ret =3D devm_regulator_bulk_get(&pdev->dev, ARRAY_SIZE(csidev->supplies=
-),
-> +				      csidev->supplies);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "Failed to request regulator vdd\n");
-> +
-> +	irq =3D platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return irq;
-> +
-> +	ret =3D devm_request_threaded_irq(&pdev->dev, irq, NULL,
-> +					stm32_csi_irq_thread, IRQF_ONESHOT,
-> +					dev_name(&pdev->dev), csidev);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "Unable to request irq");
-> +
-> +	return 0;
-> +}
-
-regards
-Philipp
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
