@@ -1,205 +1,175 @@
-Return-Path: <linux-media+bounces-20927-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20928-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF799BCC4A
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 13:03:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70B79BCC50
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 13:04:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2863A283754
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 12:03:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85285283829
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 12:04:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58ACF1D514F;
-	Tue,  5 Nov 2024 12:03:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34E891D514F;
+	Tue,  5 Nov 2024 12:04:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sU199bvU"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KnaKUJiO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HY9xu9ws";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KnaKUJiO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HY9xu9ws"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F801420A8;
-	Tue,  5 Nov 2024 12:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11CC1D0498;
+	Tue,  5 Nov 2024 12:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730808206; cv=none; b=pVfFhjLXvHCJzfc+KrCo8d9sZujbYy9VeMAJHtX8JuOrzHRclGRSqAYIiYdk5Zj10KhWEXkQXYQbP6N2BFGIJIcYfskl4FpD+jIK8k/Jdj5LH2Vfo36etamlGY8/VgGC2LkJISvJuVGVYT3aF3X+DOtC38l4GbTF99bICj65Jto=
+	t=1730808273; cv=none; b=go73HPO4wMqcVlbMQKg5qGp2myPMU/k5fBGxonVR+BrnJ4IAsuMuo+s/wgT8NPJmb59kezj+hT42nsbuQQ1NEgPombFzCkxcjlJYDDbH+uwIHqKYZKuaaUkPsSH/gVGftub3dEr73uywCToiWMhNhpK5O2Bw9ETK2mBACSi2h90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730808206; c=relaxed/simple;
-	bh=f5aR0qCh3iZzX++JCXBR+GL1e5IVYzj03wmplizhTVQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oUee7koRer5UNaKj4pQ8MskLeG2M8pNhhTgJzDbpY3VcwkgyMuDodjv1K5egaxElOpYTtFLmO5k2jtoyZ9o5tJ5NM8SU5WvrdSwSNvHYn3HYCzoAzKL05Hgkf4rLD+KP2/5xkqtJVZBvEgCaQXqr85LkodhFtcUiIhtAi6j/qMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sU199bvU; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6D824AD;
-	Tue,  5 Nov 2024 13:03:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730808195;
-	bh=f5aR0qCh3iZzX++JCXBR+GL1e5IVYzj03wmplizhTVQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sU199bvU6qrrJwzMHBcEoUuc4zXvxQGJv/Khs+aw0wgoxsE6xo3yFkeLm+oqK1dNK
-	 lUqMvJz3jm7MT6V4B/9ZXPsOQA8ZC2LT/+6OKBIYzcidJHU5n9wphs49rZ85b/UknI
-	 4ZI/sHt7/Dgp10bJaLBQRrAAqUMODJCEJpSWy/MQ=
-Date: Tue, 5 Nov 2024 14:03:15 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH v2] media: uvcvideo: Fix crash during unbind if gpio unit
- is in use
-Message-ID: <20241105120315.GP27775@pendragon.ideasonboard.com>
-References: <20241105-uvc-crashrmmod-v2-1-547ce6a6962e@chromium.org>
+	s=arc-20240116; t=1730808273; c=relaxed/simple;
+	bh=dMW0IPIpHpU9qevywTzSDicdiiMZBgLKfN7d0nrwK4I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qpesLDYRAZrro5bXiIGEI+karUOT4+kSb5N/wxbJPhw/6jZeZSbeUCiIjUh8VGIs5iDErsnsEC/v6Dtxf0pzoS/n7w8I48KMRl3KxdOUpBZLQglEq0QSxD/+wutiP6v3mORDSaPURQrOmeyhV6Uq6KTQf+1wj2WTBIg9L3CkXYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KnaKUJiO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HY9xu9ws; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KnaKUJiO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HY9xu9ws; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 41EE01F83B;
+	Tue,  5 Nov 2024 12:04:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730808270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=//kd9UV79ZTkwZjwg3vGI+RyGG2rrjEezbEk8U2guic=;
+	b=KnaKUJiOjG9D5HWGGVf6nd2FzIM4WAs7DhE6cpyRDReSEinfbIRoXeW1eR2yw79VwMvT9h
+	P2+0KB+qMWYPQEmH7KO5Ei+h3Q4VrvVV5cOSktFgtbxHqOBG3qtqWJfnwhZz54YWteU/+M
+	Bon/aaaV+HsJpFlsQDnLZv3mUkMxaaE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730808270;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=//kd9UV79ZTkwZjwg3vGI+RyGG2rrjEezbEk8U2guic=;
+	b=HY9xu9wsuXiG9yJPRjesnSuy0AKUwmw0acx798Qyv2AI8s6D6QdhCKiBurW3K3DZ3Mj1xE
+	1dScrXzhYLYQOJBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730808270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=//kd9UV79ZTkwZjwg3vGI+RyGG2rrjEezbEk8U2guic=;
+	b=KnaKUJiOjG9D5HWGGVf6nd2FzIM4WAs7DhE6cpyRDReSEinfbIRoXeW1eR2yw79VwMvT9h
+	P2+0KB+qMWYPQEmH7KO5Ei+h3Q4VrvVV5cOSktFgtbxHqOBG3qtqWJfnwhZz54YWteU/+M
+	Bon/aaaV+HsJpFlsQDnLZv3mUkMxaaE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730808270;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=//kd9UV79ZTkwZjwg3vGI+RyGG2rrjEezbEk8U2guic=;
+	b=HY9xu9wsuXiG9yJPRjesnSuy0AKUwmw0acx798Qyv2AI8s6D6QdhCKiBurW3K3DZ3Mj1xE
+	1dScrXzhYLYQOJBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4E0313964;
+	Tue,  5 Nov 2024 12:04:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id V+l6Mc0JKmf5cAAAD6G6ig
+	(envelope-from <svarbanov@suse.de>); Tue, 05 Nov 2024 12:04:29 +0000
+Message-ID: <37a906eb-4cd1-4034-9bf6-2f9f4560b9e3@suse.de>
+Date: Tue, 5 Nov 2024 14:04:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241105-uvc-crashrmmod-v2-1-547ce6a6962e@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv6 0/3] media: venus: close() fixes
+To: Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241025165656.778282-1-senozhatsky@chromium.org>
+Content-Language: en-US
+From: Stanimir Varbanov <svarbanov@suse.de>
+In-Reply-To: <20241025165656.778282-1-senozhatsky@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_TO(0.00)[chromium.org,gmail.com,quicinc.com];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi Ricardo,
+Hi Sergey,
 
-Thank you for the patch.
+Thank you for the patch!
 
-On Tue, Nov 05, 2024 at 10:53:59AM +0000, Ricardo Ribalda wrote:
-> We used the wrong device for the device managed functions. We used the
-> usb device, when we should be using the interface device.
+On 10/25/24 19:56, Sergey Senozhatsky wrote:
+> A couple of fixes for venus driver close() handling
+> (both enc and dec).
 > 
-> If we unbind the driver from the usb interface, the cleanup functions
-> are never called. In our case, the IRQ is never disabled.
+> v5->v6:
+> -- added kfree() backtrace to 0002
 > 
-> If an IRQ is triggered, it will try to access memory sections that are
-> already free, causing an OOPS.
+> Sergey Senozhatsky (3):
+>   media: venus: fix enc/dec destruction order
+>   media: venus: sync with threaded IRQ during inst destruction
+>   media: venus: factor out inst destruction routine
 
-The commit message should explain why you're switching away from
-devm_request_threaded_irq().
+Could you please combine 1/3 and 2/3 commit bodies into 3/3 body and
+resend the new 3/3 only. I do not see a reason to apply 1/3 and 2/3.
+
+Also, on what platform this was tested?
+
+~Stan
 
 > 
-> Luckily this bug has small impact, as it is only affected by devices
-> with gpio units and the user has to unbind the device, a disconnect will
-> not trigger this error.
+>  drivers/media/platform/qcom/venus/core.c      | 25 +++++++++++++++++++
+>  drivers/media/platform/qcom/venus/core.h      |  2 ++
+>  drivers/media/platform/qcom/venus/vdec.c      | 13 ++--------
+>  drivers/media/platform/qcom/venus/vdec.h      |  1 -
+>  .../media/platform/qcom/venus/vdec_ctrls.c    |  5 ----
+>  drivers/media/platform/qcom/venus/venc.c      | 14 ++---------
+>  drivers/media/platform/qcom/venus/venc.h      |  1 -
+>  .../media/platform/qcom/venus/venc_ctrls.c    |  5 ----
+>  8 files changed, 31 insertions(+), 35 deletions(-)
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
-> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Changes in v2: Thanks to Laurent.
-> - The main structure is not allocated with devres so there is a small
->   period of time where we can get an irq with the structure free. Do not
->   use devres for the IRQ.
-> - Link to v1: https://lore.kernel.org/r/20241031-uvc-crashrmmod-v1-1-059fe593b1e6@chromium.org
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 28 +++++++++++++++++++++-------
->  drivers/media/usb/uvc/uvcvideo.h   |  1 +
->  2 files changed, 22 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index a96f6ca0889f..af6aec27083c 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -1295,14 +1295,14 @@ static int uvc_gpio_parse(struct uvc_device *dev)
->  	struct gpio_desc *gpio_privacy;
->  	int irq;
->  
-> -	gpio_privacy = devm_gpiod_get_optional(&dev->udev->dev, "privacy",
-> +	gpio_privacy = devm_gpiod_get_optional(&dev->intf->dev, "privacy",
->  					       GPIOD_IN);
->  	if (IS_ERR_OR_NULL(gpio_privacy))
->  		return PTR_ERR_OR_ZERO(gpio_privacy);
->  
->  	irq = gpiod_to_irq(gpio_privacy);
->  	if (irq < 0)
-> -		return dev_err_probe(&dev->udev->dev, irq,
-> +		return dev_err_probe(&dev->intf->dev, irq,
->  				     "No IRQ for privacy GPIO\n");
->  
->  	unit = uvc_alloc_new_entity(dev, UVC_EXT_GPIO_UNIT,
-> @@ -1329,15 +1329,28 @@ static int uvc_gpio_parse(struct uvc_device *dev)
->  static int uvc_gpio_init_irq(struct uvc_device *dev)
->  {
->  	struct uvc_entity *unit = dev->gpio_unit;
-> +	int ret;
->  
->  	if (!unit || unit->gpio.irq < 0)
->  		return 0;
->  
-> -	return devm_request_threaded_irq(&dev->udev->dev, unit->gpio.irq, NULL,
-> -					 uvc_gpio_irq,
-> -					 IRQF_ONESHOT | IRQF_TRIGGER_FALLING |
-> -					 IRQF_TRIGGER_RISING,
-> -					 "uvc_privacy_gpio", dev);
-> +	ret = request_threaded_irq(unit->gpio.irq, NULL, uvc_gpio_irq,
-> +				   IRQF_ONESHOT | IRQF_TRIGGER_FALLING |
-> +				   IRQF_TRIGGER_RISING,
-> +				   "uvc_privacy_gpio", dev);
-> +
-> +	if (!ret)
-> +		dev->gpio_unit->gpio.inited = true;
 
-		unit->gpio.inited = true;
-
-> +
-> +	return ret;
-> +}
-> +
-> +static void uvc_gpio_cleanup(struct uvc_device *dev)
-> +{
-> +	if (!dev->gpio_unit || !dev->gpio_unit->gpio.inited)
-> +		return;
-> +
-> +	free_irq(dev->gpio_unit->gpio.irq, dev);
->  }
->  
->  /* ------------------------------------------------------------------------
-> @@ -1880,6 +1893,7 @@ static void uvc_delete(struct kref *kref)
->  	struct uvc_device *dev = container_of(kref, struct uvc_device, ref);
->  	struct list_head *p, *n;
->  
-> +	uvc_gpio_cleanup(dev);
-
-This belongs to uvc_unregister_video(), or you'll have a race between
-the release of the GPIO happening after .disconnect() returns, and
-uvc_gpio_event() calling gpiod_get_value_cansleep().
-
-I understand the desire to get such a fix merged quickly, but taking
-time to think about race conditions instead of speeding up to get a
-patch out of the door would be better. The alternative where I have to
-flag race conditions multiple times during review is slower, and is more
-work for everybody.
-
->  	uvc_status_cleanup(dev);
->  	uvc_ctrl_cleanup_device(dev);
->  
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 07f9921d83f2..376cd670539b 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -234,6 +234,7 @@ struct uvc_entity {
->  			u8  *bmControls;
->  			struct gpio_desc *gpio_privacy;
->  			int irq;
-> +			bool inited;
-
-As Sakari, I also prefer "initialized". Another option to save a few
-bytes of memory here is to set irq to -1 when request_threaded_irq()
-fails and test that in uvc_gpio_cleanup().
-
->  		} gpio;
->  	};
->  
-> 
-> ---
-> base-commit: c7ccf3683ac9746b263b0502255f5ce47f64fe0a
-> change-id: 20241031-uvc-crashrmmod-666de3fc9141
-
--- 
-Regards,
-
-Laurent Pinchart
 
