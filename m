@@ -1,231 +1,165 @@
-Return-Path: <linux-media+bounces-20873-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20866-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B47D9BC775
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 08:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7919BC74F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 08:50:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF1CB28319F
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:53:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B938283CD8
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:50:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A59BF200121;
-	Tue,  5 Nov 2024 07:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="PVKwV3x5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4795B1FEFA2;
+	Tue,  5 Nov 2024 07:50:42 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585831FF02D;
-	Tue,  5 Nov 2024 07:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34151FE0F7
+	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 07:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730793147; cv=none; b=MU37QmRs50JptsU46csetgVzdUZxcDb+/nl/X/a3KKTaN/Q3GdNV1GBj7bBNcHW65urii2l07nECs7mmA/kN1m0Tvze0rVcDHakDfyssCyfhuvNJOAMulqQIQdB8McEVCaKvHKi65jEbBK5zyEg4Gs7R7GluHQZE9wZWYrsw6aI=
+	t=1730793041; cv=none; b=qnt81zQMHdGIkuaAlFAtMt0nC1yjS34hBji6Q4kipipK8KH0L4q1TxN5fYqI7FcXUSwh4jZrG8Oetncr5SkgWoCnqgzhVAFEjE5Ka7IKZZ9RsA+ywv5BCwYvCcMyqqaRJ6sJDgWu5BgiVjbZ7N8BFHjhjHoTHpZaEwiubXokG18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730793147; c=relaxed/simple;
-	bh=t0g3tyGLXDa9mEU8ERU+pY2ZJyv+jnWCEShMpLm4R7o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=DZpqyXzL3xOp3Wq4R2kLjX4ZLnkQI5lWOuEwQUNKIOzp4qDQX8ar81EvPykcemUbvR1eat041tAr6rihTxq4OHjx2NwQtsANLwbU8GpONsFr8OLBYAIors9j3mkqCFEGUx7wQQtY7QwOKkri4rC6BKrjyQpeULIUNeBHsdnFChs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=PVKwV3x5; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A53M0JY005010;
-	Tue, 5 Nov 2024 08:52:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	i0SEXjer4NUU2DKUJapl8bqAlE+SwlDXXIr03qjV7WU=; b=PVKwV3x5dgrvKDs4
-	CVTXpQti/lb4DAzxkkYtJA3QpfonI89d7Tv8JjurCZC8CrF75RC0dTzR4IQFMq5L
-	RmOlUVmlyodsdZ8cq24i3uURyZ24N3bLycByeNRtZKc69UHlmhvjGnNCzOqApGBJ
-	QhxB0x1QsG6rRSoG/knLu5EYecAJcRSYLA1610DQnS5gkvjlxwHwQM4safrKmxsp
-	ewJvEjhAVfrrRHIa1ic3B47udaD7WCkKL0YXYyIIswCgnnzpAI8foxrZM+UezxsB
-	Nq3TrYsN9MquOFYGwdKqFHWJI7u8v0ASo5NeGkxBqbu9sb81b4QfNsnswP5zGyxp
-	0tWsPA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42nxh3rnkd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 05 Nov 2024 08:52:11 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 07D3040056;
-	Tue,  5 Nov 2024 08:50:30 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9DA622513C4;
-	Tue,  5 Nov 2024 08:49:37 +0100 (CET)
-Received: from localhost (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 5 Nov
- 2024 08:49:37 +0100
-From: Alain Volmat <alain.volmat@foss.st.com>
-Date: Tue, 5 Nov 2024 08:49:18 +0100
-Subject: [PATCH v2 15/15] arm64: dts: st: enable imx335/csi/dcmipp pipeline
- on stm32mp257f-ev1
+	s=arc-20240116; t=1730793041; c=relaxed/simple;
+	bh=4nasykzaW8q7BQuuw3gGmamOivBETII5v/jb832h3Us=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=rZvZcA5HfJgmuSLNoWGLxIqVkdek7fGiLgpgCt68DmlMItWAUB6nvffq7l7ipfnAG4OcAAEnagMVEU6bQWycm3zpIq83MIvXwmXMU8EdMG6VhmHucRAqELYfbM+CWpEJZfifDoo3X6hbwyC1ubCenZ2rhm4z1ukjm2nr+QPKHSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406F2C4CECF
+	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 07:50:41 +0000 (UTC)
+Message-ID: <3c0362e5-aa47-4545-a81e-e696b0e01440@xs4all.nl>
+Date: Tue, 5 Nov 2024 08:50:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCHv3] media: vicodec: add V4L2_CID_MIN_BUFFERS_FOR_* controls
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241105-csi_dcmipp_mp25-v2-15-b9fc8a7273c2@foss.st.com>
-References: <20241105-csi_dcmipp_mp25-v2-0-b9fc8a7273c2@foss.st.com>
-In-Reply-To: <20241105-csi_dcmipp_mp25-v2-0-b9fc8a7273c2@foss.st.com>
-To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre
- Torgue <alexandre.torgue@foss.st.com>,
-        Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Rob
- Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor
- Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-media@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Alain Volmat <alain.volmat@foss.st.com>
-X-Mailer: b4 0.14.2
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Enable the camera pipeline with a imx335 sensor connected to the
-dcmipp via the csi interface.
+Stateful codecs must support the V4L2_CID_MIN_BUFFERS_FOR_OUTPUT
+and V4L2_CID_MIN_BUFFERS_FOR_CAPTURE controls. The vicodec driver
+was missing support for these controls. Add them.
 
-Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
-
-v2:
-  - correct regulators & camera node names
-  - removal of powerdown property within imx335 node
-  - removal of useless status property within imx335 node
-  - correct imx335 reset-gpio polarity
+Change since v2: set min_reqbufs_allocation to the same value
+as used for V4L2_CID_MIN_BUFFERS_FOR_OUTPUT/CAPTURE.
+Change since v1: V4L2_CID_MIN_BUFFERS_FOR_OUTPUT was already
+supported, so that patch led to duplicated controls. That's now
+fixed.
 ---
- arch/arm64/boot/dts/st/stm32mp257f-ev1.dts | 85 ++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
+ .../media/test-drivers/vicodec/vicodec-core.c | 22 ++++++++++++++-----
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-index 214191a8322b81e7ae453503863b4465d9b625e0..d45851b3904d760f73298bf7b260f917b582db55 100644
---- a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-+++ b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-@@ -27,6 +27,38 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	clocks {
-+		clk_ext_camera: clk-ext-camera {
-+			#clock-cells = <0>;
-+			compatible = "fixed-clock";
-+			clock-frequency = <24000000>;
-+		};
-+	};
-+
-+	imx335_2v9: regulator-2v9 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "imx335-avdd";
-+		regulator-min-microvolt = <2900000>;
-+		regulator-max-microvolt = <2900000>;
-+		regulator-always-on;
-+	};
-+
-+	imx335_1v8: regulator-1v8 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "imx335-ovdd";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-always-on;
-+	};
-+
-+	imx335_1v2: regulator-1v2 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "imx335-dvdd";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		regulator-always-on;
-+	};
-+
- 	memory@80000000 {
- 		device_type = "memory";
- 		reg = <0x0 0x80000000 0x1 0x0>;
-@@ -50,6 +82,40 @@ &arm_wdt {
- 	status = "okay";
- };
- 
-+&csi {
-+	vdd-supply =  <&scmi_vddcore>;
-+	vdda18-supply = <&scmi_v1v8>;
-+	status = "okay";
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		port@0 {
-+			reg = <0>;
-+			csi_sink: endpoint {
-+				remote-endpoint = <&imx335_ep>;
-+				data-lanes = <1 2>;
-+				bus-type = <4>;
-+			};
-+		};
-+		port@1 {
-+			reg = <1>;
-+			csi_source: endpoint {
-+				remote-endpoint = <&dcmipp_0>;
-+			};
-+		};
-+	};
-+};
-+
-+&dcmipp {
-+	status = "okay";
-+	port {
-+		dcmipp_0: endpoint {
-+			remote-endpoint = <&csi_source>;
-+			bus-type = <4>;
-+		};
-+	};
-+};
-+
- &ethernet2 {
- 	pinctrl-names = "default", "sleep";
- 	pinctrl-0 = <&eth2_rgmii_pins_a>;
-@@ -81,6 +147,25 @@ &i2c2 {
- 	i2c-scl-falling-time-ns = <13>;
- 	clock-frequency = <400000>;
- 	status = "okay";
-+
-+	imx335: camera@1a {
-+		compatible = "sony,imx335";
-+		reg = <0x1a>;
-+		clocks = <&clk_ext_camera>;
-+		avdd-supply = <&imx335_2v9>;
-+		ovdd-supply = <&imx335_1v8>;
-+		dvdd-supply = <&imx335_1v2>;
-+		reset-gpios = <&gpioi 7 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>;
-+
-+		port {
-+			imx335_ep: endpoint {
-+				remote-endpoint = <&csi_sink>;
-+				clock-lanes = <0>;
-+				data-lanes = <1 2>;
-+				link-frequencies = /bits/ 64 <594000000>;
-+			};
-+		};
-+	};
- };
- 
- &i2c8 {
+diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+index 00c84a06f343..556ec2a3d411 100644
+--- a/drivers/media/test-drivers/vicodec/vicodec-core.c
++++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+@@ -43,6 +43,8 @@ MODULE_PARM_DESC(debug, " activates debug info");
+ #define MIN_WIDTH		640U
+ #define MAX_HEIGHT		2160U
+ #define MIN_HEIGHT		360U
++/* Recommended number of buffers for the stateful codecs */
++#define VICODEC_REC_BUFS	2
 
+ #define dprintk(dev, fmt, arg...) \
+ 	v4l2_dbg(1, debug, &dev->v4l2_dev, "%s: " fmt, __func__, ## arg)
+@@ -1705,12 +1707,14 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+ 	src_vq->ops = &vicodec_qops;
+ 	src_vq->mem_ops = &vb2_vmalloc_memops;
+ 	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+-	if (ctx->is_enc)
++	if (ctx->is_enc) {
+ 		src_vq->lock = &ctx->dev->stateful_enc.mutex;
+-	else if (ctx->is_stateless)
++		src_vq->min_reqbufs_allocation = VICODEC_REC_BUFS;
++	} else if (ctx->is_stateless) {
+ 		src_vq->lock = &ctx->dev->stateless_dec.mutex;
+-	else
++	} else {
+ 		src_vq->lock = &ctx->dev->stateful_dec.mutex;
++	}
+ 	src_vq->supports_requests = ctx->is_stateless;
+ 	src_vq->requires_requests = ctx->is_stateless;
+ 	ret = vb2_queue_init(src_vq);
+@@ -1728,6 +1732,8 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+ 	dst_vq->mem_ops = &vb2_vmalloc_memops;
+ 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+ 	dst_vq->lock = src_vq->lock;
++	if (!ctx->is_stateless && !ctx->is_enc)
++		dst_vq->min_reqbufs_allocation = VICODEC_REC_BUFS;
+
+ 	return vb2_queue_init(dst_vq);
+ }
+@@ -1852,9 +1858,13 @@ static int vicodec_open(struct file *file)
+ 			  1, 31, 1, 20);
+ 	v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops, V4L2_CID_FWHT_P_FRAME_QP,
+ 			  1, 31, 1, 20);
+-	if (ctx->is_enc)
+-		v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops,
+-				  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT, 1, 1, 1, 1);
++	if (!ctx->is_stateless)
++		v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops, ctx->is_enc ?
++				  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT :
++				  V4L2_CID_MIN_BUFFERS_FOR_CAPTURE,
++				  VICODEC_REC_BUFS, VICODEC_REC_BUFS, 1,
++				  VICODEC_REC_BUFS);
++
+ 	if (ctx->is_stateless)
+ 		v4l2_ctrl_new_custom(hdl, &vicodec_ctrl_stateless_state, NULL);
+ 	if (hdl->error) {
 -- 
-2.25.1
+2.45.2
 
 
