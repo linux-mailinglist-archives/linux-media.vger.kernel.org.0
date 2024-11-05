@@ -1,216 +1,128 @@
-Return-Path: <linux-media+bounces-20894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20895-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E709BC853
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 09:51:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB009BC862
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 09:55:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 08A49B222C8
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 08:51:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 286B41F2215F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 08:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FD7B1CCEC9;
-	Tue,  5 Nov 2024 08:51:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82A2E1CF7DD;
+	Tue,  5 Nov 2024 08:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F/JWMn4j"
-X-Original-To: linux-media@vger.Kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="AtI0hVUC"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1151C1738
-	for <linux-media@vger.Kernel.org>; Tue,  5 Nov 2024 08:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CFE51C4A18;
+	Tue,  5 Nov 2024 08:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730796697; cv=none; b=jRyaecDEuZ3ub1BGaDP4HT5sc3L6eHyuF2/4goVBZIpTMAxffa1vPKGhlxTvbiVkynHvqc7OlhMZ88hna3I+t+uT9rtm3V6jy592+vX+PmvUCKFhW2KrVDMzpmNEJAl1wu6xt+/RLhckhlSJUC63QDqBtyvJ7VH2uZbjA6p9P1g=
+	t=1730796944; cv=none; b=TCthl7wRUIMdkk4RzgsXyj//9LeeNXYE6vgFQmMUs/fCDGMTkAbZMvl8bXjvK8Pzh+1MPgBC6x71yWaPum93tbCNgBLktnApjUuxuSIu5/eWi2AJzmqxaeMH65YW+H4fkjQRwxqxpyWlfm5jlGQ0GlWHN5iS+6waArB6PtIBsVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730796697; c=relaxed/simple;
-	bh=Z5FwxboFfNqB6cY0HLn3dVS4rDqIcFhM0HKxT4NbiQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JGMC3Y4Lb0vlw/iOv5vdDZsrLPBz+wUohNdLarywe8qDugXUBmwgcGuQjc9eafM5yscQwnFC5dnXsOA2F2SVFAxgLrXmP1Y9LNxlFyzkoRaaP3Wux4OFKDILm6MG7x6cu3TrBKpBVlksMiWsA7+x8zONvHHX7tYYVTGQkVcXPaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F/JWMn4j; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A59222E;
-	Tue,  5 Nov 2024 09:51:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730796685;
-	bh=Z5FwxboFfNqB6cY0HLn3dVS4rDqIcFhM0HKxT4NbiQo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F/JWMn4jYnvnuXQiMb462v41aafZwBYSp96rF7oRrnE3nV7a+ENKcSM6fUA8i9eRG
-	 d2a3IGhwMtbDi26wV4MsSxi/bbqs/c1jirOZeUycEhBzk2OWNvlS0EAjhFbBF8Ysih
-	 FC3e8hJ/HQqzmOo9sdl1WnvwAwj9O1agYMWihWVs=
-Date: Tue, 5 Nov 2024 10:51:25 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>, linux-media@vger.Kernel.org,
-	tfiga@chromium.org, ribalda@chromium.org, yunkec@google.com,
-	xiahong.bao@nxp.com, ming.zhou@nxp.com, eagle.zhou@nxp.com,
-	tao.jiang_2@nxp.com, ming.qian@nxp.com
-Subject: Re: [PATCH v2 2/3] v4l2-ctl: Support V4L2_CTRL_TYPE_RECT
-Message-ID: <20241105085125.GH27775@pendragon.ideasonboard.com>
-References: <20241030024307.1114787-1-ming.qian@oss.nxp.com>
- <20241030024307.1114787-3-ming.qian@oss.nxp.com>
- <20241030090330.GS22600@pendragon.ideasonboard.com>
- <12913e54-9343-42ab-ab1e-a33656e640af@xs4all.nl>
- <81b3dcb1-3c3a-41bc-895b-05657191b980@oss.nxp.com>
- <20241031093403.GA2473@pendragon.ideasonboard.com>
- <aeff111c-caac-425a-8152-a90ae04980ae@oss.nxp.com>
- <20241031100920.GC2473@pendragon.ideasonboard.com>
- <8c5f9e10-538d-4dd8-a9ad-f81a5bb08185@oss.nxp.com>
- <d7818bb6-ffd8-41a7-bb2b-90ed20b44e40@xs4all.nl>
+	s=arc-20240116; t=1730796944; c=relaxed/simple;
+	bh=ua8pvqcIN/bZl62wHhay/Xzk9366GkXwCpzGSn0Di1s=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=CV9e/LNEDj8rt7Y7oEHNIOqUq1JPq92swFxEjIlfkiPxKLRBwEPR7gP/YpEwagG3SrPTA9UiXtGzHlYHdODXZvHOS9pty6bmbFOkeSwwve2ktyNF5AEF9NvqePPJLAqKaGa/yXe198pef/9hP6ZFWV0Lal8A/bVVqAFEGqCUB7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=AtI0hVUC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4LIiqX012116;
+	Tue, 5 Nov 2024 08:55:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=d18rLM6XakzduzpK2VtK7F
+	xAuIzXZYiwAnmo1UiY4WY=; b=AtI0hVUCECfxrcoCCWLxbZVN9rsBcgUggJYdK0
+	HCJQqim/0SZB6oDh1HhkXksqwYO/g480I01mLniVvPcrEdy+JHdlT1aHKli0TE9O
+	d6fJMWTKn1IwJ2pBqXXEp5jF6pxe21tWTuBHjveIBWlplnxUxNfH9h8bUqsMCTMw
+	v3fCJB9+0h5Bh1C2HO21Wr4ox0UiXMVLEA/DSTwqCBR7KPz/2nogc7lz5o1Eo+c9
+	VWZHQTB5Hi/D/rnFEJQD2V0bm+3tMTl2CmvyQQa6Dh1sPsyx3fI3lWmO1XR0rXst
+	UjM4c2APW8732Jn5e98bPM5cdRTlR4I0it2iVOZ38g7ov2zA==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42nd11y07x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 05 Nov 2024 08:55:38 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A58tbIi010038
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 5 Nov 2024 08:55:37 GMT
+Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 5 Nov 2024 00:55:34 -0800
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+Subject: [PATCH 0/4] Venus driver fixes to avoid possible OOB accesses
+Date: Tue, 5 Nov 2024 14:24:53 +0530
+Message-ID: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d7818bb6-ffd8-41a7-bb2b-90ed20b44e40@xs4all.nl>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAF3dKWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDQwMT3bLUvNLi+Pz8JF0DYxPjJEMT4xQzwxQloPqCotS0zAqwWdGxtbU
+ AqmBmL1sAAAA=
+X-Change-ID: 20241104-venus_oob-0343b143d61d
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>, <stable@vger.kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730796934; l=973;
+ i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
+ bh=ua8pvqcIN/bZl62wHhay/Xzk9366GkXwCpzGSn0Di1s=;
+ b=ykZVRd6+TLXIenHdx/GITCSeeq9scmh0cZBtVBnBlSkSZiWJHJz5TsVJn0v3Oz1afqW6ktfJk
+ QMKZTQqsikcC/fmJtPbIyJUujWxjhOTlM+PZTR7u9bLMc294q0NIN9K
+X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
+ pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 0hRzKNNXwILgoHQwPxSDvg4QMVmqHC9-
+X-Proofpoint-ORIG-GUID: 0hRzKNNXwILgoHQwPxSDvg4QMVmqHC9-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=682
+ mlxscore=0 clxscore=1011 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411050063
 
-Hi Hans,
+This series primarily adds check at relevant places in venus driver where there
+are possible OOB accesses due to unexpected payload from venus firmware. The
+patches describes the specific OOB possibility.
 
-On Tue, Nov 05, 2024 at 09:30:43AM +0100, Hans Verkuil wrote:
-> On 04/11/2024 02:24, Ming Qian(OSS) wrote:
-> > On 2024/10/31 18:09, Laurent Pinchart wrote:
-> >> On Thu, Oct 31, 2024 at 05:46:49PM +0800, Ming Qian(OSS) wrote:
-> >>> On 2024/10/31 17:34, Laurent Pinchart wrote:
-> >>>> On Thu, Oct 31, 2024 at 05:19:02PM +0800, Ming Qian(OSS) wrote:
-> >>>>> On 2024/10/30 17:19, Hans Verkuil wrote:
-> >>>>>> On 30/10/2024 10:03, Laurent Pinchart wrote:
-> >>>>>>> On Wed, Oct 30, 2024 at 11:43:06AM +0900, ming.qian@oss.nxp.com wrote:
-> >>>>>>>> From: Yunke Cao <yunkec@google.com>
-> >>>>>>>>
-> >>>>>>>> Tested with VIVID
-> >>>>>>>>
-> >>>>>>>>     ./v4l2-ctl -C rect -d 0
-> >>>>>>>> rect: 300x400@200x100
-> >>>>>>>>
-> >>>>>>>>     ./v4l2-ctl -c rect=1000x2000@0x0
-> >>>>>>>>     ./v4l2-ctl -C rect -d 0
-> >>>>>>>> rect: 1000x2000@0x0
-> >>>>>>>>
-> >>>>>>>> Signed-off-by: Yunke Cao <yunkec@google.com>
-> >>>>>>>> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-> >>>>>>>> ---
-> >>>>>>>>     utils/v4l2-ctl/v4l2-ctl-common.cpp | 12 ++++++++++++
-> >>>>>>>>     1 file changed, 12 insertions(+)
-> >>>>>>>>
-> >>>>>>>> diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> >>>>>>>> index 40667575fcc7..538e1951cf81 100644
-> >>>>>>>> --- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> >>>>>>>> +++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> >>>>>>>> @@ -614,6 +614,10 @@ static void print_value(int fd, const v4l2_query_ext_ctrl &qc, const v4l2_ext_co
-> >>>>>>>>     		case V4L2_CTRL_TYPE_AREA:
-> >>>>>>>>     			printf("%dx%d", ctrl.p_area->width, ctrl.p_area->height);
-> >>>>>>>>     			break;
-> >>>>>>>> +		case V4L2_CTRL_TYPE_RECT:
-> >>>>>>>> +			printf("%ux%u@%dx%d", ctrl.p_rect->width, ctrl.p_rect->height,
-> >>>>>>>
-> >>>>>>> I find this notation ambiguous, it's not immediately clear when reading
-> >>>>>>> 10x10@20x20 if we're looking at a 10x10 rectangle positioned at (20,20)
-> >>>>>>> or the other way around. media-ctl use (20,20)/10x10 which I think would
-> >>>>>>> be a better notation.
-> >>>>>>
-> >>>>>> Good point, I agree.
-> >>>>>>
-> >>>>>> Ming Qian, can you also update patch 1/4 of the kernel patch series to
-> >>>>>> use the same formatting when logging the V4L2_CTRL_TYPE_RECT value?
-> >>>>>>
-> >>>>>> Regards,
-> >>>>>>
-> >>>>>> 	Hans
-> >>>>>
-> >>>>> There is a issue in v4l2-utils, that ',' is the ending flag in
-> >>>>> v4l_getsubopt(), then I can't set the rect control,
-> >>>>> for example:
-> >>>>>
-> >>>>> $v4l2-ctl -d 0 -c rect="(0,0)/1000x2000"
-> >>>>> control '0)/1000x2000' without '='
-> >>>>
-> >>>> The should be fixable in v4l_getsubopt().
-> >>>>
-> >>>
-> >>> I can see the following comments of v4l_getsubopt(),
-> >>>
-> >>>      Parse comma separated suboption from *OPTIONP and match against
-> >>>      strings in TOKENS.
-> >>>
-> >>> I am not sure if we can change it.
-> >>
-> >> I think we can improve quotes handling by considering quoted substrings
-> >> as a single value, ignoring commas. Hans any opinion ?
-> 
-> I think commas are hard to parse. Note that v4l_getsubopt is normally a
-> #define for getsubopt from glibc. So you can't change the behavior of
-> that function.
+Please review and share your feedback.
 
-Can't we ? Isn't it an internal function ?
+Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+---
+Vikash Garodia (4):
+      media: venus: hfi_parser: add check to avoid out of bound access
+      media: venus: hfi_parser: avoid OOB access beyond payload word count
+      media: venus: hfi: add check to handle incorrect queue size
+      media: venus: hfi: add a check to handle OOB in sfr region
 
-> I propose this format for parsing instead:
-> 
-> widthxheight@(top;left)
-> 
-> e.g.: 1000x2000@(0;0)
-> 
-> According to this:
-> https://www.dr-aart.nl/Geometry-coordinates.html
-> 
-> the ';' is the separator in countries where a decimal comma is used
-> instead of a decimal point.
-> 
-> I prefer to have the position after the size of the rectangle, for two
-> reasons: it feels more natural to talk about a 'rectangle of size S at position
-> P', and it also makes it possible to allow a variant where only the size
-> is given and the position will default to (0;0). I.e., we can support
-> parsing either "widthxheight" or "widthxheight@(top;left)".
-> 
-> However, logging rectangles in the kernel should use a comma instead of a
-> semicolon. Inside v4l-utils just consistently use the semicolon.
-> 
-> What do you think, Laurent?
+ drivers/media/platform/qcom/venus/hfi_parser.c |  6 +++++-
+ drivers/media/platform/qcom/venus/hfi_venus.c  | 15 +++++++++++++--
+ 2 files changed, 18 insertions(+), 3 deletions(-)
+---
+base-commit: c7ccf3683ac9746b263b0502255f5ce47f64fe0a
+change-id: 20241104-venus_oob-0343b143d61d
 
-We have a precedent of using (x,y)/WxH , both in the kernel and in
-media-ctl. Breaking that with another syntax would cause trouble,
-especially having different syntaxes between media-ctl and v4l2-ctl.
-Think about the shell scripts that would need to convert from one syntax
-to another for instance. I would very strongly like to avoid that.
-
-> > How about omitting the commas between the brackets when parsing subopt?
-> > 
-> > 
-> >>>>>>>> +			       ctrl.p_rect->left, ctrl.p_rect->top);
-> >>>>>>>> +			break;
-> >>>>>>>>     		default:
-> >>>>>>>>     			printf("unsupported payload type");
-> >>>>>>>>     			break;
-> >>>>>>>> @@ -702,6 +706,9 @@ static void print_qctrl(int fd, const v4l2_query_ext_ctrl &qc,
-> >>>>>>>>     	case V4L2_CTRL_TYPE_AREA:
-> >>>>>>>>     		printf("%31s %#8.8x (area)   :", s.c_str(), qc.id);
-> >>>>>>>>     		break;
-> >>>>>>>> +	case V4L2_CTRL_TYPE_RECT:
-> >>>>>>>> +		printf("%31s %#8.8x (rect)   :", s.c_str(), qc.id);
-> >>>>>>>> +		break;
-> >>>>>>>>     	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
-> >>>>>>>>     		printf("%31s %#8.8x (hdr10-cll-info):", s.c_str(), qc.id);
-> >>>>>>>>     		break;
-> >>>>>>>> @@ -1279,6 +1286,11 @@ void common_set(cv4l_fd &_fd)
-> >>>>>>>>     					sscanf(set_ctrl.second.c_str(), "%ux%u",
-> >>>>>>>>     					       &ctrl.p_area->width, &ctrl.p_area->height);
-> >>>>>>>>     					break;
-> >>>>>>>> +				case V4L2_CTRL_TYPE_RECT:
-> >>>>>>>> +					sscanf(set_ctrl.second.c_str(), "%ux%u@%dx%d",
-> >>>>>>>> +					       &ctrl.p_rect->width, &ctrl.p_rect->height,
-> >>>>>>>> +					       &ctrl.p_rect->left, &ctrl.p_rect->top);
-> >>>>>>>> +					break;
-> >>>>>>>>     				default:
-> >>>>>>>>     					fprintf(stderr, "%s: unsupported payload type\n",
-> >>>>>>>>     							qc.name);
-
+Best regards,
 -- 
-Regards,
+Vikash Garodia <quic_vgarodia@quicinc.com>
 
-Laurent Pinchart
 
