@@ -1,145 +1,122 @@
-Return-Path: <linux-media+bounces-20934-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20935-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81049BCE71
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 14:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A499BCEAA
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 15:06:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 25CED1C20F77
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 13:58:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D50D81C220D8
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 14:06:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFAE11D6DA1;
-	Tue,  5 Nov 2024 13:58:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEBA81D9675;
+	Tue,  5 Nov 2024 14:06:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V8keVdc9"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JkP0BmgD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855CB1D6DA3
-	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 13:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519761D89F3
+	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 14:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730815118; cv=none; b=gOQ81sf8oLCG7jNJjy+84t3XRFIQBTDkWreGmL+ow8Y7sUO8l6eAtyEVty7Zzu9UqnIPv5fNmnzqffpRi8IoKmCbu42VMMfitaaLAnvJXzZcQGv5BVNRAyxBMvsGVy01uwd8xfLW4wjkJa+8FbyrNUpf/ljojpni5X1XSxawIo4=
+	t=1730815573; cv=none; b=N3vfYSXOfcK72y77XOIk10qkJNnR2LmEqx7XDeTheUVMStXxb8ygseK2eUYFZUu2NvyH1wNUqPR6FV1lH+fpCYtJ8MJQ4vdJ2eEhmW3dzyQQQyoNNeqiLsg95UKfyPo/pBiFTLON4GDxZuce+dg5CLoq7d0B+4p3ew+0M+dtTXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730815118; c=relaxed/simple;
-	bh=V63t4pvhRFbfBGHeJ8KN/yUWANqDhwLslKgn+5Wn2vs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ndVzoW0wfilofwHtIIL/SZbT9x7xgBxM3qsqniGfhFnTjjhdtV2RH9s58nt/rxq6NSI5f6Er9UrlkquPqXRcgcRaAn6Qx9KZ/01E6eL/uJ8x+Sq6TfafRKCx0iVjzUBjTCyechZVBwJXNeRkAVPkZM4sRzCr/vfsQnjbGMQPFks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V8keVdc9; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2fb49510250so55810341fa.0
-        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2024 05:58:36 -0800 (PST)
+	s=arc-20240116; t=1730815573; c=relaxed/simple;
+	bh=RyosKProBqD7GdBDeEWWMCeaBTC4J/TV8BuDGgi07uM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=imSSXjS80c/EaApnnzIfoAEsUo5zjNhOl3Fwh1E1ePwlyJ9AcBrDq4i3wJkR/yWxIVtG/RQth3aj13M+ySu9exQeVt4yOtID2qYshbLj2D3eZV6/sdcDywkeX8ncbJ4smTiJmGjgNGDC5IefqUb7NLv283LaM6cXVSLlDl2N6mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JkP0BmgD; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7b154f71885so443675585a.0
+        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2024 06:06:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730815115; x=1731419915; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EcCSA4vz0FwBZVePOHpQk1Nupy1Yh2zKcJd0XIdACvM=;
-        b=V8keVdc9daO84+ND7OtsskJVZuF9V6tNtYCTKWi+dneWvdDDljLHL+WIRwyLmW3zEl
-         dY7xLw+E4XwKG6qwqlICG/N2EDyAesAdIQSvSdzE8o8HyvLZZ1sTuRv6Fo0///egVl7R
-         EK8QLdQY7yBq1PFc6kkWB7tYpRN8ft+UkrV0B805f7gpoa2dd918WwAQh4ZNWmpO56dr
-         +RwJXZbDK0qHn/sCJxpj4zJshaGBIBKR70eu3a9DIh0QGCSBYkTRKkP+/i/E6UOB2ymK
-         eqEh0KOi9SMt2uLYAUuG7QnbOK0IJk9tj855+1EMaP6ScID/y9/eExMj8JuMT17Ob48H
-         sUjw==
+        d=chromium.org; s=google; t=1730815569; x=1731420369; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=To1pY+0ejhgy7bPxablm79ffBSWqRzm24XAQuXWVHHs=;
+        b=JkP0BmgD1PZ8IMhd6Sx3CK3IsiLVFu5sksFlVh5lkTI2kzXCLwF4D3S0G9QVrawKNf
+         PZ4keKMpVOpCnoA3ZZxetcotMimLp0z+7FD+fO3lW73okyHUHn4hRL+Ht49YcNFP+Adm
+         mKiW3als/mgXxcy/n9ZGJTulnOHwQu/2DPDyE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730815115; x=1731419915;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EcCSA4vz0FwBZVePOHpQk1Nupy1Yh2zKcJd0XIdACvM=;
-        b=l87JZN8IGO1Sr1Q2IQKC/or3djS9TZgH8xk2RSURKbW5MD0iYoSiFw3hlxivw+93Rt
-         ilPhr3taHMLUhbs4XvIkclLdNkxSETUNic3bcjifMMoJV3lOi5QwSSsIcki2a2fcsH/J
-         5KK1E3AOL5q8XgmruUHpcIgWlQyAEWUMdKHrv4nDNDeQLuelP9TXh2ogJ0xg+gWZ1WKq
-         nNLqhhY219Wsv5aBtvRHj8vyq9/j/ThfU/1F6BtCLTIy1oPmffGa5POwOOg6QWRN/jHl
-         e2iVCpZLAysiZzKF9AchlOhgbVKpHSn9jGZuAXzj9BaCNO/p2iYB++jrRA5H/Tu+OWpv
-         v+TA==
-X-Forwarded-Encrypted: i=1; AJvYcCVhkvmTsgyilc+oe1M9szqiXGkDQOi81DYTysNebo7Y62pdcOVe4UGJKvv/dsTllDhlRWcWGz3UYS8MOw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8pG+60RZfL1Acc7zD7VC5vi+xpBzrzXII4F29Q/PHV20JCofu
-	VcOo1PRHxtibdPn/rbaC8M7ejhm8InyP83mEhKR2k1HKxWyOLlQB3JxsTEpBRvM=
-X-Google-Smtp-Source: AGHT+IGiGe2ltuoXZLk1KaJTuzqgfBHcsNoa1UMEXJNNJdEx6qmiUXxLSizaNHVF+37tGwj2h5Wa5A==
-X-Received: by 2002:a05:651c:556:b0:2f6:649e:bf5c with SMTP id 38308e7fff4ca-2fdec726444mr87441111fa.17.1730815114600;
-        Tue, 05 Nov 2024 05:58:34 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fdef8c3367sm20261101fa.103.2024.11.05.05.58.32
+        d=1e100.net; s=20230601; t=1730815569; x=1731420369;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=To1pY+0ejhgy7bPxablm79ffBSWqRzm24XAQuXWVHHs=;
+        b=qYg5Q3YnI1HWsGKjTfZ1DrrXeTZMMlBzpQIrwjOSj6MGr/2AMBHzDY2qLPSelT1515
+         nigYSgrxOHOTypyS3AGrkU0j2BZeVqDZkCmkVnua4Q9FHMC2d7zg1UpSruNwSFMEluC2
+         CUUhj729bRakWc9txDVxtpZ5PqW7MwUdA9Xv5sBCBcoaPtVgW6vmMZqyuRMYoF5LZHbO
+         PYj8evetz1wvGdUsIy0grO0wJnf7BCr+Yfe5V3PgBEK7JuDYYctRqWFMOO8wzdqJGkic
+         cEDuZpy42orA9tMfcYSaFYUufsu9tP87kg3rP6oS0fKIMIr1lN/zesUVc956Ew9vYVzk
+         4UoA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDJ1PH7ktRhyPPEcnYUc2QrrHwxePMx/qBtTGeqNTAW+KdwpVped4yOoWJAUTrVaQuXbi1H3gDbqBO9w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyB1vMwuB5o9LcKOd6HjxgtLxvscBMUb2H4DU2DamqwuTTy5owF
+	PM9T6wOpzhOdZJmdaZwguF/i3+gdALXe177dxAC3aCA7ARNUTYA2wWIg6lAWHQ==
+X-Google-Smtp-Source: AGHT+IGvzADAlPGIc8XPrDiCAfG0jFnnvTAwT4/O8VMAFu7gzQBezviOLrZFmd9PU3FVWJ4iwBD/fA==
+X-Received: by 2002:a05:620a:190f:b0:7b1:ab32:b719 with SMTP id af79cd13be357-7b2fb98a15cmr2053691385a.38.1730815569232;
+        Tue, 05 Nov 2024 06:06:09 -0800 (PST)
+Received: from denia.c.googlers.com (189.216.85.34.bc.googleusercontent.com. [34.85.216.189])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b2f3a816afsm520422185a.101.2024.11.05.06.06.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 05:58:32 -0800 (PST)
-Date: Tue, 5 Nov 2024 15:58:31 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH 4/4] media: venus: hfi: add a check to handle OOB in sfr
- region
-Message-ID: <mthuolorbcsykmetqpfaaoyuxgjskwvtvtv4mfl235enlq7win@jdhn2s2cgmui>
-References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
- <20241105-venus_oob-v1-4-8d4feedfe2bb@quicinc.com>
+        Tue, 05 Nov 2024 06:06:08 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v4 0/2] uvc: Fix OOPs after rmmod if gpio unit is used
+Date: Tue, 05 Nov 2024 14:06:05 +0000
+Message-Id: <20241105-uvc-crashrmmod-v4-0-410e548f097a@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241105-venus_oob-v1-4-8d4feedfe2bb@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE0mKmcC/33MSw7CIBSF4a00jMVweSmO3IdxUOG2ZdBiwBJN0
+ 71LOzHxNfxPcr6JJIweEzlUE4mYffJhKCE3FbFdPbRIvStNOOMSmAA6ZkttrFMX+z44qrV2KBp
+ rQAIpp2vExt9X8HQu3fl0C/Gx+hmW9SeVgQJlyjSojLgA6qPtYuj92G9DbMmiZf4SgKkPgRdBy
+ Z1FXWujOX4RxH9BFMEyo4zdG6adeBPmeX4Cx7HdiDMBAAA=
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, stable@vger.kernel.org, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>
+X-Mailer: b4 0.13.0
 
-On Tue, Nov 05, 2024 at 02:24:57PM +0530, Vikash Garodia wrote:
-> sfr->buf_size is in shared memory and can be modified by malicious user.
-> OOB write is possible when the size is made higher than actual sfr data
-> buffer.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/hfi_venus.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index 50d92214190d88eff273a5ba3f95486f758bcc05..c19d6bf686d0f31c6a2f551de3f7eb08031bde85 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -1041,18 +1041,23 @@ static void venus_sfr_print(struct venus_hfi_device *hdev)
->  {
->  	struct device *dev = hdev->core->dev;
->  	struct hfi_sfr *sfr = hdev->sfr.kva;
-> +	u32 size;
->  	void *p;
->  
->  	if (!sfr)
->  		return;
->  
-> -	p = memchr(sfr->data, '\0', sfr->buf_size);
-> +	size = sfr->buf_size;
-> +	if (size > ALIGNED_SFR_SIZE)
-> +		return;
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v4: Thanks Laurent.
+- Remove refcounted cleaup to support devres.
+- Link to v3: https://lore.kernel.org/r/20241105-uvc-crashrmmod-v3-1-c0959c8906d3@chromium.org
 
-Why can't you just limit size to ALIGNED_SFR_SIZE, still allowing the
-data to be captured?
+Changes in v3: Thanks Sakari.
+- Rename variable to initialized.
+- Other CodeStyle.
+- Link to v2: https://lore.kernel.org/r/20241105-uvc-crashrmmod-v2-1-547ce6a6962e@chromium.org
 
-> +
-> +	p = memchr(sfr->data, '\0', size);
->  	/*
->  	 * SFR isn't guaranteed to be NULL terminated since SYS_ERROR indicates
->  	 * that Venus is in the process of crashing.
->  	 */
->  	if (!p)
-> -		sfr->data[sfr->buf_size - 1] = '\0';
-> +		sfr->data[size - 1] = '\0';
->  
->  	dev_err_ratelimited(dev, "SFR message from FW: %s\n", sfr->data);
->  }
-> 
-> -- 
-> 2.34.1
-> 
+Changes in v2: Thanks to Laurent.
+- The main structure is not allocated with devres so there is a small
+  period of time where we can get an irq with the structure free. Do not
+  use devres for the IRQ.
+- Link to v1: https://lore.kernel.org/r/20241031-uvc-crashrmmod-v1-1-059fe593b1e6@chromium.org
 
+---
+Ricardo Ribalda (2):
+      media: uvcvideo: Remove refcounted cleanup
+      media: uvcvideo: Fix crash during unbind if gpio unit is in use
+
+ drivers/media/usb/uvc/uvc_driver.c | 30 ++++++++----------------------
+ drivers/media/usb/uvc/uvcvideo.h   |  1 -
+ 2 files changed, 8 insertions(+), 23 deletions(-)
+---
+base-commit: c7ccf3683ac9746b263b0502255f5ce47f64fe0a
+change-id: 20241031-uvc-crashrmmod-666de3fc9141
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Ricardo Ribalda <ribalda@chromium.org>
+
 
