@@ -1,138 +1,162 @@
-Return-Path: <linux-media+bounces-20919-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20920-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1459BCBD3
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 12:27:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0761C9BCBE4
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 12:29:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF52C2841DB
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 11:27:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A2801C2300F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 11:29:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F9901D435C;
-	Tue,  5 Nov 2024 11:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD4B1D3593;
+	Tue,  5 Nov 2024 11:28:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vW3PXFcn"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mqIPm0z2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE201CB53A
-	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 11:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC1F1D5145
+	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 11:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730806038; cv=none; b=rWLC4xAdHCl9J9Ehylq2v9f/3q96+nXt0N5LBsv8iv9Ed3r7NEtCGY+g8tU+IB2ntln4UAagV0koWkpF/J4fFqLu//pUOu4n6GMe34w35Puukf8WVCCm1dWswcWUvDXwmOjaFvvtNu4EKATrLwHgePmLt08nP0wzM2k4SZiSDLo=
+	t=1730806137; cv=none; b=PfdM0XPh8Z20waYDPLUyBvJRXWCXsOQSBK4DVW5o9wdeaSmzEgvZcgyPqTTYNWyxvg2eZSMzB/zG9+pmSkeASszXPoN36IH4uq1eYyfVRPD/lF3+hKLVftDESO0gugIxEUBtAvAkelnxdBD1gUyRqJX8ZPZVLNsFdwy/qCvSiNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730806038; c=relaxed/simple;
-	bh=t+wcayOuOFWui3ZrTMmgaqfBOeZYb+S+1dfjI7oaAJM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D8Q7a4ejCQevv8ugXDnuPi5AJ9JeUI9VaEwe6Z1aXEnrwAoldc2hnIJ7dVlshklR3GsUJ0gE/Y/1n13fBzhop1KVZfkh1Ak/yAJrl48ufuADPfpF/bF2PXzPaCu0tPyslWdWwdpr1jxrqQlDn3cb8cnWMuhClIRhpAeSIs8s/6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vW3PXFcn; arc=none smtp.client-ip=209.85.167.54
+	s=arc-20240116; t=1730806137; c=relaxed/simple;
+	bh=A1gEWSRfef7Z5iAxxFSzk6fEnhZztWmluE1Pr5DuBrE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hXyV2nLPmh2XBNbpWAlr5tAv+5rhTAT9kDPQIS3fk5FwiGh9FQGFjne2hKIuQnvnOlMGcrV4PQOEnf/rScOOYAqWU1rNFXuTX/VUDKQWYmQ6k1fxjW2AC1rnpnLww+ULEa45js6qLuPAqeXgMoqp4rxPiq/wJgVeO9kfZjwaOqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mqIPm0z2; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-539f0f9ee49so6049209e87.1
-        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2024 03:27:16 -0800 (PST)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539fe76e802so6133344e87.1
+        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2024 03:28:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730806035; x=1731410835; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iD+xUYXyW3j/17XwwT1x0rwQmfQGKFXfNjXAKsnJrMQ=;
-        b=vW3PXFcnjsAEE2NJ2n353O9Kw/MMGQlrxEwR50DwbYySOfTLWFcefrRsAmPhRb5I5i
-         Z7/1xnSy2YsRYGq7PBh/1q9aPSjJKs7QfmhthM4TbYoRKuRfj65ckeG6G2QK6eYSZgWh
-         RQUsLSIAMIhEtLbVnBwDuxmFPFUl1+eGyUDM0ICkamJZbMLqyGGSJEdjIP58bS9VNmxs
-         ydiM3iULHE0imlBx9q5DCDQgjVuYnVj/IVHC03tim+MmLExiStAMA7ywkSTKBh98Seli
-         d4YfNMFp1JfP+F75J1hDKYltO9yxNM/5+irj9CDWA9LVpl7d4gg6z2S5f1ZjG8nObdAu
-         MxjA==
+        d=linaro.org; s=google; t=1730806134; x=1731410934; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lqc3fxtDc2RwHuGGy/EVNQGz4UxO/NG1km2hGQDTiaU=;
+        b=mqIPm0z2y6q2AWojEGjO4swO9lOXZBTfuwHYIHlBU+v5LNiXakjGQZ329bLU7/Rv93
+         fKpYuO62FHV2RODzDuHB1pVaqCeHwsAJX04FGKrm4w7bUOhov5RQSZgDVLz68zpEKVRK
+         bZpNnPPX/DEXVhTGt1avhDJDEU81DQ1fsmaMaaH8yHJlVtNFSeohP2omlVy9a+Mw8kAD
+         R/h+NLtBe7TKOOINw9oAIuYj6o1knlhoEH9WJ3DYExhRU7uzpXFIwmf6nBzygux/j4Xz
+         pS2YEQS3+8iZYQGYxPZgsEKcEZ9htJ4Z4F+QHEhsZPmD6DAJQGgGcimALy255NVyK1nA
+         /nuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730806035; x=1731410835;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iD+xUYXyW3j/17XwwT1x0rwQmfQGKFXfNjXAKsnJrMQ=;
-        b=gE4GAOqT1H38vh8d6yIFcwam7iKmv36932jNVfK7IhME/TyIC5s9T5eGYaxP0qX7O6
-         fc7HoFI7dN+pmRuD0tu5y8W1qC+AV9OrTUqXAle8T3aCvnjkFhG/1CNTI2hBU5BZXlGw
-         sz8sbAo3UZvjto+8EZh1ZD8zimrcR5ltXBaPsujmsh/F3/Pl1mqDR5mve0zZNaoZ9YG6
-         XYkAlwtCV/Yjk5Arn8NsnXvratlgBaDTKk5qSPUXLIvshLGPpRxScwoa5kmqI9+Yk0PH
-         LUyQia4Yjgzj5bMT/1nN4FGpl3OFHgWtoOf/aKD6Y54zViDKv76I0MRNYjb4zpFfgbYy
-         A3vg==
-X-Gm-Message-State: AOJu0YxlsZC0acMpgYbXJ8dnKghc09dmWdIc+mPjZsCfc7VInWB0Pjt/
-	kVvD6gIZBmPb8xRW33MJQVpIUfCgg0yNv2XzTWsrpZnUM1kBR/3dggpH+KBsXVY=
-X-Google-Smtp-Source: AGHT+IGRLlDbqNxsoLi87Nc6zewG08qTiA2jLORs6DC+oWcOtwio/WsZTF9GgEWch9+RqZOZLvwHMg==
-X-Received: by 2002:a05:6512:1390:b0:539:e6bf:ca9a with SMTP id 2adb3069b0e04-53b348b7e12mr18452412e87.6.1730806034904;
-        Tue, 05 Nov 2024 03:27:14 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432a6b4fd08sm9096735e9.12.2024.11.05.03.27.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Nov 2024 03:27:14 -0800 (PST)
-Message-ID: <a71e75e2-14fb-449f-bb27-2770261708ea@linaro.org>
-Date: Tue, 5 Nov 2024 11:27:13 +0000
+        d=1e100.net; s=20230601; t=1730806134; x=1731410934;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Lqc3fxtDc2RwHuGGy/EVNQGz4UxO/NG1km2hGQDTiaU=;
+        b=bOuHfSasDUUORn836NSscPGPELKFWwL/bVTEPDLSqm2rAD0qNF8Yimgxh+DLIry+kw
+         a05FCaxbAaU9A61H8FFS3enN9f9EtxPuxl8/ipW5rgO+vZZJrTJOQUErHUMm9CKmB/Rj
+         HTczWlnttchaoXfDYkaRKJa1C0IJYqqgmyRJBEB2Mkgv/PCTgnq1ilF71FpxoZ/9yFM9
+         N4Iw7PgIVIoEOykgOHgUbYCQZ8dovANNzC1QrQHQ/IHJskXBCGlgVS81yL4MU2jeLA44
+         kAQftGLxHqzArITzpiohzoSXARADPfqkl92UYcJtqmLVlLHlKvN5FmvlTGguH1A1gfH4
+         BQpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWYaBJZ+sliatXTzMg2AqnUZYKKWqvBh7gRnsDBkpw08Ciem6MdgZnZk+pUEDLAv9Gq+Co44Du7d1ffQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy080b9Yg8/Kq7w59C0kGTpm8FXuqT1lhPOrRGXo34lf/QjQ+jN
+	Ve0PNCjD396GsUIUkKL3oRbKfrIpROp4gu8/lciqPoaI8lVsYk6lXFcMBH1YTJo=
+X-Google-Smtp-Source: AGHT+IGazolcFL8rsDXTC+coJxYFbQY28nmJAc6aKVJwz0sBWevsWrSg6NX0J5MzQM2/Ky5L0ke0DA==
+X-Received: by 2002:a05:6512:3e24:b0:539:918c:5124 with SMTP id 2adb3069b0e04-53d65df3203mr7408960e87.31.1730806134153;
+        Tue, 05 Nov 2024 03:28:54 -0800 (PST)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bc95957sm2098533e87.55.2024.11.05.03.28.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 03:28:52 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Liu Ying <victor.liu@nxp.com>
+Cc: andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org,
+	rfoss@kernel.org,
+	Laurent.pinchart@ideasonboard.com,
+	jonas@kwiboo.se,
+	jernej.skrabec@gmail.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	quic_jesszhan@quicinc.com,
+	mchehab@kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	sakari.ailus@linux.intel.com,
+	hverkuil@xs4all.nl,
+	tomi.valkeinen@ideasonboard.com,
+	quic_bjorande@quicinc.com,
+	geert+renesas@glider.be,
+	arnd@arndb.de,
+	nfraprado@collabora.com,
+	thierry.reding@gmail.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	sam@ravnborg.org,
+	marex@denx.de,
+	biju.das.jz@bp.renesas.com
+Subject: Re: (subset) [PATCH v5 00/13] Add ITE IT6263 LVDS to HDMI converter support
+Date: Tue,  5 Nov 2024 13:28:48 +0200
+Message-ID: <173080602214.231309.12977765173766280536.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241104032806.611890-1-victor.liu@nxp.com>
+References: <20241104032806.611890-1-victor.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] media: venus: hfi: add a check to handle OOB in sfr
- region
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
- <20241105-venus_oob-v1-4-8d4feedfe2bb@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20241105-venus_oob-v1-4-8d4feedfe2bb@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 05/11/2024 08:54, Vikash Garodia wrote:
-> sfr->buf_size is in shared memory and can be modified by malicious user.
-> OOB write is possible when the size is made higher than actual sfr data
-> buffer.
+On Mon, 04 Nov 2024 11:27:53 +0800, Liu Ying wrote:
+> This patch series aims to add ITE IT6263 LVDS to HDMI converter on
+> i.MX8MP EVK.  Combined with LVDS receiver and HDMI 1.4a transmitter,
+> the IT6263 supports LVDS input and HDMI 1.4 output by conversion
+> function.  IT6263 product link can be found at [1].
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->   drivers/media/platform/qcom/venus/hfi_venus.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
+> Patch 1 is a preparation patch to allow display mode of an existing
+> panel to pass the added mode validation logic in patch 3.
 > 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index 50d92214190d88eff273a5ba3f95486f758bcc05..c19d6bf686d0f31c6a2f551de3f7eb08031bde85 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -1041,18 +1041,23 @@ static void venus_sfr_print(struct venus_hfi_device *hdev)
->   {
->   	struct device *dev = hdev->core->dev;
->   	struct hfi_sfr *sfr = hdev->sfr.kva;
-> +	u32 size;
->   	void *p;
->   
->   	if (!sfr)
->   		return;
->   
-> -	p = memchr(sfr->data, '\0', sfr->buf_size);
-> +	size = sfr->buf_size;
-> +	if (size > ALIGNED_SFR_SIZE)
-> +		return;
-> +
-> +	p = memchr(sfr->data, '\0', size);
->   	/*
->   	 * SFR isn't guaranteed to be NULL terminated since SYS_ERROR indicates
->   	 * that Venus is in the process of crashing.
->   	 */
->   	if (!p)
-> -		sfr->data[sfr->buf_size - 1] = '\0';
-> +		sfr->data[size - 1] = '\0';
->   
->   	dev_err_ratelimited(dev, "SFR message from FW: %s\n", sfr->data);
->   }
-> 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> [...]
+
+Applied to drm-misc-next, thanks!
+
+[04/13] media: uapi: Add MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG, JEIDA}
+        commit: 5205b63099507a84458075c3ca7e648407e6c8cc
+[05/13] drm: of: Get MEDIA_BUS_FMT_RGB101010_1X7X5_{JEIDA, SPWG} LVDS data mappings
+        commit: 34902c2d022f9d36b739189efae3f5fd569983fd
+[06/13] drm: of: Add drm_of_lvds_get_dual_link_pixel_order_sink()
+        commit: 606410292f54ef08632bdfd5c58974cf4ebc3cc9
+[07/13] dt-bindings: display: lvds-data-mapping: Add 30-bit RGB pixel data mappings
+        commit: e3160748780c66f32ae5e7c17373c36a4a802bc3
+[08/13] dt-bindings: display: Document dual-link LVDS display common properties
+        commit: 8cd4937ebfeae03a094e9115ab3286bf01498a5f
+[09/13] dt-bindings: display: bridge: Add ITE IT6263 LVDS to HDMI converter
+        commit: 0a86a4d1a09185cebe071136599b7da619388f7a
+[10/13] drm/bridge: Add ITE IT6263 LVDS to HDMI converter
+        commit: 049723628716c7286d6265812567ef1b1ff4827e
+[13/13] MAINTAINERS: Add maintainer for ITE IT6263 driver
+        commit: 946f2b6a1c1383fb3a16780b425e0ddf40b3a2dd
+
+Best regards,
+-- 
+With best wishes
+Dmitry
+
 
