@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-20860-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20861-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C753A9BC6BC
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 08:16:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F459BC702
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 08:29:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 592A41F23715
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:16:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 45E6FB22069
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:29:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D98918132A;
-	Tue,  5 Nov 2024 07:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD6C91FF7B0;
+	Tue,  5 Nov 2024 07:27:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rr/98+Ug"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pc/ViEMp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54EE18A6BA
-	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 07:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F1B1FEFDA
+	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 07:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730790971; cv=none; b=rBRpmVLCIgl8Yz2fE1G/2jYFfe0EbFPRUcCsWF06Fo3OlX3ZUImqBOp14Eo2q0arlE4a9o7Q/Ot129UldH2bhffzBn71zKHLY0EnUW5MOTqJK5s0zwhKWjHAVBbJA7z0KBthjFZ79s8K/lWByuagPDlxKAhiOxz6jEdGI8+Qnzc=
+	t=1730791676; cv=none; b=NSbI/YuPR/GfhlDcrB/OLlN3Dy2xjo69Ah4oPysjrqNjM/vNvPa0lS8PdJV6FAwoQ4HZrwsgIl6xHm5SHIQPZaxcbJYKR2VeftDQ/G7S5nSKZn7GZytkLZn69C2dCwcAH/rVMG3cwMZxax4C5n4B8uPGGz/hjs3Q+N1dqDET3oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730790971; c=relaxed/simple;
-	bh=mLw9EeOn/WVQeoErYKS/igwuzgXYXFjmGGdsz9JA2xc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A5JVR9wumbXLbR9YpXnyaH7P+fEGIV4FMLZjiBcdtmeTDGMmXVAQv0wzuQG6NNXm5bRo+UU2guO8Y+fK9u7av/EPSHasIbuypccjg29tpvHSsvegmPrnzO7qgQdAyrP4kuuukkwQI739FQZPSzx/O2dxrCnjSarF6JEQs6Urulc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rr/98+Ug; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1730791676; c=relaxed/simple;
+	bh=N6knG1T6rDh7wC8Hfs6+WLQMcWg6S/UMajDEa/hRksw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bRZ6CIdZE2DlEcP6x145GZC9XyZHKVWzO9wvvGO963DWEi3k8Bge1JZTf0o79PEtngcH6jdz6BVyJgB0OZmqSgk6i3XSR0D1gfWtTy54zDeAL/5SA7AnMvESg+2DsrRjQJnJOQYNg8CwOKdtwOPlgRwOAmIQdv1yeXYmUsJaNI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pc/ViEMp; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730790970; x=1762326970;
+  t=1730791674; x=1762327674;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=mLw9EeOn/WVQeoErYKS/igwuzgXYXFjmGGdsz9JA2xc=;
-  b=Rr/98+Ug6zZSFzpfZ0ZW4ae2Wa8r9NcjFmMQ9zJfgazkcIsQIxCJBmF3
-   bFjfVUTQIaVHwj1DhUpmUfJr2NO0rv7Pj8mhogZJzBP9xDp8quZYzNEMc
-   hllWwjHFjlXPvuot4MxrW+AASLEUXpH+riEeLDKQCk4eYdtK32oX/d9HD
-   I1mYVs6IAebGLM+m+lZJ9xL57k8TZ2qsSWVYX6LeIHVkqrtJEKrnCDhNf
-   uYCUrGx2TNIMtrimeWsNNNLJZ9qGRcdcoCfojVRYgkfmT3apYncJ9n0t4
-   kL9gXrR/gfp1FERx2WLHTv+qfET7a+xgA5md7ZL5B8SMdTTRwXO7et5Mk
+  bh=N6knG1T6rDh7wC8Hfs6+WLQMcWg6S/UMajDEa/hRksw=;
+  b=Pc/ViEMp683/tFm3Nd6erwSwKvp0DKPjlxwF91dFcp5fqR3hp7yHBdHh
+   9E4BoO7I+6qYsGrm876gDPoBGzwTRSAIN2EGVrrc3CA4Um5T8cjlFcmhB
+   61vVIhGlf8bbQULPNQq5PAbVJ/Y7gR6F/dYZ78/ieKHL6KulkoIrKOhlw
+   SsDhjICtXZ34FvSwnxGflWfTuZInKFtDL3vvJkIprhefl+EAz2xJ3e4LP
+   fdstIs1i5LC2Xi7EzlqD52T/Qao8RHqM6+18C8Gk3rDUby2RyEY1HzQva
+   qnL5xH1/EgNV54bKh2USyxuf9xidZorsxP8a17F/F44rDbQuwV/msPRtS
    w==;
-X-CSE-ConnectionGUID: ZfhiVAf3TP+tlvl32W01Iw==
-X-CSE-MsgGUID: TNfx97bKTCGuxXLx7CewQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34209800"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34209800"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 23:16:09 -0800
-X-CSE-ConnectionGUID: Z3HVPaJHTNmLXNIsa1yJVg==
-X-CSE-MsgGUID: RLTbmk2NRL20WbuY4FP8JQ==
+X-CSE-ConnectionGUID: e3tvtKM6QAammPtlaE/q5g==
+X-CSE-MsgGUID: /+OisvxGQpSQG81DLMOVlw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30629691"
+X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
+   d="scan'208";a="30629691"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 23:27:54 -0800
+X-CSE-ConnectionGUID: K7gOx2/hR5el+3nWh6Pgiw==
+X-CSE-MsgGUID: CUjhO8RLQdiVfkpNiqJ8oA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="83798872"
+   d="scan'208";a="84019944"
 Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.118.67])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 23:16:08 -0800
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 23:27:53 -0800
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH v3] media: intel/ipu6: remove buttress ish structure
-Date: Tue,  5 Nov 2024 08:16:05 +0100
-Message-Id: <20241105071605.50347-1-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v4] media: intel/ipu6: remove buttress ish structure
+Date: Tue,  5 Nov 2024 08:27:50 +0100
+Message-Id: <20241105072750.57001-1-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -82,10 +82,12 @@ Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 v2: fix formatting: use media: prefix in topic and white space alignment
 to match open parenthesis
 v3: remove also handing of ISH related interrupts
+v4: remove ISR irq BITs from BUTTRESS_EVENT 
 
- drivers/media/pci/intel/ipu6/ipu6-buttress.c | 29 +++-----------------
- drivers/media/pci/intel/ipu6/ipu6-buttress.h |  6 ----
- 2 files changed, 4 insertions(+), 31 deletions(-)
+drivers/media/pci/intel/ipu6/ipu6-buttress.c  | 29 +++----------------
+ drivers/media/pci/intel/ipu6/ipu6-buttress.h  |  6 ----
+ .../intel/ipu6/ipu6-platform-buttress-regs.h  |  2 --
+ 3 files changed, 4 insertions(+), 33 deletions(-)
 
 diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
 index e47f84c30e10..e54e72974ddf 100644
@@ -216,6 +218,19 @@ index 9b6f56958be7..482978c2a09d 100644
  struct ipu6_ipc_buttress_bulk_msg {
  	u32 cmd;
  	u32 expected_resp;
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h b/drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h
+index 20f27011df43..efd65e494c16 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h
+@@ -219,8 +219,6 @@ enum {
+ 				 BUTTRESS_ISR_IS_IRQ | BUTTRESS_ISR_PS_IRQ)
+ 
+ #define BUTTRESS_EVENT		 (BUTTRESS_ISR_IPC_FROM_CSE_IS_WAITING | \
+-				  BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING | \
+ 				  BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE |    \
+-				  BUTTRESS_ISR_IPC_EXEC_DONE_BY_ISH |    \
+ 				  BUTTRESS_ISR_SAI_VIOLATION)
+ #endif /* IPU6_PLATFORM_BUTTRESS_REGS_H */
 -- 
 2.34.1
 
