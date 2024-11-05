@@ -1,81 +1,83 @@
-Return-Path: <linux-media+bounces-20932-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20933-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52569BCE15
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 14:39:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A049BCE62
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 14:55:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12F3E1C21CDA
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 13:39:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 500DCB22360
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 13:55:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B1111D6DA8;
-	Tue,  5 Nov 2024 13:38:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C29581D6DA1;
+	Tue,  5 Nov 2024 13:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VTtEbvlT"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eqCYQvXe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2983D1D5ACE
-	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 13:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2871D6DBB
+	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 13:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730813930; cv=none; b=hkUgHOprEtXSb11bchEea4cq47xW9wY0sh4wK7tyxHzu8DkJYel6LdJ8aKwoPUWm8EGW9fM2peb8QWF5DGM9vhrjq7b1G10EfvhLDkM6z4K9iZTL5WqFqzuwZPa1fr3TYOIkeiFgIP4jwTNHz44zQluCO3kQQ34QSTFhpM7lhYI=
+	t=1730814918; cv=none; b=EWtdMnISCGDaMw7XCkTc4OdJ9OarEwz661oWa7QDlUXOyYYD10Bk+3cRrBrZXnnNqQJ/SRCUVNQwy1NGWoyFWvG8cAwq94DSUNnXfBuydCEH2qsT/liBnAKZflSSZYBsYHZtfwV0dyoCORutS/ZvYcO0a1pq4NH6fEINz1bef/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730813930; c=relaxed/simple;
-	bh=yh1p+AhkWM4xFMAtZ7oOEO9mnv3l6TsekjZBUbWKZHA=;
+	s=arc-20240116; t=1730814918; c=relaxed/simple;
+	bh=q3GUUlKx9/4DSdIfudTo/BHl0hN1/E6WoZ6HBZQcFBQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=byEh7xhDleqMHJcdJ7ACILqTlcgJVLdqQI5J1y3nE+UIfYeAnXnTBKBh6Qd9tSKH8ynDd+rXmZ+b/1nBjvzJ1HCB7gd8wQzbWEOHg4JPX/sfS1PPA/Ubed65cMI9y+WIUmy6Do9UsaHyfnRVKxPcA9GS7X3/v/TTWnM2PcKB7X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VTtEbvlT; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-290c69be014so2330287fac.3
-        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2024 05:38:48 -0800 (PST)
+	 Content-Type:Content-Disposition:In-Reply-To; b=sCLyLfx6sFUeF9yA/HmrxmVx8vRsjpqs8Kc1zgE43H33nH3GM8cXwW+t0nmH33TNJ7VL3d4DOiWWSatEki0nSAAJcGyhijZFxddcF66iQ074Q7gRGdLDKX/UCmCSlrYEkC6Z7e27bmee+Wi/DZKluJ3z5SwZFsoL98U6IchN/Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eqCYQvXe; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539f7606199so3119780e87.0
+        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2024 05:55:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730813928; x=1731418728; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1730814915; x=1731419715; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cV5o3WhWVOPFdJQoEMG+jv0FEl4oyGKv0FBzhxP78ik=;
-        b=VTtEbvlT2XLlxplgw9McgVJ4jcXtTiL8IOv+w+evNmSibXY/ZgvlRWiaMpM7Mpcs1h
-         c4kPlGICap9KfQ5bG5DRiqVFCPz0/5thJlae8DoYE4/hHB35JT8YBRlmK2AORtwudmeb
-         Y9gc967QWu6v/h4zCuk+oIDbvHcX2F6OHhlKE=
+        bh=JYPfDLl1JujNUnzUwabCMz6D5QPnpcJrxkCJPH1YFNY=;
+        b=eqCYQvXeHRGvRxdW7FlF+UFkmDn712x9y6/xZvjDPZW18kfuCoG1q4XMpfFuowGLJ3
+         F4XDD296dEQCO/C/iuKCwkPKErI9dBWhJeMFx7P1OgKY4ATUg2TphS3tzP4HaH1R8Wnv
+         NdDQpfhFnhQGsUmSUoENwpWmdBVFvf/Cy21ouNt4UfIBGfjWOkJQurqz1KdkNA9XjcD9
+         jaxq+uQ7keCMJb0qOYRURV/lqe50825ln2WjFyt9LUz93wFMC68s2UrY/OAb6F0zqxqX
+         WpvT0uTiRiHZjPBGrS+HytlrzdSBsJONgCnfOZ2PqtenqX+8PEqIpUkS6MofwR0bGT0R
+         2H6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730813928; x=1731418728;
+        d=1e100.net; s=20230601; t=1730814915; x=1731419715;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cV5o3WhWVOPFdJQoEMG+jv0FEl4oyGKv0FBzhxP78ik=;
-        b=k08BHQR/OZ/Exx0YfpS0N0ht8Z5CjcPPDPAICjcX4m0/0Jm1YllQHDl2C5c3Z2E7qB
-         Xb6tISwcQC+0xd5wjfavnvsXALNrG8PVKabVZKbscTpB/uUkoc5Dilxqve0RbGWa4Qnu
-         VXTj0JTQhVmcpbEfey3mxj+RKFLIuQBDnfupuLwvLqAAWKvN+fofkivFJjNIViy1z497
-         6K3I2GttGBjRkx7+Qvt71h9TC0fAqqKEcdSyuAUy+fb3cQqAIkkxVW5owj6rA8XJX1wR
-         YwzgwDAX3KQrzPkMrUjXUbHwrQkjlBZ8mF6ymE46TPkdq//yS/B7Yf670iBpRYsp5I6r
-         y2HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXb9MhEdmfQJtKBQxNlHzQeAYSXjuI3AXdE7qcXHqr9UK7RjdzUpcANO2xTX5A5fILHLlfGTDBNZEJM4A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxtXF9rd6ohNwp06IK8mJFtcGkYdSwCfKEjGivknraAa+BNsif
-	HgQDBc0PBWqz8U4voDOtowulRI0PBe34Ffv6ytfSufopoE00RCI9JySj0WqQjw==
-X-Google-Smtp-Source: AGHT+IGsgQ/6CuL0YqnGrmyzIOA69jiw5u+Wid5BjBzfkM3Z31ADKK+7Jq4rj6syR0JyqOptl5hmlQ==
-X-Received: by 2002:a05:6870:8dcf:b0:277:a43a:dac2 with SMTP id 586e51a60fabf-2949ed9b4abmr13867576fac.17.1730813927824;
-        Tue, 05 Nov 2024 05:38:47 -0800 (PST)
-Received: from google.com ([2401:fa00:8f:203:2c73:a2d8:c3cb:500c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7ee459f8ee9sm9044983a12.72.2024.11.05.05.38.45
+        bh=JYPfDLl1JujNUnzUwabCMz6D5QPnpcJrxkCJPH1YFNY=;
+        b=rT0A2Ek8wqSnjuoQ9Y+WRhlBS4S+swt5ljjz8lFb+t+wE387ha7jTaJsiiJxmMLxqY
+         Zi2WTENI2qEdBeHwIS9SqIgch5w5irrGZYGTkLgGIQgASo78B8pbXdMg24aiSz9w053B
+         YMOAumZwcbRS8yB3Fua741cxLbsicCcEJckquESOLFaepesWIOEMLiIL6bQCX57h1TNU
+         yYMbwq6vgbtna6KZnOFjBWbmM3vXdDsH+gzZjABT/TM4prtXDQFd1Yt/D4t5JoE9tNTX
+         fZdg/hmiJk0W7ctkOuluPt+kc75P6ulD6MMbooHz9GmzhCbLcQDY9ZaeKFto1hVAUgs1
+         vVew==
+X-Forwarded-Encrypted: i=1; AJvYcCU4S8RiOuRKJ86l143YHCP9PrAyNSvq6BCz9SE8nxTe6makr2dZa9xkP8G4QXYWMMyag7F7kYTLwKZ8Fg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWGte1/fLmO8wfilcE65Gi+y4ef+7ztpjw1zJNmVQrF3Vu6cYD
+	HhwlTTeNTig/+Tt+Ee8ohQS0RKDZ3AzKvCd88EvQIC63pXJrdpDP0TfYuhnyLVo=
+X-Google-Smtp-Source: AGHT+IEpdU8rDqLX+DIyNpSfiPybyrFjFo19IbFA9Zw/IdLK8a2VdSMO8JD0bOCCp6sr0LFzmU0S1w==
+X-Received: by 2002:a05:6512:e9b:b0:539:fbfd:fc74 with SMTP id 2adb3069b0e04-53b7ed185a8mr13160964e87.40.1730814914500;
+        Tue, 05 Nov 2024 05:55:14 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bdcbfa6sm2103558e87.208.2024.11.05.05.55.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 05:38:47 -0800 (PST)
-Date: Tue, 5 Nov 2024 22:38:43 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Stanimir Varbanov <svarbanov@suse.de>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv6 0/3] media: venus: close() fixes
-Message-ID: <20241105133843.GA13546@google.com>
-References: <20241025165656.778282-1-senozhatsky@chromium.org>
- <37a906eb-4cd1-4034-9bf6-2f9f4560b9e3@suse.de>
+        Tue, 05 Nov 2024 05:55:13 -0800 (PST)
+Date: Tue, 5 Nov 2024 15:55:10 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/4] media: venus: hfi_parser: add check to avoid out of
+ bound access
+Message-ID: <b2yvyaycylsxo2bmynlrqp3pzhge2tjvtvzhmpvon2lzyx3bb4@747g3erapcro>
+References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
+ <20241105-venus_oob-v1-1-8d4feedfe2bb@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,34 +86,54 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <37a906eb-4cd1-4034-9bf6-2f9f4560b9e3@suse.de>
+In-Reply-To: <20241105-venus_oob-v1-1-8d4feedfe2bb@quicinc.com>
 
-Hi Stanimir,
+On Tue, Nov 05, 2024 at 02:24:54PM +0530, Vikash Garodia wrote:
+> There is a possibility that init_codecs is invoked multiple times during
+> manipulated payload from video firmware. In such case, if codecs_count
+> can get incremented to value more than MAX_CODEC_NUM, there can be OOB
+> access. Keep a check for max accessible memory before accessing it.
 
-On (24/11/05 14:04), Stanimir Varbanov wrote:
-> On 10/25/24 19:56, Sergey Senozhatsky wrote:
-> > A couple of fixes for venus driver close() handling
-> > (both enc and dec).
-> > 
-> > v5->v6:
-> > -- added kfree() backtrace to 0002
-> > 
-> > Sergey Senozhatsky (3):
-> >   media: venus: fix enc/dec destruction order
-> >   media: venus: sync with threaded IRQ during inst destruction
-> >   media: venus: factor out inst destruction routine
+No. Please make sure that init_codecs() does a correct thing, so that
+core->codecs_count isn't incremented that much (or even better that
+init_codecs() doesn't do anything if it is executed second time).
+
 > 
-> Could you please combine 1/3 and 2/3 commit bodies into 3/3 body and
-> resend the new 3/3 only. I do not see a reason to apply 1/3 and 2/3.
+> Cc: stable@vger.kernel.org
+> Fixes: 1a73374a04e5 ("media: venus: hfi_parser: add common capability parser")
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/venus/hfi_parser.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
+> index 3df241dc3a118bcdeb2c28a6ffdb907b644d5653..27d0172294d5154f4839e8cef172f9a619dfa305 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+> @@ -23,6 +23,8 @@ static void init_codecs(struct venus_core *core)
+>  		return;
+>  
+>  	for_each_set_bit(bit, &core->dec_codecs, MAX_CODEC_NUM) {
+> +		if (core->codecs_count >= MAX_CODEC_NUM)
+> +			return;
+>  		cap = &caps[core->codecs_count++];
+>  		cap->codec = BIT(bit);
+>  		cap->domain = VIDC_SESSION_TYPE_DEC;
+> @@ -30,6 +32,8 @@ static void init_codecs(struct venus_core *core)
+>  	}
+>  
+>  	for_each_set_bit(bit, &core->enc_codecs, MAX_CODEC_NUM) {
+> +		if (core->codecs_count >= MAX_CODEC_NUM)
+> +			return;
+>  		cap = &caps[core->codecs_count++];
+>  		cap->codec = BIT(bit);
+>  		cap->domain = VIDC_SESSION_TYPE_ENC;
+> 
+> -- 
+> 2.34.1
+> 
 
-So the reason being is that 1/3 fixes a race condition (stale data
-in ->fh) and a lockdep splat (wrong destruction order).  2/3 fixes a
-completely different race (IRQ vs close) condition and UAF.  And 3/3
-is just a refactoring that doesn't fix anything.  Are you sure you
-want to squash all 3 of them?  Because they look slightly independent
-to me.
-
-> Also, on what platform this was tested?
-
-I ran CTS on one of the strongbad devices.
+-- 
+With best wishes
+Dmitry
 
