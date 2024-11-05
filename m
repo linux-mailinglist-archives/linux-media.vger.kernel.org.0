@@ -1,204 +1,107 @@
-Return-Path: <linux-media+bounces-20961-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20962-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549FC9BD79B
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 22:29:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 695229BD96A
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 00:04:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84A141C229F5
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 21:29:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FD931F23AF6
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 23:04:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED747216213;
-	Tue,  5 Nov 2024 21:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D081216454;
+	Tue,  5 Nov 2024 23:04:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y8Ehu90G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="er5rEkg6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B93F1E0B65;
-	Tue,  5 Nov 2024 21:28:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6010C216200;
+	Tue,  5 Nov 2024 23:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730842137; cv=none; b=H2v2e4Tmdv0XZxffM1btiQyoN3C2qYGltRzYe+6YzbpBgFClGjAHuWVSBj6ncG7MvvdjPZbE7hmgciF89i0cNY5s4F1z4mKKLaiF5dJFIQ36FdAVBWDCk6NriIFLk4LN0PfxbEfBQmytquk/uEoJ7+vY+DOo4GL/+McjBPBWO+g=
+	t=1730847854; cv=none; b=rLto42+OqHyogVoj7HhYVy6VbfXC0HAuRbx39pn7us1MRt2pGCx+MPfWkXSVn39NBL+VjV1xFI3HPSUjq8f5k8fGRXt4woh9KZMxj+c9GGRDDtKYjGtkMeFEh8dtMzTQn2gEGlNpr8i1cjEZKSB7ZfDLvcQJyiSW/6b+cwsJwqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730842137; c=relaxed/simple;
-	bh=ClrekfPxZQ76ZNV7DZX8QGPxXakxpQ0qHEZc3EGpDHI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pIPRrObye9+W6c+iyt1AAzbR5nnA650h39zTS8SKnbpRnBF4kCna/CvK15Q4s+sS7is5C9nZeIgh4WRvAiE7tEpNXB6PWyAkI40sR5993ZCbGPAJPjod8FPjvgOOhZ7PsfyN/P+mYR8YA+kLcnFzA/PH2blbXLd7VwcyFSa06Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y8Ehu90G; arc=none smtp.client-ip=209.85.208.52
+	s=arc-20240116; t=1730847854; c=relaxed/simple;
+	bh=//V20indKmgf7C9J9/JlcUQ2ooGXHUvhXCVqQV7w4QA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IeH5viZA62kl/tA0RFEL5mXoiyi9bDAIIQRGhIFRD9SeFreI1WYdSEyX64uwmJvhSk8Fpmso9iIZcGXdqruUqeAJxufItdXUQ/uZPxu29rvd7q0f4dkw+KwguxJZGKrGeAieh5ocbEzL0vNheJ6VcSVSpXJziCHRwD2Pk9ZWLm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=er5rEkg6; arc=none smtp.client-ip=209.85.166.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5c941623a5aso400484a12.0;
-        Tue, 05 Nov 2024 13:28:55 -0800 (PST)
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3a3aeb19ea2so22419935ab.0;
+        Tue, 05 Nov 2024 15:04:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730842134; x=1731446934; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eP2/dmGZ6upd0meydOq+bVFxjAFfyWnPqjTOOaybaFY=;
-        b=Y8Ehu90GhTVJNDn6VrZ1xAYygTnpsWo7+avzQhe6Nd82hveHaBo2tFzggnWTSXjzC/
-         lLYW09iag1iWbxFdQHQp7Ve5b/fupuPRYopcIl39g0cchjTf/3vXFNcCzc2lNIMUReAO
-         pToysTGNYmSk1ZjT/5/pyniXEznY0Uf/9cHnD+2DWMupd4bc8hZDm1F69J3WehZUQ9pE
-         4aSO5Ml+6AbOzaHg/0UsJU0P+Qj5TUBhlks1OGD6H+2x2ssq5NOCRG655geYLtrCouhp
-         nc0OKfMWxsOcuqfnfXIj+Fq5Wiwfj4c0pFhWHf59whA/cWcytLdA6DLx+iH5XNU+uxKH
-         edPw==
+        d=gmail.com; s=20230601; t=1730847852; x=1731452652; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FQtZxoc/EdMh+UvpSaz0TXXDGMSstjpIMHUo0smfcAs=;
+        b=er5rEkg6dJZoL5dBvqFT19CC2EQc8SFE2cmUh7QLqGfmkvnILyHZL/JFALR8olZdww
+         UyHNMZrHNrecadDcytzlumg/QN+kLHNB+vBvJswg4Add78FRHRaVVL5Fzl64qzPqOhV0
+         MJRtbDJSEcYFTOv0Hp7n33rT01Njc7XeuuxofXj3+e2vlZpPuA8CKslbbWjrIDHPMoMp
+         y17/8S6cwn05c2Zx9V+YuV/abKefH1mYOQEXtex6FiCiAfJpJPZ18k5xieS2tS6vKpEx
+         DK6bCdp/e2Mo7qmrdOpz//Du5nNVfGIL7sUJ9v7ldprlJvaom1dQdVBLdEb7eFK6VY0v
+         QxfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730842134; x=1731446934;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eP2/dmGZ6upd0meydOq+bVFxjAFfyWnPqjTOOaybaFY=;
-        b=WO24XvaQ+I9SsbZiySDzkkP78DYWVPsH/sOwtAtCEMzBS+b55UPXWBiWqGCphssMqo
-         INVFTRswvXi18F32bpOEQlp1dDc/ihLAPTcrDY/PCpcDFhbqXz4Djrlf2HyBDfaTDdGg
-         VjijSb5Ef8ahm5G5zbtfwwU2SezxACybS2p+9KEssmGXpp22y/dCvnXJURUNUPqF8U4x
-         0zk/PHzsoiFhIgC+aaOhESFgLw2DcSRiowhBxDGbGguzs5DnvhzkA8mSqmy0uqcafTH1
-         3RCVGRBzdlk6mzAwwroaB+aXIylZRdD/ZqeSrm8N6BXKGQDPBPchpqdcjJs8RN0d4pbD
-         ydpw==
-X-Forwarded-Encrypted: i=1; AJvYcCU8KYgfIHDw2pQkhX/3vkl5dGo4V7Ntz5qcaEMw+BQFqv7PPvmMAeVh4/rTa+uwqLplwD8Pfm5LrejuzWk=@vger.kernel.org, AJvYcCWrsoxmNlR8Ye+aKt+myGtbqQQtMMqFce/ompmdpoX+1P4743EZfOvpk3OVCi7OAjA1gVkDQccimQKVwVIRQ8FIaD4=@vger.kernel.org, AJvYcCXPypLIi9srPo8kAsYxnF/kTH/rSWwrev1n2XQbTWJOML4GcmhUvukENLXUl3KwgXJPUsfXdMudGfoUOV8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbFAlusr6qkR7HjaWlgy5meHcuXFI4idA6nn4AdaBIhxldppcY
-	yVU3XuAk9K1lvBC28oV76XIslNufYUGmNxY+6IoOp07yY8uv7pbL
-X-Google-Smtp-Source: AGHT+IHUZAxiDAWEcZd5uQeTbY5C3HluVgi/eb5cOKQYEX/QkwtA0Jhcn5FY5SM7HLsTN2r4FykKig==
-X-Received: by 2002:a05:6402:2709:b0:5ce:c7b1:e052 with SMTP id 4fb4d7f45d1cf-5cef55266f9mr306262a12.9.1730842133414;
-        Tue, 05 Nov 2024 13:28:53 -0800 (PST)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cee6ac09edsm1785846a12.40.2024.11.05.13.28.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Nov 2024 13:28:52 -0800 (PST)
-Message-ID: <a2c66875-490f-9b8e-5683-fa4ad1fba6da@gmail.com>
-Date: Tue, 5 Nov 2024 22:28:51 +0100
+        d=1e100.net; s=20230601; t=1730847852; x=1731452652;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FQtZxoc/EdMh+UvpSaz0TXXDGMSstjpIMHUo0smfcAs=;
+        b=potVCqYE3EFu5eMNOPk/5ltBmwJlPK4q660H08e5pzWNAvRg8gEESXe57726L4lb8w
+         TpeQweGRyBLtf1wTWIXD9+pw4Y2pVa86K8PjxRAF3nG8tFHu4OYe18AOiPBV7464hrV5
+         I9vVKZvV2SbBsgSisytI9HpXwMkMPVmbF//seRfrltRZhUSicnxgiFpZplwXU7OljNJ1
+         KOBjzE7lTgK3b2Q/jLcoXly0ni1LHC7KthWW/Z6U69xkh46DufkOgr+gYK4fJdpIDD5T
+         CYijuD9a9aN+NFjQvicm/Z2EY7BWsgOvG+eOn88dQhcnF3EBWbQipm+lSSHnyf+UVE7i
+         w2Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCWQv4mcBQPEWYA+lqMi63IZx6AkXFFYtqBZAh7zfQR382cl+vm8xVAdAvoSc85X2NC8/mbDisR7QVPT3a0=@vger.kernel.org, AJvYcCWf8D6T8eL3FVzaMKomStuZP9gA7Xcj8sX4usXJd9eqr9a068A/fXeNl3as0JL/u6H8oNjr5nWkh613rVM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQKIEdURVDkIrvtVtp5hYoI6Rjove6jtY0Ml+OLEWkWG5BfRqC
+	nO54qQ2hokd9vnZigYXOMFZ9M5A4eKpC0VrFTWAz+CMYmXQinDLQp9/8aoUhImQ=
+X-Google-Smtp-Source: AGHT+IHtbapkF7BlMFXreX8/zweT9WEH4j4B1oUsWyiIIhq2efChsxKOmyrgklSveigASJUNEqrS2g==
+X-Received: by 2002:a05:6e02:1c28:b0:3a4:eb9b:650 with SMTP id e9e14a558f8ab-3a4ed2de153mr394679005ab.17.1730847852386;
+        Tue, 05 Nov 2024 15:04:12 -0800 (PST)
+Received: from localhost.localdomain (syn-047-227-172-032.res.spectrum.com. [47.227.172.32])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a6a9a2a298sm30675815ab.56.2024.11.05.15.04.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 15:04:12 -0800 (PST)
+From: Chase Knowlden <haroldknowlden@gmail.com>
+To: laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org
+Cc: Chase Knowlden <haroldknowlden@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] This is a test
+Date: Tue,  5 Nov 2024 18:03:49 -0500
+Message-ID: <20241105230350.74707-1-haroldknowlden@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] media: platform: samsung: s5p-jpeg: Remove deadcode
-To: linux@treblig.org, andrzejtp2010@gmail.com, s.nawrocki@samsung.com,
- mchehab@kernel.org, krzk@kernel.org, alim.akhtar@samsung.com
-Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241103192315.288743-1-linux@treblig.org>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20241103192315.288743-1-linux@treblig.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi David,
+Signed-off-by: Chase Knowlden <haroldknowlden@gmail.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thank you for the patch.
-
-On 11/3/24 20:23, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> exynos3250_jpeg_operating() has been unused since it was added in 2014's
-> commit 3246fdaa0ac2 ("[media] s5p-jpeg: Add support for Exynos3250 SoC")
-> 
-> exynos4_jpeg_get_fifo_status(), exynos4_jpeg_get_frame_size(), and
-> exynos4_jpeg_set_timer_count() have been unused since they were added by
-> commit 80529ae5c137 ("[media] s5p-jpeg:  JPEG codec")
-> 
-> Remove them.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->   .../samsung/s5p-jpeg/jpeg-hw-exynos3250.c     |  5 -----
->   .../samsung/s5p-jpeg/jpeg-hw-exynos3250.h     |  1 -
->   .../samsung/s5p-jpeg/jpeg-hw-exynos4.c        | 19 -------------------
->   .../samsung/s5p-jpeg/jpeg-hw-exynos4.h        |  4 ----
->   4 files changed, 29 deletions(-)
-> 
-> diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c
-> index 637a5104d948..6657d294c10a 100644
-> --- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c
-> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c
-> @@ -427,11 +427,6 @@ void exynos3250_jpeg_clear_int_status(void __iomem *regs,
->   	writel(value, regs + EXYNOS3250_JPGINTST);
->   }
->   
-> -unsigned int exynos3250_jpeg_operating(void __iomem *regs)
-> -{
-> -	return readl(regs + S5P_JPGOPR) & EXYNOS3250_JPGOPR_MASK;
-> -}
-> -
->   unsigned int exynos3250_jpeg_compressed_size(void __iomem *regs)
->   {
->   	return readl(regs + EXYNOS3250_JPGCNT) & EXYNOS3250_JPGCNT_MASK;
-> diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
-> index 15af928fad76..709c61ae322c 100644
-> --- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
-> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
-> @@ -45,7 +45,6 @@ void exynos3250_jpeg_rstart(void __iomem *regs);
->   unsigned int exynos3250_jpeg_get_int_status(void __iomem *regs);
->   void exynos3250_jpeg_clear_int_status(void __iomem *regs,
->   						unsigned int value);
-> -unsigned int exynos3250_jpeg_operating(void __iomem *regs);
->   unsigned int exynos3250_jpeg_compressed_size(void __iomem *regs);
->   void exynos3250_jpeg_dec_stream_size(void __iomem *regs, unsigned int size);
->   void exynos3250_jpeg_dec_scaling_ratio(void __iomem *regs, unsigned int sratio);
-> diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c
-> index 0828cfa783fe..479288fc8c77 100644
-> --- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c
-> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c
-> @@ -185,11 +185,6 @@ unsigned int exynos4_jpeg_get_int_status(void __iomem *base)
->   	return readl(base + EXYNOS4_INT_STATUS_REG);
->   }
->   
-> -unsigned int exynos4_jpeg_get_fifo_status(void __iomem *base)
-> -{
-> -	return readl(base + EXYNOS4_FIFO_STATUS_REG);
-> -}
-> -
->   void exynos4_jpeg_set_huf_table_enable(void __iomem *base, int value)
->   {
->   	unsigned int	reg;
-> @@ -300,22 +295,8 @@ void exynos4_jpeg_set_dec_bitstream_size(void __iomem *base, unsigned int size)
->   	writel(size, base + EXYNOS4_BITSTREAM_SIZE_REG);
->   }
->   
-> -void exynos4_jpeg_get_frame_size(void __iomem *base,
-> -			unsigned int *width, unsigned int *height)
-> -{
-> -	*width = (readl(base + EXYNOS4_DECODE_XY_SIZE_REG) &
-> -				EXYNOS4_DECODED_SIZE_MASK);
-> -	*height = (readl(base + EXYNOS4_DECODE_XY_SIZE_REG) >> 16) &
-> -				EXYNOS4_DECODED_SIZE_MASK;
-> -}
-> -
->   unsigned int exynos4_jpeg_get_frame_fmt(void __iomem *base)
->   {
->   	return readl(base + EXYNOS4_DECODE_IMG_FMT_REG) &
->   				EXYNOS4_JPEG_DECODED_IMG_FMT_MASK;
->   }
-> -
-> -void exynos4_jpeg_set_timer_count(void __iomem *base, unsigned int size)
-> -{
-> -	writel(size, base + EXYNOS4_INT_TIMER_COUNT_REG);
-> -}
-> diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h
-> index 3e2887526960..b941cc89e4ba 100644
-> --- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h
-> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h
-> @@ -35,10 +35,6 @@ void exynos4_jpeg_select_dec_h_tbl(void __iomem *base, char c, char x);
->   void exynos4_jpeg_set_encode_hoff_cnt(void __iomem *base, unsigned int fmt);
->   void exynos4_jpeg_set_dec_bitstream_size(void __iomem *base, unsigned int size);
->   unsigned int exynos4_jpeg_get_stream_size(void __iomem *base);
-> -void exynos4_jpeg_get_frame_size(void __iomem *base,
-> -			unsigned int *width, unsigned int *height);
->   unsigned int exynos4_jpeg_get_frame_fmt(void __iomem *base);
-> -unsigned int exynos4_jpeg_get_fifo_status(void __iomem *base);
-> -void exynos4_jpeg_set_timer_count(void __iomem *base, unsigned int size);
->   
->   #endif /* JPEG_HW_EXYNOS4_H_ */
-
-Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 0fac689c6350..58a32d27e508 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2106,6 +2106,8 @@ static int uvc_probe(struct usb_interface *intf,
+ 	int function;
+ 	int ret;
+ 
++	pr_info("I changed uvcvideo driver in the Linux Kernel\n");
++
+ 	/* Allocate memory for the device and initialize it. */
+ 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+ 	if (dev == NULL)
 -- 
-Best regards,
-Jacek Anaszewski
+2.43.0
+
 
