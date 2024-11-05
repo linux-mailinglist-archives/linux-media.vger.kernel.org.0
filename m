@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-20843-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20844-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8AF9BC652
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 08:00:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 556BE9BC656
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 08:01:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 843051F22E66
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:00:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D9791C21AA1
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:01:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EACE2003DE;
-	Tue,  5 Nov 2024 06:57:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 104A9200BB8;
+	Tue,  5 Nov 2024 06:57:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Z7GpEtNR"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GJ0TAhFB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0D92003CC;
-	Tue,  5 Nov 2024 06:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7724200B9E;
+	Tue,  5 Nov 2024 06:57:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730789866; cv=none; b=WlUVDJmbB2I374doqs/bw772ccKBhHlEUKcL/fNi93n8gXIpnZ78OpHydl9+ueoW2o1y6VnUpa+NaYOk8T62Ig2HFJqmjYPrWCPI1NYrHpKcF8neChZNC1OYAkwsz/Aa8At1Gv1BLsLsxjBk5XRu3f8OlaeRCQW6m1y5Pzy6iKg=
+	t=1730789871; cv=none; b=FRfcfWXgXBqfqPkTtWl404WxyyBz7gKv0cfsEMu4ZrsSmDbAuKStcsKU+GYl4ptFau5r5Aki9Gr8CEnvLrN+a2ttD15jiL00gkzdE8vQp5ty0hSaCg8vSj5YGPDELBvr2HZUxvXHF/JbcfabVxohOfsj0H242ZcogALz0zyGGqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730789866; c=relaxed/simple;
-	bh=FK8eVFU/86ctSUXYcWmA5yD14FAKQll2jnbPchTPpek=;
+	s=arc-20240116; t=1730789871; c=relaxed/simple;
+	bh=xEwDw/U+npCZSkjZfItoIRiSzoQYjUvP3PbecAAJ9CQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=e9HAaLWKHAxbWti4vZEAhvmQPRzmjy9u9QruQW7qsMp5U2Ixznz0G2Wo9nkUaOp3s+nx2G/MT7rP3w8S/lMfmMfT6ubIRMG0+IKvznm6g+dDw7rm/pbqJHnI2xbxdsQOIgeWx+puhejisd5Q7WTb28ovZnaM0yVD8d3Lyu0GFh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Z7GpEtNR; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:CC; b=BNM9O1RHfFuJJOsyLyhk6D2lVZvnbOlJVKRvkvSjE+dutuv8PPDM0hcQ69PZcV1XNjRdMkyEh8a6YrzD8toqIH3BoSKgLeHN1v4riAxUls0kH0XsQI1nvIEwU89gneL+MOo3tFCGXbbMMFouZREcfQNOhSD0IP7nkJHcDAovLdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=GJ0TAhFB; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4LIhbU009100;
-	Tue, 5 Nov 2024 06:57:36 GMT
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4LIhj7021461;
+	Tue, 5 Nov 2024 06:57:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	lApW402wzxkRwW+x08m2C0kPgdk/w5i9ko3q2D+fQZc=; b=Z7GpEtNR61OYvd5j
-	NC0WwgTcJTidGRLLETe5H/Avel1yF0fOosWGn20wPFvM1cDuD5KTCi2ae+Tinu8n
-	gfu9/YcfPRbiPqsqf9N2fjR9yCHAO7wxP69vwjV9Rlhm6lSJo5oUOySBiiTPuUs8
-	kMYhHrqOsGo0r9ZR2HmlphKEsk+Fx5TEUR3XZhSvVYYaEium30Fp33cLgKiz3Ue2
-	rG1yE+OcPapc1NBiI8iVvjemz00oaGC0Rwt2UUa8pGU7TYyDNTABY3M8+wel3YMV
-	Qp83PJrvJetf2GalYpacB2BMHlVCP/8WTrN8PJXPWe8FaUOTu1M1AsOW+lmkpkPx
-	3zPMmw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42nd4upp6f-1
+	51USTR/78fYN6V7s1BwnMxa1t62szKUeoDSEM8WrgOI=; b=GJ0TAhFBKx+HZkKj
+	TMR1cYJQNSQttxw+obDehO7c6pFWzMkV/TaJ8yxQJGfEVQtCNhQunWvC/st5ofwi
+	zIao8O0mzzw/Raews69ZaAt1zyzXnlUCP47t+acVwcRPcE3OEnOCsyRJVbqKRtt0
+	nZ4IRaCPNu3HT0o6xgum6W8VWTIt+Y6Wnx5P7aHk1AJXt9b6uh7TIgTfdSdcsDVD
+	Io3Ujs9YuH/bhCfK8pi0bTL+RHJfuEyd5dcUXSGipXO9MYIIOXFDC9x63+V0aHsi
+	KQzIirxMr5ytDdOrDmw/Mxqotqo0/kKMgXvLtcB5mk328zDel8hv+TDy5FOnXsRQ
+	WnSGDA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42ncyxxkg3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 05 Nov 2024 06:57:35 +0000 (GMT)
+	Tue, 05 Nov 2024 06:57:41 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A56vY0O001021
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A56veML001936
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 5 Nov 2024 06:57:34 GMT
+	Tue, 5 Nov 2024 06:57:40 GMT
 Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 4 Nov 2024 22:57:29 -0800
+ 15.2.1544.9; Mon, 4 Nov 2024 22:57:34 -0800
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Date: Tue, 5 Nov 2024 12:25:32 +0530
-Subject: [PATCH v5 12/28] media: iris: implement enum_fmt and
- enum_frameintervals ioctls
+Date: Tue, 5 Nov 2024 12:25:33 +0530
+Subject: [PATCH v5 13/28] media: iris: implement subscribe_event and
+ unsubscribe_event ioctls
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241105-qcom-video-iris-v5-12-a88e7c220f78@quicinc.com>
+Message-ID: <20241105-qcom-video-iris-v5-13-a88e7c220f78@quicinc.com>
 References: <20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com>
 In-Reply-To: <20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com>
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
@@ -99,182 +99,148 @@ CC: Hans Verkuil <hverkuil@xs4all.nl>,
  Agarwal" <quic_dikshita@quicinc.com>,
         Vedang Nagar <quic_vnagar@quicinc.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730789780; l=5751;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730789780; l=4457;
  i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
- bh=siUjBsEKpV3WsOpYiL1Oi5qAZGe186mzOXa1zVo0Wms=;
- b=2f/MEBq2WkvdrXI5WsBlbkci5xy0EK3GBLAZ4bSRYebRFI0KvIxLcr+Oto7FzJeiy/lFR8Ezz
- IYiFxvgc16GCusNw+BLrJ4H71tb7bD2HQRUCO9ZFLQduLDUxwjWOlQp
+ bh=4TDfBpbEvzBRf3x2z3Q/7BjbTYiRS9ALr25vKt8XVLk=;
+ b=3j7LVFwMVllcND7739sSeO7KaR9JyS5wbZPp4WsvavGyBYpYPz+rifkGvShySSS6JHXUZX42R
+ 6WyGivji7buA+KOlM8rw/dHbCUKP9pzBYj1Zb3Vpak7Fdd1vhzyxoQb
 X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
  pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 35QYO9aPaRQ9Aohg9pYMqBYsuQeV9pBA
-X-Proofpoint-ORIG-GUID: 35QYO9aPaRQ9Aohg9pYMqBYsuQeV9pBA
+X-Proofpoint-ORIG-GUID: JqyQZe37or_gVGaU1zoXbeciTR1sT_Wg
+X-Proofpoint-GUID: JqyQZe37or_gVGaU1zoXbeciTR1sT_Wg
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 malwarescore=0
- lowpriorityscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- mlxlogscore=999 impostorscore=0 suspectscore=0 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
+ malwarescore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 phishscore=0 adultscore=0 mlxlogscore=999
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2409260000 definitions=main-2411050050
 
 From: Vedang Nagar <quic_vnagar@quicinc.com>
 
-Implement enum_fmt and enum_frameintervals ioctls with necessary hooks.
+Implement subscribe_event and unsubscribe_event iocts with necessary
+hooks.
 
 Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
 Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
- .../platform/qcom/iris/iris_platform_common.h      |  4 +++
- .../platform/qcom/iris/iris_platform_sm8550.c      |  4 +++
- drivers/media/platform/qcom/iris/iris_vdec.c       | 17 ++++++++++
- drivers/media/platform/qcom/iris/iris_vdec.h       |  1 +
- drivers/media/platform/qcom/iris/iris_vidc.c       | 39 ++++++++++++++++++++++
- 5 files changed, 65 insertions(+)
+ drivers/media/platform/qcom/iris/iris_instance.h |  2 ++
+ drivers/media/platform/qcom/iris/iris_vdec.c     | 25 ++++++++++++++++++++++++
+ drivers/media/platform/qcom/iris/iris_vdec.h     |  1 +
+ drivers/media/platform/qcom/iris/iris_vidc.c     | 10 ++++++++++
+ 4 files changed, 38 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-index e345667dfbf2..54a2d723797b 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-+++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-@@ -43,6 +43,10 @@ struct ubwc_config_data {
+diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
+index bb43119af352..d28b8fd7ec2f 100644
+--- a/drivers/media/platform/qcom/iris/iris_instance.h
++++ b/drivers/media/platform/qcom/iris/iris_instance.h
+@@ -30,6 +30,7 @@
+  * @once_per_session_set: boolean to set once per session property
+  * @m2m_dev:	a reference to m2m device structure
+  * @m2m_ctx:	a reference to m2m context structure
++ * @subscriptions: variable to hold current events subscriptions
+  */
+ 
+ struct iris_inst {
+@@ -48,6 +49,7 @@ struct iris_inst {
+ 	bool				once_per_session_set;
+ 	struct v4l2_m2m_dev		*m2m_dev;
+ 	struct v4l2_m2m_ctx		*m2m_ctx;
++	unsigned int			subscriptions;
  };
  
- struct platform_inst_caps {
-+	u32 min_frame_width;
-+	u32 max_frame_width;
-+	u32 min_frame_height;
-+	u32 max_frame_height;
- 	u32 max_mbpf;
- };
- struct iris_core_power {
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-index bc4769732aad..37c0130d7059 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-+++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-@@ -11,6 +11,10 @@
- #define VIDEO_ARCH_LX 1
- 
- static struct platform_inst_caps platform_inst_cap_sm8550 = {
-+	.min_frame_width = 96,
-+	.max_frame_width = 8192,
-+	.min_frame_height = 96,
-+	.max_frame_height = 8192,
- 	.max_mbpf = (8192 * 4352) / 256,
- };
- 
+ #endif
 diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
-index e807decdda2b..b2858c96e859 100644
+index b2858c96e859..3c9bea5f0532 100644
 --- a/drivers/media/platform/qcom/iris/iris_vdec.c
 +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
-@@ -60,6 +60,23 @@ void iris_vdec_inst_deinit(struct iris_inst *inst)
- 	kfree(inst->fmt_src);
- }
+@@ -3,6 +3,7 @@
+  * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+  */
  
-+int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f)
++#include <media/v4l2-event.h>
+ #include <media/v4l2-mem2mem.h>
+ 
+ #include "iris_buffer.h"
+@@ -204,3 +205,27 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 
+ 	return 0;
+ }
++
++int iris_vdec_subscribe_event(struct iris_inst *inst, const struct v4l2_event_subscription *sub)
 +{
-+	switch (f->type) {
-+	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-+		f->pixelformat = V4L2_PIX_FMT_H264;
-+		f->flags = V4L2_FMT_FLAG_COMPRESSED | V4L2_FMT_FLAG_DYN_RESOLUTION;
++	int ret = 0;
++
++	switch (sub->type) {
++	case V4L2_EVENT_EOS:
++		ret = v4l2_event_subscribe(&inst->fh, sub, 0, NULL);
++		inst->subscriptions |= V4L2_EVENT_EOS;
 +		break;
-+	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-+		f->pixelformat = V4L2_PIX_FMT_NV12;
++	case V4L2_EVENT_SOURCE_CHANGE:
++		ret = v4l2_src_change_event_subscribe(&inst->fh, sub);
++		inst->subscriptions |= V4L2_EVENT_SOURCE_CHANGE;
++		break;
++	case V4L2_EVENT_CTRL:
++		ret = v4l2_ctrl_subscribe_event(&inst->fh, sub);
++		inst->subscriptions |= V4L2_EVENT_CTRL;
 +		break;
 +	default:
 +		return -EINVAL;
 +	}
 +
-+	return 0;
++	return ret;
 +}
-+
- int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
- {
- 	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
 diff --git a/drivers/media/platform/qcom/iris/iris_vdec.h b/drivers/media/platform/qcom/iris/iris_vdec.h
-index 4f2557d15ca2..eb8a1121ae92 100644
+index eb8a1121ae92..707fff34bf4d 100644
 --- a/drivers/media/platform/qcom/iris/iris_vdec.h
 +++ b/drivers/media/platform/qcom/iris/iris_vdec.h
-@@ -10,6 +10,7 @@ struct iris_inst;
- 
- void iris_vdec_inst_init(struct iris_inst *inst);
- void iris_vdec_inst_deinit(struct iris_inst *inst);
-+int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f);
+@@ -13,5 +13,6 @@ void iris_vdec_inst_deinit(struct iris_inst *inst);
+ int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f);
  int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f);
  int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f);
++int iris_vdec_subscribe_event(struct iris_inst *inst, const struct v4l2_event_subscription *sub);
  
+ #endif
 diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
-index 6a32fd8d6123..bc77dfc2ba67 100644
+index bc77dfc2ba67..3a138172e674 100644
 --- a/drivers/media/platform/qcom/iris/iris_vidc.c
 +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
-@@ -217,6 +217,16 @@ int iris_close(struct file *filp)
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/pm_runtime.h>
++#include <media/v4l2-event.h>
+ #include <media/v4l2-ioctl.h>
+ #include <media/v4l2-mem2mem.h>
+ 
+@@ -322,6 +323,13 @@ static int iris_g_selection(struct file *filp, void *fh, struct v4l2_selection *
  	return 0;
  }
  
-+static int iris_enum_fmt(struct file *filp, void *fh, struct v4l2_fmtdesc *f)
++static int iris_subscribe_event(struct v4l2_fh *fh, const struct v4l2_event_subscription *sub)
 +{
-+	struct iris_inst *inst = iris_get_inst(filp, NULL);
++	struct iris_inst *inst = container_of(fh, struct iris_inst, fh);
 +
-+	if (f->index)
-+		return -EINVAL;
-+
-+	return iris_vdec_enum_fmt(inst, f);
++	return iris_vdec_subscribe_event(inst, sub);
 +}
 +
- static int iris_try_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format *f)
- {
- 	struct iris_inst *inst = iris_get_inst(filp, NULL);
-@@ -259,6 +269,32 @@ static int iris_g_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format
- 	return ret;
- }
- 
-+static int iris_enum_framesizes(struct file *filp, void *fh,
-+				struct v4l2_frmsizeenum *fsize)
-+{
-+	struct iris_inst *inst = iris_get_inst(filp, NULL);
-+	struct platform_inst_caps *caps;
-+
-+	if (fsize->index)
-+		return -EINVAL;
-+
-+	if (fsize->pixel_format != V4L2_PIX_FMT_H264 &&
-+	    fsize->pixel_format != V4L2_PIX_FMT_NV12)
-+		return -EINVAL;
-+
-+	caps = inst->core->iris_platform_data->inst_caps;
-+
-+	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-+	fsize->stepwise.min_width = caps->min_frame_width;
-+	fsize->stepwise.max_width = caps->max_frame_width;
-+	fsize->stepwise.step_width = STEP_WIDTH;
-+	fsize->stepwise.min_height = caps->min_frame_height;
-+	fsize->stepwise.max_height = caps->max_frame_height;
-+	fsize->stepwise.step_height = STEP_HEIGHT;
-+
-+	return 0;
-+}
-+
- static int iris_g_selection(struct file *filp, void *fh, struct v4l2_selection *s)
- {
- 	struct iris_inst *inst = iris_get_inst(filp, NULL);
-@@ -300,12 +336,15 @@ static const struct vb2_ops iris_vb2_ops = {
- };
- 
- static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
-+	.vidioc_enum_fmt_vid_cap        = iris_enum_fmt,
-+	.vidioc_enum_fmt_vid_out        = iris_enum_fmt,
- 	.vidioc_try_fmt_vid_cap_mplane  = iris_try_fmt_vid_mplane,
- 	.vidioc_try_fmt_vid_out_mplane  = iris_try_fmt_vid_mplane,
- 	.vidioc_s_fmt_vid_cap_mplane    = iris_s_fmt_vid_mplane,
- 	.vidioc_s_fmt_vid_out_mplane    = iris_s_fmt_vid_mplane,
- 	.vidioc_g_fmt_vid_cap_mplane    = iris_g_fmt_vid_mplane,
- 	.vidioc_g_fmt_vid_out_mplane    = iris_g_fmt_vid_mplane,
-+	.vidioc_enum_framesizes         = iris_enum_framesizes,
+ static struct v4l2_file_operations iris_v4l2_file_ops = {
+ 	.owner                          = THIS_MODULE,
+ 	.open                           = iris_open,
+@@ -347,6 +355,8 @@ static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
+ 	.vidioc_enum_framesizes         = iris_enum_framesizes,
  	.vidioc_reqbufs                 = v4l2_m2m_ioctl_reqbufs,
  	.vidioc_g_selection             = iris_g_selection,
++	.vidioc_subscribe_event         = iris_subscribe_event,
++	.vidioc_unsubscribe_event       = v4l2_event_unsubscribe,
  };
+ 
+ void iris_init_ops(struct iris_core *core)
 
 -- 
 2.34.1
