@@ -1,151 +1,187 @@
-Return-Path: <linux-media+bounces-20942-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20943-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3024F9BCF7A
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 15:34:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 816159BCFA2
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 15:44:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F8DC1C24059
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 14:34:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4631128327F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 14:43:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9C2C1D4173;
-	Tue,  5 Nov 2024 14:34:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 423561D9A4B;
+	Tue,  5 Nov 2024 14:43:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RnHDbG9R"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c8Ok97f6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A7514A91;
-	Tue,  5 Nov 2024 14:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCF038DD6;
+	Tue,  5 Nov 2024 14:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730817245; cv=none; b=MjkIJcEufWebqkxq+zA4Suu2cEdBKKIKNJ3VY6dWil74IUoBgo0vu/OZv9YpQ+pOeOKLD4eU+4lO6fC8g7chg0n3VLnnqhRWmfrijQcqLsIxPXArfijadHLHdk3h5UlX58mdwD0AHLLXqUY2qmIcrqFR+inbHSmNhZA5XIuKRNI=
+	t=1730817833; cv=none; b=PlVZ0fIq8v3aHD+61rTthAhXy6rv4JKuwFVlvnmsq6Lb1dLVQnT3U+tpELw83oUs2l54MngmKB4Aek4wl7MoA+4yR0CgKC1gmqSr+jS+RyYWwPF/jU9AejKbDSmpIR1HRCw9XaDTdcviv3C+lDbO80iJ0O50amNS3YmGP7HI478=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730817245; c=relaxed/simple;
-	bh=YQGq8BeG/Fp5PyaG/BAkgPdJeomV8W8Km5kHMMWU1Ok=;
+	s=arc-20240116; t=1730817833; c=relaxed/simple;
+	bh=zPE3bJtYJZQtW3P2khG40Rcgy/ZmLsD9ce02Res2Md4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FEkrFH79xnLkLPq/PYL6GnIKqf0zyA2O0DfrwdpM9xPhyzMWs9+TyK0KYui7Mz1lBJXTqmhOvr+8PB56GSeBn2m9wgHLd9t2d0uBYUoqHojIKuBNmR2qXnKbR9+BsvvfIGoCfZCLvr0Y5F+uuLb2Tc/ZabPhXtntV5vlWQF7hPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RnHDbG9R; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-720d5ada03cso4358926b3a.1;
-        Tue, 05 Nov 2024 06:34:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730817243; x=1731422043; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+wkZkgieCQJSdGFL1nFVjSANilf4JopahWQIFB2y57g=;
-        b=RnHDbG9RKxkQdmdNXyRgBU+IT25U/o6j50oq/pkoQQnMuc7oUwcYWUZ5W3IO0ypfP6
-         sot2PeOVAFl+jUb/SYizsVTIbFOsB9OS5wwv92IbcafbZw6yA57M4mcQktKbr+0q/TTD
-         iOCIvjsUbhCqEpXwIMWIXG/iuMyPFFqOZ1mYe1Eo5+9KHXRat8FhnUEV2aUtwqFAvJai
-         P96SgxTM8p1HxZQzhnFHh5b3epVp6uCZShuDh5P0o2wnuiJLWuhrrWNheHlqE4Hq5Faw
-         1Y+w2+We8GygkUlBzPoiJeux4etP4s4xC/CanYMSUX5y+OL3/vAyYAbyGQ8bx3mYkgDB
-         8vqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730817243; x=1731422043;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+wkZkgieCQJSdGFL1nFVjSANilf4JopahWQIFB2y57g=;
-        b=sCVRInOXD6YviuapQ/95MENKZTXD1fNqGy3EL3GHbxt1hEP8WfLWB6N4zySN7osZII
-         E1JMB8oHE4ZlBtXnK0+TachmRozmOV+5OMoW/u5tHqw22OYEDMJrIiRcdCNZr0xfED6X
-         QwKAogPNS3dZcmaMYoVm57U1mOKfqlYe9Olu6Fy9bSu3UUN3xU440e9wxM2ZwXqaxp25
-         pJG62JUKOslA12Ym95+aDMZAMJFbD8bBBr6rbkKmxD84fYlmvdqfA02DK8Xhq+LpeWx5
-         a4OB7r/sxeTNnXLSV/c+wZT+3ozbsdiF/3PzQJv50Mq9y4xnr5P0/CnD6YmOajnRGRyN
-         YoAA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7clMYCTbHIl8DzhXf/CTAvXwGlA7/pjzuEc7I1xX5wXkTbKnNSOu47zq4Id0yMTZf72FVH3euWPW4kY7ggw==@vger.kernel.org, AJvYcCVf/4ZzgYVz7f1L4cvkXugaHKexsp3Uz8WDvMes19W5whFGL8ur1GDRhHkgG5rtzwmmQQv33x8PDkfPp4Fs@vger.kernel.org, AJvYcCWFQlpMXXCFOOmQr09dbM4z4iNJYs1O/BIgoPmBjMao6v7yIGvty1TjWxENW6EtMpBGcMmq7JOVfWWpeb0=@vger.kernel.org, AJvYcCWrvvGj4W1oBrWp3qHOXn84VTtgEKcP7L2LeBn007+J7GlkhWtTPuJLYRhnDO+ZdEOD0Noo4kFn4bgG@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSY2NWqG319/x5Cs220/QpcXqdyERoLdd6H6K1HMXE25wLmtFV
-	YHl/uYPtyzCpw0x/f91TlAjIcsrcxD6Vyz1W1+c7RfR2zI873BjBNwOZnQ==
-X-Google-Smtp-Source: AGHT+IF6Jhd8ae1eb4MRSXHY+M5pbxaJWy0HAbzhTRzH9XRbPEvOHf4v9oASvTrDMZVFx5DA3DfGjQ==
-X-Received: by 2002:a05:6a00:148f:b0:71e:4296:2e with SMTP id d2e1a72fcca58-720b9c942damr23160857b3a.11.1730817243149;
-        Tue, 05 Nov 2024 06:34:03 -0800 (PST)
-Received: from localhost.localdomain ([103.149.249.231])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc2c54acsm9685528b3a.124.2024.11.05.06.33.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 06:34:02 -0800 (PST)
-Date: Tue, 5 Nov 2024 22:34:06 +0800
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 27/28] media: iris: enable video driver probe of
- SM8250 SoC
-Message-ID: <Zyos3pGYWfUSTlxV@localhost.localdomain>
-References: <20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com>
- <20241105-qcom-video-iris-v5-27-a88e7c220f78@quicinc.com>
- <ZyoqGaSMc2z9xsr1@localhost.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=U1cHgm8Te0VAdN1+E4OyW7fqEEhlLy4Z740sUxbklrawTch+jegmcjlEaVla68EcD95YK8D29P0rbM+q6T08zGh7TjlfelEOcL1cvJTvGtw5hbsGW5+0ifx/4f0vZbsiXFUKJkmcQsozz17K7HphUOEWqgpfBMlGiHQ417OdXfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=c8Ok97f6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5235D4AD;
+	Tue,  5 Nov 2024 15:43:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730817821;
+	bh=zPE3bJtYJZQtW3P2khG40Rcgy/ZmLsD9ce02Res2Md4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c8Ok97f6NyeD2bsLaWOabFe9kEE6qhqBUPU3u3P8kwh9RfhLc9GGPAMntnAgP5cPu
+	 IxwUzK6HNymvdUBsh09xUbXGKkOhNVZvMTzape4mzC5RJ4GVd0lh/ZYPonpnMELMjs
+	 zk7YDQBxXtPYMTnlTDkr8khMPQwUJcpiIc/MIvDc=
+Date: Tue, 5 Nov 2024 16:43:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Remove refcounted cleanup
+Message-ID: <20241105144340.GQ27775@pendragon.ideasonboard.com>
+References: <20241105-uvc-rmrefcount-v1-1-123f56b01731@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZyoqGaSMc2z9xsr1@localhost.localdomain>
+In-Reply-To: <20241105-uvc-rmrefcount-v1-1-123f56b01731@chromium.org>
 
-On Tue, Nov 05, 2024 at 10:22:17PM +0800, Jianhua Lu wrote:
-> On Tue, Nov 05, 2024 at 12:25:47PM +0530, Dikshita Agarwal wrote:
-> > Initialize the platform data and enable video driver probe of SM8250
-> > SoC. Add a kernel param to select between venus and iris drivers for
-> > platforms supported by both drivers, for ex: SM8250.
-> > 
-> > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> > ---
-> [..]
-> > --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-> > +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> [..]
-> > +struct iris_platform_data sm8250_data = {
+On Tue, Nov 05, 2024 at 02:32:39PM +0000, Ricardo Ribalda wrote:
+> After commit c9ec6f173636 ("media: uvcvideo: Stop stream during unregister")
+> we have some guarantee that userspace will not be able to access any of
+> our internal structures after disconnect().
 > 
-> You should qualitfy it with static too.
+> This means that we can do the cleanup at the end of disconnect and make
+> the code more resilient to races.
+> 
+> This change will also enable the use of devres functions in more parts
+> of the code.
 
-Sorry, I overlooked some code above, please ignore this comment.
+That's the wrong direction, let's not go there, especially given that
+this doesn't fix anything. Strong nack on my side, especially given how
+many of your previous patches introduced race conditions. It's not
+broken, don't touch it. A better use of your time would be to fix the
+unplug race issue at the subsystem level.
 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 24 +++++-------------------
+>  drivers/media/usb/uvc/uvcvideo.h   |  1 -
+>  2 files changed, 5 insertions(+), 20 deletions(-)
 > 
-> > +	.get_instance = iris_hfi_gen1_get_instance,
-> > +	.init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
-> > +	.init_hfi_response_ops = iris_hfi_gen1_response_ops_init,
-> [..]
-> > diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-> > index 7b7378b7abb3..4cbaa889322e 100644
-> > --- a/drivers/media/platform/qcom/iris/iris_probe.c
-> > +++ b/drivers/media/platform/qcom/iris/iris_probe.c
-> [..]
-> > +static bool video_drv_should_bind(struct device *dev, bool iris_driver)
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index a96f6ca0889f..2735fccdf454 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1868,16 +1868,12 @@ static int uvc_scan_device(struct uvc_device *dev)
+>  /*
+>   * Delete the UVC device.
+>   *
+> - * Called by the kernel when the last reference to the uvc_device structure
+> - * is released.
+> - *
+> - * As this function is called after or during disconnect(), all URBs have
+> + * As this function is called during disconnect(), all URBs have
+>   * already been cancelled by the USB core. There is no need to kill the
+>   * interrupt URB manually.
+>   */
+> -static void uvc_delete(struct kref *kref)
+> +static void uvc_delete(struct uvc_device *dev)
+>  {
+> -	struct uvc_device *dev = container_of(kref, struct uvc_device, ref);
+>  	struct list_head *p, *n;
+>  
+>  	uvc_status_cleanup(dev);
+> @@ -1919,14 +1915,6 @@ static void uvc_delete(struct kref *kref)
+>  	kfree(dev);
+>  }
+>  
+> -static void uvc_release(struct video_device *vdev)
+> -{
+> -	struct uvc_streaming *stream = video_get_drvdata(vdev);
+> -	struct uvc_device *dev = stream->dev;
+> -
+> -	kref_put(&dev->ref, uvc_delete);
+> -}
+> -
+>  /*
+>   * Unregister the video devices.
+>   */
+> @@ -2009,7 +1997,7 @@ int uvc_register_video_device(struct uvc_device *dev,
+>  	vdev->v4l2_dev = &dev->vdev;
+>  	vdev->fops = fops;
+>  	vdev->ioctl_ops = ioctl_ops;
+> -	vdev->release = uvc_release;
+> +	vdev->release = video_device_release_empty;
+>  	vdev->prio = &stream->chain->prio;
+>  	if (type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
+>  		vdev->vfl_dir = VFL_DIR_TX;
+> @@ -2045,7 +2033,6 @@ int uvc_register_video_device(struct uvc_device *dev,
+>  		return ret;
+>  	}
+>  
+> -	kref_get(&dev->ref);
+>  	return 0;
+>  }
+>  
+> @@ -2160,7 +2147,6 @@ static int uvc_probe(struct usb_interface *intf,
+>  	INIT_LIST_HEAD(&dev->entities);
+>  	INIT_LIST_HEAD(&dev->chains);
+>  	INIT_LIST_HEAD(&dev->streams);
+> -	kref_init(&dev->ref);
+>  	atomic_set(&dev->nmappings, 0);
+>  
+>  	dev->udev = usb_get_dev(udev);
+> @@ -2300,7 +2286,7 @@ static int uvc_probe(struct usb_interface *intf,
+>  
+>  error:
+>  	uvc_unregister_video(dev);
+> -	kref_put(&dev->ref, uvc_delete);
+> +	uvc_delete(dev);
+>  	return -ENODEV;
+>  }
+>  
+> @@ -2319,7 +2305,7 @@ static void uvc_disconnect(struct usb_interface *intf)
+>  		return;
+>  
+>  	uvc_unregister_video(dev);
+> -	kref_put(&dev->ref, uvc_delete);
+> +	uvc_delete(dev);
+>  }
+>  
+>  static int uvc_suspend(struct usb_interface *intf, pm_message_t message)
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 07f9921d83f2..feb8de640a26 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -578,7 +578,6 @@ struct uvc_device {
+>  
+>  	/* Video Streaming interfaces */
+>  	struct list_head streams;
+> -	struct kref ref;
+>  
+>  	/* Status Interrupt Endpoint */
+>  	struct usb_host_endpoint *int_ep;
 > 
-> Variable name iris_driver isn't good enough, rename it to
-> is_iris_driver please.
-> 
-> > +{
-> > +	if (of_device_compatible_match(dev->of_node, iris_only_platforms))
-> > +		return iris_driver;
-> > +
-> > +	/* If it is not in the migration list, use venus */
-> > +	if (!of_device_compatible_match(dev->of_node, venus_to_iris_migration))
-> > +		return !iris_driver;
-> > +
-> > +	return prefer_venus ? !iris_driver : iris_driver;
-> > +}
-> > +
-> > -- 
-> > 2.34.1
-> > 
+> ---
+> base-commit: c7ccf3683ac9746b263b0502255f5ce47f64fe0a
+> change-id: 20241105-uvc-rmrefcount-010d98d496c5
+
+-- 
+Regards,
+
+Laurent Pinchart
 
