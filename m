@@ -1,132 +1,157 @@
-Return-Path: <linux-media+bounces-20829-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20830-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF4E9BC563
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:24:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6037D9BC5C0
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:42:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D5DD1C20C9F
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 06:24:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 904B61C21360
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 06:41:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92CC71D172A;
-	Tue,  5 Nov 2024 06:24:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A9C1FF60C;
+	Tue,  5 Nov 2024 06:40:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VBxaYZOX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i5iKukaA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C6841C69
-	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 06:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5B21FE0F1
+	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 06:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730787858; cv=none; b=X4jMv4htxfumiMwKzJHtLpuXvCz8TI8SfHFukKpMNR9kQGiu6dhjb2GH1nibaDSLQOWX2OOpj06AFtsZZ/jFKe4suZseFAncAESHfiOQ0LviYjPR3XuHTGfIUXyfuJpDAPSj6QY5UTJdpAVD4P4xB0/FeswncE5j/YbN8K21GDA=
+	t=1730788828; cv=none; b=Zd10OrKcfRjlpj1I3rWaEmD6lvWZUc2gsXZfa28dBM5fXBv7bsGDlg76oo38lNbrB7vAI7+X9yIwvmN7nZhLVrBOEqfcWslsYuffIVROztATe4GLIiV9bgYvw9P8NV9r2/GWtcqag9lAbZNwA4AvMbw58aPUZmSTZxewVDePtSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730787858; c=relaxed/simple;
-	bh=daXZ6SgVbB83YjdRvmNxAmB+Z/nAz02bmk5rY4zQkQc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=dHKC7+wjUPaUSJn96gKYq5q7WSuUUSs1SZUlJOxM4v1RRUIjugHoNsWmmiGJRUDiIAO+tcRMXHFo50Vn9DIG+t8H4OU32zMKAdgLa073uw5Rgx/4K0tg599MzxUMv1e+QJZF8gg5+Tug8GfMX2Yzb9LA19n/vPQfEAHjLXNABc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VBxaYZOX; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5cebcf96fabso4438494a12.3
-        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2024 22:24:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730787854; x=1731392654; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:content-language:to
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a753P1qu6VUmzHUd0qhgylGgnZ+RG9GImRDIglYR2Qo=;
-        b=VBxaYZOXefYVALjB1Uo6dePE1BQyTrB2tGXKQO9GI8Hdjg9PkDH/J48cJBslcnNhm/
-         Bw3YiM3KWgiE7wffaj274He/vmO0Dap+lxCNWhiG7o1MoEWPnwxsVzgJCq7AVnrOqXlt
-         4PUwfDCz05QSVE6ZFbq8rEpxXevOphPJFqTNVZvW45ffg6xV1T3xd5y1I5h+Epk9bYk2
-         eqd4uri/FgrKPzOvIG74HHQp+AyD284kFDSH2bn42I7KXO532ecOEmGWhiVXTytyxflM
-         JP9m6cW9wNxbzvAYnOavPcEZ4PCtAQrnpjfa/62/m4dh9L3QgszE/GS2x38wYPe3+2gc
-         y2Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730787854; x=1731392654;
-        h=content-transfer-encoding:subject:from:cc:content-language:to
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=a753P1qu6VUmzHUd0qhgylGgnZ+RG9GImRDIglYR2Qo=;
-        b=GqwrIQogWcLI3xyXXtUF9ODWwRLsg0nzKNMLz0unAeLPOefFTUh0NZ2jaOUUlFpHiE
-         rtkCda9QXnQvj2xY+uONQH/A7EG1OcyZ948oJaaXJ1Eyrsqzr6LKI7jL3JE4S+VyjgqP
-         yT0GOUn7QaOcbMZTqlQPq87G0vVyi1east+qT17m3CSS5L5hSPUV4M6kryCpULiTXYHW
-         FJIdCLAEekUozjmZjpdwvMETPqyNS3aWnl3EPxQDmucVo7/W3JpG+kYMM2ZCOz5ew4mj
-         UO2e8GlH4eTrF0SbaTlyB2drY/Og4D0iRFs3PtfGWkHJ3ye4YmH/qtuPIospj5Hj0LnF
-         V2jg==
-X-Gm-Message-State: AOJu0YzqrfN8/K41D5702mvIV5OIlSPckH4DEzLYf7mrPwnEl+X0rkj9
-	/JDLFL0UUQUH37dt+gGq02IiLqgh60LbHdAQe8rVK/YC/ok3bRcD3jfSovEeGIA=
-X-Google-Smtp-Source: AGHT+IH0Coje8BKgBEVVrcGT0RIsYk349LSh2KWfWLjBpwVpZFARewFGba2pAXQQP6HLaeGG6jBvCQ==
-X-Received: by 2002:a05:6402:90a:b0:5be:f3ae:b9ce with SMTP id 4fb4d7f45d1cf-5cea96f4b6emr14148184a12.27.1730787854216;
-        Mon, 04 Nov 2024 22:24:14 -0800 (PST)
-Received: from ?IPV6:2a02:8071:3484:bc0:caf7:50ff:fe30:727e? ([2a02:8071:3484:bc0:caf7:50ff:fe30:727e])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cee6a9a34fsm843866a12.1.2024.11.04.22.24.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 22:24:13 -0800 (PST)
-Message-ID: <1229fefc-e2b5-4dc3-8a09-0a81c302fbd1@gmail.com>
-Date: Tue, 5 Nov 2024 07:24:13 +0100
+	s=arc-20240116; t=1730788828; c=relaxed/simple;
+	bh=QkEHOLtsMg7trEz5M9xw1SIjU/cF0uOHnjMO3xFTDL0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oZINR9k67pGw6iplmlfO9JfNWSsPCweFMwo9LNEFEwnyxH+jDTU3vz9FOLaAgNRh0tknXBY7h+bFjjvM4hWQmfgOVt7bgt3QgKpsv5UBwb6erSITl/yz4+ITCILNd7pOvY/mIOqn+iqPoPsSjVf+Wx4mcClqVSrZvnIM9xi7cU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i5iKukaA; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730788827; x=1762324827;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=QkEHOLtsMg7trEz5M9xw1SIjU/cF0uOHnjMO3xFTDL0=;
+  b=i5iKukaAT2eLmUtlsdcY67k+51bX623KAQsDDnXzmvJHMcpGkpLc7D/F
+   iipZ3uy4u4HsY7spV65a+HSUJHolPGZB+MUfhC5w4WuzHFvH3Fa7GWH4G
+   Wu6sCb6HcT9uVJ1gxZvuXJeFhZklJsI6kYoUjAORyKnjAvx7/tmbNQq18
+   jzVGbJS6uu/L1qbJsxRPUSUL7l2+01hseG23oI4QViSsBiehf1VzU+bv+
+   N4qW2uS2h0ZBPM7PjVsCRVs5E1samdCmrmveHmw5otAM+ViyuBlEmE7Z1
+   ROqJoN5LekcDw6g+MG1slOQgM7pZHZs2pDfkeoGVVVrsfJWtmYWWWhHpu
+   w==;
+X-CSE-ConnectionGUID: 2rkBo4XsROKqLtFVlmJp2g==
+X-CSE-MsgGUID: fisCAvdgTwmy2DvOrse3zQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30471119"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30471119"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 22:40:25 -0800
+X-CSE-ConnectionGUID: C3yplxDcRzmdpIFjWqM1xw==
+X-CSE-MsgGUID: Q+aBubb9R/qE2tEQ4kRDcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
+   d="scan'208";a="121368817"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 22:40:24 -0800
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 339C511FA28;
+	Tue,  5 Nov 2024 08:40:22 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1t8DEk-0026Cn-0a;
+	Tue, 05 Nov 2024 08:40:22 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com
+Subject: [PATCH v2 1/1] media: mc: Rename pad as origin in __media_pipeline_start()
+Date: Tue,  5 Nov 2024 08:40:12 +0200
+Message-Id: <20241105064012.500501-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-media@vger.kernel.org
-Content-Language: en-US, de-DE
-Cc: vdr@linuxtv.org
-From: schorpp <thomas.schorpp@gmail.com>
-Subject: Buffer overflows recording HDTV with saa7146 and mantis DVB-C tuners
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Rename the pad field in __media_pipeline_start() to both better describe
+what it is and avoid masking it during the loop.
 
-I've build a new VDR with h.264 xineliboutput plugin software decoding
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+since v1:
 
-and got a problem now with
+- Also change the argument name in the prototype.
 
-buffer overruns and distorted recordings on all HD channels:
+ drivers/media/mc/mc-entity.c | 8 ++++----
+ include/media/media-entity.h | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-...
-Nov  5 05:32:03 vdr2 vdr: [32753] ERROR: 47231 ring buffer overflows 
-(8879240 bytes dropped)
-Nov  5 05:32:09 vdr2 vdr: [32753] ERROR: 31042 ring buffer overflows 
-(5835896 bytes dropped)
-Nov  5 05:32:15 vdr2 vdr: [32753] ERROR: 47325 ring buffer overflows 
-(8897100 bytes dropped)
-Nov  5 05:32:21 vdr2 vdr: [32753] ERROR: 28306 ring buffer overflows 
-(5321528 bytes dropped)
-Nov  5 05:32:27 vdr2 vdr: [32753] ERROR: 14033 ring buffer overflows 
-(2638204 bytes dropped)
-...
-
-This occurs with both saa7146 and mantis pci tuner cards.
-
-This has not occured with the old VDR system using Broadcomm's crystalhd 
-decoder in libxine.
-
-LIVE TV works fine.
-
-I've tried stable and testing minidvblinux.de VDR live systems to 
-crosscheck, but same issue occurs.
-
-If I increase the buffer for the saa7164 cards with module parameter 
-it's getting worse and distorted picture and sound.
-
-Any Ideas?
-
-Increase VDR's buffer in source code?
-
-What is the correct driver module debug parameter to provide a useful 
-debog log?
-
-Y
-tom
-
-
-
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 96dd0f6ccd0d..0df9fc90cf33 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -768,10 +768,10 @@ static int media_pipeline_populate(struct media_pipeline *pipe,
+ 	return ret;
+ }
+ 
+-__must_check int __media_pipeline_start(struct media_pad *pad,
++__must_check int __media_pipeline_start(struct media_pad *origin,
+ 					struct media_pipeline *pipe)
+ {
+-	struct media_device *mdev = pad->graph_obj.mdev;
++	struct media_device *mdev = origin->graph_obj.mdev;
+ 	struct media_pipeline_pad *err_ppad;
+ 	struct media_pipeline_pad *ppad;
+ 	int ret;
+@@ -782,7 +782,7 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 	 * If the pad is already part of a pipeline, that pipeline must be the
+ 	 * same as the pipe given to media_pipeline_start().
+ 	 */
+-	if (WARN_ON(pad->pipe && pad->pipe != pipe))
++	if (WARN_ON(origin->pipe && origin->pipe != pipe))
+ 		return -EINVAL;
+ 
+ 	/*
+@@ -799,7 +799,7 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 	 * with media_pipeline_pad instances for each pad found during graph
+ 	 * walk.
+ 	 */
+-	ret = media_pipeline_populate(pipe, pad);
++	ret = media_pipeline_populate(pipe, origin);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index 0393b23129eb..2fca4556c311 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -1143,7 +1143,7 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph);
+ 
+ /**
+  * media_pipeline_start - Mark a pipeline as streaming
+- * @pad: Starting pad
++ * @origin: Starting pad
+  * @pipe: Media pipeline to be assigned to all pads in the pipeline.
+  *
+  * Mark all pads connected to a given pad through enabled links, either
+@@ -1155,7 +1155,7 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph);
+  * pipeline pointer must be identical for all nested calls to
+  * media_pipeline_start().
+  */
+-__must_check int media_pipeline_start(struct media_pad *pad,
++__must_check int media_pipeline_start(struct media_pad *origin,
+ 				      struct media_pipeline *pipe);
+ /**
+  * __media_pipeline_start - Mark a pipeline as streaming
+-- 
+2.39.5
 
 
