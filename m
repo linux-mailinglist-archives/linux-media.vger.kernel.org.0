@@ -1,64 +1,65 @@
-Return-Path: <linux-media+bounces-20836-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20837-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7273F9BC635
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:58:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B65A59BC63A
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:58:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 005151F23064
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 06:58:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DD8A4B21FBF
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 06:58:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA1451FDFBE;
-	Tue,  5 Nov 2024 06:57:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC3221FF615;
+	Tue,  5 Nov 2024 06:57:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RsTHquOL"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="hm9/W2pi"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869BE1FDFA3;
-	Tue,  5 Nov 2024 06:57:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9D21FE0F6;
+	Tue,  5 Nov 2024 06:57:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730789826; cv=none; b=aO29OSccCHUhbMlohMQTTGaXFeaLZJE1YatM8dgDl5ZR/AurHklSeknxiD6wlbi2m9SNnXgC28UbiTvgzw103IFriC7uuhHADUJzWqr6Aq/ZaRDVkh6FVFRNOMialpICkYwmT0ydW1k/l61Yga9QDGyhEvPi5+6Vq8kCO8/lBio=
+	t=1730789832; cv=none; b=mGH7TwGJy7PheL83/8T12xPMB3n3JTSUMp+uhS+c+tYTqYT9/lLORsoHZXJbCR3Zlhz9mqBvW44HWTjGArAHT+Pu/luB4HHHzb7zYK1iV67t10kjkZWr0BXJ/t6nvR79BuMSVcxMMI54IL8B2k5IVpL7m+3CSQoPkXf7A932wvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730789826; c=relaxed/simple;
-	bh=YANSDgIhg5CZupixn7GSWP+byKpjGY2XZcIcZFNRJQ0=;
+	s=arc-20240116; t=1730789832; c=relaxed/simple;
+	bh=49EIILk720PXnc5Kh7CgOtBfpluusSg2fkHqXRkjZrA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=c0NoTYzy+ThqwOIC86InA7eVIywu7JNO1AD1sr+SRuXXCi7cgRbiK1e0NzpHijA7lD16Lgp9g412Jb4ZT7F5CviN1TVaWnqiW2vBD+eqplEFO9+5ZiczeEkALZXEysGIg+VxVN+VgJLwoLQHDWFuAJRcfPDsoH387p2fTpaCTC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RsTHquOL; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:CC; b=ShBCgILPrwOiP24A79Abhr4CGU/DOwo+twMxmrBgjEiNch9NBesOfbbCiauI//SZEC3Te1G/8XmmyizKBHjjWHggt6trmhnrJhyUBnmPC4iw/graa4jACv7Znil2MdguG46JGxihEP2oRF4TcVcHRncgc8SfLf2arv+K/Hyl4X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=hm9/W2pi; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4LIm3u012196;
-	Tue, 5 Nov 2024 06:56:56 GMT
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4LIs23023949;
+	Tue, 5 Nov 2024 06:57:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	6W/jPuOzAV7kfWppUv77UiTCwh8NP0TsxHlZ4v0u/Ns=; b=RsTHquOLyYZZE35q
-	bB2awrw9rLS/zTQnRgt4VYq5IxgRpzDc0c8+L1bvgCSgRMoyKwnMa7i6plkJq69K
-	vdYU6Lt3q0f7Gk0C0HfRsXyGlYKZJoeT0Zdpyu+X2G0sYTHVEnfokjNemg3IvWHp
-	Y297fH6Yx5WQ/ktammykr0PqTtVBClcEAkOXJnLEr14RVKJFoew+b8RG0O3knZG2
-	4p6cdAeG7QZ1eLfrvSmdwMpOGJlK0tH2TrHXTzmZPIDtQhFTE56EYRXAOq8LBNqZ
-	pYKmmNALskGOMXDq7NAiLc6M249wKYUU6hGZyKqH0y5QJtL3v3P9/XNhn2PwhPWC
-	OWGKLw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42nd11xnd7-1
+	86nKPLmVO/AUvfMG54neGwqXlLsxNCVa52GvGNWfD6k=; b=hm9/W2pipDwkhacV
+	POzfNDFkhl/laikfIsbc33hs9GfILCx2qK+HGAZPLQvmKHcyIPcx/D85fOEPDB8O
+	e/3jxiE1lOiIBsF9K7zbF9hhswMprYuQno1w4NFu7gsoVZUdUiStzLrZSP/IHqg2
+	TZOIbYHylmKde3R6jWycb4bpcmNCWJg4fLHWg3ZWliNS83rhiiSyi6ExL8DgbvnY
+	2hoI8rJ4+g1XuYcnMte+JIzDVb46xHixCgeSxJPyF0K6opTFnKwJPuShAIfCdCGR
+	MNzsyjS9xa418RWhXwfEYU62LoRfo11MSjCz4NOiSOSTrd04LsVogap6RDbFDw1Q
+	MqdUvQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42nd1fppe6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 05 Nov 2024 06:56:56 +0000 (GMT)
+	Tue, 05 Nov 2024 06:57:01 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A56us0j028248
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A56v0ok032635
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 5 Nov 2024 06:56:55 GMT
+	Tue, 5 Nov 2024 06:57:00 GMT
 Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 4 Nov 2024 22:56:49 -0800
+ 15.2.1544.9; Mon, 4 Nov 2024 22:56:54 -0800
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Date: Tue, 5 Nov 2024 12:25:25 +0530
-Subject: [PATCH v5 05/28] media: iris: implement video firmware load/unload
+Date: Tue, 5 Nov 2024 12:25:26 +0530
+Subject: [PATCH v5 06/28] media: iris: implement boot sequence of the
+ firmware
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241105-qcom-video-iris-v5-5-a88e7c220f78@quicinc.com>
+Message-ID: <20241105-qcom-video-iris-v5-6-a88e7c220f78@quicinc.com>
 References: <20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com>
 In-Reply-To: <20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com>
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
@@ -97,298 +98,225 @@ CC: Hans Verkuil <hverkuil@xs4all.nl>,
         "Dikshita
  Agarwal" <quic_dikshita@quicinc.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730789780; l=8194;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730789780; l=6467;
  i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
- bh=YANSDgIhg5CZupixn7GSWP+byKpjGY2XZcIcZFNRJQ0=;
- b=sO6uGonATXpoGMIalgXMOLFgMewu3KS+OUaHGzke0k4U7xSU+g5yCCNON1xuUfdF+jAW+VOBT
- BGxR0n1kN+fAqYD77P3hAHK0w7P4ZEc1NBu7Hl3acfSAWF3HrQA4O+b
+ bh=49EIILk720PXnc5Kh7CgOtBfpluusSg2fkHqXRkjZrA=;
+ b=zW9qC91nIUz3sxrm07hxwnE1KnCmWx5K8WaBzo52vj8GjQrEbFnt6NPystBDbdnbSYdBb70Qx
+ vc3zUf4QeB6AgTo8lVjogFufyKwBtqq6sMjFgMiM6+eY3JDCcPPtTG9
 X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
  pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: W9cRwcxIfAJAfBO7pDTb_ACtX-Ys81kX
-X-Proofpoint-ORIG-GUID: W9cRwcxIfAJAfBO7pDTb_ACtX-Ys81kX
+X-Proofpoint-GUID: rA_WIsv17H2ED7RlOyzSFT0fuzyvj0_D
+X-Proofpoint-ORIG-GUID: rA_WIsv17H2ED7RlOyzSFT0fuzyvj0_D
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- mlxscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
- priorityscore=1501 impostorscore=0 spamscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ impostorscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 phishscore=0
+ malwarescore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2409260000 definitions=main-2411050050
 
-Load/unload firmware in memory via mdt loader. Firmware is loaded as
-part of core initialization and unloaded as part of core
-de-initialization.
+Set memory region to firmware and implement boot sequence.
 
 Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
- drivers/media/platform/qcom/iris/Kconfig           |   2 +
- drivers/media/platform/qcom/iris/Makefile          |   1 +
- drivers/media/platform/qcom/iris/iris_core.c       |   8 ++
- drivers/media/platform/qcom/iris/iris_firmware.c   | 108 +++++++++++++++++++++
- drivers/media/platform/qcom/iris/iris_firmware.h   |  14 +++
- .../platform/qcom/iris/iris_platform_common.h      |  12 +++
- .../platform/qcom/iris/iris_platform_sm8550.c      |  10 ++
- 7 files changed, 155 insertions(+)
+ drivers/media/platform/qcom/iris/Makefile          |  1 +
+ drivers/media/platform/qcom/iris/iris_core.c       |  7 ++
+ .../platform/qcom/iris/iris_platform_common.h      |  1 +
+ .../platform/qcom/iris/iris_platform_sm8550.c      |  3 +
+ drivers/media/platform/qcom/iris/iris_vpu_common.c | 89 ++++++++++++++++++++++
+ drivers/media/platform/qcom/iris/iris_vpu_common.h | 13 ++++
+ 6 files changed, 114 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/iris/Kconfig b/drivers/media/platform/qcom/iris/Kconfig
-index 8debddec87a5..f92cc7fe9378 100644
---- a/drivers/media/platform/qcom/iris/Kconfig
-+++ b/drivers/media/platform/qcom/iris/Kconfig
-@@ -3,6 +3,8 @@ config VIDEO_QCOM_IRIS
-         depends on VIDEO_DEV
-         depends on ARCH_QCOM || COMPILE_TEST
-         select V4L2_MEM2MEM_DEV
-+        select QCOM_MDT_LOADER if ARCH_QCOM
-+        select QCOM_SCM
-         help
-           This is a V4L2 driver for Qualcomm iris video accelerator
-           hardware. It accelerates decoding operations on various
 diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
-index 93711f108a77..6906caa2c481 100644
+index 6906caa2c481..792f1d6ac8f3 100644
 --- a/drivers/media/platform/qcom/iris/Makefile
 +++ b/drivers/media/platform/qcom/iris/Makefile
-@@ -1,4 +1,5 @@
- iris-objs += iris_core.o \
-+             iris_firmware.o \
-              iris_hfi_gen1_command.o \
-              iris_hfi_gen2_command.o \
-              iris_hfi_queue.o \
+@@ -6,5 +6,6 @@ iris-objs += iris_core.o \
+              iris_platform_sm8550.o \
+              iris_probe.o \
+              iris_vidc.o \
++             iris_vpu_common.o \
+ 
+ obj-$(CONFIG_VIDEO_QCOM_IRIS) += iris.o
 diff --git a/drivers/media/platform/qcom/iris/iris_core.c b/drivers/media/platform/qcom/iris/iris_core.c
-index 360a54909ef6..8c7d53c57086 100644
+index 8c7d53c57086..5ad66ac113ae 100644
 --- a/drivers/media/platform/qcom/iris/iris_core.c
 +++ b/drivers/media/platform/qcom/iris/iris_core.c
-@@ -4,11 +4,13 @@
-  */
- 
+@@ -6,6 +6,7 @@
  #include "iris_core.h"
-+#include "iris_firmware.h"
+ #include "iris_firmware.h"
  #include "iris_state.h"
++#include "iris_vpu_common.h"
  
  void iris_core_deinit(struct iris_core *core)
  {
- 	mutex_lock(&core->lock);
-+	iris_fw_unload(core);
- 	iris_hfi_queues_deinit(core);
- 	core->state = IRIS_CORE_DEINIT;
- 	mutex_unlock(&core->lock);
-@@ -33,10 +35,16 @@ int iris_core_init(struct iris_core *core)
+@@ -39,10 +40,16 @@ int iris_core_init(struct iris_core *core)
  	if (ret)
- 		goto error;
+ 		goto error_queue_deinit;
  
-+	ret = iris_fw_load(core);
++	ret = iris_vpu_boot_firmware(core);
 +	if (ret)
-+		goto error_queue_deinit;
++		goto error_unload_fw;
 +
  	mutex_unlock(&core->lock);
  
  	return 0;
  
-+error_queue_deinit:
-+	iris_hfi_queues_deinit(core);
++error_unload_fw:
++	iris_fw_unload(core);
+ error_queue_deinit:
+ 	iris_hfi_queues_deinit(core);
  error:
- 	core->state = IRIS_CORE_DEINIT;
- exit:
-diff --git a/drivers/media/platform/qcom/iris/iris_firmware.c b/drivers/media/platform/qcom/iris/iris_firmware.c
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+index 04bef37b7b77..33ae340052b8 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_common.h
++++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+@@ -44,6 +44,7 @@ struct iris_platform_data {
+ 	const char *fwname;
+ 	u32 pas_id;
+ 	struct tz_cp_config *tz_cp_config_data;
++	u32 core_arch;
+ };
+ 
+ #endif
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+index 96d9d6e816a0..4f40bfeeecf1 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
++++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+@@ -7,6 +7,8 @@
+ #include "iris_hfi_gen2.h"
+ #include "iris_platform_common.h"
+ 
++#define VIDEO_ARCH_LX 1
++
+ static const struct icc_info sm8550_icc_table[] = {
+ 	{ "cpu-cfg",    1000, 1000     },
+ 	{ "video-mem",  1000, 15000000 },
+@@ -47,4 +49,5 @@ struct iris_platform_data sm8550_data = {
+ 	.fwname = "qcom/vpu/vpu30_p4.mbn",
+ 	.pas_id = IRIS_PAS_ID,
+ 	.tz_cp_config_data = &tz_cp_config_sm8550,
++	.core_arch = VIDEO_ARCH_LX,
+ };
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c b/drivers/media/platform/qcom/iris/iris_vpu_common.c
 new file mode 100644
-index 000000000000..58a0f532b862
+index 000000000000..959ed46e8f47
 --- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_firmware.c
-@@ -0,0 +1,108 @@
++++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+@@ -0,0 +1,89 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#include <linux/firmware.h>
-+#include <linux/firmware/qcom/qcom_scm.h>
-+#include <linux/of_address.h>
-+#include <linux/of_reserved_mem.h>
-+#include <linux/soc/qcom/mdt_loader.h>
++#include <linux/iopoll.h>
 +
 +#include "iris_core.h"
-+#include "iris_firmware.h"
++#include "iris_vpu_common.h"
 +
-+#define MAX_FIRMWARE_NAME_SIZE	128
++#define CPU_BASE_OFFS				0x000A0000
 +
-+static int iris_load_fw_to_memory(struct iris_core *core, const char *fw_name)
++#define CPU_CS_BASE_OFFS			(CPU_BASE_OFFS)
++
++#define CTRL_INIT				(CPU_CS_BASE_OFFS + 0x48)
++#define CTRL_STATUS				(CPU_CS_BASE_OFFS + 0x4C)
++
++#define CTRL_ERROR_STATUS__M			0xfe
++
++#define QTBL_INFO				(CPU_CS_BASE_OFFS + 0x50)
++#define QTBL_ENABLE				BIT(0)
++
++#define QTBL_ADDR				(CPU_CS_BASE_OFFS + 0x54)
++#define CPU_CS_SCIACMDARG3			(CPU_CS_BASE_OFFS + 0x58)
++#define SFR_ADDR				(CPU_CS_BASE_OFFS + 0x5C)
++#define UC_REGION_ADDR				(CPU_CS_BASE_OFFS + 0x64)
++#define UC_REGION_SIZE				(CPU_CS_BASE_OFFS + 0x68)
++
++#define CPU_CS_H2XSOFTINTEN			(CPU_CS_BASE_OFFS + 0x148)
++#define HOST2XTENSA_INTR_ENABLE			BIT(0)
++
++#define CPU_CS_X2RPMH				(CPU_CS_BASE_OFFS + 0x168)
++
++static void iris_vpu_setup_ucregion_memory_map(struct iris_core *core)
 +{
-+	u32 pas_id = core->iris_platform_data->pas_id;
-+	const struct firmware *firmware = NULL;
-+	struct device *dev = core->dev;
-+	struct reserved_mem *rmem;
-+	struct device_node *node;
-+	phys_addr_t mem_phys;
-+	size_t res_size;
-+	ssize_t fw_size;
-+	void *mem_virt;
-+	int ret;
++	u32 queue_size, value;
 +
-+	if (strlen(fw_name) >= MAX_FIRMWARE_NAME_SIZE - 4)
-+		return -EINVAL;
++	/* Iris hardware requires 4K queue alignment */
++	queue_size = ALIGN(sizeof(struct iris_hfi_queue_table_header) +
++		(IFACEQ_QUEUE_SIZE * IFACEQ_NUMQ), SZ_4K);
 +
-+	node = of_parse_phandle(dev->of_node, "memory-region", 0);
-+	if (!node)
-+		return -EINVAL;
++	value = (u32)core->iface_q_table_daddr;
++	writel(value, core->reg_base + UC_REGION_ADDR);
 +
-+	rmem = of_reserved_mem_lookup(node);
-+	if (!rmem) {
-+		ret = -EINVAL;
-+		goto err_put_node;
++	/* Iris hardware requires 1M queue alignment */
++	value = ALIGN(SFR_SIZE + queue_size, SZ_1M);
++	writel(value, core->reg_base + UC_REGION_SIZE);
++
++	value = (u32)core->iface_q_table_daddr;
++	writel(value, core->reg_base + QTBL_ADDR);
++
++	writel(QTBL_ENABLE, core->reg_base + QTBL_INFO);
++
++	if (core->sfr_daddr) {
++		value = (u32)core->sfr_daddr + core->iris_platform_data->core_arch;
++		writel(value, core->reg_base + SFR_ADDR);
 +	}
-+
-+	mem_phys = rmem->base;
-+	res_size = rmem->size;
-+
-+	ret = request_firmware(&firmware, fw_name, dev);
-+	if (ret)
-+		goto err_put_node;
-+
-+	fw_size = qcom_mdt_get_size(firmware);
-+	if (fw_size < 0 || res_size < (size_t)fw_size) {
-+		ret = -EINVAL;
-+		goto err_release_fw;
-+	}
-+
-+	mem_virt = memremap(mem_phys, res_size, MEMREMAP_WC);
-+	if (!mem_virt)
-+		goto err_release_fw;
-+
-+	ret = qcom_mdt_load(dev, firmware, fw_name,
-+			    pas_id, mem_virt, mem_phys, res_size, NULL);
-+	if (ret)
-+		goto err_mem_unmap;
-+
-+	ret = qcom_scm_pas_auth_and_reset(pas_id);
-+	if (ret)
-+		goto err_mem_unmap;
-+
-+	return ret;
-+
-+err_mem_unmap:
-+	memunmap(mem_virt);
-+err_release_fw:
-+	release_firmware(firmware);
-+err_put_node:
-+	of_node_put(node);
-+
-+	return ret;
 +}
 +
-+int iris_fw_load(struct iris_core *core)
++int iris_vpu_boot_firmware(struct iris_core *core)
 +{
-+	struct tz_cp_config *cp_config = core->iris_platform_data->tz_cp_config_data;
-+	int ret;
++	u32 ctrl_init = BIT(0), ctrl_status = 0, count = 0, max_tries = 1000;
 +
-+	ret = iris_load_fw_to_memory(core, core->iris_platform_data->fwname);
-+	if (ret) {
-+		dev_err(core->dev, "firmware download failed\n");
-+		return -ENOMEM;
++	iris_vpu_setup_ucregion_memory_map(core);
++
++	writel(ctrl_init, core->reg_base + CTRL_INIT);
++	writel(0x1, core->reg_base + CPU_CS_SCIACMDARG3);
++
++	while (!ctrl_status && count < max_tries) {
++		ctrl_status = readl(core->reg_base + CTRL_STATUS);
++		if ((ctrl_status & CTRL_ERROR_STATUS__M) == 0x4) {
++			dev_err(core->dev, "invalid setting for uc_region\n");
++			break;
++		}
++
++		usleep_range(50, 100);
++		count++;
 +	}
 +
-+	ret = qcom_scm_mem_protect_video_var(cp_config->cp_start,
-+					     cp_config->cp_size,
-+					     cp_config->cp_nonpixel_start,
-+					     cp_config->cp_nonpixel_size);
-+	if (ret) {
-+		dev_err(core->dev, "protect memory failed\n");
-+		qcom_scm_pas_shutdown(core->iris_platform_data->pas_id);
-+		return ret;
++	if (count >= max_tries) {
++		dev_err(core->dev, "error booting up iris firmware\n");
++		return -ETIME;
 +	}
 +
-+	return ret;
-+}
++	writel(HOST2XTENSA_INTR_ENABLE, core->reg_base + CPU_CS_H2XSOFTINTEN);
++	writel(0x0, core->reg_base + CPU_CS_X2RPMH);
 +
-+int iris_fw_unload(struct iris_core *core)
-+{
-+	return qcom_scm_pas_shutdown(core->iris_platform_data->pas_id);
++	return 0;
 +}
-diff --git a/drivers/media/platform/qcom/iris/iris_firmware.h b/drivers/media/platform/qcom/iris/iris_firmware.h
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.h b/drivers/media/platform/qcom/iris/iris_vpu_common.h
 new file mode 100644
-index 000000000000..8d4f6b7f75c5
+index 000000000000..d9b8df6e3f80
 --- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_firmware.h
-@@ -0,0 +1,14 @@
++++ b/drivers/media/platform/qcom/iris/iris_vpu_common.h
+@@ -0,0 +1,13 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#ifndef _IRIS_FIRMWARE_H_
-+#define _IRIS_FIRMWARE_H_
++#ifndef _IRIS_VPU_COMMON_H_
++#define _IRIS_VPU_COMMON_H_
 +
 +struct iris_core;
 +
-+int iris_fw_load(struct iris_core *core);
-+int iris_fw_unload(struct iris_core *core);
++int iris_vpu_boot_firmware(struct iris_core *core);
 +
 +#endif
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-index dac64ec4bf03..04bef37b7b77 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-+++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-@@ -6,6 +6,8 @@
- #ifndef _IRIS_PLATFORM_COMMON_H_
- #define _IRIS_PLATFORM_COMMON_H_
- 
-+#define IRIS_PAS_ID				9
-+
- extern struct iris_platform_data sm8550_data;
- 
- enum platform_clk_type {
-@@ -19,6 +21,13 @@ struct platform_clk_data {
- 	const char *clk_name;
- };
- 
-+struct tz_cp_config {
-+	u32 cp_start;
-+	u32 cp_size;
-+	u32 cp_nonpixel_start;
-+	u32 cp_nonpixel_size;
-+};
-+
- struct iris_platform_data {
- 	struct iris_inst *(*get_instance)(void);
- 	const struct icc_info *icc_tbl;
-@@ -32,6 +41,9 @@ struct iris_platform_data {
- 	const char * const *clk_rst_tbl;
- 	unsigned int clk_rst_tbl_size;
- 	u64 dma_mask;
-+	const char *fwname;
-+	u32 pas_id;
-+	struct tz_cp_config *tz_cp_config_data;
- };
- 
- #endif
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-index 9b305b8e2110..96d9d6e816a0 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-+++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-@@ -24,6 +24,13 @@ static const struct platform_clk_data sm8550_clk_table[] = {
- 	{IRIS_HW_CLK,   "vcodec0_core" },
- };
- 
-+static struct tz_cp_config tz_cp_config_sm8550 = {
-+	.cp_start = 0,
-+	.cp_size = 0x25800000,
-+	.cp_nonpixel_start = 0x01000000,
-+	.cp_nonpixel_size = 0x24800000,
-+};
-+
- struct iris_platform_data sm8550_data = {
- 	.get_instance = iris_hfi_gen2_get_instance,
- 	.icc_tbl = sm8550_icc_table,
-@@ -37,4 +44,7 @@ struct iris_platform_data sm8550_data = {
- 	.clk_tbl = sm8550_clk_table,
- 	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
- 	.dma_mask = GENMASK(31, 29) - 1,
-+	.fwname = "qcom/vpu/vpu30_p4.mbn",
-+	.pas_id = IRIS_PAS_ID,
-+	.tz_cp_config_data = &tz_cp_config_sm8550,
- };
 
 -- 
 2.34.1
