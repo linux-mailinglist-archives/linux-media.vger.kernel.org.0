@@ -1,230 +1,119 @@
-Return-Path: <linux-media+bounces-20947-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20948-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420629BD0FE
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 16:49:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17BC09BD1EE
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 17:13:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF0281F23976
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 15:49:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1383285DCC
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 16:13:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B44F014A611;
-	Tue,  5 Nov 2024 15:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 900871741D1;
+	Tue,  5 Nov 2024 16:13:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Qo6W4JQE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmUmzpkQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E568310F2;
-	Tue,  5 Nov 2024 15:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD97225D7;
+	Tue,  5 Nov 2024 16:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730821784; cv=none; b=SWPrw7hiOCbfuJDIX6OQAppNfOClKPv0qahJH7FdB/UOT8EZHn0hSAVIgaDKKs3t5TVxvRUp0wRfHz8GWGbr6rhBuT66AI5qNh5GeqbPeGnijkRJJ4YtwJddxhIqTeAfFOFdvtSlYk6yYP7AZbwmU/KPnSJkBgPbmQcRfJiJzwY=
+	t=1730823210; cv=none; b=GWEYFWevuO7YRNEAtoPKAC0VcMylOpwWxHUiJ6T2vr/2rEbzsSJKFVy22JW1uXhXcMmciSJwk4bTWu5G4CDGocxzO4YKrL6+CBoSlNeQfvmERRElTfPbFOFTzbJ0kJSL4os3/5fPvK13eUOW1qaMEiQmSSRP9yR0VOCv341kyWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730821784; c=relaxed/simple;
-	bh=8ktPItxGXSPigbsgRi2LI+yRpuEAvn/cPCXGt8rhZLo=;
+	s=arc-20240116; t=1730823210; c=relaxed/simple;
+	bh=eSDIHL9Lx3jVJUWMPjnlix71KpWYWYL873yuyuGqT0w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ozzDSRAa8dygV/w9dWJAmauqodqxJZS44pN+G/mzILRrd4WuwIHRJvY9IOdvv2kpf49XFjmqpUXGwwIk8RpHelTrylfyTZB0hqI8YqzdcQGEms7AJM8IPRCtJMMom/CQPxKpovUUwZXkChcjM/V+YZ6Ie0EAkg5c5CyFXB0yulE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Qo6W4JQE; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D03D874;
-	Tue,  5 Nov 2024 16:49:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730821768;
-	bh=8ktPItxGXSPigbsgRi2LI+yRpuEAvn/cPCXGt8rhZLo=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=QUDKl9D2f3MKciOecpvWrNhrmrcPO3W+YiL+YU5bgORA8yu3B6A69r24k9lf764oNgE4oqAkfwHSIi4ObKZtE5zYQhki5xg+C3tJBL1wPoIBQsJ0qHPcSaIcfJ3diHfuixDDnVt9ALT65i3m1f2dYYFkfL9W/9vQEPeMXeOHH4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmUmzpkQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E07BEC4CECF;
+	Tue,  5 Nov 2024 16:13:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730823209;
+	bh=eSDIHL9Lx3jVJUWMPjnlix71KpWYWYL873yuyuGqT0w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qo6W4JQELNerRb5rbXTXNrX4vRZakhEqy43X8uCInpiTDqd2hMv+BAwlJjrKnnpnS
-	 N2k0Z2gRxL6nP1CTNA0Jvjzwbus0O5dzO/kIdhMsQJEOa/SsHlp65A4/pwKZwzjPm0
-	 T68CglmgEt9VF4Kfe0glbgK9Et97VvFsXvnZcs5A=
-Date: Tue, 5 Nov 2024 17:49:27 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH] media: uvcvideo: Remove refcounted cleanup
-Message-ID: <20241105154927.GA6317@pendragon.ideasonboard.com>
-References: <20241105-uvc-rmrefcount-v1-1-123f56b01731@chromium.org>
- <20241105144340.GQ27775@pendragon.ideasonboard.com>
- <CANiDSCvtaFxPvsJRQRo3RG54RZef2crs1Vk5TkA9XdoZNoqr5w@mail.gmail.com>
+	b=cmUmzpkQx1/Q9DXUjX6qBSgVLuVoYrjwF7maZOnNTP8rntuCaih5cVAODKLgP9Xbx
+	 Id6wrA4M1+sJJ2WctqX/t7/5OCTjNwoMHWGoIn1QxU6eeJYjMN4XVSEMLtiLq2o6nB
+	 X6CKGQFei6HirQn0NHS0yRf2FTbNpy2rCxLVYnM3Pk+ukAYZnsaUruILjxVCMOxmHL
+	 omX9drWCXTUEdVuzq8Zgft3AJdTsXqIguxqAilbQYBkfaIZxF0ZchCJdBGl2814h1Y
+	 F+uZ6xxrw3ycJNUY5agKm0WxD883qreG94QfZBKxl7MDtdfTCRSRscfP/QrywxmrOm
+	 zr78CgKSUV1Lw==
+Date: Tue, 5 Nov 2024 17:13:26 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, Liu Ying <victor.liu@nxp.com>, andrzej.hajda@intel.com, 
+	neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, 
+	jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, quic_jesszhan@quicinc.com, 
+	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
+	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, tomi.valkeinen@ideasonboard.com, 
+	quic_bjorande@quicinc.com, geert+renesas@glider.be, arnd@arndb.de, nfraprado@collabora.com, 
+	thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, 
+	marex@denx.de, biju.das.jz@bp.renesas.com
+Subject: Re: (subset) [PATCH v5 00/13] Add ITE IT6263 LVDS to HDMI converter
+ support
+Message-ID: <20241105-secret-seriema-of-anger-7acfdf@houat>
+References: <20241104032806.611890-1-victor.liu@nxp.com>
+ <173080602214.231309.12977765173766280536.b4-ty@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ttos2pb3wymv4mp7"
 Content-Disposition: inline
-In-Reply-To: <CANiDSCvtaFxPvsJRQRo3RG54RZef2crs1Vk5TkA9XdoZNoqr5w@mail.gmail.com>
+In-Reply-To: <173080602214.231309.12977765173766280536.b4-ty@linaro.org>
 
-On Tue, Nov 05, 2024 at 04:36:38PM +0100, Ricardo Ribalda wrote:
-> On Tue, 5 Nov 2024 at 15:43, Laurent Pinchart wrote:
-> > On Tue, Nov 05, 2024 at 02:32:39PM +0000, Ricardo Ribalda wrote:
-> > > After commit c9ec6f173636 ("media: uvcvideo: Stop stream during unregister")
-> > > we have some guarantee that userspace will not be able to access any of
-> > > our internal structures after disconnect().
-> > >
-> > > This means that we can do the cleanup at the end of disconnect and make
-> > > the code more resilient to races.
-> > >
-> > > This change will also enable the use of devres functions in more parts
-> > > of the code.
-> >
-> > That's the wrong direction, let's not go there, especially given that
-> > this doesn't fix anything. Strong nack on my side, especially given how
-> > many of your previous patches introduced race conditions. It's not
-> 
-> They have also fixed some race conditions... keep the discussion
-> professional please.
-> 
-> I think this only proves that uvc code is quite complicated. It also
-> lacks a lot of consistency with the rest of the drivers in media (and
-> in the kernel in general)
-> that is exactly what this patch tries to fix.
-> 
-> > broken, don't touch it. A better use of your time would be to fix the
-> > unplug race issue at the subsystem level.
-> 
-> Now memory is allocated during uvc_probe(), but it is not freed until
-> after disconnect() if userspace has a videodevice open.
-> Luckily userspace now cannot interfere with the driver after
-> disconnect(), so lets make use of that property to simplify the code.
-> 
-> As the commit message says, with this change we can start using devm_
-> functions and we will have less chances to make mistakes
-> Eg: no  more
-> - this cleanout belongs to uvc_register_video_device vs uvc_delete
-> - devm_ function fails because it is called too late
-> 
-> This patch fixes a class of bugs. I would really appreciate it if you
-> can review it.
-> I have moved it to its own patchset:
-> https://patchwork.linuxtv.org/project/linux-media/patch/20241105-uvc-rmrefcount-v1-1-123f56b01731@chromium.org/
-> I am planning to send more patches on top of it making use of devres
 
-I currently lack confidence in your patches when it comes to race
-conditions and use-after-free. For the ones that fix bugs, or introduce
-new features, I bite the bullet and review them. The most recent example
-(https://lore.kernel.org/r/20241105-uvc-crashrmmod-v5-1-8623fa51a74f@chromium.org)
-is a good example of why I lack that confidence. I will prioritize my
-time to get important uvcvideo patches in as quickly as possible, not on
-reviewing patches that do not address any issue and have a high risk of
-introducing problems.
+--ttos2pb3wymv4mp7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: (subset) [PATCH v5 00/13] Add ITE IT6263 LVDS to HDMI converter
+ support
+MIME-Version: 1.0
 
-If you would like to get this kind of rework in, I recommend rebuilding
-bridges first and creating trust. I would request you to drop this patch
-in the meantime.
+On Tue, Nov 05, 2024 at 01:28:48PM +0200, Dmitry Baryshkov wrote:
+> On Mon, 04 Nov 2024 11:27:53 +0800, Liu Ying wrote:
+> > This patch series aims to add ITE IT6263 LVDS to HDMI converter on
+> > i.MX8MP EVK.  Combined with LVDS receiver and HDMI 1.4a transmitter,
+> > the IT6263 supports LVDS input and HDMI 1.4 output by conversion
+> > function.  IT6263 product link can be found at [1].
+> >=20
+> > Patch 1 is a preparation patch to allow display mode of an existing
+> > panel to pass the added mode validation logic in patch 3.
+> >=20
+> > [...]
+>=20
+> Applied to drm-misc-next, thanks!
+>=20
+> [04/13] media: uapi: Add MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG, JEIDA}
+>         commit: 5205b63099507a84458075c3ca7e648407e6c8cc
 
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_driver.c | 24 +++++-------------------
-> > >  drivers/media/usb/uvc/uvcvideo.h   |  1 -
-> > >  2 files changed, 5 insertions(+), 20 deletions(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > index a96f6ca0889f..2735fccdf454 100644
-> > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > @@ -1868,16 +1868,12 @@ static int uvc_scan_device(struct uvc_device *dev)
-> > >  /*
-> > >   * Delete the UVC device.
-> > >   *
-> > > - * Called by the kernel when the last reference to the uvc_device structure
-> > > - * is released.
-> > > - *
-> > > - * As this function is called after or during disconnect(), all URBs have
-> > > + * As this function is called during disconnect(), all URBs have
-> > >   * already been cancelled by the USB core. There is no need to kill the
-> > >   * interrupt URB manually.
-> > >   */
-> > > -static void uvc_delete(struct kref *kref)
-> > > +static void uvc_delete(struct uvc_device *dev)
-> > >  {
-> > > -     struct uvc_device *dev = container_of(kref, struct uvc_device, ref);
-> > >       struct list_head *p, *n;
-> > >
-> > >       uvc_status_cleanup(dev);
-> > > @@ -1919,14 +1915,6 @@ static void uvc_delete(struct kref *kref)
-> > >       kfree(dev);
-> > >  }
-> > >
-> > > -static void uvc_release(struct video_device *vdev)
-> > > -{
-> > > -     struct uvc_streaming *stream = video_get_drvdata(vdev);
-> > > -     struct uvc_device *dev = stream->dev;
-> > > -
-> > > -     kref_put(&dev->ref, uvc_delete);
-> > > -}
-> > > -
-> > >  /*
-> > >   * Unregister the video devices.
-> > >   */
-> > > @@ -2009,7 +1997,7 @@ int uvc_register_video_device(struct uvc_device *dev,
-> > >       vdev->v4l2_dev = &dev->vdev;
-> > >       vdev->fops = fops;
-> > >       vdev->ioctl_ops = ioctl_ops;
-> > > -     vdev->release = uvc_release;
-> > > +     vdev->release = video_device_release_empty;
-> > >       vdev->prio = &stream->chain->prio;
-> > >       if (type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
-> > >               vdev->vfl_dir = VFL_DIR_TX;
-> > > @@ -2045,7 +2033,6 @@ int uvc_register_video_device(struct uvc_device *dev,
-> > >               return ret;
-> > >       }
-> > >
-> > > -     kref_get(&dev->ref);
-> > >       return 0;
-> > >  }
-> > >
-> > > @@ -2160,7 +2147,6 @@ static int uvc_probe(struct usb_interface *intf,
-> > >       INIT_LIST_HEAD(&dev->entities);
-> > >       INIT_LIST_HEAD(&dev->chains);
-> > >       INIT_LIST_HEAD(&dev->streams);
-> > > -     kref_init(&dev->ref);
-> > >       atomic_set(&dev->nmappings, 0);
-> > >
-> > >       dev->udev = usb_get_dev(udev);
-> > > @@ -2300,7 +2286,7 @@ static int uvc_probe(struct usb_interface *intf,
-> > >
-> > >  error:
-> > >       uvc_unregister_video(dev);
-> > > -     kref_put(&dev->ref, uvc_delete);
-> > > +     uvc_delete(dev);
-> > >       return -ENODEV;
-> > >  }
-> > >
-> > > @@ -2319,7 +2305,7 @@ static void uvc_disconnect(struct usb_interface *intf)
-> > >               return;
-> > >
-> > >       uvc_unregister_video(dev);
-> > > -     kref_put(&dev->ref, uvc_delete);
-> > > +     uvc_delete(dev);
-> > >  }
-> > >
-> > >  static int uvc_suspend(struct usb_interface *intf, pm_message_t message)
-> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > index 07f9921d83f2..feb8de640a26 100644
-> > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > @@ -578,7 +578,6 @@ struct uvc_device {
-> > >
-> > >       /* Video Streaming interfaces */
-> > >       struct list_head streams;
-> > > -     struct kref ref;
-> > >
-> > >       /* Status Interrupt Endpoint */
-> > >       struct usb_host_endpoint *int_ep;
-> > >
-> > > ---
-> > > base-commit: c7ccf3683ac9746b263b0502255f5ce47f64fe0a
-> > > change-id: 20241105-uvc-rmrefcount-010d98d496c5
+Where's the immutable branch Laurent asked for?
 
--- 
-Regards,
+Maxime
 
-Laurent Pinchart
+--ttos2pb3wymv4mp7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZypEJgAKCRAnX84Zoj2+
+dpfjAYCXCR61pzRZkuGkWB3Yv+7EqMH0dEZY3hO4ujeNE9k4Yn3LG2W7QlAouHUq
+cGDO9t4BgPfRY/sKNRxOUREUKrW7wHa0QyC5uc8aFlYphEWapGbIqlEboX1Y6kAW
+ANhpVKTYMw==
+=83wB
+-----END PGP SIGNATURE-----
+
+--ttos2pb3wymv4mp7--
 
