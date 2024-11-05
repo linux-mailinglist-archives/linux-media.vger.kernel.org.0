@@ -1,187 +1,242 @@
-Return-Path: <linux-media+bounces-20862-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20863-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE8A9BC72C
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 08:42:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13BC19BC734
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 08:45:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 728E11F21F17
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:42:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 992291F2209D
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 07:45:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47F291FDFAF;
-	Tue,  5 Nov 2024 07:42:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F7CF1FEFD3;
+	Tue,  5 Nov 2024 07:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="TYud5OSX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44E92AF0B
-	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 07:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944681FEFCE;
+	Tue,  5 Nov 2024 07:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730792526; cv=none; b=WPE6uG3iKjI+D8O/fZ3E5OxAgoGZLslMQwBhuG62sSAhO9ZAv3G/Tne3stRZxfaC9pb1WA1JK/sELoH8S1JOyt80bxRxr9DdcAHXAZ6IQFH6hqSqJtxWqbRcicvtI3YLRHwi63r2X0kOs9kvcP7gHQnZWql0p4rxdUkO4uonMWQ=
+	t=1730792707; cv=none; b=V/pc5xbbCjQBipL+PCNXnkwvW8uXyAlXaxomXRReAHYs05/fzFGA6OluO+XmTtUTJ6ZlqqaNlDx4tV3iGsLpdcwx0+7TfpT3z8NS/+VAQJhimzuE2HQGJuyYGkp3eHOdJnp+5xdXwra0S/C1j9v5cfOha4b/KC5jP0k/rZiGfTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730792526; c=relaxed/simple;
-	bh=6ZPVxVNcv9ZPGPNkvlOuIJN73NOs0fKpEwPX/PF8iNo=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=rsfatXaPjjUITCf7X5wd1SxqiGMgyJpCuT0bGf/5aHFxS1mVUW1gCSiZcHDkqzTYVe1jWRuc9v/ylhzNdOECgEQ6cJlv6Ar0wMATBbsdQT957evCyt+6LsVgVdt/2kpH0q4EIMmdeZS9zf5Y/UdELXXNB3R11y/Vpq6ppHQOHG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 246FAC4CECF
-	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 07:42:05 +0000 (UTC)
-Message-ID: <ddb6e006-7440-41c5-8aaa-685b058418b4@xs4all.nl>
-Date: Tue, 5 Nov 2024 08:42:04 +0100
+	s=arc-20240116; t=1730792707; c=relaxed/simple;
+	bh=vczv3umx0JydadJ/rhiMMN1HnxrR6WMwbmLBCUWYarE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wp8qSJ5sqNuWMXpIzUuBweP+h21dgUZjkl6omt9yHdVtD0LT+GqVqN1f9FCxaRlp5EFAiG0Z+NjkOFWi8E66RuGQMeEpQX5smmb0Ota5D+9N5oDSAk7CyyGwau8rUQT8gS/HL6WZPjw7+oL3SNw2i8bsN1ZWFC7g4Iz7HQG9P5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=TYud5OSX; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A51Uir2031627;
+	Tue, 5 Nov 2024 08:44:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=selector1; bh=fMy/3ePTYEdmuHR3oKMj/7pQ
+	zddxJhXpPNgNE56LFM8=; b=TYud5OSXJDURjb9WH8OmxgZpzywYjos0gnr1wt5Z
+	FNeMncJw+I5gU7N0V0M9fU6GzkpIGQY+XumBwW5/V5u6BTXviHXL1CcptzIJ6aQa
+	5Ve/UCUI9t61hDreoemI9COiPDCOnV8rC4FIzc77pEi1lecCePpvBtodQfVWdrPK
+	1p4Y+8SA/PArMWPIqvcbF4o8XuyWNan7fez+86HUEMfTvpWNHGge4emn7Nr4FhfZ
+	31jTNznH5v7uht3DXTSya1cOkJLtWcpiGX8sf5+6g3NiUtc2eGgedYiZy9Pj+Eo1
+	YMexn77m9RFBtlhCmEnJITW+PmP3dHO98l8rAnqX80YMSw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42nd05aruy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 05 Nov 2024 08:44:38 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E502340046;
+	Tue,  5 Nov 2024 08:43:21 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0658024C45D;
+	Tue,  5 Nov 2024 08:42:25 +0100 (CET)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 5 Nov
+ 2024 08:42:24 +0100
+Date: Tue, 5 Nov 2024 08:42:17 +0100
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre
+ Torgue <alexandre.torgue@foss.st.com>,
+        Hans Verkuil
+	<hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Rob
+ Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor
+ Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>, <linux-media@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 02/15] dt-bindings: media: addition of stm32 csi driver
+ description
+Message-ID: <20241105074115.GA1413559@gnbcxd0016.gnb.st.com>
+References: <20241008-csi_dcmipp_mp25-v1-0-e3fd0ed54b31@foss.st.com>
+ <20241008-csi_dcmipp_mp25-v1-2-e3fd0ed54b31@foss.st.com>
+ <c2askprap35pmyanrfvtk333oamjjrolbxhfkar2lgoow4gpcr@xfikinnrs42e>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCHv2] media: v4l2-core: v4l2-ctrls: check for handler_new_ref
- misuse
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <c2askprap35pmyanrfvtk333oamjjrolbxhfkar2lgoow4gpcr@xfikinnrs42e>
+X-Disclaimer: ce message est personnel / this message is private
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-An out-of-tree driver created a control handler, added controls, then
-called v4l2_ctrl_add_handler to add references to controls from another
-handler, and finally added another control that happened to have the same
-control ID as one of the controls from that other handler.
+Hi Krzysztof,
 
-This caused a NULL pointer crash when an attempt was made to use that last
-control.
+On Tue, Oct 08, 2024 at 03:23:10PM +0200, Krzysztof Kozlowski wrote:
+> On Tue, Oct 08, 2024 at 01:18:04PM +0200, Alain Volmat wrote:
+> > Addition of the stm32 csi controller driver
+> 
+> This is supposed to be about hardware, not driver. Missing full stop.
 
-Besides the fact that two out-of-tree drivers used the same control ID for
-different (private) controls, which is obviously a bug, this specific
-scenario should have been caught. The root cause is the 'duplicate ID'
-check in handler_new_ref(): it expects that drivers will first add all
-controls to a control handler before calling v4l2_ctrl_add_handler. That
-way the local controls will always override references to controls from
-another handler.
+Ok, commit message corrected in the upcoming v2.
 
-It never considered the case where new local controls were added after
-calling v4l2_ctrl_add_handler. Add a check to handler_new_ref() to return
-an error in the case that a new local control is added with the same ID as
-an existing control reference. Also use WARN_ON since this is a driver bug.
+> 
+> > 
+> > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> > ---
+> >  .../devicetree/bindings/media/st,stm32-csi.yaml    | 129 +++++++++++++++++++++
+> 
+> Use compatible as filename.
 
-This situation can only happen when out-of-tree drivers are used or during
-driver development, since mainlined drivers all have their own control
-ranges reserved in v4l2-controls.h, thus preventing duplicate control IDs.
+Fixed
 
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
----
-Changes since v1:
-Improved the comment.
----
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 34 +++++++++++++++++++----
- 1 file changed, 28 insertions(+), 6 deletions(-)
+> 
+> >  1 file changed, 129 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/st,stm32-csi.yaml b/Documentation/devicetree/bindings/media/st,stm32-csi.yaml
+> > new file mode 100644
+> > index 000000000000..71e7c51be58c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/st,stm32-csi.yaml
+> > @@ -0,0 +1,129 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/st,stm32-csi.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: STMicroelectronics STM32 CSI controller
+> > +
+> > +description:
+> > +  The STM32 CSI controller allows connecting a CSI based
+> > +  camera to the DCMIPP camera pipeline.
+> > +
+> > +maintainers:
+> > +  - Alain Volmat <alain.volmat@foss.st.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - st,stm32mp25-csi
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 3
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: pclk
+> > +      - const: txesc
+> > +      - const: csi2phy
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  vdd-supply:
+> > +    description: Digital core power supply (0.91V)
+> > +
+> > +  vdda18-supply:
+> > +    description: System analog power supply (1.8V)
+> > +
+> > +  access-controllers:
+> > +    minItems: 1
+> > +    maxItems: 2
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        unevaluatedProperties: false
+> > +        description:
+> > +          Input port node
+> > +
+> > +        properties:
+> > +          endpoint:
+> > +            $ref: video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +            properties:
+> > +              data-lanes:
+> > +                description:
+> > +                  Indicate the number of data-lanes and their mapping.
+> > +
+> > +                items:
+> 
+> Drop
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index eeab6a5eb7ba..8fac12e78481 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -1676,6 +1676,7 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
- 	u32 class_ctrl = V4L2_CTRL_ID2WHICH(id) | 1;
- 	int bucket = id % hdl->nr_of_buckets;	/* which bucket to use */
- 	unsigned int size_extra_req = 0;
-+	int ret = 0;
+Done
 
- 	if (ctrl_ref)
- 		*ctrl_ref = NULL;
-@@ -1719,13 +1720,32 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
- 	list_for_each_entry(ref, &hdl->ctrl_refs, node) {
- 		if (ref->ctrl->id < id)
- 			continue;
--		/* Don't add duplicates */
--		if (ref->ctrl->id == id) {
--			kfree(new_ref);
--			goto unlock;
-+		/* Check we're not adding a duplicate */
-+		if (ref->ctrl->id != id) {
-+			list_add(&new_ref->node, ref->node.prev);
-+			break;
- 		}
--		list_add(&new_ref->node, ref->node.prev);
--		break;
-+
-+		/*
-+		 * If we add a new control to this control handler, and we find
-+		 * that it is a duplicate, then that is a driver bug. Warn and
-+		 * return an error.
-+		 *
-+		 * It can be caused by either adding the same control twice, or
-+		 * by first calling v4l2_ctrl_add_handler, and then adding a new
-+		 * control to this control handler.
-+		 *
-+		 * Either sequence is incorrect.
-+		 *
-+		 * However, if the control is owned by another handler, and
-+		 * a control with that ID already exists in the list, then we
-+		 * can safely skip it: in that case it the control is overridden
-+		 * by the existing control.
-+		 */
-+		if (WARN_ON(hdl == ctrl->handler))
-+			ret = -EEXIST;
-+		kfree(new_ref);
-+		goto unlock;
- 	}
+> 
+> ... and test your patches. Mailing list is not the place to test them.
+> Your machine is.
 
- insert_in_hash:
-@@ -1746,6 +1766,8 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
+I did, however my dtschema was too old hence not reporting the issue.
+Once updated I now got the error reported and fixed that.
 
- unlock:
- 	mutex_unlock(hdl->lock);
-+	if (ret)
-+		return handler_set_err(hdl, ret);
- 	return 0;
- }
+> 
+> > +                  minItems: 1
+> > +                  items:
+> > +                    - const: 1
+> > +                    - const: 2
+> > +
+> > +            required:
+> > +              - data-lanes
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          Output port node
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - resets
+> > +  - ports
+> 
+> Best regards,
+> Krzysztof
+> 
 
--- 
-2.45.2
-
+Regards,
+Alain
 
