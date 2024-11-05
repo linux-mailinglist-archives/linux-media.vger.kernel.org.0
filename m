@@ -1,119 +1,77 @@
-Return-Path: <linux-media+bounces-20948-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20949-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BC09BD1EE
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 17:13:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A76289BD26B
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 17:35:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1383285DCC
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 16:13:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D97A51C2233E
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2024 16:35:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 900871741D1;
-	Tue,  5 Nov 2024 16:13:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04AE21D8E1A;
+	Tue,  5 Nov 2024 16:35:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmUmzpkQ"
+	dkim=pass (4096-bit key) header.d=nicemail.eu header.i=@nicemail.eu header.b="EENh0dyl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mailgate02.uberspace.is (mailgate02.uberspace.is [185.26.156.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD97225D7;
-	Tue,  5 Nov 2024 16:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC910154BEE
+	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 16:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.26.156.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730823210; cv=none; b=GWEYFWevuO7YRNEAtoPKAC0VcMylOpwWxHUiJ6T2vr/2rEbzsSJKFVy22JW1uXhXcMmciSJwk4bTWu5G4CDGocxzO4YKrL6+CBoSlNeQfvmERRElTfPbFOFTzbJ0kJSL4os3/5fPvK13eUOW1qaMEiQmSSRP9yR0VOCv341kyWU=
+	t=1730824508; cv=none; b=cZvS/TqF4YTp0IPVfeZ+fgXbMxiSdk2Lw7F1UoGIz07JFBkr9J+oGyXuoSSqpBSeHZe7Izz8aHqjFdk/7+8Pq2Y85D+7KxbWCZ5kPRilDORDCQaFuSqTQvtItMgrHplMFl6Jx2yJTmbkbcOVi2YpBB0jDshZqyfMX91IT8VQZXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730823210; c=relaxed/simple;
-	bh=eSDIHL9Lx3jVJUWMPjnlix71KpWYWYL873yuyuGqT0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QUDKl9D2f3MKciOecpvWrNhrmrcPO3W+YiL+YU5bgORA8yu3B6A69r24k9lf764oNgE4oqAkfwHSIi4ObKZtE5zYQhki5xg+C3tJBL1wPoIBQsJ0qHPcSaIcfJ3diHfuixDDnVt9ALT65i3m1f2dYYFkfL9W/9vQEPeMXeOHH4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmUmzpkQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E07BEC4CECF;
-	Tue,  5 Nov 2024 16:13:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730823209;
-	bh=eSDIHL9Lx3jVJUWMPjnlix71KpWYWYL873yuyuGqT0w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cmUmzpkQx1/Q9DXUjX6qBSgVLuVoYrjwF7maZOnNTP8rntuCaih5cVAODKLgP9Xbx
-	 Id6wrA4M1+sJJ2WctqX/t7/5OCTjNwoMHWGoIn1QxU6eeJYjMN4XVSEMLtiLq2o6nB
-	 X6CKGQFei6HirQn0NHS0yRf2FTbNpy2rCxLVYnM3Pk+ukAYZnsaUruILjxVCMOxmHL
-	 omX9drWCXTUEdVuzq8Zgft3AJdTsXqIguxqAilbQYBkfaIZxF0ZchCJdBGl2814h1Y
-	 F+uZ6xxrw3ycJNUY5agKm0WxD883qreG94QfZBKxl7MDtdfTCRSRscfP/QrywxmrOm
-	 zr78CgKSUV1Lw==
-Date: Tue, 5 Nov 2024 17:13:26 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, Liu Ying <victor.liu@nxp.com>, andrzej.hajda@intel.com, 
-	neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, 
-	jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, quic_jesszhan@quicinc.com, 
-	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org, 
-	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, tomi.valkeinen@ideasonboard.com, 
-	quic_bjorande@quicinc.com, geert+renesas@glider.be, arnd@arndb.de, nfraprado@collabora.com, 
-	thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, 
-	marex@denx.de, biju.das.jz@bp.renesas.com
-Subject: Re: (subset) [PATCH v5 00/13] Add ITE IT6263 LVDS to HDMI converter
- support
-Message-ID: <20241105-secret-seriema-of-anger-7acfdf@houat>
-References: <20241104032806.611890-1-victor.liu@nxp.com>
- <173080602214.231309.12977765173766280536.b4-ty@linaro.org>
+	s=arc-20240116; t=1730824508; c=relaxed/simple;
+	bh=aEfjPuaTlvPbZPwuw/xir/EwKuDCvloG2ecMCqONHCU=;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=ivXyPcSrHMtcCc1b+33WIKTgE+L28exgpsYvbE+RrJn7JQ8JR0ZVWlg4Sucm+Q/Hsccf6oCwid1Ks2oTSgRD/+CtHnJxWe0CdAFHLlOcctcfWCEm0AkFfg0/Ve6JqTd6zV+FtGtZd27y8jUDED5lZLRlQlnHM1c61hX09m6Cldw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nicemail.eu; spf=pass smtp.mailfrom=nicemail.eu; dkim=pass (4096-bit key) header.d=nicemail.eu header.i=@nicemail.eu header.b=EENh0dyl; arc=none smtp.client-ip=185.26.156.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nicemail.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nicemail.eu
+Received: from hermippe.uberspace.de (hermippe.uberspace.de [185.26.156.84])
+	by mailgate02.uberspace.is (Postfix) with ESMTPS id BAAAE1801EB
+	for <linux-media@vger.kernel.org>; Tue,  5 Nov 2024 17:26:10 +0100 (CET)
+Received: (qmail 21398 invoked by uid 988); 5 Nov 2024 16:26:10 -0000
+Authentication-Results: hermippe.uberspace.de;
+	auth=pass (login)
+Received: from unknown (HELO unkown) (::1)
+	by hermippe.uberspace.de (Haraka/3.0.1) with ESMTPSA; Tue, 05 Nov 2024 17:26:10 +0100
+Date: Tue, 5 Nov 2024 17:26:08 +0100 (GMT+01:00)
+From: rayquaza-intermittent-comb@nicemail.eu
+To: linux-media@vger.kernel.org
+Message-ID: <a379eec2-b57b-4dd8-97cf-2018893670b3@nicemail.eu>
+Subject: Infrared Nuvoton w836x7hg - TX possible?
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ttos2pb3wymv4mp7"
-Content-Disposition: inline
-In-Reply-To: <173080602214.231309.12977765173766280536.b4-ty@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Correlation-ID: <a379eec2-b57b-4dd8-97cf-2018893670b3@nicemail.eu>
+X-Rspamd-Bar: /
+X-Rspamd-Report: BAYES_HAM(-0.001859) SUBJECT_ENDS_QUESTION(1) MIME_GOOD(-0.1)
+X-Rspamd-Score: 0.89814
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=nicemail.eu; s=uberspace;
+	h=from:to:subject:date;
+	bh=aEfjPuaTlvPbZPwuw/xir/EwKuDCvloG2ecMCqONHCU=;
+	b=EENh0dylI7GQRSDTryEFfJFAaG85EKM1pqkE2e39yCfNZSN4xAKaxVOcQKwFFVLEw1G7STo01j
+	vZMD6sUWIFolox5L/CgtlGvZvF7SABSLAnTpz3N0f8EBtYiLZ35Gc9PuClZoP4ixbYoSCIV7WQ5t
+	K/GcEbd6PbUH9EVq+4zCLP3GZXE86USgZk0i1wbxTV4vH6Js76JOwZh0Qi7Ql/oAlur4M2YdGe67
+	Z2PtHlxu4SSmY2NjqSJU6CACn8Q3AAXjBodlg3NwxZELiCsRQsCX6QTOAVVrT0MKMA2HLjxoTI62
+	G3lJD2LonghJnJgeF1qAav4uDwEUUufd+94YPQX50sTlUHjlDwi4GKY6eRqyO3mNbN6SWAlrfaW2
+	eRzd+BEfb11VLg0mqBq8+a18Ft+diFjjlSAEkDNAeJT6Gd6JsIEPUL5uYAPELow1FaDTMAcR6i8j
+	FoBRYkCDtPMsFCeUA80kIKGrt2PQz5b1KFrwkJ2Z+H392CAkayYskjOQrUG/4rQwQSJ1CU4Yeu6T
+	HrrcJqkufeduIvdYPLnrbw9PocOGhn9XFFap35PUbPVdP9befRFyZl3TwwGz/9uFXEcg/UKUEngB
+	yOknXpccNlHLlT4MfMuSV8MUlu6NtSqPnsNeR7JDfpCrnFZO5poC000X75LzRTNCBG2mW8iVNjSL
+	w=
 
+Morning,
 
---ttos2pb3wymv4mp7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: (subset) [PATCH v5 00/13] Add ITE IT6263 LVDS to HDMI converter
- support
-MIME-Version: 1.0
-
-On Tue, Nov 05, 2024 at 01:28:48PM +0200, Dmitry Baryshkov wrote:
-> On Mon, 04 Nov 2024 11:27:53 +0800, Liu Ying wrote:
-> > This patch series aims to add ITE IT6263 LVDS to HDMI converter on
-> > i.MX8MP EVK.  Combined with LVDS receiver and HDMI 1.4a transmitter,
-> > the IT6263 supports LVDS input and HDMI 1.4 output by conversion
-> > function.  IT6263 product link can be found at [1].
-> >=20
-> > Patch 1 is a preparation patch to allow display mode of an existing
-> > panel to pass the added mode validation logic in patch 3.
-> >=20
-> > [...]
->=20
-> Applied to drm-misc-next, thanks!
->=20
-> [04/13] media: uapi: Add MEDIA_BUS_FMT_RGB101010_1X7X5_{SPWG, JEIDA}
->         commit: 5205b63099507a84458075c3ca7e648407e6c8cc
-
-Where's the immutable branch Laurent asked for?
-
-Maxime
-
---ttos2pb3wymv4mp7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZypEJgAKCRAnX84Zoj2+
-dpfjAYCXCR61pzRZkuGkWB3Yv+7EqMH0dEZY3hO4ujeNE9k4Yn3LG2W7QlAouHUq
-cGDO9t4BgPfRY/sKNRxOUREUKrW7wHa0QyC5uc8aFlYphEWapGbIqlEboX1Y6kAW
-ANhpVKTYMw==
-=83wB
------END PGP SIGNATURE-----
-
---ttos2pb3wymv4mp7--
+I want to automate some weird things and I have an old intel thing with such an infrared chip around.
+Lirc freshly installed on Debian finds the device and receives stuff from remotes. But lirc says the hardware can not transmit. Could this be by config or does that mean the hardware is definitely not capable of transmitting?
 
