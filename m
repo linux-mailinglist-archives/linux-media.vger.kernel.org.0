@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-20983-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-20984-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D2A9BDF48
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 08:21:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFADF9BDF61
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 08:25:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B179284E76
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 07:21:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FA5C1F24951
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 07:25:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E0AA1CC17B;
-	Wed,  6 Nov 2024 07:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 794F01CC8BA;
+	Wed,  6 Nov 2024 07:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BP8788lp"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dznXUx5B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F64192B61;
-	Wed,  6 Nov 2024 07:21:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBF3192580;
+	Wed,  6 Nov 2024 07:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730877703; cv=none; b=N79ydiPY6nAZbD/yW6jvkCO4Rn8cz8OzktWY8TdGWn8QbrijdO+XCw9JhR8+9GeOpB88MNDgJgsCFyZWCGfo3OoejbzyTwxYzSxOvCuCiOrM7qWBWCcYwrsdEXG/Ruc6SECSMg52ZNuiDxltzz+ey+G8RzlFwiMsVIU1zChINgs=
+	t=1730877921; cv=none; b=QDjJ/4ePZPXYL2vYFHM75Q4zkg7I69o1jdIn9xlFUjRg3irebzFqLE9zcm5IJOR1erjymZkXEt2EAP5jpSU6C190lupq9R1564FeniT/JBCvn66zFcf2eBdMLcFETFlfCDZ1biwm0dNoFad8Kyub4oVHgFOxq8Bb/qaIfqU0sX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730877703; c=relaxed/simple;
-	bh=YNKf3BZI3u1WrgngoCNtp79cRg1OCQ5Qdn+2ucp/2K8=;
+	s=arc-20240116; t=1730877921; c=relaxed/simple;
+	bh=h+xI1yT8ky/b19/GpzaLaSMrzWTHCXmCe32fyxlq3rw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=oADkUBRbo04HFS8VEsplUiI9QLnppBM/YzvPabcmJsGHHTW13Od2POXMwbJK+0rbdxSSUOUiZol8Vjezem9GHu06bipUtaQ6690p5H1A746YjsqzNcR+zHOw+A/vHW8KhNaQFj5hbEUvisvQR/1uJ/Jqzc1u1wPYoW3bIJv8nEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BP8788lp; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=NAgq7XqO0jLqRgW6MtYuZebT9Ra21CCBD+wn05AvP+R8Y7KaYLSCq7QP5OQSMtwjHto/CpOTnQypFegLLXn9ykPM1nzrbH4juy/IXCoS8p6CJAGa4KFe59V/TxB2b2M9KxbJ25yDat0tEOhNJ7/l4r0hoEiajMjcanwmEJVZv84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dznXUx5B; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5KpQqj004167;
-	Wed, 6 Nov 2024 07:21:25 GMT
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A632p7D002132;
+	Wed, 6 Nov 2024 07:25:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	En6P/4Ux2VmeApA4xvzacrYMsGlncN/pQo65ukkibtg=; b=BP8788lpTZT7ZsrI
-	kzHvJVHT6ju0Xbltd4GnFJwCFx+m8un0EGfpEIIBtHxGFNlXBK1PBPkCfJQUulcz
-	SlWQkvSaNfbFuGbYhfnpZbFbVzpaZ9kKIRNURRm1QbPEacONC62Qvb+Co84pEOwu
-	xMfiinPJcTXCwk5r8GpRTv/JTihkIJ5ZyA9D5zdlXYYnCzl/wkvxdWj9ngRFLXqe
-	9F8S1aRS8NnmSqWWVAQAbI40jaDY2cvhE4/t2ZL3BnNy1rZKu3S2kaG3oIyTKg0Q
-	royVoKtNPquGKgMoc8ua15TcPEjvxHEb4mPFP9M5o0XZW+1fDK07f6aKQgC6874V
-	YVnyxw==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42qhbub2bs-1
+	frs4vFdaLlG0LWU4uuZE7Vj/cManDFo4GpodHieHqA0=; b=dznXUx5BD/LgZxyN
+	PvAZVmgqFnNM0yPAZQCQ6N/OjnfDGS55vBfUMifpZzT/LSloW8EF6OonAqBYZOaO
+	3KkKkVkqFHOpaD2nb1GqKgx5MvQU5fbpXx/+sOlxaK8WDpdYUBZkgg1jNA5g76vj
+	dphUjZj357FPRJ8j+HK7H/5wOj6Ezl2jqd+uF5akCgeI+JO45oCONuFnAx+MhJx+
+	vE934/KgActleiyiO+yodkR613JfRm/f1FD7l3pfJUS3A8tAJA8sCdHNpD7vAL9c
+	NH6pb3gW2XrAMEmcBzrR1cT3stW59PioJYYcQGsa/Jh5uesuoAF39p1Hnh6dG5xV
+	Z4y9ZA==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42r072gjbj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 Nov 2024 07:21:25 +0000 (GMT)
+	Wed, 06 Nov 2024 07:25:14 +0000 (GMT)
 Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A67LOpx006493
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A67PD9d026050
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 6 Nov 2024 07:21:24 GMT
+	Wed, 6 Nov 2024 07:25:14 GMT
 Received: from [10.204.100.69] (10.80.80.8) by nasanex01a.na.qualcomm.com
  (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 5 Nov 2024
- 23:21:22 -0800
-Message-ID: <1016831e-f3fc-2724-5005-4929badf4994@quicinc.com>
-Date: Wed, 6 Nov 2024 12:51:19 +0530
+ 23:25:11 -0800
+Message-ID: <7f350d73-65dd-097e-8b4a-e9a23472aa28@quicinc.com>
+Date: Wed, 6 Nov 2024 12:55:08 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,95 +66,87 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH 4/4] media: venus: hfi: add a check to handle OOB in sfr
- region
+Subject: Re: [PATCH 1/4] media: venus: hfi_parser: add check to avoid out of
+ bound access
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
 References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
- <20241105-venus_oob-v1-4-8d4feedfe2bb@quicinc.com>
- <mthuolorbcsykmetqpfaaoyuxgjskwvtvtv4mfl235enlq7win@jdhn2s2cgmui>
+ <20241105-venus_oob-v1-1-8d4feedfe2bb@quicinc.com>
+ <640fe933-078d-4bf5-815c-7db0eb8b9de4@linaro.org>
 From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <mthuolorbcsykmetqpfaaoyuxgjskwvtvtv4mfl235enlq7win@jdhn2s2cgmui>
+In-Reply-To: <640fe933-078d-4bf5-815c-7db0eb8b9de4@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Ov67Aba6V2GYB1ge-DlSnOSSDUgjM1jM
-X-Proofpoint-GUID: Ov67Aba6V2GYB1ge-DlSnOSSDUgjM1jM
+X-Proofpoint-ORIG-GUID: lAKpfWxI9Ioun-drb3uv5PPw7371Dlk1
+X-Proofpoint-GUID: lAKpfWxI9Ioun-drb3uv5PPw7371Dlk1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=932 clxscore=1015 priorityscore=1501 adultscore=0 bulkscore=0
- suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411060057
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
+ adultscore=0 malwarescore=0 phishscore=0 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411060059
 
 
-On 11/5/2024 7:28 PM, Dmitry Baryshkov wrote:
-> On Tue, Nov 05, 2024 at 02:24:57PM +0530, Vikash Garodia wrote:
->> sfr->buf_size is in shared memory and can be modified by malicious user.
->> OOB write is possible when the size is made higher than actual sfr data
->> buffer.
+On 11/5/2024 4:21 PM, Bryan O'Donoghue wrote:
+> On 05/11/2024 08:54, Vikash Garodia wrote:
+>> There is a possibility that init_codecs is invoked multiple times during
+>> manipulated payload from video firmware. In such case, if codecs_count
+>> can get incremented to value more than MAX_CODEC_NUM, there can be OOB
+>> access. Keep a check for max accessible memory before accessing it.
 >>
 >> Cc: stable@vger.kernel.org
->> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
+>> Fixes: 1a73374a04e5 ("media: venus: hfi_parser: add common capability parser")
 >> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 >> ---
->>  drivers/media/platform/qcom/venus/hfi_venus.c | 9 +++++++--
->>  1 file changed, 7 insertions(+), 2 deletions(-)
+>>   drivers/media/platform/qcom/venus/hfi_parser.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
 >>
->> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
->> index 50d92214190d88eff273a5ba3f95486f758bcc05..c19d6bf686d0f31c6a2f551de3f7eb08031bde85 100644
->> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
->> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
->> @@ -1041,18 +1041,23 @@ static void venus_sfr_print(struct venus_hfi_device *hdev)
->>  {
->>  	struct device *dev = hdev->core->dev;
->>  	struct hfi_sfr *sfr = hdev->sfr.kva;
->> +	u32 size;
->>  	void *p;
->>  
->>  	if (!sfr)
->>  		return;
->>  
->> -	p = memchr(sfr->data, '\0', sfr->buf_size);
->> +	size = sfr->buf_size;
->> +	if (size > ALIGNED_SFR_SIZE)
->> +		return;
+>> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c
+>> b/drivers/media/platform/qcom/venus/hfi_parser.c
+>> index
+>> 3df241dc3a118bcdeb2c28a6ffdb907b644d5653..27d0172294d5154f4839e8cef172f9a619dfa305 100644
+>> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
+>> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+>> @@ -23,6 +23,8 @@ static void init_codecs(struct venus_core *core)
+>>           return;
+>>         for_each_set_bit(bit, &core->dec_codecs, MAX_CODEC_NUM) {
+>> +        if (core->codecs_count >= MAX_CODEC_NUM)
+>> +            return;
+>>           cap = &caps[core->codecs_count++];
+>>           cap->codec = BIT(bit);
+>>           cap->domain = VIDC_SESSION_TYPE_DEC;
+>> @@ -30,6 +32,8 @@ static void init_codecs(struct venus_core *core)
+>>       }
+>>         for_each_set_bit(bit, &core->enc_codecs, MAX_CODEC_NUM) {
+>> +        if (core->codecs_count >= MAX_CODEC_NUM)
+>> +            return;
+>>           cap = &caps[core->codecs_count++];
+>>           cap->codec = BIT(bit);
+>>           cap->domain = VIDC_SESSION_TYPE_ENC;
+>>
 > 
-> Why can't you just limit size to ALIGNED_SFR_SIZE, still allowing the
-> data to be captured?
-That should do as well. Updating above check to below would take care of it.
-if (size > ALIGNED_SFR_SIZE)
-    size = ALIGNED_SFR_SIZE;
+> I don't see how codecs_count could be greater than the control, since you
+> increment by one on each loop but >= is fine too I suppose.
+Assume the payload from malicious firmware is packed like below
+HFI_PROPERTY_PARAM_CODEC_SUPPORTED
+HFI_PROPERTY_PARAM_CODEC_SUPPORTED
+HFI_PROPERTY_PARAM_CODEC_SUPPORTED
+.....
+for 32 or more instances of above type
 
 Regards,
 Vikash
 > 
->> +
->> +	p = memchr(sfr->data, '\0', size);
->>  	/*
->>  	 * SFR isn't guaranteed to be NULL terminated since SYS_ERROR indicates
->>  	 * that Venus is in the process of crashing.
->>  	 */
->>  	if (!p)
->> -		sfr->data[sfr->buf_size - 1] = '\0';
->> +		sfr->data[size - 1] = '\0';
->>  
->>  	dev_err_ratelimited(dev, "SFR message from FW: %s\n", sfr->data);
->>  }
->>
->> -- 
->> 2.34.1
->>
-> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
