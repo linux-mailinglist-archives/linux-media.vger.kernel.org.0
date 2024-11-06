@@ -1,160 +1,135 @@
-Return-Path: <linux-media+bounces-21014-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21015-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C39C9BE7D4
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 13:18:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB149BED4B
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 14:10:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E9231C21D86
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 12:18:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C59D1C2406F
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 13:10:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E37C1DF737;
-	Wed,  6 Nov 2024 12:18:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 054B11F8EE6;
+	Wed,  6 Nov 2024 13:04:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C3zOO+xs"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iF+f2JrO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2401DF72E
-	for <linux-media@vger.kernel.org>; Wed,  6 Nov 2024 12:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6891F8EE3;
+	Wed,  6 Nov 2024 13:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730895489; cv=none; b=pPoteddoEFbM0tlIyJg+aE2rMNSyErh6C0toTvmkOvu1hfV6bLyVp6S199KMmtr2QYcgA2TgsEMNzVmV1TmXTUxqQLy40/kqWxtaDLkezKrQ1kwxIO0N/KJnQ0dnBnyz+G65bAT6IY/lM57m1LskYzHoVpMDEIZM503nMevEjN8=
+	t=1730898287; cv=none; b=Ny/KlYp0RRxz/qW1tca17KLw4HqIiXssjMfuEeQaB9YasI3xy9UxC058scXTb/Qq13zi0b2aMMy/TkkxCg4md0+aK/VWDpzuaUiZk86Y9cq1QkhsbbnO1PDlLVZ3EhysYUDdlysaz06ckVq9mK2cfbSe+dOlWQ/Vaz+xcIHxsO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730895489; c=relaxed/simple;
-	bh=jq9tjZSX0Nz5KCSVZOVTjQtRL4Y/3PyO8+4tqUHxnaY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uNbGoFuvG4jvZOiOHQaEuNpwJNgung8S4xuMxb2WGBp4iSEFfLHN7POuffPkxQoQva81XvlW1aiduYgbKLvV7vaK3gqqf5Il+mzFGSO+y87a+7NNhfoVjc86kQzNZrRXvQdVmbxSPk4seVGc9byfeDZx9pZgYI6fLb0jYuF21o4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C3zOO+xs; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d533b5412so3950236f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 06 Nov 2024 04:18:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730895486; x=1731500286; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5OicbYssJvQct2Lr3N97//AIKa0PvpzaGyzW7UkpsfA=;
-        b=C3zOO+xsiDCTIU46rrqqvkA/8GrXJvkz80x+s3ol8apjCIj692b/yKSwI0Szx0jmYm
-         zmfgfjIoeVsFYrOPQxvOcZu5COYs4JsZN2W36Nj7fvxqueLegTszksUgRfMqRN8nwj4q
-         ZzR6WL8B1Wr6TXlVTtfWkDtYf85FjksCaXINjH6WvQ0H/zsSNxAofjoaVI8b4Gn6uxLe
-         kH8o0tZQG6isSOhsCxoG3IsTAXYHDEjFk0/VAPG0Tcc7Z2vTEzY/U9QZwgRgddkOfRoj
-         ka+hWz7WmiZ1saQh2UZFFh1YVvjqwFP+EZuXunVkeGNKtQdcUix5D2K0n4nPMVUVriSa
-         vjvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730895486; x=1731500286;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5OicbYssJvQct2Lr3N97//AIKa0PvpzaGyzW7UkpsfA=;
-        b=bv2nLBaGpnL1IXHl99KAkyQTPqeyUlM0RWVrlARiqjjnWYy2NjL4vhpXXdVz07kAn4
-         29ahHVIZxb2RrVzv4Juz4x+CbrJVAiPC2eiMNFbCMI47pFZJfeqNRMJbJt6sT71ejj+y
-         kTLBHdJTl/ySgyLq68zMSgaIHzjrnLGMbTvNvBhL3nTB/gcGtWyFTYoE2HsKG3fsI4A8
-         FQ7Yu3mlCr6zMNRXGwEPvwXcj89RqJgcPH3v4z32xPnNUYB60kGymKocT6Faw4pNCF8m
-         Nj6NQT+TR7A1puaMlOrkd021nL34qXTTcIh1ULxuFVx0NEADVffKeZdbKXzbed1DGXif
-         39aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCURuZ6oc8rzAMxgKcFxLVpLiK2hVzWMuV0Qqgeeh54dHlP7Lde3vaprK/LJvYKq4oQT9LS4C1jFv2kPiA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywx1JKt11LtvxZhbYefXmzP2cJz5aWycZJogl56sCriibpZz/ko
-	DyrpHzlle5fiAzZKpIqIvdseYZXCtfB/G+VvM4nrDuUKa0nEwuKErnlxQyOmB9M=
-X-Google-Smtp-Source: AGHT+IFtoT40eHtnrwAXHz8QyKy5z9wGpQ/l1+VvPX0Bfheczjk+XNbJChmqz+SINZws6jncoVrfXw==
-X-Received: by 2002:a5d:48ce:0:b0:37c:d001:856f with SMTP id ffacd0b85a97d-38061220ac3mr26699965f8f.56.1730895485623;
-        Wed, 06 Nov 2024 04:18:05 -0800 (PST)
-Received: from ta2.c.googlers.com.com (32.134.38.34.bc.googleusercontent.com. [34.38.134.32])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c116ac7dsm18938607f8f.105.2024.11.06.04.18.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 04:18:05 -0800 (PST)
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-To: tfiga@chromium.org
-Cc: m.szyprowski@samsung.com,
-	mchehab@kernel.org,
-	yunkec@chromium.org,
-	hverkuil@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	andre.draszik@linaro.org,
-	kernel-team@android.com,
-	willmcvicker@google.com,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] media: videobuf2-core: copy vb planes unconditionally
-Date: Wed,  6 Nov 2024 12:18:02 +0000
-Message-ID: <20241106121802.2939237-1-tudor.ambarus@linaro.org>
-X-Mailer: git-send-email 2.47.0.199.ga7371fff76-goog
+	s=arc-20240116; t=1730898287; c=relaxed/simple;
+	bh=682rZ4W8M3E5mVOEB3/2mrEAAw15OgHnlpXKz526rA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RT6qeKQu3qb/bgAre/5lwbFpw4qcwI+cex6T6xwggSgPHPX+0q6iYRxt6sAHZukRr5VuEB5V6GxnllTcp6Ff7WxhngOihH/Ow6EVrXQ/hlRZIDUN9NH4T/2q1I643lwh2QXB2+WS4eNxmfXg4SViHCSXLPCnD7mWs7hva8+XlGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iF+f2JrO; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B6BA475;
+	Wed,  6 Nov 2024 14:04:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730898275;
+	bh=682rZ4W8M3E5mVOEB3/2mrEAAw15OgHnlpXKz526rA0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iF+f2JrOf8LKiTjHV1UChMRbmf6ckq9rA1BPUFp1xg1DRGXF+rkuI5950BTGfwpL+
+	 Yu4AWc7mmgpAU2nekPMMSN1CPfv8fof6p/lUxd1J/aU5O1aWQByo6hUgRFK9fVFltt
+	 vI+mieU5JY7lKw6pBcmWAlmuai8Wap7Qb23EoTFI=
+Date: Wed, 6 Nov 2024 15:04:37 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: CK Hu =?utf-8?B?KOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shu-hsiang Yang =?utf-8?B?KOaliuiIkue/lCk=?= <Shu-hsiang.Yang@mediatek.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"yunkec@chromium.org" <yunkec@chromium.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	Yaya Chang =?utf-8?B?KOW8tembhea4hSk=?= <Yaya.Chang@mediatek.com>,
+	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	Teddy Chen =?utf-8?B?KOmZs+S5vuWFgyk=?= <Teddy.Chen@mediatek.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"hidenorik@chromium.org" <hidenorik@chromium.org>,
+	Shun-Yi Wang =?utf-8?B?KOeOi+mghuWEhCk=?= <Shun-Yi.Wang@mediatek.com>
+Subject: Re: [PATCH v1 10/10] uapi: linux: add mediatek isp_7x camsys user api
+Message-ID: <20241106130437.GA16791@pendragon.ideasonboard.com>
+References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
+ <20241009111551.27052-11-Shu-hsiang.Yang@mediatek.com>
+ <ff96b314cdd3d52a14a5e91f79ec3097d04c4380.camel@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ff96b314cdd3d52a14a5e91f79ec3097d04c4380.camel@mediatek.com>
 
-Copy the relevant data from userspace to the vb->planes unconditionally
-as it's possible some of the fields may have changed after the buffer
-has been validated.
+On Mon, Oct 14, 2024 at 05:56:40AM +0000, CK Hu (胡俊光) wrote:
+> Hi, Shu-hsiang:
+> 
+> On Wed, 2024-10-09 at 19:15 +0800, Shu-hsiang Yang wrote:
+> > Add UAPI for MediaTek ISP platform, providing user-space
+> > interfaces for the new camsys driver.
+> > 
+> > Signed-off-by: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>
+> > ---
+> 
+> [snip]
+> 
+> > +
+> > +/* MTK ISP camsys controls */
+> > +#define V4L2_CID_MTK_CAM_USED_ENGINE_LIMIT	(V4L2_CID_USER_MTK_CAM_BASE + 1)
+> > +#define V4L2_CID_MTK_CAM_BIN_LIMIT		(V4L2_CID_USER_MTK_CAM_BASE + 2)
+> > +#define V4L2_CID_MTK_CAM_FRZ_LIMIT		(V4L2_CID_USER_MTK_CAM_BASE + 3)
+> > +#define V4L2_CID_MTK_CAM_RESOURCE_PLAN_POLICY	(V4L2_CID_USER_MTK_CAM_BASE + 4)
+> > +#define V4L2_CID_MTK_CAM_USED_ENGINE		(V4L2_CID_USER_MTK_CAM_BASE + 5)
+> > +#define V4L2_CID_MTK_CAM_BIN			(V4L2_CID_USER_MTK_CAM_BASE + 6)
+> > +#define V4L2_CID_MTK_CAM_FRZ			(V4L2_CID_USER_MTK_CAM_BASE + 7)
+> > +#define V4L2_CID_MTK_CAM_USED_ENGINE_TRY	(V4L2_CID_USER_MTK_CAM_BASE + 8)
+> > +#define V4L2_CID_MTK_CAM_BIN_TRY		(V4L2_CID_USER_MTK_CAM_BASE + 9)
+> > +#define V4L2_CID_MTK_CAM_FRZ_TRY		(V4L2_CID_USER_MTK_CAM_BASE + 10)
+> > +#define V4L2_CID_MTK_CAM_PIXEL_RATE		(V4L2_CID_USER_MTK_CAM_BASE + 11)
+> > +#define V4L2_CID_MTK_CAM_FEATURE		(V4L2_CID_USER_MTK_CAM_BASE + 12)
+> > +#define V4L2_CID_MTK_CAM_SYNC_ID		(V4L2_CID_USER_MTK_CAM_BASE + 13)
+> > +#define V4L2_CID_MTK_CAM_RAW_PATH_SELECT	(V4L2_CID_USER_MTK_CAM_BASE + 14)
+> > +#define V4L2_CID_MTK_CAM_HSF_EN			(V4L2_CID_USER_MTK_CAM_BASE + 15)
+> > +#define V4L2_CID_MTK_CAM_PDE_INFO		(V4L2_CID_USER_MTK_CAM_BASE + 16)
+> > +#define V4L2_CID_MTK_CAM_MSTREAM_EXPOSURE	(V4L2_CID_USER_MTK_CAM_BASE + 17)
+> > +#define V4L2_CID_MTK_CAM_RAW_RESOURCE_CALC	(V4L2_CID_USER_MTK_CAM_BASE + 18)
+> > +#define V4L2_CID_MTK_CAM_TG_FLASH_CFG		(V4L2_CID_USER_MTK_CAM_BASE + 19)
+> > +#define V4L2_CID_MTK_CAM_RAW_RESOURCE_UPDATE	(V4L2_CID_USER_MTK_CAM_BASE + 20)
+> > +#define V4L2_CID_MTK_CAM_CAMSYS_HW_MODE		(V4L2_CID_USER_MTK_CAM_BASE + 21)
+> > +
+> 
+> Please give introduction of how to use these user space interface.
 
-Keep the dma_buf_put(planes[plane].dbuf) calls in the first
-`if (!reacquired)` case, in order to be close to the plane validation code
-where the buffers were got in the first place.
+I'm very, very *not* thrilled by all this. It looks like a big pile of
+hacks really. Every single parameter used by those controls needs to be
+clearly documented, including explaining how they are used, in order for
+us to review the API. I suspect that many of the parameters should
+instead be handled through the ISP parameters buffers, or be controlled
+from standard V4L2 APIs.
 
-Cc: stable@vger.kernel.org
-Fixes: 95af7c00f35b ("media: videobuf2-core: release all planes first in __prepare_dmabuf()")
-Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
----
- .../media/common/videobuf2/videobuf2-core.c   | 28 ++++++++++---------
- 1 file changed, 15 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index f07dc53a9d06..c0cc441b5164 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -1482,18 +1482,23 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
- 			}
- 			vb->planes[plane].dbuf_mapped = 1;
- 		}
-+	} else {
-+		for (plane = 0; plane < vb->num_planes; ++plane)
-+			dma_buf_put(planes[plane].dbuf);
-+	}
- 
--		/*
--		 * Now that everything is in order, copy relevant information
--		 * provided by userspace.
--		 */
--		for (plane = 0; plane < vb->num_planes; ++plane) {
--			vb->planes[plane].bytesused = planes[plane].bytesused;
--			vb->planes[plane].length = planes[plane].length;
--			vb->planes[plane].m.fd = planes[plane].m.fd;
--			vb->planes[plane].data_offset = planes[plane].data_offset;
--		}
-+	/*
-+	 * Now that everything is in order, copy relevant information
-+	 * provided by userspace.
-+	 */
-+	for (plane = 0; plane < vb->num_planes; ++plane) {
-+		vb->planes[plane].bytesused = planes[plane].bytesused;
-+		vb->planes[plane].length = planes[plane].length;
-+		vb->planes[plane].m.fd = planes[plane].m.fd;
-+		vb->planes[plane].data_offset = planes[plane].data_offset;
-+	}
- 
-+	if (reacquired) {
- 		/*
- 		 * Call driver-specific initialization on the newly acquired buffer,
- 		 * if provided.
-@@ -1503,9 +1508,6 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
- 			dprintk(q, 1, "buffer initialization failed\n");
- 			goto err_put_vb2_buf;
- 		}
--	} else {
--		for (plane = 0; plane < vb->num_planes; ++plane)
--			dma_buf_put(planes[plane].dbuf);
- 	}
- 
- 	ret = call_vb_qop(vb, buf_prepare, vb);
 -- 
-2.47.0.199.ga7371fff76-goog
+Regards,
 
+Laurent Pinchart
 
