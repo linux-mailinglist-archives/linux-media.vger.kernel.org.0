@@ -1,226 +1,119 @@
-Return-Path: <linux-media+bounces-21010-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21011-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D353A9BE3A8
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 11:07:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A049BE431
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 11:23:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02C601C230BF
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 10:07:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3B3FDB222BD
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 10:23:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A53941DE8AA;
-	Wed,  6 Nov 2024 10:06:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02E001DE2D5;
+	Wed,  6 Nov 2024 10:23:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CsfI6C3c"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oiGmJ5CE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2C81DC748;
-	Wed,  6 Nov 2024 10:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03F21DDC29
+	for <linux-media@vger.kernel.org>; Wed,  6 Nov 2024 10:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730887586; cv=none; b=fQru8uioScOCVt520o+72wcjKkhrpEpziIh/usaEKag8qpdM8BdygcPUwN0iGeMo+qzG1f2gOKSauNcBaG+whPKBEyjWUNn6p7J9Hj8FC05ADVTmwL4mnWfF43Xf2dqPVLNnDD+GoXTcJOv2MmjWH0rrc7crB4i2NKvEq61tPCI=
+	t=1730888611; cv=none; b=mS2uckUFbkBKbF/S0FaR+bw9UQZ8auAmmddCMilICf7+A0vqldtQFc9pMXYwp+Cx2M2uiWl8ZfVgidwtbG/r+LnD9vNwe4/UiB5Wsxihn1H2vm0WK7OsQOVQFAojPnU6iRoHbTfulkq9XR/LbdzQwtgSS8rGeDFA9s3lJzEWRAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730887586; c=relaxed/simple;
-	bh=0LbVuSdm3fZyI2Iz4LjI1Nuu1QbbnToMzitb/O2XWLI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VPizUf1kEKyqSDoQajKtXvZJM1mK/bJJXqE2SJlRvaJ2RaSZ214elZukVctjWXwQHZzxoLXwcXh/I5mjASt5uT0ruRFMWSb7UAo28LNMy9sLx1/tYlWxoWo3HYYliKCWh2+ezs+QuacYJeB99XUxKbfoKbCRvFAEVDBPgH3fKn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CsfI6C3c; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 546B14177;
-	Wed,  6 Nov 2024 11:05:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730887546;
-	bh=0LbVuSdm3fZyI2Iz4LjI1Nuu1QbbnToMzitb/O2XWLI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CsfI6C3cdNYd4xKzza4IJ7SRkQgcrYmfugge8uUqe0PE7vJHiqPwhvzW4HkHD2sXZ
-	 FP7xTKU3HRpJ/OgQflHsqfRdrgqWINozMOlu0jKC2B0NhqaYAoyK3b9uCkOdAH8Lmv
-	 jyeNZewf93h0aU2nNZe4ZrIabvboj7fwL4ZnVfEA=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-To: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: Anthony.McGivern@arm.com,
-	jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com,
-	robh+dt@kernel.org,
-	mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	jerome.forissier@linaro.org,
-	kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com,
-	sakari.ailus@iki.fi,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH v8 17/17] Documentation: mali-c55: Document the mali-c55 parameter setting
-Date: Wed,  6 Nov 2024 10:05:34 +0000
-Message-Id: <20241106100534.768400-18-dan.scally@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241106100534.768400-1-dan.scally@ideasonboard.com>
-References: <20241106100534.768400-1-dan.scally@ideasonboard.com>
+	s=arc-20240116; t=1730888611; c=relaxed/simple;
+	bh=5ZTdlscXjwXdZc28p/Of+HAHBUGlSUNLJL2+POeD/0M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j7tl8FvzMO/6bJWJuX0+fuE3VTnzwcwVFBqZXxrQN8bHScBhaiOD0U5BuAnccVdzQ4W2ByE78o0xS6wWmA9GvH72DKxnEVubF1BeDUy8MPEdoAwLh9fnFf0eu7XOIJjrJPEDnp1Xmha4KoGqXf0c7ZRsiBy6sCbJOK25IRq6dlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oiGmJ5CE; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-37d4c482844so4072186f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 06 Nov 2024 02:23:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730888608; x=1731493408; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=alvW05AqLZBKVkpX7PrdplTn/4fsq+k1H0ntLD4wbXM=;
+        b=oiGmJ5CEao4H6rKyhsxFpBjCTur5f4gOHB+/e6XUgD3noEyw41iKZGX7HYDd5g0GHw
+         UzvV4yb4kOzQvXHGlh8wtFU/8LCZs8C63ZsLmO6EDihFOoc8fgZY6mDh3yd+p8ZzEhTB
+         H2+yOAKGPNw2IIB0JAf8nng/IvRQBabEZrIOweUm1EeNZMYLMP1sOckai1KCF+gJOZ2v
+         AsNU1I+tdVe5RBEoXn1tzxSsM2phQCIR0wFChh3gbnXdBzrg1EjjyvwE18anJ8KVlUnC
+         xPKdCtx6IOPMWr/gk+rzfRmjFbrTg/BDLOVmz5QEo53HENphwDVA0Jj9nT2abnNgFMXP
+         nUag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730888608; x=1731493408;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=alvW05AqLZBKVkpX7PrdplTn/4fsq+k1H0ntLD4wbXM=;
+        b=BafaTmO1Fe2aMN+xYA767uLJX4lNjTpgcqLo8FSG15w+2VDy2vr9wC5aA3EYuSE/VR
+         DePmg3TblPgYFjWRu20AD8R8F7im8aiPMFEMufxxviwtdRPv59WmXbz1OjA7a1hbuJhS
+         yGqpBzDiYiSIznN0EJ7THlFm3vY8qYstOnjMQ1PSlBVQJJP3GGedJumEYJwYZKvP2xIf
+         TAkxEl59WBlptAdnNiLhusVFmn2RLHva0bOpP1PL57MTXUOXQD+xWWb6TIawQrE0gtCm
+         LOpsQ+0aFzbmP/maSLJD77qUJUrTdxEY1FrGEink0wL2XwmGVPoMvZnFnRCo1A4dpgKr
+         UnuQ==
+X-Gm-Message-State: AOJu0Ywa08b6gAXqb4dbuRsEpT88uIWnCHi2NL7V091uOsQE1sJVIL8X
+	YMsJBB95vl3LcsFX2YcD+apfRUaL8L4E1c6YncPGpU0BEdm+iiSyN8xTdqaLsyE=
+X-Google-Smtp-Source: AGHT+IFM/sNFa+KEx8YfPwmIWtaTMMW7EIUGwvTNJkiyP0jY1dX7JPo3+l8pDyMtrZbP5YVgM2SUvA==
+X-Received: by 2002:adf:f28f:0:b0:37d:4b73:24c0 with SMTP id ffacd0b85a97d-38061190da2mr24474893f8f.35.1730888608072;
+        Wed, 06 Nov 2024 02:23:28 -0800 (PST)
+Received: from [172.16.24.72] ([154.14.63.34])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10e61f9sm18666123f8f.58.2024.11.06.02.23.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Nov 2024 02:23:27 -0800 (PST)
+Message-ID: <d39c7613-fda1-417c-a205-daddbc378bc3@linaro.org>
+Date: Wed, 6 Nov 2024 10:23:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] media: venus: hfi_parser: add check to avoid out of
+ bound access
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
+ <20241105-venus_oob-v1-1-8d4feedfe2bb@quicinc.com>
+ <640fe933-078d-4bf5-815c-7db0eb8b9de4@linaro.org>
+ <7f350d73-65dd-097e-8b4a-e9a23472aa28@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <7f350d73-65dd-097e-8b4a-e9a23472aa28@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Document the mali-c55 parameter setting by expanding the relevant
-pages in both admin-guide/ and userspace-api/.
+On 06/11/2024 07:25, Vikash Garodia wrote:
+>>>            cap = &caps[core->codecs_count++];
+>>>            cap->codec = BIT(bit);
+>>>            cap->domain = VIDC_SESSION_TYPE_ENC;
+>>>
+>> I don't see how codecs_count could be greater than the control, since you
+>> increment by one on each loop but >= is fine too I suppose.
+> Assume the payload from malicious firmware is packed like below
+> HFI_PROPERTY_PARAM_CODEC_SUPPORTED
+> HFI_PROPERTY_PARAM_CODEC_SUPPORTED
+> HFI_PROPERTY_PARAM_CODEC_SUPPORTED
+> .....
+> for 32 or more instances of above type
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
-Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+But you do this
+
+           cap = &caps[core->codecs_count++];
+
+for each bit.
+
+Anyway consider Dmitry's input re only calling this function once instead.
+
 ---
-Changes in v8:
-
-	- None
-
-Changes in v7:
-
-	- None
-
-Changes in v7:
-
-	- None
-
-Changes in v6:
-
-	- Minor rewording
-
-Changes in v5:
-
-	- New patch
-
- Documentation/admin-guide/media/mali-c55.rst  | 19 +++++-
- .../media/v4l/metafmt-arm-mali-c55.rst        | 66 ++++++++++++++++++-
- 2 files changed, 80 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/media/mali-c55.rst b/Documentation/admin-guide/media/mali-c55.rst
-index 7eaeac63ddf7..dbed5179d5f8 100644
---- a/Documentation/admin-guide/media/mali-c55.rst
-+++ b/Documentation/admin-guide/media/mali-c55.rst
-@@ -387,9 +387,24 @@ the processing flow the statistics can be drawn from::
-                        +-------------+   |    +-------------+
-                                          +-->  AWB-1
- 
--At present all statistics are drawn from the 0th tap point for each algorithm;
-+By default all statistics are drawn from the 0th tap point for each algorithm;
- I.E. AEXP statistics from AEXP-0 (A), AWB statistics from AWB-0 and AF
--statistics from AF-0. In the future this will be configurable.
-+statistics from AF-0. This is configurable for AEXP and AWB statsistics through
-+programming the ISP's parameters.
-+
-+.. _mali-c55-3a-params:
-+
-+Programming ISP Parameters
-+==========================
-+
-+The ISP can be programmed with various parameters from userspace to apply to the
-+hardware before and during video stream. This allows userspace to dynamically
-+change values such as black level, white balance and lens shading gains and so
-+on.
-+
-+The buffer format and how to populate it are described by the
-+:ref:`V4L2_META_FMT_MALI_C55_PARAMS <v4l2-meta-fmt-mali-c55-params>` format,
-+which should be set as the data format for the `mali-c55 3a params` video node.
- 
- References
- ==========
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-index 186e0deb9ece..c0948b41fb0c 100644
---- a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-+++ b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-@@ -1,10 +1,11 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. _v4l2-meta-fmt-mali-c55-params:
- .. _v4l2-meta-fmt-mali-c55-3a-stats:
- 
--*************************************
--V4L2_META_FMT_MALI_C55_STATS ('C55S')
--*************************************
-+*****************************************************************************
-+V4L2_META_FMT_MALI_C55_STATS ('C55S'), V4L2_META_FMT_MALI_C55_PARAMS ('C55P')
-+*****************************************************************************
- 
- 3A Statistics
- =============
-@@ -23,6 +24,65 @@ of the C structure :c:type:`mali_c55_stats_buffer` defined in
- 
- For details of the statistics see :c:type:`mali_c55_stats_buffer`.
- 
-+Configuration Parameters
-+========================
-+
-+The configuration parameters are passed to the
-+:ref:`mali-c55 3a params <mali-c55-3a-params>` metadata output video node, using
-+the :c:type:`v4l2_meta_format` interface. Rather than a single struct containing
-+sub-structs for each configurable area of the ISP, parameters for the Mali-C55
-+are defined as distinct structs or "blocks" which may be added to the data
-+member of :c:type:`mali_c55_params_buffer`. Userspace is responsible for
-+populating the data member with the blocks that need to be configured by the driver, but
-+need not populate it with **all** the blocks, or indeed with any at all if there
-+are no configuration changes to make. Populated blocks **must** be consecutive
-+in the buffer. To assist both userspace and the driver in identifying the
-+blocks each block-specific struct embeds
-+:c:type:`mali_c55_params_block_header` as its first member and userspace
-+must populate the type member with a value from
-+:c:type:`mali_c55_param_block_type`. Once the blocks have been populated
-+into the data buffer, the combined size of all populated blocks shall be set in
-+the total_size member of :c:type:`mali_c55_params_buffer`. For example:
-+
-+.. code-block:: c
-+
-+	struct mali_c55_params_buffer *params =
-+		(struct mali_c55_params_buffer *)buffer;
-+
-+	params->version = MALI_C55_PARAM_BUFFER_V1;
-+	params->total_size = 0;
-+
-+	void *data = (void *)params->data;
-+
-+	struct mali_c55_params_awb_gains *gains =
-+		(struct mali_c55_params_awb_gains *)data;
-+
-+	gains->header.type = MALI_C55_PARAM_BLOCK_AWB_GAINS;
-+	gains->header.enabled = true;
-+	gains->header.size = sizeof(struct mali_c55_params_awb_gains);
-+
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+
-+	data += sizeof(struct mali_c55_params_awb_gains);
-+	params->total_size += sizeof(struct mali_c55_params_awb_gains);
-+
-+	struct mali_c55_params_sensor_off_preshading *blc =
-+		(struct mali_c55_params_sensor_off_preshading *)data;
-+
-+	blc->header.type = MALI_C55_PARAM_BLOCK_SENSOR_OFFS;
-+	blc->header.enabled = true;
-+	blc->header.size = sizeof(struct mali_c55_params_sensor_off_preshading);
-+
-+	blc->chan00 = 51200;
-+	blc->chan01 = 51200;
-+	blc->chan10 = 51200;
-+	blc->chan11 = 51200;
-+
-+	params->total_size += sizeof(struct mali_c55_params_sensor_off_preshading);
-+
- Arm Mali-C55 uAPI data types
- ============================
- 
--- 
-2.34.1
-
+bod
 
