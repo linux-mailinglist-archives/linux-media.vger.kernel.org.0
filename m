@@ -1,58 +1,63 @@
-Return-Path: <linux-media+bounces-21016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21017-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19449BEDA9
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 14:12:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3669BEFA5
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 14:58:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 31D0E1F255E9
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 13:12:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F2CE280BE8
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 13:58:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 584801EF0A2;
-	Wed,  6 Nov 2024 13:08:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0265C201026;
+	Wed,  6 Nov 2024 13:58:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qCeuANwa"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l7cFdtyr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24451E0083;
-	Wed,  6 Nov 2024 13:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B17200CBB;
+	Wed,  6 Nov 2024 13:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730898532; cv=none; b=n+OPLWcScZTGXcFWei0T6CifHJnQVWS0Ym/HlZEV/47Y7syAOhNjnPqh2oio/BAJKAbSM/v2haIH/U3kNVz3tfqZvtXseby4NrX6pfSIzK20NOztLRYKE0enFsBN3Soqd1N+S56AoQCAYU2+TTYzEwCaXutXkWnY+b2Wqte881c=
+	t=1730901486; cv=none; b=mhdETCglv0pVvxwXMlnxmBtY1ZjHwL+s62932ZCkmWNqRAkgZcvE413QmAoIbiIvqrdEF911E7SD00TR0NGN4O1xfe4HdtCxzVLHBTaP0tQJ4vFtHnEmOSx7fbn7vDl5iCQKC8k30Wu2xhBZcUlDrvuxc9u5XXyy5TsxYX7DA3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730898532; c=relaxed/simple;
-	bh=b8aHgEWJzINaqZBnJuW3NmZJUdEXAQrzBUjcp7kQqH8=;
+	s=arc-20240116; t=1730901486; c=relaxed/simple;
+	bh=JHxLQgSLWdft8dSzdvbt7oLzbR8ccNpS8nioRv0vsWc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NgAv2M1YqzCI5K5l4ETQ2uQ5HWlL7vgTqxbk9Rdj5Pc490/A1bwNXDhEuPENdBWn4SoeLYlYgfcBhnS/qYdujEr75OMn638uq0tn572iAA5TiihvTH1EM2PHoL3LQy82KeaT95nnX4FApidawv81jKXC/wfRmdc2ZsHgW7LqM80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qCeuANwa; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=KBEuswAIYTZQsFTRxaZD/28sl0jc+dXQeM97rghqIQ6PJOXvt3Tdv79mNKirhqWn4RiwzDvrQLF5/R7jpf1OZq5iXimX6ttwp9wDPg1GgQziRmA8f4dkjxwWaeHynxIF7fpDT+pBG/YHuWoJR519SVPXXKDj9vscIVesMlMTaCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=l7cFdtyr; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEFE2475;
-	Wed,  6 Nov 2024 14:08:40 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60E85475;
+	Wed,  6 Nov 2024 14:57:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1730898521;
-	bh=b8aHgEWJzINaqZBnJuW3NmZJUdEXAQrzBUjcp7kQqH8=;
+	s=mail; t=1730901474;
+	bh=JHxLQgSLWdft8dSzdvbt7oLzbR8ccNpS8nioRv0vsWc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qCeuANwasKM/FpxdTLmK2KuRiajn7zIJU7tRVCCSjYkZ+8t6UJq8xLyTZEmLw0Qzs
-	 ERDCr3S1wWoXSFfqoPIS8hyKXZ+OaMoQzfKlw3hei5mpLMvEbl5O8+pWzn9dYaoTf5
-	 O3ebamKlnc326DrflnXNlBMjbmUDLN2RxjlNMXlg=
-Date: Wed, 6 Nov 2024 15:08:43 +0200
+	b=l7cFdtyrLuTL573iQmGDrUByPoITVRPQxVYPi2KCf4Z/HiY8P4yZM8J5yLQi1eEJa
+	 HEU2+dt6x9zxxzatiMNtPjyM60RInhwTuyv+f9hEaoEkuOzFo7oaEZuMTvHN7fPsCz
+	 RVAjsnjvYS14JVV9hzz6PM2uqTSBptXcZWDCBsek=
+Date: Wed, 6 Nov 2024 15:57:56 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>, stable@vger.kernel.org,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH v5] media: uvcvideo: Fix crash during unbind if gpio unit
- is in use
-Message-ID: <20241106130843.GF9369@pendragon.ideasonboard.com>
-References: <20241105-uvc-crashrmmod-v5-1-8623fa51a74f@chromium.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
+	jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com,
+	robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	sakari.ailus@iki.fi
+Subject: Re: [PATCH v8 05/17] dt-bindings: media: Add bindings for ARM
+ mali-c55
+Message-ID: <20241106135756.GI9369@pendragon.ideasonboard.com>
+References: <20241106100534.768400-1-dan.scally@ideasonboard.com>
+ <20241106100534.768400-6-dan.scally@ideasonboard.com>
+ <lag7gfpuj2hdxw6i5pumaivxl5rylt2hztd57rynjestffwool@ate7u3zhrgfn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,145 +66,69 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241105-uvc-crashrmmod-v5-1-8623fa51a74f@chromium.org>
+In-Reply-To: <lag7gfpuj2hdxw6i5pumaivxl5rylt2hztd57rynjestffwool@ate7u3zhrgfn>
 
-On Tue, Nov 05, 2024 at 02:21:38PM +0000, Ricardo Ribalda wrote:
-> We used the wrong device for the device managed functions. We used the
-> usb device, when we should be using the interface device.
-> 
-> If we unbind the driver from the usb interface, the cleanup functions
-> are never called. In our case, the IRQ is never disabled.
-> 
-> If an IRQ is triggered, it will try to access memory sections that are
-> already free, causing an OOPS.
-> 
-> We cannot use the function devm_request_threaded_irq here. The devm_*
-> clean functions are called after the main structure is released by
-> uvc_delete.
+Hi Krzysztof,
 
-That may or may not be true, depending on whether or not userspace holds
-on to resources.
+On Wed, Nov 06, 2024 at 01:15:23PM +0100, Krzysztof Kozlowski wrote:
+> On Wed, Nov 06, 2024 at 10:05:22AM +0000, Daniel Scally wrote:
+> > Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
+> > 
+> > Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
+> > Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> > ---
+> > Changes in v8:
+> > 
+> > 	- Added the video clock back in. Now that we have actual hardware it's
+> > 	  clear that it's necessary.
+> > 	- Added reset lines 
+> > 	- Dropped R-bs
+> 
+> These are trivial, so I wish you kept the review... but since you ask,
+> then comment further
+> 
+> I recommend using b4, so your cover letter changelog comes with nice
+> links to previous versions. I scrolled through entire cover letter for
+> this (for me that's almost the only point of cover letter) and could
+> not find them. Anyway, just a remark.
+> 
+> 
+> ...
+> 
+> > +  resets:
+> > +    items:
+> > +      - description: vclk domain reset
+> > +      - description: aclk domain reset
+> > +      - description: hclk domain reset
+> > +
+> > +  reset-names:
+> > +    items:
+> > +      - const: vresetn
+> 
+> drop "reset", it's redundant and rather come here with logical name. I
+> wonder what "n" means as well. It's not a GPIO to be "inverted"...
 
-> Luckily this bug has small impact, as it is only affected by devices
-> with gpio units and the user has to unbind the device, a disconnect will
-> not trigger this error.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
-> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Changes in v5:
-> - Revert non refcount, that belongs to a different set
-> - Move cleanup to a different function
-> - Link to v4: https://lore.kernel.org/r/20241105-uvc-crashrmmod-v4-0-410e548f097a@chromium.org
-> 
-> Changes in v4: Thanks Laurent.
-> - Remove refcounted cleaup to support devres.
-> - Link to v3: https://lore.kernel.org/r/20241105-uvc-crashrmmod-v3-1-c0959c8906d3@chromium.org
-> 
-> Changes in v3: Thanks Sakari.
-> - Rename variable to initialized.
-> - Other CodeStyle.
-> - Link to v2: https://lore.kernel.org/r/20241105-uvc-crashrmmod-v2-1-547ce6a6962e@chromium.org
-> 
-> Changes in v2: Thanks to Laurent.
-> - The main structure is not allocated with devres so there is a small
->   period of time where we can get an irq with the structure free. Do not
->   use devres for the IRQ.
-> - Link to v1: https://lore.kernel.org/r/20241031-uvc-crashrmmod-v1-1-059fe593b1e6@chromium.org
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 27 ++++++++++++++++++++-------
->  drivers/media/usb/uvc/uvcvideo.h   |  1 +
->  2 files changed, 21 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index a96f6ca0889f..aa937f07b6b5 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -1295,14 +1295,14 @@ static int uvc_gpio_parse(struct uvc_device *dev)
->  	struct gpio_desc *gpio_privacy;
->  	int irq;
->  
-> -	gpio_privacy = devm_gpiod_get_optional(&dev->udev->dev, "privacy",
-> +	gpio_privacy = devm_gpiod_get_optional(&dev->intf->dev, "privacy",
->  					       GPIOD_IN);
->  	if (IS_ERR_OR_NULL(gpio_privacy))
->  		return PTR_ERR_OR_ZERO(gpio_privacy);
->  
->  	irq = gpiod_to_irq(gpio_privacy);
->  	if (irq < 0)
-> -		return dev_err_probe(&dev->udev->dev, irq,
-> +		return dev_err_probe(&dev->intf->dev, irq,
->  				     "No IRQ for privacy GPIO\n");
->  
->  	unit = uvc_alloc_new_entity(dev, UVC_EXT_GPIO_UNIT,
-> @@ -1329,15 +1329,27 @@ static int uvc_gpio_parse(struct uvc_device *dev)
->  static int uvc_gpio_init_irq(struct uvc_device *dev)
->  {
->  	struct uvc_entity *unit = dev->gpio_unit;
-> +	int ret;
->  
->  	if (!unit || unit->gpio.irq < 0)
->  		return 0;
->  
-> -	return devm_request_threaded_irq(&dev->udev->dev, unit->gpio.irq, NULL,
-> -					 uvc_gpio_irq,
-> -					 IRQF_ONESHOT | IRQF_TRIGGER_FALLING |
-> -					 IRQF_TRIGGER_RISING,
-> -					 "uvc_privacy_gpio", dev);
-> +	ret = request_threaded_irq(unit->gpio.irq, NULL, uvc_gpio_irq,
-> +				   IRQF_ONESHOT | IRQF_TRIGGER_FALLING |
-> +				   IRQF_TRIGGER_RISING,
-> +				   "uvc_privacy_gpio", dev);
-> +
-> +	unit->gpio.initialized = !ret;
-> +
-> +	return ret;
-> +}
-> +
-> +static void uvc_gpio_cleanup(struct uvc_device *dev)
-> +{
-> +	if (!dev->gpio_unit || !dev->gpio_unit->gpio.initialized)
-> +		return;
-> +
-> +	free_irq(dev->gpio_unit->gpio.irq, dev);
->  }
->  
->  /* ------------------------------------------------------------------------
-> @@ -1982,6 +1994,7 @@ static void uvc_unregister_video(struct uvc_device *dev)
->  	if (media_devnode_is_registered(dev->mdev.devnode))
->  		media_device_unregister(&dev->mdev);
->  #endif
-> +	uvc_gpio_cleanup(dev);
+The aresetn and hresetn names come directly from a hardware manual
+(vresetn seems to be called rstn in that document though). As far as I
+understand, they are the names of the external signals of the IP core.
+I tend to pick the hardware names for clock and reset names. That makes
+it easier for integrators, and from a driver point of view it doesn't
+change much as DT names are just a convention anyway.
 
-Have you checked in details that doing this at the *end* of
-uvc_unregister_video(), after lots of resources get unregistered, will
-not cause any issue if the IRQ occurs somewhere in the middle of this
-function ? It would seem much safer to free the IRQ at the *beginning*
-of the function, the same way that drivers should generally stop
-hardware activity first, and only then release resources that may be
-needed when handling hardware activity.
+That being said, if there's a good reason to do otherwise (such as
+standardizing property names to make handling through common code
+possible), that's fine too.
 
->  }
->  
->  int uvc_register_video_device(struct uvc_device *dev,
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 07f9921d83f2..965a789ed03e 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -234,6 +234,7 @@ struct uvc_entity {
->  			u8  *bmControls;
->  			struct gpio_desc *gpio_privacy;
->  			int irq;
-> +			bool initialized;
->  		} gpio;
->  	};
->  
-> 
-> ---
-> base-commit: c7ccf3683ac9746b263b0502255f5ce47f64fe0a
-> change-id: 20241031-uvc-crashrmmod-666de3fc9141
+> I wonder about reset domains for clocks as well... is this just gate
+> clock misrepresented?
+
+No, those are real reset signals. There can be clock gates external to
+the IP, and those are handled by the clock providers. The IP has three
+domains of logical that are synchronous to three different clocks, and
+they have one reset signal each, hence the description mentioning "clock
+domain".
 
 -- 
 Regards,
