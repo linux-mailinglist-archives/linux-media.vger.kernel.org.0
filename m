@@ -1,178 +1,166 @@
-Return-Path: <linux-media+bounces-21018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB4C9BF04B
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 15:30:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 586989BF231
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 16:50:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7ED331F21CDD
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 14:30:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E648F285BF1
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 15:50:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C33192022C1;
-	Wed,  6 Nov 2024 14:29:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B752C1E04BF;
+	Wed,  6 Nov 2024 15:49:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r02PlFyQ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ifpKDqTB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CFA20110E;
-	Wed,  6 Nov 2024 14:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6790F2022F9
+	for <linux-media@vger.kernel.org>; Wed,  6 Nov 2024 15:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730903363; cv=none; b=TVTV+oM3/r2+oBX1Zu4klZuCQgCAFmli277jgB3frJfTnnisXlMYPFP77c7iTLMyXFPqURRKwC0vbKaCwoxVlSODBMbrqSo+NvwGZ932PX1zX+Qzt/G9ZvTOjI4XiL0TwJ9q5jXLv0CXqoYeTJQEfYdVUCoYDs1bE5M/tK4HhmU=
+	t=1730908153; cv=none; b=TwJFbXfew1MchhFhkipO4Iwtn/ebnmIRzJL4uXC7xawTZLV16TYCArafRlutsHHz+HA0gDQd2xvXz/rmB1jD4wZHJSiyEv+6nwBlQtHlcyG7iOdbdmYMu1kZVOA49KSdsVqZWs355t2ZmYg9ndK0bLCxRiVWsOHuXeETIKsje1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730903363; c=relaxed/simple;
-	bh=PQkhyej+3msxWtwdvICDp2SXr6agJstmZdE0qQDLpy4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DF6tGhWbLTOwN4TK0G4ohNoadWvSaQJCY5dHq/dvIwkMRFtoq4ebYZFYOATIld6epc3UUqIindBlFTywwngm55BtBYJ4rI9a0UMykBA+f9rEl+YXo6hS1wytmoXaYQH++VXCXRxGWgNHJ/+5tRIc+m9uo9fARgMyzA4AjQKKJZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r02PlFyQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF74C4CECC;
-	Wed,  6 Nov 2024 14:29:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730903362;
-	bh=PQkhyej+3msxWtwdvICDp2SXr6agJstmZdE0qQDLpy4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=r02PlFyQNeF/mPFOyM7dXapPv60s9nyuscTGIwmcJUlm+YmLHl/Y6UC9kTRke3PE3
-	 NU8KIRSWQEO1G8ughJ5lg0gSJ7vre+NKbjeRPmP4ALLF5eX8St6tNiaDY2TCPOiqfz
-	 zkcTKXsvlIMeNIMjq4OSp41eFwzptOwn2rkj0B4x1Q5PmLCzukBfjFoB7Wy5LRpDlW
-	 dk78dg0NRwRTuhn822L5Gfxv+M3IGmI5azrEgOk2pV5i9T42RAVZvtzZqcJ+vRg79j
-	 qd37SwxwoxJqSMTnjFmJdxEpAcoo7q1aA5VBQLoieuDi863l8Q31rbHwEkYL/Gd8fK
-	 tYK1FYWQGFS+w==
-Message-ID: <a8cb35fd-d474-4104-b1f8-90ce5aa4a790@kernel.org>
-Date: Wed, 6 Nov 2024 15:29:17 +0100
+	s=arc-20240116; t=1730908153; c=relaxed/simple;
+	bh=hVFUihgc6QnT1Xq1fEruAaXhETYPBpDfWfSixYIRYIg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lyqkvD5PQxTzzqJBQVZvFblIY5cQLfsVW/pJP+vJqxfgmesqeT2iuApjiriQAcwArem70wujAD89IdQvJ8hPOhMQW1Jb2KACY1VoW8WUTJ3SE6YwcPV+8axyjiK1VaLJepVIZGej7ruCbmyHHGxP48udMIvF115ooMeu4D/N9+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ifpKDqTB; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9e44654ae3so908909766b.1
+        for <linux-media@vger.kernel.org>; Wed, 06 Nov 2024 07:49:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1730908149; x=1731512949; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qPH4C+vsdNY0v9MzcBPeqyGD66BVdCTndzKOwNg3m20=;
+        b=ifpKDqTBv18cn2nXsbM/siAChx4Zj95etoqs8AaaIJpwPzKesVtnyEIfLZR4GUlpbo
+         Jg2nMLDMJ1JF7XD4Em1LIhbghG/V+tWqm0KjzUftEMuDvfpLoZzD79jGRy6TgyXJfJ1A
+         2NUr5rRaWpck6l1PiLYAfliR+3m1X5U/AM8fg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730908149; x=1731512949;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qPH4C+vsdNY0v9MzcBPeqyGD66BVdCTndzKOwNg3m20=;
+        b=sFqZHb/SXc8hEnLC9MwaY1Zh9C7xHfK7Zqfr7e0RVzVcR0FwNJS4n5dpjC5Y6hHjvX
+         C12j4Byv/XkPCUuVZX3Gu3lO6Hf9VhVrMOM/leaYxehbSTgcLUX6qPvIqBtfLW488E5T
+         NJZw+F172fdNF3NTtb71TcYfvTrdnb47WB3sCZ99h1TS5Ho0e8gZobF45J8vDudJAcl6
+         VmIwL4OzOiVD0cJjQhy79fMBI/xCx7M1wt+k5vYtX49+tM2qznK6AOWJ9ouln06LTnTb
+         cdd924PnGiGV8Ux/PTxag7KoSH0rMh9SB/VuMo8X8hg0DF29YRkh7ynjm9XFOMzO/cL+
+         A5xg==
+X-Forwarded-Encrypted: i=1; AJvYcCUgPNAigQuQsTNixCFe2nzBXKmTgG1hHBkUva0+mNLLwYX05YbP2vA1jX9cntviid3HbANX0HJamjD37Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmK7Pk5R5pDLJ7RFiyWc3FiFytAqDlRnChZ1g84vg/YyzdISoE
+	e6AYBFATOjR+nKyhCgRl4UJL+B81mzmSP8bpDmKbNWAWTsyDPB5/ib/kAVsNodgczmYxhZHnob4
+	=
+X-Google-Smtp-Source: AGHT+IH3zDvgN+/Hkg8Fq84yth9y+7jizzM2UY/9iKlaszLC7EmLrUj3YqsqHvoFpNnmonQCvsny7g==
+X-Received: by 2002:a17:907:94c3:b0:a9a:3dbf:e655 with SMTP id a640c23a62f3a-a9e508e3f86mr2560906966b.19.1730908149618;
+        Wed, 06 Nov 2024 07:49:09 -0800 (PST)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com. [209.85.208.48])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb18148edsm294611566b.198.2024.11.06.07.49.07
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Nov 2024 07:49:07 -0800 (PST)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c934b2c991so13784a12.0
+        for <linux-media@vger.kernel.org>; Wed, 06 Nov 2024 07:49:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUzLJA4wPJ8d1j8cqeaH9XQiVgvRbeAE7F3Jshwu27HwX7tOzm0KZZBqHyu8oXyd3H8hh7ZQ9sF3ooCSQ==@vger.kernel.org
+X-Received: by 2002:a05:6402:206c:b0:5c8:a0b1:9c4 with SMTP id
+ 4fb4d7f45d1cf-5cefbcb8e25mr22907a12.6.1730908147253; Wed, 06 Nov 2024
+ 07:49:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 05/17] dt-bindings: media: Add bindings for ARM
- mali-c55
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Anthony.McGivern@arm.com, jacopo.mondi@ideasonboard.com,
- nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
- sakari.ailus@iki.fi
-References: <20241106100534.768400-1-dan.scally@ideasonboard.com>
- <20241106100534.768400-6-dan.scally@ideasonboard.com>
- <lag7gfpuj2hdxw6i5pumaivxl5rylt2hztd57rynjestffwool@ate7u3zhrgfn>
- <20241106135756.GI9369@pendragon.ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241106135756.GI9369@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241022-submit-v5-0-552f0fec8cba@chromium.org>
+In-Reply-To: <20241022-submit-v5-0-552f0fec8cba@chromium.org>
+From: Fritz Koenig <frkoenig@chromium.org>
+Date: Wed, 6 Nov 2024 07:48:54 -0800
+X-Gmail-Original-Message-ID: <CAMfZQbx6-11k1eN1FC=_kRSgsh7FbTp2uvk3ufh+gOyhvxgEGw@mail.gmail.com>
+Message-ID: <CAMfZQbx6-11k1eN1FC=_kRSgsh7FbTp2uvk3ufh+gOyhvxgEGw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/2] media: venus: Add hierarchical h.264 controls
+To: Fritz Koenig <frkoenig@chromium.org>
+Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+	Nathan Hebert <nhebert@chromium.org>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 06/11/2024 14:57, Laurent Pinchart wrote:
-> Hi Krzysztof,
-> 
-> On Wed, Nov 06, 2024 at 01:15:23PM +0100, Krzysztof Kozlowski wrote:
->> On Wed, Nov 06, 2024 at 10:05:22AM +0000, Daniel Scally wrote:
->>> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
->>>
->>> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
->>> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->>> ---
->>> Changes in v8:
->>>
->>> 	- Added the video clock back in. Now that we have actual hardware it's
->>> 	  clear that it's necessary.
->>> 	- Added reset lines 
->>> 	- Dropped R-bs
->>
->> These are trivial, so I wish you kept the review... but since you ask,
->> then comment further
->>
->> I recommend using b4, so your cover letter changelog comes with nice
->> links to previous versions. I scrolled through entire cover letter for
->> this (for me that's almost the only point of cover letter) and could
->> not find them. Anyway, just a remark.
->>
->>
->> ...
->>
->>> +  resets:
->>> +    items:
->>> +      - description: vclk domain reset
->>> +      - description: aclk domain reset
->>> +      - description: hclk domain reset
->>> +
->>> +  reset-names:
->>> +    items:
->>> +      - const: vresetn
->>
->> drop "reset", it's redundant and rather come here with logical name. I
->> wonder what "n" means as well. It's not a GPIO to be "inverted"...
-> 
-> The aresetn and hresetn names come directly from a hardware manual
-> (vresetn seems to be called rstn in that document though). As far as I
-> understand, they are the names of the external signals of the IP core.
-> I tend to pick the hardware names for clock and reset names. That makes
-> it easier for integrators, and from a driver point of view it doesn't
-> change much as DT names are just a convention anyway.
-> 
-> That being said, if there's a good reason to do otherwise (such as
-> standardizing property names to make handling through common code
-> possible), that's fine too.
+Stanimir,
 
-If these are from manual then it is fine, although sometimes the names
-are really pointless in manual...
+Would it be possible to get this in the 6.13 pull request?
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Thanks.
 
-Best regards,
-Krzysztof
-
+On Tue, Oct 22, 2024 at 10:40=E2=80=AFAM Fritz Koenig <frkoenig@chromium.or=
+g> wrote:
+>
+> v5:
+> - fixed formatting
+> - included reviwed by for patch 2
+> - Link to v4: https://lore.kernel.org/r/20241017-submit-v4-0-d852bc7f7fdc=
+@chromium.org
+>
+> v4:
+> - addressed feedback from Dikshita
+> - included reviewed by for patch 1
+> - Link to v3: https://lore.kernel.org/r/20240814-submit-v3-0-f7d05e3e8560=
+@chromium.org
+>
+> v3:
+> - dropped reordering patch
+> - updated cover letter
+>
+> v2:
+> - cover letter
+> - testing methodology
+> - Signed-off-by
+>
+> V4L2 has support for encoding with hierarchical frames using the
+> V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING* controls. This allows for
+> specifing frame references needed for temporal scalability. Encoding a
+> single stream with a single layer allows for the layer to be dropped and
+> the stream to be decoded without artifacts.
+>
+> ChromeOS is planning to use this feature for the L1T2 web standard[1].
+> This allows video conferencing apps to encode once for a clients with
+> different performance/bandwidth capabilities. As the application is a
+> real time encoder only P frame support is added.
+>
+> The ChromeOS test framework ("tast") was used to verify that no
+> regressions are present. This was done on SC7180 ("trogdor"). These
+> patches were also run on SC7280, but not with as an extensive test set.
+>
+> Verification of the added controls was done with a bitstream analyser to
+> make sure that reference frame management is correct.
+>
+> [1]: https://www.w3.org/TR/webrtc-svc/#L1T2*
+>
+> Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
+> ---
+> Fritz Koenig (2):
+>       media: venus: Helper function for dynamically updating bitrate
+>       media: venus: Enable h.264 hierarchical coding
+>
+>  drivers/media/platform/qcom/venus/core.h       |   4 +
+>  drivers/media/platform/qcom/venus/venc.c       |  71 +++++++++-----
+>  drivers/media/platform/qcom/venus/venc_ctrls.c | 126 +++++++++++++++++++=
++++---
+>  3 files changed, 164 insertions(+), 37 deletions(-)
+> ---
+> base-commit: d07b43284ab356daf7ec5ae1858a16c1c7b6adab
+> change-id: 20240814-submit-05880a074377
+>
+> Best regards,
+> --
+> Fritz Koenig <frkoenig@chromium.org>
+>
 
