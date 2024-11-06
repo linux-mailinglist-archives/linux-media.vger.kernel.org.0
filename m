@@ -1,166 +1,189 @@
-Return-Path: <linux-media+bounces-21019-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21020-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586989BF231
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 16:50:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 428299BF35E
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 17:38:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E648F285BF1
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 15:50:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6A491F2349E
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 16:38:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B752C1E04BF;
-	Wed,  6 Nov 2024 15:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D26205AB7;
+	Wed,  6 Nov 2024 16:38:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ifpKDqTB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FkAo3Eph"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6790F2022F9
-	for <linux-media@vger.kernel.org>; Wed,  6 Nov 2024 15:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D760918FC8C;
+	Wed,  6 Nov 2024 16:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730908153; cv=none; b=TwJFbXfew1MchhFhkipO4Iwtn/ebnmIRzJL4uXC7xawTZLV16TYCArafRlutsHHz+HA0gDQd2xvXz/rmB1jD4wZHJSiyEv+6nwBlQtHlcyG7iOdbdmYMu1kZVOA49KSdsVqZWs355t2ZmYg9ndK0bLCxRiVWsOHuXeETIKsje1Y=
+	t=1730911089; cv=none; b=swOYag863BneGs/V1is0RkoTPL6tCWpP9rAu9s9KGDZ/yMeT9ucbk6EZsUQdaBRZWqnilekgd30tTxri7cKDaOSS7d9MFYHhiE2/KRomZJKDy7k6Tb4SPTlzymmdKqrorqzFGEmidYblcPTloe9Q3ktcKlnMQ2jgy3FsGC4TUDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730908153; c=relaxed/simple;
-	bh=hVFUihgc6QnT1Xq1fEruAaXhETYPBpDfWfSixYIRYIg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lyqkvD5PQxTzzqJBQVZvFblIY5cQLfsVW/pJP+vJqxfgmesqeT2iuApjiriQAcwArem70wujAD89IdQvJ8hPOhMQW1Jb2KACY1VoW8WUTJ3SE6YwcPV+8axyjiK1VaLJepVIZGej7ruCbmyHHGxP48udMIvF115ooMeu4D/N9+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ifpKDqTB; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9e44654ae3so908909766b.1
-        for <linux-media@vger.kernel.org>; Wed, 06 Nov 2024 07:49:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730908149; x=1731512949; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qPH4C+vsdNY0v9MzcBPeqyGD66BVdCTndzKOwNg3m20=;
-        b=ifpKDqTBv18cn2nXsbM/siAChx4Zj95etoqs8AaaIJpwPzKesVtnyEIfLZR4GUlpbo
-         Jg2nMLDMJ1JF7XD4Em1LIhbghG/V+tWqm0KjzUftEMuDvfpLoZzD79jGRy6TgyXJfJ1A
-         2NUr5rRaWpck6l1PiLYAfliR+3m1X5U/AM8fg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730908149; x=1731512949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qPH4C+vsdNY0v9MzcBPeqyGD66BVdCTndzKOwNg3m20=;
-        b=sFqZHb/SXc8hEnLC9MwaY1Zh9C7xHfK7Zqfr7e0RVzVcR0FwNJS4n5dpjC5Y6hHjvX
-         C12j4Byv/XkPCUuVZX3Gu3lO6Hf9VhVrMOM/leaYxehbSTgcLUX6qPvIqBtfLW488E5T
-         NJZw+F172fdNF3NTtb71TcYfvTrdnb47WB3sCZ99h1TS5Ho0e8gZobF45J8vDudJAcl6
-         VmIwL4OzOiVD0cJjQhy79fMBI/xCx7M1wt+k5vYtX49+tM2qznK6AOWJ9ouln06LTnTb
-         cdd924PnGiGV8Ux/PTxag7KoSH0rMh9SB/VuMo8X8hg0DF29YRkh7ynjm9XFOMzO/cL+
-         A5xg==
-X-Forwarded-Encrypted: i=1; AJvYcCUgPNAigQuQsTNixCFe2nzBXKmTgG1hHBkUva0+mNLLwYX05YbP2vA1jX9cntviid3HbANX0HJamjD37Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmK7Pk5R5pDLJ7RFiyWc3FiFytAqDlRnChZ1g84vg/YyzdISoE
-	e6AYBFATOjR+nKyhCgRl4UJL+B81mzmSP8bpDmKbNWAWTsyDPB5/ib/kAVsNodgczmYxhZHnob4
-	=
-X-Google-Smtp-Source: AGHT+IH3zDvgN+/Hkg8Fq84yth9y+7jizzM2UY/9iKlaszLC7EmLrUj3YqsqHvoFpNnmonQCvsny7g==
-X-Received: by 2002:a17:907:94c3:b0:a9a:3dbf:e655 with SMTP id a640c23a62f3a-a9e508e3f86mr2560906966b.19.1730908149618;
-        Wed, 06 Nov 2024 07:49:09 -0800 (PST)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com. [209.85.208.48])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb18148edsm294611566b.198.2024.11.06.07.49.07
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2024 07:49:07 -0800 (PST)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c934b2c991so13784a12.0
-        for <linux-media@vger.kernel.org>; Wed, 06 Nov 2024 07:49:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUzLJA4wPJ8d1j8cqeaH9XQiVgvRbeAE7F3Jshwu27HwX7tOzm0KZZBqHyu8oXyd3H8hh7ZQ9sF3ooCSQ==@vger.kernel.org
-X-Received: by 2002:a05:6402:206c:b0:5c8:a0b1:9c4 with SMTP id
- 4fb4d7f45d1cf-5cefbcb8e25mr22907a12.6.1730908147253; Wed, 06 Nov 2024
- 07:49:07 -0800 (PST)
+	s=arc-20240116; t=1730911089; c=relaxed/simple;
+	bh=JYsSg8XGpZMd/iovEqFWzxyh+o/Jbj+GO3GOPMiOkmA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mf+cEvh6V9UMbgOPM/powOYLYaTQPPsN2NViGFm9JC8tLnIhX0E4TJ4akk/I415aYnZ+HHyr0DI1/VxrofWb+IJP0lwbHM0WYnm+NnHrzH8eneKSMKh8JwiD7/q5H7fcxwid7T3MmfVbndPetMpk9TL76ac0N1wpeI28XW5NsWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FkAo3Eph; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D17559D;
+	Wed,  6 Nov 2024 17:37:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1730911077;
+	bh=JYsSg8XGpZMd/iovEqFWzxyh+o/Jbj+GO3GOPMiOkmA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FkAo3EphpjzwcqhWGS5mYOA6rnUajxTEtPgd8dZEhtVXRU5F1JsTbh2YGe+7RDpQ6
+	 4lryiZEua/Q+NUjl2uIXlSOyyv6O7diiUKGEWTFLCAYQaHcoNkCR57hmMAU0DkAhP1
+	 5tQMP3s4BiTOgYBP7GcHFj+SAEJcaBuZGRs+JkBg=
+Message-ID: <636ad36f-3182-431c-ae2e-1f590a06ad7f@ideasonboard.com>
+Date: Wed, 6 Nov 2024 16:38:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241022-submit-v5-0-552f0fec8cba@chromium.org>
-In-Reply-To: <20241022-submit-v5-0-552f0fec8cba@chromium.org>
-From: Fritz Koenig <frkoenig@chromium.org>
-Date: Wed, 6 Nov 2024 07:48:54 -0800
-X-Gmail-Original-Message-ID: <CAMfZQbx6-11k1eN1FC=_kRSgsh7FbTp2uvk3ufh+gOyhvxgEGw@mail.gmail.com>
-Message-ID: <CAMfZQbx6-11k1eN1FC=_kRSgsh7FbTp2uvk3ufh+gOyhvxgEGw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] media: venus: Add hierarchical h.264 controls
-To: Fritz Koenig <frkoenig@chromium.org>
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Dikshita Agarwal <quic_dikshita@quicinc.com>, 
-	Nathan Hebert <nhebert@chromium.org>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 05/17] dt-bindings: media: Add bindings for ARM
+ mali-c55
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
+ jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com, robh+dt@kernel.org,
+ mchehab@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+ sakari.ailus@iki.fi
+References: <20241106100534.768400-1-dan.scally@ideasonboard.com>
+ <20241106100534.768400-6-dan.scally@ideasonboard.com>
+ <lag7gfpuj2hdxw6i5pumaivxl5rylt2hztd57rynjestffwool@ate7u3zhrgfn>
+ <20241106135756.GI9369@pendragon.ideasonboard.com>
+ <a8cb35fd-d474-4104-b1f8-90ce5aa4a790@kernel.org>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <a8cb35fd-d474-4104-b1f8-90ce5aa4a790@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Stanimir,
+Hi Krzysztof - thanks for reviewing
 
-Would it be possible to get this in the 6.13 pull request?
+On 06/11/2024 14:29, Krzysztof Kozlowski wrote:
+> On 06/11/2024 14:57, Laurent Pinchart wrote:
+>> Hi Krzysztof,
+>>
+>> On Wed, Nov 06, 2024 at 01:15:23PM +0100, Krzysztof Kozlowski wrote:
+>>> On Wed, Nov 06, 2024 at 10:05:22AM +0000, Daniel Scally wrote:
+>>>> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
+>>>>
+>>>> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
+>>>> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>>>> ---
+>>>> Changes in v8:
+>>>>
+>>>> 	- Added the video clock back in. Now that we have actual hardware it's
+>>>> 	  clear that it's necessary.
+>>>> 	- Added reset lines
+>>>> 	- Dropped R-bs
+>>> These are trivial, so I wish you kept the review...
 
-Thanks.
+Fair enough, I just didn't want to be presumptuous
 
-On Tue, Oct 22, 2024 at 10:40=E2=80=AFAM Fritz Koenig <frkoenig@chromium.or=
-g> wrote:
+
+>>> but since you ask,
+>>> then comment further
+>>>
+>>> I recommend using b4, so your cover letter changelog comes with nice
+>>> links to previous versions. I scrolled through entire cover letter for
+>>> this (for me that's almost the only point of cover letter) and could
+>>> not find them. Anyway, just a remark.
+
+
+Thanks for the recommendation - I'll take a look when I get time, but either way I can add a link to 
+the previous versions next time.
+
+>>>
+>>>
+>>> ...
+>>>
+>>>> +  resets:
+>>>> +    items:
+>>>> +      - description: vclk domain reset
+>>>> +      - description: aclk domain reset
+>>>> +      - description: hclk domain reset
+>>>> +
+>>>> +  reset-names:
+>>>> +    items:
+>>>> +      - const: vresetn
+>>> drop "reset", it's redundant and rather come here with logical name. I
+>>> wonder what "n" means as well. It's not a GPIO to be "inverted"...
+>> The aresetn and hresetn names come directly from a hardware manual
+>> (vresetn seems to be called rstn in that document though). As far as I
+>> understand, they are the names of the external signals of the IP core.
+>> I tend to pick the hardware names for clock and reset names. That makes
+>> it easier for integrators, and from a driver point of view it doesn't
+>> change much as DT names are just a convention anyway.
+>>
+>> That being said, if there's a good reason to do otherwise (such as
+>> standardizing property names to make handling through common code
+>> possible), that's fine too.
+> If these are from manual then it is fine, although sometimes the names
+> are really pointless in manual...
 >
-> v5:
-> - fixed formatting
-> - included reviwed by for patch 2
-> - Link to v4: https://lore.kernel.org/r/20241017-submit-v4-0-d852bc7f7fdc=
-@chromium.org
->
-> v4:
-> - addressed feedback from Dikshita
-> - included reviewed by for patch 1
-> - Link to v3: https://lore.kernel.org/r/20240814-submit-v3-0-f7d05e3e8560=
-@chromium.org
->
-> v3:
-> - dropped reordering patch
-> - updated cover letter
->
-> v2:
-> - cover letter
-> - testing methodology
-> - Signed-off-by
->
-> V4L2 has support for encoding with hierarchical frames using the
-> V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING* controls. This allows for
-> specifing frame references needed for temporal scalability. Encoding a
-> single stream with a single layer allows for the layer to be dropped and
-> the stream to be decoded without artifacts.
->
-> ChromeOS is planning to use this feature for the L1T2 web standard[1].
-> This allows video conferencing apps to encode once for a clients with
-> different performance/bandwidth capabilities. As the application is a
-> real time encoder only P frame support is added.
->
-> The ChromeOS test framework ("tast") was used to verify that no
-> regressions are present. This was done on SC7180 ("trogdor"). These
-> patches were also run on SC7280, but not with as an extensive test set.
->
-> Verification of the added controls was done with a bitstream analyser to
-> make sure that reference frame management is correct.
->
-> [1]: https://www.w3.org/TR/webrtc-svc/#L1T2*
->
-> Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
-> ---
-> Fritz Koenig (2):
->       media: venus: Helper function for dynamically updating bitrate
->       media: venus: Enable h.264 hierarchical coding
->
->  drivers/media/platform/qcom/venus/core.h       |   4 +
->  drivers/media/platform/qcom/venus/venc.c       |  71 +++++++++-----
->  drivers/media/platform/qcom/venus/venc_ctrls.c | 126 +++++++++++++++++++=
-+++---
->  3 files changed, 164 insertions(+), 37 deletions(-)
-> ---
-> base-commit: d07b43284ab356daf7ec5ae1858a16c1c7b6adab
-> change-id: 20240814-submit-05880a074377
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Thanks
 >
 > Best regards,
-> --
-> Fritz Koenig <frkoenig@chromium.org>
+> Krzysztof
 >
 
