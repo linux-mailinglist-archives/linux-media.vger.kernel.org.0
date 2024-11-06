@@ -1,117 +1,194 @@
-Return-Path: <linux-media+bounces-21026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21027-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17BA9BF8C6
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 22:58:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2719BFA42
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 00:41:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B087FB225F9
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 21:58:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 912D31C21FBF
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2024 23:41:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 474731DA0F5;
-	Wed,  6 Nov 2024 21:58:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D12FA20E00A;
+	Wed,  6 Nov 2024 23:41:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DtNHlDqI"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="T+YlYY5N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2923118FDA5
-	for <linux-media@vger.kernel.org>; Wed,  6 Nov 2024 21:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C565D201029
+	for <linux-media@vger.kernel.org>; Wed,  6 Nov 2024 23:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730930279; cv=none; b=hmn2OfH8a0NRk2z/vB5NAOuBVECaOdzM9OHVxb1T+6U3xwa6wnNYvGW37feFeKZtSNHTZT+38vepwa+VPPb/s5wMTVKdq2q9PTn/N4E3Z/VUmg5qbK9otABIR2efAfHm90FilIYUc8CIfiRSnCBs38pf04G0+JFpz8hjGyLYuLw=
+	t=1730936510; cv=none; b=Wa2QFQQMIXJHmJe7Yvo7s7Wqy58YwVQlkGzhstsly9Bznj8Ot5WKTLZhEtbWyezJ3B8TKev7E+n5f4an+vHmHg7CmQBomQzY6bggo1KoYP8A9tLADh6ttzFC70ejxHG0BAeSpE9kDf8CqFby0BBG4hVMy5rYPorLCBngUVxuk7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730930279; c=relaxed/simple;
-	bh=Bkj3UB7UBC/Ez9hmhA6E5RMVZTayzYGCkXScjx9QaTs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pXeoyWLnZaL5G9nRGmQA46pvSgIlG5IyjbqGzMc/4V74yh+I7IL5j0jgMA+PHCtV9WJRK9k0ecXHyh5UBLr4+DpLHFKL0HdjeX95fCa3CyQ3SNpeOp+yBwNNF53xXSEEE2EoD8gBGtkoQm1uWnFAlS8T9T4jR54JOCIg+y6jmPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DtNHlDqI; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730930277;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uh8fyPxMbNunDDTZgfVbC8o1PbeNw2+xc6V20PPrtKE=;
-	b=DtNHlDqIM5yI6jDV2NR8MCaX6FYPXrfUsuEDtdRvuuSMzkdxL1/bQ4xgNBLCHUjQprWI8W
-	M43IRNbZumBKdxs2mbJMVgxwNWOcFxYuQTz5wnql/I04AHbAGfvCG+gqVRKKQ3ttath+Rq
-	NUxHCGI+bKm7iLUJPHoBaUbuWZoqO/s=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-483-FbCVbifWMH2JtbneRSSE9A-1; Wed, 06 Nov 2024 16:57:55 -0500
-X-MC-Unique: FbCVbifWMH2JtbneRSSE9A-1
-X-Mimecast-MFC-AGG-ID: FbCVbifWMH2JtbneRSSE9A
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a99efe7369dso28302266b.0
-        for <linux-media@vger.kernel.org>; Wed, 06 Nov 2024 13:57:55 -0800 (PST)
+	s=arc-20240116; t=1730936510; c=relaxed/simple;
+	bh=Jb8BAyvd4oz2mGslbPXUUxqw+BIR393RplBHuFXMRjA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eUATxtYbaIka5wi7Ktwjv/MBb84nP4/5DIG/ZyhTuEfCa9kprXT54xejfnKMQwNnruEN9ta7Ad3WYH7fb2Ho7hkSlHUkV8Klc/nzK+pJbN33mT7LuESl64qMZ9OFozIr4YJ7n+owHDWxuX0r+gvMaoZxq0SIvD/+K9LNVy95v1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=T+YlYY5N; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7eae96e6624so306717a12.2
+        for <linux-media@vger.kernel.org>; Wed, 06 Nov 2024 15:41:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1730936508; x=1731541308; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gUIxV8/idxeTiaY7TjZoSjaAKD90iyIZAKQ4e5QblXw=;
+        b=T+YlYY5NE2V/hojWGZ7lXS3Uw3UgGZPq3svoUVwCGJlyL++Pq+VugY0IYuCY2//UNx
+         6BZBW7Ktj0LUtTjtxogy3Nk0PYt5LiswrRnJO6uxH3j/jg1TbBlObv1N9AU3/J1I4C0+
+         IuyuaBjZ3vS36UhGCcszCSmV08mHYfPgBh7Xc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730930275; x=1731535075;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uh8fyPxMbNunDDTZgfVbC8o1PbeNw2+xc6V20PPrtKE=;
-        b=BbKQC53tBhYCBtwNV///oUHWNmury85/enO3FFVCrEzN7u4CBaiCTtklxp+h+C0Fuq
-         nmeCI6K1eJzTpPIp7TxSomg0jPeE3VQchyBz80ez35jjLiTA5vGcW5vyB7EMD8JF8Acg
-         Ghd7cJYaxnq+d1rTU+EKlGJa5Wab9sKo/flEFXn8dHPDgV4Nm7mXT7vbVMB9ZBJs4cf0
-         hZBC/93iBEbydxiKaF0NrgRIfRsJPeNshjTjXo+fKRa1yZEuRjAs9RwrgZLCJ0bJKVNx
-         X6QmGhw1t8pfEBEV4iVfrhUcmGePZ2EpJn6wRTV5ECKFfsepY/67UL6O8cEDgPGzuM+E
-         FXoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXcHwhB8kIBKW4hN1dHOBaGEhraOzx0IoIQ/IBkSa9KU3SMu80Vj/ckzw9di2v1vvofWZeSKfwFh+Wt8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDUG1OGfr1gIxqjcY73sjEDtgOR52ZdeAzBoIClLgHu8zOY8Ti
-	Mf69XGXNDSQ/XI0oYuM8gctyMsR2+EtzxldUTNwO8qIM1vJIa66jtdf5h+235iM3BQi5u7exHof
-	n8aJ5PSx/8UoJqgVrIj17j5KI2vB5+5mRLsELfa+JLeBvF5JNIBDtISz9S4ER
-X-Received: by 2002:a17:907:ea4:b0:a99:f722:2dde with SMTP id a640c23a62f3a-a9ed4c604f8mr59436966b.1.1730930274700;
-        Wed, 06 Nov 2024 13:57:54 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEm/1ICA8I+t0X5PlydU6MXTCCQ08CmaQhc42J+P/SNhQFwtFzsdzvkITUAj4ENlZcdKUQ3tQ==
-X-Received: by 2002:a17:907:ea4:b0:a99:f722:2dde with SMTP id a640c23a62f3a-a9ed4c604f8mr59435866b.1.1730930274302;
-        Wed, 06 Nov 2024 13:57:54 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb16d8dd3sm336013166b.43.2024.11.06.13.57.53
+        d=1e100.net; s=20230601; t=1730936508; x=1731541308;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gUIxV8/idxeTiaY7TjZoSjaAKD90iyIZAKQ4e5QblXw=;
+        b=Em8MKxUnjB8zuQytGXsQEE6SHXXi/05KfFWpFov0BUZNfPF4z7qCZ6pHFtPNbD+dyN
+         87cig7aqVQ4ZTwnHtkGe99kmUc5ZHnFInKKacD3afCufvtxhoURRr1EyrFdIrOn1PWX1
+         vGf5Ae3LGiAqCsEfcV58ZaONkg5rlABIpmmHW7puAgVJUg6Btiinf4tpu+6frA+C4Lur
+         8XoTPwfuaD7bmpNd959d//f2vGgFv00gwRbDQeRAlNmzCur0ykacM7WZL3b2sHzmceQB
+         j5AWwMnsouzvJZ1bwGY0O6f5YjqqgzGnFYxxetwWrq+R74oma8vULy7XieR2smudu5bZ
+         sM6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXadgRIDQz14SU5R4LoUidu3AOHeIR8ropYRzhFmHHhKSfZ7qHmhyCkKj21RMB8bU83Jvblp/m24CgykA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRNs+cYPbEuOhnRDA13dOnQcS4V3T6ZwdbbRzomlwv8p8MNzN6
+	HdwfMXPesEOGdE1djo8fy79MyMPSpyvbPCSJsmAbm0c4At2yQLZBM1WWS2xw1dA6eamhZm482Pt
+	lcw==
+X-Google-Smtp-Source: AGHT+IFbuyHOKjVm/4xAo0vbPW9TukitzD2A+dgH09S2QAFKBL510HsMHop0pLmIWkTdYB3KRMSV7Q==
+X-Received: by 2002:a05:6a21:7885:b0:1db:efca:7bc9 with SMTP id adf61e73a8af0-1dbefca7befmr12646326637.25.1730936507771;
+        Wed, 06 Nov 2024 15:41:47 -0800 (PST)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com. [209.85.214.174])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f65d358sm64643a12.84.2024.11.06.15.41.45
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2024 13:57:53 -0800 (PST)
-Message-ID: <afd9b4a0-4871-453a-b8cc-b1f99df47743@redhat.com>
-Date: Wed, 6 Nov 2024 22:57:53 +0100
+        Wed, 06 Nov 2024 15:41:46 -0800 (PST)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20c87b0332cso33805ad.1
+        for <linux-media@vger.kernel.org>; Wed, 06 Nov 2024 15:41:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVQKlsadESUm4PpXwudxmHWuURyGj9FFrpinPhG116w1xbMNM07KNA+/VO3KBzvdU5SEsScGbKQt55f7g==@vger.kernel.org
+X-Received: by 2002:a17:903:2285:b0:1f7:34e4:ebc1 with SMTP id
+ d9443c01a7336-211748fa9f8mr1764415ad.5.1730936505431; Wed, 06 Nov 2024
+ 15:41:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: ov08x40: Move
- fwnode_property_read_u32("clock-frequency") call down
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Jason Chen <jason.z.chen@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20241012115236.53998-1-hdegoede@redhat.com>
- <ac006721-6122-482d-9daf-2281f7e4f384@linaro.org>
- <ZyS5kb_QCDdw11x7@kekkonen.localdomain>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZyS5kb_QCDdw11x7@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241106121802.2939237-1-tudor.ambarus@linaro.org>
+In-Reply-To: <20241106121802.2939237-1-tudor.ambarus@linaro.org>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Thu, 7 Nov 2024 08:41:24 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5B51wa1dD3FzHKxsg4VaA_bHzUrFGmA19q8jUybsMuS0Q@mail.gmail.com>
+Message-ID: <CAAFQd5B51wa1dD3FzHKxsg4VaA_bHzUrFGmA19q8jUybsMuS0Q@mail.gmail.com>
+Subject: Re: [PATCH] media: videobuf2-core: copy vb planes unconditionally
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: m.szyprowski@samsung.com, mchehab@kernel.org, yunkec@chromium.org, 
+	hverkuil@xs4all.nl, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, andre.draszik@linaro.org, 
+	kernel-team@android.com, willmcvicker@google.com, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Nov 6, 2024 at 9:18=E2=80=AFPM Tudor Ambarus <tudor.ambarus@linaro.=
+org> wrote:
+>
+> Copy the relevant data from userspace to the vb->planes unconditionally
+> as it's possible some of the fields may have changed after the buffer
+> has been validated.
+>
+> Keep the dma_buf_put(planes[plane].dbuf) calls in the first
+> `if (!reacquired)` case, in order to be close to the plane validation cod=
+e
+> where the buffers were got in the first place.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 95af7c00f35b ("media: videobuf2-core: release all planes first in =
+__prepare_dmabuf()")
+> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+> ---
+>  .../media/common/videobuf2/videobuf2-core.c   | 28 ++++++++++---------
+>  1 file changed, 15 insertions(+), 13 deletions(-)
+>
 
-On 1-Nov-24 12:20 PM, Sakari Ailus wrote:
-> On Sat, Oct 12, 2024 at 04:10:14PM +0100, Bryan O'Donoghue wrote:
->> 20241010-b4-master-24-11-25-ov08x40-v6-4-cf966e34e685@linaro.org
-> 
-> Hans: could you rebase this, please? Bryan's set has been out for quite
-> some time (and now in my tree, devel branch).
+Thanks for the fix.
 
-Ack will do. I'm still waiting for testing feedback anyways
-since I don't have a laptop with this sensor myself.
+Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-Regards,
+(We probably need some tests to verify this behavior... It seems like
+the way v4l2-compliance is implemented [1] would only trigger the
+!reacquired case on most drivers.)
 
-Hans
+[1] https://git.linuxtv.org/v4l-utils.git/tree/utils/v4l2-compliance/v4l2-t=
+est-buffers.cpp#n2071
+(just queuing all imported buffers in order and re-queuing them
+exactly as they are dequeued [2])
+[2] https://git.linuxtv.org/v4l-utils.git/tree/utils/v4l2-compliance/v4l2-t=
+est-buffers.cpp#n1299
 
+Best regards,
+Tomasz
+
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/me=
+dia/common/videobuf2/videobuf2-core.c
+> index f07dc53a9d06..c0cc441b5164 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -1482,18 +1482,23 @@ static int __prepare_dmabuf(struct vb2_buffer *vb=
+)
+>                         }
+>                         vb->planes[plane].dbuf_mapped =3D 1;
+>                 }
+> +       } else {
+> +               for (plane =3D 0; plane < vb->num_planes; ++plane)
+> +                       dma_buf_put(planes[plane].dbuf);
+> +       }
+>
+> -               /*
+> -                * Now that everything is in order, copy relevant informa=
+tion
+> -                * provided by userspace.
+> -                */
+> -               for (plane =3D 0; plane < vb->num_planes; ++plane) {
+> -                       vb->planes[plane].bytesused =3D planes[plane].byt=
+esused;
+> -                       vb->planes[plane].length =3D planes[plane].length=
+;
+> -                       vb->planes[plane].m.fd =3D planes[plane].m.fd;
+> -                       vb->planes[plane].data_offset =3D planes[plane].d=
+ata_offset;
+> -               }
+> +       /*
+> +        * Now that everything is in order, copy relevant information
+> +        * provided by userspace.
+> +        */
+> +       for (plane =3D 0; plane < vb->num_planes; ++plane) {
+> +               vb->planes[plane].bytesused =3D planes[plane].bytesused;
+> +               vb->planes[plane].length =3D planes[plane].length;
+> +               vb->planes[plane].m.fd =3D planes[plane].m.fd;
+> +               vb->planes[plane].data_offset =3D planes[plane].data_offs=
+et;
+> +       }
+>
+> +       if (reacquired) {
+>                 /*
+>                  * Call driver-specific initialization on the newly acqui=
+red buffer,
+>                  * if provided.
+> @@ -1503,9 +1508,6 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+>                         dprintk(q, 1, "buffer initialization failed\n");
+>                         goto err_put_vb2_buf;
+>                 }
+> -       } else {
+> -               for (plane =3D 0; plane < vb->num_planes; ++plane)
+> -                       dma_buf_put(planes[plane].dbuf);
+>         }
+>
+>         ret =3D call_vb_qop(vb, buf_prepare, vb);
+> --
+> 2.47.0.199.ga7371fff76-goog
+>
 
