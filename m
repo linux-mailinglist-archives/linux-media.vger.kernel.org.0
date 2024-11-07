@@ -1,443 +1,173 @@
-Return-Path: <linux-media+bounces-21046-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21048-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B059C02E5
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 11:49:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 680869C0301
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 11:53:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C24B4B230A7
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 10:49:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D6AC2843D7
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 10:53:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4568E1EF943;
-	Thu,  7 Nov 2024 10:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D34A1F12F9;
+	Thu,  7 Nov 2024 10:52:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="STEkhW8l"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gHOmQb2g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30971E9068
-	for <linux-media@vger.kernel.org>; Thu,  7 Nov 2024 10:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2841EF943;
+	Thu,  7 Nov 2024 10:52:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730976581; cv=none; b=j1PAxNEWAGQyLSc3R4/fUjCFL41g0R3sl6pFnVxNlouETt0A5yViT+9R0p1XYuuTlVhXv2hLNn33fXatzOL45Rb/PtBnG7pSHQXE8T/fpamlgdhS8kmCjUSdoWDQv7aSdoQQn77VS44qHFwOoO4wFlQQyYbGrq04ZUpcu2Y3+9o=
+	t=1730976774; cv=none; b=pG/6cpIYsmprLTfYjzhFnIqv7re9W/krxWmuz0g/Wz3VpgEIrXQPue9cSnHkXQIwI7uXYIohJGBzLcw9sGk8ZFEyTwv1q4TuN7KP9/a9xoBiNr3g8P+C2PTIW9J+s0OQeKZgmOVxMsMju0YqFa+O+3UgbhAG9a7VW2xXqicRMpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730976581; c=relaxed/simple;
-	bh=e4nvSgZedHChoFvznaRfnLYobEuVahuE0RYeUGf2RNs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=exGpACpE6H/sec4d+/borjYTjxzzxF8SS1cY9EYUk9mfuV2zmxH2H3NhdnyrRZO82Klc4EIllyr9LguHuJcYMLq93aNVIoW0jFAtguyRWg7vEqhA95ucbpmxNvjOIglCZx722Ml38r1heTxh8D98sr+0H1tvcMay93IrOoDl+vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=STEkhW8l; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730976578;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/9oMEyd1DBbZfglJ5VDJvGMAnQbX+glDypiNb4tvdyY=;
-	b=STEkhW8lBSkV6Ca6PQZYYrRWiyIzlOz9EhHNLeIq5ApAm4IxiH+3kyYAMOkBSR134yjZLk
-	Q25WiFyn5xd5RB8RZwoe/bOuaiuwHof6Dr6afGkHuCCnqXsM6AHHqUxMfequwuh25QEWFG
-	QfodG9EoatXuvB5mUarcDYQgOkir+Mg=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-43-iV5WqIJ7OGGVIoEo0MFj6w-1; Thu,
- 07 Nov 2024 05:49:35 -0500
-X-MC-Unique: iV5WqIJ7OGGVIoEo0MFj6w-1
-X-Mimecast-MFC-AGG-ID: iV5WqIJ7OGGVIoEo0MFj6w
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	s=arc-20240116; t=1730976774; c=relaxed/simple;
+	bh=cnpp2TKMHv1gK8Yy2Zpt8olDnfx3n0TPEPZ9lucWymU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fZ3mq4Au5VVAJ9t0F7FXVXlH9JoptET02xmsdl6B+39nqQWo0XD5wtZyT1+41VtB8+nxVLPnZxwrmDeVunrm9dohrozmJkQwCNsb+2dupmzKMiV/uv8YWuBrEMbjXLJGBUzluQXNd2NjgjrRMBDLuJF2xDWHqQ0gvT61TfWIAL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gHOmQb2g; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1730976770;
+	bh=cnpp2TKMHv1gK8Yy2Zpt8olDnfx3n0TPEPZ9lucWymU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gHOmQb2gzrh17lPVK0V41gcSYPwvUfOVnvZPfNkDhFRD2ruZlgjqo2mqNiyqdLELn
+	 UedWM4hWzT0LGQetXp1QTN4MMTnp1XtrqcchepmWo4dI9M3hCMxfKwEDeCOIH9M/9z
+	 Nqu7SM6F/E49HialrekHtJFcr3TKvWgz4r2wzMWkAaA8D4+XtlKuTZKanrV76dx3GZ
+	 ZbXL/uyODk9XNtdOKS8cJJ5Z2JhiHbsHD2bY+fvl0oZuEOeurB/Tm4gzHAPgdv9NWG
+	 dyp8z2XjxfcUwjtdReLPNTKFe/kqgflUIuXeF2M3x5O23BpjNAdeC5r579cU7pzfxD
+	 iQoTKTUqohyDw==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 132AF1955EA1;
-	Thu,  7 Nov 2024 10:49:34 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.194.177])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 83ED81953880;
-	Thu,  7 Nov 2024 10:49:32 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Subject: [PATCH v2 2/2] media: i2c: Add driver for AD5823 VCM
-Date: Thu,  7 Nov 2024 11:49:26 +0100
-Message-ID: <20241107104926.257636-3-hdegoede@redhat.com>
-In-Reply-To: <20241107104926.257636-1-hdegoede@redhat.com>
-References: <20241107104926.257636-1-hdegoede@redhat.com>
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id F330217E35DC;
+	Thu,  7 Nov 2024 11:52:49 +0100 (CET)
+Message-ID: <90fe898c-0352-46da-aee3-898cdf2b5d26@collabora.com>
+Date: Thu, 7 Nov 2024 11:52:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] media: mediatek: vcodec: support extended h264
+ decode
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Nathan Hebert <nhebert@chromium.org>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Chen-Yu Tsai <wenst@chromium.org>,
+ Fritz Koenig <frkoenig@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20241107074603.31998-1-yunfei.dong@mediatek.com>
+ <20241107074603.31998-3-yunfei.dong@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241107074603.31998-3-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add a driver for the AD5823 VCM. The driver creates a v4l2 subdevice
-and registers a control to set the desired focus.
+Il 07/11/24 08:45, Yunfei Dong ha scritto:
+> The address end of working buffer can't be calculated directly with buffer
+> size in kernel for some special architecture. Adding new extend vsi_ex to
+> calculate the address end in firmware.
+> Adding capability to separate extend and non extend driver for different
+> platform.
+> At last, hardware can parse the syntax to get nal information in firmware
+> for extend architecture, needn't to parse it again in kernel.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>   .../vcodec/decoder/mtk_vcodec_dec_drv.h       |   2 +
+>   .../decoder/vdec/vdec_h264_req_multi_if.c     | 487 +++++++++++++++++-
+>   2 files changed, 472 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> index 886fa385e2e6..1e697bc810b0 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> @@ -17,6 +17,7 @@
+>   
+>   #define IS_VDEC_LAT_ARCH(hw_arch) ((hw_arch) >= MTK_VDEC_LAT_SINGLE_CORE)
+>   #define IS_VDEC_INNER_RACING(capability) ((capability) & MTK_VCODEC_INNER_RACING)
+> +#define IS_VDEC_SUPPORT_EX(capability) ((capability) & MTK_VDEC_IS_SUPPORT_EX)
+>   
+>   enum mtk_vcodec_dec_chip_name {
+>   	MTK_VDEC_INVAL = 0,
+> @@ -42,6 +43,7 @@ enum mtk_vdec_format_types {
+>   	MTK_VDEC_FORMAT_HEVC_FRAME = 0x1000,
+>   	MTK_VCODEC_INNER_RACING = 0x20000,
+>   	MTK_VDEC_IS_SUPPORT_10BIT = 0x40000,
+> +	MTK_VDEC_IS_SUPPORT_EX = 0x80000,
+>   };
+>   
+>   /*
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+> index 851a8490b828..d0aecd9621d9 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/i2c/Kconfig  |   8 +
- drivers/media/i2c/Makefile |   1 +
- drivers/media/i2c/ad5823.c | 312 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 321 insertions(+)
- create mode 100644 drivers/media/i2c/ad5823.c
+..snip..
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 0a30f309cd6b..d5b43755d8dc 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -759,6 +759,14 @@ config VIDEO_AD5820
- 	  This is a driver for the AD5820 camera lens voice coil.
- 	  It is used for example in Nokia N900 (RX-51).
- 
-+config VIDEO_AD5823
-+	tristate "AD5823 lens voice coil support"
-+	select V4L2_CCI_I2C
-+	help
-+	  This is a driver for the AD5823 camera lens voice coil / VCM.
-+	  This is designed for linear control of voice coil motors,
-+	  controlled via I2C serial interface.
-+
- config VIDEO_AK7375
- 	tristate "AK7375 lens voice coil support"
- 	help
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 815b4983a8be..38d5b69279cf 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -4,6 +4,7 @@ msp3400-objs	:=	msp3400-driver.o msp3400-kthreads.o
- 
- obj-$(CONFIG_SDR_MAX2175) += max2175.o
- obj-$(CONFIG_VIDEO_AD5820) += ad5820.o
-+obj-$(CONFIG_VIDEO_AD5823) += ad5823.o
- obj-$(CONFIG_VIDEO_ADP1653) += adp1653.o
- obj-$(CONFIG_VIDEO_ADV7170) += adv7170.o
- obj-$(CONFIG_VIDEO_ADV7175) += adv7175.o
-diff --git a/drivers/media/i2c/ad5823.c b/drivers/media/i2c/ad5823.c
-new file mode 100644
-index 000000000000..96e7ff3a8583
---- /dev/null
-+++ b/drivers/media/i2c/ad5823.c
-@@ -0,0 +1,312 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Analog Devices AD5823 VCM driver
-+ * Copyright 2023 - 2024 Hans de Goede <hansg@kernel.org>
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/types.h>
-+
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-common.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-subdev.h>
-+
-+#define AD5823_MAX_FOCUS_POS		1023
-+
-+#define AD5823_RESET			CCI_REG8(1)
-+#define AD5823_RESET_RESET		BIT(0)
-+
-+#define AD5823_MODE			CCI_REG8(2)
-+#define AD5823_ARC_RES1			0x01
-+
-+#define AD5823_VCM_MOVE_TIME		CCI_REG8(3)
-+#define AD5823_VCM_MOVE_TIME_DEFAULT	0x80
-+#define AD5823_RESONANCE_PERIOD		100000	/* in 0.1 us units */
-+#define AD5823_RESONANCE_COEF		512	/* in 0.1 us units */
-+
-+#define AD5823_RESONANCE_OFFSET		0x80	/* for reg 0x02 bit 5 == 0 */
-+
-+#define AD5823_VCM_CODE			CCI_REG16(4)
-+#define AD5823_VCM_CODE_RING_CTRL	BIT(10)
-+
-+#define AD5823_VCM_THRESHOLD		CCI_REG16(6)
-+#define AD5823_VCM_THRESHOLD_DEFAULT	0x10
-+
-+#define to_ad5823_device(x) container_of(x, struct ad5823_device, sd)
-+
-+struct ad5823_device {
-+	struct v4l2_subdev sd;
-+	struct regmap *regmap;
-+	struct regulator *regulator;
-+	u32 arc_mode;
-+	u32 resonance_period;	/* in 0.1 us units */
-+
-+	struct ad5823_v4l2_ctrls {
-+		struct v4l2_ctrl_handler handler;
-+		struct v4l2_ctrl *focus;
-+	} ctrls;
-+};
-+
-+static int ad5823_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct ad5823_device *ad5823 = container_of(ctrl->handler,
-+						    struct ad5823_device,
-+						    ctrls.handler);
-+	int ret;
-+
-+	/* Only apply changes to the controls if the device is powered up */
-+	if (!pm_runtime_get_if_in_use(ad5823->sd.dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_FOCUS_ABSOLUTE:
-+		ret = cci_write(ad5823->regmap, AD5823_VCM_CODE,
-+				AD5823_VCM_CODE_RING_CTRL | ctrl->val, NULL);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	pm_runtime_put(ad5823->sd.dev);
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops ad5823_ctrl_ops = {
-+	.s_ctrl = ad5823_set_ctrl,
-+};
-+
-+static int ad5823_power_down(struct ad5823_device *ad5823)
-+{
-+	return regulator_disable(ad5823->regulator);
-+}
-+
-+static int ad5823_power_up(struct ad5823_device *ad5823, bool detect)
-+{
-+	u64 vcm_move_time, vcm_threshold;
-+	int ret;
-+
-+	ret = regulator_enable(ad5823->regulator);
-+	if (ret)
-+		return ret;
-+
-+	cci_write(ad5823->regmap, AD5823_RESET, BIT(0), &ret);
-+
-+	if (detect) {
-+		/* There is no id register, check for default reg values. */
-+		cci_read(ad5823->regmap, AD5823_VCM_MOVE_TIME, &vcm_move_time, &ret);
-+		cci_read(ad5823->regmap, AD5823_VCM_THRESHOLD, &vcm_threshold, &ret);
-+
-+		if (!ret && (vcm_move_time != AD5823_VCM_MOVE_TIME_DEFAULT ||
-+			     vcm_threshold != AD5823_VCM_THRESHOLD_DEFAULT)) {
-+			dev_err(ad5823->sd.dev, "Failed to detect AD5823 got move-time 0x%02llx vcm-threshold 0x%02llx\n",
-+				vcm_move_time, vcm_threshold);
-+			ret = -ENXIO;
-+		}
-+	}
-+
-+	vcm_move_time = ad5823->resonance_period / AD5823_RESONANCE_COEF -
-+			AD5823_RESONANCE_OFFSET;
-+
-+	dev_dbg(ad5823->sd.dev, "mode 0x%02x move-time 0x%02llx\n",
-+		ad5823->arc_mode, vcm_move_time);
-+
-+	cci_write(ad5823->regmap, AD5823_MODE, ad5823->arc_mode, &ret);
-+	cci_write(ad5823->regmap, AD5823_VCM_MOVE_TIME, vcm_move_time, &ret);
-+	if (ret)
-+		ad5823_power_down(ad5823);
-+
-+	return ret;
-+}
-+
-+static int ad5823_suspend(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ad5823_device *ad5823 = to_ad5823_device(sd);
-+
-+	return ad5823_power_down(ad5823);
-+}
-+
-+static int ad5823_resume(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ad5823_device *ad5823 = to_ad5823_device(sd);
-+	int ret;
-+
-+	ret = ad5823_power_up(ad5823, false);
-+	if (ret)
-+		return ret;
-+
-+	/* Restore value of ctrls */
-+	ret = v4l2_ctrl_handler_setup(&ad5823->ctrls.handler);
-+	if (ret < 0)
-+		dev_warn(dev, "Failed to restore focus ctrl value: %d\n", ret);
-+
-+	return 0;
-+}
-+
-+static int ad5823_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-+{
-+	return pm_runtime_resume_and_get(sd->dev);
-+}
-+
-+static int ad5823_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-+{
-+	pm_runtime_put(sd->dev);
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_internal_ops ad5823_internal_ops = {
-+	.open = ad5823_open,
-+	.close = ad5823_close,
-+};
-+
-+static const struct v4l2_subdev_ops ad5823_ops = { };
-+
-+static int ad5823_init_controls(struct ad5823_device *ad5823)
-+{
-+	const struct v4l2_ctrl_ops *ops = &ad5823_ctrl_ops;
-+	int ret;
-+
-+	v4l2_ctrl_handler_init(&ad5823->ctrls.handler, 1);
-+
-+	ad5823->ctrls.focus = v4l2_ctrl_new_std(&ad5823->ctrls.handler, ops,
-+						V4L2_CID_FOCUS_ABSOLUTE, 0,
-+						AD5823_MAX_FOCUS_POS, 1, 0);
-+
-+	if (ad5823->ctrls.handler.error) {
-+		dev_err(ad5823->sd.dev, "Error initialising v4l2 ctrls\n");
-+		ret = ad5823->ctrls.handler.error;
-+		goto err_free_handler;
-+	}
-+
-+	ad5823->sd.ctrl_handler = &ad5823->ctrls.handler;
-+	return 0;
-+
-+err_free_handler:
-+	v4l2_ctrl_handler_free(&ad5823->ctrls.handler);
-+	return ret;
-+}
-+
-+static int ad5823_probe(struct i2c_client *client)
-+{
-+	struct ad5823_device *ad5823;
-+	int ret;
-+
-+	ad5823 = devm_kzalloc(&client->dev, sizeof(*ad5823), GFP_KERNEL);
-+	if (!ad5823)
-+		return -ENOMEM;
-+
-+	ad5823->regmap = devm_cci_regmap_init_i2c(client, 8);
-+	if (IS_ERR(ad5823->regmap))
-+		return PTR_ERR(ad5823->regmap);
-+
-+	ad5823->arc_mode = AD5823_ARC_RES1;
-+	ad5823->resonance_period = AD5823_RESONANCE_PERIOD;
-+
-+	/* Optional indication of ARC mode select */
-+	device_property_read_u32(&client->dev, "adi,arc-mode",
-+				 &ad5823->arc_mode);
-+
-+	/* Optional indication of VCM resonance period */
-+	device_property_read_u32(&client->dev, "adi,resonance-period",
-+				 &ad5823->resonance_period);
-+
-+	ad5823->regulator = devm_regulator_get(&client->dev, "vdd");
-+	if (IS_ERR(ad5823->regulator))
-+		return dev_err_probe(&client->dev, PTR_ERR(ad5823->regulator),
-+				     "getting regulator\n");
-+
-+	v4l2_i2c_subdev_init(&ad5823->sd, client, &ad5823_ops);
-+	ad5823->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	ad5823->sd.internal_ops = &ad5823_internal_ops;
-+
-+	ret = ad5823_init_controls(ad5823);
-+	if (ret)
-+		return ret;
-+
-+	ret = media_entity_pads_init(&ad5823->sd.entity, 0, NULL);
-+	if (ret < 0)
-+		goto err_free_ctrl_handler;
-+
-+	ad5823->sd.entity.function = MEDIA_ENT_F_LENS;
-+
-+	/*
-+	 * We need the driver to work in the event that pm runtime is disable in
-+	 * the kernel, so power up and verify the chip now. In the event that
-+	 * runtime pm is disabled this will leave the chip on, so that the lens
-+	 * will work.
-+	 */
-+
-+	ret = ad5823_power_up(ad5823, true);
-+	if (ret)
-+		goto err_cleanup_media;
-+
-+	pm_runtime_set_active(&client->dev);
-+	pm_runtime_get_noresume(&client->dev);
-+	pm_runtime_enable(&client->dev);
-+
-+	ret = v4l2_async_register_subdev(&ad5823->sd);
-+	if (ret < 0)
-+		goto err_pm_runtime;
-+
-+	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-+	pm_runtime_use_autosuspend(&client->dev);
-+	pm_runtime_put_autosuspend(&client->dev);
-+
-+	return ret;
-+
-+err_pm_runtime:
-+	pm_runtime_disable(&client->dev);
-+	pm_runtime_put_noidle(&client->dev);
-+	ad5823_power_down(ad5823);
-+err_cleanup_media:
-+	media_entity_cleanup(&ad5823->sd.entity);
-+err_free_ctrl_handler:
-+	v4l2_ctrl_handler_free(&ad5823->ctrls.handler);
-+
-+	return ret;
-+}
-+
-+static void ad5823_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct ad5823_device *ad5823 =
-+		container_of(sd, struct ad5823_device, sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	v4l2_ctrl_handler_free(&ad5823->ctrls.handler);
-+	media_entity_cleanup(&ad5823->sd.entity);
-+
-+	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev))
-+		ad5823_power_down(ad5823);
-+	pm_runtime_set_suspended(&client->dev);
-+}
-+
-+static const struct i2c_device_id ad5823_id_table[] = {
-+	{ "ad5823" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, ad5823_id_table);
-+
-+static DEFINE_RUNTIME_DEV_PM_OPS(ad5823_pm_ops, ad5823_suspend, ad5823_resume,
-+				 NULL);
-+
-+static struct i2c_driver ad5823_i2c_driver = {
-+	.driver = {
-+		.name = "ad5823",
-+		.pm = pm_sleep_ptr(&ad5823_pm_ops),
-+	},
-+	.probe = ad5823_probe,
-+	.remove = ad5823_remove,
-+	.id_table = ad5823_id_table,
-+};
-+module_i2c_driver(ad5823_i2c_driver);
-+
-+MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
-+MODULE_DESCRIPTION("AD5823 VCM Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.47.0
+>   	inst->vsi_ctx.dec.y_fb_dma = y_fb_dma;
+> @@ -816,8 +1260,17 @@ static int vdec_h264_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+>   	if (!h_vdec)
+>   		return -EINVAL;
+>   
+> -	if (inst->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_PURE_SINGLE_CORE)
+> -		ret = vdec_h264_slice_single_decode(h_vdec, bs, unused, res_chg);
+> +	if (inst->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_PURE_SINGLE_CORE) {
+> +		if (IS_VDEC_SUPPORT_EX(inst->ctx->dev->dec_capability))
+> +			ret = vdec_h264_slice_single_decode_ex(h_vdec, bs, unused, res_chg);
 
+I wonder if we can use function pointers here, as I feel like vcodec is becoming
+a bit "full of branches here and there"...
+
+The rough idea is:
+
+/* there, or somewhere that's called only once in the driver lifetime anyway */
+static int vdec_h264_slice_init(.....)
+{
+	........
+
+	if (hw_arch == MTK_VDEC_PURE_SINGLE_CORE) {
+		if (inst->ctx->dev->dec_capability & MTK_VDEC_IS_SUPPORT_EX)
+			inst->decode = vdec_h264_slice_single_decode_ex;
+		else
+			inst->decode = vdec_h264_slice_single_decode;
+	}  else {
+		if (inst->ctx->dev->dec_capability & MTK_VDEC_IS_SUPPORT_EX)
+			inst->decode = vdec_h264_slice_lat_decode_ex;
+		else
+			inst->decode = vdec_h264_slice_lat_decode;
+	}
+
+	......
+}
+
+static int vdec_h264_slice_decode(...)
+{
+	if (!inst)
+		return -EINVAL;
+
+	return inst->decode( .... )
+}
+
+...less branches during decoding *of each frame* :-)
+
+Cheers,
+Angelo
 
