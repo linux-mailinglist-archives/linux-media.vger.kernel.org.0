@@ -1,55 +1,74 @@
-Return-Path: <linux-media+bounces-21048-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21049-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680869C0301
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 11:53:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D82B9C03FC
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 12:29:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D6AC2843D7
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 10:53:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79898B212C8
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 11:29:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D34A1F12F9;
-	Thu,  7 Nov 2024 10:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9D7D1FF059;
+	Thu,  7 Nov 2024 11:29:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gHOmQb2g"
+	dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="IdSRRc2u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2841EF943;
-	Thu,  7 Nov 2024 10:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584A81F76AE
+	for <linux-media@vger.kernel.org>; Thu,  7 Nov 2024 11:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730976774; cv=none; b=pG/6cpIYsmprLTfYjzhFnIqv7re9W/krxWmuz0g/Wz3VpgEIrXQPue9cSnHkXQIwI7uXYIohJGBzLcw9sGk8ZFEyTwv1q4TuN7KP9/a9xoBiNr3g8P+C2PTIW9J+s0OQeKZgmOVxMsMju0YqFa+O+3UgbhAG9a7VW2xXqicRMpI=
+	t=1730978972; cv=none; b=GGAFABDxddy6EYtb+oD85Dwd+8vTy4lQIrcwZOn9aS9/4/re0YLbmjup3lMHXI+OyNpcJ43n5XSkZ+wsSKC68vbUD/erfyCjvjJzg6AaVZIGmuvCIk+/QZqW9Ecj0KelarhYnE8/OWk0Vay07BXod45FkS0+daJRm1MQ9ickQ4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730976774; c=relaxed/simple;
-	bh=cnpp2TKMHv1gK8Yy2Zpt8olDnfx3n0TPEPZ9lucWymU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fZ3mq4Au5VVAJ9t0F7FXVXlH9JoptET02xmsdl6B+39nqQWo0XD5wtZyT1+41VtB8+nxVLPnZxwrmDeVunrm9dohrozmJkQwCNsb+2dupmzKMiV/uv8YWuBrEMbjXLJGBUzluQXNd2NjgjrRMBDLuJF2xDWHqQ0gvT61TfWIAL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gHOmQb2g; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1730976770;
-	bh=cnpp2TKMHv1gK8Yy2Zpt8olDnfx3n0TPEPZ9lucWymU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gHOmQb2gzrh17lPVK0V41gcSYPwvUfOVnvZPfNkDhFRD2ruZlgjqo2mqNiyqdLELn
-	 UedWM4hWzT0LGQetXp1QTN4MMTnp1XtrqcchepmWo4dI9M3hCMxfKwEDeCOIH9M/9z
-	 Nqu7SM6F/E49HialrekHtJFcr3TKvWgz4r2wzMWkAaA8D4+XtlKuTZKanrV76dx3GZ
-	 ZbXL/uyODk9XNtdOKS8cJJ5Z2JhiHbsHD2bY+fvl0oZuEOeurB/Tm4gzHAPgdv9NWG
-	 dyp8z2XjxfcUwjtdReLPNTKFe/kqgflUIuXeF2M3x5O23BpjNAdeC5r579cU7pzfxD
-	 iQoTKTUqohyDw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id F330217E35DC;
-	Thu,  7 Nov 2024 11:52:49 +0100 (CET)
-Message-ID: <90fe898c-0352-46da-aee3-898cdf2b5d26@collabora.com>
-Date: Thu, 7 Nov 2024 11:52:49 +0100
+	s=arc-20240116; t=1730978972; c=relaxed/simple;
+	bh=EFUt72fxj7zSmLiE+cxN2sA6nl5GOP3xzV8Vr4EdeuA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=jQQW9oXmKXN5AqpFKeDftcMCq9YQCl0T5D68fmq6TfZgInno+v2O0moo3ff9ac8M5I6z1xyR6/Ul8x9Pkc/Lz8OJvOHGaqwfO6P7DDpe8LhJI2CvCmTuQSaspnBev4yynMzMfR9GtHCjpmPUoyAsjqBAJ+N/h9iD3flaTeLxWFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=none smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b=IdSRRc2u; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ursulin.net
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4315baec69eso7575985e9.2
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2024 03:29:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1730978968; x=1731583768; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NDPsSx73LywL/q27NrvbFNdAii7+R064iVsafnYXABc=;
+        b=IdSRRc2u8Gbr2wC8yT4vDLq68TqIkdn4c9HnOyRVBBib9T7wuwOPtM3ZCduTNP9bWp
+         8P68UGpN0+CDJaZyyz60saoSlW4in5jGqtPulOggM1AYteZ4hTRjdeUzrdthJVfSYCce
+         oET2POIXiTaADL3gCYJn53XRkAB7QwDcAHWuTGGSq/qWqm4JUDrh1SiW1RVNqecqXNPl
+         M4u3ZHR4QLKAZqqlFsEH/k2qlQLy0FQ7K/34zOJh2vAaxXlr8cBBEahfol1FOJSBqiJt
+         xEs2jULr61sAIMnT7HEPc9lLNQmUu4s3glFvyZ+4jl+oRFIdS4X/YWt7NW/SlZ5ev2hi
+         RbLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730978968; x=1731583768;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NDPsSx73LywL/q27NrvbFNdAii7+R064iVsafnYXABc=;
+        b=F5WvtYmuhHhgAjVDZBj0He3XoxLIBjmuRLzodceOAG81IrcKXl1jNi89RCQNpKO4/4
+         WnyaUME4fqTCSLEXvZlAhOocPmaMhwirZHB0Ac67aCqh/mXyFAsv/AM2hUB6cVM6ZlTV
+         7BMDHTj18XKv9RQCWt0IHZZqNUI4A9ZT7vndvRgOoCFaMw/UhJjMji9CxmsztUCxAetB
+         v+MaXcje279nf5v5OJmck2RED05NfK/MvPqpdvMjPYVfRouq6KpYXEWWmqfAbK8TbF64
+         5jeLu4u73Yfe4iXRrsVKWD1eunUYmOeugEtDy+SSo3hp+n15ECt09idINM2H3j2tRaPK
+         l0Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCXvdeicsU3WOwWkrO06fq6s1Ei5NW8dtImk7CdTeJdnHHB6Bobyc/up5pBKTqJpbqnJc8juVi3/a3NjGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtAW11l6qbEt/Nlh05q6FNoF4WpHn6QyOF0PbVqoCOfHxWe9UY
+	XFi3UKY274Ap+cOmkSVD1Kimz9p3z+rHNWlQdEUe6NAsRb7Xp174m+JMPbURgI8=
+X-Google-Smtp-Source: AGHT+IGJE0ZSy8KNC0lQcr9qTsV9YjSrpMVPplZP95jSq0f9t8AqspZLMFAJmyRPe0WOASupleafAA==
+X-Received: by 2002:a05:6000:1844:b0:37d:481e:8e29 with SMTP id ffacd0b85a97d-381c7a5e1b6mr18626721f8f.25.1730978968368;
+        Thu, 07 Nov 2024 03:29:28 -0800 (PST)
+Received: from [192.168.0.101] ([90.241.98.187])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed9f8f0asm1514125f8f.79.2024.11.07.03.29.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Nov 2024 03:29:27 -0800 (PST)
+Message-ID: <bf40ee5e-c3f5-486c-9d23-57e48a4758f1@ursulin.net>
+Date: Thu, 7 Nov 2024 11:29:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,117 +76,117 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] media: mediatek: vcodec: support extended h264
- decode
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
- =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Nathan Hebert <nhebert@chromium.org>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Chen-Yu Tsai <wenst@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20241107074603.31998-1-yunfei.dong@mediatek.com>
- <20241107074603.31998-3-yunfei.dong@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20241107074603.31998-3-yunfei.dong@mediatek.com>
+Subject: Re: [PATCH 1/3] dma-buf/dma-fence_array: use kvzalloc
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ friedrich.vock@gmx.de, Richardqi.Liang@amd.com,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20241024124159.4519-1-christian.koenig@amd.com>
+ <20241024124159.4519-2-christian.koenig@amd.com>
+ <8d7bab43-d561-487d-bdc6-86fc230db655@ursulin.net>
+ <ca23d4c5-74ff-4d1d-ace0-72ecd51aa527@ursulin.net>
+ <6a8d4197-26ec-4d57-b5a3-98bc3008dfc2@gmail.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <6a8d4197-26ec-4d57-b5a3-98bc3008dfc2@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Il 07/11/24 08:45, Yunfei Dong ha scritto:
-> The address end of working buffer can't be calculated directly with buffer
-> size in kernel for some special architecture. Adding new extend vsi_ex to
-> calculate the address end in firmware.
-> Adding capability to separate extend and non extend driver for different
-> platform.
-> At last, hardware can parse the syntax to get nal information in firmware
-> for extend architecture, needn't to parse it again in kernel.
+
+On 28/10/2024 10:34, Christian König wrote:
+> Am 25.10.24 um 11:05 schrieb Tvrtko Ursulin:
+>>
+>> On 25/10/2024 09:59, Tvrtko Ursulin wrote:
+>>>
+>>> On 24/10/2024 13:41, Christian König wrote:
+>>>> Reports indicates that some userspace applications try to merge more 
+>>>> than
+>>>> 80k of fences into a single dma_fence_array leading to a warning from
+>>>> kzalloc() that the requested size becomes to big.
+>>>>
+>>>> While that is clearly an userspace bug we should probably handle 
+>>>> that case
+>>>> gracefully in the kernel.
+>>>>
+>>>> So we can either reject requests to merge more than a reasonable 
+>>>> amount of
+>>>> fences (64k maybe?) or we can start to use kvzalloc() instead of 
+>>>> kzalloc().
+>>>> This patch here does the later.
+>>>
+>>> Rejecting would potentially be safer, otherwise there is a path for 
+>>> userspace to trigger a warn in kvmalloc_node (see 0829b5bcdd3b 
+>>> ("drm/i915: 2 GiB of relocations ought to be enough for anybody*")) 
+>>> and spam dmesg at will.
+>>
+>> Actually that is a WARN_ON_*ONCE* there so maybe not so critical to 
+>> invent a limit. Up for discussion I suppose.
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>
+>>> Question is what limit to set...
 > 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->   .../vcodec/decoder/mtk_vcodec_dec_drv.h       |   2 +
->   .../decoder/vdec/vdec_h264_req_multi_if.c     | 487 +++++++++++++++++-
->   2 files changed, 472 insertions(+), 17 deletions(-)
+> That's one of the reasons why I opted for kvzalloc() initially.
+
+I didn't get that, what was the reason? To not have to invent an 
+arbitrary limit?
+
+> I mean we could use some nice round number like 65536, but that would be 
+> totally arbitrary.
+
+Yeah.. Set an arbitrary limit so a warning in __kvmalloc_node_noprof() 
+is avoided? Or pass __GFP_NOWARN?
+
+> Any comments on the other two patches? I need to get them upstream.
+
+Will look into them shortly.
+
+Regards,
+
+Tvrtko
+
+
+> Thanks,
+> Christian.
 > 
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> index 886fa385e2e6..1e697bc810b0 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> @@ -17,6 +17,7 @@
->   
->   #define IS_VDEC_LAT_ARCH(hw_arch) ((hw_arch) >= MTK_VDEC_LAT_SINGLE_CORE)
->   #define IS_VDEC_INNER_RACING(capability) ((capability) & MTK_VCODEC_INNER_RACING)
-> +#define IS_VDEC_SUPPORT_EX(capability) ((capability) & MTK_VDEC_IS_SUPPORT_EX)
->   
->   enum mtk_vcodec_dec_chip_name {
->   	MTK_VDEC_INVAL = 0,
-> @@ -42,6 +43,7 @@ enum mtk_vdec_format_types {
->   	MTK_VDEC_FORMAT_HEVC_FRAME = 0x1000,
->   	MTK_VCODEC_INNER_RACING = 0x20000,
->   	MTK_VDEC_IS_SUPPORT_10BIT = 0x40000,
-> +	MTK_VDEC_IS_SUPPORT_EX = 0x80000,
->   };
->   
->   /*
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-> index 851a8490b828..d0aecd9621d9 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-
-..snip..
-
->   	inst->vsi_ctx.dec.y_fb_dma = y_fb_dma;
-> @@ -816,8 +1260,17 @@ static int vdec_h264_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
->   	if (!h_vdec)
->   		return -EINVAL;
->   
-> -	if (inst->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_PURE_SINGLE_CORE)
-> -		ret = vdec_h264_slice_single_decode(h_vdec, bs, unused, res_chg);
-> +	if (inst->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_PURE_SINGLE_CORE) {
-> +		if (IS_VDEC_SUPPORT_EX(inst->ctx->dev->dec_capability))
-> +			ret = vdec_h264_slice_single_decode_ex(h_vdec, bs, unused, res_chg);
-
-I wonder if we can use function pointers here, as I feel like vcodec is becoming
-a bit "full of branches here and there"...
-
-The rough idea is:
-
-/* there, or somewhere that's called only once in the driver lifetime anyway */
-static int vdec_h264_slice_init(.....)
-{
-	........
-
-	if (hw_arch == MTK_VDEC_PURE_SINGLE_CORE) {
-		if (inst->ctx->dev->dec_capability & MTK_VDEC_IS_SUPPORT_EX)
-			inst->decode = vdec_h264_slice_single_decode_ex;
-		else
-			inst->decode = vdec_h264_slice_single_decode;
-	}  else {
-		if (inst->ctx->dev->dec_capability & MTK_VDEC_IS_SUPPORT_EX)
-			inst->decode = vdec_h264_slice_lat_decode_ex;
-		else
-			inst->decode = vdec_h264_slice_lat_decode;
-	}
-
-	......
-}
-
-static int vdec_h264_slice_decode(...)
-{
-	if (!inst)
-		return -EINVAL;
-
-	return inst->decode( .... )
-}
-
-...less branches during decoding *of each frame* :-)
-
-Cheers,
-Angelo
+>>>
+>>> Regards,
+>>>
+>>> Tvrtko
+>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> CC: stable@vger.kernel.org
+>>>> ---
+>>>>   drivers/dma-buf/dma-fence-array.c | 6 +++---
+>>>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/dma-buf/dma-fence-array.c 
+>>>> b/drivers/dma-buf/dma-fence-array.c
+>>>> index 8a08ffde31e7..46ac42bcfac0 100644
+>>>> --- a/drivers/dma-buf/dma-fence-array.c
+>>>> +++ b/drivers/dma-buf/dma-fence-array.c
+>>>> @@ -119,8 +119,8 @@ static void dma_fence_array_release(struct 
+>>>> dma_fence *fence)
+>>>>       for (i = 0; i < array->num_fences; ++i)
+>>>>           dma_fence_put(array->fences[i]);
+>>>> -    kfree(array->fences);
+>>>> -    dma_fence_free(fence);
+>>>> +    kvfree(array->fences);
+>>>> +    kvfree_rcu(fence, rcu);
+>>>>   }
+>>>>   static void dma_fence_array_set_deadline(struct dma_fence *fence,
+>>>> @@ -153,7 +153,7 @@ struct dma_fence_array 
+>>>> *dma_fence_array_alloc(int num_fences)
+>>>>   {
+>>>>       struct dma_fence_array *array;
+>>>> -    return kzalloc(struct_size(array, callbacks, num_fences), 
+>>>> GFP_KERNEL);
+>>>> +    return kvzalloc(struct_size(array, callbacks, num_fences), 
+>>>> GFP_KERNEL);
+>>>>   }
+>>>>   EXPORT_SYMBOL(dma_fence_array_alloc);
+> 
 
