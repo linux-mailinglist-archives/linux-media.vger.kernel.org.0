@@ -1,216 +1,208 @@
-Return-Path: <linux-media+bounces-21055-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21056-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40259C0619
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 13:44:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CD19C0625
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 13:49:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D83DB1C20CC1
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 12:44:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 66DDCB21DCF
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 12:49:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC63F20FA85;
-	Thu,  7 Nov 2024 12:44:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAA1920F5A3;
+	Thu,  7 Nov 2024 12:49:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Kk1W20y4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M71pxxpG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5CF20F5AA
-	for <linux-media@vger.kernel.org>; Thu,  7 Nov 2024 12:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E63618FDAF
+	for <linux-media@vger.kernel.org>; Thu,  7 Nov 2024 12:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730983453; cv=none; b=jhlMH/lA+2vAHgm2HEanYbr4Tr+ZVwLqnlDN7wpLBJWzs7H1MJ8iyezjmNzyLZ8mFY9r/Ip4sBCa6+gaCbBUDESooCXKeH45f0DHmuZx1X1+z6pmRCJFpz88NIvKNg52dMkNNhItrMvo9fZ01vRrXJrEsqn0CD5wnYw1aitCMek=
+	t=1730983742; cv=none; b=YNoNlxqmQObetMIy7Ujhb5U4nIKjUbFluvPdUVZs3/zy/qAAliPVZDFT9AalhG/demGoBmyqCzstX2h9ZttGqwtI5BLAdMMbP0snxaVLMusLjWI67Y2uZoO3eTgPuohbjA1G93Nx9RUGJ0EJUt0B0BI5NDFwvYbyqrmqlimTpJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730983453; c=relaxed/simple;
-	bh=OggBClXw1X0WYOAp9UFgYJXpstndQoQeXklKfzIx+V4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ESy9zCAUhVi3bd984HN3UOc01Ry7XJir8sYZmg41N1QFgapxikdXG/EAZT2NGbaQ5OSzVgIurjtFxkQ+4JeLCy5EBk3h0XwDLmp+neOaB7ceiSR0At5NBGW4GSvvEkj7rXOoo81fBYQTSpuGcQKqrz5kv2NIQGQmKzjooAxGo0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Kk1W20y4; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e0875f1e9edso1202753276.1
-        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2024 04:44:10 -0800 (PST)
+	s=arc-20240116; t=1730983742; c=relaxed/simple;
+	bh=D4Z+KsH7COPa8N5x7Zukxo7G988Hl7OdlNMjhKcjWpw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=WZUHHt9oLpHe/pLD4Z0dlvparxpOO5cwSPpEQTDy9sjFCVRUiDhCk5z6GRzvu8hhdujMGG/elUvwskV2FMg2RnV46XdqVahS9uP7FMrIwf777kc42EvxZ8bZx7wFKCz7gs9SjbvAc1P6SVFeIBVvIfdKpK2+OfTYNhl7sfsWgHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M71pxxpG; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539f72c913aso1475706e87.1
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2024 04:49:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1730983449; x=1731588249; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DoT2KYwKhbZKBbmPOKYlp7YSWvEMOgYbaeZiWtUEgo4=;
-        b=Kk1W20y4g5O60axwt06G9q55JyUyC7ww/hriDx/3c12bAlBPDGXIiwZLkWroC7xb3u
-         giF5AlvJfLuOyChGCx/At6MAS1m7EOHf514OJFBDRZQM5N1jeU5BuYLCWM8U5b+asz4Y
-         NokRxKsgevw6wtXHr2oyTz19FjxNqD2G1eoMo2A/UdVqsF8px/73wWJq5V5SQU/C9SCM
-         MSdCFG6jcem6LM1MOG7DTG8j0GJ2uYu9nP92KwadM8GN8WGByc6x44ZVfy7NML+Lwach
-         ScWz6wOxcSqgmE0fOIzVUDkDS21nOln5nFR4N4zotjk9Myy6hzDaimGnFYDANw1fSEzk
-         +nKg==
+        d=gmail.com; s=20230601; t=1730983739; x=1731588539; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GzpE9qb2EMxQWUJItUkvqlNcakV4YKBc1CCxaGXFbWA=;
+        b=M71pxxpGOmn29RW5wGpq/n7cqSGDyIHq0jEqqqaBAL2S7rc9Ovmf+rhPivP3iCqCmW
+         ltsgC0sT0jJYEOUpm9k8yF7Vlwt27QNBOOQ0Ni2j3JI3NkfHALNZilX2nN6+nJonnlTJ
+         ocpstvMrxndQtkytkXhU+Ioj/RtMxQkGqF1xjNhmMnIKgfyK1dmMOsb+FybKE5f4CGbI
+         hf5ThhwE+Y2WULPC46dMplvvkuN3KaIngFgqzrYLoVI6Vi7Qbn5WQnpqBjaAFXoQbf/c
+         0hASWgGz4ecPjCXlCY1VmzRvHd+JRPbXX2c95KpoFMzc9hcUqLgQozbtcgZDS15dEPqj
+         RBlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730983449; x=1731588249;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DoT2KYwKhbZKBbmPOKYlp7YSWvEMOgYbaeZiWtUEgo4=;
-        b=dzFvQdp2EYum4iHAa4gKPAlPb0iUDKgbGwp8aO4FNtOu7G0NPv1EA2Ry29TVk+83dW
-         j4VWn2U2PSNlNI2UcTg2JDWjSxTL8tmxNQa2cpdymaWlEOH+6ShXzqVz6RoESXIObYMb
-         2NiZRy3A9vCgiiFQDKUGZ83OnJfKqVEO2eWqeTOm1ZZ3WJo2abzcQbeXvYnjIpZyyMwF
-         /XwWqBVIXmrTaMlkXFvbUdtcuDp8FVqKQdvmsNBrnAwOEsF7RmL7PpZqP4+ONZZ2+H4k
-         99RWmQx18lntYrU42+Iubrzn1hZK9nDIcNgZZXp7Pt8sLaqKtsPQHbUOwzM07hLqFt/F
-         Tg6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX9F0GHwYI8Ce4IYRlvFLZL7G+CRklk+dptPBdXUwhDXfkENXvlJTISMno2lbD9aOmPVgvMIqBV1ixAFg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKfpHqaeDxCukvCiTgqaLrQsb3EJBtpoF3XnlL3VnWuGeTsXBj
-	u70nkdNA2vo9PXS2JBve9f1EdDnAIOFPgzusS2QFnQeQXfXi88KiToMNY5A86y9ztt6Spu7YH+T
-	h2MTRc5l3qFZ0sldt10NC3I6bELuJkjGtG7Ovts6Zs1buyzKh
-X-Google-Smtp-Source: AGHT+IHAwSP2WkrlVmT2PSuiqke4KuCVLABNPv4HEHmf4muee6fSbW/yq0MXZe6+DtmJJ7sfMlYhkRttS/InmJBj+wo=
-X-Received: by 2002:a05:690c:91:b0:6e7:e493:2da8 with SMTP id
- 00721157ae682-6e9d8b002a0mr395596007b3.36.1730983448142; Thu, 07 Nov 2024
- 04:44:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730983739; x=1731588539;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GzpE9qb2EMxQWUJItUkvqlNcakV4YKBc1CCxaGXFbWA=;
+        b=uLwQFGjg3XEviZoQ8lSZ5u6GjEcCyGfYM+FNMdT5CrZ8gb2o5S4zajUgoDzyXprY7I
+         +kPRSBlW0SWB3NfoswKonq9T8djpMTr945Q3e12vxfHlxD1/O4rcNX1zqKt+llePjxYp
+         VnlpDBec6mKoZ4k3FlfOkKRisuNMfcciDvzl6RIMaPE0jWHVRgef5bu5N2nRA/qFxX9L
+         Ta+PPK9e6cYW6CONT4y0JAXofGpKDH118Q15Z92R9PWsGsS+91P/t4XMIRRZ0IsfgyrW
+         1+xiudcIjnl9xedtQZN5cBQ9itVhYWwAJXk8e0Q+KwsjUC7xzQyOOBgik2iFdwRoTO17
+         jEzw==
+X-Forwarded-Encrypted: i=1; AJvYcCU8xPwPJI4ag6e/8O8fn1kFDzzCLYWG+d6asabRnggwe3ja/cLVMl1BybGqlOJ74L3LX71mAqxqyTQV2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxC0RYs9zDEMD0wktAsmjFgl9MmEEc771cWRP4yUbEZjzml/EPZ
+	vfv96XxZJP777S/4SeOKXSt0M+0IYyw0jGao9flk+1xhNNimcXe4
+X-Google-Smtp-Source: AGHT+IE6M7yjAgTJlsZNN5RYDp+9fpOvsDh+TelDAquVRAwgpPO+/VegtcIcWvQFwBtCy2cpEMlqeg==
+X-Received: by 2002:a05:6512:159a:b0:52e:7542:f469 with SMTP id 2adb3069b0e04-53b34721a76mr23342734e87.0.1730983738231;
+        Thu, 07 Nov 2024 04:48:58 -0800 (PST)
+Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432b3de8710sm8481375e9.17.2024.11.07.04.48.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Nov 2024 04:48:56 -0800 (PST)
+Message-ID: <ad7dd75e-ae60-436f-a0e7-0207d21934ae@gmail.com>
+Date: Thu, 7 Nov 2024 13:48:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241029-imx219_fixes-v1-0-b45dc3658b4e@ideasonboard.com>
- <20241029-imx219_fixes-v1-2-b45dc3658b4e@ideasonboard.com> <ZySV3KKXSyIreRI4@kekkonen.localdomain>
-In-Reply-To: <ZySV3KKXSyIreRI4@kekkonen.localdomain>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 7 Nov 2024 12:43:52 +0000
-Message-ID: <CAPY8ntDF8W+xRBXbe=LYpg21LL7-svhCySTSJHRNiDzQs4Xw5Q@mail.gmail.com>
-Subject: Re: [PATCH 2/3] media: i2c: imx219: make HBLANK r/w to allow longer exposures
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jai Luthra <jai.luthra@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dma-buf/dma-fence_array: use kvzalloc
+To: Tvrtko Ursulin <tursulin@ursulin.net>, friedrich.vock@gmx.de,
+ Richardqi.Liang@amd.com, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20241024124159.4519-1-christian.koenig@amd.com>
+ <20241024124159.4519-2-christian.koenig@amd.com>
+ <8d7bab43-d561-487d-bdc6-86fc230db655@ursulin.net>
+ <ca23d4c5-74ff-4d1d-ace0-72ecd51aa527@ursulin.net>
+ <6a8d4197-26ec-4d57-b5a3-98bc3008dfc2@gmail.com>
+ <bf40ee5e-c3f5-486c-9d23-57e48a4758f1@ursulin.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <bf40ee5e-c3f5-486c-9d23-57e48a4758f1@ursulin.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari
+Am 07.11.24 um 12:29 schrieb Tvrtko Ursulin:
+>
+> On 28/10/2024 10:34, Christian König wrote:
+>> Am 25.10.24 um 11:05 schrieb Tvrtko Ursulin:
+>>>
+>>> On 25/10/2024 09:59, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 24/10/2024 13:41, Christian König wrote:
+>>>>> Reports indicates that some userspace applications try to merge 
+>>>>> more than
+>>>>> 80k of fences into a single dma_fence_array leading to a warning from
+>>>>> kzalloc() that the requested size becomes to big.
+>>>>>
+>>>>> While that is clearly an userspace bug we should probably handle 
+>>>>> that case
+>>>>> gracefully in the kernel.
+>>>>>
+>>>>> So we can either reject requests to merge more than a reasonable 
+>>>>> amount of
+>>>>> fences (64k maybe?) or we can start to use kvzalloc() instead of 
+>>>>> kzalloc().
+>>>>> This patch here does the later.
+>>>>
+>>>> Rejecting would potentially be safer, otherwise there is a path for 
+>>>> userspace to trigger a warn in kvmalloc_node (see 0829b5bcdd3b 
+>>>> ("drm/i915: 2 GiB of relocations ought to be enough for anybody*")) 
+>>>> and spam dmesg at will.
+>>>
+>>> Actually that is a WARN_ON_*ONCE* there so maybe not so critical to 
+>>> invent a limit. Up for discussion I suppose.
+>>>
+>>> Regards,
+>>>
+>>> Tvrtko
+>>>
+>>>>
+>>>> Question is what limit to set...
+>>
+>> That's one of the reasons why I opted for kvzalloc() initially.
+>
+> I didn't get that, what was the reason? To not have to invent an 
+> arbitrary limit?
 
-On Fri, 1 Nov 2024 at 08:48, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
->
-> Hi Jai,
->
-> On Tue, Oct 29, 2024 at 02:27:36PM +0530, Jai Luthra wrote:
-> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >
-> > The HBLANK control was read-only, and always configured such
-> > that the sensor HTS register was 3448. This limited the maximum
-> > exposure time that could be achieved to around 1.26 secs.
-> >
-> > Make HBLANK read/write so that the line time can be extended,
-> > and thereby allow longer exposures (and slower frame rates).
-> > Retain the overall HTS setting when changing modes rather than
-> > resetting it to a default.
->
-> It looks like this changes horizontal blanking at least in some cases. Does
-> this also work as expected in binned modes, for instance?
->
-> Many sensors have image quality related issues on untested albeit
-> functional line length values.
->
-> So my question is: how has this been validated?
+Well that I couldn't come up with any arbitrary limit that I had 
+confidence would work and not block real world use cases.
 
-Validated by Sony, or others?
-I've tested a range of values in all modes and not observed any image
-quality issues.
+Switching to kvzalloc() just seemed the more defensive approach.
 
-From previous discussions with Sony, they always provide their big
-spreadsheet of register values for the specific mode and frame rate
-requested. I don't think they even officially state that changing
-VTS/FRM_LENGTH_LINES to change the framerate is permitted.
-There are some Sony datasheets (eg imx258) that state "set to X. Any
-other value please confirm with Sony", but that isn't the case for the
-imx219 datasheet. I take that as it is permitted within the defined
-ranges.
-
-  Dave
-
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/imx219.c | 35 +++++++++++++++++++++++------------
-> >  1 file changed, 23 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index f98aad74fe584a18e2fe7126f92bf294762a54e3..de9230d4ad81f085640be254db9391ae7ad20773 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -76,8 +76,10 @@
-> >
-> >  #define IMX219_VBLANK_MIN            32
-> >
-> > -/* HBLANK control - read only */
-> > -#define IMX219_PPL_DEFAULT           3448
-> > +/* HBLANK control range */
-> > +#define IMX219_PPL_MIN                       3448
-> > +#define IMX219_PPL_MAX                       0x7ff0
-> > +#define IMX219_REG_HTS                       CCI_REG16(0x0162)
-> >
-> >  #define IMX219_REG_LINE_LENGTH_A     CCI_REG16(0x0162)
-> >  #define IMX219_REG_X_ADD_STA_A               CCI_REG16(0x0164)
-> > @@ -422,6 +424,10 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >               cci_write(imx219->regmap, IMX219_REG_VTS,
-> >                         format->height + ctrl->val, &ret);
-> >               break;
-> > +     case V4L2_CID_HBLANK:
-> > +             cci_write(imx219->regmap, IMX219_REG_HTS,
-> > +                       format->width + ctrl->val, &ret);
-> > +             break;
-> >       case V4L2_CID_TEST_PATTERN_RED:
-> >               cci_write(imx219->regmap, IMX219_REG_TESTP_RED,
-> >                         ctrl->val, &ret);
-> > @@ -496,12 +502,11 @@ static int imx219_init_controls(struct imx219 *imx219)
-> >                                          V4L2_CID_VBLANK, IMX219_VBLANK_MIN,
-> >                                          IMX219_VTS_MAX - mode->height, 1,
-> >                                          mode->vts_def - mode->height);
-> > -     hblank = IMX219_PPL_DEFAULT - mode->width;
-> > +     hblank = IMX219_PPL_MIN - mode->width;
-> >       imx219->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
-> > -                                        V4L2_CID_HBLANK, hblank, hblank,
-> > +                                        V4L2_CID_HBLANK, hblank,
-> > +                                        IMX219_PPL_MIN - mode->width,
-> >                                          1, hblank);
-> > -     if (imx219->hblank)
-> > -             imx219->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> >       exposure_max = mode->vts_def - 4;
-> >       exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
-> >               exposure_max : IMX219_EXPOSURE_DEFAULT;
-> > @@ -842,6 +847,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >       crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
-> >
-> >       if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > +             u32 prev_hts = format->width + imx219->hblank->val;
-> >               int exposure_max;
-> >               int exposure_def;
-> >               int hblank;
-> > @@ -861,13 +867,18 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >                                        exposure_max, imx219->exposure->step,
-> >                                        exposure_def);
-> >               /*
-> > -              * Currently PPL is fixed to IMX219_PPL_DEFAULT, so hblank
-> > -              * depends on mode->width only, and is not changeble in any
-> > -              * way other than changing the mode.
-> > +              * Retain PPL setting from previous mode so that the
-> > +              * line time does not change on a mode change.
-> > +              * Limits have to be recomputed as the controls define
-> > +              * the blanking only, so PPL values need to have the
-> > +              * mode width subtracted.
-> >                */
-> > -             hblank = IMX219_PPL_DEFAULT - mode->width;
-> > -             __v4l2_ctrl_modify_range(imx219->hblank, hblank, hblank, 1,
-> > -                                      hblank);
-> > +             hblank = prev_hts - mode->width;
-> > +             __v4l2_ctrl_modify_range(imx219->hblank,
-> > +                                      IMX219_PPL_MIN - mode->width,
-> > +                                      IMX219_PPL_MAX - mode->width,
-> > +                                      1, IMX219_PPL_MIN - mode->width);
-> > +             __v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
-> >       }
-> >
-> >       return 0;
-> >
 >
-> --
-> Kind regards,
+>> I mean we could use some nice round number like 65536, but that would 
+>> be totally arbitrary.
 >
-> Sakari Ailus
+> Yeah.. Set an arbitrary limit so a warning in __kvmalloc_node_noprof() 
+> is avoided? Or pass __GFP_NOWARN?
+
+Well are we sure that will never hit 65536 in a real world use case? 
+It's still pretty low.
+
+>
+>> Any comments on the other two patches? I need to get them upstream.
+>
+> Will look into them shortly.
+
+Thanks,
+Christian.
+
+>
+> Regards,
+>
+> Tvrtko
+>
+>
+>> Thanks,
+>> Christian.
+>>
+>>>>
+>>>> Regards,
+>>>>
+>>>> Tvrtko
+>>>>
+>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>>> CC: stable@vger.kernel.org
+>>>>> ---
+>>>>>   drivers/dma-buf/dma-fence-array.c | 6 +++---
+>>>>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/dma-buf/dma-fence-array.c 
+>>>>> b/drivers/dma-buf/dma-fence-array.c
+>>>>> index 8a08ffde31e7..46ac42bcfac0 100644
+>>>>> --- a/drivers/dma-buf/dma-fence-array.c
+>>>>> +++ b/drivers/dma-buf/dma-fence-array.c
+>>>>> @@ -119,8 +119,8 @@ static void dma_fence_array_release(struct 
+>>>>> dma_fence *fence)
+>>>>>       for (i = 0; i < array->num_fences; ++i)
+>>>>>           dma_fence_put(array->fences[i]);
+>>>>> -    kfree(array->fences);
+>>>>> -    dma_fence_free(fence);
+>>>>> +    kvfree(array->fences);
+>>>>> +    kvfree_rcu(fence, rcu);
+>>>>>   }
+>>>>>   static void dma_fence_array_set_deadline(struct dma_fence *fence,
+>>>>> @@ -153,7 +153,7 @@ struct dma_fence_array 
+>>>>> *dma_fence_array_alloc(int num_fences)
+>>>>>   {
+>>>>>       struct dma_fence_array *array;
+>>>>> -    return kzalloc(struct_size(array, callbacks, num_fences), 
+>>>>> GFP_KERNEL);
+>>>>> +    return kvzalloc(struct_size(array, callbacks, num_fences), 
+>>>>> GFP_KERNEL);
+>>>>>   }
+>>>>>   EXPORT_SYMBOL(dma_fence_array_alloc);
+>>
+
 
