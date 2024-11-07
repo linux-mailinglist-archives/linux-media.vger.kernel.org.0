@@ -1,208 +1,142 @@
-Return-Path: <linux-media+bounces-21056-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21057-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CD19C0625
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 13:49:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FCB09C06E0
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 14:08:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 66DDCB21DCF
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 12:49:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1B4C1C2531A
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2024 13:08:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAA1920F5A3;
-	Thu,  7 Nov 2024 12:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C405521262F;
+	Thu,  7 Nov 2024 13:02:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M71pxxpG"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mhWrCUDK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E63618FDAF
-	for <linux-media@vger.kernel.org>; Thu,  7 Nov 2024 12:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C852318FDAF;
+	Thu,  7 Nov 2024 13:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730983742; cv=none; b=YNoNlxqmQObetMIy7Ujhb5U4nIKjUbFluvPdUVZs3/zy/qAAliPVZDFT9AalhG/demGoBmyqCzstX2h9ZttGqwtI5BLAdMMbP0snxaVLMusLjWI67Y2uZoO3eTgPuohbjA1G93Nx9RUGJ0EJUt0B0BI5NDFwvYbyqrmqlimTpJ0=
+	t=1730984565; cv=none; b=cm7625cdOxyDbDe8TMLb4iq1so/La/a1X78luQyk4UNwYGkEJTsH4JGqC2fgAwiniEjwnMvUoNbERQv24Wa7YiG9Y8v/3fC/TTVvacq+KeTovmGsjCLj7Qa6el0obUnz2qoTX/DSOztir7sNfFXzO12n/nwCFW+HuxAK4Xdwbzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730983742; c=relaxed/simple;
-	bh=D4Z+KsH7COPa8N5x7Zukxo7G988Hl7OdlNMjhKcjWpw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=WZUHHt9oLpHe/pLD4Z0dlvparxpOO5cwSPpEQTDy9sjFCVRUiDhCk5z6GRzvu8hhdujMGG/elUvwskV2FMg2RnV46XdqVahS9uP7FMrIwf777kc42EvxZ8bZx7wFKCz7gs9SjbvAc1P6SVFeIBVvIfdKpK2+OfTYNhl7sfsWgHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M71pxxpG; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539f72c913aso1475706e87.1
-        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2024 04:49:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730983739; x=1731588539; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GzpE9qb2EMxQWUJItUkvqlNcakV4YKBc1CCxaGXFbWA=;
-        b=M71pxxpGOmn29RW5wGpq/n7cqSGDyIHq0jEqqqaBAL2S7rc9Ovmf+rhPivP3iCqCmW
-         ltsgC0sT0jJYEOUpm9k8yF7Vlwt27QNBOOQ0Ni2j3JI3NkfHALNZilX2nN6+nJonnlTJ
-         ocpstvMrxndQtkytkXhU+Ioj/RtMxQkGqF1xjNhmMnIKgfyK1dmMOsb+FybKE5f4CGbI
-         hf5ThhwE+Y2WULPC46dMplvvkuN3KaIngFgqzrYLoVI6Vi7Qbn5WQnpqBjaAFXoQbf/c
-         0hASWgGz4ecPjCXlCY1VmzRvHd+JRPbXX2c95KpoFMzc9hcUqLgQozbtcgZDS15dEPqj
-         RBlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730983739; x=1731588539;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GzpE9qb2EMxQWUJItUkvqlNcakV4YKBc1CCxaGXFbWA=;
-        b=uLwQFGjg3XEviZoQ8lSZ5u6GjEcCyGfYM+FNMdT5CrZ8gb2o5S4zajUgoDzyXprY7I
-         +kPRSBlW0SWB3NfoswKonq9T8djpMTr945Q3e12vxfHlxD1/O4rcNX1zqKt+llePjxYp
-         VnlpDBec6mKoZ4k3FlfOkKRisuNMfcciDvzl6RIMaPE0jWHVRgef5bu5N2nRA/qFxX9L
-         Ta+PPK9e6cYW6CONT4y0JAXofGpKDH118Q15Z92R9PWsGsS+91P/t4XMIRRZ0IsfgyrW
-         1+xiudcIjnl9xedtQZN5cBQ9itVhYWwAJXk8e0Q+KwsjUC7xzQyOOBgik2iFdwRoTO17
-         jEzw==
-X-Forwarded-Encrypted: i=1; AJvYcCU8xPwPJI4ag6e/8O8fn1kFDzzCLYWG+d6asabRnggwe3ja/cLVMl1BybGqlOJ74L3LX71mAqxqyTQV2A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxC0RYs9zDEMD0wktAsmjFgl9MmEEc771cWRP4yUbEZjzml/EPZ
-	vfv96XxZJP777S/4SeOKXSt0M+0IYyw0jGao9flk+1xhNNimcXe4
-X-Google-Smtp-Source: AGHT+IE6M7yjAgTJlsZNN5RYDp+9fpOvsDh+TelDAquVRAwgpPO+/VegtcIcWvQFwBtCy2cpEMlqeg==
-X-Received: by 2002:a05:6512:159a:b0:52e:7542:f469 with SMTP id 2adb3069b0e04-53b34721a76mr23342734e87.0.1730983738231;
-        Thu, 07 Nov 2024 04:48:58 -0800 (PST)
-Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432b3de8710sm8481375e9.17.2024.11.07.04.48.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Nov 2024 04:48:56 -0800 (PST)
-Message-ID: <ad7dd75e-ae60-436f-a0e7-0207d21934ae@gmail.com>
-Date: Thu, 7 Nov 2024 13:48:54 +0100
+	s=arc-20240116; t=1730984565; c=relaxed/simple;
+	bh=Q5eJ21ao+jRGGxWc8MkbOwkHyJAqCopFmQVRGsteduI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=XV5+ZM7uBb6zcFo7VPJSSpBG5dGnMH1mmgQgwnJpCMk51fpkmsUOwstoiC6xf7aAzvT61uTWBE1yAVu7ekXF1reY0SMxJ+sGmuVwaOd/qzDslqWlQmgjuLC7bApG8Ukyz2D0A/Tmea/Nt4s8dv2OaVnf1828ExVUznfFUHuSM8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=mhWrCUDK; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A7BSA0g026843;
+	Thu, 7 Nov 2024 13:02:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	zjMEzIwO5XRwVmt4k+ipj4p9aNaB01gtFhf9NaL+N5A=; b=mhWrCUDKop9hs+NZ
+	FK/gLuUi50SNzuXC9bK+jzaQfCyRBk+ux+eTrMzP9cTjLvWyC+jvfrptFxL8sOrS
+	kJ7VBDsUQOxPSmRjwwQdVhmc4y0f15kwBYK/hArT/DfSOdiOiE3g7rjpx3qov/r3
+	wwoZQldoo1t8MWRuceG/xXbmV2iav4PpnizCH2m26fCTQGn9YW0k5zA2Nme3S2Wk
+	nNUVkboN/X7g8Ly4m5+91Jf5VzHAelaxYAW+cyMj/uraP9+z95oOIgDkeVIXaepP
+	spHwMh1IY4Vl29cOyrFxIwhcTm3GA3Evd5iAXOzUYcYuvgwuZigR6B2lmwQIaA04
+	42WM7Q==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42qfdx7kj2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 Nov 2024 13:02:39 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A7D2cgk015298
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 7 Nov 2024 13:02:38 GMT
+Received: from [10.204.100.69] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 7 Nov 2024
+ 05:02:36 -0800
+Message-ID: <57544d01-a7c6-1ea6-d408-ffe1678e0b5e@quicinc.com>
+Date: Thu, 7 Nov 2024 18:32:33 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dma-buf/dma-fence_array: use kvzalloc
-To: Tvrtko Ursulin <tursulin@ursulin.net>, friedrich.vock@gmx.de,
- Richardqi.Liang@amd.com, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20241024124159.4519-1-christian.koenig@amd.com>
- <20241024124159.4519-2-christian.koenig@amd.com>
- <8d7bab43-d561-487d-bdc6-86fc230db655@ursulin.net>
- <ca23d4c5-74ff-4d1d-ace0-72ecd51aa527@ursulin.net>
- <6a8d4197-26ec-4d57-b5a3-98bc3008dfc2@gmail.com>
- <bf40ee5e-c3f5-486c-9d23-57e48a4758f1@ursulin.net>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 1/4] media: venus: hfi_parser: add check to avoid out of
+ bound access
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <bf40ee5e-c3f5-486c-9d23-57e48a4758f1@ursulin.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>
+CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
+ <20241105-venus_oob-v1-1-8d4feedfe2bb@quicinc.com>
+ <b2yvyaycylsxo2bmynlrqp3pzhge2tjvtvzhmpvon2lzyx3bb4@747g3erapcro>
+ <81d6a054-e02a-7c98-0479-0e17076fabd7@quicinc.com>
+ <ndlf4bsijb723cctkvd7hkwmo7plbzr3q2dhqc3tpyujbfcr3z@g4rvg5p7vhfs>
+ <975f4ecd-2029-469a-8ecf-fbd6397547d4@linaro.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <975f4ecd-2029-469a-8ecf-fbd6397547d4@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: xS44rOyOJjeonwoRVjXVxmDm_vV352QC
+X-Proofpoint-ORIG-GUID: xS44rOyOJjeonwoRVjXVxmDm_vV352QC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 malwarescore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 mlxscore=0 bulkscore=0 spamscore=0 mlxlogscore=750
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411070101
 
-Am 07.11.24 um 12:29 schrieb Tvrtko Ursulin:
->
-> On 28/10/2024 10:34, Christian König wrote:
->> Am 25.10.24 um 11:05 schrieb Tvrtko Ursulin:
->>>
->>> On 25/10/2024 09:59, Tvrtko Ursulin wrote:
->>>>
->>>> On 24/10/2024 13:41, Christian König wrote:
->>>>> Reports indicates that some userspace applications try to merge 
->>>>> more than
->>>>> 80k of fences into a single dma_fence_array leading to a warning from
->>>>> kzalloc() that the requested size becomes to big.
->>>>>
->>>>> While that is clearly an userspace bug we should probably handle 
->>>>> that case
->>>>> gracefully in the kernel.
->>>>>
->>>>> So we can either reject requests to merge more than a reasonable 
->>>>> amount of
->>>>> fences (64k maybe?) or we can start to use kvzalloc() instead of 
->>>>> kzalloc().
->>>>> This patch here does the later.
->>>>
->>>> Rejecting would potentially be safer, otherwise there is a path for 
->>>> userspace to trigger a warn in kvmalloc_node (see 0829b5bcdd3b 
->>>> ("drm/i915: 2 GiB of relocations ought to be enough for anybody*")) 
->>>> and spam dmesg at will.
->>>
->>> Actually that is a WARN_ON_*ONCE* there so maybe not so critical to 
->>> invent a limit. Up for discussion I suppose.
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>>
->>>> Question is what limit to set...
+
+On 11/7/2024 5:37 PM, Bryan O'Donoghue wrote:
+> On 07/11/2024 10:41, Dmitry Baryshkov wrote:
+>>> init_codecs() parses the payload received from firmware and . I don't think we
+>>> can control this part when we have something like this from a malicious firmware
+>>> payload
+>>> HFI_PROPERTY_PARAM_CODEC_SUPPORTED
+>>> HFI_PROPERTY_PARAM_CODEC_SUPPORTED
+>>> HFI_PROPERTY_PARAM_CODEC_SUPPORTED
+>>> ...
+>>> Limiting it to second iteration would restrict the functionality when property
+>>> HFI_PROPERTY_PARAM_CODEC_SUPPORTED is sent for supported number of codecs.
+>> If you can have a malicious firmware (which is owned and signed by
+>> Qualcomm / OEM), then you have to be careful and skip duplicates. So
+>> instead of just adding new cap to core->caps, you have to go through
+>> that array, check that you are not adding a duplicate (and report a
+>> [Firmware Bug] for duplicates), check that there is an empty slot, etc.
 >>
->> That's one of the reasons why I opted for kvzalloc() initially.
->
-> I didn't get that, what was the reason? To not have to invent an 
-> arbitrary limit?
+>> Just ignoring the "extra" entries is not enough.
+Thinking of something like this
 
-Well that I couldn't come up with any arbitrary limit that I had 
-confidence would work and not block real world use cases.
+for_each_set_bit(bit, &core->dec_codecs, MAX_CODEC_NUM) {
+    if (core->codecs_count >= MAX_CODEC_NUM)
+        return;
+    cap = &caps[core->codecs_count++];
+    if (cap->codec == BIT(bit)) --> each code would have unique bitfield
+        return;
+> +1
+> 
+> This is a more rational argument. If you get a second message, you should surely
+> reinit the whole array i.e. update the array with the new list, as opposed to
+> throwing away the second message because it over-indexes your local storage..
+That would be incorrect to overwrite the array with new list, whenever new
+payload is received.
 
-Switching to kvzalloc() just seemed the more defensive approach.
-
->
->> I mean we could use some nice round number like 65536, but that would 
->> be totally arbitrary.
->
-> Yeah.. Set an arbitrary limit so a warning in __kvmalloc_node_noprof() 
-> is avoided? Or pass __GFP_NOWARN?
-
-Well are we sure that will never hit 65536 in a real world use case? 
-It's still pretty low.
-
->
->> Any comments on the other two patches? I need to get them upstream.
->
-> Will look into them shortly.
-
-Thanks,
-Christian.
-
->
-> Regards,
->
-> Tvrtko
->
->
->> Thanks,
->> Christian.
->>
->>>>
->>>> Regards,
->>>>
->>>> Tvrtko
->>>>
->>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>> CC: stable@vger.kernel.org
->>>>> ---
->>>>>   drivers/dma-buf/dma-fence-array.c | 6 +++---
->>>>>   1 file changed, 3 insertions(+), 3 deletions(-)
->>>>>
->>>>> diff --git a/drivers/dma-buf/dma-fence-array.c 
->>>>> b/drivers/dma-buf/dma-fence-array.c
->>>>> index 8a08ffde31e7..46ac42bcfac0 100644
->>>>> --- a/drivers/dma-buf/dma-fence-array.c
->>>>> +++ b/drivers/dma-buf/dma-fence-array.c
->>>>> @@ -119,8 +119,8 @@ static void dma_fence_array_release(struct 
->>>>> dma_fence *fence)
->>>>>       for (i = 0; i < array->num_fences; ++i)
->>>>>           dma_fence_put(array->fences[i]);
->>>>> -    kfree(array->fences);
->>>>> -    dma_fence_free(fence);
->>>>> +    kvfree(array->fences);
->>>>> +    kvfree_rcu(fence, rcu);
->>>>>   }
->>>>>   static void dma_fence_array_set_deadline(struct dma_fence *fence,
->>>>> @@ -153,7 +153,7 @@ struct dma_fence_array 
->>>>> *dma_fence_array_alloc(int num_fences)
->>>>>   {
->>>>>       struct dma_fence_array *array;
->>>>> -    return kzalloc(struct_size(array, callbacks, num_fences), 
->>>>> GFP_KERNEL);
->>>>> +    return kvzalloc(struct_size(array, callbacks, num_fences), 
->>>>> GFP_KERNEL);
->>>>>   }
->>>>>   EXPORT_SYMBOL(dma_fence_array_alloc);
->>
-
+Regards,
+Vikash
 
