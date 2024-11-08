@@ -1,137 +1,163 @@
-Return-Path: <linux-media+bounces-21149-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21150-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB6BE9C1C60
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 12:44:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6E59C1CD9
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 13:23:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 099AB1C22EB6
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 11:44:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A61E3B2427E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 12:23:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2999C1E5721;
-	Fri,  8 Nov 2024 11:43:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1790B1E764A;
+	Fri,  8 Nov 2024 12:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d3lAuRG6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDatfMmC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAD01E4937
-	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 11:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36C01E47CC
+	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 12:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731066236; cv=none; b=CUuXFo2qvLJG08ZjD7hkBbmbF1y5IoxNZ45J6Hx5ud/iGVFPwmYPxAW3GqaJZJa8+NnUlDNETpGGlhpBoEifRvHp18jOYTY6R1xc/vYqJ+0UdgxF10xJOtQr/mXq0ZDv1Xfj0M36OCKrYYhodMIPZ6uNt4tnQx2aqLq3BNHhYpA=
+	t=1731068617; cv=none; b=f1j/oXUno3zm09sOwDh+cVor3JxG4iAk9nVP4JskiLCM8+rn6xftitpdyb4aHT0yfPaqQ8qK6mr82ROF80EMjIPfv/uadjzI/6WedWUVLaHSBB7Cw7dhIeyv73ydzzX/ZAp46ujvgjcQy/1UKE1NIzb5PPVxeagTC0tAC33JWCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731066236; c=relaxed/simple;
-	bh=qjv8Nskk+avwjBuYyWopHdeHY0bXMOaLNpB/xYD+XcQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qVdP/UJX1elGEBZZeFpMPJTcY7CkmoHMKg66PZohxi94DZ1fpmgomhsjJbumy922JDiQcY0pBMlMTwU2sHleZf7TmQJtViBIROchqkd5unXkrpeWkdeCfGdpEgyqMGIAVUPi+RR9eBS10nKIdH1c4OF+tSn6y+fKZ2gmPh4POPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d3lAuRG6; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d473c4bb6so1694696f8f.3
-        for <linux-media@vger.kernel.org>; Fri, 08 Nov 2024 03:43:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731066232; x=1731671032; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0ouVSbkAT3+S3WMSHYg6HVwCj00MU4w8dzA4pzxSauU=;
-        b=d3lAuRG6hA9xd+PYJBznZkyI1cz/xYM1tqJkqaJdCHlr8K39DYX0opc9h+xQQ373nH
-         qLotlvCaW2g2YuAUHs5sB8eeP2kk0Xqy9hAA91vII5yTn+/wHM52tr0Gm2xd+Hb51YhL
-         b8Yo1U+ChMlJh3aHOW3zV3LPsWbWdb55F/vpVlyGtAJn16evmRd63aKDw1JWFoUJsRoG
-         tQVK/p7qJyrUzcaDIcT/6teccvBFW6tUTxBEQpxzKn6S2veyjmaagP+/SuDQ0QsQ/zai
-         QIWdV8znnMWQF6wKtV/NXtOSUGg0wLhBA3hq7RA4k+glwkKvEJrEAuTHaHeQoPXOE6SL
-         0lgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731066232; x=1731671032;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ouVSbkAT3+S3WMSHYg6HVwCj00MU4w8dzA4pzxSauU=;
-        b=miXUFHl2OS43X1HdHfR/wk3mDKElDRoyeqs5KeHa2BXfFbSpKnqFHUnufE2ZJwc3Ol
-         /jabY4hcXeo4dEbOYu23ouFo6iRwgpD2Dz272MNYGecJRpyd357Nug8ECmpgVO0BVaV0
-         1+yvHg7QhIOc7i8iNhMCpf5L8RyOJU6/a2EpPQgwJYRRzqU0n7fbXkgUapnvSWbaoYYc
-         sNP4ZdX9WVf+Jq9RnbF3GTbue5bfLqH9WBfPVL6QRubV5ysjspPmb0cuQeH96wCD3VcD
-         MssL0gxpWRuhhdB4Omz9bn/A0ulvGzPeKSbT5NQvaf0OQDtDVlXAT1Oa7ME6qu9R0ObV
-         E49Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVEb4qvkMEPBOEsN5pDmtzgo2wtlQWVHvpkmskn7IzRE7KNeqIhQ2VXHK7nc4P1Z/diBfab+ifL1Q8M6Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWCyPzL5T6slZY3LjmY9xDPjhsRAiuBzIXl+8zdXaAECLkut0h
-	UdltN1KxwRgY3DiKN66S7CKX6KfJI3cM5CYT0bsMSJhH+g0i0pZiijgjnMvqkuE=
-X-Google-Smtp-Source: AGHT+IHenYE2IrQEIw1RwXn2xALrnPWJbFU0VRWzYGh03YSwh3hgPhVUGtDNitZVrXDo/IEmoPy9YA==
-X-Received: by 2002:a05:6000:1541:b0:37d:2ea4:bfcc with SMTP id ffacd0b85a97d-381f186bc9bmr2308261f8f.13.1731066232510;
-        Fri, 08 Nov 2024 03:43:52 -0800 (PST)
-Received: from [172.16.24.72] ([89.101.134.25])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432b05e5871sm60742135e9.37.2024.11.08.03.43.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Nov 2024 03:43:52 -0800 (PST)
-Message-ID: <37982a05-2057-45f4-923e-7562c683706d@linaro.org>
-Date: Fri, 8 Nov 2024 11:43:56 +0000
+	s=arc-20240116; t=1731068617; c=relaxed/simple;
+	bh=T1EXulyv7gUnaad8gw/eAlrkBErvHr/pU7qWSQboraw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PU6/290e/av5vREtUIF07rvsj5Ai58OFNhbTOAjeWLP0wxKIHNPuj5bidkOGPLoGdXl29qIvks1GUfvUlckw85mwwPe5ZZucd4w+0E7SGX0XyMjPxttfBGQWBCvg+F/fBu+ZgblVFOW7e9woH7KjYEqr2WirBehEA7LfRZET7fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KDatfMmC; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731068616; x=1762604616;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=T1EXulyv7gUnaad8gw/eAlrkBErvHr/pU7qWSQboraw=;
+  b=KDatfMmCKtGRKFYAtg2lEYg7GIiJt+J8aSGaK6JNk6ITUKdHkO/T3Rvl
+   UPMRpu+7DvfDqSeVYGgH4t4AosiCKWBHKEEavbR0Hm76z4vdkBdTu7NCp
+   HEOA6Tlsv7ypg2G9lD/dZyq3hNBjG6HQ/I7IxathXKVslSpq+VHWAmFBp
+   hVsNvjUqijAFacQ9rOUH60nfsSFW6tdadWTk91aVCl5LlFC4Ymer3TYCh
+   EmC9KBSSmJlTaHajJiwMUuAAyq2TGwPS1FpN4J2aQ48w0+z9Ydp5Z8WGa
+   h4X0Ws67BaVy6pOwRRkGxTRhEjAKYs433C8bkVISRdWKCdENnDY7oTYt3
+   g==;
+X-CSE-ConnectionGUID: jYQAYfA1Q3ybTbawyFRp4Q==
+X-CSE-MsgGUID: o54ZZkvoTOC/7Xd4Bi3Mww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="30364903"
+X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
+   d="scan'208";a="30364903"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 04:23:35 -0800
+X-CSE-ConnectionGUID: Ha9G/eGCQtqZ7J6nhaftKQ==
+X-CSE-MsgGUID: B+UZlRtCQRyGg8pwtVdDYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
+   d="scan'208";a="90404924"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 04:23:32 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 6B6C711F9BF;
+	Fri,  8 Nov 2024 14:23:28 +0200 (EET)
+Date: Fri, 8 Nov 2024 12:23:28 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>
+Subject: Re: [RFC 1/4] media: Documentation: Rework embedded data
+ documentation
+Message-ID: <Zy4CwFKKoOKwWiSN@kekkonen.localdomain>
+References: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
+ <20241011075535.588140-2-sakari.ailus@linux.intel.com>
+ <eqhifp7vendgt7qyq7uj4m2dvvwbnalfyxst4mnak6fmsevjw6@faugbizkk4ee>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] media: venus: hfi_parser: add check to avoid out of
- bound access
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
- <20241105-venus_oob-v1-1-8d4feedfe2bb@quicinc.com>
- <b2yvyaycylsxo2bmynlrqp3pzhge2tjvtvzhmpvon2lzyx3bb4@747g3erapcro>
- <81d6a054-e02a-7c98-0479-0e17076fabd7@quicinc.com>
- <ndlf4bsijb723cctkvd7hkwmo7plbzr3q2dhqc3tpyujbfcr3z@g4rvg5p7vhfs>
- <975f4ecd-2029-469a-8ecf-fbd6397547d4@linaro.org>
- <57544d01-a7c6-1ea6-d408-ffe1678e0b5e@quicinc.com>
- <ql6hftuo7udkqachofws6lcpwx7sbjakonoehm7zsh43kqndsf@rwmiwqngldn2>
- <781ea2fd-637f-b896-aad4-d70f43ad245c@quicinc.com>
- <oxbpd3tfemwci6aiv5gs6rleg6lmsuabvvccqibbqddczjklpi@aln6hfloqizo>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <oxbpd3tfemwci6aiv5gs6rleg6lmsuabvvccqibbqddczjklpi@aln6hfloqizo>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eqhifp7vendgt7qyq7uj4m2dvvwbnalfyxst4mnak6fmsevjw6@faugbizkk4ee>
 
-On 07/11/2024 13:54, Dmitry Baryshkov wrote:
->>> I'd say, don't overwrite the array. Instead the driver should extend it
->>> with the new information.
->> That is exactly the existing patch is currently doing.
-> _new_ information, not a copy of the existing information.
+Hi Jacopo,
 
-But is this _really_ new information or is it guarding from "malicious" 
-additional messages ?
+On Tue, Oct 22, 2024 at 05:08:21PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
+> 
+> On Fri, Oct 11, 2024 at 10:55:32AM +0300, Sakari Ailus wrote:
+> > Rework embedded data documentation by removing the reference to the pixel
+> > data stream. The specific documentation of the embedded data interface
+> > will be elsewhere.
+> 
+> I'm not sure how to interpret the last phrase. What specific
+> documentation ? The formats description ? Should this be part of the
 
-@Vikash is it even a valid use-case for firmware to send one set of 
-capabilities and then send a new set ?
+The embedded data interface. It'll be used by CCS and the new common raw
+sensor model.
 
-It seems to me this should only happen once when the firmware starts up 
-- the firmware won't acquire any new abilities once it has enumerated 
-its set to APSS.
+I can add that.
 
-So why is it valid to process an additional message at all ?
+> commit message ?
+> 
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../userspace-api/media/drivers/camera-sensor.rst   | 13 ++++++-------
+> >  1 file changed, 6 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > index dc415b8f6c8e..d82cd803e337 100644
+> > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > @@ -111,13 +111,12 @@ the sensor configuration for the captured frame back to the host. While CSI-2 is
+> >  the most common data interface used by such sensors, embedded data can be
+> >  available on other interfaces as well.
+> >
+> > -Such sensors expose two internal sink pads (pads that have both the
+> > -``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and ``MEDIA_PAD_FL_INTERNAL
+> > -<MEDIA-PAD-FL-INTERNAL>`` flags set) to model the source of the image and
+> > -embedded data streams. Both of these pads produces a single stream, and the
+> > -sub-device routes those streams to the external (source) pad. If the sub-device
+> > -driver supports disabling embedded data, this can be done by disabling the
+> > -embedded data route via the ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
+> > +Embedded data support is indicated by an internal sink pad (pad that has both
+> 
+> "is indicated by the presence of an" ?
 
-Shouldn't we instead be throwing away redundant updates either silently 
-or with some kind of complaint ?
+Sounds good.
 
-If there's no new data - then this is data we shouldn't bother processing.
+> 
+> > +the ``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and ``MEDIA_PAD_FL_INTERNAL
+> > +<MEDIA-PAD-FL-INTERNAL>`` flags set) with a metadata format to model the
+> > +embedded data stream. If the sub-device driver supports disabling embedded data,
+> > +this can be done by disabling the embedded data route via the
+> > +``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
+> 
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-If it is new data then surely it should be the _current_ and _only_ 
-valid set of data.
+Thanks!
 
-And if the update is considered "invalid" then why _would_ we accept the 
-update ?
+> >
+> >  In general, changing the embedded data format from the driver-configured values
+> >  is not supported. The height of the metadata is device-specific and the width
 
-I get we're fixing the OOB but I think we should be clear on the 
-validity of the content of the packet.
+-- 
+Kind regards,
 
----
-bod
+Sakari Ailus
 
