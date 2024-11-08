@@ -1,103 +1,98 @@
-Return-Path: <linux-media+bounces-21168-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21160-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6105E9C1FD7
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 15:59:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 973DA9C1F1B
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 15:23:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AEB31C20ED7
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 14:59:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 176E0B2214E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 14:23:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC6DF1F6673;
-	Fri,  8 Nov 2024 14:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D93AB1EF93A;
+	Fri,  8 Nov 2024 14:23:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="oae8cXL3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tsEa6l6c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EB91F4FA4
-	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 14:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B9D1401C
+	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 14:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731077921; cv=none; b=CADu8NEiIgY2qnO6E6EL2eu/PIJTz7DneCkVffW2UdcbZmvaXxgBeGwc90o40/WT0cK0pXq1xF19iLcDK0M+vunsPjD8Ych/74zGWvKnAkn0SK9+H1kQapFERSk0nFDQh+9SBrSZRoJQ6ERq7g1LXLykev2Glgcv3usKR9XZTRw=
+	t=1731075830; cv=none; b=rXSZ7FcFZRX1v/fU7sH+W3JZpHa4DR/wcm2rwGphsCsr2a1J+CHFwdR9/lHXKIOU1ipmU/Zk6jvJVUbbeAHHvHgO4FkE+WiLjXaJmgnq94bjrEW7HAhajWlladsDoZ0QPkz6M5Lfo3Pv8poOg4+Vo7UgiQLY/mCRiftL/2XkkH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731077921; c=relaxed/simple;
-	bh=d7BQd38rCBxd0OAx37g9tzt6AnxsfR6A7jLyNOMylIs=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=tAcLQHLwoj/Paq5DWsBgWGROvzwnh59cib1ZxFfIg/rrOnVXPvg9sKGRk7GtikpSlo8o+QlAjQpOzhQSPtUli1mAcS3LwS0f23opwthBHq6zhnVHlE4jlSqrdfatM4hpHksjhQUytBJjVbQies5iP8ji6/bqnsvD6c0aFHJ9My4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=oae8cXL3; arc=none smtp.client-ip=168.119.41.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
-	 s=mail; h=Content-Transfer-Encoding:Content-Type:Subject:From:Cc:To:
-	MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=xl54Wk64IqAkiljVOuzA7jNq3PkjZV4lHKt8zzyHDHY=; b=oae8cXL30z9q89F9U0Ybk9JBFi
-	QbNFRHprEkgtgGryZ+yqLQ8N7W2KgzO10tQpJRdow133XlO3jnOS4v8PhL+V0A/qw73Z5f5s0tC3Q
-	KF1VlkhLAm8FjWw93HaYrgFJzGHhnOy/hbWT9mntVtUS6inLesGWc8FEbbEwTnUmBlyI=;
-Received: from 194-208-208-245.tele.net ([194.208.208.245]:54169 helo=[192.168.0.218])
-	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
-	(Exim 4.93)
-	(envelope-from <matthias.fend@emfend.at>)
-	id 1t9Pq7-008jj7-Ii; Fri, 08 Nov 2024 15:19:55 +0100
-Message-ID: <f10b9df7-62c6-4716-a3b9-e4dff1ee68b9@emfend.at>
-Date: Fri, 8 Nov 2024 15:19:54 +0100
+	s=arc-20240116; t=1731075830; c=relaxed/simple;
+	bh=yWiQoSK5zsa2uZwcfILjk4WjNfH4PF9ibYho0RzmEhE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=juzhTmqAz8fSUEDES4XnDDYcNqgzNmNdpWnt2/OJDL+tQi4jO+yp3UGj4n3tphWPXoz7U6IkFEh0B7Ctol4aLbj+lx9CqEbNz/7KNkkw7JBZzLcDvqXxQ2Lux/XI1bGQbbklqg9228JP5BEYGbCHkoeW9s/3v+k6P0noZszNX+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tsEa6l6c; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from isaac-ThinkPad-T16-Gen-2.local (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09BFA2C5;
+	Fri,  8 Nov 2024 15:23:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1731075817;
+	bh=yWiQoSK5zsa2uZwcfILjk4WjNfH4PF9ibYho0RzmEhE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tsEa6l6c+nE/B0JOO0Eymeya/l0hgU6ufTD3rhcVqMhqgUNql+jhAGXcwie9vR8SG
+	 KCZvQSbE3KPG0zkHEt4Teizwau2KniuO6k6ZomSnKaKv5chdhiZnr7ZXecBrvZ8fTN
+	 byysF7uoKz2gmLRIR9Ba17ZQaftcf5MacFniGpco=
+From: Isaac Scott <isaac.scott@ideasonboard.com>
+To: laurent.pinchart@ideasonboard.com
+Cc: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	Isaac Scott <isaac.scott@ideasonboard.com>
+Subject: [PATCH 0/3] Fix Sonix Technology MJPEG streams 
+Date: Fri,  8 Nov 2024 14:23:07 +0000
+Message-ID: <20241108142310.19794-1-isaac.scott@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: de-DE
-To: linux-media@vger.kernel.org
-Cc: Marco Felsch <m.felsch@pengutronix.de>
-From: Matthias Fend <matthias.fend@emfend.at>
-Subject: Toshiba TC358746 deadlock
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: 
-X-Spam-Bar: 
-X-Spam-Report: 
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Some cameras, such as the Sonix Technology Co. 292A, allow multiple
+streams to be sent over the same USB device. It was found during testing
+that occasionally, when one H.264 stream sends a new keyframe during an
+MJPEG stream, a URB buffer would be lost, and a frame lost in the
+resulting capture.
 
-I discovered a deadlock while using the Toshiba TC358746 MIPI bridge.
+This was because some EOF markers in URB buffers are lost. This particular
+use case is not covered by the uvc_video driver, which causes two
+consecutive buffers to be erroneously considered to be as part of
+the same buffer, and lead to the whole erroneous buffer to be dropped.
+This can be seen when using the current driver, as frames occasionally
+are double the expected size, containing two images. Furthermore, the
+interval between the frames was double that of what it should be (~66ms
+as opposed to the usual ~33ms). Upon further investigation, it was found
+that the packets within the erroneous buffer were being dropped.
 
-In tc358746_link_validate() an attempt is made to get the state lock of 
-the subdev [1] - but since this lock is already held by the calling 
-function v4l2_subdev_link_validate() [2], this leads to a deadlock.
-Another problem is that an attempt is made to query the link frequency 
-of the source [3]. Since some image sensors use the lock of the v4l2 
-control handler as state lock (e.g. [4]), which is already held at this 
-point, a deadlock can also occur here.
+The changes in this series supply a new quirk for the UVC Driver, which
+cause the buffers of MJPEG streams to be closed when a new JPEG SOI
+marker is discovered, and be treated as a new buffer. This works around
+the missing EOF marker and separates the buffers.
 
-I noticed that very few drivers implement (v4l2_subdev_pad_ops) 
-link_validate and if they do, the state is not needed there.
-This driver therefore seems to be an exception here.
-Some MIPI receivers that also have to query the link frequency of the 
-source usually do this in s_stream.
+Tested on v6.12-rc3
 
-Therefore, the most obvious workaround seems to move the problematic 
-parts from tc358746_link_validate() to s_stream.
-Although this works, the question is whether this is the right solution 
-or whether it should work differently.
+Isaac Scott (3):
+  media: uvcvideo: Introduce header length
+  media: uvcvideo: Add new quirk definition for the Sonix Technology Co.
+    292a camera
+  media: uvcvideo: Implement dual stream quirk to fix loss of usb
+    packets
 
-I would be interested in your input on this.
+ drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
+ drivers/media/usb/uvc/uvc_video.c  | 27 ++++++++++++++++++++++++++-
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 36 insertions(+), 1 deletion(-)
 
-Thanks
-  ~Matthias
+-- 
+2.43.0
 
-[1] 
-https://elixir.bootlin.com/linux/v6.12-rc6/source/drivers/media/i2c/tc358746.c#L906
-[2] 
-https://elixir.bootlin.com/linux/v6.12-rc6/source/drivers/media/v4l2-core/v4l2-subdev.c#L1502
-[3] 
-https://elixir.bootlin.com/linux/v6.12-rc6/source/drivers/media/i2c/tc358746.c#L913
-[4] 
-https://elixir.bootlin.com/linux/v6.12-rc6/source/drivers/media/i2c/imx283.c#L1565
 
