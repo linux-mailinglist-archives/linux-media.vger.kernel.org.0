@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-21131-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21132-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FDF89C1943
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 10:37:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9349C1945
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 10:38:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9DFCFB23CA6
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 09:37:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9AA54B24736
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 09:38:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 792811E4938;
-	Fri,  8 Nov 2024 09:35:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40AE31E47C1;
+	Fri,  8 Nov 2024 09:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kz1YJWh8"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hyNw1H7D"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476D01E47C1;
-	Fri,  8 Nov 2024 09:35:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2E31E5703;
+	Fri,  8 Nov 2024 09:35:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731058529; cv=none; b=JlV0zGir/SD7tKEpOknm4K6zaBhVv60c/V9n/1OA26zcEQfIkz4TazdFZTqmnjjMjAm0Q0oi0XLPZXZGeBKOdS2SHXl4/nNQlD3YskGnVzGppS3i48tgmKYjoZtmKX1WqnL3hXGhjd72nHwIndMl8p9vziGoQ/jkHBJZ5vaA1sI=
+	t=1731058532; cv=none; b=pWSWfoDeHmws9VKdFWqmhCdXAuH6uVmeGdfHnJUUwc2sEEm9TgeQk8dC0+WOAAyKulqxtDzxiSNopzH087AMf4JSk/zmPXhPhVyC38gCtiYIiRK0RZbL6SO10d5EqUY2bunrMObhg+nbNKfthCbpLm6mpknGKBP9fBo0iYwkARY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731058529; c=relaxed/simple;
-	bh=4OfPIQt0zMS+sz9kFlchXcDE+D5zy5L6pKGSTiX11uc=;
+	s=arc-20240116; t=1731058532; c=relaxed/simple;
+	bh=/xIm447+xdq2t3RQ6TKOBOkTeZS8d2PO9dwv9gsXniE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YxUgGfHlqOkjfUJM/W5UzE62HkN6hjeoAxrtwcd36BWvZfw8Q0S1COdFyugbGRX0rQHTwzWAyxhuDgAikqNkcTQmI2j5g5DKs7JqN8d/ZHfm2pVtjfS8RWFhix3jXLmdyCKRI7cPBxdXdoIbMXdld19UcywL4gYrMMXMDC3Auvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kz1YJWh8; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=WygK8dYGml2Hjfb2UAfgD0e2JqNPnGmwdocC0KE+yz8vc6Gf/1rliTw1lVfV02FOf0nY00icXbTBAhcE9JUipuV6rpZeL+U2kHacsww2D8eecJu1/ETwAnXgegHNjI5egHx5T7+N6DiqsQIcZgcylr4T1+IdRQxPTCHgw+oOX48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hyNw1H7D; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 250E9193E;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B31EF1986;
 	Fri,  8 Nov 2024 10:35:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731058510;
-	bh=4OfPIQt0zMS+sz9kFlchXcDE+D5zy5L6pKGSTiX11uc=;
+	s=mail; t=1731058511;
+	bh=/xIm447+xdq2t3RQ6TKOBOkTeZS8d2PO9dwv9gsXniE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=kz1YJWh8eWDGBrZWoME8sCvDjYZslZSKdCbtxxtuXyf645W7dznBvPZEta2dhMAGh
-	 ZjHKuplzmJIogVl0Zwy6nRlnDsHQdGyiQ5y/8JzjI0Rs76UIu7kBMMWLrcYpT3vOjV
-	 x6d9cOov0LJUgPQ5Z3Hz2s2mJmaDSaizK74pcrGA=
+	b=hyNw1H7D/mgGtip6oku6JV4aLdgSf4biEb5l72M5UV+0ckjETk1ktPv43efRs8bV1
+	 dQjmYVDiwVEKKqc73JWpDr6DUJPtLJ7L2m0WSgxbpR5FOEc4Vg9zkRobVQIfZR6Y4X
+	 TeU0uQh03c2EaxDGAb/UQxQSvxxTeAi/Td0NCIPQ=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 08 Nov 2024 11:34:51 +0200
-Subject: [PATCH v2 07/15] media: i2c: ds90ub960: Add support for I2C_RX_ID
+Date: Fri, 08 Nov 2024 11:34:52 +0200
+Subject: [PATCH v2 08/15] media: i2c: ds90ub960: Add RGB24, RAW8 and RAW10
+ formats
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241108-ub9xx-fixes-v2-7-c7db3b2ad89f@ideasonboard.com>
+Message-Id: <20241108-ub9xx-fixes-v2-8-c7db3b2ad89f@ideasonboard.com>
 References: <20241108-ub9xx-fixes-v2-0-c7db3b2ad89f@ideasonboard.com>
 In-Reply-To: <20241108-ub9xx-fixes-v2-0-c7db3b2ad89f@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -63,89 +64,60 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jai Luthra <jai.luthra@ideasonboard.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2244;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2006;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=4OfPIQt0zMS+sz9kFlchXcDE+D5zy5L6pKGSTiX11uc=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnLdtPeSItwkurJvkmwYyL6atkrUnrD3ogsKlbq
- 2ehmSYL8CyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZy3bTwAKCRD6PaqMvJYe
- 9VYND/9HFGUGOwsdNlI37fov5B2PNwjn/xFEtCRO/WM11AS2+pM7iTMBFPOKFG5VzE6SvrmFafd
- 2NoRzPlLjORo7cGOB7Zj9aDYGfS3zuaGTRYxaYdzNtPQSpaStE2Y/lUeHQBCEI2Z7pi3cjtmXPH
- KDrpiroPStIyaT9Ybtxgft46jlP0BfPLv0cEH1/jpIoNB6X2pK82q+xwNh93e62pNFY87kTe0dp
- 0lUqEhnlBFd1SAK9Msf12FxfhypBQYop6eTo9yhwJO50yaxej8scNiiOo7nFlYxDOmX0UNrpsFP
- az+kIhdnOspTmy3FzBcWqsb6nmHOTHEpwq8VZqwYVM9LJjFut0gRCZE7ufWx5Zk3R9mjEzf37AE
- xXLeVs971oKjWJvkhlu/WENs+aUbh49Ty/TnaEiPmU3M0lExFw4MzlSmi4+pdQZT22rnxUjRfje
- gPUlPlTnoIseng+O/uHJLMuQ1ynd7AoF+wHYXJklXW2C1uRoDNGIfgp1NbrA3Y6waMHI9BerFO6
- SnxeqmTxWsSzQcrluiwZ4YFTZ8sM+KJh092UQKT2nzRahUnOaekNKBiWnHt3/WKnNYrjWIsiUN/
- ZT0pAzY6KtJcRoaCFYbzx6S4eZn5PngTzwrqtUYNnzApu2AzLS6b/l0jFHryY4N+UMsIxluJzO5
- YIZ1C55Gu+qvJYA==
+ bh=/xIm447+xdq2t3RQ6TKOBOkTeZS8d2PO9dwv9gsXniE=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnLdtQRPbnRY0mI9A4AmR3CN4kTK+XmstTBpx+V
+ r9jL1bDP9mJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZy3bUAAKCRD6PaqMvJYe
+ 9WcvD/wMVZYZnp6DaSMG66WfWWbhWuO/XX80s8IKNdyU1QZP/ldTO4x+dK1g+y7lMmtnuo1sal5
+ yMYRAy9AlL30yr43M29OAKmcRGwsgQHpbdp1Mbje8r+kYs9NbweKDynwLzRR7pUEpeCxQrDilqD
+ Y83krus0eyGCCQ7ukeP/ZzE/qCwZRKiItg+ql0/cBbUzV3yprk8IPS/tufDp7+JA/+ED/L56Ehc
+ fTxwsur52Khd7SMQAzFFBQrL+OoJpMYI5WwXxoefFMYle7ZVbqa16Qo8xpzFyc75S+66cFDd0Gc
+ iNR5QhMQLFbpm+JyyIumkH/65JRR37i5183ulLNLqSjv1OLvvyTg8KTpMUcyCq07ytuqVxxS4iv
+ 5oiWOG5b9WU6jw9vc5ZLUS55x7zX3xOVdWz9i6OR0MflLBef/bofcMwDOe0Fbmz8s0Lk1Wt0op+
+ lEIQIL6cAjAu513jktbq2HDbBhXbUyELK8230shYPfG39hljVF684mWhbVWIdocDVO7DEQYIiiF
+ sunDb522Pq2lk0OMYACyjqW/TMQoDnm9wYh271N3GwjcnGaIi834p/z+oYURbleEPHaSzbHheRO
+ Sa38neKXXMuIDdvtZllTXCxpSfyyWIEnEdclU1RHDybq9aHLlb6YMfR1cLRDD9vhRjL+kQx1FM1
+ BEeS+m2GZlV+pww==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Normally the driver accesses both the RX and the TX port registers via a
-paging mechanism: one register is used to select the page (i.e. the
-port), which dictates the port used when accessing the port specific
-registers.
-
-The downside to this is that while debugging it's almost impossible to
-access the port specific registers from the userspace, as the driver can
-change the page at any moment.
-
-The hardware supports another access mechanism: using the I2C_RX_ID
-registers (one for each RX port), i2c addresses can be chosen which,
-when accessed, will always use the specific port's registers, skipping
-the paging mechanism.
-
-The support is only for the RX port, but it has proven very handy while
-debugging and testing. So let's add the code for this, but hide it
-behind a disabled define.
+Add RGB24 and RAW8 and RAW10 bayer formats. RGB24 is mostly for TPG
+purposes, but RAW8 and RAW10 are widely used by sensors.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/i2c/ds90ub960.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ds90ub960.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index 98d815526341..03938def6ae9 100644
+index 03938def6ae9..c2035cabf579 100644
 --- a/drivers/media/i2c/ds90ub960.c
 +++ b/drivers/media/i2c/ds90ub960.c
-@@ -55,6 +55,15 @@
+@@ -581,11 +581,23 @@ struct ub960_format_info {
+ };
  
- #define MHZ(v) ((u32)((v) * 1000000U))
- 
-+/*
-+ * If this is defined, the i2c addresses from UB960_DEBUG_I2C_RX_ID to
-+ * UB960_DEBUG_I2C_RX_ID + 3 can be used to access the paged RX port registers
-+ * directly.
-+ *
-+ * Only for debug purposes.
-+ */
-+/* #define UB960_DEBUG_I2C_RX_ID	0x40 */
+ static const struct ub960_format_info ub960_formats[] = {
++	{ .code = MEDIA_BUS_FMT_RGB888_1X24, .bpp = 24, .datatype = MIPI_CSI2_DT_RGB888, },
 +
- #define UB960_POLL_TIME_MS	500
+ 	{ .code = MEDIA_BUS_FMT_YUYV8_1X16, .bpp = 16, .datatype = MIPI_CSI2_DT_YUV422_8B, },
+ 	{ .code = MEDIA_BUS_FMT_UYVY8_1X16, .bpp = 16, .datatype = MIPI_CSI2_DT_YUV422_8B, },
+ 	{ .code = MEDIA_BUS_FMT_VYUY8_1X16, .bpp = 16, .datatype = MIPI_CSI2_DT_YUV422_8B, },
+ 	{ .code = MEDIA_BUS_FMT_YVYU8_1X16, .bpp = 16, .datatype = MIPI_CSI2_DT_YUV422_8B, },
  
- #define UB960_MAX_RX_NPORTS	4
-@@ -351,7 +360,7 @@
- #define UB960_SR_FPD3_RX_ID(n)			(0xf0 + (n))
- #define UB960_SR_FPD3_RX_ID_LEN			6
- 
--#define UB960_SR_I2C_RX_ID(n)			(0xf8 + (n)) /* < UB960_FPD_RX_NPORTS */
-+#define UB960_SR_I2C_RX_ID(n)			(0xf8 + (n))
- 
- #define UB9702_SR_REFCLK_FREQ			0x3d
- 
-@@ -4001,6 +4010,12 @@ static int ub960_probe(struct i2c_client *client)
- 	schedule_delayed_work(&priv->poll_work,
- 			      msecs_to_jiffies(UB960_POLL_TIME_MS));
- 
-+#ifdef UB960_DEBUG_I2C_RX_ID
-+	for (unsigned int i = 0; i < 4; i++)
-+		ub960_write(priv, UB960_SR_I2C_RX_ID(i),
-+			    (UB960_DEBUG_I2C_RX_ID + i) << 1);
-+#endif
++	{ .code = MEDIA_BUS_FMT_SBGGR8_1X8, .bpp = 8, .datatype = MIPI_CSI2_DT_RAW8, },
++	{ .code = MEDIA_BUS_FMT_SGBRG8_1X8, .bpp = 8, .datatype = MIPI_CSI2_DT_RAW8, },
++	{ .code = MEDIA_BUS_FMT_SGRBG8_1X8, .bpp = 8, .datatype = MIPI_CSI2_DT_RAW8, },
++	{ .code = MEDIA_BUS_FMT_SRGGB8_1X8, .bpp = 8, .datatype = MIPI_CSI2_DT_RAW8, },
 +
- 	return 0;
- 
- err_free_sers:
++	{ .code = MEDIA_BUS_FMT_SBGGR10_1X10, .bpp = 10, .datatype = MIPI_CSI2_DT_RAW10, },
++	{ .code = MEDIA_BUS_FMT_SGBRG10_1X10, .bpp = 10, .datatype = MIPI_CSI2_DT_RAW10, },
++	{ .code = MEDIA_BUS_FMT_SGRBG10_1X10, .bpp = 10, .datatype = MIPI_CSI2_DT_RAW10, },
++	{ .code = MEDIA_BUS_FMT_SRGGB10_1X10, .bpp = 10, .datatype = MIPI_CSI2_DT_RAW10, },
++
+ 	{ .code = MEDIA_BUS_FMT_SBGGR12_1X12, .bpp = 12, .datatype = MIPI_CSI2_DT_RAW12, },
+ 	{ .code = MEDIA_BUS_FMT_SGBRG12_1X12, .bpp = 12, .datatype = MIPI_CSI2_DT_RAW12, },
+ 	{ .code = MEDIA_BUS_FMT_SGRBG12_1X12, .bpp = 12, .datatype = MIPI_CSI2_DT_RAW12, },
 
 -- 
 2.43.0
