@@ -1,182 +1,114 @@
-Return-Path: <linux-media+bounces-21113-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21114-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D5E9C17D4
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 09:24:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D20249C17DC
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 09:24:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCD3D1F2411E
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 08:24:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79E4AB22569
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 08:24:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B51E1CBE89;
-	Fri,  8 Nov 2024 08:24:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01E711DE899;
+	Fri,  8 Nov 2024 08:24:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="s2k2taLt"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="TtT3Cwxa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FC71F5FA
-	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 08:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09BD1F5FA;
+	Fri,  8 Nov 2024 08:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731054244; cv=pass; b=gaw6quYeaUgGcvyTy7P721Hu2+45o8RfGD285aPUabVgIsYeVaHiMq6ls3hdbM9K7Z9md0aVXCU7M6EJGfhkcdCXrVCzmKTqOZyWrvqs6HQDpAR9yE4lQSJrZQHGHoX0Q+mdl/kn4k8qjoLM7QtgO+MvFO1Fa7u1Wr6NZUXrrDg=
+	t=1731054278; cv=pass; b=mM2CBfZBBZEk2rW60iNbjY1zUUXdTx2IdRTH3269mjyqOKF9nptA0XJ30VAn+vGBUoQ0mmqC/Ordc6A87yzS29tcPet3aW0XRoVTCj7fbEL/i7rS3z4e18b1XN1vt6ylcaL/NxZtIMcUTgozLP6DUDNlwNJvskO6miBfAMcx1DE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731054244; c=relaxed/simple;
-	bh=ijPXC0KSslcz1xktOX3dGOQX3IsuwdtTAhptokvsfjM=;
+	s=arc-20240116; t=1731054278; c=relaxed/simple;
+	bh=KvidRfAANg8XA3VnFXSr2Ww/cgt0MlyBxmzBVjBZF2s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fW78st1yo0pj7fU7XB6Y2aa1PoQ6EmPtqNT0y6RicuazK63kKDs68YOXR3z7LQnqi0LcC3OPmUt3IxF7yVhLW8VVITze+q2Kra0d0j5ZWQNjt8QRbfwizy3YdyXI9r+afg8sRhNsTKumfF7amdemX6vbP64+6h5oZkz+GZSRsTg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=s2k2taLt; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4XlBmb3Cyvz49Q16;
-	Fri,  8 Nov 2024 10:23:59 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1731054239;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s3NrhfTR3YlFEwSQi/gw2IptGJYRLbCRu3rXqzmNvpg=;
-	b=s2k2taLtJ4L2Fc3T/N3srDVsFWuyP/4vQt8ajqv0xaJcsoEMTPEB12NZZV6Xj7xyVYE3M+
-	wDGCU47itE5iVJZc58EWk7/fx9uPgJRPVJX59XWwvAOqaXaJB/jFxo/MUhoH/+zZYnHdWR
-	L0jG4fxoO397juM5IESTFKf188Q1mbQiQj220xUyF73V9H07AG7lQTevBC2GCW19rsrzSM
-	xNFbymUoStIDWz3EaLOKqoIcQZquGuApdcHK2rnW8CEKlOPJ8Z0KYzLh0CovWIoHW2ccDa
-	URDYkJrxgeI4B7pMKCXMundIig+S1XBswLXHs0JDRQ3OQjh8eb6+EeS71dYxng==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1731054239; a=rsa-sha256;
-	cv=none;
-	b=osFsjthZR2qKyhOv77vyVgQVUNRw4ctC3A9YoxNQ+n3aOA1dj//KexY8N6hGfk3s+Ohftl
-	IvaTWiwtqSsGCcnEfsK/zfeCvo6QushsB2TaWXDQLjwFw9VCuPAvWIpzyQPmMlGPTpeb77
-	rfsMjI5NF0pEyKyG3qcgQpsE4vGEX7eXjVceTJMSbvBTR9N8kW6Q/yXxiCswuzv5XswJz3
-	EavTrat8DocHfLhKBzab/a3B/twKxMwOuKXbLCDlD1LOpq/DMfJWOF9S9UaztbyB894O61
-	7i4txvqxLRlpUEQhpegI9u9xyuf6oGWm5qKhucE3aort10+IHErbAvxvuQsuCg==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1731054239;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s3NrhfTR3YlFEwSQi/gw2IptGJYRLbCRu3rXqzmNvpg=;
-	b=O0GF2Hac5x6GT+VoFK1bB3Qg4MTrS6ZkeIlhD47n75+HKvTVZzAh6+a4K43uvTFNdizIqG
-	Wly5tlzjigAjzPvqvF8w5RPFCwCbEwp33oqo0bVCaM9fibedNqVGYC2hJYoWds/GzQSoA7
-	g0Q3Mje0gkO+RkGcXl51fzJrGGHtlk6MqdeRuFOSd3KzAH+NlElMIzPZQs1KuJAShQ+vll
-	9Xee2fULdPOgbsS4+UWvz3xfeMTlN7TQJsPddH1CWPpatmL5qAP2Pa54lFD3m5XDEapFZD
-	BLsFgvUrbNb3l+X71FVnxoBttgTsg+rSi0HkPO5VfBxCwOPfqyFStN1g/T/O8Q==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 49A69634C93;
-	Fri,  8 Nov 2024 10:23:57 +0200 (EET)
-Date: Fri, 8 Nov 2024 08:23:57 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCHv3] media: vicodec: add V4L2_CID_MIN_BUFFERS_FOR_* controls
-Message-ID: <Zy3KnT696hCBy6UM@valkosipuli.retiisi.eu>
-References: <3c0362e5-aa47-4545-a81e-e696b0e01440@xs4all.nl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=obwHKar9jLWf3ix8NIJZpMg2FbMVIrmcPoeRsDqcW2cNUEnphHddRxWzzgn0j211jDLkVWyastYm9OUbIMW+hKiO466rlkSsK0l+xh2xAskSqdOVjDtQdqUX8tXasYE3kJg5VH1bKeMEFZme2MRVXlfGRHd2hd/sMkpyy9IyVq0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=TtT3Cwxa; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1731054263; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=n5gYkGTkWbD8ZuiphiqOkZYPJc5OsPtVrkVaAXf/lPlrNAtZJRusYnPgatCPoNVUbiV7Qy/ppBWTXTchKjddPLBOhDhRG0C9xQmzLFaNFu7Oin2vtFrmeDgWMcXlDIuFC7bBJVGWyW/CHEIyeqFuJ0v9pf/NOGkUIJ53mL3an20=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1731054263; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Gtp6A3hGxlQfV2x0Wy5hZhakNlkzGjb+GlkiFRLOsWE=; 
+	b=SkUJEy248pWeGhhPcJytVgQgJkclB4euXuM5eysXw/p/RZYh2xfAN3K+10PxCjL3bHuP4+t74iG1LO7hHbFcog8qXtf89siExIIg/oQjyhUTYUi6UInKn/yY+mwGBLoi0HVgLhhZqOsVoxLOuA2G89LVh4zzxVq2uo+ev1u6Fpo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731054263;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=Gtp6A3hGxlQfV2x0Wy5hZhakNlkzGjb+GlkiFRLOsWE=;
+	b=TtT3CwxaU8hyiYI4MZKzeQWoqSCurbkf7uJffSs9F0UdSP03h1209F5RddLQyEmr
+	+A9JKlWbU0Ld3WuvtnRcZdWzgRHuKGpnNpPpT7j3ZGU7NJ270CKyP15m84BJ1/GiJ5V
+	ZW78HRZq3yH2aQONzWBKOZSsc2nZRR5sTV5DVVeE=
+Received: by mx.zohomail.com with SMTPS id 1731054260823258.94058542690425;
+	Fri, 8 Nov 2024 00:24:20 -0800 (PST)
+Date: Fri, 8 Nov 2024 09:24:16 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
+	mauro.chehab@linux.intel.com, kernel@collabora.com,
+	bob.beckett@collabora.com, nicolas.dufresne@collabora.com
+Subject: Re: [PATCH 0/2] Documentation: Debugging guide
+Message-ID: <20241108082416.u6vvdmmhadfqtiau@basti-XPS-13-9310>
+References: <20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com>
+ <87ttcj0z8x.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <3c0362e5-aa47-4545-a81e-e696b0e01440@xs4all.nl>
+In-Reply-To: <87ttcj0z8x.fsf@trenco.lwn.net>
+X-ZohoMailClient: External
 
-Hi Hans,
+Hey Jon,
 
-On Tue, Nov 05, 2024 at 08:50:39AM +0100, Hans Verkuil wrote:
-> Stateful codecs must support the V4L2_CID_MIN_BUFFERS_FOR_OUTPUT
-> and V4L2_CID_MIN_BUFFERS_FOR_CAPTURE controls. The vicodec driver
-> was missing support for these controls. Add them.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> ---
-> Change since v2: set min_reqbufs_allocation to the same value
-> as used for V4L2_CID_MIN_BUFFERS_FOR_OUTPUT/CAPTURE.
-> Change since v1: V4L2_CID_MIN_BUFFERS_FOR_OUTPUT was already
-> supported, so that patch led to duplicated controls. That's now
-> fixed.
-> ---
->  .../media/test-drivers/vicodec/vicodec-core.c | 22 ++++++++++++++-----
->  1 file changed, 16 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-> index 00c84a06f343..556ec2a3d411 100644
-> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-> @@ -43,6 +43,8 @@ MODULE_PARM_DESC(debug, " activates debug info");
->  #define MIN_WIDTH		640U
->  #define MAX_HEIGHT		2160U
->  #define MIN_HEIGHT		360U
-> +/* Recommended number of buffers for the stateful codecs */
-> +#define VICODEC_REC_BUFS	2
-> 
->  #define dprintk(dev, fmt, arg...) \
->  	v4l2_dbg(1, debug, &dev->v4l2_dev, "%s: " fmt, __func__, ## arg)
-> @@ -1705,12 +1707,14 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->  	src_vq->ops = &vicodec_qops;
->  	src_vq->mem_ops = &vb2_vmalloc_memops;
->  	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> -	if (ctx->is_enc)
-> +	if (ctx->is_enc) {
->  		src_vq->lock = &ctx->dev->stateful_enc.mutex;
-> -	else if (ctx->is_stateless)
-> +		src_vq->min_reqbufs_allocation = VICODEC_REC_BUFS;
+On 07.11.2024 09:45, Jonathan Corbet wrote:
+>Sebastian Fricke <sebastian.fricke@collabora.com> writes:
+>
+>> The series contains:
+>> - a general debugging guide split into debugging for driver developers and
+>> debugging from userspace
+>> - a new summary page for all media related documentation. This is inspired by
+>> other subsystems, which first of all allows a user to find the subsystem
+>> under the subsystems page and secondly eases general navigation through the
+>> documentation that is sprinkled onto multiple places.
+>> - a guide on how to debug code in the media subsystem, which points to the
+>> parts of the general documentation and adds own routines.
+>
+>So I am just getting into looking at this; the fact that I had a hard
+>time applying the series has not helped...
+>
+>> base-commit: 8c64f4cdf4e6cc5682c52523713af8c39c94e6d5
+>
+>That is ... 6.9?  Why are you basing your patches on such an ancient
+>kernel?  If you want me to apply them for 6.12 (not guaranteed in any
+>case, it's getting late) you'll need to bring them forward to current
+>docs-next.
 
-Doesn't this change affect also stateless codecs?
+Hmmm my Google-Fu is not strong enough, I can't find a docs-next
+anywhere neither in https://git.kernel.org/ nor in the Linux Kernel
+documentation, can you point me to the tree?
 
-> +	} else if (ctx->is_stateless) {
->  		src_vq->lock = &ctx->dev->stateless_dec.mutex;
-> -	else
-> +	} else {
->  		src_vq->lock = &ctx->dev->stateful_dec.mutex;
-> +	}
->  	src_vq->supports_requests = ctx->is_stateless;
->  	src_vq->requires_requests = ctx->is_stateless;
->  	ret = vb2_queue_init(src_vq);
-> @@ -1728,6 +1732,8 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->  	dst_vq->mem_ops = &vb2_vmalloc_memops;
->  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->  	dst_vq->lock = src_vq->lock;
-> +	if (!ctx->is_stateless && !ctx->is_enc)
-> +		dst_vq->min_reqbufs_allocation = VICODEC_REC_BUFS;
-> 
->  	return vb2_queue_init(dst_vq);
->  }
-> @@ -1852,9 +1858,13 @@ static int vicodec_open(struct file *file)
->  			  1, 31, 1, 20);
->  	v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops, V4L2_CID_FWHT_P_FRAME_QP,
->  			  1, 31, 1, 20);
-> -	if (ctx->is_enc)
-> -		v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops,
-> -				  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT, 1, 1, 1, 1);
-> +	if (!ctx->is_stateless)
-> +		v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops, ctx->is_enc ?
-> +				  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT :
-> +				  V4L2_CID_MIN_BUFFERS_FOR_CAPTURE,
-> +				  VICODEC_REC_BUFS, VICODEC_REC_BUFS, 1,
-> +				  VICODEC_REC_BUFS);
-> +
->  	if (ctx->is_stateless)
+>
+>Thanks,
+>
+>jon
+>
 
-This could be replaced by an else branch.
-
->  		v4l2_ctrl_new_custom(hdl, &vicodec_ctrl_stateless_state, NULL);
->  	if (hdl->error) {
-
--- 
-Kind regards,
-
-Sakari Ailus
+Regards,
+Sebastian Fricke
 
