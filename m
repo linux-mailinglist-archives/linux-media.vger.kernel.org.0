@@ -1,36 +1,74 @@
-Return-Path: <linux-media+bounces-21146-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21147-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17439C1B0E
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 11:49:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A894F9C1C13
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 12:22:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EE720B24B16
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 10:49:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A48D1F2344C
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 11:22:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 907481E32A9;
-	Fri,  8 Nov 2024 10:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE5681E3DEC;
+	Fri,  8 Nov 2024 11:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="GMpI8IeR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3686747F69
-	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 10:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054641E25F3
+	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 11:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731062944; cv=none; b=QxxaMiJTv8Np0MB9cqZVRR0YuTeybBs1ut9bfmACMIyNHUPPEA+alFImSFhYwLUARRN2B6BKWegZyLS6pmuS92kV9GGCj9KUAKJuiQlgffxaYtTXRHYpzAreJz6vPWlghW+HddeDpRG10ELns4m3lqM+oDdzOSVp3hXGXMJPrYI=
+	t=1731064966; cv=none; b=mEvYuDbxv7Dt+aDLfVX6Wsh1fJC04anwghkzib9vMgljBA99fpNrOOGNYADhdRO1v7a3o/bJWH4eiuN116OziE9edBk2h71NBUehtXmLBrMIctOaEKP5vt4577gCGNjfi1/SeH07XyZnrnPS2Xcn7paIeFJpPtAFQVN7MD19KsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731062944; c=relaxed/simple;
-	bh=Jpys7tMdJwUX8QskzPeT3j38Wfptg5nPzftdFCnznIc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l1HXtbvAtjpVFxuF6jNCktZKBudYGUW5+J/8bf8uBYbSWfclsDJVv9I3oKg5R5qKptv6myLq9fRX5XpGRxiYIPyy7ATtzYe4YQU6eTCvYCNA92GkrP4ZVu/2cS5/B8HL6igZ6WLTGAAy1nWCy5erTNjaYmriUNCmiEubwFLPAak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E488CC4CECD;
-	Fri,  8 Nov 2024 10:49:02 +0000 (UTC)
-Message-ID: <ee6bcb24-2808-4025-91f2-2da945ce9d9c@xs4all.nl>
-Date: Fri, 8 Nov 2024 11:49:01 +0100
+	s=arc-20240116; t=1731064966; c=relaxed/simple;
+	bh=MkGCpCJHDsUTlBFXoliDMzfX3nRpqQ2dDImUJ0Stf7U=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=MGqYn+Bj7Lj54p2sIMn1aIxxkvoyvs0oJcPjlIN1hCS47IwkzNyWkysMReyTGCrnhw+JeOGdo2WG+y9ykpGJ8zh/W3yxgp4s3p5KKD41aiEGpJTES6W5nVC1ajPUzJAeq1xpLfqTixA17X/Bt+AOQDOpG4HSJF81sZNpma4c/AI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=none smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b=GMpI8IeR; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ursulin.net
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4315c1c7392so18330685e9.1
+        for <linux-media@vger.kernel.org>; Fri, 08 Nov 2024 03:22:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1731064962; x=1731669762; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h36EJUve+WwS4l6rC/mrA6lUowUTAe1gho0nIQsHUwU=;
+        b=GMpI8IeRe7n3SBpDFVz51kUVekXiuMkGwmFsgqvcEmVhyU5rsxenQis9Il/7GpvXz6
+         YDQPO6H8ozWMNL9lMBWS9Q/hsWTALMBevBlVWtH0GspNgEoDTayOp05wiliOb+mtfAOI
+         uFxoanyV9rOhGCNp76Wor0l7K8dDZqzDG7/g1q5bUrdBM1Xy/Ots367hlmkD+d3nhWc9
+         k2q6fEpjkeLm2oSbUNWtia1PKMJsKr8GOKJhDJnN1ElCBrtzXMNQhPJZwFrxXEdZ72Fz
+         stn6DbBu79O67haZCiWKE2EPZe4I4yjsksi9OYUXAxNbCAZhp77nH38TiYjKZms0eq1K
+         hFXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731064962; x=1731669762;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h36EJUve+WwS4l6rC/mrA6lUowUTAe1gho0nIQsHUwU=;
+        b=Rc2lqNAgvn4PsApDOVcXZv6QRUHsc3YEqtCcoECbgSqVHLqrKe0LWPSagRuaP4uEkR
+         6lNUvl6nzZRRDi+i6bR4LZWr/5m0Hx/vWA2bq7QO177C4BxvPSIcLRsBq1H5wGWFSAPo
+         vZ3WB2+9EtDFBJWDz5JJaqN98WJu+1m5JWgvjYHVoc33Ai9y7fuJqgCnW4yt1oXIbVHc
+         tJD5iB00ENPRUgFa50jdqUDBpOplv38vhDGv+cRji672zaeV3nnDbUj4eZwNDEgA6Bwg
+         YvAnD7Ue95hY81J1wQK0a0BZSDN8gpMLiOprJ3X5hTU7FzfImNQPk7187d5XNtRCzPcB
+         GpWg==
+X-Forwarded-Encrypted: i=1; AJvYcCV9W9+yEE2vxVlqkn1l+0On3Brz0LAx//k1i6lujfcNRNTOLaXxEQO6OTCRUGv0veCGUrAOXhkceQLo+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtWlQbSxIU7djswYIbKLRYKNzFmr0rUYC+cud8MtxeoRzuqha3
+	dy4zLJpWWbPgeSOAFCpC3KvKwQzlCR9DRoJao8lc+dwR/RBLx6yw+NZA0jC4N58=
+X-Google-Smtp-Source: AGHT+IHsa+/KLyMstCqYwRfBJSo/bQQmBnV67zwnq2I7i2gDt1UI7iMs5+BOvBO0+4Uzzw83hMWgEw==
+X-Received: by 2002:a5d:5f81:0:b0:37d:5232:a963 with SMTP id ffacd0b85a97d-381f1866f10mr1894742f8f.14.1731064962128;
+        Fri, 08 Nov 2024 03:22:42 -0800 (PST)
+Received: from [192.168.0.101] ([90.241.98.187])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed97ce0fsm4292816f8f.33.2024.11.08.03.22.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Nov 2024 03:22:41 -0800 (PST)
+Message-ID: <d2882342-ec87-4e41-a7f8-6d7cf8fb3b20@ursulin.net>
+Date: Fri, 8 Nov 2024 11:22:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,179 +76,299 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2] media: v4l2-core: v4l2-ctrls: check for handler_new_ref
- misuse
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <ddb6e006-7440-41c5-8aaa-685b058418b4@xs4all.nl>
- <Zy3ktRUxfYoylLvB@valkosipuli.retiisi.eu>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwEKAD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMB
- Ah4BAheAFiEEBSzee8IVBTtonxvKvS1hSGYUO0wFAmaU3GkFCRf7lXsACgkQvS1hSGYUO0wZ
- cw//cLMiaV+p2rCyzdpDjWon2XD6M646THYvqXLb9eVWicFlVG78kNtHrHyEWKPhN3OdWWjn
- kOzXseVR/nS6vZvqCaT3rwgh3ZMb0GvOQk1/7V8UbcIERy036AjQoZmKo5tEDIv48MSvqxjj
- H6wbKXbCyvnIwpGICLyb0xAwvvpTaJkwZjvGqeo5EL0Z+cQ8fCelfKNO5CFFP3FNd3dH8wU6
- CHRtdZE03iIVEWpgCTjsG2zwsX/CKfPx0EKcrQajW3Tc50Jm0uuRUEKCVphlYORAPtFAF1dj
- Ly8zpN1bEXH+0FDXe/SHhzbvgS4sL0J4KQCCZ/GcbKh/vsDC1VLsGS5C7fKOhAtOkUPWRjF+
- kOEEcTOROMMvSUVokO+gCdb9nA/e3WMgiTwWRumWy5eCEnCpM9+rfI2HzTeACrVgGEDkOTHW
- eaGHEy8nS9a25ejQzsBhi+T7MW53ZTIjklR7dFl/uuK+EJ6DLbDpVbwyYo2oeiwP+sf8/Rgv
- WfJv4wzfUo/JABwrsbfWfycVZwFWBzqq+TaKFkMPm017dkLdg4MzxvvTMP7nKfJxU1bQ2OOr
- xkPk5KDcz+aRYBvTqEXgYZ6OZtnOUFKD+uPlbWf68vuz/1iFbQYnNJkTxwWhiIMN7BULK74d
- Ek89MU7JlbYNSv0v21lRF+uDo0J6zyoTt0ZxSPzOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAEKACYCGwwWIQQFLN57whUFO2ifG8q9LWFIZhQ7TAUC
- ZpTcxwUJF/uV2gAKCRC9LWFIZhQ7TMlPD/9ppgrN4Z9gXta9IdS8a+0E7lj/dc0LnF9T6MMq
- aUC+CFffTiOoNDnfXh8sfsqTjAT50TsVpdlH6YyPlbU5FR8bC8wntrJ6ZRWDdHJiCDLqNA/l
- GVtIKP1YW8fA01thMcVUyQCdVUqnByMJiJQDzZYrX+E/YKUTh2RL5Ye0foAGE7SGzfZagI0D
- OZN92w59e1Jg3zBhYXQIjzBbhGIy7usBfvE882GdUbP29bKfTpcOKkJIgO6K+w82D/1d5TON
- SD146+UySmEnjYxHI8kBYaZJ4ubyYrDGgXT3jIBPq8i9iZP3JSeZ/0F9UIlX4KeMSG8ymgCR
- SqL1y9pl9R2ewCepCahEkTT7IieGUzJZz7fGUaxrSyexPE1+qNosfrUIu3yhRA6AIjhwPisl
- aSwDxLI6qWDEQeeWNQaYUSEIFQ5XkZxd/VN8JeMwGIAq17Hlym+JzjBkgkm1LV9LXw9D8MQL
- e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
- XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
- LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <Zy3ktRUxfYoylLvB@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 2/3] dma-buf: sort fences in dma_fence_unwrap_merge
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ friedrich.vock@gmx.de, Richardqi.Liang@amd.com,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20241024124159.4519-1-christian.koenig@amd.com>
+ <20241024124159.4519-3-christian.koenig@amd.com>
+ <bf0a51cb-a112-45d7-b55f-47a75ed87da6@ursulin.net>
+Content-Language: en-GB
+In-Reply-To: <bf0a51cb-a112-45d7-b55f-47a75ed87da6@ursulin.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 08/11/2024 11:15, Sakari Ailus wrote:
-> Hi Hans,
+
+On 07/11/2024 16:00, Tvrtko Ursulin wrote:
 > 
-> On Tue, Nov 05, 2024 at 08:42:04AM +0100, Hans Verkuil wrote:
->> An out-of-tree driver created a control handler, added controls, then
->> called v4l2_ctrl_add_handler to add references to controls from another
->> handler, and finally added another control that happened to have the same
->> control ID as one of the controls from that other handler.
+> On 24/10/2024 13:41, Christian König wrote:
+>> The merge function initially handled only individual fences and
+>> arrays which in turn were created by the merge function. This allowed
+>> to create the new array by a simple merge sort based on the fence
+>> context number.
 >>
->> This caused a NULL pointer crash when an attempt was made to use that last
->> control.
+>> The problem is now that since the addition of timeline sync objects
+>> userspace can create chain containers in basically any fence context
+>> order.
 >>
->> Besides the fact that two out-of-tree drivers used the same control ID for
->> different (private) controls, which is obviously a bug, this specific
->> scenario should have been caught. The root cause is the 'duplicate ID'
->> check in handler_new_ref(): it expects that drivers will first add all
->> controls to a control handler before calling v4l2_ctrl_add_handler. That
->> way the local controls will always override references to controls from
->> another handler.
+>> If those are merged together it can happen that we create really
+>> large arrays since the merge sort algorithm doesn't work any more.
+>>
+>> So put an insert sort behind the merge sort which kicks in when the
+>> input fences are not in the expected order. This isn't as efficient
+>> as a heap sort, but has better properties for the most common use
+>> case.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/dma-buf/dma-fence-unwrap.c | 39 ++++++++++++++++++++++++++----
+>>   1 file changed, 34 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence-unwrap.c 
+>> b/drivers/dma-buf/dma-fence-unwrap.c
+>> index 628af51c81af..d9aa280d9ff6 100644
+>> --- a/drivers/dma-buf/dma-fence-unwrap.c
+>> +++ b/drivers/dma-buf/dma-fence-unwrap.c
+>> @@ -106,7 +106,7 @@ struct dma_fence 
+>> *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>           fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
+>>       count = 0;
+>> -    do {
+>> +    while (true) {
+>>           unsigned int sel;
+>>   restart:
+>> @@ -144,11 +144,40 @@ struct dma_fence 
+>> *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>               }
+>>           }
+>> -        if (tmp) {
+>> -            array[count++] = dma_fence_get(tmp);
+>> -            fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>> +        if (!tmp)
+>> +            break;
+>> +
+>> +        /*
+>> +         * We could use a binary search here, but since the assumption
+>> +         * is that the main input are already sorted dma_fence_arrays
+>> +         * just looking from end has a higher chance of finding the
+>> +         * right location on the first try
+>> +         */
+>> +
+>> +        for (i = count; i--;) {
+>> +            if (likely(array[i]->context < tmp->context))
+>> +                break;
+>> +
+>> +            if (array[i]->context == tmp->context) {
+>> +                if (dma_fence_is_later(tmp, array[i])) {
+>> +                    dma_fence_put(array[i]);
+>> +                    array[i] = dma_fence_get(tmp);
+>> +                }
+>> +                fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>> +                goto restart;
+>> +            }
+>>           }
+>> -    } while (tmp);
+>> +
+>> +        ++i;
+>> +        /*
+>> +         * Make room for the fence, this should be a nop most of the
+>> +         * time.
+>> +         */
+>> +        memcpy(&array[i + 1], &array[i], (count - i) * sizeof(*array));
+>> +        array[i] = dma_fence_get(tmp);
+>> +        fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>> +        count++;
 > 
-> Do we support adding new controls after adding the handler or is there a
-> valid use case for it? I'd rather say it's not supported and prevent it,
-> for simplicity. Things like this will likely make it more difficult to move
-> the controls to the device state.
+> Having ventured into this function for the first time, I can say that 
+> this is some smart code which is not easy to grasp. It could definitely 
+> benefit from a high level comment before the do-while loop to explain 
+> what it is going to do.
+> 
+> Next and tmp local variable names I also wonder if could be renamed to 
+> something more descriptive.
+> 
+> And the algorithmic complexity of the end result, given the multiple 
+> loops and gotos, I have no idea what it could be.
+> 
+> Has a dumb solution been considered like a two-pass with a 
+> pessimistically allocated fence array been considered? Like:
+> 
+> 1) Populate array with all unsignalled unwrapped fences. (O(count))
+> 
+> 2) Bog standard include/linux/sort.h by context and seqno. (O(count*log 
+> (count)))
+> 
+> 3) Walk array and squash same context to latest fence. (Before this 
+> patch that wasn't there, right?). (O(count)) (Overwrite in place, no 
+> memcpy needed.)
+> 
+> Algorithmic complexity of that would be obvious and code much simpler.
 
-Blocking this completely is out of scope of this patch. I am not quite sure
-if doing that wouldn't break some drivers (in or out of tree).
+FWIW something like the below passes selftests. How does it look to you? 
+Do you think more or less efficient and more or less readable?
 
-If this turns out to be an issue when moving controls to the device state,
-then we can revisit this.
+commit 8a7c3ea7e7af85e813bf5fc151537ae37be1d6d9
+Author: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Date:   Fri Nov 8 10:14:15 2024 +0000
+
+     __dma_fence_unwrap_merge
+
+     Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+diff --git a/drivers/dma-buf/dma-fence-unwrap.c 
+b/drivers/dma-buf/dma-fence-unwrap.c
+index 628af51c81af..47d67e482e96 100644
+--- a/drivers/dma-buf/dma-fence-unwrap.c
++++ b/drivers/dma-buf/dma-fence-unwrap.c
+@@ -12,6 +12,7 @@
+  #include <linux/dma-fence-chain.h>
+  #include <linux/dma-fence-unwrap.h>
+  #include <linux/slab.h>
++#include <linux/sort.h>
+
+  /* Internal helper to start new array iteration, don't use directly */
+  static struct dma_fence *
+@@ -59,17 +60,39 @@ struct dma_fence *dma_fence_unwrap_next(struct 
+dma_fence_unwrap *cursor)
+  }
+  EXPORT_SYMBOL_GPL(dma_fence_unwrap_next);
+
++
++static int fence_cmp(const void *_a, const void *_b)
++{
++	const struct dma_fence *a = *(const struct dma_fence **)_a;
++	const struct dma_fence *b = *(const struct dma_fence **)_b;
++
++	if (a->context < b->context)
++		return -1;
++	else if (a->context > b->context)
++		return 1;
++
++	if (a->seqno < b->seqno)
++		return -1;
++	else if (a->seqno > b->seqno)
++		return 1;
++
++	return 0;
++}
++
+  /* Implementation for the dma_fence_merge() marco, don't use directly */
+  struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+  					   struct dma_fence **fences,
+  					   struct dma_fence_unwrap *iter)
+  {
+-	struct dma_fence_array *result;
+  	struct dma_fence *tmp, **array;
++	struct dma_fence_array *result;
+  	ktime_t timestamp;
+-	unsigned int i;
+-	size_t count;
++	int i, j, count;
+
++	/*
++	 * Count number of unwrapped fences and fince the latest signaled
++	 * timestamp.
++	 */
+  	count = 0;
+  	timestamp = ns_to_ktime(0);
+  	for (i = 0; i < num_fences; ++i) {
+@@ -92,63 +115,41 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned 
+int num_fences,
+  	if (count == 0)
+  		return dma_fence_allocate_private_stub(timestamp);
+
++	/*
++	 * Allocate and populate the array.
++	 */
+  	array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
+  	if (!array)
+  		return NULL;
+
+-	/*
+-	 * This trashes the input fence array and uses it as position for the
+-	 * following merge loop. This works because the dma_fence_merge()
+-	 * wrapper macro is creating this temporary array on the stack together
+-	 * with the iterators.
+-	 */
+-	for (i = 0; i < num_fences; ++i)
+-		fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
+-
+  	count = 0;
+-	do {
+-		unsigned int sel;
+-
+-restart:
+-		tmp = NULL;
+-		for (i = 0; i < num_fences; ++i) {
+-			struct dma_fence *next;
+-
+-			while (fences[i] && dma_fence_is_signaled(fences[i]))
+-				fences[i] = dma_fence_unwrap_next(&iter[i]);
+-
+-			next = fences[i];
+-			if (!next)
+-				continue;
+-
+-			/*
+-			 * We can't guarantee that inpute fences are ordered by
+-			 * context, but it is still quite likely when this
+-			 * function is used multiple times. So attempt to order
+-			 * the fences by context as we pass over them and merge
+-			 * fences with the same context.
+-			 */
+-			if (!tmp || tmp->context > next->context) {
+-				tmp = next;
+-				sel = i;
+-
+-			} else if (tmp->context < next->context) {
+-				continue;
+-
+-			} else if (dma_fence_is_later(tmp, next)) {
+-				fences[i] = dma_fence_unwrap_next(&iter[i]);
+-				goto restart;
+-			} else {
+-				fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+-				goto restart;
+-			}
++	for (i = 0; i < num_fences; ++i) {
++		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
++			if (!dma_fence_is_signaled(tmp))
++				array[count++] = tmp;
+  		}
++	}
++
++	/*
++	 * Sort in context and seqno order.
++	 */
++	sort(array, count, sizeof(*array), fence_cmp, NULL);
+
+-		if (tmp) {
+-			array[count++] = dma_fence_get(tmp);
+-			fences[sel] = dma_fence_unwrap_next(&iter[sel]);
++	/*
++	 * Only keep the most recent fence for each context.
++	 */
++	j = 0;
++	tmp = array[0];
++	for (i = 1; i < count; i++) {
++		if (array[i]->context != tmp->context) {
++			array[j++] = dma_fence_get(tmp);
+  		}
+-	} while (tmp);
++		tmp = array[i];
++	}
++	if (tmp->context != array[j - 1]->context) {
++		array[j++] = dma_fence_get(tmp);
++	}
++	count = j;
+
+  	if (count == 0) {
+  		tmp = dma_fence_allocate_private_stub(ktime_get());
+
 
 Regards,
 
-	Hans
+Tvrtko
+
 
 > 
-> Cc Laurent and Jacopo.
+> Regards,
 > 
->>
->> It never considered the case where new local controls were added after
->> calling v4l2_ctrl_add_handler. Add a check to handler_new_ref() to return
->> an error in the case that a new local control is added with the same ID as
->> an existing control reference. Also use WARN_ON since this is a driver bug.
->>
->> This situation can only happen when out-of-tree drivers are used or during
->> driver development, since mainlined drivers all have their own control
->> ranges reserved in v4l2-controls.h, thus preventing duplicate control IDs.
->>
->> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
->> ---
->> Changes since v1:
->> Improved the comment.
->> ---
->>  drivers/media/v4l2-core/v4l2-ctrls-core.c | 34 +++++++++++++++++++----
->>  1 file changed, 28 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
->> index eeab6a5eb7ba..8fac12e78481 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
->> @@ -1676,6 +1676,7 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
->>  	u32 class_ctrl = V4L2_CTRL_ID2WHICH(id) | 1;
->>  	int bucket = id % hdl->nr_of_buckets;	/* which bucket to use */
->>  	unsigned int size_extra_req = 0;
->> +	int ret = 0;
->>
->>  	if (ctrl_ref)
->>  		*ctrl_ref = NULL;
->> @@ -1719,13 +1720,32 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
->>  	list_for_each_entry(ref, &hdl->ctrl_refs, node) {
->>  		if (ref->ctrl->id < id)
->>  			continue;
->> -		/* Don't add duplicates */
->> -		if (ref->ctrl->id == id) {
->> -			kfree(new_ref);
->> -			goto unlock;
->> +		/* Check we're not adding a duplicate */
->> +		if (ref->ctrl->id != id) {
->> +			list_add(&new_ref->node, ref->node.prev);
->> +			break;
->>  		}
->> -		list_add(&new_ref->node, ref->node.prev);
->> -		break;
->> +
->> +		/*
->> +		 * If we add a new control to this control handler, and we find
->> +		 * that it is a duplicate, then that is a driver bug. Warn and
->> +		 * return an error.
->> +		 *
->> +		 * It can be caused by either adding the same control twice, or
->> +		 * by first calling v4l2_ctrl_add_handler, and then adding a new
->> +		 * control to this control handler.
->> +		 *
->> +		 * Either sequence is incorrect.
->> +		 *
->> +		 * However, if the control is owned by another handler, and
->> +		 * a control with that ID already exists in the list, then we
->> +		 * can safely skip it: in that case it the control is overridden
->> +		 * by the existing control.
->> +		 */
->> +		if (WARN_ON(hdl == ctrl->handler))
->> +			ret = -EEXIST;
->> +		kfree(new_ref);
->> +		goto unlock;
->>  	}
->>
->>  insert_in_hash:
->> @@ -1746,6 +1766,8 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
->>
->>  unlock:
->>  	mutex_unlock(hdl->lock);
->> +	if (ret)
->> +		return handler_set_err(hdl, ret);
->>  	return 0;
->>  }
->>
+> Tvrtko
 > 
-
+>> +    };
+>>       if (count == 0) {
+>>           tmp = dma_fence_allocate_private_stub(ktime_get());
 
