@@ -1,387 +1,182 @@
-Return-Path: <linux-media+bounces-21112-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21113-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A683B9C17A7
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 09:18:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D5E9C17D4
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 09:24:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05E08B23BC9
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 08:18:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCD3D1F2411E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 08:24:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5A431DB55C;
-	Fri,  8 Nov 2024 08:18:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B51E1CBE89;
+	Fri,  8 Nov 2024 08:24:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="IGbPDH05"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="s2k2taLt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D46D1D0F51;
-	Fri,  8 Nov 2024 08:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FC71F5FA
+	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 08:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731053919; cv=pass; b=g0NLj0ae7kMR91ghKRKInxbAhGOsr1kHj3i0EtMVmllwO+55zgWr4Z/8VjlYlUAGqyBYGmsicFDpG8Gawp1AtdfG+J/wQeZp+uGJ73iZPmegP3tLoeGoMdLgTG5x/0oIuyq+TaCHh7o4zqh7d4S8s+A8l1awNR2k4675KayeCug=
+	t=1731054244; cv=pass; b=gaw6quYeaUgGcvyTy7P721Hu2+45o8RfGD285aPUabVgIsYeVaHiMq6ls3hdbM9K7Z9md0aVXCU7M6EJGfhkcdCXrVCzmKTqOZyWrvqs6HQDpAR9yE4lQSJrZQHGHoX0Q+mdl/kn4k8qjoLM7QtgO+MvFO1Fa7u1Wr6NZUXrrDg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731053919; c=relaxed/simple;
-	bh=JZIA5hlYEfMpfsiHE/TPaYWNie0Xwyqs0N5C+5PKA7g=;
+	s=arc-20240116; t=1731054244; c=relaxed/simple;
+	bh=ijPXC0KSslcz1xktOX3dGOQX3IsuwdtTAhptokvsfjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nIU92nn/vb+XMdsYzd5ZFjWmjXnme9wGluTfYamxmdyD89lwY8ISSr4A/R1wceh8g/qAm685ZXmiYs05AwhuPodFmygGI4jfJeoIcqstF+zsqv/AwqY5K1xBjREBQQfiCyopRcqPf0PpJHN68q02oN+X/pSGqoUUNB84xauFZOw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=IGbPDH05; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1731053901; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=flcD8uZOdOntkSuXystrondF1citQssDYwOxbJtKolCRU8cEvZTToQJt0LbToYtT7rJSw8PXatPW6Ic+fyZOtCfxBQikzkSc3hpyVvGSACYKxDddaTJRVAe7/8333HG64i24Fr+X0rUoGP0loZTNm5iBSe3/1QeV9mos5l9Pt6I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1731053901; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Q5+coNEV6XOqk5xCGXi5Fpc11eaKgbFIC1vDq+qwALQ=; 
-	b=PCLRvR0gKc0LCbS2hS8qeKS9YeSi8CR25YGuiHLlkYsn+c5sxQKSTkIhxiMmdG9TSMrDIWA7+sZavgwZ8mVwrUJzSqpkUA7C5xF6lQOcmUzeaFqzJ8BTbec5o/XrFPw1AWX6ND8Az2KSNIv7cXkEyAVXJmO1op9pAAOo/DBDqAU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731053901;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=Q5+coNEV6XOqk5xCGXi5Fpc11eaKgbFIC1vDq+qwALQ=;
-	b=IGbPDH05V+XJ1wMUf2v5uVDw5FJuJSGf49KNrVVMQ9M4XCQ9Dseeoa0Lpy+U+/Tu
-	RKQT25GT7GCz81Vq8cVm9yIUmNbhbPWAHvIaqyzlRr8UPvGPRWPBhSkSd/4uLGIiUsX
-	gFwDNgBwHBro242jEnaKDfbA/2gUlRry1Tt56a1s=
-Received: by mx.zohomail.com with SMTPS id 1731053899547539.0939062837808;
-	Fri, 8 Nov 2024 00:18:19 -0800 (PST)
-Date: Fri, 8 Nov 2024 09:18:14 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Yunfei Dong <yunfei.dong@mediatek.com>,
-	=?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Nathan Hebert <nhebert@chromium.org>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v6 1/5] media: mediatek: vcodec: setting request complete
- before buffer done
-Message-ID: <20241108081814.tv2hch6ti3npvnrp@basti-XPS-13-9310>
-References: <20241108033219.19804-1-yunfei.dong@mediatek.com>
- <20241108033219.19804-2-yunfei.dong@mediatek.com>
- <CAGXv+5Eyyyvv-1a+eH=xQyL0LaBmjqy0dvOUeiBS2RsuWSdshA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=fW78st1yo0pj7fU7XB6Y2aa1PoQ6EmPtqNT0y6RicuazK63kKDs68YOXR3z7LQnqi0LcC3OPmUt3IxF7yVhLW8VVITze+q2Kra0d0j5ZWQNjt8QRbfwizy3YdyXI9r+afg8sRhNsTKumfF7amdemX6vbP64+6h5oZkz+GZSRsTg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=s2k2taLt; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4XlBmb3Cyvz49Q16;
+	Fri,  8 Nov 2024 10:23:59 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1731054239;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s3NrhfTR3YlFEwSQi/gw2IptGJYRLbCRu3rXqzmNvpg=;
+	b=s2k2taLtJ4L2Fc3T/N3srDVsFWuyP/4vQt8ajqv0xaJcsoEMTPEB12NZZV6Xj7xyVYE3M+
+	wDGCU47itE5iVJZc58EWk7/fx9uPgJRPVJX59XWwvAOqaXaJB/jFxo/MUhoH/+zZYnHdWR
+	L0jG4fxoO397juM5IESTFKf188Q1mbQiQj220xUyF73V9H07AG7lQTevBC2GCW19rsrzSM
+	xNFbymUoStIDWz3EaLOKqoIcQZquGuApdcHK2rnW8CEKlOPJ8Z0KYzLh0CovWIoHW2ccDa
+	URDYkJrxgeI4B7pMKCXMundIig+S1XBswLXHs0JDRQ3OQjh8eb6+EeS71dYxng==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1731054239; a=rsa-sha256;
+	cv=none;
+	b=osFsjthZR2qKyhOv77vyVgQVUNRw4ctC3A9YoxNQ+n3aOA1dj//KexY8N6hGfk3s+Ohftl
+	IvaTWiwtqSsGCcnEfsK/zfeCvo6QushsB2TaWXDQLjwFw9VCuPAvWIpzyQPmMlGPTpeb77
+	rfsMjI5NF0pEyKyG3qcgQpsE4vGEX7eXjVceTJMSbvBTR9N8kW6Q/yXxiCswuzv5XswJz3
+	EavTrat8DocHfLhKBzab/a3B/twKxMwOuKXbLCDlD1LOpq/DMfJWOF9S9UaztbyB894O61
+	7i4txvqxLRlpUEQhpegI9u9xyuf6oGWm5qKhucE3aort10+IHErbAvxvuQsuCg==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1731054239;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s3NrhfTR3YlFEwSQi/gw2IptGJYRLbCRu3rXqzmNvpg=;
+	b=O0GF2Hac5x6GT+VoFK1bB3Qg4MTrS6ZkeIlhD47n75+HKvTVZzAh6+a4K43uvTFNdizIqG
+	Wly5tlzjigAjzPvqvF8w5RPFCwCbEwp33oqo0bVCaM9fibedNqVGYC2hJYoWds/GzQSoA7
+	g0Q3Mje0gkO+RkGcXl51fzJrGGHtlk6MqdeRuFOSd3KzAH+NlElMIzPZQs1KuJAShQ+vll
+	9Xee2fULdPOgbsS4+UWvz3xfeMTlN7TQJsPddH1CWPpatmL5qAP2Pa54lFD3m5XDEapFZD
+	BLsFgvUrbNb3l+X71FVnxoBttgTsg+rSi0HkPO5VfBxCwOPfqyFStN1g/T/O8Q==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 49A69634C93;
+	Fri,  8 Nov 2024 10:23:57 +0200 (EET)
+Date: Fri, 8 Nov 2024 08:23:57 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCHv3] media: vicodec: add V4L2_CID_MIN_BUFFERS_FOR_* controls
+Message-ID: <Zy3KnT696hCBy6UM@valkosipuli.retiisi.eu>
+References: <3c0362e5-aa47-4545-a81e-e696b0e01440@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5Eyyyvv-1a+eH=xQyL0LaBmjqy0dvOUeiBS2RsuWSdshA@mail.gmail.com>
-X-ZohoMailClient: External
+In-Reply-To: <3c0362e5-aa47-4545-a81e-e696b0e01440@xs4all.nl>
 
-Hey Yunfei & Chen-Yu,
+Hi Hans,
 
-On 08.11.2024 15:49, Chen-Yu Tsai wrote:
->On Fri, Nov 8, 2024 at 11:32 AM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
->>
->> The request status of output queue is set to MEDIA_REQUEST_STATE_COMPLETE
->> when user space dequeue output buffer. Will get below warning if the
->> driver calling v4l2_ctrl_request_complete to set media request complete,
->> must to change the function order, calling v4l2_ctrl_request_complete
->> before v4l2_m2m_buf_done.
->>
->> Workqueue: core-decoder vdec_msg_queue_core_work [mtk_vcodec_dec]
->> pstate: 80c00089 (Nzcv daIf +PAN +UAO -TCO BTYPE=--)
->> pc : media_request_object_bind+0xa8/0x124
->> lr : media_request_object_bind+0x50/0x124
->> sp : ffffffc011393be0
->> x29: ffffffc011393be0 x28: 0000000000000000
->> x27: ffffff890c280248 x26: ffffffe21a71ab88
->> x25: 0000000000000000 x24: ffffff890c280280
->> x23: ffffff890c280280 x22: 00000000fffffff0
->> x21: 0000000000000000 x20: ffffff890260d280
->> x19: ffffff890260d2e8 x18: 0000000000001000
->> x17: 0000000000000400 x16: ffffffe21a4584a0
->> x15: 000000000053361d x14: 0000000000000018
->> x13: 0000000000000004 x12: ffffffa82427d000
->> x11: ffffffe21ac3fce0 x10: 0000000000000001
->> x9 : 0000000000000000 x8 : 0000000000000003
->> x7 : 0000000000000000 x6 : 000000000000003f
->> x5 : 0000000000000040 x4 : ffffff89052e7b98
->> x3 : 0000000000000000 x2 : 0000000000000001
->> x1 : 0000000000000000 x0 : 0000000000000000
->> Call trace:
->>  media_request_object_bind+0xa8/0x124
->>  v4l2_ctrl_request_bind+0xc4/0x168
->>  v4l2_ctrl_request_complete+0x198/0x1f4
->>  mtk_vdec_stateless_cap_to_disp+0x58/0x8c [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
->>  vdec_vp9_slice_core_decode+0x1c0/0x268 [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
->>  vdec_msg_queue_core_work+0x60/0x11c [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
->>  process_one_work+0x140/0x480
->>  worker_thread+0x12c/0x2f8
->>  kthread+0x13c/0x1d8
->>  ret_from_fork+0x10/0x30
->>
->> Fixes: 7b182b8d9c852 ("media: mediatek: vcodec: Refactor get and put capture buffer flow")
->> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->
->The changes look OK, so
->
->Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+On Tue, Nov 05, 2024 at 08:50:39AM +0100, Hans Verkuil wrote:
+> Stateful codecs must support the V4L2_CID_MIN_BUFFERS_FOR_OUTPUT
+> and V4L2_CID_MIN_BUFFERS_FOR_CAPTURE controls. The vicodec driver
+> was missing support for these controls. Add them.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> ---
+> Change since v2: set min_reqbufs_allocation to the same value
+> as used for V4L2_CID_MIN_BUFFERS_FOR_OUTPUT/CAPTURE.
+> Change since v1: V4L2_CID_MIN_BUFFERS_FOR_OUTPUT was already
+> supported, so that patch led to duplicated controls. That's now
+> fixed.
+> ---
+>  .../media/test-drivers/vicodec/vicodec-core.c | 22 ++++++++++++++-----
+>  1 file changed, 16 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+> index 00c84a06f343..556ec2a3d411 100644
+> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
+> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+> @@ -43,6 +43,8 @@ MODULE_PARM_DESC(debug, " activates debug info");
+>  #define MIN_WIDTH		640U
+>  #define MAX_HEIGHT		2160U
+>  #define MIN_HEIGHT		360U
+> +/* Recommended number of buffers for the stateful codecs */
+> +#define VICODEC_REC_BUFS	2
+> 
+>  #define dprintk(dev, fmt, arg...) \
+>  	v4l2_dbg(1, debug, &dev->v4l2_dev, "%s: " fmt, __func__, ## arg)
+> @@ -1705,12 +1707,14 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+>  	src_vq->ops = &vicodec_qops;
+>  	src_vq->mem_ops = &vb2_vmalloc_memops;
+>  	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> -	if (ctx->is_enc)
+> +	if (ctx->is_enc) {
+>  		src_vq->lock = &ctx->dev->stateful_enc.mutex;
+> -	else if (ctx->is_stateless)
+> +		src_vq->min_reqbufs_allocation = VICODEC_REC_BUFS;
 
-Sorry for the late reply, I am currently finishing up a change-set that
-utilizes https://patchwork.linuxtv.org/project/linux-media/list/?series=13489
-which is the prefered solution. I think there has been some
-misunderstanding when I last talked about that in a previous version.
-Using the manual request completion will be the cleaner solution because
-it allows sending new bitstream data as soon as the LAT core finishes
-the previous data, which doesn't decrease performance.
+Doesn't this change affect also stateless codecs?
 
-The plan would be for Yunfei to take that patch set of mine and rebase
-his changes on top.
+> +	} else if (ctx->is_stateless) {
+>  		src_vq->lock = &ctx->dev->stateless_dec.mutex;
+> -	else
+> +	} else {
+>  		src_vq->lock = &ctx->dev->stateful_dec.mutex;
+> +	}
+>  	src_vq->supports_requests = ctx->is_stateless;
+>  	src_vq->requires_requests = ctx->is_stateless;
+>  	ret = vb2_queue_init(src_vq);
+> @@ -1728,6 +1732,8 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+>  	dst_vq->mem_ops = &vb2_vmalloc_memops;
+>  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>  	dst_vq->lock = src_vq->lock;
+> +	if (!ctx->is_stateless && !ctx->is_enc)
+> +		dst_vq->min_reqbufs_allocation = VICODEC_REC_BUFS;
+> 
+>  	return vb2_queue_init(dst_vq);
+>  }
+> @@ -1852,9 +1858,13 @@ static int vicodec_open(struct file *file)
+>  			  1, 31, 1, 20);
+>  	v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops, V4L2_CID_FWHT_P_FRAME_QP,
+>  			  1, 31, 1, 20);
+> -	if (ctx->is_enc)
+> -		v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops,
+> -				  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT, 1, 1, 1, 1);
+> +	if (!ctx->is_stateless)
+> +		v4l2_ctrl_new_std(hdl, &vicodec_ctrl_ops, ctx->is_enc ?
+> +				  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT :
+> +				  V4L2_CID_MIN_BUFFERS_FOR_CAPTURE,
+> +				  VICODEC_REC_BUFS, VICODEC_REC_BUFS, 1,
+> +				  VICODEC_REC_BUFS);
+> +
+>  	if (ctx->is_stateless)
 
-Regards,
-Sebastian
+This could be replaced by an else branch.
 
->
->> ---
->>  .../mediatek/vcodec/decoder/mtk_vcodec_dec.c    |  4 ++--
->>  .../vcodec/decoder/mtk_vcodec_dec_drv.h         |  2 +-
->>  .../vcodec/decoder/mtk_vcodec_dec_stateless.c   | 17 ++++++++++++-----
->>  .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c   |  7 ++++---
->>  .../decoder/vdec/vdec_h264_req_multi_if.c       |  4 ++--
->>  .../decoder/vdec/vdec_hevc_req_multi_if.c       |  4 ++--
->>  .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c   |  6 +++---
->>  .../mediatek/vcodec/decoder/vdec_msg_queue.h    |  4 ++--
->>  8 files changed, 28 insertions(+), 20 deletions(-)
->>
->> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
->> index 98838217b97d..2b787e60a1f9 100644
->> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
->> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
->> @@ -887,10 +887,10 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
->>                         if (src_buf != &ctx->empty_flush_buf.vb) {
->>                                 struct media_request *req =
->>                                         src_buf->vb2_buf.req_obj.req;
->> -                               v4l2_m2m_buf_done(src_buf,
->> -                                               VB2_BUF_STATE_ERROR);
->> +
->>                                 if (req)
->>                                         v4l2_ctrl_request_complete(req, &ctx->ctrl_hdl);
->> +                               v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
->>                         }
->>                 }
->>                 return;
->> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
->> index ac568ed14fa2..1fabe8c5b7a4 100644
->> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
->> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
->> @@ -111,7 +111,7 @@ struct mtk_vcodec_dec_pdata {
->>         int (*flush_decoder)(struct mtk_vcodec_dec_ctx *ctx);
->>         struct vdec_fb *(*get_cap_buffer)(struct mtk_vcodec_dec_ctx *ctx);
->>         void (*cap_to_disp)(struct mtk_vcodec_dec_ctx *ctx, int error,
->> -                           struct media_request *src_buf_req);
->> +                           struct vb2_v4l2_buffer *vb2_v4l2_src);
->>
->>         const struct vb2_ops *vdec_vb2_ops;
->>
->> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->> index afa224da0f41..750f98c1226d 100644
->> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->> @@ -245,10 +245,11 @@ static const struct v4l2_frmsize_stepwise stepwise_fhd = {
->>  };
->>
->>  static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int error,
->> -                                          struct media_request *src_buf_req)
->> +                                          struct vb2_v4l2_buffer *vb2_v4l2_src)
->>  {
->>         struct vb2_v4l2_buffer *vb2_dst;
->>         enum vb2_buffer_state state;
->> +       struct media_request *src_buf_req;
->>
->>         if (error)
->>                 state = VB2_BUF_STATE_ERROR;
->> @@ -264,8 +265,16 @@ static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int e
->>                 mtk_v4l2_vdec_err(ctx, "dst buffer is NULL");
->>         }
->>
->> +       if (!vb2_v4l2_src) {
->> +               mtk_v4l2_vdec_err(ctx, "get src buffer NULL");
->> +               return;
->> +       }
->> +
->> +       src_buf_req = vb2_v4l2_src->vb2_buf.req_obj.req;
->>         if (src_buf_req)
->>                 v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
->> +
->> +       v4l2_m2m_buf_done(vb2_v4l2_src, state);
->>  }
->>
->>  static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_dec_ctx *ctx)
->> @@ -374,14 +383,12 @@ static void mtk_vdec_worker(struct work_struct *work)
->>         state = ret ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE;
->>         if (!IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch) ||
->>             ctx->current_codec == V4L2_PIX_FMT_VP8_FRAME) {
->> -               v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
->>                 if (src_buf_req)
->>                         v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
->> +               v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
->>         } else {
->> -               if (ret != -EAGAIN) {
->> +               if (ret != -EAGAIN)
->>                         v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
->> -                       v4l2_m2m_buf_done(vb2_v4l2_src, state);
->> -               }
->>                 v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
->>         }
->
->At some point I think we should unify the assumptions of the VP8,
->pure single core and lat decode functions so that we don't have all
->these different code paths.
->
->ChenYu
->
->
->>  }
->> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
->> index bf21f2467a0f..90217cc8e242 100644
->> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
->> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
->> @@ -1071,7 +1071,8 @@ static int vdec_av1_slice_setup_lat_from_src_buf(struct vdec_av1_slice_instance
->>         if (!src)
->>                 return -EINVAL;
->>
->> -       lat_buf->src_buf_req = src->vb2_buf.req_obj.req;
->> +       lat_buf->vb2_v4l2_src = src;
->> +
->>         dst = &lat_buf->ts_info;
->>         v4l2_m2m_buf_copy_metadata(src, dst, true);
->>         vsi->frame.cur_ts = dst->vb2_buf.timestamp;
->> @@ -2195,7 +2196,7 @@ static int vdec_av1_slice_core_decode(struct vdec_lat_buf *lat_buf)
->>                        &instance->core_vsi->trans.dma_addr_end);
->>         vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, instance->core_vsi->trans.dma_addr_end);
->>
->> -       ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
->> +       ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->vb2_v4l2_src);
->>
->>         return 0;
->>
->> @@ -2204,7 +2205,7 @@ static int vdec_av1_slice_core_decode(struct vdec_lat_buf *lat_buf)
->>         vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
->>
->>         if (fb)
->> -               ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
->> +               ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->vb2_v4l2_src);
->>
->>         return ret;
->>  }
->> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
->> index 1ed0ccec5665..732d78f63e5a 100644
->> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
->> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
->> @@ -533,7 +533,7 @@ static int vdec_h264_slice_core_decode(struct vdec_lat_buf *lat_buf)
->>
->>  vdec_dec_end:
->>         vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_info->trans_end);
->> -       ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req);
->> +       ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->vb2_v4l2_src);
->>         mtk_vdec_debug(ctx, "core decode done err=%d", err);
->>         ctx->decoded_frame_cnt++;
->>         return 0;
->> @@ -605,7 +605,7 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
->>         }
->>
->>         inst->vsi->dec.nal_info = buf[nal_start_idx];
->> -       lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
->> +       lat_buf->vb2_v4l2_src = &src_buf_info->m2m_buf.vb;
->>         v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
->>
->>         err = vdec_h264_slice_fill_decode_parameters(inst, share_info);
->> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
->> index aa721cc43647..f6f9f7de0005 100644
->> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
->> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
->> @@ -741,7 +741,7 @@ static int vdec_hevc_slice_setup_lat_buffer(struct vdec_hevc_slice_inst *inst,
->>         inst->vsi->bs.size = bs->size;
->>
->>         src_buf_info = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
->> -       lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
->> +       lat_buf->vb2_v4l2_src = &src_buf_info->m2m_buf.vb;
->>         v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
->>
->>         *res_chg = inst->resolution_changed;
->> @@ -961,7 +961,7 @@ static int vdec_hevc_slice_core_decode(struct vdec_lat_buf *lat_buf)
->>
->>  vdec_dec_end:
->>         vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_info->trans.dma_addr_end);
->> -       ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req);
->> +       ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->vb2_v4l2_src);
->>         mtk_vdec_debug(ctx, "core decode done err=%d", err);
->>         ctx->decoded_frame_cnt++;
->>         return 0;
->> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
->> index eea709d93820..3dceb668ba1c 100644
->> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
->> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
->> @@ -721,7 +721,7 @@ static int vdec_vp9_slice_setup_lat_from_src_buf(struct vdec_vp9_slice_instance
->>         if (!src)
->>                 return -EINVAL;
->>
->> -       lat_buf->src_buf_req = src->vb2_buf.req_obj.req;
->> +       lat_buf->vb2_v4l2_src = src;
->>
->>         dst = &lat_buf->ts_info;
->>         v4l2_m2m_buf_copy_metadata(src, dst, true);
->> @@ -2187,7 +2187,7 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
->>         mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
->>                        (unsigned long)pfc->vsi.trans.dma_addr_end);
->>         vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
->> -       ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
->> +       ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->vb2_v4l2_src);
->>
->>         return 0;
->>
->> @@ -2197,7 +2197,7 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
->>                 vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
->>
->>                 if (fb)
->> -                       ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
->> +                       ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->vb2_v4l2_src);
->>         }
->>         return ret;
->>  }
->> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
->> index b0f576867f4b..9781de35df4b 100644
->> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
->> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.h
->> @@ -55,7 +55,7 @@ struct vdec_msg_queue_ctx {
->>   * @rd_mv_addr:        mv addr for av1 lat hardware output, core hardware input
->>   * @tile_addr: tile buffer for av1 core input
->>   * @ts_info: need to set timestamp from output to capture
->> - * @src_buf_req: output buffer media request object
->> + * @vb2_v4l2_src: vb2 buffer of output queue
->>   *
->>   * @private_data: shared information used to lat and core hardware
->>   * @ctx: mtk vcodec context information
->> @@ -71,7 +71,7 @@ struct vdec_lat_buf {
->>         struct mtk_vcodec_mem rd_mv_addr;
->>         struct mtk_vcodec_mem tile_addr;
->>         struct vb2_v4l2_buffer ts_info;
->> -       struct media_request *src_buf_req;
->> +       struct vb2_v4l2_buffer *vb2_v4l2_src;
->>
->>         void *private_data;
->>         struct mtk_vcodec_dec_ctx *ctx;
->> --
->> 2.46.0
->>
->
+>  		v4l2_ctrl_new_custom(hdl, &vicodec_ctrl_stateless_state, NULL);
+>  	if (hdl->error) {
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
