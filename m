@@ -1,153 +1,137 @@
-Return-Path: <linux-media+bounces-21148-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21149-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08929C1C29
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 12:27:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6BE9C1C60
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 12:44:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 576671F2369D
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 11:27:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 099AB1C22EB6
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 11:44:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0F2F1E47A2;
-	Fri,  8 Nov 2024 11:27:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2999C1E5721;
+	Fri,  8 Nov 2024 11:43:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QRpr0lsr"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d3lAuRG6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AF43FB9C;
-	Fri,  8 Nov 2024 11:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAD01E4937
+	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 11:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731065252; cv=none; b=EkbZuT+/fGabZ9ubTz1tV7g2NZPWMHaUgG7Pbv0TEto7LTJ2T19B4ABTXSuPp1PsCjuF2zd97K7ocVHTwsUQFPqxaTWU1U1ce/Lyamu6NSRVBz9Ayu12HwAgqetDPc1HOPAIZ6ag5bYBOqHSWa/hodvIJCzWeBtu5EF2xS2errg=
+	t=1731066236; cv=none; b=CUuXFo2qvLJG08ZjD7hkBbmbF1y5IoxNZ45J6Hx5ud/iGVFPwmYPxAW3GqaJZJa8+NnUlDNETpGGlhpBoEifRvHp18jOYTY6R1xc/vYqJ+0UdgxF10xJOtQr/mXq0ZDv1Xfj0M36OCKrYYhodMIPZ6uNt4tnQx2aqLq3BNHhYpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731065252; c=relaxed/simple;
-	bh=+Y8n3sA9Jhc9zRQUo6RJdVOlNQf2f7wmcudyhHL7AkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XTwiN9PXNNHVVDsEVPgjfXT/r3T++UT1R2kOQjwLYmAo5MffgYJGbm+dRQQobmBC5R8WBFthbnMOv4WHYT6luM0Lw77jAXgi1Bg4qHoNc4mnWk78zNfThaCbkKaBG8fF4HWSv88pGtWnuOSGT+rBFSlv1p2OUm8xrOih7kLe94U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QRpr0lsr; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731065251; x=1762601251;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+Y8n3sA9Jhc9zRQUo6RJdVOlNQf2f7wmcudyhHL7AkE=;
-  b=QRpr0lsrQ6+pIYfxXpAVY71fbUxh87Zaz2QqR95bw74OELW1HBXtmWFf
-   ErPYhmtKCpczSDX63HqKboBaY1qbdOA4u9Fb84b1fd5sL8Oxh/QXvRN9P
-   kfWG8qbwOphIsnOW+IApWGvQC5DHEy14DNLVi7T4N1nKSc5rCRKVKZ9co
-   JOyBWtJrJ7PMS+mLyti9En2LIgBXWudNIGt/A1sJyxlWZ/hbLmnp8TuwK
-   HhaQyvfwCZvJiVktcRIS6s4bKA1wpfj3mQIwYXGy2JZGgDW2fpqPVkYDG
-   zQ2YErrVkDqYM1tBtGB/wRHNrZF3KhhDk70UTZMHnw+bDn9BpRSPzb2me
-   g==;
-X-CSE-ConnectionGUID: +oA6xIPeTq6ywX0jI//d8g==
-X-CSE-MsgGUID: 1ukobdFoSKCESpFm8Ds9Tw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="42330879"
-X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="42330879"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 03:27:30 -0800
-X-CSE-ConnectionGUID: lu/HUFMjSpq6MJ0fZ+vO0Q==
-X-CSE-MsgGUID: V3lw4rU4RYefbZBYhtNTxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="86325548"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 03:27:29 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t9N9B-0000000Cai1-3B56;
-	Fri, 08 Nov 2024 13:27:25 +0200
-Date: Fri, 8 Nov 2024 13:27:25 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: Re: [PATCH 12/13] media: i2c: ds90ub913: Add error handling to
- ub913_hw_init()
-Message-ID: <Zy31nf_B-O_UTXSo@smile.fi.intel.com>
-References: <20241004-ub9xx-fixes-v1-0-e30a4633c786@ideasonboard.com>
- <20241004-ub9xx-fixes-v1-12-e30a4633c786@ideasonboard.com>
- <Zwfe7V_rV3Xyxp31@smile.fi.intel.com>
- <f1cc3479-6c2e-40dd-8b78-671138f31d9d@ideasonboard.com>
+	s=arc-20240116; t=1731066236; c=relaxed/simple;
+	bh=qjv8Nskk+avwjBuYyWopHdeHY0bXMOaLNpB/xYD+XcQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qVdP/UJX1elGEBZZeFpMPJTcY7CkmoHMKg66PZohxi94DZ1fpmgomhsjJbumy922JDiQcY0pBMlMTwU2sHleZf7TmQJtViBIROchqkd5unXkrpeWkdeCfGdpEgyqMGIAVUPi+RR9eBS10nKIdH1c4OF+tSn6y+fKZ2gmPh4POPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d3lAuRG6; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d473c4bb6so1694696f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 08 Nov 2024 03:43:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731066232; x=1731671032; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0ouVSbkAT3+S3WMSHYg6HVwCj00MU4w8dzA4pzxSauU=;
+        b=d3lAuRG6hA9xd+PYJBznZkyI1cz/xYM1tqJkqaJdCHlr8K39DYX0opc9h+xQQ373nH
+         qLotlvCaW2g2YuAUHs5sB8eeP2kk0Xqy9hAA91vII5yTn+/wHM52tr0Gm2xd+Hb51YhL
+         b8Yo1U+ChMlJh3aHOW3zV3LPsWbWdb55F/vpVlyGtAJn16evmRd63aKDw1JWFoUJsRoG
+         tQVK/p7qJyrUzcaDIcT/6teccvBFW6tUTxBEQpxzKn6S2veyjmaagP+/SuDQ0QsQ/zai
+         QIWdV8znnMWQF6wKtV/NXtOSUGg0wLhBA3hq7RA4k+glwkKvEJrEAuTHaHeQoPXOE6SL
+         0lgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731066232; x=1731671032;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0ouVSbkAT3+S3WMSHYg6HVwCj00MU4w8dzA4pzxSauU=;
+        b=miXUFHl2OS43X1HdHfR/wk3mDKElDRoyeqs5KeHa2BXfFbSpKnqFHUnufE2ZJwc3Ol
+         /jabY4hcXeo4dEbOYu23ouFo6iRwgpD2Dz272MNYGecJRpyd357Nug8ECmpgVO0BVaV0
+         1+yvHg7QhIOc7i8iNhMCpf5L8RyOJU6/a2EpPQgwJYRRzqU0n7fbXkgUapnvSWbaoYYc
+         sNP4ZdX9WVf+Jq9RnbF3GTbue5bfLqH9WBfPVL6QRubV5ysjspPmb0cuQeH96wCD3VcD
+         MssL0gxpWRuhhdB4Omz9bn/A0ulvGzPeKSbT5NQvaf0OQDtDVlXAT1Oa7ME6qu9R0ObV
+         E49Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVEb4qvkMEPBOEsN5pDmtzgo2wtlQWVHvpkmskn7IzRE7KNeqIhQ2VXHK7nc4P1Z/diBfab+ifL1Q8M6Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWCyPzL5T6slZY3LjmY9xDPjhsRAiuBzIXl+8zdXaAECLkut0h
+	UdltN1KxwRgY3DiKN66S7CKX6KfJI3cM5CYT0bsMSJhH+g0i0pZiijgjnMvqkuE=
+X-Google-Smtp-Source: AGHT+IHenYE2IrQEIw1RwXn2xALrnPWJbFU0VRWzYGh03YSwh3hgPhVUGtDNitZVrXDo/IEmoPy9YA==
+X-Received: by 2002:a05:6000:1541:b0:37d:2ea4:bfcc with SMTP id ffacd0b85a97d-381f186bc9bmr2308261f8f.13.1731066232510;
+        Fri, 08 Nov 2024 03:43:52 -0800 (PST)
+Received: from [172.16.24.72] ([89.101.134.25])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432b05e5871sm60742135e9.37.2024.11.08.03.43.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Nov 2024 03:43:52 -0800 (PST)
+Message-ID: <37982a05-2057-45f4-923e-7562c683706d@linaro.org>
+Date: Fri, 8 Nov 2024 11:43:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f1cc3479-6c2e-40dd-8b78-671138f31d9d@ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] media: venus: hfi_parser: add check to avoid out of
+ bound access
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
+ <20241105-venus_oob-v1-1-8d4feedfe2bb@quicinc.com>
+ <b2yvyaycylsxo2bmynlrqp3pzhge2tjvtvzhmpvon2lzyx3bb4@747g3erapcro>
+ <81d6a054-e02a-7c98-0479-0e17076fabd7@quicinc.com>
+ <ndlf4bsijb723cctkvd7hkwmo7plbzr3q2dhqc3tpyujbfcr3z@g4rvg5p7vhfs>
+ <975f4ecd-2029-469a-8ecf-fbd6397547d4@linaro.org>
+ <57544d01-a7c6-1ea6-d408-ffe1678e0b5e@quicinc.com>
+ <ql6hftuo7udkqachofws6lcpwx7sbjakonoehm7zsh43kqndsf@rwmiwqngldn2>
+ <781ea2fd-637f-b896-aad4-d70f43ad245c@quicinc.com>
+ <oxbpd3tfemwci6aiv5gs6rleg6lmsuabvvccqibbqddczjklpi@aln6hfloqizo>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <oxbpd3tfemwci6aiv5gs6rleg6lmsuabvvccqibbqddczjklpi@aln6hfloqizo>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 08, 2024 at 11:34:09AM +0200, Tomi Valkeinen wrote:
-> On 10/10/2024 17:04, Andy Shevchenko wrote:
-> > On Fri, Oct 04, 2024 at 05:46:43PM +0300, Tomi Valkeinen wrote:
-> > > Add error handling to ub913_hw_init() using a new helper function,
-> > > ub913_update_bits().
+On 07/11/2024 13:54, Dmitry Baryshkov wrote:
+>>> I'd say, don't overwrite the array. Instead the driver should extend it
+>>> with the new information.
+>> That is exactly the existing patch is currently doing.
+> _new_ information, not a copy of the existing information.
 
-...
+But is this _really_ new information or is it guarding from "malicious" 
+additional messages ?
 
-> > > +	ret = ub913_update_bits(priv, UB913_REG_GENERAL_CFG,
-> > > +				UB913_REG_GENERAL_CFG_PCLK_RISING,
-> > > +				priv->pclk_polarity_rising ?
-> > > +					UB913_REG_GENERAL_CFG_PCLK_RISING :
-> > > +					0);
-> > 
-> > So, you can use regmap_set_bits() / regmap_clear_bits() instead of this
-> > ternary. It also gives one parameter less to the regmap calls.
-> 
-> True... But is it better?
+@Vikash is it even a valid use-case for firmware to send one set of 
+capabilities and then send a new set ?
 
-In my opinion yes, because it's clearer on what's going on.
-It has no (semi-)hidden choice, so code wise it most likely
-will be the same at the end. So we are speaking only about
-C-level of readability.
+It seems to me this should only happen once when the firmware starts up 
+- the firmware won't acquire any new abilities once it has enumerated 
+its set to APSS.
 
-> if (priv->pclk_polarity_rising)
-> 	ret = regmap_set_bits(priv->regmap, UB913_REG_GENERAL_CFG,
-> 			      UB913_REG_GENERAL_CFG_PCLK_RISING);
-> else
-> 	ret = regmap_clear_bits(priv->regmap, UB913_REG_GENERAL_CFG,
-> 				UB913_REG_GENERAL_CFG_PCLK_RISING);
-> 
-> The call itself is more readable there, but then again, as we're setting the
-> value of a bit, I dislike having if/else with two calls for a single
-> assignment.
+So why is it valid to process an additional message at all ?
 
-FTR, there was an attempt to add _assign() in similar way how it's done with
-bitops (set/clear/assign) to regmap, but had been rejected by Mark. I don't
-remember detail why, though.
+Shouldn't we instead be throwing away redundant updates either silently 
+or with some kind of complaint ?
 
-> Using FIELD_PREP is perhaps a bit better than the ternary:
-> 
-> ret = ub913_update_bits(priv, UB913_REG_GENERAL_CFG,
-> 			UB913_REG_GENERAL_CFG_PCLK_RISING,
-> 			FIELD_PREP(UB913_REG_GENERAL_CFG_PCLK_RISING,
-> 				   priv->pclk_polarity_rising));
-> 
-> I think I'd like best a function to set/clear a bitmask with a boolean:
-> 
-> ret = regmap_toggle_bits(priv->regmap, UB913_REG_GENERAL_CFG,
-> 			 UB913_REG_GENERAL_CFG_PCLK_RISING,
-> 			 priv->pclk_polarity_rising);
-> 
-> For now, I think I'll go with the FIELD_PREP() version. It's perhaps a bit
-> better than the ternary.
+If there's no new data - then this is data we shouldn't bother processing.
 
-Okay.
+If it is new data then surely it should be the _current_ and _only_ 
+valid set of data.
 
--- 
-With Best Regards,
-Andy Shevchenko
+And if the update is considered "invalid" then why _would_ we accept the 
+update ?
 
+I get we're fixing the OOB but I think we should be clear on the 
+validity of the content of the packet.
 
+---
+bod
 
