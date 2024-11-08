@@ -1,221 +1,142 @@
-Return-Path: <linux-media+bounces-21194-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21195-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8359C24DE
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 19:23:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64C89C24F0
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 19:36:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 818501F234C1
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 18:23:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CCCC1F2332E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 18:36:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 781841A9B34;
-	Fri,  8 Nov 2024 18:23:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEC631A9B36;
+	Fri,  8 Nov 2024 18:35:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FK23fbaV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KWefnw9q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6D9194A49;
-	Fri,  8 Nov 2024 18:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE55233D6E
+	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 18:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731090223; cv=none; b=kVTMbl6hNA+kq53t3h3lqmc93GQV5gVFnKpYJYYOmr3eSbm2eyR+PaXq0jfb1ufNvFl+T0rmOmvFsk6gpy2n5Ymo7AVvK5OLqt9gEspP3HMhjWTdQPZbSV22UOYb7E+3iCyp1Y1a7G9JTvS6D2jQlh27AxoPOBKnlrlOFu8dNlg=
+	t=1731090954; cv=none; b=HknJb/pMJfLiJlEgpWDBlIsFpbOLNuaQoBfQUikaL1CfRqZ9v7+zzp+hCO/DW5lmdK+Hl7amxpHzEKWm4jlouoj/Gt7qSerJiXB1AZ6xi3rLFU+/D7qOm+PLZ9/VUpChWekWiAFY/KZfsuiRPazMX+IEvhOcdlCiOeNQHV8n5BY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731090223; c=relaxed/simple;
-	bh=E1qodTO23N6fEjVBbWnX+Cjij/DtB0PL/py4ryiE1zs=;
+	s=arc-20240116; t=1731090954; c=relaxed/simple;
+	bh=a5ThfHEfPjTQJK336IzP/g+jFc3ahFS0znNvz1tLcjY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p+qGNdii5zi4iuLd/+4wX0+T7gCS/6ebUAxU6OForH0q6Yx1xcMGtcC3bVS/BoERNagisk3c0lYPYuHSwQyQHc6HILYqhJef/mopV8MvMaKE8MmbIU5GhxoL3B6JlR8NMdEiM7qlKJnWE9npTC22HIUZfKFQFEWXjSfNyCP4HaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FK23fbaV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDF39C4CECD;
-	Fri,  8 Nov 2024 18:23:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731090223;
-	bh=E1qodTO23N6fEjVBbWnX+Cjij/DtB0PL/py4ryiE1zs=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=MUsRS3H6BlLZPUspCIQRz0XQr3fdF2395AWE/dJP2CP6pbOIx0UofT0KI5ANDYKVLb990Kvt56BLczjG83bPVocvMvrXsnV/OQu/r6/mTbceRDYywq4yCfwFL11YVzy8noHIOfOOw0Gr7oNKgbIKNPKH4+RSTzVcEX8ULOPIl2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KWefnw9q; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC2622C5;
+	Fri,  8 Nov 2024 19:35:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1731090940;
+	bh=a5ThfHEfPjTQJK336IzP/g+jFc3ahFS0znNvz1tLcjY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FK23fbaVjFEmYrm2ufOVC6VW/ctWgPcF83kUbqX6tG2xVRNotZtrl9nP18CMQfRbD
-	 Bpsxy/XeMSbuQZSwQTw8G49TwnP5+lWGaWKSjNYsR74T29Y1QqO2suD2LruS6y6zqq
-	 sNjBwFWRPi2+pzzsvLVWpN1YpI3u3UcgZTvro/yszMCHhLNuVZ88ifYS5SPA2s9qiV
-	 OC6Ah3er9ZV7KbI8SH4HYMmqrGUoRJ4KXgs27WYockdUHewfRp8mxTaoLjrur0pRoU
-	 7d7RSXUO6pA8YCEdqJYfbLMsCQDtP32DgOE7RNS+p0kchQ2lZNtVg32ubh+vX9SV4H
-	 R/Oeu0JW2oHFg==
-Date: Fri, 8 Nov 2024 18:23:37 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/9] dt-bindings: misc: Describe TI FPC202 dual port
- controller
-Message-ID: <20241108-reimburse-saucy-2682e370469a@spud>
-References: <20241108-fpc202-v1-0-fe42c698bc92@bootlin.com>
- <20241108-fpc202-v1-1-fe42c698bc92@bootlin.com>
+	b=KWefnw9qalBknjrS9U582c+L8EochYlaAD3o9Cbgh0e/bOEBSaomvniLazqxSIjAT
+	 usqe2BVQYyqOwgwl9svwsxvMdYsCInpWbKZ/FOYzTiQqIy0vJb4Mo78cKqrM1MBFlI
+	 zlKDe8AXZau7O9z7QR8YWOnsA9vSrkFxGYDK1Rdw=
+Date: Fri, 8 Nov 2024 20:35:43 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Isaac Scott <isaac.scott@ideasonboard.com>, mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH 3/3] media: uvcvideo: Implement dual stream quirk to fix
+ loss of usb packets
+Message-ID: <20241108183543.GA17916@pendragon.ideasonboard.com>
+References: <20241108142310.19794-1-isaac.scott@ideasonboard.com>
+ <20241108142310.19794-4-isaac.scott@ideasonboard.com>
+ <CANiDSCuO6AxZDEEWZmgV_gfcEph_acJ6eio6Gymx_2gRvM-QCw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="XDNiCDMGHlNuJKcl"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241108-fpc202-v1-1-fe42c698bc92@bootlin.com>
+In-Reply-To: <CANiDSCuO6AxZDEEWZmgV_gfcEph_acJ6eio6Gymx_2gRvM-QCw@mail.gmail.com>
 
+On Fri, Nov 08, 2024 at 07:22:01PM +0100, Ricardo Ribalda wrote:
+> On Fri, 8 Nov 2024 at 15:24, Isaac Scott <isaac.scott@ideasonboard.com> wrote:
+> >
+> > Some cameras, such as the Sonix Technology Co. 292A exhibit issues when
+> > running two parallel streams, causing USB packets to be dropped when an
+> > H.264 stream posts a keyframe while an MJPEG stream is running
+> > simultaneously. This occasionally causes the driver to erroneously
+> > output two consecutive JPEG images as a single frame.
+> >
+> > To fix this, we inspect the buffer, and trigger a new frame when we
+> > find an SOI, inverting the FID to make sure no frames are erroneously
+> > dropped.
+> >
+> > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+> > ---
+> >  drivers/media/usb/uvc/uvc_video.c | 24 ++++++++++++++++++++++++
+> >  1 file changed, 24 insertions(+)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index 2fb9f2b59afc..f754109f5e96 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -1211,6 +1211,30 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+> >                 return -EAGAIN;
+> >         }
+> >
+> > +       /*
+> > +        * Some cameras, such as the Sonix Technology Co. 292A exhibit issues
+> > +        * when running two parallel streams, causing USB packets to be dropped
+> > +        * when an H.264 stream posts a keyframe while an MJPEG stream is
+> > +        * running simultaneously. This occasionally causes the driver to
+> > +        * erroneously output two consecutive JPEG images as a single frame.
 
---XDNiCDMGHlNuJKcl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The last sentence belongs to the commit message, not here, because once
+the patch will be merged, this won't be true anymore.
 
-On Fri, Nov 08, 2024 at 04:36:53PM +0100, Romain Gantois wrote:
-> The FPC202 dual port controller serves as a low speed signal aggregator f=
-or
-> common port types, notably SFP. It provides access to I2C and low-speed
-> GPIO signals of a downstream device through a single upstream control
-> interface.
->=20
-> Up to two logical I2C addresses can be accessed on each of the FPC202's
-> ports. The port controller acts as an I2C translator (ATR). It converts
-> addresses of incoming and outgoing I2C transactions. One use case of this
-> is accessing two SFP modules at logical address 0x50 from the same upstre=
-am
-> I2C controller, using two different client aliases.
->=20
-> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
-> ---
->  .../devicetree/bindings/misc/ti,fpc202.yaml        | 75 ++++++++++++++++=
-++++++
->  1 file changed, 75 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/misc/ti,fpc202.yaml b/Docu=
-mentation/devicetree/bindings/misc/ti,fpc202.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..ad11abe11e68aa266acdd6b43=
-a5b425340bbbba8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/misc/ti,fpc202.yaml
-> @@ -0,0 +1,75 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/misc/ti,fpc202.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI FPC202 dual port controller with expanded IOs
-> +
-> +maintainers:
-> +  - Romain Gantois <romain.gantois@bootlin.com>
-> +
-> +allOf:
-> +  - $ref: /schemas/i2c/i2c-atr.yaml#
+Could you describe here what the device does in a bit more details ? I
+think it's important to explain how the data is transferred, what
+packets are lost, and why checking the first two bytes of the data is
+the right quirk as opposed to having to search for the marker within the
+whole packet.
 
-Gotta say, this looks absolutely nothing like the other i2c-atr user!
+> > +        *
+> > +        * Check the buffer for a new SOI on JPEG streams and complete the
+> > +        * preceding buffer using EAGAIN, and invert the FID to make sure the
+> > +        * erroneous frame is not dropped.
+> > +        */
+> > +       if ((stream->dev->quirks & UVC_QUIRK_MJPEG_NO_EOF) &&
+> > +           (stream->cur_format->fcc == V4L2_PIX_FMT_MJPEG ||
+> > +            stream->cur_format->fcc == V4L2_PIX_FMT_JPEG)) {
+> > +               const u8 *packet = data + header_len;
+> 
+>                   Don't you have to validate that data[header_len+1]
+> can be read?
+>
+> > +
+> > +               if ((packet[0] == 0xff && packet[1] == 0xd8) && buf->bytesused != 0) {
+> 
+> nit: maybe it would be nice to make a define for 0xd8 and say what it is
 
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,fpc202
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  gpio-controller: true
-> +
-> +  "#gpio-cells":
-> +    const: 2
-> +
-> +  enable-gpios:
-> +    description:
-> +      Specifier for the GPIO connected to the EN pin.
-> +    maxItems: 1
-> +
-> +  port0:
+JPEG_MARKER_SOI in include/media/jpeg.h :-)
 
-ports usually go in a ports node, and are port@0 not port0. That said,
-these are i2c buses, so the node name would usually be i2c@ for those.
-In fact, given you have i2c-mux as your node name, the binding for that
-expects you to format your child nodes like '^i2c@[0-9a-f]+$'. Is there
-a reason you can't just drop this ports business and go with a pattern
-property here that restricts the pattern to '^i2c@[0-1]$'?
+> > +                       buf->state = UVC_BUF_STATE_READY;
+> > +                       buf->error = 1;
+> > +                       stream->last_fid ^= UVC_STREAM_FID;
+> > +                       return -EAGAIN;
+> > +               }
+> > +       }
+> > +
+> >         stream->last_fid = fid;
+> >
+> >         return header_len;
 
-> +    $ref: /schemas/i2c/i2c-controller.yaml
-> +    description:
-> +      Device port 0, accessible over I2C.
-> +
-> +  port1:
-> +    $ref: /schemas/i2c/i2c-controller.yaml
-> +    description:
-> +      Device port 1, accessible over I2C.
-> +
-> +
-> +required:
-> +  - compatible
-> +  - gpio-controller
-> +  - "#gpio-cells"
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        fpc202: i2c-mux@f {
+-- 
+Regards,
 
-The label here is uused, you should drop it.
-
-Cheers,
-Conor.
-
-> +            compatible =3D "ti,fpc202";
-> +            reg =3D <0xf>;
-> +
-> +            gpio-controller;
-> +            #gpio-cells =3D <2>;
-> +
-> +            port0 {
-> +                #address-cells =3D <1>;
-> +                #size-cells =3D <0>;
-> +            };
-> +
-> +            port1 {
-> +                #address-cells =3D <1>;
-> +                #size-cells =3D <0>;
-> +            };
-> +        };
-> +    };
-> +...
->=20
-> --=20
-> 2.47.0
->=20
-
---XDNiCDMGHlNuJKcl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZy5XKQAKCRB4tDGHoIJi
-0h9BAP9BYW2dWfo7u+4uzLkmUh2erBiw5UUBSxqs4nj2SJvUKwD/ao7/K//aEknK
-8sFWsA91FTWT8u/rWbOrsZl9gP9JJAM=
-=i7XM
------END PGP SIGNATURE-----
-
---XDNiCDMGHlNuJKcl--
+Laurent Pinchart
 
