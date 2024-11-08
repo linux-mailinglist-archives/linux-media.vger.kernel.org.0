@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-21122-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21123-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2AD79C192E
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 10:34:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E8A9C1930
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 10:34:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 921D1285192
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 09:34:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E46E1C22E03
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 09:34:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A3111E130D;
-	Fri,  8 Nov 2024 09:34:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 268B41E130D;
+	Fri,  8 Nov 2024 09:34:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vkDjaWCq"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fBglHuP/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20F11C3F01;
-	Fri,  8 Nov 2024 09:34:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2431D0F47;
+	Fri,  8 Nov 2024 09:34:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731058458; cv=none; b=ZxPDo3TaNyMF4PIfm29Kn9cgv4hfeEX9aP3Tiqf5cs38qSpz98FzXmfw4lNasFTAYNMLJ5fJaT4iFvUv5jbdzE4pr2de3BK76duU5vRrHXmgy1uChINDDeeLRzD2afPSTUA7g/2Se8DzTHHa2SmMHXLW0+pKpmhPNKjgXKRfqXY=
+	t=1731058476; cv=none; b=JwkzI9NJsEV6+RzohpQYssk4pSU7ecsc6AMcbgmnx6zK4T1JSNt5WlcdELF9DHiRzgJob6T0VTDrwpKP3iPPj+2cTL7ohqFygCS8Tr8rA4ockHl8j0PhwkVretGkIALitedY9WsczuxAzdKmJEyF4NuG3u8lYjFDw/ukbSHXyL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731058458; c=relaxed/simple;
-	bh=TGZBuGMeEe+Ne8ep3KhskAFoF9Bm5tPr2Hq0yCiZatM=;
+	s=arc-20240116; t=1731058476; c=relaxed/simple;
+	bh=735wh9JOLu7mbAs7EflE+ZyA1z/3TBEaPPwe1k0s+60=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u0MsTEcAKQkRXmWQiAsJeogio2zQb1rMfK5vM1PnEyZZ+zniko+Sfd5Vx1PYxBmoThQ1aXg0FHfKbYd7JU/VV+ouPKczmYbGBp4oRVZtyexPgBFDr3EeVeYq0CwCYbfzM75geddRMYXtcRc/biCvwBz9gkzdsUQ2TDNx2HAJh6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vkDjaWCq; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=leCegxdWnmwOZfXdccCm4N0BHNPdObixD4v2MAL+XnLpZVmtUt45aixVeS4oaUcr/bjr9P/lPQRlPMRFzfTxNoEa+GWCoHHa18m11h4w+OAnQuzeO+Ex29ZV3Do+MMGz6IopcvH9lqKAtKZ5CV9ZUlOke0v8rnZlkPGE+SOt8iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fBglHuP/; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E654D353;
-	Fri,  8 Nov 2024 10:34:04 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD298353;
+	Fri,  8 Nov 2024 10:34:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731058445;
-	bh=TGZBuGMeEe+Ne8ep3KhskAFoF9Bm5tPr2Hq0yCiZatM=;
+	s=mail; t=1731058464;
+	bh=735wh9JOLu7mbAs7EflE+ZyA1z/3TBEaPPwe1k0s+60=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vkDjaWCqJfGAeZWU3TJfW9iJ+VfHt+geAUSVKMPYqcQnELdlkel39nI4EL2btbMQo
-	 kB+d5eeQR4reKzxn2Rn00TMfpDVqQF4X36DsFli53JTFF0kIu/jjYLFnDntBhmdQse
-	 4NH7K5Xm/24gw1PicUIOrKfQMkOyKRW2ljEICqAw=
-Message-ID: <f1cc3479-6c2e-40dd-8b78-671138f31d9d@ideasonboard.com>
-Date: Fri, 8 Nov 2024 11:34:09 +0200
+	b=fBglHuP/gHlul/WVz5bmB4FzJU9Ig5KybMuXJG+DG7Hu0EjS5P2cK291IlmJUpu7X
+	 5ORMPx0gkyuhfmWm09vLR6Rxj8mcHv2+GHd7IpaEnSHvaxdIK6RZ3vVyiD7k9Bw69R
+	 8giyamtQzANJhTogIo0hkPh5RXaf5wmJIT8dNWPc=
+Message-ID: <5c5b87fd-5df0-437b-8170-264f77ceb3b7@ideasonboard.com>
+Date: Fri, 8 Nov 2024 11:34:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,16 +50,16 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/13] media: i2c: ds90ub913: Add error handling to
- ub913_hw_init()
+Subject: Re: [PATCH 13/13] media: i2c: ds90ub953: Add error handling for i2c
+ reads/writes
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, Jai Luthra <jai.luthra@ideasonboard.com>
 References: <20241004-ub9xx-fixes-v1-0-e30a4633c786@ideasonboard.com>
- <20241004-ub9xx-fixes-v1-12-e30a4633c786@ideasonboard.com>
- <Zwfe7V_rV3Xyxp31@smile.fi.intel.com>
+ <20241004-ub9xx-fixes-v1-13-e30a4633c786@ideasonboard.com>
+ <ZwffcuhmpndoCXrD@smile.fi.intel.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -105,56 +105,50 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <Zwfe7V_rV3Xyxp31@smile.fi.intel.com>
+In-Reply-To: <ZwffcuhmpndoCXrD@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Andy,
+Hi,
 
-On 10/10/2024 17:04, Andy Shevchenko wrote:
-> On Fri, Oct 04, 2024 at 05:46:43PM +0300, Tomi Valkeinen wrote:
->> Add error handling to ub913_hw_init() using a new helper function,
->> ub913_update_bits().
+On 10/10/2024 17:06, Andy Shevchenko wrote:
+> On Fri, Oct 04, 2024 at 05:46:44PM +0300, Tomi Valkeinen wrote:
+>> Add error handling for i2c reads/writes in various places.
 > 
 > ...
 > 
->> +	ret = ub913_update_bits(priv, UB913_REG_GENERAL_CFG,
->> +				UB913_REG_GENERAL_CFG_PCLK_RISING,
->> +				priv->pclk_polarity_rising ?
->> +					UB913_REG_GENERAL_CFG_PCLK_RISING :
->> +					0);
+>> +	ret = ub953_write(priv, UB953_REG_CLKOUT_CTRL1, clkout_ctrl1);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	return 0;
 > 
-> So, you can use regmap_set_bits() / regmap_clear_bits() instead of this
-> ternary. It also gives one parameter less to the regmap calls.
+> This is just a more verbose version of
+> 
+> 	return ub953_write(priv, UB953_REG_CLKOUT_CTRL1, clkout_ctrl1);
+> 
+> ...
+> 
+>> -	ub953_write_clkout_regs(priv, &clkout_data);
+>> -
+>> -	return 0;
+>> +	return ub953_write_clkout_regs(priv, &clkout_data);
+> 
+> ...and seems you use that pattern.
 
-True... But is it better?
+I use the pattern selectively =).
 
-if (priv->pclk_polarity_rising)
-	ret = regmap_set_bits(priv->regmap, UB913_REG_GENERAL_CFG,
-			      UB913_REG_GENERAL_CFG_PCLK_RISING);
-else
-	ret = regmap_clear_bits(priv->regmap, UB913_REG_GENERAL_CFG,
-				UB913_REG_GENERAL_CFG_PCLK_RISING);
+If the function has a bunch of
 
-The call itself is more readable there, but then again, as we're setting 
-the value of a bit, I dislike having if/else with two calls for a single 
-assignment.
+ret = foo()
+if (ret)
+	return ret;
 
-Using FIELD_PREP is perhaps a bit better than the ternary:
+blocks, I want to keep the pattern and thus I don't use "return foo();" 
+as the last line.
 
-ret = ub913_update_bits(priv, UB913_REG_GENERAL_CFG,
-			UB913_REG_GENERAL_CFG_PCLK_RISING,
-			FIELD_PREP(UB913_REG_GENERAL_CFG_PCLK_RISING,
-				   priv->pclk_polarity_rising));
-
-I think I'd like best a function to set/clear a bitmask with a boolean:
-
-ret = regmap_toggle_bits(priv->regmap, UB913_REG_GENERAL_CFG,
-			 UB913_REG_GENERAL_CFG_PCLK_RISING,
-			 priv->pclk_polarity_rising);
-
-For now, I think I'll go with the FIELD_PREP() version. It's perhaps a 
-bit better than the ternary.
+Also, I think, I usually like to use "return foo();" only with small 
+functions, as the function call becomes less visible with that format.
 
   Tomi
 
