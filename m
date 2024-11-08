@@ -1,174 +1,130 @@
-Return-Path: <linux-media+bounces-21106-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21107-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FEA69C1648
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 07:02:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7190B9C1700
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 08:24:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4FB628406A
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 06:02:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 33C03283B89
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 07:24:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4324D1CEEA3;
-	Fri,  8 Nov 2024 06:02:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E65B31D1727;
+	Fri,  8 Nov 2024 07:24:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="drZOZ94C"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="X0vfjyDu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF22018FDD8
-	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 06:02:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D27A1D07A7
+	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 07:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731045741; cv=none; b=A+hMErHGEJhWUYfoYuoOb2SkkXrz/djiwjfPiVR1Rvof7su+iRIz2m8Na5NAjXS2dXgghRywGc47HySGHLfHFiIV1nDgmslMWf/LijibKZa1HW0meGBr5iKrO0BzdjNTc2QNavBSCfG2Irxq873MrNptqrBGaDE+/QpAogXzUg0=
+	t=1731050640; cv=none; b=SPOgj9NkEpcTiguukzJPDlg9CyTOCmhR+RaUyWCDaoSe+7dRRaTNTS3y0LU2ODb36h5l6+j0IVRGqqGkZNmHu8w49hgtDZlPIIW0XKX8500KglS12HGaTQFLmJZjlgcd0/3oHfGpfpffSLHSiwdp7KrCUlSHzS9il43pQ4eNeDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731045741; c=relaxed/simple;
-	bh=lTBf0TWRouF8XeWxn5vsDzkhjI0EGmccbF27ADrrizA=;
+	s=arc-20240116; t=1731050640; c=relaxed/simple;
+	bh=ht9l2ZSUWXc5h2NR9cMi0Gb1yeSAariDbq8iV0J2AZo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DYIPhJi+dRDIzo02gSGN+tjX+iIeM/xCt9lwxjC0++vOlX5DAVasRlJ3YVqzqU/kmFlJmoiCw7JfDy6CoXfZH/DFmY4qc/oVINzVRdKW+GTR0UFF/cisjoi0ZUk54vYKoxFYZTTOVXm9ZaPd6AXwxYQygz8UsiFRh3FXomAi5Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=drZOZ94C; arc=none smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=ilOZqC9MXtHmUd4+Mx4+7SrhBWYdTMcmaabBGwNT1icS5VU6uFcrsvwMAWie9AzuvR9MUZkths0+euMpXM4zNTQGcgv1C5gsvM0GlVuwOHSor9S4lhicAAYNQEBwFAqIXd1VDhWs5e3+L348IZ2P+ZD3l5qvfvMBUfrOJGdFmSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=X0vfjyDu; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539f8490856so2033215e87.2
-        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2024 22:02:19 -0800 (PST)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-20cbcd71012so21186555ad.3
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2024 23:23:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1731045738; x=1731650538; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xkvxW0TELGak9TGChpUjLN8WW2TtIQcHiwQEYFYHFLY=;
-        b=drZOZ94C1Ur5PVKIXw66Cunqk8gjuvrVGl5RK3avwQvJgmh6C1qjdT+5Q/OWBI+Nh2
-         cjZZDZtFT0VPY4hIMxkH/+/+zggQ4NTg5D1f6oSq6BWbw9HvU+FZdliMNDWyukiUuVHm
-         T6ATD/tq0fp5U3i8WAYaGmZEGJkJUzMnOf17U=
+        d=chromium.org; s=google; t=1731050637; x=1731655437; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZsX92SEPfX9pZYxHimQ3VDSrQrPgT/IDDI/YMUQaqAk=;
+        b=X0vfjyDud8Rwh5WNQDmp4PZLXdsdf0D4LuLO4yDVC/My47bsDeLaGSdGxTRSG07Dms
+         sXAX3mYGajdv2mZW5A5k8gD1RZgc743lNeDVCFfrNuGt288LbjRksxMzZSPfz+tJA61a
+         ikLJLyrPhQurO1P4Z/EqHIdzteCs8Z/KswGbo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731045738; x=1731650538;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xkvxW0TELGak9TGChpUjLN8WW2TtIQcHiwQEYFYHFLY=;
-        b=RRZnjVb3uqfDnXvtYCkfRZ/0jUsb4nz92P1XJ/4gn0R1JoBCHEjdXclKbKnC85+UX3
-         OHpc8c7mt7aNUVnuAJ3lkCb8htOF/K4Ua24Tqr2slu1VJXzZefQNISsCola5R9gd4htU
-         xwaMvxADW/Vu1PrG5w773NQ2dYF8qRNiLsfVyX3J8TdBAJ87eihJUOKg3lcIEO8ez9V6
-         6G8BVeVxeJg/lovYQR9sW1IbRIfc+kbjVIyrNMkNpgUVCf7aIao/E8HJNQe95AuHClkx
-         GhtSID06IrYbCweDpFqqVCGxueqdFjEOpyFRT0+25nU9+TZkpk3n8iTVyko/u1xIOGMa
-         2RFA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2iBWR6St/PA+ZHoQ25yTmG6p6GAuJ4cFxEsQICjjk4L3Da2E9qy6HOYWCwZCgvZbKTcMAzb6LMB8+/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxa3EKtafK+fSEicWltdr65+gG/HCSV78bc3mExBsHPTyUCTcjH
-	1tby5Oc/CJexIFzssTEXl3MftrBVC1nCYjEBCWOGv2fNeZZDH/Sw6vtUtj84zr5ONcZIvM7h16J
-	GQP9Cojj54J4jpWMeFcC6VHIwxjE1hSy3PcPf
-X-Google-Smtp-Source: AGHT+IHrAma7a//3ZnIS1iS1Lm0CwM4nLy0ndtu8X8cJY5OZ/WS7iyuPy8axxsNkbLgivCMUhnj0GhMp35Zvr3+0+ik=
-X-Received: by 2002:a05:6512:3b8d:b0:539:e8b5:f296 with SMTP id
- 2adb3069b0e04-53d8629d2d5mr722983e87.33.1731045737701; Thu, 07 Nov 2024
- 22:02:17 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731050637; x=1731655437;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZsX92SEPfX9pZYxHimQ3VDSrQrPgT/IDDI/YMUQaqAk=;
+        b=L9GrJBX0i3y/rdsFfqfic9iuiUxMNQUD2jvDh/SZ2r8iK14qtEvEs9v7fYCMRcpRte
+         iwTCb6THq+Mbj0bICxbTPmYX4Llrz140jB0B6oYKi5uCVp2aTGKegDpVTciM28qrcre1
+         bx8cWKbH7pBU1tjmLnrJs0X3g3AdeiCgZ2Yw+SQAxL0dt6kVbIZocANH7tW3yHDLYgHO
+         aULQzo4HIBTsMznbrOorGiVBTc2Bj5c2GsFJxLZm9w15kOxmTHRnz5/wpchs6gxHkcq5
+         9ZBz2u/2F38KsmYesMUYfpBqmErPkDk8mEc0oMWxsdBby+H/S5j+EllmgZbHIYtdbxi2
+         YMqQ==
+X-Gm-Message-State: AOJu0Ywlv1cfli1GdDAp/VnjfTjCp0ovIjGRPH6pCDPqzNXrAbWzSk6O
+	fnmynbjqaJuMRb4WZgK6WDD59R+he4JN85KzKl/2BITtUlwChTZsJ8eoF0McaXpML+r3KY1TAtg
+	=
+X-Google-Smtp-Source: AGHT+IEebjAfgnfg2LVbCROjVRBx6eThgYDq12vket2cVweMhR9jU7bQovDYV1DmKTHPXZL5XFi/Pg==
+X-Received: by 2002:a17:902:d492:b0:20c:6bff:fc8a with SMTP id d9443c01a7336-211834de588mr19565575ad.2.1731050637376;
+        Thu, 07 Nov 2024 23:23:57 -0800 (PST)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com. [209.85.216.47])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e6c35dsm24101855ad.250.2024.11.07.23.23.55
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Nov 2024 23:23:56 -0800 (PST)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2e2e23f2931so1477931a91.0
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2024 23:23:55 -0800 (PST)
+X-Received: by 2002:a17:90b:3847:b0:2e2:e159:8f7b with SMTP id
+ 98e67ed59e1d1-2e9b16e6415mr2416277a91.3.1731050635305; Thu, 07 Nov 2024
+ 23:23:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241108033219.19804-1-yunfei.dong@mediatek.com> <20241108033219.19804-6-yunfei.dong@mediatek.com>
-In-Reply-To: <20241108033219.19804-6-yunfei.dong@mediatek.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 8 Nov 2024 14:02:06 +0800
-Message-ID: <CAGXv+5EfZUXEh6r0GaMKwTgWo8gQHsXFSF2bQzFuw=J4Gj0OGw@mail.gmail.com>
-Subject: Re: [PATCH v6 5/5] media: mediatek: vcodec: remove media request checking
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>, 
-	Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, 
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20241107235130.31372-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20241107235130.31372-1-laurent.pinchart@ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 8 Nov 2024 08:23:43 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtUR16eJUOaiQ7VatAk5rTy4WMmxUmtCZv=0mUxSES_kQ@mail.gmail.com>
+Message-ID: <CANiDSCtUR16eJUOaiQ7VatAk5rTy4WMmxUmtCZv=0mUxSES_kQ@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Fix double free in error path
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Ming Lei <tom.leiming@gmail.com>, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 8, 2024 at 11:32=E2=80=AFAM Yunfei Dong <yunfei.dong@mediatek.c=
-om> wrote:
+On Fri, 8 Nov 2024 at 00:51, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Setting the buffer status to error if the media request of
-> each source buffer is NULL, then schedule the work to process
-> again in case of access NULL pointer.
+> If the uvc_status_init() function fails to allocate the int_urb, it will
+> free the dev->status pointer but doesn't reset the pointer to NULL. This
+> results in the kfree() call in uvc_status_cleanup() trying to
+> double-free the memory. Fix it by resetting the dev->status pointer to
+> NULL after freeing it.
 >
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Fixes: a31a4055473b ("V4L/DVB:usbvideo:don't use part of buffer for USB transfer #4")
+> Cc: stable@vger.kernel.org
+Reviewed by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  .../vcodec/decoder/mtk_vcodec_dec_stateless.c      | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+>  drivers/media/usb/uvc/uvc_status.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_d=
-ec_stateless.c
-> index 3f94654ebc73..251111678fd8 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
-less.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
-less.c
-> @@ -363,10 +363,14 @@ static void mtk_vdec_worker(struct work_struct *wor=
-k)
->                           ctx->id, bs_src->va, &bs_src->dma_addr, bs_src-=
->size, vb2_src);
->         /* Apply request controls. */
->         src_buf_req =3D vb2_src->req_obj.req;
-> -       if (src_buf_req)
-> +       if (src_buf_req) {
->                 v4l2_ctrl_request_setup(src_buf_req, &ctx->ctrl_hdl);
-> -       else
-> +       } else {
->                 mtk_v4l2_vdec_err(ctx, "vb2 buffer media request is NULL"=
-);
-> +               v4l2_m2m_buf_done(vb2_v4l2_src, VB2_BUF_STATE_ERROR);
-> +               v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
-> +               return;
-
-Is this something that actually happens? I would assume that having
-the `requires_requests` flag set on the queue would block any QBUF
-call that doesn't have a request attached.
-
-> +       }
->
->         ret =3D vdec_if_decode(ctx, bs_src, NULL, &res_chg);
->         if (ret && ret !=3D -EAGAIN) {
-> @@ -384,8 +388,7 @@ static void mtk_vdec_worker(struct work_struct *work)
->         state =3D ret ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE;
->         if (!IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch) ||
->             ctx->current_codec =3D=3D V4L2_PIX_FMT_VP8_FRAME) {
-> -               if (src_buf_req)
-> -                       v4l2_ctrl_request_complete(src_buf_req, &ctx->ctr=
-l_hdl);
-> +               v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-
-Unrelated change. Please do the cleanup in a separate patch.
-
-v4l2_ctrl_request_setup() and v4l2_ctrl_request_complete() are both
-no-ops if either argument is NULL, so you can do one patch going over
-the whole driver to clean it up.
-
->                 vb2_v4l2_dst =3D v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
->                 v4l2_m2m_buf_done(vb2_v4l2_dst, state);
->                 v4l2_m2m_buf_done(vb2_v4l2_src, state);
-> @@ -403,8 +406,7 @@ static void mtk_vdec_worker(struct work_struct *work)
->          */
->         ctx->cur_src_buffer =3D (ret !=3D -EAGAIN) ? NULL : vb2_v4l2_src;
->         if (ret && ret !=3D -EAGAIN) {
-> -               if (src_buf_req)
-> -                       v4l2_ctrl_request_complete(src_buf_req, &ctx->ctr=
-l_hdl);
-> +               v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-
-Unrelated change. Same as above.
-
-
-ChenYu
-
->                 v4l2_m2m_buf_done(vb2_v4l2_src, state);
+> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+> index 02c90acf6964..d269d163b579 100644
+> --- a/drivers/media/usb/uvc/uvc_status.c
+> +++ b/drivers/media/usb/uvc/uvc_status.c
+> @@ -269,6 +269,7 @@ int uvc_status_init(struct uvc_device *dev)
+>         dev->int_urb = usb_alloc_urb(0, GFP_KERNEL);
+>         if (!dev->int_urb) {
+>                 kfree(dev->status);
+> +               dev->status = NULL;
+>                 return -ENOMEM;
 >         }
 >
-> --
-> 2.46.0
 >
+> base-commit: ed61c59139509f76d3592683c90dc3fdc6e23cd6
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+
+
+-- 
+Ricardo Ribalda
 
