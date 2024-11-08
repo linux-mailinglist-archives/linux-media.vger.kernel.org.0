@@ -1,213 +1,151 @@
-Return-Path: <linux-media+bounces-21181-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21182-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A55F9C20E2
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 16:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CFDD9C218F
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 17:06:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 615341C23126
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 15:46:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BDA911C246FC
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 16:06:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F7DD21B430;
-	Fri,  8 Nov 2024 15:45:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E43F139D0B;
+	Fri,  8 Nov 2024 16:06:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CbFLdjdr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfOCR5kO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB0D21A71E
-	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 15:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9339C8EB;
+	Fri,  8 Nov 2024 16:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731080748; cv=none; b=Fx26Kho8012qxH0UFVBVuAJp78l/4LXa2AQz95cIokUShgYj6883g9f9FzUT504i22y0WZ4qJwRk0FiRA5JRTNyZ+m7kbMAAxuuSPMVuc9ipyqogacI+RC6RSfU63Qh/T9CbQWtG6RgU5u6SPO9OPWOJGL7uEFNaf7GC4Kn/WBs=
+	t=1731082006; cv=none; b=bAG4YsCCNLCFWHqr3KF49cLOCz5qsrCRlvOf55IGVwpdx3PlWDuFIHXjnxcHS0o9IoUvFgFkFV/yStlpBgVbex06G7VY19bcnUneuzytszxDnEIFfzg+haC6+qHSqr6U1vuzOCzmhZ/5ZCxLSkkLi/weT6Ig37zya25kivgDwb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731080748; c=relaxed/simple;
-	bh=j8vjIhIn1aM5Ue0/8IMYMMZUSoK+WLxeIbmYyI2nl+U=;
+	s=arc-20240116; t=1731082006; c=relaxed/simple;
+	bh=6LSa1bRrJgKUR49mqBK1J02SyFpaBrod093WWPObqKw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pi4VvKc2S1udCxs3AM/ZUabOPy8/qTef1u9zPfrFFPq/0q0ISPRHK60Z1gKPPzxxVU3CxBCCg4IJnL38/eXSWVBoessr9YrGc+5BR46UDcFF7+wVmEaof5CA5V1IseZJYlu2dEH/RahjLOSm9v8d3y0+z3Z0NbK7Nf8PrR7nkuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CbFLdjdr; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB9232E0;
-	Fri,  8 Nov 2024 16:45:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731080735;
-	bh=j8vjIhIn1aM5Ue0/8IMYMMZUSoK+WLxeIbmYyI2nl+U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CbFLdjdroeAykXr9uikblukZWnBKU0GsQuL2vzuDrni+UdtQ4agPijO78Ugk7ZGZs
-	 jAXDwCEgOw3NKJsaxOjY1biQ6B8mSYZxZoGRqKC/dPBiGE4EFBuNAVBUYdc1/Iumge
-	 xlg9Hg4lxXRGFPoEyJimEGMJjm9nhKmsAcwIhPrE=
-Date: Fri, 8 Nov 2024 17:45:37 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCHv2] media: v4l2-core: v4l2-ctrls: check for
- handler_new_ref misuse
-Message-ID: <20241108154537.GB8784@pendragon.ideasonboard.com>
-References: <ddb6e006-7440-41c5-8aaa-685b058418b4@xs4all.nl>
- <Zy3ktRUxfYoylLvB@valkosipuli.retiisi.eu>
- <ee6bcb24-2808-4025-91f2-2da945ce9d9c@xs4all.nl>
- <20241108132820.GB31396@pendragon.ideasonboard.com>
- <7e2f9660-6ee7-4fa5-b949-77725feb25a9@xs4all.nl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=g6Ar9ugkM52gpChON9zoGSmyCYDnfo4nGSXsTKuiYWhifwljcnRwf1dcfJJJ+lTqcfp61sNgiytn2ZtfMQDWCFcUu+OfQCzGQCwvN9TTPIx5GN0Vy+bYrHHzPS/AQam8dFiirJB5ZzEUJPvK3LWEiloWcC3aC87jsa6yFajsP1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfOCR5kO; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731082005; x=1762618005;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6LSa1bRrJgKUR49mqBK1J02SyFpaBrod093WWPObqKw=;
+  b=NfOCR5kOtBZF0VAabneZZBRLVWk2tv7NZZQtEXhdESHHcshNxWm1pPiR
+   St1Ut0eOYWbR9x+EtxThbbDfrrHNjhFRS41xEYdgFzpty/k/U+z7bX8FZ
+   ZsbFqjh5+rrwKnPmWQe/zNJCxk9DzbitdDscBj8+sFW7kVu35KpqGGMDC
+   s5U/M+I5tGZbZ5dHrH8vYeHFY2KWNK5K4JyrrOAnE0pXbOuXQFVX11IiF
+   yLqULy+8ouk6YxEJkXQrUS+bDF5Brkx36NloXBiiRklyRiqZtGMDcSHzV
+   VdztpDlriTXd+BV4qyLSJ4GvNrldl/vcEch3iLHJ1DgEgNQljr4jzcOXD
+   g==;
+X-CSE-ConnectionGUID: 8wIvmWzwRF60PKGBiOO+yg==
+X-CSE-MsgGUID: KBY/tQOITqyJ6rKQpz9P2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="42357195"
+X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
+   d="scan'208";a="42357195"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 08:06:44 -0800
+X-CSE-ConnectionGUID: JUm8/uH4SZqt/cLVuEw3SA==
+X-CSE-MsgGUID: wIJE8lAEReGMgGkU2tka+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
+   d="scan'208";a="123141563"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 08:06:42 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 90D5411F9BF;
+	Fri,  8 Nov 2024 18:06:39 +0200 (EET)
+Date: Fri, 8 Nov 2024 16:06:39 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v1 1/1] media: ov7251: Remap "reset" to "enable" for
+ OV7251
+Message-ID: <Zy43D7wAZLrBDtiX@kekkonen.localdomain>
+References: <20241108145024.1490536-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7e2f9660-6ee7-4fa5-b949-77725feb25a9@xs4all.nl>
+In-Reply-To: <20241108145024.1490536-1-andriy.shevchenko@linux.intel.com>
 
-On Fri, Nov 08, 2024 at 03:38:27PM +0100, Hans Verkuil wrote:
-> On 08/11/2024 14:28, Laurent Pinchart wrote:
-> > On Fri, Nov 08, 2024 at 11:49:01AM +0100, Hans Verkuil wrote:
-> >> On 08/11/2024 11:15, Sakari Ailus wrote:
-> >>> On Tue, Nov 05, 2024 at 08:42:04AM +0100, Hans Verkuil wrote:
-> >>>> An out-of-tree driver created a control handler, added controls, then
-> >>>> called v4l2_ctrl_add_handler to add references to controls from another
-> >>>> handler, and finally added another control that happened to have the same
-> >>>> control ID as one of the controls from that other handler.
-> > 
-> > Naughty driver :-)
-> > 
-> >>>>
-> >>>> This caused a NULL pointer crash when an attempt was made to use that last
-> >>>> control.
-> >>>>
-> >>>> Besides the fact that two out-of-tree drivers used the same control ID for
-> >>>> different (private) controls, which is obviously a bug, this specific
-> >>>> scenario should have been caught. The root cause is the 'duplicate ID'
-> >>>> check in handler_new_ref(): it expects that drivers will first add all
-> >>>> controls to a control handler before calling v4l2_ctrl_add_handler. That
-> >>>> way the local controls will always override references to controls from
-> >>>> another handler.
-> >>>
-> >>> Do we support adding new controls after adding the handler or is there a
-> >>> valid use case for it? I'd rather say it's not supported and prevent it,
-> >>> for simplicity. Things like this will likely make it more difficult to move
-> >>> the controls to the device state.
-> >>
-> >> Blocking this completely is out of scope of this patch. I am not quite sure
-> >> if doing that wouldn't break some drivers (in or out of tree).
-> >>
-> >> If this turns out to be an issue when moving controls to the device state,
-> >> then we can revisit this.
-> > 
-> > I tend to agree with Sakari here. I believe the control framework is
-> > already complex enough, and I don't think we should allow drivers to add
-> > cnotrols after calling v4l2_ctrl_add_handler(). If there are any in-tree
-> > drivers doing so, we can probably fix them fairly easily.
-> > 
-> > As for generating a warning instead of crashing when the control is
-> > accessed, we could generate a warning if a control is added by the
-> > driver after calling v4l2_ctrl_add_handler(). That could even cause the
-> > control handler to flag an error, and that would be very visible to
-> > driver authors.
+Hi Andy,
+
+Thanks for the patch.
+
+On Fri, Nov 08, 2024 at 04:50:24PM +0200, Andy Shevchenko wrote:
+> The driver of OmniVision OV7251 expects "enable" pin instead of "reset".
+> Remap "reset" to "enable" and update polarity.
 > 
-> While I agree with this, I don't want to do this without first doing
-> some analysis for existing drivers.
-
-Better safe than sorry, sure.
-
-> Would you be OK with me merging this patch, and that I do the analysis later
-> and post a follow-up patch?
-
-I'm OK with that. Could you then mention in the comment that adding
-controls after calling v4l2_ctrl_add_handler() isn't allowed ? That will
-make me feel better about people not getting the wrong impression.
-
-> This issue causes a somewhat hard-to-find crash and it hit me twice
-> within a week.
+> In particular, the Linux kernel can't load the camera sensor
+> driver on Microsoft Surface Book without this change:
 > 
-> >>> Cc Laurent and Jacopo.
-> >>>
-> >>>> It never considered the case where new local controls were added after
-> >>>> calling v4l2_ctrl_add_handler. Add a check to handler_new_ref() to return
-> >>>> an error in the case that a new local control is added with the same ID as
-> >>>> an existing control reference. Also use WARN_ON since this is a driver bug.
-> >>>>
-> >>>> This situation can only happen when out-of-tree drivers are used or during
-> >>>> driver development, since mainlined drivers all have their own control
-> >>>> ranges reserved in v4l2-controls.h, thus preventing duplicate control IDs.
-> >>>>
-> >>>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> >>>> ---
-> >>>> Changes since v1:
-> >>>> Improved the comment.
-> >>>> ---
-> >>>>  drivers/media/v4l2-core/v4l2-ctrls-core.c | 34 +++++++++++++++++++----
-> >>>>  1 file changed, 28 insertions(+), 6 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>>> index eeab6a5eb7ba..8fac12e78481 100644
-> >>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>>> @@ -1676,6 +1676,7 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
-> >>>>  	u32 class_ctrl = V4L2_CTRL_ID2WHICH(id) | 1;
-> >>>>  	int bucket = id % hdl->nr_of_buckets;	/* which bucket to use */
-> >>>>  	unsigned int size_extra_req = 0;
-> >>>> +	int ret = 0;
-> >>>>
-> >>>>  	if (ctrl_ref)
-> >>>>  		*ctrl_ref = NULL;
-> >>>> @@ -1719,13 +1720,32 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
-> >>>>  	list_for_each_entry(ref, &hdl->ctrl_refs, node) {
-> >>>>  		if (ref->ctrl->id < id)
-> >>>>  			continue;
-> >>>> -		/* Don't add duplicates */
-> >>>> -		if (ref->ctrl->id == id) {
-> >>>> -			kfree(new_ref);
-> >>>> -			goto unlock;
-> >>>> +		/* Check we're not adding a duplicate */
-> >>>> +		if (ref->ctrl->id != id) {
-> >>>> +			list_add(&new_ref->node, ref->node.prev);
-> >>>> +			break;
-> >>>>  		}
-> >>>> -		list_add(&new_ref->node, ref->node.prev);
-> >>>> -		break;
-> >>>> +
-> >>>> +		/*
-> >>>> +		 * If we add a new control to this control handler, and we find
-> >>>> +		 * that it is a duplicate, then that is a driver bug. Warn and
-> >>>> +		 * return an error.
-> >>>> +		 *
-> >>>> +		 * It can be caused by either adding the same control twice, or
-> >>>> +		 * by first calling v4l2_ctrl_add_handler, and then adding a new
-> >>>> +		 * control to this control handler.
-> >>>> +		 *
-> >>>> +		 * Either sequence is incorrect.
-> >>>> +		 *
-> >>>> +		 * However, if the control is owned by another handler, and
-> >>>> +		 * a control with that ID already exists in the list, then we
-> >>>> +		 * can safely skip it: in that case it the control is overridden
-> >>>> +		 * by the existing control.
-> >>>> +		 */
-> >>>> +		if (WARN_ON(hdl == ctrl->handler))
-> >>>> +			ret = -EEXIST;
-> >>>> +		kfree(new_ref);
-> >>>> +		goto unlock;
-> >>>>  	}
-> >>>>
-> >>>>  insert_in_hash:
-> >>>> @@ -1746,6 +1766,8 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
-> >>>>
-> >>>>  unlock:
-> >>>>  	mutex_unlock(hdl->lock);
-> >>>> +	if (ret)
-> >>>> +		return handler_set_err(hdl, ret);
-> >>>>  	return 0;
-> >>>>  }
-> >>>>
+>  ov7251 i2c-INT347E:00: supply vdddo not found, using dummy regulator
+>  ov7251 i2c-INT347E:00: supply vddd not found, using dummy regulator
+>  ov7251 i2c-INT347E:00: supply vdda not found, using dummy regulator
+>  ov7251 i2c-INT347E:00: cannot get enable gpio
+>  ov7251 i2c-INT347E:00: probe with driver ov7251 failed with error -2
+> 
+> Suggested-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Should this be cc'd to stable? I guess it's not exactly a fix in the driver
+but a BIOS bug, but it can be worked around in the driver. :-)
+
+> ---
+>  drivers/media/i2c/ov7251.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
+> index 30f61e04ecaf..7b35add1e0ed 100644
+> --- a/drivers/media/i2c/ov7251.c
+> +++ b/drivers/media/i2c/ov7251.c
+> @@ -1696,7 +1696,21 @@ static int ov7251_probe(struct i2c_client *client)
+>  		return PTR_ERR(ov7251->analog_regulator);
+>  	}
+>  
+> +	/*
+> +	 * The device-tree bindings call this pin "enable", but the
+> +	 * datasheet describes the pin as "reset (active low with internal
+> +	 * pull down resistor)". The ACPI tables describing this sensor
+
+It's the functionality that matters albeit I guess this is somewhat a
+matter of taste: a similar pin was named "reset" for MIPI CCS.
+
+> +	 * on, e.g., the Microsoft Surface Book use the ACPI equivalent of
+> +	 * "reset" as pin name, which ACPI glue code then maps to "reset".
+> +	 * Check for a "reset" pin if there is no "enable" pin.
+> +	 */
+>  	ov7251->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(ov7251->enable_gpio) &&
+> +	    PTR_ERR(ov7251->enable_gpio) != -EPROBE_DEFER) {
+> +		ov7251->enable_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+
+This looks like it'd benefit from a line wrap. I can do that if there's no
+need for v2 otherwise.
+
+> +		if (!IS_ERR(ov7251->enable_gpio))
+> +			gpiod_toggle_active_low(ov7251->enable_gpio);
+> +	}
+>  	if (IS_ERR(ov7251->enable_gpio)) {
+>  		dev_err(dev, "cannot get enable gpio\n");
+>  		return PTR_ERR(ov7251->enable_gpio);
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
