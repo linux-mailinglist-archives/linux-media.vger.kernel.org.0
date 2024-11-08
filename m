@@ -1,172 +1,189 @@
-Return-Path: <linux-media+bounces-21191-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21192-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90EBB9C24BD
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 19:17:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E5B9C24C8
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 19:19:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B40DC1C22CC4
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 18:17:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C71EF28286B
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2024 18:19:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20B171991BD;
-	Fri,  8 Nov 2024 18:17:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D17D1A9B56;
+	Fri,  8 Nov 2024 18:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2bLNFfA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="URYbxPoC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EA6233D6E;
-	Fri,  8 Nov 2024 18:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406CE233D6E
+	for <linux-media@vger.kernel.org>; Fri,  8 Nov 2024 18:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731089842; cv=none; b=jijtEFnBSv23kyYdPlzg8mlq6BzB4ctldXk95/ATYg7KwiqoWc7uqpimEGpVW0gRm6+zVWnEp1N8FESJZVG18ca2ZWpfd6qN0Qyz/5IHiRGyFlB1XAU8497qIsPESmHU0+9ZF8RhdDsPw3DoCl7YBGF50ODKMZbm1722/xAsIj0=
+	t=1731089954; cv=none; b=LwbMsgtB4eLwK1Kf90s4xI5oDcspn0HOe7tTcnIqwQYOVEj4LOJ6XMo41eTl/579RLHGAG1Wi40AreKJJadVgnPed8zlJwTbRmqQXUghaQqA5IZgcSXjLyWU91lz97gpFJBbJ7jGFE7GCADIHzpFUVRqrvub6IkehIih5fOQuGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731089842; c=relaxed/simple;
-	bh=4PaET6TkzgrHWZkK4MiM2Mhki+6QUcpFOgMPv7bRVLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uo+tUsRwDQSAqWOGUmd2modyN22Z97cutvcsFXXHpJSRUfDUvU9fA+LzQMcG2Yv+L0fbpFkP/jVX6noSP+i9/D/C3Pve+B52rVWrx5Lza0JuWHNpc9XjnWW/3BzH6CURImAXX/rA2HJUJ4pp17MMKuSbys1N/PEC2ZGOE+dKjHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2bLNFfA; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731089840; x=1762625840;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4PaET6TkzgrHWZkK4MiM2Mhki+6QUcpFOgMPv7bRVLs=;
-  b=A2bLNFfAXkdfVPNsfTHKYx2z59prseowJXGDjZVaPrAYGAnOT1cH5Tba
-   XQEx8rKuPR3wl6mBbIsCce/03V7PsAbFljWpwoug8k0S2zNMzyihPNVVx
-   KmUZkHIwqSHGHxzhGF1Q9atxgLP0zXdQ0VYKxkD98GrFYduTi4I+2FLi8
-   R2+gRht+w4lnmlClX4Kch4Tf+fUBX6Zr5CGjHYpxkYx3jAHdYPCc1NURP
-   /wPgDD494S8GoB62dU1uQSLyZqKFvshaj7C6wnITi33kd2g3K1PnQ6XOQ
-   VvD0Nlh8QfKyjS2WOzeM6vmMKRkskxg190gU9v7sTt/ShCYwREpC7ZXjT
-   g==;
-X-CSE-ConnectionGUID: GpJ7Al6GQfyjIOMjdj/1LQ==
-X-CSE-MsgGUID: vl1ClaxcQjiwut7Gn0SJ4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="42368553"
-X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="42368553"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 10:17:19 -0800
-X-CSE-ConnectionGUID: lsmZQr7uTgq1VgyQw1S59w==
-X-CSE-MsgGUID: b1luBi1TSSGnldkvh/IxyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="123200075"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2024 10:17:16 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9TXk-000rh8-21;
-	Fri, 08 Nov 2024 18:17:12 +0000
-Date: Sat, 9 Nov 2024 02:17:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v2 13/15] media: i2c: ds90ub913: Add error handling to
- ub913_hw_init()
-Message-ID: <202411090151.d5LTbJyn-lkp@intel.com>
-References: <20241108-ub9xx-fixes-v2-13-c7db3b2ad89f@ideasonboard.com>
+	s=arc-20240116; t=1731089954; c=relaxed/simple;
+	bh=aD8D+4ng0E/F47a5g4wTG/QvG7PlR9J/BnbQFoQHKIk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Osu9wqNihI3baSO4nXOTx5ESr9uyw42Ba5OENxkAVsVO/1+bI1yED3ulM7zGmQWFEh+ZXwqlMQ6PuWcq/QKfJWZRM+b0dWmzrEP3MXseJtJLV7qdTjfWHVv1zSm84YnXU0Pv5ue6xl+xvNcqq+/yYov14EEDQwQu/SOqzobTHZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=URYbxPoC; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1731089950;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8BE+hJq4wivH5URFktHYmgMbquuiBfaa5EuFxhGnhm8=;
+	b=URYbxPoCGHZWMGnRPlO/1thst93kF7VSR61CbHjeO5NhX/J2XtJL7iKwpt0Op8uhI/cCao
+	ZbFFT2IqWvfYrQcNQS3m/Gr8/4a/Wk5WlAT/4ei3H0W7XFxKuW5aNlmSQJy1StGSpl9WOU
+	KlD0+3qIeildU4X/X3NoNOoiaWUL9+U=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-542-HdsJIJl6P7mgGrMUYRZvsQ-1; Fri, 08 Nov 2024 13:19:09 -0500
+X-MC-Unique: HdsJIJl6P7mgGrMUYRZvsQ-1
+X-Mimecast-MFC-AGG-ID: HdsJIJl6P7mgGrMUYRZvsQ
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-539ebb5a10cso2623918e87.3
+        for <linux-media@vger.kernel.org>; Fri, 08 Nov 2024 10:19:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731089947; x=1731694747;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8BE+hJq4wivH5URFktHYmgMbquuiBfaa5EuFxhGnhm8=;
+        b=lx0Lm0bAtrQwja854hb0aHo2xPmOruzswBq5MQDU4dtLSxntWg7F/p9hOquxt2dAyC
+         yinfjtcvMKaxMVgoBr7utU12+NgpraKGzNWr7XmACwLqSoLDiZlNqGUBFZfAUo/LbE+9
+         ZxpgA1GhadSwUBdMzM8P+OgsWx41Ui1AiWtTFRE/xk3VEVHgCLSYBps3RGhHBlrlpIxc
+         6BfAUxBA5CFwbqs2+R/xf5RpcATiPwfZ0CWNdU69/grEFk2F09uo/CtThYnEsIRRGkj4
+         orU+4n2IYgHLz0nE1bdeysCslxvz9hXmXWcfQ5EE7NT0gWxzbdEWWlIV6lHcnuEFUJlX
+         xhGw==
+X-Gm-Message-State: AOJu0Yw1QHtadA6reb7xNS4Y4mrEelFE0Im/5F9gV9YTujzw21YAvHbG
+	QA26G3ao5L6mcmITMGvWN+IeTzlDfY4hkxU9AmeH6VEKmNJxhKh1XivTqZDG7g6LucJzEu7o467
+	pODNfNAiL58cOWHIzzxWrBi2mBEo7IoflQbmQe0/BPJ/cZtw1XsVn/HyGyaD8p84LHSl9
+X-Received: by 2002:a2e:a995:0:b0:2fb:5206:1675 with SMTP id 38308e7fff4ca-2ff2028a9a5mr34288501fa.27.1731089946942;
+        Fri, 08 Nov 2024 10:19:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFaBapJXyw0gGoHMy0oLhUG9TcdL5X+uu9R+OOqA85l2rjsKw3rZG35xPvySkupRobDfWMJtw==
+X-Received: by 2002:a2e:a995:0:b0:2fb:5206:1675 with SMTP id 38308e7fff4ca-2ff2028a9a5mr34288221fa.27.1731089946386;
+        Fri, 08 Nov 2024 10:19:06 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0a4bfa1sm264962766b.74.2024.11.08.10.19.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Nov 2024 10:19:05 -0800 (PST)
+Message-ID: <2957d1f6-f846-4916-980d-4346bc2b9d64@redhat.com>
+Date: Fri, 8 Nov 2024 19:19:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241108-ub9xx-fixes-v2-13-c7db3b2ad89f@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] media: ov7251: Remap "reset" to "enable" for
+ OV7251
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20241108145024.1490536-1-andriy.shevchenko@linux.intel.com>
+ <Zy43D7wAZLrBDtiX@kekkonen.localdomain> <Zy48Fc_nUceCs3PK@smile.fi.intel.com>
+ <Zy4_hR9AsDhmK5MK@kekkonen.localdomain>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Zy4_hR9AsDhmK5MK@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Tomi,
+Hi,
 
-kernel test robot noticed the following build errors:
+On 8-Nov-24 5:42 PM, Sakari Ailus wrote:
+> Hi Andy,
+> 
+> On Fri, Nov 08, 2024 at 06:28:05PM +0200, Andy Shevchenko wrote:
+>> On Fri, Nov 08, 2024 at 04:06:39PM +0000, Sakari Ailus wrote:
+>>> On Fri, Nov 08, 2024 at 04:50:24PM +0200, Andy Shevchenko wrote:
+>>>> The driver of OmniVision OV7251 expects "enable" pin instead of "reset".
+>>>> Remap "reset" to "enable" and update polarity.
+>>>>
+>>>> In particular, the Linux kernel can't load the camera sensor
+>>>> driver on Microsoft Surface Book without this change:
+>>>>
+>>>>  ov7251 i2c-INT347E:00: supply vdddo not found, using dummy regulator
+>>>>  ov7251 i2c-INT347E:00: supply vddd not found, using dummy regulator
+>>>>  ov7251 i2c-INT347E:00: supply vdda not found, using dummy regulator
+>>>>  ov7251 i2c-INT347E:00: cannot get enable gpio
+>>>>  ov7251 i2c-INT347E:00: probe with driver ov7251 failed with error -2
+>>
+>> ...
+>>
+>>> Should this be cc'd to stable? I guess it's not exactly a fix in the driver
+>>> but a BIOS bug, but it can be worked around in the driver. :-)
+>>
+>> It's everything, but a BIOS bug, it's DT bug and whoever first introduced that
+>> GPIO in the driver. Even in the DT present in kernel the pin was referred as
+> 
+> How is that a DT (binding?) bug?
 
-[auto build test ERROR on 98f7e32f20d28ec452afb208f9cffc08448a2652]
+Since it is not following the datasheet name for the pin,
+it arguably is a DT binding bug
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/media-i2c-ds90ub9x3-Fix-extra-fwnode_handle_put/20241108-173952
-base:   98f7e32f20d28ec452afb208f9cffc08448a2652
-patch link:    https://lore.kernel.org/r/20241108-ub9xx-fixes-v2-13-c7db3b2ad89f%40ideasonboard.com
-patch subject: [PATCH v2 13/15] media: i2c: ds90ub913: Add error handling to ub913_hw_init()
-config: x86_64-buildonly-randconfig-002-20241108 (https://download.01.org/0day-ci/archive/20241109/202411090151.d5LTbJyn-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090151.d5LTbJyn-lkp@intel.com/reproduce)
+But whatever, the whole discussion about if it is a bug and whose
+bug it is is not useful. Since we cannot go back in time and change
+the DT binding DT and ACPI are simply going to disagree on the name
+and we will need something like this patch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411090151.d5LTbJyn-lkp@intel.com/
+>> CAM_RST_N, which is exactly how this patch names it.
+>>
+>> OTOH it's a fix to the driver that never worked for ACPI case, so there never
+>> was a regression to fix.
+> 
+> It probably worked just fine, just not with that Surface Book.
+> 
+> The polarity of the enable gpio appears to be set wrong in devm_gpiod_get()
+> call. I can post a patch but cannot test it.
 
-All errors (new ones prefixed by >>):
+That is on purpose, at least the polarity if the devm_gpiod_get(..., "reset",
+...) is inverted from the existing one for "enable" because reset needs
+to be inactive/disabled to enable the sensor.
 
-   In file included from drivers/media/i2c/ds90ub913.c:16:
-   In file included from include/linux/i2c-atr.h:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2232:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/media/i2c/ds90ub913.c:751:5: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     751 |                                 FIELD_PREP(UB913_REG_GENERAL_CFG_PCLK_RISING,
-         |                                 ^
-   1 warning and 1 error generated.
+> Similarly, you should actually set the flags to GPIOD_OUT_HIGH as reset
+> should be enabled here -- it's disabled only in power_on() as part of the
+> power-on sequence.
+
+This seems to be a pre-existing bug in this driver, which currently
+starts driving enable high, enabling the sensor at gpiod_get() time.
+
+Note that fixing this is tricky-ish, if the pin was already high at
+gpiod_get() time then changing the gpiod_get() to drive it low
+will result in it only being driven low for a very short time since
+ov7251_set_power_on() will get called almost immediately after this
+and it will drive the pin high again without any delays.
+
+So if the pin was already high then making it low at gpiod_get()
+time will result in a very short spike to low, immediately followed
+by the pin going high again. This short spike may very well leave
+the sensor in a confused state rather then properly resetting it...
+
+OTOH if the pin was already high with the old code where
+gpiod_get("enable") requests the pin as high (so it is left high),
+then the existing state of the sensor is simply preserved (no reset)
+which should be fine for the initial probe which just checks
+the id register.
+
+And if the pin was low then it is driven high once and kept high,
+so again no glitch / spike. So arguably the old code is fine.
+
+If this is changed then a delay needs to be added to ensure that
+the pin is guaranteed to be driven low for some minimum amount
+of time.
+
+Regards,
+
+Hans
 
 
-vim +/FIELD_PREP +751 drivers/media/i2c/ds90ub913.c
 
-   722	
-   723	static int ub913_hw_init(struct ub913_data *priv)
-   724	{
-   725		struct device *dev = &priv->client->dev;
-   726		bool mode_override;
-   727		u8 mode;
-   728		int ret;
-   729		u8 v;
-   730	
-   731		ret = ub913_read(priv, UB913_REG_MODE_SEL, &v);
-   732		if (ret)
-   733			return ret;
-   734	
-   735		if (!(v & UB913_REG_MODE_SEL_MODE_UP_TO_DATE))
-   736			return dev_err_probe(dev, -ENODEV,
-   737					     "Mode value not stabilized\n");
-   738	
-   739		mode_override = v & UB913_REG_MODE_SEL_MODE_OVERRIDE;
-   740		mode = v & UB913_REG_MODE_SEL_MODE_MASK;
-   741	
-   742		dev_dbg(dev, "mode from %s: %#x\n",
-   743			mode_override ? "reg" : "deserializer", mode);
-   744	
-   745		ret = ub913_i2c_master_init(priv);
-   746		if (ret)
-   747			return dev_err_probe(dev, ret, "i2c master init failed\n");
-   748	
-   749		ret = ub913_update_bits(priv, UB913_REG_GENERAL_CFG,
-   750					UB913_REG_GENERAL_CFG_PCLK_RISING,
- > 751					FIELD_PREP(UB913_REG_GENERAL_CFG_PCLK_RISING,
-   752						   priv->pclk_polarity_rising));
-   753	
-   754		if (ret)
-   755			return ret;
-   756	
-   757		return 0;
-   758	}
-   759	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
