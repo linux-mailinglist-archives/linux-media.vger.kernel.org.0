@@ -1,374 +1,229 @@
-Return-Path: <linux-media+bounces-21205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21206-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48499C2C69
-	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2024 13:01:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBF29C2DB4
+	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2024 15:05:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64383282E05
-	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2024 12:01:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 606E01F22435
+	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2024 14:05:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD5AB149005;
-	Sat,  9 Nov 2024 12:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BA961946A0;
+	Sat,  9 Nov 2024 14:05:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VUfsDTrT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rp9qD1VF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE273B192
-	for <linux-media@vger.kernel.org>; Sat,  9 Nov 2024 12:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDC91E4B2;
+	Sat,  9 Nov 2024 14:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731153708; cv=none; b=oNhOeGiNcfI+tZvIakZ+RHF8dc9DusxI7b7WBI+3PjYlistVXsFgO0yR32/Y0SR1kI/6t/SW1n+bHD46C2KDDLm2jTQ+wmNlCy61nnM8OS3bVBI3SgyFfZKBI/BX39BxDShl4Svj6hUh6NTo4UblXFBGvfNcwwuh+OXfhaLI3ow=
+	t=1731161100; cv=none; b=utGfPojmmx3JB3rkVZd+FiwGnlsuoWK4EXrdghv54EBT2MG/P13a6QJEzoRE94DNgGCGRmJVMb9u/Mivp20SPvHWdMJmsUqkdO1ubUmFFiSoUFrwi3DcDuW3/h+/HcUJuW0fXfAokVtTOqvCaZyLnqNTxihbxo1lD56x9mr9GiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731153708; c=relaxed/simple;
-	bh=0nLKtlgaDGCq5vkFDJYhPtt6SjeKwKCQX1InHdWJq1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P3QQssIGWr5VX7h4SeUP7mZ4Jb2hADizmWlgLqTDcChnyPolOqwJZX6hkZj/sipkBdJUaWBwlPT5YDXI03SV7f1Xsf0uCijuEQ7KB+F3ZIfijbfq1HQQhFbyKwN21OY5FYMkHU2020gGeYnrMOLJ7aQ6G7yptQMOmcTG1rWjfjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VUfsDTrT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7AB257E4;
-	Sat,  9 Nov 2024 13:01:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731153686;
-	bh=0nLKtlgaDGCq5vkFDJYhPtt6SjeKwKCQX1InHdWJq1Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VUfsDTrTiroOJzbbBGYEXhAGdSq57RnXooJMA1K1rpGYe3xQcSHkb+woHtqUsefns
-	 lpTv73psf98NyIqF/6cFi2rqVrCC7sfTsrQSZ5IGxoyMV0r88oOuUMMAE68vfxeJRu
-	 rKkphzKSBIeRAx4d1ha58DKEtCy3oo2xK2HFwB3g=
-Date: Sat, 9 Nov 2024 14:01:29 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: "Hecht, Martin (Avnet Silica)" <Martin.Hecht@avnet.eu>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
-	Steve Cho <stevecho@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
-	Hidenori Kobayashi <hidenorik@chromium.org>,
-	"Hu, Jerry W" <jerry.w.hu@intel.com>,
-	Suresh Vankadara <svankada@qti.qualcomm.com>,
-	Devarsh Thakkar <devarsht@ti.com>,
-	"r-donadkar@ti.com" <r-donadkar@ti.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Salahaldeen Altous <salahaldeen.altous@leica-camera.com>,
-	sjoerd.simons@collabora.com, guy.lunardi@collabora.com,
-	gustavo.padovan@collabora.com
-Subject: Re: [ANN] Media Summit September 16th: Final Agenda (v7)
-Message-ID: <20241109120129.GA6002@pendragon.ideasonboard.com>
-References: <98236d10-4024-4b96-a8ce-8e1dc2a34f1b@xs4all.nl>
- <20240917091744.qltmddftdy7bpgpg@basti-XPS-13-9310>
- <bb8c09c7-0eae-4e1a-8fb8-e325fcf326df@xs4all.nl>
- <20240918092454.21884920@sal.lan>
- <20240918093020.u5rz7qfjoumfezql@basti-XPS-13-9310>
- <FR4P281MB3434AE7AEB218146C9CD062CFD6C2@FR4P281MB3434.DEUP281.PROD.OUTLOOK.COM>
- <20241109080456.h254sypozb2cg4lj@basti-XPS-13-9310>
+	s=arc-20240116; t=1731161100; c=relaxed/simple;
+	bh=4yOu+TnIpLA5EfRXQwATgH1ejXLnej8bgp6pgBiYAGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H+lsK0ubFIc9ZJkjxkShLhLFfGbHa5ysPGfmBatlqH+xZeRUWj98tGAcaaXlJ55VxGvya7XYxzSCkQRsyHuk+XJBNOGyl27hX+lSp0gEXl9a0aIRjNZdvnJ1K557fypYP6EfkzR7MrX8yaHn7G5XZ+KeZNxrkXbGVmW1GXEENiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rp9qD1VF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52DE4C4CECE;
+	Sat,  9 Nov 2024 14:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731161100;
+	bh=4yOu+TnIpLA5EfRXQwATgH1ejXLnej8bgp6pgBiYAGc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rp9qD1VFBjBLnS4/tk4g6kh75geVmsOIeVrCT7mxTSjParc09hOh0+BItRC4cZv/L
+	 zkhO3IrBO0CzjPSe3n9WUITd1gLPiEKtokQRITPfh1PaHq42mN6bDS0GhbTynvHjc6
+	 bgoTbm3TnnDVO6XSMYGRTkx6xinrh/5zLd6PpWaLQI9p3vG2aag7HMAveYzW9Lk9Qf
+	 6HRTyAQ4C22pUxe3nK0hg7+KW9p6Wst6yZCmv6cxLeqrNgO2rR/0JrMFAq9LoO5OQT
+	 hhfqk9PGR+J0iA1CoDEHhRLegQv7tYr9FQdbCdz4NFpNCpT8pW1o1apogyMtPjbGXm
+	 gobdYrkGQI8MQ==
+Date: Sat, 9 Nov 2024 15:04:20 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Yunke Cao
+ <yunkec@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede
+ <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 0/6] media: uvcvideo: Implement the Privacy GPIO as a
+ subdevice
+Message-ID: <20241109150420.359bd50f@foz.lan>
+In-Reply-To: <20241108-uvc-subdev-v2-0-85d8a051a3d3@chromium.org>
+References: <20241108-uvc-subdev-v2-0-85d8a051a3d3@chromium.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241109080456.h254sypozb2cg4lj@basti-XPS-13-9310>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 09, 2024 at 09:04:56AM +0100, Sebastian Fricke wrote:
-> Hey Martin,
-> 
-> On 20.09.2024 12:16, Hecht, Martin (Avnet Silica) wrote:
-> >Hey Hans and Mauro,
-> >
-> >I remember also on a very little point regarding hardware for testing. But we didn't go in detail again during the summit.
-> >
-> >How do we can go ahead here? Are there some test systems up and running somewhere centralized or how it is organized right now?
-> 
-> Currently, different companies host their own hardware labs (Collabora,
-> Qualcomm, Google, etc.) and these labs serve CI systems like KernelCI or
-> DRM-CI (and we are currently working on setting these tests up on the
-> Media-CI). The first step is to either add your devices to an existing
-> lab or create your own one, by setting up your hardware with the
-> necessary software, usually Lava, but you can also use Labgrid or
-> something similar.
+Em Fri, 08 Nov 2024 20:25:44 +0000
+Ricardo Ribalda <ribalda@chromium.org> escreveu:
 
-There's also https://gfx-ci.pages.freedesktop.org/ci-tron/ which seems
-to be an interesting fast-moving project to keep an eye on.
+> Some notebooks have a button to disable the camera (not to be mistaken
+> with the mechanical cover). This is a standard GPIO linked to the
+> camera via the ACPI table.
+> 
+> 4 years ago we added support for this button in UVC via the Privacy control.
+> This has two issues:
+> - If the camera has its own privacy control, it will be masked
+> - We need to power-up the camera to read the privacy control gpio.
+> 
+> We tried to fix the power-up issues implementing "granular power
+> saving" but it has been more complicated than anticipated....
+> 
+> Last year, we proposed a patchset to implement the privacy gpio as a
+> subdevice https://lore.kernel.org/linux-media/20230111-uvc_privacy_subdev-v1-0-f859ac9a01e3@chromium.org/
+> 
+> I think it is a pretty clean solution and makes sense to use a
+> subdevice for something that is a sub device of the camera :).
+> 
+> This is an attempt to continue with that approach.
+> 
+> Tested on gimble:
+> gimble-rev3 ~ # v4l2-ctl --all -d /dev/v4l-subdev0
 
-> Let me know which way you prefer, and I can assist
-> you with that approach.
-> 
-> >
-> >BR Martin
-> 
-> Regards,
-> Sebastian
-> 
-> >
-> >________________________________________
-> >Von: Sebastian Fricke <sebastian.fricke@collabora.com>
-> >Gesendet: Mittwoch, 18. September 2024 11:30
-> >An: Mauro Carvalho Chehab
-> >Cc: Hans Verkuil; Linux Media Mailing List; Sakari Ailus; Daniel Almeida; Mauro Carvalho Chehab; Hecht, Martin (Avnet Silica); Tommaso Merciai; Jacopo Mondi; Benjamin Mugnier; Laurent Pinchart; Ricardo Ribalda; Michael Tretter; Alain Volmat; Sean Young; Steve Cho; Tomasz Figa; Hidenori Kobayashi; Hu, Jerry W; Suresh Vankadara; Devarsh Thakkar; r-donadkar@ti.com; Dave Stevenson; Mehdi Djait; Nicolas Dufresne; Salahaldeen Altous
-> >Betreff: [External]Re: [ANN] Media Summit September 16th: Final Agenda (v7)
-> >
-> >Hey Hans & Mauro,
-> >
-> >On 18.09.2024 09:24, Mauro Carvalho Chehab wrote:
-> >>Em Tue, 17 Sep 2024 14:52:19 +0200
-> >>Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> >>
-> >>> Hi Sebastian,
-> >>>
-> >>> On 9/17/24 11:17 AM, Sebastian Fricke wrote:
-> >>> > Greetings,
-> >>> >
-> >>> > I remember that we wanted to still define a couple of processes for the
-> >>> > multi-committer model for which we hadn't have the time on the media
-> >>> > summit. Just would like to gather who would be interested to meet for
-> >>> > that, where we meet (probably LPC venue) and when (Laurent just told me
-> >>> > that Friday is probably a good slot for that).
-> >>>
-> >>> Can you refresh my memory which processes need more work?
-> >
-> >Well I basically remember that we had a bunch of topics in our meetings
-> >that we wanted to skip in order to talk about them here.
-> >We looked at the documentation from DRM and wanted to think about
-> >equivalent policies for media.
-> >https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html#where-do-i-apply-my-patch
-> >
-> >Also there were topics like how to handle backports.
-> >
-> >>
-> >>I have the same doubt. As discussed during the summit, Hans and I had some
-> >>discussions yesterday, to address a few details. For both of us the process
-> >>sounds well defined.
-> >
-> >I know that we scraped a lot of topics in the meeting at the media
-> >summit and I am not sure about the scope you discussed with Ricardo
-> >yesterday. So, we don't have to meet if you feel like we covered
-> >everything, just wanted to use the opportunity as long as we are all in
-> >the same place.
-> >
-> >Regards,
-> >Sebastian
-> >
-> >>
-> >>From my personal notes, this will be the new process:
-> >>
-> >>- committers will merge patches at media-committers.git tree at fdo,
-> >>  provided that they'll follow the rules defined on a committers agreement
-> >>  and (partially?) enforced by media-ci checks;
-> >>- core committers follow the same rules, with a broader privilege of
-> >>  changing kernel API/ABI;
-> >>- committers will ensure that patchwork will reflect the review process of
-> >>  the patches;
-> >>- maintainers will double-check if everything is ok and, if ok, merge the
-> >>  changes at linuxtv.org. We intend to rename the tree there to "media.git",
-> >>  being the main tree to be used for development;
-> >>- pull requests will keep using the same process as currently. The only
-> >>  change is that the media-stage.git tree will be renamed to "media.git";
-> >>- maintainers will periodically send patches upstream.
-> >>
-> >>The media-commiters.git tree at fdo might be rebased if needed; the
-> >>media.git tree at linuxtv.org is stable. A large effort will be taken to
-> >>avoid rebasing it.
-> >>
-> >>We may need some helper scripts and/or use pwclient to keep patchwork
-> >>updated after committers reviews.
-> >>
-> >>Such process will start after -rc1.
-> >>
-> >>We intend to rename media-state to media at linuxtv after -rc1.
-> >>
-> >>It is up to maintainers to invite and decide who will be a committer.
-> >>
-> >>All committers/core-committers need to explicitly accept a committers
-> >>agreement. We may end starting without it at the beginning, but as soon
-> >>as a final version of such agreement is written, everyone with access to
-> >>the media-committers tree have to explicitly accept to keep their
-> >>commit rights on such tree.
-> >>
-> >>The only part that still require some work is the committers
-> >>agreement. I'm working on it together with Hans. As soon as we have
-> >>a version, we'll submit a patch to the kernel, to add it to the
-> >>media developer's profile[1].
-> >>
-> >>[1] Documentation/driver-api/media/maintainer-entry-profile.rst
-> >>
-> >>>
-> >>> For me I think Friday afternoon (probably after 14:00) is the only
-> >>> option, or perhaps Thursday after the Camera MC.
-> >>
-> >>I can't meet on Friday afternoon. I probably will be on another
-> >>event on Thursday (Openeuler MC).
-> >>
-> >>>
-> >>> Regards,
-> >>>
-> >>>      Hans
-> >>>
-> >>> >
-> >>> > Regards,
-> >>> > Sebastian
-> >>> >
-> >>> > On 11.09.2024 11:03, Hans Verkuil wrote:
-> >>> >> Hi all,
-> >>> >>
-> >>> >> Here is my seventh and final version of the agenda for the media
-> >>> >> summit. As always,
-> >>> >> all times (except lunch time) are guesstimates!
-> >>> >>
-> >>> >> The media summit will be held on Monday September 16th. Avnet Silica
-> >>> >> has very
-> >>> >> kindly offered to host this summit at their Vienna office, which is
-> >>> >> about 35
-> >>> >> minutes by public transport from the Open Source Summit Europe venue
-> >>> >> (https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
-> >>> >>
-> >>> >> Avnet Silica Office Location:
-> >>> >>
-> >>> >> Schönbrunner Str. 297/307, 1120 Vienna, Austria
-> >>> >>
-> >>> >> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
-> >>> >>
-> >>> >> Refreshments are available during the day.
-> >>> >>
-> >>> >> Lunch is held at Schönbrunner Stöckl
-> >>> >> (https://www.schoenbrunnerstoeckl.com/), close
-> >>> >> to the Avnet Silica office. The lunch is sponsored by Ideas on Board
-> >>> >> and Cisco Systems
-> >>> >> Norway.
-> >>> >>
-> >>> >> Regarding the face mask policy: we will follow the same guidance that the
-> >>> >> Linux Foundation gives for the EOSS conference:
-> >>> >>
-> >>> >> https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/#onsite-health-and-safety
-> >>> >>
-> >>> >>
-> >>> >> In-Person Attendees:
-> >>> >>
-> >>> >> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
-> >>> >> Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
-> >>> >> Salahaldeen Altous <salahaldeen.altous@leica-camera.com> (Leica Camera
-> >>> >> AG)
-> >>> >> Mauro Carvalho Chehab <mchehab@kernel.org> (Huawei, Media Kernel
-> >>> >> Maintainer)
-> >>> >> Steve Cho <stevecho@chromium.org> (Google)
-> >>> >> Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
-> >>> >> Martin Hecht <martin.hecht@avnet.eu> (Avnet)
-> >>> >> Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
-> >>> >> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
-> >>> >> Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
-> >>> >> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
-> >>> >> Ricardo Ribalda <ribalda@chromium.org> (Google)
-> >>> >> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
-> >>> >> Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
-> >>> >> Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
-> >>> >> Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
-> >>> >> Sean Young <sean@mess.org>
-> >>> >> Jerry W Hu <jerry.w.hu@intel.com> (Intel)
-> >>> >>
-> >>> >> Remote Attendees (using MS Teams):
-> >>> >>
-> >>> >> Mehdi Djait <mehdi.djait@linux.intel.com> (Intel)
-> >>> >> Rishikesh Donadkar <r-donadkar@ti.com> (TI)
-> >>> >> Nicolas Dufresne <nicolas@ndufresne.ca> (Collabora)
-> >>> >> Tomasz Figa <tfiga@chromium.org> (Google)
-> >>> >> Hidenori Kobayashi <hidenorik@chromium.org> (Google)
-> >>> >> Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
-> >>> >> Devarsh Thakkar <devarsht@ti.com> (TI)
-> >>> >>
-> >>> >> All remote participants listed above should have received an invite
-> >>> >> with connection details.
-> >>> >> If not, please contact Martin Hecht <martin.hecht@avnet.eu> asap.
-> >>> >>
-> >>> >> If any information above is incorrect, or if I missed someone, then
-> >>> >> please let me know.
-> >>> >>
-> >>> >> We have 18 confirmed in-person participants, so we're full.
-> >>> >> If you want to join remotely, then contact me and I'll add you to that
-> >>> >> list.
-> >>> >>
-> >>> >> Draft agenda:
-> >>> >>
-> >>> >> 8:45-9:15: Get settled :-)
-> >>> >>
-> >>> >> 9:15-9:25: Hans: Quick introduction
-> >>> >>
-> >>> >> 9:25-11:00: Ricardo: multi-committer model using gitlab
-> >>> >>
-> >>> >> 11:00-11:15: break
-> >>> >>
-> >>> >> 11:15-12:15: Jacopo: Multi-context support in V4L2
-> >>> >>
-> >>> >> 12:15-13:30: Lunch at Schönbrunner Stöckl
-> >>> >>
-> >>> >> 13:30-14:00: Tomasz: Current state of videobuf2, its limitations and
-> >>> >> the paths forward.
-> >>> >>
-> >>> >> 14:00-14:45: Laurent: subdevs, state, and usage of the media
-> >>> >> controller device to submit requests.
-> >>> >>
-> >>> >> 14:45-15:00: break
-> >>> >>
-> >>> >> 15:00-15:30: Sean: new tooling for infrared:
-> >>> >>
-> >>> >> - What it is and what it can do (love to hear any feedback of course)
-> >>> >> - Where it should be hosted? (I hope gitlab fdo, who do I ask)
-> >>> >> - What needs to be in place for a release?
-> >>> >> - This tool replaces ir-ctl and ir-keytable. How we phase them out?
-> >>> >>
-> >>> >> 15:30-16:00: Daniel: Rust in the media subsystem
-> >>> >>
-> >>> >> 16:00-16:15: break
-> >>> >>
-> >>> >> 16:15-16:30: Hans: UVC maintenance
-> >>> >>
-> >>> >> 16:30-17:00: Steve Cho:
-> >>> >>
-> >>> >> - V4L2 testing on Chromium using virtual video decode driver (visl)
-> >>> >> - V4L2 video decoding testing with KernelCI
-> >>> >>
-> >>> >> 17:00-17:30: Laurent: Should media drivers depend on CONFIG_PM?
-> >>> >> See here for more info:
-> >>> >> https://lore.kernel.org/linux-media/20240825222455.GA24390@pendragon.ideasonboard.com/
-> >>> >>
-> >>> >> 17:30-18:00: Any other topics and feedback on what can be improved
-> >>> >> next media summit.
-> >>> >>
-> >>> >> Hope to see you all on Monday!
-> >>> >>
-> >>> >> Regards,
-> >>> >>
-> >>> >>     Hans
-> >>> >>
-> >>> >>
-> >>> >>
-> >>> > Sebastian Fricke
-> >>> > Consultant Software Engineer
-> >>> >
-> >>> > Collabora Ltd
-> >>> > Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-> >>> > Registered in England & Wales no 5513718.
+No matter if internally implemented as a subdevice or not,
+UVC is not a MC-centric device[1]. 
 
--- 
+It means that UVC can be compiled without media controller support,
+and that its functionality shall be visible via /dev/video* nodes.
+
+So, whatever internal implementation it is used, it shall not require
+config MEDIA_CONTROLLER and the control shall be visible via
+/dev/video*.
+
+Moving privacy control out of /dev/video would mean that this will break 
+support for it on existing applications, which is a big nack. Now, it would
+be acceptable to have this visible via V4L2 and subdev APIs.
+
+[1] https://www.kernel.org/doc/html/latest/userspace-api/media/glossary.html#term-MC-centric
+
 Regards,
+Mauro
 
-Laurent Pinchart
+> Driver Info:
+>         Driver version   : 6.6.56
+>         Capabilities     : 0x00000000
+> Media Driver Info:
+>         Driver name      : uvcvideo
+>         Model            : HP 5M Camera: HP 5M Camera
+>         Serial           : 0001
+>         Bus info         : usb-0000:00:14.0-6
+>         Media version    : 6.6.56
+>         Hardware revision: 0x00009601 (38401)
+>         Driver version   : 6.6.56
+> Interface Info:
+>         ID               : 0x0300001d
+>         Type             : V4L Sub-Device
+> Entity Info:
+>         ID               : 0x00000013 (19)
+>         Name             : GPIO
+>         Function         : Unknown sub-device (00020006)
+> 
+> Camera Controls
+> 
+>                         privacy 0x009a0910 (bool)   : default=0 value=0 flags=read-only, volatile
+> 
+> gimble-rev3 ~ # media-ctl  -p
+> Media controller API version 6.6.56
+> 
+> Media device information
+> ------------------------
+> driver          uvcvideo
+> model           HP 5M Camera: HP 5M Camera
+> serial          0001
+> bus info        usb-0000:00:14.0-6
+> hw revision     0x9601
+> driver version  6.6.56
+> 
+> Device topology
+> - entity 1: HP 5M Camera: HP 5M Camera (1 pad, 1 link)
+>             type Node subtype V4L flags 1
+>             device node name /dev/video0
+>         pad0: Sink
+>                 <- "Extension 8":1 [ENABLED,IMMUTABLE]
+> 
+> - entity 4: HP 5M Camera: HP 5M Camera (0 pad, 0 link)
+>             type Node subtype V4L flags 0
+>             device node name /dev/video1
+> 
+> - entity 8: Extension 8 (2 pads, 2 links, 0 routes)
+>             type V4L2 subdev subtype Unknown flags 0
+>         pad0: Sink
+>                 <- "Extension 4":1 [ENABLED,IMMUTABLE]
+>         pad1: Source
+>                 -> "HP 5M Camera: HP 5M Camera":0 [ENABLED,IMMUTABLE]  
+> 
+> - entity 11: Extension 4 (2 pads, 2 links, 0 routes)
+>              type V4L2 subdev subtype Unknown flags 0
+>         pad0: Sink
+>                 <- "Processing 2":1 [ENABLED,IMMUTABLE]
+>         pad1: Source
+>                 -> "Extension 8":0 [ENABLED,IMMUTABLE]  
+> 
+> - entity 14: Processing 2 (2 pads, 2 links, 0 routes)
+>              type V4L2 subdev subtype Unknown flags 0
+>         pad0: Sink
+>                 <- "Camera 1":0 [ENABLED,IMMUTABLE]
+>         pad1: Source
+>                 -> "Extension 4":0 [ENABLED,IMMUTABLE]  
+> 
+> - entity 17: Camera 1 (1 pad, 1 link, 0 routes)
+>              type V4L2 subdev subtype Sensor flags 0
+>         pad0: Source
+>                 -> "Processing 2":0 [ENABLED,IMMUTABLE]  
+> 
+> - entity 19: GPIO (0 pad, 0 link, 0 routes)
+>              type V4L2 subdev subtype Decoder flags 0
+>              device node name /dev/v4l-subdev0
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> Changes in v2:
+> - Rebase on top of https://patchwork.linuxtv.org/project/linux-media/patch/20241106-uvc-crashrmmod-v6-1-fbf9781c6e83@chromium.org/
+> - Create uvc_gpio_cleanup and uvc_gpio_deinit
+> - Refactor quirk: do not disable irq
+> - Change define number for MEDIA_ENT_F_GPIO
+> - Link to v1: https://lore.kernel.org/r/20241031-uvc-subdev-v1-0-a68331cedd72@chromium.org
+> 
+> ---
+> Ricardo Ribalda (5):
+>       media: uvcvideo: Factor out gpio functions to its own file
+>       Revert "media: uvcvideo: Allow entity-defined get_info and get_cur"
+>       media: uvcvideo: Create ancillary link for GPIO subdevice
+>       media: v4l2-core: Add new MEDIA_ENT_F_GPIO
+>       media: uvcvideo: Use MEDIA_ENT_F_GPIO for the GPIO entity
+> 
+> Yunke Cao (1):
+>       media: uvcvideo: Re-implement privacy GPIO as a separate subdevice
+> 
+>  .../userspace-api/media/mediactl/media-types.rst   |   4 +
+>  drivers/media/usb/uvc/Makefile                     |   3 +-
+>  drivers/media/usb/uvc/uvc_ctrl.c                   |  40 +----
+>  drivers/media/usb/uvc/uvc_driver.c                 | 123 +-------------
+>  drivers/media/usb/uvc/uvc_entity.c                 |  20 ++-
+>  drivers/media/usb/uvc/uvc_gpio.c                   | 187 +++++++++++++++++++++
+>  drivers/media/usb/uvc/uvc_video.c                  |   4 +
+>  drivers/media/usb/uvc/uvcvideo.h                   |  34 ++--
+>  drivers/media/v4l2-core/v4l2-async.c               |   3 +-
+>  include/uapi/linux/media.h                         |   1 +
+>  10 files changed, 252 insertions(+), 167 deletions(-)
+> ---
+> base-commit: 4353256f5487e0c5c47e8ff764bf4f9e679fb525
+> change-id: 20241030-uvc-subdev-89f4467a00b5
+> 
+> Best regards,
+
+
+
+Thanks,
+Mauro
 
