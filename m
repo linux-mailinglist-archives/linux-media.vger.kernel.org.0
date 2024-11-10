@@ -1,364 +1,629 @@
-Return-Path: <linux-media+bounces-21230-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21231-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BDD9C33C6
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 17:08:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6AE9C34CE
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 22:37:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0C031B20C54
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 16:07:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 279DEB21486
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 21:37:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8F6E12F375;
-	Sun, 10 Nov 2024 16:07:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CF47157484;
+	Sun, 10 Nov 2024 21:37:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HciaOyE6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uNPa1blX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9568D55C29
-	for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 16:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448FE14B075
+	for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 21:37:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731254869; cv=none; b=cpMIJaw186S83hRw6jL3narlVPKe1FNPMlhuUPBPNASWpV4pLHnys2U+boQ4LzXwDb5NSwRKsQI8EOZchehg8e+/z2gdAzLzFOtbZxD235fdd4QQ9extWuAZfd4H2HVgyOqOZ1287dpNgg0tzt4bpUf8hY5YrZHHHrfolhwCpsg=
+	t=1731274666; cv=none; b=Da/WRTsnRIe5rtlH3Ol0pKNldO2ZFjJ+fumMmM7Z+smY4eRB+fNuFfdlfKLHjFN0+kjudCiucCx98ngvzCFGyjN5m+YhU5nGLBBG21vb7nLBnraaEZWRHZqCd40peq/y6hBVJ3c1jzF1eBdrCgZ8+1Qi5XgkJ6ViUngzS3Sny4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731254869; c=relaxed/simple;
-	bh=v8/Qriah7mMMd1g36X1Of61K4/3lFAL5Q/NV2+4Ihg0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sLmZROTiseub3eut0sZUv97DQD5u+1L7aYWV1XHPH2GMt6nnacVxT4lIIquh/DPWKqX0i2Juwj9Ir1CgCH/hB62KcYhPIW/SzjpFTMp+CskYHJYpq99BmKfIUXmVdnnIT0y1lEkcFIr5KUXoTw8y+/tRIdlcFfdiWP+CeTLGjyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HciaOyE6; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-71e8235f0b6so3123711b3a.3
-        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 08:07:47 -0800 (PST)
+	s=arc-20240116; t=1731274666; c=relaxed/simple;
+	bh=9gBzSEQEadYKikF5EtPh2kdsYRbjpFtILtx4lVSppog=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hHU3JN0cCCA1I0kXAcYG67gE8592Hdn9hzJZlHVW/7uvUNR4tS2sE0B7KT7AkdM6DXJ0VnMCBVFIVHdoVQ/hGVdWEiUxQ7KynNpnQ8VftDkB8EI6x3ucM6aEQiBW7SHDf0lnE8Z3QpV59MCbC6lt1p4U6pl6YDRPxcxg/5xdIF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uNPa1blX; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43152b79d25so31440725e9.1
+        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 13:37:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1731254867; x=1731859667; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0skt12aKXCRD6lMwCqaBvTwg2pvnfA4CAmfeu+/462s=;
-        b=HciaOyE6fXiNWRvWFIUcms0Mr7vfY81vdPTK7IE6BSy+0Pw5zLgE+vQBl8vLZZrzNQ
-         T0za1tvAI7Vbgp9AnoEVnz/q18v9hu/0s2rL6Ct1ikqYMCUP+1zzSx87/jJOoF0Qd/23
-         oiT6bOUzmwibeiO62RoLHjbKpNBTGfKWhC+fg=
+        d=linaro.org; s=google; t=1731274662; x=1731879462; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JmYuAa6t8nGCE6+aRkzTSD0KnWIju2Fdo+/2ju5i0sY=;
+        b=uNPa1blXkjFC2/D63XeWQLu3lWuhzw5VrLhXkef/teElC/g5kBjpcSUFt0syF6JBN6
+         3d5OyzrkAmnty8Lro+fKQbLMR6P/8eGNFJBJYTct2Dgv5ZpeVlnawJfl/mtv5IORvdzL
+         7Kw3M5Bv6Q527I6Cp8WQqp4sFiV2DE9y1d7mkSua9+85qrZA1QKEKZrXxJSHwITpg/Dw
+         X0Tcd3ZwL3ktjc8Do5FxcfjG5HcvUs/zuewAIFrLFFdqXrMVAd2qF9tma93XgSCltx9Z
+         VGMSYCmDXiTWsROIQjjEwns1rHbJdXFKewcoHR9q6o9CwUAm9I3rxVt3HuAPCcOckjuy
+         1q9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731254867; x=1731859667;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0skt12aKXCRD6lMwCqaBvTwg2pvnfA4CAmfeu+/462s=;
-        b=ac7KTqDBVHFn+icG8vba+FjFCmTHv5t7B+lZ8A3usL6FJXZ+zhBsUojIYMewLBUohk
-         IeTcLAGQE1xTNHqNUOHBo4puS/gnhcH86uz0ulqDmlbjRUWNPJssGRwiJf1OoAJsbzsP
-         8Enqd3aSXgbkU0xhCjc8erv37HaRX0Z9ghQg05kG40TW1R0IQ53HlOXld/xZEyg5ECtM
-         SnZUitVGmMv+AVQNsbG25iVrlW+O81pKTTu8DGHbvrwhr3J6hpuVpxHlU5jKU2xFohgO
-         tSHsay87lHTRz75+L7YwD/VsFoz83VERumb7w9ENarD1WLh9RauTXZuPQSgernaZPc4c
-         VFSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUz8s9dZxzQ1yrMycvLUdjlFmGHjzswaKy34p8uCCOz/fkd/tgv018hpEd/qd5rpLwDRuY5er0EGySI2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZzG5HnPReU079a/kk0V3JbIXpmtR800b/z9Hr7kr63cUNMOYe
-	sccpQdGAAgZT9GwGBiTXY6Yq8TTXxuabOXsPNiHmO7f0ZZLPVxQrJL/RKzT7+bX/oqPaBqCb21A
-	=
-X-Google-Smtp-Source: AGHT+IG4bDgz6+GLVh/OiFs8hyNCnqegKtRmD80+WkLqOaINLv8pQuMkeUymXHQJldJLR7LxETYAgA==
-X-Received: by 2002:a05:6a20:158c:b0:1db:da5e:361f with SMTP id adf61e73a8af0-1dc22a1b4d3mr15104863637.25.1731254866531;
-        Sun, 10 Nov 2024 08:07:46 -0800 (PST)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com. [209.85.215.170])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078ce1cbsm7344697b3a.87.2024.11.10.08.07.43
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1731274662; x=1731879462;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JmYuAa6t8nGCE6+aRkzTSD0KnWIju2Fdo+/2ju5i0sY=;
+        b=bTd4ZEtFDMYF2OPiFThU3YiMXsLW+yrFrk79bc8+r063PdBsimnf6Jopjj40Ulv1SJ
+         szWpfe9pTcQ78rs9im45SBDB0yI9UNoqtYX0bnNGZX0DfVENm1LkzEPG6qdsNE/48C/C
+         eOOKFvvIr9nvcLO/aHMTlyvVnml+KvUOhMKARizeaOsmXXscJoGj4QFe0havvigaPqh2
+         Yh1NI47xjr8XthEYTlwJEQWv52DvYp6syExp6/DGsZEXCqmDuWlKYT+5qyvXbZXXi7f3
+         SXOI1O9hBDt32uRpT6OrIs/dXR3Kf4O+v+p0keGpXO+0zd6akQaO/vCISEZIotudOTB0
+         Kyvg==
+X-Forwarded-Encrypted: i=1; AJvYcCUKUa38j7lzkm2SAiBRzlNCAt1aGPRHmpIWfYCG2IDooLo3cHBGd8FhUTi1zAvXZsU9pDB9H40P+QaWrQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4ieQa+Rw5VrQC3fOWSmt6tzJEsFXcc7V3eyvZV8+DER7uk6w3
+	p/W1s2/4Qtqobs6ILfcViUgXllfwrDP9sm8yjqE+d0Uar1wkhdl1nZTlDTBXbVQ=
+X-Google-Smtp-Source: AGHT+IESFYcuK4LbVK1mhuQglwRx3XCzxpihvpAxgd0lw6n74R3kjpaTp1shzNbqrRyh7vHGq7+19w==
+X-Received: by 2002:a05:600c:3ca4:b0:431:680e:95d9 with SMTP id 5b1f17b1804b1-432b7517221mr86608905e9.22.1731274662489;
+        Sun, 10 Nov 2024 13:37:42 -0800 (PST)
+Received: from [192.168.0.48] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed970d4fsm11456302f8f.5.2024.11.10.13.37.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Nov 2024 08:07:44 -0800 (PST)
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7eb0bc007edso1956781a12.3
-        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 08:07:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX5IuLSB8uIAHafPZM0DtstSPCZ16IgX8hbPPPfe+DTU6cimSYjuxSkMTymhObA1FJThf6YUgTkSi4jwA==@vger.kernel.org
-X-Received: by 2002:a17:90b:2251:b0:2e2:b64e:f501 with SMTP id
- 98e67ed59e1d1-2e9b1740f12mr13805943a91.30.1731254863163; Sun, 10 Nov 2024
- 08:07:43 -0800 (PST)
+        Sun, 10 Nov 2024 13:37:41 -0800 (PST)
+Message-ID: <0d0e76ce-fac9-4cd9-b177-7180daffbf86@linaro.org>
+Date: Sun, 10 Nov 2024 21:37:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241108-uvc-subdev-v2-0-85d8a051a3d3@chromium.org>
- <5b5f3bb7-7933-4861-be81-30345e333395@redhat.com> <CANiDSCta62P5+1aR9Ks8c6sd3_grCV3C+Le=UjKGkiohyf0R2g@mail.gmail.com>
- <20241110151426.GD6002@pendragon.ideasonboard.com>
-In-Reply-To: <20241110151426.GD6002@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Sun, 10 Nov 2024 17:07:30 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsTNuQRXwMqA_YmX4MJ-A8eTi_rEpkd+Qv=Qwbbrj18Yg@mail.gmail.com>
-Message-ID: <CANiDSCsTNuQRXwMqA_YmX4MJ-A8eTi_rEpkd+Qv=Qwbbrj18Yg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] media: uvcvideo: Implement the Privacy GPIO as a subdevice
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, Yunke Cao <yunkec@chromium.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 04/28] media: iris: introduce iris core state
+ management with shared queues
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Jianhua Lu <lujianhua000@gmail.com>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com>
+ <20241105-qcom-video-iris-v5-4-a88e7c220f78@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20241105-qcom-video-iris-v5-4-a88e7c220f78@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, 10 Nov 2024 at 16:14, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Sat, Nov 09, 2024 at 05:29:54PM +0100, Ricardo Ribalda wrote:
-> > On Sat, 9 Nov 2024 at 16:37, Hans de Goede <hdegoede@redhat.com> wrote:
-> > >
-> > > Hi Ricardo,
-> > >
-> > > FYI / some background: I have been asked to start helping /
-> > > co-maintaining UVC with Laurent. I'll send out a patch adding
-> > > myself as UVC maintainer soon.
-> >
-> > Great! I talked with Laurent yesterday, I hope that we can maintain
-> > the driver the three of us in the near future.
-> >
-> > > On 8-Nov-24 9:25 PM, Ricardo Ribalda wrote:
-> > > > Some notebooks have a button to disable the camera (not to be mistaken
-> > > > with the mechanical cover). This is a standard GPIO linked to the
-> > > > camera via the ACPI table.
-> > > >
-> > > > 4 years ago we added support for this button in UVC via the Privacy control.
-> > > > This has two issues:
-> > > > - If the camera has its own privacy control, it will be masked
-> > > > - We need to power-up the camera to read the privacy control gpio.
-> > > >
-> > > > We tried to fix the power-up issues implementing "granular power
-> > > > saving" but it has been more complicated than anticipated....
-> > >
-> > > I have been discussing UVC power-management with Laurent, also
-> > > related to power-consumption issues caused by libcamera's pipeline
-> > > handler holding open the /dev/video# node as long as the camera
-> > > manager object exists.
-> > >
-> > > For now we have fixed this with some relatively small changes to
-> > > libcamera's uvcvideo pipeline handler, but that is really meant
-> > > as an interim solution and as this privacy control series shows
-> > > the power-management issues are real.
-> >
-> > Indeed, we have tried to fixed it before:
-> > https://lore.kernel.org/linux-media/20220920-resend-powersave-v5-2-692e6df6c1e2@chromium.org/
-> >
-> > btw this recently landed patch was to work in this direction :)
-> > https://lore.kernel.org/linux-media/20240926-guenter-mini-v7-1-690441953d4a@chromium.org/
-> >
-> > The more people interested in this problem the better.
-> >
-> > > Combined with Mauro's remarks about how this is an userspace ABI break (1)
-> > > I think we should maybe first take another look at the powermanagement
-> > > issues in general rather then moving forward with this series.
-> > >
-> > > My apologies for this, I realize how annoying it can be when you are
-> > > working on a patch series to fix a specific issue and a reviewer
-> > > moves the goal-posts like this. But I do really think that just fixing
-> > > the generic power-management issues would be better and I also think
-> > > that this should be feasible / not too hard.
-> > >
-> > > Here is what I have in mind for this:
-> > >
-> > > 1. Assume that the results of trying a specific fmt do not change over time.
-> > >
-> > > 2. Only allow userspace to request fmts which match one of the enum-fmts ->
-> > >    enum-frame-sizes -> enum-frame-rates tripplet results
-> > >    (constrain what userspace requests to these)
-> > >
-> > > 3. Run the equivalent of tryfmt on all possible combinations (so the usaul
-> > >    3 levels nested loop for this) on probe() and cache the results
-> > >
-> > > 4. Make try_fmt / set_fmt not poweron the device but instead constrain
-> > >    the requested fmt to one from our cached fmts
-> > >
-> > > 5. On stream-on do the actual power-on + set-fmt + verify that we get
-> > >    what we expect based on the cache, and otherwise return -EIO.
-> >
-> > Can we start powering up the device during try/set fmt and then
-> > implement the format caching as an improvement?
->
-> This sounds worth trying. We'll need to test it on a wide range of
-> devices though, both internal and external.
+On 05/11/2024 06:55, Dikshita Agarwal wrote:
+> Introduce core state management for iris driver with necessary queues
+> needed for host firmware communication.
+> 
+> There are 3 types of queues:
+> Command queue - driver to write any command to firmware.
+> Message queue - firmware to send any response to driver.
+> Debug queue - firmware to write debug messages.
+> Initialize and configire shared queues during probe.
+> 
+> Different states for core:
+> IRIS_CORE_DEINIT - default state.
+> IRIS_CORE_INIT - core state with core initialized. FW loaded and HW
+> brought out of reset, shared queues established between host driver and
+> firmware.
+> IRIS_CORE_ERROR - error state.
+>        -----------
+>             |
+>             V
+>         -----------
+>         | DEINIT  |
+>         -----------
+>             ^
+>            / \
+>           /   \
+>          /     \
+>         /       \
+>        v         v
+>   -----------   ----------.
+>   |  INIT  |-->|  ERROR  |
+>   -----------   ----------.
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>   drivers/media/platform/qcom/iris/Makefile          |   4 +-
+>   drivers/media/platform/qcom/iris/iris_core.c       |  46 ++++++
+>   drivers/media/platform/qcom/iris/iris_core.h       |  23 +++
+>   drivers/media/platform/qcom/iris/iris_hfi_queue.c  | 123 +++++++++++++++
+>   drivers/media/platform/qcom/iris/iris_hfi_queue.h  | 175 +++++++++++++++++++++
+>   .../platform/qcom/iris/iris_platform_common.h      |   1 +
+>   .../platform/qcom/iris/iris_platform_sm8550.c      |   1 +
+>   drivers/media/platform/qcom/iris/iris_probe.c      |  20 +++
+>   drivers/media/platform/qcom/iris/iris_state.h      |  41 +++++
+>   drivers/media/platform/qcom/iris/iris_vidc.c       |   6 +
+>   10 files changed, 439 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
+> index 6de584090a3a..93711f108a77 100644
+> --- a/drivers/media/platform/qcom/iris/Makefile
+> +++ b/drivers/media/platform/qcom/iris/Makefile
+> @@ -1,5 +1,7 @@
+> -iris-objs += iris_hfi_gen1_command.o \
+> +iris-objs += iris_core.o \
+> +             iris_hfi_gen1_command.o \
+>                iris_hfi_gen2_command.o \
+> +             iris_hfi_queue.o \
+>                iris_platform_sm8550.o \
+>                iris_probe.o \
+>                iris_vidc.o \
+> diff --git a/drivers/media/platform/qcom/iris/iris_core.c b/drivers/media/platform/qcom/iris/iris_core.c
+> new file mode 100644
+> index 000000000000..360a54909ef6
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_core.c
+> @@ -0,0 +1,46 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include "iris_core.h"
+> +#include "iris_state.h"
+> +
+> +void iris_core_deinit(struct iris_core *core)
+> +{
+> +	mutex_lock(&core->lock);
+> +	iris_hfi_queues_deinit(core);
+> +	core->state = IRIS_CORE_DEINIT;
+> +	mutex_unlock(&core->lock);
+> +}
+> +
+> +int iris_core_init(struct iris_core *core)
+> +{
+> +	int ret;
+> +
+> +	mutex_lock(&core->lock);
+> +	if (core->state == IRIS_CORE_INIT) {
+> +		ret = 0;
+> +		goto exit;
+> +	} else if (core->state == IRIS_CORE_ERROR) {
+> +		ret = -EINVAL;
+> +		goto error;
+> +	}
+> +
+> +	core->state = IRIS_CORE_INIT;
+> +
+> +	ret = iris_hfi_queues_init(core);
+> +	if (ret)
+> +		goto error;
+> +
+> +	mutex_unlock(&core->lock);
+> +
+> +	return 0;
+> +
+> +error:
+> +	core->state = IRIS_CORE_DEINIT;
+> +exit:
+> +	mutex_unlock(&core->lock);
+> +
+> +	return ret;
+> +}
+> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
+> index 73c835bb6589..5fd11c3f99c5 100644
+> --- a/drivers/media/platform/qcom/iris/iris_core.h
+> +++ b/drivers/media/platform/qcom/iris/iris_core.h
+> @@ -9,7 +9,9 @@
+>   #include <linux/types.h>
+>   #include <media/v4l2-device.h>
+>   
+> +#include "iris_hfi_queue.h"
+>   #include "iris_platform_common.h"
+> +#include "iris_state.h"
+>   
+>   struct icc_info {
+>   	const char		*name;
+> @@ -34,6 +36,15 @@ struct icc_info {
+>    * @clk_count: count of iris clocks
+>    * @resets: table of iris reset clocks
+>    * @iris_platform_data: a structure for platform data
+> + * @state: current state of core
+> + * @iface_q_table_daddr: device address for interface queue table memory
+> + * @sfr_daddr: device address for SFR (Sub System Failure Reason) register memory
+> + * @iface_q_table_vaddr: virtual address for interface queue table memory
+> + * @sfr_vaddr: virtual address for SFR (Sub System Failure Reason) register memory
+> + * @command_queue: shared interface queue to send commands to firmware
+> + * @message_queue: shared interface queue to receive responses from firmware
+> + * @debug_queue: shared interface queue to receive debug info from firmware
+> + * @lock: a lock for this strucure
+>    */
+>   
+>   struct iris_core {
+> @@ -51,6 +62,18 @@ struct iris_core {
+>   	u32					clk_count;
+>   	struct reset_control_bulk_data		*resets;
+>   	const struct iris_platform_data		*iris_platform_data;
+> +	enum iris_core_state			state;
+> +	dma_addr_t				iface_q_table_daddr;
+> +	dma_addr_t				sfr_daddr;
+> +	void					*iface_q_table_vaddr;
+> +	void					*sfr_vaddr;
+> +	struct iris_iface_q_info		command_queue;
+> +	struct iris_iface_q_info		message_queue;
+> +	struct iris_iface_q_info		debug_queue;
+> +	struct mutex				lock; /* lock for core related operations */
+>   };
+>   
+> +int iris_core_init(struct iris_core *core);
+> +void iris_core_deinit(struct iris_core *core);
+> +
+>   #endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_queue.c b/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+> new file mode 100644
+> index 000000000000..bb7e0d747f0f
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+> @@ -0,0 +1,123 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include "iris_core.h"
+> +#include "iris_hfi_queue.h"
+> +
+> +static void iris_hfi_queue_set_header(struct iris_core *core, u32 queue_id,
+> +				      struct iris_iface_q_info *iface_q)
+> +{
+> +	iface_q->qhdr->status = 0x1;
 
-For what is worth, we have been running something similar to
-https://lore.kernel.org/linux-media/20220920-resend-powersave-v5-2-692e6df6c1e2@chromium.org/
-in ChromeOS and it has worked fine....
+What does 0x1 indicate ?
 
-But I am pretty sure that it has issues with async controls :S
+Could this be a define instead of an assigned number ?
 
->
-> > Laurent mentioned that some cameras missbehave if a lot of controls
-> > are set during probing. I hope that this approach does not trigger
-> > those, and if it does it would be easier to revert if we do the work
-> > in two steps.
-> >
-> > > I think that should sort the issue, assuming that 1. above holds true.
-> > >
-> > > One downside is that this stops UVC button presses from working when
-> > > not streaming. But userspace will typically only open the /dev/video#
-> > > node if it plans to stream anyways so there should not be much of
-> > > a difference wrt button press behavior.
-> >
-> > I do not personally use the button, but it is currently implemented as
-> > a standard HID device. Making it only work during streamon() might be
-> > a bit weird.
-> > I am afraid that if there is a button we should keep the current behaviour.
-> >
-> > >
-> > > This should also make camera enumeration faster for apps, since
-> > > most apps / frameworks do the whole 3 levels nested loop for this
-> > > on startup, for which atm we go out to the hw, which now instead
-> > > will come from the fmts cache and thus will be much much faster,
-> > > so this should lead to a noticeable speedup for apps accessing UVC
-> > > cameras which would be another nice win.
-> > >
-> > > Downside is that the initial probe will take longer see we do
-> > > all the tryfmt-s there now. But I think that taking a bit longer
-> > > to probe while the machine is booting should not be an issue.
-> >
-> > How do you pretend to handle the controls? Do you plan to power-up the
-> > device during s_ctrl() or set them only during streamon()?
-> > If we power-up the device during s_ctrl we need to take care of the
-> > asynchronous controls (typically pan/tilt/zoom), The device must be
-> > powered until the control finishes, and the device might never reply
-> > control_done if the firmware is not properly implemented.
-> > If we set the controls only during streamon, we will break some
-> > usecases. There are some video conferencing equipment that do homing
-> > during streamoff. That will be a serious API breakage.
-> >
-> > This patchset is not only to fix the powersaving issues, but also to
-> > fix the issue when a camera has  a gpio privacy switch and an internal
-> > Privacy control.  4 years ago I did not see any camera with Privacy
-> > control (in 100s of models), now they are common.
-> > Can we have both changes, gpio subdevice and granular power saving?
-> >
-> > > Regards,
-> > >
-> > > Hans
-> > >
-> > > 1) Which is technically correct, but FWIW I agree with you that I think
-> > > most userspace consumers will not care
-> > >
-> > > > Last year, we proposed a patchset to implement the privacy gpio as a
-> > > > subdevice https://lore.kernel.org/linux-media/20230111-uvc_privacy_subdev-v1-0-f859ac9a01e3@chromium.org/
-> > > >
-> > > > I think it is a pretty clean solution and makes sense to use a
-> > > > subdevice for something that is a sub device of the camera :).
-> > > >
-> > > > This is an attempt to continue with that approach.
-> > > >
-> > > > Tested on gimble:
-> > > > gimble-rev3 ~ # v4l2-ctl --all -d /dev/v4l-subdev0
-> > > > Driver Info:
-> > > >         Driver version   : 6.6.56
-> > > >         Capabilities     : 0x00000000
-> > > > Media Driver Info:
-> > > >         Driver name      : uvcvideo
-> > > >         Model            : HP 5M Camera: HP 5M Camera
-> > > >         Serial           : 0001
-> > > >         Bus info         : usb-0000:00:14.0-6
-> > > >         Media version    : 6.6.56
-> > > >         Hardware revision: 0x00009601 (38401)
-> > > >         Driver version   : 6.6.56
-> > > > Interface Info:
-> > > >         ID               : 0x0300001d
-> > > >         Type             : V4L Sub-Device
-> > > > Entity Info:
-> > > >         ID               : 0x00000013 (19)
-> > > >         Name             : GPIO
-> > > >         Function         : Unknown sub-device (00020006)
-> > > >
-> > > > Camera Controls
-> > > >
-> > > >                         privacy 0x009a0910 (bool)   : default=0 value=0 flags=read-only, volatile
-> > > >
-> > > > gimble-rev3 ~ # media-ctl  -p
-> > > > Media controller API version 6.6.56
-> > > >
-> > > > Media device information
-> > > > ------------------------
-> > > > driver          uvcvideo
-> > > > model           HP 5M Camera: HP 5M Camera
-> > > > serial          0001
-> > > > bus info        usb-0000:00:14.0-6
-> > > > hw revision     0x9601
-> > > > driver version  6.6.56
-> > > >
-> > > > Device topology
-> > > > - entity 1: HP 5M Camera: HP 5M Camera (1 pad, 1 link)
-> > > >             type Node subtype V4L flags 1
-> > > >             device node name /dev/video0
-> > > >         pad0: Sink
-> > > >                 <- "Extension 8":1 [ENABLED,IMMUTABLE]
-> > > >
-> > > > - entity 4: HP 5M Camera: HP 5M Camera (0 pad, 0 link)
-> > > >             type Node subtype V4L flags 0
-> > > >             device node name /dev/video1
-> > > >
-> > > > - entity 8: Extension 8 (2 pads, 2 links, 0 routes)
-> > > >             type V4L2 subdev subtype Unknown flags 0
-> > > >         pad0: Sink
-> > > >                 <- "Extension 4":1 [ENABLED,IMMUTABLE]
-> > > >         pad1: Source
-> > > >                 -> "HP 5M Camera: HP 5M Camera":0 [ENABLED,IMMUTABLE]
-> > > >
-> > > > - entity 11: Extension 4 (2 pads, 2 links, 0 routes)
-> > > >              type V4L2 subdev subtype Unknown flags 0
-> > > >         pad0: Sink
-> > > >                 <- "Processing 2":1 [ENABLED,IMMUTABLE]
-> > > >         pad1: Source
-> > > >                 -> "Extension 8":0 [ENABLED,IMMUTABLE]
-> > > >
-> > > > - entity 14: Processing 2 (2 pads, 2 links, 0 routes)
-> > > >              type V4L2 subdev subtype Unknown flags 0
-> > > >         pad0: Sink
-> > > >                 <- "Camera 1":0 [ENABLED,IMMUTABLE]
-> > > >         pad1: Source
-> > > >                 -> "Extension 4":0 [ENABLED,IMMUTABLE]
-> > > >
-> > > > - entity 17: Camera 1 (1 pad, 1 link, 0 routes)
-> > > >              type V4L2 subdev subtype Sensor flags 0
-> > > >         pad0: Source
-> > > >                 -> "Processing 2":0 [ENABLED,IMMUTABLE]
-> > > >
-> > > > - entity 19: GPIO (0 pad, 0 link, 0 routes)
-> > > >              type V4L2 subdev subtype Decoder flags 0
-> > > >              device node name /dev/v4l-subdev0
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > ---
-> > > > Changes in v2:
-> > > > - Rebase on top of https://patchwork.linuxtv.org/project/linux-media/patch/20241106-uvc-crashrmmod-v6-1-fbf9781c6e83@chromium.org/
-> > > > - Create uvc_gpio_cleanup and uvc_gpio_deinit
-> > > > - Refactor quirk: do not disable irq
-> > > > - Change define number for MEDIA_ENT_F_GPIO
-> > > > - Link to v1: https://lore.kernel.org/r/20241031-uvc-subdev-v1-0-a68331cedd72@chromium.org
-> > > >
-> > > > ---
-> > > > Ricardo Ribalda (5):
-> > > >       media: uvcvideo: Factor out gpio functions to its own file
-> > > >       Revert "media: uvcvideo: Allow entity-defined get_info and get_cur"
-> > > >       media: uvcvideo: Create ancillary link for GPIO subdevice
-> > > >       media: v4l2-core: Add new MEDIA_ENT_F_GPIO
-> > > >       media: uvcvideo: Use MEDIA_ENT_F_GPIO for the GPIO entity
-> > > >
-> > > > Yunke Cao (1):
-> > > >       media: uvcvideo: Re-implement privacy GPIO as a separate subdevice
-> > > >
-> > > >  .../userspace-api/media/mediactl/media-types.rst   |   4 +
-> > > >  drivers/media/usb/uvc/Makefile                     |   3 +-
-> > > >  drivers/media/usb/uvc/uvc_ctrl.c                   |  40 +----
-> > > >  drivers/media/usb/uvc/uvc_driver.c                 | 123 +-------------
-> > > >  drivers/media/usb/uvc/uvc_entity.c                 |  20 ++-
-> > > >  drivers/media/usb/uvc/uvc_gpio.c                   | 187 +++++++++++++++++++++
-> > > >  drivers/media/usb/uvc/uvc_video.c                  |   4 +
-> > > >  drivers/media/usb/uvc/uvcvideo.h                   |  34 ++--
-> > > >  drivers/media/v4l2-core/v4l2-async.c               |   3 +-
-> > > >  include/uapi/linux/media.h                         |   1 +
-> > > >  10 files changed, 252 insertions(+), 167 deletions(-)
-> > > > ---
-> > > > base-commit: 4353256f5487e0c5c47e8ff764bf4f9e679fb525
-> > > > change-id: 20241030-uvc-subdev-89f4467a00b5
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> +	iface_q->qhdr->start_addr = iface_q->device_addr;
+> +	iface_q->qhdr->header_type = IFACEQ_DFLT_QHDR;
+> +	iface_q->qhdr->queue_type = queue_id;
+> +	iface_q->qhdr->q_size = IFACEQ_QUEUE_SIZE / sizeof(u32);
+> +	iface_q->qhdr->pkt_size = 0; /* variable packet size */
+> +	iface_q->qhdr->rx_wm = 0x1;
+> +	iface_q->qhdr->tx_wm = 0x1;
+> +	iface_q->qhdr->rx_req = 0x1;
+> +	iface_q->qhdr->tx_req = 0x0;
+> +	iface_q->qhdr->rx_irq_status = 0x0;
+> +	iface_q->qhdr->tx_irq_status = 0x0;
+> +	iface_q->qhdr->read_idx = 0x0;
+> +	iface_q->qhdr->write_idx = 0x0;
+> +
+> +	/*
+> +	 * Set receive request to zero on debug queue as there is no
+> +	 * need of interrupt from video hardware for debug messages
+> +	 */
+> +	if (queue_id == IFACEQ_DBGQ_ID)
+> +		iface_q->qhdr->rx_req = 0;
+> +}
+> +
+> +static void
+> +iris_hfi_queue_init(struct iris_core *core, u32 queue_id, struct iris_iface_q_info *iface_q)
+> +{
+> +	struct iris_hfi_queue_table_header *q_tbl_hdr = core->iface_q_table_vaddr;
+> +	u32 offset = sizeof(*q_tbl_hdr) + (queue_id * IFACEQ_QUEUE_SIZE);
+> +
+> +	iface_q->device_addr = core->iface_q_table_daddr + offset;
+> +	iface_q->kernel_vaddr =
+> +			(void *)((char *)core->iface_q_table_vaddr + offset);
+> +	iface_q->qhdr = &q_tbl_hdr->q_hdr[queue_id];
+> +
+> +	iris_hfi_queue_set_header(core, queue_id, iface_q);
+> +}
+> +
+> +static void iris_hfi_queue_deinit(struct iris_iface_q_info *iface_q)
+> +{
+> +	iface_q->qhdr = NULL;
+> +	iface_q->kernel_vaddr = NULL;
+> +	iface_q->device_addr = 0;
+> +}
+> +
+> +int iris_hfi_queues_init(struct iris_core *core)
+> +{
+> +	struct iris_hfi_queue_table_header *q_tbl_hdr;
+> +	u32 queue_size;
+> +
+> +	/* Iris hardware requires 4K queue alignment */
+> +	queue_size = ALIGN((sizeof(*q_tbl_hdr) + (IFACEQ_QUEUE_SIZE * IFACEQ_NUMQ)), SZ_4K);
+> +	core->iface_q_table_vaddr = dma_alloc_attrs(core->dev, queue_size,
+> +						    &core->iface_q_table_daddr,
+> +						    GFP_KERNEL, DMA_ATTR_WRITE_COMBINE);
+> +	if (!core->iface_q_table_vaddr) {
+> +		dev_err(core->dev, "queues alloc and map failed\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	core->sfr_vaddr = dma_alloc_attrs(core->dev, SFR_SIZE,
+> +					  &core->sfr_daddr,
+> +					  GFP_KERNEL, DMA_ATTR_WRITE_COMBINE);
+> +	if (!core->sfr_vaddr) {
+> +		dev_err(core->dev, "sfr alloc and map failed\n");
+> +		dma_free_attrs(core->dev, sizeof(*q_tbl_hdr), core->iface_q_table_vaddr,
+> +			       core->iface_q_table_daddr, DMA_ATTR_WRITE_COMBINE);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	iris_hfi_queue_init(core, IFACEQ_CMDQ_ID, &core->command_queue);
+> +	iris_hfi_queue_init(core, IFACEQ_MSGQ_ID, &core->message_queue);
+> +	iris_hfi_queue_init(core, IFACEQ_DBGQ_ID, &core->debug_queue);
+> +
+> +	q_tbl_hdr = (struct iris_hfi_queue_table_header *)core->iface_q_table_vaddr;
+> +	q_tbl_hdr->version = 0;
+> +	q_tbl_hdr->device_addr = (void *)core;
+> +	strscpy(q_tbl_hdr->name, "iris-hfi-queues", sizeof(q_tbl_hdr->name));
+> +	q_tbl_hdr->size = sizeof(*q_tbl_hdr);
+> +	q_tbl_hdr->qhdr0_offset = sizeof(*q_tbl_hdr) -
+> +		(IFACEQ_NUMQ * sizeof(struct iris_hfi_queue_header));
+> +	q_tbl_hdr->qhdr_size = sizeof(q_tbl_hdr->q_hdr[0]);
+> +	q_tbl_hdr->num_q = IFACEQ_NUMQ;
+> +	q_tbl_hdr->num_active_q = IFACEQ_NUMQ;
+> +
+> +	 /* Write sfr size in first word to be used by firmware */
+> +	*((u32 *)core->sfr_vaddr) = SFR_SIZE;
+> +
+> +	return 0;
+> +}
+> +
+> +void iris_hfi_queues_deinit(struct iris_core *core)
+> +{
+> +	if (!core->iface_q_table_vaddr)
+> +		return;
+> +
+> +	iris_hfi_queue_deinit(&core->debug_queue);
+> +	iris_hfi_queue_deinit(&core->message_queue);
+> +	iris_hfi_queue_deinit(&core->command_queue);
+> +
+> +	dma_free_attrs(core->dev, SFR_SIZE, core->sfr_vaddr,
+> +		       core->sfr_daddr, DMA_ATTR_WRITE_COMBINE);
+> +
+> +	core->sfr_vaddr = NULL;
+> +	core->sfr_daddr = 0;
+> +
+> +	dma_free_attrs(core->dev, sizeof(struct iris_hfi_queue_table_header),
+> +		       core->iface_q_table_vaddr, core->iface_q_table_daddr,
+> +		       DMA_ATTR_WRITE_COMBINE);
+> +
+> +	core->iface_q_table_vaddr = NULL;
+> +	core->iface_q_table_daddr = 0;
+> +}
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_queue.h b/drivers/media/platform/qcom/iris/iris_hfi_queue.h
+> new file mode 100644
+> index 000000000000..54994bb776f1
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_queue.h
+> @@ -0,0 +1,175 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef _IRIS_HFI_QUEUE_H_
+> +#define _IRIS_HFI_QUEUE_H_
+> +
+> +struct iris_core;
+> +
+> +/*
+> + * Maximum number of buffers which queue can hold until
+> + * hardware stops responding and driver times out.
+> + */
+> +#define IFACEQ_MAX_BUF_COUNT		50
 
+Is there any reason 50 is chosen here ?
 
+Could it be 32, 64 or another 0x10 aligned number ?
 
--- 
-Ricardo Ribalda
+> +/*
+> + * Max session supported are 16.
+> + * this value is used to calcualte the size of
+> + * individual shared queue.
+> + */
+> +#define IFACE_MAX_PARALLEL_SESSIONS	16
+> +#define IFACEQ_DFLT_QHDR		0x0101
+> +#define IFACEQ_MAX_PKT_SIZE		1024 /* Maximum size of a packet in the queue */
+> +
+> +/*
+> + * SFR: Subsystem Failure Reason
+> + * when hardware goes into bad state/failure, firmware fills this memory
+> + * and driver will get to know the actual failure reason from this SFR buffer.
+> + */
+> +#define SFR_SIZE			SZ_4K /* Iris hardware requires 4K queue alignment */
+> +
+> +#define IFACEQ_QUEUE_SIZE		(IFACEQ_MAX_PKT_SIZE * \
+> +					 IFACEQ_MAX_BUF_COUNT * IFACE_MAX_PARALLEL_SESSIONS)
+> +
+> +/*
+> + * Memory layout of the shared queues:
+> + *
+> + *   ||=================||  ^        ^         ^
+> + *   ||                 ||  |        |         |
+> + *   ||    Queue Table  || 288 Bytes |         |
+> + *   ||      Header     ||  |        |         |
+> + *   ||                 ||  |        |         |
+> + *   ||-----------------||  V        |         |
+> + *   ||-----------------||  ^        |         |
+> + *   ||                 ||  |        |         |
+> + *   ||  Command Queue  || 56 Bytes  |         |
+> + *   ||     Header      ||  |        |         |
+> + *   ||                 ||  |        |         |
+> + *   ||-----------------||  V       456 Bytes  |
+> + *   ||-----------------||  ^        |         |
+> + *   ||                 ||  |        |         |
+> + *   ||  Message Queue  || 56 Bytes  |         |
+> + *   ||     Header      ||  |        |         |
+> + *   ||                 ||  |        |         |
+> + *   ||-----------------||  V        |         Buffer size aligned to 4k
+> + *   ||-----------------||  ^        |         Overall Queue Size = 2,404 KB
+> + *   ||                 ||  |        |         |
+> + *   ||   Debug Queue   || 56 Bytes  |         |
+> + *   ||     Header      ||  |        |         |
+> + *   ||                 ||  |        |         |
+> + *   ||=================||  V        V         |
+> + *   ||=================||           ^         |
+> + *   ||                 ||           |         |
+> + *   ||     Command     ||         800 KB      |
+> + *   ||      Queue      ||           |         |
+> + *   ||                 ||           |         |
+> + *   ||=================||           V         |
+> + *   ||=================||           ^         |
+> + *   ||                 ||           |         |
+> + *   ||     Message     ||         800 KB      |
+> + *   ||      Queue      ||           |         |
+> + *   ||                 ||           |         |
+> + *   ||=================||           V         |
+> + *   ||=================||           ^         |
+> + *   ||                 ||           |         |
+> + *   ||      Debug      ||         800 KB      |
+> + *   ||      Queue      ||           |         |
+> + *   ||                 ||           |         |
+> + *   ||=================||           V         |
+> + *   ||                 ||                     |
+> + *   ||=================||                     V
+> + */
+> +
+> +/*
+> + * Shared queues are used for communication between driver and firmware.
+> + * There are 3 types of queues:
+> + * Command queue - driver to write any command to firmware.
+> + * Message queue - firmware to send any response to driver.
+> + * Debug queue - firmware to write debug message.
+> + */
+> +
+> +/* Host-firmware shared queue ids */
+> +enum iris_iface_queue {
+> +	IFACEQ_CMDQ_ID,
+> +	IFACEQ_MSGQ_ID,
+> +	IFACEQ_DBGQ_ID,
+> +	IFACEQ_NUMQ, /* not an index */
+> +};
+> +
+> +/**
+> + * struct iris_hfi_queue_header
+> + *
+> + * @status: Queue status, qhdr_state define possible status
+> + * @start_addr: Queue start address in non cached memory
+> + * @type: qhdr_tx, qhdr_rx, qhdr_q_id and priority defines qhdr type
+> + * @q_size: Queue size
+> + *		Number of queue packets if pkt_size is non-zero
+> + *		Queue size in bytes if pkt_size is zero
+> + * @pkt_size: Size of queue packet entries
+> + *		0x0: variable queue packet size
+> + *		non zero: size of queue packet entry, fixed
+> + * @pkt_drop_cnt: Number of packets dropped by sender
+> + * @rx_wm: Receiver watermark, applicable in event driven mode
+> + * @tx_wm: Sender watermark, applicable in event driven mode
+> + * @rx_req: Receiver sets this bit if queue is empty
+> + * @tx_req: Sender sets this bit if queue is full
+> + * @rx_irq_status: Receiver sets this bit and triggers an interrupt to
+> + *		the sender after packets are dequeued. Sender clears this bit
+> + * @tx_irq_status: Sender sets this bit and triggers an interrupt to
+> + *		the receiver after packets are queued. Receiver clears this bit
+> + * @read_idx: Index till where receiver has consumed the packets from the queue.
+> + * @write_idx: Index till where sender has written the packets into the queue.
+> + */
+> +struct iris_hfi_queue_header {
+> +	u32 status;
+> +	u32 start_addr;
+> +	u16 queue_type;
+> +	u16 header_type;
+> +	u32 q_size;
+> +	u32 pkt_size;
+> +	u32 pkt_drop_cnt;
+> +	u32 rx_wm;
+> +	u32 tx_wm;
+> +	u32 rx_req;
+> +	u32 tx_req;
+> +	u32 rx_irq_status;
+> +	u32 tx_irq_status;
+> +	u32 read_idx;
+> +	u32 write_idx;
+> +};
+> +
+> +/**
+> + * struct iris_hfi_queue_table_header
+> + *
+> + * @version: Queue table version number
+> + * @size: Queue table size from version to last parametr in qhdr entry
+> + * @qhdr0_offset: Offset to the start of first qhdr
+> + * @qhdr_size: Queue header size in bytes
+> + * @num_q: Total number of queues in Queue table
+> + * @num_active_q: Total number of active queues
+> + * @device_addr: Device address of the queue
+> + * @name: Queue name in characters
+> + */
+> +struct iris_hfi_queue_table_header {
+> +	u32 version;
+> +	u32 size;
+> +	u32 qhdr0_offset;
+> +	u32 qhdr_size;
+> +	u32 num_q;
+> +	u32 num_active_q;
+> +	void *device_addr;
+> +	char name[256]; /* NUL-terminated array of characters */
+> +	struct iris_hfi_queue_header q_hdr[IFACEQ_NUMQ];
+> +};
+> +
+> +struct iris_iface_q_info {
+> +	struct iris_hfi_queue_header *qhdr;
+> +	dma_addr_t	device_addr;
+> +	void		*kernel_vaddr;
+> +};
+> +
+> +int iris_hfi_queues_init(struct iris_core *core);
+> +void iris_hfi_queues_deinit(struct iris_core *core);
+> +
+> +#endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> index b3a2903698ff..dac64ec4bf03 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> @@ -31,6 +31,7 @@ struct iris_platform_data {
+>   	unsigned int clk_tbl_size;
+>   	const char * const *clk_rst_tbl;
+>   	unsigned int clk_rst_tbl_size;
+> +	u64 dma_mask;
+>   };
+>   
+>   #endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+> index dba8d3c22ce5..9b305b8e2110 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+> @@ -36,4 +36,5 @@ struct iris_platform_data sm8550_data = {
+>   	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
+>   	.clk_tbl = sm8550_clk_table,
+>   	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
+> +	.dma_mask = GENMASK(31, 29) - 1,
+>   };
+> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> index ce16d894c809..0d858c7b015f 100644
+> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> @@ -168,15 +168,21 @@ static void iris_remove(struct platform_device *pdev)
+>   	if (!core)
+>   		return;
+>   
+> +	iris_core_deinit(core);
+> +
+>   	video_unregister_device(core->vdev_dec);
+>   
+>   	v4l2_device_unregister(&core->v4l2_dev);
+> +
+> +	mutex_destroy(&core->lock);
+> +	core->state = IRIS_CORE_DEINIT;
+
+This setting of the state is redundant, you've already set the state @ 
+iris_core_deinit();
+
+---
+bod
 
