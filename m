@@ -1,76 +1,76 @@
-Return-Path: <linux-media+bounces-21228-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21229-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096819C33B3
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 17:02:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 226049C33C0
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 17:05:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C6D81C20A59
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 16:02:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5CAF1F2127D
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 16:05:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A58280BF8;
-	Sun, 10 Nov 2024 16:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0C8384D29;
+	Sun, 10 Nov 2024 16:05:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FhhOC06P"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NLbX2CfQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746D93A8F7
-	for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 16:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840333A8F7
+	for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 16:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731254530; cv=none; b=jQ4JF4sanLzD3cAnBujoa0bh9IDN1JFibvSs7cbASiCaIfSnH1o0RuhPZ5okWmKRuT25gQ+WEFrIvE0OqMkyEBb+NIE5G22OihFYOA5iEu2hAPxkcYODamFJlWm0mr20ysdRvSYkfBolu5o2q6mAUHLUb1c3hmam209t0iEMT3Q=
+	t=1731254704; cv=none; b=Njof37zAsuKesGglbMCq1N//Gu0qWBJ6aI6bSIVjqztC7s8JnvBtm7/vBn/O0E73FYFrPOrwdbsbx0vd4dXgx/X0tmzO4SJMkpnysXyPZIN5KS6haUbUgyVqSjl1hb0jQtNtSkFYpFL1+GwQ6KbitZi46JyzK91JlyhJfnogy/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731254530; c=relaxed/simple;
-	bh=ZRa6FijkI+LZa7ep5qzKJ7Z0Ba2vVxpt/Tny7o4692k=;
+	s=arc-20240116; t=1731254704; c=relaxed/simple;
+	bh=sEsdEe0W6P3WfpxnXO07UpqLJ+Yl+utnriTV8++N8Z0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YbFEO0DQWe6cRTv9Toikh2+A/xjrp9/edKjgLslUi1PuErmZZb+KQlwSH8gFXwIk3t2q6UL2U9c3Pc3asdhFOspMyf8/Fpq65fFkYyN8y1/MP2wl3CiT+395DAc7LrKxIWjG62y0C3sm9blG/Qny/3BvdXJSKAOTEwtSNFWfjF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FhhOC06P; arc=none smtp.client-ip=209.85.214.170
+	 To:Cc:Content-Type; b=qf60+61k19/ngsCcx0hI0bBgaI6+4p14DSfkxP+pDaPU9agrVQiAWahTdlaOJ3tARNqNbhnapVHgO+DxY4O2DByTN6GhLh3vHfZFD6zxGIFmPWTxTooepbd6cEFy5LU4izkZ7/CGedywDNaIfjLUM5sdC2Zze3efkklaHgw5qLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NLbX2CfQ; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-20c7ee8fe6bso36148885ad.2
-        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 08:02:08 -0800 (PST)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71e4244fdc6so3172777b3a.0
+        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 08:05:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1731254527; x=1731859327; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1731254701; x=1731859501; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UVY7VeNitIMXPIsd+9NIiRq6YocYM2GcYTriZCbfqJs=;
-        b=FhhOC06P/mpZvKNQECWWkeZIWFzi2L/AjvY/g7Nz5oN6WDlDOiRaDacoJLW7aWx9f9
-         a479LFHKFN+7/gpV8QeKZoOqbnBHCqEo2X17OnfPodbpWpPN1B0Ns7n6SYbr4JBHrE4e
-         AlWxAKFLH9tV5uHfSbK0WtVaLsbQ553kLGNfQ=
+        bh=t5kL4NNF/CX9ynD/7kZJ+040uV97/VNYGj/yNKaj4VQ=;
+        b=NLbX2CfQNEW6ZKsoYtxeWCzMnRLTSMrHLd9R8YCc6fYLk5VvjJDo0ZiHyJCfqlcCBC
+         CDrev7vWrodzn2pop8sFofVkOK9yItbzlUZO4sJX5RuYp+0taVzXQ9EbWDecyJLEdnGq
+         bsL7VZMifcREBmTm3IFSnMd1QD7ce4/oL12PQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731254527; x=1731859327;
+        d=1e100.net; s=20230601; t=1731254701; x=1731859501;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UVY7VeNitIMXPIsd+9NIiRq6YocYM2GcYTriZCbfqJs=;
-        b=xExvzkwldIKmPMAyyYlJLbGuiVyYJUP1KepspflyrV+eee2Ej3jQN/lCKssyiAtm4n
-         +VDYy5jZ77OuEdwAG06U9AKVE4TVUhvEZmgYXajRap8MZICB+wqJcyydkOX9/O1hoFNR
-         JCvDGQmDGgCLtcGtvKfev4MFHs7OZSegUDZJ3AkhyMAq83IA9UkT8foGq+ogNYKpfG//
-         fsvoKir2ev3ELF3wvJXMmKuRluz36ldE9vFyHJUI0OkiTgYWiEllR1KtTo6elr7HNPan
-         HKc8IYmn2bEp/tRk2ybR6aMyn0RsqVFdvO7z4QqTDonhMBJPVLJ0ZBZZtOMZV5Jqm/Xv
-         mruQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXqvPWaXwe5pQhPYyPPaB4w4eiwxEr67cp6fgyzEbTyBTVJ5nPP0WeMV+XQEemgHm0WFEnojXFYD5O31Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKYYEht6LUdI8XoIG9Mkzv+Sh9S4Fc20sssqKHERUxG9CAAVYP
-	0NZhG6Kcla45DuLxGSXf713VEX6I7Y+w1UBp11wZAsKUuWRcskp1m06oJeAIynUyvWwz/4X4kCw
+        bh=t5kL4NNF/CX9ynD/7kZJ+040uV97/VNYGj/yNKaj4VQ=;
+        b=multXvgFjmyrCPFt4Kn1LRz8ClwqNRg4m8pq+8PmNLs6bwL8EpvHzKU8TNQVokXDxe
+         ZOs8gwjcUc6Op49xEaLz0w67MVpiNYxeSgE1HVakpDj5UWZkDWLKWMWEGI8M4sc4BX5I
+         +O9fOm7ZcT72nIoMtl6p3i9/Lk0DCIfbMIGbunE34oOTbtAcEVfGZkzXVFpVeG5rs6rq
+         8OFyMBjdyseCYH5e3yFmVD1eHHyUCXXmfLGGBAQa5Mu2+1cKFPmwxIqifIwB30ztKJ9+
+         Fe2z0fX3fybYxb3Qk5qgv2aHVfXwIgV0MZKJnnROfvsDv2NlkHa0l2fzjBK6uZfBKq/p
+         xktg==
+X-Forwarded-Encrypted: i=1; AJvYcCUllg3lR9+YSZJ8//17cF1lE28POxbXcSNEGltgOPZaHcd3ABrTlteGxgcbhJjfmtXQgkmO1el+ffr3mw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywndc8uQPJK9WHRhxPAy18KILWsdxygCSJVvlAW1At2yrXQuUAt
+	cR1Dewqe0GRWeWyYDQKFm/RIcX2VFSS0vC5W8Er8iLhcXVgjjen38Pg75TW5Pe3p3xbLHh3VEao
 	=
-X-Google-Smtp-Source: AGHT+IFEA1FRZgLnXkpCLsbNE9BI6KUTD+cWJ9HGYmDXb60sIkPTDXulcsmr1RfUOCPYytd94ASVuQ==
-X-Received: by 2002:a17:902:ce92:b0:20c:f648:e3a7 with SMTP id d9443c01a7336-21183e40826mr137371245ad.50.1731254527506;
-        Sun, 10 Nov 2024 08:02:07 -0800 (PST)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com. [209.85.216.54])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e59f1dsm60395475ad.182.2024.11.10.08.02.04
+X-Google-Smtp-Source: AGHT+IGJbnpYXtLcWMI/1j6baDresCW3wg+VTlOe8GWzpAtrBiUdMp4/+7zNlBu7LV3yd27Vjg9Gzg==
+X-Received: by 2002:a05:6a00:3c83:b0:710:6e83:cd5e with SMTP id d2e1a72fcca58-7241314669amr15308023b3a.0.1731254701519;
+        Sun, 10 Nov 2024 08:05:01 -0800 (PST)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com. [209.85.216.50])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7240785f8c6sm7269797b3a.35.2024.11.10.08.05.00
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Nov 2024 08:02:04 -0800 (PST)
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2e2d1858cdfso2838713a91.1
-        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 08:02:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV+OlYkbsA0PCgUGdK4aGC53v+Z6Qqw/zDrPgDyyLtdZua6HwWapNBlUBODQK3iM50aYCfMiafkiurL+A==@vger.kernel.org
-X-Received: by 2002:a17:90b:2747:b0:2e2:cf5c:8ee3 with SMTP id
- 98e67ed59e1d1-2e9b17138bcmr15352771a91.10.1731254523404; Sun, 10 Nov 2024
- 08:02:03 -0800 (PST)
+        Sun, 10 Nov 2024 08:05:00 -0800 (PST)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2dc61bc41so2713615a91.1
+        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2024 08:05:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW6kPOFPMRRQC+2F+7UrffaYZl199DW4AbClP5P/+dQh/z7CT/pR899/EFkSId9NLOO6THlCcyyvMtPOQ==@vger.kernel.org
+X-Received: by 2002:a17:90b:1c8d:b0:2e0:8719:5f00 with SMTP id
+ 98e67ed59e1d1-2e9b173c3admr15706394a91.22.1731254699442; Sun, 10 Nov 2024
+ 08:04:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,160 +79,284 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241108-uvc-subdev-v2-0-85d8a051a3d3@chromium.org>
  <5b5f3bb7-7933-4861-be81-30345e333395@redhat.com> <CANiDSCta62P5+1aR9Ks8c6sd3_grCV3C+Le=UjKGkiohyf0R2g@mail.gmail.com>
- <20241110110257.5160a7d1@foz.lan> <CANiDSCvYo8=x_QAeg0_S=_H=R1EgM9xLUy4DXURcuEadYcQjQQ@mail.gmail.com>
- <20241110134608.6e82f851@foz.lan>
-In-Reply-To: <20241110134608.6e82f851@foz.lan>
+ <20241110151426.GD6002@pendragon.ideasonboard.com>
+In-Reply-To: <20241110151426.GD6002@pendragon.ideasonboard.com>
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Sun, 10 Nov 2024 17:01:50 +0100
-X-Gmail-Original-Message-ID: <CANiDSCu9fiAXEer-TROhks+Hn2=bZp2jb_Zm+nvkzW=6yMtcUg@mail.gmail.com>
-Message-ID: <CANiDSCu9fiAXEer-TROhks+Hn2=bZp2jb_Zm+nvkzW=6yMtcUg@mail.gmail.com>
+Date: Sun, 10 Nov 2024 17:04:46 +0100
+X-Gmail-Original-Message-ID: <CANiDSCuRbOEhWi8WtJpJSm5SOjzTRzpk=OTOV_jwbhUQMoXszw@mail.gmail.com>
+Message-ID: <CANiDSCuRbOEhWi8WtJpJSm5SOjzTRzpk=OTOV_jwbhUQMoXszw@mail.gmail.com>
 Subject: Re: [PATCH v2 0/6] media: uvcvideo: Implement the Privacy GPIO as a subdevice
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	Yunke Cao <yunkec@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, Yunke Cao <yunkec@chromium.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 10 Nov 2024 at 13:46, Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Sun, 10 Nov 2024 at 16:14, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Em Sun, 10 Nov 2024 11:32:16 +0100
-> Ricardo Ribalda <ribalda@chromium.org> escreveu:
->
-> > Hi Mauro
+> On Sat, Nov 09, 2024 at 05:29:54PM +0100, Ricardo Ribalda wrote:
+> > On Sat, 9 Nov 2024 at 16:37, Hans de Goede <hdegoede@redhat.com> wrote:
+> > >
+> > > Hi Ricardo,
+> > >
+> > > FYI / some background: I have been asked to start helping /
+> > > co-maintaining UVC with Laurent. I'll send out a patch adding
+> > > myself as UVC maintainer soon.
 > >
-> > On Sun, 10 Nov 2024 at 11:03, Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote:
-> > >
-> > > Em Sat, 9 Nov 2024 17:29:54 +0100
-> > > Ricardo Ribalda <ribalda@chromium.org> escreveu:
-> > >
-> > > > >
-> > > > > I think that should sort the issue, assuming that 1. above holds true.
-> > > > >
-> > > > > One downside is that this stops UVC button presses from working when
-> > > > > not streaming. But userspace will typically only open the /dev/video#
-> > > > > node if it plans to stream anyways so there should not be much of
-> > > > > a difference wrt button press behavior.
+> > Great! I talked with Laurent yesterday, I hope that we can maintain
+> > the driver the three of us in the near future.
+> >
+> > > On 8-Nov-24 9:25 PM, Ricardo Ribalda wrote:
+> > > > Some notebooks have a button to disable the camera (not to be mistaken
+> > > > with the mechanical cover). This is a standard GPIO linked to the
+> > > > camera via the ACPI table.
 > > > >
-> > > > I do not personally use the button, but it is currently implemented as
-> > > > a standard HID device.
+> > > > 4 years ago we added support for this button in UVC via the Privacy control.
+> > > > This has two issues:
+> > > > - If the camera has its own privacy control, it will be masked
+> > > > - We need to power-up the camera to read the privacy control gpio.
+> > > >
+> > > > We tried to fix the power-up issues implementing "granular power
+> > > > saving" but it has been more complicated than anticipated....
 > > >
-> > > IMO, controlling the privacy via evdev is the best approach then. There's
-> > > no need for a RW control neither at subdev or at device level. It could
-> > > make sense a Read only to allow apps to read, but still it shall be up to
-> > > the Kernel to protect the stream if the button is pressed.
+> > > I have been discussing UVC power-management with Laurent, also
+> > > related to power-consumption issues caused by libcamera's pipeline
+> > > handler holding open the /dev/video# node as long as the camera
+> > > manager object exists.
 > > >
-> > > > Making it only work during streamon() might be
-> > > > a bit weird.
-> > > > I am afraid that if there is a button we should keep the current behaviour.
-> > >
-> > > Privacy matters only when streaming. IMO the Kernel check for it needs to
-> > > be done at DQBUF time and at read() calls, as one can enable/disable the
-> > > camera while doing videoconf calls. I do that a lot with app "soft" buttons,
-> > > and on devices that physically support cutting the video.
-> > >
-> > > I don't trust myself privacy soft buttons, specially when handled in userspace,
-> > > so what I have are webcam covers (and a small stick glued at a laptop camera
-> > > that has a too small sensor for a webcam cover). I only remove the cover/stick
-> > > when I want to participate on videoconf with video enabled with the builtin
-> > > camera.
-> > >
-> > > Regards
+> > > For now we have fixed this with some relatively small changes to
+> > > libcamera's uvcvideo pipeline handler, but that is really meant
+> > > as an interim solution and as this privacy control series shows
+> > > the power-management issues are real.
 > >
-> > I think we are mixing up concepts here.
+> > Indeed, we have tried to fixed it before:
+> > https://lore.kernel.org/linux-media/20220920-resend-powersave-v5-2-692e6df6c1e2@chromium.org/
 > >
-> > On one side we have the uvc button. You can see one here
-> > https://www.sellpy.dk/item/2Yk1ZULbki?utm_source=google&utm_medium=cpc&utm_campaign=17610409619&gad_source=1&gclid=Cj0KCQiA0MG5BhD1ARIsAEcZtwR9-09ZtTIVNbVknrZCtCd7ezVM8YFw1yQXfs81FWhofg9eW-iBrsIaAopVEALw_wcB
-> > That button is not represented as a hid device. We do not know how the
-> > user will use this button. They could even use it to start an app when
-> > pressed.
->
-> Old cameras have a <snapshot> button. Maybe that's the case of the device
-> you're pointing, as it looks some non-uvc Logitech cameras I have myself.
->
-> > On the other side we have  the privacy gpio. The chassis has a switch
-> > that is connected to the camera and to the SOC. You can see one here:
-> > https://support.hp.com/ie-en/document/ish_3960099-3335046-16 .We link
-> > the camera with a gpio via the acpi table. When the user flips the
-> > button, the camera produces black frames and the SOC gets an IRQ.
->
-> OK, so the hardware warrants black frames. Sounds a more secure
-> implementation.
->
-> > The IRQ is used to display a message like "Camera off" and the value of
-> > the GPIO can be checked when an app is running to tell the user:
-> > "Camera not available, flip the privacy button if you want to use it."
->
-> So, it is not really a privacy gpio/control. It is instead a privacy
-> notification control.
->
-> I would better name it to clearly indicate what it is about.
->
-> > Userspace cannot change the value of the gpio. It is read-only,
-> > userspace cannot override the privacy switch. The privacy gpio is
-> > represented with a control in /dev/videoX This patchset wants to move
-> > it to /dev/v4l2-subdevX
->
-> Well, if it is really a gpio pin, kernel (and eventually userspace) can force
-> it to pullup (or pulldown) state, forcing one of the states. If, instead is
-> an output-only pin, kernel/userspace can't control it at all.
->
-> > To make things more complicated. Recently some cameras are starting to
-> > have their own privacy control without the need of an external gpio.
-> > This is also represented as a control in /dev/videoX.
->
-> IMO, both privacy notification events shall be reported the same way,
-> no matter if they use GPIO, an input pin or something else.
-
-How do we handle devices that have internal privacy and GPIO if we do
-not use a subdevice?
-
->
-> > Now that we have these 3 concepts in place:
+> > btw this recently landed patch was to work in this direction :)
+> > https://lore.kernel.org/linux-media/20240926-guenter-mini-v7-1-690441953d4a@chromium.org/
 > >
-> > Today a uvc camera is powered up when /dev/videoX is open(), not when
-> > it is streaming.
+> > The more people interested in this problem the better.
+> >
+> > > Combined with Mauro's remarks about how this is an userspace ABI break (1)
+> > > I think we should maybe first take another look at the powermanagement
+> > > issues in general rather then moving forward with this series.
+> > >
+> > > My apologies for this, I realize how annoying it can be when you are
+> > > working on a patch series to fix a specific issue and a reviewer
+> > > moves the goal-posts like this. But I do really think that just fixing
+> > > the generic power-management issues would be better and I also think
+> > > that this should be feasible / not too hard.
+> > >
+> > > Here is what I have in mind for this:
+> > >
+> > > 1. Assume that the results of trying a specific fmt do not change over time.
+> > >
+> > > 2. Only allow userspace to request fmts which match one of the enum-fmts ->
+> > >    enum-frame-sizes -> enum-frame-rates tripplet results
+> > >    (constrain what userspace requests to these)
+> > >
+> > > 3. Run the equivalent of tryfmt on all possible combinations (so the usaul
+> > >    3 levels nested loop for this) on probe() and cache the results
+> > >
+> > > 4. Make try_fmt / set_fmt not poweron the device but instead constrain
+> > >    the requested fmt to one from our cached fmts
+> > >
+> > > 5. On stream-on do the actual power-on + set-fmt + verify that we get
+> > >    what we expect based on the cache, and otherwise return -EIO.
+> >
+> > Can we start powering up the device during try/set fmt and then
+> > implement the format caching as an improvement?
 >
-> Ideally, the part of the hardware responsible for streaming shall be
-> powered on only while streaming. I agree with Hans de Goede: better
-> have this fixed before the privacy notification patches.
->
-> > This means that if we want to get an event for the
-> > privacy gpio we have to powerup the camera, which results in power
-> > consumption. This can be fixed by moving the control to a subdevice
-> > (technically the gpio is not part of the camera, so it makes sense).
->
-> Ok, but as you said, not all cameras implement it as a separate gpio.
+> This sounds worth trying. We'll need to test it on a wide range of
+> devices though, both internal and external.
 
-For the device that are not a separate gpio you need to powerup the
-device to read it.
+We still need a plan for asynchronous controls.
+
+And we have to decide if we stop supporting the uvc button (maybe we
+can start by moving USB_VIDEO_CLASS_INPUT_EVDEV to staging and see
+what happens?)
 
 
 >
-> > If we only powerup the camera during streamon we will break the uvc
-> > button, and the async controls.
+> > Laurent mentioned that some cameras missbehave if a lot of controls
+> > are set during probing. I hope that this approach does not trigger
+> > those, and if it does it would be easier to revert if we do the work
+> > in two steps.
+> >
+> > > I think that should sort the issue, assuming that 1. above holds true.
+> > >
+> > > One downside is that this stops UVC button presses from working when
+> > > not streaming. But userspace will typically only open the /dev/video#
+> > > node if it plans to stream anyways so there should not be much of
+> > > a difference wrt button press behavior.
+> >
+> > I do not personally use the button, but it is currently implemented as
+> > a standard HID device. Making it only work during streamon() might be
+> > a bit weird.
+> > I am afraid that if there is a button we should keep the current behaviour.
+> >
+> > >
+> > > This should also make camera enumeration faster for apps, since
+> > > most apps / frameworks do the whole 3 levels nested loop for this
+> > > on startup, for which atm we go out to the hw, which now instead
+> > > will come from the fmts cache and thus will be much much faster,
+> > > so this should lead to a noticeable speedup for apps accessing UVC
+> > > cameras which would be another nice win.
+> > >
+> > > Downside is that the initial probe will take longer see we do
+> > > all the tryfmt-s there now. But I think that taking a bit longer
+> > > to probe while the machine is booting should not be an issue.
+> >
+> > How do you pretend to handle the controls? Do you plan to power-up the
+> > device during s_ctrl() or set them only during streamon()?
+> > If we power-up the device during s_ctrl we need to take care of the
+> > asynchronous controls (typically pan/tilt/zoom), The device must be
+> > powered until the control finishes, and the device might never reply
+> > control_done if the firmware is not properly implemented.
+> > If we set the controls only during streamon, we will break some
+> > usecases. There are some video conferencing equipment that do homing
+> > during streamoff. That will be a serious API breakage.
+> >
+> > This patchset is not only to fix the powersaving issues, but also to
+> > fix the issue when a camera has  a gpio privacy switch and an internal
+> > Privacy control.  4 years ago I did not see any camera with Privacy
+> > control (in 100s of models), now they are common.
+> > Can we have both changes, gpio subdevice and granular power saving?
+> >
+> > > Regards,
+> > >
+> > > Hans
+> > >
+> > > 1) Which is technically correct, but FWIW I agree with you that I think
+> > > most userspace consumers will not care
+> > >
+> > > > Last year, we proposed a patchset to implement the privacy gpio as a
+> > > > subdevice https://lore.kernel.org/linux-media/20230111-uvc_privacy_subdev-v1-0-f859ac9a01e3@chromium.org/
+> > > >
+> > > > I think it is a pretty clean solution and makes sense to use a
+> > > > subdevice for something that is a sub device of the camera :).
+> > > >
+> > > > This is an attempt to continue with that approach.
+> > > >
+> > > > Tested on gimble:
+> > > > gimble-rev3 ~ # v4l2-ctl --all -d /dev/v4l-subdev0
+> > > > Driver Info:
+> > > >         Driver version   : 6.6.56
+> > > >         Capabilities     : 0x00000000
+> > > > Media Driver Info:
+> > > >         Driver name      : uvcvideo
+> > > >         Model            : HP 5M Camera: HP 5M Camera
+> > > >         Serial           : 0001
+> > > >         Bus info         : usb-0000:00:14.0-6
+> > > >         Media version    : 6.6.56
+> > > >         Hardware revision: 0x00009601 (38401)
+> > > >         Driver version   : 6.6.56
+> > > > Interface Info:
+> > > >         ID               : 0x0300001d
+> > > >         Type             : V4L Sub-Device
+> > > > Entity Info:
+> > > >         ID               : 0x00000013 (19)
+> > > >         Name             : GPIO
+> > > >         Function         : Unknown sub-device (00020006)
+> > > >
+> > > > Camera Controls
+> > > >
+> > > >                         privacy 0x009a0910 (bool)   : default=0 value=0 flags=read-only, volatile
+> > > >
+> > > > gimble-rev3 ~ # media-ctl  -p
+> > > > Media controller API version 6.6.56
+> > > >
+> > > > Media device information
+> > > > ------------------------
+> > > > driver          uvcvideo
+> > > > model           HP 5M Camera: HP 5M Camera
+> > > > serial          0001
+> > > > bus info        usb-0000:00:14.0-6
+> > > > hw revision     0x9601
+> > > > driver version  6.6.56
+> > > >
+> > > > Device topology
+> > > > - entity 1: HP 5M Camera: HP 5M Camera (1 pad, 1 link)
+> > > >             type Node subtype V4L flags 1
+> > > >             device node name /dev/video0
+> > > >         pad0: Sink
+> > > >                 <- "Extension 8":1 [ENABLED,IMMUTABLE]
+> > > >
+> > > > - entity 4: HP 5M Camera: HP 5M Camera (0 pad, 0 link)
+> > > >             type Node subtype V4L flags 0
+> > > >             device node name /dev/video1
+> > > >
+> > > > - entity 8: Extension 8 (2 pads, 2 links, 0 routes)
+> > > >             type V4L2 subdev subtype Unknown flags 0
+> > > >         pad0: Sink
+> > > >                 <- "Extension 4":1 [ENABLED,IMMUTABLE]
+> > > >         pad1: Source
+> > > >                 -> "HP 5M Camera: HP 5M Camera":0 [ENABLED,IMMUTABLE]
+> > > >
+> > > > - entity 11: Extension 4 (2 pads, 2 links, 0 routes)
+> > > >              type V4L2 subdev subtype Unknown flags 0
+> > > >         pad0: Sink
+> > > >                 <- "Processing 2":1 [ENABLED,IMMUTABLE]
+> > > >         pad1: Source
+> > > >                 -> "Extension 8":0 [ENABLED,IMMUTABLE]
+> > > >
+> > > > - entity 14: Processing 2 (2 pads, 2 links, 0 routes)
+> > > >              type V4L2 subdev subtype Unknown flags 0
+> > > >         pad0: Sink
+> > > >                 <- "Camera 1":0 [ENABLED,IMMUTABLE]
+> > > >         pad1: Source
+> > > >                 -> "Extension 4":0 [ENABLED,IMMUTABLE]
+> > > >
+> > > > - entity 17: Camera 1 (1 pad, 1 link, 0 routes)
+> > > >              type V4L2 subdev subtype Sensor flags 0
+> > > >         pad0: Source
+> > > >                 -> "Processing 2":0 [ENABLED,IMMUTABLE]
+> > > >
+> > > > - entity 19: GPIO (0 pad, 0 link, 0 routes)
+> > > >              type V4L2 subdev subtype Decoder flags 0
+> > > >              device node name /dev/v4l-subdev0
+> > > >
+> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > ---
+> > > > Changes in v2:
+> > > > - Rebase on top of https://patchwork.linuxtv.org/project/linux-media/patch/20241106-uvc-crashrmmod-v6-1-fbf9781c6e83@chromium.org/
+> > > > - Create uvc_gpio_cleanup and uvc_gpio_deinit
+> > > > - Refactor quirk: do not disable irq
+> > > > - Change define number for MEDIA_ENT_F_GPIO
+> > > > - Link to v1: https://lore.kernel.org/r/20241031-uvc-subdev-v1-0-a68331cedd72@chromium.org
+> > > >
+> > > > ---
+> > > > Ricardo Ribalda (5):
+> > > >       media: uvcvideo: Factor out gpio functions to its own file
+> > > >       Revert "media: uvcvideo: Allow entity-defined get_info and get_cur"
+> > > >       media: uvcvideo: Create ancillary link for GPIO subdevice
+> > > >       media: v4l2-core: Add new MEDIA_ENT_F_GPIO
+> > > >       media: uvcvideo: Use MEDIA_ENT_F_GPIO for the GPIO entity
+> > > >
+> > > > Yunke Cao (1):
+> > > >       media: uvcvideo: Re-implement privacy GPIO as a separate subdevice
+> > > >
+> > > >  .../userspace-api/media/mediactl/media-types.rst   |   4 +
+> > > >  drivers/media/usb/uvc/Makefile                     |   3 +-
+> > > >  drivers/media/usb/uvc/uvc_ctrl.c                   |  40 +----
+> > > >  drivers/media/usb/uvc/uvc_driver.c                 | 123 +-------------
+> > > >  drivers/media/usb/uvc/uvc_entity.c                 |  20 ++-
+> > > >  drivers/media/usb/uvc/uvc_gpio.c                   | 187 +++++++++++++++++++++
+> > > >  drivers/media/usb/uvc/uvc_video.c                  |   4 +
+> > > >  drivers/media/usb/uvc/uvcvideo.h                   |  34 ++--
+> > > >  drivers/media/v4l2-core/v4l2-async.c               |   3 +-
+> > > >  include/uapi/linux/media.h                         |   1 +
+> > > >  10 files changed, 252 insertions(+), 167 deletions(-)
+> > > > ---
+> > > > base-commit: 4353256f5487e0c5c47e8ff764bf4f9e679fb525
+> > > > change-id: 20241030-uvc-subdev-89f4467a00b5
 >
-> Why? IMO, it shall use regmap in a way that the register settings
-> will be sent to the device only when the camera control hardware is
-> powered up. On a complex device, there are likely at least two power
-> up hardware: the camera control logic and the streaming logic.
+> --
+> Regards,
 >
-> Not sure if both are visible via UVC spec, though.
-
-There are controls that need to be accessed without streaming, like
-the ones that do homing (calibrate the motors), report occupancy of a
-room.
-
-If we modify the driver behaviour to  read/write controls only during
-this streaming we will stop supporting current use cases and
-definately break applications.
-
->
-> Thanks,
-> Mauro
+> Laurent Pinchart
 
 
 
