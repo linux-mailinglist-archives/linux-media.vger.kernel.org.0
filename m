@@ -1,154 +1,159 @@
-Return-Path: <linux-media+bounces-21216-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21217-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0E279C3186
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 11:06:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C33829C319A
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 11:29:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6C85281A72
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 10:06:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 819642814A7
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2024 10:29:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95A6E15443F;
-	Sun, 10 Nov 2024 10:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="oztQlIp9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8F921547D8;
+	Sun, 10 Nov 2024 10:29:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF5914264A;
-	Sun, 10 Nov 2024 10:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731233163; cv=pass; b=cW1tEhgDWQCtM2iT4fAskUY4HgEvwaQDbassTBKFXrUEzw8+h/4M3tyMZJP8y1rIZfXXNa4K89wiieHHbvVdBJYoIR//YKdLsRMQu5xcmE+6Mrd+sKCJo07u8trnwI22bdgo74pzcHVaYfVaxTgyeDWIQMyIN1ZWchwHkXXm9VQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731233163; c=relaxed/simple;
-	bh=Pllu+OUHoJ8NwyryLcY0ZPUDDYuEZKtWJFEI1VKX6Lk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=flOx1VUJ3Zf39Xb3BII6N0xWxNfApR6ESZV83k5MoQKkyr2fbeUXsshoCbcfTLuK7EDKfP2dM8b+oJvG+cszNvbJHcvNOZjhGZYhed2glIEdYrWEzhVn2Tr68Nkar7WKBT5KSEYjCxdhsQamZr5YB2k21ptTpfEwkPQ6qnnOYu4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=oztQlIp9; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4XmSxD4RPJz49Q02;
-	Sun, 10 Nov 2024 12:05:52 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1731233153;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GSJyOWE4WAYvSphsWbU3m6wKxqDPYhI7turGKUFNKWw=;
-	b=oztQlIp9jUONRwWrdK0vgXZqKnAkVbSl72rRkjRzsUxRoPtF7K90lMAYlg9wvTgGzOV62V
-	C42E8GNwDQFLg9zi3JDIf/PbRVMPVWpJdFgYLuA+ColhewSI7+gC+CBP2SJkrFgbU0TEil
-	0PWK+XsECJVmma8VfODpzcav6A9CCu0RqB9w/eJxSxf5wxi6DhZEUwjjqoL9OtLW+7ElC1
-	VYbOIGGyaqLpQBG08u1Kx1DUToYs6CZbNBk/qcfastV0RoyI7eLA8fVl8sPDpSTN2HZAPY
-	OFIzTLOOPD4dbn6HAUJ0RjqS4WUsfLz5HZ2ACa7pyfCUc1gXix9De0QcMwHWnw==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1731233153; a=rsa-sha256;
-	cv=none;
-	b=GvGT4FXOiL2pGxU0W1DtHd/jviUqRNK8EmvfxAPO8DWUB6QhqZZ0msBr8JqD5uQ4ulRhKU
-	F3iUUr+MpIK+7tc9JmDWp/D2HQPIP8vTk1DV6b3OC4YIxhVQo9s+ZZjp+FVd0+7OomIEO1
-	1pk5FlbDZeZX7BE621kFs+zHUPCMSCaiS/qPAVTT6H8WFBJdymecfIMvaidLt6p/7BHAS9
-	Sqg1qTs4IqqEm5YqbRYrMI58XP7+laG+X9b5JlO1sELZdDTY08rTrWP2bnZXy2el0MaOwT
-	59BIUffa3RAOV/nzDcEIW+T5IlhgOoYIJoNnw59a94ZdFEU6t9dJsXyazPWO2g==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1731233153;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GSJyOWE4WAYvSphsWbU3m6wKxqDPYhI7turGKUFNKWw=;
-	b=kWLJ32NgklsQjaZcWXK/Ana7xIntIW/lMJGWKhjv2at7eCXu0hLvB0xDdT98LO5eGHNkkW
-	IaFqYNR/GCsEfqf5PE8rwXoldHT24hMOr+qJJC/WPbyYyJI+1cuu5tmjQYvNeTnUfifnag
-	V1da4jqXKQ0ZbynEzWFSiMpjxNrVOjN0Apl6qMOacX29Y6ajLezX5lBiAaTMRaygZ0DXQi
-	/Q3IylJ8tvkw73pVcra1YlosgK3pHlNKCBdkE/EE2fyGaRmUqmG/HVPo9cWx/9yeYVR71o
-	1Etox8jihyDd1VwyBdLLDv+uclsG94VfUSbyvJrD0TbolhTWmW2/akaBpoKkZQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 30E17634C22;
-	Sun, 10 Nov 2024 12:05:51 +0200 (EET)
-Date: Sun, 10 Nov 2024 10:05:50 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	Yunke Cao <yunkec@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2 4/6] media: uvcvideo: Create ancillary link for GPIO
- subdevice
-Message-ID: <ZzCFfnTVgvY7vURV@valkosipuli.retiisi.eu>
-References: <20241108-uvc-subdev-v2-0-85d8a051a3d3@chromium.org>
- <20241108-uvc-subdev-v2-4-85d8a051a3d3@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C561534FB;
+	Sun, 10 Nov 2024 10:29:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731234572; cv=none; b=oMqGdamBc7MM6SEmsFTL1qIJSgsWwzhAB3hSbGWO361vadz4T8kwflxbgv+2K/geZGmn9YdI0H+EyMQWDpwzL/f13r+9vCTvLQHAlLRg+imuaO0g39uXtOBe9gZ2gAbqzzahCakNPYultko8GwGpakEbfMU9Edln8m2ksJa+G7E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731234572; c=relaxed/simple;
+	bh=x6IqzuQNfmgWlsUEg7sxtczQPELpAj11YBCL7KQVKrQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Uf38PdioiIMh6gdKsOKryy0WyjLKHAGuQguXAbJT3EoBE4p1azhEj9c+RiQB2fYvFUumQrkiqvMhHfj5JNY4noIWN3crGqnC/hbVejcVwUpeBu5Wysjh0IS89AfKTsyKSYOiX+L0ANk5vcmTL2Snw48CO7u3IlejtnJjMVKX4WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03531C4CECD;
+	Sun, 10 Nov 2024 10:29:29 +0000 (UTC)
+Message-ID: <2fd9053f-34b6-4e97-a898-98fd71a485e8@xs4all.nl>
+Date: Sun, 10 Nov 2024 11:29:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241108-uvc-subdev-v2-4-85d8a051a3d3@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/6] media: uvcvideo: Implement the Privacy GPIO as a
+ subdevice
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, Yunke Cao <yunkec@chromium.org>
+References: <20241108-uvc-subdev-v2-0-85d8a051a3d3@chromium.org>
+ <5b5f3bb7-7933-4861-be81-30345e333395@redhat.com>
+ <CANiDSCta62P5+1aR9Ks8c6sd3_grCV3C+Le=UjKGkiohyf0R2g@mail.gmail.com>
+ <20241110110257.5160a7d1@foz.lan>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20241110110257.5160a7d1@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Ricardo,
-
-On Fri, Nov 08, 2024 at 08:25:48PM +0000, Ricardo Ribalda wrote:
-> Make an ancillary device between the streaming subdevice and the GPIO
-
-s/device/link/
-
-> subdevice.
-
-Either subdev or sub-device. Same above.
-
+On 10/11/2024 11:02, Mauro Carvalho Chehab wrote:
+> Em Sat, 9 Nov 2024 17:29:54 +0100
+> Ricardo Ribalda <ribalda@chromium.org> escreveu:
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_entity.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>>>
+>>> I think that should sort the issue, assuming that 1. above holds true.
+>>>
+>>> One downside is that this stops UVC button presses from working when
+>>> not streaming. But userspace will typically only open the /dev/video#
+>>> node if it plans to stream anyways so there should not be much of
+>>> a difference wrt button press behavior.  
+>>
+>> I do not personally use the button, but it is currently implemented as
+>> a standard HID device. 
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
-> index c1b69f9eaa56..dad77b96fe16 100644
-> --- a/drivers/media/usb/uvc/uvc_entity.c
-> +++ b/drivers/media/usb/uvc/uvc_entity.c
-> @@ -53,6 +53,16 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
->  			return ret;
->  	}
->  
-> +	/* Create ancillary link for the GPIO. */
-> +	if (chain->dev->gpio_unit && UVC_ENTITY_TYPE(entity) == UVC_ITT_CAMERA) {
-
-This seems to be over 80 for no apparent reason.
-
-> +		struct media_link *link;
-> +
-> +		link = media_create_ancillary_link(sink,
-> +					&chain->dev->gpio_unit->subdev.entity);
-
-And following the alignment rules would push this over 80. I have no
-problem with that.
-
-> +		if (IS_ERR(link))
-> +			return PTR_ERR(link);
-> +	}
-> +
->  	return 0;
->  }
->  
+> IMO, controlling the privacy via evdev is the best approach then. There's
+> no need for a RW control neither at subdev or at device level. It could
+> make sense a Read only to allow apps to read, but still it shall be up to
+> the Kernel to protect the stream if the button is pressed.
 > 
+>> Making it only work during streamon() might be
+>> a bit weird.
+>> I am afraid that if there is a button we should keep the current behaviour.
+> 
+> Privacy matters only when streaming. IMO the Kernel check for it needs to
+> be done at DQBUF time and at read() calls, as one can enable/disable the
+> camera while doing videoconf calls. I do that a lot with app "soft" buttons,
+> and on devices that physically support cutting the video. 
 
--- 
+We could add a vb2_s_privacy(bool privacy) function to vb2 to tell vb2 if the privacy
+mode is on. And if so, take action. E.g. calling QBUF/DQBUF would return a -EACCES error.
+
+That will ensure consistent behavior for all drivers that have a privacy function.
+
+Note that there are two types of privacy GPIO: one that triggers when a physical
+cover is moved, blocking the sensor, and one that is a button relying on software
+to stop streaming video. In the first case it is informative, but you can keep
+streaming.
+
 Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+> I don't trust myself privacy soft buttons, specially when handled in userspace,
+> so what I have are webcam covers (and a small stick glued at a laptop camera
+> that has a too small sensor for a webcam cover). I only remove the cover/stick
+> when I want to participate on videoconf with video enabled with the builtin
+> camera.
+> 
+> Regards
+> 
+> Thanks,
+> Mauro
+> 
+
 
