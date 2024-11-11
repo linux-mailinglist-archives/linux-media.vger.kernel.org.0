@@ -1,188 +1,142 @@
-Return-Path: <linux-media+bounces-21241-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21242-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49F09C394C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 08:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE369C395E
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 09:04:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93978281463
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 07:55:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6B8D2824B2
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 08:04:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65B3115B115;
-	Mon, 11 Nov 2024 07:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iNXD2OEs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C9111598EE;
+	Mon, 11 Nov 2024 08:04:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2251B67F;
-	Mon, 11 Nov 2024 07:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E84A18E1F;
+	Mon, 11 Nov 2024 08:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731311750; cv=none; b=eNDup84a/YnTil1E7cLWv09D7ksNU9BoLjZmFUftxQCASdlcPLyR3fQyii3QqRbwYCE/VjDbePLMra1gZasaDzpkjU05oWFYbB61mMNtwYU7GCQq+/8wAZLdGausrywmMggOOSb6ws0X9jLZGvz1S/0rhCkYpvewUwGjjRHZTaM=
+	t=1731312254; cv=none; b=mq8kwzKV9rZTdXQuC0rgqBfr1TC88YkQVW9sc/GG1Ikl4AqZn6xAEyzB9c6gROB3MSVDS0QAOeXcS1jZVtzzvhUkEt0hD/hzFclJngPzOzkS0HwiSj9SlQsow+T4uIXREhMyFE2losPKfL3UCWG+S73FzNp0BXwvPlmvPv6YXRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731311750; c=relaxed/simple;
-	bh=xHHT7HP81sDKRhmaOtqdk2QHXH5hX8kRAFZkLb1RUuo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XfsQR/Az7Jk/3+oLZS5mpfSOBPJ9yFmxia1/kPVEzeZdz9l+rVI/Q34rt7jcjmL/ACxWe88YrxJAqRUNTRZd8pb8M6s378F5bDCJ3xF6iJXY+bQn7o977Cs2AEVY6Q2XGONQwaC4Vs5xGKbY8a38etBD/ruW/XKZiREOb9ssG2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iNXD2OEs; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731311749; x=1762847749;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xHHT7HP81sDKRhmaOtqdk2QHXH5hX8kRAFZkLb1RUuo=;
-  b=iNXD2OEsXjKv4AUdD7PsTnjxTiYqPn+rwRdUPKHVxWuSx+H5Txoery5Q
-   pScctUtWpBgvBT3/GHdYwJ56fS7KL+819jMYb6YM8dmhNCBU+aLQiAO3w
-   sNsUeRgZ/t/c2qevqvWlJkvYOKV6WdI016+uqZG797Q2Er3i/EKV5sxd3
-   3GD/KZXyKOlsdrkl67+6hyxAnSif6aTFJo8UDr29qAnI0DC6l4W01Ch5+
-   I2PfpvKI5ZQUCkM884EM79wQa48UR4o573kG+X+scNWztY27mZJAqqoo+
-   HIpR2j0dyi7Ugwl7R3Z5IDnAeh92kwoTPHYVoGHnk7KKxb9Ioh6Xtlbgg
-   Q==;
-X-CSE-ConnectionGUID: TDESwvDLQRufJaIEpGekIQ==
-X-CSE-MsgGUID: LlczYU+PR/W0o8H+iQr9dQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30877310"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30877310"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 23:55:48 -0800
-X-CSE-ConnectionGUID: mhrlM3+qRNOGsNsevNu0Og==
-X-CSE-MsgGUID: LlF5qMHDQG23GfPn3Vp8jw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
-   d="scan'208";a="117710155"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 23:55:41 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A1B9811F72E;
-	Mon, 11 Nov 2024 09:55:38 +0200 (EET)
-Date: Mon, 11 Nov 2024 07:55:38 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v1 1/1] media: ov7251: Remap "reset" to "enable" for
- OV7251
-Message-ID: <ZzG4ekFKe25Ws0D7@kekkonen.localdomain>
-References: <20241108145024.1490536-1-andriy.shevchenko@linux.intel.com>
- <Zy43D7wAZLrBDtiX@kekkonen.localdomain>
- <Zy48Fc_nUceCs3PK@smile.fi.intel.com>
- <Zy4_hR9AsDhmK5MK@kekkonen.localdomain>
- <2957d1f6-f846-4916-980d-4346bc2b9d64@redhat.com>
+	s=arc-20240116; t=1731312254; c=relaxed/simple;
+	bh=vWfevvswC4CEcLTwjk7cKuV10cuZWvC8koGQUlAPev4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TtjWIcRjcP92f8Y7ePMhOguYpH8m7wLwmgbgZYZ1OGiIKfPtTXWbH7dWFTzWtRWADRTcxD3eDOcqz8Wc2elnzTmQGUH+zNS5NpgbJ09SHgl0Pwk+D6wh2ZZeGauxPDFmdNRHczPGZIe4tXTMux1oAC3n2LcNDDaJZpzjRzjm0kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1430C4CED0;
+	Mon, 11 Nov 2024 08:04:12 +0000 (UTC)
+Message-ID: <4168e5ef-c2b6-435d-830f-c9d6faad6bfe@xs4all.nl>
+Date: Mon, 11 Nov 2024 09:04:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2957d1f6-f846-4916-980d-4346bc2b9d64@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: cec: extron-da-hd-4k-plus: add return check for
+ wait_for_completion*()
+To: Karol Przybylski <karprzy7@gmail.com>, mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org
+References: <20241110125814.1899076-1-karprzy7@gmail.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20241110125814.1899076-1-karprzy7@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Hans,
+On 10/11/2024 13:58, Karol Przybylski wrote:
+> According to scheduler/completion.rst, return status of wait_for_completion*()
+> function variants should be checked or be accompanied by explanation.
+> 
+> I examined code in extron-da-hd-4k-plus.c and it does look like the return value
+> should be checked, but perhaps there is a reason for ignoring it.
 
-On Fri, Nov 08, 2024 at 07:19:05PM +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 8-Nov-24 5:42 PM, Sakari Ailus wrote:
-> > Hi Andy,
-> > 
-> > On Fri, Nov 08, 2024 at 06:28:05PM +0200, Andy Shevchenko wrote:
-> >> On Fri, Nov 08, 2024 at 04:06:39PM +0000, Sakari Ailus wrote:
-> >>> On Fri, Nov 08, 2024 at 04:50:24PM +0200, Andy Shevchenko wrote:
-> >>>> The driver of OmniVision OV7251 expects "enable" pin instead of "reset".
-> >>>> Remap "reset" to "enable" and update polarity.
-> >>>>
-> >>>> In particular, the Linux kernel can't load the camera sensor
-> >>>> driver on Microsoft Surface Book without this change:
-> >>>>
-> >>>>  ov7251 i2c-INT347E:00: supply vdddo not found, using dummy regulator
-> >>>>  ov7251 i2c-INT347E:00: supply vddd not found, using dummy regulator
-> >>>>  ov7251 i2c-INT347E:00: supply vdda not found, using dummy regulator
-> >>>>  ov7251 i2c-INT347E:00: cannot get enable gpio
-> >>>>  ov7251 i2c-INT347E:00: probe with driver ov7251 failed with error -2
-> >>
-> >> ...
-> >>
-> >>> Should this be cc'd to stable? I guess it's not exactly a fix in the driver
-> >>> but a BIOS bug, but it can be worked around in the driver. :-)
-> >>
-> >> It's everything, but a BIOS bug, it's DT bug and whoever first introduced that
-> >> GPIO in the driver. Even in the DT present in kernel the pin was referred as
-> > 
-> > How is that a DT (binding?) bug?
-> 
-> Since it is not following the datasheet name for the pin,
-> it arguably is a DT binding bug
-> 
-> But whatever, the whole discussion about if it is a bug and whose
-> bug it is is not useful. Since we cannot go back in time and change
-> the DT binding DT and ACPI are simply going to disagree on the name
-> and we will need something like this patch.
-> 
-> >> CAM_RST_N, which is exactly how this patch names it.
-> >>
-> >> OTOH it's a fix to the driver that never worked for ACPI case, so there never
-> >> was a regression to fix.
-> > 
-> > It probably worked just fine, just not with that Surface Book.
-> > 
-> > The polarity of the enable gpio appears to be set wrong in devm_gpiod_get()
-> > call. I can post a patch but cannot test it.
-> 
-> That is on purpose, at least the polarity if the devm_gpiod_get(..., "reset",
-> ...) is inverted from the existing one for "enable" because reset needs
-> to be inactive/disabled to enable the sensor.
-> 
-> > Similarly, you should actually set the flags to GPIOD_OUT_HIGH as reset
-> > should be enabled here -- it's disabled only in power_on() as part of the
-> > power-on sequence.
-> 
-> This seems to be a pre-existing bug in this driver, which currently
-> starts driving enable high, enabling the sensor at gpiod_get() time.
-> 
-> Note that fixing this is tricky-ish, if the pin was already high at
-> gpiod_get() time then changing the gpiod_get() to drive it low
-> will result in it only being driven low for a very short time since
-> ov7251_set_power_on() will get called almost immediately after this
-> and it will drive the pin high again without any delays.
+There is no need to check the return code in this specific case.
 
-The question here is not about how long the hard reset is applied, but
-whether or not the sensor's power-on sequence is followed. Currently it is
-not.
+If the wait was successful, then port->edid_blocks will be set, so
+effectively that 'if' is the result check of the wait_for_completion
+call.
 
-> 
-> So if the pin was already high then making it low at gpiod_get()
-> time will result in a very short spike to low, immediately followed
-> by the pin going high again. This short spike may very well leave
-> the sensor in a confused state rather then properly resetting it...
-> 
-> OTOH if the pin was already high with the old code where
-> gpiod_get("enable") requests the pin as high (so it is left high),
-> then the existing state of the sensor is simply preserved (no reset)
-> which should be fine for the initial probe which just checks
-> the id register.
-> 
-> And if the pin was low then it is driven high once and kept high,
-> so again no glitch / spike. So arguably the old code is fine.
-
-I'm not sure how do you reach that conclusion. Because it happens to work,
-presumably at least somewhere? The code appears to be part of the 
-
-> 
-> If this is changed then a delay needs to be added to ensure that
-> the pin is guaranteed to be driven low for some minimum amount
-> of time.
-
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+> I drafted a patch for this, but I'm not entirely sure how to approach error handling in this case.
+> 
+> Discovered in coverity, CID1599679
+> 
+> Signed-off-by: Karol Przybylski <karprzy7@gmail.com>
+> ---
+>  .../cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c    | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> index cfbfc4c1b2e6..83a790117411 100644
+> --- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> +++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> @@ -559,9 +559,12 @@ static void extron_read_edid(struct extron_port *port)
+>  
+>  	extron->edid_reading = true;
+>  
+> -	if (!extron_send_and_wait(extron, port, cmd, reply))
+> -		wait_for_completion_killable_timeout(&extron->edid_completion,
+> +	if (!extron_send_and_wait(extron, port, cmd, reply)) {
+> +		ret = wait_for_completion_killable_timeout(&extron->edid_completion,
+>  						     msecs_to_jiffies(1000));
+> +		if (ret < 0)
+> +			goto unlock;
+> +	}
+>  	if (port->edid_blocks) {
+>  		extron_parse_edid(port);
+>  		port->read_edid = true;
+
 
