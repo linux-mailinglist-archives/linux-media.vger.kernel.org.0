@@ -1,182 +1,258 @@
-Return-Path: <linux-media+bounces-21260-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21261-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE76F9C404C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 15:05:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E979C410A
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 15:35:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FE391F2243F
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 14:05:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B71A31F230B2
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 14:35:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B610819F130;
-	Mon, 11 Nov 2024 14:04:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E16F1A08C1;
+	Mon, 11 Nov 2024 14:35:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cjmKNIGB"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BLqlDOFv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C384D19D881;
-	Mon, 11 Nov 2024 14:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A19519D080
+	for <linux-media@vger.kernel.org>; Mon, 11 Nov 2024 14:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731333856; cv=none; b=lf50ePUMso3a0PecN23DtZLJbWcmxRrIGgCEFs+uMm0PTkt5RNeYbHdKv/tYdxjD9mAD78oW1tv4+Qb1gBSv280ZejFcoSw+W7xnlQgi/xBV2kAHay5v5gHjXXZbU2Dx7d/PcA0nQBEAoAUD+McmvtskHfKfaBZUNFpOsdFbbC4=
+	t=1731335721; cv=none; b=Ox1zFOfzUt0LnzPAXrhooqGbNigkWJJvcmw1nI/VrfHb299vze6dLZ1YOhTiVPzjSPvyi+j5bEVk15YbSGaFfo1AxC8B87wAIScCCphNmlwfHSpnWa+sENTPAS3ILNDxjhHvaHK13RsqzFTQj9NAmPIE4gxHGgPKCfbqIYohgAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731333856; c=relaxed/simple;
-	bh=Q09Jt7ZkFfl/xY7ARqjQ3NHnuShpjY3RpiJ1qkbipBw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=PbLQSI+WAhwUSPKsNVnaWD6WnrCoNa4fkxic2FX4UFKWLSFy0fdmlAb0t7gTLXcWb3bioXZuQM3b1hYH1PkC7g5PkuIy6oR6NDt9VvtpTNiKAu/eFtgOd7JDts3NJIeUlve1MkYUraqFElSx8k/yEziF2QLCCVq8KgkOLbXN+vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cjmKNIGB; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ABB1ied028877;
-	Mon, 11 Nov 2024 14:04:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	W3CBRFMje3n7hspwjNJYn3C8cGZoyMfv5EGAAN+vScw=; b=cjmKNIGB2MCcfrO6
-	/lw3esQ6KMiZ3YsquAjapLa8n23KX5LPRlPwG4tj3eTcZp4aG9Hwj7yB3lqZo47q
-	AGE4oMJj/WJ8touIHKUxm4gHELOy4pbGOXRruHDTFyqerppHv/88kGQAnoBoQS4J
-	KEYN4bLlEA8yUvicWvTIf0LCU1FSJFyAmUHztwIbWfEE8KMyW+j1yNLvGv6Fmc/v
-	2tlIVE6mYbesERqL50c1loGbf30+aFOWHkY+3yLPE3cT3UYezz0+dI2TQIg8Emrq
-	uOGbG2cdfXLf55xls5VjBvhniHegpvEzHfKR7Dg3rNHCQ3uezV+jCiJrNGO1BQzH
-	RQpVVQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42sweecj12-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Nov 2024 14:04:09 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ABE49ns008114
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Nov 2024 14:04:09 GMT
-Received: from [10.204.100.69] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 11 Nov
- 2024 06:04:06 -0800
-Message-ID: <6629313e-a4eb-cca0-ffaf-6aed399da20a@quicinc.com>
-Date: Mon, 11 Nov 2024 19:34:03 +0530
+	s=arc-20240116; t=1731335721; c=relaxed/simple;
+	bh=WrVn9TW9kOmHFecckhkfiRpiEUOowAKBgBRdpRWlWMc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=K419/8l86LWArXMehU2+QZXhb8qDbx834dV3nTWE6+D3/ShRcCacnuQN8g8sYi6QfVMXjObdf72tg1p2Vnx04FGz0lOa0hZEcnveiWIf4SaigWcCAtRnzhQe2tF/yTTRoZ+iuWzErg42hd+Fi7K+9CrDQFuEOtDiJczHSTBvgeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BLqlDOFv; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1731335719;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yEraueI3D8vxdIlzbXk9k2nsBw5FTtLrfKoo0JbFBYI=;
+	b=BLqlDOFvdvTjmFdMF0TuGBfx/O3r70IIzMM723gi2taUkEVOrJIoGDy4N7S7pzj8HbIc/U
+	KohKnAkvxOvzqS529lv2MIl1MbTsQEmsVYlnY+0kE4nX3ktPfBkSlPbFpZcO3v7xDSOf9g
+	PIOA47DPMY2gYYRtrZeQCFx3CCFtXsc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-395-bWo-FuZYPiqYa0pM_6IKQA-1; Mon, 11 Nov 2024 09:35:17 -0500
+X-MC-Unique: bWo-FuZYPiqYa0pM_6IKQA-1
+X-Mimecast-MFC-AGG-ID: bWo-FuZYPiqYa0pM_6IKQA
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5c88bde66bdso3629091a12.2
+        for <linux-media@vger.kernel.org>; Mon, 11 Nov 2024 06:35:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731335716; x=1731940516;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yEraueI3D8vxdIlzbXk9k2nsBw5FTtLrfKoo0JbFBYI=;
+        b=aodruq8CJC2/tAMSXrJpMgUWjn3luKQ1T+xCLVcMg0UiPg5f8mWW2AxrOeQM8RKsx9
+         +cBT3JY8IvR1bbEDJXH9/tSDFHUqLz6PUIezZb6Bcm/PgELrZdgJBEDWkP1W080KMbI3
+         mlY63yWu+DIGCoInpA2/ve1IiPj33YuYBfDlHu46AnO+mY39jeXUGurN6WmEzQF29K7R
+         QyGjEjcG9fdE8nWr6cSvXW+9bX45YTCwqeQtLXeirIH+jSYQZLj+xCrFcdAbb+SjSE3E
+         4hN/lPQhybS6ekAB1i4nVtBLSMYyBGbHCC8moGE2NcfFQgtFb8cRYQJ2JL4AuLziMIqP
+         iusQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVqQBSViymlKVbuAOWDrXseGOuZbRX8c3wuo6Y9iyh3ndxlw7xlM4VE5b3MJNflNvIDwBWi5wBUT2QPyQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/iFU6+PMOwU6Cs9gF8y6cZeTCcY86ITBZarv+TOjRMDX1HIkS
+	zSd5wTlbPoyLUrLP4qezvHqVBfzXa8NVZh+uUIqIWmQWVDTzqMAX6XVETP9RMJ5GgYnpzwhAmz1
+	HkXXbZagm+xWId7D+12kqhhVdB5W0iYJjrjtQmVwTUFUexUpUrkws3OGWpFNp
+X-Received: by 2002:a05:6402:5213:b0:5ce:fc3c:3c3 with SMTP id 4fb4d7f45d1cf-5cf0a45c690mr11604549a12.28.1731335716361;
+        Mon, 11 Nov 2024 06:35:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGBn6M5jLeFz+WTQmnTdycpz6COiPHVTcBo8Ft2iihWhhhy48Jo7SlGezyBev8fDhok8/wvvA==
+X-Received: by 2002:a05:6402:5213:b0:5ce:fc3c:3c3 with SMTP id 4fb4d7f45d1cf-5cf0a45c690mr11604517a12.28.1731335715875;
+        Mon, 11 Nov 2024 06:35:15 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03b5d724sm5013433a12.18.2024.11.11.06.35.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Nov 2024 06:35:15 -0800 (PST)
+Message-ID: <91903a1b-f3b0-4c86-9337-bca4ae962535@redhat.com>
+Date: Mon, 11 Nov 2024 15:35:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 1/4] media: venus: hfi_parser: add check to avoid out of
- bound access
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
- <20241105-venus_oob-v1-1-8d4feedfe2bb@quicinc.com>
- <b2yvyaycylsxo2bmynlrqp3pzhge2tjvtvzhmpvon2lzyx3bb4@747g3erapcro>
- <81d6a054-e02a-7c98-0479-0e17076fabd7@quicinc.com>
- <ndlf4bsijb723cctkvd7hkwmo7plbzr3q2dhqc3tpyujbfcr3z@g4rvg5p7vhfs>
- <975f4ecd-2029-469a-8ecf-fbd6397547d4@linaro.org>
- <57544d01-a7c6-1ea6-d408-ffe1678e0b5e@quicinc.com>
- <ql6hftuo7udkqachofws6lcpwx7sbjakonoehm7zsh43kqndsf@rwmiwqngldn2>
- <781ea2fd-637f-b896-aad4-d70f43ad245c@quicinc.com>
- <oxbpd3tfemwci6aiv5gs6rleg6lmsuabvvccqibbqddczjklpi@aln6hfloqizo>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <oxbpd3tfemwci6aiv5gs6rleg6lmsuabvvccqibbqddczjklpi@aln6hfloqizo>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/6] media: uvcvideo: Implement the Privacy GPIO as a
+ subdevice
+From: Hans de Goede <hdegoede@redhat.com>
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ Yunke Cao <yunkec@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+References: <20241108-uvc-subdev-v2-0-85d8a051a3d3@chromium.org>
+ <a644fed4-aff5-4514-8e35-d6cab642d3dd@redhat.com>
+Content-Language: en-US, nl
+In-Reply-To: <a644fed4-aff5-4514-8e35-d6cab642d3dd@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: j0Vyqy3ZojGO7CW6VCEWh6uPCPNHeSEe
-X-Proofpoint-GUID: j0Vyqy3ZojGO7CW6VCEWh6uPCPNHeSEe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- mlxscore=0 bulkscore=0 malwarescore=0 suspectscore=0 phishscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=903 clxscore=1015
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411110116
 
+p.s.
 
-
-On 11/7/2024 7:24 PM, Dmitry Baryshkov wrote:
-> On Thu, Nov 07, 2024 at 07:05:15PM +0530, Vikash Garodia wrote:
+On 11-Nov-24 1:59 PM, Hans de Goede wrote:
+> Hi Ricardo, Et al.,
+> 
+> On 8-Nov-24 9:25 PM, Ricardo Ribalda wrote:
+>> Some notebooks have a button to disable the camera (not to be mistaken
+>> with the mechanical cover). This is a standard GPIO linked to the
+>> camera via the ACPI table.
 >>
->> On 11/7/2024 6:52 PM, Dmitry Baryshkov wrote:
->>> On Thu, Nov 07, 2024 at 06:32:33PM +0530, Vikash Garodia wrote:
->>>>
->>>> On 11/7/2024 5:37 PM, Bryan O'Donoghue wrote:
->>>>> On 07/11/2024 10:41, Dmitry Baryshkov wrote:
->>>>>>> init_codecs() parses the payload received from firmware and . I don't think we
->>>>>>> can control this part when we have something like this from a malicious firmware
->>>>>>> payload
->>>>>>> HFI_PROPERTY_PARAM_CODEC_SUPPORTED
->>>>>>> HFI_PROPERTY_PARAM_CODEC_SUPPORTED
->>>>>>> HFI_PROPERTY_PARAM_CODEC_SUPPORTED
->>>>>>> ...
->>>>>>> Limiting it to second iteration would restrict the functionality when property
->>>>>>> HFI_PROPERTY_PARAM_CODEC_SUPPORTED is sent for supported number of codecs.
->>>>>> If you can have a malicious firmware (which is owned and signed by
->>>>>> Qualcomm / OEM), then you have to be careful and skip duplicates. So
->>>>>> instead of just adding new cap to core->caps, you have to go through
->>>>>> that array, check that you are not adding a duplicate (and report a
->>>>>> [Firmware Bug] for duplicates), check that there is an empty slot, etc.
->>>>>>
->>>>>> Just ignoring the "extra" entries is not enough.
->>>> Thinking of something like this
->>>>
->>>> for_each_set_bit(bit, &core->dec_codecs, MAX_CODEC_NUM) {
->>>>     if (core->codecs_count >= MAX_CODEC_NUM)
->>>>         return;
->>>>     cap = &caps[core->codecs_count++];
->>>>     if (cap->codec == BIT(bit)) --> each code would have unique bitfield
->>>>         return;
->>>
->>> This won't work and it's pretty obvious why.
->> Could you please elaborate what would break in above logic ?
+>> 4 years ago we added support for this button in UVC via the Privacy control.
+>> This has two issues:
+>> - If the camera has its own privacy control, it will be masked
+>> - We need to power-up the camera to read the privacy control gpio.
 > 
-> After the "cap=&caps[core->codecs_count++]" line 'cap' will point to the
-> new entry, which should not contain valid data.
+> Thinking more about this I think we need to start with looking at the userspace
+> API for privacy controls, define how we want that to look and then go from
+> there.
 > 
-> Instead, when processing new 'bit' you should loop over the existing
-> caps and check that there is no match. And only if there is no match
-> the code should be allocating new entry, checking that codecs_count
-> doesn't overflow, etc.
-Got it.
+> The reason I'm writing this is because due to my work in drivers/platform/x86
+> (pdx86) on EC / ACPI / WMI drivers for non chromebooks I am aware of at least
+> 4 different methods camera on/off (aka privacy) toggles are being reported
+> to userspace at the moment. Adding a v4l2-ctrl on a subdev instead of directly
+> on /dev/video# would be adding a 5th method which seems highly undesirable.
+> 
+> Instead I would like to first focus on fixing these userspace API
+> inconsistencies agreeing on a single API we want to use everywhere
+> going forward. We don't need to fix all drivers at once, but IMHO we
+> should agree on what the API should look like and document that and
+> any future drivers implementing camera privacy control related code
+> then must use the new API.
+> 
+> Lets start with the 3 APIs I'm currently aware of:
+> 
+> 1. uvcvideo driver exporting V4L2_CID_PRIVACY on /dev/video#
+> uvcvideo seems to be the only user of this CID (i)
+> 
+> 2. pdx86 drivers exporting an input evdev with EV_SW,
+> SW_CAMERA_LENS_COVER. This is somewhat of a special case
+> for some Dell laptops with an electro-mechanical shutter
+> operated by the EC. But this is not also used by
+> hp-wmi.c where it does not necessarily indicate the
+
+s/not/now/
+
+> status of a mechanical cover, but also possibly simply
+> disconnecting the camera from the USB bus.
+> 
+> 3. pdx86 drivers exporting an input evdev with EV_KEY,
+> KEY_CAMERA_ACCESS_ENABLE, KEY_CAMERA_ACCESS_DISABLE
+> These KEY codes are based on offical the HUTRR72 HID/HUT
+> extension and as such may also be send by USB/I2C/BT HID
+> devices.
+> 
+> The only user outside of hid-input.c is the recently added
+> drivers/platform/x86/lenovo-wmi-camera.c driver and I'm
+> wondering if that should not use SW_CAMERA_LENS_COVER
+> instead. I'll ask the driver author about how this 
+
+I have send an email out about possibly switching this to
+SW_CAMERA_LENS_COVER :
+
+https://lore.kernel.org/platform-driver-x86/5666914c-e8c2-481d-8fdf-aff82865c228@redhat.com/
 
 Regards,
-Vikash
->>
->>>
->>>>> +1
->>>>>
->>>>> This is a more rational argument. If you get a second message, you should surely
->>>>> reinit the whole array i.e. update the array with the new list, as opposed to
->>>>> throwing away the second message because it over-indexes your local storage..
->>>> That would be incorrect to overwrite the array with new list, whenever new
->>>> payload is received.
->>>
->>> I'd say, don't overwrite the array. Instead the driver should extend it
->>> with the new information.
->> That is exactly the existing patch is currently doing.
+
+Hans
+
+
+
+> 4. pdx86 drivers exporting an input evdev with EV_KEY,
+> KEY_CAMERA. Note this 4th method lacks information on if
+> the camera was enabled or disabled. In many cases this
+> is send to indicate that the EC has either dropped
+> a UVC camera of the bus, or added it to the bus.
+> Ideally we would have some helper checking for internal
+> UVC camera presence and turn this into 2 or 3.
 > 
-> _new_ information, not a copy of the existing information.
+> TL;DR: it a mess.
 > 
->>
->> Regards,
->> Vikash
->>>
->>>>
->>>> Regards,
->>>> Vikash
->>>
+> Circling back to this patch-set, note how 3 of the 4
+> currently in use variants today use in input evdev.
 > 
+> I think that using an input evdev (shared with the
+> snapshot button if present) will give us a nice out for
+> the power-management issue with the V4L2_CID_PRIVACY,
+> while at the same time giving a nice opportunity to
+> standardize on a single userspace API.
+> 
+> My proposal would be to standardize on SW_CAMERA_LENS_COVER
+> I realize that the GPIO does not always indicate a lens
+> cover, but the resulting black frames are the same result
+> as if there were a lens cover and looking at:
+> 
+> https://support.hp.com/ie-en/document/ish_3960099-3335046-16
+> 
+> and then the second picture when expanding "Locate and use
+> the webcam privacy switch" that does look like it may be
+> an actual cover which reports back its state through a GPIO.
+> 
+> The reason why I'm not in favor of using
+> KEY_CAMERA_ACCESS_ENABLE + KEY_CAMERA_ACCESS_DISABLE is that
+> looking at the HUTRR72 it talks about:
+> "Enables programmatic access to camera device"
+> which suggests that it is a request to the OS / desktop-
+> environment to block camera access at the software level,
+> rather then reporting back that a hw-level block is in place.
+> 
+> And since these may be used by any HID device we are not of
+> control in how these will be used.
+> 
+> Ricardo, what do you think of instead of using a v4l-subdev,
+> using an input evdev (shared with the existing one) reporting
+> SW_CAMERA_LENS_COVER ?  The v4l-subdev approach will need
+> userspace changes anyways and if we are going to make userspace
+> changes we might as well use the best API available.
+> 
+> One downside of going the evdev route is that it is a bit
+> harder for userspace to map the evdev to a camera:
+> 
+> 1. For the various WMI interfaces this already is impossible,
+> and just to show a notification it is not necessary (using
+> an external cam will make things weird though).
+> 
+> 2. For UVC cameras mapping the evdev to the /dev/video#
+> node can still be done by looking if they share a parent
+> USB interface. This is e.g. already done in apps like
+> xawtv looking at the PCI parent to pair up /dev/video#
+> for video capture with the ALSA interface exposed for
+> sound by bttv cards.
+> 
+> 3. We can maybe do something at the media-controller
+> level to help userspace linking a camera to its evdev node.
+> This would also be helpful for the existing WMI interfaces.
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> i) With the exception of drivers/media/pci/intel/ivsc/mei_csi.c
+> which has a V4L2_CID_PRIVACY control which always reads 0, so
+> I guess we can / should probably drop that.
+> 
+> 
+> 
+> p.s.
+> 
+> I do plan to also get back to you on the actually powermanagement
+> discussion. But only so many hours in a day, so it will probably
+> be a couple of days.
+> 
+> 
+
 
