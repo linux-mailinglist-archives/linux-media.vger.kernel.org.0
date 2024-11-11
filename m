@@ -1,205 +1,142 @@
-Return-Path: <linux-media+bounces-21254-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21256-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C5D9C3FBD
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 14:44:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5889C4035
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 15:03:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C92BC1C21882
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 13:44:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CF1F4B2192D
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 14:03:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A38D719E7F3;
-	Mon, 11 Nov 2024 13:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F4CC19F110;
+	Mon, 11 Nov 2024 14:03:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bz8Kzokr"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YP3bMhwd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC8E14D70E;
-	Mon, 11 Nov 2024 13:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E7419CC21;
+	Mon, 11 Nov 2024 14:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731332640; cv=none; b=YZamZnDY/yKPKAnxyHDIk/WFvYxgVGRV7fE6q+G2+NSD2lhC60GOqtqLh8yC1cU3VeKakgVLPcjiSbEcWAjU61OzrvLtmrb/Fb7mgu/GTNZFoMcL8TJMHk0OGCWc41mrYj2xr0HAiiPrhPzGwN8JqMVkx7LWxYlMLVg7GZASL24=
+	t=1731333803; cv=none; b=MeJvzLi6hFqZ61AoG1Gz864ZzGhe2v62h07JRDVqpU4nhkBtkQtTMzUucgNo6VPGMZRNoZtYCWSQf7par0P0P44Y0J+Baqp1mHLYrqagrwNWTiODUcVlUz9DqZw16IETKAtkAhGVLQv1sCs1eranGdeOntze0dNhyB2w8oc6uk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731332640; c=relaxed/simple;
-	bh=8KBvcpOBN/X2BF/ZldtfXAsIa2zzQe8iYbB2KTJR1dc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WDFdHyDCks61UT9/kguXlwSifHliKhJGlU8P+NX1NDLS4bJoEiUCLCgPueRbuCus/qLZtdNnie+GECwEwQsh8O09kBrM7YeolmSmJkbyaJgEiCEEatZAhiaOwMV0mLyZk9+1gV7wJbMWbkeq3vr9s4JoJMQ21muQ5u794quXMfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bz8Kzokr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FAEEC4CECF;
-	Mon, 11 Nov 2024 13:43:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731332639;
-	bh=8KBvcpOBN/X2BF/ZldtfXAsIa2zzQe8iYbB2KTJR1dc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=bz8Kzokr11U86eIVk+YnVU+RXlmRHMdSc+/TwFSN5kKaVEv17Z//KEVwjfQ0KXQGT
-	 ibMrDbTXc7km+yK4elJdYeY7+tG5ofN71kzuUWoOwJAV6I8QXiReJnrSqOwb0Jg7KV
-	 XW/aqjpOhM8LfC51Rb3nBlXW2F2RRmJYnXffU8L1aOjbhMMHeL8GaWFYn+WIOBFRRX
-	 bVMgCirhCL/EaLFbZLcmko9jWQNL21Ic/7ochUuYos49eqBfSRgIchFrBcrp3bov3G
-	 OgwXEMvySgLcXG+u1li/iwbt7Xt/Wuo+BB7CnogecEYoNUHQxW7vqL5tZzykV6JDLE
-	 1wCfuZtY0An5w==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tAUhw-0000000CSax-0kdW;
-	Mon, 11 Nov 2024 14:43:56 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Kevin Hao <haokexin@gmail.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Philipp Stanner <pstanner@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH] media: dvb_frontend: cleanup zigzag drift/inversion logic
-Date: Mon, 11 Nov 2024 14:43:54 +0100
-Message-ID: <d24601442407717bed6f101d3186dac5b6de7fc4.1731332632.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1731333803; c=relaxed/simple;
+	bh=rejxNvUFkpmhXfx0zBux3+ufVK+b01fKS1/HffKbOHg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tqQznCMwnPBu7aTVDfQxzy5dax8Q1gKdfL1HdWAUiUIR2/cJ4pczwAalcfR6aDN+pHe3Zk9g6DFxHDYg4KjARvQWIUBwIjxEPT5ljk9JS527gYLIgcgrKFRHC1GwPyCIlhXJlcAuq+9PilOOBUPDImSEPV0CLzN/2ElpObrfpds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YP3bMhwd; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AB5rCJ6022324;
+	Mon, 11 Nov 2024 14:03:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:message-id:mime-version:subject:to; s=
+	qcppdkim1; bh=sjhplPPQK7ppcjkE3V7ps2shkeWB28iWauTvCNdrxcQ=; b=YP
+	3bMhwdWwPBROnymvNv2srM4RisApkNgpFqNAWLKSXjQzuxVD1S8KKYJvlXDeO1FS
+	sFN58Q2LktgfyFOCUVOL53FFn22ed0pM8iU2S8etBvsTSbUHUvU/0YO0tFtQLt4j
+	fTit5UKXdxVVeZAjWXQyH0g3U94lvsLS1IwT5g+CHXRvPR+HXlsu1/Am5i7Bljpp
+	tvN3ZY9Dgi3nqv9JKf4UERFf4XfS0fqW1eQddZd+DAEZa8OrolOLwVzGPPUrHgoA
+	fc1yAhYy5mWwjeODuzjzuqaR8MaJwckOwVE9uCEZyJx/jBMeXCBZ2fT5LH+Kyxcf
+	/HQPRGjN7FzQCJGLGemA==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42uc6091ch-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Nov 2024 14:03:11 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ABE3A4m017894
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Nov 2024 14:03:10 GMT
+Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 11 Nov 2024 06:03:06 -0800
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+To: Vinod Koul <vkoul@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        "Sumit
+ Semwal" <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
+        <quic_vtanuku@quicinc.com>
+Subject: [PATCH v2 RESEND 0/3] Add Block event interrupt support for I2C protocol
+Date: Mon, 11 Nov 2024 19:32:41 +0530
+Message-ID: <20241111140244.13474-1-quic_jseerapu@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: oacjeXcKxvG2unwH4KqKeDrgAOyFJaS1
+X-Proofpoint-ORIG-GUID: oacjeXcKxvG2unwH4KqKeDrgAOyFJaS1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 malwarescore=0
+ phishscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ lowpriorityscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2411110116
 
-Move the logic which sets LNB drift and inversion to a separate
-function, to make the code cleaner.
+The I2C driver gets an interrupt upon transfer completion.
+For multiple messages in a single transfer, N interrupts will be
+received for N messages, leading to significant software interrupt
+latency. To mitigate this latency, utilize Block Event Interrupt (BEI)
+only when an interrupt is necessary. This means large transfers can be
+split into multiple chunks of 8 messages internally, without expecting
+interrupts for the first 7 messages completion, only the last one will
+trigger an interrupt indicating 8 messages completed.
 
-No functional changes.
+By implementing BEI, multi-message transfers can be divided into
+chunks of 8 messages, improving overall transfer time.
+This optimization reduces transfer time from 168 ms to 48 ms for a
+series of 200 I2C write messages in a single transfer, with a
+clock frequency support of 100 kHz.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/dvb-core/dvb_frontend.c | 83 +++++++++++++++------------
- 1 file changed, 45 insertions(+), 38 deletions(-)
+BEI optimizations are currently implemented for I2C write transfers only,
+as there is no use case for multiple I2C read messages in a single transfer
+at this time.
 
-diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-index a05aa271a1ba..6ee46bf6e45a 100644
---- a/drivers/media/dvb-core/dvb_frontend.c
-+++ b/drivers/media/dvb-core/dvb_frontend.c
-@@ -375,32 +375,13 @@ static void dvb_frontend_swzigzag_update_delay(struct dvb_frontend_private *fepr
- 	fepriv->delay = fepriv->min_delay + q2 * HZ / (128 * 128);
- }
- 
--/**
-- * dvb_frontend_swzigzag_autotune - Performs automatic twiddling of frontend
-- *	parameters.
-- *
-- * @fe: The frontend concerned.
-- * @check_wrapped: Checks if an iteration has completed.
-- *		   DO NOT SET ON THE FIRST ATTEMPT.
-- *
-- * return: Number of complete iterations that have been performed.
-- */
--static int dvb_frontend_swzigzag_autotune(struct dvb_frontend *fe, int check_wrapped)
-+static void dvb_frontend_swzigzag_inversion_drift(struct dvb_frontend *fe,
-+						  int autoinversion)
- {
--	int autoinversion;
--	int ready = 0;
--	int fe_set_err = 0;
- 	struct dvb_frontend_private *fepriv = fe->frontend_priv;
--	struct dtv_frontend_properties *c = &fe->dtv_property_cache, tmp;
--	int original_inversion = c->inversion;
--	u32 original_frequency = c->frequency;
--
--	/* are we using autoinversion? */
--	autoinversion = ((!(fe->ops.info.caps & FE_CAN_INVERSION_AUTO)) &&
--			 (c->inversion == INVERSION_AUTO));
- 
- 	/* setup parameters correctly */
--	while (!ready) {
-+	while (1) {
- 		/* calculate the lnb_drift */
- 		fepriv->lnb_drift = fepriv->auto_step * fepriv->step_size;
- 
-@@ -415,40 +396,66 @@ static int dvb_frontend_swzigzag_autotune(struct dvb_frontend *fe, int check_wra
- 		switch (fepriv->auto_sub_step) {
- 		case 0:
- 			/* try with the current inversion and current drift setting */
--			ready = 1;
--			break;
-+			return;
- 
- 		case 1:
--			if (!autoinversion) break;
-+			if (!autoinversion)
-+				return;
- 
--			fepriv->inversion = (fepriv->inversion == INVERSION_OFF) ? INVERSION_ON : INVERSION_OFF;
--			ready = 1;
--			break;
-+			fepriv->inversion = (fepriv->inversion == INVERSION_OFF) ?
-+					    INVERSION_ON : INVERSION_OFF;
-+			return;
- 
- 		case 2:
--			if (fepriv->lnb_drift == 0) break;
-+			if (fepriv->lnb_drift == 0)
-+				return;
- 
- 			fepriv->lnb_drift = -fepriv->lnb_drift;
--			ready = 1;
--			break;
-+			return;
- 
- 		case 3:
--			if (fepriv->lnb_drift == 0) break;
--			if (!autoinversion) break;
-+			if (fepriv->lnb_drift == 0)
-+				return;
-+			if (!autoinversion)
-+				return;
- 
--			fepriv->inversion = (fepriv->inversion == INVERSION_OFF) ? INVERSION_ON : INVERSION_OFF;
-+			fepriv->inversion = (fepriv->inversion == INVERSION_OFF) ?
-+					    INVERSION_ON : INVERSION_OFF;
- 			fepriv->lnb_drift = -fepriv->lnb_drift;
--			ready = 1;
--			break;
-+			return;
- 
- 		default:
- 			fepriv->auto_step++;
- 			fepriv->auto_sub_step = 0;
- 			continue;
- 		}
--
--		if (!ready) fepriv->auto_sub_step++;
- 	}
-+}
-+/**
-+ * dvb_frontend_swzigzag_autotune - Performs automatic twiddling of frontend
-+ *	parameters.
-+ *
-+ * @fe: The frontend concerned.
-+ * @check_wrapped: Checks if an iteration has completed.
-+ *		   DO NOT SET ON THE FIRST ATTEMPT.
-+ *
-+ * return: Number of complete iterations that have been performed.
-+ */
-+static int dvb_frontend_swzigzag_autotune(struct dvb_frontend *fe, int check_wrapped)
-+{
-+	int fe_set_err = 0;
-+	struct dvb_frontend_private *fepriv = fe->frontend_priv;
-+	struct dtv_frontend_properties *c = &fe->dtv_property_cache, tmp;
-+	int original_inversion = c->inversion;
-+	u32 original_frequency = c->frequency;
-+	int autoinversion;
-+
-+	/* are we using autoinversion? */
-+	autoinversion = ((!(fe->ops.info.caps & FE_CAN_INVERSION_AUTO)) &&
-+			 (c->inversion == INVERSION_AUTO));
-+
-+	/* setup parameters correctly */
-+	dvb_frontend_swzigzag_inversion_drift(fe, autoinversion);
- 
- 	/* if this attempt would hit where we started, indicate a complete
- 	 * iteration has occurred */
+v1 -> v2:
+  - DT changes are reverted for adding dma channel size as a new arg of
+    dma-cells property.
+  - DT binding change reveted for dma channel size as a new arg of
+    dma-cells property.
+  - In GPI driver, reverted the changes to parse the channel TRE size
+    from device tree.
+  - Made the changes in QCOM I2C geni driver to support the BEI
+    functionality with the existing TRE size of 64.
+  - Made changes in QCOM I2C geni driver as per the review comments.
+  - Fixed Kernel test robot reported compiltion issues.
+	 
+
+Jyothi Kumar Seerapu (3):
+  dmaengine: qcom: gpi: Add GPI Block event interrupt support
+  i2c: qcom_geni: Update compile dependenices for qcom geni
+  i2c: i2c-qcom-geni: Add Block event interrupt support
+
+ drivers/dma/qcom/gpi.c             |  49 +++++++
+ drivers/i2c/busses/Kconfig         |   1 +
+ drivers/i2c/busses/i2c-qcom-geni.c | 203 +++++++++++++++++++++++++----
+ include/linux/dma/qcom-gpi-dma.h   |  37 ++++++
+ 4 files changed, 265 insertions(+), 25 deletions(-)
+
+
+base-commit: 55bcd2e0d04c1171d382badef1def1fd04ef66c5
 -- 
-2.47.0
+2.17.1
 
 
