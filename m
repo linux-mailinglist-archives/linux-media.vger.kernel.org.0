@@ -1,232 +1,197 @@
-Return-Path: <linux-media+bounces-21270-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21271-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0C29C493E
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 23:45:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78039C4988
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 00:04:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A2B7FB2709C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 22:36:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12DE1B21577
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 23:04:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F17F91BDA9B;
-	Mon, 11 Nov 2024 22:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86A141AC884;
+	Mon, 11 Nov 2024 23:04:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBBm2a0P"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NoVOKfIq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D6F1BD4E2;
-	Mon, 11 Nov 2024 22:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EF0224FD
+	for <linux-media@vger.kernel.org>; Mon, 11 Nov 2024 23:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731364574; cv=none; b=hPV6NRp0Y/V9sC6Em1qaHxrJD326n6X0orKW0k2oAeXW3UWQb8deFbu8F0B/q5Cd9/Zo5HapF0MfKlGiu2hplYYwAiW2smuDlB16NBj28f/D7VuI11GfaqL6vUDRvtG50VBzq9g+ugoAXD8TfOCHFjLss2gy+2K9f059ayS5Nwg=
+	t=1731366284; cv=none; b=H9eVAZptTcU4ySiLrjYBijrMw94HqQYFuDRO3tdD8TpLa+y1TDQBSZ55rD6+OTcYyibfAni4j9O3NUPMnYuugLBq+l/klStv/XHyAc8x18l5QmAMryn5eGNppwFO2WSUvg39wAAOmlJiR23DmkugWw4te32S5UF3SmJJ5l88fLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731364574; c=relaxed/simple;
-	bh=VTKOlFWEU9rOqd7gZBhNAomP4MX1h4GCfami6fw8+/Q=;
+	s=arc-20240116; t=1731366284; c=relaxed/simple;
+	bh=Z9+UbBReS1oAstA0rpArkzY0hooNg1jdMYM1X1JTIKM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WzuAiLRoDmAo6SG8weyNO/m+geziKTjTQM4e2zR/36ziEOTh18Vyjjizz8XJ9UVBU8zyTLAfpc6jYs0jZABz9BWKuATF6odGCrzFqzMrT02OHdL9jT82p2eS694zWKDdIuvucFyWpZcdI35xo2hNl4Vuoqn76zI7ftE7+VqP8oQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBBm2a0P; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 496E2C4CECF;
-	Mon, 11 Nov 2024 22:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731364573;
-	bh=VTKOlFWEU9rOqd7gZBhNAomP4MX1h4GCfami6fw8+/Q=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=FTIHd/2nUiPJt0qSg+2Or8fJG1FdXnerBWnLFcjpwmuH2RpLHqFPtQvyySlh0NKriebXtMWqJClbWNcN8t8zI7URkHdSl1yIb6khGa/FgHkCYym2a6PnMcUj959F4FDMdRmrYf6Chzk7p1s9F3IxfwyqsSU9F1Jjd4XToVGN/bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NoVOKfIq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76DB5316;
+	Tue, 12 Nov 2024 00:04:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1731366268;
+	bh=Z9+UbBReS1oAstA0rpArkzY0hooNg1jdMYM1X1JTIKM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nBBm2a0Pr5NIWYOXXdCLtj4EMDDSCHlucluq1dxm1h+bLuHxsdJd7zYrkj9ZyXfCH
-	 0A4lnLn8RKNJf8Q549CVDQxiXLaPQ9r+BVSRAFxbScVTg7VKlMECAT1SoAgWn746Hx
-	 V35WXqXKezaqHYOYSrjZlRNAUikqmN5VKzUa1clVDQpGJaelcp6Hoiu6EKWFWAbOni
-	 aZtZCYLmnLLyWNyuAP/0EDLTYCnFhwGf6IfxFo2rwC2Hu+yVXxb3AkQI8aUBCvVAZI
-	 MF6a8idmqoVdNa68SD3gzhwgZvBB0iWRcjYjjJYqhXYOt/oy0Nvcm+fErtxdMWD8xA
-	 VrXKt6UU1U8Mw==
-Date: Mon, 11 Nov 2024 23:36:10 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, quic_msavaliy@quicinc.com, 
-	quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v2 RESEND 1/3] dmaengine: qcom: gpi: Add GPI Block event
- interrupt support
-Message-ID: <cewuxwkn75cfnopvzidwmwp6rq7wjyewdjmiohx5jsntke5dym@oc5tgzp7km2t>
-References: <20241111140244.13474-1-quic_jseerapu@quicinc.com>
- <20241111140244.13474-2-quic_jseerapu@quicinc.com>
+	b=NoVOKfIqMFvu+mZmjoAzxtX3Geyw/oA915ndaA13WznVo6u0aIAcS9Qo5qQSo69bO
+	 wlC7FDCWeetu0aA+LP2KylecUaE0dCqZCCQmcnOR0JDmwOWGkJ5BjAJio6ariQWck+
+	 smSHb4VAy2A/oOSb0yOAJ+AEp5bIPLBOAkd9WcCs=
+Date: Tue, 12 Nov 2024 01:04:32 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Isaac Scott <isaac.scott@ideasonboard.com>
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] media: uvcvideo: Implement dual stream quirk to
+ fix loss of usb packets
+Message-ID: <20241111230432.GE17916@pendragon.ideasonboard.com>
+References: <20241111173639.25131-1-isaac.scott@ideasonboard.com>
+ <20241111173639.25131-2-isaac.scott@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241111140244.13474-2-quic_jseerapu@quicinc.com>
+In-Reply-To: <20241111173639.25131-2-isaac.scott@ideasonboard.com>
 
-Ping, Vinod :-)
+Hi Isaac,
 
-Andi
+Thank you for the patch.
 
-On Mon, Nov 11, 2024 at 07:32:42PM +0530, Jyothi Kumar Seerapu wrote:
-> GSI hardware generates an interrupt for each transfer completion.
-> For multiple messages within a single transfer, this results
-> in receiving N interrupts for N messages, which can introduce
-> significant software interrupt latency. To mitigate this latency,
-> utilize Block Event Interrupt (BEI) only when an interrupt is necessary.
-> When using BEI, consider splitting a single multi-message transfer into
-> chunks of 8. This approach can enhance overall transfer time and
-> efficiency.
+On Mon, Nov 11, 2024 at 05:36:38PM +0000, Isaac Scott wrote:
+> Some cameras, such as the Sonix Technology Co. 292A exhibit issues when
+
+Nitpicking, s/ exhibit/, exhibit/
+
+> running two parallel streams, causing USB packets to be dropped when an
+> H.264 stream posts a keyframe while an MJPEG stream is running
+> simultaneously. This occasionally causes the driver to erroneously
+> output two consecutive JPEG images as a single frame.
 > 
-> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+> To fix this, we inspect the buffer, and trigger a new frame when we
+> find an SOI.
+> 
+> Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
 > ---
+>  drivers/media/usb/uvc/uvc_video.c | 27 ++++++++++++++++++++++++++-
+>  drivers/media/usb/uvc/uvcvideo.h  |  1 +
+>  2 files changed, 27 insertions(+), 1 deletion(-)
 > 
-> v1 -> v2: 
->    - Changed dma_addr type from array of pointers to array.
->    - To support BEI functionality with the TRE size of 64 defined in GPI driver,
->      updated QCOM_GPI_MAX_NUM_MSGS to 16 and NUM_MSGS_PER_IRQ to 8.
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index e00f38dd07d9..028f16dc189a 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/unaligned.h>
 >  
->  drivers/dma/qcom/gpi.c           | 49 ++++++++++++++++++++++++++++++++
->  include/linux/dma/qcom-gpi-dma.h | 37 ++++++++++++++++++++++++
->  2 files changed, 86 insertions(+)
-> 
-> diff --git a/drivers/dma/qcom/gpi.c b/drivers/dma/qcom/gpi.c
-> index 52a7c8f2498f..a98de3178764 100644
-> --- a/drivers/dma/qcom/gpi.c
-> +++ b/drivers/dma/qcom/gpi.c
-> @@ -1693,6 +1693,9 @@ static int gpi_create_i2c_tre(struct gchan *chan, struct gpi_desc *desc,
+>  #include <media/v4l2-common.h>
+> +#include <media/jpeg.h>
+
+Alphabetical order please. This helps avoiding duplicates in long lists
+of includes as they can be spotted more easily.
+
 >  
->  		tre->dword[3] = u32_encode_bits(TRE_TYPE_DMA, TRE_FLAGS_TYPE);
->  		tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_IEOT);
-> +
-> +		if (i2c->flags & QCOM_GPI_BLOCK_EVENT_IRQ)
-> +			tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_BEI);
+>  #include "uvcvideo.h"
+>  
+> @@ -1117,6 +1118,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+>  		struct uvc_buffer *buf, const u8 *data, int len)
+>  {
+>  	u8 fid;
+> +	u8 header_len;
+
+The kernel has a tendency to roughly sort variables by decreasing line
+length, and the uvcvideo driver follows that rule when nothing else
+makes it impractical.
+
+>  
+>  	/*
+>  	 * Sanity checks:
+> @@ -1129,6 +1131,8 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+>  		return -EINVAL;
 >  	}
 >  
->  	for (i = 0; i < tre_idx; i++)
-> @@ -2098,6 +2101,52 @@ static int gpi_find_avail_gpii(struct gpi_dev *gpi_dev, u32 seid)
->  	return -EIO;
+> +	header_len = data[0];
+> +
+
+And I'd drop the blank line here.
+
+>  	fid = data[1] & UVC_STREAM_FID;
+>  
+>  	/*
+> @@ -1210,9 +1214,30 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+>  		return -EAGAIN;
+>  	}
+>  
+> +	/*
+> +	 * Some cameras, when running two parallel streams (one MJPEG alongside
+> +	 * another non-MJPEG stream), are known to lose the EOF packet for a frame.
+> +	 * We can detect the end of a frame by checking for a new SOI marker, as
+> +	 * the SOI always lies on the packet boundary between two frames.
+
+I would add "for these devices" at the end of the sentence. I expect it
+to be universally true, but we haven't checked.
+
+> +	 */
+> +	if ((stream->dev->quirks & UVC_QUIRK_MJPEG_NO_EOF) &&
+> +	    (stream->cur_format->fcc == V4L2_PIX_FMT_MJPEG ||
+> +	     stream->cur_format->fcc == V4L2_PIX_FMT_JPEG)) {
+> +		const u8 *packet = ((const u8 *)data) + header_len;
+
+No need for the outer parentheses.
+
+> +
+> +		if (len - header_len > 2 &&
+
+I would have written
+
+		if (len > header_len + 2 &&
+
+and shouldn't it actually be
+
+		if (len >= header_len + 2 &&
+
+?
+
+> +		    packet[0] == 0xff && packet[1] == JPEG_MARKER_SOI &&
+> +		    buf->bytesused != 0) {
+> +			buf->state = UVC_BUF_STATE_READY;
+> +			buf->error = 1;
+> +			stream->last_fid ^= UVC_STREAM_FID;
+> +			return -EAGAIN;
+> +		}
+> +	}
+> +
+>  	stream->last_fid = fid;
+>  
+> -	return data[0];
+> +	return header_len;
 >  }
 >  
-> +/**
-> + * gpi_multi_desc_process() - Process received transfers from GSI HW
-> + * @dev: pointer to the corresponding dev node
-> + * @multi_xfer: pointer to the gpi_multi_xfer
-> + * @num_xfers: total number of transfers
-> + * @transfer_timeout_msecs: transfer timeout value
-> + * @transfer_comp: completion object of the transfer
-> + *
-> + * This function is used to process the received transfers based on the
-> + * completion events
-> + *
-> + * Return: On success returns 0, otherwise return error code
-> + */
-> +int gpi_multi_desc_process(struct device *dev, struct gpi_multi_xfer *multi_xfer,
-> +			   u32 num_xfers, u32 transfer_timeout_msecs,
-> +			   struct completion *transfer_comp)
-> +{
-> +	int i;
-> +	u32 max_irq_cnt, time_left;
-> +
-> +	max_irq_cnt = num_xfers / NUM_MSGS_PER_IRQ;
-> +	if (num_xfers % NUM_MSGS_PER_IRQ)
-> +		max_irq_cnt++;
-> +
-> +	/*
-> +	 * Wait for the interrupts of the processed transfers in multiple
-> +	 * of 64 and for the last transfer. If the hardware is fast and
-> +	 * already processed all the transfers then no need to wait.
-> +	 */
-> +	for (i = 0; i < max_irq_cnt; i++) {
-> +		reinit_completion(transfer_comp);
-> +		if (max_irq_cnt != multi_xfer->irq_cnt) {
-> +			time_left = wait_for_completion_timeout(transfer_comp,
-> +								transfer_timeout_msecs);
-> +			if (!time_left) {
-> +				dev_err(dev, "%s: Transfer timeout\n", __func__);
-> +				return -ETIMEDOUT;
-> +			}
-> +		}
-> +		if (num_xfers > multi_xfer->msg_idx_cnt)
-> +			return 0;
-> +	}
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(gpi_multi_desc_process);
-> +
->  /* gpi_of_dma_xlate: open client requested channel */
->  static struct dma_chan *gpi_of_dma_xlate(struct of_phandle_args *args,
->  					 struct of_dma *of_dma)
-> diff --git a/include/linux/dma/qcom-gpi-dma.h b/include/linux/dma/qcom-gpi-dma.h
-> index 6680dd1a43c6..1341ff0db808 100644
-> --- a/include/linux/dma/qcom-gpi-dma.h
-> +++ b/include/linux/dma/qcom-gpi-dma.h
-> @@ -15,6 +15,12 @@ enum spi_transfer_cmd {
->  	SPI_DUPLEX,
->  };
+>  static inline enum dma_data_direction uvc_stream_dir(
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index b7d24a853ce4..116b1e383c25 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -76,6 +76,7 @@
+>  #define UVC_QUIRK_NO_RESET_RESUME	0x00004000
+>  #define UVC_QUIRK_DISABLE_AUTOSUSPEND	0x00008000
+>  #define UVC_QUIRK_INVALID_DEVICE_SOF	0x00010000
+> +#define UVC_QUIRK_MJPEG_NO_EOF          0x00020000
+
+Please use tabs for indentation, like in the previous lines.
+
 >  
-> +#define QCOM_GPI_BLOCK_EVENT_IRQ	BIT(0)
-> +
-> +#define QCOM_GPI_MAX_NUM_MSGS		16
-> +#define NUM_MSGS_PER_IRQ		8
-> +#define MIN_NUM_OF_MSGS_MULTI_DESC	4
-> +
->  /**
->   * struct gpi_spi_config - spi config for peripheral
->   *
-> @@ -51,6 +57,29 @@ enum i2c_op {
->  	I2C_READ,
->  };
->  
-> +/**
-> + * struct gpi_multi_xfer - Used for multi transfer support
-> + *
-> + * @msg_idx_cnt: message index for the transfer
-> + * @buf_idx: dma buffer index
-> + * @unmap_msg_cnt: unampped transfer index
-> + * @freed_msg_cnt: freed transfer index
-> + * @irq_cnt: received interrupt count
-> + * @irq_msg_cnt: transfer message count for the received irqs
-> + * @dma_buf: virtual address of the buffer
-> + * @dma_addr: dma address of the buffer
-> + */
-> +struct gpi_multi_xfer {
-> +	u32 msg_idx_cnt;
-> +	u32 buf_idx;
-> +	u32 unmap_msg_cnt;
-> +	u32 freed_msg_cnt;
-> +	u32 irq_cnt;
-> +	u32 irq_msg_cnt;
-> +	void *dma_buf[QCOM_GPI_MAX_NUM_MSGS];
-> +	dma_addr_t dma_addr[QCOM_GPI_MAX_NUM_MSGS];
-> +};
-> +
->  /**
->   * struct gpi_i2c_config - i2c config for peripheral
->   *
-> @@ -65,6 +94,8 @@ enum i2c_op {
->   * @rx_len: receive length for buffer
->   * @op: i2c cmd
->   * @muli-msg: is part of multi i2c r-w msgs
-> + * @flags: true for block event interrupt support
-> + * @multi_xfer: indicates transfer has multi messages
->   */
->  struct gpi_i2c_config {
->  	u8 set_config;
-> @@ -78,6 +109,12 @@ struct gpi_i2c_config {
->  	u32 rx_len;
->  	enum i2c_op op;
->  	bool multi_msg;
-> +	u8 flags;
-> +	struct gpi_multi_xfer multi_xfer;
->  };
->  
-> +int gpi_multi_desc_process(struct device *dev, struct gpi_multi_xfer *multi_xfer,
-> +			   u32 num_xfers, u32 tranfer_timeout_msecs,
-> +			   struct completion *transfer_comp);
-> +
->  #endif /* QCOM_GPI_DMA_H */
-> -- 
-> 2.17.1
-> 
+>  /* Format flags */
+>  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+
+-- 
+Regards,
+
+Laurent Pinchart
 
