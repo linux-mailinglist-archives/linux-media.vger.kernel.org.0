@@ -1,304 +1,168 @@
-Return-Path: <linux-media+bounces-21268-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21269-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055E49C43E2
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 18:41:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B33E9C45FF
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 20:38:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A5A21F21E2E
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 17:41:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3B390B254CD
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 19:38:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C1E01AA7BF;
-	Mon, 11 Nov 2024 17:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE4431A76DD;
+	Mon, 11 Nov 2024 19:38:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BTxH4duz"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="hciuQT28"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2891AA788;
-	Mon, 11 Nov 2024 17:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2B7139597
+	for <linux-media@vger.kernel.org>; Mon, 11 Nov 2024 19:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731346755; cv=none; b=BEa3tE4mCffmuSJyzn3NtjS2/BkflLntkshBqUZ8Vc/mMrC2og0Naq0JDTyk6yr5BxTmJdXGVxsj0vxaE02MDqNZtNAFjO2rQURQtGBJl2AtbgpK/K4gHUfuCsYrJ1hdb/p0rP4HQ7Ua0AZAEw7yzvq+aXehP6S0DyvrL1d9pTM=
+	t=1731353895; cv=none; b=bWDQXHMQAVF88dqtauetM1kMcTeHWMaluEWyP+IUi39VQmuF7IOgTJ6MrsFa1RE5XVdDMMHmK6lMXnYT/6a3wdL8qa/cNzBGnfjOiRa0OOaSR/liNVvWTaS4FReaa0Ybk5L/Au86dD6XmLO551scBNEt5NUOg+To/hCsFqlqBPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731346755; c=relaxed/simple;
-	bh=lBbzUyMqfHeDD6ko8cw3TFL2RQtuO/mV4Rr1WqZ++08=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uV77hvBnixpf1gJwpkn0P2JFy0uUbivm6FyhTu5C+M62xL8XZHaB3nXeCLq0opmNSePi7bYU2HRTZWvgoYXSPpZioKdvb+8hlP+yJFWUk/YLtnEr9GKL4Vb+1o+nxnBveOOQ+fwd1ltezhFW69hm4E7bTBSCfrYfIof/3/bt4ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BTxH4duz; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ABBUkq9027315;
-	Mon, 11 Nov 2024 17:39:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	nq2M7QKq6EEuAV62YaLr21VLlQSB1WvMDPSk2WFA9DE=; b=BTxH4duzTUmjDLjt
-	jbec2dWNfpnhOl9WU/i+HMOpX5ARjg3DvvLIrP680zHl7MbNEo8pq+FAA4ymH4Hh
-	jg1C8IrKjfnUxeZWiwOI4AGlUPrGIud6MM0OS29256XgUgJZywFQlCC/hjpEc3DS
-	2Epx9idLPxq2m0nCqlFyQpi23d/bROJiwYZLlqSQ9vW7HCtet/BFtALRLu9ych7d
-	GvD/2Ur94ERkoZ1jPPuXcvQzbat2u778O2OJYzhB4AOx0j222upzgfwxTRX31xcC
-	v2+VCSywJQxfiv1Uw3ozM0cKGv2hMwRfxOspzcaTM9Ubjvr7v+gDoqCjFKSaGdC+
-	aXlj1Q==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42sytsmxcw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Nov 2024 17:39:09 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ABHd85m021957
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Nov 2024 17:39:08 GMT
-Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 11 Nov 2024 09:39:02 -0800
-From: Vikram Sharma <quic_vikramsa@quicinc.com>
-To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <krzk+dt@kernel.org>
-CC: <quic_vikramsa@quicinc.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel@quicinc.com>
-Subject: [PATCH v1 1/1] media: qcom: camss: Restructure camss_link_entities
-Date: Mon, 11 Nov 2024 23:08:45 +0530
-Message-ID: <20241111173845.1773553-2-quic_vikramsa@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241111173845.1773553-1-quic_vikramsa@quicinc.com>
-References: <20241111173845.1773553-1-quic_vikramsa@quicinc.com>
+	s=arc-20240116; t=1731353895; c=relaxed/simple;
+	bh=zIDq+wn2ZjN9W8VtepbTyHymh6yI0tWnPC0D5hNEgIo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u1tHk4xJbSHoZYbmNdSYqbiWygbg21fZaUKDFWp7lbBtJVF3uBJCg35v8+zzjOLtG3jXrDsQiNeFO4GnZu1UokSIGfb0olA2FmcFXQTfcQAe1mUh6kHv4VE500xoSRLoqvYFTJMhKwTkEvpZAA95DbxYyTszbQg9yoEeTxaKTYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=hciuQT28; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e2e444e355fso4469741276.1
+        for <linux-media@vger.kernel.org>; Mon, 11 Nov 2024 11:38:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1731353892; x=1731958692; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zIDq+wn2ZjN9W8VtepbTyHymh6yI0tWnPC0D5hNEgIo=;
+        b=hciuQT28+QOnYsvn/LUSYUfO6phmOgIbF2GiAE1kYTmenT/CY2FW/P8mFQCkS/PPOf
+         HJA0+aFFB1iYEfHkeop57Zz23gZpKpRqwKINBTfLyF9HvgovQlVJ470NQYPkUIv11Ur3
+         PspVsc5xDAF7g3bIjpeWrPzROXI/RA81g7JUwUPprKZaJJRlqJC4ZJdutw9SEKESFNl8
+         +pqAtEAeYUR7v0ilBypc1CAZbkpCKVFueMjKR36QFeTMjpCoXIdnzWN/YR3V0rS5FJBV
+         AnB/NyOJnL5RdBuj5lKqrxYcfN7yMpqDcTXyR5DM1725F7gq6U9yyG/Vz7u0EkDxwVGr
+         ChUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731353892; x=1731958692;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zIDq+wn2ZjN9W8VtepbTyHymh6yI0tWnPC0D5hNEgIo=;
+        b=pED8kEfop3qp/hW/O2q66W9PhmfUtAp6458gAmM7BYbB5QZtOk+Re+ojsAjEwIfTXS
+         Af/nyn4dVrUsJR0NNfHQLb9rZ69Nraq2e3d3CJ4GqrjM3IfmDx7aSAu5/vAgRk/rCPHT
+         Lu60L3TVGqbfOe+CJIgfLHzzro2pvlhSJFfM3cqU7cVXuxWQ7t+QqwHxHRj2gcQOCPsk
+         H3gqVTnN974ZNIVO2ZL9wtvTyPmcluVT+XB577PyUJiMem6JC1j1JtnGhxzA3pT0zmir
+         cipl+B4DC+wl7dwXgWQbkvaYapBjCq1d2SGwgj1hDBZoMMXa7z982l1W+KZ52I8g7VFV
+         G4jg==
+X-Forwarded-Encrypted: i=1; AJvYcCWnWNWmqfT/fR9Rf681DGj4I9pi3LWnp9vKIdm0E/LI6SFIiJGUn42etQj+NIPwLc5Hgf4Xk3IT7MrxCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+oX01YNzEP0SElcfTEKp4heaeEr18ahMFqy0NmNq5CEKDB5Ja
+	y5WGV/hp0TueOhdo65xZQ5a9H+FAuA7ntdrbQ3cHY/lwoz5hWr7lDJUCoijGC4zjpkdQ4AuZkeB
+	nb6pLbrI/nNUPoXMc9lGvHMuT1pzLpxM+bfPR5g==
+X-Google-Smtp-Source: AGHT+IGrzE9YOTJL8kh9UHgOa4K+djVvshiDKaOhVhkh2nkzaovFe2fUmA1QrMwh0iRipVpdfEjceCefaOy8bml9H5s=
+X-Received: by 2002:a05:690c:4c11:b0:6e2:fcb5:52fa with SMTP id
+ 00721157ae682-6eade448b92mr111732767b3.9.1731353892217; Mon, 11 Nov 2024
+ 11:38:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: SV-byBueOOr2E40MG4ait_CY_ab7_2Ty
-X-Proofpoint-ORIG-GUID: SV-byBueOOr2E40MG4ait_CY_ab7_2Ty
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 suspectscore=0 bulkscore=0 impostorscore=0 phishscore=0
- mlxlogscore=811 lowpriorityscore=0 malwarescore=0 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411110143
+References: <20241029-imx219_fixes-v1-0-b45dc3658b4e@ideasonboard.com>
+ <20241029-imx219_fixes-v1-2-b45dc3658b4e@ideasonboard.com>
+ <ZySV3KKXSyIreRI4@kekkonen.localdomain> <CAPY8ntDF8W+xRBXbe=LYpg21LL7-svhCySTSJHRNiDzQs4Xw5Q@mail.gmail.com>
+ <Zy3oKnHBiGOq8Uoj@kekkonen.localdomain>
+In-Reply-To: <Zy3oKnHBiGOq8Uoj@kekkonen.localdomain>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 11 Nov 2024 19:37:56 +0000
+Message-ID: <CAPY8ntD4Q4f5fSC+xW=j-5T38_Zb5x7pGQM4RYVzrz+NJMGtUQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: i2c: imx219: make HBLANK r/w to allow longer exposures
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jai Luthra <jai.luthra@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Refactor the camss_link_entities function by breaking it down into
-three distinct functions. Each function will handle the linking of
-a specific entity separately, enhancing readability.
+Hi Sakari
 
-Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
-Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
-Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
----
- drivers/media/platform/qcom/camss/camss.c | 159 ++++++++++++++--------
- 1 file changed, 105 insertions(+), 54 deletions(-)
+On Fri, 8 Nov 2024 at 10:30, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Dave,
+>
+> On Thu, Nov 07, 2024 at 12:43:52PM +0000, Dave Stevenson wrote:
+> > Hi Sakari
+> >
+> > On Fri, 1 Nov 2024 at 08:48, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Jai,
+> > >
+> > > On Tue, Oct 29, 2024 at 02:27:36PM +0530, Jai Luthra wrote:
+> > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > >
+> > > > The HBLANK control was read-only, and always configured such
+> > > > that the sensor HTS register was 3448. This limited the maximum
+> > > > exposure time that could be achieved to around 1.26 secs.
+> > > >
+> > > > Make HBLANK read/write so that the line time can be extended,
+> > > > and thereby allow longer exposures (and slower frame rates).
+> > > > Retain the overall HTS setting when changing modes rather than
+> > > > resetting it to a default.
+> > >
+> > > It looks like this changes horizontal blanking at least in some cases. Does
+> > > this also work as expected in binned modes, for instance?
+> > >
+> > > Many sensors have image quality related issues on untested albeit
+> > > functional line length values.
+> > >
+> > > So my question is: how has this been validated?
+> >
+> > Validated by Sony, or others?
+> > I've tested a range of values in all modes and not observed any image
+> > quality issues.
+>
+> Somehow at least. :-)
+>
+> >
+> > From previous discussions with Sony, they always provide their big
+> > spreadsheet of register values for the specific mode and frame rate
+> > requested. I don't think they even officially state that changing
+> > VTS/FRM_LENGTH_LINES to change the framerate is permitted.
+> > There are some Sony datasheets (eg imx258) that state "set to X. Any
+> > other value please confirm with Sony", but that isn't the case for the
+> > imx219 datasheet. I take that as it is permitted within the defined
+> > ranges.
+>
+> I'm not that much concerned of vertical blanking, changing that within the
+> valid range has effects on the image itself very seldom. Horizontal
+> blanking is different though and this is what the patch makes changeable,
+> including a change in the default value. Of course there are big
+> differences between sensors here.
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index fabe034081ed..1052c01b45f3 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1840,14 +1840,66 @@ static int camss_init_subdevices(struct camss *camss)
- }
- 
- /*
-- * camss_link_entities - Register subdev nodes and create links
-+ * camss_link_entities_csid - Register subdev nodes and create links
-  * @camss: CAMSS device
-  *
-  * Return 0 on success or a negative error code on failure
-  */
--static int camss_link_entities(struct camss *camss)
-+static int camss_link_entities_csid(struct camss *camss)
- {
--	int i, j, k;
-+	int i, j;
-+	int ret, line_num;
-+	u16 src_pad;
-+	u16 sink_pad;
-+	struct media_entity *src_entity;
-+	struct media_entity *sink_entity;
-+
-+	for (i = 0; i < camss->res->csid_num; i++) {
-+		if (camss->ispif)
-+			line_num = camss->ispif->line_num;
-+		else
-+			line_num = camss->vfe[i].res->line_num;
-+
-+		src_entity = &camss->csid[i].subdev.entity;
-+		for (j = 0; j < line_num; j++) {
-+			if (camss->ispif) {
-+				sink_entity = &camss->ispif->line[j].subdev.entity;
-+				src_pad = MSM_CSID_PAD_SRC;
-+				sink_pad = MSM_ISPIF_PAD_SINK;
-+			} else {
-+				sink_entity = &camss->vfe[i].line[j].subdev.entity;
-+				src_pad = MSM_CSID_PAD_FIRST_SRC + j;
-+				sink_pad = MSM_VFE_PAD_SINK;
-+			}
-+
-+			ret = media_create_pad_link(src_entity,
-+						    src_pad,
-+						    sink_entity,
-+						    sink_pad,
-+						    0);
-+			if (ret < 0) {
-+				dev_err(camss->dev,
-+					"Failed to link %s->%s entities: %d\n",
-+					src_entity->name,
-+					sink_entity->name,
-+					ret);
-+				return ret;
-+			}
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * camss_link_entities_csiphy - Register subdev nodes and create links
-+ * @camss: CAMSS device
-+ *
-+ * Return 0 on success or a negative error code on failure
-+ */
-+static int camss_link_entities_csiphy(struct camss *camss)
-+{
-+	int i, j;
- 	int ret;
- 
- 	for (i = 0; i < camss->res->csiphy_num; i++) {
-@@ -1868,71 +1920,70 @@ static int camss_link_entities(struct camss *camss)
- 		}
- 	}
- 
--	if (camss->ispif) {
--		for (i = 0; i < camss->res->csid_num; i++) {
--			for (j = 0; j < camss->ispif->line_num; j++) {
--				ret = media_create_pad_link(&camss->csid[i].subdev.entity,
--							    MSM_CSID_PAD_SRC,
--							    &camss->ispif->line[j].subdev.entity,
--							    MSM_ISPIF_PAD_SINK,
-+	return 0;
-+}
-+
-+/*
-+ * camss_link_entities_ispif - Register subdev nodes and create links
-+ * @camss: CAMSS device
-+ *
-+ * Return 0 on success or a negative error code on failure
-+ */
-+static int camss_link_entities_ispif(struct camss *camss)
-+{
-+	int i, j, k;
-+	int ret;
-+
-+	for (i = 0; i < camss->ispif->line_num; i++) {
-+		for (k = 0; k < camss->res->vfe_num; k++) {
-+			for (j = 0; j < camss->vfe[k].res->line_num; j++) {
-+				struct v4l2_subdev *ispif = &camss->ispif->line[i].subdev;
-+				struct v4l2_subdev *vfe = &camss->vfe[k].line[j].subdev;
-+
-+				ret = media_create_pad_link(&ispif->entity,
-+							    MSM_ISPIF_PAD_SRC,
-+							    &vfe->entity,
-+							    MSM_VFE_PAD_SINK,
- 							    0);
- 				if (ret < 0) {
- 					dev_err(camss->dev,
- 						"Failed to link %s->%s entities: %d\n",
--						camss->csid[i].subdev.entity.name,
--						camss->ispif->line[j].subdev.entity.name,
-+						ispif->entity.name,
-+						vfe->entity.name,
- 						ret);
- 					return ret;
- 				}
- 			}
- 		}
--
--		for (i = 0; i < camss->ispif->line_num; i++)
--			for (k = 0; k < camss->res->vfe_num; k++)
--				for (j = 0; j < camss->vfe[k].res->line_num; j++) {
--					struct v4l2_subdev *ispif = &camss->ispif->line[i].subdev;
--					struct v4l2_subdev *vfe = &camss->vfe[k].line[j].subdev;
--
--					ret = media_create_pad_link(&ispif->entity,
--								    MSM_ISPIF_PAD_SRC,
--								    &vfe->entity,
--								    MSM_VFE_PAD_SINK,
--								    0);
--					if (ret < 0) {
--						dev_err(camss->dev,
--							"Failed to link %s->%s entities: %d\n",
--							ispif->entity.name,
--							vfe->entity.name,
--							ret);
--						return ret;
--					}
--				}
--	} else {
--		for (i = 0; i < camss->res->csid_num; i++)
--			for (k = 0; k < camss->res->vfe_num; k++)
--				for (j = 0; j < camss->vfe[k].res->line_num; j++) {
--					struct v4l2_subdev *csid = &camss->csid[i].subdev;
--					struct v4l2_subdev *vfe = &camss->vfe[k].line[j].subdev;
--
--					ret = media_create_pad_link(&csid->entity,
--								    MSM_CSID_PAD_FIRST_SRC + j,
--								    &vfe->entity,
--								    MSM_VFE_PAD_SINK,
--								    0);
--					if (ret < 0) {
--						dev_err(camss->dev,
--							"Failed to link %s->%s entities: %d\n",
--							csid->entity.name,
--							vfe->entity.name,
--							ret);
--						return ret;
--					}
--				}
- 	}
- 
- 	return 0;
- }
- 
-+/*
-+ * camss_link_entities - Register subdev nodes and create links
-+ * @camss: CAMSS device
-+ *
-+ * Return 0 on success or a negative error code on failure
-+ */
-+static int camss_link_entities(struct camss *camss)
-+{
-+	int ret;
-+
-+	ret = camss_link_entities_csiphy(camss);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = camss_link_entities_csid(camss);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (camss->ispif)
-+		ret = camss_link_entities_ispif(camss);
-+
-+	return ret;
-+}
-+
- /*
-  * camss_register_entities - Register subdev nodes and create links
-  * @camss: CAMSS device
--- 
-2.25.1
+The intention was that the default value shouldn't change, and as the
+overall PIXELS_PER_LINE value was meant to be retained on a mode
+change the value used should only change if an application changes
+V4L2_CID_HBLANK. If I blundered in the implementation of that, then
+that should be fixed (I know Jacopo made comments, but I haven't had a
+chance to investigate).
 
+I doubt we'd get validation from Sony beyond the contents of the
+datasheet. Potentially as the sensor is so old they don't have the
+information or engineers involved.
+I'm happy to set up a test system and capture a set of images with
+HBLANK from min to max at some increment. With the same exposure and
+gain they should all be identical as long as there isn't any movement
+(rolling shutter with longer readout times and all that). Would that
+be satisfactory?
+
+For contrast, the IMX290 datasheet states that VMAX shall be fixed at
+0x465 for all-pixel mode / 0x2ee for 720p mode, and HMAX should be
+changed for frame rate control. As you say, sensors differ.
+
+ Dave
+
+> --
+> Kind regards,
+>
+> Sakari Ailus
 
