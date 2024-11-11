@@ -1,135 +1,193 @@
-Return-Path: <linux-media+bounces-21246-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21247-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 274039C3AA4
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 10:14:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC759C3B47
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 10:47:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF7931F224DD
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 09:14:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 419CE1C21696
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2024 09:47:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E29E170A0B;
-	Mon, 11 Nov 2024 09:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76D551714C8;
+	Mon, 11 Nov 2024 09:46:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P0zPij83"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Kd9K5xfV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F821662FA
-	for <linux-media@vger.kernel.org>; Mon, 11 Nov 2024 09:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB94155342
+	for <linux-media@vger.kernel.org>; Mon, 11 Nov 2024 09:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731316468; cv=none; b=VZwGFWQGa3J4Ml1HDEA+rhJEsAU5rtiQelQbkqhLNmDoiUKEGeugABDusDrtnPQ9D4tTdbmT+nUmMbXgTXqThrFjJE5RleUHtMzDsjMPyHAhWs58YvvNnoTjAd8a313KSmyqddTQLuViSacZubUPddP0uOqD06FSesXFOmkcOFo=
+	t=1731318399; cv=none; b=C/NG4ngqh6BeuiVbWY1+Nqq/BxSsfW64rO0vnZ2Ev/JmoB2IqZ8rbO65BkQSRwI3FpqoPmDy4nxwzjHHCVfFNBgW0y9YwTPl1W+UqnGclAvNnRwdiEei6uacSLMJVuwin122y1Six/IdYtvIKw5ShVfvnJiotz9n+6kdidHFp4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731316468; c=relaxed/simple;
-	bh=OxTK3kBbHj69gWipHOv8iwxstU+Bq5GS1YjAAZZpka4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ISvdmfNVyDe3pGdFjBG9eOvmNM/h1ps0qCrBjfgUcmXjSJcDndcFBxJSO4onVhorJaJEOa6alU3g0wG4VS4jAAHMDYnK/AQZcYI9XL72O53oAO2KxxbuQ+e40eh6Tbgn53DPPxn7ttdCM/Wct/kroK03iCUZkoJ9GfpgQnZhQBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=P0zPij83; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a93c1cc74fdso724888466b.3
-        for <linux-media@vger.kernel.org>; Mon, 11 Nov 2024 01:14:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731316465; x=1731921265; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2NWeH3jkHDc0Ye+Ypt1Wuxtz4WCpROEp8hmtW2LYWTE=;
-        b=P0zPij83XztfOXqjbGNqcfpuwjbAYo2Wat38eHW/ys56hTHoygJGbFF99fpcqVO7B1
-         +oGE1n4HPs6N3YbN9y0ola+34VMAX9Aevrng/Fzq9GUwH108r4N3oUHXCkVn0UxzX645
-         loNDGjbLmdGZgGkXykHXJT56PXYua09qe7cS3jBT0PzQo3WhQJmBAtOEv024YPnev5Po
-         oJp+TJ/l5xDD6hNiMVnvewMaSOgFnw6JsrugB/B7fHoji/V6RhfJpxrf1NgK+0X9iVKk
-         AVbxH5E3Qx1YjPyKzbT0h+nrHuwk9ZmIduZ6/twjhkDgpzO3UICEgjFKuS4gDX8h9rPe
-         YYjQ==
+	s=arc-20240116; t=1731318399; c=relaxed/simple;
+	bh=w920tSfB0M075as5TYxc4W+nRALAsTg7M4Tx8ZBYXlM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kF4ROIQo/k3scm63CWqBfDsZ1R3qjBnt7Ux/HcKwP3P2AB6hcVKN9YMLRlkG01nVo9Y/8/oZRPUpzwJy3voegCUL5J/3F70Oxew1sV7YixFXO3gqKS2VV0SMYwhq8n6HtADWgAGdFWNp4i0uGQMFDvVg0SjIwFxV4l6RURVTous=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Kd9K5xfV; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1731318396;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62GSbDvUL0zOMpHftPm6BKPDBc/cKDzWGTr8CdJHqeQ=;
+	b=Kd9K5xfVFaTJTPdGXZyVV5XVD5bQuWS7bpmpZbO5pYh+uF9pp/PC2udoPLn5gvc3MyWnW1
+	4trfGTOVl5f9xOv4vrManK5KNqrcoowo96SHcAft19DP0CGypKg3Ip0BWMFVoQpQMi78iH
+	eqaREwJUlgy60JwIA794OCtEsku0uik=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-164-p2y28U6xOMKXjIaKKMjZdA-1; Mon, 11 Nov 2024 04:46:35 -0500
+X-MC-Unique: p2y28U6xOMKXjIaKKMjZdA-1
+X-Mimecast-MFC-AGG-ID: p2y28U6xOMKXjIaKKMjZdA
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a9a01cba9f7so341447466b.3
+        for <linux-media@vger.kernel.org>; Mon, 11 Nov 2024 01:46:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731316465; x=1731921265;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2NWeH3jkHDc0Ye+Ypt1Wuxtz4WCpROEp8hmtW2LYWTE=;
-        b=trPjN6JaPuUTw+3OwFdKExHsNWvNcqkSOWjpiWJhybkksM19II7kRwdLb/RNoJJtbu
-         xzVtUXN6RjAjuAOMkxrYEYFaEGiXwqIasBM/oqRcGMTgnZtDiIXK8Z6n0xT/NQArblj5
-         hzP6fx4SPDIG9lQ4ygXiq7NHU0Rf2qNFtIZeCdARvk4fZdUNTwNqxBY6cYlzDgqvAZvQ
-         Oh6raW24LXFntb+D5dVN4wgRwUc1+ueGuzasaycq1Gey0YWnXsiO+106FJgGPkP8/lIS
-         64yNEexWvR2u1GpMxxRUGnrDDzlF/DMlxo9dm8MJTVhKVBmHHPbMqjLULtBXdHoX9ULa
-         c7kQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXoku12Nn1UfndWHpAMgSupulB4a75oBut4LKBP2sgQ0KVg6B5HEQ3+Q/Uzx1CtE27JsbNF99LvR4HFow==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbwawXS1JMUORxWADjLaH4eSHtKnuSXZdeyViZzs+BDx5cE6as
-	y/yF69052txVZ6KlB7C3qwfWPul89mv/VCc0S4p6uXYsGRxxeG+sWpZniHp8ug8=
-X-Google-Smtp-Source: AGHT+IEJR5XILRv2WOEUbzmDldjOYjUKGr4w+bCfjgRlb0NalsMvd9Y6kH0/jAioZL9hxiS+S8Zk3w==
-X-Received: by 2002:a17:906:c103:b0:a9a:4158:494a with SMTP id a640c23a62f3a-a9eeffeedd4mr1144156866b.41.1731316465395;
-        Mon, 11 Nov 2024 01:14:25 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0a4b82csm579790466b.67.2024.11.11.01.14.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 01:14:25 -0800 (PST)
-Date: Mon, 11 Nov 2024 12:14:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Greg KH <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Cc: Qiu-ji Chen <chenqiuji666@gmail.com>, dtwlin@gmail.com,
-	johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3] staging: greybus: uart: Fix atomicity violation in
- get_serial_info()
-Message-ID: <9378fe55-66d5-4a11-9524-a0ed01f458ed@stanley.mountain>
-References: <20241107113337.402042-1-chenqiuji666@gmail.com>
- <2024110724-overbuilt-liquid-3734@gregkh>
+        d=1e100.net; s=20230601; t=1731318394; x=1731923194;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=62GSbDvUL0zOMpHftPm6BKPDBc/cKDzWGTr8CdJHqeQ=;
+        b=jF+weKl8QdBw/Xr8qGQCdU6F30hQiykS4hqzlWqDYAVkMFWdJ2w6Y3aCBq5d5zSO/l
+         NFni3g7zbFq/inximoKzBdRlPdWNnwyP3sDkk5bYf5H4orcxS5t6mrLCR+SuGemKr7Er
+         yUwk3d2yU+A2Cbn/d3LquSQSGRoM35/pwNrjJ2N2J8yjq7cyNjsIBwUR/O34mMnzT4Ss
+         cZYCsiBSkJfZ/11llmlXVSpHcnWu+X4UWsK6l1mKQnS5ht33qNp0isSGRe/BVXmTFHQY
+         jysFgUMhxvzeb+kiNOWrAR3HIAXinwG/4KzMCjWU2HzUNjyxMSMRJXbM4bYXrs479nH0
+         TRMw==
+X-Forwarded-Encrypted: i=1; AJvYcCVk9GbWDoNEsACbOplLO7Z3VaaYQHXGRwCtr9+sg4wJDVoYL8PriZrPVaTKQsNBSRbiqPsFCoyUSmlARw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzXgh6ScU7uHPDGuQ6ZRuDwlK8je1BWaNrwryzrz1na/DWCwOY
+	YtDzqoQuiRdydJMw6Wmj1Qp/6KkkY9x34hQRjM32doUKywo8JwPyUu2vPuL4v1tz0o5DgTn+fj3
+	feeCrHh0H0atm0UekxvFRyZw8NjSjDqxDleBn2feYySupWckCDpz/tlvCJmYt
+X-Received: by 2002:a17:907:94ca:b0:a99:2ab0:d973 with SMTP id a640c23a62f3a-a9ef001b427mr1268844866b.55.1731318394108;
+        Mon, 11 Nov 2024 01:46:34 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFoMiWttuHvhIkKbgxZGj6GDKOKya83rJOg8cvtcHZgwwiRdP5umpQQXdpMqR/iJ/UXIQKO5A==
+X-Received: by 2002:a17:907:94ca:b0:a99:2ab0:d973 with SMTP id a640c23a62f3a-a9ef001b427mr1268841566b.55.1731318393695;
+        Mon, 11 Nov 2024 01:46:33 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0a4e1desm566629466b.81.2024.11.11.01.46.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Nov 2024 01:46:33 -0800 (PST)
+Message-ID: <20b988cb-603a-4c1f-8a6e-76a4cb98baa0@redhat.com>
+Date: Mon, 11 Nov 2024 10:46:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2024110724-overbuilt-liquid-3734@gregkh>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] media: ov7251: Remap "reset" to "enable" for
+ OV7251
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20241108145024.1490536-1-andriy.shevchenko@linux.intel.com>
+ <Zy43D7wAZLrBDtiX@kekkonen.localdomain> <Zy48Fc_nUceCs3PK@smile.fi.intel.com>
+ <Zy4_hR9AsDhmK5MK@kekkonen.localdomain>
+ <2957d1f6-f846-4916-980d-4346bc2b9d64@redhat.com>
+ <ZzG4ekFKe25Ws0D7@kekkonen.localdomain>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZzG4ekFKe25Ws0D7@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 07, 2024 at 04:11:00PM +0100, Greg KH wrote:
-> Hi,
+Hi,
+
+On 11-Nov-24 8:55 AM, Sakari Ailus wrote:
+> Hi Hans,
 > 
-> This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-> a patch that has triggered this response.  He used to manually respond
-> to these common problems, but in order to save his sanity (he kept
-> writing the same thing over and over, yet to different people), I was
-> created.  Hopefully you will not take offence and will fix the problem
-> in your patch and resubmit it so that it can be accepted into the Linux
-> kernel tree.
+> On Fri, Nov 08, 2024 at 07:19:05PM +0100, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 8-Nov-24 5:42 PM, Sakari Ailus wrote:
+>>> Hi Andy,
+>>>
+>>> On Fri, Nov 08, 2024 at 06:28:05PM +0200, Andy Shevchenko wrote:
+>>>> On Fri, Nov 08, 2024 at 04:06:39PM +0000, Sakari Ailus wrote:
+>>>>> On Fri, Nov 08, 2024 at 04:50:24PM +0200, Andy Shevchenko wrote:
+>>>>>> The driver of OmniVision OV7251 expects "enable" pin instead of "reset".
+>>>>>> Remap "reset" to "enable" and update polarity.
+>>>>>>
+>>>>>> In particular, the Linux kernel can't load the camera sensor
+>>>>>> driver on Microsoft Surface Book without this change:
+>>>>>>
+>>>>>>  ov7251 i2c-INT347E:00: supply vdddo not found, using dummy regulator
+>>>>>>  ov7251 i2c-INT347E:00: supply vddd not found, using dummy regulator
+>>>>>>  ov7251 i2c-INT347E:00: supply vdda not found, using dummy regulator
+>>>>>>  ov7251 i2c-INT347E:00: cannot get enable gpio
+>>>>>>  ov7251 i2c-INT347E:00: probe with driver ov7251 failed with error -2
+>>>>
+>>>> ...
+>>>>
+>>>>> Should this be cc'd to stable? I guess it's not exactly a fix in the driver
+>>>>> but a BIOS bug, but it can be worked around in the driver. :-)
+>>>>
+>>>> It's everything, but a BIOS bug, it's DT bug and whoever first introduced that
+>>>> GPIO in the driver. Even in the DT present in kernel the pin was referred as
+>>>
+>>> How is that a DT (binding?) bug?
+>>
+>> Since it is not following the datasheet name for the pin,
+>> it arguably is a DT binding bug
+>>
+>> But whatever, the whole discussion about if it is a bug and whose
+>> bug it is is not useful. Since we cannot go back in time and change
+>> the DT binding DT and ACPI are simply going to disagree on the name
+>> and we will need something like this patch.
+>>
+>>>> CAM_RST_N, which is exactly how this patch names it.
+>>>>
+>>>> OTOH it's a fix to the driver that never worked for ACPI case, so there never
+>>>> was a regression to fix.
+>>>
+>>> It probably worked just fine, just not with that Surface Book.
+>>>
+>>> The polarity of the enable gpio appears to be set wrong in devm_gpiod_get()
+>>> call. I can post a patch but cannot test it.
+>>
+>> That is on purpose, at least the polarity if the devm_gpiod_get(..., "reset",
+>> ...) is inverted from the existing one for "enable" because reset needs
+>> to be inactive/disabled to enable the sensor.
+>>
+>>> Similarly, you should actually set the flags to GPIOD_OUT_HIGH as reset
+>>> should be enabled here -- it's disabled only in power_on() as part of the
+>>> power-on sequence.
+>>
+>> This seems to be a pre-existing bug in this driver, which currently
+>> starts driving enable high, enabling the sensor at gpiod_get() time.
+>>
+>> Note that fixing this is tricky-ish, if the pin was already high at
+>> gpiod_get() time then changing the gpiod_get() to drive it low
+>> will result in it only being driven low for a very short time since
+>> ov7251_set_power_on() will get called almost immediately after this
+>> and it will drive the pin high again without any delays.
 > 
-> You are receiving this message because of the following common error(s)
-> as indicated below:
-> 
-> 
-> - You have marked a patch with a "Fixes:" tag for a commit that is in an
->   older released kernel, yet you do not have a cc: stable line in the
->   signed-off-by area at all, which means that the patch will not be
->   applied to any older kernel releases.  To properly fix this, please
->   follow the documented rules in the
->   Documentation/process/stable-kernel-rules.rst file for how to resolve
->   this.
-> 
-> If you wish to discuss this problem further, or you have questions about
-> how to resolve this issue, please feel free to respond to this email and
-> Greg will reply once he has dug out from the pending patches received
-> from other developers.
+> The question here is not about how long the hard reset is applied, but
+> whether or not the sensor's power-on sequence is followed. Currently it is
+> not.
 
-Like Johan said, this doesn't really belong in stable because it doesn't affect
-users.  It's mostly about correctness and static analysis.
+Right / agreed. The 2 points which I am trying to make are:
 
-The linux-media CI system has also started complaining if we don't add a stable
-tag and it suggests that the correct thing is to add:
+1. This is a pre-existing problem unrelated to this patch.
 
-Cc: <stable+noautosel@kernel.org> # reason goes here, and must be present
+So this should be fixed in a separate patch.
 
-Do we really have to do that?  Applying it to stable doesn't cause a problem,
-it's just not necessary.
+2. That separate patch should put a delay after requesting the GPIO
+to enforce that it is (logically) low (for "enable") for a minimum
+amount of time.
 
-regards,
-dan carpenter
+Regards,
+
+Hans
+
 
 
