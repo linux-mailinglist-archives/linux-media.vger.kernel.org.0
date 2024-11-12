@@ -1,255 +1,151 @@
-Return-Path: <linux-media+bounces-21337-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21328-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE819C6175
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 20:30:35 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4DD9C626B
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 21:19:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3B99ABE0C2F
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 17:38:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 89206BC7ADF
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 17:34:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5EE21D207;
-	Tue, 12 Nov 2024 17:31:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 266A6217670;
+	Tue, 12 Nov 2024 17:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LdcL0bKB"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GMMPzQtx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8422321CFA1;
-	Tue, 12 Nov 2024 17:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC324216459
+	for <linux-media@vger.kernel.org>; Tue, 12 Nov 2024 17:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731432714; cv=none; b=siPC0CbbpSxdi/fYNN3el40nsAPsevrOBcIxRIPB0FJTDE37iKsS6FJNOlIaQcGp+88rr+JKxrxn+Ls1Loh7oiAUASQowfWKYA8nLVfqSx+WKI5c+idDg6Kv/cRwWcrrb1swWBJ+eGyhRjCFnFM4zxGHyb3414OxZ1A1si99QZc=
+	t=1731432669; cv=none; b=urI4iXAjexE2MOccASV/6roYN/u8H0OxihgF4lC/cBpq+bsKfj5hbC/G+lvw5O1U4CN4bcDisK7+4EnMr5I9nkA24gs1ZYKQEaYLy45k+nxD/JotEwOFPfh5r4RUbRtHbQYlHa9PhoceO9LJZFC5I03l2z6XtxMWap68x5flmPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731432714; c=relaxed/simple;
-	bh=3SkKpsd9JurwgvTS9kfmdxX2HkmMsxRIJqM2xEoEqVY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fnjc2z3lU5waHVXF7LuC7ImT1O5KXBQnH37sgGWc4XeJ0OQrFXMCViVZaQiDvXZnY3SwVKjfDIFyxLkpXtY4NDyh8q/X8Vk3Ofj2wO+udzpJHo8+hc4Ej38MzOkOP8S2b/P1OXu/14HPNv+9r826hTygALJYWU7z+gnjX0Mpq58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LdcL0bKB; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ACCnwCZ010994;
-	Tue, 12 Nov 2024 17:31:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	H0HzRmOKuxsDsObnHNtYOmXokfAPxgB5azaw2lQocr0=; b=LdcL0bKBBoJ/Kukp
-	1chQZ7+5MMWdSefbs09p60TLGBQ8lSvm11fv/1o50w7x+7QswVMC3Ii74crUtAKy
-	TObHdHAoAeS1MutG9fC3UcHMsCgSWos28vVRTjnCJjkWNbnNr5Z6JOSaI0O05hMO
-	LMxwm+G2jDDLHmapY6qfsGtLRBRz+tHLX99e3OvOCLBL0GsvDs3Vv//PXprzhfXY
-	lYfVXC2RznsMVWWaQ5nIqgvXpW+8iiMRFKYItpE80OO7BOGQ35tlLMDl+iRq4yMj
-	PyszRwLokXQZ2fnvbZ5i2OTKvyl0f6MsMR2Ns2sPV3a+sp5QEUpMYIPKn1m00pN8
-	nKEnDQ==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42t11884ux-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Nov 2024 17:31:42 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ACHVfgg008117
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Nov 2024 17:31:41 GMT
-Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 12 Nov 2024 09:31:32 -0800
-From: Vikram Sharma <quic_vikramsa@quicinc.com>
-To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <akapatra@quicinc.com>, <hariramp@quicinc.com>,
-        <andersson@kernel.org>, <konradybcio@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>
-CC: <linux-arm-kernel@lists.infradead.org>, <quic_vikramsa@quicinc.com>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel@quicinc.com>
-Subject: [PATCH v5 5/5] arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
-Date: Tue, 12 Nov 2024 23:00:32 +0530
-Message-ID: <20241112173032.2740119-6-quic_vikramsa@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241112173032.2740119-1-quic_vikramsa@quicinc.com>
-References: <20241112173032.2740119-1-quic_vikramsa@quicinc.com>
+	s=arc-20240116; t=1731432669; c=relaxed/simple;
+	bh=PElbl8uW8Fa0oaZt4+kEmvtPpbNU7LixpWE5F/F/xAU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=rJw1uW2q95XAE3CPr09Fh1ghUqVc1Y8a3dwF8/8+9jJXiDDHaH1Vv9jeF7oEteMo+rpEfWXy295lOoxEoqyRzWYAi5JbBJWpjiNgnaZ68QpV+x+9j38DNqRenNtPmW9PgfGBw/7cFkwMDTq29c2PMhMW1zthiNyz6twLqQVknco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GMMPzQtx; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7b1467af9dbso405187985a.0
+        for <linux-media@vger.kernel.org>; Tue, 12 Nov 2024 09:31:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1731432666; x=1732037466; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1P5DVRMjbEuaaQXC+PIiJu+9ELqOWJV7Errw4E0pPWQ=;
+        b=GMMPzQtx5jeo66Sffyt8xdT3OfgAfVyUhH0oS1fb84n6oy8N5/PUkSOKcKNZRItFrI
+         NsS30kudoPtF8SQdP6aQaZR0dhzAu43fmecp32HS09NWqKgcT+Hugxw0e+flndcd2SY4
+         I1MpZRkQwTM03Ca4+mKuzpx08K5vRH1eaCqME=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731432666; x=1732037466;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1P5DVRMjbEuaaQXC+PIiJu+9ELqOWJV7Errw4E0pPWQ=;
+        b=dX3FpJG2Fi+SIJtCxfKNEiPRGtHAjspHe2KJ04PqLZ/rQeL0PUMaSyWklrXaav0sy/
+         g+UuxmQx3AHKdvcHnkMaoiQ3+LtTDzT9gR0kg4CHJWS1onZqhPsHSx5a4PR47SJ5Dnkt
+         TCC6G2VON5fyyxPcmI4H2Z8wtlUJaibNFSg+MTIdn4PJrD4kdPKztVjXOAFx7iHoa+R5
+         b7urY6v3tySnfTfcJSMbBO2IivWkSSK+WxZZt2tnnCTGJ6ciKK2LOx9l8twcmgtsjH5h
+         /Rb+39eYFOy5S+6loSM1+u64eX+nsxsBWL7/Y5KmjiGbjNKD5a+HvOkR8istomS2JPvM
+         SOlA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGDs08uTAjjO5OQv9kkupBxBqTguSGpiQEsz4nyI32UYRHBscogHeNSdpBHX+nCCllLwJr878/7c36HA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrylrPWt9lP7SxnFQs//TN4G1dC3JdAe+sn5SjbV5d0OiZgQk/
+	nNlmRLrQGVkRmndSA3F4Fm5Y4Qm9J24TbPi6GHS94o0M6e3dvrwL+wLSUndKzA==
+X-Google-Smtp-Source: AGHT+IEcAtMGtdgkDsLT0VyNL58SyBI46+EinyYYZVvqJr9WyHwssspAfr3QBpctZQDfTxZjHPLGXQ==
+X-Received: by 2002:a05:620a:2a06:b0:7b1:51e9:ed77 with SMTP id af79cd13be357-7b34baf0ef3mr325476585a.10.1731432666627;
+        Tue, 12 Nov 2024 09:31:06 -0800 (PST)
+Received: from denia.c.googlers.com (189.216.85.34.bc.googleusercontent.com. [34.85.216.189])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b32ac2dcebsm608292285a.7.2024.11.12.09.31.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2024 09:31:06 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 12 Nov 2024 17:30:49 +0000
+Subject: [PATCH v3 6/8] media: v4l2-core: Add new MEDIA_ENT_F_GPIO
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: LHU8qh1ONCMzHg5jb-IXRcNzSJ0RJvL_
-X-Proofpoint-GUID: LHU8qh1ONCMzHg5jb-IXRcNzSJ0RJvL_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
- bulkscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
- clxscore=1015 priorityscore=1501 adultscore=0 suspectscore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411120141
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241112-uvc-subdev-v3-6-0ea573d41a18@chromium.org>
+References: <20241112-uvc-subdev-v3-0-0ea573d41a18@chromium.org>
+In-Reply-To: <20241112-uvc-subdev-v3-0-0ea573d41a18@chromium.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ Yunke Cao <yunkec@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Hans de Goede <hdegoede@redhat.com>, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
-The Vision Mezzanine for the RB3 ships with an imx577 camera sensor.
-Enable the IMX577 on the vision mezzanine.
+Add a new media entity type to define a GPIO entity. This can be used to
+represent the privacy switch GPIO associated to a sensor.
 
-An example media-ctl pipeline for the imx577 is:
-
-media-ctl --reset
-media-ctl -v -V '"imx577 '19-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
-media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
-media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-
-yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
-
-Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
-Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- arch/arm64/boot/dts/qcom/Makefile             |   4 +
- .../qcs6490-rb3gen2-vision-mezzanine.dtso     | 108 ++++++++++++++++++
- 2 files changed, 112 insertions(+)
- create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+ Documentation/userspace-api/media/mediactl/media-types.rst | 4 ++++
+ drivers/media/v4l2-core/v4l2-async.c                       | 3 ++-
+ include/uapi/linux/media.h                                 | 1 +
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index 9bb8b191aeb5..4ee57b3871dd 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -114,6 +114,10 @@ dtb-$(CONFIG_ARCH_QCOM)	+= qcm6490-shift-otter.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-1000.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-4000.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2.dtb
+diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+index 6332e8395263..7ede3954a96a 100644
+--- a/Documentation/userspace-api/media/mediactl/media-types.rst
++++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+@@ -24,6 +24,7 @@ Types and flags used to represent the media graph elements
+ .. _MEDIA-ENT-F-CAM-SENSOR:
+ .. _MEDIA-ENT-F-FLASH:
+ .. _MEDIA-ENT-F-LENS:
++.. _MEDIA-ENT-F-GPIO:
+ .. _MEDIA-ENT-F-ATV-DECODER:
+ .. _MEDIA-ENT-F-TUNER:
+ .. _MEDIA-ENT-F-IF-VID-DECODER:
+@@ -100,6 +101,9 @@ Types and flags used to represent the media graph elements
+     *  -  ``MEDIA_ENT_F_LENS``
+        -  Lens controller entity.
+ 
++    *  -  ``MEDIA_ENT_F_GPIO``
++       -  GPIO controller entity.
 +
-+qcs6490-rb3gen2-vision-mezzanine-dtbs := qcs6490-rb3gen2.dtb qcs6490-rb3gen2-vision-mezzanine.dtbo
-+
-+dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2-vision-mezzanine.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= qcs8550-aim300-aiot.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= qcs9100-ride.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= qcs9100-ride-r3.dtb
-diff --git a/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
-new file mode 100644
-index 000000000000..6e2fccca8f11
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
-@@ -0,0 +1,108 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+/*
-+ * Camera Sensor overlay on top of rb3gen2 core kit.
-+ */
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/clock/qcom,camcc-sc7280.h>
-+
-+/dts-v1/;
-+/plugin/;
-+
-+&camcc {
-+	status = "okay";
-+};
-+
-+&camss {
-+	vdda-phy-supply = <&vreg_l10c_0p88>;
-+	vdda-pll-supply = <&vreg_l6b_1p2>;
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		/* The port index denotes CSIPHY id i.e. csiphy3 */
-+		port@3 {
-+			reg = <3>;
-+			csiphy3_ep: endpoint {
-+				clock-lanes = <7>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&imx577_ep>;
-+			};
-+		};
-+	};
-+};
-+
-+&cci1 {
-+	status = "okay";
-+};
-+
-+&cci1_i2c1 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	camera@1a {
-+		compatible = "sony,imx577";
-+		reg = <0x1a>;
-+
-+		reset-gpios = <&tlmm 78 GPIO_ACTIVE_LOW>;
-+		pinctrl-names = "default", "suspend";
-+		pinctrl-0 = <&cam2_default>;
-+		pinctrl-1 = <&cam2_suspend>;
-+
-+		clocks = <&camcc CAM_CC_MCLK3_CLK>;
-+		assigned-clocks = <&camcc CAM_CC_MCLK3_CLK>;
-+		assigned-clock-rates = <24000000>;
-+
-+		dovdd-supply  = <&vreg_l18b_1p8>;
-+
-+		port {
-+			imx577_ep: endpoint {
-+				clock-lanes = <7>;
-+				link-frequencies = /bits/ 64 <600000000>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&csiphy3_ep>;
-+			};
-+		};
-+	};
-+};
-+
-+&tlmm {
-+	cam2_default: cam2-default-state {
-+		rst-pins {
-+			pins = "gpio78";
-+			function = "gpio";
-+			drive-strength = <2>;
-+			bias-disable;
-+		};
-+
-+		mclk-pins {
-+			pins = "gpio67";
-+			function = "cam_mclk";
-+			drive-strength = <2>;
-+			bias-disable;
-+		};
-+	};
-+
-+	cam2_suspend: cam2-suspend-state {
-+		rst-pins {
-+			pins = "gpio78";
-+			function = "gpio";
-+			drive-strength = <2>;
-+			bias-pull-down;
-+			output-low;
-+		};
-+
-+		mclk-pins {
-+			pins = "gpio67";
-+			function = "cam_mclk";
-+			drive-strength = <2>;
-+			bias-pull-down;
-+		};
-+	};
-+};
+     *  -  ``MEDIA_ENT_F_ATV_DECODER``
+        -  Analog video decoder, the basic function of the video decoder is
+ 	  to accept analogue video from a wide variety of sources such as
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index ee884a8221fb..8a902fc897d1 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -320,7 +320,8 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+ 	struct media_link *link;
+ 
+ 	if (sd->entity.function != MEDIA_ENT_F_LENS &&
+-	    sd->entity.function != MEDIA_ENT_F_FLASH)
++	    sd->entity.function != MEDIA_ENT_F_FLASH &&
++	    sd->entity.function != MEDIA_ENT_F_GPIO)
+ 		return 0;
+ 
+ 	if (!n->sd) {
+diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+index 1c80b1d6bbaf..d3d045e52d78 100644
+--- a/include/uapi/linux/media.h
++++ b/include/uapi/linux/media.h
+@@ -84,6 +84,7 @@ struct media_device_info {
+ #define MEDIA_ENT_F_CAM_SENSOR			(MEDIA_ENT_F_OLD_SUBDEV_BASE + 1)
+ #define MEDIA_ENT_F_FLASH			(MEDIA_ENT_F_OLD_SUBDEV_BASE + 2)
+ #define MEDIA_ENT_F_LENS			(MEDIA_ENT_F_OLD_SUBDEV_BASE + 3)
++#define MEDIA_ENT_F_GPIO			(MEDIA_ENT_F_OLD_SUBDEV_BASE + 6)
+ 
+ /*
+  * Digital TV, analog TV, radio and/or software defined radio tuner functions.
+
 -- 
-2.25.1
+2.47.0.277.g8800431eea-goog
 
 
