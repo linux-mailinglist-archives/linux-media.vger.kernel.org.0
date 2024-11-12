@@ -1,154 +1,311 @@
-Return-Path: <linux-media+bounces-21301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21306-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC59F9C569C
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 12:33:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0819C56F3
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 12:49:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 716D8285FF1
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 11:33:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D3041F22214
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 11:49:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7292C20B1EB;
-	Tue, 12 Nov 2024 11:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAA8C1F7791;
+	Tue, 12 Nov 2024 11:49:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wt+0LSIp"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cYBzTThC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06054170A3A
-	for <linux-media@vger.kernel.org>; Tue, 12 Nov 2024 11:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D611CD1EF;
+	Tue, 12 Nov 2024 11:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731410975; cv=none; b=Pr0T+9eNca9AaN/aWxePv2IDTMqCQ65NhRwDYS/ybUXn2cyjLBAFCA1Wq7rS5/RGJdXmZzx1ZcUrQb6Pu5XyNXaYJgDl6EvUTcgtXHnNP1m6IJo+xs39bZUAPrHoqLNKBlO+gYKC04EWfTk5KAVmNyqu9QPFm1lGh0CVZMhCxbo=
+	t=1731412147; cv=none; b=nCAAoOSqFDPGOUPKzXmTfmBnqB8lZKf/fc+mIA0yI7keZrlJTGHLSSpAcNiqvdlIbNi9n+jQIsbsKrE/0/gEbH6ZMv8jCw9YVONCkcMxj/YEBn1IHje2zRI+fXjRZrt1IMDWfGS/pY6POiDqrOwFyzEn6UYaF9D4Vvt3ZmQ6q30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731410975; c=relaxed/simple;
-	bh=9AqS5GlG/9hFZkCE3u0l0TNgjC4odZ8HeUejoyQztcQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DQ0ObD0MsrhwohHbwBiarpOgN/VRZPP0X66QdfHB8c8v6FWiEhG2+pQNEbVSDpW19V7bZd7pCm6gThE6xBhacx01WvKrKdFspjqHn2CRmGza/KAxRl+L+LVgpEZiW041bqPqAvCqi7rGjrqskR15Aq/UGyD5mufyBS3QUHL9rL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Wt+0LSIp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from isaac-ThinkPad-T16-Gen-2.local (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA36778C;
-	Tue, 12 Nov 2024 12:29:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731410960;
-	bh=9AqS5GlG/9hFZkCE3u0l0TNgjC4odZ8HeUejoyQztcQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Wt+0LSIpgpk9tgkAjcSoig9uN9IAT7U14m8jnclkyB2/Mci8FgHp0RlpmadidERat
-	 7gyhHj/RdaPtoUfHPrwGy8HvjgL0xNFwdQBnBUYi+AwrGLMsI+X08yfUS5z+BEdMft
-	 Vf8hQ1WojLYx9V1HNHOoT0ylvpW/pyLIzQhO/bMc=
-From: Isaac Scott <isaac.scott@ideasonboard.com>
-To: laurent.pinchart@ideasonboard.com
-Cc: mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	Isaac Scott <isaac.scott@ideasonboard.com>
-Subject: [PATCH v7 1/2] media: uvcvideo: Implement dual stream quirk to fix loss of usb packets
-Date: Tue, 12 Nov 2024 11:29:25 +0000
-Message-ID: <20241112112926.17848-2-isaac.scott@ideasonboard.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241112112926.17848-1-isaac.scott@ideasonboard.com>
-References: <20241112112926.17848-1-isaac.scott@ideasonboard.com>
+	s=arc-20240116; t=1731412147; c=relaxed/simple;
+	bh=IriwWS4wdD6u5IUmRGxXp3MpJSmb0CFqFVFONdvVSJc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=hl/2JrYfZm0/x0+9dix3R7wse+o0i6KHu/25S8FXLZz83Wvw28SRtnv4WIlGthSjs4LtWkdyQE9RmgPAkrtfDQA/E79Lzr+YlI152JGeapg1dIYL4Ap0z2LSWTqO5oxCGD0TEuZv0aqp1UoRN2vjvHkZcKAektkD4/ztS1l+lcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cYBzTThC; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AC30Jre028247;
+	Tue, 12 Nov 2024 11:49:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	1uvz65KXF25mqIkkd4RbM3jW5eDwI61YZ/JhZAzIqNw=; b=cYBzTThCJxAFylKn
+	PiedVA6au4wzGhp07cnYjvgryzjSmWR/zAXfZBC2Pf7+ZZOkV/eDL1NpoLfvKAR/
+	2iTWE9JFRUrny28gpIB/rk8wcKfMRJ29iN4NNDxn47Dtdg5mC1A3xF2qy/O3wMAO
+	pm5yV/IP9WSzLuxreGDq2ci8sznKAi0fmLmnJHuD1a3fJjvCTsFabI+p/okrf2RC
+	jIEiANvR/xA1qhOyRHPtb4MHmsDoKyahFPpYjq+6LYyP5MgCqALsNQC/XJN2SP52
+	qJCuaZzMjRYHBKx9RHNwVAbiJskrTcdvibivEUiTSCZ66kyWY58Mm4gAxzYcApjQ
+	nJ5tjA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42t11872f1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Nov 2024 11:49:00 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ACBn0we028725
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Nov 2024 11:49:00 GMT
+Received: from hu-renjiang-sha.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 12 Nov 2024 03:48:56 -0800
+From: Renjiang Han <quic_renjiang@quicinc.com>
+Date: Tue, 12 Nov 2024 17:17:57 +0530
+Subject: [PATCH v2 1/4] dt-bindings: qcom,qcs615-venus: document QCS615
+ venus
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20241112-add-venus-for-qcs615-v2-1-e67947f957af@quicinc.com>
+References: <20241112-add-venus-for-qcs615-v2-0-e67947f957af@quicinc.com>
+In-Reply-To: <20241112-add-venus-for-qcs615-v2-0-e67947f957af@quicinc.com>
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Renjiang Han
+	<quic_renjiang@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1731412132; l=5293;
+ i=quic_renjiang@quicinc.com; s=20241001; h=from:subject:message-id;
+ bh=IriwWS4wdD6u5IUmRGxXp3MpJSmb0CFqFVFONdvVSJc=;
+ b=WLRmWG3bZTdWxKNvHJtaVT2YwTG+iTqkkZGB0R1qQvS9qD70Ryhg/7zumRe91Mey488sc2Rjv
+ Q7R0Ft9l0unCTtZFhN2qrA0cDY9MA02pZ6vhnh5oaVAQrBEQ9x4UXMd
+X-Developer-Key: i=quic_renjiang@quicinc.com; a=ed25519;
+ pk=8N59kMJUiVH++5QxJzTyHB/wh/kG5LxQ44j9zhUvZmw=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: lytVdD1OjRhMDIUryrcL061UvDGpNOCw
+X-Proofpoint-GUID: lytVdD1OjRhMDIUryrcL061UvDGpNOCw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ bulkscore=0 mlxlogscore=928 lowpriorityscore=0 malwarescore=0
+ clxscore=1015 priorityscore=1501 adultscore=0 suspectscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411120095
 
-Some cameras, such as the Sonix Technology Co. 292A, exhibit issues when
-running two parallel streams, causing USB packets to be dropped when an
-H.264 stream posts a keyframe while an MJPEG stream is running
-simultaneously. This occasionally causes the driver to erroneously
-output two consecutive JPEG images as a single frame.
+Add support for Qualcomm video acceleration hardware used for video
+stream decoding and encoding on QCOM QCS615.
 
-To fix this, we inspect the buffer, and trigger a new frame when we
-find an SOI.
-
-Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
 ---
- drivers/media/usb/uvc/uvc_video.c | 27 ++++++++++++++++++++++++++-
- drivers/media/usb/uvc/uvcvideo.h  |  1 +
- 2 files changed, 27 insertions(+), 1 deletion(-)
+ .../bindings/media/qcom,qcs615-venus.yaml          | 181 +++++++++++++++++++++
+ 1 file changed, 181 insertions(+)
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index e00f38dd07d9..9bb41362c48d 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -20,6 +20,7 @@
- #include <linux/atomic.h>
- #include <linux/unaligned.h>
- 
-+#include <media/jpeg.h>
- #include <media/v4l2-common.h>
- 
- #include "uvcvideo.h"
-@@ -1116,6 +1117,7 @@ static void uvc_video_stats_stop(struct uvc_streaming *stream)
- static int uvc_video_decode_start(struct uvc_streaming *stream,
- 		struct uvc_buffer *buf, const u8 *data, int len)
- {
-+	u8 header_len;
- 	u8 fid;
- 
- 	/*
-@@ -1129,6 +1131,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
- 		return -EINVAL;
- 	}
- 
-+	header_len = data[0];
- 	fid = data[1] & UVC_STREAM_FID;
- 
- 	/*
-@@ -1210,9 +1213,31 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
- 		return -EAGAIN;
- 	}
- 
-+	/*
-+	 * Some cameras, when running two parallel streams (one MJPEG alongside
-+	 * another non-MJPEG stream), are known to lose the EOF packet for a frame.
-+	 * We can detect the end of a frame by checking for a new SOI marker, as
-+	 * the SOI always lies on the packet boundary between two frames for
-+	 * these devices.
-+	 */
-+	if (stream->dev->quirks & UVC_QUIRK_MJPEG_NO_EOF &&
-+	   (stream->cur_format->fcc == V4L2_PIX_FMT_MJPEG ||
-+	    stream->cur_format->fcc == V4L2_PIX_FMT_JPEG)) {
-+		const u8 *packet = ((const u8 *)data) + header_len;
+diff --git a/Documentation/devicetree/bindings/media/qcom,qcs615-venus.yaml b/Documentation/devicetree/bindings/media/qcom,qcs615-venus.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..a807f4c7e94c635ef1662971b687db9bdce1b74a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/qcom,qcs615-venus.yaml
+@@ -0,0 +1,181 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/qcom,qcs615-venus.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+		if (len >= header_len + 2 &&
-+		    packet[0] == 0xff && packet[1] == JPEG_MARKER_SOI &&
-+		    buf->bytesused != 0) {
-+			buf->state = UVC_BUF_STATE_READY;
-+			buf->error = 1;
-+			stream->last_fid ^= UVC_STREAM_FID;
-+			return -EAGAIN;
-+		}
-+	}
++title: Qualcomm QCS615 Venus video encode and decode accelerators
 +
- 	stream->last_fid = fid;
- 
--	return data[0];
-+	return header_len;
- }
- 
- static inline enum dma_data_direction uvc_stream_dir(
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index b7d24a853ce4..040073326a24 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -76,6 +76,7 @@
- #define UVC_QUIRK_NO_RESET_RESUME	0x00004000
- #define UVC_QUIRK_DISABLE_AUTOSUSPEND	0x00008000
- #define UVC_QUIRK_INVALID_DEVICE_SOF	0x00010000
-+#define UVC_QUIRK_MJPEG_NO_EOF		0x00020000
- 
- /* Format flags */
- #define UVC_FMT_FLAG_COMPRESSED		0x00000001
++maintainers:
++  - Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
++  - Vikash Garodia <quic_vgarodia@quicinc.com>
++
++description: |
++  The Venus IP is a video encode and decode accelerator present
++  on Qualcomm platforms
++
++allOf:
++  - $ref: qcom,venus-common.yaml#
++
++properties:
++  compatible:
++    const: qcom,qcs615-venus
++
++  power-domains:
++    minItems: 2
++    maxItems: 3
++
++  power-domain-names:
++    minItems: 2
++    items:
++      - const: venus
++      - const: vcodec0
++      - const: cx
++
++  clocks:
++    maxItems: 5
++
++  clock-names:
++    items:
++      - const: core
++      - const: iface
++      - const: bus
++      - const: vcodec0_core
++      - const: vcodec0_bus
++
++  iommus:
++    maxItems: 1
++
++  memory-region:
++    maxItems: 1
++
++  interconnects:
++    maxItems: 2
++
++  interconnect-names:
++    items:
++      - const: video-mem
++      - const: cpu-cfg
++
++  operating-points-v2: true
++  opp-table:
++    type: object
++
++  video-decoder:
++    type: object
++
++    properties:
++      compatible:
++        const: venus-decoder
++
++    required:
++      - compatible
++
++    additionalProperties: false
++
++  video-encoder:
++    type: object
++
++    properties:
++      compatible:
++        const: venus-encoder
++
++    required:
++      - compatible
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - power-domain-names
++  - iommus
++  - video-decoder
++  - video-encoder
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/qcom,qcs615-videocc.h>
++    #include <dt-bindings/interconnect/qcom,qcs615-rpmh.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
++
++    venus: video-codec@aa00000 {
++        compatible = "qcom,qcs615-venus";
++        reg = <0xaa00000 0x100000>;
++        interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
++
++        clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
++                 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
++                 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
++                 <&videocc VIDEO_CC_VCODEC0_CORE_CLK>,
++                 <&videocc VIDEO_CC_VCODEC0_AXI_CLK>;
++        clock-names = "core",
++                      "iface",
++                      "bus",
++                      "vcodec0_core",
++                      "vcodec0_bus";
++
++        power-domains = <&videocc VENUS_GDSC>,
++                        <&videocc VCODEC0_GDSC>,
++                        <&rpmhpd RPMHPD_CX>;
++        power-domain-names = "venus",
++                             "vcodec0",
++                             "cx";
++
++        operating-points-v2 = <&venus_opp_table>;
++
++        interconnects = <&mmss_noc MASTER_VIDEO_P0 0
++                         &mc_virt SLAVE_EBI1 0>,
++                        <&gem_noc MASTER_APPSS_PROC 0
++                         &config_noc SLAVE_VENUS_CFG 0>;
++        interconnect-names = "video-mem",
++                             "cpu-cfg";
++
++        iommus = <&apps_smmu 0xe40 0x20>;
++
++        memory-region = <&pil_video_mem>;
++
++        video-decoder {
++            compatible = "venus-decoder";
++        };
++
++        video-encoder {
++            compatible = "venus-encoder";
++        };
++
++        venus_opp_table: opp-table {
++            compatible = "operating-points-v2";
++
++            opp-133330000 {
++                opp-hz = /bits/ 64 <133330000>;
++                required-opps = <&rpmhpd_opp_low_svs>;
++            };
++
++            opp-240000000 {
++                opp-hz = /bits/ 64 <240000000>;
++                required-opps = <&rpmhpd_opp_svs>;
++            };
++
++            opp-300000000 {
++                opp-hz = /bits/ 64 <300000000>;
++                required-opps = <&rpmhpd_opp_svs_l1>;
++            };
++
++            opp-380000000 {
++                opp-hz = /bits/ 64 <380000000>;
++                required-opps = <&rpmhpd_opp_nom>;
++            };
++
++            opp-410000000 {
++                opp-hz = /bits/ 64 <410000000>;
++                required-opps = <&rpmhpd_opp_turbo>;
++            };
++
++            opp-460000000 {
++                opp-hz = /bits/ 64 <460000000>;
++                required-opps = <&rpmhpd_opp_turbo_l1>;
++            };
++        };
++    };
+
 -- 
-2.43.0
+2.34.1
 
 
