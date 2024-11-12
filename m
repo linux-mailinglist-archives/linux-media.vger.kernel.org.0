@@ -1,173 +1,241 @@
-Return-Path: <linux-media+bounces-21313-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21315-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523589C5835
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 13:48:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB4F9C5866
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 13:59:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B0A11F22C5C
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 12:48:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8BF3B2853A9
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 12:58:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 391E9155CBF;
-	Tue, 12 Nov 2024 12:46:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FABE13635E;
+	Tue, 12 Nov 2024 12:58:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rXvUgIsp"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eLq0XgtU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F65B14D6EF
-	for <linux-media@vger.kernel.org>; Tue, 12 Nov 2024 12:46:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E328A70831;
+	Tue, 12 Nov 2024 12:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731415604; cv=none; b=dgjZXTj9voC/anQyNiZJKY1CxtwOevAVaHhe4C5ajNeLhIqPUPLxJVJtButwL6cKXRMHXhEdCoQLnJHb/w00kepc7HNq+ty6cG355mPfq3Dvy5liA5DBZlbpRVPloYLuQI2GILtWSpcjFrR+WcVRMMIB2GcaWdDSZxeQvCpX72c=
+	t=1731416327; cv=none; b=B7gQNCczbRmzLpgQsva8EiMi0LsJIA4tVfNkBrokzmVJJVegnczRdVvV/h8NAhx2kCQ5Dlg8L08/vQe8Ss3DSMT+Ithb81Iv0w/+nAN2Hql8yiVkiJ/puWGn2J5Ly5wxJnwpsmjC4rb+E1lb/n5Uplrp67ZbU6Gt+neYHjgExws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731415604; c=relaxed/simple;
-	bh=G27lWzdI4RPfeFoJf2uhHD+hWokOW90RYnNXh2E7vUg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fnkVjGM66IU2gcIunpgFSF5IK/Fdz0MbtHvVWItiSUDXtpUZMXZAEATgeFfPbnz5eiRnH7aL97IShG7Aj4I1cMydO9PBe7eKM/8DXR71dTiaCd8SabMt0P5JfHeRNlX0IEhW6OXQGidflQ7oFS8x+k4wzLVJVMwL3JZqorFzklE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rXvUgIsp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C1B4132B;
-	Tue, 12 Nov 2024 13:46:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731415583;
-	bh=G27lWzdI4RPfeFoJf2uhHD+hWokOW90RYnNXh2E7vUg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rXvUgIspNK4qXXwLtUb7jEi/Y/D8ge5CMkHsZUf3CORpJ5WW4l4y9haC3/SIw6DsK
-	 Rdky8zMlikMOTUnvjSvU3Sz6ArKqH2CHrNqO6NsQoodd8B6jzpxvnJdG74WmvnSJkJ
-	 1o4hIU3nv1OodPa6qr1WLkNUboHBHTrYdQJvx85k=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: hverkuil-cisco@xs4all.nl,
-	sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	jacopo.mondi@ideasonboard.com,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v2 3/4] media: platform: rzg2l-cru: Use v4l2_fill_pixfmt()
-Date: Tue, 12 Nov 2024 12:46:13 +0000
-Message-Id: <20241112124614.646281-4-dan.scally@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241112124614.646281-1-dan.scally@ideasonboard.com>
-References: <20241112124614.646281-1-dan.scally@ideasonboard.com>
+	s=arc-20240116; t=1731416327; c=relaxed/simple;
+	bh=XsVrg/tycUyf1pge9uDquJ8kbJ4hI9A1otOr9vuWvsw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=G0eVK3yydQG2bKYTPsddzQjT7Anl7axOmafRHZ3BY8Hv0wiGFHl2Lf45/ZSUg9Y4vXkzS1P3xavCfmf67x1ndqpIU806xEXgkiGs3ODBYTbxzTC0scYjh46S5rTg9F4WEfOdGSOVywU/n516ttIqXmfkysAFVAIhSMycQtM7rYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eLq0XgtU; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AC9FhLh002987;
+	Tue, 12 Nov 2024 12:58:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	6TFRQuks3xEPKLnmUVkx3quSMzhADnexEjI/TmNuYo4=; b=eLq0XgtU5E3qcGUO
+	78N+NPsqjatL+swhGTmIHtpvaykiNh+ys7s47Kcm7l3GPkGo4T4VKAwfKMVVZozR
+	DEvJCaUi0umrjgCXc6HhLQjCAMAN75JKdcxYDnyPhhqmliSwHY/n9NQ1RifAD6a7
+	jmF511bSfbL+3Qco103KFi2qvhZOo5BuC6NMXri1Y99DE2Lc0lVq3vYQ6KXKgMdU
+	gL6DQQ9YpOwZq/qZnO4vDfGq44uxFihiWkMLSOyS+z+uM7ELIhUMejcLkYawZQ30
+	nuc7iqTkcNSEMkowyrZqdbH6NrAEeRB10cK/9NSzyhwdlemviGbc3vTYxZ4JhKYG
+	PAWz0w==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42v47y0jd4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Nov 2024 12:58:41 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ACCwend000586
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Nov 2024 12:58:40 GMT
+Received: from [10.216.11.168] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 12 Nov
+ 2024 04:58:37 -0800
+Message-ID: <410e1531-6c1b-fb29-2748-eca57fc13481@quicinc.com>
+Date: Tue, 12 Nov 2024 18:28:34 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 2/4] media: venus: hfi_parser: avoid OOB access beyond
+ payload word count
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+References: <20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com>
+ <20241105-venus_oob-v1-2-8d4feedfe2bb@quicinc.com>
+ <474d3c62-5747-45b9-b5c3-253607b0c17a@linaro.org>
+ <9098b8ef-76e0-f976-2f4e-1c6370caf59e@quicinc.com>
+ <f53a359a-cffe-4c3a-9f83-9114d666bf04@linaro.org>
+ <c9783a99-724a-cdf0-7e76-7cbf2c77d63f@quicinc.com>
+ <f6e661da-6a8f-4555-881e-264e8518f50c@linaro.org>
+Content-Language: en-US
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <f6e661da-6a8f-4555-881e-264e8518f50c@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 68L1PboUyIa3j1Kv36ekw9PdVCYRr26j
+X-Proofpoint-GUID: 68L1PboUyIa3j1Kv36ekw9PdVCYRr26j
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ impostorscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2411120105
 
-From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
 
-Rather than open-code a calculation of the format's bytesperline
-and sizeimage, use the v4l2_fill_pixfmt() helper. This makes it
-easier to support the CRU packed pixel formats without over
-complicating the driver.
+On 11/12/2024 4:47 PM, Bryan O'Donoghue wrote:
+> On 12/11/2024 08:05, Vikash Garodia wrote:
+>> You did not printed the last iteration without the proposed fix. In the last
+>> iteration (Myword 1), it would access the data beyond allocated size of somebuf.
+>> So we can see how the fix protects from OOB situation.
+> 
+> Right but the loop _can't_ be correct. What's the point in fixing an OOB in a
+> loop that doesn't work ?
+> 
+> This is the loop:
+> 
+> #define BUF_SIZE 0x20  // BUF_SIZE doesn't really matter
+> 
+> char somebuf[BUF_SIZE];
+> u32 *word = somebuf[0];
+> u32 words = ARRAY_SIZE(somebuf);
+> 
+> while (words > 1) {
+>     data = word + 1;  // this
+>     word++;           // and this
+>     words--;
+> }
+> 
+> On the first loop
+> word = somebuf[0];
+> data = somebuf[3];
+> 
+> On the second loop
+> word = somebuf[3]; // the same value as *data in the previous loop
+> 
+> and that's just broken because on the second loop *word == *data in the first
+> loop !
+> 
+> That's what my program showed you
+> 
+> word 4 == 0x03020100 data=0x07060504
+> 
+> // word == data from previous loop
+> word 3 == 0x07060504 data=0x0b0a0908
+> 
+> // word == data from previous loop
+> word 2 == 0x0b0a0908 data=0x0f0e0d0c
+> 
+> The step size, the number of bytes this loop increments is fundamentally wrong
+> because
+> 
+> a) Its a fixed size [1]
+> b) *word in loop(n+1) == *data in loop(n)
+> 
+> Which cannot ever parse more than one data item - in effect never loop - in one go.
+In the second iteration, the loop would not match with any case and would try to
+match the case by incrementing word. Let say the first word is
+"HFI_PROPERTY_PARAM_CODEC_SUPPORTED" followed by 2 words (second and third word)
+of payload step size. At this point, now when the loop runs again with second
+word and third word, it would not match any case. Again at 4th word, it would
+match a case and process the payload.
+One thing that we can do here is to increment the word count with the step size
+of the data consumed ? This way 2nd and 3rd iteration can be skipped as we know
+that there would not be any case in those words.
 
-This change makes the .bpp member of struct rzg2l_cru_ip_format
-superfluous - remove them.
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
----
-Changes in v2:
-
-	- Minor changes due to rebase
-
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h   | 2 --
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c    | 5 -----
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 3 +--
- 3 files changed, 1 insertion(+), 9 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-index 8b898ce05b84..aaf85054f884 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-@@ -68,7 +68,6 @@ struct rzg2l_cru_ip {
-  * @datatype: MIPI CSI2 data type
-  * @format: 4CC format identifier (V4L2_PIX_FMT_*)
-  * @icndmr: ICnDMR register value
-- * @bpp: bytes per pixel
-  * @yuv: Flag to indicate whether the format is YUV-based.
-  */
- struct rzg2l_cru_ip_format {
-@@ -76,7 +75,6 @@ struct rzg2l_cru_ip_format {
- 	u32 datatype;
- 	u32 format;
- 	u32 icndmr;
--	u8 bpp;
- 	bool yuv;
- };
- 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-index 76a2b451f1da..399a337dbafb 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-@@ -16,7 +16,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.code = MEDIA_BUS_FMT_UYVY8_1X16,
- 		.datatype = MIPI_CSI2_DT_YUV422_8B,
- 		.format = V4L2_PIX_FMT_UYVY,
--		.bpp = 2,
- 		.icndmr = ICnDMR_YCMODE_UYVY,
- 		.yuv = true,
- 	},
-@@ -24,7 +23,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
- 		.format = V4L2_PIX_FMT_SBGGR8,
- 		.datatype = MIPI_CSI2_DT_RAW8,
--		.bpp = 1,
- 		.icndmr = 0,
- 		.yuv = false,
- 	},
-@@ -32,7 +30,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
- 		.format = V4L2_PIX_FMT_SGBRG8,
- 		.datatype = MIPI_CSI2_DT_RAW8,
--		.bpp = 1,
- 		.icndmr = 0,
- 		.yuv = false,
- 	},
-@@ -40,7 +37,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
- 		.format = V4L2_PIX_FMT_SGRBG8,
- 		.datatype = MIPI_CSI2_DT_RAW8,
--		.bpp = 1,
- 		.icndmr = 0,
- 		.yuv = false,
- 	},
-@@ -48,7 +44,6 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
- 		.format = V4L2_PIX_FMT_SRGGB8,
- 		.datatype = MIPI_CSI2_DT_RAW8,
--		.bpp = 1,
- 		.icndmr = 0,
- 		.yuv = false,
- 	},
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 17a1af507a27..028b390488c8 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -711,8 +711,7 @@ static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
- 	v4l_bound_align_image(&pix->width, 320, RZG2L_CRU_MAX_INPUT_WIDTH, 1,
- 			      &pix->height, 240, RZG2L_CRU_MAX_INPUT_HEIGHT, 2, 0);
- 
--	pix->bytesperline = pix->width * fmt->bpp;
--	pix->sizeimage = pix->bytesperline * pix->height;
-+	v4l2_fill_pixfmt(pix, pix->pixelformat, pix->width, pix->height);
- 
- 	dev_dbg(cru->dev, "Format %ux%u bpl: %u size: %u\n",
- 		pix->width, pix->height, pix->bytesperline, pix->sizeimage);
--- 
-2.34.1
-
+Regards,
+Vikash
+> 
+>> For the functionality part, packet from firmware would come as <prop type>
+>> followed by <payload for that prop> i.e
+>> *word = HFI_PROPERTY_PARAM_CODEC_SUPPORTED
+>> *data = payload --> hence here data is pointed to next u32 to point and parse
+>> payload for HFI_PROPERTY_PARAM_CODEC_SUPPORTED.
+>> likewise for other properties in the same packet
+> 
+> [1]
+> 
+> But we've established that word increments by one word.
+> We wouldn't fix this loop by just making it into
+> 
+> while (words > 1) {
+>     data = word + 1;
+>     word = data + 1;
+>     words -= 2;
+> }
+> 
+> Because the consumers of the data have different step sizes, different number of
+> bytes they consume for the structs they cast.
+> 
+> =>
+> 
+> case HFI_PROPERTY_PARAM_CODEC_SUPPORTED:
+>     parse_codecs(core, data);
+>     // consumes sizeof(struct hfi_codec_supported)
+>     struct hfi_codec_supported {
+>         u32 dec_codecs;
+>         u32 enc_codecs;
+>     };
+> 
+> 
+> case HFI_PROPERTY_PARAM_MAX_SESSIONS_SUPPORTED:
+>     parse_max_sessions(core, data);
+>     // consumes sizeof(struct hfi_max_sessions_supported)
+>     struct hfi_max_sessions_supported {
+>         u32 max_sessions;
+>     };
+> 
+> case HFI_PROPERTY_PARAM_CODEC_MASK_SUPPORTED:
+>     parse_codecs_mask(&codecs, &domain, data);
+>     // consumes sizeof(struct hfi_codec_mask_supported)
+>     struct hfi_codec_mask_supported {
+>             u32 codecs;
+>             u32 video_domains;
+>     };
+> 
+> case HFI_PROPERTY_PARAM_UNCOMPRESSED_FORMAT_SUPPORTED:
+>     parse_raw_formats(core, codecs, domain, data);
+>     // consumes sizeof(struct hfi_uncompressed_format_supported)
+>     struct hfi_uncompressed_format_supported {
+>         u32 buffer_type;
+>         u32 format_entries;
+>         struct hfi_uncompressed_plane_info plane_info;
+>     };
+> 
+> case HFI_PROPERTY_PARAM_CAPABILITY_SUPPORTED:
+>     parse_caps(core, codecs, domain, data);
+>     
+>     struct hfi_capabilities {
+>         u32 num_capabilities;
+>         struct hfi_capability data[];
+>     };
+> 
+>     where
+>     hfi_platform.h:#define MAX_CAP_ENTRIES        32
+> 
+> I'll stop there.
+> 
+> This routine needs a rewrite.
+> 
+> ---
+> bod
 
