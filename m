@@ -1,69 +1,57 @@
-Return-Path: <linux-media+bounces-21318-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21310-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719119C594E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 14:40:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E669C5994
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 14:53:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A3571F21898
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 13:40:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 571C9B3E29A
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 12:48:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E55415383F;
-	Tue, 12 Nov 2024 13:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC52F14F12F;
+	Tue, 12 Nov 2024 12:46:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CLPs44Cy"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uv/X+znt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D00146588;
-	Tue, 12 Nov 2024 13:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C695314B97E
+	for <linux-media@vger.kernel.org>; Tue, 12 Nov 2024 12:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731418754; cv=none; b=RN3eFiSCrvGgEb4+WAONfokxbUne9TfCszxw7B2hrloBkT1fqKRUS+yGhKM4TP9twAk9uFZflsSFZY74tV3hjdvlTwYc9Au2VodGTfqAa5ZY5vknPH6WtjBNO0UxIDQ8/RtodqMBot33XIu4E4/SUJAhUkFu6wtzb1n0jygvn+U=
+	t=1731415600; cv=none; b=JFnAQqMhWRGD4X5ibUoW4j/BJRhjJqoFzald7S8GpNr770jJqZd//jymz9aqt8v639Fb03wZDDbL2zEVCFXIoiGFOuJqI7K5yNGLAooeY/uQ0g/Kw0BwmMWB/brR4YU0BSc31+MJkUEbLP1QunGLP/P1hVFjSPasFhHDFJQqktc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731418754; c=relaxed/simple;
-	bh=QWqvc1LvXeG+SmqZ+bxT10cWUO4NqhHVKuykl2vk67c=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZiknC7k1P9TdLBUk+e3YfeVWlNFIrjaZLWfAmKIIZ2w/WdlAJcftrlzOX6JmRmnwypRAluqmNWxDNmK/4uBxvVLLhOK9I7d5MSVvnixNriCAYxicEIQIcMObFat6dMBSGxEWAx7JFQ6YkUnMQ5Gs6+gJHXPMnkCt/3cPwNX6Zxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=CLPs44Cy; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ACC5fYG024633;
-	Tue, 12 Nov 2024 13:39:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=3CUTZrt1mOHGDtCBesRayO
-	vBKBMMBt3I9DYvj+AcyT8=; b=CLPs44CyFjqLaD0+LrqKXIhVz3+E+YL+iewgHw
-	CFdPOX9y8Chd3BQD5rvZZQ/47gKzoUZSd3d95r0zIda7jXeawFxYQI5yHCG27VCJ
-	ZsYJ2ImmHSELtqJoyN2fM+dAOALsaU+D4Ppa746A4afT5PZAy4SF80CUAYN8UYFJ
-	JZudlikNIPGBANUOe32Yeyra8CwoQPx8o9gkuJ5T3LheICfrpkTo+uuovgyac3dJ
-	dFxY25uWnnxshht3j10zFRUXGDbBEN8A6odUQI00TEbDX3qdWyOark+YD1KXTMP2
-	HxSWw0hbl7UQ/0tssX/JjuwCQUSEXEz3ayXFJrDzA1CnoGAA==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42t0gkyar9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Nov 2024 13:39:08 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ACDd8rm023814
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Nov 2024 13:39:08 GMT
-Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 12 Nov 2024 05:39:02 -0800
-From: Vikram Sharma <quic_vikramsa@quicinc.com>
-To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <krzk+dt@kernel.org>
-CC: <quic_vikramsa@quicinc.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel@quicinc.com>
-Subject: [PATCH v2 0/1] media: qcom: camss: Re-structure camss_link_entities 
-Date: Tue, 12 Nov 2024 19:08:45 +0530
-Message-ID: <20241112133846.2397017-1-quic_vikramsa@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1731415600; c=relaxed/simple;
+	bh=7TwaqOuPOYFsxVKL7mfPHE624AkAVMVrsXCxZMG4X5k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jMbBB65CnQkSYxHGEbffOedfopWRDUL8X7Zo6eGXL7pkvs/jrhDCCfq0JaxONO2/dRpw5TZjhHo+QOLx9wyUouYkiu6mahmfmpEvJmXWNRMGIYVlElol54P0QCctcH6zdYnsOpDzitV4cENaW/1jP3bB3jLuG1sSay2aq3yqImE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uv/X+znt; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8148512;
+	Tue, 12 Nov 2024 13:46:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1731415582;
+	bh=7TwaqOuPOYFsxVKL7mfPHE624AkAVMVrsXCxZMG4X5k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=uv/X+znt+ceknU6R7npizxd08wBtkxJGdITXID06hdVqnOtZ0ct9D1ILh3HslOM3h
+	 uogwUT9L1OmURk+RxYeVxpVYYPxS63ktdWKKbCBnId3w4pYhmWFUse0gdvYev2vM8c
+	 XPUcE/5pZVDr250lU2ZIEQJZAXCCKpJLNO4TvvF0=
+From: Daniel Scally <dan.scally@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: hverkuil-cisco@xs4all.nl,
+	sakari.ailus@linux.intel.com,
+	laurent.pinchart@ideasonboard.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	jacopo.mondi@ideasonboard.com,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: [PATCH v2 0/4] Extend RAW format support for rzg2l-cru driver
+Date: Tue, 12 Nov 2024 12:46:10 +0000
+Message-Id: <20241112124614.646281-1-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,50 +59,40 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: G34tJmpS5oxOELAXmS2FWHsZl9_WbRU0
-X-Proofpoint-GUID: G34tJmpS5oxOELAXmS2FWHsZl9_WbRU0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- spamscore=0 clxscore=1015 mlxscore=0 mlxlogscore=642 lowpriorityscore=0
- impostorscore=0 adultscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2411120109
 
-Refactor the camss_link_entities function by breaking it down into
-three distinct functions. Each function will handle the linking of
-a specific entity separately, enhancing readability.
+Hi All
 
-Changes in V2:
-- Declared variables in reverse christmas tree order.
-- Functionally decomposed link error message.
-- Link to v1: https://lore.kernel.org/linux-arm-msm/20241111173845.1773553-1-quic_vikramsa@quicinc.com/ 
+This series adds new pixel formats representing the 64-bit packed format that's
+used by the Camera Receiver Unit in RZ/G2L and V2H SoCs. Support for capturing
+those formats is then added to the rzg2l-cru driver itself.
 
-  To: Robert Foss <rfoss@kernel.org>
-  To: Todor Tomov <todor.too@gmail.com>
-  To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-  To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-  Cc: linux-arm-msm@vger.kernel.org
-  Cc: linux-media@vger.kernel.org
-  Cc: linux-kernel@vger.kernel.org
+The series is based on top of the v2 of Prabhakar's recent set titled
+"media: platform: rzg2l-cru: CSI-2 and CRU enhancements"
 
-Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+Thanks
+Dan
 
-Vikram Sharma (1):
-  media: qcom: camss: Restructure camss_link_entities
+v1: https://lore.kernel.org/all/20240927232729.GR12322@pendragon.ideasonboard.com/T/
 
- drivers/media/platform/qcom/camss/camss-vfe.c |   6 +-
- drivers/media/platform/qcom/camss/camss.c     | 196 ++++++++++++------
- drivers/media/platform/qcom/camss/camss.h     |   4 +
- 3 files changed, 138 insertions(+), 68 deletions(-)
+Daniel Scally (4):
+  media: v4l2: Add Renesas Camera Receiver Unit pixel formats
+  media: platform: rzg2l-cru: Use v4l2_get_link_freq()
+  media: platform: rzg2l-cru: Use v4l2_fill_pixfmt()
+  media: platform: rzg2l-cru: Add support for RAW10/12/14 data
+
+ .../userspace-api/media/v4l/pixfmt-bayer.rst  |   1 +
+ .../media/v4l/pixfmt-srggbnn-cru.rst          | 168 ++++++++++++++++++
+ .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |   2 -
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  37 ++--
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     |  89 +++++++++-
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  |   3 +-
+ drivers/media/v4l2-core/v4l2-common.c         |  16 ++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  16 ++
+ include/uapi/linux/videodev2.h                |  21 +++
+ 9 files changed, 329 insertions(+), 24 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-srggbnn-cru.rst
 
 -- 
-2.25.1
+2.34.1
 
 
