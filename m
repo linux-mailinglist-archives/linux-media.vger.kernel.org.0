@@ -1,216 +1,156 @@
-Return-Path: <linux-media+bounces-21334-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21322-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F064E9C5F2C
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 18:37:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9745C9C5F02
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 18:32:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F8901F228F2
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 17:37:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 204741F23929
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2024 17:32:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A9A921A6F2;
-	Tue, 12 Nov 2024 17:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 770112144A3;
+	Tue, 12 Nov 2024 17:31:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lGnD2uR3"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Y6MRz86y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8C021A4D2;
-	Tue, 12 Nov 2024 17:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB988209688
+	for <linux-media@vger.kernel.org>; Tue, 12 Nov 2024 17:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731432695; cv=none; b=E19FAnuLcXrCfpE+uNbvcTcco8oYDAc3EDYk/lCKvo9TaUObI22k4zCILNBtplKFj9ebYstFs6x1sIVMeYDfB8j+Mu9ccW3lJgMoxzXwrexfyWSWh/GIJyWEzx5MWXa7NbmpX9xnEVd18z2/r1e3f/IBj4h+2VwWtAABG4ZJvlA=
+	t=1731432663; cv=none; b=C6SfLXrAgsel3suPlwhhPUyUnEor2dfyb3U6VOMVrNVnWbqvQ+v+kMTFDxPbcrzkkibN/Ggw9WXZ47dbLIOUAeQXx0LyVQISGX45V27Kb3Ab4AcA8VseEtuCmE2x6CE3ygA9FCu3a6QyVwV6GlsWAHRsq/ddgfIRpB3Vw6t7eKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731432695; c=relaxed/simple;
-	bh=qICTPnyBN+rDbSeRp/D/zdI+wW1AKM9JQJkr/k0uAyY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nn2GXnA8Js9VBy6vcXMPUAbu1VYTWSra7TuZ2/KxM3B0GR2iJcqdDTcR4GqR/Bf+jNND3VYosMvMyEKlPGzA6/GBukxvN3OTfNkSFvJrxD3GwFO8hQDbUiA060eTBu00OBT8zIQUCcW2YpbLJ25eLAPGbRrDqkJE3dik9kq2yjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lGnD2uR3; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ACCAmnM011650;
-	Tue, 12 Nov 2024 17:31:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vqsKRlTvIT7CFHHfjFpD0KW4h8VJrruTMkhWX964NcQ=; b=lGnD2uR3iUOkt/VU
-	lSG7LTgcauJ179ntxwi8p5xquEoASR3CSF53YWLWE4r/eOwMrvteTStj02PZEH8y
-	Bq0astWE9d6P+8mxmHEwxKIsJiXc7StbsqhTR6ujKYBAcRtqNrsGLFmVZTumkwy+
-	6abpW477J5lxCGGLS1tSg633dI0L5eOmnlTbpUN+1oQTKtHrjb3jNi6LfCN2iO8G
-	YLRV80obKfhFdFxG9q+AnWyirSsA8cqapBZGB9L9E3N6ubNqMaYMnO2+DHvZV7NS
-	ar586Asr7Ra5bHTqybMrqWqheRTSk20w2fkYLh5InDplCnItqB3AptQy7Y4+ZdIk
-	AGc+Dw==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42t11884tr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Nov 2024 17:31:23 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ACHVMM6004164
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Nov 2024 17:31:22 GMT
-Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 12 Nov 2024 09:31:13 -0800
-From: Vikram Sharma <quic_vikramsa@quicinc.com>
-To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <akapatra@quicinc.com>, <hariramp@quicinc.com>,
-        <andersson@kernel.org>, <konradybcio@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>
-CC: <linux-arm-kernel@lists.infradead.org>, <quic_vikramsa@quicinc.com>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel@quicinc.com>
-Subject: [PATCH v5 2/5] media: qcom: camss: Sort camss version enums and compatible strings
-Date: Tue, 12 Nov 2024 23:00:29 +0530
-Message-ID: <20241112173032.2740119-3-quic_vikramsa@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241112173032.2740119-1-quic_vikramsa@quicinc.com>
-References: <20241112173032.2740119-1-quic_vikramsa@quicinc.com>
+	s=arc-20240116; t=1731432663; c=relaxed/simple;
+	bh=uHvRxnCwxSPwoWBt7s6p7RnvISj6q1/A38c/hPBn/Oo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TzoeayVPxwH17qK1gxBNkjMeqc+/hfEwo51xbl7U8t1IG+RSThakxiVeS2YrhUDNCgQ7nveiynTbYfazIy7lTgA1KoHtybeaMZwk7oyjOS7Vefk24SWefRrOcFh/Shx5RJ+ynqxNNZ5/XEJZJyJFjY+g60FFHj1cgsdWUsTJPNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Y6MRz86y; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7b147a2ff04so444970785a.3
+        for <linux-media@vger.kernel.org>; Tue, 12 Nov 2024 09:31:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1731432660; x=1732037460; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fNnLmwM6k2wna/0wjImN/u+vOWZSQ1LYfyw6a2jXzJ8=;
+        b=Y6MRz86yPlcWXEfyD7YCtcJj35Kuevwrg9TnH7I4AIGVDnQZRAjgt1LgADTvnz4feS
+         GH7nukySUTB8yRjxrDL6gwxxEtN0ddF+sOg8XwHxDk4qRJi9d7E8hd5hfMY4z9LrEzqt
+         hCVQq0U4NPxcm8rK93EvpKZXq22xvtwU5iZmc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731432660; x=1732037460;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fNnLmwM6k2wna/0wjImN/u+vOWZSQ1LYfyw6a2jXzJ8=;
+        b=mXApDA7S1FhnC6UvhVOsPDsFXqBMGerbM3cw0i/vZL6zrn1IXfkXPR52BeEhyQ0GCK
+         XHPI3LTt0W/GllCGZIZhW3IPAaW3JNOhTpi0obkhQcfzglOv0BpLjuMa7bjNeI487lGp
+         6ocxxVqmVOIQ/Nenvzep4F3mhrb3XaLF9u+kYOGT6e7UvDpBMnSXguqe0fV8heXGtu2K
+         g3IhxRYRGy9RH0AFp5UowV4W7ojxFhBLQcHVLUj0WzcdhObcEzmEbKTBnPvnzg1GNWG+
+         qb7u+xL2ZKwOoaIpfhmOLIJKidM1vYdszbzthBFb+ExYHPW0HXJ+TBbGYpv8tALJ4n5k
+         RHLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXeuL8jb0kT5cSI2vSfh68EuXwzIK3SKpcGUGpkNS+pHxuDU/O3XdVhm13a85POYR4zRn/H2n0Y4Ky7XQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDtyWdeXIV+q1auXZD1t8HTxEp9HQaY13Og8Ex6OHsEd8sHYrn
+	xvh+BEPGXj1i88U8CT/TzjBSr9ArI0C09UtlrILQE3EiTO+Pa2WHkUnCWCu6gw==
+X-Google-Smtp-Source: AGHT+IEqc2TDtyerxS7bC/9aGU2bzWGZBxZv6iEwNKljp7OmEq6pHR5Uiz4/K5WvZFBjN8dhnkGfug==
+X-Received: by 2002:a05:620a:4495:b0:7b1:5143:8da1 with SMTP id af79cd13be357-7b331f20600mr2305215085a.43.1731432660551;
+        Tue, 12 Nov 2024 09:31:00 -0800 (PST)
+Received: from denia.c.googlers.com (189.216.85.34.bc.googleusercontent.com. [34.85.216.189])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b32ac2dcebsm608292285a.7.2024.11.12.09.30.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2024 09:30:59 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3 0/8] media: uvcvideo: Implement the Privacy GPIO as a
+ evdev
+Date: Tue, 12 Nov 2024 17:30:43 +0000
+Message-Id: <20241112-uvc-subdev-v3-0-0ea573d41a18@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 6Hl6rzKByTuyegtLSg5ue2FyA3xZsZSg
-X-Proofpoint-GUID: 6Hl6rzKByTuyegtLSg5ue2FyA3xZsZSg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
- bulkscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
- clxscore=1015 priorityscore=1501 adultscore=0 suspectscore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411120141
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMSQM2cC/13MSw7CIBSF4a2YOxZzL/SBjtyHcUCBtgxaDFiia
+ bp3aRPjY3hO8n8zRBucjXDazRBsctH5MQ+x34Hu1dhZ5kzewJEXhALZlDSLU2NsYvLYFkVVK8S
+ mhBzcgm3dY8Mu17x7F+8+PDc70fq+GfpmEjFkqpJCkLbG1Pys++AHNw0HHzpYpcQ/NaH8qXmuZ
+ WmkwpKUMOKvXpblBSRkygLlAAAA
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ Yunke Cao <yunkec@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Hans de Goede <hdegoede@redhat.com>, Ricardo Ribalda <ribalda@chromium.org>, 
+ stable@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>
+X-Mailer: b4 0.13.0
 
-Sort CAMSS version enums and compatible strings alphanumerically.
+Some notebooks have a button to disable the camera (not to be mistaken
+with the mechanical cover). This is a standard GPIO linked to the
+camera via the ACPI table.
 
-Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
-Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
-Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+4 years ago we added support for this button in UVC via the Privacy control.
+This has three issues:
+- If the camera has its own privacy control, it will be masked.
+- We need to power-up the camera to read the privacy control gpio.
+- Other drivers have not followed this approach and have used evdev.
+
+We tried to fix the power-up issues implementing "granular power
+saving" but it has been more complicated than anticipated...
+
+This patchset implements the Privacy GPIO as a evdev.
+
+The first patch of this set is already in Laurent's tree... but I
+include it to get some CI coverage.
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- .../media/platform/qcom/camss/camss-csiphy-3ph-1-0.c   | 10 +++++-----
- drivers/media/platform/qcom/camss/camss-vfe.c          |  6 +++---
- drivers/media/platform/qcom/camss/camss.c              |  2 +-
- drivers/media/platform/qcom/camss/camss.h              |  4 ++--
- 4 files changed, 11 insertions(+), 11 deletions(-)
+Changes in v3:
+- CodeStyle (Thanks Sakari)
+- Re-implement as input device
+- Make the code depend on UVC_INPUT_EVDEV
+- Link to v2: https://lore.kernel.org/r/20241108-uvc-subdev-v2-0-85d8a051a3d3@chromium.org
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index df7e93a5a4f6..7d2490c9de01 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -505,10 +505,6 @@ static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
- 	u32 val;
- 
- 	switch (csiphy->camss->res->version) {
--	case CAMSS_845:
--		r = &lane_regs_sdm845[0][0];
--		array_size = ARRAY_SIZE(lane_regs_sdm845[0]);
--		break;
- 	case CAMSS_8250:
- 		r = &lane_regs_sm8250[0][0];
- 		array_size = ARRAY_SIZE(lane_regs_sm8250[0]);
-@@ -517,6 +513,10 @@ static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
- 		r = &lane_regs_sc8280xp[0][0];
- 		array_size = ARRAY_SIZE(lane_regs_sc8280xp[0]);
- 		break;
-+	case CAMSS_845:
-+		r = &lane_regs_sdm845[0][0];
-+		array_size = ARRAY_SIZE(lane_regs_sdm845[0]);
-+		break;
- 	default:
- 		WARN(1, "unknown cspi version\n");
- 		return;
-@@ -557,9 +557,9 @@ static bool csiphy_is_gen2(u32 version)
- 	bool ret = false;
- 
- 	switch (version) {
--	case CAMSS_845:
- 	case CAMSS_8250:
- 	case CAMSS_8280XP:
-+	case CAMSS_845:
- 		ret = true;
- 		break;
- 	}
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index d801275228b0..f9e64cbacb20 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -334,11 +334,11 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 			return sink_code;
- 		}
- 		break;
--	case CAMSS_8x96:
- 	case CAMSS_660:
--	case CAMSS_845:
-+	case CAMSS_8x96:
- 	case CAMSS_8250:
- 	case CAMSS_8280XP:
-+	case CAMSS_845:
- 		switch (sink_code) {
- 		case MEDIA_BUS_FMT_YUYV8_1X16:
- 		{
-@@ -1693,9 +1693,9 @@ static int vfe_bpl_align(struct vfe_device *vfe)
- 	int ret = 8;
- 
- 	switch (vfe->camss->res->version) {
--	case CAMSS_845:
- 	case CAMSS_8250:
- 	case CAMSS_8280XP:
-+	case CAMSS_845:
- 		ret = 16;
- 		break;
- 	default:
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 12778846b2ca..2d8efed51912 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -2692,10 +2692,10 @@ static const struct of_device_id camss_dt_match[] = {
- 	{ .compatible = "qcom,msm8916-camss", .data = &msm8916_resources },
- 	{ .compatible = "qcom,msm8953-camss", .data = &msm8953_resources },
- 	{ .compatible = "qcom,msm8996-camss", .data = &msm8996_resources },
-+	{ .compatible = "qcom,sc8280xp-camss", .data = &sc8280xp_resources },
- 	{ .compatible = "qcom,sdm660-camss", .data = &sdm660_resources },
- 	{ .compatible = "qcom,sdm845-camss", .data = &sdm845_resources },
- 	{ .compatible = "qcom,sm8250-camss", .data = &sm8250_resources },
--	{ .compatible = "qcom,sc8280xp-camss", .data = &sc8280xp_resources },
- 	{ }
- };
- 
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index c50cf7dc81f2..bdc11d6d2203 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -77,13 +77,13 @@ enum pm_domain {
- };
- 
- enum camss_version {
-+	CAMSS_660,
- 	CAMSS_8x16,
- 	CAMSS_8x53,
- 	CAMSS_8x96,
--	CAMSS_660,
--	CAMSS_845,
- 	CAMSS_8250,
- 	CAMSS_8280XP,
-+	CAMSS_845,
- };
- 
- enum icc_count {
+Changes in v2:
+- Rebase on top of https://patchwork.linuxtv.org/project/linux-media/patch/20241106-uvc-crashrmmod-v6-1-fbf9781c6e83@chromium.org/
+- Create uvc_gpio_cleanup and uvc_gpio_deinit
+- Refactor quirk: do not disable irq
+- Change define number for MEDIA_ENT_F_GPIO
+- Link to v1: https://lore.kernel.org/r/20241031-uvc-subdev-v1-0-a68331cedd72@chromium.org
+
+---
+Ricardo Ribalda (8):
+      media: uvcvideo: Fix crash during unbind if gpio unit is in use
+      media: uvcvideo: Factor out gpio functions to its own file
+      media: uvcvideo: Re-implement privacy GPIO as an input device
+      Revert "media: uvcvideo: Allow entity-defined get_info and get_cur"
+      media: uvcvideo: Create ancillary link for GPIO subdevice
+      media: v4l2-core: Add new MEDIA_ENT_F_GPIO
+      media: uvcvideo: Use MEDIA_ENT_F_GPIO for the GPIO entity
+      media: uvcvideo: Introduce UVC_QUIRK_PRIVACY_DURING_STREAM
+
+ .../userspace-api/media/mediactl/media-types.rst   |   4 +
+ drivers/media/usb/uvc/Kconfig                      |   2 +-
+ drivers/media/usb/uvc/Makefile                     |   3 +
+ drivers/media/usb/uvc/uvc_ctrl.c                   |  40 +-----
+ drivers/media/usb/uvc/uvc_driver.c                 | 112 +---------------
+ drivers/media/usb/uvc/uvc_entity.c                 |  21 ++-
+ drivers/media/usb/uvc/uvc_gpio.c                   | 144 +++++++++++++++++++++
+ drivers/media/usb/uvc/uvc_status.c                 |  13 +-
+ drivers/media/usb/uvc/uvc_video.c                  |   4 +
+ drivers/media/usb/uvc/uvcvideo.h                   |  31 +++--
+ drivers/media/v4l2-core/v4l2-async.c               |   3 +-
+ include/uapi/linux/media.h                         |   1 +
+ 12 files changed, 223 insertions(+), 155 deletions(-)
+---
+base-commit: 1b3bb4d69f20be5931abc18a6dbc24ff687fa780
+change-id: 20241030-uvc-subdev-89f4467a00b5
+
+Best regards,
 -- 
-2.25.1
+Ricardo Ribalda <ribalda@chromium.org>
 
 
