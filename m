@@ -1,112 +1,97 @@
-Return-Path: <linux-media+bounces-21384-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21385-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9086E9C7756
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 16:36:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A774F9C776D
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 16:40:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5B27B3E502
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 15:25:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C7B72817BB
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 15:40:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73427156F36;
-	Wed, 13 Nov 2024 15:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A7ED2064EF;
+	Wed, 13 Nov 2024 15:32:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uwblCQ0f"
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="qanlvIH8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176B0155308
-	for <linux-media@vger.kernel.org>; Wed, 13 Nov 2024 15:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658D81632CD;
+	Wed, 13 Nov 2024 15:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731511434; cv=none; b=jQcQfS/Etjrj4w/iSNg5uXFRAXGgR4AQQgYw1JRLkeZPvGbx6nqAj4qdeFnwtC7AlcYzbuVs4VZgALibk1h+zsbBsRblmMCcgQNz4nhr3cba5MsKreoCmyRJ1F1jtfASmWhtP9yLNozjX9ckOmAQNK8q4/HcUMTj7canUDHtf54=
+	t=1731511976; cv=none; b=TNHWeOP/LwLXgIfYjBz1SltpB7jIKHi66FKV+paeM3eslZZTNauAHxuxen3Sfnup1t5uGBuTxSi1RTsEL29C2UXldxjAXeKFCDhN/U1rXZm9aS5uTMl42XScowKJ+YzYB/fcdNOYSs9cFg3wUuwvEuETPsAnbrY3RTKN5hr1/FY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731511434; c=relaxed/simple;
-	bh=mkf92YvqqmYTWrtFZhtkksrDlENB5dZpTVzytU/uDC0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EnppUqOKwFJ5OQr6XV/RjquRznv78qLRISLfiR4EpyBwCgmNK5seY/VXTQ5NwE6HnttoA4izWoiBD+u4FFaXI3dK3zsMfT8hNPMDR+Vsqv2PcLcls6JjIXzoxUtIRWkpzF4av5GY6OaffoiWLYVZnzbYWfuLIk1CVNJ6iRUkpg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uwblCQ0f; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43155afca99so5436685e9.1
-        for <linux-media@vger.kernel.org>; Wed, 13 Nov 2024 07:23:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731511431; x=1732116231; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OOdKga0laMcAvUIFJVgngqKV8g3vjQo5W0ePdHvo9Xs=;
-        b=uwblCQ0f5j51wt6e4u/1wmSa9cQsZkHN6pdZK/auH2Ctt1I5gY2wFj28ic6uKMHML1
-         JwNEpWhqbt48in3sRFg69dOjs+BhMplk9nkxzmQUV7k70CuPZF0oUqVRwC1aOD8CT9h5
-         zv7lxPwj1SKrs7255Q64/8uMG1OfE72sS6MxGoyDXnJWCxDKmyj6B2bk7BJT4+ej3NOF
-         jTRGhZ9xYdth9VpAJ6xErOcJuNapqZ5Vwbep1GuaMqtkkIkckWOJ9XxkR/wpYXs7gGr/
-         ClwkQJRbFFesMUPXGw2rlVJgSePgc37/FUFx79ICT4AlBTgx2jAG/hF2TrJT+j1DDlmi
-         bohA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731511431; x=1732116231;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OOdKga0laMcAvUIFJVgngqKV8g3vjQo5W0ePdHvo9Xs=;
-        b=XfPdsv1qv3mhZhwxzqn+Ixt1J6r3U+lnF56ifgGODSVCXpaHMqBpxQXVivpdMgpc42
-         i3UPrApSIHjZijXINOIun30dHD8n8zcuBo7o/MgoGkcQzilQ6BAAWO/oJ+eg8ULvZjix
-         T0Iov5SVXzXv8cIS866Xtr+Ql0WTwfY7VNLUBT2mvjlV3MA7bf4aS18SglIgCLKdTeUm
-         xgJEtUgNq4CKpNPejESa8qrxVaQAY3MMjKF+T6e1So5xFNkV+1KXyjieplRnVCRv5FV4
-         5bLxtRskOeGS8dpnMlfqmoBvLKxf3DrKON/4JAPr2BQMhEPaTUmaOvknEKaGHFPC7JgX
-         PKQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWR6exvr7z8cdzdxJPVrsWiVIPJqXiohR3NXVIgM5ZOZQNqkRRbJKELJRBMIYt8oOfUoyWJLb6bEK8E2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeFFcJCbIqqFydEjG+r1gjlMRe28P83bAM3TUaxdVyU/nxV8na
-	bZuC8eGIm/77q2ENBpeBKx8uM8aCTH3tNUeIJvdNBq94ZGHjUL7pVTU2sUGCg3w=
-X-Google-Smtp-Source: AGHT+IH/gfM9PGoYpJNGrFD5lZJnTGB4qUBvPUOWaiS4UbefcHZd3yGHfeCZ3TMkYSv3w6AbbLOVYA==
-X-Received: by 2002:a5d:588a:0:b0:367:8e57:8 with SMTP id ffacd0b85a97d-381f0f7f1abmr19457022f8f.19.1731511431496;
-        Wed, 13 Nov 2024 07:23:51 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54e2e19sm28014685e9.3.2024.11.13.07.23.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Nov 2024 07:23:51 -0800 (PST)
-Message-ID: <eda3d0ae-50eb-43b2-a234-93b209fbcdeb@linaro.org>
-Date: Wed, 13 Nov 2024 15:23:50 +0000
+	s=arc-20240116; t=1731511976; c=relaxed/simple;
+	bh=HVF86oa8uPOdeY5CzEJ/p4wFpJYQxUgEkA5QxLg8r2I=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=WZYN9F6CJh+N4BFA2YKxrh7btJ2T9AuShW9jAVTDvGBE3WQi85wy+3Gilo7E222Ix7mDMiGocFmPULycNn9YhA7mNmeJPdTot8LQPZCjDBIvUqApvNnaJH9S4ZDlbje+NL+5SYgBvdsq+lB7CNpqatVobtTJq34WY98PFt1/TDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=qanlvIH8; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+Received: from localhost (docker-mailserver-web-1.docker-mailserver_default [172.22.0.5])
+	by mail.mainlining.org (Postfix) with ESMTPSA id 72372E44EA;
+	Wed, 13 Nov 2024 15:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
+	s=psm; t=1731511972;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lOqssupN+rXeOt25fdj2J/a1pUDEnX2cpTj+xiEHHj0=;
+	b=qanlvIH8/EIuGp+Cgf86ohGQ0rMdIERH9PTsExQxavQ6gT8Zlaj5eb5UPOKSujqTC7SZsL
+	iCgvGMSUs1cEirL5gp9IoRNCurZOYlvtURyy3fw0RDr+I1veaKTf+khlB0uq+LqAktb8gj
+	A+FVG1CC6NyVzlngiaatpjxgWLPbiHlWFksrbnIJ6pQ+OpZoHcrxAu0xIqbVG7SRfWeq1R
+	JswSoejmut7cxbV1gpAh6HlR80D8by6ThxE83kTJlD2IjmvHHlMSIr4GZfHlnUT+T17aJp
+	5R0nw1XwbBVLMBp3HSBr5RBA1ZyNrrOoresBGFTQTJ4xpvpRmQMxAgySn1d8kA==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Date: Wed, 13 Nov 2024 16:32:52 +0100
+From: barnabas.czeman@mainlining.org
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Robert Foss
+ <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Vladimir Lypak
+ <vladimir.lypak@gmail.com>
 Subject: Re: [PATCH v4 3/3] media: qcom: camss: Add MSM8953 resources
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- barnabas.czeman@mainlining.org
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>
+In-Reply-To: <eda3d0ae-50eb-43b2-a234-93b209fbcdeb@linaro.org>
 References: <20241103-camss-msm8953-v4-0-48d0ec75958d@mainlining.org>
  <20241103-camss-msm8953-v4-3-48d0ec75958d@mainlining.org>
  <6833ebc6-9210-471a-8ca6-5f3605155f33@linaro.org>
  <412b3252f1ca795fbcfaf5e466e94642@mainlining.org>
  <67d014f1-9424-4b88-b031-096a5596c5c8@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <67d014f1-9424-4b88-b031-096a5596c5c8@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <eda3d0ae-50eb-43b2-a234-93b209fbcdeb@linaro.org>
+Message-ID: <ffa2a863c8a9b99582ad6648600d372b@mainlining.org>
+X-Sender: barnabas.czeman@mainlining.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 13/11/2024 13:28, Vladimir Zapolskiy wrote:
-> So, we have to rely on the documentation here. Bryan, can you please
-> check, if VDDA_MIPI_CSI pad on MSM8916 and/or MSM8953 is related to
-> CSIPHY or CSID power supply? Thank you in advance.
+On 2024-11-13 16:23, Bryan O'Donoghue wrote:
+> On 13/11/2024 13:28, Vladimir Zapolskiy wrote:
+>> So, we have to rely on the documentation here. Bryan, can you please
+>> check, if VDDA_MIPI_CSI pad on MSM8916 and/or MSM8953 is related to
+>> CSIPHY or CSID power supply? Thank you in advance.
+> 
+> No there's really no indication in the documents I have how the input 
+> gets routed internally, CSID, CSIPHY, both.. not clear.
+> 
+> I think Barnabás is right, the best source of information we have for 
+> this one is the downstream dtsi => CSID.
+I have found the regulator also in downstream msm_csid driver i hope it 
+helps a bit.
+https://git.codelinaro.org/clo/la/kernel/msm-4.9/-/blob/LA.UM.10.6.2.c26-01500-89xx.0/drivers/media/platform/msm/camera_v2/sensor/csid/msm_csid.c#L73
 
-No there's really no indication in the documents I have how the input 
-gets routed internally, CSID, CSIPHY, both.. not clear.
-
-I think Barnabás is right, the best source of information we have for 
-this one is the downstream dtsi => CSID.
-
----
-bod
+> 
+> ---
+> bod
 
