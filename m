@@ -1,282 +1,275 @@
-Return-Path: <linux-media+bounces-21375-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21376-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0EED9C6ED2
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 13:14:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F2A9C6EFF
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 13:25:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51E661F282CD
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 12:14:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6444A1F219A8
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 12:25:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E384F200B8A;
-	Wed, 13 Nov 2024 12:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5613A1FF7D9;
+	Wed, 13 Nov 2024 12:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="f2CuR81N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7986D188708;
-	Wed, 13 Nov 2024 12:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731500083; cv=none; b=FMHvkDqZcdcjsKbJ6IYVs3NE8wzYdaizaU9e3W8LrlJCvQhhn6tp5+F6Ahqh6q773Sgxwy7upk1SaVGybiO/EgUxpwnl+OLWpQjtzE+PB1Q57FFCkwHqrYvIcmuo7mdhGQnAnzYoXnA5pgQWTyT575AFPEApkUOl16+T/8M9C9o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731500083; c=relaxed/simple;
-	bh=C5YK6VNNhchSYw8CUZgzFloDdV8E7klkMjewAUqrKGA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JatoQnATrJae0owNhBI6hT0yd7hUn0jTygjkS7852g5c6fOMbz612fmwZ9JtCA5YBAv2Z5D+AtK5Z9Reug+Nbxlk1TWpaZopDwR3K+t97EDzThm9520SCae1u2mAg94QJUsA9STJ1v+VXj15Q3zHVOc7Pt51hpGPG54M87fL104=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AC6DC4CECF;
-	Wed, 13 Nov 2024 12:14:39 +0000 (UTC)
-Message-ID: <567c33a2-9c35-4941-9356-b280c8138009@xs4all.nl>
-Date: Wed, 13 Nov 2024 13:14:37 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32811FF035;
+	Wed, 13 Nov 2024 12:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731500732; cv=pass; b=Lw4AMxrl3yN9SIokbJ3/pJUex6v9e1vc78C6Ke6aP6tXNdxyPluPW28tqTLMfZnVu9r04ssgKSQaVBxMQp1wjZi/FO5yvOq41t8caZt8cZ1i0Xf92yHqXPNrV2DeVgAgilAlEPBSvbfY0f2ajJBko50tmUqM9OXSU3Ssu3pHx8Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731500732; c=relaxed/simple;
+	bh=kpjzASFRdzHAUKP5n9kMLbj2GjUbBvrQh7pg8+l7czY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=thwCF39Oo/m8DLzq83NhKBwYCAkaGJgW+dw+vk3G6ia3Mmc6gqNCWOb88KqZEe6PLNajTf+dsGnA7+yX/BJ0fHi1FrqwTxx8y0J9SWlH8IxJSrS+Tyx4cZAD7cRBTInQzfBksPINxVXklbEcQfYqYkDqeqEx70yQ6eHnKKS0UXA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=f2CuR81N; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1731500460; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=YU32egpaxQ3LPMkiCEiwlYinPgTJcYopTk+puFDwuHW/9RO5p79wjM2Ui4SYu+wL/frHuZzuy8fUUQTuKVqqr0T0NMV/4+9fM7PJU9cqkYbDQ6Gq107WiMmUYHcuOuX8UKmuuA16yr0+peWn38u9D2nDz6YNXKAJ+ZJ7WY8pYqo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1731500460; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=YAXiNxl+L7WvMZzLtoh1AuLuo/AJ/EmyL8yk+YhQn7E=; 
+	b=Z+/3iUD44BYjzAGUq1cHO2bPj4wbjXN+ayl1Ka83L0+w1xcfYti/g3ZFtC2uZ4mtChZTn2nwlwi+DvPH2yfq9ezukDbOMZrolxlGcZ8mmfaBdeihUssIFVoz4iAz8trakaEKK0Fp/Th+ulWtxq/OnFN2UcGPl3JXDgO03ORpffc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731500460;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=YAXiNxl+L7WvMZzLtoh1AuLuo/AJ/EmyL8yk+YhQn7E=;
+	b=f2CuR81N5f/eoPkL/+BDc6R275zeJ5SoF4H0cw9lo8TS+M/VEfcid4otwyE/SIj4
+	TbuBF/mb2W5vpti7JxV6wbckZ3lQNM1JlQER4u9BpJT2NKBkm5CPoLyH7wDWMVnR8OX
+	FZ7TlWHYFnUhP4hgflIVi4h5U8IU5DiK5qae+G2I=
+Received: by mx.zohomail.com with SMTPS id 1731500458968391.5228104021975;
+	Wed, 13 Nov 2024 04:20:58 -0800 (PST)
+Date: Wed, 13 Nov 2024 13:20:51 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: Jeffrey Kardatzke <jkardatzke@google.com>,
+	=?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
+	Nathan Hebert <nhebert@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v7 00/28] media: mediatek: add driver to support secure
+ video decoder
+Message-ID: <20241113122051.u3iq3ci7iwrvt3mx@basti-XPS-13-9310>
+References: <20240720071606.27930-1-yunfei.dong@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 09/28] media: iris: implement reqbuf ioctl with
- vb2_queue_setup
-Content-Language: en-US
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Jianhua Lu <lujianhua000@gmail.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com>
- <20241105-qcom-video-iris-v5-9-a88e7c220f78@quicinc.com>
- <96966b66-a93a-4675-8d28-6fe9152644b8@xs4all.nl>
- <0fb27983-e253-3375-1c01-bfad7d05485c@quicinc.com>
- <d4fb8e3e-d19e-4af5-8a16-8b8b53c3530e@xs4all.nl>
- <1360d885-52f1-9dbc-7beb-23ac58ec8ff0@quicinc.com>
- <0afd368a-36ed-4415-977b-abf6d245b754@xs4all.nl>
- <98696180-a40f-deca-13f3-e3636a0d9d16@quicinc.com>
- <ac01378f-1375-45bd-9369-187645657db9@xs4all.nl>
- <fa91d95a-2bcd-5768-02d7-4f80e4e006d9@quicinc.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <fa91d95a-2bcd-5768-02d7-4f80e4e006d9@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20240720071606.27930-1-yunfei.dong@mediatek.com>
+X-ZohoMailClient: External
 
-On 11/13/24 12:20, Dikshita Agarwal wrote:
-> 
-> 
-> On 11/13/2024 4:45 PM, Hans Verkuil wrote:
->> On 11/13/24 11:32, Dikshita Agarwal wrote:
->>>
->>>
->>> On 11/13/2024 2:52 PM, Hans Verkuil wrote:
->>>> On 13/11/2024 10:00, Dikshita Agarwal wrote:
->>>>>
->>>>>
->>>>> On 11/13/2024 1:18 PM, Hans Verkuil wrote:
->>>>>> On 13/11/2024 07:19, Dikshita Agarwal wrote:
->>>>>>>
->>>>>>>
->>>>>>> On 11/12/2024 3:20 PM, Hans Verkuil wrote:
->>>>>>>> On 05/11/2024 07:55, Dikshita Agarwal wrote:
->>>>>>>>> Implement reqbuf IOCTL op and vb2_queue_setup vb2 op in the driver with
->>>>>>>>> necessary hooks.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->>>>>>>>> ---
->>>>>>
->>>>>> <snip>
->>>>>>
->>>>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c b/drivers/media/platform/qcom/iris/iris_vb2.c
->>>>>>>>> new file mode 100644
->>>>>>>>> index 000000000000..61033f95cdba
->>>>>>>>> --- /dev/null
->>>>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_vb2.c
->>>>>>>>> @@ -0,0 +1,74 @@
->>>>>>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>>>>>> +/*
->>>>>>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>>>>>>>> + */
->>>>>>>>> +
->>>>>>>>> +#include "iris_buffer.h"
->>>>>>>>> +#include "iris_instance.h"
->>>>>>>>> +#include "iris_vb2.h"
->>>>>>>>> +#include "iris_vpu_buffer.h"
->>>>>>>>> +
->>>>>>>>> +int iris_vb2_queue_setup(struct vb2_queue *q,
->>>>>>>>> +			 unsigned int *num_buffers, unsigned int *num_planes,
->>>>>>>>> +			 unsigned int sizes[], struct device *alloc_devs[])
->>>>>>>>> +{
->>>>>>>>> +	enum iris_buffer_type buffer_type = 0;
->>>>>>>>> +	struct iris_buffers *buffers;
->>>>>>>>> +	struct iris_inst *inst;
->>>>>>>>> +	struct iris_core *core;
->>>>>>>>> +	struct v4l2_format *f;
->>>>>>>>> +	int ret = 0;
->>>>>>>>> +
->>>>>>>>> +	inst = vb2_get_drv_priv(q);
->>>>>>>>> +
->>>>>>>>> +	mutex_lock(&inst->lock);
->>>>>>>>> +
->>>>>>>>> +	core = inst->core;
->>>>>>>>> +	f = V4L2_TYPE_IS_OUTPUT(q->type) ? inst->fmt_src : inst->fmt_dst;
->>>>>>>>> +
->>>>>>>>> +	if (*num_planes) {
->>>>>>>>> +		if (*num_planes != f->fmt.pix_mp.num_planes ||
->>>>>>>>> +			sizes[0] < f->fmt.pix_mp.plane_fmt[0].sizeimage)
->>>>>>>>> +			ret = -EINVAL;
->>>>>>>>> +		goto unlock;
->>>>>>>>> +	}
->>>>>>>>> +
->>>>>>>>> +	buffer_type = iris_v4l2_type_to_driver(q->type);
->>>>>>>>> +	if (buffer_type == -EINVAL) {
->>>>>>>>
->>>>>>>> Can this ever fail?
->>>>>>>>
->>>>>>> If the q->type passed is not supported by driver then it can fail.
->>>>>>
->>>>>> But it is the driver that sets q->type when the vb2_queue is initialized.
->>>>>> So it makes no sense to test it here, it would be a driver bug if this fails.
->>>>>>
->>>>> Ok, Will remove this check.
->>>>>>>>> +		ret = -EINVAL;
->>>>>>>>> +		goto unlock;
->>>>>>>>> +	}
->>>>>>>>> +
->>>>>>>>> +	if (!inst->once_per_session_set) {
->>>>>>>>> +		inst->once_per_session_set = true;
->>>>>>>>> +
->>>>>>>>> +		ret = core->hfi_ops->session_open(inst);
->>>>>>>>> +		if (ret) {
->>>>>>>>> +			ret = -EINVAL;
->>>>>>>>> +			dev_err(core->dev, "session open failed\n");
->>>>>>>>> +			goto unlock;
->>>>>>>>> +		}
->>>>>>>>> +	}
->>>>>>>>> +
->>>>>>>>> +	buffers = &inst->buffers[buffer_type];
->>>>>>>>> +	if (!buffers) {
->>>>>>>>
->>>>>>>> This definitely can never fail.
->>>>>>>>
->>>>>>> Right, will remove the check.
->>>>>>>>> +		ret = -EINVAL;
->>>>>>>>> +		goto unlock;
->>>>>>>>> +	}
->>>>>>>>> +
->>>>>>>>> +	buffers->min_count = iris_vpu_buf_count(inst, buffer_type);
->>>>>>>>> +	buffers->actual_count = *num_buffers;
->>>>>>>>
->>>>>>>> Don't mirror the number of buffers in actual_count, instead just always
->>>>>>>> ask for the number of buffers using vb2_get_num_buffers().
->>>>>>>>
->>>>>>>> This code is wrong anyway, since actual_count isn't updated if more
->>>>>>>> buffers are added using VIDIOC_CREATEBUFS.
->>>>>>>>
->>>>>>> Ok, so below would fix the VIDIOC_CREATEBUFS as well, right?
->>>>>>> - buffers->actual_count = *num_buffers;
->>>>>>> + buffers->actual_count = vb2_get_num_buffers();
->>>>> Does this look good?
->>>>
->>>> No. You shouldn't have the actual_count field at all, especially since I see that
->>>> you set it in several places. vb2_get_num_buffers() reports the current number of
->>>> buffers, which can change if userspace calls VIDIOC_CREATE_BUFS or REMOVE_BUFS.
->>>>
->>>> You shouldn't try to mirror that value yourself. If you need that information,
->>>> then call vb2_get_num_buffers().
->>>>
->>>> There are weird things going on in your driver w.r.t. actual_count and also min_count
->>>> (and I saw a count_actual as well, very confusing).
->>>>
->>>> I'm not sure what you are trying to achieve, but it doesn't look right.
->>>>
->>> We need to set the value of actual buffers being queued to firmware via a
->>> property, for that we are caching the value in actual_count so that we can
->>> set it to fw when needed.
->>
->> So do you need to know the number of allocated buffers, or the number of
->> buffers queued to the device instance?
->>
->> The first is reported by vb2_get_num_buffers(), the second is something
->> you can keep track of yourself: a buffer is queued in the buf_queue op and
->> dequeued when vb2_buffer_done is called. But this has nothing to do with
->> what happens in queue_setup.
->>
-> We need to know the number of allocated buffers, hence using
-> vb2_get_num_buffers() is fine as you said.
+Hey Yunfei,
 
-Why do you need this? Are the buffer addresses also passed to the fw?
+On 20.07.2024 15:15, Yunfei Dong wrote:
+>The patch series used to enable secure video playback (SVP) on MediaTek
+>hardware in the Linux kernel.
 
-Remember that buffer memory is only allocated when using V4L2_MEMORY_MMAP.
-In the DMABUF case it just allocates vb2_buffer structs, not the actual
-buffer memory. So a buffer can be dequeued and the corresponding dmabuf
-closed (so the memory is freed) by the application.
-
-In other words, vb2_get_num_buffers() reports the number of allocated
-vb2_buffer structs, but not the actual number of buffers in memory, that
-might be different in the DMABUF case.
-
-What exactly is the firmware using this number for? What does it expect
-it contains?
+I will set this series as obsolete for now, please answer the open
+questions on your patches and then send a new series.
 
 Regards,
+Sebastian
 
-	Hans
+>
+>Memory Definitions:
+>secure memory - Memory allocated in the TEE (Trusted Execution
+>Environment) which is inaccessible in the REE (Rich Execution
+>Environment, i.e. linux kernel/user space).
+>secure handle - Integer value which acts as reference to 'secure
+>memory'. Used in communication between TEE and REE to reference
+>'secure memory'.
+>secure buffer - 'secure memory' that is used to store decrypted,
+>compressed video or for other general purposes in the TEE.
+>secure surface - 'secure memory' that is used to store graphic buffers.
+>
+>Memory Usage in SVP:
+>The overall flow of SVP starts with encrypted video coming in from an
+>outside source into the REE. The REE will then allocate a 'secure
+>buffer' and send the corresponding 'secure handle' along with the
+>encrypted, compressed video data to the TEE. The TEE will then decrypt
+>the video and store the result in the 'secure buffer'. The REE will
+>then allocate a 'secure surface'. The REE will pass the 'secure
+>handles' for both the 'secure buffer' and 'secure surface' into the
+>TEE for video decoding. The video decoder HW will then decode the
+>contents of the 'secure buffer' and place the result in the 'secure
+>surface'. The REE will then attach the 'secure surface' to the overlay
+>plane for rendering of the video.
+>
+>Everything relating to ensuring security of the actual contents of the
+>'secure buffer' and 'secure surface' is out of scope for the REE and
+>is the responsibility of the TEE.
+>
+>This patch series is consists of four parts. The first is from Jeffrey,
+>adding secure memory flag in v4l2 framework to support request secure
+>buffer.
+>
+>The second and third parts are from John and T.J, adding some heap
+>interfaces, then our kernel users could allocate buffer from special
+>heap. The patch v1 is inside below dmabuf link.
+>https://lore.kernel.org/linux-mediatek/20230911023038.30649-1-yong.wu@mediatek.com/
+>To avoid confusing, move them into vcodec patch set since we use the
+>new interfaces directly.
+>
+>The last part is mediatek video decoder driver, adding tee interface and
+>decoder driver to support secure video playback.
+>
+>This patch set depends on "dma-buf: heaps: Add restricted heap"[1]
+>
+>[1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=853380
+>---
+>Changed in v7:
+>- fix many reviewer's comments
+>- build optee driver to ko
+>- support h264 svp and non svp vsi
+>
+>Changed in v6:
+>- fix unreasonable logic for patch 2/3/23
+>- add to support vp9 for patch 24
+>
+>Changed in v5:
+>- fix merge conflict when rebase to latest media stage for patch 1/2
+>- change allocate memory type to cma for patch 12
+>- add to support av1 for patch 23
+>
+>Changed in v4:
+>- change the driver according to maintainer advice for patch 1/2/3/4
+>- replace secure with restricted for patch 1/2/3/4
+>- fix svp decoder error for patch 21
+>- add to support hevc for patch 22
+>
+>Changed in v3:
+>- rewrite the cover-letter of this patch series
+>- disable irq for svp mode
+>- rebase the driver based on the latest media stage
+>
+>Changed in v2:
+>- remove setting decoder mode and getting secure handle from decode
+>- add Jeffrey's patch
+>- add John and T.J's patch
+>- getting secure flag with request buffer
+>- fix some comments from patch v1
+>---
+>Jeffrey Kardatzke (2):
+>  v4l2: add restricted memory flags
+>  v4l2: handle restricted memory flags in queue setup
+>
+>John Stultz (2):
+>  dma-heap: Add proper kref handling on dma-buf heaps
+>  dma-heap: Provide accessors so that in-kernel drivers can allocate
+>    dmabufs from specific heaps
+>
+>T.J. Mercier (1):
+>  dma-buf: heaps: Deduplicate docs and adopt common format
+>
+>Xiaoyong Lu (1):
+>  media: mediatek: vcodec: support av1 svp decoder for mt8188
+>
+>Yilong Zhou (1):
+>  media: mediatek: vcodec: support vp9 svp decoder for mt8188
+>
+>Yunfei Dong (21):
+>  media: videobuf2: calculate restricted memory size
+>  media: mediatek: vcodec: add tee client interface to communiate with
+>    optee-os
+>  media: mediatek: vcodec: build decoder OPTEE driver as module
+>  media: mediatek: vcodec: allocate tee share memory
+>  media: mediatek: vcodec: send share memory data to optee
+>  media: mediatek: vcodec: initialize msg and vsi information
+>  media: mediatek: vcodec: add interface to allocate/free secure memory
+>  media: mediatek: vcodec: using shared memory as vsi address
+>  media: mediatek: vcodec: add single allocation format
+>  media: mediatek: vcodec: support single allocation format
+>  media: mediatek: vcodec: support single allocation buffer
+>  media: mediatek: vcodec: re-construct h264 driver to support svp mode
+>  media: mediatek: vcodec: remove parse nal_info in kernel
+>  media: mediatek: vcodec: disable wait interrupt for svp mode
+>  media: mediatek: vcodec: support tee decoder
+>  media: mediatek: vcodec: move vdec init interface to setup callback
+>  media: mediatek: vcodec: support hevc svp for mt8188
+>  media: mediatek: vcodec: remove vsi data from common interface
+>  media: mediatek: vcodec: rename vsi to extend vsi
+>  media: mediatek: vcodec: adding non extend struct
+>  media: mediatek: vcodec: support extend h264 driver
+>
+> .../userspace-api/media/v4l/buffer.rst        |  10 +-
+> .../media/v4l/pixfmt-reserved.rst             |   7 +
+> .../media/v4l/vidioc-reqbufs.rst              |   6 +
+> drivers/dma-buf/dma-heap.c                    | 139 ++++-
+> .../media/common/videobuf2/videobuf2-core.c   |  29 +
+> .../common/videobuf2/videobuf2-dma-contig.c   |  34 +-
+> .../media/common/videobuf2/videobuf2-v4l2.c   |   4 +-
+> .../media/platform/mediatek/vcodec/Kconfig    |  13 +
+> .../mediatek/vcodec/common/mtk_vcodec_util.c  | 117 +++-
+> .../mediatek/vcodec/common/mtk_vcodec_util.h  |   8 +-
+> .../platform/mediatek/vcodec/decoder/Makefile |   4 +
+> .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 152 +++--
+> .../vcodec/decoder/mtk_vcodec_dec_drv.c       |   8 +
+> .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  11 +
+> .../vcodec/decoder/mtk_vcodec_dec_hw.c        |  34 +-
+> .../vcodec/decoder/mtk_vcodec_dec_optee.c     | 391 +++++++++++++
+> .../vcodec/decoder/mtk_vcodec_dec_optee.h     | 198 +++++++
+> .../vcodec/decoder/mtk_vcodec_dec_pm.c        |   6 +-
+> .../vcodec/decoder/mtk_vcodec_dec_stateless.c |  35 +-
+> .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c | 104 ++--
+> .../decoder/vdec/vdec_h264_req_common.c       |  18 +-
+> .../decoder/vdec/vdec_h264_req_multi_if.c     | 536 +++++++++++++++++-
+> .../decoder/vdec/vdec_hevc_req_multi_if.c     |  88 +--
+> .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 101 ++--
+> .../mediatek/vcodec/decoder/vdec_drv_if.c     |   4 +-
+> .../mediatek/vcodec/decoder/vdec_msg_queue.c  |   9 +-
+> .../mediatek/vcodec/decoder/vdec_vpu_if.c     |  51 +-
+> .../mediatek/vcodec/decoder/vdec_vpu_if.h     |   4 +
+> drivers/media/v4l2-core/v4l2-common.c         |   2 +
+> drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+> include/linux/dma-heap.h                      |  29 +-
+> include/media/videobuf2-core.h                |   8 +-
+> include/uapi/linux/videodev2.h                |   3 +
+> 33 files changed, 1868 insertions(+), 296 deletions(-)
+> create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c
+> create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.h
+>
+>-- 
+>2.18.0
+>
+Sebastian Fricke
+Consultant Software Engineer
 
-> 
-> But would want to cache this in internal buffer strcuture in queue_setup,
-> to be able to use later while setting to firmware.
-> 
-> Thanks,
-> Dikshita
->> Regards,
->>
->> 	Hans
->>
->>>
->>> count_actual is the variable of the hfi struture being filled to set the
->>> property to fw,
->>> ---
->>> u32 ptype = HFI_PROPERTY_PARAM_BUFFER_COUNT_ACTUAL;
->>> struct hfi_buffer_count_actual buf_count;
->>> int ret;
->>>
->>> buf_count.type = HFI_BUFFER_INPUT;
->>> buf_count.count_actual = inst->buffers[BUF_INPUT].actual_count;
->>> ---
->>>
->>> Calling vb2_get_num_buffers from HFI layer will violate the current design
->>> of driver so will need to cache this info in upper layer, best place to do
->>> that seems to be queue_setup which is called from both VIDIOC_REQBUFS and
->>> VIDIOC_CREATE_BUFS.
->>> Any other suggestions for the same?
->>>
->>> To avoid the confusion, I can rename the actual_count to count_actual to
->>> match with hfi structure.
->>> Also, I can cleanup some part of driver where this variable is being
->>> updated un-necessarily.
->>> This is only needed to set the property to firmware as explained above.
->>>
->>> min_count holds the min numbers of buffer needed by firmware for the
->>> particluar session, it can be changed by firmware if source changes.
->>>
->>> Thanks,
->>> Dikshita
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>>>
->>>>> Thanks,
->>>>> Dikshita
-
+Collabora Ltd
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales no 5513718.
 
