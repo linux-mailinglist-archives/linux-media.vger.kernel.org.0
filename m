@@ -1,275 +1,158 @@
-Return-Path: <linux-media+bounces-21376-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21377-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F2A9C6EFF
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 13:25:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821359C6F04
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 13:26:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6444A1F219A8
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 12:25:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 38A951F22452
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 12:26:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5613A1FF7D9;
-	Wed, 13 Nov 2024 12:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="f2CuR81N"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22F161FF7D9;
+	Wed, 13 Nov 2024 12:26:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32811FF035;
-	Wed, 13 Nov 2024 12:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731500732; cv=pass; b=Lw4AMxrl3yN9SIokbJ3/pJUex6v9e1vc78C6Ke6aP6tXNdxyPluPW28tqTLMfZnVu9r04ssgKSQaVBxMQp1wjZi/FO5yvOq41t8caZt8cZ1i0Xf92yHqXPNrV2DeVgAgilAlEPBSvbfY0f2ajJBko50tmUqM9OXSU3Ssu3pHx8Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731500732; c=relaxed/simple;
-	bh=kpjzASFRdzHAUKP5n9kMLbj2GjUbBvrQh7pg8+l7czY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=thwCF39Oo/m8DLzq83NhKBwYCAkaGJgW+dw+vk3G6ia3Mmc6gqNCWOb88KqZEe6PLNajTf+dsGnA7+yX/BJ0fHi1FrqwTxx8y0J9SWlH8IxJSrS+Tyx4cZAD7cRBTInQzfBksPINxVXklbEcQfYqYkDqeqEx70yQ6eHnKKS0UXA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=f2CuR81N; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1731500460; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YU32egpaxQ3LPMkiCEiwlYinPgTJcYopTk+puFDwuHW/9RO5p79wjM2Ui4SYu+wL/frHuZzuy8fUUQTuKVqqr0T0NMV/4+9fM7PJU9cqkYbDQ6Gq107WiMmUYHcuOuX8UKmuuA16yr0+peWn38u9D2nDz6YNXKAJ+ZJ7WY8pYqo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1731500460; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=YAXiNxl+L7WvMZzLtoh1AuLuo/AJ/EmyL8yk+YhQn7E=; 
-	b=Z+/3iUD44BYjzAGUq1cHO2bPj4wbjXN+ayl1Ka83L0+w1xcfYti/g3ZFtC2uZ4mtChZTn2nwlwi+DvPH2yfq9ezukDbOMZrolxlGcZ8mmfaBdeihUssIFVoz4iAz8trakaEKK0Fp/Th+ulWtxq/OnFN2UcGPl3JXDgO03ORpffc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731500460;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=YAXiNxl+L7WvMZzLtoh1AuLuo/AJ/EmyL8yk+YhQn7E=;
-	b=f2CuR81N5f/eoPkL/+BDc6R275zeJ5SoF4H0cw9lo8TS+M/VEfcid4otwyE/SIj4
-	TbuBF/mb2W5vpti7JxV6wbckZ3lQNM1JlQER4u9BpJT2NKBkm5CPoLyH7wDWMVnR8OX
-	FZ7TlWHYFnUhP4hgflIVi4h5U8IU5DiK5qae+G2I=
-Received: by mx.zohomail.com with SMTPS id 1731500458968391.5228104021975;
-	Wed, 13 Nov 2024 04:20:58 -0800 (PST)
-Date: Wed, 13 Nov 2024 13:20:51 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: Jeffrey Kardatzke <jkardatzke@google.com>,
-	=?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
-	Nathan Hebert <nhebert@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T . J . Mercier" <tjmercier@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v7 00/28] media: mediatek: add driver to support secure
- video decoder
-Message-ID: <20241113122051.u3iq3ci7iwrvt3mx@basti-XPS-13-9310>
-References: <20240720071606.27930-1-yunfei.dong@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEAC41FF5F9
+	for <linux-media@vger.kernel.org>; Wed, 13 Nov 2024 12:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731500791; cv=none; b=ZnmfAdctIRCw1FMndZ6ORkdXvspMIwzq9DJYaCeZBL9Rq4AVqwd1iOXqNK6Xd5zWYeX7RQ1x/hveXcBiifiKnTRZ6lTJDEz+TBrNPRqj8gN3pzHC75VxxF7PABr2vOe7wsVdRVDGXd+Bxa73e6LylyatxPpDKd2su+phPsHCPM4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731500791; c=relaxed/simple;
+	bh=Jah/dWFhU9fmnHb31STtUPR95DsEe16PaJWU7UzOLGM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o/0jBHlGTJWtX7hT7lilC/Adb/b3hqbXut42Qk12J6hwifMDUm+6TCme+MN9PJuGrbJ6gbSqcNyPgEmCxq7++v1CxWgIlfdMs6blcy6GYDV8RaZzKhy1QvSLen74M9dA8aiE1UneOBEeCq4oykzkPD5V8tL5wvToNZcGOdpQjDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E3BCC4CECD;
+	Wed, 13 Nov 2024 12:26:28 +0000 (UTC)
+Message-ID: <846db937-9445-4f5c-b8fe-7c973522a3a1@xs4all.nl>
+Date: Wed, 13 Nov 2024 13:26:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240720071606.27930-1-yunfei.dong@mediatek.com>
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 4/4] media: v4l: ctrl: Add V4L2_CID_CONFIG_MODEL control
+Content-Language: en-US
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+ Alexander Shiyan <eagle.alexander923@gmail.com>,
+ Mikhail Rudenko <mike.rudenko@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Julien Massot <julien.massot@collabora.com>,
+ Naushir Patuck <naush@raspberrypi.com>
+References: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
+ <20241011075535.588140-5-sakari.ailus@linux.intel.com>
+ <137d5e38-b9fd-4274-8877-e5f71365242c@xs4all.nl>
+ <ZzRkwVlNLzXQmWoK@kekkonen.localdomain>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <ZzRkwVlNLzXQmWoK@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hey Yunfei,
+On 11/13/24 09:35, Sakari Ailus wrote:
+> Hi Hans,
+> 
+> Thank you for the review.
+> 
+> On Wed, Nov 13, 2024 at 09:03:57AM +0100, Hans Verkuil wrote:
+>> On 11/10/2024 09:55, Sakari Ailus wrote:
+>>> Add the V4L2_CID_CONFIG_MODEL control for the configuration model.
+>>>
+>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>> ---
+>>>  .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 4 ++++
+>>>  .../userspace-api/media/v4l/subdev-config-model.rst          | 2 ++
+>>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c                    | 5 +++++
+>>>  include/uapi/linux/v4l2-controls.h                           | 3 +++
+>>>  4 files changed, 14 insertions(+)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+>>> index 27803dca8d3e..928e8e3eed7f 100644
+>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+>>> @@ -55,3 +55,7 @@ Image Process Control IDs
+>>>      control value divided by e.g. 0x100, meaning that to get no
+>>>      digital gain the control value needs to be 0x100. The no-gain
+>>>      configuration is also typically the default.
+>>> +
+>>> +``V4L2_CID_CONFIG_MODEL (bitmask)``
+>>> +    Which configuration models the sub-device supports. Please see
+>>> +    :ref:`media_subdev_config_model`.
+>>
+>> First of all the naming is confusing: since this is specific to sub-devices, it
+>> should at least have 'SUBDEV' in the name. I first thought this reported the
+> 
+> I don't object in principle, but the reason why I didn't add that in v1 was
+> the names would get quite long. Maybe V4L2_CID_SUBDEV_CFG_MODEL?
+> 
+>> model name or something like that, I'm not sure "configuration model" is a very
+>> good name.
+> 
+> Feel free to propose a different one. :-)
 
-On 20.07.2024 15:15, Yunfei Dong wrote:
->The patch series used to enable secure video playback (SVP) on MediaTek
->hardware in the Linux kernel.
+I would, if I understood what you intend to achieve :-)
 
-I will set this series as obsolete for now, please answer the open
-questions on your patches and then send a new series.
+> 
+>>
+>> Secondly, is this supposed to be valid for all subdevices? Only for sensors?
+>> Would an HDMI-to-CSI bridge qualify?
+> 
+> I think it could but we should have a use case for it. In other words,
+> something we can't reasonably express using existing means. In this case
+> it's a number of interfaces and device type specific behaviour (see the 3rd
+> patch).
+> 
+>>
+>> Thirdly, only V4L2_CID_CONFIG_MODEL_COMMON_RAW is defined right now. What other
+>> models do you have in mind? What models can co-exist (since this is a bitmask)?
+> 
+> We could have different raw camera models if needed. I don't have any
+> planned right now, though.
+> 
+>>
+>> Finally, why choose a control for this? Should this perhaps be better done as
+>> a field in media_entity_desc/media_v2_entity?
+> 
+> I don't think it's a great fit. This is largely about V4L2 (to some but
+> lesser extent about MC) and we traditionally have avoided MC -> V4L2
+> dependencies.
+> 
+
+It sounds a bit like you want to report what Mauro calls a 'Profile'.
+
+But I would expect the control to be an enum and not a bitmask, since I
+would expect a device to fit just a single configuration mode, and not
+multiple modes.
+
+Also, V4L2_CID_CONFIG_MODEL_COMMON_RAW applies only to sensors, right?
+So this should be V4L2_CID_CONFIG_MODEL_SENSOR_COMMON_RAW. But what is
+common about it and what is raw about it?
+
+Isn't it the case that pretty much all sensor drivers fall into this
+category?
+
+The only reason I see for this is if there are actually other configuration
+modes going to be added in the near future.
+
+What I am missing in this RFC is a high-level view of why it is needed and
+how it is going to be used.
+
+Perhaps I missed a discussion on linux-media?
 
 Regards,
-Sebastian
 
->
->Memory Definitions:
->secure memory - Memory allocated in the TEE (Trusted Execution
->Environment) which is inaccessible in the REE (Rich Execution
->Environment, i.e. linux kernel/user space).
->secure handle - Integer value which acts as reference to 'secure
->memory'. Used in communication between TEE and REE to reference
->'secure memory'.
->secure buffer - 'secure memory' that is used to store decrypted,
->compressed video or for other general purposes in the TEE.
->secure surface - 'secure memory' that is used to store graphic buffers.
->
->Memory Usage in SVP:
->The overall flow of SVP starts with encrypted video coming in from an
->outside source into the REE. The REE will then allocate a 'secure
->buffer' and send the corresponding 'secure handle' along with the
->encrypted, compressed video data to the TEE. The TEE will then decrypt
->the video and store the result in the 'secure buffer'. The REE will
->then allocate a 'secure surface'. The REE will pass the 'secure
->handles' for both the 'secure buffer' and 'secure surface' into the
->TEE for video decoding. The video decoder HW will then decode the
->contents of the 'secure buffer' and place the result in the 'secure
->surface'. The REE will then attach the 'secure surface' to the overlay
->plane for rendering of the video.
->
->Everything relating to ensuring security of the actual contents of the
->'secure buffer' and 'secure surface' is out of scope for the REE and
->is the responsibility of the TEE.
->
->This patch series is consists of four parts. The first is from Jeffrey,
->adding secure memory flag in v4l2 framework to support request secure
->buffer.
->
->The second and third parts are from John and T.J, adding some heap
->interfaces, then our kernel users could allocate buffer from special
->heap. The patch v1 is inside below dmabuf link.
->https://lore.kernel.org/linux-mediatek/20230911023038.30649-1-yong.wu@mediatek.com/
->To avoid confusing, move them into vcodec patch set since we use the
->new interfaces directly.
->
->The last part is mediatek video decoder driver, adding tee interface and
->decoder driver to support secure video playback.
->
->This patch set depends on "dma-buf: heaps: Add restricted heap"[1]
->
->[1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=853380
->---
->Changed in v7:
->- fix many reviewer's comments
->- build optee driver to ko
->- support h264 svp and non svp vsi
->
->Changed in v6:
->- fix unreasonable logic for patch 2/3/23
->- add to support vp9 for patch 24
->
->Changed in v5:
->- fix merge conflict when rebase to latest media stage for patch 1/2
->- change allocate memory type to cma for patch 12
->- add to support av1 for patch 23
->
->Changed in v4:
->- change the driver according to maintainer advice for patch 1/2/3/4
->- replace secure with restricted for patch 1/2/3/4
->- fix svp decoder error for patch 21
->- add to support hevc for patch 22
->
->Changed in v3:
->- rewrite the cover-letter of this patch series
->- disable irq for svp mode
->- rebase the driver based on the latest media stage
->
->Changed in v2:
->- remove setting decoder mode and getting secure handle from decode
->- add Jeffrey's patch
->- add John and T.J's patch
->- getting secure flag with request buffer
->- fix some comments from patch v1
->---
->Jeffrey Kardatzke (2):
->  v4l2: add restricted memory flags
->  v4l2: handle restricted memory flags in queue setup
->
->John Stultz (2):
->  dma-heap: Add proper kref handling on dma-buf heaps
->  dma-heap: Provide accessors so that in-kernel drivers can allocate
->    dmabufs from specific heaps
->
->T.J. Mercier (1):
->  dma-buf: heaps: Deduplicate docs and adopt common format
->
->Xiaoyong Lu (1):
->  media: mediatek: vcodec: support av1 svp decoder for mt8188
->
->Yilong Zhou (1):
->  media: mediatek: vcodec: support vp9 svp decoder for mt8188
->
->Yunfei Dong (21):
->  media: videobuf2: calculate restricted memory size
->  media: mediatek: vcodec: add tee client interface to communiate with
->    optee-os
->  media: mediatek: vcodec: build decoder OPTEE driver as module
->  media: mediatek: vcodec: allocate tee share memory
->  media: mediatek: vcodec: send share memory data to optee
->  media: mediatek: vcodec: initialize msg and vsi information
->  media: mediatek: vcodec: add interface to allocate/free secure memory
->  media: mediatek: vcodec: using shared memory as vsi address
->  media: mediatek: vcodec: add single allocation format
->  media: mediatek: vcodec: support single allocation format
->  media: mediatek: vcodec: support single allocation buffer
->  media: mediatek: vcodec: re-construct h264 driver to support svp mode
->  media: mediatek: vcodec: remove parse nal_info in kernel
->  media: mediatek: vcodec: disable wait interrupt for svp mode
->  media: mediatek: vcodec: support tee decoder
->  media: mediatek: vcodec: move vdec init interface to setup callback
->  media: mediatek: vcodec: support hevc svp for mt8188
->  media: mediatek: vcodec: remove vsi data from common interface
->  media: mediatek: vcodec: rename vsi to extend vsi
->  media: mediatek: vcodec: adding non extend struct
->  media: mediatek: vcodec: support extend h264 driver
->
-> .../userspace-api/media/v4l/buffer.rst        |  10 +-
-> .../media/v4l/pixfmt-reserved.rst             |   7 +
-> .../media/v4l/vidioc-reqbufs.rst              |   6 +
-> drivers/dma-buf/dma-heap.c                    | 139 ++++-
-> .../media/common/videobuf2/videobuf2-core.c   |  29 +
-> .../common/videobuf2/videobuf2-dma-contig.c   |  34 +-
-> .../media/common/videobuf2/videobuf2-v4l2.c   |   4 +-
-> .../media/platform/mediatek/vcodec/Kconfig    |  13 +
-> .../mediatek/vcodec/common/mtk_vcodec_util.c  | 117 +++-
-> .../mediatek/vcodec/common/mtk_vcodec_util.h  |   8 +-
-> .../platform/mediatek/vcodec/decoder/Makefile |   4 +
-> .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 152 +++--
-> .../vcodec/decoder/mtk_vcodec_dec_drv.c       |   8 +
-> .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  11 +
-> .../vcodec/decoder/mtk_vcodec_dec_hw.c        |  34 +-
-> .../vcodec/decoder/mtk_vcodec_dec_optee.c     | 391 +++++++++++++
-> .../vcodec/decoder/mtk_vcodec_dec_optee.h     | 198 +++++++
-> .../vcodec/decoder/mtk_vcodec_dec_pm.c        |   6 +-
-> .../vcodec/decoder/mtk_vcodec_dec_stateless.c |  35 +-
-> .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c | 104 ++--
-> .../decoder/vdec/vdec_h264_req_common.c       |  18 +-
-> .../decoder/vdec/vdec_h264_req_multi_if.c     | 536 +++++++++++++++++-
-> .../decoder/vdec/vdec_hevc_req_multi_if.c     |  88 +--
-> .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 101 ++--
-> .../mediatek/vcodec/decoder/vdec_drv_if.c     |   4 +-
-> .../mediatek/vcodec/decoder/vdec_msg_queue.c  |   9 +-
-> .../mediatek/vcodec/decoder/vdec_vpu_if.c     |  51 +-
-> .../mediatek/vcodec/decoder/vdec_vpu_if.h     |   4 +
-> drivers/media/v4l2-core/v4l2-common.c         |   2 +
-> drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
-> include/linux/dma-heap.h                      |  29 +-
-> include/media/videobuf2-core.h                |   8 +-
-> include/uapi/linux/videodev2.h                |   3 +
-> 33 files changed, 1868 insertions(+), 296 deletions(-)
-> create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c
-> create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.h
->
->-- 
->2.18.0
->
-Sebastian Fricke
-Consultant Software Engineer
-
-Collabora Ltd
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales no 5513718.
+	Hans
 
