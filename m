@@ -1,659 +1,771 @@
-Return-Path: <linux-media+bounces-21373-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21374-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B589C6DED
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 12:35:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E867B9C6DCF
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 12:26:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3881AB2E4B5
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 11:22:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A04D1F21CFC
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 11:26:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 396E1200CA5;
-	Wed, 13 Nov 2024 11:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEC8D1FF5EA;
+	Wed, 13 Nov 2024 11:26:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="E3xvT71V"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="GqpR5kub"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C7A1FF035;
-	Wed, 13 Nov 2024 11:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731496831; cv=none; b=MXK/oL//q4CEQSSCzrBsYszhkX1oqQy2S9322exbzF9vnxzG/O/B7hqiPLUNkH5CmQefx0U/zxsGt5eLA8jSMQcMNOfa0P6kvCzgyLs9TLgBFUq/lAZPzTqMZi4ttfbKpicFuMDqwB1+kxW7KSN20xMyYwyddZ3cnPBkKZ4AwtA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731496831; c=relaxed/simple;
-	bh=PI4mIVQjfm1uvQYOvmCtta58uIX3/Hz5aNxDFsVi8eI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=m/BJgLRyPazke1USSGTGeToKIFtD6e+w8MFPb1b+S0EzWexbqXp3/Jf7cxNhZh3FU/FLuytSBXqYG8sOCfYUnUAwfe8IexvX4LdRi+C6HR94Wl6xqXga1iFee9j7L8N6/xsFIsrkhtOy1K2thOvjnKMGcrGmm/YsmjlPc5r+IBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=E3xvT71V; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AD34DVj030398;
-	Wed, 13 Nov 2024 11:20:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YclLFClnIadFFq9IG0BbI2S5vIVuVH0ple1Eg+A+7qs=; b=E3xvT71VYhOEaieO
-	HliuewCf+dNOSeZBjVWlnvSbcGgGaOrgfe7Zev5ZMCgzUzNtgaXbWjbXuPONDRV9
-	6YHqub08naI1SueQczINZF2CP79TEvXmMG7Sk8l2rrwO3Pyct4c+X75VczuGHQY3
-	jhUt3s95/UVVhFgn06uV3x317+yCjmlibnlMso/X5mqvZKHopAcffez4BrgGHxk4
-	7rujUVAnS9lsVFlqBsW/12oTUEHNylcbA5P7OxIZVluvHKt6sUf4vELgLCYirljH
-	vjJp4UpHVUWV2cgEskR8m2A4XCzNeiUhvAK0SI2DeM93xGxWCXD4KtsIo6ADl4LU
-	MfomJg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42vkvr968n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Nov 2024 11:20:18 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ADBKHqd010027
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Nov 2024 11:20:17 GMT
-Received: from [10.50.46.32] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 13 Nov
- 2024 03:20:10 -0800
-Message-ID: <fa91d95a-2bcd-5768-02d7-4f80e4e006d9@quicinc.com>
-Date: Wed, 13 Nov 2024 16:50:07 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCB31F80AF;
+	Wed, 13 Nov 2024 11:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731497173; cv=pass; b=S8ZIl/FhNIYkXuEtkLIrl38ZsEnq8zF9O61k8YzkZf3jZCPm4zedOH3NlDiUP6Mzwxzcbw4KqREGVe2VTpzVvjNPhhyZE+3Nd2GQKkncBTrNUF4v4+ezWF8+pI/RtsSSZaQZCZ2d5ybd3XpzbbNvrnu5r++qFvvZ4RCsuW4jjIA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731497173; c=relaxed/simple;
+	bh=/MDMMHvnfzrRN4VnXVVwOrTCp0Akujmd9RTY74kqoy8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fPAdH+J2QdgY0ZvXVyaE+RVW5LsjSYxhItKubDQzTYJZwHoLy5GOT0fWA0TElYsDI+Hf+2j8PUK6aIJxpbnQSywMXDm/Z4/A7fNLkRISVJ2FO9cOUSuhSsJlrV+METjgP/siKK7LwmrrhM5t8UHvn5g/z/PjAwL4O11G89TbQp4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=GqpR5kub; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1731497148; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=BDFEJf9GIyc4RHxJc8XYPSIMPBRTPpS63EDM4lQT1P/iFJBtXJQ8SnrvkX/SVWPBKzJwFc4I4TViVIcQGIA+FAqmp2bVMATDrGbRTojf4LufHlbc3+D7MO+czPwEg/+dT53cDi5eTVO/T2TJHkihgetXdyM0+ZwBzWFWjxZhbA0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1731497148; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=so4J+9LwW3+lm6S1phPy5Hzfwcdrtp8EKkXN9WNrtks=; 
+	b=MQptmNTYW+Ujjk/h0UqHjk+7D6tsLTGfxawRc/KG7JwPpkWB7lI0FZEVcgFfhM3sHDac7xk6Saft98qxT6XK9gpt8dZpgu3UAcg3DdXLtC6yOCv3tjQUGB5sYG+0NFCE9HR6PC209Hx9PLeU3QBNUqPbyCE3N1d6wvlUNi5a0iQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731497148;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=so4J+9LwW3+lm6S1phPy5Hzfwcdrtp8EKkXN9WNrtks=;
+	b=GqpR5kubUHm5LQj0FzFBMAqfBFFeAwi4UhHVzMrdXibRYptHktRotDv34YxX30Qd
+	UnvR5UkM174CkQLFYXprpoUL7VmRT3REWpxhTALUpc7UOrqV8jpwEMbbLsow054/HoS
+	HMxVvtLlck+VPkk2k0YtqgOO56duPDf3pr8w6cZA=
+Received: by mx.zohomail.com with SMTPS id 1731497137493340.80122145821576;
+	Wed, 13 Nov 2024 03:25:37 -0800 (PST)
+Date: Wed, 13 Nov 2024 12:25:33 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
+	mchehab@kernel.org, kernel@collabora.com, bob.beckett@collabora.com,
+	nicolas.dufresne@collabora.com
+Subject: Re: [PATCH v2 1/2] docs: Add debugging section to process
+Message-ID: <20241113112533.eph4c63exgjqsgh7@basti-XPS-13-9310>
+References: <20241028-media_docs_improve_v3-v2-0-f350f98e1870@collabora.com>
+ <20241028-media_docs_improve_v3-v2-1-f350f98e1870@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v5 09/28] media: iris: implement reqbuf ioctl with
- vb2_queue_setup
-Content-Language: en-US
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Nicolas Dufresne
-	<nicolas@ndufresne.ca>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=
-	<u.kleine-koenig@baylibre.com>,
-        Jianhua Lu <lujianhua000@gmail.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com>
- <20241105-qcom-video-iris-v5-9-a88e7c220f78@quicinc.com>
- <96966b66-a93a-4675-8d28-6fe9152644b8@xs4all.nl>
- <0fb27983-e253-3375-1c01-bfad7d05485c@quicinc.com>
- <d4fb8e3e-d19e-4af5-8a16-8b8b53c3530e@xs4all.nl>
- <1360d885-52f1-9dbc-7beb-23ac58ec8ff0@quicinc.com>
- <0afd368a-36ed-4415-977b-abf6d245b754@xs4all.nl>
- <98696180-a40f-deca-13f3-e3636a0d9d16@quicinc.com>
- <ac01378f-1375-45bd-9369-187645657db9@xs4all.nl>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <ac01378f-1375-45bd-9369-187645657db9@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: HSzQqFTmNNtPt4kvUEcPgdUI0y7071Tm
-X-Proofpoint-GUID: HSzQqFTmNNtPt4kvUEcPgdUI0y7071Tm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- phishscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501
- bulkscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2411130099
+Content-Type: multipart/mixed; boundary="6zqfebw3lp2d5uji"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241028-media_docs_improve_v3-v2-1-f350f98e1870@collabora.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.3.1/231.456.83
+X-ZohoMailClient: External
 
 
+--6zqfebw3lp2d5uji
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 11/13/2024 4:45 PM, Hans Verkuil wrote:
-> On 11/13/24 11:32, Dikshita Agarwal wrote:
->>
->>
->> On 11/13/2024 2:52 PM, Hans Verkuil wrote:
->>> On 13/11/2024 10:00, Dikshita Agarwal wrote:
->>>>
->>>>
->>>> On 11/13/2024 1:18 PM, Hans Verkuil wrote:
->>>>> On 13/11/2024 07:19, Dikshita Agarwal wrote:
->>>>>>
->>>>>>
->>>>>> On 11/12/2024 3:20 PM, Hans Verkuil wrote:
->>>>>>> On 05/11/2024 07:55, Dikshita Agarwal wrote:
->>>>>>>> Implement reqbuf IOCTL op and vb2_queue_setup vb2 op in the driver with
->>>>>>>> necessary hooks.
->>>>>>>>
->>>>>>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->>>>>>>> ---
->>>>>
->>>>> <snip>
->>>>>
->>>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c b/drivers/media/platform/qcom/iris/iris_vb2.c
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..61033f95cdba
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_vb2.c
->>>>>>>> @@ -0,0 +1,74 @@
->>>>>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>>>>> +/*
->>>>>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>>>>>>> + */
->>>>>>>> +
->>>>>>>> +#include "iris_buffer.h"
->>>>>>>> +#include "iris_instance.h"
->>>>>>>> +#include "iris_vb2.h"
->>>>>>>> +#include "iris_vpu_buffer.h"
->>>>>>>> +
->>>>>>>> +int iris_vb2_queue_setup(struct vb2_queue *q,
->>>>>>>> +			 unsigned int *num_buffers, unsigned int *num_planes,
->>>>>>>> +			 unsigned int sizes[], struct device *alloc_devs[])
->>>>>>>> +{
->>>>>>>> +	enum iris_buffer_type buffer_type = 0;
->>>>>>>> +	struct iris_buffers *buffers;
->>>>>>>> +	struct iris_inst *inst;
->>>>>>>> +	struct iris_core *core;
->>>>>>>> +	struct v4l2_format *f;
->>>>>>>> +	int ret = 0;
->>>>>>>> +
->>>>>>>> +	inst = vb2_get_drv_priv(q);
->>>>>>>> +
->>>>>>>> +	mutex_lock(&inst->lock);
->>>>>>>> +
->>>>>>>> +	core = inst->core;
->>>>>>>> +	f = V4L2_TYPE_IS_OUTPUT(q->type) ? inst->fmt_src : inst->fmt_dst;
->>>>>>>> +
->>>>>>>> +	if (*num_planes) {
->>>>>>>> +		if (*num_planes != f->fmt.pix_mp.num_planes ||
->>>>>>>> +			sizes[0] < f->fmt.pix_mp.plane_fmt[0].sizeimage)
->>>>>>>> +			ret = -EINVAL;
->>>>>>>> +		goto unlock;
->>>>>>>> +	}
->>>>>>>> +
->>>>>>>> +	buffer_type = iris_v4l2_type_to_driver(q->type);
->>>>>>>> +	if (buffer_type == -EINVAL) {
->>>>>>>
->>>>>>> Can this ever fail?
->>>>>>>
->>>>>> If the q->type passed is not supported by driver then it can fail.
->>>>>
->>>>> But it is the driver that sets q->type when the vb2_queue is initialized.
->>>>> So it makes no sense to test it here, it would be a driver bug if this fails.
->>>>>
->>>> Ok, Will remove this check.
->>>>>>>> +		ret = -EINVAL;
->>>>>>>> +		goto unlock;
->>>>>>>> +	}
->>>>>>>> +
->>>>>>>> +	if (!inst->once_per_session_set) {
->>>>>>>> +		inst->once_per_session_set = true;
->>>>>>>> +
->>>>>>>> +		ret = core->hfi_ops->session_open(inst);
->>>>>>>> +		if (ret) {
->>>>>>>> +			ret = -EINVAL;
->>>>>>>> +			dev_err(core->dev, "session open failed\n");
->>>>>>>> +			goto unlock;
->>>>>>>> +		}
->>>>>>>> +	}
->>>>>>>> +
->>>>>>>> +	buffers = &inst->buffers[buffer_type];
->>>>>>>> +	if (!buffers) {
->>>>>>>
->>>>>>> This definitely can never fail.
->>>>>>>
->>>>>> Right, will remove the check.
->>>>>>>> +		ret = -EINVAL;
->>>>>>>> +		goto unlock;
->>>>>>>> +	}
->>>>>>>> +
->>>>>>>> +	buffers->min_count = iris_vpu_buf_count(inst, buffer_type);
->>>>>>>> +	buffers->actual_count = *num_buffers;
->>>>>>>
->>>>>>> Don't mirror the number of buffers in actual_count, instead just always
->>>>>>> ask for the number of buffers using vb2_get_num_buffers().
->>>>>>>
->>>>>>> This code is wrong anyway, since actual_count isn't updated if more
->>>>>>> buffers are added using VIDIOC_CREATEBUFS.
->>>>>>>
->>>>>> Ok, so below would fix the VIDIOC_CREATEBUFS as well, right?
->>>>>> - buffers->actual_count = *num_buffers;
->>>>>> + buffers->actual_count = vb2_get_num_buffers();
->>>> Does this look good?
->>>
->>> No. You shouldn't have the actual_count field at all, especially since I see that
->>> you set it in several places. vb2_get_num_buffers() reports the current number of
->>> buffers, which can change if userspace calls VIDIOC_CREATE_BUFS or REMOVE_BUFS.
->>>
->>> You shouldn't try to mirror that value yourself. If you need that information,
->>> then call vb2_get_num_buffers().
->>>
->>> There are weird things going on in your driver w.r.t. actual_count and also min_count
->>> (and I saw a count_actual as well, very confusing).
->>>
->>> I'm not sure what you are trying to achieve, but it doesn't look right.
->>>
->> We need to set the value of actual buffers being queued to firmware via a
->> property, for that we are caching the value in actual_count so that we can
->> set it to fw when needed.
-> 
-> So do you need to know the number of allocated buffers, or the number of
-> buffers queued to the device instance?
-> 
-> The first is reported by vb2_get_num_buffers(), the second is something
-> you can keep track of yourself: a buffer is queued in the buf_queue op and
-> dequeued when vb2_buffer_done is called. But this has nothing to do with
-> what happens in queue_setup.
-> 
-We need to know the number of allocated buffers, hence using
-vb2_get_num_buffers() is fine as you said.
+Hey Jonathan,
 
-But would want to cache this in internal buffer strcuture in queue_setup,
-to be able to use later while setting to firmware.
+right after sending I noticed two lines that I didn't shrink to 80 chars
+... see below ...
 
-Thanks,
-Dikshita
-> Regards,
-> 
-> 	Hans
-> 
->>
->> count_actual is the variable of the hfi struture being filled to set the
->> property to fw,
->> ---
->> u32 ptype = HFI_PROPERTY_PARAM_BUFFER_COUNT_ACTUAL;
->> struct hfi_buffer_count_actual buf_count;
->> int ret;
->>
->> buf_count.type = HFI_BUFFER_INPUT;
->> buf_count.count_actual = inst->buffers[BUF_INPUT].actual_count;
->> ---
->>
->> Calling vb2_get_num_buffers from HFI layer will violate the current design
->> of driver so will need to cache this info in upper layer, best place to do
->> that seems to be queue_setup which is called from both VIDIOC_REQBUFS and
->> VIDIOC_CREATE_BUFS.
->> Any other suggestions for the same?
->>
->> To avoid the confusion, I can rename the actual_count to count_actual to
->> match with hfi structure.
->> Also, I can cleanup some part of driver where this variable is being
->> updated un-necessarily.
->> This is only needed to set the property to firmware as explained above.
->>
->> min_count holds the min numbers of buffer needed by firmware for the
->> particluar session, it can be changed by firmware if source changes.
->>
->> Thanks,
->> Dikshita
->>> Regards,
->>>
->>> 	Hans
->>>
->>>>
->>>> Thanks,
->>>> Dikshita
->>>>>>>> +	*num_planes = 1;
->>>>>>>> +
->>>>>>>> +	buffers->size = iris_get_buffer_size(inst, buffer_type);
->>>>>>>> +
->>>>>>>> +	if (sizes[0] < buffers->size) {
->>>>>>>> +		f->fmt.pix_mp.plane_fmt[0].sizeimage = buffers->size;
->>>>>>>
->>>>>>> Isn't this something that is set in VIDIOC_S_FMT? Can what iris_get_buffer_size
->>>>>>> returns here be different from what VIDIOC_S_FMT does?
->>>>>>>
->>>>>>> This is weird code, I don't think it belong in queue_setup. If iris_get_buffer_size
->>>>>>> can really give a different result, then it needs to be explained carefully, since
->>>>>>> that would be unexpected and possibly non-compliant.
->>>>>>>
->>>>>> I remember adding this particular change to fix a compliance issue.
->>>>>> But when I checked again without this change, compliance is passing now, so
->>>>>> will remove this in next version.
->>>>>
->>>>> Ah, good!
->>>>>
->>>>> Regards,
->>>>>
->>>>> 	Hans
->>>>>
->>>>>>
->>>>>>
->>>>>> Thanks,
->>>>>> Dikshita
->>>>>>>> +		sizes[0] = f->fmt.pix_mp.plane_fmt[0].sizeimage;
->>>>>>>> +	}
->>>>>>>> +
->>>>>>>> +unlock:
->>>>>>>> +	mutex_unlock(&inst->lock);
->>>>>>>> +
->>>>>>>> +	return ret;
->>>>>>>> +}
->>>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_vb2.h b/drivers/media/platform/qcom/iris/iris_vb2.h
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..78157a97b86e
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_vb2.h
->>>>>>>> @@ -0,0 +1,12 @@
->>>>>>>> +/* SPDX-License-Identifier: GPL-2.0-only */
->>>>>>>> +/*
->>>>>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>>>>>>> + */
->>>>>>>> +
->>>>>>>> +#ifndef _IRIS_VB2_H_
->>>>>>>> +#define _IRIS_VB2_H_
->>>>>>>> +
->>>>>>>> +int iris_vb2_queue_setup(struct vb2_queue *q,
->>>>>>>> +			 unsigned int *num_buffers, unsigned int *num_planes,
->>>>>>>> +			 unsigned int sizes[], struct device *alloc_devs[]);
->>>>>>>> +#endif
->>>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..7d1ef31c7c44
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
->>>>>>>> @@ -0,0 +1,58 @@
->>>>>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>>>>> +/*
->>>>>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>>>>>>> + */
->>>>>>>> +
->>>>>>>> +#include "iris_buffer.h"
->>>>>>>> +#include "iris_instance.h"
->>>>>>>> +#include "iris_vdec.h"
->>>>>>>> +#include "iris_vpu_buffer.h"
->>>>>>>> +
->>>>>>>> +#define DEFAULT_WIDTH 320
->>>>>>>> +#define DEFAULT_HEIGHT 240
->>>>>>>> +
->>>>>>>> +void iris_vdec_inst_init(struct iris_inst *inst)
->>>>>>>> +{
->>>>>>>> +	struct v4l2_format *f;
->>>>>>>> +
->>>>>>>> +	inst->fmt_src  = kzalloc(sizeof(*inst->fmt_src), GFP_KERNEL);
->>>>>>>> +	inst->fmt_dst  = kzalloc(sizeof(*inst->fmt_dst), GFP_KERNEL);
->>>>>>>> +
->>>>>>>> +	inst->fw_min_count = MIN_BUFFERS;
->>>>>>>> +
->>>>>>>> +	f = inst->fmt_src;
->>>>>>>> +	f->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
->>>>>>>> +	f->fmt.pix_mp.width = DEFAULT_WIDTH;
->>>>>>>> +	f->fmt.pix_mp.height = DEFAULT_HEIGHT;
->>>>>>>> +	f->fmt.pix_mp.pixelformat = V4L2_PIX_FMT_H264;
->>>>>>>> +	f->fmt.pix_mp.num_planes = 1;
->>>>>>>> +	f->fmt.pix_mp.plane_fmt[0].bytesperline = 0;
->>>>>>>> +	f->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_INPUT);
->>>>>>>> +	f->fmt.pix_mp.field = V4L2_FIELD_NONE;
->>>>>>>> +	inst->buffers[BUF_INPUT].min_count = iris_vpu_buf_count(inst, BUF_INPUT);
->>>>>>>> +	inst->buffers[BUF_INPUT].actual_count = inst->buffers[BUF_INPUT].min_count;
->>>>>>>> +	inst->buffers[BUF_INPUT].size = f->fmt.pix_mp.plane_fmt[0].sizeimage;
->>>>>>>> +
->>>>>>>> +	f = inst->fmt_dst;
->>>>>>>> +	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
->>>>>>>> +	f->fmt.pix_mp.pixelformat = V4L2_PIX_FMT_NV12;
->>>>>>>> +	f->fmt.pix_mp.width = ALIGN(DEFAULT_WIDTH, 128);
->>>>>>>> +	f->fmt.pix_mp.height = ALIGN(DEFAULT_HEIGHT, 32);
->>>>>>>> +	f->fmt.pix_mp.num_planes = 1;
->>>>>>>> +	f->fmt.pix_mp.plane_fmt[0].bytesperline = ALIGN(DEFAULT_WIDTH, 128);
->>>>>>>> +	f->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_OUTPUT);
->>>>>>>> +	f->fmt.pix_mp.field = V4L2_FIELD_NONE;
->>>>>>>> +	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_DEFAULT;
->>>>>>>> +	f->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
->>>>>>>> +	f->fmt.pix_mp.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
->>>>>>>> +	f->fmt.pix_mp.quantization = V4L2_QUANTIZATION_DEFAULT;
->>>>>>>> +	inst->buffers[BUF_OUTPUT].min_count = iris_vpu_buf_count(inst, BUF_OUTPUT);
->>>>>>>> +	inst->buffers[BUF_OUTPUT].actual_count = inst->buffers[BUF_OUTPUT].min_count;
->>>>>>>> +	inst->buffers[BUF_OUTPUT].size = f->fmt.pix_mp.plane_fmt[0].sizeimage;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +void iris_vdec_inst_deinit(struct iris_inst *inst)
->>>>>>>> +{
->>>>>>>> +	kfree(inst->fmt_dst);
->>>>>>>> +	kfree(inst->fmt_src);
->>>>>>>> +}
->>>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.h b/drivers/media/platform/qcom/iris/iris_vdec.h
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..0324d7f796dd
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_vdec.h
->>>>>>>> @@ -0,0 +1,14 @@
->>>>>>>> +/* SPDX-License-Identifier: GPL-2.0-only */
->>>>>>>> +/*
->>>>>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>>>>>>> + */
->>>>>>>> +
->>>>>>>> +#ifndef _IRIS_VDEC_H_
->>>>>>>> +#define _IRIS_VDEC_H_
->>>>>>>> +
->>>>>>>> +struct iris_inst;
->>>>>>>> +
->>>>>>>> +void iris_vdec_inst_init(struct iris_inst *inst);
->>>>>>>> +void iris_vdec_inst_deinit(struct iris_inst *inst);
->>>>>>>> +
->>>>>>>> +#endif
->>>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
->>>>>>>> index b8654e73f516..ab3b63171c1d 100644
->>>>>>>> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
->>>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
->>>>>>>> @@ -9,6 +9,9 @@
->>>>>>>>  
->>>>>>>>  #include "iris_vidc.h"
->>>>>>>>  #include "iris_instance.h"
->>>>>>>> +#include "iris_vdec.h"
->>>>>>>> +#include "iris_vb2.h"
->>>>>>>> +#include "iris_vpu_buffer.h"
->>>>>>>>  #include "iris_platform_common.h"
->>>>>>>>  
->>>>>>>>  #define IRIS_DRV_NAME "iris_driver"
->>>>>>>> @@ -28,6 +31,38 @@ static void iris_v4l2_fh_deinit(struct iris_inst *inst)
->>>>>>>>  	v4l2_fh_exit(&inst->fh);
->>>>>>>>  }
->>>>>>>>  
->>>>>>>> +static void iris_add_session(struct iris_inst *inst)
->>>>>>>> +{
->>>>>>>> +	struct iris_core *core = inst->core;
->>>>>>>> +	struct iris_inst *iter;
->>>>>>>> +	u32 count = 0;
->>>>>>>> +
->>>>>>>> +	mutex_lock(&core->lock);
->>>>>>>> +
->>>>>>>> +	list_for_each_entry(iter, &core->instances, list)
->>>>>>>> +		count++;
->>>>>>>> +
->>>>>>>> +	if (count < core->iris_platform_data->max_session_count)
->>>>>>>> +		list_add_tail(&inst->list, &core->instances);
->>>>>>>> +
->>>>>>>> +	mutex_unlock(&core->lock);
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +static void iris_remove_session(struct iris_inst *inst)
->>>>>>>> +{
->>>>>>>> +	struct iris_core *core = inst->core;
->>>>>>>> +	struct iris_inst *iter, *temp;
->>>>>>>> +
->>>>>>>> +	mutex_lock(&core->lock);
->>>>>>>> +	list_for_each_entry_safe(iter, temp, &core->instances, list) {
->>>>>>>> +		if (iter->session_id == inst->session_id) {
->>>>>>>> +			list_del_init(&iter->list);
->>>>>>>> +			break;
->>>>>>>> +		}
->>>>>>>> +	}
->>>>>>>> +	mutex_unlock(&core->lock);
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>  static inline struct iris_inst *iris_get_inst(struct file *filp, void *fh)
->>>>>>>>  {
->>>>>>>>  	return container_of(filp->private_data, struct iris_inst, fh);
->>>>>>>> @@ -59,7 +94,10 @@ iris_m2m_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_
->>>>>>>>  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
->>>>>>>>  	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->>>>>>>>  	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->>>>>>>> +	src_vq->ops = inst->core->iris_vb2_ops;
->>>>>>>>  	src_vq->drv_priv = inst;
->>>>>>>> +	src_vq->buf_struct_size = sizeof(struct iris_buffer);
->>>>>>>> +	src_vq->min_reqbufs_allocation = MIN_BUFFERS;
->>>>>>>>  	src_vq->dev = inst->core->dev;
->>>>>>>>  	src_vq->lock = &inst->ctx_q_lock;
->>>>>>>>  	ret = vb2_queue_init(src_vq);
->>>>>>>> @@ -69,7 +107,10 @@ iris_m2m_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_
->>>>>>>>  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
->>>>>>>>  	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->>>>>>>>  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->>>>>>>> +	dst_vq->ops = inst->core->iris_vb2_ops;
->>>>>>>>  	dst_vq->drv_priv = inst;
->>>>>>>> +	dst_vq->buf_struct_size = sizeof(struct iris_buffer);
->>>>>>>> +	dst_vq->min_reqbufs_allocation = MIN_BUFFERS;
->>>>>>>>  	dst_vq->dev = inst->core->dev;
->>>>>>>>  	dst_vq->lock = &inst->ctx_q_lock;
->>>>>>>>  
->>>>>>>> @@ -100,8 +141,11 @@ int iris_open(struct file *filp)
->>>>>>>>  		return -ENOMEM;
->>>>>>>>  
->>>>>>>>  	inst->core = core;
->>>>>>>> +	inst->session_id = hash32_ptr(inst);
->>>>>>>>  
->>>>>>>> +	mutex_init(&inst->lock);
->>>>>>>>  	mutex_init(&inst->ctx_q_lock);
->>>>>>>> +	init_completion(&inst->completion);
->>>>>>>>  
->>>>>>>>  	iris_v4l2_fh_init(inst);
->>>>>>>>  
->>>>>>>> @@ -117,6 +161,10 @@ int iris_open(struct file *filp)
->>>>>>>>  		goto fail_m2m_release;
->>>>>>>>  	}
->>>>>>>>  
->>>>>>>> +	iris_vdec_inst_init(inst);
->>>>>>>> +
->>>>>>>> +	iris_add_session(inst);
->>>>>>>> +
->>>>>>>>  	inst->fh.m2m_ctx = inst->m2m_ctx;
->>>>>>>>  	filp->private_data = &inst->fh;
->>>>>>>>  
->>>>>>>> @@ -127,19 +175,42 @@ int iris_open(struct file *filp)
->>>>>>>>  fail_v4l2_fh_deinit:
->>>>>>>>  	iris_v4l2_fh_deinit(inst);
->>>>>>>>  	mutex_destroy(&inst->ctx_q_lock);
->>>>>>>> +	mutex_destroy(&inst->lock);
->>>>>>>>  	kfree(inst);
->>>>>>>>  
->>>>>>>>  	return ret;
->>>>>>>>  }
->>>>>>>>  
->>>>>>>> +static void iris_session_close(struct iris_inst *inst)
->>>>>>>> +{
->>>>>>>> +	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
->>>>>>>> +	bool wait_for_response = true;
->>>>>>>> +	int ret;
->>>>>>>> +
->>>>>>>> +	reinit_completion(&inst->completion);
->>>>>>>> +
->>>>>>>> +	ret = hfi_ops->session_close(inst);
->>>>>>>> +	if (ret)
->>>>>>>> +		wait_for_response = false;
->>>>>>>> +
->>>>>>>> +	if (wait_for_response)
->>>>>>>> +		iris_wait_for_session_response(inst);
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>  int iris_close(struct file *filp)
->>>>>>>>  {
->>>>>>>>  	struct iris_inst *inst = iris_get_inst(filp, NULL);
->>>>>>>>  
->>>>>>>>  	v4l2_m2m_ctx_release(inst->m2m_ctx);
->>>>>>>>  	v4l2_m2m_release(inst->m2m_dev);
->>>>>>>> +	mutex_lock(&inst->lock);
->>>>>>>> +	iris_vdec_inst_deinit(inst);
->>>>>>>> +	iris_session_close(inst);
->>>>>>>>  	iris_v4l2_fh_deinit(inst);
->>>>>>>> +	iris_remove_session(inst);
->>>>>>>> +	mutex_unlock(&inst->lock);
->>>>>>>>  	mutex_destroy(&inst->ctx_q_lock);
->>>>>>>> +	mutex_destroy(&inst->lock);
->>>>>>>>  	kfree(inst);
->>>>>>>>  	filp->private_data = NULL;
->>>>>>>>  
->>>>>>>> @@ -155,7 +226,17 @@ static struct v4l2_file_operations iris_v4l2_file_ops = {
->>>>>>>>  	.mmap                           = v4l2_m2m_fop_mmap,
->>>>>>>>  };
->>>>>>>>  
->>>>>>>> +static const struct vb2_ops iris_vb2_ops = {
->>>>>>>> +	.queue_setup                    = iris_vb2_queue_setup,
->>>>>>>> +};
->>>>>>>> +
->>>>>>>> +static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
->>>>>>>> +	.vidioc_reqbufs                 = v4l2_m2m_ioctl_reqbufs,
->>>>>>>> +};
->>>>>>>> +
->>>>>>>>  void iris_init_ops(struct iris_core *core)
->>>>>>>>  {
->>>>>>>>  	core->iris_v4l2_file_ops = &iris_v4l2_file_ops;
->>>>>>>> +	core->iris_vb2_ops = &iris_vb2_ops;
->>>>>>>> +	core->iris_v4l2_ioctl_ops = &iris_v4l2_ioctl_ops;
->>>>>>>>  }
->>>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..2402a33723ab
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
->>>>>>>> @@ -0,0 +1,19 @@
->>>>>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>>>>> +/*
->>>>>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>>>>>>> + */
->>>>>>>> +
->>>>>>>> +#include "iris_instance.h"
->>>>>>>> +#include "iris_vpu_buffer.h"
->>>>>>>> +
->>>>>>>> +int iris_vpu_buf_count(struct iris_inst *inst, enum iris_buffer_type buffer_type)
->>>>>>>> +{
->>>>>>>> +	switch (buffer_type) {
->>>>>>>> +	case BUF_INPUT:
->>>>>>>> +		return MIN_BUFFERS;
->>>>>>>> +	case BUF_OUTPUT:
->>>>>>>> +		return inst->fw_min_count;
->>>>>>>> +	default:
->>>>>>>> +		return 0;
->>>>>>>> +	}
->>>>>>>> +}
->>>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..f0f974cebd8a
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
->>>>>>>> @@ -0,0 +1,15 @@
->>>>>>>> +/* SPDX-License-Identifier: GPL-2.0-only */
->>>>>>>> +/*
->>>>>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>>>>>>> + */
->>>>>>>> +
->>>>>>>> +#ifndef _IRIS_VPU_BUFFER_H_
->>>>>>>> +#define _IRIS_VPU_BUFFER_H_
->>>>>>>> +
->>>>>>>> +struct iris_inst;
->>>>>>>> +
->>>>>>>> +#define MIN_BUFFERS			4
->>>>>>>> +
->>>>>>>> +int iris_vpu_buf_count(struct iris_inst *inst, enum iris_buffer_type buffer_type);
->>>>>>>> +
->>>>>>>> +#endif
->>>>>>>>
->>>>>>>
->>>>>>> Regards,
->>>>>>>
->>>>>>> 	Hans
->>>>>
->>>
-> 
+On 13.11.2024 12:15, Sebastian Fricke wrote:
+>This idea was formed after noticing that new developers experience
+>certain difficulty to navigate within the multitude of different
+>debugging options in the Kernel and while there often is good
+>documentation for the tools, the developer has to know first that they
+>exist and where to find them.
+>Add a general debugging section to the Kernel documentation, as an
+>easily locatable entry point to other documentation and as a general
+>guideline for the topic.
+>
+>Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>---
+> .../driver_development_debugging_guide.rst         | 214 ++++++++++++++++
+> Documentation/process/debugging/index.rst          |  65 +++++
+> .../debugging/userspace_debugging_guide.rst        | 278 +++++++++++++++++++++
+> Documentation/process/index.rst                    |   8 +-
+> 4 files changed, 562 insertions(+), 3 deletions(-)
+>
+>diff --git a/Documentation/process/debugging/driver_development_debugging_guide.rst b/Documentation/process/debugging/driver_development_debugging_guide.rst
+>new file mode 100644
+>index 000000000000..bfeefb242b03
+>--- /dev/null
+>+++ b/Documentation/process/debugging/driver_development_debugging_guide.rst
+>@@ -0,0 +1,214 @@
+>+.. SPDX-License-Identifier: GPL-2.0
+>+
+>+========================================
+>+Debugging advice for driver development
+>+========================================
+>+
+>+This document serves as a general starting point and lookup for debugging device
+>+drivers.
+>+While this guide focuses on debugging that requires re-compiling the
+>+module/kernel, the :doc:`userspace debugging guide
+>+</process/debugging/userspace_debugging_guide>` will guide
+>+you through tools like dynamic debug, ftrace and other tools useful for
+>+debugging issues and behavior.
+>+For general debugging advice, see the :doc:`general advice document
+>+</process/debugging/index>`.
+>+
+>+.. contents::
+>+    :depth: 3
+>+
+>+The following sections show you the available tools.
+>+
+>+printk() & friends
+>+------------------
+>+
+>+These are derivatives of printf() with varying destinations and support for
+>+being dynamically turned on or off, or lack thereof.
+>+
+>+Simple printk()
+>+~~~~~~~~~~~~~~~
+>+
+>+The classic, can be used to great effect for quick and dirty development
+>+of new modules or to extract arbitrary necessary data for troubleshooting.
+>+
+>+Prerequisite: ``CONFIG_PRINTK`` (usually enabled by default)
+>+
+>+**Pros**:
+>+
+>+- No need to learn anything, simple to use
+>+- Easy to modify exactly to your needs (formatting of the data (See:
+>+  :doc:`/core-api/printk-formats`), visibility in the log)
+>+- Can cause delays in the execution of the code (beneficial to confirm whether
+>+  timing is a factor)
+>+
+>+**Cons**:
+>+
+>+- Requires rebuilding the kernel/module
+>+- Can cause delays in the execution of the code (which can cause issues to be
+>+  not reproducible)
+>+
+>+For the full documentation see :doc:`/core-api/printk-basics`
+>+
+>+Trace_printk
+>+~~~~~~~~~~~~
+>+
+>+Prerequisite: ``CONFIG_DYNAMIC_FTRACE`` & ``#include <linux/ftrace.h>``
+>+
+>+It is a tiny bit less comfortable to use than printk(), because you will have
+>+to read the messages from the trace file (See: :ref:`read_ftrace_log`
+>+instead of from the kernel log, but very useful when printk() adds unwanted
+>+delays into the code execution, causing issues to be flaky or hidden.)
+>+
+>+If the processing of this still causes timing issues then you can try
+>+trace_puts().
+>+
+>+For the full Documentation see trace_printk()
+>+
+>+dev_dbg
+>+~~~~~~~
+>+
+>+Print statement, which can be targeted by
+>+:ref:`process/debugging/userspace_debugging_guide:dynamic debug` that contains
+>+additional information about the device used within the context.
+>+
+>+**When is it appropriate to leave a debug print in the code?**
+>+
+>+Permanent debug statements have to be useful for a developer to troubleshoot
+>+driver misbehavior. Judging that is a bit more of an art than a science, but
+>+some guidelines are in the :ref:`Coding style guidelines
+>+<process/coding-style:13) printing kernel messages>`. In almost all cases the
+>+debug statements shouldn't be upstreamed, as a working driver is supposed to be
+>+silent.
+>+
+>+Custom printk
+>+~~~~~~~~~~~~~
+>+
+>+Example::
+>+
+>+  #define core_dbg(fmt, arg...) do { \
+>+	  if (core_debug) \
+>+		  printk(KERN_DEBUG pr_fmt("core: " fmt), ## arg); \
+>+	  } while (0)
+>+
+>+**When should you do this?**
+>+
+>+It is better to just use a pr_debug(), which can later be turned on/off with
+>+dynamic debug. Additionally, a lot of drivers activate these prints via a
+>+variable like ``core_debug`` set by a module parameter. However, Module
+>+parameters `are not recommended anymore
+>+<https://lore.kernel.org/all/2024032757-surcharge-grime-d3dd@gregkh>`_.
+>+
+>+Ftrace
+>+------
+>+
+>+Creating a custom Ftrace tracepoint
+>+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>+
+>+A tracepoint adds a hook into your code that will be called and logged when the
+>+tracepoint is enabled. This can be used, for example, to trace hitting a
+>+conditional branch or to dump the internal state at specific points of the code
+>+flow during a debugging session.
+>+
+>+Here is a basic description of :ref:`how to implement new tracepoints
+>+<trace/tracepoints:usage>`.
+>+
+>+For the full event tracing documentation see :doc:`/trace/events`
+>+
+>+For the full Ftrace documentation see :doc:`/trace/ftrace`
+>+
+>+DebugFS
+>+-------
+>+
+>+Prerequisite: ``CONFIG_DEBUG_FS` & `#include <linux/debugfs.h>``
+>+
+>+DebugFS differs from the other approaches of debugging, as it doesn't write
+>+messages to the kernel log nor add traces to the code. Instead it allows the
+>+developer to handle a set of files.
+>+With these files you can either store values of variables or make
+>+register/memory dumps or you can make these files writable and modify
+>+values/settings in the driver.
+>+
+>+Possible use-cases among others:
+>+
+>+- Store register values
+>+- Keep track of variables
+>+- Store errors
+>+- Store settings
+>+- Toggle a setting like debug on/off
+>+- Error injection
+>+
+>+This is especially useful, when the size of a data dump would be hard to digest
+>+as part of the general kernel log (for example when dumping raw bitstream data)
+>+or when you are not interested in all the values all the time, but with the
+>+possibility to inspect them.
+>+
+>+The general idea is:
+>+
+>+- Create a directory during probe (``struct dentry *parent =
+>+  debugfs_create_dir("my_driver", NULL);``)
+>+- Create a file (``debugfs_create_u32("my_value", 444, parent, &my_variable);``)
+>+
+>+  - In this example the file is found in ``/sys/kernel/debug/my_driver/my_value``
+>+    (with read permissions for user/group/all)
+>+  - any read of the file will return the current contents of the variable
+>+    ``my_variable``
+>+
+>+- Clean up the folder when removing the device
+>+  (``debugfs_remove_recursive(parent);``)
+>+
+>+For the full documentation see :doc:`/filesystems/debugfs`.
+>+
+>+KASAN, UBSAN, lockdep and other error checkers
+>+----------------------------------------------
+>+
+>+KASAN (Kernel Address Sanitizer)
+>+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>+
+>+Prerequisite: ``CONFIG_KASAN``
+>+
+>+KASAN is a dynamic memory error detector that helps to find use-after-free and
+>+out-of-bounds bugs. It uses compile-time instrumentation to check every memory
+>+access.
+>+
+>+For the full documentation see :doc:`/dev-tools/kasan`.
+>+
+>+UBSAN (Undefined Behavior Sanitizer)
+>+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>+
+>+Prerequisite: ``CONFIG_UBSAN``
+>+
+>+UBSAN relies on compiler instrumentation and runtime checks to detect undefined
+>+behavior. It is designed to find a variety of issues, including signed integer
+>+overflow, array index out of bounds, and more.
+>+
+>+For the full documentation see :doc:`/dev-tools/ubsan`
+>+
+>+lockdep (Lock Dependency Validator)
+>+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>+
+>+Prerequisite: ``CONFIG_DEBUG_LOCKDEP``
+>+
+>+lockdep is a runtime lock dependency validator that detects potential deadlocks
+>+and other locking-related issues in the kernel.
+>+It tracks lock acquisitions and releases, building a dependency graph that is
+>+analyzed for potential deadlocks.
+>+lockdep is especially useful for validating the correctness of lock ordering in
+>+the kernel.
+>+
+>+device coredump
+>+---------------
+>+
+>+Prerequisite: ``#include <linux/devcoredump.h>``
+>+
+>+Provides the infrastructure for a driver to provide arbitrary data to userland.
+>+It is most often used in conjunction with udev or similar userland application
+>+to listen for kernel uevents, which indicate that the dump is ready. Udev has
+>+rules to copy that file somewhere for long-term storage and analysis, as by
+>+default, the data for the dump is automatically cleaned up after 5 minutes.
+>+That data is analyzed with driver-specific tools or GDB.
+>+
+>+You can find an example implementation at:
+>+`drivers/media/platform/qcom/venus/core.c
+>+<https://elixir.bootlin.com/linux/v6.11.6/source/drivers/media/platform/qcom/venus/core.c#L30>`__
+>+
+>+**Copyright** ©2024 : Collabora
+>diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
+>new file mode 100644
+>index 000000000000..77ec17d1c119
+>--- /dev/null
+>+++ b/Documentation/process/debugging/index.rst
+>@@ -0,0 +1,65 @@
+>+.. SPDX-License-Identifier: GPL-2.0
+>+
+>+============================================
+>+Debugging advice for Linux Kernel developers
+>+============================================
+>+
+>+.. toctree::
+>+   :maxdepth: 1
+>+
+>+   driver_development_debugging_guide
+>+   userspace_debugging_guide
+>+
+>+.. only::  subproject and html
+>+
+>+   Indices
+>+   =======
+>+
+>+   * :ref:`genindex`
+>+
+>+General debugging advice
+>+========================
+>+
+>+Depending on the issue, a different set of tools is available to track down the
+>+problem or even to realize whether there is one in the first place.
+>+
+>+As a first step you have to figure out what kind of issue you want to debug.
+>+Depending on the answer, your methodology and choice of tools may vary.
+>+
+>+Do I need to debug with limited access?
+>+---------------------------------------
+>+
+>+Do you have limited access to the machine or are you unable to stop the running
+>+execution?
+>+
+>+In this case your debugging capability depends on built-in debugging support of
+>+provided distro kernel.
+>+The :doc:`/process/debugging/userspace_debugging_guide` provides a brief
+>+overview over range of possible debugging tools in that situation. You can
+>+check the capability of your kernel, in most cases, by looking into config file
+>+within the /boot folder.
+>+
+>+Do I have root access to the system?
+>+------------------------------------
+>+
+>+Are you easily able to replace the module in question or to install a new
+>+kernel?
+>+
+>+In that case your range of available tools is a lot bigger, you can find the
+>+tools in the :doc:`/process/debugging/driver_development_debugging_guide`.
+>+
+>+Is timing a factor?
+>+-------------------
+>+
+>+It is important to understand if the problem you want to debug manifests itself
+>+consistently (i.e. given a set of inputs you always get the same, incorrect
+>+output), or inconsistently. If it manifests itself inconsistently, some timing
+>+factor might be at play. If inserting delays into the code does change the
+>+behavior, then quite likely timing is a factor.
+>+
+>+When timing does alter the outcome of the code execution using a simple
+>+printk() for debugging purposes may not work, a similar alternative is to use
+>+trace_printk() , which logs the debug messages to the trace file instead of the
+>+kernel log.
+>+
+>+**Copyright** ©2024 : Collabora
+>diff --git a/Documentation/process/debugging/userspace_debugging_guide.rst b/Documentation/process/debugging/userspace_debugging_guide.rst
+>new file mode 100644
+>index 000000000000..a7c94407bcae
+>--- /dev/null
+>+++ b/Documentation/process/debugging/userspace_debugging_guide.rst
+>@@ -0,0 +1,278 @@
+>+.. SPDX-License-Identifier: GPL-2.0
+>+
+>+==========================
+>+Userspace debugging advice
+>+==========================
+>+
+>+A brief overview of common tools to debug the Linux Kernel from userspace.
+>+For debugging advice aimed at driver developer go :doc:`here
+>+</process/debugging/driver_development_debugging_guide>`.
+>+For general debugging advice, see :doc:`general advice document
+>+</process/debugging/index>`.
+>+
+>+.. contents::
+>+    :depth: 3
+>+
+>+The following sections show you the available tools.
+>+
+>+Dynamic debug
+>+-------------
+>+
+>+Mechanism to filter what ends up in the kernel log by dis-/en-abling log
+>+messages.
+>+
+>+Prerequisite: ``CONFIG_DYNAMIC_DEBUG``
+>+
+>+Dynamic debug is only able to target:
+>+
+>+- pr_debug()
+>+- dev_dbg()
+>+- print_hex_dump_debug()
+>+- print_hex_dump_bytes()
+>+
+>+Therefore the usability of this tool is, as of now, quite limited as there is
+>+no uniform rule for adding debug prints to the codebase, resulting in a variety
+>+of ways these prints are implemented.
+>+
+>+Also, note that most debug statements are implemented as a variation of
+>+dprintk(), which have to be activated via a parameter in respective module,
+>+dynamic debug is unable to do that step for you.
+>+
+>+Here is one example, that enables all available pr_debug() 's within the file::
+>+
+>+  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
+>+  $ ddcmd '-p; file v4l2-h264.c +p'
+>+  $ grep =p /proc/dynamic_debug/control
+>+   drivers/media/v4l2-core/v4l2-h264.c:372 [v4l2_h264]print_ref_list_b =p
+>+   "ref_pic_list_b%u (cur_poc %u%c) %s"
+>+   drivers/media/v4l2-core/v4l2-h264.c:333 [v4l2_h264]print_ref_list_p =p
+>+   "ref_pic_list_p (cur_poc %u%c) %s\n"
+>+
+>+**When should you use this over Ftrace ?**
+>+
+>+- When the code contains one of the valid print statements (see above) or when
+>+  you have added multiple pr_debug() statements during development
+>+- When timing is not an issue, meaning if multiple pr_debug() statements in
+>+  the code won't cause delays
+>+- When you care more about receiving specific log messages than tracing the
+>+  pattern of how a function is called
+>+
+>+For the full documentation see :doc:`/admin-guide/dynamic-debug-howto`
+>+
+>+Ftrace
+>+------
+>+
+>+Prerequisite: ``CONFIG_DYNAMIC_FTRACE``
+>+
+>+This tool uses the tracefs file system for the control files and output files,
+>+that file system will be mounted as a ``tracing`` folder, which can be found in
+>+either ``/sys/kernel/`` or ``/sys/debug/kernel/``.
+>+
+>+Some of the most important operations for debugging are:
+>+
+>+- You can perform a function trace by adding a function name to the
+>+  ``set_ftrace_filter`` file (which accepts any function name found within the
+>+  ``available_filter_functions`` file) or you can specifically disable certain
+>+  functions by adding their names to the ``set_ftrace_notrace`` file (More info
+>+  at: :ref:`trace/ftrace:dynamic ftrace`).
+>+- In order to find out where the calls originates from you can activate the
+>+  ``func_stack_trace`` option under ``options/func_stack_trace``.
+>+- Tracing the children of a function call and showing the return values is
+>+  possible by adding the desired function in the ``set_graph_function`` file
+>+  (requires config ``FUNCTION_GRAPH_RETVAL``) more info at
+>+  :ref:`trace/ftrace:dynamic ftrace with the function graph tracer`.
+>+
+>+For the full Ftrace documentation see :doc:`/trace/ftrace`
+>+
+>+Or you could also trace for specific events by :ref:`using event tracing
+>+<trace/events:2. using event tracing>`, which can be defined as described here:
+>+:ref:`Creating a custom Ftrace tracepoint
+>+<process/debugging/driver_development_debugging_guide:ftrace>`.
+>+
+>+For the full Ftrace event tracing documentation see :doc:`/trace/events`
+>+
+>+.. _read_ftrace_log:
+>+
+>+Reading the ftrace log
+>+~~~~~~~~~~~~~~~~~~~~~~
+>+
+>+The ``trace`` file can be read just like any other file (``cat``, ``tail``, ``head``,
+>+``vim``, etc.), the size of the file is limited by the ``buffer_size_kb`` (``echo
+>+1000 > buffer_size_kb``). The :ref:`trace/ftrace:trace_pipe` will behave
+>+similar to the ``trace`` file, but whenever you read from the file the content is
+>+consumed.
+>+
+>+Kernelshark
+>+~~~~~~~~~~~
+>+
+>+A GUI interface to visualize the traces as a graph and list view from the
+>+output of the `trace-cmd
+>+<https://git.kernel.org/pub/scm/utils/trace-cmd/trace-cmd.git/>`__ application.
+>+
+>+For the full documentation see `<https://kernelshark.org/Documentation.html>`__
+>+
+>+Perf & alternatives
+>+-------------------
+>+
+>+The tools mentioned above provide ways to inspect kernel code, results, variable values, etc.
+
+Ah ... I missed that one ...
+
+>+Sometimes you have to find out first where to look and for those cases, a box of
+>+performance tracking tools can help you to frame the issue.
+>+
+>+Why should you do a performance analysis?
+>+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>+
+>+A performance analysis is a good first step when among other reasons:
+>+
+>+- you cannot define the issue
+>+- you do not know where it occurs
+>+- the running system should not be interrupted or it is a remote system, where
+>+  you cannot install a new module/kernel
+>+
+>+How to do a simple analysis with linux tools?
+>+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>+
+>+For the start of a performance analysis, you can start with the usual tools
+>+like:
+>+
+>+- ``top`` / ``htop`` / ``atop`` (*get an overview of the system load, see spikes on
+>+  specific processes*)
+
+.. and that line got a bit longer by changing `..` to ``..`` ...
+
+but I think that should be the last issue that I missed, could you fix
+that while applying? I have provided the fixup patch as attachment.
+
+Regards,
+Sebastian
+
+>+- ``mpstat -P ALL`` (*look at the load distribution among CPUs*)
+>+- ``iostat -x`` (*observe input and output devices utilization and performance*)
+>+- ``vmstat`` (*overview of memory usage on the system*)
+>+- ``pidstat`` (*similar to* ``vmstat`` *but per process, to dial it down to the
+>+  target*)
+>+- ``strace -tp $PID`` (*once you know the process, you can figure out how it
+>+  communicates with the Kernel*)
+>+
+>+These should help to narrow down the areas to look at sufficiently.
+>+
+>+Diving deeper with perf
+>+~~~~~~~~~~~~~~~~~~~~~~~
+>+
+>+The **perf** tool provides a series of metrics and events to further dial down
+>+on issues.
+>+
+>+Prerequisite: build or install perf on your system
+>+
+>+Gather statistics data for finding all files starting with ``gcc`` in ``/usr``::
+>+
+>+  # perf stat -d find /usr -name 'gcc*' | wc -l
+>+
+>+   Performance counter stats for 'find /usr -name gcc*':
+>+
+>+     1277.81 msec    task-clock             #    0.997 CPUs utilized
+>+     9               context-switches       #    7.043 /sec
+>+     1               cpu-migrations         #    0.783 /sec
+>+     704             page-faults            #  550.943 /sec
+>+     766548897       cycles                 #    0.600 GHz                         (97.15%)
+>+     798285467       instructions           #    1.04  insn per cycle              (97.15%)
+>+     57582731        branches               #   45.064 M/sec                       (2.85%)
+>+     3842573         branch-misses          #    6.67% of all branches             (97.15%)
+>+     281616097       L1-dcache-loads        #  220.390 M/sec                       (97.15%)
+>+     4220975         L1-dcache-load-misses  #    1.50% of all L1-dcache accesses   (97.15%)
+>+     <not supported> LLC-loads
+>+     <not supported> LLC-load-misses
+>+
+>+   1.281746009 seconds time elapsed
+>+
+>+   0.508796000 seconds user
+>+   0.773209000 seconds sys
+>+
+>+
+>+  52
+>+
+>+The availability of events and metrics depends on the system you are running.
+>+
+>+For the full documentation see
+>+`<https://perf.wiki.kernel.org/index.php/Main_Page>`__
+>+
+>+Perfetto
+>+~~~~~~~~
+>+
+>+A set of tools to measure and analyze how well applications and systems perform.
+>+You can use it to:
+>+
+>+* identify bottlenecks
+>+* optimize code
+>+* make software run faster and more efficiently.
+>+
+>+**What is the difference between perfetto and perf?**
+>+
+>+* perf is tool as part of and specialized for the Linux Kernel and has CLI user
+>+  interface.
+>+* perfetto cross-platform performance analysis stack, has extended
+>+  functionality into userspace and provides a WEB user interface.
+>+
+>+For the full documentation see `<https://perfetto.dev/docs/>`__
+>+
+>+Kernel panic analysis tools
+>+---------------------------
+>+
+>+  To capture the crash dump please use ``Kdump`` & ``Kexec``. Below you can find
+>+  some advice for analysing the data.
+>+
+>+  For the full documentation see the :doc:`/admin-guide/kdump/kdump`
+>+
+>+  In order to find the corresponding line in the code you can use `faddr2line
+>+  <https://elixir.bootlin.com/linux/v6.11.6/source/scripts/faddr2line>`__, note
+>+  that you need to enable ``CONFIG_DEBUG_INFO`` for that to work.
+>+
+>+  An alternative to using ``faddr2line`` is the use of ``objdump`` (and it's
+>+  derivatives for the different platforms like ``aarch64-linux-gnu-objdump``),
+>+  take this line as an example:
+>+
+>+  ``[  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]``.
+>+
+>+  We can find the corresponding line of code by executing::
+>+
+>+    aarch64-linux-gnu-objdump -dS drivers/staging/media/rkvdec/rockchip-vdec.ko | grep rkvdec_device_run\>: -A 40
+>+    0000000000000ac8 <rkvdec_device_run>:
+>+     ac8:	d503201f 	nop
+>+     acc:	d503201f 	nop
+>+    {
+>+     ad0:	d503233f 	paciasp
+>+     ad4:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+>+     ad8:	910003fd 	mov	x29, sp
+>+     adc:	a90153f3 	stp	x19, x20, [sp, #16]
+>+     ae0:	a9025bf5 	stp	x21, x22, [sp, #32]
+>+        const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+>+     ae4:	f9411814 	ldr	x20, [x0, #560]
+>+        struct rkvdec_dev *rkvdec = ctx->dev;
+>+     ae8:	f9418015 	ldr	x21, [x0, #768]
+>+        if (WARN_ON(!desc))
+>+     aec:	b4000654 	cbz	x20, bb4 <rkvdec_device_run+0xec>
+>+        ret = pm_runtime_resume_and_get(rkvdec->dev);
+>+     af0:	f943d2b6 	ldr	x22, [x21, #1952]
+>+        ret = __pm_runtime_resume(dev, RPM_GET_PUT);
+>+     af4:	aa0003f3 	mov	x19, x0
+>+     af8:	52800081 	mov	w1, #0x4                   	// #4
+>+     afc:	aa1603e0 	mov	x0, x22
+>+     b00:	94000000 	bl	0 <__pm_runtime_resume>
+>+        if (ret < 0) {
+>+     b04:	37f80340 	tbnz	w0, #31, b6c <rkvdec_device_run+0xa4>
+>+        dev_warn(rkvdec->dev, "Not good\n");
+>+     b08:	f943d2a0 	ldr	x0, [x21, #1952]
+>+     b0c:	90000001 	adrp	x1, 0 <rkvdec_try_ctrl-0x8>
+>+     b10:	91000021 	add	x1, x1, #0x0
+>+     b14:	94000000 	bl	0 <_dev_warn>
+>+        *bad = 1;
+>+     b18:	d2800001 	mov	x1, #0x0                   	// #0
+>+     ...
+>+
+>+  Meaning, in this line from the crash dump::
+>+
+>+    [  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]
+>+
+>+  I can take the ``0x50`` as offset, which I have to add to the base address
+>+  of the corresponding function, which I find in this line::
+>+
+>+    0000000000000ac8 <rkvdec_device_run>:
+>+
+>+  The result of ``0xac8 + 0x50 = 0xb18``
+>+  And when I search for that address within the function I get the
+>+  following line::
+>+
+>+    *bad = 1;
+>+    b18:      d2800001        mov     x1, #0x0
+>+
+>+**Copyright** ©2024 : Collabora
+>diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+>index 6455eba3ef0c..aa12f2660194 100644
+>--- a/Documentation/process/index.rst
+>+++ b/Documentation/process/index.rst
+>@@ -72,13 +72,15 @@ beyond).
+> Dealing with bugs
+> -----------------
+>
+>-Bugs are a fact of life; it is important that we handle them properly.
+>-The documents below describe our policies around the handling of a couple
+>-of special classes of bugs: regressions and security problems.
+>+Bugs are a fact of life; it is important that we handle them properly. The
+>+documents below provide general advice about debugging and describe our
+>+policies around the handling of a couple of special classes of bugs:
+>+regressions and security problems.
+>
+> .. toctree::
+>    :maxdepth: 1
+>
+>+   debugging/index
+>    handling-regressions
+>    security-bugs
+>    cve
+>
+>-- 
+>2.25.1
+
+--6zqfebw3lp2d5uji
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-fixup-docs-Add-debugging-section-to-process.patch"
+
+From dd1658eb423fa2b6f1c4dc0e759e885743a16659 Mon Sep 17 00:00:00 2001
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+Date: Wed, 13 Nov 2024 12:22:56 +0100
+Subject: [PATCH] fixup! docs: Add debugging section to process
+
+---
+ .../process/debugging/userspace_debugging_guide.rst   | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/process/debugging/userspace_debugging_guide.rst b/Documentation/process/debugging/userspace_debugging_guide.rst
+index a7c94407bcae..61d7ee968687 100644
+--- a/Documentation/process/debugging/userspace_debugging_guide.rst
++++ b/Documentation/process/debugging/userspace_debugging_guide.rst
+@@ -114,9 +114,10 @@ For the full documentation see `<https://kernelshark.org/Documentation.html>`__
+ Perf & alternatives
+ -------------------
+ 
+-The tools mentioned above provide ways to inspect kernel code, results, variable values, etc.
+-Sometimes you have to find out first where to look and for those cases, a box of
+-performance tracking tools can help you to frame the issue.
++The tools mentioned above provide ways to inspect kernel code, results,
++variable values, etc. Sometimes you have to find out first where to look and
++for those cases, a box of performance tracking tools can help you to frame the
++issue.
+ 
+ Why should you do a performance analysis?
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -134,8 +135,8 @@ How to do a simple analysis with linux tools?
+ For the start of a performance analysis, you can start with the usual tools
+ like:
+ 
+-- ``top`` / ``htop`` / ``atop`` (*get an overview of the system load, see spikes on
+-  specific processes*)
++- ``top`` / ``htop`` / ``atop`` (*get an overview of the system load, see
++  spikes on specific processes*)
+ - ``mpstat -P ALL`` (*look at the load distribution among CPUs*)
+ - ``iostat -x`` (*observe input and output devices utilization and performance*)
+ - ``vmstat`` (*overview of memory usage on the system*)
+-- 
+2.25.1
+
+
+--6zqfebw3lp2d5uji--
 
