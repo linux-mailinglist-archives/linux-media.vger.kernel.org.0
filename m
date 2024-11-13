@@ -1,72 +1,71 @@
-Return-Path: <linux-media+bounces-21355-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21356-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C809C6A13
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 08:36:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 587A89C6A14
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 08:37:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1001FB227C4
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 07:36:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18CD5281322
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 07:37:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1A8D185939;
-	Wed, 13 Nov 2024 07:35:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0329C185B4C;
+	Wed, 13 Nov 2024 07:37:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D5OU23cy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJDpiXFS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2709C35885
-	for <linux-media@vger.kernel.org>; Wed, 13 Nov 2024 07:35:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC30135885
+	for <linux-media@vger.kernel.org>; Wed, 13 Nov 2024 07:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731483356; cv=none; b=Yo86NMO6rScgKUwIwhCi77RxpsPhZSv+NOiB1b2LcIZ48iFJpXkInzWha8gZoXyNdAzQvwfKfdmfvWnvvexh8iaeZ0i8rPOWPwcdcJT1Vvq9BrsaqKZ4uY6/hUe17vjSFSToTbdm4a3iXSe1c8eFCzMsc6nn5v9CiJ2c4jeBfrw=
+	t=1731483470; cv=none; b=okgMvAClyh71FHPpBgZXDidi7kHVHMk+jvSkGnKUZXGXgDuE7uKXSAb6awibblP20bjg0Wnxq0M/rKZvJnh/hvRxYmYK0wAJwIz0PTNq7FbYuEZVs4asqJ3YPYytmj07Fu8DLa/jh2scJx4Hnncjs0+bhFOJwC6IdMyabMeckJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731483356; c=relaxed/simple;
-	bh=PtXwfXq3iixGuDJTXIJT0m9vKi4k6mkz8SAPlMcyrtM=;
+	s=arc-20240116; t=1731483470; c=relaxed/simple;
+	bh=+oAZzdOKyU5yK8oEN1L/lE/z4p47QVmZtXhprDUZ/eo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gvZHGGDP6/JHkPl670ozt4YjjtPxNsDsB0H8oLAkPYGc2uv7VQmUnbEN0NIOTOd/fKUCY9SHwVu2EXK6eAYrFHAdQX6hXYMmXRuYSxY/l+7xXMqPUFZNGy9/+ckcPqtneKMBftDzIS0Vik5URSgmuR111pGZ5jRbz0emXJ2tuAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D5OU23cy; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=GRBzSpuIjKCqIDiJ5SZYuwLHriBwhWvVza2lT4aWX1aKo7h+msemVyDDKn47yfTXSPJOV8YS3+1s7hBys/sxgJ1Jg6SrhQRNzgkDb2hBHRRunHiOIRUSqZ9H9GB2vOtH+04jETk1fTU0K9txq/4JAej2n0sb0T43snHtCYDzvcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJDpiXFS; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731483354; x=1763019354;
+  t=1731483469; x=1763019469;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=PtXwfXq3iixGuDJTXIJT0m9vKi4k6mkz8SAPlMcyrtM=;
-  b=D5OU23cyVKyVopt6uyMNuIbE8+F5xXDF/kGfCwEqtw4bjaCi6uPnlVkA
-   ymDkTrVKhxYs73E9TyGqDZmlnJSvZBh4GqShlWlh+VxtyPh2/rrh4tFXT
-   tjbV7/yDsuMSC7tPOCSePjaWyKyzrm6P/D07axbA1z0hyyQJMyLUM2izq
-   xZmWZ58cNZ5ggwd7KY5l+mEyD7yOFmyBcmYsKam0hjVNMLSOTTF1nNor4
-   JrH9U9O4klUO4c7H6kJCjUj+NVLNWKZmcowR51SbGOxwtqiRQnL1FjCi8
-   O1YX3G9L8AmYm2EXbBdXrUJQWhoio96pM2niu3tfBB2Kh6a6qEK2AfGbN
-   Q==;
-X-CSE-ConnectionGUID: KwjQczOnQjGOMVU7XLOOAA==
-X-CSE-MsgGUID: mmQAqSWTS82eHRKT3b5fQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="35289120"
+   mime-version:in-reply-to;
+  bh=+oAZzdOKyU5yK8oEN1L/lE/z4p47QVmZtXhprDUZ/eo=;
+  b=QJDpiXFS+aZCO0BcW8z00XFbOnF1OcVhvEiZaxpSxImBL3JiC9z8UulR
+   qfGhLGaSUdHHJWCvCw5fxGwWRYsVKlGxkA0hh7uB88tul1nBUjHVMqjGB
+   neDrKBgTojWKSLtz7Vetjy0Ml02mV/vqVVQYC7psdq3UGQ+Riqymqmg5/
+   iCHNy3PQd/UIT5LcOmJh0FlQ+1pzk2mPzW+XxBSzQDRKYg4GshV6q1+d0
+   pmGEQvwV9TcFnth+NIJbWHCoTBZe2Ul7Jge1Xcwg44T1mW/bqHaO+IX9p
+   TGqJwam6lPchFP/dfRfVQdehO5PmPdzU2lPBhqYEq/3d7fQPMPg2wZiwP
+   g==;
+X-CSE-ConnectionGUID: vsM8H4bsRsODczsdfyhF/A==
+X-CSE-MsgGUID: 5+wy7n+/S1OkbNmlfZAyvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31471859"
 X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="35289120"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 23:35:53 -0800
-X-CSE-ConnectionGUID: bQ9w9u2bQgun8sIrBZCpkg==
-X-CSE-MsgGUID: LEKLNe5yTdi1yYngI7cYLw==
+   d="scan'208";a="31471859"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 23:37:48 -0800
+X-CSE-ConnectionGUID: cIkmG30zR0KICf46jlHPaA==
+X-CSE-MsgGUID: Kj+gVWQLR5+/PGDs34W7PQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="92748850"
+   d="scan'208";a="87945254"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 23:35:49 -0800
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 23:37:44 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 5ABB811F72D;
-	Wed, 13 Nov 2024 09:35:46 +0200 (EET)
-Date: Wed, 13 Nov 2024 07:35:46 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id ABA1D11F72D;
+	Wed, 13 Nov 2024 09:37:41 +0200 (EET)
+Date: Wed, 13 Nov 2024 07:37:41 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
 	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
 	Alexander Shiyan <eagle.alexander923@gmail.com>,
 	Mikhail Rudenko <mike.rudenko@gmail.com>,
@@ -78,597 +77,42 @@ Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	Julien Massot <julien.massot@collabora.com>,
 	Naushir Patuck <naush@raspberrypi.com>
-Subject: Re: [RFC 3/4] media: Documentation: Add subdev configuration models,
- raw sensor model
-Message-ID: <ZzRW0g4LobeORzSp@kekkonen.localdomain>
+Subject: Re: [RFC 4/4] media: v4l: ctrl: Add V4L2_CID_CONFIG_MODEL control
+Message-ID: <ZzRXRWoWjQ0zgRda@kekkonen.localdomain>
 References: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
- <20241011075535.588140-4-sakari.ailus@linux.intel.com>
- <o3vd3xnxjdfoitipoehoef4nycxmv6bvzjcq427gz3aqn2h5ku@yhspyjdngj73>
- <20241022221032.GF9497@pendragon.ideasonboard.com>
+ <20241011075535.588140-5-sakari.ailus@linux.intel.com>
+ <20241022194253.GE9497@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241022221032.GF9497@pendragon.ideasonboard.com>
+In-Reply-To: <20241022194253.GE9497@pendragon.ideasonboard.com>
 
-Hi Jacopo, Laurent,
+Hi Laurent,
 
-Thank you for the review.
-
-On Wed, Oct 23, 2024 at 01:10:32AM +0300, Laurent Pinchart wrote:
-> Hello,
+On Tue, Oct 22, 2024 at 10:42:53PM +0300, Laurent Pinchart wrote:
+> > index 8ec801998f5f..d4ae921b69c8 100644
+> > --- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > @@ -1,5 +1,7 @@
+> >  .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
+> >  
+> > +.. _media_subdev_config_model:
+> > +
 > 
-> On Tue, Oct 22, 2024 at 06:02:32PM +0200, Jacopo Mondi wrote:
-> > On Fri, Oct 11, 2024 at 10:55:34AM +0300, Sakari Ailus wrote:
-> > > Sub-device configuration models define what V4L2 API elements are
-> > > available on a compliant sub-device and how do they behave.
-> > >
-> > > The patch also adds a model for common raw sensors.
-> > >
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  .../media/drivers/camera-sensor.rst           |   5 +
-> > >  .../media/v4l/common-raw-sensor.dia           | 441 ++++++++++++++++++
-> > >  .../media/v4l/common-raw-sensor.svg           | 134 ++++++
-> > >  .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
-> > >  .../media/v4l/subdev-config-model.rst         | 180 +++++++
-> > >  5 files changed, 762 insertions(+)
-> > >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.dia
-> > >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.svg
-> > >  create mode 100644 Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > >
-> > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > index ad4049ff7eec..727cc12bc624 100644
-> > > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > @@ -18,6 +18,9 @@ binning functionality. The sensor drivers belong to two distinct classes, freely
-> > >  configurable and register list based drivers, depending on how the driver
-> > >  configures this functionality.
-> > >
-> > > +Also see
-> > > +:ref:`media_subdev_config_model_common_raw_sensor`.
-> 
-> The line break doesn't seem necessary.
+> This could be moved to 3/4.
 
-I agree.
+Yes, that's where it belongs indeed.
 
 > 
-> > > +
-> > >  Freely configurable camera sensor drivers
-> > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >
-> > > @@ -105,6 +108,8 @@ values programmed by the register sequences. The default values of these
-> > >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
-> > >  independently of the sensor's mounting rotation.
-> > >
-> > > +.. _media_using_camera_sensor_drivers_embedded_data:
-> > > +
-> > >  Embedded data
-> > >  -------------
-> > 
-> > [snip images]
-> 
-> One day we should probably try to unify the look & feel of all diagrams
-> in the V4L2 documentation. One day :-)
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-That day may or may not come. :-)
-
-> 
-> > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > index dcfcbd52490d..4d145bd3bd09 100644
-> > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > @@ -838,3 +838,5 @@ stream while it may be possible to enable and disable the embedded data stream.
-> > >
-> > >  The embedded data format does not need to be configured on the sensor's pads as
-> > >  the format is dictated by the pixel data format in this case.
-> > > +
-> > > +.. include:: subdev-config-model.rst
-> 
-> I think we should reorganize the documentation at some point. Things are
-> getting a bit too deep, with e.g. 4.13.5.1.2. That's for later.
-> Splitting the configuration model to a separate file as done in this
-> patch will be helpful.
-> 
-> > > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > > new file mode 100644
-> > > index 000000000000..8ec801998f5f
-> > > --- /dev/null
-> > > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > > @@ -0,0 +1,180 @@
-> > > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-> > > +
-> > > +Sub-device configuration models
-> > > +===============================
-> > > +
-> > > +A sub-device configuration model specifies in detail what the user space can
-> > > +expect from a sub-device in terms of V4L2 sub-device interface support,
-> > > +including semantics specific to a given configuration model.
-> > > +
-> > > +A sub-device may implement more than one configuration model at the same
-> > > +time.
-> 
-> I wonder how that would work. I assume that, with the control being
-> read-only, you don't envision userspace selecting a model at runtime,
-> but rather drivers implementing the union (or intersection ?) of
-> multiple models. Do you have use cases in mind, or is this only to
-> prepare for a hypothetical future where this could happen ?
-
-Let's suppose we would use configuration models to tell about other parts
-of the sub-device than just what pads, links and streams may be present. A
-number of things currently work implicitly, for instance whether a sensor
-frame time is configured through controls or a dedicated IOCTL. I'm not
-sure I'd add a configuration model for that exactly but something like that
-seems entirely reasonable. It'd be orthogonal to the common raw sensor
-model.
-
-> 
-> > The implemented configuration models can be obtained from the sub-device's
-> > > +``V4L2_CID_CONFIG_MODEL`` control.
-> > 
-> > Isn't a control an overkill ? Isn't enough to identify that a sensor produces
-> > RAW images and has an internal pad to the below description ?
-> 
-> V4L2 has a set of low-level, generic interfaces such as pads (external
-> and internal), formats, selection rectangles, routes, and controls. We
-> have some documentation about how those should be used, with a
-> relatively generic model defined in the "Order of configuration and
-> format propagation" section of Documentation/userspace-api/media/v4l/dev-subdev.rst.
-> The different API elements are however mostly defined independently of
-> each other (very little is said about interactions between controls and
-> formats or selection rectangles for instance), and we don't document how
-> they should be mapped to device features. This results in different
-> drivers for similar devices using the API elements differently,
-> sometimes in ways that breach the documented API. Userspace ends up
-> implementing heuristics and pray that thing work.
-> 
-> The whole idea behind configuration models is to avoid heuristics.
-> That's why we want an explicit API element to indicate what
-> configuration model a device supports, and document that model
-> explicitly in the kernel documentation.
-> 
-> > Also, would it be the single sensor driver that has to correctly
-> > populate the control ?
-> > 
-> > > +
-> > > +.. _media_subdev_config_model_common_raw_sensor:
-> > > +
-> > > +Common raw camera sensor model
-> > > +------------------------------
-> > > +
-> > > +The common raw camera sensor model defines the configurability of a superset
-> 
-> A superset of what ? Reading the next sentence I suspect you mean that
-> this model defines a set of features that compliant subdevs have to use
-> as documented, but where some API elements could be left unused by a
-> driver if the corresponding device doesn't implement the corresponding
-> hardware feature. Clarifying this would be nice.
-
-The intent is to say not everything may be impelemented by the sensors but
-there may be simpler ways to do that. How about:
-
-The common raw camera sensor model defines a set of configuration options
-(formats, selections etc.) that cover the vast majority of funcitionality of raw
-camera sensors. Not all of the configuration and enumeration interfaces are
-offered by all drivers.
-
-> 
-> > > +that covers the vast majority of raw camera sensors. Not all of the
-> > > +configuration and enumeration interfaces are offered by all drivers.
-> > > +
-> > > +A sub-device complies with the common raw sensor model if the
-> > > +``V4L2_CONFIG_MODEL_COMMON_RAW`` bit is set in the ``V4L2_CID_CONFIG_MODEL``
-> > > +control of the sub-device.
-> > > +
-> > > +The common raw camera sensor model is aligned with
-> > > +:ref:`media_using_camera_sensor_drivers`. Please refer to that regarding aspects
-> > > +not specified here.
-> 
-> Could we write this to emphasize the fact that
-> media_using_camera_sensor_drivers defines concepts common to all camera
-> sensors, while the model here focusses on how drivers expose API
-> elements for this particular model ? "is aligned with" is a bit vague.
-
-I think I'll just keep a reference here and add such a note to the other
-file.
-
-> 
-> > > +
-> > > +Each camera sensor implementing the common raw sensor model exposes a single
-> > > +V4L2 sub-device. The sub-device contains a single source pad (0) and two or more
-> > > +internal pads: an image data internal pad (1) and optionally an embedded data
-> > > +pad (2). Additionally, further internal pads may be supported for other
-> > > +features, in which case they are documented separately for the given device.
-> > 
-> > That's pretty easy to identify from userspace without a control, isn't
-> > it ?
-> 
-> See above.
-> 
-> > > +
-> > > +This is show in :ref:`media_subdev_config_model_common_raw_sensor_subdev`.
-> 
-> s/show/shown/
-> 
-> Maybe
-> 
-> This is show in the :ref:`media_subdev_config_model_common_raw_sensor_subdev`
-> figure.
-> 
-> 
-> Or is there a sphinx directive other than ref that would automate this ?
-
-As these will be links, I'd just keep it as-is. Adding the note on what the
-references are (figures, tables etc.) should be done separately from this,
-including numbering.
-
-> 
-> > > +
-> > > +.. _media_subdev_config_model_common_raw_sensor_subdev:
-> > > +
-> > > +.. kernel-figure:: common-raw-sensor.svg
-> > > +    :alt:    common-raw-sensor.svg
-> > > +    :align:  center
-> > > +
-> > > +    **Common raw sensor sub-device**
-> > > +
-> > > +Routes
-> > > +^^^^^^
-> > > +
-> > > +A sub-device conforming to common raw camera sensor model implements the
-> > > +following routes.
-> > > +
-> > > +.. flat-table:: Routes
-> > > +    :header-rows: 1
-> > > +
-> > > +    * - Sink pad/stream
-> > > +      - Source pad/stream
-> > > +      - Static (X/M(aybe)/-)
-> > 
-> > afaiu either the route is Static (cannot be changed) or it is not.
-> > What does Maybe means here ?
-
-It depends on the device.
-
-> >
-> > > +      - Mandatory (X/-)
-> > > +      - Synopsis
-> > > +    * - 1/0
-> > > +      - 0/0
-> > > +      - X
-> > > +      - X
-> > > +      - Image data
-> > > +    * - 2/0
-> > > +      - 0/1
-> > > +      - M
-> > > +      - -
-> 
-> This is interpreted as a list, translated to
-> 
-> <ul class="simple">
-> <li></li>
-> </ul>
-> 
-> and rendered as •
-
-The backslash was missing, I'll add one.
-
-> 
-> > > +      - Embedded data
-> > > +
-> > > +Some devices may support enabling and disabling the embedded data stream. Others
-> > > +may not support it at all, in which case the embedded data route does not exist.
-> 
-> "may not support it at all" can be interpreted as "maybe not support
-> enabling and disabling it at all", i.e. only support a static always
-> enabled route. Based on the last sentence that's not what you mean, it
-> could be reworded.
-
-How about:
-
-Some devices do not support the embedded data stream, others do support it and
-in some of the latter, it can be turned on and off before streaming is started.
-
-> 
-> > 
-> > Does the driver need to expose a routing table at all if it has a
-> > single, immutable image data stream ?
-> 
-> I think it should. If there are internal pads, they should be an
-> internal routing table, at the very least for consistency. It will make
-> userspace simpler I believe (and we can check that statement with a
-> libcamera implementation :-)).
-
-I agree. The routing table does not only tell what's there, it also tells
-what's not.
-
-> 
-> > > +
-> > > +Sensor pixel array size, cropping and binning
-> > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > +
-> > 
-> > This is not something I was expecting here. We teach how to compute
-> > framerates for RAW sensors in camera-sensor.rst ("Using camera sensor
-> > drivers") specifying which controls a sensor driver should register and
-> > the expected controls units. It seems to me we define part of the expected
-> > interface exposed by a raw camera sensor there and part here. I wonder
-> > if camera-sensor.rst makes any sense at all if we define the "models"
-> > here.
-> 
-> Good question. I find the split to be a bit artificial indeed, and it's
-> not clear where some of the parts should live. I think we still need a
-> document that explains concept common to raw sensors, regardless of the
-> model. We probably won't get the split entirely right on the first try,
-> and that's fine with me, we can refine it later.
-
-There are some aspects that are different from what is documented and
-implemented elsewhere, such as some of the selectiong rectangles.
-
-> 
-> > > +The sensor's pixel array is divided into one or more areas. The areas around the
-> > > +edge of the pixel array, usually one one or more sides, may contain optical
-> 
-> "one one" ?
-
-One one might be enough indeed.
-
-> 
-> > > +black pixels, dummy pixels and other non-image pixels.
-> > > +
-> > > +A rectangle within the pixel area contains the visible pixels. Capturing the
-> 
-> Above you wrote "pixel array", and here "pixel area".
-
-This should be pixel array, I'll fix it.
-
-> 
-> > > +non-visible pixels may be supported by the sensor.
-> > 
-> > This is a bit of simplification, as I presume there might be
-> > rectangles of visible pixels which overlap in the most advanced use
-> > cases.
-> > https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/property_ids_core.yaml#n594
-> 
-> That's a more generic model. I'd like to see if there are sensors
-> implementing it. Sakari, does CCS support that ?
-> 
-> This being said, we could restrict this subdev model to supporting only
-> sensors with a rectangular visible pixels area.
-
-The current frame format descriptors in CCS can't, I'm not sure if vendors
-might prefer to be able to do that. The CSI-2 long packets (lines) still
-need to be the same length.
-
-In practice the visible pixel areas are rectangular, at least in those
-sensor I've seen, so perhaps it's fine to indeed assume that.
-
-> 
-> > > +
-> > > +The sensor can perform three operations that affect the output image size. First
-> > > +comes analogue crop. This configuration limits parts of the pixel array which
-> > > +the sensor will read, affecting sensor timing as well. The granularity of the
-> > > +analogue crop configuration varies greatly across sensors: some sensors support
-> > > +a few different analogue crop configurations whereas others may support anything
-> > > +divisible by a given number of pixels.
-> > > +
-> > > +The default analogue crop rectangle corresponds to the visible pixel area if
-> > > +supported by the hardware.
-> > 
-> > In what sense "if supported by the hardware" ? Is this referring to
-> > the "visibile pixel area" ?
-> 
-> I assume this means "if analogue crop is supported by the hardware".
-> This should be clarified.
-
-Yes, analogue crop is not supported by all sensors (nor drivers, even if
-the sensor does). I'd just do: s/if.*//.
-
-> 
-> > > +
-> > > +In the next step, binning is performed on the image data read from camera
-> > > +sensor's pixel array. This will effectively result in an image smaller than the
-> > > +original by given proportions horizontally and vertically. Typical values are
-> > 
-> > s/proportions/scaling factors/ ?
-
-How about "binning factors"?
-
-> > 
-> > > +1/2 and 1/3 but others may well be supported by the hardware as well.
-> > > +
-> > > +The combination of the analogue crop and binning operations may result in an
-> > > +image size that may be larger than desirable. For this purpose, a digital crop
-> > 
-> > This is highly optional it seems.
-> > 
-> > > +operation may be performed on the binned image. The resulting image size is
-> > > +further outputted by the sensor.
-> 
-> s/outputted/output/ ? I think "outputted" is correct, but I believe it's
-> less common.
-
-Given how "put" inflects, it probably should be "output" indeed.
-
-> 
-> > > +
-> > > +.. flat-table:: Selection targets on pads
-> > > +    :header-rows: 1
-> > > +
-> > > +    * - Pad/Stream
-> > > +      - Selection target/format
-> > > +      - Mandatory (X/-)
-> > > +      - Synopsis
-> > 
-> > What about an R/W column ?
-> > 
-> > > +    * - 1/0
-> > > +      - Format
-> > > +      - X
-> > > +      - Image data format. The width and height fields of this format are the
-> > > +        same than those for the V4L2_SEL_TGT_CROP_BOUNDS rectangle. The media
-> > 
-> > Can sizes be changed at all ?
-> 
-> For the internal image pad, I wouldn't think so. I think it should
-> expose the full readable array. Or, reading what you wrote below, do you
-> envision this including non-readable pixels too ?
-
-I don't -- they can't be accessed in any case. Timing information (such as
-the latching points) should probably be conveyed using a different API if
-they're needed.
-
-> 
-> Mapping pixel array definitions from datasheets to formats and selection
-> rectangles is hard, as datasheets, when they are available, are often
-> confusing. Datasheets from different vendors, or even for different
-> sensors of the same vendor, often have different models. I think we need
-> to be extra precise here, and possibly work with sensor vendors. Using
-> the CCS model as a base could be useful.
-
-I wouldn't necessarily try to convey what non-visiblepixels might be there,
-apart from in the documentation. These tend to be fairly vendor/sensor
-specific after all.
-
-> 
-> > > +        bus code of this format reflects the native pixel depth of the sensor.
-> > > +    * - 1/0
-> > > +      - V4L2_SEL_TGT_NATIVE_SIZE
-> > > +      - X
-> > > +      - The full size of the pixel array, including all pixels in the pixel
-> > > +	array, even if they cannot be captured. This rectangle is relative to
-> > > +	the format on the same (pad, stream).
-> 
-> Mix of tabs and spaces.
-> 
-> What do you mean by "relative to the format on the same (pad, stream)" ?
-> Does it mean the rectangle is expressed relatively to a rectangle
-> defined as (0,0),(fmt.width x fmt.height) ? That doesn't seem to match
-
-Yes.
-
-> the description of the format and V4L2_SEL_TGT_CROP_BOUNDS, as the
-> format is defined as having the same width and height as
-> V4L2_SEL_TGT_CROP_BOUNDS, and V4L2_SEL_TGT_CROP_BOUNDS is defined as
-> being relative to V4L2_SEL_TGT_NATIVE_SIZE. I assume you mean something
-> else, it should be clarified.
-
-As discussed, I'll drop the NATIVE_SIZE rectangle from the documentation as
-redundant.
-
-> 
-> > > +    * - 1/0
-> > > +      - V4L2_SEL_TGT_CROP_BOUNDS
-> > > +      - X
-> > > +      - The crop rectangle bounds. No pixels outside this area can be
-> > 
-> > I would describe it as "the readable part of the full pixel array
-> > area" instead of repeating "crop rectangle bounds"
-> 
-> Agreed. I would also explicitly state this can include black pixels. I
-> wonder if we should also define border pixels in this document.
-
-I wouldn't try to convey in APIs what qualities different non-visible
-pixels might have or where they are located, just that they're non-visible
-pixels.
-
-> 
-> > > +        captured. This rectangle is relative to the V4L2_SEL_TGT_NATIVE_SIZE
-> > 
-> > > +    * - 1/0
-> > > +      - V4L2_SEL_TGT_CROP_DEFAULT
-> > > +      - X
-> > > +      - The visible pixel area. This rectangle is relative to the
-> > 
-> > Isn't this the default analogue crop rectangle ?
-> 
-> I assume so, and it should be documented as such explicitly. Also, if
-> the default crop rectangle doesn't include some of the readable pixels, 
-
-It does indeed say this is the "visible pixel area". I can elaborate this in
-the analogue crop documentation -- it's possible the sensor doesn't support
-capturing just visible pixels, even if it's unlikely.
-
-> 
-> > > +        V4L2_SEL_TGT_NATIVE_SIZE rectangle on the same (pad, stream).
-> > > +    * - 1/0
-> > > +      - V4L2_SEL_TGT_CROP
-> > > +      - \-
-> > > +      - Analogue crop. Analogue crop typically has a coarse granularity. This
-> > > +        rectangle is relative to the V4L2_SEL_TGT_NATIVE_SIZE rectangle on the
-> > > +        same (pad, stream).
-> > > +    * - 1/0
-> > > +      - V4L2_SEL_TGT_COMPOSE
-> > > +      - \-
-> > > +      - Binning. This rectangle is relative to the V4L2_SEL_TGT_CROP
-> > > +        rectangle on the same (pad, stream).
-> > 
-> > The size ratio between the V4L2_SEL_TGT_CROP and V4L2_SEL_TGT_COMPOSE
-> > rectangles selects the desired binning factor.
-> > 
-> > > +    * - 2/0
-> > > +      - Format
-> > > +      - X
-> > > +      - Embedded data format.
-> > > +    * - 0/0
-> > > +      - V4L2_SEL_TGT_CROP
-> > > +      - \-
-> > > +      - Digital crop. This rectangle is relative to the V4L2_SEL_TGT_COMPOSE
-> > > +        rectangle on (pad, stream) pair 1/0.
-> > > +    * - 0/0
-> > > +      - Format
-> > > +      - X
-> > > +      - Image data source format. The width and height fields of the format are
-> > > +        the same than for the V4L2_SEL_TGT crop rectangle on (pad, stream) pair
-> 
-> I think you meant "V4L2_SEL_TGT_CROP rectangle" here.
-
-Yes.
-
-> 
-> > > +        0/0 where as the media bus code reflects the pixel data output of the
-> > 
-> > s/where as/and ?
-> > Or maybe I didn't get what you mean
-
-And works here, yes.
-
-> > 
-> > > +        sensor.
-> > > +    * - 0/1
-> > > +      - Format
-> > > +      - X
-> > > +      - Embedded data source format.
-> 
-> I think we also need to consider skipping.
-
-I'll add sub-sampling in v2.
-
-> 
-> > > +
-> > > +Embedded data
-> > > +^^^^^^^^^^^^^
-> > > +
-> > > +The embedded data stream is produced by the sensor when the corresponding route
-> > > +is enabled. The embedded data route may also be immutable or not exist at all,
-> > > +in case the sensor (or the driver) does not support it.
-> > > +
-> > > +Generally the sensor embedded data width is determined by the width of the image
-> > > +data whereas the number of lines are constant for the embedded data. The user
-> > > +space may obtain the size of the embedded data once the image data size on the
-> > > +source pad has been configured.
-> > > +
-> > > +Also see :ref:`media_using_camera_sensor_drivers_embedded_data`.
-> > > +
-> 
+Thanks!
 
 -- 
-Kind regards,
-
 Sakari Ailus
 
