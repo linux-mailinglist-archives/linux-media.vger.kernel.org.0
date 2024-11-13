@@ -1,164 +1,124 @@
-Return-Path: <linux-media+bounces-21364-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21365-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85999C6BB4
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 10:46:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E6B9C6C1D
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 10:55:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D02F1F21C5B
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 09:46:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F213289E9C
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2024 09:55:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8590C1F80CC;
-	Wed, 13 Nov 2024 09:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3EB31F9A9D;
+	Wed, 13 Nov 2024 09:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZKEyeK+6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XzeYPeAk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84220165EE3;
-	Wed, 13 Nov 2024 09:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8D51F81AC
+	for <linux-media@vger.kernel.org>; Wed, 13 Nov 2024 09:53:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731491176; cv=none; b=lIn6DprxnZJuJtYaT48eeegKB3DqPLvno6IUgaMizRuTdUYkrw98h2iSkLwYLiP649XxItOLm+rXq6TIs6fTaPJoZHzhfmuI3qnIFamqrkbmqyEbPswAc2AlKPqBcs7g6nbDlUfcTBnhvdm9ImwomxSzpDHfP7UGRGjemmtxRG0=
+	t=1731491607; cv=none; b=Q9+ZRschFvHIZ3WOXWZ9c+6VK1tjIwcFDyh0NFM36We3OLlPsXEtPb2Ft9TXKqVkcU878SKg74Ej8WK79Fj6yQM38D2spnEX3KK5wy1wFOxwZRwu0IHzDTkngdsPQ1q6a4WDPxmpN345/j6MshlouwHVH3f4O4abor/1OorC4FA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731491176; c=relaxed/simple;
-	bh=apE8jTV/ZkMww8QZb6cSv/1Or8/nWuo6+FYangEzxtA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V4FclAF9Ptj6lczMMbssUy2ga5ikANBvSUDyoEPYLYgX6IBaO80DSmnz5lCYPK7hokF17N9mVtKHewC62Kug7h/VqOHqDiZRcZSg4uk9KLGh7xJqYa4j69+Zg6zgSG/nTAtm5KjOm3Bm07zWtx1PtI5I8MxO6JUdFDVJFPIM5QA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZKEyeK+6; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B325FFF806;
-	Wed, 13 Nov 2024 09:46:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1731491171;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pHq+vYIrolU1nZUuSeLnYvUIGG1CZQC1c8NU0N+rIFc=;
-	b=ZKEyeK+6V5aRy331CcLZv4lE78JJh8eOCitutwiN/gjfA2MyLxRPJxyzjrZUvfD+58OFwd
-	u2wDu+EBSc+OBJN3w/29epRgCBPrlb/h6H/e/moCnbZEGnmtuRGeay2fiUVgWqRp9U2WX4
-	PU6m5qhVvh93cDuuTmQYtuFRhN/PNqXH1KFjcPutLbB3b9TLFEa3WkmMLjR4bSwz9C5At9
-	SLPa268aBsgfm4Odfu6S46V7BTEH6LmoCP0iqMxPdXwzgCgEtBf3Taja1KXAXp+Prug4v2
-	2+VWQXeqU4+/esBoCSJ6oU6satKkWtK4s6koW3E+p761tvCcEwQJ02PGSeYdWg==
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Derek Kiernan <derek.kiernan@amd.com>, Dragan Cvetic <dragan.cvetic@amd.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Kory Maincent <kory.maincent@bootlin.com>, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org
-Subject:
- Re: [PATCH 1/9] dt-bindings: misc: Describe TI FPC202 dual port controller
-Date: Wed, 13 Nov 2024 10:46:10 +0100
-Message-ID: <4965494.31r3eYUQgx@fw-rgant>
-In-Reply-To: <20241108-reimburse-saucy-2682e370469a@spud>
-References:
- <20241108-fpc202-v1-0-fe42c698bc92@bootlin.com>
- <20241108-fpc202-v1-1-fe42c698bc92@bootlin.com>
- <20241108-reimburse-saucy-2682e370469a@spud>
+	s=arc-20240116; t=1731491607; c=relaxed/simple;
+	bh=Uug7HgmHCE18MUaMvJMyzBCDFL3S+vw07GzHBz1/g/c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bbty+/wtycsiknTbZzlor2/aaGn8IhzAGb3BGKipkRhnFmhP9W9o+fp2MpCL9CmOXGvH5pcGmbyCwZNMcqRxkxjjCiHyt2yfpcEqAZD9uRlo6+98/P9FFhqavrC/Zdy37idE+yCpUCDJKrZn/ql1mobheLo6F/ZX067aX1Ms08w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XzeYPeAk; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539ee1acb86so7272868e87.0
+        for <linux-media@vger.kernel.org>; Wed, 13 Nov 2024 01:53:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731491604; x=1732096404; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kRiI8ug3AYbE8oUaAFF3LUV+ji3WnDg4RK6r/3kZnGA=;
+        b=XzeYPeAkMtcM/xTlsf0bb330SHvo1qoae5C5ycWP1mLxnAt8X5rU6Ni7WjKQFjN7r7
+         8KCUKxwY+DZ41/EM8qb5RVifMABJBrB6d1uFndxW4l5fLxrTI1YHObBtHeGbxx6ry7r/
+         Ap14PZS4zyAsxPv+tiZzmVt+xJUx0TNEWbh7ro5W2AcNLWS9cerpN0MyVr9iDRGDMLnS
+         dn9oH1zjc7gsO9/qzwFc4/uNDijse3DVhlk/WcorArNRzeUjZRYBLLxtBvKcVK0kM06c
+         xEW8miQ8xXw9/d5LEjvRiFrkyR5iNdPJZHxrRtd7RRUb34ivaK5Bfnqy73pndnFo2ojQ
+         Bklw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731491604; x=1732096404;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kRiI8ug3AYbE8oUaAFF3LUV+ji3WnDg4RK6r/3kZnGA=;
+        b=TroxgFiejbVFtvknQwAQ/JXBq2kp+5Mm0pZMc1eMXro47frsqD82zf0u2LuaNF0hW1
+         WaAqMcANZARpASaCTPeysi1tGd4aJHGThZzhEADZt31aOHZPGciGvdMVeG2b5mPDOqiQ
+         /oLAYicN4SlOG9q6l++KBV+UMjnoDSkUuU25MxXaDcOfFWfW1X5b06pdin914bHORKoI
+         JWwa83oCWUGBNNCH/9AkcU6nJRpj2ZIZrk/m86f8LM+TFLqKfvyy2X2hFsJhgnMVlD/F
+         oNgbeXCloGwoqcoNGrtmw1+xgn/cNwBH+Rn3E4kR55IZPRhOuiOO2eighUjz+WKyMLij
+         NKJw==
+X-Forwarded-Encrypted: i=1; AJvYcCXBjrKadd0FDT8uU1CcUhrkGx5mkNJrtTtqqiVYR2QCpB92IFagr9mTX/dQqTUF0tv5dqeLhH6zcDytbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcypaVWnxUumvorCM9ccebWGDMalmLzeNTsU4TQ0ke+WK8tto1
+	IdOhAYGFEvEIfajnvmC8OZAWhTdYPGv6Q8lq8zK0lFsTL7ywajYg1Qokc5SfDyo=
+X-Google-Smtp-Source: AGHT+IFp2XO8/M1hfYDyTXRtoRIwGiCo6RswIKBUnV2CYhn1kxcSXeWiw9nYRa78XmlRcQ91ayRAOg==
+X-Received: by 2002:a19:7708:0:b0:53d:a000:1817 with SMTP id 2adb3069b0e04-53da000188emr717956e87.22.1731491603427;
+        Wed, 13 Nov 2024 01:53:23 -0800 (PST)
+Received: from [192.168.0.48] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d55051easm18906635e9.24.2024.11.13.01.53.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Nov 2024 01:53:23 -0800 (PST)
+Message-ID: <7f8172ee-8285-4e7c-8ba3-826a5516fa9b@linaro.org>
+Date: Wed, 13 Nov 2024 09:53:23 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-GND-Sasl: romain.gantois@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/3] media: qcom: camss: Add MSM8953 resources
+To: barnabas.czeman@mainlining.org,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>
+References: <20241103-camss-msm8953-v4-0-48d0ec75958d@mainlining.org>
+ <20241103-camss-msm8953-v4-3-48d0ec75958d@mainlining.org>
+ <6833ebc6-9210-471a-8ca6-5f3605155f33@linaro.org>
+ <412b3252f1ca795fbcfaf5e466e94642@mainlining.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <412b3252f1ca795fbcfaf5e466e94642@mainlining.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello Conor,
+On 13/11/2024 08:01, barnabas.czeman@mainlining.org wrote:
+>> I see that you do reuse csiphy_res_8x16 for this platform support, in
+>> this case let me ask you to double check/test that the "vdda" regulator
+>> is actually a CSIPHY regulator, and if so, please move the registration
+>> of the regulators to csiphy_res_8x16 as a preceding change.
+> It is placed in CSID at downstream and this is the documentation of
+> the downstream property:
+> - qcom,mipi-csi-vdd-supply : should contain regulator to be used for
+>      this csid core
+> so it should be a csid regulator as i understand.
+> It is also placed at CSIDs in msm8953-camera.dtsi
 
-On vendredi 8 novembre 2024 19:23:37 heure normale d=E2=80=99Europe central=
-e Conor Dooley wrote:
-> On Fri, Nov 08, 2024 at 04:36:53PM +0100, Romain Gantois wrote:
-=2E..
-> > index
-> > 0000000000000000000000000000000000000000..ad11abe11e68aa266acdd6b43a5b4=
-25
-> > 340bbbba8 --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/misc/ti,fpc202.yaml
-> > @@ -0,0 +1,75 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/misc/ti,fpc202.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: TI FPC202 dual port controller with expanded IOs
-> > +
-> > +maintainers:
-> > +  - Romain Gantois <romain.gantois@bootlin.com>
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/i2c/i2c-atr.yaml#
->=20
-> Gotta say, this looks absolutely nothing like the other i2c-atr user!
+No, the regulator(s) supply voltage to the PHY.
 
-Indeed, the critical difference between the two is that the existing
-user has a global alias pool whereas this component doesn't. So
-the "i2c-alias-pool" property isn't relevant here, and it's currently
-the only property defined by the i2c-atr binding.
+Make sure you have:
 
-We did consider defining a per-channel alias pool in the i2c-atr binding
-but the results were quite awkward and it didn't seem like this property
-belonged in the device tree at all, since the alias values were hardwired
-into the FPC202 and were known in advance.
+commit 44fdbb9d1a3892db92b2c9cf5f46e32ca4095d92
+Author: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Date:   Fri Sep 27 00:19:56 2024 +0300
 
->=20
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: ti,fpc202
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  gpio-controller: true
-> > +
-> > +  "#gpio-cells":
-> > +    const: 2
-> > +
-> > +  enable-gpios:
-> > +    description:
-> > +      Specifier for the GPIO connected to the EN pin.
-> > +    maxItems: 1
-> > +
->=20
-> > +  port0:
-> ports usually go in a ports node, and are port@0 not port0. That said,
-> these are i2c buses, so the node name would usually be i2c@ for those.
-> In fact, given you have i2c-mux as your node name, the binding for that
-> expects you to format your child nodes like '^i2c@[0-9a-f]+$'. Is there
-> a reason you can't just drop this ports business and go with a pattern
-> property here that restricts the pattern to '^i2c@[0-1]$'?
+     media: qcom: camss: add management of supply regulators to CSIPHY
 
-I didn't think of restricting the pattern in this way, that is indeed more
-appropriate than using static port names.
+and give the change a try.
 
-Moreover, I don't think that the "i2c-mux" naming is appropriate here,
-as the FPC202 isn't a mux at all. I'll look for a better name for the next
-iteration.
-
-Thanks,
-
-=2D-=20
-Romain Gantois, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
-
+---
+bod
 
