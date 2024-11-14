@@ -1,210 +1,377 @@
-Return-Path: <linux-media+bounces-21409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21410-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A6B9C8F09
-	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2024 17:02:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1A99C8FC6
+	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2024 17:30:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23C991F22E67
-	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2024 16:02:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B302281F90
+	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2024 16:30:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E738185923;
-	Thu, 14 Nov 2024 16:01:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CCD918E362;
+	Thu, 14 Nov 2024 16:28:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="R/Z7jLgw"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="a1oyTZE3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AC53D96D
-	for <linux-media@vger.kernel.org>; Thu, 14 Nov 2024 16:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCAE14A09A;
+	Thu, 14 Nov 2024 16:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731600110; cv=none; b=VaSTJMekOz0QQyIjW4gTrfglsJLsfAU883mywgOmR7jZ5iR+xoUOyCtlOrENhA/AebaR8EI8R8PcExrMfbF2z59HjXVmz52JoE6WK+piugUoYzjXkv+/V2LUu5pHbAof4HXjfCaAdWgbZiatpujbNT89kJZAAOl869f51d8X/1I=
+	t=1731601687; cv=none; b=E/nYa9aUlRCfZu16R/p7xUaLfGRnPEXFBsyuDmhqlK/3FTzyEYzWEYYzDefzFN2LJwfuQ+uNnZL78sAPDy8wMR0TQlcF4HyfvRGNmfzJIydSjJsbvls9/ir7k+RCJV7EBdts9pk/3+J0gCi1gYUbhvxpxGxzJE/a8J/9l774mcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731600110; c=relaxed/simple;
-	bh=2p5+br6JIn+rJJ5IqmSnGy2w4CU6wjDoK+kbpSR+fYo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eRR6R+gUaK3p5sfk8lV9I09wFyODkJwrqdFE6Ji3SEzBp+CvPTNaRio+SPQVtqhz5TM4vR+fvIvP5aSc4x9mpaTbgOAYOTSE1nh63f8ZKQ6YhhrRl9M9DOruikZ2d7CKXAQ+g9lHcZchLE273AM2HK6ImZI2Jwu4E+SAh6hGguc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=R/Z7jLgw; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d3e8d923fso588567f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 14 Nov 2024 08:01:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1731600107; x=1732204907; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v2eGZqhXUh+UAPCtYMe67IF8Tywre6OlhMFZoVB/+W0=;
-        b=R/Z7jLgw6GjwTOKavaGh7PU/Li+/1L4Pj3r7vB9UkTHeVixHqP3Lk4vqANUkoh98Fu
-         cvTODdyAD6XzC/pgftgoXaS3MXLxmhhvtbq8jyTyGXCX3e/oSmy+A6ioJzuGkuqucFSZ
-         8QsqjJmq/6rSQsu3HmrI2gv+IwrNpzkRaJlg156dBjQWhfW+Aj+Bzh/zTouNW4wjQSOH
-         idu8/Mt0ZtwwPIUeGF4WhLtmJK0FfCbljX/1Jj0ZwXqzKGvrfxmCNm93g0asuByjHFUv
-         M16N3qyoWTV2/yCf3FmPNgUfWrz4AE4h/bbgI2skRkj4Kp2Dbp+PPzr/Vq8lxfNbSrT3
-         bqNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731600107; x=1732204907;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v2eGZqhXUh+UAPCtYMe67IF8Tywre6OlhMFZoVB/+W0=;
-        b=ht9hUnUM4DyqO1BoIaagOpLBQfaGc/SbVYpV44NfWScbrX78ivW+0RRrKiH25iP4T3
-         vivVFEbnK4J85iCq8YgGRAOiyzYp3FcY95I4ijsUHpoOOCeLSe/cqyIKd7/0Y9QrIF2i
-         pMiV+JbhhKjh+aHv8KahHvriRnaCAoREIXkClyQLz8AkSmbZjzgsSc0EPsQ3r7bh+qmy
-         h5p6rTaD3xpTRzblcfH6QgYEMg6dPM/esH/lUIwF52dLBhiJaDYSdHpiIj2gmvek/QnB
-         M1/GqZpDgjNDAxe8KlAPC0r0oqZxM09RmdJgQH8N+r+00iLOqXwZh1MZOLm1udf/b+i+
-         +XtQ==
-X-Gm-Message-State: AOJu0YzWeqG14faVo/9GoAFp6e/70O6xGMj0J1kPQLOMqcYinj/8VXpP
-	SkT2sB37BwiT8dc22JVIohqmNei32C8wStoyOwPxjn1Kv1Ia320n133OIhH60kI=
-X-Google-Smtp-Source: AGHT+IE41nl/kifwf5C3HD2lfOIE9l4CR33KFQ7CwfYgwG7tlg4gz09KKD06z7z6kibfjOlL9Rmy5w==
-X-Received: by 2002:a05:6000:1f82:b0:382:222b:1320 with SMTP id ffacd0b85a97d-382222b168dmr586958f8f.22.1731600105381;
-        Thu, 14 Nov 2024 08:01:45 -0800 (PST)
-Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-382200fe00esm1139024f8f.42.2024.11.14.08.01.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2024 08:01:45 -0800 (PST)
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 14 Nov 2024 16:01:15 +0000
-Subject: [PATCH 3/3] media: i2c: imx290: Add configuration for IMX462
+	s=arc-20240116; t=1731601687; c=relaxed/simple;
+	bh=ASFfmzD+0Wo/BBYW0je0CJJW3E0ggMpvM6dlJQDwT6k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W6on+wCgtZWELjEFzY2lx9d9BEMDGz+mYS+HyPlPDBy2rHgTybzN0Rh7nfDe6FHnjNJtvxWqK4Z2hjt36GrM0qIiDgI7vqpvItElG6Wjvuz4++c7bltIlmuLrIV51QWthzyjadR3roCq2fU6S9aZuWy/bPZVGEBAB1LUnXbxCZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=a1oyTZE3; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=P8lYHt+1bJQjBebIWL1lwJgegPFJe3JiIiEHUo4KVmc=; b=a1oyTZE3hinL4r10g9aDEK0oLB
+	DGHumSrcyPR3HM0Wj8e3FmcHF8UjitkNdbYG/RAITculHe9pljhwjNhhNhgAI4G/+BPVsnlEFY1IC
+	3isy01KJToBKqKAzzcjZVeuc/FoOW9JRWMdDL9I0KjVc3gLiZrojfR2031grhz8cHXGYmRQd64w8u
+	ZYyVs1IiyK8AZb94nH2nxMOASo7CWBtK/JMAofIg5OTbIahbwBnGaDLwwGMnEALrMAwOs44vWI65B
+	FrGFZhJKvuR3H+s88rmupT8IrYPEbYVFvUxEeUe9L4ZP0EDL7+9yaUY0UfEt3JiaJ/sXs6OGPcvrX
+	xS5/yFXQ==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1tBch9-006sVl-6p; Thu, 14 Nov 2024 17:27:47 +0100
+Message-ID: <4419dab0-d22b-49d4-b208-6ff022934c95@igalia.com>
+Date: Thu, 14 Nov 2024 16:27:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241114-media-imx290-imx462-v1-3-c538a2e24786@raspberrypi.com>
-References: <20241114-media-imx290-imx462-v1-0-c538a2e24786@raspberrypi.com>
-In-Reply-To: <20241114-media-imx290-imx462-v1-0-c538a2e24786@raspberrypi.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-X-Mailer: b4 0.14.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dma-fence: Use kernel's sort for merging fences
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Friedrich Vock <friedrich.vock@gmx.de>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ stable@vger.kernel.org
+References: <20241114111500.77358-1-tursulin@igalia.com>
+ <757d59ec-2735-477e-9648-a2b82a52659c@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <757d59ec-2735-477e-9648-a2b82a52659c@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-IMX462 is the successor to IMX290, and wants very minor
-changes to the register setup.
 
-Add the relevant configuration to support it.
+On 14/11/2024 13:48, Christian König wrote:
+> Am 14.11.24 um 12:14 schrieb Tvrtko Ursulin:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> One alternative to the fix Christian proposed in
+>> https://lore.kernel.org/dri-devel/20241024124159.4519-3-christian.koenig@amd.com/
+>> is to replace the rather complex open coded sorting loops with the kernel
+>> standard sort followed by a context squashing pass.
+>>
+>> Proposed advantage of this would be readability but one concern Christian
+>> raised was that there could be many fences, that they are typically 
+>> mostly
+>> sorted, and so the kernel's heap sort would be much worse by the proposed
+>> algorithm.
+>>
+>> I had a look running some games and vkcube to see what are the typical
+>> number of input fences. Tested scenarios:
+>>
+>> 1) Hogwarts Legacy under Gamescope
+>>
+>> 450 calls per second to __dma_fence_unwrap_merge.
+>>
+>> Percentages per number of fences buckets, before and after checking for
+>> signalled status, sorting and flattening:
+>>
+>>     N       Before      After
+>>     0       0.91%
+>>     1      69.40%
+>>    2-3     28.72%       9.4%  (90.6% resolved to one fence)
+>>    4-5      0.93%
+>>    6-9      0.03%
+>>    10+
+>>
+>> 2) Cyberpunk 2077 under Gamescope
+>>
+>> 1050 calls per second, amounting to 0.01% CPU time according to perf top.
+>>
+>>     N       Before      After
+>>     0       1.13%
+>>     1      52.30%
+>>    2-3     40.34%       55.57%
+>>    4-5      1.46%        0.50%
+>>    6-9      2.44%
+>>    10+      2.34%
+>>
+>> 3) vkcube under Plasma
+>>
+>> 90 calls per second.
+>>
+>>     N       Before      After
+>>     0
+>>     1
+>>    2-3      100%         0%   (Ie. all resolved to a single fence)
+>>    4-5
+>>    6-9
+>>    10+
+>>
+>> In the case of vkcube all invocations in the 2-3 bucket were actually
+>> just two input fences.
+>>
+>>  From these numbers it looks like the heap sort should not be a
+>> disadvantage, given how the dominant case is <= 2 input fences which heap
+>> sort solves with just one compare and swap. (And for the case of one 
+>> input
+>> fence we have a fast path in the previous patch.)
+>>
+>> A complementary possibility is to implement a different sorting algorithm
+>> under the same API as the kernel's sort() and so keep the simplicity,
+>> potentially moving the new sort under lib/ if it would be found more
+>> widely useful.
+>>
+>> v2:
+>>   * Hold on to fence references and reduce commentary. (Christian)
+>>   * Record and use latest signaled timestamp in the 2nd loop too.
+>>   * Consolidate zero or one fences fast paths.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Fixes: 245a4a7b531c ("dma-buf: generalize dma_fence unwrap & merging v3")
+>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3617
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>> Cc: Gustavo Padovan <gustavo@padovan.org>
+>> Cc: Friedrich Vock <friedrich.vock@gmx.de>
+>> Cc: linux-media@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linaro-mm-sig@lists.linaro.org
+>> Cc: <stable@vger.kernel.org> # v6.0+
+>> ---
+>>   drivers/dma-buf/dma-fence-unwrap.c | 129 ++++++++++++++---------------
+>>   1 file changed, 64 insertions(+), 65 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence-unwrap.c 
+>> b/drivers/dma-buf/dma-fence-unwrap.c
+>> index 628af51c81af..26cad03340ce 100644
+>> --- a/drivers/dma-buf/dma-fence-unwrap.c
+>> +++ b/drivers/dma-buf/dma-fence-unwrap.c
+>> @@ -12,6 +12,7 @@
+>>   #include <linux/dma-fence-chain.h>
+>>   #include <linux/dma-fence-unwrap.h>
+>>   #include <linux/slab.h>
+>> +#include <linux/sort.h>
+>>   /* Internal helper to start new array iteration, don't use directly */
+>>   static struct dma_fence *
+>> @@ -59,6 +60,25 @@ struct dma_fence *dma_fence_unwrap_next(struct 
+>> dma_fence_unwrap *cursor)
+>>   }
+>>   EXPORT_SYMBOL_GPL(dma_fence_unwrap_next);
+>> +
+>> +static int fence_cmp(const void *_a, const void *_b)
+>> +{
+>> +    struct dma_fence *a = *(struct dma_fence **)_a;
+>> +    struct dma_fence *b = *(struct dma_fence **)_b;
+>> +
+>> +    if (a->context < b->context)
+>> +        return -1;
+>> +    else if (a->context > b->context)
+>> +        return 1;
+>> +
+>> +    if (dma_fence_is_later(b, a))
+>> +        return -1;
+>> +    else if (dma_fence_is_later(a, b))
+>> +        return 1;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   /* Implementation for the dma_fence_merge() marco, don't use 
+>> directly */
+>>   struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>                          struct dma_fence **fences,
+>> @@ -67,8 +87,7 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned 
+>> int num_fences,
+>>       struct dma_fence_array *result;
+>>       struct dma_fence *tmp, **array;
+>>       ktime_t timestamp;
+>> -    unsigned int i;
+>> -    size_t count;
+>> +    int i, j, count;
+>>       count = 0;
+>>       timestamp = ns_to_ktime(0);
+>> @@ -96,78 +115,58 @@ struct dma_fence 
+>> *__dma_fence_unwrap_merge(unsigned int num_fences,
+>>       if (!array)
+>>           return NULL;
+>> -    /*
+>> -     * This trashes the input fence array and uses it as position for 
+>> the
+>> -     * following merge loop. This works because the dma_fence_merge()
+>> -     * wrapper macro is creating this temporary array on the stack 
+>> together
+>> -     * with the iterators.
+>> -     */
+>> -    for (i = 0; i < num_fences; ++i)
+>> -        fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
+>> -
+>>       count = 0;
+>> -    do {
+>> -        unsigned int sel;
+>> -
+>> -restart:
+>> -        tmp = NULL;
+>> -        for (i = 0; i < num_fences; ++i) {
+>> -            struct dma_fence *next;
+>> -
+>> -            while (fences[i] && dma_fence_is_signaled(fences[i]))
+>> -                fences[i] = dma_fence_unwrap_next(&iter[i]);
+>> -
+>> -            next = fences[i];
+>> -            if (!next)
+>> -                continue;
+>> -
+>> -            /*
+>> -             * We can't guarantee that inpute fences are ordered by
+>> -             * context, but it is still quite likely when this
+>> -             * function is used multiple times. So attempt to order
+>> -             * the fences by context as we pass over them and merge
+>> -             * fences with the same context.
+>> -             */
+>> -            if (!tmp || tmp->context > next->context) {
+>> -                tmp = next;
+>> -                sel = i;
+>> -
+>> -            } else if (tmp->context < next->context) {
+>> -                continue;
+>> -
+>> -            } else if (dma_fence_is_later(tmp, next)) {
+>> -                fences[i] = dma_fence_unwrap_next(&iter[i]);
+>> -                goto restart;
+>> +    for (i = 0; i < num_fences; ++i) {
+>> +        dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
+>> +            if (!dma_fence_is_signaled(tmp)) {
+>> +                array[count++] = dma_fence_get(tmp);
+>>               } else {
+>> -                fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>> -                goto restart;
+>> +                ktime_t t = dma_fence_timestamp(tmp);
+>> +
+>> +                if (ktime_after(t, timestamp))
+>> +                    timestamp = t;
+>>               }
+>>           }
+>> +    }
+>> -        if (tmp) {
+>> -            array[count++] = dma_fence_get(tmp);
+>> -            fences[sel] = dma_fence_unwrap_next(&iter[sel]);
+>> +    if (count == 0 || count == 1)
+>> +        goto return_fastpath;
+>> +
+>> +    sort(array, count, sizeof(*array), fence_cmp, NULL);
+>> +
+>> +    /*
+>> +     * Only keep the most recent fence for each context.
+>> +     */
+>> +    j = 0;
+>> +    tmp = array[0];
+>> +    for (i = 1; i < count; i++) {
+>> +        if (array[i]->context != tmp->context)
+>> +            array[j++] = tmp;
+>> +        else
+>> +            dma_fence_put(tmp);
+> 
+> If I'm not completely mistaken that can result in dropping the first 
+> element but not assigning it again.
+> 
+> E.g. array[0] is potentially invalid after the loop.
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- drivers/media/i2c/imx290.c | 66 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+Hmm I don't see it but I could be blind.
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index da654deb444a..f1780cc5d7cc 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -170,6 +170,8 @@ enum imx290_model {
- 	IMX290_MODEL_IMX290LQR,
- 	IMX290_MODEL_IMX290LLR,
- 	IMX290_MODEL_IMX327LQR,
-+	IMX290_MODEL_IMX462LQR,
-+	IMX290_MODEL_IMX462LLR,
- };
- 
- struct imx290_model_info {
-@@ -316,6 +318,50 @@ static const struct cci_reg_sequence imx290_global_init_settings_290[] = {
- 	{ CCI_REG8(0x33b3), 0x04 },
- };
- 
-+static const struct cci_reg_sequence imx290_global_init_settings_462[] = {
-+	{ CCI_REG8(0x300f), 0x00 },
-+	{ CCI_REG8(0x3010), 0x21 },
-+	{ CCI_REG8(0x3011), 0x02 },
-+	{ CCI_REG8(0x3016), 0x09 },
-+	{ CCI_REG8(0x3070), 0x02 },
-+	{ CCI_REG8(0x3071), 0x11 },
-+	{ CCI_REG8(0x309b), 0x10 },
-+	{ CCI_REG8(0x309c), 0x22 },
-+	{ CCI_REG8(0x30a2), 0x02 },
-+	{ CCI_REG8(0x30a6), 0x20 },
-+	{ CCI_REG8(0x30a8), 0x20 },
-+	{ CCI_REG8(0x30aa), 0x20 },
-+	{ CCI_REG8(0x30ac), 0x20 },
-+	{ CCI_REG8(0x30b0), 0x43 },
-+	{ CCI_REG8(0x3119), 0x9e },
-+	{ CCI_REG8(0x311c), 0x1e },
-+	{ CCI_REG8(0x311e), 0x08 },
-+	{ CCI_REG8(0x3128), 0x05 },
-+	{ CCI_REG8(0x313d), 0x83 },
-+	{ CCI_REG8(0x3150), 0x03 },
-+	{ CCI_REG8(0x317e), 0x00 },
-+	{ CCI_REG8(0x32b8), 0x50 },
-+	{ CCI_REG8(0x32b9), 0x10 },
-+	{ CCI_REG8(0x32ba), 0x00 },
-+	{ CCI_REG8(0x32bb), 0x04 },
-+	{ CCI_REG8(0x32c8), 0x50 },
-+	{ CCI_REG8(0x32c9), 0x10 },
-+	{ CCI_REG8(0x32ca), 0x00 },
-+	{ CCI_REG8(0x32cb), 0x04 },
-+	{ CCI_REG8(0x332c), 0xd3 },
-+	{ CCI_REG8(0x332d), 0x10 },
-+	{ CCI_REG8(0x332e), 0x0d },
-+	{ CCI_REG8(0x3358), 0x06 },
-+	{ CCI_REG8(0x3359), 0xe1 },
-+	{ CCI_REG8(0x335a), 0x11 },
-+	{ CCI_REG8(0x3360), 0x1e },
-+	{ CCI_REG8(0x3361), 0x61 },
-+	{ CCI_REG8(0x3362), 0x10 },
-+	{ CCI_REG8(0x33b0), 0x50 },
-+	{ CCI_REG8(0x33b2), 0x1a },
-+	{ CCI_REG8(0x33b3), 0x04 },
-+};
-+
- #define IMX290_NUM_CLK_REGS	2
- static const struct cci_reg_sequence xclk_regs[][IMX290_NUM_CLK_REGS] = {
- 	[IMX290_CLK_37_125] = {
-@@ -1455,6 +1501,20 @@ static const struct imx290_model_info imx290_models[] = {
- 		.max_analog_gain = 98,
- 		.name = "imx327",
- 	},
-+	[IMX290_MODEL_IMX462LQR] = {
-+		.colour_variant = IMX290_VARIANT_COLOUR,
-+		.init_regs = imx290_global_init_settings_462,
-+		.init_regs_num = ARRAY_SIZE(imx290_global_init_settings_462),
-+		.max_analog_gain = 98,
-+		.name = "imx462",
-+	},
-+	[IMX290_MODEL_IMX462LLR] = {
-+		.colour_variant = IMX290_VARIANT_MONO,
-+		.init_regs = imx290_global_init_settings_462,
-+		.init_regs_num = ARRAY_SIZE(imx290_global_init_settings_462),
-+		.max_analog_gain = 98,
-+		.name = "imx462",
-+	},
- };
- 
- static int imx290_parse_dt(struct imx290 *imx290)
-@@ -1653,6 +1713,12 @@ static const struct of_device_id imx290_of_match[] = {
- 	}, {
- 		.compatible = "sony,imx327lqr",
- 		.data = &imx290_models[IMX290_MODEL_IMX327LQR],
-+	}, {
-+		.compatible = "sony,imx462lqr",
-+		.data = &imx290_models[IMX290_MODEL_IMX462LQR],
-+	}, {
-+		.compatible = "sony,imx462llr",
-+		.data = &imx290_models[IMX290_MODEL_IMX462LLR],
- 	},
- 	{ /* sentinel */ },
- };
+It only drops the reference for the previous (tmp) if the context is the 
+same. When it finds a new context it saves the previous (tmp) into the 
+first free slot (j++).
 
--- 
-2.34.1
+> 
+>> +        tmp = array[i];
+>> +    }
+>> +    if (j == 0 || tmp->context != array[j - 1]->context) {
+>> +        array[j++] = tmp;
+>> +    }
 
+Or if all fences are from the same context, or only the last input fence 
+is different, it saves the last to the next free slot.
+
+> Maybe adjust the sort criteria so that the highest seqno comes first.
+> 
+> This reduces the whole loop to something like this:
+> 
+> j = 0;
+> for (i = 1; i < count; i++) {
+>      if (array[i]->context == array[j]->context)
+>          dma_fence_put(array[i]);
+>      else
+>          array[++j] = array[i];
+> }
+> count = ++j;
+
+AFAICS it works and gets rid of the condition outside the loop I had. 
+Very neat, thank you! Let me incorporate that, and also see if I can add 
+some more test cases on top of your selftest to exercise more corner cases.
+
+Regards,
+
+Tvrtko
+
+>> +    count = j;
+>> +
+>> +    if (count > 1) {
+>> +        result = dma_fence_array_create(count, array,
+>> +                        dma_fence_context_alloc(1),
+>> +                        1, false);
+>> +        if (!result) {
+>> +            tmp = NULL;
+>> +            goto return_tmp;
+>>           }
+>> -    } while (tmp);
+>> -
+>> -    if (count == 0) {
+>> -        tmp = dma_fence_allocate_private_stub(ktime_get());
+>> -        goto return_tmp;
+>> +        return &result->base;
+>>       }
+>> -    if (count == 1) {
+>> +return_fastpath:
+>> +    if (count == 0)
+>> +        tmp = dma_fence_allocate_private_stub(timestamp);
+>> +    else
+>>           tmp = array[0];
+>> -        goto return_tmp;
+>> -    }
+>> -
+>> -    result = dma_fence_array_create(count, array,
+>> -                    dma_fence_context_alloc(1),
+>> -                    1, false);
+>> -    if (!result) {
+>> -        tmp = NULL;
+>> -        goto return_tmp;
+>> -    }
+>> -    return &result->base;
+>>   return_tmp:
+>>       kfree(array);
+> 
 
