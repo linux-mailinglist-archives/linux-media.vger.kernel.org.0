@@ -1,109 +1,154 @@
-Return-Path: <linux-media+bounces-21442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21443-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA83D9C9686
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2024 01:02:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD159C9687
+	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2024 01:05:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 591EEB239A5
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2024 00:02:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC7DE1F22828
+	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2024 00:05:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 334B72F2F;
-	Fri, 15 Nov 2024 00:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PrqH0dPn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F2B410E4;
+	Fri, 15 Nov 2024 00:04:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD991E522;
-	Fri, 15 Nov 2024 00:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970D5646;
+	Fri, 15 Nov 2024 00:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731628921; cv=none; b=ZcV/kL+8MYzt52sXpPvC0EpAN0l3ioA5z5xmLtvhS6CMUnL1rDIwcqYyj+YiKp3R9OFYcgWgr6oCeXt5hk4XLzybmp458HMyHP0oi3RrTbaLC+AegfWx+e2g9tA6K5QQclv6UAdqwCL0r3hnMi5AEp1NuTB5/+0FdZQQBbANkJk=
+	t=1731629093; cv=none; b=AvDKDCauk8UQ0kDNhDA2zZDzt0Q8jOJ0YduCe5zUC00GS51LoDZzApi8pESzFJycePQdego9vtKNWsCXGHA3b5cwRvU6Xy5hBZ5ehtFL2tSIz9433F0+HBThbWDc6iFXXp6KxywKcZaEJ8shKlpLMa32u7OFch881UpMwXz9rjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731628921; c=relaxed/simple;
-	bh=11Ae3SXZglfSECrgCD2E8kqCCDnvJWkPilN10xsoG4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tq/al83Dlo4BG46iACFMs8z0pwOT3qoI7ZvYB3uJxJYu2W1wb2Q5Oy4W2dY3YLqH6qDNBSYVmqav5F6ksYomGICXDXWPA0vXSd6j1zzMVeiEs6kY/o0EQp483S0jgjf9DvUML18DUWLmz0eosrPlkeHKyB84ENJPXkML0JQRrq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PrqH0dPn; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 73633E0D;
-	Fri, 15 Nov 2024 01:01:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731628904;
-	bh=11Ae3SXZglfSECrgCD2E8kqCCDnvJWkPilN10xsoG4E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PrqH0dPnAHN3Sks9Lxwx+SyUY1PZgRCBHE1hKEVSGPkbc2TOJLoE67x8XlPTl19bz
-	 2IZ1FjseqZH6R3hwh0Rg+Od1X89aiXiL08VvTAHLuUkHkCpAqQuJcxH6FqWQz7QrMv
-	 vd2+6dxqBHLzD2R8qYrHwWHXhFh/w2uTfC7ricy8=
-Date: Fri, 15 Nov 2024 02:01:50 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/3] media: dt-bindings: media: i2c: Add IMX462 to the
- IMX290 binding
-Message-ID: <20241115000150.GJ26171@pendragon.ideasonboard.com>
-References: <20241114-media-imx290-imx462-v1-0-c538a2e24786@raspberrypi.com>
- <20241114-media-imx290-imx462-v1-2-c538a2e24786@raspberrypi.com>
+	s=arc-20240116; t=1731629093; c=relaxed/simple;
+	bh=MLcnAjfPFcZgTnebh9EnDCqrLcmlfT0Kf4jrmd6XgJM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fqdTvVFpqdLPRj55a4tEs+h/PXm2Kobjm9jJgfBt9FZ2raBEYm11x2h2lriplD/M+DRvVgqq2rT+NS3y4Vpe7GFJm0s7bQAuJXYt3TJeEPmVYkCqFCZu1d58fPrn3+Mxg7IkND/dc/gDolfBrG5cOJLJRuHOvWIKdiKSddtB3SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from [192.168.2.4] (51b684a3.dsl.pool.telekom.hu [::ffff:81.182.132.163])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 000000000007368A.000000006736900F.002989B1; Fri, 15 Nov 2024 01:04:23 +0100
+Message-ID: <c4c6e3a2e5313a9bafec31343407e60b2ea9ff44.camel@irl.hu>
+Subject: Re: [PATCH v15 18/19] media: uvcvideo: implement UVC v1.5 ROI
+From: Gergo Koteles <soyer@irl.hu>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+  Mauro Carvalho Chehab <mchehab@kernel.org>,
+  Hans de Goede <hdegoede@redhat.com>,
+  Ricardo Ribalda <ribalda@kernel.org>,
+  Sakari Ailus <sakari.ailus@linux.intel.com>,
+  Hans Verkuil <hverkuil@xs4all.nl>, Yunke Cao <yunkec@chromium.org>,
+  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+  Yunke Cao <yunkec@google.com>
+Date: Fri, 15 Nov 2024 01:04:19 +0100
+In-Reply-To: <CANiDSCvP5eVuSGMi3R4eAkY2-ou=nqrTS1dnAv0Odbcq5UHa+w@mail.gmail.com>
+References: <20241114-uvc-roi-v15-0-64cfeb56b6f8@chromium.org>
+	 <20241114-uvc-roi-v15-18-64cfeb56b6f8@chromium.org>
+	 <ac8ea4ed606cbc7dfb15057babc29e49a152ef01.camel@irl.hu>
+	 <CANiDSCuZTYDsQ3yCpFV_rhbQ+vFGJnsuU-jXwOacxZVbbzEPfw@mail.gmail.com>
+	 <5ffafb0d059f09c814692e7c33a7ce35ce9b0169.camel@irl.hu>
+	 <CANiDSCvP5eVuSGMi3R4eAkY2-ou=nqrTS1dnAv0Odbcq5UHa+w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.1 (3.54.1-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241114-media-imx290-imx462-v1-2-c538a2e24786@raspberrypi.com>
 
-Hi Dave,
+Hi Ricardo,
 
-Thank you for the patch.
+On Thu, 2024-11-14 at 21:28 +0100, Ricardo Ribalda wrote:
+> Hi
+>=20
+> On Thu, 14 Nov 2024 at 21:16, Gergo Koteles <soyer@irl.hu> wrote:
+> >=20
+> > Hi Ricardo,
+> >=20
+> > On Thu, 2024-11-14 at 21:03 +0100, Ricardo Ribalda wrote:
+> > > Hi Gergo
+> > >=20
+> > > Sorry, I forgot to reply to your comment in v14.
+> > >=20
+> > > On Thu, 14 Nov 2024 at 20:53, Gergo Koteles <soyer@irl.hu> wrote:
+> > > >=20
+> > > > Hi Ricardo,
+> > > >=20
+> > > > On Thu, 2024-11-14 at 19:10 +0000, Ricardo Ribalda wrote:
+> > > > >=20
+> > > > > +     },
+> > > > > +     {
+> > > > > +             .id             =3D V4L2_CID_UVC_REGION_OF_INTEREST=
+_AUTO,
+> > > > > +             .entity         =3D UVC_GUID_UVC_CAMERA,
+> > > > > +             .selector       =3D UVC_CT_REGION_OF_INTEREST_CONTR=
+OL,
+> > > > > +             .size           =3D 16,
+> > > > > +             .offset         =3D 64,
+> > > > > +             .v4l2_type      =3D V4L2_CTRL_TYPE_BITMASK,
+> > > > > +             .data_type      =3D UVC_CTRL_DATA_TYPE_BITMASK,
+> > > > > +             .name           =3D "Region Of Interest Auto Contro=
+ls",
+> > > > > +     },
+> > > > >  };
+> > > > >=20
+> > > >=20
+> > > > Wouldn't be better to use 8 V4L2_CTRL_TYPE_BOOLEAN controls for thi=
+s?
+> > >=20
+> > > If I create 8 Booleans, they will always be shown in the device. And
+> > > the user will not have a way to know which values are available and
+> > > which are not.
+> > >=20
+> > > We will also fail the v4l2-compliance test, because there will be up
+> > > to 7 boolean controls that will not be able to be set to 1, eventhoug=
+h
+> > > they are writable.
+> > >=20
+> >=20
+> > And can't it be that only those returned by GET_MAX be added?
+> >=20
+> > ```
+> > The bmAutoControls bitmask determines which, if any, on board features
+> > should track to the region of interest. To detect if a device supports
+> > a particular Auto Control, use GET_MAX which returns a mask indicating
+> > all supported Auto Controls.
+> > ```
+> >=20
+> > Sorry for the misunderstanding, I just don't quite understand.
+>=20
+> I guess we could, but we would have to make a big change in the way
+> the controls are probed today. uvc does not use the control framework.
+>=20
+> What will be the benefit of using 8 controls?
+> - Applications still have to know what those controls do, they should
+> not rely on the control name.
 
-On Thu, Nov 14, 2024 at 04:01:14PM +0000, Dave Stevenson wrote:
-> IMX462 is the successor to IMX290, which is supportable by
-> the existing IMX290 driver via a new compatible string.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Applications like v4l2-ctl are not aware of every controls, work by
+control type, and let the user decide what to do, based on the name.
 
-With one of the "media:" dropped from the subject line,
+To avoid having to know each bitmask type control, they need to be able
+to query which bit means what and what to display to the user.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Could VIDIOC_QUERYMENU be supplemented with this?
 
-> ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
-> index bf05ca48601a..fa69bd21c8da 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
-> @@ -33,6 +33,8 @@ properties:
->            - sony,imx290lqr # Colour
->            - sony,imx290llr # Monochrome
->            - sony,imx327lqr # Colour
-> +          - sony,imx462lqr # Colour
-> +          - sony,imx462llr # Monochrome
->        - const: sony,imx290
->          deprecated: true
->  
 
--- 
-Regards,
+> - Changing from lets say AUTO_EXPOSURE to AUTO_FOCUS, will require to
+> send at least 2 controls via v4l2_s_ext_control... I think it is more
+> practical and less prone to errrors to send just one control
+>=20
 
-Laurent Pinchart
+Yes, that could be a good reason.
+
+Thanks,
+Gergo
+
+
 
