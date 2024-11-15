@@ -1,136 +1,487 @@
-Return-Path: <linux-media+bounces-21450-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21453-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2799CD6BC
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2024 06:51:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA709CD6DA
+	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2024 07:07:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9F715B2506B
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2024 05:51:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 443EA1F221F7
+	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2024 06:07:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C277185B48;
-	Fri, 15 Nov 2024 05:51:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4762188CCA;
+	Fri, 15 Nov 2024 06:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="lmkvBME1"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="MxDd/8yX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8930F1547CC;
-	Fri, 15 Nov 2024 05:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731649872; cv=none; b=uYO9yKEwp9WlB7b0DY6zMi5vJSvmsQwSS3G5i1OL24Zk8q/mendH26/hQYuvgP4kC5lnfq7PZDdtezqg1VkWmsx2mFCDcOWhtW+MDQYhZ7LefWaEPc/TJhm8Drea0Pi5BQ8V5tqu1yHGy96jX+7j2GoI4lKCfsZPXaHCTFjFvVg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731649872; c=relaxed/simple;
-	bh=iaOGmKsD3WS4YZXBykRW/WJHQ95kAX101uhloGg+lRo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lFdCakn7lOkEbYzFaOFgDWpW5D30zn7h3FuqLXknScnVTUMeVcKQemcIN2ECi6N4jgyj6QPg4rl3qfmvyyk0ys24v1HcZFme+nHwSHbFesbitQnMCbrb+DC2TxZ4EUyqlfI7XAjwgOTwLsMBOLODfnmd+zEfkU5vjnFTckFd6Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=lmkvBME1; arc=none smtp.client-ip=210.61.82.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 994f180aa31511efbd192953cf12861f-20241115
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=+OEJgaQehuQR34AIlDTFBq2Nqc80qn+h6NJRZF8Lsi8=;
-	b=lmkvBME1gpxo8txlvwIdASrvOeTYTRzs4kVWB8DLAZp/5cdVxvgzLHShkluzm9GCsoCRL20YAJzmaRPoRNgV8/zv+60Ho2/MTNFbvjKlWKGq6Bf7Y+0g8T7izRVhgQmMRj/HF9FDrguWiSWrL+Y2I247fbEHDkqlwZsWsjw8sO0=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.43,REQID:63581a1b-14ae-49e0-af3e-f15b75fc5da3,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:ce19b8a,CLOUDID:e2b9ad5c-f18b-4d56-b49c-93279ee09144,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0,EDM:-3,IP
-	:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
-	LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 994f180aa31511efbd192953cf12861f-20241115
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
-	(envelope-from <yunfei.dong@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 719853793; Fri, 15 Nov 2024 13:51:03 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 15 Nov 2024 13:51:02 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 15 Nov 2024 13:51:01 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
-	<nfraprado@collabora.com>, Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>
-CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
- Dong <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v5 3/3] media: mediatek: vcodec: add description for vsi struct
-Date: Fri, 15 Nov 2024 13:50:48 +0800
-Message-ID: <20241115055056.29917-4-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241115055056.29917-1-yunfei.dong@mediatek.com>
-References: <20241115055056.29917-1-yunfei.dong@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03015188A18;
+	Fri, 15 Nov 2024 06:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731650779; cv=pass; b=GmSXNRvTxD6SPyF6ewms4d+8l6dsOeeUD4ZaFmfSFjGkB3//q555DWdOlNqDqWX9AoCpOkG8VuqgFLwatzruvcpMT9uodhrD1UH21VHATs8u4l9Pwpbm+/z7hzSHPVECLOm0/BGOgqU2fFgG3HaDxaTZ/rUUuiGYDMPM3CqoGoU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731650779; c=relaxed/simple;
+	bh=P0ygTUGVyVPNHtCiHrlral38W1tXHpKIT5bHGUmYCqM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rZsgHUxRKxv8gS8Wo6YiaV+KTVaXpbfjGSg14JADdXXdw60WXERCbhJMpSYT2lFcR4zbVbouPIVsxrzsoEtYp+ULbag6bw6kh9WQQa6AZT9zuO3+8CTO6P5jO3zDP7rF5ydKZIETopLrPM4v8AN7AhGZfYyCdAGResjIU6ZRx8U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=MxDd/8yX; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1731650750; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=iOe2oVdi/X+GztdL4TcxZ0BfoWeT4ndbm0nzL5WQngrg4Q27AtfT5AwupEDpbUuh5iBG0aicrgUAv6NL/20Gm2OpxqXv/yLn6lL7B+5OeH93+4SkxQZk7cBxhJyczLgMCg4Tz3rYjJBO9soQhlmVxsM+WFb+snUxwGujheNweXk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1731650750; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=3hqFZpHdoQWPteI6Jb15B49LbkKY+BIIsCoCbFoj5zI=; 
+	b=dF+vx4o6XCSTZ9iEC2PID5BOjJ6O8/AXXwIJZNr64/XJUxTo+ECJkDr43UpR9FgAhXC8Mtc3Ous69eFJ5jZb/dPKQf3B+JXKrkotNAfiZosW0QbtO5TLjvVvxTFJOF7967HtG5zIJMkqcsSJ0H3c9GpeG7Y/RKuWa3UkNntH83I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731650750;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=3hqFZpHdoQWPteI6Jb15B49LbkKY+BIIsCoCbFoj5zI=;
+	b=MxDd/8yXKNKBokG2Ja+/xGFWdskDVxNUtHwz81Keren+MZrwNW6oMrgGd+/W5lp2
+	oasncVtZ7hIMKJuLwvIzewTg9wqzXIWzTI3aTa9Dfwa5bp9u3lrH5K1f6v5J3lG/6Il
+	8hwnxML6vorTWhBoJwJGUWEpiKd/ANffqb8oDXdk=
+Received: by mx.zohomail.com with SMTPS id 1731650747642823.5839323402794;
+	Thu, 14 Nov 2024 22:05:47 -0800 (PST)
+Date: Fri, 15 Nov 2024 07:05:42 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, bagasdotme@gmail.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	hverkuil-cisco@xs4all.nl, mchehab@kernel.org, kernel@collabora.com,
+	bob.beckett@collabora.com, nicolas.dufresne@collabora.com
+Subject: Re: [PATCH v2 1/2] docs: Add debugging section to process
+Message-ID: <20241115060542.lqpu3sdqnsxass6q@basti-XPS-13-9310>
+References: <20241028-media_docs_improve_v3-v2-0-f1960ae22c5d@collabora.com>
+ <20241028-media_docs_improve_v3-v2-1-f1960ae22c5d@collabora.com>
+ <5dbe1671-e5bd-44e1-b2cf-21ad30339024@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+In-Reply-To: <5dbe1671-e5bd-44e1-b2cf-21ad30339024@infradead.org>
+X-ZohoMailClient: External
 
-If the video shared information (vsi) is changed accidentally,
-will leading to play h264 bitstream fail if the firmware won't
-be changed at the same time. Marking the shared struct with
-"shared interface with firmware".
+Hey Randy,
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- .../mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c    | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Thank you for the review, I'll apply these changes, I just found one
+advice below not terribly helpful maybe you can clarify ...
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-index 21ddc6d6f1ba..6b66d9cfd63d 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-@@ -30,6 +30,7 @@ enum vdec_h264_core_dec_err_type {
- 
- /**
-  * struct vdec_h264_slice_lat_dec_param  - parameters for decode current frame
-+ *        (shared interface with firmware)
-  *
-  * @sps:		h264 sps syntax parameters
-  * @pps:		h264 pps syntax parameters
-@@ -48,7 +49,7 @@ struct vdec_h264_slice_lat_dec_param {
- };
- 
- /**
-- * struct vdec_h264_slice_info - decode information
-+ * struct vdec_h264_slice_info - decode information (shared interface with firmware)
-  *
-  * @nal_info:		nal info of current picture
-  * @timeout:		Decode timeout: 1 timeout, 0 no timeout
-@@ -72,7 +73,7 @@ struct vdec_h264_slice_info {
- 
- /**
-  * struct vdec_h264_slice_vsi - shared memory for decode information exchange
-- *        between SCP and Host.
-+ *        between SCP and Host (shared interface with firmware).
-  *
-  * @wdma_err_addr:		wdma error dma address
-  * @wdma_start_addr:		wdma start dma address
--- 
-2.46.0
+On 14.11.2024 21:06, Randy Dunlap wrote:
+>
+>
+>On 11/13/24 3:17 AM, Sebastian Fricke wrote:
+>> This idea was formed after noticing that new developers experience
+>> certain difficulty to navigate within the multitude of different
+>> debugging options in the Kernel and while there often is good
+>> documentation for the tools, the developer has to know first that they
+>> exist and where to find them.
+>> Add a general debugging section to the Kernel documentation, as an
+>> easily locatable entry point to other documentation and as a general
+>> guideline for the topic.
+>>
+>> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>> ---
+>>  .../driver_development_debugging_guide.rst         | 214 ++++++++++++++++
+>>  Documentation/process/debugging/index.rst          |  65 +++++
+>>  .../debugging/userspace_debugging_guide.rst        | 278 +++++++++++++++++++++
+>>  Documentation/process/index.rst                    |   8 +-
+>>  4 files changed, 562 insertions(+), 3 deletions(-)
+>>
+>
+>
+>> diff --git a/Documentation/process/debugging/userspace_debugging_guide.rst b/Documentation/process/debugging/userspace_debugging_guide.rst
+>> new file mode 100644
+>> index 000000000000..a7c94407bcae
+>> --- /dev/null
+>> +++ b/Documentation/process/debugging/userspace_debugging_guide.rst
+>> @@ -0,0 +1,278 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +==========================
+>> +Userspace debugging advice
+>> +==========================
+>> +
+>> +A brief overview of common tools to debug the Linux Kernel from userspace.
+>
+>Make that a sentence?
 
+Can you clarify this?
+
+This could either mean:
+- What you even bother to make a sentence out of that?
+- Please make a proper sentence out of this because it is hard to
+   understand
+- Please go into more detail because this is too brief
+
+Or maybe something completely different :)
+
+Regards,
+Sebastian
+
+>
+>> +For debugging advice aimed at driver developer go :doc:`here
+>> +</process/debugging/driver_development_debugging_guide>`.
+>> +For general debugging advice, see :doc:`general advice document
+>> +</process/debugging/index>`.
+>> +
+>> +.. contents::
+>> +    :depth: 3
+>> +
+>> +The following sections show you the available tools.
+>> +
+>> +Dynamic debug
+>> +-------------
+>> +
+>> +Mechanism to filter what ends up in the kernel log by dis-/en-abling log
+>> +messages.
+>> +
+>> +Prerequisite: ``CONFIG_DYNAMIC_DEBUG``
+>> +
+>> +Dynamic debug is only able to target:
+>> +
+>> +- pr_debug()
+>> +- dev_dbg()
+>> +- print_hex_dump_debug()
+>> +- print_hex_dump_bytes()
+>> +
+>> +Therefore the usability of this tool is, as of now, quite limited as there is
+>> +no uniform rule for adding debug prints to the codebase, resulting in a variety
+>> +of ways these prints are implemented.
+>> +
+>> +Also, note that most debug statements are implemented as a variation of
+>> +dprintk(), which have to be activated via a parameter in respective module,
+>
+>                                                         in the respective module;
+>
+>> +dynamic debug is unable to do that step for you.
+>> +
+>> +Here is one example, that enables all available pr_debug() 's within the file::
+>
+>                                                    no space ^
+>
+>> +
+>> +  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
+>> +  $ ddcmd '-p; file v4l2-h264.c +p'
+>> +  $ grep =p /proc/dynamic_debug/control
+>> +   drivers/media/v4l2-core/v4l2-h264.c:372 [v4l2_h264]print_ref_list_b =p
+>> +   "ref_pic_list_b%u (cur_poc %u%c) %s"
+>> +   drivers/media/v4l2-core/v4l2-h264.c:333 [v4l2_h264]print_ref_list_p =p
+>> +   "ref_pic_list_p (cur_poc %u%c) %s\n"
+>> +
+>> +**When should you use this over Ftrace ?**
+>> +
+>> +- When the code contains one of the valid print statements (see above) or when
+>> +  you have added multiple pr_debug() statements during development
+>> +- When timing is not an issue, meaning if multiple pr_debug() statements in
+>> +  the code won't cause delays
+>> +- When you care more about receiving specific log messages than tracing the
+>> +  pattern of how a function is called
+>> +
+>> +For the full documentation see :doc:`/admin-guide/dynamic-debug-howto`
+>> +
+>> +Ftrace
+>> +------
+>> +
+>> +Prerequisite: ``CONFIG_DYNAMIC_FTRACE``
+>> +
+>> +This tool uses the tracefs file system for the control files and output files,
+>
+>                                                                           files.
+>
+>> +that file system will be mounted as a ``tracing`` folder, which can be found in
+>
+>   That
+>
+>> +either ``/sys/kernel/`` or ``/sys/debug/kernel/``.
+>> +
+>> +Some of the most important operations for debugging are:
+>> +
+>> +- You can perform a function trace by adding a function name to the
+>> +  ``set_ftrace_filter`` file (which accepts any function name found within the
+>> +  ``available_filter_functions`` file) or you can specifically disable certain
+>> +  functions by adding their names to the ``set_ftrace_notrace`` file (More info
+>
+>                                                                         more
+>
+>> +  at: :ref:`trace/ftrace:dynamic ftrace`).
+>> +- In order to find out where the calls originates from you can activate the
+>
+>                          where calls originate from
+>
+>> +  ``func_stack_trace`` option under ``options/func_stack_trace``.
+>> +- Tracing the children of a function call and showing the return values is
+>
+>                                                                           are
+>
+>> +  possible by adding the desired function in the ``set_graph_function`` file
+>> +  (requires config ``FUNCTION_GRAPH_RETVAL``) more info at
+>
+>                                               );
+>
+>> +  :ref:`trace/ftrace:dynamic ftrace with the function graph tracer`.
+>> +
+>> +For the full Ftrace documentation see :doc:`/trace/ftrace`
+>> +
+>> +Or you could also trace for specific events by :ref:`using event tracing
+>> +<trace/events:2. using event tracing>`, which can be defined as described here:
+>> +:ref:`Creating a custom Ftrace tracepoint
+>> +<process/debugging/driver_development_debugging_guide:ftrace>`.
+>> +
+>> +For the full Ftrace event tracing documentation see :doc:`/trace/events`
+>> +
+>> +.. _read_ftrace_log:
+>> +
+>> +Reading the ftrace log
+>> +~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +The ``trace`` file can be read just like any other file (``cat``, ``tail``, ``head``,
+>> +``vim``, etc.), the size of the file is limited by the ``buffer_size_kb`` (``echo
+>> +1000 > buffer_size_kb``). The :ref:`trace/ftrace:trace_pipe` will behave
+>> +similar to the ``trace`` file, but whenever you read from the file the content is
+>
+>   similarly
+>IMO but not a big deal.
+>
+>> +consumed.
+>> +
+>> +Kernelshark
+>> +~~~~~~~~~~~
+>> +
+>> +A GUI interface to visualize the traces as a graph and list view from the
+>> +output of the `trace-cmd
+>> +<https://git.kernel.org/pub/scm/utils/trace-cmd/trace-cmd.git/>`__ application.
+>> +
+>> +For the full documentation see `<https://kernelshark.org/Documentation.html>`__
+>> +
+>> +Perf & alternatives
+>> +-------------------
+>> +
+>> +The tools mentioned above provide ways to inspect kernel code, results, variable values, etc.
+>> +Sometimes you have to find out first where to look and for those cases, a box of
+>> +performance tracking tools can help you to frame the issue.
+>> +
+>> +Why should you do a performance analysis?
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +A performance analysis is a good first step when among other reasons:
+>> +
+>> +- you cannot define the issue
+>> +- you do not know where it occurs
+>> +- the running system should not be interrupted or it is a remote system, where
+>> +  you cannot install a new module/kernel
+>> +
+>> +How to do a simple analysis with linux tools?
+>
+>                                    Linux
+>
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +For the start of a performance analysis, you can start with the usual tools
+>> +like:
+>> +
+>> +- ``top`` / ``htop`` / ``atop`` (*get an overview of the system load, see spikes on
+>> +  specific processes*)
+>> +- ``mpstat -P ALL`` (*look at the load distribution among CPUs*)
+>> +- ``iostat -x`` (*observe input and output devices utilization and performance*)
+>> +- ``vmstat`` (*overview of memory usage on the system*)
+>> +- ``pidstat`` (*similar to* ``vmstat`` *but per process, to dial it down to the
+>> +  target*)
+>> +- ``strace -tp $PID`` (*once you know the process, you can figure out how it
+>> +  communicates with the Kernel*)
+>> +
+>> +These should help to narrow down the areas to look at sufficiently.
+>> +
+>> +Diving deeper with perf
+>> +~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +The **perf** tool provides a series of metrics and events to further dial down
+>> +on issues.
+>> +
+>> +Prerequisite: build or install perf on your system
+>> +
+>> +Gather statistics data for finding all files starting with ``gcc`` in ``/usr``::
+>> +
+>> +  # perf stat -d find /usr -name 'gcc*' | wc -l
+>> +
+>> +   Performance counter stats for 'find /usr -name gcc*':
+>> +
+>> +     1277.81 msec    task-clock             #    0.997 CPUs utilized
+>> +     9               context-switches       #    7.043 /sec
+>> +     1               cpu-migrations         #    0.783 /sec
+>> +     704             page-faults            #  550.943 /sec
+>> +     766548897       cycles                 #    0.600 GHz                         (97.15%)
+>> +     798285467       instructions           #    1.04  insn per cycle              (97.15%)
+>> +     57582731        branches               #   45.064 M/sec                       (2.85%)
+>> +     3842573         branch-misses          #    6.67% of all branches             (97.15%)
+>> +     281616097       L1-dcache-loads        #  220.390 M/sec                       (97.15%)
+>> +     4220975         L1-dcache-load-misses  #    1.50% of all L1-dcache accesses   (97.15%)
+>> +     <not supported> LLC-loads
+>> +     <not supported> LLC-load-misses
+>> +
+>> +   1.281746009 seconds time elapsed
+>> +
+>> +   0.508796000 seconds user
+>> +   0.773209000 seconds sys
+>> +
+>> +
+>> +  52
+>> +
+>> +The availability of events and metrics depends on the system you are running.
+>> +
+>> +For the full documentation see
+>> +`<https://perf.wiki.kernel.org/index.php/Main_Page>`__
+>> +
+>> +Perfetto
+>> +~~~~~~~~
+>> +
+>> +A set of tools to measure and analyze how well applications and systems perform.
+>> +You can use it to:
+>> +
+>> +* identify bottlenecks
+>> +* optimize code
+>> +* make software run faster and more efficiently.
+>> +
+>> +**What is the difference between perfetto and perf?**
+>> +
+>> +* perf is tool as part of and specialized for the Linux Kernel and has CLI user
+>> +  interface.
+>> +* perfetto cross-platform performance analysis stack, has extended
+>> +  functionality into userspace and provides a WEB user interface.
+>> +
+>> +For the full documentation see `<https://perfetto.dev/docs/>`__
+>
+>config PSI
+>	bool "Pressure stall information tracking"
+>might also be useful here.
+>
+>> +
+>> +Kernel panic analysis tools
+>> +---------------------------
+>> +
+>> +  To capture the crash dump please use ``Kdump`` & ``Kexec``. Below you can find
+>> +  some advice for analysing the data.
+>> +
+>> +  For the full documentation see the :doc:`/admin-guide/kdump/kdump`
+>> +
+>> +  In order to find the corresponding line in the code you can use `faddr2line
+>> +  <https://elixir.bootlin.com/linux/v6.11.6/source/scripts/faddr2line>`__, note
+>
+>                                                                            ; note
+>
+>> +  that you need to enable ``CONFIG_DEBUG_INFO`` for that to work.
+>> +
+>> +  An alternative to using ``faddr2line`` is the use of ``objdump`` (and it's
+>
+>                                                                           its
+>
+>> +  derivatives for the different platforms like ``aarch64-linux-gnu-objdump``),
+>
+>                                                                               ).
+>
+>> +  take this line as an example:
+>
+>     Take
+>
+>> +
+>> +  ``[  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]``.
+>> +
+>> +  We can find the corresponding line of code by executing::
+>> +
+>> +    aarch64-linux-gnu-objdump -dS drivers/staging/media/rkvdec/rockchip-vdec.ko | grep rkvdec_device_run\>: -A 40
+>> +    0000000000000ac8 <rkvdec_device_run>:
+>> +     ac8:	d503201f 	nop
+>> +     acc:	d503201f 	nop
+>> +    {
+>> +     ad0:	d503233f 	paciasp
+>> +     ad4:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+>> +     ad8:	910003fd 	mov	x29, sp
+>> +     adc:	a90153f3 	stp	x19, x20, [sp, #16]
+>> +     ae0:	a9025bf5 	stp	x21, x22, [sp, #32]
+>> +        const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+>> +     ae4:	f9411814 	ldr	x20, [x0, #560]
+>> +        struct rkvdec_dev *rkvdec = ctx->dev;
+>> +     ae8:	f9418015 	ldr	x21, [x0, #768]
+>> +        if (WARN_ON(!desc))
+>> +     aec:	b4000654 	cbz	x20, bb4 <rkvdec_device_run+0xec>
+>> +        ret = pm_runtime_resume_and_get(rkvdec->dev);
+>> +     af0:	f943d2b6 	ldr	x22, [x21, #1952]
+>> +        ret = __pm_runtime_resume(dev, RPM_GET_PUT);
+>> +     af4:	aa0003f3 	mov	x19, x0
+>> +     af8:	52800081 	mov	w1, #0x4                   	// #4
+>> +     afc:	aa1603e0 	mov	x0, x22
+>> +     b00:	94000000 	bl	0 <__pm_runtime_resume>
+>> +        if (ret < 0) {
+>> +     b04:	37f80340 	tbnz	w0, #31, b6c <rkvdec_device_run+0xa4>
+>> +        dev_warn(rkvdec->dev, "Not good\n");
+>> +     b08:	f943d2a0 	ldr	x0, [x21, #1952]
+>> +     b0c:	90000001 	adrp	x1, 0 <rkvdec_try_ctrl-0x8>
+>> +     b10:	91000021 	add	x1, x1, #0x0
+>> +     b14:	94000000 	bl	0 <_dev_warn>
+>> +        *bad = 1;
+>> +     b18:	d2800001 	mov	x1, #0x0                   	// #0
+>> +     ...
+>> +
+>> +  Meaning, in this line from the crash dump::
+>> +
+>> +    [  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]
+>> +
+>> +  I can take the ``0x50`` as offset, which I have to add to the base address
+>> +  of the corresponding function, which I find in this line::
+>> +
+>> +    0000000000000ac8 <rkvdec_device_run>:
+>> +
+>> +  The result of ``0xac8 + 0x50 = 0xb18``
+>> +  And when I search for that address within the function I get the
+>> +  following line::
+>> +
+>> +    *bad = 1;
+>> +    b18:      d2800001        mov     x1, #0x0
+>> +
+>> +**Copyright** ©2024 : Collabora
+>> diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+>> index 6455eba3ef0c..aa12f2660194 100644
+>> --- a/Documentation/process/index.rst
+>> +++ b/Documentation/process/index.rst
+>> @@ -72,13 +72,15 @@ beyond).
+>>  Dealing with bugs
+>>  -----------------
+>>
+>> -Bugs are a fact of life; it is important that we handle them properly.
+>> -The documents below describe our policies around the handling of a couple
+>> -of special classes of bugs: regressions and security problems.
+>> +Bugs are a fact of life; it is important that we handle them properly. The
+>> +documents below provide general advice about debugging and describe our
+>> +policies around the handling of a couple of special classes of bugs:
+>> +regressions and security problems.
+>>
+>>  .. toctree::
+>>     :maxdepth: 1
+>>
+>> +   debugging/index
+>>     handling-regressions
+>>     security-bugs
+>>     cve
+>>
+>
+>Thanks.
+>
+>-- 
+>~Randy
+>
+>
 
