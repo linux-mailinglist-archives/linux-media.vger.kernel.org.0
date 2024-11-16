@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-21471-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21475-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D0C9CFC84
-	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 04:18:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B389CFC90
+	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 04:19:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E91128397D
-	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 03:18:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 45F19B281EB
+	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 03:19:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2831F1922F3;
-	Sat, 16 Nov 2024 03:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A3C9195F04;
+	Sat, 16 Nov 2024 03:17:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="rTm0T9Lz"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="i8Yrs08i"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAF233EC;
-	Sat, 16 Nov 2024 03:17:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BE0192598;
+	Sat, 16 Nov 2024 03:17:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731727055; cv=none; b=ExVoZuC6AnYFWeZ9WG6UfWA86mCUgUX/uVVZsrM22ZAaI8godH7Zg8BMUhyGN9W9cRoWOqP+RDZ8TiNhSOzSpPje7f56jkrb4cenx2CE2dZ64tFt/q6twCKw6OaZ9SXiJO+GXGk9PepQ3dHPaWrPXVDS9J7PonfqlhclM8xWk3w=
+	t=1731727058; cv=none; b=qx7xmTOSsegzqjUifuYbZ+Z9SRhiD94UHWEFOa+t5MfEh6EXTvtc20SnFvjFaAlusVAXLjqQRdQobs5YiszWyK19cEmRACb3J273FP2Z5Mpv60uF3pdCm1inFCfigxs8Fkb7tpolKMs5P81iE8GCZdeycCNOgNTdFijJDo6h3UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731727055; c=relaxed/simple;
-	bh=bvY939VWx9qWPDYpKkGp0M+BQtyXh8KG3Wa9oYlOtM0=;
+	s=arc-20240116; t=1731727058; c=relaxed/simple;
+	bh=DCFBXDUZmtSanwd06yG+l5peDvJ3fv/DVJtZAXzctIQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LWy6uLABgwXf7t2xIlQoOltYZ/fjrFQew7x6kSmZt2y0KKpLmsKiPUgOF54cJrYIdqgAZ9uyThDkPu7cjunIYiGX7uTqxMCe9oPSIP7s2J0UNCr61amInCFbXOlpe61XYm+YGKPo9hNKWd3k8mdvmLg8kDxBjqsUySgp3MlkN1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=rTm0T9Lz; arc=none smtp.client-ip=60.244.123.138
+	 MIME-Version:Content-Type; b=oMJJ0lQ6cnIC7EsFs8qMHltU54wBZ+pkrimkMF1UY8pTHf+S+3In/b2rLgShrr4/WipTXc8GA9wXIw48yDrqjjB2u0TtqAa/Ym7OkOJcuwxXeEsYBN7Kgowt7/DI8WgFOBQjay0FAGdA2cc+cOWgYvghLXoA6fB5AQ33ODfwyvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=i8Yrs08i; arc=none smtp.client-ip=60.244.123.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 4f80b03aa3c911ef99858b75a2457dd9-20241116
+X-UUID: 515e0a38a3c911ef99858b75a2457dd9-20241116
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=HHbwP/c82/8ptLWsKio1TU3AIOhVLAz+mmbbLDs6714=;
-	b=rTm0T9LzBf43c9bxCc5czBpXBwBDLaQ/OvNbOsIovwAZWaBtcFC76QaWX7uBbol7mGAtAznl8K28vQvscV5/D5CXgSnUzHxk13aY/jZhIOJ10b7O89b+XyPcVgsbe9a2Q5qf6PDQ1lX8snZTS43k50iPshCKTCiiXXr9Kx7NtO4=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=XAFnqKkSwcF2bp8hcz0pbKeIV30/71cmFE96nXVmuJo=;
+	b=i8Yrs08il9zHxGXEZAMSEWq/+BpLs8D8V8JGJxaS0VKL8hR+9kzTT/jWAmPdjgLaeX/vbrRoKPjUKmxigCO6rmv0zv137bg8H7I49VIu74WCh1eUqsFE13XUy1ULB4vWfia0mIwsWJUSGkTeeMRG+DSHWqqftoqpATkQ4ctPYNA=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.43,REQID:92dd3973-4ebf-47f1-a72b-2d9cea889c8a,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:ce19b8a,CLOUDID:51edb85c-f18b-4d56-b49c-93279ee09144,B
+X-CID-O-INFO: VERSION:1.1.43,REQID:1340528f-2ecf-4533-a77c-d1d47fe6b1f8,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:ce19b8a,CLOUDID:57182a07-6ce0-4172-9755-bd2287e50583,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0,EDM:-3,IP
 	:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
 	LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 4f80b03aa3c911ef99858b75a2457dd9-20241116
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
+X-UUID: 515e0a38a3c911ef99858b75a2457dd9-20241116
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
 	(envelope-from <yunfei.dong@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1282829371; Sat, 16 Nov 2024 11:17:28 +0800
+	with ESMTP id 631845037; Sat, 16 Nov 2024 11:17:32 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sat, 16 Nov 2024 11:17:27 +0800
+ 15.2.1118.26; Sat, 16 Nov 2024 11:17:28 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Sat, 16 Nov 2024 11:17:26 +0800
+ 15.2.1118.26 via Frontend Transport; Sat, 16 Nov 2024 11:17:27 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
 	<nfraprado@collabora.com>, Sebastian Fricke <sebastian.fricke@collabora.com>,
@@ -67,14 +67,14 @@ To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
 	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>,
 	Daniel Almeida <daniel.almeida@collabora.com>
 CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
- Dong <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, "Yunfei
+ Dong" <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v7 2/5] media: mediatek: vcodec: change flush decode order when stream off
-Date: Sat, 16 Nov 2024 11:17:16 +0800
-Message-ID: <20241116031724.15694-3-yunfei.dong@mediatek.com>
+Subject: [PATCH v7 3/5] media: mediatek: vcodec: remove media request checking
+Date: Sat, 16 Nov 2024 11:17:17 +0800
+Message-ID: <20241116031724.15694-4-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20241116031724.15694-1-yunfei.dong@mediatek.com>
 References: <20241116031724.15694-1-yunfei.dong@mediatek.com>
@@ -86,88 +86,89 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--10.511500-8.000000
+X-TMASE-MatchedRID: s1WpmjjDH4dmcP5F4hatbcnlbo5l7mGFBLtx+64GFanjsTquy0JRi4ma
+	Qfsqx1XAWKuGHPyQzf64VxGFQBNJeCY0eULsNBXlHPYwOJi6PLlu95mt47DzNlfXgfL55inv3oz
+	JRX7b4NmFKg32b+87J0iJiJhvpf+911/bObp3yCgSEYfcJF0pRX0tCKdnhB589yM15V5aWpj6C0
+	ePs7A07SQvY0ueKrc1jwY/IrEBx9e6DRg6XX9fFprHtTGfESU7RckC8ZNwvw0=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--10.511500-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	33CBB420F46111ACF58A0B40F4B635AB9D396A27EC0949270CFDDDFE1F29847D2000:8
 X-MTK: N
 
-The driver status is set to flush when flush_decoder is called.
-The order of STREAMOFF ioctl for OUTPUT and CAPTURE are randomly.
-If flush_decoder is called in STREAMOFF for capture queue always,
-leading to get NULL dst buffer when calling STREAMOFF for output
-queue before capture queue.
-
-Need to flush decoder when stream off no matter output or capture
-queue is called firstly.
+Setting the buffer status to error if the media request of
+each source buffer is NULL, then schedule the work to process
+again in case of access NULL pointer.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
- .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 47 +++++++++----------
- 1 file changed, 23 insertions(+), 24 deletions(-)
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c    |  6 ++----
+ .../vcodec/decoder/mtk_vcodec_dec_stateless.c   | 17 +++++------------
+ 2 files changed, 7 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-index d2146724f5de..2ccdffbadcda 100644
+index 2ccdffbadcda..b16572d5cf54 100644
 --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
 +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-@@ -882,29 +882,11 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
- 	mtk_v4l2_vdec_dbg(3, ctx, "[%d] (%d) state=(%x) ctx->decoded_frame_cnt=%d",
- 			  ctx->id, q->type, ctx->state, ctx->decoded_frame_cnt);
+@@ -912,10 +912,8 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
+ 					src_buf->vb2_buf.req_obj.req;
  
--	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
--		while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
--			if (src_buf != &ctx->empty_flush_buf.vb) {
--				struct media_request *req =
--					src_buf->vb2_buf.req_obj.req;
--
--				v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+ 				v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
 -				if (req) {
 -					v4l2_ctrl_request_complete(req, &ctx->ctrl_hdl);
 -					media_request_manual_complete(req);
 -				}
--			}
--		}
--		return;
--	}
--
--	if (ctx->state >= MTK_STATE_HEADER) {
--
--		/* Until STREAMOFF is called on the CAPTURE queue
--		 * (acknowledging the event), the driver operates
--		 * as if the resolution hasn't changed yet, i.e.
--		 * VIDIOC_G_FMT< etc. return previous resolution.
--		 * So we update picinfo here
-+	if (ctx->state >= MTK_STATE_HEADER && ctx->state != MTK_STATE_FLUSH) {
-+		/*
-+		 * The resolution hasn't been changed when STREAMOFF is called.
-+		 * Update the picinfo here with previous resolution if VIDIOC_G_FMT
-+		 * is called.
- 		 */
- 		ctx->picinfo = ctx->last_decoded_picinfo;
- 
-@@ -919,8 +901,25 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
- 		ret = ctx->dev->vdec_pdata->flush_decoder(ctx);
- 		if (ret)
- 			mtk_v4l2_vdec_err(ctx, "DecodeFinal failed, ret=%d", ret);
-+
-+		ctx->state = MTK_STATE_FLUSH;
-+	}
-+
-+	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-+		while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
-+			if (src_buf != &ctx->empty_flush_buf.vb) {
-+				struct media_request *req =
-+					src_buf->vb2_buf.req_obj.req;
-+
-+				v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
-+				if (req) {
-+					v4l2_ctrl_request_complete(req, &ctx->ctrl_hdl);
-+					media_request_manual_complete(req);
-+				}
-+			}
-+		}
-+		return;
++				v4l2_ctrl_request_complete(req, &ctx->ctrl_hdl);
++				media_request_manual_complete(req);
+ 			}
+ 		}
+ 		return;
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+index 1e11c08d708f..dd6ee694382e 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+@@ -264,10 +264,8 @@ static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int e
+ 		mtk_v4l2_vdec_err(ctx, "dst buffer is NULL");
  	}
--	ctx->state = MTK_STATE_FLUSH;
  
- 	while ((dst_buf = v4l2_m2m_dst_buf_remove(ctx->m2m_ctx))) {
- 		vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
+-	if (src_buf_req) {
+-		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
+-		media_request_manual_complete(src_buf_req);
+-	}
++	v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
++	media_request_manual_complete(src_buf_req);
+ }
+ 
+ static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_dec_ctx *ctx)
+@@ -356,10 +354,7 @@ static void mtk_vdec_worker(struct work_struct *work)
+ 			  ctx->id, bs_src->va, &bs_src->dma_addr, bs_src->size, vb2_src);
+ 	/* Apply request controls. */
+ 	src_buf_req = vb2_src->req_obj.req;
+-	if (src_buf_req)
+-		v4l2_ctrl_request_setup(src_buf_req, &ctx->ctrl_hdl);
+-	else
+-		mtk_v4l2_vdec_err(ctx, "vb2 buffer media request is NULL");
++	v4l2_ctrl_request_setup(src_buf_req, &ctx->ctrl_hdl);
+ 
+ 	ret = vdec_if_decode(ctx, bs_src, NULL, &res_chg);
+ 	if (ret && ret != -EAGAIN) {
+@@ -378,10 +373,8 @@ static void mtk_vdec_worker(struct work_struct *work)
+ 	if (!IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch) ||
+ 	    ctx->current_codec == V4L2_PIX_FMT_VP8_FRAME) {
+ 		v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
+-		if (src_buf_req) {
+-			v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
+-			media_request_manual_complete(src_buf_req);
+-		}
++		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
++		media_request_manual_complete(src_buf_req);
+ 	} else {
+ 		if (ret != -EAGAIN) {
+ 			v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
 -- 
 2.46.0
 
