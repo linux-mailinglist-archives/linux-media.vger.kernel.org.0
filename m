@@ -1,91 +1,128 @@
-Return-Path: <linux-media+bounces-21481-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21482-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E883E9CFFA1
-	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 16:41:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 692819CFFEF
+	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 17:47:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 881F6282043
-	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 15:41:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF828B24D05
+	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 16:47:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E3BA17E010;
-	Sat, 16 Nov 2024 15:40:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B65218BB8E;
+	Sat, 16 Nov 2024 16:47:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g2u+Hwlb"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L+PLrd+y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C6F17BB0F
-	for <linux-media@vger.kernel.org>; Sat, 16 Nov 2024 15:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA822AC17;
+	Sat, 16 Nov 2024 16:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731771643; cv=none; b=SLxbzTGATrHaw7GhcSeUyJ1SwTZ2j+yCxe9TxUil9vPzli4v9VhM7c085E2sYkh7MdI8v3KEQJSF1BkYh7aLSSLRoj6vw9j/J8Bj39gD6w5n842Q3PhJalGamnaNX+5O+ljehtLHQ3QVFkhOmfQBTXEFvM4nv8EjwXu8akRzfkI=
+	t=1731775637; cv=none; b=ILUlzXDnOkSriyEMIznMYYoIfXV4fxadkt89fzoOyZlDVG/fbbPAluhMlonmba6TdGrUaf+yjquxzc51B+6Md2Q8LBOcHeyD68Hv33qRR74NxfYAaB0IUhJBtGbNmDVUyKQ8QMZOvMeQ1Ijl1rC4bTr9pPSYjTdfJ0bCD6k/S5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731771643; c=relaxed/simple;
-	bh=Wd+7kLQISUZlzyPvYmSUTVOb8NV4Vyd3OpsFXw6X7a0=;
-	h=From:Message-ID:To:Subject:Date:MIME-Version:Content-Type; b=fD9C9mo6MBOLhJyHPfnSAeMWhFmhcWR5cY/EgNEtowbux3+Ls2j6eHQ3qYv8rAwJZ/kBDXzIbD5HH+yOA73uBPmODkuZI2bF18bHTEvWWY9ZSp358HWQiTsU3mpScmMfEeIJZLiAnTdIgWsFpI/Z88YZztB1ReQFTE8qKMLvEDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g2u+Hwlb; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7f8095a200eso2050876a12.1
-        for <linux-media@vger.kernel.org>; Sat, 16 Nov 2024 07:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731771641; x=1732376441; darn=vger.kernel.org;
-        h=mime-version:date:subject:to:reply-to:message-id:from:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XHEOkgJ64rwJ+cv0sVIqPUmbc8l+iTifR7HzGzNced0=;
-        b=g2u+HwlbdizLdA326cniZFq70l6fhV7dfFVpTatyRKIi8o0uBII4EI4WS7yKzQvT80
-         hR1ESct1dMIEg6TqTk0SlVtO2hZ2Ez3lN8AZojOBhUoe6QpfnK93chHyJ+EWX7U5kxeI
-         LtF7EFlfKcWEzAAYcLBpF8yas49BdF7cRihJ8MEUbZnUikvdyPsTTp01FdnAS77upLXi
-         xQwAf/9xW3nWFM+RXUUSpsclFqPepecWo0oLfDIJzLiq76jG2KcE1S0K2T0JvmP+qvsD
-         tngbzgFDVUhQ9c7flu13YboUk73yBrKjETOOPyLi2HH8g/2QKapjIBS2KdE5/8OJ3k3Y
-         lOWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731771641; x=1732376441;
-        h=mime-version:date:subject:to:reply-to:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XHEOkgJ64rwJ+cv0sVIqPUmbc8l+iTifR7HzGzNced0=;
-        b=WqbQeeoFnBBmcKUuP1svcmKGl8t7tCI73naO2MsnFwlHMzoY65HrO5wdX9Z4BrX3Wc
-         ngZrsjczd9XmvwVHgpvOAgatAzuH0qEBpiOMkffOGqhFQAYrKRgHJpRbxhRhfLzNQi3u
-         Gjv60OnTix3FpP1deR6Dj0NTIv9QkmQ+mXivEgFNKS5Z9xhLLDeSEA53JNmeMPguNU6a
-         P3wzUaJignuV12nwKMaqPZjXaQ3LMBOob4dml+VPgQ8RgEpGNM3DNHqUtwEPhWy5xVRX
-         jC1TW9GCTFA+315Bhnyvo5rb3AxSlEHq273RXYBe4ZZGD9P+ZYeGU/OgvfYyJZUFnPFp
-         jygg==
-X-Gm-Message-State: AOJu0YzQjpFgyXKctBJqTLKx0eaQrXAc0QJRqwBg/cTXVeowvU4IMgzU
-	Fo8vqAtVeQmjhgAAw4yO9o+UGAhv/QpGvxVTT6b8eW9DnqypLrqmNHmkSw==
-X-Google-Smtp-Source: AGHT+IGwIw/237oaDTwNHtmKLazQtojw9tmdbZbV2wzYXaQ6utnZL6+vuOWPptTV0/lmWv8+uk/Crw==
-X-Received: by 2002:a05:6a20:7484:b0:1cf:34c3:9d0 with SMTP id adf61e73a8af0-1dc8065edd3mr16237948637.17.1731771641524;
-        Sat, 16 Nov 2024 07:40:41 -0800 (PST)
-Received: from [103.67.163.162] ([103.67.163.162])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1dada40sm3086302a12.61.2024.11.16.07.40.40
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 16 Nov 2024 07:40:40 -0800 (PST)
-From: "Van. HR" <vipinrawat07674@gmail.com>
-X-Google-Original-From: "Van. HR" <infodesk@information.com>
-Message-ID: <6c0274ba672044502a3e237cee6ab9940258d48cae2ec2803f1dfaf54a32ca76@mx.google.com>
-Reply-To: dirofdptvancollin@gmail.com
-To: linux-media@vger.kernel.org
-Subject: Nov:16:24
-Date: Sat, 16 Nov 2024 10:40:38 -0500
+	s=arc-20240116; t=1731775637; c=relaxed/simple;
+	bh=GLcVPaLmUS7m9p/it7TURICZLmfddMNJJXnI/2o1WMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oKlCR3ZersoYqF5+gCq6YN8Xxmv8NlJm7XZ2mslMIzku7DGD5pMRbKymVD3SzdsYKggk5ZIm6BMy9/mWfo16VzipHrfmHZra5GdMpO7SPE3KmvvY2SbehHg1WYHRv3EmBYHT/OFNzEAPGVIWEmAXAfdauRUxK7tgWV5LW5irO+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L+PLrd+y; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F23F73DC;
+	Sat, 16 Nov 2024 17:46:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1731775618;
+	bh=GLcVPaLmUS7m9p/it7TURICZLmfddMNJJXnI/2o1WMw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L+PLrd+yakC+Orm08ZiglY8DtED/wQ56YOSZkoGWrJsZjByYz6v6bcf+XsRhjA/7w
+	 PF8Re+NW2NGhIW8IL88C+zcnnX2QlG2Hve1OAZijtrMfTF5/16EPLLOaYl1dbu9Z0F
+	 OGBsePkFIdp/cjXB/1QiITd4fxGK83ZQDA8rLws4=
+Date: Sat, 16 Nov 2024 18:47:05 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alexandru Ardelean <aardelean@baylibre.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	manivannan.sadhasivam@linaro.org, sakari.ailus@linux.intel.com,
+	mchehab@kernel.org, kieran.bingham@ideasonboard.com,
+	naush@raspberrypi.com
+Subject: Re: [PATCH v2] drivers: media: imx296: Add standby delay during probe
+Message-ID: <20241116164705.GC12409@pendragon.ideasonboard.com>
+References: <20241115142021.574402-1-aardelean@baylibre.com>
+ <20241115180717.10820-1-aardelean@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241115180717.10820-1-aardelean@baylibre.com>
 
-Hello,
-I am a private investment consultant representing the interest of a multinational  conglomerate that wishes to place funds into a trust management portfolio.
+Hi Alexandru, Naush,
 
-Please indicate your interest for additional information.
+Thank you for the patch.
 
+On Fri, Nov 15, 2024 at 08:07:17PM +0200, Alexandru Ardelean wrote:
+> From: Naushir Patuck <naush@raspberrypi.com>
+> 
+> Add a 2-5ms delay when coming out of standby and before reading the
+> sensor info register durning probe, as instructed by the datasheet. This
+> standby delay is already present when the sensor starts streaming.
+> 
+> During a cold-boot, reading the IMX296_SENSOR_INFO register would often
+> return a value of 0x0000, if this delay is not present before.
+> 
+> Fixes: cb33db2b6ccfe ("media: i2c: IMX296 camera sensor driver")
+> Tested-by: Alexandru Ardelean <aardelean@baylibre.com>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+> 
+> Changelog v1 -> v2:
+> * https://lore.kernel.org/linux-media/20241115142021.574402-1-aardelean@baylibre.com/
+> * Technically, this is not a true V2, but rather a new patch
+>   - But in V1, the attempt was to fix an issue found with the upstream
+>     IMX296 driver, which was pointed out by Kieran that it was already
+>     fixed (more elegantly) in the RPi tree.
+>   - The standby delay helps during a cold-boot so that the driver can read
+>     the IMX296_SENSOR_INFO register. If the delay isn't present the value
+>     read is 0xx0000.
+>   - Original patch can be found:
+>     https://github.com/raspberrypi/linux/commit/7713ce38e6a26425ace3a57b3d03ba0125c16f89
+>   - From the original patch of Naushir Patuck,
+>     - Added comment 
+>       -------
+>       During a cold-boot, reading the IMX296_SENSOR_INFO register would often 
+>       return a value of 0x0000, if this delay is not present before.
+>       -------
+>     - Added 'Tested-by: Alexandru Ardelean <aardelean@baylibre.com>
+>     - Added 'Fixes: cb33db2b6ccfe ("media: i2c: IMX296 camera sensor driver")'
+> 
+>  drivers/media/i2c/imx296.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/imx296.c b/drivers/media/i2c/imx296.c
+> index f942f66fa664..395bfe4fb23d 100644
+> --- a/drivers/media/i2c/imx296.c
+> +++ b/drivers/media/i2c/imx296.c
+> @@ -940,6 +940,8 @@ static int imx296_identify_model(struct imx296 *sensor)
+>  		return ret;
+>  	}
+>  
+> +	usleep_range(2000, 5000);
+> +
+>  	ret = imx296_read(sensor, IMX296_SENSOR_INFO);
+>  	if (ret < 0) {
+>  		dev_err(sensor->dev, "failed to read sensor information (%d)\n",
+
+-- 
 Regards,
 
-Van Collin.
-
+Laurent Pinchart
 
