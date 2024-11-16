@@ -1,147 +1,134 @@
-Return-Path: <linux-media+bounces-21464-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21465-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3438E9CF399
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2024 19:07:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0E19CFB79
+	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 01:12:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8E78282ECF
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2024 18:07:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 892C71F2395A
+	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 00:12:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01E821D8DE8;
-	Fri, 15 Nov 2024 18:07:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21F514A06;
+	Sat, 16 Nov 2024 00:12:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="17WXqp05"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hsu5pLbv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEDD188CD8
-	for <linux-media@vger.kernel.org>; Fri, 15 Nov 2024 18:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E7D1FA4;
+	Sat, 16 Nov 2024 00:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731694048; cv=none; b=hCLKv4qB/JtDSksd33nrmsu7aT8IDKLmSzFHWXpP4o7V4MFjnKmAgQd62wmx3EHG+K8r7hzQ80fQ7oPo0jIlPWPT2i0QZJYKUFSs2cofjuISq4jX+G5d9FFRCySRGZ5zbQ6m/RUv4jO0s0Zwk0G1hlaDyeOwX0amP5ZmQV9TAzg=
+	t=1731715946; cv=none; b=kEp7vtzTTZy0MmnwtIOKVFU53vCzPzPfY691EsHWIXBYhmx5GpbuVS7W7vKLS8F+8RQ5KPHTud2EdEGNAJ80UxAJcz+lbaL1V/HQDaSlqhHye7O0gLsisGAFZv9c1puTECh/vywOdVRpgHq4v8BHc/OFIZxdR5w153ey1a/SSeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731694048; c=relaxed/simple;
-	bh=AH9lmUK/nV3spgNCYYokydJm+WFX/Jy8tWVheghWbEw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IwFya4qxCHQcD98u9FO8uXWv04L/mIULTexSpuj668FEl/MgvjeClF+lmwrvwOLRxekADKQoigzcJvNNUVUw4vlosNxvv76ZJE+AMqPiXVFDX/xHnPNfRfUBjIm+FYC7OJpDYc1+UNNTT0rnm1HJcpHK8tr9UIKfVEAr5T3XD20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=17WXqp05; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4316cce103dso22392605e9.3
-        for <linux-media@vger.kernel.org>; Fri, 15 Nov 2024 10:07:25 -0800 (PST)
+	s=arc-20240116; t=1731715946; c=relaxed/simple;
+	bh=Y7jnhP9X+PdVQ2CQ/jb0gNsPu8a3ngD//sxhuU5izw8=;
+	h=Message-ID:Date:MIME-Version:From:Cc:Subject:To:Content-Type; b=KyyKXYN9zOWFKCizHesUvCZZkkJSz4Z/reJZ3GmRJEoMNsnbZfDFpY7XE8cnwmmeuJ7lA6a6B9c7nN0dSXHwVpMaG/JtqPo95CbdJ+ax9cnpXbocH/sHb+YfpYYb1trFwKtXBU/lQc9m6Fa8HZjL+vIy/r++0MXGxhd1TsjzczQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hsu5pLbv; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-38235786c73so75114f8f.3;
+        Fri, 15 Nov 2024 16:12:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731694044; x=1732298844; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o419LoPHEwZk9uqC04SIW17qJKyWQe/rAVJ23MnW91M=;
-        b=17WXqp0579ZvxyQ9DfImD7X+mA9B4kj59aZMMqw8/xhnrfgYcrEUJBe3RE8yN3f5Jl
-         izuahg5wYJGyaPF0wUjwvpxSHOlfI2hs0e1RDPST6dBUOmfKf286i6qsk4F71eSOSWzA
-         okvEZSO3qr+r+jbNMI43tjRpTA3huL+hWQQHeijB15ynEF+fvNw0olb8KZMzE1oy235i
-         5kzEGsgckpXD8+D5J0TXQngeT7e9qBrZBRWonMbsHgYj916JUBJCmdOpLWoh+WymlTXB
-         hq+wgTzkAuvgDGxIH+f+Kl13Dz2JTfo4Z8inP+z0ElfPyC1RF62zzr9wVBByPXfZy6K+
-         JTpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731694044; x=1732298844;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20230601; t=1731715943; x=1732320743; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:cc:autocrypt:from
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o419LoPHEwZk9uqC04SIW17qJKyWQe/rAVJ23MnW91M=;
-        b=G663EaWOX+pcl5iZcIIp5qv099uTSe80mPWBsM+ZZhBn1Ru0MTYe7Ez22hUCfgzcmK
-         XzwLO6A8fSdWqOOE3WSCudemnLyo+NKloqr8mUS2T/KpqhlgCc8nx5S8ZyycVUrCO4hq
-         99GCOClrOOTV/KnHMH1ezooJAaXOtNjK7/UxqpH6VET75uu1pCJwRHaTPTk+2CzUash4
-         +xf7qdVrZLvHi0oszicqGt+Ff2x29SibmzXLmMD0TemPXyEK0jWrfGhU7bSRkrqto00H
-         bWMh85l1DIGxuR+Gmyp4mpf+oo0qsJ8nw/ehLMDzBws4rF7nv/0s0oD4Lr4Yc219RidM
-         xCPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWdT1Cxtf153hGnj4lI5kw+gNPXe6baGV1UUb1RxCNvKw9Dsr7kw+h7b5RIJQ7JiMOOT5z7qMm55xAa5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGBGOM1DdPdS5BSQQvcwpnQh+G3dM4dcPbShdn5cl0LH0Gv//8
-	A/Ls50w2s29ZFI09l6ZBsGXsMdi20avJMSGVkGybzxdiE8E0yXs/GTFJPNShf2w=
-X-Google-Smtp-Source: AGHT+IG7RtnvTlDkMryRojxaNybiE5sp971d9ovbcqBFKVQ5zzkyDuenimLIyd8f6VCrJr4dMs8DRQ==
-X-Received: by 2002:a05:600c:3583:b0:431:5f8c:ccb9 with SMTP id 5b1f17b1804b1-432df74fc2emr41328725e9.17.1731694043625;
-        Fri, 15 Nov 2024 10:07:23 -0800 (PST)
-Received: from localhost.localdomain ([188.27.128.50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3821adbbd82sm4957755f8f.52.2024.11.15.10.07.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Nov 2024 10:07:23 -0800 (PST)
-From: Alexandru Ardelean <aardelean@baylibre.com>
-To: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com,
-	manivannan.sadhasivam@linaro.org,
-	sakari.ailus@linux.intel.com,
-	mchehab@kernel.org,
-	kieran.bingham@ideasonboard.com,
-	naush@raspberrypi.com,
-	Alexandru Ardelean <aardelean@baylibre.com>
-Subject: [PATCH v2] drivers: media: imx296: Add standby delay during probe
-Date: Fri, 15 Nov 2024 20:07:17 +0200
-Message-ID: <20241115180717.10820-1-aardelean@baylibre.com>
-X-Mailer: git-send-email 2.46.1
-In-Reply-To: <20241115142021.574402-1-aardelean@baylibre.com>
-References: <20241115142021.574402-1-aardelean@baylibre.com>
+        bh=r2FWa7ovIg9ko9NDhHNxPz+8DhJtZ8/t4QPaWjU0Tt4=;
+        b=Hsu5pLbvz3tdWvwQOB+CDJe+vyI5pRrgCX/XyvXQR2CMO37gW6K87us3tu1fTKrdJ4
+         8KYYUwPQ8Ohpezf0qkIICTtcwOGcxbq0UOC9J5tfTUj04ZXfkeRQGssOml4R0eMuemsd
+         RKTL8cpFNnuLo/7zbw/vLQMZIp4fHZm2Kq8hzMKzx0t3UpgAPfJybqWSR0XGnoPKPOzk
+         la0FBjJGbG6XHEl6Xcl+I6x+3ijIpkoQtCK7+VsBxs9iwIO46WPD/apkoO1iuQ/5Hsq9
+         8yhJ2TU3QxBsW9ParhRJ1QWQzr1H64V73ipYwWXFeqTMTyOjc9x29RrgrT2IL+MTaa7z
+         FjSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731715943; x=1732320743;
+        h=content-transfer-encoding:to:subject:cc:autocrypt:from
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r2FWa7ovIg9ko9NDhHNxPz+8DhJtZ8/t4QPaWjU0Tt4=;
+        b=AxeiNfTXy7prZ1DrHGNqhdlY0o7oj6oPYRxC1QnzKH3TNqRbnDpHg2ZWqREvXNpAeY
+         elYv+1YejBmJcyLAM7Dypnk36aBrXPDdeyubCRzPF7kE+jIltLKRXxPyIy5V5pkOs8PP
+         UwN/jLO/izSwnZsfW4XjdpHNhpkKNeQyaX3UEFjeZSepmIAM3ur2185AWBPBM9mpJVkk
+         xGL0UWcztE3b7Dzcf+xftODEaBEl9FhXg+Gi2PIZ1sIkiHvQMvFXip71RqASuGPp9KVv
+         h1D1ZjtOKD7a6wSjyfwMBJlU5WlGF2NkoUt7yPterQCdVViWaGCuBItbiRPRpWeFMXKR
+         3FKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVfLbOX0UEqIOaqXrGmIpLj4fspQxVOkNs8SwGscnsfBkkPH68EnWCtMoBQBt0l+c0OAl46g/kTZtNLHw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwE4Q/HsDyNC5RSpuJ45JE8mcy+ijeqFPVXsd2hKuvN2zadHBVG
+	q5w3T7vjfjA60yUqQ+fnvn1nWI7A0vX4gSexbrf+B8XkmqVXQEzzdxKbFQ==
+X-Google-Smtp-Source: AGHT+IGrxkJsCiclZzjmscLBf7rpoWaB4lo7NnT0v+CXbG3OgtqhLGRkCnPAO04oSgsxT/M/XXZlfQ==
+X-Received: by 2002:a5d:5d89:0:b0:37d:4527:ba1c with SMTP id ffacd0b85a97d-38225aa4a68mr3206654f8f.49.1731715942934;
+        Fri, 15 Nov 2024 16:12:22 -0800 (PST)
+Received: from ?IPV6:2a01:e34:ecab:8c20:136b:ac23:1f6:8240? ([2a01:e34:ecab:8c20:136b:ac23:1f6:8240])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3821ada3fc9sm5606224f8f.20.2024.11.15.16.12.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Nov 2024 16:12:22 -0800 (PST)
+Message-ID: <cb2c20c3-e9f9-4758-92bc-43591946ed9d@gmail.com>
+Date: Sat, 16 Nov 2024 01:12:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, fr
+From: Nicolas Lorin <androw95220@gmail.com>
+Autocrypt: addr=androw95220@gmail.com; keydata=
+ xjMEY1VgjBYJKwYBBAHaRw8BAQdAz2n7kjNHne7ZkxorNsqC6fW9enBx9zGLd5L8iYFVaprN
+ JU5pY29sYXMgTG9yaW4gPGFuZHJvdzk1MjIwQGdtYWlsLmNvbT7CtQQTFgoAXQIbAwUJCWYB
+ gAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgAIZARYhBFiBbK6iLbQ0x0TKoL3p1BRts4Ek
+ BQJjoy18GBhoa3BzOi8va2V5cy5vcGVucGdwLm9yZwAKCRC96dQUbbOBJGeWAP479DfET1mN
+ k5stAx1NoauJjUgqxFsCQnN0FRRKkERzgAD+M9EWStug/IJWh/i0oMufsUJUU1Liqm7zbSRZ
+ /uLVbgPOOARjVWCMEgorBgEEAZdVAQUBAQdA7+DEoQ7KinwNOZmseIdLPEkAYpayeJM0f5Be
+ Y5mPsgwDAQgHwn4EGBYKACYWIQRYgWyuoi20NMdEyqC96dQUbbOBJAUCY1VgjAIbDAUJCWYB
+ gAAKCRC96dQUbbOBJBfXAQDNSRfNEZhM7p3hq5AikRiJ0tEWQ52iChfQ+IhbfK8PKAEAzhBt
+ bREc3AKOcWQ7+PPLOL7ztWFKc3xykDOLoxHrcQ4=
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [BUG?] media: ipu6 / ov01a10 webcam not detected
+To: sakari.ailus@linux.intel.com, bingbu.cao@intel.com
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Naushir Patuck <naush@raspberrypi.com>
+Hi,
 
-Add a 2-5ms delay when coming out of standby and before reading the
-sensor info register durning probe, as instructed by the datasheet. This
-standby delay is already present when the sensor starts streaming.
+I'm running the following kernel on a Dell XPS 9315.
 
-During a cold-boot, reading the IMX296_SENSOR_INFO register would often
-return a value of 0x0000, if this delay is not present before.
+   󱞪 uname -a
+Linux androwbook 6.11.7-zen1-1-zen #1 ZEN SMP PREEMPT_DYNAMIC Fri, 08 
+Nov 2024 17:57:58 +0000 x86_64 GNU/Linux
 
-Fixes: cb33db2b6ccfe ("media: i2c: IMX296 camera sensor driver")
-Tested-by: Alexandru Ardelean <aardelean@baylibre.com>
-Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
----
+I'm trying to get the webcam to work but the sensor (ipu6 / ov01a10) 
+doesn't seem to be detected and kernel is showing the following:
 
-Changelog v1 -> v2:
-* https://lore.kernel.org/linux-media/20241115142021.574402-1-aardelean@baylibre.com/
-* Technically, this is not a true V2, but rather a new patch
-  - But in V1, the attempt was to fix an issue found with the upstream
-    IMX296 driver, which was pointed out by Kieran that it was already
-    fixed (more elegantly) in the RPi tree.
-  - The standby delay helps during a cold-boot so that the driver can read
-    the IMX296_SENSOR_INFO register. If the delay isn't present the value
-    read is 0xx0000.
-  - Original patch can be found:
-    https://github.com/raspberrypi/linux/commit/7713ce38e6a26425ace3a57b3d03ba0125c16f89
-  - From the original patch of Naushir Patuck,
-    - Added comment 
-      -------
-      During a cold-boot, reading the IMX296_SENSOR_INFO register would often 
-      return a value of 0x0000, if this delay is not present before.
-      -------
-    - Added 'Tested-by: Alexandru Ardelean <aardelean@baylibre.com>
-    - Added 'Fixes: cb33db2b6ccfe ("media: i2c: IMX296 camera sensor driver")'
+   󱞪 doas dmesg | grep ipu6
+[   29.543059] intel-ipu6 0000:00:05.0: enabling device (0000 -> 0002)
+[   29.543294] intel-ipu6 0000:00:05.0: IPU6 in non-secure mode touch 
+0x0 mask 0xff
+[   29.549549] intel-ipu6 0000:00:05.0: FW version: 20230925
+those last two lines repeating again and again and then stopping at some 
+points.
 
- drivers/media/i2c/imx296.c | 2 ++
- 1 file changed, 2 insertions(+)
+Both modules ov01a10 and intel_ipu6 are loaded.
 
-diff --git a/drivers/media/i2c/imx296.c b/drivers/media/i2c/imx296.c
-index f942f66fa664..395bfe4fb23d 100644
---- a/drivers/media/i2c/imx296.c
-+++ b/drivers/media/i2c/imx296.c
-@@ -940,6 +940,8 @@ static int imx296_identify_model(struct imx296 *sensor)
- 		return ret;
- 	}
- 
-+	usleep_range(2000, 5000);
-+
- 	ret = imx296_read(sensor, IMX296_SENSOR_INFO);
- 	if (ret < 0) {
- 		dev_err(sensor->dev, "failed to read sensor information (%d)\n",
+There are multiple reports of similar problems with the same kind of 
+Dell laptop:
+https://github.com/intel/ipu6-drivers/issues/291
+https://github.com/intel/ipu6-drivers/issues/288
+https://github.com/intel/ipu6-drivers/issues/298
+
+I'm running Full Disk Encryption and Secureboot if it matters but had no 
+luck disabling Secureboot.
+
+I'm currently building mainline to test. Sorry if it lacks precision, 
+I'll be happy to add any info needed.
+
+Regards,
+
 -- 
-2.46.1
+Nicolas Lorin
 
 
