@@ -1,63 +1,62 @@
-Return-Path: <linux-media+bounces-21468-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21472-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9D29CFC79
-	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 04:17:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 865AA9CFC87
+	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 04:18:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 947F928450E
-	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 03:16:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D400B28992
+	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2024 03:18:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C3AA1925BB;
-	Sat, 16 Nov 2024 03:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 811BF192B6D;
+	Sat, 16 Nov 2024 03:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="DKZNTauj"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="OfdQrJwx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA8F339AB;
-	Sat, 16 Nov 2024 03:16:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4A31917D7;
+	Sat, 16 Nov 2024 03:17:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731726994; cv=none; b=QwY1yk9fwa/IvECjQCLKMdEeluPlcqTakublLAbkxUuLSduQfm8lBg4g4p9uLksfGcoWAHVGSsKzM4Xk40MeLHiQoybRx9e2h0NDjToH/RAclTU4QDUpeUqYKm2FgUpZcfI2Zw0zrw48ISJNLTTbokDmC3fsVNtg4jtyr3vhTzc=
+	t=1731727055; cv=none; b=cdtqhHN7yYOl4rnG4FNgThDY8HRU0H4Hlf/Pvzyw9E9zt+MXVSHff+2rsFkekmLzVmaxefv0LuNAnCAYVRcSm1/gy9ldVQe7AtW+Pq6OWVzECknnxgL/WC8Z3LiKSe4G746YX7BH2gEXglldJfiYyzY6vWenYJqf8Z6ymfnHHm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731726994; c=relaxed/simple;
-	bh=WDof65vLZPwrJ5o0RS7IojnmTrfQZQla3Ax9q5oxi3Y=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QFcSt1GvtxB9QtzAQitHjEtaNgviNN1+7cSTIUAZVFnhjjNMkC8AdZFLiF5w1sCP4XahEN3ti96DMtMVkBCU7PyHbbcjb2TrHk5oayiV/CdZff/0to+EUo+50D8q2ozIQZ0lonGuGLBZYbRg7w3E6Nq8pMA7T7HSQ17zFwIfPqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=DKZNTauj; arc=none smtp.client-ip=210.61.82.184
+	s=arc-20240116; t=1731727055; c=relaxed/simple;
+	bh=1oRf4xfxqP4Fmmv3xgyZJKH3inkDIRnHsnoX117+NMs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bOwnMBZja0Fqus+t9KMpr2F4yRbxUXfAvAkiEdpNARTyOhb9hJ8vWVLkejWyzwS1XDRVWtZ4P1nU/j1rtlXupxM7VgdZQ3LMtMSqo4Qlg7U46thM/FlRNxn7cptgjvO198eIB785XAq0ljoCsPuJzjpuxwnGRat55k3e4DZutgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=OfdQrJwx; arc=none smtp.client-ip=210.61.82.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 2847a15ea3c911efbd192953cf12861f-20241116
+X-UUID: 4e4cfed0a3c911efbd192953cf12861f-20241116
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=nUUtronK2tOKVzyDfxFKwurj9xQ03TFrWa6ZOex8Ssg=;
-	b=DKZNTauj2qtMGWlrxPVzNo/4tVn28XV4Vh2zJecALY6dxleelDM/IEcMUCGDPIzBj8/Xbm9f9phSd2KDYc1n9/pvGNGmotLpS2wVaMfvKwrk5tYOXWyQ4FTb616hMp3P11ZjFXRJ86h0uEmmuj//yProyDGhLMpQvf6gF1OZA4Y=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=+9ZnJdqr79k+Y/T3mTs8BQS5odlDph9aBEoH/UgRHOg=;
+	b=OfdQrJwxrQWPLraRh3CvJ7CJtqTfJkH1fuSSlEZiIVyY2RkeonPFI0fVBDtYOTwmzjWwcq0nJEEtc/wjeFEBAFlYOyxwaO6orCrmnGFtuzM9mhbUP/dmMD/iFC11abUjp9C/kYsXt0RQcbQBSXWsay7jnU5gWgAX8NjEWiYJxRQ=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.43,REQID:3d3d35ed-5dab-41b0-8015-eb4163370401,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:ce19b8a,CLOUDID:9debb85c-f18b-4d56-b49c-93279ee09144,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0,EDM:-3,IP
-	:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
-	LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-O-INFO: VERSION:1.1.43,REQID:40ac1d20-3be3-453f-bc1b-629e765b81e3,IP:0,U
+	RL:0,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-20
+X-CID-META: VersionHash:ce19b8a,CLOUDID:3f182a07-6ce0-4172-9755-bd2287e50583,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:1,EDM:-3,IP:nil,U
+	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 2847a15ea3c911efbd192953cf12861f-20241116
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw02.mediatek.com
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 4e4cfed0a3c911efbd192953cf12861f-20241116
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
 	(envelope-from <yunfei.dong@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 593688281; Sat, 16 Nov 2024 11:16:23 +0800
+	with ESMTP id 1564287710; Sat, 16 Nov 2024 11:17:26 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sat, 16 Nov 2024 11:16:21 +0800
+ 15.2.1118.26; Sat, 16 Nov 2024 11:17:25 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Sat, 16 Nov 2024 11:16:20 +0800
+ 15.2.1118.26 via Frontend Transport; Sat, 16 Nov 2024 11:17:24 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
 	<nfraprado@collabora.com>, Sebastian Fricke <sebastian.fricke@collabora.com>,
@@ -67,17 +66,15 @@ To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
 	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>,
 	Daniel Almeida <daniel.almeida@collabora.com>
 CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, "Yunfei
- Dong" <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
+ Dong <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v6 3/3] media: mediatek: vcodec: add description for vsi struct
-Date: Sat, 16 Nov 2024 11:16:12 +0800
-Message-ID: <20241116031616.15656-4-yunfei.dong@mediatek.com>
+Subject: [PATCH v7 0/5] media: mediatek: vcodec: fix v4l2_ctrl_request_complete fail
+Date: Sat, 16 Nov 2024 11:17:14 +0800
+Message-ID: <20241116031724.15694-1-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241116031616.15656-1-yunfei.dong@mediatek.com>
-References: <20241116031616.15656-1-yunfei.dong@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,61 +83,70 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--5.545300-8.000000
-X-TMASE-MatchedRID: QzgX5l08Brj4Q348LKfXODTV/B1Uu+XCIfZjRfGTydh30F1387KCPeFC
-	6BP4FUP+sHCh+gSvrNHxHXxxAO/d2TAo/rUTivG7ntCoZKs0mGVWOQQSa4vbHYrop5D7tDibo8W
-	MkQWv6iUoTQl7wNH8Po2j49Ftap9EOwBXM346/+xg/+avkj9YHpxolbzzbs7jxv3fBrcyQljxpG
-	XdoEJuf4ArO0ccm6/s
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--5.545300-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 2AED127212B07905FEECADE221F0410C89323E36A5ECA0D45753A2C32047CE352000:8
 X-MTK: N
 
-If the video shared information (vsi) is changed accidentally,
-will leading to play h264 bitstream fail if the firmware won't
-be changed at the same time. Marking the shared struct with
-"shared interface with firmware".
+User space attach the syntaxes and bit-stream buffer to a same media
+request for stateless decode, and the syntax controls are the only
+v4l2 control request. The request will be marked to complete status
+when the buffer is set to done, then request object will be cleaned
+form media request.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+When v4l2_ctrl_request_complete() is later called, the control request
+detect that there is no controls in the request object. It then creates
+an empty control request object, but attaching an object to a completed
+request is not allowed. Using manual request completion to handle the
+request complete event.
 ---
- .../mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c    | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+depends on manual request completion patch:
+[1] https://patchwork.linuxtv.org/project/linux-media/cover/cover.1724928939.git.hverkuil-cisco@xs4all.nl/
+---
+compared with v6:
+- Using manual request completion for patch 1
+- rebase on latest driver for patches 2/3/4/5
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-index a7de95b9a7c0..5a202691e209 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-@@ -30,6 +30,7 @@ enum vdec_h264_core_dec_err_type {
- 
- /**
-  * struct vdec_h264_slice_lat_dec_param  - parameters for decode current frame
-+ *        (shared interface with firmware)
-  *
-  * @sps:		h264 sps syntax parameters
-  * @pps:		h264 pps syntax parameters
-@@ -48,7 +49,7 @@ struct vdec_h264_slice_lat_dec_param {
- };
- 
- /**
-- * struct vdec_h264_slice_info - decode information
-+ * struct vdec_h264_slice_info - decode information (shared interface with firmware)
-  *
-  * @nal_info:		nal info of current picture
-  * @timeout:		Decode timeout: 1 timeout, 0 no timeout
-@@ -72,7 +73,7 @@ struct vdec_h264_slice_info {
- 
- /**
-  * struct vdec_h264_slice_vsi - shared memory for decode information exchange
-- *        between SCP and Host.
-+ *        between SCP and Host (shared interface with firmware).
-  *
-  * @wdma_err_addr:		wdma error dma address
-  * @wdma_start_addr:		wdma start dma address
+compared with v5:
+- fix comments for patch 3
+- fix smatch error for patch 1
+
+compared with v4:
+- re-write the commit message for cover-letter
+- change patch 2/3/4/5 commit message
+
+compared with v3:
+- fix flush decoder issue when userspace stream off capture queue firstly
+- fluster test result same with v3
+
+compared with v2:
+- add patch 5/6/7 to fix decode again issue
+- add fluster test result with mt8195 platform(same with no changed):
+  1> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0 -j1 -t 90
+     VP8-TEST-VECTORS 59/61
+  2> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0 -j1 -t 90
+     VP9-TEST-VECTORS 276/305
+  3> ./fluster.py run -d GStreamer-AV1-V4L2SL-Gst1.0 -j1 -t 90
+     AV1-TEST-VECTORS 237/239
+  4> ./fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -j1 -t 90
+     JVT-AVC_V1       95/135
+  5> ./fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -j1 -t 90
+     JCT-VC-HEVC_V1   142/147
+
+compared with v1:
+- add patch 2/3/4 to fix timing issue.
+---
+Yunfei Dong (5):
+  media: mediatek: vcodec: support manual request completion
+  media: mediatek: vcodec: change flush decode order when stream off
+  media: mediatek: vcodec: remove media request checking
+  media: mediatek: vcodec: Get SRC buffer from bitstream instead of M2M
+  media: mediatek: vcodec: store current vb2 buffer to decode again
+
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 43 ++++++++--------
+ .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  2 +
+ .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 51 ++++++++++++-------
+ .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c | 14 ++---
+ .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 15 +++---
+ 5 files changed, 72 insertions(+), 53 deletions(-)
+
 -- 
 2.46.0
 
