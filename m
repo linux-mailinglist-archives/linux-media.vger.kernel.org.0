@@ -1,91 +1,143 @@
-Return-Path: <linux-media+bounces-21497-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21498-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B01F9D0A47
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 08:32:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 043289D0A6D
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 08:52:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC0041F23685
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 07:32:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADE941F21E46
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 07:52:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D6EB193416;
-	Mon, 18 Nov 2024 07:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dVjDKgcc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9D961537D4;
+	Mon, 18 Nov 2024 07:52:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E436190486
-	for <linux-media@vger.kernel.org>; Mon, 18 Nov 2024 07:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E5515C0;
+	Mon, 18 Nov 2024 07:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731914997; cv=none; b=mHUDbVJjbxuxXOWwCksW4unUy4t2x6wtbrzFIWZj+kRWseqEJSo5i16rGK/FVZQ7COqmuuUuD1zSxnQ44tSlWIhKFDfeTOeyP+JfQk/erRSfnVkiNFFtXmzD30gL+J+Q8axZaafcXpPptYDngk65kzEaDQ104E03Dl9s9XRCn0k=
+	t=1731916354; cv=none; b=NJqgVBAeGcf1Dy3g/OdXzj5TXXlwig7GF5nRAisPtf8d8RYILAT5dLqdyhd1E7WX8icpPC6MV6/t41c88OEfa6neglzG+kI9hNzUNiUfoQoLmLFsDIsDL5Cz0n/XF4qx0dremhb+ZjE3WOiyaZiy1RkwiD0PbwL9+KLuslS0AHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731914997; c=relaxed/simple;
-	bh=uTkhNbFOdy89orZJ2wqxH0CWdATkbLmapGDzC1cZrsU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tLgnsdAiR9OJQNkFoVTcEGFXheFc31BYTWF0fVnfjGAsaswfY1o7fbwAqhpt33ROf3LEBSujfKBYgnJIkHwfvFOGx0Eadfn5LlMVPkG3FTeRrLz//MB5kvgxYPG9Cma5rvUaP8kgtz3KI+pnFFDEK/AFhcokfhBYcsuFJlELvsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=dVjDKgcc; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=U1XjJORgqEmqv+cPQtTQzQaslx6GMVxaRks8/5d1VG8=; b=dVjDKg
-	ccwIi6ExG3IfAt6Im+fj3OweX/X2ch2YRDLbi0Wt0T6EEZX1PitclGs7xslUOj+9
-	tMOI7INcXzaFyAdj6S7192nqahamKkIUglZQ79AEY3mIn6duncgQ/d8d51LNadwf
-	xfR2vyU31pSRBDkTTgibiuNKLJZ+oiUwq5NVJqeYo7wxUqwlfNGrlnGY1ha7nbg7
-	VxH1Wj1Pcy/02mOp3djZ8vc5ajdA6ZgH8rWXyDLOwlsrtDLa2Rh7ljKBevNw2ZVa
-	eMstg9VLdPfgq+Ra0ijLk5nz2Q5AF6pN1x7qF00Favsuqeuxum3B9w73t3935Frr
-	Spu6/unIIcIzuFqw==
-Received: (qmail 112454 invoked from network); 18 Nov 2024 08:29:39 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Nov 2024 08:29:39 +0100
-X-UD-Smtp-Session: l3s3148p1@xr8c4Son+tUujntT
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-kernel@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Sean Young <sean@mess.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH 07/15] media: mceusb: don't include 'pm_wakeup.h' directly
-Date: Mon, 18 Nov 2024 08:29:06 +0100
-Message-Id: <20241118072917.3853-8-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20241118072917.3853-1-wsa+renesas@sang-engineering.com>
-References: <20241118072917.3853-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1731916354; c=relaxed/simple;
+	bh=ds3mQwNHuP/1AgYxmIFWb3FLhI+RhvLE/XpCur/+ikY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K9E0M1GTxo3zpsHoy7WV5TYicBsoO1uki4ZNwflcjqvOtirDfRO43MAvz4ysHeArRWDsgP8aEAG015B0ZgY+yTNUuukF4ioipj8dm6SPR5AVvmTFfecc7tVqhu8j6g+m2hfHMB7QeFDZkxbmDGSbQt1KJHMR0roxkMwBp50Abd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 526F2C4CECC;
+	Mon, 18 Nov 2024 07:52:33 +0000 (UTC)
+Message-ID: <4f8b8ce0-727c-4527-b6a5-19f7f035f3c5@xs4all.nl>
+Date: Mon, 18 Nov 2024 08:52:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] docs: media: update location of the media patches
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ stable@vger.kernel.org
+References: <cover.1731910082.git.mchehab+huawei@kernel.org>
+ <544c6883e49e4b85bf5338d794f754ac0cfe3436.1731910082.git.mchehab+huawei@kernel.org>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <544c6883e49e4b85bf5338d794f754ac0cfe3436.1731910082.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The header clearly states that it does not want to be included directly,
-only via 'device.h'. 'platform_device.h' works equally well. Remove the
-direct inclusion.
+On 18/11/2024 07:09, Mauro Carvalho Chehab wrote:
+> Due to recent changes on the way we're maintaining media, the
+> location of the main tree was updated.
+> 
+> Change docs accordingly.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/media/rc/mceusb.c | 1 -
- 1 file changed, 1 deletion(-)
+Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
 
-diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
-index cd7af4d88b7f..7e824eb2db9f 100644
---- a/drivers/media/rc/mceusb.c
-+++ b/drivers/media/rc/mceusb.c
-@@ -28,7 +28,6 @@
- #include <linux/workqueue.h>
- #include <linux/usb.h>
- #include <linux/usb/input.h>
--#include <linux/pm_wakeup.h>
- #include <media/rc-core.h>
- 
- #define DRIVER_VERSION	"1.95"
--- 
-2.39.2
+Regards,
+
+	Hans
+
+> ---
+>  Documentation/admin-guide/media/building.rst | 2 +-
+>  Documentation/admin-guide/media/saa7134.rst  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/media/building.rst b/Documentation/admin-guide/media/building.rst
+> index a06473429916..7a413ba07f93 100644
+> --- a/Documentation/admin-guide/media/building.rst
+> +++ b/Documentation/admin-guide/media/building.rst
+> @@ -15,7 +15,7 @@ Please notice, however, that, if:
+>  
+>  you should use the main media development tree ``master`` branch:
+>  
+> -    https://git.linuxtv.org/media_tree.git/
+> +    https://git.linuxtv.org/media.git/
+>  
+>  In this case, you may find some useful information at the
+>  `LinuxTv wiki pages <https://linuxtv.org/wiki>`_:
+> diff --git a/Documentation/admin-guide/media/saa7134.rst b/Documentation/admin-guide/media/saa7134.rst
+> index 51eae7eb5ab7..18d7cbc897db 100644
+> --- a/Documentation/admin-guide/media/saa7134.rst
+> +++ b/Documentation/admin-guide/media/saa7134.rst
+> @@ -67,7 +67,7 @@ Changes / Fixes
+>  Please mail to linux-media AT vger.kernel.org unified diffs against
+>  the linux media git tree:
+>  
+> -    https://git.linuxtv.org/media_tree.git/
+> +    https://git.linuxtv.org/media.git/
+>  
+>  This is done by committing a patch at a clone of the git tree and
+>  submitting the patch using ``git send-email``. Don't forget to
 
 
