@@ -1,66 +1,80 @@
-Return-Path: <linux-media+bounces-21522-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21528-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124179D127F
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 14:56:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6BB9D1241
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 14:41:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5833DB2D8ED
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 13:39:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 415B6282D1D
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 13:41:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A2651C07E0;
-	Mon, 18 Nov 2024 13:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E64A91AA1FD;
+	Mon, 18 Nov 2024 13:40:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="ZKjfiG/W"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="nE2XcsPf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C12919E998;
-	Mon, 18 Nov 2024 13:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5CA1990C7;
+	Mon, 18 Nov 2024 13:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731936898; cv=none; b=HO1YFxwYvsedTDqvzUsGarufucNPQNHUasBoR5SYm6gaXhTA7LCjA7SClYGS60pbyxiIGTcFdHNbHT/LX2QdDNxDyV5FprFUAhhmxpfD2OSbicChv0IzC1BVpcR6YDLI55/fCgnn32JkFsvK7hiIYIoIr5J1FDmGdXe0Gu3pdxg=
+	t=1731937217; cv=none; b=fT3mPlNLBmRzeCBCeILiZy5OsEX3aRlepL8NSnEeH/nc0IR+8BJ43GVVsj/Y3b3CCbLLNXv3KxNVbyaQaQ3TtrNWM3z8edwZDdGL7MLEVY9rU7FVGCqF7gYUbmrw+sNsaUuXKCEQAub0g9Knyg1NLxSglGTFyJZbubvZuYUEbiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731936898; c=relaxed/simple;
-	bh=24/EauieQXJi/pntvKLKiUH0LR79R8xUc5ZSJi/BYeY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oGBd7YFOfNPKMy8Q9RAkeKwdCaFfB8Xs/VxM1+wvzziU/urOw/vqw56Ymhk3Z9auj0dQI8YMmy6g4q3Sb7R7GMxYFGU1CJAgofQwYL//gYWC/wQmFhoFbzZGzkTuCL01zYEPAU/Et7A8gwrZjKiZK8GvuQojUIn8ilGUqkoosCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=ZKjfiG/W; arc=none smtp.client-ip=185.132.182.106
+	s=arc-20240116; t=1731937217; c=relaxed/simple;
+	bh=XnyYllDzL0LL/+HkkTfZ2htDmi7RlBBYQfsAV/1yFHg=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=QDZzeGPBESqAqzucUCv1GfTnAI4M5mLQwB3RQkz4eHUI2Zx6UY3o+kMuKQxV9SpOjMD3GE8xG7J5JfgCvfWiFsWURCocXUNomiQ8DKwyHBBEHjmh46sLr5RZLkkcWWkO9HAPI/UZKOpIg6O0/m/IubzI6fZremeXE87gKZpt1Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=nE2XcsPf; arc=none smtp.client-ip=91.207.212.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AI92Saa027677;
-	Mon, 18 Nov 2024 14:34:21 +0100
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AIBbYPa032344;
+	Mon, 18 Nov 2024 14:39:41 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=selector1; bh=kk0fbCm86oNON+VzAknySsP7
-	MWSV0z1bs5jHXJw47/E=; b=ZKjfiG/Wh8lUk5ragQjXYnM5zxkVWBgG20FGAMTZ
-	bObTmd26MsJl0TVzVROI82uykK1xaUQ8T7cIv9gHxn7bI5v4hoq8irxUkSeYydFl
-	e/R8EadFRHymA3eSpaUeM6mBdGXwrBz1mCoedK/mqsjk+1YN1+qqXHw79/TEwme3
-	V2EcMlnzkGR5o45io9L3wZdShlLxadvhS0ln4U2wsKh1srWt1a8tBym9/JNLCW6r
-	QJsm4xGwtRmIsNv9M6nEPHQju/eTyDHsvyqCAKsHduaAbGOr9O479i1C4DBwEQ7S
-	k+tYziiyyt4yTdZx8YWiiIvljCf6NwLFnRieisJGu8VHYw==
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=selector1; bh=7O5nEKFBIBm1GCz6ZDzn1l
+	9NyOXSXAkg3gdqNTBw/HY=; b=nE2XcsPfH3AzQg1iYCU7fjXmHVVhj3gQQmL2SJ
+	P9RXzEE/UBI70MbQ+E2n1ytEhHrHr5mmXbxb6pMRdFraFww5wWNws3itwLP40K3E
+	13m3NS+MerDYrS+1rHHJNR8AV9qNRLimWORgfxvpDGKUH1I7eqsnsGVq2a2zmXWH
+	0t0PFd7ytjQFgfUvZsb2kw8ITw8dKAtCiXshX0Rlz1gLuOwePA/TuZEk0zAMWXf9
+	7MelT8lBC+UuSLdxehjkkRyudRBSsNRg5hKbUSPpdQlGddKYzrsLQlm9oGZZnGtZ
+	oi59IJ8jjS9qBLZs23zG8Aix4GzBLs3miGhuRPkXn1qGAVPw==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42y5u3n7tn-1
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42xkqeq7rh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Nov 2024 14:34:21 +0100 (CET)
+	Mon, 18 Nov 2024 14:39:41 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 59F2140052;
-	Mon, 18 Nov 2024 14:33:03 +0100 (CET)
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 7574E40053;
+	Mon, 18 Nov 2024 14:38:29 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 20D4128AB95;
-	Mon, 18 Nov 2024 14:31:56 +0100 (CET)
-Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2D14026E70C;
+	Mon, 18 Nov 2024 14:35:26 +0100 (CET)
+Received: from localhost (10.129.178.213) by SHFDAG1NODE1.st.com
  (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 18 Nov
- 2024 14:31:55 +0100
-Date: Mon, 18 Nov 2024 14:31:50 +0100
+ 2024 14:35:25 +0100
 From: Alain Volmat <alain.volmat@foss.st.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-CC: Hugues Fruchet <hugues.fruchet@foss.st.com>,
+Subject: [PATCH v3 00/15] media: stm32: introduction of CSI / DCMIPP for
+ STM32MP25
+Date: Mon, 18 Nov 2024 14:35:23 +0100
+Message-ID: <20241118-csi_dcmipp_mp25-v3-0-c1914afb0a0f@foss.st.com>
+Precedence: bulk
+X-Mailing-List: linux-media@vger.kernel.org
+List-Id: <linux-media.vger.kernel.org>
+List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJtCO2cC/2WNQQ6CMBBFr0JmbUkZxBFW3sMQgqWVWUCbDiEaw
+ t2tuHT5XvLf30BsZCvQZBtEu7KwnxOUpwzM2M9Pq3hIDKjxXGhNygh3g5k4hG4KWCkiqi+6cBU
+ NPaRViNbx6yje28Qjy+Lj+zhY8Wt/rUJXf60VlVaP2plrT0ilwZvzIrksufETtPu+fwA3Eyy4s
+ AAAAA==
+X-Change-ID: 20241007-csi_dcmipp_mp25-7779601f57da
+To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
         Mauro Carvalho Chehab
 	<mchehab@kernel.org>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
@@ -73,127 +87,81 @@ CC: Hugues Fruchet <hugues.fruchet@foss.st.com>,
  Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Conor
- Dooley <conor+dt@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
+ Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: <linux-media@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
         <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v2 03/15] media: stm32: csi: addition of the STM32 CSI
- driver
-Message-ID: <20241118133150.GA2001051@gnbcxd0016.gnb.st.com>
-References: <20241105-csi_dcmipp_mp25-v2-0-b9fc8a7273c2@foss.st.com>
- <20241105-csi_dcmipp_mp25-v2-3-b9fc8a7273c2@foss.st.com>
- <8841158ed61b2b92a92ac6d2afcbd7cff12a6680.camel@pengutronix.de>
-Precedence: bulk
-X-Mailing-List: linux-media@vger.kernel.org
-List-Id: <linux-media.vger.kernel.org>
-List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <8841158ed61b2b92a92ac6d2afcbd7cff12a6680.camel@pengutronix.de>
-X-Disclaimer: ce message est personnel / this message is private
+        <devicetree@vger.kernel.org>, Alain Volmat <alain.volmat@foss.st.com>,
+        <stable@vger.kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
 X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
  (10.75.129.69)
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Hi Philipp
+This series introduces the camera pipeline support for the
+STM32MP25 SOC.  The STM32MP25 has 3 pipelines, fed from a
+single camera input which can be either parallel or csi.
 
-On Tue, Nov 05, 2024 at 11:14:47AM +0100, Philipp Zabel wrote:
-> On Di, 2024-11-05 at 08:49 +0100, Alain Volmat wrote:
-> > The STM32 CSI controller is tightly coupled with the DCMIPP and act as an
-> > input stage to receive data coming from the sensor and transferring
-> > them into the DCMIPP.
-> > 
-> > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> > 
-> > ---
-> > v2: correct data-lanes handling, using values 1 & 2
-> >     update yaml filename in MAINTAINERS
-> > ---
-> >  MAINTAINERS                                 |    8 +
-> >  drivers/media/platform/st/stm32/Kconfig     |   14 +
-> >  drivers/media/platform/st/stm32/Makefile    |    1 +
-> >  drivers/media/platform/st/stm32/stm32-csi.c | 1144 +++++++++++++++++++++++++++
-> >  4 files changed, 1167 insertions(+)
-> > 
-> [...]
-> > diff --git a/drivers/media/platform/st/stm32/stm32-csi.c b/drivers/media/platform/st/stm32/stm32-csi.c
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..c7f47472c6b3699e94113ce0f38b280a2e45ce15
-> > --- /dev/null
-> > +++ b/drivers/media/platform/st/stm32/stm32-csi.c
-> > @@ -0,0 +1,1144 @@
-> [...]
-> > +static int stm32_csi_get_resources(struct stm32_csi_dev *csidev,
-> > +				   struct platform_device *pdev)
-> > +{
-> > +	int irq, ret;
-> > +
-> > +	csidev->base = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
-> > +	if (IS_ERR(csidev->base))
-> > +		return dev_err_probe(&pdev->dev, PTR_ERR(csidev->base),
-> > +				     "Failed to ioremap resource\n");
-> > +
-> > +	csidev->pclk = devm_clk_get(&pdev->dev, "pclk");
-> > +	if (IS_ERR(csidev->pclk))
-> > +		return dev_err_probe(&pdev->dev, PTR_ERR(csidev->pclk),
-> > +				     "Couldn't get pclk\n");
-> > +
-> > +	csidev->txesc = devm_clk_get(&pdev->dev, "txesc");
-> > +	if (IS_ERR(csidev->txesc))
-> > +		return dev_err_probe(&pdev->dev, PTR_ERR(csidev->txesc),
-> > +				     "Couldn't get txesc\n");
-> > +
-> > +	csidev->csi2phy = devm_clk_get(&pdev->dev, "csi2phy");
-> > +	if (IS_ERR(csidev->csi2phy))
-> > +		return dev_err_probe(&pdev->dev, PTR_ERR(csidev->csi2phy),
-> > +				     "Couldn't get csi2phy\n");
-> 
-> Consider using devm_clk_bulk_get().
+This series adds the basic support for the 1st pipe (dump)
+which, in term of features is same as the one featured on
+the STM32MP13 SOC.  It focuses on introduction of the
+CSI input stage for the DCMIPP, and the CSI specific new
+control code for the DCMIPP.
+One of the subdev of the DCMIPP, dcmipp_parallel is now
+renamed as dcmipp_input since it allows to not only control
+the parallel but also the csi interface.
 
-Ok, I change this in the v3.
+Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+---
+Changes in v3:
+* stm32-csi: use clk_bulk api
+* stm32-csiL perform reset control within the probe
+- Link to v2: https://lore.kernel.org/r/20241105-csi_dcmipp_mp25-v2-0-b9fc8a7273c2@foss.st.com
 
-> 
-> > +	csidev->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> > +	if (IS_ERR(csidev->rstc))
-> > +		return dev_err_probe(&pdev->dev, PTR_ERR(csidev->rstc),
-> > +				     "Couldn't get reset control\n");
-> 
-> If this wasn't in a separate function, rstc wouldn't have to be stored
-> on csidev as it's only ever used in stm32_csi_probe().
+---
+Alain Volmat (15):
+      media: stm32: dcmipp: correct dma_set_mask_and_coherent mask value
+      dt-bindings: media: add description of stm32 csi
+      media: stm32: csi: addition of the STM32 CSI driver
+      media: stm32: dcmipp: use v4l2_subdev_is_streaming
+      media: stm32: dcmipp: replace s_stream with enable/disable_streams
+      media: stm32: dcmipp: rename dcmipp_parallel into dcmipp_input
+      media: stm32: dcmipp: add support for csi input into dcmipp-input
+      media: stm32: dcmipp: add bayer 10~14 bits formats
+      media: stm32: dcmipp: add 1X16 RGB / YUV formats support
+      media: stm32: dcmipp: avoid duplicated format on enum in bytecap
+      media: stm32: dcmipp: fill media ctl hw_revision field
+      dt-bindings: media: add the stm32mp25 compatible of DCMIPP
+      media: stm32: dcmipp: add core support for the stm32mp25
+      arm64: dts: st: add csi & dcmipp node in stm32mp25
+      arm64: dts: st: enable imx335/csi/dcmipp pipeline on stm32mp257f-ev1
 
-Ok, whole reset handling moved into the probe function.
+ .../devicetree/bindings/media/st,stm32-dcmipp.yaml |   53 +-
+ .../bindings/media/st,stm32mp25-csi.yaml           |  125 +++
+ MAINTAINERS                                        |    8 +
+ arch/arm64/boot/dts/st/stm32mp251.dtsi             |   23 +
+ arch/arm64/boot/dts/st/stm32mp257f-ev1.dts         |   85 ++
+ drivers/media/platform/st/stm32/Kconfig            |   14 +
+ drivers/media/platform/st/stm32/Makefile           |    1 +
+ drivers/media/platform/st/stm32/stm32-csi.c        | 1137 ++++++++++++++++++++
+ .../media/platform/st/stm32/stm32-dcmipp/Makefile  |    2 +-
+ .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c         |  128 ++-
+ .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c        |  119 +-
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-common.h |    4 +-
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   |  116 +-
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-input.c  |  540 ++++++++++
+ .../st/stm32/stm32-dcmipp/dcmipp-parallel.c        |  440 --------
+ 15 files changed, 2219 insertions(+), 576 deletions(-)
+---
+base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
+change-id: 20241007-csi_dcmipp_mp25-7779601f57da
 
-> 
-> > +
-> > +	csidev->supplies[0].supply = "vdd";
-> > +	csidev->supplies[1].supply = "vdda18";
-> > +	ret = devm_regulator_bulk_get(&pdev->dev, ARRAY_SIZE(csidev->supplies),
-> > +				      csidev->supplies);
-> > +	if (ret)
-> > +		return dev_err_probe(&pdev->dev, ret,
-> > +				     "Failed to request regulator vdd\n");
-> > +
-> > +	irq = platform_get_irq(pdev, 0);
-> > +	if (irq < 0)
-> > +		return irq;
-> > +
-> > +	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-> > +					stm32_csi_irq_thread, IRQF_ONESHOT,
-> > +					dev_name(&pdev->dev), csidev);
-> > +	if (ret)
-> > +		return dev_err_probe(&pdev->dev, ret,
-> > +				     "Unable to request irq");
-> > +
-> > +	return 0;
-> > +}
-> 
-> regards
-> Philipp
+Best regards,
+-- 
+Alain Volmat <alain.volmat@foss.st.com>
 
-Regards
-Alain
 
