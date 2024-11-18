@@ -1,223 +1,224 @@
-Return-Path: <linux-media+bounces-21487-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21488-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDDF09D07EE
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 03:40:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6EE79D0876
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 05:46:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 303221F218F9
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 02:40:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39C8E281BA9
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 04:46:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 638633C488;
-	Mon, 18 Nov 2024 02:40:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4766413B58E;
+	Mon, 18 Nov 2024 04:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="C/vDRHf8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/9W4pdQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B133217BA3
-	for <linux-media@vger.kernel.org>; Mon, 18 Nov 2024 02:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731897615; cv=none; b=ga3T6E+TnobxpfOYpu1GaAzZmPo16l87zCxZEXulBqh7SwPTjAfhmpogTlymJDcbc3B+QV31HdrNb+yWbXplnXuqdgBwY1t454M5IIsvxDwfNhahqhJZge0Ag60rGr6Ks/zhiHlzBjYSju4h4GPo8AevdG95jUesezmtjpsO5sM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731897615; c=relaxed/simple;
-	bh=ihxU/LC73MGuabYwap6O66rOZSfDAXnGyxwHUhHxbis=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HR7odSNy0bESs7u1l7ds72+dC1/NlrpkhEdXXu88GyImhD7JQtwxJDUBSSH+8hbdklZ9yedBK31CWLcwibToMlOCwxagt7OUf/RWTsPR2BWe3D8BUo/uam4y0ygqkl0iovbFdwPpOLRIFt3X+5tR2hA6JAHk2sNfJx6/Qy2UAsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=C/vDRHf8; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F38F8FA;
-	Mon, 18 Nov 2024 03:39:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731897595;
-	bh=ihxU/LC73MGuabYwap6O66rOZSfDAXnGyxwHUhHxbis=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C/vDRHf8+fHI4aJpnUHIEvEhcxtIMWX1icwjlsAB3QAwY8eHRZ0+22JSSVktzkaGB
-	 OK94Xj8dWaYbSXoH4rpky2B7uUaHd/gz0/0lrFurTgoLPLFJfYX6a6xLyfpMidcBrR
-	 HDS53An7x+NklPkxoxSFkqXpcB3Z50cF9GJYXFEc=
-Date: Mon, 18 Nov 2024 04:40:02 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>
-Subject: Re: [RFC 4/4] media: v4l: ctrl: Add V4L2_CID_CONFIG_MODEL control
-Message-ID: <20241118024002.GJ31681@pendragon.ideasonboard.com>
-References: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
- <20241011075535.588140-5-sakari.ailus@linux.intel.com>
- <137d5e38-b9fd-4274-8877-e5f71365242c@xs4all.nl>
- <ZzRkwVlNLzXQmWoK@kekkonen.localdomain>
- <846db937-9445-4f5c-b8fe-7c973522a3a1@xs4all.nl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDDA28E8;
+	Mon, 18 Nov 2024 04:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731905204; cv=fail; b=SY+xUF4XtAo2ih8xkeq51VPCVPOK8upf8Iy6NJM0+EOY7vIkMb3ZQ8mTTckG7swFG8PtBeWQrmMltwMwp/9pa/tuaUALZ8r7JDMJIMseyJMlzV/4mirNpH/O1A5idWStEiHHE9gnhPYgeSt7nr1n6rzGXtbOTpI6d0DaDOhBePo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731905204; c=relaxed/simple;
+	bh=B/bvb+O7oyCNU/6/Jq4UeWJq8NtOOR4SttRrSxawSzM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ENSt9qk0T4BsNnNvlpiKQmxNvvW1hLn7g4YCALyB4OZwpW3NXfstTCrLRDF3wRXmIi1Fmzv8NTUkpIi5v9PPS/Uek6F2p24Wtrru+r2iicZln6dyOKHds4wqhNed1faOvbofzUc/XgW+0czlf6U3HougPjKeR7BoGbkjxj5s/mU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/9W4pdQ; arc=fail smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731905203; x=1763441203;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=B/bvb+O7oyCNU/6/Jq4UeWJq8NtOOR4SttRrSxawSzM=;
+  b=R/9W4pdQs3VsjIhy8s0tENCqGB7aS9x6oC8olyXWqnlw6b+3RtVlRmFM
+   DUcwznk4+GjeFTBObXeCIHnANTFNpEoZBjcfKnvaPRo50VLaMQgeRFbCN
+   +Pn53z2ZfFAkcPgQguJBkXlR3+roDyuFW1JqrArhoKfJOBEYEyNj0skD7
+   0RfjdLoguOWvAN/6+b3wX1uv1QQmUlbfO46tkIPzKQFzoks/4FUfDrNsN
+   NNZrkEzotijCSGPpkIwTwLckoT8We5RjTH4Dts8ZTVTz7xWvDb0VKEOW0
+   UMYpomqBi9W7CuMIsc5vkhVEQZVlrvwHsp0cEDf9xKoZBt/5+PVokNmwr
+   A==;
+X-CSE-ConnectionGUID: vfjdUfwPSymYDRcRINUgJQ==
+X-CSE-MsgGUID: w8PC4XOWQi6VEDUQC/5p6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31781196"
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
+   d="scan'208";a="31781196"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 20:46:42 -0800
+X-CSE-ConnectionGUID: E3HQR4xzTXSZMww0MJhhOQ==
+X-CSE-MsgGUID: +WmW4xgDT/q+NCKcDGNpVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
+   d="scan'208";a="89540558"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 17 Nov 2024 20:46:42 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sun, 17 Nov 2024 20:46:41 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Sun, 17 Nov 2024 20:46:41 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.42) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Sun, 17 Nov 2024 20:46:41 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iL5vwCACA6Qnum2fgGF11SLRf6zm//8lBpFLc+7Qxl7aXWNHUj1P+V07dzWTZGXA9NSCdoNz+Venh39UssmlQL/cRs3WhjPeh3lO8MV3E66gNadF1nL5pefvxEwsQbYl7dS+yoKHVscCQ7mP8U0l3i5HH0UwJHlhTYl48xH4hs2rCO1846o1CYwKkFSOWhYsitf4wN9qgv0Ry+ykKN6CBXtYw7CVa23S3EMFMuZsPaSlLpLWq44YACF+pbzFzgGS1smd/4lMTLKn/KYcakoUUnXUNnpgf0VpDsJRVmy3mnrYOXQWX4LCERYBrXTZcgk9z8l/WXn3i02iEak/L18+Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B/bvb+O7oyCNU/6/Jq4UeWJq8NtOOR4SttRrSxawSzM=;
+ b=sRW9XE6/NNawKc5qha4FKt8X5w6uCFpHzdgI+7axRPx4s8wZsxVW6BIwWBGBLvbwxpLCpdgMFBBqXZOq710yIN2aOiREHfOX6zgn5mP84EZlPqfwjn9apYj50k9mGTAT1a/Krun4BosNQAAY7Fadpd2z3uXzanJgN5ycg33hm5cQWI/ssDufwmkeIuVL7Xgn60uG71rcYzPz4D2cePxFvoEaN/SG/cH2DRdgIgt4OSlW8H02YJ35MPdVSyB8uzDShZ90uJtR/8xThJbFqXqw85QrINMC4iyfsGW//qnE01qi+GwUSLLR2CuMYcg08nHrjlTc9lsICIKIciHlA0+2MQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM8PR11MB5653.namprd11.prod.outlook.com (2603:10b6:8:25::8) by
+ CH3PR11MB7817.namprd11.prod.outlook.com (2603:10b6:610:123::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.18; Mon, 18 Nov
+ 2024 04:46:38 +0000
+Received: from DM8PR11MB5653.namprd11.prod.outlook.com
+ ([fe80::2962:1efd:f912:a5a3]) by DM8PR11MB5653.namprd11.prod.outlook.com
+ ([fe80::2962:1efd:f912:a5a3%7]) with mapi id 15.20.8158.023; Mon, 18 Nov 2024
+ 04:46:38 +0000
+From: "Cao, Bingbu" <bingbu.cao@intel.com>
+To: Nicolas Lorin <androw95220@gmail.com>, "sakari.ailus@linux.intel.com"
+	<sakari.ailus@linux.intel.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: RE: [BUG?] media: ipu6 / ov01a10 webcam not detected
+Thread-Topic: [BUG?] media: ipu6 / ov01a10 webcam not detected
+Thread-Index: AQHbN7xH/E8ALQiM0UKuwVluubje1rK5a6AAgAMOC7A=
+Date: Mon, 18 Nov 2024 04:46:38 +0000
+Message-ID: <DM8PR11MB5653FF8ED0A4E9BA67B42CF799272@DM8PR11MB5653.namprd11.prod.outlook.com>
+References: <cb2c20c3-e9f9-4758-92bc-43591946ed9d@gmail.com>
+ <50811f23-4d59-4ea3-9259-042e7bf557fa@gmail.com>
+In-Reply-To: <50811f23-4d59-4ea3-9259-042e7bf557fa@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR11MB5653:EE_|CH3PR11MB7817:EE_
+x-ms-office365-filtering-correlation-id: fa8f7b3c-7ff0-4678-69ba-08dd078bfd17
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?R0M2REFIaDE1U0hzbi9HczdscDFhK3ZTS3dGS3RBQmFLMEVCZHVldDJnR0hO?=
+ =?utf-8?B?TEtnN2hxNnE1R0pzRTNWQ2cwaWcySC9zaVI0VEErMExZaWd1UnZKTnFOQ0VZ?=
+ =?utf-8?B?TjZNRFAwRnJ4WHVjK3k2SCtjcktxN25zeXhWM3JEOW44QzBXblNaaGZidFlY?=
+ =?utf-8?B?ZGxPNDBidTdxSVk5TEdwaVl0WUE5alBFSlhVaTJudFJKVWlaUEUrOVlINGtQ?=
+ =?utf-8?B?VEdkY0NTdmwxZUFUdWtrVzZpUDlhMmRPNlZLQWI4OEd0aGRMOXFIZ1lUQUtM?=
+ =?utf-8?B?aGlEU1ZEWVJINGtvU0YzMEM1cWF6eDJwb3o3RERwdzBNdTVBK0tuUzRQNUJo?=
+ =?utf-8?B?T2JKaEdUV2taZ2E1U3M5ZlJ5RVRFZitRV3E3QnV6dWt5K3ZlOEUvaVgrZkpo?=
+ =?utf-8?B?bXE1YUtKN0VjT09CeDYvWUZSM1VYNzU4TVcyek5NTTcwa1phZXJQOVFqQTVk?=
+ =?utf-8?B?NTRrSXBDNEZQNE5keFIxWC84TEtrKy9EZFJMYlRjQ0VHUWlLTUtrcXpnS2pJ?=
+ =?utf-8?B?dk1YYjVIWVJvazZjNWltZFpNSjV2L3UvbWZQamRRbE9jTWFSdm9TTVRCdlAy?=
+ =?utf-8?B?aG5RMi9jY2lMUEZHcExoa3R1OHN1dVlPKzF5V1lCL09Fa24vV1U2NitrRDBN?=
+ =?utf-8?B?MjZWQWx1dHV3U3FRdDZSVUFpREYrWGE4dzBBV3dxTmtyeWhEbkVHM252ZEZS?=
+ =?utf-8?B?MjFkeUlWcmZkUER3cUdPeTcrZWxuK3R6UVlTMjNpSVdaVzU0bFJiUm0zWFpy?=
+ =?utf-8?B?T1hRTnJRdmVLMHA4bUdjbXl5YngycnFJbnovVnpmY2Q4eTVQSkRkTmVtQmll?=
+ =?utf-8?B?MUkrSEFSSUxBcnVYM2xidkNURjFrbDNZU0MrLzJzMnhiODZLYXE3SVZsODRl?=
+ =?utf-8?B?RU9Fb2U0d3JuZUcrTUN0MmpxM2dxamtUZ0FoRzVYVmNHNXROL0RtTkhGQ0d3?=
+ =?utf-8?B?aktMWEZ3UVM2cVp4a3E2SHp0L2pjQUpNY044dkVid3IzWjlRVXhkWWx3c1dZ?=
+ =?utf-8?B?T3ROb3R2OEJ0SDEyUTRlYWJDZm45RTBjakVSamtlZGhiQkpBaEtSSDhtaHEv?=
+ =?utf-8?B?YkcveGZJUThmOFFycUV5NHNQTHpEcUdjVmVJd0VtVnhRdjVEMUlFNGpCZjZ4?=
+ =?utf-8?B?TzdGSW41SUJaTlZ3ZXJtN29mYjJvUWJ3b0dqRUdiS3BSNnhLZlNkWjZEb3J5?=
+ =?utf-8?B?K2pPTlc5a1pZSWczcVMyM3BCOGw3K05VZ1VlZWRWYTNRenV1eUV5K0tOWXUv?=
+ =?utf-8?B?QmQvR3hHUUZWRVZiVHJPMDRYT011WVRrenJ1aG5sUnBZUG5uRzhlT0FDc2hr?=
+ =?utf-8?B?eCtsSUpnRVNETk8zSDBkVzdvS0hIbDlNOEtGT2YzditFUTBhQkwwb3A2ZHFm?=
+ =?utf-8?B?aWxaTXBIY1JpRHMvSk5HWldLNE9haDE4U0E0Skt0U29CNndYQm1uRVBKaGVL?=
+ =?utf-8?B?TlF2WGMvWXJJZEd6VzRYa3JidnMzUW52SVcySHBvWktpWGtCYXJkZ2RXTTNs?=
+ =?utf-8?B?aDhVbS9zYnNyYUptb0lId2haMlJHKzhKRTBaeVc3Zlo4Z0JWMWMycnNDN1lI?=
+ =?utf-8?B?NXB1VlRJaWw2YWJzVFpia09hWTMyN0hwd3IrZk9taXBMMUhCSXpjNFV4NjBi?=
+ =?utf-8?B?R2IzOFdtM1JVay92a29sdTRmZkUxOFZaTWlmSWVIdTN4VlJ1WXBNS3hKcjNl?=
+ =?utf-8?B?bVpTN1A2RHVIQXB4Q1IyeUhPMHRqdzMrSzdPZHFITnRjdk12OGU5SWQ4dk9n?=
+ =?utf-8?B?a1VSLzY2enBZMVJJMzFjUkdMQlVFUlhDVmk5WjZOM2xId0EvSFc5TTN4bldY?=
+ =?utf-8?Q?Uu4fS/CjIMrzFvhlmvQJizS0WMpN96gwifHW8=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5653.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?N3dkNTgvUHBualk2NE9mKzFjNzdXVS82T0pTV0k1UlkvTEt2dnBVcytadFN5?=
+ =?utf-8?B?TmVCRURFS25vR2hnOHRrM002cHE5QXppNlZYbGdyUWZjVitLVGtrT3BaaEJB?=
+ =?utf-8?B?OEhNZXd1U2xCMFZSUTZRYUZCWnBFQTVuajkzUHdSaGg2NWRUNXBjbHVSUE03?=
+ =?utf-8?B?K1MxS1Vqd21TSlhGckFoem1pZGhERENqdUtKSmk1T2pmeTNvbTFpaFd5Q1ll?=
+ =?utf-8?B?RElwQmNzWHp2Tk5OZ0lRRjg0eEtqbm9aRWFEcjJ1TVhGamJwUjZ3Y3NlVW1p?=
+ =?utf-8?B?MXNuTVMzZUV4dDEvQUpOd3Y0Uk96cFZMTTNybUlBR1ZnWUZKYm9hbUZmVmww?=
+ =?utf-8?B?SnppSHQwQkYrWk9JUytmYmpIU0J0MW5kTkxvSEZkaTlKYWNMY2V2WUpCbVFu?=
+ =?utf-8?B?bXZpTDFyQ3NDS0FlejZORGp2clBMQ3pMdE5LcjB4MzRZK2NSdHpubTl0YmR1?=
+ =?utf-8?B?SWM2cEYyNkN0Vzd1NURrVE5aK09pUW95MGVacFA1UFBXUGF2WTJCL0RvWjB6?=
+ =?utf-8?B?U0EyMUt5dSs2bWlGdHNPNkMxNlB2SUZsMjFzV3pmWWI5dUFaT0MzZkhUZDJv?=
+ =?utf-8?B?R0lveDQybnRrbkx0SGJEbFJqVThBMUl6WjlXdVRhYjZmY3YxcC9oQTRGdXB3?=
+ =?utf-8?B?RStEbC8yQUFJNm16VUhwbG1YUVNKdEJyeWRGeEhvTnV6S2tFdjFpZDVlc2E3?=
+ =?utf-8?B?cXg2UHZLOXR1SDMwS3RmOGYyYTRoNGsvQTFkdE9sdzV2eHhWNzdsZUVsbU9Z?=
+ =?utf-8?B?U0pBSGVlT2tCT1R5K3A0MzRSSjU2SnA0ZjFtbTdTVkNpdThlUzkxWmtrUXA4?=
+ =?utf-8?B?c2R6dTJkdU8zQWZSV2dObHgzM3R3eithTFJKOVBwaXBtUGU0UTMwTUFDckhP?=
+ =?utf-8?B?SGlHME5IN09hNmFDb1VrQUNoVW5ESUI5M3g4MC9sL3J4ZUtmeXdSdUxmcnlU?=
+ =?utf-8?B?TEc0dmNobW1mdysxaithMWt0K0VhTWJPMysrM3h5WS9ZcTVYNFFmNGtxcHJT?=
+ =?utf-8?B?ZzViWFpraHZaMWZXTWxhWEFQN2VNZ2pYVjNBZXdiSThkb1VxaWxtNjgvdTIz?=
+ =?utf-8?B?ODhNVGk1d2w1UzJCMjZjeW03UWNaVktrL0YyMXVrbjZ5dlMrRm5zbW0yZU91?=
+ =?utf-8?B?MTlXQkI4Vkdya1JXdFdmYXlTSGtsVEY4QUVVblBhdXNHT1EvaHg4WnBGbFJw?=
+ =?utf-8?B?MWtvWE4rV2h2QnhzTkJMK1podERHNDA2MHVsRnI4ZUJwM0RZbitQMDFqMlBM?=
+ =?utf-8?B?TDRwZHNXZ0RkZ2gzUXByR2xpTjN6eGtkYlhML3J4a09oWEhZbWhIRmw5Q1Fj?=
+ =?utf-8?B?bHJtbHlFdEpJcWMyNzJUWWd0STZFblA0c2lZRnlPYVd2dm0yNGU1T2QwdWdH?=
+ =?utf-8?B?M292ZzM4Z0swLzFGKzV0RHpkLzhEZG9XejFhREhiNEcwVkczdnNmNDVkMzlT?=
+ =?utf-8?B?UUVNNmpsTVBSekJiMlFuaGxYRVpoekRBMTVYY0pqWmY5aGU3VHY5dDFxUXd6?=
+ =?utf-8?B?UkM0VElSclA0UlF3c2NWSklzYVIrcG9QbSsycWgxeXdzaWh3TzFncXRvejRl?=
+ =?utf-8?B?dkRybEQ2eUFjbGRDOVUydFNwQ29VZWxTcHAzSy9ycDZmMjl6NjlJSUJwci9H?=
+ =?utf-8?B?RFRrUnZOZ3JjSFRqUUhwa1BUUlpwUU9OZndwcFZma0Uvei9LVS9mV0xDSUdl?=
+ =?utf-8?B?RnlYcktWZStWZkVQUk15VlV5RllIV3JtK3ZWUENKZUIwZ3FmQkxnZTFlZTAz?=
+ =?utf-8?B?blk1eC84WkM4OVlXVHFzUnpNU1hNZHJ5Q0llWE1qNTk0emIyc2VhNWtRcnR2?=
+ =?utf-8?B?UjZOWXNHMTQvY1YyNTA0b2ZsVXFFMUFzYklhR3pYSld3a25iK3JLSXM5QUlN?=
+ =?utf-8?B?ZzhIdUhMdWRvUEVKZTZMVHVMR1dJTDRZTzVSZis5eldaRXFKd2QwdmorZjVt?=
+ =?utf-8?B?Z052N2UvTXRIYmVSY3llRHk0Nng1eFIzRHFMU2ltRHdFa2ZWd0p0R253MFB5?=
+ =?utf-8?B?dlUxQndqZERZQm93cDVPQWF6aVBXY05adUt4U0o3M1R4NloxK1Z2VEJrd1Jl?=
+ =?utf-8?B?V3pCWkN2ZDNaelNXVUx3RmZ6UlBHRVNPVExVUW1Vdkd2eGhVRFgrUlJGdXda?=
+ =?utf-8?Q?zPpMaZVKEOVO+/NP/rm4mW1Y/?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <846db937-9445-4f5c-b8fe-7c973522a3a1@xs4all.nl>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5653.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa8f7b3c-7ff0-4678-69ba-08dd078bfd17
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2024 04:46:38.4464
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tylQgXOB6OGwwFWiFIr2ePtTEX0Wvsrv4rVSPbrbakenRuBP5Ew6/cINbj91pay8iYiIwql23WFnesjOjlPgLw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7817
+X-OriginatorOrg: intel.com
 
-Hello,
-
-On Wed, Nov 13, 2024 at 01:26:26PM +0100, Hans Verkuil wrote:
-> On 11/13/24 09:35, Sakari Ailus wrote:
-> > On Wed, Nov 13, 2024 at 09:03:57AM +0100, Hans Verkuil wrote:
-> >> On 11/10/2024 09:55, Sakari Ailus wrote:
-> >>> Add the V4L2_CID_CONFIG_MODEL control for the configuration model.
-> >>>
-> >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >>> ---
-> >>>  .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 4 ++++
-> >>>  .../userspace-api/media/v4l/subdev-config-model.rst          | 2 ++
-> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c                    | 5 +++++
-> >>>  include/uapi/linux/v4l2-controls.h                           | 3 +++
-> >>>  4 files changed, 14 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> >>> index 27803dca8d3e..928e8e3eed7f 100644
-> >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> >>> @@ -55,3 +55,7 @@ Image Process Control IDs
-> >>>      control value divided by e.g. 0x100, meaning that to get no
-> >>>      digital gain the control value needs to be 0x100. The no-gain
-> >>>      configuration is also typically the default.
-> >>> +
-> >>> +``V4L2_CID_CONFIG_MODEL (bitmask)``
-> >>> +    Which configuration models the sub-device supports. Please see
-> >>> +    :ref:`media_subdev_config_model`.
-> >>
-> >> First of all the naming is confusing: since this is specific to sub-devices, it
-> >> should at least have 'SUBDEV' in the name. I first thought this reported the
-> > 
-> > I don't object in principle, but the reason why I didn't add that in v1 was
-> > the names would get quite long. Maybe V4L2_CID_SUBDEV_CFG_MODEL?
-> > 
-> >> model name or something like that, I'm not sure "configuration model" is a very
-> >> good name.
-> > 
-> > Feel free to propose a different one. :-)
-> 
-> I would, if I understood what you intend to achieve :-)
-
-I'll try to rephrase what Sakari wrote in the patches.
-
-The V4L2 specification defines a subdev API that exposes three type of
-configuration elements: formats, selection rectangles and controls. The
-specification contains generic information about how those configuration
-elements behave, but not precisly how they apply to particular hardware
-features. We leave some leeway to drivers to decide how to map selection
-rectangles to device features, as long as they comply with the V4L2
-specification. This is needed, as hardware features differ between
-devices, so it's the driver's responsibility to handle this mapping.
-
-Unfortunately, this lack of clearly defined mapping in the specification
-has led to different drivers mapping the same hardware features to
-different API elements, or implementing the API elements with slightly
-different behaviours. Furthermore, many drivers have implemented
-selection rectangles in ways that do not comply with the V4L2
-specification. All of this makes userspace development difficult.
-
-We can't define precisely how all configuration elements apply to
-hardware features in a way that applies to all devices, as devices
-differ widely. We can however develop such precise definitions for
-classes of similar devices. In order to develop generic userspace code,
-we then need a way for subdevs to indicate which class they belong to.
-This is what the configuration model control does. The configuration
-model tells userspace which section of the V4L2 specification defines
-the precise behaviour of the device.
-
-One example of how drivers implement features in different ways is
-skipping and binning. Some sensor drivers use selection rectangles,
-other just formats.
-
-> >> Secondly, is this supposed to be valid for all subdevices? Only for sensors?
-> >> Would an HDMI-to-CSI bridge qualify?
-> > 
-> > I think it could but we should have a use case for it. In other words,
-> > something we can't reasonably express using existing means. In this case
-> > it's a number of interfaces and device type specific behaviour (see the 3rd
-> > patch).
-
-The control can be used by any type of device, as long as someone
-documents a corresponding configuration model.
-
-> >> Thirdly, only V4L2_CID_CONFIG_MODEL_COMMON_RAW is defined right now. What other
-> >> models do you have in mind? What models can co-exist (since this is a bitmask)?
-> > 
-> > We could have different raw camera models if needed. I don't have any
-> > planned right now, though.
-
-CCS would be another model, although I'm not sure if any other driver
-would implement that model. Still, even if used by the CCS driver only,
-I think it would make sense to define a CCS model.
-
-> >> Finally, why choose a control for this? Should this perhaps be better done as
-> >> a field in media_entity_desc/media_v2_entity?
-> > 
-> > I don't think it's a great fit. This is largely about V4L2 (to some but
-> > lesser extent about MC) and we traditionally have avoided MC -> V4L2
-> > dependencies.
-> 
-> It sounds a bit like you want to report what Mauro calls a 'Profile'.
-
-There are similarities but it's not the same concept. What Mauro named
-"profile" was more about which ioctls were implemented by the device,
-and less about their detailed behaviour.
-
-> But I would expect the control to be an enum and not a bitmask, since I
-> would expect a device to fit just a single configuration mode, and not
-> multiple modes.
-
-I would have used an enum as well. In theory we could define models that
-cover non-overlaping parts of the device features, and a device could
-then implement multiple models, but I'm not sure that would happen.
-
-> Also, V4L2_CID_CONFIG_MODEL_COMMON_RAW applies only to sensors, right?
-> So this should be V4L2_CID_CONFIG_MODEL_SENSOR_COMMON_RAW. But what is
-> common about it and what is raw about it?
-
-Yes, mentioning "SENSOR" in the name makes sense.
-
-> Isn't it the case that pretty much all sensor drivers fall into this
-> category?
-
-"raw" is by opposition to YUV sensors. YUV sensors (a.k.a. "smart
-sensors") require very different configuration parameters compared to
-raw sensors, so the model we're standardizing for raw sensors isn't
-applicable.
-
-> The only reason I see for this is if there are actually other configuration
-> modes going to be added in the near future.
-
-Even before we add a second model, this is useful for userspace. We have
-many camera sensor drivers that implement the V4L2 API in different (and
-sometimes non-compliant) ways. Knowing that a sensor is compatible with
-the new model we're defining will be useful for libcamera.
-
-> What I am missing in this RFC is a high-level view of why it is needed and
-> how it is going to be used.
-> 
-> Perhaps I missed a discussion on linux-media?
-
--- 
-Regards,
-
-Laurent Pinchart
+Tmljb2xhcywNCg0KV2h5IHdhcyB5b3VyIElQVSBkZXZpY2UgIHJ1bm5pbmcgb24gbm9uLXNlY3Vy
+ZSBtb2RlPw0KYGludGVsLWlwdTYgMDAwMDowMDowNS4wOiBJUFU2IGluIG5vbi1zZWN1cmUgbW9k
+ZSB0b3VjaCAweDAgbWFzayAweGZmYA0KDQpDb3VsZCB5b3UgcGxlYXNlIGNvbmZpcm0gdGhhdCB5
+b3UgYXJlIHJ1bm5pbmcgd2l0aCBhIGNvcnJlY3QgSUZXSShCSU9TKT8NCg0KDQotLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0NCkJScywgIA0KQmluZ2J1IENhbw0KDQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj5Gcm9tOiBOaWNvbGFzIExvcmluIDxhbmRyb3c5NTIyMEBnbWFpbC5jb20+DQo+U2VudDogU2F0
+dXJkYXksIE5vdmVtYmVyIDE2LCAyMDI0IDI6MDYgUE0NCj5UbzogQ2FvLCBCaW5nYnUgPGJpbmdi
+dS5jYW9AaW50ZWwuY29tPjsgc2FrYXJpLmFpbHVzQGxpbnV4LmludGVsLmNvbQ0KPkNjOiBsaW51
+eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcNCj5T
+dWJqZWN0OiBSZTogW0JVRz9dIG1lZGlhOiBpcHU2IC8gb3YwMWExMCB3ZWJjYW0gbm90IGRldGVj
+dGVkDQo+DQo+U2FtZSB0aGluZyBvbiBsYXRlc3QgbWFpbmxpbmU6DQo+DQo+IMKgIPOxnqogdW5h
+bWUgLWENCj5MaW51eCBhbmRyb3dib29rIDYuMTIuMC1yYzctMS1naXQgIzEgU01QIFBSRUVNUFRf
+RFlOQU1JQyBGcmksIDE1IE5vdg0KPjIwMjQgMjM6MzU6MzUgKzAwMDAgeDg2XzY0IEdOVS9MaW51
+eA0KPg0KPmRtZXNnIGFsc28gc2hvdyB0aGlzIGFmdGVyIHN0b3BwaW5nIHJlcGVhdGluZyB0aGUg
+dHdvIGxpbmVzOg0KPg0KPlvCoMKgIDE3LjI3MjMwMl0gcGNpIDAwMDA6MDA6MDUuMDogZGVmZXJy
+ZWQgcHJvYmUgcGVuZGluZzogaW50ZWwtaXB1NjoNCj5JUFU2IGJyaWRnZSBpbml0IGZhaWxlZA0K
+Pg0KPi0tDQo+Tmljb2xhcyBMb3Jpbg0KDQo=
 
