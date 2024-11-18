@@ -1,175 +1,218 @@
-Return-Path: <linux-media+bounces-21543-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21544-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A769D154C
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 17:25:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2A59D1587
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 17:42:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EE898B2912F
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 16:16:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0C7A51F22F5F
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2024 16:42:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C1C11BD007;
-	Mon, 18 Nov 2024 16:16:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C215D1BDAAA;
+	Mon, 18 Nov 2024 16:41:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RireEOgb"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NXLMa8da"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83402199EBB;
-	Mon, 18 Nov 2024 16:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85611B3921
+	for <linux-media@vger.kernel.org>; Mon, 18 Nov 2024 16:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731946601; cv=none; b=K0oe3Q4yve2Fbej1b4WFLYQnqx181CAQzcMNnMym3/LM1DaGDpCFuJrYIBCWMBmLBD9EIUrpty2fayb6fsEHXMqWpiU+RrkntmqokrFeUC6yaFl3521R6KUXfdrIxzuX68qrNUr/3DTv9TNqfTTao87lZsdoJrsXgRznab9gOXY=
+	t=1731948113; cv=none; b=bRwCMYtokUB9lvt5Z72FPRqCo/GAJ5jSzyTs+quKtJtV0CeXH9OkfzDaKE48qCSvt6O5HsRHzmy98RVeOzHbhdi1UI8iW2hJ/gOgmV6qGEZzV2NTDG8lsE3m3wdNJJT7pP+7ORCOTtN8emwKxZcYi0SJYYDkry5sNdn5Udr9MzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731946601; c=relaxed/simple;
-	bh=I2z5foPBl/UuGPdBgcbdnOMGEorTScQwtrx+l5doXog=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RUEyLUXvUWLpo+PFdkZWrcaWXBhgKSg84m0GrzSSnr3+bcYi06XqB+FBKuzZHe7zM/8cvpmTT1e1jdLmxpGBcaC/UTiZ+XIu7idRrxisdF+RtEJGzVlT8wLQmRR1xlZYmeaWjx7OtIHLkOynEfYGwbLg/UKVZJFe1V3wInAKT8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RireEOgb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED9D5C4CEDD;
-	Mon, 18 Nov 2024 16:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731946601;
-	bh=I2z5foPBl/UuGPdBgcbdnOMGEorTScQwtrx+l5doXog=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RireEOgbsSKFD8g7Jz1lDXplSvcQmgfUFggnN64swhzykIa7gb/AkGdA2iD4lBEC0
-	 dnBKyBYUgk4IV7SWFvVuaPxIG8uaMG8tCfmBKYftoI9J5rBF7TjwZkn8Tz7g5DVJEW
-	 FLwU6+p7Br71oJJLz7szSHQVcKYf/776fD+Kwal7Bd5BndiX0gQSnX4GMLaQMAMuhl
-	 HCx84M3ucCC98cWYkenvsM8SCCK+TMiqD6owcToNtm2KezG7MgkHAoCMCiK0NUUGl7
-	 qsuZMhC17P2EVSithXB5jNqbLe8FBZoo4hjRb/Nru5h0j+wM8hBLYgLNMg3A3DzBW2
-	 Ey8TQWB2p7qeQ==
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-514bb6953f4so81200e0c.2;
-        Mon, 18 Nov 2024 08:16:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX0qkkkH5Mdb0RqNHMboQgFRuIxV7nk9Z2l3xuef8mQOkWaGNQDrOgds+KWNqHokH/r7+xXsMvgZfs1x5g=@vger.kernel.org, AJvYcCX1YEdgqrBLlLGUew0olVWl4bSlg9qbC9/MPHmbCZLUwv8PI1LZQyap/8zurthnA54xmKd/G07/3Wbvxfs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwevGeFyXTnBntRBR2UIx/gd/z23zeqhXbzV3Oh+kC3HmEphsDm
-	CPJCYceTv+peUcnVsObv9Wzd1QofrVjhpvcTiaXJuVQtzSIMnBVYgkYAYGRfu/tRYJ18ucoK9S6
-	bNPSLimk8wwcJ0s66B1/7iuO8ph8=
-X-Google-Smtp-Source: AGHT+IGjGyQYZwS1o9rlyXcvmgyCE3cSV3FYD2Clv1A7WL8SaGcJFxp+zmjH2AHAzwPpwzRsziXb6Ea8Dl0YYWRqRP4=
-X-Received: by 2002:a05:6122:896:b0:509:e80:3ed2 with SMTP id
- 71dfb90a1353d-5147866a43bmr9866521e0c.7.1731946600020; Mon, 18 Nov 2024
- 08:16:40 -0800 (PST)
+	s=arc-20240116; t=1731948113; c=relaxed/simple;
+	bh=aUsL5IWdjSRh34hOMMp6Hubde4ga3tZPUzNFXYpnCks=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y+Q6xbkhnuKFYxnwuXm0msECIQIf64n3PGe8WUHKDgbFRibWPGLtHxY16d2v9rzxDgstjEaxGvv7uQTF8b10ZtXpFrX1tN+22nuJYniC3knt297UdJ6DztOKF8Iv1YOxF6P0+OMsR6oUK2YbjiEFrEXxrA7AAhkW6yQx/7r3e2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NXLMa8da; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1731948110;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IzFi/St31LRRMqxfA+sQazAK82/XTfJZ0YY59UT2Gqc=;
+	b=NXLMa8daL8MsPk3oK8r8pWHSNeDfPwTE4qcF8klTqSthQjvNNXxMMEPFFpZ+WH6K6dVgK9
+	gxM3Lr27qGvVkLffn81ZJUCWAcp+PRSaCEthb0EnK64qv/0pVjNRRlRUKOP5+C+DHPsl0P
+	0r8zpQ7f+GQGtJ/HYuvv/K/9/tBu7C4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-643-QZitFTt5Pwy6SjoxH98H3g-1; Mon, 18 Nov 2024 11:41:49 -0500
+X-MC-Unique: QZitFTt5Pwy6SjoxH98H3g-1
+X-Mimecast-MFC-AGG-ID: QZitFTt5Pwy6SjoxH98H3g
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5cfdd7e1491so80451a12.3
+        for <linux-media@vger.kernel.org>; Mon, 18 Nov 2024 08:41:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731948108; x=1732552908;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IzFi/St31LRRMqxfA+sQazAK82/XTfJZ0YY59UT2Gqc=;
+        b=wZZxwLY2z880IetXhSAxRaH2ZEepssID5DDAc2AxYZKawgz8VxOhrxYBfAmDyh1wBX
+         qxyCILH3ETHUd+QVrTbpnjrmaUPDltTvU2eXS9curCmJ7lg+lLC47wtCC28n9aY/21bV
+         /kktTEolBIUh9oCRPQTs1MiwPO5TC14ObGx/x/RhpFTlzgNjmixnIHqS5ufFmhxePa9o
+         uRNoB5L8VeLooA9PHPT7w8sTNp9M5ymtsQ/oX5sPS5AvGNNNoCKtEoB1hGxiQNSsDUuO
+         zCzcLwEAZXTD2RvBRIOxYbJy1CegFJb/Hrn0fHKVNkYWs3akRIi5UyFSvkWid1KN9zy8
+         jvQw==
+X-Gm-Message-State: AOJu0YzIxopRKjrKOhfXOb63hz6DJpsu+ZGDchZu4sr8cgsruXeUXM1L
+	sJl92lLafPgfAfTCYxL5n7vqxnRG88ATt05Myw8D6JcIXuiPKWxKx0QISOexWYV+3PHrdOrO0dU
+	9Ffz54v/0axfHtwFCYMPk1QqIu2qqYNWcLyKH9yDCZjAHRJO9/T/LL2wb1f+w
+X-Received: by 2002:a05:6402:90c:b0:5ce:fb4a:6aaf with SMTP id 4fb4d7f45d1cf-5cf8fc6d4ecmr9097760a12.20.1731948108115;
+        Mon, 18 Nov 2024 08:41:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGWFQnujbE7NoNpSHc3E5OZ7IbzpVGA6YjdmJe6OOoz58Hko/lDcKMADcdDZRTw1wnKA43AUQ==
+X-Received: by 2002:a05:6402:90c:b0:5ce:fb4a:6aaf with SMTP id 4fb4d7f45d1cf-5cf8fc6d4ecmr9097744a12.20.1731948107788;
+        Mon, 18 Nov 2024 08:41:47 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20e043b84sm558019366b.137.2024.11.18.08.41.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Nov 2024 08:41:47 -0800 (PST)
+Message-ID: <5a5de76c-31a4-47af-bd31-b3a09b411663@redhat.com>
+Date: Mon, 18 Nov 2024 17:41:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241114-uvc-roi-v15-0-64cfeb56b6f8@chromium.org>
- <20241114-uvc-roi-v15-18-64cfeb56b6f8@chromium.org> <ac8ea4ed606cbc7dfb15057babc29e49a152ef01.camel@irl.hu>
- <CANiDSCuZTYDsQ3yCpFV_rhbQ+vFGJnsuU-jXwOacxZVbbzEPfw@mail.gmail.com> <8151585c-cb4c-424d-a81c-939ee30d8e9d@redhat.com>
-In-Reply-To: <8151585c-cb4c-424d-a81c-939ee30d8e9d@redhat.com>
-From: Ricardo Ribalda Delgado <ribalda@kernel.org>
-Date: Mon, 18 Nov 2024 17:16:22 +0100
-X-Gmail-Original-Message-ID: <CAPybu_14EcOZw6C65ZWVGoa5bcZe1XCZbMghNzUG+wFF7affdg@mail.gmail.com>
-Message-ID: <CAPybu_14EcOZw6C65ZWVGoa5bcZe1XCZbMghNzUG+wFF7affdg@mail.gmail.com>
-Subject: Re: [PATCH v15 18/19] media: uvcvideo: implement UVC v1.5 ROI
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Ricardo Ribalda <ribalda@chromium.org>, Gergo Koteles <soyer@irl.hu>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Yunke Cao <yunkec@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] media: uvcvideo: Support partial control reads
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, stable@vger.kernel.org
+References: <20241008-uvc-readless-v2-0-04d9d51aee56@chromium.org>
+ <20241008-uvc-readless-v2-1-04d9d51aee56@chromium.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20241008-uvc-readless-v2-1-04d9d51aee56@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi
+Hi Ricardo,
 
-On Mon, Nov 18, 2024 at 4:59=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> Hi Ricardo,
->
-> On 14-Nov-24 9:03 PM, Ricardo Ribalda wrote:
-> > Hi Gergo
-> >
-> > Sorry, I forgot to reply to your comment in v14.
-> >
-> > On Thu, 14 Nov 2024 at 20:53, Gergo Koteles <soyer@irl.hu> wrote:
-> >>
-> >> Hi Ricardo,
-> >>
-> >> On Thu, 2024-11-14 at 19:10 +0000, Ricardo Ribalda wrote:
-> >>>
-> >>> +     },
-> >>> +     {
-> >>> +             .id             =3D V4L2_CID_UVC_REGION_OF_INTEREST_AUT=
-O,
-> >>> +             .entity         =3D UVC_GUID_UVC_CAMERA,
-> >>> +             .selector       =3D UVC_CT_REGION_OF_INTEREST_CONTROL,
-> >>> +             .size           =3D 16,
-> >>> +             .offset         =3D 64,
-> >>> +             .v4l2_type      =3D V4L2_CTRL_TYPE_BITMASK,
-> >>> +             .data_type      =3D UVC_CTRL_DATA_TYPE_BITMASK,
-> >>> +             .name           =3D "Region Of Interest Auto Controls",
-> >>> +     },
-> >>>  };
-> >>>
-> >>
-> >> Wouldn't be better to use 8 V4L2_CTRL_TYPE_BOOLEAN controls for this?
-> >
-> > If I create 8 Booleans, they will always be shown in the device. And
-> > the user will not have a way to know which values are available and
-> > which are not.
-> >
-> > We will also fail the v4l2-compliance test, because there will be up
-> > to 7 boolean controls that will not be able to be set to 1, eventhough
-> > they are writable.
->
-> So why can't these other controls be set to 1? Because only one
-> of the options in the bitmask can be selected at a time ?
->
-> If only 1 bit in the UVC_CTRL_DATA_TYPE_BITMASK for this can be one
-> at the time, then this should be mapped to a V4L2_CTRL_TYPE_MENU
-> just like how that is done for V4L2_CID_EXPOSURE_AUTO already.
->
-> Actually looking at existing comments about UVC_CTRL_DATA_TYPE_BITMASK
-> in the driver there is this comment on top of uvc_mapping_get_menu_value(=
-)
->
->  * For controls of type UVC_CTRL_DATA_TYPE_BITMASK, the UVC control value=
- is
->  * expressed as a bitmask and is thus guaranteed to have a single bit set=
-.
->
-> Assuming this "guaranteed to have a single bit set" comment is valid for
-> the V4L2_CID_UVC_REGION_OF_INTEREST_AUTO part of UVC_CT_REGION_OF_INTERES=
-T_CONTROL
-> too then I think we should simply map this to a menu similar to how
-> this is done for V4L2_CID_EXPOSURE_AUTO.
->
-> Note V4L2_CID_EXPOSURE_AUTO is the only existing user of UVC_CTRL_DATA_TY=
-PE_BITMASK
-> at the moment.
->
-> Mapping this to a menu should nicely address Gergo's concerns here.
+Thank you for your patch.
 
-The UVC standard is not very clear re bmAutoControls. It says:
-"""
-The bmAutoControls bitmask determines which, if any, on board features
-should track to the region of interest. To detect if a device supports
-a particular Auto Control, use GET_MAX which returns a mask indicating
-all supported Auto Controls.
-GET_CUR returns the current Region of Interest (RoI) being employed by
-the device. This RoI should be the same as specified in most recent
-SET_CUR except in the case where the =E2=80=98Auto Detect and Track=E2=80=
-=99 and/or
-=E2=80=98Image Stabilization=E2=80=99 bit have been set.
-"""
+On 8-Oct-24 5:00 PM, Ricardo Ribalda wrote:
+> Some cameras, like the ELMO MX-P3, do not return all the bytes
+> requested from a control if it can fit in less bytes.
+> Eg: Returning 0xab instead of 0x00ab.
+> usb 3-9: Failed to query (GET_DEF) UVC control 3 on unit 2: 1 (exp. 2).
+> 
+> Extend the returned value from the camera and return it.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: a763b9fb58be ("media: uvcvideo: Do not return positive errors in uvc_query_ctrl()")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_video.c | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index cd9c29532fb0..f125b3ba50f2 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -76,14 +76,29 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>  
+>  	ret = __uvc_query_ctrl(dev, query, unit, intfnum, cs, data, size,
+>  				UVC_CTRL_CONTROL_TIMEOUT);
+> -	if (likely(ret == size))
+> +	if (ret > 0) {
+> +		if (size == ret)
+> +			return 0;
+> +
+> +		/*
+> +		 * In UVC the data is represented in little-endian by default.
+> +		 * Some devices return shorter control packages that expected
+> +		 * for GET_DEF/MAX/MIN if the return value can fit in less
+> +		 * bytes.
 
-Which makes me believe that you can set another Auto value + one of
-these ones. So I do not think that we can assume "guaranteed to have a
-single bit set".
+What about GET_CUR/GET_RES ? are those not affected?
 
-The behaviour will vary module to module. So I'd rather take a
-conservative approach here and let the hardware clamp the value and
-not us.
+And if it is not affected should we limit this special handling to
+GET_DEF/MAX/MIN ?
 
->
-> Regards,
->
-> Hans
->
+
+> +		 * Zero all the bytes that the device have not written.
+> +		 */
+> +		memset(data + ret, 0, size - ret);
+
+So your new work around automatically applies to all UVC devices which
+gives us a short return. I think that is both good and bad at the same
+time. Good because it avoids the need to add quirks. Bad because what
+if we get a short return for another reason.
+
+You do warn on the short return. So if we get bugs due to hitting the short
+return for another reason the warning will be i the logs.
+
+So all in all think the good outways the bad.
+
+So yes this seems like a good solution.
+
+> +		dev_warn(&dev->udev->dev,
+> +			 "UVC non compliance: %s control %u on unit %u returned %d bytes when we expected %u.\n",
+> +			 uvc_query_name(query), cs, unit, ret, size);
+
+I do wonder if we need to use dev_warn_ratelimited()
+or dev_warn_once() here though.
+
+If this only impacts GET_DEF/MAX/MIN we will only hit this
+once per ctrl, after which the cache will be populated.
+
+But if GET_CUR is also affected then userspace can trigger
+this warning. So in that case I think we really should use
+dev_warn_once() or have a flag per ctrl to track this
+and only warn once per ctrl if we want to know which
+ctrls exactly are buggy.
+
+What we really do not want is userspace repeatedly calling
+VIDIOC_G_CTRL / VIDIOC_G_EXT_CTRLS resulting in a message
+in dmesg every call.
+
+>  		return 0;
+> +	}
+>  
+>  	if (ret != -EPIPE) {
+>  		dev_err(&dev->udev->dev,
+>  			"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+>  			uvc_query_name(query), cs, unit, ret, size);
+> -		return ret < 0 ? ret : -EPIPE;
+> +		return ret ? ret : -EPIPE;
+
+It took me a minute to wrap my brain around this and even
+though I now understand this change I do not like it.
+
+There is no need to optimize an error-handling path like this
+and IMHO the original code is much easier to read:
+
+		return ret < 0 ? ret : -ESOMETHING;
+
+is a well known pattern to check results from functions which
+return a negative errno, or the amount of bytes read, combined
+with an earlier success check for ret == amount-expected .
+
+By changing this to:
+
+		return ret ? ret : -EPIPE;
+
+You are breaking the pattern recognition people familiar with
+this kinda code have and IMHO this is not necessary.
+
+Also not changing this reduces the patch-size / avoids code-churn
+which also is a good thing.
+
+Please drop this part of the patch.
+
+Regards,
+
+Hans
+
+
 
