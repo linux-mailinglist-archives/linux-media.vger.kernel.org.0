@@ -1,98 +1,134 @@
-Return-Path: <linux-media+bounces-21575-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21576-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FACD9D21C1
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 09:41:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D3F9D21C6
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 09:44:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 495751F22819
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 08:41:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E19A92858D5
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 08:44:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 578191C2420;
-	Tue, 19 Nov 2024 08:40:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E577C1991B4;
+	Tue, 19 Nov 2024 08:44:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tDI/3x8I"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dVrn11Mj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9668150981;
-	Tue, 19 Nov 2024 08:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD09812CDAE;
+	Tue, 19 Nov 2024 08:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732005612; cv=none; b=lJ92yx8zD4gCutVIoZLsIcfq1WB5ef49meesX37JeVsE3nfCYyvPeRyy12Y/pZvuU908ZfshzqZ2YCT4e3JYcUQPU0b7j0uhsZzZhjkp2HhzmvQoAsO2yx8yi/oTmawC0jSTmZC2MaCbCy6/CnBep1wgwIEkRvGFeIXFopcwlaQ=
+	t=1732005877; cv=none; b=Sg44SVLc2bBjo0CJJUuqwi8Tivpk3lJSx7/44P7EWraP4BcqzRqgMIsUsqsOS1QKon0SFNsBHx5H/ZEdfq9QlP+ieZvfqVnrktSCaG1kL3MQ8zWzRU+Cy6evqhpK/ytQfjtaGHM+FuxLqaQzQRyOk/yaPanS+y6Yq6QakEmeLms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732005612; c=relaxed/simple;
-	bh=gF7L+r3CCFtvRK2brDDsawKaeTTN8ZWDKky0vRy9u3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jrxtca992WBDfMUbmqNug3+HfLSm5DbVkoGRTeNMlVzT55sxiZdQkTNQU4B/k7DY3ASm2lHy5E/THRGh8gKMSrb0n1fUu6LcAyTG9MQLHgW3kZREMIkyGUyc3k1ByNsKGkl4GomeoKzgqE5NR0jO6hurjENvrkNOIZ4nhBBZtdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tDI/3x8I; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D4E6C4CECF;
-	Tue, 19 Nov 2024 08:40:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732005612;
-	bh=gF7L+r3CCFtvRK2brDDsawKaeTTN8ZWDKky0vRy9u3s=;
-	h=Date:From:To:Cc:Subject:From;
-	b=tDI/3x8I9TAMXPs6oO+GmPjl3YnZCuOmsTTV7+TIvOnL/gFD9rlNHo1fNOqx8+mBP
-	 6RhVl9NnJJeSooRBdNwmwoQBHRlwP74rSiCsoqDbhdKef2JOXI4Do3W1YmVG0pQFtn
-	 pMgJVhaIDqCgwIVTGiALSj/PtK71E7zYM3AEviuCkWESdtt2AJx0L6f1zFOZ8G2OWO
-	 PCO8fit437WSUaIIddjD4U/Z7Vj3iGu6slsfp891w+mpFKVJBLHu8m209BSVWsd/8g
-	 FwNI3iE7R3sxkYMXCfI5PsySQNoh/FnJPZQ9SgIwnMPDZh5rZzwvHScjmcGEv+7hJ2
-	 uHSnzkmV5SK+g==
-Date: Tue, 19 Nov 2024 09:40:08 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
- <akpm@linux-foundation.org>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL for v6.13-rc1] media fixes
-Message-ID: <20241119094008.06a199f2@foz.lan>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1732005877; c=relaxed/simple;
+	bh=QcpDfBoVkb+QZjrtYYcXpzP58I43mTNNLH/ELm/Qjx0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RucbgIvnnkYqmqPqwTYN8XKiRBAcqOa95RcqtKmo3p6x9oPPRw1dbeRIGnMJ9vugArJ+G6vVSneTA/953wuakkBHRuAdHRYWMaNHn4NAuScAX6hdmpROYYKoDYUXFyhFerYip3lLF3rN9CxR3eEQXHF79TRkFtHoewxXwJUuS34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dVrn11Mj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 00578D52;
+	Tue, 19 Nov 2024 09:44:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732005850;
+	bh=QcpDfBoVkb+QZjrtYYcXpzP58I43mTNNLH/ELm/Qjx0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dVrn11Mjv+tYY13PIbhrigc4/F8b8GVkr+aY0OGWT7MFuMNb1iVKxfNIsuTn8cTmU
+	 fKiIcwjepZLBIt1xccEO/ygiV64xyrzyKk4z8KaTPzdjU0EGwx0deBykAJQs+5aHKd
+	 oiYeRY/QGXMvDiL/R96kgZjyGaVNnW9VkrZ84Nf4=
+Date: Tue, 19 Nov 2024 09:44:19 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>, 
+	dafna@fastmail.com, linux-media@vger.kernel.org, mchehab@kernel.org, heiko@sntech.de, 
+	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 media-next] media: rkisp1: Fix unused value issue
+Message-ID: <fsjezolrkejn7ekcq2fpfiics3y4iliisakbswbknun3evkfk6@vwxra4edj3nb>
+References: <20241119072653.72260-1-dheeraj.linuxdev@gmail.com>
+ <20241119075944.GA31681@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241119075944.GA31681@pendragon.ideasonboard.com>
 
-Hi Linus,
+HI Dheeraj
 
-Please pull from:
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.13-2
+On Tue, Nov 19, 2024 at 09:59:44AM +0200, Laurent Pinchart wrote:
+> Hi Dheeraj,
+>
+> Thank you for the patch.
+>
+> On Tue, Nov 19, 2024 at 12:56:53PM +0530, Dheeraj Reddy Jonnalagadda wrote:
+> > This commit fixes an unused value issue detected by Coverity (CID
+> > 1519008). The error condition for the invalid MIPI CSI-2 is not
+> > properly handled as the break statement would only exit the switch block
+> > and not the entire loop. Fixed this by returning the error immediately
+> > after the switch block.
+>
+> The patch doesn't "return immediately". You can write "Fix this by
+> breaking from the look immediately after the switch block when an error
+> occurs." or something similar.
+>
+> >
+> > 'Fixes: 8d4f126fde89 ("media: rkisp1: Make the internal CSI-2 receiver
+> > optional")'
+>
+> The Fixes tag should be formatted on a single line, without outer
+> quotes, and without a blank line between it and the Signed-off-by line:
+>
+> Fixes: 8d4f126fde89 ("media: rkisp1: Make the internal CSI-2 receiver optional")
+>
+> > Signed-off-by: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
+>
+> I can update the commit message when applying the patch, there's no need
+> to submit a v5, unless if you want to. Please let me know if I should
+> take this version and update the commit message, or if you will send a
+> v5.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+And when you receive a tag in a previous patch version, please carry
+it over to the next version you'll send ;)
 
-For a fix at the UVC driver:
-	- uvcvideo: Skip parsing frames of type UVC_VS_UNDEFINED in uvc_parse_format
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-Regards,
-Mauro
+Thanks
+  j
 
----
-
-The following changes since commit 702a47ce6dde72f6e247b3c3c00a0fc521f9b1c6:
-
-  media: videobuf2-core: copy vb planes unconditionally (2024-11-07 12:55:46 +0100)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.13-2
-
-for you to fetch changes up to ecf2b43018da9579842c774b7f35dbe11b5c38dd:
-
-  media: uvcvideo: Skip parsing frames of type UVC_VS_UNDEFINED in uvc_parse_format (2024-11-09 13:17:42 +0100)
-
-----------------------------------------------------------------
-media updates for v6.13-rc1
-
-----------------------------------------------------------------
-Benoit Sevens (1):
-      media: uvcvideo: Skip parsing frames of type UVC_VS_UNDEFINED in uvc_parse_format
-
- drivers/media/usb/uvc/uvc_driver.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
+>
+> > ---
+> >  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> > index dd114ab77800..9ad5026ab10a 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> > @@ -228,6 +228,9 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+> >  			break;
+> >  		}
+> >
+> > +		if (ret)
+> > +			break;
+> > +
+> >  		/* Parse the endpoint and validate the bus type. */
+> >  		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> >  		if (ret) {
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
