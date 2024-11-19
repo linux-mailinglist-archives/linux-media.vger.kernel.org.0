@@ -1,56 +1,58 @@
-Return-Path: <linux-media+bounces-21566-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21567-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7D09D208C
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 08:02:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA289D20A4
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 08:20:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 375DB1F2323F
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 07:02:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B43B282987
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 07:20:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACBD815383C;
-	Tue, 19 Nov 2024 07:02:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FA181531D2;
+	Tue, 19 Nov 2024 07:20:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="M/ugtK5f"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a+cqY/N+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A1A35280;
-	Tue, 19 Nov 2024 07:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02C68F64
+	for <linux-media@vger.kernel.org>; Tue, 19 Nov 2024 07:20:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731999766; cv=none; b=GW5/YZjeg5YPghFj0H7d8L5VQmSY4md38qiIAot7DXOFq/VEOgZsKYCNXVO0VMnclVcaaVYoxOxjrESPxDGxvZDvHrf8yxll1SyKBd7Ll4U3QFKT066OBRl0O4Gwm8TCvxoMdzAzv7awsvsKQ0KxDwgQbytCzYwT5h/K6NeBMws=
+	t=1732000820; cv=none; b=GGsI4lgsj5Le0oTj/9ah6fNloEu+0M7TZtQqW5Y/8Iibj/dVY9hgHk+hxyQ19oDmN5e8JE1buCjm1DEupRB48BvIOGbZrEacMCGiVKcQ8ggKvCRhUXs+pN5Eh2b4x/WQmAhQDemxRafUE8UNqsYU72CdqgWZHLaHrJhYq095lU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731999766; c=relaxed/simple;
-	bh=R3cteRh3bg4p/wNsT9Jk5cHldt7PQAOlyISpABdqKW0=;
+	s=arc-20240116; t=1732000820; c=relaxed/simple;
+	bh=vDfNpBATbqiohLBZZWbOT3dDbOnebLdmZGrBs9Z9iOo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ol1tEb5B02la+QD/4HoxQTHB7Vlf4tfCa3LPN1+9reNNSjqn7f+PGGhKm+oU0OiJR4h2CvYa6mmwFA1ZZYS/9CBZORbBKrt5pKVtS71UqHR6JxlyeFUIyr+yfYp67zVPoyXloZ75Z/kmk4Tm0kj+PW655A0qW9Jge8jqpD7hdmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=M/ugtK5f; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=mpJhW9w1urB0897AtpdAt/n8+CRHndASMZ/wvH6d4ClC+lJvz0/Fu5WyZiZImR2wXXnyjsp/ohG2fBWvqhOpZC3Cw0ROOQYGhPJpL0rPu8AhQYCp66j/waumN6kQLksbnXN+Lr/iREaI1SIeH4RPRQioQ5gJWT5lsocdH/KpUcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a+cqY/N+; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EEF11230;
-	Tue, 19 Nov 2024 08:02:15 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66B9F1230;
+	Tue, 19 Nov 2024 08:19:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731999735;
-	bh=R3cteRh3bg4p/wNsT9Jk5cHldt7PQAOlyISpABdqKW0=;
+	s=mail; t=1732000796;
+	bh=vDfNpBATbqiohLBZZWbOT3dDbOnebLdmZGrBs9Z9iOo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M/ugtK5fyN+QV9wytgeuR8lBVoPw4BdDcWjVzCtS324ZL705twRetdQlqQKWLXlur
-	 lAH5WoPFggYrwpWSWyLiQauYnjIAgBYVBhyj3zE/NZgUDxjQGjc/uT+pERIkKBbFni
-	 1KCsA35JgBuvbTCgPXZjAlbKeafrqBxtE0pQCUTQ=
-Date: Tue, 19 Nov 2024 09:02:22 +0200
+	b=a+cqY/N+eyeEL9tz7k/ChklS5HgOTWSam83Tgzmbx/1H+G9X0/1KMwgQex4wVlJDC
+	 vzdHYz5Y50DPwyH9Ug7AUXxX7GNBv3GZ1QjwqL8jHtdEjKID0KskJWQ9hrXag6azwH
+	 am6z3Gv0Qm4tLs/RBVl7T76YwR5qZaM3hjYkYKsc=
+Date: Tue, 19 Nov 2024 09:20:02 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Andreas Kemnade <andreas@kemnade.info>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-omap@vger.kernel.org,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH] media: staging: drop omap4iss
-Message-ID: <20241119070222.GX31681@pendragon.ideasonboard.com>
-References: <815a789d-85a5-44a1-8b9c-429ac0101e3f@xs4all.nl>
- <20241118200025.3daab676@akair>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: Add Hans de Goede as USB VIDEO CLASS
+ co-maintainer
+Message-ID: <20241119072002.GN12409@pendragon.ideasonboard.com>
+References: <20241116113855.50976-1-hdegoede@redhat.com>
+ <20241117213837.GJ12409@pendragon.ideasonboard.com>
+ <20241118071801.51894f08@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,48 +61,66 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241118200025.3daab676@akair>
+In-Reply-To: <20241118071801.51894f08@foz.lan>
 
-Hi Andreas,
+Hi Mauro,
 
-On Mon, Nov 18, 2024 at 08:00:25PM +0100, Andreas Kemnade wrote:
-> Am Mon, 2 Sep 2024 10:42:31 +0200 schrieb Hans Verkuil :
+On Mon, Nov 18, 2024 at 07:18:01AM +0100, Mauro Carvalho Chehab wrote:
+> Em Sun, 17 Nov 2024 23:38:37 +0200 Laurent Pinchart escreveu:
+> > On Sat, Nov 16, 2024 at 12:38:55PM +0100, Hans de Goede wrote:
+> > > Add myself as co-maintainer for the UVC driver.  
+> > 
+> > Thanks for volunteering to help.
+> > 
+> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>  
+> > 
+> > Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > > ---
+> > >  MAINTAINERS | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 91d0609db61b..1da403e89159 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -24063,6 +24063,7 @@ F:	drivers/usb/host/uhci*
+> > >  
+> > >  USB VIDEO CLASS
+> > >  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > +M:	Hans de Goede <hdegoede@redhat.com>
+> > >  L:	linux-media@vger.kernel.org
+> > >  S:	Maintained
+> > >  W:	http://www.ideasonboard.org/uvc/  
+> > 
+> > I think we should update the git tree entry as well, as we're using
+> > https://gitlab.freedesktop.org/linux-media/users/uvc/. As that's
+> > temporary until we can merge patches directly in the multi-committers
+> > tree, it may however not be worth it. What do you think ?
 > 
-> > The omap4 camera driver has seen no progress since forever, and
-> > now OMAP4 support has also been dropped from u-boot (1). So it is
-> > time to retire this driver.
+> The official tree is now at:
 > 
-> Argumenting with OMAP4 support in U-Boot is silly. That indicates that
-> there is no movement in keeping u-boot uptodate. Bootloader
-> development/updating is more risky especially if not done by the vendor,
-> good chances to brick something. And the bootloader might need
-> signing. So that argument is done nothing.
+> 	git://linuxtv.org/media.git
 > 
-> Better arguments would be to check if someone has something cooking and
-> feels not comfortable yet to climb Mount Upstream.
+> Such tree is not expected to be rebased, so IMO the best is to point
+> to it. I just submitted a patch mass-updating the references to
+> media_tree.git to it. Such patch has to be backported, as even
+> stable versions should be pointing to an existing tree (and we may
+> soon get rid of the media_tree.git and media_stage.git trees).
 > 
-> A good place to ask would be the omap platform
-> list: linux-omap@vger.kernel.org
+> Assuming that we have a smooth process, I don't expect that patches
+> at the uvc merge tree to be there for a long time. Also, this is
+> meant to be a short-lived tree with the migration to media-committers
+> (which is a tree that can be rebased).
 > 
-> I get still devicetrees for omap4 devices to review. So there is some
-> activity with omap4. If you look at postmarketOS you see also some
-> activity.
-> 
-> And also someone ported the driver to devicetree support:
-> https://github.com/iridia-ulb/meta-builderbot/blob/master/recipes-kernel/linux/linux-stable-4.16/0008-omap4iss-Fix-multiple-bugs-and-use-device-tree.patch
-> 
-> So the situation is not that simple. I am still evaluating it because I
-> myself have a device with omap4 and camera.
+> So, IMO, it is not worth pointing to the uvc merge tree.
 
-Have you tested the camera recently ? The omap4iss driver has been
-unmaintained in mainline for a very, very long time, and I would be
-surprised if it worked.
-
-If someone is interested in taking over maintainership and improving the
-driver to get it out of drivers/staging/ to drivers/media/, the removal
-can certainly be reverted. drivers/staging/ is not a place where drivers
-are left to bitrot, it's meant for active development of code not fully
-ready for mainline yet.
+The migration to the multi-committers tree is the main reason why I
+don't think it's worth it to point to
+https://gitlab.freedesktop.org/linux-media/users/uvc/, assuming we start
+using the multi-committers model very soon. Once done, the git tree
+entry should point to that tree.
 
 -- 
 Regards,
