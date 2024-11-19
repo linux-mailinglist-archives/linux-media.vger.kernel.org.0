@@ -1,115 +1,212 @@
-Return-Path: <linux-media+bounces-21598-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21599-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57C49D295E
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 16:15:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E8F9D2DBB
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 19:16:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FDB41F21FB5
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 15:15:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE1E01F23C99
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2024 18:16:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECEF41D0DF6;
-	Tue, 19 Nov 2024 15:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AC161D221D;
+	Tue, 19 Nov 2024 18:16:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fTafX3XF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RHwEy2jd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A331CF5D0
-	for <linux-media@vger.kernel.org>; Tue, 19 Nov 2024 15:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E46740BE0;
+	Tue, 19 Nov 2024 18:16:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732029262; cv=none; b=FA8/AeLnhgQw/6YEpzdYcklp/OqNoJNW+0ASSUsIMNc7hG+SoOqONd4KXQFKlsWuQ5A6LdBgZfDs5Um1kYyZ10e3Y7RA6EpQwYXFHQwFasC4vJEQqUsuWRIlNL3JZQ22t7fuKI3xbBfAZ/FuAjVDOxKIemtwfAkAhalSY+CTB0U=
+	t=1732040194; cv=none; b=Q2As/B89VwTBPQgEiJ8Lr2B/0MuovCGaL3ZJag4kk1v7RBsmJxPDndfv5CnSnY3QgMujO+pFQHBVWP+9IWYEf0NCG7nTsTx5zyhOz3qMLZcqYrtRlho5xaBh+i9EVXlZXJSdPqlkWGLYQpvcrY0crV0044N8VIUsIkMJvrHvRPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732029262; c=relaxed/simple;
-	bh=byCRkpmcjLYOiYuZ9sbi5crcjmK3Ichis8Fw/UWZ0gY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ieuP414UuZzxARg1JHsgWSBNUF7ZdFSzsvkWgWn33Q+LymOhywLfov1TsbAoRAGPcIZvWkGVV2OJItxS076asU9KqfhHlLXWl4DZ5czFZIuS0UUXq5slUzSTT8hIy3PJ5sYF20BIlFK6wP8xGKiUm7I+xfr+a4CG5lD7YAgh0+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fTafX3XF; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53d9ff92b14so1321741e87.1
-        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2024 07:14:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732029259; x=1732634059; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XApoDteQx8uwLmT1djRy37kdLKoweLorD9+kK8kGqhI=;
-        b=fTafX3XFObAZyuMsqXEblfjYiF2gStJXvv6q7oXGfA5SSmVKJDd0t1nLfdobmoSuNZ
-         Q+cYF3e6t+hclfhrSafgT0LtFtOv7FF9k7U0+F6mKMEbNpPipa8aQqBj1y8Ce/6Pq406
-         gKWbdSiiYLCN5MY/D+J1ChAtCYxCLTuKZN76Y5qukjnydrNgc9WgLS1mn11Uj5iw3ccF
-         N3XxzML01+2m9GvEJFX3T04XzZ7quAFWB4jYUNzGGrkBvutbonvTiNDFtWhE4RTu3Gn1
-         U0vovqKSltYLi4fUegJs/Sst6BWWthxDCD+KzRrsL0BbX3r9BRg3AZeoUH3JHoat0MxU
-         fWUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732029259; x=1732634059;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XApoDteQx8uwLmT1djRy37kdLKoweLorD9+kK8kGqhI=;
-        b=OAlcjf4irH5yT6zHXne0iRniybXUHtwghdNgA+/79LM8m3pK7+8ulLmprCZg5DDMXe
-         p4Y4aLO7+jTbXcgSOgN6WqDQtgpMI+b3v3gh/1EEMdn5hRFePkESJJV8yPZgYH8OEiP+
-         MaUxRXTUy5OA85Sy5OPM/fE3LkkLXYay/SX+Q/fQOwT/E/5J2pUaLYENBc08n7BpvbR+
-         vEmNQeEfHNSAvI2S0NemnG5kiEWrgwsh9lFEyTLNAUBsMK45kJszw4ntqmp02d6lXG8m
-         hqw5HdF5CFW0SlbiijmROmCSqMZoZvrll12PxLuB3lZevK29Ou/FMsU460ngibw2Byoe
-         fynw==
-X-Forwarded-Encrypted: i=1; AJvYcCUcAi9E3Piu8v25J3GDf4V1KsFwDttu73QT636kGClPycF6/NvqW1t2LCblGYoUmrVBYy/qM3EAMTFC2Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy16U0FAQ+Z4yUVyYRRJQZyEGze2sZ+Y4lN6AgbFBK4eMCC/6eR
-	DqklcWSZnycfZ6CpA0JT6bIH00uv7WNn9R1dUFrPzSxHduuuYMPh81D5aG8Uznc=
-X-Google-Smtp-Source: AGHT+IEUE1NmZYZC2AMtwb4y1seGjwr4lW0GYMgyKEoTqI2PAHQa8nbgWJxlnLMXfbEliJM6t9Jb8A==
-X-Received: by 2002:a05:6512:2389:b0:53b:1625:bcf8 with SMTP id 2adb3069b0e04-53dab2a71bcmr7430240e87.30.1732029258740;
-        Tue, 19 Nov 2024 07:14:18 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432da2946a3sm196687005e9.35.2024.11.19.07.14.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Nov 2024 07:14:18 -0800 (PST)
-Message-ID: <1aa56690-1cd0-40e4-ab88-9445ad5b1877@linaro.org>
-Date: Tue, 19 Nov 2024 15:14:17 +0000
+	s=arc-20240116; t=1732040194; c=relaxed/simple;
+	bh=YEyHF7qNpdjYiVOL7NYzxys2GSXjpUHFTISRNu/EFNY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cSLoJA/wMIPzT0m1XRBMkNDA53pbgr4kfqp4QZHxTdfxdzaekiRomIqeeZqPWtpR0wDaSDWOG3/EFTXTRLowFnVOnRHLqB7ZlL1cR2dG3XTEGHUGsiZ/ZlqIISRYGaQXvuFDA6esGBWOFpqcoiIyKb1RxDrGTs0iYQkxl51g/Jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RHwEy2jd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3F12C4CECF;
+	Tue, 19 Nov 2024 18:16:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732040194;
+	bh=YEyHF7qNpdjYiVOL7NYzxys2GSXjpUHFTISRNu/EFNY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RHwEy2jdbpbbXM9Rmn9rrT9dPGJzmy5r+SGvXoSKtIGbJv+1vZ5wC9fhnN0HmW1Gk
+	 aFIPGj7BAwwAaxWiOz3LTuUnoB5s0B5eCMDCJV208zgdnFc1GbbzC9w/4cCx1Y5QTp
+	 bNpEkcbNVUGmFjhs7Hc1NLiqBCIYU3QiA7OYZnMhCCTuMNL4nqBXlruVCkxfsBWTzh
+	 tSese9MGcZbtEewgiiJAQIoPKTQ8REOCrrue0uvzYyKgROHhf9mATmO8oYcNz5pPLc
+	 42gRLbWrXCI3861qN3nRbC+6kvC4dG3SibKMhByf3a3psVpcSXzM4XdAc46QsfeSGn
+	 CulDQVY0MiFNQ==
+Date: Tue, 19 Nov 2024 12:16:32 -0600
+From: Rob Herring <robh@kernel.org>
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] dt-bindings: misc: Describe TI FPC202 dual port
+ controller
+Message-ID: <20241119181632.GA1957312-robh@kernel.org>
+References: <20241118-fpc202-v2-0-744e4f192a2d@bootlin.com>
+ <20241118-fpc202-v2-1-744e4f192a2d@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] arm64: dts: qcom: x1e80100: Add CAMSS block
- definition
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Jagadeesh Kona <quic_jkona@quicinc.com>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org
-References: <20241119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v1-0-54075d75f654@linaro.org>
- <20241119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v1-6-54075d75f654@linaro.org>
- <b91972e9-5cae-4a8c-b672-5b8d96d442d5@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <b91972e9-5cae-4a8c-b672-5b8d96d442d5@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241118-fpc202-v2-1-744e4f192a2d@bootlin.com>
 
-On 19/11/2024 14:44, Vladimir Zapolskiy wrote:
->> +            interrupts = <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
+On Mon, Nov 18, 2024 at 11:13:00AM +0100, Romain Gantois wrote:
+> The FPC202 dual port controller serves as a low speed signal aggregator for
+> common port types, notably SFP. It provides access to I2C and low-speed
+> GPIO signals of a downstream device through a single upstream control
+> interface.
 > 
-> I've forgot to mention that you need to correct the interrupt type
-> to rising edge, that's been disucssed.
+> Up to two logical I2C addresses can be accessed on each of the FPC202's
+> ports. The port controller acts as an I2C translator (ATR). It converts
+> addresses of incoming and outgoing I2C transactions. One use case of this
+> is accessing two SFP modules at logical address 0x50 from the same upstream
+> I2C controller, using two different client aliases.
+> 
+> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+> ---
+>  .../devicetree/bindings/misc/ti,fpc202.yaml        | 83 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  6 ++
+>  2 files changed, 89 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/misc/ti,fpc202.yaml b/Documentation/devicetree/bindings/misc/ti,fpc202.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..1c7243f0325211d8cea3736cbe777c4318065b12
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/misc/ti,fpc202.yaml
+> @@ -0,0 +1,83 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/misc/ti,fpc202.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI FPC202 dual port controller with expanded IOs
+> +
+> +maintainers:
+> +  - Romain Gantois <romain.gantois@bootlin.com>
+> +
+> +allOf:
+> +  - $ref: /schemas/i2c/i2c-atr.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,fpc202
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  gpio-controller: true
+> +
+> +  "#gpio-cells":
+> +    const: 2
+> +
+> +  enable-gpios:
+> +    description:
+> +      Specifier for the GPIO connected to the EN pin.
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^i2c@[0-1]$":
+> +    $ref: /schemas/i2c/i2c-controller.yaml
+> +    description: Downstream device ports 0 and 1
 
-Ah yes, I forgot about that.
+'reg' is not covered by i2c-controller.yaml, so it needs to be 
+documented here. Along with a 'unevaluatedProperties: false'.
 
-Thanks
-
----
-bod
+> +
+> +required:
+> +  - compatible
+> +  - gpio-controller
+> +  - "#gpio-cells"
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - i2c@0
+> +  - i2c@1
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        i2c-atr@f {
+> +            compatible = "ti,fpc202";
+> +            reg = <0xf>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +
+> +            i2c@0 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <0>;
+> +            };
+> +
+> +            i2c@1 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <1>;
+> +            };
+> +        };
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b878ddc99f94e7f6e8fa2c479c5a3f846c514730..8e702cefd2070790330eebf6d2a2b592cadb682d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23181,6 +23181,12 @@ F:	drivers/misc/tifm*
+>  F:	drivers/mmc/host/tifm_sd.c
+>  F:	include/linux/tifm.h
+>  
+> +TI FPC202 DUAL PORT CONTROLLER
+> +M:	Romain Gantois <romain.gantois@bootlin.com>
+> +L:	linux-kernel@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/misc/ti,fpc202.yaml
+> +
+>  TI FPD-LINK DRIVERS
+>  M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>  L:	linux-media@vger.kernel.org
+> 
+> -- 
+> 2.47.0
+> 
 
