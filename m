@@ -1,206 +1,274 @@
-Return-Path: <linux-media+bounces-21626-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21627-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC629D3820
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 11:18:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A999D38B5
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 11:50:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACA99285063
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 10:18:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75B35B23F44
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 10:50:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F04919F108;
-	Wed, 20 Nov 2024 10:18:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5745719D884;
+	Wed, 20 Nov 2024 10:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ejpY6x6K"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="acU54jjt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5765B198E69;
-	Wed, 20 Nov 2024 10:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AB9158535
+	for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 10:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732097907; cv=none; b=qXXXwF2q64MxCZo+2WN94HmB52rYtaNji8ngVFiNnwQEbeGusLe1VCgQ39twLc+ymfOuD9fqnK0CdXVKS9+bo6zywpkf0Xq7moh4mHOdzFPTCbQykbme95U5jHJ/AFi+h5DlQvcU3VphAazCtaE8U0edtygtv7k48Ucq5DRzUPA=
+	t=1732099822; cv=none; b=LIzv2mVu2q71VYNUUiHF0Z9iOJGAeb+MRTuD8JdcV3oAq5IVjvrW95kNscBG3xI6OFZujyOGZEwxLW8KtTPr/ihfBT18pWvMg70C2k/BviUNs8Sg+RwaRSNMKYBcksXfg6JLebTdY1iceJ3H2StYxjokCaSlN5d0kEdJu/oxLUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732097907; c=relaxed/simple;
-	bh=uk7U3tS0/FmlL20TAwVmjFTAWbLGcMQYU5eHebmdlHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dJbA8YQwtRPO6mgaPBqU+uBSbpV7QOsbqtBBJJK5Q19x/uEnDV6ydO4PnZ5Ryvj94uhu5O4Ss+ngLhGZUGPjJD1KVO8CctRRAVVy+JSQH/Ei00BPNBPpv9Tx7Ps8kYFFOB3LV5ZP6yaLWhbpxHTFIe1hK5b9aPilF2C6om6hLh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ejpY6x6K; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732097905; x=1763633905;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=uk7U3tS0/FmlL20TAwVmjFTAWbLGcMQYU5eHebmdlHw=;
-  b=ejpY6x6Kvo0LeSSTmDjvHOx0qZ7xJlEN5wJqp0ke8h2idgS0dkjBfcFp
-   VIG31Ll5cXE9AHUxzRqIJEWYbu9EHPICQ8LIry2V4LlGne+6YNcb3BQj+
-   83967UCFILdz2IMF+vfGQGmELVeXEmFCd21ywskW7yIZYD9ol2wkRa30O
-   84YYms431jSF9Fed9eTW2gxqtuyEx6ELl3jpnu30U8HCx6y/UNIvK3pHz
-   QiP6YVizkdIPp9fyshOtnerPPzto6ocKbz34KQD6Hts1/UsumS6jgZhfK
-   v+x5d8DB66NHpGFMcnvPV5YnWJdBJxcyaSGJdtX9rqHAKaOw4MFzcLfYL
-   g==;
-X-CSE-ConnectionGUID: N1/6DgsESQ67BUVIWc9hQQ==
-X-CSE-MsgGUID: XvwOh9eeSzijqfIsedPk8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="49676105"
-X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
-   d="scan'208";a="49676105"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 02:18:25 -0800
-X-CSE-ConnectionGUID: MZSTaxwIS5iSOxOM6e10xw==
-X-CSE-MsgGUID: o+QlY7n+R2+coTKEzNPDrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
-   d="scan'208";a="89981474"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 02:18:23 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 593B211F89A;
-	Wed, 20 Nov 2024 12:18:19 +0200 (EET)
-Date: Wed, 20 Nov 2024 10:18:19 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/4] media: v4l: fwnode: Parse MiPI DisCo for C-PHY
- line-orders
-Message-ID: <Zz23a2GyW13rpyW2@kekkonen.localdomain>
-References: <20241119221249.539610-1-niklas.soderlund+renesas@ragnatech.se>
- <20241119221249.539610-3-niklas.soderlund+renesas@ragnatech.se>
- <Zz2Zgvjm21iv-qtc@kekkonen.localdomain>
- <20241120095030.GT5315@ragnatech.se>
+	s=arc-20240116; t=1732099822; c=relaxed/simple;
+	bh=kO1U3BT65jua0ZsywdvyoGAMeb2O7DDyzfbd9EZGb8I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OPs97M4GrWhkPPcediaQuh63vH8Diw77c4qrZ3Kge/DlyI8RbNAum1fj24Niu5PIYuLoZ/p5D4kmVL2xkIEZGjjsT17PBZq1BOGMiWIk4qNZU6UN1a42MCbEem8iwCDlaMGmaVYLX9zH3y2/DWUC7NrfOTzv4EjP68C0yypP13k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=acU54jjt; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732099819;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7D+mhy7Tj29J0M0R40nbo3auU/AhUpgR2B53cAKVnF0=;
+	b=acU54jjtxHH81vqRPU9gRQKQcIuhOronxfRauiRyJF8WwVA1oppLktea0OL3K27qDTvGnK
+	W/kxKiveHdARzx+1qiZQ6IjTJ2dt0dUa1JzNuS0Svrklr0+sJDXzuVIIKRYUrL9rhzIF3L
+	JLjKkn62dgHvY9HRFUzkB4KnjHLppCw=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-90-BfCmqdH-MGGbD1zu7QN72g-1; Wed, 20 Nov 2024 05:50:18 -0500
+X-MC-Unique: BfCmqdH-MGGbD1zu7QN72g-1
+X-Mimecast-MFC-AGG-ID: BfCmqdH-MGGbD1zu7QN72g
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a9ad6d781acso153825866b.2
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 02:50:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732099817; x=1732704617;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7D+mhy7Tj29J0M0R40nbo3auU/AhUpgR2B53cAKVnF0=;
+        b=LNdM7uij4JupAo8tEwIWZeytOLnOVQ8vy7QXn/RNKLSPkJQU/FMGnvDOTtrqidVLgK
+         HubbXrk/OPMIEfH8mpRc550sS9JxyQ9ASA4tsh9liav5U92pu6jLX1s8uESR3DKvYoHP
+         LUY+yIyhof6CVZ9rK11eesGqsX2NuqW3/uhae/FZs00jdSeJQ4gsi9njz6KjYGCwVZ+1
+         FpX06Yh/kcdk5/XFtqM+mfxnNUXwTwzw1zeuhh0DA6MTy1wQmjheSux5wYZwpxCgZ2Cm
+         10vaIEsYK22hyYS2ndHMdF0uLsjtjq1tfhLY85qrPj5smDchepz+ahTJA9vMS6SDszmX
+         PGQw==
+X-Forwarded-Encrypted: i=1; AJvYcCWrA1YdqSEhTwSl2JLSsos81PgUOCffwk2gzgPVQwEztMKe6NKqbd3C9DgX4Pk1sc1pbFU8ojydwc1Gjg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDrcBVFpjAEWKHGcJX9RO4eq8fR/FOo0zVUDRVuJZCaV5PDz3g
+	Gas5ya74qT3ZyqDKAjeIQ0b6zsg8kiptZCLWBCOkPQrdctB1IBGyMgTngDk2DpjJyYFaScoAf7T
+	ZGzIl+8ALoupVwAYL+mvfiN7Stq6E41QB61KA6TLXleqtkJntNj6Nj3TTeCLD
+X-Received: by 2002:a17:907:31ce:b0:a9a:4d1:c628 with SMTP id a640c23a62f3a-aa4dd70b9d9mr191466866b.45.1732099817202;
+        Wed, 20 Nov 2024 02:50:17 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFk1yC0Ns3T5y/UZgbMj46GxicQ8tECBzR0v+GMQYedev4cEL5EaOkSVWh+6wtbvS0VzRWbQw==
+X-Received: by 2002:a17:907:31ce:b0:a9a:4d1:c628 with SMTP id a640c23a62f3a-aa4dd70b9d9mr191465266b.45.1732099816830;
+        Wed, 20 Nov 2024 02:50:16 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20dffba13sm750631766b.95.2024.11.20.02.50.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Nov 2024 02:50:15 -0800 (PST)
+Message-ID: <845fd4ee-dcf7-4657-beb6-6936d5ef04cc@redhat.com>
+Date: Wed, 20 Nov 2024 11:50:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241120095030.GT5315@ragnatech.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] media: uvcvideo: Support partial control reads
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ stable@vger.kernel.org
+References: <20241008-uvc-readless-v2-0-04d9d51aee56@chromium.org>
+ <20241008-uvc-readless-v2-1-04d9d51aee56@chromium.org>
+ <5a5de76c-31a4-47af-bd31-b3a09b411663@redhat.com>
+ <CANiDSCtXfdCT=-56m9crxW6hmVjuqBKvRE3NRQBf7nftW=OpNg@mail.gmail.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CANiDSCtXfdCT=-56m9crxW6hmVjuqBKvRE3NRQBf7nftW=OpNg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hejssan, Niklas!
+Hi Ricardo,
 
-On Wed, Nov 20, 2024 at 10:50:30AM +0100, Niklas Söderlund wrote:
-> Hello Sakari,
+On 18-Nov-24 5:57 PM, Ricardo Ribalda wrote:
+> On Mon, 18 Nov 2024 at 17:41, Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Hi Ricardo,
+>>
+>> Thank you for your patch.
+>>
+>> On 8-Oct-24 5:00 PM, Ricardo Ribalda wrote:
+>>> Some cameras, like the ELMO MX-P3, do not return all the bytes
+>>> requested from a control if it can fit in less bytes.
+>>> Eg: Returning 0xab instead of 0x00ab.
+>>> usb 3-9: Failed to query (GET_DEF) UVC control 3 on unit 2: 1 (exp. 2).
+>>>
+>>> Extend the returned value from the camera and return it.
+>>>
+>>> Cc: stable@vger.kernel.org
+>>> Fixes: a763b9fb58be ("media: uvcvideo: Do not return positive errors in uvc_query_ctrl()")
+>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>> ---
+>>>  drivers/media/usb/uvc/uvc_video.c | 19 +++++++++++++++++--
+>>>  1 file changed, 17 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+>>> index cd9c29532fb0..f125b3ba50f2 100644
+>>> --- a/drivers/media/usb/uvc/uvc_video.c
+>>> +++ b/drivers/media/usb/uvc/uvc_video.c
+>>> @@ -76,14 +76,29 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>>>
+>>>       ret = __uvc_query_ctrl(dev, query, unit, intfnum, cs, data, size,
+>>>                               UVC_CTRL_CONTROL_TIMEOUT);
+>>> -     if (likely(ret == size))
+>>> +     if (ret > 0) {
+>>> +             if (size == ret)
+>>> +                     return 0;
+>>> +
+>>> +             /*
+>>> +              * In UVC the data is represented in little-endian by default.
+>>> +              * Some devices return shorter control packages that expected
+>>> +              * for GET_DEF/MAX/MIN if the return value can fit in less
+>>> +              * bytes.
+>>
+>> What about GET_CUR/GET_RES ? are those not affected?
+>>
+>> And if it is not affected should we limit this special handling to
+>> GET_DEF/MAX/MIN ?
 > 
-> On 2024-11-20 08:10:42 +0000, Sakari Ailus wrote:
-> > Hejssan,
-> > 
-> > On Tue, Nov 19, 2024 at 11:12:47PM +0100, Niklas Söderlund wrote:
-> > > Extend the fwnode parsing to validate and fill in the CSI-2 C-PHY
-> > > line-orders order properties as defined in MIPI Discovery and
-> > > Configuration (DisCo) Specification for Imaging.
-> > > 
-> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-fwnode.c | 56 ++++++++++++++++++++++++++-
-> > >  include/media/v4l2-mediabus.h         | 21 ++++++++++
-> > >  2 files changed, 76 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > index f19c8adf2c61..b8b2b7fb685e 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > @@ -127,7 +127,7 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
-> > >  {
-> > >  	struct v4l2_mbus_config_mipi_csi2 *bus = &vep->bus.mipi_csi2;
-> > >  	bool have_clk_lane = false, have_data_lanes = false,
-> > > -		have_lane_polarities = false;
-> > > +		have_lane_polarities = false, have_line_orders = false;
-> > >  	unsigned int flags = 0, lanes_used = 0;
-> > >  	u32 array[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
-> > >  	u32 clock_lane = 0;
-> > > @@ -197,6 +197,17 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
-> > >  		have_lane_polarities = true;
-> > >  	}
-> > >  
-> > > +	rval = fwnode_property_count_u32(fwnode, "line-orders");
-> > > +	if (rval > 0) {
-> > > +		if (rval != num_data_lanes) {
-> > > +			pr_warn("invalid number of line-orders entries (need %u, got %u)\n",
-> > > +				num_data_lanes, rval);
-> > > +			return -EINVAL;
-> > > +		}
-> > > +
-> > > +		have_line_orders = true;
-> > > +	}
-> > > +
-> > >  	if (!fwnode_property_read_u32(fwnode, "clock-lanes", &v)) {
-> > >  		clock_lane = v;
-> > >  		pr_debug("clock lane position %u\n", v);
-> > > @@ -250,6 +261,49 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
-> > >  		} else {
-> > >  			pr_debug("no lane polarities defined, assuming not inverted\n");
-> > >  		}
-> > > +
-> > > +		if (have_line_orders) {
-> > > +			fwnode_property_read_u32_array(fwnode,
-> > > +						       "line-orders", array,
-> > > +						       num_data_lanes);
-> > > +
-> > > +			for (i = 0; i < num_data_lanes; i++) {
-> > > +				const char *order;
-> > > +
-> > > +				switch (array[i]) {
-> > > +				case 0:
-> > > +					order = "ABC";
-> > > +					break;
-> > > +				case 1:
-> > > +					order = "ACB";
-> > > +					break;
-> > > +				case 2:
-> > > +					order = "BAC";
-> > > +					break;
-> > > +				case 3:
-> > > +					order = "BCA";
-> > > +					break;
-> > > +				case 4:
-> > > +					order = "CAB";
-> > > +					break;
-> > > +				case 5:
-> > > +					order = "CBA";
-> > > +					break;
-> > 
-> > Please use an array instead.
-> > 
-> > > +				default:
-> > > +					pr_warn("lane %u invalid line-order assuming ABC (got %u)\n",
-> > > +						i, array[i]);
-> > > +					bus->line_orders[i] = V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
-> > > +					continue;
-> > > +				}
-> > > +				bus->line_orders[i] = array[i];
-> > > +				pr_debug("lane %u line order %s", i, order);
-> > > +			}
-> > > +		} else {
-> > > +			for (i = 0; i < num_data_lanes; i++)
-> > > +				bus->line_orders[i] = V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
-> > 
-> > A few lines could be wrapped above.
+> I have only seen it with GET_DEF, but I would not be surprised if it
+> happens for all of them.
 > 
-> I'm not sure I understand this comment. Do you mean I could loop over 
-> num_data_lanes and initialize all lines to ABC before checking 
-> have_line_orders and that way avoid having to loop here and set the 
-> default ABC if we are out-of bounds in the switch?
+> before:
+> a763b9fb58be ("media: uvcvideo: Do not return positive errors in
+> uvc_query_ctrl()")
+> We were applying the quirk to all the call types, so I'd rather keep
+> the old behaviour.
+> 
+> The extra logging will help us find bugs (if any).
+> 
+> Let me fix the doc.
+> 
+>>
+>>
+>>> +              * Zero all the bytes that the device have not written.
+>>> +              */
+>>> +             memset(data + ret, 0, size - ret);
+>>
+>> So your new work around automatically applies to all UVC devices which
+>> gives us a short return. I think that is both good and bad at the same
+>> time. Good because it avoids the need to add quirks. Bad because what
+>> if we get a short return for another reason.
+>>
+>> You do warn on the short return. So if we get bugs due to hitting the short
+>> return for another reason the warning will be i the logs.
+>>
+>> So all in all think the good outways the bad.
+>>
+>> So yes this seems like a good solution.
+>>
+>>> +             dev_warn(&dev->udev->dev,
+>>> +                      "UVC non compliance: %s control %u on unit %u returned %d bytes when we expected %u.\n",
+>>> +                      uvc_query_name(query), cs, unit, ret, size);
+>>
+>> I do wonder if we need to use dev_warn_ratelimited()
+>> or dev_warn_once() here though.
+>>
+>> If this only impacts GET_DEF/MAX/MIN we will only hit this
+>> once per ctrl, after which the cache will be populated.
+>>
+>> But if GET_CUR is also affected then userspace can trigger
+>> this warning. So in that case I think we really should use
+>> dev_warn_once() or have a flag per ctrl to track this
+>> and only warn once per ctrl if we want to know which
+>> ctrls exactly are buggy.
+> 
+> Let me use dev_warn_once()
 
-No, just that you'd wrap lines that are over 80 characters per line, unless
-there's some tangible reason to have them like that.
+Great, thank you.
 
--- 
-Med vänliga hälsningar,
+Re-reading this I think what would be best here is to combine
+dev_warn_once() with a dev_dbg logging the same thing.
 
-Sakari Ailus
+This way if we want the more fine grained messages for all
+controls / all of GET_* and not just the first call we can
+still get them by enabling the debug messages with dyndbg.
+
+This combination is used for similar reasons in other places
+of the kernel.
+
+Not sure what Laurent thinks of this though, Laurent ?
+
+I wonder if we need some sort of helper for this:
+
+dev_warn_once_and_debug(...(
+
+Regards,
+
+Hans
+
+
+
+
+
+> 
+>>
+>> What we really do not want is userspace repeatedly calling
+>> VIDIOC_G_CTRL / VIDIOC_G_EXT_CTRLS resulting in a message
+>> in dmesg every call.
+>>
+>>>               return 0;
+>>> +     }
+>>>
+>>>       if (ret != -EPIPE) {
+>>>               dev_err(&dev->udev->dev,
+>>>                       "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+>>>                       uvc_query_name(query), cs, unit, ret, size);
+>>> -             return ret < 0 ? ret : -EPIPE;
+>>> +             return ret ? ret : -EPIPE;
+>>
+>> It took me a minute to wrap my brain around this and even
+>> though I now understand this change I do not like it.
+>>
+>> There is no need to optimize an error-handling path like this
+>> and IMHO the original code is much easier to read:
+>>
+>>                 return ret < 0 ? ret : -ESOMETHING;
+>>
+>> is a well known pattern to check results from functions which
+>> return a negative errno, or the amount of bytes read, combined
+>> with an earlier success check for ret == amount-expected .
+>>
+>> By changing this to:
+>>
+>>                 return ret ? ret : -EPIPE;
+>>
+>> You are breaking the pattern recognition people familiar with
+>> this kinda code have and IMHO this is not necessary.
+>>
+>> Also not changing this reduces the patch-size / avoids code-churn
+>> which also is a good thing.
+>>
+>> Please drop this part of the patch.
+> ack
+>>
+>> Regards,
+>>
+>> Hans
+>>
+>>
+> 
+> 
+
 
