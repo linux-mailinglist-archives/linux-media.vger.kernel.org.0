@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-21679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21677-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD349D3F5E
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 16:51:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C629D3E79
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 16:05:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 59026B29263
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 15:05:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 50B451F24E48
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 15:05:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC0B21D2794;
-	Wed, 20 Nov 2024 14:56:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A1641D14E4;
+	Wed, 20 Nov 2024 14:56:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D6A1D07BB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AA41D097F;
 	Wed, 20 Nov 2024 14:56:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732114567; cv=none; b=R+QsKw5m/CH/oCNs5sxnENnp9T/mG0EwdL8OCO39z37ai6L729eHYbe5SbWbs6dCnK7i3FwqrAW9DISJF9M5ildL1DPwBqVCs/Uj9Hx8MtX/FHNIg8E8j7nWEcxYHWj3raUzPS56c0rJlQhjTsbD7NQc3Hy2jt0To5rBHnpyjLw=
+	t=1732114565; cv=none; b=Li6kSyt2BUTkNsTuAGvbL6iXumRne0PPQ8tiaHaRMKpfXwXMmPr/S8r/o2o+/ikLvdH38cO4/JWxYBsk3nUjfXLQJNPX4etsIVFlX2g5aRVSU0faWQmy2uSx6QFdo0j3dFV1pv+qHf/18x3vdleo3LvLxzLF4dl38d3ROoFqxsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732114567; c=relaxed/simple;
-	bh=bJBlKZYXCB4Rn98K+gEtEvSRnMA5Vcm2ACXAWLyY0Kk=;
+	s=arc-20240116; t=1732114565; c=relaxed/simple;
+	bh=kIG+NzLjc40LveG2RWiM3dyEoF6S9l1AQNPYWTk+x+A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g0I8mwg1hihpvEDVlF2d8np1WRTqi7pvxMrFcOfrozaQvjF/i9ec+L2FKymT+x+VwBhLSSao1YSmwasVS2vIpI47DX24bFCfaBF6ImZkTjtEoCDqhrVutu/kGw64gxLtN1gMAnVwip99fanaHgLBKJmByqF2jbtYEGIPQmyFYJ8=
+	 MIME-Version:Content-Type; b=ggH08U7PCyMuCz2n/In0mjHRxSssatbpvqKxeJQHrjGt5VbroLR9/zj209P/ImMwb9V5LknQKESOtKaRarWngL3MhMgzKj0ZU+d2CgLeowuxHqr6DoJmQasRwd8eyQJGs2Q8SR6mo++XvUbKuRjJAKj6soZ4OEMss4Ad8Hfxq44=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
 Received: from mgb4.. (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id AFDF063356;
+	by mx.gpxsee.org (Postfix) with ESMTPSA id B69F1633E7;
 	Wed, 20 Nov 2024 15:48:54 +0100 (CET)
 From: tumic@gpxsee.org
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -38,9 +38,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-Subject: [PATCH 2/3] media: mgb4: Unify register names in inputs/outputs
-Date: Wed, 20 Nov 2024 15:48:45 +0100
-Message-ID: <20241120144846.2271-3-tumic@gpxsee.org>
+Subject: [PATCH 3/3] media: mgb4: Defines cleanup
+Date: Wed, 20 Nov 2024 15:48:46 +0100
+Message-ID: <20241120144846.2271-4-tumic@gpxsee.org>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241120144846.2271-1-tumic@gpxsee.org>
 References: <20241120144846.2271-1-tumic@gpxsee.org>
@@ -55,134 +55,74 @@ Content-Transfer-Encoding: 8bit
 
 From: Martin Tůma <martin.tuma@digiteqautomotive.com>
 
-Unify the names of HW hsync/vsync registers between the inputs and outputs.
+Do not define stuff used in a single source file in a global header.
+Do not mix defines with "bare" values in the initialization.
 
 Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
 ---
- drivers/media/pci/mgb4/mgb4_sysfs_in.c | 12 ++++++------
- drivers/media/pci/mgb4/mgb4_vin.c      | 20 ++++++++++----------
- drivers/media/pci/mgb4/mgb4_vin.h      |  4 ++--
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ drivers/media/pci/mgb4/mgb4_core.c | 4 +++-
+ drivers/media/pci/mgb4/mgb4_core.h | 3 ---
+ drivers/media/pci/mgb4/mgb4_vout.c | 9 ++-------
+ 3 files changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_in.c b/drivers/media/pci/mgb4/mgb4_sysfs_in.c
-index 0ba66a2cf145..9626fa59e3d3 100644
---- a/drivers/media/pci/mgb4/mgb4_sysfs_in.c
-+++ b/drivers/media/pci/mgb4/mgb4_sysfs_in.c
-@@ -333,7 +333,7 @@ static ssize_t hsync_width_show(struct device *dev,
- 	struct video_device *vdev = to_video_device(dev);
- 	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
- 	u32 sig = mgb4_read_reg(&vindev->mgbdev->video,
--				vindev->config->regs.signal);
-+				vindev->config->regs.hsync);
+diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
+index bc63dc81bcae..8ceaed5c1453 100644
+--- a/drivers/media/pci/mgb4/mgb4_core.c
++++ b/drivers/media/pci/mgb4/mgb4_core.c
+@@ -40,7 +40,9 @@
+ #include "mgb4_trigger.h"
+ #include "mgb4_core.h"
  
- 	return sprintf(buf, "%u\n", (sig & 0x00FF0000) >> 16);
- }
-@@ -344,7 +344,7 @@ static ssize_t vsync_width_show(struct device *dev,
- 	struct video_device *vdev = to_video_device(dev);
- 	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
- 	u32 sig = mgb4_read_reg(&vindev->mgbdev->video,
--				vindev->config->regs.signal2);
-+				vindev->config->regs.vsync);
+-#define MGB4_USER_IRQS 16
++#define MGB4_USER_IRQS  16
++#define MGB4_MGB4_BAR_ID 0
++#define MGB4_XDMA_BAR_ID 1
  
- 	return sprintf(buf, "%u\n", (sig & 0x00FF0000) >> 16);
- }
-@@ -355,7 +355,7 @@ static ssize_t hback_porch_show(struct device *dev,
- 	struct video_device *vdev = to_video_device(dev);
- 	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
- 	u32 sig = mgb4_read_reg(&vindev->mgbdev->video,
--				vindev->config->regs.signal);
-+				vindev->config->regs.hsync);
+ #define DIGITEQ_VID 0x1ed8
+ #define T100_DID    0x0101
+diff --git a/drivers/media/pci/mgb4/mgb4_core.h b/drivers/media/pci/mgb4/mgb4_core.h
+index 9aec62514c0b..e86742d7b6c4 100644
+--- a/drivers/media/pci/mgb4/mgb4_core.h
++++ b/drivers/media/pci/mgb4/mgb4_core.h
+@@ -18,9 +18,6 @@
+ #define MGB4_VIN_DEVICES  2
+ #define MGB4_VOUT_DEVICES 2
  
- 	return sprintf(buf, "%u\n", (sig & 0x0000FF00) >> 8);
- }
-@@ -366,7 +366,7 @@ static ssize_t hfront_porch_show(struct device *dev,
- 	struct video_device *vdev = to_video_device(dev);
- 	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
- 	u32 sig = mgb4_read_reg(&vindev->mgbdev->video,
--				vindev->config->regs.signal);
-+				vindev->config->regs.hsync);
+-#define MGB4_MGB4_BAR_ID  0
+-#define MGB4_XDMA_BAR_ID  1
+-
+ #define MGB4_IS_GMSL(mgbdev) \
+ 	((mgbdev)->module_version >> 4 == 2)
+ #define MGB4_IS_FPDL3(mgbdev) \
+diff --git a/drivers/media/pci/mgb4/mgb4_vout.c b/drivers/media/pci/mgb4/mgb4_vout.c
+index 600f858918e7..14c5725bd4d8 100644
+--- a/drivers/media/pci/mgb4/mgb4_vout.c
++++ b/drivers/media/pci/mgb4/mgb4_vout.c
+@@ -24,10 +24,6 @@
+ #include "mgb4_cmt.h"
+ #include "mgb4_vout.h"
  
- 	return sprintf(buf, "%u\n", (sig & 0x000000FF));
- }
-@@ -377,7 +377,7 @@ static ssize_t vback_porch_show(struct device *dev,
- 	struct video_device *vdev = to_video_device(dev);
- 	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
- 	u32 sig = mgb4_read_reg(&vindev->mgbdev->video,
--				vindev->config->regs.signal2);
-+				vindev->config->regs.vsync);
+-#define DEFAULT_WIDTH     1280
+-#define DEFAULT_HEIGHT    640
+-#define DEFAULT_PERIOD    (MGB4_HW_FREQ / 60)
+-
+ ATTRIBUTE_GROUPS(mgb4_fpdl3_out);
+ ATTRIBUTE_GROUPS(mgb4_gmsl_out);
  
- 	return sprintf(buf, "%u\n", (sig & 0x0000FF00) >> 8);
- }
-@@ -388,7 +388,7 @@ static ssize_t vfront_porch_show(struct device *dev,
- 	struct video_device *vdev = to_video_device(dev);
- 	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
- 	u32 sig = mgb4_read_reg(&vindev->mgbdev->video,
--				vindev->config->regs.signal2);
-+				vindev->config->regs.vsync);
+@@ -664,11 +660,10 @@ static void fpga_init(struct mgb4_vout_dev *voutdev)
+ 	const struct mgb4_vout_regs *regs = &voutdev->config->regs;
  
- 	return sprintf(buf, "%u\n", (sig & 0x000000FF));
- }
-diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
-index 3f171c624b40..434eaf0440e2 100644
---- a/drivers/media/pci/mgb4/mgb4_vin.c
-+++ b/drivers/media/pci/mgb4/mgb4_vin.c
-@@ -143,8 +143,8 @@ static int get_timings(struct mgb4_vin_dev *vindev,
+ 	mgb4_write_reg(video, regs->config, 0x00000011);
+-	mgb4_write_reg(video, regs->resolution,
+-		       (DEFAULT_WIDTH << 16) | DEFAULT_HEIGHT);
++	mgb4_write_reg(video, regs->resolution, (1280 << 16) | 640);
+ 	mgb4_write_reg(video, regs->hsync, 0x00283232);
+ 	mgb4_write_reg(video, regs->vsync, 0x40141F1E);
+-	mgb4_write_reg(video, regs->frame_limit, DEFAULT_PERIOD);
++	mgb4_write_reg(video, regs->frame_limit, MGB4_HW_FREQ / 60);
+ 	mgb4_write_reg(video, regs->padding, 0x00000000);
  
- 	u32 status = mgb4_read_reg(video, regs->status);
- 	u32 pclk = mgb4_read_reg(video, regs->pclk);
--	u32 signal = mgb4_read_reg(video, regs->signal);
--	u32 signal2 = mgb4_read_reg(video, regs->signal2);
-+	u32 hsync = mgb4_read_reg(video, regs->hsync);
-+	u32 vsync = mgb4_read_reg(video, regs->vsync);
- 	u32 resolution = mgb4_read_reg(video, regs->resolution);
- 
- 	if (!(status & (1U << 2)))
-@@ -161,12 +161,12 @@ static int get_timings(struct mgb4_vin_dev *vindev,
- 	if (status & (1U << 13))
- 		timings->bt.polarities |= V4L2_DV_VSYNC_POS_POL;
- 	timings->bt.pixelclock = pclk * 1000;
--	timings->bt.hsync = (signal & 0x00FF0000) >> 16;
--	timings->bt.vsync = (signal2 & 0x00FF0000) >> 16;
--	timings->bt.hbackporch = (signal & 0x0000FF00) >> 8;
--	timings->bt.hfrontporch = signal & 0x000000FF;
--	timings->bt.vbackporch = (signal2 & 0x0000FF00) >> 8;
--	timings->bt.vfrontporch = signal2 & 0x000000FF;
-+	timings->bt.hsync = (hsync & 0x00FF0000) >> 16;
-+	timings->bt.vsync = (vsync & 0x00FF0000) >> 16;
-+	timings->bt.hbackporch = (hsync & 0x0000FF00) >> 8;
-+	timings->bt.hfrontporch = hsync & 0x000000FF;
-+	timings->bt.vbackporch = (vsync & 0x0000FF00) >> 8;
-+	timings->bt.vfrontporch = vsync & 0x000000FF;
- 
- 	return 0;
- }
-@@ -864,9 +864,9 @@ static void create_debugfs(struct mgb4_vin_dev *vindev)
- 	vindev->regs[5].name = "PCLK_FREQUENCY";
- 	vindev->regs[5].offset = vindev->config->regs.pclk;
- 	vindev->regs[6].name = "VIDEO_PARAMS_1";
--	vindev->regs[6].offset = vindev->config->regs.signal;
-+	vindev->regs[6].offset = vindev->config->regs.hsync;
- 	vindev->regs[7].name = "VIDEO_PARAMS_2";
--	vindev->regs[7].offset = vindev->config->regs.signal2;
-+	vindev->regs[7].offset = vindev->config->regs.vsync;
- 	vindev->regs[8].name = "PADDING_PIXELS";
- 	vindev->regs[8].offset = vindev->config->regs.padding;
- 	if (has_timeperframe(video)) {
-diff --git a/drivers/media/pci/mgb4/mgb4_vin.h b/drivers/media/pci/mgb4/mgb4_vin.h
-index 8fd10c0a5554..2a2c829914ce 100644
---- a/drivers/media/pci/mgb4/mgb4_vin.h
-+++ b/drivers/media/pci/mgb4/mgb4_vin.h
-@@ -22,8 +22,8 @@ struct mgb4_vin_regs {
- 	u32 frame_period;
- 	u32 sync;
- 	u32 pclk;
--	u32 signal;
--	u32 signal2;
-+	u32 hsync;
-+	u32 vsync;
- 	u32 padding;
- 	u32 timer;
- };
+ 	voutdev->freq = mgb4_cmt_set_vout_freq(voutdev, 61150 >> 1) << 1;
 -- 
 2.47.0
 
